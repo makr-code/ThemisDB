@@ -533,7 +533,7 @@ bool PerClientRateLimiter::allowRequest(
     auto it = client_buckets_.find(client_id);
     if (it == client_buckets_.end()) {
         // Enforce max clients limit
-        if (client_buckets_.size() >= config_.max_clients) {
+        if (static_cast<int>(client_buckets_.size()) > = config_.max_clients) {
             THEMIS_WARN("PerClientRateLimiter: Max clients ({}) reached, rejecting new client: {}",
                         config_.max_clients, client_id);
             return false;

@@ -88,7 +88,7 @@ std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
                   });
     }
 
-    if (combined.size() > config_.max_suggestions) {
+    if (static_cast<int>(combined.size()) > config_.max_suggestions) {
         combined.resize(config_.max_suggestions);
     }
 
@@ -149,7 +149,7 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
             s.score = 1.0;
             suggestions.push_back(std::move(s));
         }
-        if (suggestions.size() >= limit) {
+        if (static_cast<int>(suggestions.size()) > = limit) {
           break;
         }
     }

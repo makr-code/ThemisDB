@@ -393,7 +393,7 @@ CitationExtractor::extract(const std::string& text,
     }
 
     auto addMatch = [&](const std::string& matched, const std::string& type) {
-        if (samples.size() >= config_.max_citations_per_document) {
+        if (static_cast<int>(samples.size()) > = config_.max_citations_per_document) {
           return;
         }
         std::string m = themis::utils::trim(matched);

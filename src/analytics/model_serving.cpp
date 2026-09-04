@@ -297,7 +297,7 @@ std::string ModelServingEngine::predict(const std::string &name, const std::stri
 
 std::vector<std::string> ModelServingEngine::predictBatch(const std::string &name, const std::string &version,
                                                           const std::vector<DataPoint> &data) const {
-    if (data.size() > impl_->config.max_batch_size) {
+    if (static_cast<int>(data.size()) > impl_->config.max_batch_size) {
         throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
                                     + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
     }
@@ -330,7 +330,7 @@ std::vector<std::string> ModelServingEngine::predictBatch(const std::string &nam
 std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(const std::string &name,
                                                                             const std::string &version,
                                                                             const std::vector<DataPoint> &data) const {
-    if (data.size() > impl_->config.max_batch_size) {
+    if (static_cast<int>(data.size()) > impl_->config.max_batch_size) {
         throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
                                     + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
     }

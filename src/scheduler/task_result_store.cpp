@@ -56,7 +56,7 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
         });
 
         // If at capacity, reject the new result atomically (fail-closed)
-        if (all_keys.size() >= max_per_task_) {
+        if (static_cast<int>(all_keys.size()) > = max_per_task_) {
             THEMIS_WARN(
                 "[TaskResultStore::store] "
                 "code={} msg='retention limit reached; failing closed' "
@@ -98,7 +98,7 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
 
         // Keys are lexicographically ordered (oldest first due to zero-padded ts).
         // Delete excess entries to restore to max_per_task_ count
-        if (all_keys.size() > max_per_task_) {
+        if (static_cast<int>(all_keys.size()) > max_per_task_) {
             size_t to_delete = all_keys.size() - max_per_task_;
             for (size_t i = 0; i < to_delete; ++i) {
                 if (!storage_.del(all_keys[i])) {

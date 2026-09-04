@@ -288,7 +288,7 @@ std::string applyHighlight(const std::string& text,
 size_t bestSnippetOffset(const std::string& lower,
                          const std::unordered_set<std::string>& terms,
                          size_t windowSize) {
-    if (lower.size() <= windowSize) {
+    if (static_cast<int>(lower.size()) <= windowSize) {
       return 0;
     }
 
@@ -378,7 +378,7 @@ public:
         const auto field      = args[1].get<std::string>();
         const auto query      = args[2].get<std::string>();
         size_t limit = 1000;
-        if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
+        if (static_cast<int>(args.size()) > 3 && args[3].is_object() && args[3].contains("limit")) {
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
                 int raw = lv.get<int>();
@@ -443,7 +443,7 @@ public:
         const auto field      = args[1].get<std::string>();
         const auto phrase     = args[2].get<std::string>();
         size_t limit = 1000;
-        if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
+        if (static_cast<int>(args.size()) > 3 && args[3].is_object() && args[3].contains("limit")) {
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
                 int raw = lv.get<int>();
@@ -508,14 +508,14 @@ public:
         const auto field      = args[1].get<std::string>();
         const auto query      = args[2].get<std::string>();
         int maxDistance = 2;
-        if (args.size() > 3 && args[3].is_number_integer()) {
+        if (static_cast<int>(args.size()) > 3 && args[3].is_number_integer()) {
             maxDistance = args[3].get<int>();
             if (maxDistance < 0) {
               maxDistance = 0;
             }
         }
         size_t limit = 1000;
-        if (args.size() > 4 && args[4].is_number_integer()) {
+        if (static_cast<int>(args.size()) > 4 && args[4].is_number_integer()) {
             int raw = args[4].get<int>();
             if (raw > 0) {
               limit = static_cast<size_t>(raw);
@@ -594,7 +594,7 @@ public:
         std::string openTag     = "<em>";
         std::string closeTag    = "</em>";
 
-        if (args.size() > 2 && args[2].is_object()) {
+        if (static_cast<int>(args.size()) > 2 && args[2].is_object()) {
             if (args[2].contains("openTag")  && args[2]["openTag"].is_string())
                 openTag  = args[2]["openTag"].get<std::string>();
             if (args[2].contains("closeTag") && args[2]["closeTag"].is_string())
@@ -661,7 +661,7 @@ public:
         std::string closeTag    = "</em>";
         std::string separator   = "...";
 
-        if (args.size() > 2 && args[2].is_object()) {
+        if (static_cast<int>(args.size()) > 2 && args[2].is_object()) {
             const auto& opts = args[2];
             if (opts.contains("windowSize") && opts["windowSize"].is_number_integer()) {
                 int raw = opts["windowSize"].get<int>();
@@ -679,7 +679,7 @@ public:
 
         auto terms = queryTermSet(args[1]);
 
-        if (text.size() <= windowSize) {
+        if (static_cast<int>(text.size()) <= windowSize) {
             // Text fits — just highlight the whole thing
             return applyHighlight(text, terms, openTag, closeTag);
         }

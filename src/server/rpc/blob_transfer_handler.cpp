@@ -333,7 +333,7 @@ public:
 private:
     BlobStatus CompressData(const std::string& input, std::string* output) {
         // SECURITY: Check input size to prevent memory exhaustion
-        if (input.size() > MAX_CHUNK_SIZE) {
+        if (static_cast<int>(input.size()) > MAX_CHUNK_SIZE) {
             return BlobStatus::ERROR_INVALID_CONFIG;
         }
         

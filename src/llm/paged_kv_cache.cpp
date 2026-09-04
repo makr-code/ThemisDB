@@ -66,7 +66,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
         for (int attempt = 0; attempt <= kMaxEvictionRetries; ++attempt) {
             block_table->allocateBlocks(blocks_to_allocate);
             current_blocks = block_table->getBlockMapping();
-            if (current_blocks.size() >= num_blocks_needed) {
+            if (static_cast<int>(current_blocks.size()) > = num_blocks_needed) {
                 allocated = true;
                 break;
             }

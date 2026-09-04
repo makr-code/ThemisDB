@@ -420,7 +420,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         ++lines_processed;
          
         // Truncate overly long lines
-        if (line.size() > kMaxLineLength) {
+        if (static_cast<int>(line.size()) > kMaxLineLength) {
             THEMIS_WARN("Oracle schema line {} exceeds max length ({}); truncating", 
                        lines_processed, kMaxLineLength);
             line.resize(kMaxLineLength);
@@ -832,7 +832,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             ++k;
         }
          
-        if (col_type.size() >= kMaxTypeLength) {
+        if (static_cast<int>(col_type.size()) > = kMaxTypeLength) {
             THEMIS_WARN("Oracle column type exceeds max length ({}); truncating", kMaxTypeLength);
         }
 
@@ -1292,7 +1292,7 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
         t = t.substr(f, l - f + 1);
     }
     // Strip double quotes
-    if (t.size() >= 2 && t.front() == '"' && t.back() == '"') {
+    if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
         return t.substr(1, t.size() - 2);
     }
     return t;

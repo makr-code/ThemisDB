@@ -201,7 +201,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
         auto it = dictionary.find(str);
         if (it == dictionary.end()) {
             // Validate dictionary size to prevent overflow
-            if (dict_values.size() >= static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+            if (static_cast<int>(dict_values.size()) > = static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_COMPRESSION_FAILED,
                     "Dictionary encode: dictionary size exceeds uint32_t limit"
@@ -227,7 +227,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
     // Dictionary entries
     for (const auto& str : dict_values) {
         // Validate string length to prevent overflow
-        if (str.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        if (static_cast<int>(str.size()) > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_FAILED,
                 "Dictionary encode: string length exceeds uint32_t limit"
@@ -428,7 +428,7 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt32(const std::vector<int3
     encoded.push_back(bits_required);
 
     // Validate data size to prevent overflow
-    if (data.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+    if (static_cast<int>(data.size()) > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Bit-packing encode: data size exceeds uint32_t limit"
@@ -483,7 +483,7 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
     encoded.push_back(bits_required);
 
     // Validate data size to prevent overflow
-    if (data.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+    if (static_cast<int>(data.size()) > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Bit-packing encode: data size exceeds uint32_t limit"
@@ -790,7 +790,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
     // user-facing text or an LLM prompt — false positive.
     // Maximum safe input size - must fit in int for LZ4 API
     constexpr size_t MAX_INPUT_SIZE = static_cast<size_t>(INT_MAX);
-    if (data.size() > MAX_INPUT_SIZE) {
+    if (static_cast<int>(data.size()) > MAX_INPUT_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "LZ4 compression: input data too large (exceeds INT_MAX)"
@@ -933,7 +933,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::
     // user-facing text or an LLM prompt — false positive.
     // Maximum safe input size (1GB)
     constexpr size_t MAX_INPUT_SIZE = 1024 * 1024 * 1024;
-    if (data.size() > MAX_INPUT_SIZE) {
+    if (static_cast<int>(data.size()) > MAX_INPUT_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Snappy compression: input data too large"

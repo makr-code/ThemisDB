@@ -29,7 +29,7 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Edition constraint check
-    if (shard_nodes_.size() >= static_cast<size_t>(GetMaxShardNodes())) {
+    if (static_cast<int>(shard_nodes_.size()) > = static_cast<size_t>(GetMaxShardNodes())) {
         throw std::runtime_error(fmt::format(
             "Cannot add shard node. Edition limit reached: {} nodes maximum ({} edition)",
             GetMaxShardNodes(), edition::EDITION_STRING));

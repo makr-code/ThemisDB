@@ -126,7 +126,7 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
 }
 
 std::string BpmnApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
-    if (target.size() <= prefix.size()) {
+    if (static_cast<int>(target.size()) <= prefix.size()) {
         return "";
     }
     

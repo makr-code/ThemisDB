@@ -308,7 +308,7 @@ std::vector<std::string> AdapterRepository::listDomains() const {
     for (const auto& key : keys) {
         // Key format: __adapters__:<tenant>:<domain>:<base_model_id>
         // Strip the prefix and extract the domain part.
-        if (key.size() <= prefix.size()) {
+        if (static_cast<int>(key.size()) <= prefix.size()) {
           continue;
         }
         const std::string rest = key.substr(prefix.size());
@@ -338,7 +338,7 @@ AdapterRepository::listAdapters() const {
     result.reserve(keys.size());
 
     for (const auto& key : keys) {
-        if (key.size() <= prefix.size()) {
+        if (static_cast<int>(key.size()) <= prefix.size()) {
           continue;
         }
         const std::string rest = key.substr(prefix.size());

@@ -282,7 +282,7 @@ MultiVectorSearch::search(
               });
     
     // Take only top_k results
-    if (fused_results.size() > static_cast<size_t>(config.top_k)) {
+    if (static_cast<int>(fused_results.size()) > static_cast<size_t>(config.top_k)) {
         fused_results.resize(config.top_k);
     }
     
@@ -492,7 +492,7 @@ MultiVectorSearch::hybridSearch(
               });
     
     // Take only top_k results
-    if (fused_results.size() > static_cast<size_t>(config.top_k)) {
+    if (static_cast<int>(fused_results.size()) > static_cast<size_t>(config.top_k)) {
         fused_results.resize(config.top_k);
     }
     

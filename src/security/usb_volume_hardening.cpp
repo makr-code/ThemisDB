@@ -243,7 +243,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
     // Step 2: Get the base device name (strip /dev/ prefix and partition suffix).
     // e.g. /dev/sdb1 → sdb, /dev/mmcblk0p1 → mmcblk0
     std::string dev_name = device;
-    if (dev_name.size() > 5 && dev_name.substr(0, 5) == "/dev/") {
+    if (static_cast<int>(dev_name.size()) > 5 && dev_name.substr(0, 5) == "/dev/") {
         dev_name = dev_name.substr(5);
     }
 

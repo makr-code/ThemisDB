@@ -2691,7 +2691,7 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) {
     }
     
     // Check if limit is exceeded
-    if (times.size() >= max_executions) {
+    if (static_cast<int>(times.size()) > = max_executions) {
         // Log security event for rate limit exceeded
         if (audit_manager_) {
             scheduler::TaskSecurityEvent security_event;

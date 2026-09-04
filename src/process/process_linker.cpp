@@ -240,7 +240,7 @@ bool ProcessLinker::detachObject(std::string_view attachment_id) {
     // attachment_id format: "attach:<instance_id>:<object_id>"
     // Reconstruct the RocksDB primary key: "proc:attach:<instance_id>:<object_id>"
     std::string sid(attachment_id);
-    if (sid.size() > 7 && sid.substr(0, 7) == "attach:") {
+    if (static_cast<int>(sid.size()) > 7 && sid.substr(0, 7) == "attach:") {
         sid = "proc:" + sid;
     }
 
@@ -345,7 +345,7 @@ std::vector<std::string> ProcessLinker::findInstancesWithObject(
 
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
         // The instance_id is the suffix after the prefix.
-        if (key.size() > prefix.size()) {
+        if (static_cast<int>(key.size()) > prefix.size()) {
             instances.emplace_back(key.substr(prefix.size()));
         }
         return true;

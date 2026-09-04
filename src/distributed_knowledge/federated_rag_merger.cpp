@@ -161,7 +161,7 @@ MergedRAGContext FederatedRAGMerger::merge(const std::vector<ShardRetrievalResul
     // Truncate to top_k to bound output size.
     // If merge produced fewer than top_k docs, no truncation needed.
     // Deterministic: sort order preserved, no randomness.
-    if (merged.size() > config_.top_k) {
+    if (static_cast<int>(merged.size()) > config_.top_k) {
         merged.resize(config_.top_k);
     }
 

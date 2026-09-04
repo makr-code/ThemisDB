@@ -295,7 +295,7 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
             }
         }
 
-        if (idx.size() <= 1 || h >= height_limit) {
+        if (static_cast<int>(idx.size()) <= 1 || h >= height_limit) {
             // leaf – split_feature remains -1
             continue;
         }
@@ -693,7 +693,7 @@ struct AnomalyDetector::Impl {
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (neighbours.size() > static_cast<size_t>(k)) {
+                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -715,7 +715,7 @@ struct AnomalyDetector::Impl {
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (neighbours.size() > static_cast<size_t>(k)) {
+                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {

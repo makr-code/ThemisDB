@@ -220,10 +220,10 @@ std::vector<double> extractValues(const TimeSeries& ts) {
 /// Align two value vectors to the same length by taking the overlapping suffix.
 void alignVectors(std::vector<double>& a, std::vector<double>& b) {
     const size_t n = std::min(a.size(), b.size());
-    if (a.size() > n) {
+    if (static_cast<int>(a.size()) > n) {
         a.erase(a.begin(), a.end() - static_cast<ptrdiff_t>(n));
     }
-    if (b.size() > n) {
+    if (static_cast<int>(b.size()) > n) {
         b.erase(b.begin(), b.end() - static_cast<ptrdiff_t>(n));
     }
 }
@@ -481,7 +481,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
                        > std::abs(b.correlation_coefficient);
               });
 
-    if (results.size() > impl_->config.max_correlations) {
+    if (static_cast<int>(results.size()) > impl_->config.max_correlations) {
         results.resize(impl_->config.max_correlations);
     }
 

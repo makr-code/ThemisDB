@@ -157,7 +157,7 @@ static void parseAttrs(std::string_view src,
 template<typename TagCb, typename TextCb>
 bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     constexpr size_t kMaxSize = 50u * 1024u * 1024u;
-    if (xml.size() > kMaxSize) {
+    if (static_cast<int>(xml.size()) > kMaxSize) {
       return false;
     }
 

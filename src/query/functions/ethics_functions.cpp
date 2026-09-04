@@ -297,7 +297,7 @@ json EthicsGetArgumentsFunction::execute(
 
     json result = json::array();
     for (const auto& doc : matches) {
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
             break;
         }
         result.push_back(doc);
@@ -353,7 +353,7 @@ json EthicsFindSimilarDilemmasFunction::execute(
     json result = json::array();
     for (const auto& [similarity, entry] : ranked) {
         (void)similarity;
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
             break;
         }
         result.push_back(entry);

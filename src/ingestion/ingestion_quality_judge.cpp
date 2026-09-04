@@ -61,7 +61,7 @@ namespace {
 
 /// Return up to @p max_chars from @p s, appending "..." if truncated.
 std::string truncate(const std::string& s, size_t max_chars) {
-    if (s.size() <= max_chars) {
+    if (static_cast<int>(s.size()) <= max_chars) {
       return s;
     }
     return s.substr(0, max_chars) + "...";
@@ -427,7 +427,7 @@ std::string IngestionQualityJudge::parseRationale(
     }
     std::string result = response.substr(pos, end - pos);
     // Truncate to 200 chars for safety.
-    if (result.size() > 200) {
+    if (static_cast<int>(result.size()) > 200) {
       result.resize(200);
     }
     return result;
@@ -459,7 +459,7 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
           continue;
         }
         // New section header → stop.
-        if (line.size() > 2 && std::isupper(static_cast<unsigned char>(line[0]))
+        if (static_cast<int>(line.size()) > 2 && std::isupper(static_cast<unsigned char>(line[0]))
             && line.find(':') != std::string::npos
             && line.find(':') < 20)
         {

@@ -335,7 +335,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     
     // Identify patterns with multiple rules
     for (const auto& [pattern, rule_ids] : pattern_map) {
-        if (rule_ids.size() > 1) {
+        if (static_cast<int>(rule_ids.size()) > 1) {
             OverlapResult overlap;
             
             size_t colon_pos = pattern.find(':');

@@ -191,7 +191,7 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
                     auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
                     // Extract the primary key (strip table prefix from RocksDB key)
                     std::string_view pk = key;
-                    if (pk.size() > scan_prefix.size()) {
+                    if (static_cast<int>(pk.size()) > scan_prefix.size()) {
                         pk = pk.substr(scan_prefix.size());
                     }
                     auto ins = spatial_index.insert(table, pk, sidecar);

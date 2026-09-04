@@ -187,7 +187,7 @@ bool SelfRAGController::shouldRetrieve(const std::string& query,
     }
 
     const double long_query_cutoff = std::min(0.98, cfg_.retrieval_confidence_threshold + 0.35);
-    if (query_tokens.size() >= 14 && confidence < long_query_cutoff) {
+    if (static_cast<int>(query_tokens.size()) > = 14 && confidence < long_query_cutoff) {
         return true;
     }
 

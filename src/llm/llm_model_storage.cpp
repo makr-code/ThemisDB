@@ -568,7 +568,7 @@ public:
 
         const std::string prefix = config_.key_prefix;
         config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
-            if (key.size() <= prefix.size()) {
+            if (static_cast<int>(key.size()) <= prefix.size()) {
                 return true;
             }
 
@@ -984,7 +984,7 @@ public:
                 });
             
             // Limit to k results
-            if (similar_models.size() > static_cast<size_t>(k)) {
+            if (static_cast<int>(similar_models.size()) > static_cast<size_t>(k)) {
                 similar_models.resize(k);
             }
             

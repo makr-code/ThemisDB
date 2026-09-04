@@ -831,7 +831,7 @@ std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
             
             if (matches) {
                 results.push_back(*feedback);
-                if (results.size() >= options.limit) {
+                if (static_cast<int>(results.size()) > = options.limit) {
                     break;
                 }
             }

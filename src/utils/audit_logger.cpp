@@ -326,7 +326,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         std::string plain = event.dump();
         constexpr size_t kMaxEventSize = 10 * 1024 * 1024; // 10MB limit
         
-        if (plain.size() > kMaxEventSize) {
+        if (static_cast<int>(plain.size()) > kMaxEventSize) {
             ErrorContext err_ctx(
                 themis::utils::ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "Event size exceeds maximum limit",

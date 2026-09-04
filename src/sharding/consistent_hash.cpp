@@ -119,7 +119,7 @@ std::vector<std::string> ConsistentHashRing::getReplicaNodes(const std::string& 
     if (!nodes.empty()) {
         nodes.erase(nodes.begin()); // drop primary
     }
-    if (nodes.size() > count) {
+    if (static_cast<int>(nodes.size()) > count) {
         nodes.resize(count);
     }
     return nodes;

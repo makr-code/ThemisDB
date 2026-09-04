@@ -628,7 +628,7 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
     try {
         // Convert DER to PEM format
         const unsigned char* p = cached_tsa_cert_.data();
-        if (cached_tsa_cert_.size() > static_cast<std::size_t>(LONG_MAX)) {
+        if (static_cast<int>(cached_tsa_cert_.size()) > static_cast<std::size_t>(LONG_MAX)) {
             THEMIS_ERROR("getTSACertificate error: cached TSA cert exceeds OpenSSL size limit");
             return std::nullopt;
         }
@@ -808,7 +808,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     validation_errors_.clear();
     
     // Validate certificate size
-    if (tsa_cert.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(tsa_cert.size()) > static_cast<size_t>(INT_MAX)) {
         validation_errors_.push_back("TSA certificate size exceeds maximum allowed");
         return false;
     }

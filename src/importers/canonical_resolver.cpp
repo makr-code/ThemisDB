@@ -165,7 +165,7 @@ json CanonicalEntityResolver::reconcileObjectField(const json &obj1, const json 
             // Prefer longer / non-null value.
             const std::string v1 = result[key].is_string() ? result[key].get<std::string>() : result[key].dump();
             const std::string v2 = it.value().is_string() ? it.value().get<std::string>() : it.value().dump();
-            if (v2.size() > v1.size()) {
+            if (static_cast<int>(v2.size()) > v1.size()) {
                 result[key] = it.value();
             }
         }

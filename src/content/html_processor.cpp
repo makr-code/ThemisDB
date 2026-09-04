@@ -255,7 +255,7 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
             // Numeric entity
             long code = 0;
             try {
-                if (ref.size() > 1 && (ref[1] == 'x' || ref[1] == 'X')) {
+                if (static_cast<int>(ref.size()) > 1 && (ref[1] == 'x' || ref[1] == 'X')) {
                     code = std::stol(ref.substr(2), nullptr, 16);
                 } else {
                     code = std::stol(ref.substr(1));

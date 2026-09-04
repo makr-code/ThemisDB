@@ -456,7 +456,7 @@ void DistributedTokenBlacklist::add(
                                       "JTI must not be empty",
                                       "Attempted to add an empty JTI to the revocation blacklist"));
     }
-    if (jti.size() > kMaxJtiLen) {
+    if (static_cast<int>(jti.size()) > kMaxJtiLen) {
         throw AuthException(AuthError(AuthErrorCode::REVOCATION_ENTRY_INVALID,
                                       "JTI exceeds maximum allowed length",
                                       "JTI length " + std::to_string(jti.size())
@@ -806,7 +806,7 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
         }
         
         for (const auto& [jti, expiry] : entries) {
-            if (jti.size() > kMaxJtiLen) {
+            if (static_cast<int>(jti.size()) > kMaxJtiLen) {
               continue;
             }
             const auto secs = static_cast<int64_t>(
@@ -977,7 +977,7 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
         
         // Send entries: jti_len[2] + jti[jti_len] + expiry[8]
         for (const auto& [jti, expiry] : entries) {
-            if (jti.size() > kMaxJtiLen) {
+            if (static_cast<int>(jti.size()) > kMaxJtiLen) {
               continue;
             }
             const auto secs = static_cast<int64_t>(

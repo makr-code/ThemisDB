@@ -207,7 +207,7 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::applyHintsAndFinaliz
     std::sort(results.begin(), results.end(),
               [](const Result& a, const Result& b) { return a.score > b.score; });
 
-    if (results.size() > config_.k) {
+    if (static_cast<int>(results.size()) > config_.k) {
         results.resize(config_.k);
     }
 

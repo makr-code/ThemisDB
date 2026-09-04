@@ -680,7 +680,7 @@ void AQLTrainParser::validateAdapterName(const std::string& name) {
                 "AQLTrainParser: invalid character in adapter name: '" + std::string(1, c) + "'");
         }
     }
-    if (name.size() > 128) {
+    if (static_cast<int>(name.size()) > 128) {
         throw std::invalid_argument("AQLTrainParser: adapter name exceeds 128 characters");
     }
 }
@@ -1154,7 +1154,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             if (!tokens.empty()) {
               stmt->order_by = tokens[0];
             }
-            if (tokens.size() >= 2 && iequal(tokens[1], "ASC")) {
+            if (static_cast<int>(tokens.size()) > = 2 && iequal(tokens[1], "ASC")) {
               stmt->descending = false;
             }
         }

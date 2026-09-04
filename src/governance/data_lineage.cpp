@@ -335,7 +335,7 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits() {
     // Check per-dataset limit (not enforced at record time to allow initial growth,
     // but noted for monitoring)
     for (const auto& [ds_id, events] : lineage_store_) {
-        if (events.size() >= max_events_per_dataset_) {
+        if (static_cast<int>(events.size()) > = max_events_per_dataset_) {
             last_error_code_.store(static_cast<int32_t>(LineageError::kSizeLimitExceeded), 
                                    std::memory_order_relaxed);
             
@@ -466,7 +466,7 @@ LineageRecordResult DataLineageTracker::pruneOldEvents(const std::string& datase
     }
     
     auto& events = it->second;
-    if (events.size() <= static_cast<size_t>(keep_count)) {
+    if (static_cast<int>(events.size()) <= static_cast<size_t>(keep_count)) {
         result.event_count = static_cast<int32_t>(events.size());
         return result;  // Nothing to prune
     }

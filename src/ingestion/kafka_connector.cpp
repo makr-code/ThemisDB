@@ -516,7 +516,7 @@ private:
             // 4-byte schema ID.  Without the Schema Registry we treat the
             // remaining bytes as UTF-8 text.  Full Avro deserialization
             // (using a registry lookup) is deferred to a follow-up task.
-            if (payload.size() > 5 && static_cast<unsigned char>(payload[0]) == 0x00) {
+            if (static_cast<int>(payload.size()) > 5 && static_cast<unsigned char>(payload[0]) == 0x00) {
                 return payload.substr(5); // strip magic + schema ID
             }
             return payload;

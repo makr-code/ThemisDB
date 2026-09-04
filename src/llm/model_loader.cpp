@@ -321,7 +321,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     cache_misses_.fetch_add(1, std::memory_order_relaxed);
     
     // Check if we need to evict
-    if (models_.size() >= config_.max_models) {
+    if (static_cast<int>(models_.size()) > = config_.max_models) {
         spdlog::info("Model cache full, evicting LRU");
         evictLRUUnlocked();
     }

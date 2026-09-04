@@ -644,7 +644,7 @@ double KnowledgeGapDetector::calculateQueryCoverage(
     // Content diversity: check if documents have varied content
     // Simple heuristic: check length variance
     double diversity_score = 1.0;
-    if (docs.size() > 1) {
+    if (static_cast<int>(docs.size()) > 1) {
         double avg_length = 0.0;
         for (const auto& doc : docs) {
             avg_length += doc.content.length();

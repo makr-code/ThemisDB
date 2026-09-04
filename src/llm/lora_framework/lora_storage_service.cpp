@@ -155,7 +155,7 @@ public:
         int max_version = 0;
         
         for (const auto& v : versions) {
-            if (v.size() > 1 && v[0] == 'v') {
+            if (static_cast<int>(v.size()) > 1 && v[0] == 'v') {
                 try {
                     int num = std::stoi(v.substr(1));
                     max_version = std::max(max_version, num);

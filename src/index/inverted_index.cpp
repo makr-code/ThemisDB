@@ -441,7 +441,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
                   return a.score > b.score;
               });
 
-    if (scored.size() > limit) {
+    if (static_cast<int>(scored.size()) > limit) {
       scored.resize(limit);
     }
     return {Status::OK(), std::move(scored)};
@@ -531,7 +531,7 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
         } catch (...) {
             // skip unreadable documents
         }
-        if (results.size() >= limit) {
+        if (static_cast<int>(results.size()) > = limit) {
           break;
         }
     }
@@ -629,7 +629,7 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
                   return a.score > b.score;
               });
 
-    if (results.size() > limit) {
+    if (static_cast<int>(results.size()) > limit) {
       results.resize(limit);
     }
     return {Status::OK(), std::move(results)};

@@ -291,7 +291,7 @@ public:
                 
                 results.push_back(audit);
                 
-                if (results.size() >= static_cast<size_t>(limit)) {
+                if (static_cast<int>(results.size()) > = static_cast<size_t>(limit)) {
                     break;
                 }
             }

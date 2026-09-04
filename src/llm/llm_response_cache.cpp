@@ -164,7 +164,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     }
     
     // Enforce max_entries limit (LRU eviction)
-    if (response_store_.size() > config_.max_entries) {
+    if (static_cast<int>(response_store_.size()) > config_.max_entries) {
         // Find oldest entry
         auto oldest_it = response_store_.end();
         std::chrono::system_clock::time_point oldest_time = std::chrono::system_clock::now();

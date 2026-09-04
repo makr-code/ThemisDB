@@ -1171,7 +1171,7 @@ PropertyGraphManager::computePageRank(
         std::string keyStr(key);
         // Extract node PK from key: node:<graph_id>:<pk>
         size_t prefixLen = nodePrefix.str().size();
-        if (keyStr.size() > prefixLen) {
+        if (static_cast<int>(keyStr.size()) > prefixLen) {
             std::string pk = keyStr.substr(prefixLen);
             nodes.push_back(pk);
         }

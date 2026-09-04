@@ -213,7 +213,7 @@ void LocalityAwareRouter::updateDataPlacement(
     placement_cache_[cache_key].insert(shard_id);
     
     // Simple cache size management
-    if (placement_cache_.size() > config_.max_cache_entries) {
+    if (static_cast<int>(placement_cache_.size()) > config_.max_cache_entries) {
         cleanupStaleEntries();
     }
 }
@@ -260,7 +260,7 @@ std::vector<std::string> LocalityAwareRouter::suggestCoLocation(
     std::vector<std::string> suggestions;
     
     // Simple heuristic: suggest co-locating collections that are accessed together
-    if (collections.size() > 1) {
+    if (static_cast<int>(collections.size()) > 1) {
         suggestions.push_back(
             "Consider co-locating collections: " + 
             std::accumulate(collections.begin() + 1, collections.end(), 

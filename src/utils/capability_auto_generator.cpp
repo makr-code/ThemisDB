@@ -638,7 +638,7 @@ void CapabilityAutoGenerator::loadPersistedState() {
         std::lock_guard<std::mutex> lock(mutex_);
         state_db_->iterateRange(start_key, end_key,
             [&](std::string_view key, std::string_view value) -> bool {
-                if (key.size() <= STATE_KEY_PREFIX.size()) {
+                if (static_cast<int>(key.size()) <= STATE_KEY_PREFIX.size()) {
                   return true;
                 }
                 std::string shard_id(key.substr(STATE_KEY_PREFIX.size()));

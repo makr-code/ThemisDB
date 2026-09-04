@@ -115,7 +115,7 @@ ExpandedQuery QueryExpander::expand(const std::string& query) const {
               continue;
             }
             for (const auto& syn : it->second) {
-                if (added_synonyms.size() >= config_.max_expansions) {
+                if (static_cast<int>(added_synonyms.size()) > = config_.max_expansions) {
                   break;
                 }
                 // Deduplicate across all added and original
@@ -124,7 +124,7 @@ ExpandedQuery QueryExpander::expand(const std::string& query) const {
                     added_synonyms.push_back(syn);
                 }
             }
-            if (added_synonyms.size() >= config_.max_expansions) {
+            if (static_cast<int>(added_synonyms.size()) > = config_.max_expansions) {
               break;
             }
         }
@@ -254,7 +254,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestSpellingCorrections(
         }
     }
 
-    if (candidates.size() > max_suggestions) {
+    if (static_cast<int>(candidates.size()) > max_suggestions) {
         candidates.resize(max_suggestions);
     }
 
@@ -357,7 +357,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
                   return a.suggestion < b.suggestion;
               });
 
-    if (results.size() > max_suggestions) {
+    if (static_cast<int>(results.size()) > max_suggestions) {
         results.resize(max_suggestions);
     }
 
@@ -380,7 +380,7 @@ std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& q
           continue;
         }
         for (const auto& syn : it->second) {
-            if (alternatives.size() >= config_.max_expansions) {
+            if (static_cast<int>(alternatives.size()) > = config_.max_expansions) {
               break;
             }
             // Build a variant of the query with this token replaced by its synonym
@@ -398,7 +398,7 @@ std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& q
                 alternatives.push_back(alt);
             }
         }
-        if (alternatives.size() >= config_.max_expansions) {
+        if (static_cast<int>(alternatives.size()) > = config_.max_expansions) {
           break;
         }
     }
@@ -407,7 +407,7 @@ std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& q
 
 std::string QueryExpander::relaxQuery(const std::string& query) const {
     auto tokens = tokenize(query);
-    if (tokens.size() <= 1) {
+    if (static_cast<int>(tokens.size()) <= 1) {
         return {}; // Cannot relax a single-token (or empty) query
     }
     tokens.pop_back();

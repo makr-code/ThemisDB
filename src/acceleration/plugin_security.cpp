@@ -1570,7 +1570,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return std::nullopt;
         }
 
-        if (pkcs7_blobs.size() > 1u) {
+        if (static_cast<int>(pkcs7_blobs.size()) > 1u) {
             THEMIS_WARN("extractEmbeddedCertificate: {} PKCS#7 certificates found "
                         "in PE certificate table; using the first one.",
                         pkcs7_blobs.size());

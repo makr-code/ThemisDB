@@ -750,7 +750,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
             }
 
             // Keep only top-k.
-            if (scored.size() > policy.top_k_candidates) {
+            if (static_cast<int>(scored.size()) > policy.top_k_candidates) {
                 std::partial_sort(scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(policy.top_k_candidates),
                                   scored.end(), [](const auto &a, const auto &b) {
                                       return a.first > b.first; // descending
@@ -797,7 +797,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
         }
 
         // Keep only top-k.
-        if (scored.size() > policy.top_k_candidates) {
+        if (static_cast<int>(scored.size()) > policy.top_k_candidates) {
             std::partial_sort(scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(policy.top_k_candidates),
                               scored.end(), [](const auto &a, const auto &b) {
                                   return a.first > b.first; // descending
@@ -943,7 +943,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
 
 void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    if (audit_trail_.size() >= kMaxAuditEntries) {
+    if (static_cast<int>(audit_trail_.size()) > = kMaxAuditEntries) {
         audit_trail_.erase(audit_trail_.begin()); // evict oldest
     }
 

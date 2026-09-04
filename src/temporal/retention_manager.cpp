@@ -451,7 +451,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             size_t keep_from_eligible = (policy.max_versions_per_key > protected_count)
                                             ? policy.max_versions_per_key - protected_count
                                             : 0;
-            if (eligible.size() <= keep_from_eligible) {
+            if (static_cast<int>(eligible.size()) <= keep_from_eligible) {
               continue;
             }
 

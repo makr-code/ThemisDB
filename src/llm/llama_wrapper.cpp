@@ -3791,7 +3791,7 @@ void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& 
     state_history_.push_back(transition);
     
     // Limit history size to prevent unbounded memory growth
-    if (state_history_.size() > MAX_STATE_HISTORY) {
+    if (static_cast<int>(state_history_.size()) > MAX_STATE_HISTORY) {
         state_history_.erase(state_history_.begin());
     }
     

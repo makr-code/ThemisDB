@@ -714,7 +714,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     const size_t iv_len = static_cast<size_t>(EVP_CIPHER_iv_length(cipher));
-    if (encrypted_data_bytes.size() <= iv_len) {
+    if (static_cast<int>(encrypted_data_bytes.size()) <= iv_len) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "EncryptedData CipherValue is too short to contain an IV");
     }
@@ -1114,7 +1114,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         }
 
         // Enforce maximum cache size (after eviction). If still full, fail closed.
-        if (seen_assertion_ids_.size() >= config_.max_replay_cache_size) {
+        if (static_cast<int>(seen_assertion_ids_.size()) > = config_.max_replay_cache_size) {
             THEMIS_WARN("SAML: Replay cache is full ({} entries). "
                         "Rejecting assertion to prevent cache bypass. "
                         "Consider using a distributed TTL cache for high-volume deployments.",

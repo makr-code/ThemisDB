@@ -75,7 +75,7 @@ void RaftV2ClusterConfig::beginRemoveMember(const std::string& node_id) {
         throw std::runtime_error(
             "RaftV2ClusterConfig: membership change already in progress");
     }
-    if (new_members_.size() <= 1) {
+    if (static_cast<int>(new_members_.size()) <= 1) {
         throw std::runtime_error(
             "RaftV2ClusterConfig: cannot remove the last member from the cluster");
     }

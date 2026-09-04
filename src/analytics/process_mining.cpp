@@ -1036,7 +1036,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
     // Detect split gateways (AND-split): one activity -> multiple parallel activities
     int gatewayId = 0;
     for (const auto &[activity, targets] : outgoing) {
-        if (targets.size() > 1) {
+        if (static_cast<int>(targets.size()) > 1) {
             // Check if these are parallel (not exclusive choice)
             // In Alpha Miner, this is determined by the parallel relation
             bool isParallel = true;
@@ -1113,7 +1113,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
 
     // Detect join gateways (AND-join): multiple parallel activities -> one activity
     for (const auto &[activity, sources] : incoming) {
-        if (sources.size() > 1) {
+        if (static_cast<int>(sources.size()) > 1) {
             // Check if these are parallel
             bool isParallel = true;
             // NOTE: sources.size() is typically small (< 10 in practice, e.g., max join degree)
@@ -1419,7 +1419,7 @@ struct Cut {
 // Activities have no DFG path between them in either direction.
 Cut tryXorCut(const SubDFG &dfg) {
     auto components = findComponents(dfg);
-    if (components.size() > 1) {
+    if (static_cast<int>(components.size()) > 1) {
         return Cut{CutType::XOR, components};
     }
     return {};
@@ -1988,7 +1988,7 @@ ProcessMining::analyzeVariants(const EventLog &log, int top_n) {
     std::sort(result.begin(), result.end(),
               [](const VariantInfo &a, const VariantInfo &b) { return a.frequency > b.frequency; });
 
-    if (result.size() > static_cast<size_t>(top_n)) {
+    if (static_cast<int>(result.size()) > static_cast<size_t>(top_n)) {
         result.resize(top_n);
     }
 

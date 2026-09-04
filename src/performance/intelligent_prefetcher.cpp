@@ -142,7 +142,7 @@ public:
 
         // Append to sliding history window.
         history_.push_back({address, timestamp});
-        if (history_.size() > config_.history_size) {
+        if (static_cast<int>(history_.size()) > config_.history_size) {
             history_.pop_front();
         }
 

@@ -418,7 +418,7 @@ void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     last_failover_time_ = event.timestamp;
     
     // Keep only last 100 events
-    if (failover_history_.size() > 100) {
+    if (static_cast<int>(failover_history_.size()) > 100) {
         failover_history_.erase(failover_history_.begin());
     }
 }

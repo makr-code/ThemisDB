@@ -157,7 +157,7 @@ std::vector<AggregatedEvent> CrossCollectionStream::listEvents(
     std::sort(all_events.begin(), all_events.end(), aggregatedEventLess);
 
     // Truncate to the requested limit
-    if (all_events.size() > effective_limit) {
+    if (static_cast<int>(all_events.size()) > effective_limit) {
         all_events.resize(effective_limit);
     }
 

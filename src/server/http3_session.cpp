@@ -1063,7 +1063,7 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
         return false;
     }
 
-    if (frame.size() > max_dgram) {
+    if (static_cast<int>(frame.size()) > max_dgram) {
         THEMIS_WARN("[Http3Session] sendDatagram: frame size {} exceeds peer max {}",
                     frame.size(), max_dgram);
         return false;

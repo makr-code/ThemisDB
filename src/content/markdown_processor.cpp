@@ -187,7 +187,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             std::string tl = trimCopy(line);
-            if (tl.size() >= 3) {
+            if (static_cast<int>(tl.size()) > = 3) {
                 char c = tl[0];
                 if (c == '-' || c == '*' || c == '_') {
                     bool is_hr = true;
@@ -204,7 +204,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             std::string tl = trimCopy(line);
-            if (tl.size() >= 2) {
+            if (static_cast<int>(tl.size()) > = 2) {
                 bool all_eq   = tl.find_first_not_of('=') == std::string::npos;
                 bool all_dash = tl.find_first_not_of('-') == std::string::npos;
                 if (all_eq || all_dash) { out << '\n'; continue; }

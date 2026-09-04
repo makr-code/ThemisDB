@@ -351,7 +351,7 @@ bool MultiLoRAManager::loadLoRA(
             spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
             loras_.erase(it);
             cache_misses_++;
-            if (loras_.size() >= config_.max_lora_slots) {
+            if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
                 spdlog::info("LoRA cache full, evicting LRU");
                 evictLRU();
             }
@@ -370,7 +370,7 @@ bool MultiLoRAManager::loadLoRA(
     cache_misses_++;
     
     // Check if we need to evict
-    if (loras_.size() >= config_.max_lora_slots) {
+    if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
         spdlog::info("LoRA cache full, evicting LRU");
         evictLRU();
     }
@@ -1405,7 +1405,7 @@ bool MultiLoRAManager::importLoRA(
     // Security: Validate data size to prevent import of maliciously crafted data
     // Reject excessively large imports that could indicate tampering or DoS
     const size_t MAX_LORA_IMPORT_SIZE = config_.max_lora_vram_mb * 1024 * 1024 * 2; // 2x VRAM budget
-    if (data.size() > MAX_LORA_IMPORT_SIZE) {
+    if (static_cast<int>(data.size()) > MAX_LORA_IMPORT_SIZE) {
         spdlog::error("[SECURITY] LoRA import rejected: data size {} exceeds maximum allowed {} bytes",
                      data.size(), MAX_LORA_IMPORT_SIZE);
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "data too large");
@@ -1926,7 +1926,7 @@ bool MultiLoRAManager::loadLoRA(
             spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
             loras_.erase(it);
             cache_misses_++;
-            if (loras_.size() >= config_.max_lora_slots) {
+            if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
                 spdlog::info("LoRA cache full, evicting LRU");
                 evictLRU();
             }
@@ -1943,7 +1943,7 @@ bool MultiLoRAManager::loadLoRA(
     cache_misses_++;
     
     // Check if we need to evict
-    if (loras_.size() >= config_.max_lora_slots) {
+    if (static_cast<int>(loras_.size()) > = config_.max_lora_slots) {
         spdlog::info("LoRA cache full, evicting LRU");
         evictLRU();
     }
@@ -3176,7 +3176,7 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
     audit_log_.push_back([[maybe_unused]] event);
     
     // Trim log if it exceeds max size
-    if (audit_log_.size() > max_audit_log_size_) {
+    if (static_cast<int>(audit_log_.size()) > max_audit_log_size_) {
         audit_log_.erase(audit_log_.begin(), 
                         audit_log_.begin() + (audit_log_.size() - max_audit_log_size_));
     }

@@ -91,7 +91,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     std::vector<float> pilot;
     std::vector<std::size_t> pilot_shape;
 
-    if (embedding.size() <= kPilotMaxDim) {
+    if (static_cast<int>(embedding.size()) <= kPilotMaxDim) {
         pilot       = embedding;
         pilot_shape = inferModeShape(embedding.size());
     } else {

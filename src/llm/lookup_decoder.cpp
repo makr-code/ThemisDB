@@ -170,7 +170,7 @@ void LookupDecoder::indexTokens(const std::vector<int>& tokens) {
     // Slide a window of size [ngram_min..ngram_max] across the token sequence.
     // For each window: key = first n tokens, continuation = tokens after the key.
     for (size_t n = config_.ngram_min; n <= config_.ngram_max; ++n) {
-        if (tokens.size() <= n) continue;  // need at least one continuation token
+        if (static_cast<int>(tokens.size()) <= n) continue;  // need at least one continuation token
 
         for (size_t start = 0; start + n < tokens.size(); ++start) {
             std::vector<int> key(tokens.begin() + static_cast<ptrdiff_t>(start),

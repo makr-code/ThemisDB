@@ -736,7 +736,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     }
 
     // Input validation: Check token size limit
-    if (jwt.size() > MAX_JWT_TOKEN_SIZE) {
+    if (static_cast<int>(jwt.size()) > MAX_JWT_TOKEN_SIZE) {
         utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",

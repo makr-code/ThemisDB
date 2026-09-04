@@ -236,7 +236,7 @@ bool HotSpareManager::activateSpare(
         {
             std::lock_guard<std::mutex> lock(history_mutex_);
             failover_history_.push_back([[maybe_unused]] event);
-            if (failover_history_.size() > MAX_HISTORY_SIZE) {
+            if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
                 failover_history_.erase(failover_history_.begin());
             }
         }
@@ -304,7 +304,7 @@ bool HotSpareManager::activateSpare(
     {
         std::lock_guard<std::mutex> lock(history_mutex_);
         failover_history_.push_back([[maybe_unused]] event);
-        if (failover_history_.size() > MAX_HISTORY_SIZE) {
+        if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
             failover_history_.erase(failover_history_.begin());
         }
     }

@@ -158,7 +158,7 @@ ConflictDiagnosticHelper::detectConflict(
     
     // Detect conflicts between policy pairs
     // For Phase 3B, this is a stub implementation that checks policy_ids count
-    if (policy_ids.size() > 1) {
+    if (static_cast<int>(policy_ids.size()) > 1) {
         // Simple conflict detection: if multiple policies exist, potential conflict
         result.has_conflicts = true;
         
@@ -378,7 +378,7 @@ std::vector<MaskingRuleViolation> ConflictDiagnosticHelper::validateMaskingRuleC
     
     // Detect conflicting rules on same schema
     for (const auto& [schema, rules] : schema_to_rules) {
-        if (rules.size() > 1) {
+        if (static_cast<int>(rules.size()) > 1) {
             MaskingRuleViolation violation;
             violation.rule_id = schema;
             violation.violation_type = "inconsistent_redaction";

@@ -385,7 +385,7 @@ public:
         }
         
         // Merge and select top-k from all GPUs
-        if (allResults.size() > k) {
+        if (static_cast<int>(allResults.size()) > k) {
             std::partial_sort(allResults.begin(), allResults.begin() + k, allResults.end(),
                 [](const auto& a, const auto& b) { return a.distance < b.distance; });
             allResults.resize(k);
@@ -464,7 +464,7 @@ public:
                     }
                 }
             }
-            if (allResults.size() > k) {
+            if (static_cast<int>(allResults.size()) > k) {
                 std::partial_sort(allResults.begin(), allResults.begin() + k,
                     allResults.end(),
                     [](const auto& a, const auto& b) { return a.distance < b.distance; });
@@ -570,7 +570,7 @@ public:
         // Calculate scaling efficiency
         // Ideal speedup = number of GPUs
         // Actual speedup estimated from query time improvements
-        if (gpuIndices.size() > 1) {
+        if (static_cast<int>(gpuIndices.size()) > 1) {
             // Simplified: assume linear scaling as baseline
             double idealSpeedup = static_cast<double>(gpuIndices.size());
             // For now, use a simple estimate based on load balance

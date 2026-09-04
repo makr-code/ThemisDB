@@ -894,10 +894,10 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     }
 
     // parts[0] = "message", parts[1] = channel, parts[2] = payload
-    if (parts.size() >= 3 && parts[0] == "message") {
+    if (static_cast<int>(parts.size()) > = 3 && parts[0] == "message") {
         channel_out = parts[1];
         payload_out = parts[2];
-    } else if (parts.size() >= 2) {
+    } else if (static_cast<int>(parts.size()) > = 2) {
         channel_out = (parts.size() > 1) ? parts[1] : "";
     }
     return true;

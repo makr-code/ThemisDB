@@ -529,7 +529,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
                           "When uncertain, say so and cite slot source ids.\n\n";
         for (size_t i = 0; i < slot_count; ++i) {
             std::string slot_text = ranked_chunks[i].content;
-            if (slot_text.size() > static_cast<size_t>(rag_tensor_slot_chars)) {
+            if (static_cast<int>(slot_text.size()) > static_cast<size_t>(rag_tensor_slot_chars)) {
                 slot_text = slot_text.substr(0, static_cast<size_t>(rag_tensor_slot_chars));
             }
             compact_prompt << "[MEMORY_SLOT id=" << (i + 1)
@@ -714,7 +714,7 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     if (data.size() < kMinLoRASize) {
         return false; // Too small — cannot contain a valid header
     }
-    if (data.size() > kMaxLoRASize) {
+    if (static_cast<int>(data.size()) > kMaxLoRASize) {
         return false; // Size bound — prevent heap exhaustion
     }
     // Magic bytes check: GGUF signature

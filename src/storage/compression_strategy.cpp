@@ -646,7 +646,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     }
     
     // Only beneficial if dictionary is small
-    if (dictionary.size() > 128) {
+    if (static_cast<int>(dictionary.size()) > 128) {
         THEMIS_DEBUG("SimpleDictionaryCodec::compress: dictionary too large ({}), skipping compression", dictionary.size());
         return {};  // Not beneficial
     }

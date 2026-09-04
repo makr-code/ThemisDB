@@ -123,7 +123,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
                  return a->total_duration > b->total_duration;
              });
     
-    if (profiles.size() > static_cast<size_t>(limit)) {
+    if (static_cast<int>(profiles.size()) > static_cast<size_t>(limit)) {
         profiles.resize(limit);
     }
     

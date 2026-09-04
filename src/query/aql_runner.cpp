@@ -1111,7 +1111,7 @@ Result<nlohmann::json> executeAqlWithLimits(
         // Enforce max_memory_bytes limit using serialised JSON size as a proxy.
         if (limits.max_memory_bytes > 0) {
             const std::string serialised = rows_ptr->dump();
-            if (serialised.size() > limits.max_memory_bytes) {
+            if (static_cast<int>(serialised.size()) > limits.max_memory_bytes) {
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                     "result memory estimate " + std::to_string(serialised.size()) +

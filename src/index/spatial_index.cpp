@@ -305,7 +305,7 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
 
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view v) {
-            if (k.size() <= pk_strip) {
+            if (static_cast<int>(k.size()) <= pk_strip) {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: malformed per-PK key "
                             "for table='{}' (len={})", table_str, k.size());
                 return true;
@@ -974,7 +974,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
-        if (rtree.size() > 0) {
+        if (static_cast<int>(rtree.size()) > 0) {
             rtree_populated = true;
             candidate_keys = rtree.intersects(query_bbox);
             const auto& cache = mbr_cache_[table_str];
@@ -1199,7 +1199,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
-        if (rtree.size() > 0) {
+        if (static_cast<int>(rtree.size()) > 0) {
             rtree_populated = true;
             candidate_keys = rtree.contains(x, y);
             const auto& cache = mbr_cache_[table_str];
@@ -1277,7 +1277,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
         });
     
     // Limit results
-    if (results.size() > limit) {
+    if (static_cast<int>(results.size()) > limit) {
         results.resize(limit);
     }
     
@@ -1351,7 +1351,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
                   return a.distance < b.distance;
               });
 
-    if (candidates.size() > k) {
+    if (static_cast<int>(candidates.size()) > k) {
         candidates.resize(k);
     }
     return candidates;
@@ -1379,7 +1379,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
             constexpr std::size_t kMortonChars = 16;
             const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
             // Validate key length and the expected ':' separator between morton code and PK.
-            if (k.size() <= pk_strip) {
+            if (static_cast<int>(k.size()) <= pk_strip) {
               return true;
             }
             if (k[pk_prefix.size() + kMortonChars] != ':') {

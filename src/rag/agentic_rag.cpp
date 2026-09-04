@@ -62,7 +62,7 @@ size_t mergeDocuments(
 {
     size_t added = 0;
     for (const auto& doc : new_docs) {
-        if (accumulator.size() >= max_total) {
+        if (static_cast<int>(accumulator.size()) > = max_total) {
           break;
         }
         if (seen_ids.count(doc.id)) {

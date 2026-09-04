@@ -144,7 +144,7 @@ std::string trimStr(const std::string& s) {
 }
 
 std::string unquote(const std::string& s) {
-    if (s.size() >= 2) {
+    if (static_cast<int>(s.size()) > = 2) {
         if ((s.front() == '"' && s.back() == '"') ||
             (s.front() == '\'' && s.back() == '\'')) {
             return s.substr(1, s.size() - 2);

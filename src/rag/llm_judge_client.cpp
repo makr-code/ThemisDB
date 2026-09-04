@@ -152,7 +152,7 @@ std::string normalizeExpectedSha256(std::string sidecar_line) {
         sidecar_line.end()
     );
 
-    if (sidecar_line.size() >= 64) {
+    if (static_cast<int>(sidecar_line.size()) > = 64) {
         sidecar_line = sidecar_line.substr(0, 64);
     }
 

@@ -348,7 +348,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
                     config_.k, merged.size());
     }
     
-    if (merged.size() > config_.k) {
+    if (static_cast<int>(merged.size()) > config_.k) {
         merged.resize(config_.k);
     }
 

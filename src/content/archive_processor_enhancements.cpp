@@ -180,7 +180,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(
     }
     
     // Magic byte detection
-    if (blob.size() >= 6) {
+    if (static_cast<int>(blob.size()) > = 6) {
         // Check ZIP (0x504B0304 = "PK\x03\x04")
         if (blob[0] == 0x50 && blob[1] == 0x4B && blob[2] == 0x03 && blob[3] == 0x04) {
             THEMIS_INFO("ArchiveProcessor: Detected ZIP format from magic bytes");
@@ -196,7 +196,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(
         }
     }
     
-    if (blob.size() >= 2) {
+    if (static_cast<int>(blob.size()) > = 2) {
         // Check GZIP (0x1F8B)
         if (blob[0] == 0x1F && blob[1] == 0x8B) {
             THEMIS_INFO("ArchiveProcessor: Detected GZIP format from magic bytes");
@@ -205,7 +205,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(
     }
     
     // TAR format detection (check for ustar signature at offset 257)
-    if (blob.size() >= 265) {
+    if (static_cast<int>(blob.size()) > = 265) {
         if (blob.substr(257, 5) == "ustar") {
             // Determine TAR variant by checking compression
             if (blob[0] == 0x1F && blob[1] == 0x8B) {

@@ -75,7 +75,7 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     }
     
     std::vector<llama_token> tokens_buffer(text.size() + 16);
-    if (tokens_buffer.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+    if (static_cast<int>(tokens_buffer.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
         spdlog::error("Token buffer too large for llama_tokenize");
         return std::vector<float>();
     }
@@ -93,7 +93,7 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     
     if (n_tokens < 0) {
         tokens_buffer.resize(-n_tokens);
-        if (tokens_buffer.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+        if (static_cast<int>(tokens_buffer.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
             spdlog::error("Retried token buffer too large for llama_tokenize");
             return std::vector<float>();
         }
@@ -360,7 +360,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
     // Convert to llama_token
     std::vector<llama_token> llama_tokens(tokens.begin(), tokens.end());
 
-    if (llama_tokens.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+    if (static_cast<int>(llama_tokens.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
         spdlog::error("Token sequence too large for llama_batch_init");
         return std::vector<float>();
     }
@@ -409,7 +409,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
 }
 
 void EmbeddingProvider::evictCacheIfNeeded() {
-    if (cache_.size() <= config_.max_cache_entries) {
+    if (static_cast<int>(cache_.size()) <= config_.max_cache_entries) {
         return;
     }
     

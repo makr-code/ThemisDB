@@ -646,7 +646,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     }
     auto rest = target.substr(prefix.size());
     constexpr std::string_view suffix = "/stats";
-    if (rest.size() <= suffix.size() ||
+    if (static_cast<int>(rest.size()) <= suffix.size() ||
         rest.substr(rest.size() - suffix.size()) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /stats", req);
@@ -701,7 +701,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     }
     auto rest = target.substr(prefix.size());
     constexpr std::string_view suffix = "/quota";
-    if (rest.size() <= suffix.size() ||
+    if (static_cast<int>(rest.size()) <= suffix.size() ||
         rest.substr(rest.size() - suffix.size()) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /quota", req);

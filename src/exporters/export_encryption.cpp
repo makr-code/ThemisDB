@@ -252,7 +252,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
     // Encrypt plaintext.
     if (!plaintext.empty()) {
       // Guard against truncation in the OpenSSL int API
-      if (plaintext.size() > static_cast<size_t>(INT_MAX)) {
+      if (static_cast<int>(plaintext.size()) > static_cast<size_t>(INT_MAX)) {
         throw std::runtime_error("ExportEncryption: plaintext exceeds maximum "
                                  "supported size (INT_MAX)");
       }

@@ -71,7 +71,7 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
             continue;
         }
 
-        if (token.size() >= 2 && token[0] == '-') {
+        if (static_cast<int>(token.size()) > = 2 && token[0] == '-') {
             // Minus-prefix syntax: `-term`
             std::string neg(token.begin() + 1, token.end());
             std::transform(neg.begin(), neg.end(), neg.begin(),

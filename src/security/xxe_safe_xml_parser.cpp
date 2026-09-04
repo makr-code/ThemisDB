@@ -44,7 +44,7 @@ XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
         return result;
     }
 
-    if (xml_content.size() > kMaxXmlBlobSize) {
+    if (static_cast<int>(xml_content.size()) > kMaxXmlBlobSize) {
         result.error_message = "XML content exceeds maximum size";
         THEMIS_ERROR("XXE-safe parser: oversized XML ({} bytes) from {}", xml_content.size(), source_hint);
         return result;

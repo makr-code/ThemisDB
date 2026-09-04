@@ -364,7 +364,7 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
     MediaExtractionData data;
 
     // Analyze blob header to detect format
-    if (blob.size() >= 12) {
+    if (static_cast<int>(blob.size()) > = 12) {
         // MP4/MOV detection (ftyp box)
         if (blob[4] == 'f' && blob[5] == 't' && blob[6] == 'y' && blob[7] == 'p') {
             data.container_format = "mp4";

@@ -87,7 +87,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             "key_id must not be empty"
         ));
     }
-    if (key_id.size() > config_.max_key_id_length) {
+    if (static_cast<int>(key_id.size()) > config_.max_key_id_length) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
             "Authentication failed",
@@ -101,7 +101,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             "secret must not be empty"
         ));
     }
-    if (secret.size() > config_.max_secret_length) {
+    if (static_cast<int>(secret.size()) > config_.max_secret_length) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
             "Authentication failed",

@@ -266,7 +266,7 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
         for (int32_t idx : ranked_indices) {
             if (std::find(selected.begin(), selected.end(), idx) == selected.end()) {
                 selected.push_back(idx);
-                if (selected.size() >= static_cast<size_t>(config_.min_preserved_turns)) {
+                if (static_cast<int>(selected.size()) > = static_cast<size_t>(config_.min_preserved_turns)) {
                     break;
                 }
             }

@@ -76,7 +76,7 @@ std::string buildFallbackCompletion(const std::string& prompt, int max_tokens) {
 
     if (max_tokens > 0) {
         const std::size_t max_chars = static_cast<std::size_t>(max_tokens) * 4;
-        if (response.size() > max_chars) {
+        if (static_cast<int>(response.size()) > max_chars) {
             response.resize(max_chars);
         }
     }

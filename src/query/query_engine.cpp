@@ -992,7 +992,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	constexpr size_t BATCH_SIZE = 50;
 	constexpr size_t kMaxResultSetSize = 1'000'000;
 
-	if (keys.size() > kMaxResultSetSize) {
+	if (static_cast<int>(keys.size()) > kMaxResultSetSize) {
 		THEMIS_WARN("executeAndEntities: result set truncated from {} to {} entries", keys.size(), kMaxResultSetSize);
 		keys.resize(kMaxResultSetSize);
 	}
@@ -1294,7 +1294,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 	constexpr size_t BATCH_SIZE = 50;
 	constexpr size_t kMaxResultSetSize = 1'000'000;
 
-	if (keys.size() > kMaxResultSetSize) {
+	if (static_cast<int>(keys.size()) > kMaxResultSetSize) {
 		THEMIS_WARN("executeOrEntitiesWithFallback: result set truncated from {} to {} entries", keys.size(), kMaxResultSetSize);
 		keys.resize(kMaxResultSetSize);
 	}
@@ -2387,19 +2387,19 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			if (!c.is_array() || c.size()<2) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid Point");
 			}
-			wkt<<"POINT("<<c[0].get<double>()<<" "<<c[1].get<double>(); if (c.size()>=3) wkt<<" "<<c[2].get<double>(); wkt<<")";
+			wkt<<"POINT("<<c[0].get<double>()<<" "<<c[1].get<double>(); if (static_cast<int>(c.size()) > =3) wkt<<" "<<c[2].get<double>(); wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		} else if (t=="LineString") {
 			if (!c.is_array()||c.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid LineString");
 			}
-			wkt<<"LINESTRING("; for (size_t i=0;i<c.size();++i){ if(i>0) wkt<<","; const auto& pt=c[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (pt.size()>=3) wkt<<" "<<pt[2].get<double>(); } wkt<<")";
+			wkt<<"LINESTRING("; for (size_t i=0;i<c.size();++i){ if(i>0) wkt<<","; const auto& pt=c[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) > =3) wkt<<" "<<pt[2].get<double>(); } wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		} else if (t=="Polygon") {
 			if (!c.is_array()||c.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid Polygon");
 			}
-			wkt<<"POLYGON("; for (size_t r=0;r<c.size();++r){ if(r>0) wkt<<","; wkt<<"("; const auto& ring=c[r]; for(size_t i=0;i<ring.size();++i){ if(i>0) wkt<<","; const auto& pt=ring[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (pt.size()>=3) wkt<<" "<<pt[2].get<double>(); } wkt<<")"; } wkt<<")";
+			wkt<<"POLYGON("; for (size_t r=0;r<c.size();++r){ if(r>0) wkt<<","; wkt<<"("; const auto& ring=c[r]; for(size_t i=0;i<ring.size();++i){ if(i>0) wkt<<","; const auto& pt=ring[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) > =3) wkt<<" "<<pt[2].get<double>(); } wkt<<")"; } wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		}
 		return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -2423,7 +2423,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto g2 = *g2Res;
 		auto extract = [](const nlohmann::json& g) -> Result<std::tuple<double,double,double>> {
 			if (g.is_object() && g.contains("type") && g["type"]=="Point" && g.contains("coordinates") && g["coordinates"].is_array()) {
-				const auto& a=g["coordinates"]; if (a.size()>=2) { double x=a[0].get<double>(), y=a[1].get<double>(); double z = a.size()>=3 ? a[2].get<double>() : 0.0; return Ok(std::tuple<double,double,double>(x,y,z)); }
+				const auto& a=g["coordinates"]; if (static_cast<int>(a.size()) > =2) { double x=a[0].get<double>(), y=a[1].get<double>(); double z = a.size()>=3 ? a[2].get<double>() : 0.0; return Ok(std::tuple<double,double,double>(x,y,z)); }
 			}
 			return Err<std::tuple<double,double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_3DDistance: Expected Point");
 		};
@@ -3205,7 +3205,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		for (auto& k : scan) {
 			if (!candSet.empty() && candSet.find(k) == candSet.end()) continue; // filter
 			ordered.emplace_back(std::move(k));
-			if (ordered.size() >= ob.limit) {
+			if (static_cast<int>(ordered.size()) > = ob.limit) {
 			  break;
 			}
 		}
@@ -4478,7 +4478,7 @@ QueryEngine::executeGeneralTraversal(
 			results.emplace_back(std::move(result));
 			
 			// Check result size limit to prevent memory exhaustion
-			if (results.size() >= MAX_RESULTS) {
+			if (static_cast<int>(results.size()) > = MAX_RESULTS) {
 				span.setAttribute("query.result_limit_reached", true);
 				span.setStatus(true);
 				return Ok(std::move(results));
@@ -5072,7 +5072,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				}
 				return a.vector_distance < b.vector_distance;
 			});
-			if (results.size() > q.k) {
+			if (static_cast<int>(results.size()) > q.k) {
 			  results.resize(q.k);
 			}
 			child0.setAttribute("vector_first_after_spatial", static_cast<int64_t>(results.size()));
@@ -5454,7 +5454,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			return a.bm25_score > b.bm25_score;
 		});
 	}
-	if (results.size() > q.limit) {
+	if (static_cast<int>(results.size()) > q.limit) {
 	  results.resize(q.limit);
 	}
 	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return Ok(std::move(results));

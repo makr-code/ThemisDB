@@ -90,7 +90,7 @@ ValueAddress ValueLog::append(const std::string& value) {
     // Bound check: prevent values that cannot be represented in uint32 ValueAddress::size.
     // The maximum safe value is UINT32_MAX (4GiB - 1); exactly 4GiB would truncate to 0.
     constexpr uint64_t MAX_SINGLE_VALUE = static_cast<uint64_t>(std::numeric_limits<uint32_t>::max());
-    if (value.size() > MAX_SINGLE_VALUE) {
+    if (static_cast<int>(value.size()) > MAX_SINGLE_VALUE) {
         throw std::runtime_error("WiscKey: Value size exceeds maximum (UINT32_MAX bytes)");
     }
     
@@ -253,7 +253,7 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
     }
     
     static_cast<void>(key);
-    if (value.size() >= VALUE_SEPARATION_THRESHOLD) {
+    if (static_cast<int>(value.size()) > = VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
         ValueAddress addr = value_log_->append(value);
         separated_values_.fetch_add(1, std::memory_order_relaxed);

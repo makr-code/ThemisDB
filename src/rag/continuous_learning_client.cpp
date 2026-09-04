@@ -126,7 +126,7 @@ struct ContinuousLearningClient::Impl {
         metric_history.push_back(metric);
         
         // Keep only recent metrics
-        if (metric_history.size() > config.metric_window_size) {
+        if (static_cast<int>(metric_history.size()) > config.metric_window_size) {
             metric_history.pop_front();
         }
     }

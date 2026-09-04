@@ -179,7 +179,7 @@ static std::string sanitizeUserContent(const std::string &content,
         }
     }
 
-    if (content.size() > kMaxContentBytes) {
+    if (static_cast<int>(content.size()) > kMaxContentBytes) {
         spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
                      "content truncated from {} to {} bytes (flood/token-exhaustion guard)",
                      content.size(), kMaxContentBytes);
@@ -198,7 +198,7 @@ std::string sanitizeApiKey(const std::string &api_key) {
         return "<not set>";
     }
     constexpr size_t kVisible = 4;
-    if (api_key.size() <= kVisible * 2) {
+    if (static_cast<int>(api_key.size()) <= kVisible * 2) {
         return std::string(api_key.size(), '*');
     }
     return api_key.substr(0, kVisible) + "***...***" + api_key.substr(api_key.size() - kVisible);
@@ -289,7 +289,7 @@ struct LLMProcessAnalyzer::Impl {
         // Evict LRU tail if over capacity — O(1)
         const size_t max_entries
             = (config.max_cache_entries > 0) ? static_cast<size_t>(config.max_cache_entries) : 1000u;
-        if (lru_map.size() > max_entries) {
+        if (static_cast<int>(lru_map.size()) > max_entries) {
             const std::string &lru_key = lru_list.back();
             lru_map.erase(lru_key);
             lru_list.pop_back();

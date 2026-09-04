@@ -307,7 +307,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
 
     // TASK 2.5: Enforce max frame size
     // CRITICAL GAP 9: Oversized individual frame rejection
-    if (audio_chunk.size() > impl_->config.max_frame_bytes) {
+    if (static_cast<int>(audio_chunk.size()) > impl_->config.max_frame_bytes) {
         std::string msg = "VoiceStreamingSession: frame too large (oversized rejection: " +
                           std::to_string(audio_chunk.size()) + " > " +
                           std::to_string(impl_->config.max_frame_bytes) + " bytes) - error 6900";
@@ -533,7 +533,7 @@ VoiceStreamingManager::VoiceStreamingManager([[maybe_unused]] size_t max_concurr
 StreamID
 VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    if (sessions_.size() >= max_sessions_) {
+    if (static_cast<int>(sessions_.size()) > = max_sessions_) {
         THEMIS_WARN("VoiceStreamingManager: max concurrent sessions ({}) reached",
                     max_sessions_);
         return {};

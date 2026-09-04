@@ -187,7 +187,7 @@ bool ResultAccumulator::addResultWithSize(
 
     // Check if shard has too many batches
     auto& shard_batches = shard_batches_[shard_id];
-    if (shard_batches.size() >= policy_.max_batches_per_shard_) {
+    if (static_cast<int>(shard_batches.size()) > = policy_.max_batches_per_shard_) {
         spdlog::warn(
             "Shard {} has exceeded max batches: {}",
             shard_id,

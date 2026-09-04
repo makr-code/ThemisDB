@@ -1011,7 +1011,7 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
         if (indent == 6 && state == State::IN_DOMAIN_LIST &&
                 !current_domain.empty()) {
             // List item: - "keyword"
-            if (content.size() > 2 && content.substr(0, 2) == "- ") {
+            if (static_cast<int>(content.size()) > 2 && content.substr(0, 2) == "- ") {
                 std::string kw = stripQuotes(trimLeft(content.substr(2)));
                 cfg.domain_keywords[current_domain].push_back(kw);
             }

@@ -2347,7 +2347,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 	uint64_t steps = 0;
 	if (!reversed) {
 		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, std::string_view /*value*/){
-            if (result.size() >= limit) {
+            if (static_cast<int>(result.size()) > = limit) {
               return false;
             }
             size_t lastColon = key.rfind(':');
@@ -2368,7 +2368,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
             return true;
         });
         std::reverse(tmp.begin(), tmp.end());
-        if (tmp.size() > limit) {
+        if (static_cast<int>(tmp.size()) > limit) {
           tmp.resize(limit);
         }
         result = std::move(tmp);
@@ -2431,7 +2431,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				for (const auto& pk : sameValuePks) {
 					if (pk > anchorPk) {
 						out.emplace_back(pk);
-						if (out.size() >= limit) return {Status::OK(), std::move(out)};
+						if (static_cast<int>(out.size()) > = limit) return {Status::OK(), std::move(out)};
 					}
 				}
 			} else {
@@ -2440,7 +2440,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				for (auto it = sameValuePks.rbegin(); it != sameValuePks.rend(); ++it) {
 					if (*it < anchorPk) {
 						out.emplace_back(*it);
-						if (out.size() >= limit) return {Status::OK(), std::move(out)};
+						if (static_cast<int>(out.size()) > = limit) return {Status::OK(), std::move(out)};
 					}
 				}
 			}
@@ -2482,7 +2482,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			// Anhängen
 			for (const auto& pk : more) {
 				out.emplace_back(pk);
-				if (out.size() >= limit) {
+				if (static_cast<int>(out.size()) > = limit) {
 				  break;
 				}
 			}
@@ -3112,7 +3112,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 			}
 		}
 		
-		if (results.size() >= limit) {
+		if (static_cast<int>(results.size()) > = limit) {
 			break;
 		}
 	}
@@ -3237,7 +3237,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	});
 	
 	// Return top-k results
-	if (results.size() > limit) {
+	if (static_cast<int>(results.size()) > limit) {
 		results.resize(limit);
 	}
 	

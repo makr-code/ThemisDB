@@ -189,7 +189,7 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
                   return a.score > b.score;
               });
 
-    if (merged.size() > config_.k) {
+    if (static_cast<int>(merged.size()) > config_.k) {
         merged.resize(config_.k);
     }
     return merged;

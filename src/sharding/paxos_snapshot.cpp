@@ -425,7 +425,7 @@ void PaxosSnapshotManager::cleanupOldSnapshots([[maybe_unused]] size_t keep_coun
     try {
         auto snapshots = listSnapshots();
         
-        if (snapshots.size() <= keep_count) {
+        if (static_cast<int>(snapshots.size()) <= keep_count) {
             return;  // Nothing to cleanup
         }
         

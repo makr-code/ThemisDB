@@ -186,7 +186,7 @@ bool SQLiteImporter::validateSource(const std::string& source_path,
      
     while (std::getline(file, line) && lines_checked < 50) {
         // Truncate overly long header lines
-        if (line.size() > kMaxHeaderLineLength) {
+        if (static_cast<int>(line.size()) > kMaxHeaderLineLength) {
             THEMIS_WARN("SQLite header line {} exceeds max length ({}); truncating",
                        lines_checked, kMaxHeaderLineLength);
             line.resize(kMaxHeaderLineLength);
@@ -376,7 +376,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
         ++lines_processed;
          
         // Truncate overly long lines
-        if (line.size() > kMaxLineLength) {
+        if (static_cast<int>(line.size()) > kMaxLineLength) {
             THEMIS_WARN("SQLite schema line {} exceeds max length ({}); truncating",
                        lines_processed, kMaxLineLength);
             line.resize(kMaxLineLength);
@@ -479,7 +479,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
          
         while (std::getline(file, hdr_line) && hdr_lines < 50) {
             // Truncate overly long header lines
-            if (hdr_line.size() > kMaxHeaderLineLength) {
+            if (static_cast<int>(hdr_line.size()) > kMaxHeaderLineLength) {
                 THEMIS_WARN("SQLite import header line {} exceeds max length ({}); truncating",
                            hdr_lines, kMaxHeaderLineLength);
                 hdr_line.resize(kMaxHeaderLineLength);

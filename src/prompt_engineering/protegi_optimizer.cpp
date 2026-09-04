@@ -234,7 +234,7 @@ ProTeGiResult ProTeGiOptimizer::optimize(
         }
 
         // Trim to effective_beam_width
-        if (scored.size() > effective_beam_width) {
+        if (static_cast<int>(scored.size()) > effective_beam_width) {
             scored.resize(effective_beam_width);
         }
 

@@ -1906,7 +1906,7 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
         // This overlaps memory access with callback computation for better pipelining
         if (config_.enable_cpu_prefetch) {
             performance::prefetch(key.data(), performance::PrefetchHint::T0);
-            if (value.size() > 0) {
+            if (static_cast<int>(value.size()) > 0) {
                 // Prefetch value data (up to 256 bytes to avoid excessive bandwidth)
                 performance::prefetch_range(value.data(), 
                                            std::min<size_t>(value.size(), 256),
@@ -1970,7 +1970,7 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
         // Prefetch current entry data into cache for better locality
         if (config_.enable_cpu_prefetch) {
             performance::prefetch(key.data(), performance::PrefetchHint::T0);
-            if (value.size() > 0) {
+            if (static_cast<int>(value.size()) > 0) {
                 // Prefetch value data (limit to avoid excessive bandwidth usage)
                 performance::prefetch_range(value.data(),
                                            std::min<size_t>(value.size(), 256),

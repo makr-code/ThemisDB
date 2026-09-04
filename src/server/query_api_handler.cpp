@@ -789,7 +789,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
         if (*parse_result && (*parse_result)->traversal == nullptr) {
             const auto& for_nodes = (*parse_result)->for_nodes;
-            if (for_nodes.size() >= 2) {
+            if (static_cast<int>(for_nodes.size()) > = 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
             const auto& f1_ref = for_nodes.front();
@@ -1783,7 +1783,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
                     if ((*parse_result) && (*parse_result)->traversal == nullptr) {
                         const auto& for_nodes = (*parse_result)->for_nodes;
-                        if (for_nodes.size() >= 2) {
+                        if (static_cast<int>(for_nodes.size()) > = 2) {
                         auto joinSpan = Tracer::startSpan("aql.join");
                         // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
                         const auto& f1 = for_nodes.front();
@@ -2209,12 +2209,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
                 }
                 // Frontier-Size Limit Check (Soft Limit)
-                if (qnodes.size() > max_frontier_size) {
+                if (static_cast<int>(qnodes.size()) > max_frontier_size) {
                     frontierLimitHits++;
                     // Optional: Abbruch oder nur Warnung
                     // break;  // hart abbrechen (sp�ter konfigurierbar)
                 }
-                if (qnodes.size() > maxFrontierSizeReached) {
+                if (static_cast<int>(qnodes.size()) > maxFrontierSizeReached) {
                     maxFrontierSizeReached = qnodes.size();
                 }
                 
@@ -3683,7 +3683,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             }
 
             bool has_more = false;
-            if (sliced.size() > requested_count) {
+            if (static_cast<int>(sliced.size()) > requested_count) {
                 has_more = true;
                 // Trenne das +1 Element ab (nur für has_more Erkennung)
                 sliced.resize(requested_count);

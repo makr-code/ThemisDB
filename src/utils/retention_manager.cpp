@@ -349,7 +349,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
 void RetentionManager::logAction(const RetentionAction& action) {
     // Add to history (keep last 10000 actions)
     action_history_.push_back(action);
-    if (action_history_.size() > 10000) {
+    if (static_cast<int>(action_history_.size()) > 10000) {
         action_history_.erase(action_history_.begin());
     }
     

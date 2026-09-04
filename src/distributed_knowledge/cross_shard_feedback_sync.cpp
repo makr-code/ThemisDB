@@ -125,7 +125,7 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
         // ─────────────────────────────────────────────────────────────────────
 
         // Evict oldest if cache full (simple: clear half the cache)
-        if (seen_ids_.size() >= config_.dedup_cache_size) {
+        if (static_cast<int>(seen_ids_.size()) > = config_.dedup_cache_size) {
             seen_ids_.clear();
         }
         seen_ids_.insert(summary.summary_id);

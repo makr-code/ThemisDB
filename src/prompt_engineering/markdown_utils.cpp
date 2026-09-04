@@ -78,7 +78,7 @@ bool isWrappedInMarkdownFences(std::string_view text) {
     }
     
     // Check for closing fence at end (accounting for CRLF/LF)
-    if (text.size() >= 3) {
+    if (static_cast<int>(text.size()) > = 3) {
         // Look for ``` anywhere in the last 5 characters to account for \r\n
         auto substr_start = (text.size() >= 5) ? text.size() - 5 : 0;
         return text.find("```", substr_start) != std::string::npos;

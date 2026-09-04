@@ -433,7 +433,7 @@ void WebSocketSession::sendOnExecutor(std::string message) {
         // Back-pressure: close with code 1011 (Internal Error) when the outbound
         // queue is saturated to avoid unbounded memory growth.
         constexpr size_t kMaxQueueSize = 1000;
-        if (write_queue_.size() >= kMaxQueueSize) {
+        if (static_cast<int>(write_queue_.size()) > = kMaxQueueSize) {
             THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
                         session_id_, write_queue_.size());
             active_.store(false, std::memory_order_release);
@@ -463,7 +463,7 @@ void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
         std::lock_guard<std::mutex> lock(write_mutex_);
         
         // Back-pressure: same limit as send()
-        if (write_queue_.size() >= kMaxQueueDepth) {
+        if (static_cast<int>(write_queue_.size()) > = kMaxQueueDepth) {
             THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
                         session_id_, write_queue_.size(), kMaxQueueDepth);
             active_.store(false, std::memory_order_release);

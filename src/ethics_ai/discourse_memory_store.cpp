@@ -30,7 +30,7 @@ int DiscourseMemoryStore::countTokens(const std::string &text) noexcept {
 
 std::string DiscourseMemoryStore::compressPosition(const std::string &position_abstract, int max_tokens) noexcept {
     const std::size_t max_chars = static_cast<std::size_t>(max_tokens) * 4u;
-    if (position_abstract.size() <= max_chars) {
+    if (static_cast<int>(position_abstract.size()) <= max_chars) {
         return position_abstract;
     }
     return position_abstract.substr(0, max_chars) + "...";

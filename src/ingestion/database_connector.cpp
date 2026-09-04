@@ -60,7 +60,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
 
     // Must start with "jdbc:"
     const std::string prefix = "jdbc:";
-    if (url.size() <= prefix.size() ||
+    if (static_cast<int>(url.size()) <= prefix.size() ||
         url.substr(0, prefix.size()) != prefix) {
         return result;
     }
@@ -84,7 +84,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     // SQLite uses a file path, not a host/port
     if (result.subprotocol == "sqlite") {
         // jdbc:sqlite:/path/to/file.db  → database = /path/to/file.db
-        if (after_sub.size() >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
+        if (static_cast<int>(after_sub.size()) > = 2 && after_sub[0] == '/' && after_sub[1] == '/') {
             after_sub = after_sub.substr(2);
         }
         result.database = after_sub;
@@ -92,7 +92,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     }
 
     // Strip leading "//"
-    if (after_sub.size() >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
+    if (static_cast<int>(after_sub.size()) > = 2 && after_sub[0] == '/' && after_sub[1] == '/') {
         after_sub = after_sub.substr(2);
     }
 

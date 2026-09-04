@@ -34,13 +34,13 @@ std::unordered_set<std::string> tokenSet(const std::string& text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
         } else {
-            if (cur.size() >= 2) {
+            if (static_cast<int>(cur.size()) > = 2) {
                 tokens.insert(cur);
             }
             cur.clear();
         }
     }
-    if (cur.size() >= 2) {
+    if (static_cast<int>(cur.size()) > = 2) {
         tokens.insert(cur);
     }
     return tokens;
@@ -119,7 +119,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
 
             if (nextIsUpper || nextIsEnd || atEnd) {
                 trim(current);
-                if (current.size() >= cfg.min_sentence_length) {
+                if (static_cast<int>(current.size()) > = cfg.min_sentence_length) {
                     sentences.push_back(current);
                 }
                 current.clear();
@@ -130,7 +130,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
 
     // Flush any remainder (last sentence without a trailing delimiter)
     trim(current);
-    if (current.size() >= cfg.min_sentence_length) {
+    if (static_cast<int>(current.size()) > = cfg.min_sentence_length) {
         sentences.push_back(current);
     }
 

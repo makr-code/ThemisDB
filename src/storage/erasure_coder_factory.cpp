@@ -141,7 +141,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error(
             "Too many missing chunks: " + std::to_string(missing_indices.size()) +
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
@@ -457,7 +457,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error(
             "Too many missing chunks: " + std::to_string(missing_indices.size()) +
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"

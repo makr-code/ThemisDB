@@ -170,7 +170,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
             THEMIS_WARN("GraphQLWsHandler: duplicate subscription id '{}'", id);
             return {buildError(id, "Subscriber for " + id + " already exists")};
         }
-        if (subscriptions_.size() >= limits_.max_subscriptions) {
+        if (static_cast<int>(subscriptions_.size()) > = limits_.max_subscriptions) {
             THEMIS_WARN("GraphQLWsHandler: max_subscriptions ({}) reached for id '{}'",
                         limits_.max_subscriptions, id);
             return {buildError(id, "Maximum concurrent subscriptions exceeded")};

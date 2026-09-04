@@ -131,7 +131,7 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
     }
     
     // Check global tenant limit
-    if (tenants_.size() >= config_.global_max_tenants) {
+    if (static_cast<int>(tenants_.size()) > = config_.global_max_tenants) {
         THEMIS_WARN("TenantManager: Global tenant limit ({}) reached", config_.global_max_tenants);
         return CreateResult::QuotaExceeded;
     }

@@ -264,7 +264,7 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     }
 
     std::string result = out.str();
-    if (result.size() > kMaxGrammarBytes) {
+    if (static_cast<int>(result.size()) > kMaxGrammarBytes) {
             spdlog::warn("JsonSchemaConverter::schemaToEbnf: generated grammar exceeds {} bytes, rejecting",
                          kMaxGrammarBytes);
             return "value ::= .*\\n";
@@ -332,7 +332,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
     }
 
     std::string result = out.str();
-    if (result.size() > kMaxGrammarBytes) {
+    if (static_cast<int>(result.size()) > kMaxGrammarBytes) {
         spdlog::warn("JsonSchemaConverter::toolsToEbnf: generated grammar exceeds {} bytes, rejecting",
                      kMaxGrammarBytes);
         return "";

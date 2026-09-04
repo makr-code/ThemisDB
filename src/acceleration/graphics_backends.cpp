@@ -4140,7 +4140,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                       break;
                     }
                     // Guard against cycles in predecessor array
-                    if (path.size() > numVertices) { path.clear(); break; }
+                    if (static_cast<int>(path.size()) > numVertices) { path.clear(); break; }
                 }
                 if (!path.empty()) {
                     std::reverse(path.begin(), path.end());
@@ -4186,7 +4186,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
             if (static_cast<uint32_t>(cur) == sv) {
               break;
             }
-            if (path.size() > numVertices) { path.clear(); break; }
+            if (static_cast<int>(path.size()) > numVertices) { path.clear(); break; }
         }
         if (!path.empty()) {
             std::reverse(path.begin(), path.end());

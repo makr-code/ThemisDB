@@ -177,7 +177,7 @@ Result<void> MaterializedView::refresh(bool incremental,
                      def_.name, rows_.size());
     } else {
         // Full refresh: replace snapshot with the supplied rows.
-        if (new_rows.size() > config_.max_rows) {
+        if (static_cast<int>(new_rows.size()) > config_.max_rows) {
             return ErrVoid(
                 errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                 "new_rows count " + std::to_string(new_rows.size()) +
@@ -354,7 +354,7 @@ void MaterializedView::applyAggregateDelta(DeltaOp           op,
 // ============================================================================
 
 void MaterializedView::applyInsert_locked(const nlohmann::json& row) {
-    if (rows_.size() >= config_.max_rows) {
+    if (static_cast<int>(rows_.size()) > = config_.max_rows) {
         THEMIS_WARN("MaterializedView '{}': max_rows={} reached, "
                     "skipping INSERT delta",
                     def_.name, config_.max_rows);

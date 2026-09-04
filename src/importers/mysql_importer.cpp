@@ -180,7 +180,7 @@ static bool simpleInsertFallback(const std::string& sql, std::string& out_table_
     if (start < pos) {
         out_table_name = sql.substr(start, pos - start);
         // Remove backticks if present
-        if (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
+        if (static_cast<int>(out_table_name.size()) > = 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
             out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
         }
         return true;
@@ -495,7 +495,7 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
           continue;
         }
         // Skip MySQL conditional comments (/*!...*/)
-        if (line.size() >= 2 && line[0] == '/' && line[1] == '*') {
+        if (static_cast<int>(line.size()) > = 2 && line[0] == '/' && line[1] == '*') {
           continue;
         }
 
@@ -1486,10 +1486,10 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     const std::string mysql_prefix   = "jdbc:mysql://";
     const std::string mariadb_prefix = "jdbc:mariadb://";
     size_t authority_start = 0;
-    if (url.size() > mysql_prefix.size() &&
+    if (static_cast<int>(url.size()) > mysql_prefix.size() &&
         url.substr(0, mysql_prefix.size()) == mysql_prefix) {
         authority_start = mysql_prefix.size();
-    } else if (url.size() > mariadb_prefix.size() &&
+    } else if (static_cast<int>(url.size()) > mariadb_prefix.size() &&
                url.substr(0, mariadb_prefix.size()) == mariadb_prefix) {
         authority_start = mariadb_prefix.size();
     } else {
@@ -1572,10 +1572,10 @@ std::string MySQLImporter::unquoteIdentifier(const std::string& s) {
         }
         t = t.substr(f, l - f + 1);
     }
-    if (t.size() >= 2 && t.front() == '`' && t.back() == '`') {
+    if (static_cast<int>(t.size()) > = 2 && t.front() == '`' && t.back() == '`') {
         return t.substr(1, t.size() - 2);
     }
-    if (t.size() >= 2 && t.front() == '"' && t.back() == '"') {
+    if (static_cast<int>(t.size()) > = 2 && t.front() == '"' && t.back() == '"') {
         return t.substr(1, t.size() - 2);
     }
     return t;

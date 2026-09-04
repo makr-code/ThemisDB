@@ -1533,7 +1533,7 @@ bool isSafeEntryPath(const std::filesystem::path& tempDir,
     auto tempStr     = tempDir.string();
     auto resolvedStr = resolvedPath.string();
     // Require the resolved path to be strictly longer (at least one component).
-    if (resolvedStr.size() <= tempStr.size()) {
+    if (static_cast<int>(resolvedStr.size()) <= tempStr.size()) {
       return false;
     }
     // Require the temp dir to be a proper prefix followed by a separator.
@@ -1786,7 +1786,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
         // A path of the form "C:filename" is a relative path on Windows and is
         // also blocked conservatively: any entry starting with "<letter>:" is
         // rejected regardless of whether a separator follows.
-        if (nameStr.size() >= 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
+        if (static_cast<int>(nameStr.size()) > = 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
             nameStr[1] == ':') {
             zip_close(archive);
             error = "Bundle contains drive-letter entry '" + nameStr + "' (ZipSlip rejected)";

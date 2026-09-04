@@ -98,13 +98,13 @@ std::string FederatedIdentityManager::normalize(const std::string &url) {
 std::string FederatedIdentityManager::extractIssuer(const std::string &raw_token) {
     // Strip optional "Bearer " prefix
     std::string token = raw_token;
-    if (token.size() > 7 && (token.substr(0, 7) == "Bearer " || token.substr(0, 7) == "bearer ")) {
+    if (static_cast<int>(token.size()) > 7 && (token.substr(0, 7) == "Bearer " || token.substr(0, 7) == "bearer ")) {
         token = token.substr(7);
     }
 
     // Reject tokens that exceed the system-wide size limit early, before any
     // allocation – consistent with JWTValidator::parseAndValidate().
-    if (token.size() > MAX_JWT_TOKEN_SIZE) {
+    if (static_cast<int>(token.size()) > MAX_JWT_TOKEN_SIZE) {
         throw AuthException(AuthError(AuthErrorCode::JWT_INVALID_FORMAT, "Token exceeds maximum allowed size",
                                       "Token size " + std::to_string(token.size()) + " exceeds limit "
                                           + std::to_string(MAX_JWT_TOKEN_SIZE)));
@@ -325,7 +325,7 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
         const std::string cache_key = sha256Hex(token);
         std::lock_guard<std::mutex> c_lock(cache_mutex_);
         // Evict LRU entry if at capacity.
-        if (token_cache_.size() >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+        if (static_cast<int>(token_cache_.size()) > = kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
             if (!cache_lru_order_.empty()) {
                 token_cache_.erase(cache_lru_order_.back());
                 cache_lru_order_.pop_back();
@@ -438,7 +438,7 @@ void FederatedIdentityManager::cacheValidationResult(const std::string &token,
     const std::string cache_key = sha256Hex(token);
     std::lock_guard<std::mutex> lock(cache_mutex_);
     // [W8-16] Enforce LRU cap before inserting new entry.
-    if (token_cache_.size() >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+    if (static_cast<int>(token_cache_.size()) > = kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
         if (!cache_lru_order_.empty()) {
             token_cache_.erase(cache_lru_order_.back());
             cache_lru_order_.pop_back();

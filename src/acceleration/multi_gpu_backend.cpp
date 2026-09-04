@@ -282,7 +282,7 @@ class MultiGPUVectorBackend::Impl {
         // Host-side top-k merge: partial sort then trim to k
         for (size_t q = 0; q < numQueries; ++q) {
             auto &row = merged[q];
-            if (row.size() > k) {
+            if (static_cast<int>(row.size()) > k) {
                 std::partial_sort(row.begin(), row.begin() + k, row.end(),
                                   [](const std::pair<uint32_t, float> &a, const std::pair<uint32_t, float> &b) {
                                       return a.second < b.second;

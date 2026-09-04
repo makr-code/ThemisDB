@@ -55,7 +55,7 @@ void DeadlockPredictor::recordTransaction(
         auto& vec = hold_times_[key];
         vec.push_back(per_key);
         // Keep the per-key history bounded.
-        if (vec.size() > config_.max_patterns) {
+        if (static_cast<int>(vec.size()) > config_.max_patterns) {
             vec.erase(vec.begin());
         }
     }
@@ -78,7 +78,7 @@ void DeadlockPredictor::recordTransaction(
         patterns_.push_back(std::move(pat));
 
         // Evict oldest entry when the buffer is full.
-        if (patterns_.size() > config_.max_patterns) {
+        if (static_cast<int>(patterns_.size()) > config_.max_patterns) {
             patterns_.pop_front();
         }
     }
@@ -100,7 +100,7 @@ void DeadlockPredictor::recordTransaction(
 
             // Evict when the map is too large (remove the entry with the lowest
             // count to keep the most significant conflict pairs).
-            if (pair_conflicts_.size() > config_.max_conflict_pairs) {
+            if (static_cast<int>(pair_conflicts_.size()) > config_.max_conflict_pairs) {
                 auto it_min = std::min_element(
                     pair_conflicts_.begin(), pair_conflicts_.end(),
                     [](const auto& a, const auto& b) {
@@ -134,7 +134,7 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
 
             // Apply the same eviction policy as recordTransaction() to keep the
             // map bounded and prevent unbounded memory growth.
-            if (pair_conflicts_.size() > config_.max_conflict_pairs) {
+            if (static_cast<int>(pair_conflicts_.size()) > config_.max_conflict_pairs) {
                 auto it_min = std::min_element(
                     pair_conflicts_.begin(), pair_conflicts_.end(),
                     [](const auto& a, const auto& b) {

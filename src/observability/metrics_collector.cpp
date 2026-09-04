@@ -25,7 +25,7 @@ namespace observability {
 namespace {
 
 std::string sanitizeDiagnosticLabelValue(const std::string& value) {
-    if (value.size() <= kMaxLabelValueBytes) {
+    if (static_cast<int>(value.size()) <= kMaxLabelValueBytes) {
         return value;
     }
     return value.substr(0, kMaxLabelValueBytes);
@@ -494,7 +494,7 @@ std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
 
 bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& labels,
                                       std::string* failure_reason) {
-    if (labels.size() > kMaxMetricLabels) {
+    if (static_cast<int>(labels.size()) > kMaxMetricLabels) {
         if (failure_reason != nullptr) {
             *failure_reason = "label_count_exceeded";
         }
@@ -502,13 +502,13 @@ bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& 
     }
 
     for (const auto& [key, value] : labels) {
-        if (key.size() > kMaxLabelKeyBytes) {
+        if (static_cast<int>(key.size()) > kMaxLabelKeyBytes) {
             if (failure_reason != nullptr) {
                 *failure_reason = "label_key_too_long";
             }
             return false;
         }
-        if (value.size() > kMaxLabelValueBytes) {
+        if (static_cast<int>(value.size()) > kMaxLabelValueBytes) {
             if (failure_reason != nullptr) {
                 *failure_reason = "label_value_too_long";
             }
@@ -525,7 +525,7 @@ void MetricsCollector::Histogram::observe([[maybe_unused]] double value) {
     values.push_back(value);
     
     // Keep only recent samples
-    if (values.size() > max_samples) {
+    if (static_cast<int>(values.size()) > max_samples) {
         values.erase(values.begin(), values.begin() + (values.size() - max_samples));
     }
 }

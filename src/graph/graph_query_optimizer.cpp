@@ -1799,7 +1799,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // A 10-vertex cap is generous for practical subgraph queries while still
     // bounding the worst-case search space to a tractable level.
     static constexpr size_t kMaxPatternVertices = 10;
-    if (pattern_vertices.size() > kMaxPatternVertices) {
+    if (static_cast<int>(pattern_vertices.size()) > kMaxPatternVertices) {
         return Err<SubgraphIsomorphismResult>(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "SubgraphIsomorphism: pattern size " +
@@ -2640,7 +2640,7 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     execution_history_.push_back(stats);
     
     // Keep history bounded
-    if (execution_history_.size() > MAX_HISTORY_SIZE) {
+    if (static_cast<int>(execution_history_.size()) > MAX_HISTORY_SIZE) {
         execution_history_.erase(execution_history_.begin());
     }
 

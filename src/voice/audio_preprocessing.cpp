@@ -444,7 +444,7 @@ PreprocessingResult AudioPreprocessingPipeline::process(
 
     // TASK 2.2: Bounded chunk handling — reject frames > 512KB immediately
     // Error code 6700: Input size validation failed
-    if (raw_audio.size() > kMaxAudioFrameSizeBytes) {
+    if (static_cast<int>(raw_audio.size()) > kMaxAudioFrameSizeBytes) {
         res.error_message = "Audio frame exceeds maximum size (512KB) - error 6700";
         spdlog::error("AudioPreprocessingPipeline::process: input size {} bytes exceeds limit (error 6700)",
                       raw_audio.size());
@@ -627,7 +627,7 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
         return result;
     }
     
-    if (raw_audio.size() > MAX_AUDIO_SIZE_BYTES) {
+    if (static_cast<int>(raw_audio.size()) > MAX_AUDIO_SIZE_BYTES) {
         result.valid = false;
         result.error_message = "Audio payload too large (max: " + 
             std::to_string(MAX_AUDIO_SIZE_BYTES) + " bytes)";
@@ -749,7 +749,7 @@ bool AudioPreprocessingPipeline::validateFrameHeader(
     }
     
     // Check for valid RIFF header for WAV
-    if (raw_audio.size() >= 12) {
+    if (static_cast<int>(raw_audio.size()) > = 12) {
         if (raw_audio[0] == 'R' && raw_audio[1] == 'I' && 
             raw_audio[2] == 'F' && raw_audio[3] == 'F') {
             // Valid RIFF header, check size field matches payload
@@ -770,7 +770,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
     // Detect suspicious patterns that might indicate buffer overflow attempt
     
     // Pattern 1: All bytes same (likely fuzz-generated)
-    if (raw_audio.size() > 10) {
+    if (static_cast<int>(raw_audio.size()) > 10) {
         bool all_same = true;
         uint8_t first = raw_audio[0];
         for (size_t i = 1; i < std::min(raw_audio.size(), size_t(100)); ++i) {
@@ -786,7 +786,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
     }
     
     // Pattern 2: Check for obvious integer overflow attempts in size fields
-    if (raw_audio.size() >= 8) {
+    if (static_cast<int>(raw_audio.size()) > = 8) {
         uint32_t size_field = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
         if (size_field > MAX_AUDIO_SIZE_BYTES) {
             return true;

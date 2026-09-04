@@ -115,7 +115,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     }
     
     // Phase 2.4b Hardening: Check compression ratio to detect decompression bombs
-    if (compressed.size() > 0) {
+    if (static_cast<int>(compressed.size()) > 0) {
         size_t ratio = original_size / compressed.size();
         if (ratio > lz4_compression::MAX_COMPRESSION_RATIO) {
             const auto err_msg = fmt::format(

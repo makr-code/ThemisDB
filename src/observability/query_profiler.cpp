@@ -165,7 +165,7 @@ public:
         }
         
         // Keep only max_profiles_retained most recent
-        if (profiles.size() > config.max_profiles_retained) {
+        if (static_cast<int>(profiles.size()) > config.max_profiles_retained) {
             std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> times;
             for (const auto& [id, profile] : profiles) {
                 times.push_back({id, profile->start_time});
@@ -369,7 +369,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries([[mayb
                  return a->total_duration > b->total_duration;
              });
     
-    if (result.size() > limit) {
+    if (static_cast<int>(result.size()) > limit) {
         result.resize(limit);
     }
     

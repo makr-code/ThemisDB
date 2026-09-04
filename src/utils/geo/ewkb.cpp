@@ -543,7 +543,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         double x = coords.at(0).get<double>();
         double y = coords.at(1).get<double>();
         validateWGS84(x, y);
-        if (coords.size() > 2) {
+        if (static_cast<int>(coords.size()) > 2) {
             geom.type = GeometryType::PointZ;
             geom.has_z = true;
             geom.coords.emplace_back(x, y, coords.at(2).get<double>());

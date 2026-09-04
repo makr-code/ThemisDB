@@ -552,7 +552,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             // This 10k limit is for demonstration/testing to avoid excessive API usage
             size_t max_docs_limit = plugin->config_.chunk_size * 10;  // ~10 batches
             if (!result.has_more || documents.size() >= max_docs_limit) {
-                if (documents.size() >= max_docs_limit) {
+                if (static_cast<int>(documents.size()) > = max_docs_limit) {
                     THEMIS_INFO("Reached document limit of {} (configurable in future versions)", 
                         max_docs_limit);
                 }

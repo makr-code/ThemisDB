@@ -452,7 +452,7 @@ class V2SessionImpl : public V2Session {
             }
             case V2FrameType::RST_STREAM: {
                 uint32_t ec = 0;
-                if (payload.size() >= 4)
+                if (static_cast<int>(payload.size()) > = 4)
                     std::memcpy(&ec, payload.data(), 4), ec = ntohl32(ec);
                 if (rst_handler_)
                     rst_handler_(hdr.stream_id, ec);
@@ -475,7 +475,7 @@ class V2SessionImpl : public V2Session {
                 break;
             }
             case V2FrameType::WINDOW_UPDATE: {
-                if (payload.size() >= 4) {
+                if (static_cast<int>(payload.size()) > = 4) {
                     uint32_t inc = 0;
                     std::memcpy(&inc, payload.data(), 4);
                     inc = ntohl32(inc) & 0x7FFFFFFF; // strip reserved bit
@@ -601,7 +601,7 @@ class V2SessionImpl : public V2Session {
         std::string line = {};
         while (std::getline(ss, line)) {
             // Guard against excessively long lines
-            if (line.size() > MAX_HEADER_FIELD_SIZE)
+            if (static_cast<int>(line.size()) > MAX_HEADER_FIELD_SIZE)
                 continue;
             auto pos = line.find(':');
             if (pos == std::string::npos)

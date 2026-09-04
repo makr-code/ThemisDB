@@ -68,7 +68,7 @@ FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
                   return a.similarity > b.similarity;
               });
 
-    if (results.size() > k) {
+    if (static_cast<int>(results.size()) > k) {
       results.resize(k);
     }
     return results;

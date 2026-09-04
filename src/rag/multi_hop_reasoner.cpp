@@ -112,7 +112,7 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
         }
     }
     // Cap at max_hops
-    if (sub_queries.size() > config_.max_hops) {
+    if (static_cast<int>(sub_queries.size()) > config_.max_hops) {
         sub_queries.resize(config_.max_hops);
     }
     return sub_queries;
@@ -150,14 +150,14 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     }
 
     // If only one sentence, return it as-is (single hop)
-    if (sentences.size() <= 1u) {
+    if (static_cast<int>(sentences.size()) <= 1u) {
         parts.push_back(q);
         return parts;
     }
 
     for (const auto& s : sentences) {
         parts.push_back(s);
-        if (parts.size() >= config_.max_hops) {
+        if (static_cast<int>(parts.size()) > = config_.max_hops) {
           break;
         }
     }
@@ -302,7 +302,7 @@ MultiHopResult MultiHopReasoner::reason(
     }
 
     // Cap sub-queries at max_hops
-    if (sub_queries.size() > config_.max_hops) {
+    if (static_cast<int>(sub_queries.size()) > config_.max_hops) {
         sub_queries.resize(config_.max_hops);
     }
 

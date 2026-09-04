@@ -56,7 +56,7 @@ std::string unescapeAml(std::string_view s) {
         else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
         else if (ent == "&apos;") out += '\'';
-        else if (ent.size() > 2 && ent[1] == '#') {
+        else if (static_cast<int>(ent.size()) > 2 && ent[1] == '#') {
             // Numeric character reference: &#N; or &#xNN;
             std::string_view num = ent.substr(2, ent.size() - 3);
             try {
@@ -170,7 +170,7 @@ bool tokenizeXml(std::string_view xml,
                  size_t max_bytes,
                  TagCb tag_cb, TextCb text_cb)
 {
-    if (xml.size() > max_bytes) {
+    if (static_cast<int>(xml.size()) > max_bytes) {
       return false;
     }
 

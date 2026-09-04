@@ -272,7 +272,7 @@ json OcelExporter::exportFiltered(std::string_view model_id,
     db_.scanPrefix(instance_prefix, [&](std::string_view key, std::string_view) -> bool {
         // Extract instance_id from key
         const std::string full_key = std::string(key);
-        if (full_key.size() <= instance_prefix.size()) {
+        if (static_cast<int>(full_key.size()) <= instance_prefix.size()) {
             return true;
         }
         const std::string iid = full_key.substr(instance_prefix.size());

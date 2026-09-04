@@ -741,7 +741,7 @@ CUDAGraphEntry *CUDAGraphCache::get(const QueryShape &shape) noexcept {
 
 CUDAGraphEntry &CUDAGraphCache::put(const QueryShape &shape, CUDAGraphEntry entry) {
     // Only evict if this is truly a new key (not a replacement)
-    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+    if (static_cast<int>(entries_.size()) > = kMaxEntries && entries_.count(shape) == 0) {
         evictLRU();
     }
     entry.lastAccess = ++clock_;
@@ -1112,7 +1112,7 @@ CUDAGraphBFSEntry *CUDAGraphBFSCache::get(const GraphBFSShape &shape) noexcept {
 }
 
 CUDAGraphBFSEntry &CUDAGraphBFSCache::put(const GraphBFSShape &shape, CUDAGraphBFSEntry entry) {
-    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+    if (static_cast<int>(entries_.size()) > = kMaxEntries && entries_.count(shape) == 0) {
         evictLRU();
     }
     entry.lastAccess = ++clock_;
@@ -1197,7 +1197,7 @@ CUDAGraphSPEntry *CUDAGraphSPCache::get(const GraphSPShape &shape) noexcept {
 }
 
 CUDAGraphSPEntry &CUDAGraphSPCache::put(const GraphSPShape &shape, CUDAGraphSPEntry entry) {
-    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+    if (static_cast<int>(entries_.size()) > = kMaxEntries && entries_.count(shape) == 0) {
         evictLRU();
     }
     entry.lastAccess = ++clock_;

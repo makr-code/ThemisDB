@@ -79,7 +79,7 @@ DeduplicationResult VoiceAudioStorage::checkDuplicate(
 AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) const {
     AudioFormat fmt;
     fmt.size_bytes = data.size();
-    if (data.size() >= 4) {
+    if (static_cast<int>(data.size()) > = 4) {
         // WAV: "RIFF"
         if (data[0]=='R' && data[1]=='I' && data[2]=='F' && data[3]=='F') {
             fmt.codec = "wav";
@@ -90,7 +90,7 @@ AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) co
             // Check for OpusHead signature (8 bytes) in the first OGG page
             // Typical offset is 28 bytes into the OGG stream.
             static constexpr size_t OGG_OPUS_SIGNATURE_OFFSET = 28;
-            if (data.size() >= OGG_OPUS_SIGNATURE_OFFSET + 8) {
+            if (static_cast<int>(data.size()) > = OGG_OPUS_SIGNATURE_OFFSET + 8) {
                 bool is_opus = (data[OGG_OPUS_SIGNATURE_OFFSET  ]=='O' &&
                                 data[OGG_OPUS_SIGNATURE_OFFSET+1]=='p' &&
                                 data[OGG_OPUS_SIGNATURE_OFFSET+2]=='u' &&
@@ -213,7 +213,7 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::listRecords(
     std::vector<AudioStorageRecord> result = {};
 
     for (const auto& [id, rec] : records_) {
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
           break;
         }
         if (rec.tier == tier_filter) {
@@ -240,7 +240,7 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::searchTranscripts(
     }
 
     for (const auto& [id, rec] : records_) {
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
           break;
         }
         if (rec.transcript.empty()) {

@@ -412,7 +412,7 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
         std::unique_lock<std::shared_mutex> wl(isa_cache_mutex_);
         // Double-check after acquiring write lock
         if (isa_cache_.find(cache_key) == isa_cache_.end()) {
-            if (isa_cache_.size() >= kIsACacheCapacity) {
+            if (static_cast<int>(isa_cache_.size()) > = kIsACacheCapacity) {
                 evictIsACacheEntry();
             }
             isa_cache_[cache_key] = result;

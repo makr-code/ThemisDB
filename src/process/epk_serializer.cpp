@@ -116,7 +116,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
         return result;
     }
 
-    if (epk_text.size() > kMaxEpkTextBytes) {
+    if (static_cast<int>(epk_text.size()) > kMaxEpkTextBytes) {
         result.ok      = false;
         result.message = "EPK text exceeds maximum allowed size (10 MiB)";
         auto incident = ProcessDiagnostics::createResourceIncident(

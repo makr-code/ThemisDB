@@ -906,7 +906,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             std::regex::icase);
         std::smatch m = {};
         if (std::regex_search(query, m, re_point)) {
-            if (m.size() > 1) {
+            if (static_cast<int>(m.size()) > 1) {
                 QueryMetadata::ShardKeyPredicate pred;
                 pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::POINT;
                 pred.collection = col;
@@ -922,7 +922,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 R"(FILTER\s+\w+\._key\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+\w+\._key\s*<=\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
             if (std::regex_search(query, m, re_range)) {
-                if (m.size() > 2) {
+                if (static_cast<int>(m.size()) > 2) {
                     QueryMetadata::ShardKeyPredicate pred;
                     pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
                     pred.collection = col;
@@ -1007,10 +1007,10 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::smatch m2 = {};
         if (std::regex_search(query, m2, re_limit)) {
             try {
-                if (m2.size() > 2 && m2[2].matched) {
+                if (static_cast<int>(m2.size()) > 2 && m2[2].matched) {
                     metadata.offset = std::stoull(m2[1].str());
                     metadata.limit = std::stoull(m2[2].str());
-                } else if (m2.size() > 1) {
+                } else if (static_cast<int>(m2.size()) > 1) {
                     metadata.limit = std::stoull(m2[1].str());
                 }
             } catch (const std::out_of_range& ex) {

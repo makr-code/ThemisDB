@@ -1286,7 +1286,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
 
     // Hard-cap at ~8 000 chars (≈ 2 000 tokens) to respect the context budget
     std::string out = json.str();
-    if (out.size() > 8000) {
+    if (static_cast<int>(out.size()) > 8000) {
         out.resize(8000);
         // ensure valid closing brackets
         out += "...]}";

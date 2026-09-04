@@ -201,7 +201,7 @@ std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
             return a.distance < b.distance;
         });
     
-    if (results.size() > static_cast<size_t>(k)) {
+    if (static_cast<int>(results.size()) > static_cast<size_t>(k)) {
         results.resize(k);
     }
     

@@ -458,7 +458,7 @@ bool TransactionSnapshotManager::deleteSnapshot([[maybe_unused]] uint64_t snapsh
 void TransactionSnapshotManager::cleanupOldSnapshots() {
     auto snapshots = listSnapshots();
     
-    if (snapshots.size() <= max_snapshots_) {
+    if (static_cast<int>(snapshots.size()) <= max_snapshots_) {
         return;
     }
     

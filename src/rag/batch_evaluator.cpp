@@ -382,7 +382,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<RAGTestCase>& test_cases) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size to prevent DoS attacks
-    if (test_cases.size() > 10000) {
+    if (static_cast<int>(test_cases.size()) > 10000) {
         BatchEvaluationResult error_result;
         error_result.progress.total_items = test_cases.size();
         error_result.progress.failed_items = test_cases.size();
@@ -408,7 +408,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<EvaluationInput>& inputs) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size to prevent DoS attacks
-    if (inputs.size() > 10000) {
+    if (static_cast<int>(inputs.size()) > 10000) {
         BatchEvaluationResult error_result;
         error_result.progress.total_items = inputs.size();
         error_result.progress.failed_items = inputs.size();

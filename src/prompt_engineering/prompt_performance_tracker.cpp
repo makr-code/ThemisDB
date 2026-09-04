@@ -180,7 +180,7 @@ std::vector<std::pair<std::string, double>> PromptPerformanceTracker::getTopPerf
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Return top N
-    if (candidates.size() > count) {
+    if (static_cast<int>(candidates.size()) > count) {
         candidates.resize(count);
     }
     

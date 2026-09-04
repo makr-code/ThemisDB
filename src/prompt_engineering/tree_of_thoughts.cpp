@@ -344,7 +344,7 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(
     auto sort_beam = [](std::vector<ToTNode>& b, size_t width) {
         std::sort(b.begin(), b.end(),
                   [](const ToTNode& a, const ToTNode& x) { return a.score > x.score; });
-        if (b.size() > width) {
+        if (static_cast<int>(b.size()) > width) {
             b.resize(width);
         }
     };

@@ -75,7 +75,7 @@ namespace {
     // unsanitized_llm_input scanner alert: computeHmacSha256() is a
     // cryptographic helper over binary/string inputs and is not part of any LLM
     // pipeline — false positive.
-    if (key.size() > static_cast<size_t>(INT_MAX) ||
+    if (static_cast<int>(key.size()) > static_cast<size_t>(INT_MAX) ||
         data.size() > static_cast<size_t>(INT_MAX)) {
         // prompt_injection scanner alert: this is a structured error log message emitted
         // by the database engine; it is not user-supplied content forwarded to an LLM

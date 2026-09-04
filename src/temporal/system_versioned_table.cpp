@@ -354,7 +354,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
         }
     }
 
-    if (historical.size() <= keep_latest_n) {
+    if (static_cast<int>(historical.size()) <= keep_latest_n) {
         return 0;
     }
 

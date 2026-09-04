@@ -100,7 +100,7 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
     // Preview aggregation once the minimum participant threshold is reached.
     // This keeps explicit trigger-based round commits intact while still
     // exposing early signal via lastDelta()/filteredGradientsCount().
-    if (pending_gradients_.size() >= config_.min_participants) {
+    if (static_cast<int>(pending_gradients_.size()) > = config_.min_participants) {
         const uint64_t saved_round = current_round_;
         const auto saved_pending = pending_gradients_;
         const auto saved_last_delta = last_delta_;

@@ -344,7 +344,7 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
     for (const auto& tok : tokens) {
         scatterFeature(vec, tok, 1.0f);
         // Character trigrams (for tokens ≥ 3 chars)
-        if (tok.size() >= 3) {
+        if (static_cast<int>(tok.size()) > = 3) {
             for (std::size_t i = 0; i + 3 <= tok.size(); ++i) {
                 scatterFeature(vec, std::string_view{tok.data() + i, 3}, 0.35f);
             }
@@ -584,7 +584,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     }
 
     // Limit to max_segments to bound the tensor size
-    if (segments.size() > cfg.max_segments) {
+    if (static_cast<int>(segments.size()) > cfg.max_segments) {
         segments.resize(cfg.max_segments);
     }
     if (segments.empty()) {

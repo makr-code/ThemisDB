@@ -483,7 +483,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     }
 
     // Keep top reorder_n candidates by approximate distance
-    if (candidates.size() > reorder_n) {
+    if (static_cast<int>(candidates.size()) > reorder_n) {
         std::partial_sort(candidates.begin(),
                           candidates.begin() + static_cast<std::ptrdiff_t>(reorder_n),
                           candidates.end(),
@@ -507,7 +507,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
                   return a.distance < b.distance;
               });
 
-    if (results.size() > static_cast<size_t>(k))
+    if (static_cast<int>(results.size()) > static_cast<size_t>(k))
         results.resize(static_cast<size_t>(k));
 
     return results;

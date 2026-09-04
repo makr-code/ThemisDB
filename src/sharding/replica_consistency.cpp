@@ -207,7 +207,7 @@ VersionedEntry ReplicaConsistencyManager::recordWrite(
     history.push_back(entry);
     
     // Trim history if needed
-    if (history.size() > config_.max_version_history) {
+    if (static_cast<int>(history.size()) > config_.max_version_history) {
         history.erase(history.begin());
     }
     
@@ -261,7 +261,7 @@ void ReplicaConsistencyManager::resolveConflict(
     auto& history = version_history_[conflict.key];
     history.push_back(resolved_entry);
     
-    if (history.size() > config_.max_version_history) {
+    if (static_cast<int>(history.size()) > config_.max_version_history) {
         history.erase(history.begin());
     }
 }

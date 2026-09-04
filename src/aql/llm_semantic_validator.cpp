@@ -479,7 +479,7 @@ void LLMSemanticValidator::validateJoins(
     }
     
     // Detect join: multiple FOR bindings
-    if (for_bindings.size() <= 1) {
+    if (static_cast<int>(for_bindings.size()) <= 1) {
         spdlog::debug("[aql_semantic_validator] Single FOR clause (no JOIN)");
         return;
     }
@@ -529,7 +529,7 @@ void LLMSemanticValidator::validateJoins(
         // Check if filter references multiple FOR variables
         std::unordered_set<std::string> referenced_vars = extractVariablesFromExpression(filter_node->condition);
         
-        if (referenced_vars.size() >= 2) {
+        if (static_cast<int>(referenced_vars.size()) > = 2) {
             spdlog::debug("[aql_semantic_validator] Join condition found with {} variables", referenced_vars.size());
             join_condition_found = true;
             break;

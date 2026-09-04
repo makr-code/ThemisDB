@@ -64,7 +64,7 @@ void SLOWindow::recordLatency([[maybe_unused]] double latency_ms) {
     latency_samples_.push_back(latency_ms);
     
     // Keep only recent samples
-    if (latency_samples_.size() > max_latency_samples_) {
+    if (static_cast<int>(latency_samples_.size()) > max_latency_samples_) {
         latency_samples_.erase(latency_samples_.begin());
     }
 }
@@ -86,7 +86,7 @@ void SLOWindow::recordReplicationLag([[maybe_unused]] double lag_ms) {
     replication_lag_samples_.push_back(lag_ms);
     
     // Keep only recent samples
-    if (replication_lag_samples_.size() > max_lag_samples_) {
+    if (static_cast<int>(replication_lag_samples_.size()) > max_lag_samples_) {
         replication_lag_samples_.erase(replication_lag_samples_.begin());
     }
 }

@@ -97,7 +97,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
     if (text.empty() || terms.empty() || window_size == 0) {
       return 0;
     }
-    if (text.size() <= window_size) {
+    if (static_cast<int>(text.size()) <= window_size) {
       return 0;
     }
 
@@ -266,7 +266,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
         }
 
         // If the whole text fits within the window, just highlight it
-        if (text.size() <= window_size) {
+        if (static_cast<int>(text.size()) <= window_size) {
             return highlight(text, terms);
         }
 
@@ -316,7 +316,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
         }
 
         // Trim to max_snippet_len
-        if (result.size() > config_.max_snippet_len + 2 * config_.ellipsis.size()) {
+        if (static_cast<int>(result.size()) > config_.max_snippet_len + 2 * config_.ellipsis.size()) {
             result = result.substr(0, config_.max_snippet_len);
             result += config_.ellipsis;
         }

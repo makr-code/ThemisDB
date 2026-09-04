@@ -613,7 +613,7 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
     size_t pos = 0;
     
     // Skip BOM marker if present (EF BB BF)
-    if (text.size() >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
+    if (static_cast<int>(text.size()) > = 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
         pos = 3;
         spdlog::debug("RegexDetectionEngine: Skipping UTF-8 BOM marker");
     }
@@ -760,7 +760,7 @@ bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
      * @return true if input is within bounds, false if exceeds limit
      */
     
-    if (text.size() > max_input_size_) {
+    if (static_cast<int>(text.size()) > max_input_size_) {
         spdlog::warn("RegexDetectionEngine: Input size ({} bytes) exceeds limit ({} bytes)",
                      text.size(), max_input_size_);
         return false;

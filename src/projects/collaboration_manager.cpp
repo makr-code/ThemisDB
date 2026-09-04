@@ -253,7 +253,7 @@ void CollaborationManager::notifyChange(const Change& change) {
     {
         std::unique_lock lock(log_mutex_);
         change_log_.push_back(change);
-        if (change_log_.size() > kMaxLogEntries)
+        if (static_cast<int>(change_log_.size()) > kMaxLogEntries)
             change_log_.erase(change_log_.begin());
     }
 

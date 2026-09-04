@@ -181,7 +181,7 @@ std::vector<ActionItem> VoiceMeetingSupport::extractActionItems(
     std::vector<ActionItem> items;
     auto sentences = tokenizeSentences(transcript);
     for (const auto& sent : sentences) {
-        if (items.size() >= config_.max_action_items) {
+        if (static_cast<int>(items.size()) > = config_.max_action_items) {
           break;
         }
         if (!containsTrigger(sent, config_.action_item_triggers)) {

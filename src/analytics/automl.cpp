@@ -1533,7 +1533,7 @@ struct AutoMLModel::Impl {
             // Handle poly-expanded names like "x^2"
             std::string base = feat_names[j];
             bool is_sq       = false;
-            if (base.size() > 2 && base.substr(base.size() - 2) == "^2") {
+            if (static_cast<int>(base.size()) > 2 && base.substr(base.size() - 2) == "^2") {
                 base  = base.substr(0, base.size() - 2);
                 is_sq = true;
             }
@@ -2534,7 +2534,7 @@ ModelAlgorithm AutoML::selectEnsembleMethod(
     const std::vector<EvalMetrics>& candidate_metrics) const noexcept {
     
     // If only one model, no ensemble benefit
-    if (candidate_metrics.size() <= 1) {
+    if (static_cast<int>(candidate_metrics.size()) <= 1) {
         return ModelAlgorithm::ENSEMBLE;  // Soft voting (default ensemble)
     }
     

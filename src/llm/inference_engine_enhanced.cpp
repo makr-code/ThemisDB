@@ -606,7 +606,7 @@ InferenceHandle InferenceEngineEnhanced::submit(const EnhancedInferenceRequest& 
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
         // Check queue capacity
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -648,7 +648,7 @@ std::string InferenceEngineEnhanced::submitAsync(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -720,7 +720,7 @@ InferenceHandle InferenceEngineEnhanced::submitStreaming(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(request_queue_.size()) > = config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -2049,7 +2049,7 @@ void InferenceEngineEnhanced::recordRequestCompletion(
     
     // Update latency stats
     latency_samples_.push_back(latency_ms);
-    if (latency_samples_.size() > 10000) {
+    if (static_cast<int>(latency_samples_.size()) > 10000) {
         latency_samples_.erase(latency_samples_.begin());
     }
     

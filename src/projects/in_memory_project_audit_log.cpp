@@ -34,7 +34,7 @@ void InMemoryProjectAuditLog::record(const ProjectAuditEntry& entry)
     entries_.push_back(entry);
 
     // Bounded eviction: drop oldest 10 % when capacity exceeded
-    if (entries_.size() > max_entries_) {
+    if (static_cast<int>(entries_.size()) > max_entries_) {
         const size_t evict = std::max(size_t{1}, max_entries_ / 10);
         entries_.erase(entries_.begin(),
                        entries_.begin() + static_cast<std::ptrdiff_t>(evict));

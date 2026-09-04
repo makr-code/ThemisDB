@@ -364,7 +364,7 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
         recent_deadlocks_.push_back(info);
         
         // Keep only last 100 deadlocks (use pop_front for efficiency with deque)
-        if (recent_deadlocks_.size() > 100) {
+        if (static_cast<int>(recent_deadlocks_.size()) > 100) {
             recent_deadlocks_.pop_front();
         }
         

@@ -66,7 +66,7 @@ SparseVector NeuralSparseRetrieval::sanitize(const SparseVector& raw, size_t max
     }
 
     // Keep only the top max_terms by weight
-    if (pairs.size() > max_terms) {
+    if (static_cast<int>(pairs.size()) > max_terms) {
         std::partial_sort(pairs.begin(),
                           pairs.begin() + static_cast<std::ptrdiff_t>(max_terms),
                           pairs.end(),
@@ -270,7 +270,7 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
                   return a.raw_score > b.raw_score;
               });
 
-    if (results.size() > top_k) {
+    if (static_cast<int>(results.size()) > top_k) {
         results.resize(top_k);
     }
 

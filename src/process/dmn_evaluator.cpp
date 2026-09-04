@@ -134,7 +134,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // String literal: "value"
-    if (expr.size() >= 2 && expr.front() == '"' && expr.back() == '"') {
+    if (static_cast<int>(expr.size()) > = 2 && expr.front() == '"' && expr.back() == '"') {
         const std::string expected(expr.substr(1, expr.size() - 2));
         if (value.is_string()) {
           return value.get<std::string>() == expected;
@@ -143,7 +143,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // Numeric comparison operators: >=, <=, !=, >, <, =
-    if (expr.size() >= 2) {
+    if (static_cast<int>(expr.size()) > = 2) {
         std::string_view op = {};
         std::string_view rhs_sv = {};
 
@@ -308,7 +308,7 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     // Security guard: 10 MiB
     // Use explicit unsigned multiplication to avoid overflow warnings
     constexpr size_t MAX_DMN_SIZE = 10 * 1024 * 1024;  // 10 MiB
-    if (dmn_xml.size() > MAX_DMN_SIZE) {
+    if (static_cast<int>(dmn_xml.size()) > MAX_DMN_SIZE) {
         SPDLOG_ERROR("[DmnEvaluator] DMN XML exceeds 10 MiB size limit");
         return false;
     }

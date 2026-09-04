@@ -84,7 +84,7 @@ public:
         }
         
         // Evict if at capacity
-        if (cache_.size() >= config_.max_entries) {
+        if (static_cast<int>(cache_.size()) > = config_.max_entries) {
             evictLRU();
         }
         

@@ -127,7 +127,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
     }
 
     // Check magic bytes first
-    if (blob.size() >= 4) {
+    if (static_cast<int>(blob.size()) > = 4) {
         uint32_t magic32 = 0;
         std::memcpy(&magic32, blob.data(), 4);
         if (magic32 == ZIP_MAGIC) {
@@ -135,7 +135,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
         }
     }
 
-    if (blob.size() >= 2) {
+    if (static_cast<int>(blob.size()) > = 2) {
         uint16_t magic16;
         std::memcpy(&magic16, blob.data(), 2);
         if (magic16 == GZIP_MAGIC) {
@@ -143,14 +143,14 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
         }
     }
 
-    if (blob.size() >= 6) {
+    if (static_cast<int>(blob.size()) > = 6) {
         if (std::memcmp(blob.data(), SEVEN_ZIP_MAGIC, 6) == 0) {
             return ArchiveFormat::SEVEN_ZIP;
         }
     }
 
     // Check for TAR signature at offset 257
-    if (blob.size() >= 262) {
+    if (static_cast<int>(blob.size()) > = 262) {
         if (std::memcmp(blob.data() + 257, TAR_MAGIC, 5) == 0) {
             return ArchiveFormat::TAR;
         }

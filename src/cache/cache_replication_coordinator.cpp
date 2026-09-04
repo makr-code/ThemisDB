@@ -334,7 +334,7 @@ void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
 
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
-        if (fanout_queue_.size() >= kRetryQueueCapacity) {
+        if (static_cast<int>(fanout_queue_.size()) > = kRetryQueueCapacity) {
             THEMIS_WARN("[CacheReplicationCoordinator] fanout queue full ({} entries); "
                         "dropping invalidation for key='{}'",
                         kRetryQueueCapacity, item.key);

@@ -267,7 +267,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
             while (!word.empty() && !std::isalnum(static_cast<unsigned char>(word.back()))) {
                 word.pop_back();
             }
-            if (word.size() >= 3) { // ignore very short words
+            if (static_cast<int>(word.size()) > = 3) { // ignore very short words
                 ++word_freq[word];
             }
         }

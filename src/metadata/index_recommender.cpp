@@ -349,7 +349,7 @@ void IndexRecommender::loadStats() {
         std::lock_guard<std::mutex> lock(mutex_);
         db_->iterateRange(start_key, end_key,
             [&](std::string_view key, std::string_view value) -> bool {
-                if (key.size() <= PREFIX.size()) {
+                if (static_cast<int>(key.size()) <= PREFIX.size()) {
                   return true;
                 }
                 std::string table_name(key.substr(PREFIX.size()));

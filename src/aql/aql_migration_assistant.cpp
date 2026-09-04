@@ -560,7 +560,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
             continue;
         }
 
-        if (args.size() >= 2) {
+        if (static_cast<int>(args.size()) > = 2) {
             const std::string &collection = args[0];
             const std::string &key        = args[1];
 

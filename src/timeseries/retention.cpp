@@ -26,7 +26,7 @@ static int64_t nowMs() {
 void RetentionManager::logAudit(const RetentionAuditEntry& entry) {
     {
         std::lock_guard<std::mutex> lock(audit_mutex_);
-        if (audit_log_.size() >= MAX_AUDIT_LOG_SIZE) {
+        if (static_cast<int>(audit_log_.size()) > = MAX_AUDIT_LOG_SIZE) {
             // Rolling: drop oldest entry
             audit_log_.erase(audit_log_.begin());
         }

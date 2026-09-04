@@ -171,7 +171,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             try {
                 // Einfaches Cursor-Format: numerischer Offset als String
                 std::string cur = body_json["cursor"].get<std::string>();
-                if (cur.size() > 64) {
+                if (static_cast<int>(cur.size()) > 64) {
                     span.setStatus(false, "Cursor too long");
                     return makeErrorResponse(http::status::bad_request,
                         "Field 'cursor' exceeds maximum allowed length", req);

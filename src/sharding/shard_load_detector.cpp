@@ -601,7 +601,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     // Determine how many additional samples the horizon corresponds to.
     // We estimate the inter-sample interval from the history timestamps.
     double steps_ahead = 1.0;
-    if (history.size() >= 2) {
+    if (static_cast<int>(history.size()) > = 2) {
         const auto& first = history.front();
         const auto& last  = history.back();
         auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(

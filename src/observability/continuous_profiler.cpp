@@ -372,7 +372,7 @@ public:
 
         // Deduplicate lists (they may be long; cap at 20 entries for usability)
         auto trim = [](std::vector<std::string>& v) {
-            if (v.size() > 20) {
+            if (static_cast<int>(v.size()) > 20) {
               v.resize(20);
             }
         };

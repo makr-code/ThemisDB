@@ -996,7 +996,7 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
         const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100u;
         v1::QueryResult qr;
 
-        if (results.size() > batch_sz) {
+        if (static_cast<int>(results.size()) > batch_sz) {
             // Large result-set: store remainder in per-session cursor map.
             for (uint32_t i = 0; i < batch_sz; ++i)
                 qr.add_results(results[i]);

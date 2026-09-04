@@ -775,7 +775,7 @@ void ContinuousBatchScheduler::updateStats(const Request& request) {
     latency_history_ms_.push_back(total_time);
     
     // Keep last 1000 samples for percentile calculations
-    if (latency_history_ms_.size() > 1000) {
+    if (static_cast<int>(latency_history_ms_.size()) > 1000) {
         latency_history_ms_.erase(latency_history_ms_.begin());
     }
     

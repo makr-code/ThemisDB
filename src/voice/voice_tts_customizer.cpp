@@ -632,7 +632,7 @@ std::string VoiceTTSCustomizer::getBestVoiceForLanguage(const std::string& lang_
     if (lang_code.empty() || lang_code.size() < 2) return {};
     std::string prefix = lang_code.substr(0, 2);
     for (const auto& [code, lv] : language_voices_) {
-        if (code.size() >= 2 && code.substr(0, 2) == prefix && !lv.default_voice_id.empty()) {
+        if (static_cast<int>(code.size()) > = 2 && code.substr(0, 2) == prefix && !lv.default_voice_id.empty()) {
             return lv.default_voice_id;
         }
     }

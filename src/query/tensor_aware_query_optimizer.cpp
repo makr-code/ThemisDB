@@ -468,7 +468,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
               [](const HybridAnnGraphResult& a, const HybridAnnGraphResult& b) {
                   return a.rrf_score > b.rrf_score;  // descending
               });
-    if (results.size() > query.top_k) {
+    if (static_cast<int>(results.size()) > query.top_k) {
         results.resize(query.top_k);
     }
 

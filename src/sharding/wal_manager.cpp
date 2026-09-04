@@ -512,7 +512,7 @@ void WALManager::cleanupOldSegments() {
         }
     }
     
-    if (segments.size() <= config_.max_segments) {
+    if (static_cast<int>(segments.size()) <= config_.max_segments) {
         return;
     }
     

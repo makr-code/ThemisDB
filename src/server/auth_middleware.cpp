@@ -462,7 +462,7 @@ std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view a
     // Expected format: "Bearer <token>"
     constexpr std::string_view prefix = "Bearer ";
     
-    if (auth_header.size() <= prefix.size()) {
+    if (static_cast<int>(auth_header.size()) <= prefix.size()) {
         return std::nullopt;
     }
 

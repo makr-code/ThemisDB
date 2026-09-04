@@ -68,7 +68,7 @@ void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
             "LDAP: username must not be empty"
         ));
     }
-    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
+    if (static_cast<int>(username.size()) > MAX_LDAP_USERNAME_LENGTH) {
         auditLDAPValidationFailure(audit_logger, username, "username_too_long");
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
@@ -84,7 +84,7 @@ void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
             "LDAP: password must not be empty (anonymous bind not permitted)"
         ));
     }
-    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
+    if (static_cast<int>(password.size()) > MAX_LDAP_PASSWORD_LENGTH) {
         auditLDAPValidationFailure(audit_logger, username, "password_too_long");
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
@@ -349,7 +349,7 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
     }
 
     const std::string dn = buildUserDN(username);
-    if (dn.size() > MAX_LDAP_DN_LENGTH) {
+    if (static_cast<int>(dn.size()) > MAX_LDAP_DN_LENGTH) {
         AuthAuditLogger audit(audit_logger_);
         audit.logLDAPFailure(username, "dn_too_long");
         return LDAPAuthResult::Failed("Constructed DN exceeds maximum length");

@@ -160,7 +160,7 @@ bool VoiceLivenessChecker::is_replay_detected(const std::string& audio_hash) noe
     
     // Add to history (keep bounded to avoid memory growth).
     audio_hash_history_.push_back(audio_hash);
-    if (audio_hash_history_.size() > LivenessPolicy::MAX_SESSION_HISTORY_FOR_REPLAY_CHECK) {
+    if (static_cast<int>(audio_hash_history_.size()) > LivenessPolicy::MAX_SESSION_HISTORY_FOR_REPLAY_CHECK) {
         audio_hash_history_.erase(audio_hash_history_.begin());
     }
     

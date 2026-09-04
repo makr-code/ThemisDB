@@ -261,18 +261,18 @@ std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents([[maybe_unused]] 
     }
     
     // Apply pagination
-    if (results.size() > params.offset) {
+    if (static_cast<int>(results.size()) > params.offset) {
         results.erase(results.begin(), results.begin() + params.offset);
     } else {
         results.clear();
     }
     
-    if (results.size() > params.limit) {
+    if (static_cast<int>(results.size()) > params.limit) {
         results.resize(params.limit);
     }
     
     // Respect max query results limit
-    if (results.size() > config_.max_query_results) {
+    if (static_cast<int>(results.size()) > config_.max_query_results) {
         results.resize(config_.max_query_results);
     }
     
@@ -431,13 +431,13 @@ std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents([[maybe_unu
     results.insert(results.end(), file_results.begin(), file_results.end());
     
     // Apply pagination
-    if (results.size() > params.offset) {
+    if (static_cast<int>(results.size()) > params.offset) {
         results.erase(results.begin(), results.begin() + params.offset);
     } else {
         results.clear();
     }
     
-    if (results.size() > params.limit) {
+    if (static_cast<int>(results.size()) > params.limit) {
         results.resize(params.limit);
     }
     

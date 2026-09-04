@@ -533,7 +533,7 @@ std::vector<EntityMatchScore> SemanticMatcher::findSimilarEntities(const json &i
         return a.overall_confidence > b.overall_confidence;
     });
 
-    if (results.size() > config.max_results) {
+    if (static_cast<int>(results.size()) > config.max_results) {
         results.resize(config.max_results);
     }
     return results;

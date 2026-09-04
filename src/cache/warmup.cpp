@@ -125,7 +125,7 @@ static constexpr size_t kTenantKeyPrefixLen   = 7; // strlen("tenant:")
  * Returns empty string if the key does not have the tenant prefix.
  */
 static std::string extractTenantFromKey(const std::string &key) {
-    if (key.size() <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
+    if (static_cast<int>(key.size()) <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
         return {};
     }
     size_t second_colon = key.find(':', kTenantKeyPrefixLen);
@@ -145,7 +145,7 @@ static std::string extractTenantFromKey(const std::string &key) {
  * a bare 64-char hex key that warmupFromLog() can re-import correctly.
  */
 static std::string extractFingerprintFromKey(const std::string &key) {
-    if (key.size() <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
+    if (static_cast<int>(key.size()) <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
         return key; // Not tenant-scoped; already a plain fingerprint.
     }
     size_t second_colon = key.find(':', kTenantKeyPrefixLen);
@@ -341,7 +341,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                 {
                     std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                     if (l1_cache_.count(cache_key) == 0) {
-                        if (l1_cache_.size() >= config_.l1_max_entries) {
+                        if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
                         l1_cache_[cache_key] = std::move(entry);
@@ -367,7 +367,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     {
                         std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                         if (l1_cache_.count(cache_key) == 0) {
-                            if (l1_cache_.size() >= config_.l1_max_entries) {
+                            if (static_cast<int>(l1_cache_.size()) > = config_.l1_max_entries) {
                                 evictLRU(CacheLevel::HOT);
                             }
                             l1_cache_[cache_key] = std::move(entry);
@@ -389,7 +389,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     {
                         std::lock_guard<std::mutex> lk(l2_mutex_);
                         if (l2_cache_.count(cache_key) == 0) {
-                            if (l2_cache_.size() >= config_.l2_max_entries) {
+                            if (static_cast<int>(l2_cache_.size()) > = config_.l2_max_entries) {
                                 evictLRU(CacheLevel::WARM);
                             }
                             l2_cache_[cache_key] = std::move(entry);

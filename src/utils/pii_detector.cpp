@@ -570,7 +570,7 @@ void PIIDetector::scanJsonRecursive(
 std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     std::vector<PIIFinding> findings) {
     
-    if (findings.size() <= 1) {
+    if (static_cast<int>(findings.size()) <= 1) {
         return findings;
     }
     

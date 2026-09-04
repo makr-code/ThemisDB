@@ -38,7 +38,7 @@ void TsOperatorDiagnostics::recordIncident(
             error_code
         };
         std::lock_guard<std::mutex> lock(mutex_);
-        if (incidents_.size() >= kMaxIncidents) {
+        if (static_cast<int>(incidents_.size()) > = kMaxIncidents) {
             incidents_.erase(incidents_.begin());
         }
         incidents_.push_back(std::move(inc));

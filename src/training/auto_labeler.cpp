@@ -142,7 +142,7 @@ public:
                 }
 
                 // Flush batch when it reaches batch_size
-                if (batch.size() >= config_.batch_size) {
+                if (static_cast<int>(batch.size()) > = config_.batch_size) {
                     persistSampleBatch(batch);
                     batch.clear();
                     batch.reserve(config_.batch_size);
@@ -339,7 +339,7 @@ public:
                     batch.push_back(std::move(sample));
                 }
 
-                if (batch.size() >= config_.batch_size) {
+                if (static_cast<int>(batch.size()) > = config_.batch_size) {
                     persistSampleBatch(batch);
                     batch.clear();
                     batch.reserve(config_.batch_size);

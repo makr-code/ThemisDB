@@ -230,7 +230,7 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
         auto snapshots = listSnapshots();
         
         // Delete old snapshots beyond max_snapshots
-        if (snapshots.size() > max_snapshots_) {
+        if (static_cast<int>(snapshots.size()) > max_snapshots_) {
             for (size_t i = max_snapshots_; i < snapshots.size(); ++i) {
                 deleteSnapshot(snapshots[i]);
             }

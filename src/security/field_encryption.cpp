@@ -109,7 +109,7 @@ static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     if (data.empty()) {
         return {};
     }
-    if (data.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(data.size()) > static_cast<size_t>(INT_MAX)) {
         throw std::runtime_error("fieldBase64Encode: input too large");
     }
 
@@ -145,7 +145,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     size_t padding = 0;
     if (!encoded_string.empty() && encoded_string.back() == '=') {
         padding++;
-        if (encoded_string.size() > 1 && encoded_string[encoded_string.size() - 2] == '=') {
+        if (static_cast<int>(encoded_string.size()) > 1 && encoded_string[encoded_string.size() - 2] == '=') {
             padding++;
         }
     }

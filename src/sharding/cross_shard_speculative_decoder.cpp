@@ -630,7 +630,7 @@ void CrossShardSpeculativeDecoder::updateAcceptanceRate([[maybe_unused]] double 
     recent_acceptance_rates_.push_back(acceptance_rate);
     
     // Keep only the last N rates
-    if (recent_acceptance_rates_.size() > config_.adaptation_window) {
+    if (static_cast<int>(recent_acceptance_rates_.size()) > config_.adaptation_window) {
         recent_acceptance_rates_.erase(recent_acceptance_rates_.begin());
     }
     

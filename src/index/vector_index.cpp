@@ -878,7 +878,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	});
 	
 	// Phase 1: Audit log for bulk embedding rebuild (threshold: 100+ vectors)
-	if (cache_.size() >= 100) {
+	if (static_cast<int>(cache_.size()) > = 100) {
 		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage", cache_.size());
 	}
 	
@@ -1370,7 +1370,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		heap.push_back({pk, dist});
 		
 		// Update threshold periodically using nth_element (partial sort)
-		if (heap.size() >= k && heap.size() % 32 == 0) {
+		if (static_cast<int>(heap.size()) > = k && heap.size() % 32 == 0) {
 			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
 			threshold = heap[k-1].distance;
@@ -1493,13 +1493,13 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							// Use prefetch lambda defined earlier in this function
 							prefetch(&vec.front());
 							// Prefetch middle and end of 1536D vector (spans 6KB / ~96 cache lines)
-							if (vec.size() > 384) {
+							if (static_cast<int>(vec.size()) > 384) {
 							  prefetch(&vec[384]);
 							}
-							if (vec.size() > 768) {
+							if (static_cast<int>(vec.size()) > 768) {
 							  prefetch(&vec[768]);
 							}
-							if (vec.size() > 1152) {
+							if (static_cast<int>(vec.size()) > 1152) {
 							  prefetch(&vec[1152]);
 							}
 						}
@@ -1519,7 +1519,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	}
 	
 	// Final partial sort: O(n log k) instead of O(n log n)
-	if (heap.size() > k) {
+	if (static_cast<int>(heap.size()) > k) {
 		std::partial_sort(heap.begin(), heap.begin() + k, heap.end(),
 			[](const Result& a, const Result& b) { return a.distance < b.distance; });
 		heap.resize(k);
@@ -1671,7 +1671,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				std::reverse(tmp.begin(), tmp.end()); // kleinste Distanz zuerst
 				
 				// Early termination if we have enough candidates
-				if (tmp.size() >= k) {
+				if (static_cast<int>(tmp.size()) > = k) {
 					filtered.insert(filtered.end(), tmp.begin(), tmp.begin() + k);
 					break;
 				}
@@ -1679,7 +1679,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				for (const auto& r : tmp) {
 					if (seen.insert(r.pk).second) {
 						filtered.push_back(r);
-						if (filtered.size() >= k) {
+						if (static_cast<int>(filtered.size()) > = k) {
 						  break;
 						}
 					}
@@ -1689,8 +1689,8 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				candidateCount = static_cast<size_t>(candidateCount * growthFactor);
 			}
 
-			if (filtered.size() >= k) {
-				if (filtered.size() > k) {
+			if (static_cast<int>(filtered.size()) > = k) {
+				if (static_cast<int>(filtered.size()) > k) {
 				  filtered.resize(k);
 				}
 				return {Status::OK(), std::move(filtered)};
@@ -1731,7 +1731,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	auto results = bruteForceSearch_(query, k, whitelist);
 	
 	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
-	if (results.size() >= 10 || (whitelist && !whitelist->empty())) {
+	if (static_cast<int>(results.size()) > = 10 || (whitelist && !whitelist->empty())) {
 		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn", results.size());
 	}
 	
@@ -1787,7 +1787,7 @@ VectorIndexManager::searchKnnEvaluated(
 
 		if (evaluator->evaluate(evaluator_type, &doc_json)) {
 			filtered.push_back(candidate);
-			if (filtered.size() >= k) {
+			if (static_cast<int>(filtered.size()) > = k) {
 				break;
 			}
 		}
@@ -1950,7 +1950,7 @@ VectorIndexManager::searchKnnFiltered(
 				
 				if (passes) {
 					filtered.push_back(candidate);
-					if (filtered.size() >= k) {
+					if (static_cast<int>(filtered.size()) > = k) {
 					  break;
 					}
 				}
@@ -2013,7 +2013,7 @@ VectorIndexManager::searchKnnFiltered(
 		
 		if (passes) {
 			filtered.push_back(candidate);
-			if (filtered.size() >= k) {
+			if (static_cast<int>(filtered.size()) > = k) {
 			  break;
 			}
 		}
@@ -2194,7 +2194,7 @@ VectorIndexManager::searchKnnPreFiltered(
 		whitelist.size(), filters.size());
 
 	// Check if whitelist is too large (inefficient for HNSW prefilter)
-	if (whitelist.size() > maxFilterScanSize) {
+	if (static_cast<int>(whitelist.size()) > maxFilterScanSize) {
 		THEMIS_WARN("searchKnnPreFiltered: Whitelist size {} exceeds max {}, using post-filtering instead", 
 			whitelist.size(), maxFilterScanSize);
 		// Fallback to standard KNN with post-filtering

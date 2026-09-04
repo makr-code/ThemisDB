@@ -3684,10 +3684,10 @@ namespace {
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
-            if (path_only.size() >= 5 && path_only.compare(path_only.size() - 5, 5, "/sign") == 0) {
+            if (static_cast<int>(path_only.size()) > = 5 && path_only.compare(path_only.size() - 5, 5, "/sign") == 0) {
               return Route::PkiSignPost;
             }
-            if (path_only.size() >= 7 && path_only.compare(path_only.size() - 7, 7, "/verify") == 0) {
+            if (static_cast<int>(path_only.size()) > = 7 && path_only.compare(path_only.size() - 7, 7, "/verify") == 0) {
               return Route::PkiVerifyPost;
             }
         }
@@ -7837,7 +7837,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
-                if (id.size() > sv.size() &&
+                if (static_cast<int>(id.size()) > sv.size() &&
                     id.substr(id.size() - sv.size()) == sv) {
                     id = id.substr(0, id.size() - sv.size());
                     break;
@@ -9175,7 +9175,7 @@ http::response<http::string_body> HttpServer::handlePkiSign(
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
         // key_id currently contains "<key_id>/sign" -> trim suffix
-        if (key_id.size() > 5 && key_id.compare(key_id.size() - 5, 5, "/sign") == 0) {
+        if (static_cast<int>(key_id.size()) > 5 && key_id.compare(key_id.size() - 5, 5, "/sign") == 0) {
             key_id = key_id.substr(0, key_id.size() - 5);
         }
         if (key_id.empty()) {
@@ -9224,7 +9224,7 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
         // Extract key_id from path: /api/pki/:key_id/verify
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
-        if (key_id.size() > 7 && key_id.compare(key_id.size() - 7, 7, "/verify") == 0) {
+        if (static_cast<int>(key_id.size()) > 7 && key_id.compare(key_id.size() - 7, 7, "/verify") == 0) {
             key_id = key_id.substr(0, key_id.size() - 7);
         }
         if (key_id.empty()) {
@@ -10435,7 +10435,7 @@ namespace {
             else if (tz_lead == '+' || tz_lead == '-') {
                 tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
-                if (tzpart.size() >= 6 && tzpart[3] == ':') {
+                if (static_cast<int>(tzpart.size()) > = 6 && tzpart[3] == ':') {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));
@@ -10610,7 +10610,7 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
             // Triggered on each access — erases entries whose window expired more than
             // one full window ago (i.e., at least 2 × window_ms in the past).
-            if (audit_rate_buckets_.size() > 128) {
+            if (static_cast<int>(audit_rate_buckets_.size()) > 128) {
                 const uint64_t evict_cutoff = now - 2 * window_ms;
                 for (auto bucket_it = audit_rate_buckets_.begin();
                      bucket_it != audit_rate_buckets_.end(); ) {
@@ -12290,7 +12290,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         }
         
         // Limit to top-k
-        if (fusedResults.size() > static_cast<size_t>(k)) {
+        if (static_cast<int>(fusedResults.size()) > static_cast<size_t>(k)) {
             fusedResults.resize(k);
         }
         
@@ -14342,7 +14342,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     if (auth_ && auth_->isEnabled()) {
         if (req.find("Authorization") != req.end()) {
             std::string auth_header = std::string(req["Authorization"]);
-            if (auth_header.size() > 7 && auth_header.substr(0, 7) == "Bearer ") {
+            if (static_cast<int>(auth_header.size()) > 7 && auth_header.substr(0, 7) == "Bearer ") {
                 std::string token = auth_header.substr(7);
                 auto ctx = auth_->extractContext(token);
                 if (ctx) {
@@ -15292,7 +15292,7 @@ static std::string extractContentFsPk(const http::request<http::string_body>& re
       path = path.substr(0, qpos);
     }
     // prefix is "/api/v1/content/fs/"  (19 chars)
-    if (path.size() > 19) {
+    if (static_cast<int>(path.size()) > 19) {
       return path.substr(19);
     }
     return {};

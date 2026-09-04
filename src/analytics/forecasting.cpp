@@ -1125,7 +1125,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
 
         // Update window for next step (use rotation instead of erase)
         double new_val = pred_diff - p.mean_diff;
-        if (window.size() > ap + 10) {
+        if (static_cast<int>(window.size()) > ap + 10) {
             for (size_t i = 0; i < window.size() - 1; ++i) {
                 window[i] = window[i + 1];
             }
@@ -1134,7 +1134,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
             window.push_back(new_val);
         }
         
-        if (resid.size() > mq + 10) {
+        if (static_cast<int>(resid.size()) > mq + 10) {
             for (size_t i = 0; i < resid.size() - 1; ++i) {
                 resid[i] = resid[i + 1];
             }
@@ -1667,7 +1667,7 @@ struct ForecastModel::Impl {
 
             // Update window with this forecast (demeaned) using rotation
             double new_val = pred_diff - arima_p.mean_diff;
-            if (window.size() > ap + 10) {
+            if (static_cast<int>(window.size()) > ap + 10) {
                 // Rotate: shift left and append right
                 for (size_t i = 0; i < window.size() - 1; ++i) {
                     window[i] = window[i + 1];
@@ -1678,7 +1678,7 @@ struct ForecastModel::Impl {
             }
             // No new residual: set to 0
             double new_resid = 0.0;
-            if (resid.size() > mq + 10) {
+            if (static_cast<int>(resid.size()) > mq + 10) {
                 // Rotate: shift left and append right
                 for (size_t i = 0; i < resid.size() - 1; ++i) {
                     resid[i] = resid[i + 1];
@@ -2684,7 +2684,7 @@ std::pair<bool, std::string> exponentialSmoothing(
     
     // Initialize level with first value
     level[0] = timeseries[0];
-    if (timeseries.size() > 1) {
+    if (static_cast<int>(timeseries.size()) > 1) {
         trend[1] = beta * (timeseries[1] - timeseries[0]);
     }
     

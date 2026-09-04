@@ -801,7 +801,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 level_rows.emplace_back(it.key(), val);
             }
             auto parse_level_index = [](const std::string& level) -> int {
-                if (level.size() > 1 && (level[0] == 'L' || level[0] == 'l')) {
+                if (static_cast<int>(level.size()) > 1 && (level[0] == 'L' || level[0] == 'l')) {
                     try {
                         return std::stoi(level.substr(1));
                     } catch (...) {
@@ -1568,7 +1568,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
                   });
 
         bool truncated = false;
-        if (records.size() > limit) {
+        if (static_cast<int>(records.size()) > limit) {
             records.resize(limit);
             truncated = true;
         }
@@ -1866,7 +1866,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     if (lic) {
         // Mask the license key: show only the first 8 characters.
         std::string masked_key = lic->license_key;
-        if (masked_key.size() > 8) {
+        if (static_cast<int>(masked_key.size()) > 8) {
             masked_key = masked_key.substr(0, 8) + "...";
         }
         body["license_key"]      = masked_key;

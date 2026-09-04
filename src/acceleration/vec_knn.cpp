@@ -326,7 +326,7 @@ void DistanceCache::put(const std::string &pk_a, const std::string &pk_b, float 
         return;
     }
     // Evict oldest entry if at capacity (O(1) with std::deque)
-    if (map_.size() >= max_entries_ && !order_.empty()) {
+    if (static_cast<int>(map_.size()) > = max_entries_ && !order_.empty()) {
         map_.erase(order_.front());
         order_.pop_front(); // O(1) for std::deque
     }
@@ -537,7 +537,7 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
         };
 
         futures.emplace_back(std::async(std::launch::async, worker));
-        if (futures.size() >= maxWorkers) {
+        if (static_cast<int>(futures.size()) > = maxWorkers) {
             futures.front().get();
             futures.erase(futures.begin());
         }

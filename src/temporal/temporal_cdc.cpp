@@ -147,7 +147,7 @@ void TemporalCDC::publishEvent([[maybe_unused]] const ChangeEvent& event) {
         std::lock_guard<std::mutex> lk(mutex_);
 
         // Append to ring-buffer log, applying the overflow policy when full
-        if (log_.size() >= max_log_size_) {
+        if (static_cast<int>(log_.size()) > = max_log_size_) {
             // Evict oldest event (front of deque-like buffer) — OVERWRITE policy
             if (overflow_policy_ == OverflowPolicy::DROP) {
                 // DROP: discard the new event, count it
@@ -593,7 +593,7 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
         }
         const std::string fname = entry.path().filename().string();
         const std::string prefix_part = log_prefix_ + "_";
-        if (fname.size() > prefix_part.size() + 4 &&
+        if (static_cast<int>(fname.size()) > prefix_part.size() + 4 &&
             fname.substr(0, prefix_part.size()) == prefix_part &&
             fname.substr(fname.size() - 4) == ".wal") {
             try {

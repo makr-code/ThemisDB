@@ -345,7 +345,7 @@ public:
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
         // TC-18: guard against negative max_rank — wraps to huge size_t.
         std::size_t mr = 0u;
-        if (args.size() > 2) {
+        if (static_cast<int>(args.size()) > 2) {
             int mrI = args[2].get<int>();
             if (mrI < 0) {
               throw std::invalid_argument("TENSOR_COMPRESS: max_rank must be >= 0");
@@ -573,7 +573,7 @@ public:
         }
 
         auto max_rank = [&]() -> std::size_t {
-            if (args.size() > 2) {
+            if (static_cast<int>(args.size()) > 2) {
                 // TC-19: guard against negative max_rank — wraps to huge size_t.
                 int mrI = args[2].get<int>();
                 if (mrI < 0) {

@@ -110,7 +110,7 @@ void LLMBatchTuner::pushRecord(BatchRecord record) noexcept {
 
     // Keep a rolling window (4× the evaluation window)
     const size_t max_records = config_.window_size * 4;
-    if (records_.size() >= max_records) {
+    if (static_cast<int>(records_.size()) > = max_records) {
         records_.erase(records_.begin());
     }
     records_.push_back(record);

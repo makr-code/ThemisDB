@@ -605,7 +605,7 @@ void SelfAwareness::loadSnapshots() {
         std::sort(files.begin(), files.end());
 
         // Load the most recent max_snapshots_retained files
-        if (files.size() > config_.max_snapshots_retained) {
+        if (static_cast<int>(files.size()) > config_.max_snapshots_retained) {
             files.erase(files.begin(),
                         files.begin() + static_cast<std::ptrdiff_t>(
                             files.size() - config_.max_snapshots_retained));

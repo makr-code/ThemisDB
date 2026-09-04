@@ -42,7 +42,7 @@ void RecordingCoTTracer::onStepBegin(
     StepId             step_index,
     const std::string& label) noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (pending_.size() <= step_index) {
+    if (static_cast<int>(pending_.size()) <= step_index) {
         pending_.resize(step_index + 1);
     }
     pending_[step_index].label      = label;
@@ -61,7 +61,7 @@ void RecordingCoTTracer::onStepEnd(
     rec.duration    = duration;
     rec.token_count = content.size() / 4;  // BPE approximation (chars / 4)
 
-    if (pending_.size() > step_index) {
+    if (static_cast<int>(pending_.size()) > step_index) {
         rec.label      = pending_[step_index].label;
         rec.start_time = pending_[step_index].start_time;
     } else {
@@ -110,7 +110,7 @@ void CoTTraceCollector::onStepBegin(
     const std::string& label) noexcept {
     {
         std::lock_guard<std::mutex> lk(mutex_);
-        if (pending_.size() <= step_index) {
+        if (static_cast<int>(pending_.size()) <= step_index) {
             pending_.resize(step_index + 1);
         }
         pending_[step_index].label      = label;
@@ -141,7 +141,7 @@ void CoTTraceCollector::onStepEnd(
         rec.duration    = duration;
         rec.token_count = content.size() / 4;
 
-        if (pending_.size() > step_index) {
+        if (static_cast<int>(pending_.size()) > step_index) {
             rec.label      = pending_[step_index].label;
             rec.start_time = pending_[step_index].start_time;
         } else {

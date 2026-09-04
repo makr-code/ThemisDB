@@ -376,7 +376,7 @@ GeoExtractionData GeoProcessor::parseGeoJSON(const std::vector<uint8_t>& blob) {
 
 static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     if (coords.is_array()) {
-        if (coords.size() >= 2 && coords[0].is_number() && coords[1].is_number()) {
+        if (static_cast<int>(coords.size()) > = 2 && coords[0].is_number() && coords[1].is_number()) {
             // [lon, lat] pair
             double lon = coords[0].get<double>();
             double lat = coords[1].get<double>();

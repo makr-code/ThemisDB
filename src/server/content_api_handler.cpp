@@ -464,7 +464,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         // Limit to top-k
-        if (fusedResults.size() > static_cast<size_t>(k)) {
+        if (static_cast<int>(fusedResults.size()) > static_cast<size_t>(k)) {
             fusedResults.resize(k);
         }
         

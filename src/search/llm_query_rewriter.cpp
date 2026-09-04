@@ -195,7 +195,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         }
 
         // Enforce length limit
-        if (line.size() > config_.max_rewrite_length) {
+        if (static_cast<int>(line.size()) > config_.max_rewrite_length) {
             continue;
         }
 
@@ -225,7 +225,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         }
 
         rewrites.push_back(line);
-        if (rewrites.size() >= config_.num_rewrites) {
+        if (static_cast<int>(rewrites.size()) > = config_.num_rewrites) {
           break;
         }
     }

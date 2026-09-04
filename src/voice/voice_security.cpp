@@ -220,7 +220,7 @@ std::vector<VoiceAuditEntry> VoiceSecurityManager::getAuditLog(
           continue;
         }
         result.push_back(*it);
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
           break;
         }
     }

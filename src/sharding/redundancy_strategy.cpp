@@ -432,7 +432,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t parity_shards
 ) {
     // Validate that the number of missing chunks does not exceed the fault tolerance
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error("Too many missing chunks: " +
                                  std::to_string(missing_indices.size()) +
                                  " missing, but only " + std::to_string(parity_shards) +
@@ -812,7 +812,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     uint32_t parity_shards
 ) {
     // Validate that the number of missing chunks does not exceed the fault tolerance
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error("Too many missing chunks: " +
                                  std::to_string(missing_indices.size()) +
                                  " missing, but only " + std::to_string(parity_shards) +
@@ -3103,14 +3103,14 @@ std::string RedundancyStrategy::selectReadShard(
         }
             
         case ReadPreference::SECONDARY_ONLY:
-            if (available_shards.size() > 1) {
+            if (static_cast<int>(available_shards.size()) > 1) {
                 return available_shards[1];
             }
             return available_shards[0];
 
         case ReadPreference::FOLLOWER:
             // Any follower (non-primary); fall through to second shard if available
-            if (available_shards.size() > 1) {
+            if (static_cast<int>(available_shards.size()) > 1) {
                 return available_shards[1];
             }
             return available_shards[0];

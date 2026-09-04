@@ -176,7 +176,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
                                   dim, metric);
         candidates.push({d, node_id});
         results.push({d, node_id});
-        if (results.size() > ef) {
+        if (static_cast<int>(results.size()) > ef) {
           results.pop();
         }
     };
@@ -213,7 +213,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     }
     std::sort(out.begin(), out.end(),
               [](const auto& a, const auto& b){ return a.score < b.score; });
-    if (out.size() > k) {
+    if (static_cast<int>(out.size()) > k) {
       out.resize(k);
     }
     return out;

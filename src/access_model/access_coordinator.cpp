@@ -191,7 +191,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         recent_transitions_.emplace_back(transition);
 
         // Keep only last 1000 transitions
-        if (recent_transitions_.size() > 1000) {
+        if (static_cast<int>(recent_transitions_.size()) > 1000) {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
@@ -279,7 +279,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         recent_transitions_.emplace_back(transition);
 
         // Keep only last 1000 transitions
-        if (recent_transitions_.size() > 1000) {
+        if (static_cast<int>(recent_transitions_.size()) > 1000) {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
@@ -468,7 +468,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
         std::lock_guard<std::mutex> lock(mutex_);
 
-        if (recent_transitions_.size() <= limit) {
+        if (static_cast<int>(recent_transitions_.size()) <= limit) {
             return recent_transitions_;
         }
 

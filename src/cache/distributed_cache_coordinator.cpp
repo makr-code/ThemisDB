@@ -350,7 +350,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
         payload    = msg.dump();
     }
 
-    if (payload.size() > config_.max_message_bytes) {
+    if (static_cast<int>(payload.size()) > config_.max_message_bytes) {
         THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping", payload.size());
         return;
     }

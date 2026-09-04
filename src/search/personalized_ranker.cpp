@@ -43,7 +43,7 @@ void PersonalizedRanker::recordInteraction(const UserInteraction& interaction) {
     std::lock_guard<std::mutex> lock(mu_);
 
     auto& user_history = history_[interaction.user_id];
-    if (user_history.size() >= config_.max_interactions_per_user) {
+    if (static_cast<int>(user_history.size()) > = config_.max_interactions_per_user) {
         // Evict oldest interaction (front of the vector)
         user_history.erase(user_history.begin());
     }

@@ -76,7 +76,7 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     std::sort(results.begin(), results.end());
     
     // Limit to max results
-    if (results.size() > config_.max_results) {
+    if (static_cast<int>(results.size()) > config_.max_results) {
         results.resize(config_.max_results);
     }
     

@@ -248,7 +248,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
         THEMIS_WARN("[UDPServer] rate-limited source {}", anonymizeIpForLog(ip));
 
         // Send RATE_LIMITED ACK if we can read a seq_num
-        if (data.size() >= kUdpServerHeaderSize) {
+        if (static_cast<int>(data.size()) > = kUdpServerHeaderSize) {
             uint32_t seq_be = 0;
             std::memcpy(&seq_be, data.data() + 4, 4);
             sendAck(sender, ntohl(seq_be), UdpServerStatus::RATE_LIMITED);

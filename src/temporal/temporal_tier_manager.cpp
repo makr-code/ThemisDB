@@ -167,7 +167,7 @@ bool TemporalTierManager::insert(const std::string& table_name,
     if (decision == TierDecision::FLUSH_WARM_TO_COLD) {
         flushWarmToColdLocked(table_name, doc.key, warm_blocks);
         // Also flush hot → warm if still over limit
-        if (hot_map.size() > policy_.hot_max_versions_per_key) {
+        if (static_cast<int>(hot_map.size()) > policy_.hot_max_versions_per_key) {
             flushHotToWarmLocked(table_name, doc.key, hot_map, warm_blocks);
         }
     } else if (decision == TierDecision::FLUSH_HOT_TO_WARM) {
@@ -572,7 +572,7 @@ size_t TemporalTierManager::flushHotToWarmLocked(
 
     // How many versions to move: everything beyond hot_max
     const size_t keep = policy_.hot_max_versions_per_key;
-    if (hot_map.size() <= keep) {
+    if (static_cast<int>(hot_map.size()) <= keep) {
       return 0;
     }
 

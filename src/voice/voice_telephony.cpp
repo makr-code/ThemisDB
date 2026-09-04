@@ -351,7 +351,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     
     // CRITICAL GAP 12 (continued): Enforce oversized packet limit
     static constexpr size_t kMaxRtpPacketSize = 32 * 1024;
-    if (rtp_packet.size() > kMaxRtpPacketSize) {
+    if (static_cast<int>(rtp_packet.size()) > kMaxRtpPacketSize) {
         THEMIS_WARN("SipCallSession: RTP packet exceeds size limit ({} > {} bytes), rejecting (error 6910)",
                     rtp_packet.size(), kMaxRtpPacketSize);
         return empty;

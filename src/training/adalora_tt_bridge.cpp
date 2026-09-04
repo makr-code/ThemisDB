@@ -410,7 +410,7 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
     std::sort(out.begin(), out.end(), [](const SimilarAdapter& a, const SimilarAdapter& b) {
         return a.similarity > b.similarity;
     });
-    if (out.size() > top_k) {
+    if (static_cast<int>(out.size()) > top_k) {
         out.resize(top_k);
     }
     return out;

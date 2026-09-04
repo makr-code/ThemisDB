@@ -354,7 +354,7 @@ std::string
 SchemaAutoDetector::validateStringCoercion(const std::string& value)
 {
     // PHASE-2-HARDENING: String length enforcement (max 4KB per field)
-    if (value.size() > TypeCoercionConfig::kMaxStringFieldLength) {
+    if (static_cast<int>(value.size()) > TypeCoercionConfig::kMaxStringFieldLength) {
         return "String value exceeds maximum length (" +
                std::to_string(TypeCoercionConfig::kMaxStringFieldLength) + " bytes)";
     }

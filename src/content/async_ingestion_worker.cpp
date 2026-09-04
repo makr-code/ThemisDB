@@ -205,7 +205,7 @@ std::string AsyncIngestionWorker::submitFile(const std::string &blob, const std:
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) > = config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -362,7 +362,7 @@ std::string AsyncIngestionWorker::submitArchive(const std::string &blob, const s
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) > = config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -415,7 +415,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) > = config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -924,7 +924,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) > = config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 

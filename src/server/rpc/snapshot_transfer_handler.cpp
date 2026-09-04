@@ -539,7 +539,7 @@ private:
                 
             case themis::sharding::COMPRESSION_LZ4: {
                 // Validate input size before compression
-                if (input.size() > themis::utils::compression::MAX_INPUT_SIZE) {
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_INPUT_SIZE) {
                     THEMIS_ERROR("LZ4: Input too large for compression: {} bytes", input.size());
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
@@ -593,7 +593,7 @@ private:
             
             case themis::sharding::COMPRESSION_SNAPPY: {
                 // Validate input size before compression
-                if (input.size() > themis::utils::compression::MAX_INPUT_SIZE) {
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_INPUT_SIZE) {
                     THEMIS_ERROR("Snappy: Input too large for compression: {} bytes", input.size());
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
@@ -632,7 +632,7 @@ private:
                 
             case themis::sharding::COMPRESSION_LZ4: {
                 // Validate compressed input size
-                if (input.size() > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
                     THEMIS_ERROR("LZ4: Compressed data too large: {} bytes", input.size());
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
@@ -683,7 +683,7 @@ private:
             
             case themis::sharding::COMPRESSION_SNAPPY: {
                 // Validate compressed input size
-                if (input.size() > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                if (static_cast<int>(input.size()) > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
                     THEMIS_ERROR("Snappy: Compressed data too large: {} bytes", input.size());
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }

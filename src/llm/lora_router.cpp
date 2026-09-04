@@ -382,7 +382,7 @@ std::vector<std::pair<std::string, float>> LoRARouter::findSemanticCandidates(
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Keep top-K
-    if (candidates.size() > config_.top_k_candidates) {
+    if (static_cast<int>(candidates.size()) > config_.top_k_candidates) {
         candidates.resize(config_.top_k_candidates);
     }
     
@@ -696,13 +696,13 @@ void LoRARouter::updateMetrics(const RoutingDecision& decision) {
     
     // Update rolling averages
     recent_latencies_.push_back(decision.routing_latency_ms.count());
-    if (recent_latencies_.size() > config_.metrics_window_size) {
+    if (static_cast<int>(recent_latencies_.size()) > config_.metrics_window_size) {
         recent_latencies_.erase(recent_latencies_.begin());
     }
     
     if (decision.similarity_score > 0.0f) {
         recent_similarities_.push_back(decision.similarity_score);
-        if (recent_similarities_.size() > config_.metrics_window_size) {
+        if (static_cast<int>(recent_similarities_.size()) > config_.metrics_window_size) {
             recent_similarities_.erase(recent_similarities_.begin());
         }
     }
@@ -733,7 +733,7 @@ std::optional<RoutingDecision> LoRARouter::getCachedDecision(const std::string& 
 }
 
 void LoRARouter::cacheDecision(const std::string& query, const RoutingDecision& decision) {
-    if (decision_cache_.size() >= config_.decision_cache_size) {
+    if (static_cast<int>(decision_cache_.size()) > = config_.decision_cache_size) {
         // Remove oldest entry
         auto oldest = decision_cache_.begin();
         for (auto it = decision_cache_.begin(); it != decision_cache_.end(); ++it) {

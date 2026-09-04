@@ -601,7 +601,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 } else if (!cid_str.empty() && !isValidChangefeedIdentifier(cid_str)) {
                     return makeErrorResponse(http::status::bad_request,
                                              "Invalid consumer_id", req);
-                } else if (cid_str.size() > CONSUMER_ID_MAX_LEN) {
+                } else if (static_cast<int>(cid_str.size()) > CONSUMER_ID_MAX_LEN) {
                     THEMIS_WARN("changefeed: consumer_id exceeds max length ({}), ignoring", CONSUMER_ID_MAX_LEN);
                 }
             }

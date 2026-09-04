@@ -335,7 +335,7 @@ static bool streamReadLinePg(std::istream& file,
       return false;
     }
 
-    if (tl_buf.size() > max_bytes) {
+    if (static_cast<int>(tl_buf.size()) > max_bytes) {
         line.assign(tl_buf, 0, max_bytes);
         truncated = true;
     } else {
@@ -1203,7 +1203,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         return false;
     }
 
-    if (match.size() > 2) {
+    if (static_cast<int>(match.size()) > 2) {
         schema.schema = match[1].str();
         schema.name = match[2].str();
     } else {
@@ -2244,7 +2244,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         // PostgreSQL binary COPY starts with the signature: "PGCOPY\n\xff\r\n\0"
         if (first_data_line) {
             first_data_line = false;
-            if (line.size() >= 6 && line.compare(0, 6, "PGCOPY") == 0) {
+            if (static_cast<int>(line.size()) > = 6 && line.compare(0, 6, "PGCOPY") == 0) {
                 addError(stats, ImportErrorCode::BINARY_COPY_FORMAT,
                          ImportErrorSeverity::ERROR,
                          "Binary COPY format detected for table '" + table_name +

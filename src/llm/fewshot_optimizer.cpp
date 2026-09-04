@@ -87,7 +87,7 @@ void FewShotOptimizer::cacheExamples(const std::vector<FewShotExample>& examples
     }
     
     // Enforce cache size limit
-    if (cache_.size() > config_.cache_size) {
+    if (static_cast<int>(cache_.size()) > config_.cache_size) {
         size_t to_remove = cache_.size() - config_.cache_size;
         cache_.erase(cache_.begin(), cache_.begin() + to_remove);
     }

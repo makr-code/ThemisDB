@@ -88,7 +88,7 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
               continue;
             }
             // path must start with registered_path
-            if (path.size() >= registered_path.size() &&
+            if (static_cast<int>(path.size()) > = registered_path.size() &&
                 path.compare(0, registered_path.size(), registered_path) == 0) {
                 // Ensure it's a proper prefix boundary:
                 //   - exact match, OR

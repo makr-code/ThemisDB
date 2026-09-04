@@ -111,7 +111,7 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
                   return a.distance < b.distance;
               });
 
-    if (results.size() > k) {
+    if (static_cast<int>(results.size()) > k) {
         results.resize(k);
     }
     return results;

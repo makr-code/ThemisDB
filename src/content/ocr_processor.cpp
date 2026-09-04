@@ -243,7 +243,7 @@ std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string &blob,
     api.End();
 
     // Enforce max text size
-    if (text.size() > config_.max_text_size) {
+    if (static_cast<int>(text.size()) > config_.max_text_size) {
         text.resize(config_.max_text_size);
     }
     // Sanitize: remove control characters to prevent injection into the document store

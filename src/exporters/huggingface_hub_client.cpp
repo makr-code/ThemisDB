@@ -127,7 +127,7 @@ namespace {
         }
         // Case-insensitive prefix match for "retry-after:"
         const std::string key = "retry-after:";
-        if (line.size() >= key.size()) {
+        if (static_cast<int>(line.size()) > = key.size()) {
             std::string lower_line = line.substr(0, key.size());
             std::transform(lower_line.begin(), lower_line.end(), lower_line.begin(),
                            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });

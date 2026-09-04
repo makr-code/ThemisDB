@@ -417,7 +417,7 @@ std::string ExportApiHandler::buildAqlQuery([[maybe_unused]] const json& request
                 "' contains forbidden substring '--'");
         }
         static constexpr size_t kMaxFieldLength = 256;
-        if (value.size() > kMaxFieldLength) {
+        if (static_cast<int>(value.size()) > kMaxFieldLength) {
             throw std::invalid_argument(
                 "Export request field '" + field_name + "' exceeds maximum length");
         }

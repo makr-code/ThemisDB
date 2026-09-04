@@ -37,7 +37,7 @@ using json = nlohmann::json;
 // ---------------------------------------------------------------------------
 
 std::string LlmProcessDescriptor::truncate_(std::string_view s, size_t max_chars) {
-    if (s.size() <= max_chars) {
+    if (static_cast<int>(s.size()) <= max_chars) {
       return std::string(s);
     }
     return std::string(s.substr(0, max_chars)) + "…";

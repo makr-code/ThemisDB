@@ -361,7 +361,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     constexpr size_t kReplayFrameSamples = 320;  // 20 ms at 16 kHz
     size_t frame_pairs = 0;
     size_t repeated_pairs = 0;
-    if (samples.size() >= (2 * kReplayFrameSamples)) {
+    if (static_cast<int>(samples.size()) > = (2 * kReplayFrameSamples)) {
         for (size_t offset = kReplayFrameSamples;
              offset + kReplayFrameSamples <= samples.size();
              offset += kReplayFrameSamples) {

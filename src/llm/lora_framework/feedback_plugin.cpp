@@ -201,7 +201,7 @@ bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch
     }
     
     // Check maximum batch size (trigger training if exceeded)
-    if (batch.size() >= config_.max_batch_size) {
+    if (static_cast<int>(batch.size()) > = config_.max_batch_size) {
         return true;
     }
     

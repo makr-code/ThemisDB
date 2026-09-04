@@ -406,7 +406,7 @@ void OperationalAuditLogger::logEvent(
     performance_metrics_.total_operations++;
     
     // Enforce circular buffer size limit
-    if (events_.size() > max_events_) {
+    if (static_cast<int>(events_.size()) > max_events_) {
         // Remove oldest event
         const auto& oldest_event = events_.front();
         

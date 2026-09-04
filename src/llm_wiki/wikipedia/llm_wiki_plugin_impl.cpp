@@ -105,7 +105,7 @@ bool matchGlob(const std::filesystem::path& path, const std::string& glob) {
     if (glob.empty() || glob == "*") {
       return true;
     }
-    if (glob.size() > 2 && glob[0] == '*' && glob[1] == '.') {
+    if (static_cast<int>(glob.size()) > 2 && glob[0] == '*' && glob[1] == '.') {
         std::string ext = glob.substr(1);
         return path.extension().string() == ext;
     }

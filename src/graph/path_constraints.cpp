@@ -122,7 +122,7 @@ void PathConstraints::addEdgePropertyConstraint(std::string_view field_name, std
     if (!isValidFieldName(field_name)) {
         return;
     }
-    if (expected_value.size() > MAX_FIELD_VALUE_LENGTH) {
+    if (static_cast<int>(expected_value.size()) > MAX_FIELD_VALUE_LENGTH) {
         return;
     }
     if (expected_value.find('\0') != std::string_view::npos) {
@@ -136,7 +136,7 @@ void PathConstraints::addNodePropertyConstraint(std::string_view field_name, std
     if (!isValidFieldName(field_name)) {
         return;
     }
-    if (expected_value.size() > MAX_FIELD_VALUE_LENGTH) {
+    if (static_cast<int>(expected_value.size()) > MAX_FIELD_VALUE_LENGTH) {
         return;
     }
     if (expected_value.find('\0') != std::string_view::npos) {

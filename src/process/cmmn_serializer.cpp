@@ -142,7 +142,7 @@ static void parseAttrs(std::string_view src,
 
 template<typename TagCb, typename TextCb>
 bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
-    if (xml.size() > kMaxCmmnXmlBytes) {
+    if (static_cast<int>(xml.size()) > kMaxCmmnXmlBytes) {
       return false;
     }
 

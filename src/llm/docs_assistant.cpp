@@ -451,7 +451,7 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
                   return a.relevance_score > b.relevance_score;
               });
 
-    if (scored_docs.size() > static_cast<size_t>(max_results)) {
+    if (static_cast<int>(scored_docs.size()) > static_cast<size_t>(max_results)) {
         scored_docs.resize(max_results);
     }
     
@@ -556,7 +556,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 
         if (themis::llm::EmbeddedLLMManager::instance().isInitialized()) {
             std::string safe_prompt = fallback_prompt.str();
-            if (safe_prompt.size() > 6000) {
+            if (static_cast<int>(safe_prompt.size()) > 6000) {
                 safe_prompt.resize(6000);
             }
             spdlog::info(
@@ -586,7 +586,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 
                 if (EmbeddedLLMManager::instance().isInitialized()) {
                     std::string safe_prompt = fallback_prompt.str();
-                    if (safe_prompt.size() > 6000) {
+                    if (static_cast<int>(safe_prompt.size()) > 6000) {
                         safe_prompt.resize(6000);
                     }
                     return THEMIS_LLM_GENERATE(safe_prompt);

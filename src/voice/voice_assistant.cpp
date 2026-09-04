@@ -62,7 +62,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
     }
     // CRITICAL GAP 2: Reject oversized payloads that could cause OOM
     // Use stricter per-chunk limit from BATCH A-8 spec
-    if (audio_data.size() > MAX_VOICE_CHUNK_SIZE) {
+    if (static_cast<int>(audio_data.size()) > MAX_VOICE_CHUNK_SIZE) {
         THEMIS_WARN("Voice stream chunk exceeds max size: {} bytes > {} bytes max", 
                     audio_data.size(), MAX_VOICE_CHUNK_SIZE);
         return true;

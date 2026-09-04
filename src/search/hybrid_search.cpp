@@ -308,7 +308,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                           return a.hybrid_score > b.hybrid_score;
                       });
             
-            if (fused.size() > config_.k) {
+            if (static_cast<int>(fused.size()) > config_.k) {
                 fused.resize(config_.k);
             }
             
@@ -410,7 +410,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
               });
     
     // Limit to top-k
-    if (fused_results.size() > config_.k) {
+    if (static_cast<int>(fused_results.size()) > config_.k) {
         fused_results.resize(config_.k);
     }
     

@@ -652,7 +652,7 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                           continue;
                         }
                         keys.push_back(k);
-                        if (keys.size() >= MAX_OBJECTS) {
+                        if (static_cast<int>(keys.size()) > = MAX_OBJECTS) {
                           break;
                         }
                     }
@@ -691,7 +691,7 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                           continue;
                         }
                         keys.push_back(k);
-                        if (keys.size() >= MAX_OBJECTS) {
+                        if (static_cast<int>(keys.size()) > = MAX_OBJECTS) {
                           break;
                         }
                     }
@@ -719,7 +719,7 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
         }
 
         // PHASE-2-HARDENING: Check if we hit the object limit
-        if (keys.size() >= MAX_OBJECTS) {
+        if (static_cast<int>(keys.size()) > = MAX_OBJECTS) {
             THEMIS_WARN("S3 object listing hit maximum limit of {} objects", MAX_OBJECTS);
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,

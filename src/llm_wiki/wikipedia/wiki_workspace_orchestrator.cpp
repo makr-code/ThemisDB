@@ -359,7 +359,7 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
                 ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title) << "\n\n";
                 const auto& txt = chunk.text;
                 ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
-                if (txt.size() > 300) {
+                if (static_cast<int>(txt.size()) > 300) {
                   ofs << "…";
                 }
                 ofs << "\n\n";
@@ -474,7 +474,7 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
                         << " (" << chunk.source_path << ")\n\n";
                     const auto& txt = chunk.text;
                     ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
-                    if (txt.size() > 300) {
+                    if (static_cast<int>(txt.size()) > 300) {
                       ofs << "…";
                     }
                     ofs << "\n\n---\n\n";

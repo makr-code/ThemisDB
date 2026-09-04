@@ -437,7 +437,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	});
 	
 	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
-	if (result.size() >= 100) {
+	if (static_cast<int>(result.size()) > = 100) {
 		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors", result.size(), 0);
 	}
 	
@@ -596,7 +596,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			  return true;
 			}
 			const size_t prefixLen = std::string("graph:out:").size();
-			if (keyStr.size() <= prefixLen) {
+			if (static_cast<int>(keyStr.size()) <= prefixLen) {
 			  return true;
 			}
 			std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);
@@ -1275,7 +1275,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 				  return true;
 				}
 				const size_t prefixLen = std::string("graph:out:").size();
-				if (keyStr.size() <= prefixLen) {
+				if (static_cast<int>(keyStr.size()) <= prefixLen) {
 				  return true;
 				}
 				std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);

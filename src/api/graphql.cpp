@@ -66,7 +66,7 @@ Parser::Result Parser::parse(std::string_view query, const QueryLimits &limits) 
 }
 
 bool Parser::checkQuerySize() {
-    if (source_.size() > limits_.max_query_size_bytes) {
+    if (static_cast<int>(source_.size()) > limits_.max_query_size_bytes) {
         error("Query size exceeds maximum allowed size of " + std::to_string(limits_.max_query_size_bytes) + " bytes");
         return false;
     }

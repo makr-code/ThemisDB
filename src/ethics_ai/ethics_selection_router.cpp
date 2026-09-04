@@ -46,13 +46,13 @@ std::vector<std::string> tokenise(const std::string& text) {
         if (std::isalnum(ch) || ch > 127) { // keep umlauts
             cur += static_cast<char>(std::tolower(ch));
         } else if (!cur.empty()) {
-            if (cur.size() >= 3) {
+            if (static_cast<int>(cur.size()) > = 3) {
               tokens.push_back(cur);
             }
             cur.clear();
         }
     }
-    if (cur.size() >= 3) {
+    if (static_cast<int>(cur.size()) > = 3) {
       tokens.push_back(cur);
     }
     return tokens;
@@ -373,7 +373,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
                   [](const RouterCandidate& a, const RouterCandidate& b) {
                       return a.semantic_score > b.semantic_score;
                   });
-        if (result.size() > config.stage2_top_k) {
+        if (static_cast<int>(result.size()) > config.stage2_top_k) {
             result.resize(config.stage2_top_k);
         }
         return result;
@@ -428,7 +428,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
               [](const RouterCandidate& a, const RouterCandidate& b) {
                   return a.semantic_score > b.semantic_score;
               });
-    if (result.size() > config.stage2_top_k) {
+    if (static_cast<int>(result.size()) > config.stage2_top_k) {
         result.resize(config.stage2_top_k);
     }
     return result;

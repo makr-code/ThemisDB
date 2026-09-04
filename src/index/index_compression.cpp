@@ -191,7 +191,7 @@ std::vector<std::string> PrefixBlock::decompress() const {
 }
 
 size_t PrefixBlock::savedBytes() const {
-    if (suffixes.size() <= 1) {
+    if (static_cast<int>(suffixes.size()) <= 1) {
       return 0;
     }
     // Each suffix avoids storing the prefix separately
@@ -499,7 +499,7 @@ RunLengthBlock IndexCompressionCodec::compressValues(
     }
     auto block = RunLengthEncoder::encode(values);
     // Track RLE savings
-    if (values.size() > block.runs.size()) {
+    if (static_cast<int>(values.size()) > block.runs.size()) {
         stats_.rle_runs_saved +=
             static_cast<uint64_t>(values.size() - block.runs.size());
     }

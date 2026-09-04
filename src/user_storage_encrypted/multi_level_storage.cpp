@@ -150,7 +150,7 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
         }
 
         const std::string prefix = base_path + "/";
-        if (mount_point.size() > prefix.size() &&
+        if (static_cast<int>(mount_point.size()) > prefix.size() &&
             mount_point.compare(0, prefix.size(), prefix) == 0) {
             if (configured_mounts.find(mount_point) == configured_mounts.end()) {
                 stale.push_back(mount_point);

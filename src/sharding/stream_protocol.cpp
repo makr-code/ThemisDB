@@ -369,7 +369,7 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
     }
     
     // data
-    if (data.size() > pos) {
+    if (static_cast<int>(data.size()) > pos) {
         chunk.data.assign(data.begin() + pos, data.end());
     }
     

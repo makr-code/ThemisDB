@@ -271,7 +271,7 @@ double CostModelEnhancements::estimateMultiColumnSelectivity(
     }
     
     // Check for correlations between predicate columns
-    if (predicates.size() >= 2) {
+    if (static_cast<int>(predicates.size()) > = 2) {
         for (const auto& corr : correlations) {
             // See if this correlation involves multiple predicate columns
             bool col1_involved = false, col2_involved = false;

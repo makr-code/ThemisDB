@@ -47,7 +47,7 @@ void RAGContextAssembler::setConfig(const RAGContextAssemblerConfig& cfg)
 std::string RAGContextAssembler::truncateContent(const std::string& content,
                                                   size_t             max_chars) const
 {
-    if (content.size() <= max_chars) {
+    if (static_cast<int>(content.size()) <= max_chars) {
       return content;
     }
 

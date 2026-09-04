@@ -72,7 +72,7 @@ void AdaptiveQueryStats::recordExecution(const QueryExecution& exec) {
     history.push_back(exec);
     
     // Limit history size per query
-    if (history.size() > MAX_HISTORY_PER_QUERY) {
+    if (static_cast<int>(history.size()) > MAX_HISTORY_PER_QUERY) {
         history.erase(history.begin());
     }
     

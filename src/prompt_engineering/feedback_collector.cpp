@@ -348,7 +348,7 @@ FeedbackCollector::getFailedQueries(
         result.emplace_back(entry.query, entry.response, entry.type);
         
         // Apply limit
-        if (result.size() >= limit) {
+        if (static_cast<int>(result.size()) > = limit) {
             break;
         }
     }

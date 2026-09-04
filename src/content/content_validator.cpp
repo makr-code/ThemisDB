@@ -262,7 +262,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     static constexpr size_t MAX_FILENAME_LENGTH = 4096;
 
     // Check length
-    if (filename.size() > MAX_FILENAME_LENGTH) {
+    if (static_cast<int>(filename.size()) > MAX_FILENAME_LENGTH) {
         return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
                                    "Filename exceeds maximum allowed length");
     }
@@ -284,7 +284,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     }
 
     // Check for Windows absolute path ("C:\..." or "\\server\share")
-    if (filename.size() >= 2) {
+    if (static_cast<int>(filename.size()) > = 2) {
         bool is_drive_path
             = (filename[1] == ':')
               && ((filename[0] >= 'A' && filename[0] <= 'Z') || (filename[0] >= 'a' && filename[0] <= 'z'));

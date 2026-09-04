@@ -729,7 +729,7 @@ void GossipConfigManager::sendGossipMessage(
             std::lock_guard<std::mutex> lk(latency_mutex_);
             propagation_latencies_ms_.push_back(latency_ms);
             // Cap history to avoid unbounded growth.
-            if (propagation_latencies_ms_.size() > 1000) {
+            if (static_cast<int>(propagation_latencies_ms_.size()) > 1000) {
                 propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
             }
         }
@@ -820,7 +820,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         
         // Keep only last N latencies
         static constexpr size_t MAX_LATENCY_SAMPLES = 1000;
-        if (propagation_latencies_ms_.size() > MAX_LATENCY_SAMPLES) {
+        if (static_cast<int>(propagation_latencies_ms_.size()) > MAX_LATENCY_SAMPLES) {
             propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
         }
     }

@@ -124,7 +124,7 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
             tags = parseTags(tags_text);
 
             // Limit to max_tags
-            if (tags.size() > static_cast<size_t>(max_tags)) {
+            if (static_cast<int>(tags.size()) > static_cast<size_t>(max_tags)) {
                 tags.resize(max_tags);
             }
         }

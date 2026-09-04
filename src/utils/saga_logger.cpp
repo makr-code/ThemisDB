@@ -158,7 +158,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
             {"status", step.status}
         }.dump();
         
-        if (step_json.size() > 1024 * 1024) {  // 1MB per step limit
+        if (static_cast<int>(step_json.size()) > 1024 * 1024) {  // 1MB per step limit
             ErrorContext ctx(
                 ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "SAGA step payload exceeds 1MB limit",
@@ -188,7 +188,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
     }
     
     // Check if buffer would overflow (SAGA_EVENT_LOSS)
-    if (buffer_.size() >= cfg_.batch_size) {
+    if (static_cast<int>(buffer_.size()) > = cfg_.batch_size) {
         ErrorContext ctx(
             ErrorCode::SAGA_EVENT_LOSS,
             "SAGA step buffer full; triggering auto-flush",
@@ -215,7 +215,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
         now - batch_start_time_
     );
     
-    if (buffer_.size() >= cfg_.batch_size || elapsed >= cfg_.batch_interval) {
+    if (static_cast<int>(buffer_.size()) > = cfg_.batch_size || elapsed >= cfg_.batch_interval) {
         signAndFlushBatch();
     }
 }

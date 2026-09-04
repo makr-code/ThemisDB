@@ -119,7 +119,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         if (!auth_hdr.empty()) {
             const std::string auth_str(auth_hdr);
             constexpr std::string_view kBearer = "Bearer ";
-            if (auth_str.size() > kBearer.size() &&
+            if (static_cast<int>(auth_str.size()) > kBearer.size() &&
                 auth_str.substr(0, kBearer.size()) == kBearer)
             {
                 token = auth_str.substr(kBearer.size());

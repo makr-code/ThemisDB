@@ -487,7 +487,7 @@ static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractio
 
     // Skip ID3v2 header if present
     size_t search_start = 0;
-    if (blob.size() >= 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
+    if (static_cast<int>(blob.size()) > = 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
         // ID3v2 size is stored as syncsafe integer in bytes 6-9
         uint32_t id3_size = ((uint32_t)(blob[6] & 0x7F) << 21) | ((uint32_t)(blob[7] & 0x7F) << 14)
                             | ((uint32_t)(blob[8] & 0x7F) << 7) | (uint32_t)(blob[9] & 0x7F);
@@ -670,7 +670,7 @@ static std::string decodeUtf16Le(const uint8_t *data, size_t len) {
 
 // Helper: strip leading BOM and null bytes from a text string
 static std::string stripBom(const std::string &s) {
-    if (s.size() >= 3 && static_cast<uint8_t>(s[0]) == 0xEF && static_cast<uint8_t>(s[1]) == 0xBB
+    if (static_cast<int>(s.size()) > = 3 && static_cast<uint8_t>(s[0]) == 0xEF && static_cast<uint8_t>(s[1]) == 0xBB
         && static_cast<uint8_t>(s[2]) == 0xBF) {
         return s.substr(3);
     }
@@ -720,7 +720,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
     // -----------------------------------------------------------------------
     // ID3v2 tag parsing (used by MP3 and some other formats)
     // -----------------------------------------------------------------------
-    if (blob.size() >= 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
+    if (static_cast<int>(blob.size()) > = 10 && blob[0] == 'I' && blob[1] == 'D' && blob[2] == '3') {
         uint8_t id3_major = blob[3]; // version: 3 = ID3v2.3, 4 = ID3v2.4
         // Byte 5: flags; byte 5 bit 6 = extended header present
         bool has_extended = (blob[5] & 0x40) != 0;
@@ -802,7 +802,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
     // Vorbis comment parsing (used by FLAC and Ogg Vorbis files)
     // -----------------------------------------------------------------------
     // FLAC: second metadata block may be VORBIS_COMMENT (type 4)
-    if (blob.size() >= 8 && blob[0] == 'f' && blob[1] == 'L' && blob[2] == 'a' && blob[3] == 'C') {
+    if (static_cast<int>(blob.size()) > = 8 && blob[0] == 'f' && blob[1] == 'L' && blob[2] == 'a' && blob[3] == 'C') {
         size_t pos      = 4;
         bool last_block = false;
         while (!last_block && pos + 4 <= blob.size()) {

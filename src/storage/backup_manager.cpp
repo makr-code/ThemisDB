@@ -420,7 +420,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
         }
 
         RemoteBackupLocation location = {};
-        if (segments.size() >= 3) {
+        if (static_cast<int>(segments.size()) > = 3) {
             location.authority = segments[0];
             location.container = segments[1];
             location.prefix = trimSlashes(joinPathSegments(segments, 2));
@@ -2941,7 +2941,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             for (const auto& collection : collections) {
                 coll_list_capacity += collection.size();
             }
-            if (collections.size() > 1) {
+            if (static_cast<int>(collections.size()) > 1) {
                 coll_list_capacity += (collections.size() - 1) * 2; // ", "
             }
 
@@ -3720,7 +3720,7 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
                 }
                 corrupt_list += corrupted[i];
             }
-            if (corrupted.size() > 5) {
+            if (static_cast<int>(corrupted.size()) > 5) {
                 corrupt_list += " ... and " + std::to_string(corrupted.size() - 5) + " more";
             }
             THEMIS_ERROR("Phase 1: Data corruption detected in {} files after decompression: {}",

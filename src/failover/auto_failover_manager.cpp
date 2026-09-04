@@ -155,7 +155,7 @@ bool AutoFailoverManager::triggerManualFailover(
             queue_pressure_threshold = config_.queue_pressure_threshold;
         }
         
-        if (failover_queue_.size() >= max_concurrent) {
+        if (static_cast<int>(failover_queue_.size()) > = max_concurrent) {
             spdlog::error("Failover queue is full (max: {})", max_concurrent);
             {
                 // LOCK2: stats_mutex_ (acquired after failover_mutex_, per lock order)
@@ -947,7 +947,7 @@ void AutoFailoverManager::updateAdaptiveInterval(std::chrono::milliseconds last_
     // Called without holding monitor_mutex_; acquire it here.
     std::lock_guard<std::mutex> lock(monitor_mutex_);
     health_check_latency_samples_.push_back(last_latency);
-    if (health_check_latency_samples_.size() > config_.adaptive_check_samples) {
+    if (static_cast<int>(health_check_latency_samples_.size()) > config_.adaptive_check_samples) {
         health_check_latency_samples_.erase(health_check_latency_samples_.begin());
     }
     auto sorted = health_check_latency_samples_;
@@ -984,7 +984,7 @@ bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
         std::remove_if(recent_failure_timestamps_.begin(), recent_failure_timestamps_.end(),
             [&]([[maybe_unused]] const auto& ts) { return ts < window_start; }),
         recent_failure_timestamps_.end());
-    if (recent_failure_timestamps_.size() >= cfg.gc_grace_failure_count) {
+    if (static_cast<int>(recent_failure_timestamps_.size()) > = cfg.gc_grace_failure_count) {
         gc_grace_expiry_ = now + cfg.gc_grace_period;
         spdlog::warn("GC grace period started for node {} ({}ms)",
                      node_id, cfg.gc_grace_period.count());
@@ -1074,7 +1074,7 @@ void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
 
     failover_durations_.push_back(result.duration);
 
-    if (failover_durations_.size() > 100) {
+    if (static_cast<int>(failover_durations_.size()) > 100) {
         failover_durations_.erase(failover_durations_.begin());
     }
 

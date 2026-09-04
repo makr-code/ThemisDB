@@ -324,7 +324,7 @@ std::string AsyncJobApiHandler::extractJobId([[maybe_unused]] const std::string&
     }
 
     static constexpr std::string_view kPrefix{"/v2/jobs/"};
-    if (path.size() <= kPrefix.size()) return {};
+    if (static_cast<int>(path.size()) <= kPrefix.size()) return {};
     if (path.rfind(kPrefix.data(), 0) != 0) return {};
     return path.substr(kPrefix.size());
 }

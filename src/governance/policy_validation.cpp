@@ -251,7 +251,7 @@ PolicyValidator::detectOverlappingPermissions(const PolicyManager &policy_mgr) c
 
     // Identify patterns with multiple rules (potential overlaps)
     for (const auto &[pattern, rule_ids] : pattern_rules) {
-        if (rule_ids.size() > 1) { // Two or more rules covering the same resource/action
+        if (static_cast<int>(rule_ids.size()) > 1) { // Two or more rules covering the same resource/action
             ConflictResult conflict;
             conflict.conflict_id          = "overlap_" + pattern;
             conflict.conflict_type        = "overlapping";
@@ -378,7 +378,7 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
             }
         }
 
-        if (component.size() >= 3) {
+        if (static_cast<int>(component.size()) > = 3) {
             ConflictResult conflict;
             conflict.conflict_id          = "circular_" + component[0];
             conflict.conflict_type        = "circular";
@@ -1128,7 +1128,7 @@ PolicyOptimizer::recommendMerges(const PolicyManager &policy_mgr) const {
 
     // Recommend merging groups with multiple rules
     for (const auto &[signature, rule_ids] : similar_groups) {
-        if (rule_ids.size() > 1) {
+        if (static_cast<int>(rule_ids.size()) > 1) {
             for (const auto &rule_id : rule_ids) {
                 OptimizationRecommendation rec;
                 rec.recommendation_id = "merge_" + rule_id;

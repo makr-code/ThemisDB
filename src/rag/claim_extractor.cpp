@@ -247,7 +247,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     result.consensus_answer = extractConsensus(samples);
     
     // Use LLM to identify specific agreements/disagreements
-    if (samples.size() <= 5) {  // Only for small sets to avoid token limits
+    if (static_cast<int>(samples.size()) <= 5) {  // Only for small sets to avoid token limits
         PromptTemplate consistency_tmpl = PromptLibrary::getConsistencyCheckPrompt();
         
         std::ostringstream samples_str = {};

@@ -116,7 +116,7 @@ inline Result<std::string> validateHexKey(const std::string& hex_key) {
     }
 
     // Reasonable size limit: 256 bytes = 512 hex chars (max for typical keys)
-    if (hex_key.size() > 512) {
+    if (static_cast<int>(hex_key.size()) > 512) {
         return Result<std::string>::error(
             "Hex key exceeds maximum length (512 characters)"
         );

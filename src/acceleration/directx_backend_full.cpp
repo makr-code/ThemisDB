@@ -419,7 +419,7 @@ public:
 
             for (size_t v = 0; v < numVectors; ++v) {
                 heap.push({ row[v], static_cast<uint32_t>(v) });
-                if (heap.size() > actualK) {
+                if (static_cast<int>(heap.size()) > actualK) {
                   heap.pop();
                 }
             }

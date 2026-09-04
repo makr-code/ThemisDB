@@ -44,7 +44,7 @@ void SearchAnalytics::record(const std::string& query,
     ev.is_zero_result = (result_count == 0);
 
     std::lock_guard<std::mutex> lock(mu_);
-    if (events_.size() >= config_.max_events) {
+    if (static_cast<int>(events_.size()) > = config_.max_events) {
         // Evict the oldest entry
         events_.erase(events_.begin());
     }
@@ -67,7 +67,7 @@ std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries([[maybe_unused]] 
     for (auto it = events_.rbegin(); it != events_.rend(); ++it) {
         if (it->is_zero_result) {
             result.push_back(*it);
-            if (result.size() >= limit) {
+            if (static_cast<int>(result.size()) > = limit) {
               break;
             }
         }

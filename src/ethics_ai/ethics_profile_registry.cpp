@@ -228,7 +228,7 @@ void EthicsProfileRegistry::lruPut(const std::string& id,
     }
 
     // Evict LRU if at capacity
-    if (lru_list_.size() >= lru_capacity_) {
+    if (static_cast<int>(lru_list_.size()) > = lru_capacity_) {
         lruEvict();
     }
 

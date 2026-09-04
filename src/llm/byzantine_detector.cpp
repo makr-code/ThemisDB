@@ -277,7 +277,7 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
     int num_to_select
 ) const {
-    if (shard_gradients.size() <= static_cast<size_t>(num_to_select)) {
+    if (static_cast<int>(shard_gradients.size()) <= static_cast<size_t>(num_to_select)) {
         // Select all shards
         std::vector<std::string> all_shards = {};
 

@@ -196,7 +196,7 @@ public:
         // Cap list sizes for usability
         const auto limit = config_.max_diff_hotspots;
         auto trim = [limit](std::vector<std::string>& v) {
-            if (v.size() > limit) {
+            if (static_cast<int>(v.size()) > limit) {
               v.resize(limit);
             }
         };

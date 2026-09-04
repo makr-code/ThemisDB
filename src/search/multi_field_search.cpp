@@ -169,7 +169,7 @@ std::vector<MultiFieldBoostedSearch::Result> MultiFieldBoostedSearch::search(
                   return a.score > b.score;
               });
 
-    if (results.size() > config_.k) {
+    if (static_cast<int>(results.size()) > config_.k) {
         results.resize(config_.k);
     }
 

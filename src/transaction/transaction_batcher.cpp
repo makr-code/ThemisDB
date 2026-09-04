@@ -215,7 +215,7 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
         std::lock_guard<std::mutex> lk(queue_mutex_);
         queue_.push_back(std::move(entry));
 
-        if (queue_.size() >= effective_max_batch_size) {
+        if (static_cast<int>(queue_.size()) > = effective_max_batch_size) {
             need_immediate_flush = true;
             flush_requested_     = true;
         }
@@ -450,7 +450,7 @@ void TransactionBatcher::adaptWindow(size_t batch_size,
     double throughput = static_cast<double>(batch_size) / elapsed_sec;
 
     recent_throughputs_.push_back(throughput);
-    if (recent_throughputs_.size() > kMaxThroughputSamples)
+    if (static_cast<int>(recent_throughputs_.size()) > kMaxThroughputSamples)
         recent_throughputs_.pop_front();
 
     double avg_throughput = std::accumulate(

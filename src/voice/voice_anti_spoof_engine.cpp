@@ -255,7 +255,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::str
     constexpr size_t kFrameSamples = 320;
     size_t frame_pairs = 0;
     size_t repeated_pairs = 0;
-    if (samples.size() >= (2 * kFrameSamples)) {
+    if (static_cast<int>(samples.size()) > = (2 * kFrameSamples)) {
         for (size_t offset = kFrameSamples;
              offset + kFrameSamples <= samples.size();
              offset += kFrameSamples) {

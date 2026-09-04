@@ -1572,7 +1572,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::TOPN: {
             auto sorted = s.values;
             std::sort(sorted.rbegin(), sorted.rend());
-            if (sorted.size() > 10) {
+            if (static_cast<int>(sorted.size()) > 10) {
                 sorted.resize(10);
             }
             std::vector<std::string> strs = {};
@@ -2311,11 +2311,11 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             for (auto pit = param_begin; pit != param_end; ++pit) {
                 std::smatch pm  = *pit;
                 std::string val = {};
-                if (pm.size() > 1 && pm[1].matched) {
+                if (static_cast<int>(pm.size()) > 1 && pm[1].matched) {
                     val = pm[1].str();
-                } else if (pm.size() > 2 && pm[2].matched) {
+                } else if (static_cast<int>(pm.size()) > 2 && pm[2].matched) {
                     val = pm[2].str();
-                } else if (pm.size() > 3) {
+                } else if (static_cast<int>(pm.size()) > 3) {
                     val = pm[3].str();
                 }
                 if (!val.empty()) {
@@ -2327,7 +2327,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 if (!params.empty()) {
                     ac.target = params[0];
                 }
-                if (params.size() > 1) {
+                if (static_cast<int>(params.size()) > 1) {
                     ac.template_str = params[1];
                 }
             } else if (ac.type == ActionType::ALERT) {
@@ -2335,17 +2335,17 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 if (!params.empty()) {
                     ac.target = params[0];
                 }
-                if (params.size() > 1) {
+                if (static_cast<int>(params.size()) > 1) {
                     cfg.tags["severity"] = params[1];
                 }
-                if (params.size() > 2) {
+                if (static_cast<int>(params.size()) > 2) {
                     ac.template_str = params[2];
                 }
             } else {
                 if (!params.empty()) {
                     ac.target = params[0];
                 }
-                if (params.size() > 1) {
+                if (static_cast<int>(params.size()) > 1) {
                     ac.template_str = params[1];
                 }
             }

@@ -1177,7 +1177,7 @@ bool GPUMemoryManager::defragment() {
     // Iterate through each model and consolidate fragmented allocations
     for (auto& [model_id, allocs] : allocations_) {
         // Skip if model has only one allocation (not fragmented)
-        if (allocs.size() <= 1) {
+        if (static_cast<int>(allocs.size()) <= 1) {
             continue;
         }
         
@@ -1195,20 +1195,20 @@ bool GPUMemoryManager::defragment() {
         }
         
         // Defragment GPU memory if there are multiple GPU allocations
-        if (gpu_allocs.size() > 1) {
+        if (static_cast<int>(gpu_allocs.size()) > 1) {
             if (defragmentModelGPU(model_id, gpu_allocs)) {
                 allocations_consolidated += gpu_allocs.size() - 1;
             }
         }
         
         // Defragment CPU memory if there are multiple CPU allocations
-        if (cpu_allocs.size() > 1) {
+        if (static_cast<int>(cpu_allocs.size()) > 1) {
             if (defragmentModelCPU(model_id, cpu_allocs)) {
                 allocations_consolidated += cpu_allocs.size() - 1;
             }
         }
         
-        if (gpu_allocs.size() > 1 || cpu_allocs.size() > 1) {
+        if (static_cast<int>(gpu_allocs.size()) > 1 || cpu_allocs.size() > 1) {
             models_defragmented++;
         }
     }
@@ -1236,7 +1236,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
     // Defragment each device separately
     for (const auto& [device_id, device_allocs] : per_device_allocs) {
-        if (device_allocs.size() <= 1) {
+        if (static_cast<int>(device_allocs.size()) <= 1) {
             continue;
         }
 
@@ -1380,7 +1380,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
 bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id, 
                                           const std::vector<MemoryAllocation>& cpu_allocs) {
-    if (cpu_allocs.size() <= 1) {
+    if (static_cast<int>(cpu_allocs.size()) <= 1) {
         return false;
     }
     
@@ -1397,7 +1397,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
     }
     
     // Consolidate pinned allocations
-    if (pinned_allocs.size() > 1) {
+    if (static_cast<int>(pinned_allocs.size()) > 1) {
         size_t total_ram = 0;
         for (const auto& alloc : pinned_allocs) {
             total_ram += alloc.ram_bytes;
@@ -1481,7 +1481,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
     }
     
     // Consolidate regular allocations
-    if (regular_allocs.size() > 1) {
+    if (static_cast<int>(regular_allocs.size()) > 1) {
         size_t total_ram = 0;
         for (const auto& alloc : regular_allocs) {
             total_ram += alloc.ram_bytes;

@@ -105,7 +105,7 @@ public:
         auto tokens = tokenizer->encode(text);
         
         // Truncate if necessary
-        if (tokens.size() > config.max_token_length) {
+        if (static_cast<int>(tokens.size()) > config.max_token_length) {
             tokens.resize(config.max_token_length);
         }
         
@@ -400,7 +400,7 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
 
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate query size to prevent memory exhaustion and DoS attacks
-    if (query.size() > 100000) {
+    if (static_cast<int>(query.size()) > 100000) {
         THEMIS_WARN("DPRVectorizer::encodeQuery: query exceeds maximum size ({} bytes)", 
                    query.size());
         throw std::invalid_argument("Query size exceeds maximum allowed length (100KB)");
@@ -453,7 +453,7 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
 
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate passage size to prevent memory exhaustion and DoS attacks
-    if (passage.size() > 100000) {
+    if (static_cast<int>(passage.size()) > 100000) {
         THEMIS_WARN("DPRVectorizer::encodePassage: passage exceeds maximum size ({} bytes)", 
                    passage.size());
         throw std::invalid_argument("Passage size exceeds maximum allowed length (100KB)");
@@ -502,7 +502,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
 
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size and individual passage sizes to prevent DoS
-    if (passages.size() > 10000) {
+    if (static_cast<int>(passages.size()) > 10000) {
         THEMIS_WARN("DPRVectorizer::encodePassageBatch: batch size exceeds maximum ({})", 
                    passages.size());
         throw std::invalid_argument("Batch size exceeds maximum (10000 passages)");
@@ -512,7 +512,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
     size_t total_bytes = 0;
     for (const auto& passage : passages) {
         total_bytes += passage.size();
-        if (passage.size() > 100000) {
+        if (static_cast<int>(passage.size()) > 100000) {
             THEMIS_WARN("DPRVectorizer::encodePassageBatch: passage {} exceeds size limit ({})", 
                        passages.size(), passage.size());
             throw std::invalid_argument("Individual passage exceeds maximum size (100KB)");

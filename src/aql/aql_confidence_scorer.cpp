@@ -135,7 +135,7 @@ std::vector<std::string> AQLConfidenceScorer::extractCollections(const std::stri
         }
         std::string stripped(it, line.end());
 
-        if (stripped.size() > 2 && stripped[0] == '-' && stripped[1] == ' ') {
+        if (static_cast<int>(stripped.size()) > 2 && stripped[0] == '-' && stripped[1] == ' ') {
             std::string rest = stripped.substr(2);
             // Trim leading spaces after the dash
             rest.erase(rest.begin(),

@@ -164,7 +164,7 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
                 }
                 
                 results.push_back(std::move(fb));
-                if (results.size() >= filter.limit) {
+                if (static_cast<int>(results.size()) > = filter.limit) {
                     return false; // stop scanning
                 }
             } catch (const std::exception& e) {
@@ -364,7 +364,7 @@ std::vector<Feedback> FeedbackStorageService::getWeightedTrainingFeedback(
     );
     
     // Take top 'limit' entries
-    if (training_feedback.size() > limit) {
+    if (static_cast<int>(training_feedback.size()) > limit) {
         training_feedback.resize(limit);
     }
     

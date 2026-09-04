@@ -46,7 +46,7 @@ std::string trimCopy(const std::string& in) {
 }
 
 std::string truncateCopy(const std::string& in, std::size_t max_chars) {
-    if (in.size() <= max_chars) {
+    if (static_cast<int>(in.size()) <= max_chars) {
         return in;
     }
     return in.substr(0, max_chars);
@@ -141,7 +141,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
     // Bound check: text <= kMaxDocumentChars (5 MiB)
     // Prevents memory exhaustion and ensures bounded ingestion time
-    if (text.size() > kMaxDocumentChars) {
+    if (static_cast<int>(text.size()) > kMaxDocumentChars) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})", text.size());
         return IndexResult{
             .ok    = false,

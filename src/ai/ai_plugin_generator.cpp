@@ -51,7 +51,7 @@ static constexpr std::size_t kLogMaxLen = 120u;
 /// @param s Input string to truncate.
 /// @return Truncated string with "[…]" suffix if original exceeded kLogMaxLen; otherwise unchanged.
 std::string truncateForLog(const std::string& s) {
-    if (s.size() <= kLogMaxLen) {
+    if (static_cast<int>(s.size()) <= kLogMaxLen) {
         return s;
     }
     return s.substr(0, kLogMaxLen) + "[…]";
@@ -75,7 +75,7 @@ std::string sanitizeArtifactStem(std::string_view value) {
     if (sanitized.empty()) {
         sanitized = "generated_plugin";
     }
-    if (sanitized.size() > 64u) {
+    if (static_cast<int>(sanitized.size()) > 64u) {
         sanitized.resize(64u);
     }
     return sanitized;
@@ -438,7 +438,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     unique_capabilities.reserve(prompt.required_capabilities.size());
     for (const auto& capability : prompt.required_capabilities) {
-        if (capability.size() > kMaxCapabilityTokenLen || !isValidPromptListToken(capability)) {
+        if (static_cast<int>(capability.size()) > kMaxCapabilityTokenLen || !isValidPromptListToken(capability)) {
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: required_capabilities contains invalid token"));
@@ -456,7 +456,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     unique_dependencies.reserve(prompt.dependencies.size());
     for (const auto& dependency : prompt.dependencies) {
-        if (dependency.size() > kMaxDependencyTokenLen || !isValidPromptListToken(dependency)) {
+        if (static_cast<int>(dependency.size()) > kMaxDependencyTokenLen || !isValidPromptListToken(dependency)) {
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: dependencies contains invalid token"));
@@ -564,7 +564,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     request["generate_tests"] = prompt.generate_tests;
     request["generate_docs"] = prompt.generate_docs;
     const std::string request_body = request.dump();
-    if (request_body.size() > config_.max_request_body_bytes) {
+    if (static_cast<int>(request_body.size()) > config_.max_request_body_bytes) {
         ++stat_validation_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -696,7 +696,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     std::string raw_name = payload.value("name", std::string("generated_plugin"));
-    if (raw_name.size() > kMaxNameLen || raw_name.empty()) {
+    if (static_cast<int>(raw_name.size()) > kMaxNameLen || raw_name.empty()) {
         raw_name = "generated_plugin";
     }
     generated.manifest.name = std::move(raw_name);
@@ -716,7 +716,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         for (const auto& dep : deps_arr) {
             if (dep.is_string()) {
                 auto dep_str = dep.get<std::string>();
-                if (dep_str.size() <= kMaxDepEntryLen) {
+                if (static_cast<int>(dep_str.size()) <= kMaxDepEntryLen) {
                     generated.build_dependencies.push_back(std::move(dep_str));
                 }
             }

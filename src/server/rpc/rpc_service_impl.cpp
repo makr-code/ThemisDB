@@ -2701,7 +2701,7 @@ json ThemisRPCService::handleAggregationPipelineInternal(
                         "$limit value must be non-negative"
                     );
                 }
-                if (results.size() > static_cast<size_t>(limit)) {
+                if (static_cast<int>(results.size()) > static_cast<size_t>(limit)) {
                     json limited = json::array();
                     for (size_t i = 0; i < static_cast<size_t>(limit); ++i) {
                         limited.push_back(results[i]);

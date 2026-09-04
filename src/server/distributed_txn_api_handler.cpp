@@ -312,7 +312,7 @@ DistributedTxnApiHandler::handleStatus([[maybe_unused]] const http::request<http
         // Extract transaction ID from the URL path: /dtxn/status/{txn_id}
         std::string_view path  = req.target();
         const std::string_view prefix = "/dtxn/status/";
-        if (path.size() <= prefix.size()) {
+        if (static_cast<int>(path.size()) <= prefix.size()) {
             return error(http::status::bad_request,
                          "Missing transaction ID in path", req);
         }

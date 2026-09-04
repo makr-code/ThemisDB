@@ -247,7 +247,7 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
               [](const MultiModalResult& a, const MultiModalResult& b) {
                   return a.score > b.score;
               });
-    if (results.size() > config_.k) {
+    if (static_cast<int>(results.size()) > config_.k) {
         results.resize(config_.k);
     }
 

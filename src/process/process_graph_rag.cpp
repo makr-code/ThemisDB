@@ -1498,7 +1498,7 @@ void ProcessGraphRag::recordNodeCompletion(
     samples.push_back(static_cast<double>(dwell_ms));
 
     constexpr size_t kMaxSamples = 200;
-    if (samples.size() > kMaxSamples)
+    if (static_cast<int>(samples.size()) > kMaxSamples)
         samples.erase(samples.begin());
 
     agg["node_name"]  = std::string(node_name);

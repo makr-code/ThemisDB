@@ -244,7 +244,7 @@ TensorFingerprintGraph::findSimilarByFingerprint(
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
-    if (results.size() > k) {
+    if (static_cast<int>(results.size()) > k) {
       results.resize(k);
     }
 
@@ -398,7 +398,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
-    if (results.size() > k) {
+    if (static_cast<int>(results.size()) > k) {
       results.resize(k);
     }
 

@@ -132,13 +132,13 @@ std::vector<std::string> tokenise(const std::string& text) {
         if (std::isalnum(ch)) {
             cur.push_back(static_cast<char>(std::tolower(ch)));
         } else if (!cur.empty()) {
-            if (cur.size() > 2) {   // skip very short tokens
+            if (static_cast<int>(cur.size()) > 2) {   // skip very short tokens
                 tokens.push_back(cur);
             }
             cur.clear();
         }
     }
-    if (cur.size() > 2) {
+    if (static_cast<int>(cur.size()) > 2) {
         tokens.push_back(cur);
     }
     return tokens;
@@ -310,7 +310,7 @@ struct CrossEncoderReranker::Impl {
 
         const std::size_t effective_max_cache_size = std::max<std::size_t>(1u, max_cache_size);
         std::lock_guard<std::mutex> lock(cache_mutex);
-        if (score_cache.size() >= effective_max_cache_size) {
+        if (static_cast<int>(score_cache.size()) > = effective_max_cache_size) {
             auto it = score_cache.begin();
             const size_t half = score_cache.size() / 2;
             for (size_t i = 0; i < half; ++i) {
@@ -372,7 +372,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate query size
-    if (query.size() > kMaxQueryChars) {
+    if (static_cast<int>(query.size()) > kMaxQueryChars) {
         THEMIS_WARN("CrossEncoderReranker::rerank: query exceeds maximum size ({})",
                    query.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -381,7 +381,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate candidate count
-    if (candidates.size() > kMaxCandidates) {
+    if (static_cast<int>(candidates.size()) > kMaxCandidates) {
         THEMIS_WARN("CrossEncoderReranker::rerank: candidates count exceeds maximum ({})",
                    candidates.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(

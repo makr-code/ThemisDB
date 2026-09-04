@@ -64,7 +64,7 @@ std::vector<std::pair<std::string, double>> fuseRRF(
     std::stable_sort(result.begin(), result.end(),
                      [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    if (result.size() > max_results) {
+    if (static_cast<int>(result.size()) > max_results) {
         result.resize(max_results);
     }
     return result;
@@ -211,7 +211,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     } else if (all_lists.size() == 1) {
         // Single-modality: no fusion needed, use raw ranked list directly.
         fused = all_lists[0];
-        if (fused.size() > cfg.max_sources) {
+        if (static_cast<int>(fused.size()) > cfg.max_sources) {
             fused.resize(cfg.max_sources);
         }
     } else {

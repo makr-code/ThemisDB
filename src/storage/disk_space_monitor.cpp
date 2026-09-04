@@ -480,7 +480,7 @@ void DiskSpaceMonitor::recordUsage(const SpaceInfo& info) {
     usage_history_.push_back(snapshot);
     
     // Keep only recent history
-    if (usage_history_.size() > max_history_size_) {
+    if (static_cast<int>(usage_history_.size()) > max_history_size_) {
         usage_history_.erase(usage_history_.begin());
     }
 }

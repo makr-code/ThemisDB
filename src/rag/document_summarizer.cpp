@@ -130,7 +130,7 @@ std::string extractiveSummary(
     std::vector<size_t> selected_indices;
     size_t chars_used = 0;
     for (const auto& [score, idx] : scored) {
-        if (selected_indices.size() >= max_sentences) {
+        if (static_cast<int>(selected_indices.size()) > = max_sentences) {
           break;
         }
         const size_t len = all_sentences[idx].size();
@@ -223,7 +223,7 @@ struct DocumentSummarizer::Impl {
         std::unordered_set<std::string> terms = {};
 
         for (auto& w : tokeniseWords(query)) {
-            if (w.size() > 2) { // skip stop-word candidates
+            if (static_cast<int>(w.size()) > 2) { // skip stop-word candidates
                 terms.insert(w);
             }
         }

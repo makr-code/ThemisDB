@@ -162,7 +162,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
             continue;
         }
         aspects.push_back(trimmed.substr(0, kMaxAspectChars));
-        if (aspects.size() >= kMaxAspectsPerIteration) {
+        if (static_cast<int>(aspects.size()) > = kMaxAspectsPerIteration) {
             break;
         }
     }
@@ -247,7 +247,7 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
             batches.push_back(std::move(current_batch));
             current_tokens = 0u;
 
-            if (batches.size() >= config_.max_map_steps) {
+            if (static_cast<int>(batches.size()) > = config_.max_map_steps) {
               break;
             }
         }
@@ -277,7 +277,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}", query.size());
         return result;
     }
-    if (documents.size() > std::numeric_limits<int>::max()) {
+    if (static_cast<int>(documents.size()) > std::numeric_limits<int>::max()) {
         spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}", documents.size());
         return result;
     }
@@ -508,7 +508,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
             break;
         }
          
-        if (gap_response.size() > kMaxGapResponseChars) {
+        if (static_cast<int>(gap_response.size()) > kMaxGapResponseChars) {
             spdlog::warn("MultiStepRAG::runIterative gap-response too large; stopping refinement");
             break;
         }

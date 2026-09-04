@@ -57,7 +57,7 @@ void KeyCache::put(const std::string& key_id, uint32_t version, const std::vecto
     evictExpired();
     
     // Evict LRU if cache is full
-    if (cache_.size() >= max_size_) {
+    if (static_cast<int>(cache_.size()) > = max_size_) {
         evictLRU();
     }
     

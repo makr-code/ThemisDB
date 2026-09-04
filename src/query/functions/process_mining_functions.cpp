@@ -771,7 +771,7 @@ json PmFindSimilarFunction::execute(
     json results = json::array();
     for (const auto& [score, entry] : ranked) {
         (void)score;
-        if (results.size() >= limit) {
+        if (static_cast<int>(results.size()) > = limit) {
             break;
         }
         results.push_back(entry);
@@ -837,7 +837,7 @@ json PmExtractLogFunction::execute(
     config.case_id_field   = "case_id";
     config.activity_field  = "activity";
     config.timestamp_field = "timestamp";
-    if (args.size() > 1 && args[1].is_object()) {
+    if (static_cast<int>(args.size()) > 1 && args[1].is_object()) {
         const json& cfg = args[1];
         if (cfg.contains("case_id_field")   && cfg["case_id_field"].is_string())
             config.case_id_field   = cfg["case_id_field"].get<std::string>();

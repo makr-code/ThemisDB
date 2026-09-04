@@ -670,7 +670,7 @@ std::string AccessControl::createSessionLocked(
 
     // Check max concurrent sessions
     auto& user_sess = user_sessions_[user_id];
-    if (user_sess.size() > static_cast<size_t>(config_.session_config.max_concurrent_sessions)) {
+    if (static_cast<int>(user_sess.size()) > static_cast<size_t>(config_.session_config.max_concurrent_sessions)) {
         // Remove oldest session without re-acquiring the mutex.
         invalidateSessionLocked(user_sess.front());
         user_sess.erase(user_sess.begin());

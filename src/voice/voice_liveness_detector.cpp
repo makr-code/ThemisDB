@@ -152,7 +152,7 @@ VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
         result.reason = "Empty response payload";
         return result;
     }
-    if (audio_response.size() > config_.max_response_bytes) {
+    if (static_cast<int>(audio_response.size()) > config_.max_response_bytes) {
         result.reason = "Response payload too large";
         return result;
     }

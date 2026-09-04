@@ -5074,7 +5074,7 @@ void BatchedAckTracker::recordApplied([[maybe_unused]] uint64_t sequence_number)
         if (sequence_number > highest_acked_.load()) {
             highest_acked_.store(sequence_number);
         }
-        if (pending_.size() >= config_.max_batch_size) {
+        if (static_cast<int>(pending_.size()) > = config_.max_batch_size) {
             flushPending();
         }
     }
@@ -6340,7 +6340,7 @@ uint32_t WALArchivalManager::runArchivalCycle() {
 
     // Archive everything beyond the local_retention_segments threshold
     std::sort(candidates.begin(), candidates.end());
-    if (candidates.size() <= config_.local_retention_segments) {
+    if (static_cast<int>(candidates.size()) <= config_.local_retention_segments) {
       return 0;
     }
 

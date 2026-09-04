@@ -196,7 +196,7 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     }
 
     // Multiple field differences → merge conflict
-    if (affected_fields.size() > 1) {
+    if (static_cast<int>(affected_fields.size()) > 1) {
         return ConflictReasonType::MERGE_CONFLICT;
     }
 

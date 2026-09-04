@@ -1747,7 +1747,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     std::sort(result.begin(), result.end(), 
         [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    if (result.size() > static_cast<size_t>(k)) {
+    if (static_cast<int>(result.size()) > static_cast<size_t>(k)) {
         result.resize(k);
     }
     
@@ -1862,7 +1862,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
-    if (out.size() > static_cast<size_t>(k)) {
+    if (static_cast<int>(out.size()) > static_cast<size_t>(k)) {
       out.resize(static_cast<size_t>(k));
     }
     return out;
@@ -1921,7 +1921,7 @@ std::optional<std::string> ContentManager::resolvePath(cons[[maybe_unused]] t st
             if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h") && j["virtual_path"].get<std::string>() == normalized) {
                 // Extract content ID from key "content:<uuid>"
                 std::string key_str(key);
-                if (key_str.size() > 8) {
+                if (static_cast<int>(key_str.size()) > 8) {
                     result = key_str.substr(8); // Skip "content:"
                 }
                 return false; // Stop scanning
@@ -1977,7 +1977,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st
                 if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h")) {
                     std::string vpath = j["virtual_path"].get<std::string>();
                     // Check if this is a direct child
-                    if (vpath.size() > prefix.size() && vpath.rfind(prefix, 0) == 0) {
+                    if (static_cast<int>(vpath.size()) > prefix.size() && vpath.rfind(prefix, 0) == 0) {
                         std::string remainder = vpath.substr(prefix.size());
                         // Direct child if no more slashes
                         if (remainder.find('/') == std::string::npos) {

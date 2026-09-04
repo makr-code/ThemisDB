@@ -338,7 +338,7 @@ GEvalResult GEvalEvaluator::evaluate(
         // Compute confidence and variance
         result.confidence = computeConfidence(result.token_probabilities);
         
-        if (sample_scores.size() > 1) {
+        if (static_cast<int>(sample_scores.size()) > 1) {
             double mean = result.geval_score;
             double sum_sq_diff = 0.0;
             for (double score : sample_scores) {

@@ -36,7 +36,7 @@ TsEdgeCaseResult TsEdgeCaseHandler::validateRemoteWriteEndpoint(
         validation_failure_count_.fetch_add(1, std::memory_order_relaxed);
         return TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR;
     }
-    if (endpoint.size() > kMaxEndpointLength) {
+    if (static_cast<int>(endpoint.size()) > kMaxEndpointLength) {
         emitIncident("TS-ECH-RW-TOOLONG", "Remote-write endpoint URL exceeds maximum length");
         validation_failure_count_.fetch_add(1, std::memory_order_relaxed);
         return TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR;

@@ -139,7 +139,7 @@ std::string buildNerPrompt(const std::string& text,
     for (const auto& t : types) {
       type_list += t + ", ";
     }
-    if (type_list.size() > 2) {
+    if (static_cast<int>(type_list.size()) > 2) {
       type_list.resize(type_list.size() - 2);
     }
 

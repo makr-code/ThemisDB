@@ -664,7 +664,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     //    any heap allocation that processes file content, to prevent
     //    integer-overflow-driven heap exhaustion (Phase 1.4 hardening).
     const size_t max_bytes = config_.max_adapter_size_mb * 1024 * 1024;
-    if (data.size() > max_bytes) {
+    if (static_cast<int>(data.size()) > max_bytes) {
         spdlog::error("LoRASecurityValidator: file too large ({} bytes, max {})",
                       data.size(), max_bytes);
         return false;
@@ -678,7 +678,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     // Magic bytes: SafeTensors starts with an 8-byte little-endian uint64
     // that encodes the JSON header length.  The JSON header must contain at
     // least one key and fit within the file.
-    if (data.size() >= 8) {
+    if (static_cast<int>(data.size()) > = 8) {
         uint64_t header_size = 0;
         for (int i = 0; i < 8; ++i) {
             header_size |= (static_cast<uint64_t>(data[i]) << (i * 8));

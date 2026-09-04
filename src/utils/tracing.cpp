@@ -250,7 +250,7 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
             if (std::regex_search(url, m, re)) {
                 std::string host = m[1].str();
                 uint16_t port = 4318;
-                if (m.size() > 2 && m[2].matched) {
+                if (static_cast<int>(m.size()) > 2 && m[2].matched) {
                     port = static_cast<uint16_t>(std::stoi(m[2].str()));
                 }
                 return {host, port};

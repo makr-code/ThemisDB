@@ -228,12 +228,12 @@ std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const Tens
         if (it != lsh_buckets_.end()) {
             for (const auto &id : it->second) {
                 candidates.insert(id);
-                if (candidates.size() >= cfg_.max_candidates) {
+                if (static_cast<int>(candidates.size()) > = cfg_.max_candidates) {
                     break;
                 }
             }
         }
-        if (candidates.size() >= cfg_.max_candidates) {
+        if (static_cast<int>(candidates.size()) > = cfg_.max_candidates) {
             break;
         }
     }
@@ -455,7 +455,7 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
 
     std::sort(results.begin(), results.end(),
               [](const SimilarTensorResult &a, const SimilarTensorResult &b) { return a.similarity > b.similarity; });
-    if (results.size() > top_k) {
+    if (static_cast<int>(results.size()) > top_k) {
         results.resize(top_k);
     }
     return results;

@@ -225,7 +225,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                                     terms_j.begin(), terms_j.end(),
                                     std::inserter(common, common.begin()));
                 
-                if (common.size() >= 2) {
+                if (static_cast<int>(common.size()) > = 2) {
                     std::ostringstream inconsistency = {};
                     inconsistency << "Potential contradiction between Step " 
                                  << step_i.step_number << " and Step " 

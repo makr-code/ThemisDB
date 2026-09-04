@@ -68,7 +68,7 @@ bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::st
     user_cache.push_back({code, now});
     
     // Enforce max entries per user (prevent memory exhaustion)
-    if (user_cache.size() > config_.max_entries_per_user) {
+    if (static_cast<int>(user_cache.size()) > config_.max_entries_per_user) {
         // Remove oldest entries
         std::sort(user_cache.begin(), user_cache.end(),
                  [](const UsedCode& a, const UsedCode& b) {

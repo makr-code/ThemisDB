@@ -103,7 +103,7 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
         }
         leaves = std::move(next);
         // Pad again if needed.
-        if (leaves.size() > 1 && (leaves.size() % 2 != 0)) {
+        if (static_cast<int>(leaves.size()) > 1 && (leaves.size() % 2 != 0)) {
             leaves.push_back(leaves.back());
         }
     }

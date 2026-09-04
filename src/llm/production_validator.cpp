@@ -1003,7 +1003,7 @@ void ProductionValidator::recordLatency([[maybe_unused]] double latency_ms) {
     
     // Keep only last 10000 samples to avoid memory bloat
     // Using deque for O(1) removal from front instead of O(n) with vector
-    if (latency_samples_.size() > 10000) {
+    if (static_cast<int>(latency_samples_.size()) > 10000) {
         latency_samples_.pop_front();
     }
 }

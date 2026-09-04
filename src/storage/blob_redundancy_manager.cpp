@@ -1020,7 +1020,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
                 s.data          = std::move(*chunk_data);
                 available[i]    = std::move(s);
 
-                if (available.size() >= static_cast<size_t>(ec_config.data_shards)) {
+                if (static_cast<int>(available.size()) > = static_cast<size_t>(ec_config.data_shards)) {
                     // We have enough shards to reconstruct; stop reading further
                     // to save I/O when shards are on separate remote nodes.
                     break;

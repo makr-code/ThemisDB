@@ -55,7 +55,7 @@ ConversationContext::ConversationContext([[maybe_unused]] size_t max_history)
 
 void ConversationContext::addTurn(const std::string& user_input, const std::string& assistant_response) {
     history_.emplace_back(user_input, assistant_response);
-    if (history_.size() > max_history_) {
+    if (static_cast<int>(history_.size()) > max_history_) {
         history_.erase(history_.begin());
     }
 }

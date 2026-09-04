@@ -2450,7 +2450,7 @@ ProcessGraphManager::findSimilarProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (result.size() > k) {
+    if (static_cast<int>(result.size()) > k) {
       result.resize(k);
     }
 
@@ -2549,7 +2549,7 @@ ProcessGraphManager::findSimilarTasks(
     // Sort descending by similarity, take top k.
     std::sort(candidates.begin(), candidates.end(),
               [](const auto& a, const auto& b) { return a.first > b.first; });
-    if (candidates.size() > k) {
+    if (static_cast<int>(candidates.size()) > k) {
       candidates.resize(k);
     }
     result.reserve(candidates.size());
@@ -2621,7 +2621,7 @@ ProcessGraphManager::semanticSearchProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (result.size() > k) {
+    if (static_cast<int>(result.size()) > k) {
       result.resize(k);
     }
 
@@ -3145,7 +3145,7 @@ ProcessGraphManager::validateLocationConstraint(
     // 1. WKT polygon constraint.
     if (locationConstraint && !locationConstraint->empty()) {
         const auto ring = parseWktPolygon(*locationConstraint);
-        if (ring.size() >= 3) {
+        if (static_cast<int>(ring.size()) > = 3) {
             const bool inside = pointInPolygon(execution_lon, execution_lat, ring);
             if (!inside) {
                 return {Status::Error("Execution location is outside the required geofence"), false};
@@ -3203,7 +3203,7 @@ ProcessGraphManager::getRegionalParameters(
         for (auto& [key, params] : regParams.items()) {
             if (key.substr(0, 7) == "POLYGON") {
                 const auto ring = parseWktPolygon(key);
-                if (ring.size() >= 3 && pointInPolygon(lon, lat, ring)) {
+                if (static_cast<int>(ring.size()) > = 3 && pointInPolygon(lon, lat, ring)) {
                     if (params.is_object()) {
                         for (auto& [pk, pv] : params.items()) {
                           merged[pk] = pv;

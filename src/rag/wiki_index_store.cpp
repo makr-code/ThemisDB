@@ -351,7 +351,7 @@ struct WikiIndexStore::Impl {
         }
         cache_db = raw_db_instance;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
-        if (cf_handles.size() >= 2) {
+        if (static_cast<int>(cf_handles.size()) > = 2) {
             cache_cf = cf_handles[1];
             // Default CF handle: close immediately (we don't need it).
             delete cf_handles[0];
@@ -963,7 +963,7 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
         THEMIS_DEBUG("WikiIndexStore::searchHybrid: HNSW disabled/no-embedding — "
                      "falling back to BM25+");
         auto results = bm25_results;
-        if (results.size() > top_k) {
+        if (static_cast<int>(results.size()) > top_k) {
           results.resize(top_k);
         }
         return results;
@@ -981,7 +981,7 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
     // Fuse both ranked lists with RRF.
     auto fused = fuseRRF({bm25_ids, hnsw_ids});
 
-    if (fused.size() > top_k) {
+    if (static_cast<int>(fused.size()) > top_k) {
       fused.resize(top_k);
     }
     THEMIS_INFO("WikiIndexStore::searchHybrid: bm25={} hnsw={} fused={}",

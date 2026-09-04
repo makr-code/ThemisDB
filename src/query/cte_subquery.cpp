@@ -194,7 +194,7 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
             }
             
             // Check result size limit
-            if (newResults.size() > recursiveConfig_.max_result_size) {
+            if (static_cast<int>(newResults.size()) > recursiveConfig_.max_result_size) {
                 THEMIS_ERROR("Recursive CTE '{}' exceeded max result size ({} > {})",
                             cte.name, newResults.size(), recursiveConfig_.max_result_size);
                 return ErrVoid(
@@ -513,7 +513,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
         }
         
         // Validate single-row constraint for scalar subquery
-        if (results.size() > 1) {
+        if (static_cast<int>(results.size()) > 1) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
                 fmt::format("Scalar subquery returned {} rows (expected 1)", results.size())

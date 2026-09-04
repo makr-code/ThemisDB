@@ -105,7 +105,7 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
 nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     // Check extension to choose parser.
     bool is_yaml = false;
-    if (file_path.size() >= 5) {
+    if (static_cast<int>(file_path.size()) > = 5) {
         std::string ext = file_path.substr(file_path.size() - 5);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -576,7 +576,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     // --- maxItems ---
     if (schema.contains("maxItems") && schema["maxItems"].is_number_integer()) {
         std::size_t max = schema["maxItems"].get<std::size_t>();
-        if (value.size() > max) {
+        if (static_cast<int>(value.size()) > max) {
             result.addError("Array at '" + json_path + "' has " + std::to_string(value.size()) + " items, maximum is "
                             + std::to_string(max));
         }
@@ -629,7 +629,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- maxLength ---
     if (schema.contains("maxLength") && schema["maxLength"].is_number_integer()) {
         std::size_t max = schema["maxLength"].get<std::size_t>();
-        if (s.size() > max) {
+        if (static_cast<int>(s.size()) > max) {
             result.addError("String at '" + json_path + "' is too long (length " + std::to_string(s.size())
                             + ", maximum " + std::to_string(max) + ")");
         }

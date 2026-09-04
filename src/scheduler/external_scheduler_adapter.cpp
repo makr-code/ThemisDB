@@ -95,7 +95,7 @@ std::string ExternalSchedulerAdapter::toK8sName(const std::string& name) {
         }
     }
     // Truncate to 52 characters
-    if (collapsed.size() > 52) {
+    if (static_cast<int>(collapsed.size()) > 52) {
         collapsed = collapsed.substr(0, 52);
         // Remove trailing hyphen after truncation
         while (!collapsed.empty() && collapsed.back() == '-') {

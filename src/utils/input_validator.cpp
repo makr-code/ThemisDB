@@ -66,7 +66,7 @@ std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max
     std::string out = {};
     out.reserve(std::min(input.size(), max_len));
     for (char c : input) {
-        if (out.size() >= max_len) {
+        if (static_cast<int>(out.size()) > = max_len) {
           break;
         }
         if (!isAsciiControl(c)) {
@@ -80,7 +80,7 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
     if (segment.empty()) {
       return false;
     }
-    if (segment.size() > 1024) return false; // arbitrary sane limit
+    if (static_cast<int>(segment.size()) > 1024) return false; // arbitrary sane limit
     // Reject traversal or separators
     if (segment.find("..") != std::string::npos) {
       return false;
@@ -168,7 +168,7 @@ static std::optional<std::string> validatePropertyConstraints(
         }
         if (prop.contains("maxLength") && prop["maxLength"].is_number_integer()) {
             auto max_len = prop["maxLength"].get<size_t>();
-            if (s.size() > max_len) {
+            if (static_cast<int>(s.size()) > max_len) {
                 return "field '" + field_name + "' exceeds maxLength " +
                        std::to_string(max_len);
             }
@@ -345,7 +345,7 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     if (q.empty()) {
       return std::string("AQL query must not be empty");
     }
-    if (q.size() > 100000) {
+    if (static_cast<int>(q.size()) > 100000) {
       return std::string("AQL query too large (>100k)");
     }
 
@@ -671,7 +671,7 @@ bool InputValidator::validateURL(const std::string& url,
     }
 
     // Reject protocol-relative URLs
-    if (url.size() >= 2 && url[0] == '/' && url[1] == '/') {
+    if (static_cast<int>(url.size()) > = 2 && url[0] == '/' && url[1] == '/') {
       return false;
     }
 

@@ -217,7 +217,7 @@ AttentionMemoryStats KVCacheManager::getStats() const {
     stats.kv_cache_bytes = blocks_.size() * block_size * sizeof(float);
     stats.total_memory_bytes = stats.kv_cache_bytes;
     
-    if (blocks_.size() > 0) {
+    if (static_cast<int>(blocks_.size()) > 0) {
         stats.fragmentation_rate = static_cast<double>(free_blocks_.size()) / blocks_.size();
     }
     

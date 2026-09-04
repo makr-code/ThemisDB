@@ -152,7 +152,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
         // Build and send RATE_LIMITED response if we have a request ID.
         // The send_to call is intentionally outside the stats lock to avoid
         // holding a mutex during a blocking I/O operation.
-        if (data.size() >= kUdpFastPathHeaderSize) {
+        if (static_cast<int>(data.size()) > = kUdpFastPathHeaderSize) {
             uint32_t req_id_be = 0;
             std::memcpy(&req_id_be, data.data() + 4, 4);
             uint32_t request_id = ntohl(req_id_be);

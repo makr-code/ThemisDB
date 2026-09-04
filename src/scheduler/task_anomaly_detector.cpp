@@ -341,7 +341,7 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
         std::deque<double>(intervals.begin(), intervals.end()), mean_interval);
     
     // Get recent interval
-    if (intervals.size() >= 2) {
+    if (static_cast<int>(intervals.size()) > = 2) {
         double recent_interval = intervals.back();
         
         // Check if recent interval is significantly different from baseline

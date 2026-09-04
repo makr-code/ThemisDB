@@ -511,7 +511,7 @@ struct NLIFaithfulnessVerifier::Impl {
         }
         
         // Limit number of claims
-        if (claims.size() > config.max_claims) {
+        if (static_cast<int>(claims.size()) > config.max_claims) {
             claims.resize(config.max_claims);
         }
         

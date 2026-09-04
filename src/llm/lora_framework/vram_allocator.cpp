@@ -616,7 +616,7 @@ void VRAMAllocator::deallocate(void* ptr) {
             }
 
             // Periodically coalesce free blocks
-            if (memory_pool_.size() > 100) {
+            if (static_cast<int>(memory_pool_.size()) > 100) {
                 coalesce_free_blocks();
             }
             return;

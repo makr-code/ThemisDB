@@ -366,7 +366,7 @@ std::vector<ConflictInfo> ProcessConflictResolverImpl::DetectConflictsBatch(
   std::lock_guard<std::mutex> lock(resolver_mutex_);
 
   for (const auto& [model_id, version_ids] : versions) {
-    if (version_ids.size() > 1) {
+    if (static_cast<int>(version_ids.size()) > 1) {
       ConflictInfo conflict;
       conflict.model_id = model_id;
       conflict.version_ids = version_ids;

@@ -74,7 +74,7 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     recent_queries_.push_back(stats);
     
     // Keep only recent queries
-    if (recent_queries_.size() > config_.stats_window_size) {
+    if (static_cast<int>(recent_queries_.size()) > config_.stats_window_size) {
         recent_queries_.erase(recent_queries_.begin());
     }
     
@@ -87,7 +87,7 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     }
     
     // Adapt if we have enough samples
-    if (recent_queries_.size() >= 100) {
+    if (static_cast<int>(recent_queries_.size()) > = 100) {
         adapt();
     }
 }

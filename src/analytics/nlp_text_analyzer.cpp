@@ -287,7 +287,7 @@ std::vector<Keyword> NlpTextAnalyzer::extractKeywords(std::string_view text, siz
 
     // Sort by score and limit
     std::sort(keywords.begin(), keywords.end());
-    if (keywords.size() > max_keywords) {
+    if (static_cast<int>(keywords.size()) > max_keywords) {
         keywords.resize(max_keywords);
     }
 
