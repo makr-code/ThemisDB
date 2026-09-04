@@ -365,7 +365,7 @@ bool LockManager::isInShrinkingPhase(TransactionId txn_id) const {
 // ---------------------------------------------------------------------------
 // Configuration
 // ---------------------------------------------------------------------------
-void LockManager::setEscalationThreshold(size_t threshold) {
+void LockManager::setEscalationThreshold([[maybe_unused]] size_t threshold) {
     escalation_threshold_.store(threshold, std::memory_order_relaxed);
 }
 
@@ -574,7 +574,7 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     return true;
 }
 
-void LockManager::setMaxPredicateLocks(size_t max_locks) {
+void LockManager::setMaxPredicateLocks([[maybe_unused]] size_t max_locks) {
     max_predicate_locks_.store(max_locks, std::memory_order_relaxed);
 }
 
@@ -582,7 +582,7 @@ size_t LockManager::getMaxPredicateLocks() const {
     return max_predicate_locks_.load(std::memory_order_relaxed);
 }
 
-void LockManager::setPredicateLockingEnabled(bool enabled) {
+void LockManager::setPredicateLockingEnabled([[maybe_unused]] bool enabled) {
     predicate_locking_enabled_.store(enabled, std::memory_order_relaxed);
 }
 

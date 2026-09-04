@@ -164,7 +164,7 @@ inline double squash(double s, double s0 = 3.0, double k = 1.0) {
 }
 
 /// Clamp to [0,1].
-inline double clamp01(double v) {
+inline double clamp01([[maybe_unused]] double v) {
     return v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
 }
 

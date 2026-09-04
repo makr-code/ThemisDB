@@ -100,14 +100,14 @@ class FBuf {
     }
 
     /// Align to n bytes (prepend zero bytes)
-    void align(uint32_t n) {
+    void align([[maybe_unused]] uint32_t n) {
         while (buf_.size() % n != 0) {
             preByte(0);
         }
     }
 
     /// Prepend a single byte
-    void preByte(uint8_t v) {
+    void preByte([[maybe_unused]] uint8_t v) {
         buf_.insert(buf_.begin(), v);
     }
 
@@ -146,7 +146,7 @@ class FBuf {
 
     /// Prepend a UOffset field pointing to an object at cursor C_obj.
     ///   Stored value = cursor_after_this_write – C_obj
-    uint32_t preUOffset(uint32_t C_obj) {
+    uint32_t preUOffset([[maybe_unused]] uint32_t C_obj) {
         uint32_t val = (cursor() + 4) - C_obj;
         return pre32(static_cast<int32_t>(val));
     }
@@ -214,7 +214,7 @@ class FBuf {
     // ── Finalize: prepend root UOffset ────────────────────────────────────────
     // root_table_C = cursor AFTER writing the root table's soffset_t.
     // The root UOffset at position 0 of the final buffer points to the table.
-    void finishWithRoot(uint32_t root_table_C) {
+    void finishWithRoot([[maybe_unused]] uint32_t root_table_C) {
         preUOffset(root_table_C);
     }
 

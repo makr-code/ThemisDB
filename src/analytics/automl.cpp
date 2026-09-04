@@ -320,7 +320,7 @@ struct LabelEncoder {
         return out;
     }
 
-    std::string decode(int i) const {
+    std::string decode([[maybe_unused]] int i) const {
         if (i < 0 || i >= static_cast<int>(classes.size())) {
             return "";
         }
@@ -355,7 +355,7 @@ inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     return s;
 }
 
-inline double sigmoid(double z) {
+inline double sigmoid([[maybe_unused]] double z) {
     return 1.0 / (1.0 + std::exp(-z));
 }
 

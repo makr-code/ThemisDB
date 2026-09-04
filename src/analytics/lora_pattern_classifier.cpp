@@ -159,7 +159,7 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
     constexpr double kMinFallbackConfidence = 0.05;
     constexpr double kMaxFallbackConfidence = 0.99;
 
-    const auto clamp01 = [](double v) { return std::max(0.0, std::min(1.0, v)); };
+    const auto clamp01 = []([[maybe_unused]] double v) { return std::max(0.0, std::min(1.0, v)); };
 
     // Derive fallback label from registered adapter domain whenever possible.
     std::string inferred_label = "unknown";

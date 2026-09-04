@@ -30,7 +30,7 @@ namespace temporal {
 // ============================================================================
 
 // Three independent Murmur3-style finalizer hash functions.
-uint64_t BloomFilter::h1(uint64_t x) noexcept {
+uint64_t BloomFilter::h1([[maybe_unused]] uint64_t x) noexcept {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -39,14 +39,14 @@ uint64_t BloomFilter::h1(uint64_t x) noexcept {
     return x;
 }
 
-uint64_t BloomFilter::h2(uint64_t x) noexcept {
+uint64_t BloomFilter::h2([[maybe_unused]] uint64_t x) noexcept {
     x = ((x >> 16) ^ x) * 0x45d9f3b37197344dULL;
     x = ((x >> 16) ^ x) * 0x45d9f3bULL;
     x = (x >> 16) ^ x;
     return x;
 }
 
-uint64_t BloomFilter::h3(uint64_t x) noexcept {
+uint64_t BloomFilter::h3([[maybe_unused]] uint64_t x) noexcept {
     x = ~x + (x << 21);
     x ^= x >> 24;
     x += (x << 3) + (x << 8);
@@ -63,12 +63,12 @@ BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
     bits_.assign((num_bits_ + 63) / 64, 0ULL);
 }
 
-void BloomFilter::setBit(size_t idx) noexcept {
+void BloomFilter::setBit([[maybe_unused]] size_t idx) noexcept {
     idx %= num_bits_;
     bits_[idx / 64] |= (1ULL << (idx % 64));
 }
 
-bool BloomFilter::testBit(size_t idx) const noexcept {
+bool BloomFilter::testBit([[maybe_unused]] size_t idx) const noexcept {
     idx %= num_bits_;
     return (bits_[idx / 64] >> (idx % 64)) & 1ULL;
 }

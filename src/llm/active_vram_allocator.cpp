@@ -269,7 +269,7 @@ public:
     // handleOOM (public wrapper — takes lock)
     // ------------------------------------------------------------------
 
-    bool handleOOM(size_t need_bytes) {
+    bool handleOOM([[maybe_unused]] size_t need_bytes) {
         std::lock_guard<std::mutex> lock(mu_);
         return handleOOMInternal(need_bytes);
     }
@@ -510,7 +510,7 @@ private:
     // Internal helpers (must be called with mu_ held)
     // ------------------------------------------------------------------
 
-    bool handleOOMInternal(size_t need_bytes) {
+    bool handleOOMInternal([[maybe_unused]] size_t need_bytes) {
         // Strategy 1: Eviction
         {
             size_t freed = evictLRULocked();
@@ -790,7 +790,7 @@ void ActiveVRAMAllocator::touch(AllocationHandle& handle)
     impl_->touch(handle);
 }
 
-bool ActiveVRAMAllocator::handleOOM(size_t need_bytes)
+bool ActiveVRAMAllocator::handleOOM([[maybe_unused]] size_t need_bytes)
 {
     return impl_->handleOOM(need_bytes);
 }

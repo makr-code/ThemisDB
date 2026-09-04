@@ -215,7 +215,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     return std::nullopt;
 }
 
-void PagedKVCache::freeBlock(uint32_t block_id) {
+void PagedKVCache::freeBlock([[maybe_unused]] uint32_t block_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     destroyBlockUnlocked(block_id);
 }
@@ -388,7 +388,7 @@ bool PagedKVCache::readBlock(
     return true;
 }
 
-std::optional<KVCacheBlock> PagedKVCache::getBlock(uint32_t block_id) const {
+std::optional<KVCacheBlock> PagedKVCache::getBlock([[maybe_unused]] uint32_t block_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = blocks_.find(block_id);
     if (it != blocks_.end()) {
@@ -690,11 +690,11 @@ uint32_t PagedKVCache::allocateBlockId() {
     return static_cast<uint32_t>(-1);
 }
 
-void PagedKVCache::freeBlockId(uint32_t block_id) {
+void PagedKVCache::freeBlockId([[maybe_unused]] uint32_t block_id) {
     free_blocks_.push(block_id);
 }
 
-bool PagedKVCache::evictBlocks(uint32_t needed_blocks) {
+bool PagedKVCache::evictBlocks([[maybe_unused]] uint32_t needed_blocks) {
     std::unique_lock<std::mutex> lock(mutex_);
     
     uint32_t evicted = 0;
@@ -796,7 +796,7 @@ void PagedKVCache::releaseRequestBlockUnlocked(int64_t request_id, uint32_t bloc
     }
 }
 
-void PagedKVCache::destroyBlockUnlocked(uint32_t block_id) {
+void PagedKVCache::destroyBlockUnlocked([[maybe_unused]] uint32_t block_id) {
     auto block_it = blocks_.find(block_id);
     if (block_it == blocks_.end()) {
         spdlog::warn("PagedKVCache: Block {} not found", block_id);

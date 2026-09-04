@@ -299,7 +299,7 @@ std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::str
     }
 }
 
-bool CTECache::makeRoom(size_t required_bytes) {
+bool CTECache::makeRoom([[maybe_unused]] size_t required_bytes) {
     // Find largest in-memory CTE to spill
     std::string largest_cte;
     size_t largest_size = 0;

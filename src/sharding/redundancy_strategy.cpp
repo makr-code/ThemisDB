@@ -521,7 +521,7 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return p;
 }
 
-uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
+uint8_t ReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
     if (a == 0) return 0;
     // Fermat's Little Theorem for finite fields: a^(p-1) = 1 in GF(p),
     // so a^(2^8 - 2) = a^(-1) in GF(2^8).
@@ -586,7 +586,7 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
 }
 
 // Galois Field inverse using Extended Euclidean algorithm
-uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
+uint8_t CauchyReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
     if (a == 0) return 0;
     
     // Use Fermat's Little Theorem: a^(2^8 - 2) = a^254 = a^(-1) in GF(2^8)
@@ -915,7 +915,7 @@ static uint8_t lrc_gf_pow(uint8_t a, uint8_t exp) {
     return r;
 }
 
-static uint8_t lrc_gf_inv(uint8_t a) {
+static uint8_t lrc_gf_inv([[maybe_unused]] uint8_t a) {
     // Extended Euclidean / brute-force for GF(2^8)
     for (int b = 1; b < 256; ++b)
         if (lrc_gf_mul(a, static_cast<uint8_t>(b)) == 1)

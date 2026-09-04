@@ -39,7 +39,7 @@ void TokenBucket::refill() {
     }
 }
 
-bool TokenBucket::tryConsume(size_t tokens) {
+bool TokenBucket::tryConsume([[maybe_unused]] size_t tokens) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     refill();
     

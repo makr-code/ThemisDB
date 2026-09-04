@@ -202,7 +202,7 @@ size_t ChangefeedBuffer::flushFor(Changefeed::ChangeEventType event_type) {
     return flushBuffer(event_type, it->second);
 }
 
-size_t ChangefeedBuffer::flushInternal(bool lock_held) {
+size_t ChangefeedBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("ChangefeedBuffer.flush");
     
     std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);

@@ -542,7 +542,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
     uint64_t hash = 0;
     for (int i = 0; i < 64; ++i) {
         if (low_freq[i] > median) {
-            hash |= (uint64_t{1} << i);
+            hash |= ([[maybe_unused]] uint64_t{1} << i);
         }
     }
 

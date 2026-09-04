@@ -421,7 +421,7 @@ std::chrono::seconds WorkloadCacheStrategy::calculateTTL(
     return ttl;
 }
 
-std::vector<std::string> WorkloadCacheStrategy::getHotQueries(size_t limit) const {
+std::vector<std::string> WorkloadCacheStrategy::getHotQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Create vector of (fingerprint, access_count) pairs

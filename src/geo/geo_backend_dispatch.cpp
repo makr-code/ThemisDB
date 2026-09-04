@@ -74,7 +74,7 @@ bool GeoBackendDispatcher::isCudaAvailable() const noexcept {
     return cuda_available_;
 }
 
-bool GeoBackendDispatcher::shouldUseCuda(size_t batch_size) const noexcept {
+bool GeoBackendDispatcher::shouldUseCuda([[maybe_unused]] size_t batch_size) const noexcept {
     if (!cuda_available_) {
         return false;
     }

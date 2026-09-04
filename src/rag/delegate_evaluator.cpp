@@ -45,7 +45,7 @@ std::string makeRelayId() {
 /**
  * @brief Clamp @p v to `[lo, hi]`.
  */
-double clamp01(double v) noexcept {
+double clamp01([[maybe_unused]] double v) noexcept {
     return std::clamp(v, 0.0, 1.0);
 }
 

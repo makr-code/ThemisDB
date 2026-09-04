@@ -143,7 +143,7 @@ TimeSeries TimeSeries::slice(int64_t from_ms, int64_t to_ms) const {
     return result;
 }
 
-std::pair<TimeSeries, TimeSeries> TimeSeries::trainTestSplit(double ratio) const {
+std::pair<TimeSeries, TimeSeries> TimeSeries::trainTestSplit([[maybe_unused]] double ratio) const {
     if (ratio <= 0.0 || ratio >= 1.0) {
         throw std::invalid_argument("train_ratio must be in (0, 1)");
     }
@@ -284,7 +284,7 @@ namespace {
 
 // Normal-distribution quantile (inverse CDF) via rational approximation
 // (Beasley-Springer-Moro algorithm).
-double normalQuantile(double p) {
+double normalQuantile([[maybe_unused]] double p) {
     static const double a[] = {-3.969683028665376e+01, 2.209460984245205e+02,  -2.759285104469687e+02,
                                1.383577518672690e+02,  -3.066479806614716e+01, 2.506628277459239e+00};
     static const double b[] = {-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
@@ -314,7 +314,7 @@ double normalQuantile(double p) {
     return q;
 }
 
-double zScore(double confidence) {
+double zScore([[maybe_unused]] double confidence) {
     return normalQuantile(0.5 + confidence * 0.5);
 }
 
@@ -1578,7 +1578,7 @@ struct ForecastModel::Impl {
 
     // ---- single-model predict ----
 
-    std::vector<double> predictLinear(int steps) const {
+    std::vector<double> predictLinear([[maybe_unused]] int steps) const {
         std::vector<double> out;
         out.reserve(static_cast<size_t>(steps));
         // Use train_ts.size() so this also works after deserialization
@@ -1591,12 +1591,12 @@ struct ForecastModel::Impl {
         return out;
     }
 
-    std::vector<double> predictSES(int steps) const {
+    std::vector<double> predictSES([[maybe_unused]] int steps) const {
         // All future values equal the last smoothed level
         return std::vector<double>(static_cast<size_t>(steps), ses_p.last_level);
     }
 
-    std::vector<double> predictHW(int steps) const {
+    std::vector<double> predictHW([[maybe_unused]] int steps) const {
         std::vector<double> out;
         out.reserve(static_cast<size_t>(steps));
         double L        = hw_p.L;
@@ -1625,7 +1625,7 @@ struct ForecastModel::Impl {
         return out;
     }
 
-    std::vector<double> predictARIMA(int steps) const {
+    std::vector<double> predictARIMA([[maybe_unused]] int steps) const {
         std::vector<double> out;
         out.reserve(static_cast<size_t>(steps));
 
@@ -1686,7 +1686,7 @@ struct ForecastModel::Impl {
         return out;
     }
 
-    std::vector<double> predictEnsemble(int steps) const {
+    std::vector<double> predictEnsemble([[maybe_unused]] int steps) const {
         // Equal weights unless config provides them
         std::vector<std::vector<double>> forecasts
             = {predictLinear(steps), predictSES(steps), predictHW(steps), predictARIMA(steps)};
@@ -1715,7 +1715,7 @@ struct ForecastModel::Impl {
         return out;
     }
 
-    std::vector<double> predict(int steps) const {
+    std::vector<double> predict([[maybe_unused]] int steps) const {
         switch (method) {
             case ForecastMethod::LINEAR_REGRESSION:
                 return predictLinear(steps);
@@ -1890,7 +1890,7 @@ bool ForecastModel::isFitted() const noexcept {
     return impl_->fitted;
 }
 
-std::vector<ForecastPoint> ForecastModel::predict(int steps) const {
+std::vector<ForecastPoint> ForecastModel::predict([[maybe_unused]] int steps) const {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         throw std::runtime_error("ForecastModel: call fit() before predict()");
@@ -1954,7 +1954,7 @@ std::vector<std::vector<ForecastPoint>> ForecastModel::predictBatch(const std::v
     return results;
 }
 
-void ForecastModel::update(double new_value) {
+void ForecastModel::update([[maybe_unused]] double new_value) {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         return; // no-op if not fitted
@@ -2102,7 +2102,7 @@ ForecastMetrics ForecastModel::evaluate(const TimeSeries &test_ts) const {
     return computeMetrics(test_ts.values(), preds);
 }
 
-DecompositionResult ForecastModel::decompose(bool multiplicative) const {
+DecompositionResult ForecastModel::decompose([[maybe_unused]] bool multiplicative) const {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         throw std::runtime_error("ForecastModel: call fit() before decompose()");

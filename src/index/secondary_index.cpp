@@ -1160,7 +1160,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 	return putBatch(table, entities, transactional_put_batch_size_);
 }
 
-void SecondaryIndexManager::setTransactionalPutBatchSize(size_t batch_size) {
+void SecondaryIndexManager::setTransactionalPutBatchSize([[maybe_unused]] size_t batch_size) {
 	transactional_put_batch_size_ = std::max<size_t>(size_t{1}, batch_size);
 }
 

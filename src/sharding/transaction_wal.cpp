@@ -293,7 +293,7 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
 }
 
 /** @brief Return whether snapshot interval threshold has been reached. */
-bool TransactionWAL::shouldCreateSnapshot(uint64_t operations_count) const {
+bool TransactionWAL::shouldCreateSnapshot([[maybe_unused]] uint64_t operations_count) const {
     return operations_count >= config_.snapshot_interval;
 }
 

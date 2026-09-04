@@ -3041,7 +3041,7 @@ size_t TaskScheduler::getDynamicConcurrencyLimit() const noexcept {
     return dynamic_limit_.load();
 }
 
-void TaskScheduler::adjustConcurrencyLimit(size_t pending_count) noexcept {
+void TaskScheduler::adjustConcurrencyLimit([[maybe_unused]] size_t pending_count) noexcept {
     if (!config_.enable_dynamic_scaling) return;
 
     queue_depth_.store(pending_count);

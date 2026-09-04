@@ -459,7 +459,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return metrics_;
     }
 
-    std::vector<AccessTransitionEvent> getRecentTransitions(size_t limit = 100)
+    std::vector<AccessTransitionEvent> getRecentTransitions([[maybe_unused]] size_t limit = 100)
         override {
 
         std::lock_guard<std::mutex> lock(mutex_);

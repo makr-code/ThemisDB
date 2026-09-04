@@ -332,7 +332,7 @@ private:
         signed_stride_ = best_stride;
     }
 
-    static CacheLevel confidence_to_level(double confidence) noexcept {
+    static CacheLevel confidence_to_level([[maybe_unused]] double confidence) noexcept {
         if (confidence >= 0.90) return CacheLevel::L1;
         if (confidence >= 0.75) return CacheLevel::L2;
         if (confidence >= 0.60) return CacheLevel::L3;

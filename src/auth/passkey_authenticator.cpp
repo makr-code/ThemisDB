@@ -544,7 +544,7 @@ PasskeyAuthenticator::PasskeyAuthenticator(std::string relying_party_id,
 // generateSecureChallenge
 // ============================================================================
 
-std::string PasskeyAuthenticator::generateSecureChallenge(size_t bytes) const {
+std::string PasskeyAuthenticator::generateSecureChallenge([[maybe_unused]] size_t bytes) const {
     if (bytes < 16) bytes = 16;
     std::vector<uint8_t> buf(bytes);
     if (RAND_bytes(buf.data(), static_cast<int>(bytes)) != 1) {

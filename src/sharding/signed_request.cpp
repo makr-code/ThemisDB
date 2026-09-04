@@ -422,7 +422,7 @@ void SignedRequestVerifier::cleanupExpiredNonces() {
 }
 
 /** @brief Verify timestamp skew is within configured bounds. */
-bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
+bool SignedRequestVerifier::verifyTimestamp([[maybe_unused]] uint64_t timestamp_ms) const {
     uint64_t current_time = getCurrentTimestampMs();
     uint64_t time_diff = (current_time > timestamp_ms) ?
         (current_time - timestamp_ms) : (timestamp_ms - current_time);
@@ -642,7 +642,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
  * @brief Purge expired nonce entries from replay cache.
  * @param now_ms Current timestamp in milliseconds.
  */
-void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
+void SignedRequestVerifier::purgeExpiredNoncesLocked([[maybe_unused]] uint64_t now_ms) {
     while (!nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
         const bool is_expired =

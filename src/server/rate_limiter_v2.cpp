@@ -471,7 +471,7 @@ void TokenBucketRateLimiter::Bucket::refill() {
     }
 }
 
-bool TokenBucketRateLimiter::Bucket::consume(size_t count) {
+bool TokenBucketRateLimiter::Bucket::consume([[maybe_unused]] size_t count) {
     // Atomic decrement if sufficient tokens available
     size_t current = tokens.load(std::memory_order_acquire);
 

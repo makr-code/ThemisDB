@@ -533,11 +533,11 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
 // Security policy forwarding
 // ============================================================================
 
-void ModuleLoader::setRequireSignature(bool require) {
+void ModuleLoader::setRequireSignature([[maybe_unused]] bool require) {
     verifier_->setRequireSignature(require);
 }
 
-void ModuleLoader::setAllowUnsigned(bool allow) {
+void ModuleLoader::setAllowUnsigned([[maybe_unused]] bool allow) {
     verifier_->setAllowUnsigned(allow);
 }
 
@@ -880,7 +880,7 @@ void ModuleLoader::quarantineModule(const std::string& modulePath) {
         it->second.lastErrorMessage);
 }
 
-uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::calculateBackoffTime([[maybe_unused]] uint32_t consecutiveFailures) const {
     if (consecutiveFailures == 0) {
         return 0;
     }
@@ -975,12 +975,12 @@ void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     }
 }
 
-void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
+void ModuleLoader::setQuarantineThreshold([[maybe_unused]] uint32_t threshold) {
     quarantineThreshold_ = threshold;
     spdlog::info("Quarantine threshold set to: {}", threshold);
 }
 
-void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
+void ModuleLoader::setMaxBackoffSeconds([[maybe_unused]] uint32_t maxSeconds) {
     maxBackoffSeconds_ = maxSeconds;
     spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
 }
@@ -1072,7 +1072,7 @@ void ModuleLoader::clearHealthChecks() {
     spdlog::info("All health checks cleared");
 }
 
-void ModuleLoader::setStagedLoadingEnabled(bool enable) {
+void ModuleLoader::setStagedLoadingEnabled([[maybe_unused]] bool enable) {
     stagedLoadingEnabled_ = enable;
     spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
 }
@@ -1532,7 +1532,7 @@ void PluginBundleLoader::setPublicKey(const std::string& publicKeyPem) {
     publicKeyPem_ = publicKeyPem;
 }
 
-void PluginBundleLoader::setAllowUnsignedBundles(bool allow) {
+void PluginBundleLoader::setAllowUnsignedBundles([[maybe_unused]] bool allow) {
     allowUnsignedBundles_ = allow;
 }
 

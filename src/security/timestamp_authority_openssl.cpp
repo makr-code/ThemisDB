@@ -291,7 +291,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     return out;
 }
 
-std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
+std::vector<uint8_t> TimestampAuthority::generateNonce([[maybe_unused]] size_t bytes){
     if (bytes == 0) {
         return {};
     }

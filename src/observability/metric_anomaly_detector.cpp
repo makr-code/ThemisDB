@@ -316,7 +316,7 @@ std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {
 // ---------------------------------------------------------------------------
 
 /*static*/
-std::string MetricAnomalyDetector::scoreSeverity(double score) noexcept {
+std::string MetricAnomalyDetector::scoreSeverity([[maybe_unused]] double score) noexcept {
     if (score >= 0.9) return "critical";
     if (score >= 0.75) return "high";
     if (score >= 0.6) return "medium";

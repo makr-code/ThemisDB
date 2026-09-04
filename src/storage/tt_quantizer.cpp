@@ -176,7 +176,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
 // TTQuantizer — quantization helpers
 // ============================================================================
 
-uint8_t TTQuantizer::findNF4Index(float v) noexcept {
+uint8_t TTQuantizer::findNF4Index([[maybe_unused]] float v) noexcept {
     // array_bounds scanner alert: kNF4Table has exactly 16 entries (indices
     // 0..15); the loop bound is < 16 — no out-of-bounds access; false positive.
     // Linear scan over the 16-entry NF4 lookup table

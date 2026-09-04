@@ -93,7 +93,7 @@ float TTDecompositionStrategy::estimateRatio(
 // QuantizationStrategy implementation
 // ============================================================================
 
-QuantizationStrategy::QuantizationStrategy(uint8_t bits) : bits_(bits) {}
+QuantizationStrategy::QuantizationStrategy([[maybe_unused]] uint8_t bits) : bits_(bits) {}
 
 std::string QuantizationStrategy::name() const noexcept {
     return "QUANTIZE_INT" + std::to_string(static_cast<int>(bits_));
@@ -158,7 +158,7 @@ float QuantizationStrategy::estimateRatio(
 // SamplingStrategy implementation
 // ============================================================================
 
-SamplingStrategy::SamplingStrategy(float ratio) : ratio_(std::max(0.0f, std::min(1.0f, ratio))) {}
+SamplingStrategy::SamplingStrategy([[maybe_unused]] float ratio) : ratio_(std::max(0.0f, std::min(1.0f, ratio))) {}
 
 std::string SamplingStrategy::name() const noexcept {
     return "SAMPLING";
@@ -224,7 +224,7 @@ float SamplingStrategy::estimateRatio(
 // HashingStrategy implementation
 // ============================================================================
 
-HashingStrategy::HashingStrategy(uint8_t bits) : bits_(bits) {}
+HashingStrategy::HashingStrategy([[maybe_unused]] uint8_t bits) : bits_(bits) {}
 
 std::string HashingStrategy::name() const noexcept {
     return "HASHING";

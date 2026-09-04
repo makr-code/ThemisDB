@@ -620,7 +620,7 @@ bool CrossShardSpeculativeDecoder::isAdaptiveSpeculationEnabled() const {
     return config_.enable_adaptive_speculation;
 }
 
-void CrossShardSpeculativeDecoder::updateAcceptanceRate(double acceptance_rate) {
+void CrossShardSpeculativeDecoder::updateAcceptanceRate([[maybe_unused]] double acceptance_rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Add to recent acceptance rates

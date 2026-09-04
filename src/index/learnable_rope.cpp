@@ -39,7 +39,7 @@ LearnableRotaryEmbedding::LearnableRotaryEmbedding(
     theta_gradients_.resize(learnable_theta_.size(), 0.0);
 }
 
-void LearnableRotaryEmbedding::setTrainingMode(bool training) {
+void LearnableRotaryEmbedding::setTrainingMode([[maybe_unused]] bool training) {
     training_mode_ = training;
 }
 

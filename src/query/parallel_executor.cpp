@@ -174,7 +174,7 @@ ParallelExecutor::ParallelExecutor(ParallelConfig config)
 // Helpers
 // ============================================================================
 
-size_t ParallelExecutor::resolveThreads(size_t requested) const noexcept {
+size_t ParallelExecutor::resolveThreads([[maybe_unused]] size_t requested) const noexcept {
     const size_t t = (requested == 0) ? config_.max_threads : requested;
     return std::max<size_t>(1, std::min(t, config_.max_threads));
 }

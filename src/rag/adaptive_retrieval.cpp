@@ -222,7 +222,7 @@ ComplexityAnalysis AdaptiveRetrieval::analyzeComplexity(
 // scoreToComplexity
 // ---------------------------------------------------------------------------
 
-QueryComplexity AdaptiveRetrieval::scoreToComplexity(double raw_score)
+QueryComplexity AdaptiveRetrieval::scoreToComplexity([[maybe_unused]] double raw_score)
 {
     if (raw_score < 0.30) return QueryComplexity::SIMPLE;
     if (raw_score < 0.55) return QueryComplexity::MODERATE;

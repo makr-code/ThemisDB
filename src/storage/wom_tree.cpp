@@ -115,7 +115,7 @@ struct Node {
     // ── Leaf-node fields ─────────────────────────────────────────────
     std::vector<KVEntry>     data;  // sorted by key
 
-    explicit Node(bool leaf) : is_leaf(leaf) {}
+    explicit Node([[maybe_unused]] bool leaf) : is_leaf(leaf) {}
 
     // Returns the child index that should contain the given key.
     size_t childIndex(std::string_view key) const {

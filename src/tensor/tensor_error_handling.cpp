@@ -472,7 +472,7 @@ void ResilienceMonitor::recordResult(
     }
 }
 
-bool ResilienceMonitor::isHealthy(float min_success_rate) const noexcept {
+bool ResilienceMonitor::isHealthy([[maybe_unused]] float min_success_rate) const noexcept {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_.success_rate >= min_success_rate;
 }

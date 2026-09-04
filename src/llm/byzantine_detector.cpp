@@ -87,7 +87,7 @@ DetectionResult DetectionResult::fromJSON(const json& j) {
 // MedianDetector Implementation
 // ============================================================================
 
-MedianDetector::MedianDetector(float threshold) : threshold_(threshold) {
+MedianDetector::MedianDetector([[maybe_unused]] float threshold) : threshold_(threshold) {
     if (threshold <= 0.0f) {
         throw std::invalid_argument("Threshold must be positive");
     }
@@ -235,7 +235,7 @@ DetectionResult MedianDetector::detectByzantineShards(
 // KrumDetector Implementation
 // ============================================================================
 
-KrumDetector::KrumDetector(int max_byzantine_shards) 
+KrumDetector::KrumDetector([[maybe_unused]] int max_byzantine_shards) 
     : max_byzantine_shards_(max_byzantine_shards) {
     if (max_byzantine_shards < 0) {
         throw std::invalid_argument("max_byzantine_shards must be non-negative");

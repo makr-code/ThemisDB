@@ -217,7 +217,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     // BATCH A OPTIMIZATION: Pre-allocate based on typical WAL entry size.
     // Keep a single reservation estimate to avoid duplicate local declarations.
     
-    auto appendUint64 = [&result](uint64_t val) {
+    auto appendUint64 = [&result]([[maybe_unused]] uint64_t val) {
         // BATCH A OPTIMIZATION: Reserve space for 8 bytes once
         result.reserve(result.size() + 8);
         for (int i = 7; i >= 0; --i) {
@@ -280,7 +280,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos](uint32_t max_len) -> std::string {
+    auto readString = [&data, &pos]([[maybe_unused]] uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -574,7 +574,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     // unsigned wrap can produce a false match.  __builtin_mul_overflow
                     // is additionally applied to the vector allocation so that any
                     // future change to the element type is caught at compile time.
-                    const size_t element_size = sizeof(uint8_t);
+                    const size_t element_size = sizeof([[maybe_unused]] uint8_t);
                     if (static_cast<size_t>(len) > (std::numeric_limits<size_t>::max() / element_size)) {
                         THEMIS_ERROR("WAL segment {}: allocation-size overflow for "
                                      "len={}, skipping entry", seg_path_copy, len);
@@ -945,7 +945,7 @@ void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id)
     last_heartbeat_time_ = std::chrono::steady_clock::now();
 }
 
-void LeaderElection::grantVote(uint64_t term) {
+void LeaderElection::grantVote([[maybe_unused]] uint64_t term) {
     std::lock_guard<std::mutex> lock(election_mutex_);
     
     // Only count votes for the current term while we are still a candidate
@@ -969,7 +969,7 @@ void LeaderElection::grantVote(uint64_t term) {
 // LeaderElection lease management
 // ============================================================================
 
-void LeaderElection::renewLease(uint32_t duration_ms) {
+void LeaderElection::renewLease([[maybe_unused]] uint32_t duration_ms) {
     if (!isLeader()) {
         return;
     }
@@ -3267,11 +3267,11 @@ std::string CRDTMergeResolver::mergeFlagDW(const std::vector<MMWriteEntry>& writ
 std::vector<uint8_t> MMWriteEntry::serialize() const {
     std::vector<uint8_t> result;
 
-    auto appendUint64 = [&result](uint64_t val) {
+    auto appendUint64 = [&result]([[maybe_unused]] uint64_t val) {
         for (int i = 7; i >= 0; --i)
             result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
     };
-    auto appendUint32 = [&result](uint32_t val) {
+    auto appendUint32 = [&result]([[maybe_unused]] uint32_t val) {
         for (int i = 3; i >= 0; --i)
             result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
     };
@@ -4469,7 +4469,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     return result;
 }
 
-std::string QuorumReadManager::generateSessionToken(uint64_t version) const {
+std::string QuorumReadManager::generateSessionToken([[maybe_unused]] uint64_t version) const {
     // Format: "seq=<N>;exp=<epoch_ms>"
     auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         (std::chrono::system_clock::now() +
@@ -4680,7 +4680,7 @@ std::string CompressedReplicationStream::algorithmName(CompressionAlgorithm algo
 }
 
 CompressedReplicationStream::CompressionAlgorithm
-CompressedReplicationStream::selectAlgorithm(size_t payload_bytes) const {
+CompressedReplicationStream::selectAlgorithm([[maybe_unused]] size_t payload_bytes) const {
     if (config_.algorithm != CompressionAlgorithm::AUTO) {
         return config_.algorithm;
     }
@@ -4908,7 +4908,7 @@ BatchedAckTracker::~BatchedAckTracker() {
     timedJoin(flush_thread_);
 }
 
-void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
+void BatchedAckTracker::recordApplied([[maybe_unused]] uint64_t sequence_number) {
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
         pending_.push_back(sequence_number);
@@ -5389,7 +5389,7 @@ uint64_t CDCManager::subscribe(const std::string& collection, CDCCallback callba
     return id;
 }
 
-void CDCManager::unsubscribe(uint64_t subscription_id) {
+void CDCManager::unsubscribe([[maybe_unused]] uint64_t subscription_id) {
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscriptions_.erase(
         std::remove_if(subscriptions_.begin(), subscriptions_.end(),
@@ -5472,7 +5472,7 @@ uint64_t CrossClusterPublication::addRemoteSubscriber([[maybe_unused]] RemoteSub
     return id;
 }
 
-void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
+void CrossClusterPublication::removeRemoteSubscriber([[maybe_unused]] uint64_t subscriber_id) {
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscribers_.erase(
         std::remove_if(subscribers_.begin(), subscribers_.end(),
@@ -5608,7 +5608,7 @@ WALArchivalManager::WALArchivalManager(const ArchivalConfig& config,
     loadIndex();
 }
 
-std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
+std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id) const {
     std::ostringstream oss;
     if (backend_) {
         // Cloud object key: use configured prefix
@@ -6153,7 +6153,7 @@ MultiRegionActiveActiveManager::MultiRegionActiveActiveManager(
     }
 }
 
-std::string MultiRegionActiveActiveManager::generateWriteId(uint64_t sequence) const {
+std::string MultiRegionActiveActiveManager::generateWriteId([[maybe_unused]] uint64_t sequence) const {
     // Combine region id, the caller-supplied sequence, and a nanosecond timestamp for uniqueness.
     // Using the already-computed sequence (not a fresh load) avoids a TOCTOU race where
     // another concurrent write could have incremented local_sequence_ between the caller's
@@ -6165,7 +6165,7 @@ std::string MultiRegionActiveActiveManager::generateWriteId(uint64_t sequence) c
     return oss.str();
 }
 
-std::string MultiRegionActiveActiveManager::generateSessionToken(uint64_t sequence) const {
+std::string MultiRegionActiveActiveManager::generateSessionToken([[maybe_unused]] uint64_t sequence) const {
     // Format: "seq=<N>;region=<R>;exp=<epoch_ms>"
     auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         (std::chrono::system_clock::now() +
@@ -6962,7 +6962,7 @@ GeoReplicationManager::GeoReplicationManager(const GeoConfig& config)
 
 // ── Session token helpers ─────────────────────────────────────────────────────
 
-std::string GeoReplicationManager::generateSessionToken(uint64_t sequence) const
+std::string GeoReplicationManager::generateSessionToken([[maybe_unused]] uint64_t sequence) const
 {
     auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch() +

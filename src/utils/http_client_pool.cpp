@@ -341,7 +341,7 @@ size_t HTTPClientPool::getStripeIndex() const {
     return round_robin_.fetch_add(1, std::memory_order_relaxed) % stripes_.size();
 }
 
-void HTTPClientPool::warmup(size_t num_connections) {
+void HTTPClientPool::warmup([[maybe_unused]] size_t num_connections) {
     if (shutdown_.load()) {
         return;
     }

@@ -991,7 +991,7 @@ double ProductionValidator::calculatePercentile(
     return mutable_copy[index];
 }
 
-void ProductionValidator::recordLatency(double latency_ms) {
+void ProductionValidator::recordLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_.push_back(latency_ms);
     
@@ -1722,7 +1722,7 @@ IntegrationTestSuite::runAllTests() {
     return results;
 }
 
-std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
+std::string ProductionValidator::generateBenchmarkPrompt([[maybe_unused]] int variant) {
     static const std::vector<std::string> prompts = {
         "Explain quantum computing in simple terms.",
         "Write a haiku about databases.",

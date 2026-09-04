@@ -204,7 +204,7 @@ std::vector<size_t> WindowEvaluator::sortPartition(
     }
     
     // Sortiere basierend auf ORDER BY
-    std::sort(sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
+    std::sort([[maybe_unused]] sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
         const auto& rowA = rows[idxA];
         const auto& rowB = rows[idxB];
         
@@ -269,7 +269,7 @@ int WindowEvaluator::compareRows(
 // Window Function Evaluations
 // ============================================================================
 
-std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber(size_t partitionSize) {
+std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber([[maybe_unused]] size_t partitionSize) {
     std::vector<nlohmann::json> results;
     results.reserve(partitionSize);
     

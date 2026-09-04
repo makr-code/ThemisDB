@@ -1362,7 +1362,7 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
 
 // ===================== Content Assembly & Navigation =====================
 
-std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum(int seq_num) const {
+std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum([[maybe_unused]] int seq_num) const {
     for (const auto& chunk : chunks) {
         if (chunk.seq_num == seq_num) {
             return chunk;

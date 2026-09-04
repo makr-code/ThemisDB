@@ -258,7 +258,7 @@ size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
     return flushBuffer(namespace_key, it->second);
 }
 
-size_t VectorAutoBuffer::flushInternal(bool lock_held) {
+size_t VectorAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("VectorAutoBuffer.flush");
     
     std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);

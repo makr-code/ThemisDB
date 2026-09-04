@@ -323,7 +323,7 @@ std::vector<uint8_t> UDPFastPath::dispatchVectorSearch(uint32_t           reques
                          R"({"error":"vector search not available on UDP fast-path; use TCP wire protocol"})");
 }
 
-std::vector<uint8_t> UDPFastPath::dispatchPing(uint32_t request_id) {
+std::vector<uint8_t> UDPFastPath::dispatchPing([[maybe_unused]] uint32_t request_id) {
     const uint64_t now_ms =
         static_cast<uint64_t>(
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -362,7 +362,7 @@ bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
     return true;
 }
 
-bool UDPFastPath::isReadOnlyOpCode(uint8_t opcode) {
+bool UDPFastPath::isReadOnlyOpCode([[maybe_unused]] uint8_t opcode) {
     switch (static_cast<UdpOpCode>(opcode)) {
         case UdpOpCode::GET:
         [[fallthrough]];\n        case UdpOpCode::QUERY_AQL:

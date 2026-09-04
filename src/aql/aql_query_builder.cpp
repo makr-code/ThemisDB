@@ -111,7 +111,7 @@ class AQLQueryBuilder::Impl {
     }
 
     // Renders the partial or complete query
-    std::string render(bool require_complete) const {
+    std::string render([[maybe_unused]] bool require_complete) const {
         bool has_for           = !for_clauses.empty() || !for_traverse_clauses.empty();
         bool has_return_or_dml = !return_expr.empty() || !dml_clauses.empty();
 
@@ -673,7 +673,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std:
 // Ingestion enrichment flag
 // ============================================================================
 
-AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
+AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment([[maybe_unused]] bool enabled) {
     impl_->ingestion_enrichment = enabled;
     return *this;
 }

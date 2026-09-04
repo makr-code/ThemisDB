@@ -50,7 +50,7 @@ void PagedKVCacheManager::initializeBlocks() {
     }
 }
 
-std::vector<int> PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
+std::vector<int> PagedKVCacheManager::allocateBlocks([[maybe_unused]] size_t num_blocks) {
     std::vector<int> allocated;
     allocated.reserve(num_blocks);
     
@@ -115,7 +115,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
 }
 
 PagedKVCacheManager::BlockTable 
-PagedKVCacheManager::getBlockTable(uint64_t seq_id) const {
+PagedKVCacheManager::getBlockTable([[maybe_unused]] uint64_t seq_id) const {
     auto it = sequence_tables_.find(seq_id);
     if (it != sequence_tables_.end()) {
         return it->second;
@@ -160,7 +160,7 @@ PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     return table;
 }
 
-void PagedKVCacheManager::removeSequence(uint64_t seq_id) {
+void PagedKVCacheManager::removeSequence([[maybe_unused]] uint64_t seq_id) {
     auto it = sequence_tables_.find(seq_id);
     if (it != sequence_tables_.end()) {
         freeBlocks(it->second.block_ids);
@@ -209,14 +209,14 @@ PagedKVCacheManager::getMemoryStats() const {
     return stats;
 }
 
-bool PagedKVCacheManager::isBlockAvailable(int block_id) const {
+bool PagedKVCacheManager::isBlockAvailable([[maybe_unused]] int block_id) const {
     return block_id >= 0 && 
            block_id < static_cast<int>(blocks_.size()) && 
            blocks_[block_id].ref_count > 0;
 }
 
 PagedKVCacheManager::BlockInfo 
-PagedKVCacheManager::getBlockInfo(int block_id) const {
+PagedKVCacheManager::getBlockInfo([[maybe_unused]] int block_id) const {
     if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
         const auto& block = blocks_[block_id];
         BlockInfo info;
@@ -275,7 +275,7 @@ int PagedKVCacheManager::getFreeBlock() {
     return block_id;
 }
 
-void PagedKVCacheManager::releaseBlock(int block_id) {
+void PagedKVCacheManager::releaseBlock([[maybe_unused]] int block_id) {
     if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return;
     }

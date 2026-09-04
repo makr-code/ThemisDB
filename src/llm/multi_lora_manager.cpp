@@ -1197,7 +1197,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     return info;
 }
 
-size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
+size_t MultiLoRAManager::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     // Already locked by caller
     
     if (loras_.empty()) {
@@ -1490,7 +1490,7 @@ bool MultiLoRAManager::importLoRA(
     return true;
 }
 
-bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
+bool MultiLoRAManager::hasCapacity([[maybe_unused]] size_t vram_bytes) const {
     std::lock_guard<std::mutex> lock(mutex_);
     // FIND-015: Use named constant for byte to MB conversion
     size_t vram_mb = vram_bytes / BYTES_PER_MB;
@@ -1873,7 +1873,7 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
     }
 }
 
-std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
+std::vector<float> MultiLoRAManager::simulateWeights([[maybe_unused]] size_t count) {
     // Deterministic weight estimate used only when the backing GGUF file cannot
     // be parsed.  Values are scaled to [-1, 1] so that quantization scale
     // calibration produces meaningful (non-trivial) results.
@@ -2072,7 +2072,7 @@ size_t MultiLoRAManager::balanceGPULoad() {
 
 // Internal multi-GPU helper methods
 
-int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
+int MultiLoRAManager::selectGPUForLoRA([[maybe_unused]] size_t vram_bytes) {
     // Already locked by caller
     
     if (!config_.multi_gpu.enabled || config_.multi_gpu.devices.empty()) {
@@ -2294,7 +2294,7 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
     }
 }
 
-bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
+bool MultiLoRAManager::isGPUHealthy([[maybe_unused]] int gpu_id) const {
     // Already locked by caller
 
     // Verify the GPU is in the configured device list first.
@@ -3112,7 +3112,7 @@ void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::stri
     }
 }
 
-json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
+json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json log = json::array();

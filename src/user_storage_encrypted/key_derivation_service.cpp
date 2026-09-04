@@ -315,7 +315,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
 #endif
 }
 
-std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
+std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt([[maybe_unused]] size_t length) {
     if (length == 0) {
         throw std::invalid_argument("Salt length must be > 0");
     }

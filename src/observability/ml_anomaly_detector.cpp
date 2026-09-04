@@ -32,7 +32,7 @@ using themisdb::analytics::ForecastPoint;
 // Utility helpers
 // ---------------------------------------------------------------------------
 
-double MLAnomalyDetector::clamp01(double v) noexcept {
+double MLAnomalyDetector::clamp01([[maybe_unused]] double v) noexcept {
     if (v < 0.0) return 0.0;
     if (v > 1.0) return 1.0;
     return v;
@@ -142,7 +142,7 @@ double MLAnomalyDetector::changePointScore(const std::vector<double>& values) co
     return clamp01(norm > 1.0 ? 1.0 : norm);
 }
 
-std::string MLAnomalyDetector::severityForScore(double s) const {
+std::string MLAnomalyDetector::severityForScore([[maybe_unused]] double s) const {
     if (s >= 0.9) return "critical";
     if (s >= 0.75) return "high";
     if (s >= 0.5) return "medium";

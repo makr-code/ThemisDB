@@ -1029,7 +1029,7 @@ bool InferenceEngineEnhanced::isRunning() const {
 // Internal Methods - Worker Loop
 // ═══════════════════════════════════════════════════════════
 
-void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
+void InferenceEngineEnhanced::workerLoop([[maybe_unused]] size_t worker_id) {
     spdlog::debug("Worker {} started", worker_id);
     
     while (running_.load(std::memory_order_acquire)) {
@@ -1996,7 +1996,7 @@ void InferenceEngineEnhanced::updateModelStats(
 // Internal Methods - Statistics
 // ═══════════════════════════════════════════════════════════
 
-void InferenceEngineEnhanced::recordCacheHit(size_t tokens_saved) {
+void InferenceEngineEnhanced::recordCacheHit([[maybe_unused]] size_t tokens_saved) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.cache_hits++;
     stats_.tokens_saved_by_cache += tokens_saved;
@@ -2007,7 +2007,7 @@ void InferenceEngineEnhanced::recordCacheMiss() {
     stats_.cache_misses++;
 }
 
-void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
+void InferenceEngineEnhanced::recordBatchCompletion([[maybe_unused]] size_t batch_size) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     stats_.total_batches++;

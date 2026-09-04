@@ -186,7 +186,7 @@ std::vector<uint8_t> lz4_decompress(const std::vector<uint8_t>& compressed, size
 // Utility
 // ---------------------------------------------------------------------------
 
-size_t lz4_compress_bound(size_t input_size) {
+size_t lz4_compress_bound([[maybe_unused]] size_t input_size) {
 #ifdef THEMIS_HAS_LZ4
     if (input_size == 0 || input_size > lz4_compression::MAX_INPUT_SIZE) return 0;
     if (input_size > static_cast<size_t>(LZ4_MAX_INPUT_SIZE)) return 0;

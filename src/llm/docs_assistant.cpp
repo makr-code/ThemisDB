@@ -635,7 +635,7 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
     }
     
     auto search_start = std::chrono::high_resolution_clock::now();
-    const auto saturating_to_int = [](size_t value) {
+    const auto saturating_to_int = []([[maybe_unused]] size_t value) {
         const size_t max_int = static_cast<size_t>(std::numeric_limits<int>::max());
         return static_cast<int>(value > max_int ? max_int : value);
     };

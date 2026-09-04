@@ -1793,11 +1793,11 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
             return gguf_file.good() && gguf_file.gcount() == count;
         };
 
-        const auto read_u32 = [&read_exact](uint32_t& value) -> bool {
+        const auto read_u32 = [&read_exact]([[maybe_unused]] uint32_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint32_t)));
         };
 
-        const auto read_u64 = [&read_exact](uint64_t& value) -> bool {
+        const auto read_u64 = [&read_exact]([[maybe_unused]] uint64_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint64_t)));
         };
          

@@ -86,7 +86,7 @@ constexpr const char *FG_DARK_GREY = "\x1b[90m"; // comments
 // Constructor
 // ---------------------------------------------------------------------------
 
-AQLSyntaxHighlighter::AQLSyntaxHighlighter(bool use_ansi) : use_ansi_(use_ansi) {}
+AQLSyntaxHighlighter::AQLSyntaxHighlighter([[maybe_unused]] bool use_ansi) : use_ansi_(use_ansi) {}
 
 // ---------------------------------------------------------------------------
 // Tokenizer

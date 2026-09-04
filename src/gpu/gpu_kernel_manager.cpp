@@ -114,7 +114,7 @@ void GPUKernelManager::launch(const void* args) const {
     // CudaCheckError(cudaLaunchKernel(...));
 }
 
-bool GPUKernelManager::wait(uint32_t timeout_ms) const {
+bool GPUKernelManager::wait([[maybe_unused]] uint32_t timeout_ms) const {
     if (is_moved_from_) {
         throw std::logic_error("Cannot wait on moved-from manager");
     }

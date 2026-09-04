@@ -262,7 +262,7 @@ void EthicsEvaluator::recordDecision(double confidence, bool rag_hit, uint64_t l
     confidence_sum_micro_ += static_cast<uint64_t>(confidence * 1'000'000.0);
 }
 
-void EthicsEvaluator::setArgumentStoreSize(uint64_t count) {
+void EthicsEvaluator::setArgumentStoreSize([[maybe_unused]] uint64_t count) {
     argument_store_size_.store(count);
 }
 

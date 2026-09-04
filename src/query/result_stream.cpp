@@ -111,7 +111,7 @@ Result<T> ResultStream<T>::next() {
 }
 
 template<typename T>
-Result<ResultBatch<T>> ResultStream<T>::nextBatch(size_t batch_size) {
+Result<ResultBatch<T>> ResultStream<T>::nextBatch([[maybe_unused]] size_t batch_size) {
     ResultBatch<T> batch;
     batch.items.reserve(batch_size);
     
@@ -171,7 +171,7 @@ size_t ResultStream<T>::position() const {
 }
 
 template<typename T>
-Result<void> ResultStream<T>::skip(size_t count) {
+Result<void> ResultStream<T>::skip([[maybe_unused]] size_t count) {
     if (count == 0) {
         return OkVoid();
     }

@@ -246,7 +246,7 @@ void PaxosWAL::flush() {
     }
 }
 
-bool PaxosWAL::shouldCreateSnapshot(size_t operations_since_last) const {
+bool PaxosWAL::shouldCreateSnapshot([[maybe_unused]] size_t operations_since_last) const {
     return operations_since_last >= config_.snapshot_interval;
 }
 

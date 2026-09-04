@@ -65,7 +65,7 @@ static long perf_event_open_syscall(struct perf_event_attr* attr,
  * @param sw_config  A PERF_COUNT_SW_* constant.
  * @return           A non-negative file descriptor, or -1 on failure.
  */
-static int openSoftwareCounter(uint64_t sw_config) noexcept {
+static int openSoftwareCounter([[maybe_unused]] uint64_t sw_config) noexcept {
     struct perf_event_attr attr{};
     attr.type        = PERF_TYPE_SOFTWARE;
     attr.size        = sizeof(attr);
@@ -84,7 +84,7 @@ static int openSoftwareCounter(uint64_t sw_config) noexcept {
 }
 
 /** Enable a perf counter fd; no-op if fd < 0. */
-static void enableCounter(int fd) noexcept {
+static void enableCounter([[maybe_unused]] int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_RESET,  0);
         ::ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
@@ -92,14 +92,14 @@ static void enableCounter(int fd) noexcept {
 }
 
 /** Disable a perf counter fd; no-op if fd < 0. */
-static void disableCounter(int fd) noexcept {
+static void disableCounter([[maybe_unused]] int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
     }
 }
 
 /** Read the current absolute count from a perf fd.  Returns -1 on error. */
-static int64_t readCounter(int fd) noexcept {
+static int64_t readCounter([[maybe_unused]] int fd) noexcept {
     if (fd < 0) return -1;
     uint64_t value = 0;
     ssize_t n = ::read(fd, &value, sizeof(value));

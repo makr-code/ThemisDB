@@ -71,7 +71,7 @@ namespace {
 #if defined(__linux__) || defined(__APPLE__)
 class ScopedFd final {
 public:
-    explicit ScopedFd(int fd) noexcept : fd_(fd) {}
+    explicit ScopedFd([[maybe_unused]] int fd) noexcept : fd_(fd) {}
     ~ScopedFd() {
         if (fd_ >= 0) {
             ::close(fd_);

@@ -680,7 +680,7 @@ ISpatialComputeBackend *getGpuSpatialBackend() {
 std::string getGpuSpatialBackendStatsJson() {
     const auto s = getGpuSpatialBackendInstance().getStats();
     // Hand-rolled JSON to avoid a nlohmann/json dependency in this TU.
-    auto boolStr = [](bool v) -> const char * { return v ? "true" : "false"; };
+    auto boolStr = []([[maybe_unused]] bool v) -> const char * { return v ? "true" : "false"; };
     auto escStr  = [](const std::string &v) -> std::string {
         std::string out;
         out.reserve(v.size() + 2);

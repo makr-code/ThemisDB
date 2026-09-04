@@ -493,7 +493,7 @@ std::string TensorEdgeCaseHandler::formatErrorMessage(
     return fmt::format("{} [context: {}]", base_message, context);
 }
 
-bool TensorEdgeCaseHandler::isRecoverable(int error_code) const noexcept {
+bool TensorEdgeCaseHandler::isRecoverable([[maybe_unused]] int error_code) const noexcept {
     // Most tensor errors are potentially recoverable via retry or fallback
     // Only persist failures (9560+) are truly non-recoverable
     return error_code < static_cast<int>(errors::ErrorCode::ERR_TENSOR_RECOVERY_FAILED);

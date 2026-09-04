@@ -127,7 +127,7 @@ bool GPUErasureCoder::initializeGPU() {
     }
 }
 
-bool GPUErasureCoder::shouldUseGPU(size_t data_size) const {
+bool GPUErasureCoder::shouldUseGPU([[maybe_unused]] size_t data_size) const {
     // Don't use GPU if forced to CPU or GPU not available
     if (force_cpu_ || !impl_ || !impl_->isAvailable()) {
         return false;

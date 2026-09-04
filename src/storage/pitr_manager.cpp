@@ -425,7 +425,7 @@ namespace {
     static const PITRManager::RestoreOptions kDefaultRestoreOptions{};
 }
 
-PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence) {
+PITRManager::Status PITRManager::restoreToSequence([[maybe_unused]] uint64_t target_sequence) {
     return restoreToSequence(target_sequence, kDefaultRestoreOptions);
 }
 
@@ -437,7 +437,7 @@ PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
     return restoreToTimestamp(timestamp_ms, kDefaultRestoreOptions);
 }
 
-PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence) const {
+PITRManager::RestorePreview PITRManager::previewRestore([[maybe_unused]] uint64_t target_sequence) const {
     return previewRestore(target_sequence, kDefaultRestoreOptions);
 }
 

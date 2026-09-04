@@ -1162,7 +1162,7 @@ void WireProtocolServer::Session::asyncUpgradeToWebSocket(
 }
 #endif // THEMIS_ENABLE_WEBSOCKET
 
-void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
+void WireProtocolServer::Session::asyncReadPayload([[maybe_unused]] uint32_t payload_size) {
     if (payload_size == 0) {
         // No payload, check if we need to read checksum
         payload_buffer_.clear();

@@ -906,7 +906,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
 
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     QueryPlan plan;
-    const auto to_plan_rows = [](size_t value) {
+    const auto to_plan_rows = []([[maybe_unused]] size_t value) {
         const size_t max_rows = static_cast<size_t>(std::numeric_limits<int>::max());
         return static_cast<int>(std::min(value, max_rows));
     };

@@ -27,7 +27,7 @@ namespace lora {
 
 // ===== SimpleTokenizer Implementation =====
 
-SimpleTokenizer::SimpleTokenizer(int vocab_size) 
+SimpleTokenizer::SimpleTokenizer([[maybe_unused]] int vocab_size) 
     : vocab_size_(vocab_size) {
 }
 
@@ -426,7 +426,7 @@ void DataLoader::shuffle() {
     spdlog::debug("Dataset shuffled");
 }
 
-std::optional<InstructionDataSample> DataLoader::getSample(size_t idx) const {
+std::optional<InstructionDataSample> DataLoader::getSample([[maybe_unused]] size_t idx) const {
     if (idx >= samples_.size()) {
         return std::nullopt;
     }
@@ -519,7 +519,7 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
     return samples;
 }
 
-std::vector<InstructionDataSample> createToyDataset(size_t num_samples) {
+std::vector<InstructionDataSample> createToyDataset([[maybe_unused]] size_t num_samples) {
     std::vector<InstructionDataSample> samples;
     
     std::random_device rd;

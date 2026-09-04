@@ -365,7 +365,7 @@ LegalGrounding RAGContextEngine::retrieveLegalGrounding(
     return grounding;
 }
 
-void RAGContextEngine::setLegalDbAvailable(bool available) noexcept {
+void RAGContextEngine::setLegalDbAvailable([[maybe_unused]] bool available) noexcept {
     legal_db_available_ = available;
 }
 

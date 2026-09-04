@@ -259,7 +259,7 @@ struct ElementwisePushConstants {
     uint32_t scalar_bits;
 };
 
-static uint32_t float_to_bits(float value) {
+static uint32_t float_to_bits([[maybe_unused]] float value) {
     uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(bits));
     return bits;
@@ -330,7 +330,7 @@ static std::string get_shader_path(const std::string& shader_name) {
                            ". Please compile shaders or provide pre-compiled SPIR-V files.");
 }
 
-bool initialize_vulkan_lora(int device_id) {
+bool initialize_vulkan_lora([[maybe_unused]] int device_id) {
     auto lock = lock_vulkan_state_or_throw();
     
     if (g_vulkan_state.initialized) {

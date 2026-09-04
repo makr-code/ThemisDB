@@ -153,7 +153,7 @@ static const std::vector<EntityPattern>& getEntityPatterns() {
 DeonticExtractor::DeonticExtractor()
     : confidence_threshold_(0.75) {}
 
-void DeonticExtractor::setConfidenceThreshold(double threshold) {
+void DeonticExtractor::setConfidenceThreshold([[maybe_unused]] double threshold) {
     confidence_threshold_ = threshold;
 }
 

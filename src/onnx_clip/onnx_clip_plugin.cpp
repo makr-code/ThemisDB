@@ -145,7 +145,7 @@ static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
     return seed;
 }
 
-static float nextFloat01(uint64_t& state) {
+static float nextFloat01([[maybe_unused]] uint64_t& state) {
     // xorshift64*
     state ^= state >> 12;
     state ^= state << 25;

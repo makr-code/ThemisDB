@@ -398,7 +398,7 @@ std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
 }
 
 /** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
-std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshold) const {
+std::vector<std::string> ShardResourceManager::getOverloadedPeers([[maybe_unused]] float threshold) const {
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> overloaded_peers;
     

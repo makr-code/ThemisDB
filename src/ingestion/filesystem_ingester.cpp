@@ -658,7 +658,7 @@ public:
         format_ = format;
     }
 
-    void setMetadataExtraction(bool enabled) {
+    void setMetadataExtraction([[maybe_unused]] bool enabled) {
         metadata_extraction_ = enabled;
     }
 
@@ -757,7 +757,7 @@ void FileSystemIngester::setFileFormat(FileFormat format) {
     impl_->setFileFormat(format);
 }
 
-void FileSystemIngester::setMetadataExtraction(bool enabled) {
+void FileSystemIngester::setMetadataExtraction([[maybe_unused]] bool enabled) {
     impl_->setMetadataExtraction(enabled);
 }
 

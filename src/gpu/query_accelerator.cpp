@@ -91,8 +91,8 @@ constexpr auto kGpuDispatchTimeout = std::chrono::seconds(5);
 // FP16 / BF16 quantisation helpers (CPU simulation of Tensor Core precision)
 // ---------------------------------------------------------------------------
 
-/// Encode a float32 to IEEE 754 FP16 bits (uint16_t).
-static uint16_t fp32_to_fp16(float f) noexcept {
+/// Encode a float32 to IEEE 754 FP16 bits ([[maybe_unused]] uint16_t).
+static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
     uint32_t bits;
     std::memcpy(&bits, &f, 4);
     const uint32_t sign   = (bits >> 31) & 0x1u;
@@ -134,7 +134,7 @@ static uint16_t fp32_to_fp16(float f) noexcept {
 }
 
 /// Decode IEEE 754 FP16 bits back to float32.
-static float fp16_to_fp32(uint16_t h) noexcept {
+static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
     const uint32_t sign   = static_cast<uint32_t>((h >> 15) & 0x1u);
     const uint32_t exp16  = (h >> 10) & 0x1Fu;
     const uint32_t mant16 = h & 0x3FFu;
@@ -167,12 +167,12 @@ static float fp16_to_fp32(uint16_t h) noexcept {
 }
 
 /// Round-trip a float through FP16 to simulate Tensor Core precision loss.
-static float quantise_fp16(float f) noexcept {
+static float quantise_fp16([[maybe_unused]] float f) noexcept {
     return fp16_to_fp32(fp32_to_fp16(f));
 }
 
-/// Encode a float32 to BF16 bits (uint16_t) — top 16 bits of FP32 with RNE.
-static uint16_t fp32_to_bf16(float f) noexcept {
+/// Encode a float32 to BF16 bits ([[maybe_unused]] uint16_t) — top 16 bits of FP32 with RNE.
+static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
     uint32_t bits;
     std::memcpy(&bits, &f, 4);
     // Round to nearest even
@@ -181,7 +181,7 @@ static uint16_t fp32_to_bf16(float f) noexcept {
 }
 
 /// Decode BF16 bits back to float32 — restore the truncated mantissa bits as 0.
-static float bf16_to_fp32(uint16_t b) noexcept {
+static float bf16_to_fp32([[maybe_unused]] uint16_t b) noexcept {
     uint32_t bits = static_cast<uint32_t>(b) << 16;
     float f;
     std::memcpy(&f, &bits, 4);
@@ -189,7 +189,7 @@ static float bf16_to_fp32(uint16_t b) noexcept {
 }
 
 /// Round-trip a float through BF16 to simulate Tensor Core precision loss.
-static float quantise_bf16(float f) noexcept {
+static float quantise_bf16([[maybe_unused]] float f) noexcept {
     return bf16_to_fp32(fp32_to_bf16(f));
 }
 
@@ -222,7 +222,7 @@ GPUGraphCache::Stats GPUQueryAccelerator::getGraphCacheStats() const {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-bool GPUQueryAccelerator::shouldUseGPU(size_t num_rows) const noexcept {
+bool GPUQueryAccelerator::shouldUseGPU([[maybe_unused]] size_t num_rows) const noexcept {
     if (config_.force_cpu) {
         return false;
     }

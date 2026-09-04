@@ -32,12 +32,12 @@ constexpr int PEAK_UPDATE_MAX_RETRIES = 10;  // Max retries for atomic peak memo
 constexpr size_t STACK_ALLOC_RESERVE_RATIO = 256;  // Reserve 1/256th of capacity for tracking
 
 // Helper function to check if a number is a power of 2
-static inline bool isPowerOfTwo(size_t n) {
+static inline bool isPowerOfTwo([[maybe_unused]] size_t n) {
     return n > 0 && (n & (n - 1)) == 0;
 }
 
 // Helper function to get next power of 2
-static inline size_t nextPowerOfTwo(size_t n) {
+static inline size_t nextPowerOfTwo([[maybe_unused]] size_t n) {
     if (n == 0) return 1;
     n--;
     n |= n >> 1;
@@ -118,7 +118,7 @@ struct BuddyAllocator::Impl {
     
     ~Impl() noexcept = default;
     
-    size_t getOrder(size_t size) {
+    size_t getOrder([[maybe_unused]] size_t size) {
         size_t order = 0;
         size_t block_size = min_block_size;
         while (block_size < size && order < max_order) {
@@ -128,7 +128,7 @@ struct BuddyAllocator::Impl {
         return order;
     }
     
-    void* allocateBlock(size_t order) {
+    void* allocateBlock([[maybe_unused]] size_t order) {
         // Find a free block at this order or higher
         for (size_t i = order; i <= max_order; ++i) {
             if (free_list_heads[i] == 0) continue;  // No free block at this order
@@ -584,7 +584,7 @@ struct StackAllocator::Impl {
     // Track allocations for validation - store pairs of (address, size)
     std::vector<std::pair<uintptr_t, size_t>> allocation_stack;
     
-    Impl(size_t cap) : capacity(cap), offset(0) {
+    Impl([[maybe_unused]] size_t cap) : capacity(cap), offset(0) {
         memory = new uint8_t[capacity];
         std::memset(memory, 0, capacity);
         // Reserve space for allocation tracking to reduce reallocations
@@ -598,7 +598,7 @@ struct StackAllocator::Impl {
     ~Impl() noexcept = default;
 };
 
-StackAllocator::StackAllocator(size_t capacity)
+StackAllocator::StackAllocator([[maybe_unused]] size_t capacity)
     : impl_(std::make_unique<Impl>(capacity)) {
 }
 
@@ -701,7 +701,7 @@ size_t StackAllocator::savePosition() const {
     return impl_->offset;
 }
 
-Result<void> StackAllocator::restorePosition(size_t position) {
+Result<void> StackAllocator::restorePosition([[maybe_unused]] size_t position) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     if (position > impl_->offset) {
@@ -858,7 +858,7 @@ const AllocationStats& PoolAllocator::getBuddyStats() const {
     return impl_->buddy->getStats();
 }
 
-const AllocationStats& PoolAllocator::getSlabStats(size_t size) const {
+const AllocationStats& PoolAllocator::getSlabStats([[maybe_unused]] size_t size) const {
     auto it = impl_->slabs.find(size);
     if (it != impl_->slabs.end()) {
         return it->second->getStats();

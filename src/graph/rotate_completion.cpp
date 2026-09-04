@@ -409,7 +409,7 @@ public:
     }
 
     // Expose entity name for a given index (for injection into KGReasoner).
-    std::string entityName(size_t idx) const {
+    std::string entityName([[maybe_unused]] size_t idx) const {
         std::shared_lock lk(mu_);
         return entity_names_.at(idx);
     }

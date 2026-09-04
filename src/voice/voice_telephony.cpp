@@ -72,7 +72,7 @@ std::string generateCallId() {
  *
  * Implements the ITU-T G.711 µ-law expansion table.
  */
-int16_t ulawToPcm(uint8_t ulaw_byte) {
+int16_t ulawToPcm([[maybe_unused]] uint8_t ulaw_byte) {
     ulaw_byte = static_cast<uint8_t>(~ulaw_byte);
     int sign   = (ulaw_byte & 0x80) ? -1 : 1;
     int exp    = (ulaw_byte >> 4) & 0x07;
@@ -85,7 +85,7 @@ int16_t ulawToPcm(uint8_t ulaw_byte) {
 /**
  * @brief Minimal G.711 A-law byte → 16-bit linear PCM conversion.
  */
-int16_t alawToPcm(uint8_t alaw_byte) {
+int16_t alawToPcm([[maybe_unused]] uint8_t alaw_byte) {
     alaw_byte ^= 0x55;
     int sign  = (alaw_byte & 0x80) ? -1 : 1;
     int exp   = (alaw_byte >> 4) & 0x07;

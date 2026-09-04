@@ -80,7 +80,7 @@ public:
 #endif
     }
     
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         numThreads_ = threads;
         threadControl_ = std::make_unique<tbb::global_control>(
             tbb::global_control::max_allowed_parallelism, 
@@ -89,7 +89,7 @@ public:
         arena_ = std::make_unique<tbb::task_arena>(threads);
     }
     
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
     
@@ -438,11 +438,11 @@ private:
 public:
     CPUVectorBackendTBB() : enableSIMD_(true) {}
 
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         (void)threads;
     }
 
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
 

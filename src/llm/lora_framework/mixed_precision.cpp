@@ -70,7 +70,7 @@ Tensor MixedPrecisionTrainer::to_fp32(const Tensor& input) const {
     return input.clone();
 }
 
-float MixedPrecisionTrainer::scale_loss(float loss) {
+float MixedPrecisionTrainer::scale_loss([[maybe_unused]] float loss) {
     if (!is_enabled()) {
         return loss;
     }
@@ -120,7 +120,7 @@ bool MixedPrecisionTrainer::has_overflow(const std::vector<Tensor*>& gradients) 
     return false;
 }
 
-void MixedPrecisionTrainer::update_loss_scale(bool had_overflow) {
+void MixedPrecisionTrainer::update_loss_scale([[maybe_unused]] bool had_overflow) {
     if (!config_.dynamic_loss_scaling || !is_enabled()) {
         return;
     }
@@ -172,7 +172,7 @@ void MixedPrecisionTrainer::reset_stats() {
 
 // File-local helper: decode a raw FP16 bit-pattern to float32.
 // Defined before fp32_to_fp16 so it can be called from there.
-static float fp16_to_fp32_bits(uint16_t f16) {
+static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
     const uint32_t sign   = static_cast<uint32_t>((f16 >> 15) & 0x1u);
     const uint32_t exp16  = static_cast<uint32_t>((f16 >> 10) & 0x1Fu);
     const uint32_t mant16 = static_cast<uint32_t>( f16        & 0x3FFu);
@@ -209,7 +209,7 @@ static float fp16_to_fp32_bits(uint16_t f16) {
 // CPU-based IEEE 754 FP32↔FP16 conversion using bit manipulation.
 // FP32: 1 sign + 8 exponent + 23 mantissa bits (bias 127)
 // FP16: 1 sign + 5 exponent + 10 mantissa bits (bias 15)
-float MixedPrecisionTrainer::fp32_to_fp16(float value) {
+float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
     // Bit-cast float to uint32 without UB
     uint32_t f32;
     std::memcpy(&f32, &value, sizeof(f32));
@@ -262,7 +262,7 @@ float MixedPrecisionTrainer::fp32_to_fp16(float value) {
     return fp16_to_fp32_bits(f16);
 }
 
-float MixedPrecisionTrainer::fp16_to_fp32(float value) {
+float MixedPrecisionTrainer::fp16_to_fp32([[maybe_unused]] float value) {
     // value stores the FP16 bit-pattern that fp32_to_fp16() encoded.
     // Re-interpret the lower 16 bits as a raw FP16 word.
     uint32_t f32_bits;

@@ -581,7 +581,7 @@ size_t QueryCache::estimateEntrySize(const CacheEntry& entry) const {
     return size;
 }
 
-void QueryCache::updateStats(bool hit) {
+void QueryCache::updateStats([[maybe_unused]] bool hit) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_requests++;
     if (hit) {

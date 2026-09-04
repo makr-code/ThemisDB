@@ -64,7 +64,7 @@ using json = nlohmann::json;
 namespace {
 
 /// Round `v` down to the nearest power of 2.  Returns 0 when v == 0.
-static uint32_t floorPow2(uint32_t v) noexcept {
+static uint32_t floorPow2([[maybe_unused]] uint32_t v) noexcept {
     if (v == 0) { return 0; }
     uint32_t p = 1;
     while (p * 2 <= v) { p *= 2; }
@@ -186,7 +186,7 @@ static uint64_t linuxTotalRamMb() {
 #endif // __linux__
 
 /// Round total_ram_mb down to the nearest 1 024 MiB bucket (privacy measure).
-static uint64_t bucketRamMb(uint64_t raw_mb) {
+static uint64_t bucketRamMb([[maybe_unused]] uint64_t raw_mb) {
     if (raw_mb == 0) { return 0; }
     return (raw_mb / 1024) * 1024;
 }

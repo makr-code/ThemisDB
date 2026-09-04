@@ -282,7 +282,7 @@ float LoRARouter::incrementRollout() {
     return new_percentage;
 }
 
-void LoRARouter::endRollout(bool promote) {
+void LoRARouter::endRollout([[maybe_unused]] bool promote) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (rollout_config_) {

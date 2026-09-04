@@ -82,7 +82,7 @@ bool QueryMaskingPolicy::isEnabled() const
     return config_.enabled;
 }
 
-void QueryMaskingPolicy::setEnabled(bool enabled)
+void QueryMaskingPolicy::setEnabled([[maybe_unused]] bool enabled)
 {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enabled = enabled;

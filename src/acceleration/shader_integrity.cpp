@@ -209,7 +209,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvW
 // Misc
 // ============================================================================
 
-void ShaderIntegrityVerifier::setStrictMode(bool strict) {
+void ShaderIntegrityVerifier::setStrictMode([[maybe_unused]] bool strict) {
     std::lock_guard<std::mutex> lk(mutex_);
     strict_ = strict;
 }

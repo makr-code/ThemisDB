@@ -82,7 +82,7 @@ double SamplingStrategy::getEffectiveRate() const {
     return adaptive_state_->effective_rate;
 }
 
-bool SamplingStrategy::shouldSample(bool parent_sampled) const {
+bool SamplingStrategy::shouldSample([[maybe_unused]] bool parent_sampled) const {
     switch (type_) {
         case Type::ALWAYS_ON:
             return true;

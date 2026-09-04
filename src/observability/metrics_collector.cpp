@@ -130,7 +130,7 @@ void MetricsCollector::recordEmbeddingGeneration([[maybe_unused]] size_t count, 
 
 // ===== Security Metrics =====
 
-void MetricsCollector::recordAuthAttempt(bool success) {
+void MetricsCollector::recordAuthAttempt([[maybe_unused]] bool success) {
     incrementCounter("auth_attempts_total", {{"result", success ? "success" : "failure"}});
 }
 
@@ -146,11 +146,11 @@ void MetricsCollector::recordEncryptionOperation(const std::string& operation, d
 
 // ===== System Metrics =====
 
-void MetricsCollector::recordMemoryUsage(size_t bytes) {
+void MetricsCollector::recordMemoryUsage([[maybe_unused]] size_t bytes) {
     setGauge("memory_usage_bytes", static_cast<double>(bytes), {});
 }
 
-void MetricsCollector::recordCPUUsage(double percent) {
+void MetricsCollector::recordCPUUsage([[maybe_unused]] double percent) {
     setGauge("cpu_usage_percent", percent, {});
 }
 
@@ -250,7 +250,7 @@ void MetricsCollector::reset() {
 
 // ===== Cardinality control =====
 
-void MetricsCollector::setCardinalityLimit(size_t limit) {
+void MetricsCollector::setCardinalityLimit([[maybe_unused]] size_t limit) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     cardinality_limit_ = limit;
 }
@@ -499,7 +499,7 @@ bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& 
 
 // ===== Histogram Implementation =====
 
-void MetricsCollector::Histogram::observe(double value) {
+void MetricsCollector::Histogram::observe([[maybe_unused]] double value) {
     values.push_back(value);
     
     // Keep only recent samples
@@ -514,7 +514,7 @@ void MetricsCollector::Histogram::reset() {
     latest_exemplar = Exemplar{};
 }
 
-double MetricsCollector::Histogram::percentile(double p) const {
+double MetricsCollector::Histogram::percentile([[maybe_unused]] double p) const {
     if (values.empty()) return 0.0;
     
     std::vector<double> sorted = values;

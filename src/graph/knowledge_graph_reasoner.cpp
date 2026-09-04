@@ -169,7 +169,7 @@ void InferenceStore::clear() {
 // KnowledgeGraphReasoner — construction
 // ─────────────────────────────────────────────────────────────────────────────
 
-KnowledgeGraphReasoner::KnowledgeGraphReasoner(int max_inference_hops)
+KnowledgeGraphReasoner::KnowledgeGraphReasoner([[maybe_unused]] int max_inference_hops)
     : max_hops_(std::max(1, std::min(max_inference_hops, kHardMaxHops))) {}
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -513,7 +513,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
         const std::size_t n = edge.premises.size();
         return 1.0 / static_cast<double>(1 + n);
     };
-    const auto clampScore = [](double score) {
+    const auto clampScore = []([[maybe_unused]] double score) {
         // Fail-closed hardening: malformed scorer outputs (NaN / +/-Inf) should
         // never bypass min_lora_score filters, therefore they normalize to 0.0.
         if (!std::isfinite(score)) {
@@ -572,7 +572,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 // setMaxHops()
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::setMaxHops(int hops) noexcept {
+void KnowledgeGraphReasoner::setMaxHops([[maybe_unused]] int hops) noexcept {
     max_hops_ = std::max(1, std::min(hops, kHardMaxHops));
 }
 

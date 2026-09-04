@@ -203,7 +203,7 @@ private:
     // that the ThemisDB checkpoint is always written before Kafka forgets the
     // messages, ensuring at-least-once delivery semantics.
     // -----------------------------------------------------------------------
-    void writeCheckpoint(size_t processed_count) {
+    void writeCheckpoint([[maybe_unused]] size_t processed_count) {
         if (!checkpoint_store_) return;
         IngestionCheckpoint cp;
         cp.source_id       = config_.source_id;

@@ -1191,7 +1191,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     }
 }
 
-void BlobRedundancyManager::runScrub(bool full) {
+void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
     spdlog::info("Running blob scrub (full={})", full);
 
     // Phase 1: Collect degraded blob IDs under the shared read lock.

@@ -180,7 +180,7 @@ public:
     // partitions exist.  Returns true when room was found.
     // -----------------------------------------------------------------------
 
-    bool ensureVRAMRoom(size_t needed_bytes) {
+    bool ensureVRAMRoom([[maybe_unused]] size_t needed_bytes) {
         const size_t budget = vramBudgetBytes();
         if (budget == SIZE_MAX) return true;  // Unlimited budget.
 
@@ -244,7 +244,7 @@ public:
     // Internal: update LRU position (caller holds mutex).
     // -----------------------------------------------------------------------
 
-    void touchLRULocked(size_t partition_id) {
+    void touchLRULocked([[maybe_unused]] size_t partition_id) {
         // Iterator Safety (A-2.1): Ensure safe iterator handling
         // - Cache iterator before mutation
         // - Re-fetch after container modifications
@@ -262,7 +262,7 @@ public:
     // Internal: index of a partition in insertion_order (-1 if not found).
     // -----------------------------------------------------------------------
 
-    ptrdiff_t insertionIndex(size_t partition_id) const {
+    ptrdiff_t insertionIndex([[maybe_unused]] size_t partition_id) const {
         for (size_t i = 0; i < insertion_order.size(); ++i) {
             if (insertion_order[i] == partition_id) {
                 return static_cast<ptrdiff_t>(i);
@@ -276,7 +276,7 @@ public:
     // Caller holds mutex.
     // -----------------------------------------------------------------------
 
-    void applyPrefetchLocked(size_t accessed_id) {
+    void applyPrefetchLocked([[maybe_unused]] size_t accessed_id) {
         if (config.prefetch_strategy == PrefetchStrategy::NONE) return;
 
         size_t target_id = SIZE_MAX;
@@ -410,7 +410,7 @@ size_t GPUMemoryOversubscriptionManager::addPartition(
 // removePartition
 // ---------------------------------------------------------------------------
 
-bool GPUMemoryOversubscriptionManager::removePartition(size_t partition_id) {
+bool GPUMemoryOversubscriptionManager::removePartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
@@ -447,7 +447,7 @@ bool GPUMemoryOversubscriptionManager::removePartition(size_t partition_id) {
 // accessPartition
 // ---------------------------------------------------------------------------
 
-bool GPUMemoryOversubscriptionManager::accessPartition(size_t partition_id) {
+bool GPUMemoryOversubscriptionManager::accessPartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
@@ -475,7 +475,7 @@ bool GPUMemoryOversubscriptionManager::accessPartition(size_t partition_id) {
 // evictPartition
 // ---------------------------------------------------------------------------
 
-bool GPUMemoryOversubscriptionManager::evictPartition(size_t partition_id) {
+bool GPUMemoryOversubscriptionManager::evictPartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
@@ -582,7 +582,7 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getAllPartitionIds() const
 // prefetchPartition
 // ---------------------------------------------------------------------------
 
-void GPUMemoryOversubscriptionManager::prefetchPartition(size_t partition_id) {
+void GPUMemoryOversubscriptionManager::prefetchPartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
@@ -628,7 +628,7 @@ PrefetchStrategy GPUMemoryOversubscriptionManager::getPrefetchStrategy() const {
 // setVRAMBudgetMB
 // ---------------------------------------------------------------------------
 
-void GPUMemoryOversubscriptionManager::setVRAMBudgetMB(size_t mb) {
+void GPUMemoryOversubscriptionManager::setVRAMBudgetMB([[maybe_unused]] size_t mb) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
     pImpl_->config.vram_budget_mb = mb;
 
@@ -698,7 +698,7 @@ GPUMemoryOversubscriptionManager::getStats() const {
 // ---------------------------------------------------------------------------
 
 GPUMemoryOversubscriptionManager::PartitionInfo
-GPUMemoryOversubscriptionManager::getPartitionInfo(size_t partition_id) const {
+GPUMemoryOversubscriptionManager::getPartitionInfo([[maybe_unused]] size_t partition_id) const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);

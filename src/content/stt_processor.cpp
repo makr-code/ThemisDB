@@ -471,7 +471,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
     }
 
     // Helper lambda to read little-endian uint32
-    auto readUInt32LE = [&wav_data](size_t offset) -> uint32_t {
+    auto readUInt32LE = [&wav_data]([[maybe_unused]] size_t offset) -> uint32_t {
         if (offset + 4 > wav_data.size()) {
             throw std::runtime_error("Buffer overflow reading uint32 at offset " + std::to_string(offset));
         }
@@ -481,7 +481,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
     };
 
     // Helper lambda to read little-endian uint16
-    auto readUInt16LE = [&wav_data](size_t offset) -> uint16_t {
+    auto readUInt16LE = [&wav_data]([[maybe_unused]] size_t offset) -> uint16_t {
         if (offset + 2 > wav_data.size()) {
             throw std::runtime_error("Buffer overflow reading uint16 at offset " + std::to_string(offset));
         }

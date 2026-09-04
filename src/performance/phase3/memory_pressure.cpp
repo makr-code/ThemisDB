@@ -200,7 +200,7 @@ SystemMemoryPressureMonitor::read_os_memory() const {
 }
 
 SystemMemoryPressureMonitor::PressureLevel
-SystemMemoryPressureMonitor::classify(double usage_percent) const noexcept {
+SystemMemoryPressureMonitor::classify([[maybe_unused]] double usage_percent) const noexcept {
     const auto& t = config_.thresholds;
     if (usage_percent >= t.critical_threshold) return PressureLevel::CRITICAL;
     if (usage_percent >= t.high_threshold)     return PressureLevel::HIGH;

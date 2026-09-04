@@ -178,7 +178,7 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
     return out;
 }
 
-static std::string random_hex_id(size_t bytes = 8) {
+static std::string random_hex_id([[maybe_unused]] size_t bytes = 8) {
     std::random_device rd;
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;

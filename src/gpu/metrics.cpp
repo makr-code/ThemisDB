@@ -118,7 +118,7 @@ void GPUMetrics::setVRAMAllocated(uint64_t bytes, const std::string &tenant_id) 
     setGauge("themis_gpu_vram_allocated_bytes", labels, static_cast<double>(bytes));
 }
 
-void GPUMetrics::setVRAMPeak(uint64_t bytes) {
+void GPUMetrics::setVRAMPeak([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_vram_peak_bytes", {}, static_cast<double>(bytes));
 }

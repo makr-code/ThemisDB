@@ -846,7 +846,7 @@ nlohmann::json AuditIntegrityManager::getPerformanceMetrics() const {
     return metrics;
 }
 
-nlohmann::json AuditIntegrityManager::exportAuditTrail(bool compress) const {
+nlohmann::json AuditIntegrityManager::exportAuditTrail([[maybe_unused]] bool compress) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json export_data;

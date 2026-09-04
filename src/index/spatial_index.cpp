@@ -914,7 +914,7 @@ double SpatialIndexManager::euclidean3DDistance(
 }
 
 // Z-bucket (10 m buckets; negative elevations get negative bucket IDs)
-int SpatialIndexManager::getZBucket(double z) const {
+int SpatialIndexManager::getZBucket([[maybe_unused]] double z) const {
     return static_cast<int>(std::floor(z / Z_BUCKET_SIZE));
 }
 

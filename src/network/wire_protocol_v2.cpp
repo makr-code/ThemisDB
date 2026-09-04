@@ -69,16 +69,16 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 
 } // namespace
 
-static uint32_t htonl32(uint32_t v) {
+static uint32_t htonl32([[maybe_unused]] uint32_t v) {
     return htonl(v);
 }
-static uint32_t ntohl32(uint32_t v) {
+static uint32_t ntohl32([[maybe_unused]] uint32_t v) {
     return ntohl(v);
 }
-static uint16_t htons16(uint16_t v) {
+static uint16_t htons16([[maybe_unused]] uint16_t v) {
     return htons(v);
 }
-static uint16_t ntohs16(uint16_t v) {
+static uint16_t ntohs16([[maybe_unused]] uint16_t v) {
     return ntohs(v);
 }
 
@@ -540,7 +540,7 @@ class V2SessionImpl : public V2Session {
 
     // ── Helpers ───────────────────────────────────────────────────────────
 
-    void ensureStreamOpen(uint32_t stream_id) {
+    void ensureStreamOpen([[maybe_unused]] uint32_t stream_id) {
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto &s = streams_[stream_id];
         if (s.state == V2StreamState::IDLE) {

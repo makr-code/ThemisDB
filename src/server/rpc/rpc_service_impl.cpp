@@ -220,7 +220,7 @@ namespace {
         return deadline.has_value() && std::chrono::steady_clock::now() >= *deadline;
     }
 
-    bool shouldCheckDeadline(size_t iterations) {
+    bool shouldCheckDeadline([[maybe_unused]] size_t iterations) {
         return iterations > 0 && (iterations % kDeadlineCheckInterval) == 0;
     }
 

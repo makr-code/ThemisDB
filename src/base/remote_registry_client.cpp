@@ -542,7 +542,7 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
 // Private helpers
 // =============================================================================
 
-/*static*/ void RemoteRegistryClient::asyncBackoffSleep(int ms) {
+/*static*/ void RemoteRegistryClient::asyncBackoffSleep([[maybe_unused]] int ms) {
     // Blocking delay used by the synchronous retry loops in httpGet /
     // httpGetBinary.  The actual sleep is delegated to either an injected
     // dispatcher (e.g. a TaskScheduler or test-controlled clock) or to the

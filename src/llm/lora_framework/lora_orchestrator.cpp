@@ -512,7 +512,7 @@ MultiLoRAManager* LoRAOrchestrator::getMultiLoRAManager() {
     return nullptr;
 }
 
-void LoRAOrchestrator::enableAdvancedFeatures(bool enable) {
+void LoRAOrchestrator::enableAdvancedFeatures([[maybe_unused]] bool enable) {
     impl_->advanced_enabled = enable;
 }
 

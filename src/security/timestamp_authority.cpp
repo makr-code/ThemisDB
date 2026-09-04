@@ -293,7 +293,7 @@ std::string TimestampAuthority::getLastError() const { return last_error_; }
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>&, const std::vector<uint8_t>&) { return {}; }
 TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>&) { TimestampToken t; t.success = true; return t; }
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>&) { return {}; }
-std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
+std::vector<uint8_t> TimestampAuthority::generateNonce([[maybe_unused]] size_t bytes) {
     // Cryptographically random nonce using OpenSSL RAND_bytes.
     // Sequential counter bytes were previously used here (security gap) —
     // replaced with RAND_bytes to ensure nonces are unpredictable.

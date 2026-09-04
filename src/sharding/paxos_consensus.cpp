@@ -937,7 +937,7 @@ size_t PaxosConsensus::getQuorumSize() const {
     return (cluster_nodes_.size() / 2) + 1;
 }
 
-bool PaxosConsensus::hasQuorum(size_t count) const {
+bool PaxosConsensus::hasQuorum([[maybe_unused]] size_t count) const {
     return count >= getQuorumSize();
 }
 

@@ -124,7 +124,7 @@ size_t GPUTensorBuffer::totalBytes() const noexcept {
 // fill
 // ---------------------------------------------------------------------------
 
-void GPUTensorBuffer::fill(double value) {
+void GPUTensorBuffer::fill([[maybe_unused]] double value) {
     std::lock_guard<std::mutex> lk(mutex_);
     size_t elem_bytes = Shape::elementBytes(dtype_);
     size_t n          = shape_.numElements();

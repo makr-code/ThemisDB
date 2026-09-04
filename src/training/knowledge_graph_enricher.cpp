@@ -89,7 +89,7 @@ public:
     using Key   = std::string;
     using Value = GraphContext;
 
-    explicit EnrichmentLRUCache(size_t capacity) : capacity_(capacity) {}
+    explicit EnrichmentLRUCache([[maybe_unused]] size_t capacity) : capacity_(capacity) {}
 
     // Attempt to retrieve a cached result. Returns true on hit.
     bool get(const Key& key, Value& out) {
@@ -504,7 +504,7 @@ private:
     // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
     // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
     // point rounding artefacts near the boundaries.
-    static float distanceToSimilarityScore(float distance) {
+    static float distanceToSimilarityScore([[maybe_unused]] float distance) {
         return std::max(0.0f, std::min(1.0f, 1.0f - distance));
     }
 

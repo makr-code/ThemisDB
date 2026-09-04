@@ -83,7 +83,7 @@ size_t getAvailableDeviceMemory() noexcept {
  * @param size_bytes Number of bytes to allocate
  * @return true if allocation is feasible; false if too large or invalid
  */
-bool isAllocationValid(size_t size_bytes) noexcept {
+bool isAllocationValid([[maybe_unused]] size_t size_bytes) noexcept {
     if (size_bytes == 0) {
         auto logger = spdlog::get("gpu");
         if (logger) {
@@ -190,7 +190,7 @@ bool streamSynchronizeWithTimeout(cudaStream_t stream, uint32_t timeout_ms) noex
  * @throws std::runtime_error if allocation fails
  */
 template<typename T>
-GPUMemoryHandle<T> allocateGPUMemorySafe(size_t count) {
+GPUMemoryHandle<T> allocateGPUMemorySafe([[maybe_unused]] size_t count) {
     if (!isAllocationValid(count * sizeof(T))) {
         throw std::runtime_error("Invalid allocation request");
     }

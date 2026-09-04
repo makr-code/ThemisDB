@@ -410,12 +410,12 @@ void GossipConsensusAdapter::gossipThread() {
     spdlog::debug("Gossip thread stopped");
 }
 
-bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
+bool GossipConsensusAdapter::hasReachedQuorum([[maybe_unused]] uint64_t log_index) const {
     std::lock_guard<std::mutex> lock(log_mutex_);
     return hasReachedQuorumUnlocked(log_index);
 }
 
-bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const {
+bool GossipConsensusAdapter::hasReachedQuorumUnlocked([[maybe_unused]] uint64_t log_index) const {
     // FIXED: Helper method that doesn't acquire lock (caller must hold log_mutex_)
     auto it = log_acknowledgments_.find(log_index);
     if (it == log_acknowledgments_.end()) {

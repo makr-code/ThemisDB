@@ -91,7 +91,7 @@ double termOverlapSimilarity(
 }
 
 /// Sigmoid mapping raw score to [0, 1].
-double sigmoid(double x) { return 1.0 / (1.0 + std::exp(-x)); }
+double sigmoid([[maybe_unused]] double x) { return 1.0 / (1.0 + std::exp(-x)); }
 
 /// Steepness of the sigmoid applied to term-overlap similarity scores.
 /// Value 8.0 chosen empirically: at sim=0.25 (weak match) the output is ~0.50;

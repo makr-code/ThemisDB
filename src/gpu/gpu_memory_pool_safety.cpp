@@ -49,7 +49,7 @@ GPUMemoryPool::~GPUMemoryPool() noexcept {
     head_ = nullptr;
 }
 
-void* GPUMemoryPool::allocate(size_t size) {
+void* GPUMemoryPool::allocate([[maybe_unused]] size_t size) {
     if (size == 0) {
         return nullptr;
     }

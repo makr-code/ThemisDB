@@ -106,7 +106,7 @@ bool PaxosSnapshot::verifyChecksum() const {
     return calculated == checksum;
 }
 
-std::vector<uint8_t> PaxosSnapshot::compress(int level) const {
+std::vector<uint8_t> PaxosSnapshot::compress([[maybe_unused]] int level) const {
     const std::string json_str = toJSON().dump();
     return themis::utils::zstd_compress(
         reinterpret_cast<const uint8_t*>(json_str.data()), json_str.size(), level);
@@ -305,7 +305,7 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadLatestSnapshot() {
     return loadSnapshot(snapshots[0]);
 }
 
-std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
+std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
         
@@ -421,7 +421,7 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
     return snapshots;
 }
 
-void PaxosSnapshotManager::cleanupOldSnapshots(size_t keep_count) {
+void PaxosSnapshotManager::cleanupOldSnapshots([[maybe_unused]] size_t keep_count) {
     try {
         auto snapshots = listSnapshots();
         
@@ -441,7 +441,7 @@ void PaxosSnapshotManager::cleanupOldSnapshots(size_t keep_count) {
     }
 }
 
-std::string PaxosSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
+std::string PaxosSnapshotManager::getSnapshotPath([[maybe_unused]] uint64_t snapshot_id) const {
     return snapshot_directory_ + "/paxos_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 

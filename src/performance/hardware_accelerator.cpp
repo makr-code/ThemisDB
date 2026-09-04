@@ -482,11 +482,11 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
 // Private helpers
 // ============================================================================
 
-bool HardwareAccelerator::shouldUseGPU(size_t num_rows) const noexcept {
+bool HardwareAccelerator::shouldUseGPU([[maybe_unused]] size_t num_rows) const noexcept {
     return num_rows >= config_.gpu_row_threshold;
 }
 
-bool HardwareAccelerator::shouldUseSIMD(size_t num_rows) const noexcept {
+bool HardwareAccelerator::shouldUseSIMD([[maybe_unused]] size_t num_rows) const noexcept {
     return num_rows >= config_.simd_row_threshold;
 }
 

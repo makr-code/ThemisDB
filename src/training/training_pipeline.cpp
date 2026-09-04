@@ -641,7 +641,7 @@ void TrainingPipeline::addCalibrationSample(const std::string& category,
     impl_->addCalibrationSample(category, confidence, model_correct);
 }
 
-DataQualityReport TrainingPipeline::checkDataQuality(float min_confidence) {
+DataQualityReport TrainingPipeline::checkDataQuality([[maybe_unused]] float min_confidence) {
     return impl_->checkDataQuality(min_confidence);
 }
 

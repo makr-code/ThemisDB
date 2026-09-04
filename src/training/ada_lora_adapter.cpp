@@ -39,7 +39,7 @@ std::vector<float> kaimingUniform(size_t rows, size_t cols, uint32_t seed = 0) {
     return w;
 }
 
-std::vector<float> zeros(size_t count) {
+std::vector<float> zeros([[maybe_unused]] size_t count) {
     return std::vector<float>(count, 0.0f);
 }
 
@@ -170,7 +170,7 @@ public:
     // Rank reallocation
     // -------------------------------------------------------------------------
 
-    ReallocResult reallocateRanks(size_t total_budget) {
+    ReallocResult reallocateRanks([[maybe_unused]] size_t total_budget) {
         if (total_budget == 0)
             throw std::invalid_argument("total_budget must be > 0");
         if (layers_.empty()) return {};
@@ -347,7 +347,7 @@ public:
     }
 
     size_t rankBudget() const { return rank_budget_; }
-    void setRankBudget(size_t b) { rank_budget_ = b; }
+    void setRankBudget([[maybe_unused]] size_t b) { rank_budget_ = b; }
 
 private:
     size_t default_rank_;
@@ -414,7 +414,7 @@ void AdaLoRAAdapter::updateAllImportances() {
     impl_->updateAllImportances();
 }
 
-ReallocResult AdaLoRAAdapter::reallocateRanks(size_t total_budget) {
+ReallocResult AdaLoRAAdapter::reallocateRanks([[maybe_unused]] size_t total_budget) {
     return impl_->reallocateRanks(total_budget);
 }
 
@@ -463,7 +463,7 @@ size_t AdaLoRAAdapter::rankBudget() const {
     return impl_->rankBudget();
 }
 
-void AdaLoRAAdapter::setRankBudget(size_t budget) {
+void AdaLoRAAdapter::setRankBudget([[maybe_unused]] size_t budget) {
     impl_->setRankBudget(budget);
 }
 

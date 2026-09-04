@@ -90,7 +90,7 @@ QueryPatternTracker::getPatterns(const std::string& collection) const {
 }
 
 std::vector<QueryPatternTracker::QueryPattern> 
-QueryPatternTracker::getTopPatterns(size_t limit) const {
+QueryPatternTracker::getTopPatterns([[maybe_unused]] size_t limit) const {
     auto patterns = getPatterns("");
     if (patterns.size() > limit) {
         patterns.resize(limit);

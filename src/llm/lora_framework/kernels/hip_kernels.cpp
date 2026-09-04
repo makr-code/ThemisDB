@@ -71,7 +71,7 @@ __global__ void scalar_multiply_inplace_kernel(float* data, float scalar, size_t
  * @brief Check for NaN or Inf in tensor
  * Uses atomic operations to set flag on detection
  */
-__device__ inline bool is_inf_or_nan(float val) {
+__device__ inline bool is_inf_or_nan([[maybe_unused]] float val) {
     return isnan(val) || isinf(val);
 }
 

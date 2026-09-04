@@ -118,7 +118,7 @@ public:
         // sizeof(uint64_t) bytes — bounds are guaranteed — false positive.
         uint64_t base = 0;
         if (existing_value != nullptr && !existing_value->empty()) {
-            if (existing_value->size() == sizeof(uint64_t)) {
+            if ([[maybe_unused]] existing_value->size() == sizeof(uint64_t)) {
                 std::memcpy(&base, existing_value->data(), sizeof(uint64_t));
             } else {
                 // legacy_duplication scanner alert: decimal-string fallback is an
@@ -136,7 +136,7 @@ public:
         }
 
         uint64_t delta = 0;
-        if (value.size() == sizeof(uint64_t)) {
+        if ([[maybe_unused]] value.size() == sizeof(uint64_t)) {
             std::memcpy(&delta, value.data(), sizeof(uint64_t));
         }
 
@@ -1454,7 +1454,7 @@ void RocksDBWrapper::WriteBatchWithIndexWrapper::rollback() {
     batch_->Clear();
 }
 
-std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex(bool overwrite_key) {
+std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex([[maybe_unused]] bool overwrite_key) {
     return std::make_unique<WriteBatchWithIndexWrapper>(this, overwrite_key);
 }
 

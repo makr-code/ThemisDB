@@ -1302,7 +1302,7 @@ int AdaptiveQueryCache::calculateAdaptiveTTL(int64_t access_count) const {
     return adaptive_ttl;
 }
 
-AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t result_size) const {
+AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel([[maybe_unused]] size_t result_size) const {
     if (result_size < config_.l1_max_entry_size) {
         return CacheLevel::HOT;
     } else if (result_size < config_.l2_max_entry_size) {
@@ -1484,7 +1484,7 @@ double AdaptiveQueryCache::calculateLRUScore(int64_t last_accessed_ms, int64_t a
 }
 
 // Phase 1: Size validation helpers
-bool AdaptiveQueryCache::isWithinSizeLimit(size_t size) const {
+bool AdaptiveQueryCache::isWithinSizeLimit([[maybe_unused]] size_t size) const {
     return size <= config_.max_total_entry_size;
 }
 
@@ -1857,7 +1857,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     return health;
 }
 
-std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
+std::vector<std::string> AdaptiveQueryCache::exportKeys([[maybe_unused]] size_t max_keys) const {
     std::vector<std::string> keys;
     keys.reserve(max_keys);
 
@@ -2329,7 +2329,7 @@ nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
     return j;
 }
 
-void AdaptiveQueryCache::recordPrefetchOverheadBytes(uint64_t bytes) {
+void AdaptiveQueryCache::recordPrefetchOverheadBytes([[maybe_unused]] uint64_t bytes) {
     if (prefetcher_) {
         prefetcher_->recordOverheadBytes(bytes);
     }

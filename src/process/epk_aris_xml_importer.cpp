@@ -513,7 +513,7 @@ EpkArisXmlImporter::ImportResult buildImportResult(
 // EpkArisXmlImporter – public API
 // ---------------------------------------------------------------------------
 
-EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType(int type_num) {
+EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType([[maybe_unused]] int type_num) {
     switch (type_num) {
         case  1: return EPKNodeType::FUNCTION;
         case 14: return EPKNodeType::EVENT;
@@ -528,7 +528,7 @@ EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType(int type_num) {
     }
 }
 
-std::string_view EpkArisXmlImporter::typeNumToLabel(int type_num) {
+std::string_view EpkArisXmlImporter::typeNumToLabel([[maybe_unused]] int type_num) {
     switch (type_num) {
         case  1: return "Funktion";
         case 14: return "Ereignis";

@@ -852,7 +852,7 @@ void DistributedTrainingCoordinator::stop() {
 }
 
 std::map<std::string, std::vector<GradientTensor>> 
-DistributedTrainingCoordinator::collectGradients(int step_number) {
+DistributedTrainingCoordinator::collectGradients([[maybe_unused]] int step_number) {
     std::map<std::string, std::vector<GradientTensor>> collected;
     
     spdlog::debug("Collecting gradients from {} shards for step {}", 
@@ -1248,7 +1248,7 @@ bool DistributedTrainingCoordinator::handleShardFailure(const std::string& faile
     return true;
 }
 
-bool DistributedTrainingCoordinator::saveCheckpoint(int step_number) {
+bool DistributedTrainingCoordinator::saveCheckpoint([[maybe_unused]] int step_number) {
     if (config_.checkpoint_path.empty()) {
         spdlog::warn("Checkpoint path not configured");
         return false;

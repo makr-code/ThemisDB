@@ -277,7 +277,7 @@ void MultiGPULoRALayer::zero_grad() {
     gradients_synced_ = false;
 }
 
-GPULoRALayer& MultiGPULoRALayer::get_layer(int rank) {
+GPULoRALayer& MultiGPULoRALayer::get_layer([[maybe_unused]] int rank) {
     if (rank < 0 || rank >= ctx_.num_gpus()) {
         throw std::out_of_range("Invalid GPU rank: " + std::to_string(rank));
     }

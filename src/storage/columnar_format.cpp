@@ -48,7 +48,7 @@ bool ZoneMap::canSkipForInt(int64_t value) const {
     return value < min_int || value > max_int;
 }
 
-bool ZoneMap::canSkipForFloat(double value) const {
+bool ZoneMap::canSkipForFloat([[maybe_unused]] double value) const {
     return value < min_float || value > max_float;
 }
 
@@ -246,7 +246,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
 }
 
 Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(uint32_t)) {
+    if ([[maybe_unused]] encoded.size() < sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Dictionary decode: insufficient data"
@@ -271,7 +271,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     }
 
     // Ensure there is at least enough data for the length prefixes
-    if (dict_size > 0 && (encoded.size() - pos) < dict_size * sizeof(uint32_t)) {
+    if ([[maybe_unused]] dict_size > 0 && (encoded.size() - pos) < dict_size * sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Dictionary decode: insufficient data for dictionary entries"
@@ -283,7 +283,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     dictionary.reserve(dict_size);
 
     for (uint32_t i = 0; i < dict_size; ++i) {
-        if (pos + sizeof(uint32_t) > encoded.size()) {
+        if ([[maybe_unused]] pos + sizeof(uint32_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "Dictionary decode: truncated dictionary entry"
@@ -319,7 +319,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
 
     // Calculate number of indices
     size_t remaining = encoded.size() - pos;
-    if (remaining % sizeof(uint32_t) != 0) {
+    if ([[maybe_unused]] remaining % sizeof(uint32_t) != 0) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Dictionary decode: invalid indices size"
@@ -518,7 +518,7 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
 }
 
 Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(int32_t) + 1 + sizeof(uint32_t)) {
+    if ([[maybe_unused]] encoded.size() < sizeof(int32_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Bit-packing decode: insufficient header data"
@@ -541,9 +541,9 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
     size_t remaining = encoded.size() - pos;
     size_t bytes_per_value;
     if (bits_required <= 8) {
-        bytes_per_value = sizeof(uint8_t);
+        bytes_per_value = sizeof([[maybe_unused]] uint8_t);
     } else if (bits_required <= 16) {
-        bytes_per_value = sizeof(uint16_t);
+        bytes_per_value = sizeof([[maybe_unused]] uint16_t);
     } else {
         bytes_per_value = sizeof(int32_t);
     }
@@ -587,7 +587,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 }
 
 Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(int64_t) + 1 + sizeof(uint32_t)) {
+    if ([[maybe_unused]] encoded.size() < sizeof(int64_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Bit-packing decode: insufficient header data"
@@ -610,11 +610,11 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     size_t remaining = encoded.size() - pos;
     size_t bytes_per_value;
     if (bits_required <= 8) {
-        bytes_per_value = sizeof(uint8_t);
+        bytes_per_value = sizeof([[maybe_unused]] uint8_t);
     } else if (bits_required <= 16) {
-        bytes_per_value = sizeof(uint16_t);
+        bytes_per_value = sizeof([[maybe_unused]] uint16_t);
     } else if (bits_required <= 32) {
-        bytes_per_value = sizeof(uint32_t);
+        bytes_per_value = sizeof([[maybe_unused]] uint32_t);
     } else {
         bytes_per_value = sizeof(int64_t);
     }
@@ -1405,7 +1405,7 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
 }
 
 Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& data) {
-    if (data.size() < 2 + 4 * sizeof(uint64_t)) {
+    if ([[maybe_unused]] data.size() < 2 + 4 * sizeof(uint64_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Segment deserialize: insufficient data"
@@ -1436,7 +1436,7 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     segment.metadata_.codec = static_cast<CompressionCodec>(raw_codec);
 
     auto read_uint64 = [&]() -> uint64_t {
-        if (pos + sizeof(uint64_t) > data.size()) {
+        if ([[maybe_unused]] pos + sizeof(uint64_t) > data.size()) {
             throw std::out_of_range("Segment deserialize: truncated metadata");
         }
         uint64_t val;
@@ -1469,10 +1469,10 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     pos += encoded_size;
 
     const size_t trailing_size = data.size() - pos;
-    if (trailing_size == sizeof(uint64_t)) {
+    if ([[maybe_unused]] trailing_size == sizeof(uint64_t)) {
         uint64_t expected_checksum = 0;
         std::memcpy(&expected_checksum, &data[pos], sizeof(uint64_t));
-        const uint64_t actual_checksum = calculateSegmentChecksum(data.data(), data.size() - sizeof(uint64_t));
+        const uint64_t actual_checksum = calculateSegmentChecksum([[maybe_unused]] data.data(), data.size() - sizeof(uint64_t));
         if (actual_checksum != expected_checksum) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,

@@ -173,7 +173,7 @@ struct GEvalEvaluator::Impl {
      * contains no logprobs.  The distribution is Gaussian-shaped around the
      * score level so that adjacent levels receive decreasing probability mass.
      */
-    std::vector<double> probsFromScore(double score_1_to_5) const {
+    std::vector<double> probsFromScore([[maybe_unused]] double score_1_to_5) const {
         // Clamp score to [1, kNumScoreLevels]
         double s = std::max(1.0, std::min(static_cast<double>(kNumScoreLevels),
                                           score_1_to_5));

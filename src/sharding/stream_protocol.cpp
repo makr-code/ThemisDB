@@ -575,7 +575,7 @@ StreamRateLimiter::StreamRateLimiter(uint64_t bytes_per_second)
     , last_refill_(std::chrono::steady_clock::now()) {
 }
 
-std::chrono::milliseconds StreamRateLimiter::acquire(size_t bytes) {
+std::chrono::milliseconds StreamRateLimiter::acquire([[maybe_unused]] size_t bytes) {
     if (bytes_per_second_.load() == 0) {
         return std::chrono::milliseconds(0);  // Unlimited
     }
@@ -610,7 +610,7 @@ std::chrono::milliseconds StreamRateLimiter::acquire(size_t bytes) {
     return std::chrono::milliseconds(wait_ms + 1);
 }
 
-void StreamRateLimiter::setRate(uint64_t bytes_per_second) {
+void StreamRateLimiter::setRate([[maybe_unused]] uint64_t bytes_per_second) {
     bytes_per_second_.store(bytes_per_second);
 }
 
@@ -1250,7 +1250,7 @@ void StreamTransferTask::abort() {
     cv_.notify_all();
 }
 
-void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
+void StreamTransferTask::onChunkAck([[maybe_unused]] uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(progress_mutex_);
         if (chunk_index < chunks_acked_.size()) {
@@ -1260,7 +1260,7 @@ void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
     cv_.notify_all();
 }
 
-void StreamTransferTask::onRetryRequest(uint32_t chunk_index) {
+void StreamTransferTask::onRetryRequest([[maybe_unused]] uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         pending_retries_.push(chunk_index);
@@ -1342,7 +1342,7 @@ void StreamTransferTask::transferLoop() {
     }
 }
 
-std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index) {
+std::optional<StreamChunk> StreamTransferTask::createChunk([[maybe_unused]] uint32_t chunk_index) {
     StreamChunk chunk;
     chunk.chunk_index = chunk_index;
     chunk.file_offset = static_cast<uint64_t>(chunk_index) * config_.chunk_size;
@@ -1607,7 +1607,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         }
 
         const bool all_received = std::all_of(
-            chunks_received_.begin(), chunks_received_.end(), [](bool received) {
+            chunks_received_.begin(), chunks_received_.end(), []([[maybe_unused]] bool received) {
                 return received;
             });
         if (all_received) {
@@ -1715,7 +1715,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     return true;
 }
 
-void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
+void StreamReceiveTask::requestRetry([[maybe_unused]] uint32_t chunk_index) {
     // Request retry for a specific chunk
     // In a real implementation, this would send a network message to the sender
     // For now, we log the retry request

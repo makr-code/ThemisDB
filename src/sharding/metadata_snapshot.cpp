@@ -139,7 +139,7 @@ std::optional<MetadataSnapshot> MetadataSnapshotManager::loadLatestSnapshot() {
 }
 
 /** @brief Load snapshot by id and validate checksum integrity. */
-std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
+std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
         
@@ -243,7 +243,7 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
 }
 
 /** @brief Delete one snapshot file from disk when present. */
-bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
+bool MetadataSnapshotManager::deleteSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
         
@@ -261,7 +261,7 @@ bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
 }
 
 /** @brief Build full file path for snapshot id. */
-std::string MetadataSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
+std::string MetadataSnapshotManager::getSnapshotPath([[maybe_unused]] uint64_t snapshot_id) const {
     return snapshot_directory_ + "/metadata_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 

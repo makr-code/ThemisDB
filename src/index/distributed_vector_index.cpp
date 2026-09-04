@@ -35,7 +35,7 @@ namespace {
 
 // MurmurHash3-inspired 64-bit finaliser for string keys.
 // Produces a uniform-looking hash without requiring external libraries.
-uint64_t murmur_mix64(uint64_t k) noexcept {
+uint64_t murmur_mix64([[maybe_unused]] uint64_t k) noexcept {
     k ^= k >> 33;
     k *= UINT64_C(0xff51afd7ed558ccd);
     k ^= k >> 33;

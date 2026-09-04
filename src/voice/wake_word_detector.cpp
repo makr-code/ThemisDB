@@ -371,7 +371,7 @@ int64_t WakeWordDetector::nowMs() const {
 // Phase 3: Confidence Thresholds and Safe Defaults
 // ============================================================================
 
-bool WakeWordDetector::meetsConfidenceThreshold(float confidence) const noexcept {
+bool WakeWordDetector::meetsConfidenceThreshold([[maybe_unused]] float confidence) const noexcept {
     return confidence >= config_.confidence_threshold;
 }
 

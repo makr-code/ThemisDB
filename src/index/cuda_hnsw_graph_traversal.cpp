@@ -838,7 +838,7 @@ std::string CudaHnswTraversalEngine::deviceInfo() const {
 // Visited pool tuning
 // ─────────────────────────────────────────────────────────────────────────────
 
-void CudaHnswTraversalEngine::setMaxBatchSize(size_t n) {
+void CudaHnswTraversalEngine::setMaxBatchSize([[maybe_unused]] size_t n) {
     if (n == 0) n = 1;
     impl_->max_batch_size = n;
     // Note: the pool is (re)allocated on the next buildIndex() call.

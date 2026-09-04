@@ -544,7 +544,7 @@ bool CDCPersistentLog::isOpen() const noexcept {
 // Private helpers
 // ---------------------------------------------------------------------------
 
-std::string CDCPersistentLog::segmentPath(uint64_t seq) const {
+std::string CDCPersistentLog::segmentPath([[maybe_unused]] uint64_t seq) const {
     std::ostringstream oss;
     oss << segment_dir_ << "/" << log_prefix_ << "_" << seq << ".wal";
     return oss.str();

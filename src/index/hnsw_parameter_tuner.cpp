@@ -426,13 +426,13 @@ HnswParameterTuner::ConstructionParams HnswParameterTuner::getAutoTunedConstruct
 
 // WorkloadClassifier implementation
 
-void WorkloadClassifier::recordInsert(size_t batch_size) {
+void WorkloadClassifier::recordInsert([[maybe_unused]] size_t batch_size) {
     std::lock_guard<std::mutex> lock(mutex_);
     total_inserts_ += batch_size;
     insert_events_ += 1;
 }
 
-void WorkloadClassifier::recordQuery(size_t k) {
+void WorkloadClassifier::recordQuery([[maybe_unused]] size_t k) {
     std::lock_guard<std::mutex> lock(mutex_);
     total_k_      += k;
     query_events_ += 1;
@@ -591,7 +591,7 @@ size_t HnswMemoryOptimizer::getCacheLineSize() {
     return 64;
 }
 
-size_t HnswMemoryOptimizer::alignToCacheLine(size_t size) {
+size_t HnswMemoryOptimizer::alignToCacheLine([[maybe_unused]] size_t size) {
     size_t cache_line = getCacheLineSize();
     return ((size + cache_line - 1) / cache_line) * cache_line;
 }

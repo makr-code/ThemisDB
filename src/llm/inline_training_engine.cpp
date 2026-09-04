@@ -907,7 +907,7 @@ void InlineTrainingEngine::optimizerStep(
 // Private – getLearningRate
 // ═══════════════════════════════════════════════════════════════════════════
 
-float InlineTrainingEngine::getLearningRate(int step) const {
+float InlineTrainingEngine::getLearningRate([[maybe_unused]] int step) const {
     const auto& sched = impl_->config.scheduler;
     const float max_lr = sched.max_lr;
     const float min_lr = sched.min_lr;

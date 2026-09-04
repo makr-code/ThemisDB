@@ -20,7 +20,7 @@ namespace phase3 {
 
 // ==================== MappingTable Implementation ====================
 
-MappingTable::MappingTable(size_t size) : table_(size) {
+MappingTable::MappingTable([[maybe_unused]] size_t size) : table_(size) {
     for (auto& entry : table_) {
         entry.store(nullptr, std::memory_order_relaxed);
     }

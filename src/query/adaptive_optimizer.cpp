@@ -536,7 +536,7 @@ size_t NumaAwareOptimizer::getNumaNodeCount() {
     return 1;
 }
 
-bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
+bool NumaAwareOptimizer::pinThreadToCpu([[maybe_unused]] int cpu_id) {
 #ifdef __linux__
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);

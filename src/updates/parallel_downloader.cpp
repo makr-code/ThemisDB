@@ -150,7 +150,7 @@ ParallelDownloader::~ParallelDownloader() = default;
 // Configuration
 // ============================================================================
 
-void ParallelDownloader::setConcurrency(size_t n) {
+void ParallelDownloader::setConcurrency([[maybe_unused]] size_t n) {
     if (n == 0) {
         throw std::invalid_argument("ParallelDownloader::setConcurrency: n must be >= 1");
     }
@@ -161,7 +161,7 @@ size_t ParallelDownloader::getConcurrency() const noexcept {
     return concurrency_;
 }
 
-void ParallelDownloader::setBandwidthLimit(uint64_t bytes_per_second) {
+void ParallelDownloader::setBandwidthLimit([[maybe_unused]] uint64_t bytes_per_second) {
     bandwidth_limit_bps_ = bytes_per_second;
     if (bytes_per_second > 0) {
         // Pre-fill bucket with one 100 ms slice
@@ -200,7 +200,7 @@ DownloadBatchStats ParallelDownloader::lastBatchStats() const noexcept {
 // Bandwidth throttle helpers (token-bucket)
 // ============================================================================
 
-void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
+void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/) const {
     if (bandwidth_limit_bps_ == 0) return;
 
     const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -233,7 +233,7 @@ void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
     }
 }
 
-void ParallelDownloader::consumeBandwidth(uint64_t bytes) const {
+void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const {
     if (bandwidth_limit_bps_ == 0) return;
 
     while (true) {

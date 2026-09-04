@@ -49,7 +49,7 @@ GPUGraphTraversal::GPUGraphTraversal(GraphIndexManager &graph_manager) : graph_m
 
 namespace {
 
-bool probeGPUAvailability(int /*device*/) noexcept {
+bool probeGPUAvailability([[maybe_unused]] int /*device*/) noexcept {
 #if defined(THEMIS_ENABLE_CUDA)
     int count = 0;
     if (cudaGetDeviceCount(&count) != cudaSuccess)

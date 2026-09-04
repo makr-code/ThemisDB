@@ -55,7 +55,7 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
         // without additional locking.
         uint64_t base = 0;
         if (existing_value != nullptr && !existing_value->empty()) {
-            if (existing_value->size() == sizeof(uint64_t)) {
+            if ([[maybe_unused]] existing_value->size() == sizeof(uint64_t)) {
                 // Binary little-endian uint64 (new format)
                 memcpy(&base, existing_value->data(), sizeof(uint64_t));
             } else {
@@ -74,7 +74,7 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
         }
 
         uint64_t delta = 0;
-        if (value.size() == sizeof(uint64_t)) {
+        if ([[maybe_unused]] value.size() == sizeof(uint64_t)) {
             memcpy(&delta, value.data(), sizeof(uint64_t));
         }
 
@@ -201,7 +201,7 @@ uint64_t Changefeed::loadInitialSequence() const {
 
     if (s.ok() && !seq_value.empty()) {
         // Binary little-endian uint64 format (new)
-        if (seq_value.size() == sizeof(uint64_t)) {
+        if ([[maybe_unused]] seq_value.size() == sizeof(uint64_t)) {
             uint64_t val;
             memcpy(&val, seq_value.data(), sizeof(val));
             return val;
@@ -313,7 +313,7 @@ Changefeed::~Changefeed() noexcept {
     stopRetentionCleanup();
 }
 
-std::string Changefeed::makeKey(uint64_t sequence) const {
+std::string Changefeed::makeKey([[maybe_unused]] uint64_t sequence) const {
     // Zero-pad sequence for lexicographic ordering
     char buf[128];
     snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(sequence));
@@ -1159,7 +1159,7 @@ Changefeed::SubscriptionHandle Changefeed::subscribe(SubscriptionFilter filter, 
     return SubscriptionHandle{this, id};
 }
 
-void Changefeed::unsubscribe(uint64_t subscription_id) noexcept {
+void Changefeed::unsubscribe([[maybe_unused]] uint64_t subscription_id) noexcept {
     std::lock_guard<std::mutex> lk(subscriptions_mutex_);
     if (subscriptions_.erase(subscription_id) > 0) {
         subscription_count_.fetch_sub(1, std::memory_order_release);

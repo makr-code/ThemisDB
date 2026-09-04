@@ -97,7 +97,7 @@ void TokenBucket::refill() {
     }
 }
 
-bool TokenBucket::tryConsume(uint64_t bytes) {
+bool TokenBucket::tryConsume([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     refill();
 
@@ -202,7 +202,7 @@ void LeakyBucket::drain() {
     }
 }
 
-bool LeakyBucket::add(uint64_t bytes) {
+bool LeakyBucket::add([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     drain();
 
@@ -355,7 +355,7 @@ QoSManager::~QoSManager() = default;
 // -------------------------------------------------------------------------
 
 std::shared_ptr<QoSManager::ConnectionState>
-QoSManager::findConnection(uint64_t id) const {
+QoSManager::findConnection([[maybe_unused]] uint64_t id) const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_.find(id);
     if (it == connections_.end()) {
@@ -385,7 +385,7 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     connections_[connection_id] = std::move(state);
 }
 
-void QoSManager::unregisterConnection(uint64_t connection_id) {
+void QoSManager::unregisterConnection([[maybe_unused]] uint64_t connection_id) {
     // Clean up tenant assignment and decrement tenant connection count
     std::string old_tenant_id;
     {
@@ -440,7 +440,7 @@ void QoSManager::setTokenBucket(uint64_t connection_id,
     }
 }
 
-void QoSManager::clearTokenBucket(uint64_t connection_id) {
+void QoSManager::clearTokenBucket([[maybe_unused]] uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -498,7 +498,7 @@ void QoSManager::setLeakyBucket(uint64_t connection_id,
     }
 }
 
-void QoSManager::clearLeakyBucket(uint64_t connection_id) {
+void QoSManager::clearLeakyBucket([[maybe_unused]] uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -624,7 +624,7 @@ void QoSManager::recordAck(uint64_t connection_id,
     cc->recordAck(bytes_acked, rtt);
 }
 
-void QoSManager::recordLoss(uint64_t connection_id) {
+void QoSManager::recordLoss([[maybe_unused]] uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -640,7 +640,7 @@ void QoSManager::recordLoss(uint64_t connection_id) {
     cc->recordLoss();
 }
 
-uint64_t QoSManager::getCongestionWindow(uint64_t connection_id) const {
+uint64_t QoSManager::getCongestionWindow([[maybe_unused]] uint64_t connection_id) const {
     auto state = findConnection(connection_id);
     if (!state) {
         return UINT64_MAX;
@@ -966,7 +966,7 @@ QoSManager::Stats QoSManager::getStats() const {
 }
 
 QoSManager::ConnectionStats
-QoSManager::getConnectionStats(uint64_t connection_id) const {
+QoSManager::getConnectionStats([[maybe_unused]] uint64_t connection_id) const {
     auto state = findConnection(connection_id);
     if (!state) {
         return ConnectionStats{};

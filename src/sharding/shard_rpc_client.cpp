@@ -242,7 +242,7 @@ struct ShardRPCClient::Impl {
         return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
     }
     
-    bool waitForChannelReady(int timeout_ms) {
+    bool waitForChannelReady([[maybe_unused]] int timeout_ms) {
         if (!channel) return false;
         
         auto deadline = std::chrono::system_clock::now() + 

@@ -167,7 +167,7 @@ bool ReplicationSlot::drop()
 // Progress tracking
 // ---------------------------------------------------------------------------
 
-bool ReplicationSlot::advance(uint64_t confirmed_lsn)
+bool ReplicationSlot::advance([[maybe_unused]] uint64_t confirmed_lsn)
 {
     SlotState state_copy;
     {

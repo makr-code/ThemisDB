@@ -86,7 +86,7 @@ std::size_t ManifestStore::evict(const std::string& artifact_id) {
 // evictStale
 // ---------------------------------------------------------------------------
 
-std::size_t ManifestStore::evictStale(double max_age_s) {
+std::size_t ManifestStore::evictStale([[maybe_unused]] double max_age_s) {
     const auto now = std::chrono::system_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
     std::size_t removed = 0;

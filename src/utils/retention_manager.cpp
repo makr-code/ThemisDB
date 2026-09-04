@@ -270,7 +270,7 @@ RetentionManager::RetentionStats RetentionManager::runRetentionCheck(
     return total_stats;
 }
 
-std::vector<RetentionManager::RetentionAction> RetentionManager::getHistory(size_t limit) const {
+std::vector<RetentionManager::RetentionAction> RetentionManager::getHistory([[maybe_unused]] size_t limit) const {
     if (limit == 0 || limit >= action_history_.size()) {
         return action_history_;
     }

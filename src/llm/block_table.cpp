@@ -27,7 +27,7 @@ BlockTable::~BlockTable() {
     releaseBlocks();
 }
 
-std::vector<int> BlockTable::allocateBlocks(size_t num_blocks) {
+std::vector<int> BlockTable::allocateBlocks([[maybe_unused]] size_t num_blocks) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<int> new_blocks;

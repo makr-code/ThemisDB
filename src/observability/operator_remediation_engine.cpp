@@ -71,7 +71,7 @@ std::string generateHintId() {
 
 // Check if a metric value is valid (not NaN, not infinite, within reasonable bounds)
 // Returns true if valid, false if malformed
-inline bool isValidMetricValue(double value) {
+inline bool isValidMetricValue([[maybe_unused]] double value) {
     return std::isfinite(value) && value >= 0.0;
 }
 

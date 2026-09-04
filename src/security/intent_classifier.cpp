@@ -155,7 +155,7 @@ double scoreFeatures(const std::string& upperQuery, const Feature (&features)[N]
 }
 
 /// Logistic function (sigmoid).
-double sigmoid(double x) {
+double sigmoid([[maybe_unused]] double x) {
     return 1.0 / (1.0 + std::exp(-x));
 }
 

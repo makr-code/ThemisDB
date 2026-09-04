@@ -344,7 +344,7 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
     return derived_key;
 }
 
-std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes(size_t size) {
+std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes([[maybe_unused]] size_t size) {
     std::vector<uint8_t> bytes(size);
 
     if (RAND_bytes(bytes.data(), static_cast<int>(size)) != 1) {

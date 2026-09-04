@@ -674,14 +674,14 @@ public:
         shard_id_ = shard_id.empty() ? "default_shard" : shard_id;
     }
 
-    void setFederatedLearningRate(double lr) {
+    void setFederatedLearningRate([[maybe_unused]] double lr) {
         if (lr <= 0.0)
             throw std::invalid_argument("Federated learning rate must be positive");
         federated_lr_ = lr;
     }
 
     themis::distributed_knowledge::EncryptedGradient
-    exportGradient(uint64_t federation_round) {
+    exportGradient([[maybe_unused]] uint64_t federation_round) {
         if (gradient_update_count_ == 0) {
             throw std::runtime_error("no training since last export");
         }
@@ -1484,7 +1484,7 @@ public:
 
                 uint32_t rows = 0, cols = 0;
                 readExact(reinterpret_cast<char*>(&rows), sizeof(uint32_t), "matrix rows");
-                readExact(reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
+                readExact([[maybe_unused]] reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
                 if (rows == 0 || cols == 0) {
                     throw std::runtime_error("invalid matrix shape in checkpoint payload");
                 }
@@ -1579,7 +1579,7 @@ public:
     }
 
     // Estimate accuracy from loss (Phase 3)
-    static double computeAccuracy(double loss) {
+    static double computeAccuracy([[maybe_unused]] double loss) {
         // Rough sigmoid mapping: acc ≈ 1 / (1 + exp(loss - 1))
         return 1.0 / (1.0 + std::exp(loss - 1.0));
     }
@@ -1807,12 +1807,12 @@ void IncrementalLoRATrainer::setShardId(const std::string& shard_id) {
     impl_->setShardId(shard_id);
 }
 
-void IncrementalLoRATrainer::setFederatedLearningRate(double lr) {
+void IncrementalLoRATrainer::setFederatedLearningRate([[maybe_unused]] double lr) {
     impl_->setFederatedLearningRate(lr);
 }
 
 themis::distributed_knowledge::EncryptedGradient
-IncrementalLoRATrainer::exportGradient(uint64_t federation_round) {
+IncrementalLoRATrainer::exportGradient([[maybe_unused]] uint64_t federation_round) {
     return impl_->exportGradient(federation_round);
 }
 

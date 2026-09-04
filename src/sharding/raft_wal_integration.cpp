@@ -136,7 +136,7 @@ void RaftWALIntegration::onBecomeFollower() {
 }
 
 /** @brief Advance commit-related compaction state to snapshot boundary. */
-void RaftWALIntegration::compact(uint64_t snapshot_index) {
+void RaftWALIntegration::compact([[maybe_unused]] uint64_t snapshot_index) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
     // Truncate Raft log entries up to snapshot_index

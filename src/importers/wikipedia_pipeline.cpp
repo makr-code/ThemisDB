@@ -179,7 +179,7 @@ void WikipediaIngestionPipeline::cancel() {
     cancel_requested_.store(true);
 }
 
-std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPage(uint64_t page_id) const {
+std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPage([[maybe_unused]] uint64_t page_id) const {
     std::vector<WikipediaRevisionRecord> revisions;
     for (const auto& [_, revision] : snapshot_.revisions) {
         if (revision.page_id == page_id) {
@@ -197,7 +197,7 @@ size_t WikipediaIngestionPipeline::relationalRowCount() const {
         snapshot_.categories.size() + snapshot_.redirects.size() + snapshot_.dead_letters.size();
 }
 
-void WikipediaIngestionPipeline::removeExistingPageDerivedRows(uint64_t page_id) {
+void WikipediaIngestionPipeline::removeExistingPageDerivedRows([[maybe_unused]] uint64_t page_id) {
     auto remove_by_page = [page_id](const auto& row) {
         return row.page_id == page_id;
     };

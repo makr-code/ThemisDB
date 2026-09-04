@@ -289,7 +289,7 @@ double SampledLoggerSamplerAdapter::currentRate() const noexcept {
     return targetRate_.load(std::memory_order_relaxed);
 }
 
-void SampledLoggerSamplerAdapter::setTargetRate(double rate) noexcept {
+void SampledLoggerSamplerAdapter::setTargetRate([[maybe_unused]] double rate) noexcept {
     rate = std::max(0.0, std::min(1.0, rate));
     targetRate_.store(rate, std::memory_order_relaxed);
 

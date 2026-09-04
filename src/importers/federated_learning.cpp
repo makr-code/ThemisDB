@@ -219,7 +219,7 @@ bool FederatedImportCoordinator::DifferentialPrivacyManager::verifyPrivacyBudget
     return epsilon_total <= 1.0 && delta <= 1e-5 && delta > 0.0;
 }
 
-void FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget(double epsilon_used) {
+void FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget([[maybe_unused]] double epsilon_used) {
     if (epsilon_used < 0.0) {
         throw std::invalid_argument("epsilon_used must be non-negative");
     }

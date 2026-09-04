@@ -674,7 +674,7 @@ bool ProcessLinker::detectLinkingConflict_(
     return false;
 }
 
-void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
+void ProcessLinker::rollbackLinkOperation_([[maybe_unused]] uint64_t operation_id) {
     std::unique_lock<std::shared_mutex> lock(link_state_lock_);
 
     auto it = rollback_records_.find(operation_id);

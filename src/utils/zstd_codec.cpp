@@ -372,13 +372,13 @@ struct ZstdStreamCompressor::Impl {
     ZSTD_CStream* cstream = nullptr;
     int           level   = 3;
 
-    explicit Impl(int lvl) : level(lvl) {
+    explicit Impl([[maybe_unused]] int lvl) : level(lvl) {
         cstream = ZSTD_createCStream();
         if (cstream) ZSTD_initCStream(cstream, level);
     }
     ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
 
-    void reinit(int new_level) {
+    void reinit([[maybe_unused]] int new_level) {
         level = (new_level > 0) ? new_level : level;
         if (cstream) ZSTD_initCStream(cstream, level);
     }
@@ -387,7 +387,7 @@ struct ZstdStreamCompressor::Impl {
 #endif
 };
 
-ZstdStreamCompressor::ZstdStreamCompressor(int level)
+ZstdStreamCompressor::ZstdStreamCompressor([[maybe_unused]] int level)
     : impl_(std::make_unique<Impl>(level)) {}
 
 ZstdStreamCompressor::~ZstdStreamCompressor() = default;
@@ -454,7 +454,7 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 #endif
 }
 
-void ZstdStreamCompressor::reset(int level) {
+void ZstdStreamCompressor::reset([[maybe_unused]] int level) {
 #ifdef THEMIS_HAS_ZSTD
     if (impl_->cstream) impl_->reinit(level);
 #else

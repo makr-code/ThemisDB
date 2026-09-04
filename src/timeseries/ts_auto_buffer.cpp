@@ -231,7 +231,7 @@ size_t TSAutoBuffer::flushFor(const std::string& metric, const std::string& enti
     return flushBuffer(buffer_key, it->second);
 }
 
-size_t TSAutoBuffer::flushInternal(bool lock_held) {
+size_t TSAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("TSAutoBuffer.flush");
     
     std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);

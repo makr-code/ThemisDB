@@ -261,7 +261,7 @@ private:
     size_t line_;
     size_t column_;
     
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos_ + offset;
         return (p < input_.size()) ? input_[p] : '\0';
     }
@@ -582,7 +582,7 @@ private:
         return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
     }
     
-    const Token& peek(size_t offset = 1) const {
+    const Token& peek([[maybe_unused]] size_t offset = 1) const {
         size_t p = pos_ + offset;
         return (p < tokens_.size()) ? tokens_[p] : tokens_.back();
     }
@@ -602,7 +602,7 @@ private:
         advance();
     }
     
-    std::shared_ptr<Query> parseQuery(bool isSubquery = false) {
+    std::shared_ptr<Query> parseQuery([[maybe_unused]] bool isSubquery = false) {
         auto query = std::make_shared<Query>();
         
         // Phase 3: Optional WITH clause

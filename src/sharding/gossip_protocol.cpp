@@ -558,7 +558,7 @@ void GossipProtocol::bootstrapFromSeedNodes() {
     }
 }
 
-std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
+std::vector<PeerInfo> GossipProtocol::selectRandomPeers([[maybe_unused]] size_t count) {
     std::vector<PeerInfo> selected;
     
     std::lock_guard<std::mutex> lock(peers_mutex_);

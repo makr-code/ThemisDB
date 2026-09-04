@@ -195,7 +195,7 @@ size_t ReplicationCoordinator::getReplicaCount() const {
  * @brief Toggle coordinator active state.
  * @param enabled New state; disabling wakes waiters.
  */
-void ReplicationCoordinator::setEnabled(bool enabled) {
+void ReplicationCoordinator::setEnabled([[maybe_unused]] bool enabled) {
     enabled_.store(enabled, std::memory_order_release);
     if (!enabled) {
         // Wake up any waiting threads

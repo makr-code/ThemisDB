@@ -567,7 +567,7 @@ void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::fu
 // Worker Thread Implementation
 // ============================================================================
 
-void AsyncIngestionWorker::workerLoop(int worker_id) {
+void AsyncIngestionWorker::workerLoop([[maybe_unused]] int worker_id) {
     if (config_.verbose_logging) {
         THEMIS_INFO("Worker {} started", worker_id);
     }

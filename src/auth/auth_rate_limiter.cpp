@@ -512,7 +512,7 @@ static std::string outcomeToString(CredentialStuffingOutcome outcome) {
     }
 }
 
-/*static*/ CredentialStuffingOutcome AuthRateLimiter::outcomeFromBreachCount(uint32_t count) {
+/*static*/ CredentialStuffingOutcome AuthRateLimiter::outcomeFromBreachCount([[maybe_unused]] uint32_t count) {
     if (count >= 3) {
         return CredentialStuffingOutcome::ACCOUNT_LOCKED_24H;
     }

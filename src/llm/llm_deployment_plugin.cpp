@@ -686,7 +686,7 @@ void LLMDeploymentPlugin::updateConfig(const DeploymentConfig& config) {
     LOG_INFO("Deployment configuration updated");
 }
 
-std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog(size_t limit) const {
+std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog([[maybe_unused]] size_t limit) const {
     if (limit == 0 || limit >= audit_log_.size()) {
         return audit_log_;
     }

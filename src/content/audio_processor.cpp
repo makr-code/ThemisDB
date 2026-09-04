@@ -755,7 +755,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
             if (id3_major == 4) {
                 // ID3v2.4: syncsafe integer size
                 frame_size = ((uint32_t)(blob[pos + 4] & 0x7F) << 21) | ((uint32_t)(blob[pos + 5] & 0x7F) << 14)
-                             | ((uint32_t)(blob[pos + 6] & 0x7F) << 7) | (uint32_t)(blob[pos + 7] & 0x7F);
+                             | ([[maybe_unused]] (uint32_t)(blob[pos + 6] & 0x7F) << 7) | (uint32_t)(blob[pos + 7] & 0x7F);
             } else {
                 // ID3v2.3: big-endian 32-bit integer
                 frame_size = readBE32(blob, pos + 4);

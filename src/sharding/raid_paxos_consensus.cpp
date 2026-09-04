@@ -160,12 +160,12 @@ int RAIDPaxosConsensus::calculateRAIDQuorumSize() const {
     return raid_config_.calculateQuorumSize(total_shards);
 }
 
-bool RAIDPaxosConsensus::isParityShard(int shard_index) const {
+bool RAIDPaxosConsensus::isParityShard([[maybe_unused]] int shard_index) const {
     return raid_config_.raid_mode == RAIDMode::PARITY &&
            shard_index == raid_config_.parity_shard_index;
 }
 
-bool RAIDPaxosConsensus::isDataShard(int shard_index) const {
+bool RAIDPaxosConsensus::isDataShard([[maybe_unused]] int shard_index) const {
     if (raid_config_.raid_mode != RAIDMode::PARITY) {
         return true;  // For non-RAID5, all shards are "data" shards
     }
@@ -240,7 +240,7 @@ void RAIDPaxosConsensus::setMirrorSelectionCallback([[maybe_unused]] MirrorSelec
 // RAID failure handling
 // ============================================================================
 
-void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
+void RAIDPaxosConsensus::reportShardFailure([[maybe_unused]] int shard_index) {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     
     if (failed_shards_.insert(shard_index).second) {
@@ -259,7 +259,7 @@ void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
     }
 }
 
-void RAIDPaxosConsensus::reportShardRecovery(int shard_index) {
+void RAIDPaxosConsensus::reportShardRecovery([[maybe_unused]] int shard_index) {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     
     if (failed_shards_.erase(shard_index)) {
@@ -275,7 +275,7 @@ std::vector<int> RAIDPaxosConsensus::getFailedShards() const {
     return std::vector<int>(failed_shards_.begin(), failed_shards_.end());
 }
 
-bool RAIDPaxosConsensus::isShardFailed(int shard_index) const {
+bool RAIDPaxosConsensus::isShardFailed([[maybe_unused]] int shard_index) const {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     return failed_shards_.find(shard_index) != failed_shards_.end();
 }

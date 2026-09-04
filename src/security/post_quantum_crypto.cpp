@@ -968,7 +968,7 @@ static std::string b64_enc(const std::vector<uint8_t>& data) {
     return ret;
 }
 
-static bool is_b64(uint8_t c) {
+static bool is_b64([[maybe_unused]] uint8_t c) {
     return isalnum(c) || c == '+' || c == '/';
 }
 

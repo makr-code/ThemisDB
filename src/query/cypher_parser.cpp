@@ -82,7 +82,7 @@ struct CypherParser::Lexer {
 
     explicit Lexer(const std::string& s) : src(s) {}
 
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
         return (p < src.size()) ? src[p] : '\0';
     }
@@ -318,7 +318,7 @@ struct CypherParser::Parser {
         return tokens[cursor < tokens.size() ? cursor : tokens.size() - 1];
     }
 
-    const CypherParser::Token& peek(size_t offset = 1) const {
+    const CypherParser::Token& peek([[maybe_unused]] size_t offset = 1) const {
         size_t idx = cursor + offset;
         return tokens[idx < tokens.size() ? idx : tokens.size() - 1];
     }

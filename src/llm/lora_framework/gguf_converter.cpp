@@ -20,7 +20,7 @@ namespace llm {
 namespace lora {
 
 // FP16 to FP32 conversion helper
-float GGUFConverter::fp16_to_fp32(uint16_t h) {
+float GGUFConverter::fp16_to_fp32([[maybe_unused]] uint16_t h) {
     // Extract sign, exponent, and mantissa
     uint32_t sign = (h & 0x8000) << 16;
     uint32_t exponent = (h & 0x7C00) >> 10;

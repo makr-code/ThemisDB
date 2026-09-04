@@ -44,7 +44,7 @@ inline int setSockOptInt(int fd, int level, int optname, const int* value) {
 // NagleController
 // =============================================================================
 
-NagleController::NagleController(int fd) noexcept : fd_(fd) {}
+NagleController::NagleController([[maybe_unused]] int fd) noexcept : fd_(fd) {}
 
 bool NagleController::setMode(Mode mode) noexcept {
     if (fd_ < 0) return false;

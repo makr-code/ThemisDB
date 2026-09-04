@@ -52,7 +52,7 @@ namespace {
  *
  * @param native_sock Platform-native socket descriptor.
  */
-inline void closeNativeSocket(int native_sock) noexcept {
+inline void closeNativeSocket([[maybe_unused]] int native_sock) noexcept {
 #ifdef _WIN32
     ::closesocket(static_cast<SOCKET>(native_sock));
 #else

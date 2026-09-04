@@ -25,7 +25,7 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
-static size_t ensureMinimumPrefillChunkSize(size_t configured_size) {
+static size_t ensureMinimumPrefillChunkSize([[maybe_unused]] size_t configured_size) {
     // Enforce a lower bound of 1 so that chunked prefill never stalls completely.
     return std::max<size_t>(1, configured_size);
 }

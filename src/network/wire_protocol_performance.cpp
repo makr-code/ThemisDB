@@ -37,7 +37,7 @@ void WireProtocolMetrics::recordLatency(std::chrono::steady_clock::time_point st
     recordLatencyMs(ms);
 }
 
-void WireProtocolMetrics::recordLatencyMs(double ms) {
+void WireProtocolMetrics::recordLatencyMs([[maybe_unused]] double ms) {
     requests_total_.fetch_add(1, std::memory_order_relaxed);
     std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_[write_pos_] = ms;
@@ -295,7 +295,7 @@ double PayloadBufferPool::hitRate() const noexcept {
 
 CompressionAdvisor::CompressionAdvisor(const Config &cfg) : cfg_(cfg) {}
 
-CompressionAdvisor::Decision CompressionAdvisor::advise(size_t payload_size) const noexcept {
+CompressionAdvisor::Decision CompressionAdvisor::advise([[maybe_unused]] size_t payload_size) const noexcept {
     if (payload_size < cfg_.min_compressible_bytes)
         return Decision::SKIP;
     if (payload_size >= cfg_.lz4_fast_threshold) {

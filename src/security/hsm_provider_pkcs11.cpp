@@ -369,7 +369,7 @@ bool HSMProvider::initialize(){
                         if(!pin.empty()){
                             CK_RV rvLogin = api->C_Login(
                                 impl_->pool[i].handle, CKU_USER,
-                                (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
+                                ([[maybe_unused]] CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
                             if(rvLogin == CKR_USER_ALREADY_LOGGED_IN){
                                 // Session is already authenticated – this is fine
                                 THEMIS_DEBUG("PKCS#11 session {} already logged in", i);

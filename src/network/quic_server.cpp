@@ -269,7 +269,7 @@ bool QUICServer::isValidCongestionControl(const std::string &algo) {
 }
 
 /* static */
-bool QUICServer::isValidPort(uint16_t port) {
+bool QUICServer::isValidPort([[maybe_unused]] uint16_t port) {
     if (port == 0 || port == 80 || port == 443) {
         return false;
     }

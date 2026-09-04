@@ -81,7 +81,7 @@ static uint8_t gf_mul(uint8_t a, uint8_t b) {
     return gf_exp[static_cast<int>(gf_log[a]) + static_cast<int>(gf_log[b])];
 }
 
-static uint8_t gf_inv(uint8_t a) {
+static uint8_t gf_inv([[maybe_unused]] uint8_t a) {
     if (a == 0) throw std::runtime_error("GF division by zero");
     return gf_exp[255 - static_cast<int>(gf_log[a])];
 }

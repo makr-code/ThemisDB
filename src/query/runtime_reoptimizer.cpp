@@ -64,7 +64,7 @@ RuntimeReoptimizer::ExecutionGuard::~ExecutionGuard() {
     }
 }
 
-void RuntimeReoptimizer::ExecutionGuard::finish(size_t actual_rows) {
+void RuntimeReoptimizer::ExecutionGuard::finish([[maybe_unused]] size_t actual_rows) {
     if (finished_ || !owner_) {
         return;
     }
@@ -162,7 +162,7 @@ void RuntimeReoptimizer::pruneOldStats(std::chrono::hours retention) {
     stats_->pruneOldStats(retention);
 }
 
-void RuntimeReoptimizer::enable(bool enabled) {
+void RuntimeReoptimizer::enable([[maybe_unused]] bool enabled) {
     enabled_ = enabled;
     spdlog::info("RuntimeReoptimizer: re-optimization {}",
                  enabled ? "enabled" : "disabled");

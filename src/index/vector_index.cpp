@@ -359,7 +359,7 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 	return false;  // Default: encryption disabled (backward compatible)
 }
 
-void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
+void VectorIndexManager::setVectorEncryptionEnabled([[maybe_unused]] bool enabled) {
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -398,7 +398,7 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 	return false;  // Default: encryption disabled (backward compatible)
 }
 
-void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
+void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled) {
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -740,7 +740,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 	return Status::OK();
 }
 
-	VectorIndexManager::Status VectorIndexManager::setEfSearch(int efSearch) {
+	VectorIndexManager::Status VectorIndexManager::setEfSearch([[maybe_unused]] int efSearch) {
 		if (efSearch <= 0) return Status::Error("setEfSearch: efSearch muss > 0 sein");
 		efSearch_ = efSearch;
 	#ifdef THEMIS_HNSW_ENABLED
@@ -2913,7 +2913,7 @@ VectorIndexManager::computeVariance() const {
 }
 
 std::pair<VectorIndexManager::Status, std::vector<std::string>>
-VectorIndexManager::findOutliers(float threshold) const {
+VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::OK(), std::vector<Result>();

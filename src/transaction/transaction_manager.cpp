@@ -60,7 +60,7 @@ TransactionManager::~TransactionManager() {
 }
 
 // Deadlock detection methods
-void TransactionManager::setDeadlockDetection(bool enabled) {
+void TransactionManager::setDeadlockDetection([[maybe_unused]] bool enabled) {
     deadlock_detection_enabled_.store(enabled, std::memory_order_relaxed);
     if (enabled) {
         THEMIS_INFO("Deadlock detection enabled");
@@ -987,7 +987,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
 // Read-Only Transaction Optimization
 // ---------------------------------------------------------------------------
 
-TransactionManager::Status TransactionManager::Transaction::setReadOnly(bool read_only)
+TransactionManager::Status TransactionManager::Transaction::setReadOnly([[maybe_unused]] bool read_only)
 {
     if (!mvcc_txn_ || !mvcc_txn_->isActive())
         return Status::Error("setReadOnly: keine aktive Transaktion");
@@ -1308,7 +1308,7 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
 // ---------------------------------------------------------------------------
 
 /// Encode a uint64_t as an 8-byte little-endian blob.
-static std::vector<uint8_t> encodeVersion(uint64_t v) {
+static std::vector<uint8_t> encodeVersion([[maybe_unused]] uint64_t v) {
     std::vector<uint8_t> buf(8);
     for (int i = 0; i < 8; ++i) {
         buf[i] = static_cast<uint8_t>(v >> (8 * i));

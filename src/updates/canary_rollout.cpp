@@ -84,7 +84,7 @@ double CanaryRollout::computeNodeHash() const {
     return static_cast<double>(h % 100000u + 1u) / 100000.0;
 }
 
-bool CanaryRollout::isNodeInStage(size_t stage_index) const {
+bool CanaryRollout::isNodeInStage([[maybe_unused]] size_t stage_index) const {
     if (stage_index >= config_.stages.size()) {
         return false;
     }
@@ -417,7 +417,7 @@ void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     stages_ = std::move(stages);
 }
 
-void CanaryDeployment::setErrorRateThreshold(double threshold) {
+void CanaryDeployment::setErrorRateThreshold([[maybe_unused]] double threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_threshold_ = threshold;
 }
@@ -590,17 +590,17 @@ void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     checkLatencyThreshold();
 }
 
-void CanaryDeployment::reportMemoryUsage(double bytes) {
+void CanaryDeployment::reportMemoryUsage([[maybe_unused]] double bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     memory_bytes_ = bytes;
 }
 
-void CanaryDeployment::reportCpuUsage(double fraction) {
+void CanaryDeployment::reportCpuUsage([[maybe_unused]] double fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     cpu_fraction_ = fraction;
 }
 
-void CanaryDeployment::reportDiskIO(double bytes_per_sec) {
+void CanaryDeployment::reportDiskIO([[maybe_unused]] double bytes_per_sec) {
     std::lock_guard<std::mutex> lock(mutex_);
     disk_io_bytes_per_sec_ = bytes_per_sec;
 }

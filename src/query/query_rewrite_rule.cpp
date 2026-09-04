@@ -434,7 +434,7 @@ size_t CommonSubexpressionRule::apply(nlohmann::json& plan,
 // QueryRewritePipeline
 // ─────────────────────────────────────────────────────────────────────────────
 
-QueryRewritePipeline::QueryRewritePipeline(size_t max_iterations)
+QueryRewritePipeline::QueryRewritePipeline([[maybe_unused]] size_t max_iterations)
     : max_iterations_(max_iterations) {}
 
 void QueryRewritePipeline::addRule(std::shared_ptr<IQueryRewriteRule> rule) {

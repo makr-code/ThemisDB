@@ -739,7 +739,7 @@ void AsyncInferenceEngine::shutdown() {
 // Private Methods
 // ═══════════════════════════════════════════════════════════
 
-void AsyncInferenceEngine::workerLoop(size_t worker_id) {
+void AsyncInferenceEngine::workerLoop([[maybe_unused]] size_t worker_id) {
     spdlog::info("Inference worker {} started", worker_id);
     
     while (running_.load(std::memory_order_acquire)) {

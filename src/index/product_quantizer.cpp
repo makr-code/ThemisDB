@@ -418,7 +418,7 @@ float ProductQuantizer::computeAsymmetricDistance(
 
 float ProductQuantizer::getCompressionRatio() const {
     // Original: dimension * sizeof(float)
-    // Compressed: num_subquantizers * sizeof(uint8_t)
+    // Compressed: num_subquantizers * sizeof([[maybe_unused]] uint8_t)
     if (dimension_ <= 0 || config_.num_subquantizers <= 0) {
         return 0.0f;
     }

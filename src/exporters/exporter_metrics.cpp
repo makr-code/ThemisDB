@@ -104,7 +104,7 @@ void ExporterMetrics::recordQualityFilterRejection(const std::string& reason) {
     quality_filter_rejections_[reason]++;
 }
 
-void ExporterMetrics::recordSchemaValidation(bool passed) {
+void ExporterMetrics::recordSchemaValidation([[maybe_unused]] bool passed) {
     schema_validations_total_++;
     if (passed) {
         schema_validations_passed_++;
@@ -180,11 +180,11 @@ ExporterMetrics::SchemaValidationStats ExporterMetrics::getSchemaValidationStats
     return stats;
 }
 
-void ExporterMetrics::recordPIIDetection(size_t count) {
+void ExporterMetrics::recordPIIDetection([[maybe_unused]] size_t count) {
     pii_detections_ += count;
 }
 
-void ExporterMetrics::recordPIIRedaction(size_t count) {
+void ExporterMetrics::recordPIIRedaction([[maybe_unused]] size_t count) {
     pii_redactions_ += count;
 }
 
@@ -209,7 +209,7 @@ double ExporterMetrics::getCompressionRatio() const {
     return static_cast<double>(compressed) / uncompressed;
 }
 
-void ExporterMetrics::recordParquetBytesWritten(size_t bytes) {
+void ExporterMetrics::recordParquetBytesWritten([[maybe_unused]] size_t bytes) {
     parquet_bytes_written_ += bytes;
 }
 
@@ -225,7 +225,7 @@ size_t ExporterMetrics::getCheckpointCount() const {
     return checkpoint_count_.load();
 }
 
-void ExporterMetrics::recordDeltaDocSkipped(size_t count) {
+void ExporterMetrics::recordDeltaDocSkipped([[maybe_unused]] size_t count) {
     delta_docs_skipped_ += count;
 }
 
@@ -247,7 +247,7 @@ size_t ExporterMetrics::getEncryptedOutputBytes() const {
     return encryption_output_bytes_.load();
 }
 
-void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
+void ExporterMetrics::recordEncryption([[maybe_unused]] size_t encrypted_bytes) {
     encrypted_bytes_written_ += encrypted_bytes;
 }
 
@@ -415,7 +415,7 @@ void ExporterMetrics::updateLatencyHistogram(std::chrono::milliseconds duration)
     }
 }
 
-double ExporterMetrics::calculatePercentile(double percentile) const {
+double ExporterMetrics::calculatePercentile([[maybe_unused]] double percentile) const {
     size_t total = latency_histogram_.count_0_10ms.load() +
                    latency_histogram_.count_10_50ms.load() +
                    latency_histogram_.count_50_100ms.load() +

@@ -297,7 +297,7 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
 // persistCommit
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool PaxosStatePersistence::persistCommit(uint64_t slot) {
+bool PaxosStatePersistence::persistCommit([[maybe_unused]] uint64_t slot) {
     std::unique_lock<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
@@ -344,7 +344,7 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::optional<DurableAcceptorState>
-PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
+PaxosStatePersistence::getAcceptorState([[maybe_unused]] uint64_t slot) const {
     std::unique_lock<std::timed_mutex> lock(const_cast<std::timed_mutex&>(mutex_), std::defer_lock);
     if (!lock.try_lock_for(config_.init_timeout)) {
         THEMIS_ERROR("getAcceptorState: Failed to acquire lock within timeout for slot={}", slot);

@@ -240,7 +240,7 @@ VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
     return result;
 }
 
-std::optional<Challenge> VoiceLivenessDetector::getChallenge(uint64_t challenge_id) const {
+std::optional<Challenge> VoiceLivenessDetector::getChallenge([[maybe_unused]] uint64_t challenge_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = active_challenges_.find(challenge_id);
@@ -264,7 +264,7 @@ size_t VoiceLivenessDetector::cleanupExpiredChallenges() {
         verified_timestamps_);
 }
 
-bool VoiceLivenessDetector::isReplayedChallenge(uint64_t challenge_id) const {
+bool VoiceLivenessDetector::isReplayedChallenge([[maybe_unused]] uint64_t challenge_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return verified_challenges_.find(challenge_id) != verified_challenges_.end();
 }

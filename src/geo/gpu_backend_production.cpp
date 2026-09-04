@@ -560,7 +560,7 @@ class CudaBackend final : public ISpatialComputeBackend {
             d_cached_mbrs_a_.free();
             return false;
         }
-        if ((e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
+        if ([[maybe_unused]] (e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
             THEMIS_WARN("CUDA cudaMalloc failed for d_cached_results_ ({})", static_cast<int>(e));
             d_cached_mbrs_a_.free();
             d_cached_mbrs_b_.free();

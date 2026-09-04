@@ -25,7 +25,7 @@ namespace themis {
 // enableAuditing
 // ─────────────────────────────────────────────────────────────────────────────
 
-void TransactionAuditor::enableAuditing(bool enabled)
+void TransactionAuditor::enableAuditing([[maybe_unused]] bool enabled)
 {
     enabled_.store(enabled, std::memory_order_release);
 }

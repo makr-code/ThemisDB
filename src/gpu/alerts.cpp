@@ -31,27 +31,27 @@ GPUAlerts::GPUAlerts(const Config &cfg) : cfg_(cfg) {}
 // Metric update
 // ============================================================================
 
-void GPUAlerts::setVRAMUsage(float used_fraction) {
+void GPUAlerts::setVRAMUsage([[maybe_unused]] float used_fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     vram_used_frac_ = used_fraction;
 }
 
-void GPUAlerts::setErrorRate(float rate) {
+void GPUAlerts::setErrorRate([[maybe_unused]] float rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_ = rate;
 }
 
-void GPUAlerts::setFallbackRate(float rate) {
+void GPUAlerts::setFallbackRate([[maybe_unused]] float rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     fallback_rate_ = rate;
 }
 
-void GPUAlerts::setCircuitOpen(bool is_open) {
+void GPUAlerts::setCircuitOpen([[maybe_unused]] bool is_open) {
     std::lock_guard<std::mutex> lock(mutex_);
     circuit_open_ = is_open;
 }
 
-void GPUAlerts::setDeviceAvailable(bool available) {
+void GPUAlerts::setDeviceAvailable([[maybe_unused]] bool available) {
     std::lock_guard<std::mutex> lock(mutex_);
     device_available_ = available;
 }

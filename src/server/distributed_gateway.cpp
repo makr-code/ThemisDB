@@ -110,7 +110,7 @@ ClusterGatewayConfig ClusterGatewayConfig::fromJson(const nlohmann::json& j) {
 // ConsistentHashRing
 // ===========================================================================
 
-ConsistentHashRing::ConsistentHashRing(uint32_t virtual_nodes)
+ConsistentHashRing::ConsistentHashRing([[maybe_unused]] uint32_t virtual_nodes)
     : virtual_nodes_(virtual_nodes) {}
 
 // FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.

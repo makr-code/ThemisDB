@@ -1082,7 +1082,7 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
 #endif
 }
 
-void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
+void VulkanVectorBackend::setWorkgroupSizeBatchSearch([[maybe_unused]] uint32_t wgX) noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
     // Reject post-init and zero values; also clamp to 256 — batch_search.comp
     // declares shared float sharedQuery[256] so any value > 256 would cause

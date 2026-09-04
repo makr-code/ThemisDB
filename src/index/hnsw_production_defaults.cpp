@@ -169,7 +169,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedP
     return getRecommendedParams(dataset_size, dimension, profile, workload);
 }
 
-int HnswProductionDefaults::getRecommendedM(size_t dataset_size) {
+int HnswProductionDefaults::getRecommendedM([[maybe_unused]] size_t dataset_size) {
     // Based on HNSW paper and production experience
     // Smaller M for small datasets (faster build, less memory)
     // Larger M for large datasets (better connectivity, higher recall)

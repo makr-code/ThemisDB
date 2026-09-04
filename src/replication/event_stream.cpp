@@ -87,7 +87,7 @@ ReplicationEventStream::subscribeAll(EventCallback callback)
         id);
 }
 
-void ReplicationEventStream::unsubscribe(uint64_t subscription_id)
+void ReplicationEventStream::unsubscribe([[maybe_unused]] uint64_t subscription_id)
 {
     std::lock_guard<std::mutex> lock(subs_mutex_);
     subscriptions_.erase(

@@ -359,7 +359,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
 // Private Helper Methods
 // ============================================================================
 
-std::vector<double> LoRARotaryEmbedding::extractRotationFeatures(size_t position) const {
+std::vector<double> LoRARotaryEmbedding::extractRotationFeatures([[maybe_unused]] size_t position) const {
     // Create a feature vector based on position and base theta values
     // This serves as input to the LoRA matrices
     std::vector<double> features(getConfig().num_rotation_pairs);

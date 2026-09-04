@@ -201,7 +201,7 @@ bool HealthMonitor::triggerManualFailover(const std::string& failed_node_id,
 }
 
 /** @brief Enable/disable automatic failover policy. */
-void HealthMonitor::setAutoFailoverEnabled(bool enabled) {
+void HealthMonitor::setAutoFailoverEnabled([[maybe_unused]] bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.auto_failover_enabled = enabled;
 }
@@ -211,7 +211,7 @@ void HealthMonitor::setAutoFailoverEnabled(bool enabled) {
  * @param max_events Maximum number of events.
  * @return Failover event tail.
  */
-std::vector<FailoverEvent> HealthMonitor::getFailoverHistory(size_t max_events) const {
+std::vector<FailoverEvent> HealthMonitor::getFailoverHistory([[maybe_unused]] size_t max_events) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     size_t count = std::min(max_events, failover_history_.size());

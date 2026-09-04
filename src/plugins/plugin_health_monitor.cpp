@@ -561,7 +561,7 @@ RecoveryResult PluginHealthMonitor::attemptRecoveryWithBackoff(MonitoredPlugin& 
 // Private: helpers
 // ============================================================================
 
-std::chrono::seconds PluginHealthMonitor::calculateBackoff(uint32_t attempt_count) const {
+std::chrono::seconds PluginHealthMonitor::calculateBackoff([[maybe_unused]] uint32_t attempt_count) const {
     if (config_.backoff_strategy == "none") {
         return std::chrono::seconds{0};
     }

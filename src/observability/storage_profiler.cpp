@@ -403,27 +403,27 @@ ScopedStorageOp::~ScopedStorageOp() {
     profiler_.record_operation(stats_);
 }
 
-void ScopedStorageOp::record_bytes_read(size_t bytes) {
+void ScopedStorageOp::record_bytes_read([[maybe_unused]] size_t bytes) {
     stats_.bytes_read += bytes;
 }
 
-void ScopedStorageOp::record_bytes_written(size_t bytes) {
+void ScopedStorageOp::record_bytes_written([[maybe_unused]] size_t bytes) {
     stats_.bytes_written += bytes;
 }
 
-void ScopedStorageOp::record_keys(size_t count) {
+void ScopedStorageOp::record_keys([[maybe_unused]] size_t count) {
     stats_.keys_processed += count;
 }
 
-void ScopedStorageOp::set_cache_hit(bool hit) {
+void ScopedStorageOp::set_cache_hit([[maybe_unused]] bool hit) {
     stats_.cache_hit = hit;
 }
 
-void ScopedStorageOp::set_from_sst(bool from_sst) {
+void ScopedStorageOp::set_from_sst([[maybe_unused]] bool from_sst) {
     stats_.from_sst = from_sst;
 }
 
-void ScopedStorageOp::set_from_memtable(bool from_memtable) {
+void ScopedStorageOp::set_from_memtable([[maybe_unused]] bool from_memtable) {
     stats_.from_memtable = from_memtable;
 }
 

@@ -163,7 +163,7 @@ DistributedGraphManager::healthyShards() const {
     return result;
 }
 
-size_t DistributedGraphManager::effectiveParallelism(size_t num_shards) const {
+size_t DistributedGraphManager::effectiveParallelism([[maybe_unused]] size_t num_shards) const {
     if (config_.max_parallel_shards == 0) {
         return num_shards;
     }

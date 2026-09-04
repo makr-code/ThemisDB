@@ -28,7 +28,7 @@ uint64_t fnv1a64(std::string_view text) {
     return hash;
 }
 
-std::string hex64(uint64_t value) {
+std::string hex64([[maybe_unused]] uint64_t value) {
     std::ostringstream output;
     output << std::hex << value;
     return output.str();

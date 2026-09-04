@@ -70,7 +70,7 @@ struct GremlinParser::Lexer {
 
     explicit Lexer(const std::string& s) : src(s) {}
 
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
         return (p < src.size()) ? src[p] : '\0';
     }
@@ -180,7 +180,7 @@ struct GremlinParser::Parser {
 
     explicit Parser(const std::vector<Token>& toks) : tokens(toks) {}
 
-    const Token& peek(size_t offset = 0) const {
+    const Token& peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
         if (p >= tokens.size()) return tokens.back();
         return tokens[p];

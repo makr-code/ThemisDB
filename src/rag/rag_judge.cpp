@@ -1740,7 +1740,7 @@ double calculateCohensKappa(
     static constexpr int kBins = 5;
     static constexpr double kBinWidth = 1.0 / kBins;
 
-    auto toBin = [](double score) -> int {
+    auto toBin = []([[maybe_unused]] double score) -> int {
         int bin = static_cast<int>(score / kBinWidth);
         return std::min(bin, kBins - 1);
     };

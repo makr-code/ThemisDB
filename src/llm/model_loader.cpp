@@ -599,12 +599,12 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     return result;
 }
 
-size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
+size_t LazyModelLoader::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     std::lock_guard<std::mutex> lock(mutex_);
     return evictLRUUnlocked();
 }
 
-size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
+size_t LazyModelLoader::evictLRUUnlocked([[maybe_unused]] size_t target_vram_mb) {
     if (models_.empty()) {
         return 0;
     }

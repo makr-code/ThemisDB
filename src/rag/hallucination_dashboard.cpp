@@ -199,7 +199,7 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
     return snap;
 }
 
-std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) const {
+std::vector<HallucinationEntry> HallucinationDashboard::recentEntries([[maybe_unused]] size_t n) const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (n == 0 || n >= impl_->window.size()) {
         return std::vector<HallucinationEntry>(impl_->window.begin(),
@@ -223,7 +223,7 @@ std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
     return snap.active_alerts;
 }
 
-void HallucinationDashboard::fireAlertsUnlocked(double rate) {
+void HallucinationDashboard::fireAlertsUnlocked([[maybe_unused]] double rate) {
     if (rate < config_.alert_threshold_info) return;
 
     AlertCallback cb;

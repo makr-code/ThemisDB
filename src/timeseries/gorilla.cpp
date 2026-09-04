@@ -19,19 +19,19 @@
 
 namespace themis {
 
-static inline uint64_t dbl_to_bits(double v) {
+static inline uint64_t dbl_to_bits([[maybe_unused]] double v) {
     uint64_t b;
     std::memcpy(&b, &v, sizeof(b));
     return b;
 }
 
-static inline double bits_to_dbl(uint64_t b) {
+static inline double bits_to_dbl([[maybe_unused]] uint64_t b) {
     double v;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }
 
-static inline int clz64(uint64_t x) {
+static inline int clz64([[maybe_unused]] uint64_t x) {
     if (x == 0) return 64;
 #if defined(_MSC_VER)
     unsigned long idx;
@@ -42,7 +42,7 @@ static inline int clz64(uint64_t x) {
 #endif
 }
 
-static inline int ctz64(uint64_t x) {
+static inline int ctz64([[maybe_unused]] uint64_t x) {
     if (x == 0) return 64;
 #if defined(_MSC_VER)
     unsigned long idx;
@@ -54,7 +54,7 @@ static inline int ctz64(uint64_t x) {
 }
 
 // ------- BitWriter -------
-void BitWriter::writeBit(bool bit) {
+void BitWriter::writeBit([[maybe_unused]] bool bit) {
     cur_ |= (static_cast<uint8_t>(bit) & 1) << bitpos_;
     bitpos_++;
     if (bitpos_ == 8) {
@@ -70,7 +70,7 @@ void BitWriter::writeBits(uint64_t value, int bits) {
     }
 }
 
-void BitWriter::writeVarUInt(uint64_t v) {
+void BitWriter::writeVarUInt([[maybe_unused]] uint64_t v) {
     // LEB128 unsigned
     while (v >= 0x80) {
         buf_.push_back(static_cast<uint8_t>(v & 0x7FUL) | 0x80U);

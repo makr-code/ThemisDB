@@ -437,7 +437,7 @@ private:
 
     // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
     // Returns true and updates oauth_config_.access_token on success.
-    bool refreshOAuthToken(int timeout_ms) {
+    bool refreshOAuthToken([[maybe_unused]] int timeout_ms) {
         std::string body = "grant_type=refresh_token"
                            "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
         if (!oauth_config_.client_id.empty())
@@ -605,11 +605,11 @@ public:
         api_token_ = token;
     }
     
-    void setBatchSize(size_t batch_size) {
+    void setBatchSize([[maybe_unused]] size_t batch_size) {
         batch_size_ = batch_size;
     }
     
-    void setStreamingMode(bool enabled) {
+    void setStreamingMode([[maybe_unused]] bool enabled) {
         streaming_enabled_ = enabled;
     }
 
@@ -728,11 +728,11 @@ void HuggingFaceConnector::setApiToken(const std::string& token) {
     impl_->setApiToken(token);
 }
 
-void HuggingFaceConnector::setBatchSize(size_t batch_size) {
+void HuggingFaceConnector::setBatchSize([[maybe_unused]] size_t batch_size) {
     impl_->setBatchSize(batch_size);
 }
 
-void HuggingFaceConnector::setStreamingMode(bool enabled) {
+void HuggingFaceConnector::setStreamingMode([[maybe_unused]] bool enabled) {
     impl_->setStreamingMode(enabled);
 }
 

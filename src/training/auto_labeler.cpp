@@ -815,7 +815,7 @@ LabelingStats LegalAutoLabeler::labelQuery(const std::string& aql_query,
     return impl_->labelQuery(aql_query, callback);
 }
 
-std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples(float min_confidence) {
+std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples([[maybe_unused]] float min_confidence) {
     return impl_->getLowConfidenceSamples(min_confidence);
 }
 

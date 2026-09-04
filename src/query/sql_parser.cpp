@@ -300,7 +300,7 @@ private:
         return {SQLTokenType::STRING_LIT, val, start};
     }
 
-    SQLToken readNumber(size_t start) {
+    SQLToken readNumber([[maybe_unused]] size_t start) {
         std::string val;
         if (input_[pos_] == '-') { val += '-'; ++pos_; }
         bool is_float = false;
@@ -311,7 +311,7 @@ private:
         return {is_float ? SQLTokenType::FLOAT_LIT : SQLTokenType::INT_LIT, val, start};
     }
 
-    SQLToken readIdent(size_t start) {
+    SQLToken readIdent([[maybe_unused]] size_t start) {
         std::string val;
         while (pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) {
             val += input_[pos_++];

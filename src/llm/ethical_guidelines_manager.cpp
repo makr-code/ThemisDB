@@ -192,7 +192,7 @@ void EthicalGuidelinesManager::setConfig(const Config& config) {
     config_ = config;
 }
 
-void EthicalGuidelinesManager::setEnabled(bool enabled) {
+void EthicalGuidelinesManager::setEnabled([[maybe_unused]] bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enabled = enabled;
 }

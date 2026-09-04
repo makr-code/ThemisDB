@@ -78,7 +78,7 @@ void Saga::clear() {
     // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
-void Saga::trimToSize(size_t n) {
+void Saga::trimToSize([[maybe_unused]] size_t n) {
     if (n >= steps_.size()) return;
     THEMIS_DEBUG("SAGA: Trimming from {} to {} steps (discarding {} steps)",
                  steps_.size(), n, steps_.size() - n);

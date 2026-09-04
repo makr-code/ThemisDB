@@ -51,8 +51,8 @@ namespace fs = std::filesystem;
 #if defined(_WIN32)
 using themis_ssize_t = std::ptrdiff_t;
 static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
-static int themis_close_fd(int fd) { return _close(fd); }
-static int themis_fsync_fd(int fd) { return _commit(fd); }
+static int themis_close_fd([[maybe_unused]] int fd) { return _close(fd); }
+static int themis_fsync_fd([[maybe_unused]] int fd) { return _commit(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     return static_cast<themis_ssize_t>(_write(fd, data, static_cast<unsigned int>(len)));
 }
@@ -83,8 +83,8 @@ static int themis_open_fd(const char* path, int flags, int mode) {
         }
     }
 }
-static int themis_close_fd(int fd) { return ::close(fd); }
-static int themis_fsync_fd(int fd) {
+static int themis_close_fd([[maybe_unused]] int fd) { return ::close(fd); }
+static int themis_fsync_fd([[maybe_unused]] int fd) {
     for (;;) {
         if (themis_test_flag_once("THEMIS_TEST_WAL_FSYNC_EINTR_ONCE")) {
             errno = EINTR;
@@ -118,7 +118,7 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 /** @brief Scoped file descriptor. */
 class ScopedFileDescriptor {
 public:
-    explicit ScopedFileDescriptor(int fd = -1) noexcept : fd_(fd) {}
+    explicit ScopedFileDescriptor([[maybe_unused]] int fd = -1) noexcept : fd_(fd) {}
 
     ~ScopedFileDescriptor() {
         if (fd_ >= 0) {
@@ -142,7 +142,7 @@ public:
 
     int get() const noexcept { return fd_; }
 
-    void reset(int fd = -1) noexcept {
+    void reset([[maybe_unused]] int fd = -1) noexcept {
         if (fd_ >= 0) {
             themis_close_fd(fd_);
         }
@@ -259,7 +259,7 @@ static uint64_t decode_u64(const uint8_t* buf) {
 // Segment naming
 // ──────────────────────────────────────────────────────────────────────────────
 
-std::string WALStorage::segmentName(uint64_t segment_id) {
+std::string WALStorage::segmentName([[maybe_unused]] uint64_t segment_id) {
     std::ostringstream ss;
     ss << "wal_" << std::setw(6) << std::setfill('0') << segment_id << ".log";
     return ss.str();
@@ -480,7 +480,7 @@ Result<void> WALStorage::replaySegment(const std::string& path,
 //   - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded).
 //   - Concurrent writers cannot access fd_/segment state during transition.
 //   - fd_ ≥ 0 check is stable under mutex_ (no concurrent close).
-Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
+Result<void> WALStorage::openNewSegment([[maybe_unused]] uint64_t segment_id) {
     if (fd_ >= 0) {
         // W1-S02: fsync timeout protection for segment rotation.
         // Prevent hung fsync from blocking segment rollover indefinitely (CWE-833).
@@ -679,7 +679,7 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
     return Ok(last_seq);
 }
 
-Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {
+Result<uint64_t> WALStorage::checkpoint([[maybe_unused]] bool delete_old_segments) {
     // W-3: Acquire the mutex once for the full checkpoint operation.
     // Previously checkpoint() called appendEntry() (which locks/unlocks) and
     // then re-locked for segment cleanup, leaving a window where other writers

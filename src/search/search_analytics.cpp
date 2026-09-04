@@ -60,7 +60,7 @@ void SearchAnalytics::record(const std::string& query,
 // Querying
 // ============================================================================
 
-std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) const {
+std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result;
     for (auto it = events_.rbegin(); it != events_.rend(); ++it) {
@@ -72,7 +72,7 @@ std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) con
     return result; // most-recent first
 }
 
-std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
+std::vector<SearchEvent> SearchAnalytics::getRecentEvents([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result;
     size_t n = std::min(limit, events_.size());
@@ -131,7 +131,7 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
 }
 
 std::vector<std::pair<std::string, size_t>>
-SearchAnalytics::getTopQueries(size_t limit) const {
+SearchAnalytics::getTopQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     if (events_.empty() || limit == 0) return {};
 

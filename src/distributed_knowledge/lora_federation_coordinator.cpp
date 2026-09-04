@@ -480,7 +480,7 @@ void LoRAFederationCoordinator::setSigningCallback(std::function<std::string(con
 // DK-OR: Operational Resilience — timeout overload, erase
 // ─────────────────────────────────────────────────────────────────────────────
 
-GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation(size_t timeout_ms) {
+GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation([[maybe_unused]] size_t timeout_ms) {
     // Run aggregation on a separate thread to enforce wall-clock timeout
     auto future = std::async(std::launch::async, [this]() -> GlobalAdapterDelta { return triggerAggregation(); });
 
@@ -526,7 +526,7 @@ size_t LoRAFederationCoordinator::filteredGradientsCount() const {
 }
 
 LoRAFederationCoordinator::GradientOutlierFilter
-LoRAFederationCoordinator::makeL2NormOutlierFilter(double z_threshold) {
+LoRAFederationCoordinator::makeL2NormOutlierFilter([[maybe_unused]] double z_threshold) {
     return [z_threshold](const EncryptedGradient &candidate,
                          const std::map<std::string, EncryptedGradient> &all_gradients) -> bool {
         // Compute per-gradient L2 norm helper (sqrt(Σ value²) across all numeric keys)

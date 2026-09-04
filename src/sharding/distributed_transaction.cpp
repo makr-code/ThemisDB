@@ -961,7 +961,7 @@ void DistributedTransactionCoordinator::cleanupOldTransactions() {
 }
 
 /** @brief Compute capped exponential backoff delay for retry attempt. */
-uint64_t DistributedTransactionCoordinator::calculateBackoffDelay(uint32_t retry_count) const {
+uint64_t DistributedTransactionCoordinator::calculateBackoffDelay([[maybe_unused]] uint32_t retry_count) const {
     // Exponential backoff: base_ms * 2^retry_count, capped at max_backoff_ms
     uint64_t delay = config_.retry_backoff_base_ms * (1ULL << retry_count);
     return std::min(delay, config_.max_backoff_ms);

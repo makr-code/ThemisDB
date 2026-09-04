@@ -21,7 +21,7 @@ namespace themis::network {
 // ProtobufParser Implementation
 // =============================================================================
 
-bool ProtobufParser::readVarint(uint64_t& value) {
+bool ProtobufParser::readVarint([[maybe_unused]] uint64_t& value) {
     value = 0;
     int shift = 0;
     
@@ -42,7 +42,7 @@ bool ProtobufParser::readVarint(uint64_t& value) {
     return false;  // Unexpected end
 }
 
-bool ProtobufParser::readFixed64(uint64_t& value) {
+bool ProtobufParser::readFixed64([[maybe_unused]] uint64_t& value) {
     if (pos_ + 8 > data_.size()) {
         return false;
     }
@@ -56,7 +56,7 @@ bool ProtobufParser::readFixed64(uint64_t& value) {
     return true;
 }
 
-bool ProtobufParser::readFixed32(uint32_t& value) {
+bool ProtobufParser::readFixed32([[maybe_unused]] uint32_t& value) {
     if (pos_ + 4 > data_.size()) {
         return false;
     }
@@ -106,7 +106,7 @@ bool ProtobufParser::readTag(uint32_t& field_number, uint32_t& wire_type) {
     return true;
 }
 
-bool ProtobufParser::skipField(uint32_t wire_type) {
+bool ProtobufParser::skipField([[maybe_unused]] uint32_t wire_type) {
     switch (wire_type) {
         case 0: {  // Varint
             uint64_t dummy;
@@ -133,7 +133,7 @@ bool ProtobufParser::skipField(uint32_t wire_type) {
 // ProtobufSerializer Implementation
 // =============================================================================
 
-void ProtobufSerializer::writeVarint(uint64_t value) {
+void ProtobufSerializer::writeVarint([[maybe_unused]] uint64_t value) {
     while (value >= 0x80) {
         data_.push_back(static_cast<uint8_t>((value & 0x7F) | 0x80));
         value >>= 7;
@@ -141,7 +141,7 @@ void ProtobufSerializer::writeVarint(uint64_t value) {
     data_.push_back(static_cast<uint8_t>(value & 0x7F));
 }
 
-void ProtobufSerializer::writeFixed64(uint64_t value) {
+void ProtobufSerializer::writeFixed64([[maybe_unused]] uint64_t value) {
     // Protobuf fixed64 is little-endian on wire
     for (int i = 0; i < 8; ++i) {
         data_.push_back(static_cast<uint8_t>(value & 0xFF));
@@ -149,7 +149,7 @@ void ProtobufSerializer::writeFixed64(uint64_t value) {
     }
 }
 
-void ProtobufSerializer::writeFixed32(uint32_t value) {
+void ProtobufSerializer::writeFixed32([[maybe_unused]] uint32_t value) {
     // Protobuf fixed32 is little-endian on wire
     for (int i = 0; i < 4; ++i) {
         data_.push_back(static_cast<uint8_t>(value & 0xFF));
@@ -171,7 +171,7 @@ void ProtobufSerializer::writeTag(uint32_t field_number, uint32_t wire_type) {
     writeVarint((field_number << 3) | wire_type);
 }
 
-void ProtobufSerializer::writeDouble(double value) {
+void ProtobufSerializer::writeDouble([[maybe_unused]] double value) {
     uint64_t bits;
     std::memcpy(&bits, &value, sizeof(double));
     writeFixed64(bits);

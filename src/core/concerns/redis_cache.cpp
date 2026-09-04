@@ -112,14 +112,14 @@ RedisCacheConfig parseRedisUrl(const std::string &url) {
 }
 
 #if !defined(_WIN32)
-inline void closeSocketFd(int &fd) noexcept {
+inline void closeSocketFd([[maybe_unused]] int &fd) noexcept {
     if (fd >= 0) {
         ::close(fd);
         fd = -1;
     }
 }
 #else
-inline void closeSocketFd(uintptr_t &fd) noexcept {
+inline void closeSocketFd([[maybe_unused]] uintptr_t &fd) noexcept {
     if (fd != static_cast<uintptr_t>(~0ULL)) {
         ::closesocket(static_cast<SOCKET>(fd));
         fd = static_cast<uintptr_t>(~0ULL);
@@ -805,7 +805,7 @@ void RedisCache::ensureSubscriberLoopStarted() {
 
 void RedisCache::subscriberLoop() {
     const int reconnect_sleep_ms = std::max(1, config_.reconnect_interval_ms);
-    auto sleepWithStop = [this](int total_ms) {
+    auto sleepWithStop = [this]([[maybe_unused]] int total_ms) {
         std::unique_lock<std::mutex> lk(sub_sleep_mutex_);
         sub_sleep_cv_.wait_for(lk, std::chrono::milliseconds(total_ms), [this] {
             return stop_.load(std::memory_order_acquire);
@@ -949,12 +949,12 @@ double RedisCache::hitRate() const {
 // ICache – configuration
 // ---------------------------------------------------------------------------
 
-void RedisCache::setMaxSize(size_t maxSize) {
+void RedisCache::setMaxSize([[maybe_unused]] size_t maxSize) {
     max_size_.store(maxSize);
     config_.max_size = maxSize;
 }
 
-void RedisCache::setDefaultTTL(uint64_t ttl_ms) {
+void RedisCache::setDefaultTTL([[maybe_unused]] uint64_t ttl_ms) {
     default_ttl_ms_.store(ttl_ms);
     config_.default_ttl_ms = ttl_ms;
 }

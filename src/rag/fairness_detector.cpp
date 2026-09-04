@@ -544,7 +544,7 @@ const FairnessDetectorConfig& FairnessDetector::getConfig() const {
     return config_;
 }
 
-void FairnessDetector::setBiasThreshold(double threshold) {
+void FairnessDetector::setBiasThreshold([[maybe_unused]] double threshold) {
     config_.bias_threshold = std::clamp(threshold, 0.0, 1.0);
 }
 

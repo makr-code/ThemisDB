@@ -409,7 +409,7 @@ WALManager::Statistics WALManager::getStatistics() const {
 }
 
 /** @brief Open/create active WAL segment file for given segment number. */
-void WALManager::openSegment(uint64_t segment_number) {
+void WALManager::openSegment([[maybe_unused]] uint64_t segment_number) {
     std::string seg_path = getSegmentPath(segment_number);
     
     current_segment_ = std::make_unique<std::fstream>(
@@ -442,7 +442,7 @@ void WALManager::rotateSegment() {
 }
 
 /** @brief Build filesystem path for WAL segment number. */
-std::string WALManager::getSegmentPath(uint64_t segment_number) const {
+std::string WALManager::getSegmentPath([[maybe_unused]] uint64_t segment_number) const {
     std::ostringstream oss;
     oss << config_.wal_directory << "/wal_" 
         << std::setfill('0') << std::setw(16) << std::hex << segment_number 

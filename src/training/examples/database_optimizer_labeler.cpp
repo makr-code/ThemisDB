@@ -81,7 +81,7 @@ std::vector<OptimizerLogEntry> simulateOptimizerLog() {
 //   confidence = tanh(|Δlatency_ms| / 50.0)
 //   Threshold: 0.85 (≈ |Δlatency| ≥ 50 ms)
 // ---------------------------------------------------------------------------
-double computeOptimizerConfidence(double delta_latency_ms) {
+double computeOptimizerConfidence([[maybe_unused]] double delta_latency_ms) {
     return std::tanh(std::abs(delta_latency_ms) / 50.0);
 }
 

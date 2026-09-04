@@ -96,7 +96,7 @@ bool ContextWindowFiller::tryAdd(const StreamedDocument& doc) {
     return true;
 }
 
-bool ContextWindowFiller::hasCapacity(size_t min_tokens) const {
+bool ContextWindowFiller::hasCapacity([[maybe_unused]] size_t min_tokens) const {
     return (max_tokens_ >= tokens_used_) &&
            (max_tokens_ - tokens_used_ >= min_tokens);
 }

@@ -207,7 +207,7 @@ bool VulkanContext::is_available() {
     return false;
 }
 
-bool VulkanContext::create_instance(bool enable_validation) {
+bool VulkanContext::create_instance([[maybe_unused]] bool enable_validation) {
     VkApplicationInfo app_info = {};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pApplicationName = "ThemisDB LoRA Training";
@@ -241,7 +241,7 @@ bool VulkanContext::create_instance(bool enable_validation) {
     return true;
 }
 
-bool VulkanContext::select_physical_device(int device_id) {
+bool VulkanContext::select_physical_device([[maybe_unused]] int device_id) {
     uint32_t device_count = 0;
     VkResult enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
     if (enum_result != VK_SUCCESS) {
@@ -421,7 +421,7 @@ void VulkanContext::free_command_buffer(VkCommandBuffer command_buffer) {
     vkFreeCommandBuffers(device_, command_pool_, 1, &command_buffer);
 }
 
-VkFence VulkanContext::create_fence(bool signaled) {
+VkFence VulkanContext::create_fence([[maybe_unused]] bool signaled) {
     VkFenceCreateInfo fence_info = {};
     fence_info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
     if (signaled) {

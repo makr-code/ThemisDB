@@ -202,13 +202,13 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
 }
 
 /** @brief Compute required acknowledgments for writes under current config. */
-size_t QuorumManager::getWriteQuorumSize(size_t total_nodes) const {
+size_t QuorumManager::getWriteQuorumSize([[maybe_unused]] size_t total_nodes) const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return calculateQuorumSize(config_.write_quorum, config_.custom_write_quorum, total_nodes);
 }
 
 /** @brief Compute required acknowledgments for reads under current config. */
-size_t QuorumManager::getReadQuorumSize(size_t total_nodes) const {
+size_t QuorumManager::getReadQuorumSize([[maybe_unused]] size_t total_nodes) const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return calculateQuorumSize(config_.read_quorum, config_.custom_read_quorum, total_nodes);
 }

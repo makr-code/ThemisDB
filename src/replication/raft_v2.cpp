@@ -293,7 +293,7 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
     return entry;
 }
 
-void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
+void MembershipChangeManager::onJointCommitted([[maybe_unused]] uint64_t log_index) {
     MembershipChangeEntry commit;
     {
         std::lock_guard<std::mutex> lock(mutex_);

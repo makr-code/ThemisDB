@@ -25,7 +25,7 @@ RaftState::RaftState(const RaftConfig& config)
 }
 
 /** @brief Transition node to follower role for provided term. */
-void RaftState::becomeFollower(uint64_t term) {
+void RaftState::becomeFollower([[maybe_unused]] uint64_t term) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     if (term > current_term_) {

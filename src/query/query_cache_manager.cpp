@@ -358,7 +358,7 @@ QueryCacheManager::CacheStatistics QueryCacheManager::getStatistics() const {
     return stats;
 }
 
-std::vector<std::string> QueryCacheManager::getHotQueries(size_t limit) const {
+std::vector<std::string> QueryCacheManager::getHotQueries([[maybe_unused]] size_t limit) const {
     if (!workload_strategy_) {
         return {};
     }

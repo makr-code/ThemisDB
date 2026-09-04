@@ -181,7 +181,7 @@ bool VoiceModelCache::unpin(const std::string& model_id) {
     return true;
 }
 
-size_t VoiceModelCache::evictToFree(size_t memory_needed) {
+size_t VoiceModelCache::evictToFree([[maybe_unused]] size_t memory_needed) {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t freed = 0;
     while (freed < memory_needed) {

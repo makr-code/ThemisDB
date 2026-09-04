@@ -41,7 +41,7 @@ static size_t commonPrefixLen(std::string_view a, std::string_view b) {
 }
 
 /// MurmurHash3-inspired mixer for a 64-bit seed.
-static uint64_t mixSeed(uint64_t x) {
+static uint64_t mixSeed([[maybe_unused]] uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -157,7 +157,7 @@ uint32_t DictionaryCodec::encode(std::string_view value) const {
     return it->second;
 }
 
-std::string DictionaryCodec::decode(uint32_t code) const {
+std::string DictionaryCodec::decode([[maybe_unused]] uint32_t code) const {
     if (code == kMissCode || code >= id_to_string_.size()) {
         THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code, id_to_string_.size());
         return {};
@@ -382,7 +382,7 @@ uint32_t IndexCompressionCodec::encodeValue(std::string_view value) const {
     return code;
 }
 
-std::string IndexCompressionCodec::decodeValue(uint32_t code) const {
+std::string IndexCompressionCodec::decodeValue([[maybe_unused]] uint32_t code) const {
     return dict_codec_.decode(code);
 }
 

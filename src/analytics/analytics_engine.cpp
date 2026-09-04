@@ -27,7 +27,7 @@ namespace analytics {
 // In production, this would be a real connection pool implementation
 class ConnectionPool {
 public:
-    explicit ConnectionPool(int size = 10) : available_(size), total_(size) {}
+    explicit ConnectionPool([[maybe_unused]] int size = 10) : available_(size), total_(size) {}
 
     /**
      * Acquire a connection from the pool.
@@ -48,7 +48,7 @@ public:
     /**
      * Release a connection back to the pool.
      */
-    void release(int connection_id) noexcept {
+    void release([[maybe_unused]] int connection_id) noexcept {
         if (connection_id > 0) {
             available_++;
             used_--;
@@ -287,7 +287,7 @@ std::vector<QueryResult> AnalyticsEngine::ProcessBatch(
 // ========================================================================
 // Gap A-2-08: Timeout configuration
 // ========================================================================
-void AnalyticsEngine::SetPoolSize(int size) {
+void AnalyticsEngine::SetPoolSize([[maybe_unused]] int size) {
     if (size <= 0) {
         throw std::invalid_argument("Pool size must be positive");
     }

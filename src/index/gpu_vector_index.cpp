@@ -218,7 +218,7 @@ public:
         shutdown();
     }
     
-    bool initialize(int dim) {
+    bool initialize([[maybe_unused]] int dim) {
         dimension = dim;
         stats.dimension = dim;
         
@@ -450,7 +450,7 @@ public:
         }
     }
     
-    bool initializeVulkanBackend(int dim) {
+    bool initializeVulkanBackend([[maybe_unused]] int dim) {
         try {
             vulkanBackend = std::make_unique<VulkanVectorIndexBackend>(config);
             if (!vulkanBackend->initialize(dim)) {
@@ -1062,7 +1062,7 @@ GPUVectorIndex::~GPUVectorIndex() noexcept {
     }
 }
 
-bool GPUVectorIndex::initialize(int dimension) {
+bool GPUVectorIndex::initialize([[maybe_unused]] int dimension) {
     return pImpl->initialize(dimension);
 }
 
@@ -1510,11 +1510,11 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     return true;
 }
 
-void GPUVectorIndex::setEfSearch(int ef) {
+void GPUVectorIndex::setEfSearch([[maybe_unused]] int ef) {
     pImpl->config.efSearch = ef;
 }
 
-void GPUVectorIndex::setBatchSize(int size) {
+void GPUVectorIndex::setBatchSize([[maybe_unused]] int size) {
     pImpl->config.batchSize = size;
 }
 

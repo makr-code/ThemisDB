@@ -932,7 +932,7 @@ void LlamaWrapper::unloadModel() {
     spdlog::info("Model unloaded");
 }
 
-size_t LlamaWrapper::cleanupTempModels(int days_old) {
+size_t LlamaWrapper::cleanupTempModels([[maybe_unused]] int days_old) {
     std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
     
     if (!std::filesystem::exists(temp_dir)) {

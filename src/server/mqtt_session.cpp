@@ -77,7 +77,7 @@ void MqttSession::stop() {
     }
 }
 
-bool MqttSession::checkRateLimit(size_t messageSize) {
+bool MqttSession::checkRateLimit([[maybe_unused]] size_t messageSize) {
     if (!rateLimitConfig_.enabled) {
         return true;
     }
@@ -198,7 +198,7 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     }
 }
 
-void MqttSession::handlePubRec(uint16_t packetId) {
+void MqttSession::handlePubRec([[maybe_unused]] uint16_t packetId) {
     // QoS 2 step 2: Received PUBREC, send PUBREL
     auto it = outgoingQos2_.find(packetId);
     if (it != outgoingQos2_.end()) {
@@ -208,7 +208,7 @@ void MqttSession::handlePubRec(uint16_t packetId) {
     }
 }
 
-void MqttSession::handlePubRel(uint16_t packetId) {
+void MqttSession::handlePubRel([[maybe_unused]] uint16_t packetId) {
     // QoS 2 step 3: Received PUBREL, publish message and send PUBCOMP
     auto it = incomingQos2_.find(packetId);
     if (it != incomingQos2_.end()) {
@@ -219,7 +219,7 @@ void MqttSession::handlePubRel(uint16_t packetId) {
     }
 }
 
-void MqttSession::handlePubComp(uint16_t packetId) {
+void MqttSession::handlePubComp([[maybe_unused]] uint16_t packetId) {
     // QoS 2 step 4: Received PUBCOMP, complete delivery
     outgoingQos2_.erase(packetId);
 }
@@ -412,7 +412,7 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     doWrite();
 }
 
-void MqttSession::sendPubAck(uint16_t packetId) {
+void MqttSession::sendPubAck([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBACK packet (QoS 1 acknowledgment)
     std::vector<uint8_t> packet = {0x40, 0x02};
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -421,7 +421,7 @@ void MqttSession::sendPubAck(uint16_t packetId) {
     doWrite();
 }
 
-void MqttSession::sendPubRec(uint16_t packetId) {
+void MqttSession::sendPubRec([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBREC packet (QoS 2 step 1)
     std::vector<uint8_t> packet = {0x50, 0x02};
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -430,7 +430,7 @@ void MqttSession::sendPubRec(uint16_t packetId) {
     doWrite();
 }
 
-void MqttSession::sendPubRel(uint16_t packetId) {
+void MqttSession::sendPubRel([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBREL packet (QoS 2 step 2)
     std::vector<uint8_t> packet = {0x62, 0x02}; // QoS 1 for PUBREL
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
@@ -439,7 +439,7 @@ void MqttSession::sendPubRel(uint16_t packetId) {
     doWrite();
 }
 
-void MqttSession::sendPubComp(uint16_t packetId) {
+void MqttSession::sendPubComp([[maybe_unused]] uint16_t packetId) {
     // Build MQTT PUBCOMP packet (QoS 2 step 3)
     std::vector<uint8_t> packet = {0x70, 0x02};
     packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));

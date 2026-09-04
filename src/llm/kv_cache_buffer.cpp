@@ -195,7 +195,7 @@ bool KVCacheBuffer::checkAndFlush() {
     return flushed;
 }
 
-KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence(int sequence_id) {
+KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence([[maybe_unused]] int sequence_id) {
     auto it = sequence_to_index_.find(sequence_id);
     
     if (it != sequence_to_index_.end()) {

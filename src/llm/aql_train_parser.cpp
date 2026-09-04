@@ -990,19 +990,19 @@ TrainingQueryBuilder& TrainingQueryBuilder::baseModel(const std::string& model) 
     stmt_.config.base_model_name = model; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::loraRank(int rank) {
+TrainingQueryBuilder& TrainingQueryBuilder::loraRank([[maybe_unused]] int rank) {
     stmt_.config.lora_rank = rank; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::epochs(int n) {
+TrainingQueryBuilder& TrainingQueryBuilder::epochs([[maybe_unused]] int n) {
     stmt_.config.epochs = n; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::batchSize(int size) {
+TrainingQueryBuilder& TrainingQueryBuilder::batchSize([[maybe_unused]] int size) {
     stmt_.config.batch_size = size; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::learningRate(double lr) {
+TrainingQueryBuilder& TrainingQueryBuilder::learningRate([[maybe_unused]] double lr) {
     stmt_.config.learning_rate = lr; return *this;
 }
 
@@ -1014,7 +1014,7 @@ TrainingQueryBuilder& TrainingQueryBuilder::sizeMode(GGUFSTConfig::SizeMode m) {
     stmt_.config.size_mode = m; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::signAdapter(bool sign) {
+TrainingQueryBuilder& TrainingQueryBuilder::signAdapter([[maybe_unused]] bool sign) {
     stmt_.config.sign_adapter = sign; return *this;
 }
 

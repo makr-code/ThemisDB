@@ -98,7 +98,7 @@ std::vector<uint8_t> ZstdCompression::decompress_streaming(
     return result;
 }
 
-void ZstdCompression::set_compression_level(int level) {
+void ZstdCompression::set_compression_level([[maybe_unused]] int level) {
     // Validate level range for ZSTD (1-22)
     // Level 3 is default, 19 is high compression used in ContentManager
     if (level < 1) {

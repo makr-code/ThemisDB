@@ -489,7 +489,7 @@ float VoiceTTSCustomizer::computeSpeechRhythm(
     return 1.0f - std::abs(norm - 0.3f) / 0.7f;
 }
 
-std::string VoiceTTSCustomizer::classifyMOS(float mos) const {
+std::string VoiceTTSCustomizer::classifyMOS([[maybe_unused]] float mos) const {
     if (mos >= 4.0f) return "excellent";
     if (mos >= 3.0f) return "good";
     if (mos >= 2.0f) return "fair";

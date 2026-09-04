@@ -83,7 +83,7 @@ uint64_t SchemaAwareCDCBridge::subscribe(
     return id;
 }
 
-void SchemaAwareCDCBridge::unsubscribe(uint64_t subscription_id) {
+void SchemaAwareCDCBridge::unsubscribe([[maybe_unused]] uint64_t subscription_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_.erase(
         std::remove_if(subscriptions_.begin(), subscriptions_.end(),

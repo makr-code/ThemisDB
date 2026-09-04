@@ -432,7 +432,7 @@ bool WikiIndexStore::isReady() const noexcept {
 // WikiIndexStore — Evaluation API (Recall@k / MRR / p95)
 // ─────────────────────────────────────────────────────────────────────────────
 
-void WikiIndexStore::recordLatencyLocked(double latency_ms) const noexcept {
+void WikiIndexStore::recordLatencyLocked([[maybe_unused]] double latency_ms) const noexcept {
     // Ring buffer: overwrite oldest entry when full.
     latency_ring_[latency_ring_head_] = latency_ms;
     latency_ring_head_ = (latency_ring_head_ + 1) % kLatencyRingSize;

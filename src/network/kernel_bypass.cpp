@@ -99,7 +99,7 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 // CpuPinner
 // =============================================================================
 
-bool CpuPinner::pinCallerToCore(int core_id) noexcept {
+bool CpuPinner::pinCallerToCore([[maybe_unused]] int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
     if (core_id < 0)
@@ -131,7 +131,7 @@ bool CpuPinner::pinThreadToCore(std::thread &thread, int core_id) noexcept {
 #endif
 }
 
-int CpuPinner::numaNodeForCore(int core_id) noexcept {
+int CpuPinner::numaNodeForCore([[maybe_unused]] int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
     if (core_id < 0)
@@ -175,7 +175,7 @@ int CpuPinner::currentCpu() noexcept {
 #endif
 }
 
-std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
+std::vector<int> CpuPinner::coresOnNuma([[maybe_unused]] int numa_node) noexcept {
     std::vector<int> result;
     int ncpu = logicalCpuCount();
     for (int i = 0; i < ncpu; ++i) {
@@ -372,7 +372,7 @@ bool DPDKServer::isDpdkAvailable() noexcept {
 }
 
 /*static*/
-std::vector<int> DPDKServer::coresFromMask(uint64_t mask) noexcept {
+std::vector<int> DPDKServer::coresFromMask([[maybe_unused]] uint64_t mask) noexcept {
     std::vector<int> cores;
     for (int i = 0; i < 64; ++i) {
         if (mask & (1ULL << static_cast<unsigned>(i))) {

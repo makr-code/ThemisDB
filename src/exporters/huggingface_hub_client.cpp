@@ -542,7 +542,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
             std::function<void(double)> file_progress;
             if (progress_cb) {
                 file_progress
-                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
+                    = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
             }
 
             std::string retry_after_hdr;
@@ -741,7 +741,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
             std::function<void(double)> shard_progress;
             if (progress_cb) {
                 shard_progress
-                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
+                    = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
             }
 
             std::string retry_after_hdr;

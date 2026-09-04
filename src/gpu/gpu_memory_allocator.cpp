@@ -101,7 +101,7 @@ GPUMemoryAllocator& GPUMemoryAllocator::operator=(GPUMemoryAllocator&& other) no
     return *this;
 }
 
-MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
+MemoryAllocation GPUMemoryAllocator::allocate([[maybe_unused]] size_t size) {
     uint64_t start_time = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()).count();
     

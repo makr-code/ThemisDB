@@ -253,7 +253,7 @@ void PredictivePrefetcher::recordCandidatesGenerated(size_t count, const std::st
     emitMetrics();
 }
 
-void PredictivePrefetcher::recordOverheadBytes(uint64_t bytes) {
+void PredictivePrefetcher::recordOverheadBytes([[maybe_unused]] uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     overhead_bytes_ += bytes;
     emitMetrics();

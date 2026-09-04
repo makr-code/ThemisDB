@@ -309,7 +309,7 @@ SemanticQueryCache::Status SemanticQueryCache::evictExpired() {
     return Status::OK();
 }
 
-SemanticQueryCache::Status SemanticQueryCache::evictLRU(size_t count) {
+SemanticQueryCache::Status SemanticQueryCache::evictLRU([[maybe_unused]] size_t count) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     for (size_t i = 0; i < count; ++i) {

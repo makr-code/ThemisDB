@@ -40,7 +40,7 @@ void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,
     ++stats_.total_queries_recorded;
 }
 
-void WorkloadAdaptiveOptimizer::set_concurrent_queries(size_t n) {
+void WorkloadAdaptiveOptimizer::set_concurrent_queries([[maybe_unused]] size_t n) {
     concurrent_queries_.store(n, std::memory_order_relaxed);
 }
 

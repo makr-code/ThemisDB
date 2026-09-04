@@ -27,7 +27,7 @@ static constexpr double kRasterPi           = 3.14159265358979323846;
 static constexpr double kRasterEarthRadiusM = 6371000.0; // mean Earth radius (m)
 
 /// Convert metres to degrees of latitude (constant everywhere).
-static double metresToDegreesLat(double m) noexcept {
+static double metresToDegreesLat([[maybe_unused]] double m) noexcept {
     return m / (kRasterEarthRadiusM * kRasterPi / 180.0);
 }
 
@@ -58,7 +58,7 @@ RasterGrid::RasterGrid(double min_lon_, double min_lat_, double max_lon_, double
     }
 }
 
-bool RasterGrid::isNoData(float v) const noexcept {
+bool RasterGrid::isNoData([[maybe_unused]] float v) const noexcept {
     // NaN != NaN by IEEE 754, so special-case NaN sentinel
     if (std::isnan(no_data_value)) {
         return std::isnan(v);

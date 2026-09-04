@@ -423,7 +423,7 @@ bool VoiceStreamingSession::sendHeartbeat() noexcept {
     return impl_->connection_alive;
 }
 
-bool VoiceStreamingSession::reconnectWithBackoff(int max_retries) noexcept {
+bool VoiceStreamingSession::reconnectWithBackoff([[maybe_unused]] int max_retries) noexcept {
     if (!impl_ || max_retries <= 0) {
         return false;
     }
@@ -497,7 +497,7 @@ bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
 // VoiceStreamingManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-VoiceStreamingManager::VoiceStreamingManager(size_t max_concurrent_sessions)
+VoiceStreamingManager::VoiceStreamingManager([[maybe_unused]] size_t max_concurrent_sessions)
     : max_sessions_(max_concurrent_sessions) {}
 
 StreamID

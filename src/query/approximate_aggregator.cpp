@@ -46,7 +46,7 @@ uint64_t hashValue(const nlohmann::json& v) {
 }
 
 // Count leading zeros of a 64-bit integer plus 1.
-uint8_t rho(uint64_t value) {
+uint8_t rho([[maybe_unused]] uint64_t value) {
     if (value == 0) return 65;
     uint8_t count = 1;
     while ((value & (1ULL << 63)) == 0) {

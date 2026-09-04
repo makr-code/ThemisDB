@@ -22,7 +22,7 @@ namespace network {
 // RetryPolicy
 // ============================================================================
 
-std::chrono::milliseconds RetryPolicy::computeDelay(uint32_t attempt) const noexcept {
+std::chrono::milliseconds RetryPolicy::computeDelay([[maybe_unused]] uint32_t attempt) const noexcept {
     // base_delay_ms * 2^attempt  — protect against left-shift overflow.
     uint64_t backoff;
     if (attempt >= 31u) {
@@ -50,7 +50,7 @@ std::chrono::milliseconds RetryPolicy::computeDelay(uint32_t attempt) const noex
     return std::chrono::milliseconds{backoff};
 }
 
-bool RetryPolicy::isTransient(int error_code) noexcept {
+bool RetryPolicy::isTransient([[maybe_unused]] int error_code) noexcept {
     return error_code == ECONNRESET
         || error_code == ETIMEDOUT
         || error_code == EAGAIN

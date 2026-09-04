@@ -74,7 +74,7 @@ ServiceMeshIntegration::~ServiceMeshIntegration() noexcept {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /* static */
-bool ServiceMeshIntegration::isValidPort(uint16_t port) {
+bool ServiceMeshIntegration::isValidPort([[maybe_unused]] uint16_t port) {
     // Reject port 0 and well-known HTTP/HTTPS ports.
     if (port == 0 || port == 80 || port == 443) {
         return false;

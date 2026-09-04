@@ -400,7 +400,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     spdlog::info("  Estimated compute overhead: {:.1f}%", compute_overhead);
 }
 
-float GPUTrainingLoop::trainEpoch(int epoch) {
+float GPUTrainingLoop::trainEpoch([[maybe_unused]] int epoch) {
     current_metrics_.current_epoch = epoch + 1;
     
     data_loader_->reset();

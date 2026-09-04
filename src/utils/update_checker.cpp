@@ -424,7 +424,7 @@ bool UpdateChecker::isRunning() const {
     return running_;
 }
 
-std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases(int limit) {
+std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases([[maybe_unused]] int limit) {
 #ifdef THEMIS_ENABLE_CURL
     // Build GitHub API URL
     std::string url = config_.github_api_url + "/repos/" + 

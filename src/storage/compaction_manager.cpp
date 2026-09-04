@@ -91,7 +91,7 @@ Result<void> CompactionManager::compactAll() {
 // Tombstone tracking
 // ──────────────────────────────────────────────────────────────────────────────
 
-void CompactionManager::recordDeletions(uint64_t count) {
+void CompactionManager::recordDeletions([[maybe_unused]] uint64_t count) {
     tombstones_.fetch_add(count, std::memory_order_relaxed);
 }
 

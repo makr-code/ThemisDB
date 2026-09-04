@@ -204,7 +204,7 @@ public:
             (stats.avgCollectiveTimeMs * (stats.numCollectives - 1) + timeMs) / stats.numCollectives;
     }
     
-    void recordP2P(size_t bytes) {
+    void recordP2P([[maybe_unused]] size_t bytes) {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - lastOpStart);
         double timeMs = duration.count() / 1000.0;

@@ -1076,7 +1076,7 @@ public:
         return true;
     }
 
-    void setDryRun(bool enabled) { dry_run_ = enabled; }
+    void setDryRun([[maybe_unused]] bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
     void setRateLimitConfig(const RateLimitConfig& config) {
@@ -1224,7 +1224,7 @@ public:
         checkpoint_store_shared_ = std::move(new_store);
     }
 
-    void enableIncrementalMode(bool enabled) {
+    void enableIncrementalMode([[maybe_unused]] bool enabled) {
         incremental_mode_ = enabled;
     }
 
@@ -1274,7 +1274,7 @@ public:
         return plugin_registry_.listPlugins();
     }
 
-    void setLineageTrackingEnabled(bool enabled) {
+    void setLineageTrackingEnabled([[maybe_unused]] bool enabled) {
         std::lock_guard<std::mutex> lock(mutex_);
         lineage_enabled_ = enabled;
     }
@@ -1509,7 +1509,7 @@ bool IngestionManager::getSchemaConfig(const std::string& source_id,
     return impl_->getSchemaConfig(source_id, out);
 }
 
-void IngestionManager::setDryRun(bool enabled) {
+void IngestionManager::setDryRun([[maybe_unused]] bool enabled) {
     impl_->setDryRun(enabled);
 }
 
@@ -1561,7 +1561,7 @@ void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
     impl_->setCheckpointDir(checkpoint_dir);
 }
 
-void IngestionManager::enableIncrementalMode(bool enabled) {
+void IngestionManager::enableIncrementalMode([[maybe_unused]] bool enabled) {
     impl_->enableIncrementalMode(enabled);
 }
 
@@ -1599,7 +1599,7 @@ std::vector<std::string> IngestionManager::listConnectorPlugins() const {
     return impl_->listConnectorPlugins();
 }
 
-void IngestionManager::enableLineageTracking(bool enabled) {
+void IngestionManager::enableLineageTracking([[maybe_unused]] bool enabled) {
     impl_->setLineageTrackingEnabled(enabled);
 }
 
@@ -2088,7 +2088,7 @@ IngestionBuilder& IngestionBuilder::withTargetCollection(
     return *this;
 }
 
-IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
+IngestionBuilder& IngestionBuilder::withDryRun([[maybe_unused]] bool enabled) {
     opts_->dry_run = enabled;
     return *this;
 }

@@ -226,7 +226,7 @@ size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
     return flushBuffer(graph_id, it->second);
 }
 
-size_t GraphAutoBuffer::flushInternal(bool lock_held) {
+size_t GraphAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("GraphAutoBuffer.flush");
     
     std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);

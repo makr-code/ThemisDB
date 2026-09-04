@@ -355,7 +355,7 @@ size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
 
 // Helper: collapse a uint32x4 predicate mask into a 4-bit integer where
 // bit i is set when lane i is all-ones (0xFFFFFFFF).
-static inline int neon_movemask_u32(uint32x4_t mask) noexcept {
+static inline int neon_movemask_u32([[maybe_unused]] uint32x4_t mask) noexcept {
     // Shift each lane to its sign bit position then OR together.
     const uint32x4_t shift = {0, 1, 2, 3};
     uint32x4_t bits = vshrq_n_u32(vshlq_u32(mask, vreinterpretq_s32_u32(
@@ -368,7 +368,7 @@ static inline int neon_movemask_u32(uint32x4_t mask) noexcept {
 }
 
 // Helper: collapse a uint64x2 predicate mask into a 2-bit integer.
-static inline int neon_movemask_u64(uint64x2_t mask) noexcept {
+static inline int neon_movemask_u64([[maybe_unused]] uint64x2_t mask) noexcept {
     uint64_t lo = vgetq_lane_u64(mask, 0) & 1u;
     uint64_t hi = vgetq_lane_u64(mask, 1) & 1u;
     return static_cast<int>(lo | (hi << 1));

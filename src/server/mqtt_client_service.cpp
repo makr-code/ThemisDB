@@ -43,7 +43,7 @@ namespace server {
 namespace detail {
 
 // Encode a variable-length integer (MQTT remaining-length encoding).
-static std::vector<uint8_t> encodeVarLen(uint32_t value) {
+static std::vector<uint8_t> encodeVarLen([[maybe_unused]] uint32_t value) {
     std::vector<uint8_t> out;
     do {
         uint8_t byte = static_cast<uint8_t>(value & 0x7F);
@@ -183,7 +183,7 @@ static std::vector<uint8_t> buildUnsubscribe(
 
 static std::vector<uint8_t> buildPingReq()    { return {0xC0, 0x00}; }
 static std::vector<uint8_t> buildDisconnect() { return {0xE0, 0x00}; }
-static std::vector<uint8_t> buildPubAck(uint16_t id) {
+static std::vector<uint8_t> buildPubAck([[maybe_unused]] uint16_t id) {
     return {0x40, 0x02,
             static_cast<uint8_t>(id >> 8),
             static_cast<uint8_t>(id & 0xFF)};
@@ -883,7 +883,7 @@ void MqttCDCTransport::setTopicPrefix(const std::string& prefix) {
     topic_prefix_ = prefix;
 }
 
-void MqttCDCTransport::setQos(uint8_t qos) {
+void MqttCDCTransport::setQos([[maybe_unused]] uint8_t qos) {
     qos_ = qos;
 }
 

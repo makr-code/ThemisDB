@@ -1019,7 +1019,7 @@ bool GpuCompressionManager::init_gpu()
     }
 }
 
-bool GpuCompressionManager::should_use_gpu(size_t data_size) const
+bool GpuCompressionManager::should_use_gpu([[maybe_unused]] size_t data_size) const
 {
     if (force_cpu_) return false;
     if (!impl_ || !impl_->is_available()) return false;

@@ -128,7 +128,7 @@ VectorizedQueryPlan& VectorizedQueryPlan::addSort(
     return *this;
 }
 
-VectorizedQueryPlan& VectorizedQueryPlan::setLimit(size_t n) {
+VectorizedQueryPlan& VectorizedQueryPlan::setLimit([[maybe_unused]] size_t n) {
     limit_ = n;
     return *this;
 }

@@ -169,7 +169,7 @@ size_t TemporalSnapshotManager::garbageCollectByAge(Timestamp max_age_ms) {
     return to_remove.size();
 }
 
-size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
+size_t TemporalSnapshotManager::garbageCollectByCount([[maybe_unused]] size_t max_snapshots) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (snapshots_.size() <= max_snapshots) {

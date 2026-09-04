@@ -116,7 +116,7 @@ ContentToolboxBridge& ContentToolboxBridge::operator=(ContentToolboxBridge&&) no
 // Helper: Record bridge operation latency
 // ─────────────────────────────────────────────────────────────────────────────
 
-void ContentToolboxBridge::recordLatency(uint64_t latency_ms) noexcept {
+void ContentToolboxBridge::recordLatency([[maybe_unused]] uint64_t latency_ms) noexcept {
     impl_->bridge_operations_total_.fetch_add(1, std::memory_order_relaxed);
     
     // Convert milliseconds to microseconds for histogram

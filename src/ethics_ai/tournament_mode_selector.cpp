@@ -117,7 +117,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
                   // (|wa-wb| > eps → wa > wb, else a < b) can violate transitivity when
                   // three values span the boundary, causing std::sort UB.
                   const float epsilon = 1e-6f;
-                  const auto bucket = [epsilon](float w) {
+                  const auto bucket = [epsilon]([[maybe_unused]] float w) {
                       return static_cast<long long>(std::floor(w / epsilon));
                   };
                   const long long ba = bucket(wa);

@@ -25,7 +25,7 @@ namespace analytics {
 // In production, this would be a properly designed connection pool
 class ConnectionPool {
 public:
-    explicit ConnectionPool(int size = 10) : available_(size), total_(size) {}
+    explicit ConnectionPool([[maybe_unused]] int size = 10) : available_(size), total_(size) {}
 
     int acquire() {
         if (available_ > 0) {
@@ -36,7 +36,7 @@ public:
         return -1;
     }
 
-    void release(int connection_id) noexcept {
+    void release([[maybe_unused]] int connection_id) noexcept {
         if (connection_id > 0) {
             available_++;
             used_--;
@@ -345,7 +345,7 @@ void ResultAggregator::ResetStats() noexcept {
 // Private helper methods for transaction management
 // ========================================================================
 
-void ResultAggregator::BeginTransaction(int connection_id) {
+void ResultAggregator::BeginTransaction([[maybe_unused]] int connection_id) {
     if (connection_id <= 0) {
         throw std::invalid_argument("Invalid connection ID");
     }
@@ -353,7 +353,7 @@ void ResultAggregator::BeginTransaction(int connection_id) {
     // In production, would execute BEGIN statement
 }
 
-void ResultAggregator::CommitTransaction(int connection_id) {
+void ResultAggregator::CommitTransaction([[maybe_unused]] int connection_id) {
     if (connection_id <= 0) {
         throw std::invalid_argument("Invalid connection ID");
     }
@@ -361,7 +361,7 @@ void ResultAggregator::CommitTransaction(int connection_id) {
     // In production, would execute COMMIT statement
 }
 
-void ResultAggregator::RollbackTransaction(int connection_id) noexcept {
+void ResultAggregator::RollbackTransaction([[maybe_unused]] int connection_id) noexcept {
     if (connection_id <= 0) {
         return;  // Invalid connection, nothing to rollback
     }

@@ -630,7 +630,7 @@ void GossipConfigManager::performAntiEntropyScan() {
     }
 }
 
-std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
+std::vector<std::string> GossipConfigManager::selectRandomPeers([[maybe_unused]] size_t count) {
     std::vector<std::string> selected;
     
     if (!topology_) {

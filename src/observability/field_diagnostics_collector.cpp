@@ -271,7 +271,7 @@ size_t FieldDiagnosticsCollector::getBufferSize() const {
  * @param enabled `true` to enable collection; `false` to suppress all
  *                incoming events (they will be silently discarded).
  */
-void FieldDiagnosticsCollector::setEnabled(bool enabled) {
+void FieldDiagnosticsCollector::setEnabled([[maybe_unused]] bool enabled) {
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_.enabled = enabled;
 }

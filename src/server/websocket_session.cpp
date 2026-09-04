@@ -617,7 +617,7 @@ void WebSocketSession::unsubscribeFromCDC() {
     }
 }
 
-void WebSocketSession::updateCDCLastSentSequence(uint64_t sequence) {
+void WebSocketSession::updateCDCLastSentSequence([[maybe_unused]] uint64_t sequence) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     cdc_last_sent_sequence_ = sequence;
 }

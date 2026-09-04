@@ -1821,7 +1821,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto looksLikeDegrees = [](double lon, double lat) { return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0; };
 		if (looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
 			constexpr double kEarthRadiusKm = 6371.0;
-			auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
+			auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
 			double lat1 = deg2rad(y1), lon1 = deg2rad(x1); double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
 			double dlat = lat2 - lat1; double dlon = lon2 - lon1;
 			double a = std::sin(dlat/2.0)*std::sin(dlat/2.0) + std::cos(lat1)*std::cos(lat2)*std::sin(dlon/2.0)*std::sin(dlon/2.0);

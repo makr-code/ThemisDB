@@ -87,7 +87,7 @@ void PerQueryCostModel::reset() noexcept {
 // -----------------------------------------------------------------
 
 std::vector<QueryCostRecord>
-PerQueryCostModel::getRecentRecords(size_t limit) const {
+PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {

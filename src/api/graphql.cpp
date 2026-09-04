@@ -73,7 +73,7 @@ bool Parser::checkQuerySize() {
     return true;
 }
 
-bool Parser::checkDepthLimit(size_t depth) {
+bool Parser::checkDepthLimit([[maybe_unused]] size_t depth) {
     if (depth > max_depth_reached_) {
         max_depth_reached_ = depth;
     }
@@ -233,7 +233,7 @@ themis::Result<Operation> Parser::parseOperation() {
     return themis::Ok(std::move(op));
 }
 
-themis::Result<Field> Parser::parseField(size_t depth) {
+themis::Result<Field> Parser::parseField([[maybe_unused]] size_t depth) {
     Field field;
     incrementFieldCount();
     incrementASTNodeCount();
@@ -367,7 +367,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
         return themis::Ok(Value::string(std::move(*strResult)));
     }
 
-    // Number (int or float)
+    // Number ([[maybe_unused]] int or float)
     if (peek('-') || std::isdigit(source_[pos_])) {
         size_t start = pos_;
         bool isFloat = false;

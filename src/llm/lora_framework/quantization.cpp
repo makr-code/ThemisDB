@@ -122,7 +122,7 @@ void setDebugLogFn(DebugLogFn fn) {
     g_debug_log_fn = std::move(fn);
 }
 
-uint8_t find_nf4_bin(float value) {
+uint8_t find_nf4_bin([[maybe_unused]] float value) {
     // Clamp value to [-1, 1] range
     value = std::max(-1.0f, std::min(1.0f, value));
     

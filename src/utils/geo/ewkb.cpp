@@ -99,7 +99,7 @@ static std::string extractWktBody(const std::string& wkt) {
 }
 
 // MBR expand by distance (approximate for lat/lon)
-MBR MBR::expand(double distance_meters) const {
+MBR MBR::expand([[maybe_unused]] double distance_meters) const {
     double delta_deg = distance_meters / METERS_PER_DEGREE_APPROX;
     return MBR(
         minx - delta_deg,
@@ -255,7 +255,7 @@ uint32_t EWKBParser::readUInt32(const uint8_t*& ptr, bool is_little_endian) {
     if (is_little_endian == true) {
         std::memcpy(&val, ptr, sizeof(uint32_t));
     } else {
-        uint8_t temp[sizeof(uint32_t)];
+        uint8_t temp[sizeof([[maybe_unused]] uint32_t)];
         for (size_t i = 0; i < sizeof(uint32_t); ++i) {
             temp[i] = ptr[sizeof(uint32_t) - 1 - i];
         }
@@ -280,7 +280,7 @@ void EWKBParser::writeDouble(std::vector<uint8_t>& buf, double val, bool is_litt
 void EWKBParser::writeUInt32(std::vector<uint8_t>& buf, uint32_t val, bool is_little_endian) {
     if (is_little_endian) {
         const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&val);
-        buf.insert(buf.end(), bytes, bytes + sizeof(uint32_t));
+        buf.insert([[maybe_unused]] buf.end(), bytes, bytes + sizeof(uint32_t));
     } else {
         const uint8_t* bytes = reinterpret_cast<const uint8_t*>(&val);
         for (int i = sizeof(uint32_t) - 1; i >= 0; --i) {

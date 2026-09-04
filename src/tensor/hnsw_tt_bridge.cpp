@@ -67,7 +67,7 @@ struct HnswTTBridge::HnswLayer {
 
     /// Lazy initialisation — called on the first insert() once dim is known.
     /// Exception-safe: cleans up space_ on HierarchicalNSW ctor failure.
-    void ensureInit(size_t dim) {
+    void ensureInit([[maybe_unused]] size_t dim) {
         if (appr_) return;
         auto* sp = new hnswlib::L2Space(dim);
         try {

@@ -20,7 +20,7 @@
 namespace themis {
 namespace utils {
 
-static uint64_t mix64(uint64_t x) {
+static uint64_t mix64([[maybe_unused]] uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;

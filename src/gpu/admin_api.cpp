@@ -212,7 +212,7 @@ std::string GPUAdminAPI::getDevicesJson() const {
 // POST /admin/gpu/simulate
 // ============================================================================
 
-std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
+std::string GPUAdminAPI::simulateJson([[maybe_unused]] uint64_t bytes) const {
     try {
         auto &mgr  = GPUMemoryManager::GetInstance();
         auto stats = mgr.GetStats();

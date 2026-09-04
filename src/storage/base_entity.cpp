@@ -487,7 +487,7 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     // DESIGN LIMITATION: BaseEntity::Value only supports int64_t, not uint64_t
                     // This is a schema design constraint - if you need full uint64 range,
                     // consider using binary blob or string representation
-                    if (uint_val > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+                    if ([[maybe_unused]] uint_val > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
                         THEMIS_ERROR("UINT64 value {} exceeds INT64_MAX for field '{}'. "
                                     "Value will be clamped. Consider using binary blob for full uint64 range.",
                                     uint_val, field_name);

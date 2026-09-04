@@ -116,7 +116,7 @@ void PromptEngineeringMetrics::recordABTestDuration(
     // Could track per-test durations if needed
 }
 
-void PromptEngineeringMetrics::recordActiveABTests(int count) {
+void PromptEngineeringMetrics::recordActiveABTests([[maybe_unused]] int count) {
     if (!config_.enabled) return;
     active_ab_tests_.store(count, std::memory_order_relaxed);
 }
@@ -316,7 +316,7 @@ void PromptEngineeringMetrics::recordBackgroundWorkerCycle() {
     background_worker_cycles_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void PromptEngineeringMetrics::recordBackgroundWorkerDuration(double duration_ms) {
+void PromptEngineeringMetrics::recordBackgroundWorkerDuration([[maybe_unused]] double duration_ms) {
     if (!config_.enabled) return;
     background_worker_total_duration_ms_.fetch_add(duration_ms, std::memory_order_relaxed);
 }

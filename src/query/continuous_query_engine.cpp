@@ -36,7 +36,7 @@ namespace query {
 // ResultQueue
 // ──────────────────────────────────────────────────────────────────────────────
 
-ResultQueue::ResultQueue(size_t capacity) : capacity_(capacity) {}
+ResultQueue::ResultQueue([[maybe_unused]] size_t capacity) : capacity_(capacity) {}
 
 void ResultQueue::push(CQResult item) {
     std::lock_guard<std::mutex> lock(mutex_);

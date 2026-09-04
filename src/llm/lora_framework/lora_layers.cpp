@@ -76,7 +76,7 @@ Tensor Tensor::operator-(const Tensor& other) const {
     return result;
 }
 
-Tensor Tensor::operator*(float scalar) const {
+Tensor Tensor::operator*([[maybe_unused]] float scalar) const {
     Tensor result(shape_);
     for (size_t i = 0; i < data_.size(); ++i) {
         result.data_[i] = data_[i] * scalar;
@@ -134,7 +134,7 @@ Tensor Tensor::transpose() const {
     return result;
 }
 
-void Tensor::fill(float value) {
+void Tensor::fill([[maybe_unused]] float value) {
     std::fill(data_.begin(), data_.end(), value);
 }
 

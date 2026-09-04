@@ -389,7 +389,7 @@ void VecKnnInsertPipeline::setThreadCount(std::size_t n) {
     config_.num_threads = (n > 0) ? n : std::max(1u, std::thread::hardware_concurrency());
 }
 
-void VecKnnInsertPipeline::enableDistanceCache(bool enable) {
+void VecKnnInsertPipeline::enableDistanceCache([[maybe_unused]] bool enable) {
     config_.enable_cache = enable;
     if (!enable) {
         cache_->clear();

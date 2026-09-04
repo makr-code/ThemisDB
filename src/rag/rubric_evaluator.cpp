@@ -375,7 +375,7 @@ bool RubricEvaluator::validateRubric(const EvaluationRubric& rubric) {
     return true;
 }
 
-double RubricEvaluator::normalizeScore(int level_score) {
+double RubricEvaluator::normalizeScore([[maybe_unused]] int level_score) {
     // Convert 1-5 to 0-1 scale
     return (level_score - 1.0) / 4.0;
 }

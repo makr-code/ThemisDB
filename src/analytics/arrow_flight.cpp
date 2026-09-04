@@ -284,7 +284,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const Rec
                 fields.push_back(arrow::field(col.schema.name, arrow::int64(), col.schema.nullable));
                 const int64_t *raw = tb.getInt64Data(ci);
                 if (raw && !col.null_bitmap.empty()
-                    && std::none_of(col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
+                    && std::none_of([[maybe_unused]] col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
                     // All-valid: zero-copy wrap
                     auto buf = arrow::Buffer::Wrap(raw, static_cast<int64_t>(tb.rowCount()));
                     arrays.push_back(std::make_shared<arrow::Int64Array>(static_cast<int64_t>(tb.rowCount()), buf));
@@ -307,7 +307,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const Rec
                 fields.push_back(arrow::field(col.schema.name, arrow::float64(), col.schema.nullable));
                 const double *raw = tb.getDoubleData(ci);
                 if (raw && !col.null_bitmap.empty()
-                    && std::none_of(col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
+                    && std::none_of([[maybe_unused]] col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
                     // All-valid: zero-copy wrap
                     auto buf = arrow::Buffer::Wrap(raw, static_cast<int64_t>(tb.rowCount()));
                     arrays.push_back(std::make_shared<arrow::DoubleArray>(static_cast<int64_t>(tb.rowCount()), buf));

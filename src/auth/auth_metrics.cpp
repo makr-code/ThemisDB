@@ -202,7 +202,7 @@ void AuthMetrics::recordJWKSFetch(double duration_ms, bool success) {
 #endif
 }
 
-void AuthMetrics::setJWKSCacheSize(int num_keys) {
+void AuthMetrics::setJWKSCacheSize([[maybe_unused]] int num_keys) {
     (void)num_keys;
 #ifdef THEMIS_HAS_PROMETHEUS
     jwks_cache_size_.Add({}).Set(static_cast<double>(num_keys));
@@ -237,14 +237,14 @@ void AuthMetrics::recordAccountUnlock(const std::string& user_id) {
     utils::Logger::info("Account unlocked: " + user_id);
 }
 
-void AuthMetrics::setLockedAccountCount(int count) {
+void AuthMetrics::setLockedAccountCount([[maybe_unused]] int count) {
     (void)count;
 #ifdef THEMIS_HAS_PROMETHEUS
     locked_accounts_current_.Add({}).Set(static_cast<double>(count));
 #endif
 }
 
-void AuthMetrics::recordError(int error_code) {
+void AuthMetrics::recordError([[maybe_unused]] int error_code) {
     (void)error_code;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
@@ -274,7 +274,7 @@ void AuthMetrics::recordTokenValidation(AuthMethod method, double duration_ms) {
 #endif
 }
 
-void AuthMetrics::recordRevokedTokenCheck(bool was_revoked) {
+void AuthMetrics::recordRevokedTokenCheck([[maybe_unused]] bool was_revoked) {
     (void)was_revoked;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
@@ -283,7 +283,7 @@ void AuthMetrics::recordRevokedTokenCheck(bool was_revoked) {
 #endif
 }
 
-void AuthMetrics::recordTOTPDrift(int step_offset) {
+void AuthMetrics::recordTOTPDrift([[maybe_unused]] int step_offset) {
     (void)step_offset;
     totp_drift_count_.fetch_add(1, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -338,7 +338,7 @@ double AuthMetrics::getSuccessRate() const {
     return static_cast<double>(successes) / static_cast<double>(total);
 }
 
-void AuthMetrics::setLDAPPoolSize(int count) {
+void AuthMetrics::setLDAPPoolSize([[maybe_unused]] int count) {
     ldap_pool_size_count_.store(count, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
     static auto& gauge = ldap_pool_size_.Add({});
@@ -346,7 +346,7 @@ void AuthMetrics::setLDAPPoolSize(int count) {
 #endif
 }
 
-void AuthMetrics::setLDAPIdleConnections(int count) {
+void AuthMetrics::setLDAPIdleConnections([[maybe_unused]] int count) {
     ldap_idle_connections_count_.store(count, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
     static auto& gauge = ldap_idle_connections_.Add({});
@@ -354,7 +354,7 @@ void AuthMetrics::setLDAPIdleConnections(int count) {
 #endif
 }
 
-void AuthMetrics::setLDAPActiveConnections(int count) {
+void AuthMetrics::setLDAPActiveConnections([[maybe_unused]] int count) {
     ldap_active_connections_count_.store(count, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
     static auto& gauge = ldap_active_connections_.Add({});

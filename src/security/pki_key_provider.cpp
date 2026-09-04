@@ -204,11 +204,11 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     return kek;
 }
 
-std::string PKIKeyProvider::dekDbKey(uint32_t version) const {
+std::string PKIKeyProvider::dekDbKey([[maybe_unused]] uint32_t version) const {
     return "dek:encrypted:v" + std::to_string(version);
 }
 
-std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
+std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t version) {
     // Check cache
     {
         std::lock_guard<std::mutex> lock(mu_);

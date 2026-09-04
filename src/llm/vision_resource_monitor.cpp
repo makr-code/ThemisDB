@@ -24,21 +24,21 @@ namespace themis::llm {
 // VisionResourceUsage Implementation
 // =====================================================
 
-double VisionResourceUsage::getMemoryUtilization(size_t limit_mb) const {
+double VisionResourceUsage::getMemoryUtilization([[maybe_unused]] size_t limit_mb) const {
     if (limit_mb == 0) {
         return 0.0;
     }
     return (static_cast<double>(current_memory_mb) / static_cast<double>(limit_mb)) * 100.0;
 }
 
-double VisionResourceUsage::getVRAMUtilization(size_t limit_mb) const {
+double VisionResourceUsage::getVRAMUtilization([[maybe_unused]] size_t limit_mb) const {
     if (limit_mb == 0) {
         return 0.0;
     }
     return (static_cast<double>(current_vram_mb) / static_cast<double>(limit_mb)) * 100.0;
 }
 
-double VisionResourceUsage::getRequestUtilization(size_t limit) const {
+double VisionResourceUsage::getRequestUtilization([[maybe_unused]] size_t limit) const {
     if (limit == 0) {
         return 0.0;
     }
@@ -459,13 +459,13 @@ void VisionResourceMonitor::rejectRequest(const std::string& user_id, const std:
     logAuditEvent("request_rejected", user_id, "", reason, false);
 }
 
-void VisionResourceMonitor::updateMemoryUsage(size_t memory_mb) {
+void VisionResourceMonitor::updateMemoryUsage([[maybe_unused]] size_t memory_mb) {
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     usage_.current_memory_mb = memory_mb;
     usage_.peak_memory_mb = std::max(usage_.peak_memory_mb, memory_mb);
 }
 
-void VisionResourceMonitor::updateVRAMUsage(size_t vram_mb) {
+void VisionResourceMonitor::updateVRAMUsage([[maybe_unused]] size_t vram_mb) {
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     usage_.current_vram_mb = vram_mb;
     usage_.peak_vram_mb = std::max(usage_.peak_vram_mb, vram_mb);
@@ -606,7 +606,7 @@ std::string VisionResourceMonitor::exportMetrics() const {
     return ss.str();
 }
 
-std::vector<VisionResourceMonitor::AuditEntry> VisionResourceMonitor::getAuditLog(size_t max_entries) const {
+std::vector<VisionResourceMonitor::AuditEntry> VisionResourceMonitor::getAuditLog([[maybe_unused]] size_t max_entries) const {
     std::scoped_lock<std::mutex> lock(audit_mutex_);
     
     std::vector<AuditEntry> entries;
