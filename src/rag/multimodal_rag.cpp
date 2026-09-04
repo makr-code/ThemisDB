@@ -50,11 +50,11 @@ std::vector<std::pair<std::string, double>> fuseRRF(
     std::unordered_map<std::string, double> scores;
     std::unordered_map<std::string, std::string> best_modality;
 
-    for (size_t li = 0; li <static_cast<int>(ranked_lists.size()); ++li) {
+    for (size_t li = 0; li < ranked_lists.size(); ++li) {
         const auto& list   = ranked_lists[li];
-        const double w     = (li <static_cast<int>(weights.size())) ? weights[li] : 1.0;
+        const double w     = (li < weights.size()) ? weights[li] : 1.0;
 
-        for (size_t rank = 0; rank <static_cast<int>(list.size()); ++rank) {
+        for (size_t rank = 0; rank < list.size(); ++rank) {
             const auto& [doc_id, raw_score] = list[rank];
             scores[doc_id] += w / (rrf_k + static_cast<double>(rank + 1));
         }
@@ -165,7 +165,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
 
         THEMIS_DEBUG("MultiModalRAG text retrieval: {} docs",static_cast<int>(text_docs.size()));
 
-        for (size_t i = 0; i <static_cast<int>(text_docs.size()); ++i) {
+        for (size_t i = 0; i < text_docs.size(); ++i) {
             const auto& doc = text_docs[i];
             text_ranked.emplace_back(doc.id, doc.similarity_score);
             text_doc_map[doc.id] = doc;
@@ -316,7 +316,7 @@ std::string MultiModalRAG::buildContext(
     // Text passages
     if (!text_sources.empty()) {
         oss << "Text passages:\n";
-        for (size_t i = 0; i <static_cast<int>(text_sources.size()); ++i) {
+        for (size_t i = 0; i < text_sources.size(); ++i) {
             oss << "[" << (i + 1) << "] (score="
                 << std::fixed << std::setprecision(2)
                 << text_sources[i]->relevance_score << ") "
@@ -328,7 +328,7 @@ std::string MultiModalRAG::buildContext(
     // Table data
     if (!table_sources.empty()) {
         oss << "Tables:\n";
-        for (size_t i = 0; i <static_cast<int>(table_sources.size()); ++i) {
+        for (size_t i = 0; i < table_sources.size(); ++i) {
             oss << "[" << (i + 1) << "] (score="
                 << std::fixed << std::setprecision(2)
                 << table_sources[i]->relevance_score << ")\n"
@@ -340,7 +340,7 @@ std::string MultiModalRAG::buildContext(
     // Image captions
     if (!image_sources.empty()) {
         oss << "Image captions:\n";
-        for (size_t i = 0; i <static_cast<int>(image_sources.size()); ++i) {
+        for (size_t i = 0; i < image_sources.size(); ++i) {
             oss << "[" << (i + 1) << "] (score="
                 << std::fixed << std::setprecision(2)
                 << image_sources[i]->relevance_score << ") ";

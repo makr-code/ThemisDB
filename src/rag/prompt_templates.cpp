@@ -362,7 +362,7 @@ std::string PromptTemplateManager::formatFewShotExamples(
     std::ostringstream stream = {};
     stream << "**Few-Shot Examples:**\n\n";
     
-    for (size_t i = 0; i <static_cast<int>(examples.size()); ++i) {
+    for (size_t i = 0; i < examples.size(); ++i) {
         const auto& ex = examples[i];
         stream << "Example " << (i + 1) << ":\n";
         stream << "Query: " << ex.query << "\n";

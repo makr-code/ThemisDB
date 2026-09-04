@@ -582,7 +582,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
         for (const auto &measure : query.measures) {
             std::vector<double> measureValues = {};
 
-            for (size_t i = valueIdx; i <static_cast<int>(values.size()); i += query.measures.size()) {
+            for (size_t i = valueIdx; i < values.size(); i += query.measures.size()) {
                 measureValues.push_back(values[i]);
             }
 
@@ -881,7 +881,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
         result.values.resize(data.size());
 
         // Simple implementation without partitioning for now
-        for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
+        for (size_t i = 0; i < data.size(); ++i) {
             // Determine window bounds
             size_t start = 0;
             size_t end = data.size();
@@ -1044,7 +1044,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             std::vector<Row> gpu_rows = {};
 
             gpu_rows.reserve(values.size());
-            for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
+            for (size_t i = 0; i < values.size(); ++i) {
                 Row row;
                 row.id = static_cast<uint64_t>(i);
                 row.data.resize(sizeof(double));
@@ -1764,7 +1764,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
         // Pre-build unordered_sets for In/NotIn filters so per-row membership
         // checks are O(1) instead of O(m) (avoids O(n*m) total).
         std::vector<std::unordered_set<std::string>> filter_in_sets(filters.size());
-        for (size_t fi = 0; fi <static_cast<int>(filters.size()); ++fi) {
+        for (size_t fi = 0; fi < filters.size(); ++fi) {
             if (filters[fi].op == Filter::Operator::In || filters[fi].op == Filter::Operator::NotIn) {
                 if (auto *vec = std::get_if<std::vector<std::string>>(&filters[fi].value)) {
                     filter_in_sets[fi].insert(vec->begin(), vec->end());
@@ -1828,7 +1828,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
         };
 
         auto passesFilters = [&]([[maybe_unused]] const OLAPResult::Row &row) -> bool {
-            for (size_t fi = 0; fi <static_cast<int>(filters.size()); ++fi) {
+            for (size_t fi = 0; fi < filters.size(); ++fi) {
                 const auto &f = filters[fi];
                 auto it      = row.values.find(f.field);
                 bool is_null = (it == row.values.end()) || std::holds_alternative<std::nullptr_t>(it->second);

@@ -196,7 +196,7 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
 static std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (std::size_t i = 0; i < text.size(); ++i) {
         if (text[i] == '.' &&
             (i + 1 >= text.size() || text[i + 1] == ' ' || text[i + 1] == '\n'))
         {
@@ -205,7 +205,7 @@ static std::vector<std::string> splitSentences(const std::string& text) {
               segments.push_back(seg);
             }
             start = i + 1;
-            while (start <static_cast<int>(text.size()) && text[start] == ' ') {
+            while (start < text.size() && text[start] == ' ') {
               ++start;
             }
         }
@@ -352,7 +352,7 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
     }
 
     // Bigram features (consecutive word pairs)
-    for (std::size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
+    for (std::size_t i = 0; i + 1 < tokens.size(); ++i) {
         const std::string bigram = tokens[i] + kBigramDelimiter + tokens[i + 1];
         scatterFeature(vec, bigram, 0.5f);
     }
@@ -413,7 +413,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
 
     const std::size_t hilbert_side = roundUpPowerOfTwo(std::max(grid.rows, grid.cols));
     std::vector<float> hilbert_ordered(hilbert_side * hilbert_side, 0.0f);
-    for (std::size_t d = 0; d <static_cast<int>(hilbert_ordered.size()); ++d) {
+    for (std::size_t d = 0; d < hilbert_ordered.size(); ++d) {
         const auto [x, y] = hilbertIndexToXY(hilbert_side, d);
         if (y < grid.rows && x < grid.cols) {
             hilbert_ordered[d] = normalised[y * grid.cols + x];

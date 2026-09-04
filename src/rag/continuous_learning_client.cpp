@@ -466,9 +466,9 @@ std::string generateRecommendation(const QCResult& result) {
     }
     
     std::string combined = {};
-    for (size_t i = 0; i <static_cast<int>(recommendations.size()); i++) {
+    for (size_t i = 0; i < recommendations.size(); i++) {
         combined += recommendations[i];
-        if (i < static_cast<int>(recommendations.size()) - 1) {
+        if (i < recommendations.size() - 1) {
             combined += "; ";
         }
     }

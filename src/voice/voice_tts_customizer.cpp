@@ -336,7 +336,7 @@ std::string sanitizeTagAttributes(
 
     while (static_cast<size_t>(ap) <static_cast<int>(attrs_str.size())) {
         // Skip leading whitespace
-        while (ap <static_cast<int>(attrs_str.size()) && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
           ++ap;
         }
         if (ap >= static_cast<int>(attrs_str.size())) {
@@ -345,7 +345,7 @@ std::string sanitizeTagAttributes(
 
         // Read attribute name
         size_t ns = ap;
-        while (ap <static_cast<int>(attrs_str.size()) && attrs_str[ap] != '=' &&
+        while (ap < attrs_str.size() && attrs_str[ap] != '=' &&
                !std::isspace(static_cast<unsigned char>(attrs_str[ap])) &&
                attrs_str[ap] != '/' && attrs_str[ap] != '>')
         {
@@ -358,7 +358,7 @@ std::string sanitizeTagAttributes(
                        attr_name_lower.begin(), ::tolower);
 
         // Expect '='
-        while (ap <static_cast<int>(attrs_str.size()) && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
           ++ap;
         }
         if (ap >= attrs_str.size() || attrs_str[ap] != '=') {
@@ -369,7 +369,7 @@ std::string sanitizeTagAttributes(
         ++ap; // skip '='
 
         // Skip whitespace before quote
-        while (ap <static_cast<int>(attrs_str.size()) && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+        while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
           ++ap;
         }
 
@@ -377,14 +377,14 @@ std::string sanitizeTagAttributes(
         if (ap >= attrs_str.size() || (attrs_str[ap] != '"' && attrs_str[ap] != '\'')) {
             injection_found = true;
             // Skip unquoted value token
-            while (ap <static_cast<int>(attrs_str.size()) && !std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
+            while (ap < attrs_str.size() && !std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
               ++ap;
             }
             continue;
         }
         char quote = attrs_str[ap++];
         size_t vs = ap;
-        while (ap <static_cast<int>(attrs_str.size()) && attrs_str[ap] != quote) {
+        while (ap < attrs_str.size() && attrs_str[ap] != quote) {
           ++ap;
         }
         std::string attr_value = attrs_str.substr(vs, ap - vs);

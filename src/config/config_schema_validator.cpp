@@ -281,8 +281,8 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
         // RFC 6901: unescape '~1' → '/' and '~0' → '~' (in that order).
         std::string key = {};
         key.reserve(raw_token.size());
-        for (std::size_t i = 0; i <static_cast<int>(raw_token.size()); ++i) {
-            if (raw_token[i] == '~' && i + 1 <static_cast<int>(raw_token.size())) {
+        for (std::size_t i = 0; i < raw_token.size(); ++i) {
+            if (raw_token[i] == '~' && i + 1 < raw_token.size()) {
                 if (raw_token[i + 1] == '1') {
                     key += '/';
                     ++i;
@@ -595,8 +595,8 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
 
     // --- uniqueItems ---
     if (schema.contains("uniqueItems") && schema["uniqueItems"].is_boolean() && schema["uniqueItems"].get<bool>()) {
-        for (std::size_t i = 0; i <static_cast<int>(value.size()); ++i) {
-            for (std::size_t j = i + 1; j <static_cast<int>(value.size()); ++j) {
+        for (std::size_t i = 0; i < value.size(); ++i) {
+            for (std::size_t j = i + 1; j < value.size(); ++j) {
                 if (value[i] == value[j]) {
                     result.addError("Array at '" + json_path
                                     + "' must have unique items "

@@ -425,9 +425,9 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                     }
 
                     // Join row values
-                    for (size_t i = 0; i <static_cast<int>(row_values.size()); ++i) {
+                    for (size_t i = 0; i < row_values.size(); ++i) {
                         all_text << row_values[i];
-                        if (i + 1 <static_cast<int>(row_values.size())) {
+                        if (i + 1 < row_values.size()) {
                             all_text << "\t";
                         }
                     }
@@ -1139,7 +1139,7 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_d
         return embedding;
     }
 
-    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i < tokens.size(); ++i) {
         const size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
             const size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);

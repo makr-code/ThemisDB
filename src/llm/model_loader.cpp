@@ -949,7 +949,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         spdlog::error("Failed to load model with both custom and native loaders");
         std::ostringstream attempts = {};
-        for (size_t i = 0; i <static_cast<int>(attempted_gpu_layers.size()); ++i) {
+        for (size_t i = 0; i < attempted_gpu_layers.size(); ++i) {
             if (i > 0) {
                 attempts << ',';
             }

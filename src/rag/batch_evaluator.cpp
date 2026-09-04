@@ -36,7 +36,7 @@ bool iequals(const std::string& a, const std::string& b) {
     if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         if (std::tolower(static_cast<unsigned char>(a[i])) !=
             std::tolower(static_cast<unsigned char>(b[i]))) {
             return false;
@@ -485,7 +485,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     // One shared detector instance for inline scanning of un-screened documents.
     security::PromptInjectionDetector inline_detector;
 
-    for (size_t i = 0; i <static_cast<int>(results.size())  && static_cast<size_t>(i) <static_cast<int>(inputs.size()); ++i) {
+    for (size_t i = 0; i < results.size()  && static_cast<size_t>(i) <static_cast<int>(inputs.size()); ++i) {
         const auto& input = inputs[i];
         const auto& result = results[i];
 

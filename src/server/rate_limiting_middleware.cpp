@@ -163,7 +163,7 @@ RateLimitingMiddleware::check(const std::string& client_key,
         refill_rate  = config_.default_refill_rate;
     }
 
-    PerClientRateLimiter* limiter = (override_idx <static_cast<int>(override_limiters_.size()))
+    PerClientRateLimiter* limiter = (override_idx < override_limiters_.size())
                                     ? override_limiters_[override_idx].get()
                                     : default_limiter_.get();
 

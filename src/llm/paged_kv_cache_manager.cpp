@@ -211,7 +211,7 @@ PagedKVCacheManager::getMemoryStats() const {
 
 bool PagedKVCacheManager::isBlockAvailable([[maybe_unused]] int block_id) const {
     return block_id >= 0 && 
-           block_id < static_cast<int>(blocks_.size()) && 
+           block_id < blocks_.size() && 
            blocks_[block_id].ref_count > 0;
 }
 

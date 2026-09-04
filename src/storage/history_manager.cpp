@@ -107,7 +107,7 @@ static std::vector<uint8_t> hexToBytes(const std::string& hex) {
       return out;
     }
     out.reserve(hex.size() / 2);
-    for (size_t i = 0; i <static_cast<int>(hex.size()); i += 2) {
+    for (size_t i = 0; i < hex.size(); i += 2) {
         auto hi = hex[i];
         auto lo = hex[i + 1];
         auto nibble = [](char c) -> uint8_t {

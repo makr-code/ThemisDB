@@ -122,7 +122,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t
                 // corrupted samples in the training data.
                 auto shapeStr = [](const std::vector<size_t>& sh) {
                     std::string s = {};
-                    for (size_t d = 0; d <static_cast<int>(sh.size()); ++d)
+                    for (size_t d = 0; d < sh.size(); ++d)
                         s += (d ? "×" : "") + std::to_string(sh[d]);
                     return s;
                 };

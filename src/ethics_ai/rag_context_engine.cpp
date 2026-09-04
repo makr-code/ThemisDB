@@ -106,7 +106,7 @@ std::variant<std::vector<std::string>, Status> RAGContextEngine::findSimilarDile
     std::vector<std::string> results = {};
 
     results.reserve(std::min(scored.size(), limit));
-    for (size_t i = 0; i <static_cast<int>(scored.size()) && i < limit; ++i) {
+    for (size_t i = 0; i < scored.size() && i < limit; ++i) {
         results.push_back(scored[i].second);
     }
     return results;
@@ -185,7 +185,7 @@ RAGContextEngine::vectorSemanticSearch(const std::vector<float> &query_embedding
                     continue;
                 }
                 double dot = 0.0, qnorm = 0.0, anorm = 0.0;
-                for (size_t i = 0; i <static_cast<int>(query_embedding.size()); ++i) {
+                for (size_t i = 0; i < query_embedding.size(); ++i) {
                     dot += static_cast<double>(query_embedding[i]) * arg_emb[i];
                     qnorm += static_cast<double>(query_embedding[i]) * query_embedding[i];
                     anorm += static_cast<double>(arg_emb[i]) * arg_emb[i];
@@ -201,7 +201,7 @@ RAGContextEngine::vectorSemanticSearch(const std::vector<float> &query_embedding
 
     std::vector<std::pair<std::string, double>> results;
     results.reserve(std::min(scored.size(), limit));
-    for (size_t i = 0; i <static_cast<int>(scored.size()) && i < limit; ++i) {
+    for (size_t i = 0; i < scored.size() && i < limit; ++i) {
         results.emplace_back(scored[i].second, scored[i].first);
     }
     return results;

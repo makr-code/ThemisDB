@@ -384,7 +384,7 @@ std::string ArchiveProcessor::sanitizePath(const std::string &path) {
         components.push_back(component);
     }
 
-    for (size_t i = 0; i <static_cast<int>(components.size()); ++i) {
+    for (size_t i = 0; i < components.size(); ++i) {
         if (i > 0) {
             result += "/";
         }

@@ -711,7 +711,7 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     results.reserve(images.size());
 
     if (!snap->ready) {
-        for (size_t i = 0; i <static_cast<int>(images.size()); ++i) {
+        for (size_t i = 0; i < images.size(); ++i) {
             EmbeddingResult result;
             result.success = false;
             result.error_message = "ONNXClipPlugin not initialized";

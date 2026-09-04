@@ -4448,7 +4448,7 @@ namespace {
                 }
             } else {
                 // /v1/queries/continuous/:name/results
-                if (slash_cq + 1 <static_cast<int>(rest_cq.size())) {
+                if (slash_cq + 1 < rest_cq.size()) {
                     const std::string suffix = rest_cq.substr(slash_cq + 1);
                     if (method == http::verb::get && suffix == "results")
                         return Route::ContinuousQueryStreamSseGet;
@@ -12222,13 +12222,13 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
 
             // Text contributions
-            for (size_t i = 0; i <static_cast<int>(textResults.size()); ++i) {
+            for (size_t i = 0; i < textResults.size(); ++i) {
                 auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
-            for (size_t i = 0; i <static_cast<int>(vectorResults.size()); ++i) {
+            for (size_t i = 0; i < vectorResults.size(); ++i) {
                 auto [it, inserted] = scores.try_emplace(vectorResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
             }
@@ -15365,7 +15365,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
             auto dash = rv.find('-');
             if (dash != std::string::npos) {
                 try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
-                if (dash + 1 <static_cast<int>(rv.size())) {
+                if (dash + 1 < rv.size()) {
                     try {
                         uint64_t end_pos = std::stoull(rv.substr(dash + 1));
                         length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;

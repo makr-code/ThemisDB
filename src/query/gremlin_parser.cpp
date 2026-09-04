@@ -72,23 +72,23 @@ struct GremlinParser::Lexer {
 
     char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        return static_cast<bool>((p  < static_cast<int>(src.size()))) ? src[p] : '\0';
+        return static_cast<bool>((p < src.size())) ? src[p] : '\0';
     }
 
     char advance() {
-        return static_cast<bool>((pos  < static_cast<int>(src.size()))) ? src[pos++] : '\0';
+        return static_cast<bool>((pos < src.size())) ? src[pos++] : '\0';
     }
 
     void skipWhitespace() {
-        while (pos <static_cast<int>(src.size()) && std::isspace(static_cast<unsigned char>(src[pos])))
+        while (pos < src.size() && std::isspace(static_cast<unsigned char>(src[pos])))
             ++pos;
     }
 
     std::string readString(char delim) {
         ++pos;  // skip opening delimiter
         std::string buf = {};
-        while (pos <static_cast<int>(src.size()) && src[pos] != delim) {
-            if (src[pos] == '\\' && pos + 1 <static_cast<int>(src.size())) {
+        while (pos < src.size() && src[pos] != delim) {
+            if (src[pos] == '\\' && pos + 1 < src.size()) {
                 ++pos;
                 switch (src[pos]) {
                     case 'n': buf += '\n'; break;
@@ -143,7 +143,7 @@ struct GremlinParser::Lexer {
                   num += '-';
                 }
                 bool has_dot = false;
-                while (pos <static_cast<int>(src.size()) &&
+                while (pos < src.size() &&
                        (std::isdigit(static_cast<unsigned char>(src[pos])) || src[pos] == '.')) {
                     if (src[pos] == '.') {
                         if (has_dot) {
@@ -159,7 +159,7 @@ struct GremlinParser::Lexer {
                     tokens.push_back({GremlinTokenType::INT_LIT, num, start});
             } else if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') {
                 std::string ident = {};
-                while (pos <static_cast<int>(src.size()) &&
+                while (pos < src.size() &&
                        (std::isalnum(static_cast<unsigned char>(src[pos])) || src[pos] == '_'))
                     ident += src[pos++];
                 if (ident == "true")
@@ -197,7 +197,7 @@ struct GremlinParser::Parser {
 
     const Token& consume() {
         const Token& t = tokens[pos];
-        if (pos < static_cast<int>(tokens.size()) - 1) {
+        if (pos < tokens.size() - 1) {
           ++pos;
         }
         return t;
@@ -901,7 +901,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         }
 
         // FILTER from hasLabel (additional labels)
-        for (size_t i = 1; i <static_cast<int>(labels.size()); ++i)
+        for (size_t i = 1; i < labels.size(); ++i)
             aql << "FILTER " << vVar << "._label == \"" << labels[i] << "\"\n";
 
         // FILTER from has() / hasNot()
@@ -925,7 +925,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 << vVar << " GRAPH \"" << graphName << "\"\n";
 
             // Additional edge label filters
-            for (size_t i = 1; i <static_cast<int>(edgeLabels.size()); ++i)
+            for (size_t i = 1; i < edgeLabels.size(); ++i)
                 aql << "FILTER _e._label == \"" << edgeLabels[i] << "\"\n";
         }
 
@@ -960,7 +960,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
 
         if (!selectAliases.empty()) {
             aql << returnPrefix << "{";
-            for (size_t i = 0; i <static_cast<int>(selectAliases.size()); ++i) {
+            for (size_t i = 0; i < selectAliases.size(); ++i) {
                 if (i) {
                   aql << ", ";
                 }
@@ -972,7 +972,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 aql << returnPrefix << retVar << "." << valueProps[0];
             } else {
                 aql << returnPrefix << "{";
-                for (size_t i = 0; i <static_cast<int>(valueProps.size()); ++i) {
+                for (size_t i = 0; i < valueProps.size(); ++i) {
                     if (i) {
                       aql << ", ";
                     }
@@ -985,7 +985,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 aql << returnPrefix << retVar;
             } else {
                 aql << returnPrefix << "{";
-                for (size_t i = 0; i <static_cast<int>(valueMapProps.size()); ++i) {
+                for (size_t i = 0; i < valueMapProps.size(); ++i) {
                     if (i) {
                       aql << ", ";
                     }

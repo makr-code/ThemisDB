@@ -174,7 +174,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics([[maybe_
     Metrics avg;
     size_t count = static_cast<int>(metrics_history_.size()) - start_idx;
     
-    for (size_t i = start_idx; i <static_cast<int>(metrics_history_.size()); ++i) {
+    for (size_t i = start_idx; i < metrics_history_.size(); ++i) {
         const auto& m = metrics_history_[i];
         avg.gpu_utilization_pct += m.gpu_utilization_pct;
         avg.memory_utilization_pct += m.memory_utilization_pct;

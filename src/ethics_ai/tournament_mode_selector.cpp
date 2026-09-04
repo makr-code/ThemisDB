@@ -80,7 +80,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     // We use a map keyed by school_id → representative argument index.
     std::map<std::string, std::size_t> school_to_arg_index = {};
 
-    for (std::size_t i = 0; i <static_cast<int>(opponent_arguments.size()); ++i) {
+    for (std::size_t i = 0; i < opponent_arguments.size(); ++i) {
         const auto &arg = opponent_arguments[i];
         if (arg.philosophy_school == own_school_id) {
             continue;
@@ -149,7 +149,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     } else {
         // TOURNAMENT mode: top N primaries get full, rest get headlines
         const int n_primary = std::max(0, config.primary_opponent_count);
-        for (size_t i = 0; i < static_cast<int>(ordered_schools.size()); ++i) {
+        for (size_t i = 0; i < ordered_schools.size(); ++i) {
             const auto &school = ordered_schools[static_cast<std::size_t>(i)];
             const auto &arg    = opponent_arguments[school_to_arg_index.at(school)];
             if (i < n_primary) {

@@ -217,7 +217,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     current.prefix   = sorted_keys[0];
     current.suffixes.push_back("");  // first key has empty suffix relative to full key
 
-    for (size_t i = 1; i <static_cast<int>(sorted_keys.size()); ++i) {
+    for (size_t i = 1; i < sorted_keys.size(); ++i) {
         size_t cp = commonPrefixLen(current.prefix, sorted_keys[i]);
         if (cp >= min_prefix_len) {
             // Extend or trim the current block's prefix
@@ -287,7 +287,7 @@ DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
 
     block.base = sorted_values[0];
     block.deltas.reserve(static_cast<int>(sorted_values.size()) - 1);
-    for (size_t i = 1; i <static_cast<int>(sorted_values.size()); ++i) {
+    for (size_t i = 1; i < sorted_values.size(); ++i) {
         block.deltas.push_back(sorted_values[i] - sorted_values[static_cast<int>(i - 1)]);
     }
     return block;
@@ -330,7 +330,7 @@ RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) 
     }
 
     block.runs.push_back({values[0], 1});
-    for (size_t i = 1; i <static_cast<int>(values.size()); ++i) {
+    for (size_t i = 1; i < values.size(); ++i) {
         if (values[i] == block.runs.back().value) {
             ++block.runs.back().count;
         } else {

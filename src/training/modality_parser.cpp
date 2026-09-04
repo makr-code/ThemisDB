@@ -167,16 +167,16 @@ static std::vector<std::string> splitSentences(const std::string& text) {
     std::string current = {};
     current.reserve(256);
 
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         char c = text[i];
         current += c;
 
         bool is_boundary = false;
-        if (((c == '.' || c == '!' || c == '?') && i + 1 <static_cast<int>(text.size()))) {
+        if (((c == '.' || c == '!' || c == '?') && i + 1 < text.size())) {
             char next = text[i + 1];
             // Sentence ends when followed by whitespace and uppercase or digit
             if (((next == ' ' || next == '\n') &&
-                i + 2 <static_cast<int>(text.size()) &&
+                i + 2 < text.size() &&
                 (std::isupper(static_cast<unsigned char>(text[i + 2])) ||
                  c == '!' || c == '?')))
             {
@@ -187,7 +187,7 @@ static std::vector<std::string> splitSentences(const std::string& text) {
                 }
             }
         }
-        if (c == '\n' && i + 1 <static_cast<int>(text.size()) && text[i + 1] == '\n') {
+        if (c == '\n' && i + 1 < text.size() && text[i + 1] == '\n') {
             is_boundary = true;
         }
 
@@ -226,7 +226,7 @@ static std::vector<TableBlock> detectTableBlocks(
         if (is_table) {
             size_t start = i;
             std::string content = {};
-            while (i <static_cast<int>(lines.size()) &&
+            while (i < lines.size() &&
                    (isPipeTableRow(lines[i]) ||
                     isAlignedTableRow(lines[i]) ||
                     isTableSeparator(lines[i])))
@@ -277,7 +277,7 @@ TextClauseExtractor::extract(const std::string& text,
 
     std::string clean_text = {};
     clean_text.reserve(text.size());
-    for (size_t i = 0; i <static_cast<int>(lines.size()); ++i) {
+    for (size_t i = 0; i < lines.size(); ++i) {
         if (table_lines.count(i) == 0) {
             clean_text += lines[i];
             clean_text += '\n';

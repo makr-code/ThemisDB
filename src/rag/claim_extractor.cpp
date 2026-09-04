@@ -109,7 +109,7 @@ ClaimVerificationResult ClaimExtractor::verify(
     
     // Concatenate documents
     std::ostringstream docs_stream = {};
-    for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
+    for (size_t i = 0; i < documents.size(); ++i) {
         docs_stream << "Document " << (i + 1) << ":\n" << documents[i] << "\n\n";
     }
     
@@ -233,7 +233,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     double total_similarity = 0.0;
     size_t num_pairs = 0;
     
-    for (size_t i = 0; i <static_cast<int>(similarity_matrix.size()); ++i) {
+    for (size_t i = 0; i < similarity_matrix.size(); ++i) {
         for (size_t j = i + 1; j < similarity_matrix[i].size(); ++j) {
             total_similarity += similarity_matrix[i][j];
             num_pairs++;
@@ -251,7 +251,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         PromptTemplate consistency_tmpl = PromptLibrary::getConsistencyCheckPrompt();
         
         std::ostringstream samples_str = {};
-        for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t i = 0; i < samples.size(); ++i) {
             samples_str << "Sample " << (i + 1) << ": " << samples[i] << "\n\n";
         }
         
@@ -304,7 +304,7 @@ std::string SelfConsistencyEvaluator::extractConsensus(
     size_t best_idx = 0;
     double best_avg_similarity = 0.0;
     
-    for (size_t i = 0; i <static_cast<int>(similarity_matrix.size()); ++i) {
+    for (size_t i = 0; i < similarity_matrix.size(); ++i) {
         double avg_similarity = 0.0;
         for (size_t j = 0; j < similarity_matrix[i].size(); ++j) {
             if (i != j) {

@@ -420,8 +420,8 @@ void BackendAwareLlamaModelHandle::allocateGPUMemory(
         
         // Enable peer-to-peer access
         if (config.enable_peer_to_peer) {
-            for (size_t i = 0; i <static_cast<int>(gpu_devices_.size()); ++i) {
-                for (size_t j = i + 1; j <static_cast<int>(gpu_devices_.size()); ++j) {
+            for (size_t i = 0; i < gpu_devices_.size(); ++i) {
+                for (size_t j = i + 1; j < gpu_devices_.size(); ++j) {
                     if (gpu_memory_manager_->enablePeerAccess(
                             gpu_devices_[i], gpu_devices_[j])) {
                         spdlog::info("  P2P enabled: GPU {} <-> GPU {}",

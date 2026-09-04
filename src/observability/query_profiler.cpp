@@ -112,7 +112,7 @@ std::string QueryProfile::toSummary() const {
     
     if (used_index) {
         oss << "Indexes used: ";
-        for (size_t i = 0; i <static_cast<int>(indexes_used.size()); ++i) {
+        for (size_t i = 0; i < indexes_used.size(); ++i) {
             if (i > 0) {
               oss << ", ";
             }

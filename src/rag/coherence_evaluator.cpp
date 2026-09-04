@@ -318,8 +318,8 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
     };
     
     // Look for sentences with opposing negation patterns on similar topics
-    for (size_t i = 0; i <static_cast<int>(sentences.size()); ++i) {
-        for (size_t j = i + 1; j <static_cast<int>(sentences.size()); ++j) {
+    for (size_t i = 0; i < sentences.size(); ++i) {
+        for (size_t j = i + 1; j < sentences.size(); ++j) {
             std::string sent_i = sentences[i];
             std::string sent_j = sentences[j];
             

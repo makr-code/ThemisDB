@@ -400,7 +400,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_ERROR("Graph BFS failed: {}", st.message);
             } else {
                 std::string path = {};
-                for (size_t i = 0; i <static_cast<int>(order.size()); ++i) {
+                for (size_t i = 0; i < order.size(); ++i) {
                     if (i) {
                       path += " -> ";
                     }

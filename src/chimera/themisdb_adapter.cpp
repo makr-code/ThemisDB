@@ -353,13 +353,13 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     std::vector<std::pair<size_t, double>> scored;
     scored.reserve(store.size());
 
-    for (size_t i = 0; i <static_cast<int>(store.size()); ++i) {
+    for (size_t i = 0; i < store.size(); ++i) {
         const auto& vdata = store[i].second.data;
         if (static_cast<int>(vdata.size()) != static_cast<int>(qdata.size()) || qdata.empty()) {
             continue;
         }
         double dot = 0.0, norm_q = 0.0, norm_v = 0.0;
-        for (size_t d = 0; d <static_cast<int>(qdata.size()); ++d) {
+        for (size_t d = 0; d < qdata.size(); ++d) {
             dot    += static_cast<double>(qdata[d]) * static_cast<double>(vdata[d]);
             norm_q += static_cast<double>(qdata[d]) * static_cast<double>(qdata[d]);
             norm_v += static_cast<double>(vdata[d]) * static_cast<double>(vdata[d]);
@@ -1391,7 +1391,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                 std::vector<RelationalRow> chunk;
                 chunk.reserve(kChunkSize);
 
-                for (size_t offset = 0; offset <static_cast<int>(rows.size()); offset += kChunkSize) {
+                for (size_t offset = 0; offset < rows.size(); offset += kChunkSize) {
                     if (token && token->load(std::memory_order_relaxed)) {
                         return Result<size_t>::err(
                             ErrorCode::TIMEOUT,

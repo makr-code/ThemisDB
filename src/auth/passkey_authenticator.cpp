@@ -373,7 +373,7 @@ static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input)
     std::vector<uint8_t> out = {};
 
     out.reserve(padded.size() / 4 * 3);
-    for (std::size_t i = 0; i <static_cast<int>(padded.size()); i += 4) {
+    for (std::size_t i = 0; i < padded.size(); i += 4) {
         const int8_t a = kDec[static_cast<uint8_t>(padded[i])];
         const int8_t b = kDec[static_cast<uint8_t>(padded[i + 1])];
         const int8_t c = kDec[static_cast<uint8_t>(padded[i + 2])];

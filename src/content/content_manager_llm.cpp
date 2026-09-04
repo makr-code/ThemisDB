@@ -289,7 +289,7 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
 
             // Extract content after the marker
             size_t pos = line.find(':');
-            if (pos != std::string::npos && pos + 1 <static_cast<int>(line.size())) {
+            if (pos != std::string::npos && pos + 1 < line.size()) {
                 current_content << line.substr(pos + 1);
             }
         } else if (line.find("Topics:") != std::string::npos || line.find("2.") != std::string::npos) {
@@ -301,7 +301,7 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
             current_content.clear();
 
             size_t pos = line.find(':');
-            if (pos != std::string::npos && pos + 1 <static_cast<int>(line.size())) {
+            if (pos != std::string::npos && pos + 1 < line.size()) {
                 current_content << line.substr(pos + 1);
             }
         } else if (line.find("Sentiment:") != std::string::npos || line.find("3.") != std::string::npos) {
@@ -313,7 +313,7 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
             current_content.clear();
 
             size_t pos = line.find(':');
-            if (pos != std::string::npos && pos + 1 <static_cast<int>(line.size())) {
+            if (pos != std::string::npos && pos + 1 < line.size()) {
                 current_content << line.substr(pos + 1);
             }
         } else if (line.find("Category:") != std::string::npos || line.find("4.") != std::string::npos) {
@@ -325,7 +325,7 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
             current_content.clear();
 
             size_t pos = line.find(':');
-            if (pos != std::string::npos && pos + 1 <static_cast<int>(line.size())) {
+            if (pos != std::string::npos && pos + 1 < line.size()) {
                 current_content << line.substr(pos + 1);
             }
         } else if (!line.empty() && !current_section.empty()) {

@@ -160,7 +160,7 @@ public:
             advance_to_valid();
         }
 
-        bool        valid() const override { return static_cast<bool>(pos_  < static_cast<int>(keys_.size())); }
+        bool        valid() const override { return static_cast<bool>(pos_ < keys_.size()); }
         std::string key()   const override { return valid() ? keys_[pos_] : ""; }
         std::string value() const override
         {
@@ -185,7 +185,7 @@ public:
     private:
         void advance_to_valid()
         {
-            while (pos_ <static_cast<int>(keys_.size()) &&
+            while (pos_ < keys_.size() &&
                    keys_[pos_].substr(0,static_cast<int>(prefix_.size())) != prefix_)
             {
                 ++pos_;

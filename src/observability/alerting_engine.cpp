@@ -435,7 +435,7 @@ Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
 
     if (!failures.empty()) {
         std::ostringstream oss = {};
-        for (size_t i = 0; i <static_cast<int>(failures.size()); ++i) {
+        for (size_t i = 0; i < failures.size(); ++i) {
             if (i != 0) {
                 oss << "; ";
             }

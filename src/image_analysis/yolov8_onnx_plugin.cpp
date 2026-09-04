@@ -328,7 +328,7 @@ struct YOLOv8OnnxPlugin::Impl {
                   });
 
         std::vector<bool> suppressed(candidates.size(), false);
-        for (size_t i = 0; i <static_cast<int>(candidates.size()); ++i) {
+        for (size_t i = 0; i < candidates.size(); ++i) {
             if (suppressed[i]) {
               continue;
             }
@@ -340,7 +340,7 @@ struct YOLOv8OnnxPlugin::Impl {
             box.width      = ci.x2 - ci.x1;
             box.height     = ci.y2 - ci.y1;
             box.confidence = ci.conf;
-            box.label = (ci.cls < static_cast<int>(labels.size()))
+            box.label = (ci.cls < labels.size())
                             ? labels[ci.cls]
                             : std::to_string(ci.cls);
             result.detections.push_back(box);
@@ -350,7 +350,7 @@ struct YOLOv8OnnxPlugin::Impl {
                 break;
             }
 
-            for (size_t j = i + 1; j <static_cast<int>(candidates.size()); ++j) {
+            for (size_t j = i + 1; j < candidates.size(); ++j) {
                 if (suppressed[j]) {
                   continue;
                 }

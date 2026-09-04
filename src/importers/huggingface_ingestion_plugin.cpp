@@ -569,7 +569,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     job.total_items = static_cast<int>(documents.size());
     
     // Ingest documents into ContentManager
-    for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
+    for (size_t i = 0; i < documents.size(); ++i) {
         try {
             json content_spec = plugin->documentToContentSpec(documents[i], dataset_name, i);
             

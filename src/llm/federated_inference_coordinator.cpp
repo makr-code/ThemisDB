@@ -100,7 +100,7 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
 
     results.reserve(futures.size());
 
-    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
         const auto& item = items[i];
         auto&        fut  = futures[i];
 

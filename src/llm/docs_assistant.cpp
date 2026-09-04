@@ -152,7 +152,7 @@ float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
     float dot = 0.0f;
     float an = 0.0f;
     float bn = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         dot += a[i] * b[i];
         an += a[i] * a[i];
         bn += b[i] * b[i];
@@ -170,7 +170,7 @@ float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& v
     float dot = 0.0f;
     float qn = 0.0f;
     float vn = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(q.size()); ++i) {
+    for (size_t i = 0; i < q.size(); ++i) {
         const float dv = static_cast<float>(vq[i]) * scale;
         dot += q[i] * dv;
         qn += q[i] * q[i];

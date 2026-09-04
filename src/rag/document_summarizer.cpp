@@ -74,11 +74,11 @@ double scoreSentence(const std::string& sentence,
 std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
     std::string current = {};
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         const char ch = text[i];
         current += ch;
         if ((ch == '.' || ch == '!' || ch == '?') &&
-            i + 1 <static_cast<int>(text.size()) &&
+            i + 1 < text.size() &&
             (text[i + 1] == ' ' || text[i + 1] == '\n')) {
             const std::string trimmed = [&]() {
                 const auto start = current.find_first_not_of(" \t\n\r");
@@ -115,7 +115,7 @@ std::string extractiveSummary(
     // Score each sentence
     std::vector<std::pair<double, size_t>> scored; // (score, index)
     scored.reserve(all_sentences.size());
-    for (size_t i = 0; i <static_cast<int>(all_sentences.size()); ++i) {
+    for (size_t i = 0; i < all_sentences.size(); ++i) {
         if (all_sentences[i].size() >= min_sentence_chars) {
             scored.emplace_back(
                 scoreSentence(all_sentences[i], query_terms), i);
@@ -190,7 +190,7 @@ std::string buildMultiDocPrompt(
     }
     oss << ".\nKeep the combined summary under " << max_chars
         << " characters.\n\n";
-    for (size_t i = 0; i <static_cast<int>(id_content.size()); ++i) {
+    for (size_t i = 0; i < id_content.size(); ++i) {
         oss << "Document " << (i + 1) << " [" << id_content[i].first << "]:\n"
             << id_content[i].second << "\n\n";
     }

@@ -192,7 +192,7 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
     if (config_.method == CalibrationMethod::TEMPERATURE_SCALING) {
         // Grid search over temperature on the overall score
         std::vector<double> preds, gts;
-        for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
+        for (size_t i = 0; i < predictions.size(); ++i) {
             preds.push_back(predictions[i].overall_score);
             gts.push_back(ground_truth_[i].overall_score);
         }
@@ -345,7 +345,7 @@ double CalibrationManager::calculateECE(
     std::vector<double> bin_confidence(num_bins, 0.0);
     std::vector<size_t> bin_count(num_bins, 0);
 
-    for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
+    for (size_t i = 0; i < predictions.size(); ++i) {
         int bin = static_cast<int>(predictions[i] / bin_width);
         bin = std::clamp(bin, 0, num_bins - 1);
         bin_accuracy[bin]  += ground_truth[i];
@@ -374,7 +374,7 @@ double CalibrationManager::calculateBrierScore(
     }
 
     double sum = 0.0;
-    for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
+    for (size_t i = 0; i < predictions.size(); ++i) {
         double diff = predictions[i] - ground_truth[i];
         sum += diff * diff;
     }

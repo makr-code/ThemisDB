@@ -398,7 +398,7 @@ std::string PromptInjectionSanitizer::sanitize(
               });
 
     for (const auto* f : to_replace) {
-        if (f->offset <static_cast<int>(out.size())) {
+        if (f->offset < out.size()) {
             const size_t len = std::min(f-> static_cast<int>(matched_fragment.size()),
                                         static_cast<int>(out.size()) - f->offset);
             out.replace(f->offset, len, cfg.placeholder);

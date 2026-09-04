@@ -2378,7 +2378,7 @@ float computeCosineSimilarity(const std::vector<float>& a,
       return 0.0f;
     }
     float dot = 0.0f, na = 0.0f, nb = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (size_t i = 0; i < a.size(); ++i) {
         dot += a[i] * b[i];
         na  += a[i] * a[i];
         nb  += b[i] * b[i];
@@ -3088,10 +3088,10 @@ ProcessGraphManager::optimizeTaskRoute(
     double prevLon = start_lon, prevLat = start_lat;
 
     result.reserve(stops.size());
-    for (size_t step = 0; step <static_cast<int>(stops.size()); ++step) {
+    for (size_t step = 0; step < stops.size(); ++step) {
         double bestDist = std::numeric_limits<double>::max();
         size_t bestIdx  = 0;
-        for (size_t i = 0; i <static_cast<int>(stops.size()); ++i) {
+        for (size_t i = 0; i < stops.size(); ++i) {
             if (visited[i]) {
               continue;
             }

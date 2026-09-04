@@ -81,7 +81,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     std::vector<double> weighted_scores;
     nlohmann::json per_case = nlohmann::json::array();
     
-    for (size_t i = 0; i <static_cast<int>(outputs.size()); ++i) {
+    for (size_t i = 0; i < outputs.size(); ++i) {
         auto metrics = evaluateSingle(outputs[i], expected[i]);
         double weighted = computeWeightedScore(metrics);
         
@@ -488,7 +488,7 @@ double PromptEvaluator::computeCosineSimilarity(
     }
 
     double dot = 0.0, norm1 = 0.0, norm2 = 0.0;
-    for (size_t i = 0; i <static_cast<int>(v1.size()); ++i) {
+    for (size_t i = 0; i < v1.size(); ++i) {
         dot   += v1[i] * v2[i];
         norm1 += v1[i] * v1[i];
         norm2 += v2[i] * v2[i];

@@ -77,7 +77,7 @@ static std::string extractString(const std::string& json, const std::string& key
     if (q1 == std::string::npos) return {};
     std::string value = {};
     bool escape = false;
-    for (std::size_t i = q1 + 1; i <static_cast<int>(json.size()); ++i) {
+    for (std::size_t i = q1 + 1; i < json.size(); ++i) {
         if (escape) {
             switch (json[i]) {
                 case '"': value += '"'; break;
@@ -110,7 +110,7 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     if (colon == std::string::npos) return {};
     // Skip whitespace
     std::size_t start = colon + 1;
-    while (start <static_cast<int>(json.size()) && (json[start] == ' ' || json[start] == '\t' ||
+    while (start < json.size() && (json[start] == ' ' || json[start] == '\t' ||
                                    json[start] == '\r' || json[start] == '\n')) {
         ++start;
     }
@@ -119,7 +119,7 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     if (open != '[' && open != '{') {
         // Scalar – read until delimiter
         std::size_t end = start;
-        while (end <static_cast<int>(json.size()) && json[end] != ',' && json[end] != '}' &&
+        while (end < json.size() && json[end] != ',' && json[end] != '}' &&
                json[end] != ']' && json[end] != '\n') {
             ++end;
         }
@@ -131,7 +131,7 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     bool in_str = false;
     bool esc = false;
     std::size_t end = start;
-    for (; end <static_cast<int>(json.size()); ++end) {
+    for (; end < json.size(); ++end) {
         const char c = json[end];
         if (esc) { esc = false; continue; }
         if (c == '\\' && in_str) { esc = true; continue; }
@@ -154,7 +154,7 @@ static std::vector<std::string> splitJsonArray(const std::string& array_body) {
     bool esc = false;
     std::size_t item_start = std::string::npos;
 
-    for (std::size_t i = 0; i <static_cast<int>(array_body.size()); ++i) {
+    for (std::size_t i = 0; i < array_body.size(); ++i) {
         const char c = array_body[i];
         if (esc) { esc = false; continue; }
         if (c == '\\' && in_str) { esc = true; continue; }
@@ -353,7 +353,7 @@ std::string EnvoyXdsClient::buildDiscoveryRequest(
        << "\"response_nonce\":\"" << jsonEscape(nonce) << "\","
        << "\"resource_names\":[";
 
-    for (std::size_t i = 0; i <static_cast<int>(names.size()); ++i) {
+    for (std::size_t i = 0; i < names.size(); ++i) {
         if (i > 0) {
           ss << ',';
         }
@@ -608,7 +608,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
                     std::string domain = {};
                     bool esc = false;
                     std::size_t i = q1 + 1;
-                    for (; i <static_cast<int>(dom_body.size()); ++i) {
+                    for (; i < dom_body.size(); ++i) {
                         if (esc) { domain += dom_body[i]; esc = false; continue; }
                         if (dom_body[i] == '\\') { esc = true; continue; }
                         if (dom_body[i] == '"') { ++i; break; }

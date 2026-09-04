@@ -56,7 +56,7 @@ std::vector<int> BlockTable::allocateBlocks([[maybe_unused]] size_t num_blocks) 
 void BlockTable::releaseBlocks() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    for (size_t i = 0; i <static_cast<int>(block_ids_.size()); ++i) {
+    for (size_t i = 0; i < block_ids_.size(); ++i) {
         int block_id = block_ids_[i];
         
         // Decrement reference count

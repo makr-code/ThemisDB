@@ -74,7 +74,7 @@ WatermarkedSnapshot GraphWatermark::embed(const GraphSnapshot &snapshot, const s
     }
 
     // Add edges between consecutive watermark nodes (chain)
-    for (size_t i = 0; i + 1 <static_cast<int>(wm_ids.size()); ++i) {
+    for (size_t i = 0; i + 1 < wm_ids.size(); ++i) {
         result.data.edges.emplace_back(wm_ids[i], wm_ids[i + 1]);
     }
 

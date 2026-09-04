@@ -125,7 +125,7 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
     result.graph_id = parts[2];
     result.model_name = parts[3];
     // entity_id might contain colons, so join remaining parts
-    for (size_t i = 4; i <static_cast<int>(parts.size()); ++i) {
+    for (size_t i = 4; i < parts.size(); ++i) {
         if (i > 4) {
           result.entity_id += ":";
         }
@@ -265,7 +265,7 @@ GNNEmbeddingManager::computeEmbedding_(
                 case AggregationStrategy::MEAN_POOLING:
                     // Average neighbor features
                     for (const auto& nf : neighbor_features_list) {
-                        for (size_t j = 0; j <static_cast<int>(nf.size()); ++j) {
+                        for (size_t j = 0; j < nf.size(); ++j) {
                             neighbor_aggregate[j] += nf[j];
                         }
                     }
@@ -279,9 +279,9 @@ GNNEmbeddingManager::computeEmbedding_(
                     // Initialize with first neighbor's values for better edge case handling
                     if (!neighbor_features_list.empty()) {
                         neighbor_aggregate = neighbor_features_list.front();
-                        for (size_t idx = 1; idx <static_cast<int>(neighbor_features_list.size()); ++idx) {
+                        for (size_t idx = 1; idx < neighbor_features_list.size(); ++idx) {
                             const auto& nf = neighbor_features_list[idx];
-                            for (size_t j = 0; j <static_cast<int>(nf.size()); ++j) {
+                            for (size_t j = 0; j < nf.size(); ++j) {
                                 neighbor_aggregate[j] = std::max(neighbor_aggregate[j], nf[j]);
                             }
                         }
@@ -291,7 +291,7 @@ GNNEmbeddingManager::computeEmbedding_(
                 case AggregationStrategy::SUM_POOLING:
                     // Sum neighbor features
                     for (const auto& nf : neighbor_features_list) {
-                        for (size_t j = 0; j <static_cast<int>(nf.size()); ++j) {
+                        for (size_t j = 0; j < nf.size(); ++j) {
                             neighbor_aggregate[j] += nf[j];
                         }
                     }
@@ -338,10 +338,10 @@ GNNEmbeddingManager::computeEmbedding_(
                     }
                     
                     // Weighted aggregation
-                    for (size_t i = 0; i <static_cast<int>(neighbor_features_list.size()); ++i) {
+                    for (size_t i = 0; i < neighbor_features_list.size(); ++i) {
                         const auto& nf = neighbor_features_list[i];
                         float weight = attention_weights[i];
-                        for (size_t j = 0; j <static_cast<int>(nf.size()); ++j) {
+                        for (size_t j = 0; j < nf.size(); ++j) {
                             neighbor_aggregate[j] += weight * nf[j];
                         }
                     }
@@ -383,7 +383,7 @@ GNNEmbeddingManager::computeEmbedding_(
             float self_weight = 0.7f;  // Give more weight to self features
             float neighbor_weight = 0.3f;
             
-            for (size_t i = 0; i <static_cast<int>(embedding.size()); ++i) {
+            for (size_t i = 0; i < embedding.size(); ++i) {
                 embedding[i] = self_weight * embedding[i] + neighbor_weight * neighbor_aggregate[i];
             }
         }
@@ -646,7 +646,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     if (aggregation_method == "mean") {
         // Mean pooling
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i <static_cast<int>(emb.size())  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
                 graph_embedding[i] += emb[i];
             }
         }
@@ -657,7 +657,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     } else if (aggregation_method == "sum") {
         // Sum pooling
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i <static_cast<int>(emb.size())  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
                 graph_embedding[i] += emb[i];
             }
         }
@@ -665,7 +665,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
         // Max pooling
         std::fill(graph_embedding.begin(), graph_embedding.end(), -std::numeric_limits<float>::infinity());
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i <static_cast<int>(emb.size())  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
                 graph_embedding[i] = std::max(graph_embedding[i], emb[i]);
             }
         }
@@ -922,7 +922,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
     if (batch_size == 0) {
         return Status::Error("batch_size must be > 0");
     }
-    for (size_t i = 0; i <static_cast<int>(node_pks.size()); i += batch_size) {
+    for (size_t i = 0; i < node_pks.size(); i += batch_size) {
         size_t end = std::min(i + batch_size,static_cast<int>(node_pks.size()));
         
         for (size_t j = i; j < end; ++j) {
@@ -943,7 +943,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddingsBatch(
     if (batch_size == 0) {
         return Status::Error("batch_size must be > 0");
     }
-    for (size_t i = 0; i <static_cast<int>(edge_ids.size()); i += batch_size) {
+    for (size_t i = 0; i < edge_ids.size(); i += batch_size) {
         size_t end = std::min(i + batch_size,static_cast<int>(edge_ids.size()));
         
         for (size_t j = i; j < end; ++j) {

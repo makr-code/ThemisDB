@@ -289,7 +289,7 @@ bool DataLoader::parsePlainText(const std::string& filepath) {
     // Each chunk becomes an instruction-output pair
     const size_t chunk_size = 512;  // characters per chunk
     
-    for (size_t i = 0; i <static_cast<int>(text.size()); i += chunk_size) {
+    for (size_t i = 0; i < text.size(); i += chunk_size) {
         size_t end = std::min(i + chunk_size,static_cast<int>(text.size()));
         std::string chunk = text.substr(i, end - i);
         
@@ -416,7 +416,7 @@ void DataLoader::reset() {
 }
 
 bool DataLoader::hasNext() const {
-    return static_cast<bool>(current_index_  < static_cast<int>(indices_.size()));
+    return static_cast<bool>(current_index_ < indices_.size());
 }
 
 void DataLoader::shuffle() {

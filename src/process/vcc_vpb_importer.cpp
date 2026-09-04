@@ -294,7 +294,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         static const std::regex activity_dash_re(R"(^-\s*$)");  // NOLINT(readability-static-accessed-through-instance)
         static const std::regex activity_kv_re(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");  // NOLINT(readability-static-accessed-through-instance)
 
-        for (size_t i = 0; i <static_cast<int>(lines.size()); ++i) {
+        for (size_t i = 0; i < lines.size(); ++i) {
             const auto& l = lines[i];
             std::string trimmed = trimStr(l);
             int indent = indentOf(l);

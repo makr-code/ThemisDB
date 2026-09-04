@@ -329,7 +329,7 @@ float quantization_error(const std::vector<float>& original,
     
     // Compute MSE
     float mse = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(original.size()); ++i) {
+    for (size_t i = 0; i < original.size(); ++i) {
         float diff = original[i] - reconstructed[i];
         mse += diff * diff;
     }
@@ -380,7 +380,7 @@ void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
     quantized_scales.resize(blocks.size());
     quantized_zeros.resize(blocks.size());
     
-    for (size_t i = 0; i <static_cast<int>(blocks.size()); ++i) {
+    for (size_t i = 0; i < blocks.size(); ++i) {
         // Quantize scale
         float normalized_scale = (blocks[i].scale - min_scale) / global_scale;
         quantized_scales[i] = static_cast<uint8_t>(
@@ -414,7 +414,7 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
     float min_scale = 0.0f;  // Will be computed from context
     float min_zero = 0.0f;
     
-    for (size_t i = 0; i <static_cast<int>(quantized_scales.size()); ++i) {
+    for (size_t i = 0; i < quantized_scales.size(); ++i) {
         // Dequantize scale
         float scale = static_cast<float>(quantized_scales[i]) * global_scale + min_scale;
         

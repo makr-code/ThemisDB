@@ -510,7 +510,7 @@ std::string FederatedIdentityManager::buildFormBody(const std::vector<std::pair<
     }
 
     std::string body = {};
-    for (size_t i = 0; i <static_cast<int>(params.size()); ++i) {
+    for (size_t i = 0; i < params.size(); ++i) {
         if (i > 0) {
             body += '&';
         }
@@ -704,7 +704,7 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
     // Scope the exchanged token to the minimum required permissions
     if (!target_scopes.empty()) {
         std::string scope_str = {};
-        for (size_t i = 0; i <static_cast<int>(target_scopes.size()); ++i) {
+        for (size_t i = 0; i < target_scopes.size(); ++i) {
             if (i > 0) {
                 scope_str += ' ';
             }

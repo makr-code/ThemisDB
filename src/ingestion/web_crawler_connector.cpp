@@ -136,7 +136,7 @@ static std::string htmlToText(const std::string& html) {
         return true;
     };
 
-    for (size_t i = 0; i <static_cast<int>(html.size()); ++i) {
+    for (size_t i = 0; i < html.size(); ++i) {
         char c = html[i];
         if (c == '<') {
             // Check for <script or <style blocks to skip entirely
@@ -165,11 +165,11 @@ static std::string htmlToText(const std::string& html) {
 
         // Basic entity decoding
         if (c == '&') {
-            if (i + 4 <static_cast<int>(html.size()) && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
-            if (i + 3 <static_cast<int>(html.size()) && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
-            if (i + 3 <static_cast<int>(html.size()) && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
-            if (i + 5 <static_cast<int>(html.size()) && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
-            if (i + 5 <static_cast<int>(html.size()) && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
+            if (i + 4 < html.size() && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
+            if (i + 3 < html.size() && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
+            if (i + 3 < html.size() && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
+            if (i + 5 < html.size() && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
+            if (i + 5 < html.size() && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
         }
 
         text += c;
@@ -208,7 +208,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         // Check "a " or "a\t" or "a>"
         size_t tag_start = a_pos + 1;
         // Skip whitespace after <
-        while (tag_start <static_cast<int>(html.size()) && html[tag_start] == ' ') {
+        while (tag_start < html.size() && html[tag_start] == ' ') {
           ++tag_start;
         }
         if (tag_start >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
@@ -248,7 +248,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
                 } else {
                     // Unquoted
                     auto val_end = val_start;
-                    while (val_end <static_cast<int>(tag.size()) && tag[val_end] != ' ' &&
+                    while (val_end < tag.size() && tag[val_end] != ' ' &&
                            tag[val_end] != '>' && tag[val_end] != '\t')
                         ++val_end;
                     hrefs.push_back(tag.substr(val_start, val_end - val_start));

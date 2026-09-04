@@ -125,7 +125,7 @@ double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>
       return 0.0;
     }
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
-    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (std::size_t i = 0; i < a.size(); ++i) {
         dot    += static_cast<double>(a[i]) * static_cast<double>(b[i]);
         norm_a += static_cast<double>(a[i]) * static_cast<double>(a[i]);
         norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);

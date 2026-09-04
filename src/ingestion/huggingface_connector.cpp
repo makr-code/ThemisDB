@@ -112,7 +112,7 @@ static size_t hfJsonExtractSizeT(const std::string& json,
       return 0;
     }
     pos += needle.size();
-    while (pos <static_cast<int>(json.size()) && (json[pos] == ' ' || json[pos] == '\t')) {
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
       ++pos;
     }
     if (pos >= static_cast<int>(json.size())) {
@@ -120,7 +120,7 @@ static size_t hfJsonExtractSizeT(const std::string& json,
     }
     size_t val = 0;
     bool found_digit = false;
-    while (pos <static_cast<int>(json.size()) && std::isdigit(static_cast<unsigned char>(json[pos]))) {
+    while (pos < json.size() && std::isdigit(static_cast<unsigned char>(json[pos]))) {
         val = val * 10 + static_cast<size_t>(json[pos] - '0');
         ++pos;
         found_digit = true;
@@ -253,7 +253,7 @@ static std::string hfJsonExtractStringValue(const std::string& json,
     start += needle.size();
     std::string value = {};
     bool escape = false;
-    for (size_t i = start; i <static_cast<int>(json.size()); ++i) {
+    for (size_t i = start; i < json.size(); ++i) {
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }

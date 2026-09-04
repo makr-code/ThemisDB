@@ -390,9 +390,9 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
     int   best_score = -1;
     size_t best_idx  = 0;
 
-    for (size_t i = 0; i <static_cast<int>(writes.size()); ++i) {
+    for (size_t i = 0; i < writes.size(); ++i) {
         int dominated_by = 0;
-        for (size_t j = 0; j <static_cast<int>(writes.size()); ++j) {
+        for (size_t j = 0; j < writes.size(); ++j) {
             if (i == j) {
               continue;
             }
@@ -514,9 +514,9 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     size_t base_idx = 0;
     {
         int best_score = -1;
-        for (size_t i = 0; i <static_cast<int>(conflicting_writes.size()); ++i) {
+        for (size_t i = 0; i < conflicting_writes.size(); ++i) {
             int dominated = 0;
-            for (size_t j = 0; j <static_cast<int>(conflicting_writes.size()); ++j) {
+            for (size_t j = 0; j < conflicting_writes.size(); ++j) {
                 if (i == j) {
                   continue;
                 }
@@ -532,7 +532,7 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     size_t left_idx  = base_idx;
     size_t right_idx = base_idx;
     bool   first     = true;
-    for (size_t i = 0; i <static_cast<int>(conflicting_writes.size()); ++i) {
+    for (size_t i = 0; i < conflicting_writes.size(); ++i) {
         if (i == base_idx) {
           continue;
         }
@@ -609,7 +609,7 @@ std::string FieldLevelMergeResolver::mergeFields(
             std::vector<size_t> present_indices = {};
 
             present_indices.reserve(writes.size());
-            for (size_t i = 0; i <static_cast<int>(field_maps.size()); ++i) {
+            for (size_t i = 0; i < field_maps.size(); ++i) {
                 if (field_maps[i].count(key)) {
                     present_indices.push_back(i);
                 }

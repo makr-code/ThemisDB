@@ -182,12 +182,12 @@ static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while ((pos < static_cast<int>(upper_sql.size())) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+    while ((pos < upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
         ++pos;
     
     // Skip owner prefix if present (e.g., "OWNER.")
     size_t name_start = pos;
-    while (pos <static_cast<int>(upper_sql.size()) && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
+    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
         ++pos;
     
     if (name_start < pos) {
@@ -611,7 +611,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
 
         // Classify and process the completed statement (check first 30 chars for keyword)
         std::string prefix = {};
-        for (size_t i = 0; i <static_cast<int>(current_sql.size()) && i < 30; ++i) {
+        for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
             prefix += static_cast<char>(std::toupper(static_cast<unsigned char>(current_sql[i])));
         }
 
@@ -694,7 +694,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     int depth = 0;
     bool in_string = false;
     size_t close_pos = std::string::npos;
-    for (size_t k = open_pos; k <static_cast<int>(sql.size()); ++k) {
+    for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
             if (c == '\'') {
@@ -722,7 +722,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         bool inq = false;
         char qc  = '\0';
         std::string cur = {};
-        for (size_t i = 0; i <static_cast<int>(cols_str.size()); ++i) {
+        for (size_t i = 0; i < cols_str.size(); ++i) {
             char c = cols_str[i];
             if (inq) {
                 cur += c;
@@ -768,7 +768,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
 
         // Build upper prefix for constraint detection
         std::string upper_def = {};
-        for (size_t i = 0; i <static_cast<int>(col_def.size()) && i < 25; ++i)
+        for (size_t i = 0; i < col_def.size() && i < 25; ++i)
             upper_def += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
 
         // Skip table-level constraints: PRIMARY KEY, UNIQUE, CONSTRAINT, CHECK, FOREIGN
@@ -806,7 +806,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         }
 
         // Skip leading whitespace after column name
-        while (type_start <static_cast<int>(col_def.size()) &&
+        while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) {
             ++type_start;
         }
@@ -818,7 +818,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (k <static_cast<int>(col_def.size()) && static_cast<int>(col_type.size()) < kMaxTypeLength) {
+        while (k < col_def.size() && static_cast<int>(col_type.size()) < kMaxTypeLength) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
@@ -919,7 +919,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     size_t pos = 0;
     while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
         // Skip whitespace and commas between tuples
-        while (pos <static_cast<int>(values_payload.size()) &&
+        while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) {
@@ -938,10 +938,10 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         int dep = 1;
         bool in_str = false;
         size_t k = pos + 1;
-        while (k <static_cast<int>(values_payload.size()) && dep > 0) {
+        while (k < values_payload.size() && dep > 0) {
             char c = values_payload[k];
             if (in_str) {
-                if (c == '\'' && k + 1 <static_cast<int>(values_payload.size()) &&
+                if (c == '\'' && k + 1 < values_payload.size() &&
                     values_payload[k + 1] == '\'') {
                     ++k;  // skip escaped quote ''
                 } else if (c == '\'') {
@@ -1171,7 +1171,7 @@ json OracleImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i <static_cast<int>(values.size())  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1305,10 +1305,10 @@ std::string OracleImporter::stripOracleComments(const std::string& sql) {
     result.reserve(sql.size());
     size_t i = 0;
     while (static_cast<size_t>(i) <static_cast<int>(sql.size())) {
-        if (i + 1 <static_cast<int>(sql.size()) && sql[i] == '/' && sql[i + 1] == '*') {
+        if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             // Skip until closing */
             i += 2;
-            while (i + 1 <static_cast<int>(sql.size()) && !(sql[i] == '*' && sql[i + 1] == '/')) {
+            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) {
                 ++i;
             }
             i += 2;  // skip */

@@ -118,7 +118,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
         for (std::size_t j = 0; j < kPilotMaxDim; ++j) {
             float    dot = 0.0f;
             uint64_t h   = base_seed ^ (static_cast<uint64_t>(j) * 6364136223846793005 + 1442695040888963407);
-            for (std::size_t i = 0; i <static_cast<int>(embedding.size()); ++i) {
+            for (std::size_t i = 0; i < embedding.size(); ++i) {
                 // xorshift64 — period 2^64-1, uniform distribution of bits
                 h ^= h >> 12; h ^= h << 25; h ^= h >> 27;
                 dot += ((h >> 63) ? 1.0f : -1.0f) * embedding[i];

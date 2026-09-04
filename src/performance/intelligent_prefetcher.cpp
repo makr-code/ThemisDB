@@ -295,7 +295,7 @@ private:
         // Compute signed differences (cast to int64 to handle backward strides).
         std::unordered_map<int64_t, size_t> stride_counts = {};
 
-        for (size_t i = start + 1; i <static_cast<int>(history_.size()); ++i) {
+        for (size_t i = start + 1; i < history_.size(); ++i) {
             int64_t diff = static_cast<int64_t>(history_[i].address) -
                            static_cast<int64_t>(history_[static_cast<int>(i - 1)].address);
             stride_counts[diff]++;
@@ -321,7 +321,7 @@ private:
         pattern_.confidence = confidence;
         // Store the latest address set (for inspection).
         pattern_.addresses.clear();
-        for (size_t i = start; i <static_cast<int>(history_.size()); ++i) {
+        for (size_t i = start; i < history_.size(); ++i) {
             pattern_.addresses.push_back(history_[i].address);
         }
         if (!history_.empty()) {

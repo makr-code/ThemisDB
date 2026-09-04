@@ -175,7 +175,7 @@ void AQLFewShotExampleLibrary::rebuildEmbeddingIndex() {
     }
 
     embedding_cache_.resize(examples_.size());
-    for (std::size_t i = 0; i <static_cast<int>(examples_.size()); ++i) {
+    for (std::size_t i = 0; i < examples_.size(); ++i) {
         embedding_cache_[i] = embedding_provider_->embed(examples_[i].nl_query);
     }
 }
@@ -205,7 +205,7 @@ double AQLFewShotExampleLibrary::cosineSimilarity_(const std::vector<float> &a, 
     }
 
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
-    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (std::size_t i = 0; i < a.size(); ++i) {
         dot += static_cast<double>(a[i]) * static_cast<double>(b[i]);
         norm_a += static_cast<double>(a[i]) * static_cast<double>(a[i]);
         norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);

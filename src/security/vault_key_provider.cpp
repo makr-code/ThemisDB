@@ -682,7 +682,7 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
             if (!sig_b64.empty()) {
                 if (sig_b64.rfind("vault:", 0) == 0) {
                     size_t pos = sig_b64.find(':', 6);
-                    if (pos != std::string::npos && pos + 1 <static_cast<int>(sig_b64.size())) {
+                    if (pos != std::string::npos && pos + 1 < sig_b64.size()) {
                         sig_b64 = sig_b64.substr(pos + 1);
                     }
                 }

@@ -485,8 +485,8 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
             vectors.push_back(std::move(*vec));
         }
 
-        for (std::size_t i = 0; i <static_cast<int>(vectors.size()); ++i) {
-            for (std::size_t j = i + 1; j <static_cast<int>(vectors.size()); ++j) {
+        for (std::size_t i = 0; i < vectors.size(); ++i) {
+            for (std::size_t j = i + 1; j < vectors.size(); ++j) {
                 if (vectors[i].size() != vectors[j].size()) {
                     continue;
                 }
@@ -505,7 +505,7 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
     std::vector<std::future<void>> futures;
     futures.reserve((static_cast<int>(entities.size()) + batchSize - 1) / batchSize);
 
-    for (std::size_t begin = 0; begin <static_cast<int>(entities.size()); begin += batchSize) {
+    for (std::size_t begin = 0; begin < entities.size(); begin += batchSize) {
         const std::size_t end = std::min(begin + batchSize,static_cast<int>(entities.size()));
 
         auto worker = [&, begin, end]() {

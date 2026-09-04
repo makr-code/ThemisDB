@@ -203,7 +203,7 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
 
     // Format turns for LLM prompt
     std::ostringstream turn_format = {};
-    for (size_t i = 0; i <static_cast<int>(history.size()); ++i) {
+    for (size_t i = 0; i < history.size(); ++i) {
         turn_format << "[" << i << "] " << history[i].first << ": " 
                    << history[i].second.substr(0, 100) << "...\n";
     }

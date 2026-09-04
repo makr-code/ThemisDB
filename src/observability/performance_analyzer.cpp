@@ -101,7 +101,7 @@ std::string PerformanceAnalysis::toReport() const {
     
     // Issues
     oss << "--- Issues ---\n\n";
-    for (size_t i = 0; i <static_cast<int>(issues.size()); ++i) {
+    for (size_t i = 0; i < issues.size(); ++i) {
         const auto& issue = issues[i];
         oss << i + 1 << ". [" << to_string(issue.severity) << "] " 
             << issue.title << "\n";

@@ -384,11 +384,11 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
         pos = lpos;
     }
     pos += tag.size();
-    while (pos <static_cast<int>(response.size()) && (response[pos] == ' ' || response[pos] == '\t'))
+    while (pos < response.size() && (response[pos] == ' ' || response[pos] == '\t'))
         ++pos;
     // Read digits / dot until whitespace or newline.
     std::string num = {};
-    while (pos <static_cast<int>(response.size()) &&
+    while (pos < response.size() &&
            (std::isdigit(static_cast<unsigned char>(response[pos])) ||
             response[pos] == '.'))
     {
@@ -418,7 +418,7 @@ std::string IngestionQualityJudge::parseRationale(
     auto pos = response.find(tag);
     if (pos == std::string::npos) return {};
     pos += tag.size();
-    while (pos <static_cast<int>(response.size()) && response[pos] == ' ') {
+    while (pos < response.size() && response[pos] == ' ') {
       ++pos;
     }
     auto end = response.find('\n', pos);

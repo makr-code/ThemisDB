@@ -213,14 +213,14 @@ std::vector<size_t> MultiModalChunker::find_sentence_boundaries(const std::strin
     std::vector<size_t> boundaries;
     boundaries.push_back(0);  // Start
     
-    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i < text.size(); ++i) {
         char c = text[i];
         if (c == '.' || c == '!' || c == '?') {
             // Check if followed by space or end
             if (i + 1 >= text.size() || std::isspace(text[i + 1])) {
                 // Skip whitespace
                 size_t boundary = i + 1;
-                while (boundary <static_cast<int>(text.size()) && std::isspace(text[boundary])) {
+                while (boundary < text.size() && std::isspace(text[boundary])) {
                     ++boundary;
                 }
                 if (static_cast<int>(text.size()) > boundary) {
@@ -241,12 +241,12 @@ std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::stri
     std::vector<size_t> boundaries;
     boundaries.push_back(0);  // Start
     
-    for (size_t i = 0; i + 1 <static_cast<int>(text.size()); ++i) {
+    for (size_t i = 0; i + 1 < text.size(); ++i) {
         // Check for \n\n
         if (text[i] == '\n' && text[i + 1] == '\n') {
             size_t boundary = i + 2;
             // Skip additional whitespace
-            while (boundary <static_cast<int>(text.size()) && std::isspace(text[boundary])) {
+            while (boundary < text.size() && std::isspace(text[boundary])) {
                 ++boundary;
             }
             if (static_cast<int>(text.size()) > boundary) {
@@ -255,12 +255,12 @@ std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::stri
             i = boundary;  // Skip processed area
         }
         // Check for \r\n\r\n
-        else if (i + 3 <static_cast<int>(text.size()) &&
+        else if (i + 3 < text.size() &&
                  text[i] == '\r' && text[i + 1] == '\n' &&
                  text[i + 2] == '\r' && text[i + 3] == '\n') {
             size_t boundary = i + 4;
             // Skip additional whitespace
-            while (boundary <static_cast<int>(text.size()) && std::isspace(text[boundary])) {
+            while (boundary < text.size() && std::isspace(text[boundary])) {
                 ++boundary;
             }
             if (static_cast<int>(text.size()) > boundary) {

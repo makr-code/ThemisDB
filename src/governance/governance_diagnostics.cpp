@@ -162,8 +162,8 @@ ConflictDiagnosticHelper::detectConflict(
         // Simple conflict detection: if multiple policies exist, potential conflict
         result.has_conflicts = true;
         
-        for (size_t i = 0; i <static_cast<int>(policy_ids.size()); ++i) {
-            for (size_t j = i + 1; j <static_cast<int>(policy_ids.size()); ++j) {
+        for (size_t i = 0; i < policy_ids.size(); ++i) {
+            for (size_t j = i + 1; j < policy_ids.size(); ++j) {
                 result.conflicting_pairs.emplace_back(policy_ids[i], policy_ids[j]);
                 result.descriptions.push_back(
                     "Potential conflict between policies: " + 

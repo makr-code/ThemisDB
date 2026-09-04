@@ -1284,7 +1284,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
 
         threads.reserve(wave.size());
 
-        for (size_t i = 0; i <static_cast<int>(wave.size()); ++i) {
+        for (size_t i = 0; i < wave.size(); ++i) {
             wave_results[i].id = wave[i];
             threads.emplace_back([this, &wave_results, i, &task_map]() {
                 const auto& id = wave_results[i].id;

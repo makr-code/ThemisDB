@@ -524,7 +524,7 @@ void EventTrigger::rebuildConditionCache_() const {
         pc.field = tokens[0];
         pc.op    = tokens[1];
         std::string rhs = {};
-        for (size_t k = 2; k <static_cast<int>(tokens.size()); ++k) {
+        for (size_t k = 2; k < tokens.size(); ++k) {
             if (k > 2) {
               rhs += " ";
             }

@@ -790,7 +790,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
 
     // Group requests by LoRA adapter for efficiency
     std::map<std::string, std::vector<size_t>> lora_to_requests;
-    for (size_t i = 0; i <static_cast<int>(requests.size()); ++i) {
+    for (size_t i = 0; i < requests.size(); ++i) {
         lora_to_requests[requests[i].second].push_back(i);
     }
 
@@ -993,7 +993,7 @@ bool MultiLoRAManager::fuseLoRAs(
     std::vector<LoRASlot*> source_loras;
     std::string base_model_id = {};
     
-    for (size_t i = 0; i <static_cast<int>(lora_ids.size()); ++i) {
+    for (size_t i = 0; i < lora_ids.size(); ++i) {
         auto it = loras_.find(lora_ids[i]);
         if (it == loras_.end()) {
             errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_ids[i]);
@@ -1051,7 +1051,7 @@ bool MultiLoRAManager::fuseLoRAs(
     float avg_alpha = 0.0f;
     size_t total_vram = 0;
     
-    for (size_t i = 0; i <static_cast<int>(source_loras.size()); ++i) {
+    for (size_t i = 0; i < source_loras.size(); ++i) {
         avg_rank += source_loras[i]->rank * normalized_weights[i];
         avg_alpha += source_loras[i]->alpha * normalized_weights[i];
         // VRAM usage is approximately the maximum of individual LoRAs
@@ -3134,7 +3134,7 @@ json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) con
     size_t start = (limit > 0 && static_cast<int>(audit_log_.size()) > limit) ? 
                    (static_cast<int>(audit_log_.size()) - limit) : 0;
     
-    for (size_t i = start; i <static_cast<int>(audit_log_.size()); ++i) {
+    for (size_t i = start; i < audit_log_.size(); ++i) {
         const auto& event = audit_log_[i];
         
         json entry;
@@ -3369,7 +3369,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     float avg_alpha = 0.0f;
     size_t total_vram = 0;
     
-    for (size_t i = 0; i <static_cast<int>(source_loras.size()); ++i) {
+    for (size_t i = 0; i < source_loras.size(); ++i) {
         avg_rank += source_loras[i]->rank * normalized_weights[i];
         avg_alpha += source_loras[i]->alpha * normalized_weights[i];
         total_vram = std::max(total_vram, source_loras[i]->vram_bytes);
@@ -3806,7 +3806,7 @@ bool MultiLoRAManager::validateFusionCompatibility(
         return false;
     }
     
-    for (size_t i = 1; i <static_cast<int>(source_loras.size()); ++i) {
+    for (size_t i = 1; i < source_loras.size(); ++i) {
         const auto* lora = source_loras[i];
         if (!lora) {
             spdlog::debug("Fusion compatibility check failed: source LoRA at index {} is null", i);

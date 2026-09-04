@@ -130,7 +130,7 @@ class MultiGPUVectorBackend::Impl {
         // Initialise per-shard sub-backends (CPU fallback)
         subBackends.clear();
         subBackends.reserve(shardDescs.size());
-        for (size_t i = 0; i <static_cast<int>(shardDescs.size()); ++i) {
+        for (size_t i = 0; i < shardDescs.size(); ++i) {
             auto sb = std::make_unique<CPUVectorBackend>();
             if (!sb->initialize()) {
                 if (!config.allowCPUFallback) {
@@ -214,7 +214,7 @@ class MultiGPUVectorBackend::Impl {
         // Output: [numQueries × numVectors]
         std::vector<float> result(numQueries * numVectors, 0.0f);
 
-        for (size_t s = 0; s <static_cast<int>(ranges.size()); ++s) {
+        for (size_t s = 0; s < ranges.size(); ++s) {
             const auto &shard = ranges[s];
             size_t shardSize  = shard.numVectors();
             if (shardSize == 0) {
@@ -255,7 +255,7 @@ class MultiGPUVectorBackend::Impl {
         std::vector<std::vector<std::pair<uint32_t, float>>> merged(numQueries);
 
         // Fan out to each shard
-        for (size_t s = 0; s <static_cast<int>(ranges.size()); ++s) {
+        for (size_t s = 0; s < ranges.size(); ++s) {
             const auto &shard = ranges[s];
             size_t shardSize  = shard.numVectors();
             if (shardSize == 0) {

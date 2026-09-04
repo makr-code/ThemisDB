@@ -1494,7 +1494,7 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer([[maybe_unused]] const
         }
 
         std::unordered_map<std::string, std::vector<size_t>> indices_by_domain;
-        for (size_t i = 0; i <static_cast<int>(requests.size()); ++i) {
+        for (size_t i = 0; i < requests.size(); ++i) {
             indices_by_domain[batchDomainKey(requests[i])].push_back(i);
         }
 

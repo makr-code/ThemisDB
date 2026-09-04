@@ -162,7 +162,7 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution([[maybe_unused]] const TaskA
         
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
-            for (size_t i = 0; i <static_cast<int>(anomalies.size()); i++) {
+            for (size_t i = 0; i < anomalies.size(); i++) {
                 if (i > 0) {
                   metrics.description += ", ";
                 }
@@ -494,7 +494,7 @@ AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) con
         
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
-            for (size_t i = 0; i <static_cast<int>(anomalies.size()); i++) {
+            for (size_t i = 0; i < anomalies.size(); i++) {
                 if (i > 0) {
                   metrics.description += ", ";
                 }

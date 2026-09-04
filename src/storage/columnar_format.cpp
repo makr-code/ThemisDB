@@ -75,7 +75,7 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& d
         size_t run_length = 1;
 
         // Count consecutive identical values
-        while (i + run_length <static_cast<int>(data.size()) &&
+        while (i + run_length < data.size() &&
                data[i + run_length] == value &&
                run_length < 255) {
             run_length++;
@@ -113,7 +113,7 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& d
         int64_t value = data[i];
         size_t run_length = 1;
 
-        while (i + run_length <static_cast<int>(data.size()) &&
+        while (i + run_length < data.size() &&
                data[i + run_length] == value &&
                run_length < 255) {
             run_length++;
@@ -689,7 +689,7 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt32(const std::vecto
     encoded.insert(encoded.end(), ref_bytes, ref_bytes + sizeof(int32_t));
 
     // Store deltas
-    for (size_t i = 1; i <static_cast<int>(data.size()); ++i) {
+    for (size_t i = 1; i < data.size(); ++i) {
         int32_t delta = data[i] - reference;
         const uint8_t* delta_bytes = reinterpret_cast<const uint8_t*>(&delta);
         encoded.insert(encoded.end(), delta_bytes, delta_bytes + sizeof(int32_t));
@@ -709,7 +709,7 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt64(const std::vecto
     const uint8_t* ref_bytes = reinterpret_cast<const uint8_t*>(&reference);
     encoded.insert(encoded.end(), ref_bytes, ref_bytes + sizeof(int64_t));
 
-    for (size_t i = 1; i <static_cast<int>(data.size()); ++i) {
+    for (size_t i = 1; i < data.size(); ++i) {
         int64_t delta = data[i] - reference;
         const uint8_t* delta_bytes = reinterpret_cast<const uint8_t*>(&delta);
         encoded.insert(encoded.end(), delta_bytes, delta_bytes + sizeof(int64_t));
@@ -1561,7 +1561,7 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
 
     segments.reserve(column_types.size());
 
-    for (size_t i = 0; i <static_cast<int>(column_types.size()); ++i) {
+    for (size_t i = 0; i < column_types.size(); ++i) {
         CompressionCodec codec = auto_select_codec
             ? CompressionCodec::NONE  // Will be auto-selected in create()
             : CompressionCodec::NONE;
@@ -1626,7 +1626,7 @@ Result<std::vector<size_t>> ColumnarFormatManager::filterSegments(
 
     std::vector<size_t> matching_indices;
 
-    for (size_t i = 0; i <static_cast<int>(segments.size()); ++i) {
+    for (size_t i = 0; i < segments.size(); ++i) {
         if (!segments[i].canSkipSegment(filter_value)) {
             matching_indices.push_back(i);
         }

@@ -293,7 +293,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
     std::vector<std::pair<float, size_t>> scored; // (score, sentence_index)
     scored.reserve(sentences.size());
 
-    for (size_t i = 0; i <static_cast<int>(sentences.size()); ++i) {
+    for (size_t i = 0; i < sentences.size(); ++i) {
         const std::string &sent = sentences[i];
         float score             = 0.f;
 
@@ -467,7 +467,7 @@ std::string PriorRoundCompressor::buildPriorContext(const std::vector<std::vecto
     std::ostringstream out = {};
     int accumulated_tokens = 0;
 
-    for (size_t i = 0; i < static_cast<int>(all_rounds.size()); ++i) {
+    for (size_t i = 0; i < all_rounds.size(); ++i) {
         const int round_number = i + 1; // 1-based
         const int rounds_ago   = current_round - round_number;
 

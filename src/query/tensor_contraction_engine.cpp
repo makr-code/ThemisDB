@@ -311,7 +311,7 @@ TTTrain TensorContractionEngine::contractModes(
         throw std::invalid_argument(
             "TensorContractionEngine::contractModes: modes_a / modes_b length mismatch");
 
-    for (std::size_t i = 0; i <static_cast<int>(modes_a.size()); ++i) {
+    for (std::size_t i = 0; i < modes_a.size(); ++i) {
         if (modes_a[i] >= a.order())
             throw std::invalid_argument(
                 "TensorContractionEngine::contractModes: modes_a index out of range");
@@ -334,7 +334,7 @@ TTTrain TensorContractionEngine::contractModes(
     // Identify free (non-contracted) modes.
     std::vector<bool> contracted_a(sha.size(), false);
     std::vector<bool> contracted_b(shb.size(), false);
-    for (std::size_t i = 0; i <static_cast<int>(modes_a.size()); ++i) {
+    for (std::size_t i = 0; i < modes_a.size(); ++i) {
         contracted_a[modes_a[i]] = true;
         contracted_b[modes_b[i]] = true;
     }
@@ -342,11 +342,11 @@ TTTrain TensorContractionEngine::contractModes(
     std::vector<std::size_t> free_a, free_b;
     free_a.reserve(sha.size());
     free_b.reserve(shb.size());
-    for (std::size_t k = 0; k <static_cast<int>(sha.size()); ++k)
+    for (std::size_t k = 0; k < sha.size(); ++k)
         if (!contracted_a[k]) {
           free_a.push_back(k);
         }
-    for (std::size_t k = 0; k <static_cast<int>(shb.size()); ++k)
+    for (std::size_t k = 0; k < shb.size(); ++k)
         if (!contracted_b[k]) {
           free_b.push_back(k);
         }
@@ -406,7 +406,7 @@ TTTrain TensorContractionEngine::contractModes(
 
         // Set contracted b indices from a.
         std::fill(idx_b.begin(), idx_b.end(), 0);
-        for (std::size_t i = 0; i <static_cast<int>(modes_a.size()); ++i)
+        for (std::size_t i = 0; i < modes_a.size(); ++i)
             idx_b[modes_b[i]] = idx_a[modes_a[i]];
 
         float va = dense_a[flat_a];
@@ -424,7 +424,7 @@ TTTrain TensorContractionEngine::contractModes(
                 free_b_idx[ki_sz] = tt % shb[free_b[ki_sz]];
                 tt /= shb[free_b[ki_sz]];
             }
-            for (std::size_t i = 0; i <static_cast<int>(free_b.size()); ++i)
+            for (std::size_t i = 0; i < free_b.size(); ++i)
                 idx_b[free_b[i]] = free_b_idx[i];
 
             float vb = dense_b[toFlat(idx_b, shb)];

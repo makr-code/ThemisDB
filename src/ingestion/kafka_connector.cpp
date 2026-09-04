@@ -50,7 +50,7 @@ static std::string kafkaJsonExtractString(const std::string& json,
     start += needle.size();
     std::string value = {};
     bool escape = false;
-    for (size_t i = start; i <static_cast<int>(json.size()); ++i) {
+    for (size_t i = start; i < json.size(); ++i) {
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }

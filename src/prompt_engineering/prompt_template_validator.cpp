@@ -109,7 +109,7 @@ PromptTemplateValidator::validate(const nlohmann::json& j) const {
             result.errors.push_back("Field 'images' must be an array");
         } else {
             const auto& images = j["images"];
-            for (std::size_t i = 0; i <static_cast<int>(images.size()); ++i) {
+            for (std::size_t i = 0; i < images.size(); ++i) {
                 const auto& img = images[i];
                 if (!img.is_object()) {
                     result.errors.push_back(

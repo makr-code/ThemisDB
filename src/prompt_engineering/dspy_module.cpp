@@ -128,7 +128,7 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
         size_t value_start = pos + static_cast<int>(marker.size()) ;
 
         // Skip leading whitespace / newline
-        while (value_start <static_cast<int>(response.size()) &&
+        while (value_start < response.size() &&
                (response[value_start] == ' ' || response[value_start] == '\t')) {
             ++value_start;
         }
@@ -177,7 +177,7 @@ std::string EchoDspyLLMProvider::complete(const std::string& prompt)
     while (std::getline(iss, line)) {
         // Strip leading spaces
         size_t start = 0;
-        while (start <static_cast<int>(line.size()) && line[start] == ' ') {
+        while (start < line.size() && line[start] == ' ') {
           ++start;
         }
         line = line.substr(start);

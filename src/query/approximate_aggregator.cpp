@@ -212,11 +212,11 @@ nlohmann::json ApproximatePercentile::estimate() const {
 
     const double target_weight = quantile_ * total_weight_;
     double cum = 0.0;
-    for (size_t i = 0; i <static_cast<int>(sorted.size()); ++i) {
+    for (size_t i = 0; i < sorted.size(); ++i) {
         cum += sorted[i].weight;
         if (cum >= target_weight) {
             // Linear interpolation between adjacent centroids.
-            if (i + 1 <static_cast<int>(sorted.size())) {
+            if (i + 1 < sorted.size()) {
                 const double frac = (cum - target_weight) / sorted[i].weight;
                 return sorted[i].mean * (1.0 - frac) +
                        sorted[i + 1].mean * frac;

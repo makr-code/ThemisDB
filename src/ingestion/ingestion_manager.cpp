@@ -122,7 +122,7 @@ static bool findJsonStringValueRe(const std::string& json,
     }
     auto pos = static_cast<std::string::size_type>(m.position() + m.length());
     // Skip whitespace before the value token
-    while (pos <static_cast<int>(json.size()) && (json[pos] == ' ' || json[pos] == '\t' ||
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
                                   json[pos] == '\r' || json[pos] == '\n'))
         ++pos;
     if (pos >= json.size() || json[pos] != '"') {

@@ -158,7 +158,7 @@ static std::string sanitizeUserContent(const std::string &content,
             }
             // Case-insensitive comparison without heap allocation.
             bool match = true;
-            for (size_t k = 0; k <static_cast<int>(prefix.size()); ++k) {
+            for (size_t k = 0; k < prefix.size(); ++k) {
                 if (std::tolower(static_cast<unsigned char>(content[i + k])) != prefix[k]) {
                     match = false;
                     break;

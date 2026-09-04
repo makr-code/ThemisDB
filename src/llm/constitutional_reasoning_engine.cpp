@@ -658,7 +658,7 @@ std::string ConstitutionalReasoningEngine::buildRevisionPrompt(
     oss << "Revise the following response based on these critiques:\n\n";
     oss << "Original Response: " << response << "\n\n";
     oss << "Critiques:\n";
-    for (size_t i = 0; i <static_cast<int>(critiques.size()); ++i) {
+    for (size_t i = 0; i < critiques.size(); ++i) {
         oss << (i + 1) << ". " << critiques[i] << "\n";
     }
     oss << "\nProvide a revised response that addresses these critiques while "

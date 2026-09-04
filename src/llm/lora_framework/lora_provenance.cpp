@@ -520,7 +520,7 @@ bool LoRAProvenanceManager::verifyAuditChain(
     const auto& log = it->second;
     std::string expected_previous = {};
 
-    for (size_t i = 0; i <static_cast<int>(log.size()); ++i) {
+    for (size_t i = 0; i < log.size(); ++i) {
         const auto& e = log[i];
 
         // Verify previous_hash linkage

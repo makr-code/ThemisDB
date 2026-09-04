@@ -442,7 +442,7 @@ std::string OAuthPKCEFlow::urlEncode(const std::string &value) {
 
 std::string OAuthPKCEFlow::buildFormBody(const std::vector<std::pair<std::string, std::string>> &params) {
     std::string body = {};
-    for (std::size_t i = 0; i <static_cast<int>(params.size()); ++i) {
+    for (std::size_t i = 0; i < params.size(); ++i) {
         if (i > 0) {
             body += '&';
         }

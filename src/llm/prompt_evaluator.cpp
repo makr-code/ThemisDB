@@ -65,7 +65,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     std::vector<double> weighted_scores;
     nlohmann::json per_case = nlohmann::json::array();
     
-    for (size_t i = 0; i <static_cast<int>(outputs.size()); ++i) {
+    for (size_t i = 0; i < outputs.size(); ++i) {
         auto metrics = evaluateSingle(outputs[i], expected[i]);
         double weighted = computeWeightedScore(metrics);
         

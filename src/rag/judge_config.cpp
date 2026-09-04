@@ -224,7 +224,7 @@ std::string JudgeConfigManager::toJSON() const {
         std::vector<std::string> parts = splitKey(key);
         json* current = &j;
         
-        for (size_t i = 0; i < static_cast<int>(parts.size()) - 1; ++i) {
+        for (size_t i = 0; i < parts.size() - 1; ++i) {
             if (!(*current).contains(parts[i])) {
                 (*current)[parts[i]] = json::object();
             }

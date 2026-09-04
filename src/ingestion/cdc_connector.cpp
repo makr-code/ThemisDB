@@ -272,7 +272,7 @@ parseColToken(const std::string& line, size_t& pos) {
         while (static_cast<size_t>(pos) <static_cast<int>(line.size())) {
             char c = line[pos];
             if (c == '\'') {
-                if (pos + 1 <static_cast<int>(line.size()) && line[pos + 1] == '\'') {
+                if (pos + 1 < line.size() && line[pos + 1] == '\'') {
                     val += '\'';
                     pos += 2;
                 } else {
@@ -286,12 +286,12 @@ parseColToken(const std::string& line, size_t& pos) {
         }
     } else {
         // Unquoted token (integer, null, …): read until space or end
-        while (pos <static_cast<int>(line.size()) && line[pos] != ' ')
+        while (pos < line.size() && line[pos] != ' ')
             val += line[pos++];
     }
 
     // Skip trailing spaces
-    while (pos <static_cast<int>(line.size()) && line[pos] == ' ') {
+    while (pos < line.size() && line[pos] == ' ') {
       ++pos;
     }
 
@@ -372,7 +372,7 @@ static bool parseTestDecodingLine(const std::string& line,
     }
 
     // Skip leading space after keyword
-    while (pos <static_cast<int>(l.size()) && l[pos] == ' ') {
+    while (pos < l.size() && l[pos] == ' ') {
       ++pos;
     }
 

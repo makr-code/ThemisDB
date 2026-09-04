@@ -99,10 +99,10 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::searchMultiEmbedding
     // Weighted Reciprocal Rank Fusion
     std::unordered_map<std::string, double> rrf_scores = {};
 
-    for (size_t li = 0; li <static_cast<int>(ranked_lists.size()); ++li) {
+    for (size_t li = 0; li < ranked_lists.size(); ++li) {
         const double w = weights[li];
         const auto& list = ranked_lists[li];
-        for (size_t rank = 0; rank <static_cast<int>(list.size()); ++rank) {
+        for (size_t rank = 0; rank < list.size(); ++rank) {
             const std::string& doc_id = list[rank].first;
             rrf_scores[doc_id] += w / (config_.rrf_k + static_cast<double>(rank + 1));
         }

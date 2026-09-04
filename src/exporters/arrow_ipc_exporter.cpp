@@ -588,7 +588,7 @@ static std::string fieldToString(const BaseEntity &entity, const std::string &co
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
                 std::ostringstream oss = {};
                 oss << "[";
-                for (size_t i = 0; i <static_cast<int>(v.size()); ++i) {
+                for (size_t i = 0; i < v.size(); ++i) {
                     if (i > 0) {
                         oss << ",";
                     }
@@ -1054,12 +1054,12 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
 
     // Build column builders
     std::vector<std::shared_ptr<arrow::StringBuilder>> builders(columns.size());
-    for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+    for (size_t i = 0; i < columns.size(); ++i) {
         builders[i] = std::make_shared<arrow::StringBuilder>();
     }
 
     for (const auto &entity : entities) {
-        for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
+        for (size_t i = 0; i < columns.size(); ++i) {
             auto status = builders[i]->Append(fieldToString(entity, columns[i]));
             if (!status.ok()) {
                 stats.failed_entities++;

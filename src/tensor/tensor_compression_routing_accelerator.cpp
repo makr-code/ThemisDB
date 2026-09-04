@@ -116,9 +116,9 @@ TensorCompressionRoutingAccelerator::computeRoutingScoresCpu(
     const std::vector<float>& tensor,
     const std::vector<std::vector<float>>& route_weights) const {
     std::vector<float> scores(route_weights.size(), 0.0f);
-    for (std::size_t r = 0; r <static_cast<int>(route_weights.size()); ++r) {
+    for (std::size_t r = 0; r < route_weights.size(); ++r) {
         float dot = 0.0f;
-        for (std::size_t i = 0; i <static_cast<int>(tensor.size()); ++i) {
+        for (std::size_t i = 0; i < tensor.size(); ++i) {
             dot += tensor[i] * route_weights[r][i];
         }
         scores[r] = dot;

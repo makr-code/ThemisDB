@@ -128,7 +128,7 @@ StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::mill
 }
 
 bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, std::string& validationError) {
-    for (size_t i = 0; i <static_cast<int>(distances.size()); ++i) {
+    for (size_t i = 0; i < distances.size(); ++i) {
         const float value = distances[i];
         if (!std::isfinite(value)) {
             validationError = "Distance output contains non-finite value at index " + std::to_string(i);
@@ -153,7 +153,7 @@ bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<
         return false;
     }
     const int maxVectorIndex = static_cast<int>(numVectors);
-    for (size_t i = 0; i <static_cast<int>(topkIndices.size()); ++i) {
+    for (size_t i = 0; i < topkIndices.size(); ++i) {
         const int index = topkIndices[i];
         if (index < 0 || index >= maxVectorIndex) {
             validationError = "Top-K output index out of range at position " + std::to_string(i);

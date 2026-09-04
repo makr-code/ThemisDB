@@ -215,7 +215,7 @@ std::vector<float> SpeculativeDecoder::softmax(const std::vector<float>& logits)
 
     std::vector<float> probs(logits.size());
     float sum = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(logits.size()); ++i) {
+    for (size_t i = 0; i < logits.size(); ++i) {
         probs[i] = std::exp(logits[i] - max_val);
         sum += probs[i];
     }
@@ -236,7 +236,7 @@ std::vector<float> SpeculativeDecoder::adjustedDistribution(
 
     float sum = 0.0f;
     for (size_t i = 0; i < n; ++i) {
-        const float dp = (i <static_cast<int>(draft_probs.size())) ? draft_probs[i] : 0.0f;
+        const float dp = (i < draft_probs.size()) ? draft_probs[i] : 0.0f;
         adjusted[i] = std::max(0.0f, target_probs[i] - dp);
         sum += adjusted[i];
     }
@@ -268,7 +268,7 @@ int SpeculativeDecoder::sampleToken(
     const float r = uniform(rng);
 
     float cumulative = 0.0f;
-    for (size_t i = 0; i <static_cast<int>(probs.size()); ++i) {
+    for (size_t i = 0; i < probs.size(); ++i) {
         cumulative += probs[i];
         if (r <= cumulative) {
             return static_cast<int>(i);

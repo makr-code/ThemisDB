@@ -54,7 +54,7 @@ std::string ExplanationGenerator::formatUserFriendly(
     
     if (!reasoning_steps.empty()) {
         out << "My thinking process:\n";
-        for (size_t i = 0; i <static_cast<int>(reasoning_steps.size()); i++) {
+        for (size_t i = 0; i < reasoning_steps.size(); i++) {
             out << "  " << (i + 1) << ". " << reasoning_steps[i] << "\n";
         }
         out << "\n";
@@ -92,7 +92,7 @@ std::string ExplanationGenerator::formatTechnical(
     
     out << "REASONING CHAIN:\n";
     if (!reasoning_steps.empty()) {
-        for (size_t i = 0; i <static_cast<int>(reasoning_steps.size()); i++) {
+        for (size_t i = 0; i < reasoning_steps.size(); i++) {
             out << "[Step " << (i + 1) << "] " << reasoning_steps[i] << "\n";
         }
     } else {
@@ -132,7 +132,7 @@ std::string ExplanationGenerator::formatCompliance(
     out << "2. PROCESSING LOGIC\n";
     if (!reasoning_steps.empty()) {
         out << "   The automated system processed this request through the following steps:\n";
-        for (size_t i = 0; i <static_cast<int>(reasoning_steps.size()); i++) {
+        for (size_t i = 0; i < reasoning_steps.size(); i++) {
             out << "   " << (i + 1) << ". " << reasoning_steps[i] << "\n";
         }
     } else {
@@ -318,7 +318,7 @@ std::string ExplanationGenerator::generateComplianceExplanation(
     out << "SECTION 3: DECISION LOGIC\n";
     if (!reasoning_steps.empty()) {
         out << "  Processing Steps:\n";
-        for (size_t i = 0; i <static_cast<int>(reasoning_steps.size()); i++) {
+        for (size_t i = 0; i < reasoning_steps.size(); i++) {
             out << "    Step " << (i + 1) << ": " << reasoning_steps[i] << "\n";
         }
     } else {

@@ -47,10 +47,10 @@ constexpr int hexDigit(char c) noexcept {
 std::string urlDecodeTypeAdapter(const std::string& str) {
     std::string out = {};
     out.reserve(str.size());
-    for (size_t i = 0; i <static_cast<int>(str.size()); ++i) {
+    for (size_t i = 0; i < str.size(); ++i) {
         if (str[i] == '+') {
             out += ' ';
-        } else if (str[i] == '%' && i + 2 <static_cast<int>(str.size())) {
+        } else if (str[i] == '%' && i + 2 < str.size()) {
             int hi = hexDigit(str[i + 1]);
             int lo = hexDigit(str[i + 2]);
             if (hi >= 0 && lo >= 0) {

@@ -155,7 +155,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     
     // CPU fallback: Compute distances on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i <static_cast<int>(points1.size()); ++i) {
+        for (size_t i = 0; i < points1.size(); ++i) {
             result.distances_km[i] = haversineDistance(
                 points1[i], points2[i], earth_radius_km);
         }
@@ -272,7 +272,7 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     
     // CPU fallback: Compute Vincenty distances on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i <static_cast<int>(points1.size()); ++i) {
+        for (size_t i = 0; i < points1.size(); ++i) {
             result.distances_km[i] = vincentyDistance(points1[i], points2[i]);
         }
         result.error_code = 0;

@@ -298,7 +298,7 @@ std::string DynamicReflectionPromptBuilder::buildConstitutionalCritiquePrompt(
     out << "Critique the following response against each constitutional principle.\n\n";
     out << "Response:\n" << response << "\n\n";
     out << "Constitutional principles:\n";
-    for (size_t i = 0; i <static_cast<int>(principles.size()); ++i) {
+    for (size_t i = 0; i < principles.size(); ++i) {
         out << (i + 1) << ". " << principles[i] << '\n';
     }
     out << "\nFor each principle, state whether the response complies and "

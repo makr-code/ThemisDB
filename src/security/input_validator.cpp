@@ -289,7 +289,7 @@ ValidationResult InputValidator::validateIdentifier(std::string_view identifier)
   }
   
   // Remaining characters must be alphanumeric or underscore
-  for (size_t i = 1; i <static_cast<int>(identifier.size()); ++i) {
+  for (size_t i = 1; i < identifier.size(); ++i) {
     if (!isalnum(identifier[i]) && identifier[i] != '_') {
       return {false,
               "Identifier contains invalid character '" + std::string(1, identifier[i]) + "'",

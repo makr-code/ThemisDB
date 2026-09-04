@@ -408,7 +408,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
         oss << ' ';
     }
 
-    for (std::size_t i = 1; i <static_cast<int>(items.size()); ++i) {
+    for (std::size_t i = 1; i < items.size(); ++i) {
         const Item &cur = items[i];
         float dy        = std::abs(cur.y - prev_y);
         float line_thr  = (cur.h + prev_h) * 0.4f;
@@ -438,9 +438,9 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
 
 std::string PDFProcessor::extractAllText(const std::vector<PDFPageInfo> &pages) {
     std::ostringstream oss = {};
-    for (size_t i = 0; i <static_cast<int>(pages.size()); ++i) {
+    for (size_t i = 0; i < pages.size(); ++i) {
         oss << pages[i].text;
-        if (i + 1 <static_cast<int>(pages.size())) {
+        if (i + 1 < pages.size()) {
             oss << "\n\n";
         }
     }
@@ -537,7 +537,7 @@ std::vector<float> PDFProcessor::generateEmbedding(const std::string &chunk_data
         return embedding;
     }
 
-    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
+    for (size_t i = 0; i < tokens.size(); ++i) {
         const size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
             const size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);

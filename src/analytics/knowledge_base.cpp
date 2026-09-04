@@ -252,7 +252,7 @@ static TriplePattern parseTriplePattern(const std::string &line) {
     if (static_cast<int>(parts.size()) >= 3) {
         // Join remaining parts (object may contain commas in quoted form).
         tp.object = parts[2];
-        for (std::size_t i = 3; i <static_cast<int>(parts.size()); ++i) {
+        for (std::size_t i = 3; i < parts.size(); ++i) {
             tp.object += "," + parts[i];
         }
     }

@@ -411,7 +411,7 @@ void CanaryDeployment::setVersion(const std::string& version) {
 
 void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (size_t i = 0; i <static_cast<int>(stages.size()); ++i) {
+    for (size_t i = 0; i < stages.size(); ++i) {
         stages[i].stage_number = i;
     }
     stages_ = std::move(stages);

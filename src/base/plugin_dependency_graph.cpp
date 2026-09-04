@@ -518,7 +518,7 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
     // Load order summary (only if acyclic).
     if (cycles.empty() && !order.empty()) {
         out << "Load order: ";
-        for (std::size_t i = 0; i <static_cast<int>(order.size()); ++i) {
+        for (std::size_t i = 0; i < order.size(); ++i) {
             if (i > 0) {
                 out << " -> ";
             }

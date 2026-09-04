@@ -119,7 +119,7 @@ public:
 
         // Group samples by task.
         std::unordered_map<std::string, std::vector<size_t>> task_sample_map;
-        for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t i = 0; i < samples.size(); ++i) {
             const auto& s = samples[i];
             if (!task_index_.count(s.task_id))
                 throw std::invalid_argument(
@@ -292,7 +292,7 @@ public:
         float best_score = -1.0f;
         std::string best_task = {};
 
-        for (size_t ti = 0; ti <static_cast<int>(tasks_.size()); ++ti) {
+        for (size_t ti = 0; ti < tasks_.size(); ++ti) {
             const auto& proto = task_prototypes_[ti];
             size_t n = std::min(input.size(),static_cast<int>(proto.size()));
 

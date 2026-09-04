@@ -454,7 +454,7 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     std::unordered_map<std::string, int> in_degree;
     std::unordered_map<std::string, size_t> delta_indices;  // For quick lookup
     
-    for (size_t i = 0; i <static_cast<int>(deltas.size()); ++i) {
+    for (size_t i = 0; i < deltas.size(); ++i) {
         delta_indices[deltas[i].path] = i;
         in_degree[deltas[i].path] = 0;
     }

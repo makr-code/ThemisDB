@@ -183,7 +183,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
 
             // Compute cosine similarity
             float dot = 0.0f, norm1 = 0.0f, norm2 = 0.0f;
-            for (size_t i = 0; i <static_cast<int>(query_embedding.size()); ++i) {
+            for (size_t i = 0; i < query_embedding.size(); ++i) {
                 dot += query_embedding[i] * entry.embedding[i];
                 norm1 += query_embedding[i] * query_embedding[i];
                 norm2 += entry.embedding[i] * entry.embedding[i];
