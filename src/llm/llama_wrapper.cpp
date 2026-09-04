@@ -1037,7 +1037,7 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto* lora_manager = lora_manager_.get();
     if (!lora_manager) {
-        return {};
+        return std::vector<LoRAInfo>();
     }
     return lora_manager->listLoRAs();
 }
@@ -2041,7 +2041,7 @@ std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     auto* lora_manager = lora_manager_.get();
     if (!lora_manager) {
         spdlog::warn("LlamaWrapper::exportLoRA: LoRA manager is not initialized, cannot export '{}'", lora_id);
-        return {};
+        return std::vector<uint8_t>();
     }
     // Delegate to multi-LoRA manager
     return lora_manager->exportLoRA(lora_id);

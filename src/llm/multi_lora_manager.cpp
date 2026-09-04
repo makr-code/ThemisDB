@@ -744,7 +744,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
 
     if (!config_.enable_multi_lora_batch) {
         errors::logError(errors::ErrorCode::ERR_LORA_BATCHING_DISABLED);
-        return {};
+        return std::vector<InferenceResponse>();
     }
 
     // A valid llama_context is required for inference.
@@ -1333,7 +1333,7 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
-        return {};
+        return std::vector<uint8_t>();
     }
     
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
@@ -1355,7 +1355,7 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
     if (serialized.size() < expected_size) {
         spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
-        return {};
+        return std::vector<uint8_t>();
     }
     std::memcpy(serialized.data() + offset, &id_len, sizeof(size_t));
     offset += sizeof(size_t);
@@ -1880,7 +1880,7 @@ std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
     const size_t kMaxAlloc = 1024 * 1024 / sizeof(float);  // cap at 1 MB
     size_t actual = std::min(count, kMaxAlloc);
     if (actual == 0) {
-        return {};
+        return std::vector<float>();
     }
     try {
         std::vector<float> weights(actual);
@@ -1891,7 +1891,7 @@ std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
     } catch (const std::bad_alloc& e) {
         spdlog::error("simulateWeights: allocation failed (count={}, actual={}): {}",
                       count, actual, e.what());
-        return {};
+        return std::vector<float>();
     }
 }
 
@@ -1970,12 +1970,12 @@ std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_i
     
     auto it = loras_.find(lora_id);
     if (it == loras_.end()) {
-        return {};
+        return std::vector<int>();
     }
 
     auto* const slot = it->second.get();
     if (!slot) {
-        return {};
+        return std::vector<int>();
     }
     
     return slot->assigned_gpus;
@@ -3447,7 +3447,7 @@ std::vector<float> MultiLoRAManager::getCurrentFusionWeights(
     
     auto config_it = fusion_configs_.find(fusion_id);
     if (config_it == fusion_configs_.end()) {
-        return {};
+        return std::vector<float>();
     }
     
     // For SCHEDULED strategy, compute current weights based on schedule
@@ -3471,7 +3471,7 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
         if (config_it != fusion_configs_.end()) {
             return config_it->second.weights;
         }
-        return {};
+        return std::vector<float>();
     }
     
     const auto& schedule = schedule_it->second;

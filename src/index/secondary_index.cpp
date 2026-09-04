@@ -1062,7 +1062,7 @@ SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
                                              std::string_view value) const {
 	if (!hasPartialIndex(table, column))
 		return {Status::Error("scanKeysEqualPartial: kein partieller Index für " +
-		                      std::string(table) + "." + std::string(column)), {}};
+		                      std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 
 	const std::string encodedVal = encodeKeyComponent(value);
 	const std::string prefix = makePartialIndexPrefix(table, column, encodedVal);
@@ -1958,7 +1958,7 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 	bool hasSparse = hasSparseIndex(table, column);
 	
 	if (!hasRegularIndex && !hasSparse) {
-		return {Status::Error("scanKeysEqual: kein Index für " + std::string(table) + "." + std::string(column)), {}};
+		return {Status::Error("scanKeysEqual: kein Index für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 	}
 
 	const std::string encodedVal = encodeKeyComponent(value);
@@ -1994,7 +1994,7 @@ SecondaryIndexManager::scanEntitiesEqual(std::string_view table,
 										 std::string_view column,
 										 std::string_view value) const {
 	auto [st, keys] = scanKeysEqual(table, column, value);
-	if (!st.ok) return {st, {}};
+	if (!st.ok) return {st, std::vector<BaseEntity>()};
 
 	std::vector<BaseEntity> out;
 	out.reserve(keys.size());
@@ -2040,7 +2040,7 @@ SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 											  const std::vector<std::string>& columns,
 											  const std::vector<std::string>& values) const {
 	if (columns.size() != values.size()) {
-		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), {}};
+		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), std::vector<std::string>()};
 	}
 	if (!hasCompositeIndex(table, columns)) {
 		std::string colList;
@@ -2048,7 +2048,7 @@ SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 			if (i > 0) colList += ", ";
 			colList += columns[i];
 		}
-		return {Status::Error("scanKeysEqualComposite: kein Composite Index für " + std::string(table) + ".{" + colList + "}"), {}};
+		return {Status::Error("scanKeysEqualComposite: kein Composite Index für " + std::string(table) + ".{" + colList + "}"), std::vector<std::string>()};
 	}
 	
 	const std::string prefix = makeCompositeIndexPrefix(table, columns, values);
@@ -2068,7 +2068,7 @@ SecondaryIndexManager::scanEntitiesEqualComposite(std::string_view table,
 												  const std::vector<std::string>& columns,
 												  const std::vector<std::string>& values) const {
 	auto [st, keys] = scanKeysEqualComposite(table, columns, values);
-	if (!st.ok) return {st, {}};
+	if (!st.ok) return {st, std::vector<BaseEntity>()};
 	
 	std::vector<BaseEntity> out;
 	out.reserve(keys.size());
@@ -2121,8 +2121,8 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
     size_t limit,
     bool reversed
 ) const {
-    if (table.empty() || column.empty()) return {Status::Error("scanKeysRange: table/column darf nicht leer sein"), {}};
-    if (!hasRangeIndex(table, column)) return {Status::Error("scanKeysRange: kein Range-Index vorhanden für " + std::string(table) + "." + std::string(column)), {}};
+    if (table.empty() || column.empty()) return {Status::Error("scanKeysRange: table/column darf nicht leer sein"), std::vector<std::string>()};
+    if (!hasRangeIndex(table, column)) return {Status::Error("scanKeysRange: kein Range-Index vorhanden für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 
     std::vector<std::string> result;
     std::string startKey, endKey;
@@ -2196,8 +2196,8 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			return scanKeysRange(table, column, lowerValue, upperValue, includeLowerValue, includeUpperValue, limit, reversed);
 		}
 
-		if (table.empty() || column.empty()) return {Status::Error("scanKeysRangeAnchored: table/column darf nicht leer sein"), {}};
-		if (!hasRangeIndex(table, column)) return {Status::Error("scanKeysRangeAnchored: kein Range-Index vorhanden für " + std::string(table) + "." + std::string(column)), {}};
+		if (table.empty() || column.empty()) return {Status::Error("scanKeysRangeAnchored: table/column darf nicht leer sein"), std::vector<std::string>()};
+		if (!hasRangeIndex(table, column)) return {Status::Error("scanKeysRangeAnchored: kein Range-Index vorhanden für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 
 		const std::string& anchorValue = anchor->first;
 		const std::string& anchorPk = anchor->second;
@@ -2276,7 +2276,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 
 			// Rest auffüllen
 			auto [st2, more] = scanKeysRange(table, column, lb, ub, il, iu, limit - out.size(), reversed);
-			if (!st2.ok) return {st2, {}};
+			if (!st2.ok) return {st2, std::vector<std::string>()};
 
 			// Anhängen
 			for (const auto& pk : more) {
@@ -2348,7 +2348,7 @@ SecondaryIndexManager::scanGeoBox(
 	size_t limit) const {
 	
 	if (!hasGeoIndex(table, column)) {
-		return {Status::Error("scanGeoBox: Kein Geo-Index für " + std::string(table) + "." + std::string(column)), {}};
+		return {Status::Error("scanGeoBox: Kein Geo-Index für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 	}
 	
 	// Generate geohash range for bounding box
@@ -2392,7 +2392,7 @@ SecondaryIndexManager::scanGeoRadius(
 	size_t limit) const {
 	
 	if (!hasGeoIndex(table, column)) {
-		return {Status::Error("scanGeoRadius: Kein Geo-Index für " + std::string(table) + "." + std::string(column)), {}};
+		return {Status::Error("scanGeoRadius: Kein Geo-Index für " + std::string(table) + "." + std::string(column)), std::vector<std::string>()};
 	}
 	
 	// Approximate bounding box (1 degree ≈ 111 km at equator)
@@ -2507,7 +2507,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	size_t limit
 ) const {
 	if (!hasFulltextIndex(table, column)) {
-		return {Status::Error("computeBM25Scores_: Kein Fulltext-Index für " + std::string(table) + "." + std::string(column)), {}};
+		return {Status::Error("computeBM25Scores_: Kein Fulltext-Index für " + std::string(table) + "." + std::string(column)), std::vector<FulltextResult>()};
 	}
 	
 	// Get index config and parse phrases; tokenize query without quoted phrases
@@ -2552,7 +2552,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	}
 	
 	if (tokens.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// For each token, get PKs from inverted index (doc frequency sets)
@@ -2574,7 +2574,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	
 	// Intersect all sets (AND logic)
 	if (tokenResults.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 
 	// Intersect smallest sets first to reduce container scans on large candidate sets.
@@ -2637,7 +2637,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			if (!keep) toErase.emplace_back(pk);
 		}
 		for (const auto& pk : toErase) intersectionSet.erase(pk);
-		if (intersectionSet.empty()) return {Status::OK(), {}};
+		if (intersectionSet.empty()) return {Status::OK(), std::vector<FulltextResult>()};
 	}
 
 	// BM25 Ranking über die Schnittmenge berechnen
@@ -2740,7 +2740,7 @@ SecondaryIndexManager::scanFulltext(
 ) const {
 	auto [status, results] = computeBM25Scores_(table, column, query, limit);
 	if (!status.ok) {
-		return {status, {}};
+		return {status, std::vector<std::string>()};
 	}
 	
 	std::vector<std::string> pks;
@@ -2772,11 +2772,11 @@ SecondaryIndexManager::scanFulltextPhrase(
 	size_t limit
 ) const {
 	if (!hasFulltextIndex(table, column)) {
-		return {Status::Error("scanFulltextPhrase: No fulltext index for " + std::string(table) + "." + std::string(column)), {}};
+		return {Status::Error("scanFulltextPhrase: No fulltext index for " + std::string(table) + "." + std::string(column)), std::vector<FulltextResult>()};
 	}
 	
 	if (phrase.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// Get index config and tokenize phrase
@@ -2784,7 +2784,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 	auto tokens = tokenize(phrase, config);
 	
 	if (tokens.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// Get candidate documents that contain all tokens
@@ -2807,7 +2807,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 	
 	// Intersect all sets (AND logic)
 	if (tokenResults.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	std::unordered_set<std::string> candidates = tokenResults[0];
@@ -2822,7 +2822,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 	}
 	
 	if (candidates.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// Verify exact phrase match by checking original document
@@ -2910,11 +2910,11 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	size_t limit
 ) const {
 	if (!hasFulltextIndex(table, column)) {
-		return {Status::Error("scanFulltextFuzzy: No fulltext index for " + std::string(table) + "." + std::string(column)), {}};
+		return {Status::Error("scanFulltextFuzzy: No fulltext index for " + std::string(table) + "." + std::string(column)), std::vector<FulltextResult>()};
 	}
 	
 	if (query.empty() || maxDistance < 0) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// Get index config and tokenize query
@@ -2922,7 +2922,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	auto queryTokens = tokenize(query, config);
 	
 	if (queryTokens.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<FulltextResult>()};
 	}
 	
 	// For fuzzy search, we need to scan tokens in the index and find similar ones

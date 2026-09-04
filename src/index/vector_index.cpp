@@ -1457,7 +1457,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
-		return {Status::Error("searchKnn: Query-Dimension passt nicht"), {}};
+		return {Status::Error("searchKnn: Query-Dimension passt nicht"), std::vector<Result>();
 	}
     
 	// Deterministic correctness path for Phase 1 encryption: use brute-force to avoid
@@ -1668,7 +1668,7 @@ VectorIndexManager::searchKnnEvaluated(
 	const size_t candidate_count = std::max(k, k * safe_multiplier);
 	auto [status, candidates] = searchKnn(query, candidate_count, whitelist);
 	if (!status.ok) {
-		return {status, {}};
+		return {status, std::vector<Result>();
 	}
 
 	std::vector<Result> filtered;
@@ -1723,7 +1723,7 @@ VectorIndexManager::searchKnnRadiusEvaluated(
 
 	auto [status, candidates] = searchKnnRadius(query, epsilon, max_results, whitelist);
 	if (!status.ok) {
-		return {status, {}};
+		return {status, std::vector<Result>();
 	}
 
 	std::vector<Result> filtered;
@@ -1772,7 +1772,7 @@ VectorIndexManager::searchKnnFiltered(
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
-		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), {}};
+		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), std::vector<Result>();
 	}
 
 	if (filters.empty()) {
@@ -1850,7 +1850,7 @@ VectorIndexManager::searchKnnFiltered(
 			
 		} catch (const std::exception& ex) {
 			THEMIS_WARN("searchKnnFiltered: HNSW-Suche fehlgeschlagen: {}", ex.what());
-			return {Status::Error(std::string("HNSW exception: ") + ex.what()), {}};
+			return {Status::Error(std::string("HNSW exception: ") + ex.what()), std::vector<Result>();
 		}
 	}
 #endif
@@ -1914,7 +1914,7 @@ VectorIndexManager::searchKnnPreFiltered(
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
-		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), {}};
+		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), std::vector<Result>();
 	}
 
 	if (filters.empty()) {
@@ -2058,7 +2058,7 @@ VectorIndexManager::searchKnnPreFiltered(
 		// Early exit if whitelist is empty
 		if (whitelistSet.empty()) {
 			THEMIS_INFO("searchKnnPreFiltered: Whitelist empty after filter on {}", filter.field);
-			return {Status::OK(), {}};
+			return {Status::OK(), std::vector<Result>();
 		}
 	}
 
@@ -2099,7 +2099,7 @@ VectorIndexManager::searchKnnRadius(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (static_cast<int>(query.size()) != dim_) {
-		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), {}};
+		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), std::vector<Result>();
 	}
 
 	std::vector<Result> results;
@@ -2109,7 +2109,7 @@ VectorIndexManager::searchKnnRadius(
 		// HNSW unterstützt keine native radius search; nutze searchKnn mit großem k und filter
 		size_t fetchK = max_results > 0 ? std::max(max_results * 2, size_t(100)) : pkToId_.size();
 		auto [st, candidates] = searchKnn(query, fetchK, whitelistPks);
-		if (!st.ok) return {st, {}};
+		if (!st.ok) return {st, std::vector<Result>();
 		
 		for (const auto& c : candidates) {
 			if (c.distance <= epsilon) {
@@ -2179,7 +2179,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (static_cast<int>(query.size()) != dim_) {
-		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), {}};
+		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), std::vector<Result>();
 	}
 
 	if (filters.empty()) {
@@ -2273,7 +2273,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 
 		if (whitelistSet.empty()) {
 			THEMIS_INFO("searchKnnRadiusPreFiltered: Whitelist empty after filter on {}", filter.field);
-			return {Status::OK(), {}};
+			return {Status::OK(), std::vector<Result>();
 		}
 	}
 
@@ -2858,7 +2858,7 @@ std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeCentroid() const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
-		return {Status::Error("computeCentroid: No vectors in index"), {}};
+		return {Status::Error("computeCentroid: No vectors in index"), std::vector<Result>();
 	}
 
 	std::vector<float> centroid(dim_, 0.0f);
@@ -2884,12 +2884,12 @@ std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeVariance() const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
-		return {Status::Error("computeVariance: No vectors in index"), {}};
+		return {Status::Error("computeVariance: No vectors in index"), std::vector<Result>();
 	}
 
 	auto [st, centroid] = computeCentroid();
 	if (!st.ok) {
-		return {st, {}};
+		return {st, std::vector<Result>();
 	}
 
 	std::vector<float> variance(dim_, 0.0f);
@@ -2916,17 +2916,17 @@ std::pair<VectorIndexManager::Status, std::vector<std::string>>
 VectorIndexManager::findOutliers(float threshold) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
-		return {Status::OK(), {}};
+		return {Status::OK(), std::vector<Result>();
 	}
 
 	auto [st_cent, centroid] = computeCentroid();
 	if (!st_cent.ok) {
-		return {st_cent, {}};
+		return {st_cent, std::vector<Result>();
 	}
 
 	auto [st_stats, stats] = getStatistics();
 	if (!st_stats.ok) {
-		return {st_stats, {}};
+		return {st_stats, std::vector<Result>();
 	}
 
 	std::vector<std::string> outliers;
@@ -3233,7 +3233,7 @@ VectorIndexManager::searchWithRotation(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
-		return {Status::Error("Rotary embeddings not enabled"), {}};
+		return {Status::Error("Rotary embeddings not enabled"), std::vector<Result>();
 	}
 	
 	try {
@@ -3255,7 +3255,7 @@ VectorIndexManager::searchWithRotation(
 		
 		return {status, results};
 	} catch (const std::exception& e) {
-		return {Status::Error(std::string("Rotation search failed: ") + e.what()), {}};
+		return {Status::Error(std::string("Rotation search failed: ") + e.what()), std::vector<Result>();
 	}
 }
 

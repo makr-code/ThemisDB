@@ -1746,7 +1746,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     std::vector<StackEntry> stack;
     stack.reserve(nodeDurations.size() + 1);
-    stack.push_back({startNode, 0.0, {}, {}});
+    stack.push_back({startNode, 0.0, std::vector<std::string>(), std::unordered_set<std::string>()});
     
     while (!stack.empty()) {
         auto entry = std::move(stack.back());
@@ -2967,11 +2967,11 @@ ProcessGraphManager::getRegionalParameters(
     double lon,
     double lat
 ) const {
-    if (!db_.isOpen()) return {Status::Error("Database not open"), {}};
+    if (!db_.isOpen()) return {Status::Error("Database not open"), nlohmann::json::object()};
 
     // Load the process definition.
     const auto procBlob = db_.get(makeProcessKey_(process_id));
-    if (!procBlob) return {Status::Error("Process definition not found"), {}};
+    if (!procBlob) return {Status::Error("Process definition not found"), nlohmann::json::object()};
     const BaseEntity procEntity = BaseEntity::deserialize(std::string(process_id), *procBlob);
 
     // Try to load a "regional_parameters" JSON field from the process definition.
@@ -2986,7 +2986,7 @@ ProcessGraphManager::getRegionalParameters(
     try {
         regParams = nlohmann::json::parse(*regParamsStr);
     } catch (const std::exception& e) {
-        return {Status::Error(std::string("Failed to parse regional_parameters JSON: ") + e.what()), {}};
+        return {Status::Error(std::string("Failed to parse regional_parameters JSON: ") + e.what()), nlohmann::json::object()};
     }
 
     // Iterate entries: key is WKT polygon, value is parameter map.
