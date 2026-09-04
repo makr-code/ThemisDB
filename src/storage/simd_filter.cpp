@@ -136,6 +136,7 @@ inline bool scalar_cmp(T a, FilterOp op, T b) noexcept {
         case FilterOp::LE: return a <= b;
         case FilterOp::GT: return a >  b;
         case FilterOp::GE: return a >= b;
+        default: break;
     }
     return false;
 }
@@ -185,6 +186,7 @@ inline int avx2_cmp_i32(__m256i a, __m256i b, FilterOp op) noexcept {
             // a >= b  ↔  !(b > a)
             mask = _mm256_cmpgt_epi32(b, a);
             return ~_mm256_movemask_ps(_mm256_castsi256_ps(mask)) & 0xFF;
+        default: break;
     }
     return 0;
 }
@@ -237,6 +239,7 @@ inline int avx2_cmp_i64(__m256i a, __m256i b, FilterOp op) noexcept {
         case FilterOp::GE:
             mask = _mm256_cmpgt_epi64(b, a);
             return ~_mm256_movemask_pd(_mm256_castsi256_pd(mask)) & 0xF;
+        default: break;
     }
     return 0;
 }
@@ -621,6 +624,7 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
                 case FilterOp::LE: return thr <  zm.min_int;
                 case FilterOp::GT: return thr >= zm.max_int;
                 case FilterOp::GE: return thr >  zm.max_int;
+                default: break;
             }
             break;
         }
@@ -636,6 +640,7 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
                 case FilterOp::LE: return thr <  zm.min_float;
                 case FilterOp::GT: return thr >= zm.max_float;
                 case FilterOp::GE: return thr >  zm.max_float;
+                default: break;
             }
             break;
         }
