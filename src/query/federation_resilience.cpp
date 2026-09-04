@@ -123,6 +123,7 @@ std::string CircuitBreaker::getStatistics() const {
         case State::HALF_OPEN:
             state_str = "HALF_OPEN";
             break;
+        default: break;
     }
 
     std::string stats = "CircuitBreaker[" + shard_id_ + "]:\n";
@@ -182,6 +183,7 @@ bool DegradedModeExecutor::shouldProceedDegraded(
             return available_shards > 0;
         case Strategy::BEST_EFFORT:
             return available_shards > 0;
+        default: break;
     }
     return false;
 }
@@ -224,6 +226,7 @@ std::string DegradedModeExecutor::getStatistics() const {
         case Strategy::BEST_EFFORT:
             stats += "BEST_EFFORT";
             break;
+        default: break;
     }
     stats += "\n";
     stats += "  minimum_coverage: " + std::to_string(minimum_coverage_pct_) + "%\n";
@@ -417,6 +420,7 @@ FederationResilienceCoordinator::getShardStatesSummary() const {
             case CircuitBreaker::State::HALF_OPEN:
                 state_str = "recovering";
                 break;
+            default: break;
         }
         summary[shard_id] = state_str;
     }

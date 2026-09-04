@@ -163,6 +163,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
                 }
                 ARROW_RETURN_NOT_OK(builder.Finish(&array));
                 break;
+            default: break;
             }
         }
 
@@ -218,6 +219,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     result.message = "Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
                                      "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
                     return result;
+                default: break;
             }
 
             // Write to file
@@ -263,6 +265,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                 spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                 return "# ERROR: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
                        "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
+            default: break;
         }
 
         return "";
@@ -313,6 +316,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
             [[fallthrough]];\n            case ExportFormat::FMT_ARROW_PARQUET:
             [[fallthrough]];\n            case ExportFormat::FMT_ARROW_FEATHER:
                 return false;
+            default: break;
         }
         return false;
     }
@@ -922,6 +926,7 @@ std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat
 #else
             throwArrowUnavailable("Feather");
 #endif
+        default: break;
     }
     throw std::runtime_error("Unknown export format");
 }

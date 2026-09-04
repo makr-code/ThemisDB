@@ -317,6 +317,7 @@ std::string NotificationWebhook::eventLabel([[maybe_unused]] UpdateEvent event) 
         case UpdateEvent::UPDATE_FAILED:    return "Update Failed";
         case UpdateEvent::ROLLBACK_SUCCESS: return "Rollback Successful";
         case UpdateEvent::ROLLBACK_FAILED:  return "Rollback Failed";
+        default: break;
     }
     return "Unknown Event";
 }
@@ -327,6 +328,7 @@ std::string NotificationWebhook::slackColor([[maybe_unused]] UpdateEvent event) 
         case UpdateEvent::UPDATE_FAILED:    return "danger";
         case UpdateEvent::ROLLBACK_SUCCESS: return "warning";
         case UpdateEvent::ROLLBACK_FAILED:  return "danger";
+        default: break;
     }
     return "warning";
 }
@@ -337,6 +339,7 @@ std::string NotificationWebhook::pagerDutyAction([[maybe_unused]] UpdateEvent ev
         case UpdateEvent::ROLLBACK_SUCCESS: return "resolve";
         case UpdateEvent::UPDATE_FAILED:    return "trigger";
         case UpdateEvent::ROLLBACK_FAILED:  return "trigger";
+        default: break;
     }
     return "trigger";
 }
@@ -347,6 +350,7 @@ std::string NotificationWebhook::pagerDutySeverity([[maybe_unused]] UpdateEvent 
         case UpdateEvent::UPDATE_FAILED:    return "critical";
         case UpdateEvent::ROLLBACK_SUCCESS: return "warning";
         case UpdateEvent::ROLLBACK_FAILED:  return "critical";
+        default: break;
     }
     return "error";
 }

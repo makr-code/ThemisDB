@@ -345,6 +345,7 @@ std::string TTQuantizer::typeName(QuantizationType t) noexcept {
         case QuantizationType::NONE: return "none";
         case QuantizationType::INT8: return "int8";
         case QuantizationType::NF4:  return "nf4";
+        default: break;
     }
     return "unknown";
 }
@@ -354,6 +355,7 @@ double TTQuantizer::bytesPerElement(QuantizationType t) noexcept {
         case QuantizationType::NONE: return 4.0;
         case QuantizationType::INT8: return 1.0;
         case QuantizationType::NF4:  return 0.5;
+        default: break;
     }
     return 4.0;
 }
@@ -395,6 +397,7 @@ QuantizedTrain TTQuantizer::quantize(const TTTrain& train,
             case QuantizationType::NF4:
                 qt.cores.push_back(quantizeNF4(core));
                 break;
+            default: break;
         }
     }
     return qt;
@@ -431,6 +434,7 @@ TTTrain TTQuantizer::dequantize(const QuantizedTrain& qtrain) const {
             case QuantizationType::NF4:
                 train.cores.push_back(dequantizeNF4(qc));
                 break;
+            default: break;
         }
     }
     return train;

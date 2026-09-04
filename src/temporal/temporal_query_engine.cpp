@@ -96,6 +96,7 @@ bool TemporalQueryEngine::evaluatePredicate(TemporalOperator op,
             return lhs.meets(rhs);
         case TemporalOperator::EQUALS:
             return lhs.start == rhs.start && lhs.end == rhs.end;
+        default: break;
     }
     return false;
 }
@@ -466,6 +467,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
             result = queryWithSemantics(table, TemporalSemantics::NON_SEQUENCED,
                                         {kMinTimestamp, kMaxTimestamp}, filters);
             break;
+        default: break;
     }
 
     applyDeletedFilter(result, spec.include_deleted);
@@ -517,6 +519,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
             result = queryApplicationTimeRange(table, kMinTimestamp,
                                                kMaxTimestamp, filters);
             break;
+        default: break;
     }
 
     applyDeletedFilter(result, spec.include_deleted);

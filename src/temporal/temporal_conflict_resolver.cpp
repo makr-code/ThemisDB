@@ -121,6 +121,7 @@ TemporalSnapshot TemporalConflictResolver::resolve(
                 unresolved_conflicts_[record.conflict_id] = record;
             }
             return local;  // Keep local until manual resolution
+        default: break;
     }
     
     {
@@ -246,6 +247,7 @@ nlohmann::json TemporalConflictResolver::exportAuditLog() const {
             case ConflictPolicy::NODE_PRIORITY:    return "NODE_PRIORITY";
             case ConflictPolicy::MANUAL:           return "MANUAL";
             case ConflictPolicy::CRDT_MERGE:       return "CRDT_MERGE";
+            default: break;
         }
         return "UNKNOWN";
     };
@@ -410,6 +412,7 @@ std::string TemporalConflictDetector::makeQueueKey(
         case ConflictType::OVERLAPPING_PERIODS:   type_str = "OVERLAPPING_PERIODS";   break;
         case ConflictType::REFERENTIAL_INTEGRITY: type_str = "REFERENTIAL_INTEGRITY"; break;
         case ConflictType::UNIQUENESS_VIOLATION:  type_str = "UNIQUENESS_VIOLATION";  break;
+        default: break;
     }
     return table_name + "|" + conflict.entity_id + "|" + type_str
          + "|" + conflict.local_version.snapshot_id

@@ -43,6 +43,7 @@ bool CircuitBreaker::allowRequest() {
         case State::HALF_OPEN:
             // Allow limited requests for recovery testing
             return true;
+        default: break;
     }
     
     return false;
@@ -131,6 +132,7 @@ std::string CircuitBreaker::stateToString(State state) {
         case State::CLOSED: return "CLOSED";
         case State::OPEN: return "OPEN";
         case State::HALF_OPEN: return "HALF_OPEN";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -245,6 +247,7 @@ CircuitBreakerManager::StateCount CircuitBreakerManager::getStateCount() const {
             case CircuitBreaker::State::HALF_OPEN:
                 count.half_open++;
                 break;
+            default: break;
         }
     }
     

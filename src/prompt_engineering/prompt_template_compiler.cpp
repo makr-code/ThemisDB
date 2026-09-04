@@ -71,6 +71,7 @@ std::string PromptContextValue::toString() const {
                 oss << chunks[i].first;
             }
             return oss.str();
+        default: break;
         }
     }
     return {}; // unreachable
@@ -84,6 +85,7 @@ bool PromptContextValue::asBool() const {
             return !list_val.empty();
         case SlotType::DOCUMENT_CHUNK:
             return !chunks.empty();
+        default: break;
     }
     return false;
 }
@@ -325,6 +327,7 @@ static std::vector<detail::ASTNodePtr> parse(
                         "Unexpected {% endfor %} outside {% for %}");
                 }
                 return nodes;
+            default: break;
         }
     }
 
@@ -411,6 +414,7 @@ static void renderNodes(
                                 val.str_val, out);
                 }
                 break;
+            default: break;
             }
         }
     }
@@ -455,6 +459,7 @@ static void validateNodes(
                     // Validate body with a synthetic item_var
                     validateNodes(node->children, ctx, node->name, errors);
                     break;
+                default: break;
                 }
             }
         } catch (...) {

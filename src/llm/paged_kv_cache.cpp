@@ -342,6 +342,7 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
                 result.push_back((high << 4) | (low & 0x0F));
             }
             return result;
+        default: break;
         }
     }
     
@@ -412,6 +413,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
                 }
             }
             return result;
+        default: break;
         }
     }
     
@@ -426,6 +428,7 @@ float PagedKVCache::getCompressionFactor(KVQuantizationType type) {
             return 0.75f; // 75% compression (4 bytes -> 1 byte, plus small metadata overhead per block)
         case KVQuantizationType::NVFP4:
             return 0.875f; // 87.5% compression (4 bytes -> 0.5 bytes)
+        default: break;
     }
     return 1.0f;
 }
@@ -438,6 +441,7 @@ float PagedKVCache::getExpectedAccuracy(KVQuantizationType type) {
             return 0.98f;  // ~98% accuracy
         case KVQuantizationType::NVFP4:
             return 0.99f;  // ~99% accuracy (target per requirements)
+        default: break;
     }
     return 1.0f;
 }
@@ -450,6 +454,7 @@ int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
             return 8;   // 8-bit signed integer
         case KVQuantizationType::NVFP4:
             return 4;   // 4-bit NVIDIA floating point
+        default: break;
     }
     return 32;  // Default to FP32 (no quantization)
 }

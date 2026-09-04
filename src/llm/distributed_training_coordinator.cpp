@@ -255,6 +255,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             // For now, same as no compression (error feedback requires stateful tracking)
             compressed_data.reset();
             break;
+        default: break;
     }
 }
 
@@ -1046,6 +1047,7 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::aggregateGradients(
                         throw std::runtime_error(
                             fmt::format("Byzantine shards detected ({}), shutting down training",
                                       fmt::join(detection_result.suspected_shards, ", ")));
+                    default: break;
                 }
             }
         } catch (const std::exception& e) {
@@ -1492,6 +1494,7 @@ void DistributedTrainingCoordinator::initializeAggregator() {
             aggregator_ = std::make_unique<AllReduceAggregator>();
             spdlog::warn("Strategy not fully implemented, using AllReduce");
             break;
+        default: break;
     }
 }
 

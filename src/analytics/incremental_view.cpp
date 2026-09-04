@@ -102,6 +102,7 @@ bool applyFilterOp(const FieldValue &field_val, ViewFilter::Op op, const FieldVa
             return std::holds_alternative<std::nullptr_t>(field_val);
         case ViewFilter::Op::IS_NOT_NULL:
             return !std::holds_alternative<std::nullptr_t>(field_val);
+        default: break;
     }
     return false;
 }
@@ -203,6 +204,7 @@ FieldValue IncrementalView::AggState::result(ViewAggFunc func) const {
             return has_first ? first_val : FieldValue{nullptr};
         case ViewAggFunc::LAST:
             return last_val;
+        default: break;
     }
     return FieldValue{nullptr};
 }
@@ -327,6 +329,7 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
                 return false;
             }
             break;
+        default: break;
     }
 
     // Only applyRow() and pruneEmptyGroup() mutate shared state and need
@@ -357,6 +360,7 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
             }
             applied = before_passes || after_passes; // at least one is true (early-return guard above)
             break;
+        default: break;
     }
 
     if (applied) {
@@ -410,6 +414,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
                     continue;
                 }
                 break;
+            default: break;
         }
         filtered.push_back({i, bp, ap});
     }
@@ -452,6 +457,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
                         }
                         ++batch_applied;
                         break;
+                    default: break;
                 }
             }
 

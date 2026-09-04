@@ -108,6 +108,7 @@ std::string bpmnNodeTypeToString(BPMNNodeType type) {
         case BPMNNodeType::DATA_STORE: return "DATA_STORE";
         case BPMNNodeType::GROUP: return "GROUP";
         case BPMNNodeType::ANNOTATION: return "ANNOTATION";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -123,6 +124,7 @@ std::string epkNodeTypeToString(EPKNodeType type) {
         case EPKNodeType::INFORMATION_OBJECT: return "INFORMATION_OBJECT";
         case EPKNodeType::APPLICATION_SYSTEM: return "APPLICATION_SYSTEM";
         case EPKNodeType::PROCESS_PATH: return "PROCESS_PATH";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -139,6 +141,7 @@ std::string processEdgeTypeToString(ProcessEdgeType type) {
         case ProcessEdgeType::DEFAULT_FLOW: return "DEFAULT_FLOW";
         case ProcessEdgeType::CONDITIONAL_FLOW: return "CONDITIONAL_FLOW";
         case ProcessEdgeType::EXCEPTION_FLOW: return "EXCEPTION_FLOW";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -607,6 +610,7 @@ ProcessGraphManager::Status ProcessGraphManager::addHyperedge(
         case Hyperedge::SyncType::OR_JOIN: syncTypeStr = "OR_JOIN"; break;
         case Hyperedge::SyncType::N_OF_M_JOIN: syncTypeStr = "N_OF_M_JOIN"; break;
         case Hyperedge::SyncType::DISCRIMINATOR: syncTypeStr = "DISCRIMINATOR"; break;
+        default: break;
     }
     entity.setField("sync_type", syncTypeStr);
 
