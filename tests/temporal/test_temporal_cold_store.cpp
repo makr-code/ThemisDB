@@ -218,7 +218,9 @@ TEST_F(ColdStoreFileSystemTest, Remove_DeletesFilesFromDisk) {
     size_t count = 0;
     if (fs::exists(tmp_dir)) {
         for (auto& e : fs::recursive_directory_iterator(tmp_dir))
-            if (e.is_regular_file() && e.path().extension() == ".json") ++count;
+            if (e.is_regular_file() && e.path().extension() == ".json") {
+              ++count;
+            }
     }
     EXPECT_EQ(count, 0u);
 }
@@ -244,7 +246,9 @@ TEST_F(ColdStoreFileSystemTest, Clear_RemovesAllFilesFromDisk) {
     size_t count = 0;
     if (fs::exists(tmp_dir)) {
         for (auto& e : fs::recursive_directory_iterator(tmp_dir))
-            if (e.is_regular_file()) ++count;
+            if (e.is_regular_file()) {
+              ++count;
+            }
     }
     EXPECT_EQ(count, 0u);
 }
@@ -292,10 +296,14 @@ TEST(ColdStoreConcurrencyTest, ConcurrentReads_NoDeadlock) {
             for (int q = 0; q < 50; ++q) {
                 Timestamp pt = static_cast<Timestamp>(((t * 25 + q) % N) * 10 + 4);
                 auto r = cs.getAsOf("t", "k", pt);
-                if (r.has_value()) hits.fetch_add(1, std::memory_order_relaxed);
+                if (r.has_value()) {
+                  hits.fetch_add(1, std::memory_order_relaxed);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(hits.load(), NUM_THREADS * 50);
 }

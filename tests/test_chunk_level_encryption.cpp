@@ -49,7 +49,9 @@ struct TestKeyStore {
     TestKeyStore() {
         // 32-byte AES-256 test key (fixed for reproducibility)
         key_bytes.resize(32);
-        for (size_t i = 0; i < 32; ++i) key_bytes[i] = static_cast<uint8_t>(i + 1);
+        for (size_t i = 0; i < 32; ++i) {
+          key_bytes[i] = static_cast<uint8_t>(i + 1);
+        }
     }
 
     EncryptedChunkStore::CurrentKeyFn currentKeyFn() {
@@ -60,7 +62,9 @@ struct TestKeyStore {
 
     EncryptedChunkStore::LookupKeyFn lookupKeyFn() {
         return [this](const std::string& kid) -> std::optional<std::vector<uint8_t>> {
-            if (kid == key_id) return key_bytes;
+            if (kid == key_id) {
+              return key_bytes;
+            }
             return std::nullopt;
         };
     }
@@ -131,7 +135,9 @@ TEST_F(EncryptedChunkStoreTest, RoundTripEmpty) {
 TEST_F(EncryptedChunkStoreTest, RoundTripLarge) {
     auto store = makeStore();
     std::vector<uint8_t> big(65536);
-    for (size_t i = 0; i < big.size(); ++i) big[i] = static_cast<uint8_t>(i & 0xFF);
+    for (size_t i = 0; i < big.size(); ++i) {
+      big[i] = static_cast<uint8_t>(i & 0xFF);
+    }
     auto enc       = store->encryptChunk("cpu:host1", big, "[0,86400000]");
     auto recovered = store->decryptChunk("cpu:host1", enc.blob, "[0,86400000]");
     EXPECT_EQ(big, recovered);
@@ -145,7 +151,9 @@ TEST_F(EncryptedChunkStoreTest, WrongKeyFailsAuth) {
 
     // Flip one byte in the ciphertext region (past key_id prefix + IV)
     auto& blob = enc.blob;
-    if (blob.size() > 30) blob[30] ^= 0xFF;
+    if (blob.size() > 30) {
+      blob[30] ^= 0xFF;
+    }
 
     EXPECT_THROW(store->decryptChunk("m:e", blob, ""), std::runtime_error);
 }
@@ -481,8 +489,12 @@ protected:
                 return {active_key_id, active_key_bytes};
             },
             [this](const std::string& kid) -> std::optional<std::vector<uint8_t>> {
-                if (kid == KEY_ID_V1) return key_bytes_v1;
-                if (kid == KEY_ID_V2) return key_bytes_v2;
+                if (kid == KEY_ID_V1) {
+                  return key_bytes_v1;
+                }
+                if (kid == KEY_ID_V2) {
+                  return key_bytes_v2;
+                }
                 return std::nullopt;
             },
             nullptr, "test");

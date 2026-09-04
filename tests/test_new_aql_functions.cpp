@@ -188,8 +188,12 @@ TEST_F(NewAQLFunctionsTest, EthicsListSchools) {
     for (const auto& school : result) {
         if (school.contains("name")) {
             std::string name = school["name"].get<std::string>();
-            if (name == "kant") hasKant = true;
-            if (name == "utilitarianism") hasUtilitarianism = true;
+            if (name == "kant") {
+              hasKant = true;
+            }
+            if (name == "utilitarianism") {
+              hasUtilitarianism = true;
+            }
         }
     }
     EXPECT_TRUE(hasKant);

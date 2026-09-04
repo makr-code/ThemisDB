@@ -157,7 +157,9 @@ TEST_F(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup) {
     
     // Wait for all threads to complete
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify:
@@ -209,7 +211,9 @@ TEST_F(Phase2ThreadSafetyTest, TS02_ConcurrentLoadUpdates) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify:
@@ -254,7 +258,9 @@ TEST_F(Phase2ThreadSafetyTest, TS03_ConcurrentRoutingCounters) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify: both counters should have identical values
@@ -403,7 +409,9 @@ TEST_F(Phase2LockOrderingTest, LO01_CoordinatorLockHierarchy) {
     
     // Join all threads with timeout
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     coordinator->stop();
@@ -456,7 +464,9 @@ TEST_F(Phase2LockOrderingTest, LO02_LoadDetectorSingleLock) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify: operations completed without deadlock
@@ -509,7 +519,9 @@ TEST_F(Phase2LockOrderingTest, LO03_QuorumConfigIsolation) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify

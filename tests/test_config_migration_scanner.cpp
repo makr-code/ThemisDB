@@ -386,8 +386,12 @@ TEST_F(ConfigMigrationScannerTest, RecursiveScanFindsMatchesInSubdirectories) {
     std::vector<cms::ScanMatch> all_matches;
     for (const auto& entry : fs::recursive_directory_iterator(test_dir_,
             fs::directory_options::skip_permission_denied)) {
-        if (!entry.is_regular_file()) continue;
-        if (!cms::shouldScanFile(entry.path())) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
+        if (!cms::shouldScanFile(entry.path())) {
+          continue;
+        }
         auto file_matches = cms::scanFile(entry.path());
         all_matches.insert(all_matches.end(),
                            std::make_move_iterator(file_matches.begin()),
@@ -410,8 +414,12 @@ TEST_F(ConfigMigrationScannerTest, NonScanableFilesAreSkipped) {
     std::vector<cms::ScanMatch> all_matches;
     for (const auto& entry : fs::recursive_directory_iterator(test_dir_,
             fs::directory_options::skip_permission_denied)) {
-        if (!entry.is_regular_file()) continue;
-        if (!cms::shouldScanFile(entry.path())) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
+        if (!cms::shouldScanFile(entry.path())) {
+          continue;
+        }
         auto file_matches = cms::scanFile(entry.path());
         all_matches.insert(all_matches.end(),
                            std::make_move_iterator(file_matches.begin()),

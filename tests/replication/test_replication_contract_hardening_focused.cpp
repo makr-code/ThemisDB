@@ -68,7 +68,9 @@ struct MockGCounter {
 
     std::int64_t value() const {
         std::int64_t total = 0;
-        for (const auto& [k, v] : counters) total += v;
+        for (const auto& [k, v] : counters) {
+          total += v;
+        }
         return total;
     }
 
@@ -90,7 +92,9 @@ enum class MockCrdtType { GCounter, PNCounter };
 /// Simulates type-mismatch detection.
 static std::optional<ReplicationErrorCode> mockCrdtMergeTypes(
         MockCrdtType a, MockCrdtType b) {
-    if (a != b) return ReplicationErrorCode::CRDT_TYPE_MISMATCH;
+    if (a != b) {
+      return ReplicationErrorCode::CRDT_TYPE_MISMATCH;
+    }
     return std::nullopt;
 }
 
@@ -103,8 +107,12 @@ struct MockVersion {
 };
 
 static MockVersion mockLwwResolve(const MockVersion& v1, const MockVersion& v2) {
-    if (v1.timestamp > v2.timestamp) return v1;
-    if (v2.timestamp > v1.timestamp) return v2;
+    if (v1.timestamp > v2.timestamp) {
+      return v1;
+    }
+    if (v2.timestamp > v1.timestamp) {
+      return v2;
+    }
     // Tie-break: greater node-ID wins
     if (v1.is_tombstone || v2.is_tombstone) {
         // Tombstone wins at same timestamp
@@ -306,7 +314,9 @@ TEST(ReplicationContractHardening, RCH12_StreamOffsetError) {
 TEST(ReplicationContractHardening, RCH13_LsnMonotonic) {
     std::vector<std::int64_t> lsns;
     std::int64_t lsn = 1;
-    for (int i = 0; i < 100; ++i) lsns.push_back(lsn++);
+    for (int i = 0; i < 100; ++i) {
+      lsns.push_back(lsn++);
+    }
 
     for (std::size_t i = 1; i < lsns.size(); ++i) {
         EXPECT_GT(lsns[i], lsns[i - 1]);

@@ -592,8 +592,12 @@ TEST_F(TransactionManagerTest, ExplainActiveTransactionWriteSet) {
     bool found_put    = false;
     bool found_delete = false;
     for (const auto& e : result->write_set) {
-        if (e.key == "entity:users:user10" && e.operation == "put")    found_put    = true;
-        if (e.key == "entity:users:user11" && e.operation == "delete") found_delete = true;
+        if (e.key == "entity:users:user10" && e.operation == "put") {
+          found_put    = true;
+        }
+        if (e.key == "entity:users:user11" && e.operation == "delete") {
+          found_delete = true;
+        }
     }
     EXPECT_TRUE(found_put);
     EXPECT_TRUE(found_delete);

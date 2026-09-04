@@ -118,7 +118,9 @@ public:
     double getOpsPerSecond() const {
         auto duration = std::chrono::high_resolution_clock::now() - start_;
         double seconds = std::chrono::duration_cast<std::chrono::duration<double>>(duration).count();
-        if (seconds == 0.0) return 0.0;
+        if (seconds == 0.0) {
+          return 0.0;
+        }
         return static_cast<double>(count_) / seconds;
     }
 

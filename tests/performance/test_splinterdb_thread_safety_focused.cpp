@@ -95,7 +95,9 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
             }
         });
     }
-    for (auto& t : producers) t.join();
+    for (auto& t : producers) {
+      t.join();
+    }
 
     // Wait for all tasks (up to 30 s)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);

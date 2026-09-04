@@ -102,15 +102,21 @@ SelfRAGController::RetrievalCallback makeFixedRetrievalWithSpinDelay(
 
 // Helper: compute basic stats (p50,p95,p99,mean)
 static void print_stats(const std::vector<long long>& samples, const std::string& tag) {
-    if (samples.empty()) return;
+    if (samples.empty()) {
+      return;
+    }
     std::vector<long long> s = samples;
     std::sort(s.begin(), s.end());
     auto percentile = [&](double p)->long long {
-        if (s.empty()) return 0;
+        if (s.empty()) {
+          return 0;
+        }
         double idx = (p/100.0) * (s.size() - 1);
         size_t lo = static_cast<size_t>(std::floor(idx));
         size_t hi = static_cast<size_t>(std::ceil(idx));
-        if (lo == hi) return s[lo];
+        if (lo == hi) {
+          return s[lo];
+        }
         double frac = idx - lo;
         return static_cast<long long>(std::llround((1.0 - frac) * s[lo] + frac * s[hi]));
     };
@@ -134,7 +140,9 @@ static long long measureBestOfNLong(F f, int n, std::vector<long long>* out_samp
         long long t = f();
         samples.push_back(t);
     }
-    if (out_samples) *out_samples = samples;
+    if (out_samples) {
+      *out_samples = samples;
+    }
     // optional verbose per-sample print
     if (const char* e = std::getenv("THEMIS_RAG_VERBOSE_TEST")) {
         std::string val(e);

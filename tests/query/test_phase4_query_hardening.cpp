@@ -56,7 +56,9 @@ themis::AQLTranslator::TranslationResult translateAql(const std::string& aql)
 {
     themis::query::AQLParser parser;
     auto pr = parser.parse(aql);
-    if (!pr) return themis::AQLTranslator::TranslationResult::Error(pr.error().message());
+    if (!pr) {
+      return themis::AQLTranslator::TranslationResult::Error(pr.error().message());
+    }
     return themis::AQLTranslator::translate(pr.value());
 }
 
@@ -318,7 +320,9 @@ TEST_F(QueryEngineConcurrencyTest, SetQueryTimeoutIsThreadSafe)
             counter.fetch_add(1, std::memory_order_relaxed);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(counter.load(), 8);
 }
 
@@ -336,7 +340,9 @@ TEST_F(QueryEngineConcurrencyTest, SetCollectionAccessCheckerIsThreadSafe)
             counter.fetch_add(1, std::memory_order_relaxed);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(counter.load(), 4);
 }
 
@@ -352,7 +358,9 @@ TEST_F(QueryEngineConcurrencyTest, SetStatisticsCollectorIsThreadSafe)
             counter.fetch_add(1, std::memory_order_relaxed);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(counter.load(), 4);
 }
 
@@ -368,7 +376,9 @@ TEST_F(QueryEngineConcurrencyTest, SetAuditLoggerIsThreadSafe)
             counter.fetch_add(1, std::memory_order_relaxed);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(counter.load(), 4);
 }
 
@@ -472,7 +482,9 @@ TEST(AqlTranslatorReserveTest, LargeOrQueryReserveDoesNotOverflow)
     // Build a query with 8 OR branches; pre-allocation should not over-allocate.
     std::string aql = "FOR d IN big FILTER ";
     for (int i = 0; i < 8; ++i) {
-        if (i > 0) aql += " OR ";
+        if (i > 0) {
+          aql += " OR ";
+        }
         aql += "d.v == '" + std::to_string(i) + "'";
     }
     aql += " RETURN d";

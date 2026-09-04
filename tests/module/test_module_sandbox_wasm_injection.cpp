@@ -37,7 +37,9 @@ static std::vector<uint8_t> leb128u(uint32_t v) {
     do {
         uint8_t b = v & 0x7f;
         v >>= 7;
-        if (v) b |= 0x80;
+        if (v) {
+          b |= 0x80;
+        }
         out.push_back(b);
     } while (v);
     return out;
@@ -60,7 +62,9 @@ static std::vector<uint8_t> wasmWithExport(const std::string& export_name) {
     appendBytes(body, leb128u(1)); // count
     // name: length-prefixed
     appendBytes(body, leb128u(static_cast<uint32_t>(export_name.size())));
-    for (char c : export_name) body.push_back(static_cast<uint8_t>(c));
+    for (char c : export_name) {
+      body.push_back(static_cast<uint8_t>(c));
+    }
     body.push_back(0x00); // kind = func
     appendBytes(body, leb128u(0)); // function index
 

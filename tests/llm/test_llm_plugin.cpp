@@ -915,7 +915,9 @@ protected:
     // Returns current resident set size (VmRSS) in kB, or 0 on failure.
     static long getProcRssKb() {
         std::ifstream f("/proc/self/status");
-        if (!f.is_open()) return 0;
+        if (!f.is_open()) {
+          return 0;
+        }
         std::string line;
         while (std::getline(f, line)) {
             if (line.rfind("VmRSS:", 0) == 0) {

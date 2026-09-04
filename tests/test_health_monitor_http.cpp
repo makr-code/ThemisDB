@@ -115,7 +115,9 @@ private:
                 io_context_.run_one();
                 
             } catch (const std::exception&) {
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
             }
         }
     }

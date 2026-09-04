@@ -113,7 +113,9 @@ public:
     std::optional<uint64_t> propose(const std::string& /*op*/) {
         if (slow_ms_ > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(slow_ms_));
-        if (fail_propose_) return std::nullopt;
+        if (fail_propose_) {
+          return std::nullopt;
+        }
         return ++next_index_;
     }
 
@@ -122,7 +124,9 @@ public:
                        std::chrono::milliseconds timeout = std::chrono::milliseconds(100)) {
         if (slow_ms_ > 0)
             std::this_thread::sleep_for(std::chrono::milliseconds(slow_ms_));
-        if (fail_commit_) return false;
+        if (fail_commit_) {
+          return false;
+        }
         // Quick simulated commit
         (void)timeout;
         return true;
@@ -208,7 +212,9 @@ TEST(ThreadSafetyTests, TSO01_ConcurrentWritesSameShard) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(mgr.totalWrites(), static_cast<uint64_t>(kThreads * kOpsEach));
 }
@@ -226,7 +232,9 @@ TEST(ThreadSafetyTests, TSO02_ConcurrentWritesDifferentKeys) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(mgr.totalWrites(), static_cast<uint64_t>(kThreads * 30));
     for (int t = 0; t < kThreads; ++t) {
@@ -248,7 +256,9 @@ TEST(ThreadSafetyTests, TSO03_ConcurrentReadsDontRace) {
             ++read_count;
         });
     }
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
     EXPECT_EQ(read_count.load(), 10);
 }
 
@@ -277,7 +287,9 @@ TEST(ThreadSafetyTests, TSO04_ConcurrentReadWriteMixed) {
     }
 
     writer.join();
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
 
     EXPECT_GE(mgr.totalWrites(), 200u);
 }
@@ -328,7 +340,9 @@ TEST(ThreadSafetyTests, TSO06_AtomicCounterIncrements) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(state.op_counter.load(), static_cast<uint64_t>(kThreads * kOps));
 }
@@ -346,7 +360,9 @@ TEST(ThreadSafetyTests, TSO07_ConcurrentAuditLogAppend) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(state.auditSize(), static_cast<size_t>(kThreads * kLogs));
 }
@@ -364,7 +380,9 @@ TEST(ThreadSafetyTests, TSO08_ConcurrentStateAndAuditViaScoped) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // State count and audit log should both reflect all kThreads*30 writes
     EXPECT_EQ(state.op_counter.load(), static_cast<uint64_t>(kThreads * 30));
@@ -380,7 +398,9 @@ static bool tryLockWithin(std::mutex& m,
                           std::chrono::milliseconds deadline = std::chrono::milliseconds(200)) {
     auto end = std::chrono::steady_clock::now() + deadline;
     while (std::chrono::steady_clock::now() < end) {
-        if (m.try_lock()) return true;
+        if (m.try_lock()) {
+          return true;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     return false;
@@ -578,7 +598,9 @@ TEST(ConsensusCoordinationTests, CCR05_QuorumLossDetectedFromNullConsensus) {
     int success_count = 0;
     for (int i = 0; i < 5; ++i) {
         auto idx = quorum_lost.propose("op-" + std::to_string(i));
-        if (idx.has_value()) ++success_count;
+        if (idx.has_value()) {
+          ++success_count;
+        }
     }
 
     EXPECT_EQ(success_count, 0) << "All proposals must fail when quorum is lost";
@@ -596,7 +618,9 @@ TEST(ConsensusCoordinationTests, CCR06_RetryOnTransientFailure) {
             consensus.setFailPropose(false);
         }
         idx = consensus.propose("op");
-        if (idx.has_value()) break;
+        if (idx.has_value()) {
+          break;
+        }
     }
 
     EXPECT_TRUE(idx.has_value())

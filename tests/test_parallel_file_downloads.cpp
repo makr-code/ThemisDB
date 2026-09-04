@@ -94,7 +94,9 @@ static ParallelDownloader::FetchFn makeFetchFn(
                 : (std::ios::binary | std::ios::trunc);
         std::ofstream f(dest, mode);
         if (!f.is_open()) {
-            if (out_error) *out_error = "cannot open dest";
+            if (out_error) {
+              *out_error = "cannot open dest";
+            }
             return false;
         }
         // Write only the bytes beyond resume_offset
@@ -103,8 +105,12 @@ static ParallelDownloader::FetchFn makeFetchFn(
         const std::string_view tail(content.data() + write_from,
                                     content.size() - write_from);
         f.write(tail.data(), static_cast<std::streamsize>(tail.size()));
-        if (out_bytes) *out_bytes = tail.size();
-        if (out_total) *out_total = content.size();
+        if (out_bytes) {
+          *out_bytes = tail.size();
+        }
+        if (out_total) {
+          *out_total = content.size();
+        }
         if (out_error) *out_error = {};
         return true;
     };
@@ -115,9 +121,15 @@ static bool alwaysFail(
     const std::string&, const std::string&, uint64_t,
     long, long, uint64_t* b, uint64_t* t, std::string* e)
 {
-    if (b) *b = 0;
-    if (t) *t = 0;
-    if (e) *e = "injected failure";
+    if (b) {
+      *b = 0;
+    }
+    if (t) {
+      *t = 0;
+    }
+    if (e) {
+      *e = "injected failure";
+    }
     return false;
 }
 
@@ -177,8 +189,12 @@ TEST_F(ParallelDownloaderConcurrencyTest, MultipleTasksRunConcurrently) {
 
         --in_flight;
         std::ofstream(dest, std::ios::binary | std::ios::trunc).put('x');
-        if (b) *b = 1;
-        if (t) *t = 1;
+        if (b) {
+          *b = 1;
+        }
+        if (t) {
+          *t = 1;
+        }
         return true;
     };
 
@@ -198,7 +214,9 @@ TEST_F(ParallelDownloaderConcurrencyTest, MultipleTasksRunConcurrently) {
     const auto results = dl.downloadAll(tasks);
 
     EXPECT_EQ(results.size(), 8u);
-    for (const auto& r : results) EXPECT_TRUE(r.success);
+    for (const auto& r : results) {
+      EXPECT_TRUE(r.success);
+    }
 
     // With concurrency = 4 and 8 tasks, we should see at least 2 in-flight
     EXPECT_GE(peak_in_flight.load(), 2);
@@ -297,7 +315,9 @@ TEST_F(ParallelDownloaderBandwidthTest, DownloadSucceedsWithThrottleSet) {
     }
 
     const auto results = dl.downloadAll(tasks);
-    for (const auto& r : results) EXPECT_TRUE(r.success);
+    for (const auto& r : results) {
+      EXPECT_TRUE(r.success);
+    }
 
     fs::remove_all(dir);
 }
@@ -354,8 +374,12 @@ TEST_F(ParallelDownloaderPriorityTest, HighPriorityTasksScheduledFirst) {
             execution_order.push_back(idx);
         }
         std::ofstream(dest, std::ios::binary | std::ios::trunc).put('x');
-        if (b) *b = 1;
-        if (t) *t = 1;
+        if (b) {
+          *b = 1;
+        }
+        if (t) {
+          *t = 1;
+        }
         return true;
     };
 
@@ -378,7 +402,9 @@ TEST_F(ParallelDownloaderPriorityTest, HighPriorityTasksScheduledFirst) {
     tasks[2].priority = 5;
 
     const auto results = dl.downloadAll(tasks);
-    for (const auto& r : results) EXPECT_TRUE(r.success);
+    for (const auto& r : results) {
+      EXPECT_TRUE(r.success);
+    }
 
     // Verify execution order: highest priority first
     ASSERT_EQ(execution_order.size(), 3u);
@@ -406,7 +432,9 @@ TEST_F(ParallelDownloaderPriorityTest, EqualPriorityAllComplete) {
 
     const auto results = dl.downloadAll(tasks);
     EXPECT_EQ(results.size(), 6u);
-    for (const auto& r : results) EXPECT_TRUE(r.success);
+    for (const auto& r : results) {
+      EXPECT_TRUE(r.success);
+    }
 
     fs::remove_all(dir);
 }
@@ -568,8 +596,12 @@ TEST_F(ParallelDownloaderResumeTest, MultipleFilesIndependentResume) {
         const std::string_view tail(body0.data() + resume_offset,
                                     body0.size() - resume_offset);
         f.write(tail.data(), static_cast<std::streamsize>(tail.size()));
-        if (b) *b = tail.size();
-        if (t) *t = body0.size();
+        if (b) {
+          *b = tail.size();
+        }
+        if (t) {
+          *t = body0.size();
+        }
         return true;
     };
 
@@ -717,9 +749,15 @@ TEST_F(ParallelDownloaderErrorTest, RetriesConsumedOnFailure) {
             uint64_t* b, uint64_t* t, std::string* e) -> bool
     {
         ++call_count;
-        if (b) *b = 0;
-        if (t) *t = 0;
-        if (e) *e = "transient";
+        if (b) {
+          *b = 0;
+        }
+        if (t) {
+          *t = 0;
+        }
+        if (e) {
+          *e = "transient";
+        }
         return false;
     };
 
@@ -757,13 +795,19 @@ TEST_F(ParallelDownloaderErrorTest, OneFailDoesNotPreventOthersFromSucceeding) {
             uint64_t* b, uint64_t* t, std::string* e) -> bool
     {
         if (url.find("fail") != std::string::npos) {
-            if (e) *e = "injected";
+            if (e) {
+              *e = "injected";
+            }
             return false;
         }
         std::ofstream(dest, std::ios::binary | std::ios::trunc)
             .write(body.data(), static_cast<std::streamsize>(body.size()));
-        if (b) *b = body.size();
-        if (t) *t = body.size();
+        if (b) {
+          *b = body.size();
+        }
+        if (t) {
+          *t = body.size();
+        }
         return true;
     };
 

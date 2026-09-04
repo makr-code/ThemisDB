@@ -61,7 +61,9 @@ public:
     bool anyContains(const std::string& substr) const {
         std::lock_guard<std::mutex> lk(mu_);
         for (const auto& e : entries_) {
-            if (e.find(substr) != std::string::npos) return true;
+            if (e.find(substr) != std::string::npos) {
+              return true;
+            }
         }
         return false;
     }
@@ -189,7 +191,9 @@ TEST(G003_ExceptionHandlingSafety, EHS04_ThreadBoundaryException) {
     for (int i = 0; i < NUM_TASKS; ++i) {
         threads.emplace_back([&, id = i]() {
             try {
-                if (id % 3 == 0) throw std::runtime_error("task error");
+                if (id % 3 == 0) {
+                  throw std::runtime_error("task error");
+                }
                 ++success_count;
             } catch (...) {
                 // G003 fix: catch at thread boundary, log and mark failure
@@ -198,7 +202,9 @@ TEST(G003_ExceptionHandlingSafety, EHS04_ThreadBoundaryException) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Tasks 0,3,6 throw → 3 failures, 5 successes
     EXPECT_EQ(failure_count.load(), 3);
@@ -354,7 +360,9 @@ TEST(G003_ThreadSafety, TSF01_MutexProtectsSharedCounter) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(counter, N_THREADS * N_OPS);
 }
@@ -413,7 +421,9 @@ TEST(G003_ThreadSafety, TSF03_AtomicIncrementUnderContention) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(counter.load(), N_THREADS * N_OPS);
 }
 
@@ -458,13 +468,21 @@ TEST(G003_ThreadSafety, TSF04_SharedMutexReaderWriterPattern) {
     };
 
     std::vector<std::thread> all;
-    for (int i = 0; i < N_WRITERS; ++i) all.emplace_back(writer_fn);
-    for (int i = 0; i < N_READERS; ++i) all.emplace_back(reader_fn);
+    for (int i = 0; i < N_WRITERS; ++i) {
+      all.emplace_back(writer_fn);
+    }
+    for (int i = 0; i < N_READERS; ++i) {
+      all.emplace_back(reader_fn);
+    }
 
     // Wait for writers
-    for (int i = 0; i < N_WRITERS; ++i) all[i].join();
+    for (int i = 0; i < N_WRITERS; ++i) {
+      all[i].join();
+    }
     done.store(true, std::memory_order_release);
-    for (int i = N_WRITERS; i < N_WRITERS + N_READERS; ++i) all[i].join();
+    for (int i = N_WRITERS; i < N_WRITERS + N_READERS; ++i) {
+      all[i].join();
+    }
 
     EXPECT_EQ(shared_value, N_WRITERS * 10);
     EXPECT_GT(read_ops.load(), 0);
@@ -540,7 +558,9 @@ TEST(G003_ThreadSafety, TSF07_CheckThenActUnderLockPreventsDoubleCompute) {
     auto get_or_compute = [&](const std::string& key) -> int {
         std::lock_guard<std::mutex> lk(cache_mu);
         auto it = cache.find(key);
-        if (it != cache.end()) return it->second;
+        if (it != cache.end()) {
+          return it->second;
+        }
         // Compute under the lock — expensive but race-free
         int val = 42;  // simulated computation
         ++compute_count;
@@ -556,10 +576,14 @@ TEST(G003_ThreadSafety, TSF07_CheckThenActUnderLockPreventsDoubleCompute) {
             results[idx] = get_or_compute("the_key");
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Value must be consistent across all threads
-    for (int v : results) EXPECT_EQ(v, 42);
+    for (int v : results) {
+      EXPECT_EQ(v, 42);
+    }
     // Computation must happen exactly once
     EXPECT_EQ(compute_count.load(), 1);
 }
@@ -579,7 +603,9 @@ TEST(G003_ThreadSafety, TSF08_ExceptionSafeLockedScope) {
     auto safe_op = [&](bool should_throw) {
         try {
             std::lock_guard<std::mutex> lk(mu);
-            if (should_throw) throw std::runtime_error("op failed");
+            if (should_throw) {
+              throw std::runtime_error("op failed");
+            }
             ++ok_count;
         } catch (...) {
             ++error_count;
@@ -590,7 +616,9 @@ TEST(G003_ThreadSafety, TSF08_ExceptionSafeLockedScope) {
     for (int i = 0; i < N_THREADS; ++i) {
         threads.emplace_back([&, id = i]() { safe_op(id % 2 == 0); });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(error_count.load(), N_THREADS / 2);
     EXPECT_EQ(ok_count.load(),    N_THREADS / 2);
@@ -610,7 +638,9 @@ TEST(G003_ReturnValueChecks, RVC01_OptionalReturnCheckedBeforeUse) {
     auto find_value = [](const std::map<std::string, int>& m,
                          const std::string& key) -> std::optional<int> {
         auto it = m.find(key);
-        if (it == m.end()) return std::nullopt;
+        if (it == m.end()) {
+          return std::nullopt;
+        }
         return it->second;
     };
 
@@ -637,13 +667,17 @@ TEST(G003_ReturnValueChecks, RVC01_OptionalReturnCheckedBeforeUse) {
 TEST(G003_ReturnValueChecks, RVC02_BooleanReturnCodeChecked) {
     struct MockStorage {
         bool put(const std::string& key, const std::string& val) {
-            if (key.empty()) return false;
+            if (key.empty()) {
+              return false;
+            }
             data_[key] = val;
             return true;
         }
         bool get(const std::string& key, std::string& out) const {
             auto it = data_.find(key);
-            if (it == data_.end()) return false;
+            if (it == data_.end()) {
+              return false;
+            }
             out = it->second;
             return true;
         }

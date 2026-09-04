@@ -186,7 +186,9 @@ TEST(SearchAnalyticsMetrics, ZeroResultRateCorrect) {
 
 TEST(SearchAnalyticsMetrics, TopQueriesTracked) {
     SearchAnalytics sa;
-    for (int i = 0; i < 5; ++i) sa.record("popular", 3, 5.0);
+    for (int i = 0; i < 5; ++i) {
+      sa.record("popular", 3, 5.0);
+    }
     sa.record("rare", 1, 5.0);
     auto m = sa.computeMetrics();
     ASSERT_FALSE(m.top_queries.empty());
@@ -220,8 +222,12 @@ TEST(SearchAnalyticsTopQueries, LimitZeroReturnsEmpty) {
 
 TEST(SearchAnalyticsTopQueries, SortedByDescendingFrequency) {
     SearchAnalytics sa;
-    for (int i = 0; i < 5; ++i) sa.record("popular", 1, 1.0);
-    for (int i = 0; i < 2; ++i) sa.record("medium",  1, 1.0);
+    for (int i = 0; i < 5; ++i) {
+      sa.record("popular", 1, 1.0);
+    }
+    for (int i = 0; i < 2; ++i) {
+      sa.record("medium",  1, 1.0);
+    }
     sa.record("rare", 1, 1.0);
     auto top = sa.getTopQueries(10);
     ASSERT_EQ(top.size(), 3u);
@@ -236,7 +242,9 @@ TEST(SearchAnalyticsTopQueries, SortedByDescendingFrequency) {
 TEST(SearchAnalyticsTopQueries, LimitHonored) {
     SearchAnalytics sa;
     // Record 10 distinct queries each once; alphabetical tiebreak means q0 < q1 < ... < q9
-    for (int i = 0; i < 10; ++i) sa.record("q" + std::to_string(i), 1, 1.0);
+    for (int i = 0; i < 10; ++i) {
+      sa.record("q" + std::to_string(i), 1, 1.0);
+    }
     auto top = sa.getTopQueries(3);
     ASSERT_EQ(top.size(), 3u);
     // All have equal frequency so alphabetical tiebreak applies: q0, q1, q2
@@ -255,7 +263,9 @@ TEST(SearchAnalyticsTopQueries, LimitLargerThanDistinctQueries) {
 
 TEST(SearchAnalyticsTopQueries, CountsAreAccurate) {
     SearchAnalytics sa;
-    for (int i = 0; i < 7; ++i) sa.record("x", 1, 1.0);
+    for (int i = 0; i < 7; ++i) {
+      sa.record("x", 1, 1.0);
+    }
     auto top = sa.getTopQueries(1);
     ASSERT_EQ(top.size(), 1u);
     EXPECT_EQ(top[0].first,  "x");
@@ -293,7 +303,9 @@ TEST(SearchAnalyticsThreadSafety, ConcurrentRecordDoesNotCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash; event count is within the allowed range
     EXPECT_LE(sa.eventCount(), sa.getConfig().max_events);

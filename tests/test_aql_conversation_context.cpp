@@ -240,7 +240,9 @@ TEST_F(AQLConversationContextTest, MaxTurns_SystemMessageAlwaysPreserved) {
 TEST_F(AQLConversationContextTest, MaxTurns_TurnCountNeverExceedsLimit) {
     auto ctx3 = makeContextWithFakeLLM(*handler, /*max_turns=*/3);
     for (int i = 0; i < 10; ++i) {
-        if (i == 0) ctx3.start("first turn");
+        if (i == 0) {
+          ctx3.start("first turn");
+        }
         else        ctx3.refine("refine " + std::to_string(i));
     }
     EXPECT_LE(ctx3.turnCount(), 3u);
@@ -382,7 +384,9 @@ TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
         tctx.refine("step " + std::to_string(i));
     }
     stop = true;
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // All observed turn counts must have been within the window.
     EXPECT_LE(max_observed_turns.load(), 5u)

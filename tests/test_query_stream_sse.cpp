@@ -73,8 +73,12 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
         std::filesystem::remove_all(kDbPath);
     }
 

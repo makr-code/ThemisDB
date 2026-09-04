@@ -404,7 +404,9 @@ TEST_F(AsyncWalShipperTest, WAL05_StatsAccounting)
 
     // Wait for all to dispatch
     for (int wait = 0; wait < 100; ++wait) {
-        if (shipper.stats().segments_shipped >= kSegments) break;
+        if (shipper.stats().segments_shipped >= kSegments) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 
@@ -424,7 +426,9 @@ TEST_F(AsyncWalShipperTest, WAL06_PrometheusMetricsPresent)
     shipper.enqueueSegment(makeSegment(1));
 
     for (int i = 0; i < 50; ++i) {
-        if (shipper.stats().segments_shipped >= 1) break;
+        if (shipper.stats().segments_shipped >= 1) {
+          break;
+        }
         std::this_thread::sleep_for(5ms);
     }
 

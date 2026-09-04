@@ -769,7 +769,9 @@ TEST_F(LLMDistributedInferenceTests, LLM_DI_07_ShardFailureHandling) {
     
     int healthy_count = 0;
     for (const auto& healthy : shard_healthy) {
-        if (healthy.load()) healthy_count++;
+        if (healthy.load()) {
+          healthy_count++;
+        }
     }
     
     EXPECT_EQ(healthy_count, 2);

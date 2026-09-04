@@ -134,8 +134,12 @@ TEST_F(PluginManagerComprehensiveTest, ListPluginsAfterScanIncludesDiscoveredNam
     // Ensure both discovered plugins are present in the registry
     bool found_001 = false, found_002 = false;
     for (const auto& m : all) {
-        if (m.name == "pmc_list_001") found_001 = true;
-        if (m.name == "pmc_list_002") found_002 = true;
+        if (m.name == "pmc_list_001") {
+          found_001 = true;
+        }
+        if (m.name == "pmc_list_002") {
+          found_002 = true;
+        }
     }
     EXPECT_TRUE(found_001);
     EXPECT_TRUE(found_002);

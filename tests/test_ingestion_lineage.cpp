@@ -167,7 +167,9 @@ TEST(IngestionLineageStoreTest, ThreadSafeRecord) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(store.size(), static_cast<size_t>(kThreads * kPerThread));
 }
@@ -306,7 +308,9 @@ TEST(IngestionManagerLineageTest, LineageRecordHasTransformationSteps) {
     // FILESYSTEM connector adds mime_detection step
     bool found_mime = false;
     for (const auto& step : r.transformation_steps) {
-        if (step == "mime_detection") found_mime = true;
+        if (step == "mime_detection") {
+          found_mime = true;
+        }
     }
     EXPECT_TRUE(found_mime) << "Expected mime_detection step for FILESYSTEM connector";
 }

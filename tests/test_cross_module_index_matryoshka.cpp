@@ -77,7 +77,11 @@ static std::vector<std::vector<float>> randUnitVectors(size_t n, size_t dim,
         float norm = 0.f;
         for (float& x : v) { x = dist(rng); norm += x * x; }
         norm = std::sqrt(norm);
-        if (norm > 1e-10f) for (float& x : v) x /= norm;
+        if (norm > 1e-10f) {
+          for (float& x : v) {
+            x /= norm;
+          }
+        }
     }
     return vecs;
 }
@@ -175,8 +179,12 @@ TEST_F(MatryoshkaCrossModuleFixture, TwoStage_CoarseStageHasAtLeastFineStageIds)
 
     // Collect IDs from each stage
     std::vector<int64_t> coarse_ids, fine_ids;
-    for (const auto& r : coarse) coarse_ids.push_back(r.id);
-    for (const auto& r : fine)   fine_ids.push_back(r.id);
+    for (const auto& r : coarse) {
+      coarse_ids.push_back(r.id);
+    }
+    for (const auto& r : fine) {
+      fine_ids.push_back(r.id);
+    }
 
     // At least one ID from the fine stage must appear in the coarse stage
     // (the top-1 from 128-D should be in top-5 of 64-D for unit vectors).

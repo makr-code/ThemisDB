@@ -158,8 +158,12 @@ TEST_F(ExplainAqlTest, MultiplePredicates_MultipleFilterNodes) {
     int filter_count = 0;
     std::function<void(const nlohmann::json&)> count_filters =
         [&](const nlohmann::json& n) {
-            if (n["type"].get<std::string>() == "Filter") ++filter_count;
-            for (const auto& child : n["children"]) count_filters(child);
+            if (n["type"].get<std::string>() == "Filter") {
+              ++filter_count;
+            }
+            for (const auto& child : n["children"]) {
+              count_filters(child);
+            }
         };
     count_filters(plan);
     EXPECT_EQ(filter_count, 2);
@@ -272,11 +276,15 @@ TEST_F(ExplainAqlTest, GraphTraversal_AttributesIncludeStartDepthDirectionAlgori
 
     // Collect all attribute strings for easy searching
     std::vector<std::string> attr_list;
-    for (const auto& a : attrs) attr_list.push_back(a.get<std::string>());
+    for (const auto& a : attrs) {
+      attr_list.push_back(a.get<std::string>());
+    }
 
     auto has_attr = [&](const std::string& prefix) {
         for (const auto& a : attr_list)
-            if (a.rfind(prefix, 0) == 0) return true;
+            if (a.rfind(prefix, 0) == 0) {
+              return true;
+            }
         return false;
     };
 

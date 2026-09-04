@@ -412,14 +412,18 @@ TEST(TaskAuditManager, QueryBySuccess) {
     params_ok.limit = 100;
     auto ok = mgr->queryAuditEvents(params_ok);
     EXPECT_EQ(4u, ok.size());
-    for (const auto& ev : ok) EXPECT_TRUE(ev.success);
+    for (const auto& ev : ok) {
+      EXPECT_TRUE(ev.success);
+    }
 
     AuditQueryParams params_fail;
     params_fail.success = false;
     params_fail.limit = 100;
     auto fail = mgr->queryAuditEvents(params_fail);
     EXPECT_EQ(3u, fail.size());
-    for (const auto& ev : fail) EXPECT_FALSE(ev.success);
+    for (const auto& ev : fail) {
+      EXPECT_FALSE(ev.success);
+    }
 }
 
 // Test searchable query: filter by event type
@@ -473,8 +477,12 @@ TEST(TaskAuditManager, QueryPagination) {
 
     // Pages should not overlap (by UUID)
     std::set<std::string> uuids1, uuids2;
-    for (const auto& ev : page1) uuids1.insert(ev.uuid);
-    for (const auto& ev : page2) uuids2.insert(ev.uuid);
+    for (const auto& ev : page1) {
+      uuids1.insert(ev.uuid);
+    }
+    for (const auto& ev : page2) {
+      uuids2.insert(ev.uuid);
+    }
     for (const auto& u : uuids2) {
         EXPECT_EQ(0u, uuids1.count(u)) << "Duplicate UUID across pages: " << u;
     }

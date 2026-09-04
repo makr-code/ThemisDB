@@ -39,7 +39,9 @@ protected:
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
     }
     http::response<http::string_body> post(const std::string& target, const json& body) {

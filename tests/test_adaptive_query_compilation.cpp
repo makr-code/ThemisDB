@@ -910,7 +910,9 @@ TEST(AdaptiveQueryCompilationFocusedTests, ConcurrentExecuteDoesNotCrash) {
                 compiler.execute(q, schema, {});
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash and stats are consistent
     auto stats = compiler.getStats();

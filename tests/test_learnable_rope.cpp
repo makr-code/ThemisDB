@@ -31,7 +31,9 @@ protected:
     
     // Helper: compute cosine similarity
     float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
-        if (a.size() != b.size()) return 0.0f;
+        if (a.size() != b.size()) {
+          return 0.0f;
+        }
         
         float dot = 0.0f, norm_a = 0.0f, norm_b = 0.0f;
         for (size_t i = 0; i < a.size(); ++i) {
@@ -40,7 +42,9 @@ protected:
             norm_b += b[i] * b[i];
         }
         
-        if (norm_a == 0.0f || norm_b == 0.0f) return 0.0f;
+        if (norm_a == 0.0f || norm_b == 0.0f) {
+          return 0.0f;
+        }
         return dot / (std::sqrt(norm_a) * std::sqrt(norm_b));
     }
     

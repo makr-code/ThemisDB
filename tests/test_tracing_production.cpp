@@ -171,7 +171,9 @@ TEST_F(SamplingStrategyTest, ProbabilityHalfIsRoughlyHalf) {
     int sampled = 0;
     constexpr int kTrials = 10000;
     for (int i = 0; i < kTrials; ++i) {
-        if (s.shouldSample()) ++sampled;
+        if (s.shouldSample()) {
+          ++sampled;
+        }
     }
     // With p=0.5, expect roughly 50% – allow ±15% tolerance
     double ratio = static_cast<double>(sampled) / kTrials;

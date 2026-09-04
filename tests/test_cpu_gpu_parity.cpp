@@ -22,7 +22,9 @@ std::vector<float> makeFloats(size_t n, uint32_t seed = 42) {
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -32,7 +34,9 @@ std::vector<double> makeDoubles(size_t n, double lo, double hi,
     std::mt19937 rng(seed);
     std::uniform_real_distribution<double> dist(lo, hi);
     std::vector<double> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 

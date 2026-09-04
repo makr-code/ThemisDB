@@ -205,5 +205,7 @@ TEST(CryptoHardening, HKDFCacheThreadLocalDoesNotCrash) {
             EXPECT_EQ(key.size(), 32u);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }

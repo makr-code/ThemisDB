@@ -101,8 +101,12 @@ public:
 
     void TearDown() override {
         try {
-            if (server_) server_->stop();
-            if (storage_) storage_->close();
+            if (server_) {
+              server_->stop();
+            }
+            if (storage_) {
+              storage_->close();
+            }
             // Cleanup test DB directory
             if (!base_path_.empty() && std::filesystem::exists(base_path_)) {
                 std::error_code ec; std::filesystem::remove_all(base_path_, ec);

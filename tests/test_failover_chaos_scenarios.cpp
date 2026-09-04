@@ -376,7 +376,9 @@ TEST(FailoverChaosScenarios, ConcurrentTriggersSafe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     std::this_thread::sleep_for(300ms);
     ASSERT_TRUE(mgr.stop());

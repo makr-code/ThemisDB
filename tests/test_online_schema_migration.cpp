@@ -53,7 +53,9 @@ static const SchemaManager::PropertyInfo* findProp(
     const SchemaManager::TableSchema& schema, const std::string& name)
 {
     for (const auto& p : schema.properties) {
-        if (p.name == name) return &p;
+        if (p.name == name) {
+          return &p;
+        }
     }
     return nullptr;
 }
@@ -63,7 +65,9 @@ static const SchemaManager::IndexInfo* findIndex(
     const SchemaManager::TableSchema& schema, const std::string& name)
 {
     for (const auto& idx : schema.indexes) {
-        if (idx.name == name) return &idx;
+        if (idx.name == name) {
+          return &idx;
+        }
     }
     return nullptr;
 }

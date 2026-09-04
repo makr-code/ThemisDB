@@ -113,7 +113,9 @@ protected:
             if (policy.principal_id == principal && policy.resource == resource &&
                 policy.action == action) {
                 logAudit("POLICY_EVAL", principal, resource, policy.allowed);
-                if (!policy.allowed) denial_count_++;
+                if (!policy.allowed) {
+                  denial_count_++;
+                }
                 return policy.allowed;
             }
         }

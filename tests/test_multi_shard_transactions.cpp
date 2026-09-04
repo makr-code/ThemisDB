@@ -255,8 +255,12 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
                 successful_tx.fetch_add(1);
             } else {
                 // Rollback
-                if (prep1) shards[shard1].abort(tx_id);
-                if (prep2) shards[shard2].abort(tx_id);
+                if (prep1) {
+                  shards[shard1].abort(tx_id);
+                }
+                if (prep2) {
+                  shards[shard2].abort(tx_id);
+                }
                 failed_tx.fetch_add(1);
             }
             
@@ -738,8 +742,12 @@ TEST(MultiShardTransactionTest, PercolatorPrepareAbortOnConflict) {
 
     // Simulate coordinator abort logic: abort all tx_b participants that prepared.
     if (!prep_b_shard0 || !prep_b_shard1) {
-        if (prep_b_shard0) shards[0].abort(tx_b);
-        if (prep_b_shard1) shards[1].abort(tx_b);
+        if (prep_b_shard0) {
+          shards[0].abort(tx_b);
+        }
+        if (prep_b_shard1) {
+          shards[1].abort(tx_b);
+        }
     }
 
     // Tx-A must still be in PREPARED state (unaffected by Tx-B conflict).

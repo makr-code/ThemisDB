@@ -151,7 +151,9 @@ std::string buildScoredResponse(double score,
     std::ostringstream oss;
     oss << "SCORE: " << score << "\n"
         << "RATIONALE: Synthetic test response.\n";
-    if (!extra_sections.empty()) oss << extra_sections;
+    if (!extra_sections.empty()) {
+      oss << extra_sections;
+    }
     return oss.str();
 }
 

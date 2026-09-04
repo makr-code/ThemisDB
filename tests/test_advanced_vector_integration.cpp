@@ -127,7 +127,9 @@ TEST_F(AdvancedVectorIntegrationTest, Statistics) {
     index.train(data.data(), 500);
     
     std::vector<int64_t> ids(100);
-    for (size_t i = 0; i < 100; ++i) ids[i] = i;
+    for (size_t i = 0; i < 100; ++i) {
+      ids[i] = i;
+    }
     index.addWithIds(data.data(), ids.data(), 100);
     
     stats = index.getStats();
@@ -162,7 +164,9 @@ TEST_F(AdvancedVectorIntegrationTest, SaveAndLoad) {
     ASSERT_TRUE(index1.train(data.data(), 500));
     
     std::vector<int64_t> ids(100);
-    for (size_t i = 0; i < 100; ++i) ids[i] = i;
+    for (size_t i = 0; i < 100; ++i) {
+      ids[i] = i;
+    }
     ASSERT_TRUE(index1.addWithIds(data.data(), ids.data(), 100));
     
     // Save
@@ -207,7 +211,9 @@ TEST_F(AdvancedVectorIntegrationTest, BatchSearch) {
     
     // Add vectors
     std::vector<int64_t> ids(100);
-    for (size_t i = 0; i < 100; ++i) ids[i] = i;
+    for (size_t i = 0; i < 100; ++i) {
+      ids[i] = i;
+    }
     ASSERT_TRUE(index.addWithIds(data.data(), ids.data(), 100));
     
     // Batch search with 3 queries
@@ -295,7 +301,9 @@ TEST_F(AdvancedVectorIntegrationTest, DifferentIndexTypes) {
         
         // Add vectors
         std::vector<int64_t> ids(50);
-        for (size_t i = 0; i < 50; ++i) ids[i] = i;
+        for (size_t i = 0; i < 50; ++i) {
+          ids[i] = i;
+        }
         ASSERT_TRUE(index.add(data.data(), 50));
         
         auto stats = index.getStats();

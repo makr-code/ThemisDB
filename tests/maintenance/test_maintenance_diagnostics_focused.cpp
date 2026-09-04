@@ -114,7 +114,9 @@ TEST(MaintenanceDiagnostics, MTN29_AllOutcomeTypesVisibleInHealthReport) {
 
     // Each string must be distinct.
     std::vector<std::string> names;
-    for (auto t : all_types) names.push_back(dispatchOutcomeTypeToString(t));
+    for (auto t : all_types) {
+      names.push_back(dispatchOutcomeTypeToString(t));
+    }
     std::sort(names.begin(), names.end());
     auto uniq_end = std::unique(names.begin(), names.end());
     EXPECT_EQ(uniq_end, names.end()) << "DispatchOutcomeType string representations must be unique";

@@ -508,11 +508,15 @@ TEST(PolicyEngineConcurrencyTest, ConcurrentAuthorize_ThreadSafe) {
         threads.emplace_back([&pe, &allowed]() {
             for (int j = 0; j < REQUESTS; ++j) {
                 auto d = pe.authorize("user", "read", "/data/item");
-                if (d.allowed) allowed++;
+                if (d.allowed) {
+                  allowed++;
+                }
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(allowed.load(), THREADS * REQUESTS);
 }

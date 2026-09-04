@@ -111,7 +111,9 @@ struct RequestTimeoutMirror {
     /// Evaluate whether a request that took @p elapsed_ms should time out.
     Outcome evaluate(uint32_t elapsed_ms) const {
         if (timeout_ms == 0) return Outcome::COMPLETED; // timer disabled
-        if (elapsed_ms >= timeout_ms) return Outcome::TIMED_OUT_408;
+        if (elapsed_ms >= timeout_ms) {
+          return Outcome::TIMED_OUT_408;
+        }
         return Outcome::COMPLETED;
     }
 };
@@ -300,7 +302,9 @@ TEST(HttpTimeoutLogic, ConcurrentRequestsTimeoutIndependently) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(timed_out.load(), kRequests / 2);
     EXPECT_EQ(completed.load(), kRequests / 2);

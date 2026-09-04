@@ -297,7 +297,9 @@ TEST_F(FairQueueStarvationTest, LowPriorityServedAfterThreshold) {
     bool low_served = false;
     for (int i = 0; i < 11; ++i) {
         auto item = qos_->dequeueForSend();
-        if (!item.has_value()) break;
+        if (!item.has_value()) {
+          break;
+        }
         if (item->priority == Priority::LOW) {
             low_served = true;
             break;

@@ -356,7 +356,9 @@ TEST_F(RAGTTFTBenchmark, TTFT05_StreamingCallback_FirstTokenDelivery) {
         return ttft_ms;
     };
 
-    for (int i = 0; i < warmup; ++i) (void)measure_with_counter();
+    for (int i = 0; i < warmup; ++i) {
+      (void)measure_with_counter();
+    }
     callback_invocation_count = 0; // reset after warmup
 
     std::vector<double> samples;

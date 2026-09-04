@@ -740,7 +740,9 @@ protected:
 
     void TearDown() override {
         std::remove(lora_file_.c_str());
-        if (!sig_file_.empty()) std::remove(sig_file_.c_str());
+        if (!sig_file_.empty()) {
+          std::remove(sig_file_.c_str());
+        }
     }
 
     void writeSigFile(const std::string& fp, const std::vector<uint8_t>& sig) {
@@ -808,7 +810,9 @@ TEST_F(LoRACertStoreIntegrationTest, ValidCertTamperedSigFails) {
     ASSERT_FALSE(sig.empty()) << "Key generation or signing failed";
 
     // Tamper: flip every bit in the signature
-    for (auto& b : sig) b = static_cast<uint8_t>(~b);
+    for (auto& b : sig) {
+      b = static_cast<uint8_t>(~b);
+    }
 
     writeSigFile(fingerprint_, sig);
 
@@ -1032,7 +1036,9 @@ protected:
     std::string test_lora_data_;
     
     ~EVPSignatureVerificationTest() override {
-        if (pkey_) EVP_PKEY_free(pkey_);
+        if (pkey_) {
+          EVP_PKEY_free(pkey_);
+        }
     }
 };
 

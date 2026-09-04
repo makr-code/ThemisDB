@@ -130,7 +130,9 @@ TEST_F(QueryCancellerTimedMutexTest, ConcurrentAccessDoesNotDeadlock) {
             canceller_.unregisterQuery(id);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     // Reaching here without deadlock means the test passed.
     SUCCEED();
 }

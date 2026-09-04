@@ -14,7 +14,9 @@ static void resetAll() {
     // Reset memory manager.
     auto& mgr  = GPUMemoryManager::GetInstance();
     const uint64_t used = mgr.GetGPUMemoryUsed();
-    if (used > 0) mgr.DeallocateGPU(used);
+    if (used > 0) {
+      mgr.DeallocateGPU(used);
+    }
 
     // Reset feature flag overrides.
     GPUFeatureFlags::GetInstance().resetToDefaults();

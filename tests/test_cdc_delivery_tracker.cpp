@@ -293,7 +293,9 @@ TEST(DeliveryTrackerTest, StatsAllConsumers) {
     // Find c1 stats
     ConsumerDeliveryStats* c1_stats = nullptr;
     for (auto& s : all) {
-        if (s.consumer_id == "c1") c1_stats = &s;
+        if (s.consumer_id == "c1") {
+          c1_stats = &s;
+        }
     }
     ASSERT_NE(c1_stats, nullptr);
     EXPECT_EQ(c1_stats->total_delivered, 2u);

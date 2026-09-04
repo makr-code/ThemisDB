@@ -78,7 +78,9 @@ struct ChurnTracker {
 
     /// Returns true if the change is permitted; false if limit exceeded.
     bool check(const std::string& schedule_id, uint32_t max_per_interval) {
-        if (max_per_interval == 0) return true;
+        if (max_per_interval == 0) {
+          return true;
+        }
         int64_t now = nowMs();
         std::lock_guard<std::mutex> lock(mu);
         auto& [count, start] = counts[schedule_id];
@@ -165,7 +167,9 @@ TEST(MaintenanceChurnHardening, MTN18_RapidChurnLoopBoundedState) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(total_entered.load(), 100)
         << "All 100 unique schedule IDs should have been entered and left";

@@ -62,10 +62,18 @@ struct FakeJwtToken {
 class StubAuthGate {
 public:
     ServerErrorClass validate(const FakeJwtToken& tok) const noexcept {
-        if (tok.value.empty())              return ServerErrorClass::AUTH_GATE_DENIED;
-        if (!tok.is_structurally_valid)     return ServerErrorClass::AUTH_GATE_DENIED;
-        if (!tok.signature_ok)              return ServerErrorClass::AUTH_GATE_DENIED;
-        if (tok.expired)                    return ServerErrorClass::AUTH_GATE_DENIED;
+        if (tok.value.empty()) {
+          return ServerErrorClass::AUTH_GATE_DENIED;
+        }
+        if (!tok.is_structurally_valid) {
+          return ServerErrorClass::AUTH_GATE_DENIED;
+        }
+        if (!tok.signature_ok) {
+          return ServerErrorClass::AUTH_GATE_DENIED;
+        }
+        if (tok.expired) {
+          return ServerErrorClass::AUTH_GATE_DENIED;
+        }
         return ServerErrorClass::OK;
     }
 };
@@ -89,14 +97,18 @@ public:
         for (int i = 0; i <= cfg_.max_retries; ++i) {
             ++attempts_;
             auto result = fn();
-            if (result == ServerErrorClass::OK) return ServerErrorClass::OK;
+            if (result == ServerErrorClass::OK) {
+              return ServerErrorClass::OK;
+            }
             // Fatal errors never retry
             if (result == ServerErrorClass::INPUT_VALIDATION_ERROR ||
                 result == ServerErrorClass::AUTH_GATE_DENIED) {
                 return result;
             }
             auto elapsed = std::chrono::steady_clock::now() - budget_start;
-            if (elapsed >= cfg_.global_budget) return ServerErrorClass::RETRY_BUDGET_EXHAUSTED;
+            if (elapsed >= cfg_.global_budget) {
+              return ServerErrorClass::RETRY_BUDGET_EXHAUSTED;
+            }
         }
         return ServerErrorClass::RETRY_BUDGET_EXHAUSTED;
     }
@@ -162,7 +174,9 @@ public:
     ServerErrorClass check(const std::string& client_id) {
         std::lock_guard<std::mutex> lk(mu_);
         auto& count = counts_[client_id];
-        if (count >= limit_) return ServerErrorClass::RATE_LIMIT_EXCEEDED;
+        if (count >= limit_) {
+          return ServerErrorClass::RATE_LIMIT_EXCEEDED;
+        }
         ++count;
         return ServerErrorClass::OK;
     }
@@ -238,7 +252,9 @@ TEST(ServerContractRetry, SCH05_TransientErrorRetries) {
     // Succeed on 3rd attempt
     auto result = engine.execute([&]() -> ServerErrorClass {
         ++call_count;
-        if (call_count < 3) return ServerErrorClass::INTERNAL_ERROR;
+        if (call_count < 3) {
+          return ServerErrorClass::INTERNAL_ERROR;
+        }
         return ServerErrorClass::OK;
     });
     EXPECT_EQ(result, ServerErrorClass::OK);
@@ -381,7 +397,9 @@ struct StubFrameValidator {
         case FrameType::Malformed:
             return ServerErrorClass::PROTOCOL_VIOLATION;
         case FrameType::VersionMismatch:
-            if (client_version != server_version) return ServerErrorClass::VERSION_MISMATCH;
+            if (client_version != server_version) {
+              return ServerErrorClass::VERSION_MISMATCH;
+            }
             return ServerErrorClass::OK;
         case FrameType::Wellformed:
             return ServerErrorClass::OK;
@@ -391,7 +409,9 @@ struct StubFrameValidator {
 
     ServerErrorClass checkQuorum(int healthy_nodes, int total_nodes) {
         // Quorum = majority (> total/2)
-        if (healthy_nodes * 2 <= total_nodes) return ServerErrorClass::QUORUM_UNAVAILABLE;
+        if (healthy_nodes * 2 <= total_nodes) {
+          return ServerErrorClass::QUORUM_UNAVAILABLE;
+        }
         return ServerErrorClass::OK;
     }
 };

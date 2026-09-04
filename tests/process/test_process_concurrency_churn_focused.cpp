@@ -228,7 +228,9 @@ TEST_F(ConcurrencyChurnTest, C05_SingleWriterMultipleReaders) {
                 reads += shared_data.size();
             }
 
-            if (reads > 0) break;
+            if (reads > 0) {
+              break;
+            }
             std::this_thread::yield();
         }
     };
@@ -333,7 +335,9 @@ TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
     // Count positive and negative markers
     int32_t pre_barrier_count = 0, post_barrier_count = 0;
     for (int32_t val : execution_order) {
-        if (val > 0) pre_barrier_count++;
+        if (val > 0) {
+          pre_barrier_count++;
+        }
         else post_barrier_count++;
     }
     EXPECT_EQ(pre_barrier_count, kNumThreads);

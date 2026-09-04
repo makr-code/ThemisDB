@@ -175,7 +175,9 @@ TEST_F(NUMAMemoryManagerTest, ConcurrentAllocationsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 }
 
 } // namespace

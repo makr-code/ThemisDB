@@ -231,7 +231,9 @@ TEST(OtelTracerAdapterTest, StartChildSpanOnOpenCircuitReturnsInvalidSpan) {
     cfg.timeout           = std::chrono::seconds(60);
 
     OpenTelemetryTracerAdapter adapter(cfg);
-    for (int i = 0; i < 3; ++i) adapter.startSpan("trip");
+    for (int i = 0; i < 3; ++i) {
+      adapter.startSpan("trip");
+    }
     ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
 
     auto parent = adapter.startSpan("parent"); // returns invalid span

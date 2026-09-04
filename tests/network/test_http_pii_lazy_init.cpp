@@ -28,7 +28,9 @@ protected:
         setenv("THEMIS_TOKEN_ADMIN", "admin-token-pii", 1);
 #endif
         const std::string db_path = "data/themis_pii_http_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         themis::RocksDBWrapper::Config cfg;
         cfg.db_path = db_path;
         cfg.memtable_size_mb = 32;
@@ -61,9 +63,13 @@ protected:
             server_->stop();
             server_.reset(); // Destroy server instance to clear PIIPseudonymizer singleton
         }
-        if (storage_) storage_->close();
+        if (storage_) {
+          storage_->close();
+        }
         const std::string db_path = "data/themis_pii_http_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         
         // Clear test environment variables AFTER server is destroyed
 #ifdef _WIN32
@@ -85,7 +91,9 @@ protected:
 
         http::request<http::string_body> req{http::verb::get, target, 11};
         req.set(http::field::host, host);
-        for (const auto& [k, v] : headers) req.set(k, v);
+        for (const auto& [k, v] : headers) {
+          req.set(k, v);
+        }
 
         http::write(stream, req);
 
@@ -186,7 +194,9 @@ TEST_F(PiiHttpLazyInitTest, ConcurrentReveal_No5xxAndNoCrash) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(errors.load(), 0) << "At least one concurrent request failed with 5xx or exception";
 }

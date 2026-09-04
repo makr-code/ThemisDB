@@ -277,10 +277,18 @@ TEST_F(E2EJourneyFixture, SessionStateSync) {
     bool has_execution = false;
     
     for (const auto& entry : audit) {
-        if (entry.find("journey_started") != std::string::npos) has_start = true;
-        if (entry.find("audio_received") != std::string::npos) has_audio = true;
-        if (entry.find("intent_detected") != std::string::npos) has_intent = true;
-        if (entry.find("command_executed") != std::string::npos) has_execution = true;
+        if (entry.find("journey_started") != std::string::npos) {
+          has_start = true;
+        }
+        if (entry.find("audio_received") != std::string::npos) {
+          has_audio = true;
+        }
+        if (entry.find("intent_detected") != std::string::npos) {
+          has_intent = true;
+        }
+        if (entry.find("command_executed") != std::string::npos) {
+          has_execution = true;
+        }
     }
     
     EXPECT_TRUE(has_start) << "Should have start event";

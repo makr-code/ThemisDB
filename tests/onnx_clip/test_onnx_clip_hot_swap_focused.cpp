@@ -209,7 +209,9 @@ TEST_F(OnnxClipHotSwapTest, OCP_HS_06_RequestDraining) {
         threads.emplace_back([this, &completed_requests]() {
             auto test_img = generateTestImage();
             for (int j = 0; j < 5; ++j) {
-                if (!plugin_->isReady()) break;
+                if (!plugin_->isReady()) {
+                  break;
+                }
                 auto result = plugin_->generateEmbedding(test_img);
                 completed_requests.fetch_add(1);
                 
@@ -320,7 +322,9 @@ TEST_F(OnnxClipHotSwapTest, OCP_HS_09_ConcurrentInferenceReload) {
     for (int i = 0; i < 2; ++i) {
         threads.emplace_back([this, &inference_count, &stop_inference]() {
             for (int j = 0; j < 5 && !stop_inference.load(); ++j) {
-                if (!plugin_->isReady()) break;
+                if (!plugin_->isReady()) {
+                  break;
+                }
                 auto test_img = generateTestImage();
                 auto result = plugin_->generateEmbedding(test_img);
                 if (result.success) {

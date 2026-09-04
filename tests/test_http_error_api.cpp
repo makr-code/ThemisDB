@@ -22,7 +22,9 @@ class ErrorApiHttpTest : public ::testing::Test {
 protected:
     void SetUp() override {
         const std::string db_path = "data/themis_http_error_api_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         themis::RocksDBWrapper::Config cfg;
         cfg.db_path = db_path;
         cfg.memtable_size_mb = 32;
@@ -44,10 +46,16 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
         const std::string db_path = "data/themis_http_error_api_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
     }
 
     static http::response<http::string_body> http_get(const std::string& host, const std::string& port, const std::string& target) {

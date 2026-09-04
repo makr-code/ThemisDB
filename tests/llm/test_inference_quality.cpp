@@ -78,7 +78,9 @@ protected:
                         break;
                     }
                 }
-                if (model_available_) break;
+                if (model_available_) {
+                  break;
+                }
             }
         }
     }
@@ -100,7 +102,9 @@ protected:
         std::string lower_text = text;
         std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
         for (const auto& pattern : unsafe_patterns) {
-            if (lower_text.find(pattern) != std::string::npos) return true;
+            if (lower_text.find(pattern) != std::string::npos) {
+              return true;
+            }
         }
         return false;
     }

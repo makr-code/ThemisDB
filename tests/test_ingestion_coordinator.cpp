@@ -758,7 +758,9 @@ TEST(WorkStealingPoolTest, SingleWorkerProcessesAllSources) {
     EXPECT_EQ(results.size(), 5u);
 
     size_t total_docs = 0;
-    for (const auto& r : results) total_docs += r.total_documents;
+    for (const auto& r : results) {
+      total_docs += r.total_documents;
+    }
     EXPECT_EQ(total_docs, 15u);  // 5 sources × 3 docs
 }
 
@@ -783,7 +785,9 @@ TEST(WorkStealingPoolTest, IdleWorkerStealsFromBusyWorker) {
     EXPECT_EQ(results.size(), 4u);
 
     size_t total_docs = 0;
-    for (const auto& r : results) total_docs += r.total_documents;
+    for (const auto& r : results) {
+      total_docs += r.total_documents;
+    }
     EXPECT_EQ(total_docs, 4u);
 
     // Worker 1 must have stolen at least one source.
@@ -976,7 +980,9 @@ TEST(InMemorySharedCheckpointStoreTest, ThreadSafeConcurrentWrites) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(store.size(), static_cast<size_t>(kThreads * kPerThread));
 }

@@ -70,7 +70,9 @@ TEST_F(QueryRewriteRuleTest, PredicatePushdown_MovesFilterToScan) {
     for (const auto& child : plan["children"]) {
         if (child["type"] == "scan") {
             for (const auto& sc : child["children"]) {
-                if (sc["type"] == "filter") found = true;
+                if (sc["type"] == "filter") {
+                  found = true;
+                }
             }
         }
     }
@@ -459,7 +461,9 @@ TEST_F(HyperLogLogTest, DuplicatesNotCountedTwice) {
 
 TEST_F(HyperLogLogTest, ResetClearsRegisters) {
     ApproximateCountDistinct hll;
-    for (int i = 0; i < 1000; ++i) hll.add(nlohmann::json(i));
+    for (int i = 0; i < 1000; ++i) {
+      hll.add(nlohmann::json(i));
+    }
     hll.reset();
     const int64_t est = hll.estimate().get<int64_t>();
     EXPECT_LE(est, 5);
@@ -467,8 +471,12 @@ TEST_F(HyperLogLogTest, ResetClearsRegisters) {
 
 TEST_F(HyperLogLogTest, MergeTwoSketchesYieldsUnion) {
     ApproximateCountDistinct hll1(12), hll2(12);
-    for (int i = 0; i < 500; ++i) hll1.add(nlohmann::json(i));
-    for (int i = 500; i < 1000; ++i) hll2.add(nlohmann::json(i));
+    for (int i = 0; i < 500; ++i) {
+      hll1.add(nlohmann::json(i));
+    }
+    for (int i = 500; i < 1000; ++i) {
+      hll2.add(nlohmann::json(i));
+    }
     hll1.merge(hll2);
     const int64_t est = hll1.estimate().get<int64_t>();
     EXPECT_GE(est, 500);
@@ -521,8 +529,12 @@ TEST_F(TDigestTest, P95OfUniformDistribution) {
 
 TEST_F(TDigestTest, MergeTwoDigests) {
     ApproximatePercentile td1(0.5), td2(0.5);
-    for (int i = 1; i <= 500; ++i) td1.add(nlohmann::json(static_cast<double>(i)));
-    for (int i = 501; i <= 1000; ++i) td2.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 1; i <= 500; ++i) {
+      td1.add(nlohmann::json(static_cast<double>(i)));
+    }
+    for (int i = 501; i <= 1000; ++i) {
+      td2.add(nlohmann::json(static_cast<double>(i)));
+    }
     td1.merge(td2);
     const double median = td1.estimate().get<double>();
     EXPECT_GE(median, 350.0);
@@ -531,7 +543,9 @@ TEST_F(TDigestTest, MergeTwoDigests) {
 
 TEST_F(TDigestTest, ResetClearsState) {
     ApproximatePercentile td(0.5);
-    for (int i = 0; i < 100; ++i) td.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 0; i < 100; ++i) {
+      td.add(nlohmann::json(static_cast<double>(i)));
+    }
     td.reset();
     EXPECT_TRUE(td.estimate().is_null());
 }
@@ -544,7 +558,9 @@ class SamplingAggregatorTest : public ::testing::Test {};
 
 TEST_F(SamplingAggregatorTest, CountEqualsExactForSmallInput) {
     SamplingAggregator sa(SamplingAggregator::AggregationType::COUNT, 10'000);
-    for (int i = 0; i < 100; ++i) sa.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 0; i < 100; ++i) {
+      sa.add(nlohmann::json(static_cast<double>(i)));
+    }
     const int64_t est = sa.estimate().get<int64_t>();
     EXPECT_EQ(est, 100);
 }
@@ -552,7 +568,9 @@ TEST_F(SamplingAggregatorTest, CountEqualsExactForSmallInput) {
 TEST_F(SamplingAggregatorTest, AvgEstimateWithinTenPercent) {
     // AVG of 1..1000 = 500.5; with 10k reservoir and 1k input, sample = all.
     SamplingAggregator sa(SamplingAggregator::AggregationType::AVG, 10'000);
-    for (int i = 1; i <= 1000; ++i) sa.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 1; i <= 1000; ++i) {
+      sa.add(nlohmann::json(static_cast<double>(i)));
+    }
     const double est = sa.estimate().get<double>();
     EXPECT_GE(est, 400.0);
     EXPECT_LE(est, 600.0);
@@ -560,7 +578,9 @@ TEST_F(SamplingAggregatorTest, AvgEstimateWithinTenPercent) {
 
 TEST_F(SamplingAggregatorTest, SumEstimateReasonable) {
     SamplingAggregator sa(SamplingAggregator::AggregationType::SUM, 10'000);
-    for (int i = 1; i <= 1000; ++i) sa.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 1; i <= 1000; ++i) {
+      sa.add(nlohmann::json(static_cast<double>(i)));
+    }
     const double est = sa.estimate().get<double>();
     // Exact sum = 500500; reservoir contains all values, so scale = 1.
     EXPECT_GE(est, 400'000.0);
@@ -570,7 +590,9 @@ TEST_F(SamplingAggregatorTest, SumEstimateReasonable) {
 TEST_F(SamplingAggregatorTest, ReservoirCapIsRespected) {
     const size_t cap = 100;
     SamplingAggregator sa(SamplingAggregator::AggregationType::AVG, cap);
-    for (int i = 0; i < 1000; ++i) sa.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 0; i < 1000; ++i) {
+      sa.add(nlohmann::json(static_cast<double>(i)));
+    }
     EXPECT_LE(sa.sampleSize(), cap);
     EXPECT_EQ(sa.totalSeen(), 1000u);
 }
@@ -585,7 +607,9 @@ TEST_F(SamplingAggregatorTest, NonNumericValuesIgnored) {
 
 TEST_F(SamplingAggregatorTest, ResetClearsState) {
     SamplingAggregator sa(SamplingAggregator::AggregationType::AVG, 100);
-    for (int i = 0; i < 50; ++i) sa.add(nlohmann::json(static_cast<double>(i)));
+    for (int i = 0; i < 50; ++i) {
+      sa.add(nlohmann::json(static_cast<double>(i)));
+    }
     sa.reset();
     EXPECT_EQ(sa.totalSeen(), 0u);
     EXPECT_TRUE(sa.estimate().is_null());

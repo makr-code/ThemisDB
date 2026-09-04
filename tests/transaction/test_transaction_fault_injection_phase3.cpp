@@ -253,7 +253,9 @@ private:
 
 /// Begin + prepare + commit (or abort on prepare failure). Returns true on full commit.
 static bool runHappyPath(ITransactionCoordinator& coord, const std::string& txn_id) {
-    if (!coord.begin(txn_id)) return false;
+    if (!coord.begin(txn_id)) {
+      return false;
+    }
     auto ps = coord.prepare(txn_id);
     if (!ps) { coord.abort(txn_id); return false; }
     auto cs = coord.commit(txn_id);
@@ -327,7 +329,9 @@ TEST_F(TransactionFaultInjectionPhase3Test, FaultInjection_CommitPhaseTimeout) {
         auto ps = coordinator_->prepare(id);
         if (ps) {
             auto cs = coordinator_->commit(id);
-            if (!cs) ++in_doubt;
+            if (!cs) {
+              ++in_doubt;
+            }
         }
     }
 
@@ -450,7 +454,9 @@ TEST_F(TransactionFaultInjectionPhase3Test, ChaosEngineering_NetworkPartitions) 
             ++partition_handled;
         } else {
             auto cs = coordinator_->commit(id);
-            if (!cs) ++partition_handled;
+            if (!cs) {
+              ++partition_handled;
+            }
         }
     }
 
@@ -576,7 +582,9 @@ TEST_F(TransactionFaultInjectionPhase3Test, StressTest_HighConcurrencyWithFaultI
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     GTEST_LOG_(INFO) << "High concurrency: " << successful_ops << " ok, "
                      << failed_ops << " failed, total="
@@ -617,7 +625,9 @@ TEST_F(TransactionFaultInjectionPhase3Test, StressTest_LongRunningDegradedCondit
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     GTEST_LOG_(INFO) << "Degraded conditions: " << total_ops << " ops, "
                      << aborted << " aborted (cascading)";

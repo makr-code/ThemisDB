@@ -94,7 +94,9 @@ static std::string buildConfig(
     cfg["message_format"]  = message_format;
     cfg["text_field"]      = text_field;
     cfg["max_messages"]    = max_messages;
-    if (!brokers.empty()) cfg["brokers"] = brokers;
+    if (!brokers.empty()) {
+      cfg["brokers"] = brokers;
+    }
     return cfg.dump();
 }
 

@@ -461,7 +461,9 @@ TEST_F(WikiPluginPhase34Test, WorkspaceStateLogAppend_LWP12) {
     std::string line;
     int entry_count = 0;
     while (std::getline(ifs, line)) {
-        if (!line.empty()) ++entry_count;
+        if (!line.empty()) {
+          ++entry_count;
+        }
     }
     EXPECT_EQ(entry_count, 2);
 }

@@ -83,7 +83,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_01_DistributedHybridWithAnalytics) {
   EXPECT_EQ(search.component_timings_ms.size(), 4);
   
   int total = 0;
-  for (auto timing : search.component_timings_ms) total += timing;
+  for (auto timing : search.component_timings_ms) {
+    total += timing;
+  }
   EXPECT_LE(total, 260);  // Allows for merge overhead
 }
 
@@ -377,7 +379,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_08_StreamingBackpressureFlowControl) {
     }
     
     bool consume_result() {
-      if (buffer.empty()) return false;
+      if (buffer.empty()) {
+        return false;
+      }
       buffer.erase(buffer.begin());
       items_consumed++;
       backpressure_active = false;
@@ -686,7 +690,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_16_FullSystemRecoveryCascading) {
     
     bool all_healthy() {
       for (bool h : component_health) {
-        if (!h) return false;
+        if (!h) {
+          return false;
+        }
       }
       return true;
     }

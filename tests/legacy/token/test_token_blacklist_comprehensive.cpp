@@ -229,7 +229,9 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentRevokeAndCheck_ThreadSafe) {
         }
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Verify stats are internally consistent: revocations + checks should
     // match what the threads actually performed.
@@ -255,7 +257,9 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All entries should have been unrevoked (none should be found)
     for (int i = 0; i < 100; ++i) {

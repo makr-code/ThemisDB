@@ -114,10 +114,14 @@ public:
     }
 
     void simulateNodeLoss(int count) {
-        for (int i = 0; i < count; ++i) quorum_.removeNode();
+        for (int i = 0; i < count; ++i) {
+          quorum_.removeNode();
+        }
     }
     void simulateNodeRejoin(int count) {
-        for (int i = 0; i < count; ++i) quorum_.addNode();
+        for (int i = 0; i < count; ++i) {
+          quorum_.addNode();
+        }
     }
     void simulateSplitBrain(PartitionHalf half) noexcept {
         partition_half_ = half;

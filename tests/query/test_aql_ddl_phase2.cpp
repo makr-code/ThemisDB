@@ -337,13 +337,19 @@ TEST_F(AqlDdlPhase2Test, DDL30_ConcurrentCreateDropDifferentCollections) {
             DDLExecutor exec(registry);
 
             auto cddl = parser.parseSchemaDDL("CREATE COLLECTION " + cname);
-            if (cddl) exec.execute(*cddl);
+            if (cddl) {
+              exec.execute(*cddl);
+            }
 
             auto dddl = parser.parseSchemaDDL("DROP COLLECTION " + cname + " IF EXISTS");
-            if (dddl) exec.execute(*dddl);
+            if (dddl) {
+              exec.execute(*dddl);
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All transient collections should be gone; no crashes or corruption
     for (int i = 0; i < kThreads; ++i) {

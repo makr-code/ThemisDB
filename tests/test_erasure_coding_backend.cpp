@@ -157,7 +157,9 @@ TEST_F(ErasureCodingFocusedTests, RoundTrip_RS4_2_SmallBlob) {
     auto shards = b.encode("blob1", orig);
 
     std::map<uint32_t, EncodedShard> smap;
-    for (auto& s : shards) smap[s.shard_index] = s;
+    for (auto& s : shards) {
+      smap[s.shard_index] = s;
+    }
 
     auto rec = b.decode("blob1", smap, orig.size());
     EXPECT_EQ(rec, orig);
@@ -169,7 +171,9 @@ TEST_F(ErasureCodingFocusedTests, RoundTrip_RS6_3_MediumBlob) {
     auto shards = b.encode("blob2", orig);
 
     std::map<uint32_t, EncodedShard> smap;
-    for (auto& s : shards) smap[s.shard_index] = s;
+    for (auto& s : shards) {
+      smap[s.shard_index] = s;
+    }
 
     auto rec = b.decode("blob2", smap, orig.size());
     EXPECT_EQ(rec, orig);
@@ -181,7 +185,9 @@ TEST_F(ErasureCodingFocusedTests, RoundTrip_RS10_4_LargeBlob) {
     auto shards = b.encode("blob3", orig);
 
     std::map<uint32_t, EncodedShard> smap;
-    for (auto& s : shards) smap[s.shard_index] = s;
+    for (auto& s : shards) {
+      smap[s.shard_index] = s;
+    }
 
     auto rec = b.decode("blob3", smap, orig.size());
     EXPECT_EQ(rec, orig);
@@ -193,7 +199,9 @@ TEST_F(ErasureCodingFocusedTests, RoundTrip_SingleByte) {
     auto shards = b.encode("tiny", orig);
 
     std::map<uint32_t, EncodedShard> smap;
-    for (auto& s : shards) smap[s.shard_index] = s;
+    for (auto& s : shards) {
+      smap[s.shard_index] = s;
+    }
 
     auto rec = b.decode("tiny", smap, orig.size());
     EXPECT_EQ(rec, orig);
@@ -211,7 +219,9 @@ TEST_F(ErasureCodingFocusedTests, SingleDataShardLoss_RS4_2) {
     // Remove shard 0 (data)
     std::map<uint32_t, EncodedShard> smap;
     for (auto& s : shards) {
-        if (s.shard_index != 0) smap[s.shard_index] = s;
+        if (s.shard_index != 0) {
+          smap[s.shard_index] = s;
+        }
     }
 
     auto rec = b.decode("blob", smap, orig.size());
@@ -226,7 +236,9 @@ TEST_F(ErasureCodingFocusedTests, SingleParityShardLoss_RS4_2) {
     // Remove shard 4 (first parity)
     std::map<uint32_t, EncodedShard> smap;
     for (auto& s : shards) {
-        if (s.shard_index != 4) smap[s.shard_index] = s;
+        if (s.shard_index != 4) {
+          smap[s.shard_index] = s;
+        }
     }
 
     auto rec = b.decode("blob", smap, orig.size());
@@ -245,7 +257,9 @@ TEST_F(ErasureCodingFocusedTests, TwoShardLoss_RS4_2_MaxTolerance) {
     // Remove shards 1 and 3 (both data)
     std::map<uint32_t, EncodedShard> smap;
     for (auto& s : shards) {
-        if (s.shard_index != 1 && s.shard_index != 3) smap[s.shard_index] = s;
+        if (s.shard_index != 1 && s.shard_index != 3) {
+          smap[s.shard_index] = s;
+        }
     }
 
     auto rec = b.decode("blob", smap, orig.size());
@@ -279,7 +293,9 @@ TEST_F(ErasureCodingFocusedTests, ThreeShardLoss_RS6_3_MaxTolerance) {
     std::map<uint32_t, EncodedShard> smap;
     for (auto& s : shards) {
         uint32_t idx = s.shard_index;
-        if (idx != 1 && idx != 3 && idx != 5) smap[idx] = s;
+        if (idx != 1 && idx != 3 && idx != 5) {
+          smap[idx] = s;
+        }
     }
 
     auto rec = b.decode("blob", smap, orig.size());
@@ -298,7 +314,9 @@ TEST_F(ErasureCodingFocusedTests, TooManyLosses_RS4_2_ThrowsOrFails) {
     // Remove 3 shards (exceeds parity_shards=2)
     std::map<uint32_t, EncodedShard> smap;
     for (auto& s : shards) {
-        if (s.shard_index > 2) smap[s.shard_index] = s;
+        if (s.shard_index > 2) {
+          smap[s.shard_index] = s;
+        }
     }
 
     EXPECT_THROW(b.decode("blob", smap, orig.size()), std::runtime_error);
@@ -456,7 +474,9 @@ TEST_F(ErasureCodingFocusedTests, CauchyRS_RoundTrip_RS4_2) {
     auto shards = b.encode("blob", orig);
 
     std::map<uint32_t, EncodedShard> smap;
-    for (auto& s : shards) smap[s.shard_index] = s;
+    for (auto& s : shards) {
+      smap[s.shard_index] = s;
+    }
 
     auto rec = b.decode("blob", smap, orig.size());
     EXPECT_EQ(rec, orig);
@@ -490,9 +510,13 @@ protected:
                       const std::string& path)
                -> std::optional<std::vector<uint8_t>> {
             auto it = shard_store_.find(shard_id);
-            if (it == shard_store_.end()) return std::nullopt;
+            if (it == shard_store_.end()) {
+              return std::nullopt;
+            }
             auto jt = it->second.find(path);
-            if (jt == it->second.end()) return std::nullopt;
+            if (jt == it->second.end()) {
+              return std::nullopt;
+            }
             return jt->second;
         };
     }
@@ -526,7 +550,9 @@ TEST_F(ErasureCodingBlobManagerTest, WriteReadRoundTrip_RS4_2) {
 
     // All 6 chunks should be stored
     size_t total_chunks = 0;
-    for (const auto& [sid, paths] : shard_store_) total_chunks += paths.size();
+    for (const auto& [sid, paths] : shard_store_) {
+      total_chunks += paths.size();
+    }
     EXPECT_EQ(total_chunks, 6u);
 
     auto rres = mgr.readBlob(blob_id, readHandler());

@@ -36,7 +36,9 @@ TEST_F(WAOTest, RecordQueryIncrementsCounter) {
 }
 
 TEST_F(WAOTest, RecordMultipleQueries) {
-    for (int i = 0; i < 10; ++i) opt.record_query(false, 1.0, 5);
+    for (int i = 0; i < 10; ++i) {
+      opt.record_query(false, 1.0, 5);
+    }
     EXPECT_EQ(opt.get_stats().total_queries_recorded, 10u);
 }
 
@@ -44,41 +46,57 @@ TEST_F(WAOTest, RecordMultipleQueries) {
 
 TEST_F(WAOTest, ClassifyOLTPHighConcurrencyWrites) {
     opt.set_concurrent_queries(16);
-    for (int i = 0; i < 50; ++i) opt.record_query(true, 1.5, 1, "orders");
+    for (int i = 0; i < 50; ++i) {
+      opt.record_query(true, 1.5, 1, "orders");
+    }
     auto profile = opt.classify_workload();
     EXPECT_EQ(profile.type, WorkloadType::OLTP);
 }
 
 TEST_F(WAOTest, ClassifyOLAPHighComplexity) {
-    for (int i = 0; i < 50; ++i) opt.record_query(false, 8.0, 100000);
+    for (int i = 0; i < 50; ++i) {
+      opt.record_query(false, 8.0, 100000);
+    }
     auto profile = opt.classify_workload();
     EXPECT_EQ(profile.type, WorkloadType::OLAP);
 }
 
 TEST_F(WAOTest, ClassifyMIXED) {
-    for (int i = 0; i < 25; ++i) opt.record_query(true,  4.0, 10, "t1");
-    for (int i = 0; i < 25; ++i) opt.record_query(false, 4.0, 100, "t1");
+    for (int i = 0; i < 25; ++i) {
+      opt.record_query(true,  4.0, 10, "t1");
+    }
+    for (int i = 0; i < 25; ++i) {
+      opt.record_query(false, 4.0, 100, "t1");
+    }
     auto profile = opt.classify_workload();
     // Mixed: write_ratio >= 0.3 and complexity >= 3
     EXPECT_EQ(profile.type, WorkloadType::MIXED);
 }
 
 TEST_F(WAOTest, ClassifyVECTOR) {
-    for (int i = 0; i < 50; ++i) opt.record_query(false, 2.0, 50000);
+    for (int i = 0; i < 50; ++i) {
+      opt.record_query(false, 2.0, 50000);
+    }
     auto profile = opt.classify_workload();
     EXPECT_EQ(profile.type, WorkloadType::VECTOR);
 }
 
 TEST_F(WAOTest, HotTablesPopulated) {
-    for (int i = 0; i < 30; ++i) opt.record_query(false, 1.0, 10, "hot_table");
-    for (int i = 0; i < 10; ++i) opt.record_query(false, 1.0, 10, "other_table");
+    for (int i = 0; i < 30; ++i) {
+      opt.record_query(false, 1.0, 10, "hot_table");
+    }
+    for (int i = 0; i < 10; ++i) {
+      opt.record_query(false, 1.0, 10, "other_table");
+    }
     auto profile = opt.classify_workload();
     EXPECT_FALSE(profile.hot_tables.empty());
     EXPECT_EQ(profile.hot_tables[0], "hot_table");
 }
 
 TEST_F(WAOTest, ReadWriteRatioAllReads) {
-    for (int i = 0; i < 20; ++i) opt.record_query(false, 1.0, 5);
+    for (int i = 0; i < 20; ++i) {
+      opt.record_query(false, 1.0, 5);
+    }
     auto profile = opt.classify_workload();
     EXPECT_DOUBLE_EQ(profile.read_write_ratio, 1.0);
 }
@@ -168,7 +186,9 @@ TEST_F(WAOTest, ResetStatsZeroesCounters) {
 
 TEST_F(WAOTest, SetConcurrentQueriesReflectsInProfile) {
     opt.set_concurrent_queries(42);
-    for (int i = 0; i < 10; ++i) opt.record_query(true, 1.0, 5);
+    for (int i = 0; i < 10; ++i) {
+      opt.record_query(true, 1.0, 5);
+    }
     auto profile = opt.classify_workload();
     EXPECT_EQ(profile.concurrent_queries, 42u);
 }
@@ -184,7 +204,9 @@ TEST_F(WAOTest, ConcurrentRecordQueryThreadSafe) {
                 opt.record_query(i % 2 == 0, 2.0, 10, "tbl");
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(opt.get_stats().total_queries_recorded,
               static_cast<uint64_t>(kThreads * 50));
 }

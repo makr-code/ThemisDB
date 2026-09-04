@@ -34,7 +34,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     /// Insert a simple schema for testing
@@ -348,7 +350,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     void registerSchema(const std::string& name) {

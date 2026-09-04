@@ -166,7 +166,9 @@ TEST_F(TSStoreFixture, EntityFilterIsolatesCorrectEntity) {
     auto r = store->query(q);
     ASSERT_TRUE(r.has_value());
     ASSERT_EQ(r->size(), 2u);
-    for (const auto& pt : *r) EXPECT_EQ(pt.entity, "host1");
+    for (const auto& pt : *r) {
+      EXPECT_EQ(pt.entity, "host1");
+    }
 }
 
 // ─── Tag filter ───────────────────────────────────────────────────────────────
@@ -186,7 +188,9 @@ TEST_F(TSStoreFixture, TagFilterMatchesCorrectPoints) {
     auto r = store->query(q);
     ASSERT_TRUE(r.has_value());
     ASSERT_EQ(r->size(), 2u);
-    for (const auto& pt : *r) EXPECT_EQ(pt.tags["env"], "prod");
+    for (const auto& pt : *r) {
+      EXPECT_EQ(pt.tags["env"], "prod");
+    }
 }
 
 // ─── Limit ────────────────────────────────────────────────────────────────────

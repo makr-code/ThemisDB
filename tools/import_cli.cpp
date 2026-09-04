@@ -95,17 +95,31 @@ static bool isValidUtf8(const std::string& s) {
         else if ((c & 0xF0) == 0xE0) { extra = 2; cp = c & 0x0F; }
         else if ((c & 0xF8) == 0xF0) { extra = 3; cp = c & 0x07; }
         else return false;
-        if (i + extra >= len) return false;
+        if (i + extra >= len) {
+          return false;
+        }
         for (size_t j = 1; j <= extra; ++j) {
             unsigned char cc = bytes[i + j];
-            if ((cc & 0xC0) != 0x80) return false;
+            if ((cc & 0xC0) != 0x80) {
+              return false;
+            }
             cp = (cp << 6) | (cc & 0x3F);
         }
-        if (extra == 1 && cp < 0x80)    return false;
-        if (extra == 2 && cp < 0x800)   return false;
-        if (extra == 3 && cp < 0x10000) return false;
-        if (cp >= 0xD800 && cp <= 0xDFFF) return false;
-        if (cp > 0x10FFFF) return false;
+        if (extra == 1 && cp < 0x80) {
+          return false;
+        }
+        if (extra == 2 && cp < 0x800) {
+          return false;
+        }
+        if (extra == 3 && cp < 0x10000) {
+          return false;
+        }
+        if (cp >= 0xD800 && cp <= 0xDFFF) {
+          return false;
+        }
+        if (cp > 0x10FFFF) {
+          return false;
+        }
         i += 1 + extra;
     }
     return true;
@@ -193,9 +207,13 @@ struct Config {
 
 static void quarantineRow(const Config& cfg, const std::string& table,
                           const std::string& raw, const std::string& reason) {
-    if (cfg.quarantine_file.empty()) return;
+    if (cfg.quarantine_file.empty()) {
+      return;
+    }
     std::ofstream f(cfg.quarantine_file, std::ios::app);
-    if (!f) return;
+    if (!f) {
+      return;
+    }
     json entry = {{"table", table}, {"row", raw}, {"error", reason}};
     f << entry.dump() << "\n";
 }
@@ -205,7 +223,9 @@ static void quarantineRow(const Config& cfg, const std::string& table,
 static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
     std::unordered_set<uint64_t> hs;
     std::ifstream f(path);
-    if (!f) return hs;
+    if (!f) {
+      return hs;
+    }
     std::string line;
     while (std::getline(f, line)) {
         if (!line.empty()) {
@@ -218,7 +238,9 @@ static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
 static void saveDeltaHashes(const std::string& path,
                              const std::unordered_set<uint64_t>& hs) {
     std::ofstream f(path, std::ios::trunc);
-    if (!f) return;
+    if (!f) {
+      return;
+    }
     for (uint64_t h : hs) {
         char buf[17];
         std::snprintf(buf, sizeof(buf), "%016" PRIx64, h);
@@ -230,7 +252,9 @@ static void saveDeltaHashes(const std::string& path,
 
 static bool shouldImport(const std::string& table, const Config& cfg) {
     for (const auto& e : cfg.exclude_tables)
-        if (e == table) return false;
+        if (e == table) {
+          return false;
+        }
     if (!cfg.include_tables.empty())
         return std::find(cfg.include_tables.begin(), cfg.include_tables.end(), table)
                != cfg.include_tables.end();
@@ -285,7 +309,9 @@ static int runImport(const Config& cfg) {
         if (!shouldImport(table_name, cfg)) {
             std::string skip_line;
             while (std::getline(file, skip_line)) {
-                if (skip_line == "\\." || skip_line.rfind("\\.", 0) == 0) break;
+                if (skip_line == "\\." || skip_line.rfind("\\.", 0) == 0) {
+                  break;
+                }
                 stats.skipped++;
             }
             return;
@@ -298,7 +324,9 @@ static int runImport(const Config& cfg) {
         size_t row = 0;
         bool first = true;
         while (std::getline(file, data_line)) {
-            if (data_line == "\\." || data_line.rfind("\\.", 0) == 0) break;
+            if (data_line == "\\." || data_line.rfind("\\.", 0) == 0) {
+              break;
+            }
 
             // Binary COPY detection
             // PostgreSQL binary COPY format starts with "PGCOPY\n\xff\r\n\0"
@@ -309,7 +337,9 @@ static int runImport(const Config& cfg) {
                     std::cerr << "ERROR: " << msg << "\n";
                     stats.errors.push_back(msg);
                     while (std::getline(file, data_line))
-                        if (data_line == "\\." || data_line.rfind("\\.", 0) == 0) break;
+                        if (data_line == "\\." || data_line.rfind("\\.", 0) == 0) {
+                          break;
+                        }
                     return;
                 }
             }
@@ -319,19 +349,31 @@ static int runImport(const Config& cfg) {
 
             if (cfg.max_row_size > 0 && data_line.size() > cfg.max_row_size) {
                 std::string reason = "ROW_TOO_LARGE: table " + table_name + " row " + std::to_string(row);
-                if (cfg.progress) std::cerr << "WARN: " << reason << "\n";
-                if (!cfg.dry_run) quarantineRow(cfg, table_name, data_line, reason);
+                if (cfg.progress) {
+                  std::cerr << "WARN: " << reason << "\n";
+                }
+                if (!cfg.dry_run) {
+                  quarantineRow(cfg, table_name, data_line, reason);
+                }
                 stats.failed++; stats.quarantined++;
-                if (!cfg.continue_on_error) return;
+                if (!cfg.continue_on_error) {
+                  return;
+                }
                 continue;
             }
 
             if (cfg.enforce_utf8 && !isValidUtf8(data_line)) {
                 std::string reason = "INVALID_UTF8: table " + table_name + " row " + std::to_string(row);
-                if (cfg.progress) std::cerr << "WARN: " << reason << "\n";
-                if (!cfg.dry_run) quarantineRow(cfg, table_name, data_line, reason);
+                if (cfg.progress) {
+                  std::cerr << "WARN: " << reason << "\n";
+                }
+                if (!cfg.dry_run) {
+                  quarantineRow(cfg, table_name, data_line, reason);
+                }
                 stats.failed++; stats.quarantined++;
-                if (!cfg.continue_on_error) return;
+                if (!cfg.continue_on_error) {
+                  return;
+                }
                 continue;
             }
 
@@ -350,10 +392,14 @@ static int runImport(const Config& cfg) {
                                         " row " + std::to_string(row) +
                                         " (got " + std::to_string(values.size()) +
                                         ", expected " + std::to_string(cols.size()) + ")";
-                    if (cfg.progress) std::cerr << "WARN: " << reason << "\n";
+                    if (cfg.progress) {
+                      std::cerr << "WARN: " << reason << "\n";
+                    }
                     quarantineRow(cfg, table_name, data_line, reason);
                     stats.failed++; stats.quarantined++;
-                    if (!cfg.continue_on_error) return;
+                    if (!cfg.continue_on_error) {
+                      return;
+                    }
                     continue;
                 }
             }
@@ -377,7 +423,9 @@ static int runImport(const Config& cfg) {
             std::cerr << "WARN: Statement too large near line " << line_num
                       << ", skipping\n";
             sql.clear();
-            if (!cfg.continue_on_error) break;
+            if (!cfg.continue_on_error) {
+              break;
+            }
             continue;
         }
 
@@ -393,7 +441,9 @@ static int runImport(const Config& cfg) {
                     ss >> word;
                     // strip schema qualifier
                     auto dot = word.find('.');
-                    if (dot != std::string::npos) word = word.substr(dot + 1);
+                    if (dot != std::string::npos) {
+                      word = word.substr(dot + 1);
+                    }
                     // strip trailing (
                     while (!word.empty() && (word.back() == '(' || word.back() == ' '))
                         word.pop_back();
@@ -417,7 +467,9 @@ static int runImport(const Config& cfg) {
                     std::string word;
                     ss >> word;
                     auto dot = word.find('.');
-                    if (dot != std::string::npos) word = word.substr(dot + 1);
+                    if (dot != std::string::npos) {
+                      word = word.substr(dot + 1);
+                    }
                     while (!word.empty() && word.back() == '(') word.pop_back();
                     table_name = word;
                     // Column list if present
@@ -432,11 +484,15 @@ static int runImport(const Config& cfg) {
                             col.erase(0, col.find_first_not_of(" \t"));
                             if (auto e = col.find_last_not_of(" \t"); e != std::string::npos)
                                 col.erase(e + 1);
-                            if (!col.empty()) col_list.push_back(col);
+                            if (!col.empty()) {
+                              col_list.push_back(col);
+                            }
                         }
                     }
                 }
-                if (!table_name.empty()) processCopyBlock(table_name, col_list);
+                if (!table_name.empty()) {
+                  processCopyBlock(table_name, col_list);
+                }
             }
             sql.clear();
         }
@@ -449,7 +505,9 @@ static int runImport(const Config& cfg) {
         saveDeltaHashes(cfg.delta_hash_file, delta_hashes);
 
     // ---- Output ------------------------------------------------------------
-    if (cfg.progress) std::cerr << "\n";
+    if (cfg.progress) {
+      std::cerr << "\n";
+    }
 
     if (cfg.output_json) {
         std::cout << stats.toJson().dump(2) << "\n";
@@ -462,14 +520,22 @@ static int runImport(const Config& cfg) {
                   << "  Skipped:     " << stats.skipped     << "\n"
                   << "  Quarantined: " << stats.quarantined << "\n"
                   << "  Time:        " << stats.elapsed_s   << "s\n";
-        if (stats.schema_only) std::cout << "  Mode:        schema-only\n";
-        if (stats.data_only)   std::cout << "  Mode:        data-only\n";
+        if (stats.schema_only) {
+          std::cout << "  Mode:        schema-only\n";
+        }
+        if (stats.data_only) {
+          std::cout << "  Mode:        data-only\n";
+        }
         for (const auto& e : stats.errors)
             std::cerr << "ERROR: " << e << "\n";
     }
 
-    if (!stats.errors.empty()) return 1;
-    if (stats.failed > 0)      return 2;
+    if (!stats.errors.empty()) {
+      return 1;
+    }
+    if (stats.failed > 0) {
+      return 2;
+    }
     return 0;
 }
 

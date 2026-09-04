@@ -58,7 +58,9 @@ TEST_F(UUIDv7Tests, UV7_04_MonotonicityWithinSameMs) {
     // Generate a batch within a tight loop – timestamps should be non-decreasing.
     std::vector<std::string> ids;
     ids.reserve(100);
-    for (int i = 0; i < 100; ++i) ids.push_back(generate_uuid_v7());
+    for (int i = 0; i < 100; ++i) {
+      ids.push_back(generate_uuid_v7());
+    }
 
     for (size_t i = 1; i < ids.size(); ++i) {
         const std::string& a = ids[i-1];
@@ -71,7 +73,9 @@ TEST_F(UUIDv7Tests, UV7_04_MonotonicityWithinSameMs) {
 
 TEST_F(UUIDv7Tests, UV7_05_Uniqueness) {
     std::set<std::string> seen;
-    for (int i = 0; i < 1000; ++i) seen.insert(generate_uuid_v7());
+    for (int i = 0; i < 1000; ++i) {
+      seen.insert(generate_uuid_v7());
+    }
     EXPECT_EQ(seen.size(), 1000u);
 }
 
@@ -105,11 +109,15 @@ TEST_F(UUIDv7Tests, UV7_07_ThreadSafety) {
                 buckets[t].push_back(generate_uuid_v7());
         });
     }
-    for (auto& w : workers) w.join();
+    for (auto& w : workers) {
+      w.join();
+    }
 
     std::set<std::string> all;
     for (auto& b : buckets)
-        for (auto& id : b) all.insert(id);
+        for (auto& id : b) {
+          all.insert(id);
+        }
 
     EXPECT_EQ(all.size(), static_cast<size_t>(threads * per_thread));
 }

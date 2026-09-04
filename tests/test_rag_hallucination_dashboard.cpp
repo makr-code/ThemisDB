@@ -444,7 +444,9 @@ TEST(HallucinationDashboardTest, ExportCSVCreatesFile) {
     // Should have at least two data rows
     int row_count = 0;
     std::string line;
-    while (std::getline(file, line)) ++row_count;
+    while (std::getline(file, line)) {
+      ++row_count;
+    }
     EXPECT_GE(row_count, 2);
 }
 
@@ -499,7 +501,9 @@ TEST(HallucinationDashboardTest, ConcurrentRecordingIsSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     auto snap = dashboard.snapshot();
     EXPECT_EQ(snap.total_recorded, static_cast<size_t>(THREADS * OPS_PER_THREAD));

@@ -96,23 +96,31 @@ static std::string mapSQLiteType(
     const std::string& sqlite_type,
     const std::map<std::string,std::string>& overrides = {}) {
     auto it = overrides.find(sqlite_type);
-    if (it != overrides.end()) return it->second;
+    if (it != overrides.end()) {
+      return it->second;
+    }
 
     std::string base = sqlite_type;
     size_t paren = base.find('(');
-    if (paren != std::string::npos) base = base.substr(0, paren);
+    if (paren != std::string::npos) {
+      base = base.substr(0, paren);
+    }
     std::string lower = toLowerTest(base);
     while (!lower.empty() &&
            (lower.back() == ' ' || lower.back() == '\t')) lower.pop_back();
 
     // SQLite type affinity rules
-    if (lower.find("int") != std::string::npos) return "integer";
+    if (lower.find("int") != std::string::npos) {
+      return "integer";
+    }
 
     if (lower.find("char")  != std::string::npos ||
         lower.find("clob")  != std::string::npos ||
         lower.find("text")  != std::string::npos) return "string";
 
-    if (lower.empty() || lower == "blob") return "binary";
+    if (lower.empty() || lower == "blob") {
+      return "binary";
+    }
 
     if (lower.find("real")  != std::string::npos ||
         lower.find("floa")  != std::string::npos ||
@@ -120,15 +128,29 @@ static std::string mapSQLiteType(
 
     if (lower == "numeric" || lower == "decimal" || lower == "number")
         return "double";
-    if (lower == "boolean" || lower == "bool") return "boolean";
+    if (lower == "boolean" || lower == "bool") {
+      return "boolean";
+    }
 
-    if (lower == "date")      return "date";
-    if (lower == "time")      return "time";
-    if (lower == "datetime" || lower == "timestamp") return "datetime";
-    if (lower == "json")      return "json";
+    if (lower == "date") {
+      return "date";
+    }
+    if (lower == "time") {
+      return "time";
+    }
+    if (lower == "datetime" || lower == "timestamp") {
+      return "datetime";
+    }
+    if (lower == "json") {
+      return "json";
+    }
 
-    if (lower.find("date") != std::string::npos) return "datetime";
-    if (lower.find("time") != std::string::npos) return "datetime";
+    if (lower.find("date") != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("time") != std::string::npos) {
+      return "datetime";
+    }
 
     return "string";
 }
@@ -154,15 +176,21 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         R"re((?:(?:"([^"]+)"|`([^`]+)`|(\w+))\.)?(?:"([^"]+)"|`([^`]+)`|(\w+))\s*\()re",
         std::regex_constants::icase);
     std::smatch match;
-    if (!std::regex_search(sql, match, table_regex)) return false;
+    if (!std::regex_search(sql, match, table_regex)) {
+      return false;
+    }
 
     out.name = match[4].matched ? match[4].str()
              : match[5].matched ? match[5].str()
              : match[6].matched ? match[6].str() : "";
-    if (out.name.empty()) return false;
+    if (out.name.empty()) {
+      return false;
+    }
 
     size_t open_pos = sql.find('(', match.position());
-    if (open_pos == std::string::npos) return false;
+    if (open_pos == std::string::npos) {
+      return false;
+    }
 
     int depth = 0;
     bool in_string = false;
@@ -171,7 +199,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
     for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
-            if (c == str_char) in_string = false;
+            if (c == str_char) {
+              in_string = false;
+            }
         } else if (c == '\'' || c == '"') {
             in_string = true; str_char = c;
         } else if (c == '(') { ++depth; }
@@ -180,7 +210,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             if (depth == 0) { close_pos = k; break; }
         }
     }
-    if (close_pos == std::string::npos) return false;
+    if (close_pos == std::string::npos) {
+      return false;
+    }
 
     std::string cols_str = sql.substr(open_pos + 1, close_pos - open_pos - 1);
 
@@ -191,7 +223,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             char c = cols_str[i];
             if (inq) {
                 cur += c;
-                if (c == qc) inq = false;
+                if (c == qc) {
+                  inq = false;
+                }
             } else if (c == '\'' || c == '"' || c == '`') {
                 inq = true; qc = c; cur += c;
             } else if (c == '(') { ++dep; cur += c; }
@@ -199,16 +233,24 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             else if (c == ',' && dep == 0) { col_defs.push_back(cur); cur.clear(); }
             else cur += c;
         }
-        if (!cur.empty()) col_defs.push_back(cur);
+        if (!cur.empty()) {
+          col_defs.push_back(cur);
+        }
     }
 
     for (auto& col_def : col_defs) {
         size_t f = col_def.find_first_not_of(" \t\n\r");
-        if (f == std::string::npos) continue;
+        if (f == std::string::npos) {
+          continue;
+        }
         col_def = col_def.substr(f);
         size_t l = col_def.find_last_not_of(" \t\n\r");
-        if (l != std::string::npos) col_def = col_def.substr(0, l + 1);
-        if (col_def.empty()) continue;
+        if (l != std::string::npos) {
+          col_def = col_def.substr(0, l + 1);
+        }
+        if (col_def.empty()) {
+          continue;
+        }
 
         std::string up;
         for (size_t i = 0; i < col_def.size() && i < 25; ++i)
@@ -230,7 +272,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             (col_def[0] == '"' || col_def[0] == '`')) {
             char q = col_def[0];
             size_t end_q = col_def.find(q, 1);
-            if (end_q == std::string::npos) continue;
+            if (end_q == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(1, end_q - 1);
             type_start = end_q + 1;
         } else {
@@ -243,7 +287,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
                 type_start = sp;
             }
         }
-        if (col_name.empty()) continue;
+        if (col_name.empty()) {
+          continue;
+        }
 
         while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t'))
@@ -285,7 +331,9 @@ static std::vector<std::string> parseSQLiteInsertValues(
 
     while (i < n) {
         skipWs();
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         char c = values_clause[i];
 
@@ -323,7 +371,9 @@ static std::vector<std::string> parseSQLiteInsertValues(
             std::string val;
             while (i < n && values_clause[i] != '\'')
                 val += values_clause[i++];
-            if (i < n) ++i;
+            if (i < n) {
+              ++i;
+            }
             result.push_back(val);
         } else {
             size_t start = i;
@@ -339,18 +389,24 @@ static std::vector<std::string> parseSQLiteInsertValues(
             std::string token = values_clause.substr(start, i - start);
             size_t tf = token.find_first_not_of(" \t\r\n");
             size_t tl = token.find_last_not_of(" \t\r\n");
-            if (tf == std::string::npos) token.clear();
+            if (tf == std::string::npos) {
+              token.clear();
+            }
             else token = token.substr(tf, tl - tf + 1);
             std::string upper_tok;
             for (char ch : token)
                 upper_tok += static_cast<char>(
                     std::toupper(static_cast<unsigned char>(ch)));
-            if (upper_tok == "NULL") token.clear();
+            if (upper_tok == "NULL") {
+              token.clear();
+            }
             result.push_back(token);
         }
 
         skipWs();
-        if (i < n && values_clause[i] == ',') ++i;
+        if (i < n && values_clause[i] == ',') {
+          ++i;
+        }
     }
     return result;
 }
@@ -666,7 +722,9 @@ TEST(SQLiteInsertValues, NullValue) {
 TEST(SQLiteInsertValues, NullCaseInsensitive) {
     auto vals = parseSQLiteInsertValues("null,Null,NULL");
     ASSERT_EQ(vals.size(), 3u);
-    for (const auto& v : vals) EXPECT_EQ(v, "");
+    for (const auto& v : vals) {
+      EXPECT_EQ(v, "");
+    }
 }
 
 TEST(SQLiteInsertValues, DoubledSingleQuoteEscape) {
@@ -827,7 +885,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) ++pos;
-        if (pos >= values_payload.size()) break;
+        if (pos >= values_payload.size()) {
+          break;
+        }
         if (values_payload[pos] != '(') { ++pos; continue; }
 
         size_t tuple_start = pos + 1;
@@ -848,7 +908,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
             ++k;
         }
         size_t tuple_end = k - 1;
-        if (dep != 0) break;
+        if (dep != 0) {
+          break;
+        }
 
         std::string tuple_str =
             values_payload.substr(tuple_start, tuple_end - tuple_start);
@@ -971,7 +1033,9 @@ static const char* kFixturePath =
 static std::string getFixturePath() {
     {
         std::ifstream f(kFixturePath);
-        if (f.is_open()) return kFixturePath;
+        if (f.is_open()) {
+          return kFixturePath;
+        }
     }
 
     // Fallback: resolve relative to this test source file location.
@@ -980,7 +1044,9 @@ static std::string getFixturePath() {
          "fixtures/importers/sample_sqlite3.sql").lexically_normal();
     {
         std::ifstream f(source_based.string());
-        if (f.is_open()) return source_based.string();
+        if (f.is_open()) {
+          return source_based.string();
+        }
     }
 
     // Last fallback for out-of-tree execution from build folders.
@@ -999,7 +1065,9 @@ TEST(SQLiteFixture, FileExists) {
 TEST(SQLiteFixture, LooksLikeSQLiteDump) {
     std::string path = getFixturePath();
     std::ifstream f(path);
-    if (!f.is_open()) GTEST_SKIP() << "Fixture not found";
+    if (!f.is_open()) {
+      GTEST_SKIP() << "Fixture not found";
+    }
 
     std::ostringstream ss;
     ss << f.rdbuf();
@@ -1009,7 +1077,9 @@ TEST(SQLiteFixture, LooksLikeSQLiteDump) {
 TEST(SQLiteFixture, ContainsBothTables) {
     std::string path = getFixturePath();
     std::ifstream f(path);
-    if (!f.is_open()) GTEST_SKIP() << "Fixture not found";
+    if (!f.is_open()) {
+      GTEST_SKIP() << "Fixture not found";
+    }
 
     std::string content((std::istreambuf_iterator<char>(f)),
                          std::istreambuf_iterator<char>());

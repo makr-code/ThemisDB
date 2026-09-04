@@ -73,8 +73,12 @@ TEST(GPUPolicyTest, GrantedCallers_ContainsGrantedIds) {
     EXPECT_EQ(callers.size(), 2u);
     bool has_x = false, has_y = false;
     for (const auto& c : callers) {
-        if (c == "x") has_x = true;
-        if (c == "y") has_y = true;
+        if (c == "x") {
+          has_x = true;
+        }
+        if (c == "y") {
+          has_y = true;
+        }
     }
     EXPECT_TRUE(has_x);
     EXPECT_TRUE(has_y);
@@ -163,8 +167,12 @@ TEST(GPUPolicyTest, Concurrent_GrantRevoke_NoDataRace) {
     };
 
     std::vector<std::thread> threads;
-    for (int t = 0; t < THREADS; ++t) threads.emplace_back(worker, t);
-    for (auto& th : threads) th.join();
+    for (int t = 0; t < THREADS; ++t) {
+      threads.emplace_back(worker, t);
+    }
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // After all threads revoke, no caller should hold capabilities.
     EXPECT_EQ(pol.grantedCount(), 0u);

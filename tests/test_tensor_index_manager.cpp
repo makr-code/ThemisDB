@@ -217,7 +217,9 @@ namespace {
 // Build a trivial flat vector for testing
 std::vector<float> makeVec(size_t dim, float seed) {
     std::vector<float> v(dim);
-    for (size_t i = 0; i < dim; ++i) v[i] = seed + static_cast<float>(i) * 0.1f;
+    for (size_t i = 0; i < dim; ++i) {
+      v[i] = seed + static_cast<float>(i) * 0.1f;
+    }
     return v;
 }
 
@@ -399,7 +401,9 @@ TEST(TensorIndexManagerPersistence, TIM17_DropIndexDeletesFile) {
     // Verify file exists, then drop and verify it is gone
     size_t file_count_before = 0;
     for (auto& e : std::filesystem::directory_iterator(dir)) {
-        if (e.path().extension() == ".ttidx") ++file_count_before;
+        if (e.path().extension() == ".ttidx") {
+          ++file_count_before;
+        }
     }
     EXPECT_EQ(file_count_before, 1u);
 
@@ -407,7 +411,9 @@ TEST(TensorIndexManagerPersistence, TIM17_DropIndexDeletesFile) {
 
     size_t file_count_after = 0;
     for (auto& e : std::filesystem::directory_iterator(dir)) {
-        if (e.path().extension() == ".ttidx") ++file_count_after;
+        if (e.path().extension() == ".ttidx") {
+          ++file_count_after;
+        }
     }
     EXPECT_EQ(file_count_after, 0u);
 

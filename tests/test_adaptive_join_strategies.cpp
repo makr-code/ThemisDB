@@ -681,8 +681,12 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_MultiRowCrossProductInBucket) {
     Table left  = makeTable("L", 50);
     Table right = makeTable("R", 50);
     // Override all rows to share the same key → full cross product
-    for (auto& r : left.rows)  r["id"] = "42";
-    for (auto& r : right.rows) r["id"] = "42";
+    for (auto& r : left.rows) {
+      r["id"] = "42";
+    }
+    for (auto& r : right.rows) {
+      r["id"] = "42";
+    }
 
     JoinSpec spec = makeSpec();
     RuntimeStats stats = defaultStats();

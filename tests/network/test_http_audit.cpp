@@ -32,7 +32,9 @@ protected:
     setenv("THEMIS_AUDIT_RATE_LIMIT", "5", 1);
 #endif
         const std::string db_path = "data/themis_http_audit_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
         themis::RocksDBWrapper::Config cfg;
         cfg.db_path = db_path;
         cfg.memtable_size_mb = 32;
@@ -71,11 +73,19 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
         const std::string db_path = "data/themis_http_audit_test";
-        if (std::filesystem::exists(db_path)) std::filesystem::remove_all(db_path);
-        if (std::filesystem::exists("data/logs/audit.jsonl")) std::filesystem::remove("data/logs/audit.jsonl");
+        if (std::filesystem::exists(db_path)) {
+          std::filesystem::remove_all(db_path);
+        }
+        if (std::filesystem::exists("data/logs/audit.jsonl")) {
+          std::filesystem::remove("data/logs/audit.jsonl");
+        }
     }
 
     static http::response<http::string_body> http_get(const std::string& host, const std::string& port, const std::string& target) {

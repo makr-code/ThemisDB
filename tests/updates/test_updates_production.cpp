@@ -373,7 +373,9 @@ TEST_F(UpdateStateMachineTest, PersistentLog_WrittenToFile) {
     std::string line;
     int line_count = 0;
     while (std::getline(f, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_GE(line_count, 2);
 }
@@ -604,7 +606,9 @@ TEST_F(ProgressCallbackTest, UpdatesConfig_NotificationEvents) {
     // Default events should include common update lifecycle events
     bool has_update_available = false;
     for (const auto& ev : cfg.notifications.on_events) {
-        if (ev == "update_available") has_update_available = true;
+        if (ev == "update_available") {
+          has_update_available = true;
+        }
     }
     EXPECT_TRUE(has_update_available);
 }
@@ -918,7 +922,9 @@ TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_Identical) {
 TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_SmallDiff) {
     // base and target differ only in a few bytes (realistic update)
     std::vector<uint8_t> base(4096);
-    for (size_t i = 0; i < base.size(); ++i) base[i] = static_cast<uint8_t>(i & 0xFF);
+    for (size_t i = 0; i < base.size(); ++i) {
+      base[i] = static_cast<uint8_t>(i & 0xFF);
+    }
 
     auto target = base;
     target[100] = 0xFF;
@@ -971,7 +977,9 @@ TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_EmptyBase) {
 
 TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_Vcdiff_SmallDiff) {
     std::vector<uint8_t> base(2048);
-    for (size_t i = 0; i < base.size(); ++i) base[i] = static_cast<uint8_t>(i % 251);
+    for (size_t i = 0; i < base.size(); ++i) {
+      base[i] = static_cast<uint8_t>(i % 251);
+    }
 
     auto target = base;
     target[50]  = 0xCC;
@@ -1304,7 +1312,9 @@ TEST_F(DeltaPathTraversalTest, NormalSubdirPath_WithPatch_AppliesSuccessfully) {
     // Prove that the security check does NOT block valid nested-path operations.
     std::string rel_path = "lib/sub/libfoo.so";
     std::vector<uint8_t> base_data(512);
-    for (size_t i = 0; i < base_data.size(); ++i) base_data[i] = static_cast<uint8_t>(i & 0xFF);
+    for (size_t i = 0; i < base_data.size(); ++i) {
+      base_data[i] = static_cast<uint8_t>(i & 0xFF);
+    }
 
     auto target_data = base_data;
     target_data[10] = 0xFF;

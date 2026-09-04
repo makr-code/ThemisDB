@@ -369,7 +369,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->shutdown();
+        if (engine_) {
+          engine_->shutdown();
+        }
     }
 
     std::shared_ptr<ImmediateMockPlugin>     plugin_;

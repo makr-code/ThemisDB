@@ -324,8 +324,12 @@ TEST_F(CacheAnomalyTest, B5_MixedSequence_AllEventsRecordedIndependently) {
     auto& mc = MetricsCollector::getInstance();
 
     // Record a typical cache lifecycle
-    for (int i = 0; i < 5; ++i) mc.recordCacheHit("adaptive");
-    for (int i = 0; i < 3; ++i) mc.recordCacheMiss("adaptive");
+    for (int i = 0; i < 5; ++i) {
+      mc.recordCacheHit("adaptive");
+    }
+    for (int i = 0; i < 3; ++i) {
+      mc.recordCacheMiss("adaptive");
+    }
     mc.recordCacheEviction("adaptive");
 
     std::string prom = mc.getPrometheusMetrics();

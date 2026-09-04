@@ -52,7 +52,9 @@ TEST_F(ToolboxContractTest, TBX03_FingerprintSizeIs32) {
 
 TEST_F(ToolboxContractTest, TBX04_FingerprintDefaultAllZero) {
     Fingerprint fp{};
-    for (auto b : fp) EXPECT_EQ(b, 0u);
+    for (auto b : fp) {
+      EXPECT_EQ(b, 0u);
+    }
 }
 
 TEST_F(ToolboxContractTest, TBX05_FingerprintCanBeSet) {

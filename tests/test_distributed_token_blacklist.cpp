@@ -315,8 +315,12 @@ TEST_F(DistributedBlacklistTest, ConcurrentAddsAndChecks)
     }
     
     // Wait for all
-    for (auto& t : writers) t.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
+    for (auto& t : readers) {
+      t.join();
+    }
     
     // Verify all tokens were added
     for (int i = 0; i < 3; ++i) {

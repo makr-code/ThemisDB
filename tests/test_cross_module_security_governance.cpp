@@ -300,7 +300,9 @@ TEST_F(LineageAncestryTest, B1_IngestionEnrichmentQuery_CorrectParentLinks) {
 
     // Verify parent links are intact (ignoring sort order)
     auto find = [&](const std::string& eid) -> const LineageEvent* {
-        for (const auto& e : lineage.events) if (e.event_id == eid) return &e;
+        for (const auto& e : lineage.events) {
+          if (e.event_id == eid) return &e;
+        }
         return nullptr;
     };
     ASSERT_NE(find("ev-ingest"), nullptr);
@@ -369,7 +371,9 @@ TEST_F(LineageAncestryTest, B3_GetDownstreamLineage_TransitiveDescendants) {
         << "Downstream of root must include 2 children + 1 grandchild";
 
     auto hasId = [&](const std::string& id) {
-        for (const auto& e : downstream) if (e.event_id == id) return true;
+        for (const auto& e : downstream) {
+          if (e.event_id == id) return true;
+        }
         return false;
     };
     EXPECT_TRUE(hasId("ds3-c1"));

@@ -236,7 +236,9 @@ TEST(Wave7Hardening, T01_OOMCallbackInstalledExactlyOnce) {
         });
     }
     start_flag.store(true, std::memory_order_release);
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(installer.install_count_.load(), 1)
         << "OOM callback must be installed exactly once regardless of concurrent first-access";
@@ -250,7 +252,9 @@ TEST(Wave7Hardening, T02_UsesVELambdaExplicitCapture) {
     std::function<bool(int)> recurse;
     recurse = [&recurse, &call_depth](int n) -> bool {
         ++call_depth;
-        if (n <= 0) return true;
+        if (n <= 0) {
+          return true;
+        }
         return recurse(n - 1);
     };
     EXPECT_TRUE(recurse(5));
@@ -267,7 +271,9 @@ TEST(Wave7Hardening, T03_FieldFromFAEmptyCapture) {
             root = "v";
             std::string result;
             for (size_t i = parts.size(); i-- > 0;) {
-                if (!result.empty()) result += ".";
+                if (!result.empty()) {
+                  result += ".";
+                }
                 result += parts[i];
             }
             return result;
@@ -476,7 +482,9 @@ TEST(Wave7Hardening, T20_OOMCallbackInstallFourThreads) {
         });
     }
     start.store(true, std::memory_order_release);
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(installer.install_count_.load(), 1)
         << "OOM callback must still be installed exactly once with 4 threads";

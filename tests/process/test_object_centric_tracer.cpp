@@ -262,7 +262,9 @@ TEST_F(ObjectCentricTracerTest, OCT10_UniqueArcs) {
     // The frequency map aggregates; only one arc entry should exist for n1→n2
     int count = 0;
     for (const auto& arc : dfmg["arcs"]) {
-        if (arc["from"] == "n1" && arc["to"] == "n2") ++count;
+        if (arc["from"] == "n1" && arc["to"] == "n2") {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 1) << "Expected exactly one arc for n1→n2 (with frequency 2)";
     if (!dfmg["arcs"].empty()) {

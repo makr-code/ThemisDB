@@ -152,7 +152,9 @@ TEST(FDF_Tests, FDF_06_DPNoisedProbabilitiesAreValid)
     std::vector<double> received;
     coord.registerStudent("s1",
         [&received](const DistillationRound& r) {
-            if (!r.labels.empty()) received = r.labels[0].probabilities;
+            if (!r.labels.empty()) {
+              received = r.labels[0].probabilities;
+            }
         });
 
     // 10-class distribution
@@ -338,7 +340,9 @@ TEST(FDF_Tests, FDF_12_RequireDpFalseSkipsNoise)
     std::vector<double> received;
     coord.registerStudent("s1",
         [&received](const DistillationRound& r) {
-            if (!r.labels.empty()) received = r.labels[0].probabilities;
+            if (!r.labels.empty()) {
+              received = r.labels[0].probabilities;
+            }
         });
 
     const std::vector<double> original = {0.7, 0.2, 0.1};

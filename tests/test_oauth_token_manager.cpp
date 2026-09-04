@@ -127,7 +127,9 @@ TEST(OAuthTokenManager, ConcurrentGetAccessToken_OnlyOneRefresh) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All threads should get the same (refreshed) token
     for (const auto& tok : tokens) {

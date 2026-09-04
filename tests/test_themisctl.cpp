@@ -47,7 +47,9 @@ static std::string optval(const std::vector<std::string>& args,
                            const std::string& key,
                            const std::string& def = "") {
     for (std::size_t i = 0; i + 1 < args.size(); ++i) {
-        if (args[i] == key) return args[i + 1];
+        if (args[i] == key) {
+          return args[i + 1];
+        }
     }
     return def;
 }
@@ -528,7 +530,9 @@ protected:
 
     static void TearDownTestSuite() {
         s_srv_.stop();
-        if (s_thread_.joinable()) s_thread_.join();
+        if (s_thread_.joinable()) {
+          s_thread_.join();
+        }
     }
 
     // ── Per-test setup ────────────────────────────────────────────────────────

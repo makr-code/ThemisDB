@@ -233,7 +233,9 @@ public:
     bool isSafeToForward() const {
         PromptInjectionDetector detector;
         const auto scan = detector.scan(history_);
-        if (scan.is_blocked()) return false;
+        if (scan.is_blocked()) {
+          return false;
+        }
 
         SafetyClassifier classifier;
         const auto cls = classifier.classify(history_);

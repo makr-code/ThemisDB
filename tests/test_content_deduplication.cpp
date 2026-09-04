@@ -189,7 +189,9 @@ TEST(ComputePHash, FallbackForNonBmpReturnsHex) {
 TEST(ComputeMinHash, EmptyTextReturnsMaxValues) {
     auto sig = TextProcessor::computeMinHash("");
     ASSERT_EQ(sig.size(), 128u);
-    for (auto v : sig) EXPECT_EQ(v, UINT32_MAX);
+    for (auto v : sig) {
+      EXPECT_EQ(v, UINT32_MAX);
+    }
 }
 
 TEST(ComputeMinHash, ProducesCorrectSize) {
@@ -213,7 +215,9 @@ TEST(ComputeMinHash, SimilarTextsShareMostMinHashValues) {
     // Estimate Jaccard: fraction of matching MinHash values
     size_t matches = 0;
     for (size_t i = 0; i < s1.size(); ++i) {
-        if (s1[i] == s2[i]) ++matches;
+        if (s1[i] == s2[i]) {
+          ++matches;
+        }
     }
     double estimated_jaccard = static_cast<double>(matches) / s1.size();
     EXPECT_GT(estimated_jaccard, 0.5) << "Similar texts should have high Jaccard estimate";
@@ -228,7 +232,9 @@ TEST(ComputeMinHash, DissimilarTextsHaveLowJaccard) {
 
     size_t matches = 0;
     for (size_t i = 0; i < s1.size(); ++i) {
-        if (s1[i] == s2[i]) ++matches;
+        if (s1[i] == s2[i]) {
+          ++matches;
+        }
     }
     double estimated_jaccard = static_cast<double>(matches) / s1.size();
     EXPECT_LT(estimated_jaccard, 0.5) << "Dissimilar texts should have low Jaccard estimate";

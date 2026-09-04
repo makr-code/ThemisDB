@@ -51,7 +51,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all("data/themis_http_content_test");
     }
@@ -101,7 +103,9 @@ protected:
 
         if (outContentType) {
             auto ct = res.base().find(http::field::content_type);
-            if (ct != res.base().end()) *outContentType = std::string(ct->value());
+            if (ct != res.base().end()) {
+              *outContentType = std::string(ct->value());
+            }
         }
 
         beast::error_code ec;

@@ -35,7 +35,9 @@ public:
     bool isRecordedVoice(const std::vector<uint8_t>& audio) {
         // Simple heuristic: recordings often have digital artifacts
         // Check for repeated patterns (compression artifacts)
-        if (audio.size() < 1000) return false;
+        if (audio.size() < 1000) {
+          return false;
+        }
         
         // Count repeating byte patterns
         int repeat_count = 0;

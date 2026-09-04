@@ -68,8 +68,12 @@ TEST_F(EthicsPluginIntegrationTest, PluginCanRegisterPhilosophies) {
     bool found_kant = false;
     bool found_util = false;
     for (const auto& school_id : registered) {
-        if (school_id == "kant") found_kant = true;
-        if (school_id == "utilitarianism") found_util = true;
+        if (school_id == "kant") {
+          found_kant = true;
+        }
+        if (school_id == "utilitarianism") {
+          found_util = true;
+        }
     }
     
     EXPECT_TRUE(found_kant) << "Kantian ethics should be registered";

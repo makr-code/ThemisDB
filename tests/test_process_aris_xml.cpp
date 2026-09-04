@@ -118,8 +118,12 @@ TEST(EpkArisXmlImporterTest, EAX02_NodeTypesFromTypeNum) {
     for (const auto& n : result.nodes) {
         if (std::holds_alternative<EPKNodeType>(n.node_type)) {
             auto t = std::get<EPKNodeType>(n.node_type);
-            if (t == EPKNodeType::EVENT)    ++event_count;
-            if (t == EPKNodeType::FUNCTION) ++function_count;
+            if (t == EPKNodeType::EVENT) {
+              ++event_count;
+            }
+            if (t == EPKNodeType::FUNCTION) {
+              ++function_count;
+            }
         }
     }
     EXPECT_EQ(event_count,    2);
@@ -173,11 +177,19 @@ TEST(EpkArisXmlImporterTest, EAX05_ConnectorNodeTypes) {
 
     int and_c = 0, or_c = 0, xor_c = 0;
     for (const auto& n : result.nodes) {
-        if (!std::holds_alternative<EPKNodeType>(n.node_type)) continue;
+        if (!std::holds_alternative<EPKNodeType>(n.node_type)) {
+          continue;
+        }
         auto t = std::get<EPKNodeType>(n.node_type);
-        if (t == EPKNodeType::AND_CONNECTOR) ++and_c;
-        if (t == EPKNodeType::OR_CONNECTOR)  ++or_c;
-        if (t == EPKNodeType::XOR_CONNECTOR) ++xor_c;
+        if (t == EPKNodeType::AND_CONNECTOR) {
+          ++and_c;
+        }
+        if (t == EPKNodeType::OR_CONNECTOR) {
+          ++or_c;
+        }
+        if (t == EPKNodeType::XOR_CONNECTOR) {
+          ++xor_c;
+        }
     }
     EXPECT_EQ(and_c, 1);
     EXPECT_EQ(or_c,  1);
@@ -361,7 +373,9 @@ TEST(ProcessAgenticRagTest, PAR05_EntityEscapedNames) {
     // The FUNCTION node should contain the decoded German characters
     bool found_vollstaendigkeit = false;
     for (const auto& n : result.nodes) {
-        if (!std::holds_alternative<EPKNodeType>(n.node_type)) continue;
+        if (!std::holds_alternative<EPKNodeType>(n.node_type)) {
+          continue;
+        }
         if (std::get<EPKNodeType>(n.node_type) == EPKNodeType::FUNCTION) {
             // After decoding &#228; → ä and &#252; → ü:
             // "Vollständigkeit prüfen"

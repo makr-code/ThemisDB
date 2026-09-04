@@ -36,7 +36,9 @@ static std::string decodeChunked(const std::string& body) {
         // Find CRLF after hex size
         size_t crlf = body.find("\r\n", pos);
         EXPECT_NE(crlf, std::string::npos) << "Malformed chunk: missing size CRLF";
-        if (crlf == std::string::npos) break;
+        if (crlf == std::string::npos) {
+          break;
+        }
 
         std::string size_str = body.substr(pos, crlf - pos);
         size_t chunk_size = std::stoul(size_str, nullptr, 16);
@@ -184,7 +186,9 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
     std::string line;
     int line_count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_EQ(line_count, 10);
 }
@@ -208,7 +212,9 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorMaxItemsLimit) {
     std::string line;
     int line_count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++line_count;
+        if (!line.empty()) {
+          ++line_count;
+        }
     }
     EXPECT_EQ(line_count, 5);
 }
@@ -236,7 +242,9 @@ TEST(ChunkedResponseWriterTest, FromStreamBasic) {
     std::string line;
     int count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++count;
+        if (!line.empty()) {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 5);
 }
@@ -273,7 +281,9 @@ TEST(ChunkedResponseWriterTest, FromStreamMaxItems) {
     std::string line;
     int count = 0;
     while (std::getline(iss, line)) {
-        if (!line.empty()) ++count;
+        if (!line.empty()) {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 10);
 }

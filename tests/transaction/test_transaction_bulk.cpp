@@ -47,7 +47,9 @@ protected:
         BaseEntity e;
         e.setPrimaryKey(pk);
         e.setField("name", name.empty() ? pk : name);
-        if (!city.empty()) e.setField("city", city);
+        if (!city.empty()) {
+          e.setField("city", city);
+        }
         return e;
     }
 

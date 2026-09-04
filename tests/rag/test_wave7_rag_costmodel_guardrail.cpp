@@ -290,9 +290,15 @@ TEST(RagQualityMonitorTest, MultipleAnomalyTypesReturnedSimultaneously)
 
     bool has_low_recall = false, has_high_latency = false, has_guardrail = false;
     for (const auto& h : hints) {
-        if (h == "low_recall")          has_low_recall  = true;
-        if (h == "high_latency")        has_high_latency = true;
-        if (h == "guardrail_deny_rate") has_guardrail   = true;
+        if (h == "low_recall") {
+          has_low_recall  = true;
+        }
+        if (h == "high_latency") {
+          has_high_latency = true;
+        }
+        if (h == "guardrail_deny_rate") {
+          has_guardrail   = true;
+        }
     }
     EXPECT_TRUE(has_low_recall);
     EXPECT_TRUE(has_high_latency);

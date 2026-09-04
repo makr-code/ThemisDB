@@ -180,7 +180,9 @@ namespace {
 std::string makeWords(int n, const std::string& word = "token") {
     std::string result;
     for (int i = 0; i < n; ++i) {
-        if (i > 0) result += ' ';
+        if (i > 0) {
+          result += ' ';
+        }
         result += word;
     }
     return result;
@@ -372,8 +374,12 @@ TEST(SimpleAdversarialTesterTest, APT02_RunAllCountsConsistent) {
     // Recount manually.
     size_t manual_blocked = 0, manual_passed = 0;
     for (const auto& r : report.results) {
-        if (r.blocked)  ++manual_blocked;
-        if (r.passed()) ++manual_passed;
+        if (r.blocked) {
+          ++manual_blocked;
+        }
+        if (r.passed()) {
+          ++manual_passed;
+        }
     }
     EXPECT_EQ(report.blocked_count, manual_blocked);
     EXPECT_EQ(report.passed_count,  manual_passed);

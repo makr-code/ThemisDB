@@ -264,10 +264,14 @@ TEST_F(RAGContextEngineFocusedTests, VectorSemanticSearchReturnsRankedResults) {
         query[c % 768] += 1.0f;
     }
     float norm = 0.0f;
-    for (float v : query) norm += v * v;
+    for (float v : query) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 0.0f) {
-        for (float& v : query) v /= norm;
+        for (float& v : query) {
+          v /= norm;
+        }
     }
 
     auto result = engine_->vectorSemanticSearch(query, "kant", 5);

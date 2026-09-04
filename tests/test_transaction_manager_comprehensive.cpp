@@ -188,8 +188,12 @@ TEST(TransactionManagerComprehensive, ExplainLocksHeldViaLockManager) {
     bool found_shared    = false;
     bool found_exclusive = false;
     for (const auto& [key, lt] : held) {
-        if (key == "entity:orders:100" && lt == LockType::SHARED)    found_shared    = true;
-        if (key == "entity:orders:200" && lt == LockType::EXCLUSIVE) found_exclusive = true;
+        if (key == "entity:orders:100" && lt == LockType::SHARED) {
+          found_shared    = true;
+        }
+        if (key == "entity:orders:200" && lt == LockType::EXCLUSIVE) {
+          found_exclusive = true;
+        }
     }
     EXPECT_TRUE(found_shared);
     EXPECT_TRUE(found_exclusive);

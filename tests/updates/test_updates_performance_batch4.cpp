@@ -57,7 +57,9 @@ TEST(UpdatesPerformanceBatch4, UP_PER_01_StringConcatPerformance) {
         std::string result;
         for (size_t i = 0; i < n; ++i) {
             result += "col_" + std::to_string(i);
-            if (i + 1 < n) result += ", ";
+            if (i + 1 < n) {
+              result += ", ";
+            }
         }
         auto end = std::chrono::high_resolution_clock::now();
         return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -69,7 +71,9 @@ TEST(UpdatesPerformanceBatch4, UP_PER_01_StringConcatPerformance) {
         std::ostringstream oss;
         for (size_t i = 0; i < n; ++i) {
             oss << "col_" << i;
-            if (i + 1 < n) oss << ", ";
+            if (i + 1 < n) {
+              oss << ", ";
+            }
         }
         std::string result = oss.str();
         auto end = std::chrono::high_resolution_clock::now();
@@ -97,7 +101,9 @@ TEST(UpdatesPerformanceBatch4, UP_PER_02_WebhookStringBuilding) {
     std::ostringstream files_stream;
     bool first = true;
     for (const auto& f : files) {
-        if (!first) files_stream << "\n";
+        if (!first) {
+          files_stream << "\n";
+        }
         files_stream << f;
         first = false;
     }
@@ -125,7 +131,9 @@ TEST(UpdatesPerformanceBatch4, UP_PER_03_LargeStringConcat) {
     auto start = std::chrono::high_resolution_clock::now();
     std::ostringstream oss;
     for (size_t i = 0; i < items.size(); ++i) {
-        if (i > 0) oss << ",";
+        if (i > 0) {
+          oss << ",";
+        }
         oss << items[i];
     }
     std::string result = oss.str();
@@ -166,7 +174,9 @@ TEST(UpdatesPerformanceBatch4, UP_PER_05_ColumnListBuilding) {
     
     std::ostringstream cols_stream;
     for (size_t i = 0; i < added_columns.size(); ++i) {
-        if (i > 0) cols_stream << ", ";
+        if (i > 0) {
+          cols_stream << ", ";
+        }
         cols_stream << added_columns[i];
     }
     std::string cols_str = cols_stream.str();

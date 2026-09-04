@@ -42,7 +42,9 @@ std::vector<std::string> insertItems(SecondaryIndexManager& idx,
         BaseEntity::FieldMap f{{"value", val}};
         BaseEntity e = BaseEntity::fromFields(pk, f);
         EXPECT_TRUE(idx.put("items", e).ok);
-        if (i < num_matching) expected_pks.push_back(pk);
+        if (i < num_matching) {
+          expected_pks.push_back(pk);
+        }
     }
     return expected_pks;
 }
@@ -179,7 +181,9 @@ TEST(ParallelScanTest, ParallelAndSequentialResultsAgree) {
         std::string val = (i < NUM_MATCHING) ? "yes" : "no";
         BaseEntity e = BaseEntity::fromFields(pk, {{"flag", val}});
         ASSERT_TRUE(idx.put("data", e).ok);
-        if (i < NUM_MATCHING) expected.push_back(pk);
+        if (i < NUM_MATCHING) {
+          expected.push_back(pk);
+        }
     }
 
     QueryEngine engine(db, idx);

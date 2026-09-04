@@ -71,8 +71,12 @@ struct TimePoint {
 /// Validates that the new point's timestamp is strictly greater than tail.
 static std::optional<TimeseriesErrorCode> mockWritePoint(
         std::int64_t tail_ts, std::int64_t new_ts) {
-    if (new_ts <= 0LL) return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
-    if (new_ts <= tail_ts) return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
+    if (new_ts <= 0LL) {
+      return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
+    }
+    if (new_ts <= tail_ts) {
+      return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
+    }
     return std::nullopt;
 }
 
@@ -93,7 +97,9 @@ static std::vector<TimePoint> mockRangeQuery(
 }
 
 static std::optional<TimeseriesErrorCode> mockSeriesCheck(bool exists) {
-    if (!exists) return TimeseriesErrorCode::SERIES_NOT_FOUND;
+    if (!exists) {
+      return TimeseriesErrorCode::SERIES_NOT_FOUND;
+    }
     return std::nullopt;
 }
 
@@ -116,7 +122,9 @@ static std::optional<TimeseriesErrorCode> mockDownsample(
         const std::vector<TimePoint>& input,
         std::int64_t resolution_ns,
         std::vector<double>& out_buckets) {
-    if (resolution_ns <= 0) return TimeseriesErrorCode::DOWNSAMPLING_RESOLUTION_INVALID;
+    if (resolution_ns <= 0) {
+      return TimeseriesErrorCode::DOWNSAMPLING_RESOLUTION_INVALID;
+    }
     if (input.empty()) {
         out_buckets.clear();
         return std::nullopt;

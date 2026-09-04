@@ -98,7 +98,9 @@ std::string corpusToJson(const std::vector<RefDoc>& corpus) {
             << ",\"line_start\":" << (i * 5 + 1)
             << ",\"line_end\":"   << (i * 5 + 5)
             << ",\"text\":\""     << corpus[i].text << "\"}";
-        if (i + 1 < corpus.size()) oss << ',';
+        if (i + 1 < corpus.size()) {
+          oss << ',';
+        }
         oss << '\n';
     }
     oss << "]";
@@ -118,7 +120,9 @@ std::string build100ChunkJson() {
             << ",\"text\":\"Chunk " << i
             << " contains information about topic " << (i % 20)
             << " storage vector index retrieval embedding cosine\"}";
-        if (i + 1 < 100) oss << ',';
+        if (i + 1 < 100) {
+          oss << ',';
+        }
         oss << '\n';
     }
     oss << "]";
@@ -154,7 +158,9 @@ TEST(WikiRagQuality, WISQ01_RecallAt5) {
         auto results = reader.query(p.query, 5, 0.0f);
         bool found = std::any_of(results.begin(), results.end(),
             [&](const WikiChunk& c){ return c.chunk_id == p.expected_id; });
-        if (found) ++hits;
+        if (found) {
+          ++hits;
+        }
         EXPECT_TRUE(found) << "Expected '" << p.expected_id
                            << "' in top-5 for query: " << p.query;
     }

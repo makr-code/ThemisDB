@@ -313,7 +313,9 @@ TEST_F(XOEVImporterTest, ConcurrentImportIsThreadSafe) {
                 XOEVStandard::XMELD);
         }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     // All records should have been stored (no assertions on exact count due to
     // duplicate-key collisions, but no crashes / data races).
     EXPECT_GE(importer_.storedRecords().size(), 1u);

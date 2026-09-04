@@ -740,11 +740,15 @@ TEST(TelephonyBridge, ConcurrentSipCallsAreThreadSafe) {
             ids[i] = bridge.acceptSipCall(makeSipConfig());
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     int active = 0;
     for (const auto& id : ids)
-        if (!id.empty()) ++active;
+        if (!id.empty()) {
+          ++active;
+        }
     EXPECT_EQ(active, static_cast<int>(bridge.activeSipCallCount()));
 }
 

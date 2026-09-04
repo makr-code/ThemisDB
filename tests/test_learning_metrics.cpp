@@ -149,7 +149,9 @@ TEST(LearningMetricsTest, ExportCreatesValidCSV) {
     int row_count = 0;
     std::string line;
     while (std::getline(f, line)) {
-        if (!line.empty()) ++row_count;
+        if (!line.empty()) {
+          ++row_count;
+        }
     }
     EXPECT_EQ(row_count, 2);
 }

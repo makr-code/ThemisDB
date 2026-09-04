@@ -160,7 +160,9 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, RollbackDeterminism_StatusMess
 
     for (int i = 0; i < num_txns; ++i) {
         auto txn_id = tx_manager_->beginTransaction();
-        if (txn_id <= 0) continue;
+        if (txn_id <= 0) {
+          continue;
+        }
 
         // First rollback succeeds
         bool first = tx_manager_->rollbackTransaction(txn_id);

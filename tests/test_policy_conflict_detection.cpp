@@ -132,8 +132,12 @@ TEST_F(PolicyConflictDetectionTest, GovPolicy01_MultipleConflicts) {
     // Check that we found export and encryption conflicts
     bool found_export = false, found_encryption = false;
     for (const auto& c : conflicts) {
-        if (c.conflict_type == ConflictType::EXPORT_CONFLICT) found_export = true;
-        if (c.conflict_type == ConflictType::ENCRYPTION_CONFLICT) found_encryption = true;
+        if (c.conflict_type == ConflictType::EXPORT_CONFLICT) {
+          found_export = true;
+        }
+        if (c.conflict_type == ConflictType::ENCRYPTION_CONFLICT) {
+          found_encryption = true;
+        }
     }
     EXPECT_TRUE(found_export);
     EXPECT_TRUE(found_encryption);

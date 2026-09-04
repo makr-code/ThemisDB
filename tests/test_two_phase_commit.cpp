@@ -81,7 +81,9 @@ protected:
     static std::string makePayload(const nlohmann::json& ops, bool force_abort = false) {
         nlohmann::json j;
         j["operations"] = ops;
-        if (force_abort) j["operations"]["__force_abort"] = true;
+        if (force_abort) {
+          j["operations"]["__force_abort"] = true;
+        }
         return j.dump();
     }
     std::unique_ptr<TwoPhaseCommitParticipant> participant_;
@@ -387,7 +389,9 @@ TEST_F(TwoPhaseCommitParticipantTest, ConcurrentTransactionsAreSafe) {
 
             bool vote = participant_->onPrepare(txn, "coord", payload);
             if (vote) {
-                if (participant_->onCommit(txn)) ++commits;
+                if (participant_->onCommit(txn)) {
+                  ++commits;
+                }
             } else {
                 participant_->onAbort(txn);
                 ++aborts;
@@ -395,7 +399,9 @@ TEST_F(TwoPhaseCommitParticipantTest, ConcurrentTransactionsAreSafe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(commits.load() + aborts.load(), N);
     // All transactions were decided (none left PREPARED)
@@ -664,12 +670,16 @@ TEST_F(TwoPhaseCommitCoordinatorTest, ConcurrentCoordinatorTransactionsAreSafe) 
             ops.push_back({{"key", txn}});
 
             auto outcome = coord_->commit(txn, {{shard, ops}});
-            if (outcome.committed()) ++commits;
+            if (outcome.committed()) {
+              ++commits;
+            }
             else                    ++aborts;
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(commits.load() + aborts.load(), N);
 

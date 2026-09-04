@@ -39,7 +39,9 @@ std::string findDokuDbPath() {
     const char* env_ws = std::getenv("GITHUB_WORKSPACE");
     const char* env_db = std::getenv("THEMIS_DOKU_DB_PATH");
 
-    if (env_db && std::filesystem::exists(env_db)) return env_db;
+    if (env_db && std::filesystem::exists(env_db)) {
+      return env_db;
+    }
 
     std::vector<std::filesystem::path> candidates = {
         std::filesystem::path("build/test-assets/doku.db.json"),
@@ -63,7 +65,9 @@ std::string findDokuDbPath() {
 /// Probe standard locations for the golden dataset YAML.
 std::string findGoldenDatasetPath() {
     const char* env_gd = std::getenv("THEMIS_RAG_GOLDEN_DATASET_PATH");
-    if (env_gd && std::filesystem::exists(env_gd)) return env_gd;
+    if (env_gd && std::filesystem::exists(env_gd)) {
+      return env_gd;
+    }
 
     const char* env_ws = std::getenv("GITHUB_WORKSPACE");
     const char* env_src = std::getenv("CMAKE_SOURCE_DIR");
@@ -162,15 +166,21 @@ static void unquote(std::string& s) {
 static std::vector<std::string> parseFlowSeq(const std::string& val) {
     std::vector<std::string> result;
     std::string inner = val;
-    if (inner.front() == '[') inner = inner.substr(1);
-    if (!inner.empty() && inner.back() == ']') inner.pop_back();
+    if (inner.front() == '[') {
+      inner = inner.substr(1);
+    }
+    if (!inner.empty() && inner.back() == ']') {
+      inner.pop_back();
+    }
 
     std::stringstream ss(inner);
     std::string token;
     while (std::getline(ss, token, ',')) {
         trim(token);
         unquote(token);
-        if (!token.empty()) result.push_back(token);
+        if (!token.empty()) {
+          result.push_back(token);
+        }
     }
     return result;
 }
@@ -190,7 +200,9 @@ static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path)
         // Skip comments and blank lines
         std::string trimmed = line;
         trim(trimmed);
-        if (trimmed.empty() || trimmed[0] == '#') continue;
+        if (trimmed.empty() || trimmed[0] == '#') {
+          continue;
+        }
 
         // Detect new entry marker: "  - id:"
         if (trimmed.rfind("- id:", 0) == 0) {
@@ -206,11 +218,15 @@ static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path)
             continue;
         }
 
-        if (!in_entry) continue;
+        if (!in_entry) {
+          continue;
+        }
 
         // Key-value lines at the entry level (indented 4 spaces or more)
         auto colon_pos = trimmed.find(':');
-        if (colon_pos == std::string::npos) continue;
+        if (colon_pos == std::string::npos) {
+          continue;
+        }
 
         std::string key = trimmed.substr(0, colon_pos);
         trim(key);
@@ -321,7 +337,9 @@ TEST_F(DokuRagTest, Rag02_ImplementationPhases) {
 
     // Concatenate all content for broad keyword check
     std::string combined;
-    for (const auto& c : chunks) combined += c.text + " " + c.section_title + " ";
+    for (const auto& c : chunks) {
+      combined += c.text + " " + c.section_title + " ";
+    }
 
     // Phase model spans Phase 1–6; at least three phase numbers must appear
     int phase_hits = 0;
@@ -426,7 +444,9 @@ TEST_F(DokuRagTest, Rag06_RecallAt5_70Percent) {
     for (const auto& qa : qa_pairs) {
         const auto chunks = reader_->query(qa.question, /*top_k=*/5, /*min_score=*/0.0f);
         bool found = chunksContainKeyword(chunks, qa.keyword);
-        if (found) ++recall_hits;
+        if (found) {
+          ++recall_hits;
+        }
         spdlog::debug("RAG-06: q='{}' keyword='{}' found={}", qa.question, qa.keyword, found);
     }
 
@@ -548,7 +568,9 @@ TEST_F(GoldenDatasetRagTest, Rag12_GoldenDatasetPresent) {
     std::size_t specific_count = 0;
     std::size_t specialized_count = 0;
     for (const auto& e : golden_entries_) {
-        if (e.knowledge_level == "general") ++general_count;
+        if (e.knowledge_level == "general") {
+          ++general_count;
+        }
         else if (e.knowledge_level == "specific") ++specific_count;
         else if (e.knowledge_level == "specialized") ++specialized_count;
     }
@@ -669,7 +691,9 @@ TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
                 return containsIgnoreCase(c.doc_id,  entry->expected_source_hint) ||
                        containsIgnoreCase(c.section_title, entry->expected_source_hint);
             });
-        if (found) ++source_hits;
+        if (found) {
+          ++source_hits;
+        }
         else {
             spdlog::warn("RAG-10 MISS: {} '{}' — hint '{}' not in Top-5 doc_ids",
                          entry->id, entry->question.substr(0, 50),

@@ -81,7 +81,9 @@ public:
     bool contains(const std::string& txn_id, const std::string& op) const {
         std::lock_guard<std::mutex> lk(mu_);
         for (const auto& e : entries_) {
-            if (e.txn_id == txn_id && e.operation == op) return true;
+            if (e.txn_id == txn_id && e.operation == op) {
+              return true;
+            }
         }
         return false;
     }
@@ -93,7 +95,9 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
         std::vector<WalEntry> out;
         for (const auto& e : entries_)
-            if (e.txn_id == txn_id) out.push_back(e);
+            if (e.txn_id == txn_id) {
+              out.push_back(e);
+            }
         return out;
     }
 
@@ -157,7 +161,9 @@ public:
     /// @brief Phase-1 prepare (idempotent).
     bool prepare(const std::string& txn_id) {
         applyDelay();
-        if (partitioned_.load()) return false;
+        if (partitioned_.load()) {
+          return false;
+        }
         std::lock_guard<std::mutex> lk(mu_);
         // Idempotent: re-use stored vote
         if (state_ == SimParticipantState::PREPARED   ||
@@ -167,42 +173,60 @@ public:
         }
         if (vote_yes_.load()) {
             state_ = SimParticipantState::PREPARED;
-            if (wal_) wal_->append("PREPARED", txn_id, id_);
+            if (wal_) {
+              wal_->append("PREPARED", txn_id, id_);
+            }
             return true;
         }
         state_ = SimParticipantState::ABORTED;
-        if (wal_) wal_->append("ABORTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("ABORTED", txn_id, id_);
+        }
         return false;
     }
 
     /// @brief 3PC Phase-2 pre-commit (idempotent).
     bool precommit(const std::string& txn_id) {
         applyDelay();
-        if (partitioned_.load()) return false;
+        if (partitioned_.load()) {
+          return false;
+        }
         std::lock_guard<std::mutex> lk(mu_);
         if (state_ == SimParticipantState::PRECOMMITTED ||
             state_ == SimParticipantState::COMMITTED) {
             return precommit_ok_.load();
         }
-        if (state_ != SimParticipantState::PREPARED) return false;
+        if (state_ != SimParticipantState::PREPARED) {
+          return false;
+        }
         if (precommit_ok_.load()) {
             state_ = SimParticipantState::PRECOMMITTED;
-            if (wal_) wal_->append("PRECOMMIT", txn_id, id_);
+            if (wal_) {
+              wal_->append("PRECOMMIT", txn_id, id_);
+            }
             return true;
         }
         state_ = SimParticipantState::ABORTED;
-        if (wal_) wal_->append("ABORTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("ABORTED", txn_id, id_);
+        }
         return false;
     }
 
     /// @brief Receive COMMIT decision (idempotent).
     bool commit(const std::string& txn_id) {
         applyDelay();
-        if (partitioned_.load()) return false;
+        if (partitioned_.load()) {
+          return false;
+        }
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ == SimParticipantState::COMMITTED) return true;
+        if (state_ == SimParticipantState::COMMITTED) {
+          return true;
+        }
         state_ = SimParticipantState::COMMITTED;
-        if (wal_) wal_->append("COMMITTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("COMMITTED", txn_id, id_);
+        }
         releaseLockImpl();
         return true;
     }
@@ -211,9 +235,13 @@ public:
     bool abort(const std::string& txn_id) {
         applyDelay();
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ == SimParticipantState::ABORTED) return true;
+        if (state_ == SimParticipantState::ABORTED) {
+          return true;
+        }
         state_ = SimParticipantState::ABORTED;
-        if (wal_) wal_->append("ABORTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("ABORTED", txn_id, id_);
+        }
         releaseLockImpl();
         return true;
     }
@@ -221,7 +249,9 @@ public:
     /// @brief Expose data value (simulates dirty-read protection).
     std::string read(const std::string& key) const {
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ != SimParticipantState::COMMITTED) return "";
+        if (state_ != SimParticipantState::COMMITTED) {
+          return "";
+        }
         auto it = data_.find(key);
         return it != data_.end() ? it->second : "";
     }
@@ -253,13 +283,17 @@ public:
 
 private:
     void applyDelay() const {
-        if (delay_.count() > 0) std::this_thread::sleep_for(delay_);
+        if (delay_.count() > 0) {
+          std::this_thread::sleep_for(delay_);
+        }
     }
 
     // Must be called under mu_
     void releaseLockImpl() {
         if (state_ == SimParticipantState::COMMITTED) {
-            for (auto& [k, v] : staged_) data_[k] = v;
+            for (auto& [k, v] : staged_) {
+              data_[k] = v;
+            }
             staged_.clear();
         }
         locks_.clear();
@@ -329,13 +363,17 @@ public:
         if (all_yes) {
             wal_->append("COMMIT", txn_id);
             setState(Coord2PCState::COMMITTING);
-            for (auto* p : participants_) p->commit(txn_id);
+            for (auto* p : participants_) {
+              p->commit(txn_id);
+            }
             setState(Coord2PCState::COMMITTED);
             return true;
         }
         wal_->append("ABORT", txn_id);
         setState(Coord2PCState::ABORTING);
-        for (auto* p : participants_) p->abort(txn_id);
+        for (auto* p : participants_) {
+          p->abort(txn_id);
+        }
         setState(Coord2PCState::ABORTED);
         return false;
     }
@@ -361,13 +399,19 @@ public:
      * @return true if the transaction was successfully committed.
      */
     bool recoverAndCommit(const std::string& txn_id) {
-        if (!wal_->contains(txn_id, "PREPARE"))     return false;
-        if (wal_->contains(txn_id, "ABORT"))         return false;
+        if (!wal_->contains(txn_id, "PREPARE")) {
+          return false;
+        }
+        if (wal_->contains(txn_id, "ABORT")) {
+          return false;
+        }
         if (!wal_->contains(txn_id, "COMMIT"))
             wal_->append("COMMIT", txn_id);  // Durably log decision
 
         setState(Coord2PCState::COMMITTING);
-        for (auto* p : participants_) p->commit(txn_id);
+        for (auto* p : participants_) {
+          p->commit(txn_id);
+        }
         setState(Coord2PCState::COMMITTED);
         return true;
     }
@@ -452,7 +496,9 @@ public:
         if (!all_prepared) {
             wal_->append("ABORT", txn_id);
             transition(Coord3PCState::ABORTING);
-            for (auto* p : participants_) p->abort(txn_id);
+            for (auto* p : participants_) {
+              p->abort(txn_id);
+            }
             transition(Coord3PCState::ABORTED);
             return false;
         }
@@ -482,7 +528,9 @@ public:
         if (!precommit_ok) {
             wal_->append("ABORT", txn_id);
             transition(Coord3PCState::ABORTING);
-            for (auto* p : participants_) p->abort(txn_id);
+            for (auto* p : participants_) {
+              p->abort(txn_id);
+            }
             transition(Coord3PCState::ABORTED);
             return false;
         }
@@ -490,7 +538,9 @@ public:
         // Phase 3: commit
         transition(Coord3PCState::COMMITTING);
         wal_->append("COMMIT", txn_id);
-        for (auto* p : participants_) p->commit(txn_id);
+        for (auto* p : participants_) {
+          p->commit(txn_id);
+        }
         transition(Coord3PCState::COMMITTED);
         return true;
     }
@@ -607,7 +657,9 @@ public:
         std::vector<std::string> result;
         const auto now = std::chrono::steady_clock::now();
         for (const auto& [id, ts] : partitioned_) {
-            if (now - ts <= detection_ttl_) result.push_back(id);
+            if (now - ts <= detection_ttl_) {
+              result.push_back(id);
+            }
         }
         return result;
     }
@@ -804,7 +856,9 @@ TEST_F(TwoPhaseConsistencyTest, TXC07_DeterministicOutcomeOver100Repetitions) {
             ps.push_back(std::move(p));
         }
         const bool result = local_coord.execute("txn-rep-" + std::to_string(rep));
-        if (rep == 0) first_result = result;
+        if (rep == 0) {
+          first_result = result;
+        }
         EXPECT_EQ(result, first_result)
             << "Outcome changed at repetition " << rep;
     }
@@ -936,14 +990,22 @@ TEST_F(TwoPhaseConsistencyTest, TXC16_GateSelfCheck_AllTwoPC_InvariantsPass) {
         const bool has_commit = w.contains(tid, "COMMIT");
         const bool has_abort  = w.contains(tid, "ABORT");
         if (has_commit == has_abort) return false;   // Must be XOR
-        if (vote && !result)          return false;
-        if (!vote && result)          return false;
+        if (vote && !result) {
+          return false;
+        }
+        if (!vote && result) {
+          return false;
+        }
         return true;
     };
 
     double score = 0.0;
-    if (runCase(true))  score += 0.5;
-    if (runCase(false)) score += 0.5;
+    if (runCase(true)) {
+      score += 0.5;
+    }
+    if (runCase(false)) {
+      score += 0.5;
+    }
     EXPECT_DOUBLE_EQ(score, 1.0);
 }
 
@@ -994,7 +1056,9 @@ TEST_F(ThreePhaseConsistencyTest, TXC18_AbortDuringPreparePhase) {
 TEST_F(ThreePhaseConsistencyTest, TXC19_TimeoutInPreCommitPhaseAborts) {
     auto ps = makeParticipants(2);
     // All participants vote YES but are slow in pre-commit
-    for (const auto& p : ps) p->setDelay(200ms);
+    for (const auto& p : ps) {
+      p->setDelay(200ms);
+    }
     // 10ms coordinator timeout for pre-commit phase
     const bool result = coord_->execute(txnId("19"), nullptr, 10ms);
     EXPECT_FALSE(result);
@@ -1006,7 +1070,9 @@ TEST_F(ThreePhaseConsistencyTest, TXC20_NonBlockingOnCoordinatorFailureInPreComm
     // Non-blocking guarantee: participants in PRE-COMMIT can independently abort
     // Simulated by setting precommit_ok=false so they abort without coord signal
     auto ps = makeParticipants(3);
-    for (const auto& p : ps) p->setPreCommitOk(false);
+    for (const auto& p : ps) {
+      p->setPreCommitOk(false);
+    }
     EXPECT_FALSE(coord_->execute(txnId("20")));
     // All participants should have aborted (not hung waiting for coordinator)
     for (const auto& p : ps)
@@ -1069,9 +1135,15 @@ TEST_F(ThreePhaseConsistencyTest, TXC25_WALRecordsAllThreePhases) {
     const auto entries = wal_.entriesFor(txnId("25"));
     uint64_t prepare_ts = 0, precommit_ts = 0, commit_ts = 0;
     for (const auto& e : entries) {
-        if (e.operation == "PREPARE"   && prepare_ts   == 0) prepare_ts   = e.timestamp_us;
-        if (e.operation == "PRECOMMIT" && precommit_ts == 0) precommit_ts = e.timestamp_us;
-        if (e.operation == "COMMIT"    && commit_ts    == 0) commit_ts    = e.timestamp_us;
+        if (e.operation == "PREPARE"   && prepare_ts   == 0) {
+          prepare_ts   = e.timestamp_us;
+        }
+        if (e.operation == "PRECOMMIT" && precommit_ts == 0) {
+          precommit_ts = e.timestamp_us;
+        }
+        if (e.operation == "COMMIT"    && commit_ts    == 0) {
+          commit_ts    = e.timestamp_us;
+        }
     }
     EXPECT_LE(prepare_ts,   precommit_ts);
     EXPECT_LE(precommit_ts, commit_ts);
@@ -1094,7 +1166,9 @@ TEST_F(ThreePhaseConsistencyTest, TXC26_DeterministicOutcomeOver100Repetitions3P
             ps.push_back(std::move(p));
         }
         const bool result = c.execute("r" + std::to_string(rep));
-        if (rep == 0) first_result = result;
+        if (rep == 0) {
+          first_result = result;
+        }
         EXPECT_EQ(result, first_result) << "Non-determinism at repetition " << rep;
     }
 }
@@ -1200,10 +1274,18 @@ TEST_F(ThreePhaseConsistencyTest, TXC32_GateSelfCheck_AllThreePC_InvariantsPass)
     };
 
     double score = 0.0;
-    if (runCase(true,  true))  score += 0.25;
-    if (runCase(true,  false)) score += 0.25;
-    if (runCase(false, true))  score += 0.25;
-    if (runCase(false, false)) score += 0.25;
+    if (runCase(true,  true)) {
+      score += 0.25;
+    }
+    if (runCase(true,  false)) {
+      score += 0.25;
+    }
+    if (runCase(false, true)) {
+      score += 0.25;
+    }
+    if (runCase(false, false)) {
+      score += 0.25;
+    }
     EXPECT_DOUBLE_EQ(score, 1.0);
 }
 
@@ -1388,7 +1470,9 @@ TEST_F(FailoverRecoveryTest, FLR10_WALReplayIdempotency) {
     // Replay WAL (simulate by running recovery again on already-committed txn)
     SimWAL replay_wal;
     const auto entries = wal_.snapshot();
-    for (const auto& e : entries) replay_wal.append(e.operation, e.txn_id, e.shard_id);
+    for (const auto& e : entries) {
+      replay_wal.append(e.operation, e.txn_id, e.shard_id);
+    }
 
     // Re-running recovery on an already-committed transaction must not double-append
     Coordinator2PC recovery(&replay_wal);
@@ -1471,7 +1555,9 @@ TEST_F(FailoverRecoveryTest, FLR14_MultipleConcurrentFailuresNoCauseDeadlock) {
 
     // All threads must finish within 2 seconds (no deadlock)
     const auto deadline = std::chrono::steady_clock::now() + 2s;
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(finished.load(), kTransactions)
         << "Not all concurrent failure threads completed (possible deadlock)";
@@ -1640,10 +1726,18 @@ TEST_F(FailoverRecoveryTest, FLR20_GateSelfCheck_AllFLR_InvariantsPass) {
     };
 
     double score = 0.0;
-    if (inv1()) score += 0.25;
-    if (inv2()) score += 0.25;
-    if (inv3()) score += 0.25;
-    if (inv4()) score += 0.25;
+    if (inv1()) {
+      score += 0.25;
+    }
+    if (inv2()) {
+      score += 0.25;
+    }
+    if (inv3()) {
+      score += 0.25;
+    }
+    if (inv4()) {
+      score += 0.25;
+    }
     EXPECT_DOUBLE_EQ(score, 1.0);
 }
 } } } // namespace themisdb::sharding::test

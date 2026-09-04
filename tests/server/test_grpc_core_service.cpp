@@ -74,7 +74,9 @@ static std::filesystem::path repoRoot() { return THEMIS_COMPUTE_ROOT_DIR(); }
 
 static std::string readFile(const std::filesystem::path& p) {
     std::ifstream f(p);
-    if (!f) return "";
+    if (!f) {
+      return "";
+    }
     return {std::istreambuf_iterator<char>(f), {}};
 }
 

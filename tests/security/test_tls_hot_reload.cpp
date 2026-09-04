@@ -110,7 +110,9 @@ TEST(TlsReloadFlag, ConcurrentSetAndClear) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // After all threads finish: flag is either true (not yet cleared) or false
     // Either way, no data race has occurred (verified by ThreadSanitizer)
@@ -188,7 +190,9 @@ TEST(SslCtxMutex, MutexProtectsSharedState) {
     }
 
     reloader.join();
-    for (auto& t : acceptors) t.join();
+    for (auto& t : acceptors) {
+      t.join();
+    }
 
     // All accepts should have seen a valid (non-corrupted) context
     EXPECT_EQ(accepts_saw_valid.load(), ACCEPT_COUNT);

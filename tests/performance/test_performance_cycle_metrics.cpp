@@ -41,7 +41,9 @@ TEST(HardwareCycleCounterTest, CpuCycles_IsMonotonicallyIncreasing) {
     uint64_t c1 = HardwareCycleCounter::cpu_cycles();
     // Spin briefly to advance the counter
     volatile uint64_t sum = 0;
-    for (int i = 0; i < 1000; ++i) sum += i;
+    for (int i = 0; i < 1000; ++i) {
+      sum += i;
+    }
     (void)sum;
     uint64_t c2 = HardwareCycleCounter::cpu_cycles();
     EXPECT_GE(c2, c1);
@@ -92,7 +94,9 @@ TEST(CycleTimerTest, MeasuresElapsedCycles) {
         ScopedCycleTimer timer(&elapsed);
         // Do some work so the counter advances
         volatile uint64_t sum = 0;
-        for (int i = 0; i < 10000; ++i) sum += i;
+        for (int i = 0; i < 10000; ++i) {
+          sum += i;
+        }
         (void)sum;
     } // destructor writes elapsed
     EXPECT_GT(elapsed, 0u);

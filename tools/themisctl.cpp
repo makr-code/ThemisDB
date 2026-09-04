@@ -515,9 +515,15 @@ static int cmdHealth(const std::vector<std::string>& /*args*/) {
     }
 
     auto statusLine = [](const Response& r) -> std::string {
-        if (r.status == -1)                      return col(Color::Red,    "unreachable");
-        if (r.status >= 200 && r.status < 300)   return col(Color::Green,  "healthy");
-        if (r.status == 503)                      return col(Color::Yellow, "unavailable");
+        if (r.status == -1) {
+          return col(Color::Red,    "unreachable");
+        }
+        if (r.status >= 200 && r.status < 300) {
+          return col(Color::Green,  "healthy");
+        }
+        if (r.status == 503) {
+          return col(Color::Yellow, "unavailable");
+        }
         return col(Color::Red, "HTTP " + std::to_string(r.status));
     };
 
@@ -550,9 +556,15 @@ static int cmdVersion(const std::vector<std::string>& /*args*/) {
     }
     try {
         json j = json::parse(r.body);
-        if (j.contains("version")) kv("version", j["version"].get<std::string>());
-        if (j.contains("build"))   kv("build",   j["build"].get<std::string>());
-        if (j.contains("commit"))  kv("commit",  j["commit"].get<std::string>());
+        if (j.contains("version")) {
+          kv("version", j["version"].get<std::string>());
+        }
+        if (j.contains("build")) {
+          kv("build",   j["build"].get<std::string>());
+        }
+        if (j.contains("commit")) {
+          kv("commit",  j["commit"].get<std::string>());
+        }
     } catch (...) {
         std::cout << r.body << "\n";
     }
@@ -682,7 +694,9 @@ static int cmdQuery(const std::vector<std::string>& args) {
     // Join all remaining args as the query (allows unquoted single-word queries)
     std::string aql;
     for (size_t i = 0; i < args.size(); ++i) {
-        if (i > 0) aql += ' ';
+        if (i > 0) {
+          aql += ' ';
+        }
         aql += args[i];
     }
     json req;
@@ -1118,7 +1132,9 @@ static int cmdConfig(const std::vector<std::string>& args) {
                     patch[outer] = json::object();
                 }
                 // Coerce booleans and numbers
-                if (value == "true")       patch[outer][inner] = true;
+                if (value == "true") {
+                  patch[outer][inner] = true;
+                }
                 else if (value == "false") patch[outer][inner] = false;
                 else {
                     try { patch[outer][inner] = std::stold(value); }
@@ -1126,7 +1142,9 @@ static int cmdConfig(const std::vector<std::string>& args) {
                 }
             } else {
                 // Top-level key
-                if (value == "true")       patch[key] = true;
+                if (value == "true") {
+                  patch[key] = true;
+                }
                 else if (value == "false") patch[key] = false;
                 else {
                     try { patch[key] = std::stold(value); }
@@ -1184,14 +1202,18 @@ static int cmdConfig(const std::vector<std::string>& args) {
                 if (!proposed.contains(outer) || !proposed[outer].is_object()) {
                     proposed[outer] = json::object();
                 }
-                if (value == "true")       proposed[outer][inner] = true;
+                if (value == "true") {
+                  proposed[outer][inner] = true;
+                }
                 else if (value == "false") proposed[outer][inner] = false;
                 else {
                     try { proposed[outer][inner] = std::stold(value); }
                     catch (...) { proposed[outer][inner] = value; }
                 }
             } else {
-                if (value == "true")       proposed[key] = true;
+                if (value == "true") {
+                  proposed[key] = true;
+                }
                 else if (value == "false") proposed[key] = false;
                 else {
                     try { proposed[key] = std::stold(value); }
@@ -1370,7 +1392,9 @@ static int cmdSnapshot(const std::vector<std::string>& args) {
 
     if (args[0] == "create") {
         json req;
-        if (args.size() > 1) req["name"] = args[1];
+        if (args.size() > 1) {
+          req["name"] = args[1];
+        }
         Response r = httpPost("/api/v1/snapshots/tags", req.dump());
         std::string label = (args.size() > 1) ? ("'" + args[1] + "'") : "unnamed";
         return handleResponse(r, "Snapshot tag " + label + " created.");
@@ -1393,10 +1417,18 @@ static int cmdAdmin(const std::vector<std::string>& args) {
         if (g_ctx.raw_json) { printJson(r.body); return 0; }
         try {
             json j = json::parse(r.body);
-            if (j.contains("status")) kv("status",   j["status"].get<std::string>(),  Color::Green);
-            if (j.contains("uptime")) kv("uptime",   j["uptime"].get<std::string>());
-            if (j.contains("nodes"))  kv("nodes",    std::to_string(j["nodes"].get<int>()));
-            if (j.contains("version")) kv("version", j["version"].get<std::string>());
+            if (j.contains("status")) {
+              kv("status",   j["status"].get<std::string>(),  Color::Green);
+            }
+            if (j.contains("uptime")) {
+              kv("uptime",   j["uptime"].get<std::string>());
+            }
+            if (j.contains("nodes")) {
+              kv("nodes",    std::to_string(j["nodes"].get<int>()));
+            }
+            if (j.contains("version")) {
+              kv("version", j["version"].get<std::string>());
+            }
             // Dump anything else as formatted JSON
             if (!j.contains("status") && !j.contains("uptime")) {
                 std::cout << j.dump(2) << "\n";
@@ -1572,7 +1604,9 @@ static int cmdProvenanceExport(const std::vector<std::string>& args) {
         output_stream << "query_id,operation,timestamp_ms,details\n";
 
         for (const auto& rec : records) {
-            if (!rec.is_object()) continue;
+            if (!rec.is_object()) {
+              continue;
+            }
 
             std::string query_id_str = rec.value("query_id", "");
             std::string operation = rec.value("operation", "");
@@ -1677,7 +1711,9 @@ static int cmdSelfReport(const std::vector<std::string>& args) {
         if (r.status == -1) {
             section["error"] = r.body;
             ++connection_failures;
-            if (p.required) ++required_failures;
+            if (p.required) {
+              ++required_failures;
+            }
             else ++optional_failures;
         } else {
             try {
@@ -1687,7 +1723,9 @@ static int cmdSelfReport(const std::vector<std::string>& args) {
             }
 
             if (!r.ok()) {
-                if (p.required) ++required_failures;
+                if (p.required) {
+                  ++required_failures;
+                }
                 else ++optional_failures;
             }
         }
@@ -1755,7 +1793,9 @@ static int cmdSelfReport(const std::vector<std::string>& args) {
         }
     }
 
-    if (connection_failures > 0) return 3;
+    if (connection_failures > 0) {
+      return 3;
+    }
     return (required_failures == 0) ? 0 : 1;
 }
 
@@ -1833,7 +1873,9 @@ static int cmdIndex(const std::vector<std::string>& args) {
             auto all = j.value("recommendations", json::object());
             bool any = false;
             for (const auto& [tbl, recs] : all.items()) {
-                if (!recs.is_array() || recs.empty()) continue;
+                if (!recs.is_array() || recs.empty()) {
+                  continue;
+                }
                 any = true;
                 std::cout << col(Color::Bold, tbl) << ":\n";
                 for (const auto& rec : recs) { print_rec(rec); }
@@ -1886,9 +1928,15 @@ static Response invokeLlmEndpoint(const std::string& user_text,
     if (options.use_rag) {
         req["query"] = user_text;
         req["top_k"] = options.top_k;
-        if (!options.collection.empty()) req["collection"] = options.collection;
-        if (!options.lora_id.empty()) req["lora_adapter"] = options.lora_id;
-        if (!options.model_id.empty()) req["model"] = options.model_id;
+        if (!options.collection.empty()) {
+          req["collection"] = options.collection;
+        }
+        if (!options.lora_id.empty()) {
+          req["lora_adapter"] = options.lora_id;
+        }
+        if (!options.model_id.empty()) {
+          req["model"] = options.model_id;
+        }
         req["max_tokens"] = options.max_tokens;
         req["temperature"] = options.temperature;
         endpoint_used = "/api/v1/llm/rag";
@@ -1896,8 +1944,12 @@ static Response invokeLlmEndpoint(const std::string& user_text,
     }
 
     req["prompt"] = user_text;
-    if (!options.model_id.empty()) req["model"] = options.model_id;
-    if (!options.lora_id.empty()) req["lora_adapter"] = options.lora_id;
+    if (!options.model_id.empty()) {
+      req["model"] = options.model_id;
+    }
+    if (!options.lora_id.empty()) {
+      req["lora_adapter"] = options.lora_id;
+    }
     req["max_tokens"] = options.max_tokens;
     req["temperature"] = options.temperature;
     endpoint_used = "/api/v1/llm/inference";
@@ -2024,7 +2076,9 @@ static bool parseLlmCommonOptions(const std::vector<std::string>& args,
         }
 
         // Remaining args are prompt/task text.
-        for (; i < args.size(); ++i) text_parts.push_back(args[i]);
+        for (; i < args.size(); ++i) {
+          text_parts.push_back(args[i]);
+        }
         break;
     }
 
@@ -2038,7 +2092,9 @@ static bool parseLlmCommonOptions(const std::vector<std::string>& args,
 static std::string joinParts(const std::vector<std::string>& parts) {
     std::string out;
     for (size_t i = 0; i < parts.size(); ++i) {
-        if (i > 0) out += ' ';
+        if (i > 0) {
+          out += ' ';
+        }
         out += parts[i];
     }
     return out;
@@ -2260,13 +2316,19 @@ static int cmdChat(const std::vector<std::string>& args) {
                 std::cout << "\n";
                 break;
             }
-            if (line == "exit" || line == "quit") break;
-            if (line.empty()) continue;
+            if (line == "exit" || line == "quit") {
+              break;
+            }
+            if (line.empty()) {
+              continue;
+            }
 
             std::string endpoint;
             Response r = invokeLlmEndpoint(line, opts, endpoint);
             const int rc = printLlmResult(r, endpoint, "chat", line);
-            if (rc != 0) return rc;
+            if (rc != 0) {
+              return rc;
+            }
             std::cout << "\n";
         }
         return 0;
@@ -2307,13 +2369,19 @@ static int cmdAgent(const std::vector<std::string>& args) {
                 std::cout << "\n";
                 break;
             }
-            if (line == "exit" || line == "quit") break;
-            if (line.empty()) continue;
+            if (line == "exit" || line == "quit") {
+              break;
+            }
+            if (line.empty()) {
+              continue;
+            }
 
             std::string endpoint;
             Response r = invokeLlmEndpoint(wrapAgentPrompt(line), opts, endpoint);
             const int rc = printLlmResult(r, endpoint, "agent", line);
-            if (rc != 0) return rc;
+            if (rc != 0) {
+              return rc;
+            }
             std::cout << "\n";
         }
         return 0;
@@ -2381,7 +2449,9 @@ static int cmdRag(const std::vector<std::string>& args) {
             }
         } else {
             // Remaining tokens form the natural-language question.
-            for (; i < args.size(); ++i) question_parts.push_back(args[i]);
+            for (; i < args.size(); ++i) {
+              question_parts.push_back(args[i]);
+            }
         }
     }
 
@@ -2410,16 +2480,22 @@ static int cmdRag(const std::vector<std::string>& args) {
     // Join question tokens into a single string.
     std::string question;
     for (size_t i = 0; i < question_parts.size(); ++i) {
-        if (i > 0) question += ' ';
+        if (i > 0) {
+          question += ' ';
+        }
         question += question_parts[i];
     }
 
     // Build request body.
     json req_body;
     req_body["query"] = question;
-    if (!collection.empty()) req_body["collection"] = collection;
+    if (!collection.empty()) {
+      req_body["collection"] = collection;
+    }
     req_body["top_k"] = top_k;
-    if (!lora_id.empty()) req_body["lora_adapter"] = lora_id;
+    if (!lora_id.empty()) {
+      req_body["lora_adapter"] = lora_id;
+    }
     req_body["rag_mode"] = rag_mode;
     req_body["response_budget_tokens"] = response_budget_tokens;
     req_body["max_tokens"] = max_tokens;
@@ -2502,7 +2578,9 @@ static bool tokenizeLine(const std::string& line,
         error = "Unterminated quote";
         return false;
     }
-    if (!current.empty()) tokens.push_back(current);
+    if (!current.empty()) {
+      tokens.push_back(current);
+    }
     return true;
 }
 
@@ -2557,14 +2635,22 @@ static int cmdRepl(const std::vector<std::string>& /*args*/) {
 
         // Strip leading/trailing whitespace
         size_t start = line.find_first_not_of(" \t");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
         size_t end = line.find_last_not_of(" \t");
-        if (end != std::string::npos) line = line.substr(0, end + 1);
-        if (line.empty() || line[0] == '#') continue;
+        if (end != std::string::npos) {
+          line = line.substr(0, end + 1);
+        }
+        if (line.empty() || line[0] == '#') {
+          continue;
+        }
 
         // Built-in REPL commands
-        if (line == "exit" || line == "quit") break;
+        if (line == "exit" || line == "quit") {
+          break;
+        }
 
         // Tokenise
         std::vector<std::string> tokens;
@@ -2573,7 +2659,9 @@ static int cmdRepl(const std::vector<std::string>& /*args*/) {
             std::cerr << "[" << fail() << "] " << tok_err << "\n";
             continue;
         }
-        if (tokens.empty()) continue;
+        if (tokens.empty()) {
+          continue;
+        }
 
         const std::string cmd = tokens[0];
         const std::vector<std::string> cmd_args(tokens.begin() + 1, tokens.end());
@@ -2830,9 +2918,15 @@ static int dispatchCommand(const std::string& cmd,
 #ifndef THEMISCTL_TEST_BUILD
 int main(int argc, char* argv[]) {
     // ── Read environment defaults ────────────────────────────────────────────
-    if (const char* env = std::getenv("THEMIS_HOST"))  g_ctx.host  = env;
-    if (const char* env = std::getenv("THEMIS_PORT"))  g_ctx.port  = std::atoi(env);
-    if (const char* env = std::getenv("THEMIS_TOKEN")) g_ctx.token = env;
+    if (const char* env = std::getenv("THEMIS_HOST")) {
+      g_ctx.host  = env;
+    }
+    if (const char* env = std::getenv("THEMIS_PORT")) {
+      g_ctx.port  = std::atoi(env);
+    }
+    if (const char* env = std::getenv("THEMIS_TOKEN")) {
+      g_ctx.token = env;
+    }
 
     std::vector<std::string> all_args(argv + 1, argv + argc);
 

@@ -416,7 +416,9 @@ TEST(AsyncJobApiHandlerAC, AC12_GetStatus_EventuallyCompleted) {
     for (int i = 0; i < 20; ++i) {
         auto status_resp = handler.handleGetStatus(makeStatusReq(job_id));
         status_j = json::parse(status_resp.body());
-        if (status_j["status"].get<std::string>() == "completed") break;
+        if (status_j["status"].get<std::string>() == "completed") {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     EXPECT_EQ(status_j["status"].get<std::string>(), "completed");
@@ -836,7 +838,9 @@ TEST(AsyncJobApiHandlerAC, AC18_CompletedJobPersistedInAdaptiveCache) {
     for (int i = 0; i < 20; ++i) {
         auto status_resp = handler.handleGetStatus(makeStatusReq(job_id));
         auto sj = json::parse(status_resp.body());
-        if (sj["status"].get<std::string>() == "completed") break;
+        if (sj["status"].get<std::string>() == "completed") {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 

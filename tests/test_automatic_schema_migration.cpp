@@ -54,7 +54,9 @@ public:
     bool get(const std::string& key, std::string& value) override
     {
         auto it = store.find(key);
-        if (it == store.end()) return false;
+        if (it == store.end()) {
+          return false;
+        }
         value = it->second;
         return true;
     }

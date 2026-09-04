@@ -480,7 +480,9 @@ TEST(WorkflowOrchestration, WO_24_ValidateUnknownDepRef) {
     EXPECT_FALSE(vr.valid);
     bool found = false;
     for (const auto& e : vr.errors)
-        if (e.message.find("unknown_step") != std::string::npos) found = true;
+        if (e.message.find("unknown_step") != std::string::npos) {
+          found = true;
+        }
     EXPECT_TRUE(found);
 }
 

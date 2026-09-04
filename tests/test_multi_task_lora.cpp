@@ -162,7 +162,9 @@ TEST(MultiTaskLoRATrainerTest, MTL_07_TrainResultCounts) {
 
     // Each registered task should appear in per_task.
     std::vector<std::string> seen_ids;
-    for (const auto& m : result.per_task) seen_ids.push_back(m.task_id);
+    for (const auto& m : result.per_task) {
+      seen_ids.push_back(m.task_id);
+    }
     EXPECT_NE(std::find(seen_ids.begin(), seen_ids.end(), "qa"), seen_ids.end());
     EXPECT_NE(std::find(seen_ids.begin(), seen_ids.end(), "summary"), seen_ids.end());
     EXPECT_NE(std::find(seen_ids.begin(), seen_ids.end(), "classify"), seen_ids.end());

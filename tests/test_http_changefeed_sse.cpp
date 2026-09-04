@@ -55,7 +55,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all("data/themis_http_changefeed_sse_test");
     }
@@ -272,8 +274,12 @@ TEST_F(HttpChangefeedSseTest, SseStream_KeepAlive_ReceivesIncrementalEvents) {
     for (const auto& ev : events) {
         if (ev.contains("key")) {
             std::string key = ev["key"].get<std::string>();
-            if (key == "live:1") found1 = true;
-            if (key == "live:2") found2 = true;
+            if (key == "live:1") {
+              found1 = true;
+            }
+            if (key == "live:2") {
+              found2 = true;
+            }
         }
     }
     ASSERT_TRUE(found1);

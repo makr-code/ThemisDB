@@ -105,24 +105,38 @@ enum class FlatFileFormat { AUTO, CSV, TSV, JSONL, PARQUET };
 
 static FlatFileFormat detectFormat(const std::string& path) {
     auto dot = path.rfind('.');
-    if (dot == std::string::npos) return FlatFileFormat::AUTO;
+    if (dot == std::string::npos) {
+      return FlatFileFormat::AUTO;
+    }
     std::string ext = path.substr(dot + 1);
     for (auto& c : ext)
         c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    if (ext == "csv")                       return FlatFileFormat::CSV;
-    if (ext == "tsv")                       return FlatFileFormat::TSV;
-    if (ext == "jsonl" || ext == "ndjson")  return FlatFileFormat::JSONL;
-    if (ext == "parquet")                   return FlatFileFormat::PARQUET;
+    if (ext == "csv") {
+      return FlatFileFormat::CSV;
+    }
+    if (ext == "tsv") {
+      return FlatFileFormat::TSV;
+    }
+    if (ext == "jsonl" || ext == "ndjson") {
+      return FlatFileFormat::JSONL;
+    }
+    if (ext == "parquet") {
+      return FlatFileFormat::PARQUET;
+    }
     return FlatFileFormat::AUTO;
 }
 
 static std::string filenameStem(const std::string& path) {
     size_t slash = path.rfind('/');
-    if (slash == std::string::npos) slash = path.rfind('\\');
+    if (slash == std::string::npos) {
+      slash = path.rfind('\\');
+    }
     std::string base = (slash != std::string::npos) ? path.substr(slash + 1)
                                                      : path;
     size_t dot = base.rfind('.');
-    if (dot != std::string::npos) base = base.substr(0, dot);
+    if (dot != std::string::npos) {
+      base = base.substr(0, dot);
+    }
     return base.empty() ? "data" : base;
 }
 
@@ -169,7 +183,9 @@ static bool isValidUtf8(const std::string& s) {
         else                             return false;
         ++i;
         for (size_t j = 0; j < trail; ++j, ++i) {
-            if (i >= n || (bytes[i] & 0xC0) != 0x80) return false;
+            if (i >= n || (bytes[i] & 0xC0) != 0x80) {
+              return false;
+            }
         }
     }
     return true;
@@ -204,11 +220,15 @@ static ImportStats runCsvImport(std::istream& input,
 
     if (has_header && std::getline(input, line)) {
         ++line_number;
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
         columns = parseCsvRow(line, delim, quote);
         for (auto& col : columns) {
             auto it = options.column_mappings.find(col);
-            if (it != options.column_mappings.end()) col = it->second;
+            if (it != options.column_mappings.end()) {
+              col = it->second;
+            }
         }
     }
 
@@ -216,15 +236,21 @@ static ImportStats runCsvImport(std::istream& input,
 
     while (std::getline(input, line)) {
         ++line_number;
-        if (!line.empty() && line.back() == '\r') line.pop_back();
-        if (line.empty()) continue;
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
+        if (line.empty()) {
+          continue;
+        }
 
         stats.total_records++;
 
         if (options.max_row_size_bytes > 0 &&
             line.size() > options.max_row_size_bytes) {
             stats.failed_records++;
-            if (!options.continue_on_error) return stats;
+            if (!options.continue_on_error) {
+              return stats;
+            }
             continue;
         }
 
@@ -236,7 +262,9 @@ static ImportStats runCsvImport(std::istream& input,
             e.location = "line " + std::to_string(line_number);
             stats.structured_errors.push_back(e);
             stats.failed_records++;
-            if (!options.continue_on_error) return stats;
+            if (!options.continue_on_error) {
+              return stats;
+            }
             continue;
         }
 
@@ -247,8 +275,12 @@ static ImportStats runCsvImport(std::istream& input,
         }
 
         auto fields = parseCsvRow(line, delim, quote);
-        while (fields.size() < columns.size()) fields.emplace_back();
-        if (fields.size() > columns.size()) fields.resize(columns.size());
+        while (fields.size() < columns.size()) {
+          fields.emplace_back();
+        }
+        if (fields.size() > columns.size()) {
+          fields.resize(columns.size());
+        }
 
         json entity = json::object();
         for (size_t i = 0; i < columns.size(); ++i)
@@ -304,8 +336,12 @@ static ImportStats runJsonlImport(std::istream& input,
 
     while (std::getline(input, line)) {
         ++line_number;
-        if (!line.empty() && line.back() == '\r') line.pop_back();
-        if (line.empty()) continue;
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
+        if (line.empty()) {
+          continue;
+        }
 
         stats.total_records++;
 
@@ -322,13 +358,17 @@ static ImportStats runJsonlImport(std::istream& input,
             stats.errors.push_back("JSON parse error at line " +
                                    std::to_string(line_number));
             stats.failed_records++;
-            if (!options.continue_on_error) return stats;
+            if (!options.continue_on_error) {
+              return stats;
+            }
             continue;
         }
 
         if (!entity.is_object()) {
             stats.failed_records++;
-            if (!options.continue_on_error) return stats;
+            if (!options.continue_on_error) {
+              return stats;
+            }
             continue;
         }
 
@@ -595,7 +635,9 @@ TEST(CsvImport, DryRunMode) {
     // Dry-run errors must be recorded
     bool has_dry_run_code = false;
     for (const auto& e : stats.structured_errors)
-        if (e.code == ImportErrorCode::DRY_RUN_ONLY) has_dry_run_code = true;
+        if (e.code == ImportErrorCode::DRY_RUN_ONLY) {
+          has_dry_run_code = true;
+        }
     EXPECT_TRUE(has_dry_run_code);
 }
 
@@ -644,14 +686,18 @@ TEST(CsvImport, Utf8Enforcement) {
     EXPECT_EQ(stats.failed_records,   1u);  // row 2
     bool has_utf8_err = false;
     for (const auto& e : stats.structured_errors)
-        if (e.code == ImportErrorCode::INVALID_UTF8) has_utf8_err = true;
+        if (e.code == ImportErrorCode::INVALID_UTF8) {
+          has_utf8_err = true;
+        }
     EXPECT_TRUE(has_utf8_err);
 }
 
 TEST(CsvImport, MetricsCallback) {
     std::ostringstream batch_data;
     batch_data << "id\n";
-    for (int i = 0; i < 2000; ++i) batch_data << i << "\n";
+    for (int i = 0; i < 2000; ++i) {
+      batch_data << i << "\n";
+    }
 
     std::istringstream ss(batch_data.str());
     ImportOptions opts;
@@ -823,7 +869,9 @@ static const std::string kFixtureDir =
 
 TEST(CsvFixture, ImportSampleCsv) {
     std::ifstream file(kFixtureDir + "sample.csv");
-    if (!file) GTEST_SKIP() << "Fixture file not found";
+    if (!file) {
+      GTEST_SKIP() << "Fixture file not found";
+    }
 
     ImportOptions opts;
     std::vector<json> rows;
@@ -853,7 +901,9 @@ TEST(CsvFixture, ImportSampleCsv) {
 
 TEST(TsvFixture, ImportSampleTsv) {
     std::ifstream file(kFixtureDir + "sample.tsv");
-    if (!file) GTEST_SKIP() << "Fixture file not found";
+    if (!file) {
+      GTEST_SKIP() << "Fixture file not found";
+    }
 
     ImportOptions opts;
     std::vector<json> rows;
@@ -870,7 +920,9 @@ TEST(TsvFixture, ImportSampleTsv) {
 
 TEST(JsonlFixture, ImportSampleJsonl) {
     std::ifstream file(kFixtureDir + "sample.jsonl");
-    if (!file) GTEST_SKIP() << "Fixture file not found";
+    if (!file) {
+      GTEST_SKIP() << "Fixture file not found";
+    }
 
     ImportOptions opts;
     std::vector<json> rows;

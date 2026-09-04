@@ -41,7 +41,9 @@ static fs::path makeTempDir(const std::string& suffix) {
 
 /// Count YAML files (*.yaml) recursively under `dir`.
 static size_t countYamlFiles(const fs::path& dir) {
-    if (!fs::exists(dir)) return 0;
+    if (!fs::exists(dir)) {
+      return 0;
+    }
     size_t n = 0;
     for (const auto& entry : fs::recursive_directory_iterator(dir)) {
         if (entry.is_regular_file() &&
@@ -54,7 +56,9 @@ static size_t countYamlFiles(const fs::path& dir) {
 
 /// Return the content of the first YAML file found under `dir`, or "".
 static std::string firstYamlContent(const fs::path& dir) {
-    if (!fs::exists(dir)) return "";
+    if (!fs::exists(dir)) {
+      return "";
+    }
     for (const auto& entry : fs::recursive_directory_iterator(dir)) {
         if (entry.is_regular_file() &&
             entry.path().extension() == ".yaml") {

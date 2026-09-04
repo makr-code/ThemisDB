@@ -41,7 +41,9 @@ namespace {
 /// Build a JSONL-friendly string of `lines` from the export output.
 /// Returns the number of lines (ignoring trailing newline).
 std::size_t countJsonlLines(const std::string& jsonl) {
-    if (jsonl.empty()) return 0;
+    if (jsonl.empty()) {
+      return 0;
+    }
     std::size_t n = 0;
     for (char c : jsonl) { if (c == '\n') ++n; }
     return n;
@@ -230,7 +232,9 @@ TEST(DatabaseOptimizerLabeler, DBO08_OneThousandSampleGoldenDatasetHighConfidenc
     std::size_t high_conf = 0;
     for (const auto& s : golden_dataset) {
         EXPECT_EQ(s.label, DomainType::DATABASE_OPTIMIZER);
-        if (s.confidence >= min_conf) ++high_conf;
+        if (s.confidence >= min_conf) {
+          ++high_conf;
+        }
     }
     EXPECT_EQ(high_conf, static_cast<std::size_t>(N))
         << "All 1000 samples with |Δlatency| ≥ 50 ms should exceed confidence threshold "

@@ -722,7 +722,9 @@ TEST(WakeWordDetector, CallbackIsInvokedOnDetection) {
 
     std::atomic<int> callback_count{0};
     detector.setDetectionCallback([&](const WakeWordDetectionResult& r) {
-        if (r.detected) ++callback_count;
+        if (r.detected) {
+          ++callback_count;
+        }
     });
 
     // Feed enough audio that VAD passes; detection depends on scoring.
@@ -812,7 +814,9 @@ TEST(VoiceAssistantWakeWord, SetCallbackIsForwarded) {
 
     std::atomic<int> fired{0};
     va.setWakeWordCallback([&](const themis::voice::WakeWordDetectionResult& r) {
-        if (r.detected) ++fired;
+        if (r.detected) {
+          ++fired;
+        }
     });
 
     // Feed voiced audio; detection depends on scoring but callback must be wired.

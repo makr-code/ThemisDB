@@ -23,7 +23,9 @@ static HnswLayerGraph makeFullGraph(uint32_t num_nodes) {
     g.offsets[0] = 0;
     for (uint32_t i = 0; i < num_nodes; ++i) {
         for (uint32_t j = 0; j < num_nodes; ++j) {
-            if (j != i) g.neighbours.push_back(static_cast<int32_t>(j));
+            if (j != i) {
+              g.neighbours.push_back(static_cast<int32_t>(j));
+            }
         }
         g.offsets[i + 1] = static_cast<int32_t>(g.neighbours.size());
     }
@@ -291,7 +293,9 @@ TEST(CudaHnswEngine, ChunkedBatchSearchResultsCorrect) {
     engineB.setMaxBatchSize(1);
 
     std::vector<float> vecs;
-    for (uint32_t i = 0; i < N; ++i) vecs.push_back(static_cast<float>(i));
+    for (uint32_t i = 0; i < N; ++i) {
+      vecs.push_back(static_cast<float>(i));
+    }
 
     auto g = makeFullGraph(N);
     ASSERT_TRUE(engineA.buildIndex({g}, vecs.data(), N));

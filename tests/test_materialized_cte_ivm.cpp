@@ -684,11 +684,15 @@ TEST(MaterializedCTEViewTest, ConcurrentReads_ThreadSafe) {
         threads.emplace_back([&view, &success]() {
             for (int i = 0; i < 50; ++i) {
                 auto r = view.query();
-                if (!r.rows.empty()) ++success;
+                if (!r.rows.empty()) {
+                  ++success;
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_GT(success.load(), 0);
 }
 
@@ -714,13 +718,17 @@ TEST(MaterializedCTERegistryTest, ConcurrentApplyAndQuery_ThreadSafe) {
         readers.emplace_back([&]() {
             while (!stop.load()) {
                 auto r = registry.query("sales_by_region");
-                if (r.total_rows >= 0) ++reads;
+                if (r.total_rows >= 0) {
+                  ++reads;
+                }
             }
         });
     }
 
     writer.join();
-    for (auto& th : readers) th.join();
+    for (auto& th : readers) {
+      th.join();
+    }
 
     EXPECT_GT(reads.load(), 0);
     // All writer changes should be reflected

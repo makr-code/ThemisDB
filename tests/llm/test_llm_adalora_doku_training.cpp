@@ -56,7 +56,9 @@ namespace {
 /// Probe standard locations for the doku.db JSON index file.
 std::string findDokuDbPath() {
     const char* env_db = std::getenv("THEMIS_DOKU_DB_PATH");
-    if (env_db && std::filesystem::exists(env_db)) return env_db;
+    if (env_db && std::filesystem::exists(env_db)) {
+      return env_db;
+    }
 
     const char* env_ws = std::getenv("GITHUB_WORKSPACE");
     std::vector<std::filesystem::path> candidates = {
@@ -69,7 +71,9 @@ std::string findDokuDbPath() {
             std::filesystem::path(env_ws) / "build/test-assets/doku.db.json");
     }
     for (const auto& c : candidates) {
-        if (std::filesystem::exists(c) && std::filesystem::is_regular_file(c)) return c.string();
+        if (std::filesystem::exists(c) && std::filesystem::is_regular_file(c)) {
+          return c.string();
+        }
     }
     return {};
 }
@@ -78,19 +82,27 @@ std::string findDokuDbPath() {
 /// This is a simple extractor — it looks for "content" fields in the JSON.
 std::vector<std::string> loadDokuChunksAsPrompts(const std::string& json_path, int max_count) {
     std::vector<std::string> prompts;
-    if (json_path.empty() || !std::filesystem::exists(json_path)) return prompts;
+    if (json_path.empty() || !std::filesystem::exists(json_path)) {
+      return prompts;
+    }
 
     std::ifstream f(json_path);
     std::string line;
     while (std::getline(f, line) && static_cast<int>(prompts.size()) < max_count) {
         // Simple heuristic: lines containing "content": "..." in the JSON
         auto pos = line.find("\"content\":");
-        if (pos == std::string::npos) continue;
+        if (pos == std::string::npos) {
+          continue;
+        }
         auto start = line.find('"', pos + 10);
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         ++start;
         auto end = line.rfind('"');
-        if (end <= start) continue;
+        if (end <= start) {
+          continue;
+        }
         const std::string content = line.substr(start, end - start);
         if (content.size() > 20) {
             prompts.push_back(content.substr(0, 256)); // Limit token count

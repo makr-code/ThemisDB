@@ -294,10 +294,18 @@ TEST_F(ModelLoaderErrorHandlingTest, LLMErrorsByCategory) {
     bool has_batch_exceeded = false;
     
     for (const auto& err : llm_errors) {
-        if (err.code == ErrorCode::ERR_LLM_MODEL_NOT_FOUND) has_not_found = true;
-        if (err.code == ErrorCode::ERR_LLM_MODEL_LOAD_FAILED) has_load_failed = true;
-        if (err.code == ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED) has_ctx_failed = true;
-        if (err.code == ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED) has_batch_exceeded = true;
+        if (err.code == ErrorCode::ERR_LLM_MODEL_NOT_FOUND) {
+          has_not_found = true;
+        }
+        if (err.code == ErrorCode::ERR_LLM_MODEL_LOAD_FAILED) {
+          has_load_failed = true;
+        }
+        if (err.code == ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED) {
+          has_ctx_failed = true;
+        }
+        if (err.code == ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED) {
+          has_batch_exceeded = true;
+        }
     }
     
     EXPECT_TRUE(has_not_found);
@@ -316,8 +324,12 @@ TEST_F(ModelLoaderErrorHandlingTest, LoRAErrorsByCategory) {
     bool has_diverged = false;
     
     for (const auto& err : lora_errors) {
-        if (err.code == ErrorCode::ERR_LORA_ADAPTER_CONFLICT) has_conflict = true;
-        if (err.code == ErrorCode::ERR_LORA_TRAINING_DIVERGED) has_diverged = true;
+        if (err.code == ErrorCode::ERR_LORA_ADAPTER_CONFLICT) {
+          has_conflict = true;
+        }
+        if (err.code == ErrorCode::ERR_LORA_TRAINING_DIVERGED) {
+          has_diverged = true;
+        }
     }
     
     EXPECT_TRUE(has_conflict);

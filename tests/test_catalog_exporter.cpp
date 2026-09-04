@@ -154,9 +154,15 @@ TEST_F(CatalogExporterAtlasTest, PayloadContainsDbAndTableEntities) {
     bool found_col   = false;
     for (const auto& ent : payload["entities"]) {
         const std::string type = ent["typeName"].get<std::string>();
-        if (type == "rdbms_db")     found_db    = true;
-        if (type == "rdbms_table")  found_table = true;
-        if (type == "rdbms_column") found_col   = true;
+        if (type == "rdbms_db") {
+          found_db    = true;
+        }
+        if (type == "rdbms_table") {
+          found_table = true;
+        }
+        if (type == "rdbms_column") {
+          found_col   = true;
+        }
     }
     EXPECT_TRUE(found_db)    << "Should include rdbms_db entity";
     EXPECT_TRUE(found_table) << "Should include rdbms_table entity";
@@ -337,8 +343,12 @@ TEST_F(CatalogExporterDataHubTest, SchemaMetadataContainsFieldPaths) {
     bool found_id   = false;
     bool found_name = false;
     for (const auto& cap : captured_) {
-        if (cap.body.find("\"id\"") != std::string::npos)   found_id   = true;
-        if (cap.body.find("\"name\"") != std::string::npos) found_name = true;
+        if (cap.body.find("\"id\"") != std::string::npos) {
+          found_id   = true;
+        }
+        if (cap.body.find("\"name\"") != std::string::npos) {
+          found_name = true;
+        }
     }
     EXPECT_TRUE(found_id)   << "schemaMetadata should include 'id' field";
     EXPECT_TRUE(found_name) << "schemaMetadata should include 'name' field";

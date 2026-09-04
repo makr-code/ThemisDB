@@ -157,7 +157,9 @@ TEST(WikiChunkSplitter, WIS02_OverlapBetweenChunks) {
     std::string content = "# Long Section\n\n";
     for (int i = 0; i < 300; ++i) {
         content += "Token" + std::to_string(i) + " ";
-        if (i % 15 == 14) content += '\n';
+        if (i % 15 == 14) {
+          content += '\n';
+        }
     }
 
     WikiChunkSplitter splitter(50, 10);

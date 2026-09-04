@@ -627,8 +627,12 @@ TransferSample sampleGpuTransfers(std::size_t payloadMB, int iterations) {
         &level,
         &context);
     if (FAILED(createHr) || device == nullptr || context == nullptr) {
-        if (context != nullptr) context->Release();
-        if (device != nullptr) device->Release();
+        if (context != nullptr) {
+          context->Release();
+        }
+        if (device != nullptr) {
+          device->Release();
+        }
         return {false, 0.0, 0.0, 0.0, "d3d11", "device_creation_failed", payloadBytes, iterations};
     }
 
@@ -662,10 +666,18 @@ TransferSample sampleGpuTransfers(std::size_t payloadMB, int iterations) {
 
     if (FAILED(gpuHr) || FAILED(uploadHr) || FAILED(readbackHr) || FAILED(queryHr) ||
         gpuBuffer == nullptr || uploadBuffer == nullptr || readbackBuffer == nullptr || query == nullptr) {
-        if (query != nullptr) query->Release();
-        if (readbackBuffer != nullptr) readbackBuffer->Release();
-        if (uploadBuffer != nullptr) uploadBuffer->Release();
-        if (gpuBuffer != nullptr) gpuBuffer->Release();
+        if (query != nullptr) {
+          query->Release();
+        }
+        if (readbackBuffer != nullptr) {
+          readbackBuffer->Release();
+        }
+        if (uploadBuffer != nullptr) {
+          uploadBuffer->Release();
+        }
+        if (gpuBuffer != nullptr) {
+          gpuBuffer->Release();
+        }
         context->Release();
         device->Release();
         return {false, 0.0, 0.0, 0.0, "d3d11", "buffer_or_query_creation_failed", payloadBytes, iterations};

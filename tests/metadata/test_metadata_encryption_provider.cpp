@@ -207,7 +207,9 @@ TEST(MetadataEncryptionProviderFocusedTests, FieldSetThreadSafeConcurrentAccess)
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(total_reads.load(), kReaders * kIter);
 }

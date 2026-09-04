@@ -87,7 +87,9 @@ public:
     void setFull(bool full) { full_ = full; }
 
     StorageErrorCode append(const std::string& key, const std::string& value) {
-        if (full_) return StorageErrorCode::WAL_WRITE_FAILED;
+        if (full_) {
+          return StorageErrorCode::WAL_WRITE_FAILED;
+        }
         std::lock_guard<std::mutex> lk(mtx_);
         entries_.push_back({nextSeq_++, key, value, false});
         return StorageErrorCode::OK;
@@ -126,7 +128,9 @@ public:
     std::optional<std::string> get(const std::string& key) const {
         std::lock_guard<std::mutex> lk(mtx_);
         auto it = data_.find(key);
-        if (it == data_.end()) return std::nullopt;
+        if (it == data_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
@@ -173,14 +177,18 @@ public:
     /// otherwise returns base store snapshot value (snapshot isolation).
     std::optional<std::string> read(const std::string& key) const {
         auto it = txWrites_.find(key);
-        if (it != txWrites_.end()) return it->second;
+        if (it != txWrites_.end()) {
+          return it->second;
+        }
         return base_.get(key);
     }
 
     /// Commit: apply writes to base store (simulates WAL flush + apply).
     StorageErrorCode commit(MockKvStore& other) {
         if (&other == &base_) {
-            for (const auto& [k, v] : txWrites_) base_.set(k, v);
+            for (const auto& [k, v] : txWrites_) {
+              base_.set(k, v);
+            }
             committed_ = true;
             return StorageErrorCode::OK;
         }
@@ -211,9 +219,13 @@ public:
     StorageErrorCode restore(Timestamp target,
                              MockKvStore& out,
                              Timestamp maxAllowed) const {
-        if (target > maxAllowed) return StorageErrorCode::PITR_INVALID_TIMESTAMP;
+        if (target > maxAllowed) {
+          return StorageErrorCode::PITR_INVALID_TIMESTAMP;
+        }
         for (const auto& h : history_) {
-            if (h.ts <= target) out.set(h.key, h.value);
+            if (h.ts <= target) {
+              out.set(h.key, h.value);
+            }
         }
         return StorageErrorCode::OK;
     }

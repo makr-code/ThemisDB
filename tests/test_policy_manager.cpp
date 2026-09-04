@@ -503,8 +503,12 @@ TEST_F(PolicyManagerTest, PreviewRollback) {
     
     for (const auto& diff : diffs) {
         for (const auto& changed_field : diff.changes) {
-            if (changed_field == "name") found_name_change = true;
-            if (changed_field == "require_encryption") found_encryption_change = true;
+            if (changed_field == "name") {
+              found_name_change = true;
+            }
+            if (changed_field == "require_encryption") {
+              found_encryption_change = true;
+            }
         }
     }
     
@@ -539,8 +543,12 @@ TEST_F(PolicyManagerTest, CompareVersions) {
     
     for (const auto& diff : diffs) {
         for (const auto& changed_field : diff.changes) {
-            if (changed_field == "name") found_name = true;
-            if (changed_field == "priority") found_priority = true;
+            if (changed_field == "name") {
+              found_name = true;
+            }
+            if (changed_field == "priority") {
+              found_priority = true;
+            }
         }
     }
     

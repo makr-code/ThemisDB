@@ -125,7 +125,9 @@ class VoiceBackend {
 
   /// Returns true iff the call succeeds.
   bool call(const std::string& /*request*/) {
-    if (!breaker_.canAttempt()) return false;
+    if (!breaker_.canAttempt()) {
+      return false;
+    }
     if (!available_) {
       breaker_.recordFailure();
       return false;
@@ -156,7 +158,9 @@ class VoiceSession {
 
   /// Returns false and sets state=ERROR when backends are unavailable.
   bool process(const std::string& chunk) {
-    if (state_ != SessionState::ACTIVE) return false;
+    if (state_ != SessionState::ACTIVE) {
+      return false;
+    }
 
     if (!stt_ || !stt_->call(chunk)) {
       state_ = SessionState::ERROR;
@@ -204,8 +208,12 @@ class AntiSpoof {
   /// Returns false when challenge is stale, replayed, or backend is down.
   bool verify(const ChallengeToken& token, bool backend_available) const {
     if (!backend_available) return false;  // fail-closed
-    if (token.stale) return false;
-    if (replaySet_.count(token.value)) return false;
+    if (token.stale) {
+      return false;
+    }
+    if (replaySet_.count(token.value)) {
+      return false;
+    }
     return !token.value.empty();
   }
 
@@ -230,7 +238,9 @@ class AuditLog {
   bool contains(const std::string& substr) const {
     std::lock_guard<std::mutex> lock(mu_);
     for (const auto& e : events_) {
-      if (e.find(substr) != std::string::npos) return true;
+      if (e.find(substr) != std::string::npos) {
+        return true;
+      }
     }
     return false;
   }
@@ -352,7 +362,9 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_04_CircuitBreaker_Recovery_OpenHalfOpenClosed)
   CircuitBreaker cb;
 
   // Trip the breaker.
-  for (int i = 0; i < 5; ++i) cb.recordFailure();
+  for (int i = 0; i < 5; ++i) {
+    cb.recordFailure();
+  }
   ASSERT_EQ(cb.state(), CircuitState::OPEN)
       << "VOICE-CHAOS-04: breaker must be OPEN";
 
@@ -394,7 +406,9 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_05_ConcurrentTeardowns_NoLeak) {
   for (int i = 0; i < kSessions; ++i) {
     threads.emplace_back([&sessions, i]() { sessions[i]->teardown(); });
   }
-  for (auto& t : threads) t.join();
+  for (auto& t : threads) {
+    t.join();
+  }
 
   for (int i = 0; i < kSessions; ++i) {
     EXPECT_EQ(sessions[i]->state(), SessionState::TORN_DOWN)
@@ -553,7 +567,9 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_10_AuditCallback_FiresDuringBackendFailureTear
  */
 TEST_F(VoiceWaveAChaosTest, CHAOS_11_NewSessionsBlocked_CircuitOpen) {
   // Trip the STT breaker.
-  for (int i = 0; i < 5; ++i) stt_->breaker().recordFailure();
+  for (int i = 0; i < 5; ++i) {
+    stt_->breaker().recordFailure();
+  }
   ASSERT_EQ(stt_->breaker().state(), CircuitState::OPEN)
       << "VOICE-CHAOS-11: prerequisite: breaker must be OPEN";
 

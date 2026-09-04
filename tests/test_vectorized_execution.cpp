@@ -287,8 +287,12 @@ TEST_F(VectorizedEngineTest, AggregateGroupByCategory) {
     for (const auto& row : *result) {
         const std::string cat = row["category"].get<std::string>();
         const double total    = row["total"].get<double>();
-        if (cat == "A") sum_A = total;
-        if (cat == "B") sum_B = total;
+        if (cat == "A") {
+          sum_A = total;
+        }
+        if (cat == "B") {
+          sum_B = total;
+        }
     }
     // A: 10+30+50=90, B: 20+40=60
     EXPECT_NEAR(90.0, sum_A, 1e-6);

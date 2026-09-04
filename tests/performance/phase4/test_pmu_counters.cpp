@@ -51,7 +51,9 @@ TEST(PmuCounterTest, OpenLLCMissCounterOrSkip) {
     counter.enable();
     // Touch some memory to generate events
     volatile int sum = 0;
-    for (int i = 0; i < 1000; ++i) sum += i;
+    for (int i = 0; i < 1000; ++i) {
+      sum += i;
+    }
     counter.disable();
 
     uint64_t val = counter.read();
@@ -114,7 +116,9 @@ TEST(CacheMissAnalyzerTest, MultipleStartStopCycles) {
     for (int iter = 0; iter < 3; ++iter) {
         analyzer.start();
         volatile int x = 0;
-        for (int i = 0; i < 100; ++i) x += i;
+        for (int i = 0; i < 100; ++i) {
+          x += i;
+        }
         CacheMissMetrics m = analyzer.stop();
         EXPECT_TRUE(m.available);
     }
@@ -131,7 +135,9 @@ TEST(ScopedCacheMissTimerTest, WritesMetricsOnDestruction) {
     {
         ScopedCacheMissTimer timer(analyzer, &metrics);
         volatile int x = 0;
-        for (int i = 0; i < 500; ++i) x += i;
+        for (int i = 0; i < 500; ++i) {
+          x += i;
+        }
     }
 
     if (analyzer.is_available()) {
@@ -239,7 +245,9 @@ TEST(PmuCounterTest, NonLinuxCycleCountIsPositiveAfterWork) {
     ASSERT_TRUE(counter.open(0, 0));
     counter.enable();
     volatile uint64_t sum = 0;
-    for (int i = 0; i < 100'000; ++i) sum += static_cast<uint64_t>(i);
+    for (int i = 0; i < 100'000; ++i) {
+      sum += static_cast<uint64_t>(i);
+    }
     (void)sum;
     uint64_t cycles = counter.read();
     EXPECT_GT(cycles, 0u) << "Cycle counter must advance after real work";
@@ -271,7 +279,9 @@ TEST(CacheMissAnalyzerTest, NonLinuxFallbackIsAvailable) {
 
     analyzer.start();
     volatile int x = 0;
-    for (int i = 0; i < 10'000; ++i) x ^= i;
+    for (int i = 0; i < 10'000; ++i) {
+      x ^= i;
+    }
     (void)x;
     CacheMissMetrics m = analyzer.stop();
 
@@ -310,7 +320,9 @@ TEST(CacheMissAnalyzerTest, MacOsKpcOrFallbackIsCoherent) {
     for (int iter = 0; iter < 5; ++iter) {
         analyzer.start();
         volatile uint64_t s = 0;
-        for (int i = 0; i < 1000; ++i) s += static_cast<uint64_t>(i * i);
+        for (int i = 0; i < 1000; ++i) {
+          s += static_cast<uint64_t>(i * i);
+        }
         (void)s;
         CacheMissMetrics m = analyzer.stop();
         EXPECT_TRUE(m.available) << "macOS analyzer must stay available across iterations";
@@ -328,7 +340,9 @@ TEST(CacheMissAnalyzerTest, WindowsCycleCountBackendIsCoherent) {
     for (int iter = 0; iter < 5; ++iter) {
         analyzer.start();
         volatile uint64_t s = 0;
-        for (int i = 0; i < 1000; ++i) s += static_cast<uint64_t>(i * i);
+        for (int i = 0; i < 1000; ++i) {
+          s += static_cast<uint64_t>(i * i);
+        }
         (void)s;
         CacheMissMetrics m = analyzer.stop();
         EXPECT_TRUE(m.available) << "Windows analyzer must stay available across iterations";

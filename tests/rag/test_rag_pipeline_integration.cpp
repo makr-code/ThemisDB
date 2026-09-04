@@ -146,7 +146,9 @@ TEST(RAGPipelineIntegrationTest, HybridRetrieverDeduplicates) {
     // Duplicate id should appear at most once
     size_t dup_count = 0;
     for (const auto& doc : result.documents) {
-        if (doc.id == "dup") ++dup_count;
+        if (doc.id == "dup") {
+          ++dup_count;
+        }
     }
     EXPECT_LE(dup_count, 1u);
 }

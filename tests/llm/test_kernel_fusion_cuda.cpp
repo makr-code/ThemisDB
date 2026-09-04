@@ -54,7 +54,9 @@ static bool gpuAvailable() {
     int count = 0;
     // cudaGetDeviceCount returns cudaSuccess (0) and sets count to 0 when no
     // driver is found, so this is safe to call on CPU-only machines.
-    if (cudaGetDeviceCount(&count) != cudaSuccess) return false;
+    if (cudaGetDeviceCount(&count) != cudaSuccess) {
+      return false;
+    }
     return count > 0;
 #else
     return false;
@@ -73,11 +75,15 @@ struct DeviceTensor {
 
     explicit DeviceTensor(size_t n_floats) : bytes(n_floats * sizeof(float)) {
         cudaError_t err = cudaMalloc(&ptr, bytes);
-        if (err != cudaSuccess) ptr = nullptr;
+        if (err != cudaSuccess) {
+          ptr = nullptr;
+        }
     }
 
     ~DeviceTensor() {
-        if (ptr) cudaFree(ptr);
+        if (ptr) {
+          cudaFree(ptr);
+        }
     }
 
     bool ok() const { return ptr != nullptr; }
@@ -143,7 +149,9 @@ struct DeviceTensor {
                     exp_s[k] = std::exp(scores[k] - max_s);
                     sum += exp_s[k];
                 }
-                for (int k = 0; k < seq_len; ++k) exp_s[k] /= sum;
+                for (int k = 0; k < seq_len; ++k) {
+                  exp_s[k] /= sum;
+                }
 
                 // Weighted sum of V
                 for (int d = 0; d < head_dim; ++d) {
@@ -165,7 +173,9 @@ struct DeviceTensor {
 
 [[maybe_unused]] static bool allFinite(const std::vector<float>& v) {
     for (float x : v)
-        if (!std::isfinite(x)) return false;
+        if (!std::isfinite(x)) {
+          return false;
+        }
     return true;
 }
 
@@ -291,7 +301,9 @@ TEST_F(KernelFusionCUDATest, FlashAttentionForward_CausalMaskingApplied) {
 
     std::vector<float> h_Q(N, 0.5f), h_K(N, 0.5f);
     std::vector<float> h_V(N);
-    for (int i = 0; i < N; ++i) h_V[i] = static_cast<float>(i);
+    for (int i = 0; i < N; ++i) {
+      h_V[i] = static_cast<float>(i);
+    }
 
     DeviceTensor d_Q(N), d_K(N), d_V(N), d_O_causal(N), d_O_full(N);
     ASSERT_TRUE(d_Q.ok() && d_K.ok() && d_V.ok()
@@ -468,11 +480,21 @@ TEST_F(KernelFusionCrossPathTest, FusedLayerNormLinear_CPUMatchesCUDA) {
 
     std::vector<float> h_in(N), h_w(H*H), h_b(H), h_ln_w(H), h_ln_b(H);
     // Varied, non-trivial inputs
-    for (int i = 0; i < N; ++i)     h_in[i]  = 0.1f * (i % 7) - 0.3f;
-    for (int i = 0; i < H*H; ++i)   h_w[i]   = 0.05f * ((i % 5) - 2);
-    for (int i = 0; i < H; ++i)     h_b[i]   = 0.01f * i;
-    for (int i = 0; i < H; ++i)     h_ln_w[i]= 1.0f + 0.1f * (i % 3);
-    for (int i = 0; i < H; ++i)     h_ln_b[i]= 0.0f;
+    for (int i = 0; i < N; ++i) {
+      h_in[i]  = 0.1f * (i % 7) - 0.3f;
+    }
+    for (int i = 0; i < H*H; ++i) {
+      h_w[i]   = 0.05f * ((i % 5) - 2);
+    }
+    for (int i = 0; i < H; ++i) {
+      h_b[i]   = 0.01f * i;
+    }
+    for (int i = 0; i < H; ++i) {
+      h_ln_w[i]= 1.0f + 0.1f * (i % 3);
+    }
+    for (int i = 0; i < H; ++i) {
+      h_ln_b[i]= 0.0f;
+    }
 
     // CPU path (zero residual — isolates the LayerNorm+Linear contribution)
     std::vector<float> h_zeros(N, 0.0f);
@@ -521,9 +543,15 @@ TEST_F(KernelFusionCrossPathTest, FusedQKVProjection_CPUMatchesCUDA) {
     const int W_SIZE  = 3 * H;       // simplified per-element weight (not full matrix)
 
     std::vector<float> h_in(N), h_w(W_SIZE), h_bias(W_SIZE);
-    for (int i = 0; i < N; ++i)      h_in[i]   = 0.2f * (i % 5) - 0.4f;
-    for (int i = 0; i < W_SIZE; ++i) h_w[i]    = 0.1f * ((i % 7) - 3);
-    for (int i = 0; i < W_SIZE; ++i) h_bias[i] = 0.01f * i;
+    for (int i = 0; i < N; ++i) {
+      h_in[i]   = 0.2f * (i % 5) - 0.4f;
+    }
+    for (int i = 0; i < W_SIZE; ++i) {
+      h_w[i]    = 0.1f * ((i % 7) - 3);
+    }
+    for (int i = 0; i < W_SIZE; ++i) {
+      h_bias[i] = 0.01f * i;
+    }
 
     // CPU path
     std::vector<float> cpu_Q(N), cpu_K(N), cpu_V(N);
@@ -582,10 +610,18 @@ TEST_F(KernelFusionCrossPathTest, FusedGatedFFN_CPUMatchesCUDA) {
     const int N = B * S * H;
 
     std::vector<float> h_in(N), h_gw(H*I), h_uw(H*I), h_dw(I*H);
-    for (int i = 0; i < N; ++i)    h_in[i] = 0.1f * (i % 5) - 0.2f;
-    for (int i = 0; i < H*I; ++i)  h_gw[i] = 0.03f * ((i % 7) - 3);
-    for (int i = 0; i < H*I; ++i)  h_uw[i] = 0.03f * ((i % 5) - 2);
-    for (int i = 0; i < I*H; ++i)  h_dw[i] = 0.02f * ((i % 3) - 1);
+    for (int i = 0; i < N; ++i) {
+      h_in[i] = 0.1f * (i % 5) - 0.2f;
+    }
+    for (int i = 0; i < H*I; ++i) {
+      h_gw[i] = 0.03f * ((i % 7) - 3);
+    }
+    for (int i = 0; i < H*I; ++i) {
+      h_uw[i] = 0.03f * ((i % 5) - 2);
+    }
+    for (int i = 0; i < I*H; ++i) {
+      h_dw[i] = 0.02f * ((i % 3) - 1);
+    }
 
     // CPU path
     std::vector<float> cpu_out(N, 0.0f);

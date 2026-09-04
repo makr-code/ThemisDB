@@ -216,8 +216,12 @@ TEST_F(ContentFeaturesTest, ListDirectory_Contents) {
     bool found_config = false;
     
     for (const auto& item : contents.value()) {
-        if (item.filename == "readme.md") found_readme = true;
-        if (item.filename == "config.json") found_config = true;
+        if (item.filename == "readme.md") {
+          found_readme = true;
+        }
+        if (item.filename == "config.json") {
+          found_config = true;
+        }
     }
     
     EXPECT_TRUE(found_readme);

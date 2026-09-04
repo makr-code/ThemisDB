@@ -628,12 +628,16 @@ edges:
     std::string startInstance(const std::string& model_id) {
         // Deploy model to engine
         auto rec = mgr_->load(model_id);
-        if (!rec) return "";
+        if (!rec) {
+          return "";
+        }
         mgr_->deployToEngine(model_id, *engine_);
 
         auto [status, inst] = engine_->startProcess(
             model_id, {{"instance_id", "inst-" + model_id}});
-        if (!status.ok) return "";
+        if (!status.ok) {
+          return "";
+        }
         return inst;
     }
 };
@@ -1829,8 +1833,12 @@ TEST_F(OcelExporterTest, ObjectTypesAreDerived) {
     bool has_documents = false;
     bool has_metadata  = false;
     for (const auto& t : ot) {
-        if (t["name"] == "documents") has_documents = true;
-        if (t["name"] == "metadata")  has_metadata  = true;
+        if (t["name"] == "documents") {
+          has_documents = true;
+        }
+        if (t["name"] == "metadata") {
+          has_metadata  = true;
+        }
     }
     EXPECT_TRUE(has_documents);
     EXPECT_TRUE(has_metadata);

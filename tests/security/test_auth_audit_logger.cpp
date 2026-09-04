@@ -47,7 +47,9 @@ size_t countLines(const std::string& path) {
     size_t n = 0;
     std::string line;
     while (std::getline(f, line))
-        if (!line.empty()) ++n;
+        if (!line.empty()) {
+          ++n;
+        }
     return n;
 }
 

@@ -35,14 +35,18 @@ using namespace themis::llm::kernels;
 
 static bool allFinite(const std::vector<float>& v) {
     for (float x : v) {
-        if (!std::isfinite(x)) return false;
+        if (!std::isfinite(x)) {
+          return false;
+        }
     }
     return true;
 }
 
 static bool noNaN(const std::vector<float>& v) {
     for (float x : v) {
-        if (std::isnan(x)) return false;
+        if (std::isnan(x)) {
+          return false;
+        }
     }
     return true;
 }

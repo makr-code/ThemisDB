@@ -214,7 +214,9 @@ TEST(PDFProcessorTest, ExtractReadsVersion17) {
     std::string pdf = makeMinimalPDF();
     // Replace "1.4" with "1.7"
     auto pos = pdf.find("1.4");
-    if (pos != std::string::npos) pdf.replace(pos, 3, "1.7");
+    if (pos != std::string::npos) {
+      pdf.replace(pos, 3, "1.7");
+    }
 
     PDFProcessor proc;
     ContentType ct;

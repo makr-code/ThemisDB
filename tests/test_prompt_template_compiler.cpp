@@ -194,8 +194,12 @@ TEST_F(PromptTemplateCompilerTests, AC11_SlotsContainsDeclaredAndImplicit) {
 
     bool found_declared = false, found_implicit = false;
     for (const auto& s : slots) {
-        if (s.name == "declared_slot") found_declared = true;
-        if (s.name == "implicit_slot") found_implicit = true;
+        if (s.name == "declared_slot") {
+          found_declared = true;
+        }
+        if (s.name == "implicit_slot") {
+          found_implicit = true;
+        }
     }
     EXPECT_TRUE(found_declared);
     EXPECT_TRUE(found_implicit);

@@ -53,7 +53,9 @@ namespace {
 std::string writeTmpFile(const std::string& name, const std::vector<uint8_t>& data) {
     std::string path = (fs::temp_directory_path() / name).string();
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
-    if (!ofs) throw std::runtime_error("writeTmpFile: cannot create " + path);
+    if (!ofs) {
+      throw std::runtime_error("writeTmpFile: cannot create " + path);
+    }
     ofs.write(reinterpret_cast<const char*>(data.data()),
               static_cast<std::streamsize>(data.size()));
     return path;

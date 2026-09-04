@@ -41,7 +41,9 @@ protected:
     }
 
     void TearDown() override {
-        if (engine_) engine_->close();
+        if (engine_) {
+          engine_->close();
+        }
         fs::remove_all(db_path_);
     }
 

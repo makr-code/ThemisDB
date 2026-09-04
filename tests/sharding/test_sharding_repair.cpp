@@ -183,7 +183,9 @@ protected:
 
     std::vector<uint8_t> makeData(size_t n) {
         std::vector<uint8_t> d(n);
-        for (size_t i = 0; i < n; ++i) d[i] = static_cast<uint8_t>(i & 0xFF);
+        for (size_t i = 0; i < n; ++i) {
+          d[i] = static_cast<uint8_t>(i & 0xFF);
+        }
         return d;
     }
 
@@ -205,7 +207,9 @@ protected:
         ASSERT_GE(recovered.size(), original.size());
 
         std::string dropped_str;
-        for (auto idx : drop_indices) dropped_str += std::to_string(idx) + " ";
+        for (auto idx : drop_indices) {
+          dropped_str += std::to_string(idx) + " ";
+        }
         for (size_t i = 0; i < original.size(); ++i) {
             EXPECT_EQ(recovered[i], original[i])
                 << "Mismatch at byte " << i << " (dropped: " << dropped_str << ")";
@@ -1109,7 +1113,9 @@ TEST_F(ShardResourceManagerIOPSTest, ThrottleEnabledWithHighBudget) {
     // First 500 tokens should be available immediately
     int successes = 0;
     for (int i = 0; i < 500; ++i) {
-        if (mgr->acquireRepairIOToken(1.0)) ++successes;
+        if (mgr->acquireRepairIOToken(1.0)) {
+          ++successes;
+        }
     }
     EXPECT_EQ(successes, 500);
 
@@ -1281,7 +1287,9 @@ TEST_F(ShardRepairEngineTest, RVW03_MakeReplicaValidationHandler_NotNull) {
     auto shared_engine = std::shared_ptr<themis::sharding::ShardRepairEngine>(
         engine_.release(),
         [](themis::sharding::ShardRepairEngine* e) {
-            if (e && e->isRunning()) e->stop();
+            if (e && e->isRunning()) {
+              e->stop();
+            }
             delete e;
         });
 
@@ -1295,7 +1303,9 @@ TEST_F(ShardRepairEngineTest, RVW04_Handler_Execute_NoShards_Succeeds) {
     auto shared_engine = std::shared_ptr<themis::sharding::ShardRepairEngine>(
         engine_.release(),
         [](themis::sharding::ShardRepairEngine* e) {
-            if (e && e->isRunning()) e->stop();
+            if (e && e->isRunning()) {
+              e->stop();
+            }
             delete e;
         });
 

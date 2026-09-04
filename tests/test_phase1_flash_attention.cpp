@@ -298,7 +298,9 @@ TEST(FlashAttentionAcceptanceCriteria, DISABLED_AllCriteriaMet) {
     bool all_passed = true;
     for (const auto& c : criteria) {
         EXPECT_TRUE(c.passed) << c.criterion << " FAILED - Target: " << c.target << ", Actual: " << c.actual;
-        if (!c.passed) all_passed = false;
+        if (!c.passed) {
+          all_passed = false;
+        }
     }
     
     EXPECT_TRUE(all_passed) << "Some Flash Attention acceptance criteria not met";

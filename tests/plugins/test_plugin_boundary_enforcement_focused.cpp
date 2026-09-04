@@ -177,7 +177,9 @@ public:
         ss << std::hex << (hash & 0xFFFFFFFFFFFFFFFFUL);
         std::string result = ss.str();
         // Pad to 64 characters to simulate SHA256
-        while (result.length() < 64) result = "0" + result;
+        while (result.length() < 64) {
+          result = "0" + result;
+        }
         return result.substr(result.length() - 64);
     }
 
@@ -219,7 +221,9 @@ public:
     static bool validate_community_checkout(
         const std::vector<GitmodulesEntry>& submodules,
         bool is_community_target) {
-        if (!is_community_target) return true;
+        if (!is_community_target) {
+          return true;
+        }
 
         // Community builds must NOT fetch private submodules
         for (const auto& submodule : submodules) {
@@ -447,9 +451,15 @@ TEST_F(BoundaryEnforcementTest, WAVE_C_B3_011_NegativeTestScannerCatchesInjected
     // Verify specific patterns are caught
     bool found_aws = false, found_azure = false, found_ssh = false;
     for (const auto& match : matches) {
-        if (match.pattern_name == "aws_secret") found_aws = true;
-        if (match.pattern_name == "azure_key") found_azure = true;
-        if (match.pattern_name == "openssh_private_key") found_ssh = true;
+        if (match.pattern_name == "aws_secret") {
+          found_aws = true;
+        }
+        if (match.pattern_name == "azure_key") {
+          found_azure = true;
+        }
+        if (match.pattern_name == "openssh_private_key") {
+          found_ssh = true;
+        }
     }
     EXPECT_TRUE(found_aws) << "AWS key pattern should be detected";
     EXPECT_TRUE(found_azure) << "Azure key pattern should be detected";
@@ -489,7 +499,9 @@ TEST_F(BoundaryEnforcementTest, WAVE_C_B3_012_ScopedCheckoutBlocksPrivateInCommu
     // Count private submodules
     size_t private_count = 0;
     for (const auto& sm : submodules) {
-        if (sm.is_private) private_count++;
+        if (sm.is_private) {
+          private_count++;
+        }
     }
     EXPECT_GT(private_count, 0) << "Should identify private submodules";
 

@@ -33,7 +33,9 @@ using VersionMap = std::unordered_map<std::string, std::string>;
 static const UpdateStep* findStep(const std::vector<UpdateStep>& steps,
                                    const std::string& pkg) {
     for (const auto& s : steps) {
-        if (s.package == pkg) return &s;
+        if (s.package == pkg) {
+          return &s;
+        }
     }
     return nullptr;
 }
@@ -41,7 +43,9 @@ static const UpdateStep* findStep(const std::vector<UpdateStep>& steps,
 /// Return position of @p pkg in the steps vector (-1 if not found).
 static int stepPos(const std::vector<UpdateStep>& steps, const std::string& pkg) {
     for (int i = 0; i < static_cast<int>(steps.size()); ++i) {
-        if (steps[i].package == pkg) return i;
+        if (steps[i].package == pkg) {
+          return i;
+        }
     }
     return -1;
 }

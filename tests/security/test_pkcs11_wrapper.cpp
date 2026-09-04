@@ -51,7 +51,9 @@ CK_RV stub_C_Initialize(void* /*pInitArgs*/)   { return CKR_OK; }
 CK_RV stub_C_Finalize(void* /*pReserved*/)     { return CKR_OK; }
 CK_RV stub_C_GetSlotList(uint8_t /*tokenPresent*/, CK_SLOT_ID* /*slotList*/,
                           uint32_t* count) {
-    if (count) *count = 0;
+    if (count) {
+      *count = 0;
+    }
     return CKR_OK;
 }
 CK_RV stub_C_OpenSession(CK_SLOT_ID /*slotID*/, uint32_t /*flags*/,
@@ -73,7 +75,9 @@ CK_RV stub_C_FindObjectsInit(CK_SESSION_HANDLE /*hSession*/,
 CK_RV stub_C_FindObjects(CK_SESSION_HANDLE /*hSession*/,
                           CK_OBJECT_HANDLE* /*hObject*/, uint32_t /*max*/,
                           uint32_t* found) {
-    if (found) *found = 0;
+    if (found) {
+      *found = 0;
+    }
     return CKR_OK;
 }
 CK_RV stub_C_FindObjectsFinal(CK_SESSION_HANDLE /*hSession*/) { return CKR_OK; }
@@ -84,9 +88,13 @@ CK_RV stub_C_SignInit(CK_SESSION_HANDLE /*hSession*/, CK_MECHANISM* /*pMechanism
 CK_RV stub_C_Sign(CK_SESSION_HANDLE /*hSession*/, CK_BYTE_PTR /*pData*/,
                    uint32_t /*ulDataLen*/,
                    CK_BYTE_PTR out, uint32_t* outLen) {
-    if (!outLen) return CKR_ARGUMENTS_BAD;
+    if (!outLen) {
+      return CKR_ARGUMENTS_BAD;
+    }
     if (!out) { *outLen = 8; return CKR_OK; } // size query
-    for (uint32_t i = 0; i < *outLen; ++i) out[i] = static_cast<uint8_t>(i);
+    for (uint32_t i = 0; i < *outLen; ++i) {
+      out[i] = static_cast<uint8_t>(i);
+    }
     return CKR_OK;
 }
 CK_RV stub_C_VerifyInit(CK_SESSION_HANDLE /*hSession*/,
@@ -107,9 +115,13 @@ CK_RV stub_C_EncryptInit(CK_SESSION_HANDLE /*hSession*/,
 CK_RV stub_C_Encrypt(CK_SESSION_HANDLE /*hSession*/,
                       CK_BYTE_PTR /*pData*/, CK_ULONG /*ulDataLen*/,
                       CK_BYTE_PTR out, CK_ULONG* outLen) {
-    if (!outLen) return CKR_ARGUMENTS_BAD;
+    if (!outLen) {
+      return CKR_ARGUMENTS_BAD;
+    }
     if (!out) { *outLen = 16; return CKR_OK; }
-    for (CK_ULONG i = 0; i < *outLen; ++i) out[i] = 0xAA;
+    for (CK_ULONG i = 0; i < *outLen; ++i) {
+      out[i] = 0xAA;
+    }
     return CKR_OK;
 }
 CK_RV stub_C_DecryptInit(CK_SESSION_HANDLE /*hSession*/,
@@ -120,9 +132,13 @@ CK_RV stub_C_DecryptInit(CK_SESSION_HANDLE /*hSession*/,
 CK_RV stub_C_Decrypt(CK_SESSION_HANDLE /*hSession*/,
                       CK_BYTE_PTR /*pEncryptedData*/, CK_ULONG /*ulEncryptedDataLen*/,
                       CK_BYTE_PTR out, CK_ULONG* outLen) {
-    if (!outLen) return CKR_ARGUMENTS_BAD;
+    if (!outLen) {
+      return CKR_ARGUMENTS_BAD;
+    }
     if (!out) { *outLen = 8; return CKR_OK; }
-    for (CK_ULONG i = 0; i < *outLen; ++i) out[i] = 0xBB;
+    for (CK_ULONG i = 0; i < *outLen; ++i) {
+      out[i] = 0xBB;
+    }
     return CKR_OK;
 }
 CK_RV stub_C_GetAttributeValue(CK_SESSION_HANDLE /*hSession*/,
@@ -141,14 +157,20 @@ CK_RV stub_C_GenerateKeyPair(CK_SESSION_HANDLE /*hSession*/,
                                CK_ATTRIBUTE* /*privKeyTemplate*/, uint32_t /*ulPrivateKeyAttributeCount*/,
                                CK_OBJECT_HANDLE* pub,
                                CK_OBJECT_HANDLE* priv) {
-    if (pub)  *pub  = 1;
-    if (priv) *priv = 2;
+    if (pub) {
+      *pub  = 1;
+    }
+    if (priv) {
+      *priv = 2;
+    }
     return CKR_OK;
 }
 CK_RV stub_C_CreateObject(CK_SESSION_HANDLE /*hSession*/,
                             CK_ATTRIBUTE* /*pTemplate*/, uint32_t /*ulCount*/,
                             CK_OBJECT_HANDLE* hObject) {
-    if (hObject) *hObject = 99;
+    if (hObject) {
+      *hObject = 99;
+    }
     return CKR_OK;
 }
 
@@ -190,13 +212,17 @@ std::string detectSoftHSMLibrary() {
         "/opt/homebrew/lib/softhsm/libsofthsm2.so",
     };
     for (auto p : kCandidates)
-        if (std::filesystem::exists(p)) return p;
+        if (std::filesystem::exists(p)) {
+          return p;
+        }
     return "";
 }
 
 std::string hsm_library_path = detectSoftHSMLibrary();
 std::string hsm_pin = []() -> std::string {
-    if (const char* p = std::getenv("THEMIS_TEST_HSM_PIN")) return p;
+    if (const char* p = std::getenv("THEMIS_TEST_HSM_PIN")) {
+      return p;
+    }
     return "1234";
 }();
 
@@ -459,8 +485,12 @@ TEST_F(FindObjectsTest, ReturnsEmptyWhenNoObjectsFound) {
 TEST_F(FindObjectsTest, ReturnsObjectHandlesFromStub) {
     funcs_.C_FindObjects = [](CK_SESSION_HANDLE, CK_OBJECT_HANDLE* h,
                                uint32_t max, uint32_t* found) -> CK_RV {
-        if (h && max >= 1) h[0] = 7;
-        if (found) *found = 1;
+        if (h && max >= 1) {
+          h[0] = 7;
+        }
+        if (found) {
+          *found = 1;
+        }
         return CKR_OK;
     };
     auto sess = makeOpenSession();
@@ -478,8 +508,12 @@ TEST_F(FindObjectsTest, FindObjectsByLabelEmptyLabelReturnsEmpty) {
 TEST_F(FindObjectsTest, FindObjectsByLabelWithClassFilter) {
     funcs_.C_FindObjects = [](CK_SESSION_HANDLE, CK_OBJECT_HANDLE* h,
                                uint32_t max, uint32_t* found) -> CK_RV {
-        if (h && max >= 1) h[0] = 3;
-        if (found) *found = 1;
+        if (h && max >= 1) {
+          h[0] = 3;
+        }
+        if (found) {
+          *found = 1;
+        }
         return CKR_OK;
     };
     auto sess = makeOpenSession();
@@ -576,7 +610,9 @@ TEST_F(EncryptDecryptTest, EncryptDataReturnsCiphertext) {
     auto ct = encryptData(sess, /*pubKey=*/1, CKM_RSA_PKCS_OAEP,
                           nullptr, 0, plain);
     EXPECT_EQ(16u, ct.size());
-    for (auto b : ct) EXPECT_EQ(0xAAu, b);
+    for (auto b : ct) {
+      EXPECT_EQ(0xAAu, b);
+    }
 }
 
 TEST_F(EncryptDecryptTest, EncryptDataZeroKeyHandleReturnsEmpty) {
@@ -591,7 +627,9 @@ TEST_F(EncryptDecryptTest, DecryptDataReturnsPlaintext) {
     auto pt = decryptData(sess, /*privKey=*/1, CKM_RSA_PKCS_OAEP,
                           nullptr, 0, ct);
     EXPECT_EQ(8u, pt.size());
-    for (auto b : pt) EXPECT_EQ(0xBBu, b);
+    for (auto b : pt) {
+      EXPECT_EQ(0xBBu, b);
+    }
 }
 
 TEST_F(EncryptDecryptTest, DecryptDataZeroKeyHandleReturnsEmpty) {

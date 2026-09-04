@@ -210,7 +210,9 @@ TEST_F(DeterminismConflictTest, D06_ModelStateTransitionsDeterministic) {
                     break;
             }
 
-            if (current == State::FINALIZED) break;
+            if (current == State::FINALIZED) {
+              break;
+            }
         }
         return states;
     };

@@ -22,9 +22,15 @@ std::string generate_test_certificate(int days_before_now, int days_after_now) {
     BIGNUM* e = BN_new();
     
     if (!pkey || !rsa || !e) {
-        if (pkey) EVP_PKEY_free(pkey);
-        if (rsa) RSA_free(rsa);
-        if (e) BN_free(e);
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
+        if (rsa) {
+          RSA_free(rsa);
+        }
+        if (e) {
+          BN_free(e);
+        }
         return "";
     }
     
@@ -103,7 +109,9 @@ std::string generate_test_certificate(int days_before_now, int days_after_now) {
     BIO_free(bio);
     X509_free(x509);
     EVP_PKEY_free(pkey);
-    if (rsa) RSA_free(rsa);
+    if (rsa) {
+      RSA_free(rsa);
+    }
     BN_free(e);
     
     return pem;

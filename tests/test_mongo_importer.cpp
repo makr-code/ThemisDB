@@ -89,7 +89,9 @@ static std::string collectionFromPath(const std::string& path) {
     size_t sep = path.find_last_of("/\\");
     std::string basename = (sep == std::string::npos) ? path : path.substr(sep + 1);
     size_t dot = basename.rfind('.');
-    if (dot != std::string::npos) basename = basename.substr(0, dot);
+    if (dot != std::string::npos) {
+      basename = basename.substr(0, dot);
+    }
     return basename.empty() ? "documents" : basename;
 }
 
@@ -107,27 +109,67 @@ static bool shouldImportCollection(const std::string& collection,
 
 /// Infer ThemisDB logical type from a JSON value.
 static std::string inferThemisType(const json& value) {
-    if (value.is_null())           return "string";
-    if (value.is_boolean())        return "boolean";
-    if (value.is_number_integer()) return "long";
-    if (value.is_number_float())   return "double";
-    if (value.is_string())         return "string";
-    if (value.is_array())          return "array";
+    if (value.is_null()) {
+      return "string";
+    }
+    if (value.is_boolean()) {
+      return "boolean";
+    }
+    if (value.is_number_integer()) {
+      return "long";
+    }
+    if (value.is_number_float()) {
+      return "double";
+    }
+    if (value.is_string()) {
+      return "string";
+    }
+    if (value.is_array()) {
+      return "array";
+    }
     if (value.is_object()) {
-        if (value.contains("$oid"))           return "string";
-        if (value.contains("$date"))          return "datetime";
-        if (value.contains("$numberDecimal")) return "double";
-        if (value.contains("$numberLong"))    return "long";
-        if (value.contains("$numberInt"))     return "integer";
-        if (value.contains("$numberDouble"))  return "double";
-        if (value.contains("$binary"))        return "binary";
-        if (value.contains("$timestamp"))     return "datetime";
-        if (value.contains("$regex"))         return "string";
-        if (value.contains("$ref"))           return "string";
-        if (value.contains("$code"))          return "string";
-        if (value.contains("$undefined"))     return "string";
-        if (value.contains("$minKey"))        return "string";
-        if (value.contains("$maxKey"))        return "string";
+        if (value.contains("$oid")) {
+          return "string";
+        }
+        if (value.contains("$date")) {
+          return "datetime";
+        }
+        if (value.contains("$numberDecimal")) {
+          return "double";
+        }
+        if (value.contains("$numberLong")) {
+          return "long";
+        }
+        if (value.contains("$numberInt")) {
+          return "integer";
+        }
+        if (value.contains("$numberDouble")) {
+          return "double";
+        }
+        if (value.contains("$binary")) {
+          return "binary";
+        }
+        if (value.contains("$timestamp")) {
+          return "datetime";
+        }
+        if (value.contains("$regex")) {
+          return "string";
+        }
+        if (value.contains("$ref")) {
+          return "string";
+        }
+        if (value.contains("$code")) {
+          return "string";
+        }
+        if (value.contains("$undefined")) {
+          return "string";
+        }
+        if (value.contains("$minKey")) {
+          return "string";
+        }
+        if (value.contains("$maxKey")) {
+          return "string";
+        }
         return "object";
     }
     return "string";
@@ -135,17 +177,23 @@ static std::string inferThemisType(const json& value) {
 
 /// Unwrap a single BSON extended JSON v2 wrapper to a scalar/plain value.
 static json unwrapBsonValue(const json& value) {
-    if (!value.is_object()) return value;
+    if (!value.is_object()) {
+      return value;
+    }
 
     if (value.contains("$oid") && value["$oid"].is_string())
         return value["$oid"].get<std::string>();
 
     if (value.contains("$date")) {
         const json& d = value["$date"];
-        if (d.is_string())  return d.get<std::string>();
+        if (d.is_string()) {
+          return d.get<std::string>();
+        }
         if (d.is_object() && d.contains("$numberLong") && d["$numberLong"].is_string())
             return d["$numberLong"].get<std::string>();
-        if (d.is_number()) return d;
+        if (d.is_number()) {
+          return d;
+        }
         return d.dump();
     }
 
@@ -158,25 +206,33 @@ static json unwrapBsonValue(const json& value) {
     if (value.contains("$numberInt")) {
         const json& n = value["$numberInt"];
         if (n.is_string()) { try { return std::stoi(n.get<std::string>()); } catch (...) {} }
-        if (n.is_number()) return n;
+        if (n.is_number()) {
+          return n;
+        }
     }
 
     if (value.contains("$numberDouble")) {
         const json& n = value["$numberDouble"];
         if (n.is_string()) { try { return std::stod(n.get<std::string>()); } catch (...) {} }
-        if (n.is_number()) return n;
+        if (n.is_number()) {
+          return n;
+        }
     }
 
     if (value.contains("$binary")) {
         const json& b = value["$binary"];
         if (b.is_object() && b.contains("base64") && b["base64"].is_string())
             return b["base64"].get<std::string>();
-        if (b.is_string()) return b.get<std::string>();
+        if (b.is_string()) {
+          return b.get<std::string>();
+        }
     }
 
     if (value.contains("$timestamp")) {
         const json& ts = value["$timestamp"];
-        if (ts.is_object()) return ts.dump();
+        if (ts.is_object()) {
+          return ts.dump();
+        }
     }
 
     if (value.contains("$regex") && value["$regex"].is_string())
@@ -197,7 +253,9 @@ static json unwrapBsonValue(const json& value) {
 
 /// Recursively unwrap all BSON extended JSON values in a document.
 static json unwrapDocument(const json& doc) {
-    if (!doc.is_object()) return doc;
+    if (!doc.is_object()) {
+      return doc;
+    }
 
     json result = json::object();
     for (auto it = doc.begin(); it != doc.end(); ++it) {
@@ -229,7 +287,9 @@ static json unwrapDocument(const json& doc) {
 /// Returns true if the file's first non-empty, non-comment line starts with '{' or '['.
 static bool looksLikeMongoExport(const std::string& path) {
     std::ifstream file(path);
-    if (!file) return false;
+    if (!file) {
+      return false;
+    }
     std::string line;
     int checked = 0;
     while (std::getline(file, line) && checked < 200) {
@@ -255,7 +315,9 @@ static ImportStats importJsonLines(const std::string& content,
 
     while (std::getline(ss, line)) {
         size_t f = line.find_first_not_of(" \t\r\n");
-        if (f == std::string::npos || line[f] == '#') continue;
+        if (f == std::string::npos || line[f] == '#') {
+          continue;
+        }
         if (line[f] != '{') continue;
 
         if (options.max_row_size_bytes > 0 &&
@@ -267,7 +329,9 @@ static ImportStats importJsonLines(const std::string& content,
             e.location = "document " + std::to_string(doc_index + 1);
             stats.structured_errors.push_back(e);
             stats.failed_records++;
-            if (!options.continue_on_error) return stats;
+            if (!options.continue_on_error) {
+              return stats;
+            }
             doc_index++;
             continue;
         }
@@ -277,7 +341,9 @@ static ImportStats importJsonLines(const std::string& content,
             doc = json::parse(line);
         } catch (...) {
             stats.failed_records++;
-            if (!options.continue_on_error) return stats;
+            if (!options.continue_on_error) {
+              return stats;
+            }
             doc_index++;
             continue;
         }
@@ -343,7 +409,9 @@ static ImportStats importJsonArray(const std::string& content,
         return stats;
     }
 
-    if (!arr.empty()) stats.tables_processed++;
+    if (!arr.empty()) {
+      stats.tables_processed++;
+    }
 
     for (size_t i = 0; i < arr.size(); ++i) {
         if (!arr[i].is_object()) { stats.failed_records++; continue; }
@@ -1114,7 +1182,9 @@ static char peekFirstChar(const std::string& content) {
     std::istringstream ss(content);
     char c = '\0';
     while (ss.get(c)) {
-        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') continue;
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+          continue;
+        }
         if (c == '#') {
             while (ss.get(c) && c != '\n') { /* skip comment line */ }
             continue;
@@ -1182,7 +1252,9 @@ static std::string getMongoFixturePath() {
 
     {
         std::ifstream f(relative);
-        if (f.is_open()) return relative;
+        if (f.is_open()) {
+          return relative;
+        }
     }
 
     const auto source_based =
@@ -1190,7 +1262,9 @@ static std::string getMongoFixturePath() {
          "fixtures/importers/sample_mongo.json").lexically_normal();
     {
         std::ifstream f(source_based.string());
-        if (f.is_open()) return source_based.string();
+        if (f.is_open()) {
+          return source_based.string();
+        }
     }
 
     const auto cwd_based =
@@ -1214,7 +1288,9 @@ TEST(MongoFixture, SampleMongoJsonIsValid) {
 TEST(MongoFixture, SampleMongoJsonImportsCorrectly) {
     std::string path = getMongoFixturePath();
     std::ifstream f(path);
-    if (!f) GTEST_SKIP() << "Fixture not found at " << path;
+    if (!f) {
+      GTEST_SKIP() << "Fixture not found at " << path;
+    }
 
     std::string content((std::istreambuf_iterator<char>(f)),
                          std::istreambuf_iterator<char>());
@@ -1269,7 +1345,9 @@ TEST(MongoStreamingCallback, NdjsonCallbackInvokedForEachDocument) {
     auto stats = importJsonLines(kNdjsonDump, "users", opts);
 
     EXPECT_EQ(collections.size(), 3u);
-    for (auto& c : collections) EXPECT_EQ(c, "users");
+    for (auto& c : collections) {
+      EXPECT_EQ(c, "users");
+    }
     EXPECT_EQ(stats.imported_records, 3u);
 }
 

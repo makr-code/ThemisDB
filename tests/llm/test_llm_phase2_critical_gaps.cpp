@@ -62,7 +62,9 @@ public:
     }
     SimAllocGuard& operator=(SimAllocGuard&& o) noexcept {
         if (this != &o) {
-            if (active_) g_sim_alloc_net.fetch_sub(units_, std::memory_order_relaxed);
+            if (active_) {
+              g_sim_alloc_net.fetch_sub(units_, std::memory_order_relaxed);
+            }
             units_ = o.units_;
             active_ = o.active_;
             o.active_ = false;
@@ -252,8 +254,12 @@ TEST_F(LLMPhase2CriticalGapsTest, NULL06_ListModelsSkipsNullPlugin) {
 
     std::vector<std::string> models;
     for (const auto& e : entries) {
-        if (!e.plugin) continue;
-        if (e.has_model) models.push_back(e.name);
+        if (!e.plugin) {
+          continue;
+        }
+        if (e.has_model) {
+          models.push_back(e.name);
+        }
     }
     ASSERT_EQ(1u, models.size());
     EXPECT_EQ("p1", models[0]);
@@ -268,7 +274,9 @@ TEST_F(LLMPhase2CriticalGapsTest, RAII01_LModelGuardCleansOnException) {
     bool model_freed = false;
     ResourceTracker model_t;
     auto free_model = [&model_freed](ResourceTracker* p) noexcept {
-        if (p) model_freed = true;
+        if (p) {
+          model_freed = true;
+        }
     };
     try {
         auto lmodel_guard = std::unique_ptr<ResourceTracker, decltype(free_model)>(
@@ -427,7 +435,9 @@ TEST_F(LLMPhase2CriticalGapsTest, INIT04_LazyModelLoaderConfigDefaults) {
 /// LLM-P2-LIFE-01: Registering null plugin is rejected with exception.
 TEST_F(LLMPhase2CriticalGapsTest, LIFE01_RegisterNullPluginThrows) {
     auto reg = [](std::unique_ptr<MockPlugin> plugin) {
-        if (!plugin) throw std::invalid_argument("Cannot register null plugin");
+        if (!plugin) {
+          throw std::invalid_argument("Cannot register null plugin");
+        }
     };
     EXPECT_THROW(reg(nullptr), std::invalid_argument);
 }
@@ -437,7 +447,9 @@ TEST_F(LLMPhase2CriticalGapsTest, LIFE02_RegisterValidPluginSucceeds) {
     ResourceTracker rt;
     bool registered = false;
     auto reg = [&](std::unique_ptr<MockPlugin> plugin) {
-        if (!plugin) throw std::invalid_argument("null");
+        if (!plugin) {
+          throw std::invalid_argument("null");
+        }
         registered = true;
     };
     EXPECT_NO_THROW(reg(std::make_unique<MockPlugin>(rt)));
@@ -522,13 +534,17 @@ TEST_F(LLMPhase2CriticalGapsTest, CONC01_ConcurrentTrackerThreadSafe) {
         std::mutex lock;
         bool Acquire() noexcept {
             std::lock_guard<std::mutex> g(lock);
-            if (active >= max_concurrent) return false;
+            if (active >= max_concurrent) {
+              return false;
+            }
             active++;
             return true;
         }
         void Release() noexcept {
             std::lock_guard<std::mutex> g(lock);
-            if (active > 0) active--;
+            if (active > 0) {
+              active--;
+            }
         }
     };
 
@@ -548,7 +564,9 @@ TEST_F(LLMPhase2CriticalGapsTest, CONC01_ConcurrentTrackerThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(0u, tracker.active.load());
     EXPECT_GT(successes.load(), 0);
 }
@@ -575,10 +593,14 @@ TEST_F(LLMPhase2CriticalGapsTest, CONC02_NoexceptDtorUnderConcurrentLoad) {
     };
 
     std::vector<std::thread> threads;
-    for (int i = 0; i < 3; ++i) threads.emplace_back(worker);
+    for (int i = 0; i < 3; ++i) {
+      threads.emplace_back(worker);
+    }
     std::this_thread::sleep_for(20ms);
     running.store(false, std::memory_order_relaxed);
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_GT(destructions.load(), 0);
 }
 

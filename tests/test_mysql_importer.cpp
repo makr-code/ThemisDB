@@ -127,7 +127,9 @@ static uint64_t testComputeRowHash(const std::string& tuple_str,
         auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
         if (it != schema_columns.end()) {
             size_t idx = static_cast<size_t>(it - schema_columns.begin());
-            if (idx < values.size()) key_data += values[idx];
+            if (idx < values.size()) {
+              key_data += values[idx];
+            }
         }
         key_data += kFieldSep;
     }
@@ -138,10 +140,14 @@ static uint64_t testComputeRowHash(const std::string& tuple_str,
 static std::unordered_set<uint64_t> testLoadDeltaHashes(const std::string& path) {
     std::unordered_set<uint64_t> hashes;
     std::ifstream f(path);
-    if (!f) return hashes;
+    if (!f) {
+      return hashes;
+    }
     std::string line;
     while (std::getline(f, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try { hashes.insert(std::stoull(line, nullptr, 16)); } catch (...) {}
     }
     return hashes;
@@ -151,7 +157,9 @@ static std::unordered_set<uint64_t> testLoadDeltaHashes(const std::string& path)
 static void testSaveDeltaHashes(const std::string& path,
                                   const std::unordered_set<uint64_t>& hashes) {
     std::ofstream f(path, std::ios::trunc);
-    if (!f) return;
+    if (!f) {
+      return;
+    }
     for (uint64_t h : hashes) {
         char buf[17];
         std::snprintf(buf, sizeof(buf), "%016" PRIx64, h);
@@ -161,7 +169,9 @@ static void testSaveDeltaHashes(const std::string& path,
 
 static std::string toLowerTest(const std::string& s) {
     std::string r = s;
-    for (auto& c : r) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    for (auto& c : r) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
     return r;
 }
 
@@ -169,56 +179,140 @@ static std::string toLowerTest(const std::string& s) {
 static std::string mapMySQLType(const std::string& mysql_type,
                                  const std::map<std::string,std::string>& overrides = {}) {
     auto it = overrides.find(mysql_type);
-    if (it != overrides.end()) return it->second;
+    if (it != overrides.end()) {
+      return it->second;
+    }
 
     std::string base = mysql_type;
     size_t paren = base.find('(');
-    if (paren != std::string::npos) base = base.substr(0, paren);
+    if (paren != std::string::npos) {
+      base = base.substr(0, paren);
+    }
     std::string lower = toLowerTest(base);
 
-    if (lower == "tinyint")    return "integer";
-    if (lower == "smallint")   return "integer";
-    if (lower == "mediumint")  return "integer";
-    if (lower == "int")        return "integer";
-    if (lower == "integer")    return "integer";
-    if (lower == "bigint")     return "long";
-    if (lower == "float")      return "float";
-    if (lower == "double")     return "double";
-    if (lower == "real")       return "double";
-    if (lower == "decimal")    return "double";
-    if (lower == "numeric")    return "double";
-    if (lower == "bool" || lower == "boolean") return "boolean";
-    if (lower == "bit")        return "integer";
-    if (lower == "char")       return "string";
-    if (lower == "varchar")    return "string";
-    if (lower == "tinytext")   return "string";
-    if (lower == "text")       return "string";
-    if (lower == "mediumtext") return "string";
-    if (lower == "longtext")   return "string";
-    if (lower == "enum")       return "string";
-    if (lower == "set")        return "string";
-    if (lower == "binary")     return "binary";
-    if (lower == "varbinary")  return "binary";
-    if (lower == "tinyblob")   return "binary";
-    if (lower == "blob")       return "binary";
-    if (lower == "mediumblob") return "binary";
-    if (lower == "longblob")   return "binary";
-    if (lower == "date")       return "date";
-    if (lower == "time")       return "time";
-    if (lower == "datetime")   return "datetime";
-    if (lower == "timestamp")  return "datetime";
-    if (lower == "year")       return "integer";
-    if (lower == "json")       return "json";
+    if (lower == "tinyint") {
+      return "integer";
+    }
+    if (lower == "smallint") {
+      return "integer";
+    }
+    if (lower == "mediumint") {
+      return "integer";
+    }
+    if (lower == "int") {
+      return "integer";
+    }
+    if (lower == "integer") {
+      return "integer";
+    }
+    if (lower == "bigint") {
+      return "long";
+    }
+    if (lower == "float") {
+      return "float";
+    }
+    if (lower == "double") {
+      return "double";
+    }
+    if (lower == "real") {
+      return "double";
+    }
+    if (lower == "decimal") {
+      return "double";
+    }
+    if (lower == "numeric") {
+      return "double";
+    }
+    if (lower == "bool" || lower == "boolean") {
+      return "boolean";
+    }
+    if (lower == "bit") {
+      return "integer";
+    }
+    if (lower == "char") {
+      return "string";
+    }
+    if (lower == "varchar") {
+      return "string";
+    }
+    if (lower == "tinytext") {
+      return "string";
+    }
+    if (lower == "text") {
+      return "string";
+    }
+    if (lower == "mediumtext") {
+      return "string";
+    }
+    if (lower == "longtext") {
+      return "string";
+    }
+    if (lower == "enum") {
+      return "string";
+    }
+    if (lower == "set") {
+      return "string";
+    }
+    if (lower == "binary") {
+      return "binary";
+    }
+    if (lower == "varbinary") {
+      return "binary";
+    }
+    if (lower == "tinyblob") {
+      return "binary";
+    }
+    if (lower == "blob") {
+      return "binary";
+    }
+    if (lower == "mediumblob") {
+      return "binary";
+    }
+    if (lower == "longblob") {
+      return "binary";
+    }
+    if (lower == "date") {
+      return "date";
+    }
+    if (lower == "time") {
+      return "time";
+    }
+    if (lower == "datetime") {
+      return "datetime";
+    }
+    if (lower == "timestamp") {
+      return "datetime";
+    }
+    if (lower == "year") {
+      return "integer";
+    }
+    if (lower == "json") {
+      return "json";
+    }
     if (lower == "geometry" || lower == "point" || lower == "linestring" ||
         lower == "polygon")    return "geo";
 
-    if (lower.find("int")   != std::string::npos) return "integer";
-    if (lower.find("float") != std::string::npos) return "double";
-    if (lower.find("char")  != std::string::npos) return "string";
-    if (lower.find("text")  != std::string::npos) return "string";
-    if (lower.find("blob")  != std::string::npos) return "binary";
-    if (lower.find("date")  != std::string::npos) return "datetime";
-    if (lower.find("time")  != std::string::npos) return "datetime";
+    if (lower.find("int")   != std::string::npos) {
+      return "integer";
+    }
+    if (lower.find("float") != std::string::npos) {
+      return "double";
+    }
+    if (lower.find("char")  != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("text")  != std::string::npos) {
+      return "string";
+    }
+    if (lower.find("blob")  != std::string::npos) {
+      return "binary";
+    }
+    if (lower.find("date")  != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("time")  != std::string::npos) {
+      return "datetime";
+    }
 
     return "string";
 }
@@ -228,7 +322,9 @@ static std::string unquoteIdent(const std::string& s) {
     std::string t = s;
     size_t f = t.find_first_not_of(" \t\r\n");
     size_t l = t.find_last_not_of(" \t\r\n");
-    if (f == std::string::npos) return "";
+    if (f == std::string::npos) {
+      return "";
+    }
     t = t.substr(f, l - f + 1);
     if (t.size() >= 2 && t.front() == '`' && t.back() == '`')
         return t.substr(1, t.size() - 2);
@@ -245,7 +341,9 @@ static std::string stripMySQLComments(const std::string& sql) {
     while (i < sql.size()) {
         if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             i += 2;
-            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) ++i;
+            while (i + 1 < sql.size() && !(sql[i] == '*' && sql[i + 1] == '/')) {
+              ++i;
+            }
             i += 2;
             result += ' ';
         } else {
@@ -268,7 +366,9 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
 
     while (i < n) {
         skipWs();
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         char c = tuple_str[i];
 
@@ -313,17 +413,23 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
             std::string token = tuple_str.substr(start, i - start);
             size_t tf = token.find_first_not_of(" \t\r\n");
             size_t tl = token.find_last_not_of(" \t\r\n");
-            if (tf == std::string::npos) token.clear();
+            if (tf == std::string::npos) {
+              token.clear();
+            }
             else token = token.substr(tf, tl - tf + 1);
             std::string upper_tok;
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
-            if (upper_tok == "NULL") token.clear();
+            if (upper_tok == "NULL") {
+              token.clear();
+            }
             result.push_back(token);
         }
 
         skipWs();
-        if (i < n && tuple_str[i] == ',') ++i;
+        if (i < n && tuple_str[i] == ',') {
+          ++i;
+        }
     }
     return result;
 }
@@ -345,16 +451,22 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         R"(CREATE\s+(?:TEMPORARY\s+)?TABLE\s+(?:(?:`([^`]+)`|(\w+))\.)?(?:`([^`]+)`|(\w+))\s*\()",
         std::regex_constants::icase);
     std::smatch match;
-    if (!std::regex_search(sql, match, table_regex)) return false;
+    if (!std::regex_search(sql, match, table_regex)) {
+      return false;
+    }
 
     out.schema_name = match[1].matched ? match[1].str()
                     : match[2].matched ? match[2].str() : "";
     out.name        = match[3].matched ? match[3].str()
                     : match[4].matched ? match[4].str() : "";
-    if (out.name.empty()) return false;
+    if (out.name.empty()) {
+      return false;
+    }
 
     size_t open_pos = sql.find('(', match.position());
-    if (open_pos == std::string::npos) return false;
+    if (open_pos == std::string::npos) {
+      return false;
+    }
 
     int depth = 0;
     bool in_str = false;
@@ -364,7 +476,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         char c = sql[k];
         if (in_str) {
             if (c == '\\') { ++k; continue; }
-            if (c == str_char) in_str = false;
+            if (c == str_char) {
+              in_str = false;
+            }
         } else if (c == '\'' || c == '"') {
             in_str = true; str_char = c;
         } else if (c == '(') { ++depth; }
@@ -373,7 +487,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             if (depth == 0) { close_pos = k; break; }
         }
     }
-    if (close_pos == std::string::npos) return false;
+    if (close_pos == std::string::npos) {
+      return false;
+    }
 
     std::string cols_str = sql.substr(open_pos + 1, close_pos - open_pos - 1);
 
@@ -393,16 +509,24 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             else if (c == ',' && dep == 0) { col_defs.push_back(cur); cur.clear(); }
             else cur += c;
         }
-        if (!cur.empty()) col_defs.push_back(cur);
+        if (!cur.empty()) {
+          col_defs.push_back(cur);
+        }
     }
 
     for (auto& col_def : col_defs) {
         size_t f = col_def.find_first_not_of(" \t\n\r");
-        if (f == std::string::npos) continue;
+        if (f == std::string::npos) {
+          continue;
+        }
         col_def = col_def.substr(f);
         size_t l = col_def.find_last_not_of(" \t\n\r");
-        if (l != std::string::npos) col_def = col_def.substr(0, l + 1);
-        if (col_def.empty()) continue;
+        if (l != std::string::npos) {
+          col_def = col_def.substr(0, l + 1);
+        }
+        if (col_def.empty()) {
+          continue;
+        }
 
         std::string up;
         for (size_t i = 0; i < col_def.size() && i < 20; ++i)
@@ -419,16 +543,22 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '`') {
             size_t end_tick = col_def.find('`', 1);
-            if (end_tick == std::string::npos) continue;
+            if (end_tick == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(1, end_tick - 1);
             type_start = end_tick + 1;
         } else {
             size_t sp = col_def.find_first_of(" \t");
-            if (sp == std::string::npos) continue;
+            if (sp == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(0, sp);
             type_start = sp;
         }
-        if (col_name.empty()) continue;
+        if (col_name.empty()) {
+          continue;
+        }
         while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) ++type_start;
 
@@ -444,7 +574,9 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             else col_type += c;
             ++k;
         }
-        if (col_type.empty()) continue;
+        if (col_type.empty()) {
+          continue;
+        }
         out.columns.push_back(col_name);
         out.column_types[col_name] = col_type;
     }
@@ -702,7 +834,9 @@ TEST(MySQLCreateTable, EmptyTableBody) {
     TableSchema schema;
     bool ok = parseCreateTable(sql, schema);
     // Name should be extracted even if no columns
-    if (ok) EXPECT_EQ(schema.name, "empty_table");
+    if (ok) {
+      EXPECT_EQ(schema.name, "empty_table");
+    }
 }
 
 // ===========================================================================
@@ -871,7 +1005,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
                 values_payload[pos] == ',' || values_payload[pos] == '\r' ||
                 values_payload[pos] == '\n')) ++pos;
-        if (pos >= values_payload.size()) break;
+        if (pos >= values_payload.size()) {
+          break;
+        }
         if (values_payload[pos] != '(') { ++pos; continue; }
 
         size_t tuple_start = pos + 1;
@@ -881,7 +1017,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
         while (k < values_payload.size() && dep > 0) {
             char c = values_payload[k];
             if (in_str) {
-                if (c == '\\') ++k;
+                if (c == '\\') {
+                  ++k;
+                }
                 else if (c == sq) in_str = false;
             } else if (c == '\'' || c == '"') { in_str = true; sq = c; }
             else if (c == '(') ++dep;
@@ -889,7 +1027,9 @@ static std::vector<std::vector<std::string>> parseMultiRowInsert(
             ++k;
         }
         size_t tuple_end = k - 1;
-        if (dep != 0) break;
+        if (dep != 0) {
+          break;
+        }
 
         std::string tuple_str = values_payload.substr(tuple_start, tuple_end - tuple_start);
         rows.push_back(parseInsertValuesTuple(tuple_str));
@@ -1008,7 +1148,9 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
         if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
             continue;
         sql += line + " ";
-        if (line.find(';') == std::string::npos) continue;
+        if (line.find(';') == std::string::npos) {
+          continue;
+        }
 
         std::string upper = sql;
         std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
@@ -1036,7 +1178,9 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                     while (std::getline(css, col, ',')) {
                         col.erase(0, col.find_first_not_of(" \t`"));
                         col.erase(col.find_last_not_of(" \t`") + 1);
-                        if (!col.empty()) col_list.push_back(col);
+                        if (!col.empty()) {
+                          col_list.push_back(col);
+                        }
                     }
                 } else if (schemas.count(table_name)) {
                     col_list = schemas[table_name].columns;
@@ -1053,13 +1197,17 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                         std::vector<std::string> schema_cols;
                         if (schemas.count(table_name))
                             schema_cols = schemas[table_name].columns;
-                        if (!col_list.empty()) schema_cols = col_list;
+                        if (!col_list.empty()) {
+                          schema_cols = col_list;
+                        }
                         // Build a full-row string for the fallback hash (when
                         // delta_key_columns is empty).  Join with \x01 to avoid
                         // false collisions from adjacent field concatenation.
                         std::string tuple_str;
                         for (size_t vi = 0; vi < vals.size(); ++vi) {
-                            if (vi > 0) tuple_str += '\x01';
+                            if (vi > 0) {
+                              tuple_str += '\x01';
+                            }
                             tuple_str += vals[vi];
                         }
                         uint64_t h = testComputeRowHash(tuple_str, vals,
@@ -1089,7 +1237,9 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                             "importers_mysql_rows_imported_total",
                             {{"table", table_name}}, 1.0);
                     }
-                    if (cancelled) break;
+                    if (cancelled) {
+                      break;
+                    }
                 }
             }
         }
@@ -1141,7 +1291,9 @@ TEST(MySQLStreamingCallback, CallbackInvokedForEachRow) {
     auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
 
     EXPECT_EQ(tables.size(), 3u);
-    for (auto& t : tables) EXPECT_EQ(t, "users");
+    for (auto& t : tables) {
+      EXPECT_EQ(t, "users");
+    }
     EXPECT_EQ(stats.imported_records, 3u);
 }
 
@@ -1306,13 +1458,19 @@ static bool parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     std::string param;
     while (std::getline(qs, param, '&')) {
         size_t eq = param.find('=');
-        if (eq == std::string::npos) continue;
+        if (eq == std::string::npos) {
+          continue;
+        }
         std::string key   = param.substr(0, eq);
         std::string value = param.substr(eq + 1);
         std::string lower_key;
-        for (char c : key) lower_key += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (char c : key) {
+          lower_key += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         std::string lower_val;
-        for (char c : value) lower_val += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (char c : value) {
+          lower_val += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
 
         if (lower_key == "tinyint1isbit")
             out.tinyint1_as_boolean = (lower_val == "true" || lower_val == "1");
@@ -1391,14 +1549,18 @@ static std::string mapMySQLTypeJdbc(const std::string& mysql_type,
                                      bool tinyint1_as_boolean = false) {
     // Per-call overrides first
     auto oit = overrides.find(mysql_type);
-    if (oit != overrides.end()) return oit->second;
+    if (oit != overrides.end()) {
+      return oit->second;
+    }
 
     // JDBC tinyInt1isBit
     if (tinyint1_as_boolean) {
         std::string lower_type;
         for (char c : mysql_type)
             lower_type += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-        if (lower_type == "tinyint(1)") return "boolean";
+        if (lower_type == "tinyint(1)") {
+          return "boolean";
+        }
     }
 
     return mapMySQLType(mysql_type, overrides);
@@ -1506,7 +1668,9 @@ TEST(MySQLJdbcJsonConfig, TypeOverridesField) {
         auto cfg = json::parse(R"({"type_overrides":{"enum":"string","set":"array"}})");
         if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
             for (auto& [k, v] : cfg["type_overrides"].items())
-                if (v.is_string()) overrides[k] = v.get<std::string>();
+                if (v.is_string()) {
+                  overrides[k] = v.get<std::string>();
+                }
         }
     } catch (...) {}
     EXPECT_EQ(overrides.at("enum"),  "string");
@@ -1542,7 +1706,9 @@ TEST(MySQLPrometheusMetrics, RowsImportedTotalCountMatchesImportedRecords) {
     opts.metrics_callback = [&](const std::string& metric,
                                  const std::map<std::string,std::string>&,
                                  double) {
-        if (metric == "importers_mysql_rows_imported_total") ++rows_imported_emitted;
+        if (metric == "importers_mysql_rows_imported_total") {
+          ++rows_imported_emitted;
+        }
     };
 
     auto stats = mysqlStreamingImportContent(kMySQLDump, opts);

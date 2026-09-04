@@ -774,7 +774,9 @@ TEST(DistributedGatewayTest, ConcurrentApplyConfigNoDataRace) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_GT(applied.load(), 0);
     auto current = dg.getCurrentConfig();

@@ -190,7 +190,9 @@ TEST(StorageAuditTest, ConcurrentLogging_NoRaceConditions) {
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         EXPECT_EQ(logger->lastSequence(),
                   static_cast<uint64_t>(kThreads * kPerThread));
     }

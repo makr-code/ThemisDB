@@ -282,9 +282,15 @@ TEST(RAGContextEngineDataRaceTest, ArgumentStoreConcurrentAccess) {
 
     std::vector<std::thread> threads;
     threads.reserve(kWriters + kReaders);
-    for (int t = 0; t < kWriters; ++t) threads.emplace_back(writer, t);
-    for (int t = 0; t < kReaders; ++t) threads.emplace_back(reader);
-    for (auto &th : threads) th.join();
+    for (int t = 0; t < kWriters; ++t) {
+      threads.emplace_back(writer, t);
+    }
+    for (int t = 0; t < kReaders; ++t) {
+      threads.emplace_back(reader);
+    }
+    for (auto &th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0);
 }

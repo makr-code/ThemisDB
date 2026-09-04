@@ -32,7 +32,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     std::unique_ptr<RocksDBWrapper> db_;
@@ -138,7 +140,9 @@ TEST_F(SchemaAuditLogTest, FullHistorySpansAllTables) {
     ASSERT_EQ(full.size(), 3u);
 
     std::set<std::string> tables;
-    for (const auto& e : full) tables.insert(e.table_name);
+    for (const auto& e : full) {
+      tables.insert(e.table_name);
+    }
     EXPECT_EQ(tables.count("tableA"), 1u);
     EXPECT_EQ(tables.count("tableB"), 1u);
     EXPECT_EQ(tables.count("tableC"), 1u);

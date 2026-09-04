@@ -92,14 +92,18 @@ static std::string warn() { return use_color ? Color::Yellow + "WARN" + Color::R
 
 static bool flag(const std::vector<std::string>& args, const std::string& name) {
     for (const auto& a : args)
-        if (a == name) return true;
+        if (a == name) {
+          return true;
+        }
     return false;
 }
 
 static std::string opt(const std::vector<std::string>& args, const std::string& name,
                         const std::string& default_val = "") {
     for (size_t i = 0; i + 1 < args.size(); ++i)
-        if (args[i] == name) return args[i + 1];
+        if (args[i] == name) {
+          return args[i + 1];
+        }
     return default_val;
 }
 
@@ -213,7 +217,9 @@ static int cmdListSnapshots(const std::vector<std::string>& args) {
     std::istringstream iss(raw);
     std::string line;
     while (std::getline(iss, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             snaps.push_back(AdapterSnapshot::fromJSON(json::parse(line)));
         } catch (...) { std::cerr << "warning: skipping malformed snapshot entry for adapter '" << adapter_id << "'\n"; }
@@ -268,7 +274,9 @@ static int cmdVerify(const std::vector<std::string>& args) {
     std::istringstream iss(raw);
     std::string line;
     while (std::getline(iss, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             auto e = InferenceAuditEntry::fromJSON(json::parse(line));
             entries.push_back(std::move(e));
@@ -335,7 +343,9 @@ static int cmdExportAudit(const std::vector<std::string>& args) {
     std::istringstream iss(raw);
     std::string line;
     while (std::getline(iss, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         *out << line << "\n";
         ++count;
     }
@@ -465,7 +475,9 @@ int main(int argc, char* argv[]) {
     std::vector<std::string> all_args(argv + 1, argv + argc);
 
     // Global flags
-    if (flag(all_args, "--no-color")) use_color = false;
+    if (flag(all_args, "--no-color")) {
+      use_color = false;
+    }
 
     if (all_args.empty() || flag(all_args, "--help") || flag(all_args, "-h")) {
         printHelp(argv[0]);

@@ -70,7 +70,9 @@ public:
         auto it = entries_.find(key);
         if (it == entries_.end()) {
             stats_.misses++;
-            if (hit) *hit = false;
+            if (hit) {
+              *hit = false;
+            }
             return {};
         }
 
@@ -82,14 +84,18 @@ public:
         if (age_sec > ttl_seconds_) {
             entries_.erase(it);
             stats_.expirations++;
-            if (hit) *hit = false;
+            if (hit) {
+              *hit = false;
+            }
             return {};
         }
 
         it->second.last_accessed = now;
         it->second.access_count++;
         stats_.hits++;
-        if (hit) *hit = true;
+        if (hit) {
+          *hit = true;
+        }
         return it->second.data;
     }
 
@@ -153,7 +159,9 @@ public:
 
 private:
     void evictOne() {
-        if (entries_.empty()) return;
+        if (entries_.empty()) {
+          return;
+        }
 
         // LRU eviction
         auto lru_it = entries_.begin();
@@ -538,8 +546,12 @@ TEST(EnrichmentCacheTest, HitRate_Calculated) {
     cache.put("key1", data);
     cache.put("key2", data);
 
-    for (int i = 0; i < 8; ++i) cache.get("key1");
-    for (int i = 0; i < 2; ++i) cache.get("key2");
+    for (int i = 0; i < 8; ++i) {
+      cache.get("key1");
+    }
+    for (int i = 0; i < 2; ++i) {
+      cache.get("key2");
+    }
 
     auto stats = cache.getStats();
     EXPECT_FLOAT_EQ(stats.hitRate(), 1.0);  // All gets are hits

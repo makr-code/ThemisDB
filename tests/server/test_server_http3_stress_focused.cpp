@@ -185,7 +185,9 @@ TEST(ServerHttp3Stress, SH302_ConcurrentMigrationsSerialised) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Total migrations ≤ kThreads × kMigrationsPerThread (some may be skipped
     // if draining, but draining is not active here, so all should count).

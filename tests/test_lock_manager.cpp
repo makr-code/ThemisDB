@@ -205,7 +205,9 @@ TEST_F(LockManagerTest, ConcurrentExclusiveAccess) {
                                       std::chrono::milliseconds(5000));
             if (res.status == LockStatus::GRANTED) {
                 int cnt = ++inside;
-                if (cnt > 1) ++violations;
+                if (cnt > 1) {
+                  ++violations;
+                }
                 std::this_thread::sleep_for(std::chrono::milliseconds(5));
                 --inside;
                 lm.releaseLock(txn, "shared_row");
@@ -213,7 +215,9 @@ TEST_F(LockManagerTest, ConcurrentExclusiveAccess) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(violations.load(), 0) << "Mutual exclusion violated";
 }
@@ -240,7 +244,9 @@ TEST_F(LockManagerTest, ConcurrentSharedReadAccess) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Multiple readers should have run concurrently
     EXPECT_TRUE(exceeded_single) << "Expected concurrent shared reads";

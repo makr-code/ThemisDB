@@ -553,10 +553,14 @@ TEST_F(MultiModelIntegrationTest, SharedPoolBetweenBothEngines) {
 
     int async_ok = 0, enh_ok = 0;
     for (auto& h : async_handles) {
-        if (!h.get().text.empty()) ++async_ok;
+        if (!h.get().text.empty()) {
+          ++async_ok;
+        }
     }
     for (auto& h : enh_handles) {
-        if (!h.get().text.empty()) ++enh_ok;
+        if (!h.get().text.empty()) {
+          ++enh_ok;
+        }
     }
 
     EXPECT_EQ(async_ok, num_async_reqs)

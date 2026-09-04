@@ -200,7 +200,9 @@ TEST_F(DeadlineAwareCancellationTest, CancelNotifiesAllWaiters) {
 
     auto waiter = [&]() {
         const bool r = token_->waitUntilCancelledFor(5s);
-        if (r) woken.fetch_add(1, std::memory_order_relaxed);
+        if (r) {
+          woken.fetch_add(1, std::memory_order_relaxed);
+        }
     };
 
     std::thread t1(waiter);

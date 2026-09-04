@@ -134,8 +134,12 @@ static std::string buildSAMLResponseB64(
     out.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
-        if (i + 1 < bytes.size()) b |= (static_cast<uint32_t>(bytes[i+1]) << 8);
-        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i+2]);
+        if (i + 1 < bytes.size()) {
+          b |= (static_cast<uint32_t>(bytes[i+1]) << 8);
+        }
+        if (i + 2 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i+2]);
+        }
         out += b64[(b >> 18) & 0x3F];
         out += b64[(b >> 12) & 0x3F];
         out += (i + 1 < bytes.size()) ? b64[(b >> 6) & 0x3F] : '=';
@@ -690,8 +694,12 @@ static std::string base64EncodeString(const std::string& in) {
     out.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
-        if (i + 1 < bytes.size()) b |= (static_cast<uint32_t>(bytes[i+1]) << 8);
-        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i+2]);
+        if (i + 1 < bytes.size()) {
+          b |= (static_cast<uint32_t>(bytes[i+1]) << 8);
+        }
+        if (i + 2 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i+2]);
+        }
         out += b64t[(b >> 18) & 0x3F];
         out += b64t[(b >> 12) & 0x3F];
         out += (i + 1 < bytes.size()) ? b64t[(b >> 6) & 0x3F] : '=';
@@ -1058,8 +1066,12 @@ static std::string buildSAMLResponseWithAlgorithms(
     out.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
-        if (i + 1 < bytes.size()) b |= (static_cast<uint32_t>(bytes[i + 1]) << 8);
-        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i + 2]);
+        if (i + 1 < bytes.size()) {
+          b |= (static_cast<uint32_t>(bytes[i + 1]) << 8);
+        }
+        if (i + 2 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i + 2]);
+        }
         out += b64[(b >> 18) & 0x3F];
         out += b64[(b >> 12) & 0x3F];
         out += (i + 1 < bytes.size()) ? b64[(b >> 6) & 0x3F] : '=';

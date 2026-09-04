@@ -232,7 +232,9 @@ TEST_F(SequenceCounterTest, NoDuplicateSequencesUnder8Threads) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0);
 
@@ -265,7 +267,9 @@ TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     const auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - t0).count();

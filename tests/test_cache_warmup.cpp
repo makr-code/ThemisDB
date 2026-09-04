@@ -45,7 +45,9 @@ static void writeLogLine(std::ofstream& f,
     rec["key"] = key;
     rec["value_b64"] = value_b64;
     rec["ttl_remaining_s"] = ttl_remaining_s;
-    if (!tenant.empty()) rec["tenant"] = tenant;
+    if (!tenant.empty()) {
+      rec["tenant"] = tenant;
+    }
     f << rec.dump() << '\n';
 }
 
@@ -53,7 +55,9 @@ static void writeLogLine(std::ofstream& f,
 static std::string makeKey(int n) {
     std::ostringstream ss;
     ss << std::hex << std::setfill('0');
-    for (int i = 0; i < 8; ++i) ss << std::setw(8) << n;
+    for (int i = 0; i < 8; ++i) {
+      ss << std::setw(8) << n;
+    }
     return ss.str();
 }
 
@@ -78,7 +82,9 @@ static std::string b64Encode(const std::string& data) {
         buf <<= (6 - bits);
         out.push_back(kB64[buf & 0x3F]);
     }
-    while (out.size() % 4 != 0) out.push_back('=');
+    while (out.size() % 4 != 0) {
+      out.push_back('=');
+    }
     return out;
 }
 
@@ -463,7 +469,9 @@ TEST_F(CacheWarmupTest, ExportSnapshot_TenantIsolation_RoundTrip) {
         std::string line;
         int line_count = 0;
         while (std::getline(f, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             auto rec = json::parse(line);
             std::string exported_key = rec["key"].get<std::string>();
             // Must be a 64-char hex string, NOT "tenant:acme:<fp>"

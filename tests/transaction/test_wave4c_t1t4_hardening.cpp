@@ -33,10 +33,14 @@ namespace {
 // Reads lines from a file and returns true if the given substring is present.
 bool fileContainsString(const std::string& path, const std::string& needle) {
     std::ifstream f(path);
-    if (!f.is_open()) return false;
+    if (!f.is_open()) {
+      return false;
+    }
     std::string line;
     while (std::getline(f, line)) {
-        if (line.find(needle) != std::string::npos) return true;
+        if (line.find(needle) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -117,7 +121,9 @@ TEST(Wave4CT2UpgradeDeadlock, MutualUpgradeReturnsDeniedNotTimeout) {
     // Both should finish well within 2 seconds (deadlock detected, not 5s timeout)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
     while (!doneA.load() || !doneB.load()) {
-        if (std::chrono::steady_clock::now() > deadline) break;
+        if (std::chrono::steady_clock::now() > deadline) {
+          break;
+        }
         std::this_thread::sleep_for(ms{20});
     }
 

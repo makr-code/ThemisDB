@@ -18,7 +18,9 @@ class ConsistentHashDistributionTest : public ::testing::Test {
 protected:
     // Helper to calculate standard deviation
     double calculateStdDev(const std::vector<int>& values) {
-        if (values.empty()) return 0.0;
+        if (values.empty()) {
+          return 0.0;
+        }
         
         double sum = 0.0;
         for (int v : values) {

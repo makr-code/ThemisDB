@@ -67,7 +67,9 @@ protected:
         std::uniform_int_distribution<> dis(0, word_count - 1);
         
         while (text.size() < size) {
-            if (!text.empty()) text += " ";
+            if (!text.empty()) {
+              text += " ";
+            }
             text += words[dis(gen)];
         }
         

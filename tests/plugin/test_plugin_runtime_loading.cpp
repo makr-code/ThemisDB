@@ -38,7 +38,9 @@ namespace {
     };
 
     for (const auto& p : candidates) {
-        if (fs::exists(p)) return fs::absolute(p);
+        if (fs::exists(p)) {
+          return fs::absolute(p);
+        }
     }
 
     // 3) Last resort: return the bare filename and let the loader search PATH

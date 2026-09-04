@@ -67,7 +67,9 @@ protected:
             fs::create_directories(fs::path(path).parent_path());
             
             std::ofstream file(path, std::ios::binary);
-            if (!file) return "";
+            if (!file) {
+              return "";
+            }
             
             // Write GGUF magic bytes
             file.write("GGUF", 4);

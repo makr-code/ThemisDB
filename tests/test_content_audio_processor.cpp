@@ -158,7 +158,9 @@ static std::vector<uint8_t> buildMp3FrameBlob(int bitrate_kbps, int sample_rate,
     static const int br_table[16] = {0,32,40,48,56,64,80,96,112,128,160,192,224,256,320,0};
     // Sample rate index
     int sr_idx = 0;
-    if (sample_rate == 48000) sr_idx = 1;
+    if (sample_rate == 48000) {
+      sr_idx = 1;
+    }
     else if (sample_rate == 32000) sr_idx = 2;
 
     int br_idx = 0;
@@ -210,7 +212,9 @@ static std::vector<uint8_t> buildId3v2Tag(
     buf.push_back(ss0); buf.push_back(ss1); buf.push_back(ss2); buf.push_back(ss3);
 
     // Frame header (10 bytes)
-    for (char c : frame_id) buf.push_back(static_cast<uint8_t>(c));
+    for (char c : frame_id) {
+      buf.push_back(static_cast<uint8_t>(c));
+    }
     // Frame size BE
     buf.push_back((frame_data_size >> 24) & 0xFF);
     buf.push_back((frame_data_size >> 16) & 0xFF);
@@ -220,7 +224,9 @@ static std::vector<uint8_t> buildId3v2Tag(
 
     // Frame data: encoding (UTF-8 = 3) + text
     buf.push_back(3); // UTF-8 encoding
-    for (char c : value) buf.push_back(static_cast<uint8_t>(c));
+    for (char c : value) {
+      buf.push_back(static_cast<uint8_t>(c));
+    }
 
     return buf;
 }

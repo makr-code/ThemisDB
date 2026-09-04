@@ -262,7 +262,9 @@ TEST(NetworkCircuitBreakerTest, AdaptiveThresholdDecreasesOnRepeatedTrips) {
     EXPECT_EQ(initial_threshold, 10u);
 
     // First trip (consecutive_trip_count reaches 1, no reduction yet)
-    for (size_t i = 0; i < 10; ++i) cb.recordFailure();
+    for (size_t i = 0; i < 10; ++i) {
+      cb.recordFailure();
+    }
     ASSERT_EQ(cb.getState(), CircuitState::OPEN);
 
     // Wait for open_timeout and probe, then fail again (second trip)
@@ -284,7 +286,9 @@ TEST(NetworkCircuitBreakerTest, AdaptiveThresholdRestoredOnFullRecovery) {
     ));
 
     // Trip twice to reduce threshold to 8
-    for (size_t i = 0; i < 10; ++i) cb.recordFailure();
+    for (size_t i = 0; i < 10; ++i) {
+      cb.recordFailure();
+    }
     ASSERT_EQ(cb.getState(), CircuitState::OPEN);
     std::this_thread::sleep_for(1200ms);
     ASSERT_TRUE(cb.shouldAllow());
@@ -309,7 +313,9 @@ TEST(NetworkCircuitBreakerTest, NoAdaptationWhenAdaptiveDisabled) {
     ));
 
     // Trip twice
-    for (size_t i = 0; i < 5; ++i) cb.recordFailure();
+    for (size_t i = 0; i < 5; ++i) {
+      cb.recordFailure();
+    }
     ASSERT_EQ(cb.getState(), CircuitState::OPEN);
     std::this_thread::sleep_for(1200ms);
     ASSERT_TRUE(cb.shouldAllow());
@@ -444,7 +450,9 @@ TEST(NetworkCircuitBreakerTest, ConcurrentTripAndRecovery) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Circuit must be OPEN (or possibly already recovering)
     const CircuitState s = cb.getState();
@@ -473,7 +481,9 @@ TEST(NetworkCircuitBreakerTest, ResetRestoresAdaptiveThreshold) {
     AdaptiveCircuitBreaker cb(makeConfig(10, 2, 1s, 30s, true, 0.2));
 
     // Trip twice to reduce effective threshold to 8
-    for (size_t i = 0; i < 10; ++i) cb.recordFailure();
+    for (size_t i = 0; i < 10; ++i) {
+      cb.recordFailure();
+    }
     ASSERT_EQ(cb.getState(), CircuitState::OPEN);
     std::this_thread::sleep_for(1200ms);
     ASSERT_TRUE(cb.shouldAllow());

@@ -43,10 +43,14 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64.push_back('=');
     }
     for (char& c : b64) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
-    while (!b64.empty() && b64.back() == '=') b64.pop_back();
+    while (!b64.empty() && b64.back() == '=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -57,27 +61,37 @@ struct RSAFixture {
 
     RSAFixture() {
         bn = BN_new();
-        if (!bn) throw std::runtime_error("BN_new failed");
+        if (!bn) {
+          throw std::runtime_error("BN_new failed");
+        }
         if (BN_set_word(bn, RSA_F4) != 1)
             throw std::runtime_error("BN_set_word failed");
         rsa = RSA_new();
-        if (!rsa) throw std::runtime_error("RSA_new failed");
+        if (!rsa) {
+          throw std::runtime_error("RSA_new failed");
+        }
         if (RSA_generate_key_ex(rsa, 2048, bn, nullptr) != 1)
             throw std::runtime_error("RSA_generate_key_ex failed");
         pkey = EVP_PKEY_new();
-        if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        if (!pkey) {
+          throw std::runtime_error("EVP_PKEY_new failed");
+        }
         if (EVP_PKEY_assign_RSA(pkey, rsa) != 1)
             throw std::runtime_error("EVP_PKEY_assign_RSA failed");
     }
     ~RSAFixture() {
         if (pkey) EVP_PKEY_free(pkey); // frees rsa too
-        if (bn)   BN_free(bn);
+        if (bn) {
+          BN_free(bn);
+        }
     }
 };
 
 static std::string signRS256(EVP_PKEY* pkey, const std::string& data) {
     EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!mctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
     if (EVP_DigestSignInit(mctx, nullptr, EVP_sha256(), nullptr, pkey) != 1)
         throw std::runtime_error("EVP_DigestSignInit failed");
     if (EVP_DigestSignUpdate(mctx, data.data(), data.size()) != 1)

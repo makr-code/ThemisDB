@@ -1701,7 +1701,9 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_FeedbackInjectedInPrompt) {
                     received_system_prompts.push_back(msg.content);
                 }
             }
-            if (call_count == 1) return "FOR x";
+            if (call_count == 1) {
+              return "FOR x";
+            }
             return "FOR doc IN collection RETURN doc";
         }
     );

@@ -63,10 +63,14 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64 += tbl[(n >>  6) & 63];
     }
     for (char& c : b64) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
-    while (!b64.empty() && b64.back() == '=') b64.pop_back();
+    while (!b64.empty() && b64.back() == '=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -79,7 +83,9 @@ struct RSAKey {
         bn   = BN_new();
         rsa  = RSA_new();
         pkey = EVP_PKEY_new();
-        if (!bn || !rsa || !pkey) throw std::runtime_error("OpenSSL alloc failed");
+        if (!bn || !rsa || !pkey) {
+          throw std::runtime_error("OpenSSL alloc failed");
+        }
         BN_set_word(bn, RSA_F4);
         RSA_generate_key_ex(rsa, 2048, bn, nullptr);
         EVP_PKEY_assign_RSA(pkey, rsa);

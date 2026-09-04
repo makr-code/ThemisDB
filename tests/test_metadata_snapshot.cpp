@@ -282,13 +282,17 @@ TEST(MetadataSnapshotFocusedTests, ConcurrentSaveLoadIsThreadSafe) {
         threads.emplace_back([&] {
             for (int i = 0; i < kIter; ++i) {
                 auto r = store.load("snap-" + std::to_string(i % kIter));
-                if (r.has_value()) ++found;
+                if (r.has_value()) {
+                  ++found;
+                }
                 ++total;
             }
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // No crash; total reads == kThreads * kIter
     EXPECT_EQ(total.load(), kThreads * kIter);

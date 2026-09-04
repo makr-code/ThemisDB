@@ -69,7 +69,9 @@ public:
 
     bool onPrepare(const std::string&, const std::set<std::string>&) override {
         ++prepare_count;
-        if (policy_ == Policy::THROW)  throw std::runtime_error("mock throw");
+        if (policy_ == Policy::THROW) {
+          throw std::runtime_error("mock throw");
+        }
         return policy_ == Policy::COMMIT;
     }
     void onCommit(const std::string&) override { ++commit_count; }
@@ -320,7 +322,9 @@ TEST(GrpcRpcAdapterPhase2, RetrySucceedsOnSecondAttempt) {
             succeeded = true;
             break;
         } catch (const std::runtime_error&) {
-            if (i + 1 < kMax) std::this_thread::sleep_for(delays[i]);
+            if (i + 1 < kMax) {
+              std::this_thread::sleep_for(delays[i]);
+            }
         }
     }
 
@@ -348,7 +352,9 @@ TEST(GrpcRpcAdapterPhase2, FailAfterThreeRetries) {
             try {
                 always_fail("node-d", "txn-004", true);
             } catch (const std::runtime_error&) {
-                if (i + 1 == kMax) throw;
+                if (i + 1 == kMax) {
+                  throw;
+                }
                 std::this_thread::sleep_for(delays[i]);
             }
         }
@@ -469,7 +475,9 @@ TEST(GrpcRpcAdapterContention, SerialTransactionsDeterminism) {
         auto prep   = dtm.prepareDistributed(txn_id);
         if (prep.ok) {
             auto c = dtm.commitDistributed(txn_id);
-            if (c.ok) ++committed;
+            if (c.ok) {
+              ++committed;
+            }
         }
     }
 

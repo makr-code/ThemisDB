@@ -547,7 +547,9 @@ TEST(ScraperPluginFocusedTests, PluginScrapeRespectsBlacklist) {
     // setHttpFetch to track if blocked URL is fetched
     bool blocked_fetched = false;
     plugin.setHttpFetch([&](const std::string& url, const std::string&) -> std::string {
-        if (url.find("blocked.example.de") != std::string::npos) blocked_fetched = true;
+        if (url.find("blocked.example.de") != std::string::npos) {
+          blocked_fetched = true;
+        }
         return "";
     });
     plugin.scrape();
@@ -743,7 +745,9 @@ TEST(ScraperPluginFocusedTests, J4_GovCatalogSourceHasLicense) {
     const auto& all = cat.all();
     int missing_base_url = 0;
     for (const auto& s : all) {
-        if (s.base_url.empty()) ++missing_base_url;
+        if (s.base_url.empty()) {
+          ++missing_base_url;
+        }
     }
     EXPECT_EQ(missing_base_url, 0)
         << missing_base_url << " source(s) have an empty base_url field";
@@ -753,7 +757,9 @@ TEST(ScraperPluginFocusedTests, J5_GovCatalogSourceIdIsUnique) {
     GovSourceCatalog cat;
     const auto& all = cat.all();
     std::map<std::string, int> id_count;
-    for (const auto& s : all) ++id_count[s.id];
+    for (const auto& s : all) {
+      ++id_count[s.id];
+    }
     for (const auto& kv : id_count) {
         EXPECT_EQ(kv.second, 1)
             << "Duplicate source id in gov catalog: " << kv.first;

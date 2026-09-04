@@ -58,46 +58,102 @@ struct ImportError {
 static std::string mapType(const std::string& pg_type,
                             const std::map<std::string, std::string>& overrides = {}) {
     auto it = overrides.find(pg_type);
-    if (it != overrides.end()) return it->second;
+    if (it != overrides.end()) {
+      return it->second;
+    }
 
     std::string t = pg_type;
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
     it = overrides.find(t);
-    if (it != overrides.end()) return it->second;
+    if (it != overrides.end()) {
+      return it->second;
+    }
 
     // Array types
-    if (t.back() == ']' || t.find("[]") != std::string::npos) return "array";
+    if (t.back() == ']' || t.find("[]") != std::string::npos) {
+      return "array";
+    }
 
-    if (t == "bigserial" || t == "bigint" || t == "int8") return "long";
-    if (t == "smallint" || t == "int2" || t == "smallserial") return "integer";
+    if (t == "bigserial" || t == "bigint" || t == "int8") {
+      return "long";
+    }
+    if (t == "smallint" || t == "int2" || t == "smallserial") {
+      return "integer";
+    }
     if (t == "integer" || t == "int" || t == "int4" ||
         t == "serial" || t == "serial4") return "integer";
-    if (t == "real" || t == "float4") return "float";
-    if (t == "double precision" || t == "float8") return "double";
-    if (t == "numeric" || t == "decimal") return "double";
-    if (t == "money") return "double";
-    if (t == "boolean" || t == "bool") return "boolean";
-    if (t == "text" || t == "name") return "string";
-    if (t == "uuid") return "string";
-    if (t == "inet" || t == "cidr" || t == "macaddr" || t == "macaddr8") return "string";
-    if (t == "xml") return "string";
-    if (t == "bytea") return "binary";
-    if (t == "json" || t == "jsonb") return "json";
-    if (t == "interval") return "string";
+    if (t == "real" || t == "float4") {
+      return "float";
+    }
+    if (t == "double precision" || t == "float8") {
+      return "double";
+    }
+    if (t == "numeric" || t == "decimal") {
+      return "double";
+    }
+    if (t == "money") {
+      return "double";
+    }
+    if (t == "boolean" || t == "bool") {
+      return "boolean";
+    }
+    if (t == "text" || t == "name") {
+      return "string";
+    }
+    if (t == "uuid") {
+      return "string";
+    }
+    if (t == "inet" || t == "cidr" || t == "macaddr" || t == "macaddr8") {
+      return "string";
+    }
+    if (t == "xml") {
+      return "string";
+    }
+    if (t == "bytea") {
+      return "binary";
+    }
+    if (t == "json" || t == "jsonb") {
+      return "json";
+    }
+    if (t == "interval") {
+      return "string";
+    }
     if (t == "point" || t == "polygon" || t == "circle" ||
         t == "line" || t == "lseg" || t == "box" || t == "path") return "geo";
-    if (t == "tsvector" || t == "tsquery") return "string";
-    if (t == "oid" || t == "xid" || t == "cid") return "integer";
+    if (t == "tsvector" || t == "tsquery") {
+      return "string";
+    }
+    if (t == "oid" || t == "xid" || t == "cid") {
+      return "integer";
+    }
 
-    if (t.find("int") != std::string::npos) return "integer";
-    if (t.find("serial") != std::string::npos) return "integer";
-    if (t.find("float") != std::string::npos) return "double";
-    if (t.find("char") != std::string::npos) return "string";
-    if (t.find("varchar") != std::string::npos) return "string";
-    if (t.find("timestamp") != std::string::npos) return "datetime";
-    if (t.find("date") != std::string::npos) return "date";
-    if (t.find("time") != std::string::npos) return "time";
-    if (t.find("json") != std::string::npos) return "json";
+    if (t.find("int") != std::string::npos) {
+      return "integer";
+    }
+    if (t.find("serial") != std::string::npos) {
+      return "integer";
+    }
+    if (t.find("float") != std::string::npos) {
+      return "double";
+    }
+    if (t.find("char") != std::string::npos) {
+      return "string";
+    }
+    if (t.find("varchar") != std::string::npos) {
+      return "string";
+    }
+    if (t.find("timestamp") != std::string::npos) {
+      return "datetime";
+    }
+    if (t.find("date") != std::string::npos) {
+      return "date";
+    }
+    if (t.find("time") != std::string::npos) {
+      return "time";
+    }
+    if (t.find("json") != std::string::npos) {
+      return "json";
+    }
 
     return "string";
 }
@@ -148,8 +204,12 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
     const size_t n = values_clause.size();
 
     while (i < n) {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) ++i;
-        if (i >= n) break;
+        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
         if (values_clause[i] == '\'') {
             ++i;
@@ -168,7 +228,9 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
             result.push_back(val);
         } else {
             size_t start = i;
-            while (i < n && values_clause[i] != ',' && values_clause[i] != ')') ++i;
+            while (i < n && values_clause[i] != ',' && values_clause[i] != ') {
+              ') ++i;
+            }
             std::string token = values_clause.substr(start, i - start);
             token.erase(token.find_last_not_of(" \t") + 1);
             result.push_back(token);
@@ -381,7 +443,9 @@ TEST(CopyParsingTest, EmptyFields) {
 TEST(CopyParsingTest, ManyColumns) {
     std::string line;
     for (int i = 0; i < 100; ++i) {
-        if (i > 0) line += '\t';
+        if (i > 0) {
+          line += '\t';
+        }
         line += std::to_string(i);
     }
     auto row = parseCopyRow(line);
@@ -454,7 +518,9 @@ TEST(InsertValuesTest, SingleValue) {
 TEST(InsertValuesTest, ManyValues) {
     std::string clause;
     for (int i = 0; i < 50; ++i) {
-        if (i > 0) clause += ", ";
+        if (i > 0) {
+          clause += ", ";
+        }
         clause += std::to_string(i);
     }
     auto vals = parseInsertValues(clause);

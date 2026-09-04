@@ -121,7 +121,9 @@ static uint64_t fnv1a64(const char* data, size_t len) {
 static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
     std::unordered_set<uint64_t> hs;
     std::ifstream f(path);
-    if (!f) return hs;
+    if (!f) {
+      return hs;
+    }
     std::string line;
     while (std::getline(f, line))
         if (!line.empty()) {
@@ -142,9 +144,13 @@ static void saveDeltaHashes(const std::string& path,
 
 static void writeQuarantineRow(const std::string& qf, const std::string& table,
                                 const std::string& raw, const ImportError& err) {
-    if (qf.empty()) return;
+    if (qf.empty()) {
+      return;
+    }
     std::ofstream f(qf, std::ios::app);
-    if (!f) return;
+    if (!f) {
+      return;
+    }
     f << "{\"table\":\"" << table << "\",\"row\":\"(raw)\",\"error\":{\"code\":"
       << static_cast<uint32_t>(err.code) << ",\"message\":\""
       << err.message << "\"}}\n";
@@ -183,7 +189,9 @@ static ImportStats importContent(const std::string& content,
                 line.find("schema only") != std::string::npos) stats.is_schema_only = true;
             if (line.find("data-only")   != std::string::npos ||
                 line.find("data only")   != std::string::npos) stats.is_data_only   = true;
-            if (!line.empty() && !(line.size() >= 2 && line[0]=='-' && line[1]=='-')) break;
+            if (!line.empty() && !(line.size() >= 2 && line[0]=='-' && line[1]=='-')) {
+              break;
+            }
             n++;
         }
     }
@@ -240,7 +248,9 @@ static ImportStats importContent(const std::string& content,
                 stats.structured_errors.push_back(e);
                 writeQuarantineRow(options.quarantine_file, current_table, line, e);
                 stats.failed_records++; stats.quarantined_records++;
-                if (!options.continue_on_error) return stats;
+                if (!options.continue_on_error) {
+                  return stats;
+                }
                 continue;
             }
 
@@ -255,7 +265,9 @@ static ImportStats importContent(const std::string& content,
             continue;
         }
 
-        if (line.empty() || (line.size() >= 2 && line[0]=='-' && line[1]=='-')) continue;
+        if (line.empty() || (line.size() >= 2 && line[0]=='-' && line[1]=='-')) {
+          continue;
+        }
         sql += line + " ";
 
         if (line.find(';') != std::string::npos) {
@@ -268,7 +280,9 @@ static ImportStats importContent(const std::string& content,
                     std::istringstream ss2(sql.substr(pos + 5));
                     std::string w; ss2 >> w;
                     auto dot = w.find('.');
-                    if (dot != std::string::npos) w = w.substr(dot + 1);
+                    if (dot != std::string::npos) {
+                      w = w.substr(dot + 1);
+                    }
                     while (!w.empty() && (w.back()=='(' || w.back()==' ')) w.pop_back();
                     current_table = w;
                 }
@@ -319,7 +333,9 @@ TEST(PermissionCheckTest, DeniedReturnsPermissionDeniedError) {
     EXPECT_FALSE(stats.structured_errors.empty());
     bool found = false;
     for (const auto& e : stats.structured_errors)
-        if (e.code == ImportErrorCode::PERMISSION_DENIED) found = true;
+        if (e.code == ImportErrorCode::PERMISSION_DENIED) {
+          found = true;
+        }
     EXPECT_TRUE(found) << "Expected PERMISSION_DENIED structured error";
 }
 
@@ -370,7 +386,9 @@ TEST(PermissionCheckTest, AllowedProceedsNormally) {
     EXPECT_EQ(stats.imported_records, 2u);
     bool denied = false;
     for (const auto& e : stats.structured_errors)
-        if (e.code == ImportErrorCode::PERMISSION_DENIED) denied = true;
+        if (e.code == ImportErrorCode::PERMISSION_DENIED) {
+          denied = true;
+        }
     EXPECT_FALSE(denied);
 }
 
@@ -427,7 +445,9 @@ TEST(QuarantineTest, OversizedRowsWrittenToQuarantine) {
     ASSERT_TRUE(qf.good()) << "Quarantine file was not created";
     std::string line;
     int lines = 0;
-    while (std::getline(qf, line)) if (!line.empty()) lines++;
+    while (std::getline(qf, line)) {
+      if (!line.empty()) lines++;
+    }
     EXPECT_GT(lines, 0) << "Quarantine file is empty";
 
     std::remove(qfile.c_str());
@@ -522,7 +542,9 @@ TEST(BinaryCopyTest, BinaryMagicEmitsError206) {
     ImportStats stats = importContent(content, ImportOptions{});
     bool found = false;
     for (const auto& e : stats.structured_errors)
-        if (e.code == ImportErrorCode::BINARY_COPY_FORMAT) found = true;
+        if (e.code == ImportErrorCode::BINARY_COPY_FORMAT) {
+          found = true;
+        }
     EXPECT_TRUE(found) << "Expected BINARY_COPY_FORMAT (206) error";
 }
 
@@ -590,7 +612,9 @@ TEST(BinaryCopyTest, BinaryDetectionWithContinueOnError) {
     // No crash; binary table should fail, normal table should succeed
     bool binary_err = false;
     for (const auto& e : stats.structured_errors)
-        if (e.code == ImportErrorCode::BINARY_COPY_FORMAT) binary_err = true;
+        if (e.code == ImportErrorCode::BINARY_COPY_FORMAT) {
+          binary_err = true;
+        }
     EXPECT_TRUE(binary_err);
 }
 

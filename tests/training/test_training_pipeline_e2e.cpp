@@ -128,7 +128,9 @@ TEST_F(TrainingPipelineE2ETest, Run_LabelingStageReported_InCallback) {
     TrainingPipeline pipeline(config_, db_conn_);
     bool labeling_started = false;
     pipeline.run([&](const std::string& stage, size_t, const std::string&) {
-        if (stage == "labeling") labeling_started = true;
+        if (stage == "labeling") {
+          labeling_started = true;
+        }
     });
     EXPECT_TRUE(labeling_started);
 }
@@ -137,7 +139,9 @@ TEST_F(TrainingPipelineE2ETest, Run_TrainingStageReported_InCallback) {
     TrainingPipeline pipeline(config_, db_conn_);
     bool training_started = false;
     pipeline.run([&](const std::string& stage, size_t, const std::string&) {
-        if (stage == "training") training_started = true;
+        if (stage == "training") {
+          training_started = true;
+        }
     });
     EXPECT_TRUE(training_started);
 }
@@ -341,7 +345,9 @@ TEST_F(TrainingPipelineE2ETest, Run_DataSelectionStageReported_InCallback) {
     TrainingPipeline pipeline(config_, db_conn_);
     bool selection_reported = false;
     pipeline.run([&](const std::string& stage, size_t, const std::string&) {
-        if (stage == "data_selection") selection_reported = true;
+        if (stage == "data_selection") {
+          selection_reported = true;
+        }
     });
     EXPECT_TRUE(selection_reported);
 }
@@ -351,7 +357,9 @@ TEST_F(TrainingPipelineE2ETest, Run_SelectionDisabled_NotReported) {
     TrainingPipeline pipeline(config_, db_conn_);
     bool selection_reported = false;
     pipeline.run([&](const std::string& stage, size_t, const std::string&) {
-        if (stage == "data_selection") selection_reported = true;
+        if (stage == "data_selection") {
+          selection_reported = true;
+        }
     });
     EXPECT_FALSE(selection_reported);
 }

@@ -83,8 +83,12 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        if (storage_) storage_->close();
+        if (server_) {
+          server_->stop();
+        }
+        if (storage_) {
+          storage_->close();
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -101,7 +105,9 @@ protected:
 
                 http::request<http::string_body> req{http::verb::get, path, 11};
                 req.set(http::field::host, kHost);
-                if (!auth.empty()) req.set(http::field::authorization, auth);
+                if (!auth.empty()) {
+                  req.set(http::field::authorization, auth);
+                }
                 req.prepare_payload();
                 http::write(stream, req);
 
@@ -138,7 +144,9 @@ protected:
                 http::request<http::string_body> req{http::verb::post, path, 11};
                 req.set(http::field::host, kHost);
                 req.set(http::field::content_type, "application/json");
-                if (!auth.empty()) req.set(http::field::authorization, auth);
+                if (!auth.empty()) {
+                  req.set(http::field::authorization, auth);
+                }
                 req.body() = payload;
                 req.prepare_payload();
                 http::write(stream, req);
@@ -173,7 +181,9 @@ protected:
 
                 http::request<http::string_body> req{http::verb::delete_, path, 11};
                 req.set(http::field::host, kHost);
-                if (!auth.empty()) req.set(http::field::authorization, auth);
+                if (!auth.empty()) {
+                  req.set(http::field::authorization, auth);
+                }
                 req.prepare_payload();
                 http::write(stream, req);
 

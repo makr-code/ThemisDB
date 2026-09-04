@@ -103,7 +103,9 @@ struct MockHistogram {
 
     bool isBucketsValid() const {
         for (std::size_t i = 1; i < buckets.size(); ++i)
-            if (buckets[i] <= buckets[i - 1]) return false;
+            if (buckets[i] <= buckets[i - 1]) {
+              return false;
+            }
         return true;
     }
 };

@@ -301,7 +301,9 @@ class MockLLMWikiPlugin {
     }
 
     void shutdown() noexcept {
-        if (!initialized_) return;
+        if (!initialized_) {
+          return;
+        }
 #ifdef THEMIS_USE_ROCKSDB
         if (rocksdb_active_) {
             wiki_store_.close();

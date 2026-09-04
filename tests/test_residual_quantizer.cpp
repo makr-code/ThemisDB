@@ -295,7 +295,9 @@ TEST_F(ResidualQuantizerTest, MemoryUsage) {
 
 TEST_F(ResidualQuantizerTest, DifferentSubquantizers) {
     for (int sqs : {4, 8, 16}) {
-        if (dimension_ % sqs != 0) continue;
+        if (dimension_ % sqs != 0) {
+          continue;
+        }
         
         ResidualQuantizer::Config config;
         config.num_stages = 2;

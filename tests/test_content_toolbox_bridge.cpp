@@ -153,7 +153,9 @@ public:
     }
 
     void registerExtractor(std::shared_ptr<IFormatExtractor> e) override {
-        if (!e) return;
+        if (!e) {
+          return;
+        }
         for (const auto& m : e->supportedMimeTypes()) {
             registry_[m] = e;
         }
@@ -161,7 +163,9 @@ public:
 
     std::vector<std::string> registeredMimeTypes() const override {
         std::vector<std::string> v;
-        for (const auto& [m, _] : registry_) v.push_back(m);
+        for (const auto& [m, _] : registry_) {
+          v.push_back(m);
+        }
         return v;
     }
 

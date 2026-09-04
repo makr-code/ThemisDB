@@ -65,12 +65,24 @@ void Logger::resetMetrics() {
 
 Logger::Level Logger::levelFromString(const std::string& lvl) {
     std::string s = lvl;
-    for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
-    if (s == "trace")    return Level::TRACE;
-    if (s == "debug")    return Level::DEBUG;
-    if (s == "warn" || s == "warning") return Level::WARN;
-    if (s == "error")    return Level::ERROR;
-    if (s == "critical") return Level::CRITICAL;
+    for (auto& c : s) {
+      c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+    }
+    if (s == "trace") {
+      return Level::TRACE;
+    }
+    if (s == "debug") {
+      return Level::DEBUG;
+    }
+    if (s == "warn" || s == "warning") {
+      return Level::WARN;
+    }
+    if (s == "error") {
+      return Level::ERROR;
+    }
+    if (s == "critical") {
+      return Level::CRITICAL;
+    }
     return Level::INFO;
 }
 

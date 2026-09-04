@@ -239,7 +239,9 @@ public:
         : nodes_(std::move(nodes)) {}
 
     NodeId getNode(const ShardKey& key) const override {
-        if (nodes_.empty()) return "";
+        if (nodes_.empty()) {
+          return "";
+        }
         size_t h = std::hash<std::string>{}(key) % nodes_.size();
         return nodes_[h];
     }
@@ -302,7 +304,9 @@ public:
         rs.strategy = strategy;
         rs.rows = nlohmann::json::array();
         for (const auto& r : results) {
-            if (!r.success) continue;
+            if (!r.success) {
+              continue;
+            }
             if (r.rows.is_array()) {
                 for (const auto& row : r.rows) {
                     rs.rows.push_back(row);
@@ -382,7 +386,9 @@ TEST(IShardRouterTest, RouteAllConcurrent) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_FALSE(any_failure.load());
 }
 

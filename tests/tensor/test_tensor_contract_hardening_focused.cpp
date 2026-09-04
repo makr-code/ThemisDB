@@ -66,7 +66,9 @@ static constexpr uint64_t kTensorContractSeed = 42;
 /// Computes the product of a shape vector (element count).
 static std::size_t shapeProduct(const std::vector<std::size_t>& shape) {
     std::size_t n = 1;
-    for (auto d : shape) n *= d;
+    for (auto d : shape) {
+      n *= d;
+    }
     return n;
 }
 

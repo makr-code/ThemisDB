@@ -43,7 +43,9 @@ protected:
         std::chrono::milliseconds total_time_ms{0};
 
         double ops_per_sec() const {
-            if (total_time_ms.count() == 0) return 0.0;
+            if (total_time_ms.count() == 0) {
+              return 0.0;
+            }
             return (static_cast<double>(total_operations) / total_time_ms.count()) * 1000.0;
         }
     };
@@ -433,7 +435,9 @@ TEST_F(StressChurnTest, S10_LargeContextSizeStress) {
     // At least some queries should trigger truncation
     int32_t truncation_count = 0;
     for (bool was_truncated : truncation_occurred) {
-        if (was_truncated) truncation_count++;
+        if (was_truncated) {
+          truncation_count++;
+        }
     }
     EXPECT_GT(truncation_count, 0) << "Expected some queries to trigger truncation";
 }

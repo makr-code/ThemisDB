@@ -50,7 +50,9 @@ protected:
     
     // Helper: compute maximum difference between two embeddings
     float maxDifference(const std::vector<float>& a, const std::vector<float>& b) {
-        if (a.size() != b.size()) return std::numeric_limits<float>::max();
+        if (a.size() != b.size()) {
+          return std::numeric_limits<float>::max();
+        }
         
         float max_diff = 0.0f;
         for (size_t i = 0; i < a.size(); ++i) {
@@ -65,7 +67,9 @@ protected:
         const std::vector<std::vector<float>>& b,
         float tolerance = 1e-4f
     ) {
-        if (a.size() != b.size()) return false;
+        if (a.size() != b.size()) {
+          return false;
+        }
         
         for (size_t i = 0; i < a.size(); ++i) {
             if (maxDifference(a[i], b[i]) > tolerance) {

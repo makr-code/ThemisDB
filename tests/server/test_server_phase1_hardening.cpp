@@ -86,7 +86,9 @@ TEST_F(RetryExhaustionTests, SRV_01_RetryExhaustion_MaxAttemptsReached) {
         auto result = fn();
         final_code = result.code;
         attempts = result.attempt;
-        if (result.code != ErrorCode::kTransient || i == config.max_retries) break;
+        if (result.code != ErrorCode::kTransient || i == config.max_retries) {
+          break;
+        }
         std::this_thread::sleep_for(10ms * (1 << i));
     }
     
@@ -118,7 +120,9 @@ TEST_F(RetryExhaustionTests, SRV_03_RetrySuccess_OnSecondAttempt) {
     for (int i = 0; i <= config.max_retries; ++i) {
         auto result = fn();
         code = result.code;
-        if (result.code != ErrorCode::kTransient || i == config.max_retries) break;
+        if (result.code != ErrorCode::kTransient || i == config.max_retries) {
+          break;
+        }
         std::this_thread::sleep_for(10ms * (1 << i));
     }
     
@@ -195,7 +199,9 @@ TEST_F(RetryExhaustionTests, SRV_08_RetryMixedErrorCodes_TransientThenFatal) {
     for (int i = 0; i <= config.max_retries; ++i) {
         auto result = fn();
         code = result.code;
-        if (result.code != ErrorCode::kTransient) break;
+        if (result.code != ErrorCode::kTransient) {
+          break;
+        }
         std::this_thread::sleep_for(10ms);
     }
     
@@ -464,7 +470,9 @@ TEST_F(FaultRecoveryTests, SRV_27_CircuitBreakerOpen_StopRetrying) {
     int attempt_count = 0;
     
     for (int i = 0; i < 5; ++i) {
-        if (circuit_open) break;
+        if (circuit_open) {
+          break;
+        }
         attempt_count++;
         if (attempt_count >= 3) {
             circuit_open = true;
@@ -531,7 +539,9 @@ TEST_F(FaultRecoveryTests, SRV_31_IdempotentRecoveryRetry) {
     for (int i = 0; i < 3; ++i) {
         recovery_attempts++;
         recovered = true;
-        if (recovered) break;
+        if (recovered) {
+          break;
+        }
     }
     
     EXPECT_TRUE(recovered);
@@ -553,7 +563,9 @@ TEST_F(ChaosFailureInjectionTests, SRV_32_ConnectionFailureInjection) {
     int failures = 0;
     
     for (int i = 0; i < 100; ++i) {
-        if (dist(rng) == 0) failures++;
+        if (dist(rng) == 0) {
+          failures++;
+        }
     }
     
     EXPECT_GT(failures, 0);
@@ -627,7 +639,9 @@ TEST_F(ChaosFailureInjectionTests, SRV_37_PartialMessageLoss) {
     
     int non_zero = 0;
     for (auto msg : messages) {
-        if (msg != 0) non_zero++;
+        if (msg != 0) {
+          non_zero++;
+        }
     }
     
     EXPECT_LT(lost, 10);

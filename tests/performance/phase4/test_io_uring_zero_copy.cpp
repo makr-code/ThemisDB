@@ -188,7 +188,9 @@ TEST(ScopedIoUringTimerTest, OutputIsSetOnDestruction) {
         ScopedIoUringTimer timer(&elapsed);
         // Do some trivial work
         volatile int sum = 0;
-        for (int i = 0; i < 1000; ++i) sum += i;
+        for (int i = 0; i < 1000; ++i) {
+          sum += i;
+        }
     }
     // On Linux the timer uses CLOCK_MONOTONIC so elapsed >= 0.
     // On other platforms it is always 0.

@@ -33,7 +33,9 @@ static std::shared_ptr<RocksDBWrapper> openTempDB(const std::string& path) {
     cfg.db_path    = path;
     cfg.enable_wal = true;
     auto db = std::make_shared<RocksDBWrapper>(cfg);
-    if (!db->open()) return nullptr;
+    if (!db->open()) {
+      return nullptr;
+    }
     return db;
 }
 
@@ -180,7 +182,9 @@ TEST_F(SecuritySignatureRocksDBIterationTests, ListAllSignatures_ReturnsAllStore
 
     // Verify resource_ids are present (order is undefined)
     std::vector<std::string> ids;
-    for (const auto& s : sigs) ids.push_back(s.resource_id);
+    for (const auto& s : sigs) {
+      ids.push_back(s.resource_id);
+    }
     EXPECT_NE(std::find(ids.begin(), ids.end(), "file_a"), ids.end());
     EXPECT_NE(std::find(ids.begin(), ids.end(), "file_b"), ids.end());
 }

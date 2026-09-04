@@ -74,7 +74,9 @@ static std::shared_ptr<themis::RocksDBWrapper> openRocksDB(
     cfg.enable_wal = true;
     cfg.read_only  = read_only;
     auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
-    if (!db->open()) return nullptr;
+    if (!db->open()) {
+      return nullptr;
+    }
     return db;
 }
 
@@ -109,7 +111,9 @@ protected:
         // Verify RocksDB is usable in this environment
         auto db = openRocksDB(s_tmp.path.string());
         s_db_available = (db != nullptr);
-        if (db) db->close();
+        if (db) {
+          db->close();
+        }
     }
 
     static void TearDownTestSuite() {
@@ -129,8 +133,12 @@ protected:
     }
 
     void TearDown() override {
-        if (store_) store_->shutdown();
-        if (db_)    db_->close();
+        if (store_) {
+          store_->shutdown();
+        }
+        if (db_) {
+          db_->close();
+        }
         store_.reset();
         db_.reset();
     }
@@ -448,7 +456,9 @@ TEST_F(ArgumentStoreRocksDBTest, ASRDB10_ConcurrentWritesAllRetrievable) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Every argument must be individually retrievable
     int missing = 0;
@@ -457,7 +467,9 @@ TEST_F(ArgumentStoreRocksDBTest, ASRDB10_ConcurrentWritesAllRetrievable) {
             const std::string id =
                 "asrdb10_t" + std::to_string(t) + "_a" + std::to_string(i);
             auto res = store_->getArgument(id);
-            if (!std::holds_alternative<EthicalArgument>(res)) ++missing;
+            if (!std::holds_alternative<EthicalArgument>(res)) {
+              ++missing;
+            }
         }
     }
     EXPECT_EQ(missing, 0) << missing << " argument(s) missing after concurrent writes";

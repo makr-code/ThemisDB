@@ -135,8 +135,12 @@ TEST(ContentionManagerTest, InitialAbortRateIsZero) {
 
 TEST(ContentionManagerTest, HighAbortRateTriggersBackoff) {
     ContentionManager cm;
-    for (int i = 0; i < 10; ++i) cm.record_abort();
-    for (int i = 0; i < 2; ++i) cm.record_commit();
+    for (int i = 0; i < 10; ++i) {
+      cm.record_abort();
+    }
+    for (int i = 0; i < 2; ++i) {
+      cm.record_commit();
+    }
     EXPECT_GT(cm.get_abort_rate(), 0.5);
     EXPECT_TRUE(cm.should_backoff());
 }

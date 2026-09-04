@@ -53,7 +53,9 @@ static std::vector<float> makeRandF(std::size_t n, float scale = 1.0f, unsigned 
     std::mt19937 rng(seed);
     std::normal_distribution<float> dist(0.0f, scale);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -68,7 +70,9 @@ static TTTrain makeTrain(const std::vector<float>& data,
 
 static double denseNorm(const std::vector<float>& v) {
     double s = 0.0;
-    for (float x : v) s += (double)x * x;
+    for (float x : v) {
+      s += (double)x * x;
+    }
     return std::sqrt(s);
 }
 

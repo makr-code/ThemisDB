@@ -176,7 +176,9 @@ TEST_F(SchemaMigrationTesterTest, UserTestCase_Pass) {
             auto t = const_cast<SchemaManager&>(sm).getTable("products");
             if (!t) { err = "table 'products' not found"; return false; }
             for (const auto& p : t->properties)
-                if (p.name == "sku") return true;
+                if (p.name == "sku") {
+                  return true;
+                }
             err = "column 'sku' not found";
             return false;
         }

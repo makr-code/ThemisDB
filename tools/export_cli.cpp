@@ -198,7 +198,9 @@ static std::vector<themis::BaseEntity> loadCollection(const std::string& collect
         std::string line;
         size_t idx = 0;
         while (std::getline(std::cin, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             try {
                 entities.push_back(
                     themis::BaseEntity::fromJson("doc_" + std::to_string(idx++), line));
@@ -240,7 +242,9 @@ int main(int argc, char** argv) {
         // Map name → FormatTemplateType
         FormatTemplateType tpl_type = FormatTemplateType::NONE;
         const std::string& tname = cfg.validate_template;
-        if      (tname == "alpaca")             tpl_type = FormatTemplateType::ALPACA;
+        if      (tname == "alpaca") {
+          tpl_type = FormatTemplateType::ALPACA;
+        }
         else if (tname == "sharegpt")           tpl_type = FormatTemplateType::SHAREGPT;
         else if (tname == "chatml")             tpl_type = FormatTemplateType::CHATML;
         else if (tname == "openai" ||

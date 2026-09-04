@@ -186,10 +186,14 @@ static std::vector<float> denseProject(const std::vector<float>& data,
     // Result shape
     std::vector<std::size_t> res_shape;
     for (std::size_t k = 0; k < shape.size(); ++k)
-        if (k != mode) res_shape.push_back(shape[k]);
+        if (k != mode) {
+          res_shape.push_back(shape[k]);
+        }
 
     std::size_t res_sz = 1;
-    for (auto s : res_shape) res_sz *= s;
+    for (auto s : res_shape) {
+      res_sz *= s;
+    }
     std::vector<float> result(res_sz, 0.0f);
 
     // Iterate over all elements
@@ -205,7 +209,9 @@ static std::vector<float> denseProject(const std::vector<float>& data,
         // Build result index (skip mode)
         std::vector<std::size_t> ridx;
         for (std::size_t k = 0; k < shape.size(); ++k)
-            if (k != mode) ridx.push_back(idx[k]);
+            if (k != mode) {
+              ridx.push_back(idx[k]);
+            }
         // Flat result offset
         std::size_t roff = 0, stride = 1;
         for (int k = static_cast<int>(res_shape.size()) - 1; k >= 0; --k) {
@@ -281,7 +287,9 @@ TEST(TensorContractionEnginePhase3, TCM02_partial_contraction_shape) {
     ASSERT_GE(result.order(), 1u);
     // Result shape should be [2, 4] = 2 free modes
     std::size_t total_sz = 1;
-    for (auto s : result.mode_sizes) total_sz *= s;
+    for (auto s : result.mode_sizes) {
+      total_sz *= s;
+    }
     EXPECT_EQ(total_sz, 2u * 4u);
 }
 
@@ -758,7 +766,9 @@ static std::vector<float> flatten1D(const TTTrain& t) {
 // Helper: Frobenius norm of a vector.
 static float vecNorm(const std::vector<float>& v) {
     float s = 0.0f;
-    for (float x : v) s += x * x;
+    for (float x : v) {
+      s += x * x;
+    }
     return std::sqrt(s);
 }
 
@@ -776,7 +786,9 @@ static std::vector<float> refWHT(std::vector<float> v) {
         }
     }
     const float inv_sqrt_n = 1.0f / std::sqrt(static_cast<float>(n));
-    for (float& x : v) x *= inv_sqrt_n;
+    for (float& x : v) {
+      x *= inv_sqrt_n;
+    }
     return v;
 }
 
@@ -1239,8 +1251,12 @@ TEST(TensorFingerprintGraph, TFG08_findSimilar_uses_exact_similarity_override) {
 
     TensorFingerprintGraph::setExactSimilarityFn(
         [](const std::string& key_a, const std::string& key_b) {
-            if (key_a == "key_q" && key_b == "key_b") return 0.95f;
-            if (key_a == "key_q" && key_b == "key_a") return 0.20f;
+            if (key_a == "key_q" && key_b == "key_b") {
+              return 0.95f;
+            }
+            if (key_a == "key_q" && key_b == "key_a") {
+              return 0.20f;
+            }
             return 0.0f;
         });
 
@@ -2298,7 +2314,9 @@ TEST(AdapterRepositoryPhase3, AR15_exact_similarity_bridge_is_used_when_set) {
             r.base_model_id = "m";
             r.score = 0.9f;
             std::vector<SimilarityResult> out{r};
-            if (out.size() > k) out.resize(k);
+            if (out.size() > k) {
+              out.resize(k);
+            }
             return out;
         });
 
@@ -2356,13 +2374,17 @@ TEST(TensorButterflyOperatorPhase3, TBO07_injected_fourier_backend_is_used) {
 
     TensorButterflyOperator::setFourierTransformFn(
         [](std::vector<float>& fiber) {
-            for (auto& v : fiber) v = 7.0f;
+            for (auto& v : fiber) {
+              v = 7.0f;
+            }
         });
 
     auto out = op.apply(train);
     const auto recon = flatten1D(out);
     ASSERT_EQ(recon.size(), 4u);
-    for (float v : recon) EXPECT_FLOAT_EQ(v, 7.0f);
+    for (float v : recon) {
+      EXPECT_FLOAT_EQ(v, 7.0f);
+    }
 
     TensorButterflyOperator::clearFourierTransformFn();
 }
@@ -2417,7 +2439,9 @@ TEST(TensorButterflyOperatorPhase3, TBO10_radon_bridge_fn_enables_build_and_appl
     TensorButterflyOperator::setRadonTransformFn(
         [&called](std::vector<float>& fiber) {
             called = true;
-            for (auto& v : fiber) v = 99.0f;
+            for (auto& v : fiber) {
+              v = 99.0f;
+            }
         });
 
     auto op = TensorButterflyOperator::build(OperatorType::RADON, {4u});
@@ -2427,7 +2451,9 @@ TEST(TensorButterflyOperatorPhase3, TBO10_radon_bridge_fn_enables_build_and_appl
     EXPECT_TRUE(called);
     const auto recon = flatten1D(out);
     ASSERT_FALSE(recon.empty());
-    for (float v : recon) EXPECT_FLOAT_EQ(v, 99.0f);
+    for (float v : recon) {
+      EXPECT_FLOAT_EQ(v, 99.0f);
+    }
 }
 
 // TBO-11: build(GREENS_FUNCTION, {4}) succeeds when GreensTransformFn is set;
@@ -2439,7 +2465,9 @@ TEST(TensorButterflyOperatorPhase3, TBO11_greens_bridge_fn_enables_build_and_app
     TensorButterflyOperator::setGreensTransformFn(
         [&called](std::vector<float>& fiber) {
             called = true;
-            for (auto& v : fiber) v = -1.0f;
+            for (auto& v : fiber) {
+              v = -1.0f;
+            }
         });
 
     auto op = TensorButterflyOperator::build(OperatorType::GREENS_FUNCTION, {4u});
@@ -2449,7 +2477,9 @@ TEST(TensorButterflyOperatorPhase3, TBO11_greens_bridge_fn_enables_build_and_app
     EXPECT_TRUE(called);
     const auto recon = flatten1D(out);
     ASSERT_FALSE(recon.empty());
-    for (float v : recon) EXPECT_FLOAT_EQ(v, -1.0f);
+    for (float v : recon) {
+      EXPECT_FLOAT_EQ(v, -1.0f);
+    }
 }
 
 // TBO-12: after clearRadonTransformFn(), build(RADON, ...) throws again.

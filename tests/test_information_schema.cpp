@@ -33,7 +33,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     void insertRow(const std::string& table, const std::string& id,
@@ -86,7 +88,9 @@ TEST_F(InformationSchemaTest, GetTablesMultiple) {
     EXPECT_EQ(tables.size(), 3u);
 
     std::set<std::string> names;
-    for (const auto& t : tables) names.insert(t.table_name);
+    for (const auto& t : tables) {
+      names.insert(t.table_name);
+    }
     EXPECT_TRUE(names.count("users"));
     EXPECT_TRUE(names.count("orders"));
     EXPECT_TRUE(names.count("items"));

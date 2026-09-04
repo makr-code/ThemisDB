@@ -29,7 +29,9 @@ protected:
     }
 
     void openDB() {
-        if (db_) return;
+        if (db_) {
+          return;
+        }
 
         rocksdb::TransactionDBOptions txn_db_opts;
         txn_db_opts.transaction_lock_timeout = 500;
@@ -70,16 +72,24 @@ protected:
 
     // Read and verify a document
     bool verifyDoc(const std::string& key, int expected_value) {
-        if (!db_) return false;
+        if (!db_) {
+          return false;
+        }
 
         std::string value;
         rocksdb::Status s = db_->Get(rocksdb::ReadOptions(), key, &value);
 
-        if (s.IsNotFound()) return false;
-        if (!s.ok()) return false;
+        if (s.IsNotFound()) {
+          return false;
+        }
+        if (!s.ok()) {
+          return false;
+        }
 
         auto doc = nlohmann::json::parse(value, nullptr, false);
-        if (doc.is_discarded()) return false;
+        if (doc.is_discarded()) {
+          return false;
+        }
 
         return doc.contains("value") && doc["value"] == expected_value;
     }

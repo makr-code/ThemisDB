@@ -120,13 +120,17 @@ TEST(PerfProductQuantizerTest, NearestCentroidIsConsistent) {
     // Cluster A: near +10 in all dims
     for (size_t i = 0; i < n_per_cluster; ++i) {
         std::vector<float> v(dim);
-        for (auto& x : v) x = 10.0f + noise(rng);
+        for (auto& x : v) {
+          x = 10.0f + noise(rng);
+        }
         data.push_back(v);
     }
     // Cluster B: near -10 in all dims
     for (size_t i = 0; i < n_per_cluster; ++i) {
         std::vector<float> v(dim);
-        for (auto& x : v) x = -10.0f + noise(rng);
+        for (auto& x : v) {
+          x = -10.0f + noise(rng);
+        }
         data.push_back(v);
     }
 

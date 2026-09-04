@@ -243,7 +243,9 @@ TEST(NetworkRoutingHardening, NRH03_LbSwitchesToStandbyAfterThreshold) {
 TEST(NetworkRoutingHardening, NRH04_LbRecoversToPrimaryAfterSuccesses) {
     MockLoadBalancer lb;
     // Trigger failover first.
-    for (int i = 0; i < lb.kFailoverThreshold; ++i) lb.recordFailure();
+    for (int i = 0; i < lb.kFailoverThreshold; ++i) {
+      lb.recordFailure();
+    }
     ASSERT_EQ(lb.role, LbRole::STANDBY);
 
     // Drive successes up to recovery threshold.

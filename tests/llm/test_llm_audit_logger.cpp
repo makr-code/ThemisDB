@@ -149,7 +149,9 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_WritesValidJsonLines) {
     std::string line;
     size_t line_count = 0;
     while (std::getline(iss, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         EXPECT_NO_THROW({
             auto parsed = json::parse(line);
             static_cast<void>(parsed);

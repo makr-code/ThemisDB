@@ -334,7 +334,9 @@ TEST(Wave5R10, WikiIndexStoreConcurrentAddIsThreadSafe) {
                               "content for document " + std::to_string(i));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(store.size(), static_cast<size_t>(N));
 }

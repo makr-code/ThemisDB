@@ -74,7 +74,9 @@ protected:
     // Simulate writing data to a shard
     bool simulateWrite(const URN& urn, const nlohmann::json& data) {
         std::string shard_id = hash_ring_->getShardForURN(urn);
-        if (shard_id.empty()) return false;
+        if (shard_id.empty()) {
+          return false;
+        }
         
         std::lock_guard<std::mutex> lock(data_mutex_);
         simulated_data_[shard_id][urn.toString()] = data;
@@ -84,14 +86,20 @@ protected:
     // Simulate reading data from a shard
     std::optional<nlohmann::json> simulateRead(const URN& urn) {
         std::string shard_id = hash_ring_->getShardForURN(urn);
-        if (shard_id.empty()) return std::nullopt;
+        if (shard_id.empty()) {
+          return std::nullopt;
+        }
         
         std::lock_guard<std::mutex> lock(data_mutex_);
         auto shard_it = simulated_data_.find(shard_id);
-        if (shard_it == simulated_data_.end()) return std::nullopt;
+        if (shard_it == simulated_data_.end()) {
+          return std::nullopt;
+        }
         
         auto doc_it = shard_it->second.find(urn.toString());
-        if (doc_it == shard_it->second.end()) return std::nullopt;
+        if (doc_it == shard_it->second.end()) {
+          return std::nullopt;
+        }
         
         return doc_it->second;
     }

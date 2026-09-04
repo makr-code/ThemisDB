@@ -434,9 +434,15 @@ TEST_F(AQLFunctionsTest, GetCategories) {
     // Check that we have the expected categories
     bool hasString = false, hasMath = false, hasArray = false;
     for (const auto& cat : cats) {
-        if (cat == "String") hasString = true;
-        if (cat == "Math") hasMath = true;
-        if (cat == "Array") hasArray = true;
+        if (cat == "String") {
+          hasString = true;
+        }
+        if (cat == "Math") {
+          hasMath = true;
+        }
+        if (cat == "Array") {
+          hasArray = true;
+        }
     }
     EXPECT_TRUE(hasString);
     EXPECT_TRUE(hasMath);
@@ -452,7 +458,9 @@ TEST_F(AQLFunctionsTest, GetFunctionsByCategory) {
     // Check that UPPER is in the String category
     bool hasUpper = false;
     for (const auto& sig : stringFuncs) {
-        if (sig.name == "UPPER") hasUpper = true;
+        if (sig.name == "UPPER") {
+          hasUpper = true;
+        }
     }
     EXPECT_TRUE(hasUpper);
 }

@@ -75,8 +75,12 @@ TEST(AudioPreprocessingPhase1, NoiseReduction) {
     EXPECT_EQ(reduced.samples.size(), frame.samples.size());
     // RMS should be lower or equal after noise reduction
     float rms_before = 0.0f, rms_after = 0.0f;
-    for (float s : frame.samples)   rms_before += s * s;
-    for (float s : reduced.samples) rms_after  += s * s;
+    for (float s : frame.samples) {
+      rms_before += s * s;
+    }
+    for (float s : reduced.samples) {
+      rms_after  += s * s;
+    }
     EXPECT_LE(rms_after, rms_before + 1e-5f);
 }
 
@@ -135,7 +139,9 @@ TEST(AudioPreprocessingPhase1, AudioNormalization) {
     auto normalized = pipeline.normalize(frame, target_rms);
     // Compute RMS
     float rms = 0.0f;
-    for (float s : normalized.samples) rms += s * s;
+    for (float s : normalized.samples) {
+      rms += s * s;
+    }
     rms = std::sqrt(rms / normalized.samples.size());
     EXPECT_NEAR(rms, target_rms, 0.02f);
 }
@@ -315,13 +321,17 @@ TEST(NoiseSuppressorPhase3, SuppressReducesNoise) {
         frame.samples.push_back(0.002f * static_cast<float>(i % 7 - 3));
     }
     float rms_before = 0.0f;
-    for (float s : frame.samples) rms_before += s * s;
+    for (float s : frame.samples) {
+      rms_before += s * s;
+    }
     rms_before = std::sqrt(rms_before / frame.samples.size());
 
     AudioFrame result = ns.suppress(frame, 0.5f);
 
     float rms_after = 0.0f;
-    for (float s : result.samples) rms_after += s * s;
+    for (float s : result.samples) {
+      rms_after += s * s;
+    }
     rms_after = std::sqrt(rms_after / (result.samples.empty() ? 1u : result.samples.size()));
 
     EXPECT_LE(rms_after, rms_before + 1e-5f);
@@ -467,8 +477,12 @@ TEST(IntentDetectorPhase3, ExtractDateEntities) {
     auto entities = detector.extractEntities("show data for last week and yesterday");
     bool found_last_week = false, found_yesterday = false;
     for (const auto& e : entities) {
-        if (e.text == "last week")  found_last_week  = true;
-        if (e.text == "yesterday") found_yesterday = true;
+        if (e.text == "last week") {
+          found_last_week  = true;
+        }
+        if (e.text == "yesterday") {
+          found_yesterday = true;
+        }
     }
     EXPECT_TRUE(found_last_week);
     EXPECT_TRUE(found_yesterday);
@@ -479,8 +493,12 @@ TEST(IntentDetectorPhase3, ExtractNumberEntities) {
     auto entities = detector.extractEntities("get the top 100 records with 50% discount");
     bool found_100 = false, found_50pct = false;
     for (const auto& e : entities) {
-        if (e.text == "100")  found_100    = true;
-        if (e.text == "50%")  found_50pct  = true;
+        if (e.text == "100") {
+          found_100    = true;
+        }
+        if (e.text == "50%") {
+          found_50pct  = true;
+        }
     }
     EXPECT_TRUE(found_100);
     EXPECT_TRUE(found_50pct);
@@ -491,7 +509,9 @@ TEST(IntentDetectorPhase3, ExtractMetricEntities) {
     auto entities = detector.extractEntities("what is the total revenue and profit margin");
     bool found_revenue = false;
     for (const auto& e : entities) {
-        if (e.type == "METRIC") found_revenue = true;
+        if (e.type == "METRIC") {
+          found_revenue = true;
+        }
     }
     EXPECT_TRUE(found_revenue);
 }
@@ -867,7 +887,9 @@ TEST(ErrorHandlerPhase8, CircuitBreakerOpensAfterFailures) {
     CircuitBreakerConfig cfg;
     cfg.failure_threshold = 3;
     VoiceCircuitBreaker cb("test_cb2", cfg);
-    for (int i = 0; i < 3; ++i) cb.recordFailure();
+    for (int i = 0; i < 3; ++i) {
+      cb.recordFailure();
+    }
     EXPECT_EQ(cb.getState(), CircuitState::OPEN);
 }
 

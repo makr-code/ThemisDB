@@ -44,7 +44,9 @@ size_t countLines(const std::string& path) {
     size_t lines = 0;
     std::string line;
     while (std::getline(f, line)) {
-        if (!line.empty()) ++lines;
+        if (!line.empty()) {
+          ++lines;
+        }
     }
     return lines;
 }
@@ -307,7 +309,9 @@ TEST_F(AuditLoggerComprehensiveTest, ConcurrentLogging_ThreadSafe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     logger.flush();
 
     EXPECT_EQ(completed.load(), THREADS);

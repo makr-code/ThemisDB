@@ -160,8 +160,12 @@ TEST_F(HealthErrorServiceTest, CategoriesEndpointReturnsCategories) {
     bool has_llm = false;
     for (const auto& cat : categories) {
         std::string cat_str = cat.get<std::string>();
-        if (cat_str == "Storage") has_storage = true;
-        if (cat_str == "LLM") has_llm = true;
+        if (cat_str == "Storage") {
+          has_storage = true;
+        }
+        if (cat_str == "LLM") {
+          has_llm = true;
+        }
     }
     EXPECT_TRUE(has_storage) << "Should have Storage category";
     EXPECT_TRUE(has_llm) << "Should have LLM category";

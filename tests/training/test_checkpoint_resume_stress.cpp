@@ -66,17 +66,23 @@ public:
     }
 
     size_t getLastEpoch() const {
-        if (!hasCheckpoint()) return 0;
+        if (!hasCheckpoint()) {
+          return 0;
+        }
         return checkpoints_.at(latest_checkpoint_id_).epoch;
     }
 
     size_t getLastStep() const {
-        if (!hasCheckpoint()) return 0;
+        if (!hasCheckpoint()) {
+          return 0;
+        }
         return checkpoints_.at(latest_checkpoint_id_).step;
     }
 
     double getLastLoss() const {
-        if (!hasCheckpoint()) return 0.0;
+        if (!hasCheckpoint()) {
+          return 0.0;
+        }
         return checkpoints_.at(latest_checkpoint_id_).loss;
     }
 

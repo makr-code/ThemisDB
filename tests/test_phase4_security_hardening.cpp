@@ -31,7 +31,9 @@
 // Use a portable volatile-memset loop to avoid depending on OpenSSL at link time.
 static inline void themis_secure_zero(void* ptr, std::size_t len) {
   volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
-  while (len--) *p++ = 0;
+  while (len--) {
+    *p++ = 0;
+  }
 }
 // Mock classes and test utilities for security testing
 namespace themis { namespace security { namespace test {

@@ -1562,7 +1562,9 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
                 try {
                     std::string id = mgr.write("col", "doc-" + std::to_string(t * 1000 + i),
                                                "INSERT", "{}");
-                    if (id.empty()) errors.fetch_add(1);
+                    if (id.empty()) {
+                      errors.fetch_add(1);
+                    }
                 } catch (...) {
                     errors.fetch_add(1);
                 }
@@ -1570,7 +1572,9 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Wait for the queue to drain
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
@@ -1645,8 +1649,12 @@ TEST(MMReplicationManagerTest, TopologySnapshotWithPeer) {
     bool has_a_to_b = false, has_b_to_a = false;
     for (const auto& e : snap.edges) {
         EXPECT_EQ(e.type, "PEER");
-        if (e.from == "node-a" && e.to == "node-b") has_a_to_b = true;
-        if (e.from == "node-b" && e.to == "node-a") has_b_to_a = true;
+        if (e.from == "node-a" && e.to == "node-b") {
+          has_a_to_b = true;
+        }
+        if (e.from == "node-b" && e.to == "node-a") {
+          has_b_to_a = true;
+        }
     }
     EXPECT_TRUE(has_a_to_b) << "Edge from local to peer must exist";
     EXPECT_TRUE(has_b_to_a) << "Reverse edge from peer to local must exist";
@@ -2280,11 +2288,15 @@ TEST_F(PersistentStateTest, ConcurrentPersistIsThreadSafe) {
                 PersistentReplicationState::State s;
                 s.last_applied_sequence = static_cast<uint64_t>(t * 100 + i);
                 s.current_term          = static_cast<uint64_t>(t);
-                if (!prs.persist(s)) errors.fetch_add(1);
+                if (!prs.persist(s)) {
+                  errors.fetch_add(1);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0) << "No errors expected in concurrent persist";
     EXPECT_TRUE(prs.exists());
@@ -2709,7 +2721,9 @@ TEST(BatchedAckTrackerTest, RecordAndDequeue) {
     cfg.flush_interval_ms = 10;
     BatchedAckTracker tracker(cfg);
 
-    for (uint64_t i = 1; i <= 5; ++i) tracker.recordApplied(i);
+    for (uint64_t i = 1; i <= 5; ++i) {
+      tracker.recordApplied(i);
+    }
 
     // Give the flush thread time to run
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -2754,7 +2768,9 @@ TEST(BatchedAckTrackerTest, StatsBatchSizeIsAccurate) {
     cfg.flush_interval_ms = 5;
     BatchedAckTracker tracker(cfg);
 
-    for (uint64_t i = 1; i <= 9; ++i) tracker.recordApplied(i);
+    for (uint64_t i = 1; i <= 9; ++i) {
+      tracker.recordApplied(i);
+    }
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
     auto stats = tracker.getStats();
@@ -2785,7 +2801,9 @@ TEST(BatchedAckTrackerTest, DestructorJoinsCleanly) {
 
 TEST(ReplicationAnalyticsTest, RecordAndGetLagHistory) {
     ReplicationAnalytics analytics;
-    for (int i = 0; i < 10; ++i) analytics.recordLag("r1", 100 * (i + 1));
+    for (int i = 0; i < 10; ++i) {
+      analytics.recordLag("r1", 100 * (i + 1));
+    }
 
     auto hist = analytics.getLagHistory("r1", std::chrono::hours(1));
     EXPECT_EQ(hist.data_points.size(), 10u);
@@ -2823,7 +2841,9 @@ TEST(ReplicationAnalyticsTest, SlowReplicaInsightGenerated) {
     cfg.slow_replica_avg_ms = 500;
     analytics.setConfig(cfg);
 
-    for (int i = 0; i < 20; ++i) analytics.recordLag("r2", 1000);
+    for (int i = 0; i < 20; ++i) {
+      analytics.recordLag("r2", 1000);
+    }
 
     auto insights = analytics.getInsights();
     auto it = std::find_if(insights.begin(), insights.end(),
@@ -2880,7 +2900,9 @@ TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     for (int t = 0; t < kThreads; ++t) {
         auto hist = analytics.getLagHistory("r" + std::to_string(t),
@@ -3637,7 +3659,9 @@ struct MockArchivalBackend : public IArchivalBackend {
     std::optional<std::vector<uint8_t>> getObject(
         const std::string& key) const override {
         auto it = store.find(key);
-        if (it == store.end()) return std::nullopt;
+        if (it == store.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
@@ -4234,7 +4258,9 @@ TEST_F(CrossClusterSubscriptionTest, ApplyErrorCountedAndDoesNotStop) {
     int call_count = 0;
     CrossClusterSubscription sub("sub", pub, [&](const WALEntry& e) {
         ++call_count;
-        if (e.sequence_number == 1) throw std::runtime_error("apply error");
+        if (e.sequence_number == 1) {
+          throw std::runtime_error("apply error");
+        }
     });
     sub.enable();
 
@@ -4537,7 +4563,9 @@ TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
     int calls = 0;
     CrossClusterSubscription sub("err_sub", pub, [&]([[maybe_unused]] const WALEntry& e) {
         ++calls;
-        if (calls == 1) throw std::runtime_error("simulated error");
+        if (calls == 1) {
+          throw std::runtime_error("simulated error");
+        }
     });
     sub.enable();
 
@@ -5693,7 +5721,9 @@ TEST(MultiTierReplicationTest, GetStatsCountsPromotionsAndDemotions) {
     mgr.assignTier("d_col", ReplicationTier::TIER_2_STANDARD);
 
     // Promote p_col
-    for (int i = 0; i < 15; ++i) mgr.recordAccess("p_col");
+    for (int i = 0; i < 15; ++i) {
+      mgr.recordAccess("p_col");
+    }
     mgr.evaluateTierPromotion("p_col");
 
     // Demote d_col

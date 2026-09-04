@@ -56,7 +56,9 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64.push_back(tbl[(n>>6)&63]);  b64.push_back('=');
     }
     for (char& c : b64) { if (c=='+') c='-'; else if (c=='/') c='_'; }
-    while (!b64.empty() && b64.back()=='=') b64.pop_back();
+    while (!b64.empty() && b64.back()=='=') {
+      b64.pop_back();
+    }
     return b64;
 }
 

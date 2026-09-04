@@ -49,7 +49,9 @@ std::string makeErrorJson(const std::string& error,
                           const std::string& description = "") {
     json j;
     j["error"] = error;
-    if (!description.empty()) j["error_description"] = description;
+    if (!description.empty()) {
+      j["error_description"] = description;
+    }
     return j.dump();
 }
 

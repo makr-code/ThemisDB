@@ -60,13 +60,21 @@ TEST(ClusterSchedulingStress, CSS_01_SingleNodeSequential100Ops) {
         UpdateStateMachine sm("");
         ASSERT_EQ(sm.currentState(), UpdateState::IDLE);
         bool ok = sm.transition(UpdateState::DOWNLOADING, "v1", "dl");
-        if (!ok) ++errors;
+        if (!ok) {
+          ++errors;
+        }
         ok = sm.transition(UpdateState::VERIFYING, "", "vfy");
-        if (!ok) ++errors;
+        if (!ok) {
+          ++errors;
+        }
         ok = sm.transition(UpdateState::APPLYING, "", "apply");
-        if (!ok) ++errors;
+        if (!ok) {
+          ++errors;
+        }
         ok = sm.transition(UpdateState::IDLE, "", "done");
-        if (!ok) ++errors;
+        if (!ok) {
+          ++errors;
+        }
     }
     EXPECT_EQ(errors, 0) << "Expected zero transition errors across " << kOps << " ops";
 }
@@ -92,7 +100,9 @@ TEST(ClusterSchedulingStress, CSS_02_MultiNodeParallel4Nodes50Ops) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(total_errors.load(), 0);
 }
 
@@ -112,11 +122,15 @@ TEST(ClusterSchedulingStress, CSS_03_ConcurrentCollisionUnderLoad) {
             ASSERT_TRUE(sm.transition(UpdateState::DOWNLOADING, "v1", "start"));
             for (int i = 0; i < kDetections / 4; ++i) {
                 auto r = handler.detectAndHandle(sm, "concurrent");
-                if (r.handled) ++detected;
+                if (r.handled) {
+                  ++detected;
+                }
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(detected.load(), kDetections);
 }
 
@@ -169,7 +183,9 @@ TEST(ClusterSchedulingStress, CSS_05_RollbackStormCascadePrevention) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(cascade_detections.load(), kRollbackers * 5)
         << "Each cascad-hint detection should produce ROLLBACK_CASCADE_DETECTED";
@@ -204,7 +220,9 @@ TEST(ClusterSchedulingStress, CSS_07_SchedulerQueueSaturation) {
         sm.transition(UpdateState::VERIFYING,   "", "vfy");
         sm.transition(UpdateState::APPLYING,    "", "apply");
         sm.transition(UpdateState::IDLE,        "", "done");
-        if (sm.currentState() != UpdateState::IDLE) ++stuck;
+        if (sm.currentState() != UpdateState::IDLE) {
+          ++stuck;
+        }
     }
     EXPECT_EQ(stuck, 0) << "All machines should reach IDLE after happy-path cycle";
 }
@@ -239,7 +257,9 @@ TEST(ClusterSchedulingStress, CSS_08_MixedSuccessFailureNodes) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     const int expected_failures = kNodes / 2;
     EXPECT_EQ(partial_detections.load(), expected_failures);
@@ -298,7 +318,9 @@ TEST(ClusterSchedulingStress, CSS_11_DeterministicErrorCounts) {
         int detections = 0;
         for (int i = 0; i < kOps; ++i) {
             auto r = handler.detectAndHandle(sm, "concurrent");
-            if (r.handled) ++detections;
+            if (r.handled) {
+              ++detections;
+            }
         }
         return detections;
     };

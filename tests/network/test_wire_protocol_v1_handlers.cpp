@@ -396,7 +396,9 @@ TEST(WireProtocolV1VectorSearch, ValidRequestShape) {
 TEST(WireProtocolV1VectorSearch, DefaultKIs10) {
     // When k is omitted the handler defaults to 10.
     size_t k = 0; // simulating missing field
-    if (k == 0) k = 10;
+    if (k == 0) {
+      k = 10;
+    }
     EXPECT_EQ(k, 10u);
 }
 
@@ -1002,7 +1004,9 @@ TEST(WireProtocolV1EdgeCases, VectorSearchEmptyVectorRejected) {
 
 TEST(WireProtocolV1EdgeCases, VectorSearchKZeroDefaultsToTen) {
     size_t k = 0;
-    if (k == 0) k = 10;
+    if (k == 0) {
+      k = 10;
+    }
     EXPECT_EQ(k, 10u);
 }
 
@@ -1070,8 +1074,12 @@ TEST(WireProtocolV1AuthOpcode, BothOpcodesSameCredentialLogic) {
     // logic must produce the same result regardless of which opcode was used.
     auto authDecide = [](bool require_auth, const std::string& cfg_token,
                          const std::string& presented_token) -> bool {
-        if (!require_auth) return true;
-        if (!cfg_token.empty()) return (presented_token == cfg_token);
+        if (!require_auth) {
+          return true;
+        }
+        if (!cfg_token.empty()) {
+          return (presented_token == cfg_token);
+        }
         return !presented_token.empty();
     };
 

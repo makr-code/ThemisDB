@@ -182,7 +182,9 @@ TEST(MaintenanceStress, MTN23_FiveHundredCycleStressLoop) {
         std::map<std::string, MaintenanceScheduleEntry> loaded;
         std::string err;
         bool ok = store.loadAll(loaded, err);
-        if (!ok) ++errors;
+        if (!ok) {
+          ++errors;
+        }
         else if (loaded.find(id) == loaded.end()) ++errors;
 
         // remove

@@ -129,7 +129,9 @@ static void assertPeakedAt(const std::vector<float>& row, int peak_id,
     ASSERT_LT(static_cast<size_t>(peak_id), vocab_size);
     const float peak_val = row[static_cast<size_t>(peak_id)];
     for (size_t j = 0; j < vocab_size; ++j) {
-        if (static_cast<int>(j) == peak_id) continue;
+        if (static_cast<int>(j) == peak_id) {
+          continue;
+        }
         EXPECT_LT(row[j], peak_val)
             << "row[" << j << "] should be < peak row[" << peak_id << "]";
     }
@@ -307,7 +309,9 @@ TEST(SdRealLogits, SD_REAL_08_OverrideIsUsedInsteadOfDefault) {
     // Ensure the result is still verify()-compatible.
     std::vector<std::vector<float>> target(k + 1,
         std::vector<float>(vocab, -5.0f));
-    for (auto& row : target) row[0] = 5.0f;
+    for (auto& row : target) {
+      row[0] = 5.0f;
+    }
 
     SpeculativeDecoder decoder;
     EXPECT_NO_THROW(decoder.verify(draft.tokens, draft.logits, target));

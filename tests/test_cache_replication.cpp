@@ -385,7 +385,9 @@ public:
 
     size_t countByType(CacheReplicationEventType t) const {
         size_t n = 0;
-        for (const auto& e : events_) if (e.type == t) ++n;
+        for (const auto& e : events_) {
+          if (e.type == t) ++n;
+        }
         return n;
     }
 

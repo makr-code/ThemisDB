@@ -388,7 +388,9 @@ TEST(IdempotencyCache, ConcurrentAccessIsRaceFree) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(completed.load(), kThreads * kOpsPerThread);
     // Cache must be in a consistent state (size ≤ window_size)

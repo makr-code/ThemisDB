@@ -81,7 +81,9 @@ public:
     bool contains(const std::string& txn_id, const std::string& op) const {
         std::lock_guard<std::mutex> lk(mu_);
         for (const auto& e : entries_)
-            if (e.txn_id == txn_id && e.operation == op) return true;
+            if (e.txn_id == txn_id && e.operation == op) {
+              return true;
+            }
         return false;
     }
 
@@ -89,7 +91,9 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
         std::vector<WalEntry> out;
         for (const auto& e : entries_)
-            if (e.txn_id == txn_id) out.push_back(e);
+            if (e.txn_id == txn_id) {
+              out.push_back(e);
+            }
         return out;
     }
 
@@ -116,7 +120,9 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
         std::string last;
         for (const auto& e : entries_)
-            if (e.txn_id == txn_id) last = e.operation;
+            if (e.txn_id == txn_id) {
+              last = e.operation;
+            }
         return last;
     }
 
@@ -135,7 +141,9 @@ public:
         }
         std::vector<std::string> result;
         for (const auto& [tid, _] : has_prepare)
-            if (!has_decision.count(tid)) result.push_back(tid);
+            if (!has_decision.count(tid)) {
+              result.push_back(tid);
+            }
         return result;
     }
 
@@ -208,7 +216,9 @@ public:
     /// @brief Phase-1 prepare (idempotent).
     bool prepare(const std::string& txn_id) {
         applyDelay();
-        if (partitioned_.load() || crashed_.load()) return false;
+        if (partitioned_.load() || crashed_.load()) {
+          return false;
+        }
         std::lock_guard<std::mutex> lk(mu_);
         if (state_ == SimParticipantState::PREPARED   ||
             state_ == SimParticipantState::PRECOMMITTED ||
@@ -217,42 +227,60 @@ public:
         }
         if (vote_yes_.load()) {
             state_ = SimParticipantState::PREPARED;
-            if (wal_) wal_->append("PREPARED", txn_id, id_);
+            if (wal_) {
+              wal_->append("PREPARED", txn_id, id_);
+            }
             return true;
         }
         state_ = SimParticipantState::ABORTED;
-        if (wal_) wal_->append("ABORTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("ABORTED", txn_id, id_);
+        }
         return false;
     }
 
     /// @brief 3PC Phase-2 pre-commit (idempotent).
     bool precommit(const std::string& txn_id) {
         applyDelay();
-        if (partitioned_.load() || crashed_.load()) return false;
+        if (partitioned_.load() || crashed_.load()) {
+          return false;
+        }
         std::lock_guard<std::mutex> lk(mu_);
         if (state_ == SimParticipantState::PRECOMMITTED ||
             state_ == SimParticipantState::COMMITTED) {
             return precommit_ok_.load();
         }
-        if (state_ != SimParticipantState::PREPARED) return false;
+        if (state_ != SimParticipantState::PREPARED) {
+          return false;
+        }
         if (precommit_ok_.load()) {
             state_ = SimParticipantState::PRECOMMITTED;
-            if (wal_) wal_->append("PRECOMMIT", txn_id, id_);
+            if (wal_) {
+              wal_->append("PRECOMMIT", txn_id, id_);
+            }
             return true;
         }
         state_ = SimParticipantState::ABORTED;
-        if (wal_) wal_->append("ABORTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("ABORTED", txn_id, id_);
+        }
         return false;
     }
 
     /// @brief Receive COMMIT decision (idempotent).
     bool commit(const std::string& txn_id) {
         applyDelay();
-        if (partitioned_.load() || crashed_.load()) return false;
+        if (partitioned_.load() || crashed_.load()) {
+          return false;
+        }
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ == SimParticipantState::COMMITTED) return true;
+        if (state_ == SimParticipantState::COMMITTED) {
+          return true;
+        }
         state_ = SimParticipantState::COMMITTED;
-        if (wal_) wal_->append("COMMITTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("COMMITTED", txn_id, id_);
+        }
         releaseLockImpl();
         return true;
     }
@@ -260,21 +288,29 @@ public:
     /// @brief Receive ABORT decision (idempotent – ignores partition for abort delivery).
     bool abort(const std::string& txn_id) {
         applyDelay();
-        if (crashed_.load()) return false;
+        if (crashed_.load()) {
+          return false;
+        }
         // Partitioned participants still receive abort once partition heals;
         // for in-test abort delivery we allow it so the coordinator can drive
         // abort unconditionally (partition does not prevent abort delivery).
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ == SimParticipantState::ABORTED) return true;
+        if (state_ == SimParticipantState::ABORTED) {
+          return true;
+        }
         state_ = SimParticipantState::ABORTED;
-        if (wal_) wal_->append("ABORTED", txn_id, id_);
+        if (wal_) {
+          wal_->append("ABORTED", txn_id, id_);
+        }
         releaseLockImpl();
         return true;
     }
 
     std::string read(const std::string& key) const {
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ != SimParticipantState::COMMITTED) return "";
+        if (state_ != SimParticipantState::COMMITTED) {
+          return "";
+        }
         auto it = data_.find(key);
         return it != data_.end() ? it->second : "";
     }
@@ -320,12 +356,16 @@ public:
 
 private:
     void applyDelay() const {
-        if (delay_.count() > 0) std::this_thread::sleep_for(delay_);
+        if (delay_.count() > 0) {
+          std::this_thread::sleep_for(delay_);
+        }
     }
 
     void releaseLockImpl() {
         if (state_ == SimParticipantState::COMMITTED) {
-            for (auto& [k, v] : staged_) data_[k] = v;
+            for (auto& [k, v] : staged_) {
+              data_[k] = v;
+            }
             staged_.clear();
         }
         locks_.clear();
@@ -420,13 +460,17 @@ public:
         if (all_yes) {
             wal_->append("COMMIT", txn_id);
             setState(Coord2PCState::COMMITTING);
-            for (auto* p : participants_) p->commit(txn_id);
+            for (auto* p : participants_) {
+              p->commit(txn_id);
+            }
             setState(Coord2PCState::COMMITTED);
             return true;
         }
         wal_->append("ABORT", txn_id);
         setState(Coord2PCState::ABORTING);
-        for (auto* p : participants_) p->abort(txn_id);
+        for (auto* p : participants_) {
+          p->abort(txn_id);
+        }
         setState(Coord2PCState::ABORTED);
         return false;
     }
@@ -453,7 +497,9 @@ public:
         setState(Coord2PCState::PREPARING);
         wal_->append("BEGIN",   txn_id);
         wal_->append("PREPARE", txn_id);
-        for (auto* p : participants_) p->prepare(txn_id);
+        for (auto* p : participants_) {
+          p->prepare(txn_id);
+        }
         wal_->append("ABORT", txn_id);
         setState(Coord2PCState::ABORTING);
         // Crash before delivery – participants have not received ABORT yet
@@ -463,13 +509,19 @@ public:
      * @brief WAL-driven recovery to COMMIT (idempotent).
      */
     bool recoverAndCommit(const std::string& txn_id) {
-        if (!wal_->contains(txn_id, "PREPARE")) return false;
-        if (wal_->contains(txn_id, "ABORT"))    return false;
+        if (!wal_->contains(txn_id, "PREPARE")) {
+          return false;
+        }
+        if (wal_->contains(txn_id, "ABORT")) {
+          return false;
+        }
         if (!wal_->contains(txn_id, "COMMIT"))
             wal_->append("COMMIT", txn_id);
 
         setState(Coord2PCState::COMMITTING);
-        for (auto* p : participants_) p->commit(txn_id);
+        for (auto* p : participants_) {
+          p->commit(txn_id);
+        }
         setState(Coord2PCState::COMMITTED);
         return true;
     }
@@ -478,13 +530,19 @@ public:
      * @brief WAL-driven recovery to ABORT (idempotent).
      */
     bool recoverAndAbort(const std::string& txn_id) {
-        if (!wal_->contains(txn_id, "PREPARE")) return false;
-        if (wal_->contains(txn_id, "COMMIT"))   return false;
+        if (!wal_->contains(txn_id, "PREPARE")) {
+          return false;
+        }
+        if (wal_->contains(txn_id, "COMMIT")) {
+          return false;
+        }
         if (!wal_->contains(txn_id, "ABORT"))
             wal_->append("ABORT", txn_id);
 
         setState(Coord2PCState::ABORTING);
-        for (auto* p : participants_) p->abort(txn_id);
+        for (auto* p : participants_) {
+          p->abort(txn_id);
+        }
         setState(Coord2PCState::ABORTED);
         return true;
     }
@@ -552,7 +610,9 @@ public:
         if (!all_prepared) {
             wal_->append("ABORT", txn_id);
             transition(Coord3PCState::ABORTING);
-            for (auto* p : participants_) p->abort(txn_id);
+            for (auto* p : participants_) {
+              p->abort(txn_id);
+            }
             transition(Coord3PCState::ABORTED);
             return false;
         }
@@ -573,14 +633,18 @@ public:
         if (!precommit_ok) {
             wal_->append("ABORT", txn_id);
             transition(Coord3PCState::ABORTING);
-            for (auto* p : participants_) p->abort(txn_id);
+            for (auto* p : participants_) {
+              p->abort(txn_id);
+            }
             transition(Coord3PCState::ABORTED);
             return false;
         }
 
         transition(Coord3PCState::COMMITTING);
         wal_->append("COMMIT", txn_id);
-        for (auto* p : participants_) p->commit(txn_id);
+        for (auto* p : participants_) {
+          p->commit(txn_id);
+        }
         transition(Coord3PCState::COMMITTED);
         return true;
     }
@@ -594,12 +658,16 @@ public:
         wal_->append("PREPARE", txn_id);
 
         for (auto* p : participants_) {
-            if (!p->prepare(txn_id)) return false;
+            if (!p->prepare(txn_id)) {
+              return false;
+            }
         }
 
         transition(Coord3PCState::WAITING_PRECOMMIT);
         wal_->append("PRECOMMIT", txn_id);
-        for (auto* p : participants_) p->precommit(txn_id);
+        for (auto* p : participants_) {
+          p->precommit(txn_id);
+        }
         // Crash before COMMIT decision is logged or delivered
         return true;
     }
@@ -608,11 +676,15 @@ public:
      * @brief Recovery from PRECOMMIT crash: log COMMIT and deliver to all participants.
      */
     bool recoverFromPrecommitCrash(const std::string& txn_id) {
-        if (!wal_->contains(txn_id, "PRECOMMIT")) return false;
+        if (!wal_->contains(txn_id, "PRECOMMIT")) {
+          return false;
+        }
         if (wal_->contains(txn_id, "COMMIT"))     return true;  // already decided
         wal_->append("COMMIT", txn_id);
         transition(Coord3PCState::COMMITTING);
-        for (auto* p : participants_) p->commit(txn_id);
+        for (auto* p : participants_) {
+          p->commit(txn_id);
+        }
         transition(Coord3PCState::COMMITTED);
         return true;
     }
@@ -682,7 +754,9 @@ public:
                 ++recovered;
             });
         }
-        for (auto& t : threads) t.join();
+        for (auto& t : threads) {
+          t.join();
+        }
         return recovered.load();
     }
 
@@ -815,11 +889,15 @@ public:
             }
             if (all_yes) {
                 wal_->append("COMMIT", entry.txn_id);
-                for (auto* p : entry.participants) p->commit(entry.txn_id);
+                for (auto* p : entry.participants) {
+                  p->commit(entry.txn_id);
+                }
                 results[entry.txn_id] = true;
             } else {
                 wal_->append("ABORT", entry.txn_id);
-                for (auto* p : entry.participants) p->abort(entry.txn_id);
+                for (auto* p : entry.participants) {
+                  p->abort(entry.txn_id);
+                }
                 results[entry.txn_id] = false;
             }
             entry.done = true;
@@ -862,7 +940,9 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
         const auto now = std::chrono::steady_clock::now();
         auto it = locks_.find(key);
-        if (it != locks_.end() && it->second.expiry > now) return false;
+        if (it != locks_.end() && it->second.expiry > now) {
+          return false;
+        }
         locks_[key] = {txn_id, expiry};
         return true;
     }
@@ -877,7 +957,9 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
         const auto now = std::chrono::steady_clock::now();
         auto it = locks_.find(key);
-        if (it != locks_.end() && it->second.expiry > now) return false;
+        if (it != locks_.end() && it->second.expiry > now) {
+          return false;
+        }
         locks_[key] = {new_txn_id, expiry};
         return true;
     }
@@ -948,7 +1030,9 @@ class NetworkPartitionTest : public FIBase {};
 TEST_F(NetworkPartitionTest, FI01_SingleParticipantPartitionedPhase1Aborts) {
     auto ps = makeParticipants(3);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // Partition participant[1] before prepare
     NetworkPartitionGuard guard(*ps[1]);
@@ -966,7 +1050,9 @@ TEST_F(NetworkPartitionTest, FI01_SingleParticipantPartitionedPhase1Aborts) {
 TEST_F(NetworkPartitionTest, FI02_AllParticipantsPartitionedPhase1Aborts) {
     auto ps = makeParticipants(3);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     NetworkPartitionGuard g0(*ps[0]);
     NetworkPartitionGuard g1(*ps[1]);
@@ -985,7 +1071,9 @@ TEST_F(NetworkPartitionTest, FI02_AllParticipantsPartitionedPhase1Aborts) {
 TEST_F(NetworkPartitionTest, FI03_PartitionAfterPreparedCommitRedriven) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // Let Phase-1 succeed for both, then partition ps[1] to block Phase-2 delivery
     // We simulate this by manually running Phase-1 then applying partition.
@@ -1017,7 +1105,9 @@ TEST_F(NetworkPartitionTest, FI03_PartitionAfterPreparedCommitRedriven) {
 TEST_F(NetworkPartitionTest, FI04_MajorityPartitionedAbortDecision) {
     auto ps = makeParticipants(5);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // Partition 3 of 5 (majority)
     NetworkPartitionGuard g1(*ps[1]);
@@ -1063,7 +1153,9 @@ TEST_F(NetworkPartitionTest, FI05_PartitionHealsCommitRedeliveredIdempotently) {
 TEST_F(NetworkPartitionTest, FI06_PartitionDuring3PCPrecommitAbortsFailClosed) {
     auto ps = makeParticipants(3);
     Coordinator3PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // Partition ps[2] so that it cannot respond to PRECOMMIT
     ps[2]->setPartitioned(true);
@@ -1085,7 +1177,9 @@ TEST_F(NetworkPartitionTest, FI06_PartitionDuring3PCPrecommitAbortsFailClosed) {
 TEST_F(NetworkPartitionTest, FI07_TransientPartitionHealsBeforeProtocol) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // Apply then immediately heal
     ps[0]->setPartitioned(true);
@@ -1104,7 +1198,9 @@ TEST_F(NetworkPartitionTest, FI07_TransientPartitionHealsBeforeProtocol) {
 TEST_F(NetworkPartitionTest, FI08_CascadingPartitionMidPrepare) {
     auto ps = makeParticipants(4);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // ps[2] falls off the network just before the coordinator reaches it
     ps[2]->setPartitioned(true);
@@ -1128,7 +1224,9 @@ TEST_F(NetworkPartitionTest, FI09_SplitBrainOnlyOneDecision) {
 
     // Coordinator A commits
     Coordinator2PC coordA(&wal_);
-    for (auto& p : ps) coordA.addParticipant(p.get());
+    for (auto& p : ps) {
+      coordA.addParticipant(p.get());
+    }
     ASSERT_TRUE(coordA.execute(tid));
     ASSERT_TRUE(wal_.contains(tid, "COMMIT"));
 
@@ -1140,7 +1238,9 @@ TEST_F(NetworkPartitionTest, FI09_SplitBrainOnlyOneDecision) {
     // Count COMMIT occurrences – must be exactly one
     int commit_count = 0;
     for (const auto& e : wal_.snapshot())
-        if (e.txn_id == tid && e.operation == "COMMIT") ++commit_count;
+        if (e.txn_id == tid && e.operation == "COMMIT") {
+          ++commit_count;
+        }
     EXPECT_EQ(commit_count, 1);
 }
 
@@ -1186,10 +1286,14 @@ TEST_F(NetworkPartitionTest, FI10_PartitionDuringSAGACompensationRedelivered) {
 TEST_F(NetworkPartitionTest, FI11_CoordinatorIsolatedTimesOutAndAborts) {
     auto ps = makeParticipants(3);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // Partition ALL participants to simulate coordinator isolation
-    for (auto& p : ps) p->setPartitioned(true);
+    for (auto& p : ps) {
+      p->setPartitioned(true);
+    }
 
     // Use a very short timeout so the test remains fast
     const bool committed = coord.execute(txnId("11"), 1ms);
@@ -1328,7 +1432,9 @@ class CoordinatorFailureTest : public FIBase {};
 TEST_F(CoordinatorFailureTest, FI16_CrashAfterPrepareSentRecoveryDeliversCommit) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("16");
     const bool all_yes = coord.executeUntilCrashAfterPrepare(tid);
@@ -1352,7 +1458,9 @@ TEST_F(CoordinatorFailureTest, FI16_CrashAfterPrepareSentRecoveryDeliversCommit)
 TEST_F(CoordinatorFailureTest, FI17_CrashAfterAbortLoggedRecoveryRedeliversAbort) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("17");
     coord.executeUntilCrashAfterAbortLogged(tid);
@@ -1379,7 +1487,9 @@ TEST_F(CoordinatorFailureTest, FI17_CrashAfterAbortLoggedRecoveryRedeliversAbort
 TEST_F(CoordinatorFailureTest, FI18_CoordinatorRestartCleanWALBeginsFresh) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("18");
     ASSERT_TRUE(coord.execute(tid));
@@ -1396,14 +1506,18 @@ TEST_F(CoordinatorFailureTest, FI18_CoordinatorRestartCleanWALBeginsFresh) {
 TEST_F(CoordinatorFailureTest, FI19_NewCoordinatorTakesOverDrivesInDoubtToCompletion) {
     auto ps = makeParticipants(3);
     Coordinator2PC coordOld(&wal_);
-    for (auto& p : ps) coordOld.addParticipant(p.get());
+    for (auto& p : ps) {
+      coordOld.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("19");
     ASSERT_TRUE(coordOld.executeUntilCrashAfterPrepare(tid));
 
     // New coordinator
     Coordinator2PC coordNew(&wal_);
-    for (auto& p : ps) coordNew.addParticipant(p.get());
+    for (auto& p : ps) {
+      coordNew.addParticipant(p.get());
+    }
     ASSERT_TRUE(coordNew.recoverAndCommit(tid));
 
     for (const auto& p : ps)
@@ -1444,7 +1558,9 @@ TEST_F(CoordinatorFailureTest, FI20_CoordinatorFailsEachTxnIndependentlyRecovera
 TEST_F(CoordinatorFailureTest, FI21_CrashMid3PCAfterPrecommitRecoveryCommits) {
     auto ps = makeParticipants(3);
     Coordinator3PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("21");
     ASSERT_TRUE(coord.executeUntilCrashAfterPrecommit(tid));
@@ -1467,7 +1583,9 @@ TEST_F(CoordinatorFailureTest, FI21_CrashMid3PCAfterPrecommitRecoveryCommits) {
 TEST_F(CoordinatorFailureTest, FI22_WALPersistsDecisionBeforeCrashExactlyOnceDelivery) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("22");
     coord.executeUntilCrashAfterPrepare(tid);
@@ -1479,7 +1597,9 @@ TEST_F(CoordinatorFailureTest, FI22_WALPersistsDecisionBeforeCrashExactlyOnceDel
     // Count COMMIT in WAL – at most 2 (one we appended + one recovery check)
     int commit_count = 0;
     for (const auto& e : wal_.snapshot())
-        if (e.txn_id == tid && e.operation == "COMMIT") ++commit_count;
+        if (e.txn_id == tid && e.operation == "COMMIT") {
+          ++commit_count;
+        }
     // recoverAndCommit only appends COMMIT if absent; we added it before calling,
     // so there should be exactly the two we control.
     EXPECT_GE(commit_count, 1);
@@ -1524,21 +1644,27 @@ TEST_F(CoordinatorFailureTest, FI24_MultipleCoordinatorRestartsIdempotentRecover
     // First coordinator crashes after prepare
     {
         Coordinator2PC coord(&wal_);
-        for (auto& p : ps) coord.addParticipant(p.get());
+        for (auto& p : ps) {
+          coord.addParticipant(p.get());
+        }
         coord.executeUntilCrashAfterPrepare(tid);
     }
 
     // Restart 1
     {
         Coordinator2PC coord(&wal_);
-        for (auto& p : ps) coord.addParticipant(p.get());
+        for (auto& p : ps) {
+          coord.addParticipant(p.get());
+        }
         EXPECT_TRUE(coord.recoverAndCommit(tid));
     }
 
     // Restart 2 – idempotent: COMMIT already in WAL, participants already COMMITTED
     {
         Coordinator2PC coord(&wal_);
-        for (auto& p : ps) coord.addParticipant(p.get());
+        for (auto& p : ps) {
+          coord.addParticipant(p.get());
+        }
         // recoverAndCommit returns false because COMMIT already present (WAL guard)
         // but participants remain COMMITTED
         coord.recoverAndCommit(tid);
@@ -1563,14 +1689,18 @@ TEST_F(CoordinatorFailureTest, FI25_ConcurrentTxnsCoordinatorCrashOneOthersCompl
     // tid_crash: coordinator crashes after prepare
     {
         Coordinator2PC coord(&wal_);
-        for (auto& p : ps1) coord.addParticipant(p.get());
+        for (auto& p : ps1) {
+          coord.addParticipant(p.get());
+        }
         coord.executeUntilCrashAfterPrepare(tid_crash);
     }
 
     // tid_normal: completes fully on its own WAL
     {
         Coordinator2PC coord(&wal2);
-        for (auto& p : ps2) coord.addParticipant(p.get());
+        for (auto& p : ps2) {
+          coord.addParticipant(p.get());
+        }
         EXPECT_TRUE(coord.execute(tid_normal));
     }
 
@@ -1597,7 +1727,9 @@ class CascadeMultiFailureTest : public FIBase {};
 TEST_F(CascadeMultiFailureTest, FI26_TwoParticipantsFailSimultaneouslyCoordinatorAborts) {
     auto ps = makeParticipants(4);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // ps[1] and ps[2] fail simultaneously
     ps[1]->setVoteYes(false);
@@ -1616,7 +1748,9 @@ TEST_F(CascadeMultiFailureTest, FI26_TwoParticipantsFailSimultaneouslyCoordinato
 TEST_F(CascadeMultiFailureTest, FI27_CascadeParticipantAFailsAbortPropagatedViaWAL) {
     auto ps = makeParticipants(2);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     ps[0]->setVoteYes(false);  // A votes abort
 
@@ -1633,7 +1767,9 @@ TEST_F(CascadeMultiFailureTest, FI27_CascadeParticipantAFailsAbortPropagatedViaW
 TEST_F(CascadeMultiFailureTest, FI28_ThreeWayCascadeAtomicAbort) {
     auto ps = makeParticipants(3);
     Coordinator2PC coord(&wal_);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     // P1 votes yes, P2 partitioned, P3 times out via delay + short timeout
     ps[1]->setPartitioned(true);
@@ -1702,10 +1838,14 @@ TEST_F(CascadeMultiFailureTest, FI31_FiveShardTxnTwoFailuresDeterministicAbort) 
         SimWAL wal;
         auto ps = makeParticipants(5, true, &wal);
         Coordinator2PC coord(&wal);
-        for (auto& p : ps) coord.addParticipant(p.get());
+        for (auto& p : ps) {
+          coord.addParticipant(p.get());
+        }
 
         std::shuffle(fail_indices.begin(), fail_indices.end(), rng);
-        for (int fi : fail_indices) ps[static_cast<size_t>(fi)]->setVoteYes(false);
+        for (int fi : fail_indices) {
+          ps[static_cast<size_t>(fi)]->setVoteYes(false);
+        }
 
         EXPECT_FALSE(coord.execute(txnId("31-t" + std::to_string(trial))));
         EXPECT_EQ(coord.state(), Coord2PCState::ABORTED);
@@ -1926,7 +2066,9 @@ TEST_F(CascadeMultiFailureTest, FI39_DurabilityProofWALSnapshotSurvivesRestart) 
     SimCoordinatorWAL cwal;
     auto ps = makeParticipants(2, true, &cwal);
     Coordinator2PC coord(&cwal);
-    for (auto& p : ps) coord.addParticipant(p.get());
+    for (auto& p : ps) {
+      coord.addParticipant(p.get());
+    }
 
     const std::string tid = txnId("39");
     ASSERT_TRUE(coord.execute(tid));
@@ -1961,11 +2103,15 @@ TEST_F(CascadeMultiFailureTest, FI40_EndToEndFaultStressNoTxnBothCommittedAndAbo
 
         auto ps = makeParticipants(3, true, &local_wal);
         Coordinator2PC coord(&local_wal);
-        for (auto& p : ps) coord.addParticipant(p.get());
+        for (auto& p : ps) {
+          coord.addParticipant(p.get());
+        }
 
         // Inject random faults
         for (auto& p : ps) {
-            if (fault_dist(rng)) p->setVoteYes(false);
+            if (fault_dist(rng)) {
+              p->setVoteYes(false);
+            }
         }
 
         const bool committed = coord.execute(tid);

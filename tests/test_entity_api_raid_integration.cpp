@@ -207,9 +207,15 @@ TEST_F(EntityApiRaidIntegrationTest, RaidEnabledWithComponents) {
     
     // At least some replicas should exist (depending on write concern)
     int replica_count = 0;
-    if (shard_0_value.has_value()) replica_count++;
-    if (shard_1_value.has_value()) replica_count++;
-    if (shard_2_value.has_value()) replica_count++;
+    if (shard_0_value.has_value()) {
+      replica_count++;
+    }
+    if (shard_1_value.has_value()) {
+      replica_count++;
+    }
+    if (shard_2_value.has_value()) {
+      replica_count++;
+    }
     
     EXPECT_GT(replica_count, 0) << "Expected at least one RAID replica to be written";
 }

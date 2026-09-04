@@ -47,7 +47,9 @@ struct CollectedAuthEvents {
     bool hasType(AuthAnomalyEvent::Type t) const {
         std::lock_guard<std::mutex> l(mtx);
         for (const auto& e : events)
-            if (e.type == t) return true;
+            if (e.type == t) {
+              return true;
+            }
         return false;
     }
 };
@@ -259,7 +261,9 @@ TEST_F(CredentialStuffingTest, AlertFiredOncePerEvent) {
     AuthRateLimiter rl(cfg);
     std::atomic<int> count{0};
     rl.setAnomalyCallback([&](const AuthAnomalyEvent& ev) {
-        if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) count++;
+        if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
+          count++;
+        }
     });
 
     const std::string ip = "10.20.30.40";
@@ -276,7 +280,9 @@ TEST_F(CredentialStuffingTest, DetectionDisabledByConfig) {
     AuthRateLimiter rl(cfg);
     std::atomic<int> count{0};
     rl.setAnomalyCallback([&](const AuthAnomalyEvent& ev) {
-        if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) count++;
+        if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
+          count++;
+        }
     });
 
     const std::string ip = "1.2.3.4";
@@ -332,7 +338,9 @@ TEST(AuthAnomalyThreadSafetyTest, ConcurrentRecordFailedAuthDoesNotCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Just verify no crash; count may be > 0
     SUCCEED();
@@ -388,7 +396,9 @@ size_t countLogLines(const std::string& path) {
     size_t n = 0;
     std::string line;
     while (std::getline(f, line)) {
-        if (!line.empty()) ++n;
+        if (!line.empty()) {
+          ++n;
+        }
     }
     return n;
 }

@@ -60,7 +60,9 @@ struct StubEvaluator : public PolicyEngine::IPolicyEvaluator {
         const std::optional<std::string>&,
         const std::optional<std::string>&) const override
     {
-        if (!result.has_value()) return std::nullopt;
+        if (!result.has_value()) {
+          return std::nullopt;
+        }
         PolicyEngine::Decision d;
         d.allowed   = *result;
         d.policy_id = "stub";

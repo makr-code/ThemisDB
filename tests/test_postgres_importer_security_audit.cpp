@@ -180,7 +180,9 @@ static ImportStats importContent(const std::string& content,
                     stats.errors.push_back(e.message);
                     in_copy = false;
                     log_capture(e.message);
-                    if (!opts.continue_on_error) return stats;
+                    if (!opts.continue_on_error) {
+                      return stats;
+                    }
                     continue;
                 }
             }
@@ -201,7 +203,9 @@ static ImportStats importContent(const std::string& content,
                 stats.failed_records++;
                 stats.quarantined_records++;
                 log_capture(e.message);
-                if (!opts.continue_on_error) return stats;
+                if (!opts.continue_on_error) {
+                  return stats;
+                }
                 continue;
             }
 
@@ -229,7 +233,9 @@ static ImportStats importContent(const std::string& content,
             stats.errors.push_back(e.message);
             current_sql.clear();
             log_capture(e.message);
-            if (!opts.continue_on_error) return stats;
+            if (!opts.continue_on_error) {
+              return stats;
+            }
             continue;
         }
 
@@ -241,7 +247,9 @@ static ImportStats importContent(const std::string& content,
                 size_t ne = current_sql.find_first_of(" \t(", ns);
                 std::string tname = current_sql.substr(ns, ne - ns);
                 auto dot = tname.rfind('.');
-                if (dot != std::string::npos) tname = tname.substr(dot + 1);
+                if (dot != std::string::npos) {
+                  tname = tname.substr(dot + 1);
+                }
 
                 TableSchema ts;
                 ts.name = tname;

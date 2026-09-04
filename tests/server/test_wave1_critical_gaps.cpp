@@ -42,11 +42,15 @@ int timedJoinAll(std::vector<std::thread>& threads,
     std::vector<std::future<void>> futs;
     futs.reserve(threads.size());
     for (auto& t : threads) {
-        if (!t.joinable()) continue;
+        if (!t.joinable()) {
+          continue;
+        }
         futs.emplace_back(
             std::async(std::launch::async,
                        [th = std::move(t)]() mutable {
-                           if (th.joinable()) th.join();
+                           if (th.joinable()) {
+                             th.join();
+                           }
                        }));
     }
     for (auto& f : futs) {
@@ -123,7 +127,9 @@ TEST(Wave1CriticalGaps, CallOnce_InvokedExactlyOnceUnderConcurrency)
             });
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(1, init_count.load());
 }
@@ -146,7 +152,9 @@ TEST(Wave1CriticalGaps, CallOnce_ResultConsistentAcrossThreads)
             EXPECT_TRUE(ok);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_TRUE(ok);
 }
 
@@ -181,7 +189,9 @@ TEST(Wave1CriticalGaps, HandlerSnapshot_ConsistentUnderConcurrentReads)
                 snap = handler_ptr;
             }
             // Use snap without holding the lock.
-            if (snap == nullptr) ++mismatches;
+            if (snap == nullptr) {
+              ++mismatches;
+            }
         });
     }
 
@@ -192,7 +202,9 @@ TEST(Wave1CriticalGaps, HandlerSnapshot_ConsistentUnderConcurrentReads)
     });
 
     writer.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // No reader should have observed a null snap.
     EXPECT_EQ(0, mismatches.load());

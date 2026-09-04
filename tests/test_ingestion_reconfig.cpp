@@ -172,7 +172,9 @@ TEST(ReconfigureSourceTest, ThreadSafeConcurrentReconfigure) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(success_count.load(), kThreads);
 

@@ -162,7 +162,9 @@ protected:
     void TearDown() override {
         engine_.reset();
         idx_.reset();
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
         db_.reset();
         std::filesystem::remove_all(dbPath_);
     }

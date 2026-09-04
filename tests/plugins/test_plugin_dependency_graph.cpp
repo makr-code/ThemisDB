@@ -246,8 +246,12 @@ TEST(PluginDependencyGraph, CycleDetected_TwoNodes) {
     bool foundA = false, foundB = false;
     for (const auto& cycle : cycles) {
         for (const auto& n : cycle) {
-            if (n == "a") foundA = true;
-            if (n == "b") foundB = true;
+            if (n == "a") {
+              foundA = true;
+            }
+            if (n == "b") {
+              foundB = true;
+            }
         }
     }
     EXPECT_TRUE(foundA);

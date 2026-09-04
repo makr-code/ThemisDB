@@ -225,7 +225,9 @@ TEST_F(WALChaosTest, MultiSegment_AllEntriesRecoveredAcrossRotations) {
 
     int seg_count = 0;
     for (const auto& e : fs::directory_iterator(wal_dir_)) {
-        if (e.path().extension() == ".log") ++seg_count;
+        if (e.path().extension() == ".log") {
+          ++seg_count;
+        }
     }
     EXPECT_GT(seg_count, 1) << "Expected multiple segments from rotation";
 
@@ -325,7 +327,9 @@ TEST_F(WALChaosTest, ConcurrentWrites_AllEntriesRecoverable) {
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
     }
 
     int count = 0;

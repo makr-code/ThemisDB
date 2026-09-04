@@ -43,7 +43,9 @@ static std::vector<DsgvoViolation> checkDsgvoNodes(
 {
     std::vector<DsgvoViolation> violations;
     for (const auto& node : nodes) {
-        if (!node.dsgvo_annotation.has_value()) continue;
+        if (!node.dsgvo_annotation.has_value()) {
+          continue;
+        }
         const auto& ann = *node.dsgvo_annotation;
 
         if ((ann.data_category == "personal" || ann.data_category == "sensitive")

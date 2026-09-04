@@ -85,7 +85,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         server_.reset();
         tx_manager_.reset();
         vector_index_.reset();

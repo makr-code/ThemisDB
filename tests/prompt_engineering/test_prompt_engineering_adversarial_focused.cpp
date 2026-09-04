@@ -75,7 +75,9 @@ protected:
         auto result = PromptManager::validateTemplate(t);
         
         // Additional injection detection on content
-        if (!result.valid) return result;
+        if (!result.valid) {
+          return result;
+        }
         
         auto injection_result = detector_.detect(t.content);
         if (injection_result.is_injection) {

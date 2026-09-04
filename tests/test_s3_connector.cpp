@@ -55,7 +55,9 @@ static SourceConfig makeS3Cfg(const std::string& bucket = "test-bucket",
     cfg.type                 = SourceType::OBJECT_STORAGE;
     cfg.location             = bucket;
     cfg.options["provider"]  = "s3";
-    if (!prefix.empty()) cfg.options["prefix"] = prefix;
+    if (!prefix.empty()) {
+      cfg.options["prefix"] = prefix;
+    }
     return cfg;
 }
 
@@ -151,7 +153,9 @@ TEST(S3ConnectorTest, IngestPlainTextObjects) {
     const std::vector<std::string> keys = {"a.txt", "b.txt", "c.txt"};
     int call = 0;
     conn.setObjectListForTesting([&](const std::string&) -> std::vector<std::string> {
-        if (call++ == 0) return keys;
+        if (call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& k) {
@@ -325,7 +329,9 @@ TEST(S3ConnectorTest, ConcurrentDownloadsProcessMultipleObjects) {
     }
     int call = 0;
     conn.setObjectListForTesting([&](const std::string&) -> std::vector<std::string> {
-        if (call++ == 0) return keys;
+        if (call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& k) {
@@ -665,7 +671,9 @@ TEST(S3ConnectorTest, LargeBatchProcessedConcurrently) {
     }
     int call = 0;
     conn.setObjectListForTesting([&](const std::string&) -> std::vector<std::string> {
-        if (call++ == 0) return keys;
+        if (call++ == 0) {
+          return keys;
+        }
         return {};
     });
     conn.setObjectFetchForTesting([](const std::string& k) {

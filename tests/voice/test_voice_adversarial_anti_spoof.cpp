@@ -140,7 +140,9 @@ std::string generateSpeakerBaseline() {
     std::string baseline;
     for (int i = 0; i < 32; ++i) {
         double value = (std::rand() % 1000) / 1000.0;
-        if (i > 0) baseline += ",";
+        if (i > 0) {
+          baseline += ",";
+        }
         baseline += std::to_string(value).substr(0, 6);
     }
     return baseline;
@@ -155,7 +157,9 @@ std::string generateMismatchedSpeakerBaseline() {
     std::string baseline;
     for (int i = 0; i < 32; ++i) {
         double value = (std::rand() % 1000) / 1000.0 + 0.5;  // Shifted values
-        if (i > 0) baseline += ",";
+        if (i > 0) {
+          baseline += ",";
+        }
         baseline += std::to_string(std::fmod(value, 1.0)).substr(0, 6);
     }
     return baseline;

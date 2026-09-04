@@ -423,12 +423,16 @@ TEST_F(P2PTransferTest, ConcurrentTransfers_CPUFallback_NoRaces) {
 
             for (int i = 0; i < kIter; ++i) {
                 auto res = local_mgr.transfer(req, twoGPUs());
-                if (res.ok) ++successes;
+                if (res.ok) {
+                  ++successes;
+                }
             }
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(successes.load(), kThreads * kIter);
 #else
     GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";

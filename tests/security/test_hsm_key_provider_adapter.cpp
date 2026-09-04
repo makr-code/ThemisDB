@@ -494,7 +494,9 @@ TEST_F(HSMKeyProviderAdapterStubTest, WrapUnwrapRoundTrip) {
     HSMKeyProviderAdapter adapter(hsm);
 
     std::vector<uint8_t> original_key(32);
-    for (uint8_t i = 0; i < 32; ++i) original_key[i] = i;
+    for (uint8_t i = 0; i < 32; ++i) {
+      original_key[i] = i;
+    }
 
     KeyMetadata meta;
     meta.status = KeyStatus::ACTIVE;

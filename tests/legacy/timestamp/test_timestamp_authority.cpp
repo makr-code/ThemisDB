@@ -488,7 +488,9 @@ struct EnvGuard {
     explicit EnvGuard(const char* var, const char* value) : name(var) {
         const char* existing = std::getenv(var);
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
 #ifdef _WIN32
         _putenv_s(var, value);
 #else
@@ -498,10 +500,14 @@ struct EnvGuard {
 
     ~EnvGuard() {
 #ifdef _WIN32
-        if (had_previous) _putenv_s(name, previous.c_str());
+        if (had_previous) {
+          _putenv_s(name, previous.c_str());
+        }
         else              _putenv_s(name, "");
 #else
-        if (had_previous) ::setenv(name, previous.c_str(), 1);
+        if (had_previous) {
+          ::setenv(name, previous.c_str(), 1);
+        }
         else              ::unsetenv(name);
 #endif
     }
@@ -516,7 +522,9 @@ struct EnvUnsetGuard {
     explicit EnvUnsetGuard(const char* var) : name(var) {
         const char* existing = std::getenv(var);
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
 #ifdef _WIN32
         _putenv_s(var, "");
 #else
@@ -526,10 +534,14 @@ struct EnvUnsetGuard {
 
     ~EnvUnsetGuard() {
 #ifdef _WIN32
-        if (had_previous) _putenv_s(name, previous.c_str());
+        if (had_previous) {
+          _putenv_s(name, previous.c_str());
+        }
         else              _putenv_s(name, "");
 #else
-        if (had_previous) ::setenv(name, previous.c_str(), 1);
+        if (had_previous) {
+          ::setenv(name, previous.c_str(), 1);
+        }
         else              ::unsetenv(name);
 #endif
     }

@@ -64,8 +64,12 @@ static std::string uploadJsonBody(const std::vector<uint8_t>& bytes,
     encoded.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
-        if (i + 1 < bytes.size()) b |= static_cast<uint32_t>(bytes[i+1]) << 8;
-        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i+2]);
+        if (i + 1 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i+1]) << 8;
+        }
+        if (i + 2 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i+2]);
+        }
         encoded += B64[(b >> 18) & 0x3f];
         encoded += B64[(b >> 12) & 0x3f];
         encoded += (i + 1 < bytes.size()) ? B64[(b >>  6) & 0x3f] : '=';

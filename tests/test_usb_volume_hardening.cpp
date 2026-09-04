@@ -19,10 +19,14 @@ namespace fs = std::filesystem;
 /// Compute SHA-256 of a file and return its hex digest (mirrors production).
 static std::string sha256OfFile(const std::string& path) {
     std::ifstream f(path, std::ios::binary);
-    if (!f.is_open()) return "";
+    if (!f.is_open()) {
+      return "";
+    }
 
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return "";
+    if (!ctx) {
+      return "";
+    }
     EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
 
     char buf[65536];

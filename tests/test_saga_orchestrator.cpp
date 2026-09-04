@@ -85,7 +85,9 @@ SAGADefinition make_trivial_saga(const std::string& id = "s1",
     SAGAStep step;
     step.name = "only";
     step.forward = [forward_ok]() {
-        if (!forward_ok) throw std::runtime_error("forced failure");
+        if (!forward_ok) {
+          throw std::runtime_error("forced failure");
+        }
     };
     saga.steps.push_back(std::move(step));
     return saga;
@@ -196,7 +198,9 @@ TEST(SAGAOrchestratorTest, AC3_RetryPolicies_StepSucceedsOnSecondAttempt) {
     s.max_retries = 2;
     s.retry_delay = 1ms; // fast for tests
     s.forward     = [&attempts]() {
-        if (++attempts < 2) throw std::runtime_error("transient");
+        if (++attempts < 2) {
+          throw std::runtime_error("transient");
+        }
     };
     saga.steps.push_back(std::move(s));
 
@@ -840,10 +844,14 @@ TEST(SAGAOrchestratorTest, AC20_ThreadSafety_ConcurrentExecuteCallsAreSafe) {
         threads.emplace_back([&orch, &succeeded, i]() {
             SAGADefinition saga = make_trivial_saga("thread-" + std::to_string(i));
             auto result = orch.execute(saga);
-            if (result.ok) ++succeeded;
+            if (result.ok) {
+              ++succeeded;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(succeeded.load(), N);
     auto m = orch.getMetrics();
@@ -1173,7 +1181,9 @@ TEST_F(SAGAOrchestratorFixtureTest, RetryPolicy_SucceedsAfterRetries) {
     def.name = "retry_success";
     def.steps.push_back(makeStep("flaky", [&calls]{
         int n = ++calls;
-        if (n < 3) throw std::runtime_error("transient");
+        if (n < 3) {
+          throw std::runtime_error("transient");
+        }
     }, {}, {}, 2000ms, /*max_retries=*/3, /*retry_delay=*/1ms));
 
     auto st = orch.execute(def);
@@ -1402,7 +1412,9 @@ TEST_F(SAGAOrchestratorFixtureTest, Metrics_Retries_Counted) {
     SAGADefinition def;
     def.name = "metrics_retry";
     def.steps.push_back(makeStep("flaky", [&n]{
-        if (++n < 3) throw std::runtime_error("transient");
+        if (++n < 3) {
+          throw std::runtime_error("transient");
+        }
     }, {}, {}, 2000ms, /*max_retries=*/3, /*retry_delay=*/1ms));
 
     orch.execute(def);
@@ -1442,10 +1454,14 @@ TEST_F(SAGAOrchestratorFixtureTest, ConcurrentSAGAs_AllComplete) {
             def.steps.push_back(makeStep("s2", [&total_steps]{ ++total_steps; }, {}, {"s1"}));
 
             auto st = orch.execute(def);
-            if (st.ok) ++successes;
+            if (st.ok) {
+              ++successes;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(successes.load(), kSAGAs);
     EXPECT_EQ(total_steps.load(), kSAGAs * 2);

@@ -36,7 +36,9 @@ WikiIndexStore buildStore(bool enable_hnsw = false,
 /// Returns a unit-norm vector with a 1 in position @p dim_one_hot and rest 0.
 std::vector<float> oneHotVec(size_t dim, size_t pos) {
     std::vector<float> v(dim, 0.0f);
-    if (pos < dim) v[pos] = 1.0f;
+    if (pos < dim) {
+      v[pos] = 1.0f;
+    }
     return v;
 }
 
@@ -49,7 +51,9 @@ std::vector<float> pseudoVec(size_t dim, float seed) {
         norm += v[i] * v[i];
     }
     norm = std::sqrt(norm);
-    for (auto& x : v) x /= norm;
+    for (auto& x : v) {
+      x /= norm;
+    }
     return v;
 }
 

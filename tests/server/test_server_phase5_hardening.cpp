@@ -797,7 +797,9 @@ TEST_F(WireRetryTest, WSR15_ExceptionInCallable_HandledGracefully) {
     WireResult result;
     EXPECT_NO_THROW({
         result = gate.execute([](int attempt) -> WireResult {
-            if (attempt == 1) throw std::runtime_error("network error");
+            if (attempt == 1) {
+              throw std::runtime_error("network error");
+            }
             return {WireErrorCode::kOk, "ok"};
         });
     });

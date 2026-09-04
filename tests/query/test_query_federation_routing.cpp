@@ -171,7 +171,9 @@ protected:
 // ============================================================================
 static std::vector<std::string> extractShards(const json& result) {
     std::vector<std::string> shards;
-    if (!result.is_array()) return shards;
+    if (!result.is_array()) {
+      return shards;
+    }
     for (const auto& item : result) {
         if (item.contains("shard") && item["shard"].is_string()) {
             std::string s = item["shard"].get<std::string>();

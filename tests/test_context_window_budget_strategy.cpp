@@ -239,7 +239,9 @@ TEST(CrossSchoolTensionResolver, CWB08_MaxFullInjectionsCap) {
 
     int full_count = 0;
     for (const auto& d : decisions) {
-        if (d.inject_full) ++full_count;
+        if (d.inject_full) {
+          ++full_count;
+        }
     }
     EXPECT_LE(full_count, max_full) << "Full injections exceeded max_full_injections cap";
 }

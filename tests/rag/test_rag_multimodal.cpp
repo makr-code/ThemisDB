@@ -314,8 +314,12 @@ TEST(MultiModalRAGFusionTest, TextAndImageFused) {
     bool has_text  = false;
     bool has_image = false;
     for (const auto& src : result.sources) {
-        if (src.modality == Modality::TEXT)  has_text  = true;
-        if (src.modality == Modality::IMAGE) has_image = true;
+        if (src.modality == Modality::TEXT) {
+          has_text  = true;
+        }
+        if (src.modality == Modality::IMAGE) {
+          has_image = true;
+        }
     }
     EXPECT_TRUE(has_text);
     EXPECT_TRUE(has_image);
@@ -342,7 +346,9 @@ TEST(MultiModalRAGFusionTest, NoDocumentDuplicates) {
     // Document "shared" should appear exactly once.
     size_t count = 0;
     for (const auto& src : result.sources) {
-        if (src.document_id == "shared") ++count;
+        if (src.document_id == "shared") {
+          ++count;
+        }
     }
     EXPECT_EQ(count, 1u);
 }

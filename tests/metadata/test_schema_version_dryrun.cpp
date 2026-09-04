@@ -34,7 +34,9 @@ protected:
     }
 
     void TearDown() override {
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     /// Build a simple TableSchema with given name and column names

@@ -292,7 +292,9 @@ static bool parseResponseFrame(const std::vector<uint8_t>& frame,
                                  uint16_t& flags_out,
                                  std::string& payload_str_out)
 {
-    if (frame.size() < 12) return false;
+    if (frame.size() < 12) {
+      return false;
+    }
     if (frame[0] != kWireMagic[0] || frame[1] != kWireMagic[1] ||
         frame[2] != kWireMagic[2] || frame[3] != kWireMagic[3]) return false;
 
@@ -302,7 +304,9 @@ static bool parseResponseFrame(const std::vector<uint8_t>& frame,
                       | (static_cast<uint32_t>(frame[9])  << 16)
                       | (static_cast<uint32_t>(frame[10]) <<  8)
                       |  static_cast<uint32_t>(frame[11]);
-    if (frame.size() < 12 + ps) return false;
+    if (frame.size() < 12 + ps) {
+      return false;
+    }
     payload_str_out.assign(reinterpret_cast<const char*>(frame.data() + 12), ps);
     return true;
 }

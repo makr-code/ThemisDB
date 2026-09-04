@@ -65,8 +65,12 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_AttributeEquals) {
     
     // Should only return doc1 and doc3 (both science category)
     EXPECT_EQ(data.size(), 2);
-    if (data.size() >= 1) EXPECT_EQ(data[0].pk, "doc1");
-    if (data.size() >= 2) EXPECT_EQ(data[1].pk, "doc3");
+    if (data.size() >= 1) {
+      EXPECT_EQ(data[0].pk, "doc1");
+    }
+    if (data.size() >= 2) {
+      EXPECT_EQ(data[1].pk, "doc3");
+    }
 }
 
 TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
@@ -104,8 +108,12 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
     
     // Should return doc1 and doc3 (both science AND active)
     EXPECT_EQ(data.size(), 2);
-    if (data.size() >= 1) EXPECT_EQ(data[0].pk, "doc1");
-    if (data.size() >= 2) EXPECT_EQ(data[1].pk, "doc3");
+    if (data.size() >= 1) {
+      EXPECT_EQ(data[0].pk, "doc1");
+    }
+    if (data.size() >= 2) {
+      EXPECT_EQ(data[1].pk, "doc3");
+    }
 }
 
 

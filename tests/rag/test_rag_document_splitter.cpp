@@ -44,7 +44,9 @@ static std::string makeSentences(size_t n, const std::string& sentence_text
                                             = "The quick brown fox jumps.") {
     std::string result;
     for (size_t i = 0; i < n; ++i) {
-        if (i > 0) result += " ";
+        if (i > 0) {
+          result += " ";
+        }
         result += sentence_text;
     }
     return result;

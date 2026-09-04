@@ -132,7 +132,9 @@ protected:
 
     void TearDown() override {
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
-        if (server_) server_->Shutdown();
+        if (server_) {
+          server_->Shutdown();
+        }
         stub_.reset();
         channel_.reset();
         service_.reset();

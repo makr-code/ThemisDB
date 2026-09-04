@@ -409,7 +409,9 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_09_ConcurrentReaders) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0) << "Concurrent readers must not throw";
 }
@@ -465,7 +467,9 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_10_ConcurrentWriterAndReaders) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0)
         << "Concurrent writer + readers must not throw or crash";

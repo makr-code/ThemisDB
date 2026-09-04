@@ -394,7 +394,9 @@ TEST(RBACThreadSafetyTest, ConcurrentCheckPermission_ThreadSafe) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(allowed.load(), THREADS * CHECKS);
 }

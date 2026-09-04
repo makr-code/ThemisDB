@@ -12,7 +12,9 @@ std::vector<uint8_t> makeData(size_t n) {
     std::vector<uint8_t> v(n);
     std::mt19937 rng(12345);
     std::uniform_int_distribution<int> dist(0,255);
-    for (size_t i=0;i<n;++i) v[i] = static_cast<uint8_t>(dist(rng));
+    for (size_t i=0;i<n;++i) {
+      v[i] = static_cast<uint8_t>(dist(rng));
+    }
     return v;
 }
 }

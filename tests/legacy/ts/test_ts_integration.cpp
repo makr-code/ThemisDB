@@ -247,7 +247,9 @@ TEST_F(IntegrationFixture, Chaos_ConcurrentWrites) {
             }
         });
     }
-    for (auto& th : pool) th.join();
+    for (auto& th : pool) {
+      th.join();
+    }
     buf.flush();
 
     size_t total = 0;

@@ -369,7 +369,9 @@ TEST_F(IndexStatsTest, RebuildProgressCallback_Completes) {
         keysToDelete.push_back(std::string(key));
         return true;
     });
-    for (const auto& k : keysToDelete) db_->del(k);
+    for (const auto& k : keysToDelete) {
+      db_->del(k);
+    }
 
     auto before = indexMgr_->getIndexStats("users", "email");
     EXPECT_EQ(before.entry_count, 0);
@@ -405,7 +407,9 @@ TEST_F(IndexStatsTest, RebuildProgressCallback_Abort) {
         keysToDelete.push_back(std::string(key));
         return true;
     });
-    for (const auto& k : keysToDelete) db_->del(k);
+    for (const auto& k : keysToDelete) {
+      db_->del(k);
+    }
 
     auto before = indexMgr_->getIndexStats("users", "email");
     EXPECT_EQ(before.entry_count, 0);
@@ -503,7 +507,9 @@ TEST_F(IndexStatsTest, RebuildIndexOnline_LiveDuringRebuild) {
         while (!rebuild_started.load()) {}
         for (int i = 0; i < 10; ++i) {
             auto [st, res] = indexMgr_->scanKeysEqual("users", "email", "user0@test.com");
-            if (st.ok && !res.empty()) ++reads_while_rebuilding;
+            if (st.ok && !res.empty()) {
+              ++reads_while_rebuilding;
+            }
             std::this_thread::sleep_for(std::chrono::microseconds(100));
         }
     });

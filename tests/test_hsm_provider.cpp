@@ -172,7 +172,9 @@ TEST_F(HSMProviderTest, GenerateKeyPairNotImplemented) {
 TEST_F(HSMProviderTest, HSMPKIClientIntegrationBasic) {
     HSMConfig config = createTestConfig();
     HSMPKIClient client(config);
-    if(!client.isReady()) GTEST_SKIP() << "Not ready";
+    if(!client.isReady()) {
+      GTEST_SKIP() << "Not ready";
+    }
     std::vector<uint8_t> data = {'D','a','t','a'};
     auto sig = client.sign(data);
     EXPECT_TRUE(sig.success);
@@ -492,7 +494,9 @@ struct HsmProviderEnvGuard {
         : name(var_name) {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
         (void)setEnvVar(name, value);
     }
 
@@ -513,7 +517,9 @@ struct HsmProviderEnvUnsetGuard {
     explicit HsmProviderEnvUnsetGuard(const std::string& var_name) : name(var_name) {
         const char* existing = std::getenv(name.c_str());
         had_previous = (existing != nullptr);
-        if (had_previous) previous = existing;
+        if (had_previous) {
+          previous = existing;
+        }
         (void)unsetEnvVar(name);
     }
 

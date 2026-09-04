@@ -56,7 +56,9 @@ static json makeInsert(const std::string& table,
                        const std::map<std::string, std::string>& data)
 {
     json d = json::object();
-    for (const auto& [k, v] : data) d[k] = v;
+    for (const auto& [k, v] : data) {
+      d[k] = v;
+    }
     return {{"type", "INSERT"}, {"table", table}, {"data", d}};
 }
 
@@ -64,7 +66,9 @@ static json makeUpdate(const std::string& table,
                        const std::map<std::string, std::string>& data)
 {
     json d = json::object();
-    for (const auto& [k, v] : data) d[k] = v;
+    for (const auto& [k, v] : data) {
+      d[k] = v;
+    }
     return {{"type", "UPDATE"}, {"table", table}, {"data", d}};
 }
 

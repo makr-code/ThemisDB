@@ -201,7 +201,9 @@ struct ServerFixtureHelper {
         rcfg.memtable_size_mb    = 32;
         rcfg.block_cache_size_mb = 64;
         storage = std::make_shared<themis::RocksDBWrapper>(rcfg);
-        if (!storage->open()) return false;
+        if (!storage->open()) {
+          return false;
+        }
 
         secondary_index = std::make_shared<themis::SecondaryIndexManager>(*storage);
         graph_index     = std::make_shared<themis::GraphIndexManager>(*storage);
@@ -520,7 +522,9 @@ TEST_F(RateLimitMiddlewareIntegrationTest, BelowCapacity_AllAllowed) {
 
 TEST_F(RateLimitMiddlewareIntegrationTest, ExceedCapacity_Rejected) {
     RateLimitingMiddleware mw(defaultConfig(3, kSlowRefillRate)); // very slow refill
-    for (int i = 0; i < 3; ++i) mw.check("10.0.0.3", "/health");
+    for (int i = 0; i < 3; ++i) {
+      mw.check("10.0.0.3", "/health");
+    }
     auto r = mw.check("10.0.0.3", "/health");
     EXPECT_FALSE(r.allowed);
     EXPECT_GT(r.retry_after_seconds, 0u);
@@ -652,11 +656,15 @@ TEST_F(RateLimitMiddlewareIntegrationTest, ConcurrentClients_AllSafe) {
         threads.emplace_back([&, t]() {
             std::string ip = "11." + std::to_string(t) + ".0.1";
             for (int i = 0; i < 10; ++i) {
-                if (mw.check(ip, "/health").allowed) ++allowed;
+                if (mw.check(ip, "/health").allowed) {
+                  ++allowed;
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_GT(allowed.load(), 0);
 }
 
@@ -762,7 +770,9 @@ TEST_F(RateLimiterUnitIntegrationTest, AnomalyCallback_FiredOnBlacklist) {
     RateLimiter rl(makeConfig(100, 10.0));
     std::atomic<int> fired{0};
     rl.setAnomalyCallback([&](const AnomalyEvent& ev) {
-        if (ev.type == AnomalyEvent::Type::IP_BLACKLISTED) ++fired;
+        if (ev.type == AnomalyEvent::Type::IP_BLACKLISTED) {
+          ++fired;
+        }
     });
     rl.blacklistIP("99.0.0.1");
     EXPECT_EQ(fired.load(), 1);

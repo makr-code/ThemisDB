@@ -642,7 +642,9 @@ TEST_F(RetrieverResilienceTest, R16_HealthCheckAndRecoveryStatus) {
             int64_t failures = failed_retrievals.load();
             int64_t total = successes + failures;
 
-            if (total == 0) return HealthStatus::HEALTHY;
+            if (total == 0) {
+              return HealthStatus::HEALTHY;
+            }
 
             double success_rate = static_cast<double>(successes) / total;
 

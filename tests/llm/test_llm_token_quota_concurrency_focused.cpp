@@ -185,11 +185,15 @@ TEST(TokenQuotaConcurrencyTest, TQC02a_ExactBoundaryNoNegativeBalance) {
     // Spin up two threads that race to claim the full quota.
     std::thread t1([&] {
         const auto res = tryAdmit(quota, user, model, TOKENS_PER_REQ);
-        if (res.allowed) admitted_count.fetch_add(1, std::memory_order_relaxed);
+        if (res.allowed) {
+          admitted_count.fetch_add(1, std::memory_order_relaxed);
+        }
     });
     std::thread t2([&] {
         const auto res = tryAdmit(quota, user, model, TOKENS_PER_REQ);
-        if (res.allowed) admitted_count.fetch_add(1, std::memory_order_relaxed);
+        if (res.allowed) {
+          admitted_count.fetch_add(1, std::memory_order_relaxed);
+        }
     });
 
     t1.join();

@@ -343,8 +343,12 @@ TEST(DspyChainOfThoughtTest, OriginalOutputFieldsPreserved)
     bool found_sentiment   = false;
     bool found_confidence  = false;
     for (const auto& f : outputs) {
-        if (f.name == "sentiment")  found_sentiment  = true;
-        if (f.name == "confidence") found_confidence = true;
+        if (f.name == "sentiment") {
+          found_sentiment  = true;
+        }
+        if (f.name == "confidence") {
+          found_confidence = true;
+        }
     }
     EXPECT_TRUE(found_sentiment);
     EXPECT_TRUE(found_confidence);

@@ -54,7 +54,9 @@ public:
     }
 
     static DetectedFieldType inferType(const std::string& value) {
-        if (value.empty()) return DetectedFieldType::STRING;
+        if (value.empty()) {
+          return DetectedFieldType::STRING;
+        }
         // Boolean check
         std::string lower = value;
         for (auto& c : lower)
@@ -64,18 +66,26 @@ public:
         // Integer check
         {
             size_t start = 0;
-            if (!value.empty() && (value[0] == '+' || value[0] == '-')) ++start;
+            if (!value.empty() && (value[0] == '+' || value[0] == '-')) {
+              ++start;
+            }
             bool is_int = (start < value.size());
             for (size_t i = start; i < value.size() && is_int; ++i)
-                if (!std::isdigit(static_cast<unsigned char>(value[i]))) is_int = false;
-            if (is_int && start < value.size()) return DetectedFieldType::INTEGER;
+                if (!std::isdigit(static_cast<unsigned char>(value[i]))) {
+                  is_int = false;
+                }
+            if (is_int && start < value.size()) {
+              return DetectedFieldType::INTEGER;
+            }
         }
         // Double check
         try {
             size_t pos = 0;
             const double parsed = std::stod(value, &pos);
             static_cast<void>(parsed);
-            if (pos == value.size()) return DetectedFieldType::DOUBLE;
+            if (pos == value.size()) {
+              return DetectedFieldType::DOUBLE;
+            }
         } catch (...) {}
         return DetectedFieldType::STRING;
     }
@@ -98,8 +108,12 @@ public:
         std::string lower = name;
         for (auto& c : lower)
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-        if (lower == "boolean" || lower == "bool") return DetectedFieldType::BOOLEAN;
-        if (lower == "integer" || lower == "int")  return DetectedFieldType::INTEGER;
+        if (lower == "boolean" || lower == "bool") {
+          return DetectedFieldType::BOOLEAN;
+        }
+        if (lower == "integer" || lower == "int") {
+          return DetectedFieldType::INTEGER;
+        }
         if (lower == "double"  || lower == "float" ||
             lower == "number"  || lower == "real")  return DetectedFieldType::DOUBLE;
         return DetectedFieldType::STRING;
@@ -133,10 +147,14 @@ public:
         for (size_t i = 0; i < n; ++i) {
             const auto& col = columns[i];
             const auto& val = values[i];
-            if (val.empty()) continue;
+            if (val.empty()) {
+              continue;
+            }
 
             auto it = schema.column_types.find(col);
-            if (it == schema.column_types.end()) continue;
+            if (it == schema.column_types.end()) {
+              continue;
+            }
 
             DetectedFieldType expected = it->second;
             DetectedFieldType actual   = inferType(val);
@@ -164,7 +182,9 @@ public:
         for (size_t i = 0; i < n; ++i) {
             const auto& col = columns[i];
             const auto& val = values[i];
-            if (val.empty()) continue;
+            if (val.empty()) {
+              continue;
+            }
             DetectedFieldType inferred = inferType(val);
             auto it = widest_types_.find(col);
             if (it == widest_types_.end()) {
