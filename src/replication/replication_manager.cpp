@@ -2765,6 +2765,7 @@ MMWriteEntry CRDTMergeResolver::resolve(
         case CRDTType::RGA:          merged_data = mergeRGA(conflicting_writes);         break;
         case CRDTType::FLAG_EW:      merged_data = mergeFlagEW(conflicting_writes);      break;
         case CRDTType::FLAG_DW:      merged_data = mergeFlagDW(conflicting_writes);      break;
+        default: break;
     }
 
     // Base entry is the LWW winner; replace its data with the merged payload
@@ -2797,6 +2798,7 @@ std::string CRDTMergeResolver::strategyName() const {
         case CRDTType::RGA:          return "RGA";
         case CRDTType::FLAG_EW:      return "FLAG_EW";
         case CRDTType::FLAG_DW:      return "FLAG_DW";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -6557,6 +6559,7 @@ MultiRegionActiveActiveManager::read(
             ++eventual_reads_;
             // Always succeeds regardless of staleness
             break;
+        default: break;
     }
 
     result.success = true;
@@ -7402,6 +7405,7 @@ std::optional<std::string> GeoReplicationManager::read(
         case ConsistencyLevel::EVENTUAL:
             ++eventual_reads_;
             break;
+        default: break;
     }
 
     const std::string region = selectReadRegion(consistency, session_token);
