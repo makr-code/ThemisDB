@@ -105,7 +105,9 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
   - [x] Deterministic deny-path tests now cover missing explicit policy path and non-shadow `fail_open=true` rejection.
   - [x] Runtime stage gates (`ingest`/`extract`/`validate`/`synthesize`) are now actively enforced in plugin request paths via policy `stages.*.enabled`.
   - [x] Deny reason codes are now persisted as governance evidence (`wiki/governance_evidence.jsonl`) on stage-gate denials.
-  - [ ] Hot-reload safeguards, schedule execution wiring, and rollback-trigger tests remain open.
+  - [x] Immediate runtime calls now enforce schedule class policy (batch-scheduled stages are denied with deterministic reason codes in immediate mode).
+  - [x] Policy hot-reload now validates candidate policies before swap and rejects invalid updates fail-closed while keeping the last-known-good policy active.
+  - [ ] Rollback-trigger tests and rollout/canary promotion wiring remain open.
 
 ---
 

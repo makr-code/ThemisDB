@@ -5,6 +5,8 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <chrono>
+#include <thread>
 
 #include "wikipedia/llm_wiki_plugin_impl.h"
 
@@ -82,6 +84,20 @@ std::string policyWithDisabledStage(const std::string& stage_name) {
     return yaml;
 }
 
+std::string policyWithStageSchedule(const std::string& stage_name,
+                                    const std::string& schedule) {
+    std::string yaml = validPolicyYaml();
+    const std::string needle =
+        "  " + stage_name + ":\n    enabled: true\n    schedule: near_realtime";
+    const std::string replacement =
+        "  " + stage_name + ":\n    enabled: true\n    schedule: " + schedule;
+    const auto pos = yaml.find(needle);
+    if (pos != std::string::npos) {
+        yaml.replace(pos, needle.size(), replacement);
+    }
+    return yaml;
+}
+
 std::filesystem::path makeTempWorkspaceRoot() {
     const auto dir = std::filesystem::temp_directory_path() /
                      "themisdb_llm_wiki_block4_workspace";
@@ -109,6 +125,12 @@ std::string readFileOrEmpty(const std::filesystem::path& path) {
     }
     return std::string(std::istreambuf_iterator<char>(in),
                        std::istreambuf_iterator<char>());
+}
+
+void overwriteFile(const std::filesystem::path& path, const std::string& content) {
+    std::ofstream out(path, std::ios::trunc);
+    out << content;
+    out.close();
 }
 
 std::string makePluginConfigJson(const std::filesystem::path& workspace_root,
@@ -250,6 +272,67 @@ TEST(LLMWikiBlock4BackendGateTest, ExtractValidateSynthesizeDenyPersistReasonCod
     EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_EXTRACT_DISABLED"), std::string::npos);
     EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_VALIDATE_DISABLED"), std::string::npos);
     EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_SYNTHESIZE_DISABLED"), std::string::npos);
+}
+
+TEST(LLMWikiBlock4BackendGateTest, BatchScheduleDeniesImmediateExtractExecution) {
+    const auto workspace = makeTempWorkspaceRoot();
+    const auto policy_path =
+        makeTempPolicyFile(policyWithStageSchedule("extract", "batch"));
+    LLMWikiPluginImpl plugin;
+    ASSERT_TRUE(plugin.initialize(makePluginConfigJson(workspace, policy_path)).ok());
+
+    const auto query_res = plugin.query("alpha", {});
+    EXPECT_TRUE(query_res.candidates.empty());
+
+    const auto evidence_path = workspace / "wiki" / "governance_evidence.jsonl";
+    const auto evidence = readFileOrEmpty(evidence_path);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_EXTRACT_DISABLED_SCHEDULE_BATCH_ONLY"),
+              std::string::npos);
+}
+
+TEST(LLMWikiBlock4BackendGateTest, HotReloadAppliesChangedPolicyAndEnforcesNewStageGate) {
+    const auto workspace = makeTempWorkspaceRoot();
+    const auto source_file = writeTempMarkdownSource(workspace);
+    const auto policy_path = makeTempPolicyFile(validPolicyYaml());
+
+    LLMWikiPluginImpl plugin;
+    ASSERT_TRUE(plugin.initialize(makePluginConfigJson(workspace, policy_path)).ok());
+    const auto ingest_res = plugin.ingest(source_file.string(), {});
+    EXPECT_EQ(ingest_res.errors, 0);
+
+    auto query_res = plugin.query("alpha", {});
+    EXPECT_FALSE(query_res.candidates.empty());
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    overwriteFile(policy_path, policyWithDisabledStage("extract"));
+
+    query_res = plugin.query("alpha", {});
+    EXPECT_TRUE(query_res.candidates.empty());
+
+    const auto evidence_path = workspace / "wiki" / "governance_evidence.jsonl";
+    const auto evidence = readFileOrEmpty(evidence_path);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_EXTRACT_DISABLED"), std::string::npos);
+}
+
+TEST(LLMWikiBlock4BackendGateTest, HotReloadRejectsInvalidPolicyFailClosed) {
+    const auto workspace = makeTempWorkspaceRoot();
+    const auto source_file = writeTempMarkdownSource(workspace);
+    const auto policy_path = makeTempPolicyFile(validPolicyYaml());
+
+    LLMWikiPluginImpl plugin;
+    ASSERT_TRUE(plugin.initialize(makePluginConfigJson(workspace, policy_path)).ok());
+    const auto ingest_res = plugin.ingest(source_file.string(), {});
+    EXPECT_EQ(ingest_res.errors, 0);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    overwriteFile(policy_path, "invalid_yaml: [");
+
+    const auto query_res = plugin.query("alpha", {});
+    EXPECT_TRUE(query_res.candidates.empty());
+
+    const auto evidence_path = workspace / "wiki" / "governance_evidence.jsonl";
+    const auto evidence = readFileOrEmpty(evidence_path);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_POLICY_RELOAD_INVALID"), std::string::npos);
 }
 #endif
 

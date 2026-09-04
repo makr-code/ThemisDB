@@ -47,7 +47,9 @@
 #endif
 
 #include <atomic>
+#include <filesystem>
 #include <memory>
+#include <mutex>
 #include <shared_mutex>
 #include <string>
 #include <unordered_set>
@@ -277,6 +279,11 @@ private:
         float min_score) const;
 
     [[nodiscard]] StageGateDecision evaluateStageGate(
+        const char* stage_name,
+        bool immediate_execution = true) const;
+    [[nodiscard]] StageGateDecision maybeReloadProcessPolicy(
+        const char* trigger_stage);
+    [[nodiscard]] bool isInteractiveSchedule(
         const char* stage_name) const;
     void persistDenyEvidence(
         const char* stage_name,
@@ -300,6 +307,10 @@ private:
     bool        fail_open_{false};
     int         lint_max_staleness_days_{30};
     bool        has_wikipedia_license_{false};
+    std::string process_policy_path_;
+    bool process_policy_hot_reload_{true};
+    std::filesystem::file_time_type process_policy_last_write_time_{};
+    mutable std::mutex process_policy_mutex_;
     std::optional<::themis::llm_wiki::LLMWikiProcessPolicy> process_policy_;
 
     // Phase A in-memory store
