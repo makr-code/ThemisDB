@@ -2104,6 +2104,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         case TraversalAlgorithm::BIDIRECTIONAL: algo_name = "Bidirectional"; break;
         case TraversalAlgorithm::ASTAR: algo_name = "A*"; break;
         case TraversalAlgorithm::DIJKSTRA: algo_name = "Dijkstra"; break;
+        default: break;
     }
     
     std::string pattern_name = {};
@@ -2114,6 +2115,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         case QueryPattern::PATTERN_MATCH: pattern_name = "Pattern Match"; break;
         case QueryPattern::REACHABILITY: pattern_name = "Reachability"; break;
         case QueryPattern::CONNECTED_COMPONENT: pattern_name = "Connected Component"; break;
+        default: break;
     }
     
     std::string explanation = "Query Pattern: " + pattern_name + "\n";
@@ -2152,6 +2154,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
                 case TraversalAlgorithm::BIDIRECTIONAL: alt_name = "Bidirectional"; break;
                 case TraversalAlgorithm::ASTAR: alt_name = "A*"; break;
                 case TraversalAlgorithm::DIJKSTRA: alt_name = "Dijkstra"; break;
+                default: break;
             }
             explanation += "  " + alt_name + ": " + std::to_string(alt_cost) + "\n";
         }
@@ -2267,6 +2270,7 @@ double GraphQueryOptimizer::estimateCost(
             // O(b^(d/2) + b^(d/2)) = O(b^(d/2))
             base_cost = 2.0 * std::pow(branching, estimated_depth / 2.0);
             break;
+        default: break;
     }
     
     // Apply optimizations
@@ -2397,6 +2401,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
                 case QueryPattern::CONNECTED_COMPONENT:
                     candidates = {TraversalAlgorithm::BFS};
                     break;
+                default: break;
             }
 
             TraversalAlgorithm best = candidates[0];
@@ -2435,6 +2440,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
 
         case QueryPattern::CONNECTED_COMPONENT:
             return TraversalAlgorithm::BFS;
+        default: break;
     }
 
     return TraversalAlgorithm::BFS; // Default
@@ -2472,6 +2478,7 @@ size_t GraphQueryOptimizer::estimateDepth(
         case QueryPattern::CONNECTED_COMPONENT:
             // Full traversal
             return estimated;
+        default: break;
     }
     
     return 5; // Safe default
@@ -2631,6 +2638,7 @@ bool GraphQueryOptimizer::shouldUseParallel(
         [[fallthrough]];\n        case TraversalAlgorithm::ASTAR:
         [[fallthrough]];\n        case TraversalAlgorithm::DIJKSTRA:
             return false; // These don't parallelize well
+        default: break;
     }
     
     return false;
@@ -2695,6 +2703,7 @@ static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
         case GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA:      return "DIJKSTRA";
         case GraphQueryOptimizer::TraversalAlgorithm::ASTAR:         return "ASTAR";
         case GraphQueryOptimizer::TraversalAlgorithm::BIDIRECTIONAL: return "BIDIRECTIONAL";
+        default: break;
     }
     return "UNKNOWN";
 }

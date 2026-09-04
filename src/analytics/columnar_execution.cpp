@@ -193,6 +193,7 @@ void Column::appendNull() {
             break;
         case ColumnType::Null:
             break;
+        default: break;
     }
     null_bitmap_.push_back(true);
     has_nulls_ = true;
@@ -214,6 +215,7 @@ ColumnValue Column::get([[maybe_unused]] size_t row) const {
             return bool_data_[row];
         case ColumnType::Null:
             return nullptr;
+        default: break;
     }
     return nullptr;
 }
@@ -234,6 +236,7 @@ void Column::reserve([[maybe_unused]] size_t n) {
             break;
         case ColumnType::Null:
             break;
+        default: break;
     }
     null_bitmap_.reserve(n);
 }
@@ -270,6 +273,7 @@ std::shared_ptr<Column> Column::filter(const SelectionVector &sel) const {
             case ColumnType::Null:
                 out->appendNull();
                 break;
+            default: break;
         }
     }
     return out;
@@ -300,6 +304,7 @@ std::shared_ptr<Column> Column::slice(size_t offset, size_t length) const {
             case ColumnType::Null:
                 out->appendNull();
                 break;
+            default: break;
         }
     }
     return out;
@@ -589,6 +594,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
         case ColumnType::Null:
             // All values are null – no row passes any comparison predicate.
             break;
+        default: break;
     }
     return sel;
 }
@@ -865,6 +871,7 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
             return state.count_nonnull > 0 ? state.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
             return static_cast<bool>(static_cast<double < static_cast<int>((state.distinct_set.size())));
+        default: break;
     }
     return 0.0;
 }
@@ -1065,6 +1072,7 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
                 case ColumnType::Null:
                     out_col->appendNull();
                     break;
+                default: break;
             }
         }
         result.addColumn(out_col);
@@ -1156,6 +1164,7 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
                 }
                 case ColumnType::Null:
                     break;
+                default: break;
             }
         }
         return false;
@@ -1231,6 +1240,7 @@ ColumnBatch VectorizedPipeline::execute(const ColumnBatch &input) const {
                 // Sort materializes internally.
                 current = stage.sort->execute(current);
                 break;
+            default: break;
         }
     }
     return current;

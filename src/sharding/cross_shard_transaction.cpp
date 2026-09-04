@@ -493,6 +493,7 @@ CrossShardTransactionCoordinator::getRecoverableTransactions() const {
             [[fallthrough]];\n            case TransactionState::ABORTED:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
                 break;
+            default: break;
         }
         recoverable.push_back(std::move(info));
     }
@@ -2518,6 +2519,7 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
                         std::uniform_int_distribution<uint64_t> dist(0, static_cast<int>(candidates.size()) - 1);
                         victim_id = candidates[static_cast<size_t>(dist(rng))].first;
                         break;
+                    default: break;
                     }
                 }
             }
@@ -2878,6 +2880,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     return TransactionProtocol::PERCOLATOR;
                 case ::sharding::TransactionProtocol::CALVIN:
                     return TransactionProtocol::CALVIN;
+                default: break;
             }
             return TransactionProtocol::TWO_PHASE_COMMIT;
         };
@@ -2902,6 +2905,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATING:
                 [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATED:
                     return TransactionState::ABORTED;
+                default: break;
             }
             return TransactionState::UNKNOWN;
         };
@@ -3040,6 +3044,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                         it->second.compensations[entry.participant_id] = entry.data;
                     }
                     break;
+                default: break;
             }
         }
         
@@ -3172,6 +3177,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                     return ::sharding::TransactionProtocol::PERCOLATOR;
                 case TransactionProtocol::CALVIN:
                     return ::sharding::TransactionProtocol::CALVIN;
+                default: break;
             }
             return ::sharding::TransactionProtocol::TWO_PHASE_COMMIT;
         };
@@ -3194,6 +3200,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                     return ::sharding::TransactionState::ABORTED;
                 case TransactionState::UNKNOWN:
                     return ::sharding::TransactionState::ABORTING;
+                default: break;
             }
             return ::sharding::TransactionState::INITIATED;
         };
