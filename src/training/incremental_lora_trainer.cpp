@@ -239,14 +239,14 @@ public:
         // Fail-closed concurrency guard: train() is not thread-safe.
         // Reject any call that arrives while a training run is already in progress.
         if (training_active_.exchange(true)) {
-            TrainingResult early;
+            TrainingResult early = TrainingResult();
             early.success = false;
             early.error_message = "concurrent train() call rejected";
             THEMIS_ERROR("IncrementalLoRATrainer: concurrent train() call rejected (not thread-safe)");
             return early;
         }
 
-        TrainingResult result;
+        TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
 
         std::string sanitized_collection_name = {};
@@ -341,7 +341,7 @@ public:
 
                 // Record per-epoch metrics
                 auto epoch_end = std::chrono::steady_clock::now();
-                EpochMetrics em;
+                EpochMetrics em = EpochMetrics();
                 em.epoch    = epoch;
                 em.steps    = steps_in_epoch;
                 em.train_loss = avg_loss;
@@ -394,7 +394,7 @@ public:
     // -------------------------------------------------------------------------
     TrainingResult resumeFromCheckpoint(const std::string& checkpoint_path,
                                         TrainingCallback callback) {
-        TrainingResult result;
+        TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
 
         if (checkpoint_path.empty()) {
@@ -472,7 +472,7 @@ public:
     // Phase 4: Evaluation
     // -------------------------------------------------------------------------
     TrainingResult evaluate(const std::string& adapter_version) {
-        TrainingResult result;
+        TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
         result.version = adapter_version;
 
@@ -533,7 +533,7 @@ public:
         auto it = version_registry_.find(adapter_version);
         if (it == version_registry_.end()) {
             // Register on-the-fly (version might come from external storage)
-            VersionRecord rec;
+            VersionRecord rec = VersionRecord();
             rec.version       = adapter_version;
             rec.traffic_split = traffic_split;
             rec.is_active     = (traffic_split > 0.0f);
@@ -575,7 +575,7 @@ public:
         auto it = version_registry_.find(target_version);
         if (it == version_registry_.end()) {
             // Allow rollback to an externally-known version
-            VersionRecord rec;
+            VersionRecord rec = VersionRecord();
             rec.version       = target_version;
             rec.traffic_split = 1.0f;
             rec.is_active     = true;
@@ -769,7 +769,7 @@ public:
         std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         // Lazily initialise checkpoint_manager_ for the configured directory.
         if (!checkpoint_manager_) {
-            CheckpointManagerConfig mgr_cfg;
+            CheckpointManagerConfig mgr_cfg = CheckpointManagerConfig();
             mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
             checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
         }
@@ -794,7 +794,7 @@ public:
 
         std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         if (!checkpoint_manager_) {
-            CheckpointManagerConfig mgr_cfg;
+            CheckpointManagerConfig mgr_cfg = CheckpointManagerConfig();
             mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
             checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
         }
@@ -1692,7 +1692,7 @@ public:
                     mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
                     checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
                 }
-                CheckpointManifestEntry meta;
+                CheckpointManifestEntry meta = CheckpointManifestEntry();
                 meta.adapter_version = version;
                 meta.epoch           = epoch;
                 meta.step            = step;
