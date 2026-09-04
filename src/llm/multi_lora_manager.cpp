@@ -535,7 +535,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     // the lookup here and copy mutable fields to stack-local variables before releasing.
     void* adapter_handle = nullptr;
     float scale = 0.0f;
-    ApplyAdapterFn apply_fn_copy;
+    ApplyAdapterFn apply_fn_copy = ApplyAdapterFn();
     bool has_adapter = false;
 
     {
@@ -638,7 +638,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
     // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
     void* adapter_handle = nullptr;
-    RemoveAdapterFn remove_fn_copy;
+    RemoveAdapterFn remove_fn_copy = RemoveAdapterFn();
     bool has_adapter = false;
 
     {
@@ -825,7 +825,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             const InferenceRequest& request = requests[idx].first;
             auto wall_start = std::chrono::steady_clock::now();
 
-            InferenceResponse response;
+            InferenceResponse response = InferenceResponse();
             response.model_used  = lora->base_model_id;
             response.lora_used   = lora_id;
             response.request_id  = request.request_id;
@@ -1140,7 +1140,7 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
         if (!slot) {
             continue;
         }
-        LoRAInfo info;
+        LoRAInfo info = LoRAInfo();
         info.id = id;
         info.name = id;
         info.lora_id = id;
@@ -1165,7 +1165,7 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_
             continue;
         }
         if (base_model_id.empty() || slot->base_model_id == base_model_id) {
-            LoRAInfo info;
+            LoRAInfo info = LoRAInfo();
             info.id = id;
             info.name = id;
             info.path = slot->path;
@@ -1191,7 +1191,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     if (!slot) {
         return std::nullopt;
     }
-    LoRAInfo info;
+    LoRAInfo info = LoRAInfo();
     info.id = it->first;
     info.name = it->first;
     info.lora_id = it->first;
@@ -1327,7 +1327,7 @@ json MultiLoRAManager::getCacheStats() const {
 
 MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    Stats s;
+    Stats s = Stats();
     s.total_loras_loaded = loras_.size();
     s.cache_hits = cache_hits_;
     s.cache_misses = cache_misses_;
@@ -1534,7 +1534,7 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
         return std::nullopt;
     }
     
-    QuantizationStats stats;
+    QuantizationStats stats = QuantizationStats();
     stats.lora_id = lora_id;
     stats.mode = lora->quantization_mode;
     stats.original_bytes = lora->original_vram_bytes;
@@ -3163,7 +3163,7 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
     // This method is called from: loadLoRAInternal, unloadLoRA, evictResourceAware,
     // migrateLoRAToGPU, checkGPUHealthAndMigrate
     
-    AuditEvent event;
+    AuditEvent event = AuditEvent();
     event.timestamp = std::chrono::system_clock::now();
     event.event_type = event_type;
     event.lora_id = lora_id;
@@ -3258,7 +3258,7 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
         // Update cache and shared metrics under lock.
         std::lock_guard<std::mutex> lock(mutex_);
         if (config.enable_cache) {
-            FusionCacheEntry entry;
+            FusionCacheEntry entry = FusionCacheEntry();
             entry.fusion_id = fused_id;
             entry.source_lora_ids = config.source_lora_ids;
             entry.weights = config.weights;
@@ -3720,7 +3720,7 @@ size_t MultiLoRAManager::clearFusionCache() {
 FusionMetrics MultiLoRAManager::getFusionMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    FusionMetrics metrics;
+    FusionMetrics metrics = FusionMetrics();
     metrics.total_fusions = total_fusions_;
     metrics.cache_hits = fusion_cache_hits_;
     metrics.cache_misses = fusion_cache_misses_;
