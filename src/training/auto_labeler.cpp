@@ -103,7 +103,7 @@ public:
         // Initialize the ModalityDetector for multi-modal document extraction.
         // Dispatches to TextClauseExtractor, TableExtractor, CitationExtractor,
         // and (when THEMIS_ENABLE_OCR is set) OCRExtractor.
-        ModalityParserConfig modality_cfg;
+        ModalityParserConfig modality_cfg = ModalityParserConfig();
         modality_cfg.language_code = config_.language_code;
         modality_detector_ = std::make_unique<ModalityDetector>(modality_cfg);
     }
@@ -111,7 +111,7 @@ public:
     ~Impl() = default;
 
     LabelingStats labelAll([[maybe_unused]] LabelingCallback callback) {
-        LabelingStats stats;
+        LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
 
         // Fetch document IDs from the source collection via AQL when a query
@@ -310,7 +310,7 @@ public:
     }
 
     LabelingStats labelQuery(const std::string& aql_query, LabelingCallback callback) {
-        LabelingStats stats;
+        LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
 
         if (aql_query.empty() || !isReadOnlyAqlQuery(aql_query)) {
@@ -434,7 +434,7 @@ private:
         if (!query_engine_) {
             return {};
         }
-        ConjunctiveQuery query;
+        ConjunctiveQuery query = ConjunctiveQuery();
         query.table = config_.source_collection;
         auto result = query_engine_->executeAndEntitiesWithFallback(query, true);
         if (!result) {
@@ -767,7 +767,7 @@ private:
     TrainingSample createSampleFromModality(const std::string& document_id,
                                             const std::string& text,
                                             const analytics::LegalModality& modality) const {
-        TrainingSample sample;
+        TrainingSample sample = TrainingSample();
         sample.source_id = document_id;
         sample.category = modality.category;
         sample.confidence = modality.strength;

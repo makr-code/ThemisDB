@@ -144,12 +144,12 @@ std::string cacheKey(const std::string& tenant, const std::string& adapter_name)
 
 struct AdaLoraTTBridge::Impl {
     std::shared_ptr<storage::TensorNetworkStorageEngine> engine;
-    AdaLoraTTBridgeConfig cfg;
+    AdaLoraTTBridgeConfig cfg = AdaLoraTTBridgeConfig();
     mutable BridgeStats stats_data{};
     mutable graph::TensorFingerprintGraph fingerprint_graph{};
     mutable std::mutex fingerprint_graph_mutex; ///< Guards fingerprint_graph
 
-    MapAdapterFn map_adapter_fn;
+    MapAdapterFn map_adapter_fn = MapAdapterFn();
     mutable std::mutex map_adapter_mutex;
 
     mutable std::mutex cache_mutex;
@@ -241,7 +241,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
 
     ++impl_->stats_data.exports_total;
 
-    AdaLoraTTLayerExport out;
+    AdaLoraTTLayerExport out = AdaLoraTTLayerExport();
     out.layer_name = layer_name;
     out.train = std::move(train);
     out.active_rank = active_rank;
@@ -253,7 +253,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
 AdaLoraTTExport AdaLoraTTBridge::exportToTT(const AdaLoRAAdapter& adapter,
                                              const std::string& adapter_name,
                                              const std::string& tenant) const {
-    AdaLoraTTExport out;
+    AdaLoraTTExport out = AdaLoraTTExport();
     out.adapter_name = adapter_name;
     out.tenant = tenant;
 
@@ -347,7 +347,7 @@ std::optional<AdaLoRAAdapter> AdaLoraTTBridge::loadAdapter(const std::string& te
 }
 
 std::size_t AdaLoraTTBridge::roundAndReallocate(AdaLoraTTExport& exp, double eps) const {
-    TrainingStepFn step_fn;
+    TrainingStepFn step_fn = TrainingStepFn();
     {
         std::lock_guard<std::mutex> lk(trainingStepFnMutex());
         step_fn = trainingStepFnStorage();
@@ -435,7 +435,7 @@ void AdaLoraTTBridge::clearMapAdapterFn() {
 }
 
 bool AdaLoraTTBridge::mapAdapter(const AdaLoraTTExport& exp) const {
-    MapAdapterFn fn_copy;
+    MapAdapterFn fn_copy = MapAdapterFn();
     {
         std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
         fn_copy = impl_->map_adapter_fn;

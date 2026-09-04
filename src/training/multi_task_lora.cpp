@@ -259,7 +259,7 @@ public:
         trained_      = true;
         trained_in_dim_ = in_dim;
 
-        MTLTrainResult result;
+        MTLTrainResult result = MTLTrainResult();
         result.success          = true;
         result.joint_loss       = final_joint_loss;
         result.epochs_run       = cfg_.epochs;
@@ -286,7 +286,7 @@ public:
             throw std::runtime_error("MultiTaskLoRATrainer: model not trained yet");
 
         // MTL-S01 gating heuristic (cosine similarity to prototype vectors — see STUB/SIMULATION NOTE above).
-        DomainGatingResult result;
+        DomainGatingResult result = DomainGatingResult();
         result.scores.reserve(tasks_.size());
 
         float best_score = -1.0f;
@@ -376,7 +376,7 @@ public:
         if (!trained_)
             throw std::runtime_error("MultiTaskLoRATrainer: model not trained yet");
         
-        AcceptanceGateMetrics gates;
+        AcceptanceGateMetrics gates = AcceptanceGateMetrics();
         
         // Gate 1: Average task performance gain ≥ +8% (target)
         // Heuristic: performance gain based on shared_rank ratio and training convergence
@@ -435,7 +435,7 @@ public:
         const size_t input_dim = 32;
         for (size_t i = 0; i < num_samples_per_task; ++i) {
             // Task A samples
-            MTLSample s_a;
+            MTLSample s_            MTLSample s_a; = MTLSample();
             s_a.task_id = "task_semantic";
             s_a.input.resize(input_dim);
             s_a.target.resize(input_dim);
@@ -446,7 +446,7 @@ public:
             samples.push_back(s_a);
             
             // Task B samples (slightly different distribution)
-            MTLSample s_b;
+            MTLSample s_            MTLSample s_b; = MTLSample();
             s_b.task_id = "task_sentiment";
             s_b.input.resize(input_dim);
             s_b.target.resize(input_dim);
@@ -457,7 +457,7 @@ public:
             samples.push_back(s_b);
             
             // Task C samples (different again)
-            MTLSample s_c;
+            MTLSample s_            MTLSample s_c; = MTLSample();
             s_c.task_id = "task_qa";
             s_c.input.resize(input_dim);
             s_c.target.resize(input_dim);
@@ -489,7 +489,7 @@ public:
         // Train one single-task model per task on its own samples and aggregate
         // the resulting metrics. This provides a real single-task baseline
         // without relying on an unsupported shared_rank=0 code path.
-        MTLTrainResult separate_result;
+        MTLTrainResult separate_result = MTLTrainResult();
         separate_result.success = true;
         separate_result.epochs_run = cfg_.epochs;
 
