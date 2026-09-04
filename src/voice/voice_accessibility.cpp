@@ -351,7 +351,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
                 txt << words[w];
             }
             sub.text = txt.str();
-            sub.sequence = static_cast<int>(static_cast<int>(result.size()) + 1);
+            sub.sequence = static_cast<int>(result.size() + 1);
             result.push_back(sub);
         }
     }

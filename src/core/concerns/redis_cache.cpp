@@ -348,7 +348,7 @@ bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
     size_t total = 0;
     while (static_cast<size_t>(total) < buf.size()) {
 #if defined(_WIN32)
-        int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(static_cast<int>(buf.size()) - total), 0);
+        int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total), 0);
         if (sent == SOCKET_ERROR) {
             return false;
         }
@@ -489,7 +489,7 @@ bool RedisCache::readReply(SocketFd fd, std::string &out) noexcept {
         while (received < static_cast<size_t>(len)) {
 #if defined(_WIN32)
             int n = ::recv(static_cast<SOCKET>(fd), &data[received],
-                           static_cast<int>(static_cast<size_t>(len) - received), 0);
+                           (len - received), 0);
             if (n <= 0) {
                 return false;
             }

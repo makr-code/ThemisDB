@@ -5917,7 +5917,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     const uint8_t* iv      = data.data();
     const uint8_t* tag_ptr = data.data() + 12;
     const uint8_t* ct      = data.data() + 28;
-    int ct_len = static_cast<int>(static_cast<int>(data.size()) - 28);
+    int ct_len = static_cast<int>(data.size() - 28);
 
     std::vector<uint8_t> plain(static_cast<size_t>(ct_len));
     int len = 0, plain_len = 0;

@@ -797,7 +797,7 @@ nlohmann::json LoraLineageFunction::execute(
             
             // Add timestamp (placeholder)
             auto now = std::chrono::system_clock::now();
-            auto created = now - std::chrono::days(static_cast<int>(static_cast<int>(versions.size()) - i));
+            auto created = now - std::chrono::days(static_cast<int>(versions.size() - i));
             version["created"] = timePointToString(created);
             
             lineage.push_back(version);

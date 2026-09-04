@@ -1531,7 +1531,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     int decompressed = LZ4_decompress_safe(
         reinterpret_cast<const char*>(data.data() + kLz4HeaderSize),
         reinterpret_cast<char*>(result.data()),
-        static_cast<int>(static_cast<int>(data.size()) - kLz4HeaderSize),
+        static_cast<int>(data.size() - kLz4HeaderSize),
         static_cast<int>(expected_size));
 
     if (decompressed < 0) {

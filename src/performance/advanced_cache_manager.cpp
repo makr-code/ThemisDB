@@ -248,7 +248,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
         const int decoded = LZ4_decompress_safe(
             &val[5],
             &out[0],
-            static_cast<int>(static_cast<int>(val.size()) - 5),
+            static_cast<int>(val.size() - 5),
             static_cast<int>(orig_size));
         if (decoded == static_cast<int>(orig_size)) {
             return out;
