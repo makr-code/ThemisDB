@@ -141,3 +141,4 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 | ai_context + ai_working Coverage | maintenance-docs.yml | ai-working-hygiene Job hinzugefügt | 2 (new req) |
 | Composite Action | — | .github/actions/setup-python-script/ | 3 |
 | Konsolidiert | maintenance-gs3-gaps.yml + maintenance-security-alerts.yml | maintenance-issues.yml | 4 |
+| Composite Action | build-benchmarks.yml + release-mainline.yml | .github/actions/bootstrap-build-tracker/ | 5 |
