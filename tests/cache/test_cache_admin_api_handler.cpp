@@ -30,7 +30,7 @@ static http::request<http::string_body> makeRequest(
 static std::string base64Encode(const std::string& input) {
     static const char chars[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     int val = 0, valb = -6;
     for (unsigned char c : input) {
         val = (val << 8) + c;

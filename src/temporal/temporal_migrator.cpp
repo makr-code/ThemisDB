@@ -95,7 +95,7 @@ std::vector<ColumnInfo> TemporalMigrator::inferColumns(
         ci.nullable = (fs.present_count < total);
 
         // Dominant type = type with the highest occurrence count
-        std::string dominant;
+        std::string dominant = {};
         size_t      max_count = 0;
         for (const auto& [type, cnt] : fs.type_counts) {
             if (cnt > max_count) { max_count = cnt; dominant = type; }

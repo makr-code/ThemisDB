@@ -28,7 +28,7 @@ namespace {
 
 // Key format: "provenance:<query_id>:<step_number:08d>"
 [[nodiscard]] std::string makeProvenanceKey(const std::string& query_id, int step_number) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "provenance:" << query_id << ":" << std::setfill('0') << std::setw(8)
         << step_number;
     return oss.str();
@@ -38,7 +38,7 @@ namespace {
 [[nodiscard]] std::string makeTimeIndexKey(int64_t timestamp_ms,
                                            const std::string& query_id,
                                            int step_number) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "provenance_ts:" << std::setfill('0') << std::setw(16) << std::hex << timestamp_ms
         << ":" << query_id << ":" << std::setfill('0') << std::setw(8) << std::dec
         << step_number;
@@ -53,7 +53,7 @@ namespace {
 
 struct ParsedTimeIndexKey {
     int64_t timestamp_ms = 0;
-    std::string query_id;
+    std::string query_id = {};
     int step_number = -1;
 };
 
@@ -311,7 +311,7 @@ std::optional<ProvenanceStepRecord> RocksDBProvenanceStore::getRecord(
         }
 
         const auto key = makeProvenanceKey(query_id, step_number);
-        std::string value;
+        std::string value = {};
         const auto status = db->Get(rocksdb::ReadOptions(), key, &value);
 
         if (!status.ok()) {
@@ -450,7 +450,7 @@ std::vector<std::string> RocksDBProvenanceStore::listQueryIds() {
 
         auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
 
-        std::string last_query_id;
+        std::string last_query_id = {};
         for (it->Seek("provenance:"); it->Valid(); it->Next()) {
             const auto key = it->key().ToString();
 

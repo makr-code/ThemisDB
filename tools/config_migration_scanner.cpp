@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     if (!fs::is_directory(root, ec) || ec) {
         std::cerr << "[ERROR] Root directory not found: " << root << '\n';
         return 2;

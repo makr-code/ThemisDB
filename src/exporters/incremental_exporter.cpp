@@ -194,7 +194,7 @@ ExportStats IncrementalExporter::exportEntities(
                 ExportEncryptor encryptor(*options.encryption_config);
                 const size_t enc_bytes =
                     encryptor.encryptFile(options.output_path, enc_tmp);
-                std::error_code rename_ec;
+                std::error_code rename_ec = {};
                 std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
                 if (rename_ec) {
                     std::filesystem::remove(enc_tmp);
@@ -204,7 +204,7 @@ ExportStats IncrementalExporter::exportEntities(
                 }
                 metrics_->recordEncryption(enc_bytes);
             } catch ([[maybe_unused]] const std::exception& e) {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;
             }
@@ -233,7 +233,7 @@ ExportStats IncrementalExporter::exportEntities(
 #else
         gmtime_r(&now_t, &tm_buf);
 #endif
-        std::ostringstream ts;
+        std::ostringstream ts = {};
         ts << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
 
         if (!writeWatermark(max_sequence, stats.exported_entities, ts.str())) {
@@ -306,7 +306,7 @@ bool IncrementalExporter::writeWatermark(int64_t sequence,
         }
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::rename(tmp_path, config_.watermark_path, ec);
     if (ec) {
         THEMIS_WARN("IncrementalExporter: watermark rename failed: {}", ec.message());
@@ -371,7 +371,7 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
                 j[key] = v;
             } else if constexpr (std::is_same_v<T, std::vector<uint8_t>>) {
-                std::ostringstream hex;
+                std::ostringstream hex = {};
                 hex << std::hex << std::setfill('0');
                 for (uint8_t b : v) {
                     hex << std::setw(2) << static_cast<int>(b);

@@ -155,7 +155,7 @@ enum class ConnectorCapability {
  */
 struct CapabilityCheckResult {
     /// True if capability is natively supported, false if fallback needed
-    bool supported;
+    bool supported = {};
 
     /// Description of fallback path (e.g., "CDC → POLLING", "SCHEMA_INFERENCE → ALL_TEXT")
     /// Empty string if capability is natively supported.
@@ -768,7 +768,7 @@ struct ImportHandle {
     }
 
     json toJson() const {
-        std::string st;
+        std::string st = {};
         switch (getStatus()) {
             case ImportStatus::PENDING:    st = "pending";    break;
             case ImportStatus::RUNNING:    st = "running";    break;

@@ -54,7 +54,7 @@ class VecKnnInsertFocusedTests : public ::testing::Test {
 protected:
     static constexpr int kDim = 64;
 
-    std::string   db_path_;
+    std::string   db_path_ = {};
     std::unique_ptr<RocksDBWrapper>      db_;
     std::unique_ptr<VectorIndexManager>  vim_;
 

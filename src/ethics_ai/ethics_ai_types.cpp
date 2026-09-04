@@ -109,7 +109,7 @@ ArgumentStrength stringToArgumentStrength(const std::string &str) {
 
 ClusterAssignment DynamicClusteringEngine::cluster(
         const CrossSchoolTensionGraph& graph) const {
-    ClusterAssignment result;
+    ClusterAssignment result = {};
     if (graph.schools.empty()) {
         return result;
     }

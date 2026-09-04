@@ -144,7 +144,7 @@ public:
     bool validateHeaderValue(const std::string& value) const;
 
 private:
-    std::string schema_dir_;
+    std::string schema_dir_ = {};
 
     // Helper to load a stub schema from schema_dir_/name.json
     std::optional<nlohmann::json> loadSchema(const std::string& schema_name) const;

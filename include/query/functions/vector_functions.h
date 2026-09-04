@@ -933,7 +933,7 @@ public:
         double minVal = args.size() > 1 && !args[1].is_null() ? args[1].get<double>() : 0.0;
         double maxVal = args.size() > 2 && !args[2].is_null() ? args[2].get<double>() : 1.0;
         
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> dis(minVal, maxVal);
         

@@ -60,7 +60,7 @@ static ReplicationConfig makeConfig(const std::string& wal_dir = "/tmp/themis_re
 
 // RAII helper that removes the WAL directory on destruction.
 struct TempWALDir {
-    std::string path;
+    std::string path = {};
     explicit TempWALDir(const std::string& p) {
         const auto ticks = std::chrono::high_resolution_clock::now()
                                .time_since_epoch()
@@ -71,13 +71,13 @@ struct TempWALDir {
                 (base + "_" + std::to_string(ticks) + "_" + std::to_string(tid_hash)))
                    .string();
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
         std::filesystem::create_directories(path, ec);
     }
     ~TempWALDir() {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(path, ec);
             if (!ec) {
                 break;
@@ -2183,7 +2183,7 @@ TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder
 
 class PersistentStateTest : public ::testing::Test {
 protected:
-    std::string path_;
+    std::string path_ = {};
 
     void SetUp() override {
         const auto ticks = std::chrono::high_resolution_clock::now()
@@ -2202,7 +2202,7 @@ protected:
 private:
     void cleanupPath() {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(path_, ec);
             if (!ec || !std::filesystem::exists(path_)) {
                 break;
@@ -2580,7 +2580,7 @@ TEST(CompressedStreamTest, SnappyRoundTrip) {
     std::vector<uint8_t> raw(payload.begin(), payload.end());
 
     // Compress with Snappy directly.
-    std::string snappy_out;
+    std::string snappy_out = {};
     snappy::Compress(reinterpret_cast<const char*>(raw.data()), raw.size(), &snappy_out);
     std::vector<uint8_t> compressed(snappy_out.begin(), snappy_out.end());
 
@@ -2629,13 +2629,13 @@ protected:
                     ("themis_rs_compress_test_" + std::to_string(ticks) + "_" +
                      std::to_string(tid_hash)))
                        .string();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(wal_dir_, ec);
         std::filesystem::create_directories(wal_dir_, ec);
     }
     void TearDown() override {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(wal_dir_, ec);
             if (!ec || !std::filesystem::exists(wal_dir_)) {
                 break;
@@ -2643,7 +2643,7 @@ protected:
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
         }
     }
-    std::string wal_dir_;
+    std::string wal_dir_ = {};
 };
 
 TEST_F(ReplicationStreamCompressionTest, CompressionDisabledByDefault) {
@@ -2947,7 +2947,7 @@ TEST(ReplicationBenchmarkTest, RunProducesPositiveThroughput) {
         EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config.wal_directory, ec);
 }
 
@@ -2971,7 +2971,7 @@ TEST(ReplicationBenchmarkTest, DefaultConstructorWorks) {
         EXPECT_GT(result.writes_per_second, 0.0);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config.wal_directory, ec);
 }
 
@@ -3017,7 +3017,7 @@ TEST(ReplicationBenchmarkTest, LatencyPercentilesAreSorted) {
         EXPECT_LE(r.latency_p99_us, r.latency_max_us);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config.wal_directory, ec);
 }
 
@@ -3310,7 +3310,7 @@ TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
 
     // Write 5 segments; keep retention=2 -> should archive 3
     for (int i = 1; i <= 5; ++i) {
-        std::ostringstream name;
+        std::ostringstream name = {};
         name << "seg_" << std::setw(6) << std::setfill('0') << i << ".wal";
         writeSegmentFile(wal_dir, name.str(), "DATA" + std::to_string(i));
     }
@@ -4157,7 +4157,7 @@ TEST_F(CrossClusterPublicationTest, SetFilterThreadSafe) {
 
     std::atomic<bool> stop{false};
     std::vector<WALEntry> received;
-    std::mutex recv_mutex;
+    std::mutex recv_mutex = {};
 
     pub.addRemoteSubscriber([&](const WALEntry& e) {
         std::lock_guard<std::mutex> lk(recv_mutex);
@@ -4167,7 +4167,7 @@ TEST_F(CrossClusterPublicationTest, SetFilterThreadSafe) {
     // Writer thread: continuously updates filter
     std::thread writer([&] {
         for (int i = 0; i < 200 && !stop.load(); ++i) {
-            PublicationFilter f;
+            PublicationFilter f = {};
             if (i % 2 == 0) f.include_collections = {"col"};
             pub.setFilter(f);
         }
@@ -4421,7 +4421,7 @@ TEST(CrossClusterIntegrationTest, PublicationReceivesEntriesViaReplicationManage
     auto pub = std::make_shared<CrossClusterPublication>("intg_pub");
 
     std::vector<std::string> replicated_ids;
-    std::mutex ids_mutex;
+    std::mutex ids_mutex = {};
     CrossClusterSubscription sub("intg_sub", pub, [&](const WALEntry& e) {
         std::lock_guard<std::mutex> lk(ids_mutex);
         replicated_ids.push_back(e.document_id);
@@ -4472,7 +4472,7 @@ TEST(CrossClusterIntegrationTest, FilterDropsNonMatchingEntriesViaReplicationMan
     pub->setFilter(f);
 
     std::vector<std::string> replicated_collections;
-    std::mutex col_mutex;
+    std::mutex col_mutex = {};
     CrossClusterSubscription sub("filtered_intg_sub", pub, [&](const WALEntry& e) {
         std::lock_guard<std::mutex> lk(col_mutex);
         replicated_collections.push_back(e.collection);

@@ -126,7 +126,7 @@ protected:
 
     void TearDown() override {
         for (const auto& p : temp_paths_) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(p, ec);
         }
     }
@@ -200,7 +200,7 @@ TEST_F(QuorumLogTest, EmptyLog) {
 TEST_F(QuorumLogTest, WriteFail) {
     // Use a directory as the log path — opening it for append will fail
     auto dir = std::filesystem::temp_directory_path() / "themis_qlog_dir_sentinel";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(dir, ec);
 
     // log_path points INSIDE the directory with a sub-path that is itself a dir

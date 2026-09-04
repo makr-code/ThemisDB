@@ -561,7 +561,7 @@ std::string WikiIndexStore::makeEmbeddingCacheKey(const WikiChunk& chunk) {
     auto key = core::concerns::SignedAdapterValidator::sha256Hex(material);
     if (key.empty()) {
         const auto fallback = std::hash<std::string>{}(material);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "fallback-hash:" << std::hex << fallback;
         key = oss.str();
     }

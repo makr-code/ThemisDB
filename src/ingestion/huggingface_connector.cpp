@@ -251,7 +251,7 @@ static std::string hfJsonExtractStringValue(const std::string& json,
       return "";
     }
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (size_t i = start; i < json.size(); ++i) {
         char c = json[i];
@@ -442,7 +442,7 @@ private:
 
     // Percent-encode a string for application/x-www-form-urlencoded.
     static std::string urlEncode(const std::string& value) {
-        std::string encoded;
+        std::string encoded = {};
         for (unsigned char c : value) {
             if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
                 encoded += static_cast<char>(c);

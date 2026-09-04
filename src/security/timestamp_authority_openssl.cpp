@@ -192,7 +192,7 @@ static std::string b64Encode(const std::vector<uint8_t>& data){
     BIO_flush(b64);
     BUF_MEM* ptr = nullptr; 
     BIO_get_mem_ptr(b64, &ptr);
-    std::string out;
+    std::string out = {};
     if (ptr && ptr->data && ptr->length > 0) {
         out.assign(ptr->data, ptr->length);
     }
@@ -247,7 +247,7 @@ static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
     #else
         // Portable fallback: temporarily set TZ to UTC
         const char* old_tz = getenv("TZ");
-        std::string old_tz_copy;
+        std::string old_tz_copy = {};
         if (old_tz) {
             old_tz_copy = old_tz;
         }
@@ -645,7 +645,7 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
         PEM_write_bio_X509(bio.get(), cert.get());
         BUF_MEM* mem = nullptr;
         BIO_get_mem_ptr(bio.get(), &mem);
-        std::string pem;
+        std::string pem = {};
         if (mem && mem->data && mem->length > 0) {
             pem.assign(mem->data, mem->length);
         }
@@ -845,7 +845,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
         BUF_MEM* name_buf = nullptr;
         BIO_get_mem_ptr(name_bio.get(), &name_buf);
-        std::string subject_name;
+        std::string subject_name = {};
         if (name_buf && name_buf->data && name_buf->length > 0) {
             subject_name.assign(name_buf->data, name_buf->length);
         }

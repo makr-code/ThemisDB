@@ -206,7 +206,7 @@ http::response<http::string_body> HealthErrorService::handleRequest(
     // Extract path and query parameters
     std::string target_str = std::string(req.target());
     std::string path = target_str;
-    std::string query_string;
+    std::string query_string = {};
     
     auto qpos = path.find('?');
     if (qpos != std::string::npos) {
@@ -222,7 +222,7 @@ http::response<http::string_body> HealthErrorService::handleRequest(
         }
         
         std::istringstream ss(query);
-        std::string param;
+        std::string param = {};
         while (std::getline(ss, param, '&')) {
             auto eq = param.find('=');
             if (eq != std::string::npos) {
@@ -340,14 +340,14 @@ http::response<http::string_body> HealthErrorService::handleHealth() {
     
     auto now = std::chrono::system_clock::now();
     auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    std::tm tm_now;
+    std::tm tm_now = {};
 #ifdef _WIN32
     gmtime_s(&tm_now, &time_t_now);
 #else
     gmtime_r(&time_t_now, &tm_now);
 #endif
     
-    std::ostringstream timestamp;
+    std::ostringstream timestamp = {};
     timestamp << std::put_time(&tm_now, "%Y-%m-%dT%H:%M:%SZ");
     
     json health = {

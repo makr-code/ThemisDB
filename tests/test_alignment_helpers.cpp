@@ -254,8 +254,8 @@ TEST(UnalignedAccessTest, ReadWriteUnalignedUint64) {
 TEST(UnalignedAccessTest, ReadWriteUnalignedStruct) {
     struct TestStruct {
         uint32_t a = 0;
-        uint32_t b;
-        uint64_t c;
+        uint32_t b = {};
+        uint64_t c = {};
     };
     
     alignas(16) uint8_t buffer[32] = {0};

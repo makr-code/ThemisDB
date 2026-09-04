@@ -30,7 +30,7 @@ protected:
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(base_dir_, ec);
     }
 
@@ -52,7 +52,7 @@ protected:
         if (age_seconds > 0) {
             const auto past = fs::file_time_type::clock::now() -
                               std::chrono::seconds(age_seconds);
-            std::error_code ec;
+            std::error_code ec = {};
             fs::last_write_time(snap, past, ec);
         }
         return snap.string();

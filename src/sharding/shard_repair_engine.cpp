@@ -138,7 +138,7 @@ void ShardRepairEngine::setResourceManager(std::shared_ptr<ShardResourceManager>
 std::string ShardRepairEngine::generateJobId() const {
     uint64_t counter = job_counter_.fetch_add(1);
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "repair-" << now << "-" << counter;
     return oss.str();
 }
@@ -265,7 +265,7 @@ std::string ShardRepairEngine::exportPrometheusMetrics() const {
     RepairMetrics m = getRepairMetrics();
     auto reports = getShardHealthReports();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     oss << "# HELP themis_shard_repair_scans_total Total anti-entropy scans performed\n"
         << "# TYPE themis_shard_repair_scans_total counter\n"

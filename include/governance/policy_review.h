@@ -156,7 +156,7 @@ public:
     };
     
     struct ExpirationWarning {
-        std::string rule_id;
+        std::string rule_id = {};
         int64_t expiration_date;
         int days_until_expiration;
         std::string severity;                      // info, warning, critical

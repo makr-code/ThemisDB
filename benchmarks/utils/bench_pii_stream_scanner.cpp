@@ -77,7 +77,7 @@ static std::shared_ptr<RegexDetectionEngine> make_engine() {
 /// Build the synthetic corpus of exactly `target_bytes` bytes.
 static std::string build_corpus(size_t target_bytes) {
     const std::string block = make_text_block();
-    std::string corpus;
+    std::string corpus = {};
     corpus.reserve(target_bytes + block.size());
     while (corpus.size() < target_bytes) {
       corpus += block;
@@ -97,7 +97,7 @@ static std::string hmac_pseudonym(const std::string& key, const std::string& val
          reinterpret_cast<const unsigned char*>(value.data()),
          static_cast<int>(value.size()),
          digest, &dlen);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 4; ++i) {
       oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -169,7 +169,7 @@ static void BM_ScanAndPseudonymize(benchmark::State& state) {
         PIIStreamScanner scanner(engine);
 
         size_t offset = 0;
-        std::string output;
+        std::string output = {};
         output.reserve(kCorpusSize);
 
         while (offset < corpus.size()) {

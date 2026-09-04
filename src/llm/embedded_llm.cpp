@@ -308,9 +308,9 @@ json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_toke
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
-    std::string sanitized_prompt;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized_prompt = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(
             request.prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
         spdlog::warn("EmbeddedLLM: prompt blocked by safety policy '{}': {}",
@@ -431,7 +431,7 @@ json EmbeddedLLM::getStats() const {
 }
 
 void EmbeddedLLM::clearCache() {
-    std::size_t count;
+    std::size_t count = {};
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         count = embedding_cache_.size();

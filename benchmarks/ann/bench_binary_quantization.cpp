@@ -26,7 +26,7 @@ namespace {
  * @brief Utility for generating random normalized vectors
  */
 struct VectorGenerator {
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     std::normal_distribution<float> dist;
     
     VectorGenerator(uint32_t seed = 42) : rng(seed), dist(0.0f, 1.0f) {}

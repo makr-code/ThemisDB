@@ -322,7 +322,7 @@ OLAPEngine::~OLAPEngine() = default;
 // map to the same cache entry.
 // ---------------------------------------------------------------------------
 static std::string computeOLAPCacheKey(const OLAPQuery &query) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << query.collection << '\0';
 
     // Sorted dimension names
@@ -427,7 +427,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     // ------------------------------------------------------------------
     // 1. LRU cache lookup
     // ------------------------------------------------------------------
-    std::string cache_key;
+    std::string cache_key = {};
     if (max_entries > 0) {
         cache_key = computeOLAPCacheKey(query);
         std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
@@ -1588,7 +1588,7 @@ class MaterializedView::Impl {
     std::map<std::string, std::unordered_map<std::string, AggState>> groups;
 
     static std::string makeGroupKey(const Row &row, const std::vector<Dimension> &dims) {
-        std::string key;
+        std::string key = {};
         for (const auto &d : dims) {
             auto it = row.find(d.name);
             if (it != row.end()) {
@@ -1663,7 +1663,7 @@ class MaterializedView::Impl {
             OLAPResult::Row row;
             // Decode group key
             std::istringstream iss(gk);
-            std::string token;
+            std::string token = {};
             for (const auto &d : dims) {
                 std::getline(iss, token, '\0');
                 row.values[d.name] = token;

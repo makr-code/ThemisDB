@@ -1025,7 +1025,7 @@ void DualConsensusOrchestrator::updateConsistencyStateLocked(const std::string& 
         old_state = state_it->second;
     }
     
-    CrossLayerConsistencyState new_state;
+    CrossLayerConsistencyState new_state = {};
     if (token.storage_version == storage_version && 
         token.cache_version   == cache_version) {
         new_state = CrossLayerConsistencyState::CONSISTENT;

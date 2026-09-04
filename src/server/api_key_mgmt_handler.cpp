@@ -41,7 +41,7 @@ std::string ApiKeyMgmtHandler::generateToken() {
     if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
         throw std::runtime_error("Failed to generate secure random bytes for API token");
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "themis_";
     for (auto b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
@@ -55,7 +55,7 @@ std::string ApiKeyMgmtHandler::generateKeyId() {
     if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
         throw std::runtime_error("Failed to generate secure random bytes for key ID");
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "key_";
     for (auto b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
@@ -72,7 +72,7 @@ std::string ApiKeyMgmtHandler::currentTimestamp() {
 #else
     gmtime_r(&t, &tm_buf);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -87,7 +87,7 @@ std::string ApiKeyMgmtHandler::expiryTimestamp([[maybe_unused]] int days) {
 #else
     gmtime_r(&t, &tm_buf);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -255,7 +255,7 @@ nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlo
 
 nlohmann::json ApiKeyMgmtHandler::deleteKey([[maybe_unused]] const std::string& key_id) {
     try {
-        std::string token_to_remove;
+        std::string token_to_remove = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = keys_.find(key_id);

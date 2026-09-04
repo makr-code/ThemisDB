@@ -96,7 +96,7 @@ RemoteExecutor::Result RemoteExecutor::postBinary(const ShardInfo& shard_info,
     static constexpr char kBase64Chars[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-    std::string encoded;
+    std::string encoded = {};
     encoded.reserve(((size + 2u) / 3u) * 4u);
 
     for (std::size_t i = 0; i < size; i += 3) {

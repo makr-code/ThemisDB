@@ -385,7 +385,7 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
         if (config_.use_gpu) {
-            std::string gpu_error;
+            std::string gpu_error = {};
             if (trySearchWithCudaCuvsGate(idx, config_.gpu_device, 1, query, k, result.distances, result.ids, gpu_error)) {
                 return result;
             }
@@ -444,7 +444,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
         if (config_.use_gpu) {
-            std::string gpu_error;
+            std::string gpu_error = {};
             if (!trySearchWithCudaCuvsGate(idx, config_.gpu_device, num_queries, queries, k, all_distances, all_ids,
                                            gpu_error)) {
                 THEMIS_WARN("AdvancedVectorIndex CUDA/cuVS gate batch search failed (device={}): {} — falling back to CPU index search",

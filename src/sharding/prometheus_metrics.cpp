@@ -341,7 +341,7 @@ void PrometheusMetrics::recordQuorumTimeout(const std::string& level) {
 
 std::string PrometheusMetrics::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Export counters
     for (const auto& [key, value] : counters_) {
@@ -377,7 +377,7 @@ std::string PrometheusMetrics::getMetrics() const {
 
 std::string PrometheusMetrics::getMetricsWithAnnotations() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Add metric annotations (HELP and TYPE)
     oss << "# HELP themis_routing_requests_total Total number of routing requests\n";
@@ -811,7 +811,7 @@ std::string PrometheusMetrics::formatLabels(const std::map<std::string, std::str
       return "";
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [key, value] : labels) {

@@ -28,7 +28,7 @@ std::string sha256Hex(const unsigned char* data, std::size_t len) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(data, len, digest);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(digest[i]);

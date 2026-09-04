@@ -173,7 +173,7 @@ WASMKernelSandbox::runInSandbox(const std::string&          kernel_id,
         ? std::move(backend)
         : [](const GPULauncher::WorkItem&) -> bool { return true; };
 
-    uint32_t timeout_ms;
+    uint32_t timeout_ms = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         timeout_ms = config_.max_execution_ms;

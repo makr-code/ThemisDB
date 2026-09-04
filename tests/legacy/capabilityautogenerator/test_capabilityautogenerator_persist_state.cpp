@@ -240,7 +240,7 @@ TEST_F(CapGenPersistStateTests, RocksDBKeyFormatAfterConstructorLoad) {
     EXPECT_NO_THROW(CapabilityAutoGenerator gen(cfg, topology, nullptr, state_db_));
 
     // Entry should still be intact in DB
-    std::string raw;
+    std::string raw = {};
     ASSERT_TRUE(state_db_->get("utils_capgen_state:" + shard_id, raw));
     auto loaded = nlohmann::json::parse(raw);
     EXPECT_EQ(loaded["last_run_timestamp"].get<int64_t>(), ts);
@@ -369,7 +369,7 @@ TEST_F(CapGenPersistStateTests, PersistStateWritesNewEntryToRocksDB) {
     CapabilityAutoGenerator gen(cfg, topology, nullptr, state_db_);
 
     // No entry should exist before we call persistState
-    std::string raw_before;
+    std::string raw_before = {};
     EXPECT_FALSE(state_db_->get("utils_capgen_state:" + shard_id, raw_before))
         << "DB key should not exist before persistState()";
 
@@ -378,7 +378,7 @@ TEST_F(CapGenPersistStateTests, PersistStateWritesNewEntryToRocksDB) {
     gen.persistState(shard_id, ts, count);
 
     // After persistState the key must exist and contain correct values
-    std::string raw_after;
+    std::string raw_after = {};
     ASSERT_TRUE(state_db_->get("utils_capgen_state:" + shard_id, raw_after))
         << "DB key should exist after persistState()";
 
@@ -406,7 +406,7 @@ TEST_F(CapGenPersistStateTests, PersistStateOverwritesExistingEntry) {
     uint64_t new_count = 77777u;
     gen.persistState(shard_id, new_ts, new_count);
 
-    std::string raw;
+    std::string raw = {};
     ASSERT_TRUE(state_db_->get("utils_capgen_state:" + shard_id, raw));
     auto loaded = nlohmann::json::parse(raw);
     EXPECT_EQ(loaded["last_run_timestamp"].get<int64_t>(), new_ts);
@@ -460,7 +460,7 @@ TEST_F(CapGenPersistStateTests, ScheduleGateRespectsLastRunTimestamp) {
     gen.persistState(shard_id, now_s, 500u);
 
     // (a) Verify the key was written with the current timestamp
-    std::string raw;
+    std::string raw = {};
     ASSERT_TRUE(state_db_->get("utils_capgen_state:" + shard_id, raw));
     auto loaded = nlohmann::json::parse(raw);
     EXPECT_EQ(loaded["last_run_timestamp"].get<int64_t>(), now_s);

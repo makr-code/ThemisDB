@@ -202,7 +202,7 @@ std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::stri
         return {};
     }
     static constexpr char hex_digits[] = "0123456789abcdef";
-    std::string hex;
+    std::string hex = {};
     hex.reserve(len * 2);
     for (unsigned int i = 0; i < len; ++i) {
         hex.push_back(hex_digits[(result[i] >> 4) & 0x0F]);

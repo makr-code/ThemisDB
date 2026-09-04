@@ -85,7 +85,7 @@ private:
     size_t slab_idx_;
     uint64_t delta_alloc_;
     uint64_t delta_waste_;
-    bool committed_;
+    bool committed_ = {};
 };
 
 // ============================================================================

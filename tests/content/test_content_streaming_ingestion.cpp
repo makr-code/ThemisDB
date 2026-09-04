@@ -208,7 +208,7 @@ TEST(StreamingIngestionTest, ChunkedReadFromStream_ReproducesOriginal) {
 
 TEST(StreamingIngestionTest, TextSegmentSplitting_ProducesCorrectSegments) {
     // Build a 1-KB text with 10 newline-delimited lines
-    std::string text;
+    std::string text = {};
     for (int i = 0; i < 10; ++i) {
         text += "Line " + std::to_string(i) + ": " + std::string(90, 'a') + "\n";
     }
@@ -234,7 +234,7 @@ TEST(StreamingIngestionTest, TextSegmentSplitting_ProducesCorrectSegments) {
     // All segments non-empty
     EXPECT_GT(segments.size(), 0u);
     // Concatenated segments reproduce original text
-    std::string reconstructed;
+    std::string reconstructed = {};
     for (const auto& s : segments) {
       reconstructed += s;
     }
@@ -242,7 +242,7 @@ TEST(StreamingIngestionTest, TextSegmentSplitting_ProducesCorrectSegments) {
 }
 
 TEST(StreamingIngestionTest, TextSegmentSplitting_EmptyCarryProducesNoSegments) {
-    std::string carry;
+    std::string carry = {};
     std::vector<std::string> segments;
     size_t pos = 0;
     while (pos < carry.size()) {
@@ -263,7 +263,7 @@ TEST(StreamingIngestionTest, BufferOverflow_DetectedBeforeExceedingLimit) {
     std::string big_content(2 * 1024, 'B');  // 2 KB – exceeds limit
     std::istringstream stream(big_content);
 
-    std::string buffer;
+    std::string buffer = {};
     const size_t chunk_size = 512;
     std::vector<char> read_buf(chunk_size);
     bool overflow_detected = false;
@@ -292,7 +292,7 @@ TEST(StreamingIngestionTest, BufferOverflow_NotTriggeredWhenWithinLimit) {
     std::string content(2 * 1024, 'C');  // 2 KB – within limit
     std::istringstream stream(content);
 
-    std::string buffer;
+    std::string buffer = {};
     const size_t chunk_size = 1024;
     std::vector<char> read_buf(chunk_size);
     bool overflow_detected = false;

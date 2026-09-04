@@ -169,7 +169,7 @@ bool AsyncBulkUploader::cancel_upload(const std::string& content_id) {
         return false;
     }
     
-    std::string job_id;
+    std::string job_id = {};
     {
         std::lock_guard<std::mutex> lock(job_map_mutex_);
         auto it = content_to_job_map_.find(content_id);
@@ -189,7 +189,7 @@ AsyncBulkUploader::UploadStatus AsyncBulkUploader::get_upload_status(
         return UploadStatus::FAILED;
     }
     
-    std::string job_id;
+    std::string job_id = {};
     {
         std::lock_guard<std::mutex> lock(job_map_mutex_);
         auto it = content_to_job_map_.find(content_id);

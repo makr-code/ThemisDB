@@ -149,9 +149,9 @@ static ImportStats importContent(const std::string& content,
 
     std::map<std::string, TableSchema> schemas;
     std::istringstream file(content);
-    std::string line;
-    std::string current_sql;
-    std::string current_table;
+    std::string line = {};
+    std::string current_sql = {};
+    std::string current_table = {};
     bool in_copy = false;
     bool first_copy_line = false;
 
@@ -257,7 +257,7 @@ static ImportStats importContent(const std::string& content,
                 auto cp = current_sql.rfind(')');
                 if (op != std::string::npos && cp != std::string::npos) {
                     std::string body = current_sql.substr(op + 1, cp - op - 1);
-                    std::string cur;
+                    std::string cur = {};
                     int depth = 0;
                     for (char c : body) {
                         if (c == '(') { depth++; cur += c; }
@@ -523,7 +523,7 @@ TEST_F(SqlInjectionTest, PathTraversalInSourcePathFailsGracefully) {
         if (f.good()) {
             // File exists (e.g. /etc/passwd on Linux): verify it does NOT
             // look like a pg_dump (validateSource would reject it).
-            std::string first_line;
+            std::string first_line = {};
             std::getline(f, first_line);
             bool looks_like_pg_dump =
                 first_line.find("PostgreSQL database dump") != std::string::npos ||

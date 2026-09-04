@@ -358,7 +358,7 @@ private:
         std::chrono::system_clock::time_point start;
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
-        std::string partition_key;
+        std::string partition_key = {};
         /// Tracks distinct non-empty partition_key values seen in this window.
         /// Used to enforce TumblingWindowConfig::max_distinct_partition_keys.
         std::unordered_set<std::string> seen_partition_keys;
@@ -535,7 +535,7 @@ private:
 
     struct Session {
         std::string session_id;
-        std::string partition_key;
+        std::string partition_key = {};
         std::chrono::system_clock::time_point start;
         std::chrono::system_clock::time_point last_event;
         std::vector<StreamRecord> records;

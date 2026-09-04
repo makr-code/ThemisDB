@@ -162,11 +162,11 @@ public:
     }
 
 protected:
-    std::string                          work_dir_;
-    std::string                          base_path_;
-    std::string                          patch_path_;
-    std::string                          target_path_;
-    std::string                          new_path_;
+    std::string                          work_dir_ = {};
+    std::string                          base_path_ = {};
+    std::string                          patch_path_ = {};
+    std::string                          target_path_ = {};
+    std::string                          new_path_ = {};
     std::unique_ptr<DeltaUpdateEngine>   engine_;
 };
 

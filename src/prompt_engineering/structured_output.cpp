@@ -216,7 +216,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
 
     // Scan manually for depth-0 keys
     bool in_s = false; bool esc = false; int dep = 0;
-    std::string cur_key;
+    std::string cur_key = {};
     bool reading_key = false;
     for (size_t i = 0; i < flat.size(); ++i) {
         const char c = flat[i];
@@ -262,7 +262,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
     bool in_string = false;
     bool escaped   = false;
     int  depth     = 0;       // depth inside { }, starts at 0 for outer {}
-    std::string cur_key;
+    std::string cur_key = {};
     bool reading_key = false;
 
     for (size_t i = 0; i < json.size(); ++i) {

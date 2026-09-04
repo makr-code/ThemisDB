@@ -52,7 +52,7 @@ namespace {
 
 /// Convert query to uppercase for case-insensitive matching.
 std::string toUpperAscii(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (auto c : s) {
       out.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(c))));
@@ -470,7 +470,7 @@ bool IntentClassifier::configureLoraEndpoint(
             return {IntentType::LEGITIMATE, 0.0, "lora_curl_init_failed"};
         }
 
-        std::string response_buf;
+        std::string response_buf = {};
         struct curl_slist* headers = nullptr;
         headers = curl_slist_append(headers, "Content-Type: application/json");
         if (!key.empty()) {

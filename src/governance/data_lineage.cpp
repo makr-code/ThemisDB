@@ -97,7 +97,7 @@ void DataLineageTracker::setAuditLogger(std::shared_ptr<themis::utils::AuditLogg
 std::string DataLineageTracker::assignEventId() {
     // Generates a simple monotonic ID; callers may supply their own UUID.
     uint64_t seq = next_event_seq_.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "lineage-" << seq;
     return oss.str();
 }

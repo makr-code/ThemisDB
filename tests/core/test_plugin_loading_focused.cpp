@@ -14,7 +14,7 @@ using namespace themis::core::concerns;
 // Helper: create a temporary file with given content; removed by RAII guard
 // ---------------------------------------------------------------------------
 struct TempFile {
-    std::string path;
+    std::string path = {};
 
     explicit TempFile(const std::string& suffix, const std::string& content = "") {
         path = (std::filesystem::temp_directory_path() /
@@ -27,7 +27,7 @@ struct TempFile {
     }
 
     ~TempFile() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(path, ec);
     }
 };
@@ -81,7 +81,7 @@ TEST(PluginLoadingTest, PL_05_RequireSignatureDigestMismatchReturnsFalse) {
                     "0000000000000000000000000000000000000000000000000000000000000000\n"};
     // Give .sig the library's path + ".sig" name
     // Rename the sig temp file to match the lib path
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::rename(tf_sig.path, tf_lib.path + ".sig", ec);
     tf_sig.path = tf_lib.path + ".sig"; // update so RAII removes it
 

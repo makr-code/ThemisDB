@@ -80,7 +80,7 @@ struct EstimateValidation {
     struct Sample {
         size_t estimatedRows = 0;
         size_t actualRows = 0;
-        std::string queryTemplate;
+        std::string queryTemplate = {};
         std::string operationType;  // "scan", "filter", "join", "agg"
         
         double getError() const {

@@ -429,7 +429,7 @@ size_t BiTemporalTable::closeCurrentRows(
 
 BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other) {
     // Reject cross-table merges to avoid mixing unrelated entity histories.
-    MergeResult result;
+    MergeResult result = {};
     if (table_name_ != other.table_name_) {
         return result;
     }

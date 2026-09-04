@@ -62,7 +62,7 @@ std::string generateCallId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
     std::lock_guard<std::mutex> lock(mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "call-" << std::hex << rng() << "-" << rng();
     return oss.str();
 }
@@ -136,7 +136,7 @@ CallTranscript runCallStt(const CallID&                call_id,
     ct.confidence  = is_final ? 0.91f : 0.74f;
     ct.timestamp_ms = telephonyNowMs();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << (is_final ? "final" : "partial")
         << ":" << samples.size() << "samples]";
     ct.text = oss.str();
@@ -176,7 +176,7 @@ std::string buildSdpAnswer(const std::string& sdp_offer,
     else if (codec == "pcma") { payload_type = "8"; }
     else if (codec == "g722") { payload_type = "9";  clock = 8000; }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "v=0\r\n"
         << "o=ThemisDB " << session_id << " 1 IN IP4 0.0.0.0\r\n"
         << "s=ThemisDB Voice\r\n"
@@ -313,7 +313,7 @@ CallState SipCallSession::state() const noexcept {
 
 CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_packet) {
     // TASK 2.6: Telephony input validation and injection detection
-    CallTranscript empty;
+    CallTranscript empty = {};
     if (!impl_ || impl_->state != CallState::ACTIVE) {
       return empty;
     }
@@ -414,7 +414,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 }
 
 CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
-    CallTranscript empty;
+    CallTranscript empty = {};
     if (!impl_ || impl_->state != CallState::ACTIVE) {
       return empty;
     }
@@ -600,7 +600,7 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
 
     // Emit a synthetic local ICE candidate
     if (impl_->on_local_ice) {
-        std::ostringstream ice_json;
+        std::ostringstream ice_json = {};
         ice_json << R"({"candidate":"candidate:0 1 UDP 2122252543 0.0.0.0 9 typ host","sdpMid":"audio","sdpMLineIndex":0})";
         impl_->on_local_ice(ice_json.str());
     }
@@ -657,7 +657,7 @@ CallState WebRtcCallSession::state() const noexcept {
 }
 
 CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
-    CallTranscript empty;
+    CallTranscript empty = {};
     if (!impl_ || impl_->state != CallState::ACTIVE) {
       return empty;
     }

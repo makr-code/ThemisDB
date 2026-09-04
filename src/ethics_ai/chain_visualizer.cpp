@@ -48,7 +48,7 @@ std::string ChainVisualizer::makeLabel(const EthicalArgument& arg) {
 }
 
 std::string ChainVisualizer::dotEscape(const std::string& s) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (char c : s) {
         if (c == '"') {
           out << "\\\"";
@@ -61,7 +61,7 @@ std::string ChainVisualizer::dotEscape(const std::string& s) {
 
 std::string ChainVisualizer::mermaidEscape(const std::string& s) {
     // Mermaid node labels are wrapped in quotes; replace special chars.
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (char c : s) {
         if (c == '"') {
           out << "'";
@@ -84,7 +84,7 @@ std::string ChainVisualizer::exportDot(
     // Build a set for fast membership tests (to restrict edges)
     std::set<std::string> id_set(argument_ids.begin(), argument_ids.end());
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "digraph " << dotEscape(graph_name) << " {\n";
     out << "  rankdir=LR;\n";
     out << "  node [shape=box, style=filled];\n\n";
@@ -135,7 +135,7 @@ std::string ChainVisualizer::exportMermaid(
 {
     std::set<std::string> id_set(argument_ids.begin(), argument_ids.end());
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "flowchart LR\n";
 
     // Emit nodes

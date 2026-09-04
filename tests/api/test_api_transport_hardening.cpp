@@ -237,7 +237,7 @@ TEST(TransportHardeningTest, ConcurrentRequestHandling)
 
     auto worker = [&]() {
         for (int i = 0; i < requests_per_thread; ++i) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << std::this_thread::get_id() << "-" << i;
             HttpRequest req;
             req.method = "GET";

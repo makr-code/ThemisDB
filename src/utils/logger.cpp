@@ -43,7 +43,7 @@ namespace {
 /// Only escapes characters that would break JSON: backslash and double-quote.
 /// Control characters (< 0x20) are replaced with their \uXXXX representation.
 std::string jsonEscapeTraceId(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         if (c == '"') {

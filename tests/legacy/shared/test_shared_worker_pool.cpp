@@ -154,7 +154,7 @@ TEST_F(SharedWorkerPoolTest, HighPriorityTaskExecutes) {
 
     // Queue low and high priority tasks while worker is blocked
     std::vector<int> execution_order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
 
     pool.submit([&]() {
         std::lock_guard<std::mutex> lk(order_mutex);

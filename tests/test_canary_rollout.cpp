@@ -429,7 +429,7 @@ TEST_F(CanaryRollbackTest, RollbackCallback_IsCalled) {
 
     auto engine = std::make_shared<StubHotReloadEngine>();
     CanaryRollout rollout(engine, cfg);
-    std::string received_reason;
+    std::string received_reason = {};
     rollout.setRollbackCallback(
         [&](const std::string& r) { received_reason = r; });
 
@@ -950,7 +950,7 @@ TEST_F(CanaryDeploymentRollbackTest, ManualRollback_SetsFlag) {
 TEST_F(CanaryDeploymentRollbackTest, RollbackCallback_IsCalled) {
     auto engine = makeStubEngine();
     auto d = makeDeployment(engine);
-    std::string received_reason;
+    std::string received_reason = {};
     d.onRollback([&](const std::string& reason) {
         received_reason = reason;
     });

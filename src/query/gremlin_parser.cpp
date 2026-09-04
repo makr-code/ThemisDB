@@ -86,7 +86,7 @@ struct GremlinParser::Lexer {
 
     std::string readString(char delim) {
         ++pos;  // skip opening delimiter
-        std::string buf;
+        std::string buf = {};
         while (pos < src.size() && src[pos] != delim) {
             if (src[pos] == '\\' && pos + 1 < src.size()) {
                 ++pos;
@@ -138,7 +138,7 @@ struct GremlinParser::Lexer {
                 if (neg) {
                   ++pos;
                 }
-                std::string num;
+                std::string num = {};
                 if (neg) {
                   num += '-';
                 }
@@ -158,7 +158,7 @@ struct GremlinParser::Lexer {
                 else
                     tokens.push_back({GremlinTokenType::INT_LIT, num, start});
             } else if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') {
-                std::string ident;
+                std::string ident = {};
                 while (pos < src.size() &&
                        (std::isalnum(static_cast<unsigned char>(src[pos])) || src[pos] == '_'))
                     ident += src[pos++];
@@ -635,7 +635,7 @@ std::string GremlinToAQLTranspiler::valueToAQL(const GremlinValue& val) {
         if constexpr (std::is_same_v<T, bool>)           return v ? "true" : "false";
         if constexpr (std::is_same_v<T, int64_t>)        return std::to_string(v);
         if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream os;
+            std::ostringstream os = {};
             os << v;
             return os.str();
         }
@@ -739,7 +739,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         bool useCount = false;
         bool useDedup = false;
         // Sort
-        std::string sortProp;
+        std::string sortProp = {};
         bool sortAsc = true;
         bool hasSort = false;
         // Pagination
@@ -876,7 +876,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // -------------------------------------------------------
         // Determine the collection/source to iterate
         // -------------------------------------------------------
-        std::string collection;
+        std::string collection = {};
         if (!labels.empty())
             collection = labels[0];  // primary label → collection name
         else if (startedWithE)
@@ -911,7 +911,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // TRAVERSAL step
         std::string nVar = "_n";
         if (hasTraversal) {
-            std::string dir;
+            std::string dir = {};
             if (traversalDir == 1) {
               dir = "OUTBOUND";
             }

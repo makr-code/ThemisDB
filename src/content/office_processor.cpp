@@ -205,10 +205,10 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
             result.metadata["document_type"] = "rtf";
             // Basic RTF text extraction
             {
-                std::string text;
+                std::string text = {};
                 std::regex rtf_text_regex("\\\\([a-z]+)\\s*([^\\\\{}]+)");
                 std::sregex_iterator it(blob.begin(), blob.end(), rtf_text_regex);
-                std::sregex_iterator end;
+                std::sregex_iterator end = {};
 
                 for (; it != end; ++it) {
                     std::string control = (*it)[1].str();
@@ -279,11 +279,11 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
 
         // Extract paragraphs
         std::vector<std::string> paragraphs;
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
 
         // Navigate to w:body/w:p elements
         for (auto p : doc.select_nodes("//w:p")) {
-            std::string para_text;
+            std::string para_text = {};
             for (auto t : p.node().select_nodes(".//w:t")) {
                 para_text += t.node().child_value();
             }
@@ -307,7 +307,7 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
 
     // Try to find text between <w:t> tags
     std::regex text_regex("<w:t[^>]*>([^<]+)</w:t>");
-    std::ostringstream extracted;
+    std::ostringstream extracted = {};
 
     auto text_begin = std::sregex_iterator(blob.begin(), blob.end(), text_regex);
     auto text_end   = std::sregex_iterator();
@@ -345,7 +345,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
             if (ss_parse.success) {
                 pugi::xml_document& ss_doc = ss_parse.document;
                 for (auto si : ss_doc.select_nodes("//si")) {
-                    std::string text;
+                    std::string text = {};
                     for (auto t : si.node().select_nodes(".//t")) {
                         text += t.node().child_value();
                     }
@@ -383,7 +383,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
 
         // Read first sheet
         std::string sheet1_xml = readZipEntry(blob, "xl/worksheets/sheet1.xml");
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
         int row_count  = 0;
         int cell_count = 0;
 
@@ -401,7 +401,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                             break;
                         }
 
-                        std::string value;
+                        std::string value = {};
                         const char *type = cell.node().attribute("t").value();
                         auto v_node      = cell.node().child("v");
 
@@ -486,7 +486,7 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
 
         result.metadata["slide_count"] = slides.size();
 
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
         int slide_num = 1;
 
         for (const auto &slide_path : slides) {
@@ -561,7 +561,7 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
     result.ok       = false;
     result.metadata = json::object();
 
-    std::string type_str;
+    std::string type_str = {};
     switch (type) {
         case OfficeDocumentType::ODT:
             type_str = "odt";
@@ -597,11 +597,11 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
 
         pugi::xml_document& doc = content_parse.document;
 
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
 
         // Extract text from text:p and text:h elements
         for (auto node : doc.select_nodes("//text:p | //text:h")) {
-            std::string para_text;
+            std::string para_text = {};
             for (auto child : node.node().children()) {
                 if (child.type() == pugi::node_pcdata) {
                     para_text += child.value();
@@ -655,7 +655,7 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
         return "";
     }
 
-    zip_stat_t stat;
+    zip_stat_t stat = {};
     if (zip_stat_index(archive, index, 0, &stat) != 0) {
         zip_close(archive);
         return "";
@@ -829,9 +829,9 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
 
     // RAII guard: always remove temp dir + tracked files on scope exit
     struct TempGuard {
-        std::string dir;
-        std::string in_file;
-        std::string out_file;
+        std::string dir = {};
+        std::string in_file = {};
+        std::string out_file = {};
         ~TempGuard() {
             if (!in_file.empty())
                 unlink(in_file.c_str());
@@ -1030,7 +1030,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     }
 
     // Read converted text
-    std::string extracted_text;
+    std::string extracted_text = {};
     {
         char buf[4096];
         ssize_t n;
@@ -1070,7 +1070,7 @@ std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_resu
     // Split by paragraphs first
     std::vector<std::string> paragraphs;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         if (!line.empty()) {
             paragraphs.push_back(line);
@@ -1079,7 +1079,7 @@ std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_resu
 
     // Group paragraphs into chunks
     int seq_num = 0;
-    std::string current_chunk;
+    std::string current_chunk = {};
     int current_tokens = 0;
 
     for (const auto &para : paragraphs) {
@@ -1131,7 +1131,7 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_d
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string tok;
+    std::string tok = {};
     while (iss >> tok) {
         tokens.push_back(tok);
     }

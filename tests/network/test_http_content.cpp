@@ -179,7 +179,7 @@ TEST_F(HttpContentApiTest, GetBlob_ReturnsRawWithMimeType) {
     };
     (void)httpPost("/content/import", req);
 
-    std::string ct;
+    std::string ct = {};
     auto blobResp = httpGet("/content/doc-blob/blob", &ct);
     ASSERT_TRUE(blobResp.contains("blob"));
     EXPECT_EQ(blobResp["blob"], "BLOB-TEST");
@@ -298,7 +298,7 @@ TEST_F(HttpContentApiTest, BlobEncryption_StoresEncrypted_DecryptsOnRetrieval) {
     }
 
     // GET /content/secret-doc/blob should decrypt (using same user_context)
-    std::string contentType;
+    std::string contentType = {};
     auto blobResp = httpGet("/content/secret-doc/blob", &contentType);
     
     // httpGet returns JSON with {"blob": "..."} if response is not parseable JSON

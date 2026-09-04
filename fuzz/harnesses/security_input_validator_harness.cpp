@@ -73,7 +73,7 @@ public:
             "FOR ", "RETURN ", "INSERT ", "UPDATE ", "REMOVE ",
             "REPLACE ", "UPSERT ", "LET ", "COLLECT ", "GRAPH "
         };
-        std::string upper;
+        std::string upper = {};
         upper.reserve(input.size());
         for (char c : input) {
           upper += static_cast<char>(::toupper(c));
@@ -86,7 +86,7 @@ public:
         return false;
     }
     std::string sanitizeForLog(const std::string& input) const {
-        std::string out;
+        std::string out = {};
         out.reserve(input.size());
         for (unsigned char c : input) {
             if (c < 0x20 || c == 0x7f) {

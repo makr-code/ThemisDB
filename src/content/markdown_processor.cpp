@@ -92,7 +92,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     // Parse lines between opening and closing delimiter
     std::string block = markdown.substr(first_nl + 1, close_pos - (first_nl + 1));
     std::istringstream ss(block);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         std::string tline = trimCopy(line);
         if (tline.empty() || tline[0] == '#') {
@@ -116,7 +116,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
             std::string inner = value.substr(1, value.size() - 2);
             json arr = json::array();
             std::istringstream list_ss(inner);
-            std::string item;
+            std::string item = {};
             while (std::getline(list_ss, item, ',')) {
                 std::string ti = trimCopy(item);
                 if (ti.size() >= 2 &&
@@ -148,9 +148,9 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
 std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                                               bool preserve_headings,
                                               bool strip_code) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     std::istringstream in(markdown);
-    std::string line;
+    std::string line = {};
 
     bool in_fenced_code = false;
     std::string fence_marker; // "```" or "~~~"
@@ -252,7 +252,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 if (is_sep) {
                   continue;
                 }
-                std::string row;
+                std::string row = {};
                 for (char c : tl) {
                   row += (c == '|') ? ' ' : c;
                 }
@@ -323,7 +323,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // Inline Markdown: images, links, code spans, emphasis, strikethrough
         // ----------------------------------------------------------------
         {
-            std::string result;
+            std::string result = {};
             result.reserve(line.size());
             size_t i = 0;
             while (i < line.size()) {
@@ -452,7 +452,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
 // ============================================================================
 
 std::string MarkdownProcessor::normalizeWhitespace(const std::string& text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     bool last_was_space   = false;
@@ -496,7 +496,7 @@ int MarkdownProcessor::countTokens(const std::string& text) {
       return 0;
     }
     std::istringstream iss(text);
-    std::string tok;
+    std::string tok = {};
     int n = 0;
     while (iss >> tok) {
       ++n;
@@ -569,9 +569,9 @@ std::vector<json> MarkdownProcessor::chunk(
     // Split into paragraphs on blank-line and heading boundaries
     std::vector<std::string> paragraphs;
     {
-        std::string para;
+        std::string para = {};
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             std::string tl = trimCopy(line);
             bool is_heading = (!tl.empty() && tl[0] == '#');
@@ -595,7 +595,7 @@ std::vector<json> MarkdownProcessor::chunk(
     }
 
     int seq = 0;
-    std::string current_chunk;
+    std::string current_chunk = {};
     int current_tokens = 0;
 
     auto flushChunk = [&]([[maybe_unused]] const std::string& text_chunk) {
@@ -622,11 +622,11 @@ std::vector<json> MarkdownProcessor::chunk(
         } else {
             flushChunk(current_chunk);
 
-            std::string overlap_text;
+            std::string overlap_text = {};
             if (overlap > 0 && !current_chunk.empty()) {
                 std::istringstream iss(current_chunk);
                 std::vector<std::string> tokens;
-                std::string tok;
+                std::string tok = {};
                 while (iss >> tok) {
                   tokens.push_back(tok);
                 }
@@ -662,7 +662,7 @@ std::vector<float> MarkdownProcessor::generateEmbedding(const std::string& chunk
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
       tokens.push_back(token);
     }

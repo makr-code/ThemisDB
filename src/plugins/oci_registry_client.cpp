@@ -55,7 +55,7 @@ size_t curlWriteString(void* contents, size_t size, size_t nmemb, void* userp) {
 }
 
 struct CurlFileWriter {
-    std::ofstream file;
+    std::ofstream file = {};
     bool ok = true;
 };
 
@@ -124,7 +124,7 @@ std::string sha256HexFile(const std::string& path) {
     }
     // ctx is automatically freed here when unique_ptr goes out of scope
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned>(digest[i]);
@@ -161,8 +161,8 @@ Result<OciReference> OciReference::parse(const std::string& raw) {
     // Only the LAST colon after the last '/' is the tag separator.
     {
         auto slash_pos = remainder.rfind('/');
-        std::string name_part;
-        std::string registry_part;
+        std::string name_part = {};
+        std::string registry_part = {};
 
         if (slash_pos == std::string::npos) {
             // No slash at all – treat as plain image name with implicit registry.
@@ -410,7 +410,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     }
 
     std::unordered_map<std::string, std::string> resp_headers;
-    std::string body;
+    std::string body = {};
 
     curl_easy_setopt(curl, CURLOPT_URL, challenge_url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteString);
@@ -436,7 +436,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
 
     auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
         std::regex re(key + "=\"([^\"]*)\"");
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(www_auth, m, re)) {
           return m[1].str();
         }
@@ -471,7 +471,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
                                 "curl_easy_init() failed for token fetch");
     }
 
-    std::string token_body;
+    std::string token_body = {};
     curl_easy_setopt(token_curl, CURLOPT_URL, token_url.c_str());
     curl_easy_setopt(token_curl, CURLOPT_WRITEFUNCTION, curlWriteString);
     curl_easy_setopt(token_curl, CURLOPT_WRITEDATA, &token_body);
@@ -612,7 +612,7 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
     const std::string& dest_dir)
 {
     // Ensure destination directory exists.
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(dest_dir, ec);
     if (ec) {
         return Err<std::string>(ErrorCode::ERR_PLUGIN_OCI_PULL_FAILED,

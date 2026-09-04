@@ -179,7 +179,7 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_05_ResetAfterExhaustion_AllowsNewOps) 
  */
 TEST_F(GPUResourceExhaustionTest, EXHAUST_06_UniqueGPUPtr_AllocFailure_Throws) {
   bool caught_as_std_exception = false;
-  std::string what_msg;
+  std::string what_msg = {};
 
   try {
     // Simulate what make_unique_gpu throws when cudaMalloc fails.

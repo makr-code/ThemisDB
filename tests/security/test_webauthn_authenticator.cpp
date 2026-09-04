@@ -35,7 +35,7 @@ static std::string b64urlEncode(const std::vector<uint8_t>& data)
 {
     const uint8_t* d = data.data();
     const size_t   n = data.size();
-    std::string out;
+    std::string out = {};
     out.reserve(((n + 2) / 3) * 4);
     for (size_t i = 0; i < n; i += 3) {
         const uint32_t b0 = d[i];

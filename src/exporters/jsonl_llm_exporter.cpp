@@ -201,7 +201,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 double weight = calculateWeight(entity);
 
                 // Format based on style or named template
-                std::string line;
+                std::string line = {};
                 if (format_template_) {
                     line = formatWithTemplate(entity, weight, options);
                 } else {
@@ -245,7 +245,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
 
                 // Schema validation (Outlines open-source integration)
                 if (config_.structured_gen.enable_schema_validation) {
-                    std::string validation_error;
+                    std::string validation_error = {};
                     bool validation_passed = validateAgainstSchema(line, &validation_error);
                     metrics_->recordSchemaValidation(validation_passed);
 
@@ -381,7 +381,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
             try {
                 ExportEncryptor encryptor(*options.encryption_config);
                 const size_t enc_bytes = encryptor.encryptFile(options.output_path, enc_tmp);
-                std::error_code rename_ec;
+                std::error_code rename_ec = {};
                 std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
                 if (rename_ec) {
                     std::filesystem::remove(enc_tmp);
@@ -395,7 +395,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 }
             } catch (const ExportIOException &e) {
                 // FIXED: Properly handle and rethrow IO exceptions
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 stats.errors.push_back("[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + e.what()
                                        + " (file: " + e.getFilePath() + ")");
@@ -403,7 +403,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 return stats;  // Return stats instead of throwing
             } catch (const std::exception &e) {
                 // FIXED: Catch any other exceptions from encryption
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 stats.errors.push_back("Encryption failed: " + std::string(e.what()));
                 metrics_->recordError("encryption_exception");
@@ -729,7 +729,7 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity &entity) {
     // Alpaca (completion format): uses the dedicated output field.
     // ShareGPT / ChatML / OpenAI fine-tuning (conversation format): uses the assistant field.
     // The style-based path is unchanged for backward compatibility.
-    std::string output_field;
+    std::string output_field = {};
     if (config_.format_template_type != FormatTemplateType::NONE) {
         if (config_.format_template_type == FormatTemplateType::ALPACA) {
             output_field = config_.template_field_mapping.output_field;

@@ -34,7 +34,7 @@ namespace {
 // Tokenize text into words (simple whitespace/punctuation tokenizer)
 std::vector<std::string> tokenize(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string current;
+    std::string current = {};
     
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -71,7 +71,7 @@ std::string soundex(const std::string& s) {
       return "";
     }
     
-    std::string result;
+    std::string result = {};
     result += static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
     
     auto getCode = [](char c) -> char {
@@ -118,8 +118,8 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
       return "";
     }
     
-    std::string result;
-    std::string upper;
+    std::string result = {};
+    std::string upper = {};
     for (char c : word) {
       upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     }
@@ -254,7 +254,7 @@ std::string applyHighlight(const std::string& text,
     std::transform(text.begin(), text.end(), lower.begin(),
                    [](unsigned char c){ return std::tolower(c); });
 
-    std::string result;
+    std::string result = {};
     result.reserve(text.size() + 64);
     size_t i = 0;
 
@@ -696,7 +696,7 @@ public:
         std::string excerpt = text.substr(start, windowSize);
 
         std::string highlighted = applyHighlight(excerpt, terms, openTag, closeTag);
-        std::string result;
+        std::string result = {};
         if (truncLeft) {
           result += separator;
         }

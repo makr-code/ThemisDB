@@ -65,7 +65,7 @@ std::string PIIPseudonymizer::generateUUID() const {
     bytes[6] = (bytes[6] & 0x0F) | 0x40; // Version 4
     bytes[8] = (bytes[8] & 0x3F) | 0x80; // Variant 10
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     
     for (int i = 0; i < 16; ++i) {

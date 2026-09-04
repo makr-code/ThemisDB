@@ -40,13 +40,13 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
     ParsedQuery result;
 
     std::istringstream iss(raw_query);
-    std::string token;
+    std::string token = {};
     bool next_is_negative = false;
-    std::string positive_buf;
+    std::string positive_buf = {};
 
     while (iss >> token) {
         // Check for the `NOT` keyword (case-insensitive)
-        std::string token_upper;
+        std::string token_upper = {};
         token_upper.reserve(token.size());
         for (unsigned char c : token) {
             token_upper += static_cast<char>(std::toupper(c));
@@ -59,7 +59,7 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
 
         if (next_is_negative) {
             // The previous token was `NOT` — this token is excluded
-            std::string neg;
+            std::string neg = {};
             neg.reserve(token.size());
             for (unsigned char c : token) {
                 neg += static_cast<char>(std::tolower(c));

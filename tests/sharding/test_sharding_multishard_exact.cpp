@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    std::string shard_id_;
+    std::string shard_id_ = {};
 };
 
 class FailingExactExecutor final : public themis::graph::ShardGraphExecutor {

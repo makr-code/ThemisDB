@@ -224,7 +224,7 @@ static double extractVal(const GPUQueryAccelerator::Row& r) {
     if (r.data.size() < sizeof(float)) {
       return 0.0;
     }
-    float v;
+    float v = {};
     std::memcpy(&v, r.data.data(), sizeof(float));
     return static_cast<double>(v);
 }

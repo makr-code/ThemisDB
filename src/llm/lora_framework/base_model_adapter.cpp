@@ -93,7 +93,7 @@ bool BaseModelAdapter::parseArchitecture() {
         int max_layer = 0;
         std::regex layer_pattern(R"(layers?\.(\d+)\.)");
         for (const auto& tensor : metadata.tensors) {
-            std::smatch match;
+            std::smatch match = {};
             if (std::regex_search(tensor.name, match, layer_pattern)) {
                 int layer_idx = std::stoi(match[1].str());
                 max_layer = std::max(max_layer, layer_idx);
@@ -187,7 +187,7 @@ bool BaseModelAdapter::identifyAdaptableLayers() {
         // Try to match attention layers
         bool matched = false;
         for (const auto& pattern : attention_patterns) {
-            std::smatch match;
+            std::smatch match = {};
             if (std::regex_search(tensor.name, match, pattern)) {
                 if (parseLayerInfo(tensor, layer_info)) {
                     layer_info.layer_idx = std::stoi(match[1].str());
@@ -201,7 +201,7 @@ bool BaseModelAdapter::identifyAdaptableLayers() {
         // Try to match MLP layers if not already matched
         if (!matched) {
             for (const auto& pattern : mlp_patterns) {
-                std::smatch match;
+                std::smatch match = {};
                 if (std::regex_search(tensor.name, match, pattern)) {
                     if (parseLayerInfo(tensor, layer_info)) {
                         layer_info.layer_idx = std::stoi(match[1].str());
@@ -582,7 +582,7 @@ bool LoRAEnhancedModel::initialize() {
     active_layers_ = base_model_->getLayersByTargetModules(config_.target_modules);
     
     if (active_layers_.empty()) {
-        std::string modules_str;
+        std::string modules_str = {};
         for (size_t i = 0; i < config_.target_modules.size(); ++i) {
             if (i > 0) {
               modules_str += ", ";

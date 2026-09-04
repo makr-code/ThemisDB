@@ -66,11 +66,11 @@ std::string generateRandomString([[maybe_unused]] size_t length) {
                                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                    "abcdefghijklmnopqrstuvwxyz";
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, sizeof(alphanum) - 2);
 
-    std::string result;
+    std::string result = {};
     result.reserve(length);
     for (size_t i = 0; i < length; ++i) {
         result += alphanum[dis(gen)];
@@ -215,7 +215,7 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(const std::stri
         metadata.member_count   = static_cast<size_t>(num_entries);
 
         for (zip_int64_t i = 0; i < num_entries; ++i) {
-            zip_stat_t stat;
+            zip_stat_t stat = {};
             if (zip_stat_index(za, i, 0, &stat) == 0) {
                 ArchiveMember member;
                 member.path              = stat.name ? stat.name : "";
@@ -363,12 +363,12 @@ bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format
 }
 
 std::string ArchiveProcessor::sanitizePath(const std::string &path) {
-    std::string result;
+    std::string result = {};
     result.reserve(path.size());
 
     std::vector<std::string> components;
     std::istringstream iss(path);
-    std::string component;
+    std::string component = {};
 
     while (std::getline(iss, component, '/')) {
         if (component.empty() || component == ".") {
@@ -514,7 +514,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, co
     uint64_t total_bytes_written = 0; // Track decompressed bytes during extraction
 
     for (zip_int64_t i = 0; i < num_entries; ++i) {
-        zip_stat_t stat;
+        zip_stat_t stat = {};
         if (zip_stat_index(za, i, 0, &stat) != 0) {
             continue;
         }
@@ -567,7 +567,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, co
         char buffer[8192];
         zip_int64_t bytes_read;
         uint64_t file_bytes_written = 0;
-        std::string size_error_msg;
+        std::string size_error_msg = {};
         while ((bytes_read = zip_fread(zf, buffer, sizeof(buffer))) > 0) {
             file_bytes_written += static_cast<uint64_t>(bytes_read);
             total_bytes_written += static_cast<uint64_t>(bytes_read);
@@ -851,7 +851,7 @@ ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const 
     }
 
     // Validate archive (size, file count, compression ratio, paths)
-    std::string validation_error;
+    std::string validation_error = {};
     if (!validateArchive(metadata, validation_error)) {
         result.error_message = validation_error;
         return result;

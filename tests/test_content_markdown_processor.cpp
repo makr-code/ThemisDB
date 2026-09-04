@@ -53,7 +53,7 @@ TEST(MarkdownProcessorTest, ParseFrontmatter_BasicScalars) {
         "date: 2024-01-15\n"
         "---\n"
         "Body text here.";
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter(md, body);
 
     EXPECT_EQ(fm["title"].get<std::string>(), "My Document");
@@ -69,7 +69,7 @@ TEST(MarkdownProcessorTest, ParseFrontmatter_QuotedValues) {
         "title: \"Quoted Title\"\n"
         "description: 'Single quoted'\n"
         "---\n";
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter(md, body);
     EXPECT_EQ(fm["title"].get<std::string>(), "Quoted Title");
     EXPECT_EQ(fm["description"].get<std::string>(), "Single quoted");
@@ -80,7 +80,7 @@ TEST(MarkdownProcessorTest, ParseFrontmatter_InlineList) {
         "---\n"
         "tags: [cpp, database, testing]\n"
         "---\n";
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter(md, body);
     ASSERT_TRUE(fm["tags"].is_array());
     EXPECT_EQ(fm["tags"].size(), 3u);
@@ -91,7 +91,7 @@ TEST(MarkdownProcessorTest, ParseFrontmatter_InlineList) {
 
 TEST(MarkdownProcessorTest, ParseFrontmatter_NoFrontmatter) {
     std::string md = "# Just a heading\n\nParagraph.";
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter(md, body);
     EXPECT_TRUE(fm.empty());
     EXPECT_EQ(body, md);
@@ -103,7 +103,7 @@ TEST(MarkdownProcessorTest, ParseFrontmatter_ClosedWithDots) {
         "title: Dot Closed\n"
         "...\n"
         "Rest of document.";
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter(md, body);
     EXPECT_EQ(fm["title"].get<std::string>(), "Dot Closed");
     EXPECT_NE(body.find("Rest of document"), std::string::npos);
@@ -115,14 +115,14 @@ TEST(MarkdownProcessorTest, ParseFrontmatter_MissingClosingDelimiter) {
         "---\n"
         "title: Unclosed\n"
         "# Heading\n";
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter(md, body);
     EXPECT_TRUE(fm.empty());
     EXPECT_EQ(body, md);
 }
 
 TEST(MarkdownProcessorTest, ParseFrontmatter_EmptyInput) {
-    std::string body;
+    std::string body = {};
     auto fm = MarkdownProcessor::parseFrontmatter("", body);
     EXPECT_TRUE(fm.empty());
     EXPECT_EQ(body, "");
@@ -438,7 +438,7 @@ TEST(MarkdownProcessorTest, Extract_PreserveHeadingMarkers) {
 TEST(MarkdownProcessorTest, Chunk_BasicSplitting) {
     MarkdownProcessor proc;
     ContentType ct = makeMarkdownType();
-    std::string md;
+    std::string md = {};
     for (int i = 0; i < 10; ++i) {
         md += "## Section " + std::to_string(i) + "\n\n";
         md += "This section contains some text content to ensure token count.\n\n";
@@ -478,7 +478,7 @@ TEST(MarkdownProcessorTest, Chunk_EmptyExtraction) {
 TEST(MarkdownProcessorTest, Chunk_SeqNumsAreSequential) {
     MarkdownProcessor proc;
     ContentType ct = makeMarkdownType();
-    std::string md;
+    std::string md = {};
     for (int i = 0; i < 20; ++i) {
         md += "Paragraph " + std::to_string(i) + " with enough words to fill chunks.\n\n";
     }

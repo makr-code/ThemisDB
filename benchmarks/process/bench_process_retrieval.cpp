@@ -125,7 +125,7 @@ static std::vector<SimProcessModel> buildModelStore(int n) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static std::string makeBpmnXml(int model_idx, int node_count) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
         << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">)"
         << "<process id=\"proc_" << model_idx << "\" name=\"Verwaltungsvorgang "
@@ -315,7 +315,7 @@ static void BM_ProcessEmbeddingPersist(benchmark::State& state) {
     for (auto& v : model.embedding) { v = dist(prng); }
 
     for (auto _ : state) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"id\":\"" << model.id
             << "\",\"name\":\"" << model.name
             << "\",\"state\":\"" << model.state

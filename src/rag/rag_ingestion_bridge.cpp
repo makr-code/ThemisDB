@@ -435,7 +435,7 @@ std::string RAGIngestionBridge::buildEntityContext(
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Extracted entities:";
     bool first = true;
     for (const auto& e : entities) {
@@ -462,7 +462,7 @@ std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
     const std::size_t h2 = std::hash<std::string>{}(
         text.size() > 32 ? text.substr(text.size() / 2) : text
     );
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(8) << (static_cast<uint32_t>(h1) & 0xFFFFFFFFu)
         << std::setw(8) << (static_cast<uint32_t>(h2) & 0xFFFFFFFFu);
@@ -530,7 +530,7 @@ IndexResult RAGIngestionBridge::indexOptimizerLog(
     const std::string plan_snippet =
         plan_json.size() > 2048 ? plan_json.substr(0, 2048) + "..." : plan_json;
 
-    std::ostringstream doc;
+    std::ostringstream doc = {};
     doc << "optimizer_log\n"
         << "query_id: " << query_id << "\n"
         << "latency_ms: " << latency_ms << "\n"

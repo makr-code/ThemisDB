@@ -208,7 +208,7 @@ TEST(ScopedIoUringTimerTest, NullOutputIsSafe) {
 // ---------------------------------------------------------------------------
 
 TEST(IoUringZeroCopyIOTest, WaitCompletionsOnUnavailableRingReturnsZero) {
-    IoUringZeroCopyIO io;
+    IoUringZeroCopyIO io = {};
     if (io.is_available()) {
         GTEST_SKIP() << "io_uring available – this test targets the fallback path";
     }
@@ -216,7 +216,7 @@ TEST(IoUringZeroCopyIOTest, WaitCompletionsOnUnavailableRingReturnsZero) {
 }
 
 TEST(IoUringZeroCopyIOTest, SendZeroCopyFallbackOnBadFd) {
-    IoUringZeroCopyIO io;
+    IoUringZeroCopyIO io = {};
     if (io.is_available()) {
         GTEST_SKIP() << "io_uring available – fallback path not exercised";
     }
@@ -226,7 +226,7 @@ TEST(IoUringZeroCopyIOTest, SendZeroCopyFallbackOnBadFd) {
 }
 
 TEST(IoUringZeroCopyIOTest, RecvZeroCopyFallbackOnBadFd) {
-    IoUringZeroCopyIO io;
+    IoUringZeroCopyIO io = {};
     if (io.is_available()) {
         GTEST_SKIP() << "io_uring available – fallback path not exercised";
     }

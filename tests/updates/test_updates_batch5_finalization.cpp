@@ -373,7 +373,7 @@ TEST_F(StringConcatenationPerformanceTest, UP_FIN_18_ErrorMessageConstruction) {
     // Verify error message construction is efficient
     // Expected: Single string building operation
     
-    std::string error;
+    std::string error = {};
     error.reserve(100);  // Pre-allocate if needed
     error += "Operation failed: ";
     error += "timeout";

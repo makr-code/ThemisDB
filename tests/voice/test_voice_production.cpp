@@ -1596,7 +1596,7 @@ TEST(RealtimeMeetingSession, ActionItemExtractedOnTheFly) {
 
 TEST(RealtimeMeetingSession, CallbackFiredForActionItem) {
     int callback_count = 0;
-    std::string last_desc;
+    std::string last_desc = {};
     RealtimeMeetingSession session(
         "cb-test", {}, {},
         [&](const ActionItem& ai) {

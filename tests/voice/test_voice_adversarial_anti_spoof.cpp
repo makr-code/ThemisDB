@@ -137,7 +137,7 @@ std::vector<uint8_t> generateNoisyLiveAudioSample(size_t num_samples = 16000) {
  * Creates a realistic speaker embedding (32-dimensional vector)
  */
 std::string generateSpeakerBaseline() {
-    std::string baseline;
+    std::string baseline = {};
     for (int i = 0; i < 32; ++i) {
         double value = (std::rand() % 1000) / 1000.0;
         if (i > 0) {
@@ -154,7 +154,7 @@ std::string generateSpeakerBaseline() {
  * Creates a different speaker embedding for mismatch testing
  */
 std::string generateMismatchedSpeakerBaseline() {
-    std::string baseline;
+    std::string baseline = {};
     for (int i = 0; i < 32; ++i) {
         double value = (std::rand() % 1000) / 1000.0 + 0.5;  // Shifted values
         if (i > 0) {

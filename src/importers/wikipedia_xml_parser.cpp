@@ -96,7 +96,7 @@ std::optional<WikipediaParsedPage> WikipediaIngestionPipeline::parseXmlPageBlock
     parsed.page.checksum = parsed.revision.sha1;
 
     static const std::regex redirect_regex("<redirect[^>]*title=\\\"([^\\\"]+)\\\"[^>]*/?>");
-    std::smatch redirect_match;
+    std::smatch redirect_match = {};
     if (std::regex_search(page_block, redirect_match, redirect_regex) && redirect_match.size() > 1) {
         parsed.page.is_redirect = true;
         parsed.page.redirect_title = WikipediaTransform::normalizeTitle(

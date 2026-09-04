@@ -556,7 +556,7 @@ bool RaftConsensusAdapter::transferLeadership(const std::string& target_node_id)
     // Step down: read the current term and call becomeFollower(term+1) under the
     // state_mutex_ so the term read and the state transition are serialised
     // against any concurrent state change.
-    uint64_t new_term;
+    uint64_t new_term = {};
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         new_term = raft_->getCurrentTerm() + 1;

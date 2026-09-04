@@ -246,7 +246,7 @@ GraphQueryRewriter::RewriteResult GraphQueryRewriter::rewrite(const nlohmann::js
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string GraphQueryRewriter::explainRewrites(const nlohmann::json &original, const nlohmann::json &rewritten) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Graph Query Rewrite Summary\n";
     oss << "═══════════════════════════\n";
 

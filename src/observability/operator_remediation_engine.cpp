@@ -44,7 +44,7 @@ std::string generateHintId() {
     static thread_local std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 15);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < 8; ++i) {
         ss << std::hex << dis(gen);
     }

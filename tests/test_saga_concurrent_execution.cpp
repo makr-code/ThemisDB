@@ -148,7 +148,7 @@ TEST_F(SagaConcurrentExecutionTest, CompensationOrderIsReversed) {
         threads.emplace_back([s, &all_correct]() {
             Saga saga;
             std::vector<int> compensation_order;
-            std::mutex order_mutex;
+            std::mutex order_mutex = {};
             
             // Add steps
             for (int i = 0; i < 10; i++) {
@@ -334,7 +334,7 @@ TEST_F(SagaConcurrentExecutionTest, CompensationTimingConsistency) {
     
     std::vector<std::unique_ptr<Saga>> sagas;
     std::vector<int64_t> compensation_times;
-    std::mutex times_mutex;
+    std::mutex times_mutex = {};
     
     for (int i = 0; i < num_sagas; i++) {
         auto saga = std::make_unique<Saga>();

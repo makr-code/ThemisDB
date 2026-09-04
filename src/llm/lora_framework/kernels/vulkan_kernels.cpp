@@ -44,7 +44,7 @@ struct VulkanState {
     std::unordered_map<std::string, std::unique_ptr<VulkanComputePipeline>> pipelines;
     
     // Mutex for thread safety
-    std::recursive_timed_mutex mutex;
+    std::recursive_timed_mutex mutex = {};
 };
 
 static VulkanState g_vulkan_state;
@@ -585,9 +585,9 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     struct PushConstants {
         uint32_t size = 0;
         uint32_t op;      // 2 = multiply
-        uint32_t rows;
-        uint32_t cols;
-        uint32_t scalar;
+        uint32_t rows = {};
+        uint32_t cols = {};
+        uint32_t scalar = {};
     } pc;
     
     const uint32_t size_u32 = checked_u32_size(size, "launch_multiply_shader");
@@ -636,9 +636,9 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     struct PushConstants {
         uint32_t size = 0;
         uint32_t op;      // 4 = scalar multiply
-        uint32_t rows;
-        uint32_t cols;
-        uint32_t scalar_bits;
+        uint32_t rows = {};
+        uint32_t cols = {};
+        uint32_t scalar_bits = {};
     } pc;
     
     const uint32_t size_u32 = checked_u32_size(size, "launch_scalar_multiply_shader");
@@ -683,9 +683,9 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     struct PushConstants {
         uint32_t size = 0;
         uint32_t op;      // 5 = transpose
-        uint32_t rows;
-        uint32_t cols;
-        uint32_t scalar;
+        uint32_t rows = {};
+        uint32_t cols = {};
+        uint32_t scalar = {};
     } pc;
     
     size_t total_size = checked_mul_size(static_cast<size_t>(rows), static_cast<size_t>(cols), "launch_transpose_shader");
@@ -736,10 +736,10 @@ void launch_lora_grad_A_shader(
     // Push constants for gradient computation
     struct PushConstants {
         uint32_t batch_size = 0;
-        uint32_t in_dim;
-        uint32_t rank;
-        uint32_t out_dim;
-        uint32_t scaling_bits;
+        uint32_t in_dim = {};
+        uint32_t rank = {};
+        uint32_t out_dim = {};
+        uint32_t scaling_bits = {};
         uint32_t compute_mode; // 0 = grad_A
     } pc;
     
@@ -798,10 +798,10 @@ void launch_lora_grad_B_shader(
     
     struct PushConstants {
         uint32_t batch_size = 0;
-        uint32_t in_dim;
-        uint32_t rank;
-        uint32_t out_dim;
-        uint32_t scaling_bits;
+        uint32_t in_dim = {};
+        uint32_t rank = {};
+        uint32_t out_dim = {};
+        uint32_t scaling_bits = {};
         uint32_t compute_mode; // 1 = grad_B
     } pc;
     
@@ -865,9 +865,9 @@ void launch_embedding_lookup_shader(
 
     struct PushConstants {
         uint32_t batch_size = 0;
-        uint32_t seq_len;
-        uint32_t hidden_dim;
-        uint32_t vocab_size;
+        uint32_t seq_len = {};
+        uint32_t hidden_dim = {};
+        uint32_t vocab_size = {};
     } pc;
 
     pc.batch_size = static_cast<uint32_t>(batch_size);
@@ -918,9 +918,9 @@ void launch_sequence_mean_shader(
 
     struct PushConstants {
         uint32_t batch_size = 0;
-        uint32_t seq_len;
-        uint32_t hidden_dim;
-        uint32_t reserved;
+        uint32_t seq_len = {};
+        uint32_t hidden_dim = {};
+        uint32_t reserved = {};
     } pc;
 
     pc.batch_size = static_cast<uint32_t>(batch_size);

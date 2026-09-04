@@ -26,8 +26,8 @@ namespace user_storage {
 
 struct RotationSchedule {
     SecurityLevel level;
-    int interval_days;
-    bool auto_rotate;
+    int interval_days = {};
+    bool auto_rotate = {};
     KeyRotationScheduler::RotationCallback callback;
     int64_t last_check_ms;
 
@@ -44,7 +44,7 @@ struct KeyRotationScheduler::Impl {
     std::mutex mutex;
     std::atomic<bool> running;
     std::thread scheduler_thread;
-    int check_interval_seconds;
+    int check_interval_seconds = {};
     std::shared_ptr<IRotationStore> store;  // optional persistence backend
 
     // Condition variable used by shutdown() to interrupt the sleep.
@@ -125,7 +125,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
     if (impl_->store) {
         const std::string key =
             "user_storage:rotation_state:" + securityLevelToString(level);
-        std::string json_value;
+        std::string json_value = {};
         if (impl_->store->get(key, json_value)) {
             try {
                 auto j = nlohmann::json::parse(json_value);
@@ -283,7 +283,7 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
 
     const std::string key =
         "user_storage:rotation_state:" + securityLevelToString(level);
-    std::string json_value;
+    std::string json_value = {};
     if (!impl_->store->get(key, json_value)) {
       return;
     }

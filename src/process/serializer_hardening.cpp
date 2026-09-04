@@ -34,7 +34,7 @@ SerializerValidationResult SerializerInputValidator::validateInput(
 
     // Check size limit
     if (!isInputSizeValid(input.size())) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << format_name << " input size (" << input.size()
             << " bytes) exceeds maximum (" << kMaxModelInputBytes << " bytes)";
         return SerializerValidationResult::failure(
@@ -298,7 +298,7 @@ int64_t ParserStateTracker::getElapsedMs() const {
 }
 
 std::string ParserStateTracker::getDiagnosticMessage() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Parser state: depth=" << current_depth_ << "/" << max_depth_
         << ", elements=" << element_count_ << "/" << max_elements_
         << ", elapsed=" << getElapsedMs() << "ms/" << timeout_ms_ << "ms";

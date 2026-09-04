@@ -112,10 +112,10 @@ TEST(SequenceMergeOperatorSemantics, MergesFromAbsent) {
             ASSERT_TRUE(db->Merge(rocksdb::WriteOptions{}, "key", delta_slice).ok());
         }
 
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db->Get(rocksdb::ReadOptions{}, "key", &val).ok());
         ASSERT_EQ(val.size(), sizeof(uint64_t));
-        uint64_t result;
+        uint64_t result = {};
         memcpy(&result, val.data(), sizeof(result));
         EXPECT_EQ(result, 5u);
     }
@@ -146,9 +146,9 @@ TEST(SequenceMergeOperatorSemantics, MergesOnTopOfBinaryBase) {
             ASSERT_TRUE(db->Merge(rocksdb::WriteOptions{}, "key", delta_slice).ok());
         }
 
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db->Get(rocksdb::ReadOptions{}, "key", &val).ok());
-        uint64_t result;
+        uint64_t result = {};
         memcpy(&result, val.data(), sizeof(result));
         EXPECT_EQ(result, 13u);
     }
@@ -177,9 +177,9 @@ TEST(SequenceMergeOperatorSemantics, MergesOnTopOfLegacyStringBase) {
             ASSERT_TRUE(db->Merge(rocksdb::WriteOptions{}, "key", delta_slice).ok());
         }
 
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db->Get(rocksdb::ReadOptions{}, "key", &val).ok());
-        uint64_t result;
+        uint64_t result = {};
         memcpy(&result, val.data(), sizeof(result));
         EXPECT_EQ(result, 9u);
     }

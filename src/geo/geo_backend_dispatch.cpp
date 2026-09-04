@@ -57,7 +57,7 @@ bool GeoBackendDispatcher::detectCudaAvailability() const noexcept {
         // Additional check: ensure default device is accessible
         int current_device = -1;
         if (cudaGetDevice(&current_device) == cudaSuccess && current_device >= 0) {
-            cudaDeviceProp prop;
+            cudaDeviceProp prop = {};
             if (cudaGetDeviceProperties(&prop, current_device) == cudaSuccess) {
                 return true;
             }

@@ -33,7 +33,7 @@ struct PemMaterial {
     std::size_t offset = 1) {
     static constexpr char kHex[] = "0123456789abcdef";
 
-    std::string key;
+    std::string key = {};
     key.reserve(byte_count * 2);
     for (std::size_t i = 0; i < byte_count * 2; ++i) {
         key.push_back(kHex[(i * multiplier + offset) % 16]);

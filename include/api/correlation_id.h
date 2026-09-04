@@ -164,7 +164,7 @@ inline CorrelationId CorrelationId::parse(std::string_view s)
     };
 
     // Strip dashes and normalise to 32 hex chars
-    std::string hex;
+    std::string hex = {};
     hex.reserve(32);
     for (char c : s) {
         if (c == '-') {
@@ -199,7 +199,7 @@ inline CorrelationId CorrelationId::parse(std::string_view s)
 inline std::string CorrelationId::toString() const
 {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.reserve(36);
     for (std::size_t i = 0; i < kByteSize; ++i) {
         if (i == 4 || i == 6 || i == 8 || i == 10) {

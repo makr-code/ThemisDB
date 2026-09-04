@@ -53,7 +53,7 @@ std::string getTextNormalizerMetrics() {
       return "";
     }
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# HELP toolbox_text_normalizer_errors_total Text normalizer helper errors.\n";
     out << "# TYPE toolbox_text_normalizer_errors_total counter\n";
     out << "toolbox_text_normalizer_errors_total " << errors << "\n";

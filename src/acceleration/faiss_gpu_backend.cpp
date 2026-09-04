@@ -74,7 +74,7 @@ BackendCapabilities FaissGPUVectorBackend::getCapabilities() const {
         metricBit(DistanceMetric::INNER_PRODUCT);
 
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, config_.deviceId) == cudaSuccess) {
             caps.deviceName = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -673,7 +673,7 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
 
     // Sanitize filepath for logging: replace control chars to prevent
     // log injection (CWE-117) and XSS in log viewers (CWE-79).
-    std::string safeFilepath;
+    std::string safeFilepath = {};
     safeFilepath.reserve(filepath.size());
     for (unsigned char c : filepath) {
         safeFilepath += (c < 0x20 || c == 0x7f) ? '?' : static_cast<char>(c);
@@ -755,7 +755,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
 
     // Sanitize filepath for logging and error messages: replace control chars
     // to prevent log injection (CWE-117) and XSS in log viewers (CWE-79).
-    std::string safeFilepath;
+    std::string safeFilepath = {};
     safeFilepath.reserve(filepath.size());
     for (unsigned char c : filepath) {
         safeFilepath += (c < 0x20 || c == 0x7f) ? '?' : static_cast<char>(c);
@@ -782,7 +782,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
             &options
         );
 
-        delete cpuIndex;
+        delete cpuIndex = {};
 
         if (!gpuIndex) {
             setError(AccelerationErrorCode::MemoryCopyFailed,

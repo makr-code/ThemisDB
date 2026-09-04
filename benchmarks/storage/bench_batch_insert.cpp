@@ -72,7 +72,7 @@ public:
         return entity;
     }
     
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<SecondaryIndexManager> indexMgr;
 };

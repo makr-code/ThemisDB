@@ -162,7 +162,7 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleInvariants_ConcurrentTransaction
     std::vector<std::thread> threads;
     std::atomic<int> success_count(0);
     std::atomic<int> failure_count(0);
-    std::mutex errors_mutex;
+    std::mutex errors_mutex = {};
     std::vector<std::string> errors;
 
     for (int i = 0; i < num_threads; ++i) {
@@ -265,7 +265,7 @@ TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_MixedConcurrentLevels) {
     for (int i = 0; i < 9; ++i) {
         threads.emplace_back([this, i, &read_committed_count, &snapshot_count,
                               &serializable_count, &failure_count] {
-            IsolationLevel level;
+            IsolationLevel level = {};
             if (i % 3 == 0) {
                 level = IsolationLevel::READ_COMMITTED;
             } else if (i % 3 == 1) {

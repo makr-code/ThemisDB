@@ -63,7 +63,7 @@ static std::string_view stripNs(std::string_view name) {
 
 /// Unescape basic XML character entities.
 static std::string unescapeXml(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (size_t i = 0; i < s.size(); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
@@ -129,7 +129,7 @@ static void parseAttrs(std::string_view src,
         if (i >= n) {
           break;
         }
-        std::string attr_val;
+        std::string attr_val = {};
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
@@ -524,7 +524,7 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
     // /prozesse endpoint and parse the JSON envelope.
     if (http_fetch_fn_) {
         const std::string url = std::string(api_base_url) + "/prozesse";
-        std::string body;
+        std::string body = {};
         try {
             body = http_fetch_fn_(url);
         } catch (const std::exception& ex) {
@@ -637,7 +637,7 @@ FimImporter::HttpFetchFn FimImporter::makeCurlHttpFetchFn()
 {
 #if THEMIS_FIM_HAS_CURL
     return [](std::string_view url) -> std::string {
-        std::string result;
+        std::string result = {};
 
         CURL* curl = curl_easy_init();
         if (!curl) {

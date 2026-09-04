@@ -107,7 +107,7 @@ TEST(Phase4ConcurrencyTest, PolicyMiddlewareHighConcurrency32x50)
 
     auto worker = [&]() {
         for (int i = 0; i < kRequests; ++i) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << std::this_thread::get_id() << "-" << i;
 
             HttpRequest req;
@@ -273,8 +273,8 @@ TEST(Phase4EdgeCasesTest, MalformedRequestVariants)
     auto policy = std::make_shared<TransportPolicyMiddleware>(inner);
 
     const struct {
-        std::string method;
-        std::string path;
+        std::string method = {};
+        std::string path = {};
         const char* label;
     } cases[] = {
         {"",    "/api/v1/x", "empty method"},

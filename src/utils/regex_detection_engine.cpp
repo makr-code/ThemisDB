@@ -183,7 +183,7 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         
         try {
             std::sregex_iterator it(text.begin(), text.end(), pattern.compiled_regex);
-            std::sregex_iterator end;
+            std::sregex_iterator end = {};
             
             for (; it != end; ++it) {
                 // Check timeout during match iteration (each 10 matches)
@@ -561,7 +561,7 @@ std::regex::flag_type RegexDetectionEngine::parseRegexFlags(
 }
 
 bool RegexDetectionEngine::luhnCheck(const std::string& number) const {
-    std::string digits;
+    std::string digits = {};
     for (char c : number) {
         if (std::isdigit(c)) {
             digits += c;

@@ -45,7 +45,7 @@ constexpr const char* kGlobalKeywords[] = {
 /// Convert a string to lower-case (ASCII + common German umlauts normalised
 /// by simple lower-case mapping – sufficient for keyword matching).
 std::string toLower(std::string_view sv) {
-    std::string result;
+    std::string result = {};
     result.reserve(sv.size());
     for (unsigned char c : sv) {
         result.push_back(static_cast<char>(std::tolower(c)));
@@ -92,9 +92,9 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
     if (effective == RetrievalMode::GLOBAL) {
         // ── GLOBAL path ──────────────────────────────────────────────────────
         // Resolve model_id from the instance record stored under proc:inst:<id>
-        std::string model_id;
+        std::string model_id = {};
         {
-            std::string inst_val;
+            std::string inst_val = {};
             if (db_.get(std::string("proc:inst:") + std::string(instance_id), inst_val)) {
                 try {
                     const auto inst_doc = nlohmann::json::parse(inst_val);
@@ -115,7 +115,7 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                           });
 
                 const int top_k = std::min(static_cast<int>(communities.size()), 3);
-                std::ostringstream ctx;
+                std::ostringstream ctx = {};
                 std::vector<std::string> used_ids = {};
 
                 for (int i = 0; i < top_k; ++i) {

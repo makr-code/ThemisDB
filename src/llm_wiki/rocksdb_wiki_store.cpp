@@ -49,7 +49,7 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
 
     // Ensure the directory exists (RocksDB creates the directory itself when
     // create_if_missing=true, but the parent directory must exist).
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(db_path, ec);
     if (ec) {
         return Status::Error("Failed to create RocksDB directory '" + db_path +
@@ -122,7 +122,7 @@ std::pair<Status, std::string> RocksDbWikiStore::get(
     if (!db_) {
         return {Status::Error("store is not open"), {}};
     }
-    std::string value;
+    std::string value = {};
     rocksdb::Status rdb_st =
         db_->Get(rocksdb::ReadOptions(), rocksdb::Slice(key), &value);
 

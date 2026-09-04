@@ -116,7 +116,7 @@ bool TimeoutPolicy::isOverallTimeoutExceeded(
 void TimeoutPolicy::recordTimeoutEvent(const TimeoutEvent& event) {
     timeout_events_.push_back(event);
     
-    std::string type_str;
+    std::string type_str = {};
     switch (event.event_type) {
         case TimeoutEvent::Type::SHARD_TIMEOUT:
             type_str = "SHARD_TIMEOUT";

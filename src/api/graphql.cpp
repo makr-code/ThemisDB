@@ -487,7 +487,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
 }
 
 themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
-    VariableDefinition def;
+    VariableDefinition def = {};
 
     if (!match('$')) {
         return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
@@ -631,7 +631,7 @@ themis::Result<std::string> Parser::parseString() {
                                         getLocationContext() + ": Expected string");
     }
 
-    std::string result;
+    std::string result = {};
     while (pos_ < source_.size() && source_[pos_] != '"') {
         if (source_[pos_] == '\\') {
             ++pos_;
@@ -728,7 +728,7 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
     }
 
     // Determine operation type string for metrics
-    std::string op_type_str;
+    std::string op_type_str = {};
     switch (op->type) {
         case OperationType::Query:
             op_type_str = "Query";
@@ -942,7 +942,7 @@ const TypeDefinition *Schema::getType(std::string_view name) const {
 }
 
 std::string Schema::toSDL() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Schema definition
     oss << "schema {\n";
@@ -1084,7 +1084,7 @@ std::shared_ptr<Value> Schema::introspect(const Field &field) const {
             type_obj["name"]        = Value::string(name);
             type_obj["description"] = Value::string(type.description);
 
-            std::string kind_str;
+            std::string kind_str = {};
             switch (type.kind) {
                 case TypeDefinition::Kind::Scalar:
                     kind_str = "SCALAR";
@@ -1155,7 +1155,7 @@ std::shared_ptr<Value> Schema::introspect(const Field &field) const {
         type_obj["name"]        = Value::string(type->name);
         type_obj["description"] = Value::string(type->description);
 
-        std::string kind_str;
+        std::string kind_str = {};
         switch (type->kind) {
             case TypeDefinition::Kind::Scalar:
                 kind_str = "SCALAR";

@@ -171,7 +171,7 @@ ClassifyResult keywordClassify(const std::string &text, const std::vector<std::s
     auto probs = softmax(raw);
 
     // Pick the highest-confidence category.
-    std::string best;
+    std::string best = {};
     double best_conf = -1.0;
     for (const auto &[k, v] : probs) {
         if (v > best_conf) {

@@ -53,7 +53,7 @@ struct Graph {
 };
 
 Graph buildGraph(const json& normalized) {
-    Graph g;
+    Graph g = {};
     if (!normalized.contains("nodes") || !normalized.contains("edges")) {
         return g;
     }
@@ -330,7 +330,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         }
 
         // Label: first 3 node names joined with "; "
-        std::ostringstream label_ss;
+        std::ostringstream label_ss = {};
         const int label_count = std::min(static_cast<int>(pc.node_ids.size()), 3);
         for (int i = 0; i < label_count; ++i) {
             if (i > 0) {
@@ -373,7 +373,7 @@ std::string ProcessCommunityDetector::generateReport(
     if (community.node_ids.empty()) return {};
 
     const bool german = (language == "de");
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     const int n = static_cast<int>(community.node_ids.size());
 
@@ -392,7 +392,7 @@ std::string ProcessCommunityDetector::generateReport(
 
     // Modularity contribution (use ostringstream for safe float formatting)
     {
-        std::ostringstream mod_oss;
+        std::ostringstream mod_oss = {};
         mod_oss << std::fixed;
         mod_oss.precision(4);
         mod_oss << community.modularity_score;

@@ -177,7 +177,7 @@ public:
         const GraphQueryOptimizer::QueryConstraints& constraints) override;
 
 private:
-    std::string shard_id_;
+    std::string shard_id_ = {};
     GraphQueryOptimizer optimizer_;
 
     /// Qualify a vertex ID returned by the local optimizer as "<id>@<shard_id_>".

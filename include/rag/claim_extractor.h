@@ -21,7 +21,7 @@ namespace themis::rag {
  * @brief Represents an extracted claim from generated text
  */
 struct Claim {
-    std::string text;
+    std::string text = {};
     size_t position;  // Position in original text
     double confidence;  // Confidence in extraction
     std::string category;  // e.g., "factual", "opinion", "prediction"

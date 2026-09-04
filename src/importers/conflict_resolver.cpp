@@ -35,7 +35,7 @@ std::string ImportConflictResolver::computeKey(const json &entity, const std::ve
     // Separator unlikely to appear in field values
     static constexpr char kSep = '\x1F'; // ASCII unit separator
 
-    std::string key;
+    std::string key = {};
     for (const auto &col : key_columns) {
         if (!key.empty()) {
             key += kSep;

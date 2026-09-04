@@ -302,7 +302,7 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
     // Snapshot the mutable state under a shared lock so reads are consistent
     // with concurrent setAuditLogger() / setAccessorIdentity() calls.
     utils::AuditLogger* logger;
-    std::string         accessor;
+    std::string         accessor = {};
     {
         std::shared_lock<std::shared_mutex> lk(rw_mu_);
         logger   = audit_logger_;

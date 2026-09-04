@@ -64,7 +64,7 @@ public:
 
             case FailureMode::PARTIAL_PACKET_LOSS: {
                 // Simulate 5% packet loss
-                std::random_device rd;
+                std::random_device rd = {};
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<> dis(0.0, 1.0);
                 std::size_t accepted = 0;
@@ -84,7 +84,7 @@ public:
             case FailureMode::HIGH_LATENCY:
                 // Simulate 100-500ms latency
                 {
-                    std::random_device rd;
+                    std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(100, 500);
                     std::this_thread::sleep_for(
@@ -102,7 +102,7 @@ public:
             case FailureMode::QUEUE_EXHAUSTION:
                 // Simulate queue overflow: accept 50%
                 {
-                    std::random_device rd;
+                    std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(0, 100);
                     std::size_t accepted = dis(gen) < 50 ? observations.size() : 0;
@@ -117,7 +117,7 @@ public:
             case FailureMode::MEMORY_PRESSURE:
                 // Simulate memory pressure: accept 75%
                 {
-                    std::random_device rd;
+                    std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(0, 100);
                     std::size_t accepted = dis(gen) < 75 ? observations.size() : 0;
@@ -189,7 +189,7 @@ public:
         auto backend = std::make_unique<MockExporterBackendImpl>(config.failure_mode);
 
         // Generate observations
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(config.random_seed);
         std::uniform_int_distribution<> label_dis(0, config.metric_cardinality - 1);
         std::uniform_real_distribution<> value_dis(0.0, 100.0);
@@ -415,7 +415,7 @@ public:
         const ExporterStressTestResult& baseline,
         const ExporterStressTestResult& candidate) override {
 
-        std::ostringstream report;
+        std::ostringstream report = {};
         report << std::fixed << std::setprecision(2);
 
         report << "# Exporter Stress Test Comparison Report\n\n";

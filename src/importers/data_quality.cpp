@@ -109,7 +109,7 @@ DataQualityFramework::DataQualityMetrics
 DataQualityFramework::QualityAssessor::assessTable(const std::string & /*table_name*/,
                                                    const std::vector<json> &sample_data,
                                                    const std::map<std::string, ColumnStatistics> &stats) {
-    DataQualityMetrics metrics;
+    DataQualityMetrics metrics = {};
     if (sample_data.empty()) {
         metrics.overall_quality_score = 0.0;
         return metrics;
@@ -190,7 +190,7 @@ DataQualityFramework::QualityAssessor::generateQualityReport(const std::vector<I
     // Timestamp
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ts;
+    std::ostringstream ts = {};
     ts << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     report.generation_timestamp = ts.str();
 

@@ -19,7 +19,7 @@ protected:
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<GraphIndexManager> graphIdx;
     std::unique_ptr<QueryEngine> engine;
-    std::string dbPath;
+    std::string dbPath = {};
 
     void SetUp() override {
         dbPath = (std::filesystem::temp_directory_path() /

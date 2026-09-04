@@ -382,7 +382,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
     const std::string query = target.substr(query_pos + 1);
     size_t pos = 0;
     bool found = false;
-    std::string value_str;
+    std::string value_str = {};
 
     while (pos <= query.size()) {
         const size_t amp = query.find('&', pos);

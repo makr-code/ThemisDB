@@ -460,7 +460,7 @@ TEST(BinaryMimeDetectionTest, DetectPdfByMagic) {
 
 TEST(BinaryMimeDetectionTest, DetectDocxByMagic) {
     // Minimal ZIP header (PK\x03\x04) followed by OOXML content-type marker
-    std::string docx_data;
+    std::string docx_data = {};
     docx_data += "PK";
     docx_data += '\x03';
     docx_data += '\x04';
@@ -479,7 +479,7 @@ TEST(BinaryMimeDetectionTest, UnknownForPlainText) {
 
 TEST(BinaryMimeDetectionTest, UnknownForGenericZip) {
     // ZIP without OOXML markers should not be detected as DOCX
-    std::string zip;
+    std::string zip = {};
     zip += "PK";
     zip += '\x03';
     zip += '\x04';
@@ -692,7 +692,7 @@ TEST(IsConverterSafeTest, UnsafeConverterSilentlySkippedForPdf) {
 
 TEST(IsConverterSafeTest, UnsafeConverterSilentlySkippedForDocx) {
     // Same injection guard applies for the DOCX converter
-    std::string docx_magic;
+    std::string docx_magic = {};
     docx_magic += "PK\x03\x04";
     docx_magic += "word/document.xml[Content_Types]";
     auto p = std::filesystem::temp_directory_path() / "unsafe_conv_test.docx";

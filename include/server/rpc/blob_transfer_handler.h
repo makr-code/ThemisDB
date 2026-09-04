@@ -47,7 +47,7 @@ struct BlobConfig {
     std::map<std::string, std::string> metadata;
     
     // Resume support
-    bool enable_resume;
+    bool enable_resume = {};
     std::string checkpoint_id;
     
     BlobConfig()

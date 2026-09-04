@@ -52,7 +52,7 @@ namespace utils {
 static std::string base64_encode(const std::vector<uint8_t>& data);
 
 static std::optional<std::vector<uint8_t>> parse_hex_fingerprint(std::string_view fingerprint) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(fingerprint.size());
     for (unsigned char c : fingerprint) {
         if (std::isxdigit(c) != 0) {
@@ -107,7 +107,7 @@ static std::optional<std::string> build_pinned_public_key_value(const PKIConfig&
         return std::nullopt;
     }
 
-    std::string value;
+    std::string value = {};
     for (size_t i = 0; i < pins.size(); ++i) {
         if (i > 0) {
             value.push_back(';');
@@ -120,7 +120,7 @@ static std::optional<std::string> build_pinned_public_key_value(const PKIConfig&
 // Simple base64 (encode/decode) to avoid extra deps
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
@@ -185,10 +185,10 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
 }
 
 static std::string random_hex_id([[maybe_unused]] size_t bytes = 8) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (size_t i = 0; i < bytes / 8; ++i) {
         oss << std::hex << dis(gen);
     }
@@ -503,7 +503,7 @@ static bool verify_cert_chain(const PKIConfig& cfg) {
 VCCPKIClient::VCCPKIClient(PKIConfig cfg) : cfg_(std::move(cfg)) {}
 
 std::optional<std::string> VCCPKIClient::getCertSerial() const {
-    std::string serial;
+    std::string serial = {};
     auto pub_result = load_public_key_and_serial(cfg_, serial);
     if (!pub_result) {
       return std::nullopt;
@@ -561,7 +561,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     return res;
                 }
 
-                std::string resp_body;
+                std::string resp_body = {};
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
                     +[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
                         auto real_size = size * nmemb;
@@ -584,7 +584,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     std::cerr << "PKI REST /sign: curl rc=" << rc << " http_code=" << http_code << " resp_len=" << resp_len << "\n";
                     std::cerr << "PKI REST /sign response body: '" << resp_body << "'\n";
                     // print a short hex prefix for binary-safety
-                    std::ostringstream hexs;
+                    std::ostringstream hexs = {};
                     const size_t maxhex = std::min<size_t>(resp_body.size(), 64);
                     for (size_t i = 0; i < maxhex; ++i) {
                         unsigned char c = static_cast<unsigned char>(resp_body[i]);
@@ -644,7 +644,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                             sig.resize(outlen);
                             res.signature_b64 = base64_encode(sig);
                     // Try to set cert serial if available
-                    std::string serial;
+                    std::string serial = {};
                     auto pub_result = load_public_key_and_serial(cfg_, serial);
                     if (pub_result) {
                         EVP_PKEY_free(*pub_result);
@@ -671,8 +671,8 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     // proceed with local RSA signing using the provisioned certificate.
     if (!cfg_.key_path.empty() && cfg_.cert_path.empty() && !cfg_.ca_url.empty()) {
         // Lazy-init: provision certificate from CA if not cached yet.
-        std::string cert_pem;
-        std::string cert_serial;
+        std::string cert_pem = {};
+        std::string cert_serial = {};
         {
             std::lock_guard<std::mutex> lock(cert_cache_mutex_);
             if (cached_cert_pem_.empty()) {
@@ -793,7 +793,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                     return false;
                 }
 
-                std::string resp_body;
+                std::string resp_body = {};
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
                     +[](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
                         auto real_size = size * nmemb;
@@ -814,7 +814,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                 if (dbg && dbg[0] == '1') {
                     std::cerr << "PKI REST /verify: curl rc=" << rc << " http_code=" << http_code << " resp_len=" << resp_len << "\n";
                     std::cerr << "PKI REST /verify response body: '" << resp_body << "'\n";
-                    std::ostringstream hexs;
+                    std::ostringstream hexs = {};
                     const size_t maxhex = std::min<size_t>(resp_body.size(), 64);
                     for (size_t i = 0; i < maxhex; ++i) {
                         unsigned char c = static_cast<unsigned char>(resp_body[i]);
@@ -859,7 +859,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
             return false;
         }
 
-        std::string serial;
+        std::string serial = {};
         auto pub_result = load_public_key_and_serial(cfg_, serial);
         if (pub_result) {
             EVP_PKEY* pub = *pub_result;

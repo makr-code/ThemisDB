@@ -40,7 +40,7 @@ TEST_F(PolicyEngineLoadTest, LoadYamlSequence_SucceedsAndListsPolicies) {
     pf.close();
 
     PolicyEngine pe;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(pe.loadFromFile("config/policies.yaml", &err)) << err;
 
     auto list = pe.listPolicies();

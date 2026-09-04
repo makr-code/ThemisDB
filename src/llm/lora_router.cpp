@@ -28,7 +28,7 @@ namespace {
     std::string computeHash(const std::string& input) {
         std::hash<std::string> hasher;
         auto hash = hasher(input);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0') << std::setw(16) << hash;
         return oss.str();
     }
@@ -159,7 +159,7 @@ RoutingDecision LoRARouter::routeQuery(
     }
     
     // Apply routing policy
-    RoutingDecision decision;
+    RoutingDecision decision = {};
     if (candidates.empty() && fallback_config_.enable_fallback) {
         decision = selectFallback("No semantic candidates found");
     } else {
@@ -455,7 +455,7 @@ RoutingDecision LoRARouter::selectByLoadAware(
     
     // Score each candidate: (1-load_weight) * similarity + load_weight * (1-gpu_load)
     float best_score = -1.0f;
-    std::string best_adapter;
+    std::string best_adapter = {};
     int best_gpu = -1;
     float best_similarity = 0.0f;
     
@@ -531,7 +531,7 @@ RoutingDecision LoRARouter::selectByABTest(
     float rand_val = dist(gen);
     float cumulative = 0.0f;
     
-    std::string selected_adapter;
+    std::string selected_adapter = {};
     for (size_t i = 0; i < ab_test_config_->adapter_ids.size(); ++i) {
         cumulative += ab_test_config_->traffic_splits[i];
         if (rand_val <= cumulative) {
@@ -583,7 +583,7 @@ RoutingDecision LoRARouter::selectByRollout(
     thread_local std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
-    std::string selected_adapter;
+    std::string selected_adapter = {};
     if (dist(gen) < rollout_config_->rollout_percentage) {
         selected_adapter = rollout_config_->new_adapter_id;
     } else {

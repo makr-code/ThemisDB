@@ -26,7 +26,7 @@ static std::string tmpCTEPath() {
 
 class CTEErrorTest : public ::testing::Test {
 protected:
-    std::string dbPath;
+    std::string dbPath = {};
     
     void SetUp() override {
         dbPath = tmpCTEPath();

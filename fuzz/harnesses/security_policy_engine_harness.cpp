@@ -75,7 +75,7 @@ public:
                        const std::string& action,
                        const std::string& resource_path) const {
         // Stub: deny admin actions for non-admin users
-        Decision d;
+        Decision d = {};
         if (action == "admin" && user_id != "admin") {
             d.allowed = false;
             d.reason  = "not admin";
@@ -135,7 +135,7 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
         }
         auto [action,   p2] = find_field(p1, payload_len - p1_offset);
         size_t p2_offset    = static_cast<size_t>(p2 - payload);
-        std::string resource;
+        std::string resource = {};
         if (p2_offset < payload_len) {
             resource.assign(p2, payload_len - p2_offset);
         }

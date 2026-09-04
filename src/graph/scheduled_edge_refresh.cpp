@@ -299,7 +299,7 @@ EdgeScore ScheduledGraphEdgeRefreshEngine::scoreEdge(const BaseEntity &edge_enti
     // ── Combined relevance ─────────────────────────────────────────────────
     score.relevance = score.similarity * score.temporal_factor * score.centrality_weight;
 
-    float threshold;
+    float threshold = {};
     {
         std::lock_guard<std::mutex> lock(policy_mutex_);
         threshold = policy_.relevance_threshold;
@@ -849,7 +849,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     // that made it into the batch (addEdge() succeeds) and only after commit.
     struct AddedEdgeRecord {
         std::string id, from, to;
-        float sim;
+        float sim = {};
     };
     std::vector<AddedEdgeRecord> added_records = {};
 

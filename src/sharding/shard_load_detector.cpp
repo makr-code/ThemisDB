@@ -247,7 +247,7 @@ bool ShardLoadDetector::detectRequestImbalance(
     double imbalance_ratio = (max_rate - min_rate) / avg_rate;
     
     if (imbalance_ratio > config_.request_imbalance_threshold) {
-        std::ostringstream reason_stream;
+        std::ostringstream reason_stream = {};
         reason_stream << "Request imbalance ("
                       << static_cast<int>(imbalance_ratio * 100)
                       << "% variance)";
@@ -299,7 +299,7 @@ bool ShardLoadDetector::detectLatencyDegradation(
     
     for (size_t i = 0; i < latencies.size(); i++) {
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
-            std::ostringstream reason_stream;
+            std::ostringstream reason_stream = {};
             reason_stream << "Latency degradation on " << shard_ids[i]
                           << " (" << static_cast<int>(latencies[i]) << "ms p99)";
             appendReasonClause(result.reason, reason_stream.str());
@@ -324,7 +324,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
     
     for (const auto& [shard_id, metrics] : loads) {
         if (metrics.cpu_usage_percent > config_.cpu_exhaustion_threshold * 100.0) {
-            std::ostringstream reason_stream;
+            std::ostringstream reason_stream = {};
             reason_stream << "CPU exhaustion on " << shard_id
                           << " (" << static_cast<int>(metrics.cpu_usage_percent) << "%)";
             appendReasonClause(result.reason, reason_stream.str());
@@ -335,7 +335,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
         }
         
         if (metrics.storage_usage_percent > config_.storage_exhaustion_threshold * 100.0) {
-            std::ostringstream reason_stream;
+            std::ostringstream reason_stream = {};
             reason_stream << "Storage exhaustion on " << shard_id
                           << " (" << static_cast<int>(metrics.storage_usage_percent) << "%)";
             appendReasonClause(result.reason, reason_stream.str());

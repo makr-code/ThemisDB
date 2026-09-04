@@ -112,7 +112,7 @@ std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
     ma.timestamp      = timestamp;
     ma.description    = raw->description;
     if (ma.description.empty() && ma.is_anomaly) {
-        std::ostringstream desc;
+        std::ostringstream desc = {};
         desc << std::fixed << std::setprecision(4)
              << "Anomaly on '" << metric_name
              << "': observed=" << value
@@ -235,7 +235,7 @@ void MetricAnomalyDetector::publishMetrics() const {
 
 std::string MetricAnomalyDetector::generateReport() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== ThemisDB Metric Anomaly Detection Report ===\n\n";
     oss << "Monitored metrics: " << streams_.size() << "\n\n";
 

@@ -225,7 +225,7 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
     std::vector<std::string> result;
     int   depth     = 0;
     bool  in_string = false;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
         if (in_string) {
@@ -372,7 +372,7 @@ bool PostgreSQLImporter::validateSource(const std::string& source_path, std::vec
     }
     
     // Check if it looks like a PostgreSQL dump
-    std::string line;
+    std::string line = {};
     bool found_pg_dump = false;
     int lines_checked = 0;
     
@@ -617,8 +617,8 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
         return json::array();
     }
     
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     // Performance: pre-reserve to avoid reallocations for typical DDL lines
     line.reserve(4096);
     current_sql.reserve(8192);
@@ -640,12 +640,12 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
         // Complete statement?
         if (line.find(';') != std::string::npos) {
             if (current_sql.find("CREATE TABLE") != std::string::npos) {
-                TableSchema schema;
+                TableSchema schema = {};
                 if (parseCreateTable(current_sql, schema)) {
                     schemas_[schema.name] = schema;
                 }
             } else if (current_sql.find("CREATE TYPE") != std::string::npos) {
-                std::smatch tm;
+                std::smatch tm = {};
                 if (std::regex_search(current_sql, tm, kEnumTypeRe)) {
                     {
                         std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
@@ -659,10 +659,10 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
                 }
             } else if (current_sql.find("CREATE INDEX") != std::string::npos ||
                        current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
-                std::smatch ti;
+                std::smatch ti = {};
                 if (std::regex_search(current_sql, ti, kCreateIndexRe)) {
                     std::string tname = ti[3].str();
-                    IndexMetadata idx;
+                    IndexMetadata idx = {};
                     if (parseCreateIndex(current_sql, tname, idx) && schemas_.count(tname)) {
                         schemas_[tname].indexes.push_back(idx);
                     }
@@ -784,7 +784,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     // Scan the first 50 comment lines for known pg_dump header markers.
     // Use a 4 KB cap per line – header comments are always short.
     {
-        std::string hdr_line;
+        std::string hdr_line = {};
         int hdr_lines = 0;
         bool hdr_trunc = false;
         std::streampos after_header = 0;
@@ -828,7 +828,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     // --- Checkpoint / resume support ---
     std::streampos resume_offset = 0;
     if (!options.checkpoint_file.empty()) {
-        ImportStats checkpoint_stats;
+        ImportStats checkpoint_stats = {};
         if (loadCheckpoint(options.checkpoint_file, resume_offset, checkpoint_stats)) {
             THEMIS_INFO("Resuming import from byte offset {}", static_cast<long>(resume_offset));
             file.seekg(resume_offset);
@@ -841,7 +841,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         }
     }
 
-    std::string line;
+    std::string line = {};
     std::string current_sql;
     size_t line_number = 0;
     size_t batch_row_count = 0;
@@ -896,7 +896,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     // PHASE-2-HARDENING: CDC Fallback Mechanism
     // Detect CDC capability and log fallback decision if needed
     // Read the first 5000 characters for CDC detection (header scanning)
-    std::string dump_header;
+    std::string dump_header = {};
     dump_header.reserve(5000);
     file.clear();
     file.seekg(0);
@@ -992,7 +992,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             if (current_sql.find("CREATE TABLE") != std::string::npos ||
                 current_sql.find("CREATE SCHEMA") != std::string::npos) {
                 auto t0 = std::chrono::steady_clock::now();
-                TableSchema schema;
+                TableSchema schema = {};
                 if (parseCreateTable(current_sql, schema)) {
                     if (shouldImportTable(schema.name, options)) {
                         // v2.0: count preserved FKs discovered in CREATE TABLE body
@@ -1034,7 +1034,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             }
             // CREATE TYPE ... AS ENUM / AS (...) – register custom type mapping
             else if (current_sql.find("CREATE TYPE") != std::string::npos) {
-                std::smatch tm;
+                std::smatch tm = {};
                 if (std::regex_search(current_sql, tm, kEnumTypeRe)) {
                     {
                         std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
@@ -1055,7 +1055,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             // and INSERT statements see the new column.
             else if (current_sql.find("ALTER TABLE") != std::string::npos &&
                      current_sql.find("ADD COLUMN") != std::string::npos) {
-                std::smatch am;
+                std::smatch am = {};
                 if (std::regex_search(current_sql, am, kAlterAddColumnRe)) {
                     std::string tname = am[1].str();
                     std::string cname = am[2].str();
@@ -1083,10 +1083,10 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                      current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
                 auto t0 = std::chrono::steady_clock::now();
                 // Extract table name to attach the index
-                std::smatch ti;
+                std::smatch ti = {};
                 if (std::regex_search(current_sql, ti, kCreateIndexRe)) {
                     std::string tname = ti[3].str();
-                    IndexMetadata idx;
+                    IndexMetadata idx = {};
                     if (parseCreateIndex(current_sql, tname, idx) && schemas_.count(tname)) {
                         schemas_[tname].indexes.push_back(idx);
                         stats.indexes_processed++;
@@ -1113,14 +1113,14 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             else if (current_sql.find("COPY ") != std::string::npos) {
                 // Extract table name and optional column list from COPY header
                 // Pattern: COPY [schema.]table [(col1, col2, ...)] FROM stdin;
-                std::smatch match;
+                std::smatch match = {};
                 if (std::regex_search(current_sql, match, kCopyRe)) {
                     std::string table_name = match[1].str();
                     std::vector<std::string> col_list = {};
 
                     if (match[2].matched && !match[2].str().empty()) {
                         std::istringstream css(match[2].str());
-                        std::string col;
+                        std::string col = {};
                         while (std::getline(css, col, ',')) {
                             col.erase(0, col.find_first_not_of(" \t"));
                             col.erase(col.find_last_not_of(" \t") + 1);
@@ -1198,7 +1198,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
 }
 
 bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema) {
-    std::smatch match;
+    std::smatch match = {};
     if (!std::regex_search(sql, match, kCreateTableRe)) {
         return false;
     }
@@ -1267,7 +1267,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
                     if (pk_end != std::string::npos) {
                         std::string pk_cols = column_def.substr(pk_paren + 1, pk_end - pk_paren - 1);
                         std::istringstream pkss(pk_cols);
-                        std::string pkc;
+                        std::string pkc = {};
                         while (std::getline(pkss, pkc, ',')) {
                             pkc = trim(pkc);
                             if (!pkc.empty() && pkc.front() == '"') {
@@ -1283,14 +1283,14 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
             }
 
             if (upper_def.find("CHECK") != std::string::npos) {
-                CheckConstraint ck;
+                CheckConstraint ck = {};
                 if (parseCheckConstraint(column_def, ck)) {
                     schema.check_constraints.push_back(ck);
                 }
             }
 
             if (upper_def.find("EXCLUDE") != std::string::npos) {
-                ExcludeConstraint excl;
+                ExcludeConstraint excl = {};
                 if (parseExcludeConstraint(column_def, excl)) {
                     schema.exclude_constraints.push_back(excl);
                 }
@@ -1306,7 +1306,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
                         idx.unique = true;
                         idx.type = "btree";
 
-                        std::smatch cname_m;
+                        std::smatch cname_m = {};
                         if (std::regex_search(column_def, cname_m, kConstraintNameRe)) {
                             idx.name = cname_m[1].str();
                         } else {
@@ -1315,7 +1315,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
 
                         std::string ucols = column_def.substr(u_paren + 1, u_end - u_paren - 1);
                         std::istringstream ucss(ucols);
-                        std::string uc;
+                        std::string uc = {};
                         while (std::getline(ucss, uc, ',')) {
                             uc = trim(uc);
                             if (!uc.empty() && uc.front() == '"') {
@@ -1391,7 +1391,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         parseInlineReference(col_name, column_def, schema);
 
         {
-            GeneratedColumnInfo gen;
+            GeneratedColumnInfo gen = {};
             if (parseGeneratedColumn(column_def, col_name, gen)) {
                 schema.generated_columns.push_back(gen);
             }
@@ -1412,7 +1412,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
 static std::vector<std::string> splitColumnList(const std::string& s) {
     std::vector<std::string> cols;
     std::istringstream ss(s);
-    std::string col;
+    std::string col = {};
     while (std::getline(ss, col, ',')) {
         col.erase(0, col.find_first_not_of(" \t\n\r\""));
         col.erase(col.find_last_not_of(" \t\n\r\"") + 1);
@@ -1431,7 +1431,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
     std::regex fk_regex(
         R"(FOREIGN KEY\s*\(([^)]+)\)\s*REFERENCES\s+(?:\w+\.)?(\w+)\s*\(([^)]+)\)([^,]*)?)",
         std::regex_constants::icase);
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(constraint_def, m, fk_regex)) {
         return false;
     }
@@ -1440,7 +1440,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
 
     // Extract optional constraint name
     std::regex cname_regex(R"(CONSTRAINT\s+(\w+)\s+FOREIGN KEY)", std::regex_constants::icase);
-    std::smatch cm;
+    std::smatch cm = {};
     if (std::regex_search(constraint_def, cm, cname_regex)) {
         fk.constraint_name = cm[1].str();
     }
@@ -1450,7 +1450,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
     fk.ref_columns = splitColumnList(m[3].str());
 
     auto joinCols = [](const std::vector<std::string>& cols) {
-        std::string out;
+        std::string out = {};
         for (size_t i = 0; i < cols.size(); ++i) {
             if (i > 0) {
               out += ",";
@@ -1470,7 +1470,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
     {
         std::regex on_delete_regex(R"(ON\s+DELETE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
                                    std::regex_constants::icase);
-        std::smatch dm;
+        std::smatch dm = {};
         if (std::regex_search(trailing, dm, on_delete_regex)) {
             fk.on_delete = dm[1].str();
             // Normalise to uppercase
@@ -1481,7 +1481,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
     {
         std::regex on_update_regex(R"(ON\s+UPDATE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
                                    std::regex_constants::icase);
-        std::smatch um;
+        std::smatch um = {};
         if (std::regex_search(trailing, um, on_update_regex)) {
             fk.on_update = um[1].str();
             std::transform(fk.on_update.begin(), fk.on_update.end(),
@@ -1511,7 +1511,7 @@ bool PostgreSQLImporter::parseInlineReference(const std::string& col_name,
     std::regex ref_regex(
         R"(REFERENCES\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]+)\))?([^,]*)?)",
         std::regex_constants::icase);
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(col_def, m, ref_regex)) {
         return false;
     }
@@ -1534,7 +1534,7 @@ bool PostgreSQLImporter::parseInlineReference(const std::string& col_name,
     {
         std::regex on_delete_regex(R"(ON\s+DELETE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
                                    std::regex_constants::icase);
-        std::smatch dm;
+        std::smatch dm = {};
         if (std::regex_search(trailing, dm, on_delete_regex)) {
             fk.on_delete = dm[1].str();
             std::transform(fk.on_delete.begin(), fk.on_delete.end(),
@@ -1544,7 +1544,7 @@ bool PostgreSQLImporter::parseInlineReference(const std::string& col_name,
     {
         std::regex on_update_regex(R"(ON\s+UPDATE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
                                    std::regex_constants::icase);
-        std::smatch um;
+        std::smatch um = {};
         if (std::regex_search(trailing, um, on_update_regex)) {
             fk.on_update = um[1].str();
             std::transform(fk.on_update.begin(), fk.on_update.end(),
@@ -1573,7 +1573,7 @@ void PostgreSQLImporter::parseAlterTableAddFk(const std::string& sql,
     std::regex tbl_regex(
         R"(ALTER TABLE\s+(?:ONLY\s+)?(?:\w+\.)?(\w+)\s+ADD\s+(?:CONSTRAINT\s+\w+\s+)?FOREIGN KEY)",
         std::regex_constants::icase);
-    std::smatch tm;
+    std::smatch tm = {};
     if (!std::regex_search(sql, tm, tbl_regex)) {
         return;
     }
@@ -1607,7 +1607,7 @@ void PostgreSQLImporter::parseAlterTableAddFk(const std::string& sql,
  */
 bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint_def,
                                                     ForeignKeyConstraint& fk) {
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(constraint_def, m, kFkRe)) {
       return false;
     }
@@ -1623,9 +1623,9 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
         return (l == std::string::npos) ? std::string{} : s.substr(l, r - l + 1);
     };
     auto normalizeColList = [&trimStr](const std::string& cols) {
-        std::string result;
+        std::string result = {};
         std::istringstream ss(cols);
-        std::string c;
+        std::string c = {};
         while (std::getline(ss, c, ',')) {
             c = trimStr(c);
             if (!c.empty() && c.front() == '"') {
@@ -1698,7 +1698,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
 bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
                                           const std::string& /*hint_table*/,
                                           IndexMetadata& index) {
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, kCreateIndexRe)) {
       return false;
     }
@@ -1715,7 +1715,7 @@ bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
     // Parse column list
     std::string cols = m[5].str();
     std::istringstream css(cols);
-    std::string col;
+    std::string col = {};
     while (std::getline(css, col, ',')) {
         // Strip expression parts like ASC/DESC, NULLS FIRST
         size_t sp = col.find_first_of(" \t(");
@@ -1763,7 +1763,7 @@ bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
 bool PostgreSQLImporter::parseAlterTableForeignKey(const std::string& sql,
                                                     std::string& out_table,
                                                     ForeignKeyConstraint& fk) {
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, kAlterFkRe)) {
       return false;
     }
@@ -1845,7 +1845,7 @@ bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*opt
 bool PostgreSQLImporter::parseCheckConstraint(const std::string& constraint_def,
                                                CheckConstraint& ck) {
     // Extract optional constraint name
-    std::smatch cm;
+    std::smatch cm = {};
     if (std::regex_search(constraint_def, cm, kConstraintNameRe)) {
         ck.name = cm[1].str();
     }
@@ -1895,7 +1895,7 @@ bool PostgreSQLImporter::parseCheckConstraint(const std::string& constraint_def,
 bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_def,
                                                  ExcludeConstraint& excl) {
     // ── 1. Extract optional constraint name ──────────────────────────────
-    std::smatch cm;
+    std::smatch cm = {};
     if (std::regex_search(constraint_def, cm, kConstraintNameRe)) {
         excl.name = cm[1].str();
     }
@@ -1961,7 +1961,7 @@ bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_de
             static const std::regex kWithRe(
                 R"(\s*(.+?)\s+WITH\s+(\S+)\s*)", std::regex_constants::icase);
             for (const auto& part : parts) {
-                std::smatch wm;
+                std::smatch wm = {};
                 if (std::regex_match(part, wm, kWithRe)) {
                     ExcludeConstraint::Element el;
                     el.column        = wm[1].str();
@@ -2062,7 +2062,7 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
     static const std::regex insert_regex(
         R"(INSERT INTO\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+VALUES\s*\((.+)\)\s*;?\s*$)",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
     
     if (!std::regex_search(sql, match, insert_regex)) {
         addError(stats, ImportErrorCode::PARSE_INSERT, ImportErrorSeverity::WARNING,
@@ -2084,7 +2084,7 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
 
     if (match[2].matched && !match[2].str().empty()) {
         std::istringstream css(match[2].str());
-        std::string col;
+        std::string col = {};
         while (std::getline(css, col, ',')) {
             col.erase(0, col.find_first_not_of(" \t"));
             col.erase(col.find_last_not_of(" \t") + 1);
@@ -2179,7 +2179,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                                     std::unordered_set<uint64_t>& delta_hashes) {
     if (!shouldImportTable(table_name, options)) {
         // Skip until end marker – use bounded reader so the skip itself is safe
-        std::string line;
+        std::string line = {};
         bool trunc = false;
         const size_t skip_limit = options.max_row_size_bytes > 0
                                   ? options.max_row_size_bytes * 2
@@ -2194,7 +2194,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
     }
 
     // Resolve effective column list from schema or provided list
-    TableSchema eff_schema;
+    TableSchema eff_schema = {};
     if (schemas_.count(table_name)) {
       eff_schema = schemas_[table_name];
     }
@@ -2209,7 +2209,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                                   ? options.max_row_size_bytes
                                   : 64 * 1024 * 1024ULL;  // 64 MB default cap
 
-    std::string line;
+    std::string line = {};
     size_t row_num = 0;
     bool first_data_line = true;
     bool row_truncated = false;
@@ -2450,7 +2450,7 @@ std::string PostgreSQLImporter::unescapeCopyValue(const std::string& val) const 
         return "";  // NULL value
     }
     // Apply other escape sequences
-    std::string out;
+    std::string out = {};
     out.reserve(val.size());
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i + 1 < val.size()) {
@@ -2492,7 +2492,7 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string
         if (values_clause[i] == '\'') {
             // Quoted string
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 if (values_clause[i] == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
                     val += '\'';
@@ -2917,7 +2917,7 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
         schema_column_index.emplace(schema_columns[i], i);
     }
 
-    std::string key_data;
+    std::string key_data = {};
     key_data.reserve(key_columns.size() * 8);
     for (const auto& kc : key_columns) {
         auto it = schema_column_index.find(kc);
@@ -2938,7 +2938,7 @@ std::unordered_set<uint64_t> PostgreSQLImporter::loadDeltaHashes(const std::stri
     if (!f) {
       return hashes;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
           continue;

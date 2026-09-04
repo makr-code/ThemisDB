@@ -1521,8 +1521,8 @@ void WireProtocolServer::Session::handleAuthRequest() {
     // On success sets authenticated_ = true and records the username.
     // When Config::require_auth is false, any non-empty token (or no token) is accepted.
     try {
-        std::string token;
-        std::string username_req;
+        std::string token = {};
+        std::string username_req = {};
 
         if (!payload_buffer_.empty()) {
             if (payload_buffer_.size() > kMaxAuthPayloadBytes) {
@@ -1649,7 +1649,7 @@ void WireProtocolServer::Session::handleGet() {
         std::string storage_key = collection + ":" + key;
         auto result = server_->storage_->get(storage_key);
 
-        json response;
+        json response = {};
         if (result.has_value()) {
             const auto& value_bytes = result.value();
             // Try to parse value as JSON; fall back to base64-style string.
@@ -1986,7 +1986,7 @@ void WireProtocolServer::Session::handleBatchPut() {
         struct ValidatedItem {
             std::string key;
             std::string storage_key;
-            std::string value_str;
+            std::string value_str = {};
         };
 
         std::vector<ValidatedItem> valid_items = {};
@@ -2402,7 +2402,7 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         auto trav_result = server_->query_engine_->executeGeneralTraversal(
             start_vertex, depth_min, depth_max, direction, collection, edge_type);
 
-        json response;
+        json response = {};
         if (trav_result) {
             json vertices = json::array();
             int count = 0;
@@ -2497,7 +2497,7 @@ void WireProtocolServer::Session::handleQuery() {
         // Execute the AQL query through the shared QueryEngine.
         auto result = themis::executeAql(query_str, *server_->query_engine_);
 
-        json response;
+        json response = {};
         if (result) {
             const auto& result_json = result.value();
             int batch_size_i = request.value("batch_size", 100);
@@ -2510,7 +2510,7 @@ void WireProtocolServer::Session::handleQuery() {
 
             bool has_more = false;
             json first_batch;
-            std::string cursor_id;
+            std::string cursor_id = {};
 
             if (result_json.is_array() && result_json.size() > batch_size) {
                 // Large result: store in cursor registry and return first batch.
@@ -2791,7 +2791,7 @@ void WireProtocolServer::Session::handleVectorSearch() {
 
         auto [status, results] = server_->vector_index_->searchKnn(query_vector, k);
 
-        json response;
+        json response = {};
         if (!status.ok) {
             response["success"] = false;
             response["error"] = status.message;
@@ -3114,7 +3114,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
     
     try {
         // Parse TimeSeriesQueryRequest from payload
-        TimeSeriesQueryRequest request;
+        TimeSeriesQueryRequest request = {};
         if (!TimeSeriesQueryRequest::parse(payload_buffer_, request)) {
             sendError(0x0009, "Failed to parse TimeSeriesQueryRequest");
             return;
@@ -3430,7 +3430,7 @@ namespace {
     // Retry parsing a bounded number of times for transient/incomplete payload edge cases.
     json parsePayloadJsonWithRetry(const std::vector<uint8_t>& payload_buffer, int max_attempts) {
         std::string payload_str(payload_buffer.begin(), payload_buffer.end());
-        std::exception_ptr last_error;
+        std::exception_ptr last_error = {};
         const int attempts = std::max(1, max_attempts);
         for (int attempt = 1; attempt <= attempts; ++attempt) {
             try {
@@ -3493,7 +3493,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
         json variables = request.value("variables", json::object());
         std::string business_key = request.value("business_key", "");
 
-        std::string variables_error;
+        std::string variables_error = {};
         if (!validateBpmnVariablesObject(variables, variables_error)) {
             sendError(400, std::string("Invalid variables: ") + variables_error);
             return;
@@ -3629,7 +3629,7 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
         json variables = request.value("variables", json::object());
         std::string assignee = request.value("assignee", username_);
 
-        std::string variables_error;
+        std::string variables_error = {};
         if (!validateBpmnVariablesObject(variables, variables_error)) {
             sendError(400, std::string("Invalid variables: ") + variables_error);
             return;
@@ -3652,8 +3652,8 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
         // For simplicity, we'll assume task_id format is "instance_id:node_id" or just token_id
         // Let's extract instance_id from the task if it contains ':'
         
-        std::string instance_id;
-        std::string node_id;
+        std::string instance_id = {};
+        std::string node_id = {};
         
         size_t colon_pos = task_id.find(':');
         if (colon_pos != std::string::npos) {

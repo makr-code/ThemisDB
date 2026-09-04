@@ -1002,7 +1002,7 @@ static const std::array<uint8_t, 256> B64_DEC_TABLE = []() {
 }();
 
 static std::string b64_enc(const std::vector<uint8_t>& data) {
-    std::string ret;
+    std::string ret = {};
     ret.reserve((data.size() + 2) / 3 * 4);  // Pre-allocate for base64 output
     size_t i = 0;
     const uint8_t* p = data.data();

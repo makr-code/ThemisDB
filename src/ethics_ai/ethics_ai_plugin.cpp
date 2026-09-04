@@ -414,7 +414,7 @@ public:
     }
     
     std::string getPrometheusMetrics() const override {
-        std::stringstream ss;
+        std::stringstream ss = {};
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         
         ss << "# HELP ethics_ai_debates_total Total number of debates initialized\n";

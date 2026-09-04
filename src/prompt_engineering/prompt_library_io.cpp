@@ -35,7 +35,7 @@ namespace prompt_engineering {
 namespace {
 
 std::string toHex16(std::uint64_t v) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setw(16) << std::setfill('0') << v;
     return ss.str();
 }
@@ -159,7 +159,7 @@ std::string PromptLibraryIO::computeChecksum(
     }
     std::sort(parts.begin(), parts.end());
 
-    std::string concat;
+    std::string concat = {};
     for (const auto& p : parts) { concat += p; }
 
     return toHex16(themis::hash::fnv1a64(concat));

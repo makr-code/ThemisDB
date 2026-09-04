@@ -45,7 +45,7 @@ namespace themis::ingestion {
 
 struct TestItem {
     int id = 0;
-    std::string data;
+    std::string data = {};
     std::vector<char> payload;
 
     explicit TestItem(int id = 0, const std::string& d = "",

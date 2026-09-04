@@ -206,7 +206,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
         }
 
         // Determine overall status
-        std::string overall_status;
+        std::string overall_status = {};
         if (!failed_regions.empty()) {
             overall_status = "degraded";
         } else if (!degraded_regions.empty()) {
@@ -379,7 +379,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
         const auto& geo   = config.geo_replication;
 
         // Replication mode string
-        std::string repl_mode;
+        std::string repl_mode = {};
         switch (geo.replication_mode) {
             case sharding::GeoReplicationConfig::ReplicationMode::SYNC:
                 repl_mode = "sync"; break;
@@ -390,7 +390,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
         }
 
         // Redundancy mode string
-        std::string mode_str;
+        std::string mode_str = {};
         switch (config.mode) {
             case sharding::RedundancyMode::GEO_MIRROR:    mode_str = "geo_mirror";    break;
             case sharding::RedundancyMode::MIRROR:        mode_str = "mirror";        break;

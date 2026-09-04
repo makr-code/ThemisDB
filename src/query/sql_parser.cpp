@@ -47,12 +47,12 @@ std::string sqlValueToAQL(const SQLValue& val) {
         } else if constexpr (std::is_same_v<T, int64_t>) {
             return std::to_string(v);
         } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << v;
             return oss.str();
         } else {
             // std::string – emit as a quoted AQL string literal
-            std::string out;
+            std::string out = {};
             out.reserve(v.size() + 2);
             out += '"';
             for (char c : v) {
@@ -113,7 +113,7 @@ std::string SQLUnaryOpExpr::toAQL(const std::string& var) const {
 }
 
 std::string SQLListExpr::toAQL(const std::string& var) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     for (size_t i = 0; i < elements.size(); ++i) {
         if (i > 0) {
@@ -274,7 +274,7 @@ public:
 
 private:
     const std::string& input_;
-    size_t pos_;
+    size_t pos_ = {};
 
     void skipWhitespace() {
         while (pos_ < input_.size() && std::isspace(static_cast<unsigned char>(input_[pos_]))) {
@@ -284,7 +284,7 @@ private:
 
     SQLToken readString(char delim, size_t start) {
         ++pos_; // skip opening delimiter
-        std::string val;
+        std::string val = {};
         while (pos_ < input_.size()) {
             char ch = input_[pos_];
             // SQL doubled-delimiter escape: '' or "" within a string
@@ -314,7 +314,7 @@ private:
     }
 
     SQLToken readNumber([[maybe_unused]] size_t start) {
-        std::string val;
+        std::string val = {};
         if (input_[pos_] == '-') { val += '-'; ++pos_; }
         bool is_float = false;
         while (pos_ < input_.size() && (std::isdigit(input_[pos_]) || input_[pos_] == '.')) {
@@ -327,7 +327,7 @@ private:
     }
 
     SQLToken readIdent([[maybe_unused]] size_t start) {
-        std::string val;
+        std::string val = {};
         while (pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) {
             val += input_[pos_++];
         }
@@ -398,7 +398,7 @@ public:
 
 private:
     std::vector<SQLToken> tokens_;
-    size_t pos_;
+    size_t pos_ = {};
 
     const SQLToken& current() const { return tokens_[pos_]; }
 
@@ -833,7 +833,7 @@ private:
         }
 
         // Comparison operators: =, !=, <>, <, <=, >, >=
-        std::string op;
+        std::string op = {};
         switch (current().type) {
             case SQLTokenType::EQ:  op = "=="; advance(); break;
             case SQLTokenType::NEQ: op = "!="; advance(); break;
@@ -1062,7 +1062,7 @@ std::string SQLToAQLTranspiler::valueToAQL(const SQLValue& val) {
 }
 
 std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     const std::string var = kDocVar;
 
     aql << "FOR " << var << " IN " << stmt.table;
@@ -1114,7 +1114,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
 }
 
 std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     aql << "INSERT {";
     for (size_t i = 0; i < stmt.columns.size(); ++i) {
         if (i > 0) {
@@ -1127,7 +1127,7 @@ std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) 
 }
 
 std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     const std::string var = kDocVar;
 
     aql << "FOR " << var << " IN " << stmt.table;
@@ -1149,7 +1149,7 @@ std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) 
 }
 
 std::string SQLToAQLTranspiler::transpileDelete(const SQLDeleteStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     const std::string var = kDocVar;
 
     aql << "FOR " << var << " IN " << stmt.table;

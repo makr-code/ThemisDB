@@ -48,8 +48,8 @@ class MockConfidenceScorer {
 public:
     struct ScoreResult {
         float   confidence = 0;      // [0.0, 1.0]
-        int     matching_tokens;
-        int     total_nl_tokens;
+        int     matching_tokens = {};
+        int     total_nl_tokens = {};
     };
 
     static ScoreResult score(const std::string& nl_query, const std::string& aql_query) {
@@ -72,7 +72,7 @@ public:
 private:
     static std::vector<std::string> tokenize(const std::string& s) {
         std::vector<std::string> tokens;
-        std::string cur;
+        std::string cur = {};
         for (char c : s) {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
                 cur += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -165,7 +165,7 @@ private:
 
     static std::vector<std::string> tokenSet(const std::string& s) {
         std::vector<std::string> tokens;
-        std::string cur;
+        std::string cur = {};
         for (char c : s) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
                 cur += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -195,8 +195,8 @@ class MockAQLHighlighter {
 public:
     struct Annotation {
         int         line = 0;
-        int         col;
-        std::string message;
+        int         col = {};
+        std::string message = {};
     };
 
     /// Annotate a simple AQL string — returns warnings for suspicious patterns

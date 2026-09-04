@@ -199,9 +199,9 @@ TEST_F(DistributedSearchEdgeCasesTest, DIS_10_AdaptiveTimeoutAdjustment) {
 
 TEST_F(DistributedSearchEdgeCasesTest, DIS_11_ShardStateCorruptionDetection) {
   struct ShardState {
-    std::string shard_id;
-    uint64_t checksum;
-    int result_count;
+    std::string shard_id = {};
+    uint64_t checksum = {};
+    int result_count = {};
     bool is_valid() const { return checksum != 0; }
   };
 
@@ -237,7 +237,7 @@ TEST_F(DistributedSearchEdgeCasesTest, DIS_12_ShardStateTransitionConsistency) {
 TEST_F(DistributedSearchEdgeCasesTest, DIS_13_ConcurrentShardQueryIsolation) {
   struct QueryContext {
     int query_id = 0;
-    int shard_id;
+    int shard_id = {};
   };
 
   std::vector<QueryContext> contexts = {{1, 0}, {1, 1}, {2, 0}, {2, 1}};

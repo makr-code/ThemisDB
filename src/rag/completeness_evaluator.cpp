@@ -39,7 +39,7 @@ struct CompletenessEvaluator::Impl {
                       answer_lower.begin(), ::tolower);
         
         std::istringstream stream(answer_lower);
-        std::string word;
+        std::string word = {};
         while (stream >> word) {
             // Remove punctuation from word end
             while (!word.empty() && !std::isalnum(word.back())) {
@@ -62,7 +62,7 @@ struct CompletenessEvaluator::Impl {
         
         std::istringstream stream(aspect_lower);
         std::vector<std::string> key_terms;
-        std::string word;
+        std::string word = {};
         
         while (stream >> word) {
             // Remove punctuation from word end
@@ -106,7 +106,7 @@ struct CompletenessEvaluator::Impl {
         
         std::istringstream stream(aspect_lower);
         std::vector<std::string> key_terms;
-        std::string word;
+        std::string word = {};
         
         while (stream >> word) {
             // Remove punctuation from word end
@@ -281,7 +281,7 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     depth_score = std::min(1.0, depth_score);
     
     // Determine depth level
-    DepthLevel level;
+    DepthLevel level = {};
     if (depth_score >= 0.7) {
         level = DepthLevel::DEEP;
     } else if (depth_score >= 0.4) {
@@ -324,7 +324,7 @@ CompletenessResult CompletenessEvaluator::evaluate(
     const std::string& answer,
     const std::string& query
 ) {
-    CompletenessResult result;
+    CompletenessResult result = {};
     
     if (answer.empty() || query.empty()) {
         result.completeness_score = 0.0;
@@ -400,7 +400,7 @@ CompletenessResult CompletenessEvaluator::evaluate(
     result.completeness_score = std::min(1.0, std::max(0.0, result.completeness_score));
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Completeness Score: " << result.completeness_score << "\n";
     explanation << "Aspect Coverage: " << result.covered_aspects_count << "/" 
                 << result.total_aspects_count << " aspects covered\n";

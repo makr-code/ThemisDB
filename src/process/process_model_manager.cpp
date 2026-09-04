@@ -566,7 +566,7 @@ std::optional<ProcessModelRecord> ProcessModelManager::load(
     std::string_view model_id) const
 {
     auto key = makeKey_(model_id);
-    std::string value;
+    std::string value = {};
     if (!db_.get(key, value)) {
         return std::nullopt;
     }
@@ -1206,7 +1206,7 @@ bool ProcessModelManager::detectConflict_(std::string_view model_id, int expecte
     
     // Attempt to read current revision from database
     std::string key = makeKey_(model_id);
-    std::string doc_str;
+    std::string doc_str = {};
     if (!db_.get(key, doc_str)) {
         // Model doesn't exist (or was deleted), conflict detected
         return true;
@@ -1228,7 +1228,7 @@ void ProcessModelManager::rollbackTransaction_(const TransactionContext& txn) {
     std::unique_lock<std::shared_mutex> lock(model_state_lock_);
     const std::string primary_key = makeKey_(txn.model_id);
     const std::string versioned_key = makeVersionedKey_(txn.model_id, txn.revision_at_start);
-    std::string prev_value;
+    std::string prev_value = {};
     const bool has_prev_value = db_.get(versioned_key, prev_value);
 
     for (const auto& key : txn.modified_keys) {
@@ -1258,7 +1258,7 @@ ProcessModelManager::TransactionContext ProcessModelManager::createTransaction_(
     
     uint64_t txn_id = operation_counter_++;
     std::string key = makeKey_(model_id);
-    std::string doc_str;
+    std::string doc_str = {};
     int revision = 0;
 
     if (db_.get(key, doc_str)) {

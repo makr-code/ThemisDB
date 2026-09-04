@@ -34,7 +34,7 @@ SpeculativeDecoder::SpeculativeDecoder(const Config& config)
     : config_(config)
 {
     if (config_.rng_seed == 0) {
-        std::random_device rd;
+        std::random_device rd = {};
         rng_.seed(rd());
     } else {
         // Use std::seed_seq to honour all 64 bits of the seed rather than
@@ -63,7 +63,7 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
             "draft_tokens.size() must equal draft_logits.size()");
     }
     if (target_logits.size() != draft_tokens.size() + 1) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "target_logits.size() (" << target_logits.size()
             << ") must be draft_tokens.size() + 1 ("
             << (draft_tokens.size() + 1) << ")";

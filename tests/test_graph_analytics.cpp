@@ -311,8 +311,8 @@ TEST_F(GraphAnalyticsTest, Integration_DegreeAndPageRank) {
     // Hub should have highest degree and highest PageRank
     int max_degree = 0;
     double max_rank = 0.0;
-    std::string max_degree_node;
-    std::string max_rank_node;
+    std::string max_degree_node = {};
+    std::string max_rank_node = {};
 
     for (const auto& [pk, deg] : degrees) {
         if (deg.total_degree > max_degree) {
@@ -368,7 +368,7 @@ TEST_F(GraphAnalyticsTest, BetweennessCentrality_HubGraph) {
 
     // Hub should have highest betweenness (all paths go through it)
     double max_betweenness = 0.0;
-    std::string max_node;
+    std::string max_node = {};
     for (const auto& [pk, bc] : betweenness) {
         if (bc > max_betweenness) {
             max_betweenness = bc;

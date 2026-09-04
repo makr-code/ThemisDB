@@ -295,7 +295,7 @@ static void SRCP_ADV_3_ConcurrentIndexing(benchmark::State& state) {
   BenchmarkFixture fixture;
   auto search_results = fixture.GenerateResults(1000);
   std::atomic<size_t> index_insertions{0};
-  std::mutex index_lock;
+  std::mutex index_lock = {};
   
   std::thread indexer([&]() {
     for (size_t i = 0; i < 100; ++i) {

@@ -175,7 +175,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
     } else {
         // Fallback: brute-force search through all entries
         float best_similarity = 0.0f;
-        std::string best_pk;
+        std::string best_pk = {};
         for (const auto &[pk, entry] : impl_->entries) {
             if (isExpired(entry)) {
                 continue;

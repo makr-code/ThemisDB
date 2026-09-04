@@ -135,7 +135,7 @@ json RootCauseReport::toJSON() const {
 }
 
 std::string RootCauseReport::toReport() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Root Cause Analysis Report ===\n\n";
     oss << "Primary Cause : " << primary_cause
         << " (" << static_cast<int>(confidence * 100) << "% confidence)\n\n";
@@ -403,7 +403,7 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
     // Build contributing factors from significant deltas
     for (const auto& kv : deltas) {
         if (std::abs(kv.second) >= impl_->config.significant_delta_pct) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << kv.first << " changed by ";
             if (kv.second >= 0.0) {
                 oss << "+";

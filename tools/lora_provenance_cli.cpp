@@ -215,7 +215,7 @@ static int cmdListSnapshots(const std::vector<std::string>& args) {
 
     std::vector<AdapterSnapshot> snaps;
     std::istringstream iss(raw);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (line.empty()) {
           continue;
@@ -272,7 +272,7 @@ static int cmdVerify(const std::vector<std::string>& args) {
     LoRAProvenanceManager mgr;
     std::vector<InferenceAuditEntry> entries;
     std::istringstream iss(raw);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (line.empty()) {
           continue;
@@ -328,7 +328,7 @@ static int cmdExportAudit(const std::vector<std::string>& args) {
 
     // Determine output destination
     std::ostream* out = &std::cout;
-    std::ofstream file_out;
+    std::ofstream file_out = {};
     if (!out_path.empty()) {
         file_out.open(out_path);
         if (!file_out.is_open()) {
@@ -341,7 +341,7 @@ static int cmdExportAudit(const std::vector<std::string>& args) {
     // Stream JSONL lines with additional metadata
     size_t count = 0;
     std::istringstream iss(raw);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (line.empty()) {
           continue;
@@ -380,7 +380,7 @@ static int cmdImportExternal(const std::vector<std::string>& args) {
     }
 
     // Read trusted CA bundle (optional)
-    std::string trusted_ca;
+    std::string trusted_ca = {};
     if (!ca_file.empty()) {
         bool ca_ok = false;
         trusted_ca = readFile(ca_file, ca_ok);

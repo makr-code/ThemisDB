@@ -544,7 +544,7 @@ std::string DistributedAnalyticsSharding::rowGroupKey(const Row &row,
                                                       const std::vector<themis::analytics::Dimension> &dims,
                                                       int64_t grouping_id) {
     // Build key efficiently with direct string operations instead of ostringstream
-    std::string key;
+    std::string key = {};
     key.reserve(64); // Heuristic pre-allocation
     key += std::to_string(grouping_id);
     
@@ -1043,7 +1043,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // ------------------------------------------------------------------
     // Identify the slowest shard for latency outlier hints.
     double max_shard_ms   = 0.0;
-    std::string slow_shard;
+    std::string slow_shard = {};
     bool any_timeout       = false;
     size_t failed_count    = 0;
     std::vector<std::string> open_cb_shards;
@@ -1077,7 +1077,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         const double failure_pct =
             100.0 * static_cast<double>(failed_count) / static_cast<double>(result.total_shards);
         if (failure_pct > 10.0) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss.precision(1);
             oss << std::fixed << "High shard failure rate (" << failure_pct << "%, "
                 << failed_count << "/" << result.total_shards
@@ -1092,7 +1092,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             " shards responded — treat aggregated values with caution.");
     }
     if (!slow_shard.empty() && max_shard_ms > 1000.0) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss.precision(0);
         oss << std::fixed << "Shard '" << slow_shard << "' had the highest latency ("
             << max_shard_ms << " ms) — consider load-balancing or rebalancing this shard.";

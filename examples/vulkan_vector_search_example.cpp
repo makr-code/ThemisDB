@@ -43,7 +43,7 @@ std::vector<std::vector<float>> generateRandomVectors(size_t count, size_t dimen
     std::vector<std::vector<float>> vectors;
     vectors.reserve(count);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
     

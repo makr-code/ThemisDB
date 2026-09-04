@@ -180,7 +180,7 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
 // characters).  This avoids introducing a heavy JSON library dependency for
 // the small set of string fields we serialise here.
 static std::string jsonEscapeString(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 2 + 4);
     for (unsigned char c : s) {
         switch (c) {
@@ -210,7 +210,7 @@ static std::string jsonEscapeString(const std::string& s) {
 std::string MetricsStreamServer::labelsToJson(
     const std::map<std::string, std::string>& labels) {
     if (labels.empty()) return "{}";
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << '{';
     bool first = true;
     for (const auto& [k, v] : labels) {
@@ -231,7 +231,7 @@ std::string MetricsStreamServer::formatWebSocketMessage(const MetricUpdate& upda
                               update.timestamp.time_since_epoch())
                               .count();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"({"type":"metric_update","metric_name":")"
         << jsonEscapeString(update.metric_name)
         << R"(","value":)" << update.value

@@ -22,7 +22,7 @@ TokenDistributionAnalyzer::TokenDistributionAnalyzer(uint32_t vocab_size,
 
 TokenStats TokenDistributionAnalyzer::analyze_tokens(
     const std::vector<uint32_t>& token_ids) {
-  TokenStats stats;
+  TokenStats stats = {};
   if (token_ids.empty()) {
     return stats;
   }
@@ -120,7 +120,7 @@ float TokenDistributionAnalyzer::compute_ngram_entrenchment(
   std::hash<std::string> hasher;
 
   for (size_t i = 0; i <= token_ids.size() - n; ++i) {
-    std::string ngram_str;
+    std::string ngram_str = {};
     for (uint32_t j = 0; j < n; ++j) {
       ngram_str += std::to_string(token_ids[i + j]) + ",";
     }
@@ -270,7 +270,7 @@ uint32_t TokenDistributionAnalyzer::compute_green_list_bit(uint32_t token_id) co
 }
 
 std::string TokenStats::to_string() const {
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "TokenStats{total=" << total_tokens << ", unique=" << unique_tokens
       << ", entropy=" << entropy << ", normalized_entropy=" << normalized_entropy
       << ", avg_freq=" << avg_token_freq << ", max_freq=" << max_token_freq

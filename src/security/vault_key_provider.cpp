@@ -157,7 +157,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
         "abcdefghijklmnopqrstuvwxyz"
         "0123456789+/";
     
-    std::string result;
+    std::string result = {};
     result.reserve(((data.size() + 2) / 3) * 4);
     int val = 0, valb = -6;
     for (uint8_t c : data) {
@@ -243,7 +243,7 @@ struct VaultKeyProvider::Impl {
 
         // Per-request setup on the private handle (no lock needed – local_curl is
         // not shared).
-        std::string response;
+        std::string response = {};
         CURL* local_curl = local_curl_raw.get();
         curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -378,7 +378,7 @@ void VaultKeyProvider::setTestRequestOverride(std::function<std::string(const st
 }
 
 std::string VaultKeyProvider::readSecret(const std::string& key_id, uint32_t version) {
-    std::string path;
+    std::string path = {};
     if (impl_->config.kv_version == "v2") {
         path = "/v1/" + impl_->config.kv_mount_path + "/data/keys/" + key_id;
         if (version > 0) {
@@ -410,7 +410,7 @@ std::string VaultKeyProvider::readSecretMetadata(const std::string& key_id) {
 }
 
 void VaultKeyProvider::writeSecret(const std::string& key_id, const std::string& key_b64, uint32_t version) {
-    json payload;
+    json payload = {};
     
     if (impl_->config.kv_version == "v2") {
         payload["data"] = {
@@ -436,7 +436,7 @@ std::vector<std::string> VaultKeyProvider::listSecrets() {
     std::string path = "/v1/" + impl_->config.kv_mount_path + 
                        (impl_->config.kv_version == "v2" ? "/metadata/keys" : "/keys");
 
-    std::string response;
+    std::string response = {};
     // Some Vault setups / client stacks return the key list for KV v2 when using
     // a GET with the query parameter `?list=true` instead of the HTTP LIST verb.
     if (impl_->config.kv_version == "v2") {
@@ -466,7 +466,7 @@ std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::stri
     try {
         json j = json::parse(json_response);
          
-        std::string key_b64;
+        std::string key_b64 = {};
         if (impl_->config.kv_version == "v2") {
             if (!j.contains("data") || !j["data"].contains("data")) {
                 throw KeyOperationException("Invalid Vault response format (missing data.data)");
@@ -495,7 +495,7 @@ KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& 
     try {
         json j = json::parse(json_response);
          
-        KeyMetadata meta;
+        KeyMetadata meta = {};
          
         if (impl_->config.kv_version == "v2") {
             if (!j.contains("data")) {
@@ -653,7 +653,7 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
     int max_retries = impl_->config.transit_max_retries > 0 ? impl_->config.transit_max_retries : 3;
     int base_backoff_ms = impl_->config.transit_backoff_ms > 0 ? impl_->config.transit_backoff_ms : 200;
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 rng(rd());
     std::uniform_real_distribution<double> jitter_dist(0.5, 1.5);
 
@@ -670,7 +670,7 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
                 throw KeyOperationException("Failed to parse Vault transit response: " + std::string(e.what()), -1, response, false);
             }
              
-            std::string sig_b64;
+            std::string sig_b64 = {};
             if (j.contains("data") && j["data"].contains("signature")) {
                 sig_b64 = j["data"]["signature"].get<std::string>();
             } else if (j.contains("data") && j["data"].contains("signatures") && j["data"]["signatures"].is_array()) {
@@ -757,7 +757,7 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     // Duplicate the shared handle under the lock, then release before the
     // blocking network call (same pattern as performRequest).
     std::string url = impl_->config.vault_addr + path;
-    std::string vault_token;
+    std::string vault_token = {};
     CURL_ptr local_curl_raw = nullptr;
     {
         std::lock_guard<std::timed_mutex> lock(impl_->mutex);
@@ -769,7 +769,7 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
         vault_token  = impl_->config.vault_token;
     }
 
-    std::string response;
+    std::string response = {};
     CURL* local_curl = local_curl_raw.get();
     curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -852,8 +852,8 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     // Duplicate the shared handle under the lock, then release before the
     // blocking network call (same pattern as performRequest).
     std::string url = impl_->config.vault_addr + path;
-    std::string vault_token;
-    std::string kv_version;
+    std::string vault_token = {};
+    std::string kv_version = {};
     CURL_ptr local_curl_raw = nullptr;
     {
         std::lock_guard<std::timed_mutex> lock(impl_->mutex);
@@ -866,7 +866,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
         kv_version  = impl_->config.kv_version;
     }
 
-    std::string response;
+    std::string response = {};
     CURL* local_curl = local_curl_raw.get();
     curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "POST");

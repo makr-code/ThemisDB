@@ -30,7 +30,7 @@ protected:
         }
     }
     
-    std::string test_dir_;
+    std::string test_dir_ = {};
 };
 
 // Test 1: WAL Infrastructure Initialization

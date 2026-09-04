@@ -39,13 +39,13 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
 
     // --- Length checks -----------------------------------------------------
     if (password.size() < config_.min_length) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Password must be at least " << config_.min_length << " characters long";
         result.violations.push_back(msg.str());
     }
 
     if (config_.max_length > 0 && password.size() > config_.max_length) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Password must not exceed " << config_.max_length << " characters";
         result.violations.push_back(msg.str());
     }
@@ -84,7 +84,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     if (config_.min_unique_chars > 0) {
         std::unordered_set<char> unique_chars(password.begin(), password.end());
         if (unique_chars.size() < config_.min_unique_chars) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "Password must contain at least " << config_.min_unique_chars << " distinct characters";
             result.violations.push_back(msg.str());
         }
@@ -97,7 +97,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
             if (password[i] == password[i - 1]) {
                 ++run;
                 if (run > config_.max_consecutive_identical) {
-                    std::ostringstream msg;
+                    std::ostringstream msg = {};
                     msg << "Password must not contain more than " << config_.max_consecutive_identical
                         << " consecutive identical characters";
                     result.violations.push_back(msg.str());
@@ -113,7 +113,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     if (config_.min_entropy_bits > 0.0) {
         double entropy = computeEntropy(password);
         if (entropy < config_.min_entropy_bits) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "Password entropy (" << static_cast<int>(entropy) << " bits) is below the required minimum of "
                 << static_cast<int>(config_.min_entropy_bits) << " bits";
             result.violations.push_back(msg.str());

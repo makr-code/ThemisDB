@@ -157,7 +157,7 @@ static std::string liveUnescapeCopy(const std::string& val) {
     if (val == "\\N") {
       return "";
     }
-    std::string out;
+    std::string out = {};
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i + 1 < val.size()) {
             char nx = val[++i];
@@ -190,7 +190,7 @@ static std::vector<std::string> liveParseCopyRow(const std::string& line) {
 
 static bool liveParseCreateTable(const std::string& sql, LiveTableSchema& schema) {
     std::regex re(R"(CREATE TABLE\s+(?:(\w+)\.)?(\w+)\s*\()");
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, re)) {
       return false;
     }
@@ -207,7 +207,7 @@ static bool liveParseCreateTable(const std::string& sql, LiveTableSchema& schema
     }
     std::string cols = sql.substr(start + 1, end - start - 1);
     std::stringstream ss(cols);
-    std::string col_def;
+    std::string col_def = {};
     while (std::getline(ss, col_def, ',')) {
         col_def.erase(0, col_def.find_first_not_of(" \t\n\r"));
         col_def.erase(col_def.find_last_not_of(" \t\n\r") + 1);
@@ -220,7 +220,7 @@ static bool liveParseCreateTable(const std::string& sql, LiveTableSchema& schema
             col_def.find("UNIQUE")      != std::string::npos ||
             col_def.find("CHECK")       != std::string::npos) continue;
         std::istringstream css(col_def);
-        std::string word;
+        std::string word = {};
         std::string cname, ctype;
         // Keywords that end the type name and start a column constraint
         static const std::vector<std::string> kStopWords = {
@@ -264,7 +264,7 @@ struct LiveMiniImporter {
     bool validateSource(const std::string& path, std::vector<std::string>& errors) {
         std::ifstream f(path);
         if (!f) { errors.push_back("failed to open file for validation: " + path); return false; }
-        std::string line;
+        std::string line = {};
         int checked = 0;
         while (std::getline(f, line) && checked < 100) {
             if (line.find("PostgreSQL database dump") != std::string::npos ||
@@ -281,7 +281,7 @@ struct LiveMiniImporter {
     // e.g. "15.3" or "" if not found.
     std::string extractServerVersion(const std::string& path) {
         std::ifstream f(path);
-        std::string line;
+        std::string line = {};
         int checked = 0;
         while (std::getline(f, line) && checked < 20) {
             // Matches: "-- Dumped from database version 15.3"
@@ -307,7 +307,7 @@ struct LiveMiniImporter {
             current += line + " ";
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos) {
-                    LiveTableSchema s;
+                    LiveTableSchema s = {};
                     if (liveParseCreateTable(current, s)) {
                       schemas[s.name] = s;
                     }
@@ -340,7 +340,7 @@ struct LiveMiniImporter {
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE")  != std::string::npos ||
                     current.find("CREATE SCHEMA") != std::string::npos) {
-                    LiveTableSchema s;
+                    LiveTableSchema s = {};
                     if (liveParseCreateTable(current, s)) {
                         bool include = opts.include_tables.empty() ||
                             std::find(opts.include_tables.begin(),
@@ -359,7 +359,7 @@ struct LiveMiniImporter {
                     std::regex re(
                         R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
                         std::regex_constants::icase);
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(current, m, re)) {
                         std::string tname = m[1].str();
                         bool include = opts.include_tables.empty() ||
@@ -370,7 +370,7 @@ struct LiveMiniImporter {
                             std::find(opts.exclude_tables.begin(),
                                       opts.exclude_tables.end(), tname)
                                 != opts.exclude_tables.end();
-                        std::string data_line;
+                        std::string data_line = {};
                         while (std::getline(f, data_line)) {
                             if (data_line == "\\." ||
                                 data_line.rfind("\\.", 0) == 0) break;
@@ -420,7 +420,7 @@ static std::string liveDumpPath() {
 
 static std::string liveConnStr() {
     if (const char* env = std::getenv("THEMISDB_PG_CONNSTR"))
-        return env;
+        return env = {};
     return "";
 }
 

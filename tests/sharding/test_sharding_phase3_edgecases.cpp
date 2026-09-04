@@ -53,7 +53,7 @@ protected:
     static constexpr int kDefaultQuorumSize = 3;  // 5/2 + 1
 
     // Deterministic random number generator
-    uint64_t rng_state_;
+    uint64_t rng_state_ = {};
 
     Phase3QuorumLossFixture()
         : rng_state_(static_cast<uint64_t>(kShardPhase3Seed)) {}
@@ -84,8 +84,8 @@ protected:
  */
 class MockRecoveryOperation : public IdempotentRecoveryOperation {
 private:
-    std::string operation_id_;
-    bool should_succeed_;
+    std::string operation_id_ = {};
+    bool should_succeed_ = {};
     mutable int execution_count_ = 0;
     mutable std::string last_result_;
 

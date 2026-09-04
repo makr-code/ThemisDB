@@ -600,7 +600,7 @@ std::vector<AnnSearchResult> AnnFrontdoor::bruteForceSearch(
 std::string AnnFrontdoor::buildRoutingReason(
     AnnStrategy           strategy,
     const AnnQueryContext& context) const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << annStrategyName(strategy) << " selected";
     ss << " dataset_size=" << context.dataset_size;
     ss << " hot_tier=" << (context.hot_tier ? "true" : "false");

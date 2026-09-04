@@ -16,7 +16,7 @@ namespace detail {
                                  const char* file,
                                  int line,
                                  const std::string& detail) {
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "CUDA error in " << call << ": " << detail << " (" << file << ':' << line << ')';
     throw std::runtime_error(os.str());
 }
@@ -24,7 +24,7 @@ namespace detail {
 [[noreturn]] void throwCudaUnavailable(const char* call,
                                        const char* file,
                                        int line) {
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "CUDA runtime unavailable for " << call
        << " (" << file << ':' << line << ')';
     throw std::runtime_error(os.str());

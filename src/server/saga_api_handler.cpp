@@ -24,7 +24,7 @@ namespace server {
 // Helper: Base64 encode
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
@@ -127,7 +127,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo([[maybe_unused]] const std::string&
         return info; // Return empty info if file doesn't exist
     }
     
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         if (line.empty()) {
           continue;
@@ -221,7 +221,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail([[maybe_unused]] const std::string
         // Read signature data for hash and signature
         std::ifstream ifs("data/logs/saga_signatures.jsonl");
         if (ifs.is_open()) {
-            std::string line;
+            std::string line = {};
             while (std::getline(ifs, line)) {
                 if (line.empty()) {
                   continue;

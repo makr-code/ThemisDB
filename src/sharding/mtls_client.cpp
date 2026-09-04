@@ -319,7 +319,7 @@ std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string&
     // IPv6 format: [2001:db8::1]:8080 or 2001:db8::1 (without port)
     // IPv4 format: 192.168.1.1:8080 or example.com:8080
     
-    std::string host;
+    std::string host = {};
     std::string port = "8080"; // Default port
     
     std::string url = endpoint;

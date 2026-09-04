@@ -16,7 +16,7 @@ using themis::geo::GeoPolygon;
 namespace {
 
 std::string buildMultiPolygonGeoJson(std::size_t polygon_count) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << R"({"type":"MultiPolygon","coordinates":[)";
     for (std::size_t i = 0; i < polygon_count; ++i) {
         if (i != 0) {

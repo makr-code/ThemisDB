@@ -143,7 +143,7 @@ static std::string filenameStem(const std::string& path) {
 static std::vector<std::string> parseCsvRow(const std::string& line,
                                              char delim, char quote) {
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     bool in_quotes = false;
     size_t n = line.size();
     for (size_t i = 0; i < n; ++i) {
@@ -215,7 +215,7 @@ static ImportStats runCsvImport(std::istream& input,
         if (t == table) { stats.skipped_records++; return stats; }
 
     std::vector<std::string> columns;
-    std::string line;
+    std::string line = {};
     size_t line_number = 0;
 
     if (has_header && std::getline(input, line)) {
@@ -331,7 +331,7 @@ static ImportStats runJsonlImport(std::istream& input,
 
     stats.tables_processed++;
 
-    std::string line;
+    std::string line = {};
     size_t line_number = 0;
 
     while (std::getline(input, line)) {
@@ -693,7 +693,7 @@ TEST(CsvImport, Utf8Enforcement) {
 }
 
 TEST(CsvImport, MetricsCallback) {
-    std::ostringstream batch_data;
+    std::ostringstream batch_data = {};
     batch_data << "id\n";
     for (int i = 0; i < 2000; ++i) {
       batch_data << i << "\n";

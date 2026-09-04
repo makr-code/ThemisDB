@@ -336,7 +336,7 @@ PrecedenceEvaluation PolicyConflictDetector::evaluateRulePrecedence(
         }
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Priority=" << priority_component 
         << " DenyBonus=" << (is_deny_rule ? 50 : 0)
         << " SpecificityBonus=" << specificity_bonus
@@ -701,7 +701,7 @@ std::string PolicyConflictDetector::generateConflictId(
     const std::vector<std::string>& rule_ids,
     ConflictType conflict_type) const {
     
-    std::string type_str;
+    std::string type_str = {};
     switch (conflict_type) {
         case ConflictType::PERMIT_DENY: type_str = "PD"; break;
         case ConflictType::OVERLAPPING: type_str = "OV"; break;

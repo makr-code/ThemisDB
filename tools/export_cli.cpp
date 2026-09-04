@@ -195,7 +195,7 @@ static std::vector<themis::BaseEntity> loadCollection(const std::string& collect
     if (collection_name.size() > 1 && collection_name[0] == '@') {
         // Pipe mode: "@" prefix means read JSONL from stdin
         const std::string actual_name = collection_name.substr(1);
-        std::string line;
+        std::string line = {};
         size_t idx = 0;
         while (std::getline(std::cin, line)) {
             if (line.empty()) {
@@ -226,7 +226,7 @@ int main(int argc, char** argv) {
         return 3;
     }
 
-    ExportCliConfig cfg;
+    ExportCliConfig cfg = {};
     if (!parseArgs(argc, argv, cfg)) {
         printUsage(argv[0]);
         return 3;

@@ -189,7 +189,7 @@ std::shared_ptr<rocksdb::MergeOperator> Changefeed::makeSequenceMergeOperator() 
 }
 
 uint64_t Changefeed::loadInitialSequence() const {
-    std::string seq_value;
+    std::string seq_value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -617,7 +617,7 @@ void Changefeed::clear() {
 
 Changefeed::ChangeEvent Changefeed::getEvent([[maybe_unused]] uint64_t sequence) const {
     std::string key = makeKey(sequence);
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -1107,7 +1107,7 @@ void Changefeed::retentionCleanupThread() {
             applyRetentionPolicy();
 
             // Take a local copy of the policy fields we need, holding the lock
-            bool do_compact;
+            bool do_compact = {};
             {
                 std::lock_guard<std::mutex> plk(retention_mutex_);
                 do_compact = retention_policy_.compact_on_cleanup;

@@ -224,7 +224,7 @@ TEST(GovernancePipelineE2ETest, GOV02_DeniedPermissionPreventesInferenceCall) {
     const auto perm = engine.checkInferencePermission(strengGeheimHeaders());
 
     // Governance gate: only invoke inference when permission is granted.
-    std::string response;
+    std::string response = {};
     if (perm.allowed) {
         response = inference.call("test prompt");
     } else {
@@ -255,7 +255,7 @@ TEST(GovernancePipelineE2ETest, GOV02b_PermittedRequestInvokesInference) {
 
     const auto perm = engine.checkInferencePermission(open_headers);
 
-    std::string response;
+    std::string response = {};
     if (perm.allowed) {
         response = inference.call("open classification query");
     } else {

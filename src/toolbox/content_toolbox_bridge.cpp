@@ -176,7 +176,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     out.child_ids   = cm_result.extracted_content_ids;
 
     // ── Step 2: Retrieve extracted text for Toolbox enrichment
-    std::string extracted_text;
+    std::string extracted_text = {};
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
         auto assembly = impl_->content_manager_->assembleContent(
@@ -276,9 +276,9 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     }
 
     // Retrieve metadata to get MIME type and filename hint
-    std::string mime_type;
-    std::string filename_hint;
-    std::string extracted_text;
+    std::string mime_type = {};
+    std::string filename_hint = {};
+    std::string extracted_text = {};
 
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
@@ -406,7 +406,7 @@ std::string ContentToolboxBridge::getMetricsText() const {
     const uint64_t bucket_10000_plus = impl_->bridge_latency_us_bucket_10000_plus_.load();
     const uint64_t latency_sum_us = impl_->bridge_latency_us_sum_.load();
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP toolbox_bridge_failures_total Total bridge operation failures.\n";
     out << "# TYPE toolbox_bridge_failures_total counter\n";

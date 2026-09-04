@@ -224,7 +224,7 @@ void TokenBucketRateLimiter::reset() {
 
 std::string TokenBucketRateLimiter::redisKey(const std::string& bucket_id,
                                               Priority prio) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.redis.key_prefix << ":" << bucket_id
         << ":" << static_cast<int>(prio);
     return oss.str();
@@ -321,7 +321,7 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
                                              [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     // F-008: borrow a pool connection (blocks if all are in use).
-    size_t slot_idx;
+    size_t slot_idx = {};
     {
         std::unique_lock<std::mutex> lk(redis_pool_.pool_mu);
         redis_pool_.pool_cv.wait(lk, [this]() {
@@ -622,7 +622,7 @@ bool TokenBucketRateLimiter::isHealthy() const {
 
 std::string TokenBucketRateLimiter::getHealthStatus() const {
     // OP-HEALTH-002: Return detailed readiness status (thread-safe atomic reads)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"status\": \"" << (isHealthy() ? "healthy" : "unhealthy") << "\", "
         << "\"total_requests\": " << total_requests_.load(std::memory_order_relaxed) << ", "

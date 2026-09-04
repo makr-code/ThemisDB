@@ -675,7 +675,7 @@ std::string GlobalTransactionManager::generateTransactionId() {
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "gtxn-" << coordinator_id_ << "-" << now_ms << "-" << counter;
     return oss.str();
 }

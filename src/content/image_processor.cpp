@@ -247,7 +247,7 @@ std::vector<ContentChunk> ImageProcessor::chunk(
     
     // Chunk OCR text if present
     auto sentences = splitSentences(result.text);
-    std::string current_chunk;
+    std::string current_chunk = {};
     int sequence = 0;
     
     for (const auto& sentence : sentences) {
@@ -551,7 +551,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
     }
 
     // 6. Return as 16-character lowercase hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << hash;
     return oss.str();
 }

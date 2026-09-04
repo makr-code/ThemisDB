@@ -59,7 +59,7 @@ std::string QueryPlanVisualizer::planNodeTypeName(PlanNodeType type) {
 QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
                                               const QueryOptimizer::Plan& plan) {
     // Outermost node: Return. Use the most-selective count as the final output estimate.
-    QueryPlanNode return_node;
+    QueryPlanNode return_node = {};
     return_node.type = PlanNodeType::Return;
     return_node.description = "Return";
     return_node.estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
@@ -161,7 +161,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
     }
 
     // Cost / rows
-    std::ostringstream ann;
+    std::ostringstream ann = {};
     ann << std::fixed << std::setprecision(2);
     ann << "  (cost=" << node.estimated_cost
         << " rows=" << node.estimated_rows;
@@ -194,7 +194,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
 }
 
 std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze) {
-    std::string out;
+    std::string out = {};
     out.reserve(4096);  // Pre-allocate for typical query plan output (5-20KB)
     out += analyze ? "EXPLAIN ANALYZE\n" : "EXPLAIN\n";
     out += std::string(60, '-') + "\n";
@@ -202,7 +202,7 @@ std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze)
     out += std::string(60, '-') + "\n";
  
     // Summary line
-    std::ostringstream summary;
+    std::ostringstream summary = {};
     summary << std::fixed << std::setprecision(2);
     summary << "Estimated total cost: " << root.estimated_cost
             << "  Estimated rows: " << root.estimated_rows << "\n";
@@ -269,7 +269,7 @@ nlohmann::json QueryPlanVisualizer::toJSON(const QueryPlanNode& root, bool analy
 //   \n, \r, \t are invalid bare bytes inside a quoted string; replace with
 //   their DOT escape sequences (\\n etc.) which Graphviz renders as printable.
 static std::string dotEscape(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -308,7 +308,7 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
         shape = "ellipse";
     }
 
-    std::ostringstream label;
+    std::ostringstream label = {};
     label << planNodeTypeName(node.type);
     if (!node.description.empty() &&
         node.description != planNodeTypeName(node.type)) {
@@ -332,14 +332,14 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
 }
 
 std::string QueryPlanVisualizer::toDOT(const QueryPlanNode& root) {
-    std::string nodes_out;
-    std::string edges_out;
+    std::string nodes_out = {};
+    std::string edges_out = {};
     nodes_out.reserve(8192);  // Pre-allocate for node definitions
     edges_out.reserve(4096);  // Pre-allocate for edge definitions
     int counter = 0;
     toDOTImpl(root, counter, nodes_out, edges_out);
  
-    std::string dot;
+    std::string dot = {};
     dot.reserve(12288);  // Pre-allocate for complete DOT output
     dot += "digraph QueryPlan {\n";
     dot += "  rankdir=TB;\n";

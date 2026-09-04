@@ -282,15 +282,15 @@ static json parseYamlScalar(const std::string& raw) {
 //       depends_on: [step0]
 json simpleYamlToJson(const std::string& yaml_text) {
     std::istringstream stream(yaml_text);
-    std::string line;
+    std::string line = {};
     json root = json::object();
     json* cur_mapping = &root;
-    std::string cur_sequence_key;
+    std::string cur_sequence_key = {};
     json* cur_sequence = nullptr;
     json* cur_seq_item = nullptr;
     int   seq_item_indent = -1;
-    std::string multiline_key;
-    std::string multiline_buf;
+    std::string multiline_key = {};
+    std::string multiline_buf = {};
     int  multiline_indent = -1;
 
     auto flush_multiline = [&]() {
@@ -388,7 +388,7 @@ json simpleYamlToJson(const std::string& yaml_text) {
               inner.pop_back();
             }
             std::istringstream ss(inner);
-            std::string tok;
+            std::string tok = {};
             while (std::getline(ss, tok, ',')) {
               arr.push_back(parseYamlScalar(trim(tok)));
             }
@@ -552,12 +552,12 @@ WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
     if (!f) {
       throw std::runtime_error("WorkflowLoader: cannot open file '" + path + "'");
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     const std::string content = ss.str();
 
     // Detect format from extension
-    std::string ext;
+    std::string ext = {};
     const size_t dot = path.rfind('.');
     if (dot != std::string::npos) {
       ext = path.substr(dot + 1);
@@ -579,7 +579,7 @@ WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
 // ============================================================================
 
 WorkflowValidationResult WorkflowLoader::validate(const WorkflowDefinition& def) {
-    WorkflowValidationResult result;
+    WorkflowValidationResult result = {};
 
     if (def.id.empty()) {
       result.addError("", "workflow 'id' must not be empty");
@@ -676,7 +676,7 @@ Return ONLY a JSON array (no markdown, no commentary) where each element is:
 std::string TaskDecomposer::buildChainOfThoughtPrompt(
     const std::string& task, const std::string& extra_ctx) const {
     const auto& cfg = impl_->config;
-    std::ostringstream p;
+    std::ostringstream p = {};
     p << "You are a task-planning assistant";
     if (!cfg.domain_context.empty()) {
       p << " specialising in " << cfg.domain_context;
@@ -699,7 +699,7 @@ std::string TaskDecomposer::buildChainOfThoughtPrompt(
 std::string TaskDecomposer::buildDirectJsonPrompt(
     const std::string& task, const std::string& extra_ctx) const {
     const auto& cfg = impl_->config;
-    std::ostringstream p;
+    std::ostringstream p = {};
     p << "Decompose the following task into at most "
       << (cfg.max_subtasks > 0 ? cfg.max_subtasks : 8) << " subtasks";
     if (!cfg.domain_context.empty()) {
@@ -716,7 +716,7 @@ std::string TaskDecomposer::buildDirectJsonPrompt(
 std::string TaskDecomposer::buildFewShotPrompt(
     const std::string& task, const std::string& extra_ctx) const {
     const auto& cfg = impl_->config;
-    std::ostringstream p;
+    std::ostringstream p = {};
     p << "You are a task-planning assistant";
     if (!cfg.domain_context.empty()) {
       p << " specialising in " << cfg.domain_context;

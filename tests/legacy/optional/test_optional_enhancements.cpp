@@ -394,7 +394,7 @@ TEST(AuditLogger, LogHandler) {
     logger.clearHandlers();
     
     bool handler_called = false;
-    std::string logged_operation;
+    std::string logged_operation = {};
     
     logger.addHandler([&](const AuditLogEntry& entry) {
         handler_called = true;

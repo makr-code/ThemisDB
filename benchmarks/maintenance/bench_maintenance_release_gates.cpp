@@ -178,7 +178,7 @@ BENCHMARK(BM_MTN04_BatchCast)
 #include "maintenance/maintenance_health_report.h"
 
 static void BM_MTN05_InFlightGuard(benchmark::State& state) {
-    std::mutex mu;
+    std::mutex mu = {};
     std::unordered_set<std::string> in_flight;
     const std::string sched_id = "bench-sched-42";
 
@@ -295,7 +295,7 @@ BENCHMARK(BM_MTN06_PersistReloadRoundTrip)
  * Gate: p99 ≤ 200 ns.
  */
 static void BM_MTN07_RingBufferWrite(benchmark::State& state) {
-    std::mutex mu;
+    std::mutex mu = {};
     std::deque<themis::maintenance::DispatchOutcome> ring;
     static constexpr int kCap = 256;
 

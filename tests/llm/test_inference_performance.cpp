@@ -87,7 +87,7 @@ protected:
 
     /** Lightweight simulation fallback used by structural-only tests. */
     std::string simulateGeneration(size_t num_tokens) {
-        std::string result;
+        std::string result = {};
         result.reserve(num_tokens * 8);
         for (size_t i = 0; i < num_tokens; ++i) {
             result += "token" + std::to_string(i) + " ";
@@ -760,7 +760,7 @@ TEST_F(InferencePerformanceTest, Concurrent_ThroughputMeasurement) {
     std::atomic<int> completed{0};
     test::ThroughputCalculator throughput;
     std::vector<std::thread> threads;
-    std::mutex tps_mutex;
+    std::mutex tps_mutex = {};
 
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&, i]() {
@@ -817,7 +817,7 @@ TEST_F(InferencePerformanceTest, Concurrent_Scalability) {
     for (int num_threads : thread_counts) {
         test::ThroughputCalculator throughput;
         std::vector<std::thread> threads;
-        std::mutex tps_mutex;
+        std::mutex tps_mutex = {};
 
         for (int i = 0; i < num_threads; ++i) {
             threads.emplace_back([&, i]() {

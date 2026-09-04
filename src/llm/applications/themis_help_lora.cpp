@@ -152,7 +152,7 @@ public:
     
     std::string buildDocumentationPrompt(const std::string& question) {
         // Build a prompt template for documentation Q&A
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         prompt << "### System:\n"
                << "You are a helpful ThemisDB documentation assistant. Provide accurate, "
                << "concise answers based on ThemisDB documentation. Include code examples "
@@ -177,7 +177,7 @@ public:
                     // Resolve model path: prefer the injected ModelPathProviderFn
                     // (LLMModelStorage::resolveGGUFPath), fall back to the
                     // relative convention only when no provider is wired.
-                    std::string model_path;
+                    std::string model_path = {};
                     if (config.model_path_provider) {
                         model_path = config.model_path_provider(config.base_model_id);
                         if (model_path.empty()) {
@@ -210,7 +210,7 @@ public:
             }
             
             // Generate response using LLM
-            std::string response;
+            std::string response = {};
             if (llama_wrapper && llama_wrapper->isModelLoaded()) {
                 // Build prompt for documentation Q&A
                 std::string prompt = buildDocumentationPrompt(question);

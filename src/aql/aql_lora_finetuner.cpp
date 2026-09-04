@@ -59,7 +59,7 @@ std::string isoTimestamp() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -418,7 +418,7 @@ AQLDatasetBuilder &AQLDatasetBuilder::loadFromJsonObject(const json &data) {
         if (!item.is_object()) {
             continue;
         }
-        TrainingDataSample s;
+        TrainingDataSample s = {};
         if (item.contains("input")) {
             s.input = item["input"].get<std::string>();
         }
@@ -562,7 +562,7 @@ struct AQLLoRAFinetuner::Impl {
     std::shared_ptr<::themis::llm::AdapterRegistry> registry;
     AQLDatasetBuilder dataset_builder;
     bool trained = false;
-    std::string trained_adapter_id;
+    std::string trained_adapter_id = {};
     mutable std::mutex mutex;
 
     explicit Impl(const Config &cfg, std::shared_ptr<::themis::llm::lora::LoRATrainingService> svc)

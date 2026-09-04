@@ -122,7 +122,7 @@ static uint64_t testComputeRowHash(const std::string& tuple_str,
     if (key_columns.empty() || schema_columns.empty()) {
         return test_fnv1a64(tuple_str.data(), tuple_str.size());
     }
-    std::string key_data;
+    std::string key_data = {};
     for (const auto& kc : key_columns) {
         auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
         if (it != schema_columns.end()) {
@@ -143,7 +143,7 @@ static std::unordered_set<uint64_t> testLoadDeltaHashes(const std::string& path)
     if (!f) {
       return hashes;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
           continue;
@@ -335,7 +335,7 @@ static std::string unquoteIdent(const std::string& s) {
 
 /// Strip MySQL conditional comments (/*! ... */) and block comments (/* ... */).
 static std::string stripMySQLComments(const std::string& sql) {
-    std::string result;
+    std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
     while (i < sql.size()) {
@@ -374,7 +374,7 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
 
         if (c == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = tuple_str[i];
                 if (sc == '\\' && i + 1 < n) {
@@ -417,7 +417,7 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
               token.clear();
             }
             else token = token.substr(tf, tl - tf + 1);
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
             if (upper_tok == "NULL") {
@@ -450,7 +450,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
     std::regex table_regex(
         R"(CREATE\s+(?:TEMPORARY\s+)?TABLE\s+(?:(?:`([^`]+)`|(\w+))\.)?(?:`([^`]+)`|(\w+))\s*\()",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
     if (!std::regex_search(sql, match, table_regex)) {
       return false;
     }
@@ -528,7 +528,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
           continue;
         }
 
-        std::string up;
+        std::string up = {};
         for (size_t i = 0; i < col_def.size() && i < 20; ++i)
             up += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
         if (up.find("PRIMARY") != std::string::npos ||
@@ -539,7 +539,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             up.find("CHECK")   != std::string::npos ||
             up.find("FULLTEXT") != std::string::npos) continue;
 
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '`') {
             size_t end_tick = col_def.find('`', 1);
@@ -562,7 +562,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) ++type_start;
 
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size()) {
@@ -903,7 +903,7 @@ TEST(MySQLInsertValues, CommaInsideString) {
 /// Returns true if the file content contains a MySQL dump header.
 static bool looksLikeMySQLDump(const std::string& content) {
     std::istringstream ss(content);
-    std::string line;
+    std::string line = {};
     int checked = 0;
     while (std::getline(ss, line) && checked < 100) {
         if (line.find("MySQL dump") != std::string::npos ||
@@ -1131,7 +1131,7 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                 std::string upper = sql;
                 std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
                 if (upper.find("CREATE TABLE") != std::string::npos) {
-                    TableSchema ts;
+                    TableSchema ts = {};
                     if (parseCreateTable(sql, ts)) {
                         schemas[ts.name] = ts;
                         stats.tables_processed++;
@@ -1161,7 +1161,7 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
             std::regex insert_re(
                 R"(INSERT\s+(?:LOW_PRIORITY\s+|DELAYED\s+|HIGH_PRIORITY\s+)?(?:IGNORE\s+)?INTO\s+(?:`([^`]+)`\.)?(?:`([^`]+)`|(\w+))\s*(?:\(([^)]*)\))?\s+VALUES\s*(.+?)\s*;?\s*$)",
                 std::regex_constants::icase);
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(sql, m, insert_re)) {
                 std::string table_name = m[2].matched ? m[2].str() : m[3].str();
 
@@ -1176,7 +1176,7 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
 
                 if (m[4].matched && !m[4].str().empty()) {
                     std::istringstream css(m[4].str());
-                    std::string col;
+                    std::string col = {};
                     while (std::getline(css, col, ',')) {
                         col.erase(0, col.find_first_not_of(" \t`"));
                         col.erase(col.find_last_not_of(" \t`") + 1);
@@ -1206,7 +1206,7 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                         // Build a full-row string for the fallback hash (when
                         // delta_key_columns is empty).  Join with \x01 to avoid
                         // false collisions from adjacent field concatenation.
-                        std::string tuple_str;
+                        std::string tuple_str = {};
                         for (size_t vi = 0; vi < vals.size(); ++vi) {
                             if (vi > 0) {
                               tuple_str += '\x01';
@@ -1408,7 +1408,7 @@ struct JdbcConfig {
     std::string host;
     int         port               = 3306;
     std::string database;
-    std::string user;
+    std::string user = {};
     bool        ssl                = false;
     bool        tinyint1_as_boolean = false;
 };
@@ -1427,8 +1427,8 @@ static bool parseJdbcUrl(const std::string& url, JdbcConfig& out) {
         return false;
     }
 
-    std::string authority_path;
-    std::string query_string;
+    std::string authority_path = {};
+    std::string query_string = {};
     size_t q_pos = url.find('?', authority_start);
     if (q_pos != std::string::npos) {
         authority_path = url.substr(authority_start, q_pos - authority_start);
@@ -1458,7 +1458,7 @@ static bool parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     out.database = db_path;
 
     std::istringstream qs(query_string);
-    std::string param;
+    std::string param = {};
     while (std::getline(qs, param, '&')) {
         size_t eq = param.find('=');
         if (eq == std::string::npos) {
@@ -1466,11 +1466,11 @@ static bool parseJdbcUrl(const std::string& url, JdbcConfig& out) {
         }
         std::string key   = param.substr(0, eq);
         std::string value = param.substr(eq + 1);
-        std::string lower_key;
+        std::string lower_key = {};
         for (char c : key) {
           lower_key += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
-        std::string lower_val;
+        std::string lower_val = {};
         for (char c : value) {
           lower_val += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -1558,7 +1558,7 @@ static std::string mapMySQLTypeJdbc(const std::string& mysql_type,
 
     // JDBC tinyInt1isBit
     if (tinyint1_as_boolean) {
-        std::string lower_type;
+        std::string lower_type = {};
         for (char c : mysql_type)
             lower_type += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         if (lower_type == "tinyint(1)") {

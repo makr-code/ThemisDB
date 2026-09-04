@@ -933,7 +933,7 @@ HttpServer::HttpServer(
 
     // Initialize Replication Topology API Handler (web UI visualizer)
     {
-        std::string repl_primary_id;
+        std::string repl_primary_id = {};
         if (const char* pid = std::getenv("THEMIS_WAL_PRIMARY_ID")) {
             repl_primary_id = pid;
         }
@@ -1639,7 +1639,7 @@ HttpServer::HttpServer(
         bool loaded_any = false;
         for (const auto& policies_path : candidates) {
             if (std::filesystem::exists(policies_path)) {
-                std::string err;
+                std::string err = {};
                 if (policy_engine_->loadFromFile(policies_path.string(), &err)) {
                     THEMIS_INFO("PolicyEngine: loaded policies from {}", policies_path.string());
                     loaded_any = true;
@@ -1704,7 +1704,7 @@ HttpServer::HttpServer(
     // from the THEMIS_RATE_LIMIT_WHITELIST env var (comma-separated IPs).
     if (const char* wl_env = std::getenv("THEMIS_RATE_LIMIT_WHITELIST")) {
         std::istringstream wl_stream{wl_env};
-        std::string wl_ip;
+        std::string wl_ip = {};
         while (std::getline(wl_stream, wl_ip, ',')) {
             if (!wl_ip.empty()) {
               rate_config.whitelist_ips.push_back(wl_ip);
@@ -1812,7 +1812,7 @@ HttpServer::HttpServer(
     if (auto v = themis_get_env("THEMIS_CORS_ALLOWED_ORIGINS")) {
         // Comma-separated exact origins, e.g. https://app.example.com,https://admin.example.com
         std::istringstream iss(*v);
-        std::string origin;
+        std::string origin = {};
         while (std::getline(iss, origin, ',')) {
             if (!origin.empty()) {
               cors_allowed_origins_.push_back(origin);
@@ -2542,8 +2542,8 @@ void HttpServer::recordContinuousLearningQueryTelemetry(
     const uint64_t latency_us = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count());
 
-    std::string query_text;
-    std::string table_name;
+    std::string query_text = {};
+    std::string table_name = {};
     bool used_index = true;
     double complexity = 1.0;
 
@@ -2703,7 +2703,7 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
 namespace {
     // Helper function to URL decode a string
     std::string urlDecode(const std::string& str) {
-        std::string result;
+        std::string result = {};
         result.reserve(str.size());
         for (auto it = str.begin(); it != str.end();) {
             if (*it == '%' && std::distance(it, str.end()) >= 3) {
@@ -4531,7 +4531,7 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Extract or generate request correlation ID (X-Correlation-ID).
     // TracingMiddleware sets the logger pattern so every log line on this thread
     // carries the correlation ID.  The RAII guard resets the context on all exit paths.
-    std::string correlation_id;
+    std::string correlation_id = {};
     if (tracing_middleware_) {
         std::lock_guard<std::mutex> lock(tracing_middleware_mutex_);
         if (tracing_middleware_) {
@@ -4553,7 +4553,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }), s.end());
         return s;
     };
-    std::string request_id;
+    std::string request_id = {};
     auto req_id_it = req.find("X-Request-ID");
     if (req_id_it != req.end() && !req_id_it->value().empty()) {
         request_id = sanitize_header_value(std::string(req_id_it->value()));
@@ -4997,7 +4997,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             applyGovernanceHeaders(req, response);
                             return response;
                         }
-                        std::error_code ec;
+                        std::error_code ec = {};
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);
                         // Use filesystem::equivalent() or a normalised prefix check that is
                         // case-insensitive on platforms with case-insensitive file systems
@@ -7704,7 +7704,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
                     static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(httplib_req.path, m, re)) {
                         httplib_req.matches = m;
                     }
@@ -7728,7 +7728,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
                     static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(httplib_req.path, m, re)) {
                         httplib_req.matches = m;
                     }
@@ -9511,7 +9511,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
             return makeErrorResponse(http::status::service_unavailable, "Keys API not available", req);
         }
         // Parse key_id from body or query string
-        std::string key_id;
+        std::string key_id = {};
         try {
             if (!req.body().empty()) {
                 auto body = json::parse(req.body());
@@ -9529,7 +9529,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
             if (qpos != std::string::npos) {
                 auto qs = target.substr(qpos + 1);
                 std::istringstream iss(qs);
-                std::string kv;
+                std::string kv = {};
                 while (std::getline(iss, kv, '&')) {
                     auto eq = kv.find('=');
                     if (eq != std::string::npos) {
@@ -9718,7 +9718,7 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
-        json body;
+        json body = {};
         if (!req.body().empty()) {
             try { body = json::parse(req.body()); } catch (...) {
                 THEMIS_DEBUG("http_server: unhandled exception caught");
@@ -9726,7 +9726,7 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             }
         }
         // Extract client IP from X-Forwarded-For or remote endpoint
-        std::string client_ip;
+        std::string client_ip = {};
         auto fwd = req.find("X-Forwarded-For");
         if (fwd != req.end()) {
             client_ip = std::string(fwd->value());
@@ -9768,7 +9768,7 @@ http::response<http::string_body> HttpServer::handleSessionList(
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
         // Optionally accept current session from a header or query param
-        std::string current_session;
+        std::string current_session = {};
         auto cs_hdr = req.find("X-Session-Id");
         if (cs_hdr != req.end()) {
           current_session = std::string(cs_hdr->value());
@@ -9833,7 +9833,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
-        std::string current_session;
+        std::string current_session = {};
         if (!req.body().empty()) {
             try {
                 auto body = json::parse(req.body());
@@ -9870,13 +9870,13 @@ http::response<http::string_body> HttpServer::handleSamlLogin(
                                      "SAML provider not configured", req);
         }
         // Extract optional relay_state from query string.
-        std::string relay_state;
+        std::string relay_state = {};
         const std::string target = std::string(req.target());
         auto qpos = target.find('?');
         if (qpos != std::string::npos) {
             const std::string qs = target.substr(qpos + 1);
             std::istringstream iss(qs);
-            std::string kv;
+            std::string kv = {};
             while (std::getline(iss, kv, '&')) {
                 auto eq = kv.find('=');
                 if (eq != std::string::npos && kv.substr(0, eq) == "relay_state") {
@@ -9921,13 +9921,13 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
         // recovered from: (1) a server-side session keyed on the browser session cookie,
         // or (2) the RelayState when it encodes the request_id.  For programmatic / test
         // clients an explicit X-SAML-RequestId header is also accepted.
-        std::string saml_response_b64;
-        std::string relay_state;
+        std::string saml_response_b64 = {};
+        std::string relay_state = {};
 
         const auto& body = req.body();
         if (!body.empty()) {
             std::istringstream iss(body);
-            std::string kv;
+            std::string kv = {};
             while (std::getline(iss, kv, '&')) {
                 auto eq = kv.find('=');
                 if (eq == std::string::npos) {
@@ -9947,7 +9947,7 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
         // Recover the original SP-initiated request_id (if any).
         // Check the X-SAML-RequestId header first (programmatic clients / proxies),
         // then fall back to an empty string (IdP-initiated flow or no validation needed).
-        std::string in_response_to;
+        std::string in_response_to = {};
         auto req_id_hdr = req.find("X-SAML-RequestId");
         if (req_id_hdr != req.end()) {
             in_response_to = std::string(req_id_hdr->value());
@@ -9972,7 +9972,7 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
             return makeErrorResponse(http::status::service_unavailable,
                                      "SAML provider not configured", req);
         }
-        std::string session_index;
+        std::string session_index = {};
         if (!req.body().empty()) {
             try {
                 auto body_json = json::parse(req.body());
@@ -10074,7 +10074,7 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
         if (qpos != std::string::npos) {
             auto qs = target.substr(qpos + 1);
             std::istringstream iss(qs);
-            std::string kv;
+            std::string kv = {};
             while (std::getline(iss, kv, '&')) {
                 auto eq = kv.find('=');
                 if (eq != std::string::npos) {
@@ -10097,7 +10097,7 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
 // -----------------------------------------------------------------------------
 http::response<http::string_body> HttpServer::handleMetrics(const http::request<http::string_body>& req) {
     try {
-        std::ostringstream out;
+        std::ostringstream out = {};
         out << "# HELP themis_content_blob_compressed_bytes_total Total bytes stored compressed for content blobs\n";
         out << "# TYPE themis_content_blob_compressed_bytes_total counter\n";
         out << "# HELP themis_content_blob_uncompressed_bytes_total Total uncompressed/original bytes observed for content blob uploads\n";
@@ -10268,7 +10268,7 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         out << "themis_wal_apply_latency_seconds_count " << wal_latency_count << "\n";
         out.unsetf(std::ios::floatfield);
 
-        std::string wal_last_lsn;
+        std::string wal_last_lsn = {};
         if (wal_api_) {
             wal_last_lsn = wal_api_->getLastAppliedLsn();
         }
@@ -10364,7 +10364,7 @@ namespace {
         }
         auto qs = target.substr(qpos + 1);
         std::istringstream iss(qs);
-        std::string kv;
+        std::string kv = {};
         while (std::getline(iss, kv, '&')) {
             auto eq = kv.find('=');
             std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);
@@ -10730,7 +10730,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                 // format
                 if (lg.contains("format")) {
                     auto fmt = lg["format"].get<std::string>();
-                    std::string pattern;
+                    std::string pattern = {};
                     if (fmt == "json") {
                         // Minimal JSON line pattern
                         pattern = "{\"ts\":\"%Y-%m-%dT%H:%M:%S.%e\",\"level\":\"%l\",\"thread\":%t,\"msg\":\"%v\"}";
@@ -11352,7 +11352,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     }
 
     // Authorization: require pii:write or admin (erase is a write operation)
-    std::string user_id;
+    std::string user_id = {};
     if (auth_ && auth_->isEnabled()) {
         const auto auth_header = req[http::field::authorization];
         if (auth_header.empty()) {
@@ -11813,7 +11813,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata
     try {
         // Extract ID from path: /llm/interaction/{id}/metadata or /llm/interaction/{id}
         std::string target(req.target());
-        std::string id;
+        std::string id = {};
         
         // Remove /llm/interaction/ prefix
         static constexpr const char* LLM_INTERACTION_PREFIX = "/llm/interaction/";
@@ -12339,7 +12339,7 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
 
     try {
         auto v = storage_->get("config:content_filter_schema");
-        json resp;
+        json resp = {};
         if (v) {
             std::string s(v->begin(), v->end());
             resp = json::parse(s);
@@ -12393,7 +12393,7 @@ http::response<http::string_body> HttpServer::handleContentConfigGet(
     
     try {
         auto v = storage_->get("config:content");
-        json resp;
+        json resp = {};
         if (v) {
             std::string s(v->begin(), v->end());
             resp = json::parse(s);
@@ -12522,7 +12522,7 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
 
     try {
         auto v = storage_->get("config:edge_weights");
-        json resp;
+        json resp = {};
         if (v) {
             std::string s(v->begin(), v->end());
             resp = json::parse(s);
@@ -12908,13 +12908,13 @@ http::response<http::string_body> HttpServer::makePreflightResponse(
     const http::request<http::string_body>& req
 ) {
     // Determine request origin
-    std::string origin;
+    std::string origin = {};
     if (auto it = req.find(http::field::origin); it != req.end()) {
         origin = std::string(it->value());
     }
 
     // Decide allowed origin
-    std::string allow_origin;
+    std::string allow_origin = {};
     if (cors_allow_all_) {
         allow_origin = "*";
     } else if (!origin.empty()) {
@@ -13054,7 +13054,7 @@ void HttpServer::applyGovernanceHeaders(
         static const APIVersionManager api_version_mgr;
 
         // Determine requested version from Accept-Version or API-Version request header
-        std::string version_header;
+        std::string version_header = {};
         auto av_it = req.find(APIHeaders::ACCEPT_VERSION);
         if (av_it != req.end()) {
             version_header = std::string(av_it->value());
@@ -13107,7 +13107,7 @@ void HttpServer::applyGovernanceHeaders(
     // CORS Headers
     // ------------------------------------------------------------------------
     // Determine origin
-    std::string origin;
+    std::string origin = {};
     auto it = req.find(http::field::origin);
     if (it != req.end()) {
         origin = std::string(it->value());
@@ -13405,7 +13405,7 @@ void HttpServer::Session::processRequest() {
             // Validate JWT from the HTTP upgrade Authorization header before
             // accepting the WebSocket handshake so that auth cannot be bypassed
             // via the WebSocket upgrade path.
-            std::string ws_auth_token;
+            std::string ws_auth_token = {};
             if (server_->auth_ && server_->auth_->isEnabled()) {
                 const auto auth_header = request_[http::field::authorization];
                 if (auth_header.empty()) {
@@ -13758,7 +13758,7 @@ void HttpServer::SslSession::processRequest() {
 
             // Validate JWT from the HTTP upgrade Authorization header before
             // accepting the WebSocket handshake.
-            std::string ws_auth_token;
+            std::string ws_auth_token = {};
             if (server_->auth_ && server_->auth_->isEnabled()) {
                 const auto auth_header = request_[http::field::authorization];
                 if (auth_header.empty()) {
@@ -13939,8 +13939,8 @@ http::response<http::string_body> HttpServer::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string table;
-        std::string column;
+        std::string table = {};
+        std::string column = {};
 
         // Try parsing JSON body first
         if (!req.body().empty()) {
@@ -14126,7 +14126,7 @@ http::response<http::string_body> HttpServer::handleIndexSuggestions(
         auto target = std::string(req.target());
         
         // Parse query parameters
-        std::string collection;
+        std::string collection = {};
         double min_score = 0.5;
         size_t limit = 10;
         
@@ -14135,7 +14135,7 @@ http::response<http::string_body> HttpServer::handleIndexSuggestions(
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
             std::istringstream iss(query_string);
-            std::string param;
+            std::string param = {};
             
             while (std::getline(iss, param, '&')) {
                 auto eq_pos = param.find('=');
@@ -14184,7 +14184,7 @@ http::response<http::string_body> HttpServer::handleIndexPatterns(
         auto target = std::string(req.target());
         
         // Parse collection from query params
-        std::string collection;
+        std::string collection = {};
         auto query_pos = target.find('?');
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
@@ -14336,7 +14336,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     auto& rate_limiter = *rate_limiter_;
     
     std::string client_ip = extractClientIP(req);
-    std::string user_id;
+    std::string user_id = {};
     
     // Extract user ID from JWT token if authenticated
     if (auth_ && auth_->isEnabled()) {
@@ -14949,7 +14949,7 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         }
         
         // Extract error code from path: /api/v1/errors/:code
-        std::string code_str;
+        std::string code_str = {};
         if (path_only.rfind("/api/v1/errors/", 0) == 0) {
             code_str = path_only.substr(std::string("/api/v1/errors/").size());
         }

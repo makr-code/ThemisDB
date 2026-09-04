@@ -400,7 +400,7 @@ void GRPCServer::recordRPC(const std::string& method, bool success,
 // ============================================================================
 
 std::string GRPCServer::getMetricsText() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     // Snapshot method-level counters
     std::unordered_map<std::string, uint64_t> reqs, errs, lats;
@@ -475,7 +475,7 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
 
     // Build a minimal JSON object (no external JSON library required)
     auto jsEscape = [](const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size() + 2);
         out += '"';
         for (char c : s) {
@@ -490,7 +490,7 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
         return out;
     };
 
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << "{"
        << "\"timestamp_ms\":" << std::chrono::duration_cast<std::chrono::milliseconds>(
               std::chrono::system_clock::now().time_since_epoch()).count()
@@ -512,7 +512,7 @@ std::string GRPCServer::loadFile(const std::string& path) {
     if (!file) {
       throw std::runtime_error("Failed to open file: " + path);
     }
-    std::ostringstream buf;
+    std::ostringstream buf = {};
     buf << file.rdbuf();
     return buf.str();
 }

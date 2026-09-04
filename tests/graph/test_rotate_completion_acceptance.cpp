@@ -280,7 +280,7 @@ EvalMetrics evaluatePredictions(const std::vector<KGTriple>& triples,
         accumulate_ranks(rank_head(triple.relation, triple.tail), triple.head);
     }
 
-    EvalMetrics metrics;
+    EvalMetrics metrics = {};
     if (query_count > 0) {
         metrics.mrr = reciprocal_rank_sum / static_cast<double>(query_count);
         metrics.hits_at_10 = static_cast<double>(hits_at_10) /

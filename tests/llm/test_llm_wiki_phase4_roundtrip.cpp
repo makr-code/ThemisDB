@@ -534,7 +534,7 @@ TEST_F(WikiPhase4RoundtripTest, QueryResultRankingAccuracy_LWP_RT_07) {
     // Simulate ranking (HNSW should rank highest)
     struct RankingScore {
         std::string page;
-        float score;
+        float score = {};
     };
     
     std::vector<RankingScore> results = {

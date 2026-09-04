@@ -168,7 +168,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
     if (pos >= d.size() || (d[pos] >> 5) != 5)
         throw std::runtime_error("CBOR: expected map for attestation object");
 
-    uint64_t count;
+    uint64_t count = {};
     pos = passkeyCborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
@@ -178,7 +178,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
             pos = passkeyCborSkip(d, pos);
             continue;
         }
-        uint64_t klen;
+        uint64_t klen = {};
         pos = passkeyCborReadArg(d, pos, klen);
         if (pos + klen > d.size()) {
           throw std::runtime_error("CBOR: key text OOB");
@@ -190,7 +190,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
         if (key == "fmt") {
             if (pos >= d.size() || (d[pos] >> 5) != 3)
                 throw std::runtime_error("CBOR: fmt must be text");
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = passkeyCborReadArg(d, pos, vlen);
             if (pos + vlen > d.size()) {
               throw std::runtime_error("CBOR: fmt text OOB");
@@ -202,7 +202,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
         } else if (key == "authData") {
             if (pos >= d.size() || (d[pos] >> 5) != 2)
                 throw std::runtime_error("CBOR: authData must be bytes");
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = passkeyCborReadArg(d, pos, vlen);
             if (pos + vlen > d.size()) {
               throw std::runtime_error("CBOR: authData OOB");
@@ -238,7 +238,7 @@ static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, P
     if (pos >= d.size() || (d[pos] >> 5) != 5)
         throw std::runtime_error("CBOR: expected map for COSE key");
 
-    uint64_t count;
+    uint64_t count = {};
     pos = passkeyCborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
@@ -321,7 +321,7 @@ static const char passkeyB64Table[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static std::string passkeyBase64UrlEncodeImpl(const uint8_t* data, std::size_t len) {
-    std::string out;
+    std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0 = data[i];
@@ -431,7 +431,7 @@ static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
     size_t off = 37;
     // Format AAGUID as a simple 32-char hex string
     {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (size_t k = 0; k < 16; ++k)
             oss << std::hex << std::setw(2) << std::setfill('0')
                 << static_cast<int>(d[off + k]);
@@ -853,7 +853,7 @@ bool PasskeyAuthenticator::verifyRegistration(
         const auto cbor_bytes = passkeyBase64UrlDecodeImpl(attestation_response_b64);
 
         // 3. Parse attestation object → fmt + authData bytes
-        std::string fmt;
+        std::string fmt = {};
         std::vector<uint8_t> auth_data_bytes;
         passkeyCborParseAttestationObject(cbor_bytes, fmt, auth_data_bytes);
 
@@ -882,7 +882,7 @@ bool PasskeyAuthenticator::verifyRegistration(
         }
 
         // 8. Validate the COSE public key is parseable
-        std::string key_err;
+        std::string key_err = {};
         EVP_PKEY* pkey = coseKeyToEvpPkey(ad.cose_key_bytes, key_err);
         if (!pkey) {
             spdlog::warn("PasskeyAuthenticator: verifyRegistration — COSE key error ({})",
@@ -985,7 +985,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
             reinterpret_cast<const uint8_t*>(credential.public_key_cbor.data())
                 + credential.public_key_cbor.size());
 
-        std::string key_err;
+        std::string key_err = {};
         EVP_PKEY* pkey = coseKeyToEvpPkey(cose_key, key_err);
         if (!pkey) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — public key load error ({})",

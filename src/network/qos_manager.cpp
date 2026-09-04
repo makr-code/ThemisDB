@@ -133,7 +133,7 @@ bool TokenBucket::consume(uint64_t bytes, std::chrono::milliseconds timeout) {
         }
 
         // Sleep for a short interval proportional to the deficit
-        double rate_bytes_per_sec;
+        double rate_bytes_per_sec = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             rate_bytes_per_sec = static_cast<double>(rate_bps_) / 8.0;
@@ -393,7 +393,7 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
 
 void QoSManager::unregisterConnection([[maybe_unused]] uint64_t connection_id) {
     // Clean up tenant assignment and decrement tenant connection count
-    std::string old_tenant_id;
+    std::string old_tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto it = tenant_assignments_.find(connection_id);
@@ -808,7 +808,7 @@ bool QoSManager::allowSend(uint64_t connection_id,
     // Evaluate the shared tenant bucket BEFORE consuming per-connection tokens.
     // If the tenant quota rejects the send, no per-connection tokens should be
     // charged (tenant is the outer "budget owner").
-    std::string tenant_id;
+    std::string tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto ta_it = tenant_assignments_.find(connection_id);
@@ -921,7 +921,7 @@ void QoSManager::recordBytesSent(uint64_t connection_id, uint64_t bytes) {
     }
 
     // Update per-tenant bytes_sent counter
-    std::string tenant_id;
+    std::string tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto it = tenant_assignments_.find(connection_id);
@@ -1093,7 +1093,7 @@ void QoSManager::setTenantQuota(const std::string& tenant_id,
 
 void QoSManager::assignTenant(uint64_t connection_id,
                                 const std::string& tenant_id) {
-    std::string old_tenant_id;
+    std::string old_tenant_id = {};
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
         auto it = tenant_assignments_.find(connection_id);

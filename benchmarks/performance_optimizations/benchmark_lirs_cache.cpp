@@ -16,7 +16,7 @@ static void BM_SequentialAccess(benchmark::State& state) {
         cache.put(i, "value" + std::to_string(i));
     }
     
-    std::string value;
+    std::string value = {};
     size_t key = 0;
     
     for (auto _ : state) {
@@ -42,7 +42,7 @@ static void BM_RandomAccess_8020(benchmark::State& state) {
         cache.put(i, "value" + std::to_string(i));
     }
     
-    std::string value;
+    std::string value = {};
     
     for (auto _ : state) {
         // 80% of accesses go to 20% of keys (hot set)
@@ -73,7 +73,7 @@ static void BM_ScanResistance(benchmark::State& state) {
     }
     
     // Access hot set multiple times
-    std::string value;
+    std::string value = {};
     for (int iter = 0; iter < 10; iter++) {
         for (int i = 0; i < 100; i++) {
             cache.get(i, value);
@@ -115,7 +115,7 @@ static void BM_MixedWorkload(benchmark::State& state) {
     std::uniform_real_distribution<> dis(0.0, 1.0);
     std::uniform_int_distribution<> key_dis(0, cache_size * 2);
     
-    std::string value;
+    std::string value = {};
     
     for (auto _ : state) {
         int key = key_dis(gen);
@@ -149,7 +149,7 @@ static void BM_ConcurrentAccess(benchmark::State& state) {
     
     std::mt19937 gen(state.thread_index());
     std::uniform_int_distribution<> key_dis(0, 999);
-    std::string value;
+    std::string value = {};
     
     for (auto _ : state) {
         int key = key_dis(gen);
@@ -171,7 +171,7 @@ static void BM_LIRPromotion(benchmark::State& state) {
         cache.put(i, "value" + std::to_string(i));
     }
     
-    std::string value;
+    std::string value = {};
     int key = 0;
     
     for (auto _ : state) {

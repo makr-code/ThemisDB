@@ -783,7 +783,7 @@ BuildConfiguration getBuildConfiguration() {
 }
 
 std::string formatBuildInfo(const BuildConfiguration& config) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "\n";
     oss << "===============================================================================\n";
@@ -856,7 +856,7 @@ std::string formatBuildInfo(const BuildConfiguration& config) {
 
 std::string getVersionSummary() {
     const auto config = getBuildConfiguration();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "ThemisDB " << THEMIS_BUILD_VERSION_STRING;
     
@@ -934,7 +934,7 @@ std::vector<std::string> getDisabledModules() {
 static std::string computeExecutableHash() {
 #ifdef THEMIS_HAVE_OPENSSL_SHA
     // Determine path to own executable
-    std::string exe_path;
+    std::string exe_path = {};
 #if defined(__linux__)
     char buf[4096] = {};
     ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
@@ -964,7 +964,7 @@ static std::string computeExecutableHash() {
     EVP_DigestFinal_ex(ctx, digest, &dlen);
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < dlen; ++i)
         hex << std::setw(2) << static_cast<unsigned>(digest[i]);

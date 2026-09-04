@@ -43,7 +43,7 @@ MVCCStore::MVCCStore(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestamp ts) {
-    std::string key;
+    std::string key = {};
     key.reserve(base_key.size() + 1 + 8);
     key.append(base_key.data(), base_key.size());
     key.push_back('\x00');
@@ -52,7 +52,7 @@ std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestam
 }
 
 std::string MVCCStore::encodeVersionPrefix(std::string_view base_key) {
-    std::string prefix;
+    std::string prefix = {};
     prefix.reserve(base_key.size() + 1);
     prefix.append(base_key.data(), base_key.size());
     prefix.push_back('\x00');
@@ -179,7 +179,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     //
     // We then step backward one entry; if it still has `prefix`, that is
     // the most-recent version committed at or before ts.
-    std::string seek_key;
+    std::string seek_key = {};
     if (ts.value == UINT64_MAX) {
         // Append '\x01' (> '\x00') to step past all versions of this base key.
         seek_key = std::string(key.data(), key.size());

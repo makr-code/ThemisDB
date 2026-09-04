@@ -549,7 +549,7 @@ bool HardwareAccelerator::shouldUseSIMD([[maybe_unused]] size_t num_rows) const 
 ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op,
                                                        const AcceleratorConfig& cfg) const {
     const size_t rows = op.left_rows.size() + op.right_rows.size();
-    ExecutionResult r;
+    ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
             && shouldUseGPU(rows)) {
@@ -572,7 +572,7 @@ ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op
 ExecutionResult HardwareAccelerator::dispatchSortMergeJoin(const QueryOperator&    op,
                                                             const AcceleratorConfig& cfg) const {
     const size_t rows = op.left_rows.size() + op.right_rows.size();
-    ExecutionResult r;
+    ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
             && shouldUseGPU(rows)) {

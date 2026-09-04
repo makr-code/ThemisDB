@@ -62,7 +62,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
             YAML::Node root = YAML::LoadFile(path);
             auto parse_policy_node = [&]([[maybe_unused]] const YAML::Node& n) -> std::optional<Policy> {
                 try {
-                    Policy p;
+                    Policy p = {};
                     if (n["id"]) {
                       p.id = n["id"].as<std::string>("");
                     }
@@ -202,7 +202,7 @@ bool PolicyEngine::saveToFile(const std::string& path, std::string* err) const {
 
 bool PolicyEngine::reloadIfChanged(std::string* err) {
     // Fast read of the stored path under the lock
-    std::string path;
+    std::string path = {};
     std::chrono::system_clock::time_point last_mtime;
     {
         std::lock_guard<std::mutex> lock(mutex_);

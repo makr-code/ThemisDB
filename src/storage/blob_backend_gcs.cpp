@@ -32,8 +32,8 @@ namespace storage {
 // Pimpl (keeps google-cloud-cpp types out of the public header)
 // ─────────────────────────────────────────────────────────────────────────────
 struct GCSBlobBackend::Impl {
-    std::string bucket;
-    std::string prefix;
+    std::string bucket = {};
+    std::string prefix = {};
     bool        available{false};
     mutable std::mutex mutex;
 
@@ -80,7 +80,7 @@ GCSBlobBackend::~GCSBlobBackend() = default;
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(data.data(), data.size(), hash);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         ss << std::setw(2) << static_cast<int>(hash[i]);

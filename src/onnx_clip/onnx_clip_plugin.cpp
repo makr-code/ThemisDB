@@ -106,7 +106,7 @@ static std::string sha256HexOfFile(const std::string& path) {
     EVP_MD_CTX_free(ctx);
 
     // Encode as lowercase hex string
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex;
     for (unsigned int i = 0; i < digest_len; ++i) {
         hex.width(2);
@@ -158,7 +158,7 @@ static float nextFloat01([[maybe_unused]] uint64_t& state) {
 // Simple BPE-style tokenizer: split on whitespace and punctuation, lowercase.
 static std::vector<std::string> tokenize(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     for (char c : text) {
         if (std::isspace(static_cast<unsigned char>(c)) ||
             std::ispunct(static_cast<unsigned char>(c))) {
@@ -407,7 +407,7 @@ struct ONNXClipPlugin::Impl {
                                      const ImageMetadata* metadata,
                                      const std::string& model,
                                      int embedding_dim_value) const {
-        EmbeddingResult result;
+        EmbeddingResult result = {};
         if (image_data.empty()) {
             result.success = false;
             result.error_message = "Image data is empty";
@@ -442,7 +442,7 @@ struct ONNXClipPlugin::Impl {
     EmbeddingResult computeTextEmbedding(const std::string& text,
                                          const std::string& model,
                                          int embedding_dim_value) const {
-        EmbeddingResult result;
+        EmbeddingResult result = {};
         if (text.empty()) {
             result.success = false;
             result.error_message = "Text input is empty";

@@ -70,7 +70,7 @@ struct MockRow {
 // Mock ingestion buffer
 // ---------------------------------------------------------------------------
 struct MockBuffer {
-    std::size_t capacity;
+    std::size_t capacity = {};
     std::size_t used = 0;
 
     bool isFull() const { return used >= capacity; }

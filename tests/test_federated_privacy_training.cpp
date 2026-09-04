@@ -293,7 +293,7 @@ TEST(FederatedPrivacyTraining, FEDERATEDBENCH01_TenNodeConvergenceVsCentralized)
 
     struct Sample {
         double x = 0;
-        double y;
+        double y = {};
     };
 
     // Deterministic synthetic regression data: y = 2x + 1.

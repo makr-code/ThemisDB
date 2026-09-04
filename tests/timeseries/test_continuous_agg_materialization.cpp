@@ -28,7 +28,7 @@ static std::string makeMaterialTempPath() {
 }
 
 struct MaterializationFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore>        store;
     // base timestamp: 2023-11-15 00:00:00 UTC in ms

@@ -485,7 +485,7 @@ TEST(CrossShardFKValidatorTest, NumericFKValueIsConvertedToString) {
     fkv.registerConstraint(makeConstraint(
         "fk_orders_user", "orders", "user_id", "users", "id", "shard_users"));
 
-    std::string captured_value;
+    std::string captured_value = {};
     fkv.setParentKeyLookup(
         [&captured_value](const std::string&, const std::string&,
                           const std::string&, const std::string& val) {

@@ -342,7 +342,7 @@ void launch_matmul_shader(
         // Set root constants (dimensions)
         struct RootConstants {
             uint32_t M, K, N;
-            float alpha;
+            float alpha = {};
         } constants = {static_cast<uint32_t>(M), static_cast<uint32_t>(K), 
                        static_cast<uint32_t>(N), alpha};
         
@@ -589,7 +589,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
             uint32_t op;      // 4=scalar multiply
             uint32_t rows;
             uint32_t cols;
-            float scalar_val;
+            float scalar_val = {};
         } constants = {size_u32, 4, 0, 0, scalar};
 
         std::cout << "DirectX Debug: RootConstants -> size=" << constants.size
@@ -657,8 +657,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         struct RootConstants {
             uint32_t size = 0;
             uint32_t op;      // 5=transpose
-            uint32_t rows;
-            uint32_t cols;
+            uint32_t rows = {};
+            uint32_t cols = {};
             float scalar;
         } constants = {size_u32, 5,
                        static_cast<uint32_t>(rows), static_cast<uint32_t>(cols), 0.0f};
@@ -959,9 +959,9 @@ void launch_embedding_lookup_shader(
         // Set root constants
         struct Constants {
             uint32_t batch_size = 0;
-            uint32_t seq_len;
-            uint32_t hidden_dim;
-            uint32_t vocab_size;
+            uint32_t seq_len = {};
+            uint32_t hidden_dim = {};
+            uint32_t vocab_size = {};
         } constants = {
             static_cast<uint32_t>(batch_size),
             static_cast<uint32_t>(seq_len),
@@ -1047,9 +1047,9 @@ void launch_sequence_mean_shader(
         // Set root constants
         struct Constants {
             uint32_t batch_size = 0;
-            uint32_t seq_len;
-            uint32_t hidden_dim;
-            uint32_t reserved;
+            uint32_t seq_len = {};
+            uint32_t hidden_dim = {};
+            uint32_t reserved = {};
         } constants = {
             static_cast<uint32_t>(batch_size),
             static_cast<uint32_t>(seq_len),

@@ -288,7 +288,7 @@ bool WALShipper::shipBatch(const std::string& endpoint,
     // Serialize and potentially compress the batch
     std::string serialized_entries = batch_json.dump();
     size_t uncompressed_size = serialized_entries.size();
-    std::string payload_data;
+    std::string payload_data = {};
     bool compressed = false;
     
     // Apply compression if configured
@@ -567,7 +567,7 @@ static std::string chunkSha256(const uint8_t* data, size_t size) {
     } else {
         SHA256(data, size, hash);
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -582,7 +582,7 @@ static std::string chunkSha256(const uint8_t* data, size_t size) {
 static std::string base64Encode(const std::vector<uint8_t>& data) {
     static constexpr char kB64Chars[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     for (size_t i = 0; i < data.size(); i += 3) {
         const uint8_t b0 = data[i];
@@ -611,7 +611,7 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
  */
 SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
                                                   const std::vector<SnapshotChunk>& chunks) {
-    SnapshotTransferResult result;
+    SnapshotTransferResult result = {};
 
     if (chunks.empty()) {
         result.error_message = "No chunks to transfer";
@@ -628,7 +628,7 @@ SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
     }
 
     // Look up replica endpoint
-    std::string endpoint;
+    std::string endpoint = {};
     {
         std::lock_guard<std::mutex> lock(replicas_mutex_);
         auto it = replicas_.find(replica_id);

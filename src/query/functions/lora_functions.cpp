@@ -36,7 +36,7 @@ using json = nlohmann::json;
 // ============================================================================
 
 namespace {
-    std::mutex g_orchestrator_mutex;
+    std::mutex g_orchestrator_mutex = {};
 }
 
 std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
@@ -54,14 +54,14 @@ namespace {
 // Convert ISO 8601 timestamp to string
 std::string timePointToString(const std::chrono::system_clock::time_point& tp) {
     auto time_t = std::chrono::system_clock::to_time_t(tp);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&time_t), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
 
 // Parse training configuration from JSON
 LoRAHyperparameters parseTrainingConfig(const json& config) {
-    LoRAHyperparameters params;
+    LoRAHyperparameters params = {};
     
     if (config.contains("rank")) {
         params.rank = config["rank"].get<int>();
@@ -87,7 +87,7 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
 
 // Parse training dataset from JSON
 TrainingData parseDataset(const json& dataset) {
-    TrainingData data;
+    TrainingData data = {};
     
     if (dataset.contains("samples") && dataset["samples"].is_array()) {
         for (const auto& sample : dataset["samples"]) {
@@ -398,7 +398,7 @@ nlohmann::json LoraSimilarFunction::execute(
                 auto words = [](const std::string& s) {
                     std::unordered_set<std::string> ws;
                     std::istringstream iss(s);
-                    std::string w;
+                    std::string w = {};
                     while (iss >> w) {
                       ws.insert(w);
                     }
@@ -682,7 +682,7 @@ nlohmann::json LoraRecommendFunction::execute(
         auto adapters = orchestrator->searchAdapters(search_criteria);
         
         // Find best adapter based on criteria
-        std::string best_adapter_id;
+        std::string best_adapter_id = {};
         double best_score = 0.0;
         
         for (const auto& adapter : adapters) {
@@ -707,7 +707,7 @@ nlohmann::json LoraRecommendFunction::execute(
         }
         
         // Build recommendation
-        json recommendation;
+        json recommendation = {};
         if (!best_adapter_id.empty()) {
             recommendation["adapter_id"] = best_adapter_id;
             recommendation["confidence"] = 0.95;

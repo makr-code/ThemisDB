@@ -28,7 +28,7 @@ protected:
     }
     
     size_t in_dim_;
-    size_t out_dim_;
+    size_t out_dim_ = {};
     size_t rank_;
     QuantizedModelConfig config_;
 };

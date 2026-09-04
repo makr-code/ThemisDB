@@ -115,7 +115,7 @@ struct ImportOptions {
 };
 
 struct TableSchema {
-    std::string name;
+    std::string name = {};
     std::vector<std::string> columns;
     std::map<std::string,std::string> column_types;
 };
@@ -125,7 +125,7 @@ static std::string unescapeCopy(const std::string& val) {
     if (val == "\\N") {
       return "";
     }
-    std::string out;
+    std::string out = {};
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i+1 < val.size()) {
             char nx = val[++i];
@@ -158,7 +158,7 @@ static std::vector<std::string> parseCopyRow(const std::string& line) {
 // CREATE TABLE parser
 static bool parseCreateTable(const std::string& sql, TableSchema& s) {
     std::regex re(R"(CREATE TABLE\s+(?:\w+\.)?(\w+)\s*\()");
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, re)) {
       return false;
     }
@@ -169,7 +169,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& s) {
     }
     std::string cols = sql.substr(start+1, end-start-1);
     std::stringstream ss(cols);
-    std::string col_def;
+    std::string col_def = {};
     while (std::getline(ss, col_def, ',')) {
         col_def.erase(0, col_def.find_first_not_of(" \t\n\r"));
         col_def.erase(col_def.find_last_not_of(" \t\n\r")+1);
@@ -215,7 +215,7 @@ struct StringImporter {
             }
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos) {
-                    TableSchema s;
+                    TableSchema s = {};
                     if (parseCreateTable(current, s)) {
                         schemas[s.name] = s;
                         stats.tables_processed++;
@@ -230,7 +230,7 @@ struct StringImporter {
                 } else if (current.find("COPY ") != std::string::npos) {
                     std::regex re(R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
                                   std::regex_constants::icase);
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(current, m, re)) {
                         std::string tname = m[1].str();
                         bool skip = std::find(opts.exclude_tables.begin(),
@@ -239,7 +239,7 @@ struct StringImporter {
                             std::find(opts.include_tables.begin(),
                                       opts.include_tables.end(), tname) != opts.include_tables.end();
                         // Read COPY data until \. or EOF
-                        std::string data_line;
+                        std::string data_line = {};
                         while (std::getline(in, data_line)) {
                             if (data_line == "\\." || data_line.rfind("\\.",0)==0) {
                               break;
@@ -738,7 +738,7 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
         }
         if (values_clause[i] == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 if (values_clause[i] == '\'' && i + 1 < n && values_clause[i+1] == '\'') {
                     val += '\''; i += 2;
@@ -781,7 +781,7 @@ static char randPrintable() {
 // Build a random string of printable ASCII of length [0..max_len]
 static std::string randPrintableString(size_t max_len) {
     size_t len = lcg_next() % (max_len + 1);
-    std::string s;
+    std::string s = {};
     s.reserve(len);
     for (size_t i = 0; i < len; ++i) {
       s += randPrintable();
@@ -792,7 +792,7 @@ static std::string randPrintableString(size_t max_len) {
 // Build a random binary string of length [0..max_len]
 static std::string randBinaryString(size_t max_len) {
     size_t len = lcg_next() % (max_len + 1);
-    std::string s;
+    std::string s = {};
     s.reserve(len);
     for (size_t i = 0; i < len; ++i) {
       s += randChar();
@@ -803,7 +803,7 @@ static std::string randBinaryString(size_t max_len) {
 // Build a pseudo-random COPY row (TAB-separated, random number of columns)
 static std::string randCopyRow(size_t max_cols = 10, size_t max_field_len = 20) {
     size_t cols = 1 + (lcg_next() % max_cols);
-    std::string row;
+    std::string row = {};
     for (size_t c = 0; c < cols; ++c) {
         if (c > 0) {
           row += '\t';
@@ -820,7 +820,7 @@ static std::string randCopyRow(size_t max_cols = 10, size_t max_field_len = 20) 
 // Build a pseudo-random VALUES clause for INSERT
 static std::string randValuesClause(size_t max_cols = 8) {
     size_t cols = 1 + (lcg_next() % max_cols);
-    std::string clause;
+    std::string clause = {};
     for (size_t c = 0; c < cols; ++c) {
         if (c > 0) {
           clause += ", ";
@@ -974,7 +974,7 @@ TEST(FuzzStyleTest, InsertValuesAllWhitespaceReturnsEmpty) {
 // Minimal parseCreateTable mirror for standalone testing
 static bool parseCreateTableFuzz(const std::string& sql, std::string& out_name) {
     std::regex re(R"(CREATE TABLE\s+(?:\w+\.)?(\w+)\s*\()");
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, re)) {
       return false;
     }
@@ -988,7 +988,7 @@ TEST(FuzzStyleTest, CreateTableNeverCrashesOnRandomInput) {
         std::string sql = "CREATE TABLE " + randPrintableString(20) + " (" +
                           randPrintableString(100) + ");";
         EXPECT_NO_THROW({
-            std::string name;
+            std::string name = {};
             (void)parseCreateTableFuzz(sql, name);
         });
     }
@@ -999,7 +999,7 @@ TEST(FuzzStyleTest, CreateTableNeverCrashesOnBinaryInput) {
     for (int i = 0; i < 300; ++i) {
         std::string sql = randBinaryString(200);
         EXPECT_NO_THROW({
-            std::string name;
+            std::string name = {};
             (void)parseCreateTableFuzz(sql, name);
         });
     }
@@ -1023,7 +1023,7 @@ TEST(FuzzStyleTest, Utf8ValidatorAllAsciiIsValid) {
     // Any string of pure ASCII must be valid UTF-8
     lcg_state = 0xAAAAAAAAAAAAAAAAULL;
     for (int i = 0; i < 500; ++i) {
-        std::string s;
+        std::string s = {};
         size_t len = lcg_next() % 100;
         for (size_t j = 0; j < len; ++j) {
           s += static_cast<char>(lcg_next() & 0x7F);

@@ -514,7 +514,7 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     }
     
     // Construct the canonical data that was signed
-    std::ostringstream data_stream;
+    std::ostringstream data_stream = {};
     data_stream << license.license_key
                 << "|" << license.organization
                 << "|" << license.hardware_id
@@ -583,7 +583,7 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
     // Try to read machine-id (most reliable on Linux)
     std::ifstream machine_id_file("/etc/machine-id");
     if (machine_id_file.is_open()) {
-        std::string machine_id;
+        std::string machine_id = {};
         std::getline(machine_id_file, machine_id);
         if (!machine_id.empty()) {
             return machine_id;
@@ -593,7 +593,7 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
     // Fallback: try to read product UUID
     std::ifstream product_uuid("/sys/class/dmi/id/product_uuid");
     if (product_uuid.is_open()) {
-        std::string uuid;
+        std::string uuid = {};
         std::getline(product_uuid, uuid);
         if (!uuid.empty()) {
             return uuid;
@@ -650,7 +650,7 @@ std::string USBAdminAuthenticator::createChallenge() const {
     }
 
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (auto byte : challenge_bytes) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
     }
@@ -722,7 +722,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     }
 
     // Encode expected response as lowercase hex
-    std::ostringstream expected_oss;
+    std::ostringstream expected_oss = {};
     for (unsigned int i = 0; i < hmac_len; ++i) {
         expected_oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hmac_out[i]);
     }

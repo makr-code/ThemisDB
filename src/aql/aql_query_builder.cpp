@@ -125,7 +125,7 @@ class AQLQueryBuilder::Impl {
             }
         }
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         bool first_clause = true;
 
         auto sep = [&]() -> std::ostringstream & {
@@ -536,7 +536,7 @@ ValidationResult AQLQueryBuilder::validate() const {
 ValidationResult AQLQueryBuilder::validate(const std::vector<CollectionMetadata> &schema) const {
     // Delegate to AQLQueryValidator which has full schema-aware logic for both
     // structural checks and unknown-collection / unknown-field detection.
-    AQLQueryValidator validator;
+    AQLQueryValidator validator = {};
     return validator.validate(*this, schema);
 }
 
@@ -600,7 +600,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
         // Use the caller-supplied context, or fall back to the attached schema.
         const std::string &effective_schema = !schema_context.empty() ? schema_context : getSchemaContext();
 
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         prompt << "You are an AQL (ArangoDB Query Language) expert for ThemisDB.\n";
         if (!effective_schema.empty()) {
             prompt << "Available schema:\n" << effective_schema << "\n\n";
@@ -624,7 +624,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
 
         // Split response by newlines into individual suggestions
         std::istringstream ss(response);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line) && (int)suggestions.size() < max_suggestions) {
             // Trim leading/trailing whitespace
             auto start = line.find_first_not_of(" \t\r\n");
@@ -655,7 +655,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std:
         // Use the caller-supplied context, or fall back to the attached schema.
         const std::string &effective_schema = !schema_context.empty() ? schema_context : getSchemaContext();
 
-        std::ostringstream context;
+        std::ostringstream context = {};
         if (!effective_schema.empty()) {
             context << "Schema:\n" << effective_schema << "\n\n";
         }

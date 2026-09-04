@@ -351,7 +351,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, AdapterManager_Cache_PinPreventsEviction)
     pinned["adapter1"] = true;  // Pin first adapter
     
     // Try to add adapter4 - should evict adapter2 or adapter3, not adapter1
-    std::string evicted;
+    std::string evicted = {};
     for (const auto& id : cache) {
         if (can_evict(id)) {
             evicted = id;
@@ -722,7 +722,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, ErrorHandling_InvalidVersion_Format) {
             
             // Verify all parts are numeric
             std::istringstream ss(num_part);
-            std::string part;
+            std::string part = {};
             int part_count = 0;
             while (std::getline(ss, part, '.')) {
                 if (part.empty() || !std::all_of(part.begin(), part.end(), [](unsigned char c) { return std::isdigit(c); })) {

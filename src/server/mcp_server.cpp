@@ -86,7 +86,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     // ASL-9: Load security.yaml to override guard config with deployment settings.
     // Docs: src/security/ROADMAP.md § Phase 3 (ASL-9)
     try {
-        std::string yaml_path;
+        std::string yaml_path = {};
         if (auto resolved = themis::config::ConfigPathResolver::tryResolve("config/security.yaml")) {
             yaml_path = *resolved;
         } else {
@@ -154,7 +154,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     // Docs:    src/security/ROADMAP.md § Phase 2 (ASL-7)
     // Config:  config/ai_ml/llm/modes/default.yaml → modes[id=agentic].safety
     try {
-        std::string mode_yaml_path;
+        std::string mode_yaml_path = {};
         // HIGH-GAP FIX: unnecessary_copy — use string_view for const static path
         constexpr std::string_view kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
         if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
@@ -1160,7 +1160,7 @@ json McpServer::toolQuery(const json& args) {
             }
 
             // Transpile SQL/Cypher → AQL
-            std::string aql_query;
+            std::string aql_query = {};
             if (language == "sql") {
                 themis::query::SQLParser sql_parser;
                 auto parse_result = sql_parser.parse(query);
@@ -1310,7 +1310,7 @@ json McpServer::toolGetEntity(const json& args) {
 
     try {
         // Retrieve from RocksDB
-        std::string value_str;
+        std::string value_str = {};
         bool found = db_->get(key, value_str);
         
         if (found) {
@@ -2074,8 +2074,8 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         themis::version::getVersionString()
     );
     
-    std::string answer;
-    std::string prompt_id;
+    std::string answer = {};
+    std::string prompt_id = {};
     
     // Determine question type and select appropriate prompt
     // Error-related questions (preserve existing functionality)
@@ -2194,7 +2194,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
         
         // Extract error code
         std::regex code_regex(R"(\b\d{4}\b)");
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_search(question, match, code_regex)) {
             int code = std::stoi(match.str());
@@ -2204,7 +2204,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
                 code == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
                 
                 // Manual join for documentation links (fmt::join may not be available in all versions)
-                std::string docs_str;
+                std::string docs_str = {};
                 for (size_t i = 0; i < metadata.related_docs.size(); ++i) {
                     if (i > 0) {
                       docs_str += ", ";
@@ -2609,7 +2609,7 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
 
     // ASL-8: Pre-operation snapshot for DESTRUCTIVE/CRITICAL operations.
     // Docs: src/security/ROADMAP.md § Phase 3 (ASL-8)
-    std::string pre_snapshot_path;
+    std::string pre_snapshot_path = {};
     const bool needs_snapshot = db_ && operation_guard_ &&
         (it->second.classification == "DESTRUCTIVE" || it->second.classification == "CRITICAL");
     if (needs_snapshot) {
@@ -2823,7 +2823,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     const std::filesystem::path snapshot_path =
         (base_normal / snapshot_id).lexically_normal();
 
-    std::error_code ec;
+    std::error_code ec = {};
     const std::filesystem::path base_abs = std::filesystem::absolute(base_normal, ec).lexically_normal();
     if (ec) {
         spdlog::warn("AI Safety ASL-10: failed to resolve snapshot base path '{}'", snap_base);
@@ -3026,7 +3026,7 @@ void StdioTransport::readStdin() {
                 
                 if (ReadFile(h_stdin, buffer, 1, &bytes_read, NULL) && bytes_read > 0) {
                     // Read rest of line
-                    std::string line;
+                    std::string line = {};
                     line += buffer[0];
                     
                     while (std::cin.peek() != '\n' && std::cin.peek() != EOF) {
@@ -3065,7 +3065,7 @@ void StdioTransport::readStdin() {
                 }
             } else if (bytes_available > 0) {
                 // Data available, read it
-                std::string line;
+                std::string line = {};
                 if (std::getline(std::cin, line)) {
                     self->partial_message_ += line;
                     
@@ -3118,7 +3118,7 @@ void StdioTransport::readStdin() {
             
             if (result > 0 && FD_ISSET(STDIN_FILENO, &readfds)) {
                 // Read available data
-                std::string line;
+                std::string line = {};
                 if (std::getline(std::cin, line)) {
                     self->partial_message_ += line;
                     

@@ -471,7 +471,7 @@ TEST(EXSHardeningTest_Standalone, EXS08_ConcurrentException_IsolatedToOneThread)
 namespace {
 /// Minimal RAII model handle demonstrating move-only semantics.
 struct ModelHandle {
-    std::string model_id;
+    std::string model_id = {};
     bool        valid{false};
 
     explicit ModelHandle(std::string id) : model_id(std::move(id)), valid(true) {}

@@ -211,7 +211,7 @@ std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
  * @return Deterministic line-based representation used for signing and verification.
  */
 std::string SignedRequest::getCanonicalString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "signature_format=" << signature_format << '\n'
         << "shard_id=" << shard_id << '\n'
         << "operation=" << operation << '\n'
@@ -291,7 +291,7 @@ SignedRequest SignedRequestSigner::createSignedRequest(const std::string& operat
 
 /** @brief Generate pseudo-random 64-bit nonce for replay protection. */
 uint64_t SignedRequestSigner::generateNonce() const {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
     return dis(gen);

@@ -199,7 +199,7 @@ std::string CrossShardFeedbackSync::generateSummaryId() {
     std::mt19937_64 rng(std::random_device{}());
     std::uniform_int_distribution<uint64_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << now_ms << "-" << dist(rng);
     return oss.str();
 }

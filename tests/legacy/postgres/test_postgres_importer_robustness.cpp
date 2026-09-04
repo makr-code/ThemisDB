@@ -49,7 +49,7 @@ struct ImportError {
     ImportErrorCode     code     = ImportErrorCode::UNKNOWN;
     ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
     std::string         message;
-    std::string         location;
+    std::string         location = {};
 };
 
 // ---------------------------------------------------------------------------
@@ -163,7 +163,7 @@ static std::string mapType(const std::string& pg_type,
 // ---------------------------------------------------------------------------
 static std::string unescapeCopy(const std::string& val) {
     if (val == "\\N") return "";  // SQL NULL
-    std::string out;
+    std::string out = {};
     out.reserve(val.size());
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i + 1 < val.size()) {
@@ -213,7 +213,7 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
 
         if (values_clause[i] == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 if (values_clause[i] == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
                     val += '\'';
@@ -441,7 +441,7 @@ TEST(CopyParsingTest, EmptyFields) {
 }
 
 TEST(CopyParsingTest, ManyColumns) {
-    std::string line;
+    std::string line = {};
     for (int i = 0; i < 100; ++i) {
         if (i > 0) {
           line += '\t';
@@ -516,7 +516,7 @@ TEST(InsertValuesTest, SingleValue) {
 }
 
 TEST(InsertValuesTest, ManyValues) {
-    std::string clause;
+    std::string clause = {};
     for (int i = 0; i < 50; ++i) {
         if (i > 0) {
           clause += ", ";

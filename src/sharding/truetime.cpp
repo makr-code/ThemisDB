@@ -152,7 +152,7 @@ bool TrueTime::syncNow() {
 
 /** @brief Return JSON stats snapshot for diagnostics/monitoring. */
 std::string TrueTime::getStats() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"uncertainty_us\": " << (uncertainty_ns_.load() / 1000) << ", "
         << "\"drift_us\": " << (drift_ns_.load() / 1000) << ", "

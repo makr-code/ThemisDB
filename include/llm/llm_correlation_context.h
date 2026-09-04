@@ -75,7 +75,7 @@ struct LLMCorrelationContext {
      * Identifies the specific span (call site) that originated this request.
      * May be empty for synthetic/generated contexts.
      */
-    std::string span_id;
+    std::string span_id = {};
 
     // -----------------------------------------------------------------------
     // Validation
@@ -137,7 +137,7 @@ struct LLMCorrelationContext {
         const std::string& traceparent) noexcept
     {
         // Format: version(2)-trace_id(32)-parent_id(16)-flags(2), separated by '-'.
-        LLMCorrelationContext ctx;
+        LLMCorrelationContext ctx = {};
         if (traceparent.size() < 55) return ctx;  // minimal valid length
         const auto p1 = traceparent.find('-');
         if (p1 == std::string::npos) {
@@ -171,7 +171,7 @@ struct LLMCorrelationContext {
      */
     [[nodiscard]] static LLMCorrelationContext generate() noexcept {
         try {
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937_64 rng{rd()};
             std::uniform_int_distribution<uint64_t> dist;
 
@@ -189,7 +189,7 @@ struct LLMCorrelationContext {
             }
 
             auto toHex = [](uint64_t v, int width) {
-                std::ostringstream ss;
+                std::ostringstream ss = {};
                 ss << std::setw(width) << std::setfill('0') << std::hex << v;
                 return ss.str();
             };

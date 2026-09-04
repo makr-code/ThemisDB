@@ -79,9 +79,9 @@ static constexpr int      kWarmupIterations = 100;
 // ---------------------------------------------------------------------------
 
 struct BenchEntity {
-    std::string  id;
+    std::string  id = {};
     std::int64_t timestamp_us;
-    std::string  node_id;
+    std::string  node_id = {};
     char         payload[128];
 };
 
@@ -299,7 +299,7 @@ static void BM_DKRG06_EntitySerialization(benchmark::State& state) {
     BenchEntity e = makeEntity(42, "node-A");
 
     auto serialize = [&]() -> std::string {
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << "{\"id\":\"" << e.id
            << "\",\"ts\":" << e.timestamp_us
            << ",\"node\":\"" << e.node_id

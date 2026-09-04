@@ -345,7 +345,7 @@ void CDCPersistentLog::open() {
     if (is_open_) return;  // idempotent
 
     // Ensure the segment directory exists.
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(segment_dir_, ec);
     if (ec) {
         throw std::runtime_error("CDCPersistentLog::open: cannot create directory '"
@@ -402,7 +402,7 @@ void CDCPersistentLog::open() {
         std::fclose(fd);
 
         // Re-open for append and trim any truncated tail in a portable way.
-        std::error_code resize_ec;
+        std::error_code resize_ec = {};
         std::filesystem::resize_file(
             path,
             static_cast<std::uintmax_t>(last_valid_pos),
@@ -577,7 +577,7 @@ bool CDCPersistentLog::isOpen() const noexcept {
 // ---------------------------------------------------------------------------
 
 std::string CDCPersistentLog::segmentPath([[maybe_unused]] uint64_t seq) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << segment_dir_ << "/" << log_prefix_ << "_" << seq << ".wal";
     return oss.str();
 }
@@ -585,7 +585,7 @@ std::string CDCPersistentLog::segmentPath([[maybe_unused]] uint64_t seq) const {
 std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
     // Scan directory for files matching "<log_prefix_>_<N>.wal"
     std::vector<uint64_t> seqs;
-    std::error_code ec;
+    std::error_code ec = {};
     for (const auto& entry :
          std::filesystem::directory_iterator(segment_dir_, ec)) {
         if (ec) {

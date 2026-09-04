@@ -286,7 +286,7 @@ public:
           return false;
         }
 
-        uint64_t n;
+        uint64_t n = {};
         in.read(reinterpret_cast<char*>(&n), sizeof(n));
         if (in.fail()) {
           return false;
@@ -300,7 +300,7 @@ public:
             int64_t id;
             in.read(reinterpret_cast<char*>(&id), sizeof(id));
 
-            uint32_t nm;
+            uint32_t nm = {};
             in.read(reinterpret_cast<char*>(&nm), sizeof(nm));
             if (in.fail()) {
               return false;
@@ -317,7 +317,7 @@ public:
             in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));
             in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));
 
-            uint32_t nc;
+            uint32_t nc = {};
             in.read(reinterpret_cast<char*>(&nc), sizeof(nc));
             if (in.fail()) {
               return false;

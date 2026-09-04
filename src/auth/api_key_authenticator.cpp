@@ -163,7 +163,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     }
 
     // --- Verify secret (constant-time comparison) ---------------------------
-    std::string presented_hash;
+    std::string presented_hash = {};
     try {
         presented_hash = hashSecret(secret);
     } catch (const std::exception& ex) {
@@ -260,7 +260,7 @@ bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
 }
 
 std::string ApiKeyAuthenticator::hexEncode(const unsigned char* data, size_t len) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(data[i]);

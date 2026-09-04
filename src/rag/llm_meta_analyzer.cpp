@@ -93,7 +93,7 @@ std::string LLMMetaAnalyzer::buildPrompt(
     }
     // ── end input validation ────────────────────────────────────────────────
     
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
     
     prompt << "Task: " << task_description << "\n\n";
     // Note: input_text has been validated for size above
@@ -144,7 +144,7 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
     }
     // ── end input validation ────────────────────────────────────────────────
     
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
     
     prompt << "Task: " << task_description << "\n\n";
     
@@ -216,7 +216,7 @@ double LLMMetaAnalyzer::parseScore(
     }
 
     for (const auto& pattern : patterns) {
-        std::smatch match;
+        std::smatch match = {};
         if (std::regex_search(response, match, pattern)) {
             try {
                 double score = std::stod(match[1].str());
@@ -243,7 +243,7 @@ std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
     std::regex reasoning_pattern(
         "(?s)(?:Reasoning|reasoning|Analysis|analysis):\\s*(.+?)(?:Score|score|Rating|rating|$)",
         std::regex::ECMAScript);
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(response, match, reasoning_pattern)) {
         std::string reasoning = match[1].str();

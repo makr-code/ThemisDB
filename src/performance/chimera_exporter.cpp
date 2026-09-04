@@ -33,7 +33,7 @@ public:
      * @return JSON formatted string
      */
     static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         
         try {
             // Start JSON

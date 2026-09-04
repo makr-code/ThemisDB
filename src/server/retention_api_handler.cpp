@@ -280,7 +280,7 @@ json RetentionApiHandler::actionToJson([[maybe_unused]] const vcc::RetentionMana
     auto span = Tracer::startSpan("actionToJson");
     // Convert timestamp to ISO 8601 string
     auto timestamp_t = std::chrono::system_clock::to_time_t(action.timestamp);
-    std::tm tm;
+    std::tm tm = {};
     #ifdef _WIN32
     localtime_s(&tm, &timestamp_t);
     #else

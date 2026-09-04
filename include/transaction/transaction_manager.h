@@ -64,7 +64,7 @@ public:
         /// individual ConflictRecord ID.  When a ConflictSet is also created,
         /// this field holds the conflict_set_id for backwards compatibility with
         /// callers that only inspect conflict_id.
-        std::string conflict_id;
+        std::string conflict_id = {};
         /// ID of the ConflictSet that groups all per-key ConflictRecord artifacts
         /// for this failed commit.  Use ConflictManager::getConflictSet() to
         /// retrieve the full list of affected keys and individual conflict IDs.
@@ -559,7 +559,7 @@ public:
         void captureDuration() noexcept;
 
         struct SavepointEntry {
-            std::string name;
+            std::string name = {};
             size_t saga_step_count{0}; ///< SAGA step count at the time the savepoint was created
         };
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
@@ -1192,7 +1192,7 @@ public:
         TransactionId other_txn_id{0};
 
         /// The storage key that triggered the conflict.
-        std::string key;
+        std::string key = {};
 
         /// Human-readable description of the conflict kind.
         ///  "read-write"  – this transaction's read range overlaps a write by

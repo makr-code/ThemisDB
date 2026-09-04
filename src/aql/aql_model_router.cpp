@@ -26,7 +26,7 @@ namespace aql {
 namespace {
 
 std::string toUpper(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         out += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -144,7 +144,7 @@ std::vector<QueryModelType> AQLModelRouter::classify(const std::string &aql_quer
 
     struct Score {
         QueryModelType type;
-        int hits;
+        int hits = {};
     };
     std::vector<Score> scores;
 
@@ -213,7 +213,7 @@ RoutingDecision AQLModelRouter::route(const std::string &aql_query) const {
     decision.selected_route = findRoute(decision.primary_type);
 
     // Build explanation.
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "Classified as " << modelTypeName(decision.primary_type);
     if (decision.detected_types.size() > 1) {
         ss << " (also: ";

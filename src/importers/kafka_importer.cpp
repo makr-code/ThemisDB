@@ -211,7 +211,7 @@ private:
 struct KafkaStreamPosition {
     int64_t last_committed_offset = -1;
     size_t messages_in_current_batch = 0;
-    std::string checkpoint_file;
+    std::string checkpoint_file = {};
     
     bool loadFromCheckpoint() {
         if (checkpoint_file.empty()) {

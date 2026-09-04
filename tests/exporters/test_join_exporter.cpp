@@ -42,7 +42,7 @@ static BaseEntity makeAnnotation(const std::string& key,
 static std::vector<std::string> readLines(const std::string& path) {
     std::vector<std::string> lines;
     std::ifstream f(path);
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (!line.empty()) {
           lines.push_back(line);

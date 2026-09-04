@@ -94,7 +94,7 @@ public:
                 auto status = futures[i].wait_for(
                     std::chrono::duration_cast<std::chrono::milliseconds>(remaining));
                 
-                SubagentInferenceResult inference_result;
+                SubagentInferenceResult inference_result = {};
                 if (status == std::future_status::ready) {
                     inference_result = futures[i].get();
                 } else {

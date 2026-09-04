@@ -28,7 +28,7 @@ using namespace themis;
 
 class DeterministicRNG {
 private:
-    std::mt19937_64 gen_;
+    std::mt19937_64 gen_ = {};
     mutable std::mutex mutex_;
 
 public:
@@ -41,7 +41,7 @@ public:
 
     std::string generateString(size_t length) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result += charset[next() % (sizeof(charset) - 1)];
@@ -64,7 +64,7 @@ private:
     std::filesystem::path db_path_;
     DeterministicRNG rng_{42}; // Deterministic seed
     bool initialized_ = false;
-    std::mutex init_mutex_;
+    std::mutex init_mutex_ = {};
 
 public:
     static MultiThreadBenchEnv& instance() {

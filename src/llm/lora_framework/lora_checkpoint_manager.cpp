@@ -79,7 +79,7 @@ std::string sha256Hex(const uint8_t* data, size_t len) {
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < digest_len; ++i)
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(digest[i]);
@@ -90,7 +90,7 @@ std::string sha256Hex(const uint8_t* data, size_t len) {
 std::string utcNow() {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -149,14 +149,14 @@ std::string LoRACheckpointManager::adapterDir(const std::string& adapter_id) con
 
 std::string LoRACheckpointManager::weightPath(const std::string& adapter_id,
                                                uint64_t step) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "checkpoint-" << step << ".bin";
     return (fs::path(adapterDir(adapter_id)) / oss.str()).string();
 }
 
 std::string LoRACheckpointManager::metaPath(const std::string& adapter_id,
                                              uint64_t step) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "checkpoint-" << step << ".meta.json";
     return (fs::path(adapterDir(adapter_id)) / oss.str()).string();
 }

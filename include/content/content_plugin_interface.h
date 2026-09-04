@@ -438,7 +438,7 @@ inline int countTokens(const std::string& text) {
  */
 inline std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
     
     for (size_t i = 0; i < text.size(); ++i) {
         current += text[i];

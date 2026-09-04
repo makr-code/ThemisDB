@@ -329,7 +329,7 @@ protected:
         if (!f.is_open()) {
             return 0;
         }
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             if (line.rfind("Threads:", 0) == 0) {
                 int count = 0;

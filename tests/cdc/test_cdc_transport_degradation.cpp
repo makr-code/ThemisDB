@@ -56,7 +56,7 @@ namespace fs = std::filesystem;
 
 class TransportDegradationTest : public ::testing::Test {
 protected:
-    std::string test_db_path;
+    std::string test_db_path = {};
     std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
     std::unique_ptr<ConsumerGroupManager> manager;

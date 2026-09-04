@@ -79,9 +79,9 @@ static std::vector<uint8_t> buildGpuAdjacency(const std::vector<double> &lons, c
     themis::geo::CudaTypedBuffer<uint8_t> d_adj;
 
     if (d_lons.alloc(n) != cudaSuccess)
-        return host_adj;
+        return host_adj = {};
     if (d_lats.alloc(n) != cudaSuccess)
-        return host_adj;
+        return host_adj = {};
     if (d_adj.alloc(n * n) != cudaSuccess)
         return host_adj;
 
@@ -311,7 +311,7 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
 
     struct Centroid {
         double lon = 0;
-        double lat;
+        double lat = {};
     };
     std::vector<Centroid> centroids(config.k);
 

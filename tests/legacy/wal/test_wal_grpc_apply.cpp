@@ -28,8 +28,8 @@ using themis::sharding::LSN;
 namespace {
 
 struct EnvGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     EnvGuard(std::string var_name, std::string value) : name(std::move(var_name)) {
@@ -63,8 +63,8 @@ struct EnvGuard {
 };
 
 struct EnvUnsetGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     explicit EnvUnsetGuard(std::string var_name) : name(std::move(var_name)) {

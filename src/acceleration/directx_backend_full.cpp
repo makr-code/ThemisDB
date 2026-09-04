@@ -177,7 +177,7 @@ public:
     ComPtr<ID3D12PipelineState>       l2Pipeline_;
     ComPtr<ID3D12PipelineState>       cosinePipeline_;
 
-    std::string adapterName_;
+    std::string adapterName_ = {};
 
     ~DirectXVectorBackendImpl() {
         if (fenceEvent_) {

@@ -58,7 +58,7 @@ namespace {
         
         std::string auth_str{auth_header.data(), auth_header.size()};
         std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
-        std::smatch matches;
+        std::smatch matches = {};
         
         if (std::regex_match(auth_str, matches, bearer_regex) && matches.size() == 2) {
             return matches[1].str();
@@ -301,9 +301,9 @@ http::response<http::string_body> LLMApiHandler::handleInference(
     }
     
     // Extract request parameters
-    std::string prompt;
-    std::string model_id;
-    std::string lora_id;
+    std::string prompt = {};
+    std::string model_id = {};
+    std::string lora_id = {};
     int max_tokens = 512;
     double temperature = 0.7;
     
@@ -447,12 +447,12 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     std::string collection;
     int top_k = 5;
     std::string rag_mode = "text";
-    std::string lora_id;
+    std::string lora_id = {};
     int max_context_tokens = 0;
     int response_budget_tokens = 512;
     int max_tokens = 512;
     double temperature = 0.7;
-    std::string model_id;
+    std::string model_id = {};
     
     try {
         if (body->contains("query")) {
@@ -745,8 +745,8 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string text;
-    std::string model_id;
+    std::string text = {};
+    std::string model_id = {};
     
     try {
         if (body->contains("text")) {
@@ -795,8 +795,8 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
     auto span = Tracer::startSpan("handleStreamInference");
 
     // Parse query parameters from URL: prompt, request_id, max_tokens
-    std::string prompt;
-    std::string request_id;
+    std::string prompt = {};
+    std::string request_id = {};
     int max_tokens = 512;
 
     std::string target = std::string(req.target());
@@ -811,7 +811,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             std::string raw = qs.substr(pos + prefix.size(),
                 end == std::string::npos ? std::string::npos : end - pos - prefix.size());
             // Basic URL-decode
-            std::string decoded;
+            std::string decoded = {};
             decoded.reserve(raw.size());
             for (size_t i = 0; i < raw.size(); ) {
                 if (raw[i] == '+') { decoded += ' '; ++i; }
@@ -860,7 +860,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
 
     // PHASE2-OPTIMIZATION: missing_vector_reserve — pre-allocate for streaming response body
     // SSE responses can accumulate many events; reserve space to avoid repeated reallocations
-    std::string sse_body;
+    std::string sse_body = {};
     sse_body.reserve(64 * 1024);  // Reserve 64 KB for typical SSE response
     sse_body += "retry: 3000\n\n";
 
@@ -911,9 +911,9 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
 
-    std::string aql_query;
-    std::string schema_context;
-    std::string request_id;
+    std::string aql_query = {};
+    std::string schema_context = {};
+    std::string request_id = {};
 
     try {
         if (body->contains("query")) {
@@ -933,7 +933,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     }
 
     // Collect SSE events from AQL explanation streaming
-    std::string sse_body;
+    std::string sse_body = {};
     sse_body += "retry: 3000\n\n";
 
     spdlog::info(
@@ -1028,8 +1028,8 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string model_id;
-    std::string path;
+    std::string model_id = {};
+    std::string path = {};
     
     try {
         if (body->contains("model_id")) {
@@ -1138,7 +1138,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string model_id;
+    std::string model_id = {};
     
     try {
         if (body->contains("model_id")) {
@@ -1230,8 +1230,8 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
         return createErrorResponse(http::status::bad_request, "Invalid request body");
     }
     
-    std::string model_id;
-    std::string file_data;
+    std::string model_id = {};
+    std::string file_data = {};
     
     try {
         if (body->contains("model_id")) {
@@ -1320,9 +1320,9 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string lora_id;
-    std::string path;
-    std::string base_model;
+    std::string lora_id = {};
+    std::string path = {};
+    std::string base_model = {};
     
     try {
         if (body->contains("lora_id")) {
@@ -1384,7 +1384,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string lora_id;
+    std::string lora_id = {};
     
     try {
         if (body->contains("lora_id")) {
@@ -1651,7 +1651,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string query;
+    std::string query = {};
     
     try {
         if (body->contains("query")) {
@@ -1728,7 +1728,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string topic;
+    std::string topic = {};
     
     try {
         if (body->contains("topic")) {
@@ -1791,7 +1791,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
     
-    std::string error_description;
+    std::string error_description = {};
     
     try {
         if (body->contains("error")) {
@@ -2000,8 +2000,8 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
     // Parse query parameters
     std::string_view target = req.target();
     size_t limit = 100;
-    std::string type_filter;
-    std::string status_filter;
+    std::string type_filter = {};
+    std::string status_filter = {};
     
     // Simple query parameter parsing
     size_t query_pos = target.find('?');

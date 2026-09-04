@@ -83,9 +83,9 @@ protected:
 
     bool ready_ = false;
     bool loaded_model_ = false;
-    std::string error_message_;
-    std::string model_id_;
-    std::string model_path_;
+    std::string error_message_ = {};
+    std::string model_id_ = {};
+    std::string model_path_ = {};
 };
 
 BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& state) {
@@ -209,7 +209,7 @@ BENCHMARK_F(RealLLMBench, RealModel_ContextScaling)(benchmark::State& state) {
 
     // Generate prompt with approximate token count
     std::string base_prompt = "Summarize the following text:\n";
-    std::string long_text;
+    std::string long_text = {};
 
     // Approximate: ~4 chars per token
     size_t target_chars = context_tokens * 4;

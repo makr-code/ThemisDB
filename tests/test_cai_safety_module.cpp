@@ -33,8 +33,8 @@ using namespace themis::plugins::ethics;
 namespace {
 
 struct HumanSafetySample {
-    std::string response;
-    std::string query;
+    std::string response = {};
+    std::string query = {};
     bool annotator_safe[3];
 };
 

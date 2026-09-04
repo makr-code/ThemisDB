@@ -211,8 +211,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                             }
 
                             std::shared_ptr<Expression> spatialExpr;
-                            std::string fulltextQuery;
-                            std::string fulltextField;
+                            std::string fulltextQuery = {};
+                            std::string fulltextField = {};
                             size_t fulltextLimit = 1000;
                             for (const auto& filter : ast->filters) {
                                 if (!filter || !filter->condition) {
@@ -487,8 +487,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 }
 
                 std::shared_ptr<Expression> spatialExpr;
-                std::string fulltextQuery;
-                std::string fulltextField;
+                std::string fulltextQuery = {};
+                std::string fulltextField = {};
                 size_t fulltextLimit = 1000;
                 for (const auto& filter : ast->filters) {
                     if (!filter || !filter->condition) {
@@ -562,7 +562,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     query.table = ast->for_node.collection;
     
     // Process FILTER clauses
-    std::string error;
+    std::string error = {};
     
     // Check if any filter contains OR - if so, use DisjunctiveQuery
     bool hasOr = false;
@@ -875,7 +875,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                            std::optional<std::pair<double, double>> &out_min,
                                            std::optional<std::pair<double, double>> &out_max) {
                     // Extract numeric values from string like [[10.0,50.0],[11.0,51.0]]
-                    std::string numericOnly;
+                    std::string numericOnly = {};
                     numericOnly.reserve(text.size());
                     for (char c : text) {
                         if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
@@ -1153,7 +1153,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                                std::optional<std::pair<double, double>> &out_min,
                                                std::optional<std::pair<double, double>> &out_max) {
                         // Extract numeric values from string like [[10.0,50.0],[11.0,51.0]]
-                        std::string numericOnly;
+                        std::string numericOnly = {};
                         numericOnly.reserve(text.size());
                         for (char c : text) {
                             if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
@@ -1373,7 +1373,7 @@ std::string AQLTranslator::extractColumnName(const std::shared_ptr<Expression>& 
         auto fieldAccess = std::static_pointer_cast<FieldAccessExpr>(expr);
         
         // Handle nested field access: doc.address.city -> "address.city"
-        std::string result;
+        std::string result = {};
         
         // Recursively extract parent field names
         if (fieldAccess->object->getType() == ASTNodeType::FieldAccess) {

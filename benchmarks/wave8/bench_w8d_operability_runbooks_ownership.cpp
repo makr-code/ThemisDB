@@ -80,7 +80,7 @@ static constexpr int kBaselineMaxAgeDays = 30;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -172,7 +172,7 @@ public:
         }
         KeyGenerator wkg(kW8CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.NextKey(kDatasetSize), val);
         }
     }
@@ -212,7 +212,7 @@ BENCHMARK_F(OperabilityFixture, ORP01_TriageMetricCompleteness)(benchmark::State
 
         for (int i = 0; i < kOps; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.NextKey(kDatasetSize), val);
             latencies.push_back(
                 std::chrono::duration<double, std::micro>(
@@ -258,7 +258,7 @@ BENCHMARK_REGISTER_F(OperabilityFixture, ORP01_TriageMetricCompleteness)
 BENCHMARK_F(OperabilityFixture, ORP02_RootCauseContext)(benchmark::State& state) {
     KeyGenerator kg(kW8CanonicalSeed + 22);
     for (auto _ : state) {
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(kg.NextKey(kDatasetSize), val));
     }
     // Context annotations
@@ -301,7 +301,7 @@ BENCHMARK_F(OperabilityFixture, ORP03_BeforeAfterComparison)(benchmark::State& s
             KeyGenerator kg(kW8CanonicalSeed + 33);
             for (int i = 0; i < kOps; ++i) {
                 const auto t0 = std::chrono::steady_clock::now();
-                std::string val;
+                std::string val = {};
                 db_->get(kg.NextKey(kDatasetSize), val);
                 before_total += std::chrono::duration<double, std::micro>(
                     std::chrono::steady_clock::now() - t0).count();
@@ -313,7 +313,7 @@ BENCHMARK_F(OperabilityFixture, ORP03_BeforeAfterComparison)(benchmark::State& s
             KeyGenerator kg(kW8CanonicalSeed + 33);
             for (int i = 0; i < kOps; ++i) {
                 const auto t0 = std::chrono::steady_clock::now();
-                std::string val;
+                std::string val = {};
                 db_->get(kg.NextKey(kDatasetSize), val);
                 after_total += std::chrono::duration<double, std::micro>(
                     std::chrono::steady_clock::now() - t0).count();
@@ -370,7 +370,7 @@ BENCHMARK_F(OperabilityFixture, ORP04_EscalationGateCounter)(benchmark::State& s
 
         for (int i = 0; i < kOps; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.NextKey(kDatasetSize), val);
             latencies.push_back(
                 std::chrono::duration<double, std::micro>(

@@ -233,7 +233,7 @@ std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string &blob,
     // Perform OCR
     api.SetImage(pix);
     char *raw_text = api.GetUTF8Text();
-    std::string text;
+    std::string text = {};
     if (raw_text) {
         text = raw_text;
         delete[] raw_text;
@@ -349,7 +349,7 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
 
     // Split into sentences (split on '.', '!', '?' followed by whitespace or end)
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < text.size(); ++i) {
         current += text[i];
         bool is_terminal = (text[i] == '.' || text[i] == '!' || text[i] == '?');
@@ -365,7 +365,7 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
         sentences.push_back(current);
     }
 
-    std::string current_chunk;
+    std::string current_chunk = {};
     int sequence = 0;
     std::string overlap_carry; // sentences kept for overlap
 
@@ -441,7 +441,7 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }

@@ -415,7 +415,7 @@ bool GGUFLoader::parseHeader() {
     }
     
     // Read version
-    uint32_t version;
+    uint32_t version = {};
     std::memcpy(&version, data + 4, sizeof(uint32_t));
     metadata_.version = version;
     
@@ -443,7 +443,7 @@ bool GGUFLoader::readString(size_t& offset, std::string& out) {
     }
     
     const char* data = static_cast<const char*>(mmap_base_);
-    uint64_t len;
+    uint64_t len = {};
     std::memcpy(&len, data + offset, sizeof(uint64_t));
     offset += 8;
     
@@ -494,7 +494,7 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             if (offset + 4 > mmap_size_) {
               return false;
             }
-            uint32_t val;
+            uint32_t val = {};
             std::memcpy(&val, data + offset, 4);
             offset += 4;
             out = std::to_string(val);
@@ -508,7 +508,7 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             if (offset + 8 > mmap_size_) {
               return false;
             }
-            uint64_t val;
+            uint64_t val = {};
             std::memcpy(&val, data + offset, 8);
             offset += 8;
             out = std::to_string(val);
@@ -522,8 +522,8 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             if (offset + 12 > mmap_size_) {
               return false;
             }
-            uint32_t arr_type;
-            uint64_t arr_len;
+            uint32_t arr_type = {};
+            uint64_t arr_len = {};
             std::memcpy(&arr_type, data + offset, 4);
             std::memcpy(&arr_len, data + offset + 4, 8);
             offset += 12;
@@ -531,7 +531,7 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             // Skip array elements based on type
             GGUFValueType elem_type = static_cast<GGUFValueType>(arr_type);
             for (uint64_t i = 0; i < arr_len; ++i) {
-                std::string dummy;
+                std::string dummy = {};
                 if (!readMetadataValue(offset, elem_type, dummy)) {
                     return false;
                 }
@@ -551,12 +551,12 @@ bool GGUFLoader::parseMetadataKV() {
     size_t offset = 24;
     
     // Read KV count
-    uint64_t kv_count;
+    uint64_t kv_count = {};
     std::memcpy(&kv_count, data + 16, sizeof(uint64_t));
     
     // Parse each key-value pair
     for (uint64_t i = 0; i < kv_count; ++i) {
-        std::string key;
+        std::string key = {};
         if (!readString(offset, key)) {
           return false;
         }
@@ -565,14 +565,14 @@ bool GGUFLoader::parseMetadataKV() {
         if (offset + 4 > mmap_size_) {
           return false;
         }
-        uint32_t value_type_raw;
+        uint32_t value_type_raw = {};
         std::memcpy(&value_type_raw, data + offset, 4);
         offset += 4;
         
         GGUFValueType value_type = static_cast<GGUFValueType>(value_type_raw);
         
         // Read value
-        std::string value;
+        std::string value = {};
         if (!readMetadataValue(offset, value_type, value)) {
           return false;
         }
@@ -600,7 +600,7 @@ bool GGUFLoader::parseTensorInfo() {
     size_t offset = 24;  // Start after header
     
     // Skip metadata KV pairs to get to tensor info
-    uint64_t kv_count;
+    uint64_t kv_count = {};
     std::memcpy(&kv_count, data + 16, sizeof(uint64_t));
     
     // Re-skip metadata (we already parsed it)
@@ -614,7 +614,7 @@ bool GGUFLoader::parseTensorInfo() {
         if (offset + 4 > mmap_size_) {
           return false;
         }
-        uint32_t value_type_raw;
+        uint32_t value_type_raw = {};
         std::memcpy(&value_type_raw, data + offset, 4);
         offset += 4;
         
@@ -624,7 +624,7 @@ bool GGUFLoader::parseTensorInfo() {
     }
     
     // Now parse tensor information
-    uint64_t tensor_count;
+    uint64_t tensor_count = {};
     std::memcpy(&tensor_count, data + 8, sizeof(uint64_t));
     
     metadata_.tensors.clear();
@@ -642,7 +642,7 @@ bool GGUFLoader::parseTensorInfo() {
         if (offset + 4 > mmap_size_) {
           return false;
         }
-        uint32_t n_dims;
+        uint32_t n_dims = {};
         std::memcpy(&n_dims, data + offset, 4);
         offset += 4;
         
@@ -662,7 +662,7 @@ bool GGUFLoader::parseTensorInfo() {
         if (offset + 4 > mmap_size_) {
           return false;
         }
-        uint32_t type_raw;
+        uint32_t type_raw = {};
         std::memcpy(&type_raw, data + offset, 4);
         offset += 4;
         tensor.type = static_cast<GGMLType>(type_raw);
@@ -683,7 +683,7 @@ bool GGUFLoader::parseTensorInfo() {
         if (offset + 8 > mmap_size_) {
           return false;
         }
-        uint64_t tensor_offset;
+        uint64_t tensor_offset = {};
         std::memcpy(&tensor_offset, data + offset, 8);
         offset += 8;
         
@@ -751,7 +751,7 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     
     // Helper lambda to escape JSON strings (basic escaping)
     auto escapeJson = [](const std::string& str) -> std::string {
-        std::string escaped;
+        std::string escaped = {};
         escaped.reserve(str.size());
         for (char c : str) {
             switch (c) {
@@ -881,7 +881,7 @@ bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
     }
     
     // Store chunk count for this tensor
-    std::ostringstream count_key;
+    std::ostringstream count_key = {};
     count_key << "llm:model:" << model_name 
               << ":tensor:" << tensor.name 
               << ":chunk_count";

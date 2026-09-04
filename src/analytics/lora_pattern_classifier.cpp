@@ -60,7 +60,7 @@ void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
 
 /*static*/ std::string LoRAPatternClassifier::buildPrompt(const std::vector<DataPoint> &events,
                                                           const std::string &adapter_id) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Classify the following events for pattern detection.\n";
     if (!adapter_id.empty()) {
         oss << "Adapter: " << adapter_id << "\n";
@@ -285,7 +285,7 @@ std::string LoRAPatternClassifier::selectAdapter(const std::string &context) {
     try { ctx_emb = embedding_fn_(context); }
     catch (...) { return domains_.front().adapter_id; }
 
-    std::string best_id;
+    std::string best_id = {};
     double best_sim = -1.0;
     for (const auto &d : domains_) {
         const double sim = cosineSimilarity(ctx_emb, d.embedding);
@@ -315,7 +315,7 @@ PatternResult LoRAPatternClassifier::classify(const std::vector<DataPoint> &even
     }
 
     const std::string prompt = buildPrompt(events, aid);
-    std::string response;
+    std::string response = {};
     try {
         response = inference_fn_(aid, prompt);
     } catch (...) {

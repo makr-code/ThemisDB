@@ -96,7 +96,7 @@ static ParsedRow parseCsvRow(const char* src, int len) noexcept {
 }
 
 static std::string makeCsvLine(int idx) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (int c = 0; c < 10; ++c) {
         if (c > 0) {
           ss << ',';
@@ -112,7 +112,7 @@ static std::string makeCsvLine(int idx) {
 
 struct RawRow {
     std::string cells[10];
-    int         count;
+    int         count = {};
     bool isValid() const noexcept { return count == 10; }
 };
 
@@ -149,7 +149,7 @@ struct RowBuffer {
     void add(RawRow r) { rows.push_back(std::move(r)); }
 
     std::string commit() {
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         for (auto& r : rows)
             for (int i = 0; i < r.count; ++i)
                 ss << r.cells[i] << ',';
@@ -163,7 +163,7 @@ struct RowBuffer {
 // ---------------------------------------------------------------------------
 
 struct ImportQuota {
-    std::uint64_t max_rows;
+    std::uint64_t max_rows = {};
     std::atomic<std::uint64_t> used{0};
 
     ImporterErrorCode check(std::uint64_t n) noexcept {

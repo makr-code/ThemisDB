@@ -178,7 +178,7 @@ TEST(StructuredOutputEnforcerTest, SOE08_InvalidRegexHandledGracefully) {
 namespace {
 // Helper: build a prompt with approximately N words.
 std::string makeWords(int n, const std::string& word = "token") {
-    std::string result;
+    std::string result = {};
     for (int i = 0; i < n; ++i) {
         if (i > 0) {
           result += ' ';

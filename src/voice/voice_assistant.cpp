@@ -406,7 +406,7 @@ std::string VoiceAssistant::processTextCommand(
     
     // Wave-A V1: shared fallback semantics applied — command execution fallback
     // If executeCommand/generateLLMResponse fails, log THEMIS_WARN and return error response.
-    std::string llm_response;
+    std::string llm_response = {};
     try {
         llm_response = generateLLMResponse(text, session);
     } catch (const std::exception& e) {
@@ -468,8 +468,8 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     auto session = getSession(session_id);
 
     // Accumulate all segments delivered by the streaming transcription.
-    std::string full_transcript;
-    std::mutex transcript_mutex;
+    std::string full_transcript = {};
+    std::mutex transcript_mutex = {};
 
     auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
         {
@@ -488,7 +488,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
 
     // For auto-locale switching: also run batch transcription to get detected_language.
-    std::string detected_lang;
+    std::string detected_lang = {};
     if (!ok || full_transcript.empty()) {
         // Fall back to batch transcription so the pipeline always returns audio.
         auto transcription = stt_processor_->transcribe(audio_data);
@@ -764,7 +764,7 @@ bool VoiceAssistant::deleteSession(const std::string& session_id) {
 }
 
 json VoiceAssistant::getStatistics() const {
-    json stats;
+    json stats = {};
     
     if (stt_processor_) {
         stats["stt"] = stt_processor_->getStatistics();
@@ -804,7 +804,7 @@ std::string VoiceAssistant::createRevisionEntry(
 ) {
     // Build a unique revision ID from the entity ID and current time.
     const auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "revision:" << entity_id << ":" << std::hex << now;
     const std::string rev_id = ss.str();
 

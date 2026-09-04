@@ -104,7 +104,7 @@ std::string ManifestSigner::computeFileSHA256(const std::string& file_path) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_Final(hash, &sha256);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }

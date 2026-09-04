@@ -356,7 +356,7 @@ observability::Alert CacheHitRateSloMonitor::buildAlert(ViolationLevel level, do
         alert.severity = observability::AlertSeverity::WARNING;
     }
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Cache hit rate SLO violation: hit_rate=" << hit_rate << " is below " << violationLevelToString(level)
         << " threshold=" << (level == ViolationLevel::CRITICAL ? config_.critical_threshold : config_.warning_threshold)
         << " (total_requests=" << total_requests << ")";
@@ -467,7 +467,7 @@ observability::Alert CacheHitRateSloMonitor::buildLatencyAlert(ViolationLevel le
     alert.severity   = (level == ViolationLevel::CRITICAL) ? observability::AlertSeverity::CRITICAL
                                                            : observability::AlertSeverity::WARNING;
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Cache latency SLO violation: p99=" << p99_ms << "ms is above " << violationLevelToString(level)
         << " threshold=" << (level == ViolationLevel::CRITICAL ? config_.p99_critical_ms : config_.p99_warn_ms) << "ms";
     alert.message = msg.str();

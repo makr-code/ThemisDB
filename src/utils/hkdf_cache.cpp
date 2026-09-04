@@ -122,7 +122,7 @@ struct HKDFCache::Impl {
                                  const std::string& info,
                                  size_t outlen)
     {
-        std::string k;
+        std::string k = {};
         k.reserve(ikm.size() + 1 + salt.size() + 1 + info.size() + 1 + 8);
         k.append(reinterpret_cast<const char*>(ikm.data()), ikm.size());
         k.push_back('\x00');
@@ -143,7 +143,7 @@ struct HKDFCache::Impl {
     static std::string sha256_hex(const uint8_t* data, size_t len) {
         unsigned char digest[SHA256_DIGEST_LENGTH];
         SHA256(data, len, digest);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (unsigned char b : digest) {
           oss << std::setw(2) << static_cast<int>(b);

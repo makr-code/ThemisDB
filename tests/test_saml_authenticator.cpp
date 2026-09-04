@@ -66,7 +66,7 @@ static std::string buildSAMLResponseB64(
     std::string noa_str           = fmt(anchor + not_on_or_after_offset);
 
     // Build optional InResponseTo attribute for SP-initiated responses
-    std::string irt_attr;
+    std::string irt_attr = {};
     if (!in_response_to.empty()) {
         irt_attr = " InResponseTo=\"" + in_response_to + "\"";
     }
@@ -130,7 +130,7 @@ static std::string buildSAMLResponseB64(
     std::vector<uint8_t> bytes(in.begin(), in.end());
     // Simple base64 encoding
     const char b64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
@@ -690,7 +690,7 @@ TEST(SAMLAuthenticatorTest, SPInitiatedFlowRejectsInResponseToMismatch) {
 static std::string base64EncodeString(const std::string& in) {
     std::vector<uint8_t> bytes(in.begin(), in.end());
     const char b64t[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
@@ -938,7 +938,7 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
         R"(</saml:AttributeStatement>)"
         R"(</saml:Assertion>)";
 
-    std::string b64;
+    std::string b64 = {};
     ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
         sp_private_key_pem, assertion_xml, b64));
 
@@ -968,7 +968,7 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptionFailsWithWrongKey) {
         R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
         R"(</saml:Assertion>)";
 
-    std::string b64;
+    std::string b64 = {};
     ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
         themis::tests::getTestSpPrivateKeyPem(), assertion_xml, b64));
 
@@ -1062,7 +1062,7 @@ static std::string buildSAMLResponseWithAlgorithms(
     // Base64-encode (same algorithm as buildSAMLResponseB64)
     const char b64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::vector<uint8_t> bytes(xml.begin(), xml.end());
-    std::string out;
+    std::string out = {};
     out.reserve(((bytes.size() + 2) / 3) * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);

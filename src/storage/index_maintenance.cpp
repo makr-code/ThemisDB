@@ -523,7 +523,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         // avoids contradictory recommendations from the two subsystems.
 
         // ── L0 file count ───────────────────────────────────────────────────
-        std::string file_count_str;
+        std::string file_count_str = {};
         if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
             try {
                 metrics.file_count = std::stoull(file_count_str);
@@ -847,7 +847,7 @@ std::string IndexMaintenanceManager::generateJobId() {
     auto counter = job_counter_++;
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "job_" << now << "_" << counter;
     return oss.str();
 }
@@ -921,7 +921,7 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
     }
 
     // Embed stats summary in the result_summary field (dedicated non-error info field)
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "incremental_reindex: added=" << stats.added
         << " removed="   << stats.removed
         << " updated="   << stats.updated

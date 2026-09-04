@@ -117,7 +117,7 @@ TEST_F(HttpAqlJoinTest, DoubleFor_EqualityJoin_ReturnLeftVariable) {
     ASSERT_TRUE(body["entities"].is_array());
     int aliceCount=0, bobCount=0;
     for (const auto& e : body["entities"]) {
-        json ej;
+        json ej = {};
         if (e.is_string()) {
           ej = json::parse(e.get<std::string>());
         }

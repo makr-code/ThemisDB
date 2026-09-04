@@ -650,8 +650,8 @@ struct ArimaParams {
     double last_obs;                 ///< last original observation
     std::vector<double> last_window; ///< last p values (differenced)
     std::vector<double> last_resid;  ///< last q residuals
-    int d;
-    double residual_stddev;
+    int d = {};
+    double residual_stddev = {};
 };
 
 /// Solve Yule-Walker equations using Levinson–Durbin recursion.
@@ -2186,7 +2186,7 @@ DecompositionResult ForecastModel::decompose([[maybe_unused]] bool multiplicativ
 
 std::string ForecastModel::serialize() const {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     // Use full IEEE-754 double precision (17 sig-figs) to ensure exact round-trip.
     // std::fixed is intentionally NOT used here so integers (e.g. timestamps) and
     // small fractions both serialise without unnecessary padding.
@@ -2314,7 +2314,7 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     std::unordered_map<std::string, std::string> kv;
     {
         std::istringstream ss(data);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             auto eq = line.find('=');
             if (eq != std::string::npos) {
@@ -2336,7 +2336,7 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
             // body is everything before that line.
             const std::string chk_marker = "\nchecksum=";
             const auto pos = data.rfind(chk_marker);
-            std::string body;
+            std::string body = {};
             if (pos != std::string::npos) {
                 // body = data up to and including the '\n' before "checksum="
                 body = data.substr(0, pos + 1);

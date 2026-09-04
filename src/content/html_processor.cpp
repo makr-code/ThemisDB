@@ -44,7 +44,7 @@ std::string HtmlProcessor::removeElement(
     const std::string& html,
     const std::string& tag
 ) {
-    std::string result;
+    std::string result = {};
     result.reserve(html.size());
 
     const std::string open_pattern = "<" + tag;   // <nav, <header …
@@ -185,7 +185,7 @@ std::string HtmlProcessor::stripTags(const std::string& html,
         static const std::regex heading_close(R"(<\s*/\s*h[1-6][^>]*>)",
                                               std::regex::icase);
 
-        std::string replaced;
+        std::string replaced = {};
         replaced.reserve(text.size());
         size_t last_pos = 0;
 
@@ -235,7 +235,7 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
         {"middot", "\xC2\xB7"}, {"times", "\xC3\x97"}, {"divide", "\xC3\xB7"}
     };
 
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     size_t pos = 0;
@@ -316,7 +316,7 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
             R"(<title[^>]*>([\s\S]*?)<\/title>)",
             std::regex::icase
         );
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(html, m, title_re)) {
             std::string t = m[1].str();
             // Strip any nested tags inside <title>
@@ -390,7 +390,7 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
 // ============================================================================
 
 std::string HtmlProcessor::normalizeWhitespace(const std::string& text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     bool last_was_newline = false;
@@ -432,7 +432,7 @@ int HtmlProcessor::countTokens(const std::string& text) {
       return 0;
     }
     std::istringstream iss(text);
-    std::string tok;
+    std::string tok = {};
     int n = 0;
     while (iss >> tok) {
       ++n;
@@ -513,7 +513,7 @@ std::vector<json> HtmlProcessor::chunk(
     // Split into paragraphs (double-newline boundaries)
     std::vector<std::string> paragraphs;
     {
-        std::string para;
+        std::string para = {};
         for (size_t i = 0; i < text.size(); ) {
             if (i + 1 < text.size() && text[i] == '\n' && text[i + 1] == '\n') {
                 if (!para.empty()) {
@@ -539,7 +539,7 @@ std::vector<json> HtmlProcessor::chunk(
 
     // Merge paragraphs into chunks of roughly chunk_size tokens
     int seq = 0;
-    std::string current_chunk;
+    std::string current_chunk = {};
     int current_tokens = 0;
 
     auto flushChunk = [&]([[maybe_unused]] const std::string& text_chunk) {
@@ -569,12 +569,12 @@ std::vector<json> HtmlProcessor::chunk(
             flushChunk(current_chunk);
 
             // Build overlap text from end of flushed chunk
-            std::string overlap_text;
+            std::string overlap_text = {};
             if (overlap > 0 && !current_chunk.empty()) {
                 // Take last `overlap` tokens from current_chunk
                 std::istringstream iss(current_chunk);
                 std::vector<std::string> tokens;
-                std::string tok;
+                std::string tok = {};
                 while (iss >> tok) {
                   tokens.push_back(tok);
                 }
@@ -610,7 +610,7 @@ std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_dat
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
       tokens.push_back(token);
     }

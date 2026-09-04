@@ -636,7 +636,7 @@ void RedisCacheCoordinator::handleMessage(const std::string &payload) {
         }
 
         std::string type_str = j.value("type", "");
-        ReplicationMessage msg;
+        ReplicationMessage msg = {};
         if (type_str == "ENTRY_PUT") {
             msg.type = ReplicationMessage::Type::ENTRY_PUT;
         } else if (type_str == "INVALIDATE") {
@@ -712,7 +712,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < md_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(md[i]);
     }

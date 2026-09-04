@@ -81,7 +81,7 @@ struct ImportOptions {
 // ---------------------------------------------------------------------------
 
 struct TableSchema {
-    std::string              name;
+    std::string              name = {};
     std::vector<std::string> columns;
 };
 
@@ -117,7 +117,7 @@ static std::map<std::string, TableSchema> parseSchemas(const std::string& conten
                     // split on commas at depth 0
                     std::vector<std::string> cols;
                     int depth = 0;
-                    std::string cur;
+                    std::string cur = {};
                     for (char c : body) {
                         if (c == '(') { depth++; cur += c; }
                         else if (c == ')') { depth--; cur += c; }
@@ -190,7 +190,7 @@ static std::vector<std::string> parseInsertValues(const std::string& vals) {
         }
         if (vals[i] == '\'') {
             ++i;
-            std::string v;
+            std::string v = {};
             while (i < n) {
                 if (vals[i] == '\'' && i + 1 < n && vals[i+1] == '\'') { v += '\''; i += 2; }
                 else if (vals[i] == '\'') { ++i; break; }
@@ -229,7 +229,7 @@ static ImportStats streamingImportContent(const std::string& content,
 
     std::istringstream file(content);
     std::string line, sql;
-    std::string current_copy_table;
+    std::string current_copy_table = {};
     std::vector<std::string> current_copy_columns;
     bool in_copy = false;
 
@@ -307,7 +307,7 @@ static ImportStats streamingImportContent(const std::string& content,
                 auto cp2 = sql.find(')', op != std::string::npos ? op : 0);
                 if (op != std::string::npos && cp2 != std::string::npos) {
                     std::istringstream cs2(sql.substr(op + 1, cp2 - op - 1));
-                    std::string col;
+                    std::string col = {};
                     while (std::getline(cs2, col, ',')) {
                         col.erase(0, col.find_first_not_of(" \t"));
                         col.erase(col.find_last_not_of(" \t") + 1);
@@ -359,7 +359,7 @@ static ImportStats streamingImportContent(const std::string& content,
                     auto cp3 = sql.find(')', op);
                     if (cp3 != std::string::npos) {
                         std::istringstream cs3(sql.substr(op + 1, cp3 - op - 1));
-                        std::string col;
+                        std::string col = {};
                         while (std::getline(cs3, col, ',')) {
                             col.erase(0, col.find_first_not_of(" \t"));
                             col.erase(col.find_last_not_of(" \t") + 1);
@@ -515,7 +515,7 @@ TEST(StreamingCopyTest, CallbackReceivesCorrectFieldValues) {
 
 TEST(StreamingCopyTest, CallbackReceivesTableName) {
     ImportOptions opts;
-    std::string last_table;
+    std::string last_table = {};
     opts.streaming_row_callback = [&](const std::string& t, const json&) -> bool {
         last_table = t;
         return true;

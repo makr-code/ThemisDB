@@ -266,7 +266,7 @@ public:
         // before invoking external plugin calls (unloadLoRA, path_resolver_,
         // loadLoRA). Those calls may re-enter currentAdapter() or other methods
         // that acquire mutex_, which would deadlock with a non-reentrant mutex.
-        std::string prev_adapter;
+        std::string prev_adapter = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             last_error_ = ErrorCode::None;
@@ -831,7 +831,7 @@ std::string AIOrchestrator::assemblePrompt(
         return query;
     }
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "Context:\n";
     int idx = 1;
     for (const auto& doc : docs) {
@@ -947,7 +947,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         policy_copy = impl_->adapter_switch_policy;
     }
 
-    std::string tenant;
+    std::string tenant = {};
     if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
         tenant = ctx.extra["tenant"].get<std::string>();
     }
@@ -1165,7 +1165,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     // Optional PR-2 step: apply selected adapter under switch policy guardrails.
     if (apply_service && selected_adapter_id.has_value() && !selected_adapter_id->empty()) {
         bool apply_allowed = true;
-        std::string apply_block_reason;
+        std::string apply_block_reason = {};
 
         const auto now = std::chrono::steady_clock::now();
 

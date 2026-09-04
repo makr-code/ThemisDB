@@ -79,7 +79,7 @@ T safeAs(const YAML::Node& n, const T& def) {
 }
 
 RetrievalSpec parseRetrieval(const YAML::Node& node) {
-    RetrievalSpec spec;
+    RetrievalSpec spec = {};
     if (!node || !node.IsMap()) {
       return spec;
     }
@@ -102,7 +102,7 @@ RetrievalSpec parseRetrieval(const YAML::Node& node) {
 }
 
 OutputSpec parseOutput(const YAML::Node& node) {
-    OutputSpec spec;
+    OutputSpec spec = {};
     if (!node || !node.IsMap()) {
       return spec;
     }
@@ -118,7 +118,7 @@ OutputSpec parseOutput(const YAML::Node& node) {
 }
 
 BudgetSpec parseBudgets(const YAML::Node& node) {
-    BudgetSpec spec;
+    BudgetSpec spec = {};
     if (!node || !node.IsMap()) {
       return spec;
     }
@@ -133,7 +133,7 @@ BudgetSpec parseBudgets(const YAML::Node& node) {
 }
 
 ObservabilitySpec parseObservability(const YAML::Node& node) {
-    ObservabilitySpec spec;
+    ObservabilitySpec spec = {};
     if (!node || !node.IsMap()) {
       return spec;
     }
@@ -153,7 +153,7 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
 
     if (node["schema"] && !node["schema"].IsNull()) {
         try {
-            std::ostringstream ss;
+            std::ostringstream ss = {};
             ss << node["schema"];
             spec.args_schema = json::parse(ss.str());
         } catch (...) {

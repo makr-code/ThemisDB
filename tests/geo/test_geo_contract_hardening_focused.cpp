@@ -122,7 +122,7 @@ public:
 
     BackendResult dispatch(double inputValue) const {
         auto t0 = std::chrono::steady_clock::now();
-        BackendResult r;
+        BackendResult r = {};
 
         if (gpuAvailable_) {
             r.usedBackend = BackendType::GPU;

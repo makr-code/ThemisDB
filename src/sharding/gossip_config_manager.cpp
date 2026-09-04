@@ -702,7 +702,7 @@ void GossipConfigManager::sendGossipMessage(
         } else {
             // Default path: serialize the GossipMessage to binary via protobuf
             // and POST it to the peer's gossip endpoint over mTLS.
-            std::string payload;
+            std::string payload = {};
             if (!message.SerializeToString(&payload)) {
                 spdlog::warn("GossipConfigManager::sendGossipMessage — proto serialization failed; "
                              "message dropped (peer={})", peer_endpoint);
@@ -904,12 +904,12 @@ std::string GossipConfigManager::generateUpdateId() const {
     // For production, consider using Windows UUID APIs (CoCreateGuid) or boost::uuid
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
     uint64_t random_part = dis(gen);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::hex << timestamp << "-" << random_part;
     return ss.str();
 }

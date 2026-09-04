@@ -180,7 +180,7 @@ struct FeatureMatrix {
 };
 
 FeatureMatrix buildMatrix(const std::vector<DataPoint> &data) {
-    FeatureMatrix fm;
+    FeatureMatrix fm = {};
     if (data.empty()) {
         return fm;
     }
@@ -996,7 +996,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
     std::sort(exp.feature_contributions.begin(), exp.feature_contributions.end(),
               [](const auto &a, const auto &b) { return a.second > b.second; });
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "Anomaly score " << exp.score << " via " << anomalyMethodName(impl_->cfg.method) << ". ";
     if (!exp.feature_contributions.empty()) {
         ss << "Top driver: " << exp.feature_contributions[0].first
@@ -1030,7 +1030,7 @@ void AnomalyDetector::update(const DataPoint &point) {
 // ============================================================================
 
 std::string AnomalyDetector::serialize() const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
     ss << "threshold=" << impl_->cfg.threshold << "\n";
     ss << "contamination=" << impl_->cfg.contamination << "\n";
@@ -1070,12 +1070,12 @@ std::string AnomalyDetector::serialize() const {
 AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
     AnomalyDetector det;
     std::istringstream ss(data);
-    std::string line;
+    std::string line = {};
 
     auto splitComma = [](const std::string &s) -> std::vector<std::string> {
         std::vector<std::string> parts;
         std::istringstream ls(s);
-        std::string tok;
+        std::string tok = {};
         while (std::getline(ls, tok, ',')) {
             parts.push_back(tok);
         }

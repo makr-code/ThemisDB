@@ -178,7 +178,7 @@ void MetricsCollector::recordTotalSpans(int64_t count) {
 
 std::string MetricsCollector::getPrometheusMetrics() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Header
     oss << "# ThemisDB Metrics\n";
@@ -335,7 +335,7 @@ MetricsCollector::ExporterIncidentStats MetricsCollector::getExporterIncidentSta
 
 void MetricsCollector::addCounter(const std::string& name, int64_t delta,
                                    const std::map<std::string, std::string>& labels) {
-    std::string label_failure_reason;
+    std::string label_failure_reason = {};
     if (!areLabelsValid(labels, &label_failure_reason)) {
         recordMalformedTelemetry(name, label_failure_reason);
         return;
@@ -350,7 +350,7 @@ void MetricsCollector::addCounter(const std::string& name, int64_t delta,
 
 void MetricsCollector::modifyGauge(const std::string& name, double delta,
                                     const std::map<std::string, std::string>& labels) {
-    std::string label_failure_reason;
+    std::string label_failure_reason = {};
     if (!areLabelsValid(labels, &label_failure_reason)) {
         recordMalformedTelemetry(name, label_failure_reason);
         return;
@@ -367,7 +367,7 @@ void MetricsCollector::modifyGauge(const std::string& name, double delta,
 }
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
-    std::string label_failure_reason;
+    std::string label_failure_reason = {};
     if (!areLabelsValid(labels, &label_failure_reason)) {
         recordMalformedTelemetry(name, label_failure_reason);
         return;
@@ -381,7 +381,7 @@ void MetricsCollector::incrementCounter(const std::string& name, const std::map<
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
-    std::string label_failure_reason;
+    std::string label_failure_reason = {};
     if (!areLabelsValid(labels, &label_failure_reason)) {
         recordMalformedTelemetry(name, label_failure_reason);
         return;
@@ -395,7 +395,7 @@ void MetricsCollector::setGauge(const std::string& name, double value, const std
 }
 
 void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
-    std::string label_failure_reason;
+    std::string label_failure_reason = {};
     if (!areLabelsValid(labels, &label_failure_reason)) {
         recordMalformedTelemetry(name, label_failure_reason);
         return;
@@ -416,7 +416,7 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
 void MetricsCollector::observeHistogramWithExemplar(const std::string& name, double value,
                                                     const Exemplar& exemplar,
                                                     const std::map<std::string, std::string>& labels) {
-    std::string label_failure_reason;
+    std::string label_failure_reason = {};
     if (!areLabelsValid(labels, &label_failure_reason)) {
         recordMalformedTelemetry(name, label_failure_reason);
         return;
@@ -453,7 +453,7 @@ std::string MetricsCollector::formatLabels(const std::map<std::string, std::stri
       return "";
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [key, value] : labels) {
@@ -468,7 +468,7 @@ std::string MetricsCollector::formatLabels(const std::map<std::string, std::stri
 }
 
 std::string MetricsCollector::formatMetricLine(const std::string& name, const std::string& labels, double value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << name << labels << " " << std::fixed << std::setprecision(2) << value;
     return oss.str();
 }
@@ -485,7 +485,7 @@ std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
                      .count();
     double ts_sec = static_cast<double>(ts_ms) / 1000.0;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# {traceID=\"" << exemplar.trace_id << "\"} "
         << std::fixed << std::setprecision(3) << exemplar.value
         << " " << std::fixed << std::setprecision(3) << ts_sec;

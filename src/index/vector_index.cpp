@@ -888,7 +888,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 std::pair<VectorIndexManager::Status, VectorIndexManager::IncrementalReindexStats>
 VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	IncrementalReindexStats stats;
+	IncrementalReindexStats stats = {};
 	if (objectName_.empty() || dim_ <= 0)
 		return {Status::Error("incrementalReindex: Manager nicht initialisiert"), stats};
 
@@ -2544,7 +2544,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			metaFile >> efc; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			
 			// Check for encryption flag (Phase 2)
-			std::string encryptionFlag;
+			std::string encryptionFlag = {};
 			std::getline(metaFile, encryptionFlag);
 			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
 
@@ -2570,7 +2570,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			}
 			else space = std::make_unique<hnswlib::InnerProductSpace>(dim_);
 
-			std::string indexPath;
+			std::string indexPath = {};
 			
 			if (isEncrypted) {
 				// Phase 2: Load encrypted HNSW index

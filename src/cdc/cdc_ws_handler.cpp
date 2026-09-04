@@ -125,7 +125,7 @@ std::vector<json> CdcWebSocketHandler::handleFrame([[maybe_unused]] const json &
             return responses;
         }
 
-        bool removed;
+        bool removed = {};
         {
             std::lock_guard<std::mutex> lock(mu_);
             removed = subscriptions_.erase(unsub_key) > 0;
@@ -147,7 +147,7 @@ std::vector<json> CdcWebSocketHandler::handleFrame([[maybe_unused]] const json &
             // the subscribe path where an empty consumer_id also produces "group_id:".
             const std::string ack_key = group_id + ":" + consumer_id;
 
-            std::string matched_key;
+            std::string matched_key = {};
             {
                 std::lock_guard<std::mutex> lock(mu_);
                 // Fast path: exact key match (typical case: one subscription per group).

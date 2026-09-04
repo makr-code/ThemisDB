@@ -66,7 +66,7 @@ AccessControl::AccessControl(const Config& config)
     
     // Load ABAC policies if configured
     if (config_.abac_config.enable_abac && !config_.abac_config.abac_policy_path.empty()) {
-        std::string err;
+        std::string err = {};
         if (!policy_engine_.loadFromFile(config_.abac_config.abac_policy_path, &err)) {
             THEMIS_WARN("Failed to load ABAC policies from {}: {}",
                 config_.abac_config.abac_policy_path, err);
@@ -90,7 +90,7 @@ AccessControl::AccessControl(const Config& config)
     if (const char* env_roles = std::getenv("THEMIS_MFA_REQUIRED_ROLES")) {
         std::vector<std::string> roles;
         std::istringstream ss(env_roles);
-        std::string token;
+        std::string token = {};
         while (std::getline(ss, token, ',')) {
             if (!token.empty()) {
               roles.push_back(token);
@@ -999,7 +999,7 @@ std::string AccessControl::generateSessionToken() const {
     unsigned char buffer[32];
     RAND_bytes(buffer, sizeof(buffer));
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (size_t i = 0; i < sizeof(buffer); i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(buffer[i]);
     }

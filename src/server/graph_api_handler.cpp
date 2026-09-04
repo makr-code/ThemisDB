@@ -219,8 +219,8 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
 
         // Look up the edge endpoints before deletion so we can notify
         // incremental queries with the correct from/to vertices.
-        std::string edge_from;
-        std::string edge_to;
+        std::string edge_from = {};
+        std::string edge_to = {};
         if (optimizer_) {
             auto from_opt = graph_index_->getEdgeField(edge_id, "_from");
             auto to_opt   = graph_index_->getEdgeField(edge_id, "_to");
@@ -325,7 +325,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     const auto& m = optimizer_->getQueryMetrics();
 
     // Build Prometheus text exposition format (text/plain; version=0.0.4)
-    std::string body;
+    std::string body = {};
     body.reserve(2048);
 
     auto counter = [&](const char* name, const char* help, uint64_t value) {
@@ -455,7 +455,7 @@ std::string GraphApiHandler::extractPathParam(
 themis::graph::GraphQueryOptimizer::GraphChangeSet
 GraphApiHandler::parseChangeSet([[maybe_unused]] const json& changes_array) {
     using CS = themis::graph::GraphQueryOptimizer::GraphChangeSet;
-    CS cs;
+    CS cs = {};
     if (!changes_array.is_array()) {
       return cs;
     }

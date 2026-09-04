@@ -32,7 +32,7 @@ public:
     
     struct OllamaConfig {
         bool enabled = false;
-        std::string models_dir;
+        std::string models_dir = {};
         std::map<std::string, std::string> model_hashes;
     };
     

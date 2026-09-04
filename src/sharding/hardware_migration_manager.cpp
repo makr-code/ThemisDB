@@ -38,7 +38,7 @@ std::string utcNowIso8601() {
 #else
     gmtime_r(&time_t, &tm_buf);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }

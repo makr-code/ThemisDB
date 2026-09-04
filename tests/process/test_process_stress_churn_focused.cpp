@@ -57,7 +57,7 @@ protected:
 
 TEST_F(StressChurnTest, S01_HighVolumeLinkCreationSustained) {
     std::vector<ProcessLink> links;
-    std::mutex links_mutex;
+    std::mutex links_mutex = {};
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -162,7 +162,7 @@ TEST_F(StressChurnTest, S03_RepeatedModelValidationCycles) {
 
 TEST_F(StressChurnTest, S04_ConcurrentLinkCreationUnderLockContention) {
     std::vector<ProcessLink> all_links;
-    std::mutex links_mutex;
+    std::mutex links_mutex = {};
     std::atomic<int64_t> total_created{0};
 
     auto creator = [&all_links, &links_mutex, &total_created](int32_t thread_id) {
@@ -458,7 +458,7 @@ TEST_F(StressChurnTest, S11_CommunityDetectionTimeoutStress) {
     static constexpr int64_t kMaxRetrievalTimeMs = 5000;
 
     std::vector<bool> timeouts_handled;
-    std::mutex timeout_mutex;
+    std::mutex timeout_mutex = {};
 
     auto run_with_simulated_delay = [&](int32_t query_id) {
         // Simulate varying retrieval times

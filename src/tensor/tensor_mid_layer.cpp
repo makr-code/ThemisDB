@@ -93,7 +93,7 @@ TensorLayerSummary TensorMidLayer::summarize(const TensorLayerContext& context) 
 
 FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
     const TensorLayerContext& context) const {
-    FederatedTensorSummary summary;
+    FederatedTensorSummary summary = {};
     if (context.shard_scope_ids.empty()) {
         summary.routing_reason = "no shard scopes provided for federated tensor summary";
         return summary;

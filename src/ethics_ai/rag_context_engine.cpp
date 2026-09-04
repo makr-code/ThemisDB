@@ -269,7 +269,7 @@ double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const
     auto tokenize = [](const std::string &s) {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
             while (!word.empty() && !std::isalpha(static_cast<unsigned char>(word.back()))) {
@@ -347,7 +347,7 @@ LegalGrounding RAGContextEngine::retrieveLegalGrounding(
 #else
     gmtime_r(&now_time, &utc_tm);
 #endif
-    std::ostringstream ts;
+    std::ostringstream ts = {};
     ts << std::put_time(&utc_tm, "%Y-%m-%dT%H:%M:%SZ");
     const std::string retrieved_at = ts.str();
     grounding.retrieval_timestamp_utc = retrieved_at;

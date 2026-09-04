@@ -333,7 +333,7 @@ QuantizedModel load_from_gguf(
                  metadata.version, metadata.architecture, metadata.tensors.size());
     
     // Determine quantization config
-    QuantizedModelConfig model_config;
+    QuantizedModelConfig model_config = {};
     if (config) {
         model_config = *config;
     } else {

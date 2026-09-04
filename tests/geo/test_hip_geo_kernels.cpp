@@ -148,7 +148,7 @@ TEST(HipGeoKernelDispatch, WithHipTable_IsAvailable) {
 TEST(HipGeoKernelDispatch, WithHipTable_ContainmentReturnsNotDispatchedWithoutDevice) {
     // On a machine without an AMD GPU, dispatch falls back through the circuit-
     // breaker.  On a machine WITH a GPU this test must be skipped or adapted.
-    HIPGeoBackend backend;
+    HIPGeoBackend backend = {};
     if (backend.isAvailable()) {
         GTEST_SKIP() << "capability:no_hip_device_path_exercisable=false;reason=amd_gpu_present";
     }
@@ -164,7 +164,7 @@ TEST(HipGeoKernelDispatch, WithHipTable_ContainmentReturnsNotDispatchedWithoutDe
 }
 
 TEST(HipGeoKernelDispatch, WithHipTable_DistanceReturnsNotDispatchedWithoutDevice) {
-    HIPGeoBackend backend;
+    HIPGeoBackend backend = {};
     if (backend.isAvailable()) {
         GTEST_SKIP() << "capability:no_hip_device_path_exercisable=false;reason=amd_gpu_present";
     }

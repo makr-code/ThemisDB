@@ -115,7 +115,7 @@ TEST(Wave1CriticalGaps, TimedJoin_StuckThreadCountedAsStraggler)
  */
 TEST(Wave1CriticalGaps, CallOnce_InvokedExactlyOnceUnderConcurrency)
 {
-    std::once_flag flag;
+    std::once_flag flag = {};
     std::atomic<int> init_count{0};
 
     constexpr int kThreads = 8;
@@ -141,7 +141,7 @@ TEST(Wave1CriticalGaps, CallOnce_InvokedExactlyOnceUnderConcurrency)
  */
 TEST(Wave1CriticalGaps, CallOnce_ResultConsistentAcrossThreads)
 {
-    std::once_flag flag;
+    std::once_flag flag = {};
     bool ok = false;
 
     constexpr int kThreads = 4;
@@ -175,7 +175,7 @@ TEST(Wave1CriticalGaps, HandlerSnapshot_ConsistentUnderConcurrentReads)
     // api_handlers_mutex_ + monitoring_api_ in http_server.cpp).
     int handler_v1 = 1, handler_v2 = 2;
     int* handler_ptr = &handler_v1;
-    std::mutex handler_mutex;
+    std::mutex handler_mutex = {};
 
     constexpr int kReaderThreads = 8;
     std::atomic<int> mismatches{0};

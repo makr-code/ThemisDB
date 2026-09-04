@@ -86,7 +86,7 @@ public:
             .count() / 1000000;
         
         // Build summary from compressed history
-        std::ostringstream summary;
+        std::ostringstream summary = {};
         summary << "[Compressed Episode " << compression_count_ << "]\n";
         for (const auto& [role, content] : history) {
             if (role == "system") {

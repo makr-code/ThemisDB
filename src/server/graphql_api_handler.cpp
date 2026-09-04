@@ -119,7 +119,7 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         }
         const std::string gql_query = body_json["query"].get<std::string>();
 
-        std::string op_name;
+        std::string op_name = {};
         if (body_json.contains("operationName") &&
             body_json["operationName"].is_string()) {
             op_name = body_json["operationName"].get<std::string>();

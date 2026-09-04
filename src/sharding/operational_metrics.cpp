@@ -69,7 +69,7 @@ std::vector<std::string> OperationalMetrics::getShardIds() const {
 std::string OperationalMetrics::exportPrometheusMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     // Header comments
     ss << "# HELP themisdb_shard_requests_total Total number of requests\n";
@@ -611,7 +611,7 @@ std::string OperationalMetrics::formatPrometheusMetric(
     const std::map<std::string, std::string>& labels
 ) {
     (void)type;
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     ss << name;
     

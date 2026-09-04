@@ -156,7 +156,7 @@ std::vector<SpeedRestriction> getSpeedRestrictions() {
 
 class TrackNetworkGenerator {
 private:
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     std::uniform_real_distribution<> uniform_dist{0.0, 1.0};
     std::uniform_real_distribution<> gradient_dist{-10.0, 10.0};
     std::uniform_int_distribution<> curve_radius_dist{500, 5000};

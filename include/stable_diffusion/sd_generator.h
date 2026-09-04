@@ -384,7 +384,7 @@ public:
         }
 
         if (cfg.control_model_path != active_control_model_path_) {
-            std::string context_error;
+            std::string context_error = {};
             if (!recreateContext(cfg.control_model_path,
                                  active_lora_path_,
                                  active_lora_scale_,
@@ -478,7 +478,7 @@ public:
         }
 
         if (cfg.control_model_path != active_control_model_path_) {
-            std::string context_error;
+            std::string context_error = {};
             if (!recreateContext(cfg.control_model_path,
                                  active_lora_path_,
                                  active_lora_scale_,

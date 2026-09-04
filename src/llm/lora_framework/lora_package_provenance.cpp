@@ -47,7 +47,7 @@ static std::string nowISO8601_pkg() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }
@@ -59,7 +59,7 @@ static std::string generateId_pkg() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     std::lock_guard<std::mutex> lock(id_mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -71,7 +71,7 @@ static std::string sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(data.data()),
            data.size(), digest);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto byte : digest) {
         oss << std::setw(2) << static_cast<int>(byte);
@@ -858,7 +858,7 @@ json ProvenanceHashLedger::exportAuditPath(
     //   product_chains : package_id  → [AdapterProduct …]
     //   packages_by_id : package_id  → LoRAPackage
     //   products_by_id : product_id  → AdapterProduct
-    std::string resolved_adapter_id;
+    std::string resolved_adapter_id = {};
     std::string resolved_package_id; // non-empty → filter products to one package
 
     if (impl_->package_chains.count(artifact_id)) {

@@ -67,7 +67,7 @@ static uint64_t GetRSSBytes() {
     if (!file.is_open()) {
         return 0;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         if (line.substr(0, 6) == "VmRSS:") {
             // Format: VmRSS: <size> kB
@@ -162,8 +162,8 @@ static std::vector<uint8_t> CreateTestImageData(
 
 class OnnxClipMmapTest : public ::testing::Test {
 protected:
-    std::string small_model_path_;
-    std::string large_model_path_;
+    std::string small_model_path_ = {};
+    std::string large_model_path_ = {};
     
     void SetUp() override {
         // Create mock model files

@@ -137,7 +137,7 @@ bool RedisImporter::validateSource(const std::string& source_path,
     }
 
     // PING command.
-    std::string response;
+    std::string response = {};
     if (mock_command_fn_) {
         response = mock_command_fn_({"PING"});
     }
@@ -369,7 +369,7 @@ ImportStats RedisImporter::importData(
         });
 
         // SCAN response: JSON array [next_cursor, [key1, key2, ...]]
-        std::string next_cursor;
+        std::string next_cursor = {};
         std::vector<std::string> keys;
         try {
             const json resp = json::parse(scan_resp);
@@ -407,7 +407,7 @@ ImportStats RedisImporter::importData(
                 continue;
             }
 
-            std::string fetch_err;
+            std::string fetch_err = {};
             const json doc = fetchKeyDocument(key, vtype, fetch_err);
             if (!fetch_err.empty()) {
                 ImportError err;

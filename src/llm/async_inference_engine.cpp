@@ -555,7 +555,7 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
 
     // Build structured prompt: use context_template when provided, otherwise
     // fall back to XML-tag format that most instruction-tuned models handle well.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     const bool use_custom_template = !rag_context.context_template.empty();
 
     if (!use_custom_template) {
@@ -583,7 +583,7 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         // Custom template: substitute {{CONTEXT}} and {{QUERY}} placeholders.
         std::string tmpl = rag_context.context_template;
 
-        std::ostringstream context_block;
+        std::ostringstream context_block = {};
         for (size_t i = 0; i < rag_context.documents.size(); ++i) {
             const auto& doc = rag_context.documents[i];
             context_block << "[" << (i + 1) << "] ";
@@ -670,7 +670,7 @@ json AsyncInferenceEngine::getWorkerStats() const {
     // tokens/sec: total tokens generated divided by elapsed wall-clock time.
     // THREAD-SAFETY: Protect engine_start_time_ read with mutex to prevent data race
     stats["total_tokens_generated"] = stats_.total_tokens_generated.load();
-    double elapsed_s;
+    double elapsed_s = {};
     {
         std::lock_guard<std::mutex> lock(stats_time_mutex_);
         elapsed_s = std::chrono::duration<double>(
@@ -1051,7 +1051,7 @@ std::string AsyncInferenceEngine::generateRequestId() {
     
     uint64_t id = counter.fetch_add(1);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "inf_" << timestamp << "_" << id;
     return oss.str();
 }

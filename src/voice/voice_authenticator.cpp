@@ -183,7 +183,7 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
     const std::vector<VoiceProfileID>& candidate_profiles,
     const std::vector<uint8_t>&        audio_sample)
 {
-    IdentificationResult result;
+    IdentificationResult result = {};
 
     if (audio_sample.empty() || candidate_profiles.empty()) {
         return result;
@@ -236,7 +236,7 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
 LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     const std::vector<uint8_t>& audio_sample)
 {
-    LivenessScore result;
+    LivenessScore result = {};
 
     if (audio_sample.empty()) {
         result.reason = "empty_audio";
@@ -851,7 +851,7 @@ std::string VoiceBiometricAuthenticator::generateProfileId(
     // Combine user_id with a timestamp hash to produce a unique ID.
     int64_t ts = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "vp_" << user_id << "_" << ts;
     return oss.str();
 }

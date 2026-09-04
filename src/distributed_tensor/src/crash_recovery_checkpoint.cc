@@ -97,7 +97,7 @@ CheckpointStatus CrashRecoveryCheckpoint::load(const std::string& artifact_id,
       return CheckpointStatus::IO_ERROR;
     }
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << in_file.rdbuf();
     in_file.close();
 
@@ -153,7 +153,7 @@ bool CrashRecoveryCheckpoint::exists(const std::string& artifact_id) {
 }
 
 CrashRecoveryCheckpoint::CheckpointStats CrashRecoveryCheckpoint::getStats() {
-  CheckpointStats stats;
+  CheckpointStats stats = {};
 
   if (checkpoint_dir_.empty()) {
     return stats;
@@ -234,7 +234,7 @@ std::string CrashRecoveryCheckpoint::getCheckpointDir() const {
 
 std::string CrashRecoveryCheckpoint::serializeCheckpoint(const Checkpoint& checkpoint) {
   // Simple pipe-delimited format for checkpoint serialization
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << checkpoint.version << "|"
       << checkpoint.created_at_unix_sec << "|"
       << checkpoint.artifact_id << "|"
@@ -256,7 +256,7 @@ std::string CrashRecoveryCheckpoint::serializeCheckpoint(const Checkpoint& check
 Checkpoint CrashRecoveryCheckpoint::deserializeCheckpoint(const std::string& data) {
   Checkpoint checkpoint;
   std::istringstream iss(data);
-  std::string token;
+  std::string token = {};
   std::vector<std::string> tokens;
 
   // Split by pipe delimiter

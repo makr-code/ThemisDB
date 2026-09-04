@@ -103,7 +103,7 @@ inline void bitFlipAttack(
         for (auto& val : tensor.data) {
             if (dist(gen) < flip_probability) {
                 // Flip a random bit in the float representation
-                uint32_t bits;
+                uint32_t bits = {};
                 std::memcpy(&bits, &val, sizeof(float));
                 
                 // Flip a random bit (0-31)

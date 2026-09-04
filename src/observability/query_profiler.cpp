@@ -104,7 +104,7 @@ json QueryProfile::toJSON() const {
 }
 
 std::string QueryProfile::toSummary() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Query: " << query_id << "\n";
     oss << "Duration: " << std::fixed << std::setprecision(2) 
         << (total_duration.count() / 1000.0) << " ms\n";

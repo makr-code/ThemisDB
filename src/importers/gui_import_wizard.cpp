@@ -32,7 +32,7 @@ namespace {
 
 std::string isoNow() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -41,7 +41,7 @@ std::string makeUuid() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
     std::lock_guard<std::mutex> lock(mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "wiz-" << std::hex << rng() << "-" << (rng() & 0xFFFF);
     return oss.str();
 }

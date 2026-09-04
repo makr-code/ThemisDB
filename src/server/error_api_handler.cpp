@@ -24,13 +24,13 @@ void ErrorApiHandler::handleGetErrors(const Request& req, Response& res) {
     auto& registry = errors::ErrorRegistry::getInstance();
     
     // Check if category filter is provided
-    std::string category;
+    std::string category = {};
     if (req.query.contains("category")) {
     auto span = Tracer::startSpan("handleGetErrors");
         category = req.query["category"].get<std::string>();
     }
     
-    json response;
+    json response = {};
     
     if (!category.empty()) {
         auto errors = registry.getErrorsByCategory(category);
@@ -119,7 +119,7 @@ void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
     auto& registry = errors::ErrorRegistry::getInstance();
     
     // Get search query
-    std::string query;
+    std::string query = {};
     if (req.query.contains("q")) {
         query = req.query["q"].get<std::string>();
     }

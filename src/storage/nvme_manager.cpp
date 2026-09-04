@@ -148,7 +148,7 @@ bool NVMeManager::initialize() {
     bool enable_zns = false;
     bool direct_io_requested = false;
     uint32_t io_uring_queue_depth = 0;
-    std::string device_path;
+    std::string device_path = {};
     {
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         enable_io_uring = config_.enable_io_uring;
@@ -279,7 +279,7 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
             std::string zoned_path = "/sys/block/" + dev_name + "/queue/zoned";
             std::ifstream zoned_file(zoned_path);
             if (zoned_file.is_open()) {
-                std::string zoned_val;
+                std::string zoned_val = {};
                 zoned_file >> zoned_val;
                 caps.zns_available = (zoned_val == "host-managed" ||
                                        zoned_val == "host-aware");

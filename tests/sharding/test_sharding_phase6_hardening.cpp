@@ -565,7 +565,7 @@ private:
 // ----------------------------------------------------------------------------
 
 struct SagaStep {
-    std::string                   name;
+    std::string                   name = {};
     std::function<bool()>         action;
     std::function<void()>         compensate;
 };

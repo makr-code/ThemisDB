@@ -234,7 +234,7 @@ struct ConsensusSnapshot {
     int64_t timestamp_ns = 0;
 
     /// Serialized process model state (opaque to consensus layer)
-    std::string model_state;
+    std::string model_state = {};
 
     /// Cryptographic hash of model_state (for integrity verification)
     std::string model_state_hash;

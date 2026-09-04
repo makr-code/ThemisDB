@@ -94,7 +94,7 @@ private:
     std::mt19937 rng_;
 
     /// Model architecture fingerprint
-    std::string fingerprint_;
+    std::string fingerprint_ = {};
 };
 
 }  // namespace themis::llm

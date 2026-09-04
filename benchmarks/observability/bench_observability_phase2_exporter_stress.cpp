@@ -67,7 +67,7 @@ struct ListenerCallback {
  */
 struct Hint {
     string hint_id;
-    uint64_t hint_value;
+    uint64_t hint_value = {};
     uint64_t timestamp_ns;
     
     bool operator==(const Hint& other) const {
@@ -468,7 +468,7 @@ static void BM_OBE_03_MalformedInputReject(benchmark::State& state) {
             // Generate ~50% malformed metrics
             bool is_valid = validity_dist(rng) > 0.5;
             
-            Metric m;
+            Metric m = {};
             if (is_valid) {
                 m = {
                     .name = "valid.metric_" + to_string(i),

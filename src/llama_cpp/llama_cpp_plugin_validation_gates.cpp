@@ -410,7 +410,7 @@ using LlamaPluginValidator = std::function<bool(
  */
 LlamaPluginValidator getLlamaPluginValidator() {
     return [](const std::string& model_path, const nlohmann::json& config) -> bool {
-        std::string error_msg;
+        std::string error_msg = {};
         
         // Gate 1: Model initialization validation (fail-closed)
         if (!validateModelInitialization(model_path, config, error_msg)) {

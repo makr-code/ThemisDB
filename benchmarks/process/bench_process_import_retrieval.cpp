@@ -40,7 +40,7 @@ using namespace themis;
 
 /// Generate a minimal, well-formed BPMN 2.0 XML fragment.
 static std::string makeBpmnXml(int model_idx, int node_count) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
         << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL")"
         << R"( targetNamespace="http://themisdb.io/bench">)"
@@ -70,7 +70,7 @@ static std::string makeBpmnXml(int model_idx, int node_count) {
 
 /// Generate a minimal EPK text fragment (simple line-based notation).
 static std::string makeEpkText(int model_idx, int event_count) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "PROCESS: epk_" << model_idx << " \"EPK Prozess " << model_idx << "\"\n";
     oss << "EVENT: \"Eingang " << model_idx << "\"\n";
     for (int i = 0; i < event_count - 1; ++i) {
@@ -183,7 +183,7 @@ public:
         fs::remove_all(db_path_);
     }
 
-    std::string                          db_path_;
+    std::string                          db_path_ = {};
     std::unique_ptr<RocksDBWrapper>      db_;
     std::unique_ptr<ProcessModelManager> mgr_;
 };

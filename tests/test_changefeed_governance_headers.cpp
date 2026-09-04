@@ -27,8 +27,8 @@ namespace http = boost::beast::http;
 namespace {
 
 struct GovernanceResult {
-    std::string classification;
-    std::string mode;
+    std::string classification = {};
+    std::string mode = {};
     std::string content_enc;
     std::string export_perm;
     std::string cache_perm;

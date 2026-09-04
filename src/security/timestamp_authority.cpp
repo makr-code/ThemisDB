@@ -197,7 +197,7 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     auto now = std::chrono::system_clock::now();
     tok.timestamp_unix_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());
     std::time_t tt = std::chrono::system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm,&tt);
 #else
@@ -255,7 +255,7 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_data) {
-    TimestampToken tok;
+    TimestampToken tok = {};
     if (token_data.empty()) {
         tok.error_message = "Cannot parse empty token data";
         THEMIS_WARN("parseToken: {}", tok.error_message);
@@ -269,7 +269,7 @@ TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
-    TimestampToken tok;
+    TimestampToken tok = {};
     if (token_b64.empty()) {
         tok.error_message = "Cannot parse empty token string";
         THEMIS_WARN("parseToken: {}", tok.error_message);

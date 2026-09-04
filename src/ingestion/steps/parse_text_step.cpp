@@ -69,7 +69,7 @@ public:
                 Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       "parse_text: cannot open '" + path + "'"});
         }
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << file.rdbuf();
         ctx.raw_text = ss.str();
 

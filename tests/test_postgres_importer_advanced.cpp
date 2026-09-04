@@ -124,7 +124,7 @@ static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
     if (!f) {
       return hs;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line))
         if (!line.empty()) {
             try { hs.insert(std::stoull(line, nullptr, 16)); } catch (...) {}
@@ -183,7 +183,7 @@ static ImportStats importContent(const std::string& content,
     // Dump-mode detection
     {
         std::istringstream ss(content);
-        std::string line;
+        std::string line = {};
         int n = 0;
         while (std::getline(ss, line) && n < 50) {
             if (line.find("schema-only") != std::string::npos ||
@@ -199,9 +199,9 @@ static ImportStats importContent(const std::string& content,
 
     // Parse content
     std::istringstream file(content);
-    std::string line;
-    std::string sql;
-    std::string current_table;
+    std::string line = {};
+    std::string sql = {};
+    std::string current_table = {};
     bool in_copy = false;
     bool first_copy_line = false;
 
@@ -444,7 +444,7 @@ TEST(QuarantineTest, OversizedRowsWrittenToQuarantine) {
 
     std::ifstream qf(qfile);
     ASSERT_TRUE(qf.good()) << "Quarantine file was not created";
-    std::string line;
+    std::string line = {};
     int lines = 0;
     while (std::getline(qf, line)) {
       if (!line.empty()) lines++;
@@ -779,7 +779,7 @@ TEST(DeltaImportTest, HashFilePersistsAcrossRuns) {
     // Check file was written
     std::ifstream f(hash_file);
     ASSERT_TRUE(f.good()) << "Delta hash file was not created";
-    std::string line;
+    std::string line = {};
     std::getline(f, line);
     EXPECT_EQ(line.size(), 16u) << "Hash should be 16 hex characters";
 

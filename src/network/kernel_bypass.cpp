@@ -670,7 +670,7 @@ bool IoUringServer::isIoUringAvailable() noexcept {
         return true;
     // ENOMEM means available but out of memory right now.
     if (errno == ENOMEM)
-        return true;
+        return true = {};
     return false;
 #else
     return false;
@@ -828,7 +828,7 @@ bool IoUringServer::start() {
     }
 
     if (!setupListenSocket())
-        return false;
+        return false = {};
     if (!setupIoUring()) {
         if (listen_fd_ >= 0) {
 #ifdef __linux__

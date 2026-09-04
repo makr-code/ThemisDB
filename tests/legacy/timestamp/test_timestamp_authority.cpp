@@ -482,8 +482,8 @@ TEST_F(TimestampAuthorityTest, RFC3161_CertificateExtraction) {
 // Helper RAII guard for environment variables (portable across POSIX and Windows)
 struct EnvGuard {
     const char* name;
-    std::string previous;
-    bool had_previous;
+    std::string previous = {};
+    bool had_previous = {};
 
     explicit EnvGuard(const char* var, const char* value) : name(var) {
         const char* existing = std::getenv(var);
@@ -516,8 +516,8 @@ struct EnvGuard {
 // RAII guard that unsets an environment variable for the duration of a scope
 struct EnvUnsetGuard {
     const char* name;
-    std::string previous;
-    bool had_previous;
+    std::string previous = {};
+    bool had_previous = {};
 
     explicit EnvUnsetGuard(const char* var) : name(var) {
         const char* existing = std::getenv(var);

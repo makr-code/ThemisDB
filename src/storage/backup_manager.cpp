@@ -137,7 +137,7 @@ fs::path resolveBackupGuardBaseDir(const RocksDBWrapper& db_wrapper,
 
 /// Return true when @p candidate is inside @p base (or equals @p base).
 bool isPathWithinBaseDir(const fs::path& base, const fs::path& candidate) {
-    std::error_code ec;
+    std::error_code ec = {};
     const fs::path relative = fs::relative(candidate, base, ec);
     if (ec) {
         return false;
@@ -166,7 +166,7 @@ bool isValidCronField(const std::string& field) {
 bool isValidCronExpression(const std::string& expression) {
     std::istringstream iss(expression);
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     while (iss >> field) {
         fields.push_back(field);
     }
@@ -292,7 +292,7 @@ std::vector<std::string> splitPathSegments(std::string_view value) {
 }
 
 std::string joinPathSegments(const std::vector<std::string>& segments, std::size_t start_index) {
-    std::string joined;
+    std::string joined = {};
     for (std::size_t i = start_index; i < segments.size(); ++i) {
         if (!joined.empty()) {
             joined.push_back('/');
@@ -327,7 +327,7 @@ Result<void> validateRemotePayloadSize(std::uintmax_t size_bytes, const std::str
 }
 
 Result<void> validateRemoteUploadSourceSize(const fs::path& source_path) {
-    std::error_code ec;
+    std::error_code ec = {};
     const bool source_exists = fs::exists(source_path, ec);
     if (ec) {
         return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
@@ -419,7 +419,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
             return std::nullopt;
         }
 
-        RemoteBackupLocation location;
+        RemoteBackupLocation location = {};
         if (segments.size() >= 3) {
             location.authority = segments[0];
             location.container = segments[1];
@@ -469,7 +469,7 @@ Result<std::vector<uint8_t>> readBinaryFileBytes(const fs::path& file_path) {
 }
 
 Result<void> writeBinaryFileBytes(const fs::path& file_path, const std::vector<uint8_t>& data) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(file_path.parent_path(), ec);
     if (ec) {
         return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
@@ -514,7 +514,7 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
     case StorageBackend::AZURE:
 #if defined(THEMIS_HAS_AZURE_STORAGE) && THEMIS_HAS_AZURE_STORAGE
         {
-            std::string connection_string;
+            std::string connection_string = {};
             if (const auto it = config.find("connection_string");
                 it != config.end() && !it->second.empty()) {
                 connection_string = it->second;
@@ -550,7 +550,7 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
 /// Wrap a string in double quotes for use as a CreateProcess command argument.
 /// Backslash-escapes embedded double-quote characters.
 static std::string winQuoteForCreateProcess(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 2);
     out.push_back('"');
     for (char c : s) {
@@ -612,7 +612,7 @@ bool matchesCronField(const std::string& field, int value) {
     }
 
     std::stringstream stream(field);
-    std::string token;
+    std::string token = {};
     while (std::getline(stream, token, ',')) {
         if (token.empty()) {
             continue;
@@ -687,7 +687,7 @@ void BackupManager::processScheduledBackups() {
                                                        : config_.backup_base_dir;
         }
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(backup_dir, ec);
 
         const Result<std::string> backup_result = [&]() -> Result<std::string> {
@@ -718,7 +718,7 @@ void BackupManager::processScheduledBackups() {
 bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
                                              const std::tm& current_time) const {
     std::stringstream stream(entry.cron_expression);
-    std::string field;
+    std::string field = {};
     std::array<std::string, 5> fields{};
     std::size_t index = 0;
 
@@ -802,7 +802,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
     if (shards_env) {
         std::string shards_str = shards_env;
         std::istringstream ss(shards_str);
-        std::string shard;
+        std::string shard = {};
         uint32_t index = 0;
         
         while (std::getline(ss, shard, ',')) {
@@ -872,7 +872,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
 std::string BackupManager::getTimestamp() const {
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::put_time(std::localtime(&time), "%Y%m%d_%H%M%S");
     return ss.str();
 }
@@ -979,7 +979,7 @@ Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::
                                          [[maybe_unused]] uint64_t min_sequence) {
     namespace fs = std::filesystem;
     try {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_directories(dest_dir, ec);
         if (ec) {
             THEMIS_ERROR("Failed to create WAL dest directory: {}", ec.message());
@@ -1028,7 +1028,7 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
         
         THEMIS_INFO("Creating full backup to {}", backup_dir.string());
         
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_directories(backup_dir, ec);
         if (ec) {
             THEMIS_ERROR("Failed to create backup directory: {}", ec.message());
@@ -1107,7 +1107,7 @@ Result<std::string> BackupManager::createIncrementalBackup(const std::string& de
         
         if (!backups.empty()) {
             auto last_backup_dir = fs::path(dest_dir) / backups.back();
-            std::string type;
+            std::string type = {};
             auto result = readManifest(last_backup_dir.string(), type, min_sequence);
             if (!result) {
                 THEMIS_WARN("Could not read last backup manifest, creating full backup instead");
@@ -1125,7 +1125,7 @@ Result<std::string> BackupManager::createIncrementalBackup(const std::string& de
         THEMIS_INFO("Creating incremental backup to {} (seq >= {})", 
                     backup_dir.string(), min_sequence);
         
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_directories(backup_dir, ec);
         if (ec) {
             THEMIS_ERROR("Failed to create incremental backup directory: {}", ec.message());
@@ -1174,7 +1174,7 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         
         // Read sequence number from last full backup
         auto last_full_dir = fs::path(dest_dir) / last_full;
-        std::string type;
+        std::string type = {};
         uint64_t min_sequence = 0;
         auto last_full_manifest = readManifest(last_full_dir.string(), type, min_sequence);
         if (!last_full_manifest) {
@@ -1257,8 +1257,8 @@ Result<std::string> BackupManager::createDifferentialBackup(const std::string& d
         const auto before = listBackups(dest_dir);
         std::unordered_set<std::string> before_set(before.begin(), before.end());
 
-        std::error_code ec;
-        BackupOptions options;
+        std::error_code ec = {};
+        BackupOptions options = {};
         if (!createDifferentialBackup(dest_dir, ec, options)) {
             const std::string message = ec ? ec.message() : "Failed to create differential backup";
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, message);
@@ -1299,7 +1299,7 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
         for (auto it = backups.rbegin(); it != backups.rend(); ++it) {
             if (it->starts_with("full_")) {
                 auto full_backup_dir = fs::path(dest_dir) / *it;
-                std::string type;
+                std::string type = {};
                 auto result = readManifest(full_backup_dir.string(), type, base_sequence);
                 if (result && type == "full") {
                     found_full = true;
@@ -1355,7 +1355,7 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
 Result<void> BackupManager::archiveWAL(const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_directories(dest_dir, ec);
         if (ec) {
             THEMIS_ERROR("Failed to create WAL archive directory: {}", ec.message());
@@ -1390,8 +1390,8 @@ Result<void> BackupManager::restoreFromBackup(const std::string& src_dir) {
         }
         
         // Read backup manifest
-        std::string type;
-        uint64_t sequence_number;
+        std::string type = {};
+        uint64_t sequence_number = {};
         auto manifest_result = readManifest(src_dir, type, sequence_number);
         if (!manifest_result) {
             THEMIS_ERROR("Failed to read backup manifest");
@@ -1477,8 +1477,8 @@ Result<void> BackupManager::verifyBackup(const std::string& backup_dir) {
         }
         
         // Read manifest
-        std::string type;
-        uint64_t seq;
+        std::string type = {};
+        uint64_t seq = {};
         auto result = readManifest(backup_dir, type, seq);
         if (!result) {
             return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED, 
@@ -1653,7 +1653,7 @@ Result<std::string> BackupManager::calculateChecksum(const std::string& file_pat
         SHA256_Final(hash, &sha256);
         
         // Convert to hex string
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
@@ -1787,7 +1787,7 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
                                    "Compressed file not found: " + compressed_file);
         }
 
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_directories(dest_dir, ec);
         if (ec) {
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
@@ -2206,7 +2206,7 @@ bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("encryptFile: AES-256-GCM encryption failed for {}", src_path);
         namespace fs = std::filesystem;
-        std::error_code ignored;
+        std::error_code ignored = {};
         fs::remove(dest_path, ignored);
         return false;
     }
@@ -2301,7 +2301,7 @@ bool BackupManager::decryptFile([[maybe_unused]] const std::string& src_path,
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("decryptFile: AES-256-GCM decryption/authentication failed for {}", src_path);
         namespace fs = std::filesystem;
-        std::error_code ignored;
+        std::error_code ignored = {};
         fs::remove(dest_path, ignored);
         return false;
     }
@@ -2334,7 +2334,7 @@ Result<void> BackupManager::uploadToCloud(const std::string& local_path,
         }
 
         THEMIS_INFO("Mirroring backup {} to local destination {}", local_path, destination.string());
-        std::error_code ec;
+        std::error_code ec = {};
         if (!copyPathRecursively(fs::path(local_path), destination, ec)) {
             return ErrVoid(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
                            "Local backup mirror failed: " + ec.message());
@@ -2500,7 +2500,7 @@ Result<void> BackupManager::downloadFromCloud(const std::string& cloud_path,
         }
 
         THEMIS_INFO("Restoring local backup mirror {} into {}", source.string(), local_path);
-        std::error_code ec;
+        std::error_code ec = {};
         if (!copyPathRecursively(source, fs::path(local_path), ec)) {
             return ErrVoid(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
                            "Local backup restore failed: " + ec.message());
@@ -2569,7 +2569,7 @@ Result<void> BackupManager::downloadFromCloud(const std::string& cloud_path,
 
             const fs::path target_path = restore_root / relative_path;
             if (kind == "directory") {
-                std::error_code ec;
+                std::error_code ec = {};
                 fs::create_directories(target_path, ec);
                 if (ec) {
                     return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
@@ -2656,8 +2656,8 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
         THEMIS_INFO("Restoring database from backup: {}", src_dir);
         
         // Read backup manifest
-        std::string type;
-        uint64_t sequence_number;
+        std::string type = {};
+        uint64_t sequence_number = {};
         auto manifest_result = readManifest(src_dir, type, sequence_number);
         if (!manifest_result) {
             THEMIS_ERROR("Failed to read backup manifest");
@@ -2741,7 +2741,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         // Expected naming convention (set by createFullBackup): "full_YYYYMMDD_HHMMSS"
         const auto backups = listBackups(dest_dir);
 
-        std::string  best_backup;
+        std::string  best_backup = {};
         std::time_t  best_time = 0;
 
         for (const auto& backup_name : backups) {
@@ -2910,7 +2910,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         }
 
         // Validate backup manifest.
-        std::string type;
+        std::string type = {};
         uint64_t seq = 0;
         auto manifest_result = readManifest(src_dir, type, seq);
         if (!manifest_result) {
@@ -2945,7 +2945,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
                 coll_list_capacity += (collections.size() - 1) * 2; // ", "
             }
 
-            std::string coll_list;
+            std::string coll_list = {};
             coll_list.reserve(coll_list_capacity);
             for (size_t i = 0; i < collections.size(); ++i) {
                 if (i) {
@@ -3210,15 +3210,15 @@ std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& b
         auto backup_path = fs::path(backup_dir) / latest_backup;
         
         // Read manifest to get timestamp
-        std::string type;
-        uint64_t seq;
+        std::string type = {};
+        uint64_t seq = {};
         auto manifest_result = readManifest(backup_path.string(), type, seq);
         if (!manifest_result) {
             return std::chrono::system_clock::time_point{};
         }
         
         // Return the last write time of the backup
-        std::error_code ec;
+        std::error_code ec = {};
         auto ftime = fs::last_write_time(backup_path, ec);
         if (ec) {
             return std::chrono::system_clock::time_point{};
@@ -3342,7 +3342,7 @@ Result<std::string> BackupManager::uploadBackupToCloud(
     
     // Validate local backup path exists
     namespace fs = std::filesystem;
-    std::error_code ec;
+    std::error_code ec = {};
     if (!fs::exists(local_backup_path, ec)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
@@ -3436,7 +3436,7 @@ Result<void> BackupManager::restoreFromCloud(
 
     if (is_local_backend) {
         namespace fs = std::filesystem;
-        std::error_code ec;
+        std::error_code ec = {};
         fs::create_directories(local_restore_path, ec);
         if (ec) {
             return tl::unexpected(Error(
@@ -3467,7 +3467,7 @@ Result<void> BackupManager::restoreFromCloud(
     }
 
     namespace fs = std::filesystem;
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(local_restore_path, ec);
     if (ec) {
         return tl::unexpected(Error(
@@ -3507,7 +3507,7 @@ Result<std::string> BackupManager::createSnapshot(
     fs::path snap_dir = fs::path(db_path).parent_path() / "snapshots" /
                         (snapshot_name + "_" + ts);
 
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(snap_dir.parent_path(), ec);
     if (ec) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
@@ -3649,7 +3649,7 @@ Result<std::vector<std::string>> BackupManager::listSnapshots() {
 
     if (!fs::exists(snap_base)) return result; // no snapshots yet
 
-    std::error_code ec;
+    std::error_code ec = {};
     for (const auto& entry : fs::directory_iterator(snap_base, ec)) {
         if (entry.is_directory()) {
             // Only include directories that contain a snapshot manifest
@@ -3713,7 +3713,7 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
 
         const auto& corrupted = corrupted_files.value();
         if (!corrupted.empty()) {
-            std::string corrupt_list;
+            std::string corrupt_list = {};
             for (size_t i = 0; i < corrupted.size() && i < 5; ++i) {
                 if (i > 0) {
                   corrupt_list += ", ";
@@ -3763,7 +3763,7 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
 
         // Attempt re-decompression
         std::string temp_dir = backup_dir + "_repair_temp";
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(temp_dir, ec);
         if (ec) {
             return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,

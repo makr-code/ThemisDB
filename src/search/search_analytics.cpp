@@ -89,7 +89,7 @@ std::vector<SearchEvent> SearchAnalytics::getRecentEvents([[maybe_unused]] size_
 
 SearchMetrics SearchAnalytics::computeMetrics() const {
     std::lock_guard<std::mutex> lock(mu_);
-    SearchMetrics m;
+    SearchMetrics m = {};
     if (events_.empty()) {
       return m;
     }

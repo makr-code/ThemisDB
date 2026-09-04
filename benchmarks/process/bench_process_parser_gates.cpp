@@ -300,7 +300,7 @@ public:
  * @brief Generate realistic BPMN XML content
  */
 static std::string generateBpmnXml(int model_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0"?>)";
     oss << R"(<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" id="model_)" << model_idx << R"(">)";
     oss << R"(<bpmn:process id="proc_)" << model_idx << R"(" name="Process )" << model_idx << R"(">)";
@@ -328,7 +328,7 @@ static std::string generateBpmnXml(int model_idx) {
  * @brief Generate EPK XML content
  */
 static std::string generateEpkXml(int model_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0"?>)";
     oss << R"(<epk id="epk_)" << model_idx << R"(">)";
     
@@ -350,7 +350,7 @@ static std::string generateEpkXml(int model_idx) {
  * @brief Generate CMMN XML content
  */
 static std::string generateCmmnXml(int model_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0"?>)";
     oss << R"(<cmmn:definitions id="cmmn_)" << model_idx << R"(">)";
     oss << R"(<cmmn:case id="case_)" << model_idx << R"(">)";
@@ -368,7 +368,7 @@ static std::string generateCmmnXml(int model_idx) {
  * @brief Generate DMN XML content
  */
 static std::string generateDmnXml(int model_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0"?>)";
     oss << R"(<dmn:definitions id="dmn_)" << model_idx << R"(">)";
     
@@ -385,7 +385,7 @@ static std::string generateDmnXml(int model_idx) {
  * @brief Generate OCEL JSON content
  */
 static std::string generateOcelJson(int log_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"({"ocel:global": {"ocel:version": "1.0"},)";
     oss << R"("ocel:log": [)";
     
@@ -416,7 +416,7 @@ static std::string generateOcelJson(int log_idx) {
  * @brief Generate VCC/VPB content
  */
 static std::string generateVccVpbXml(int model_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0"?>)";
     oss << R"(<vccvpb id="model_)" << model_idx << R"(">)";
     
@@ -433,7 +433,7 @@ static std::string generateVccVpbXml(int model_idx) {
  * @brief Generate FIM content
  */
 static std::string generateFimXml(int model_idx) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0"?>)";
     oss << R"(<fim id="fim_)" << model_idx << R"(">)";
     

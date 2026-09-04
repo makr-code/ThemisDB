@@ -289,7 +289,7 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
 
     // Apply each event in reverse
     uint64_t replay_errors = 0;
-    std::string first_replay_error;
+    std::string first_replay_error = {};
     for (const auto& event : events) {
         // Apply table filter
         if (!options.tables.empty()) {

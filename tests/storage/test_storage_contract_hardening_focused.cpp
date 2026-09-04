@@ -77,7 +77,7 @@ namespace {
 struct WalEntry {
     std::uint64_t seq;
     std::string   key;
-    std::string   value;
+    std::string   value = {};
     bool          isTorn{false};  ///< Simulates a partially written entry.
 };
 

@@ -45,7 +45,7 @@ constexpr int hexDigit(char c) noexcept {
 }
 
 std::string urlDecodeTypeAdapter(const std::string& str) {
-    std::string out;
+    std::string out = {};
     out.reserve(str.size());
     for (size_t i = 0; i < str.size(); ++i) {
         if (str[i] == '+') {

@@ -68,7 +68,7 @@ protected:
           storage_->close();
         }
         storage_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path_, ec);
     }
 

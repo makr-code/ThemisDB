@@ -223,7 +223,7 @@ protected:
     // Process commands from queue (worker thread)
     void commandProcessor() {
         while (running_) {
-            VoiceCommand cmd;
+            VoiceCommand cmd = {};
             if (command_queue_->dequeue(cmd, 100)) {
                 // Find session and process
                 for (auto& session : sessions_) {

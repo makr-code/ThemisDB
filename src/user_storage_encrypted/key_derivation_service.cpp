@@ -179,7 +179,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::generateSalt() const 
         return Result<std::vector<uint8_t>>::error("getrandom() failed");
     }
 #elif defined(_WIN32)
-    std::random_device rd;
+    std::random_device rd = {};
     for (auto& b : salt) {
         b = static_cast<uint8_t>(rd() & 0xFF);
     }
@@ -324,7 +324,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt([[maybe_unused]]
     std::vector<uint8_t> salt(length);
 
 #ifdef _WIN32
-    std::random_device rd;
+    std::random_device rd = {};
     for (auto& b : salt) {
         b = static_cast<uint8_t>(rd() & 0xFF);
     }

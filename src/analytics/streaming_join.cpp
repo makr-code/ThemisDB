@@ -49,7 +49,7 @@ std::string encodeValue(const ColumnValue &v) {
                 return std::string(buf, 9);
             } else {
                 // std::string
-                std::string s;
+                std::string s = {};
                 s.reserve(2 + arg.size());
                 s += 'S';
                 s += arg;
@@ -74,7 +74,7 @@ size_t findColumnIndex(const ColumnBatch &batch, const std::string &name) {
 /// Make a composite key from given columns at a specific row.
 std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, const std::vector<size_t> &key_indices,
                              size_t row) {
-    std::string key;
+    std::string key = {};
     key.reserve(key_indices.size() * 10);
     for (size_t ki : key_indices) {
         key += encodeValue(cols[ki]->get(row));
@@ -518,7 +518,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
         }
 
         // Build composite probe key.
-        std::string probe_key;
+        std::string probe_key = {};
         for (size_t ki : probe_key_indices) {
             probe_key += encodeValue(probe_vals[ki]);
             probe_key += '\xFF';
@@ -528,7 +528,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
         for (auto it = it_lo; it != build_buffer_.end() && it->timestamp_ms <= hi; ++it) {
             // Check join keys.
             if (!cfg_.join_keys.empty()) {
-                std::string build_key;
+                std::string build_key = {};
                 for (size_t ki : build_key_indices) {
                     build_key += encodeValue(it->values[ki]);
                     build_key += '\xFF';

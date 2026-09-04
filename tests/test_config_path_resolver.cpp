@@ -329,7 +329,7 @@ TEST_F(ConfigPathResolverTest, RejectsSymlinkOutsideConfigRoot) {
         f << "secret: data\n";
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_symlink(link_target, link_path, ec);
     if (ec) {
         // Symlinks not supported on this platform/filesystem – skip
@@ -366,7 +366,7 @@ TEST_F(ConfigPathResolverTest, RejectsAbsoluteSymlinkOutsideConfigRoot) {
         f << "secret: outside_config_root\n";
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_symlink(link_target, link_path, ec);
     if (ec) {
         std::filesystem::remove(link_target, ec);
@@ -1062,7 +1062,7 @@ TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
         std::filesystem::path dir;
         std::filesystem::path prev_cwd;
         ~Cleanup() {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::current_path(prev_cwd, ec);
             std::filesystem::remove_all(dir, ec);
         }
@@ -1196,7 +1196,7 @@ protected:
     void TearDown() override {
         ConfigPathResolver::setAuditLogEnabled(false);
         ConfigPathResolver::clearAuditLog();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(test_dir_, ec);
     }
 
@@ -1354,7 +1354,7 @@ TEST_F(ConfigAuditLogTest, ResolveThrowingVariantRecordsAuditEntry) {
     auto prev_cwd = std::filesystem::current_path();
     std::filesystem::current_path(test_dir_);
 
-    std::string resolved;
+    std::string resolved = {};
     ASSERT_NO_THROW(resolved = ConfigPathResolver::resolve("config/resolve_audit_test.yaml"));
 
     std::filesystem::current_path(prev_cwd);

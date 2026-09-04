@@ -366,7 +366,7 @@ void FederatedDistillationCoordinator::applyDPNoise(std::vector<SoftLabel> &labe
     //   setNoiseGeneratorFn(); the CPU path is the production fallback.
     // Production Delta: CPU-only; GPU version would operate on tensors directly.
     // Note: inject via setNoiseGeneratorFn() to override with GPU path.
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise_dist(0.0, sigma);
 

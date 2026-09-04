@@ -111,7 +111,7 @@ static std::string sha256Hex(std::string_view input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned char byte : hash) {
         oss << std::setw(2) << static_cast<int>(byte);

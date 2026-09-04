@@ -53,7 +53,7 @@ namespace fs = std::filesystem;
 
 class ReplayAckHardeningTest : public ::testing::Test {
 protected:
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
 

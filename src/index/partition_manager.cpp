@@ -24,8 +24,8 @@ public:
     const std::string& name() const { return name_; }
     
 private:
-    uint32_t id_;
-    std::string name_;
+    uint32_t id_ = {};
+    std::string name_ = {};
 };
 
 // ============================================================================

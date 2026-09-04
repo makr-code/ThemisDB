@@ -97,7 +97,7 @@ double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
  */
 std::vector<std::string> tokenise(const std::string& s) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (char c : s) {
         if (std::isspace(static_cast<unsigned char>(c)) ||
             c == ',' || c == '(' || c == ')' ||
@@ -298,7 +298,7 @@ ReconstructionScore JsonDocumentEvaluator::evaluate(
 
     if (!jo || !jr) {
         // Fallback to plain-text scoring when input is not valid JSON
-        PlainTextEvaluator fallback;
+        PlainTextEvaluator fallback = {};
         return fallback.evaluate(original, recovered);
     }
 
@@ -349,7 +349,7 @@ ReconstructionScore XmlProcessEvaluator::evaluate(
         recovered.find('<') != std::string::npos;
 
     if (!looksLikeXml) {
-        PlainTextEvaluator fallback;
+        PlainTextEvaluator fallback = {};
         return fallback.evaluate(original, recovered);
     }
 
@@ -457,7 +457,7 @@ RelayResult RoundTripSimulator::run(
         const RoundTripEditPair& pair = edit_pairs[round % pair_count];
 
         // --- Forward edit ---
-        std::string forward_doc;
+        std::string forward_doc = {};
         try {
             forward_doc = edit_fn(current_doc, pair.forward_instruction);
             ++result.total_interactions;
@@ -487,7 +487,7 @@ RelayResult RoundTripSimulator::run(
         }
 
         // --- Backward edit ---
-        std::string backward_doc;
+        std::string backward_doc = {};
         try {
             backward_doc = edit_fn(forward_doc, pair.backward_instruction);
             ++result.total_interactions;

@@ -168,7 +168,7 @@ std::string AgenticRAG::reformulateQuery(
         return original_query;
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << original_query;
     bool first = true;
     for (const auto& aspect : gap.missing_aspects) {
@@ -414,7 +414,7 @@ AgenticRAGResult AgenticRAG::run(
                 for (const auto& doc : result.final_documents) {
                     total_size += doc.content.size();
                 }
-                std::string seed;
+                std::string seed = {};
                 seed.reserve(total_size);
                 for (const auto& doc : result.final_documents) {
                     if (!seed.empty()) {

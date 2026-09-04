@@ -50,7 +50,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2LockOrderingTest : public ::testing::Test {
@@ -59,7 +59,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2TimeoutTest : public ::testing::Test {
@@ -68,7 +68,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2ExceptionSafetyTest : public ::testing::Test {
@@ -77,7 +77,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2ErrorLoggingTest : public ::testing::Test {
@@ -86,7 +86,7 @@ protected:
         seed_ = 42;
     }
     
-    uint32_t seed_;
+    uint32_t seed_ = {};
 };
 
 class Phase2DeterminismTest : public ::testing::Test {

@@ -237,7 +237,7 @@ public:
 private:
     struct EndpointKey {
         std::string method; // always upper-case or "*"
-        std::string path;
+        std::string path = {};
         bool operator==(const EndpointKey& o) const noexcept {
             return method == o.method && path == o.path;
         }

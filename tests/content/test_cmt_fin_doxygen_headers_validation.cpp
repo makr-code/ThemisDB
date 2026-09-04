@@ -80,7 +80,7 @@ class DoxygenHeadersValidation : public ::testing::Test {
         
         // Extract header block /** ... */
         std::regex header_regex(R"(/\*\*(.*?)\*/)");
-        std::smatch header_match;
+        std::smatch header_match = {};
         
         if (!std::regex_search(content, header_match, header_regex)) {
             return fields;
@@ -97,7 +97,7 @@ class DoxygenHeadersValidation : public ::testing::Test {
         std::regex gap_regex(R"(@note Gap Summary:\s*(.+?)(?=\n|@))");
         std::regex status_regex(R"(@note Status:\s*(.+?)(?=\n|@))");
         
-        std::smatch match;
+        std::smatch match = {};
         if (std::regex_search(header, match, file_regex))
             fields.file = match[1];
         if (std::regex_search(header, match, brief_regex))
@@ -143,7 +143,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_01_AllFilesHaveHeaders) {
         
         ASSERT_TRUE(file.is_open()) << "File not found: " << filepath;
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         
@@ -167,7 +167,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_02_AllRequiredNotesPresent) {
         std::ifstream file(filepath);
         ASSERT_TRUE(file.is_open());
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         
@@ -194,7 +194,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_03_MaturityClassificationVerified) {
         std::ifstream file(filepath);
         ASSERT_TRUE(file.is_open());
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         
@@ -234,7 +234,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_04_GapSummaryFormatValid) {
         std::ifstream file(filepath);
         ASSERT_TRUE(file.is_open());
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         
@@ -264,7 +264,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_05_ScoreInValidRange) {
         std::ifstream file(filepath);
         ASSERT_TRUE(file.is_open());
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         
@@ -286,7 +286,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_06_MaturityDistribution) {
         std::ifstream file(filepath);
         ASSERT_TRUE(file.is_open());
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         

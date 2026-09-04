@@ -641,7 +641,7 @@ TEST(DocsAssistantDegradedTest, NotReadyReportsReason) {
 }
 
 TEST(DocsAssistantDegradedTest, IsFullyReadyFalseWhenNotReady) {
-    DocsAssistantFunctions daf;
+    DocsAssistantFunctions daf = {};
     if (!daf.isReady()) {
         EXPECT_FALSE(daf.isFullyReady());
     }

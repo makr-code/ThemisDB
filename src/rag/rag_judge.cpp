@@ -93,7 +93,7 @@ struct RAGJudge::Impl {
         if (documents.empty()) {
             return "";
         }
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (const auto& doc : documents) {
             ss << doc.id << "|" << doc.content << "|";
         }
@@ -587,7 +587,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                 result.ethical_compliance_score * config.ethical_compliance_weight;
             
             // Generate explanation
-            std::ostringstream explanation;
+            std::ostringstream explanation = {};
             explanation << "Evaluation scores:\n"
                        << "- Faithfulness: " << result.faithfulness_score << "\n"
                        << "- Relevance: " << result.relevance_score << "\n"
@@ -600,7 +600,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
 
     if (result.explanation.empty()) {
-        std::ostringstream explanation;
+        std::ostringstream explanation = {};
         explanation << "Evaluation scores:\n"
                     << "- Faithfulness: " << result.faithfulness_score << "\n"
                     << "- Relevance: " << result.relevance_score << "\n"
@@ -627,7 +627,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                        config.ethical_compliance_threshold);
             
             // Add to violations list
-            std::ostringstream veto_msg;
+            std::ostringstream veto_msg = {};
             veto_msg << "VETO: Ethical compliance score (" 
                     << result.ethical_compliance_score 
                     << ") below threshold (" 
@@ -791,7 +791,7 @@ ComparisonResult RAGJudge::compare(
     }
     
     // Generate reasoning
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Answer A score: " << result_a.overall_score << "\n"
              << "Answer B score: " << result_b.overall_score << "\n"
              << "Winner: ";
@@ -1338,7 +1338,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& 
     THEMIS_DEBUG("Extracting claims via heuristic");
 
     std::vector<std::string> claims;
-    std::string current_sentence;
+    std::string current_sentence = {};
 
     for (char c : answer) {
         current_sentence += c;
@@ -1381,7 +1381,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& 
 std::vector<std::string> RAGJudge::tokenizeForMatching(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream stream(text);
-    std::string word;
+    std::string word = {};
     while (stream >> word) {
         std::transform(word.begin(), word.end(), word.begin(), ::tolower);
         word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -1455,7 +1455,7 @@ bool RAGJudge::verifyClaimViaLLM(
 ) {
     THEMIS_DEBUG("Verifying claim via LLM");
 
-    std::ostringstream context;
+    std::ostringstream context = {};
     for (size_t i = 0; i < documents.size(); ++i) {
         // F4-1: Wrap each document in hard delimiters and apply injection
         // sanitization so that adversarial document content cannot override
@@ -1592,7 +1592,7 @@ ComparisonResult JudgeEnsemble::compareWithEnsemble(
         }
     }
 
-    ComparisonResult combined;
+    ComparisonResult combined = {};
     if (votes_a > votes_b && votes_a > votes_tie) {
         combined.winner = ComparisonResult::Winner::ANSWER_A;
         combined.confidence = votes_a > 0 ? conf_a / votes_a : 0.5;
@@ -1604,7 +1604,7 @@ ComparisonResult JudgeEnsemble::compareWithEnsemble(
         combined.confidence = 0.5;
     }
 
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Ensemble comparison: A=" << votes_a
               << " B=" << votes_b << " Tie=" << votes_tie;
     combined.reasoning = reasoning.str();

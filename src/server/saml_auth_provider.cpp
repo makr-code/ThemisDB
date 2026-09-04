@@ -39,7 +39,7 @@ namespace server {
     // Generate a 16-byte random token and hex-encode it, prefix with "saml_"
     unsigned char buf[16]{};
     RAND_bytes(buf, static_cast<int>(sizeof(buf)));
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "saml_";
     for (unsigned char b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0')
@@ -51,7 +51,7 @@ namespace server {
 
 /*static*/ std::string SamlAuthProvider::urlEncode(const std::string& input)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char c : input) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             oss << c;
@@ -235,7 +235,7 @@ nlohmann::json SamlAuthProvider::handleSlo(const std::string& session_index)
 std::string SamlAuthProvider::buildMetadataXml() const
 {
     const auto& saml = config_.saml;
-    std::ostringstream xml;
+    std::ostringstream xml = {};
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)"  "\n"
         << R"(<md:EntityDescriptor)"
         << R"( xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata")"

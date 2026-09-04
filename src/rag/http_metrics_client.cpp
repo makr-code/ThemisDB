@@ -217,7 +217,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
 
     // Call callback if set
     if ([[maybe_unused]] request_callback_) {
-        std::string method_str;
+        std::string method_str = {};
         switch (method) {
             case HTTPMethod::GET:    method_str = "GET";    break;
             case HTTPMethod::POST:   method_str = "POST";   break;

@@ -132,7 +132,7 @@ Result<RelationalTable> ThemisDBAdapter::execute_query(
         const auto& json_result = res.value();
         if (json_result.contains("results") && json_result["results"].is_array()) {
             for (const auto& row_json : json_result["results"]) {
-                RelationalRow row;
+                RelationalRow row = {};
                 if (row_json.is_object()) {
                     for (const auto& [col, val] : row_json.items()) {
                         if (std::find(table.column_names.begin(),
@@ -877,7 +877,7 @@ Result<std::string> ThemisDBAdapter::begin_transaction(
     }
     std::lock_guard<std::mutex> lock(txn_mutex_);
     ++next_txn_id_;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "txn_" << next_txn_id_;
     const std::string txn_id = oss.str();
 
@@ -1679,7 +1679,7 @@ Result<bool> ThemisDBPreparedStatement::reset() {
 
 Result<QueryStatistics> ThemisDBPreparedStatement::get_statistics() const {
     std::lock_guard<std::mutex> lk(stats_mutex_);
-    QueryStatistics stats;
+    QueryStatistics stats = {};
     if (exec_count_ > 0) {
         // Round to nearest microsecond to avoid systematic truncation bias.
         const int64_t count    = total_exec_time_.count();
@@ -1701,7 +1701,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
     std::string q = query_;
     for (const auto& kv : named_params_) {
         const std::string token = "@" + kv.first;
-        std::string replacement;
+        std::string replacement = {};
         std::visit([&replacement](const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, std::monostate>) {
@@ -1716,7 +1716,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
                 // Use SQL standard single-quoted string literals.
                 // Escape backslashes first, then single quotes, so that the
                 // resulting literal cannot be terminated early by injected SQL.
-                std::string escaped;
+                std::string escaped = {};
                 escaped.reserve(v.size() + 2);
                 for (char c : v) {
                     if (c == '\\') {

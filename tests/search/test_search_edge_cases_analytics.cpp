@@ -445,7 +445,7 @@ TEST_F(AnalyticsEdgeCasesTest, ANL_12_MetricCardinalityAutoPruning) {
 // ============================================================================
 TEST_F(AnalyticsEdgeCasesTest, ANL_13_AnalyticsCorruptionChecksum) {
   struct ChecksummedEvent {
-    std::string data;
+    std::string data = {};
     uint32_t checksum = 0;
     
     void compute_checksum() {
@@ -481,7 +481,7 @@ TEST_F(AnalyticsEdgeCasesTest, ANL_13_AnalyticsCorruptionChecksum) {
 TEST_F(AnalyticsEdgeCasesTest, ANL_14_AnalyticsSequenceNumberIntegrity) {
   struct SequencedEvent {
     uint64_t sequence_number = 0;
-    std::string data;
+    std::string data = {};
   };
   
   std::vector<SequencedEvent> events = {};

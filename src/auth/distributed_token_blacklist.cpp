@@ -475,7 +475,7 @@ void DistributedTokenBlacklist::add(
 
 bool DistributedTokenBlacklist::isRevoked(const std::string& jti) const
 {
-    std::string expiry_val;
+    std::string expiry_val = {};
     rocksdb::Status status = db_->Get(
         rocksdb::ReadOptions{}, cf_, jti, &expiry_val);
     
@@ -768,7 +768,7 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
             const uint16_t jlen = decodeU16(jlen_buf);
             if (jlen > kMaxJtiLen) { ok = false; break; }
             
-            std::string jti;
+            std::string jti = {};
             if (jlen > 0) {
                 jti.resize(jlen);
                 if (!recvAll(fd, jti.data(), jlen)) { ok = false; break; }
@@ -1072,7 +1072,7 @@ bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leade
               throw std::runtime_error("jti too long");
             }
             
-            std::string jti;
+            std::string jti = {};
             if (jlen > 0) {
                 jti.resize(jlen);
                 if (!recvAll(fd, jti.data(), jlen))

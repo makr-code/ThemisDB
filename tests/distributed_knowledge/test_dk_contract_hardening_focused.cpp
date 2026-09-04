@@ -68,7 +68,7 @@ struct MockEntity {
     std::string               id;
     std::int64_t              timestamp_us; ///< µs since epoch
     std::string               node_id;
-    std::string               payload;
+    std::string               payload = {};
     bool                      tombstone = false;
     int                       version   = 1;
 };

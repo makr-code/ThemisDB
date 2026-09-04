@@ -69,7 +69,7 @@ std::string detectQuantizationToken(const std::string& text) {
 // ---------------------------------------------------------------------------
 
 SemVer SemVer::parse(const std::string& s) {
-    SemVer v;
+    SemVer v = {};
     if (s.empty()) {
         return v;
     }
@@ -91,7 +91,7 @@ SemVer SemVer::parse(const std::string& s) {
     };
 
     std::istringstream ss(s);
-    std::string token;
+    std::string token = {};
     int part = 0;
     while (std::getline(ss, token, '.') && part < 3) {
         int val = 0;

@@ -430,7 +430,7 @@ private:
     struct AsioImpl;
     std::unique_ptr<AsioImpl> asio_;
 
-    std::thread io_thread_;
+    std::thread io_thread_ = {};
     std::atomic<bool> running_{false};
 
     // Pending subscriptions: topic_filter → qos  (access from io_thread_ only)

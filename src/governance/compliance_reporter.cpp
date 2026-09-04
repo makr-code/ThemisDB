@@ -31,7 +31,7 @@ namespace governance {
 namespace {
 
 static std::string reporter_escapePDFString(const std::string &s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (unsigned char c : s) {
         if (c == '(') {
@@ -50,7 +50,7 @@ static std::string reporter_escapePDFString(const std::string &s) {
 }
 
 static std::string buildComplianceReportHTML(const ComplianceReport &report) {
-    std::ostringstream html;
+    std::ostringstream html = {};
     std::time_t ts    = static_cast<std::time_t>(report.generated_at);
     char time_buf[32] = {};
     std::tm *tm_info  = std::localtime(&ts);
@@ -138,7 +138,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
     lines.push_back("Active Rules:  " + std::to_string(report.active_rules));
     lines.push_back("Inactive Rules:" + std::to_string(report.inactive_rules));
 
-    std::ostringstream score_ss;
+    std::ostringstream score_ss = {};
     score_ss << std::fixed << std::setprecision(1) << report.compliance_score;
     lines.push_back("Compliance Score: " + score_ss.str() + "%");
     lines.push_back("");
@@ -192,7 +192,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
     page_streams.back() += "ET\n";
 
     // Assemble PDF binary
-    std::string pdf;
+    std::string pdf = {};
     pdf.reserve(4096);
     pdf += "%PDF-1.4\n";
     pdf += "%\xE2\xE3\xCF\xD3\n";
@@ -828,7 +828,7 @@ double ComplianceReporter::calculateComplianceScore(const std::vector<Compliance
 }
 
 std::string ComplianceReporter::reportToCSV(const ComplianceReport &report) const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
 
     // Header
     csv << "Report ID,Generated At,Type,Total Rules,Active Rules,Compliance Score\n";
@@ -954,7 +954,7 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
 // ============================================================================
 
 RuleEvaluationEntry RuleEvaluationEntry::fromJson(const nlohmann::json &j) {
-    RuleEvaluationEntry e;
+    RuleEvaluationEntry e = {};
     if (j.contains("timestamp") && j["timestamp"].is_number()) {
         e.timestamp_ms = j["timestamp"].get<int64_t>();
     }
@@ -1022,7 +1022,7 @@ nlohmann::json TimeWindowReport::toJson() const {
 }
 
 std::string TimeWindowReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "window_start_ms,window_end_ms,generated_at,framework,"
         << "total_evaluations,enforce_mode_evaluations,observe_mode_evaluations,"
         << "ccpa_opted_out_count,encryption_required_count,export_blocked_count,"

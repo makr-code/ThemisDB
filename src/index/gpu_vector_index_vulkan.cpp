@@ -525,7 +525,7 @@ public:
             struct PushConstants {
                 uint32_t numQueries = 0;
                 uint32_t numVectors;
-                uint32_t dimension;
+                uint32_t dimension = {};
             } pushConstants = {
                 1,                        // Single query
                 static_cast<uint32_t>(num_vectors_),
@@ -703,7 +703,7 @@ public:
             struct PushConstants {
                 uint32_t numQueries = 0;
                 uint32_t numVectors;
-                uint32_t dimension;
+                uint32_t dimension = {};
             } pushConstants = {
                 static_cast<uint32_t>(numQueries),
                 static_cast<uint32_t>(num_vectors_),
@@ -811,7 +811,7 @@ public:
                 "/usr/local/share/themis/shaders/vector_index/"  // Local install
             };
             
-            std::string shaderDir;
+            std::string shaderDir = {};
             for (const auto& path : searchPaths) {
                 std::string testPath = path + "l2_distance.comp.spv";
                 std::ifstream testFile(testPath);

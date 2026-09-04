@@ -243,7 +243,7 @@ void LLMBatchTuner::reset() noexcept {
 
 std::string LLMBatchTuner::summary() const {
     auto s = getStats();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(1);
     oss << "LLMBatchTuner{"
         << "batch=" << s.current_batch_size

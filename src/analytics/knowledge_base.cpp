@@ -82,7 +82,7 @@ static std::string stripQuotes(const std::string &s) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::string KnowledgeBase::generateId() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "f_" << std::setw(6) << std::setfill('0') << id_counter_++;
     return oss.str();
 }
@@ -238,7 +238,7 @@ static TriplePattern parseTriplePattern(const std::string &line) {
     // Split by commas.
     std::vector<std::string> parts;
     std::istringstream ss(inner);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         parts.push_back(themis::utils::trim(stripQuotes(token)));
     }
@@ -282,7 +282,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 
         int loaded = 0;
         for (const auto& rule_node : root["rules"]) {
-            HornClause hc;
+            HornClause hc = {};
 
             if (rule_node["id"]) {
                 hc.id = rule_node["id"].as<std::string>("");
@@ -309,7 +309,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
                   return triples;
                 }
                 for (const auto& item : seq) {
-                    TriplePattern tp;
+                    TriplePattern tp = {};
                     if (item.IsSequence() && item.size() >= 3) {
                         tp.subject   = item[0].as<std::string>("");
                         tp.predicate = item[1].as<std::string>("");
@@ -372,7 +372,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
         in_consequents = false;
     };
 
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         const std::string t = themis::utils::trim(line);
 

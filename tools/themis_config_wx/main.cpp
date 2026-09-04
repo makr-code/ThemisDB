@@ -282,7 +282,7 @@ private:
             return false;
         }
 
-        std::ostringstream buffer;
+        std::ostringstream buffer = {};
         buffer << ifs.rdbuf();
 
         try {

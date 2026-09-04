@@ -61,7 +61,7 @@ std::string GraphQLFederationSupport::GraphQLSchemaGenerator::pgTypeToGraphQL(co
 
 std::string GraphQLFederationSupport::GraphQLSchemaGenerator::tableNameToTypeName(const std::string &table) const {
     // snake_case → PascalCase
-    std::string result;
+    std::string result = {};
     bool upper_next = true;
     for (char c : table) {
         if (c == '_') {
@@ -108,7 +108,7 @@ std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generateFederatedS
         bool is_external      = externals.count(schema.name) > 0;
 
         // @key directive from primary keys
-        std::string key_fields;
+        std::string key_fields = {};
         for (const auto &pk : schema.primary_keys) {
             if (!key_fields.empty()) {
                 key_fields += " ";
@@ -170,7 +170,7 @@ std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generateFederatedS
 
 std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generatePlainSchema(
     const std::vector<InferenceTableSchema> &schemas) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "scalar JSON\n\n";
 
     for (const auto &schema : schemas) {

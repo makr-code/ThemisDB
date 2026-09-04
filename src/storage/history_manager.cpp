@@ -92,7 +92,7 @@ static std::optional<std::string_view> verify_crc32(std::string_view data) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static std::string bytesToHex(const std::vector<uint8_t>& v) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto b : v) {
         oss << std::setw(2) << static_cast<int>(b);
@@ -147,7 +147,7 @@ HistoryManager::HistoryManager(
 
 std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp ts) {
     // Format: "hist:" + base_key + '\x00' + 8-byte-big-endian-ts
-    std::string key;
+    std::string key = {};
     key.reserve(5 + base_key.size() + 1 + 8);
     key += "hist:";
     key.append(base_key.data(), base_key.size());
@@ -157,7 +157,7 @@ std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp t
 }
 
 std::string HistoryManager::historyPrefix(std::string_view base_key) {
-    std::string prefix;
+    std::string prefix = {};
     prefix.reserve(5 + base_key.size() + 1);
     prefix += "hist:";
     prefix.append(base_key.data(), base_key.size());
@@ -253,7 +253,7 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
     std::string prefix = historyPrefix(base_key);
 
     // Build exclusive seek target just after ts.
-    std::string seek_key;
+    std::string seek_key = {};
     if (ts.value == UINT64_MAX) {
         // Step past all versions of this base key.
         seek_key = "hist:";
@@ -331,7 +331,7 @@ ConflictManager::ConflictManager(
 // ── Key encoding ──────────────────────────────────────────────────────────────
 
 std::string ConflictManager::conflictKey(std::string_view conflict_id) {
-    std::string key;
+    std::string key = {};
     key.reserve(9 + conflict_id.size());
     key += "conflict:";
     key.append(conflict_id.data(), conflict_id.size());
@@ -339,7 +339,7 @@ std::string ConflictManager::conflictKey(std::string_view conflict_id) {
 }
 
 std::string ConflictManager::conflictSetKey(std::string_view conflict_set_id) {
-    std::string key;
+    std::string key = {};
     key.reserve(12 + conflict_set_id.size());
     key += "conflictset:";
     key.append(conflict_set_id.data(), conflict_set_id.size());

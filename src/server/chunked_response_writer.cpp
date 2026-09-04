@@ -26,7 +26,7 @@ namespace server {
 
 void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& data) {
     // chunk-size in hex
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << data.size();
     out += hex.str();
     out += "\r\n";
@@ -41,7 +41,7 @@ void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& dat
 std::string ChunkedResponseWriter::encodeChunkedBody(
     const std::vector<std::string>& fragments)
 {
-    std::string body;
+    std::string body = {};
     // Pre-allocate: rough estimate (hex digits + CRLF overhead per chunk)
     for (const auto& frag : fragments) {
         body.reserve(body.size() + frag.size() + 16);
@@ -91,7 +91,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromJsonVector(
 
     std::vector<std::string> fragments;
 
-    std::string current_chunk;
+    std::string current_chunk = {};
     size_t count = 0;
 
     for (const auto& item : items) {
@@ -149,7 +149,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
             break;
         }
 
-        std::string chunk_data;
+        std::string chunk_data = {};
         for (const auto& item : (*result).items) {
             chunk_data += item.dump();
             chunk_data += '\n';
@@ -166,7 +166,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
 // ---------------------------------------------------------------------------
 
 std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
-    std::string result;
+    std::string result = {};
     size_t pos = 0;
     while (pos < encoded.size()) {
         // Find CRLF that ends the chunk-size line

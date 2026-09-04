@@ -63,7 +63,7 @@ static std::string sha256Hex(const std::string& input) {
         return std::string(64, '0');
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -140,7 +140,7 @@ std::string FederatedIdentityManager::extractIssuer(const std::string &raw_token
 
     // Decode base64
     static const std::string b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string decoded;
+    std::string decoded = {};
     decoded.reserve(b64.size() * 3 / 4);
 
     int val  = 0;
@@ -509,7 +509,7 @@ std::string FederatedIdentityManager::buildFormBody(const std::vector<std::pair<
         throw std::runtime_error("Failed to initialize libcurl handle for form encoding");
     }
 
-    std::string body;
+    std::string body = {};
     for (size_t i = 0; i < params.size(); ++i) {
         if (i > 0) {
             body += '&';
@@ -548,7 +548,7 @@ std::string FederatedIdentityManager::httpPost(const std::string &url, const std
         throw std::runtime_error("Failed to initialize libcurl handle");
     }
 
-    std::string response_body;
+    std::string response_body = {};
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
@@ -703,7 +703,7 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
 
     // Scope the exchanged token to the minimum required permissions
     if (!target_scopes.empty()) {
-        std::string scope_str;
+        std::string scope_str = {};
         for (size_t i = 0; i < target_scopes.size(); ++i) {
             if (i > 0) {
                 scope_str += ' ';
@@ -720,11 +720,11 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
                   "posting to token_endpoint '{}'",
                   token_endpoint);
 
-    std::string response_body;
+    std::string response_body = {};
     {
         constexpr int kMaxRetries = 3;
         constexpr int kBaseDelayMs = 100;
-        std::exception_ptr last_exc;
+        std::exception_ptr last_exc = {};
         for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
             try {
                 response_body = httpPost(token_endpoint, form_body);
@@ -816,7 +816,7 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
         std::unordered_set<std::string> granted;
         {
             std::istringstream ss(result.scope);
-            std::string tok;
+            std::string tok = {};
             while (ss >> tok) {
                 granted.insert(tok);
             }

@@ -42,7 +42,7 @@ AuditLoggerConfig makeTestConfig(const std::string& log_path,
 size_t countLines(const std::string& path) {
     std::ifstream f(path);
     size_t lines = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (!line.empty()) {
           ++lines;
@@ -67,12 +67,12 @@ protected:
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tmp_dir_, ec);
     }
 
     std::filesystem::path tmp_dir_;
-    std::string log_path_;
+    std::string log_path_ = {};
     std::string chain_path_;
 };
 
@@ -116,7 +116,7 @@ TEST_F(AuditLoggerComprehensiveTest, LogEvent_RecordContainsTimestamp) {
     logger.flush();
 
     std::ifstream f(log_path_);
-    std::string line;
+    std::string line = {};
     std::getline(f, line);
     ASSERT_FALSE(line.empty());
 
@@ -253,7 +253,7 @@ TEST_F(AuditLoggerComprehensiveTest, HashChain_LogEntriesContainPrevHash) {
 
     // Verify log file contains chain entries
     std::ifstream f(log_path_);
-    std::string line;
+    std::string line = {};
     bool has_chain_entry = false;
     while (std::getline(f, line)) {
         if (!line.empty()) {
@@ -274,7 +274,7 @@ TEST_F(AuditLoggerComprehensiveTest, HashChain_WithoutChain_NoChainEntry) {
     logger.flush();
 
     std::ifstream f(log_path_);
-    std::string line;
+    std::string line = {};
     std::getline(f, line);
     ASSERT_FALSE(line.empty());
 
@@ -328,7 +328,7 @@ TEST_F(AuditLoggerComprehensiveTest, LogEntries_ContainCategoryField) {
     logger.flush();
 
     std::ifstream f(log_path_);
-    std::string line;
+    std::string line = {};
     std::getline(f, line);
     ASSERT_FALSE(line.empty());
 

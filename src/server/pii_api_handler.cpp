@@ -63,13 +63,13 @@ std::string PIIApiHandler::nowIso8601() {
     using namespace std::chrono;
     auto now = system_clock::now();
     std::time_t t = system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
 #if defined(_WIN32)
     localtime_s(&tm, &t);
 #else
     localtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%S");
     return oss.str();
 }
@@ -86,7 +86,7 @@ bool PIIApiHandler::addMapping([[maybe_unused]] const PiiMapping& mappingIn) {
     mapping.updated_at = mapping.created_at;
 
     std::string key = makeKey(mapping.original_uuid);
-    std::string existing;
+    std::string existing = {};
     rocksdb::ReadOptions ro;
     rocksdb::Status gs = cf_ ? db.Get(ro, cf_, key, &existing) : db.Get(ro, key, &existing);
     if (gs.ok()) {
@@ -107,7 +107,7 @@ std::optional<PiiMapping> PIIApiHandler::getMapping([[maybe_unused]] const std::
     }
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions ro;
     rocksdb::Status s = cf_ ? db.Get(ro, cf_, key, &value) : db.Get(ro, key, &value);
     if (!s.ok()) {

@@ -70,7 +70,7 @@ static constexpr int kRepetitions = 5;
  * Gate: p99 ≤ 500 µs.
  */
 static void BM_MTN_DIST01_LeaderGatedDispatch(benchmark::State& state) {
-    std::mutex lock_mu;
+    std::mutex lock_mu = {};
     bool       is_leader = true;
     std::atomic<uint64_t> dispatch_count{0};
 

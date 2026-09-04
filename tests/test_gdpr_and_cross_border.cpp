@@ -41,7 +41,7 @@ public:
 
     std::vector<uint8_t> exportSubjectData(const std::string&,
                                             const std::string& format) override {
-        std::string data;
+        std::string data = {};
         if (format == "json") {
             data = R"({"store":")" + id_ + R"(","data":"test"})";
         } else {

@@ -459,7 +459,7 @@ Iso27001AuditReport Iso27001ControlSet::generateReport(const PolicyManager &poli
     Iso27001AuditReport report;
 
     const int64_t ts = iso27001NowMs();
-    std::ostringstream id_ss;
+    std::ostringstream id_ss = {};
     id_ss << "iso27001-" << ts;
     report.report_id       = id_ss.str();
     report.generated_at_ms = ts;
@@ -504,7 +504,7 @@ void Iso27001ControlSet::collectEvidence(const std::string &resource, const std:
 
     Iso27001EvidenceItem ev;
     {
-        std::ostringstream id_ss;
+        std::ostringstream id_ss = {};
         id_ss << "ev-" << (++evidence_counter_) << "-" << iso27001NowMs();
         ev.evidence_id = id_ss.str();
     }

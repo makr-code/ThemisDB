@@ -137,7 +137,7 @@ static std::string formatLogEntry(
         const std::string& level,
         const std::string& msg,
         std::uint64_t      req_id) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "{\"level\":\"" << level
        << "\",\"msg\":\""  << msg
        << "\",\"req_id\":" << req_id << "}";
@@ -172,8 +172,8 @@ struct BenchSloWindow {
 // ---------------------------------------------------------------------------
 
 struct BenchMetric {
-    std::string        name;
-    std::int64_t       value;
+    std::string        name = {};
+    std::int64_t       value = {};
 };
 
 static std::vector<BenchMetric> makeMetrics(int n) {
@@ -185,7 +185,7 @@ static std::vector<BenchMetric> makeMetrics(int n) {
 }
 
 static std::string scrapeMetrics(const std::vector<BenchMetric>& metrics) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (auto& m : metrics)
         ss << m.name << " " << m.value << "\n";
     return ss.str();

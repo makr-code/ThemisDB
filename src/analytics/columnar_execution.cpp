@@ -629,7 +629,7 @@ ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
 ProjectOperator::ProjectOperator(std::vector<std::string> column_names) : column_names_(std::move(column_names)) {}
 
 ColumnBatch ProjectOperator::execute(const ColumnBatch &input) const {
-    ColumnBatch result;
+    ColumnBatch result = {};
     if (input.hasSelection()) {
         result.setSelection(input.selection());
     }
@@ -681,7 +681,7 @@ struct SIMDAggResult {
 
 // Aggregate SUM/MIN/MAX over a non-null double array in a single pass.
 static SIMDAggResult simdAggDouble(const double *data, size_t n) noexcept {
-    SIMDAggResult r;
+    SIMDAggResult r = {};
     if (n == 0) {
         return r;
     }
@@ -837,7 +837,7 @@ static void updateDistinct(AggState &state, const Column &col, size_t row) {
     }
     ++state.count_nonnull;
     auto val = col.get(row);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::visit(
         [&oss](auto &&v) {
             using T = std::decay_t<decltype(v)>;
@@ -871,7 +871,7 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
 
 // Produce a single string key for a group-by tuple at row @p row.
 static std::string makeGroupKey(const ColumnBatch &batch, const std::vector<std::string> &group_cols, size_t row) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &gc : group_cols) {
         auto col = batch.getColumn(gc);
         if (!col) {

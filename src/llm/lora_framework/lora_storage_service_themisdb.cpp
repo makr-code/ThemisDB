@@ -337,7 +337,7 @@ public:
             } catch (const std::exception& e) {
                 spdlog::error("LoRAStorage: filesystem rollback failed: {}", e.what());
                 // Best-effort cleanup of the tmp directory
-                std::error_code ec;
+                std::error_code ec = {};
                 fs::remove_all(tmp_dir, ec);
                 return false;
             }

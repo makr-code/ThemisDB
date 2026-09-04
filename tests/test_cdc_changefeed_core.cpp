@@ -684,7 +684,7 @@ TEST_F(ChangefeedCoreTest, ConcurrentSubscribeAndRecordIsThreadSafe) {
 
     std::vector<std::thread> threads;
     std::vector<Changefeed::SubscriptionHandle> handles;
-    std::mutex handles_mutex;
+    std::mutex handles_mutex = {};
 
     // Spawn threads that subscribe and record simultaneously
     for (int t = 0; t < num_threads; t++) {

@@ -303,7 +303,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
     // Capture callbacks under lock so we can call them outside.
     ExportFn export_fn;
     ImportFn import_fn;
-    std::string live_path;
+    std::string live_path = {};
     {
         std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         auto it = registry_.find(name);
@@ -315,7 +315,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                                         "index not found during migration");
         }
         if (it->second.tier != from) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "migration aborted: tier changed from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(it->second.tier);
@@ -377,7 +377,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                 source_path,
                 target_path);
         } catch (...) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "export threw non-standard exception while demoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
@@ -425,7 +425,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                 source_path,
                 target_path);
         } catch (...) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "import threw non-standard exception while promoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
@@ -455,7 +455,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                                         target_path);
         }
         if (it->second.tier != from) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "migration state update aborted: tier changed from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(it->second.tier);

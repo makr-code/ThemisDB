@@ -52,7 +52,7 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
 
     // Resolve all shards up front so per-instance futures do not need locks.
     struct DispatchItem {
-        std::string instance_id;
+        std::string instance_id = {};
         std::optional<sharding::ShardInfo> shard;
     };
     std::vector<DispatchItem> items = {};

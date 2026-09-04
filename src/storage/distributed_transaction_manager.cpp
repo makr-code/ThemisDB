@@ -450,7 +450,7 @@ std::string DistributedTransactionManager::generateTransactionId() {
     const auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
                          now.time_since_epoch()).count();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "dtx-" << std::hex << std::setw(12) << std::setfill('0') << ms
         << "-" << std::setw(8) << counter;
     return oss.str();

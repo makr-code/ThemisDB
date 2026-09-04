@@ -694,7 +694,7 @@ bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn
     futures.reserve(txn.participants.size());
     
     std::atomic<bool> all_prepared{true};
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_details;
 
     // Phase 1: Launch all prepare tasks in parallel
@@ -758,7 +758,7 @@ bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn)
     futures.reserve(txn.participants.size());
     
     std::atomic<bool> all_committed{true};
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_details;
 
     // Phase 1: Launch all commit tasks in parallel
@@ -935,7 +935,7 @@ std::string DistributedTransactionCoordinator::generateTransactionId() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "txn-" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
     return oss.str();
 }
@@ -1384,7 +1384,7 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
 
     std::vector<std::thread> threads;
     std::atomic<bool> all_committed{true};
-    std::mutex error_mutex;
+    std::mutex error_mutex = {};
     std::vector<std::string> error_details;
 
     for (auto& participant : txn.participants) {

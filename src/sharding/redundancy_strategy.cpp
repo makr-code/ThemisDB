@@ -1903,7 +1903,7 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     }
     
     // Build command with explicit field lengths to prevent injection attacks
-    std::string command;
+    std::string command = {};
     command.reserve(20 + document_id.size() + data.size());
     
     // Field 0: command type
@@ -2114,8 +2114,8 @@ WriteResult RedundancyStrategy::writeParity(
     // Snapshot erasure coder config and encode under the shared lock to guard
     // against a concurrent configure() resetting erasure_coder_ (data race fix).
     std::vector<std::vector<uint8_t>> chunks;
-    uint32_t data_shards;
-    uint32_t parity_shards;
+    uint32_t data_shards = {};
+    uint32_t parity_shards = {};
     {
         std::shared_lock<std::shared_mutex> ec_lock(mutex_);
         if (!erasure_coder_) {
@@ -2572,7 +2572,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
     // -------------------------------------------------------------------
 
     // Select shard based on read preference
-    std::string selected_shard;
+    std::string selected_shard = {};
     const auto pref = geo.read_preference;
     if (pref == ReadPreference::LOCAL_REGION || pref == ReadPreference::FOLLOWER) {
         selected_shard = selectGeoReadShard(candidates, topology, geo.local_region);
@@ -2741,9 +2741,9 @@ ReadResult RedundancyStrategy::readParity(
     // W2-S06: Read consensus for erasure coding — snapshot config under lock to prevent races
     // Snapshot erasure-coding config under the shared lock to guard against a
     // concurrent configure() resetting erasure_coder_ (data race fix).
-    uint32_t data_shards_snap;
-    uint32_t parity_shards_snap;
-    uint32_t total_shards;
+    uint32_t data_shards_snap = {};
+    uint32_t parity_shards_snap = {};
+    uint32_t total_shards = {};
     {
         std::shared_lock<std::shared_mutex> ec_lock(mutex_);
         if (!erasure_coder_) {
@@ -3654,7 +3654,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
     std::stringstream ss;
     
     // Convert mode to string
-    std::string mode_str;
+    std::string mode_str = {};
     switch (config_.mode) {
         case RedundancyMode::NONE: mode_str = "none"; break;
         case RedundancyMode::MIRROR: mode_str = "mirror"; break;
@@ -3714,7 +3714,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         ss << "themis_redundancy_parity_shards{mode=\"" << mode_str << "\"} " 
            << config_.erasure_coding.parity_shards << "\n";
         
-        std::string algo_str;
+        std::string algo_str = {};
         switch (config_.erasure_coding.algorithm) {
             case ErasureCodingAlgorithm::REED_SOLOMON: algo_str = "reed_solomon"; break;
             case ErasureCodingAlgorithm::CAUCHY: algo_str = "cauchy"; break;
@@ -3733,7 +3733,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         const auto& geo = config_.geo_replication;
 
         // Replication mode
-        std::string repl_mode_str;
+        std::string repl_mode_str = {};
         switch (geo.replication_mode) {
             case GeoReplicationConfig::ReplicationMode::SYNC:      repl_mode_str = "sync";      break;
             case GeoReplicationConfig::ReplicationMode::SEMI_SYNC: repl_mode_str = "semi_sync"; break;

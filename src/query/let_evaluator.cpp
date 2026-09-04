@@ -1221,7 +1221,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::string type = geom["type"];
         const auto& coords = geom["coordinates"];
         
-        std::ostringstream wkt;
+        std::ostringstream wkt = {};
         
         if (type == "Point") {
             if (!coords.is_array() || coords.size() < 2) {

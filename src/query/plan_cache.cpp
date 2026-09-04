@@ -57,7 +57,7 @@ std::string PlanCache::fingerprint(const std::string& query) {
     SHA256(reinterpret_cast<const unsigned char*>(normalized.data()),
            normalized.size(), hash);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);
@@ -66,7 +66,7 @@ std::string PlanCache::fingerprint(const std::string& query) {
 }
 
 std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(query.size());
 
     bool in_single_quote = false;
@@ -550,7 +550,7 @@ std::string PlanCache::makeCacheKey(const std::string& query,
     SHA256(reinterpret_cast<const unsigned char*>(composite.data()),
            composite.size(), hash);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);

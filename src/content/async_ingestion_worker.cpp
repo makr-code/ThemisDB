@@ -38,7 +38,7 @@ std::string generateRandomJobId() {
     static thread_local std::mt19937_64 rng{static_cast<uint64_t>(steady_clock::now().time_since_epoch().count())};
 
     auto u64 = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "job_" << std::hex << std::setw(16) << std::setfill('0') << u64;
     return oss.str();
 }
@@ -948,7 +948,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
 void AsyncIngestionWorker::loadSourcesFromConfig(const std::string &config_path) {
     // Allow explicit absolute file paths (e.g. tests using temp files).
     // Otherwise, resolve via ConfigPathResolver for mapped repository configs.
-    std::string resolved_path;
+    std::string resolved_path = {};
     std::filesystem::path requested_path(config_path);
     if (requested_path.is_absolute() && std::filesystem::exists(requested_path)) {
         resolved_path = requested_path.lexically_normal().string();

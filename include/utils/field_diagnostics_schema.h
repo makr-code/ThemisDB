@@ -245,7 +245,7 @@ struct DiagnosticEvent {
             timestamp.time_since_epoch()) % 1000;
         
         std::tm tm_utc = {};
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         if (themis::observability::detail::gmtime_utc(tt, tm_utc)) {
             oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%S");
         } else {
@@ -287,7 +287,7 @@ struct DiagnosticEvent {
      * @return Single-line summary of event
      */
     std::string toString() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[" << failureCategoryToString(failure_category) << "] "
             << module_name << ": " << error_message
             << " (" << severityToString(severity_level) << ")";
@@ -374,7 +374,7 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
         // Use mktime_utc() (wraps timegm / _mkgmtime) so the tm is interpreted
         // as UTC rather than the host local timezone.
         if (j.contains("timestamp")) {
-            std::string ts_str;
+            std::string ts_str = {};
             j.at("timestamp").get_to(ts_str);
             std::tm tm = {};
             std::istringstream ss(ts_str);
@@ -389,7 +389,7 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
 
         // Parse failure_category from its string representation
         if (j.contains("failure_category")) {
-            std::string cat;
+            std::string cat = {};
             j.at("failure_category").get_to(cat);
             if (cat == "NLI_INFERENCE") {
               evt.failure_category = DiagnosticFailureCategory::NLI_INFERENCE;
@@ -414,7 +414,7 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
 
         // Parse severity_level from its string representation
         if (j.contains("severity_level")) {
-            std::string sev;
+            std::string sev = {};
             j.at("severity_level").get_to(sev);
             if (sev == "DEBUG") {
               evt.severity_level = DiagnosticSeverity::DEBUG;

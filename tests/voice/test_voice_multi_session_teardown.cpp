@@ -80,7 +80,7 @@ TEST_F(VoiceMultiSessionTeardownTest, TeardownConcurrent10Sessions) {
     
     // Create 10 sessions concurrently
     std::vector<std::thread> create_threads;
-    std::mutex ids_mutex;
+    std::mutex ids_mutex = {};
     
     for (int i = 0; i < NUM_SESSIONS; ++i) {
         create_threads.emplace_back([this, i, &session_ids, &ids_mutex]() {

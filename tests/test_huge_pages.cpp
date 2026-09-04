@@ -506,7 +506,7 @@ TEST(HugePagesTest, MemoryTracking) {
     // Track multiple allocations
     struct Allocation {
         void* ptr;
-        size_t size;
+        size_t size = {};
     };
     
     std::vector<Allocation> allocations = {};
@@ -857,7 +857,7 @@ TEST(HugePagesTest, HugePagesWithIndexStructures) {
     struct BTreeNode {
         uint64_t keys[64];
         uint64_t children[65];
-        int num_keys;
+        int num_keys = {};
     };
     
     BTreeNode* nodes = static_cast<BTreeNode*>(index_ptr);

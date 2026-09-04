@@ -51,7 +51,7 @@ static void BM_MultipleAllocations(benchmark::State& state) {
 
 // Benchmark: Random size allocations
 static void BM_RandomSizeAllocations(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> size_dist(64, 4096);
     

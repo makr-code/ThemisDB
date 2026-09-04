@@ -26,7 +26,7 @@ using namespace themis;
 /// Simple bag-of-words encoder: splits on spaces, assigns weight 1.0 per token
 static SparseVector bowEncoder(const std::string& text) {
     SparseVector sv;
-    std::string token;
+    std::string token = {};
     for (char c : text) {
         if (c == ' ') {
             if (!token.empty()) { sv[token] += 1.0f; token.clear(); }

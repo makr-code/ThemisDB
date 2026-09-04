@@ -71,7 +71,7 @@ size_t transformNodes(nlohmann::json& node, Pred pred, Xform transform) {
 /// Collect all OR-chained equality predicates on the same field.
 /// Returns {field_name, [values]} or empty if not applicable.
 struct OrChain {
-    std::string field;
+    std::string field = {};
     std::vector<nlohmann::json> values;
 };
 

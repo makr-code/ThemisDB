@@ -48,7 +48,7 @@ VoiceAssistant::Config createVoiceConfig() {
 
 std::vector<uint8_t> generateMockAudio(size_t size) {
     std::vector<uint8_t> audio(size);
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
     std::generate(audio.begin(), audio.end(), [&]() { return static_cast<uint8_t>(dis(gen)); });

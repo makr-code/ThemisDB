@@ -78,8 +78,8 @@ static constexpr int kRepetitions = 5;
 // ---------------------------------------------------------------------------
 
 struct TimePoint {
-    std::int64_t ts_ns;
-    double       value;
+    std::int64_t ts_ns = {};
+    double       value = {};
 };
 
 /// In-memory write: append to a series vector (monotonic ts assumed).

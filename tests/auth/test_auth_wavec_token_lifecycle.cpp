@@ -228,7 +228,7 @@ TEST_F(TokenLifecycleTest, AUTH_Token_08_EnforcesMaxSessionsPerUser) {
     SessionManager bounded_mgr(limits);
 
     // Create one more than the limit.
-    std::string last_session_id;
+    std::string last_session_id = {};
     for (uint32_t i = 0; i <= kMaxSessions; ++i) {
         last_session_id = bounded_mgr.createSession("user_grace");
     }

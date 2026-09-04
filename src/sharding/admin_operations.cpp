@@ -155,7 +155,7 @@ std::string AdminOperations::triggerRebalance() {
         now.time_since_epoch()
     ).count();
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "rebalance_" << timestamp;
     std::string operation_id = ss.str();
 
@@ -195,7 +195,7 @@ nlohmann::json AdminOperations::getRebalanceStatus(
 #else
         gmtime_r(&t, &tm_buf);
 #endif
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
         return oss.str();
     };

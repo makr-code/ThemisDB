@@ -219,7 +219,7 @@ void WatermarkDetectorImpl::clear_cache() {
 
 std::string WatermarkDetectorImpl::get_cache_stats() const {
   std::lock_guard<std::mutex> lock(mutex_);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   size_t total = cache_hits_ + cache_misses_;
   float hit_rate = (total > 0) ? (100.0f * cache_hits_ / total) : 0.0f;
   oss << "Cache hits: " << cache_hits_ << ", misses: " << cache_misses_

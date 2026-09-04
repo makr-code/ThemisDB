@@ -382,7 +382,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
         }
 
         // Find worst-performing prompt version
-        std::string worst_version;
+        std::string worst_version = {};
         double worst_rate = 1.0;
         for (const auto& [ver, total] : total_per_version) {
             if (total == 0) {
@@ -501,7 +501,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
         event.metric_before    = combined_objective;
         event.metric_after     = combined_objective; // updated after A/B test
 
-        std::ostringstream desc;
+        std::ostringstream desc = {};
         desc << "Suggested retrieval params: top_k="
              << impl_->current_retrieval_params.top_k
              << " similarity_threshold="
@@ -726,13 +726,13 @@ void ContinuousLearningOrchestrator::loadMetrics() {
         }
 
         // Skip header line
-        std::string line;
+        std::string line = {};
         if (!std::getline(file, line)) {
           return;
         }
 
         // Read last data row
-        std::string last_line;
+        std::string last_line = {};
         while (std::getline(file, last_line)) {
             // keep iterating to get the last line
         }
@@ -742,7 +742,7 @@ void ContinuousLearningOrchestrator::loadMetrics() {
         }
 
         std::istringstream row(last_line);
-        std::string field;
+        std::string field = {};
         int col = 0;
         while (std::getline(row, field, ',')) {
             try {
@@ -1215,7 +1215,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     auto iso_time = [](std::chrono::system_clock::time_point tp) -> std::string {
         if (tp == std::chrono::system_clock::time_point{}) return "";
         const auto t = std::chrono::system_clock::to_time_t(tp);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         struct tm buf{};
 #if defined(_WIN32)
         gmtime_s(&buf, &t);
@@ -1227,7 +1227,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     };
 
     auto escape_json = [](const std::string& s) -> std::string {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (const char c : s) {
             if      (c == '"') {
@@ -1247,7 +1247,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
         {static_cast<int>(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
     };
 
-    std::ostringstream json;
+    std::ostringstream json = {};
     json << "{\"loops\":[";
     bool first = true;
     for (const auto& [key, res] : snap.results) {

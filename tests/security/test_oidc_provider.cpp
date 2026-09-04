@@ -18,7 +18,7 @@ using json = nlohmann::json;
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -245,7 +245,7 @@ TEST(OIDCProviderTest, TrailingSlashNormalized) {
     cfg.client_id  = "myapp";
 
     OIDCProvider provider(cfg);
-    std::string requested_url;
+    std::string requested_url = {};
     provider.setHttpGetForTesting([&](const std::string& url) -> std::string {
         requested_url = url;
         return makeDiscoveryJson(issuer, issuer + "/jwks").dump();

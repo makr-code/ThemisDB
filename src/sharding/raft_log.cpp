@@ -347,7 +347,7 @@ std::string sha256Hex(const uint8_t* data, size_t size) {
     } else {
         SHA256(data, size, hash);
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -476,7 +476,7 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
             !write32(checksum_len)) {
             spdlog::error("RaftSnapshotManager: header write failed for {}", temp_path);
             file.close();
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_path, ec);
             return false;
         }
@@ -485,7 +485,7 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         if (!file.good()) {
             spdlog::error("RaftSnapshotManager: checksum write failed for {}", temp_path);
             file.close();
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_path, ec);
             return false;
         }
@@ -496,7 +496,7 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
             if (!file.good()) {
                 spdlog::error("RaftSnapshotManager: payload write failed for {}", temp_path);
                 file.close();
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(temp_path, ec);
                 return false;
             }
@@ -506,28 +506,28 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         if (!file.good()) {
             spdlog::error("RaftSnapshotManager: flush failed for {}", temp_path);
             file.close();
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_path, ec);
             return false;
         }
         file.close();
         if (file.fail()) {
             spdlog::error("RaftSnapshotManager: close failed for {}", temp_path);
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_path, ec);
             return false;
         }
 
         {
-            std::error_code ec_remove;
+            std::error_code ec_remove = {};
             std::filesystem::remove(path, ec_remove);
         }
-        std::error_code ec_rename;
+        std::error_code ec_rename = {};
         std::filesystem::rename(temp_path, path, ec_rename);
         if (ec_rename) {
             spdlog::error("RaftSnapshotManager: atomic install failed {} -> {}: {}",
                           temp_path, path, ec_rename.message());
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_path, ec);
             return false;
         }

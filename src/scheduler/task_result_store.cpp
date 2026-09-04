@@ -31,7 +31,7 @@ TaskResultStore::TaskResultStore(RocksDBWrapper& storage, size_t max_per_task)
 // Build a zero-padded 20-digit decimal timestamp so keys sort chronologically.
 std::string TaskResultStore::makeKey(const std::string& task_id,
                                      int64_t timestamp_ms) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << kKeyPrefix << task_id << '/'
         << std::setw(20) << std::setfill('0') << timestamp_ms;
     return oss.str();
@@ -153,8 +153,8 @@ std::optional<TaskExecutionResult> TaskResultStore::getLatestResult(
 
     const std::string prefix = makeTaskPrefix(task_id);
     // Collect all keys for the task to find the last (newest) one.
-    std::string last_key;
-    std::string last_value;
+    std::string last_key = {};
+    std::string last_value = {};
     storage_.scanPrefix(prefix, [&](std::string_view k, std::string_view v) {
         last_key   = std::string(k);
         last_value = std::string(v);

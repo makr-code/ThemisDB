@@ -165,7 +165,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
     std::vector<std::string> lines;
     std::istringstream ss(yaml_text);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         lines.push_back(line);
     }
@@ -185,7 +185,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     std::vector<Frame> stack;
     stack.push_back({&result, -1, false, ""});
 
-    std::string current_list_key;
+    std::string current_list_key = {};
 
     auto indentOf = [](const std::string& l) -> int {
         int i = 0;
@@ -210,7 +210,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     auto extractTopLevel = [&]([[maybe_unused]] const std::string& key) -> std::string {
         std::regex re("^" + key + R"(\s*:\s*["\']?([^"\'\n]+)["\']?\s*$)");
         for (const auto& l : lines) {
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_match(l, m, re)) {
                 return unquote(trimStr(m[1].str()));
             }
@@ -242,7 +242,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         // Try inline list first
         bool found_inline = false;
         for (const auto& l : lines) {
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(l, m, inline_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                 std::string items = m[1].str();
                 auto it  = std::sregex_iterator(items.begin(), items.end(), item_re);  // NOLINT(clang-diagnostic-error) - regex is static const
@@ -272,7 +272,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                         in_compliance = false; 
                         continue; 
                     }
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_match(l, m, multiline_item_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                         comp_list.push_back(trimStr(m[1].str()));
                     }
@@ -332,7 +332,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 // Check if first key is on same line: "- id: foo"
                 std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(rest, m, activity_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                         current_activity[m[1].str()] = unquote(trimStr(m[2].str()));
                     }
@@ -342,7 +342,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
             if (in_activity) {
                 // Parse key: value inside activity
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_search(trimmed, m, activity_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                     current_activity[m[1].str()] = unquote(trimStr(m[2].str()));
                 }
@@ -401,7 +401,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
                 std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(rest, m, edge_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                         current_edge[m[1].str()] = unquote(trimStr(m[2].str()));
                     }
@@ -410,7 +410,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             }
 
             if (in_edge) {
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_search(trimmed, m, edge_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
                     current_edge[m[1].str()] = unquote(trimStr(m[2].str()));
                 }

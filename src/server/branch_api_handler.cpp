@@ -74,7 +74,7 @@ void BranchApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) 
 }
 
 void BranchApiHandler::handleCreateBranch(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan("handleCreateBranch");
         return;
@@ -185,7 +185,7 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
 }
 
 void BranchApiHandler::handleMergeBranches(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan("handleMergeBranches");
         return;
@@ -256,7 +256,7 @@ void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, ht
 }
 
 void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan("handlePreviewMergeBranches");
         return;
@@ -296,7 +296,7 @@ void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, h
 }
 
 void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan([[maybe_unused]] "handleResolveMergeBranches");
         return;

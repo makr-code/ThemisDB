@@ -1207,7 +1207,7 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
 }
 
 SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
-    TableSchema schema;
+    TableSchema schema = {};
     
     if (!j.contains("name") || !j["name"].is_string()) {
         throw std::runtime_error("Schema must contain 'name' field");
@@ -1222,7 +1222,7 @@ SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
     
     if (j.contains("properties") && j["properties"].is_array()) {
         for (const auto& prop_json : j["properties"]) {
-            PropertyInfo prop;
+            PropertyInfo prop = {};
             
             if (!prop_json.contains("name") || !prop_json["name"].is_string()) {
                 throw std::runtime_error("Property must have 'name' field");
@@ -1253,7 +1253,7 @@ SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
     
     if (j.contains("indexes") && j["indexes"].is_array()) {
         for (const auto& idx_json : j["indexes"]) {
-            IndexInfo idx;
+            IndexInfo idx = {};
             
             if (!idx_json.contains("name") || !idx_json["name"].is_string()) {
                 throw std::runtime_error("Index must have 'name' field");

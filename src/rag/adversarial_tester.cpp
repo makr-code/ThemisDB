@@ -57,7 +57,7 @@ EvaluationInput sanitizeEvaluationInput(const EvaluationInput& input) {
     
     // Use shared LLM safety policy for prompt text sanitization
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - input is sanitized here
-    std::string sanitized_query;
+    std::string sanitized_query = {};
     if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
             input.query, sanitized_query, nullptr, nullptr)) {
         safe_input.query = std::move(sanitized_query);
@@ -67,7 +67,7 @@ EvaluationInput sanitizeEvaluationInput(const EvaluationInput& input) {
     }
     
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - input is sanitized here
-    std::string sanitized_answer;
+    std::string sanitized_answer = {};
     if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
             input.generated_answer, sanitized_answer, nullptr, nullptr)) {
         safe_input.generated_answer = std::move(sanitized_answer);
@@ -88,7 +88,7 @@ namespace {
 std::vector<std::string> tokenize(const std::string& text)
 {
     std::vector<std::string> tokens;
-    std::string word;
+    std::string word = {};
     for (char c : text) {
         if (std::isalpha(static_cast<unsigned char>(c))) {
             word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -175,7 +175,7 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
     // distinct string.
     if (applied == 0) {
         // Optimization: Use stringstream for efficient string building
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << result << " (variant " << (variant_index + 1) << ")";
         return ss.str();
     }
@@ -356,7 +356,7 @@ std::vector<std::string> AdversarialTester::generatePerturbedQueries(
     results.reserve(count);
 
     for (size_t i = 0; i < count; ++i) {
-        std::string perturbed;
+        std::string perturbed = {};
         switch (strategy) {
             case AdversarialStrategy::SEMANTIC_PERTURBATION:
                 perturbed = semanticPerturb(query, i);

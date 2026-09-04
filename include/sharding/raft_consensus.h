@@ -267,7 +267,7 @@ private:
     std::thread partition_detector_thread_;          ///< Partition detector worker thread.
     
     // Thread synchronization
-    std::condition_variable cv_;
+    std::condition_variable cv_ = {};
     std::mutex cv_mutex_;                            ///< Wait mutex for worker thread sleep/wake.
     
     /**

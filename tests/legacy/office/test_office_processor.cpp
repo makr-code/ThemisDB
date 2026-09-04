@@ -33,7 +33,7 @@ protected:
     
     // Helper: Create a minimal ZIP file signature
     std::string createMinimalZipSignature() {
-        std::string zip;
+        std::string zip = {};
         // ZIP local file header signature: PK\x03\x04
         zip += "PK\x03\x04";
         // Add some padding
@@ -89,7 +89,7 @@ TEST_F(OfficeProcessorTest, IsAvailable) {
 // ============================================================================
 
 TEST_F(OfficeProcessorTest, DetectDocumentType_Empty) {
-    std::string empty_blob;
+    std::string empty_blob = {};
     auto doc_type = OfficeProcessor::detectDocumentType(empty_blob);
     EXPECT_EQ(doc_type, OfficeDocumentType::UNKNOWN);
 }
@@ -148,7 +148,7 @@ TEST_F(OfficeProcessorTest, ExtractFromInvalidBlob) {
 }
 
 TEST_F(OfficeProcessorTest, ExtractFromEmptyBlob) {
-    std::string empty_blob;
+    std::string empty_blob = {};
     ContentType content_type;
     content_type.mime_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
     
@@ -700,7 +700,7 @@ TEST_F(LibreOfficeSecurityTest, LargeOLEBlobHandledGracefully) {
 // on disk after the extraction call returns.
 TEST_F(LibreOfficeSecurityTest, TempDirIsCleanedUpAfterFailure) {
     // Snapshot the number of themisdb_lo_* entries before extraction
-    std::error_code tmp_ec;
+    std::error_code tmp_ec = {};
     std::string tmp_base = std::filesystem::temp_directory_path(tmp_ec).string();
     if (tmp_ec || tmp_base.empty()) {
         tmp_base = ".";
@@ -708,7 +708,7 @@ TEST_F(LibreOfficeSecurityTest, TempDirIsCleanedUpAfterFailure) {
 
     auto count_lo_dirs = [&]() -> int {
         namespace fs = std::filesystem;
-        std::error_code ec;
+        std::error_code ec = {};
         if (!fs::exists(tmp_base, ec) || ec) {
           return -1;
         }

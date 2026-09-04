@@ -184,7 +184,7 @@ bool GeoDeviceDetector::HasSuitableDevice() {
 std::string GeoDeviceDetector::ReportJson(const std::vector<GeoDeviceCapability> &capabilities) {
     const bool has_suitable = HasSuitableDevice(capabilities);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "{\"has_suitable_device\":" << (has_suitable ? "true" : "false") << ",\"devices\":[";
 
     bool first = true;

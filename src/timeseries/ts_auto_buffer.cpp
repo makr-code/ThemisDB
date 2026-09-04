@@ -501,7 +501,7 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
     }
 
     std::vector<TSStore::DataPoint> restored;
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         if (line.empty()) {
           continue;

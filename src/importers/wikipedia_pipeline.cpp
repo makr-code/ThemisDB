@@ -244,7 +244,7 @@ std::string WikipediaIngestionPipeline::nowIso8601() const {
 #else
     gmtime_r(&time, &tm);
 #endif
-    std::ostringstream output;
+    std::ostringstream output = {};
     output << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return output.str();
 }

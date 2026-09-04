@@ -68,7 +68,7 @@ void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
 
     json list_resp = mcp.handleRequest([[maybe_unused]] list_req);
 
-    json tools_array;
+    json tools_array = {};
     if (list_resp.contains("result") && list_resp["result"].contains("tools")) {
         tools_array = list_resp["result"]["tools"];
     } else {

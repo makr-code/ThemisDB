@@ -31,7 +31,7 @@ std::string BlockchainIntegrityVerifier::MerkleTreeBuilder::sha256Hex(const std:
     std::size_t h1 = std::hash<std::string>{}(input);
     std::size_t h2 = std::hash<std::string>{}(input + "_salt");
 
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setw(16) << std::setfill('0') << h1 << std::setw(16) << std::setfill('0') << h2
         << std::setw(16) << std::setfill('0') << (h1 ^ (h2 << 32)) << std::setw(16) << std::setfill('0')
         << (h2 ^ (h1 << 16));
@@ -125,7 +125,7 @@ BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain(const std::str
     std::string seed = merkle_root + std::to_string(now);
     std::size_t h1   = std::hash<std::string>{}(seed);
     std::size_t h2   = std::hash<std::string>{}(seed + "_tx");
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setw(16) << std::setfill('0') << h1 << std::setw(16) << std::setfill('0') << h2
         << std::setw(16) << std::setfill('0') << (h1 ^ (h2 << 32)) << std::setw(16) << std::setfill('0')
         << (h2 ^ (h1 << 16));
@@ -133,7 +133,7 @@ BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain(const std::str
 
     // RFC 3339 timestamp
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::ostringstream ts;
+    std::ostringstream ts = {};
     ts << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     proof.timestamp_rfc3339 = ts.str();
 

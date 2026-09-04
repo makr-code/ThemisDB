@@ -133,7 +133,7 @@ public:
     struct Timestamp {
         uint64_t physical = 0;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
-        std::string node_id;
+        std::string node_id = {};
 
         bool operator<(const Timestamp& other) const {
             if (physical != other.physical) {
@@ -150,7 +150,7 @@ public:
                    node_id  == other.node_id;
         }
         std::string toString() const {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
             return oss.str();
         }

@@ -44,7 +44,7 @@ static const char* kPhiloDir =
 
 class EthicsProfileRegistryTest : public ::testing::Test {
 protected:
-    std::string tmp_dir;
+    std::string tmp_dir = {};
 
     void SetUp() override {
         // Use a time-based suffix to avoid collisions in parallel test runs

@@ -60,7 +60,7 @@ json OptimizerConfig::toJSON() const {
 }
 
 OptimizerConfig OptimizerConfig::fromJSON(const json& j) {
-    OptimizerConfig cfg;
+    OptimizerConfig cfg = {};
     if (j.contains("type")) {
       cfg.type = static_cast<OptimizerType>(j["type"].get<int>());
     }
@@ -110,7 +110,7 @@ json SchedulerConfig::toJSON() const {
 }
 
 SchedulerConfig SchedulerConfig::fromJSON(const json& j) {
-    SchedulerConfig cfg;
+    SchedulerConfig cfg = {};
     if (j.contains("type")) {
       cfg.type = static_cast<SchedulerType>(j["type"].get<int>());
     }
@@ -169,7 +169,7 @@ json TrainingState::toJSON() const {
 }
 
 TrainingState TrainingState::fromJSON(const json& j) {
-    TrainingState s;
+    TrainingState s = {};
     if (j.contains("current_epoch")) {
       s.current_epoch = j["current_epoch"].get<int>();
     }
@@ -215,7 +215,7 @@ json InlineTrainingConfig::toJSON() const {
 }
 
 InlineTrainingConfig InlineTrainingConfig::fromJSON(const json& j) {
-    InlineTrainingConfig cfg;
+    InlineTrainingConfig cfg = {};
     if (j.contains("epochs")) {
       cfg.epochs = j["epochs"].get<int>();
     }
@@ -1070,7 +1070,7 @@ void InlineTrainingEngine::saveCheckpoint(
 TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
     // --- Try RocksDB first (when handle is set) ---
     if (checkpoint_db_) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status s = checkpoint_db_->Get(
             rocksdb::ReadOptions(), path, &value);
         if (s.ok()) {
@@ -1088,7 +1088,7 @@ TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
         throw std::runtime_error("InlineTrainingEngine: checkpoint not found at '" + path + "'");
     }
 
-    json j;
+    json j = {};
     ifs >> j;
     TrainingState state = TrainingState::fromJSON(j);
 

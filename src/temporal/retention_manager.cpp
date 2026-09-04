@@ -312,10 +312,10 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         // Collect lightweight metadata for every non-current version so we can
         // sort and decide what to delete without holding copies of all documents.
         struct HistMeta {
-            std::string   key;
+            std::string   key = {};
             Timestamp     sys_start;
             Timestamp     sys_end;
-            uint64_t      size_bytes;
+            uint64_t      size_bytes = {};
         };
         std::vector<HistMeta> all_historical;
         uint64_t total_size = 0;

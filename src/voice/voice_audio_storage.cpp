@@ -44,7 +44,7 @@ int64_t VoiceAudioStorage::nowMs() const {
 std::string VoiceAudioStorage::generateRecordId() const {
     static std::atomic<uint64_t> counter{0};
     auto ts = nowMs();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "rec-" << std::hex << ts << "-" << (++counter);
     return oss.str();
 }
@@ -56,7 +56,7 @@ std::string VoiceAudioStorage::computeHash(const std::vector<uint8_t>& data) con
         hash ^= static_cast<uint64_t>(b);
         hash *= 1099511628211ULL;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << hash;
     return oss.str();
 }

@@ -18,7 +18,7 @@ namespace themis { namespace compression {
 struct SparseVectorCSR {
     std::vector<float> values;
     std::vector<uint32_t> indices;
-    uint32_t dimension;
+    uint32_t dimension = {};
     
     size_t compressed_bytes() const {
         return sizeof(dimension) + 
@@ -522,9 +522,9 @@ enum class CompressionMethod {
 struct CompressionResult {
     CompressionMethod method;
     size_t original_bytes;
-    size_t compressed_bytes;
-    float compression_ratio;
-    bool lossless;
+    size_t compressed_bytes = {};
+    float compression_ratio = {};
+    bool lossless = {};
 };
 
 CompressionMethod selectCompressionMethod(const std::vector<float>& vec, 

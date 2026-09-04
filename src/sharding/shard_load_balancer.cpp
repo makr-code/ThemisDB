@@ -131,7 +131,7 @@ std::string ShardLoadBalancer::selectShard(
 
     // Select shard with minimum score among available shards.
     double      best_score = std::numeric_limits<double>::max();
-    std::string best_id;
+    std::string best_id = {};
 
     for (const auto& id : shard_order_) {
         auto it = shards_.find(id);

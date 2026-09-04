@@ -44,7 +44,7 @@ std::string QueryCache::generateFingerprint(
     std::string params_json = (!params.empty() && !params.is_null()) ? params.dump() : "";
     size_t total_size = query.size() + (params_json.empty() ? 0 : (2 + params_json.size()));
     
-    std::string input;
+    std::string input = {};
     input.reserve(total_size);  // Reserve capacity once to eliminate reallocations
     input.append(query);
     if (!params_json.empty()) {
@@ -58,7 +58,7 @@ std::string QueryCache::generateFingerprint(
            input.size(), hash);
     
     // Convert to hex string
-    std::string hex;
+    std::string hex = {};
     hex.reserve(SHA256_DIGEST_LENGTH * 2);
     const char digits[] = "0123456789abcdef";
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {

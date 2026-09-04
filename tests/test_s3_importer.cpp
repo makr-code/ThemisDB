@@ -137,11 +137,11 @@ struct S3Config {
     long        request_timeout_ms = 30000;
     int         max_retries        = 3;
     // Flat-file settings forwarded to FlatFileImporter
-    std::string format;
+    std::string format = {};
     std::string delimiter        = ",";
     std::string quote_char       = "\"";
     bool        has_header       = true;
-    std::string table_name;
+    std::string table_name = {};
 };
 
 static bool parseS3Config(const std::string& config_json, S3Config& out) {
@@ -191,7 +191,7 @@ static bool parseS3Config(const std::string& config_json, S3Config& out) {
 static std::vector<std::string> parseCsvRow(const std::string& line,
                                              char delim, char quote) {
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     bool in_quotes = false;
     for (size_t i = 0; i < line.size(); ++i) {
         char c = line[i];
@@ -229,7 +229,7 @@ static MockS3ImportResult mockImportFromContent(
     ImportStats& stats = result.stats;
 
     // Detect format from extension.
-    std::string ext;
+    std::string ext = {};
     auto dot = filename.rfind('.');
     if (dot != std::string::npos) {
       ext = filename.substr(dot + 1);
@@ -260,7 +260,7 @@ static MockS3ImportResult mockImportFromContent(
     }
 
     std::istringstream in(content);
-    std::string line;
+    std::string line = {};
 
     if (!is_jsonl) {
         // CSV / TSV
@@ -841,8 +841,8 @@ TEST(S3ValidateSource, RejectEmptyBucket) {
 
 class S3E2ETest : public ::testing::Test {
 protected:
-    std::string tmp_csv_;
-    std::string tmp_tsv_;
+    std::string tmp_csv_ = {};
+    std::string tmp_tsv_ = {};
     std::string tmp_jsonl_;
 
     void SetUp() override {

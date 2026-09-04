@@ -213,8 +213,8 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
         std::condition_variable &cv;
         std::unordered_set<CacheKey, CacheKeyHash> &keys;
         CacheKey key;
-        bool enabled;
-        bool armed;
+        bool enabled = {};
+        bool armed = {};
         ~InflightGuard() noexcept {
             if (enabled && armed) {
                 {

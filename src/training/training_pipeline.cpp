@@ -33,9 +33,9 @@ namespace {
 constexpr const char* kBlockedCallbackMessage = "message blocked by prompt policy";
 
 std::string sanitizeTrainingPipelineMessage(const std::string& message) {
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!llm::prompt_safety::sanitizePromptWithSharedPolicy(
             message,
             sanitized,
@@ -448,7 +448,7 @@ public:
     // -------------------------------------------------------------------------
     HyperparamResult runHyperparamSearch(const HyperparamSearchConfig& cfg,
                                          HyperparamSearchCallback callback) {
-        HyperparamResult result;
+        HyperparamResult result = {};
         if (cfg.rank_candidates.empty() || cfg.lr_candidates.empty()) {
             result.summary = "No candidates provided; skipping search";
             result.success = false;
@@ -547,7 +547,7 @@ public:
             std::chrono::duration<double>(search_end - search_start).count();
 
         // Summarise
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Searched " << result.trials_run << " trials"
             << "; best rank=" << best_rank
             << " lr=" << best_lr
@@ -584,7 +584,7 @@ private:
 
     // Serialise a CalibrationResult to a key=value text format (no JSON dep).
     static std::string serializeCalibrationResult(const CalibrationResult& r) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "success=" << (r.success ? "true" : "false") << "\n"
             << "elapsed=" << r.elapsed_seconds << "\n"
             << "summary=" << r.summary << "\n"
@@ -675,7 +675,7 @@ void ConfidenceCalibrator::addSample(const std::string& category,
 }
 
 CalibrationResult ConfidenceCalibrator::calibrate() const {
-    CalibrationResult result;
+    CalibrationResult result = {};
     if (samples_.empty()) {
         result.success = true;
         result.summary = "No samples provided; returning empty threshold list";

@@ -49,7 +49,7 @@ namespace {
 
 struct IngestResult {
     bool ok{false};
-    std::string error;
+    std::string error = {};
 };
 
 /**
@@ -225,7 +225,7 @@ public:
 
     struct RagResult {
         bool ok{false};
-        std::string answer;
+        std::string answer = {};
         bool fallback_used{false};
     };
 

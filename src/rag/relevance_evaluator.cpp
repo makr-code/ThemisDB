@@ -36,7 +36,7 @@ struct RelevanceEvaluator::Impl {
     static std::vector<std::string> tokenize(const std::string& text) {
         std::vector<std::string> tokens;
         std::istringstream stream(text);
-        std::string word;
+        std::string word = {};
         while (stream >> word) {
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
             word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -296,7 +296,7 @@ RelevanceResult RelevanceEvaluator::evaluate(
     const std::string& answer,
     const std::string& query
 ) {
-    RelevanceResult result;
+    RelevanceResult result = {};
     
     if (answer.empty() || query.empty()) {
         result.relevance_score = 0.0;
@@ -349,7 +349,7 @@ RelevanceResult RelevanceEvaluator::evaluate(
     result.relevance_score = std::min(1.0, std::max(0.0, result.relevance_score));
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Relevance Score: " << result.relevance_score << "\n";
     explanation << "Question Similarity: " << result.question_similarity_score << "\n";
     explanation << "Intent: ";

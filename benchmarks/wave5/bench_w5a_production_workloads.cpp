@@ -168,7 +168,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -304,7 +304,7 @@ public:
             db_->close();
             db_.reset();
         }
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -413,7 +413,7 @@ public:
             db_->close();
             db_.reset();
         }
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -510,7 +510,7 @@ static void BM_W5A_BatchIngest_Sustained(benchmark::State& state) {
     state.SetLabel("batch ingest, " + std::to_string(batchSize) + " rec/batch");
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5A_BatchIngest_Sustained)

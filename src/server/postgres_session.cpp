@@ -32,7 +32,7 @@ namespace {
     // Helper function to escape SQL string literals
     // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
     std::string escapeSQLString(const std::string& input) {
-        std::string result;
+        std::string result = {};
         result.reserve(input.size() + 10);
         
         for (char c : input) {
@@ -341,7 +341,7 @@ void PostgresSession::handleQuery(const std::string& query) {
     }
     
     // Create uppercase version only when needed (HIGH-GAP FIX: defer copy)
-    std::string upperQuery;
+    std::string upperQuery = {};
     upperQuery.reserve(trimmed.size());
     std::transform(trimmed.begin(), trimmed.end(), std::back_inserter(upperQuery), ::toupper);
     
@@ -416,7 +416,7 @@ void PostgresSession::handleQuery(const std::string& query) {
         // COPY FROM STDIN or COPY TO STDOUT
         if (upperQuery.find("FROM STDIN") != std::string::npos) {
             // COPY table FROM STDIN — extract table name from between COPY and (
-            std::string copyTableName;
+            std::string copyTableName = {};
             {
                 // Original (non-uppercased) query for accurate table name
                 constexpr size_t kCopyPrefixLen = sizeof("COPY ") - 1; // 5 chars
@@ -946,7 +946,7 @@ void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     
     // Split by newlines to get individual rows
     std::istringstream stream(dataStr);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         if (!line.empty()) {
             std::lock_guard<std::mutex> lock(copyMutex_);
@@ -968,7 +968,7 @@ void PostgresSession::handleCopyDone() {
     size_t rowsInserted = 0;
     
     std::vector<std::string> copyBuffer;
-    std::string copyTableName;
+    std::string copyTableName = {};
     {
         std::lock_guard<std::mutex> lock(copyMutex_);
         copyBuffer = copyBuffer_;
@@ -986,7 +986,7 @@ void PostgresSession::handleCopyDone() {
                 size_t pos = 0;
                 const size_t len = row.size();
                 while (pos <= len) {
-                    std::string field;
+                    std::string field = {};
                     if (pos < len && row[pos] == '"') {
                         // Quoted field
                         ++pos;
@@ -2023,7 +2023,7 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     
     // Build RETURN clause
     // PHASE2-OPTIMIZATION: string_concat_loop — use ostringstream to avoid O(n²) allocations
-    std::ostringstream return_clause_oss;
+    std::ostringstream return_clause_oss = {};
     return_clause_oss << " RETURN ";
     
     if (!info.aggregates.empty()) {
@@ -2165,7 +2165,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     std::vector<std::string> values;
     pos = 0;
     bool inQuote = false;
-    std::string currentValue;
+    std::string currentValue = {};
     char prevChar = '\0';
     
     for (char c : valsList) {

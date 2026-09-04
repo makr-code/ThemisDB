@@ -1393,7 +1393,7 @@ void InferenceEngineEnhanced::processBatch(
 
                     if (!merged) {
                         // All instances failed — build aggregated error.
-                        std::string agg;
+                        std::string agg = {};
                         for (const auto& fr : fan_results) {
                             agg += "[" + fr.instance_id + ": " + fr.error + "] ";
                         }
@@ -2510,7 +2510,7 @@ std::string InferenceEngineEnhanced::generateRequestId() {
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "req_" << timestamp << "_" << count;
     return oss.str();
 }
@@ -2556,7 +2556,7 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
     // First try the ModelInfo metadata (architecture tag); if absent fall
     // back to a simple heuristic of splitting the model_id on hyphens and
     // using the first token as the family (e.g. "llama-7b" → "llama").
-    std::string family;
+    std::string family = {};
     {
         std::lock_guard<std::mutex> lock(models_mutex_);
         auto it = models_.find(target_model_id);

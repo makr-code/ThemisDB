@@ -187,7 +187,7 @@ std::string VoiceSessionManager::generateSessionId() {
     uint16_t rnd = dist(rng);
     uint64_t suffix = seq.fetch_add(1, std::memory_order_relaxed) & 0xFFFF;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "sess_" << std::hex << std::setw(12) << std::setfill('0') << now_ms
         << std::setw(4) << std::setfill('0') << (rnd ^ static_cast<uint16_t>(suffix));
     return oss.str();

@@ -88,7 +88,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
         throw std::runtime_error("Failed to open certificate file: " + cert_path);
     }
     
-    std::stringstream cert_stream;
+    std::stringstream cert_stream = {};
     cert_stream << cert_file.rdbuf();
     std::string cert_pem = cert_stream.str();
     cert_file.close();
@@ -188,7 +188,7 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
             throw std::runtime_error("RAND_bytes für IKM fehlgeschlagen");
         }
         static const char* hex_chars = "0123456789abcdef";
-        std::string hex;
+        std::string hex = {};
         hex.reserve(64);
         for (uint8_t b : ikm_raw) {
             hex.push_back(hex_chars[(b >> 4) & 0xF]);

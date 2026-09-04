@@ -110,7 +110,7 @@
          uint8_t  msg_version;
          uint64_t req_data;   // user-space pointer to snp_report_req
          uint64_t resp_data;  // user-space pointer to snp_report_resp
-         uint64_t fw_err;
+         uint64_t fw_err = {};
      };
 #    define SNP_GET_REPORT  _IOWR('S', 0x0, struct snp_guest_request_ioctl)
 #  endif

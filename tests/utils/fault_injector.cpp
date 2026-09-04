@@ -109,7 +109,7 @@ FaultInjector::InjectionResult NetworkInjector::inject() {
     start_time_ = std::chrono::steady_clock::now();
     state_ = InjectionState::ACTIVE;
 
-    std::string fault_desc;
+    std::string fault_desc = {};
     switch (net_cfg_.network_type) {
         case NetworkFaultType::PARTITION:
             fault_desc = "PARTITION";

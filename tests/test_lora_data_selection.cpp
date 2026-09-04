@@ -36,7 +36,7 @@ static std::string germanLegalText(size_t token_count = 60) {
         "die Klausel regelt die Haftung sowie das Ermessen der Behörde "
         "nach Maßgabe des Verwaltungsakts und der Verpflichtung zur "
         "Auskunftserteilung die mit dem eIDAS Rahmen vereinbar ist ";
-    std::string result;
+    std::string result = {};
     while (result.size() < token_count * 6) {
       result += base;
     }
@@ -1074,12 +1074,12 @@ protected:
         if (!f.is_open()) {
           return "";
         }
-        std::ostringstream buf;
+        std::ostringstream buf = {};
         buf << f.rdbuf();
         return buf.str();
     }
 
-    std::string audit_path_;
+    std::string audit_path_ = {};
     LoRADataSelectionConfig cfg_;
 };
 
@@ -1120,7 +1120,7 @@ TEST_F(AuditPersistenceTest, MultipleRunsAppendMultipleLines) {
     // Count lines (each non-empty line is one JSON record)
     int lines = 0;
     std::istringstream iss(content);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (!line.empty()) {
           ++lines;
@@ -1376,7 +1376,7 @@ TEST(PerformanceBenchmarkTest, FiveThousandSamplesUnderFiveMinutes) {
         s.id   = "bench_" + std::to_string(i);
         // Build a sentence of ~20 words; include the index to ensure samples
         // are not near-duplicates of each other.
-        std::string text;
+        std::string text = {};
         for (const auto* w : kWords)
             text += std::string(w) + " ";
         text += std::to_string(i);

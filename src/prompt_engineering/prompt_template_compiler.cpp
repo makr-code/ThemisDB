@@ -53,7 +53,7 @@ std::string PromptContextValue::toString() const {
         case SlotType::STRING:
             return str_val;
         case SlotType::LIST: {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             for (std::size_t i = 0; i < list_val.size(); ++i) {
                 if (i > 0) {
                   oss << '\n';
@@ -63,7 +63,7 @@ std::string PromptContextValue::toString() const {
             return oss.str();
         }
         case SlotType::DOCUMENT_CHUNK: {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             for (std::size_t i = 0; i < chunks.size(); ++i) {
                 if (i > 0) {
                   oss << '\n';
@@ -129,7 +129,7 @@ static std::vector<Token> lex(const std::string& src) {
     std::vector<Token> tokens;
     std::size_t        pos = 0;
     const std::size_t  len = src.size();
-    std::string        text_buf;
+    std::string        text_buf = {};
 
     auto flush_text = [&]() {
         if (!text_buf.empty()) {
@@ -479,7 +479,7 @@ const std::vector<SlotDefinition>& CompiledPromptTemplate::slots() const noexcep
 }
 
 std::string CompiledPromptTemplate::render(const PromptContext& ctx) const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     renderNodes(ast_, ctx, /*item_var=*/"", /*item_val=*/"", out);
     return out.str();
 }

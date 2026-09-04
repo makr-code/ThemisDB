@@ -298,7 +298,7 @@ protected:
         fs::remove_all(db_path_);
     }
 
-    std::string db_path_;
+    std::string db_path_ = {};
     std::shared_ptr<RocksDBWrapper> db_;
 };
 
@@ -314,7 +314,7 @@ TEST_F(IndexRecommenderPersistTest, PersistStatsWritesRocksDBKeys) {
     rec.persistStats();
 
     // Verify the key exists in RocksDB
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::orders", value));
     EXPECT_FALSE(value.empty());
 
@@ -336,7 +336,7 @@ TEST_F(IndexRecommenderPersistTest, PersistStatsTotalQueriesKey) {
     rec.recordAccess("t", "c", IndexRecommender::AccessType::FILTER, 0.1);
     rec.persistStats();
 
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::__total_queries__", value));
     EXPECT_EQ(std::stoull(value), 42u);
 }
@@ -371,7 +371,7 @@ TEST_F(IndexRecommenderPersistTest, ResetDeletesRocksDBKeys) {
     rec.persistStats();
 
     // Confirm key exists before reset
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::items", value));
 
     rec.reset();
@@ -392,7 +392,7 @@ TEST_F(IndexRecommenderPersistTest, DestructorFlushesToDB) {
         // Destructor fires here — no explicit persistStats() call
     }
 
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::products", value));
     auto arr = nlohmann::json::parse(value);
     ASSERT_EQ(arr.size(), 1u);
@@ -436,7 +436,7 @@ TEST_F(IndexRecommenderPersistTest, BackgroundThreadPersistsWithinInterval) {
     }
 
     // Poll with a generous timeout (2s) to avoid flakiness on slow CI runners
-    std::string value;
+    std::string value = {};
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
     while (std::chrono::steady_clock::now() < deadline) {
         if (db_->get("meta_idx_stats::bg_tbl", value)) {
@@ -491,7 +491,7 @@ protected:
         db_->put("stats:" + table, j.dump());
     }
 
-    std::string db_path_;
+    std::string db_path_ = {};
     std::shared_ptr<RocksDBWrapper> db_;
 };
 

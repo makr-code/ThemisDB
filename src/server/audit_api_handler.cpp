@@ -107,7 +107,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     entry.timestamp_ms = j.value("ts", 0LL);
     
     // Try to decrypt payload if encrypted
-    std::string event_data;
+    std::string event_data = {};
     if (j.contains("payload") && j["payload"].contains("ciphertext_b64")) {
         event_data = decryptPayload([[maybe_unused]] j["payload"]);
     } else if (j.contains("payload") && j["payload"].is_string()) {
@@ -148,7 +148,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs([[maybe_unused]] const
         return entries; // Empty if log file doesn't exist
     }
     
-    std::string line;
+    std::string line = {};
     int64_t line_id = 0;
     
     while (std::getline(ifs, line)) {
@@ -233,7 +233,7 @@ nlohmann::json AuditApiHandler::queryAuditLogs([[maybe_unused]] const AuditQuery
 std::string AuditApiHandler::exportAuditLogsCsv([[maybe_unused]] const AuditQueryFilter& filter) {
     auto entries = readAuditLogs(filter);
     
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     
     // Header
     csv << "Id,Timestamp,User,Action,EntityType,EntityId,OldValue,NewValue,Success,IpAddress,SessionId,ErrorMessage\n";

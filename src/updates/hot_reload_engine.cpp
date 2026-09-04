@@ -259,7 +259,7 @@ ReloadResult HotReloadEngine::applyHotReload(
     }
 
     // Create backup
-    std::string rollback_id;
+    std::string rollback_id = {};
     if (config_.create_backup) {
         reportProgress(30, "Creating backup");
         rollback_id = createBackup(manifest->files);
@@ -707,7 +707,7 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
         return "";
     }
     
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }

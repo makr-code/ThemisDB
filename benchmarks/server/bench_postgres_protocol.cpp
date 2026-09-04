@@ -133,7 +133,7 @@ static void BM_EncodeDataRow(benchmark::State& state) {
 // ============================================================================
 
 static std::string escapeSQLString(const std::string& input) {
-    std::string result;
+    std::string result = {};
     result.reserve(input.size() + 10);
     
     for (char c : input) {
@@ -307,7 +307,7 @@ static void BM_ParameterSubstitution(benchmark::State& state) {
 
 static void BM_COPYDataParsing(benchmark::State& state) {
     int num_rows = state.range(0);
-    std::string data;
+    std::string data = {};
     
     for (int i = 0; i < num_rows; ++i) {
         data += "value1\tvalue2\tvalue3\n";
@@ -316,7 +316,7 @@ static void BM_COPYDataParsing(benchmark::State& state) {
     for (auto _ : state) {
         std::vector<std::string> rows;
         std::istringstream stream(data);
-        std::string line;
+        std::string line = {};
         
         while (std::getline(stream, line)) {
             if (!line.empty()) {

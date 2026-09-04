@@ -232,8 +232,8 @@ struct ServerFixtureHelper {
 
 /// RAII env-var setter that restores the previous value on destruction.
 struct ScopedEnv {
-    std::string name_;
-    std::string old_value_;
+    std::string name_ = {};
+    std::string old_value_ = {};
     bool        had_value_{false};
 
     ScopedEnv(const char* name, const char* value)

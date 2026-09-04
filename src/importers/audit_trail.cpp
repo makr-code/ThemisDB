@@ -99,7 +99,7 @@ std::string auditEventTypeToString(AuditEventType t) {
 std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEvent &event,
                                                                  const std::string &prev_hash) const {
     // Deterministic serialisation
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << prev_hash << eventTypeToString(event.type) << event.timestamp << event.user_principal
        << event.importer_instance_id << event.correlation_id << event.details.dump();
     const std::string payload = ss.str();
@@ -114,7 +114,7 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEven
     EVP_MD_CTX_free(ctx);
 
     // Return first 32 hex chars (128-bit prefix) – same width as the old 16-char placeholder
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     for (unsigned int i = 0; i < digest_len; ++i) {
         hex << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(digest[i]);
     }

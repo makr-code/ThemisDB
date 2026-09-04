@@ -129,7 +129,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
 
         // --- Parse isolation level ---
         bool iso_valid = true;
-        std::string iso_error;
+        std::string iso_error = {};
         IsolationLevel isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
         if (!iso_valid) {
             span.setStatus(false, iso_error);
@@ -291,7 +291,7 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
             }
             json body = json::parse(req.body());
             bool iso_valid = true;
-            std::string iso_error;
+            std::string iso_error = {};
             isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
             if (!iso_valid) {
                 span.setStatus(false, iso_error);

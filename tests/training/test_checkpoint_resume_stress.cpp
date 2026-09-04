@@ -39,9 +39,9 @@ class SimpleCheckpointManager {
 public:
     struct CheckpointData {
         std::vector<LoRAWeightEntry> weights;
-        size_t epoch;
-        size_t step;
-        double loss;
+        size_t epoch = {};
+        size_t step = {};
+        double loss = {};
     };
 
     void saveCheckpoint(const LoRAAdapter& adapter, size_t epoch, size_t step, double loss) {

@@ -108,7 +108,7 @@ class StubTxnParticipant {
 public:
     enum class State { IDLE, PREPARED, COMMITTED, ABORTED };
     State state{State::IDLE};
-    std::string current_txn;
+    std::string current_txn = {};
 
     ShardingErrorCode prepare(const std::string& txn_id) noexcept {
         current_txn = txn_id;

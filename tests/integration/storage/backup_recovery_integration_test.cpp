@@ -144,7 +144,7 @@ TEST_F(BackupRecoveryIntegrationTest, FullBackupAndRestore) {
     ASSERT_NE(restored_db, nullptr) << "Failed to create restored database";
     
     auto restore_manager = std::make_shared<BackupManager>(restored_db);
-    std::error_code ec;
+    std::error_code ec = {};
     bool restore_success = restore_manager->restoreFromBackup(backup_dir, ec);
     
     // Note: Restore may not be fully implemented yet, check if it's available
@@ -279,7 +279,7 @@ TEST_F(BackupRecoveryIntegrationTest, PointInTimeRecovery) {
     pitr_opts.target_time = target_time;
     pitr_opts.timeline_consistent = true;
     
-    std::error_code ec;
+    std::error_code ec = {};
     RecoveryStats stats;
     bool pitr_success = restore_manager->performPITR(backup_result.value(), pitr_opts, ec, &stats);
     
@@ -455,14 +455,14 @@ TEST_F(BackupRecoveryIntegrationTest, EncryptedBackup) {
     options.encrypt = true;
     // Generate 32-byte hex key for AES-256
     auto key_bytes = data_gen_->GenerateEncryptionKey(32);
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (auto byte : key_bytes) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
     }
     options.encryption_key = ss.str();
     options.compression = CompressionType::ZSTD;
     
-    std::error_code ec;
+    std::error_code ec = {};
     bool backup_success = backup_manager->createFullBackup(backup_path.string(), ec, options);
     
     // If encrypted backup is not implemented, skip

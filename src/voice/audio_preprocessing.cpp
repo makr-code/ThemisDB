@@ -387,7 +387,7 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
 }
 
 ConfidenceScore AudioPreprocessingPipeline::scoreConfidence(const AudioFrame& frame) {
-    ConfidenceScore score;
+    ConfidenceScore score = {};
     if (frame.samples.empty()) {
         score.quality_level = "low";
         return score;
@@ -416,7 +416,7 @@ LanguageDetectionResult AudioPreprocessingPipeline::detectLanguage(
 {
     // Language detection from raw audio requires a full ASR model (e.g. Whisper).
     // Return the hint if provided, otherwise default to English.
-    LanguageDetectionResult result;
+    LanguageDetectionResult result = {};
     if (hint == "auto" || hint.empty()) {
         result.detected_language = "en";
         result.confidence = 0.5f;

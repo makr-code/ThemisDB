@@ -167,9 +167,9 @@ ExportEncryption::deriveJobDEK([[maybe_unused]] uint32_t key_version) const {
 std::vector<uint8_t>
 ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   // FIXED: Protect ALL config_ reads with mutex to prevent data races
-  bool enabled;
-  std::string kek_id;
-  std::string job_id;
+  bool enabled = {};
+  std::string kek_id = {};
+  std::string job_id = {};
   std::shared_ptr<themis::KeyProvider> key_provider;
 
   {
@@ -307,7 +307,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
 std::vector<uint8_t>
 ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
   // FIXED: Protect config_.enabled read with mutex
-  bool enabled;
+  bool enabled = {};
   std::shared_ptr<themis::KeyProvider> key_provider;
   {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
@@ -484,7 +484,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
 void ExportEncryption::encryptFile(const std::string &src_path,
                                    const std::string &dst_path) const {
   // FIXED: Protect config_.enabled read with mutex
-  bool enabled;
+  bool enabled = {};
   {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
@@ -547,7 +547,7 @@ void ExportEncryption::encryptFile(const std::string &src_path,
 void ExportEncryption::decryptFile(const std::string &src_path,
                                    const std::string &dst_path) const {
   // FIXED: Protect config_.enabled read with mutex
-  bool enabled;
+  bool enabled = {};
   {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
@@ -685,7 +685,7 @@ std::string ExportEncryptor::generateJobId() {
   if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
     throw EncryptionException("Failed to generate random job ID");
   }
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::hex << std::setfill('0');
   for (uint8_t b : buf) {
     oss << std::setw(2) << static_cast<int>(b);
@@ -788,7 +788,7 @@ bool ExportEncryptor::readHeader(std::istream &in, std::string &kek_id,
   iv.resize(12);
   in.read(reinterpret_cast<char *>(iv.data()), 12);
   if (in.gcount() != 12)
-    return false;
+    return false = {};
 
   return true;
 }
@@ -1123,7 +1123,7 @@ size_t ExportEncryptor::decryptFile(const std::string &input_path,
     std::fill(dek.begin(), dek.end(), uint8_t{0});
     // Remove partially-written output to avoid leaving plaintext on disk
     out_f.close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(output_path, ec);
     throw DecryptionException(
         "GCM authentication tag verification failed for '" + input_path +

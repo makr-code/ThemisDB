@@ -144,7 +144,7 @@ TensorTrainingCoordinator::runShardWithRetry(const TensorTrainingJobSpec& spec,
             worker_it = workers_.begin();
         }
 
-        std::string err;
+        std::string err = {};
         auto output = worker_it->second->processShard(spec.job_id, worker_it->first, shard, err);
         if (output) {
             return output;

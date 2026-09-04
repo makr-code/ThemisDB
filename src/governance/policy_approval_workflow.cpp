@@ -33,7 +33,7 @@ nlohmann::json ApprovalRecord::toJson() const {
 }
 
 ApprovalRecord ApprovalRecord::fromJson(const nlohmann::json& j) {
-    ApprovalRecord r;
+    ApprovalRecord r = {};
     if (j.contains("rule_id")) {
         r.rule_id = j["rule_id"].get<std::string>();
     }
@@ -86,7 +86,7 @@ nlohmann::json ApprovalStatus::toJson() const {
 }
 
 ApprovalStatus ApprovalStatus::fromJson(const nlohmann::json& j) {
-    ApprovalStatus s;
+    ApprovalStatus s = {};
     if (j.contains("rule_id")) {
         s.rule_id = j["rule_id"].get<std::string>();
     }

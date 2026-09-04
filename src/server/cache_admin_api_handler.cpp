@@ -86,7 +86,7 @@ static const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string CacheAdminApiHandler::base64Decode([[maybe_unused]] const std::string& input) {
-    std::string output;
+    std::string output = {};
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; ++i) {
         T[static_cast<unsigned char>(kBase64Chars[i])] = i;
@@ -477,7 +477,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
     }
     auto& cache = *cache_;
 
-    std::string log_path;
+    std::string log_path = {};
     size_t max_entries = 0;
 
     try {
@@ -551,7 +551,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
     }
     auto& cache = *cache_;
 
-    std::string out_path;
+    std::string out_path = {};
 
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());

@@ -25,7 +25,7 @@ namespace ethics {
  * @brief Error thrown when a DiscourseRoundOutput fails schema validation.
  */
 struct PositionAbstractSchemaError : public std::runtime_error {
-    std::string school_id;
+    std::string school_id = {};
     int round_number{0};
     explicit PositionAbstractSchemaError(
         const std::string& school, int round, const std::string& reason)

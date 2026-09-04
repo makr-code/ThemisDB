@@ -375,7 +375,7 @@ struct DocumentValidationResult {
 
     /** @brief Return all violation messages joined by "; " */
     std::string summary() const {
-        std::string out;
+        std::string out = {};
         for (const auto& v : violations) {
             if (!out.empty()) {
               out += "; ";

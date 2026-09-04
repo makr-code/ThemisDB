@@ -45,7 +45,7 @@ using json = nlohmann::json;
 class StubDecomposerPlugin : public ILLMPlugin {
 public:
     /// Response text the stub will return for any generate() call.
-    std::string response_text;
+    std::string response_text = {};
     int         call_count{0};
 
     explicit StubDecomposerPlugin(const std::string& resp = "") : response_text(resp) {}

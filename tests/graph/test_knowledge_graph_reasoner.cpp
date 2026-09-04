@@ -468,7 +468,7 @@ TEST(KnowledgeGraphReasonerTest, KGR21_ApplyLoRAScoreUsesRuleAdapterFallback) {
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
-    std::string seen_adapter;
+    std::string seen_adapter = {};
     kgr.setLoraScoreFn([&](std::string_view adapter_id, const InferenceEdge&) {
         seen_adapter = std::string(adapter_id);
         return 0.91;
@@ -597,7 +597,7 @@ TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge)
     // premises.size()==1 => 0.8 * 0.8 = 0.64
     EXPECT_NEAR(chain.edges.front().lora_score, 0.64, 1e-6);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(tmp_file, ec);
 }
 #endif

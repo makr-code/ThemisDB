@@ -251,7 +251,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
             if (qpos != std::string::npos) {
                 auto qs = target.substr(qpos + 1);
                 std::istringstream iss(qs);
-                std::string kv;
+                std::string kv = {};
                 while (std::getline(iss, kv, '&')) {
                     auto eq = kv.find('=');
                     std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);
@@ -325,7 +325,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
 
                                 if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
                                     // Group context (MVP: first group / single string)
-                                    std::string group_name;
+                                    std::string group_name = {};
                                     try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (...) {
                                         THEMIS_WARN("Group name cast failed for field {}: skipping group context", f);
                                         group_name.clear();
@@ -404,7 +404,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         // Parse request body
         auto body_json = json::parse(req.body());
         
-        std::string key;
+        std::string key = {};
         if (body_json.contains("key")) {
             key = body_json["key"].get<std::string>();
         } else {
@@ -521,7 +521,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                 }
                                 
                                 std::vector<uint8_t> raw_key;
-                                std::string key_id;
+                                std::string key_id = {};
                                 if (context_type == "group" && pki && !groups_claim.empty()) {
                                     // Take first group as context (MVP)
                                     auto gdek = pki->getGroupDEK(groups_claim.front());
@@ -912,8 +912,8 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
         // This ensures we can provide partial success feedback
         struct ValidatedOp {
             std::string op_type; // "put" or "delete"
-            std::string table;
-            std::string pk;
+            std::string table = {};
+            std::string pk = {};
             std::string key; // table:pk
             std::string blob; // Only for PUT
             int64_t index;
@@ -1233,7 +1233,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     errors.reserve(256);  // OPTIMIZATION: Pre-allocate to avoid reallocations
 
     std::istringstream stream(body);
-    std::string line;
+    std::string line = {};
     size_t line_number = 0;
 
     while (std::getline(stream, line)) {
@@ -1276,7 +1276,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     int64_t inserted = 0;
     for (const auto& doc : documents) {
         // Each document must have a "key" field; generate one if absent.
-        std::string key;
+        std::string key = {};
         if (doc.contains("_key") && doc["_key"].is_string()) {
             key = doc["_key"].get<std::string>();
         } else if (doc.contains("key") && doc["key"].is_string()) {

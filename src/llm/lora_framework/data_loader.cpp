@@ -57,7 +57,7 @@ std::vector<int> SimpleTokenizer::encode(const std::string& text,
 }
 
 std::string SimpleTokenizer::decode(const std::vector<int>& tokens) {
-    std::string text;
+    std::string text = {};
     
     for (int token_id : tokens) {
         // Skip special tokens
@@ -201,7 +201,7 @@ bool DataLoader::parseJSONL(const std::string& filepath) {
         return false;
     }
     
-    std::string line;
+    std::string line = {};
     int line_num = 0;
     
     while (std::getline(file, line)) {
@@ -281,7 +281,7 @@ bool DataLoader::parsePlainText(const std::string& filepath) {
     }
     
     // Read entire file as single text
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     std::string text = buffer.str();
     
@@ -420,7 +420,7 @@ bool DataLoader::hasNext() const {
 }
 
 void DataLoader::shuffle() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::shuffle(indices_.begin(), indices_.end(), gen);
     
@@ -486,8 +486,8 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
             const auto& messages = conversation["conversations"];
             
             // Convert conversations to instruction-response pairs
-            std::string instruction;
-            std::string response;
+            std::string instruction = {};
+            std::string response = {};
             
             for (const auto& msg : messages) {
                 std::string role = msg.value("from", "");
@@ -523,12 +523,12 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
 std::vector<InstructionDataSample> createToyDataset([[maybe_unused]] size_t num_samples) {
     std::vector<InstructionDataSample> samples;
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(1, 100);
     
     for (size_t i = 0; i < num_samples; ++i) {
-        InstructionDataSample sample;
+        InstructionDataSample sample = {};
         
         if (i % 5 < 2) {
             // Arithmetic

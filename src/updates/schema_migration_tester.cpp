@@ -63,7 +63,7 @@ void SchemaMigrationTester::addTestCase(MigrationTestCase tc) {
 
 std::string SchemaMigrationTester::makeStagingPath() const {
     auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.staging_directory << "/staging_" << now;
     return oss.str();
 }
@@ -190,7 +190,7 @@ bool SchemaMigrationTester::runBuiltinTests(
     // 1. No duplicate column names in to_schema (early, clear error before validateMigration)
     {
         std::set<std::string> seen;
-        std::string dup;
+        std::string dup = {};
         for (const auto& p : to_schema.properties) {
             if (!seen.insert(p.name).second) { dup = p.name; break; }
         }

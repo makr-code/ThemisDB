@@ -36,7 +36,7 @@ public:
      * @return HTML-safe encoded string
      */
     static std::string encodeHTML(std::string_view input) {
-        std::string output;
+        std::string output = {};
         output.reserve(input.size() + input.size() / 5);  // Reserve ~20% extra space for encoding
         
         for (char c : input) {
@@ -63,7 +63,7 @@ public:
      * @return JavaScript-safe encoded string
      */
     static std::string encodeJavaScript(std::string_view input) {
-        std::string output;
+        std::string output = {};
         output.reserve(input.size() + input.size() / 5);
         
         for (unsigned char c : input) {
@@ -103,7 +103,7 @@ public:
      * @return URL-encoded string
      */
     static std::string encodeURL(std::string_view input) {
-        std::string output;
+        std::string output = {};
         output.reserve(input.size() + input.size() / 5);
         
         const char* hex = "0123456789ABCDEF";
@@ -130,7 +130,7 @@ public:
      * @return JSON-safe encoded string
      */
     static std::string encodeJSON(std::string_view input) {
-        std::string output;
+        std::string output = {};
         output.reserve(input.size() + input.size() / 5);
         
         for (unsigned char c : input) {
@@ -167,7 +167,7 @@ public:
      * @return Sanitized string safe for HTML attributes
      */
     static std::string sanitizeAttribute(std::string_view input) {
-        std::string output;
+        std::string output = {};
         output.reserve(input.size());
         
         for (char c : input) {
@@ -242,7 +242,7 @@ public:
      * @brief Build the CSP header value
      */
     std::string build() const {
-        std::string csp;
+        std::string csp = {};
         bool first = true;
         
         for (const auto& [directive, value] : directives_) {

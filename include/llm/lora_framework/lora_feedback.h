@@ -102,7 +102,7 @@ struct Feedback {
      * @brief Deserialize from JSON
      */
     static Feedback fromJSON(const json& j) {
-        Feedback fb;
+        Feedback fb = {};
         
         if (j.contains("id")) {
           fb.id = j["id"].get<std::string>();

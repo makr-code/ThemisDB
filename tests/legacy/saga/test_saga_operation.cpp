@@ -104,7 +104,7 @@ TEST_F(SagaOperationTest, PutEntityWithCompensation_InsertPath_DeletesKeyOnCompe
     // Compensate should delete the key
     saga.compensate();
 
-    std::string out;
+    std::string out = {};
     EXPECT_FALSE(db_->get(key, out)) << "Key should have been deleted by compensation";
 }
 

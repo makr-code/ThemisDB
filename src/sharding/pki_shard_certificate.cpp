@@ -37,7 +37,7 @@ namespace {
             return std::nullopt;
         }
         
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << file.rdbuf();
         return ss.str();
     }
@@ -84,9 +84,9 @@ namespace {
 
     std::optional<time_t> parseAsn1PrintedTime(const std::string& value) {
         std::istringstream input(value);
-        std::string month;
-        std::string time_of_day;
-        std::string timezone;
+        std::string month = {};
+        std::string time_of_day = {};
+        std::string timezone = {};
         int day = 0;
         int year = 0;
 

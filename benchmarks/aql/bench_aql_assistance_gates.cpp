@@ -99,7 +99,7 @@ public:
         std::uniform_int_distribution<int> len_dist(100, 150);
         int target_len = len_dist(rng_);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "FOR doc IN collection_"
             << (nl_input.size() % 9999)
             << " FILTER doc.active == true RETURN doc";

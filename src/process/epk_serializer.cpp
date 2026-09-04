@@ -130,9 +130,9 @@ EpkSerializer::ImportResult EpkSerializer::importText(
     }
 
     std::istringstream ss{std::string(epk_text)};
-    std::string line;
+    std::string line = {};
     int node_counter = 0;
-    std::string last_node_id;
+    std::string last_node_id = {};
 
     // Parse line-by-line
     // Supported line formats:
@@ -155,7 +155,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
 
         // Parse TYPE: "name" or TYPE: name
         std::regex node_re(R"((\w+)\s*:\s*["\']?([^"\'\[\n]+)["\']?\s*(?:\[([^\]]*)\])?)");
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(line, m, node_re)) {
           continue;
         }
@@ -298,7 +298,7 @@ std::string EpkSerializer::exportText(
     const std::vector<ProcessNodeInfo>& nodes,
     const std::vector<ProcessEdgeInfo>& edges)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# EPK: " << process_name << "\n\n";
 
     // Build adjacency for ordered traversal
@@ -348,7 +348,7 @@ std::string EpkSerializer::exportText(
         }
         const auto& n = *it->second;
 
-        std::string type_label;
+        std::string type_label = {};
         if (std::holds_alternative<EPKNodeType>(n.node_type)) {
             type_label = epkNodeTypeToLabel_(std::get<EPKNodeType>(n.node_type));
         } else {

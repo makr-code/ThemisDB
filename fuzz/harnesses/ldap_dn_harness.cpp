@@ -46,7 +46,7 @@ static std::string escapeLDAPDNComponent(const std::string& value)
     if (value.empty()) {
       return value;
     }
-    std::string out;
+    std::string out = {};
     out.reserve(value.size() * 2);
     for (std::size_t i = 0; i < value.size(); ++i) {
         const unsigned char c = static_cast<unsigned char>(value[i]);
@@ -214,8 +214,8 @@ int main(int argc, char** argv)
     }
 #else
     // Single-shot: read from stdin for manual testing.
-    std::string line;
-    std::string input;
+    std::string line = {};
+    std::string input = {};
     while (std::getline(std::cin, line)) {
         input += line + "\n";
     }

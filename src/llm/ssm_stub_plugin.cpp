@@ -33,7 +33,7 @@ namespace themis::llm {
 
 SyntheticSSMStub::SyntheticSSMStub() : rng_(STUB_SEED) {
     // Generate fingerprint from seed and hidden dimension
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "stub-v0.1-seed" << STUB_SEED << "-dim" << HIDDEN_DIM;
     fingerprint_ = oss.str();
 }

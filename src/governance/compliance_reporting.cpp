@@ -134,7 +134,7 @@ std::string ComplianceReporter::generateHTMLOptimized(
         }
     }
     
-    std::ostringstream html;
+    std::ostringstream html = {};
     
     // HTML header
     html << "<html><head><title>" << title << "</title>"
@@ -397,7 +397,7 @@ nlohmann::json ComplianceGapDetector::ComplianceRequirement::toJson() const {
 
 ComplianceGapDetector::ComplianceRequirement 
 ComplianceGapDetector::ComplianceRequirement::fromJson(const nlohmann::json& j) {
-    ComplianceRequirement req;
+    ComplianceRequirement req = {};
     if (j.contains("id")) {
       req.id = j["id"].get<std::string>();
     }
@@ -528,7 +528,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
                         gap.gap_type = "missing_control";
                         gap.description = "Policy exists but missing controls: " + 
                                         [&]() {
-                                            std::string s;
+                                            std::string s = {};
                                             for (size_t i = 0; i < missing_controls.size(); i++) {
                                                 if (i > 0) {
                                                   s += ", ";
@@ -695,7 +695,7 @@ nlohmann::json ComplianceReporter::PolicySummaryReport::toJson() const {
 }
 
 std::string ComplianceReporter::PolicySummaryReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Metric,Value\n";
     csv << "Total Rules," << total_rules << "\n";
     csv << "Enabled Rules," << enabled_rules << "\n";
@@ -716,7 +716,7 @@ std::string ComplianceReporter::PolicySummaryReport::toCSV() const {
 }
 
 std::string ComplianceReporter::PolicySummaryReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Policy Summary Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -761,7 +761,7 @@ nlohmann::json ComplianceReporter::ComplianceStatusReport::toJson() const {
 }
 
 std::string ComplianceReporter::ComplianceStatusReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Framework," << framework << "\n";
     csv << "Overall Compliance," << overall_compliance << "%\n\n";
     csv << "Control Type,Control Name\n";
@@ -775,7 +775,7 @@ std::string ComplianceReporter::ComplianceStatusReport::toCSV() const {
 }
 
 std::string ComplianceReporter::ComplianceStatusReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Compliance Status Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -824,7 +824,7 @@ nlohmann::json ComplianceReporter::AccessControlMatrix::toJson() const {
 }
 
 std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Role,Resource,Allowed Actions,Requires Encryption,Is Audited\n";
     
     for (const auto& entry : entries) {
@@ -846,7 +846,7 @@ std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
 }
 
 std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Access Control Matrix</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -902,7 +902,7 @@ nlohmann::json ComplianceReporter::RiskAssessmentReport::toJson() const {
 }
 
 std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Risk ID,Severity,Description,Affected Resources,Mitigation\n";
     
     for (const auto& risk : risks) {
@@ -929,7 +929,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
 }
 
 std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Risk Assessment Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -995,7 +995,7 @@ nlohmann::json ComplianceReporter::ChangeHistoryReport::toJson() const {
 }
 
 std::string ComplianceReporter::ChangeHistoryReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Version,Timestamp,Modified By,Description\n";
     
     for (const auto& change : changes) {
@@ -1017,7 +1017,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toCSV() const {
 }
 
 std::string ComplianceReporter::ChangeHistoryReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Change History Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -1304,7 +1304,7 @@ namespace {
 
 /// Escape special PDF string characters
 std::string escapePDFString(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (unsigned char c : s) {
         if (c == '(')       result += "\\(";
@@ -1322,7 +1322,7 @@ std::string csvEscape(const std::string& val) {
     if (!needs_quoting) {
       return val;
     }
-    std::string out;
+    std::string out = {};
     out.reserve(val.size() + 2);
     out += '"';
     for (char c : val) {
@@ -1348,7 +1348,7 @@ std::string jsonScalarToString(const nlohmann::json& v) {
 /// Top-level object keys are emitted as rows: Field,Value.
 /// Nested objects/arrays are JSON-serialised into the value column.
 std::string generateCSVFromJson(const nlohmann::json& report) {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Field,Value\n";
     if (report.is_object()) {
         for (const auto& [key, val] : report.items()) {
@@ -1527,7 +1527,7 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
     page_streams.back() += "ET\n";
 
     // Assemble PDF binary
-    std::string pdf;
+    std::string pdf = {};
     pdf.reserve(4096);
     pdf += "%PDF-1.4\n";
     // Binary comment to mark file as containing binary data
@@ -1683,7 +1683,7 @@ std::string ComplianceReporter::exportReport(
 }
 
 std::string ComplianceReporter::generateHTMLHeader(const std::string& title) const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<!DOCTYPE html><html><head>";
     html << "<meta charset='UTF-8'>";
     html << "<title>" << title << "</title>";
@@ -1722,7 +1722,7 @@ nlohmann::json ComplianceReporter::CcpaReport::toJson() const {
 }
 
 std::string ComplianceReporter::CcpaReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Field,Value\n";
     csv << "opt_out_count," << opt_out_count << "\n";
     csv << "ccpa_compliant_rules," << ccpa_compliant_rules << "\n";

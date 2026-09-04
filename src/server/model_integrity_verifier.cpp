@@ -72,7 +72,7 @@ std::string ModelIntegrityVerifier::computeSha256(const std::string& path) {
         return {};
     }
 
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         hex << std::setw(2) << static_cast<unsigned int>(digest[i]);

@@ -920,7 +920,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             }
 
             // --- Detokenise generated tokens ---
-            std::string generated_text;
+            std::string generated_text = {};
             generated_text.reserve(generated.size() * 4);
             char piece_buf[256];
             for (int32_t token_id : generated) {
@@ -991,7 +991,7 @@ bool MultiLoRAManager::fuseLoRAs(
     
     // Validate all LoRAs are loaded and compatible
     std::vector<LoRASlot*> source_loras;
-    std::string base_model_id;
+    std::string base_model_id = {};
     
     for (size_t i = 0; i < lora_ids.size(); ++i) {
         auto it = loras_.find(lora_ids[i]);
@@ -1213,7 +1213,7 @@ size_t MultiLoRAManager::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     
     // Find LRU unpinned LoRA
     LoRASlot* lru_lora = nullptr;
-    std::string lru_id;
+    std::string lru_id = {};
     auto oldest_time = std::chrono::system_clock::now();
     
     for (auto& [id, lora] : loras_) {
@@ -1571,7 +1571,7 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         
         // Load actual LoRA weights from the GGUF file for quantization.
         std::vector<float> weights;
-        GGUFLoader gguf_loader;
+        GGUFLoader gguf_loader = {};
         if (!lora->path.empty() && gguf_loader.parseFile(lora->path)) {
             const auto& meta = gguf_loader.getMetadata();
             // Update VRAM estimate from real file metadata.
@@ -1580,7 +1580,7 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                 lora->vram_bytes          = meta.total_size;
             }
             // Find the first F32 or F16 weight tensor to use for scale calibration.
-            std::string weight_tensor;
+            std::string weight_tensor = {};
             for (const auto& t : meta.tensors) {
                 if (t.type == GGMLType::F32 || t.type == GGMLType::F16) {
                     weight_tensor = t.name;
@@ -2450,7 +2450,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     // The actual llama.cpp adapter handle is initialized lazily in
     // initializeLoRAWithModel() once the base llama_model* is known.
     {
-        GGUFLoader gguf_loader;
+        GGUFLoader gguf_loader = {};
         if (gguf_loader.parseFile(lora_path)) {
             const auto& meta = gguf_loader.getMetadata();
             if (meta.total_size > 0) {
@@ -2488,7 +2488,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         // Non-GGUF fixtures (e.g. test .bin files) still need a stable
         // non-zero size estimate for memory accounting and quantization paths.
         if (lora->original_vram_bytes == 0 || lora->vram_bytes == 0) {
-            std::error_code size_ec;
+            std::error_code size_ec = {};
             const auto file_bytes = std::filesystem::file_size(lora_path, size_ec);
             if (!size_ec && file_bytes > 0) {
                 lora->original_vram_bytes = file_bytes;
@@ -2705,7 +2705,7 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
     
     // Build eviction candidates
     struct EvictionCandidate {
-        std::string lora_id;
+        std::string lora_id = {};
         LoRASlot* lora;
         double score;  // Lower score = evict first
     };

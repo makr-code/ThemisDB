@@ -144,7 +144,7 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
     // Build word-level 3-shingles
     std::vector<std::string> words;
     std::istringstream iss(text);
-    std::string w;
+    std::string w = {};
     while (iss >> w) {
       words.push_back(w);
     }
@@ -199,7 +199,7 @@ static double jaccardEstimate(const std::vector<uint32_t>& a,
 // Compute type-token ratio (TTR) as diversity score
 static double computeTTR(const std::string& text) {
     std::istringstream iss(text);
-    std::string w;
+    std::string w = {};
     std::unordered_set<std::string> types;
     size_t tokens = 0;
     while (iss >> w) {
@@ -293,12 +293,12 @@ static double computePerplexityScore(const std::string& text) {
 
 // Build a compact FNV hash string for the config (provenance fingerprint)
 static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << cfg.min_length_tokens << "|" << cfg.max_length_tokens << "|"
         << cfg.required_language << "|" << cfg.max_toxicity_score << "|"
         << cfg.minhash_threshold << "|" << cfg.target_samples;
     uint32_t h = fnv1a(oss.str());
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << h;
     return hex.str();
 }
@@ -319,7 +319,7 @@ static void appendAuditJSONL(const std::string& path,
     // Create parent directories (best-effort, portable via <filesystem>)
     auto slash = path.rfind('/');
     if (slash != std::string::npos) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(
             std::filesystem::path(path).parent_path(), ec);
         // Best-effort: ignore ec so pipeline results are unaffected
@@ -356,9 +356,9 @@ public:
         out.reserve(samples.size());
 
         for (auto s : samples) {
-            std::string sanitized_text;
-            std::string blocked_rule;
-            std::string blocked_reason;
+            std::string sanitized_text = {};
+            std::string blocked_rule = {};
+            std::string blocked_reason = {};
             if (!detail::sanitizeTrainingText(s.text,
                                               sanitized_text,
                                               &blocked_rule,
@@ -816,11 +816,11 @@ DataSelectionMetrics DataSelectionPipeline::computeMetrics(
             // measure of vocabulary diversity.  TTR in [0, 1]: higher → more diverse.
             std::unordered_set<std::string> types;
             std::istringstream ss(s.text);
-            std::string tok;
+            std::string tok = {};
             size_t total_tokens = 0;
             while (ss >> tok) {
                 // Lowercase + strip leading/trailing ASCII punctuation
-                std::string norm;
+                std::string norm = {};
                 norm.reserve(tok.size());
                 for (char c : tok) {
                     if (std::isalpha(static_cast<unsigned char>(c)))
@@ -937,11 +937,11 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
                                               const std::string& section) {
     LoRADataSelectionConfig cfg;
     std::istringstream iss(text);
-    std::string line;
+    std::string line = {};
 
     enum class State { OUTSIDE, IN_SECTION, IN_DOMAIN_KEYWORDS, IN_DOMAIN_LIST };
     State state = State::OUTSIDE;
-    std::string current_domain;
+    std::string current_domain = {};
 
     while (std::getline(iss, line)) {
         line = trimRight(removeComment(line));
@@ -1030,7 +1030,7 @@ LoRADataSelectionConfig LoRADataSelectionConfig::loadFromYAML(
     std::ifstream f(path);
     if (!f.is_open())
         throw std::runtime_error("LoRADataSelectionConfig: cannot open file: " + path);
-    std::ostringstream buf;
+    std::ostringstream buf = {};
     buf << f.rdbuf();
     return yaml_detail::parseYAMLText(buf.str(), section);
 }
@@ -1046,7 +1046,7 @@ LoRADataSelectionConfig LoRADataSelectionConfig::fromYAMLString(
 // ============================================================================
 
 static std::string jsonEscape(const std::string& s) {
-    std::string out;
+    std::string out = {};
     // reserve(size+4) pre-allocates worst-case capacity for the common path;
     // the += character loop below is O(n) — no quadratic reallocation.
     // (Scanner flag "string_concat_loop" is a false positive here.)
@@ -1126,7 +1126,7 @@ static SelfImprovementConfig parseSelfImprovementYAML(
         const std::string& section) {
     SelfImprovementConfig cfg;
     std::istringstream iss(text);
-    std::string line;
+    std::string line = {};
 
     enum class State { OUTSIDE, IN_SECTION, IN_ADAPTIVE_RULES, IN_RULE };
     State state = State::OUTSIDE;
@@ -1270,7 +1270,7 @@ SelfImprovementConfig SelfImprovementConfig::loadFromYAML(
     std::ifstream f(path);
     if (!f.is_open())
         throw std::runtime_error("SelfImprovementConfig: cannot open file: " + path);
-    std::ostringstream buf;
+    std::ostringstream buf = {};
     buf << f.rdbuf();
     return yaml_detail::parseSelfImprovementYAML(buf.str(), section);
 }
@@ -1300,7 +1300,7 @@ public:
                (condition[i] == '<' || condition[i] == '>' ||
                 condition[i] == '=' || condition[i] == ' ')) ++i;
         // Extract operator part (before first digit or minus sign)
-        std::string op;
+        std::string op = {};
         size_t j = 0;
         while (j < condition.size() && condition[j] == ' ') {
           ++j;

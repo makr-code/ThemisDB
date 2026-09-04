@@ -768,7 +768,7 @@ private:
         std::time_t seconds = static_cast<std::time_t>(ms / 1000);
         std::tm* tm = std::gmtime(&seconds);
         
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << std::put_time(tm, "%Y-%m-%dT%H:%M:%SZ");
         return ss.str();
     }
@@ -1079,7 +1079,7 @@ public:
             -args[1].get<int64_t>(),
             args[2]
         };
-        DateAddFunction add;
+        DateAddFunction add = {};
         return add.execute(addArgs, FunctionContext());
     }
 };
@@ -1221,7 +1221,7 @@ public:
         std::time_t seconds = static_cast<std::time_t>(ts / 1000);
         std::tm* tm = std::gmtime(&seconds);
         
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << std::put_time(tm, format.c_str());
         return ss.str();
     }

@@ -319,7 +319,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     // Check minimum compression ratio
     bool use_tt = (dstats.compression_ratio >= cfg_.min_compression_ratio);
 
-    QuantizedTrain qtrain;
+    QuantizedTrain qtrain = {};
     if (use_tt) {
         qtrain = quantizer_.quantize(train, cfg_.quant_type);
     } else {

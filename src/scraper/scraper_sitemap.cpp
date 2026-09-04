@@ -78,7 +78,7 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
         const std::string& sitemap_url) const {
     if (!fetch_fn_) return {};
 
-    std::string xml;
+    std::string xml = {};
     try {
         xml = fetch_fn_(sitemap_url, user_agent_);
     } catch (...) {
@@ -96,7 +96,7 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
             if (result.size() >= max_urls_) {
               break;
             }
-            std::string child_xml;
+            std::string child_xml = {};
             try {
                 child_xml = fetch_fn_(child_url, user_agent_);
             } catch (...) {

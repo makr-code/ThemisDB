@@ -263,7 +263,7 @@ static void BM_SHA256_Verification_1MB(benchmark::State& state) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(), data.size(), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
         }
@@ -283,7 +283,7 @@ static void BM_SHA256_Verification_10MB(benchmark::State& state) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(), data.size(), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
         }
@@ -413,7 +413,7 @@ int main(int argc, char** argv) {
     ::benchmark::Initialize(&argc, argv);
     if (::benchmark::ReportUnrecognizedArguments(argc, argv)) {
         g_state->teardown();
-        delete g_state;
+        delete g_state = {};
         return 1;
     }
     
@@ -422,7 +422,7 @@ int main(int argc, char** argv) {
     
     // Cleanup
     g_state->teardown();
-    delete g_state;
+    delete g_state = {};
     
     return 0;
 }

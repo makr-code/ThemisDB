@@ -44,7 +44,7 @@ public:
     struct Turn {
         std::string nl_query;
         std::string aql_result;
-        uint32_t    tokens;
+        uint32_t    tokens = {};
     };
 
     explicit ThreadSafeConversationContext(uint32_t max_tokens = 4096)

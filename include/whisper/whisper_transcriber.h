@@ -284,8 +284,8 @@ public:
 
 private:
     bool        initialized_ = false;
-    std::string model_id_;
-    std::string last_error_;
+    std::string model_id_ = {};
+    std::string last_error_ = {};
     struct WhisperContextDeleter {
         void operator()(void* ctx) const noexcept {
             if (ctx) {

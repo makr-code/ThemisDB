@@ -59,7 +59,7 @@ static constexpr int kWarmupIterationsHot = 10;
  */
 static uint64_t getRssBytes() {
     std::ifstream status("/proc/self/status");
-    std::string line;
+    std::string line = {};
     while (std::getline(status, line)) {
         if (line.find("VmRSS:") == 0) {
             // Format: "VmRSS:         1234 kB"
@@ -227,7 +227,7 @@ public:
         std::uniform_int_distribution<> batch_dist(1, batch_size);
         for (int i = 0; i < kWarmupIterationsHot; ++i) {
             int bs = batch_dist(rng);
-            double _;
+            double _ = {};
             model_->encodeBatch(MockOnnxClipBackendModel::Backend::kCPU, bs, _);
         }
     }
@@ -290,7 +290,7 @@ public:
         int batch_size = static_cast<int>(state.range(0));
         
         // Minimal warmup for scaling study
-        double _;
+        double _ = {};
         model_->encodeBatch(MockOnnxClipBackendModel::Backend::kCPU, batch_size, _);
     }
 

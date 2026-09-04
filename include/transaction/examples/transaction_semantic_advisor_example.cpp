@@ -43,7 +43,7 @@
 namespace {
 
 struct WriteSetEntry {
-    std::string key;
+    std::string key = {};
     bool        gdpr_tagged;
 };
 

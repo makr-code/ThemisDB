@@ -70,7 +70,7 @@ std::string getTestModelPath() {
 }
 
 std::string compiledBackendSummary() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "cuda=";
 #ifdef THEMIS_ENABLE_CUDA
     oss << "1";

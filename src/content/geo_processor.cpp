@@ -227,7 +227,7 @@ ContentExtractionResult GeoProcessor::extract(
         result.metadata = metadata;
         
         // Generate text description
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "Geospatial data: " << geo.geometry_type;
         text << " with " << geo.coordinates.size() << " coordinate pairs";
         text << " in CRS " << geo.crs;
@@ -269,7 +269,7 @@ std::vector<ContentChunk> GeoProcessor::chunk(
     for (size_t i = 0; i < geo.coordinates.size(); i += coords_per_chunk) {
         ContentChunk chunk;
         
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk, geo.coordinates.size()) << ": ";
         
         size_t end = std::min(i + coords_per_chunk, geo.coordinates.size());
@@ -766,7 +766,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<
             data.properties["projection"] = projection;
             
             // Parse spatial reference to get EPSG code if available
-            OGRSpatialReference srs;
+            OGRSpatialReference srs = {};
             if (srs.importFromWkt(projection) == OGRERR_NONE) {
                 const char* auth_name = srs.GetAuthorityName(nullptr);
                 const char* auth_code = srs.GetAuthorityCode(nullptr);
@@ -799,7 +799,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<
                     GDALGetColorInterpretationName(color_interp);
                 
                 // NoData value
-                int has_nodata;
+                int has_nodata = {};
                 double nodata = band->GetNoDataValue(&has_nodata);
                 if (has_nodata) {
                     data.properties[band_prefix + "_nodata"] = std::to_string(nodata);

@@ -140,12 +140,12 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
             case DType::FLOAT16: {
                 // Encode as IEEE 754 half-precision (10-bit mantissa + 5-bit exponent).
                 float f32 = static_cast<float>(value);
-                uint32_t b32;
+                uint32_t b32 = {};
                 std::memcpy(&b32, &f32, 4);
                 const uint32_t sign   = (b32 >> 31) & 0x1u;
                 const int32_t exp32   = static_cast<int32_t>((b32 >> 23) & 0xFFu) - 127;
                 const uint32_t mant32 = b32 & 0x7FFFFFu;
-                uint16_t v;
+                uint16_t v = {};
                 if (exp32 == 128) {
                     v = static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0u));
                 } else if (exp32 < -24) {
@@ -175,7 +175,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
             case DType::BFLOAT16: {
                 // BF16 = top 16 bits of the float32 bit pattern (with round-to-nearest).
                 float f = static_cast<float>(value);
-                uint32_t bits;
+                uint32_t bits = {};
                 std::memcpy(&bits, &f, 4);
                 // Round to nearest even by adding 0x7FFF + ((bits >> 16) & 1).
                 bits += 0x7FFFu + ((bits >> 16) & 1u);

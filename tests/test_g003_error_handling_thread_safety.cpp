@@ -154,7 +154,7 @@ TEST(G003_ExceptionHandlingSafety, EHS02_ParseCatchAllReturnsSafeDefault) {
  * EHS-03: RAII lock guard releases on exception.
  */
 TEST(G003_ExceptionHandlingSafety, EHS03_RaiiReleasesMutexOnException) {
-    std::mutex mu;
+    std::mutex mu = {};
     bool       resource_was_released = false;
 
     auto locked_op = [&]() {
@@ -282,7 +282,7 @@ TEST(G003_ExceptionHandlingSafety, EHS06_NestedExceptionContext) {
  * EHS-07: noexcept catch-all with safe fallback.
  */
 TEST(G003_ExceptionHandlingSafety, EHS07_NoexceptCatchAllSafeFallback) {
-    std::mutex                      mu;
+    std::mutex                      mu = {};
     std::vector<int>                data{1, 2, 3};
     std::atomic<int>                guard_executed{0};
 
@@ -347,7 +347,7 @@ TEST(G003_ThreadSafety, TSF01_MutexProtectsSharedCounter) {
     constexpr int N_OPS     = 1'000;
 
     int              counter = 0;
-    std::mutex       mu;
+    std::mutex       mu = {};
     std::vector<std::thread> threads;
     threads.reserve(N_THREADS);
 
@@ -496,7 +496,7 @@ TEST(G003_ThreadSafety, TSF04_SharedMutexReaderWriterPattern) {
  * TSF-05: RAII vs manual lock/unlock on exception.
  */
 TEST(G003_ThreadSafety, TSF05_RaiiLockGuardReleasesOnException) {
-    std::mutex mu;
+    std::mutex mu = {};
     bool       can_lock_again = false;
 
     try {
@@ -519,7 +519,7 @@ TEST(G003_ThreadSafety, TSF05_RaiiLockGuardReleasesOnException) {
  * TSF-06: condition variable with predicate.
  */
 TEST(G003_ThreadSafety, TSF06_ConditionVariableWithPredicate) {
-    std::mutex              mu;
+    std::mutex              mu = {};
     std::condition_variable cv;
     bool                    ready   = false;
     bool                    notified= false;
@@ -552,7 +552,7 @@ TEST(G003_ThreadSafety, TSF06_ConditionVariableWithPredicate) {
 TEST(G003_ThreadSafety, TSF07_CheckThenActUnderLockPreventsDoubleCompute) {
     constexpr int N_THREADS = 8;
 
-    std::mutex                    cache_mu;
+    std::mutex                    cache_mu = {};
     std::map<std::string, int>    cache;
     std::atomic<int>              compute_count{0};
 
@@ -596,7 +596,7 @@ TEST(G003_ThreadSafety, TSF07_CheckThenActUnderLockPreventsDoubleCompute) {
  * TSF-08: exception-safe locked scope.
  */
 TEST(G003_ThreadSafety, TSF08_ExceptionSafeLockedScope) {
-    std::mutex       mu;
+    std::mutex       mu = {};
     std::atomic<int> error_count{0};
     std::atomic<int> ok_count{0};
     constexpr int    N_THREADS = 4;
@@ -693,7 +693,7 @@ TEST(G003_ReturnValueChecks, RVC02_BooleanReturnCodeChecked) {
     EXPECT_TRUE( storage.put("k1", "v1"));
     EXPECT_FALSE(storage.put("",   "v2")) << "Empty key must fail";
 
-    std::string out;
+    std::string out = {};
     EXPECT_TRUE( storage.get("k1", out));
     EXPECT_EQ(out, "v1");
     EXPECT_FALSE(storage.get("missing", out));

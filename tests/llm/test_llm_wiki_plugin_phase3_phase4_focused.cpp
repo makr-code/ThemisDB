@@ -458,7 +458,7 @@ TEST_F(WikiPluginPhase34Test, WorkspaceStateLogAppend_LWP12) {
     
     // Verify entries were appended
     std::ifstream ifs(log_file);
-    std::string line;
+    std::string line = {};
     int entry_count = 0;
     while (std::getline(ifs, line)) {
         if (!line.empty()) {
@@ -576,7 +576,7 @@ TEST_F(WikiPluginPhase34Test, RecoveryFromLog_LWP16) {
     
     // Read and verify log entry is valid JSON
     std::ifstream ifs(log_file);
-    std::string line;
+    std::string line = {};
     std::getline(ifs, line);
     ifs.close();
     

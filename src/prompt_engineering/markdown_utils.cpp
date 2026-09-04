@@ -37,7 +37,7 @@ std::string stripMarkdownFences(const std::string& text, std::string* language_t
                                         std::regex::ECMAScript);
 
     // Try to match opening fence and capture language tag
-    std::smatch match;
+    std::smatch match = {};
     std::string result = text;
     if (std::regex_search(result, match, open_fence)) {
         if (language_tag && match.size() > 1) {

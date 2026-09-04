@@ -372,7 +372,7 @@ Result<std::string> StorageEngine::get(const std::string& key) {
     }
 
     auto t0 = std::chrono::steady_clock::now();
-    std::string out;
+    std::string out = {};
     bool found = rocksdb_->get(key, out);
     uint64_t us = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::microseconds>(

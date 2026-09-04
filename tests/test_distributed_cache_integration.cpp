@@ -268,7 +268,7 @@ TEST_F(RedisCacheTest, PubSub_InvalidatePatternCacheStillFunctionalAfter) {
 /// published by the first (simulated here via direct dispatchInvalidation path,
 /// verified via the subscribeInvalidations public API).
 TEST_F(RedisCacheTest, ClusterInvalidation_CallbackFiredOnInvalidate) {
-    std::string received;
+    std::string received = {};
     cache_->subscribeInvalidations([&received](const std::string& key) {
         received = key;
     });

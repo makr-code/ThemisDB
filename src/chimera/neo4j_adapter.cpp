@@ -128,7 +128,7 @@ Result<size_t> Neo4jAdapter::batch_insert(
 }
 
 Result<QueryStatistics> Neo4jAdapter::get_query_statistics() const {
-    QueryStatistics stats;
+    QueryStatistics stats = {};
     return Result<QueryStatistics>::ok(std::move(stats));
 }
 
@@ -242,7 +242,7 @@ Result<GraphPath> Neo4jAdapter::shortest_path(
 #ifdef THEMIS_CHIMERA_NEO4J
     // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Execute Cypher shortestPath() query with max_depth bound
-    GraphPath path;
+    GraphPath path = {};
     return Result<GraphPath>::ok(std::move(path));
 #else
     return Result<GraphPath>::err(
@@ -515,14 +515,14 @@ Result<bool> Neo4jAdapter::release_savepoint(
 Result<TransactionStats> Neo4jAdapter::get_transaction_stats(
     const std::string& /*transaction_id*/
 ) {
-    TransactionStats stats;
+    TransactionStats stats = {};
     return Result<TransactionStats>::ok(std::move(stats));
 }
 
 Result<TransactionState> Neo4jAdapter::get_transaction_state(
     const std::string& /*transaction_id*/
 ) {
-    TransactionState state;
+    TransactionState state = {};
     return Result<TransactionState>::ok(std::move(state));
 }
 

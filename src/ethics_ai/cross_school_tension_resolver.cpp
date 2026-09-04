@@ -39,7 +39,7 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
         // Split key by ':'
         std::vector<std::string> parts;
         std::istringstream ss(key);
-        std::string token;
+        std::string token = {};
         while (std::getline(ss, token, ':')) {
             parts.push_back(token);
         }
@@ -57,8 +57,8 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
         // Value may be "<weight>" or "<weight>:<tension_type>"
         const std::string& val = kv.second;
         std::istringstream val_ss(val);
-        std::string weight_str;
-        std::string ttype;
+        std::string weight_str = {};
+        std::string ttype = {};
         std::getline(val_ss, weight_str, ':');
         std::getline(val_ss, ttype);
 
@@ -103,8 +103,8 @@ std::vector<InjectionDecision> CrossSchoolTensionResolver::resolveOpponentInject
 
         // Find max rebuttal_cite_weight tension for this opponent
         float max_weight = 0.0f;
-        std::string best_own_thesis;
-        std::string best_opp_thesis;
+        std::string best_own_thesis = {};
+        std::string best_opp_thesis = {};
         for (const auto& t : tensions) {
             if (t.opposing_school_id == opp_school && t.rebuttal_cite_weight > max_weight) {
                 max_weight      = t.rebuttal_cite_weight;

@@ -185,7 +185,7 @@ inline std::string generateCorrelationId() {
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::hex;
     for (int i = 0; i < 8; ++i) {
       ss << dis(gen);
@@ -212,8 +212,8 @@ inline std::string generateCorrelationId() {
 }
 
 struct GocryptfsBackend::Impl {
-    std::string gocryptfs_binary;
-    bool initialized;
+    std::string gocryptfs_binary = {};
+    bool initialized = {};
     KeyDerivationService* kdf_service;  // not owned; may be nullptr
 
     Impl() : gocryptfs_binary("gocryptfs"), initialized(false), kdf_service(nullptr) {}
@@ -275,7 +275,7 @@ Result<void> GocryptfsBackend::checkAvailability() {
     // Verify FUSE module is loaded
     std::ifstream modules("/proc/modules");
     if (modules.is_open()) {
-        std::string line;
+        std::string line = {};
         bool fuse_found = false;
         while (std::getline(modules, line)) {
             if (line.find("fuse ") == 0) {
@@ -453,7 +453,7 @@ bool GocryptfsBackend::isMounted(const std::string& mount_point) {
     // Check /proc/mounts (Linux) or mount output
 #ifdef __linux__
     std::ifstream mounts("/proc/mounts");
-    std::string line;
+    std::string line = {};
     while (std::getline(mounts, line)) {
         if (line.find(mount_point) != std::string::npos) {
             return true;
@@ -486,11 +486,11 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
     // BATCH 2.1.3: Performance Optimization - Replace snprintf loop with single-pass encoding
     // Build hex string + newline so gocryptfs terminates the read cleanly.
     // Performance: < 1ms for typical 32-byte key (USEG-PERF-01)
-    std::string hex_key;
+    std::string hex_key = {};
     hex_key.reserve(key_material.size() * 2 + 1);
     
     // Single-pass hex encoding using stringstream (no repeated allocations)
-    std::stringstream hex_stream;
+    std::stringstream hex_stream = {};
     hex_stream << std::hex << std::setfill('0');
     for (uint8_t byte : key_material) {
         hex_stream << std::setw(2) << static_cast<int>(byte);
@@ -600,7 +600,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     // Read child output with timeout.
-    std::string output;
+    std::string output = {};
     char buffer[1024];
     TimedFileOperation read_io(stdout_pipe.readFd(), std::chrono::seconds(10));
     
@@ -805,7 +805,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     stdin_pipe.closeWrite();  // Signal EOF to child.
 
     // Read child output with timeout.
-    std::string output;
+    std::string output = {};
     char buffer[1024];
     TimedFileOperation read_io(stdout_pipe.readFd(), std::chrono::seconds(10));
     
@@ -907,7 +907,7 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     pipe.closeWrite(); // Close write end
     
     // Read output with timeout
-    std::string output;
+    std::string output = {};
     char buffer[1024];
     TimedFileOperation read_io(pipe.readFd(), std::chrono::seconds(10));
     
@@ -931,7 +931,7 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     pipe.closeRead();
     
     // Wait for child to finish
-    int status;
+    int status = {};
     waitpid(pid, &status, 0);
     
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
@@ -946,12 +946,12 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
 }
 
 bool GocryptfsBackend::directoryExists(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     return std::filesystem::is_directory(path, ec);
 }
 
 bool GocryptfsBackend::createDirectory(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     if (std::filesystem::exists(path, ec)) {
         return !ec;
     }

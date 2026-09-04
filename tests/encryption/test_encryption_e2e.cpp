@@ -68,7 +68,7 @@ protected:
     }
     
     void cleanupTestDB() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(test_db_path_, ec);
     }
     

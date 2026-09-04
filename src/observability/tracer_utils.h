@@ -34,7 +34,7 @@ inline std::string generateTraceId() {
     std::uniform_int_distribution<uint64_t> dist;
     const uint64_t hi = dist(rng);
     const uint64_t lo = dist(rng);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(16) << hi
         << std::setw(16) << lo;
@@ -45,7 +45,7 @@ inline std::string generateTraceId() {
 inline std::string generateSpanId() {
     thread_local std::mt19937_64 rng{std::random_device{}()};
     std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << dist(rng);
     return oss.str();
 }

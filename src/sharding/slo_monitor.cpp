@@ -310,7 +310,7 @@ bool SLOMonitor::isLatencySLOMet(const std::string& query_type) const {
 /** @brief Check shard durability (data-loss rate) against configured tolerance. */
 bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
-    double data_loss_tolerance;
+    double data_loss_tolerance = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
@@ -332,7 +332,7 @@ bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
 /** @brief Check shard consistency (avg replication lag) against configured cap. */
 bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
-    double max_replication_lag_ms;
+    double max_replication_lag_ms = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
@@ -354,7 +354,7 @@ bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
 /** @brief Return remaining error budget fraction for one shard. */
 double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
-    double availability_target;
+    double availability_target = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
@@ -375,7 +375,7 @@ double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
 /** @brief Return mean remaining error budget across all tracked shards. */
 double SLOMonitor::getGlobalErrorBudget() const {
     std::vector<std::shared_ptr<SLOWindow>> windows;
-    double availability_target;
+    double availability_target = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (shard_windows_.empty()) {
@@ -427,7 +427,7 @@ std::string SLOMonitor::generateSLOReport() const {
         active_alerts = active_alerts_;
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "=== ThemisDB Sharding SLO Report ===\n\n";
     oss << "Report Time: " << std::chrono::system_clock::now().time_since_epoch().count() << "\n";
@@ -548,7 +548,7 @@ std::string SLOMonitor::generateSLOReportJSON() const {
 /** @brief Return aggregate compliance metrics map for dashboards/tests. */
 std::map<std::string, double> SLOMonitor::getSLOCompliance() const {
     std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
-    double availability_target;
+    double availability_target = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         shard_windows = shard_windows_;
@@ -729,7 +729,7 @@ void SLOMonitor::checkAndGenerateAlerts() {
 
 /** @brief Format one SLO violation message line for alert/report output. */
 std::string SLOMonitor::formatSLOViolation(const std::string& slo_name, double actual, double target) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "SLO VIOLATION: " << slo_name 
         << " (actual: " << std::fixed << std::setprecision(4) << actual 
         << ", target: " << target << ")";
@@ -821,14 +821,14 @@ std::string SLOReporter::generateReportFilename() const {
     auto time_t = std::chrono::system_clock::to_time_t(now);
     
     // Use thread-safe localtime
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
 #else
     localtime_r(&time_t, &tm);
 #endif
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.output_path << "slo_report_"
         << std::put_time(&tm, "%Y%m%d_%H%M%S")
         << ".txt";

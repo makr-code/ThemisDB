@@ -87,7 +87,7 @@ void TensorAwareQueryOptimizer::clearIRVisitorFn() {
 
 bool TensorAwareQueryOptimizer::isTensorFunction(const std::string& name) noexcept {
     // Accept both upper and mixed case.
-    std::string upper;
+    std::string upper = {};
     upper.reserve(name.size());
     for (char c : name) {
       upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -249,12 +249,12 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
         }
     }
 
-    std::string matched_function;
+    std::string matched_function = {};
     if (detected_fn.has_value() && isTensorFunction(*detected_fn)) {
         matched_function = *detected_fn;
     } else {
         // Check whether this node's description mentions a tensor function.
-        std::string upper_desc;
+        std::string upper_desc = {};
         upper_desc.reserve(node.description.size());
         for (char c : node.description)
             upper_desc += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));

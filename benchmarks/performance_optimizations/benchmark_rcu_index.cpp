@@ -21,13 +21,13 @@ static void BM_SimpleLookup(benchmark::State& state) {
         table.insert(i, i * 2);
     }
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, num_keys - 1);
     
     for (auto _ : state) {
         int key = dist(gen);
-        int value;
+        int value = {};
         bool found = table.lookup(key, value);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(value);
@@ -46,7 +46,7 @@ static void BM_ReadHeavyWorkload(benchmark::State& state) {
         table.insert(i, i * 2);
     }
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> key_dist(0, num_keys - 1);
     std::uniform_int_distribution<int> op_dist(0, 99);
@@ -60,7 +60,7 @@ static void BM_ReadHeavyWorkload(benchmark::State& state) {
         
         if (op < 95) {
             // Read operation (95%)
-            int value;
+            int value = {};
             table.lookup(key, value);
             benchmark::DoNotOptimize(value);
             reads++;
@@ -89,13 +89,13 @@ static void BM_ConcurrentReads(benchmark::State& state) {
         }
     });
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 9999);
     
     for (auto _ : state) {
         int key = dist(gen);
-        int value;
+        int value = {};
         bool found = table.lookup(key, value);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(value);
@@ -114,7 +114,7 @@ static void BM_HotKeyPattern(benchmark::State& state) {
         table.insert(i, i * 2);
     }
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     // 80% of accesses go to 20% of keys (Pareto distribution)
     std::uniform_int_distribution<int> hot_dist(0, 1999);
@@ -123,7 +123,7 @@ static void BM_HotKeyPattern(benchmark::State& state) {
     
     for (auto _ : state) {
         int key = (selector(gen) < 80) ? hot_dist(gen) : cold_dist(gen);
-        int value;
+        int value = {};
         table.lookup(key, value);
         benchmark::DoNotOptimize(value);
     }
@@ -160,7 +160,7 @@ static void BM_MixedWorkload(benchmark::State& state) {
     
     const int read_percentage = state.range(0); // 50, 70, 90, 95, 99
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> key_dist(0, num_keys - 1);
     std::uniform_int_distribution<int> op_dist(0, 99);

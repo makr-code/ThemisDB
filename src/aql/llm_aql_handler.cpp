@@ -59,7 +59,7 @@ namespace {
 
 /// @brief Lower-case a copy of @p s for case-insensitive matching.
 std::string toLower(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     std::transform(s.begin(), s.end(), std::back_inserter(out),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -128,7 +128,7 @@ std::string batchDomainKey([[maybe_unused]] const LLMAQLHandler::BatchInferReque
 }
 
 std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages) {
-    std::string combined_user_content;
+    std::string combined_user_content = {};
     for (const auto& msg : messages) {
         if (toLower(msg.role) == "user" && !msg.content.empty()) {
             if (!combined_user_content.empty()) {
@@ -141,7 +141,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
         return combined_user_content;
     }
 
-    std::string all_content;
+    std::string all_content = {};
     for (const auto& msg : messages) {
         if (!msg.content.empty()) {
             if (!all_content.empty()) {
@@ -294,7 +294,7 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
  * @return Prompt string ready to send to the LLM.
  */
 std::string buildAQLExplanationPrompt(const std::string &aql_query, const std::string &schema_context) {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
     prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
     if (!schema_context.empty()) {
         prompt << "Database schema context:\n" << schema_context << "\n\n";
@@ -805,7 +805,7 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                     }
 
                     constexpr double kMinRoutingAccuracyDelta = 0.4;
-                    std::string routed_shard_id;
+                    std::string routed_shard_id = {};
                     std::string routing_decision = "LOCAL";
                     if (const auto domain = parseDomainHint(options); domain.has_value()) {
                         if (impl_->domain_route_resolver_) {
@@ -1425,7 +1425,7 @@ std::string LLMAQLHandler::executeStats() {
         auto &plugin_mgr = impl_->getPluginManager();
         auto stats       = plugin_mgr.getStatistics();
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "LLM Statistics:\n";
         oss << "  Models loaded: " << stats.models_loaded << "\n";
         oss << "  LoRAs loaded: " << stats.loras_loaded << "\n";
@@ -1460,7 +1460,7 @@ std::string LLMAQLHandler::executeCacheStats() {
         auto &plugin_mgr = impl_->getPluginManager();
         auto stats       = plugin_mgr.getCacheStatistics();
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "LLM Cache Statistics:\n";
         oss << "  Response cache hits: " << stats.response_cache_hits << "\n";
         oss << "  Response cache misses: " << stats.response_cache_misses << "\n";
@@ -1533,7 +1533,7 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer([[maybe_unused]] const
 std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string &schema_context,
                                                     const std::vector<AQLFewShotExample> &examples,
                                                     const std::string &validation_feedback) const {
-    std::string out;
+    std::string out = {};
     out.reserve(2048);
     out += "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
     out += "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
@@ -1718,7 +1718,7 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
     std::string preview
         = query_preview.size() > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
 
-    std::ostringstream warn_msg;
+    std::ostringstream warn_msg = {};
     warn_msg << function_name << " produced " << annotations.size() << " potential syntax issue(s) for query \""
              << preview << "\":";
     for (const auto &ann : annotations) {
@@ -1737,7 +1737,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
 
     const TranslationValidationMode mode = impl_->validation_mode_;
     const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
-    std::string validation_feedback;
+    std::string validation_feedback = {};
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         try {
@@ -1876,7 +1876,7 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
 
         const TranslationValidationMode mode = impl_->validation_mode_;
         const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
-        std::string validation_feedback;
+        std::string validation_feedback = {};
 
         for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
             // Build the same prompt used by translateNLToAQL
@@ -1893,7 +1893,7 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
             // Stream via executeInferStreaming; collect tokens so we can post-process.
             // Tokens are forwarded to the caller on all attempts (including retries).
             // When a chat executor override is set (for testing), use it instead.
-            std::string raw_response;
+            std::string raw_response = {};
             if (impl_->chat_executor_) {
                 // Test/mock path: build messages and use the injected executor.
                 std::vector<llm::ChatMessage> messages;
@@ -2013,7 +2013,7 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
     try {
         const std::string original_query = buildChatOriginalQuery(messages);
         // If a test/mock executor has been injected, use it instead of the live LLM.
-        std::string response;
+        std::string response = {};
         if (impl_->chat_executor_) {
             response = impl_->chat_executor_(messages);
         } else {
@@ -2127,7 +2127,7 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
 
     const TranslationValidationMode mode = impl_->validation_mode_;
     const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
-    std::string validation_feedback;
+    std::string validation_feedback = {};
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         try {
@@ -2244,7 +2244,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
         sanitizePromptInput(aql_query, "aql_query");
 
         // Build a structured prompt that asks the LLM to respond in a parseable format
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
 
         if (!schema_context.empty()) {
@@ -2269,7 +2269,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
 
         // Parse the structured response
         std::istringstream ss(response);
-        std::string line;
+        std::string line = {};
         bool in_suggestions = false;
         while (std::getline(ss, line)) {
             // Trim leading/trailing whitespace

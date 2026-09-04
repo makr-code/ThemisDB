@@ -233,7 +233,7 @@ struct IRGenOptions {
 static std::string generateLLVMIR(const ParsedQuery& query,
                                    [[maybe_unused]] const Schema&      schema,
                                    const IRGenOptions& opts) {
-    std::ostringstream ir;
+    std::ostringstream ir = {};
     ir << "; ThemisDB Adaptive Query Compiler – LLVM IR (simulated)\n";
     ir << "; Query fingerprint: " << query.fingerprint << "\n";
     ir << "; Table: " << query.table << "\n";
@@ -288,7 +288,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
 
 static std::string generateAssembly(const ParsedQuery&  query,
                                      const IRGenOptions& opts) {
-    std::ostringstream asm_str;
+    std::ostringstream asm_str = {};
     asm_str << "# ThemisDB Adaptive Query Compiler – assembly (simulated)\n";
     asm_str << "# Fingerprint: " << query.fingerprint << "\n";
     asm_str << "compiled_query:\n";
@@ -312,7 +312,7 @@ static QueryRow makeRow(const std::string&       table,
                          const TableSchema*        tschema,
                          size_t                    row_idx,
                          [[maybe_unused]] const QueryParams&        params) {
-    QueryRow row;
+    QueryRow row = {};
     if (!tschema) {
         row.column_names = {"id", "value"};
         row.values       = {QueryValue{static_cast<int64_t>(row_idx)},
@@ -669,7 +669,7 @@ private:
 
         for (const auto& row : base.rows) {
             const QueryValue* gv = row.get(query.group_by_column);
-            std::string gkey;
+            std::string gkey = {};
             if (!gv || std::holds_alternative<std::monostate>(*gv)) {
                 gkey = "__NULL__";
             } else if (std::holds_alternative<int64_t>(*gv)) {
@@ -759,7 +759,7 @@ private:
             if (!key) {
               continue;
             }
-            std::string kstr;
+            std::string kstr = {};
             if (std::holds_alternative<int64_t>(*key))
                 kstr = std::to_string(std::get<int64_t>(*key));
             else if (std::holds_alternative<std::string>(*key))
@@ -774,7 +774,7 @@ private:
             if (!lkey) {
               continue;
             }
-            std::string lkstr;
+            std::string lkstr = {};
             if (std::holds_alternative<int64_t>(*lkey))
                 lkstr = std::to_string(std::get<int64_t>(*lkey));
             else if (std::holds_alternative<std::string>(*lkey))
@@ -908,7 +908,7 @@ private:
                     std::string  column;
                     Predicate::Op op;
                     QueryValue   value;
-                    std::string  param_name;
+                    std::string  param_name = {};
                     ColumnType   col_type;
                 };
                 std::vector<PredInfo> preds = {};

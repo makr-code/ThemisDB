@@ -286,7 +286,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     // Fallback: brute-force cosine similarity over cached embeddings
     auto to_words = [](const std::string& text) {
         std::unordered_set<std::string> words;
-        std::string w;
+        std::string w = {};
         for (char c : text) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
                 w += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -492,7 +492,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     std::vector<float> embedding(config_.embedding_dim, 0.0f);
     
     // Extract features from the prompt
-    std::string lower_prompt;
+    std::string lower_prompt = {};
     lower_prompt.reserve(prompt.size());
     for (char c : prompt) {
         lower_prompt += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -515,7 +515,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     
     // Feature 2: Word-level features
     std::unordered_map<std::string, int> words;
-    std::string word;
+    std::string word = {};
     for (char c : lower_prompt) {
         if (std::isalnum(c)) {
             word += c;

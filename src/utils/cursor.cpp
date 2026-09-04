@@ -29,7 +29,7 @@ static const char base64_chars[] =
     "0123456789+/";
 
 std::string Cursor::base64Encode(const std::string& input) {
-    std::string output;
+    std::string output = {};
     int val = 0;
     int valb = -6;
     
@@ -58,7 +58,7 @@ std::optional<std::string> Cursor::base64Decode(const std::string& input) {
         return std::nullopt;
     }
     
-    std::string output;
+    std::string output = {};
     std::vector<int> T(256, -1);
     
     for (int i = 0; i < 64; i++) {

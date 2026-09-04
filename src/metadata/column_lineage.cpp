@@ -140,7 +140,7 @@ nlohmann::json ColumnLineageRecord::toJSON() const {
 
 std::string ColumnLineageTracker::assignEntryId() {
     uint64_t seq = next_entry_seq_.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "col-lineage-" << seq;
     return oss.str();
 }

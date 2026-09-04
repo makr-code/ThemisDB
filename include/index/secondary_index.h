@@ -312,7 +312,7 @@ public:
     // Index-Statistiken und Wartung
     struct IndexStats {
         std::string type;              // "regular", "composite", "range", "sparse", "geo", "ttl", "fulltext", "partial"
-        std::string table;
+        std::string table = {};
         std::string column;            // oder col1+col2+... für Composite
         size_t entry_count = 0;        // Anzahl Index-Einträge
         size_t estimated_size_bytes = 0; // Geschätzte Größe (Keys + Values)

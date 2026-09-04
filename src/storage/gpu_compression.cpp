@@ -1376,7 +1376,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_zstd(
     res.original_size = size;
     res.used_gpu      = false;
 
-    int zstd_level;
+    int zstd_level = {};
     { std::lock_guard<std::mutex> lk(mu_); zstd_level = config_.zstd_level; }
     res.data = utils::zstd_compress(data, size, zstd_level);
     if (!res.data.empty()) {
@@ -1409,7 +1409,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
     res.original_size = size;
     res.used_gpu      = false;
 
-    std::string compressed_str;
+    std::string compressed_str = {};
     snappy::Compress(
         reinterpret_cast<const char*>(data), size, &compressed_str);
 
@@ -1432,7 +1432,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     const std::vector<uint8_t>& data, size_t /*original_size*/)
 {
-    std::string decompressed;
+    std::string decompressed = {};
     bool ok = snappy::Uncompress(
         reinterpret_cast<const char*>(data.data()), data.size(),
         &decompressed);
@@ -1593,7 +1593,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 decompressed_chunk = utils::zstd_decompress(chunk_vec);
                 break;
             case GpuCompressionAlgorithm::SNAPPY: {
-                std::string out_str;
+                std::string out_str = {};
                 if (!snappy::Uncompress(
                         reinterpret_cast<const char*>(chunk_vec.data()),
                         chunk_vec.size(), &out_str)) {

@@ -88,7 +88,7 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
     // Split expression into fields
     std::istringstream iss(expression);
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     
     while (iss >> field) {
         fields.push_back(field);
@@ -175,7 +175,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
     // Provide more detailed error message
     std::istringstream iss(expression);
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     
     while (iss >> field) {
         fields.push_back(field);
@@ -338,7 +338,7 @@ std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExec
 bool CronExpression::matches(const std::chrono::system_clock::time_point& time) const {
 
     auto time_t = std::chrono::system_clock::to_time_t(time);
-    std::tm tm;
+    std::tm tm = {};
 
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
@@ -398,7 +398,7 @@ bool CronExpression::matches(const std::chrono::system_clock::time_point& time) 
 }
 
 std::string CronExpression::describe() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Simple description based on patterns
     if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
@@ -454,7 +454,7 @@ std::string CronExpression::describe() const {
 // Returns -1 if not a known alias.
 static int monthNameToNumber(const std::string& name) {
     // Case-insensitive comparison via a local uppercase copy
-    std::string upper;
+    std::string upper = {};
     upper.reserve(name.size());
     for (char c : name) {
       upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -480,7 +480,7 @@ static int monthNameToNumber(const std::string& name) {
 // Translate a weekday name to its numeric equivalent (0=Sunday … 6=Saturday).
 // Returns -1 if not a known alias.
 static int weekdayNameToNumber(const std::string& name) {
-    std::string upper;
+    std::string upper = {};
     upper.reserve(name.size());
     for (char c : name) {
       upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -630,7 +630,7 @@ std::optional<std::set<int>> CronExpression::parseList(
     
     std::set<int> result;
     std::istringstream iss(list);
-    std::string item;
+    std::string item = {};
     
     while (std::getline(iss, item, ',')) {
         if (item.empty()) {

@@ -253,7 +253,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
     for (auto& buffered_event : buffer.events) {
         bool recorded = false;
         int retry_count = 0;
-        std::string last_error;
+        std::string last_error = {};
         
         while (!recorded && retry_count <= config_.max_retry_attempts) {
             try {

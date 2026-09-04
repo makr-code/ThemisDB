@@ -115,7 +115,7 @@ std::string DiscourseMemoryStore::buildEpisodicContext(const std::string &school
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &ep : episodes) {
         oss << "[" << ep.school_id << " R" << ep.from_round << "] "
             << "DC=" << std::fixed << std::setprecision(2) << ep.dc_score << " " << ep.compressed_position << "\n";

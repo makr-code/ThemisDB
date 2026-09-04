@@ -120,7 +120,7 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
 
 std::string PrometheusExporter::exportMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Group metrics by base name for HELP and TYPE annotations
     std::map<std::string, MetricType> metric_types = {};
@@ -225,7 +225,7 @@ std::string PrometheusExporter::makeMetricKey(const std::string& name,
         return name;
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << name << "{";
     bool first = true;
     
@@ -244,7 +244,7 @@ std::string PrometheusExporter::makeMetricKey(const std::string& name,
 }
 
 std::string PrometheusExporter::serializeMetric(const std::string& name, const MetricValue& value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << name << " " << value.value;
     return oss.str();
 }
@@ -1038,7 +1038,7 @@ GrafanaDashboardGenerator::GrafanaDashboardGenerator(const DashboardConfig& conf
 }
 
 std::string GrafanaDashboardGenerator::generateDashboard() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "{\n";
     oss << "  \"dashboard\": {\n";
@@ -1104,7 +1104,7 @@ std::string GrafanaDashboardGenerator::createPanel(const std::string& title,
                                                    const std::string& type,
                                                    int grid_pos_x, int grid_pos_y,
                                                    int grid_width, int grid_height) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "      {\n";
     oss << "        \"title\": \"" << title << "\",\n";
@@ -1146,7 +1146,7 @@ std::string GrafanaDashboardGenerator::generateThroughputPanel() const {
 }
 
 std::string GrafanaDashboardGenerator::generateGPUPanel() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\n";
     oss << "  \"title\": \"GPU Metrics\",\n";
     oss << "  \"panels\": [\n";
@@ -1177,7 +1177,7 @@ std::string GrafanaDashboardGenerator::generateErrorPanel() const {
 }
 
 std::string GrafanaDashboardGenerator::generateUnifiedDashboard() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     oss << "{\n";
     oss << "  \"dashboard\": {\n";
@@ -1320,7 +1320,7 @@ bool MetricsServer::start() {
     // /health
     impl_->svr.Get(config_.health_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.health_path, body);
             res.set_content(body, "application/json");
         });
@@ -1328,7 +1328,7 @@ bool MetricsServer::start() {
     // /ready
     impl_->svr.Get(config_.ready_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.ready_path, body);
             const int status = (body.find("\"ready\"") != std::string::npos) ? 200 : 503;
             res.status = status;
@@ -1338,7 +1338,7 @@ bool MetricsServer::start() {
     // /models
     impl_->svr.Get(config_.models_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.models_path, body);
             res.set_content(body, "application/json");
         });
@@ -1346,7 +1346,7 @@ bool MetricsServer::start() {
     // /dashboard — serve the unified Grafana dashboard JSON
     impl_->svr.Get(config_.dashboard_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.dashboard_path, body);
             res.set_content(body, "application/json");
         });
@@ -1355,7 +1355,7 @@ bool MetricsServer::start() {
     // POST /admin/models/reload
     impl_->svr.Post(config_.admin_reload_path.c_str(),
         [this](const httplib::Request& req, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handlePost(config_.admin_reload_path, req.body, body);
             res.set_content(body, "application/json");
         });
@@ -1363,7 +1363,7 @@ bool MetricsServer::start() {
     // POST /admin/prompt/simulate
     impl_->svr.Post(config_.admin_simulate_path.c_str(),
         [this](const httplib::Request& req, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handlePost(config_.admin_simulate_path, req.body, body);
             res.set_content(body, "application/json");
         });
@@ -1371,7 +1371,7 @@ bool MetricsServer::start() {
     // GET /admin/sessions — list active inference sessions
     impl_->svr.Get(config_.admin_sessions_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.admin_sessions_path, body);
             res.set_content(body, "application/json");
         });
@@ -1384,7 +1384,7 @@ bool MetricsServer::start() {
             // matches[0] = full path, matches[1] = :id
             const std::string session_id =
                 req.matches.size() > 1 ? std::string(req.matches[1]) : "";
-            std::string body;
+            std::string body = {};
             handleDelete(config_.admin_sessions_path, session_id, body);
             res.set_content(body, "application/json");
         });

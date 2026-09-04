@@ -98,7 +98,7 @@ std::string GNNEmbeddingManager::makeEmbeddingKey_(
     std::string_view entity_id,
     std::string_view model_name
 ) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "gnn_emb:" << entity_type << ":" << graph_id << ":" << model_name << ":" << entity_id;
     return oss.str();
 }
@@ -110,7 +110,7 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
     std::vector<std::string> parts;
     parts.reserve(std::count(keyStr.begin(), keyStr.end(), ':') + 1);
     std::istringstream iss(keyStr);
-    std::string part;
+    std::string part = {};
     
     while (std::getline(iss, part, ':')) {
         parts.push_back(part);
@@ -161,7 +161,7 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
         
         for (const auto& node : current_level) {
             // Get outgoing neighbors
-            std::ostringstream outPrefix;
+            std::ostringstream outPrefix = {};
             outPrefix << "graph:out:" << graph_id << ":" << node << ":";
             
             db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
@@ -175,7 +175,7 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
             });
             
             // Also get incoming neighbors for undirected graph treatment
-            std::ostringstream inPrefix;
+            std::ostringstream inPrefix = {};
             inPrefix << "graph:in:" << graph_id << ":" << node << ":";
             
             db_.scanPrefix(inPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
@@ -232,7 +232,7 @@ GNNEmbeddingManager::computeEmbedding_(
         neighbor_features_list.reserve(max_neighbors);
         for (size_t i = 0; i < max_neighbors; ++i) {
             // Load neighbor node to extract its features
-            std::ostringstream nodeKeyOss;
+            std::ostringstream nodeKeyOss = {};
             nodeKeyOss << "node:" << graph_id << ":" << neighbor_ids[i];
             std::string nodeKey = nodeKeyOss.str();
             
@@ -442,7 +442,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateNodeEmbedding(
     }
     
     // Load node entity
-    std::ostringstream nodeKeyOss;
+    std::ostringstream nodeKeyOss = {};
     nodeKeyOss << "node:" << graph_id << ":" << node_pk;
     std::string nodeKey = nodeKeyOss.str();
     
@@ -538,7 +538,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateEdgeEmbedding(
     }
     
     // Load edge entity
-    std::ostringstream edgeKeyOss;
+    std::ostringstream edgeKeyOss = {};
     edgeKeyOss << "edge:" << graph_id << ":" << edge_id;
     std::string edgeKey = edgeKeyOss.str();
     
@@ -611,7 +611,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     }
     
     // Get all node embeddings for this graph/model
-    std::ostringstream prefix;
+    std::ostringstream prefix = {};
     prefix << "gnn_emb:node:" << graph_id << ":" << model_name << ":";
     
     std::vector<std::vector<float>> node_embeddings;
@@ -971,7 +971,7 @@ GNNEmbeddingManager::getStats() const {
         std::vector<std::string> parts;
         parts.reserve(std::count(keyStr.begin(), keyStr.end(), ':') + 1);
         std::istringstream iss(keyStr);
-        std::string part;
+        std::string part = {};
         while (std::getline(iss, part, ':')) {
             parts.push_back(part);
         }

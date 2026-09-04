@@ -274,7 +274,7 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
 
 TEST(TokenBlacklistCallbackTest, CallbackInvokedOnRevoke) {
     TokenBlacklist bl;
-    std::string captured_jti;
+    std::string captured_jti = {};
 
     bl.setOnRevokeCallback([&captured_jti](const std::string& jti) {
         captured_jti = jti;
@@ -334,7 +334,7 @@ TEST(TokenBlacklistCallbackTest, ClearCallbackStopsNotifications) {
 
 TEST(TokenBlacklistCallbackTest, ReplaceCallbackUsesNewOne) {
     TokenBlacklist bl;
-    std::string last_jti;
+    std::string last_jti = {};
 
     bl.setOnRevokeCallback([&last_jti](const std::string& jti) {
         last_jti = "first:" + jti;

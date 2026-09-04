@@ -42,7 +42,7 @@ namespace {
 
 /// Strip XML character entities and surrounding whitespace.
 std::string unescapeAml(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (size_t i = 0; i < s.size(); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
@@ -142,7 +142,7 @@ void parseAttrs(std::string_view src,
           break;
         }
 
-        std::string attr_val;
+        std::string attr_val = {};
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
@@ -355,7 +355,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
     Context ctx = Context::NONE;
     ArisModel current_model;
     ObjDefInfo current_obj;
-    std::string current_obj_id;
+    std::string current_obj_id = {};
     bool in_epk_model = false;
 
     auto flush_model = [&]() {
@@ -463,7 +463,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
         }
     };
 
-    std::string pending_text;
+    std::string pending_text = {};
     auto text_cb = [&]([[maybe_unused]] std::string_view text) {
         if (ctx == Context::MODEL_NAME) {
             current_model.model_name += std::string(text);

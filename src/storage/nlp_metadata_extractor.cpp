@@ -52,7 +52,7 @@ NlpMetadataExtractor::NlpMetadataExtractor(const Config& config)
 // Extract metadata from text
 NlpMetadataExtractor::ExtractedMetadata 
 NlpMetadataExtractor::extractMetadata(const std::string& text) const {
-    ExtractedMetadata meta;
+    ExtractedMetadata meta = {};
     
     if (text.empty()) {
         return meta;
@@ -170,7 +170,7 @@ bool NlpMetadataExtractor::enrichEntity(
         // Entities as JSON
         if (!meta.emails.empty() || !meta.urls.empty() || 
             !meta.dates.empty() || !meta.measurements.empty()) {
-            json entities_json;
+            json entities_json = {};
             if (!meta.emails.empty()) {
               entities_json["emails"] = meta.emails;
             }
@@ -292,7 +292,7 @@ std::string NlpMetadataExtractor::concatenateFields(
     const BaseEntity& entity,
     const std::vector<std::string>& fields) const {
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first = true;
     
     for (const auto& field : fields) {

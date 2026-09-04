@@ -641,7 +641,7 @@ bool RocksDBWrapper::open() {
 
     // Ensure target directories exist when using relative paths and tests run from build dir
     try {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::path dbp(config_.db_path);
         auto parent = dbp.parent_path();
         if (!parent.empty()) {
@@ -891,7 +891,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
       return std::nullopt;
     }
     
-    std::string value;
+    std::string value = {};
     rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(), key.size()), &value);
     
     if (status.ok()) {
@@ -905,7 +905,7 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
     if (!db_) {
       return false;
     }
-    std::string value;
+    std::string value = {};
     rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(), key.size()), &value);
     if (status.ok()) {
         out = std::move(value);
@@ -1041,7 +1041,7 @@ namespace {
 
 // Returns the internal manifest key for a logical blob key.
 inline std::string blobManifestKey(std::string_view key) {
-    std::string mk;
+    std::string mk = {};
     mk.reserve(10 + key.size());
     mk.append("__tmbs_m__:");
     mk.append(key.data(), key.size());
@@ -1056,7 +1056,7 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
         throw std::overflow_error("RocksDB chunk key index overflow");
     }
 
-    std::string ck;
+    std::string ck = {};
     ck.reserve(10 + key.size() + 7);
     ck.append("__tmbs_c__:");
     ck.append(key.data(), key.size());
@@ -1234,7 +1234,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
 
     // ── Fast path: check for manifest (chunked blob) ─────────────────────────
     const std::string mk = blobManifestKey(key);
-    std::string manifest_raw;
+    std::string manifest_raw = {};
     rocksdb::Status ms = db_->Get(
         *read_options_, rocksdb::Slice(mk), &manifest_raw);
 
@@ -1305,7 +1305,7 @@ bool RocksDBWrapper::delBlob(std::string_view key) {
 
     // Check whether a manifest exists to determine if this is a chunked blob.
     const std::string mk = blobManifestKey(key);
-    std::string manifest_raw;
+    std::string manifest_raw = {};
     rocksdb::Status ms =
         db_->Get(*read_options_, rocksdb::Slice(mk), &manifest_raw);
 
@@ -1454,7 +1454,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
       return std::nullopt;
     }
     
-    std::string value;
+    std::string value = {};
     rocksdb::Status status = batch_->GetFromBatch(
         *db_->options_,
         rocksdb::Slice(key.data(), key.size()),
@@ -1472,7 +1472,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
       return std::nullopt;
     }
     
-    std::string value;
+    std::string value = {};
     rocksdb::Status status = batch_->GetFromBatchAndDB(
         db_->db_.get(),
         *db_->read_options_,
@@ -1591,7 +1591,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
         return std::nullopt;
     }
     
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     
     // OPTIMIZATION: Only use snapshot for Snapshot isolation level
@@ -1616,7 +1616,7 @@ bool RocksDBWrapper::TransactionWrapper::getForUpdate(std::string_view key) {
         return false;
     }
 
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     if (isolation_ == TransactionIsolationLevel::Snapshot) {
         read_opts.snapshot = txn_->GetSnapshot();
@@ -2049,7 +2049,7 @@ std::string RocksDBWrapper::getStats() const {
     if (!db_) return R"({"error": "Database not open"})";
     
     // Get full RocksDB stats text
-    std::string raw_stats;
+    std::string raw_stats = {};
     db_->GetProperty("rocksdb.stats", &raw_stats);
     
     // Get specific numeric properties for structured output
@@ -2079,7 +2079,7 @@ std::string RocksDBWrapper::getStats() const {
     db_->GetIntProperty("rocksdb.total-sst-files-size", &total_sst_files_size);
     
     // Get per-level file counts
-    std::string num_files_at_levels;
+    std::string num_files_at_levels = {};
     for (int level = 0; level < 7; ++level) {
         uint64_t num_files = 0;
         std::string prop = "rocksdb.num-files-at-level" + std::to_string(level);
@@ -2091,7 +2091,7 @@ std::string RocksDBWrapper::getStats() const {
     }
     
     // Get statistics counters if available
-    std::string stats_counters;
+    std::string stats_counters = {};
     std::shared_ptr<rocksdb::Statistics> stats;
     {
         std::lock_guard<std::mutex> options_lock(options_mutex_);
@@ -2235,7 +2235,7 @@ bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
     }
     try {
         // Ensure parent directory exists, but do not pre-create the checkpoint directory itself
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::path cpp(checkpoint_dir);
         auto parent = cpp.parent_path();
         if (!parent.empty()) {
@@ -2276,7 +2276,7 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
             close();
         }
         const auto& target = config_.db_path;
-        std::error_code ec;
+        std::error_code ec = {};
         if (std::filesystem::exists(target)) {
             std::filesystem::remove_all(target, ec);
             if (ec) {

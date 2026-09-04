@@ -392,7 +392,7 @@ std::string AutoRebalancer::generateOperationId() const {
         now.time_since_epoch()
     ).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "rebalance_" << std::hex << now_ms;
     return oss.str();
 }
@@ -442,7 +442,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         now.time_since_epoch()
     ).count();
 
-    std::ostringstream msg_oss;
+    std::ostringstream msg_oss = {};
     msg_oss << "REBALANCE:" << operation_id << ":" << timestamp;
     std::string message = msg_oss.str();
 
@@ -511,7 +511,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     int encoded_len = EVP_EncodeBlock(b64_buf.data(), signature.data(), 
                                        static_cast<int>(signature.size()));
     
-    std::string sig_b64;
+    std::string sig_b64 = {};
     if (encoded_len > 0) {
         sig_b64 = std::string(reinterpret_cast<char*>(b64_buf.data()),
                               static_cast<size_t>(encoded_len));
@@ -521,7 +521,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     }
     
     // Return formatted signature: SIGNATURE:{sig_b64}:{timestamp}
-    std::ostringstream result;
+    std::ostringstream result = {};
     result << "SIGNATURE:" << sig_b64 << ":" << timestamp;
     
     THEMIS_INFO("AutoRebalancer: Successfully signed operation {} (sig_len={})", 
@@ -835,7 +835,7 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
     // shard list is consulted; if no cold shard is available the split is
     // deferred until one is.
     const auto imbalance = load_detector_->detectImbalance();
-    std::string target_shard;
+    std::string target_shard = {};
 
     if (!imbalance.cold_shards.empty()) {
         target_shard = imbalance.cold_shards.front();

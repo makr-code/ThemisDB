@@ -28,7 +28,7 @@ namespace themis::api {
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces `\` and `'` to prevent AQL string-literal injection.
 inline std::string aqlEscapeLiteral(const std::string& raw) {
-    std::string out;
+    std::string out = {};
     out.reserve(raw.size() + 4);
     for (char c : raw) {
         if (c == '\\') { out += "\\\\"; }

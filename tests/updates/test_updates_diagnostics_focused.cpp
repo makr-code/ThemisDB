@@ -21,7 +21,7 @@ class RecordingListener : public DiagnosticListener {
 public:
     struct Event {
         ErrorContext context;
-        bool is_error;
+        bool is_error = {};
     };
 
     void onDiagnosticEvent(const ErrorContext& context, bool is_error) override {

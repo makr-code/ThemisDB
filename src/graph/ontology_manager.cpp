@@ -65,7 +65,7 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
         return {};
     }
     ++pos; // skip opening '"'
-    std::string result;
+    std::string result = {};
     while (pos < s.size() && s[pos] != '"') {
         if (s[pos] == '\\' && pos + 1 < s.size()) {
             ++pos;
@@ -204,7 +204,7 @@ static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &l
     std::vector<YamlEntry> entries;
     YamlEntry current;
     bool in_entry = false;
-    std::string current_list_key;
+    std::string current_list_key = {};
 
     auto flush = [&]() {
         if (in_entry && (!current.scalar.empty() || !current.list.empty())) {
@@ -298,7 +298,7 @@ bool OntologyManager::loadFromJson(std::string_view path) {
     if (!f.is_open()) {
         return false;
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     return parseJson(ss.str());
 }
@@ -313,7 +313,7 @@ bool OntologyManager::loadFromYaml(std::string_view path) {
     if (!f.is_open()) {
         return false;
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     return parseYaml(ss.str());
 }
@@ -479,7 +479,7 @@ bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::strin
 // ── Serialisation ────────────────────────────────────────────────────────────
 
 std::string OntologyManager::toJson() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "{\n  \"concepts\": [\n";
     bool first_concept = true;
     for (const auto &[id, node] : concepts_) {
@@ -517,7 +517,7 @@ std::string OntologyManager::toJson() const {
 }
 
 std::string OntologyManager::toYaml() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "concepts:\n";
     for (const auto &[id, node] : concepts_) {
         out << "  - id: " << id << "\n";
@@ -650,7 +650,7 @@ bool OntologyManager::parseYaml(const std::string &text) {
     std::vector<std::string> lines;
     {
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             lines.push_back(line);
         }

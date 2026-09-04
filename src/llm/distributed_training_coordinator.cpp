@@ -60,7 +60,7 @@ json DistributedTrainingConfig::toJSON() const {
 }
 
 DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
-    DistributedTrainingConfig config;
+    DistributedTrainingConfig config = {};
     if (j.contains("sync_strategy")) 
         config.sync_strategy = static_cast<SyncStrategy>(j["sync_strategy"].get<int>());
     if (j.contains("compression")) 
@@ -234,7 +234,7 @@ void GradientTensor::compress(GradientCompressionType type) {
             for (size_t i = 0; i < k; ++i) {
                 uint32_t idx = static_cast<uint32_t>(indexed_vals[i].first);
                 float val = data[idx];
-                uint32_t val_bits;
+                uint32_t val_bits = {};
                 memcpy(&val_bits, &val, sizeof(float));
                 
                 compressed.push_back((idx >> 24) & 0xFF);
@@ -335,7 +335,7 @@ void GradientTensor::decompress() {
                               (compressed[pos+2] << 8) | compressed[pos+3];
                 uint32_t val_bits = (compressed[pos+4] << 24) | (compressed[pos+5] << 16) | 
                                    (compressed[pos+6] << 8) | compressed[pos+7];
-                float val;
+                float val = {};
                 memcpy(&val, &val_bits, sizeof(float));
                 
                 if (idx < data.size()) {
@@ -373,7 +373,7 @@ json GradientTensor::toJSON() const {
 }
 
 GradientTensor GradientTensor::fromJSON(const json& j) {
-    GradientTensor tensor;
+    GradientTensor tensor = {};
     if (j.contains("layer_name")) {
       tensor.layer_name = j["layer_name"].get<std::string>();
     }
@@ -434,7 +434,7 @@ json GradientExchangeMessage::toJSON() const {
 }
 
 GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
-    GradientExchangeMessage msg;
+    GradientExchangeMessage msg = {};
     if (j.contains("message_id")) {
       msg.message_id = j["message_id"].get<std::string>();
     }
@@ -502,7 +502,7 @@ json ShardTrainingState::toJSON() const {
 }
 
 ShardTrainingState ShardTrainingState::fromJSON(const json& j) {
-    ShardTrainingState state;
+    ShardTrainingState state = {};
     if (j.contains("shard_id")) {
       state.shard_id = j["shard_id"].get<std::string>();
     }
@@ -660,7 +660,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
     
     if (total_weight <= 0.0f) {
         // Fall back to simple averaging
-        AllReduceAggregator fallback;
+        AllReduceAggregator fallback = {};
         return fallback.aggregate(shard_gradients);
     }
     
@@ -724,7 +724,7 @@ std::vector<GradientTensor> RingAllReduceAggregator::aggregate(
     spdlog::info("Ring-AllReduce using simplified all-reduce for {} shards", 
                shard_gradients.size());
     
-    AllReduceAggregator fallback;
+    AllReduceAggregator fallback = {};
     return fallback.aggregate(shard_gradients);
 }
 

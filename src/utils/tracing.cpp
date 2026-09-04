@@ -173,7 +173,7 @@ Baggage::BaggageMap Baggage::getAll() {
 }
 
 std::string Baggage::serialize() {
-    std::string out;
+    std::string out = {};
     for (const auto& [k, v] : thread_baggage_) {
         if (!out.empty()) {
           out += ',';
@@ -191,7 +191,7 @@ void Baggage::inject(std::map<std::string, std::string>& headers) {
 }
 
 void Baggage::extract(const std::map<std::string, std::string>& headers) {
-    std::string value;
+    std::string value = {};
     for (const auto& [k, v] : headers) {
         std::string lower_k = k;
         std::transform(lower_k.begin(), lower_k.end(), lower_k.begin(),
@@ -203,7 +203,7 @@ void Baggage::extract(const std::map<std::string, std::string>& headers) {
     }
 
     std::istringstream ss(value);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         auto eq = token.find('=');
         if (eq == std::string::npos) {
@@ -246,7 +246,7 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
         // Probe collector reachability first to avoid noisy exporter errors
         auto parse_host_port = [](const std::string& url) -> std::pair<std::string, uint16_t> {
             std::regex re(R"((?:http|https)://([^/:]+)(?::(\d+))?)", std::regex::icase);
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(url, m, re)) {
                 std::string host = m[1].str();
                 uint16_t port = 4318;

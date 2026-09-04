@@ -93,7 +93,7 @@ TEST(WaveD_ReplicationSoak, ReplicationLagP99Under500ms) {
     StubReplicationPipeline pipeline;
     std::vector<std::chrono::microseconds> lag_samples;
     lag_samples.reserve(10'000);
-    std::mutex samples_mutex;
+    std::mutex samples_mutex = {};
 
     const auto start = std::chrono::steady_clock::now();
 

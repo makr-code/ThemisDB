@@ -39,7 +39,7 @@ GPUKernelManager::GPUKernelManager(const std::string& kernel_name,
     }
 
     // Validate GPU device availability
-    int device_count;
+    int device_count = {};
     cudaError_t err = cudaGetDeviceCount(&device_count);
     if (err != cudaSuccess || device_id >= device_count) {
         throw std::runtime_error("Invalid device ID: " + std::string(cudaGetErrorString(err)));

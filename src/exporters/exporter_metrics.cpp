@@ -381,7 +381,7 @@ json ExporterMetrics::toJson() const {
 }
 
 std::string ExporterMetrics::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(2);
     
     oss << "Export Metrics:\n";

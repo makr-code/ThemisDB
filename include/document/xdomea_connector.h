@@ -511,7 +511,7 @@ private:
     }
 
     static std::string escapeXML_(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (char c : s) {
             switch (c) {

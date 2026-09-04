@@ -16,7 +16,7 @@ namespace themis {
 namespace imggen {
 
 SDConfig SDConfig::fromJson(const json& j) {
-    SDConfig cfg;
+    SDConfig cfg = {};
     if (j.contains("model_path")) {
       cfg.model_path            = j["model_path"].get<std::string>();
     }

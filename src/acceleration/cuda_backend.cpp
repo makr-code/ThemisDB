@@ -104,7 +104,7 @@ constexpr float kCosineDistanceTolerance = 0.001f;
 struct StreamWaitResult {
     bool ok = false;
     AccelerationErrorCode errorCode = AccelerationErrorCode::SynchronizationFailed;
-    std::string message;
+    std::string message = {};
 };
 
 StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::milliseconds timeout) {
@@ -209,7 +209,7 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
         = metricBit(DistanceMetric::L2) | metricBit(DistanceMetric::COSINE) | metricBit(DistanceMetric::INNER_PRODUCT);
 
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -513,7 +513,7 @@ std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, siz
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
-        std::string distanceValidationError;
+        std::string distanceValidationError = {};
         if (!validateDistanceOutputs(distances, useL2, distanceValidationError)) {
             setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", distanceValidationError,
                                   "Falling back to CPU path is recommended for this batch"));
@@ -641,7 +641,7 @@ CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
-        std::string topkValidationError;
+        std::string topkValidationError = {};
         if (!validateTopKOutputs(topkIndices, topkDistances, numVectors, useL2, topkValidationError)) {
             setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", topkValidationError,
                                   "Falling back to CPU path is recommended for this batch"));
@@ -997,7 +997,7 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
             return {};
         }
         const bool useL2 = (metric == DistanceMetric::L2);
-        std::string topkValidationError;
+        std::string topkValidationError = {};
         if (!validateTopKOutputs(topkIndices, topkDistances, numVectors, useL2, topkValidationError)) {
             setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", topkValidationError,
                                   "Falling back to non-graph CUDA path is recommended for this batch"));
@@ -1248,7 +1248,7 @@ BackendCapabilities CUDAGraphBackend::getCapabilities() const {
     caps.supportsAsync           = true;
     caps.supportedPrecisions     = PrecisionMode::FP32;
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -1793,7 +1793,7 @@ BackendCapabilities CUDAGeoBackend::getCapabilities() const {
     caps.supportsAsync           = true;
     caps.supportedPrecisions     = PrecisionMode::FP32;
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -2115,7 +2115,7 @@ BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
     // the actual hardware capability at runtime via cuBLAS.
     caps.supportedPrecisions = PrecisionMode::FP32 | PrecisionMode::FP16 | PrecisionMode::BF16;
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             caps.deviceName     = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;

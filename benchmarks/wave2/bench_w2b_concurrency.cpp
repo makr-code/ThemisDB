@@ -242,7 +242,7 @@ BENCHMARK_DEFINE_F(W2B_KvWriteFixture, ConcurrentMixed_ReadWrite)(benchmark::Sta
             benchmark::DoNotOptimize(ok);
         } else {
             std::string key = "warm_" + std::to_string(readKeyDist(rng));
-            std::string out;
+            std::string out = {};
             bool found = db_->get(key, out);
             benchmark::DoNotOptimize(found);
             benchmark::DoNotOptimize(out);
@@ -397,7 +397,7 @@ static void BM_W2B_ReaderWriterFanout(benchmark::State& state) {
             std::uniform_int_distribution<int> keyDist(0, kWarmup - 1);
             while (!stop.load(std::memory_order_acquire)) {
                 std::string key = "warm_" + std::to_string(keyDist(rng));
-                std::string out;
+                std::string out = {};
                 bool found = db->get(key, out);
                 benchmark::DoNotOptimize(found);
                 readOps.fetch_add(1, std::memory_order_relaxed);

@@ -14,7 +14,7 @@ namespace {
 struct TempDirGuard {
     std::filesystem::path dir;
     ~TempDirGuard() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(dir, ec);
     }
 };
@@ -28,7 +28,7 @@ struct TempDirGuard {
     if (!out.good()) {
         throw std::runtime_error("failed to write PEM content: " + path.string());
     }
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::permissions(
         path,
         std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,

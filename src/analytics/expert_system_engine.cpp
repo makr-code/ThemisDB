@@ -30,7 +30,7 @@ static bool isVariable(const std::string &s) {
 }
 
 static std::string jsonEscape(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 4);
     for (char c : s) {
         if (c == '"') {
@@ -49,7 +49,7 @@ static std::string jsonEscape(const std::string &s) {
 }
 
 static std::string factToJson(const Fact &f) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"id\":\"" << jsonEscape(f.id) << "\","
         << "\"subject\":\"" << jsonEscape(f.subject) << "\","
@@ -60,7 +60,7 @@ static std::string factToJson(const Fact &f) {
 }
 
 static std::string proofStepToJson(const ProofStep &ps) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"rule_id\":\"" << jsonEscape(ps.rule_id) << "\","
         << "\"matched_facts\":[";
     bool first = true;
@@ -184,7 +184,7 @@ bool ExpertSystemEngine::matchConditionsRec(const std::vector<TriplePattern> &co
 
 std::optional<ExpertSystemEngine::Bindings>
 ExpertSystemEngine::matchConditions(const HornClause &rule, const std::vector<Fact> &all_facts) const {
-    Bindings bindings;
+    Bindings bindings = {};
     if (matchConditionsRec(rule.conditions, 0, all_facts, bindings)) {
         return bindings;
     }
@@ -498,7 +498,7 @@ std::string ExpertSystemEngine::explain(const std::string &fact_id) const {
         return "[]";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto &step : it->second) {

@@ -142,7 +142,7 @@ std::set<std::pair<std::string, std::string>> weakOrderPairs(
 std::vector<float> embedActivities(const std::vector<std::string>& activities) {
     std::vector<float> embedding(kProcessEmbeddingDimensions, 0.0f);
     for (const auto& activity : activities) {
-        std::string padded;
+        std::string padded = {};
         padded.reserve(activity.size() + 2);
         padded.push_back(' ');
         for (unsigned char ch : activity) {
@@ -210,7 +210,7 @@ json normalizeAdminModels(const json& value) {
 EventLog parseEventLog(const json& j);
 
 ProcessPattern parseProcessPattern(const json& j) {
-    ProcessPattern pattern;
+    ProcessPattern pattern = {};
     if (!j.is_object()) {
         return pattern;
     }
@@ -552,7 +552,7 @@ json compareTraceWithPattern(const ProcessPattern& pattern, const ProcessTrace& 
 // }
 // ---------------------------------------------------------------------------
 EventLog parseEventLog(const json& j) {
-    EventLog log;
+    EventLog log = {};
     if (!j.is_object() || !j.contains("traces") || !j["traces"].is_array()) {
         return log;
     }
@@ -645,7 +645,7 @@ json discoveredProcessToJson(const DiscoveredProcess& proc) {
 // JSON → DiscoveredProcess  (for PM_CONFORMANCE / PM_EXPORT_BPMN input)
 // ---------------------------------------------------------------------------
 DiscoveredProcess parseDiscoveredProcess(const json& j) {
-    DiscoveredProcess proc;
+    DiscoveredProcess proc = {};
     if (!j.is_object()) {
       return proc;
     }
@@ -689,7 +689,7 @@ DiscoveredProcess parseDiscoveredProcess(const json& j) {
 // JSON → MiningConfig
 // ---------------------------------------------------------------------------
 MiningConfig parseMiningConfig(const json& j) {
-    MiningConfig cfg;
+    MiningConfig cfg = {};
     if (!j.is_object()) {
       return cfg;
     }

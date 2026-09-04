@@ -284,7 +284,7 @@ public:
      */
     struct CacheConfig {
         size_t capacity = 0;
-        int    ttl_seconds;
+        int    ttl_seconds = {};
     };
 
     /**

@@ -38,7 +38,7 @@ static constexpr const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string TemporalCompressor::base64Encode(const std::string& input) {
-    std::string out;
+    std::string out = {};
     out.reserve(((input.size() + 2) / 3) * 4);
     const auto* data = reinterpret_cast<const unsigned char*>(input.data());
     size_t i = 0;
@@ -85,7 +85,7 @@ static int base64CharValue(char c) {
 }
 
 std::string TemporalCompressor::base64Decode(const std::string& input) {
-    std::string out;
+    std::string out = {};
     if (input.empty() || input.size() % 4 != 0) {
       return out;
     }
@@ -122,7 +122,7 @@ static constexpr unsigned char kRlEscapeByte   = 0x02;
 
 std::string TemporalCompressor::rlEncode(const std::string& input) {
     if (input.empty()) return {};
-    std::string out;
+    std::string out = {};
     out.reserve(input.size());
     size_t i = 0;
     while (i < input.size()) {
@@ -149,7 +149,7 @@ std::string TemporalCompressor::rlEncode(const std::string& input) {
 }
 
 std::string TemporalCompressor::rlDecode(const std::string& input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size() * 2);
     size_t i = 0;
     while (i < input.size()) {

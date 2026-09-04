@@ -63,7 +63,7 @@ class StubInferenceEngine {
 public:
     struct Result {
         LlmErrorCode code{LlmErrorCode::OK};
-        std::string output;
+        std::string output = {};
     };
 
     bool model_loaded{false};

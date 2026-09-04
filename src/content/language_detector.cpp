@@ -111,7 +111,7 @@ ScriptCounts countScriptBytes(std::string_view text) {
 // Convert to lowercase ASCII in-place (leaves non-ASCII bytes unchanged so
 // that script detection still works on the raw bytes).
 std::string toLower(std::string_view text) {
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size() + 2);
     lower += ' '; // sentinel: ensure first word gets a leading space
     for (unsigned char c : text) {

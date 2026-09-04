@@ -51,7 +51,7 @@ std::optional<GeometryInfo> TemporalSpatialQuery::extractGeometry(
     }
 
     try {
-        std::string geojson_str;
+        std::string geojson_str = {};
         if (it->is_string()) {
             geojson_str = it->get<std::string>();
         } else {

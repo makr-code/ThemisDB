@@ -70,7 +70,7 @@ public:
 
     /// Build a schema context string in the format used by ThemisDB validation
     std::string buildContextString() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "collection:" << collection_name_ << " fields:[";
         for (std::size_t i = 0; i < fields_.size(); ++i) {
             if (i > 0) oss << ",";
@@ -84,7 +84,7 @@ public:
 
     /// Build a JSON-like schema context string
     std::string buildJSONContextString() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"collection\":\"" << collection_name_ << "\",\"fields\":[";
         for (std::size_t i = 0; i < fields_.size(); ++i) {
             if (i > 0) oss << ",";
@@ -189,7 +189,7 @@ public:
     static std::string multi_collection_context(
         const std::vector<std::string>& collection_names)
     {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (std::size_t i = 0; i < collection_names.size(); ++i) {
             if (i > 0) oss << " ";
             oss << "collection:" << collection_names[i];

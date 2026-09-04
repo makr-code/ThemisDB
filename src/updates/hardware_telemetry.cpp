@@ -102,7 +102,7 @@ std::string HardwareSnapshot::toJson() const {
 
     if (performance.has_value()) {
         const auto& p = *performance;
-        json pj;
+        json pj = {};
         if (p.avg_query_latency_us > 0)
             { pj["avg_query_latency_us"]      = p.avg_query_latency_us; }
         if (p.p99_query_latency_us > 0)
@@ -136,7 +136,7 @@ namespace {
 static std::string readProcCpuinfoField(const std::string& key) {
     std::ifstream f("/proc/cpuinfo");
     if (!f.is_open()) { return {}; }
-    std::string line;
+    std::string line = {};
     const std::string prefix = key + "\t:";
     const std::string prefix2 = key + " :";
     while (std::getline(f, line)) {
@@ -160,7 +160,7 @@ static unsigned int countLinuxCpuCores() {
     std::ifstream f("/proc/cpuinfo");
     if (!f.is_open()) { return 0; }
     unsigned int count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.rfind("processor", 0) == 0) { ++count; }
     }
@@ -171,7 +171,7 @@ static unsigned int countLinuxCpuCores() {
 static uint64_t linuxTotalRamMb() {
     std::ifstream f("/proc/meminfo");
     if (!f.is_open()) { return 0; }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.rfind("MemTotal:", 0) == 0) {
             std::istringstream iss(line);
@@ -449,7 +449,7 @@ static bool defaultHttpSend(const std::string& url, const std::string& body,
 // ---------------------------------------------------------------------------
 
 std::string HardwareTelemetryReporter::generateUuid() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist;
 

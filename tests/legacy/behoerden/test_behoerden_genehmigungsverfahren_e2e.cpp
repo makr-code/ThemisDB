@@ -431,8 +431,8 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase2_FormalePruefungVollstaendig
 TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase3_BauamtErstelltStellungnahmeAnfragen) {
     // Bauamt erzeugt je einen XDOMEA-Vorgang für drei Fachbehörden
     struct FachBehoerde {
-        std::string id;
-        std::string name;
+        std::string id = {};
+        std::string name = {};
     };
     std::vector<FachBehoerde> behoerden = {
         {"VG-DSB-001", "Denkmalschutzbehörde NRW"},
@@ -1019,8 +1019,8 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, ParalleleStellungnahmenThreadSiche
     // 9 Dokumente parallel in verschiedene Behörden-Stores schreiben
     struct WriteJob {
         InMemoryXDOMEAConnector* dms;
-        std::string doc_id;
-        std::string behoerde;
+        std::string doc_id = {};
+        std::string behoerde = {};
     };
 
     std::vector<WriteJob> jobs = {};

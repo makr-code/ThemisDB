@@ -356,7 +356,7 @@ bool ArtifactManifest::isCorrupted() const {
   const std::string serialized = j.dump();
   const std::size_t hash_val   = std::hash<std::string>{}(serialized);
 
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::hex << hash_val;
   return oss.str() != manifest_hash;
 }
@@ -558,7 +558,7 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
 }
 
 std::string ArtifactManifest::toYAML() const {
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "# ArtifactManifest\n";
   oss << "artifact_id: "           << artifact_id << "\n";
   oss << "version: "               << version << "\n";
@@ -594,7 +594,7 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
   // Parse simple "key: value" YAML line-by-line into a JSON object
   json j;
   std::istringstream iss(yaml_str);
-  std::string line;
+  std::string line = {};
   const auto isWhitespace = [](char c) noexcept {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
   };

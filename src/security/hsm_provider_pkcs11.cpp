@@ -365,7 +365,7 @@ bool HSMProvider::initialize(){
                 rv = api->C_GetSlotList(1, slots.data(), &slotCount);
                 if(rv == CKR_OK){
                     // Select slot by token label or slot ID
-                    std::string slot_err;
+                    std::string slot_err = {};
                     CK_SLOT_ID chosen = selectSlot(api, slots, config_.slot_id,
                                                    config_.token_label, slot_err);
                     if (!slot_err.empty()) {
@@ -676,7 +676,7 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label){
     auto startTime = std::chrono::high_resolution_clock::now();
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    HSMSignatureResult r;
+    HSMSignatureResult r = {};
     if(!initialized_){ 
         r.error_message = "Nicht initialisiert"; 
         impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
@@ -1117,7 +1117,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     
     // Extract serial number for metadata
     ASN1_INTEGER* serial_int = X509_get_serialNumber(x509.get());
-    std::string serial_hex;
+    std::string serial_hex = {};
     if(serial_int){
         HSM_P11_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial_int, nullptr));
         if(bn.get()){
@@ -1232,7 +1232,7 @@ std::string HSMProvider::getTokenInfo() const {
     if (!impl_->real_ready) {
       return "PKCS11 fallback stub";
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "PKCS11 real session active (slot=" << config_.slot_id;
     if (!config_.token_label.empty()) {
         oss << ", label=" << config_.token_label;

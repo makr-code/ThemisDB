@@ -31,7 +31,7 @@ TEST(DiskANNLRUCachePerformanceTest, BasicOperations) {
     cache.put(2, "two");
     cache.put(3, "three");
     
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(cache.get(1, value));
     EXPECT_EQ(value, "one");
     

@@ -98,7 +98,7 @@ public:
         std::string edgeId;
         std::string fromPk;
         std::string toPk;
-        std::string type;
+        std::string type = {};
         std::string graph_id;
     };
 
@@ -165,7 +165,7 @@ public:
 
     /// Get statistics for specific graph
     struct GraphStats {
-        std::string graph_id;
+        std::string graph_id = {};
         size_t node_count;
         size_t edge_count;
         size_t label_count;

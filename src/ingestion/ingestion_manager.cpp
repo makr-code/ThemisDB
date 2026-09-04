@@ -56,7 +56,7 @@ static std::string generateCorrelationId() {
     static std::atomic<uint64_t> counter{0};
     auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
     auto seq = ++counter;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0')
        << std::setw(16) << static_cast<uint64_t>(ts)
        << '-'
@@ -93,7 +93,7 @@ static std::string sourceTypeLabel(SourceType t) {
 /// substring inside a larger regex pattern.
 static std::string regexEscape(const std::string& s) {
     static const std::string kMeta = R"(\.^$*+?()[]{}|)";
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 2);
     for (char c : s) {
         if (kMeta.find(c) != std::string::npos) {
@@ -116,7 +116,7 @@ static std::regex buildKeyRegex(const std::string& key) {
 static bool findJsonStringValueRe(const std::string& json,
                                    const std::regex& key_re,
                                    std::string& value) {
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(json, m, key_re)) {
       return false;
     }
@@ -169,7 +169,7 @@ static bool looksLikeJson(const std::string& content) {
 // Compiled schema for a single field (avoids per-document regex construction)
 // ============================================================================
 struct CompiledFieldRule {
-    std::string            name;
+    std::string            name = {};
     SchemaFieldRule        rule;
     std::regex             key_re;     ///< compiled [{,]\\s*"name"\\s*: pattern
     std::optional<std::regex> value_re; ///< compiled field-value pattern (if any)
@@ -209,7 +209,7 @@ struct CompiledFieldRule {
 static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) {
     // Pre-compile the content-level pattern
     bool content_re_ok = false;
-    std::regex content_re;
+    std::regex content_re = {};
     if (!schema.required_content_pattern.empty()) {
         try {
             content_re    = std::regex(schema.required_content_pattern);
@@ -278,7 +278,7 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
                 if (cf.rule.expected_type == SchemaFieldType::STRING ||
                     cf.rule.min_length > 0 || cf.rule.max_length > 0 ||
                     !cf.rule.pattern.empty()) {
-                    std::string str_val;
+                    std::string str_val = {};
                     bool is_string = findJsonStringValueRe(content, cf.key_re, str_val);
 
                     if (cf.rule.expected_type == SchemaFieldType::STRING && !is_string) {
@@ -327,7 +327,7 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
 namespace {
 /// Sanitise a source_id so it is safe as part of a file name.
 static std::string sanitiseSourceId(const std::string& sid) {
-    std::string out;
+    std::string out = {};
     out.reserve(sid.size());
     for (char c : sid) {
         if (std::isalnum(static_cast<unsigned char>(c)) ||
@@ -390,7 +390,7 @@ bool CheckpointStore::read(const std::string& source_id,
           return false;
         }
         out = IngestionCheckpoint{};
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             auto eq = line.find('=');
             if (eq == std::string::npos) {
@@ -1779,7 +1779,7 @@ IngestionManager::getReIngestionController() const {
 
 namespace {
 static std::string promEscapeLabel(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         if (c == '\\') {
@@ -1821,7 +1821,7 @@ static void writeMetric(std::ostream& os,
 
 std::string IngestionMetricsExporter::exportText(
         const IngestionReport& report) const {
-    std::ostringstream os;
+    std::ostringstream os = {};
 
     // Per-source metrics – use source_type from source_stats key if available
     for (const auto& [sid, stats] : report.source_stats) {
@@ -1888,7 +1888,7 @@ std::string IngestionMetricsExporter::exportText(
         const IngestionStats& stats,
         const std::string& source_id,
         const std::string& source_type) const {
-    std::ostringstream os;
+    std::ostringstream os = {};
 
     // Base labels always present; source_type added when non-empty
     std::vector<std::pair<std::string,std::string>> base_labels = {
@@ -2383,7 +2383,7 @@ std::string IngestionAdminApi::healthJson() const {
       status = "unhealthy";
     }
 
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "{"
        << "\"status\":\"" << status << "\","
        << "\"registered_sources\":" << total << ","

@@ -105,7 +105,7 @@ Aggregator::Aggregator(std::vector<std::string>   group_by_columns,
 
 GroupKey Aggregator::make_key(const AggregationRow& row) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Gap C002: previously used std::advance to iterate column list.
     // Fix: RangeValidator + BoundsChecker.

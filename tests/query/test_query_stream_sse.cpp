@@ -135,7 +135,7 @@ protected:
     static std::vector<json> parseSseDataEvents(const std::string& body) {
         std::vector<json> events;
         std::istringstream iss(body);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             if (!line.empty() && line.rfind("data: ", 0) == 0) {
                 try {
@@ -150,7 +150,7 @@ protected:
     static std::vector<std::string> parseSseEventNames(const std::string& body) {
         std::vector<std::string> names;
         std::istringstream iss(body);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             if (!line.empty() && line.rfind("event: ", 0) == 0) {
                 names.push_back(line.substr(7));

@@ -290,7 +290,7 @@ public:
         result.scores.reserve(tasks_.size());
 
         float best_score = -1.0f;
-        std::string best_task;
+        std::string best_task = {};
 
         for (size_t ti = 0; ti < tasks_.size(); ++ti) {
             const auto& proto = task_prototypes_[ti];

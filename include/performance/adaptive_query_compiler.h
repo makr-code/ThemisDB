@@ -113,7 +113,7 @@ struct ColumnSchema {
 
 /** @brief Lightweight schema descriptor for a single table. */
 struct TableSchema {
-    std::string              table_name;
+    std::string              table_name = {};
     std::vector<ColumnSchema> columns;
 
     ColumnType columnType(const std::string& col_name) const {

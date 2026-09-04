@@ -93,7 +93,7 @@ std::string trim(const std::string& s) {
 
     bool in_wildcard_block = false;
     std::istringstream ss(content);
-    std::string line;
+    std::string line = {};
 
     while (std::getline(ss, line)) {
         // Strip carriage-return in CRLF files
@@ -162,7 +162,7 @@ void RobotsTxtCache::fetchAndCache(const std::string& domain,
                                     const std::string& user_agent) {
     // cache_ lock is already held by the caller
     const std::string robots_url = scheme + "://" + domain + "/robots.txt";
-    std::string content;
+    std::string content = {};
     try {
         if (fetch_fn_) {
             content = fetch_fn_(robots_url, user_agent);

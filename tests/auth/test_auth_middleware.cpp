@@ -251,7 +251,7 @@ TEST_F(AuthMiddlewareTest, RBACEnforcement) {
 TEST_F(AuthMiddlewareTest, PermissionCheckOnEndpoints) {
     // Test permission checking for different endpoint scopes
     struct EndpointTest {
-        std::string scope;
+        std::string scope = {};
         bool expected;
     };
     
@@ -617,7 +617,7 @@ TEST_F(AuthMiddlewareTest, MultipleHTTPMethodsAuth) {
     struct MethodTest {
         std::string method;
         std::string endpoint;
-        std::string token;
+        std::string token = {};
         std::string required_scope;
         bool should_succeed;
     };
@@ -644,9 +644,9 @@ TEST_F(AuthMiddlewareTest, MultipleHTTPMethodsAuth) {
 TEST_F(AuthMiddlewareTest, ErrorResponseFormats) {
     // Test that error responses include appropriate information
     struct ErrorTest {
-        std::string token;
+        std::string token = {};
         std::string scope;
-        bool should_have_reason;
+        bool should_have_reason = {};
     };
     
     std::vector<ErrorTest> tests = {
@@ -849,7 +849,7 @@ namespace {
 static std::string jwt_b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -1129,7 +1129,7 @@ TEST(TaskSchedulerRequestContext, ClearResetsToDefault) {
 TEST(TaskSchedulerRequestContext, ContextIsPerThread) {
     TaskScheduler::setRequestContext({"main-thread-user", "1.2.3.4"});
 
-    std::string bg_user;
+    std::string bg_user = {};
     std::thread bg([&bg_user]() {
         // Background thread has its own independent context
         bg_user = TaskScheduler::currentUserId();

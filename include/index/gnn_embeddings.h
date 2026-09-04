@@ -249,7 +249,7 @@ public:
 
     /// Get model info
     struct ModelInfo {
-        std::string name;
+        std::string name = {};
         std::string type;
         int embedding_dim;
         std::string config;

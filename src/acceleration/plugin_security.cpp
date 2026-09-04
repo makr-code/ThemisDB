@@ -250,7 +250,7 @@ bool PluginSecurityVerifier::validatePluginPath(const std::string &path, std::st
 
     // Resolve to canonical form and verify the resolved path matches the
     // canonical path (catches symlinks that escape the intended directory).
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::path canonical = std::filesystem::weakly_canonical(path, ec);
     if (ec) {
         errorMessage = "Failed to resolve plugin path: " + ec.message();
@@ -300,7 +300,7 @@ std::string PluginSecurityVerifier::calculateFileHash(const std::string &filePat
     }
     EVP_MD_CTX_free(mdctx);
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
@@ -327,7 +327,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
         json j;
         file >> j;
 
-        PluginMetadata metadata;
+        PluginMetadata metadata = {};
 
         if (j.contains("plugin")) {
             auto &plugin         = j["plugin"];
@@ -415,7 +415,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
     }
 
     // Step 2: Calculate file hash
-    std::string fileHash;
+    std::string fileHash = {};
     if (policy_.verifyFileHash) {
         fileHash = calculateFileHash(pluginPath);
         if (fileHash.empty()) {
@@ -1124,7 +1124,7 @@ bool PluginSecurityAuditor::exportEvents([[maybe_unused]] const std::string &out
         return false;
     }
     {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::path canonical = std::filesystem::weakly_canonical(outputPath, ec);
         if (ec || !canonical.is_absolute()) {
             return false;
@@ -2019,7 +2019,7 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(const std::string 
 bool EnhancedPluginSecurityVerifier::verifyGPGSignature(const std::string &plugin_path, VerificationResult &result) {
     // Check for GPG signature file (.sig, .asc, or .gpg)
     std::vector<std::string> sig_extensions = {".sig", ".asc", ".gpg"};
-    std::string sig_file;
+    std::string sig_file = {};
 
     for (const auto &ext : sig_extensions) {
         std::string candidate = plugin_path + ext;
@@ -2064,7 +2064,7 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(const std::string &plugi
 
     // Read combined stdout/stderr from the pipe
     char buf[256];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';

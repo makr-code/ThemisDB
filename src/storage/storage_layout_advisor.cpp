@@ -147,7 +147,7 @@ std::string StorageLayoutAdvisor::buildRationale(
     const CollectionAccessStats& stats,
     bool gdpr_affected)
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     switch (layout) {
         case LayoutType::COLUMNAR_COMPRESSED:
             ss << "Time-series access pattern with high aggregation ratio ("

@@ -99,7 +99,7 @@ uint64_t MIGManager::profileMemoryBytes(const std::string& profile) noexcept {
 
 // static
 std::string MIGManager::makeInstanceId(int device_index, int gi_id) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "dev" << device_index << "_gi" << gi_id;
     return oss.str();
 }

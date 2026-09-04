@@ -46,7 +46,7 @@ static constexpr float kMaxAudioDurationMs = 30000.0f;    // Maximum single utte
 // ---------------------------------------------------------------------------
 
 static std::string wakeToLower(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out += static_cast<char>(std::tolower(c));
@@ -57,7 +57,7 @@ static std::string wakeToLower(const std::string& s) {
 static std::vector<std::string> tokenize(const std::string& phrase) {
     std::vector<std::string> tokens;
     std::istringstream ss(phrase);
-    std::string tok;
+    std::string tok = {};
     while (ss >> tok) {
         tokens.push_back(tok);
     }
@@ -129,7 +129,7 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     // TASK 2.3: Wake-word detection with hardened confidence thresholds
     // and anti-spoof pre-checks
     
-    WakeWordDetectionResult result;
+    WakeWordDetectionResult result = {};
 
     if (audio_chunk.empty()) {
         return result;

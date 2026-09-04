@@ -240,7 +240,7 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
 
         if (should_rollback) {
             NodeRollbackFunc rollback_fn;
-            std::string applied_ver;
+            std::string applied_ver = {};
             {
                 std::lock_guard<std::mutex> lock(mutex_);
                 rollback_fn = node_rollback_fn_;

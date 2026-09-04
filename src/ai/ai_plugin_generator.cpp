@@ -62,7 +62,7 @@ bool isHttpStatusErrorMessage(std::string_view message) {
 }
 
 std::string sanitizeArtifactStem(std::string_view value) {
-    std::string sanitized;
+    std::string sanitized = {};
     sanitized.reserve(value.size());
     for (unsigned char ch : value) {
         if (std::isalnum(ch) || ch == '_' || ch == '-') {
@@ -135,7 +135,7 @@ Result<void> ensureDirectoryExists(const fs::path& dir, const char* label) {
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   std::string("AIPluginGenerator: ") + label + " must not be empty"));
     }
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(dir, ec);
     if (ec || !fs::exists(dir) || !fs::is_directory(dir)) {
         return tl::unexpected(
@@ -194,7 +194,7 @@ Result<void> materializeSandboxArtifacts(const AIPluginGenerator::Config& config
         if (auto result = verifyFileRoundTrip(path, content); !result) {
             return result;
         }
-        std::error_code ec;
+        std::error_code ec = {};
         fs::copy_file(path, output_bundle / path.filename(),
                       fs::copy_options::overwrite_existing, ec);
         if (ec) {
@@ -539,7 +539,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     // Sanitize LLM input: strip ASCII control characters (< 0x20) except
     // horizontal tab, newline and carriage return to prevent prompt injection.
     auto sanitizeText = [](const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (unsigned char c : s) {
             if (c >= 0x20u || c == '\t' || c == '\n' || c == '\r') {

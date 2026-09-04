@@ -130,7 +130,7 @@ LEKManager::~LEKManager() {
 std::string LEKManager::getCurrentDateString() {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
     
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
@@ -138,7 +138,7 @@ std::string LEKManager::getCurrentDateString() {
     localtime_r(&time_t, &tm);
 #endif
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%d");
     return oss.str();
 }
@@ -362,7 +362,7 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
         // Copy the encrypted blob
         auto old_db_key = dbKey(old_date);
         auto new_db_key = dbKey(new_date);
-        std::string blob;
+        std::string blob = {};
         if (!db_->get(old_db_key, blob)) {
           return false;
         }

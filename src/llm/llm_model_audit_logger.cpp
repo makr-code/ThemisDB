@@ -74,7 +74,7 @@ static std::string nowISO8601() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }
@@ -91,7 +91,7 @@ public:
             // Ensure parent directory exists
             std::filesystem::path p(config.log_path);
             if (p.has_parent_path()) {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::create_directories(p.parent_path(), ec);
                 if (ec) {
                     spdlog::warn("LLMModelAuditLogger: could not create log directory '{}': {}",
@@ -362,7 +362,7 @@ size_t LLMModelAuditLogger::exportAnalytics(
 #else
         gmtime_r(&t, &tm_utc);
 #endif
-        std::ostringstream ts_ss;
+        std::ostringstream ts_ss = {};
         ts_ss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
 
         json line_obj = {

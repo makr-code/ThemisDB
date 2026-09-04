@@ -160,7 +160,7 @@ static void BenchmarkTelemetrySoak24h(benchmark::State& state) {
       "wave9-soak-metrics");
   
   // Network fault injector
-  std::random_device rd;
+  std::random_device rd = {};
   std::mt19937 gen(42);  // Fixed seed for reproducibility
   std::uniform_real_distribution<> fault_prob(0.0, 1.0);
   

@@ -1619,7 +1619,7 @@ TEST(FlareRetrievalPhase3, FR11_embedding_fn_not_set_returns_empty) {
 }
 
 TEST(FlareRetrievalPhase3, FR12_embedding_fn_called_with_buildQuery_text) {
-    std::string captured_query;
+    std::string captured_query = {};
     FlareRetrieval::setEmbeddingQueryFn([&captured_query](const std::string& q) {
         captured_query = q;
         return std::vector<float>{1.0f, 2.0f, 3.0f};
@@ -1932,7 +1932,7 @@ TEST(TensorRAGPipeline, TRPL18_structured_layer_handoff_json_log_emitted) {
     EXPECT_NE(content.find("\"routing_reason_code\":"), std::string::npos);
     EXPECT_NE(content.find("\"resolved\":true"), std::string::npos);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(log_path, ec);
 
     // Restore logger to a working state so subsequent tests are not affected.

@@ -49,7 +49,7 @@ protected:
         "./data/test_projects_concurrent_db";
 
     void SetUp() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(kDbPath, ec);
 
         RocksDBWrapper::Config cfg;
@@ -63,7 +63,7 @@ protected:
     void TearDown() override {
         cm_.reset();
         storage_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(kDbPath, ec);
     }
 

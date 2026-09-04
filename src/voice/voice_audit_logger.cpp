@@ -169,7 +169,7 @@ std::string VoiceAuditLogger::getTimestamp() const {
     gmtime_r(&time_t_now, &utc_time);
 #endif
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::put_time(&utc_time, "%Y-%m-%dT%H:%M:%S");
     ss << '.' << std::setfill('0') << std::setw(3) << ms.count() << 'Z';
     return ss.str();

@@ -338,7 +338,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 #else
     // ---- Production path (librdkafka C++ API) --------------------------------
 
-    std::string errstr;
+    std::string errstr = {};
 
     // 1. Build and apply consumer configuration.
     std::unique_ptr<RdKafka::Conf> conf(
@@ -457,7 +457,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                     static_cast<const char*>(msg->payload()),
                     msg->len());
 
-                std::string parse_err;
+                std::string parse_err = {};
                 CDCEvent event;
                 try {
                     const json envelope = json::parse(payload);

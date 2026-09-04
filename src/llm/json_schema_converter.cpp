@@ -43,7 +43,7 @@ static const std::unordered_set<std::string> kPrimitiveRuleNames =
 // ---------------------------------------------------------------------------
 
 std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size() + 4);
     for (unsigned char c : s) {
         switch (c) {
@@ -59,7 +59,7 @@ std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
 }
 
 std::string JsonSchemaConverter::sanitizeRuleName(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '_' || c == '-') {
@@ -87,7 +87,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
 
     // Handle "enum" (takes precedence over "type")
     if (schema.contains("enum") && schema["enum"].is_array() && !schema["enum"].empty()) {
-        std::string body;
+        std::string body = {};
         bool first = true;
         for (const auto& elem : schema["enum"]) {
             if (!first) {
@@ -111,7 +111,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
     }
 
     // Determine type(s)
-    std::string type_str;
+    std::string type_str = {};
     if (schema.contains("type")) {
         if (schema["type"].is_string()) {
             type_str = schema["type"].get<std::string>();
@@ -141,7 +141,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
             std::string item_rule_name = rule_prefix + "-item";
             std::string item_body = schemaNodeToRuleBody(schema["items"], item_rule_name, new_rules);
             // If item_body is a primitive reference, no new rule needed
-            std::string item_ref;
+            std::string item_ref = {};
             if (kPrimitiveRuleNames.count(item_body)) {
                 item_ref = item_body;
             } else {
@@ -192,15 +192,15 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         // We include all properties (required + optional) in the grammar.
         // Optional fields are wrapped in an outer "(... )?".
         // Pattern: "{" ws req_pair ("," ws req_pair)* ("," ws opt_pair)* "}"
-        std::string required_part;
-        std::string optional_part;
+        std::string required_part = {};
+        std::string optional_part = {};
 
         for (const auto& key : ordered_props) {
             const auto& prop_schema = schema["properties"][key];
             std::string val_rule_name = rule_prefix + "-" + sanitizeRuleName(key);
             std::string val_body = schemaNodeToRuleBody(prop_schema, val_rule_name, new_rules);
 
-            std::string val_ref;
+            std::string val_ref = {};
             if (kPrimitiveRuleNames.count(val_body)) {
                 val_ref = val_body;
             } else {
@@ -256,7 +256,7 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     std::vector<std::pair<std::string, std::string>> new_rules;
         std::string root_body = schemaNodeToRuleBody(schema, "root", new_rules);
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << kBaseRules;
     out << "root ::= " << root_body << "\n";
     for (const auto& [name, body] : new_rules) {
@@ -281,7 +281,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
 
     // Build one alternative per tool:
     // call-<name> ::= "{" ws "\"name\"" ws ":" ws "\"<name>\"" ws "," ws "\"arguments\"" ws ":" ws <args-rule> ws "}"
-    std::string root_alternatives;
+    std::string root_alternatives = {};
     for (const auto& tool : tools) {
         if (tool.name.empty()) {
             spdlog::warn("JsonSchemaConverter::toolsToEbnf: skipping tool with empty name");
@@ -292,14 +292,14 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
         std::string args_rule_name = "args-" + safe_name;
 
         // Generate argument grammar from tool's parameter schema
-        std::string args_body;
+        std::string args_body = {};
         if (!tool.parameters.is_null() && tool.parameters.is_object()) {
             args_body = schemaNodeToRuleBody(tool.parameters, args_rule_name, new_rules);
         } else {
             args_body = "object";
         }
 
-        std::string args_ref;
+        std::string args_ref = {};
         if (kPrimitiveRuleNames.count(args_body)) {
             args_ref = args_body;
         } else {
@@ -324,7 +324,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
         return "";
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << kBaseRules;
     out << "root ::= " << root_alternatives << "\n";
     for (const auto& [name, body] : new_rules) {

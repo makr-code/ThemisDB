@@ -250,12 +250,12 @@ TEST_F(AdaptiveCacheFuzzTest, FuzzCompressionWithBinaryData) {
 TEST_F(AdaptiveCacheFuzzTest, FuzzCompressionWithHighEntropy) {
     AdaptiveQueryCache cache(config_);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 255);
     
     // Random data (high entropy, won't compress well)
-    std::string random_data;
+    std::string random_data = {};
     for (int i = 0; i < 300; i++) {
         random_data += static_cast<char>(dist(gen));
     }

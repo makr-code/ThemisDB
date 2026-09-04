@@ -456,7 +456,7 @@ TEST_F(ExportEncryptionTest, StreamingExporterWithEncryption) {
     static_cast<void>(enc.decryptFile(out_path, dec_path));
 
     std::ifstream df(dec_path);
-    std::string line;
+    std::string line = {};
     size_t line_count = 0;
     while (std::getline(df, line)) {
         if (!line.empty()) {
@@ -547,7 +547,7 @@ TEST_F(ExportEncryptionTest, RoundTripEmptyFile) {
 
 TEST_F(ExportEncryptionTest, RoundTripLargerThanOneChunk) {
     // Generate >64 KiB of data to exercise the streaming path
-    std::string big_content;
+    std::string big_content = {};
     big_content.reserve(128 * 1024);
     for (int i = 0; i < 2000; ++i) {
         big_content += "{\"id\":\"" + std::to_string(i) + "\",\"data\":\"" +
@@ -747,7 +747,7 @@ TEST_F(ExportEncryptionTest, JSONLLLMExporterEncryptsOutput) {
     static_cast<void>(encryptor.decryptFile(out_path, dec_path));
 
     std::ifstream dec_f(dec_path);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(dec_f, line)) {
         if (line.empty()) {
@@ -790,7 +790,7 @@ TEST_F(ExportEncryptionTest, StreamingExporterEncryptsOutput) {
     static_cast<void>(encryptor.decryptFile(out_path, dec_path));
 
     std::ifstream dec_f(dec_path);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(dec_f, line)) {
         if (line.empty()) {
@@ -933,7 +933,7 @@ static std::string decodeBase64ForAuditTest(const std::string& input) {
         table[static_cast<unsigned char>(chars[i])] = static_cast<int>(i);
     }
 
-    std::string out;
+    std::string out = {};
     int val = 0;
     int bits = -8;
     for (unsigned char c : input) {
@@ -957,7 +957,7 @@ static std::string decodeBase64ForAuditTest(const std::string& input) {
 static std::vector<json> readDecodedAuditPayloads(const std::string& path) {
     std::vector<json> payloads;
     std::ifstream f(path);
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
             continue;
@@ -998,7 +998,7 @@ protected:
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(test_dir_, ec);
     }
 
@@ -1014,7 +1014,7 @@ protected:
         return entities;
     }
 
-    std::string test_dir_;
+    std::string test_dir_ = {};
 };
 
 // 1. No PolicyEngine attached — backward-compatible no-op, export proceeds.

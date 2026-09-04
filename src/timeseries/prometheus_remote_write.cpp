@@ -219,13 +219,13 @@ static bool decodeTimeSeries(const uint8_t* buf, size_t size, PromTimeSeries& ou
             }
 
             if (field_number == 1) {
-                PromLabel label;
+                PromLabel label = {};
                 if (!decodeLabel(span, span_len, label)) {
                   return false;
                 }
                 out.labels.push_back(std::move(label));
             } else if (field_number == 2) {
-                PromSample sample;
+                PromSample sample = {};
                 if (!decodeSample(span, span_len, sample)) {
                   return false;
                 }
@@ -261,7 +261,7 @@ static bool decodeWriteRequest(const uint8_t* buf, size_t size, PromWriteRequest
             }
 
             if (field_number == 1) {
-                PromTimeSeries ts;
+                PromTimeSeries ts = {};
                 if (!decodeTimeSeries(span, span_len, ts)) {
                   return false;
                 }
@@ -332,7 +332,7 @@ Result<PromWriteRequest> PromWriteRequest::decode(const uint8_t* data, size_t si
                                     "Failed to decode Prometheus WriteRequest protobuf: truncated first timeseries field");
     }
 
-    PromWriteRequest req;
+    PromWriteRequest req = {};
     if (!proto::decodeWriteRequest(data, size, req)) {
         return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "Failed to decode Prometheus WriteRequest protobuf");
@@ -367,7 +367,7 @@ Result<PromWriteRequest> PromWriteRequest::decodeSnappy(const uint8_t* data, siz
     }
 
     // Step 3: decompress
-    std::string uncompressed;
+    std::string uncompressed = {};
     try {
         uncompressed.resize(uncompressed_len);
     } catch (const std::bad_alloc&) {

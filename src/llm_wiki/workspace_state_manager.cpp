@@ -66,7 +66,7 @@ static std::string computeSHA256(const std::string& data) noexcept {
     }
 
     // Format as hex
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "sha256:" << std::hex << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -333,7 +333,7 @@ WorkspaceStatus WorkspaceStateManager::recoverFromLog(
         }
         
         // Read all lines and use the last valid JSON object
-        std::string line;
+        std::string line = {};
         json last_valid_j = nullptr;
         int valid_entries = 0;
         

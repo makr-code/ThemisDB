@@ -20,7 +20,7 @@ namespace {
 std::string makePcmSine(int duration_ms, float amplitude = 0.35f, float frequency_hz = 220.0f) {
     const int sample_rate = 16000;
     const int sample_count = (sample_rate * duration_ms) / 1000;
-    std::string pcm;
+    std::string pcm = {};
     pcm.reserve(static_cast<size_t>(sample_count) * 2);
     for (int i = 0; i < sample_count; ++i) {
         const float sample = amplitude * std::sin(
@@ -34,7 +34,7 @@ std::string makePcmSine(int duration_ms, float amplitude = 0.35f, float frequenc
 
 std::string makeReplayLikePcm(int repeated_frames = 80) {
     const auto frame = makePcmSine(20, 0.35f, 220.0f);
-    std::string pcm;
+    std::string pcm = {};
     pcm.reserve(frame.size() * static_cast<size_t>(repeated_frames));
     for (int i = 0; i < repeated_frames; ++i) {
         pcm.append(frame);

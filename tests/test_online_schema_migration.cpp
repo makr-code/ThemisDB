@@ -78,7 +78,7 @@ static const SchemaManager::IndexInfo* findIndex(
 
 class OnlineSchemaMigrationFocusedTests : public ::testing::Test {
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper>        db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
     std::unique_ptr<SchemaManager>         schema_;

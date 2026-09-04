@@ -217,7 +217,7 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
     }
     // Wrap in single quotes; escape any embedded single quotes as '\''.
-    std::ostringstream escaped;
+    std::ostringstream escaped = {};
     escaped << '\'';
     for (char c : path) {
         if (c == '\'') {

@@ -285,7 +285,7 @@ bool MySQLImporter::validateSource(const std::string& source_path,
     }
 
     // Check for mysqldump header in the first 100 lines.
-    std::string line;
+    std::string line = {};
     bool found_mysql_dump = false;
     int lines_checked = 0;
     while (std::getline(file, line) && lines_checked < 100) {
@@ -486,8 +486,8 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
         return json::array();
     }
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
 
     while (std::getline(file, line)) {
         // Skip comments and empty lines
@@ -504,7 +504,7 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
         if (line.find(';') != std::string::npos) {
             std::string stripped = stripMySQLComments(current_sql);
             if (stripped.find("CREATE TABLE") != std::string::npos) {
-                TableSchema schema;
+                TableSchema schema = {};
                 if (parseCreateTable(stripped, schema)) {
                     schemas_[schema.name] = schema;
                 }
@@ -573,7 +573,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
 
     // Detect mysqldump header in the first 50 lines.
     {
-        std::string hdr_line;
+        std::string hdr_line = {};
         int hdr_lines = 0;
         bool found_header = false;
         bool hdr_trunc = false;
@@ -617,7 +617,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
                                    ? options.max_statement_size_bytes
                                    : 64 * 1024 * 1024ULL;
 
-    std::string line;
+    std::string line = {};
     std::string current_sql;
     size_t line_number = 0;
     size_t batch_row_count = 0;
@@ -713,14 +713,14 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         // Classify and process the completed statement
         std::string upper_sql = current_sql;
         // Convert to upper for keyword matching (first 20 chars is sufficient)
-        std::string prefix;
+        std::string prefix = {};
         for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
             prefix += static_cast<char>(std::toupper(static_cast<unsigned char>(current_sql[i])));
         }
 
         if (prefix.find("CREATE TABLE") != std::string::npos) {
             auto t0 = std::chrono::steady_clock::now();
-            TableSchema schema;
+            TableSchema schema = {};
             if (parseCreateTable(current_sql, schema)) {
                 if (shouldImportTable(schema.name, options)) {
                     schemas_[schema.name] = schema;
@@ -783,7 +783,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
     std::regex table_regex(
         R"(CREATE\s+(?:TEMPORARY\s+)?TABLE\s+(?:(?:`([^`]+)`|(\w+))\.)?(?:`([^`]+)`|(\w+))\s*\()",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, table_regex)) {
         return false;
@@ -839,7 +839,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
         int dep = 0;
         bool inq = false;
         char qc  = '\0';
-        std::string cur;
+        std::string cur = {};
         for (size_t i = 0; i < cols_str.size(); ++i) {
             char c = cols_str[i];
             if (inq) {
@@ -888,7 +888,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
           continue;
         }
 
-        std::string upper_def;
+        std::string upper_def = {};
         for (size_t i = 0; i < col_def.size() && i < 20; ++i)
             upper_def += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
 
@@ -906,7 +906,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
 
         // Column definition: [`col_name`|col_name] col_type [options...]
         // Extract column name (may be backtick-quoted)
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '`') {
             size_t end_tick = col_def.find('`', 1);
@@ -937,7 +937,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
         }
 
         // Collect type token (may include parenthesised size, e.g. varchar(255))
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size()) {
@@ -978,12 +978,12 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
     std::regex insert_regex(
         R"(INSERT\s+(?:LOW_PRIORITY\s+|DELAYED\s+|HIGH_PRIORITY\s+)?(?:IGNORE\s+)?INTO\s+(?:`([^`]+)`\.)?(?:`([^`]+)`|(\w+))\s*(?:\(([^)]*)\))?\s+VALUES\s*(.+?)\s*;?\s*$)",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, insert_regex)) {
         // PHASE-2-HARDENING: Prepared statement fallback
         // Try simple parsing to extract table name for audit logging
-        std::string fallback_table;
+        std::string fallback_table = {};
         if (simpleInsertFallback(sql, fallback_table)) {
             mysqlAuditLogEvent("insert_parse_fallback", {
                 {"table", fallback_table},
@@ -1011,7 +1011,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
 
     if (match[4].matched && !match[4].str().empty()) {
         std::istringstream css(match[4].str());
-        std::string col;
+        std::string col = {};
         while (std::getline(css, col, ',')) {
             col = unquoteIdentifier(col);
             col.erase(0, col.find_first_not_of(" \t"));
@@ -1160,7 +1160,7 @@ std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
     // 3. JDBC tinyInt1isBit: TINYINT(1) -> boolean when enabled
     if (jdbc_config_.tinyint1_as_boolean) {
         // Match both "tinyint(1)" and "TINYINT(1)" (case-insensitive)
-        std::string lower_type;
+        std::string lower_type = {};
         for (char c : mysql_type)
             lower_type += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         if (lower_type == "tinyint(1)") {
@@ -1376,7 +1376,7 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
         if (c == '\'') {
             // Single-quoted string with MySQL escape sequences
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '\\' && i + 1 < n) {
@@ -1409,7 +1409,7 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
         } else if (c == '"') {
             // Double-quoted string (MySQL ANSI_QUOTES mode – uncommon in mysqldump)
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '"' && i + 1 < n && values_clause[i + 1] == '"') {
@@ -1448,7 +1448,7 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
                 else token = token.substr(f, l - f + 1);
             }
             // NULL -> empty string sentinel
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
             if (upper_tok == "NULL") {
@@ -1497,8 +1497,8 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     }
 
     // Split authority+path from query string
-    std::string authority_path;
-    std::string query_string;
+    std::string authority_path = {};
+    std::string query_string = {};
     size_t q_pos = url.find('?', authority_start);
     if (q_pos != std::string::npos) {
         authority_path = url.substr(authority_start, q_pos - authority_start);
@@ -1534,7 +1534,7 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
 
     // Parse query parameters
     std::istringstream qs(query_string);
-    std::string param;
+    std::string param = {};
     while (std::getline(qs, param, '&')) {
         size_t eq = param.find('=');
         if (eq == std::string::npos) {
@@ -1542,11 +1542,11 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
         }
         std::string key   = param.substr(0, eq);
         std::string value = param.substr(eq + 1);
-        std::string lower_key;
+        std::string lower_key = {};
         for (char c : key) {
           lower_key += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
-        std::string lower_val;
+        std::string lower_val = {};
         for (char c : value) {
           lower_val += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -1586,7 +1586,7 @@ std::string MySQLImporter::stripMySQLComments(const std::string& sql) {
     // and regular block comments /* ... */
     // Inline (non-conditional) SQL comments -- ... are NOT stripped here
     // because they are filtered at the line level by the caller.
-    std::string result;
+    std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
     while (i < sql.size()) {
@@ -1685,7 +1685,7 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
     for (size_t i = 0; i < schema_columns.size(); ++i) {
         schema_column_index.emplace(schema_columns[i], i);
     }
-    std::string key_data;
+    std::string key_data = {};
     for (const auto& kc : key_columns) {
         auto it = schema_column_index.find(kc);
         if (it != schema_column_index.end()) {
@@ -1705,7 +1705,7 @@ std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& d
     if (!f) {
       return hashes;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
           continue;

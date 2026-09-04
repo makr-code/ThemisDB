@@ -89,7 +89,7 @@ protected:
     void TearDown() override {
         // Clean up any tmp files we may have created
         for (const auto& p : tmp_files_) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove(p, ec);
         }
     }

@@ -290,7 +290,7 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
           return std::nullopt;
         }
 
-        CollectionRedundancyConfig cfg;
+        CollectionRedundancyConfig cfg = {};
         if (root["collection"]) {
           cfg.collection   = root["collection"].as<std::string>();
         }
@@ -566,7 +566,7 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
 
         // --- Global default ---
-        BlobRedundancyConfig global_default;
+        BlobRedundancyConfig global_default = {};
         if (root["default"]) {
             global_default = parseBlobConfig(root["default"]);
         }
@@ -832,7 +832,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
         spdlog::warn("verifyBlob '{}': degraded — {}/{} locations healthy, {} shards missing: [{}]",
                      blob_id, healthy, required, missing.size(),
                      [&]() {
-                         std::ostringstream ss;
+                         std::ostringstream ss = {};
                          for (size_t i = 0; i < missing.size(); ++i) {
                              if (i) {
                                ss << ", ";
@@ -1324,7 +1324,7 @@ void BlobRedundancyManager::runRepairQueue() {
     spdlog::debug("Processing blob repair queue");
 
     while (true) {
-        std::string blob_id;
+        std::string blob_id = {};
         {
             std::unique_lock<std::mutex> lock(repair_mutex_);
             if (repair_queue_.empty()) {
@@ -1344,7 +1344,7 @@ void BlobRedundancyManager::runRepairQueue() {
 std::string BlobRedundancyManager::exportPrometheusMetrics() const {
     auto stats = getStats();
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     ss << "# HELP themis_blob_redundancy_total_blobs Total number of blobs\n";
     ss << "# TYPE themis_blob_redundancy_total_blobs gauge\n";
@@ -1528,7 +1528,7 @@ std::string BlobRedundancyManager::generateBlobId() {
     
     uint64_t id = dis(gen);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "blob-" << std::hex << std::setfill('0') << std::setw(16) << id;
     
     return ss.str();
@@ -1542,7 +1542,7 @@ std::string BlobRedundancyManager::calculateChecksum(const std::vector<uint8_t>&
         sum += byte;
     }
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::hex << sum;
     return ss.str();
 }

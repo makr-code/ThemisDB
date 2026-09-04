@@ -84,7 +84,7 @@ static std::vector<std::string> loadLabels(const std::string& path) {
     if (!in.is_open()) {
         return {};
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(in, line)) {
         if (!line.empty()) {
             labels.push_back(line);
@@ -281,8 +281,8 @@ struct YOLOv8OnnxPlugin::Impl {
 
         struct Candidate {
             float x1, y1, x2, y2;
-            float conf;
-            int   cls;
+            float conf = {};
+            int   cls = {};
         };
         std::vector<Candidate> candidates;
         candidates.reserve(256);

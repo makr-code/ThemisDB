@@ -37,7 +37,7 @@ nlohmann::json ComplianceRequirement::toJson() const {
 }
 
 ComplianceRequirement ComplianceRequirement::fromJson(const nlohmann::json& j) {
-    ComplianceRequirement req;
+    ComplianceRequirement req = {};
     if (j.contains("requirement_id")) {
       req.requirement_id = j["requirement_id"].get<std::string>();
     }
@@ -97,7 +97,7 @@ nlohmann::json ComplianceControl::toJson() const {
 }
 
 ComplianceControl ComplianceControl::fromJson(const nlohmann::json& j) {
-    ComplianceControl ctl;
+    ComplianceControl ctl = {};
     if (j.contains("control_id")) {
       ctl.control_id = j["control_id"].get<std::string>();
     }

@@ -47,9 +47,9 @@ namespace graph {
  * Variables in rule conditions start with '?' (e.g. "?A", "?B").
  */
 struct Triple {
-    std::string subject;
-    std::string predicate;
-    std::string object;
+    std::string subject = {};
+    std::string predicate = {};
+    std::string object = {};
 
     [[nodiscard]] bool operator==(const Triple& o) const noexcept {
         return subject == o.subject && predicate == o.predicate && object == o.object;

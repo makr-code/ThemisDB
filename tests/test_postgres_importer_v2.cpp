@@ -32,7 +32,7 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
     std::vector<std::string> result;
     int   depth     = 0;
     bool  in_string = false;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
         if (in_string) {
@@ -156,7 +156,7 @@ static bool parseForeignKeyConstraint(const std::string& constraint_def,
     std::regex fk_re(
         R"((?:CONSTRAINT\s+(\w+)\s+)?FOREIGN\s+KEY\s*\(([^)]+)\)\s+REFERENCES\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?)",
         std::regex_constants::icase);
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(constraint_def, m, fk_re)) {
       return false;
     }
@@ -165,9 +165,9 @@ static bool parseForeignKeyConstraint(const std::string& constraint_def,
     fk.target_column = m[4].matched ? trimStr(m[4].str()) : "";
 
     auto normCols = [](const std::string& cols) {
-        std::string result;
+        std::string result = {};
         std::istringstream ss(cols);
-        std::string c;
+        std::string c = {};
         while (std::getline(ss, c, ',')) {
             c = trimStr(c);
             if (!c.empty() && c.front() == '"') {
@@ -220,7 +220,7 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
     std::regex idx_re(
         R"(CREATE\s+(UNIQUE\s+)?INDEX\s+(?:CONCURRENTLY\s+)?(?:IF\s+NOT\s+EXISTS\s+)?(\w+)\s+ON\s+(?:\w+\.)?(\w+)\s*(?:USING\s+(\w+))?\s*\(([^)]+)\)(?:\s+WHERE\s+(.+?))?(?:\s*;)?$)",
         std::regex_constants::icase);
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, idx_re)) {
       return false;
     }
@@ -233,7 +233,7 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
     index.type = tp;
     std::string cols = m[5].str();
     std::istringstream css(cols);
-    std::string col;
+    std::string col = {};
     while (std::getline(css, col, ',')) {
         // Trim leading/trailing whitespace FIRST
         col = trimStr(col);
@@ -266,7 +266,7 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
 
 static bool parseCheckConstraint(const std::string& constraint_def, CheckConstraint& ck) {
     std::regex cname_re(R"(CONSTRAINT\s+(\w+))", std::regex_constants::icase);
-    std::smatch cm;
+    std::smatch cm = {};
     if (std::regex_search(constraint_def, cm, cname_re)) {
       ck.name = cm[1].str();
     }
@@ -289,7 +289,7 @@ static bool parseCheckConstraint(const std::string& constraint_def, CheckConstra
 
 static bool parseExcludeConstraint(const std::string& constraint_def, ExcludeConstraint& excl) {
     std::regex cname_re(R"(CONSTRAINT\s+(\w+))", std::regex_constants::icase);
-    std::smatch cm;
+    std::smatch cm = {};
     if (std::regex_search(constraint_def, cm, cname_re)) {
       excl.name = cm[1].str();
     }
@@ -354,7 +354,7 @@ static bool parseGeneratedColumn(const std::string& col_def, const std::string& 
 
 static std::vector<std::string> splitColumns(const std::string& cols) {
     std::vector<std::string> result;
-    std::string cur;
+    std::string cur = {};
     for (char c : cols) {
         if (c == ',') { auto s = trimStr(cur); if (!s.empty()) result.push_back(s); cur.clear(); }
         else cur += c;
@@ -403,7 +403,7 @@ public:
         std::string target_column;
         std::string cardinality;
         std::string on_delete_action;
-        std::string on_update_action;
+        std::string on_update_action = {};
         bool is_self_referential = false;
     };
 

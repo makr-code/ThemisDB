@@ -150,7 +150,7 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
 
     // --- Layer 1: Storage ---
     bool storage_ok = false;
-    std::string storage_error;
+    std::string storage_error = {};
     if (storage_) {
         try {
             storage_ok = (storage_->getRawDB() != nullptr);
@@ -397,7 +397,7 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     // routes are always present even if the caller did not invoke it explicitly
     // at startup.
     try {
-        std::string api_version;
+        std::string api_version = {};
 #ifdef THEMIS_VERSION_STRING
         api_version = THEMIS_VERSION_STRING;
 #else
@@ -642,12 +642,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         uint64_t pending_compaction = get_u64("estimate_pending_compaction_bytes");
         uint64_t memtable_bytes = get_u64("memtable_size_bytes");
 
-        std::string out;
+        std::string out = {};
         out.reserve(4096);
 
         // themis_build_info – static info metric with version/build labels
         {
-            std::string version;
+            std::string version = {};
 #ifdef THEMIS_BUILD_VERSION_STRING
             version = THEMIS_BUILD_VERSION_STRING;
 #else
@@ -1033,7 +1033,7 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
             const auto& stats = all_stats.at(plugin_name);
             // Convert loaded_at to ISO 8601 string
             auto time_t_val = std::chrono::system_clock::to_time_t(stats.loaded_at);
-            std::tm tm_val;
+            std::tm tm_val = {};
             #ifdef _WIN32
                 gmtime_s(&tm_val, &time_t_val);
             #else
@@ -1165,7 +1165,7 @@ json MonitoringApiHandler::buildConcernsJson(
 namespace {
 
 [[nodiscard]] std::string urlDecode(std::string_view input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size());
 
     auto hexValue = [](char c) -> int {
@@ -1398,7 +1398,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
 
         // Alertmanager health
         {
-            json am;
+            json am = {};
             if (alertmanager_) {
                 const auto& cfg = alertmanager_->getConfig();
                 am["enabled"]      = cfg.enabled;
@@ -1626,7 +1626,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
     auto span = Tracer::startSpan("handleMetricsHtml");
     try {
         // Collect raw Prometheus text
-        std::string version;
+        std::string version = {};
 #ifdef THEMIS_VERSION_STRING
         version = THEMIS_VERSION_STRING;
 #else
@@ -1647,7 +1647,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         // Parse the prometheus text into (name, value) pairs for the table
         std::vector<std::pair<std::string, std::string>> rows;
         std::istringstream iss(prom_text);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             auto sp = line.rfind(' ');
             if (sp == std::string::npos) {
@@ -1662,9 +1662,9 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
             return a.first < b.first;
         });
 
-        std::string html;
+        std::string html = {};
         auto escape_html = [](std::string_view value) {
-            std::string escaped;
+            std::string escaped = {};
             escaped.reserve(value.size());
             for (const char ch : value) {
                 switch (ch) {

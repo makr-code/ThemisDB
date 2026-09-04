@@ -38,7 +38,7 @@ const char* nodeTypeToString(GraphPlanNodeType type) {
 }
 
 std::string escapeJson(const std::string& value) {
-    std::string out;
+    std::string out = {};
     out.reserve(value.size());
     for (char c : value) {
         switch (c) {
@@ -60,7 +60,7 @@ std::string GraphExplainPlan::toDot() const {
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "digraph GraphExplainPlan {\n";
     out << "  label=\"" << escapeJson(plan_id) << "\";\n";
 
@@ -84,7 +84,7 @@ std::string GraphExplainPlan::toJson() const {
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "{";
     out << "\"query\":\"" << escapeJson(query) << "\",";
     out << "\"plan_id\":\"" << escapeJson(plan_id) << "\",";

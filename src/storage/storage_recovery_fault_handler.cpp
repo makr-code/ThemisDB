@@ -204,7 +204,7 @@ RecoveryFaultReport RecoveryFaultHandler::handleWalReadError(
         "WAL read I/O error: {} (File: {}, Retry: {}/{})",
         io_error_msg, wal_path, retry_count + 1, max_recovery_retries_);
 
-    std::string suggestion;
+    std::string suggestion = {};
     if (should_retry) {
         suggestion = "Transient I/O error during WAL read. "
                      "Will retry with exponential backoff.";
@@ -246,7 +246,7 @@ RecoveryFaultReport RecoveryFaultHandler::handleReplayEntryFailure(
         "WAL entry replay failed at sequence {}: {}{}",
         fault_seq, replay_error, is_critical ? " (CRITICAL)" : "");
 
-    std::string suggestion;
+    std::string suggestion = {};
     if (is_critical) {
         suggestion = "Critical error during WAL entry replay. "
                      "Recovery cannot continue. Manual investigation required.";

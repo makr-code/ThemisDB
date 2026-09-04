@@ -239,7 +239,7 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
             std::string tx_id = "tx_" + std::to_string(tx);
             
             // Select random subset of shards
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> dis(0, static_cast<int>(shards.size() - 1));
             
@@ -290,7 +290,7 @@ TEST(MultiShardTransactionTest, CrossShardReadConsistency) {
     constexpr int NUM_SHARDS = 3;
     
     struct ShardData {
-        std::mutex mutex;
+        std::mutex mutex = {};
         std::map<std::string, int> data;
         uint64_t version = 0;
     };
@@ -528,7 +528,7 @@ TEST(MultiShardTransactionTest, CrossShardIsolation) {
     constexpr int NUM_SHARDS = 3;
     
     struct VersionedShard {
-        std::mutex mutex;
+        std::mutex mutex = {};
         std::map<std::string, int> data;
         uint64_t read_version = 1;
         uint64_t write_version = 1;

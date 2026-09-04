@@ -40,7 +40,7 @@ std::size_t referenceTokenCount(const std::string& text) {
       return 0;
     }
     std::istringstream iss(text);
-    std::string word;
+    std::string word = {};
     std::size_t count = 0;
     while (iss >> word) {
         ++count;
@@ -137,7 +137,7 @@ TEST_F(TiktokenEstimatorTest, CustomFunction_IsInvoked) {
         ++call_count;
         // Simulate a word-split tokenizer for test purposes.
         std::istringstream iss(t);
-        std::string w;
+        std::string w = {};
         std::size_t n = 0;
         while (iss >> w) {
           ++n;
@@ -167,7 +167,7 @@ TEST_F(TiktokenEstimatorTest, PolymorphicInterface_WorksViaBasePointer) {
 }
 
 TEST_F(TiktokenEstimatorTest, FunctionReceivesExactInput) {
-    std::string received;
+    std::string received = {};
     TiktokenEstimator est([&received](const std::string& t) -> std::size_t {
         received = t;
         return 1;

@@ -54,7 +54,7 @@ Tensor MixedPrecisionTrainer::to_lower_precision(const Tensor& input) const {
         for (size_t i = 0; i < output.size(); ++i) {
             // Truncate mantissa bits (simplified)
             float val = output[i];
-            uint32_t bits;
+            uint32_t bits = {};
             std::memcpy(&bits, &val, sizeof(float));
             bits &= 0xFFFF0000;  // Keep only upper 16 bits
             std::memcpy(&val, &bits, sizeof(float));
@@ -179,7 +179,7 @@ static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
     const uint32_t exp16  = static_cast<uint32_t>((f16 >> 10) & 0x1Fu);
     const uint32_t mant16 = static_cast<uint32_t>( f16        & 0x3FFu);
 
-    uint32_t exp32;
+    uint32_t exp32 = {};
     uint32_t mant32 = 0;
 
     if (exp16 == 0x1Fu) {
@@ -213,14 +213,14 @@ static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
 // FP16: 1 sign + 5 exponent + 10 mantissa bits (bias 15)
 float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
     // Bit-cast float to uint32 without UB
-    uint32_t f32;
+    uint32_t f32 = {};
     std::memcpy(&f32, &value, sizeof(f32));
 
     const uint32_t sign     = (f32 >> 31) & 0x1u;
     const uint32_t exp32    = (f32 >> 23) & 0xFFu;
     const uint32_t mant32   =  f32        & 0x7FFFFFu;
 
-    uint32_t exp16;
+    uint32_t exp16 = {};
     uint32_t mant16 = 0;
 
     if (exp32 == 0xFFu) {
@@ -267,7 +267,7 @@ float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
 float MixedPrecisionTrainer::fp16_to_fp32([[maybe_unused]] float value) {
     // value stores the FP16 bit-pattern that fp32_to_fp16() encoded.
     // Re-interpret the lower 16 bits as a raw FP16 word.
-    uint32_t f32_bits;
+    uint32_t f32_bits = {};
     std::memcpy(&f32_bits, &value, sizeof(f32_bits));
     uint16_t f16 = static_cast<uint16_t>(f32_bits & 0xFFFFu);
     return fp16_to_fp32_bits(f16);

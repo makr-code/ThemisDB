@@ -18,7 +18,7 @@ static void BM_EmbeddingCache_Store(benchmark::State& state) {
     config.max_entries = 10000;
     EmbeddingCache cache(config);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
@@ -46,7 +46,7 @@ static void BM_EmbeddingCache_Query_Hit(benchmark::State& state) {
     const int dim = state.range(0);
     const int num_entries = 1000;
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
@@ -79,7 +79,7 @@ static void BM_EmbeddingCache_Query_Miss(benchmark::State& state) {
     
     const int dim = state.range(0);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     

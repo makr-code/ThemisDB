@@ -427,7 +427,7 @@ std::string QueryCacheManager::generateFingerprint(
            input.size(), hash);
     
     // Convert to hex string
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);

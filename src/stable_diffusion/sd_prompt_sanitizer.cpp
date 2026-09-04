@@ -45,7 +45,7 @@ SDPromptSanitizer SDPromptSanitizer::fromFile(const std::string& path) {
         throw std::runtime_error("SDPromptSanitizer: cannot open '" + path + "'");
     }
     std::vector<std::string> kws;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         // trim whitespace
         const auto start = line.find_first_not_of(" \t\r\n");

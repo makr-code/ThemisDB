@@ -45,7 +45,7 @@ std::string PluginSignature::computeConfigHash(const nlohmann::json& config) {
            normalized.length(), hash);
     
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
             << static_cast<int>(hash[i]);
@@ -159,7 +159,7 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
         // For display, still apply partial formatting for some types
         if (type == PIIType::SSN) {
             // ***-**-1234 style
-            std::string out;
+            std::string out = {};
             int total_digits = 0;
             for (char c : value) {
               if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
@@ -178,7 +178,7 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
         }
         if (type == PIIType::CREDIT_CARD) {
             // **** **** **** 1234 style
-            std::string out;
+            std::string out = {};
             int total_digits = 0;
             for (char c : value) {
               if (std::isdigit(static_cast<unsigned char>(c))) ++total_digits;
@@ -220,7 +220,7 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
                 }
                 int visible_tail = std::min(4, total_digits);
                 int to_mask = total_digits - visible_tail;
-                std::string out;
+                std::string out = {};
                 out.reserve(value.size());
                 for (char c : value) {
                     if (std::isdigit(static_cast<unsigned char>(c))) {

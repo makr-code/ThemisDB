@@ -343,7 +343,7 @@ Status InfiniAttentionVulkan::resetMemory() {
     alloc_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     alloc_info.commandBufferCount = 1;
 
-    VkCommandBuffer cmd_buffer;
+    VkCommandBuffer cmd_buffer = {};
     if (vkAllocateCommandBuffers(logical_device_, &alloc_info, &cmd_buffer) != VK_SUCCESS) {
         return Status::ERROR_DEVICE_SYNC_FAILED;
     }
@@ -416,7 +416,7 @@ VkBuffer InfiniAttentionVulkan::allocateGPUBuffer(size_t size, VkBufferUsageFlag
     create_info.usage = usage;
     create_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-    VkBuffer buffer;
+    VkBuffer buffer = {};
     if (vkCreateBuffer(logical_device_, &create_info, nullptr, &buffer) != VK_SUCCESS) {
         return VK_NULL_HANDLE;
     }
@@ -444,7 +444,7 @@ VkBuffer InfiniAttentionVulkan::allocateGPUBuffer(size_t size, VkBufferUsageFlag
 
     alloc_info.memoryTypeIndex = memory_type;
 
-    VkDeviceMemory memory;
+    VkDeviceMemory memory = {};
     if (vkAllocateMemory(logical_device_, &alloc_info, nullptr, &memory) != VK_SUCCESS) {
         vkDestroyBuffer(logical_device_, buffer, nullptr);
         return VK_NULL_HANDLE;
@@ -487,7 +487,7 @@ VkShaderModule InfiniAttentionVulkan::loadShaderModule(const char* path) const {
     create_info.codeSize = size;
     create_info.pCode = reinterpret_cast<const uint32_t*>(buffer.data());
 
-    VkShaderModule shader_module;
+    VkShaderModule shader_module = {};
     if (vkCreateShaderModule(logical_device_, &create_info, nullptr, &shader_module) != VK_SUCCESS) {
         return VK_NULL_HANDLE;
     }
@@ -564,7 +564,7 @@ Status InfiniAttentionVulkan::dispatchKernel(
     alloc_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     alloc_info.commandBufferCount = 1;
 
-    VkCommandBuffer cmd_buffer;
+    VkCommandBuffer cmd_buffer = {};
     if (vkAllocateCommandBuffers(logical_device_, &alloc_info, &cmd_buffer) != VK_SUCCESS) {
         return Status::ERROR_DEVICE_SYNC_FAILED;
     }

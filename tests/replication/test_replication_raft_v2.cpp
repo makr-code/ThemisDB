@@ -50,7 +50,7 @@ static std::set<std::string> makeMembers(
 }
 
 struct TempWALDir {
-    std::string path;
+    std::string path = {};
     explicit TempWALDir(const std::string& p) : path(p) {
         std::filesystem::remove_all(p);
         std::filesystem::create_directories(p);

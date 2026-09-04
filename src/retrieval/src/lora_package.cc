@@ -137,7 +137,7 @@ struct Sha256State {
 };
 
 std::string bytesToHex(const std::array<uint8_t, 32>& bytes) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto b : bytes) {
         oss << std::setw(2) << static_cast<unsigned>(b);
@@ -186,7 +186,7 @@ json AdapterUsagePolicy::to_json() const {
 }
 
 AdapterUsagePolicy AdapterUsagePolicy::from_json(const json& j) {
-    AdapterUsagePolicy p;
+    AdapterUsagePolicy p = {};
     if (j.contains("license")) {
       p.license = j.at("license").get<std::string>();
     }
@@ -226,7 +226,7 @@ json LoRAPackageProvenance::to_json() const {
 }
 
 LoRAPackageProvenance LoRAPackageProvenance::from_json(const json& j) {
-    LoRAPackageProvenance p;
+    LoRAPackageProvenance p = {};
     if (j.contains("trainer_id")) {
       p.trainer_id           = j.at("trainer_id").get<std::string>();
     }
@@ -280,7 +280,7 @@ json ArtifactIntegrity::to_json() const {
 }
 
 ArtifactIntegrity ArtifactIntegrity::from_json(const json& j) {
-    ArtifactIntegrity i;
+    ArtifactIntegrity i = {};
     if (j.contains("weights_hash")) {
       i.weights_hash        = j.at("weights_hash").get<std::string>();
     }

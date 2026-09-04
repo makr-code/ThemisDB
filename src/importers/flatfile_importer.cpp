@@ -169,7 +169,7 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
 
     // For JSONL, verify that the first non-empty line parses as a JSON object.
     if (fmt == FlatFileFormat::JSONL) {
-        std::string line;
+        std::string line = {};
         while (std::getline(file, line)) {
             if (line.empty() || line[0] == '\r') {
               continue;
@@ -426,7 +426,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
           return result;
         }
 
-        std::string header_line;
+        std::string header_line = {};
         if (!std::getline(file, header_line)) {
           return result;
         }
@@ -454,7 +454,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         SchemaAutoDetector detector;
         static constexpr size_t kSampleLimit = 100;
         size_t sampled = 0;
-        std::string data_line;
+        std::string data_line = {};
         while (sampled < kSampleLimit && std::getline(file, data_line)) {
             if (!data_line.empty() && data_line.back() == '\r')
                 data_line.pop_back();
@@ -494,7 +494,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         size_t sampled = 0;
         std::vector<std::string> first_cols;
 
-        std::string line;
+        std::string line = {};
         while (sampled < kSampleLimit && std::getline(file, line)) {
             if (line.empty() || line == "\r") {
               continue;
@@ -660,7 +660,7 @@ std::vector<std::string> FlatFileImporter::parseCsvRow(const std::string& line,
                                                         char delim,
                                                         char quote) {
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     bool in_quotes = false;
     size_t n = line.size();
 
@@ -710,7 +710,7 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
     SchemaAutoDetector detector;
 
     size_t sampled = 0;
-    std::string sample_line;
+    std::string sample_line = {};
     bool sample_truncated = false;
 
     while (sampled < sample_limit &&
@@ -779,7 +779,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
 
     // ---- Read header row (if present) ----
     if (has_header_) {
-        std::string header_line;
+        std::string header_line = {};
         bool truncated = false;
         if (!streamReadLineFlat(file, header_line, line_limit, truncated)) {
             addError(stats, ImportErrorCode::FILE_READ_FAILED,
@@ -815,7 +815,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     bool schema_validation_active = options.validate_schema &&
                                     !columns.empty() &&
                                     options.schema_sample_rows > 0;
-    DetectedSchema detected_schema;
+    DetectedSchema detected_schema = {};
     if (schema_validation_active) {
         auto data_start = file.tellg();
         detected_schema = detectCsvSchema(
@@ -828,7 +828,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     }
 
     // ---- Read data rows ----
-    std::string line;
+    std::string line = {};
     bool line_truncated = false;
     size_t row_index    = 0;
 
@@ -993,14 +993,14 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     // schema_sample_rows == 0 disables detection (nothing to sample).
     bool schema_validation_active = options.validate_schema &&
                                     options.schema_sample_rows > 0;
-    DetectedSchema jsonl_schema;
+    DetectedSchema jsonl_schema = {};
     if (schema_validation_active) {
         SchemaAutoDetector detector;
         auto data_start = file.tellg();
         size_t sampled  = 0;
         std::vector<std::string> first_cols;
 
-        std::string sline;
+        std::string sline = {};
         bool strunc = false;
         while (sampled < options.schema_sample_rows &&
                streamReadLineFlat(file, sline, line_limit, strunc)) {
@@ -1059,7 +1059,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                     table, jsonl_schema.columns.size());
     }
 
-    std::string line;
+    std::string line = {};
     bool line_truncated = false;
     size_t line_number  = 0;
     size_t row_index    = 0;
@@ -1353,7 +1353,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
                 }
 
                 auto type_id = col_arr->type_id();
-                std::string sv;
+                std::string sv = {};
 
                 if (type_id == arrow::Type::BOOL) {
                     auto arr = std::static_pointer_cast<arrow::BooleanArray>(

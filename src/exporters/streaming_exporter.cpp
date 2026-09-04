@@ -221,7 +221,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
             ExportEncryption encryptor(options.encryption);
             encryptor.encryptFile(options.output_path, tmp_path);
             // Atomic replace: rename temp -> output_path
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::rename(tmp_path, options.output_path, ec);
             if (ec) {
                 throw ExportIOException("ExportEncryption: rename failed: " + ec.message(), options.output_path);
@@ -245,7 +245,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
             try {
                 ExportEncryptor encryptor(*options.encryption_config);
                 const size_t enc_bytes = encryptor.encryptFile(options.output_path, enc_tmp);
-                std::error_code rename_ec;
+                std::error_code rename_ec = {};
                 std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
                 if (rename_ec) {
                     std::filesystem::remove(enc_tmp);
@@ -253,7 +253,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                 }
                 metrics_->recordEncryption(enc_bytes);
             } catch ([[maybe_unused]] const std::exception &e) {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;
             }
@@ -331,7 +331,7 @@ std::string StreamingExporter::formatEntity(const BaseEntity &entity, const Expo
                     j[key] = v;
                 } else if constexpr (std::is_same_v<T, std::vector<uint8_t>>) {
                     // Encode binary as zero-padded hex string
-                    std::ostringstream hex;
+                    std::ostringstream hex = {};
                     hex << std::hex << std::setfill('0');
                     for (uint8_t b : v) {
                         hex << std::setw(2) << static_cast<int>(b);
@@ -358,7 +358,7 @@ void StreamingExporter::writeCheckpoint(const std::string &path, size_t offset) 
         }
         tmp << offset << '\n';
     }
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::rename(tmp_path, path, ec);
     if (ec) {
         THEMIS_WARN("StreamingExporter: checkpoint rename failed: {}", ec.message());

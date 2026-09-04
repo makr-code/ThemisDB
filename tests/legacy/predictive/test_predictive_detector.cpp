@@ -297,7 +297,7 @@ TEST_F(PredictiveDetectorTest, AlertCallback) {
     config.enabled = true;
     config.enable_alerts = true;
     
-    std::string last_alert;
+    std::string last_alert = {};
     config.alert_callback = [&last_alert](const std::string& msg) {
         last_alert = msg;
     };

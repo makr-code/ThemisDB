@@ -146,7 +146,7 @@ std::uint32_t PromptABExperimentFramework::murmur3_32(
     const auto* blocks =
         reinterpret_cast<const std::uint32_t*>(data);
     for (std::size_t i = 0; i < nblocks; ++i) {
-        std::uint32_t k1;
+        std::uint32_t k1 = {};
         std::memcpy(&k1, blocks + i, sizeof(k1));
         k1 *= c1;
         k1 = (k1 << 15) | (k1 >> 17);
@@ -278,7 +278,7 @@ double PromptABExperimentFramework::welchPValue(
 // Unique ID generator (sequential suffix for determinism in tests).
 std::string PromptABExperimentFramework::generateId() {
     static std::atomic<std::uint64_t> counter{1};
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "exp-" << counter.fetch_add(1, std::memory_order_relaxed);
     return ss.str();
 }

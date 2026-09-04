@@ -251,7 +251,7 @@ public:
         ci.sType    = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
         ci.codeSize = spv.size() * sizeof(uint32_t);
         ci.pCode    = spv.data();
-        VkShaderModule mod;
+        VkShaderModule mod = {};
         if (vkCreateShaderModule(device, &ci, nullptr, &mod) != VK_SUCCESS)
             throw std::runtime_error("vkCreateShaderModule failed");
         return mod;
@@ -1074,7 +1074,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // anonymous-namespace symbols have internal linkage and cannot be declared
 // extern in another TU.
 namespace glsl_bridge {
-    std::mutex                       s_vk_compile_glsl_mutex;
+    std::mutex                       s_vk_compile_glsl_mutex = {};
     VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
 }
 

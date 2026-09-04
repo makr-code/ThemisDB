@@ -158,8 +158,8 @@ void ContinuousQueryEngineImpl::stopLoop() {
     // std::thread::join() has no timeout overload in C++17/20, so we use
     // a secondary thread to signal completion and a timed wait on cv.
     bool joined = false;
-    std::mutex join_mutex;
-    std::condition_variable join_cv;
+    std::mutex join_mutex = {};
+    std::condition_variable join_cv = {};
 
     std::thread watcher([loop = std::move(loop_thread), &join_mutex, &join_cv, &joined]() mutable noexcept {
         if (loop.joinable()) {

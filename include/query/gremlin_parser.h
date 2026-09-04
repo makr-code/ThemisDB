@@ -111,7 +111,7 @@ struct GremlinASTNode {
 // ============================================================================
 
 struct GremlinParseError {
-    std::string message;
+    std::string message = {};
     size_t position = 0;
 
     std::string toString() const {

@@ -64,7 +64,7 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
     // Parse claims from response
     std::vector<Claim> claims;
     std::istringstream iss(response);
-    std::string line;
+    std::string line = {};
     size_t position = 0;
     
     while (std::getline(iss, line)) {
@@ -108,7 +108,7 @@ ClaimVerificationResult ClaimExtractor::verify(
     }
     
     // Concatenate documents
-    std::ostringstream docs_stream;
+    std::ostringstream docs_stream = {};
     for (size_t i = 0; i < documents.size(); ++i) {
         docs_stream << "Document " << (i + 1) << ":\n" << documents[i] << "\n\n";
     }
@@ -250,7 +250,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     if (samples.size() <= 5) {  // Only for small sets to avoid token limits
         PromptTemplate consistency_tmpl = PromptLibrary::getConsistencyCheckPrompt();
         
-        std::ostringstream samples_str;
+        std::ostringstream samples_str = {};
         for (size_t i = 0; i < samples.size(); ++i) {
             samples_str << "Sample " << (i + 1) << ": " << samples[i] << "\n\n";
         }

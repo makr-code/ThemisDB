@@ -185,7 +185,7 @@ TEST(FimImporter, FIM08_FitkoApiWithInjectedFetchFn) {
         R"({"items":[{"bpmnXml":")" + mock_bpmn + R"("}]})";
 
     FimImporter imp;
-    std::string captured_url;
+    std::string captured_url = {};
     imp.setHttpFetchFn([&](std::string_view url) -> std::string {
         captured_url = std::string(url);
         return json_body;

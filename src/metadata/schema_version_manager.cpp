@@ -338,7 +338,7 @@ std::string SchemaVersionManager::versionKey(
     std::string_view table_name, uint64_t version)
 {
     // Zero-padded 10-digit version for lexicographic ordering
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "config:schema_version:"
         << table_name << ":"
         << std::setw(10) << std::setfill('0') << version;
@@ -523,7 +523,7 @@ VersionResult<std::string> SchemaVersionManager::generateMigrationScript(
 
     const json& diff  = diff_result.value;
     const std::string tbl = std::string(table_name);
-    std::ostringstream script;
+    std::ostringstream script = {};
 
     script << "-- Migration: " << tbl
            << " from version " << version_from

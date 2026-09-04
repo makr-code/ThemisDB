@@ -337,7 +337,7 @@ TensorButterflyOperator::build(OperatorType                      type,
     // Validate grid_shape for FOURIER (WHT requires power-of-2 mode sizes).
     for (std::size_t k = 0; k < grid_shape.size(); ++k) {
         if (!isPow2(grid_shape[k])) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "TensorButterflyOperator::build: grid_shape[" << k
                 << "] = " << grid_shape[k]
                 << " is not a power of 2 (required for FOURIER/WHT butterfly).";
@@ -465,7 +465,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
 
     // Validate shape compatibility
     if (data.cores.size() != cfg_.grid_shape.size()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "TensorButterflyOperator::apply: data has " << data.cores.size()
             << " modes but operator was built for " << cfg_.grid_shape.size()
             << " modes.";
@@ -473,7 +473,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     }
     for (std::size_t k = 0; k < data.cores.size(); ++k) {
         if (data.cores[k].n != cfg_.grid_shape[k]) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "TensorButterflyOperator::apply: data mode " << k
                 << " has size " << data.cores[k].n
                 << " but operator grid_shape[" << k << "] = "
@@ -561,7 +561,7 @@ float TensorButterflyOperator::precision() const noexcept {
 }
 
 std::string TensorButterflyOperator::describe() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "TensorButterflyOperator{type=";
     switch (cfg_.type) {
         case OperatorType::FOURIER:        oss << "FOURIER(WHT)"; break;

@@ -544,7 +544,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
     const nlohmann::json& params
 ) {
     int attempts = 0;
-    std::exception_ptr last_exception;
+    std::exception_ptr last_exception = {};
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
@@ -956,7 +956,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
 
     // In-process simulation for single-node deployments
     int attempts = 0;
-    std::exception_ptr last_exception;
+    std::exception_ptr last_exception = {};
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;

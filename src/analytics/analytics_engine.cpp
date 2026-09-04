@@ -126,7 +126,7 @@ QueryResult AnalyticsEngine::ExecuteQuery(const QueryConfig& config) {
 // Gap A-2-06, A-2-07: Retry logic with fresh connection
 // ========================================================================
 QueryResult AnalyticsEngine::ExecuteWithRetry(const QueryConfig& config, int retry_count) {
-    QueryResult result;
+    QueryResult result = {};
     
     if (retry_count >= max_retries_) {
         spdlog::error("Query execution exceeded max retries ({})", max_retries_);

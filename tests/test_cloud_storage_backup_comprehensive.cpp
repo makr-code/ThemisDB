@@ -92,7 +92,7 @@ protected:
         db_.reset();
         
         // Remove test directory
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_dir_, ec);
         // Ignore errors during cleanup
     }
@@ -731,7 +731,7 @@ TEST_F(CloudStorageBackupTest, UploadBackupRejectsOversizedRemotePayloadBeforeTr
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED);
     EXPECT_NE(result.error().message().find("in-memory transfer limit"), std::string::npos);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(oversized_file, ec);
 }
 

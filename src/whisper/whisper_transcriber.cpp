@@ -185,7 +185,7 @@ bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
     }
 
     if (!cfg.model_sha256.empty()) {
-        std::string actual_digest;
+        std::string actual_digest = {};
         if (!computeFileSha256(cfg.model_path, actual_digest)) {
             last_error_ = "failed to compute model SHA-256 digest";
             return false;

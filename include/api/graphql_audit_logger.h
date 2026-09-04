@@ -155,7 +155,7 @@ struct AuditLogEntry {
 private:
     std::string formatTimestamp() const {
         auto time_t = std::chrono::system_clock::to_time_t(timestamp);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::put_time(std::gmtime(&time_t), "%Y-%m-%dT%H:%M:%SZ");
         return oss.str();
     }

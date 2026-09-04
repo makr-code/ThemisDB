@@ -13,7 +13,7 @@ struct DocsAssistant::Impl {
     bool loadDatabase(const std::string& path) { return impl ? impl->loadDatabase(path) : false; }
     bool isReady() const { return impl ? impl->isReady() : false; }
     DocsQueryResult queryResult(const std::string& q) {
-        DocsQueryResult res;
+        DocsQueryResult res = {};
         if (!impl) {
           return res;
         }
@@ -29,14 +29,14 @@ struct DocsAssistant::Impl {
     }
     void clearCache() { if (impl) impl->clearCache(); }
     DocsQueryResult getConfigHelp(const std::string& topic) {
-        DocsQueryResult res;
+        DocsQueryResult res = {};
         if (!impl) {
           return res;
         }
         return impl->getConfigHelp(topic);
     }
     DocsQueryResult getTroubleshootingHelp(const std::string& topic) {
-        DocsQueryResult res;
+        DocsQueryResult res = {};
         if (!impl) {
           return res;
         }

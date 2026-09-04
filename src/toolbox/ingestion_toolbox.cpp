@@ -267,7 +267,7 @@ std::string IngestionToolbox::getMetricsText() const {
     const uint64_t bucket_1000_10000 = impl_->extract_latency_us_bucket_1000_10000_.load();
     const uint64_t bucket_10000_plus = impl_->extract_latency_us_bucket_10000_plus_.load();
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\n";
     out << "# TYPE toolbox_extract_calls_total counter\n";

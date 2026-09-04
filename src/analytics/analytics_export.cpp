@@ -199,7 +199,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
         spdlog::debug("Exporting {} rows to file: {}", batch.rowCount(), output_path);
 
         try {
-            std::string data;
+            std::string data = {};
 
             switch (options.format) {
                 case ExportFormat::JSON:
@@ -323,7 +323,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
 
   private:
     std::string exportToCSV(const ArrowRecordBatch &batch) const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
 
         // Header
         const auto &columns = batch.getColumns();

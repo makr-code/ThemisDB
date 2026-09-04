@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
             print_usage(argv[0]);
             return 0;
         } else if (arg == "--db" || arg == "--db-path") {
-            std::string err;
+            std::string err = {};
             if (!themis::cli::consume_next_value(argc, argv, i, arg.c_str(), db_path, err)) {
                 std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
@@ -397,7 +397,7 @@ int main(int argc, char* argv[]) {
             if (!st.ok) {
                 THEMIS_ERROR("Graph BFS failed: {}", st.message);
             } else {
-                std::string path;
+                std::string path = {};
                 for (size_t i = 0; i < order.size(); ++i) {
                     if (i) {
                       path += " -> ";
@@ -426,7 +426,7 @@ int main(int argc, char* argv[]) {
             // Optimierter Plan: Reihenfolge nach geschätzter Selektivität
             themis::query::QueryOptimizer opt(idxm);
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
-            std::string orderStr;
+            std::string orderStr = {};
             for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {
                 if (i) {
                   orderStr += ", ";

@@ -75,7 +75,7 @@ bool AccessControlManager::initialize() {
         
         // Load ABAC policies if configured
         if (config_.enable_abac && !config_.abac_policy_path.empty()) {
-            std::string err;
+            std::string err = {};
             if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
                 THEMIS_WARN("Failed to load ABAC policies from {}: {}", 
                     config_.abac_policy_path, err);
@@ -208,7 +208,7 @@ AccessDecision AccessControlManager::authorize(
         // Step 2: Check RBAC permissions
         bool has_permission = rbac_->checkPermission(context.roles, resource, action);
         
-        AccessDecision decision;
+        AccessDecision decision = {};
         if (has_permission) {
             // Step 3: If RBAC grants access and ABAC is enabled, evaluate ABAC policies
             if (config_.enable_abac) {
@@ -407,7 +407,7 @@ bool AccessControlManager::reloadConfiguration() {
         
         // Reload ABAC policies if configured
         if (config_.enable_abac && !config_.abac_policy_path.empty()) {
-            std::string err;
+            std::string err = {};
             if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
                 THEMIS_ERROR("Failed to reload ABAC policies from {}: {}",
                     config_.abac_policy_path, err);

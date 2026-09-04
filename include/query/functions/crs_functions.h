@@ -75,7 +75,7 @@ namespace crs {
  * @brief Ellipsoid parameters
  */
 struct Ellipsoid {
-    std::string name;
+    std::string name = {};
     double a;      // Semi-major axis (meters)
     double b;      // Semi-minor axis (meters)
     double f;      // Flattening = (a-b)/a
@@ -664,7 +664,7 @@ private:
             }
             // TODO: Add more datum transformations as needed
             
-            double h;
+            double h = {};
             std::tie(lat, lon, h) = crs::cartesianToGeographic(cx, cy, cz, toDef.ellipsoid);
         }
         

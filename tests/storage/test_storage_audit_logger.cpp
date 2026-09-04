@@ -62,7 +62,7 @@ TEST(StorageAuditTest, Open_CreatesSegmentFile) {
 TEST(StorageAuditTest, LogPut_WritesEntryAndIncrementsSequence) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    std::string content;
+    std::string content = {};
     {
         auto res = StorageAuditLogger::open(cfg);
         ASSERT_TRUE(res.has_value());
@@ -82,7 +82,7 @@ TEST(StorageAuditTest, LogPut_WritesEntryAndIncrementsSequence) {
 TEST(StorageAuditTest, LogDel_WritesDelLine) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    std::string content;
+    std::string content = {};
     {
         auto logger = *StorageAuditLogger::open(cfg);
         EXPECT_TRUE(logger->logDel("user:99").has_value());

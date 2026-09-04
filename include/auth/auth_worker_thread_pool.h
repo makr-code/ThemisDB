@@ -167,7 +167,7 @@ private:
     std::vector<std::thread>        workers_;
     std::queue<std::function<void()>> tasks_;
     mutable std::mutex              queue_mutex_;
-    std::condition_variable         cv_;
+    std::condition_variable         cv_ = {};
 
     // Spawn one new worker thread. Must be called with queue_mutex_ held.
     void spawnWorker() {

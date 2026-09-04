@@ -413,7 +413,7 @@ TEST(IngestionManagerAdapterTest, DISABLED_SubmitSourceJob_Success) {
     source.priority = 5;
     source.config = json{{"split", "train"}};
     
-    std::string job_id;
+    std::string job_id = {};
     EXPECT_NO_THROW(job_id = worker.submitSourceJob(source));
     EXPECT_FALSE(job_id.empty());
     EXPECT_TRUE(plugin->wasEstimateCalled());

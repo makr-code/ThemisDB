@@ -38,7 +38,7 @@ struct UpdateHistoryEntry {
     /// UTC timestamp in milliseconds since epoch.
     int64_t timestamp_ms{0};
     /// Version before the operation.
-    std::string from_version;
+    std::string from_version = {};
     /// Version after the operation (same as from_version for failed attempts).
     std::string to_version;
     /// "update" or "rollback".

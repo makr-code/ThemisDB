@@ -101,7 +101,7 @@ NUMAMemoryManager::~NUMAMemoryManager() = default;
 
 int NUMAMemoryManager::resolve_node([[maybe_unused]] int hint_node) const noexcept {
     if (hint_node >= 0 && static_cast<size_t>(hint_node) < topology_.num_nodes)
-        return hint_node;
+        return hint_node = {};
     return get_current_node();
 }
 

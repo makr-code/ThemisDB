@@ -567,7 +567,7 @@ TEST_F(ThemisctlHttpTest, HealthReturnsZeroOnHealthyServer) {
 
 TEST_F(ThemisctlHttpTest, VersionReturnsZero) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdVersion({});
     std::cout.rdbuf(old);
@@ -585,7 +585,7 @@ TEST_F(ThemisctlHttpTest, QueryEmptyArgsReturnsUsageError) {
 
 TEST_F(ThemisctlHttpTest, QueryExecutesAql) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdQuery({"FOR d IN users RETURN d"});
     std::cout.rdbuf(old);
@@ -599,7 +599,7 @@ TEST_F(ThemisctlHttpTest, QueryExecutesAql) {
 TEST_F(ThemisctlHttpTest, GetExistingEntity) {
     // user:1 is pre-populated by SetUpTestSuite
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdGet({"user:1"});
     std::cout.rdbuf(old);
@@ -630,7 +630,7 @@ TEST_F(ThemisctlHttpTest, PutThenGetPersistsEntity) {
     ASSERT_EQ(cmdPut({"user:ptg1", R"({"name":"Carol","role":"admin"})"}), 0);
     // Retrieve it and verify the content
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdGet({"user:ptg1"});
     std::cout.rdbuf(old);
@@ -672,7 +672,7 @@ TEST_F(ThemisctlHttpTest, DeleteMissingArgReturnsUsageError) {
 
 TEST_F(ThemisctlHttpTest, SchemaAll) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdSchema({});
     std::cout.rdbuf(old);
@@ -683,7 +683,7 @@ TEST_F(ThemisctlHttpTest, SchemaAll) {
 
 TEST_F(ThemisctlHttpTest, SchemaTable) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdSchema({"users"});
     std::cout.rdbuf(old);
@@ -701,7 +701,7 @@ TEST_F(ThemisctlHttpTest, SchemaMissingTableReturnsOne) {
 
 TEST_F(ThemisctlHttpTest, BranchList) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdBranch({"list"});
     std::cout.rdbuf(old);
@@ -745,7 +745,7 @@ TEST_F(ThemisctlHttpTest, BranchUnknownSubcommand) {
 
 TEST_F(ThemisctlHttpTest, SnapshotList) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdSnapshot({"list"});
     std::cout.rdbuf(old);
@@ -772,7 +772,7 @@ TEST_F(ThemisctlHttpTest, SnapshotUnknownSubcommand) {
 
 TEST_F(ThemisctlHttpTest, AdminStats) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdAdmin({"stats"});
     std::cout.rdbuf(old);
@@ -784,7 +784,7 @@ TEST_F(ThemisctlHttpTest, AdminStats) {
 
 TEST_F(ThemisctlHttpTest, AdminCache) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdAdmin({"cache"});
     std::cout.rdbuf(old);
@@ -801,7 +801,7 @@ TEST_F(ThemisctlHttpTest, AdminUnknownSubcommand) {
 
 TEST_F(ThemisctlHttpTest, IndexRecommendAllTablesRawJson) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdIndex({"recommend"});
     std::cout.rdbuf(old);
@@ -813,7 +813,7 @@ TEST_F(ThemisctlHttpTest, IndexRecommendAllTablesRawJson) {
 TEST_F(ThemisctlHttpTest, IndexRecommendNoSubAllTablesRawJson) {
     // "index" with no sub-command defaults to recommending all tables
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdIndex({});
     std::cout.rdbuf(old);
@@ -824,7 +824,7 @@ TEST_F(ThemisctlHttpTest, IndexRecommendNoSubAllTablesRawJson) {
 
 TEST_F(ThemisctlHttpTest, IndexRecommendSingleTableRawJson) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdIndex({"recommend", "users"});
     std::cout.rdbuf(old);
@@ -840,7 +840,7 @@ TEST_F(ThemisctlHttpTest, IndexRecommendSingleTableRawJson) {
 
 TEST_F(ThemisctlHttpTest, IndexRecommendEmptyTableRawJson) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdIndex({"recommend", "empty_table"});
     std::cout.rdbuf(old);
@@ -852,7 +852,7 @@ TEST_F(ThemisctlHttpTest, IndexRecommendEmptyTableRawJson) {
 
 TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintAllTables) {
     g_ctx.raw_json = false;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdIndex({"recommend"});
     std::cout.rdbuf(old);
@@ -862,7 +862,7 @@ TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintAllTables) {
 
 TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintSingleTable) {
     g_ctx.raw_json = false;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdIndex({"recommend", "users"});
     std::cout.rdbuf(old);
@@ -883,7 +883,7 @@ TEST_F(ThemisctlHttpTest, IndexUnknownSubcommandReturnsTwo) {
 
 TEST_F(ThemisctlHttpTest, ConfigGet) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdConfig({"get"});
     std::cout.rdbuf(old);
@@ -896,7 +896,7 @@ TEST_F(ThemisctlHttpTest, ConfigGet) {
 TEST_F(ThemisctlHttpTest, ConfigGetDefaultSub) {
     // "config" with no sub-command defaults to "get"
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdConfig({});
     std::cout.rdbuf(old);
@@ -920,7 +920,7 @@ TEST_F(ThemisctlHttpTest, ConfigSetMultipleKeys) {
 
 TEST_F(ThemisctlHttpTest, ConfigSetVerifyPatch) {
     g_ctx.raw_json = true;
-    std::ostringstream cap;
+    std::ostringstream cap = {};
     auto* old = std::cout.rdbuf(cap.rdbuf());
     int rc = cmdConfig({"set", "logging.level=debug", "request_timeout_ms=60000"});
     std::cout.rdbuf(old);
@@ -950,7 +950,7 @@ class ThemisctlTokenizerTest : public ::testing::Test {};
 
 TEST_F(ThemisctlTokenizerTest, SimpleWords) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("health", tokens, err));
     ASSERT_EQ(tokens.size(), 1u);
     EXPECT_EQ(tokens[0], "health");
@@ -958,7 +958,7 @@ TEST_F(ThemisctlTokenizerTest, SimpleWords) {
 
 TEST_F(ThemisctlTokenizerTest, MultipleWords) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("config set logging.level=debug", tokens, err));
     ASSERT_EQ(tokens.size(), 3u);
     EXPECT_EQ(tokens[0], "config");
@@ -968,7 +968,7 @@ TEST_F(ThemisctlTokenizerTest, MultipleWords) {
 
 TEST_F(ThemisctlTokenizerTest, SingleQuotedToken) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("query 'FOR d IN col RETURN d'", tokens, err));
     ASSERT_EQ(tokens.size(), 2u);
     EXPECT_EQ(tokens[1], "FOR d IN col RETURN d");
@@ -976,7 +976,7 @@ TEST_F(ThemisctlTokenizerTest, SingleQuotedToken) {
 
 TEST_F(ThemisctlTokenizerTest, DoubleQuotedToken) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("get \"user:1\"", tokens, err));
     ASSERT_EQ(tokens.size(), 2u);
     EXPECT_EQ(tokens[1], "user:1");
@@ -984,7 +984,7 @@ TEST_F(ThemisctlTokenizerTest, DoubleQuotedToken) {
 
 TEST_F(ThemisctlTokenizerTest, ExtraWhitespace) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("  health  ", tokens, err));
     ASSERT_EQ(tokens.size(), 1u);
     EXPECT_EQ(tokens[0], "health");
@@ -992,28 +992,28 @@ TEST_F(ThemisctlTokenizerTest, ExtraWhitespace) {
 
 TEST_F(ThemisctlTokenizerTest, EmptyLine) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("", tokens, err));
     EXPECT_TRUE(tokens.empty());
 }
 
 TEST_F(ThemisctlTokenizerTest, UnterminatedSingleQuote) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(tokenizeLine("get 'user:1", tokens, err));
     EXPECT_FALSE(err.empty());
 }
 
 TEST_F(ThemisctlTokenizerTest, UnterminatedDoubleQuote) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(tokenizeLine("get \"user:1", tokens, err));
     EXPECT_FALSE(err.empty());
 }
 
 TEST_F(ThemisctlTokenizerTest, MixedQuotes) {
     std::vector<std::string> tokens;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(tokenizeLine("config set 'logging.level=debug'", tokens, err));
     ASSERT_EQ(tokens.size(), 3u);
     EXPECT_EQ(tokens[2], "logging.level=debug");
@@ -1026,7 +1026,7 @@ TEST(ThemisctlDispatchTest, UnknownCommandReturnsTwo) {
     g_ctx.port    = 19999;
     g_ctx.timeout = 1;
     g_use_color   = false;
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = dispatchCommand("frobnicate", {});
     std::cerr.rdbuf(old);
@@ -1038,7 +1038,7 @@ TEST(ThemisctlDispatchTest, HelpReturnsZero) {
     g_ctx.port    = 19999;
     g_ctx.timeout = 1;
     g_use_color   = false;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = dispatchCommand("help", {});
     std::cout.rdbuf(old);
@@ -1054,7 +1054,7 @@ TEST(ThemisctlConnFailTest, HealthReturnsThreeOnConnectionRefused) {
     g_ctx.timeout = 1;
     g_use_color   = false;
     // Capture stderr so test output stays clean
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdHealth({});
     std::cerr.rdbuf(old);
@@ -1066,7 +1066,7 @@ TEST(ThemisctlConnFailTest, HealthReturnsThreeOnConnectionRefused) {
 
 // CVL-01: validate with no proposed keys → passes, prints no-changes message
 TEST_F(ThemisctlHttpTest, CVL01_ConfigValidateNoArgs) {
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdConfig({"validate"});
     std::cout.rdbuf(old);
@@ -1076,7 +1076,7 @@ TEST_F(ThemisctlHttpTest, CVL01_ConfigValidateNoArgs) {
 
 // CVL-02: validate with a dotted key change → passes, stdout contains diff
 TEST_F(ThemisctlHttpTest, CVL02_ConfigValidateDottedKey) {
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdConfig({"validate", "logging.level=debug"});
     std::cout.rdbuf(old);
@@ -1086,7 +1086,7 @@ TEST_F(ThemisctlHttpTest, CVL02_ConfigValidateDottedKey) {
 
 // CVL-03: validate with multiple keys → passes, output shows diff header
 TEST_F(ThemisctlHttpTest, CVL03_ConfigValidateMultipleKeys) {
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdConfig({"validate", "logging.level=warn", "features.cdc=true"});
     std::cout.rdbuf(old);
@@ -1097,7 +1097,7 @@ TEST_F(ThemisctlHttpTest, CVL03_ConfigValidateMultipleKeys) {
 // CVL-04: validate with raw_json returns parseable JSON
 TEST_F(ThemisctlHttpTest, CVL04_ConfigValidateRawJson) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdConfig({"validate", "logging.level=info"});
     std::cout.rdbuf(old);
@@ -1111,9 +1111,9 @@ TEST_F(ThemisctlHttpTest, CVL04_ConfigValidateRawJson) {
 
 // CVL-05: validate with invalid key → server returns 400, command returns 1
 TEST_F(ThemisctlHttpTest, CVL05_ConfigValidateInvalidKey_ReturnsError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* oldErr = std::cerr.rdbuf(capErr.rdbuf());
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* oldOut = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdConfig({"validate", "invalid_key=bad"});
     std::cerr.rdbuf(oldErr);
@@ -1124,7 +1124,7 @@ TEST_F(ThemisctlHttpTest, CVL05_ConfigValidateInvalidKey_ReturnsError) {
 
 // CVL-06: validate with malformed key=value pair → usage error (rc=2), no HTTP call
 TEST_F(ThemisctlHttpTest, CVL06_ConfigValidateMalformedPair_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdConfig({"validate", "no-equals-sign"});
     std::cerr.rdbuf(old);
@@ -1136,7 +1136,7 @@ TEST_F(ThemisctlHttpTest, CVL06_ConfigValidateMalformedPair_ReturnsUsageError) {
 
 // TRQ-01: missing question → usage error (rc=2), no HTTP call
 TEST_F(ThemisctlHttpTest, TRQ01_RagQuery_MissingQuestion_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query"});
     std::cerr.rdbuf(old);
@@ -1145,7 +1145,7 @@ TEST_F(ThemisctlHttpTest, TRQ01_RagQuery_MissingQuestion_ReturnsUsageError) {
 
 // TRQ-02: no sub-command → usage error (rc=2)
 TEST_F(ThemisctlHttpTest, TRQ02_RagNoSubCommand_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({});
     std::cerr.rdbuf(old);
@@ -1154,7 +1154,7 @@ TEST_F(ThemisctlHttpTest, TRQ02_RagNoSubCommand_ReturnsUsageError) {
 
 // TRQ-03: successful query → rc=0, stdout contains answer text
 TEST_F(ThemisctlHttpTest, TRQ03_RagQuery_Success_PrintsAnswer) {
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query", "Was fehlt noch für den Bauantrag?"});
     std::cout.rdbuf(old);
@@ -1164,7 +1164,7 @@ TEST_F(ThemisctlHttpTest, TRQ03_RagQuery_Success_PrintsAnswer) {
 
 // TRQ-04: --collection and --top-k flags are forwarded, rc=0
 TEST_F(ThemisctlHttpTest, TRQ04_RagQuery_WithCollectionAndTopK) {
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query", "--collection", "procs", "--top-k", "10", "What is the next step?"});
     std::cout.rdbuf(old);
@@ -1175,7 +1175,7 @@ TEST_F(ThemisctlHttpTest, TRQ04_RagQuery_WithCollectionAndTopK) {
 // TRQ-05: raw_json mode returns parseable JSON with expected fields
 TEST_F(ThemisctlHttpTest, TRQ05_RagQuery_RawJson_ReturnsParseable) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query", "List the required documents."});
     std::cout.rdbuf(old);
@@ -1198,7 +1198,7 @@ TEST_F(ThemisctlHttpTest, TRQ05_RagQuery_RawJson_ReturnsParseable) {
 // TRQ-07: raw_json with collection/top-k validates effective RAG contract fields
 TEST_F(ThemisctlHttpTest, TRQ07_RagQuery_RawJson_EffectiveFieldsMatchFlags) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query", "--collection", "procs", "--top-k", "10", "What is the next step?"});
     std::cout.rdbuf(old);
@@ -1219,7 +1219,7 @@ TEST_F(ThemisctlHttpTest, TRQ07_RagQuery_RawJson_EffectiveFieldsMatchFlags) {
 
 // TRQ-06: invalid top-k value (non-integer) → usage error (rc=2)
 TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--top-k", "notanumber", "some question"});
     std::cerr.rdbuf(old);
@@ -1227,7 +1227,7 @@ TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
 }
 
 TEST_F(ThemisctlHttpTest, TRQ16_RagQuery_InvalidMaxTokens_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--max-tokens", "notanumber", "some question"});
     std::cerr.rdbuf(old);
@@ -1235,7 +1235,7 @@ TEST_F(ThemisctlHttpTest, TRQ16_RagQuery_InvalidMaxTokens_ReturnsUsageError) {
 }
 
 TEST_F(ThemisctlHttpTest, TRQ17_RagQuery_InvalidResponseBudgetTokens_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--response-budget-tokens", "notanumber", "some question"});
     std::cerr.rdbuf(old);
@@ -1243,7 +1243,7 @@ TEST_F(ThemisctlHttpTest, TRQ17_RagQuery_InvalidResponseBudgetTokens_ReturnsUsag
 }
 
 TEST_F(ThemisctlHttpTest, TRQ20_RagQuery_InvalidRagMode_ReturnsUsageError) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--rag-mode", "invalid_mode", "some question"});
     std::cerr.rdbuf(old);
@@ -1255,7 +1255,7 @@ TEST_F(ThemisctlHttpTest, TRQ20_RagQuery_InvalidRagMode_ReturnsUsageError) {
 // TRQ-18: non-positive response budget is normalized by server contract and capped by max_tokens
 TEST_F(ThemisctlHttpTest, TRQ18_RagQuery_CliFlags_NonPositiveResponseBudgetNormalizesToOne) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query",
                      "--collection", "procs",
@@ -1274,7 +1274,7 @@ TEST_F(ThemisctlHttpTest, TRQ18_RagQuery_CliFlags_NonPositiveResponseBudgetNorma
 
 // TRQ-19: max_tokens <= 0 is rejected fail-closed by RAG contract
 TEST_F(ThemisctlHttpTest, TRQ19_RagQuery_CliFlags_ZeroMaxTokens_ServerRejectsWith400) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--max-tokens", "0", "some question"});
     std::cerr.rdbuf(old);
@@ -1291,7 +1291,7 @@ TEST_F(ThemisctlHttpTest, TRQ19_RagQuery_CliFlags_ZeroMaxTokens_ServerRejectsWit
 
 // TRQ-08: top_k=0 is syntactically valid for CLI but rejected by server contract (rc=1)
 TEST_F(ThemisctlHttpTest, TRQ08_RagQuery_TopKZero_ServerRejectsWith400) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--top-k", "0", "some question"});
     std::cerr.rdbuf(old);
@@ -1309,7 +1309,7 @@ TEST_F(ThemisctlHttpTest, TRQ08_RagQuery_TopKZero_ServerRejectsWith400) {
 
 // TRQ-09: missing retrieval engine must fail closed with explicit 503
 TEST_F(ThemisctlHttpTest, TRQ09_RagQuery_MissingEngine_ServerRejectsWith503) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--collection", "missing_engine", "some question"});
     std::cerr.rdbuf(old);
@@ -1327,7 +1327,7 @@ TEST_F(ThemisctlHttpTest, TRQ09_RagQuery_MissingEngine_ServerRejectsWith503) {
 
 // TRQ-10: invalid collection must fail closed with explicit 503
 TEST_F(ThemisctlHttpTest, TRQ10_RagQuery_InvalidCollection_ServerRejectsWith503) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--collection", "invalid_collection", "some question"});
     std::cerr.rdbuf(old);
@@ -1345,7 +1345,7 @@ TEST_F(ThemisctlHttpTest, TRQ10_RagQuery_InvalidCollection_ServerRejectsWith503)
 
 // TRQ-11: empty retrieval must fail closed with no-usable-documents reason
 TEST_F(ThemisctlHttpTest, TRQ11_RagQuery_EmptyRetrieval_ServerRejectsWith503) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", "--collection", "empty_collection", "some question"});
     std::cerr.rdbuf(old);
@@ -1363,7 +1363,7 @@ TEST_F(ThemisctlHttpTest, TRQ11_RagQuery_EmptyRetrieval_ServerRejectsWith503) {
 
 // TRQ-12: empty query payload must fail closed with HTTP 400 from server
 TEST_F(ThemisctlHttpTest, TRQ12_RagQuery_EmptyStringQuestion_ServerRejectsWith400) {
-    std::ostringstream capErr;
+    std::ostringstream capErr = {};
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdRag({"query", ""});
     std::cerr.rdbuf(old);
@@ -1417,7 +1417,7 @@ TEST_F(ThemisctlHttpTest, TRQ14_RagQuery_RawJson_IterativeMode_ResponseBudgetCap
 // TRQ-15: cmdRag forwards rag-mode and budget flags; server contract returns capped effective budget
 TEST_F(ThemisctlHttpTest, TRQ15_RagQuery_CliFlags_IterativeBudgetForwarding) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query",
                      "--collection", "procs",
@@ -1437,7 +1437,7 @@ TEST_F(ThemisctlHttpTest, TRQ15_RagQuery_CliFlags_IterativeBudgetForwarding) {
 
 TEST_F(ThemisctlHttpTest, TRQ21_RagQuery_CliFlags_RagModeCaseInsensitiveNormalization) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query",
                      "--collection", "procs",
@@ -1454,7 +1454,7 @@ TEST_F(ThemisctlHttpTest, TRQ21_RagQuery_CliFlags_RagModeCaseInsensitiveNormaliz
 
 TEST_F(ThemisctlHttpTest, TRQ22_RagQuery_CliFlags_RagModeMapReduceAliasNormalization) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query",
                      "--collection", "procs",
@@ -1471,7 +1471,7 @@ TEST_F(ThemisctlHttpTest, TRQ22_RagQuery_CliFlags_RagModeMapReduceAliasNormaliza
 
 TEST_F(ThemisctlHttpTest, TRQ23_RagQuery_CliFlags_RagModeMapReduceWordAliasNormalization) {
     g_ctx.raw_json = true;
-    std::ostringstream capOut;
+    std::ostringstream capOut = {};
     auto* old = std::cout.rdbuf(capOut.rdbuf());
     int rc = cmdRag({"query",
                      "--collection", "procs",

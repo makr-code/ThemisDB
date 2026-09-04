@@ -613,7 +613,7 @@ std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
 }
 
 bool VisionConfig::validate(std::string& error_message) const {
-    std::stringstream errors;
+    std::stringstream errors = {};
     
     // Validate resource limits
     if (resource_limits_.max_memory_mb == 0) {

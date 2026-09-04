@@ -60,7 +60,7 @@ static std::string objStorageJsonExtractString(const std::string& json,
     auto start = json.find(needle);
     if (start == std::string::npos) return {};
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (size_t i = start; i < json.size(); ++i) {
         char c = json[i];
@@ -237,7 +237,7 @@ public:
 #endif
 
         // No SDK compiled for the requested provider
-        std::string provider_name;
+        std::string provider_name = {};
         switch (provider_) {
             case ObjectStorageProvider::GCS:   provider_name = "GCS (THEMIS_ENABLE_GCS)"; break;
             case ObjectStorageProvider::AZURE: provider_name = "Azure (THEMIS_ENABLE_AZURE)"; break;
@@ -402,7 +402,7 @@ private:
             s3 = std::make_unique<Aws::S3::S3Client>(client_cfg);
         }
 
-        std::string continuation_token;
+        std::string continuation_token = {};
         size_t processed = 0;
 
         try {
@@ -464,7 +464,7 @@ private:
                         continue;
                     }
 
-                    std::ostringstream oss;
+                    std::ostringstream oss = {};
                     oss << get_outcome.GetResult().GetBody().rdbuf();
                     std::string body = oss.str();
 
@@ -609,7 +609,7 @@ private:
             auto container_client = BlobContainerClient::CreateFromConnectionString(
                 connection_str_, container_);
 
-            ListBlobsOptions list_opts;
+            ListBlobsOptions list_opts = {};
             if (!prefix_.empty()) {
                 list_opts.Prefix = prefix_;
             }
@@ -641,7 +641,7 @@ private:
                     Azure::Storage::Blobs::DownloadBlobOptions dl_opts;
                     auto dl = blob_client.Download(dl_opts);
 
-                    std::string body;
+                    std::string body = {};
                     auto& stream = *dl.Value.BodyStream;
                     std::vector<uint8_t> buf(4096);
                     size_t n = 0;

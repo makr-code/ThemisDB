@@ -229,7 +229,7 @@ private:
 #endif // THEMIS_HAS_SHARD_GRPC
 
 struct ShardRPCServer::Impl {
-    std::string listen_address;
+    std::string listen_address = {};
     RequestHandler* handler = nullptr;
     ShardRPCServer::Config config;  // Store full configuration
     

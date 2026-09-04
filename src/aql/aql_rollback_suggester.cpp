@@ -26,7 +26,7 @@ namespace aql {
 namespace {
 
 std::string toUpperTrim(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     bool skip_leading = true;
     for (char c : s) {
@@ -148,7 +148,7 @@ std::string extractFilter(const std::string &upper) {
 // ============================================================================
 
 RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) const {
-    RollbackSuggestion result;
+    RollbackSuggestion result = {};
 
     if (aql_query.empty()) {
         result.mutation_type = MutationType::NONE;
@@ -186,7 +186,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
     }
 
     // Extract collection name.
-    std::string coll;
+    std::string coll = {};
     switch (result.mutation_type) {
         case MutationType::INSERT:
             coll = extractCollection(upper, "INTO");
@@ -216,7 +216,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
     const std::string filter   = extractFilter(upper);
     const std::string fvar     = filter.empty() ? (loop_var + "._key == @key") : filter;
 
-    std::ostringstream rq;
+    std::ostringstream rq = {};
 
     switch (result.mutation_type) {
         // ------------------------------------------------------------------

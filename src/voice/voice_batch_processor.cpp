@@ -40,7 +40,7 @@ VoiceBatchProcessor::VoiceBatchProcessor(const BatchProcessorConfig& config)
 std::string VoiceBatchProcessor::generateJobId() {
     static std::atomic<uint64_t> counter{0};
     uint64_t id = ++counter;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "batch-job-" << std::setfill('0') << std::setw(8) << id;
     return ss.str();
 }
@@ -152,7 +152,7 @@ BatchItemResult VoiceBatchProcessor::processItem(const BatchAudioItem& item) {
         // Real-time streaming STT: transcribe word-by-word using a sliding
         // window and accumulate the segments into a single transcript string.
         if (stt && !item.audio_data.empty()) {
-            std::string transcript;
+            std::string transcript = {};
             bool ok = stt->streamTranscribe(
                 item.audio_data,
                 [&transcript](const content::TranscriptionSegment& seg) {
@@ -195,7 +195,7 @@ AudioQualityMetrics VoiceBatchProcessor::computeQualityMetrics(
     const std::vector<uint8_t>& audio_data,
     int sample_rate) const
 {
-    AudioQualityMetrics metrics;
+    AudioQualityMetrics metrics = {};
 
     if (audio_data.empty()) {
         metrics.quality_label = "poor";
@@ -363,7 +363,7 @@ BatchSummary VoiceBatchProcessor::getJobSummary(const std::string& job_id) const
 std::vector<std::string> VoiceBatchProcessor::tokenize(const std::string& text) const {
     std::vector<std::string> tokens;
     std::istringstream iss(text);
-    std::string word;
+    std::string word = {};
     while (iss >> word) {
         // Lowercase
         std::transform(word.begin(), word.end(), word.begin(),

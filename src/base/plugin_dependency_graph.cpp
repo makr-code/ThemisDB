@@ -268,7 +268,7 @@ void PluginDependencyGraph::exportTo(std::ostream& out,
 
 std::string PluginDependencyGraph::toString(GraphExportFormat format) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     exportTo(oss, format);
     return oss.str();
 }
@@ -280,7 +280,7 @@ std::string PluginDependencyGraph::toString(GraphExportFormat format) const
 /*static*/ std::string PluginDependencyGraph::escapeDotId(const std::string& s)
 {
     // Wrap in double quotes and escape internal double quotes and backslashes.
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 2);
     out += '"';
     for (char c : s) {
@@ -318,7 +318,7 @@ void PluginDependencyGraph::renderDot(std::ostream& out) const
         out << "    " << escapeDotId(e.from) << " -> " << escapeDotId(e.to);
 
         bool hasAttrs = false;
-        std::string attrs;
+        std::string attrs = {};
         if (!e.required) {
             attrs += "style=dashed";
             hasAttrs = true;
@@ -327,7 +327,7 @@ void PluginDependencyGraph::renderDot(std::ostream& out) const
         if (!e.minVersion.empty() || !e.maxVersion.empty()) {
             // GAP-FIX string_concat_loop: use ostringstream instead of +=
             // inside the edge-iteration loop to avoid repeated heap allocations.
-            std::ostringstream voss;
+            std::ostringstream voss = {};
             if (!e.minVersion.empty()) {
                 voss << ">=" << e.minVersion;
             }
@@ -357,7 +357,7 @@ void PluginDependencyGraph::renderDot(std::ostream& out) const
 
 /*static*/ std::string PluginDependencyGraph::escapeJson(const std::string& s)
 {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -435,9 +435,9 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
 
     // Build adjacency: from → {to, required, version constraint}
     struct DepInfo {
-        std::string to;
-        bool        required;
-        std::string versionConstraint;
+        std::string to = {};
+        bool        required = {};
+        std::string versionConstraint = {};
     };
     std::map<std::string, std::vector<DepInfo>> deps;
     for (const auto& e : edges_) {
@@ -447,7 +447,7 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
         if (!e.minVersion.empty() || !e.maxVersion.empty()) {
             // GAP-FIX string_concat_loop: use ostringstream instead of +=
             // inside the edge-iteration loop to avoid repeated heap allocations.
-            std::ostringstream voss;
+            std::ostringstream voss = {};
             if (!e.minVersion.empty()) {
                 voss << ">=" << e.minVersion;
             }

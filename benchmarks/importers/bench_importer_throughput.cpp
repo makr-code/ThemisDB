@@ -205,7 +205,7 @@ static void writeSQLiteTable(std::ostream& out, const std::string& tname,
 /// Create a temporary SQL file with the given content; return its path.
 /// Caller owns the file and must delete it when done.
 static std::string writeTempSqlFile(const std::string& content) {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto tmp_dir = std::filesystem::temp_directory_path(ec);
     if (ec) {
       return "";
@@ -265,7 +265,7 @@ static double runBench(const std::string& sql_file, bool dry_run,
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string line;
+    std::string line = {};
     size_t records    = 0;
     size_t byte_count = 0;
     bool in_copy      = false;
@@ -304,7 +304,7 @@ static double runBench(const std::string& sql_file, bool dry_run,
 
 static BenchResult runScenario(const BenchConfig& cfg) {
     // Build synthetic SQL
-    std::ostringstream out;
+    std::ostringstream out = {};
     writeDumpHeader(out);
 
     size_t rows_per_table_copy   = cfg.copy_rows   / cfg.num_tables;
@@ -323,7 +323,7 @@ static BenchResult runScenario(const BenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runBench(tmp, cfg.dry_run, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     size_t total_rows = cfg.copy_rows + cfg.insert_rows;
@@ -353,7 +353,7 @@ static double runSQLiteBench(const std::string& sql_file, bool dry_run,
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string line;
+    std::string line = {};
     size_t records    = 0;
     size_t byte_count = 0;
 
@@ -375,7 +375,7 @@ static double runSQLiteBench(const std::string& sql_file, bool dry_run,
 }
 
 static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     writeSQLiteDumpHeader(out);
 
     size_t rows_per_table = cfg.insert_rows / cfg.num_tables;
@@ -394,7 +394,7 @@ static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runSQLiteBench(tmp, cfg.dry_run, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0)
@@ -461,7 +461,7 @@ static void writeMongoJsonArray(std::ostream& out, size_t num_docs) {
 
 /// Create a temporary JSON file; returns its path.
 static std::string writeTempJsonFile(const std::string& content) {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto tmp_dir = std::filesystem::temp_directory_path(ec);
     if (ec) {
       return "";
@@ -500,7 +500,7 @@ static double runMongoBench(const std::string& json_file, bool dry_run,
 
     if (is_json_array) {
         // Count lines that start with '{' inside the JSON array.
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             byte_count += line.size() + 1;
             size_t first = line.find_first_not_of(" \t\r\n");
@@ -512,7 +512,7 @@ static double runMongoBench(const std::string& json_file, bool dry_run,
         }
     } else {
         // NDJSON: count non-empty lines that start with '{'.
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             byte_count += line.size() + 1;
             size_t first = line.find_first_not_of(" \t\r\n");
@@ -533,7 +533,7 @@ static double runMongoBench(const std::string& json_file, bool dry_run,
 }
 
 struct MongoBenchConfig {
-    std::string label;
+    std::string label = {};
     size_t      num_docs    = 0;
     bool        json_array  = false;  ///< true = JSON array, false = NDJSON
     bool        bson_types  = false;  ///< true = include BSON extended JSON wrappers
@@ -541,7 +541,7 @@ struct MongoBenchConfig {
 };
 
 static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     if (cfg.json_array) {
         writeMongoJsonArray(out, cfg.num_docs);
     } else {
@@ -556,7 +556,7 @@ static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runMongoBench(tmp, cfg.dry_run, cfg.json_array, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0)
@@ -635,7 +635,7 @@ static double runMySQLBench(const std::string& sql_file, bool dry_run,
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string line;
+    std::string line = {};
     size_t records    = 0;
     size_t byte_count = 0;
     static constexpr std::string_view kInsertPrefix = "INSERT INTO";
@@ -660,7 +660,7 @@ static double runMySQLBench(const std::string& sql_file, bool dry_run,
 }
 
 static BenchResult runMySQLScenario(const MySQLBenchConfig& cfg) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     writeMySQLDumpHeader(out);
 
     size_t rows_per_table = cfg.num_rows / std::max<size_t>(1, cfg.num_tables);
@@ -676,7 +676,7 @@ static BenchResult runMySQLScenario(const MySQLBenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runMySQLBench(tmp, cfg.dry_run, &bytes);
-    std::error_code rm_ec;
+    std::error_code rm_ec = {};
     std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0) ? static_cast<double>(cfg.num_rows) / elapsed : 0.0;
@@ -713,7 +713,7 @@ static std::string makeSyntheticKafkaJson(size_t payload_bytes) {
 
 /// Build a 5-byte Confluent Avro magic-byte prefix + JSON body.
 static std::string makeAvroWrappedPayload(size_t payload_bytes) {
-    std::string avro;
+    std::string avro = {};
     avro += '\x00';
     avro += '\x00'; avro += '\x00'; avro += '\x00'; avro += '\x02'; // schema-ID = 2
     avro += makeSyntheticKafkaJson(payload_bytes);
@@ -859,7 +859,7 @@ static BenchResult runConflictBench(const ConflictBenchConfig& cfg) {
 int main(int argc, char** argv) {
     size_t iterations = 1;
     bool   csv_out    = false;
-    std::string csv_path;
+    std::string csv_path = {};
 
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--iterations") == 0 && i + 1 < argc) {

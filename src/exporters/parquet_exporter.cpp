@@ -399,14 +399,14 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
             } else if constexpr (std::is_same_v<T, int64_t>) {
                 return std::to_string(v);
             } else if constexpr (std::is_same_v<T, double>) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << v;
                 return oss.str();
             } else if constexpr (std::is_same_v<T, std::string>) {
                 return v;
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
                 // Represent embedding as JSON array string
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "[";
                 for (size_t i = 0; i < v.size(); ++i) {
                     if (i > 0) {
@@ -418,7 +418,7 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
                 return oss.str();
             } else {
                 // vector<uint8_t> — binary blob
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "<binary:" << v.size() << ">";
                 return oss.str();
             }

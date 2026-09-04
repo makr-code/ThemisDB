@@ -88,7 +88,7 @@ std::vector<std::string> loadDokuChunksAsPrompts(const std::string& json_path, i
     }
 
     std::ifstream f(json_path);
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line) && static_cast<int>(prompts.size()) < max_count) {
         // Simple heuristic: lines containing "content": "..." in the JSON
         auto pos = line.find("\"content\":");
@@ -241,7 +241,7 @@ TEST_F(AdaLoraDokuTrainingTest, Lora04_CheckpointRoundTrip) {
 
     // Load into a fresh adapter
     AdaLoRAAdapter restored(4, 8.0f, 16);
-    std::string loaded_fp;
+    std::string loaded_fp = {};
     ASSERT_NO_THROW(loaded_fp = restored.loadFromFile(tmp_path))
         << "loadFromFile() threw unexpectedly";
 
@@ -448,7 +448,7 @@ TEST_F(AdaLoraDokuTrainingTest, Lora08_CacheGate) {
         << "Cache must be valid for matching fingerprint after save";
 
     AdaLoRAAdapter adapter_loaded(4, 8.0f, 12);
-    std::string loaded_fp;
+    std::string loaded_fp = {};
     ASSERT_NO_THROW(loaded_fp = adapter_loaded.loadFromFile(checkpoint_path));
     EXPECT_EQ(loaded_fp, kModelFingerprintV1)
         << "Loaded fingerprint does not match saved fingerprint";

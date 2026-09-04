@@ -222,11 +222,11 @@ nlohmann::json CertificateRequest::toJson() const {
 struct VCCPKIClient::Impl {
     CURL* curl;
     struct curl_slist* headers;
-    std::string ca_cert_path;
-    std::string client_cert_path;
-    std::string client_key_path;
-    bool verify_server;
-    bool use_mtls;
+    std::string ca_cert_path = {};
+    std::string client_cert_path = {};
+    std::string client_key_path = {};
+    bool verify_server = {};
+    bool use_mtls = {};
     
     Impl() : curl(nullptr), headers(nullptr), verify_server(true), use_mtls(false) {
         curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -322,7 +322,7 @@ struct VCCPKIClient::Impl {
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
         
         if (http_code < 200 || http_code >= 300) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "HTTP error " << http_code << ": " << response;
             throw std::runtime_error(oss.str());
         }

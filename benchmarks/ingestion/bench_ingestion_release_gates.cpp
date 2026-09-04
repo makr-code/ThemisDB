@@ -76,9 +76,9 @@ static constexpr int      kWarmupIterations       = 200;
 // ---------------------------------------------------------------------------
 
 struct IngestRow {
-    std::uint64_t key;
+    std::uint64_t key = {};
     char          payload[64];
-    bool          schema_valid;
+    bool          schema_valid = {};
 };
 
 static IngestRow makeRow(std::uint64_t key) noexcept {
@@ -112,7 +112,7 @@ static MockWal g_wal;
 // ---------------------------------------------------------------------------
 
 static std::string commitBatch(const std::vector<IngestRow>& rows) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (auto& r : rows)
         ss << r.key << ':' << static_cast<int>(r.payload[0]) << ',';
     return ss.str();
@@ -158,7 +158,7 @@ static IngestionErrorCode sendBackPressureSignal(IngestBuffer& buf) noexcept {
 // ---------------------------------------------------------------------------
 
 struct IngestQuota {
-    std::uint64_t                limit;
+    std::uint64_t                limit = {};
     std::atomic<std::uint64_t>   used{0};
 
     IngestionErrorCode check(std::uint64_t n) noexcept {

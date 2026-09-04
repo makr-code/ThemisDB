@@ -136,7 +136,7 @@ uint64_t OutboxWriter::nextSequence() {
     std::lock_guard<std::mutex> lock(sequence_mutex_);
 
     rocksdb::ReadOptions read_opts;
-    std::string seq_value;
+    std::string seq_value = {};
     rocksdb::Status s;
 
     if (cf_) {

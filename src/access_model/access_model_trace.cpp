@@ -35,7 +35,7 @@ CorrelationID TraceContextManager::generateCorrelationID(
     uint64_t part1 = dis(gen);
     uint64_t part2 = dis(gen);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << prefix << "-" << std::hex << part1 << "-" << part2;
     return oss.str();
 }

@@ -107,7 +107,7 @@ public:
           db_->close();
         }
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         if (fs::exists(db_path_)) {
           fs::remove_all(db_path_, ec);
         }

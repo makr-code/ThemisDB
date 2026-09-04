@@ -43,7 +43,7 @@ std::vector<float> makeOrthogonalCorpus(size_t n, size_t dim) {
 
 /// Return a backend that has been initialized (skips test if no GPU).
 FaissGPUVectorBackend makeInitializedBackend() {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
         // Caller must GTEST_SKIP before using the returned object
     }
@@ -134,7 +134,7 @@ TEST(FaissGpuBackendStructural, FA_S10_IndexStatsDefaultZeroBeforeInit) {
 // =============================================================================
 
 TEST(FaissGpuBackendValidation, FA_V1_SearchOnUninitializedIndexReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -146,7 +146,7 @@ TEST(FaissGpuBackendValidation, FA_V1_SearchOnUninitializedIndexReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V2_SearchWithNullQueriesReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -160,7 +160,7 @@ TEST(FaissGpuBackendValidation, FA_V2_SearchWithNullQueriesReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V3_SearchWithZeroKReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -175,7 +175,7 @@ TEST(FaissGpuBackendValidation, FA_V3_SearchWithZeroKReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V4_AddVectorsWithNullPointerReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -188,7 +188,7 @@ TEST(FaissGpuBackendValidation, FA_V4_AddVectorsWithNullPointerReturnsFalse) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V5_AddVectorsWithZeroCountReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -202,7 +202,7 @@ TEST(FaissGpuBackendValidation, FA_V5_AddVectorsWithZeroCountReturnsFalse) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V6_TrainWithNullPointerReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -215,7 +215,7 @@ TEST(FaissGpuBackendValidation, FA_V6_TrainWithNullPointerReturnsFalse) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V7_TrainWithZeroCountReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -229,7 +229,7 @@ TEST(FaissGpuBackendValidation, FA_V7_TrainWithZeroCountReturnsFalse) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V8_BatchKnnSearch_NullQueryReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -240,7 +240,7 @@ TEST(FaissGpuBackendValidation, FA_V8_BatchKnnSearch_NullQueryReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V9_BatchKnnSearch_ZeroKReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -252,7 +252,7 @@ TEST(FaissGpuBackendValidation, FA_V9_BatchKnnSearch_ZeroKReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V10_ComputeDistances_NullQueryReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -263,7 +263,7 @@ TEST(FaissGpuBackendValidation, FA_V10_ComputeDistances_NullQueryReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V11_ComputeDistances_NullVectorsReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -274,7 +274,7 @@ TEST(FaissGpuBackendValidation, FA_V11_ComputeDistances_NullVectorsReturnsEmpty)
 }
 
 TEST(FaissGpuBackendValidation, FA_V12_ComputeDistances_ZeroDimReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -286,7 +286,7 @@ TEST(FaissGpuBackendValidation, FA_V12_ComputeDistances_ZeroDimReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V13_InitializeIndexWithZeroDimensionReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -297,7 +297,7 @@ TEST(FaissGpuBackendValidation, FA_V13_InitializeIndexWithZeroDimensionReturnsFa
 }
 
 TEST(FaissGpuBackendValidation, FA_V14_SearchOnEmptyIndexReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -312,7 +312,7 @@ TEST(FaissGpuBackendValidation, FA_V14_SearchOnEmptyIndexReturnsEmpty) {
 }
 
 TEST(FaissGpuBackendValidation, FA_V15_SearchWithZeroNumQueriesReturnsEmpty) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -333,7 +333,7 @@ TEST(FaissGpuBackendValidation, FA_V15_SearchWithZeroNumQueriesReturnsEmpty) {
 // ── FLAT_L2 ──────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G1_FlatL2_ExactNearestNeighbour) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -357,7 +357,7 @@ TEST(FaissGpuBackendGPU, FA_G1_FlatL2_ExactNearestNeighbour) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G2_FlatL2_TopKOrderedByDistance) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -382,7 +382,7 @@ TEST(FaissGpuBackendGPU, FA_G2_FlatL2_TopKOrderedByDistance) {
 // ── FLAT_IP ───────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G3_FlatIP_InnerProductSearch) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -408,7 +408,7 @@ TEST(FaissGpuBackendGPU, FA_G3_FlatIP_InnerProductSearch) {
 // ── IVF_FLAT ──────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G4_IvfFlat_TrainAddSearch) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -437,7 +437,7 @@ TEST(FaissGpuBackendGPU, FA_G4_IvfFlat_TrainAddSearch) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G5_IvfFlat_AddBeforeTrainReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -456,7 +456,7 @@ TEST(FaissGpuBackendGPU, FA_G5_IvfFlat_AddBeforeTrainReturnsFalse) {
 // ── IVF_PQ ────────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G6_IvfPq_TrainAddSearch) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -488,7 +488,7 @@ TEST(FaissGpuBackendGPU, FA_G6_IvfPq_TrainAddSearch) {
 // ── IVF_SQ8 ───────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G7_IvfSq8_TrainAddSearch_Correctness) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -522,7 +522,7 @@ TEST(FaissGpuBackendGPU, FA_G7_IvfSq8_TrainAddSearch_Correctness) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G8_IvfSq8_MultipleQueries) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -551,7 +551,7 @@ TEST(FaissGpuBackendGPU, FA_G8_IvfSq8_MultipleQueries) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G9_IvfSq8_ResetClearsVectors) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -580,7 +580,7 @@ TEST(FaissGpuBackendGPU, FA_G9_IvfSq8_ResetClearsVectors) {
 // ── HNSW_FLAT ─────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G10_HnswFlat_AddSearchNoTrainingRequired) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -615,7 +615,7 @@ TEST(FaissGpuBackendGPU, FA_G10_HnswFlat_AddSearchNoTrainingRequired) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G11_HnswFlat_TopKSortedAscending) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -648,7 +648,7 @@ TEST(FaissGpuBackendGPU, FA_G11_HnswFlat_TopKSortedAscending) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G12_HnswFlat_ResetAndReAdd) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -676,7 +676,7 @@ TEST(FaissGpuBackendGPU, FA_G12_HnswFlat_ResetAndReAdd) {
 // ── batchKnnSearch ────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G13_BatchKnnSearch_L2_TopKCorrect) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -693,7 +693,7 @@ TEST(FaissGpuBackendGPU, FA_G13_BatchKnnSearch_L2_TopKCorrect) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G14_BatchKnnSearch_KLargerThanVectorsClampsK) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -709,7 +709,7 @@ TEST(FaissGpuBackendGPU, FA_G14_BatchKnnSearch_KLargerThanVectorsClampsK) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G15_BatchKnnSearch_IP_HighestDotFirst) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -728,7 +728,7 @@ TEST(FaissGpuBackendGPU, FA_G15_BatchKnnSearch_IP_HighestDotFirst) {
 // ── computeDistances ─────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G16_ComputeDistances_L2_Correct) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -744,7 +744,7 @@ TEST(FaissGpuBackendGPU, FA_G16_ComputeDistances_L2_Correct) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G17_ComputeDistances_IP_Correct) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -763,7 +763,7 @@ TEST(FaissGpuBackendGPU, FA_G17_ComputeDistances_IP_Correct) {
 // ── getIndexStats ─────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G18_GetIndexStats_AfterAdd) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -789,7 +789,7 @@ TEST(FaissGpuBackendGPU, FA_G18_GetIndexStats_AfterAdd) {
 // ── resetIndex ────────────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G19_ResetIndex_ClearsAllTypes) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -818,7 +818,7 @@ TEST(FaissGpuBackendGPU, FA_G19_ResetIndex_ClearsAllTypes) {
 // ── IVF train state machine ───────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G20_FlatL2_TrainIsNoOp) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -835,7 +835,7 @@ TEST(FaissGpuBackendGPU, FA_G20_FlatL2_TrainIsNoOp) {
 }
 
 TEST(FaissGpuBackendGPU, FA_G21_HnswFlat_TrainIsNoOp) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -853,7 +853,7 @@ TEST(FaissGpuBackendGPU, FA_G21_HnswFlat_TrainIsNoOp) {
 // ── multiple queries ──────────────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G22_FlatL2_MultipleQueriesReturnCorrectCount) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -882,7 +882,7 @@ TEST(FaissGpuBackendGPU, FA_G22_FlatL2_MultipleQueriesReturnCorrectCount) {
 // ── saveIndex / loadIndex (FLAT_L2 only — GPU round-trip) ────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G23_SaveAndLoadIndex_FlatL2) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -915,7 +915,7 @@ TEST(FaissGpuBackendGPU, FA_G23_SaveAndLoadIndex_FlatL2) {
 // ── saveIndex with empty path ─────────────────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G24_SaveIndex_EmptyPathReturnsFalse) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
@@ -932,7 +932,7 @@ TEST(FaissGpuBackendGPU, FA_G24_SaveIndex_EmptyPathReturnsFalse) {
 // ── IVF_SQ8 vs IVF_PQ recall comparison ──────────────────────────────────────
 
 TEST(FaissGpuBackendGPU, FA_G25_IvfSq8_IndexStatsTypeField) {
-    FaissGPUVectorBackend b;
+    FaissGPUVectorBackend b = {};
     if (!b.isAvailable() || !b.initialize()) {
       GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }

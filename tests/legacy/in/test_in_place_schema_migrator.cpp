@@ -54,7 +54,7 @@ static SchemaManager::TableSchema makeSchema(
 
 class InPlaceSchemaMigratorTest : public ::testing::Test {
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
 
     std::unique_ptr<RocksDBWrapper>       db_;
     std::unique_ptr<SecondaryIndexManager> idx_;

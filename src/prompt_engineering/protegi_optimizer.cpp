@@ -43,7 +43,7 @@ ProTeGiGradient HeuristicProTeGiProvider::computeGradient(
                           : static_cast<double>(num_errors) / static_cast<double>(errors.size());
 
     // Build a heuristic critique based on prompt characteristics
-    std::ostringstream critique;
+    std::ostringstream critique = {};
     critique << "The prompt produced errors on "
              << num_errors << "/" << errors.size() << " examples (rate="
              << gradient.error_rate << "). ";
@@ -78,7 +78,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Candidate 0: append critique as additional instruction
     {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << prompt << "\n\n"
           << "## Improvement Note\n"
           << gradient.critique;
@@ -87,7 +87,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Candidate 1: restructure with explicit output format
     if (k >= 2) {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << "Task: " << prompt << "\n\n"
           << "Instructions:\n"
           << "- Read the input carefully.\n"
@@ -98,7 +98,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Candidate 2: prepend role instruction
     if (k >= 3) {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << "You are a precise assistant. " << prompt << "\n\n"
           << "Note: " << gradient.critique;
         candidates.push_back(c.str());
@@ -106,7 +106,7 @@ std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
 
     // Remaining candidates: numbered variants
     for (size_t i = candidates.size(); i < k; ++i) {
-        std::ostringstream c;
+        std::ostringstream c = {};
         c << prompt << "\n[Variant " << (i + 1)
           << " – addressing: " << gradient.critique.substr(0, 60) << "]";
         candidates.push_back(c.str());
@@ -293,7 +293,7 @@ std::string ProTeGiOptimizer::buildGradientPrompt(
     const std::string& prompt,
     const std::vector<std::string>& errors)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "You are a prompt engineering expert.\n\n";
     out << "The following prompt was evaluated on a batch of examples:\n\n";
     out << "--- PROMPT START ---\n" << prompt << "\n--- PROMPT END ---\n\n";
@@ -313,7 +313,7 @@ std::string ProTeGiOptimizer::buildCandidatePrompt(
     const ProTeGiGradient& gradient,
     size_t k)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "You are a prompt engineering expert.\n\n";
     out << "Current prompt:\n--- PROMPT START ---\n"
         << prompt << "\n--- PROMPT END ---\n\n";

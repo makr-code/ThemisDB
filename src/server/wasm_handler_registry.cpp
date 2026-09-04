@@ -101,7 +101,7 @@ std::string WasmHandlerRegistry::utcNow() {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -295,7 +295,7 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
     // during the (potentially slow) sandbox invocation.
     std::vector<uint8_t> wasm_bytes;
     WasmHandlerConfig    config;
-    std::string          entry_point;
+    std::string          entry_point = {};
 
     {
         std::shared_lock lock(registry_mutex_);
@@ -468,7 +468,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleUpload(
     }
 
     const bool already_exists = hasHandler([[maybe_unused]] id);
-    std::string error;
+    std::string error = {};
 
     if (!registerHandler(id, wasm_bytes, config, tenant_id, name, description, &error)) {
         return makeErrorResponse(http::status::bad_request, error, req);
@@ -494,7 +494,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
     const http::request<http::string_body>& req)
 {
     // Parse optional ?tenant_id= query parameter.
-    std::string tenant_filter;
+    std::string tenant_filter = {};
     const std::string target{req.target()};
     const auto qpos = target.find('?');
     if (qpos != std::string::npos) {

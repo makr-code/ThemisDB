@@ -43,12 +43,12 @@ namespace themis::transaction {
 // Helper structure to capture transaction state before move operations
 // Ensures transaction metadata remains accessible even after async pipeline moves
 struct TransactionStateSnapshot {
-    std::string txn_id;
+    std::string txn_id = {};
     DistributedTxnState state;
     std::vector<std::string> participants;
     std::chrono::system_clock::time_point created_at;
     std::chrono::system_clock::time_point timeout;
-    std::string error_detail;
+    std::string error_detail = {};
     
     explicit TransactionStateSnapshot(const DistributedTransaction& txn)
         : txn_id(txn.txn_id)
@@ -865,7 +865,7 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
     // Unknown node_id (not in any active transaction) → return true to avoid
     // spurious aborts.
     bool      found_remote    = false;
-    std::string endpoint_found;
+    std::string endpoint_found = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -1000,7 +1000,7 @@ std::string DistributedTransactionManager::generateTransactionId() {
     // global uniqueness even across coordinator restarts.
     const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "dtx2pc-" << coordinator_id_ << "-" << now_ms << "-" << counter;
     return oss.str();
 }
@@ -1072,9 +1072,9 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
 
     // Launch prepare calls in parallel via the thread pool (PERF-D4).
     struct VoteResult {
-        std::string node_id;
-        bool        voted;
-        bool        can_commit;
+        std::string node_id = {};
+        bool        voted = {};
+        bool        can_commit = {};
     };
 
     std::vector<std::future<VoteResult>> futures;
@@ -1218,7 +1218,7 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
     // Collect votes with deadline.
     bool all_commit = true;
     size_t definitive_votes = 0;
-    std::string abort_reason;
+    std::string abort_reason = {};
 
     for (auto& fut : futures) {
         const auto remaining = deadline - std::chrono::steady_clock::now();

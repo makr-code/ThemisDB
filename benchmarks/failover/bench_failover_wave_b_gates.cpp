@@ -191,7 +191,7 @@ static void BM_FWB02_QuorumLogAppendInMemory(benchmark::State& state) {
             std::chrono::steady_clock::now().time_since_epoch()).count();
 
         // Serialize entry
-        std::string entry;
+        std::string entry = {};
         entry.reserve(128);
         entry += std::to_string(epoch);
         entry += '|';
@@ -332,7 +332,7 @@ static void BM_FWB07_RecoveryBatchStatFlush(benchmark::State& state) {
         uint64_t failed_retries{0};
     };
     Stats stats;
-    std::mutex stats_mutex;
+    std::mutex stats_mutex = {};
 
     for (auto _ : state) {
         const uint64_t local_total   = 3;
@@ -361,7 +361,7 @@ BENCHMARK(BM_FWB07_RecoveryBatchStatFlush)->Repetitions(5)->ReportAggregatesOnly
 static void BM_FWB08_ConcurrentQueueEnqueue(benchmark::State& state) {
     struct FakeTask { std::string node_id; int64_t ts; };
     std::queue<FakeTask> q;
-    std::mutex q_mutex;
+    std::mutex q_mutex = {};
     const size_t max_size = 10;
 
     for (auto _ : state) {

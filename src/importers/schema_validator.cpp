@@ -26,7 +26,7 @@ namespace importers {
 // ============================================================================
 
 static std::string toLowerSchema(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s)
         out += static_cast<char>(std::tolower(c));

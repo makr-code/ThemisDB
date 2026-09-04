@@ -288,7 +288,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& 
   task.current_manifest = current_manifest;
   task.artifact_size_bytes = artifact_size_bytes;
 
-  UpdateMetrics metrics;
+  UpdateMetrics metrics = {};
   return processTask(task, metrics);
 }
 

@@ -34,7 +34,7 @@ namespace llm {
 namespace {
 
 struct LlamaLoadLogCaptureState {
-    std::string pending_line;
+    std::string pending_line = {};
     bool assigned_cpu = false;
     bool assigned_non_cpu = false;
     bool backend_cpu_only_hint = false;
@@ -627,7 +627,7 @@ size_t LazyModelLoader::evictLRUUnlocked([[maybe_unused]] size_t target_vram_mb)
 
     while (!models_.empty() && (target_vram_mb == 0 || total_freed_vram < target_vram_mb)) {
         CachedModel* lru_model = nullptr;
-        std::string lru_id;
+        std::string lru_id = {};
         auto oldest_time = std::chrono::system_clock::now();
 
         for (auto& [id, model] : models_) {
@@ -948,7 +948,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         spdlog::error("Failed to load model with both custom and native loaders");
-        std::ostringstream attempts;
+        std::ostringstream attempts = {};
         for (size_t i = 0; i < attempted_gpu_layers.size(); ++i) {
             if (i > 0) {
                 attempts << ',';

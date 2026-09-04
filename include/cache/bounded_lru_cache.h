@@ -117,8 +117,8 @@ public:
      */
     struct Statistics {
         size_t current_size = 0;
-        size_t hits;
-        size_t misses;
+        size_t hits = {};
+        size_t misses = {};
         
         double hit_ratio() const {
             size_t total = hits + misses;

@@ -290,7 +290,7 @@ TEST_F(BulkNdjsonTest, AC5_MaxDocsLimit_10000) {
     auto handler = makeHandler();
 
     // Build 10,001 lines
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i <= 10000; ++i) {
         oss << R"({"_key":"bulk)" << i << R"(","v":)" << i << "}\n";
     }
@@ -434,7 +434,7 @@ TEST(AsyncJobApiHandlerAC, AC13_CancelPendingJob) {
     // Use an executor that blocks on a latch until cancellation is requested,
     // avoiding a fixed multi-second sleep that would slow the test suite.
     std::atomic<bool> executor_running{false};
-    std::mutex latch_mu;
+    std::mutex latch_mu = {};
     std::condition_variable latch_cv;
     bool released = false;
 
@@ -749,7 +749,7 @@ TEST_F(BulkNdjsonTest, AC16_BulkInsert10k_Under500ms) {
     // Build 10,000 lines; each value padded to reach ~256 bytes total.
     // A line like {"_key":"bulk0000","value":"<240 chars>"}\n is ~265 bytes.
     const std::string pad(224, 'x');  // padding to reach ~256-byte per document
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < 10000; ++i) {
         oss << "{\"_key\":\"perf" << std::setw(5) << std::setfill('0') << i
             << "\",\"value\":\"" << pad << "\"}\n";

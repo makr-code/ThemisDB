@@ -38,7 +38,7 @@ void RAGPromptBuilder::setConfig(const RAGPromptConfig& config) {
 
 std::string RAGPromptBuilder::formatChunk(const RetrievedChunk& chunk,
                                           size_t index) const {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (config_.include_source_citations && !chunk.source.empty()) {
         out << "[Source " << (index + 1) << ": " << chunk.source << "]\n";
@@ -100,7 +100,7 @@ std::string RAGPromptBuilder::buildContextSection(
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (!config_.context_header.empty()) {
         out << config_.context_header << "\n";
@@ -162,7 +162,7 @@ std::string RAGPromptBuilder::buildFullPrompt(
     auto selected = selectChunks(chunks, config_.max_context_length);
     std::string context_block = buildContextSection(selected);
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (!system_instruction.empty()) {
         out << system_instruction << "\n\n";

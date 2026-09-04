@@ -245,7 +245,7 @@ bool ModuleSignatureVerifier::verifyGPGSignature(
 
     // Drain the pipe.
     char buf[kGPGReadBufSize];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';

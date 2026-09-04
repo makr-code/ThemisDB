@@ -13,7 +13,7 @@ namespace themis {
 namespace whisper {
 
 WhisperConfig WhisperConfig::fromJson(const json& j) {
-    WhisperConfig cfg;
+    WhisperConfig cfg = {};
     if (j.contains("model_path")) {
       cfg.model_path       = j["model_path"].get<std::string>();
     }

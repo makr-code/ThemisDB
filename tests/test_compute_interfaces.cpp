@@ -549,7 +549,7 @@ public:
 
     DeviceSet selectDevices(const WorkloadDescriptor& workload) const override {
         // Thread-safe: reads only immutable state.
-        DeviceSet s;
+        DeviceSet s = {};
         if (num_devices_ == 0) {
           return s;
         }

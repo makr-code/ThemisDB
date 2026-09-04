@@ -272,7 +272,7 @@ long clampedCurlTimeout(int config_timeout, int remaining_ms) {
  * @return A filesystem-safe string that contains no path separators or control chars.
  */
 std::string sanitizeFilenameComponent(const std::string &component) {
-    std::string out;
+    std::string out = {};
     out.reserve(component.size());
     for (char c : component) {
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '-' || c == '_'
@@ -332,7 +332,7 @@ std::string sha256File(const std::string &path) {
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
@@ -375,7 +375,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
     const std::string url = config_.registry_url + "/plugins";
     spdlog::debug("RemoteRegistryClient::listPlugins GET {}", url);
 
-    std::string body;
+    std::string body = {};
     try {
         body = httpGet(url);
     } catch (const std::exception &ex) {
@@ -391,7 +391,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
             return std::vector<RegistryPluginEntry>{};
         }
         for (const auto &item : j) {
-            RegistryPluginEntry entry;
+            RegistryPluginEntry entry = {};
             if (parseEntry(item, entry)) {
                 entries.push_back(std::move(entry));
             }
@@ -407,7 +407,7 @@ std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(const std::
     const std::string url = config_.registry_url + "/plugins/" + name;
     spdlog::debug("RemoteRegistryClient::fetchPlugin GET {}", url);
 
-    std::string body;
+    std::string body = {};
     try {
         body = httpGet(url);
     } catch (const std::exception &ex) {
@@ -417,7 +417,7 @@ std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(const std::
 
     try {
         auto j = nlohmann::json::parse(body);
-        RegistryPluginEntry entry;
+        RegistryPluginEntry entry = {};
         if (parseEntry(j, entry)) {
             return entry;
         }
@@ -463,7 +463,7 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEn
     std::filesystem::path dest_dir(config_.download_dir);
 
     // Create download directory if it doesn't exist.
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(dest_dir, ec);
     if (ec) {
         result.error_message = "Cannot create download directory '" + config_.download_dir + "': " + ec.message();
@@ -660,10 +660,10 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
             throw std::runtime_error("curl_easy_init() failed");
         }
 
-        std::string body;
+        std::string body = {};
         // GAP-FIX manual_cleanup: CurlHeaders RAII guard replaces manual
         // curl_slist_free_all call.
-        CurlHeaders headers;
+        CurlHeaders headers = {};
         if (!auth_header.empty()) {
             headers.append(auth_header.c_str());
         }
@@ -746,7 +746,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
     const int max_retries = std::max(0, std::min(config_.max_retries, kMaxAllowedRetries));
     const int attempts    = max_retries + 1;
 
-    std::string last_error;
+    std::string last_error = {};
     int attempts_made = 0;
 
     // Track wall-clock time to enforce max_total_retry_time_ms.
@@ -801,7 +801,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
 
         // GAP-FIX manual_cleanup: CurlHeaders RAII guard replaces manual
         // curl_slist_free_all call.
-        CurlHeaders headers;
+        CurlHeaders headers = {};
         if (!auth_header.empty()) {
             headers.append(auth_header.c_str());
         }
@@ -839,7 +839,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
         if (out.fail()) {
             last_error = "file write error while saving to '" + out_path + "'";
             spdlog::error("RemoteRegistryClient::httpGetBinary: {}", last_error);
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(out_path, ec);
             continue;
         }
@@ -848,7 +848,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
             spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}", curl_easy_strerror(res));
             // Remove the incomplete file before retrying.
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(out_path, ec);
             continue;
         }
@@ -857,7 +857,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
             last_error = "HTTP " + std::to_string(http_code) + " for " + url;
             spdlog::error("RemoteRegistryClient::httpGetBinary: HTTP {} for {}", http_code, url);
             // Remove the incomplete file.
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(out_path, ec);
             if (http_code >= 500) {
                 // Server error – transient, retry

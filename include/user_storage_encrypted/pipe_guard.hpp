@@ -258,7 +258,7 @@ public:
      * @return Status string like "rw" (both), "r" (read only), "w" (write only), "-" (closed)
      */
     std::string status() const noexcept {
-        std::string s;
+        std::string s = {};
         if (fds_[0] >= 0) {
           s += 'r';
         }

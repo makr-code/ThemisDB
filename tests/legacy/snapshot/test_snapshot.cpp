@@ -209,7 +209,7 @@ TEST_F(SnapshotTest, RestoreFromSnapshot_DataSurvivesRoundTrip) {
     // DB is now re-opened at the snapshot point.
     // Keys written before snapshot should still exist.
     for (int i = 0; i < 5; ++i) {
-        std::string val;
+        std::string val = {};
         EXPECT_TRUE(db_->get("key_" + std::to_string(i), val))
             << "key_" << i << " should exist after restore";
         EXPECT_EQ(val, "val_" + std::to_string(i));
@@ -217,7 +217,7 @@ TEST_F(SnapshotTest, RestoreFromSnapshot_DataSurvivesRoundTrip) {
 
     // Keys written AFTER the snapshot should NOT exist
     for (int i = 100; i < 105; ++i) {
-        std::string val;
+        std::string val = {};
         EXPECT_FALSE(db_->get("post_snap_" + std::to_string(i), val))
             << "post-snapshot key should not exist after restore";
     }

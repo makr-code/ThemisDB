@@ -177,7 +177,7 @@ std::string DynamicReflectionPromptBuilder::buildSelfAwareContextHeader(
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "[Self-Awareness Context]\n";
 
     if (ctx.has_uncertain_claims) {
@@ -210,7 +210,7 @@ std::string DynamicReflectionPromptBuilder::buildCritiquePrompt(
     const std::string& response,
     const SelfAwareContext& ctx) const {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << buildSelfAwareContextHeader(ctx);
 
     switch (strategy_) {
@@ -263,7 +263,7 @@ std::string DynamicReflectionPromptBuilder::buildRevisionPrompt(
     const std::string& critique,
     const SelfAwareContext& ctx) const {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << buildSelfAwareContextHeader(ctx);
 
     switch (strategy_) {
@@ -294,7 +294,7 @@ std::string DynamicReflectionPromptBuilder::buildConstitutionalCritiquePrompt(
     const std::string& response,
     const std::vector<std::string>& principles) const {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "Critique the following response against each constitutional principle.\n\n";
     out << "Response:\n" << response << "\n\n";
     out << "Constitutional principles:\n";
@@ -318,7 +318,7 @@ std::string DynamicReflectionPromptBuilder::buildSocraticPrompt(
         "What information would change your conclusion?",
     };
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "Consider the following claim:\n" << claim << "\n\n";
     out << kSocraticQuestions[iteration % kSocraticQuestions.size()] << '\n';
     out << "\nAnswer this question honestly, then revise your claim accordingly:";
@@ -493,8 +493,8 @@ ReflectionStep ReflectionTuner::runIteration(
     ReflectionStep step;
     step.iteration = iteration;
 
-    std::string critique;
-    std::string revised_response;
+    std::string critique = {};
+    std::string revised_response = {};
     double      score = 0.0;
 
     if (provider_) {
@@ -510,7 +510,7 @@ ReflectionStep ReflectionTuner::runIteration(
         // Fallback: template-based critique + heuristic score.
         // The generated critique prompt is returned in metadata so that callers
         // who drive an external LLM can forward it manually.
-        std::string critique_prompt;
+        std::string critique_prompt = {};
         if (config_.strategy == ReflectionStrategy::CONSTITUTIONAL &&
             !config_.constitutional_principles.empty()) {
             critique_prompt = prompt_builder_.buildConstitutionalCritiquePrompt(
@@ -521,7 +521,7 @@ ReflectionStep ReflectionTuner::runIteration(
         }
 
         // Heuristic fallback critique based on self-aware context.
-        std::ostringstream crit_out;
+        std::ostringstream crit_out = {};
         if (ctx.has_uncertain_claims) {
             crit_out << "The response contains uncertainty markers (";
             for (size_t i = 0; i < ctx.uncertainty_markers.size(); ++i) {

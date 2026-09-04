@@ -30,7 +30,7 @@ SelectionResult FewShotOptimizer::selectExamples(
     const std::vector<FewShotExample>& candidate_examples,
     std::optional<size_t> num_examples
 ) {
-    SelectionResult result;
+    SelectionResult result = {};
     
     if (candidate_examples.empty()) {
         THEMIS_WARN("No candidate examples provided");
@@ -143,7 +143,7 @@ double FewShotOptimizer::computeRelevance(
     auto tokenize = [](const std::string& s) {
         std::vector<std::string> tokens;
         std::istringstream iss(s);
-        std::string token;
+        std::string token = {};
         while (iss >> token) {
             std::transform(token.begin(), token.end(), token.begin(), ::tolower);
             tokens.push_back(token);
@@ -199,7 +199,7 @@ std::string FewShotOptimizer::formatExamples(
     const std::vector<FewShotExample>& examples,
     const std::string& format
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     for (size_t i = 0; i < examples.size(); ++i) {
         std::string formatted = format;
@@ -300,7 +300,7 @@ double FewShotOptimizer::computeSimilarity(
     auto tokenize = [](const std::string& s) {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string token;
+        std::string token = {};
         while (iss >> token) {
             std::transform(token.begin(), token.end(), token.begin(), ::tolower);
             tokens.insert(token);
@@ -343,7 +343,7 @@ void FewShotOptimizer::updateQueryIndex() {
     
     for (size_t i = 0; i < cache_.size(); ++i) {
         std::istringstream iss(cache_[i].input);
-        std::string first_word;
+        std::string first_word = {};
         if (iss >> first_word) {
             std::transform(first_word.begin(), first_word.end(), 
                          first_word.begin(), ::tolower);

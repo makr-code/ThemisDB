@@ -37,7 +37,7 @@ std::string MDMAuditTrail::generateUUID() {
     uint64_t lo = dist(rng);
     hi          = (hi & 0xFFFFFFFFFFFF0FFFull) | 0x0000000000004000ull;
     lo          = (lo & 0x3FFFFFFFFFFFFFFFull) | 0x8000000000000000ull;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0') << std::setw(8) << ((hi >> 32) & 0xFFFFFFFF) << '-' << std::setw(4)
        << ((hi >> 16) & 0xFFFF) << '-' << std::setw(4) << (hi & 0xFFFF) << '-' << std::setw(4) << ((lo >> 48) & 0xFFFF)
        << '-' << std::setw(12) << (lo & 0xFFFFFFFFFFFFull);
@@ -48,7 +48,7 @@ std::string MDMAuditTrail::nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
     const auto t   = system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     std::tm tm_buf{};
 #ifdef _WIN32
     gmtime_s(&tm_buf, &t);
@@ -63,7 +63,7 @@ std::string MDMAuditTrail::computeChainHash(const std::string &previous_hash, co
     const std::string payload
         = previous_hash + event.event_id + event.timestamp + event.source_entity_id + event.target_entity_id;
     const uint64_t h = themis::hash::fnv1a64(payload);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0') << std::setw(16) << h;
     return ss.str();
 }
@@ -159,7 +159,7 @@ MDMAuditTrail::getAuditFor(const std::string &entity_id, const std::string &coll
 
 bool MDMAuditTrail::verifyAuditChain() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::string prev_hash;
+    std::string prev_hash = {};
     for (const auto &e : events_) {
         const std::string expected = computeChainHash(prev_hash, e);
         if (expected != e.chain_hash) {

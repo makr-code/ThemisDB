@@ -53,7 +53,7 @@ struct HubUploadConfig {
     /// Hub API token.  When empty, the client checks `hf_token_kek_id` (if
     /// set) and then falls back to the `HF_TOKEN` environment variable.
     /// Raw key material must never be logged.
-    std::string hf_token;
+    std::string hf_token = {};
 
     /// KEK/KMS key ID for protected HF token lookup.
     /// When non-empty, `resolveToken()` fetches the raw token bytes from
@@ -63,7 +63,7 @@ struct HubUploadConfig {
     /// Requires `key_provider` to be non-null; a null `key_provider` with a
     /// non-empty `hf_token_kek_id` is a misconfiguration and will be surfaced
     /// as an error.  Raw token bytes are never logged.
-    std::string hf_token_kek_id;
+    std::string hf_token_kek_id = {};
 
     /// Key provider used to resolve `hf_token_kek_id`.
     /// Null when KEK-based token lookup is not used (backward-compatible

@@ -341,7 +341,7 @@ json ContentMetrics::toJson() const {
 }
 
 std::string ContentMetrics::toPrometheusFormat() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Throughput metrics
     oss << "# HELP content_ingestions_total Total number of content items ingested\n";

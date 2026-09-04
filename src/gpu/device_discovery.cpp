@@ -106,7 +106,7 @@ std::vector<DeviceInfo> EnumerateCUDA() {
 #ifdef THEMIS_ENABLE_NVML
             // Query whether MIG mode is currently enabled via NVML, and
             // retrieve the hardware-accurate maximum instance count.
-            nvmlDevice_t nvml_dev;
+            nvmlDevice_t nvml_dev = {};
             if (nvmlDeviceGetHandleByIndex(static_cast<unsigned int>(i), &nvml_dev) == NVML_SUCCESS) {
                 unsigned int current_mode = 0, pending_mode = 0;
                 if (nvmlDeviceGetMIGMode(nvml_dev, &current_mode, &pending_mode) == NVML_SUCCESS) {

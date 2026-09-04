@@ -30,7 +30,7 @@ LLMSemanticValidator::LLMSemanticValidator(
 SemanticValidationResult LLMSemanticValidator::validate(const query::ASTNode* ast)
 {
     auto start_time = std::chrono::high_resolution_clock::now();
-    SemanticValidationResult result;
+    SemanticValidationResult result = {};
 
     if (!ast) {
         result.status = SemanticValidationResult::Status::UNKNOWN_ERROR;

@@ -84,7 +84,7 @@ public:
         }
         
         // Determine compression method
-        LosslessCompressionMethod method;
+        LosslessCompressionMethod method = {};
         
         if (config.mode == "auto") {
             method = AdaptiveCompressor::selectMethod(vec, config.sparse_threshold);

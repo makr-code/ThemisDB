@@ -165,7 +165,7 @@ struct NLIFaithfulnessVerifier::Impl {
                     std::vector<int64_t> ids;
                     ids.push_back(0); // [CLS]
                     std::istringstream iss(text);
-                    std::string tok;
+                    std::string tok = {};
                     while (iss >> tok && static_cast<int>(ids.size()) < max_len - 1) {
                         ids.push_back(static_cast<int64_t>(
                             std::hash<std::string>{}(tok) % 30000 + 1));
@@ -273,7 +273,7 @@ struct NLIFaithfulnessVerifier::Impl {
 
         std::istringstream hyp_stream(hypothesis_lower);
         std::vector<std::string> hyp_words;
-        std::string word;
+        std::string word = {};
         while (hyp_stream >> word) {
             if (word.length() > 3) {
               hyp_words.push_back(word);
@@ -377,7 +377,7 @@ struct NLIFaithfulnessVerifier::Impl {
         // Extract words from hypothesis
         std::istringstream hyp_stream(hypothesis_lower);
         std::vector<std::string> hyp_words;
-        std::string word;
+        std::string word = {};
         while (hyp_stream >> word) {
             if (word.length() > 3) {  // Skip short words
                 hyp_words.push_back(word);
@@ -579,7 +579,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
 ) {
     auto start_time = std::chrono::steady_clock::now();
     
-    FaithfulnessVerificationResult result;
+    FaithfulnessVerificationResult result = {};
     
     if (answer.empty() || documents.empty()) {
         result.faithfulness_score = 0.0;
@@ -615,7 +615,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
         claim_result.support_level = SupportLevel::UNSUPPORTED;
         
         double best_entailment = 0.0;
-        std::string best_document_id;
+        std::string best_document_id = {};
         
         // Check claim against each document
         for (const auto& [doc_id, doc_content] : documents) {
@@ -682,7 +682,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     result.is_faithful = result.faithfulness_score >= impl_->config.min_faithfulness_score;
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Faithfulness Verification:\n";
     explanation << "  Total claims: " << result.total_claims << "\n";
     explanation << "  Fully supported: " << result.supported_claims << "\n";

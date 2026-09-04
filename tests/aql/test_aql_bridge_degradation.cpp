@@ -79,7 +79,7 @@ public:
 
     struct AddTurnResult {
         bool success = 0;
-        std::string error_message;
+        std::string error_message = {};
         uint32_t evicted_turns;  // Number of turns removed due to overflow
     };
 

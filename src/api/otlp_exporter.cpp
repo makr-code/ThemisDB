@@ -51,7 +51,7 @@ static size_t curlWriteCallback(char *ptr, size_t size, size_t nmemb, void *user
 /// lowercase 32-hex-char trace ID string.  UUIDs with dashes are normalised.
 static std::string normaliseTraceId(const std::string &raw) {
     // Strip dashes from UUIDs ("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
-    std::string out;
+    std::string out = {};
     out.reserve(32);
     for (char c : raw) {
         if (c != '-') {
@@ -450,7 +450,7 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
             delay_ms *= 2;
         }
 
-        std::string response_body;
+        std::string response_body = {};
 
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());

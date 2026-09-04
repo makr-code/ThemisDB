@@ -91,7 +91,7 @@ static uint64_t hexToU64(const std::string& hex) {
 }
 
 /*static*/ std::string DeduplicationChecker::makeBandKey(size_t band, uint64_t hash_val) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << 'b' << band << ':' << std::hex << std::setw(16) << std::setfill('0') << hash_val;
     return oss.str();
 }

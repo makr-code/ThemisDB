@@ -26,7 +26,7 @@ TEST_F(JSONLibIntegrationTest, SimdjsonLibraryLinking) {
     std::string_view key_value = doc["key"];
     EXPECT_EQ(key_value, "value");
     
-    uint64_t number;
+    uint64_t number = {};
     EXPECT_EQ(doc["number"].get(number), simdjson::SUCCESS);
     EXPECT_EQ(number, 42u);
 }
@@ -49,7 +49,7 @@ TEST_F(JSONLibIntegrationTest, SimdjsonNestedJSON) {
     std::string_view name = user["name"];
     EXPECT_EQ(name, "John Doe");
     
-    uint64_t age;
+    uint64_t age = {};
     EXPECT_EQ(user["age"].get(age), simdjson::SUCCESS);
     EXPECT_EQ(age, 30u);
     
@@ -319,8 +319,8 @@ TEST_F(JSONLibIntegrationTest, NlohmannJsonPrettyPrint) {
 // Test 17: nlohmann/json custom types
 TEST_F(JSONLibIntegrationTest, NlohmannJsonCustomTypes) {
     struct Person {
-        std::string name;
-        int age;
+        std::string name = {};
+        int age = {};
     };
     
     // Manual serialization

@@ -340,7 +340,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
 
 // Helper to decode URL-encoded strings
 std::string SpatialApiHandler::urlDecode([[maybe_unused]] const std::string& str) {
-    std::string result;
+    std::string result = {};
     result.reserve(str.size());
     for (size_t i = 0; i < str.size(); ++i) {
         // Check if we have at least 2 more characters after '%' for hex decoding
@@ -372,7 +372,7 @@ std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery([[may
     }
     auto qs = target.substr(qpos + 1);
     std::istringstream iss(qs);
-    std::string kv;
+    std::string kv = {};
     while (std::getline(iss, kv, '&')) {
         auto eq = kv.find('=');
         std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);

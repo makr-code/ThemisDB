@@ -36,7 +36,7 @@ std::string toLowerAscii(std::string value) {
 XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
                                    const std::string& source_hint,
                                    bool /*allow_external_entities*/) {
-    XxeSafeXmlParseResult result;
+    XxeSafeXmlParseResult result = {};
 
     if (xml_content.empty()) {
         result.error_message = "XML content is empty";

@@ -290,7 +290,7 @@ static bool looksLikeMongoExport(const std::string& path) {
     if (!file) {
       return false;
     }
-    std::string line;
+    std::string line = {};
     int checked = 0;
     while (std::getline(file, line) && checked < 200) {
         size_t first = line.find_first_not_of(" \t\r\n");
@@ -309,7 +309,7 @@ static ImportStats importJsonLines(const std::string& content,
                                    const ImportOptions& options) {
     ImportStats stats;
     std::istringstream ss(content);
-    std::string line;
+    std::string line = {};
     bool collection_counted = false;
     size_t doc_index = 0;
 

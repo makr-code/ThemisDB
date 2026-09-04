@@ -34,7 +34,7 @@ namespace auth {
  * @brief Key metadata tracked per JWK key ID (kid)
  */
 struct JWKKeyInfo {
-    std::string kid;
+    std::string kid = {};
 
     enum class Status {
         ACTIVE,    ///< Current signing key – issued tokens have this kid

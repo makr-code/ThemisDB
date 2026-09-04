@@ -155,7 +155,7 @@ CapabilityMatchResult CapabilityMatcher::matchShard(
 
 std::vector<std::string> CapabilityMatcher::extractKeywords(const std::string& query_text) {
     std::vector<std::string> keywords;
-    std::string word;
+    std::string word = {};
     std::istringstream stream(query_text);
     
     while (stream >> word) {

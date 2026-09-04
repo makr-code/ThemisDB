@@ -41,7 +41,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::aggregate(
     const TimeWindow& window,
     AggregateFunction func
 ) {
-    AggregateResult result;
+    AggregateResult result = {};
     
     if (count == 0) {
         return result;
@@ -110,7 +110,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
     int64_t window_size_seconds,
     AggregateFunction func
 ) {
-    AggregateResult result;
+    AggregateResult result = {};
     
     if (count == 0) {
         return result;

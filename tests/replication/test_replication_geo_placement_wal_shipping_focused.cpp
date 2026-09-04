@@ -316,7 +316,7 @@ TEST_F(AsyncWalShipperTest, WAL02_BackPressureOnFullQueue)
     cfg.max_queue_depth   = 2;
 
     // Use a blocking ship handler so the queue fills up
-    std::mutex block_mutex;
+    std::mutex block_mutex = {};
     block_mutex.lock(); // released in teardown
 
     AsyncWalShipper shipper(cfg);

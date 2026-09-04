@@ -45,7 +45,7 @@ bool RewriteRuleLoader::load_rules_from_yaml(
         return false;
     }
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     file.close();
 
@@ -103,7 +103,7 @@ bool RewriteRuleLoader::load_rules_from_yaml(
             
             try {
                 // Convert YAML node to JSON for easier handling
-                std::stringstream yaml_dump;
+                std::stringstream yaml_dump = {};
                 yaml_dump << rule_node;
                 rule_config = nlohmann::json::parse(yaml_dump.str());
             } catch (...) {

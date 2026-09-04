@@ -65,7 +65,7 @@ static std::set<Changefeed::ChangeEventType> parseEventTypes([[maybe_unused]] co
         return result;
     }
     std::istringstream ss(types_str);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         // Trim leading and trailing whitespace
         auto start = token.find_first_not_of(" \t");
@@ -462,7 +462,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // At-least-once delivery: optional consumer identifier and ack timeout override.
         // When consumer_id is set, unacknowledged events from previous requests are
         // redelivered before new events; clients ACK via POST /changefeed/stream/ack.
-        std::string consumer_id;
+        std::string consumer_id = {};
         std::optional<std::chrono::milliseconds> ack_timeout_override;
         
         std::string target = std::string(req.target());
@@ -653,7 +653,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // loop which already applies CORS before reaching this handler.
         res.keep_alive(true);
         
-        std::ostringstream body;
+        std::ostringstream body = {};
         // Advise client reconnect delay
         body << "retry: " << retry_ms << "\n\n";
         
@@ -1367,7 +1367,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     auto tenant_id_from_request = tm.extractTenantId(headers_map, path_str);
     
     // Determine which tenant ID to use
-    std::string final_tenant_id;
+    std::string final_tenant_id = {};
     if (!tenant_id_from_auth.empty()) {
         // Use tenant from JWT/token
         final_tenant_id = tenant_id_from_auth;

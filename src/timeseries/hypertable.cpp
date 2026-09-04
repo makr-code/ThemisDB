@@ -40,7 +40,7 @@ std::string Hypertable::getChunkName(int64_t timestamp) {
     int64_t chunk_start = (timestamp / config_.chunk_interval_seconds) * config_.chunk_interval_seconds;
     
     // Format: hypertable_<table>_chunk_<timestamp>
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "hypertable_" << config_.table_name << "_chunk_" << chunk_start;
     return oss.str();
 }
@@ -63,7 +63,7 @@ rocksdb::ColumnFamilyHandle* Hypertable::getOrCreateChunk(int64_t timestamp) {
 std::string Hypertable::buildKey(int64_t timestamp, uint64_t sequence_id) {
     // Key format: timestamp_sequence
     // This ensures chronological ordering within a chunk
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setfill('0') << std::setw(16) << timestamp 
         << "_" << std::setw(8) << sequence_id;
     return oss.str();

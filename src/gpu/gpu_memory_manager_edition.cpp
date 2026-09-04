@@ -56,7 +56,7 @@ public:
 
 private:
     GPUMemoryManager* manager_;
-    uint64_t size_;
+    uint64_t size_ = {};
     std::string tenant_id_;
     bool committed_;
 };

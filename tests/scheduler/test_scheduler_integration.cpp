@@ -259,7 +259,7 @@ TEST_F(SchedulerIntegrationTest, ExportMetricsPrometheusFormatValid) {
     // Every non-blank line must start with '#', or be a valid metric line
     // (i.e. must not have spaces in the metric name portion).
     std::istringstream iss(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (line.empty()) {
           continue;

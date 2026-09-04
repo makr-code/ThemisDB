@@ -359,7 +359,7 @@ std::string makeCoordinatorNodeId() {
     auto ts = static_cast<uint64_t>(
         std::chrono::steady_clock::now().time_since_epoch().count());
     auto seq = ++counter;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << ts << '-' << seq;
     return "coord-" + ss.str();
 }

@@ -67,7 +67,7 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
 // ---------------------------------------------------------------------------
 
 std::string SignedAdapterValidator::canonicalString(const AdapterMetadata& m) {
-    std::string result;
+    std::string result = {};
     result.reserve(m.id.size() + 12 + m.description.size());
     result += m.id;
     result += ':';
@@ -105,7 +105,7 @@ std::string SignedAdapterValidator::sha256Hex(std::string_view data) {
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < hash_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(hash[i]);

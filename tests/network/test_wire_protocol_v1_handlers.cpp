@@ -1014,7 +1014,7 @@ TEST(WireProtocolV1EdgeCases, VectorSearchKZeroDefaultsToTen) {
 TEST(WireProtocolV1EdgeCases, UnknownOpcodeFormattedAsHex) {
     // Default branch formats unknown opcodes as "0xNN" hex strings.
     uint8_t unknown_opcode = 0xAB;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "0x" << std::uppercase << std::hex
         << static_cast<unsigned>(unknown_opcode);
     EXPECT_EQ(oss.str(), "0xAB");
@@ -1246,7 +1246,7 @@ TEST(GeoQueryBridgeTest, SetAndClearBridge) {
 }
 
 TEST(GeoQueryBridgeTest, BridgeReceivesCorrectArguments) {
-    std::string cap_collection;
+    std::string cap_collection = {};
     double cap_lat = -1.0, cap_lon = -1.0, cap_radius = -1.0;
     int cap_limit = -1;
 

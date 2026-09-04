@@ -43,7 +43,7 @@ std::optional<APIVersion> APIVersion::parse(const std::string& version_str) {
     
     // Parse version components
     std::regex version_regex(R"(^(\d+)(?:\.(\d+))?(?:\.(\d+))?$)");
-    std::smatch match;
+    std::smatch match = {};
     
     if (!std::regex_match(str, match, version_regex)) {
         return std::nullopt;

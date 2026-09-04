@@ -20,7 +20,7 @@ struct ProcessorResult {
 };
 
 std::string makeOfficePayload(std::size_t size) {
-    std::string payload;
+    std::string payload = {};
     payload.reserve(size + 256);
     payload += "<?xml version=\"1.0\"?><document><body>";
     for (std::size_t i = 0; i < size; ++i) {

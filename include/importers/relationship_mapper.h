@@ -66,9 +66,9 @@ public:
      */
     struct RelationshipMapping {
         std::string edge_type;          ///< e.g. "orders_references_users"
-        std::string source_table;
+        std::string source_table = {};
         std::string source_column;      ///< comma-joined for composite FKs
-        std::string target_table;
+        std::string target_table = {};
         std::string target_column;      ///< comma-joined for composite FKs
         std::string cardinality;        ///< ONE_TO_ONE | MANY_TO_ONE | MANY_TO_MANY
         std::string on_delete_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
@@ -290,7 +290,7 @@ public:
 
     static std::vector<std::string> splitColumns(const std::string& cols) {
         std::vector<std::string> result;
-        std::string cur;
+        std::string cur = {};
         for (char c : cols) {
             if (c == ',') {
                 auto s = trimStr(cur);
@@ -394,7 +394,7 @@ private:
                 } else if (in_stack.count(neighbour)) {
                     // Found a cycle – reconstruct the chain from the cycle start
                     found_cycle = true;
-                    std::string chain;
+                    std::string chain = {};
                     bool in_cycle = false;
                     for (const auto& n : path) {
                         if (n == neighbour) {

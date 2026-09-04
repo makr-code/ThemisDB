@@ -52,7 +52,7 @@ static std::string base64Decode(const std::string &encoded) {
         lookup[static_cast<uint8_t>(kB64Chars[i])] = static_cast<uint8_t>(i);
     }
 
-    std::string out;
+    std::string out = {};
     out.reserve((encoded.size() / 4) * 3);
 
     uint32_t buf = 0;
@@ -83,7 +83,7 @@ static std::string base64Decode(const std::string &encoded) {
  * @brief Encode bytes to base64.
  */
 static std::string base64Encode(const std::string &data) {
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
 
     uint32_t buf = 0;
@@ -176,7 +176,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     // Read all lines upfront so they can be partitioned across workers.
     std::vector<std::string> lines;
     {
-        std::string line;
+        std::string line = {};
         while (std::getline(file, line)) {
             lines.push_back(std::move(line));
         }

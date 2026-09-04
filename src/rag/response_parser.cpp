@@ -231,7 +231,7 @@ double ResponseParser::normalizeScore(double score, double min_range, double max
 std::optional<double> ResponseParser::extractScore(const std::string& text) {
     std::regex pattern1(SCORE_PATTERN_1, std::regex::icase);
     std::regex pattern2(SCORE_PATTERN_2, std::regex::icase);
-    std::smatch match;
+    std::smatch match = {};
     
     // Try pattern 1: "score: 4.5" or "rating: 85%"
     if (std::regex_search(text, match, pattern1)) {
@@ -282,7 +282,7 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
 
 std::string ResponseParser::extractExplanation(const std::string& response) {
     std::regex pattern(EXPLANATION_PATTERN, std::regex::icase);
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(response, match, pattern)) {
         std::string explanation = match[1].str();
@@ -324,14 +324,14 @@ std::vector<std::string> ResponseParser::extractClaims(
     // Try to find JSON array of claims
     std::string key = supported ? "supporting_claims" : "unsupported_claims";
     std::regex pattern(key + R"(\s*:\s*\[(.*?)\])", std::regex::icase);
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(response, match, pattern)) {
         std::string claims_str = match[1].str();
         
         // Split by comma (simple parsing)
         std::istringstream stream(claims_str);
-        std::string claim;
+        std::string claim = {};
         
         while (std::getline(stream, claim, ',')) {
             // Remove quotes and trim

@@ -442,7 +442,7 @@ bool InputValidator::ContainsInjectionPatterns(std::string_view value) {
 
 std::optional<std::string> InputValidator::SafeUrlDecode(
     std::string_view encoded) {
-  std::string decoded;
+  std::string decoded = {};
   
   for (size_t i = 0; i < encoded.length(); ++i) {
     if (encoded[i] == '%') {
@@ -473,7 +473,7 @@ std::optional<std::string> InputValidator::SafeUrlDecode(
 }
 
 std::string InputValidator::EscapeForSQL(std::string_view value) {
-  std::string escaped;
+  std::string escaped = {};
   
   for (char c : value) {
     if (c == '\'') {

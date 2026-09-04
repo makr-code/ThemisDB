@@ -75,7 +75,7 @@ json PerformanceAnalysis::toJSON() const {
 }
 
 std::string PerformanceAnalysis::toReport() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "=== ThemisDB Performance Analysis Report ===\n\n";
     
@@ -567,9 +567,9 @@ std::string PerformanceAnalyzer::generate_html_footer() const {
 }
 
 std::string PerformanceAnalyzer::generate_html_issue_section(const PerformanceIssue& issue) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
-    std::string severity_class;
+    std::string severity_class = {};
     switch (issue.severity) {
         case IssueSeverity::CRITICAL: severity_class = "critical"; break;
         case IssueSeverity::WARNING: severity_class = "warning"; break;

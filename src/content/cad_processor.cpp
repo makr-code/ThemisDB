@@ -177,7 +177,7 @@ ContentExtractionResult CADProcessor::extract(const std::vector<uint8_t> &blob, 
         result.metadata = metadata;
 
         // Generate text description
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "CAD model with " << cad.part_count << " parts. ";
         text << "Dimensions: " << dx << " x " << dy << " x " << dz << " " << default_units_ << ". ";
         if (calculate_volume_) {
@@ -221,7 +221,7 @@ std::vector<ContentChunk> CADProcessor::chunk(const ContentExtractionResult &res
     for (size_t i = 0; i < cad.part_ids.size(); ++i) {
         ContentChunk chunk;
 
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "Part: " << cad.part_ids[i];
 
         // Add BOM info if available
@@ -337,7 +337,7 @@ CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
         // Binary STL
         // Header: 80 bytes
         // Triangle count: 4 bytes (uint32)
-        uint32_t triangle_count;
+        uint32_t triangle_count = {};
         std::memcpy(&triangle_count, blob.data() + 80, 4);
 
         data.part_ids.push_back("mesh_" + std::to_string(triangle_count) + "_triangles");

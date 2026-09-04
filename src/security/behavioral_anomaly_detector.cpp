@@ -122,7 +122,7 @@ ThreatScore BehavioralAnomalyDetector::checkBurstRate(
 
     double rate = static_cast<double>(count) / window_s;
     if (rate > config_.burst_rate_threshold) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Burst rate " << rate << " req/s exceeds threshold "
             << config_.burst_rate_threshold << " req/s";
         return {ThreatLevel::HIGH, levelToScore(ThreatLevel::HIGH), oss.str()};
@@ -152,7 +152,7 @@ ThreatScore BehavioralAnomalyDetector::checkOffHours(
         : (hour >= config_.work_hours_start_utc || hour < config_.work_hours_end_utc);
 
     if (!in_hours) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Off-hours access at UTC hour " << hour
             << " (work hours: " << config_.work_hours_start_utc
             << "-" << config_.work_hours_end_utc << ")";
@@ -182,7 +182,7 @@ ThreatScore BehavioralAnomalyDetector::checkPrivilegeEscalation(
     }
 
     if (!resource_seen) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Privileged action '" << event.action
             << "' on previously-unaccessed resource '" << event.resource << "'";
         return {ThreatLevel::HIGH, levelToScore(ThreatLevel::HIGH), oss.str()};
@@ -208,7 +208,7 @@ ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
     }
 
     if (!resource_seen) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "New resource '" << event.resource
             << "' accessed by already-flagged session";
         return {ThreatLevel::MEDIUM, levelToScore(ThreatLevel::MEDIUM), oss.str()};

@@ -150,7 +150,7 @@ json ContentError::toJsonVerbose() const {
 }
 
 ContentError ContentError::fromJson(const json &j) {
-    ContentError err;
+    ContentError err = {};
 
     if (j.contains("code") && j["code"].is_number()) {
         err.code = static_cast<ContentErrorCode>(j["code"].get<int>());

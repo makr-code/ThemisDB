@@ -101,7 +101,7 @@ std::string getTextChunkerMetrics() {
       return "";
     }
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# HELP toolbox_text_chunker_errors_total Text chunker helper errors.\n";
     out << "# TYPE toolbox_text_chunker_errors_total counter\n";
     out << "toolbox_text_chunker_errors_total " << errors << "\n";

@@ -19,8 +19,8 @@ using namespace themis::security;
 
 class HSMKeyProviderAdapterTest : public ::testing::Test {
 protected:
-    std::string hsm_library_path;
-    std::string hsm_pin;
+    std::string hsm_library_path = {};
+    std::string hsm_pin = {};
     uint32_t hsm_slot = 0;
     
     void SetUp() override {
@@ -393,8 +393,8 @@ protected:
 };
 
 struct HsmEnvGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     HsmEnvGuard(std::string var_name, std::string value) : name(std::move(var_name)) {
@@ -428,8 +428,8 @@ struct HsmEnvGuard {
 };
 
 struct HsmEnvUnsetGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     explicit HsmEnvUnsetGuard(std::string var_name) : name(std::move(var_name)) {

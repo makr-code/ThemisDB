@@ -184,7 +184,7 @@ TEST(LegalDomainTests, GS01_GraphStoreSinkAdapterPersistsNodesAndEdges) {
     EXPECT_TRUE(db->get("ingestion:graph:node:" + es.nodes.front().id).has_value());
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(db_path, ec);
     EXPECT_FALSE(ec) << ec.message();
 }
@@ -211,7 +211,7 @@ TEST(LegalDomainTests, VS01_VectorIndexSinkAdapterPersistsVectors) {
               es.chunks.front().source_file_id);
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(db_path, ec);
     EXPECT_FALSE(ec) << ec.message();
 }

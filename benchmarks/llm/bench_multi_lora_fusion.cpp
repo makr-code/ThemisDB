@@ -69,8 +69,8 @@ protected:
 
     MultiLoRAManager::Config config_;
     std::unique_ptr<MultiLoRAManager> manager_;
-    std::string lora_path_;
-    std::string preflight_error_;
+    std::string lora_path_ = {};
+    std::string preflight_error_ = {};
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -162,7 +162,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, DynamicFusionWeightUpdate)(benchmark::State&
     
     manager_->fuseLoRAsAdvanced("dynamic-bench", config);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
@@ -390,7 +390,7 @@ static void BM_FusionStrategy(benchmark::State& state, FusionStrategy strategy) 
     
     state.SetItemsProcessed(state.iterations());
     
-    std::string label;
+    std::string label = {};
     switch (strategy) {
         case FusionStrategy::STATIC: label = "STATIC"; break;
         case FusionStrategy::DYNAMIC: label = "DYNAMIC"; break;

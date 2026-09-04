@@ -348,7 +348,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     }
     
     // Step 5: SECURITY - Verify module signature and integrity
-    std::string errorMessage;
+    std::string errorMessage = {};
     if (!verifier_->verifyModule(modulePath, errorMessage)) {
         result.errorCode = ModuleErrorCode::VERIFICATION_FAILED;
         result.errorCategory = categorizeError(result.errorCode);
@@ -1236,7 +1236,7 @@ bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResul
 }
 
 ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
-    ModuleMetadata metadata;
+    ModuleMetadata metadata = {};
     
     if (!handle) {
         return metadata;
@@ -1502,7 +1502,7 @@ bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
     ::close(pipe_fds[1]);
 
     char buf[kGpgOutputBufferSize];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = ::read(pipe_fds[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';
@@ -1583,7 +1583,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
     file.read(reinterpret_cast<char*>(&elfClass), 1);
     file.seekg(0, std::ios::beg);
 
-    std::string metadata;
+    std::string metadata = {};
 
     auto processNoteSection = [&](uint64_t offset, uint64_t size) {
         file.seekg(static_cast<std::streamoff>(offset));
@@ -1624,7 +1624,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                     file.seekg(static_cast<std::streamoff>(file.tellg()) +
                                static_cast<std::streamoff>(padding));
                 }
-                std::string buildIdHex;
+                std::string buildIdHex = {};
                 static const char hex[] = "0123456789abcdef";
                 for (unsigned char b : buildId) {
                     buildIdHex += hex[b >> 4];
@@ -1671,7 +1671,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             Elf64_Shdr shdr = {};
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
-            std::string secName;
+            std::string secName = {};
             if (shdr.sh_name < strtab.size()) {
                 secName = &strtab[shdr.sh_name];
             }
@@ -1728,7 +1728,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             Elf32_Shdr shdr = {};
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
-            std::string secName;
+            std::string secName = {};
             if (shdr.sh_name < strtab.size()) {
                 secName = &strtab[shdr.sh_name];
             }
@@ -1886,7 +1886,7 @@ void ModuleLoader::watchdogCheckAllModules() {
             continue;  // Nothing to check
         }
 
-        std::string errorMsg;
+        std::string errorMsg = {};
         bool healthy = watchdogRunHealthChecks(modCopy, errorMsg);
 
         uint64_t now = nowMs();

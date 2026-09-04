@@ -20,7 +20,7 @@ protected:
 
     void TearDown() override {
         if (!cache_dir_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(cache_dir_, ec);
         }
     }

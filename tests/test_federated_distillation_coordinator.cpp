@@ -84,7 +84,7 @@ TEST(FDF_Tests, FDF_04_BroadcastDispatchesToAllStudents)
     FederatedDistillationCoordinator coord{defaultCfg()};
 
     std::atomic<int> calls_A{0}, calls_B{0};
-    std::string last_teacher;
+    std::string last_teacher = {};
 
     coord.registerStudent("student-A",
         [&calls_A, &last_teacher](const DistillationRound& r) {

@@ -161,7 +161,7 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
            0, 1, 2, 3, 0, 1, 2, 0, 0, 2, 2, 4, 5, 5, 0, 1, 2, 6, 2, 3, 0, 1, 0, 2, 0, 2
     };
 
-    std::string result;
+    std::string result = {};
     char first = static_cast<char>(std::toupper(static_cast<unsigned char>(word[0])));
     result += first;
 
@@ -189,12 +189,12 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
     }
 
     // Simplified single Metaphone
-    std::string upper;
+    std::string upper = {};
     for (char c : word) {
         upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     }
 
-    std::string result;
+    std::string result = {};
     size_t n = upper.size();
 
     auto isVowel = [](char c) {

@@ -77,7 +77,7 @@ class LockAcquisitionTracker {
 public:
     struct AcquisitionRecord {
         int lock_id = 0;
-        int order;
+        int order = {};
         std::thread::id thread_id;
     };
 
@@ -300,8 +300,8 @@ TEST_F(ConcurrencySafetyTest, CS_04_LockAcquisitionTimeout) {
 TEST_F(ConcurrencySafetyTest, CS_05_ReaderWriterLockPattern) {
     // Gap: circular_lock_ordering (reader-writer safety)
     // Setup: Simulated reader-writer lock using mutexes
-    std::mutex rw_lock;
-    std::condition_variable cv;
+    std::mutex rw_lock = {};
+    std::condition_variable cv = {};
     int active_writers = 0;
     int active_readers = 0;
     int data_value = 0;
@@ -425,7 +425,7 @@ TEST_F(ConcurrencySafetyTest, CS_07_MultipleWindowsSeparateLocks) {
     // Gap: circular_lock_ordering (per-window lock isolation)
     // Setup: Multiple independent windows with separate locks
     struct Window {
-        std::mutex mtx;
+        std::mutex mtx = {};
         int record_count = 0;
     };
 
@@ -464,8 +464,8 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
     // Gap: circular_lock_ordering (eviction doesn't deadlock)
     // Simulate window eviction under concurrent access
     struct EvictableWindow {
-        std::mutex mtx;
-        int id;
+        std::mutex mtx = {};
+        int id = {};
         bool evicted = false;
         int access_count = 0;
     };
@@ -521,8 +521,8 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
 TEST_F(ConcurrencySafetyTest, CS_09_BackpressureSignaling) {
     // Gap: circular_lock_ordering (condition variable safety)
     // Simulate backpressure with condition variables
-    std::mutex mtx;
-    std::condition_variable cv;
+    std::mutex mtx = {};
+    std::condition_variable cv = {};
     bool backpressure_active = false;
     int buffered_events = 0;
     std::atomic<int> events_processed(0);
@@ -576,7 +576,7 @@ TEST_F(ConcurrencySafetyTest, CS_09_BackpressureSignaling) {
 TEST_F(ConcurrencySafetyTest, CS_10_WatermarkAdvancementNonBlocking) {
     // Gap: circular_lock_ordering (watermark doesn't block inserts)
     // Simulate watermark advancement and concurrent inserts
-    std::mutex mtx;
+    std::mutex mtx = {};
     int64_t watermark = 0;
     int insert_count = 0;
     std::atomic<bool> watermark_advanced(false);
@@ -663,7 +663,7 @@ TEST_F(ConcurrencySafetyTest, CS_11_AggregationStageIndependentLock) {
 TEST_F(ConcurrencySafetyTest, CS_12_CodeGenerationThreadSafe) {
     // Gap: circular_lock_ordering (thread-safe code generation)
     // Simulate multiple threads generating code
-    std::mutex codegen_lock;
+    std::mutex codegen_lock = {};
     std::vector<std::string> generated_code;
     std::atomic<int> codegen_count(0);
 
@@ -735,7 +735,7 @@ TEST_F(ConcurrencySafetyTest, CS_14_ConcurrentAggregationConsistency) {
     // Gap: circular_lock_ordering (maintain aggregation invariants)
     // Simulate concurrent aggregation updates
     struct AggState {
-        std::mutex mtx;
+        std::mutex mtx = {};
         int64_t sum = 0;
         int count = 0;
     };

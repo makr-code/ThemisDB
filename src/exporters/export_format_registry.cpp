@@ -141,7 +141,7 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
 
     // --- Pass 1: validate all entries before touching the registry ---
     struct ValidatedEntry {
-        std::string format_key;
+        std::string format_key = {};
         FormatTemplateType ttype;
         FormatTemplateFieldMapping mapping;
     };
@@ -166,7 +166,7 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
                                         + "'; expected one of: alpaca, sharegpt, chatml, openai_finetuning");
         }
 
-        FormatTemplateFieldMapping mapping;
+        FormatTemplateFieldMapping mapping = {};
 
         if (entry.contains("field_mapping") && entry["field_mapping"].is_object()) {
             const auto &fm = entry["field_mapping"];

@@ -120,7 +120,7 @@ Status ProjectLifecycle::applyTransition(
         return Status::Error("applyTransition: actor must not be empty");
 
     // Read current state (already held under unique_lock by callers)
-    std::string state_str;
+    std::string state_str = {};
     std::optional<ProjectState> current = {};
 
     if (storage_->get("lifecycle:" + project_id, state_str))
@@ -181,7 +181,7 @@ Status ProjectLifecycle::initProject(
     std::unique_lock lock(mutex_);
 
     const std::string state_key = "lifecycle:" + project_id;
-    std::string existing;
+    std::string existing = {};
     if (storage_->get(state_key, existing))
         return Status::Error(
             "Lifecycle already initialised for project: " + project_id);
@@ -245,7 +245,7 @@ std::optional<ProjectState> ProjectLifecycle::getState(
     const std::string& project_id) const
 {
     std::shared_lock lock(mutex_);
-    std::string val;
+    std::string val = {};
     if (!storage_->get("lifecycle:" + project_id, val))
         return std::nullopt;
     return projectStateFromString(val);

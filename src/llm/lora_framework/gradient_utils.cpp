@@ -176,7 +176,7 @@ void GradientUtils::normalize_gradients(
 }
 
 GradientStats GradientUtils::compute_stats(const std::vector<Tensor*>& gradients) {
-    GradientStats stats;
+    GradientStats stats = {};
     
     if (gradients.empty()) {
         return stats;

@@ -52,7 +52,7 @@ static std::string_view stripNs(std::string_view name) {
 }
 
 static std::string unescapeXml(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (size_t i = 0; i < s.size(); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
@@ -117,7 +117,7 @@ static void parseAttrs(std::string_view src,
         if (i >= n) {
           break;
         }
-        std::string attr_val;
+        std::string attr_val = {};
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
@@ -281,7 +281,7 @@ static const std::set<std::string> kCmmnTaskTags = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string CmmnSerializer::escapeXml_(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -541,7 +541,7 @@ std::string CmmnSerializer::exportXml(
     const std::vector<ProcessEdgeInfo>& edges)
 {
     static_cast<void>(edges);
-    std::ostringstream xml;
+    std::ostringstream xml = {};
 
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)" << "\n";
     xml << R"(<definitions xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL")" << "\n";
@@ -553,7 +553,7 @@ std::string CmmnSerializer::exportXml(
         << R"(" name=")" << escapeXml_(case_name) << "\">\n";
 
     // Find the casePlanModel (if any) to use as the root container.
-    std::string plan_model_id;
+    std::string plan_model_id = {};
     for (const auto& n : nodes) {
         if (std::holds_alternative<BPMNNodeType>(n.node_type) &&
             std::get<BPMNNodeType>(n.node_type) == BPMNNodeType::SUBPROCESS &&
@@ -581,7 +581,7 @@ std::string CmmnSerializer::exportXml(
           continue;
         }
 
-        std::string tag;
+        std::string tag = {};
         if (btype == BPMNNodeType::TASK) {
             if      (n.subtype == "HUMAN_TASK") {
               tag = "humanTask";

@@ -60,7 +60,7 @@ bool SubprocessJSRenderer::isAvailable() const {
     const std::size_t sp  = renderer_cmd_.find(' ');
     const std::string exe = (sp != std::string::npos) ? renderer_cmd_.substr(0, sp) : renderer_cmd_;
     if (exe.empty())
-        return false;
+        return false = {};
 
     if (exe.front() == '/') {
         // Absolute path: use stat + executable bit directly (no shell)
@@ -95,7 +95,7 @@ bool SubprocessJSRenderer::isAvailable() const {
 std::string SubprocessJSRenderer::buildCommand(const JsRenderRequest &req) const {
     // Returns the argument vector – used by the fork/exec path.
     // Not used directly for shell execution; kept for reference.
-    std::ostringstream cmd;
+    std::ostringstream cmd = {};
     cmd << renderer_cmd_ << " " << req.url;
     if (req.timeout_ms > 0) {
         cmd << " --timeout " << req.timeout_ms;
@@ -107,7 +107,7 @@ std::string SubprocessJSRenderer::buildCommand(const JsRenderRequest &req) const
 }
 
 JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
-    JsRenderResult result;
+    JsRenderResult result = {};
 
     if (!isAvailable()) {
         result.success = false;
@@ -123,7 +123,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
     std::vector<std::string> tokens;
     {
         std::istringstream ss(renderer_cmd_);
-        std::string tok;
+        std::string tok = {};
         while (ss >> tok)
             tokens.push_back(tok);
     }
@@ -186,7 +186,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
 
     // Parent: read from read end until child exits
     ::close(pipefd[1]);
-    std::string html;
+    std::string html = {};
     {
         std::array<char, 4096> buf{};
         ssize_t n = 0;
@@ -220,7 +220,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
         result.error   = "Failed to launch renderer process";
         return result;
     }
-    std::string html;
+    std::string html = {};
     std::array<char, 4096> buf{};
     while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe)) {
         html += buf.data();

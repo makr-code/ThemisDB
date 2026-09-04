@@ -49,7 +49,7 @@ public:
         const std::string& label = key_id.empty() ? default_key_label_ : key_id;
         auto hsm_result = hsm_->sign(data, label);
 
-        SigningResult result;
+        SigningResult result = {};
         if (!hsm_result.success) {
             result.error = hsm_result.error_message;
             return result;

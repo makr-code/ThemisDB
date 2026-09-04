@@ -298,7 +298,7 @@ std::string MultiModalRAG::buildContext(
     const std::vector<MultiModalSource>& sources,
     const std::string&                   question) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Partition sources by modality.
     std::vector<const MultiModalSource*> text_sources;

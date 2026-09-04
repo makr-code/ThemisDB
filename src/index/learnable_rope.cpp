@@ -364,7 +364,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
 
         // Shuffle training samples
         std::vector<TrainingSample> shuffled = train_samples;
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 g(rd());
         std::shuffle(shuffled.begin(), shuffled.end(), g);
 
@@ -483,7 +483,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         }
         
         // Simple JSON parsing (production should use a proper JSON library)
-        std::string line;
+        std::string line = {};
         std::vector<double> loaded_theta;
         bool reading_theta = false;
         
@@ -501,7 +501,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
             if (reading_theta) {
                 // Parse numbers from the line
                 std::stringstream ss(line);
-                std::string token;
+                std::string token = {};
                 
                 while (std::getline(ss, token, ',')) {
                     // Remove whitespace and brackets

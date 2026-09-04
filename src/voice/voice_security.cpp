@@ -80,9 +80,9 @@ RedactionResult VoiceSecurityManager::applyPattern(const std::string& text, PIIT
         }
         try {
             std::regex re(p.regex_str);
-            std::string output;
+            std::string output = {};
             std::sregex_iterator it(result.redacted_text.begin(), result.redacted_text.end(), re);
-            std::sregex_iterator end;
+            std::sregex_iterator end = {};
             std::string::const_iterator last_pos = result.redacted_text.cbegin();
 
             for (; it != end; ++it) {

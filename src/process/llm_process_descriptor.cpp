@@ -155,7 +155,7 @@ json LlmProcessDescriptor::generate(
 // ---------------------------------------------------------------------------
 
 std::string LlmProcessDescriptor::buildSystemPrompt(const json& descriptor) {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
 
     prompt << "=== Process Model: " << descriptor.value("name", "Unknown") << " ===\n";
     prompt << "ID: "       << descriptor.value("process_id", "") << "\n";
@@ -257,7 +257,7 @@ std::string LlmProcessDescriptor::buildConformancePrompt(
     const json& descriptor,
     const json& observed_trace)
 {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
 
     prompt << "Task: Process Conformance Checking\n\n";
     prompt << "== Expected Process Model ==\n";

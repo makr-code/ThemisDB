@@ -41,7 +41,7 @@ TEST_F(MaxMergeOperatorTest, BasicMax) {
     ASSERT_TRUE(status.ok()) << status.ToString();
     
     // Read back
-    std::string value;
+    std::string value = {};
     status = db_->Get(rocksdb::ReadOptions(), "max1", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(std::stod(value), 25.5);
@@ -54,7 +54,7 @@ TEST_F(MaxMergeOperatorTest, IncreasingValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max2", "30.7").ok());
     
     // Should keep the maximum
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max2", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 30.7, 0.0001);
@@ -67,7 +67,7 @@ TEST_F(MaxMergeOperatorTest, DecreasingValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max3", "25.0").ok());
     
     // Should keep the maximum (first value)
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max3", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 100.0, 0.0001);
@@ -81,7 +81,7 @@ TEST_F(MaxMergeOperatorTest, MixedValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max4", "90.0").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max4", "60.0").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max4", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 90.0, 0.0001);
@@ -93,7 +93,7 @@ TEST_F(MaxMergeOperatorTest, IntegerValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max5", "200").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max5", "150").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max5", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 200.0, 0.0001);
@@ -106,7 +106,7 @@ TEST_F(MaxMergeOperatorTest, NegativeValues) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max6", "-100.0").ok());
     
     // Maximum should be -20.0
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max6", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), -20.0, 0.0001);
@@ -118,7 +118,7 @@ TEST_F(MaxMergeOperatorTest, ZeroValue) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max7", "0.0").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max7", "-5.0").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max7", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 0.0, 0.0001);
@@ -131,7 +131,7 @@ TEST_F(MaxMergeOperatorTest, MixedWithPut) {
     // Merge higher value
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max8", "75.0").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max8", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 75.0, 0.0001);
@@ -151,7 +151,7 @@ TEST_F(MaxMergeOperatorTest, ConcurrentMaxTracking) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "temp_sensor2", "28.5").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "temp_sensor1", "24.0").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "temp_sensor1", &value).ok());
     EXPECT_NEAR(std::stod(value), 26.3, 0.0001);
     
@@ -172,7 +172,7 @@ TEST_F(MaxMergeOperatorTest, MaxAfterDelete) {
     // Merge after delete should start fresh
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max9", "50.0").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max9", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 50.0, 0.0001);
@@ -194,7 +194,7 @@ TEST_F(MaxMergeOperatorTest, PersistenceAfterReopen) {
     ASSERT_TRUE(status.ok());
     
     // Verify max persisted
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "max10", &value).ok());
     EXPECT_NEAR(std::stod(value), 150.3, 0.0001);
     
@@ -210,7 +210,7 @@ TEST_F(MaxMergeOperatorTest, LargeNumbers) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max11", "2000000.3").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "max11", "1500000.0").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "max11", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_NEAR(std::stod(value), 2000000.3, 0.1);

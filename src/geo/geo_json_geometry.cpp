@@ -55,7 +55,7 @@ bool isValidWGS84Coordinate(const Coordinate &c) noexcept {
 namespace {
 
 std::string coordToJson(const Coordinate &c) {
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "[" << c.x << "," << c.y << "]";
     return os.str();
 }
@@ -63,7 +63,7 @@ std::string coordToJson(const Coordinate &c) {
 std::string coordsToJson(const std::vector<Coordinate> &coords) {
     // Use ostringstream to avoid O(n²) string reallocations from repeated
     // concatenation inside the coordinate loop.
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "[";
     for (std::size_t i = 0; i < coords.size(); ++i) {
         if (i > 0) {
@@ -76,7 +76,7 @@ std::string coordsToJson(const std::vector<Coordinate> &coords) {
 }
 
 ValidationResult validateCoordinate(const Coordinate &c, CrsId crs, const std::string &ctx) {
-    ValidationResult vr;
+    ValidationResult vr = {};
     if (!std::isfinite(c.x) || !std::isfinite(c.y)) {
         vr.addError({"NON_FINITE_COORDINATE", ctx + ": coordinate contains NaN or infinity"});
     } else if (crs == CrsId::WGS84) {
@@ -140,7 +140,7 @@ std::string GeoLineString::toGeoJSON() const {
 }
 
 ValidationResult GeoLineString::validate() const {
-    ValidationResult vr;
+    ValidationResult vr = {};
     if (coords_.size() < 2) {
         vr.addError({"INSUFFICIENT_POSITIONS",
                      "GeoLineString requires at least 2 positions, got " + std::to_string(coords_.size())});
@@ -158,7 +158,7 @@ ValidationResult GeoLineString::validate() const {
 namespace {
 
 ValidationResult validateRing(const GeoPolygon::Ring &ring, CrsId crs, const std::string &name, bool must_be_ccw) {
-    ValidationResult vr;
+    ValidationResult vr = {};
     if (ring.size() < 4) {
         vr.addError({"INSUFFICIENT_RING_POSITIONS",
                      name + ": ring requires >= 4 positions, got " + std::to_string(ring.size())});
@@ -201,7 +201,7 @@ BBox GeoPolygon::bbox() const noexcept {
 std::string GeoPolygon::toGeoJSON() const {
     // Use ostringstream to avoid O(n²) string reallocations from repeated
     // concatenation inside the ring loop.
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << R"({"type":"Polygon","coordinates":[)";
     for (std::size_t i = 0; i < rings_.size(); ++i) {
         if (i > 0) {
@@ -214,7 +214,7 @@ std::string GeoPolygon::toGeoJSON() const {
 }
 
 ValidationResult GeoPolygon::validate() const {
-    ValidationResult vr;
+    ValidationResult vr = {};
     if (rings_.empty()) {
         vr.addError({"NO_RINGS", "GeoPolygon must have at least one ring"});
         return vr;
@@ -247,7 +247,7 @@ BBox GeoMultiPolygon::bbox() const noexcept {
 std::string GeoMultiPolygon::toGeoJSON() const {
     // Use ostringstream to avoid O(n²) string reallocations from repeated
     // concatenation inside the polygon loop.
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << R"({"type":"MultiPolygon","coordinates":[)";
     for (std::size_t i = 0; i < polygons_.size(); ++i) {
         if (i > 0) {
@@ -297,7 +297,7 @@ BBox GeoGeometryCollection::bbox() const noexcept {
 std::string GeoGeometryCollection::toGeoJSON() const {
     // Use ostringstream to avoid O(n²) string reallocations from repeated
     // concatenation inside the geometry loop.
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << R"({"type":"GeometryCollection","geometries":[)";
     for (std::size_t i = 0; i < members_.size(); ++i) {
         if (i > 0) {

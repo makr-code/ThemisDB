@@ -61,7 +61,7 @@ static std::unordered_map<std::string, std::string> makeHeadersWithUser(
 /// string so the engine runs in heuristic mode instead of aborting.
 static std::string yamlPath() {
     if (const char *env = std::getenv("GOVERNANCE_YAML_PATH"))
-        return env;
+        return env = {};
     return "config/governance.yaml";
 }
 

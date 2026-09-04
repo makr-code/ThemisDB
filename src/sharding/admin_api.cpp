@@ -343,7 +343,7 @@ nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
         return createErrorResponse(400, "shard_id must not be empty");
     }
 
-    std::string new_endpoint;
+    std::string new_endpoint = {};
     if (body.contains("new_endpoint") && body["new_endpoint"].is_string()) {
         new_endpoint = body["new_endpoint"].get<std::string>();
     }

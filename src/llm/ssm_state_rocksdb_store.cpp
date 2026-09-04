@@ -96,7 +96,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::resume(
         if (snapshot_ts.has_value()) {
             // Resume specific snapshot by HLC timestamp
             std::string key = makeSSMStateKey(session_id, *snapshot_ts);
-            std::string value;
+            std::string value = {};
 
             rocksdb::Status status;
             if (cf_) {
@@ -243,7 +243,7 @@ std::string SSMStateRocksDBStore::makeSSMStateKey(
     const std::string& session_id,
     const HLCTimestamp& ts) {
     
-    std::ostringstream key;
+    std::ostringstream key = {};
     key << "ssm_state:" << session_id << ":"
         << ts.physical() << ":"
         << ts.logical();
@@ -255,7 +255,7 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     const SSMStateSnapshot& snapshot) {
     
     // Format: [version:1][data...]
-    std::string result;
+    std::string result = {};
     result.push_back(1);  // Version 1
 
     // Serialize snapshot to JSON and then to binary
@@ -267,7 +267,7 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     j["sequence_counter"] = snapshot.sequence_counter;
 
     // Serialize binary state as hex string
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     for (auto b : snapshot.state_data) {
         hex << std::hex << std::setw(2) << std::setfill('0') << (static_cast<int>(b) & 0xFF);
     }
@@ -371,7 +371,7 @@ SSMStateRocksDBStore::findMostRecentSnapshot(const std::string& session_id) {
         }
     }
 
-    delete it;
+    delete it = {};
     return most_recent;
 }
 

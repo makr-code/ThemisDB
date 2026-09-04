@@ -135,7 +135,7 @@ std::string ConvergenceMarkerEngine::buildConvergencePreamble(
     const std::vector<ConvergenceMarker>& markers,
     int max_tokens) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[CONVERGENCE MATRIX — R4 SYNTHESIS]\n";
 
     // Convergent markers first

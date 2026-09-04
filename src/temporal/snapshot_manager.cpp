@@ -220,7 +220,7 @@ std::string TemporalSnapshotManager::generateSnapshotId() {
     std::lock_guard<std::mutex> lock(gen_mutex);
     std::uniform_int_distribution<uint32_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "snap_" << ts << "_" << dist(gen);
     return oss.str();
 }

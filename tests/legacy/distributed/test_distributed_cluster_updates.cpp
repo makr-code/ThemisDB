@@ -389,7 +389,7 @@ TEST_F(DistributedClusterHealthCheck, HealthCheckFails_RollbackFunc_IsCalled) {
     opts.rollback_on_failure  = true;
 
     std::atomic<int> rollback_calls{0};
-    std::string captured_version;
+    std::string captured_version = {};
 
     mgr_.setNodeUpdateFunc(alwaysOkUpdate());
     mgr_.setNodeHealthCheckFunc(alwaysUnhealthy());

@@ -53,7 +53,7 @@ struct RoutingDecision {
     float expected_latency_ms = 0.0f;
 
     /// Human-readable explanation of the routing choice.
-    std::string reason;
+    std::string reason = {};
 
     /// Machine-readable routing reason code.
     std::string reason_code;

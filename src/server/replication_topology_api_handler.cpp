@@ -232,7 +232,7 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
     const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleUiGet");
-    std::string api_base;
+    std::string api_base = {};
     // HIGH-GAP FIX: unnecessary_copy — use string_view for const values
     std::string_view target{req.target()};
     constexpr std::string_view marker = "/ui/replication/topology";
@@ -279,7 +279,7 @@ std::string ReplicationTopologyApiHandler::buildUiHtml(const std::string& api_ba
 {
     const std::string encoded_api_base = json(api_base).dump();
 
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<!doctype html>\n"
          << "<html lang=\"en\">\n"
          << "<head><meta charset=\"utf-8\">\n"

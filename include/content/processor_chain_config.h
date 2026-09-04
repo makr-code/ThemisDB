@@ -165,7 +165,7 @@ public:
 
         // Parse a single StageConfig from a JSON value (bool or object).
         auto load_stage = [](const json& v) -> StageConfig {
-            StageConfig s;
+            StageConfig s = {};
             if (v.is_boolean()) {
                 s.enabled = v.get<bool>();
             } else if (v.is_object()) {
@@ -182,7 +182,7 @@ public:
         };
 
         auto load_stage_cfg = [&load_stage](const json& obj) -> ContentTypePipelineConfig {
-            ContentTypePipelineConfig c;
+            ContentTypePipelineConfig c = {};
             if (obj.contains("extraction")) {
               c.extraction    = load_stage(obj["extraction"]);
             }

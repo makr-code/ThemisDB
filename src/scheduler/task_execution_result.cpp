@@ -17,7 +17,7 @@ nlohmann::json TaskExecutionResult::toJson() const {
 }
 
 TaskExecutionResult TaskExecutionResult::fromJson(const nlohmann::json& j) {
-    TaskExecutionResult r;
+    TaskExecutionResult r = {};
     if (j.contains("task_id")) {
       r.task_id = j.at("task_id").get<std::string>();
     }

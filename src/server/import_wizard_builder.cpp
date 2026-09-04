@@ -30,7 +30,7 @@ std::string buildImportWizardHtml() {
     // The JavaScript below will use this variable instead of hardcoded paths
     constexpr std::string_view kApiBaseDefault = "/api/v1/import";
     
-    std::string html;
+    std::string html = {};
         // Large single-pass builder with many concatenations: reserve generously
         // to reduce repeated reallocations/copies during assembly.
         html.reserve(96 * 1024);

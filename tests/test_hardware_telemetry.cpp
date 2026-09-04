@@ -81,9 +81,9 @@ struct FakePerfProvider final : public IPerformanceMetricsProvider {
 
 struct FakeHttpSender {
     bool return_value = true;
-    std::string last_url;
-    std::string last_body;
-    std::string last_content_type;
+    std::string last_url = {};
+    std::string last_body = {};
+    std::string last_content_type = {};
     int         last_timeout = 0;
 
     bool operator()(const std::string& url, const std::string& body,

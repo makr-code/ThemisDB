@@ -50,7 +50,7 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
     
     try {
         // Remove any whitespace from input
-        std::string cleaned_input;
+        std::string cleaned_input = {};
         for (char c : input) {
             if (!std::isspace(static_cast<unsigned char>(c))) {
                 cleaned_input += c;
@@ -246,7 +246,7 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     // Retrieve certificate PEM from the certificate store by fingerprint.
     // Fail closed: if the certificate is not found, the signature cannot be
     // verified and we must not silently accept it.
-    std::string cert_pem;
+    std::string cert_pem = {};
     {
         auto found = cert_store_->lookupByFingerprint(cert_fingerprint);
         if (found.has_value()) {
@@ -308,7 +308,7 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     }
     
     // Parse metadata to extract embedded signature
-    json metadata;
+    json metadata = {};
     if (!parseLoRAMetadata(lora_data, metadata)) {
         result.is_valid = false;
         result.error_message = "Failed to parse LoRa metadata";
@@ -364,7 +364,7 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     // Retrieve the certificate PEM from the certificate store (local or system).
     // Priority: inline certificate in metadata > certificate store lookup.
     // Fail closed: if no certificate is found, the signature cannot be verified.
-    std::string cert_pem;
+    std::string cert_pem = {};
 
     // Check if certificate is embedded in metadata
     if (metadata.contains("certificate")) {
@@ -497,7 +497,7 @@ bool LoRASecurityValidator::validateMetadata(const std::string& lora_path) {
         return false;
     }
     
-    json metadata;
+    json metadata = {};
     if (!parseLoRAMetadata(lora_data, metadata)) {
         return false;
     }
@@ -595,7 +595,7 @@ std::string LoRASecurityValidator::calculateChecksum(
     SHA256(data.data(), data.size(), hash);
     
     // Convert to hex string
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
     }

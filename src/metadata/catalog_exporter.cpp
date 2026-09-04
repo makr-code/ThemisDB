@@ -207,7 +207,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
     // Basic auth encoded inline as "Authorization: Basic <base64(user:pass)>"
     // libcurl handles base64 encoding when we set CURLOPT_USERPWD; for our
     // injected test path we build the header string directly.
-    std::string auth_header;
+    std::string auth_header = {};
     if (!config_.username.empty()) {
         // Build a simple "user:pass" credential string for the Authorization header.
         // libcurl will base64-encode it when using CURLOPT_USERPWD, but since our
@@ -217,7 +217,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
         // Manual base64 encoding (no external dependency required)
         static const char b64_table[] =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        std::string encoded_creds;
+        std::string encoded_creds = {};
         const auto& src = credentials;
         for (size_t i = 0; i < src.size(); i += 3) {
             const unsigned char b0 = static_cast<unsigned char>(src[i]);
@@ -238,7 +238,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
     }
 
     const std::string body = payload.dump();
-    std::string response_body;
+    std::string response_body = {};
 
     spdlog::info("CatalogExporter: Publishing to Apache Atlas at {}", url);
 
@@ -365,7 +365,7 @@ CatalogExporter::sendToDataHub(const json& proposals) {
     const std::string url =
         config_.endpoint + "/aspects?action=ingestProposal";
 
-    std::string auth_header;
+    std::string auth_header = {};
     if (!config_.token.empty()) {
         auth_header = "Authorization: Bearer " + config_.token;
     }
@@ -377,7 +377,7 @@ CatalogExporter::sendToDataHub(const json& proposals) {
         wrapper["proposal"] = proposal;
 
         const std::string body = wrapper.dump();
-        std::string response_body;
+        std::string response_body = {};
 
         spdlog::debug("CatalogExporter: Sending DataHub proposal for {}",
                       proposal.value("entityUrn", "(unknown)"));

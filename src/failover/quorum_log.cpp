@@ -108,7 +108,7 @@ QuorumState QuorumLog::recover() const {
         return state;
     }
 
-    std::string line;
+    std::string line = {};
     uint64_t line_no = 0;
     while (std::getline(ifs, line)) {
         ++line_no;

@@ -35,8 +35,8 @@ using namespace themis::security;
 
 class HSMProviderTest : public ::testing::Test {
 protected:
-    std::string hsm_library_path;
-    std::string hsm_pin;
+    std::string hsm_library_path = {};
+    std::string hsm_pin = {};
     uint32_t hsm_slot = 0;
     
     void SetUp() override {
@@ -486,8 +486,8 @@ bool unsetEnvVar(const std::string& name) {
 } // namespace
 
 struct HsmProviderEnvGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     HsmProviderEnvGuard(const std::string& var_name, const std::string& value)
@@ -510,8 +510,8 @@ struct HsmProviderEnvGuard {
 };
 
 struct HsmProviderEnvUnsetGuard {
-    std::string name;
-    std::string previous;
+    std::string name = {};
+    std::string previous = {};
     bool had_previous{false};
 
     explicit HsmProviderEnvUnsetGuard(const std::string& var_name) : name(var_name) {

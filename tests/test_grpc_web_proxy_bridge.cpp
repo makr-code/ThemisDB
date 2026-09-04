@@ -22,7 +22,7 @@ static http::request<http::string_body> makeGrpcWebRequest(
     const std::string& proto_payload,
     const std::string& method_path = "/pkg.Service/Method")
 {
-    std::string body;
+    std::string body = {};
     body.push_back(0x00);
 
     const uint32_t len = static_cast<uint32_t>(proto_payload.size());

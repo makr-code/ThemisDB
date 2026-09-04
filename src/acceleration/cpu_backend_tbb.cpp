@@ -58,8 +58,8 @@ class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
     std::unique_ptr<tbb::task_arena> arena_;
     std::unique_ptr<tbb::global_control> threadControl_;
-    bool enableSIMD_;
-    int numThreads_;
+    bool enableSIMD_ = {};
+    int numThreads_ = {};
     
 public:
     CPUVectorBackendTBB() : enableSIMD_(true) {
@@ -437,7 +437,7 @@ public:
 /** @brief TBB fallback implementation that preserves the backend API without TBB headers. */
 class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
-    bool enableSIMD_;
+    bool enableSIMD_ = {};
 
 public:
     CPUVectorBackendTBB() : enableSIMD_(true) {}

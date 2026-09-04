@@ -191,7 +191,7 @@ public:
             // the Jaeger UI. The parsed IDs are also attached individually so
             // log-trace correlation queries can filter by trace/span ID.
             span_ptr->setAttribute("jaeger.uber-trace-id", uber_trace_id);
-            UberTraceIds ids;
+            UberTraceIds ids = {};
             if (parseUberTraceId(uber_trace_id, ids)) {
                 span_ptr->setAttribute("jaeger.trace_id",  ids.trace_id);
                 span_ptr->setAttribute("jaeger.span_id",   ids.span_id);
@@ -302,7 +302,7 @@ private:
         std::string trace_id;
         std::string span_id;
         std::string parent_id;
-        std::string flags;
+        std::string flags = {};
     };
 
     /**

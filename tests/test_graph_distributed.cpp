@@ -426,7 +426,7 @@ public:
         return themis::Ok(r);
     }
 private:
-    std::string id_;
+    std::string id_ = {};
 };
 
 TEST(DistributedGraphSharedMutexStressTest, ConcurrentReadsAndOneWriter) {

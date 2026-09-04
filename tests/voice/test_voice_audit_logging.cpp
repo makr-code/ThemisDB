@@ -176,7 +176,7 @@ TEST_F(VoiceAuditLoggingTest, AuditPersistenceFileWrite) {
     ASSERT_TRUE(file.is_open());
     
     // Read and count lines
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(file, line)) {
         if (!line.empty()) {

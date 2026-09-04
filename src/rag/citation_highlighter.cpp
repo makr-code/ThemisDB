@@ -29,7 +29,7 @@ namespace {
 /// Tokenise @p text into lower-cased words of at least 2 characters.
 std::unordered_set<std::string> tokenSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
@@ -95,7 +95,7 @@ namespace {
 std::vector<std::string> doSplitSentences(const std::string&              text,
                                           const CitationHighlighterConfig& cfg) {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
 
     for (size_t i = 0; i < text.size(); ++i) {
         char ch = text[i];
@@ -182,7 +182,7 @@ CitationHighlighter::highlight(const std::string&              answer,
 
     const auto t0 = std::chrono::steady_clock::now();
 
-    CitationHighlightResult result;
+    CitationHighlightResult result = {};
 
     if (answer.empty() || chunks.empty()) {
         THEMIS_DEBUG("CitationHighlighter::highlight – empty answer or no chunks");

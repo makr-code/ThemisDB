@@ -456,7 +456,7 @@ TEST(ReliabilityTest, ConcurrentReadWriteConsistency)
 {
     auto adapter = std::make_shared<ObservableAdapter>();
     std::vector<RequestMetrics> collected_metrics;
-    std::mutex results_lock;
+    std::mutex results_lock = {};
 
     auto writer = [&]() {
         for (int i = 0; i < 50; ++i) {

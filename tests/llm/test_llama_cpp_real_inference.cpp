@@ -335,7 +335,7 @@ TEST_F(LlamaCppRealInferenceTest, C2_Streaming_ConcatenatedTokensMatchText) {
     LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
-    std::string streamed;
+    std::string streamed = {};
     auto req = makeReq("The answer is", 12, 0.0f);
     req.stream_callback = [&streamed](const std::string& token) {
         streamed += token;
@@ -360,7 +360,7 @@ TEST_F(LlamaCppRealInferenceTest, C3_GenerateStream_ConvenienceMethod) {
     LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
-    std::string streamed;
+    std::string streamed = {};
     std::function<void(const std::string&)> cb = [&streamed](const std::string& token) {
         streamed += token;
     };

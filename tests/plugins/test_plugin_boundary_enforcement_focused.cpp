@@ -120,13 +120,13 @@ public:
         const std::string& content) {
         std::vector<CredentialMatch> matches;
         std::istringstream stream(content);
-        std::string line;
+        std::string line = {};
         size_t line_number = 0;
 
         while (std::getline(stream, line)) {
             line_number++;
             for (const auto& [pattern_name, pattern_data] : credential_patterns_) {
-                std::smatch match;
+                std::smatch match = {};
                 if (std::regex_search(line, match, pattern_data.first)) {
                     matches.push_back({
                         pattern_name,
@@ -162,7 +162,7 @@ public:
     };
 
     struct SBOMHash {
-        std::string sbom_content_hash;
+        std::string sbom_content_hash = {};
         std::vector<SBOMEntry> dependencies;
     };
 
@@ -173,7 +173,7 @@ public:
         for (char c : content) {
             hash = ((hash << 5) + hash) + c;  // hash * 33 + c
         }
-        std::stringstream ss;
+        std::stringstream ss = {};
         ss << std::hex << (hash & 0xFFFFFFFFFFFFFFFFUL);
         std::string result = ss.str();
         // Pad to 64 characters to simulate SHA256
@@ -184,7 +184,7 @@ public:
     }
 
     static SBOMHash generate_sbom(const std::vector<SBOMEntry>& dependencies) {
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (const auto& dep : dependencies) {
             ss << dep.component_name << ":" << dep.version << "|"
                << dep.source_url << "|" << dep.hash << "\n";
@@ -212,10 +212,10 @@ class ScopedCheckoutValidator {
 public:
     struct GitmodulesEntry {
         std::string name;
-        std::string path;
-        std::string url;
-        bool shallow;
-        bool is_private;
+        std::string path = {};
+        std::string url = {};
+        bool shallow = {};
+        bool is_private = {};
     };
 
     static bool validate_community_checkout(
@@ -238,7 +238,7 @@ public:
         const std::string& content) {
         std::vector<GitmodulesEntry> entries;
         std::istringstream stream(content);
-        std::string line;
+        std::string line = {};
         GitmodulesEntry current;
         bool in_section = false;
 

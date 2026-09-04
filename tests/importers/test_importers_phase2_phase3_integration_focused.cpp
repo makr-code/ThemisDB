@@ -284,7 +284,7 @@ enum class ConnectorCapability {
 };
 
 struct ConnectorDescriptor {
-    std::string id;
+    std::string id = {};
     ConnectorCapability capability;
     std::string fallback_connector_id;  // next in fallback chain
 };
@@ -317,7 +317,7 @@ public:
     // Degrade a connector's capability and return structured error
     struct DegradationResult {
         ImporterErrorCode code;
-        std::string reason;
+        std::string reason = {};
         std::optional<std::string> fallback;
     };
 

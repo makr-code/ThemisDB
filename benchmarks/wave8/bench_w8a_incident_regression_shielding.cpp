@@ -86,7 +86,7 @@ static constexpr std::size_t kLargePayloadBytes = 16'384;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -169,7 +169,7 @@ public:
         // Warmup reads
         KeyGenerator warmup_kg(kW8CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(warmup_kg.NextKey(kDefaultRecordCount), val);
         }
     }
@@ -198,7 +198,7 @@ BENCHMARK_F(IncidentCRUDFixture, IRS01_BurstReadSpike)(benchmark::State& state) 
     KeyGenerator kg(kW8CanonicalSeed + 10);
     for (auto _ : state) {
         const std::string key = kg.NextKey(hot_window);
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(key, val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -224,7 +224,7 @@ BENCHMARK_F(IncidentCRUDFixture, IRS03_ReadAfterWrite)(benchmark::State& state) 
         const std::string key = kg.NextKey(kDefaultRecordCount);
         const std::string val = "raw_" + std::to_string(counter++);
         db_->put(key, val);
-        std::string read_val;
+        std::string read_val = {};
         benchmark::DoNotOptimize(db_->get(key, read_val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -251,7 +251,7 @@ BENCHMARK_F(IncidentCRUDFixture, IRS07_DeleteTombstoneReadCost)(benchmark::State
     KeyGenerator kg(kW8CanonicalSeed + 70);
     for (auto _ : state) {
         const std::string key = kg.NextKey(kDefaultRecordCount);
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(key, val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -371,7 +371,7 @@ public:
 
         // Warmup
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get("hot_prefix_" + std::to_string(i % kHotPrefixRange), val);
         }
     }
@@ -465,7 +465,7 @@ BENCHMARK_F(IngestReadFixture, IRS05_IngestWithConcurrentRead)(benchmark::State&
     std::thread reader([this, &stop_reader, &read_ops] {
         KeyGenerator rkg(kW8CanonicalSeed + 500);
         while (!stop_reader.load(std::memory_order_relaxed)) {
-            std::string val;
+            std::string val = {};
             db_->get(rkg.NextKey(kDefaultRecordCount), val);
             read_ops.fetch_add(1, std::memory_order_relaxed);
         }
@@ -591,7 +591,7 @@ public:
         }
         // Warmup
         for (int i = 0; i < 200; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get("large_" + std::to_string(i % 5'000), val);
         }
     }
@@ -622,7 +622,7 @@ BENCHMARK_F(LargePayloadFixture, IRS08_LargePayloadMixed)(benchmark::State& stat
         if (mix(mix_rng) < 40) {
             db_->put("large_new_" + std::to_string(write_ctr++), kg.NextLargeValue());
         } else {
-            std::string val;
+            std::string val = {};
             benchmark::DoNotOptimize(
                 db_->get("large_" + std::to_string(write_ctr % 5'000), val));
         }

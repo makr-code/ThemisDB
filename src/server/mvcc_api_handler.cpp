@@ -117,7 +117,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
     try {
         std::optional<std::vector<uint8_t>> result;
         HLCTimestamp used_ts;
-        std::string read_type;
+        std::string read_type = {};
 
         if (req.has_param("timestamp")) {
             // Snapshot read

@@ -37,7 +37,7 @@ struct Document {
     std::string id;
     std::string title;
     std::string content;
-    std::string format;
+    std::string format = {};
     std::vector<std::string> links;
 };
 

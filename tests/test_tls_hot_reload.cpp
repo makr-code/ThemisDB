@@ -163,7 +163,7 @@ TEST(TlsHotReloadContract, ReloadCanBeRetriedAfterFailure) {
 
 TEST(SslCtxMutex, MutexProtectsSharedState) {
     // Simulates the ssl_ctx_mutex_ pattern used in onAccept and reloadTls()
-    std::mutex mtx;
+    std::mutex mtx = {};
     int context_id = 0; // simulates ssl_ctx_ pointer identity
 
     constexpr int RELOAD_COUNT = 5;

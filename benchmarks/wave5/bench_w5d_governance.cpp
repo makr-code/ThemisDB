@@ -106,7 +106,7 @@ public:
         return d(eng_);
     }
 private:
-    std::mt19937_64 eng_;
+    std::mt19937_64 eng_ = {};
 };
 
 struct Percentiles {
@@ -197,7 +197,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 

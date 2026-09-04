@@ -64,7 +64,7 @@ const std::vector<DspyField>& DspySignature::outputs() const { return outputs_; 
 std::string DspySignature::buildPrompt(
     const std::unordered_map<std::string, std::string>& context) const
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     // Task description header
     if (!description_.empty()) {
@@ -169,11 +169,11 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
 
 std::string EchoDspyLLMProvider::complete(const std::string& prompt)
 {
-    std::ostringstream response;
+    std::ostringstream response = {};
 
     // Scan the prompt for output field labels (lines ending with ":")
     std::istringstream iss(prompt);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         // Strip leading spaces
         size_t start = 0;

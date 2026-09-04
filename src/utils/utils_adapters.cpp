@@ -230,7 +230,7 @@ std::string HKDFKeyCacheAdapter::ikmHash(const std::vector<uint8_t>& ikm) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(ikm.data(), ikm.size(), digest);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char byte : digest) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(byte);

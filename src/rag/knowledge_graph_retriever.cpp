@@ -33,7 +33,7 @@ namespace {
 
 /// Case-fold (ASCII) and collapse runs of whitespace to a single space.
 std::string normaliseText(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     bool last_was_space = true;
     for (unsigned char ch : s) {
@@ -328,7 +328,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
 
     // Strategy 1: capitalised multi-word and single-word spans.
     // Scan character by character collecting runs of capitalised-start tokens.
-    std::string span_buf;
+    std::string span_buf = {};
     size_t      span_start = std::string::npos;
     size_t      span_end   = 0;
 
@@ -359,7 +359,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
 
     // Tokenise by whitespace and punctuation, track capitalised tokens.
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     size_t pos = 0;
     while (ss >> word) {
         // Find position in text (approximate)
@@ -367,7 +367,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
         const size_t word_end = (pos == std::string::npos) ? 0 : pos + word.size();
 
         // Strip leading/trailing punctuation for check
-        std::stringstream clean_builder;
+        std::stringstream clean_builder = {};
         for (unsigned char ch : word) {
             if (std::isalnum(ch) || ch == '-' || ch == '\'') {
                 clean_builder << static_cast<char>(ch);
@@ -679,7 +679,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
         // Attach reasoning chain to document metadata when requested.
         if (cfg.attach_reasoning_chain_to_metadata && result.has_reasoning) {
-            std::stringstream chain_builder;
+            std::stringstream chain_builder = {};
             bool first = true;
             THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains", result.inference_chains.size());
             for (const auto& chain : result.inference_chains) {

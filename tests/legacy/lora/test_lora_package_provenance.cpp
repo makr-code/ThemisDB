@@ -787,7 +787,7 @@ TEST(SHA256UtilTest, KnownValue) {
 
 TEST(ProvenanceHashLedgerFuzzTest, LongPackageChainInvariant) {
     ProvenanceHashLedger ledger;
-    std::string prev_hash;
+    std::string prev_hash = {};
     for (int i = 0; i < 50; ++i) {
         LoRAPackage p;
         p.adapter_id   = "ada-fuzz";

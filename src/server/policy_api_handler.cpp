@@ -46,7 +46,7 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
     }
     auto& ranger_client = *ranger_client_;
     try {
-        std::string err;
+        std::string err = {};
         auto jsonOpt = ranger_client.fetchPolicies(&err);
         if (!jsonOpt) {
             return makeErrorResponse(http::status::bad_gateway, std::string("Ranger fetch failed: ") + err, req);
@@ -61,7 +61,7 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
         auto& policy_engine = *policy_engine_;
         policy_engine.setPolicies(internal);
         // Persist to local file
-        std::string save_err;
+        std::string save_err = {};
         bool saved = policy_engine.saveToFile("config/policies.json", &save_err);
         nlohmann::json resp = {
             {"imported", internal.size()},

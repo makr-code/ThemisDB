@@ -117,7 +117,7 @@ std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
 std::string base64Encode(const std::vector<uint8_t>& bytes) {
     static const char kTable[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve((bytes.size() + 2) / 3 * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
@@ -139,7 +139,7 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
 std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         if (line.empty()) {
           continue;
@@ -277,7 +277,7 @@ public:
                 enabled_.load(std::memory_order_acquire) &&
                 config_.enable_cpu_profiling) {
                 auto frames = captureStack(64);
-                std::string key;
+                std::string key = {};
                 for (size_t i = 0; i < frames.size(); ++i) {
                     if (i > 0) {
                       key += ';';
@@ -288,7 +288,7 @@ public:
             }
 
             // Serialise current accumulated stacks to folded-stacks text
-            std::string text;
+            std::string text = {};
             for (const auto& [stack, count] : cpu_stacks_) {
                 text += stack;
                 text += ' ';
@@ -324,7 +324,7 @@ public:
 
     ProfileDiff compare(const ProfileSnapshot& baseline,
                         const ProfileSnapshot& current) const {
-        ProfileDiff diff;
+        ProfileDiff diff = {};
         if (baseline.type != ProfileType::CPU || current.type != ProfileType::CPU) {
             return diff;
         }
@@ -453,7 +453,7 @@ private:
             if (config_.enable_cpu_profiling) {
                 auto frames = captureStack(64);
                 // Build the folded key (semicolon-joined frames, no count suffix)
-                std::string key;
+                std::string key = {};
                 for (size_t i = 0; i < frames.size(); ++i) {
                     if (i > 0) {
                       key += ';';
@@ -511,7 +511,7 @@ private:
         snap.timestamp = std::chrono::system_clock::now();
         snap.duration = config_.snapshot_interval;
         if (type == ProfileType::CPU) {
-            std::string text;
+            std::string text = {};
             for (const auto& [stack, count] : cpu_stacks_) {
                 text += stack;
                 text += ' ';

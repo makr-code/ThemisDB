@@ -36,7 +36,7 @@ nlohmann::json AuditBatchCheckpoint::toJson() const {
 }
 
 AuditBatchCheckpoint AuditBatchCheckpoint::fromJson(const nlohmann::json& j) {
-    AuditBatchCheckpoint cp;
+    AuditBatchCheckpoint cp = {};
     if (j.contains("checkpoint_id")) {
       cp.checkpoint_id = j["checkpoint_id"];
     }
@@ -77,7 +77,7 @@ nlohmann::json IdempotencyToken::toJson() const {
 }
 
 IdempotencyToken IdempotencyToken::fromJson(const nlohmann::json& j) {
-    IdempotencyToken t;
+    IdempotencyToken t = {};
     if (j.contains("token")) {
       t.token = j["token"];
     }
@@ -428,7 +428,7 @@ std::string AuditBatchWriter::computeBatchHash(
 
     // Encode as lowercase hex string
     static constexpr char hex_chars[] = "0123456789abcdef";
-    std::string result;
+    std::string result = {};
     result.reserve(SHA256_DIGEST_LENGTH * 2);
     for (unsigned char byte : digest) {
         result += hex_chars[(byte >> 4) & 0xF];

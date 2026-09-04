@@ -580,13 +580,13 @@ static std::string fieldToString(const BaseEntity &entity, const std::string &co
             } else if constexpr (std::is_same_v<T, int64_t>) {
                 return std::to_string(v);
             } else if constexpr (std::is_same_v<T, double>) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << v;
                 return oss.str();
             } else if constexpr (std::is_same_v<T, std::string>) {
                 return v;
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "[";
                 for (size_t i = 0; i < v.size(); ++i) {
                     if (i > 0) {
@@ -597,7 +597,7 @@ static std::string fieldToString(const BaseEntity &entity, const std::string &co
                 oss << "]";
                 return oss.str();
             } else {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "<binary:" << v.size() << ">";
                 return oss.str();
             }

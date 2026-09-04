@@ -23,7 +23,7 @@ using namespace themis::llm;
 
 namespace {
 bool ensureFixtureFile(const std::filesystem::path& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(path.parent_path(), ec);
     if (ec) {
         return false;

@@ -683,7 +683,7 @@ std::string getGpuSpatialBackendStatsJson() {
     // Hand-rolled JSON to avoid a nlohmann/json dependency in this TU.
     auto boolStr = []([[maybe_unused]] bool v) -> const char * { return v ? "true" : "false"; };
     auto escStr  = [](const std::string &v) -> std::string {
-        std::string out;
+        std::string out = {};
         out.reserve(v.size() + 2);
         // Each append is a single-character O(1) operation; the loop is O(n)
         // overall. An std::ostringstream would add overhead without benefit here.

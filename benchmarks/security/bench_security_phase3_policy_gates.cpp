@@ -150,8 +150,8 @@ static void BenchP_MRG_03_DenyByDefault(benchmark::State& state) {
 static void BenchP_MRG_04_RLSFilterLatency(benchmark::State& state) {
     // Simulate: 1000 rows with RLS constraint
     struct MockRow {
-        std::string user_id;
-        std::string data;
+        std::string user_id = {};
+        std::string data = {};
     };
     
     std::vector<MockRow> rows = {};
@@ -184,10 +184,10 @@ static void BenchP_MRG_04_RLSFilterLatency(benchmark::State& state) {
 static void BenchP_MRG_05_QueryMaskingOverhead(benchmark::State& state) {
     // Simulate: 1000 rows with PII fields
     struct ResultRow {
-        std::string user_id;
-        std::string email;
-        std::string phone;
-        std::string data;
+        std::string user_id = {};
+        std::string email = {};
+        std::string phone = {};
+        std::string data = {};
     };
     
     std::vector<ResultRow> results = {};

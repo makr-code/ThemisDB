@@ -133,7 +133,7 @@ TEST_F(TransactionIsolationContentionPhase1Test, LockContention_HighConcurrentWr
     std::atomic<int> success_count(0);
     std::atomic<int> failure_count(0);
     std::atomic<int> conflict_count(0);
-    std::mutex results_mutex;
+    std::mutex results_mutex = {};
     std::vector<std::string> errors;
 
     for (int i = 0; i < num_threads; ++i) {

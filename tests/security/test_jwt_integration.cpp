@@ -92,7 +92,7 @@ private:
             acceptor_.accept(sock);
             // read request (up to header end)
             boost::asio::streambuf req; boost::asio::read_until(sock, req, "\r\n\r\n");
-            std::ostringstream resp;
+            std::ostringstream resp = {};
             resp << "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " << body_.size() << "\r\nConnection: close\r\n\r\n" << body_;
             std::cerr << "OneShotHttpServer: serving body (len=" << body_.size() << "): " << (body_.size() > 200 ? body_.substr(0,200) + "..." : body_) << std::endl;
             boost::asio::write(sock, boost::asio::buffer(resp.str()));
@@ -137,7 +137,7 @@ private:
                 // read request headers
                 boost::asio::streambuf req; boost::asio::read_until(sock, req, "\r\n\r\n");
                 std::string body = bodies_[idx_++];
-                std::ostringstream resp;
+                std::ostringstream resp = {};
                 resp << "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " << body.size() << "\r\nConnection: close\r\n\r\n" << body;
                 std::cerr << "MultiResponseHttpServer: serving index=" << (idx_-1) << " len=" << body.size() << " body: " << (body.size() > 200 ? body.substr(0,200) + "..." : body) << std::endl;
                 boost::asio::write(sock, boost::asio::buffer(resp.str()));

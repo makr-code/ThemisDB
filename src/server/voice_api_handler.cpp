@@ -55,7 +55,7 @@ namespace {
      */
     bool parseIPv4(const std::string& str, int octets[4]) {
         std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
-        std::smatch match;
+        std::smatch match = {};
         
         if (!std::regex_match(str, match, ipv4_regex)) {
             return false;
@@ -462,7 +462,7 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     }
     
     // Transcribe
-    json options;
+    json options = {};
     if (body->contains("language")) {
         if (!(*body)["language"].is_string()) {
             return createErrorResponse(
@@ -787,7 +787,7 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     // calling thread (the sliding-window loop in STTProcessor::streamTranscribe
     // is single-threaded), so no additional synchronization is needed here.
     json segments_json = json::array();
-    std::string full_transcript;
+    std::string full_transcript = {};
 
     auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
         json seg_obj;
@@ -1443,7 +1443,7 @@ http::response<http::string_body> VoiceApiHandler::handleListMacros(
     std::string tags_value = parseQueryParam(std::string(req.target()), "tags");
     if (!tags_value.empty()) {
         std::istringstream ss(tags_value);
-        std::string token;
+        std::string token = {};
         while (std::getline(ss, token, ',')) {
             if (!token.empty()) {
               tag_filter.push_back(token);
@@ -1983,7 +1983,7 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64([[maybe_unused]] const std::s
 std::string VoiceApiHandler::encodeBase64([[maybe_unused]] const std::vector<uint8_t>& data) {
     static const char b64_table[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {

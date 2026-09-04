@@ -90,7 +90,7 @@ DeadlineState runWithDeadline(Fn&& fn, const Milliseconds timeout, std::string& 
 std::string buildFallbackAnswer(const LayeredRetrievalResult& result) {
     if (!result.provenance.empty()) {
         const auto& edge = result.provenance.front();
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << edge.subject << ' ' << edge.predicate << ' ' << edge.object;
         return oss.str();
     }
@@ -411,7 +411,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         }
 
         auto chain = std::make_shared<graph::InferenceChain>();
-        std::string error;
+        std::string error = {};
         const auto started_at = Clock::now();
         const auto state = runWithDeadline(
             [reasoner = graph_reasoner_,
@@ -498,7 +498,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
             span->setAttribute("correlation.id", context.correlation_id);
         }
 
-        std::ostringstream prompt_builder;
+        std::ostringstream prompt_builder = {};
         if (!context.llm_prompt_prefix.empty()) {
             prompt_builder << context.llm_prompt_prefix << "\n\n";
         }

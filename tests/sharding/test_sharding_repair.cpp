@@ -87,7 +87,7 @@ protected:
         ASSERT_GE(recovered.size(), original.size());
 
         // First original.size() bytes must match
-        std::string dropped_str;
+        std::string dropped_str = {};
         for (auto idx : drop_indices) {
             dropped_str += std::to_string(idx) + " ";
         }
@@ -206,7 +206,7 @@ protected:
         auto recovered = coder_.decode(available, drop_indices, k, m);
         ASSERT_GE(recovered.size(), original.size());
 
-        std::string dropped_str;
+        std::string dropped_str = {};
         for (auto idx : drop_indices) {
           dropped_str += std::to_string(idx) + " ";
         }

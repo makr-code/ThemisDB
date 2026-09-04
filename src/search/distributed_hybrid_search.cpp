@@ -264,7 +264,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
         double best_vector = 0.0;
         int    best_bm25_rank   = -1;
         int    best_vector_rank = -1;
-        std::string content;
+        std::string content = {};
         size_t appearance_count = 0; ///< Track high-overlap variance
     };
 

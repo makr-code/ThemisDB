@@ -127,7 +127,7 @@ void MqttSession::handleConnect() {
     // Check for existing session
     bool sessionPresent = false;
     if (!sessionState_.cleanSession) {
-        MqttSessionState existingState;
+        MqttSessionState existingState = {};
         if (MqttBroker::getInstance().loadSession(sessionState_.clientId, existingState)) {
             sessionPresent = true;
             restoreSession(existingState);

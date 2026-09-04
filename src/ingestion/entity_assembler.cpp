@@ -30,7 +30,7 @@ EntityNormalizer::EntityNormalizer(EntityNormalizerConfig cfg)
 
 // static
 std::string EntityNormalizer::toIdToken(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '-') {
@@ -56,7 +56,7 @@ std::string EntityNormalizer::shortHash(const std::string& s) {
         h ^= static_cast<std::uint32_t>(c);
         h *= 0x01000193u;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(8) << std::setfill('0') << h;
     return oss.str();
 }
@@ -67,7 +67,7 @@ EntityNormalizer::parseLegalRef(const std::string& text) const {
     static const std::regex re_law(
         R"((?:§{1,2}|Art\.?)\s*(\d+[a-z]?)(?:\s*Abs\.?\s*(\d+))?(?:\s*S(?:atz)?\.?\s*(\d+))?(?:\s+([A-Z][a-zA-ZÄÖÜäöüß]+(?:\s+[A-Z][a-zA-ZÄÖÜäöüß]+)*))?)",
         std::regex::optimize);
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(text, m, re_law)) return {};
 
     std::unordered_map<std::string, std::string> parts;

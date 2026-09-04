@@ -55,7 +55,7 @@ static std::string generateUUID() {
     bytes[6] = (bytes[6] & 0x0f) | 0x40;  // Version 4
     bytes[8] = (bytes[8] & 0x3f) | 0x80;  // Variant 1
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < 16; ++i) {
         if (i == 4 || i == 6 || i == 8 || i == 10) {
           oss << '-';
@@ -96,7 +96,7 @@ static std::string computeSHA256(const std::string& data) {
     
     EVP_MD_CTX_free(mdctx);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < hash_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
@@ -147,7 +147,7 @@ nlohmann::json OperationalEvent::toJson() const {
 }
 
 OperationalEvent OperationalEvent::fromJson(const nlohmann::json& j) {
-    OperationalEvent event;
+    OperationalEvent event = {};
     
     if (j.contains("event_id")) {
       event.event_id = j["event_id"];
@@ -249,7 +249,7 @@ nlohmann::json ComplianceEvidence::toJson() const {
 }
 
 ComplianceEvidence ComplianceEvidence::fromJson(const nlohmann::json& j) {
-    ComplianceEvidence evidence;
+    ComplianceEvidence evidence = {};
     
     if (j.contains("evidence_id")) {
       evidence.evidence_id = j["evidence_id"];

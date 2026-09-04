@@ -34,7 +34,7 @@ namespace {
 
 /// Encode a single component for use in a query string.
 std::string urlEncode(const std::string& s) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             out << c;
@@ -96,7 +96,7 @@ std::string buildQueryString(
         const std::string& search_val,
         const std::string& page_key,
         int page) {
-    std::ostringstream qs;
+    std::ostringstream qs = {};
     bool first = true;
     auto append = [&](const std::string& k, const std::string& v) {
         qs << (first ? "" : "&") << urlEncode(k) << "=" << urlEncode(v);
@@ -222,7 +222,7 @@ std::string buildQueryString(
     pugi::xml_document doc;
     doc.load_string(fragment.c_str(),
                     pugi::parse_default | pugi::parse_fragment);
-    std::ostringstream out;
+    std::ostringstream out = {};
     std::function<void(const pugi::xml_node&)> walk = [&]([[maybe_unused]] const pugi::xml_node& node) {
         for (const auto& child : node.children()) {
             if (child.type() == pugi::node_pcdata ||
@@ -238,7 +238,7 @@ std::string buildQueryString(
     return out.str();
 #else
     // Minimal fallback: strip tags
-    std::string out;
+    std::string out = {};
     bool in_tag = false;
     for (char c : fragment) {
         if (c == '<')      { in_tag = true; continue; }
@@ -500,7 +500,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
         if (!cnt.empty()) {
             const std::string txt = extractText(cnt.first().node().first_child().value());
             // Extract first number
-            std::string num;
+            std::string num = {};
             for (char c : txt) {
                 if (std::isdigit(c)) {
                   num += c;

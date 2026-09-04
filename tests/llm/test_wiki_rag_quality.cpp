@@ -46,7 +46,7 @@ std::string writeJson(const std::string& json, const std::string& suffix = "") {
 struct RefDoc {
     std::string chunk_id;
     std::string topic;    ///< Primary keyword (appears 5x)
-    std::string text;
+    std::string text = {};
 };
 
 std::vector<RefDoc> buildReferenceCorpus() {
@@ -89,7 +89,7 @@ std::vector<RefDoc> buildReferenceCorpus() {
 
 /// Serialise a RefDoc corpus to JSON index format.
 std::string corpusToJson(const std::vector<RefDoc>& corpus) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[\n";
     for (std::size_t i = 0; i < corpus.size(); ++i) {
         oss << "  {\"chunk_id\":\"" << corpus[i].chunk_id
@@ -109,7 +109,7 @@ std::string corpusToJson(const std::vector<RefDoc>& corpus) {
 
 /// Build 100-chunk synthetic corpus for latency test.
 std::string build100ChunkJson() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[\n";
     for (int i = 0; i < 100; ++i) {
         oss << "  {\"chunk_id\":\"lat" << i

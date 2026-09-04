@@ -97,7 +97,7 @@ TEST_F(SearchIntegrationPhase4Test, INT_02_DistributedFailureAnalyticsReporting)
     int shards_queried = 0;
     int shards_failed = 0;
     std::vector<std::string> failed_shards;
-    std::string primary_error;
+    std::string primary_error = {};
     bool error_reported = false;
     
     void record_failure(const std::string& shard, const std::string& error) {
@@ -454,9 +454,9 @@ TEST_F(SearchIntegrationPhase4Test, INT_09_ErrorPropagationPipeline) {
 // ============================================================================
 TEST_F(SearchIntegrationPhase4Test, INT_10_GracefulDegradationFallback) {
   struct DegradationChain {
-    std::string query;
+    std::string query = {};
     std::vector<HybridSearch::Result> results;
-    std::string execution_path;
+    std::string execution_path = {};
     
     void execute() {
       // Try hybrid (primary)

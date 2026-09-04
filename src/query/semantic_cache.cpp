@@ -372,13 +372,13 @@ std::vector<float> SemanticQueryCache::computeQueryEmbedding_(std::string_view q
 }
 
 std::string SemanticQueryCache::makeExactMatchKey_(std::string_view query) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "qcache:exact:" << query;
     return oss.str();
 }
 
 std::string SemanticQueryCache::makeCacheEntryKey_(std::string_view query) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "qcache:entry:" << query;
     return oss.str();
 }
@@ -480,7 +480,7 @@ void SemanticQueryCache::updateLRU_(std::string_view query) {
 SemanticQueryCache::Status SemanticQueryCache::evictOne_() {
     // NOTE: Assumes stats_mutex_ is already locked by caller!
     
-    std::string lru_query;
+    std::string lru_query = {};
     
     // Get LRU query in limited scope
     {
@@ -507,7 +507,7 @@ SemanticQueryCache::Status SemanticQueryCache::evictOne_() {
 
 std::vector<std::string> SemanticQueryCache::tokenizeQuery_(std::string_view query) const {
     std::vector<std::string> tokens;
-    std::string current;
+    std::string current = {};
     
     for (char c : query) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {

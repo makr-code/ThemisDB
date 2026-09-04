@@ -292,7 +292,7 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleStreamSse(
     constexpr int     kPollTimeoutSec  = 60;
     constexpr size_t  kHeartbeatEvery  = 1;      // emit heartbeat every N timeouts
 
-    std::ostringstream sse_body;
+    std::ostringstream sse_body = {};
     // SSE preamble: retry hint
     sse_body << "retry: 3000\n\n";
 

@@ -253,7 +253,7 @@ struct ArtifactMerkleProof {
     std::string leaf_hash;
 
     /// Adapter identifier this proof covers.
-    std::string adapter_id;
+    std::string adapter_id = {};
 
     /// Version of the adapter this proof covers (together with adapter_id
     /// forms the unique leaf key).

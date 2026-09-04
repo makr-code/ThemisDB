@@ -34,7 +34,7 @@ double jaccardSimilarity(const std::string& a, const std::string& b) {
     auto tokenize = [](const std::string& text) {
         std::unordered_set<std::string> tokens;
         std::istringstream stream(text);
-        std::string word;
+        std::string word = {};
         while (stream >> word) {
             // Lowercase
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);

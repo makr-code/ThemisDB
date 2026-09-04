@@ -188,7 +188,7 @@ bool VLLMResourceManager::canUseGPU() {
     if (gpu_util_provider_for_testing_) {
         auto util = gpu_util_provider_for_testing_();
         if (!util.has_value())
-            return false;
+            return false = {};
         return util.value() < 80.0;
     }
 
@@ -265,7 +265,7 @@ VLLMResourceManager::SimilarityDispatchResult VLLMResourceManager::dispatchVecto
 
 #ifdef THEMIS_ENABLE_CUDA
     if (canUseGPU()) {
-        CUDAVectorBackend cuda_backend;
+        CUDAVectorBackend cuda_backend = {};
         if (cuda_backend.initialize()) {
             SimilarityDispatchResult gpu_result = runSimilarityDispatch(cuda_backend.populateANNDispatch(), true, queries,
                                                                         num_queries, dim, vectors, num_vectors, top_k, metric);
@@ -308,7 +308,7 @@ size_t VLLMResourceManager::getRecommendedThreadCount(const std::string &operati
 }
 
 VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
-    Stats stats;
+    Stats stats = {};
 
     if (!initialized_) {
         return stats;
@@ -326,7 +326,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         std::ifstream f("/proc/stat");
         if (!f.is_open())
             return false;
-        std::string tag;
+        std::string tag = {};
         uint64_t user, nice, system, idle_val, iowait, irq, softirq, steal;
         f >> tag >> user >> nice >> system >> idle_val >> iowait >> irq >> softirq >> steal;
         if (tag != "cpu")
@@ -388,7 +388,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         std::ifstream mf("/proc/meminfo");
         uint64_t mem_total_kb = 0;
         uint64_t mem_avail_kb = 0;
-        std::string line;
+        std::string line = {};
         while (std::getline(mf, line) && (mem_total_kb == 0 || mem_avail_kb == 0)) {
             if (line.rfind("MemTotal:", 0) == 0) {
                 sscanf(line.c_str(), "MemTotal: %" SCNu64 " kB", &mem_total_kb);

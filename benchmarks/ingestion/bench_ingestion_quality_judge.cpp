@@ -121,7 +121,7 @@ loadScriptedResponsesFromFile(const std::string& file_path) {
                   << "THEMIS_BENCH_QJ_RESPONSE_FILE=" << file_path << '\n';
         return {};
     }
-    std::ostringstream buffer;
+    std::ostringstream buffer = {};
     buffer << input.rdbuf();
     const std::string content = buffer.str();
     if (content.empty()) {
@@ -315,7 +315,7 @@ static const char* kLegalText1000 =
 static std::string makeScoredResponse(double score,
                                       const std::string& extra = "")
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "SCORE: " << score << "\n"
         << "RATIONALE: Synthetic benchmark response — no real LLM used.\n"
         << extra;
@@ -412,7 +412,7 @@ public:
         backend.reset();
     }
 
-    std::string                                   resp;
+    std::string                                   resp = {};
     std::shared_ptr<ScriptedTextBackend>           backend;
     std::unique_ptr<IngestionQualityJudge>         judge;
     ExtractionContext                              ctx;
@@ -511,7 +511,7 @@ static void BM_QJ06_EvaluateBulletListParsing(benchmark::State& state)
 {
     // Build a response with N bullet entries.
     const int kBullets = static_cast<int>(state.range(0));
-    std::ostringstream resp_builder;
+    std::ostringstream resp_builder = {};
     resp_builder << makeScoredResponse(0.60);
     resp_builder << "MISSING:\n";
     for (int i = 0; i < kBullets; ++i)

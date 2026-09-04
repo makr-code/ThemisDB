@@ -310,7 +310,7 @@ class CrashRecoveryChaosTest : public ::testing::Test {
     }
   }
 
-  std::string wal_path_;
+  std::string wal_path_ = {};
   std::unique_ptr<CrashRecoveryManager> recovery_mgr_;
 };
 

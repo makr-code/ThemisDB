@@ -117,7 +117,7 @@ static std::string normaliseUrl(const std::string& url) {
 /// Extracts plain text from an HTML body by stripping tags.
 /// Handles basic entity decoding for &amp; < > &quot; &apos;
 static std::string htmlToText(const std::string& html) {
-    std::string text;
+    std::string text = {};
     text.reserve(html.size() / 2);
     bool in_tag    = false;
     bool in_script = false;
@@ -176,7 +176,7 @@ static std::string htmlToText(const std::string& html) {
     }
 
     // Collapse runs of whitespace
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     bool prev_space = true; // skip leading whitespace
     for (char ch : text) {
@@ -377,7 +377,7 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
 static bool isDisallowedByRobots(const std::string& url,
                                   const std::vector<std::string>& disallow_rules) {
     // Extract the path from the URL
-    std::string path;
+    std::string path = {};
     auto scheme_end = url.find("://");
     if (scheme_end != std::string::npos) {
         auto path_start = url.find('/', scheme_end + 3);
@@ -466,7 +466,7 @@ public:
 
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
-        IngestionStats stats;
+        IngestionStats stats = {};
         if (!initialized_) {
             stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                            IngestionErrorSeverity::ERROR,
@@ -647,7 +647,7 @@ private:
         CURL* curl = curl_easy_init();
         if (!curl) return {0, {}};
 
-        std::string response_body;
+        std::string response_body = {};
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_USERAGENT, user_agent_.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, webCrawlerWriteCallback);

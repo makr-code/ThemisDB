@@ -37,7 +37,7 @@ std::vector<std::string> HeuristicThoughtGenerator::generate(
     size_t depth = path.size();
 
     for (size_t i = 0; i < k; ++i) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Consider approach " << depth << "." << (i + 1)
             << ": " << excerpt
             << " (variant " << (i + 1) << ")";
@@ -192,7 +192,7 @@ ToTResult TreeOfThoughtsBuilder::solveBFS(
         ++result.nodes_explored;
 
         if (config.verbose) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "BFS depth=" << node.depth
                 << " score=" << score
                 << " verdict=" << static_cast<int>(verdict)
@@ -271,7 +271,7 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(
         ++result.nodes_explored;
 
         if (config.verbose) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "DFS depth=" << node.depth << " score=" << score;
             result.log.push_back(msg.str());
         }
@@ -375,7 +375,7 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(
                 ++result.nodes_explored;
 
                 if (config.verbose) {
-                    std::ostringstream msg;
+                    std::ostringstream msg = {};
                     msg << "Beam depth=" << depth << " score=" << score;
                     result.log.push_back(msg.str());
                 }
@@ -424,7 +424,7 @@ std::string TreeOfThoughtsBuilder::synthesiseAnswer(
     const std::string& problem,
     const std::vector<std::string>& best_path) const
 {
-    std::ostringstream ans;
+    std::ostringstream ans = {};
     ans << "Based on the following reasoning chain:\n\n";
     for (size_t i = 0; i < best_path.size(); ++i) {
         ans << "Step " << (i + 1) << ": " << best_path[i] << "\n";
@@ -445,7 +445,7 @@ std::string TreeOfThoughtsBuilder::buildGenerationPrompt(
     const std::vector<std::string>& path,
     size_t k)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "You are solving the following problem step by step.\n\n";
     out << "Problem:\n" << problem << "\n\n";
 
@@ -467,7 +467,7 @@ std::string TreeOfThoughtsBuilder::buildEvaluationPrompt(
     const std::string& problem,
     const ToTNode& node)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "Evaluate the following partial reasoning path for the problem below.\n\n";
     out << "Problem:\n" << problem << "\n\n";
 
@@ -489,7 +489,7 @@ std::string TreeOfThoughtsBuilder::buildSynthesisPrompt(
     const std::string& problem,
     const std::vector<std::string>& best_path)
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "You have completed a reasoning process for the problem below.\n\n";
     out << "Problem:\n" << problem << "\n\n";
     out << "Best reasoning chain:\n";

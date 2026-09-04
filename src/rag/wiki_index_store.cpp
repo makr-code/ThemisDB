@@ -53,9 +53,9 @@ namespace {
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     while (ss >> word) {
-        std::string lower;
+        std::string lower = {};
         lower.reserve(word.size());
         for (unsigned char c : word) {
             if (std::isalnum(c) || c == '\'') {
@@ -66,7 +66,7 @@ std::vector<std::string> tokenise(const std::string& text) {
         }
         // Split on internal spaces introduced by punctuation above.
         std::istringstream inner(lower);
-        std::string part;
+        std::string part = {};
         while (inner >> part) {
             if (!part.empty()) {
                 tokens.push_back(std::move(part));
@@ -374,7 +374,7 @@ struct WikiIndexStore::Impl {
                        EVP_sha256(), nullptr) != 1) {
             return std::string(64, '0'); // unreachable in practice
         }
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (unsigned int i = 0; i < digest_len; ++i) {
             oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -917,7 +917,7 @@ std::vector<float> WikiIndexStore::retrieveEmbedding(const std::string& key) con
     // 2. Fall through to RocksDB when in-memory cache misses.
     if (!impl_->config.cache_dir.empty() &&
         const_cast<Impl*>(impl_.get())->openCacheDB()) {
-        std::string raw_val;
+        std::string raw_val = {};
         rocksdb::ReadOptions ro;
         const auto s = impl_->cache_db->Get(
             ro, impl_->cache_cf,

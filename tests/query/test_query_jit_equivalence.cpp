@@ -242,7 +242,7 @@ TEST_F(JITEquivalenceTest, TypeCoercionConsistency) {
         
         // Echo back the parameter types
         for (const auto& [key, val] : p) {
-            std::string type;
+            std::string type = {};
             if (val.is_string()) {
               type = "string";
             }

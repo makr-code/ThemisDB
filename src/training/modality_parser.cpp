@@ -61,7 +61,7 @@ static size_t countChar(const std::string& s, char c) noexcept {
 static std::vector<std::string> splitLines(const std::string& text) {
     std::vector<std::string> lines;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         lines.push_back(std::move(line));
     }
@@ -164,7 +164,7 @@ static std::vector<std::string> splitSentences(const std::string& text) {
         R"((?:Abs|Nr|Art|Ziff|Rn|Fn|ggf|bzw|vgl|z\.B|i\.d\.F|s\.o|s\.u|v\.a|u\.a|etc|i\.e|e\.g|Dr|Prof|S|S\.)\.\s*$)",
         std::regex_constants::ECMAScript);
 
-    std::string current;
+    std::string current = {};
     current.reserve(256);
 
     for (size_t i = 0; i < text.size(); ++i) {
@@ -225,7 +225,7 @@ static std::vector<TableBlock> detectTableBlocks(
         bool is_table = isPipeTableRow(lines[i]) || isAlignedTableRow(lines[i]);
         if (is_table) {
             size_t start = i;
-            std::string content;
+            std::string content = {};
             while (i < lines.size() &&
                    (isPipeTableRow(lines[i]) ||
                     isAlignedTableRow(lines[i]) ||
@@ -275,7 +275,7 @@ TextClauseExtractor::extract(const std::string& text,
             table_lines.insert(l);
     }
 
-    std::string clean_text;
+    std::string clean_text = {};
     clean_text.reserve(text.size());
     for (size_t i = 0; i < lines.size(); ++i) {
         if (table_lines.count(i) == 0) {
@@ -291,9 +291,9 @@ TextClauseExtractor::extract(const std::string& text,
           continue;
         }
 
-        std::string sanitized_input;
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string sanitized_input = {};
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!detail::sanitizeTrainingPromptSurface(sentence,
                                                    sanitized_input,
                                                    &blocked_rule,
@@ -341,9 +341,9 @@ TableExtractor::extract(const std::string& text,
           break;
         }
 
-        std::string sanitized_input;
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string sanitized_input = {};
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!detail::sanitizeTrainingPromptSurface(blk.content,
                                                    sanitized_input,
                                                    &blocked_rule,
@@ -401,9 +401,9 @@ CitationExtractor::extract(const std::string& text,
           return;
         }
 
-        std::string sanitized_input;
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string sanitized_input = {};
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!detail::sanitizeTrainingPromptSurface(m,
                                                    sanitized_input,
                                                    &blocked_rule,
@@ -498,9 +498,9 @@ OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
     //
     // For now emit one placeholder sample so the pipeline can account for
     // OCR-sourced samples in provenance records.
-    std::string sanitized_input;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized_input = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!detail::sanitizeTrainingPromptSurface(image_path,
                                                sanitized_input,
                                                &blocked_rule,

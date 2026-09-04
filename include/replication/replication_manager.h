@@ -1471,7 +1471,7 @@ public:
     };
 
     struct Bottleneck {
-        std::string replica_id;
+        std::string replica_id = {};
         std::string bottleneck_type;  // "NETWORK" | "DISK_IO" | "CPU"
         double      severity;         // 0.0 – 1.0
         std::string details;

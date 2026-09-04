@@ -283,7 +283,7 @@ TEST(KafkaConnectorTest, AvroMagicByteStripped) {
     conn.initialize(cfg);
 
     // Construct a minimal Avro-framed message: 0x00 + 4-byte schema ID + payload
-    std::string avro_msg;
+    std::string avro_msg = {};
     avro_msg += '\x00';       // magic byte
     avro_msg += '\x00'; avro_msg += '\x00'; avro_msg += '\x00'; avro_msg += '\x01'; // schema ID = 1
     avro_msg += "avro_payload";

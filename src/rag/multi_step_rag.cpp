@@ -152,7 +152,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
 
     // Split on newlines; discard empty lines.
     std::istringstream ss(llm_response);
-    std::string line;
+    std::string line = {};
     aspects.reserve(std::min<std::size_t>(
         kMaxAspectsPerIteration,
         1u + std::count(llm_response.begin(), llm_response.end(), '\n')));
@@ -174,7 +174,7 @@ std::string MultiStepRAGOrchestrator::buildMapPrompt(
     const std::string&                 query) const
 {
     // Build context block: "Source: …\n<content>"
-    std::ostringstream ctx;
+    std::ostringstream ctx = {};
     for (size_t i = 0; i < chunks.size(); ++i) {
         if (i > 0) {
           ctx << "\n\n---\n\n";
@@ -199,7 +199,7 @@ std::string MultiStepRAGOrchestrator::buildReducePrompt(
     const std::vector<std::string>& partial_answers,
     const std::string&              query) const
 {
-    std::ostringstream pa;
+    std::ostringstream pa = {};
     for (size_t i = 0; i < partial_answers.size(); ++i) {
         pa << "--- Answer " << (i + 1) << " ---\n" << partial_answers[i] << "\n";
     }
@@ -272,7 +272,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const std::vector<RetrievedChunk>& documents,
     const InferenceFn&                 infer) const
 {
-    MultiStepRAGResult result;
+    MultiStepRAGResult result = {};
     if (query.empty() || query.size() > kMaxQueryChars) {
         spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}", query.size());
         return result;
@@ -365,7 +365,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
                 }));
         }
         result.steps.reserve(futures.size());
-        std::exception_ptr first_exc;
+        std::exception_ptr first_exc = {};
         for (auto& f : futures) {
             try {
                 result.steps.push_back(f.get());
@@ -432,7 +432,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const InferenceFn&                 infer,
     const RetrievalFn&                 retrieve) const
 {
-    MultiStepRAGResult result;
+    MultiStepRAGResult result = {};
     if (query.empty() || query.size() > kMaxQueryChars) {
         spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}", query.size());
         return result;

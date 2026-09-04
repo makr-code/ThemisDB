@@ -42,7 +42,7 @@ EditionManager& EditionManager::instance() {
 // ============================================================================
 
 bool EditionManager::isFeatureAvailable(std::string_view feature_name) const {
-    std::string unused;
+    std::string unused = {};
     return isFeatureAvailable(feature_name, unused);
 }
 
@@ -54,7 +54,7 @@ bool EditionManager::isFeatureAvailable(std::string_view feature_name,
         auto it = overrides_.find(std::string(feature_name));
         if (it != overrides_.end() && !it->second) {
             // Override explicitly set to false → always blocked by admin.
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "Feature '" << feature_name
                 << "' has been administratively disabled at runtime.";
             error_out = msg.str();
@@ -78,7 +78,7 @@ bool EditionManager::checkNodeLimit(int requested_nodes,
     // Step 1: Compile-time ceiling (Defense in Depth — never bypassed).
     if constexpr (SHARDING_MAX_NODES >= 0) {
         if (requested_nodes > SHARDING_MAX_NODES) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "Requested node count (" << requested_nodes
                 << ") exceeds the compile-time ceiling for the " << EDITION_STRING
                 << " edition (" << SHARDING_MAX_NODES << " nodes maximum).";
@@ -95,7 +95,7 @@ bool EditionManager::checkNodeLimit(int requested_nodes,
         std::lock_guard<std::mutex> lock(policy_mutex_);
         if (shard_policy_) {
             if (!shard_policy_->canExpand(requested_nodes)) {
-                std::ostringstream msg;
+                std::ostringstream msg = {};
                 msg << "Requested node count (" << requested_nodes
                     << ") exceeds the active shard-limit policy bound ("
                     << effective_shard_nodes_ << " nodes).";
@@ -114,7 +114,7 @@ bool EditionManager::checkNodeLimit(int requested_nodes,
     if (requested_nodes <= SHARDING_MAX_NODES) {
         return true;
     }
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Requested node count (" << requested_nodes
         << ") exceeds the limit for the " << EDITION_STRING
         << " edition (" << SHARDING_MAX_NODES << " nodes maximum).";
@@ -130,7 +130,7 @@ bool EditionManager::checkVRAMLimit(int requested_vram_gb,
     // Step 1: Compile-time ceiling (Defense in Depth — never bypassed).
     if constexpr (GPU_MAX_VRAM_GB >= 0) {
         if (requested_vram_gb > GPU_MAX_VRAM_GB) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "Requested GPU VRAM (" << requested_vram_gb
                 << " GB) exceeds the compile-time ceiling for the " << EDITION_STRING
                 << " edition (" << GPU_MAX_VRAM_GB << " GB maximum).";
@@ -149,7 +149,7 @@ bool EditionManager::checkVRAMLimit(int requested_vram_gb,
             const size_t requested_bytes =
                 static_cast<size_t>(requested_vram_gb) * 1024ULL * 1024ULL * 1024ULL;
             if (!vram_policy_->canAllocate(requested_bytes)) {
-                std::ostringstream msg;
+                std::ostringstream msg = {};
                 msg << "Requested GPU VRAM (" << requested_vram_gb
                     << " GB) exceeds the active VRAM policy bound ("
                     << effective_vram_gb_ << " GB).";
@@ -168,7 +168,7 @@ bool EditionManager::checkVRAMLimit(int requested_vram_gb,
     if (requested_vram_gb <= GPU_MAX_VRAM_GB) {
         return true;
     }
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Requested GPU VRAM (" << requested_vram_gb
         << " GB) exceeds the limit for the " << EDITION_STRING
         << " edition (" << GPU_MAX_VRAM_GB << " GB maximum).";
@@ -234,7 +234,7 @@ std::string EditionManager::getUpgradeMessage(std::string_view feature_name) con
         return {};
     }
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Feature '" << feature_name << "' is not available in the "
         << EDITION_STRING << " edition.";
 

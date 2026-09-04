@@ -246,7 +246,7 @@ public:
         }
 
         // Collect the raw PROPFIND response body.
-        std::string response_body;
+        std::string response_body = {};
         WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return themis::Err<std::vector<UserRegistrationData>>(
@@ -428,7 +428,7 @@ public:
             url += "/" + user_id;
         }
 
-        std::string response_body;
+        std::string response_body = {};
         WebDAV_CURL_ptr curl(curl_easy_init());
         if (curl) {
             curl_slist* raw_headers = curl_slist_append(nullptr, "Depth: 0");
@@ -539,7 +539,7 @@ private:
         }
         
         // Set up CURL for WebDAV PROPFIND request
-        std::string response_body;
+        std::string response_body = {};
         curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_USERNAME, user_id.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, password.c_str());
@@ -609,7 +609,7 @@ private:
         properties["mail"]        = user_id + "@" + extractHostFromUrl(config_.webdav_base_url);
 
 #ifdef THEMIS_ENABLE_WEBDAV
-        std::string response_body;
+        std::string response_body = {};
         WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
@@ -751,7 +751,7 @@ private:
      * Returns "company.com" when the URL cannot be parsed.
      */
     static std::string extractHostFromUrl(const std::string& url) {
-        std::string host;
+        std::string host = {};
         size_t p = url.find("://");
         host = (p != std::string::npos) ? url.substr(p + 3) : url;
         size_t slash = host.find('/');
@@ -772,7 +772,7 @@ private:
         EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
         EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (unsigned int i = 0; i < hash_len; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }

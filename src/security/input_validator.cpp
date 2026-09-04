@@ -328,7 +328,7 @@ ValidationResult InputValidator::validateConfigPath(
 // ============================================================================
 
 std::string InputValidator::sanitizeForHtml(std::string_view input) {
-  std::string output;
+  std::string output = {};
   output.reserve(input.size() + (input.size() / 5));  // Typical overhead ~20%
   
   for (char c : input) {
@@ -347,7 +347,7 @@ std::string InputValidator::sanitizeForHtml(std::string_view input) {
 
 std::string InputValidator::sanitizeForSqlLogging(std::string_view input) {
   // WARNING: For logging only, not for actual SQL queries!
-  std::string output;
+  std::string output = {};
   output.reserve(input.size());
   
   for (char c : input) {
@@ -378,7 +378,7 @@ std::string InputValidator::sanitizeForShell(std::string_view input) {
 }
 
 std::string InputValidator::sanitizeForJson(std::string_view input) {
-  std::string output;
+  std::string output = {};
   output.reserve(input.size() + (input.size() / 5));
   
   for (unsigned char c : input) {

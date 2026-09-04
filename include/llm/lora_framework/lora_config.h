@@ -77,7 +77,7 @@ struct LoRAHyperparameters {
     }
     
     static LoRAHyperparameters fromJSON(const json& j) {
-        LoRAHyperparameters params;
+        LoRAHyperparameters params = {};
         if (j.contains("rank")) {
           params.rank = j["rank"];
         }
@@ -165,7 +165,7 @@ struct QLoRAConfig {
     }
     
     static QLoRAConfig fromJSON(const json& j) {
-        QLoRAConfig config;
+        QLoRAConfig config = {};
         if (j.contains("enabled")) {
           config.enabled = j["enabled"];
         }
@@ -197,7 +197,7 @@ struct QLoRAConfig {
 struct AdapterMetadata {
     virtual ~AdapterMetadata() = default;
     std::string adapter_id;
-    std::string version;
+    std::string version = {};
     std::string base_model;
     std::string description;
     int training_samples = 0;
@@ -232,7 +232,7 @@ struct AdapterMetadata {
     }
     
     static AdapterMetadata fromJSON(const json& j) {
-        AdapterMetadata metadata;
+        AdapterMetadata metadata = {};
         if (j.contains("adapter_id")) {
           metadata.adapter_id = j["adapter_id"];
         }
@@ -379,7 +379,7 @@ struct LoRAConfig {
     }
     
     static LoRAConfig fromJSON(const json& j) {
-        LoRAConfig config;
+        LoRAConfig config = {};
         if (j.contains("adapter_id")) {
           config.adapter_id = j["adapter_id"];
         }

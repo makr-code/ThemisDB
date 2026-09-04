@@ -30,7 +30,7 @@ GPUAdminAPI::GPUAdminAPI(const GPUConfig &config, GPULoadBalancer *balancer) : c
 // ============================================================================
 
 std::string GPUAdminAPI::jsonEscape(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -71,7 +71,7 @@ std::string GPUAdminAPI::getStatsJson() const {
         const bool accel     = mgr.IsGPUAccelerationEnabled();
         const auto info      = mgr.GetEditionInfo();
 
-        std::ostringstream j;
+        std::ostringstream j = {};
         j << "{"
           << "\"edition_vram_limit_bytes\":" << limit << ","
           << "\"allocated_bytes\":" << s.allocated_bytes << ","
@@ -114,7 +114,7 @@ std::string GPUAdminAPI::getTenantsJson() const {
         auto &mgr    = GPUMemoryManager::GetInstance();
         auto tenants = mgr.GetAllTenantStats();
 
-        std::ostringstream j;
+        std::ostringstream j = {};
         j << "[";
         bool first = true;
         for (const auto &t : tenants) {
@@ -166,7 +166,7 @@ std::string GPUAdminAPI::getDevicesJson() const {
 
         auto loads = balancer_->getDeviceLoads();
 
-        std::ostringstream j;
+        std::ostringstream j = {};
         j << "[";
         bool first = true;
         for (const auto &d : loads) {
@@ -225,7 +225,7 @@ std::string GPUAdminAPI::simulateJson([[maybe_unused]] uint64_t bytes) const {
 
         auto [accepted, reason] = effective.simulateAllocation(bytes, stats.allocated_bytes);
 
-        std::ostringstream j;
+        std::ostringstream j = {};
         j << "{"
           << "\"accepted\":" << (accepted ? "true" : "false") << ","
           << "\"reason\":\"" << jsonEscape(reason) << "\","
@@ -294,7 +294,7 @@ std::string GPUAdminAPI::getMIGInstancesJson() const {
         // have been registered).  No explicit feature-flag check is needed here.
         const auto instances = MIGManager::GetInstance().getInstances();
 
-        std::ostringstream j;
+        std::ostringstream j = {};
         j << "[";
         bool first = true;
         for (const auto &inst : instances) {

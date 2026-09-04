@@ -39,7 +39,7 @@ static std::string sha256OfFile(const std::string& path) {
     EVP_DigestFinal_ex(ctx, digest, &len);
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
@@ -58,7 +58,7 @@ static void writeFile(const std::string& path, const std::string& content) {
 
 class USBVolumeHardeningTest : public ::testing::Test {
 protected:
-    std::string mount_path_;
+    std::string mount_path_ = {};
     std::string license_filename_ = "themis_admin.lic";
 
     void SetUp() override {
@@ -226,8 +226,8 @@ TEST_F(USBVolumeHardeningTest, VerifyUSBSerial_WrongSerialReturnsFalse) {
 
 class USBAdminHardeningIntegrationTest : public ::testing::Test {
 protected:
-    std::string test_mount_path_;
-    std::string license_file_path_;
+    std::string test_mount_path_ = {};
+    std::string license_file_path_ = {};
 
     void SetUp() override {
         test_mount_path_ = (fs::temp_directory_path() / "themis_usb_harden_test").string();

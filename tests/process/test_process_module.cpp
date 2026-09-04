@@ -1032,7 +1032,7 @@ TEST_F(BpmnSerializerTest, ImportMessageFlow) {
 // PM-11: Performance – import of a large BPMN document completes within 500 ms
 TEST_F(BpmnSerializerTest, PerformanceLargeBpmnImport) {
     // Build a synthetic BPMN with 200 tasks and 199 sequence flows
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
         << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">)"
         << R"(<process id="perf_proc" name="Perf Test">)";

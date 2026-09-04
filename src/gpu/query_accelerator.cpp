@@ -505,7 +505,7 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
 
 GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<Row> &rows, AggFunc func,
                                                               KeyFn value_fn) {
-    AggResult result;
+    AggResult result = {};
     if (rows.empty()) {
         return result;
     }
@@ -659,7 +659,7 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
 GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<Row> &left,
                                                               const std::vector<Row> &right, JoinKeyFn left_key,
                                                               JoinKeyFn right_key) {
-    JoinResult result;
+    JoinResult result = {};
     if (left.empty() || right.empty()) {
         return result;
     }
@@ -1385,7 +1385,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
 
 GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows, KeyFn key_fn, size_t k,
                                                           SortOrder order) {
-    TopKResult result;
+    TopKResult result = {};
     if (rows.empty() || k == 0) {
         return result;
     }

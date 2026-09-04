@@ -37,7 +37,7 @@ static std::string sha256hex(const uint8_t *data, size_t len) {
     SHA256_Init(&ctx);
     SHA256_Update(&ctx, data, len);
     SHA256_Final(hash, &ctx);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char c : hash) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c);
     }

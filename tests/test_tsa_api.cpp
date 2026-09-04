@@ -265,7 +265,7 @@ TEST_F(TSAClientWrapperTest, HookOnTokenVerifiedFiredOnSuccess) {
 
 TEST_F(TSAClientWrapperTest, HookOnTokenVerifiedFiredWhenNeitherTokenProvided) {
     std::atomic<int> error_calls{0};
-    std::string error_msg;
+    std::string error_msg = {};
 
     TSAEventHooks hooks;
     hooks.on_error = [&](const std::string& e) {
@@ -412,7 +412,7 @@ TEST_F(TSAClientWrapperNetworkTest, HooksReceiveCorrectArguments) {
         GTEST_SKIP() << "Network tests disabled";
     }
 
-    std::string captured_serial;
+    std::string captured_serial = {};
     bool captured_verify = false;
 
     TSAEventHooks hooks;

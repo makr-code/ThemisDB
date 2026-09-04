@@ -40,7 +40,7 @@ nlohmann::json PolicyRuleVersion::toJson() const {
 }
 
 PolicyRuleVersion PolicyRuleVersion::fromJson(const nlohmann::json &j) {
-    PolicyRuleVersion v;
+    PolicyRuleVersion v = {};
     if (j.contains("version")) {
         v.version = j["version"].get<std::string>();
     }
@@ -80,7 +80,7 @@ nlohmann::json AuditLogEntry::toJson() const {
 }
 
 AuditLogEntry AuditLogEntry::fromJson(const nlohmann::json &j) {
-    AuditLogEntry e;
+    AuditLogEntry e = {};
     if (j.contains("rule_id")) {
         e.rule_id = j["rule_id"].get<std::string>();
     }
@@ -422,7 +422,7 @@ std::string PolicyVersionHistory::incrementVersion(const std::string &current_ve
     patch++;
 
     // Format new version
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << major << "." << minor << "." << patch;
     return oss.str();
 }

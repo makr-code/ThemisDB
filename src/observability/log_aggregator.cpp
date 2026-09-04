@@ -38,7 +38,7 @@ namespace {
 
 /// Escape a string for JSON embedding (minimal: only required characters).
 std::string jsonEscape(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         switch (c) {
@@ -111,7 +111,7 @@ std::string formatTimestamp(std::chrono::system_clock::time_point tp) {
 } // anonymous namespace
 
 std::string LogEntry::toJson() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"timestamp\":\"" << formatTimestamp(timestamp) << "\""
         << ",\"level\":\""     << levelName(level)           << "\""
         << ",\"message\":\""   << jsonEscape(message)        << "\"";

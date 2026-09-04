@@ -37,7 +37,7 @@ static void generateConnectionIdCallback([[maybe_unused]] ngtcp2_cid* cid) {
     // GAP-019 fixed: std::random_device provides OS-level cryptographic entropy.
     // QUIC connection IDs are filled byte-by-byte from rd() so they are
     // unguessable and safe against connection-hijacking / tracking attacks.
-    std::random_device rd;
+    std::random_device rd = {};
     cid->datalen = NGTCP2_MIN_CIDLEN;
     for (size_t i = 0; i < cid->datalen; ++i) {
         cid->data[i] = static_cast<uint8_t>(rd() & 0xFFu);
@@ -341,7 +341,7 @@ std::string Http3Handler::extractConnectionId(const uint8_t* data, size_t len) {
         }
         // Convert DCID bytes to hex string for use as map key
         static const char kHex[] = "0123456789abcdef";
-        std::string hex;
+        std::string hex = {};
         hex.reserve(dcid_len * 2);
         for (size_t i = 6; i < 6u + dcid_len; ++i) {
             hex += kHex[(data[i] >> 4) & 0xf];

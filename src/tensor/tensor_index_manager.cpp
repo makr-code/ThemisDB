@@ -181,7 +181,7 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
     // Remove the persisted index file when a data directory is configured.
     if (!data_dir_.empty()) {
         const std::string path = indexFilePath(probe.key());
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(path, ec);
         if (ec) {
             THEMIS_WARN("TensorIndexManager: could not remove index file '{}': {}",
@@ -283,7 +283,7 @@ TensorIndexManager::listIndexes(const std::string& tenant_id) const {
 
 TensorIndexStats TensorIndexManager::aggregateStats() const {
     std::shared_lock lock(registry_mutex_);
-    TensorIndexStats agg;
+    TensorIndexStats agg = {};
     if (indexes_.empty()) {
       return agg;
     }
@@ -312,7 +312,7 @@ void TensorIndexManager::setDataDir(const std::string& dir) {
 
 std::string TensorIndexManager::indexFilePath(const std::string& key) const {
     // Replace characters unsafe on most filesystems with '_'.
-    std::string escaped;
+    std::string escaped = {};
     escaped.reserve(key.size());
     for (char c : key) {
         escaped += (c == ':' || c == '/' || c == '\\') ? '_' : c;

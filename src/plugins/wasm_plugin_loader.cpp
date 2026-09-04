@@ -116,7 +116,7 @@ static std::string computeFileHash(const std::string& path) {
         return "";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < hash_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(hash[i]);

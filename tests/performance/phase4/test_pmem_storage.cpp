@@ -18,7 +18,7 @@ using namespace themis::performance::phase4;
 // ---------------------------------------------------------------------------
 class PMemPoolTest : public ::testing::Test {
 protected:
-    std::string pool_path_;
+    std::string pool_path_ = {};
 
     void SetUp() override {
         pool_path_ = (fs::temp_directory_path() /
@@ -209,7 +209,7 @@ TEST_F(PMemPoolTest, ConcurrentAllocations) {
 
 class PMemLayoutTest : public ::testing::Test {
 protected:
-    std::string pool_path_;
+    std::string pool_path_ = {};
 
     void SetUp() override {
         pool_path_ = (fs::temp_directory_path() /

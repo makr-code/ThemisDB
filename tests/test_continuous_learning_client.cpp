@@ -193,7 +193,7 @@ TEST_F(ContinuousLearningClientTest, TriggerCallback) {
     ContinuousLearningClient client(config_);
     
     bool callback_called = false;
-    std::string trigger_type;
+    std::string trigger_type = {};
     
     client.setTriggerCallback([&](const OptimizationTrigger& trigger) {
         callback_called = true;

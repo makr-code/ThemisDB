@@ -584,7 +584,7 @@ GraphAnalytics::kShortestPaths(
     
     // Helper: Path comparator for uniqueness checking
     auto pathKey = [](const PathInfo& p) -> std::string {
-        std::string key;
+        std::string key = {};
         for (const auto& v : p.vertices) {
             key += v + "|";
         }

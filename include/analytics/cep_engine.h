@@ -858,7 +858,7 @@ public:
      * Get rule statistics
      */
     struct RuleStats {
-        std::string rule_id;
+        std::string rule_id = {};
         uint64_t events_processed = 0;
         uint64_t matches = 0;
         uint64_t actions_triggered = 0;

@@ -58,7 +58,7 @@ constexpr int     kAbsoluteMaxTTLSeconds      = 86400;       // 24 hours
 
 AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {
     // Phase 2: Validate configuration on startup
-    std::string validation_error;
+    std::string validation_error = {};
     if (!config_.validate(&validation_error)) {
         throw std::invalid_argument("Invalid cache configuration: " + validation_error);
     }
@@ -195,7 +195,7 @@ std::string AdaptiveQueryCache::generateFingerprint(const std::string &query, co
     SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
 
     // Convert to hex string
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::setw(2) << static_cast<int>(hash[i]);
@@ -969,7 +969,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
         THEMIS_WARN([[maybe_unused]] "Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS", pattern.size());
         return 0;
     }
-    std::regex re;
+    std::regex re = {};
     try {
         re = std::regex(pattern, std::regex::ECMAScript | std::regex::optimize);
     } catch (const std::regex_error &e) {
@@ -1227,7 +1227,7 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
 
     {
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
-        std::string eviction_name;
+        std::string eviction_name = {};
         {
             std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
             eviction_name = std::string(l1_eviction_strategy_->getName());

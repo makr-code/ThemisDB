@@ -246,7 +246,7 @@ public:
         std::string phone = args[0].get<std::string>();
         
         // Remove common separators for validation
-        std::string cleaned;
+        std::string cleaned = {};
         for (char c : phone) {
             if (std::isdigit(c) || c == '+') {
                 cleaned += c;
@@ -309,7 +309,7 @@ public:
         std::string rearranged = iban.substr(4) + iban.substr(0, 4);
         
         // Convert letters to numbers (A=10, B=11, ..., Z=35)
-        std::string numericStr;
+        std::string numericStr = {};
         for (char c : rearranged) {
             if (std::isalpha(c)) {
                 numericStr += std::to_string(c - 'A' + 10);
@@ -358,7 +358,7 @@ public:
         std::string card = args[0].get<std::string>();
         
         // Remove spaces and dashes
-        std::string cleaned;
+        std::string cleaned = {};
         for (char c : card) {
             if (std::isdigit(c)) {
                 cleaned += c;
@@ -444,7 +444,7 @@ public:
 
 private:
     static std::string escapeHtml(const std::string& str) {
-        std::string result;
+        std::string result = {};
         result.reserve(str.size() * 1.2);
         for (char c : str) {
             switch (c) {
@@ -460,7 +460,7 @@ private:
     }
     
     static std::string escapeSql(const std::string& str) {
-        std::string result;
+        std::string result = {};
         result.reserve(str.size() * 1.2);
         for (char c : str) {
             if (c == '\'') {
@@ -475,7 +475,7 @@ private:
     }
     
     static std::string escapeJson(const std::string& str) {
-        std::string result;
+        std::string result = {};
         result.reserve(str.size() * 1.2);
         for (char c : str) {
             switch (c) {
@@ -493,7 +493,7 @@ private:
     }
     
     static std::string sanitizeFilename(const std::string& str) {
-        std::string result;
+        std::string result = {};
         result.reserve(str.size());
         for (char c : str) {
             // Allow alphanumeric, dot, dash, underscore
@@ -655,7 +655,7 @@ public:
             return str; // Nothing to mask
         }
         
-        std::string result;
+        std::string result = {};
         result.reserve(len);
         for (int i = 0; i < len; ++i) {
             if (i < start || i >= len - end) {
@@ -706,7 +706,7 @@ public:
         std::string local = email.substr(0, atPos);
         std::string domain = email.substr(atPos + 1);
         
-        std::string maskedLocal;
+        std::string maskedLocal = {};
         if (local.length() <= 2) {
             maskedLocal = local;
         } else {
@@ -719,7 +719,7 @@ public:
             std::string domainName = domain.substr(0, dotPos);
             std::string tld = domain.substr(dotPos);
             
-            std::string maskedDomain;
+            std::string maskedDomain = {};
             if (domainName.length() <= 2) {
                 maskedDomain = domainName;
             } else {
@@ -763,7 +763,7 @@ public:
         std::string card = args[0].get<std::string>();
         
         // Remove non-digits
-        std::string cleaned;
+        std::string cleaned = {};
         for (char c : card) {
             if (std::isdigit(c)) {
                 cleaned += c;
@@ -869,7 +869,7 @@ public:
             hash = fnv1aHash(str);
         }
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0') << std::setw(16) << hash;
         return oss.str();
     }
@@ -921,7 +921,7 @@ public:
           return 0;
         }
         
-        std::string data;
+        std::string data = {};
         if (args[0].is_string()) {
             data = args[0].get<std::string>();
         } else {

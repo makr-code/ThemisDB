@@ -98,7 +98,7 @@ struct DispatchOutcome {
     /// @brief Wall-clock latency in microseconds (≥ 0).
     int64_t latency_us = 0;
     /// @brief Human-readable error or diagnostic message (may be empty on SUCCESS).
-    std::string error_message;
+    std::string error_message = {};
 
     nlohmann::json toJson() const {
         nlohmann::json j;

@@ -42,7 +42,7 @@ static std::string makeText(size_t tokens, double chars_per_token = 4.0) {
 /// Build a multi-sentence text with @p n sentences.
 static std::string makeSentences(size_t n, const std::string& sentence_text
                                             = "The quick brown fox jumps.") {
-    std::string result;
+    std::string result = {};
     for (size_t i = 0; i < n; ++i) {
         if (i > 0) {
           result += " ";

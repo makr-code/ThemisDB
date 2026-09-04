@@ -501,7 +501,7 @@ int CPUMatrixBackend::matmul(const MatrixKernelParams &params, void * /*opaque_s
 namespace {
 
 static int cpu_matrix_matmul(const MatrixKernelParams &params, void *stream) {
-    CPUMatrixBackend backend;
+    CPUMatrixBackend backend = {};
     return backend.matmul(params, stream);
 }
 

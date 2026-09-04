@@ -49,7 +49,7 @@ PurgeResult CDCAdmin::purgeAll() {
     THEMIS_INFO("CDC Admin: Purging all events");
     
     auto start = steady_clock::now();
-    PurgeResult result;
+    PurgeResult result = {};
     
     if (!changefeed_) {
         throw error::internalError("No changefeed available for purge");
@@ -79,7 +79,7 @@ PurgeResult CDCAdmin::purgeBySequenceRange(uint64_t start_sequence, uint64_t end
     validateSequenceRange(start_sequence, end_sequence);
     
     auto start = steady_clock::now();
-    PurgeResult result;
+    PurgeResult result = {};
     
     if (!changefeed_) {
         throw error::internalError("No changefeed available for purge");
@@ -104,7 +104,7 @@ PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
     THEMIS_INFO("CDC Admin: Purging events before timestamp {}", before_timestamp_ms);
     
     auto start = steady_clock::now();
-    PurgeResult result;
+    PurgeResult result = {};
     
     if (!changefeed_) {
         throw error::internalError("No changefeed available for purge");

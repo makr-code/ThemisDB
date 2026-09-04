@@ -31,10 +31,10 @@ namespace {
 std::unordered_set<std::string> tokenise(const std::string& text) {
     std::unordered_set<std::string> tokens;
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     while (ss >> word) {
         // Lower-case and strip trailing punctuation.
-        std::string lower;
+        std::string lower = {};
         lower.reserve(word.size());
         for (char c : word) {
             if (std::isalnum(static_cast<unsigned char>(c))) {

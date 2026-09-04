@@ -502,7 +502,7 @@ TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
     
     struct PriorityNode {
         MockReplicaNode node;
-        int priority;
+        int priority = {};
         
         PriorityNode(int id, int prio) : node(id), priority(prio) {}
     };

@@ -579,11 +579,11 @@ float ShardResourceManager::getCpuUsage() const {
         return 0.0f;
     }
     
-    std::string line;
+    std::string line = {};
     std::getline(stat_file, line);
     
     std::istringstream ss(line);
-    std::string cpu_label;
+    std::string cpu_label = {};
     uint64_t user, nice, system, idle, iowait, irq, softirq, steal;
     
     ss >> cpu_label >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
@@ -708,7 +708,7 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
         return {0, 0};
     }
     uint64_t total_rx = 0, total_tx = 0;
-    std::string line;
+    std::string line = {};
     int line_num = 0;
     while (std::getline(net_dev, line)) {
         if (++line_num <= 2) continue; // skip the two header lines

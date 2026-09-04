@@ -188,7 +188,7 @@ TEST(WaveDStressTest, HighCardinalitySpanIngestion)
     auto worker = [&](int thread_id) {
         for (int i = 0; i < kSpansPerThread; ++i) {
             // Build a unique trace_id per span (high-cardinality)
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << std::hex
                 << static_cast<unsigned>(thread_id) << "_"
                 << static_cast<unsigned>(i);

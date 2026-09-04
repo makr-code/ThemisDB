@@ -287,7 +287,7 @@ TEST(AQLSchemaEdgeCases, LargeSchemaHandledEfficiently) {
     validator.registerCollection(large_schema);
 
     // Build a schema context string that includes the collection
-    std::ostringstream schema_ctx;
+    std::ostringstream schema_ctx = {};
     schema_ctx << "collection:wide_events fields:[";
     for (int i = 0; i < 10; ++i) {  // include a few field refs
         schema_ctx << "field_" << i << ",";

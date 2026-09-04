@@ -79,7 +79,7 @@ std::string ConsumerGroupManager::makeOffsetKey(const std::string &group_id) con
 
 ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(const std::string &group_id) const {
     rocksdb::ReadOptions opts;
-    std::string value;
+    std::string value = {};
     rocksdb::Status s;
 
     if (cf_) {
@@ -104,7 +104,7 @@ ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(const std::string &gr
 
 uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) const {
     rocksdb::ReadOptions opts;
-    std::string value;
+    std::string value = {};
     rocksdb::Status s;
 
     if (cf_) {
@@ -221,7 +221,7 @@ bool ConsumerGroupManager::groupExists(const std::string &group_id) const {
 
     std::lock_guard<std::mutex> lock(mutex_);
     rocksdb::ReadOptions opts;
-    std::string value;
+    std::string value = {};
     rocksdb::Status s;
 
     if (cf_) {

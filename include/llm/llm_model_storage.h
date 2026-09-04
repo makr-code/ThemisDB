@@ -126,7 +126,7 @@ struct LLMModelMetadata {
     }
     
     static LLMModelMetadata fromJSON(const json& j) {
-        LLMModelMetadata metadata;
+        LLMModelMetadata metadata = {};
         
         if (j.contains("model_id")) {
           metadata.model_id = j["model_id"];

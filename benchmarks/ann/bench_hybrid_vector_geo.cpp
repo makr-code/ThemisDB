@@ -21,7 +21,7 @@ static void BM_VectorDistance_Euclidean(benchmark::State& state) {
     std::vector<float> v1(state.range(0));
     std::vector<float> v2(state.range(0));
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
@@ -53,7 +53,7 @@ static void BM_VectorDistance_Cosine(benchmark::State& state) {
     std::vector<float> v1(state.range(0));
     std::vector<float> v2(state.range(0));
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
@@ -98,7 +98,7 @@ BENCHMARK(BM_VectorDistance_Cosine)
 static void BM_VectorNormalization(benchmark::State& state) {
     std::vector<float> v(state.range(0));
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
@@ -146,7 +146,7 @@ static double haversineDist(const Point& p1, const Point& p2) {
 }
 
 static void BM_GeoDistance_Haversine(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
     std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
@@ -169,7 +169,7 @@ BENCHMARK(BM_GeoDistance_Haversine)
     ->Range(100, 10000);
 
 static void BM_GeoPointInBoundingBox(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> lat_dis(-90.0, 90.0);
     std::uniform_real_distribution<> lon_dis(-180.0, 180.0);
@@ -201,7 +201,7 @@ BENCHMARK(BM_GeoPointInBoundingBox)
 // ===== Combined Vector-Geo Simulation Benchmark =====
 
 static void BM_VectorGeoFiltering(benchmark::State& state) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> vec_dis(0.0, 1.0);
     std::uniform_real_distribution<> lat_dis(-90.0, 90.0);

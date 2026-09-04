@@ -86,7 +86,7 @@ std::string AdaptiveShardRouter::routeByDomain(
 ) const {
     std::lock_guard<std::mutex> lock(domain_scores_mutex_);
 
-    std::string best_shard;
+    std::string best_shard = {};
     double best_delta = std::numeric_limits<double>::lowest();
     uint64_t best_pending = std::numeric_limits<uint64_t>::max();
     int best_freshness_rank = 2;  // 0=fresh, 1=stale, 2=missing
@@ -161,7 +161,7 @@ nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
         return ShardRouter::executeQuery(query);
     }
     
-    AdaptiveStats stats;
+    AdaptiveStats stats = {};
     return executeAdaptiveQuery(query, stats);
 }
 
@@ -286,7 +286,7 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         uint64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             execution_current - execution_start).count();
         
-        std::string stop_reason;
+        std::string stop_reason = {};
         if (shouldStop(stats.total_results, previous_result_count, 
                       elapsed_ms, iteration + 1, stop_reason)) {
             stats.stopped_early = true;
@@ -432,7 +432,7 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     const std::set<std::string>& already_queried
 ) {
     struct Candidate {
-        std::string shard_id;
+        std::string shard_id = {};
         double score = 0.0;
     };
 

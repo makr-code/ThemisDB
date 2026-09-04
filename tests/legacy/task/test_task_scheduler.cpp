@@ -1172,7 +1172,7 @@ TEST_F(TaskSchedulerTest, DAG_ConditionalSkipPropagatesTransitively) {
     // A → B (condition: false) → C
     // B is condition-skipped, C should be condition-skipped transitively.
     std::vector<std::string> log;
-    std::mutex mu;
+    std::mutex mu = {};
 
     // Register root task A inline (no branch_condition)
     scheduler_->registerFunction("cs_a_fn", [&log, &mu](const nlohmann::json&) -> nlohmann::json {
@@ -1245,7 +1245,7 @@ TEST_F(TaskSchedulerTest, DAG_UnknownTaskIdThrows) {
 
 TEST_F(TaskSchedulerTest, DAG_SingleTask) {
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "solo", {}, order, mu);
 
     auto res = scheduler_->executeDAG({"solo"});
@@ -1259,7 +1259,7 @@ TEST_F(TaskSchedulerTest, DAG_SingleTask) {
 TEST_F(TaskSchedulerTest, DAG_LinearChainRespectsDependencyOrder) {
     // a -> b -> c   (b depends on a; c depends on b)
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "dag_a", {}, order, mu);
     registerOrderTask(scheduler_.get(), "dag_b", {"dag_a"}, order, mu);
     registerOrderTask(scheduler_.get(), "dag_c", {"dag_b"}, order, mu);
@@ -1280,7 +1280,7 @@ TEST_F(TaskSchedulerTest, DAG_LinearChainRespectsDependencyOrder) {
 TEST_F(TaskSchedulerTest, DAG_ParallelIndependentTasksAllSucceed) {
     // p1, p2, p3 have no dependencies – all run independently
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "par1", {}, order, mu);
     registerOrderTask(scheduler_.get(), "par2", {}, order, mu);
     registerOrderTask(scheduler_.get(), "par3", {}, order, mu);
@@ -1361,7 +1361,7 @@ TEST_F(TaskSchedulerTest, DAG_CycleDetectionThrows) {
 TEST_F(TaskSchedulerTest, DAG_DependencyOutsideSetIsIgnored) {
     // task_x depends on task_y, but only task_x is in the execution set
     std::vector<std::string> order;
-    std::mutex mu;
+    std::mutex mu = {};
     registerOrderTask(scheduler_.get(), "only_x", {"nonexistent_y"}, order, mu);
 
     // Should not throw and should succeed (out-of-set dep is silently ignored)

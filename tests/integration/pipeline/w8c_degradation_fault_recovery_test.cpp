@@ -209,7 +209,7 @@ public:
 
     [[nodiscard]] std::string Report() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "\n=== Degradation Metrics ===\n";
         oss << "Total Operations: " << total_operations_ << "\n";
         oss << "Successful: " << successful_operations_ << "\n";

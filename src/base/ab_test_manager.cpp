@@ -253,8 +253,8 @@ bool ABTestManager::startTest(const ABModuleTestConfig &config, ModuleLoader &lo
 
 bool ABTestManager::promoteTest(const std::string &test_id) {
     // Capture the information we need under the lock, then do the I/O outside.
-    std::string module_name;
-    std::string treatment_path;
+    std::string module_name = {};
+    std::string treatment_path = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);

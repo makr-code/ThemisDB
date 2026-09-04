@@ -589,8 +589,8 @@ nlohmann::json QueryFederation::executeJoin(
     //   "left_alias.lfield = right_alias.rfield"
     //   "lfield = rfield"
     // -------------------------------------------------------------------------
-    std::string left_field;
-    std::string right_field;
+    std::string left_field = {};
+    std::string right_field = {};
 
     auto extractField = [](const std::string& expr) -> std::string {
         // Trim whitespace.
@@ -876,7 +876,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     {
         std::regex re_for(R"(FOR\s+\w+\s+IN\s+(\w+))", std::regex::icase);
         std::sregex_iterator it(query.begin(), query.end(), re_for);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             if (it->size() > 1) {
                 push_unique(metadata.tables, (*it)[1].str());
@@ -904,7 +904,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::regex re_point(
             R"(FILTER\s+\w+\._key\s*==\s*[\"']([^\"']+)[\"'])",
             std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(query, m, re_point)) {
             if (m.size() > 1) {
                 QueryMetadata::ShardKeyPredicate pred;
@@ -963,7 +963,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     // SQL-style fallback: FROM <collection>
     if (metadata.tables.empty()) {
         std::regex re_from(R"(\bFROM\s+(\w+))", std::regex::icase);
-        std::smatch m_from;
+        std::smatch m_from = {};
         if (std::regex_search(query, m_from, re_from) && m_from.size() > 1) {
             push_unique(metadata.tables, m_from[1].str());
         }
@@ -979,7 +979,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     // ── Joins ─────────────────────────────────────────────────────────────────
     if (query_upper.find("JOIN") != std::string::npos) {
         std::regex re_join_table(R"(\bJOIN\s+(\w+))", std::regex::icase);
-        std::smatch m_join_table;
+        std::smatch m_join_table = {};
         if (std::regex_search(query, m_join_table, re_join_table) &&
             m_join_table.size() > 1) {
             push_unique(metadata.tables, m_join_table[1].str());
@@ -988,7 +988,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::regex re_join_on(
             R"(\bON\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*([A-Za-z_][A-Za-z0-9_\.]*))",
             std::regex::icase);
-        std::smatch m_join_on;
+        std::smatch m_join_on = {};
         if (std::regex_search(query, m_join_on, re_join_on) && m_join_on.size() > 2) {
             // Optimize: Use fmt::format for cleaner string building instead of + concatenation
             push_unique(
@@ -1004,7 +1004,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     // ── LIMIT ────────────────────────────────────────────────────────────────
     {
         std::regex re_limit(R"(LIMIT\s+(\d+)(?:\s*,\s*(\d+))?)", std::regex::icase);
-        std::smatch m2;
+        std::smatch m2 = {};
         if (std::regex_search(query, m2, re_limit)) {
             try {
                 if (m2.size() > 2 && m2[2].matched) {
@@ -1075,7 +1075,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             std::regex re_sql_point(
                 R"(\bWHERE\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
-            std::smatch m_sql_point;
+            std::smatch m_sql_point = {};
             if (std::regex_search(query, m_sql_point, re_sql_point) && m_sql_point.size() > 2) {
                 const std::string field = m_sql_point[1].str();
                 const std::string key_value = m_sql_point[2].str();
@@ -1096,7 +1096,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             std::regex re_sql_range(
                 R"(\bWHERE\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*<=\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
-            std::smatch m_sql_range;
+            std::smatch m_sql_range = {};
             if (std::regex_search(query, m_sql_range, re_sql_range) && m_sql_range.size() > 4) {
                 const std::string left_field = m_sql_range[1].str();
                 const std::string min_val = m_sql_range[2].str();

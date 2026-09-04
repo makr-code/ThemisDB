@@ -215,7 +215,7 @@ protected:
 
     void TearDown() override {
         if (!config_.l3_db_path.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(config_.l3_db_path, ec);
             // Ignore cleanup errors so they don't mask test failures.
         }

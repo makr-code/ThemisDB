@@ -538,7 +538,7 @@ TEST_F(AgenticRAGSecurityTest, InjectionViaReformulatedQuery) {
             "Missing: '); DROP TABLE users; --"),
     };
 
-    std::string received_query;
+    std::string received_query = {};
     auto result = agent.run(
         "SELECT * FROM documents",
         docs,

@@ -198,7 +198,7 @@ std::string FeedbackStore::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "-"
@@ -253,7 +253,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::createFeedback(FeedbackEntry feedbac
 
 std::optional<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedback(const std::string& id) const {
     std::string key = makeKey(id);
-    std::string value;
+    std::string value = {};
     
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
@@ -895,7 +895,7 @@ bool FeedbackStore::isLinkedToAdapter(
     const std::string& adapter_id) const {
     
     std::string key = makeGraphEdgeKey(feedback_id, adapter_id);
-    std::string value;
+    std::string value = {};
     
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;

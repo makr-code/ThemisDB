@@ -109,7 +109,7 @@ struct ReleaseGateMetrics {
 
     /// @brief Generate diagnostic report.
     std::string Report() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "\n=== Release Critical Signoff Metrics ===\n";
         oss << "Read Performance:\n"
             << "  p99: " << read_p99_us << " us (SLA: ≤ 200us)\n"

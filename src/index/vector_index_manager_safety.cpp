@@ -26,8 +26,8 @@ public:
 
 private:
     uint32_t id_;
-    std::string name_;
-    uint32_t dimension_;
+    std::string name_ = {};
+    uint32_t dimension_ = {};
 };
 
 // ============================================================================

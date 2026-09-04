@@ -100,9 +100,9 @@ static std::optional<ReplicationErrorCode> mockCrdtMergeTypes(
 
 /// Simulates LWW conflict resolution — returns the winning value.
 struct MockVersion {
-    std::int64_t timestamp;
-    std::string  node_id;
-    std::string  value;
+    std::int64_t timestamp = {};
+    std::string  node_id = {};
+    std::string  value = {};
     bool         is_tombstone = false;
 };
 

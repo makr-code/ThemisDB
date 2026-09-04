@@ -51,8 +51,8 @@ using namespace themis::server;
 class RecordingHandler : public IMqttMessageHandler {
 public:
     struct Record {
-        std::string topic;
-        std::string payload;
+        std::string topic = {};
+        std::string payload = {};
         uint8_t     qos{0};
     };
 
@@ -709,7 +709,7 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
     auto previous_logger = spdlog::default_logger();
     auto previous_level = spdlog::get_level();
 
-    std::ostringstream capture;
+    std::ostringstream capture = {};
     auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(capture);
     auto logger = std::make_shared<spdlog::logger>("mqtt_tls_verify_none_test", sink);
     logger->set_pattern("%v");

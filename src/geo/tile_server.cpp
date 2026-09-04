@@ -200,7 +200,7 @@ VectorTileResult encodeVectorTile(const TileCoord &tile, const std::vector<Geome
     const double ext = static_cast<double>(tile_extent);
 
     for (const auto &geom : geometries) {
-        VectorTileFeature feat;
+        VectorTileFeature feat = {};
 
         if (geom.type == GeometryType::Point) {
             if (geom.coords.empty()) {

@@ -79,7 +79,7 @@ struct BuddyAllocator::Impl {
     // Block metadata (address -> block info) - use std::map for stable pointers
     std::map<uintptr_t, Block> blocks;
     
-    std::mutex mutex;
+    std::mutex mutex = {};
     
     Impl(size_t total, size_t min_block)
         : total_size(total), min_block_size(min_block) {
@@ -360,10 +360,10 @@ double BuddyAllocator::getFragmentation() const {
 
 struct SlabAllocator::Slab {
     std::unique_ptr<uint8_t[]> memory;
-    size_t object_size;
-    size_t object_count;
+    size_t object_size = {};
+    size_t object_count = {};
     std::vector<bool> free_map;
-    size_t free_count;
+    size_t free_count = {};
     std::unique_ptr<Slab> next;
     
     Slab(size_t obj_size, size_t obj_count)
@@ -423,13 +423,13 @@ struct SlabAllocator::Slab {
 
 struct SlabAllocator::Impl {
     size_t object_size = 0;
-    size_t objects_per_slab;
-    size_t max_slabs;
+    size_t objects_per_slab = {};
+    size_t max_slabs = {};
     
     std::unique_ptr<Slab> head_slab;
-    size_t slab_count;
+    size_t slab_count = {};
     
-    std::mutex mutex;
+    std::mutex mutex = {};
     
     Impl(size_t obj_size, size_t objs_per_slab, size_t max)
         : object_size(obj_size), objects_per_slab(objs_per_slab),
@@ -582,8 +582,8 @@ double SlabAllocator::getUtilization() const {
 
 struct StackAllocator::Impl {
     uint8_t* memory;
-    size_t capacity;
-    size_t offset;
+    size_t capacity = {};
+    size_t offset = {};
     
     std::mutex mutex;
     
@@ -746,7 +746,7 @@ struct PoolAllocator::Impl {
     
     // Track which allocator owns each pointer
     std::unordered_map<uintptr_t, IAllocator*> ownership;
-    std::mutex ownership_mutex;
+    std::mutex ownership_mutex = {};
     
     Impl(const Config& cfg) : config(cfg) {
         // Initialize buddy allocator

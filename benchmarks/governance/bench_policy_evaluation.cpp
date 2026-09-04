@@ -27,9 +27,9 @@ public:
     };
     
     struct EvaluationContext {
-        std::string user;
-        std::string resource;
-        std::string action;
+        std::string user = {};
+        std::string resource = {};
+        std::string action = {};
         std::map<std::string, std::string> attributes;
     };
     
@@ -192,7 +192,7 @@ BENCHMARK(BM_PolicySetEvaluation)->Arg(10)->Arg(100)->Arg(1000);
 static void BM_CachingImpact(benchmark::State& state) {
     bool use_cache = state.range(0);
     
-    PolicyEngine engine;
+    PolicyEngine engine = {};
     if (use_cache) {
       engine.enable_cache();
     }

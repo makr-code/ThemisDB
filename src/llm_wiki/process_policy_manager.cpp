@@ -105,7 +105,7 @@ ProcessSchedule parseSchedule(const nlohmann::json& node,
 
 StagePolicy parseStage(const nlohmann::json& stage_node,
                        ProcessSchedule default_schedule) {
-    StagePolicy policy;
+    StagePolicy policy = {};
     if (!stage_node.is_object()) {
         policy.enabled = false;
         policy.schedule = default_schedule;

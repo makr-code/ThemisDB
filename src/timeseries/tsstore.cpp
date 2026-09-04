@@ -117,7 +117,7 @@ std::string TSStore::makeKey(const std::string& metric,
                                      int64_t timestamp_ms) const {
     // Format: "ts:{metric}:{entity}:{timestamp_ms_padded}"
     // Zero-pad timestamp for lexicographic ordering
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << KEY_PREFIX << metric << ":" << entity << ":" 
         << std::setw(20) << std::setfill('0') << timestamp_ms;
     return oss.str();
@@ -519,7 +519,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
     span.setAttribute("batch_size", static_cast<int64_t>(rows.size()));
     auto start_time = std::chrono::steady_clock::now();
 
-    BatchWriteResult result;
+    BatchWriteResult result = {};
     if (rows.empty()) {
         return Ok(result);
     }
@@ -591,7 +591,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 std::vector<uint8_t> compressed = encoder.finish();
 
                 const auto& first_row = rows[indices.front()];
-                std::string chunk_key;
+                std::string chunk_key = {};
                 {
                     const std::string ts_front = std::to_string(timestamps.front());
                     const std::string ts_back  = std::to_string(timestamps.back());
@@ -611,7 +611,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 chunk_meta["count"]       = indices.size();
 
                 if (enc_chunk_store_) {
-                    std::string series_id;
+                    std::string series_id = {};
                     series_id.reserve(first_row.metric.size() + 1 + first_row.entity.size());
                     series_id.append(first_row.metric).append(":").append(first_row.entity);
                     std::string chunk_range = "[" + std::to_string(timestamps.front()) +
@@ -874,7 +874,7 @@ TSStore::query(const QueryOptions& options) const {
 
                 if (is_encrypted) {
                     size_t pos4 = key.find(':', pos3 + 1);
-                    std::string chunk_range;
+                    std::string chunk_range = {};
                     if (pos4 == std::string::npos) {
                         // Malformed chunk key — log a warning and skip.
                         THEMIS_WARN("Malformed encrypted chunk key (missing last_ts): {}", key);
@@ -1215,7 +1215,7 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     }
 
     std::string prefix = KEY_PREFIX + metric + ":";
-    std::string end_key;
+    std::string end_key = {};
     {
         // end_key as first key with timestamp >= cutoff for any entity; we'll check entities in loop
         // We will iterate all keys with metric prefix and delete those with timestamp < cutoff
@@ -1368,7 +1368,7 @@ Result<void> TSStore::putSystemMeta(const std::string& key, const std::string& v
 
 Result<std::optional<std::string>> TSStore::getSystemMeta(const std::string& key) const {
     std::string full_key = std::string(SYS_META_PREFIX) + key;
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
     if (cf_) {

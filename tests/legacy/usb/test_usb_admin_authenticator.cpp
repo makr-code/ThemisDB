@@ -13,8 +13,8 @@ namespace fs = std::filesystem;
 
 class USBAdminAuthenticatorTest : public ::testing::Test {
 protected:
-    std::string test_mount_path_;
-    std::string license_file_path_;
+    std::string test_mount_path_ = {};
+    std::string license_file_path_ = {};
     
     void SetUp() override {
         // Create temporary directory for testing
@@ -291,7 +291,7 @@ static std::string computeHmacResponse(const std::string& license_key,
          reinterpret_cast<const unsigned char*>(challenge.data()), challenge.size(),
          hmac_out, &hmac_len);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < hmac_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hmac_out[i]);
     }

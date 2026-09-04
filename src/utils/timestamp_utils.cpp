@@ -225,7 +225,7 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     auto s         = total_sec - h - m;
     auto ms_part   = total_ms - duration_cast<milliseconds>(total_sec);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (negative) {
       oss << '-';
     }

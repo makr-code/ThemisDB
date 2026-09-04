@@ -32,7 +32,7 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
 ) const {
     MetaPromptResult result;
     
-    std::ostringstream meta_prompt;
+    std::ostringstream meta_prompt = {};
     
     // Header
     meta_prompt << "# Prompt Improvement Task\n\n";
@@ -117,7 +117,7 @@ std::string MetaPromptGenerator::generateAnalysisPrompt(
     const std::string& prompt,
     const std::vector<std::pair<std::string, std::string>>& examples
 ) const {
-    std::ostringstream analysis;
+    std::ostringstream analysis = {};
     
     analysis << "# Prompt Quality Analysis\n\n";
     
@@ -258,7 +258,7 @@ std::string MetaPromptGenerator::buildImprovementInstructions(
     const std::string& /*feedback*/,
     double /*score*/
 ) const {
-    std::ostringstream instructions;
+    std::ostringstream instructions = {};
     
     instructions << "## Improvement Instructions\n";
     
@@ -286,7 +286,7 @@ std::string MetaPromptGenerator::buildImprovementInstructions(
 }
 
 std::string MetaPromptGenerator::buildConstraints() const {
-    std::ostringstream constraints;
+    std::ostringstream constraints = {};
     
     constraints << "## Constraints\n";
     constraints << "- Keep the improved prompt focused and concise\n";
@@ -305,7 +305,7 @@ std::string MetaPromptGenerator::buildConstraints() const {
 std::string MetaPromptGenerator::buildExampleSection(
     const std::string& /*original_prompt*/
 ) const {
-    std::ostringstream examples;
+    std::ostringstream examples = {};
     
     examples << "## Example Improvements\n";
     examples << "### Pattern 1: Adding Structure\n";

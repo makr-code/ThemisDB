@@ -285,7 +285,7 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
 
     auto collect_matches = [&]([[maybe_unused]] const std::regex &re) {
         std::sregex_iterator it(prefix_text.begin(), prefix_text.end(), re);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             vars.push_back((*it)[1].str());
         }
@@ -338,7 +338,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     // Parse "colname(field1, field2, ...)" entries
     std::regex col_re(R"(([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\))", std::regex::icase);
     std::sregex_iterator it(text.begin(), text.end(), col_re);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     std::unordered_set<std::string> seen = {};
 
     for (; it != end; ++it) {
@@ -351,7 +351,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
         std::string fields_str = (*it)[2].str();
         std::regex field_re(R"([A-Za-z_][A-Za-z0-9_]*)");
         std::sregex_iterator fit(fields_str.begin(), fields_str.end(), field_re);
-        std::sregex_iterator fend;
+        std::sregex_iterator fend = {};
         for (; fit != fend; ++fit) {
             info.fields.push_back((*fit)[0].str());
         }
@@ -362,7 +362,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     if (result.empty()) {
         std::regex plain_re(R"([A-Za-z_][A-Za-z0-9_]*)");
         std::sregex_iterator pit(text.begin(), text.end(), plain_re);
-        std::sregex_iterator pend;
+        std::sregex_iterator pend = {};
         std::unordered_set<std::string> plain_seen = {};
 
         for (; pit != pend; ++pit) {
@@ -474,12 +474,12 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
     std::vector<CompletionItem> items;
 
     // Try to find which collection was bound to 'variable' via FOR <variable> IN <collection>
-    std::string collection_name;
+    std::string collection_name = {};
     if (!variable.empty() && !schema.empty()) {
         std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
         try {
             std::regex for_re("FOR\\s+" + variable + "\\s+IN\\s+([A-Za-z_][A-Za-z0-9_]*)", std::regex::icase);
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(prefix_text, m, for_re)) {
                 collection_name = aqlAutoCompleteToLower(m[1].str());
             }

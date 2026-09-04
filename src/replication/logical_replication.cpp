@@ -409,8 +409,8 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
         return;
     }
     const size_t worker_count = std::min<size_t>(slots_copy.size(), hw_threads - 1);
-    std::exception_ptr worker_error;
-    std::mutex worker_err_mutex;
+    std::exception_ptr worker_error = {};
+    std::mutex worker_err_mutex = {};
     std::atomic<size_t> next_index{0};
     std::vector<std::thread> workers;
     workers.reserve(worker_count);
@@ -563,7 +563,7 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
       return false;
     }
 
-    std::string actual;
+    std::string actual = {};
     if (it->is_string()) {
         actual = it->get<std::string>();
     } else {
@@ -616,7 +616,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
         return;
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     const fs::path dir(base_path);
     if (!fs::exists(dir, ec)) {
         fs::create_directories(dir, ec);
@@ -630,7 +630,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
     for (fs::directory_iterator it(dir, fs::directory_options::skip_permission_denied, ec);
          !ec && it != fs::directory_iterator();) {
         const auto& entry = *it;
-        std::error_code type_ec;
+        std::error_code type_ec = {};
         if (!entry.is_regular_file(type_ec) || type_ec || entry.path().extension() != ".json") {
             it.increment(ec);
             if (ec) {
@@ -725,7 +725,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     }
 
     fs::path base = fs::path(state_path).parent_path();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(base, ec);
     if (ec) {
         THEMIS_WARN("Failed to create slot directory {}: {}", base.string(), ec.message());
@@ -760,7 +760,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     const bool io_ok = lrm_executeWithTimeout(
         config_.file_io_timeout_ms,
         [tmp_path, payload, state_path, base, slot_name = slot.meta.slot_name]() mutable {
-            std::error_code ec;
+            std::error_code ec = {};
 #ifdef _WIN32
             int fd = ::_open(tmp_path.string().c_str(),
                              _O_WRONLY | _O_CREAT | _O_TRUNC | _O_BINARY,

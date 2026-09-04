@@ -30,7 +30,7 @@ namespace storage {
 namespace {
 
 std::string normalizePropertyType(const std::string& type) {
-    std::string trimmed;
+    std::string trimmed = {};
     trimmed.reserve(type.size());
     for (char ch : type) {
         if (!std::isspace(static_cast<unsigned char>(ch))) {
@@ -378,7 +378,7 @@ const std::vector<MigrationOp>& SchemaMigrator::stagedOps() const noexcept
 MigrationResult SchemaMigrator::applyAddColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.column_name.empty()) {
         r.error_message = "ADD_COLUMN: column name must not be empty";
@@ -446,7 +446,7 @@ MigrationResult SchemaMigrator::applyDropColumn(
 MigrationResult SchemaMigrator::applyRenameColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.new_name.empty()) {
         r.error_message = "RENAME_COLUMN: new_name must not be empty";
@@ -500,7 +500,7 @@ MigrationResult SchemaMigrator::applyRenameColumn(
 MigrationResult SchemaMigrator::applyChangeColumnType(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.column_type.empty()) {
         r.error_message = "CHANGE_COLUMN_TYPE: new type must not be empty";
@@ -531,7 +531,7 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
 MigrationResult SchemaMigrator::applyAddIndex(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.column_name.empty()) {
         r.error_message = "ADD_INDEX: column name must not be empty";
@@ -620,7 +620,7 @@ MigrationResult SchemaMigrator::applyDropIndex(
 MigrationResult SchemaMigrator::applyPartitionTable(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
-    MigrationResult r;
+    MigrationResult r = {};
 
     if (op.partition_key.empty()) {
         r.error_message = "PARTITION_TABLE: partition_key must not be empty";

@@ -9,7 +9,7 @@ namespace themis::evaluation {
 namespace {
 
 [[nodiscard]] std::string normalizeToken(std::string_view value) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(value.size());
     for (const auto ch : value) {
         const auto lower = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));

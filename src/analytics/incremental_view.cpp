@@ -215,7 +215,7 @@ IncrementalView::IncrementalView(const ViewDefinition &def) : def_(def) {}
 IncrementalView::~IncrementalView() = default;
 
 std::string IncrementalView::makeGroupKey(const ChangeRecord::Row &row) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &dim : def_.dimensions) {
         auto it = row.find(dim);
         oss << (it != row.end() ? fieldValueToStr(it->second) : "") << '\0';
@@ -226,7 +226,7 @@ std::string IncrementalView::makeGroupKey(const ChangeRecord::Row &row) const {
 std::unordered_map<std::string, std::string> IncrementalView::parseGroupKey(const GroupKey &gk) const {
     std::unordered_map<std::string, std::string> result;
     std::istringstream iss(gk);
-    std::string token;
+    std::string token = {};
     for (const auto &dim : def_.dimensions) {
         if (std::getline(iss, token, '\0')) {
             result[dim] = token;
@@ -375,8 +375,8 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     // the caller-supplied const rows — no synchronisation required.
     struct PreFiltered {
         size_t index = 0;
-        bool before_passes;
-        bool after_passes;
+        bool before_passes = {};
+        bool after_passes = {};
     };
 
     std::vector<PreFiltered> filtered = {};

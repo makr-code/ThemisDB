@@ -52,7 +52,7 @@ bool isLikelyValidBase64(std::string_view value) {
 
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     int val=0, valb=-6;
     for (uint8_t c : data) {
         val = (val<<8) + c;

@@ -30,9 +30,9 @@ namespace graph {
  * @brief A (head, relation, tail) triple for training or scoring.
  */
 struct KGTriple {
-    std::string head;
+    std::string head = {};
     std::string relation;
-    std::string tail;
+    std::string tail = {};
 };
 
 /**

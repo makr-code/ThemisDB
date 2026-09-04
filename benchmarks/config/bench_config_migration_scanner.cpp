@@ -68,7 +68,7 @@ public:
     }
 
     void TearDown(const benchmark::State& /*state*/) override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(temp_root_, ec);  // best-effort cleanup
     }
 
@@ -205,7 +205,7 @@ static void BM_ScanTree_1K(benchmark::State& state) {
 
     state.SetLabel("1K files; expect < 0.5 s");
 
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(root, ec);
 }
 BENCHMARK(BM_ScanTree_1K)->Unit(benchmark::kMillisecond)->Iterations(1);
@@ -238,7 +238,7 @@ static void BM_ScanTree_10K(benchmark::State& state) {
 
     state.SetLabel("10K files; target < 5 s");
 
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(root, ec);
 }
 // Single iteration: we're measuring wall-clock throughput for 10K files,

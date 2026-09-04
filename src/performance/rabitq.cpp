@@ -164,7 +164,7 @@ uint8_t RaBitQEncoder::quantize_value(float value, size_t dim) const {
 
 float RaBitQEncoder::dequantize_value(uint8_t quantized, size_t dim) const {
     // Map 2-bit value back to float (use bin centers)
-    float normalized;
+    float normalized = {};
     const auto& thresh = thresholds_[dim];
     
     switch (quantized) {

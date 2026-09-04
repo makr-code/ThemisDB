@@ -28,8 +28,8 @@ std::vector<std::string> SimplePromptCompressor::splitParagraphs(
 
     std::vector<std::string> paragraphs;
     std::istringstream ss(text);
-    std::string line;
-    std::string current;
+    std::string line = {};
+    std::string current = {};
 
     while (std::getline(ss, line)) {
         if (line.empty() || line.find_first_not_of(" \t\r\n") == std::string::npos) {
@@ -55,7 +55,7 @@ std::vector<std::string> SimplePromptCompressor::splitWords(
 
     std::vector<std::string> words;
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     while (ss >> word) {
       words.push_back(word);
     }
@@ -65,7 +65,7 @@ std::vector<std::string> SimplePromptCompressor::splitWords(
 std::string SimplePromptCompressor::joinWords(
     const std::vector<std::string>& words) {
 
-    std::string result;
+    std::string result = {};
     for (size_t i = 0; i < words.size(); ++i) {
         if (i > 0) {
           result += ' ';
@@ -102,7 +102,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
         static constexpr size_t kMaxSummaryChars = 300;
 
         // Collect complete sentences until we reach the character budget.
-        std::string summary;
+        std::string summary = {};
         summary.reserve(kMaxSummaryChars + 16);
         size_t pos = 0;
         const size_t len = omitted_text.size();
@@ -252,7 +252,7 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
         kept_indices.push_back(i);
 
     // Build the initial kept string
-    std::string result;
+    std::string result = {};
     for (size_t idx : kept_indices) {
         if (!result.empty()) {
           result += "\n\n";
@@ -288,7 +288,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
         : 0;
 
     // The "middle" is everything between sys_end and tail_start.
-    std::string middle;
+    std::string middle = {};
     for (size_t i = sys_end; i < tail_start; ++i) {
         if (!middle.empty()) {
           middle += "\n\n";
@@ -297,7 +297,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
     }
 
     // Build result: system + summary placeholder + tail
-    std::string result;
+    std::string result = {};
     for (size_t i = 0; i < sys_end && i < paragraphs.size(); ++i) {
         if (!result.empty()) {
           result += "\n\n";
@@ -364,7 +364,7 @@ CompressionResult SimplePromptCompressor::compress(
         budget = std::max(budget, effective_budget);
     }
 
-    std::string compressed;
+    std::string compressed = {};
     switch (config.strategy) {
         case CompressionStrategy::TRUNCATE_HEAD:
             compressed = truncateHead(prompt, budget);

@@ -231,7 +231,7 @@ public:
     // Phase 6: Enrich a single sample
     // -------------------------------------------------------------------------
     GraphContext enrichSample(const std::string& sample_id) {
-        GraphContext context;
+        GraphContext context = {};
 
         if (sample_id.empty()) {
             return context;
@@ -247,7 +247,7 @@ public:
 
         // Phase 9: Check LRU cache before executing AQL queries
         if (cache_) {
-            GraphContext cached;
+            GraphContext cached = {};
             if (cache_->get(cacheKey(source_document_id), cached)) {
                 return cached;
             }
@@ -294,7 +294,7 @@ public:
     // Phase 6: Query-based enrichment
     // -------------------------------------------------------------------------
     EnrichmentStats enrichQuery(const std::string& aql_query, EnrichmentCallback callback) {
-        EnrichmentStats stats;
+        EnrichmentStats stats = {};
 
         if (aql_query.empty()) {
             return stats;
@@ -534,7 +534,7 @@ private:
     std::string cacheKey(const std::string& entity_key) const {
         std::hash<std::string> hasher;
         size_t h = hasher(entity_key + ":" + graph_version_);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << h;
         return oss.str();
     }
@@ -599,7 +599,7 @@ private:
 
     // Phase 6: Build a human-readable context summary
     std::string buildContextSummary(const GraphContext& context) const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
 
         if (!context.related_provisions.empty()) {
             oss << "Related provisions: " << context.related_provisions.size() << "; ";

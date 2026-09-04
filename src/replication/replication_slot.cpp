@@ -299,7 +299,7 @@ void ReplicationSlot::loadState()
       return;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
             const std::string search = "\"" + key + "\": ";

@@ -1158,7 +1158,7 @@ public:
         if (args[0].is_array()) {
             for (const auto& entry : args[0]) {
                 if (entry.is_array() && entry.size() >= 2) {
-                    std::string key;
+                    std::string key = {};
                     if (entry[0].is_string()) {
                         key = entry[0].get<std::string>();
                     } else {

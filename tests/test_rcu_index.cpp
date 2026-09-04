@@ -71,7 +71,7 @@ TEST(RCUHashTableTest, BasicOperations) {
     EXPECT_FALSE(table.empty());
     
     // Test lookup
-    int value;
+    int value = {};
     EXPECT_TRUE(table.lookup("key1", value));
     EXPECT_EQ(value, 100);
     
@@ -85,7 +85,7 @@ TEST(RCUHashTableTest, UpdateExisting) {
     // Insert initial value
     table.insert("key1", 100);
     
-    int value;
+    int value = {};
     EXPECT_TRUE(table.lookup("key1", value));
     EXPECT_EQ(value, 100);
     

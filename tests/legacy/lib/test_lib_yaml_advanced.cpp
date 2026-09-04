@@ -26,12 +26,12 @@ protected:
 
     void TearDown() override {
         if (fs::exists(test_yaml_dir_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_yaml_dir_, ec);
         }
     }
 
-    std::string test_yaml_dir_;
+    std::string test_yaml_dir_ = {};
     
     // Helper to write YAML to file
     void writeYAMLFile(const std::string& filename, const std::string& content) {

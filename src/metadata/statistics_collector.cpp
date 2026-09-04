@@ -278,7 +278,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
 
             for (const auto& [col, val] : fields) {
                 std::string col_str = std::string(col);
-                std::string val_str;
+                std::string val_str = {};
                 std::visit([&val_str](const auto& v) {
                     using T = std::decay_t<decltype(v)>;
                     if constexpr (std::is_same_v<T, std::string>) {

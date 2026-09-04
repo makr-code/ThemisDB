@@ -248,7 +248,7 @@ std::string SAGALogger::generateBatchId() const {
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                   now.time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "saga_batch_" << ms;
     return oss.str();
 }
@@ -382,7 +382,7 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
     }
     
     std::optional<SignedBatch> batch_meta;
-    std::string line;
+    std::string line = {};
     while (std::getline(sig_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
         if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string() || j["batch_id"].get<std::string>() != batch_id) {
@@ -474,7 +474,7 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
     
     // Find batch metadata
     std::optional<SignedBatch> batch_meta;
-    std::string line;
+    std::string line = {};
     while (std::getline(sig_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
         if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string() || j["batch_id"].get<std::string>() != batch_id) {
@@ -547,7 +547,7 @@ std::vector<std::string> SAGALogger::listBatches() const {
       return batch_ids;
     }
     
-    std::string line;
+    std::string line = {};
     while (std::getline(sig_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
         if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string()) {
@@ -588,7 +588,7 @@ size_t SAGALogCompactor::compact(const std::string& before_txn_id) {
         std::ifstream ifs(cfg_.log_path);
         if (!ifs) return 0; // WAL does not exist yet
 
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line)) {
             if (line.empty()) {
               continue;
@@ -667,7 +667,7 @@ size_t SAGALogReplayer::replay_incomplete([[maybe_unused]] RecoveryHandler handl
       return 0;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         if (line.empty()) {
           continue;

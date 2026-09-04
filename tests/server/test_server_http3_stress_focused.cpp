@@ -57,7 +57,7 @@ static constexpr uint32_t kHttp3StressSeed = 7331U;
 
 /// Simulated peer endpoint (address + port tuple)
 struct FakePeerEndpoint {
-    std::string address;
+    std::string address = {};
     uint16_t    port;
 
     bool operator==(const FakePeerEndpoint& o) const noexcept {

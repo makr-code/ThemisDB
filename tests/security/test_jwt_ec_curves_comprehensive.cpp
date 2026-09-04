@@ -42,7 +42,7 @@ namespace {
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -388,7 +388,7 @@ TEST_F(ES384ValidatorTest, TamperedPayload_Rejected) {
     // Split token
     std::vector<std::string> parts;
     std::istringstream ss(token);
-    std::string p;
+    std::string p = {};
     while (std::getline(ss, p, '.')) {
       parts.push_back(p);
     }

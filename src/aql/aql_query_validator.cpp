@@ -61,7 +61,7 @@ std::string ValidationResult::summary() const {
     if (errors == 0 && warnings == 0 && infos == 0) {
         return "OK";
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (errors > 0) {
         oss << errors << " error" << (errors > 1 ? "s" : "");
     }
@@ -111,7 +111,7 @@ std::vector<std::string> extractForVariables(const std::string &upper_query) {
     std::vector<std::string> vars;
     std::regex for_re(R"(FOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN)", std::regex::icase);
     std::sregex_iterator it(upper_query.begin(), upper_query.end(), for_re);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     for (; it != end; ++it) {
         vars.push_back((*it)[1].str());
     }
@@ -123,7 +123,7 @@ std::vector<std::string> extractLetVariables(const std::string &upper_query) {
     std::vector<std::string> vars;
     std::regex let_re(R"(LET\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
     std::sregex_iterator it(upper_query.begin(), upper_query.end(), let_re);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     for (; it != end; ++it) {
         vars.push_back((*it)[1].str());
     }
@@ -213,7 +213,7 @@ void checkTraversalDepthOrder(const std::string &query, ValidationResult &result
     // Match patterns like "IN 3..1 OUTBOUND" or "IN 5..2 ANY"
     static const std::regex depth_re(R"(\bIN\s+(\d+)\.\.(\d+)\s+(?:OUTBOUND|INBOUND|ANY)\b)", std::regex::icase);
     std::sregex_iterator it(query.begin(), query.end(), depth_re);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     for (; it != end; ++it) {
         int min_d = std::stoi((*it)[1].str());
         int max_d = std::stoi((*it)[2].str());
@@ -306,7 +306,7 @@ void AQLQueryValidator::checkUnknownCollections(const std::string &query, const 
                                       std::regex::icase);
 
     std::sregex_iterator it(query.begin(), query.end(), for_in_re);
-    std::sregex_iterator end_it;
+    std::sregex_iterator end_it = {};
 
     for (; it != end_it; ++it) {
         std::string collection_name = (*it)[1].str();
@@ -342,7 +342,7 @@ void AQLQueryValidator::checkUnknownFields(const std::string &query, const std::
     std::unordered_map<std::string, std::string> var_to_collection;
     {
         std::sregex_iterator it(query.begin(), query.end(), for_in_re);
-        std::sregex_iterator end_it;
+        std::sregex_iterator end_it = {};
         for (; it != end_it; ++it) {
             std::string var = (*it)[1].str();
             std::string col = (*it)[2].str();
@@ -372,7 +372,7 @@ void AQLQueryValidator::checkUnknownFields(const std::string &query, const std::
     static const std::regex field_access_re(R"(\b([A-Za-z_][A-Za-z0-9_]*)\.([A-Za-z_][A-Za-z0-9_]*))",
                                             std::regex::icase);
     std::sregex_iterator it(query.begin(), query.end(), field_access_re);
-    std::sregex_iterator end_it;
+    std::sregex_iterator end_it = {};
 
     std::set<std::string> already_warned; // avoid duplicate warnings
 

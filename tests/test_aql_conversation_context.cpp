@@ -101,7 +101,7 @@ TEST_F(AQLConversationContextTest, RefineBeforeStartThrows) {
 TEST_F(AQLConversationContextTest, StartDoesNotThrowWithoutModel) {
     // Without a loaded LLM model, start() should return an empty string
     // but must NOT throw or crash.
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW({ result = ctx->start("Find all users"); });
     // Result is either a valid AQL string or empty (no model loaded)
     (void)result;
@@ -153,7 +153,7 @@ TEST_F(AQLConversationContextTest, RefineDoesNotThrowWithoutModel) {
     // Attempt start; if turn count becomes 1 we can call refine
     try { ctx->start("find all users"); } catch (...) {}
     if (ctx->turnCount() >= 1) {
-        std::string result;
+        std::string result = {};
         EXPECT_NO_THROW({ result = ctx->refine("also filter by age > 18"); });
         (void)result;
     }

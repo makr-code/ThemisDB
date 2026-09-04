@@ -40,7 +40,7 @@ private:
     std::string container_name_;
     std::string prefix_;
     std::unique_ptr<Azure::Storage::Blobs::BlobContainerClient> container_client_;
-    std::string init_error_;
+    std::string init_error_ = {};
     mutable std::mutex mutex_;
     
     // Compute SHA256 hash
@@ -48,7 +48,7 @@ private:
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(), data.size(), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') 
                << static_cast<int>(hash[i]);

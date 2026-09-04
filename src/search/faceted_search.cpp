@@ -70,7 +70,7 @@ FacetedSearch::computeFacet(const std::string& table,
         }
 
         const auto& entity = entities[0];
-        std::string field_value;
+        std::string field_value = {};
         auto str_opt = entity.getFieldAsString(column);
         if (str_opt.has_value()) {
             field_value = str_opt.value();

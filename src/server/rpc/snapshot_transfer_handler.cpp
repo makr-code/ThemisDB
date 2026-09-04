@@ -39,7 +39,7 @@ namespace fs = std::filesystem;
 namespace {
 
 fs::path resolveSnapshotRootDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     auto base_dir = fs::temp_directory_path(ec);
     if (ec || base_dir.empty()) {
         ec.clear();
@@ -61,7 +61,7 @@ fs::path resolveDefaultDbDataDir() {
         return fs::path(env_path);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     auto cwd = fs::current_path(ec);
     if (ec || cwd.empty()) {
         return fs::path("data") / "rocksdb";
@@ -183,7 +183,7 @@ public:
                 chunk.set_file_offset(file_offset);
                 
                 // Compress data
-                std::string compressed_data;
+                std::string compressed_data = {};
                 SnapshotStatus status = CompressData(
                     std::string(buffer.data(), bytes_read),
                     &compressed_data
@@ -277,7 +277,7 @@ public:
         }
         
         // Decompress data
-        std::string decompressed_data;
+        std::string decompressed_data = {};
         SnapshotStatus status = DecompressData(chunk.data(), &decompressed_data);
         if (status != SnapshotStatus::OK) {
             return status;
@@ -395,7 +395,7 @@ public:
 
         // Determine the RocksDB data directory from the db_ handle when available,
         // otherwise fall back to the well-known ThemisDB data path.
-        std::string db_data_dir;
+        std::string db_data_dir = {};
         if (db_) {
             db_data_dir = db_->GetName();
         } else {
@@ -407,7 +407,7 @@ public:
 
         fs::path dest_dir(db_data_dir);
         if (!fs::exists(dest_dir)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(dest_dir, ec);
             if (ec) {
                 spdlog::error("FinalizeSnapshot: cannot create destination dir '{}': {}",
@@ -430,7 +430,7 @@ public:
             fs::path rel    = fs::relative(entry.path(), snapshot_dir_);
             fs::path target = dest_dir / rel;
 
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(target.parent_path(), ec);
             if (ec) {
                 spdlog::error("FinalizeSnapshot: mkdir '{}': {}", target.parent_path().string(), ec.message());
@@ -710,7 +710,7 @@ private:
                 unsigned char hash[SHA256_DIGEST_LENGTH];
                 SHA256(reinterpret_cast<const unsigned char*>(data.data()),
                       data.size(), hash);
-                std::stringstream ss;
+                std::stringstream ss = {};
                 for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
                     ss << std::hex << std::setw(2) << std::setfill('0')
                        << static_cast<int>(hash[i]);
@@ -720,7 +720,7 @@ private:
             
             case themis::sharding::CHECKSUM_XXH64: {
                 XXH64_hash_t h = XXH64(data.data(), data.size(), 0);
-                std::ostringstream ss;
+                std::ostringstream ss = {};
                 ss << std::hex << std::setw(16) << std::setfill('0') << h;
                 return ss.str();
             }
@@ -756,7 +756,7 @@ private:
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256_Final(hash, &sha256);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);
@@ -779,7 +779,7 @@ private:
     /// @brief RAII ownership of the RocksDB Checkpoint object.
     /// Replaces the previous raw pointer + manual delete in destructor.
     std::unique_ptr<rocksdb::Checkpoint> checkpoint_;
-    std::string snapshot_dir_;
+    std::string snapshot_dir_ = {};
 
     // Allow external injection of the RocksDB instance (e.g. from the shard server).
     void SetDB(rocksdb::DB* db) {

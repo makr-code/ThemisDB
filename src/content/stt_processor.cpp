@@ -205,7 +205,7 @@ std::vector<ContentChunk> STTProcessor::chunk(const ContentExtractionResult &res
     if (result.metadata.contains("segments")) {
         auto segments = result.metadata["segments"];
 
-        std::string current_chunk;
+        std::string current_chunk = {};
         int sequence           = 0;
         int64_t chunk_start_ms = 0;
         int64_t chunk_end_ms   = 0;
@@ -253,7 +253,7 @@ std::vector<ContentChunk> STTProcessor::chunk(const ContentExtractionResult &res
         // Fallback to sentence-based chunking
         auto sentences = splitSentences(result.text);
 
-        std::string current_chunk;
+        std::string current_chunk = {};
         int sequence = 0;
 
         for (const auto &sentence : sentences) {
@@ -694,7 +694,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
                     // 64-bit IEEE double
                     uint64_t bits = static_cast<uint64_t>(readUInt32LE(sample_offset))
                                     | (static_cast<uint64_t>(readUInt32LE(sample_offset + 4)) << 32);
-                    double d_sample;
+                    double d_sample = {};
                     std::memcpy(&d_sample, &bits, sizeof(double));
                     sample = static_cast<float>(d_sample);
                 } else {
@@ -771,7 +771,7 @@ TranscriptionResult STTProcessor::transcribeInternal(const std::vector<float> &p
         // Extract results
         const int n_segments = whisper_full_n_segments(ctx);
 
-        std::string full_text;
+        std::string full_text = {};
         float total_confidence = 0.0f;
         int confidence_count   = 0;
 

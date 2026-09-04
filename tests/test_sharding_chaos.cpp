@@ -228,7 +228,7 @@ TEST(ShardingChaosTest, RandomFailureInjection) {
         shards.emplace_back(i);
     }
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution failure_dis(FAILURE_PROBABILITY);
     

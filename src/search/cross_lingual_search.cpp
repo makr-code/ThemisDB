@@ -177,7 +177,7 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::applyHintsAndFinaliz
 
     for (auto& [doc_id, score] : scored) {
         // Language annotation from the language map
-        std::string lang;
+        std::string lang = {};
         auto lang_it = lang_map_.find(doc_id);
         if (lang_it != lang_map_.end()) {
             lang = lang_it->second;

@@ -225,7 +225,7 @@ TEST_F(HotReloadEngineConfigTest, CustomConfig_IsPreserved) {
 
 class UpdateStateMachineTest : public ::testing::Test {
 protected:
-    std::string tmp_log_;
+    std::string tmp_log_ = {};
 
     void SetUp() override {
         tmp_log_ = std::string("/tmp/test_update_sm_") + std::to_string(
@@ -370,7 +370,7 @@ TEST_F(UpdateStateMachineTest, PersistentLog_WrittenToFile) {
     EXPECT_TRUE(fs::exists(tmp_log_));
 
     std::ifstream f(tmp_log_);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(f, line)) {
         if (!line.empty()) {
@@ -647,7 +647,7 @@ TEST(StateMachineThreadSafetyTest, Callback_CanCallCurrentState_NoDeadlock) {
 
 TEST(StateMachineThreadSafetyTest, Callback_CanCallCurrentVersion_NoDeadlock) {
     UpdateStateMachine sm;
-    std::string observed_version;
+    std::string observed_version = {};
 
     sm.addStateChangeCallback([&](UpdateState, UpdateState, const std::string&) {
         // currentVersion() acquires mutex_ – must NOT deadlock after fix
@@ -685,7 +685,7 @@ TEST(StateMachineThreadSafetyTest, Reset_Callback_CanCallCurrentVersion_NoDeadlo
     sm.transition(UpdateState::DOWNLOADING, "3.0.0");
     sm.transition(UpdateState::FAILED,      "3.0.0");
 
-    std::string version_at_reset;
+    std::string version_at_reset = {};
     sm.addStateChangeCallback([&](UpdateState, UpdateState, const std::string&) {
         version_at_reset = sm.currentVersion();
     });
@@ -700,9 +700,9 @@ TEST(StateMachineThreadSafetyTest, Reset_Callback_CanCallCurrentVersion_NoDeadlo
 
 class DeltaUpdateEngineTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string install_dir_;
-    std::string download_dir_;
+    std::string tmp_dir_ = {};
+    std::string install_dir_ = {};
+    std::string download_dir_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -1189,9 +1189,9 @@ TEST_F(DeltaUpdateEngineTest, ProgressCallback_IsInvoked) {
 
 class DeltaPathTraversalTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string install_dir_;
-    std::string download_dir_;
+    std::string tmp_dir_ = {};
+    std::string install_dir_ = {};
+    std::string download_dir_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -1591,8 +1591,8 @@ TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCanBeCleared) {
 
 class UpdateHistoryLoggerTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string log_file_;
+    std::string tmp_dir_ = {};
+    std::string log_file_ = {};
 
     void SetUp() override {
         auto ts = std::chrono::system_clock::now().time_since_epoch().count();
@@ -1777,9 +1777,9 @@ TEST_F(UpdateHistoryLoggerTest, HotReloadEngineConfig_HistoryFieldsCustomizable)
 
 class CheckpointTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
-    std::string log_file_;
-    std::string history_file_;
+    std::string tmp_dir_ = {};
+    std::string log_file_ = {};
+    std::string history_file_ = {};
 
     void SetUp() override {
         auto ts   = std::chrono::steady_clock::now().time_since_epoch().count();

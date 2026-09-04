@@ -303,7 +303,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
             return results;
         }
         
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line) && results.size() < read_limit) {
             if (line.empty()) {
               continue;
@@ -467,7 +467,7 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
             return results;
         }
         
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line) && results.size() < read_limit) {
             if (line.empty()) {
               continue;
@@ -731,7 +731,7 @@ std::string TaskAuditManager::generateAuditEntryHMAC([[maybe_unused]] const Task
          hash, &hash_len);
     
     // Convert to hex string
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (unsigned int i = 0; i < hash_len; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -779,7 +779,7 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
                 return 0;
             }
             
-            std::string line;
+            std::string line = {};
             while (std::getline(ifs, line)) {
                 if (line.empty()) {
                   continue;
@@ -852,7 +852,7 @@ size_t TaskAuditManager::detectAndRecoverCorruption() {
             return 0;
         }
         
-        std::string line;
+        std::string line = {};
         size_t line_num = 0;
         
         while (std::getline(ifs, line)) {

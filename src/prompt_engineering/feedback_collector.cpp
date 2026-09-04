@@ -128,14 +128,14 @@ std::string FeedbackEntry::computeChecksum() const {
     fnv_update(feedbackTypeToString(type));
     fnv_update(query);
     // Include severity as a fixed-precision string
-    std::ostringstream sev_str;
+    std::ostringstream sev_str = {};
     sev_str << std::fixed << std::setprecision(6) << severity;
     fnv_update(sev_str.str());
     // Include timestamp as epoch seconds
     auto ts = std::chrono::system_clock::to_time_t(timestamp);
     fnv_update(std::to_string(ts));
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -645,7 +645,7 @@ std::string FeedbackCollector::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "feedback_" << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "_"
@@ -660,7 +660,7 @@ std::string FeedbackCollector::formatTimestampKey(
     // Zero-padded 20-digit microseconds since epoch ensures lexicographic == chronological order.
     auto us = std::chrono::duration_cast<std::chrono::microseconds>(
                   tp.time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setfill('0') << std::setw(20) << us;
     return oss.str();
 }
@@ -733,7 +733,7 @@ void FeedbackCollector::loadFromDB() {
 FeedbackStats FeedbackCollector::calculateStats(
     const std::vector<FeedbackEntry>& entries
 ) const {
-    FeedbackStats stats;
+    FeedbackStats stats = {};
     
     if (entries.empty()) {
         return stats;
@@ -809,7 +809,7 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
 
     auto tokenise = [&]([[maybe_unused]] const std::string& text) {
         std::vector<std::string> tokens;
-        std::string cur;
+        std::string cur = {};
         for (unsigned char c : text) {
             if (std::isalnum(c)) {
                 cur += static_cast<char>(std::tolower(c));
@@ -861,7 +861,7 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
           tf[t]++;
         }
 
-        std::string best_term;
+        std::string best_term = {};
         double best_score = -1.0;
         for (const auto& [term, count] : tf) {
             double tfidf = static_cast<double>(count)

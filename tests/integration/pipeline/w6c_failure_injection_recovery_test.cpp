@@ -110,7 +110,7 @@ public:
 
     struct IngestResult {
         bool    ok{false};
-        std::string error;
+        std::string error = {};
     };
 
     IngestResult Ingest(const std::string& token,

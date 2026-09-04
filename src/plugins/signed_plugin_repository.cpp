@@ -97,7 +97,7 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
 
 // Convert raw bytes to lowercase hex string.
 std::string bytesToHex(const uint8_t* data, size_t len) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (size_t i = 0; i < len; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
     }
@@ -271,7 +271,7 @@ std::string SignedPluginRepository::canonicalManifestJson(
     // Only the subset of fields that form the plugin identity and binary contract
     // are covered; auxiliary / display fields are excluded.
     auto escape = [](const std::string& s) -> std::string {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size() + 2);
         out += '"';
         for (char c : s) {

@@ -69,7 +69,7 @@ namespace query {
 struct VectorizedPredicate {
     enum class Op { Eq, Ne, Lt, Le, Gt, Ge, IsNull, IsNotNull };
 
-    std::string    field;
+    std::string    field = {};
     Op             op    = Op::Eq;
     nlohmann::json value;  // unused for IsNull / IsNotNull
 

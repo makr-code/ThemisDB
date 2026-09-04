@@ -153,7 +153,7 @@ public:
 enum class Tier { HOT, WARM, COLD };
 
 struct TierHeuristics {
-    std::uint64_t accessCount;
+    std::uint64_t accessCount = {};
     std::chrono::system_clock::time_point lastAccess;
 };
 

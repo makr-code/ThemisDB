@@ -469,7 +469,7 @@ static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
 
     for (auto _ : state) {
         state.PauseTiming();
-        std::string first_output;
+        std::string first_output = {};
         state.ResumeTiming();
 
         // First pass: generate output deterministically
@@ -479,7 +479,7 @@ static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
         }
 
         state.PauseTiming();
-        std::string second_output;
+        std::string second_output = {};
         state.ResumeTiming();
 
         // Second pass: verify output is identical
@@ -507,7 +507,7 @@ BENCHMARK(BM_DP05_DeterministicOutputVerification)
 struct VersionClock {
     uint64_t logical_clock{0};
     int64_t wall_clock_ms{0};
-    std::string node_id;
+    std::string node_id = {};
 
     void increment() {
         logical_clock++;

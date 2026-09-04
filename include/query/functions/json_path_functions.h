@@ -43,8 +43,8 @@ public:
     
     struct Segment {
         SegmentType type;
-        std::string field;
-        int index;
+        std::string field = {};
+        int index = {};
         
         Segment(const std::string& f) : type(SegmentType::FIELD), field(f), index(-1) {}
         Segment(int idx) : type(SegmentType::INDEX), field(""), index(idx) {}
@@ -72,7 +72,7 @@ public:
         
         // Parse segments
         size_t pos = 0;
-        std::string current_field;
+        std::string current_field = {};
         
         while (pos < working_path.length()) {
             char c = working_path[pos];
@@ -100,7 +100,7 @@ public:
                 std::string index_str = working_path.substr(pos + 1, close - pos - 1);
                 // REL-22: wrap stoi() — index_str comes from user input and may be
                 // non-numeric or out-of-range (e.g. "[abc]", "[999999999999]").
-                int index;
+                int index = {};
                 try {
                     index = std::stoi(index_str);
                 } catch (const std::exception&) {
@@ -282,7 +282,7 @@ public:
         
         struct StackItem {
             const nlohmann::json* node;
-            int level;
+            int level = {};
         };
         
         std::vector<StackItem> stack;

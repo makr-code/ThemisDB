@@ -109,7 +109,7 @@ std::string LLMGrpcService::extractBearerToken(grpc::ServerContext* context) {
     
     std::string auth_value(it->second.data(), it->second.size());
     std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
-    std::smatch matches;
+    std::smatch matches = {};
     
     if (std::regex_match(auth_value, matches, bearer_regex) && matches.size() == 2) {
         return matches[1].str();
@@ -378,9 +378,9 @@ grpc::Status LLMGrpcService::IngestModel(
     }
     
     try {
-        std::string model_id;
-        std::ofstream temp_file;
-        std::string temp_path;
+        std::string model_id = {};
+        std::ofstream temp_file = {};
+        std::string temp_path = {};
         bool first_chunk = true;
         
         llm::ModelChunk chunk;
@@ -391,7 +391,7 @@ grpc::Status LLMGrpcService::IngestModel(
                 // Security: Use secure temporary directory with random suffix
                 // Instead of predictable /tmp/model_ID.tmp, use platform-specific temp dir
                 auto temp_dir = std::filesystem::temp_directory_path();
-                std::random_device rd;
+                std::random_device rd = {};
                 std::mt19937 gen(rd());
                 std::uniform_int_distribution<> dis(100000, 999999);
                 std::string random_suffix = std::to_string(dis(gen));
@@ -660,7 +660,7 @@ grpc::Status LLMGrpcService::ImportLoRA(
     }
     
     try {
-        std::string lora_id;
+        std::string lora_id = {};
         std::vector<uint8_t> lora_data;
         
         llm::LoRAChunk chunk;

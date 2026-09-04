@@ -46,7 +46,7 @@ namespace {
             logger = spdlog::default_logger();
         }
         
-        std::string level_str;
+        std::string level_str = {};
         switch ([[maybe_unused]] event.type) {
             case DiagnosticEvent::Type::ERROR_DETECTED:
                 logger->error("[{}] {} - {}", event.component, 

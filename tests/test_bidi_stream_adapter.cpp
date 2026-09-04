@@ -28,7 +28,7 @@ using namespace themis::plugins::rpc::grpc_plugin;
  * false (client half-close).  Written messages are collected in `outbound_`.
  */
 struct MockMessage {
-    std::string value;
+    std::string value = {};
 };
 
 class MockBidiStream {

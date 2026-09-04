@@ -469,7 +469,7 @@ json TaskSchedulerApiHandler::getExecutionHistory(
 }
 
 std::string TaskSchedulerApiHandler::getWebUi() {
-    std::string html;
+    std::string html = {};
     html.reserve(65536);
 
     html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";

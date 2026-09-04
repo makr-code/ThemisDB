@@ -329,7 +329,7 @@ void example_participant_setup() {
     // instances that hold lambdas capturing them by reference.
 
     struct MockStore {
-        std::mutex mu;
+        std::mutex mu = {};
         // key → {value, commit_timestamp}
         std::map<std::string, std::pair<std::string, int64_t>> data;
         std::map<std::string, std::vector<std::string>> lock_table; // txn_id → locked keys

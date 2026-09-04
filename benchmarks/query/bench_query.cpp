@@ -313,7 +313,7 @@ static void BM_SimpleWhere_Scaled(benchmark::State& state) {
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
-        std::string err;
+        std::string err = {};
         size_t matched_users = 0;
         if (!run_simple_where(engine, matched_users, err)) {
             state.SkipWithError(err.c_str());
@@ -333,7 +333,7 @@ static void BM_ComplexWhere_Scaled(benchmark::State& state) {
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
-        std::string err;
+        std::string err = {};
         size_t matched_users = 0;
         if (!run_complex_where(engine, matched_users, err)) {
             state.SkipWithError(err.c_str());
@@ -353,7 +353,7 @@ static void BM_JoinUsersPosts_Scaled(benchmark::State& state) {
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
-        std::string err;
+        std::string err = {};
         size_t matched_users = 0;
         size_t joined_rows = 0;
         if (!run_join_users_posts(engine, matched_users, joined_rows, err)) {
@@ -530,7 +530,7 @@ static void BM_SimpleWhere_P99(benchmark::State& state) {
         (void)_;
         samples_us.clear();
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             auto t0 = std::chrono::high_resolution_clock::now();
             bool ok = run_simple_where(engine, matched_users, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -567,7 +567,7 @@ static void BM_ComplexWhere_P99(benchmark::State& state) {
         (void)_;
         samples_us.clear();
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             auto t0 = std::chrono::high_resolution_clock::now();
             bool ok = run_complex_where(engine, matched_users, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -605,7 +605,7 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
         (void)_;
         samples_us.clear();
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             auto t0 = std::chrono::high_resolution_clock::now();
             bool ok = run_join_users_posts(engine, matched_users, joined_rows, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -644,7 +644,7 @@ static void BM_JoinUsersPosts_Batched_P99(benchmark::State& state) {
         (void)_;
         samples_us.clear();
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             auto t0 = std::chrono::high_resolution_clock::now();
             bool ok = run_join_users_posts_batched(engine, matched_users, joined_rows, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -683,7 +683,7 @@ static void BM_JoinUsersPosts_IndexKeys_P99(benchmark::State& state) {
         (void)_;
         samples_us.clear();
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             auto t0 = std::chrono::high_resolution_clock::now();
             bool ok = run_join_users_posts_index_keys(engine, matched_users, joined_rows, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -722,7 +722,7 @@ static void BM_QueryMix_Historical(benchmark::State& state) {
 
     // Warmup: populate index/cache paths before timing starts.
     for (size_t w = 0; w < kWarmupIters; ++w) {
-        std::string err;
+        std::string err = {};
         size_t du = 0, dj = 0;
         if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err); }
         else if (w % 10 >= 7)  { run_complex_where(engine, du, err);        }
@@ -732,9 +732,9 @@ static void BM_QueryMix_Historical(benchmark::State& state) {
 
     size_t iter_count = 0;
     for (auto _ : state) {
-        std::string err;
+        std::string err = {};
         size_t mu = 0, jr = 0;
-        bool ok;
+        bool ok = {};
         // Deterministic round-robin mix: 6 Simple, 3 Complex, 1 JOIN per 10 iters.
         const size_t slot = iter_count % 10;
         if      (slot < 6) {
@@ -760,7 +760,7 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (size_t w = 0; w < kWarmupIters; ++w) {
-        std::string err;
+        std::string err = {};
         size_t du = 0, dj = 0;
         if      (w % 10 == 9)  { run_join_users_posts(engine, du, dj, err); }
         else if (w % 10 >= 7)  { run_complex_where(engine, du, err);        }
@@ -780,9 +780,9 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
         size_t complex_count = 0;
         size_t join_count = 0;
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             size_t mu = 0, jr = 0;
-            bool ok;
+            bool ok = {};
             const size_t slot = i % 10;
             auto t0 = std::chrono::high_resolution_clock::now();
             if      (slot < 6) {
@@ -835,7 +835,7 @@ static void BM_QueryMix_Historical_P99_Batched(benchmark::State& state) {
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (size_t w = 0; w < kWarmupIters; ++w) {
-        std::string err;
+        std::string err = {};
         size_t du = 0, dj = 0;
         if      (w % 10 == 9)  { run_join_users_posts_batched(engine, du, dj, err); }
         else if (w % 10 >= 7)  { run_complex_where(engine, du, err);                }
@@ -855,9 +855,9 @@ static void BM_QueryMix_Historical_P99_Batched(benchmark::State& state) {
         size_t complex_count = 0;
         size_t join_count = 0;
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             size_t mu = 0, jr = 0;
-            bool ok;
+            bool ok = {};
             const size_t slot = i % 10;
             auto t0 = std::chrono::high_resolution_clock::now();
             if      (slot < 6) {
@@ -909,7 +909,7 @@ static void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State& state) {
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (size_t w = 0; w < kWarmupIters; ++w) {
-        std::string err;
+        std::string err = {};
         size_t du = 0, dj = 0;
         if      (w % 10 == 9)  { run_join_users_posts_index_keys(engine, du, dj, err); }
         else if (w % 10 >= 7)  { run_complex_where(engine, du, err);                               }
@@ -929,9 +929,9 @@ static void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State& state) {
         size_t complex_count = 0;
         size_t join_count = 0;
         for (size_t i = 0; i < kSamples; ++i) {
-            std::string err;
+            std::string err = {};
             size_t mu = 0, jr = 0;
-            bool ok;
+            bool ok = {};
             const size_t slot = i % 10;
             auto t0 = std::chrono::high_resolution_clock::now();
             if      (slot < 6) {

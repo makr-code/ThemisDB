@@ -204,7 +204,7 @@ TEST_F(TimeoutDeterminismTest, ClockJitterInvariance_DeterministicOutcome) {
   
   // When: Run transactions with random clock jitter
   for (int trial = 0; trial < n_trials; ++trial) {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> jitter_dist(-100, 100);
     int jitter_ms = jitter_dist(gen);
@@ -240,7 +240,7 @@ TEST_F(TimeoutDeterminismTest, TimeoutOrdering_DistributedLedger) {
   // When: Start all transactions and record timeout order
   auto start = std::chrono::steady_clock::now();
   std::vector<std::pair<uint64_t, long>> timeout_order;  // (tx_id, time_ms)
-  std::mutex order_lock;
+  std::mutex order_lock = {};
 
   for (int i = 0; i < tx_ids.size(); ++i) {
     std::thread([&](int idx) {

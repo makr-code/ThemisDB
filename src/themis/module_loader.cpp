@@ -234,7 +234,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     }
 
     // Step 5: Verify module signature and integrity
-    std::string errorMessage;
+    std::string errorMessage = {};
     if (!verifier_->verifyModule(modulePath, errorMessage)) {
         result.errorCode     = ModuleErrorCode::VERIFICATION_FAILED;
         result.errorCategory = categorizeError(result.errorCode);
@@ -787,7 +787,7 @@ ModuleLoader::extractModuleMetadata(const std::string& modulePath) {
 }
 
 ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
-    ModuleMetadata metadata;
+    ModuleMetadata metadata = {};
 
     if (!handle) {
         return metadata;
@@ -1327,7 +1327,7 @@ void ModuleLoader::watchdogCheckAllModules() {
             continue;
         }
 
-        std::string errorMsg;
+        std::string errorMsg = {};
         bool        healthy = watchdogRunHealthChecks(modCopy, errorMsg);
 
         uint64_t now = nowMs();
@@ -1496,7 +1496,7 @@ struct TempDirGuard {
     explicit TempDirGuard(std::string path) : path_(std::move(path)) {}
     ~TempDirGuard() {
         if (!path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(path_, ec);
         }
     }
@@ -1515,9 +1515,9 @@ std::string makeTempDirPath() {
     // Combine a monotonic timestamp with a random component to guarantee
     // uniqueness under concurrent calls.
     auto ns = std::chrono::steady_clock::now().time_since_epoch().count();
-    std::random_device rd;
+    std::random_device rd = {};
     std::uniform_int_distribution<uint32_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << ns << "_" << dist(rd);
     return (base / oss.str()).string();
 }
@@ -1746,7 +1746,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
     // both on failure and when the dir already exists, so we must inspect the
     // error code to distinguish the two cases.
     std::string tempDir = makeTempDirPath();
-    std::error_code fsErr;
+    std::error_code fsErr = {};
     fs::create_directories(tempDir, fsErr);
     if (fsErr && !fs::exists(tempDir)) {
         zip_close(archive);
@@ -1755,7 +1755,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
     }
 
     // Canonicalise the temp dir for ZipSlip checking.
-    std::error_code canonErr;
+    std::error_code canonErr = {};
     fs::path tempDirCanon = fs::canonical(tempDir, canonErr);
     if (canonErr) {
         zip_close(archive);
@@ -1857,7 +1857,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
     PluginBundleLoadResult result;
 
     // ── Step 1: Extract archive to temp dir ───────────────────────────────
-    std::string extractError;
+    std::string extractError = {};
     std::string tempDir = extractToTempDir(bundlePath, extractError);
     if (tempDir.empty()) {
         result.errorMessage = "Bundle extraction failed: " + extractError;
@@ -1886,7 +1886,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
                               std::istreambuf_iterator<char>());
     manifestFile.close();
 
-    std::string parseError;
+    std::string parseError = {};
     if (!parseManifest(manifestJson, result.manifest, parseError)) {
         result.errorMessage = "Failed to parse manifest: " + parseError;
         spdlog::error("PluginBundleLoader: {}", result.errorMessage);
@@ -1909,7 +1909,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
                                        std::istreambuf_iterator<char>());
         sigFile.close();
 
-        std::string sigError;
+        std::string sigError = {};
         if (!verifyEd25519Signature(
                 reinterpret_cast<const uint8_t*>(manifestJson.data()),
                 manifestJson.size(),
@@ -1941,7 +1941,7 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
     const std::string platform = currentPlatform();
     auto it = result.manifest.nativeLibraries.find(platform);
 
-    std::string selectedRelPath;
+    std::string selectedRelPath = {};
     if (it != result.manifest.nativeLibraries.end()) {
         selectedRelPath = it->second;
         result.usedWasmFallback = false;

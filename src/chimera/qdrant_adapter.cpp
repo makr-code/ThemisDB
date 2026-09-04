@@ -124,7 +124,7 @@ Result<size_t> QdrantAdapter::batch_insert(
 }
 
 Result<QueryStatistics> QdrantAdapter::get_query_statistics() const {
-    QueryStatistics stats;
+    QueryStatistics stats = {};
     return Result<QueryStatistics>::ok(std::move(stats));
 }
 

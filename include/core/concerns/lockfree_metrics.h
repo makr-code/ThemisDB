@@ -240,7 +240,7 @@ private:
 
     struct CounterEntry {
         std::atomic<int64_t> value{0};
-        std::string          name;
+        std::string          name = {};
         Labels               labels;
 
         CounterEntry(std::string n, Labels l)
@@ -262,7 +262,7 @@ private:
 
     struct GaugeEntry {
         std::atomic<double> value{0.0};
-        std::string         name;
+        std::string         name = {};
         Labels              labels;
 
         GaugeEntry(std::string n, Labels l)

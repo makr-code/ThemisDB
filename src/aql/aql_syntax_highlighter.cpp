@@ -114,7 +114,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
     while (pos < code.size()) {
         // Skip whitespace (preserve for faithful reconstruction)
         if (std::isspace(static_cast<unsigned char>(code[pos]))) {
-            std::string ws;
+            std::string ws = {};
             std::size_t tl = line, tc = col;
             while (pos < code.size() && std::isspace(static_cast<unsigned char>(code[pos]))) {
                 ws += advance();
@@ -127,7 +127,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Single-line comment //
         if (code[pos] == '/' && peek(1) == '/') {
-            std::string comment;
+            std::string comment = {};
             while (pos < code.size() && code[pos] != '\n') {
                 comment += advance();
             }
@@ -137,7 +137,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Block comment /* … */
         if (code[pos] == '/' && peek(1) == '*') {
-            std::string comment;
+            std::string comment = {};
             comment += advance();
             comment += advance(); // consume /*
             while (pos < code.size()) {
@@ -155,7 +155,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         // String literal (single or double quote)
         if (code[pos] == '"' || code[pos] == '\'') {
             char q = code[pos];
-            std::string str;
+            std::string str = {};
             str += advance(); // opening quote
             while (pos < code.size()) {
                 char c = advance();
@@ -172,7 +172,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Bind parameter  @name
         if (code[pos] == '@') {
-            std::string ident;
+            std::string ident = {};
             ident += advance(); // @
             while (pos < code.size() && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
@@ -184,7 +184,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         // Number (integer or float)
         if (std::isdigit(static_cast<unsigned char>(code[pos]))
             || (code[pos] == '-' && pos + 1 < code.size() && std::isdigit(static_cast<unsigned char>(code[pos + 1])))) {
-            std::string num;
+            std::string num = {};
             if (code[pos] == '-') {
                 num += advance();
             }
@@ -203,7 +203,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
 
         // Identifier or keyword
         if (std::isalpha(static_cast<unsigned char>(code[pos])) || code[pos] == '_') {
-            std::string ident;
+            std::string ident = {};
             while (pos < code.size() && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
@@ -216,7 +216,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
             bool is_call = (look < code.size() && code[look] == '(');
 
             std::string lower = toLowerAqlSyntax(ident);
-            AQLTokenType ttype;
+            AQLTokenType ttype = {};
             if (is_call && builtinFunctions().count(lower)) {
                 ttype = AQLTokenType::FUNCTION;
             } else if (coreKeywords().count(lower)) {
@@ -299,7 +299,7 @@ std::string AQLSyntaxHighlighter::colorize(const AQLToken &tok) const {
 
 std::string AQLSyntaxHighlighter::highlightBlock(const std::string &aql_code) const {
     auto tokens = tokenize(aql_code);
-    std::string out;
+    std::string out = {};
     out.reserve(aql_code.size() * 2);
     for (const auto &tok : tokens) {
         out += colorize(tok);
@@ -317,9 +317,9 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
 
     // --- 1. Balanced brackets check ---
     struct BracketEntry {
-        char ch;
-        std::size_t line;
-        std::size_t col;
+        char ch = {};
+        std::size_t line = {};
+        std::size_t col = {};
     };
     std::vector<BracketEntry> stack;
 
@@ -451,7 +451,7 @@ HighlightedResponse AQLSyntaxHighlighter::formatLLMResponse(const std::string &l
 
         // Find closing ```
         std::size_t fence_close = findFence(code_start);
-        std::string code_content;
+        std::string code_content = {};
         if (fence_close == std::string::npos) {
             // Unterminated block — treat everything to end as code
             code_content = llm_response.substr(code_start);

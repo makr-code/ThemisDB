@@ -207,7 +207,7 @@ TEST_F(HttpVectorLargeScaleTest, VectorSearch_CursorPagination_MultiplePage) {
 
     // Search with cursor pagination: k=10, expect 5 pages
     std::vector<float> query_vec(64, 0.5f);
-    std::string cursor;
+    std::string cursor = {};
     size_t total_items = 0;
     int page_count = 0;
     

@@ -239,7 +239,7 @@ TEST_F(LlamaWrapperStateTest, StatePreventsSilentFailures) {
     request.prompt = "Test";
     
     bool caught_exception = false;
-    std::string exception_msg;
+    std::string exception_msg = {};
     
     try {
         wrapper.generate(request);

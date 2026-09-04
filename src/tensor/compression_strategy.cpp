@@ -29,7 +29,7 @@ CompressionResult TTDecompositionStrategy::compress(
 
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0) {
         result.success = false;
         result.error_message = "Invalid input data";
@@ -110,7 +110,7 @@ CompressionResult QuantizationStrategy::compress(
     (void)config;
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0 || bits_ == 0) {
         result.success = false;
         result.error_message = "Invalid quantization parameters";
@@ -177,7 +177,7 @@ CompressionResult SamplingStrategy::compress(
     (void)config;
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0 || ratio_ <= 0.0f) {
         result.success = false;
         result.error_message = "Invalid sampling parameters";
@@ -245,7 +245,7 @@ CompressionResult HashingStrategy::compress(
     (void)config;
     (void)mode_sizes;
 
-    CompressionResult result;
+    CompressionResult result = {};
     if (!data || dim == 0 || bits_ == 0) {
         result.success = false;
         result.error_message = "Invalid hashing parameters";

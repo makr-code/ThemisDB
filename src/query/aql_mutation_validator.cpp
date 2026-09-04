@@ -91,7 +91,7 @@ MutationValidationResult AqlMutationValidator::validate(const MutationNode& node
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateInsert(const InsertNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -114,7 +114,7 @@ MutationValidationResult AqlMutationValidator::validateInsert(const InsertNode& 
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateUpdate(const UpdateNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -153,7 +153,7 @@ MutationValidationResult AqlMutationValidator::validateUpdate(const UpdateNode& 
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateRemove(const RemoveNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -178,7 +178,7 @@ MutationValidationResult AqlMutationValidator::validateRemove(const RemoveNode& 
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateReplace(const ReplaceNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -207,7 +207,7 @@ MutationValidationResult AqlMutationValidator::validateReplace(const ReplaceNode
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateUpsert(const UpsertNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(

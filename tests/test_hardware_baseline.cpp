@@ -49,7 +49,7 @@ struct StreamSample {
     double copy_gb_s = 0;
     double scale_gb_s;
     double add_gb_s;
-    double triad_gb_s;
+    double triad_gb_s = {};
 };
 
 CpuSample sampleIntegerCpu(double seconds) {
@@ -148,7 +148,7 @@ double bytesToGB(double bytes) {
 }
 
 std::string jsonEscape(const std::string& input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size());
     for (char c : input) {
         if (c == '\\') {
@@ -535,7 +535,7 @@ std::string detectTotalMemoryGB() {
     MEMORYSTATUSEX mem;
     mem.dwLength = sizeof(mem);
     if (GlobalMemoryStatusEx(&mem)) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::fixed << std::setprecision(2) << (static_cast<double>(mem.ullTotalPhys) / (1024.0 * 1024.0 * 1024.0));
         return oss.str();
     }
@@ -552,7 +552,7 @@ std::string isoNowUtc() {
 #else
     gmtime_r(&t, &tmv);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tmv, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -803,7 +803,7 @@ TEST(HardwareBaseline, CaptureAndPersist) {
     constexpr int kTransferIterations = 20;
     const TransferSample transfer = sampleGpuTransfers(kTransferPayloadMB, kTransferIterations);
 
-    std::ostringstream json;
+    std::ostringstream json = {};
     json << "{\n";
     json << "  \"schema_version\": \"1.1\",\n";
     json << "  \"run_id\": \"" << runId << "\",\n";

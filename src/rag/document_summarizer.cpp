@@ -31,7 +31,7 @@ namespace {
 /// Tokenise @p text into lower-cased words, stripping punctuation.
 std::vector<std::string> tokeniseWords(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
@@ -73,7 +73,7 @@ double scoreSentence(const std::string& sentence,
 /// Split @p text into sentences (split on '.', '!', '?').
 std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < text.size(); ++i) {
         const char ch = text[i];
         current += ch;
@@ -146,7 +146,7 @@ std::string extractiveSummary(
 
     // Optimization: Use stringstream for efficient string building in loop
     // Complexity: O(n) linear time, avoids O(n²) reallocation behavior
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     bool first = true;
     for (size_t idx : selected_indices) {
         if (!first) {
@@ -164,7 +164,7 @@ std::string buildSingleDocPrompt(const std::string& query,
                                   const std::string& content,
                                   size_t max_chars)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Summarize the following document";
     if (!query.empty()) {
         oss << " to answer the query: \"" << query << "\"";
@@ -183,7 +183,7 @@ std::string buildMultiDocPrompt(
     const std::vector<std::pair<std::string, std::string>>& id_content,
     size_t max_chars)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Summarize the following " << id_content.size() << " document(s)";
     if (!query.empty()) {
         oss << " to answer the query: \"" << query << "\"";
@@ -330,7 +330,7 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
     THEMIS_INFO("DocumentSummarizer::summarizeMultiple docs={} query='{}'",
                 documents.size(), query);
 
-    MultiDocumentSummary result;
+    MultiDocumentSummary result = {};
     if (documents.empty()) {
         return result;
     }
@@ -400,7 +400,7 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
         const size_t per_doc_budget = documents.empty() ? 0
             : impl_->config.max_summary_chars / documents.size();
 
-        std::ostringstream combined;
+        std::ostringstream combined = {};
         for (const auto& d : documents) {
             auto ds = impl_->summarizeOne(d.id, d.content, query, per_doc_budget);
 

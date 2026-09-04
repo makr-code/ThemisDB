@@ -116,7 +116,7 @@ std::string LockFreeMetrics::exportMetrics() const {
     // Perform a synchronous flush so the exported snapshot is up-to-date.
     const_cast<LockFreeMetrics *>(this)->drainAllRings();
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     // -- Counters -----------------------------------------------------------
     {
@@ -263,7 +263,7 @@ std::string LockFreeMetrics::makeKey(const std::string &name, const Labels &labe
         return name;
     }
 
-    std::string key;
+    std::string key = {};
     key.reserve(name.size() + labels.size() * 16);
     key += name;
     key += '{';

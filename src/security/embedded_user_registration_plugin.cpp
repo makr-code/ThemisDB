@@ -419,7 +419,7 @@ private:
             throw std::runtime_error("PBKDF2 failed for password hashing");
         }
         auto toHex = [](const unsigned char* data, int len) {
-            std::ostringstream ss;
+            std::ostringstream ss = {};
             for (int i = 0; i < len; ++i)
                 ss << std::hex << std::setw(2) << std::setfill('0')
                    << static_cast<int>(data[i]);
@@ -554,7 +554,7 @@ private:
         EVP_DigestFinal_ex(mdctx, hash, &hash_len);
         EVP_MD_CTX_free(mdctx);
 
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         for (unsigned int i = 0; i < hash_len; ++i)
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);

@@ -62,7 +62,7 @@ struct LeafPage : public BwTreePage {
 /// Delta record for insert
 struct DeltaInsert : public BwTreePage {
     int64_t key;
-    std::string value;
+    std::string value = {};
     
     DeltaInsert(int64_t k, const std::string& v) : key(k), value(v) {
         type = PageType::DELTA_INSERT;

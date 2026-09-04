@@ -297,7 +297,7 @@ std::string TSQueryOptimizer::buildCacheKey(
     const std::optional<std::string>& entity,
     int64_t from_ms, int64_t to_ms,
     const OptimizationHint& hint) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << metric << "|" << (entity.has_value() ? *entity : "") << "|"
         << from_ms << "|" << to_ms << "|"
         << hint.use_aggregates << "|" << hint.min_window_for_agg_ms << "|"
@@ -348,7 +348,7 @@ std::string TSQueryOptimizer::buildExplanation(
     size_t raw_points,
     size_t agg_points) const {
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     if (used_agg) {
         oss << "Using pre-computed aggregate: " << plan.source_metric << " ";
@@ -399,7 +399,7 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeWithTiers(
                                              ? static_cast<double>(raw_points) / std::max(agg_points, size_t{1})
                                              : 1.0;
             if (hint.explain) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "Tier routing: using downsampled metric '" << *tier_metric
                     << "' (resolution=" << requested_resolution_ms.count() << "ms"
                     << ", scans " << agg_points << " vs " << raw_points << " raw, "

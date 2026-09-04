@@ -161,7 +161,7 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
         // Update access time
         buffer.last_access_time = getCurrentTimestamp();
         
-        PageInfo info;
+        PageInfo info = {};
         if (page_cache_.get(buffer.id, info)) {
             info.last_access_time = buffer.last_access_time;
             info.access_count++;
@@ -202,7 +202,7 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
     buffer.last_access_time = getCurrentTimestamp();
     
     // Update cache
-    PageInfo info;
+    PageInfo info = {};
     if (page_cache_.get(buffer.id, info)) {
         info.device = gpu_device_;
         info.last_access_time = buffer.last_access_time;
@@ -238,7 +238,7 @@ bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* /*stream*/) {
     buffer.current_device = Device::cpu();
     
     // Update cache
-    PageInfo info;
+    PageInfo info = {};
     if (page_cache_.get(buffer.id, info)) {
         info.device = Device::cpu();
         page_cache_.put(buffer.id, info);

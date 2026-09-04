@@ -161,7 +161,7 @@ llama_token NucleusSampling::sample(
       p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
     }
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::discrete_distribution<int> dist(nuc_probs.begin(), nuc_probs.end());
     int chosen = nucleus[dist(gen)];

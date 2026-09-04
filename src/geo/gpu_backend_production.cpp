@@ -383,17 +383,17 @@ class CudaBackend final : public ISpatialComputeBackend {
 
         if (!ensureCachedBuffers(n, mbr_sz, res_sz)) {
             THEMIS_WARN("CUDA buffer cache failed, falling back to CPU-parallel");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
         // Upload geometry MBRs to device memory.
-        cudaError_t e;
+        cudaError_t e = {};
         if ((e = cudaMemcpy(d_cached_mbrs_a_.get(), mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
             || (e = cudaMemcpy(d_cached_mbrs_b_.get(), mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
             || (e = cudaMemset(d_cached_results_.get(), 0, res_sz)) != cudaSuccess) {
             THEMIS_WARN("CUDA upload failed ({}), falling back to CPU-parallel", static_cast<int>(e));
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -401,7 +401,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         // n must be positive and fit in an int before computing the grid size.
         if (n <= 0 || static_cast<size_t>(n) > static_cast<size_t>(INT_MAX)) {
             THEMIS_WARN("CudaBackend: n={} out of valid range, falling back to CPU-parallel", n);
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         const int blockSize = 256;
@@ -416,7 +416,7 @@ class CudaBackend final : public ISpatialComputeBackend {
 
         if (e != cudaSuccess) {
             THEMIS_WARN("CUDA execution failed ({}), falling back to CPU-parallel", static_cast<int>(e));
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -551,7 +551,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         d_cached_mbrs_b_.free();
         d_cached_results_.free();
         cached_n_ = 0;
-        cudaError_t e;
+        cudaError_t e = {};
         if ((e = d_cached_mbrs_a_.alloc(mbr_sz / sizeof(double))) != cudaSuccess) {
             THEMIS_WARN("CUDA cudaMalloc failed for d_cached_mbrs_a_ ({})", static_cast<int>(e));
             return false;
@@ -719,7 +719,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             = clCreateBuffer(context_, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, mbr_sz, mbrs_a.data(), &err);
         if (err != CL_SUCCESS) {
             THEMIS_WARN("OpenCL buffer creation failed (mbrs_a), falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         cl_mem d_mbrs_b
@@ -727,7 +727,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         if (err != CL_SUCCESS) {
             clReleaseMemObject(d_mbrs_a);
             THEMIS_WARN("OpenCL buffer creation failed (mbrs_b), falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         cl_mem d_results = clCreateBuffer(context_, CL_MEM_WRITE_ONLY, res_sz, nullptr, &err);
@@ -735,7 +735,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_a);
             clReleaseMemObject(d_mbrs_b);
             THEMIS_WARN("OpenCL buffer creation failed (results), falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -746,7 +746,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL kernel creation failed, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -757,7 +757,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 0, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_mbrs_b);
@@ -767,7 +767,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 1, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_results);
@@ -777,7 +777,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 2, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
         err = clSetKernelArg(kernel, 3, sizeof(cl_int), &n);
@@ -787,7 +787,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             clReleaseMemObject(d_mbrs_b);
             clReleaseMemObject(d_results);
             THEMIS_WARN("OpenCL clSetKernelArg failed for arg 3, falling back to CPU");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -808,7 +808,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
 
         if (!ok) {
             THEMIS_WARN("OpenCL execution failed, falling back to CPU-parallel");
-            CpuParallelBackend cpu_fallback;
+            CpuParallelBackend cpu_fallback = {};
             return cpu_fallback.batchIntersects(in);
         }
 
@@ -876,7 +876,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         if (err != CL_SUCCESS) {
             size_t log_sz = 0;
             clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &log_sz);
-            std::string log;
+            std::string log = {};
             if (log_sz > 0) {
                 log.assign(log_sz, '\0');
                 clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, log_sz, &log[0], nullptr);

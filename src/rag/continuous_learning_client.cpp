@@ -43,7 +43,7 @@ struct ContinuousLearningClient::Impl {
     
     // Trigger callback
     std::function<void(const OptimizationTrigger&)> trigger_callback;
-    std::mutex callback_mutex;
+    std::mutex callback_mutex = {};
     
     Impl(const Config& cfg) : config(cfg) {}
     
@@ -465,7 +465,7 @@ std::string generateRecommendation(const QCResult& result) {
         return "Quality acceptable - continue monitoring";
     }
     
-    std::string combined;
+    std::string combined = {};
     for (size_t i = 0; i < recommendations.size(); i++) {
         combined += recommendations[i];
         if (i < recommendations.size() - 1) {

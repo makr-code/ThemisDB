@@ -22,7 +22,7 @@ namespace tensor {
 static std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
     auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&time_t_now), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -88,7 +88,7 @@ RoutingDecision TensorErrorHandler::handleRoutingFailure(
 
 void TensorErrorHandler::logError(const ErrorContext& context) const noexcept {
     try {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[" << context.timestamp << "] TENSOR_ERROR"
             << " operation=" << context.operation
             << " code=" << context.error_code

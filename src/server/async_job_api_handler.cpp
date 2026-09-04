@@ -104,7 +104,7 @@ static std::string timePointToIso(std::chrono::system_clock::time_point tp) {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -310,7 +310,7 @@ std::string AsyncJobApiHandler::generateJobId() {
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count());
     uint64_t seq = counter.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "job-" << std::hex << ts << "-" << seq;
     return oss.str();
 }
@@ -381,7 +381,7 @@ void AsyncJobApiHandler::launchJob([[maybe_unused]] std::shared_ptr<AsyncJobReco
                 constexpr auto kRetryBudget = std::chrono::seconds(30);
                 
                 auto budget_start = std::chrono::steady_clock::now();
-                std::string result;
+                std::string result = {};
                 
                 for (int attempt = 1; attempt <= kMaxRetries; ++attempt) {
                     // OP-TIMEOUT-002: Check deadline before retry attempt
@@ -425,7 +425,7 @@ void AsyncJobApiHandler::launchJob([[maybe_unused]] std::shared_ptr<AsyncJobReco
                     }
                 }
                 
-                std::string final_status;
+                std::string final_status = {};
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     if (job->cancel_requested.load(std::memory_order_acquire)) {
@@ -447,7 +447,7 @@ void AsyncJobApiHandler::launchJob([[maybe_unused]] std::shared_ptr<AsyncJobReco
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (const std::exception& ex) {
-                std::string final_status;
+                std::string final_status = {};
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     job->error      = ex.what();

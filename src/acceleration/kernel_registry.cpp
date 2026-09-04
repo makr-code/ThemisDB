@@ -57,7 +57,7 @@ const char* backendTypeName(BackendType t) noexcept {
 // ---------------------------------------------------------------------------
 
 std::string ValidationReport::summary() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto& e : entries) {
         oss << backendTypeName(e.backend) << "  ";
         if (e.hasANN) {

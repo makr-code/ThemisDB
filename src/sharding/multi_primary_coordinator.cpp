@@ -176,7 +176,7 @@ void MultiPrimaryCoordinator::recordWrite(const LSN& lsn) {
 std::optional<std::string> MultiPrimaryCoordinator::getMostCurrentPrimary() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::string best_primary;
+    std::string best_primary = {};
     LSN max_lsn(0, 0);
     
     for (const auto& [node_id, info] : primaries_) {

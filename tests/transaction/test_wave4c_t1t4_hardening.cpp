@@ -36,7 +36,7 @@ bool fileContainsString(const std::string& path, const std::string& needle) {
     if (!f.is_open()) {
       return false;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.find(needle) != std::string::npos) {
           return true;

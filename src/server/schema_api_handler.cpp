@@ -355,7 +355,7 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
         }
 
         // Extract and validate table name from URL
-        std::string table_name;
+        std::string table_name = {};
         std::string url_error = extractAndValidateSchemaTableName(std::string(req.target()), table_name);
         
         if (!url_error.empty()) {
@@ -487,7 +487,7 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
         }
 
         // Extract and validate table name from URL
-        std::string table_name;
+        std::string table_name = {};
         std::string url_error = extractAndValidateSchemaTableName(std::string(req.target()), table_name);
         
         if (!url_error.empty()) {
@@ -658,7 +658,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetInformationSchema(
             response["tables"] = is.tablesToJSON();
 
         } else if (target.find("/api/v1/information_schema/columns") == 0) {
-            std::string table_name;
+            std::string table_name = {};
             std::string err = extractTableName(
                 target, "/api/v1/information_schema/columns/", table_name);
             if (err.empty() && !table_name.empty()) {
@@ -674,7 +674,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetInformationSchema(
             }
 
         } else if (target.find("/api/v1/information_schema/statistics") == 0) {
-            std::string table_name;
+            std::string table_name = {};
             std::string err = extractTableName(
                 target, "/api/v1/information_schema/statistics/", table_name);
             json stats_arr = json::array();
@@ -722,7 +722,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetStats(
     }
     auto& stats_collector = *stats_collector_;
 
-    std::string table_name;
+    std::string table_name = {};
     std::string err = extractTableName(
         std::string(req.target()), "/api/v1/metadata/stats/", table_name);
     if (!err.empty()) {
@@ -762,7 +762,7 @@ http::response<http::string_body> SchemaApiHandler::handleCollectStats(
     }
     auto& stats_collector = *stats_collector_;
 
-    std::string table_name;
+    std::string table_name = {};
     std::string err = extractTableName(
         std::string(req.target()), "/api/v1/metadata/stats/", table_name);
     if (!err.empty()) {
@@ -808,7 +808,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
     }
     auto& schema_constraints = *schema_constraints_;
 
-    std::string table_name;
+    std::string table_name = {};
     std::string err = extractTableName(
         std::string(req.target()), "/api/v1/metadata/constraints/", table_name);
     if (!err.empty()) {
@@ -854,7 +854,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
     }
     auto& version_mgr = *version_mgr_;
 
-    std::string table_name;
+    std::string table_name = {};
     std::string err = extractTableName(
         std::string(req.target()), "/api/v1/schema/versions/", table_name);
     if (!err.empty()) {
@@ -895,7 +895,7 @@ http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
     }
     auto& version_mgr = *version_mgr_;
 
-    std::string table_name;
+    std::string table_name = {};
     std::string err = extractTableName(
         std::string(req.target()), "/api/v1/schema/versions/", table_name);
     if (!err.empty()) {
@@ -946,7 +946,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
                          "Schema version manager not available");
     }
 
-    std::string table_name;
+    std::string table_name = {};
     std::string err = extractTableName(
         std::string(req.target()), "/api/v1/schema/diff/", table_name);
     if (!err.empty()) {
@@ -1227,7 +1227,7 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
         // Extract table name from /api/v1/metadata/constraints/validate/:table
         std::string target = std::string(req.target());
         std::string prefix = "/api/v1/metadata/constraints/validate/";
-        std::string table_name;
+        std::string table_name = {};
         std::string err = extractTableName(target, prefix, table_name);
         if (!err.empty()) {
             return makeError(req, http::status::bad_request, err);
@@ -1335,7 +1335,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
         std::string rest = target.substr(base.size());  // e.g. "users" or "users/full_name"
         auto sep = rest.find('/');
 
-        json body;
+        json body = {};
         if (sep == std::string::npos) {
             // GET /api/v1/metadata/lineage/:table
             if (rest.empty()) {

@@ -144,7 +144,7 @@ public:
         entry["name"]     = rec.name;
         entry["value"]    = std::to_string(rec.value);
         // Serialise tags as comma-joined list
-        std::string tags_str;
+        std::string tags_str = {};
         for (size_t i = 0; i < rec.tags.size(); ++i) {
             if (i > 0) { tags_str += ','; }
             tags_str += rec.tags[i];
@@ -164,7 +164,7 @@ public:
         const auto tags_it = it->second.find("tags");
         if (tags_it != it->second.end() && !tags_it->second.empty()) {
             // Split by comma
-            std::string token;
+            std::string token = {};
             for (const char ch : tags_it->second) {
                 if (ch == ',') {
                     if (!token.empty()) {
@@ -217,7 +217,7 @@ public:
         std::string resource_id;
         std::string resource_name;
         int64_t     resource_value{0};
-        std::string error;
+        std::string error = {};
     };
 
     /// @brief Process a creation request.
@@ -279,7 +279,7 @@ public:
     /// @return PageResult with items and next_cursor.
     [[nodiscard]] PageResult Fetch(size_t cursor, size_t page_size) const {
         std::lock_guard<std::mutex> lk(mutex_);
-        PageResult result;
+        PageResult result = {};
         if (cursor >= items_.size()) {
             return result;
         }

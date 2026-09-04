@@ -46,7 +46,7 @@ protected:
 
     std::string readFile(const std::string& path) {
         std::ifstream f(path);
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << f.rdbuf();
         return ss.str();
     }
@@ -54,7 +54,7 @@ protected:
     std::vector<std::string> readLines(const std::string& path) {
         std::vector<std::string> lines;
         std::ifstream f(path);
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             if (!line.empty()) {
               lines.push_back(line);

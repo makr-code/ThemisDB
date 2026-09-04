@@ -45,7 +45,7 @@ std::string toISO8601(std::chrono::system_clock::time_point tp) {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -254,7 +254,7 @@ Result<void> DefaultAlertmanager::initialize(const AlertmanagerConfig& config) {
 
 Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
     // Always log the alert regardless of enabled state.
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "ALERT [" << severityToString(alert.severity) << "] "
        << alert.alert_name << ": " << alert.message;
     
@@ -328,7 +328,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
 Result<void> DefaultAlertmanager::resolveAlert(const std::string& alert_id) {
     THEMIS_INFO("Resolving alert: {}", alert_id);
     
-    Alert resolved_alert;
+    Alert resolved_alert = {};
     if (removeActiveAlertById(alert_id, &resolved_alert)) {
         resolved_alert.status = AlertStatus::RESOLVED;
         resolved_alert.resolved_at = std::chrono::system_clock::now();
@@ -475,7 +475,7 @@ std::string AlertRuleManager::generateRuleId() {
     auto ts  = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
     uint64_t seq = g_rule_id_counter.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "rule_" << std::hex << ts << "_" << seq;
     return oss.str();
 }

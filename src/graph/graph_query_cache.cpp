@@ -234,7 +234,7 @@ std::string GraphQueryCache::selectL2Victim() const {
     // Weighted eviction score: score = recency_weight / cost
     // recency_weight = 1.0 / (age_seconds + 1)
     // Lowest score = best eviction candidate (old + cheap).
-    std::string best_key;
+    std::string best_key = {};
     double best_score = std::numeric_limits<double>::max();
 
     const auto now = std::chrono::steady_clock::now();

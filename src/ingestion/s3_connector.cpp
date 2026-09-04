@@ -102,7 +102,7 @@ static bool isFlatFileExtension(const std::string& ext) {
 
 /// Sanitise a source_id so it is safe to use as a filename component.
 static std::string sanitiseId(const std::string& id) {
-    std::string out;
+    std::string out = {};
     out.reserve(id.size());
     for (char c : id) {
         out += (std::isalnum(static_cast<unsigned char>(c)) ||
@@ -125,7 +125,7 @@ static fs::path writeToTempFile(const fs::path& tmp_dir,
                                 const std::string& body) {
     // Build a filename from the last path component of the key, preserving
     // its extension so FileSystemIngester can detect the format.
-    std::string basename;
+    std::string basename = {};
     auto slash = key.rfind('/');
     basename = (slash == std::string::npos) ? key : key.substr(slash + 1);
     if (basename.empty()) {
@@ -133,7 +133,7 @@ static fs::path writeToTempFile(const fs::path& tmp_dir,
     }
 
     // Sanitise the basename: keep only safe characters.
-    std::string safe_name;
+    std::string safe_name = {};
     for (char c : basename) {
         safe_name += (std::isalnum(static_cast<unsigned char>(c)) ||
                       c == '-' || c == '_' || c == '.') ? c : '_';
@@ -165,7 +165,7 @@ static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
     cfg.type      = SourceType::FILESYSTEM;
     cfg.location  = tmp_file.string();
 
-    std::string result;
+    std::string result = {};
     if (ingester.initialize(cfg)) {
         IngestionStats sub_stats = ingester.ingest("_s3_tmp_col", nullptr);
         // The ingested text is reflected in sub_stats.documents_processed > 0;
@@ -187,7 +187,7 @@ static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
     }
 
     // Remove temp file; ignore errors (directory is cleaned up later).
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove(tmp_file, ec);
 
     return result;
@@ -200,7 +200,7 @@ static std::string s3JsonExtractField(const std::string& body,
     auto start = body.find(needle);
     if (start == std::string::npos) return {};
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (size_t i = start; i < body.size(); ++i) {
         char c = body[i];
@@ -309,7 +309,7 @@ public:
         // Determine effective start_after from checkpoint or config.
         std::string effective_start_after = start_after_;
         if (checkpoint_store_) {
-            IngestionCheckpoint cp;
+            IngestionCheckpoint cp = {};
             if (checkpoint_store_->read(config_.source_id, cp) &&
                 !cp.cursor.empty()) {
                 effective_start_after = cp.cursor;
@@ -318,7 +318,7 @@ public:
 
         // Create a temporary directory for flat-file parsing.
         fs::path tmp_dir = makeTmpDir(config_.source_id);
-        std::error_code ec;
+        std::error_code ec = {};
         bool tmp_created = fs::create_directories(tmp_dir, ec);
 
         // -------------------------------------------------------------------
@@ -612,7 +612,7 @@ private:
                       const fs::path& tmp_dir) {
         try {
             auto s3 = buildS3Client();
-            std::string continuation_token;
+            std::string continuation_token = {};
             bool first_page = true;
 
             do {
@@ -655,7 +655,7 @@ private:
                                  get_req.SetKey(key);
                                  auto outcome = s3->GetObject(get_req);
                                  if (!outcome.IsSuccess()) return {};
-                                 std::ostringstream oss;
+                                 std::ostringstream oss = {};
                                  oss << outcome.GetResult().GetBody().rdbuf();
                                  return oss.str();
                              });

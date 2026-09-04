@@ -26,7 +26,7 @@ protected:
     void TearDown() override {
         store_.reset(); db_.reset(); fs::remove_all(db_path_);
     }
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<TSStore> store_;
     int64_t base_;

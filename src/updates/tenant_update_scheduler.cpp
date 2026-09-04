@@ -465,7 +465,7 @@ ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
 bool TenantUpdateScheduler::rollbackTenant(const std::string& tenant_id,
                                             HotReloadEngine& engine)
 {
-    std::string rollback_id;
+    std::string rollback_id = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tenants_.find(tenant_id);
@@ -600,7 +600,7 @@ bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
     // For cross-midnight windows (start > end, e.g., 23:00 – 05:00):
     //   - Before midnight (cur_min >= start_min): the window started today.
     //   - After midnight  (cur_min < end_min):    the window started yesterday.
-    int  check_wday;
+    int  check_wday = {};
     bool in_time_range = 0;
 
     if (start_min <= end_min) {
@@ -665,7 +665,7 @@ TenantUpdateScheduler::formatUtc(std::chrono::system_clock::time_point tp)
 #else
     gmtime_r(&t, &utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::setfill('0')
        << std::setw(4) << (utc.tm_year + 1900) << '-'
        << std::setw(2) << (utc.tm_mon + 1)     << '-'

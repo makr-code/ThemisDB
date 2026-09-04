@@ -30,7 +30,7 @@ URLComponents parseURL(const std::string& url) {
     
     // Regex: (https?)://([^:/]+)(?::(\d+))?(/.*)?
     std::regex url_regex(R"((https?)://([^:/]+)(?::(\d+))?(/.*)?)", std::regex::icase);
-    std::smatch matches;
+    std::smatch matches = {};
     
     if (!std::regex_match(url, matches, url_regex)) {
         throw std::invalid_argument("Invalid URL format: " + url);
@@ -442,7 +442,7 @@ HTTPResponse BeastHTTPClient::execute(
         tcp::resolver resolver(*ioc_);
         auto const results = resolver.resolve(components.host, components.port);
         
-        HTTPResponse response;
+        HTTPResponse response = {};
         
         if (components.is_https()) {
             // HTTPS request with SSL

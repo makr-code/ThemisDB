@@ -131,7 +131,7 @@ public:
     }
 
     void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, doubl[[maybe_unused]] e valu[[maybe_unused]] e) override {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << value;
         setAttribute(key, oss.str());
     }
@@ -309,8 +309,8 @@ public:
 
     // Last active span context for the no-arg injectContext() overload
     mutable std::mutex ctx_mu_;
-    std::string        last_trace_id_;
-    std::string        last_span_id_;
+    std::string        last_trace_id_ = {};
+    std::string        last_span_id_ = {};
 
     /// Build the export callback that dispatches a completed SpanRecord to
     /// all configured backends.  Uses std::weak_ptr so the callback is safe

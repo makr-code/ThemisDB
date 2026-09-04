@@ -242,7 +242,7 @@ void PrincipalValidator::logAudit(const ValidationResult &result) const {
         return;
     }
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "Principal validation: " << result.principal << " -> " << (result.allowed ? "ALLOWED" : "DENIED");
 
     if (!result.matched_rule.empty()) {

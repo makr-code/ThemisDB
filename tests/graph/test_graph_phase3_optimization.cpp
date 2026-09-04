@@ -789,7 +789,7 @@ private:
           return;
         }
         // Find lowest-score entry in this tier
-        std::string worst_key;
+        std::string worst_key = {};
         double worst_score = std::numeric_limits<double>::max();
         for (auto& [k, e] : entries_) {
             if (e.tier == tier && e.score < worst_score) {
@@ -1574,7 +1574,7 @@ TEST_F(ConnectionPoolTest, RES_09_ConcurrentAcquiresAllValid) {
     res::ConnectionPool big{big_cfg};
     std::atomic<int> valid_count{0};
     std::vector<std::thread> threads;
-    std::mutex id_mu;
+    std::mutex id_mu = {};
     std::vector<int> acquired_ids = {};
 
     for (int t = 0; t < 8; ++t) {
@@ -1796,7 +1796,7 @@ TEST_F(ConnectionPoolTest, RES_26_SaturationStressBounds) {
     res::ConnectionPool sat{sat_cfg};
     std::atomic<int> acquired_count{0};
     std::vector<std::thread> threads;
-    std::mutex vec_mu;
+    std::mutex vec_mu = {};
     std::vector<int> ids = {};
 
     for (int t = 0; t < 10; ++t) {

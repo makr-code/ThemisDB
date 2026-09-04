@@ -229,7 +229,7 @@ TEST_F(ConfigMigrationScannerTest, FixFileDryRunPrintsWouldUpdateMessage) {
     ASSERT_FALSE(matches.empty());
 
     // Capture stdout to verify the [dry-run] message is printed
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::streambuf* old = std::cout.rdbuf(oss.rdbuf());
     bool ok = cms::fixFile(f, matches, /*dry_run=*/true);
     std::cout.rdbuf(old);
@@ -473,7 +473,7 @@ TEST(FormatTimePointTest, SingleDigitMonthAndDayArePadded) {
 // Helper: captures std::cout output for a callable.
 template <typename Fn>
 static std::string captureStdout(Fn fn) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::streambuf* old = std::cout.rdbuf(oss.rdbuf());
     fn();
     std::cout.rdbuf(old);

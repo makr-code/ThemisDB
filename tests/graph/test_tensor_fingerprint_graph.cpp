@@ -1488,7 +1488,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
      TDM25_GraphIndexJournalHooksPersistAndReplay) {
     namespace fs = std::filesystem;
     const auto cleanupDbDir = [](const fs::path& path) {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(path, ec);
         ASSERT_TRUE(!ec) << "Unexpected error removing temp DB dir: " << path;
     };

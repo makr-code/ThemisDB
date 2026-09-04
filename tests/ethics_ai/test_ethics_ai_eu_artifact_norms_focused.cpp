@@ -125,7 +125,7 @@ TEST(EthicsAiComplianceFocused, EUArt22_ChainVisualizerArtifacts_WrittenToConfig
 
     EthicalDiscourseEngine engine(loader, store, rag);
     const auto out_dir = (std::filesystem::temp_directory_path() / "themisdb_ethics_artifacts");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(out_dir, ec);
     engine.setChainVisualizerOutputPath(out_dir.string());
 

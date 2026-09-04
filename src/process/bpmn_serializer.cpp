@@ -55,7 +55,7 @@ static constexpr size_t kMaxBpmnXmlBytes = 10u * 1024u * 1024u;
 
 /// Strip XML character entities and leading/trailing whitespace.
 std::string unescapeXml(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (size_t i = 0; i < s.size(); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
@@ -140,7 +140,7 @@ void parseAttrs(std::string_view src,
           break;
         }
 
-        std::string attr_val;
+        std::string attr_val = {};
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
@@ -307,7 +307,7 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
 // ---------------------------------------------------------------------------
 
 std::string BpmnSerializer::escapeXml_(std::string_view s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
@@ -926,7 +926,7 @@ std::string BpmnSerializer::exportXml(
     const std::vector<ProcessNodeInfo>& nodes,
     const std::vector<ProcessEdgeInfo>& edges)
 {
-    std::ostringstream xml;
+    std::ostringstream xml = {};
 
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)" << "\n";
     xml << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL")" << "\n";
@@ -988,7 +988,7 @@ std::string BpmnSerializer::exportXml(
 
     // Edges
     for (const auto& e : edges) {
-        std::string tag;
+        std::string tag = {};
         switch (e.edge_type) {
             case ProcessEdgeType::MESSAGE_FLOW:    tag = "messageFlow";    break;
             case ProcessEdgeType::ASSOCIATION:     tag = "association";    break;

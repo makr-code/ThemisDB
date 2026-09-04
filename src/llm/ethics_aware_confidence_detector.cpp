@@ -135,7 +135,7 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
     // Check cache
     if (impl_->config.cache_results) {
         std::string cache_key = generateCacheKey(text);
-        ConfidenceResult cached;
+        ConfidenceResult cached = {};
         if (getCachedResult(cache_key, cached)) {
             impl_->stats.cache_hits++;
             return cached;
@@ -558,7 +558,7 @@ float EthicsAwareConfidenceDetector::combineScores(
 }
 
 std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceResult& result) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "Confidence Analysis: ";
     

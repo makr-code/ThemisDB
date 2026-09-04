@@ -160,7 +160,7 @@ private:
     
     // Prepared statements and portals
     struct PreparedStatement {
-        std::string query;
+        std::string query = {};
         std::vector<int32_t> paramTypes;
     };
     

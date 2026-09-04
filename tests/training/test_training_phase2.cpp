@@ -30,10 +30,10 @@ using namespace themis::training;
 class MockLLMRouter : public ILLMRouter {
 public:
     mutable std::atomic<int> set_weight_calls{0};
-    std::string last_version;
+    std::string last_version = {};
     float last_weight = 0.0f;
     bool available = true;
-    std::string active_ver;
+    std::string active_ver = {};
 
     bool setAdapterWeight(const std::string& version, float weight) override {
         ++set_weight_calls;

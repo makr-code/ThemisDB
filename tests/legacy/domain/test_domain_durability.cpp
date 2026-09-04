@@ -21,7 +21,7 @@ protected:
 
     void TearDown() override {
         closeDB();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
     }
 
@@ -86,7 +86,7 @@ TEST_F(DomainDurabilityTest, GraphNodePersistence) {
     // Reopen and verify all nodes
     openDB();
     for (const auto& [id, expected_node] : nodes) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status s = db_->Get(rocksdb::ReadOptions(), "graph:node:" + id, &value);
         ASSERT_TRUE(s.ok()) << "Failed to read node: " << id;
 
@@ -138,7 +138,7 @@ TEST_F(DomainDurabilityTest, GraphEdgePersistence) {
     // Verify edges persisted
     openDB();
     for (const auto& [from, to, edge_id] : edges) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(), "graph:edge:" + edge_id, &value);
         ASSERT_TRUE(read_s.ok());
 
@@ -188,7 +188,7 @@ TEST_F(DomainDurabilityTest, VectorEmbeddingPersistence) {
     // Verify embeddings
     openDB();
     for (const auto& vec_id : vector_ids) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(), "vector:embedding:" + vec_id, &value);
         ASSERT_TRUE(read_s.ok());
 
@@ -224,7 +224,7 @@ TEST_F(DomainDurabilityTest, VectorIndexMetadata) {
 
     // Verify metadata
     openDB();
-    std::string meta_value;
+    std::string meta_value = {};
     rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(), "vector:index_meta", &meta_value);
     ASSERT_TRUE(read_s.ok());
 
@@ -272,7 +272,7 @@ TEST_F(DomainDurabilityTest, GeoPointPersistence) {
     // Verify points
     openDB();
     for (const auto& [lat, lon, poi_id] : points) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(), "geo:point:" + poi_id, &value);
         ASSERT_TRUE(read_s.ok());
 
@@ -313,7 +313,7 @@ TEST_F(DomainDurabilityTest, GeoPolygonPersistence) {
 
     // Verify polygon
     openDB();
-    std::string value;
+    std::string value = {};
     rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(), "geo:polygon:berlin", &value);
     ASSERT_TRUE(read_s.ok());
 
@@ -409,7 +409,7 @@ TEST_F(DomainDurabilityTest, TimeseriesRetentionPolicy) {
 
     // Verify policy persists
     openDB();
-    std::string value;
+    std::string value = {};
     rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(), "ts:retention_policy:cpu_usage", &value);
     ASSERT_TRUE(read_s.ok());
 
@@ -458,7 +458,7 @@ TEST_F(DomainDurabilityTest, LLMModelCachePersistence) {
 
     // Verify model and cache
     openDB();
-    std::string meta_value;
+    std::string meta_value = {};
     rocksdb::Status meta_s = db_->Get(rocksdb::ReadOptions(), "llm:model_meta:gpt2", &meta_value);
     ASSERT_TRUE(meta_s.ok());
 
@@ -469,7 +469,7 @@ TEST_F(DomainDurabilityTest, LLMModelCachePersistence) {
     // Verify cache entries
     int cache_count = 0;
     for (int i = 0; i < 50; ++i) {
-        std::string cache_value;
+        std::string cache_value = {};
         rocksdb::Status cache_s = db_->Get(rocksdb::ReadOptions(),
             "llm:embedding_cache:" + std::to_string(i), &cache_value);
         if (cache_s.ok()) {
@@ -511,7 +511,7 @@ TEST_F(DomainDurabilityTest, LLMPromptHistoryPersistence) {
     openDB();
     int count = 0;
     for (int i = 0; i < 20; ++i) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status read_s = db_->Get(rocksdb::ReadOptions(),
             "llm:prompt_history:" + std::to_string(i), &value);
         if (read_s.ok()) {

@@ -461,7 +461,7 @@ protected:
     static std::string sha256Hex(const std::string& data) {
         unsigned char digest[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
             oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -685,7 +685,7 @@ std::string makeTextBlob(size_t target_bytes) {
         "information", "retrieval", "perceptual", "hashing", "content",
         "deduplication", "similarity", "detection", "document", "index"
     };
-    std::string text;
+    std::string text = {};
     text.reserve(target_bytes + 20);
     size_t idx = 0;
     while (text.size() < target_bytes) {

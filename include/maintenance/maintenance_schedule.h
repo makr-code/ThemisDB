@@ -266,7 +266,7 @@ struct MaintenanceScheduleEntry {
     }
 
     static MaintenanceScheduleEntry fromJson(const nlohmann::json& j) {
-        MaintenanceScheduleEntry e;
+        MaintenanceScheduleEntry e = {};
         if (j.contains("id")) {
           e.id             = j["id"].get<std::string>();
         }

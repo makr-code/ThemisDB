@@ -57,7 +57,7 @@ void DistributedDataLoader::initialize_indices() {
     }
     
     if (shuffle_) {
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
     }
@@ -121,7 +121,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t
                 // Log a warning with full dimensions so operators can identify
                 // corrupted samples in the training data.
                 auto shapeStr = [](const std::vector<size_t>& sh) {
-                    std::string s;
+                    std::string s = {};
                     for (size_t d = 0; d < sh.size(); ++d)
                         s += (d ? "×" : "") + std::to_string(sh[d]);
                     return s;
@@ -146,7 +146,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t
 
 void DistributedDataLoader::reset() {
     if (shuffle_) {
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
     }

@@ -92,7 +92,7 @@ public:
     ///
     /// @return Empty builder to be configured with dependencies
     static QueryEngineBuilder standard() {
-        QueryEngineBuilder builder;
+        QueryEngineBuilder builder = {};
         return builder;
     }
     

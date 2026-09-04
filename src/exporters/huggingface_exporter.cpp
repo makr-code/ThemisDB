@@ -196,7 +196,7 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(const ExportStats &stat
 /// and control characters so that the resulting YAML front matter is always
 /// syntactically valid regardless of the input.
 static std::string yamlQuote(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 2);
     out += '"';
     for (unsigned char c : s) {
@@ -227,7 +227,7 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
     const std::string split = config_.split_name.empty() ? "train" : config_.split_name;
     const std::string name  = config_.dataset_name.empty() ? "dataset" : config_.dataset_name;
 
-    std::ostringstream card;
+    std::ostringstream card = {};
 
     // YAML front matter
     card << "---\n";

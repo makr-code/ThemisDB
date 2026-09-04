@@ -92,7 +92,7 @@ struct ErrorContext {
      * Format error for display/logging
      */
     std::string format() const {
-        std::string result;
+        std::string result = {};
         result += "[" + backendName + "] ";
         result += errorCodeToString(code);
         result += " (" + std::to_string(static_cast<uint32_t>(code)) + ")";

@@ -49,7 +49,7 @@ static std::string trimCopy(const std::string& input) {
 
 static std::vector<std::string> splitTopLevel(const std::string& input, char delimiter) {
     std::vector<std::string> parts;
-    std::string current;
+    std::string current = {};
     int depth = 0;
     for (char c : input) {
         if (c == '(') {
@@ -536,7 +536,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
     }
     
     std::string type = j.at("type").get<std::string>();
-    GeometryInfo geom;
+    GeometryInfo geom = {};
     
     if (type == "Point") {
         const auto& coords = j.at("coordinates");
@@ -740,7 +740,7 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
         auto rings_raw = splitTopLevel(body, ',');
 
         std::vector<std::string> ring_groups;
-        std::string merged;
+        std::string merged = {};
         int depth = 0;
         for (const auto& part : rings_raw) {
             if (!merged.empty()) {
@@ -785,7 +785,7 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
 }
 
 std::string EWKBParser::toWKT(const GeometryInfo& geom) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (geom.isPoint()) {
         if (geom.coords.empty()) {
             return "POINT EMPTY";

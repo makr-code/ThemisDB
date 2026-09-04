@@ -42,7 +42,7 @@ namespace {
 constexpr size_t kMaxExportFieldLength = 256;
 
 std::filesystem::path resolveExportOutputDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     auto base_dir = std::filesystem::temp_directory_path(ec);
     if (ec || base_dir.empty()) {
         ec.clear();
@@ -262,7 +262,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
         // Read exported file and stream back
         std::ifstream exported_file(output_path);
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << exported_file.rdbuf();
         std::string jsonl_content = buffer.str();
         exported_file.close();
@@ -278,7 +278,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         // Content-Disposition header value or inject HTTP header fields.
         // Allow only alphanumeric, hyphen, underscore, and period.
         auto sanitize_filename_part = [](const std::string& raw) -> std::string {
-            std::string safe;
+            std::string safe = {};
             safe.reserve(raw.size());
             std::copy_if(raw.begin(), raw.end(), std::back_inserter(safe),
                 [](unsigned char c) {
@@ -423,7 +423,7 @@ std::string ExportApiHandler::buildAqlQuery([[maybe_unused]] const json& request
         }
     };
 
-    std::string query;
+    std::string query = {};
     std::vector<std::string> conditions;
     
     // Thematic filtering (VCC-Clara use case)
@@ -492,9 +492,9 @@ std::string ExportApiHandler::generateExportId() {
     // must not be predictable because they serve as opaque access tokens.
     // Use 128 bits of entropy (32 hex digits) to match UUID entropy levels and
     // prevent brute-force attacks against the opaque export token.
-    std::random_device rd;
+    std::random_device rd = {};
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "exp_";
     static constexpr char hex_digits[] = "0123456789abcdef";
     for (int i = 0; i < 32; i++) {  // 32 hex chars = 128 bits of entropy

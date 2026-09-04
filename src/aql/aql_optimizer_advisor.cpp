@@ -56,7 +56,7 @@ bool queryContains(const std::string &upper_query, const std::string &keyword) {
 size_t extractMaxTraversalDepth(const std::string &query) {
     std::regex depth_re(R"(\b(\d+)\.\.(\d+)\b)");
     std::sregex_iterator it(query.begin(), query.end(), depth_re);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     size_t max_depth = 0;
     for (; it != end; ++it) {
         size_t upper = static_cast<size_t>(std::stoul((*it)[2].str()));
@@ -134,7 +134,7 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(const std::string &que
     }
 
     for (const auto &idx : index_hints) {
-        std::string msg;
+        std::string msg = {};
         if (idx == "fulltext") {
             msg = "Query contains a fulltext search pattern. "
                   "Ensure a fulltext index exists on the searched field(s).";

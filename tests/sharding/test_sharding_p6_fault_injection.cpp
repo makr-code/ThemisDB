@@ -119,7 +119,7 @@ public:
      */
     std::string lastOpForTxn(const std::string& txn_id) const {
         std::lock_guard<std::mutex> lk(mu_);
-        std::string last;
+        std::string last = {};
         for (const auto& e : entries_)
             if (e.txn_id == txn_id) {
               last = e.operation;
@@ -1865,7 +1865,7 @@ TEST_F(CascadeMultiFailureTest, FI32_SAGAMultiStepStep3FailsCompensateReverseOrd
     const std::string tid = txnId("32");
 
     std::vector<std::string> exec_order;
-    std::mutex exec_mu;
+    std::mutex exec_mu = {};
 
     auto record = [&](const std::string& name) {
         std::lock_guard<std::mutex> lk(exec_mu);

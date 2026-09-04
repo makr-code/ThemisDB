@@ -113,7 +113,7 @@ UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
                 return makeErrorResponse(http::status::bad_request,
                                          "Each element of 'arguments' must be a JSON object", req);
             }
-            ArgSpec spec;
+            ArgSpec spec = {};
             if (a.contains("name") && a["name"].is_string()) {
                 spec.name = a["name"].get<std::string>();
             }

@@ -265,7 +265,7 @@ TEST(EpkArisXmlImporterTest, EAX09_NodesWithoutEdges) {
 
 class ArisXmlManagerTest : public ::testing::Test {
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<::themis::RocksDBWrapper> db_;
     std::unique_ptr<ProcessModelManager>       mgr_;
     std::unique_ptr<ProcessGraphManager>       engine_;

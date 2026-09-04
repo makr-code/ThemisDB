@@ -173,7 +173,7 @@ AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch,
     result.backend_used = backend_type;
     result.ep_used      = ep_used;
 
-    std::string validation_error;
+    std::string validation_error = {};
     if (!validateSimilarityRequest(req, validation_error)) {
         result.success = false;
         result.error   = validation_error;
@@ -1045,7 +1045,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiI
 AiInferenceResult AiHardwareDispatcher::dispatchGpuFallback(AiInferenceRequest &req) {
     if (isVectorSimilarityTask(req.task_tag)) {
 #ifdef THEMIS_ENABLE_CUDA
-        CUDAVectorBackend cuda_backend;
+        CUDAVectorBackend cuda_backend = {};
         if (!cuda_backend.initialize()) {
             THEMIS_WARN("AiHardwareDispatcher: CUDA backend init failed for vector similarity — using CPU fallback");
             return runCpuVectorSimilarity(req);

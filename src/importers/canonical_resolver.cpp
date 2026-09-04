@@ -38,7 +38,7 @@ json GoldenRecord::toJson() const {
 static std::string generateUUID() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     uint64_t hi = dist(rng);
     uint64_t lo = dist(rng);
     hi          = (hi & 0xFFFFFFFFFFFF0FFFull) | 0x0000000000004000ull;
@@ -53,7 +53,7 @@ static std::string nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
     const auto t   = system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     std::tm tm_buf{};
 #ifdef _WIN32
     gmtime_s(&tm_buf, &t);
@@ -259,10 +259,10 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
             }
         }
     } else if (policy == ResolutionPolicy::NEWEST_FIRST) {
-        std::string newest;
+        std::string newest = {};
         for (size_t i = 0; i < linked_entities.size(); ++i) {
             const auto &e = linked_entities[i].second;
-            std::string ts;
+            std::string ts = {};
             if (e.contains("updated_at") && e["updated_at"].is_string()) {
                 ts = e["updated_at"].get<std::string>();
             } else if (e.contains("created_at") && e["created_at"].is_string()) {

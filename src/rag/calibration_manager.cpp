@@ -126,8 +126,8 @@ std::vector<std::pair<double, double>> CalibrationManager::buildIsotonicModel(
     // PAV: merge adjacent blocks that violate monotonicity
     struct Block {
         double sum_gt = 0;
-        double sum_pred;
-        size_t count;
+        double sum_pred = {};
+        size_t count = {};
         double avg_pred() const { return sum_pred / static_cast<double>(count); }
         double avg_gt()   const { return sum_gt   / static_cast<double>(count); }
     };
@@ -469,7 +469,7 @@ bool CalibrationManager::loadModel(const std::string& filepath) {
     if (std::filesystem::exists(sha_path)) {
         std::ifstream sidecar(sha_path);
         if (sidecar.is_open()) {
-            std::string expected_hash;
+            std::string expected_hash = {};
             std::getline(sidecar, expected_hash);
             sidecar.close();
             

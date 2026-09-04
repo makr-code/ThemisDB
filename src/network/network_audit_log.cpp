@@ -287,7 +287,7 @@ std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
         reinterpret_cast<const uint8_t*>(input.data()), input.size());
 
     // Encode first 8 bytes as 16 lower-case hex characters.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 8; ++i) {
         oss << std::setw(2) << static_cast<unsigned>(digest[i]);

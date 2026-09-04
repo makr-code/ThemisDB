@@ -43,7 +43,7 @@ namespace temporal {
  * time and can be used to impose a total order on snapshots.
  */
 struct SnapshotHandle {
-    std::string snapshot_id;
+    std::string snapshot_id = {};
     Timestamp creation_time{0};
     std::vector<std::string> included_tables;
     uint64_t version_number{0};

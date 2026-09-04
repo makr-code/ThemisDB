@@ -184,7 +184,7 @@ public:
         for (const auto& [_, lay] : layers_)
             total_importance += lay.importance;
 
-        ReallocResult result;
+        ReallocResult result = {};
 
         if (total_importance <= 0.0f) {
             // No importance data yet; distribute budget evenly
@@ -359,9 +359,9 @@ public:
     void setRankBudget([[maybe_unused]] size_t b) { rank_budget_ = b; }
 
 private:
-    size_t default_rank_;
-    float  default_alpha_;
-    size_t rank_budget_;
+    size_t default_rank_ = {};
+    float  default_alpha_ = {};
+    size_t rank_budget_ = {};
 
     std::unordered_map<std::string, Layer> layers_;
     std::vector<std::string> insertion_order_;

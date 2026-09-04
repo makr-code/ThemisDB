@@ -320,7 +320,7 @@ TEST_F(ConcurrentWriteControllerFocusedTests, FIFOOrderingForWaiters) {
     auto g0 = wc.acquire(); // hold the only slot
 
     std::vector<int> order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
 
     const int N = 3;
     std::vector<std::future<void>> futures;

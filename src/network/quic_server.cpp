@@ -434,7 +434,7 @@ void QUICServer::handlePacket(const udp::endpoint &sender, const uint8_t *data, 
     }
 
     // Decode QUIC long-header to extract client DCID.
-    ngtcp2_pkt_hd hd;
+    ngtcp2_pkt_hd hd = {};
     if (ngtcp2_pkt_decode_hd_long(&hd, data, len) < 0) {
         std::lock_guard<std::mutex> slk(stats_mutex_);
         // Short-header from unknown connection; silently drop.

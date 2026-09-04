@@ -118,7 +118,7 @@ std::string formatBytes(size_t bytes) {
         unit_index++;
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(1) << size << " " << units[unit_index];
     return oss.str();
 }
@@ -274,7 +274,7 @@ int cmdRemove(const std::string& model_name, const std::string& model_dir) {
     std::cout << "Remove model: " << model_path << "\n";
     std::cout << "Are you sure? (y/N): ";
     
-    std::string response;
+    std::string response = {};
     std::getline(std::cin, response);
     
     if (response == "y" || response == "Y" || response == "yes") {
@@ -342,7 +342,7 @@ void printUsage(const char* prog_name) {
 
 int main(int argc, char** argv) {
     ModelCliOptions options;
-    std::string parse_error;
+    std::string parse_error = {};
     if (!parse_model_cli_options(argc, argv, options, parse_error)) {
         std::cerr << Color::Red << "Error: " << parse_error << Color::Reset << "\n";
         printUsage(argv[0]);

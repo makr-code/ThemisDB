@@ -90,7 +90,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                 // HuggingFace quantization_config.quant_type field
                 if (j.contains("quantization_config")) {
                     const auto& qcfg = j["quantization_config"];
-                    std::string qtype;
+                    std::string qtype = {};
                     if (qcfg.contains("quant_type")) {
                         qtype = qcfg["quant_type"].get<std::string>();
                     } else if (qcfg.contains("quant_method")) {

@@ -110,11 +110,11 @@ bool ProtobufParser::readTag(uint32_t& field_number, uint32_t& wire_type) {
 bool ProtobufParser::skipField([[maybe_unused]] uint32_t wire_type) {
     switch (wire_type) {
         case 0: {  // Varint
-            uint64_t dummy;
+            uint64_t dummy = {};
             return readVarint(dummy);
         }
         case 1: {  // 64-bit
-            uint64_t dummy;
+            uint64_t dummy = {};
             return readFixed64(dummy);
         }
         case 2: {  // Length-delimited
@@ -122,7 +122,7 @@ bool ProtobufParser::skipField([[maybe_unused]] uint32_t wire_type) {
             return readLengthDelimited(dummy);
         }
         case 5: {  // 32-bit
-            uint32_t dummy;
+            uint32_t dummy = {};
             return readFixed32(dummy);
         }
         default:

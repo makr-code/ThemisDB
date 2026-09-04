@@ -37,7 +37,7 @@ namespace sharding {
  */
 struct LogEntry {
     uint64_t term = 0;
-    uint64_t index;
+    uint64_t index = {};
     std::string command;  // Serialized WAL entry or other command
     uint64_t timestamp_ns;  // TrueTime timestamp for ordering and snapshot isolation
     

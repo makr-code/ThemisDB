@@ -40,7 +40,7 @@ TEST_F(AppendMergeOperatorTest, BasicAppend) {
     ASSERT_TRUE(status.ok()) << status.ToString();
     
     // Read back
-    std::string value;
+    std::string value = {};
     status = db_->Get(rocksdb::ReadOptions(), "log1", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "event1");
@@ -53,7 +53,7 @@ TEST_F(AppendMergeOperatorTest, MultipleAppends) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log2", "event3").ok());
     
     // Read back - should be delimited
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "log2", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "event1|event2|event3");
@@ -65,7 +65,7 @@ TEST_F(AppendMergeOperatorTest, EmptyStringAppend) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log3", "").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log3", "end").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "log3", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "start||end");
@@ -77,7 +77,7 @@ TEST_F(AppendMergeOperatorTest, AppendWithSpecialCharacters) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log4", "msg:warn").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log4", "msg:error").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "log4", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "msg:info|msg:warn|msg:error");
@@ -91,7 +91,7 @@ TEST_F(AppendMergeOperatorTest, LongStrings) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log5", long_event1).ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log5", long_event2).ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "log5", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value.size(), 2001u); // 1000 + 1 (delimiter) + 1000
@@ -106,7 +106,7 @@ TEST_F(AppendMergeOperatorTest, MixedWithPut) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log6", "appended1").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log6", "appended2").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "log6", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "initial|appended1|appended2");
@@ -120,7 +120,7 @@ TEST_F(AppendMergeOperatorTest, ConcurrentLogs) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log_c", "c1").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log_b", "b2").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "log_a", &value).ok());
     EXPECT_EQ(value, "a1|a2");
     
@@ -143,7 +143,7 @@ TEST_F(AppendMergeOperatorTest, AppendAfterDelete) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log7", "new1").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log7", "new2").ok());
     
-    std::string value;
+    std::string value = {};
     auto status = db_->Get(rocksdb::ReadOptions(), "log7", &value);
     ASSERT_TRUE(status.ok());
     EXPECT_EQ(value, "new1|new2");
@@ -164,7 +164,7 @@ TEST_F(AppendMergeOperatorTest, PersistenceAfterReopen) {
     ASSERT_TRUE(status.ok());
     
     // Verify log persisted
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "log8", &value).ok());
     EXPECT_EQ(value, "persistent1|persistent2");
     
@@ -193,7 +193,7 @@ TEST_F(AppendMergeOperatorTest, CustomDelimiterTest) {
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log9", "item2").ok());
     ASSERT_TRUE(db_->Merge(rocksdb::WriteOptions(), "log9", "item3").ok());
     
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->Get(rocksdb::ReadOptions(), "log9", &value).ok());
     EXPECT_EQ(value, "item1,item2,item3");
 }

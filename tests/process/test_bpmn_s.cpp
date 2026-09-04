@@ -35,7 +35,7 @@ using namespace themis::process;
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct DsgvoViolation {
-    std::string message;
+    std::string message = {};
 };
 
 static std::vector<DsgvoViolation> checkDsgvoNodes(

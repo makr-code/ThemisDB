@@ -70,7 +70,7 @@ struct BioDeleter {
 
 [[nodiscard]] std::string bytesToHex(const std::vector<unsigned char>& bytes) {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string result;
+    std::string result = {};
     result.reserve(bytes.size() * 2);
     for (const auto byte : bytes) {
         result.push_back(kHex[(byte >> 4) & 0x0F]);
@@ -245,7 +245,7 @@ protected:
         EXPECT_TRUE(unload_all.has_value()) << unload_all.error().message();
 
         const auto metadata_path = runtimePluginPath().parent_path() / (runtimePluginPath().stem().string() + ".json");
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove(metadata_path, ec);
     }
 

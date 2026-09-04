@@ -193,7 +193,7 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
 
     // ── Phase 1: resolve effective policy under config_mutex_ only ───────────
     std::chrono::microseconds effective_window;
-    size_t effective_max_batch_size;
+    size_t effective_max_batch_size = {};
     {
         std::lock_guard<std::mutex> cfg_lk(config_mutex_);
         auto ep                  = effectivePolicyFor(table_hint);

@@ -206,7 +206,7 @@ static XDOMEADocument makeDoc(const std::string& id,
 static std::string buildXOEVXml(const std::string& az,
                                   const std::string& wurzel,
                                   const json& felder) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
        << "<" << wurzel << ">"
        << "<record>"
@@ -454,7 +454,7 @@ private:
         const std::string tx_id     = ctx_.antrag.at("antragsteller").at("eid_tx_id").get<std::string>();
 
         // Versuche aktuelle Session zu finden (aus vorherigem eid_fullname-Test)
-        EIDAttributeType attr_type;
+        EIDAttributeType attr_type = {};
         if (attr_name == "MUNICIPALITY_ID") {
             attr_type = EIDAttributeType::MUNICIPALITY_ID;
         } else if (attr_name == "GIVEN_NAMES") {

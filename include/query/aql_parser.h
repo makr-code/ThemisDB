@@ -219,7 +219,7 @@ struct LiteralExpr : Expression {
 };
 
 struct VariableExpr : Expression {
-    std::string name;
+    std::string name = {};
     
     explicit VariableExpr(std::string n) : name(std::move(n)) {}
     
@@ -231,7 +231,7 @@ struct VariableExpr : Expression {
 
 struct FieldAccessExpr : Expression {
     std::shared_ptr<Expression> object;  // Variable or nested FieldAccess
-    std::string field;
+    std::string field = {};
     
     FieldAccessExpr(std::shared_ptr<Expression> obj, std::string f)
         : object(std::move(obj)), field(std::move(f)) {}
@@ -264,7 +264,7 @@ struct UnaryOpExpr : Expression {
 };
 
 struct FunctionCallExpr : Expression {
-    std::string name;
+    std::string name = {};
     std::vector<std::shared_ptr<Expression>> arguments;
     
     FunctionCallExpr(std::string n, std::vector<std::shared_ptr<Expression>> args)
@@ -915,7 +915,7 @@ struct Query {
 // ============================================================================
 
 struct ParseError {
-    std::string message;
+    std::string message = {};
     size_t line = 0;
     size_t column = 0;
     std::string context;  // Snippet of the query around the error
@@ -1367,7 +1367,7 @@ struct StringBinaryOpExpr : Expression {
 
 // Legacy unary op with string operator ("NOT", "-")
 struct StringUnaryOpExpr : Expression {
-    std::string op;
+    std::string op = {};
     std::shared_ptr<Expression> operand;
     StringUnaryOpExpr() = default;
     ASTNodeType getType() const override { return ASTNodeType::UnaryOp; }
@@ -1378,7 +1378,7 @@ struct StringUnaryOpExpr : Expression {
 
 // Legacy function-call with explicit functionName and arguments
 struct CompatFunctionCallExpr : Expression {
-    std::string functionName;
+    std::string functionName = {};
     std::vector<std::shared_ptr<Expression>> arguments;
     CompatFunctionCallExpr() = default;
     ASTNodeType getType() const override { return ASTNodeType::FunctionCall; }

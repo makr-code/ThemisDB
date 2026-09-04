@@ -109,7 +109,7 @@ MaterializedView::MaterializedView(const Definition& def, Config config)
                 def_.name,
                 static_cast<int>(def_.strategy),
                 [&]() -> std::string {
-                    std::string s;
+                    std::string s = {};
                     for (const auto& t : def_.base_tables) {
                         if (!s.empty()) {
                           s += ',';

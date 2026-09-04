@@ -23,7 +23,7 @@ using namespace themis::content;
 
 /// Minimal JPEG header (3 magic bytes + padding)
 static std::string makeMinimalJpeg() {
-    std::string blob;
+    std::string blob = {};
     blob += '\xFF'; blob += '\xD8'; blob += '\xFF';  // JPEG SOI + APP marker
     blob.append(64, '\x00');                           // padding
     return blob;
@@ -31,7 +31,7 @@ static std::string makeMinimalJpeg() {
 
 /// Minimal PNG header (4 magic bytes + padding)
 static std::string makeMinimalPng() {
-    std::string blob;
+    std::string blob = {};
     blob += '\x89'; blob += 'P'; blob += 'N'; blob += 'G';
     blob.append(60, '\x00');
     return blob;
@@ -39,7 +39,7 @@ static std::string makeMinimalPng() {
 
 /// Minimal BMP header
 static std::string makeMinimalBmp() {
-    std::string blob;
+    std::string blob = {};
     blob += 'B'; blob += 'M';
     blob.append(62, '\x00');
     return blob;
@@ -47,7 +47,7 @@ static std::string makeMinimalBmp() {
 
 /// Minimal TIFF little-endian header
 static std::string makeMinimalTiff() {
-    std::string blob;
+    std::string blob = {};
     blob += 'I'; blob += 'I';   // little-endian
     blob.append(62, '\x00');
     return blob;
@@ -55,7 +55,7 @@ static std::string makeMinimalTiff() {
 
 /// Minimal GIF header
 static std::string makeMinimalGif() {
-    std::string blob;
+    std::string blob = {};
     blob += 'G'; blob += 'I'; blob += 'F'; blob += '8';
     blob.append(60, '\x00');
     return blob;
@@ -533,7 +533,7 @@ TEST(OcrProcessorConfigTest, EmptyDataDirDoesNotCrashExtract) {
     EXPECT_TRUE(cfg.data_dir.empty());
 
     OcrProcessor proc(std::move(cfg));
-    std::string jpeg_magic;
+    std::string jpeg_magic = {};
     jpeg_magic += '\xFF'; jpeg_magic += '\xD8'; jpeg_magic += '\xFF';
     jpeg_magic.append(64, '\x00');
 
@@ -554,7 +554,7 @@ TEST(OcrProcessorConfigTest, PerformOcrEmptyDataDirDoesNotCrash) {
     // Static performOcr() with empty data_dir must also resolve gracefully.
     std::vector<uint8_t> jpeg_magic = {0xFF, 0xD8, 0xFF, 0x00};
     jpeg_magic.resize(64, 0x00);
-    std::string result;
+    std::string result = {};
     EXPECT_NO_THROW(result = OcrProcessor::performOcr(jpeg_magic, "eng", ""));
     // Result is a string; no crash is the key requirement.
     (void)result;

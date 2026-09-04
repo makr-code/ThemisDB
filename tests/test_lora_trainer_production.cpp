@@ -264,7 +264,7 @@ TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_ValidMetadataPath_Succeed
     trainer.setCheckpointing(true, 10);
 
     const auto temp_dir = std::filesystem::temp_directory_path() / "themis_resume_valid_checkpoint";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(temp_dir, ec);
     const auto checkpoint_prefix = temp_dir / "checkpoint_epoch2_step500";
 

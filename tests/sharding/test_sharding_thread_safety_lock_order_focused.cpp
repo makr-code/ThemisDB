@@ -527,7 +527,7 @@ TEST(LockOrderingTests, LKO05_RaftHierarchy_StateBeforeCallbacks_NoDeadlock) {
 TEST(LockOrderingTests, LKO06_SingleMutexReEntryPrevented) {
     // Verify that our locked variants don't attempt to re-acquire the same
     // mutex (which would deadlock on std::mutex).  Simulate with try_lock.
-    std::mutex m;
+    std::mutex m = {};
     bool second_acquire_succeeded = false;
 
     {

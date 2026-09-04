@@ -23,7 +23,7 @@ namespace scheduler {
 std::string generateUUID() {
     // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
     // Audit event UUIDs must be unguessable to prevent enumeration attacks.
-    std::random_device rd;
+    std::random_device rd = {};
 
     uint64_t high = (static_cast<uint64_t>(rd()) << 32) | rd();
     uint64_t low  = (static_cast<uint64_t>(rd()) << 32) | rd();
@@ -33,7 +33,7 @@ std::string generateUUID() {
     // Set variant to RFC 4122
     low = (low & 0x3FFFFFFFFFFFFFFFULL) | 0x8000000000000000ULL;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(8) << ((high >> 32) & 0xFFFFFFFF) << "-"
         << std::setw(4) << ((high >> 16) & 0xFFFF) << "-"
@@ -57,7 +57,7 @@ std::string maskSensitiveData(const std::string& data, const std::string& mask_t
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(data.c_str()), data.length(), hash);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
@@ -226,7 +226,7 @@ nlohmann::json TaskAuditEvent::toJson([[maybe_unused]] bool gdpr_mode) const {
 
 std::string TaskAuditEvent::toCEF() const {
     // CEF Format: CEF:Version|Device Vendor|Device Product|Device Version|Signature ID|Name|Severity|Extension
-    std::ostringstream cef;
+    std::ostringstream cef = {};
     
     cef << "CEF:0|ThemisDB|TaskScheduler|1.5.0|";
     cef << taskEventTypeToString(event_type) << "|";
@@ -368,7 +368,7 @@ nlohmann::json TaskSecurityEvent::toJson() const {
 }
 
 std::string TaskSecurityEvent::toCEF() const {
-    std::ostringstream cef;
+    std::ostringstream cef = {};
     
     cef << "CEF:0|ThemisDB|TaskScheduler|1.5.0|";
     cef << taskSecurityEventTypeToString(event_type) << "|";

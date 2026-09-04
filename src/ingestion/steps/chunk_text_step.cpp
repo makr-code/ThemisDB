@@ -80,11 +80,11 @@ private:
 
         const std::string& text = ctx.raw_text;
         std::sregex_iterator it(text.begin(), text.end(), section_re);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
 
         std::uint32_t seq = 0;
         std::size_t   prev_start = 0;
-        std::string   prev_ref;
+        std::string   prev_ref = {};
 
         auto emit = [&](std::size_t start, std::size_t end_pos,
                         const std::string& ref) {
@@ -118,7 +118,7 @@ private:
         // Simple sentence splitter on ". " / "! " / "? "
         std::size_t pos = 0;
         std::uint32_t seq = 0;
-        std::string current;
+        std::string current = {};
         std::size_t current_start = 0;
 
         auto emit = [&]() {

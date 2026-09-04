@@ -32,7 +32,7 @@ int TournamentModeSelector::countTokens(const std::string &text) noexcept {
 
 std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     // Short type label
-    std::string type_short;
+    std::string type_short = {};
     switch (arg.argument_type) {
         case ArgumentType::PRO:
             type_short = "PRO";
@@ -60,7 +60,7 @@ std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     // First 20 characters of content
     const std::string preview = arg.content.size() > 20 ? arg.content.substr(0, 20) : arg.content;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << arg.philosophy_school << ": " << type_short << " @ " << preview << "...]";
     return oss.str();
 }
@@ -132,7 +132,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
               });
 
     // Assemble result based on mode
-    std::ostringstream ctx;
+    std::ostringstream ctx = {};
 
     if (config.mode == OpponentInjectionMode::FULL) {
         for (const auto &school : ordered_schools) {

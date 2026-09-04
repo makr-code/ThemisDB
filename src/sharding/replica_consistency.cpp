@@ -90,7 +90,7 @@ std::string VectorClock::serialize() const {
         return "";  // Empty clock
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first = true;
     for (const auto& [node_id, timestamp] : timestamps_) {
         if (!first) {
@@ -110,7 +110,7 @@ std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
     
     std::map<std::string, uint64_t> timestamps;
     std::istringstream iss(data);
-    std::string token;
+    std::string token = {};
     
     while (std::getline(iss, token, ',')) {
         size_t colon_pos = token.find(':');
@@ -136,7 +136,7 @@ std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
 
 /** @brief Serialize versioned entry into delimiter-separated text payload. */
 std::string VersionedEntry::serialize() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << node_id << "|" << version.serialize() << "|" 
         << timestamp.time_since_epoch().count() << "|" << data;
     return oss.str();

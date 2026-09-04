@@ -309,8 +309,8 @@ public:
 private:
     struct Bucket {
         std::atomic<size_t> tokens;
-        size_t capacity;
-        size_t refill_rate;
+        size_t capacity = {};
+        size_t refill_rate = {};
         std::chrono::steady_clock::time_point last_refill;
         mutable std::mutex mutex;
 

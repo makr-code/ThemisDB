@@ -89,7 +89,7 @@ static CsvRow makeCsvRow(int idx) {
 }
 
 static std::string serializeCsvRow(const CsvRow& row) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (std::size_t i = 0; i < row.size(); ++i) {
         if (i > 0) {
           ss << kCsvDefaultDelimiter;
@@ -127,7 +127,7 @@ struct ParquetRowGroup {
     }
 
     std::string serialize() const {
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         for (auto& row : rows)
             for (auto& cell : row)
                 ss << cell.int_val << ',';
@@ -182,7 +182,7 @@ static std::string handleNull(bool is_null, NullTarget target) {
 // ---------------------------------------------------------------------------
 
 static std::string serializeArrowBatch(int n_rows, int n_cols) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "ARROW:rows=" << n_rows << ",cols=" << n_cols << ",data=[";
     for (int r = 0; r < n_rows; ++r)
         for (int c = 0; c < n_cols; ++c)
@@ -196,7 +196,7 @@ static std::string serializeArrowBatch(int n_rows, int n_cols) {
 // ---------------------------------------------------------------------------
 
 struct ExportQuota {
-    std::uint64_t max_rows;
+    std::uint64_t max_rows = {};
     std::atomic<std::uint64_t> used{0};
 
     ExporterErrorCode check(std::uint64_t rows) noexcept {

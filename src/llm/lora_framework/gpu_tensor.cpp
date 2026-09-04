@@ -929,7 +929,7 @@ GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const D
     size_t total_size = std::accumulate(shape.begin(), shape.end(), 
                                        size_t(1), std::multiplies<size_t>());
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<float> dist(mean, std);
     
@@ -954,7 +954,7 @@ GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device,
     
     size_t total_size = shape[0] * shape[1];
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(-limit, limit);
     
@@ -980,7 +980,7 @@ GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Devic
     
     size_t total_size = shape[0] * shape[1];
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(-limit, limit);
     

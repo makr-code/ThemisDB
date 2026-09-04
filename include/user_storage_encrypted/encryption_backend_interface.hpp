@@ -66,7 +66,7 @@ private:
     Result() : success_(false) {}
     
     T value_;
-    bool success_;
+    bool success_ = {};
     std::string error_;
 };
 

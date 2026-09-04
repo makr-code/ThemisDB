@@ -42,8 +42,8 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
     }
     
     // Simple YAML-like parsing (key: value format)
-    std::string line;
-    std::string current_section;
+    std::string line = {};
+    std::string current_section = {};
     
     while (std::getline(file, line)) {
         // Skip comments and empty lines
@@ -248,7 +248,7 @@ void JudgeConfigManager::clear() {
 std::vector<std::string> JudgeConfigManager::splitKey(const std::string& key) const {
     std::vector<std::string> parts;
     std::istringstream stream(key);
-    std::string part;
+    std::string part = {};
     
     while (std::getline(stream, part, '.')) {
         if (!part.empty()) {

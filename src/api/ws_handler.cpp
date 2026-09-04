@@ -67,7 +67,7 @@ bool WsChangeHandler::isChangeStreamPath([[maybe_unused]] std::string_view path)
 /// Note: HTTP form-param decoding in http_type_adapter.cpp intentionally uses
 /// different semantics ('+' → ' ') for application/x-www-form-urlencoded bodies.
 static std::string url_decode(const std::string& encoded) {
-    std::string result;
+    std::string result = {};
     result.reserve(encoded.size());
     for (std::size_t i = 0; i < encoded.size(); ++i) {
         if (encoded[i] == '%' && i + 2 < encoded.size() &&
@@ -114,7 +114,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
     // Auth middleware is optional (may be nullptr in test environments).
     if (auth_) {
         const auto auth_hdr = req[http::field::authorization];
-        std::string token;
+        std::string token = {};
 
         if (!auth_hdr.empty()) {
             const std::string auth_str(auth_hdr);

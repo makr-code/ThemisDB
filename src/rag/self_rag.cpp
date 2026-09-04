@@ -41,7 +41,7 @@ std::string normalizeToken(std::string token) {
 std::vector<std::string> tokenizeNormalized(const std::string& text) {
     std::istringstream iss(text);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         token = normalizeToken(token);
         if (!token.empty()) {
@@ -328,7 +328,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                 }
         }
 
-        CriticVerdict verdict;
+        CriticVerdict verdict = {};
         if (critic_score >= cfg_.relevant_threshold) {
             verdict = CriticVerdict::Relevant;
         } else if (critic_score >= cfg_.partial_threshold) {

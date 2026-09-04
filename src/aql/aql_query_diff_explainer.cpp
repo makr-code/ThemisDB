@@ -29,7 +29,7 @@ namespace {
 
 /// Normalise whitespace: collapse runs of whitespace to a single space and trim.
 std::string normaliseWs(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     bool last_space = true; // trim leading
     for (char c : s) {
@@ -69,7 +69,7 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
     // We need to find the offsets of each keyword to extract text slices.
     struct Match {
         size_t pos = 0;
-        std::string keyword;
+        std::string keyword = {};
     };
     std::vector<Match> matches;
 
@@ -287,7 +287,7 @@ QueryDiffResult AQLQueryDiffExplainer::explain(const std::string &query_a, const
         result.is_equivalent = true;
         result.summary       = "Queries are structurally equivalent (whitespace differences only).";
     } else {
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << result.diffs.size() << " difference" << (result.diffs.size() != 1 ? "s" : "") << ": ";
         for (size_t i = 0; i < result.diffs.size(); ++i) {
             if (i) {

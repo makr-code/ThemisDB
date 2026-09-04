@@ -134,7 +134,7 @@ struct TrainingCheckpoint {
     
     // Deserialize from JSON
     static TrainingCheckpoint fromJSON(const json& j) {
-        TrainingCheckpoint checkpoint;
+        TrainingCheckpoint checkpoint = {};
         if (j.contains("current_epoch")) {
           checkpoint.current_epoch = j["current_epoch"];
         }
@@ -787,7 +787,7 @@ public:
                     //   2. Create embeddings from base model
                     //   3. Apply LoRA adapter on top of base model outputs
                     // Forward pass
-                    Tensor predictions;
+                    Tensor predictions = {};
                     if (using_base_model && enhanced_model) {
                         // Forward through LoRA-enhanced model (base frozen + LoRA trainable)
                         // For now, use layer 0 as default (will be extended for multi-layer training)
@@ -1108,7 +1108,7 @@ public:
     bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
         // Snapshot config_.checkpoint_dir under the config lock to avoid a data race
         // with concurrent setTrainingConfig() calls.
-        std::string ckpt_dir;
+        std::string ckpt_dir = {};
         {
             std::shared_lock<std::shared_mutex> cfg_lock(config_mutex_);
             ckpt_dir = config_.checkpoint_dir;
@@ -1179,7 +1179,7 @@ public:
                 return false;
             }
             
-            json j;
+            json j = {};
             ifs >> j;
             ifs.close();
             
@@ -2115,22 +2115,22 @@ size_t LoRATrainingService::estimateMemoryUsage(
                     uint32_t version = 0;
                     model_file.read(reinterpret_cast<char*>(&version), 4);
                     
-                    uint64_t tensor_count;
+                    uint64_t tensor_count = {};
                     model_file.read(reinterpret_cast<char*>(&tensor_count), 8);
                     
-                    uint64_t kv_count;
+                    uint64_t kv_count = {};
                     model_file.read(reinterpret_cast<char*>(&kv_count), 8);
                     
                     // Parse KV pairs to find parameter count
                     for (uint64_t i = 0; i < kv_count; ++i) {
                         // Read KV key
-                        uint64_t key_len;
+                        uint64_t key_len = {};
                         model_file.read(reinterpret_cast<char*>(&key_len), 8);
                         std::string key(key_len, '\0');
                         model_file.read(&key[0], key_len);
                         
                         // Read value type
-                        uint32_t value_type;
+                        uint32_t value_type = {};
                         model_file.read(reinterpret_cast<char*>(&value_type), 4);
                         
                         // Check for parameter count or model size metadata
@@ -2138,7 +2138,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                             key == "llama.model.parameters" || key == "llama.block_count") {
                             
                             if (value_type == 1) {  // uint32
-                                uint32_t param_val;
+                                uint32_t param_val = {};
                                 model_file.read(reinterpret_cast<char*>(&param_val), 4);
                                 
                                 if (key == "general.model_size") {
@@ -2156,7 +2156,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                                estimated_params, param_val);
                                 }
                             } else if (value_type == 2) {  // uint64
-                                uint64_t param_val;
+                                uint64_t param_val = {};
                                 model_file.read(reinterpret_cast<char*>(&param_val), 8);
                                 estimated_params = param_val;
                                 spdlog::info("Detected model size from GGUF: {} parameters", estimated_params);

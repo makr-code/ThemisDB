@@ -161,7 +161,7 @@ static std::string readKerberosString(const uint8_t *data, size_t size) {
 
 // Holds the cleartext fields extractable from a KRB5 AP-REQ token.
 struct Krb5TokenFields {
-    std::string realm;
+    std::string realm = {};
     std::string sname;      // "service/host@REALM"
     uint32_t ap_options{0}; // AP-REQ ap-options bitmask
     bool parsed{false};
@@ -207,7 +207,7 @@ static bool parseKrb5Ticket(const uint8_t *data, size_t size, Krb5TokenFields &o
                 const uint8_t *names_seq = nullptr;
                 size_t names_seq_size    = 0;
                 if (unwrapSequence(names_tag, names_tag_size, names_seq, names_seq_size)) {
-                    std::string sname_str;
+                    std::string sname_str = {};
                     size_t p = 0;
                     while (p < names_seq_size) {
                         // Each element: tag byte, length, string bytes
@@ -429,7 +429,7 @@ bool KerberosSecurityValidator::validateASN1Depth(const uint8_t *data, size_t si
     size_t offset = 0;
 
     while (offset < size) {
-        ASN1Tag tag;
+        ASN1Tag tag = {};
         if (!parseASN1Tag(data + offset, size - offset, tag)) {
             return false;
         }

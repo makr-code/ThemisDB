@@ -238,7 +238,7 @@ protected:
 
         std::vector<ThreadResult> results(threadCount);
         std::vector<std::thread> threads;
-        std::mutex resultsMutex;
+        std::mutex resultsMutex = {};
 
         // Lambda to run concurrent inference
         auto workerThread = [&, this](int threadId) {

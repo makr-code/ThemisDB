@@ -54,7 +54,7 @@ static void writeFile(const fs::path& dir, const std::string& name,
 // next_cursor    – non-empty = include "next_cursor" field (cursor mode)
 static std::string makeApiPage(int items_on_page, int total = 0,
                                 const std::string& next_cursor = "") {
-    std::ostringstream body;
+    std::ostringstream body = {};
     body << "{";
     if (total > 0) {
       body << "\"total\":" << total << ",";
@@ -515,7 +515,7 @@ TEST(GenericApiIntegrationTest, ApiKeyForwardedInAuthHeader) {
 
     conn.setApiKey("test-secret-key");
 
-    std::string captured_auth;
+    std::string captured_auth = {};
     conn.setHttpGetForTesting(
         [&](const std::string& /*url*/, const std::string& auth)
         -> std::pair<int, std::string> {

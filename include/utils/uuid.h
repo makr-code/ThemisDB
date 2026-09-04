@@ -43,7 +43,7 @@ inline std::string generate_uuid_v4() {
     const uint64_t var_lo =
         (lo & 0x3FFFFFFFFFFFFFFFULL) | 0x8000000000000000ULL;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         // time_low  (32 bits)
         << std::setw(8) << static_cast<uint32_t>((ver_hi >> 32) & 0xFFFFFFFFULL)
@@ -107,7 +107,7 @@ inline std::string generate_uuid_v7() {
     const uint16_t var_rand_b  = static_cast<uint16_t>(0x8000U | ((r1 >> 48) & 0x3FFFU));
     const uint64_t rand_b_lo   = r2 & 0x0000'FFFF'FFFF'FFFFULL;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(8) << time_low
         << '-'

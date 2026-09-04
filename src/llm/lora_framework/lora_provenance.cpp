@@ -46,7 +46,7 @@ static std::string nowISO8601() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }
@@ -56,7 +56,7 @@ static std::string generateId() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -65,7 +65,7 @@ static std::string generateId() {
 
 /// Convert raw SHA-256 digest to lowercase hex string.
 static std::string digestToHex(const unsigned char digest[SHA256_DIGEST_LENGTH]) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -518,7 +518,7 @@ bool LoRAProvenanceManager::verifyAuditChain(
     if (it == impl_->audit_logs.end()) return true;  // empty chain is trivially valid
 
     const auto& log = it->second;
-    std::string expected_previous;
+    std::string expected_previous = {};
 
     for (size_t i = 0; i < log.size(); ++i) {
         const auto& e = log[i];

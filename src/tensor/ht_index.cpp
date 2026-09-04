@@ -105,7 +105,7 @@ void appendU8(std::vector<uint8_t>& buf, uint8_t v) { buf.push_back(v); }
 
 struct BufReader {
     const uint8_t* p;
-    std::size_t    left;
+    std::size_t    left = {};
     bool           ok = true;
 
     bool u64([[maybe_unused]] uint64_t& v) {

@@ -39,13 +39,13 @@ class EthicsAiPipelineTest : public ::testing::Test {
 protected:
     void SetUp() override {
         tmp_dir_ = std::filesystem::temp_directory_path() / "themis_ethics_ai_pipeline_test";
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tmp_dir_, ec);
         std::filesystem::create_directories(tmp_dir_, ec);
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(tmp_dir_, ec);
     }
 

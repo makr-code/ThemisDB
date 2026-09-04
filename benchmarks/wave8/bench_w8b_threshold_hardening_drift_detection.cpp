@@ -87,7 +87,7 @@ static constexpr int kOpsPerSegment    = 3'000;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -118,7 +118,7 @@ public:
         return "e_" + std::to_string(d(rng_));
     }
 private:
-    std::mt19937_64 rng_;
+    std::mt19937_64 rng_ = {};
 };
 
 /// Compute coefficient of variation (%) from a vector of samples.
@@ -187,7 +187,7 @@ public:
         }
         KeyGenerator wkg(kW8CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.NextKey(kDatasetSize), val);
         }
     }
@@ -217,7 +217,7 @@ BENCHMARK_F(HardenedGateFixture, THD01_TightenedReadGate)(benchmark::State& stat
     KeyGenerator kg(kW8CanonicalSeed + 11);
     for (auto _ : state) {
         const std::string key = kg.NextKey(kDatasetSize);
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(key, val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -310,7 +310,7 @@ BENCHMARK_F(DriftDetectionFixture, THD03_ReadThroughputDrift)(benchmark::State& 
         for (int seg = 0; seg < kDriftSegments; ++seg) {
             const auto t0 = std::chrono::steady_clock::now();
             for (int i = 0; i < kOpsPerSegment; ++i) {
-                std::string val;
+                std::string val = {};
                 db_->get(kg.NextKey(kDatasetSize), val);
             }
             const auto t1 = std::chrono::steady_clock::now();
@@ -409,7 +409,7 @@ BENCHMARK_F(DriftDetectionFixture, THD05_LatencyTrendSlope)(benchmark::State& st
             double total_us = 0.0;
             for (int i = 0; i < kOpsPerSegment; ++i) {
                 const auto t0 = std::chrono::steady_clock::now();
-                std::string val;
+                std::string val = {};
                 db_->get(kg.NextKey(kDatasetSize), val);
                 const auto t1 = std::chrono::steady_clock::now();
                 total_us += std::chrono::duration<double, std::micro>(t1 - t0).count();
@@ -465,14 +465,14 @@ BENCHMARK_F(DriftDetectionFixture, THD06_DeltaBaselineComparison)(benchmark::Sta
 
         for (int i = 0; i < kCompareOps; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg1.NextKey(kDatasetSize), val);
             run1_total += std::chrono::duration<double, std::micro>(
                 std::chrono::steady_clock::now() - t0).count();
         }
         for (int i = 0; i < kCompareOps; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg2.NextKey(kDatasetSize), val);
             run2_total += std::chrono::duration<double, std::micro>(
                 std::chrono::steady_clock::now() - t0).count();
@@ -577,7 +577,7 @@ BENCHMARK_F(DriftDetectionFixture, THD08_CompositeDriftScore)(benchmark::State& 
 
         for (int i = 0; i < kOpsPerSegment; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.NextKey(kDatasetSize), val);
             latencies.push_back(
                 std::chrono::duration<double, std::micro>(

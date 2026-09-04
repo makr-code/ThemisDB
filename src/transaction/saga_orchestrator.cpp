@@ -26,7 +26,7 @@ namespace themis {
 namespace {
 
 std::string jsonEscape(const std::string& input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size() + 8);
     for (char c : input) {
         switch (c) {
@@ -129,7 +129,7 @@ SAGADefinition SAGAOrchestrator::instantiateTemplate(
 }
 
 std::string SAGAOrchestrator::renderWorkflow(const SAGADefinition& saga) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "SAGA: " << saga.name << "\n";
     oss << "----------------------------------------\n";
 
@@ -457,7 +457,7 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
     }
 
     std::vector<std::string> executed;
-    std::string failure_reason;
+    std::string failure_reason = {};
 
     while (!ready.empty() && failure_reason.empty()) {
         std::vector<std::string> wave = std::move(ready);

@@ -84,7 +84,7 @@ bool MemoryPolicy::isUnderPressure([[maybe_unused]] uint64_t current_bytes) cons
 void MemoryPolicy::recordPressureEvent(const MemoryPressureEvent& event) const {
     pressure_events_.push_back(event);
 
-    std::string level_str;
+    std::string level_str = {};
     switch (event.level) {
         case PressureLevel::NORMAL:
             level_str = "NORMAL";
@@ -387,7 +387,7 @@ void ResultAccumulator::dropOldestBatch() {
     }
 
     // Find shard with oldest batch
-    std::string oldest_shard;
+    std::string oldest_shard = {};
     size_t oldest_index = 0;
     auto oldest_time = std::chrono::steady_clock::now();
 

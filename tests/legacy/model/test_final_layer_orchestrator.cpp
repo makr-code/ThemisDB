@@ -278,6 +278,6 @@ TEST(FinalLayerOrchestratorTest, StructuredLayerHandoffJsonLogEmitted) {
     EXPECT_NE(content.find("\"routing_reason_code\":"), std::string::npos);
     EXPECT_NE(content.find("\"resolved\":true"), std::string::npos);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(log_path, ec);
 }

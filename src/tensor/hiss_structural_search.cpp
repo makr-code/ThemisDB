@@ -28,7 +28,7 @@ namespace tensor {
 // ============================================================================
 
 namespace {
-    std::mutex           g_quantics_mtx;
+    std::mutex           g_quantics_mtx = {};
     HissReshaper::QuanticsFn g_quantics_fn;
 } // namespace
 
@@ -342,7 +342,7 @@ std::vector<std::size_t> TensorNetworkGraph::neighbors(std::size_t node_index) c
 
 TensorNetworkGraph
 HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConfig& cfg) const {
-    TensorNetworkGraph graph;
+    TensorNetworkGraph graph = {};
     if (train.cores.empty()) {
       return graph;
     }

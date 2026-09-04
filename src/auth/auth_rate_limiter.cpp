@@ -434,7 +434,7 @@ bool AuthRateLimiter::unlockAccount(const std::string &user_id) {
 
 uint32_t AuthRateLimiter::getRetryAfter(const std::string &ip_address) const {
     std::shared_ptr<IRateLimiterBackend> backend;
-    size_t max_per_min;
+    size_t max_per_min = {};
     {
         std::shared_lock<std::shared_mutex> lock(stats_mutex_);
         backend     = backend_;
@@ -791,7 +791,7 @@ void AuthRateLimiter::cleanup() {
     lockout_manager_->cleanup();
 
     // Prune stale credential-stuffing state for IPs whose rolling window has expired.
-    size_t stuffing_window_secs;
+    size_t stuffing_window_secs = {};
     {
         std::shared_lock<std::shared_mutex> lock(stats_mutex_);
         stuffing_window_secs = config_.credential_stuffing_window_seconds;

@@ -313,7 +313,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
                     std::string text = doc[field];
                     // Simple tokenization
                     std::istringstream iss(text);
-                    std::string word;
+                    std::string word = {};
                     while (iss >> word) {
                         // Convert to lowercase
                         std::transform(word.begin(), word.end(), word.begin(), 
@@ -359,7 +359,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     result.total_size_bytes = total_size;
     result.last_update_time = std::chrono::system_clock::now();
      
-    delete db_instance;
+    delete db_instance = {};
     return result;
 }
 

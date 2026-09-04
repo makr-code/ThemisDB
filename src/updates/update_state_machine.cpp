@@ -228,7 +228,7 @@ bool UpdateStateMachine::transition(UpdateState to,
     // currentVersion() (both of which also acquire mutex_).
     std::vector<StateChangeCallback> callbacks_copy;
     UpdateState from;
-    std::string notify_version;
+    std::string notify_version = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -365,7 +365,7 @@ void UpdateStateMachine::loadPersistedState() {
             return;  // No log yet – clean start
         }
 
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             if (line.empty()) {
               continue;
@@ -435,7 +435,7 @@ void UpdateStateMachine::loadCheckpoints() {
             return;  // No checkpoints log yet – clean start
         }
 
-        std::string line;
+        std::string line = {};
         uint64_t max_id = 0;
         
         while (std::getline(f, line)) {
@@ -485,7 +485,7 @@ void UpdateStateMachine::setHistoryLogger(UpdateHistoryLogger* logger) {
 
 CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description) {
     CheckpointId assigned_id = 0;
-    std::string  snap_version;
+    std::string  snap_version = {};
     UpdateState  snap_state;
     Checkpoint   cp_to_persist;
 
@@ -539,7 +539,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     std::vector<StateChangeCallback> callbacks_copy;
     UpdateState from_state;
     UpdateState to_state;
-    std::string notify_version;
+    std::string notify_version = {};
     bool found = false;
 
     {

@@ -169,7 +169,7 @@ std::string normalizeExpectedSha256(std::string sidecar_line) {
 struct LLMJudgeClient::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine;
-    std::string model_id;
+    std::string model_id = {};
     mutable std::mutex state_mutex;  // Protect shared state access
 
     void tryAutoRegisterLocalModel() {
@@ -203,7 +203,7 @@ struct LLMJudgeClient::Impl {
                 if (std::filesystem::exists(sha_path)) {
                     std::ifstream sidecar(sha_path);
                     if (sidecar.is_open()) {
-                        std::string expected_hash;
+                        std::string expected_hash = {};
                         std::getline(sidecar, expected_hash);
                         sidecar.close();
 
@@ -384,7 +384,7 @@ EvaluationResponse LLMJudgeClient::evaluateDimension(
     const std::string& dimension
 ) {
     // Build evaluation prompt
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
     
     prompt << "You are evaluating a generated answer for a RAG system.\n\n";
     prompt << "Query: " << query << "\n\n";
@@ -471,7 +471,7 @@ std::string LLMJudgeClient::generateRequestId() {
     static std::atomic<uint64_t> counter{0};
     auto count = counter.fetch_add(1);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "llm_judge_" << std::setfill('0') << std::setw(10) << count;
     return oss.str();
 }

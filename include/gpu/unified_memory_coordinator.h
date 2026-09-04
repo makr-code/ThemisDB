@@ -136,7 +136,7 @@ public:
 
 private:
     void* ptr_;
-    size_t size_;
+    size_t size_ = {};
     std::atomic<Owner> owner_;
     std::atomic<bool> conflict_;  // Track if conflict occurred
 

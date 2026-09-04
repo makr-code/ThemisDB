@@ -378,7 +378,7 @@ private:
                 return true;
             }
 
-            std::string entity_blob;
+            std::string entity_blob = {};
             const std::string entity_key = "entity:" + std::string(collection) + ":" + std::string(key);
             if (!db_->get(entity_key, entity_blob)) {
                 return false;
@@ -493,7 +493,7 @@ private:
                 return grpc::Status::OK;
             }
 
-            std::string body;
+            std::string body = {};
 
             if (active_txn) {
                 auto tx_body = active_txn->readEntityJson(req->collection(), req->key());
@@ -586,7 +586,7 @@ private:
 
             // Check existence when not upserting
             if (!req->create_if_missing()) {
-                std::string existing;
+                std::string existing = {};
                 if (!db_ || !db_->get(storage_key, existing)) {
                     resp->set_success(false);
                     auto* err = resp->mutable_error();
@@ -607,7 +607,7 @@ private:
             // Read-increment-store version counter.
             uint64_t new_version = 1;
             if (db_) {
-                std::string ver_str;
+                std::string ver_str = {};
                 if (db_->get(versionKey(storage_key), ver_str)) {
                     try { new_version = std::stoull(ver_str) + 1; }
                     catch (const std::invalid_argument&) {
@@ -803,7 +803,7 @@ private:
             }
 
             for (const auto& key : req->keys()) {
-                std::string body;
+                std::string body = {};
 
                 bool found = false;
                 if (active_txn) {
@@ -1034,7 +1034,7 @@ private:
                 h->set_key(hit.primary_key);
                 h->set_score(hit.distance);
                 if (req->fetch_docs()) {
-                    std::string body;
+                    std::string body = {};
                     if (tryResolveDocumentBody(req->collection(), hit.primary_key, &body)) {
                         h->set_document(body.data(), body.size());
                     }
@@ -1088,7 +1088,7 @@ private:
                 Field field{Field::Key};
                 Type type;
                 std::string attribute_name;
-                std::string scalar;
+                std::string scalar = {};
                 std::vector<std::string> set;
                 bool has_numeric_scalar{false};
                 double numeric_scalar{0.0};
@@ -1303,7 +1303,7 @@ private:
                     const std::string id = collection_ + "/" + key;
 
                     for (const auto& clause : clauses_) {
-                        std::string candidate;
+                        std::string candidate = {};
                         bool has_numeric_candidate = false;
                         double numeric_candidate = 0.0;
 
@@ -1427,7 +1427,7 @@ private:
                 }
 
                 std::vector<KeyFilterClause> clauses_;
-                std::string collection_;
+                std::string collection_ = {};
             };
 
             std::unique_ptr<themis::IExpressionEvaluator> vector_filter_evaluator = {};
@@ -1443,14 +1443,14 @@ private:
             resp->set_success(true);
             for (const auto& hit : hits) {
                 bool include_hit = true;
-                std::string doc_body;
+                std::string doc_body = {};
                 bool has_doc_body = false;
 #if THEMIS_HAS_JSON
                 nlohmann::json doc_json;
                 bool has_doc_json = false;
 #endif
                 for (const auto& clause : key_filters) {
-                    std::string candidate;
+                    std::string candidate = {};
                     bool has_numeric_candidate = false;
                     double numeric_candidate = 0.0;
                     if (clause.field == KeyFilterClause::Field::Key) {
@@ -1575,7 +1575,7 @@ private:
                 h->set_key(hit.primary_key);
                 h->set_score(hit.distance);
                 if (req->fetch_docs()) {
-                    std::string body;
+                    std::string body = {};
                     if (tryResolveDocumentBody(req->collection(), hit.primary_key, &body)) {
                         h->set_document(body.data(), body.size());
                     }
@@ -1633,7 +1633,7 @@ private:
                 if (!req->fetch_docs() || !hit || !db_) {
                     return;
                 }
-                std::string body;
+                std::string body = {};
                 if (tryResolveDocumentBody(req->collection(), hit->key(), &body)) {
                     hit->set_document(body.data(), body.size());
                 }

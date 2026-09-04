@@ -34,7 +34,7 @@ GPUMemoryAllocator::GPUMemoryAllocator(const Config& config)
     }
 
     // Verify device exists
-    int device_count;
+    int device_count = {};
     cudaError_t err = cudaGetDeviceCount(&device_count);
     if (err != cudaSuccess || config.device_id >= device_count) {
         throw std::runtime_error("Invalid device ID: " + std::string(cudaGetErrorString(err)));

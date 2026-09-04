@@ -448,7 +448,7 @@ bool LlamaWrapper::verifyModelIntegrity(
         return true;
     }
     
-    std::string calculated_checksum;
+    std::string calculated_checksum = {};
     
     if (checksum_type == "sha256") {
         calculated_checksum = ::themis::utils::calculateSHA256(file_path);
@@ -1051,8 +1051,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
 
     InferenceRequest effective_request = request;
     {
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!sanitizePromptText(request.prompt,
                                 effective_request.prompt,
                                 &blocked_rule,
@@ -1066,7 +1066,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 "Inference prompt blocked by policy rule '" + blocked_rule + "': " + blocked_reason);
         }
         if (request.system_prompt) {
-            std::string sanitized_system_prompt;
+            std::string sanitized_system_prompt = {};
             if (!sanitizePromptText(*request.system_prompt,
                                     sanitized_system_prompt,
                                     &blocked_rule,
@@ -1261,7 +1261,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     
     try {
         // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
-        std::string prev_adapter;
+        std::string prev_adapter = {};
         bool context_changed = (last_context_ptr_ != lctx);
         
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
@@ -2081,11 +2081,11 @@ std::string LlamaWrapper::formatPromptForRAG(
     const InferenceRequest& request
 ) {
     // Build RAG prompt using template
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Add system prompt if provided
     if (request.system_prompt) {
-        std::string sanitized_system_prompt;
+        std::string sanitized_system_prompt = {};
         if (!sanitizePromptText(*request.system_prompt, sanitized_system_prompt, nullptr, nullptr)) {
             throw std::invalid_argument("RAG system prompt blocked by prompt policy");
         }
@@ -2096,7 +2096,7 @@ std::string LlamaWrapper::formatPromptForRAG(
     oss << "Context:\n";
     for (size_t i = 0; i < rag_context.documents.size(); ++i) {
         const auto& doc = rag_context.documents[i];
-        std::string sanitized_content;
+        std::string sanitized_content = {};
         if (!sanitizePromptText(doc.content, sanitized_content, nullptr, nullptr)) {
             sanitized_content = "[BLOCKED_CONTEXT]";
         }
@@ -2105,7 +2105,7 @@ std::string LlamaWrapper::formatPromptForRAG(
     }
     
     // Add user query
-    std::string sanitized_query;
+    std::string sanitized_query = {};
     if (!sanitizePromptText(rag_context.query, sanitized_query, nullptr, nullptr)) {
         throw std::invalid_argument("RAG query blocked by prompt policy");
     }
@@ -2152,7 +2152,7 @@ std::string LlamaWrapper::formatChatMessages(
 std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages) {
     // ChatML format used by Mistral, Llama-3, etc.
     // <|im_start|>system\ncontent<|im_end|>
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     for (const auto& msg : messages) {
         oss << "<|im_start|>" << msg.role << "\n";
@@ -2169,10 +2169,10 @@ std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages)
 std::string LlamaWrapper::formatLlama2(const std::vector<ChatMessage>& messages) {
     // Llama-2 chat format
     // <s>[INST] <<SYS>>\nsystem_message\n<</SYS>>\n\nuser_message [/INST]
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     bool first_user = true;
-    std::string system_msg;
+    std::string system_msg = {};
     
     for (const auto& msg : messages) {
         if (msg.role == "system") {
@@ -2200,7 +2200,7 @@ std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages)
     // Vicuna format
     // A chat between a curious user and an artificial intelligence assistant...
     // USER: message\nASSISTANT:
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Optional system message
     bool has_system = false;
@@ -2234,7 +2234,7 @@ std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages)
 std::string LlamaWrapper::formatAlpaca(const std::vector<ChatMessage>& messages) {
     // Alpaca format
     // Below is an instruction... ### Instruction:\nuser_message\n\n### Response:
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     std::string system_msg = "Below is an instruction that describes a task. "
                             "Write a response that appropriately completes the request.";
@@ -2343,7 +2343,7 @@ std::string LlamaWrapper::detokenizeInternal(
         throw std::runtime_error("Failed to get model vocabulary");
     }
     
-    std::string result;
+    std::string result = {};
     result.reserve(tokens.size() * 4);  // Rough estimate
     
     for (llama_token token : tokens) {
@@ -3368,7 +3368,7 @@ std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
             return "";
         }
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         return buffer.str();
         
@@ -3394,8 +3394,8 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
         return nullptr;
     }
     
-    std::string grammar_key;
-    std::string ebnf_text;
+    std::string grammar_key = {};
+    std::string ebnf_text = {};
     
     // Custom EBNF grammar takes precedence
     if (request.grammar_ebnf.has_value()) {
@@ -3540,7 +3540,7 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     // Build multi-modal prompt in LLaVA format
     // Format: <image>\nUSER: {question}\nASSISTANT:
     
-    std::string prompt;
+    std::string prompt = {};
     
     // Count number of images
     size_t num_images = 0;
@@ -3553,7 +3553,7 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     // Add image tokens
     if (request.use_image_start_end) {
         // Sanitize image_token to prevent prompt injection
-        std::string sanitized_image_token;
+        std::string sanitized_image_token = {};
         if (!sanitizePromptText(request.image_token, sanitized_image_token, nullptr, nullptr)) {
             spdlog::warn("[SECURITY] buildVisionPrompt: image_token blocked, using default");
             sanitized_image_token = "<image>";
@@ -3564,9 +3564,9 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     }
     
     // Add text prompt in chat format — sanitize before embedding into the prompt
-    std::string sanitized_text_prompt;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized_text_prompt = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!sanitizePromptText(request.text_prompt, sanitized_text_prompt, &blocked_rule, &blocked_reason)) {
         spdlog::warn("[SECURITY] buildVisionPrompt: text_prompt blocked by rule '{}': {}", blocked_rule, blocked_reason);
         sanitized_text_prompt = "[BLOCKED]";

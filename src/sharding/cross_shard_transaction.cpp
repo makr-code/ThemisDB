@@ -2480,7 +2480,7 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
             deadlocked_transactions_++;
 
             // Select deadlock victim according to configured policy.
-            std::string victim_id;
+            std::string victim_id = {};
             std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> candidates;
             {
                 std::lock_guard<std::timed_mutex> lock(transactions_mutex_);

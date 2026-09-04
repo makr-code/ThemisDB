@@ -261,7 +261,7 @@ std::vector<ContentChunk> AudioProcessor::chunk(const ContentExtractionResult &r
     // For audio, chunk by sentences from transcription
     auto sentences = splitSentences(result.text);
 
-    std::string current_chunk;
+    std::string current_chunk = {};
     int sequence = 0;
 
     for (const auto &sentence : sentences) {
@@ -618,7 +618,7 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
 }
 
 MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &blob) {
-    MediaExtractionData data;
+    MediaExtractionData data = {};
 
     if (blob.size() < 4) {
         return data;
@@ -648,7 +648,7 @@ MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &
 
 // Helper: decode a UTF-16LE string to UTF-8 (basic BMP-only conversion)
 static std::string decodeUtf16Le(const uint8_t *data, size_t len) {
-    std::string result;
+    std::string result = {};
     for (size_t i = 0; i + 1 < len; i += 2) {
         uint16_t cp = static_cast<uint16_t>(data[i]) | (static_cast<uint16_t>(data[i + 1]) << 8);
         if (cp == 0) {
@@ -769,7 +769,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
             const char *tag_name = id3FrameToTagName(frame_id);
             if (tag_name != nullptr && frame_size >= 1) {
                 uint8_t encoding = blob[pos]; // 0=ISO-8859-1, 1=UTF-16, 2=UTF-16BE, 3=UTF-8
-                std::string value;
+                std::string value = {};
 
                 if (encoding == 1 && frame_size >= 3) {
                     // UTF-16 with BOM

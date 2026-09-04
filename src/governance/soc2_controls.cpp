@@ -497,7 +497,7 @@ Soc2AuditReport Soc2ControlSet::generateReport(const PolicyManager &policy_mgr, 
 
     // Generate a deterministic report ID from current time
     const int64_t ts = nowMs();
-    std::ostringstream id_ss;
+    std::ostringstream id_ss = {};
     id_ss << "soc2-" << ts;
     report.report_id       = id_ss.str();
     report.generated_at_ms = ts;
@@ -542,7 +542,7 @@ void Soc2ControlSet::collectEvidence(const std::string &resource, const std::str
 
     Soc2EvidenceItem ev;
     {
-        std::ostringstream id_ss;
+        std::ostringstream id_ss = {};
         id_ss << "ev-" << (++evidence_counter_) << "-" << nowMs();
         ev.evidence_id = id_ss.str();
     }

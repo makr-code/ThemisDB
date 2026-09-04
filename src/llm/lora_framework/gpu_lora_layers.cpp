@@ -446,7 +446,7 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
 
     // Gradient checkpointing: Recompute activations if needed
     GPUTensor input_for_backward;
-    GPUTensor h_for_backward;
+    GPUTensor h_for_backward = {};
 
     if (use_checkpointing_) {
         // Recompute activations (trade compute for memory)

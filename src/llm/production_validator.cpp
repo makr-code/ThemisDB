@@ -56,7 +56,7 @@ std::string normalizeText(std::string text) {
         }
     }
 
-    std::string compact;
+    std::string compact = {};
     compact.reserve(text.size());
     bool last_space = true;
     for (char ch : text) {
@@ -549,7 +549,7 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     std::atomic<size_t> completed{0};
     std::atomic<size_t> succeeded{0};
     std::vector<double> latencies;
-    std::mutex lat_mutex;
+    std::mutex lat_mutex = {};
 
     auto worker = [&]() {
         while (true) {
@@ -1058,7 +1058,7 @@ bool PerformanceRegressionDetector::loadBaseline(
     }
 
     // Parse the simple key=value format written by saveBaseline().
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         auto sep = line.find('=');
         if (sep == std::string::npos) {
@@ -1558,7 +1558,7 @@ bool IntegrationTestSuite::testHighConcurrency() {
     constexpr int kPerThread = 4;
     std::atomic<int> submitted{0};
     std::vector<std::thread> threads;
-    std::mutex id_mutex;
+    std::mutex id_mutex = {};
     std::vector<std::string> all_ids;
 
     for (int t = 0; t < kThreads; ++t) {
@@ -1766,14 +1766,14 @@ size_t ProductionValidator::measureMemoryUsage() {
     // Platform-specific memory measurement
 #ifdef __linux__
     std::ifstream status("/proc/self/status");
-    std::string line;
+    std::string line = {};
     while (std::getline(status, line)) {
         if (line.find("VmRSS:") == 0) {
             // Extract memory value in KB - parse more carefully
             size_t pos = line.find_first_of("0123456789");
             if (pos != std::string::npos) {
                 // Extract only the numeric portion
-                std::string value_str;
+                std::string value_str = {};
                 for (size_t i = pos; i < line.length() && std::isdigit(line[i]); ++i) {
                     value_str += line[i];
                 }
@@ -1791,7 +1791,7 @@ size_t ProductionValidator::measureMemoryUsage() {
     }
 #elif defined(_WIN32)
     // Windows memory measurement
-    PROCESS_MEMORY_COUNTERS_EX pmc;
+    PROCESS_MEMORY_COUNTERS_EX pmc = {};
     if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
         return pmc.WorkingSetSize / (1024 * 1024);  // Convert to MB
     }
@@ -1839,7 +1839,7 @@ bool ProductionValidator::evaluateQualityTest(const QualityTest& test, const std
     eng_req.base_request.max_tokens = 64;
     eng_req.timeout = std::chrono::milliseconds(10000);
 
-    std::string response;
+    std::string response = {};
     try {
         auto handle = inference_engine_->submit(eng_req);
         response = handle.get().text;

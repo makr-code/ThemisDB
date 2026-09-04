@@ -381,7 +381,7 @@ TEST(WireProtocolWebSocket, ResponseFrameParsing) {
 
     uint8_t  opcode;
     uint16_t flags;
-    std::string parsed_payload;
+    std::string parsed_payload = {};
     ASSERT_TRUE(parseResponseFrame(frame, opcode, flags, parsed_payload));
 
     EXPECT_EQ(opcode, 0xFDu);

@@ -774,7 +774,7 @@ message CdcEvent {
         } else if (client_->config().auto_register_schemas) {
             // Auto-register with the default schema template for this format.
             const auto fmt  = client_->config().default_format;
-            std::string def_schema;
+            std::string def_schema = {};
             switch (fmt) {
                 case SchemaFormat::AVRO:     def_schema = defaultAvroSchema(collection); break;
                 case SchemaFormat::PROTOBUF: def_schema = defaultProtobufSchema(collection); break;

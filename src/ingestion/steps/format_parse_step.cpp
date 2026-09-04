@@ -121,7 +121,7 @@ public:
                 Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       std::string(plugin_name_) + ": cannot open '" + path + "'"});
         }
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << file.rdbuf();
         const std::string raw_bytes = oss.str();
 

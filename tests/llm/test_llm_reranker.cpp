@@ -285,21 +285,21 @@ TEST(LlmRerankerSetBackend, ClearingBackendFallsBack) {
 // ============================================================================
 
 TEST(LlmRerankerPrompt, PromptContainsQuery) {
-    std::string captured;
+    std::string captured = {};
     LlmReranker rr{{}, [&](const std::string& p) { captured = p; return "5\n"; }};
     rr.rerank("database indexing performance", {makeCandidate("d1", "text")});
     EXPECT_NE(captured.find("database indexing performance"), std::string::npos);
 }
 
 TEST(LlmRerankerPrompt, PromptContainsDocumentContent) {
-    std::string captured;
+    std::string captured = {};
     LlmReranker rr{{}, [&](const std::string& p) { captured = p; return "5\n"; }};
     rr.rerank("query", {makeCandidate("d1", "unique content phrase")});
     EXPECT_NE(captured.find("unique content phrase"), std::string::npos);
 }
 
 TEST(LlmRerankerPrompt, SnippetTruncatedToMaxLength) {
-    std::string captured;
+    std::string captured = {};
     LlmReranker::Config cfg;
     cfg.max_snippet_length = 10;
     LlmReranker rr{cfg, [&](const std::string& p) { captured = p; return "5\n"; }};
@@ -309,7 +309,7 @@ TEST(LlmRerankerPrompt, SnippetTruncatedToMaxLength) {
 }
 
 TEST(LlmRerankerPrompt, PromptContainsScoreInstructions) {
-    std::string captured;
+    std::string captured = {};
     LlmReranker rr{{}, [&](const std::string& p) { captured = p; return "5\n"; }};
     rr.rerank("q", {makeCandidate("d1", "text")});
     EXPECT_NE(captured.find("0"), std::string::npos);
@@ -317,7 +317,7 @@ TEST(LlmRerankerPrompt, PromptContainsScoreInstructions) {
 }
 
 TEST(LlmRerankerPrompt, TemperatureHintIncludedWhenNonZero) {
-    std::string captured;
+    std::string captured = {};
     LlmReranker::Config cfg;
     cfg.temperature = 0.5f;
     LlmReranker rr{cfg, [&](const std::string& p) { captured = p; return "5\n"; }};
@@ -326,7 +326,7 @@ TEST(LlmRerankerPrompt, TemperatureHintIncludedWhenNonZero) {
 }
 
 TEST(LlmRerankerPrompt, TemperatureHintOmittedWhenZero) {
-    std::string captured;
+    std::string captured = {};
     LlmReranker rr{{}, [&](const std::string& p) { captured = p; return "5\n"; }};
     // Default temperature is 0.0 — hint should not appear
     rr.rerank("q", {makeCandidate("d1", "text")});

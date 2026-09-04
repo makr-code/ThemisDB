@@ -77,7 +77,7 @@ static std::vector<uint8_t> stripPadding(
     std::size_t                 original_size)
 {
     if (recovered.size() <= original_size)
-        return recovered;
+        return recovered = {};
     return std::vector<uint8_t>(recovered.begin(),
                                 recovered.begin() +
                                 static_cast<std::ptrdiff_t>(original_size));

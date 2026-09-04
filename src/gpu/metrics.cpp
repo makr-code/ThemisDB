@@ -154,7 +154,7 @@ void GPUMetrics::recordKernelDuration(const KernelRecord &record) {
 std::string GPUMetrics::nsight_export() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(3);
 
     oss << "{\n";
@@ -201,7 +201,7 @@ std::string GPUMetrics::rocm_profiler_export() const {
     //
     // Each kernel is emitted as a complete event ("ph": "X").
     // Timestamps follow the Chrome trace convention (microseconds).
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     if (kernels_.empty()) {
         oss << "{\n  \"traceEvents\": []\n}\n";

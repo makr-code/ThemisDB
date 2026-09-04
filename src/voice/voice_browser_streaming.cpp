@@ -97,7 +97,7 @@ std::string generateStreamId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
     std::lock_guard<std::mutex> lock(mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "vs-" << std::hex << rng() << "-" << rng();
     return oss.str();
 }
@@ -146,7 +146,7 @@ PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
     pt.confidence = is_final ? 0.92f : 0.75f;
     pt.timestamp_ms = streamingNowMs();
     // Placeholder text — real STT backend fills this
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[partial#" << seq << ":" << audio.size() << "B]";
     pt.text = oss.str();
     return pt;
@@ -162,7 +162,7 @@ FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_
     ft.confidence  = 0.92f;
     ft.duration_ms = streamingNowMs() - started_at_ms;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[transcript:" << audio.size() << "B]";
     ft.text = oss.str();
     return ft;
@@ -267,7 +267,7 @@ bool VoiceStreamingSession::isActive() const noexcept {
 PartialTranscript
 VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Streaming chunk handling with bounded buffer
-    PartialTranscript empty;
+    PartialTranscript empty = {};
     if (!impl_ || !impl_->active) {
       return empty;
     }
@@ -376,7 +376,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
 
     // Run incremental STT — use injected backend when available
     ++impl_->partial_seq;
-    PartialTranscript pt;
+    PartialTranscript pt = {};
     if (impl_->transcribe_fn) {
         pt = impl_->transcribe_fn(impl_->audio_buffer,
                                    /*is_final=*/false,

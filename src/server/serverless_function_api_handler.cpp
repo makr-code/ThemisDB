@@ -77,7 +77,7 @@ std::string ServerlessFunctionApiHandler::generateId() {
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count());
     uint64_t seq = counter.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "fn-" << std::hex << ts << "-" << seq;
     return oss.str();
 }
@@ -91,7 +91,7 @@ std::string ServerlessFunctionApiHandler::utcNow() {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -149,7 +149,7 @@ bool ServerlessFunctionApiHandler::executeFunction(
     struct TaskResult {
         bool        ok{false};
         json        output;
-        std::string error;
+        std::string error = {};
     };
 
     // Capture only by value so the lambda has no references to caller locals.
@@ -331,7 +331,7 @@ ServerlessFunctionApiHandler::handleList(
 {
     auto span = Tracer::startSpan("handleList");
     // Optional ?tenant_id= filter via query string.
-    std::string tenant_filter;
+    std::string tenant_filter = {};
     const std::string target{req.target()};
     auto qpos = target.find('?');
     if (qpos != std::string::npos) {
@@ -537,7 +537,7 @@ ServerlessFunctionApiHandler::handleInvoke(
         fn = it->second; // copy
     }
 
-    json input;
+    json input = {};
     if (!req.body().empty()) {
         try {
             input = json::parse(req.body());
@@ -552,7 +552,7 @@ ServerlessFunctionApiHandler::handleInvoke(
     auto invoke_start = std::chrono::steady_clock::now();
 
     json output;
-    std::string exec_error;
+    std::string exec_error = {};
     bool ok = executeFunction(fn, input, output, exec_error);
 
     auto invoke_end = std::chrono::steady_clock::now();

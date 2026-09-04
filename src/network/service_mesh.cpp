@@ -152,7 +152,7 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
             (req.find("GET /readyz ")   != std::string::npos ||
              req.find("GET /readyz\r")  != std::string::npos);
 
-        std::string body;
+        std::string body = {};
         if (is_healthz) {
             body = "OK";
             std::lock_guard<std::mutex> lk(stats_mutex_);

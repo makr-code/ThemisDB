@@ -707,7 +707,7 @@ std::string GossipProtocol::generateMessageId() const {
     thread_local std::mt19937 gen(std::random_device{}());
     thread_local std::uniform_int_distribution<uint64_t> dis;
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "msg_" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
     return ss.str();
 }
@@ -740,7 +740,7 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
             return "";
         }
         
-        std::string signature;
+        std::string signature = {};
         
         if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1) {
             if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {

@@ -736,7 +736,7 @@ std::optional<std::string> TenantManager::lookupTenantByDomain(std::string_view 
 /** @brief Export current tenant metrics in Prometheus exposition format. */
 std::string TenantManager::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "# HELP themis_tenant_count Total number of tenants\n";
     oss << "# TYPE themis_tenant_count gauge\n";
@@ -744,7 +744,7 @@ std::string TenantManager::getMetrics() const {
     
     for (const auto& [id, usage] : usage_) {
         // Escape label value safely using a new string
-        std::string tid;
+        std::string tid = {};
         tid.reserve(id.size() + 4);  // Reserve some extra space for escapes
         for (char c : id) {
             if (c == '"' || c == '\\') {

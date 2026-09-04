@@ -69,7 +69,7 @@ void CompressionMetrics::reset() {
 
 std::string CompressionMetrics::get_summary() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "=== Compression Metrics Summary ===\n";
     

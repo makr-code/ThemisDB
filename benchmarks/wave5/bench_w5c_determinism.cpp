@@ -130,7 +130,7 @@ static Stats computeStats(const std::vector<double>& samples) {
 }
 
 static std::string fmtStats(const Stats& s) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "mean=" << static_cast<int>(s.mean)
         << " sd="  << static_cast<int>(s.stddev)
         << " cv="  << static_cast<int>(s.cv * 100) << "%";
@@ -204,7 +204,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -351,7 +351,7 @@ static void BM_W5C_WarmupConvergence(benchmark::State& state) {
     state.SetLabel(phaseName[phase < 3 ? phase : 2]);
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5C_WarmupConvergence)
@@ -486,7 +486,7 @@ static void BM_W5C_CanonicalWarmup_Throughput(benchmark::State& state) {
     state.SetLabel("canonical 3-phase warmup; steady-state read");
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5C_CanonicalWarmup_Throughput)

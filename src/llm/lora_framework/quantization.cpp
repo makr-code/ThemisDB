@@ -283,7 +283,7 @@ void dequantize(const QuantizedTensor& input, std::vector<float>& output) {
             for (size_t i = start; i < end; ++i) {
                 // Extract 4-bit value
                 size_t byte_idx = i / 2;
-                uint8_t bin;
+                uint8_t bin = {};
                 if (i % 2 == 0) {
                     // Lower 4 bits
                     bin = input.data()[byte_idx] & 0x0F;

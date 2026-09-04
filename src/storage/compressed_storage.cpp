@@ -313,7 +313,7 @@ std::string ColumnCompressedStorage::get_column_stats(const std::string& column)
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = column_compressors_.find(column);
     if (it == column_compressors_.end()) {
-        std::string message;
+        std::string message = {};
         message.reserve(39 + column.size());
         message.append("Column '");
         message.append(column);

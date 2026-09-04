@@ -141,7 +141,7 @@ std::string AQLFewShotExampleLibrary::formatForPrompt(const std::vector<AQLFewSh
     if (examples.empty()) {
         return {};
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Here are some examples of natural language queries and their AQL translations:\n\n";
     for (const auto &ex : examples) {
         oss << "Natural language: " << ex.nl_query << "\n";
@@ -234,7 +234,7 @@ double AQLFewShotExampleLibrary::computeRelevance_(const std::string &query, con
     auto tokenize = [](const std::string &s) {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string token;
+        std::string token = {};
         while (iss >> token) {
             std::transform(token.begin(), token.end(), token.begin(), ::tolower);
             // Strip trailing punctuation

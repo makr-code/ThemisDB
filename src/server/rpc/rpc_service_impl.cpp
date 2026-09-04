@@ -288,7 +288,7 @@ json ThemisRPCService::handleGetInternal(
         std::string key = collection + ":" + model + ":" + uuid;
         
         // Get value from storage
-        std::string value;
+        std::string value = {};
         bool found = storage->get(key, value);
         
         if (!found) {
@@ -585,7 +585,7 @@ json ThemisRPCService::handleDeleteInternal(
         std::string key = collection + ":" + model + ":" + uuid;
 
         // Check entity existence before attempting deletion
-        std::string existing_value;
+        std::string existing_value = {};
         if (!storage->get(key, existing_value)) {
             json result = {
                 {"found", false},
@@ -824,7 +824,7 @@ json ThemisRPCService::handleBatchGetInternal(
                     "Request deadline exceeded during batch get results"
                 );
             }
-            json result_item;
+            json result_item = {};
             if (values[i].has_value()) {
                 // Parse JSON entity directly from vector<uint8_t>
                 try {
@@ -1044,7 +1044,7 @@ json ThemisRPCService::handleQueryInternal(
     const std::optional<std::chrono::steady_clock::time_point>& deadline
 ) {
     try {
-        std::string aql;
+        std::string aql = {};
         if (params.is_object()) {
             aql = params.value("aql", "");
             if (aql.empty()) {
@@ -1149,7 +1149,7 @@ json ThemisRPCService::handleQueryInternal(
             // has_more is true if we matched more entities than we emitted (limited by size constraint)
             const bool has_more_result = !count_only && (matched_total > emitted);
 
-            json result;
+            json result = {};
             if (count_only) {
                 result = {
                     {"count", matched_total},
@@ -1778,7 +1778,7 @@ json ThemisRPCService::handleTransactionCommitInternal(
         );
     }
     try {
-        std::string tx_id;
+        std::string tx_id = {};
         if (params.is_object()) {
             tx_id = params.value("transaction_id", "");
         }
@@ -1849,7 +1849,7 @@ json ThemisRPCService::handleTransactionAbortInternal(
         );
     }
     try {
-        std::string tx_id;
+        std::string tx_id = {};
         if (params.is_object()) {
             tx_id = params.value("transaction_id", "");
         }
@@ -1926,8 +1926,8 @@ json ThemisRPCService::handleHealthCheck([[maybe_unused]] const json& params) {
 
 json ThemisRPCService::handleAuthenticate(const json& params) {
     try {
-        std::string username;
-        std::string password;
+        std::string username = {};
+        std::string password = {};
         if (params.is_object()) {
             username = params.value("username", "");
             password = params.value("password", "");
@@ -2194,7 +2194,7 @@ json ThemisRPCService::handleUpdateEntityInternal(
         std::string key = collection + ":" + model + ":" + uuid;
         
         // Get existing entity
-        std::string value;
+        std::string value = {};
         bool found = storage->get(key, value);
         
         if (!found) {
@@ -2324,7 +2324,7 @@ json ThemisRPCService::handleBatchUpdateInternal(
             std::string key = collection + ":" + model + ":" + uuid;
             
             // Get existing entity
-            std::string value;
+            std::string value = {};
             bool found = storage->get(key, value);
             
             if (!found) {
@@ -2446,7 +2446,7 @@ json ThemisRPCService::handlePaginatedQueryInternal(
         // Collect page_size results
         int count = 0;
         size_t scanned_keys = 0;
-        std::string next_cursor;
+        std::string next_cursor = {};
         while (iter.Valid() && count < page_size) {
             ++scanned_keys;
             if (isDeadlineExceeded(deadline)) {
@@ -2945,7 +2945,7 @@ json ThemisRPCService::handleDropIndexInternal(
 
         // Verify the index exists in the database
         std::string meta_key = "_idx_meta:" + collection + ":" + index_name;
-        std::string existing;
+        std::string existing = {};
         if (!storage->get(meta_key, existing)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::ENTITY_NOT_FOUND,
@@ -3327,7 +3327,7 @@ bool ThemisRPCService::verifyAuth(
     
     // Extract token from context metadata
     // In gRPC, the authorization header is passed as metadata
-    std::string token;
+    std::string token = {};
     auto it = context.metadata.find("authorization");
     if (it != context.metadata.end()) {
         auto bearer_token = AuthMiddleware::extractBearerToken(it->second);

@@ -215,7 +215,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
 
         const auto& config = kv.second;
         // Build scopes string for diagnostics
-        std::ostringstream scopes_oss;
+        std::ostringstream scopes_oss = {};
         bool first_scope = true;
         for (const auto& s : config.scopes) {
             if (!first_scope) {
@@ -231,7 +231,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         // Check if token has required scope
         if (config.scopes.count(std::string(required_scope)) == 0) {
             metrics_.authz_denied_total++;
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "Missing required scope: " << required_scope;
             THEMIS_WARN("Authorization denied for user '{}': {}", config.user_id, oss.str());
             return AuthResult::Denied(oss.str());
@@ -541,7 +541,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         }
 
         // Build roles string manually (fmt::join not available in fmt 11.0.2)
-        std::ostringstream roles_oss;
+        std::ostringstream roles_oss = {};
         for (size_t i = 0; i < result.roles.size(); ++i) {
             if (i > 0) {
               roles_oss << ", ";

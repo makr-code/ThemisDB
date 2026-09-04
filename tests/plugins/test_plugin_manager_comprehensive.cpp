@@ -31,7 +31,7 @@ namespace fs = std::filesystem;
 
 class PluginManagerComprehensiveTest : public ::testing::Test {
 protected:
-    std::string test_dir_;
+    std::string test_dir_ = {};
     PluginManager* manager_;
 
     void SetUp() override {
@@ -54,7 +54,7 @@ protected:
 
         if (fs::exists(test_dir_)) {
             // Hot-plug monitor shutdown can release handles asynchronously on Windows.
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_dir_, ec);
             if (ec) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));

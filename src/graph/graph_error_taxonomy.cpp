@@ -94,7 +94,7 @@ getErrorDescription(GraphErrorCode code) noexcept {
 
 [[nodiscard]] std::string
 getErrorCodeHex(GraphErrorCode code) noexcept {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "0x" << std::hex << std::setw(8) << std::setfill('0')
         << static_cast<uint32_t>(code);
     return oss.str();

@@ -336,7 +336,7 @@ TEST(Phase3LoadBalancing, PriorityConcurrentEnqueueDequeue) {
     std::thread consumer([&sched, &dequeued] {
         int got = 0;
         while (got < kItems) {
-            QueryEntry out;
+            QueryEntry out = {};
             if (sched.dequeue(out, std::chrono::milliseconds(500))) {
                 ++got;
                 dequeued.fetch_add(1);
@@ -629,7 +629,7 @@ TEST(Phase3LoadBalancing, BenchmarkSLAComplianceUnderMixedLoad) {
 
     // Drain and report immediate completions.
     for (int i = 0; i < static_cast<int>(ids.size()); ++i) {
-        QueryEntry out;
+        QueryEntry out = {};
         if (sched.dequeue(out, std::chrono::milliseconds(200))) {
             sched.reportCompletion(out.id);
         }

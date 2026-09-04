@@ -410,8 +410,8 @@ TEST_F(LearnableRopeTest, SavedFileFormat) {
     std::ifstream file(temp_path);
     ASSERT_TRUE(file.is_open());
     
-    std::string content;
-    std::string line;
+    std::string content = {};
+    std::string line = {};
     while (std::getline(file, line)) {
         content += line + "\n";
     }

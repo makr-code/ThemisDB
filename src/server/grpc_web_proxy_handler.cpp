@@ -136,14 +136,14 @@ std::string GrpcWebProxyHandler::encodeGrpcWebResponse(
     int grpc_status,
     const std::string& grpc_message)
 {
-    std::string result;
+    std::string result = {};
 
     // 1. Data frame  (flags = 0x00)
     appendFrameHeader(result, 0x00, static_cast<uint32_t>(proto_msg.size()));
     result.append(proto_msg);
 
     // 2. Trailer frame  (flags = 0x80)
-    std::string trailers;
+    std::string trailers = {};
     trailers += "grpc-status: " + std::to_string(grpc_status) + "\r\n";
     if (!grpc_message.empty()) {
         trailers += "grpc-message: " + grpc_message + "\r\n";
@@ -303,15 +303,15 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     }
 
     // Decode gRPC-Web data frame
-    std::string proto_payload;
+    std::string proto_payload = {};
     if (!decodeGrpcWebFrame(req.body(), proto_payload)) {
         return makeErrorResponse(http::status::bad_request,
             "Invalid gRPC-Web frame: malformed 5-byte frame header", req);
     }
 
-    std::string response_proto;
+    std::string response_proto = {};
     int grpc_code = 0;          // grpc::StatusCode::OK
-    std::string grpc_message;
+    std::string grpc_message = {};
     bool handled_by_override = false;
     if (auto backend_invoke = getBackendInvokeFn(); backend_invoke) {
         handled_by_override = backend_invoke(

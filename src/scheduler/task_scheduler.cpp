@@ -923,7 +923,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
                                          ? 1
                                          : 1 + policy.max_retries;
     size_t max_attempts = base_max_attempts;  // may be clamped by SLO adaptation
-    std::string last_error;
+    std::string last_error = {};
     bool succeeded = false;
     nlohmann::json result;
     size_t attempts_made = 0;
@@ -1276,8 +1276,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
             std::string id;
             bool succeeded = false;
             nlohmann::json result;
-            std::string error;
-            std::string error_type;
+            std::string error = {};
+            std::string error_type = {};
         };
         std::vector<WaveResult> wave_results(wave.size());
         std::vector<std::thread> threads = {};
@@ -1872,7 +1872,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                                          ? 1
                                          : 1 + policy.max_retries;
     size_t max_attempts = base_max_attempts;  // may be clamped by SLO adaptation
-    std::string last_error;
+    std::string last_error = {};
     bool succeeded = false;
     nlohmann::json result;
     size_t attempts_made = 0;
@@ -2456,7 +2456,7 @@ int64_t TaskScheduler::getCurrentTimeMs() const {
 }
 
 std::string TaskScheduler::generateTaskId(const ScheduledTask& task) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     if (!task.name.empty()) {
         // Use name as base
@@ -2589,7 +2589,7 @@ ScheduledTask TaskScheduler::sanitizeTask(const ScheduledTask& task) const {
     
     // Sanitize string fields to prevent injection
     auto sanitizeString = [](const std::string& input) -> std::string {
-        std::string output;
+        std::string output = {};
         output.reserve(input.size());
         
         for (char c : input) {
@@ -2995,7 +2995,7 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
     alert.severity   = observability::AlertSeverity::WARNING;
     alert.status     = observability::AlertStatus::FIRING;
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Task \"" << task.name << "\" (id=" << task.id << ") exceeded SLA deadline: "
         << "elapsed=" << static_cast<int64_t>(elapsed_ms) << "ms, "
         << "sla_deadline=" << static_cast<int64_t>(sla_ms) << "ms";
@@ -3025,7 +3025,7 @@ void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
     // Take a copy of the alertmanager pointer and the alert ID under the lock,
     // then release the lock before calling resolveAlert() (potential I/O).
     std::shared_ptr<observability::Alertmanager> am;
-    std::string alert_id;
+    std::string alert_id = {};
     {
         std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         if (!alertmanager_) {

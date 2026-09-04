@@ -25,7 +25,7 @@ std::string generateSpanIdInternal() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
     uint64_t span_id = rng();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << span_id;
     return oss.str();
 }
@@ -55,7 +55,7 @@ DistributedTraceSpan::DistributedTraceSpan(
         uint64_t hi = rng();
         uint64_t lo = rng();
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0')
             << std::setw(16) << hi
             << std::setw(16) << lo;

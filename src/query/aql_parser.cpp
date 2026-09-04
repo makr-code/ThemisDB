@@ -66,13 +66,13 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
     if (!isCollectionInScope(collection_name)) {
         // Build the registered-collections list efficiently using fmt::format
         // instead of string += in loop to avoid repeated allocations.
-        std::string registered_list;
+        std::string registered_list = {};
         if (registered_collections_.empty()) {
             registered_list = "(none)";
         } else {
             // Efficiently join collection names with commas.
             // Use std::ostringstream or manual building with proper capacity.
-            std::ostringstream ss;
+            std::ostringstream ss = {};
             bool first = true;
             for (const auto& c : registered_collections_) {
                 if (!first) {
@@ -219,9 +219,9 @@ enum class TokenType {
 
 struct Token {
     TokenType type;
-    std::string value;
-    size_t line;
-    size_t column;
+    std::string value = {};
+    size_t line = {};
+    size_t column = {};
     
     Token(TokenType t, std::string v, size_t l, size_t c)
         : type(t), value(std::move(v)), line(l), column(c) {}
@@ -261,9 +261,9 @@ private:
     // scope_mismatch flag was a static-analysis heuristic false positive.
     // Both sets of members are intentionally named identically for
     // consistency between the two lexical-analysis states.
-    size_t pos_;
-    size_t line_;
-    size_t column_;
+    size_t pos_ = {};
+    size_t line_ = {};
+    size_t column_ = {};
     
     char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos_ + offset;
@@ -322,7 +322,7 @@ private:
             return Token(TokenType::INVALID, std::string(1, advance()), line, col);
         }
         advance(); // Skip opening quote
-        std::string value;
+        std::string value = {};
         value.reserve(256);  // Pre-allocate to avoid O(n²) growth
          
         while (peek() != quote && peek() != '\0') {
@@ -351,7 +351,7 @@ private:
     }
     
     Token readNumber(size_t line, size_t col) {
-        std::string value;
+        std::string value = {};
         value.reserve(32);  // Pre-allocate for typical number sizes
         bool is_float = false;
          
@@ -376,7 +376,7 @@ private:
     }
     
     Token readIdentifierOrKeyword(size_t line, size_t col) {
-        std::string value;
+        std::string value = {};
         value.reserve(64);  // Pre-allocate for typical identifier sizes
          
         while (std::isalnum(peek()) || peek() == '_') {
@@ -823,7 +823,7 @@ private:
 
         // Helper: parse a single FTS predicate
         auto parsePredicate = [&]() -> FtsPredicateNode {
-            FtsPredicateNode pred;
+            FtsPredicateNode pred = {};
 
             if (match(TokenType::PHRASE)) {
                 // PHRASE(field, "term" [, "analyzer"])
@@ -1069,7 +1069,7 @@ private:
             // BFS/DFS from being triggered with values like INT_MAX.
             static constexpr int kMaxTraversalDepth = 1000;
 
-            int minDepth;
+            int minDepth = {};
             try {
                 minDepth = std::stoi(current().value);
             } catch (const std::out_of_range&) {
@@ -1092,7 +1092,7 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth;
+            int maxDepth = {};
             try {
                 maxDepth = std::stoi(current().value);
             } catch (const std::out_of_range&) {
@@ -1125,7 +1125,7 @@ private:
 
             // GRAPH keyword and graph name
             // Optional TYPE "edgeType" vor GRAPH
-            std::string edgeType;
+            std::string edgeType = {};
             if (match(TokenType::TYPE)) {
                 advance();
                 if (!match(TokenType::STRING)) {
@@ -1529,7 +1529,7 @@ private:
             if (!match(TokenType::RBRACE)) {
                 while (true) {
                     // key can be IDENTIFIER or STRING
-                    std::string key;
+                    std::string key = {};
                     if (match(TokenType::IDENTIFIER) || match(TokenType::STRING)) {
                         key = current().value; advance();
                     } else {
@@ -1908,7 +1908,7 @@ private:
                     }
                     advance();
                 }
-                SetClause sc;
+                SetClause sc = {};
                 if (!match(TokenType::IDENTIFIER)) {
                     throw std::runtime_error("Expected field name in SET clause");
                 }

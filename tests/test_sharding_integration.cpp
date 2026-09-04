@@ -138,7 +138,7 @@ TEST_F(ShardingIntegrationTest, ResolverLocalityCheck) {
     EXPECT_TRUE(local_resolver.isLocal(*urn));
     
     // Find a different shard
-    std::string other_shard;
+    std::string other_shard = {};
     for (const auto& shard : hash_ring_->getAllShards()) {
         if (shard != target_shard) {
             other_shard = shard;

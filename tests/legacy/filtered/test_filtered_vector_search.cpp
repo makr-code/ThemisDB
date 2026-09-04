@@ -69,7 +69,7 @@ protected:
             BaseEntity e(pk);
             
             // Categories: tech (60%), science (30%), art (10%)
-            std::string category;
+            std::string category = {};
             if (i < 60) {
               category = "tech";
             }

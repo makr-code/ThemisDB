@@ -425,7 +425,7 @@ static std::vector<std::vector<uint8_t>> makeSamples(size_t count,
     std::vector<std::vector<uint8_t>> samples;
     samples.reserve(count);
     for (size_t i = 0; i < count; ++i) {
-        std::string s;
+        std::string s = {};
         s.reserve(size_each);
         // Mimic repeated JSON keys to make the dictionary useful.
         while (s.size() < size_each) {

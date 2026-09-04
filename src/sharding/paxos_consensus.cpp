@@ -1323,7 +1323,7 @@ bool PaxosConsensus::recoverFromWAL() {
                         commit_index_.store(entry.slot);
                     }
                     // Rebuild committed log
-                    ConsensusLogEntry log_entry;
+                    ConsensusLogEntry log_entry = {};
                     if (!entry.data.is_null()) {
                         log_entry.operation = entry.data.value("operation", std::string{});
                         log_entry.data      = entry.data.value("data", nlohmann::json{});

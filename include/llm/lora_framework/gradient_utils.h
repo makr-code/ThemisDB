@@ -51,7 +51,7 @@ struct GradientClippingConfig {
     }
     
     static GradientClippingConfig fromJSON(const json& j) {
-        GradientClippingConfig config;
+        GradientClippingConfig config = {};
         if (j.contains("method")) {
           config.method = static_cast<ClippingMethod>(j["method"].get<int>());
         }
@@ -83,7 +83,7 @@ struct GradientAccumulationConfig {
     }
     
     static GradientAccumulationConfig fromJSON(const json& j) {
-        GradientAccumulationConfig config;
+        GradientAccumulationConfig config = {};
         if (j.contains("accumulation_steps")) {
           config.accumulation_steps = j["accumulation_steps"];
         }

@@ -42,7 +42,7 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
         if (!in.good()) {
             return std::nullopt; // schema optional
         }
-        std::stringstream buf;
+        std::stringstream buf = {};
         buf << in.rdbuf();
         auto j = nlohmann::json::parse(buf.str());
         return j;
@@ -63,7 +63,7 @@ static bool isAsciiControl(char c) {
 }
 
 std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max_len) const {
-    std::string out;
+    std::string out = {};
     out.reserve(std::min(input.size(), max_len));
     for (char c : input) {
         if (out.size() >= max_len) {
@@ -528,7 +528,7 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
         tmp = std::regex_replace(tmp, event_handler, "");
     }
     // Step 3: HTML-encode remaining special characters
-    std::string result;
+    std::string result = {};
     result.reserve(static_cast<size_t>(tmp.size() * 1.2));
     for (char c : tmp) {
         switch (c) {
@@ -677,8 +677,8 @@ bool InputValidator::validateURL(const std::string& url,
 
     // Extract scheme
     size_t scheme_sep = url.find("://");
-    std::string scheme;
-    std::string rest_after_scheme;
+    std::string scheme = {};
+    std::string rest_after_scheme = {};
 
     if (scheme_sep != std::string::npos) {
         scheme = url.substr(0, scheme_sep);
@@ -753,7 +753,7 @@ bool InputValidator::validateIntegerRange(int64_t value,
 std::string InputValidator::sanitizeLogMessage(const std::string& input) const {
     // Remove %n and %N format specifiers – these can write to arbitrary memory
     // if the string is ever passed as a printf format argument.
-    std::string result;
+    std::string result = {};
     result.reserve(input.size());
     for (size_t i = 0; i < input.size(); ++i) {
         if (input[i] == '%' && i + 1 < input.size()) {
@@ -774,7 +774,7 @@ std::string InputValidator::normalizeUnicode(const std::string& input) const {
     // visible.  These characters are encoded in UTF-8 as three bytes:
     //   U+FF01..U+FF3F -> EF BC 81..EF BC BF  (maps to ASCII 0x21..0x5F)
     //   U+FF40..U+FF5E -> EF BD 80..EF BD 9E  (maps to ASCII 0x60..0x7E)
-    std::string result;
+    std::string result = {};
     result.reserve(input.size());
 
     for (size_t i = 0; i < input.size(); ) {

@@ -111,7 +111,7 @@ uint64_t GeoOperatorDiagnostics::totalIncidentCount() const noexcept {
 std::string GeoOperatorDiagnostics::formatSummary(
         std::size_t max_count) const noexcept {
     auto recent = recentIncidents(max_count);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Geo Module Diagnostic Summary ===\n";
     oss << "Total incidents recorded: " << total_count_ << "\n";
     if (recent.empty()) {

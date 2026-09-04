@@ -25,7 +25,7 @@ namespace prompt_engineering {
 
 std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string word;
+    std::string word = {};
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
             word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -180,7 +180,7 @@ QualityReport PromptQualityEvaluator::evaluate(
     const QualityConfig&   config) const {
     // Render the template against an empty context.  Missing required slots
     // are treated as empty strings; rendering errors become structural failures.
-    std::string rendered;
+    std::string rendered = {};
     try {
         rendered = tmpl.render({});
     } catch (const std::exception& ex) {

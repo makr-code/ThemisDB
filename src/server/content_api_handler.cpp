@@ -127,7 +127,7 @@ http::response<http::string_body> ContentApiHandler::handleImport(
                 -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
                 -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
             };
-            std::string decoded;
+            std::string decoded = {};
             decoded.reserve((encoded.size() * 3) / 4);
             int val = 0, valb = -8;
             for (unsigned char c : encoded) {

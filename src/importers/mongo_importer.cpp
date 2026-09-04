@@ -149,7 +149,7 @@ bool MongoDBImporter::validateSource(const std::string& source_path,
     }
 
     // Read up to 200 lines to find the first non-empty, non-comment line.
-    std::string line;
+    std::string line = {};
     int lines_checked = 0;
     bool found_json = false;
     while (std::getline(file, line) && lines_checked < 200) {
@@ -218,7 +218,7 @@ ImportStats MongoDBImporter::importData(
     }
 
     // PHASE-2-HARDENING: Open file with connection timeout and exponential backoff
-    std::ifstream peek_file;
+    std::ifstream peek_file = {};
     bool file_opened = retryWithExponentialBackoff(
         [&]() {
             peek_file.open(source_path);
@@ -472,7 +472,7 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                 file.clear();
                 file.seekg(0);
                 
-                std::string line;
+                std::string line = {};
                 while (std::getline(file, line) && docs_sampled < max_sample) {
                     size_t f = line.find_first_not_of(" \t\r\n");
                     if (f == std::string::npos || line[f] == '#') {
@@ -491,7 +491,7 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                 }
             }
         } else {
-            std::string line;
+            std::string line = {};
             while (std::getline(file, line) && docs_sampled < max_sample) {
                 // Trim
                 size_t f = line.find_first_not_of(" \t\r\n");
@@ -572,7 +572,7 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
     size_t doc_index    = 0;
     size_t batch_count  = 0;
 
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line) && !cancelled_) {
         // Trim leading whitespace
         size_t f = line.find_first_not_of(" \t\r\n");

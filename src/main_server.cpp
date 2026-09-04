@@ -298,7 +298,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--port") {
-            std::string port_value;
+            std::string port_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, port_value, error_message)) {
                 return false;
             }
@@ -318,7 +318,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--threads") {
-            std::string threads_value;
+            std::string threads_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, threads_value, error_message)) {
                 return false;
             }
@@ -333,7 +333,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--config") {
-            std::string config_value;
+            std::string config_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, config_value, error_message)) {
                 return false;
             }
@@ -347,7 +347,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--server-profile") {
-            std::string profile_value;
+            std::string profile_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, profile_value, error_message)) {
                 return false;
             }
@@ -732,7 +732,7 @@ int main(int argc, char* argv[]) {
     
     // --- Early argument parsing (no heavy initialization) ---
     ServerCommandLineOptions command_line_options;
-    std::string command_line_error;
+    std::string command_line_error = {};
     if (!parse_server_command_line(argc, argv, command_line_options, command_line_error)) {
         std::cerr << command_line_error << std::endl;
         print_usage(std::cerr, argv[0]);
@@ -765,7 +765,7 @@ int main(int argc, char* argv[]) {
     // logs/ folder is bin/../logs/).  Create the directory unconditionally so the first
     // log-write never fails due to a missing parent.
     {
-        std::error_code _logs_ec;
+        std::error_code _logs_ec = {};
         std::filesystem::create_directories("../logs", _logs_ec); // bin/../logs
         std::filesystem::create_directories("logs", _logs_ec);    // cwd fallback
     }
@@ -797,7 +797,7 @@ int main(int argc, char* argv[]) {
             auto build_config = themis::build_info::getBuildConfiguration();
             std::string build_info = themis::build_info::formatBuildInfo(build_config);
             std::istringstream iss(build_info);
-            std::string line;
+            std::string line = {};
             while (std::getline(iss, line)) {
                 std::cout << line << std::endl;
             }
@@ -831,7 +831,7 @@ int main(int argc, char* argv[]) {
         std::string build_info = themis::build_info::formatBuildInfo(build_config);
         // Log the formatted build info (line by line to preserve formatting)
         std::istringstream iss(build_info);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             THEMIS_INFO("{}", line);
         }
@@ -846,7 +846,7 @@ int main(int argc, char* argv[]) {
             std::string license_info = themis::license::formatLicenseInfo(*license);
             // Log the formatted license info (line by line to preserve formatting)
             std::istringstream iss(license_info);
-            std::string line;
+            std::string line = {};
             while (std::getline(iss, line)) {
                 THEMIS_INFO("{}", line);
             }
@@ -1365,7 +1365,7 @@ int main(int argc, char* argv[]) {
         auto vector_index = std::make_shared<VectorIndexManager>(*db);
 
         // Parse vector_index config and initialize (optional auto-load)
-        std::string vector_save_path;
+        std::string vector_save_path = {};
         if (cfg && cfg->contains("vector_index")) {
             const auto& vi = (*cfg)["vector_index"];
             std::string object_name = vi.value("object_name", std::string());
@@ -1413,7 +1413,7 @@ int main(int argc, char* argv[]) {
         std::shared_ptr<themis::tensor::TensorIndexManager> tensor_index_mgr;
         std::shared_ptr<themis::tensor::TensorCoreStorageBridge> tensor_core_bridge;
         std::shared_ptr<themis::tensor::TensorIngestionBridge> tensor_ingest_bridge;
-        std::string tensor_data_dir;
+        std::string tensor_data_dir = {};
 
         if (cfg && cfg->contains("tensor_index")) {
             const auto& ti = (*cfg)["tensor_index"];
@@ -1421,7 +1421,7 @@ int main(int argc, char* argv[]) {
 
             // Create directory if it does not exist.
             {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::create_directories(tensor_data_dir, ec);
                 if (ec) {
                     THEMIS_WARN("tensor_index: could not create data_dir '{}': {}",
@@ -1643,7 +1643,7 @@ int main(int argc, char* argv[]) {
         wal_applier->setApplyHandler([wal_manager, db](const themis::sharding::WALEntry& entry) {
             try {
                 const std::string marker_key = "replica_applied/" + entry.lsn.toString();
-                std::string existing;
+                std::string existing = {};
                 // Idempotent: if already applied, skip
                 if (db->get(marker_key, existing)) {
                     return true;
@@ -1664,7 +1664,7 @@ int main(int argc, char* argv[]) {
                             break;
                         default: {
                             // Value may be any JSON; store serialized
-                            std::string value_str;
+                            std::string value_str = {};
                             if (entry.data.contains("value")) {
                                 value_str = entry.data["value"].dump();
                             } else {
@@ -2521,7 +2521,7 @@ int main(int argc, char* argv[]) {
         
         // Retention worker (optional, runs in background if enabled in config)
         std::atomic<bool> retention_stop{false};
-        std::thread retention_thread;
+        std::thread retention_thread = {};
         bool retention_enabled = false;
         int retention_interval_hours = 24;
         std::string retention_policies_path = themis::config::ConfigPathResolver::mapLegacyToNew("./config/retention_policies.yaml");
@@ -2636,7 +2636,7 @@ int main(int argc, char* argv[]) {
                                 
                                 // Map policy names to collections (example heuristic)
                                 // In production: use policy metadata or a mapping table
-                                std::string collection;
+                                std::string collection = {};
                                 if (policy_name.find("user") != std::string::npos || policy_name.find("personal") != std::string::npos) {
                                     collection = "users";
                                 } else if (policy_name.find("transaction") != std::string::npos) {
@@ -2770,14 +2770,14 @@ int main(int argc, char* argv[]) {
                                     // Group archived entities by date for efficient storage management
                                     auto now = std::chrono::system_clock::now();
                                     auto now_time_t = std::chrono::system_clock::to_time_t(now);
-                                    std::tm tm_buf;
+                                    std::tm tm_buf = {};
                                     #ifdef _WIN32
                                     gmtime_s(&tm_buf, &now_time_t);
                                     #else
                                     gmtime_r(&now_time_t, &tm_buf);
                                     #endif
                                     
-                                    std::ostringstream date_str;
+                                    std::ostringstream date_str = {};
                                     date_str << std::put_time(&tm_buf, "%Y%m%d");
                                     std::string archive_file = (cold_storage_dir / ("archived_entities_" + date_str.str() + ".jsonl")).string();
                                     
@@ -3127,7 +3127,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Available endpoints ({} total):", endpoints.size());
             
             // Group endpoints by category for improved readability
-            std::string current_category;
+            std::string current_category = {};
             for (const auto& ep : endpoints) {
                 // Extract category from path (e.g., "/cache/*" → "Cache", "/api/v1/schema" → "Schema")
                 std::string category = "Core";

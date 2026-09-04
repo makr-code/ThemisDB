@@ -44,8 +44,8 @@ bool containsToken(const std::string& text, std::string_view token) {
 GuardDecision PromptGuardian::evaluate(const std::string& prompt) const {
     GuardDecision out;
 
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(prompt, out.sanitized_prompt, &blocked_rule, &blocked_reason)) {
         out.allowed = false;
         out.reason = blocked_rule + ": " + blocked_reason;
@@ -65,7 +65,7 @@ std::string PromptGuardian::normalize(const std::string& text) {
         {'0', 'o'}, {'1', 'i'}, {'3', 'e'}, {'4', 'a'}, {'5', 's'}, {'7', 't'}, {'@', 'a'}, {'$', 's'}
     };
 
-    std::string out;
+    std::string out = {};
     out.reserve(text.size());
 
     bool previous_space = false;

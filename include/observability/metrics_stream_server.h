@@ -37,7 +37,7 @@ namespace observability {
  */
 struct MetricFilter {
     /// Label name to match (e.g. "tenant_id").
-    std::string label;
+    std::string label = {};
     /// Required label value; empty = match any value.
     std::string value;
 };

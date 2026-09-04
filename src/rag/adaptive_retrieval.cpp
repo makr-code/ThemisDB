@@ -72,7 +72,7 @@ std::vector<std::string> tokenize(const std::string& s)
 {
     std::vector<std::string> tokens;
     std::istringstream ss(s);
-    std::string tok;
+    std::string tok = {};
     while (ss >> tok) {
       tokens.push_back(tok);
     }
@@ -82,7 +82,7 @@ std::vector<std::string> tokenize(const std::string& s)
 /** Strip punctuation from a token for comparison. */
 std::string stripPunct(const std::string& s)
 {
-    std::string r;
+    std::string r = {};
     for (char c : s) {
         if (std::isalpha(static_cast<unsigned char>(c)) ||
             std::isdigit(static_cast<unsigned char>(c))) {
@@ -136,7 +136,7 @@ void AdaptiveRetrieval::setScorer(IComplexityScorer* scorer)
 ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     const std::string& query) const
 {
-    ComplexityAnalysis analysis;
+    ComplexityAnalysis analysis = {};
 
     if (query.empty()) {
         analysis.explanation = "empty query";
@@ -190,7 +190,7 @@ ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     analysis.complexity = scoreToComplexity(analysis.raw_score);
 
     // Build explanation
-    std::ostringstream expl;
+    std::ostringstream expl = {};
     expl << "connectives=" << analysis.connective_count
          << " question_words=" << analysis.question_word_count
          << " long=" << (analysis.is_long_query ? "yes" : "no")

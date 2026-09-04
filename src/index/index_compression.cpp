@@ -280,7 +280,7 @@ std::vector<std::string> PrefixCompressor::decompress(
 // ============================================================================
 
 DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
-    DeltaBlock block;
+    DeltaBlock block = {};
     if (sorted_values.empty()) {
       return block;
     }
@@ -324,7 +324,7 @@ std::vector<int64_t> DeltaBlock::decompress() const {
 // ============================================================================
 
 RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) {
-    RunLengthBlock block;
+    RunLengthBlock block = {};
     if (values.empty()) {
       return block;
     }

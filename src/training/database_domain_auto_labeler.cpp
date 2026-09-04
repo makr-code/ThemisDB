@@ -150,7 +150,7 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
         return result;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         if (line.empty() || line.front() != '{') continue;
 
@@ -190,10 +190,10 @@ std::string DatabaseDomainAutoLabeler::exportToJsonl(
 {
     if (samples.empty()) return {};
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     auto escape = [](const std::string& s) -> std::string {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size() + 4);
         for (char c : s) {
             switch (c) {

@@ -50,7 +50,7 @@ public:
     };
 
     struct Policy {
-        std::string id;
+        std::string id = {};
         std::string name;
         std::unordered_set<std::string> subjects;   // user ids or "*"
         std::unordered_set<std::string> actions;    // e.g., "read", "write", "query", "admin", "vector.search"

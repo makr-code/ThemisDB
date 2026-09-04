@@ -105,7 +105,7 @@ std::vector<uint8_t> buildWriteRequest(
 
 /// Snappy-compress a byte buffer.
 std::string snappyCompress(const std::vector<uint8_t>& data) {
-    std::string compressed;
+    std::string compressed = {};
     snappy::Compress(reinterpret_cast<const char*>(data.data()), data.size(),
                      &compressed);
     return compressed;
@@ -363,7 +363,7 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {
 
 class PrometheusRemoteWriteHandlerTest : public ::testing::Test {
 protected:
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::shared_ptr<TSStore>        ts_store;
 

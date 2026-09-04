@@ -247,7 +247,7 @@ TEST_F(ArchiveProcessorValidationTest, CleanupTempDirectory) {
     // Create a temporary directory using a timestamp+thread-id based name for portability
     auto now = std::chrono::steady_clock::now().time_since_epoch().count();
     auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
-    std::ostringstream namebuf;
+    std::ostringstream namebuf = {};
     namebuf << "themis_test_" << now << "_" << tid_hash;
     fs::path tmpdir = fs::temp_directory_path() / namebuf.str();
     // In the unlikely event the name exists, append a random number

@@ -45,7 +45,7 @@ public:
         }
 
         // ── Configure validator ────────────────────────────────────────────
-        AgenticReferenceValidator validator;
+        AgenticReferenceValidator validator = {};
 
         if (cfg.config.contains("known_laws") && cfg.config["known_laws"].is_array()) {
             for (const auto& law : cfg.config["known_laws"]) {

@@ -79,7 +79,7 @@ static constexpr std::size_t kLargeValueBytes = 16'384;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -118,14 +118,14 @@ public:
     }
 
 private:
-    std::mt19937_64 rng_;
+    std::mt19937_64 rng_ = {};
 };
 
 /// Run @p ops reads against @p db picking keys from [0, @p upper_bound).
 static void DoReads(RocksDBWrapper& db, int ops, int upper_bound, uint64_t seed) {
     KeyGenerator kg(seed);
     for (int i = 0; i < ops; ++i) {
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db.get(kg.Next(upper_bound), val));
     }
 }
@@ -164,7 +164,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -206,7 +206,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -251,7 +251,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -343,7 +343,7 @@ BENCHMARK_F(WriteHeavySoakFixture, SOK05_WriteHeavySoakAccumulationGuard)(benchm
         KeyGenerator kg(kW7CanonicalSeed + 500 + static_cast<uint64_t>(seg));
         for (int i = 0; i < kOpsPerSegment; ++i) {
             if (mix(mix_rng) < 10) {
-                std::string val;
+                std::string val = {};
                 benchmark::DoNotOptimize(db_->get(kg.Next(kSoakRecordCount), val));
             } else {
                 db_->put(kg.Next(kSoakRecordCount * 4), "whs_" + std::to_string(w_ctr++));
@@ -381,7 +381,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -399,7 +399,7 @@ BENCHMARK_F(MixedOLTPSoakFixture, SOK06_MixedOLTPSoakStability)(benchmark::State
             if (mix(mix_rng) < 40) {
                 db_->put(kg.Next(kSoakRecordCount * 2), "mx_" + std::to_string(w_ctr++));
             } else {
-                std::string val;
+                std::string val = {};
                 benchmark::DoNotOptimize(db_->get(kg.Next(kSoakRecordCount), val));
             }
         }
@@ -435,7 +435,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -456,7 +456,7 @@ BENCHMARK_F(ConcurrentReaderSoakFixture, SOK07_ConcurrentReaderSoak)(benchmark::
                                 static_cast<uint64_t>(t) * 1000 +
                                 static_cast<uint64_t>(seg));
                 for (int i = 0; i < kOpsPerThread; ++i) {
-                    std::string val;
+                    std::string val = {};
                     db_->get(kg.Next(kSoakRecordCount), val);
                 }
             });
@@ -498,7 +498,7 @@ public:
         RemoveAll(db_path_);
     }
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 

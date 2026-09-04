@@ -105,8 +105,8 @@ public:
         Phase phase = Phase::NOT_STARTED;
         uint64_t events_processed = 0;
         uint64_t total_events = 0;
-        std::string current_table;
-        std::string last_error;
+        std::string current_table = {};
+        std::string last_error = {};
         int64_t start_time_ms = 0;
         int64_t end_time_ms = 0;
         

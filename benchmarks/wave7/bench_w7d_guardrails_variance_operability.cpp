@@ -74,7 +74,7 @@ static constexpr double   kWriteCvGatePercent = 8.0;    ///< %
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -106,7 +106,7 @@ public:
     /// Reset to the same seed – used for determinism validation.
     void Reset(uint64_t seed) { rng_.seed(seed); }
 private:
-    std::mt19937_64 rng_;
+    std::mt19937_64 rng_ = {};
 };
 
 /**
@@ -153,7 +153,7 @@ public:
         // Warmup
         KeyGenerator wkg(kW7CanonicalSeed + 99);
         for (int i = 0; i < kWarmup; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.Next(kDatasetSize), val);
         }
     }
@@ -177,7 +177,7 @@ BENCHMARK_F(GuardrailBaseFixture, GVO01_ReadVarianceCV)(benchmark::State& state)
 
     for (auto _ : state) {
         auto t0 = std::chrono::steady_clock::now();
-        std::string val;
+        std::string val = {};
         db_->get(kg.Next(kDatasetSize), val);
         auto t1 = std::chrono::steady_clock::now();
         double us = std::chrono::duration<double, std::micro>(t1 - t0).count();
@@ -271,7 +271,7 @@ BENCHMARK_F(GuardrailBaseFixture, GVO04_P99ReadGateAssertion)(benchmark::State& 
         latencies.clear();
         for (int i = 0; i < kSampleSize; ++i) {
             auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.Next(kDatasetSize), val);
             auto t1 = std::chrono::steady_clock::now();
             latencies.push_back(
@@ -331,7 +331,7 @@ BENCHMARK_F(GuardrailBaseFixture, GVO06_IsolatedReadLatency)(benchmark::State& s
         state.PauseTiming();
         std::this_thread::yield();
         state.ResumeTiming();
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -356,7 +356,7 @@ BENCHMARK_F(GuardrailBaseFixture, GVO07_RegressionDeltaBaseline)(benchmark::Stat
         lats.clear();
         for (int i = 0; i < kSamples; ++i) {
             auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.Next(kDatasetSize), val);
             auto t1 = std::chrono::steady_clock::now();
             lats.push_back(
@@ -421,7 +421,7 @@ BENCHMARK_F(GuardrailBaseFixture, GVO08_OperabilityCounters)(benchmark::State& s
                     std::chrono::duration<double, std::micro>(t1 - t0).count());
             } else {
                 auto t0 = std::chrono::steady_clock::now();
-                std::string val;
+                std::string val = {};
                 db_->get(kg.Next(kDatasetSize), val);
                 auto t1 = std::chrono::steady_clock::now();
                 read_lats.push_back(

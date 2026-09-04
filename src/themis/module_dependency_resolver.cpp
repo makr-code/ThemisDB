@@ -154,7 +154,7 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
             std::unique(precheck.missingRequired.begin(), precheck.missingRequired.end()),
             precheck.missingRequired.end());
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Missing required dependencies:";
         for (const auto& m : precheck.missingRequired) {
             oss << ' ' << m;
@@ -236,7 +236,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
                 if (!dep.minVersion.empty() || !dep.maxVersion.empty()) {
                     const std::string& depVersion = modules_.at(dep.name).version;
                     if (!isVersionCompatible(depVersion, dep.minVersion, dep.maxVersion)) {
-                        std::ostringstream oss;
+                        std::ostringstream oss = {};
                         oss << n << " requires " << dep.name
                             << " version";
                         if (!dep.minVersion.empty()) {
@@ -263,7 +263,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
                     {
                         const std::string& depVersion = modules_.at(dep.name).version;
                         if (!isVersionCompatible(depVersion, dep.minVersion, dep.maxVersion)) {
-                            std::ostringstream oss;
+                            std::ostringstream oss = {};
                             oss << n << " optionally requires " << dep.name
                                 << " version";
                             if (!dep.minVersion.empty()) {
@@ -292,7 +292,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
     }
 
     if (!result.missingRequired.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Missing required dependencies:";
         for (const auto& m : result.missingRequired) {
             oss << " " << m;
@@ -303,7 +303,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
     }
 
     if (!result.versionMismatches.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Version constraint violations:";
         for (const auto& vm : result.versionMismatches) {
             oss << " [" << vm << "]";
@@ -350,7 +350,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
         std::sort(cycleNodes.begin(), cycleNodes.end());
         result.cycles.push_back(cycleNodes);
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Circular dependency detected among modules:";
         for (const auto& cn : cycleNodes) {
             oss << " " << cn;

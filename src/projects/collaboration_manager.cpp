@@ -119,7 +119,7 @@ std::optional<Permission> CollaborationManager::getUserPermission(
     const std::string& user_id) const
 {
     const std::string key = "collab_share:" + project_id + ":" + user_id;
-    std::string val;
+    std::string val = {};
     if (!storage_->get(key, val)) {
       return std::nullopt;
     }

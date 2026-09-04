@@ -328,7 +328,7 @@ public:
 
     /// Struct for a key-value pair used in batch writes.
     struct KeyValuePair {
-        std::string key;
+        std::string key = {};
         std::vector<uint8_t> value;
     };
 

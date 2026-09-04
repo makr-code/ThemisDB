@@ -283,7 +283,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     // Limit to first 1000 words for performance on large texts
     std::unordered_set<std::string> words;
     std::istringstream iss(text);
-    std::string word;
+    std::string word = {};
     int words_checked = 0;
     const int MAX_WORDS_TO_CHECK = 1000;
 
@@ -311,7 +311,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     {
         // Split text into sentences on '.', '!', '?'
         std::vector<std::string> sentences;
-        std::string current;
+        std::string current = {};
         for (char c : text) {
             if (c == '.' || c == '!' || c == '?') {
                 // Trim whitespace
@@ -348,7 +348,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         std::vector<std::string> tokens;
         {
             std::istringstream ts(text);
-            std::string tok;
+            std::string tok = {};
             while (ts >> tok) {
                 for (char& c : tok) {
                   c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));

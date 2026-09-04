@@ -79,7 +79,7 @@ protected:
         // Cleanup
     }
     
-    std::string model_path_;
+    std::string model_path_ = {};
     bool model_available_ = false;
 };
 

@@ -145,7 +145,7 @@ TEST_F(DmnEvaluatorThreadSafetyTest, P23_04_ConcurrentLoadsSafe) {
 TEST_F(DmnEvaluatorThreadSafetyTest, P23_05_ConcurrentEvaluateLoadSafe) {
     std::vector<std::thread> threads;
     std::vector<std::exception_ptr> exceptions;
-    std::mutex exception_mutex;
+    std::mutex exception_mutex = {};
     
     // Thread 0-1: Load operations
     for (int t = 0; t < 2; ++t) {

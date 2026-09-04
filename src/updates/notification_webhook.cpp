@@ -196,7 +196,7 @@ std::string NotificationWebhook::buildSlackPayload(
     }
     if (!payload.files_updated.empty()) {
         // Use ostringstream for efficient string concatenation (Error Code: 7471)
-        std::ostringstream files_stream;
+        std::ostringstream files_stream = {};
         bool first = true;
         for (const auto& f : payload.files_updated) {
             if (!first) {
@@ -356,7 +356,7 @@ std::string NotificationWebhook::toISO8601(
     std::chrono::system_clock::time_point tp)
 {
     const std::time_t tt = std::chrono::system_clock::to_time_t(tp);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&tt), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }

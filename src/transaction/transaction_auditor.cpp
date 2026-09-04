@@ -115,7 +115,7 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
 
     // Timestamp → ISO-8601 string
     auto t = std::chrono::system_clock::to_time_t(rec.timestamp);
-    std::ostringstream ts_stream;
+    std::ostringstream ts_stream = {};
     ts_stream << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
 
     auto result_str = [&]() -> std::string {
@@ -162,7 +162,7 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
 
 /// Serialise all records to newline-delimited JSON (NDJSON).
 std::string serializeToNDJSON(const std::vector<TransactionAuditor::AuditRecord>& records) {
-    std::string out;
+    std::string out = {};
     out.reserve(records.size() * 256);
     for (const auto& rec : records) {
         out += recordToJson(rec).dump();
@@ -175,7 +175,7 @@ std::string serializeToNDJSON(const std::vector<TransactionAuditor::AuditRecord>
 std::string buildS3Key(const std::string& prefix) {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(std::gmtime(&t), "%Y%m%dT%H%M%SZ");
     std::string key = prefix;
     if (!key.empty() && key.back() != '/') {

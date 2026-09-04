@@ -286,7 +286,7 @@ RouteVersionRouter::getRedirectTarget(std::string_view path) const
 
     // Strip query string before computing the redirect target; re-append after.
     std::string_view path_only = path;
-    std::string_view query;
+    std::string_view query = {};
     auto qpos = path.find('?');
     if (qpos != std::string_view::npos) {
         path_only = path.substr(0, qpos);

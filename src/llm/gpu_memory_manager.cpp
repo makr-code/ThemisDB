@@ -2627,7 +2627,7 @@ void GPUMemoryManager::checkGPUHealth([[maybe_unused]] int gpu_device_id) {
     }
 
     bool is_healthy = true;
-    std::string reason;
+    std::string reason = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);

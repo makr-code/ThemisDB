@@ -207,8 +207,8 @@ http::response<http::string_body> IndexApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string table;
-        std::string column;
+        std::string table = {};
+        std::string column = {};
 
         // Try parsing JSON body first
         if (!req.body().empty()) {
@@ -401,7 +401,7 @@ http::response<http::string_body> IndexApiHandler::handleSuggestions(
         auto target = std::string(req.target());
         
         // Parse query parameters
-        std::string collection;
+        std::string collection = {};
         double min_score = 0.5;
         size_t limit = 10;
         
@@ -410,7 +410,7 @@ http::response<http::string_body> IndexApiHandler::handleSuggestions(
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
             std::istringstream iss(query_string);
-            std::string param;
+            std::string param = {};
             
             while (std::getline(iss, param, '&')) {
                 auto eq_pos = param.find('=');
@@ -459,7 +459,7 @@ http::response<http::string_body> IndexApiHandler::handlePatterns(
         auto target = std::string(req.target());
         
         // Parse collection from query params
-        std::string collection;
+        std::string collection = {};
         auto query_pos = target.find('?');
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);

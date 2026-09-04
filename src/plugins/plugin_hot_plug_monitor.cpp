@@ -270,7 +270,7 @@ void PluginHotPlugMonitor::watchDirectoryLinux() {
             struct inotify_event* event = reinterpret_cast<struct inotify_event*>(ptr);
             
             if (event->len > 0) {
-                FileEvent file_event;
+                FileEvent file_event = {};
                 
                 if (event->mask & (IN_CREATE | IN_MOVED_TO)) {
                     file_event = FileEvent::CREATED;
@@ -333,7 +333,7 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
             // Convert filename from wide char to narrow
             int filename_length = fni->FileNameLength / sizeof(wchar_t);
             std::wstring wfilename(fni->FileName, filename_length);
-            std::string filename;
+            std::string filename = {};
             filename.reserve(wfilename.size());
             for (wchar_t wc : wfilename) {
                 filename.push_back(static_cast<char>(wc));
@@ -433,7 +433,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
             for (const auto& entry : fs::directory_iterator(watch_directory_)) {
                 // Skip symlinks pointing to non-existent targets
                 if (entry.is_symlink()) {
-                    std::error_code ec;
+                    std::error_code ec = {};
                     if (!fs::exists(entry.path(), ec) || ec) {
                         THEMIS_WARN("Skipping broken symlink: {}", entry.path().string());
                         continue;
@@ -442,7 +442,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
                 if (entry.is_regular_file()) {
                     std::string filename = entry.path().filename().string();
                     if (isPluginFile(filename)) {
-                        std::error_code ec;
+                        std::error_code ec = {};
                         auto mtime = entry.last_write_time(ec);
                         if (!ec) {
                             current_files[filename] = mtime;

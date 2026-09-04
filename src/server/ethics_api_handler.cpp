@@ -236,7 +236,7 @@ http::response<http::string_body> EthicsApiHandler::handleGetArguments(
 
         if (!types_str.empty()) {
             std::stringstream ss(types_str);
-            std::string type;
+            std::string type = {};
             while (std::getline(ss, type, ',')) {
                 types.push_back(type);
             }
@@ -421,7 +421,7 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
             // result is a JSON object; each key becomes a Prometheus metric.
             // Nested objects are flattened with underscore separators.
             // Non-numeric leaves are skipped.
-            std::string prom;
+            std::string prom = {};
             std::function<void(const nlohmann::json&, const std::string&)> flatten =
                 [&](const nlohmann::json& node, const std::string& prefix) {
                     if (node.is_object()) {
@@ -514,11 +514,11 @@ nlohmann::json EthicsApiHandler::executeAQL(
     std::string resolved_query = aql_query;
     for (auto it = bind_vars.begin(); it != bind_vars.end(); ++it) {
         const std::string placeholder = "@" + it.key();
-        std::string replacement;
+        std::string replacement = {};
         if (it.value().is_string()) {
             // Escape embedded single quotes to prevent AQL injection
             std::string raw = it.value().get<std::string>();
-            std::string escaped;
+            std::string escaped = {};
             escaped.reserve(raw.size());
             for (char c : raw) {
                 if (c == '\'') { escaped += "''"; } else { escaped += c; }

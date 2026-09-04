@@ -26,7 +26,7 @@ public:
 
     std::string generateHex(std::size_t bytes) {
         std::uniform_int_distribution<> dis(0, 15);
-        std::string result;
+        std::string result = {};
         result.reserve(bytes * 2);
         for (std::size_t i = 0; i < bytes; ++i) {
             int val = dis(gen_);
@@ -169,7 +169,7 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::fromHttpHeader
                     if (bg_it != headers.end()) {
                         // Simple baggage parsing: comma-separated key=value pairs
                         std::istringstream iss(bg_it->second);
-                        std::string item;
+                        std::string item = {};
                         while (std::getline(iss, item, ',')) {
                             size_t eq = item.find('=');
                             if (eq != std::string::npos) {
@@ -259,7 +259,7 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
 
             // Build jaeger-baggage
             if (!baggage_.empty()) {
-                std::string baggage_str;
+                std::string baggage_str = {};
                 for (size_t i = 0; i < baggage_.size(); ++i) {
                     if (i > 0) {
                       baggage_str += ",";
@@ -352,7 +352,7 @@ std::map<std::string, std::string> DistributedTracingSDK::propagateContextToHead
 DistributedTraceResult DistributedTracingSDK::validateTraceContext(
     const std::shared_ptr<DistributedTraceContext>& context) {
 
-    DistributedTraceResult result;
+    DistributedTraceResult result = {};
 
     if (!context) {
         result.success = false;

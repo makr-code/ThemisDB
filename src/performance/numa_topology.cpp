@@ -81,7 +81,7 @@ int NumaTopology::local_node() const noexcept {
 static std::vector<int> parse_cpu_list(const std::string& list_str) {
     std::vector<int> cpus;
     std::stringstream ss(list_str);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         // token is either "N" or "N-M"
         size_t dash = token.find('-');
@@ -103,7 +103,7 @@ static std::vector<int> parse_cpu_list(const std::string& list_str) {
 static std::string read_sysfs_file(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open()) return {};
-    std::string content;
+    std::string content = {};
     std::getline(f, content);
     // Trim trailing whitespace/newlines
     while (!content.empty() && (content.back() == '\n' || content.back() == '\r' || content.back() == ' '))
@@ -163,11 +163,11 @@ static NumaTopology detect_linux() noexcept {
         // Memory (meminfo)
         std::ifstream meminfo(base + "/meminfo");
         if (meminfo.is_open()) {
-            std::string line;
+            std::string line = {};
             while (std::getline(meminfo, line)) {
                 if (line.find("MemTotal") != std::string::npos) {
                     std::istringstream iss(line);
-                    std::string tok;
+                    std::string tok = {};
                     uint64_t kb = 0;
                     // Format: "Node N MemTotal: XXXX kB"
                     while (iss >> tok) {
@@ -244,7 +244,7 @@ static NumaTopology detect_windows() noexcept {
         NumaNode node;
         node.node_id = static_cast<int>(n);
 
-        GROUP_AFFINITY affinity;
+        GROUP_AFFINITY affinity = {};
         if (GetNumaNodeProcessorMaskEx(static_cast<USHORT>(n), &affinity)) {
             KAFFINITY mask = affinity.Mask;
             int cpu_base = static_cast<int>(affinity.Group) * 64;

@@ -43,8 +43,8 @@ static constexpr uint32_t kSeed = 42;
 struct TestRingBuffer {
     static constexpr int kDefaultCapacity = 256;
     std::deque<DispatchOutcome> buf;
-    int capacity;
-    std::mutex mu;
+    int capacity = {};
+    std::mutex mu = {};
 
     explicit TestRingBuffer(int cap = kDefaultCapacity) : capacity(cap) {}
 

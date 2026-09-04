@@ -316,7 +316,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     q.spatialPredicate = {};
     struct QueryExecStatus {
         bool ok = 0;
-        std::string message;
+        std::string message = {};
     };
 
     auto make_ok_status = []() -> QueryExecStatus {
@@ -333,7 +333,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         }
 
         // Optional plan/explain info
-        std::string exec_mode;
+        std::string exec_mode = {};
         nlohmann::json plan_json;
 
         if (ret == "count") {
@@ -482,7 +482,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     }
                     key_items.push_back(k);
                 }
-                ChunkedWriterConfig cfg;
+                ChunkedWriterConfig cfg = {};
                 return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, key_items, cfg);
             }
             return makeResponse(http::status::ok, j.dump(), req);
@@ -666,7 +666,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 for (const auto& e : entities) {
                     entity_items.push_back(e);
                 }
-                ChunkedWriterConfig cfg;
+                ChunkedWriterConfig cfg = {};
                 return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, entity_items, cfg);
             }
             return makeResponse(http::status::ok, j.dump(), req);
@@ -819,7 +819,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
                 auto* root = dynamic_cast<VariableExpr*>(cur); if (!root) return std::string();
                 rootVar = root->name;
-                std::ostringstream col_oss;
+                std::ostringstream col_oss = {};
                 for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                     if (it != parts.rbegin()) {
                       col_oss << ".";
@@ -952,7 +952,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (!root || root->name != loopVar) {
                       return std::nullopt;
                     }
-                    std::ostringstream col_oss;
+                    std::ostringstream col_oss = {};
                     for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                         if (it != parts.rbegin()) {
                           col_oss << ".";
@@ -1118,7 +1118,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             struct SimplePred {
                 enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
                 char var = '\0'; // 'v' or 'e'
-                std::string field;
+                std::string field = {};
                 nlohmann::json literal; // as JSON literal
                 Op op = Op::Eq;
             };
@@ -1829,7 +1829,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                               return std::string();
                             }
                             rootVar = root->name;
-                            std::ostringstream col_oss;
+                            std::ostringstream col_oss = {};
                             for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                                 if (it != parts.rbegin()) {
                                   col_oss << ".";
@@ -1984,7 +1984,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
 
                         // Bestimme welche Variable im RETURN zurückgegeben werden soll
-                        std::string retVar;
+                        std::string retVar = {};
                         if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
                             if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) {
                                 retVar = v->name;
@@ -2584,7 +2584,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 // Verify it's rooted at the FOR variable
                                 if (auto* rootVar = dynamic_cast<VariableExpr*>(cur)) {
                                     if (rootVar->name == first_for_node.variable) {
-                                        std::ostringstream col_oss;
+                                        std::ostringstream col_oss = {};
                                         for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                                             if (it != parts.rbegin()) {
                                               col_oss << ".";
@@ -2924,7 +2924,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
           engine.setStatisticsCollector(stats_collector);
         }
         
-        std::string exec_mode;
+        std::string exec_mode = {};
         nlohmann::json plan_json;
         
         std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res;
@@ -3132,7 +3132,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     cur = fa2->object.get();
                 }
                 // Root erwartet Variable; deren Name wird ignoriert
-                std::ostringstream col_oss;
+                std::ostringstream col_oss = {};
                 for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                     if (it != parts.rbegin()) {
                       col_oss << ".";
@@ -3143,8 +3143,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             };
 
             // MVP: Unterst�tze 0..1 Group-Variablen
-            std::string groupVarName;
-            std::string groupColumn;
+            std::string groupVarName = {};
+            std::string groupColumn = {};
             if (!collect.groups.empty()) {
                 const auto& first_group = collect.groups.front();
                 groupVarName = first_group.first;
@@ -3159,7 +3159,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             aggs.reserve(collect.aggregations.size());
             for (const auto& a : collect.aggregations) {
                 std::string func = a.funcName; std::transform(func.begin(), func.end(), func.begin(), ::tolower);
-                std::string col;
+                std::string col = {};
                 if (a.argument) {
                   col = extractColumn(a.argument);
                 }
@@ -3284,7 +3284,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
             if (auto* rootVarExpr = dynamic_cast<VariableExpr*>(cur)) { rootedAtLoop = (rootVarExpr->name == loopVar); }
             else { rootedAtLoop = false; }
-            std::ostringstream col_oss;
+            std::ostringstream col_oss = {};
             for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                 if (it != parts.rbegin()) {
                   col_oss << ".";
@@ -3504,7 +3504,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                         auto arg = evalExpr(fc->arguments.front(), ent, env);
                         if (arg.is_object()) {
-                            std::string pk;
+                            std::string pk = {};
                             if (arg.contains("_key") && arg["_key"].is_string()) {
                               pk = arg["_key"].get<std::string>();
                             }
@@ -3525,7 +3525,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                     auto evalArg = [&]([[maybe_unused]] size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
-                        std::string out;
+                        std::string out = {};
                         for (const auto& arg : fc->arguments) {
                             auto a = evalExpr(arg, ent, env);
                             if (a.is_string()) {
@@ -3667,7 +3667,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
         returnSpan.setStatus(true);
         
-        json response_body;
+        json response_body = {};
         
         if (use_cursor) {
             // Cursor-basierte Antwort wurde nach Engine-Paginierung erstellt
@@ -3870,7 +3870,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
         }
         
         // Get LLM context options from request
-        json llm_options;
+        json llm_options = {};
         if (body.contains("llm_context")) {
             llm_options = body["llm_context"];
         }
@@ -4020,7 +4020,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
     auto span = Tracer::startSpan("GET /v2/query/stream");
 
     // Parse query parameters from URL
-    std::string aql_query;
+    std::string aql_query = {};
     int max_seconds   = 30;
     int heartbeat_ms  = 15000;
     int retry_ms      = 3000;
@@ -4038,7 +4038,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
             std::string raw = qs.substr(pos + prefix.size(),
                 end == std::string::npos ? std::string::npos : end - pos - prefix.size());
             // Basic URL-decode: replace '+' with ' ' and %XX with char
-            std::string decoded;
+            std::string decoded = {};
             decoded.reserve(raw.size());
             for (auto it = raw.begin(); it != raw.end(); ) {
                 if (*it == '+') {
@@ -4121,7 +4121,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         // HttpServer dispatch layer via THEMIS_CORS_* env vars.
         res.keep_alive(true);
 
-        std::ostringstream body;
+        std::ostringstream body = {};
         body << "retry: " << retry_ms << "\n\n";
 
         // Check for query-level error

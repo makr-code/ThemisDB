@@ -161,7 +161,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
 
 std::string EncryptedBlob::toBase64() const {
     // Format: key_id:version:base64(iv):base64(ciphertext):base64(tag)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << key_id << ":"
         << key_version << ":"
         << fieldBase64Encode(iv) << ":"
@@ -176,7 +176,7 @@ EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
     // Split by ':'
     std::vector<std::string> parts;
     std::stringstream ss(b64);
-    std::string part;
+    std::string part = {};
     while (std::getline(ss, part, ':')) {
         parts.push_back(part);
     }
@@ -205,7 +205,7 @@ nlohmann::json EncryptedBlob::toJson() const {
 }
 
 EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
-    EncryptedBlob blob;
+    EncryptedBlob blob = {};
 
     if (!j.is_object()) {
         throw std::runtime_error("EncryptedBlob::fromJson: expected JSON object");
@@ -416,7 +416,7 @@ EncryptedBlob FieldEncryption::encrypt(const std::string& plaintext, const std::
 
 EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, const std::string& key_id) {
     // Runtime license gate: field-level encryption is an Enterprise/Hyperscaler feature.
-    std::string license_error;
+    std::string license_error = {};
     if (!license::RuntimeLicenseGate::instance()
             .isFeatureAllowed("field_encryption", license_error)) {
         throw std::runtime_error("Field encryption unavailable: " + license_error);

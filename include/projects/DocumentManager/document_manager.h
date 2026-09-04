@@ -100,7 +100,7 @@ struct UploadResult {
  */
 struct Status {
     bool ok = 0;
-    std::string message;
+    std::string message = {};
     
     Status(bool success, std::string msg = {}) 
         : ok(success), message(std::move(msg)) {}

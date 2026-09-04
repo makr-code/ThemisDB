@@ -69,7 +69,7 @@ uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
 } // namespace
 
 std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "GraphQL query complexity " << actual 
         << " exceeds budget " << budget;
     return oss.str();

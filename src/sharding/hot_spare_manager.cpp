@@ -530,7 +530,7 @@ HotSpareManager::Stats HotSpareManager::getStats() const {
 }
 
 std::string HotSpareManager::exportPrometheusMetrics() const {
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     auto stats = getStats();
     
@@ -581,7 +581,7 @@ std::string HotSpareManager::exportPrometheusMetrics() const {
     // Per-spare metrics
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     for (const auto& [shard_id, spare] : spares_) {
-        std::string state_str;
+        std::string state_str = {};
         switch (spare.state) {
             case SpareState::AVAILABLE: state_str = "available"; break;
             case SpareState::ACTIVATING: state_str = "activating"; break;
@@ -791,7 +791,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
             
             // Try to read from each replica until successful
             std::optional<std::vector<uint8_t>> data;
-            std::string source_replica;
+            std::string source_replica = {};
             
             for (const auto& replica_id : replicas) {
                 if (replica_id != task.source_shard_id) {

@@ -240,8 +240,8 @@ struct EthicsEvaluationResult {
  */
 struct Status {
     bool ok = 0;
-    std::string message;
-    int code;
+    std::string message = {};
+    int code = {};
     
     Status() : ok(true), code(0) {}
     Status(bool ok_, const std::string& msg = "", int code_ = 0) 

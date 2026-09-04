@@ -49,7 +49,7 @@ struct CoherenceEvaluator::Impl {
         
         // Count words
         std::istringstream stream(text);
-        std::string word;
+        std::string word = {};
         size_t word_count = 0;
         size_t syllable_count = 0;
         
@@ -255,7 +255,7 @@ double CoherenceEvaluator::evaluateLinguisticQuality(const std::string& answer) 
         std::string sentence = it->str();
         std::istringstream sent_stream(sentence);
         size_t word_count = 0;
-        std::string w;
+        std::string w = {};
         while (sent_stream >> w) {
           word_count++;
         }
@@ -334,7 +334,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
             // Parse sent_i words and check for negations
             if (!i_has_negation) {
                 std::istringstream stream_i(sent_i);
-                std::string word;
+                std::string word = {};
                 while (stream_i >> word && !i_has_negation) {
                     // Remove punctuation from word end
                     while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
@@ -349,7 +349,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
             // Parse sent_j words and check for negations
             if (!j_has_negation) {
                 std::istringstream stream_j(sent_j);
-                std::string word;
+                std::string word = {};
                 while (stream_j >> word && !j_has_negation) {
                     // Remove punctuation from word end
                     while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
@@ -366,7 +366,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                 // Extract key terms
                 std::set<std::string> terms_i, terms_j;
                 std::istringstream stream_i(sent_i), stream_j(sent_j);
-                std::string word;
+                std::string word = {};
                 
                 while (stream_i >> word) {
                     if (word.length() > 4) {
@@ -397,7 +397,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
 }
 
 CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
-    CoherenceResult result;
+    CoherenceResult result = {};
     
     if (answer.empty()) {
         result.coherence_score = 0.0;
@@ -438,7 +438,7 @@ CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     result.coherence_score = std::min(1.0, std::max(0.0, result.coherence_score));
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Coherence Score: " << result.coherence_score << "\n";
     explanation << "Logical Flow: " << result.logical_flow_score << " (30%)\n";
     explanation << "Structure: " << result.structural_score << " (20%)\n";

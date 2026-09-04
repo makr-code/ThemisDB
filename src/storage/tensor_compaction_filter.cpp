@@ -242,7 +242,7 @@ TensorCompactionFilter::FilterV2(
     std::string*             new_value,
     std::string*             /*skip_until*/) const
 {
-    std::string new_bytes;
+    std::string new_bytes = {};
 
     if (isTTCoreKey(key)) {
         if (filterTTCore(existing_value, &new_bytes)) {

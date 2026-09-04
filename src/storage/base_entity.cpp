@@ -268,7 +268,7 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
     // Legacy comma-separated fallback.
     std::vector<std::string> result;
     std::stringstream ss(raw);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         token.erase(0, token.find_first_not_of(" \t"));
         // iterator_invalidation scanner alert: find_last_not_of returns a
@@ -605,7 +605,7 @@ BaseEntity::Blob BaseEntity::serialize() const {
 std::string BaseEntity::toJson() const {
     ensureCache();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     
     bool first = true;

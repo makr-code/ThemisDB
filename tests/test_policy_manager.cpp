@@ -790,7 +790,7 @@ TEST_F(PolicyManagerReloadTest, ReloadPolicies_UpdatesActivePolicyVersion) {
 
 TEST_F(PolicyManagerReloadTest, ReloadPolicies_ReturnsFalseOnMissingFile) {
     auto mgr = std::make_unique<PolicyManager>();
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(mgr->reloadPolicies("/nonexistent/path/rules.yaml", &err));
     EXPECT_FALSE(err.empty());
     // Rules remain empty (reload failed → old state preserved)
@@ -806,7 +806,7 @@ TEST_F(PolicyManagerReloadTest, ReloadPolicies_OldRulesRetainedOnLoadFailure) {
     auto old_version = mgr->activePolicyVersion();
 
     // Second reload fails (bad path)
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(mgr->reloadPolicies("/nonexistent/rules.yaml", &err));
 
     // Old rules and version are preserved

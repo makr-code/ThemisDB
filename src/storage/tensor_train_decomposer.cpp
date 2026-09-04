@@ -692,7 +692,7 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
         std::size_t cols = right;
 
         std::vector<float> U, S, Vt;
-        std::size_t rank;
+        std::size_t rank = {};
         truncatedSVD(C, rows, cols, delta, cfg.max_rank, U, S, Vt, rank);
 
         // Accumulate squared error for this step
@@ -894,7 +894,7 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
                     M[(l * Gk.n + i) * n + r] = Gk.at(l, i, r);
 
         std::vector<float> U, S, Vt;
-        std::size_t new_r;
+        std::size_t new_r = {};
         truncatedSVD(M, m, n, delta, cfg.max_rank, U, S, Vt, new_r);
 
         // G_k <- reshape(U, r_left, n_k, new_r)

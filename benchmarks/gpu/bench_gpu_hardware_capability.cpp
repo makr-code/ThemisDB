@@ -96,7 +96,7 @@ public:
     TransferResult transfer(const TransferRequest& req,
                             const std::vector<DeviceInfo>& devs)
     {
-        TransferResult res;
+        TransferResult res = {};
 
         if (req.size_bytes == 0) { res.ok = true; return res; }
         if (!req.src_ptr || !req.dst_ptr) {

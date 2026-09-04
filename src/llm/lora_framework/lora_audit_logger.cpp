@@ -212,7 +212,7 @@ public:
                 return results;
             }
             
-            std::string line;
+            std::string line = {};
             while (std::getline(file, line)) {
                 if (line.empty()) {
                   continue;
@@ -577,7 +577,7 @@ std::string generateRequestId() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -588,7 +588,7 @@ std::string computeAdapterHash(const std::vector<uint8_t>& weights) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(weights.data(), weights.size(), hash);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
             << static_cast<int>(hash[i]);

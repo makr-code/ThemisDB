@@ -427,7 +427,7 @@ TEST_F(DeterminismConflictTest, D11_DeterministicVersionClock) {
     struct VersionedEntry {
        int32_t version;
        int64_t clock_value;
-       std::string data;
+       std::string data = {};
     };
 
     auto simulate_versioned_state = [](int32_t seed) -> std::vector<VersionedEntry> {
@@ -465,7 +465,7 @@ TEST_F(DeterminismConflictTest, D11_DeterministicVersionClock) {
 
 TEST_F(DeterminismConflictTest, D12_DeterministicConflictWinnerSelection) {
     struct WriteConflict {
-       std::string key;
+       std::string key = {};
        int32_t writer_id;
        int64_t timestamp;
     };

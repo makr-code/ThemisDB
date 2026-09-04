@@ -30,7 +30,7 @@ std::string MetricAggregator::makeSeriesKey(
     if (labels.empty()) {
       return name;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << name << "{";
     bool first = true;
     for (const auto& [k, v] : labels) {

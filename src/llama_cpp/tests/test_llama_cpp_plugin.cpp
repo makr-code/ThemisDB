@@ -335,7 +335,7 @@ TEST(LlamaCppPluginFocusedTests, K5_StreamCallbackTokenMatchesGenerateText) {
     p.loadModel("", {});
     InferenceRequest req;
     req.prompt = "compare";
-    std::string streamed;
+    std::string streamed = {};
     const auto stream_resp = p.generateStream(req,
         [&streamed](const std::string& t) { streamed += t; });
     const auto direct_resp = p.generate(req);

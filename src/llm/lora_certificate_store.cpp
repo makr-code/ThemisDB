@@ -38,7 +38,7 @@ namespace {
 
 // Convert a raw byte digest to lowercase hex string.
 std::string bytesToHex(const unsigned char* bytes, size_t len) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(bytes[i]);
@@ -176,7 +176,7 @@ std::optional<std::string> LoRACertificateStore::loadPemFile(
     if (!file.is_open()) {
         return std::nullopt;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << file.rdbuf();
     std::string pem = oss.str();
     if (pem.empty()) {
@@ -237,7 +237,7 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
         }
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(system_store_path_, ec) || ec) {
         spdlog::debug("LoRACertificateStore: system store path '{}' not accessible",
                       system_store_path_);
@@ -337,7 +337,7 @@ std::optional<std::string> LoRACertificateStore::searchWindowsCertStore(
                 X509* match = d2i_X509(nullptr, &der_ptr2,
                                        static_cast<long>(ctx->cbCertEncoded));
 
-                std::string pem_str;
+                std::string pem_str = {};
                 if (match) {
                     BIO* bio = BIO_new(BIO_s_mem());
                     if (bio && PEM_write_bio_X509(bio, match) == 1) {

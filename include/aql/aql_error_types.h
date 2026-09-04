@@ -143,7 +143,7 @@ public:
      * @return Structured error report with all context information
      */
     std::string formatForLogging() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[AQLError] Type=" << error_type_
             << " Category=" << category_
             << " Component=" << component_;

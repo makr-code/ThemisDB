@@ -362,7 +362,7 @@ int64_t AggregateScheduler::getCurrentTimeMs() const {
 }
 
 std::string AggregateScheduler::generateAggregateId(const AggConfig& config) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config.metric;
     if (config.entity.has_value()) {
         oss << ":" << *config.entity;

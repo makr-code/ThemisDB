@@ -31,7 +31,7 @@ namespace {
 
 /** Normalise text for trigger matching: lower-case, strip leading/trailing whitespace. */
 std::string normalise(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out.push_back(static_cast<char>(std::tolower(c)));
@@ -48,7 +48,7 @@ std::string normalise(const std::string& s) {
 /** Generate a simple time-based unique ID. */
 std::string generateID() {
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "macro:" << std::hex << now;
     return ss.str();
 }
@@ -394,7 +394,7 @@ MacroResult VoiceMacroManager::executeMacro(
 
     auto t0 = std::chrono::steady_clock::now();
 
-    std::string combined_output;
+    std::string combined_output = {};
     bool all_ok = true;
 
     for (int i = 0; i < static_cast<int>(info.steps.size()); ++i) {

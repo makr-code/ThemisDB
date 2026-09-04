@@ -109,7 +109,7 @@ TensorDeduplicationManager::TensorDeduplicationManager(std::shared_ptr<storage::
     });
 
     storage_->setWriteObserverFn([this](const TensorFieldKey &key, const TTTrain &train) {
-        std::string tensor_id;
+        std::string tensor_id = {};
         std::optional<StoredTensorRecord> record;
         std::size_t total_bytes_stored = 0;
         std::size_t bytes_saved        = 0;
@@ -133,7 +133,7 @@ TensorDeduplicationManager::TensorDeduplicationManager(std::shared_ptr<storage::
     });
 
     storage_->setDeleteObserverFn([[maybe_unused]] [this](const TensorFieldKey &key) {
-        std::string tensor_id;
+        std::string tensor_id = {};
         std::size_t total_bytes_stored  = 0;
         std::size_t bytes_saved         = 0;
         const auto fetchSubAndGetResult = [](std::atomic<std::size_t> &counter, std::size_t value) {
@@ -487,7 +487,7 @@ struct MutationJournalEntry {
     themis::graph::StoredTensorRecord record;
     themis::graph::PersistedFingerprintNode node;
     std::vector<themis::graph::PersistedFingerprintEdge> edges;
-    std::string tensor_id;
+    std::string tensor_id = {};
     std::size_t total_bytes_stored = 0;
     std::size_t bytes_saved        = 0;
 };
@@ -994,7 +994,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 }
 
 [[nodiscard]] static std::string mutationJournalKeyForSnapshot(const std::string &snapshot_key) {
-    std::string key;
+    std::string key = {};
     key.reserve((sizeof(kMutationJournalMetaPrefix) - 1U) + snapshot_key.size());
     key.append(kMutationJournalMetaPrefix);
     key.append(snapshot_key);
@@ -1002,7 +1002,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 }
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string &snapshot_key) {
-    std::string key;
+    std::string key = {};
     key.reserve(snapshot_key.size() + 5U);
     key.append(snapshot_key);
     key.append("::wal");
@@ -1549,7 +1549,7 @@ constexpr std::string_view kJournalType         = "__tfgjournal__";
 
 inline std::string toHex(std::string_view text) {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.resize(text.size() * 2U);
     for (std::size_t i = 0; i < text.size(); ++i) {
         const uint8_t byte = static_cast<uint8_t>(text[i]);
@@ -1574,7 +1574,7 @@ inline std::string makeEdgeId(std::string_view snapshot_key, std::string_view te
 
 inline std::string toHex(const std::vector<uint8_t> &data) {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.resize(data.size() * 2U);
     for (std::size_t i = 0; i < data.size(); ++i) {
         const uint8_t byte = data[i];

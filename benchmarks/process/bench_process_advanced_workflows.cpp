@@ -201,7 +201,7 @@ public:
         std::map<std::string, int> variant_freq = {};
 
         for (const auto& [case_id, activities] : traces) {
-            std::string trace_str;
+            std::string trace_str = {};
             for (const auto& activity : activities) {
                 trace_str += activity + ",";
             }
@@ -245,7 +245,7 @@ public:
         }
 
         // Generate description (simulated)
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Process with " << log.unique_cases << " cases and ";
         oss << log.unique_activities << " distinct activities. ";
         oss << "Most common activities: ";

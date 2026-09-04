@@ -229,7 +229,7 @@ public:
     bool isAvailable() const override { return true; }
     std::string description() const override { return "StubEmbedding"; }
 private:
-    int dims_;
+    int dims_ = {};
 };
 
 TEST(ChunkEmbedStepTest, ING12_AvailableBackendProducesVectorRecords) {

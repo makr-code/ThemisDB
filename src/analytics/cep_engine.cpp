@@ -134,7 +134,7 @@ std::string fieldValueToString(const CepFieldValue &v) {
 /** Hex-encode a byte string */
 std::string hexEncode(const std::string &s) {
     static const char hex[] = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 2);
     for (unsigned char c : s) {
         out += hex[c >> 4];
@@ -145,7 +145,7 @@ std::string hexEncode(const std::string &s) {
 
 /** Hex-decode a hex string; silently skips pairs with non-hex characters */
 std::string hexDecode(const std::string &hex) {
-    std::string out;
+    std::string out = {};
     out.reserve(hex.size() / 2);
     auto nibble = [](char c) -> int {
         if (c >= '0' && c <= '9') {
@@ -183,7 +183,7 @@ enum class TokType { IDENT, NUMBER, STRING, OP, LPAREN, RPAREN, AND, OR, NOT, EQ
 
 struct Token {
     TokType type;
-    std::string text;
+    std::string text = {};
     double num = 0.0;
 };
 
@@ -354,7 +354,7 @@ struct ExprEvaluator {
             TokType op          = cur().type;
             std::string op_text = cur().text;
             advance();
-            std::string rhs;
+            std::string rhs = {};
             double rhs_num  = 0.0;
             bool rhs_is_num = false;
             if (cur().type == TokType::STRING) {
@@ -434,7 +434,7 @@ bool evalExpression(const std::string &expr, const std::map<std::string, std::st
 
 std::vector<uint8_t> Event::serialize() const {
     // Simple length-prefixed text serialization: id|type|name|fields...
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << event_id << "|" << static_cast<uint16_t>(type) << "|" << event_name << "|"
         << static_cast<unsigned>(priority) << "|"
         << std::chrono::duration_cast<std::chrono::microseconds>(timestamp.time_since_epoch()).count() << "|"
@@ -454,7 +454,7 @@ std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8
     std::string s(data.begin(), data.end());
     std::istringstream iss(s);
     Event ev;
-    std::string part;
+    std::string part = {};
     int idx = 0;
     while (std::getline(iss, part, '|')) {
         try {
@@ -712,7 +712,7 @@ bool PatternMatcher::matchesEventType(const Event &event, const std::string &exp
     // Match by EventType string representation
     const char *type_str = eventTypeToString([[maybe_unused]] event.type);
     if (type_str && expected == type_str)
-        return true;
+        return true = {};
     return false;
 }
 
@@ -756,9 +756,9 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
     pruneExpiredMatches();
 
     // Build group key using stringstream for efficient string concatenation
-    std::string group_key;
+    std::string group_key = {};
     if (!config_.group_by.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (const auto &field : config_.group_by) {
             auto it = event.fields.find([[maybe_unused]] field);
             oss << (it != event.fields.end() ? fieldValueToString(it->second) : "") << ":";
@@ -998,7 +998,7 @@ size_t PatternMatcher::getPendingMatchCount() const {
 std::string PatternMatcher::serializeState() const {
     std::lock_guard lk(state_mutex_);
     auto now = std::chrono::steady_clock::now();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &[group_key, matches] : partial_matches_) {
         if (matches.empty()) {
             continue;
@@ -1025,9 +1025,9 @@ void PatternMatcher::restoreState(const std::string &data) {
 
     auto now = std::chrono::steady_clock::now();
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
     PartialMatch *current_pm = nullptr;
-    std::string current_group_key;
+    std::string current_group_key = {};
 
     while (std::getline(iss, line)) {
         if (line.rfind("pm_match=", 0) == 0) {
@@ -1470,7 +1470,7 @@ std::string Aggregator::getGroupKey([[maybe_unused]] const Event &event) const {
     if (group_by_fields_.empty()) {
         return "";
     }
-    std::string key;
+    std::string key = {};
     for (const auto &f : group_by_fields_) {
         auto it = event.fields.find([[maybe_unused]] f);
         key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + "|";
@@ -1642,7 +1642,7 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                 // Decode group by values
                 if (!group_by_fields_.empty()) {
                     std::istringstream iss(gkey);
-                    std::string token;
+                    std::string token = {};
                     size_t fi = 0;
                     while (std::getline(iss, token, '|') && fi < group_by_fields_.size()) {
                         r.group_by_values[group_by_fields_[fi++]] = token;
@@ -1932,7 +1932,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     cfg.updated_at = cfg.created_at;
 
     // Normalize multi-line EPL: collapse whitespace sequences (including newlines) to a single space
-    std::string norm;
+    std::string norm = {};
     norm.reserve(epl.size());
     bool in_ws = false;
     for (char c : epl) {
@@ -1988,7 +1988,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
 
     // Extract rule name from CREATE RULE <name> AS, then NAME <name>
     {
-        std::smatch m;
+        std::smatch m = {};
         std::regex create_re(R"(CREATE\s+RULE\s+(\S+)\s+AS\b)", std::regex::icase);
         if (std::regex_search(norm, m, create_re)) {
             cfg.rule_name = m[1];
@@ -2005,7 +2005,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     // Extract FROM stream
     {
         std::regex from_re(R"(\bFROM\s+(\S+))", std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(norm, m, from_re)) {
             cfg.streams.push_back(m[1]);
         }
@@ -2014,7 +2014,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     // Extract SELECT aggregations (COUNT(*), SUM(field), AVG(field), etc.)
     {
         std::regex select_re(R"(\bSELECT\s+(.+?)\s+FROM\b)", std::regex::icase);
-        std::smatch sm;
+        std::smatch sm = {};
         if (std::regex_search(norm, sm, select_re)) {
             std::string proj = sm[1];
             std::regex agg_re(
@@ -2074,7 +2074,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
         std::regex where_re(
             R"(\bWHERE\s+(.+?)(?:\s+HAVING\b|\s+PATTERN\b|\s+WINDOW\b|\s+GROUP\s+BY\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
             std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(norm, m, where_re)) {
             cfg.filter = m[1];
         }
@@ -2085,7 +2085,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
         std::regex pat_re(
             R"(\bPATTERN\s+(SEQUENCE|SEQ|AND|OR|NOT)\s*\(([^)]+)\)(?:\s+WITHIN\s+(\d+)\s*(ms|s|second|seconds|minute|minutes|hour|hours|day|days)?)?)",
             std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(norm, m, pat_re)) {
             PatternConfig pc;
             pc.pattern_id  = generateId();
@@ -2103,7 +2103,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
 
             std::string events_str = m[2];
             std::istringstream iss([[maybe_unused]] events_str);
-            std::string token;
+            std::string token = {};
             while (std::getline(iss, token, ',')) {
                 token.erase(0, token.find_first_not_of(" \t"));
                 token.erase(token.find_last_not_of(" \t") + 1);
@@ -2133,7 +2133,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
         std::regex win_paren_re(
             R"(\bWINDOW\s+(TUMBLING|SLIDING|SESSION|HOPPING|COUNT)\s*\(\s*(\d+)\s*(SECOND|SECONDS|MINUTE|MINUTES|HOUR|HOURS|DAY|DAYS|ms|s|min|h|d)?\s*(?:EVENTS?)?\s*(?:,\s*(\d+)\s*(SECOND|SECONDS|MINUTE|MINUTES|HOUR|HOURS|DAY|DAYS|ms|s|min|h|d)?\s*)?\))",
             std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(norm, m, win_paren_re)) {
             WindowConfig wc;
             std::string wt = m[1];
@@ -2248,11 +2248,11 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     {
         std::regex group_re(R"(\bGROUP\s+BY\s+(.+?)(?:\s+HAVING\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
                             std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(norm, m, group_re)) {
             std::string fields_str = m[1];
             std::istringstream iss(fields_str);
-            std::string token;
+            std::string token = {};
             while (std::getline(iss, token, ',')) {
                 token.erase(0, token.find_first_not_of(" \t"));
                 token.erase(token.find_last_not_of(" \t") + 1);
@@ -2267,7 +2267,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     {
         std::regex having_re(R"(\bHAVING\s+(.+?)(?:\s+PATTERN\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
                              std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(norm, m, having_re)) {
             cfg.having = m[1];
         }
@@ -2277,7 +2277,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     {
         std::regex action_re(R"(\bACTION\s+(alert|webhook|db_write|log|slack|kafka|email)\s*\(([^)]*)\))",
                              std::regex::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string search = norm;
         bool found_action  = false;
         while (std::regex_search(search, m, action_re)) {
@@ -2310,7 +2310,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             auto param_end   = std::sregex_iterator();
             for (auto pit = param_begin; pit != param_end; ++pit) {
                 std::smatch pm  = *pit;
-                std::string val;
+                std::string val = {};
                 if (pm.size() > 1 && pm[1].matched) {
                     val = pm[1].str();
                 } else if (pm.size() > 2 && pm[2].matched) {
@@ -2390,7 +2390,7 @@ RuleEngine::RuleStats RuleEngine::getRuleStats(const std::string &rule_id) const
 
 std::string RuleEngine::serializeMatcherStates() const {
     std::shared_lock lk(rules_mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &[rule_id, state] : rules_) {
         if (!state.pattern_matcher) {
             continue;
@@ -2409,12 +2409,12 @@ void RuleEngine::restoreMatcherStates(const std::string &data) {
         return;
     }
     std::unique_lock lk(rules_mutex_);
-    std::string current_rule_id;
-    std::ostringstream current_block;
+    std::string current_rule_id = {};
+    std::ostringstream current_block = {};
     bool in_rule = false;
 
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (line.rfind("pm_rule=", 0) == 0) {
             current_rule_id = line.substr(8);
@@ -2788,7 +2788,7 @@ bool CEPEngine::createCheckpoint() {
         return false;
     }
     std::filesystem::path cp_dir(config_.checkpoint_path);
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(cp_dir, ec);
     if (ec) {
         spdlog::error("CEPEngine: cannot create checkpoint dir '{}': {}", config_.checkpoint_path, ec.message());
@@ -2851,9 +2851,9 @@ bool CEPEngine::restoreFromCheckpoint(const std::string &checkpoint_id) {
         return false;
     }
 
-    std::string line;
-    std::string pm_rule_id;
-    std::ostringstream pm_state_block;
+    std::string line = {};
+    std::string pm_rule_id = {};
+    std::ostringstream pm_state_block = {};
     bool in_pm_rule = false;
 
     while (std::getline(f, line)) {

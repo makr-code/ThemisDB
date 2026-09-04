@@ -39,7 +39,7 @@ AQLInjectionDetector::validateParameterizedQuery(
     const std::string& aql_template,
     const std::vector<std::string>& parameters
 ) {
-    InjectionCheckResult result;
+    InjectionCheckResult result = {};
 
     if (aql_template.empty() || isBlankInput(aql_template)) {
         result.is_safe = false;
@@ -81,7 +81,7 @@ AQLInjectionDetector::validateParameterizedQuery(
 
 AQLInjectionDetector::InjectionCheckResult 
 AQLInjectionDetector::validateAQLAST(const std::string& aql) {
-    InjectionCheckResult result;
+    InjectionCheckResult result = {};
 
     if (aql.empty() || isBlankInput(aql)) {
         result.is_safe = false;
@@ -95,7 +95,7 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         result.is_safe = false;
         result.detected_patterns = extractPatterns(aql);
         if (!result.detected_patterns.empty()) {
-            std::ostringstream token_stream;
+            std::ostringstream token_stream = {};
             for (size_t i = 0; i < result.detected_patterns.size(); ++i) {
                 if (i > 0) {
                     token_stream << ", ";
@@ -150,7 +150,7 @@ AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
 
 AQLInjectionDetector::InjectionCheckResult
 AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
-    InjectionCheckResult result;
+    InjectionCheckResult result = {};
 
     if (aql.empty() || isBlankInput(aql)) {
         result.is_safe = false;
@@ -357,7 +357,7 @@ std::vector<std::string> AQLInjectionDetector::extractPatterns(const std::string
     };
     
     for (const auto& pattern : pattern_list) {
-        std::smatch match;
+        std::smatch match = {};
         std::string search_str = str;
         while (std::regex_search(search_str, match, pattern)) {
             patterns.push_back(match.str());

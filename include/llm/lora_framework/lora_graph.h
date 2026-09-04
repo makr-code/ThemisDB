@@ -156,7 +156,7 @@ struct LoRAVectorEmbedding {
      * @return   Populated LoRAVectorEmbedding.
      */
     static LoRAVectorEmbedding fromJSON(const json& j) {
-        LoRAVectorEmbedding emb;
+        LoRAVectorEmbedding emb = {};
         if (j.contains("adapter_id")) {
           emb.adapter_id      = j["adapter_id"].get<std::string>();
         }
@@ -192,7 +192,7 @@ struct LoRAVectorEmbedding {
  *                  feedback_collection
  */
 struct LoRAGraphPath {
-    std::string adapter_id;
+    std::string adapter_id = {};
     std::vector<LoRAGraphEdge> edges;  // Ordered path of edges
     
     /**

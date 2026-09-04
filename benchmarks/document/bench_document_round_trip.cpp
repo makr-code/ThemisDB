@@ -88,7 +88,7 @@ static constexpr std::size_t kLargeDocSize = 10'240; // 10 KB
 std::string makeLargeDocument(std::size_t size) {
     // Seed value consumed to satisfy kDocCanonicalSeed determinism requirement.
     static_cast<void>(kDocCanonicalSeed);
-    std::string doc;
+    std::string doc = {};
     doc.reserve(size);
     // Deterministic repeating pattern: lowercase alphabet
     for (std::size_t i = 0; i < size; ++i) {
@@ -140,7 +140,7 @@ public:
 protected:
     std::unique_ptr<themis::document::InMemoryDocumentStore>      store_;
     std::unique_ptr<themis::document::StoreBackedRoundTripEditor> editor_;
-    std::string                                                    largDoc_;
+    std::string                                                    largDoc_ = {};
     std::atomic<int64_t>                                           iterCounter_{0};
 
 private:
@@ -332,7 +332,7 @@ BENCHMARK_REGISTER_F(RoundTripFixture, RTP_BM_05_FullRelayWorkflow)
 BENCHMARK_DEFINE_F(RoundTripFixture, RTP_BM_06_SnapshotIdGeneration)(benchmark::State& state) {
     int64_t index = 0;
     for (auto _ : state) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << kPreloadedRelay << ':' << std::setw(10) << std::setfill('0') << index;
         auto id = oss.str();
         benchmark::DoNotOptimize(id);

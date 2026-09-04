@@ -115,7 +115,7 @@ VisionEncoder::VisionEncoder(const std::string& clip_model_path,
             const std::string sidecar_path = clip_model_path + ".sha256";
             if (std::filesystem::exists(sidecar_path)) {
                 std::ifstream sidecar(sidecar_path);
-                std::string expected_hash;
+                std::string expected_hash = {};
                 if (sidecar >> expected_hash && !expected_hash.empty()) {
                     const std::string actual_hash =
                         themis::modules::ModuleHashVerifier::computeSHA256(clip_model_path);

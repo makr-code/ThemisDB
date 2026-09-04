@@ -189,7 +189,7 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (body.contains("options") && body["options"].is_object()) {
         opts = optionsFromJson(body["options"]);
     }
@@ -232,7 +232,7 @@ void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (body.contains("options") && body["options"].is_object()) {
         opts = optionsFromJson(body["options"]);
     }
@@ -294,7 +294,7 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
         }
     }
 
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (body.contains("options") && body["options"].is_object()) {
         opts = optionsFromJson(body["options"]);
     }
@@ -420,7 +420,7 @@ json ImportApiHandler::parseRequestBody([[maybe_unused]] const std::string& body
 }
 
 ImportOptions ImportApiHandler::optionsFromJson([[maybe_unused]] const json& j) {
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())

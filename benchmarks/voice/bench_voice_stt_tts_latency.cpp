@@ -291,7 +291,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark::State& state) {
 
     for (auto _ : state) {
         // 500-word response (concatenated)
-        std::string text;
+        std::string text = {};
         for (int i = 0; i < 5; ++i) {
             text += "The quick brown fox jumps over the lazy dog. This is a test response that contains approximately one hundred words. "
                    "It demonstrates typical assistant response length. The system should synthesize this text into natural-sounding audio. "

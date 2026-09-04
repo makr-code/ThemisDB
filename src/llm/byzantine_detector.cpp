@@ -41,7 +41,7 @@ json GradientStatistics::toJSON() const {
 }
 
 GradientStatistics GradientStatistics::fromJSON(const json& j) {
-    GradientStatistics stats;
+    GradientStatistics stats = {};
     if (j.contains("gradient_norms"))
         stats.gradient_norms = j["gradient_norms"].get<std::vector<float>>();
     if (j.contains("gradient_means"))
@@ -71,7 +71,7 @@ json DetectionResult::toJSON() const {
 }
 
 DetectionResult DetectionResult::fromJSON(const json& j) {
-    DetectionResult result;
+    DetectionResult result = {};
     if (j.contains("suspected_shards"))
         result.suspected_shards = j["suspected_shards"].get<std::vector<std::string>>();
     if (j.contains("anomaly_scores"))
@@ -151,7 +151,7 @@ float MedianDetector::computeMAD(const std::vector<float>& values, float median)
 GradientStatistics MedianDetector::computeStatistics(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    GradientStatistics stats;
+    GradientStatistics stats = {};
     
     if (shard_gradients.empty()) {
         return stats;

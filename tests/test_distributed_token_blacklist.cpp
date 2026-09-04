@@ -17,7 +17,7 @@ namespace fs = std::filesystem;
 
 class DistributedBlacklistTest : public ::testing::Test {
 protected:
-    std::string temp_db_path;
+    std::string temp_db_path = {};
     
     void SetUp() override {
         // Create a unique temp directory for each test

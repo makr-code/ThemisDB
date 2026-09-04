@@ -28,12 +28,12 @@ public:
     explicit ScopedPathCleanup(std::string path) : path_(std::move(path)) {}
 
     ~ScopedPathCleanup() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path_, ec);
     }
 
 private:
-    std::string path_;
+    std::string path_ = {};
 };
 
 struct VecUtil {
@@ -80,7 +80,7 @@ ExactCaseEnv buildExactCaseEnv(
                    (std::string("themis_bench_vec_exact_") + name_suffix + "_" +
                     std::to_string(ts)))
                       .string();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 
     RocksDBWrapper::Config cfg;
@@ -281,7 +281,7 @@ static void BM_L2Distance_1000_512(benchmark::State& state) {
     state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
 
     env.db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 }
 
@@ -318,7 +318,7 @@ static void BM_CosineDistance_1000_512(benchmark::State& state) {
     state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
 
     env.db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 }
 
@@ -357,7 +357,7 @@ static void BM_TopK_5000_50(benchmark::State& state) {
     state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
 
     env.db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(env.db_path, ec);
 }
 

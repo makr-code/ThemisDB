@@ -306,14 +306,14 @@ TEST(UDPServer, AckSeqNumEchoed) {
     const uint32_t seq  = 0xCAFEBABEu;
     auto           ack  = UDPServer::buildAck(seq, UdpServerStatus::OK);
     ASSERT_GE(ack.size(), 8u);
-    uint32_t echoed_be;
+    uint32_t echoed_be = {};
     std::memcpy(&echoed_be, ack.data() + 4, 4);
     EXPECT_EQ(ntohl(echoed_be), seq);
 }
 
 TEST(UDPServer, AckSeqNumZero) {
     auto ack = UDPServer::buildAck(0, UdpServerStatus::OK);
-    uint32_t echoed_be;
+    uint32_t echoed_be = {};
     std::memcpy(&echoed_be, ack.data() + 4, 4);
     EXPECT_EQ(ntohl(echoed_be), 0u);
 }
@@ -321,7 +321,7 @@ TEST(UDPServer, AckSeqNumZero) {
 TEST(UDPServer, AckSeqNumMaxUint32) {
     const uint32_t seq = 0xFFFFFFFFu;
     auto ack = UDPServer::buildAck(seq, UdpServerStatus::OK);
-    uint32_t echoed_be;
+    uint32_t echoed_be = {};
     std::memcpy(&echoed_be, ack.data() + 4, 4);
     EXPECT_EQ(ntohl(echoed_be), seq);
 }
@@ -388,7 +388,7 @@ TEST(UDPServer, SeqNumEncodedBigEndian) {
 
     // SeqNum is at offset 4, big-endian
     ASSERT_GE(pkt.size(), kUdpServerHeaderSize);
-    uint32_t decoded_be;
+    uint32_t decoded_be = {};
     std::memcpy(&decoded_be, pkt.data() + 4, 4);
     EXPECT_EQ(ntohl(decoded_be), seq);
 }

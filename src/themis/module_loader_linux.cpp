@@ -106,7 +106,7 @@ bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
 
     // Drain the pipe.
     char buf[kGpgReadBufSize];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';
@@ -199,7 +199,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
     file.read(reinterpret_cast<char*>(&elfClass), 1);
     file.seekg(0, std::ios::beg);
 
-    std::string metadata;
+    std::string metadata = {};
 
     auto processNoteSection = [&](uint64_t offset, uint64_t size) {
         file.seekg(static_cast<std::streamoff>(offset));
@@ -235,7 +235,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.read(&buildId[0],
                           static_cast<std::streamsize>(nhdr.n_descsz));
                 // Convert binary build-ID to hex string
-                std::string hexId;
+                std::string hexId = {};
                 hexId.reserve(nhdr.n_descsz * 2);
                 static const char kHex[] = "0123456789abcdef";
                 for (unsigned char byte :
@@ -296,7 +296,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             Shdr shdr = {};
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
-            std::string secName;
+            std::string secName = {};
             if (shdr.sh_name < strtab.size()) {
                 secName = &strtab[shdr.sh_name];
             }

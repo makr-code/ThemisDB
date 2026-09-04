@@ -288,7 +288,7 @@ public:
     }
 
     TraceContext toTraceContext() const override {
-        TraceContext tc;
+        TraceContext tc = {};
         if (auto v = get(context_keys::kTraceId)) {
           tc.trace_id   = *v;
         }

@@ -211,7 +211,7 @@ TEST_F(LlamaCppPluginValidationTest, CudaCheckCpuOnlyMode) {
 // ============================================================================
 
 TEST_F(LlamaCppPluginValidationTest, ValidateModelInitEmptyPath) {
-    std::string empty_path;
+    std::string empty_path = {};
     json cfg = createDefaultConfig();
     std::string error;
     

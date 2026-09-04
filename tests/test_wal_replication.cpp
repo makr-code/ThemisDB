@@ -47,7 +47,7 @@ protected:
         primary_wal_.reset();
         replica_wal_.reset();
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(primary_dir_, ec);
         ec.clear();
         std::filesystem::remove_all(replica_dir_, ec);

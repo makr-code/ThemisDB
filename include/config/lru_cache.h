@@ -168,7 +168,7 @@ public:
         uint64_t expirations;
         size_t size;
         size_t capacity;
-        double hit_rate;
+        double hit_rate = {};
     };
     
     Stats stats() const {

@@ -350,7 +350,7 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
         const std::string model_root_str(model_root_env);
         if (!model_root_str.empty()) {
             namespace fs = std::filesystem;
-            std::error_code ec;
+            std::error_code ec = {};
             const fs::path root_canonical  = fs::canonical(fs::path(model_root_str), ec);
             if (!ec) {
                 // Prefer canonical() which resolves all symlinks fully (no TOCTOU risk
@@ -483,7 +483,7 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
     // ── AI Safety: Gossip adapter capability announcement ──────────────────
     if (ok) {
         distributed_knowledge::GossipAdapterPublisher* publisher;
-        std::string shard_id;
+        std::string shard_id = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             publisher = adapter_publisher_;
@@ -518,7 +518,7 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
     // ── AI Safety: Gossip withdrawal announcement ──────────────────────────
     if (ok) {
         distributed_knowledge::GossipAdapterPublisher* publisher;
-        std::string shard_id;
+        std::string shard_id = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             publisher = adapter_publisher_;
@@ -563,7 +563,7 @@ std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest
     auto response = plugin->generate(request);
     std::vector<std::string> tokens;
     std::istringstream iss(response.text);
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -611,7 +611,7 @@ LLMPluginManager::PluginStatistics LLMPluginManager::getStatistics() const {
 }
 
 LLMPluginManager::CacheStatistics LLMPluginManager::getCacheStatistics() const {
-    CacheStatistics stats;
+    CacheStatistics stats = {};
     return stats;
 }
 
@@ -1264,7 +1264,7 @@ struct ConcurrentInferenceTracker {
     // are zero/value-initialised before first use regardless of constructor path.
     std::atomic<size_t> active_inferences{0};
     size_t max_concurrent{256};
-    std::mutex lock;
+    std::mutex lock = {};
 
     ConcurrentInferenceTracker() noexcept = default;
 

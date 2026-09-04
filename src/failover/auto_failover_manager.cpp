@@ -147,8 +147,8 @@ bool AutoFailoverManager::triggerManualFailover(
         // Snapshot config_.max_concurrent_failovers and config_.queue_pressure_threshold
         // under monitor_mutex_ to prevent data races with concurrent updateConfig() calls.
         // This ensures version coherence across all config accesses in this method.
-        uint32_t max_concurrent;
-        float queue_pressure_threshold;
+        uint32_t max_concurrent = {};
+        float queue_pressure_threshold = {};
         {
             std::lock_guard<std::mutex> config_lock(monitor_mutex_);
             max_concurrent = config_.max_concurrent_failovers;
@@ -521,7 +521,7 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
         // Step 4: Select and promote replica or spare
         transitionState(FailoverOrchestratorState::STARTING_LEADER_ELECTION);
 
-        std::string promoted_id;
+        std::string promoted_id = {};
         if (!selectAndPromoteReplica(task.failed_node_id, promoted_id)) {
             spdlog::error("Failed to select replica for promotion");
             transitionState(FailoverOrchestratorState::FAILED);
@@ -652,7 +652,7 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
         return false;
     }
 
-    std::string candidate;
+    std::string candidate = {};
     if (candidates.size() == 1 || !getConfig().deterministic_tie_breaking) {
         candidate = candidates.front();
     } else {

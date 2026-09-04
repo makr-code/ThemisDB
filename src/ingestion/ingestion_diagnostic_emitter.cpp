@@ -18,7 +18,7 @@ namespace ingestion {
 // ============================================================================
 
 std::string DiagnosticIncident::toJson() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(3);
 
     oss << "{"

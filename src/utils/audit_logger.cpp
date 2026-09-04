@@ -71,7 +71,7 @@ static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 // Local base64 (kept minimal to avoid new deps here)
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
@@ -118,7 +118,7 @@ static std::string base64_decode_local(const std::string& s) {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
     };
 
-    std::string out;
+    std::string out = {};
     out.reserve((s.size() * 3) / 4);
     int val = 0;
     int valb = -8;
@@ -276,7 +276,7 @@ void AuditLogger::rotateLogIfNeeded() {
       return;
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(cfg_.log_path, ec)) {
       return;
     }
@@ -369,7 +369,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                 to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
 
                 auto hash = sha256(to_hash);
-                SignatureResult sig;
+                SignatureResult sig = {};
                 if (pki_) {
                     try { 
                         sig = pki_->signHash(hash); 
@@ -440,7 +440,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
             try {
                 std::vector<uint8_t> bytes(plain.begin(), plain.end());
                 auto hash = sha256(bytes);
-                SignatureResult sig;
+                SignatureResult sig = {};
                 if (pki_) {
                     try { 
                         sig = pki_->signHash(hash); 
@@ -747,7 +747,7 @@ std::string AuditLogger::computeEntryHash(const nlohmann::json& entry) const {
     auto hash_bytes = sha256(bytes);
     
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (auto b : hash_bytes) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
     }
@@ -765,7 +765,7 @@ bool AuditLogger::verifyChainIntegrity() {
     
     try {
         std::ifstream ifs(cfg_.log_path);
-        std::string line;
+        std::string line = {};
         std::string expected_prev_hash = std::string(64, '0'); // Genesis
         uint64_t line_num = 0;
         
@@ -794,7 +794,7 @@ bool AuditLogger::verifyChainIntegrity() {
             std::vector<uint8_t> bytes(to_hash.begin(), to_hash.end());
             auto hash_bytes = sha256(bytes);
             
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             for (auto b : hash_bytes) {
                 oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
             }
@@ -840,7 +840,7 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
     }
     
     // Format the message based on configured format
-    std::string formatted_message;
+    std::string formatted_message = {};
     if (cfg_.siem_format == "cef") {
         formatted_message = formatAsCef(event, event_type);
     } else if (cfg_.siem_format == "syslog") {
@@ -1003,7 +1003,7 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
     
     try {
         std::ifstream ifs(cfg_.log_path);
-        std::string line;
+        std::string line = {};
         uint64_t entry_num = 0;
         
         while (std::getline(ifs, line)) {
@@ -1056,7 +1056,7 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
     try {
         // Read all entries
         std::ifstream ifs(cfg_.log_path);
-        std::string line;
+        std::string line = {};
         std::vector<std::string> kept_entries;
         std::vector<std::string> archived_entries;
         
@@ -1156,7 +1156,7 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
     try {
         // Read all entries
         std::ifstream ifs(cfg_.log_path);
-        std::string line;
+        std::string line = {};
         std::vector<std::string> kept_entries;
         size_t purged_count = 0;
         
@@ -1407,7 +1407,7 @@ std::string AuditLogger::formatAsJson(const nlohmann::json& event) const {
 
 std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventType event_type) const {
     // CEF Format: CEF:Version|Device Vendor|Device Product|Device Version|Signature ID|Name|Severity|Extension
-    std::ostringstream cef;
+    std::ostringstream cef = {};
     
     cef << "CEF:0|ThemisDB|TaskScheduler|" << THEMISDB_VERSION << "|";
     
@@ -1471,7 +1471,7 @@ std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventT
 
 std::string AuditLogger::formatAsSyslog(const nlohmann::json& event, SecurityEventType event_type) const {
     // RFC 5424 Syslog format
-    std::ostringstream syslog;
+    std::ostringstream syslog = {};
     
     // Priority: Facility (16 = local use 0) * 8 + Severity
     std::string severity_str = event.value("severity", "LOW");
@@ -1485,7 +1485,7 @@ std::string AuditLogger::formatAsSyslog(const nlohmann::json& event, SecurityEve
     // Timestamp (ISO 8601)
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
     #ifdef _WIN32
     gmtime_s(&tm, &time_t);
     #else
@@ -1540,7 +1540,7 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
 
     std::scoped_lock lk(file_mu_);
     std::ifstream ifs(cfg_.log_path);
-    std::string line;
+    std::string line = {};
     uint64_t entry_num = 0;
 
     while (std::getline(ifs, line)) {
@@ -1645,7 +1645,7 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
 
     std::scoped_lock lk(file_mu_);
     std::ifstream ifs(cfg_.log_path);
-    std::string line;
+    std::string line = {};
 
     while (std::getline(ifs, line)) {
         if (line.empty()) {
@@ -1741,7 +1741,7 @@ std::vector<uint8_t> HashChainAuditWriter::sha256(const std::vector<uint8_t>& da
 
 /* static */
 std::string HashChainAuditWriter::bytesToHex(const std::vector<uint8_t>& data) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto b : data) {
       oss << std::setw(2) << static_cast<int>(b);
@@ -1764,7 +1764,7 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
             }
 
             std::istringstream iss(content);
-            std::string hash_line;
+            std::string hash_line = {};
             uint64_t seq = 0;
             if (std::getline(iss, hash_line) && (iss >> seq)) {
                 last_hash_ = hash_line.empty() ? std::string(64, '0') : hash_line;
@@ -1927,7 +1927,7 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
     SHA256(bytes.data(), bytes.size(), digest.data());
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (auto b : digest) {
       oss << std::setw(2) << static_cast<int>(b);
@@ -1937,7 +1937,7 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
 
 AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
                                                   const std::string& genesis_hash) const {
-    AuditVerifyResult result;
+    AuditVerifyResult result = {};
 
     if (!std::filesystem::exists(log_path)) {
         result.ok            = true;
@@ -1954,7 +1954,7 @@ AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
 
     std::string expected_prev_hash = genesis_hash;
 
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         if (line.empty()) {
           continue;

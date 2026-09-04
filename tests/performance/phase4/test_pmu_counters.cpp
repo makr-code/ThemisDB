@@ -87,7 +87,7 @@ TEST(CacheMissAnalyzerTest, UnavailableAnalyzerReturnsSafeDefaults) {
 }
 
 TEST(CacheMissAnalyzerTest, StartStopCycleIsSafe) {
-    CacheMissAnalyzer analyzer;
+    CacheMissAnalyzer analyzer = {};
     if (!analyzer.is_available()) {
         GTEST_SKIP() << "PMU not accessible";
     }
@@ -108,7 +108,7 @@ TEST(CacheMissAnalyzerTest, StartStopCycleIsSafe) {
 }
 
 TEST(CacheMissAnalyzerTest, MultipleStartStopCycles) {
-    CacheMissAnalyzer analyzer;
+    CacheMissAnalyzer analyzer = {};
     if (!analyzer.is_available()) {
         GTEST_SKIP() << "PMU not accessible";
     }

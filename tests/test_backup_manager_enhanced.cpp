@@ -37,7 +37,7 @@ protected:
     }
     
     void cleanupPath(const std::string& p) {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(p, ec);
     }
     

@@ -509,7 +509,7 @@ TEST(IDistributedTxCoordinatorTest, ExplicitAbortCleansUp) {
 
 TEST(IDistributedTxCoordinatorTest, HandleDestructorAutoAborts) {
     MockDistributedTxCoordinator coord;
-    std::string tx_id;
+    std::string tx_id = {};
     {
         auto handle = coord.begin();
         tx_id = handle.txId();

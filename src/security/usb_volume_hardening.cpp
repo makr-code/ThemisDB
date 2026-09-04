@@ -112,7 +112,7 @@ std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
         return "";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
@@ -160,7 +160,7 @@ bool USBVolumeHardening::isMountedReadOnly(const std::string& mount_path) {
         return false;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(mounts, line)) {
         std::istringstream iss(line);
         std::string dev, mp, fstype, options;
@@ -173,7 +173,7 @@ bool USBVolumeHardening::isMountedReadOnly(const std::string& mount_path) {
 
         // Options are comma-separated; "ro" means read-only, "rw" means read-write.
         std::istringstream opts(options);
-        std::string opt;
+        std::string opt = {};
         while (std::getline(opts, opt, ',')) {
             if (opt == "ro") {
               return true;
@@ -221,8 +221,8 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
         return "";
     }
 
-    std::string device;
-    std::string line;
+    std::string device = {};
+    std::string line = {};
     while (std::getline(mounts, line)) {
         std::istringstream iss(line);
         std::string dev, mp;
@@ -284,7 +284,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
     for (const auto& path : sysfs_candidates) {
         std::ifstream sf(path);
         if (sf.is_open()) {
-            std::string serial;
+            std::string serial = {};
             std::getline(sf, serial);
             serial = trimWhitespace(serial);
             if (!serial.empty()) {
@@ -317,7 +317,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
         return "";
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::uppercase << std::setw(8) << std::setfill('0') << volume_serial;
     return oss.str();
 

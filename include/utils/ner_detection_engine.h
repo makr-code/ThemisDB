@@ -148,7 +148,7 @@ private:
 
     // Tokeniser: splits text into (token, start_offset) pairs
     struct Token {
-        std::string text;
+        std::string text = {};
         size_t offset;
     };
     static std::vector<Token> tokenise(const std::string& text);

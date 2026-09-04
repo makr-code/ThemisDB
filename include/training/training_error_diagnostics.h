@@ -86,7 +86,7 @@ public:
      * @brief Add a numeric input parameter.
      */
     TrainingDiagnostics& input(const std::string& key, double value) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << value;
         return input(key, oss.str());
     }
@@ -145,7 +145,7 @@ public:
      * ```
      */
     std::string to_string() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
 
         oss << "[" << timestamp_string() << "] ";
         

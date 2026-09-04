@@ -96,7 +96,7 @@ class ReActAgent::Impl {
 
             // Ask the LLM for the next reasoning step.
             std::string llm_input = system_prompt + "\n\n" + conversation;
-            std::string raw_response;
+            std::string raw_response = {};
             try {
                 std::unordered_map<std::string, std::string> opts;
                 opts["max_tokens"]  = std::to_string(config_.max_tokens_per_step);
@@ -174,7 +174,7 @@ class ReActAgent::Impl {
     // -----------------------------------------------------------------------
 
     std::string buildSystemPrompt(const json &context) const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "You are a helpful database assistant with access to the following tools:\n\n";
 
         for (const auto &kv : tools_) {

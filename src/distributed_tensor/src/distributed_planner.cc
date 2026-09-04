@@ -29,7 +29,7 @@ static std::string getCurrentTimestamp() {
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now.time_since_epoch()) % 1000;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::localtime(&time), "%Y-%m-%dT%H:%M:%S")
         << '.' << std::setfill('0') << std::setw(3) << ms.count() << 'Z';
     return oss.str();
@@ -343,7 +343,7 @@ std::string DistributedTensorPlanner::buildFallbackRouting(
     
     // In fallback mode, broaden the search to include stale summaries
     // with explicit stale-fragment fetch
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "fallback_routing:include_stale:shard_count=" << summaries.size();
     return oss.str();
 }

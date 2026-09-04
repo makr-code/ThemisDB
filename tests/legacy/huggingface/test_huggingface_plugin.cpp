@@ -30,7 +30,7 @@ class TestDatabase {
 public:
     TestDatabase() {
         // Use random_device and process ID for better uniqueness
-        std::random_device rd;
+        std::random_device rd = {};
         path_ = std::filesystem::temp_directory_path() / 
                 ("themis_hf_test_" + std::to_string(rd()) + "_" + 
                  std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));

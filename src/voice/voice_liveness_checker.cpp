@@ -201,7 +201,7 @@ std::string VoiceLivenessChecker::compute_audio_hash(
     }
     
     // Convert to hex string.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(8) << hash;
     return oss.str();
 }

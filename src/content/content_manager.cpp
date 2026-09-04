@@ -81,7 +81,7 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
 
 [[maybe_unused]] static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.reserve(in.size() * 2);
     for (unsigned char c : in) {
         out.push_back(hex[c >> 4]);
@@ -101,7 +101,7 @@ static std::string computeImageDedupHash(const std::string& blob) {
         hash *= 1099511628211ULL;
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::nouppercase << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -732,7 +732,7 @@ void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> proces
 std::string ContentManager::generateUuid() {
     static thread_local std::mt19937_64 rng{static_cast<uint64_t>(steady_clock::now().time_since_epoch().count()) ^ 0x9e3779b97f4a7c15ULL};
     auto u64 = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << u64
         << std::hex << std::setw(16) << std::setfill('0') << rng();
     return oss.str();
@@ -748,7 +748,7 @@ std::string ContentManager::normalizeId(const std::string& id, const std::string
 std::string ContentManager::computeSHA256(const std::string& blob) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(blob.data()), blob.size(), digest);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -777,7 +777,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
 
 [[maybe_unused]] static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
     auto& reg = ContentTypeRegistry::instance();
-    ContentType ct;
+    ContentType ct = {};
     if (!mime.empty()) {
         auto t = reg.getByMimeType(mime);
         if (t) {
@@ -868,7 +868,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             } catch (...) {
             }
 
-            std::string matched_skip_prefix;
+            std::string matched_skip_prefix = {};
             auto should_compress = [&](const std::string& mime, size_t size) -> bool {
                 if (!compress) {
                   return false;
@@ -959,7 +959,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 
             // Optional encryption of blob based on config:content_encryption_schema and user_context
             bool encrypt_blob = false;
-            std::string encryption_key_id;
+            std::string encryption_key_id = {};
             try {
                 if (auto encv = storage_->get("config:content_encryption_schema")) {
                     std::string es(encv->begin(), encv->end());
@@ -1529,7 +1529,7 @@ std::optional<ContentAssembly> ContentManager::assembleContent(const std::string
     
     // Optionally assemble full text
     if (include_text && !chunks.empty()) {
-        std::string full_text;
+        std::string full_text = {};
         full_text.reserve(assembly.total_size_bytes);
         
         for (const auto& chunk : chunks) {
@@ -2430,7 +2430,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         config.value("enable_deduplication", false) && stage_cfg.deduplication.enabled;
     const bool dedup_is_image = (category == ContentCategory::IMAGE);
     const bool dedup_is_text  = (category == ContentCategory::TEXT);
-    std::string cached_phash;
+    std::string cached_phash = {};
     std::vector<uint32_t> cached_minhash;
 
     if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
@@ -2708,7 +2708,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Storage stage: importContent with per-stage retry.
     {
-        std::string storage_error;
+        std::string storage_error = {};
         int storage_attempts = 0;
         bool stored = executeWithRetry(
             [&]([[maybe_unused]] std::string& err) -> bool {
@@ -2788,7 +2788,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     const int    text_chunk_chars  = config.value("chunk_size", 512);
 
     // --- Read header for MIME type detection ---
-    std::string header_buf;
+    std::string header_buf = {};
     header_buf.resize(std::min(kHeaderSize, chunk_size_bytes));
     stream.read(header_buf.data(), static_cast<std::streamsize>(header_buf.size()));
     size_t header_read = static_cast<size_t>(stream.gcount());
@@ -3088,7 +3088,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         int ok = EVP_DigestFinal_ex(sha256_ctx.get(), digest, &digest_len);
         sha256_ctx.reset();
         if (!ok) return {};
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0');
         for (unsigned int i = 0; i < digest_len; ++i)
             oss << std::setw(2) << static_cast<unsigned int>(digest[i]);

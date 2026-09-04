@@ -25,7 +25,7 @@ namespace performance {
 namespace phase3 {
 
 struct BaoOptimizer::Impl {
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     std::unordered_map<std::string, std::pair<double, double>> arms; // plan_id -> (alpha, beta) for Beta distribution
     size_t queries_optimized = 0;
     size_t model_updates = 0;

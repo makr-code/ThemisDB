@@ -135,7 +135,7 @@ GPUTensor FlashLoRA::forward(
     size_t out_dim = A.shape()[0];
     
     // Create output tensor
-    GPUTensor output;
+    GPUTensor output = {};
     if (input_shape.size() == 2) {
         output = GPUTensor({batch_size, out_dim}, input.device());
     } else {
@@ -145,7 +145,7 @@ GPUTensor FlashLoRA::forward(
 #ifdef THEMIS_ENABLE_CUDA
     if (input.device().type == DeviceType::CUDA) {
         // Dispatch to appropriate kernel based on rank
-        cudaError_t err;
+        cudaError_t err = {};
         
         if (rank == 4) {
             err = cuda::flash::launch_flash_lora_forward_kernel<128, 64, 4>(
@@ -290,7 +290,7 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     }
     
     // Create gradient tensors
-    GPUTensor grad_input;
+    GPUTensor grad_input = {};
     if (input_shape.size() == 2) {
         grad_input = GPUTensor({batch_size, in_dim}, input.device());
     } else {

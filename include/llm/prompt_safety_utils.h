@@ -26,7 +26,7 @@
 namespace {
 
 inline std::string normalizePromptForSafety(std::string_view text) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(text.size());
     for (char ch : text) {
         const unsigned char uch = static_cast<unsigned char>(ch);

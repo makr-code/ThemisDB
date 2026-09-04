@@ -41,7 +41,7 @@ TracingMiddleware::TracingMiddleware(OtlpExporter *exporter) : exporter_(exporte
 // ---------------------------------------------------------------------------
 
 std::string TracingMiddleware::processRequest(std::string_view incoming_id) const {
-    std::string corr_id;
+    std::string corr_id = {};
     if (!incoming_id.empty()) {
         corr_id = std::string(incoming_id);
     } else {

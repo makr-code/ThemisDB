@@ -546,7 +546,7 @@ X509_CRL* CRLChecker::downloadAndParseCRL() const {
         return nullptr;
     }
 
-    std::string raw;
+    std::string raw = {};
     CURL* curl = curl_easy_init();
     if (!curl) {
         spdlog::error("CRLChecker: curl_easy_init() failed");

@@ -122,7 +122,7 @@ void GovSourceCatalog::loadFromFile(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open())
         throw std::runtime_error("GovSourceCatalog: cannot open '" + path + "'");
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     loadFromYaml(ss.str());
 }
@@ -135,7 +135,7 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
           return;
         }
         for (const auto& n : root["sources"]) {
-            GovDataSource src;
+            GovDataSource src = {};
             if (n["id"]) {
               src.id           = n["id"].as<std::string>();
             }

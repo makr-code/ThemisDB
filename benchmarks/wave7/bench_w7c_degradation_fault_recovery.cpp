@@ -69,7 +69,7 @@ static constexpr int      kWarmup          = 500;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -154,7 +154,7 @@ public:
         // Warmup
         KeyGenerator wkg(kW7CanonicalSeed + 1);
         for (int i = 0; i < kWarmup; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.Next(kDatasetSize), val);
         }
     }
@@ -179,7 +179,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR01_LatencyInjectionReads)(benchmark::Stat
     KeyGenerator kg(kW7CanonicalSeed + 101);
     for (auto _ : state) {
         fi.MaybeInject();
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -236,7 +236,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR03_SaturationConcurrency)(benchmark::Stat
             threads.emplace_back([this, t, ops_per_thread, &total_ops]() {
                 KeyGenerator kg(kW7CanonicalSeed + 103 + static_cast<uint64_t>(t));
                 for (int i = 0; i < ops_per_thread; ++i) {
-                    std::string val;
+                    std::string val = {};
                     db_->get(kg.Next(kDatasetSize), val);
                     ++total_ops;
                 }
@@ -319,14 +319,14 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
 BENCHMARK_F(ColdStartFixture, DFR05_ColdStartReadLatency)(benchmark::State& state) {
     KeyGenerator kg(kW7CanonicalSeed + 105);
     for (auto _ : state) {
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -353,7 +353,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR06_HalfThreadsResourceReduction)(benchmar
             workers.emplace_back([this, t]() {
                 KeyGenerator kg(kW7CanonicalSeed + 106 + static_cast<uint64_t>(t));
                 for (int i = 0; i < kOpsPerWorker; ++i) {
-                    std::string val;
+                    std::string val = {};
                     db_->get(kg.Next(kDatasetSize), val);
                 }
             });
@@ -391,7 +391,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR07_RecoveryAfterCompaction)(benchmark::St
             // Recovery read phase – measure whether latency has normalised
             KeyGenerator kg(kW7CanonicalSeed + 200 + static_cast<uint64_t>(iter));
             for (int i = 0; i < 1'000; ++i) {
-                std::string val;
+                std::string val = {};
                 benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
             }
         }
@@ -427,7 +427,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR08_DegradedMixedWorkload)(benchmark::Stat
             }
         } else {
             read_fi.MaybeInject();
-            std::string val;
+            std::string val = {};
             benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
             ++successful_ops;
         }

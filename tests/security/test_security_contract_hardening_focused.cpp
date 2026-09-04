@@ -104,9 +104,9 @@ MockTlsResult validateMockCert(CertState state, int chainDepth) {
 enum class KeyState { ACTIVE, ROTATING, REVOKED };
 
 struct MockKeyEntry {
-    std::string id;
+    std::string id = {};
     KeyState    state{KeyState::ACTIVE};
-    std::string material;
+    std::string material = {};
 };
 
 class MockKeyStore {
@@ -300,7 +300,7 @@ TEST(SecurityContractTls, SEC04_ChainDepthExceeded) {
 TEST(SecurityContractKeyMgmt, SEC05_GenerateStoreRetrieve) {
     MockKeyStore store;
     EXPECT_EQ(store.generateKey("key-42"), SecurityErrorCode::OK);
-    std::string material;
+    std::string material = {};
     EXPECT_EQ(store.retrieve("key-42", material), SecurityErrorCode::OK);
     EXPECT_FALSE(material.empty());
 }
@@ -310,7 +310,7 @@ TEST(SecurityContractKeyMgmt, SEC05_GenerateStoreRetrieve) {
  */
 TEST(SecurityContractKeyMgmt, SEC06_MissingKeyNotFound) {
     MockKeyStore store;
-    std::string material;
+    std::string material = {};
     auto code = store.retrieve("does-not-exist", material);
     EXPECT_EQ(code, SecurityErrorCode::KEY_NOT_FOUND);
     EXPECT_TRUE(material.empty());
@@ -328,7 +328,7 @@ TEST(SecurityContractKeyMgmt, SEC07_RotationLifecycle) {
     // Simulate rotation start: mark old key as ROTATING.
     store.setState("old-key", KeyState::ROTATING);
 
-    std::string mat;
+    std::string mat = {};
     EXPECT_EQ(store.retrieve("old-key", mat),
               SecurityErrorCode::KEY_ROTATION_IN_PROGRESS);
 
@@ -345,7 +345,7 @@ TEST(SecurityContractKeyMgmt, SEC08_RevokedKeyRejected) {
     ASSERT_EQ(store.generateKey("revoked-key"), SecurityErrorCode::OK);
     store.setState("revoked-key", KeyState::REVOKED);
 
-    std::string mat;
+    std::string mat = {};
     EXPECT_EQ(store.retrieve("revoked-key", mat), SecurityErrorCode::KEY_REVOKED);
     EXPECT_TRUE(mat.empty());
 }

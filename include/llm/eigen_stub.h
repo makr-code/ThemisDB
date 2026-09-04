@@ -58,7 +58,7 @@ namespace Eigen {
         // Row proxy to support .row(i).transpose()
         struct RowRef {
             MatrixXf& parent;
-            int r;
+            int r = {};
             VectorXf transpose() const;
         };
 
@@ -167,7 +167,7 @@ namespace Eigen {
 
         struct RowRef {
             MatrixXd& parent;
-            int r;
+            int r = {};
             std::vector<double> transpose() const {
                 std::vector<double> out(parent.cols());
                 for (int j = 0; j < parent.cols(); ++j) {

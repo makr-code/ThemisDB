@@ -84,7 +84,7 @@ public:
             return false;
         }
         
-        std::string line;
+        std::string line = {};
         size_t line_count = 0;
         
         while (std::getline(file, line)) {
@@ -93,7 +93,7 @@ public:
             }
             
             std::istringstream iss(line);
-            std::string word;
+            std::string word = {};
             iss >> word;
             
             std::vector<float> embedding;
@@ -385,7 +385,7 @@ judge::BiasScore FairnessDetector::detectBias(const std::string& document) {
     try {
         // Tokenize document into words
         std::vector<std::string> words;
-        std::string word;
+        std::string word = {};
         for (char c : document) {
             if (std::isalnum(c)) {
                 word += c;

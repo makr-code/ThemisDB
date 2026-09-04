@@ -702,7 +702,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
 
             // Build a tags object from all non-__name__ labels
             nlohmann::json tags = nlohmann::json::object();
-            std::string entity;
+            std::string entity = {};
             for (const auto& label : ts.labels) {
                 if (label.name == "__name__") {
                   continue;

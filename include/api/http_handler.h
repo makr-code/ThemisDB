@@ -146,7 +146,7 @@ struct HttpResponse {
     std::unordered_map<std::string, std::string> headers;
 
     /// Response body bytes.
-    std::string body;
+    std::string body = {};
 
     // ---- Convenience factories ----
 

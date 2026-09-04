@@ -88,7 +88,7 @@ HLCTimestamp RaftMvccBridge::snapshotTimestamp() {
 
 RaftMvccBridge::LinearizableResult
 RaftMvccBridge::linearizableRead(std::string_view key) {
-    LinearizableResult result;
+    LinearizableResult result = {};
 
     if (!coordinator_->isLeader()) {
         // Non-leader cannot serve linearizable reads.

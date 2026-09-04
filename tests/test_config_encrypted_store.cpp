@@ -85,7 +85,7 @@ TEST_F(ConfigEncryptedStoreTest, LargeValueRoundtrip) {
 
 TEST_F(ConfigEncryptedStoreTest, UnicodeValueRoundtrip) {
     // UTF-8 encoded string: "Ünïcödé vàlùé: hello-world key"
-    std::string unicode;
+    std::string unicode = {};
     unicode += '\xC3'; unicode += '\x9C'; // Ü
     unicode += 'n';
     unicode += '\xC3'; unicode += '\xAF'; // ï

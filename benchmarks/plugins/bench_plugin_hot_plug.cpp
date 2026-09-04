@@ -37,7 +37,7 @@ constexpr int DEBOUNCE_WAIT_MS = 600;
 
 class HotPlugBenchmarkFixture : public benchmark::Fixture {
 public:
-    std::string test_dir;
+    std::string test_dir = {};
     PluginManager* manager;
     
     void SetUp(const benchmark::State& state) override {

@@ -339,7 +339,7 @@ private:
     
     // Named entity patterns (simple regex-based)
     struct EntityPattern {
-        std::string pattern;
+        std::string pattern = {};
         std::string type;
     };
     std::vector<EntityPattern> entity_patterns_;

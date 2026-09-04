@@ -116,7 +116,7 @@ inline std::string SSMDriftMetrics::getRouterDecisionStats() const {
 }
 
 inline std::string SSMDriftMetrics::exportPrometheus() const {
-    std::string out;
+    std::string out = {};
     out += "# HELP themis_factual_drift_score Global factual drift EMA\n";
     out += "themis_factual_drift_score " + std::to_string(global_drift_ema_.load()) + "\n";
     out += "# HELP themis_ssm_state_checkpoints_total Total SSM checkpoints\n";

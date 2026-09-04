@@ -99,7 +99,7 @@ static size_t readWasmName(const uint8_t *data, const uint8_t *end, std::string 
 // =============================================================================
 
 std::string WasmModuleInfo::summary() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << (valid ? "valid" : "invalid") << " wasm v" << wasm_version << " size=" << byte_size << "B"
         << " imports=" << imports.size() << " exports=" << exports.size();
     if (!module_name.empty()) {
@@ -263,7 +263,7 @@ std::string WasmModuleInfo::summary() const {
             }
             const uint8_t *q = p + c;
             for (uint64_t i = 0; i < count && q < section_end; ++i) {
-                std::string exp_name;
+                std::string exp_name = {};
                 size_t en = readWasmName(q, section_end, exp_name);
                 if (en == 0) {
                     break;
@@ -282,7 +282,7 @@ std::string WasmModuleInfo::summary() const {
         } else if (section_id == kSectionCustom) {
             // Custom section: first field is a name
             const uint8_t *q = p;
-            std::string custom_name;
+            std::string custom_name = {};
             size_t cn = readWasmName(q, section_end, custom_name);
             if (cn > 0 && custom_name == "name") {
                 // Parse the module name subsection (id=0)
@@ -518,7 +518,7 @@ void WasmPluginSandbox::unload() {
 // =============================================================================
 
 WasmCallResult WasmPluginSandbox::callExport(const std::string &export_name, const std::vector<uint8_t> &args) {
-    WasmCallResult result;
+    WasmCallResult result = {};
 
     if (!loaded_) {
         result.error = "No WASM module loaded";
@@ -653,7 +653,7 @@ bool WasmPluginSandbox::checkImportAllowlist() {
     }
 
     if (!unknown.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "WASM module requires " << unknown.size() << " unregistered host function(s): ";
         for (size_t i = 0; i < unknown.size(); ++i) {
             if (i) {

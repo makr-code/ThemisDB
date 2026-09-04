@@ -61,7 +61,7 @@ SelfRAGController::RetrievalCallback makeFixedRetrieval(
         auto t1 = std::chrono::steady_clock::now();
         if (instrument) {
             auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "Retrieval callback took " << ns << " ns (top_k=" << top_k << ")";
             std::cout << oss.str() << std::endl;
             // Optionally capture a backtrace for slow retrieval callbacks

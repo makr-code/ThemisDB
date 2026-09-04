@@ -200,7 +200,7 @@ json FederatedImportCoordinator::DifferentialPrivacyManager::addDifferentialPriv
     double sensitivity = 1.0;
     double sigma       = sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise(0.0, sigma);
 

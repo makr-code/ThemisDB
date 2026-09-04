@@ -249,7 +249,7 @@ bool ShardDurability::verifyWALIntegrity() const {
     // RocksDB provides WAL integrity through its internal mechanisms
     // We perform a simple check by attempting to get DB statistics
     try {
-        std::string stats_str;
+        std::string stats_str = {};
         db_->GetBaseDB()->GetProperty("rocksdb.stats", &stats_str);
         return true;
     } catch (...) {
@@ -279,7 +279,7 @@ std::string ShardDurability::generateCheckpointId() const {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "checkpoint_"
        << std::put_time(std::localtime(&time_t), "%Y%m%d_%H%M%S")
        << "_" << getCurrentSequenceNumber();

@@ -378,7 +378,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     //                          Predicate syntax: "field = 'value'",
     //                          "field > 123", "field IS NOT NULL", etc.
     bool is_partial = false;
-    std::string predicate;
+    std::string predicate = {};
     SecondaryIndexManager::IndexType idx_type = SecondaryIndexManager::IndexType::REGULAR;
 
     if (config == "range") {

@@ -151,7 +151,7 @@ static std::string unescapeCopy(const std::string& val) {
     if (val == "\\N") {
       return "";
     }
-    std::string out;
+    std::string out = {};
     for (size_t i = 0; i < val.size(); ++i) {
         if (val[i] == '\\' && i+1 < val.size()) {
             char nx = val[++i];
@@ -184,7 +184,7 @@ static std::vector<std::string> parseCopyRow(const std::string& line) {
 
 static bool parseCreateTable(const std::string& sql, TableSchema& schema) {
     std::regex re(R"(CREATE TABLE\s+(?:(\w+)\.)?(\w+)\s*\()");
-    std::smatch m;
+    std::smatch m = {};
     if (!std::regex_search(sql, m, re)) {
       return false;
     }
@@ -201,7 +201,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& schema) {
     }
     std::string cols = sql.substr(start+1, end-start-1);
     std::stringstream ss(cols);
-    std::string col_def;
+    std::string col_def = {};
     while (std::getline(ss, col_def, ',')) {
         col_def.erase(0, col_def.find_first_not_of(" \t\n\r"));
         col_def.erase(col_def.find_last_not_of(" \t\n\r")+1);
@@ -233,7 +233,7 @@ struct MiniImporter {
     bool validateSource(const std::string& path, std::vector<std::string>& errors) {
         std::ifstream f(path);
         if (!f) { errors.push_back("cannot open " + path); return false; }
-        std::string line;
+        std::string line = {};
         int checked = 0;
         while (std::getline(f, line) && checked < 100) {
             if (line.find("PostgreSQL database dump") != std::string::npos ||
@@ -257,7 +257,7 @@ struct MiniImporter {
             current += line + " ";
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos) {
-                    TableSchema s;
+                    TableSchema s = {};
                     if (parseCreateTable(current, s)) {
                       schemas[s.name] = s;
                     }
@@ -293,7 +293,7 @@ struct MiniImporter {
             if (line.find(';') != std::string::npos) {
                 if (current.find("CREATE TABLE") != std::string::npos ||
                     current.find("CREATE SCHEMA") != std::string::npos) {
-                    TableSchema s;
+                    TableSchema s = {};
                     if (parseCreateTable(current, s)) {
                         bool include = opts.include_tables.empty() ||
                             std::find(opts.include_tables.begin(), opts.include_tables.end(), s.name) != opts.include_tables.end();
@@ -306,13 +306,13 @@ struct MiniImporter {
                 } else if (current.find("COPY ") != std::string::npos) {
                     std::regex re(R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
                                   std::regex_constants::icase);
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(current, m, re)) {
                         std::string tname = m[1].str();
                         bool include = opts.include_tables.empty() ||
                             std::find(opts.include_tables.begin(), opts.include_tables.end(), tname) != opts.include_tables.end();
                         bool exclude = std::find(opts.exclude_tables.begin(), opts.exclude_tables.end(), tname) != opts.exclude_tables.end();
-                        std::string skip_line;
+                        std::string skip_line = {};
                         while (std::getline(f, skip_line)) {
                             if (skip_line == "\\." || skip_line.rfind("\\.",0)==0) {
                               break;
@@ -388,7 +388,7 @@ protected:
             GTEST_SKIP() << "Fixture file not found; skipping integration tests";
         }
     }
-    std::string fixture_path_;
+    std::string fixture_path_ = {};
 };
 
 // --- validateSource ---

@@ -69,7 +69,7 @@ std::string truncate(const std::string& s, size_t max_chars) {
 
 /// Join entity labels in @p ctx to a comma-separated summary string.
 std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t n = 0;
     for (const auto& e : ctx.entities) {
         if (n++ >= max) { oss << ", ..."; break; }
@@ -87,7 +87,7 @@ std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
 
 /// Build a concise relation summary (subject → predicate → object).
 std::string relationSummary(const ExtractionContext& ctx, size_t max = 20) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t n = 0;
     for (const auto& r : ctx.relations) {
         if (n++ >= max) { oss << "\n  ..."; break; }
@@ -387,7 +387,7 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
     while (pos < response.size() && (response[pos] == ' ' || response[pos] == '\t'))
         ++pos;
     // Read digits / dot until whitespace or newline.
-    std::string num;
+    std::string num = {};
     while (pos < response.size() &&
            (std::isdigit(static_cast<unsigned char>(response[pos])) ||
             response[pos] == '.'))
@@ -447,7 +447,7 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
     // Read lines until we hit the next section header (all-caps word followed
     // by ':') or end of string.
     std::istringstream ss(response.substr(pos));
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         // Strip leading whitespace.
         auto start = line.find_first_not_of(" \t\r");

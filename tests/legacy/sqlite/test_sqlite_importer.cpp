@@ -175,7 +175,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         R"re(CREATE\s+(?:TEMP(?:ORARY)?\s+)?TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?)re"
         R"re((?:(?:"([^"]+)"|`([^`]+)`|(\w+))\.)?(?:"([^"]+)"|`([^`]+)`|(\w+))\s*\()re",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
     if (!std::regex_search(sql, match, table_regex)) {
       return false;
     }
@@ -252,7 +252,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
           continue;
         }
 
-        std::string up;
+        std::string up = {};
         for (size_t i = 0; i < col_def.size() && i < 25; ++i)
             up += static_cast<char>(
                 std::toupper(static_cast<unsigned char>(col_def[i])));
@@ -266,7 +266,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             up.find("FOREIGN")    == 0 ||
             up.find("CONSTRAINT") == 0) continue;
 
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() &&
             (col_def[0] == '"' || col_def[0] == '`')) {
@@ -295,7 +295,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
                (col_def[type_start] == ' ' || col_def[type_start] == '\t'))
             ++type_start;
 
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size()) {
@@ -339,7 +339,7 @@ static std::vector<std::string> parseSQLiteInsertValues(
 
         if (c == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
@@ -353,7 +353,7 @@ static std::vector<std::string> parseSQLiteInsertValues(
             result.push_back(val);
         } else if (c == '"') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '"' && i + 1 < n && values_clause[i + 1] == '"') {
@@ -368,7 +368,7 @@ static std::vector<std::string> parseSQLiteInsertValues(
         } else if ((c == 'X' || c == 'x') && i + 1 < n &&
                    values_clause[i + 1] == '\'') {
             i += 2;
-            std::string val;
+            std::string val = {};
             while (i < n && values_clause[i] != '\'')
                 val += values_clause[i++];
             if (i < n) {
@@ -393,7 +393,7 @@ static std::vector<std::string> parseSQLiteInsertValues(
               token.clear();
             }
             else token = token.substr(tf, tl - tf + 1);
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(
                     std::toupper(static_cast<unsigned char>(ch)));
@@ -427,7 +427,7 @@ static std::string writeTempFile(const std::string& content,
 /// Returns true if the file content looks like a SQLite dump.
 static bool looksLikeSQLiteDump(const std::string& content) {
     std::istringstream ss(content);
-    std::string line;
+    std::string line = {};
     int checked = 0;
     while (std::getline(ss, line) && checked < 50) {
         if (line.find("SQLite")            != std::string::npos ||
@@ -1069,7 +1069,7 @@ TEST(SQLiteFixture, LooksLikeSQLiteDump) {
       GTEST_SKIP() << "Fixture not found";
     }
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     EXPECT_TRUE(looksLikeSQLiteDump(ss.str()));
 }

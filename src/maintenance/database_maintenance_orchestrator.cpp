@@ -47,7 +47,7 @@ namespace {
 std::string generateUuid() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0')
        << std::setw(8) << (dist(rng) & 0xFFFFFFFF)
        << "-"
@@ -998,7 +998,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     } dist_lock_guard{std::move(acquired_dist_lock), schedule_id};
 
     // ---- Per-tenant configuration -----------------------------------------
-    TenantMaintenanceConfig tenant_cfg;
+    TenantMaintenanceConfig tenant_cfg = {};
     if (!entry.tenant_id.empty()) {
         tenant_cfg = getTenantMaintenanceConfig(entry.tenant_id);
     }

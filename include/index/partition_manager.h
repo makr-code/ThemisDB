@@ -55,8 +55,8 @@ public:
 private:
     friend class PartitionManager;
     
-    uint32_t partition_id_;
-    uint64_t epoch_;
+    uint32_t partition_id_ = {};
+    uint64_t epoch_ = {};
     PartitionManager* manager_;
     
     PartitionHandle(uint32_t id, uint64_t epoch, PartitionManager* mgr)

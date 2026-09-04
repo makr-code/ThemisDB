@@ -157,7 +157,7 @@ private:
                 auto y = static_cast<int>(ymd.year());
                 auto m = static_cast<unsigned>(ymd.month());
                 auto d = static_cast<unsigned>(ymd.day());
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << y
                     << '-' << (m < 10 ? "0" : "") << m
                     << '-' << (d < 10 ? "0" : "") << d;
@@ -1296,7 +1296,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
 
     // Build env-prefixed cache key to prevent cross-environment cache poisoning
     std::string cache_key = envToString(env) + ":" + normalized;
-    std::string resolved_path;
+    std::string resolved_path = {};
     bool was_legacy_fallback = false;
     bool from_cache = false;
 
@@ -1518,7 +1518,7 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     }
 
     // Reject symlinks that resolve outside the config root (prevents symlink escapes)
-    std::error_code ec;
+    std::error_code ec = {};
     if (std::filesystem::is_symlink(fs_path, ec) && !ec) {
         auto canonical = std::filesystem::canonical(fs_path, ec);
         if (!ec) {

@@ -42,7 +42,7 @@ std::string rowString(const json& row, std::string_view key, std::string default
 
 std::string stableHashHex(std::string_view input) {
     const auto hash_value = std::hash<std::string_view>{}(input);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << hash_value;
     return oss.str();
 }
@@ -413,7 +413,7 @@ AdaLoraExportReport HuggingFaceIngestPlugin::exportAdaLoraJsonl(const AdaLoraExp
 
     for (const auto& entry : ordered_examples) {
         const auto& example = entry.get();
-        json line;
+        json line = {};
         if (request.format == AdaLoraExportFormat::PROMPT_RESPONSE) {
             line["prompt"] = example.input;
             line["response"] = example.target;

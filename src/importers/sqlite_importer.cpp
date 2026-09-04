@@ -178,7 +178,7 @@ bool SQLiteImporter::validateSource(const std::string& source_path,
     }
 
     // Check for SQLite dump header or common dump markers in the first 50 lines.
-    std::string line;
+    std::string line = {};
     bool found_sqlite_dump = false;
     int lines_checked = 0;
     // PHASE-4-HARDENING: Add line length limit to prevent DoS from oversized header lines
@@ -364,8 +364,8 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
       return json::array();
     }
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     // PHASE-4-HARDENING: Add bounds to prevent DoS from oversized SQL statements
     const size_t kMaxLineLength = 65536;  // 64 KB per line
     const size_t kMaxSqlLength = 1048576; // 1 MB per statement
@@ -397,7 +397,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
         current_sql += line + " ";
 
         if (line.find(';') != std::string::npos) {
-            std::string upper_prefix;
+            std::string upper_prefix = {};
             for (size_t i = 0;
                  i < current_sql.size() && i < 30; ++i) {
                 upper_prefix += static_cast<char>(
@@ -405,7 +405,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
                         static_cast<unsigned char>(current_sql[i])));
             }
             if (upper_prefix.find("CREATE TABLE") != std::string::npos) {
-                TableSchema schema;
+                TableSchema schema = {};
                 if (parseCreateTable(current_sql, schema)) {
                     schemas_[schema.name] = schema;
                 }
@@ -471,7 +471,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
     // Detect SQLite dump header or BEGIN TRANSACTION in first 50 lines.
     {
-        std::string hdr_line;
+        std::string hdr_line = {};
         int hdr_lines = 0;
         bool found_header = false;
         // PHASE-4-HARDENING: Add line length limit to prevent DoS from oversized lines
@@ -511,8 +511,8 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
             ? options.max_statement_size_bytes
             : 64 * 1024 * 1024ULL;
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     size_t line_number = 0;
     size_t batch_row_count = 0;
     bool line_truncated = false;
@@ -569,7 +569,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
         }
 
         // Build a short upper-case prefix for keyword matching
-        std::string prefix;
+        std::string prefix = {};
         for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
             prefix += static_cast<char>(
                 std::toupper(static_cast<unsigned char>(current_sql[i])));
@@ -577,7 +577,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
         if (prefix.find("CREATE TABLE") != std::string::npos) {
             auto t0 = std::chrono::steady_clock::now();
-            TableSchema schema;
+            TableSchema schema = {};
             if (parseCreateTable(current_sql, schema)) {
                 if (shouldImportTable(schema.name, options)) {
                     schemas_[schema.name] = schema;
@@ -646,7 +646,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         R"re(CREATE\s+(?:TEMP(?:ORARY)?\s+)?TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?)re"
         R"re((?:(?:"([^"]+)"|`([^`]+)`|(\w+))\.)?(?:"([^"]+)"|`([^`]+)`|(\w+))\s*\()re",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, table_regex)) {
       return false;
@@ -699,7 +699,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         int dep = 0;
         bool inq = false;
         char qc  = '\0';
-        std::string cur;
+        std::string cur = {};
         for (size_t i = 0; i < cols_str.size(); ++i) {
             char c = cols_str[i];
             if (inq) {
@@ -745,7 +745,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         }
 
         // Build an upper-case prefix for constraint detection
-        std::string upper_def;
+        std::string upper_def = {};
         for (size_t i = 0; i < col_def.size() && i < 25; ++i) {
             upper_def += static_cast<char>(
                 std::toupper(static_cast<unsigned char>(col_def[i])));
@@ -763,7 +763,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         }
 
         // Column definition: may start with a quoted or bare identifier.
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
 
         if (!col_def.empty() &&
@@ -798,7 +798,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         }
 
         // Collect type token (may include parenthesised precision)
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size()) {
@@ -844,12 +844,12 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
         R"re((?:"[^"]+"|`[^`]+`|\w+)\.)?(?:"([^"]+)"|`([^`]+)`|(\w+))\s*)re"
         R"re((?:\(([^)]*)\))?\s*VALUES\s*(.+?)\s*;?\s*$)re",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, insert_regex)) {
         // PHASE-2-HARDENING: Prepared statement fallback
         // Try simple parsing to extract table name for audit logging
-        std::string fallback_table;
+        std::string fallback_table = {};
         if (simpleInsertFallbackSQLite(sql, fallback_table)) {
             // Successfully extracted table name via fallback
         }
@@ -875,7 +875,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
 
     if (match[4].matched && !match[4].str().empty()) {
         std::istringstream css(match[4].str());
-        std::string col;
+        std::string col = {};
         while (std::getline(css, col, ',')) {
             // Strip quotes from column names
             col.erase(0, col.find_first_not_of(" \t\"` "));
@@ -1125,7 +1125,7 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
         if (c == '\'') {
             // Single-quoted string: SQL standard '' escape
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
@@ -1145,7 +1145,7 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
             // Double-quoted token (SQLite uses double-quotes for identifiers
             // but they can appear in VALUES in non-standard usage)
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '"' && i + 1 < n && values_clause[i + 1] == '"') {
@@ -1161,7 +1161,7 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
                    values_clause[i + 1] == '\'') {
             // Hex literal: X'deadbeef'
             i += 2;  // skip X'
-            std::string val;
+            std::string val = {};
             while (i < n && values_clause[i] != '\'') {
                 val += values_clause[i++];
             }
@@ -1195,7 +1195,7 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
             }
             // NULL → empty string sentinel
             {
-                std::string upper_tok;
+                std::string upper_tok = {};
                 for (char ch : token)
                     upper_tok += static_cast<char>(
                         std::toupper(static_cast<unsigned char>(ch)));

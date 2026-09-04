@@ -42,7 +42,7 @@ static constexpr const char* B64_CHARS =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /*static*/ std::string CrashRecoveryManager::base64Encode(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(((s.size() + 2) / 3) * 4);
     size_t i = 0;
     const auto* p = reinterpret_cast<const unsigned char*>(s.data());
@@ -74,7 +74,7 @@ static constexpr const char* B64_CHARS =
         lut[static_cast<unsigned char>(B64_CHARS[i])] = static_cast<unsigned char>(i);
     lut[static_cast<unsigned char>('=')] = 0;
 
-    std::string out;
+    std::string out = {};
     out.reserve((s.size() / 4) * 3);
     for (size_t i = 0; i + 3 < s.size(); i += 4) {
         unsigned char a = lut[static_cast<unsigned char>(s[i])];
@@ -268,7 +268,7 @@ CrashRecoveryManager::scanInFlight() const {
     std::ifstream f(wal_path_, std::ios::binary);
     if (!f.is_open()) return {};
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         auto entry = deserialize(line);
         if (!entry) {
@@ -339,7 +339,7 @@ CrashRecoveryManager::recover(RocksDBWrapper& db) {
             return result;
         }
 
-        std::string line;
+        std::string line = {};
         std::vector<std::string> all_lines = {};
 
         while (std::getline(f, line)) {
@@ -444,7 +444,7 @@ size_t CrashRecoveryManager::pruneLog() {
     std::vector<std::string> keep_lines;
     size_t total = 0, removed = 0;
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         ++total;
         auto entry = deserialize(line);
@@ -502,7 +502,7 @@ CrashRecoveryManager::readAllEntries() const {
       return result;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         auto e = deserialize(line);
         if (e) {

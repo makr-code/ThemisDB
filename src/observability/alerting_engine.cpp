@@ -41,7 +41,7 @@ std::string toISO8601Engine(std::chrono::system_clock::time_point tp) {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -434,7 +434,7 @@ Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
     }
 
     if (!failures.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (size_t i = 0; i < failures.size(); ++i) {
             if (i != 0) {
                 oss << "; ";

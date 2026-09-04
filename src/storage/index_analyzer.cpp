@@ -381,8 +381,8 @@ void IndexAnalyzer::schedulerLoop() {
 
     while (running_.load(std::memory_order_relaxed)) {
         // Snapshot current cron expression
-        std::string cron_expr;
-        bool enabled;
+        std::string cron_expr = {};
+        bool enabled = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             cron_expr = config_.cron_expression;
@@ -483,7 +483,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     // ── Fragmentation: L0 file count as proxy ─────────────────────────────
     // Hot-tier L0 files indicate write-stall risk; warm/cold are compacted
     // less aggressively so we tolerate more overlap.
-    std::string l0_str;
+    std::string l0_str = {};
     uint64_t l0_files = 0;
     if (raw_db->GetProperty("rocksdb.num-files-at-level0", &l0_str)) {
         try {
@@ -533,7 +533,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     // triggers an initial statistics update.
     {
         const std::string ts_key = kStatsTimestampPrefix + index_name;
-        std::string ts_str;
+        std::string ts_str = {};
         uint32_t age_hours = kFallbackStatsAgeHours;
         if (db_wrapper_->get(ts_key, ts_str) && !ts_str.empty()) {
             try {
@@ -563,7 +563,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
 
     // Build human-readable reason
     {
-        std::ostringstream reason;
+        std::ostringstream reason = {};
         reason << "tier=" << tierToString(tier)
                << " frag=" << std::round(frag_pct * 10.0) / 10.0 << "%"
                << " L0_files=" << l0_files
@@ -585,7 +585,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
 
 void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
     std::shared_ptr<IIndexAnalysisAdvisor> advisor;
-    bool ai_enabled;
+    bool ai_enabled = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         advisor    = advisor_;

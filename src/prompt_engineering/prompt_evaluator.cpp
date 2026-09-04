@@ -66,7 +66,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     const std::vector<std::string>& outputs,
     const std::vector<std::string>& expected
 ) const {
-    AggregatedMetrics agg;
+    AggregatedMetrics agg = {};
     
     if (outputs.size() != expected.size()) {
         THEMIS_ERROR("Output and expected vectors must have same size");
@@ -403,7 +403,7 @@ double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) c
 }
 
 std::string PromptEvaluator::normalizeString(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.length());
     
     for (char c : s) {
@@ -427,7 +427,7 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
 std::vector<std::string> PromptEvaluator::tokenize(const std::string& s) {
     std::vector<std::string> tokens;
     std::istringstream iss(s);
-    std::string token;
+    std::string token = {};
     
     while (iss >> token) {
         if (!token.empty()) {

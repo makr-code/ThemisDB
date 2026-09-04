@@ -53,7 +53,7 @@ using namespace themis::security;
 class CryptoAttackVectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        std::string license_error;
+        std::string license_error = {};
         field_encryption_available_ =
             themis::license::RuntimeLicenseGate::instance().isFeatureAllowed("field_encryption", license_error);
         provider_ = std::make_shared<MockKeyProvider>();

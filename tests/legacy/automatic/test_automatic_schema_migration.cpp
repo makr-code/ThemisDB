@@ -436,7 +436,7 @@ TEST(AutomaticSchemaMigrationFocusedTests, CustomMigration_FalseReturnFails)
 TEST(AutomaticSchemaMigrationFocusedTests, CustomMigration_ContextHasCorrectVersion)
 {
     InMemoryStorage storage;
-    std::string captured_version;
+    std::string captured_version = {};
 
     SchemaMigration m("2.3.1");
     m.addCustomMigration([&captured_version](MigrationContext& ctx) {

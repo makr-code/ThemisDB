@@ -275,7 +275,7 @@ void DecisionRecordYamlProcessor::writeRecord(const DecisionRecord& r) {
         }
 
         // Create parent directory on demand (including daily subdir)
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(path.parent_path(), ec);
         if (ec) {
             THEMIS_WARN("DecisionRecordYamlProcessor: cannot create directory '{}': {}",
@@ -322,7 +322,7 @@ std::string DecisionRecordYamlProcessor::generateId() const {
     thread_local std::mt19937_64 rng{std::random_device{}()};
     std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFF);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "dr-" << now_ms << "-"
         << std::hex << std::setw(6) << std::setfill('0') << dist(rng);
     return oss.str();
@@ -342,7 +342,7 @@ std::string DecisionRecordYamlProcessor::formatTimestamp(
     gmtime_r(&tt, &tm_utc);
 #endif
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%S")
         << '.' << std::setw(3) << std::setfill('0') << ms << 'Z';
     return oss.str();

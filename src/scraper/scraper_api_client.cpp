@@ -44,7 +44,7 @@ HttpScraperApiClient::HttpScraperApiClient(HttpFetchFn fetch_fn)
 
 namespace {
 std::string urlEncodeComponent(const std::string& s) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (unsigned char c : s) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             out << c;
@@ -82,7 +82,7 @@ std::string HttpScraperApiClient::buildGetUrl(
         const std::string& query,
         int page, int offset,
         const std::string& cursor) const {
-    std::ostringstream url;
+    std::ostringstream url = {};
     url << cfg.url;
     bool first = (cfg.url.find('?') == std::string::npos);
     auto app = [&](const std::string& k, const std::string& v) {
@@ -111,7 +111,7 @@ std::string HttpScraperApiClient::buildBody(
     if (!cfg.body_template.empty())
         return applyTemplate(cfg.body_template, query, page, cursor);
     // Default: JSON body with query
-    json body;
+    json body = {};
     if (!query.empty()) {
       body["query"] = query;
     }
@@ -131,7 +131,7 @@ std::string HttpScraperApiClient::buildBody(
 /*static*/ std::string HttpScraperApiClient::flattenJson(const std::string& json_text) {
     try {
         const json j = json::parse(json_text);
-        std::ostringstream out;
+        std::ostringstream out = {};
         std::function<void(const json&)> walk = [&]([[maybe_unused]] const json& v) {
             if (v.is_string()) { out << v.get<std::string>() << ' '; }
             else if (v.is_number()) { out << v.dump() << ' '; }
@@ -206,7 +206,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
     std::vector<ApiResult> all;
     int  page   = 1;
     int  offset = 0;
-    std::string cursor;
+    std::string cursor = {};
     const int max_pages = cfg.max_pages > 0 ? cfg.max_pages : 20;
 
     for (int pg = 0; pg < max_pages; ++pg) {
@@ -218,7 +218,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
             ? buildBody(cfg, query, page, cursor)
             : std::string{};
 
-        std::string response;
+        std::string response = {};
         try {
             response = fetch_fn_(url, cfg.method, cfg.headers, body);
         } catch (const std::exception& e) {
@@ -292,7 +292,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
 #ifdef THEMIS_ENABLE_CURL
 namespace {
 struct CurlWriteBuffer {
-    std::string data;
+    std::string data = {};
     static std::size_t write(char* ptr, std::size_t size,
                              std::size_t nmemb, void* userdata) {
         auto* buf = static_cast<CurlWriteBuffer*>(userdata);

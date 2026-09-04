@@ -47,7 +47,7 @@ inline std::vector<uint8_t> toBytes(std::string_view sv) {
 } // namespace
 // static
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
-	std::string key;
+	std::string key = {};
 	key.reserve(5 + table.size() + 1 + column.size() + 1 + token.size() + 1 + pk.size());
 	key += "fttf:";
 	key.append(table.data(), table.size());
@@ -62,7 +62,7 @@ std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
-	std::string key;
+	std::string key = {};
 	key.reserve(7 + table.size() + 1 + column.size() + 1 + pk.size());
 	key += "ftdlen:";
 	key.append(table.data(), table.size());
@@ -75,7 +75,7 @@ std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table,
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view table, std::string_view column) {
-	std::string key;
+	std::string key = {};
 	key.reserve(7 + table.size() + 1 + column.size() + 1);
 	key += "ftdlen:";
 	key.append(table.data(), table.size());
@@ -128,7 +128,7 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
-	std::string key;
+	std::string key = {};
 	key.reserve(8 + table.size() + 1 + column.size());
 	key += "idxmeta:";
 	key.append(table.data(), table.size());
@@ -146,7 +146,7 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 			total += 1;
 		}
 	}
-	std::string key;
+	std::string key = {};
 	key.reserve(total);
 	key += "idxmeta:";
 	key.append(table.data(), table.size());
@@ -182,7 +182,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 		encoded_values.emplace_back(encodeKeyComponent(value));
 		total += encoded_values.back().size() + 1;
 	}
-	std::string key;
+	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
 	key.append(table.data(), table.size());
@@ -219,7 +219,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 		encoded_values.emplace_back(encodeKeyComponent(value));
 		total += encoded_values.back().size() + 1;
 	}
-	std::string key;
+	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
 	key.append(table.data(), table.size());
@@ -242,7 +242,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 // Format: "uidx:table:col:encodedVal" (single-column)
 std::string SecondaryIndexManager::makeUniqueSentinelKey_(
 		std::string_view table, std::string_view col, std::string_view encodedVal) {
-	std::string key;
+	std::string key = {};
 	key.reserve(5 + table.size() + col.size() + encodedVal.size());
 	key += "uidx:";
 	key += table;
@@ -273,7 +273,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 		total += 1 + encodedVals.back().size(); // ":" + encoded
 	}
 
-	std::string key;
+	std::string key = {};
 	key.reserve(total);
 	key += "uidx:";
 	key += table;
@@ -293,7 +293,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 
 // static
 std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
-	std::string out;
+	std::string out = {};
 	out.reserve(raw.size());
 	// Heuristic: if the component is a positive integer (digits only),
 	// encode it as a fixed-width zero-padded field so lexicographic
@@ -523,7 +523,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 		return Status::Error("createCompositeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
 	SecondaryIndexMetadataCache::instance().invalidate(std::string(table));
-	std::string colList;
+	std::string colList = {};
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  colList += ", ";
@@ -562,7 +562,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropCompositeIndex(std::str
 	// v1.3.4: Invalidate cache when index structure changes
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	
-	std::string colList;
+	std::string colList = {};
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
 		  colList += ", ";
@@ -993,7 +993,7 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 	if (expr.empty()) return true; // empty predicate = always match
 
 	// Build uppercase copy for keyword matching
-	std::string upper;
+	std::string upper = {};
 	upper.reserve(expr.size());
 	for (unsigned char c : expr) {
 	  upper += static_cast<char>(std::toupper(c));
@@ -1581,7 +1581,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 					return true;
 				});
 				if (conflict) {
-					std::string valueStr;
+					std::string valueStr = {};
 					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) {
 						  valueStr += ", ";
@@ -1748,7 +1748,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 		
 		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
-		FulltextConfig config;
+		FulltextConfig config = {};
 		if (hasCachedMetadata) {
 			auto it = fulltextConfigsCache.find(fcol);
 			if (it != fulltextConfigsCache.end()) {
@@ -1885,7 +1885,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 		// Falls keine alte Entity, können wir die spezifischen Index-Keys nicht sicher bestimmen.
 		// Defensive strategy: alle Index-Prefixe für diesen PK löschen via Scan.
 		for (const auto& col : indexedCols) {
-			std::string prefix;
+			std::string prefix = {};
 			if (col.find('+') == std::string::npos) {
 				// Single
 				prefix = std::string("idx:") + std::string(table) + ":" + col + ":";
@@ -2076,7 +2076,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			}
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
-			FulltextConfig config;
+			FulltextConfig config = {};
 			if (hasCachedMetadata) {
 				auto it = fulltextConfigsCache.find(fcol);
 				if (it != fulltextConfigsCache.end()) {
@@ -2227,7 +2227,7 @@ SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), std::vector<std::string>()};
 	}
 	if (!hasCompositeIndex(table, columns)) {
-		std::string colList;
+		std::string colList = {};
 		for (size_t i = 0; i < columns.size(); ++i) {
 			if (i > 0) {
 			  colList += ", ";
@@ -2739,10 +2739,10 @@ SecondaryIndexManager::computeBM25Scores_(
 		std::vector<std::string> phrases = {};
 
 		phrases.reserve(std::max<size_t>(1, q.size() / 16));
-		std::string cleaned;
+		std::string cleaned = {};
 		cleaned.reserve(q.size());
 		bool in_quotes = false;
-		std::string current;
+		std::string current = {};
 		current.reserve(std::min<size_t>(q.size(), 64));
 		for (size_t i = 0; i < q.size(); ++i) {
 			char c = q[i];
@@ -2767,7 +2767,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	tokenResults.reserve(tokens.size());
 	if (tokens.empty() && !phrases.empty()) {
 		// Fallback: use tokens from phrases to generate candidates
-		std::string concat;
+		std::string concat = {};
 		concat.reserve(cleanedQuery.size() + query.size());
 		for (size_t i = 0; i < phrases.size(); ++i) {
 			if (i) {
@@ -3253,7 +3253,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 	std::vector<std::string> tokens = {};
 
 	tokens.reserve(std::max<size_t>(1, text.size() / 5));
-	std::string current;
+	std::string current = {};
 	current.reserve(std::min<size_t>(text.size(), 32));
 	
 	for (char c : text) {
@@ -3282,7 +3282,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 // Tokenizer with Stemming support
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text, const FulltextConfig& config) {
 	// Optional: normalize umlauts/ß for German-like content before tokenization
-	std::string normalized;
+	std::string normalized = {};
 	if (config.normalize_umlauts) {
 		normalized = utils::Normalizer::normalizeUmlauts(text);
 	}
@@ -3378,8 +3378,8 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	};
 
 	// Determine index type
-	std::string indexType;
-	std::string indexPrefix;
+	std::string indexType = {};
+	std::string indexPrefix = {};
 
 	if (db_.get(makeTTLIndexMetaKey(table, column)).has_value()) {
 		indexType = "ttl";
@@ -3705,8 +3705,8 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	auto start_time = std::chrono::steady_clock::now();
 
 	// Step 1: Determine index type and live prefix (mirrors rebuildIndex logic)
-	std::string indexType;
-	std::string livePrefix;
+	std::string indexType = {};
+	std::string livePrefix = {};
 
 	if (db_.get(makeTTLIndexMetaKey(table, column)).has_value()) {
 		indexType = "ttl";
@@ -4010,7 +4010,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		stats.type = "composite";
 		stats.unique = (mv->find("unique") != std::string::npos);
 		// additional_info ist die Spaltenliste
-		std::string colList;
+		std::string colList = {};
 		if (!cols.empty()) {
 			size_t totalLen = 0;
 			for (const auto& c : cols) {
@@ -4516,7 +4516,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				// derived from (table, columns, values) to serialize concurrent writes
 				// of the same unique composite value across transactions.
 				if (!txn.getForUpdate(makeCompositeUniqueSentinelKey_(table, columns, values))) {
-					std::string valueStr;
+					std::string valueStr = {};
 					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) {
 						  valueStr += ", ";
@@ -4541,7 +4541,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 					return true;
 				});
 				if (conflict) {
-					std::string valueStr;
+					std::string valueStr = {};
 					for (size_t i = 0; i < values.size(); ++i) {
 						if (i > 0) {
 						  valueStr += ", ";
@@ -4701,7 +4701,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 		
 		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
-		FulltextConfig config;
+		FulltextConfig config = {};
 		if (hasCachedMetadata) {
 			auto it = fulltextConfigsCache.find(fcol);
 			if (it != fulltextConfigsCache.end()) {
@@ -4839,7 +4839,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 		// Falls keine alte Entity, können wir die spezifischen Index-Keys nicht sicher bestimmen.
 		// Defensive strategy: alle Index-Prefixe für diesen PK löschen via Scan.
 		for (const auto& col : indexedCols) {
-			std::string prefix;
+			std::string prefix = {};
 			if (col.find('+') == std::string::npos) {
 				// Single
 				prefix = std::string("idx:") + std::string(table) + ":" + col + ":";
@@ -5030,7 +5030,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			}
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
-			FulltextConfig config;
+			FulltextConfig config = {};
 			if (hasCachedMetadata) {
 				auto it = fulltextConfigsCache.find(fcol);
 				if (it != fulltextConfigsCache.end()) {

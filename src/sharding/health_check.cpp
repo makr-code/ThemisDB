@@ -136,7 +136,7 @@ void HealthCheckSystem::registerCallback([[maybe_unused]] HealthCheckCallback ca
 
 /** @brief Start periodic cluster-health monitoring loop. */
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
-    std::thread stale_thread;
+    std::thread stale_thread = {};
     {
         std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
         if (running_.load()) {
@@ -189,7 +189,7 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
 
 /** @brief Stop periodic monitoring loop and join worker thread safely. */
 void HealthCheckSystem::stopPeriodicChecks() {
-    std::thread thread_to_join;
+    std::thread thread_to_join = {};
     {
         std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
         running_.store(false);

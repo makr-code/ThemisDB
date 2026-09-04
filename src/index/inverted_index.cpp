@@ -172,7 +172,7 @@ InvertedIndex::getConfig(std::string_view table,
 
 std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char c : text) {
         if (std::isspace(c) || std::ispunct(c)) {
             if (!cur.empty()) {
@@ -194,7 +194,7 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
 
 std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
                                                   const Config& config) {
-    std::string normalized;
+    std::string normalized = {};
     if (config.normalize_umlauts) {
         normalized = utils::Normalizer::normalizeUmlauts(text);
     }

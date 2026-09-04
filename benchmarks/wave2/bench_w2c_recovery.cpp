@@ -140,7 +140,7 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
 
         // Timed: cold read
         std::string key = "k_" + std::to_string(keyDist(rng));
-        std::string out;
+        std::string out = {};
         bool found = db->get(key, out);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);
@@ -188,7 +188,7 @@ public:
         }
         // Warm the block cache
         for (int i = 0; i < kWarmupReads; ++i) {
-            std::string out;
+            std::string out = {};
             db_->get("k_" + std::to_string(i % kWarmKeys), out);
         }
     }
@@ -216,7 +216,7 @@ BENCHMARK_DEFINE_F(W2C_WarmReadFixture, WarmRead)(benchmark::State& state) {
 
     for (auto _ : state) {
         std::string key = "k_" + std::to_string(keyDist(rng));
-        std::string out;
+        std::string out = {};
         bool found = db_->get(key, out);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);
@@ -307,7 +307,7 @@ static void BM_W2C_WalReplayRead(benchmark::State& state) {
 
         // Timed: reopen (WAL replay) + first read
         auto db = openDb(dbPath, /*wal=*/true);
-        std::string out;
+        std::string out = {};
         bool found = db->get("wal_0", out);
         benchmark::DoNotOptimize(found);
         benchmark::DoNotOptimize(out);

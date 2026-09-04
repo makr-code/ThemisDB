@@ -63,7 +63,7 @@ struct FaithfulnessEvaluator::Impl {
         // Simple heuristic: check for key terms
         std::istringstream claim_stream(claim_lower);
         std::vector<std::string> claim_words;
-        std::string word;
+        std::string word = {};
         while (claim_stream >> word) {
             if (word.length() > 3) {  // Skip short words
                 claim_words.push_back(word);
@@ -327,7 +327,7 @@ FaithfulnessResult FaithfulnessEvaluator::evaluate(
     result.faithfulness_score = claim_support_ratio * 0.8 + result.citation_quality_score * 0.2;
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Faithfulness Score: " << result.faithfulness_score << "\n";
     explanation << "Claims: " << result.supported_claims_count << "/" << result.total_claims_count << " supported\n";
     explanation << "Citation Quality: " << result.citation_quality_score << "\n";

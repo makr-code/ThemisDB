@@ -125,7 +125,7 @@ std::string PromptOptimizer::generateFeedback(
     double score,
     const std::vector<TestCase>& test_cases
 ) const {
-    std::ostringstream feedback;
+    std::ostringstream feedback = {};
     
     feedback << "Current prompt score: " << score << "\n\n";
     
@@ -171,7 +171,7 @@ std::string PromptOptimizer::defaultImprovePrompt(
     );
     
     // Build improved prompt with structured sections
-    std::ostringstream improved;
+    std::ostringstream improved = {};
     improved << "# Improved Prompt\n\n";
     improved << "## Task\n";
     improved << current_prompt << "\n\n";

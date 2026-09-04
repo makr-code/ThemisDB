@@ -146,7 +146,7 @@ static bool skip_gguf_value(ParseContext& ctx, uint32_t vtype,
         uint64_t v{}; return read_u64(ctx, v);
     }
     case GGUFValueType::STRING: {
-        std::string s;
+        std::string s = {};
         return read_gguf_string(ctx, s);
     }
     case GGUFValueType::ARRAY: {
@@ -275,7 +275,7 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
 
     // ── 5. Metadata KV pairs ─────────────────────────────────────────────
     for (uint64_t i = 0; i < n_kv; ++i) {
-        std::string key;
+        std::string key = {};
         if (!read_gguf_string(ctx, key)) {
             last_error_ = "Truncated GGUF metadata key at entry " +
                           std::to_string(i);
@@ -299,7 +299,7 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
     // ── 6. Tensor info ───────────────────────────────────────────────────
     metadata_.tensors.reserve(static_cast<size_t>(n_tensors));
     for (uint64_t i = 0; i < n_tensors; ++i) {
-        TensorMetadata tm;
+        TensorMetadata tm = {};
         if (!read_gguf_string(ctx, tm.name)) {
             last_error_ = "Truncated tensor name at index " + std::to_string(i);
             return false;

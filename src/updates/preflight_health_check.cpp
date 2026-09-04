@@ -44,7 +44,7 @@ namespace {
 
 /// Default disk-space provider using std::filesystem::space().
 uint64_t defaultSpaceProvider(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     auto info = std::filesystem::space(path, ec);
     if (ec) {
         LOG_WARN("DiskSpaceChecker: std::filesystem::space('{}') failed: {}",
@@ -82,7 +82,7 @@ uint64_t defaultMemoryProvider() {
 std::vector<int> parseVersion(const std::string& v) {
     std::vector<int> parts;
     std::istringstream ss(v);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, '.')) {
         try {
             parts.push_back(std::stoi(token));

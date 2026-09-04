@@ -473,7 +473,7 @@ TEST_F(EnduranceStabilityTest, ESC05_InterleavedReadWriteUnderLoadVerifyNoDataLo
     constexpr int kWritesPerThread = 20;
 
     std::unordered_map<std::string, std::string> expected;
-    std::mutex expected_mutex;
+    std::mutex expected_mutex = {};
 
     std::vector<std::thread> writers;
     writers.reserve(kWriters);

@@ -67,7 +67,7 @@ TEST_F(PolicyEngineLoadTest, LoadJsonArray_Success) {
     f.close();
 
     PolicyEngine pe;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(pe.loadFromFile(path, &err)) << err;
     EXPECT_EQ(pe.listPolicies().size(), 1u);
 }
@@ -97,7 +97,7 @@ TEST_F(PolicyEngineLoadTest, LoadYamlSequence_Success) {
     f.close();
 
     PolicyEngine pe;
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(pe.loadFromFile(path, &err)) << err;
     auto list = pe.listPolicies();
     ASSERT_EQ(list.size(), 1u);
@@ -124,7 +124,7 @@ policies:
 
 TEST_F(PolicyEngineLoadTest, LoadNonExistentFile_Fails) {
     PolicyEngine pe;
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(pe.loadFromFile("/nonexistent/path/policies.json", &err));
 }
 
@@ -140,7 +140,7 @@ TEST_F(PolicyEngineLoadTest, SaveAndReloadJson_PreservesData) {
     pe.addPolicy(p);
 
     auto path = (tmp_dir_ / "saved.json").string();
-    std::string err;
+    std::string err = {};
     ASSERT_TRUE(pe.saveToFile(path, &err)) << err;
 
     PolicyEngine pe2;

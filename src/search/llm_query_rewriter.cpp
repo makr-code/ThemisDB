@@ -161,7 +161,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     }
 
     std::istringstream iss(llm_output);
-    std::string line;
+    std::string line = {};
 
     while (std::getline(iss, line)) {
         // Strip leading/trailing whitespace
@@ -249,9 +249,9 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
     auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string tok;
+        std::string tok = {};
         while (iss >> tok) {
-            std::string lc;
+            std::string lc = {};
             lc.reserve(tok.size());
             for (char c : tok) {
                 lc += static_cast<char>(

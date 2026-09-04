@@ -37,7 +37,7 @@ namespace storage {
 
 std::string ProvenanceRecord::canonicalBytes() const {
     // Concatenate fields with null-byte separators for an unambiguous encoding.
-    std::string out;
+    std::string out = {};
     out.reserve(source_filename.size() + source_doc_id.size()
                 + tenant_id.size() + ingest_timestamp.size() + 32);
     out += source_filename;  out += '\0';
@@ -59,7 +59,7 @@ namespace {
     // pointer_arithmetic scanner alerts in toHex() are false positives: the loop
     // iterates from 0 to len and reads exactly data[i] within the declared input
     // span on each iteration.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(data[i]);
@@ -378,12 +378,12 @@ bool GGUFMetadata::deserialize(const std::vector<uint8_t>& bytes) {
     tmp.reserve(count);
 
     for (uint32_t i = 0; i < count; ++i) {
-        std::string key;
+        std::string key = {};
         if (!readStr(data, size, pos, key)) {
           return false;
         }
 
-        ProvenanceRecord rec;
+        ProvenanceRecord rec = {};
         if (!readStr(data, size, pos, rec.source_filename)) {
           return false;
         }

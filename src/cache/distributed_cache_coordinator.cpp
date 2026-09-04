@@ -517,7 +517,7 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     while (true) {
         ssize_t n = ::recv(fd, &ch, 1, 0);
         if (n <= 0)
-            return false;
+            return false = {};
         if (ch == '\n')
             break;
         if (ch != '\r')
@@ -528,7 +528,7 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
 
 /*static*/
 std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &args) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << '*' << args.size() << "\r\n";
     for (const auto &arg : args) {
         ss << '$' << arg.size() << "\r\n" << arg << "\r\n";
@@ -542,9 +542,9 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
         const std::string cmd = buildRespCommand({"AUTH", config_.password});
         if (!sendAll(fd, cmd))
             return false;
-        std::string reply;
+        std::string reply = {};
         if (!readLine(fd, reply))
-            return false;
+            return false = {};
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: AUTH failed: {}", reply);
             return false;
@@ -556,9 +556,9 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
         const std::string cmd = buildRespCommand({"SELECT", std::to_string(config_.db_index)});
         if (!sendAll(fd, cmd))
             return false;
-        std::string reply;
+        std::string reply = {};
         if (!readLine(fd, reply))
-            return false;
+            return false = {};
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: SELECT {} failed: {}", config_.db_index, reply);
             return false;
@@ -631,7 +631,7 @@ bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::
             coordinator_ready_.store(false, std::memory_order_release);
             continue;
         }
-        std::string reply;
+        std::string reply = {};
         if (!readLine(pub_fd_, reply)) {
             closeSocket(pub_fd_);
             pub_ok_ = false;
@@ -769,11 +769,11 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     //   $<n>\r\n <payload>\r\n   (or :<count> for subscribe reply)
 
     auto readBulkString = [&]([[maybe_unused]] std::string &out) -> bool {
-        std::string line;
+        std::string line = {};
         if (!readLine(fd, line))
-            return false;
+            return false = {};
         if (line.empty())
-            return false;
+            return false = {};
         if (line[0] == ':') {
             // Integer reply (subscribe confirmation) – treat as empty string
             out.clear();
@@ -810,14 +810,14 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
         // state regardless of whether MSG_WAITALL fills it (e.g., partial recv).
         char crlf[2] = {};
         if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)
-            return false;
+            return false = {};
         return true;
     };
 
     // Read the array header *N
-    std::string hdr;
+    std::string hdr = {};
     if (!readLine(fd, hdr))
-        return false;
+        return false = {};
     if (hdr.empty() || hdr[0] != '*')
         return false;
     long long count = 0;
@@ -830,11 +830,11 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     if (count < 3)
         return false;
 
-    std::string type_field;
+    std::string type_field = {};
     if (!readBulkString(type_field))
-        return false;
+        return false = {};
     if (!readBulkString(channel_out))
-        return false;
+        return false = {};
     if (!readBulkString(payload_out))
         return false;
 
@@ -921,7 +921,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < md_len; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(md[i]);
     }

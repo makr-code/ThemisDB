@@ -407,7 +407,7 @@ TEST_F(LLMPluginTest, AsyncInference_Callback) {
     request.max_tokens = 20;
     
     std::atomic<bool> callback_called{false};
-    std::string result_text;
+    std::string result_text = {};
     
     engine.submitAsync(
         request,
@@ -437,7 +437,7 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     AsyncInferenceEngine engine(plugin, config);
     
     std::vector<int> completion_order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
     
     // Submit low priority request
     engine.submitAsync(
@@ -918,7 +918,7 @@ protected:
         if (!f.is_open()) {
           return 0;
         }
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
             if (line.rfind("VmRSS:", 0) == 0) {
                 long kb = 0;
@@ -930,7 +930,7 @@ protected:
         return 0;
     }
 
-    std::string test_model_dir_;
+    std::string test_model_dir_ = {};
 
     void SetUp() override {
         test_model_dir_ = "/tmp/llm_leak_test_models_" +

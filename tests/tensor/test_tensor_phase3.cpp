@@ -1607,7 +1607,7 @@ TEST(FlareRetrievalPhase3, FR11_embedding_fn_not_set_returns_empty) {
 }
 
 TEST(FlareRetrievalPhase3, FR12_embedding_fn_called_with_buildQuery_text) {
-    std::string captured_query;
+    std::string captured_query = {};
     FlareRetrieval::setEmbeddingQueryFn([&captured_query](const std::string& q) {
         captured_query = q;
         return std::vector<float>{1.0f, 2.0f, 3.0f};

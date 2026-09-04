@@ -1427,7 +1427,7 @@ static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
 
 /// Build the version key for an entity.
 static std::string versionKey(std::string_view table, std::string_view pk) {
-    std::string k;
+    std::string k = {};
     k.reserve(9 + table.size() + 1 + pk.size()); // "occ:ver:" + table + ":" + pk
     k += "occ:ver:";
     k += table;
@@ -1739,7 +1739,7 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
 
         // Determine the conflict type from the underlying RocksDB failure reason.
         auto failure_type = mvcc_txn_->getLastCommitFailureType();
-        std::string conflict_type;
+        std::string conflict_type = {};
         switch (failure_type) {
             case RocksDBWrapper::TransactionWrapper::CommitFailureType::Busy:
                 conflict_type = "busy"; break;
@@ -1754,7 +1754,7 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         // Build and persist ConflictRecord(s) if a ConflictManager is available.
         std::vector<std::string> conflict_record_ids;
         std::vector<std::string> conflict_keys;
-        std::string conflict_set_id;
+        std::string conflict_set_id = {};
         if (conflict_mgr_ && !our_values_.empty()) {
             for (const auto& [key, ours] : our_values_) {
                 conflict_keys.push_back(key);

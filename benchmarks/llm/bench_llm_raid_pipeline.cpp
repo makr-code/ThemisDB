@@ -79,7 +79,7 @@ public:
 protected:
     std::string test_dir_;
     std::string model_dir_;
-    std::string lora_dir_;
+    std::string lora_dir_ = {};
 };
 
 // ═══════════════════════════════════════════════════════════

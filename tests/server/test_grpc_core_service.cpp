@@ -280,7 +280,7 @@ TEST(GrpcCoreService, AQLEngineAlias_CompilesAsIQueryEngine) {
 /// Minimal in-memory mock for AQLEngine (IQueryEngine).
 class MockAQLEngine : public themis::IQueryEngine {
 public:
-    std::string query_received;
+    std::string query_received = {};
     std::string fixed_response = R"([{"_id":"1"}])";
 
     themis::Result<std::string> execute(const std::string& query) override {

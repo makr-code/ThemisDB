@@ -112,7 +112,7 @@ std::string extractJobId(std::string_view target) {
 }
 
 std::string buildDashboardHtml() {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<!doctype html>\n"
          << "<html lang=\"en\">\n"
          << "<head><meta charset=\"utf-8\">\n"
@@ -287,8 +287,8 @@ http::response<http::string_body> ShardRepairApiHandler::handleTriggerRepair(
     auto& repair_engine = *repair_engine_;
     try {
         json body = req.body().empty() ? json::object() : json::parse(req.body());
-        std::string job_id;
-        std::string kind;
+        std::string job_id = {};
+        std::string kind = {};
         if (body.contains("document_id") && body["document_id"].is_string()) {
             const std::string collection = body.value("collection", std::string{});
             

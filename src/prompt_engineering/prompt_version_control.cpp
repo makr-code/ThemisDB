@@ -138,7 +138,7 @@ std::string PromptVersionControl::commit(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get parent version (current HEAD of branch)
-    std::string parent_version;
+    std::string parent_version = {};
     if (branches_[prompt_id].count(branch)) {
         parent_version = branches_[prompt_id][branch];
     }
@@ -516,7 +516,7 @@ MergeResult PromptVersionControl::merge(
 
     // The first source ancestor that also appears in the target ancestor chain
     // is the LCA (closest common ancestor).
-    std::string base_id;
+    std::string base_id = {};
     for (const auto& a : src_ancestors) {
         if (tgt_set.count(a)) {
             base_id = a;
@@ -731,7 +731,7 @@ std::string PromptVersionControl::generateVersionId(
     SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), input.length(), hash);
     
     // Convert to hex string (first 16 bytes = 32 hex chars, like git)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < 16; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -810,7 +810,7 @@ PromptDiff PromptVersionControl::computeDiff(
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
         std::istringstream iss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             lines.push_back(line);
         }
@@ -873,7 +873,7 @@ PromptDiff PromptVersionControl::computeDiff(
 
     // Generate unified diff with 3-line context
     static constexpr int CONTEXT = 3;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "--- " << version_a_id.substr(0, std::min(version_a_id.size(), size_t(8))) << "\n";
     oss << "+++ " << version_b_id.substr(0, std::min(version_b_id.size(), size_t(8))) << "\n";
 
@@ -971,7 +971,7 @@ MergeResult PromptVersionControl::autoMerge(
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
         std::istringstream iss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
           lines.push_back(line);
         }
@@ -1109,7 +1109,7 @@ MergeResult PromptVersionControl::autoMerge(
     // Simple heuristic: if the merged result differs significantly from both
     // source and target, flag a conflict.
     auto join_lines = [](const std::vector<std::string>& lines) {
-        std::string out;
+        std::string out = {};
         for (const auto& l : lines) { out += l; out += '\n'; }
         return out;
     };

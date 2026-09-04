@@ -434,7 +434,7 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
         // PHASE-4-HARDENING: Add max size limit to prevent OOM on large objects.
         // Schema detection only needs the first few KB anyway.
         const size_t kMaxSchemaProbeSize = 10 * 1024 * 1024;  // 10 MB limit
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         size_t bytes_read = 0;
          
         auto& body_stream = outcome.GetResult().GetBody();
@@ -513,7 +513,7 @@ void S3Importer::importSingleObject(const std::string& bucket,
     THEMIS_INFO("S3 import: downloading object {}/{}",
                 sanitisedConnectionId(s3_config_, bucket), key);
 
-    std::string content;
+    std::string content = {};
     try {
         auto client = buildS3Client(s3_config_);
 
@@ -531,7 +531,7 @@ void S3Importer::importSingleObject(const std::string& bucket,
             return;
         }
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << outcome.GetResult().GetBody().rdbuf();
         content = oss.str();
 
@@ -616,7 +616,7 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
         auto client = buildS3Client(s3_config_);
 
         // PHASE-2-HARDENING: Try ListObjectsV2 first, fallback to ListObjects on error
-        std::string continuation_token;
+        std::string continuation_token = {};
         bool has_more = true;
         bool use_v2_api = true;
 

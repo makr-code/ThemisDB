@@ -33,7 +33,7 @@ std::vector<int32_t> buildRecencyRanking(std::size_t history_size) {
 
 std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t history_size) {
     std::vector<int32_t> indices;
-    std::string current_number;
+    std::string current_number = {};
     std::vector<bool> seen(history_size, false);
 
     auto flush_number = [&]() {
@@ -202,7 +202,7 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
     }
 
     // Format turns for LLM prompt
-    std::ostringstream turn_format;
+    std::ostringstream turn_format = {};
     for (size_t i = 0; i < history.size(); ++i) {
         turn_format << "[" << i << "] " << history[i].first << ": " 
                    << history[i].second.substr(0, 100) << "...\n";
@@ -289,7 +289,7 @@ static std::unordered_map<std::string, float> buildTermFrequency(
 
     for (const auto& [role, content] : msgs) {
         (void)role; // role is not used for term frequency
-        std::string token;
+        std::string token = {};
         for (unsigned char ch : content) {
             if (std::isalnum(ch)) {
                 token.push_back(static_cast<char>(std::tolower(ch)));
@@ -394,7 +394,7 @@ std::string LLMExtractiveCompressor::formatTurnsForPrompt(
     const std::vector<std::pair<std::string, std::string>>& history,
     const std::vector<int32_t>& selected_indices) {
     
-    std::ostringstream result;
+    std::ostringstream result = {};
     result << "=== Episodic Memory Summary ===\n\n";
 
     for (int32_t idx : selected_indices) {

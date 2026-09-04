@@ -427,7 +427,7 @@ TEST(TransactionBatcherConcurrencyTest, ConcurrentSubmitters_AllResolve) {
     const int N_THREADS = 10;
     const int PER_THREAD = 20;
 
-    std::mutex fut_mutex;
+    std::mutex fut_mutex = {};
     std::vector<std::future<TransactionBatcher::Status>> futures;
     futures.reserve(N_THREADS * PER_THREAD);
 
@@ -474,7 +474,7 @@ TEST_F(TransactionBatcherTest, FIFO_OrderPreservedWithinBatch) {
     batcher_->setBatchConfig(cfg);
 
     const int N = 10;
-    std::mutex mu;
+    std::mutex mu = {};
     std::vector<int> exec_order;
 
     std::vector<std::future<TransactionBatcher::Status>> futures;

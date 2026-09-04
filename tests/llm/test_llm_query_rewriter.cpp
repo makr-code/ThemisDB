@@ -275,7 +275,7 @@ TEST(LlmQueryRewriterParsing, BlankLinesSkipped) {
 // ============================================================================
 
 TEST(LlmQueryRewriterPrompt, PromptContainsQuery) {
-    std::string captured_prompt;
+    std::string captured_prompt = {};
     LlmQueryRewriter rw{{}, [&](const std::string& prompt) {
         captured_prompt = prompt;
         return "1. a rewrite\n";
@@ -285,7 +285,7 @@ TEST(LlmQueryRewriterPrompt, PromptContainsQuery) {
 }
 
 TEST(LlmQueryRewriterPrompt, PromptContainsNumRewrites) {
-    std::string captured_prompt;
+    std::string captured_prompt = {};
     LlmQueryRewriter::Config cfg;
     cfg.num_rewrites = 5;
     LlmQueryRewriter rw{cfg, [&](const std::string& prompt) {
@@ -298,7 +298,7 @@ TEST(LlmQueryRewriterPrompt, PromptContainsNumRewrites) {
 }
 
 TEST(LlmQueryRewriterPrompt, PromptContainsVocabularyStrategyGuidance) {
-    std::string captured_prompt;
+    std::string captured_prompt = {};
     LlmQueryRewriter rw{{}, [&](const std::string& prompt) {
         captured_prompt = prompt;
         return "1. a rewrite\n";
@@ -312,7 +312,7 @@ TEST(LlmQueryRewriterPrompt, PromptContainsVocabularyStrategyGuidance) {
 }
 
 TEST(LlmQueryRewriterPrompt, PromptContainsNumberedLineInstruction) {
-    std::string captured_prompt;
+    std::string captured_prompt = {};
     LlmQueryRewriter rw{{}, [&](const std::string& prompt) {
         captured_prompt = prompt;
         return "1. a rewrite\n";
@@ -323,7 +323,7 @@ TEST(LlmQueryRewriterPrompt, PromptContainsNumberedLineInstruction) {
 }
 
 TEST(LlmQueryRewriterPrompt, PromptContainsTemperatureHint) {
-    std::string captured_prompt;
+    std::string captured_prompt = {};
     LlmQueryRewriter::Config cfg;
     cfg.temperature = 0.3f;
     LlmQueryRewriter rw{cfg, [&](const std::string& prompt) {

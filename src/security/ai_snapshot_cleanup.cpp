@@ -45,7 +45,7 @@ AiSnapshotCleanupJob::AiSnapshotCleanupJob(Config cfg)
 std::vector<AiSnapshotInfo> AiSnapshotCleanupJob::listSnapshots() const {
     std::vector<AiSnapshotInfo> result;
 
-    std::error_code ec;
+    std::error_code ec = {};
     if (!fs::exists(config_.snapshot_dir, ec) || ec) {
         return result;
     }
@@ -161,7 +161,7 @@ std::uint64_t AiSnapshotCleanupJob::totalSizeBytes(
 }
 
 bool AiSnapshotCleanupJob::removeDirectory(const std::string& path) noexcept {
-    std::error_code ec;
+    std::error_code ec = {};
     if (!fs::exists(path, ec) || ec) {
       return false;
     }

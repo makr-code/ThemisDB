@@ -38,7 +38,7 @@ VoiceMeetingSupport::VoiceMeetingSupport(const MeetingSupportConfig& config)
 {}
 
 std::string VoiceMeetingSupport::toLower(const std::string& s) const {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
       out += static_cast<char>(std::tolower(c));
@@ -61,7 +61,7 @@ bool VoiceMeetingSupport::containsTrigger(
 
 std::vector<std::string> VoiceMeetingSupport::tokenizeSentences(const std::string& text) const {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < text.size(); ++i) {
         char c = text[i];
         current += c;
@@ -245,7 +245,7 @@ std::map<std::string, size_t> VoiceMeetingSupport::computeSpeakerWordCounts(
         }
         // Count words by splitting on whitespace
         std::istringstream iss(seg.text);
-        std::string word;
+        std::string word = {};
         size_t wc = 0;
         while (iss >> word) {
           ++wc;
@@ -424,7 +424,7 @@ void RealtimeMeetingSession::addSegment(
     // Update speaker word counts
     if (!speaker.empty()) {
         std::istringstream iss(text);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
           ++protocol_.speaker_word_counts[speaker];
         }

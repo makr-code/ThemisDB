@@ -32,7 +32,7 @@ namespace crdt {
 
 /** @brief A Dot is a unique event identifier: (node_id, logical_clock). */
 struct Dot {
-    std::string node_id;
+    std::string node_id = {};
     uint64_t    counter{0};
 
     bool operator==(const Dot& o) const noexcept {

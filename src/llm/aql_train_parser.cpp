@@ -31,7 +31,7 @@ namespace {
 
 /// Lower-case a copy of @p s.
 std::string toLower(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     std::transform(s.begin(), s.end(), std::back_inserter(out),
                    [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
@@ -163,7 +163,7 @@ nlohmann::json TrainStatementConfig::toJSON() const {
 
 TrainStatementConfig TrainStatementConfig::fromJSON(const nlohmann::json& j) {
     try {
-        TrainStatementConfig cfg;
+        TrainStatementConfig cfg = {};
         if (j.contains("base_model_name")) {
           cfg.base_model_name   = j["base_model_name"].get<std::string>();
         }
@@ -247,7 +247,7 @@ nlohmann::json GraphContextConfig::toJSON() const {
 
 GraphContextConfig GraphContextConfig::fromJSON(const nlohmann::json& j) {
     try {
-        GraphContextConfig cfg;
+        GraphContextConfig cfg = {};
         if (j.contains("relationships")) {
           cfg.relationships = j["relationships"].get<std::vector<std::string>>();
         }
@@ -282,7 +282,7 @@ nlohmann::json VectorSimilarityConfig::toJSON() const {
 
 VectorSimilarityConfig VectorSimilarityConfig::fromJSON(const nlohmann::json& j) {
     try {
-        VectorSimilarityConfig cfg;
+        VectorSimilarityConfig cfg = {};
         if (j.contains("field")) {
           cfg.field     = j["field"].get<std::string>();
         }
@@ -317,7 +317,7 @@ nlohmann::json RelationalJoinConfig::toJSON() const {
 
 RelationalJoinConfig RelationalJoinConfig::fromJSON(const nlohmann::json& j) {
     try {
-        RelationalJoinConfig cfg;
+        RelationalJoinConfig cfg = {};
         if (j.contains("collection")) {
           cfg.collection    = j["collection"].get<std::string>();
         }
@@ -358,7 +358,7 @@ nlohmann::json MultiModelEnrichment::toJSON() const {
 }
 
 MultiModelEnrichment MultiModelEnrichment::fromJSON(const nlohmann::json& j) {
-    MultiModelEnrichment e;
+    MultiModelEnrichment e = {};
     if (j.contains("graph_context")) {
       e.graph_context     = GraphContextConfig::fromJSON(j["graph_context"]);
     }
@@ -389,7 +389,7 @@ nlohmann::json AQLDistributedTrainingConfig::toJSON() const {
 
 AQLDistributedTrainingConfig AQLDistributedTrainingConfig::fromJSON(const nlohmann::json& j) {
     try {
-        AQLDistributedTrainingConfig cfg;
+        AQLDistributedTrainingConfig cfg = {};
         if (j.contains("enabled")) {
           cfg.enabled            = j["enabled"].get<bool>();
         }
@@ -429,7 +429,7 @@ nlohmann::json TrainAdapterStmt::toJSON() const {
 
 TrainAdapterStmt TrainAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
-        TrainAdapterStmt s;
+        TrainAdapterStmt s = {};
         if (j.contains("adapter_id")) {
           s.adapter_id        = j["adapter_id"].get<std::string>();
         }
@@ -467,7 +467,7 @@ nlohmann::json DeployAdapterStmt::toJSON() const {
 
 DeployAdapterStmt DeployAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
-        DeployAdapterStmt s;
+        DeployAdapterStmt s = {};
         if (j.contains("adapter_id")) {
           s.adapter_id             = j["adapter_id"].get<std::string>();
         }
@@ -501,7 +501,7 @@ nlohmann::json VerifyAdapterStmt::toJSON() const {
 
 VerifyAdapterStmt VerifyAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
-        VerifyAdapterStmt s;
+        VerifyAdapterStmt s = {};
         if (j.contains("adapter_id")) {
           s.adapter_id              = j["adapter_id"].get<std::string>();
         }
@@ -537,7 +537,7 @@ nlohmann::json ListAdaptersStmt::toJSON() const {
 
 ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
     try {
-        ListAdaptersStmt s;
+        ListAdaptersStmt s = {};
         if (j.contains("base_model")) {
           s.base_model = j["base_model"].get<std::string>();
         }
@@ -567,7 +567,7 @@ ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
 std::vector<std::string> AQLTrainParser::tokenize(const std::string& input) {
     std::vector<std::string> tokens;
     std::istringstream iss(input);
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -645,7 +645,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
         ++pos;
         skipWhitespace(pos);
 
-        std::string value;
+        std::string value = {};
         if (pos < n && (input[pos] == '\'' || input[pos] == '"')) {
             const char quote = input[pos++];
             const size_t valueStart = pos;
@@ -805,10 +805,10 @@ GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
     }
     // Parse relationships: relationships = ['REL1', 'REL2']
     static const std::regex rel_re(R"(\[([^\]]*)\])");
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(args, m, rel_re)) {
         std::istringstream iss(m[1].str());
-        std::string rel;
+        std::string rel = {};
         while (std::getline(iss, rel, ',')) {
             cfg.relationships.push_back(stripQuotes(themis::utils::trim(rel)));
         }
@@ -871,7 +871,7 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
     // USING GRAPH_CONTEXT(...)
     {
         static const std::regex gc_re(R"(GRAPH_CONTEXT\s*\(([^)]*)\))", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = using_clauses;
         if (std::regex_search(tmp, m, gc_re)) {
             e.graph_context = parseGraphContext(m[1].str());
@@ -881,7 +881,7 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
     // USING VECTOR_SIMILARITY(...)
     {
         static const std::regex vs_re(R"(VECTOR_SIMILARITY\s*\(([^)]*)\))", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = using_clauses;
         if (std::regex_search(tmp, m, vs_re)) {
             e.vector_similarity = parseVectorSimilarity(m[1].str());
@@ -902,7 +902,7 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
 }
 
 AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string& aql) {
-    AQLDistributedTrainingConfig cfg;
+    AQLDistributedTrainingConfig cfg = {};
     if (findKeyword(aql, "DISTRIBUTED") == std::string::npos) {
       return cfg;
     }
@@ -911,7 +911,7 @@ AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string&
     // COORDINATOR '<shard>'
     {
         static const std::regex coord_re(R"(COORDINATOR\s+'([^']+)')", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = aql;
         if (std::regex_search(tmp, m, coord_re)) {
             cfg.coordinator_shard = m[1].str();
@@ -921,7 +921,7 @@ AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string&
     // SHARDS '<s1>', '<s2>', ...
     {
         static const std::regex shards_re(R"(SHARDS\s+((?:'[^']+'(?:\s*,\s*)?)+))", std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         std::string tmp = aql;
         if (std::regex_search(tmp, m, shards_re)) {
             static const std::regex shard_re(R"('([^']+)')");
@@ -971,7 +971,7 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
         static const std::regex id_re(
             R"(TRAIN\s+ADAPTER\s+['"]?(\S+?)['"]?\s+FROM)",
             std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
                 "AQLTrainParser: expected 'TRAIN ADAPTER <id> FROM' in: " + aql);
@@ -1044,7 +1044,7 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
         static const std::regex id_re(
             R"(DEPLOY\s+ADAPTER\s+['"]?(\S+?)['"]?\s+TO)",
             std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
                 "AQLTrainParser: expected 'DEPLOY ADAPTER <id> TO' in: " + aql);
@@ -1103,7 +1103,7 @@ std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
         static const std::regex id_re(
             R"(VERIFY\s+ADAPTER\s+['"]?(\S+?)['"]?(?:\s|$))",
             std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (!std::regex_search(aql, m, id_re)) {
             throw std::invalid_argument(
                 "AQLTrainParser: expected 'VERIFY ADAPTER <id>' in: " + aql);
@@ -1251,7 +1251,7 @@ std::shared_ptr<TrainAdapterStmt> TrainingQueryBuilder::build() {
 }
 
 std::string TrainingQueryBuilder::toAQL() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "TRAIN ADAPTER '" << stmt_.adapter_id << "'\n"
         << "  FROM " << stmt_.source_collection;
 

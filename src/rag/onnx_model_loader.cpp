@@ -25,7 +25,7 @@ namespace themis::rag::judge {
 
 struct ONNXModelLoader::Impl {
     std::unordered_map<std::string, ONNXModelInfo> cache;
-    std::mutex cache_mutex;
+    std::mutex cache_mutex = {};
 };
 
 ONNXModelLoader::ONNXModelLoader(const ONNXModelLoaderConfig& config)
@@ -222,7 +222,7 @@ std::string ONNXModelLoader::computeChecksum(const std::string& file_path) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_Final(hash, &sha256);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }

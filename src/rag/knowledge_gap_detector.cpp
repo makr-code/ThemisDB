@@ -140,11 +140,11 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
 
                     // Thread-safe time conversion
                     #if defined(_WIN32) || defined(_WIN64)
-                        std::tm now_tm_storage;
+                        std::tm now_tm_storage = {};
                         std::tm* now_tm = &now_tm_storage;
                         localtime_s(now_tm, &now_time);
                     #else
-                        std::tm now_tm_storage;
+                        std::tm now_tm_storage = {};
                         std::tm* now_tm = localtime_r(&now_time, &now_tm_storage);
                         if (!now_tm) {
                             continue; // Skip on error
@@ -363,7 +363,7 @@ DetectionResult KnowledgeGapDetector::detectGap(
         const auto gap_callback = impl_->snapshotGapCallback();
 
         bool ethical_gap_detected = false;
-        DetectionResult ethical_result;
+        DetectionResult ethical_result = {};
         if (config.enable_ethical_gap_detection) {
             ethical_result = detectEthicalPerspectiveGap(query, documents);
             if (ethical_result.gap_detected) {
@@ -680,7 +680,7 @@ std::vector<std::string> KnowledgeGapDetector::extractQueryAspects(
     }
 
     // Split by common delimiters and extract key phrases
-    std::string current_aspect;
+    std::string current_aspect = {};
     bool in_word = false;
 
     for (char c : query) {
@@ -729,7 +729,7 @@ std::vector<std::string> KnowledgeGapDetector::findMissingAspects(
     }
 
     // Concatenate all document content for searching
-    std::string all_content;
+    std::string all_content = {};
     for (const auto& doc : docs) {
         all_content += doc.content + " ";
     }
@@ -810,7 +810,7 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
         return claims;
     }
 
-    std::string current_claim;
+    std::string current_claim = {};
 
     for (size_t i = 0; i < answer.length(); ++i) {
         char c = answer[i];
@@ -874,7 +874,7 @@ bool KnowledgeGapDetector::verifyClaim(
 
     // Extract key terms from claim (simple word extraction)
     std::vector<std::string> claim_terms;
-    std::string current_term;
+    std::string current_term = {};
 
     for (char c : claim) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
@@ -917,7 +917,7 @@ bool KnowledgeGapDetector::verifyClaim(
         // Parse content into words and check membership in term set
         // Early exit when we find a matching term (O(log n_terms) per word)
         std::istringstream stream(content_lower);
-        std::string word;
+        std::string word = {};
         bool found_any = false;
         
         while (stream >> word && !found_any) {
@@ -1145,7 +1145,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     // Split a text block into individual sentences (period/question/exclamation boundary).
     auto splitSentences = [](const std::string& text) -> std::vector<std::string> {
         std::vector<std::string> sentences;
-        std::string current;
+        std::string current = {};
         for (std::size_t i = 0; i < text.size(); ++i) {
             current += text[i];
             const char c = text[i];
@@ -1195,7 +1195,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     // samples prefer sentences from different documents (maximising diversity).
     const std::size_t stride = std::max(std::size_t{1}, tagged.size() / num_samples);
     for (std::size_t s = 0; s < num_samples; ++s) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Regarding '" << query << "': ";
         // Pick up to 3 sentences starting at a unique offset for this sample.
         const std::size_t start = (s * stride) % tagged.size();
@@ -1225,7 +1225,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
     // Extract word sets
     auto extractWords = [](const std::string& text) {
         std::unordered_set<std::string> words;
-        std::string word;
+        std::string word = {};
         for (char c : text) {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
                 word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -1337,7 +1337,7 @@ std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
         return sentences;
     }
 
-    std::string current_sentence;
+    std::string current_sentence = {};
 
     for (size_t i = 0; i < text.length(); ++i) {
         char c = text[i];
@@ -1380,7 +1380,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
 
     // Extract key terms from sentence
     std::vector<std::string> sentence_terms;
-    std::string current_term;
+    std::string current_term = {};
 
     for (char c : sentence) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -1418,7 +1418,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
         // Parse content into words and check membership in term set
         // Early exit when we find a matching term (O(log n_terms) per word)
         std::istringstream stream(content_lower);
-        std::string word;
+        std::string word = {};
         bool found_any = false;
         
         while (stream >> word && !found_any) {
@@ -1526,7 +1526,7 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
         result.recommendation = FallbackStrategy::EXPAND_SEARCH;
         result.coverage_score = diversity;
 
-        std::ostringstream explanation;
+        std::ostringstream explanation = {};
         explanation << "Ethical context detected in query, but insufficient "
                    << "perspective diversity in documents. Found "
                    << perspectives_found << " perspectives (minimum: "
@@ -1572,7 +1572,7 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     // Complexity: O(n_words × log n_keywords) instead of O(n_keywords × n_query_length)
     int keyword_count = 0;
     std::istringstream stream(lower_query);
-    std::string word;
+    std::string word = {};
     
     while (stream >> word) {
         // Remove punctuation from word end for better matching

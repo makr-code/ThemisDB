@@ -46,7 +46,7 @@ protected:
     
     LoRASecurityConfig config_;
     std::unique_ptr<LoRASecurityValidator> validator_;
-    std::string test_file_;
+    std::string test_file_ = {};
 };
 
 TEST_F(LoRASecurityTest, CalculateChecksum) {
@@ -593,7 +593,7 @@ static std::string certFingerprint(const std::string& cert_pem) {
     X509_digest(cert, EVP_sha256(), digest, &digest_len);
     X509_free(cert);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
@@ -1033,9 +1033,9 @@ protected:
     LoRASecurityConfig config_;
     std::unique_ptr<LoRASecurityValidator> validator_;
     EVP_PKEY* pkey_ = nullptr;
-    std::string key_pem_;
-    std::string cert_pem_;
-    std::string test_lora_data_;
+    std::string key_pem_ = {};
+    std::string cert_pem_ = {};
+    std::string test_lora_data_ = {};
     
     ~EVPSignatureVerificationTest() override {
         if (pkey_) {
@@ -1099,7 +1099,7 @@ TEST_F(EVPSignatureVerificationTest, EmptySignatureRejected) {
 TEST_F(EVPSignatureVerificationTest, EmptyCertificateRejected) {
     std::vector<uint8_t> data(test_lora_data_.begin(), test_lora_data_.end());
     auto signature = signTestData(test_lora_data_);
-    std::string empty_cert;
+    std::string empty_cert = {};
     
     // Empty cert should fail
     EXPECT_TRUE(empty_cert.empty());

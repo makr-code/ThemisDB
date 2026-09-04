@@ -75,7 +75,7 @@ std::string generateUUID() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -282,7 +282,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     }
     
     // Parse comparison operators
-    std::string op;
+    std::string op = {};
     size_t op_pos = std::string::npos;
     
     // Check for == first (before single =)
@@ -600,7 +600,7 @@ ProcessGraphManager::Status ProcessGraphManager::addHyperedge(
     entity.setField("targets", targets.dump());
 
     // Sync type
-    std::string syncTypeStr;
+    std::string syncTypeStr = {};
     switch (hyperedge.sync_type) {
         case Hyperedge::SyncType::AND_JOIN: syncTypeStr = "AND_JOIN"; break;
         case Hyperedge::SyncType::AND_SPLIT: syncTypeStr = "AND_SPLIT"; break;
@@ -624,7 +624,7 @@ ProcessGraphManager::Status ProcessGraphManager::addHyperedge(
 
 std::pair<ProcessGraphManager::Status, ProcessGraphManager::ValidationResult> 
 ProcessGraphManager::validateProcess(std::string_view process_id) const {
-    ValidationResult result;
+    ValidationResult result = {};
     
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), result};
@@ -799,7 +799,7 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
     }
 
     // Find start event
-    std::string startNodeId;
+    std::string startNodeId = {};
     std::string nodePrefix = "process:node:" + std::string(process_id) + ":";
     db_.scanPrefix(nodePrefix, [&startNodeId](std::string_view key, std::string_view val) {
         std::string keyStr(key);
@@ -879,7 +879,7 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
 
 std::pair<ProcessGraphManager::Status, ProcessInstance> 
 ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
-    ProcessInstance instance;
+    ProcessInstance instance = {};
     
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), instance};
@@ -1118,8 +1118,8 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         });
 
     // Evaluate conditions and select the first matching edge
-    std::string targetNode;
-    std::string defaultNode;
+    std::string targetNode = {};
+    std::string defaultNode = {};
     
     for (const auto& edge : outgoing) {
         // Remember default edge
@@ -1783,7 +1783,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     });
     
     // Find start node
-    std::string startNode;
+    std::string startNode = {};
     std::string nodePrefix = "process:node:" + std::string(process_id) + ":";
     db_.scanPrefix(nodePrefix, [&startNode](std::string_view key, std::string_view val) {
         std::string keyStr(key);
@@ -1818,7 +1818,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     // Stack entry: (node, cumDuration, path, visited)
     struct StackEntry {
-        std::string node;
+        std::string node = {};
         double cumDuration;
         std::vector<std::string> path;
         std::unordered_set<std::string> visited;
@@ -1874,7 +1874,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
 
 std::pair<ProcessGraphManager::Status, Hyperedge>
 ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
-    Hyperedge hyperedge;
+    Hyperedge hyperedge = {};
     
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), hyperedge};
@@ -2152,7 +2152,7 @@ ProcessGraphManager::joinWithCollection(
         bind_vars["ff"]    = std::string(foreign_field);
         const auto rows = aql_query_executor_(aql, bind_vars);
         for (const auto& row : rows) {
-            JoinResult jr;
+            JoinResult jr = {};
             if (row.contains("token") && row["token"].is_object()) {
                 const auto& t = row["token"];
                 jr.token.token_id            = t.value("token_id", std::string{});
@@ -2579,7 +2579,7 @@ ProcessGraphManager::semanticSearchProcesses(
     std::vector<std::string> queryTokens;
     {
         std::istringstream ss(queryLower);
-        std::string word;
+        std::string word = {};
         while (ss >> word) {
           queryTokens.push_back(word);
         }
@@ -2653,9 +2653,9 @@ ProcessGraphManager::detectAnomalies(
         std::string instanceId;
         std::string tokenId;
         std::string currentNode;
-        std::string state;
+        std::string state = {};
         double      durationMs{0.0};
-        std::string visitedPath;
+        std::string visitedPath = {};
     };
     std::vector<TokenInfo> allTokens;
 
@@ -2734,7 +2734,7 @@ ProcessGraphManager::detectAnomalies(
     }
 
     // Find the most common path.
-    std::string dominantPath;
+    std::string dominantPath = {};
     size_t maxPathCount = 0;
     for (const auto& [path, cnt] : pathFreq) {
         if (cnt > maxPathCount) { maxPathCount = cnt; dominantPath = path; }
@@ -2857,7 +2857,7 @@ std::vector<std::pair<double,double>> parseWktPolygon(const std::string& wkt) {
       return ring;
     }
     std::istringstream ss(wkt.substr(inner + 1, close - inner - 1));
-    std::string pair;
+    std::string pair = {};
     while (std::getline(ss, pair, ',')) {
         std::istringstream ps(pair);
         double x, y;

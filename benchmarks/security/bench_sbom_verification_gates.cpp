@@ -25,7 +25,7 @@ public:
         for (char c : data) {
             hash = ((hash << 5) + hash) + c;  // hash * 33 + c
         }
-        std::stringstream ss;
+        std::stringstream ss = {};
         ss << std::hex << (hash & 0xFFFFFFFFFFFFFFFFUL);
         std::string result = ss.str();
         while (result.length() < 64) {
@@ -42,7 +42,7 @@ public:
         std::string name;
         std::string version;
         std::string source_url;
-        std::string hash;
+        std::string hash = {};
     };
 
     static std::vector<Artifact> parse_sbom_json(const std::string& json_content) {
@@ -233,7 +233,7 @@ static void BM_FullSBOMVerification_100Dependencies(benchmark::State& state) {
         }
         
         // Compute overall SBOM hash
-        std::string all_hashes;
+        std::string all_hashes = {};
         for (const auto& h : artifact_hashes) {
           all_hashes += h + "\n";
         }
@@ -279,7 +279,7 @@ static void BM_FullSBOMVerification_500Dependencies(benchmark::State& state) {
         }
         
         // Compute overall SBOM hash
-        std::string all_hashes;
+        std::string all_hashes = {};
         for (const auto& h : artifact_hashes) {
           all_hashes += h + "\n";
         }

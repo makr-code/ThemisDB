@@ -270,7 +270,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
     // ── Parse header ──────────────────────────────────────────────────────
     const uint8_t opcode = data[3];
 
-    uint32_t seq_be;
+    uint32_t seq_be = {};
     std::memcpy(&seq_be, data.data() + 4, 4);
     const uint32_t seq_num = ntohl(seq_be);
 

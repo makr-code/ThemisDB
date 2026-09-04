@@ -110,7 +110,7 @@ void runMixedRWBench(benchmark::State& state, bool high_parallel) {
                 int64_t id = counter.fetch_add(1, std::memory_order_relaxed);
                 std::string key = "mk" + std::to_string(id);
                 db.put(key, value);
-                std::string out;
+                std::string out = {};
                 db.get(key, out);
             }
         });
@@ -224,7 +224,7 @@ void runStorageReadBench(benchmark::State& state) {
 
     for (auto _ : state) {
         std::string key = "rk" + std::to_string(dist(rng));
-        std::string out;
+        std::string out = {};
         benchmark::DoNotOptimize(db.get(key, out));
     }
 
@@ -339,7 +339,7 @@ void runPointReadP99Bench(benchmark::State& state) {
 
     for (auto _ : state) {
         std::string key = "p99k" + std::to_string(dist(rng));
-        std::string out;
+        std::string out = {};
         auto t0 = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(db.get(key, out));
         auto t1 = std::chrono::steady_clock::now();

@@ -293,7 +293,7 @@ TEST_F(TemplateRecursionTestClass, DetectRecursiveTemplateMarkers) {
     assertPayloadDetected("{% include self %}", TEST_CLASS_ID);
     
     // Payload 4: Deep nesting attack
-    std::string deep_nest;
+    std::string deep_nest = {};
     for (int i = 0; i < 100; ++i) {
         deep_nest += "{{";
     }

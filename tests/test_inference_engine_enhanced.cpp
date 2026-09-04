@@ -80,7 +80,7 @@ public:
     bool importLoRA(const std::string& /*lora_id*/, const std::vector<uint8_t>& /*data*/) override { return true; }
     
 private:
-    std::string model_id_;
+    std::string model_id_ = {};
     int latency_ms_;
 };
 
@@ -129,7 +129,7 @@ public:
     }
 
 private:
-    std::string model_id_;
+    std::string model_id_ = {};
     mutable std::mutex mutex_;
     json last_metadata_ = json::object();
 };
@@ -1493,7 +1493,7 @@ TEST_F(InferenceEngineEnhancedTest, SubmitStreaming_TokensDelivered) {
 
     std::vector<std::string> received_tokens;
     std::atomic<int> final_count{0};
-    std::mutex mu;
+    std::mutex mu = {};
 
     InferenceEngineEnhanced::EnhancedInferenceRequest req;
     req.request_id         = "stream_req_1";
@@ -1544,7 +1544,7 @@ TEST_F(InferenceEngineEnhancedTest, SubmitStreaming_CancelFiresFinalSentinel) {
 
     std::atomic<int> final_count{0};
     std::mutex fin_mu;
-    std::condition_variable fin_cv;
+    std::condition_variable fin_cv = {};
 
     InferenceEngineEnhanced::EnhancedInferenceRequest req;
     req.request_id          = "cancel_stream_1";
@@ -1692,7 +1692,7 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_TokensAndFinalSentinel) 
 
     std::vector<std::string> tokens;
     std::atomic<int> final_count{0};
-    std::mutex mu;
+    std::mutex mu = {};
 
     InferenceRequest req;
     req.prompt = "Streaming test";
@@ -1797,8 +1797,8 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_CancelFiresFinalSentinel
     AsyncInferenceEngine engine(plugin.get(), cfg);
 
     std::atomic<int> final_count{0};
-    std::mutex fin_mu;
-    std::condition_variable fin_cv;
+    std::mutex fin_mu = {};
+    std::condition_variable fin_cv = {};
 
     InferenceRequest req;
     req.prompt = "Cancel test";
@@ -1854,8 +1854,8 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_QueuedCancelFiresFinalSe
 
     // Now submit the streaming request — it stays in the queue.
     std::atomic<int> final_count{0};
-    std::mutex fin_mu;
-    std::condition_variable fin_cv;
+    std::mutex fin_mu = {};
+    std::condition_variable fin_cv = {};
 
     InferenceRequest stream_req;
     stream_req.prompt = "queued streaming request";

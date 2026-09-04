@@ -63,7 +63,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
     int attempts = 0;
     long backoff = std::max(0L, cfg_.retry_backoff_ms);
     const int max_attempts = std::max(1, cfg_.max_retries + 1); // first try + retries
-    std::string last_err;
+    std::string last_err = {};
 
     while (attempts < max_attempts) {
         attempts++;
@@ -71,7 +71,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         CURL* curl = curl_easy_init();
         if (!curl) { last_err = "curl init failed"; break; }
 
-        std::string response;
+        std::string response = {};
         struct curl_slist* headers = nullptr;
         if (!cfg_.bearer_token.empty()) {
             std::string auth = std::string("Authorization: Bearer ") + cfg_.bearer_token;
@@ -125,7 +125,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         }
 
         // Build error message
-        std::ostringstream o;
+        std::ostringstream o = {};
         if (rc != CURLE_OK) {
             o << "curl error: " << curl_easy_strerror(rc);
         } else {

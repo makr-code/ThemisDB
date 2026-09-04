@@ -20,7 +20,7 @@ namespace themis {
 
 MockKeyProvider::MockKeyProvider() {
     // Seed random number generator
-    std::random_device rd;
+    std::random_device rd = {};
     rng_.seed(rd());
 
     THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");

@@ -446,7 +446,7 @@ TEST_F(BreakEvenValidatorTest, Concurrency_MultipleThreads_ShouldUseGPU) {
 
     std::vector<std::thread> threads;
     std::vector<BreakEvenDecision> decisions;
-    std::mutex decisions_mu;
+    std::mutex decisions_mu = {};
 
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&] {

@@ -318,7 +318,7 @@ TEST(WebRtcCallSession, ProcessEmptyOfferThrows) {
 
 TEST(WebRtcCallSession, LocalIceCandidateCallbackFired) {
     auto session = WebRtcCallSession::create(makeWebRtcConfig());
-    std::string ice_json;
+    std::string ice_json = {};
     session->onLocalIceCandidate([&](const std::string& c) { ice_json = c; });
     session->processOffer(minimalSdpOffer());
     EXPECT_FALSE(ice_json.empty());

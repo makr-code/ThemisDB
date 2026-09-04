@@ -26,7 +26,7 @@ DataDistribution DataDistribution::infer(
     size_t distinctLocationCells,
     double spatialVariance) {
     
-    DataDistribution dist;
+    DataDistribution dist = {};
     
     if (totalPoints == 0) {
         dist.type = UNIFORM;
@@ -72,7 +72,7 @@ double IndexStatistics::getEfficiencyScore() const {
 }
 
 std::string IndexCandidate::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "IndexCandidate{"
         << "name=" << indexName
         << ", type=" << static_cast<int>(type)

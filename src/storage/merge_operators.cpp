@@ -90,7 +90,7 @@ bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
     if (existing_value) {
         std::string existing_str(existing_value->data(), existing_value->size());
         std::stringstream ss(existing_str);
-        std::string item;
+        std::string item = {};
         while (std::getline(ss, item, ',')) {
             if (!item.empty()) {
                 unique_values.insert(item);
@@ -101,7 +101,7 @@ bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
     // Parse and add new values (comma-separated)
     std::string value_str(value.data(), value.size());
     std::stringstream ss(value_str);
-    std::string item;
+    std::string item = {};
     while (std::getline(ss, item, ',')) {
         if (!item.empty()) {
             unique_values.insert(item);

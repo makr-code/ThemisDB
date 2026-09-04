@@ -74,7 +74,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
 
     // --- Validate registration under lock --------------------------------
     ModuleLoader *loader_ptr = nullptr;
-    std::string prior_path;
+    std::string prior_path = {};
     ModuleVersion prior_version;
     uint64_t registration_id = 0;
     {
@@ -103,7 +103,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     result.previousVersion = prior_version.toString();
 
     // --- Save state before unloading (optional) ---------------------------
-    std::string saved_state;
+    std::string saved_state = {};
     if (config_.preserveState) {
         saved_state = saveState(module_name);
         if (!saved_state.empty()) {
@@ -263,7 +263,7 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
 
     // Validate registration and extract backup info under lock.
     ModuleLoader *loader_ptr = nullptr;
-    std::string backup_path;
+    std::string backup_path = {};
     ModuleVersion backup_version;
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);

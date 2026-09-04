@@ -144,7 +144,7 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
             }
 
             if (config_.enable_alerts && shouldSendAlert()) {
-                std::ostringstream msg;
+                std::ostringstream msg = {};
                 msg << "Disk space " << static_cast<int>(new_level) << ": "
                     << disk_utils::formatBytes(info.free_bytes) << " free ("
                     << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
@@ -429,7 +429,7 @@ void DiskSpaceMonitor::handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel n
     // Send alert
     if (config_.enable_alerts && shouldSendAlert()) {
         auto info = current_info_;
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Disk space " << static_cast<int>(new_level) << ": "
             << disk_utils::formatBytes(info.free_bytes) << " free ("
             << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
@@ -535,7 +535,7 @@ bool getDiskSpace(
 
     // Query the nearest existing ancestor so callers may pass non-existing
     // file/dir targets (e.g., planned output paths) and still obtain volume stats.
-    std::error_code ec;
+    std::error_code ec = {};
     auto probe = fs::absolute(fs::path(path), ec);
     if (ec || probe.empty()) {
         probe = fs::current_path(ec);
@@ -607,7 +607,7 @@ std::string formatBytes(size_t bytes) {
         unit_index++;
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(2) << size << " " << units[unit_index];
     return oss.str();
 }

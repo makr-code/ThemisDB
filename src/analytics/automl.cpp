@@ -123,7 +123,7 @@ struct FeatMatrix {
 
 /** Extract numeric features from DataPoints, excluding the target field. */
 FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string &target) {
-    FeatMatrix fm;
+    FeatMatrix fm = {};
     if (data.empty()) {
         return fm;
     }
@@ -1085,7 +1085,7 @@ struct RFModel : ModelBase {
 struct GBModel : ModelBase {
     struct Stage {
         DecisionTree tree;
-        double lr;
+        double lr = {};
     };
     std::vector<Stage> stages;
     double base_value  = 0.0;
@@ -1661,7 +1661,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
 
     // Build top_features string
     size_t top_n = std::min(size_t(5), exp.feature_contributions.size());
-    std::string tf;
+    std::string tf = {};
     for (size_t i = 0; i < top_n; ++i) {
         if (i > 0) {
             tf += ", ";
@@ -1731,7 +1731,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         return "UNSUPPORTED_OPERATION: algorithm '" + impl_->name_str + "' is not supported for ONNX export";
     }
 
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << std::setprecision(std::numeric_limits<double>::max_digits10);
 
     // ---- helper lambdas ---------------------------------------------------
@@ -1903,7 +1903,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
 std::string AutoMLModel::serialize() const {
     std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     // Minimal serialisation: stores metadata only (not the full model weights)
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "task=" << static_cast<int>(impl_->task) << "\n";
     ss << "algorithm=" << static_cast<int>(impl_->algo) << "\n";
     ss << "name=" << impl_->name_str << "\n";
@@ -1921,7 +1921,7 @@ std::string AutoMLModel::serialize() const {
 AutoMLModel AutoMLModel::deserialize(const std::string &data) {
     AutoMLModel m;
     std::istringstream ss(data);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         auto pos = line.find('=');
         if (pos == std::string::npos) {
@@ -2161,7 +2161,7 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
     }
 
     // ---- Label encoding ----
-    LabelEncoder le;
+    LabelEncoder le = {};
     if (is_classifier) {
         le.fit(y_str);
     }

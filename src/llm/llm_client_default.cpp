@@ -53,7 +53,7 @@ public:
         const std::string& prompt,
         const GenerationOptions& options) override
     {
-        GenerationResult result;
+        GenerationResult result = {};
 
         if (!ready_) {
             result.success = false;

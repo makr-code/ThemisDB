@@ -119,7 +119,7 @@ class DocsAssistantFunctions::Impl {
     std::unique_ptr<llm::applications::ThemisHelpLoRA> help_lora_;
     bool lora_available_                                    = false;
     DocsAssistantFunctions::DegradedReason degraded_reason_ = DocsAssistantFunctions::DegradedReason::OK;
-    std::string degraded_message_;
+    std::string degraded_message_ = {};
 };
 
 DocsAssistantFunctions::DocsAssistantFunctions() = default;
@@ -144,7 +144,7 @@ std::string DocsAssistantFunctions::help(const std::string &query, const std::st
 
         // Try to use LoRA adapter if available
         bool using_lora = false;
-        std::string answer;
+        std::string answer = {};
         auto start_time = std::chrono::high_resolution_clock::now();
 
         if (impl.isLoRAAvailable()) {
@@ -363,7 +363,7 @@ std::string DocsAssistantFunctions::extractSearchQuery(const std::string &query)
 
 std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::DocumentEntry> &docs) {
     // Format search results as text
-    std::ostringstream result;
+    std::ostringstream result = {};
     result << "Found " << docs.size() << " relevant documents:\n\n";
 
     for (size_t i = 0; i < docs.size(); ++i) {

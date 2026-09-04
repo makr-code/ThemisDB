@@ -197,7 +197,7 @@ std::string LlmReranker::buildPrompt(
     const std::string& query,
     const std::vector<LlmRerankCandidate>& batch
 ) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Rate the relevance of each document to the following search query.\n"
         << "Output exactly one integer score per line, in the same order as the documents.\n"
         << "Use a scale of 0 (not relevant) to 10 (highly relevant).\n"
@@ -230,7 +230,7 @@ std::vector<double> LlmReranker::parseScores(
     scores.reserve(count);
 
     std::istringstream iss(llm_output);
-    std::string line;
+    std::string line = {};
 
     while (std::getline(iss, line) && scores.size() < count) {
         // Strip whitespace

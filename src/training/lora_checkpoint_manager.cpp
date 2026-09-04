@@ -31,7 +31,7 @@ namespace {
 
 // Serialize a single manifest entry to a key=value block
 std::string serializeEntry(const themis::training::CheckpointManifestEntry& e) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "checkpoint_path=" << e.checkpoint_path << "\n"
         << "sha256="          << e.sha256           << "\n"
         << "base_model_hash=" << e.base_model_hash  << "\n"
@@ -56,7 +56,7 @@ parseManifest(const std::string& content) {
     std::vector<themis::training::CheckpointManifestEntry> result;
     themis::training::CheckpointManifestEntry entry;
     std::istringstream iss(content);
-    std::string line;
+    std::string line = {};
     bool in_block = false;
 
     // Returns true when 's' is exactly 64 lowercase hex characters.
@@ -169,7 +169,7 @@ public:
         }
 
         // Build destination filename from version or epoch/step
-        std::string filename;
+        std::string filename = {};
         if (!meta.adapter_version.empty()) {
             filename = meta.adapter_version + "_e" + std::to_string(meta.epoch)
                        + "_s" + std::to_string(meta.step) + ".ckpt";
@@ -307,7 +307,7 @@ public:
         if (!f.is_open()) {
           return "";
         }
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << f.rdbuf();
         return oss.str();
     }
@@ -344,7 +344,7 @@ public:
 
     // Phase 2: Audit all checkpoints
     size_t auditCheckpoints(std::string* diagnostics) {
-        std::ostringstream diag;
+        std::ostringstream diag = {};
         size_t valid_count = 0;
         
         diag << "Checkpoint audit report:\n"
@@ -376,7 +376,7 @@ private:
     void loadManifest() {
         std::ifstream f(manifestPath());
         if (!f.is_open()) return; // first run — no manifest yet
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << f.rdbuf();
         entries_ = parseManifest(oss.str());
     }
@@ -442,7 +442,7 @@ std::string LoRACheckpointManager::loadCalibrationJson() const {
 
 std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnostics(
     std::string* diagnostics) const {
-    std::ostringstream diag;
+    std::ostringstream diag = {};
     const auto& entries = impl_->listCheckpoints();
     
     diag << "Checkpoint recovery audit:\n"

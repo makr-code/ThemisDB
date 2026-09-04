@@ -29,7 +29,7 @@ namespace themis::exporters {
 
 struct ExportEncryptionConfig {
     bool enabled = false;
-    std::string kek_id;
+    std::string kek_id = {};
     std::string job_id;
     std::shared_ptr<themis::KeyProvider> key_provider;
 

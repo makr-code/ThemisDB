@@ -78,7 +78,7 @@ static void BM_LLM_Embeddings(benchmark::State& state) {
     InitLLM(state);
     int num_words = state.range(0);
     
-    std::string text;
+    std::string text = {};
     for (int i = 0; i < num_words; ++i) {
         text += "word" + std::to_string(i) + " ";
     }

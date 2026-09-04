@@ -371,7 +371,7 @@ TEST(SAGAOrchestratorTest, AC7_ComplexWorkflow_DiamondDAGExecutesCorrectly) {
     SAGAOrchestrator orch;
 
     std::vector<std::string> execution_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     auto track = [&](const std::string& name) {
         return [&execution_order, &mu, name]() {
@@ -601,7 +601,7 @@ TEST(SAGAOrchestratorTest, AC13_ExponentialBackoff_RetriesAreDelayed) {
     SAGAOrchestrator orch;
 
     std::vector<std::chrono::steady_clock::time_point> attempt_times;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition saga;
     saga.id   = "backoff-1";
@@ -801,7 +801,7 @@ TEST(SAGAOrchestratorTest, AC19_Journal_WrittenWhenPathConfigured) {
         (std::filesystem::temp_directory_path() /
          ("saga_test_journal_" + std::to_string(ts) + ".jsonl"))
         .string();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(journal_path, ec);
 
     SAGAOrchestrator::Config cfg;
@@ -814,7 +814,7 @@ TEST(SAGAOrchestratorTest, AC19_Journal_WrittenWhenPathConfigured) {
     EXPECT_TRUE(std::filesystem::exists(journal_path));
 
     std::ifstream ifs(journal_path);
-    std::string line;
+    std::string line = {};
     std::getline(ifs, line);
     EXPECT_NE(line.find("saga_started"), std::string::npos);
 
@@ -1011,7 +1011,7 @@ TEST_F(SAGAOrchestratorFixtureTest, SingleStep_Success) {
 
 TEST_F(SAGAOrchestratorFixtureTest, MultiStep_Sequential_Success) {
     std::vector<int> order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "sequential";
@@ -1059,7 +1059,7 @@ TEST_F(SAGAOrchestratorFixtureTest, DAG_DependencyOrder_Enforced) {
     // reserve_inventory and validate_customer run first (wave 0)
     // charge_payment runs after both complete (wave 1)
     std::vector<std::string> execution_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "dag_order";
@@ -1086,7 +1086,7 @@ TEST_F(SAGAOrchestratorFixtureTest, DAG_DependencyOrder_Enforced) {
 
 TEST_F(SAGAOrchestratorFixtureTest, StepFailure_TriggersCompensation) {
     std::vector<std::string> comp_log;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "compensate_test";
@@ -1119,7 +1119,7 @@ TEST_F(SAGAOrchestratorFixtureTest, StepFailure_TriggersCompensation) {
 
 TEST_F(SAGAOrchestratorFixtureTest, Compensation_ReverseOrder) {
     std::vector<int> comp_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "reverse_comp";
@@ -1285,7 +1285,7 @@ TEST_F(SAGAOrchestratorFixtureTest, Template_ExecuteFromTemplate) {
 TEST_F(SAGAOrchestratorFixtureTest, DAG_ThreeLevelDiamond_CorrectOrder) {
     // A → B, A → C, B → D, C → D  (diamond)
     std::vector<std::string> exec_order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     auto record = [&](std::string name) -> std::function<void()> {
         return [&mu, &exec_order, name = std::move(name)]{
@@ -1516,7 +1516,7 @@ TEST_F(SAGAOrchestratorFixtureTest, Performance_ParallelFasterThanSequential) {
 
 TEST_F(SAGAOrchestratorFixtureTest, ChainedDependencies_Success) {
     std::vector<int> order;
-    std::mutex mu;
+    std::mutex mu = {};
 
     SAGADefinition def;
     def.name           = "chain";

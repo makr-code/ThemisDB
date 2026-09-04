@@ -49,7 +49,7 @@ std::string EmbeddedLLM::generateStreaming(const std::string& prompt, std::funct
       return std::string();
     }
     (void)max_tokens;
-    std::string out;
+    std::string out = {};
     impl->generateStreaming(prompt, [&]([[maybe_unused]] const std::string& token){
         out += token;
         callback([[maybe_unused]] token);

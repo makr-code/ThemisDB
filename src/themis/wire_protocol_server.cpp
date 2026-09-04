@@ -222,7 +222,7 @@ static std::array<uint8_t, HEADER_SIZE> serializeHeader(const WireFrameHeader& h
 /// Deserialize WireFrameHeader from a 12-byte big-endian wire buffer.
 static WireFrameHeader deserializeHeader(const uint8_t* buf) {
     WireFrameHeader h{};
-    uint32_t magic_be;
+    uint32_t magic_be = {};
     std::memcpy(&magic_be, buf, 4);
     h.magic = ntohl(magic_be);
     h.version = buf[4];
@@ -230,7 +230,7 @@ static WireFrameHeader deserializeHeader(const uint8_t* buf) {
     uint16_t flags_be;
     std::memcpy(&flags_be, buf + 6, 2);
     h.flags = ntohs(flags_be);
-    uint32_t len_be;
+    uint32_t len_be = {};
     std::memcpy(&len_be, buf + 8, 4);
     h.payload_length = ntohl(len_be);
     return h;
@@ -238,7 +238,7 @@ static WireFrameHeader deserializeHeader(const uint8_t* buf) {
 
 /// Produce a session-ID string from remote endpoint + monotonic timestamp.
 static std::string makeSessionId(const tcp::socket& socket) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     try {
         ss << socket.remote_endpoint().address().to_string()
            << ':' << socket.remote_endpoint().port()
@@ -297,7 +297,7 @@ json protoMapToJson(const MapLike& values) {
 /// Replaces control characters (< 0x20) and DEL (0x7F) with '?' to prevent
 /// log injection and client confusion via embedded newlines or escape sequences.
 static std::string sanitizeForMessage(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         if (c < 0x20u || c == 0x7Fu) {
@@ -419,7 +419,7 @@ void WireProtocolSession::close(const std::string& /*reason*/) {
         disconnect_callback = disconnect_callback_;
     }
 
-    error_code ec;
+    error_code ec = {};
     if (socket_.is_open()) {
         socket_.shutdown(tcp::socket::shutdown_both, ec);
         socket_.close(ec);
@@ -730,7 +730,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
 void WireProtocolSession::async_write_response(
     OpCode opcode, const google::protobuf::Message& message) {
 #if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
-    std::string serialized;
+    std::string serialized = {};
     if (!message.SerializeToString(&serialized)) {
         send_error(0x05, "Failed to serialize response");
         return;
@@ -1451,8 +1451,8 @@ void WireProtocolSession::handle_bpmn_task_complete(
     }
     // Resolve instance_id from task_id via the process graph manager.
     // The task_id field may carry "instance_id/task_node" or a standalone token.
-    std::string instance_id;
-    std::string task_node;
+    std::string instance_id = {};
+    std::string task_node = {};
     const auto& full_id = req.task_id();
     const auto slash    = full_id.find('/');
     if (slash != std::string::npos) {

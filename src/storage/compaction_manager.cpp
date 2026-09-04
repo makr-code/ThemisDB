@@ -228,7 +228,7 @@ CompactionManager::Stats CompactionManager::stats() const {
                 R"(L(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+))");
 
             std::istringstream ss(s.rocksdb_stats);
-            std::string line;
+            std::string line = {};
             double total_write_gb = 0.0;
             double flush_gb       = 0.0;
             bool in_compaction_section = false;
@@ -241,7 +241,7 @@ CompactionManager::Stats CompactionManager::stats() const {
                   continue;
                 }
 
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_search(line, m, level_line_re)) {
                     try {
                         int    level     = std::stoi(m[1].str());

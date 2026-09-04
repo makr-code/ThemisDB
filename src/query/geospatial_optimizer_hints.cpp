@@ -42,7 +42,7 @@ bool SpatialHint::isValid() const {
 }
 
 std::string SpatialHint::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     switch (type) {
         case SpatialHintType::USE_INDEX:
@@ -118,7 +118,7 @@ SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     
     // Pattern: HINT_TYPE(field, arg)
     std::regex hint_regex("(USE_INDEX|FORCE_SCAN|INDEX_PRIORITY|DISTANCE_ORDER)\\s*\\(([^,]+),?([^)]*)\\)");
-    std::smatch match;
+    std::smatch match = {};
     
     if (!std::regex_search(normalized, match, hint_regex)) {
         THEMIS_WARN("GeospatialHints: Failed to parse hint: {}", hintString);
@@ -242,7 +242,7 @@ std::vector<SpatialHint> SpatialHintParser::parseHintsFromQuery(
     // Find all hint patterns in query text
     std::regex hint_pattern("(USE_INDEX|FORCE_SCAN|INDEX_PRIORITY|DISTANCE_ORDER)\\s*\\([^)]+\\)");
     std::sregex_iterator iter(queryText.begin(), queryText.end(), hint_pattern);
-    std::sregex_iterator end;
+    std::sregex_iterator end = {};
     
     while (iter != end) {
         std::string hintStr = iter->str();

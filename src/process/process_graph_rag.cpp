@@ -984,7 +984,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
 
     // Try to load reference embedding
     std::string ref_emb_key = "proc:inst_emb:" + std::string(instance_id);
-    std::string ref_emb_val;
+    std::string ref_emb_val = {};
     std::vector<float> ref_embedding = {};
 
     if (db_.get(ref_emb_key, ref_emb_val)) {
@@ -1129,7 +1129,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
 
 std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
                                               const ProcessRagConfig&  config) const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     const bool de = (config.language != "en");
 
     if (de) {
@@ -1323,7 +1323,7 @@ std::string ProcessGraphRag::buildAdminProcessingPrompt(const ProcessRagContext&
 }
 
 std::string ProcessGraphRag::buildQueryPrompt(const ProcessRagContext& ctx) const {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << ctx.llm_prompt;
     if (!ctx.query.empty()) {
         ss << "\n---\nFrage: " << ctx.query << "\n";
@@ -1480,7 +1480,7 @@ void ProcessGraphRag::recordNodeCompletion(
     // Load existing aggregate
     json agg = json::object();
     {
-        std::string val;
+        std::string val = {};
         if (db_.get(key, val) && !val.empty()) {
             try { agg = json::parse(val); }
             catch (...) { agg = json::object(); }

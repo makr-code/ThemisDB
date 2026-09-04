@@ -24,7 +24,7 @@ static std::string base64_encode(const unsigned char* data, size_t len) {
     static const char* base64_chars = 
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     
-    std::string ret;
+    std::string ret = {};
     int i = 0;
     unsigned char char_array_3[3];
     unsigned char char_array_4[4];
@@ -83,7 +83,7 @@ nlohmann::json SignatureInfo::toJson() const {
 }
 
 SignatureInfo SignatureInfo::fromJson(const nlohmann::json& j) {
-    SignatureInfo info;
+    SignatureInfo info = {};
     if (j.contains("signature")) {
       info.signature = j["signature"];
     }
@@ -126,7 +126,7 @@ nlohmann::json ImmutableAuditEntry::toJson() const {
 }
 
 ImmutableAuditEntry ImmutableAuditEntry::fromJson(const nlohmann::json& j) {
-    ImmutableAuditEntry entry;
+    ImmutableAuditEntry entry = {};
     if (j.contains("entry_id")) {
       entry.entry_id = j["entry_id"];
     }
@@ -195,7 +195,7 @@ std::string AuditSigner::computeSha256Hash(const std::string& content) const {
     SHA256_Update(&sha256, content.c_str(), content.length());
     SHA256_Final(hash, &sha256);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
@@ -273,7 +273,7 @@ SignatureInfo AuditSigner::signEntry(
     info.entry_hash = computeSha256Hash(content);
     
     // Compute signature
-    std::string signature;
+    std::string signature = {};
     if (algorithm_ == SignatureAlgorithm::HMAC_SHA256) {
         signature = computeHmacSha256(content);
         info.algorithm = "HMAC-SHA256";
@@ -352,7 +352,7 @@ nlohmann::json TamperIncident::toJson() const {
 }
 
 TamperIncident TamperIncident::fromJson(const nlohmann::json& j) {
-    TamperIncident incident;
+    TamperIncident incident = {};
     if (j.contains("incident_id")) {
       incident.incident_id = j["incident_id"];
     }
@@ -595,7 +595,7 @@ nlohmann::json AuditRetentionPolicy::toJson() const {
 }
 
 AuditRetentionPolicy AuditRetentionPolicy::fromJson(const nlohmann::json& j) {
-    AuditRetentionPolicy policy;
+    AuditRetentionPolicy policy = {};
     if (j.contains("policy_id")) {
       policy.policy_id = j["policy_id"];
     }
@@ -643,7 +643,7 @@ nlohmann::json LegalHold::toJson() const {
 }
 
 LegalHold LegalHold::fromJson(const nlohmann::json& j) {
-    LegalHold hold;
+    LegalHold hold = {};
     if (j.contains("hold_id")) {
       hold.hold_id = j["hold_id"];
     }

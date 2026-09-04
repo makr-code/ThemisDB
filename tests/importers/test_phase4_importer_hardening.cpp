@@ -142,7 +142,7 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
 
         if (values_clause[i] == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 if (values_clause[i] == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
                     val += '\''; i += 2;

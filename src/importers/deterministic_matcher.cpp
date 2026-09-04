@@ -28,7 +28,7 @@ DeterministicMatcher::findExactMatches(const json &incoming_entity, const std::s
     std::vector<MatchResult> results;
 
     // Build a key string from the incoming entity's key field values.
-    std::string key_value;
+    std::string key_value = {};
     std::vector<std::string> matched_keys;
     json evidence;
     bool all_present = true;
@@ -53,7 +53,7 @@ DeterministicMatcher::findExactMatches(const json &incoming_entity, const std::s
     // In a real ThemisDB deployment this would query the live index.
     // Here we derive the ID from the entity's own "_id" or "id" field
     // so that the matcher can be exercised without a running database.
-    std::string existing_id;
+    std::string existing_id = {};
     if (incoming_entity.contains("_id") && !incoming_entity["_id"].is_null()) {
         existing_id = incoming_entity["_id"].is_string() ? incoming_entity["_id"].get<std::string>()
                                                          : incoming_entity["_id"].dump();
@@ -316,7 +316,7 @@ double SemanticMatcher::soundexMatch(const std::string &name1, const std::string
     // Extract first token of each name (first word) for phonetic comparison.
     auto firstToken = [](const std::string &s) -> std::string {
         std::istringstream ss(s);
-        std::string token;
+        std::string token = {};
         ss >> token;
         return token;
     };
@@ -382,7 +382,7 @@ bool SemanticMatcher::isLikelyEmailTypo(const std::string &e1, const std::string
 }
 
 std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
-    std::string digits;
+    std::string digits = {};
     for (char c : phone) {
         if (std::isdigit(static_cast<unsigned char>(c))) {
             digits += c;

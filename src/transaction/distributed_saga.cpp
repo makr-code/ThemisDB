@@ -229,7 +229,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     // -- Execute waves in order ----------------------------------------
     std::vector<std::string> executed_order; // names in forward-execution order
     bool failed = false;
-    std::string failure_reason;
+    std::string failure_reason = {};
 
     for (auto& wave : waves) {
         if (failed) {
@@ -401,7 +401,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
             }
 
             const auto& step = step_map.at(name);
-            std::string missing_dep;
+            std::string missing_dep = {};
             if (!dependenciesSatisfied(step, missing_dep)) {
                 failure_reason = "Step '" + name +
                                  "' violated causal dependency: '" +
@@ -429,7 +429,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 
         const DistributedSagaStep& step = step_map.at(name);
 
-        std::string missing_dep;
+        std::string missing_dep = {};
         if (!dependenciesSatisfied(step, missing_dep)) {
             failure_reason = "Step '" + name +
                              "' violated causal dependency: '" +
@@ -568,7 +568,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
             // QW-39: Verify distributed consensus for write durability
             // After local step succeeds, check that write was replicated to quorum
             if (config_.enable_consensus_verification) {
-                std::string consensus_failure_detail;
+                std::string consensus_failure_detail = {};
                 bool consensus_ok = verifyStepConsensus(
                     step.name,
                     step.node_id,
@@ -849,7 +849,7 @@ void DistributedSagaCoordinator::journalWrite(
           << ",\"event\":\"" << event << "\"";
         if (!detail.empty()) {
             // Minimal escaping of double quotes in detail
-            std::string escaped;
+            std::string escaped = {};
             escaped.reserve(detail.size());
             for (char c : detail) {
                 if (c == '"') {
@@ -1026,7 +1026,7 @@ std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
     // Track terminal states seen per saga_id
     std::map<std::string, std::string> latest_event; // saga_id → most recent event
 
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
           continue;
@@ -1095,7 +1095,7 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     }
 
     // ── DOT graph ──────────────────────────────────────────────────────────
-    std::ostringstream dot;
+    std::ostringstream dot = {};
     dot << "digraph \"" << saga.saga_id << "\" {\n";
     dot << "  rankdir=LR;\n";
     dot << "  node [shape=box, style=filled, fillcolor=lightgrey];\n";
@@ -1127,7 +1127,7 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     dot << "}\n";
 
     // ── Text summary ───────────────────────────────────────────────────────
-    std::ostringstream txt;
+    std::ostringstream txt = {};
     txt << "SAGA: " << saga.saga_id << "\n";
     txt << "Steps: " << saga.steps.size() << "\n";
     if (report_opt) {

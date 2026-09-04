@@ -119,7 +119,7 @@ TEST(MaintenanceStress, MTN21_CorruptStorePersistenceCorrupt) {
     }
 
     std::map<std::string, MaintenanceScheduleEntry> loaded;
-    std::string err;
+    std::string err = {};
     bool ok = store.loadAll(loaded, err);
     EXPECT_FALSE(ok) << "loadAll must return false when data is corrupt";
     EXPECT_FALSE(err.empty()) << "error message must describe the corruption";
@@ -180,7 +180,7 @@ TEST(MaintenanceStress, MTN23_FiveHundredCycleStressLoop) {
 
         // reload
         std::map<std::string, MaintenanceScheduleEntry> loaded;
-        std::string err;
+        std::string err = {};
         bool ok = store.loadAll(loaded, err);
         if (!ok) {
           ++errors;
@@ -205,7 +205,7 @@ TEST(MaintenanceStress, MTN24_EmptyScheduleListPersistReload) {
     MockScheduleStore store;
     // Store is empty — loadAll on empty store must succeed with empty result.
     std::map<std::string, MaintenanceScheduleEntry> loaded;
-    std::string err;
+    std::string err = {};
     bool ok = store.loadAll(loaded, err);
     EXPECT_TRUE(ok) << "loadAll on empty store must return true";
     EXPECT_TRUE(loaded.empty()) << "Loaded map must be empty";
@@ -245,7 +245,7 @@ TEST(MaintenanceStress, MTN26_MaxScheduleCountPersistReload) {
     EXPECT_EQ(static_cast<int>(store.data.size()), kCount);
 
     std::map<std::string, MaintenanceScheduleEntry> loaded;
-    std::string err;
+    std::string err = {};
     bool ok = store.loadAll(loaded, err);
     EXPECT_TRUE(ok) << "loadAll of 1000 schedules must succeed: " << err;
     EXPECT_EQ(static_cast<int>(loaded.size()), kCount);
@@ -267,7 +267,7 @@ TEST(MaintenanceStress, MTN27_CorruptMidArrayReturnsPersistenceCorrupt) {
     store.data["corrupt-mid"] = "[{{NOT VALID JSON}}";
 
     std::map<std::string, MaintenanceScheduleEntry> loaded;
-    std::string err;
+    std::string err = {};
     bool ok = store.loadAll(loaded, err);
     EXPECT_FALSE(ok)
         << "loadAll must fail when any entry is corrupt (PersistenceCorrupt contract)";

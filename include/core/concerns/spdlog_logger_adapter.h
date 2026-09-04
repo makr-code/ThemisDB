@@ -109,7 +109,7 @@ public:
             logger_->log(toSpdlogLevel(level), json);
         } else {
             // Fallback: plain text with key=value pairs
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << message;
             for (const auto& [k, v] : fields) {
                 oss << " " << k << "=" << redact(k, v);
@@ -139,7 +139,7 @@ public:
         if (json_mode_) {
             // Merge correlation IDs first so they appear before user fields
             // when iterating a sorted map in buildJsonLine().
-            Fields merged;
+            Fields merged = {};
             if (!ctx.trace_id.empty()) {
               merged["trace_id"]   = ctx.trace_id;
             }
@@ -155,7 +155,7 @@ public:
             logger_->log(toSpdlogLevel(level), json);
         } else {
             // Plain text: prepend correlation prefix for easy grep.
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             if (!ctx.trace_id.empty())
                 oss << "[trace=" << ctx.trace_id << "]";
             if (!ctx.span_id.empty())
@@ -252,7 +252,7 @@ private:
      * @brief JSON-escape a string value.
      */
     static std::string jsonEscape(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size() + 4);
         for (unsigned char c : s) {
             switch (c) {
@@ -310,7 +310,7 @@ private:
 #endif
         std::strftime(ts_buf, sizeof(ts_buf), "%Y-%m-%dT%H:%M:%S", &tm_result);
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"ts\":\"" << ts_buf << '.' 
             << std::setfill('0') << std::setw(3) << (ms % 1000)
             << "Z\",\"level\":\"" << jsonEscape(levelToString(level))

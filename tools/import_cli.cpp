@@ -134,7 +134,7 @@ static std::vector<std::string> splitCopyRow(const std::string& line) {
             // unescape
             if (raw == "\\N") { result.push_back(""); }
             else {
-                std::string out;
+                std::string out = {};
                 out.reserve(raw.size());
                 for (size_t k = 0; k < raw.size(); ++k) {
                     if (raw[k] == '\\' && k + 1 < raw.size()) {
@@ -226,7 +226,7 @@ static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
     if (!f) {
       return hs;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (!line.empty()) {
             try { hs.insert(std::stoull(line, nullptr, 16)); } catch (...) { std::cerr << "warning: skipping malformed hash line: '" << line << "'\n"; }
@@ -275,7 +275,7 @@ static int runImport(const Config& cfg) {
 
     // Detect dump mode from header
     {
-        std::string hdr;
+        std::string hdr = {};
         int n = 0;
         while (std::getline(file, hdr) && n < 50) {
             if (hdr.find("schema only") != std::string::npos ||
@@ -301,14 +301,14 @@ static int runImport(const Config& cfg) {
     // Track current table schemas: name -> column names
     std::map<std::string, std::vector<std::string>> schemas;
 
-    std::string line;
-    std::string sql;
+    std::string line = {};
+    std::string sql = {};
     size_t line_num = 0;
 
     auto processCopyBlock = [&](const std::string& table_name,
                                  const std::vector<std::string>& col_list) {
         if (!shouldImport(table_name, cfg)) {
-            std::string skip_line;
+            std::string skip_line = {};
             while (std::getline(file, skip_line)) {
                 if (skip_line == "\\." || skip_line.rfind("\\.", 0) == 0) {
                   break;
@@ -321,7 +321,7 @@ static int runImport(const Config& cfg) {
         const std::vector<std::string>& cols =
             col_list.empty() && schemas.count(table_name) ? schemas[table_name] : col_list;
 
-        std::string data_line;
+        std::string data_line = {};
         size_t row = 0;
         bool first = true;
         while (std::getline(file, data_line)) {
@@ -434,11 +434,11 @@ static int runImport(const Config& cfg) {
             // CREATE TABLE
             if (sql.find("CREATE TABLE") != std::string::npos) {
                 // Extract table name
-                std::string name;
+                std::string name = {};
                 auto pos = sql.find("CREATE TABLE");
                 if (pos != std::string::npos) {
                     std::istringstream ss(sql.substr(pos + 12));
-                    std::string word;
+                    std::string word = {};
                     ss >> word;
                     // strip schema qualifier
                     auto dot = word.find('.');
@@ -459,13 +459,13 @@ static int runImport(const Config& cfg) {
             }
             // COPY
             else if (sql.find("COPY ") != std::string::npos) {
-                std::string table_name;
+                std::string table_name = {};
                 std::vector<std::string> col_list;
                 // Extract table and optional column list
                 auto pos = sql.find("COPY ");
                 if (pos != std::string::npos) {
                     std::istringstream ss(sql.substr(pos + 5));
-                    std::string word;
+                    std::string word = {};
                     ss >> word;
                     auto dot = word.find('.');
                     if (dot != std::string::npos) {
@@ -480,7 +480,7 @@ static int runImport(const Config& cfg) {
                     if (lp != std::string::npos && rp != std::string::npos &&
                         (fi == std::string::npos || lp < fi)) {
                         std::istringstream css(sql.substr(lp + 1, rp - lp - 1));
-                        std::string col;
+                        std::string col = {};
                         while (std::getline(css, col, ',')) {
                             col.erase(0, col.find_first_not_of(" \t"));
                             if (auto e = col.find_last_not_of(" \t"); e != std::string::npos)

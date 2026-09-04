@@ -77,7 +77,7 @@ static std::vector<std::string> loadInjectionPrefixes(const std::string &config_
     }
 
     std::vector<std::string> prefixes;
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         if (line.empty() || line[0] == '#') {
             continue;
@@ -134,7 +134,7 @@ static std::string sanitizeUserContent(const std::string &content,
     // Exceeding this is almost certainly a flooding or context-exhaustion attack.
     constexpr size_t kMaxContentBytes = 32 * 1024;
 
-    std::string out;
+    std::string out = {};
     const size_t limit = std::min(content.size(), kMaxContentBytes);
     out.reserve(limit);
 
@@ -344,7 +344,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest &reque
         std::string prompt = generatePrompt(request.task_type, data, request.domain);
 
         // Call LLM with retry logic
-        std::string raw_llm_response;
+        std::string raw_llm_response = {};
         int retries = 0;
         while (retries <= pImpl->config.max_retries) {
             try {
@@ -495,7 +495,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest &reque
 
 std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohmann::json &data,
                                                const std::string &domain) const {
-    std::stringstream ss;
+    std::stringstream ss = {};
 
     switch (task_type) {
         case TaskType::ANALYZE_PROCESS:
@@ -766,7 +766,7 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest &request) const {
     auto sha256hex = [](const std::string &input) -> std::string {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }

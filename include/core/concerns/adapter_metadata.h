@@ -95,10 +95,10 @@ struct AdapterMetadata {
  */
 struct AdapterSignature {
     /// Hash algorithm identifier.  Must be @c "sha256" to pass validation.
-    std::string algorithm;
+    std::string algorithm = {};
 
     /// Lowercase hex-encoded SHA-256 digest (64 characters for sha256).
-    std::string digest;
+    std::string digest = {};
 
     /**
      * @brief Return true when both fields are non-empty (i.e., signature present).

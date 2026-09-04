@@ -213,7 +213,7 @@ WriteResult ResultAggregator::WriteResults(const ResultBatch& batch) {
 // Gap A-2-14, A-2-18: Batch flush with connection reuse
 // ========================================================================
 WriteResult ResultAggregator::FlushBuffer() {
-    WriteResult result;
+    WriteResult result = {};
     
     if (buffer_.empty()) {
         result.success = true;

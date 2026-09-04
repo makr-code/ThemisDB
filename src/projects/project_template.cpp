@@ -47,7 +47,7 @@ std::string ProjectTemplate::generateUuid() const {
             std::chrono::steady_clock::now().time_since_epoch().count())
     };
     std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(16) << dist(rng)
         << std::setw(16) << dist(rng);

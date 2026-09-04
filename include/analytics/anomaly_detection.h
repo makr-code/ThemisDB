@@ -100,7 +100,7 @@ enum class AnomalyMethod {
  * treated as metadata and preserved in results / explanations.
  */
 struct DataPoint {
-    std::string id;
+    std::string id = {};
     int64_t     timestamp_ms = 0;
     std::map<std::string, PointValue> fields;
 

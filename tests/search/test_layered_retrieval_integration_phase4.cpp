@@ -106,7 +106,7 @@ storage::TTTrain makeTrain(const std::vector<float>& values) {
 class RecordingTracer final : public core::concerns::ITracer {
 public:
     struct CompletedSpan {
-        std::string name;
+        std::string name = {};
         std::map<std::string, std::string> string_attributes;
         bool ok = true;
         std::string description;

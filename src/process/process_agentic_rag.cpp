@@ -105,7 +105,7 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
 
     // Encode missing documents list.
     if (!ctx.missing_documents.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (const auto& md : ctx.missing_documents) {
             oss << "- " << md << '\n';
         }

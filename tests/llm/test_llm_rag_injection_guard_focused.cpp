@@ -45,7 +45,7 @@ namespace {
  * detector can scan the composed text.
  */
 std::string buildRagContext(const std::vector<std::string>& chunks) {
-    std::string ctx;
+    std::string ctx = {};
     for (const auto& c : chunks) {
         ctx += c;
         ctx += "\n---\n";

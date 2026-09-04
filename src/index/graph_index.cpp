@@ -884,7 +884,7 @@ GraphIndexManager::allVertices() const {
 		  return true;
 		}
 		const size_t last  = tail.rfind(':');
-		std::string fromPk;
+		std::string fromPk = {};
 		if (last == first) {
 			// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): pre-v2.0 key format without graphId segment
 			// Reason: RocksDB keys written before v2.0 lack the graphId segment; must read both formats.
@@ -908,7 +908,7 @@ GraphIndexManager::allVertices() const {
 		  return true;
 		}
 		const size_t last  = tail.rfind(':');
-		std::string toPk;
+		std::string toPk = {};
 		if (last == first) {
 			toPk = std::string(tail.substr(0, first));
 		} else {
@@ -1286,7 +1286,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 				}
 
 				std::string edgeId = keyStr.substr(lastColon + 1);
-				std::string graphId;
+				std::string graphId = {};
 				if (innerColon == std::string::npos) {
 				  graphId.clear();
 				}
@@ -1914,7 +1914,7 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
 	}
 
 	// Reconstruct path
-	PathResult result;
+	PathResult result = {};
 	if (!dist.count(target)) {
 		return {Status::Error("dijkstraAtTime: Kein Pfad gefunden"), result};
 	}
@@ -2465,7 +2465,7 @@ GraphIndexManager::dijkstraWithConstraints(
 
 	struct NodeState {
 		std::string node;
-		double cost;
+		double cost = {};
 		int edge_count;
 		std::vector<std::string> path;
 		std::unordered_set<std::string> visited_edges;

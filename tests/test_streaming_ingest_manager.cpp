@@ -98,7 +98,7 @@ TEST_F(StreamingIngestManagerTest, SM03_IngestSingleEventFlushVerify) {
 
     ASSERT_TRUE(mgr.flush());
 
-    std::string val;
+    std::string val = {};
     auto get = db_->get("k:hello", val);
     ASSERT_TRUE(get) << "key not found after ingest+flush";
     EXPECT_EQ(val, "world");
@@ -125,7 +125,7 @@ TEST_F(StreamingIngestManagerTest, SM04_IngestBatchWritesAll) {
     ASSERT_TRUE(mgr.flush());
 
     for (int i = 0; i < 100; ++i) {
-        std::string val;
+        std::string val = {};
         EXPECT_TRUE(db_->get("key_" + std::to_string(i), val));
         EXPECT_EQ(val, "val_" + std::to_string(i));
     }
@@ -148,7 +148,7 @@ TEST_F(StreamingIngestManagerTest, SM05_StopDrainsBuffer) {
     // After stop(), all events must be persisted.
     int found = 0;
     for (int i = 0; i < 50; ++i) {
-        std::string val;
+        std::string val = {};
         if (db_->get("drain_" + std::to_string(i), val)) {
             ++found;
         }

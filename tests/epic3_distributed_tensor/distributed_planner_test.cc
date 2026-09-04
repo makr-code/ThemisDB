@@ -116,7 +116,7 @@ protected:
         // Get current ISO-8601 timestamp
         auto now = std::chrono::system_clock::now();
         auto time_t_now = std::chrono::system_clock::to_time_t(now);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::put_time(std::gmtime(&time_t_now), "%Y-%m-%dT%H:%M:%SZ");
         std::string timestamp = oss.str();
         

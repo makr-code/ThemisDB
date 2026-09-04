@@ -17,7 +17,7 @@
 #include <mutex>
 
 namespace {
-    std::once_flag init_flag;
+    std::once_flag init_flag = {};
 }
 
 namespace themis {

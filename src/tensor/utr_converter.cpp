@@ -327,7 +327,7 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
     std::vector<std::string> tokens;
     {
         std::istringstream iss(segment);
-        std::string raw;
+        std::string raw = {};
         while (iss >> raw) {
             auto tok = normalizeToken(std::move(raw));
             if (!tok.empty()) {

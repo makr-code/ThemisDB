@@ -133,7 +133,7 @@ static const std::vector<std::string_view> UNSAFE_PATTERNS = {
  */
 bool containsUnsafePattern(const std::string& text) {
     // Build a lower-case copy once
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
     for (unsigned char c : text) {
       lower += static_cast<char>(std::tolower(c));
@@ -351,7 +351,7 @@ void LLMWikiPluginImpl::persistJsonIndex_locked() {
     }
 
     namespace fs = std::filesystem;
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(fs::path(json_index_path_).parent_path(), ec);
 
     nlohmann::json arr = nlohmann::json::array();
@@ -466,7 +466,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     const std::string&       source_path,
     const WikiIngestOptions& opts)
 {
-    WikiIngestResult result;
+    WikiIngestResult result = {};
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] ingest() called before initialize()");
         return result;
@@ -478,7 +478,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     // ── Collect files ──────────────────────────────────────────────────────────
     std::vector<fs::path> files;
     {
-        std::error_code ec;
+        std::error_code ec = {};
         if (fs::is_regular_file(source_path, ec)) {
             files.push_back(source_path);
         } else if (fs::is_directory(source_path, ec)) {
@@ -535,7 +535,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
         }
 
         // File size guard (> 50 MB)
-        std::error_code size_ec;
+        std::error_code size_ec = {};
         const auto fsize = fs::file_size(file_path, size_ec);
         if (!size_ec && fsize > 50ULL * 1024ULL * 1024ULL) {
             spdlog::warn("[llm_wiki] Skipping file exceeding 50 MB limit: {}", path_str);
@@ -545,7 +545,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
         }
 
         // Read file content
-        std::string content;
+        std::string content = {};
         {
             std::ifstream ifs(file_path);
             if (!ifs.is_open()) {
@@ -624,7 +624,7 @@ WikiQueryResult LLMWikiPluginImpl::query(
     const std::string&      query_text,
     const WikiQueryOptions& opts)
 {
-    WikiQueryResult result;
+    WikiQueryResult result = {};
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] query() called before initialize()");
         return result;
@@ -711,7 +711,7 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
     const std::string&       source_path,
     const WikiIngestOptions& opts)
 {
-    WikiIngestResult result;
+    WikiIngestResult result = {};
     if (!initialized_.load()) {
         result.errors++;
         result.failed_files.push_back(source_path);
@@ -725,7 +725,7 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
     }
 
     // Split source file into chunks
-    std::string content;
+    std::string content = {};
     {
         std::ifstream ifs(source_path);
         if (!ifs.is_open()) {
@@ -769,7 +769,7 @@ WikiQueryResult LLMWikiPluginImpl::wikiQuery(
     const std::string&      query_text,
     const WikiQueryOptions& opts)
 {
-    WikiQueryResult result;
+    WikiQueryResult result = {};
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] wikiQuery() called before initialize()");
         return result;
@@ -827,7 +827,7 @@ WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
     const std::string&          dump_path,
     const WikiDumpIngestOptions& opts)
 {
-    WikiIngestResult result;
+    WikiIngestResult result = {};
 
     if (!initialized_.load()) {
         result.errors++;

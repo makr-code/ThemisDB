@@ -167,7 +167,7 @@ public:
             if (!valid()) {
               return "";
             }
-            std::string v;
+            std::string v = {};
             const bool found = store_->get(keys_[pos_], v);
             if (!found) {
                 return "";
@@ -193,9 +193,9 @@ public:
         }
 
         IMigrationStorage*       store_;
-        std::string              prefix_;
+        std::string              prefix_ = {};
         std::vector<std::string> keys_;
-        std::size_t              pos_;
+        std::size_t              pos_ = {};
     };
 
     std::unique_ptr<IMigrationIterator> createIterator(
@@ -258,7 +258,7 @@ struct SchemaMigration::Impl {
     // Undo log: records of (table, key, old_value) for rollback.
     struct UndoEntry {
         std::string table;
-        std::string key;
+        std::string key = {};
         std::string old_value;   // empty string means the key did not exist before.
         bool        existed;     // true if old_value is meaningful.
     };
@@ -393,7 +393,7 @@ struct SchemaMigration::Impl {
             undo_log_.clear();  // Migration committed; undo log no longer needed.
 
             // Persist the migration version so the applied version is durable.
-            std::string prev_ver;
+            std::string prev_ver = {};
             if (storage.get("__schema__:version", prev_ver)) {
                 LOG_INFO("SchemaMigration [{}]: upgrading schema version marker: {} → {}",
                          version_, prev_ver, version_);
@@ -539,7 +539,7 @@ struct SchemaMigration::Impl {
                 op.column.default_value;
 
             // Record undo entry.
-            std::string existing;
+            std::string existing = {};
             bool had_value = storage.get(meta_key, existing);
             undo_log_.push_back({op.table, meta_key, existing, had_value});
 
@@ -596,7 +596,7 @@ struct SchemaMigration::Impl {
                 op.table + ":__schema__:rename:" + op.old_name;
 
             // Read existing metadata so we can copy it under the new name.
-            std::string meta_value;
+            std::string meta_value = {};
             bool had_old = storage.get(old_meta_key, meta_value);
             if (!had_old) {
                 // Column might not have schema metadata yet (freshly created table);
@@ -606,9 +606,9 @@ struct SchemaMigration::Impl {
 
             // Record undo entries for both old and new keys.
             // Capture the existing values so rollback can restore the prior state.
-            std::string existing_new_meta;
+            std::string existing_new_meta = {};
             bool had_new_meta = storage.get(new_meta_key, existing_new_meta);
-            std::string existing_rename;
+            std::string existing_rename = {};
             bool had_rename = storage.get(rename_key, existing_rename);
 
             undo_log_.push_back({op.table, new_meta_key, existing_new_meta, had_new_meta});
@@ -675,7 +675,7 @@ struct SchemaMigration::Impl {
                 op.table + ":__schema__:idx:" + op.index.name;
 
             // Build column list string with validation
-            std::string cols;
+            std::string cols = {};
             for (std::size_t i = 0; i < op.index.columns.size(); ++i) {
                 // FIX UM-SMD-21: Validate each column name
                 if (op.index.columns[i].empty()) {
@@ -695,7 +695,7 @@ struct SchemaMigration::Impl {
                 (op.index.build_online ? "online" : "blocking");
 
             // Record undo.
-            std::string existing;
+            std::string existing = {};
             bool had_value = storage.get(idx_key, existing);
             undo_log_.push_back({op.table, idx_key, existing, had_value});
 
@@ -748,10 +748,10 @@ struct SchemaMigration::Impl {
                 op.table + ":__schema__:dropped:" + op.column;
 
             // Record undo (restore column as "not dropped").
-            std::string existing;
+            std::string existing = {};
             bool had_value = storage.get(meta_key, existing);
             // Capture any pre-existing drop marker so rollback can restore it.
-            std::string existing_drop;
+            std::string existing_drop = {};
             bool had_drop = storage.get(drop_key, existing_drop);
             undo_log_.push_back({op.table, drop_key, existing_drop, had_drop});
             undo_log_.push_back({op.table, meta_key, existing, had_value});

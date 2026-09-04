@@ -663,7 +663,7 @@ public:
      * @return   ValidationResult with valid=true on success, or a list of errors.
      */
     static ValidationResult validate(const json& j) {
-        ValidationResult result;
+        ValidationResult result = {};
 
         if (!j.is_object()) {
             result.errors.push_back("Manifest root must be a JSON object");

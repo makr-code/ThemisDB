@@ -90,7 +90,7 @@ inline std::string formatTimePoint(
     auto y = static_cast<int>(ymd.year());
     auto m = static_cast<unsigned>(ymd.month());
     auto d = static_cast<unsigned>(ymd.day());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << y
         << '-' << (m < 10 ? "0" : "") << m
         << '-' << (d < 10 ? "0" : "") << d;
@@ -106,7 +106,7 @@ inline std::vector<ScanMatch> scanFile(const fs::path& file) {
       return matches;
     }
 
-    std::string line;
+    std::string line = {};
     int line_num = 0;
     while (std::getline(ifs, line)) {
         ++line_num;
@@ -188,7 +188,7 @@ inline bool fixFile(const fs::path& file,
 
     // Backup
     fs::path backup = fs::path(file.string() + ".bak");
-    std::error_code ec;
+    std::error_code ec = {};
     fs::copy_file(file, backup, fs::copy_options::overwrite_existing, ec);
     if (ec) {
         std::cerr << "[ERROR] Cannot create backup " << backup << ": " << ec.message() << '\n';
@@ -234,7 +234,7 @@ inline void printJson(const std::vector<ScanMatch>& matches) {
     for (std::size_t i = 0; i < matches.size(); ++i) {
         const auto& m = matches[i];
         auto escape = [](const std::string& s) -> std::string {
-            std::string out;
+            std::string out = {};
             for (char c : s) {
                 if (c == '"') {
                   out += "\\\"";

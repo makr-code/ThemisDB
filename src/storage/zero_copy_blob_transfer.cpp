@@ -192,7 +192,7 @@ static bool zc_write_all(int fd, const void* data, size_t len) {
 }
 
 static Result<int64_t> zc_file_size_as_int64(const std::string& source_path, const char* operation) {
-    std::error_code size_ec;
+    std::error_code size_ec = {};
     const uintmax_t raw_size = fs::file_size(source_path, size_ec);
     if (size_ec) {
         return Err<int64_t>(

@@ -92,7 +92,7 @@ std::pair<long, std::string> ElasticsearchImporter::performHttp(
         return {0, ""};
     }
 
-    std::string response_body;
+    std::string response_body = {};
     long http_code = 0;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -239,7 +239,7 @@ bool ElasticsearchImporter::validateSource(const std::string& source_path,
 
     const std::string url = config_.host + "/" + index;
 
-    std::string err;
+    std::string err = {};
 #ifdef THEMIS_ENABLE_ELASTICSEARCH
     // Production path: HEAD /<index> to verify connectivity and existence.
     {
@@ -331,7 +331,7 @@ ElasticsearchImporter::initScroll(const std::string& index,
     };
     const std::string body_str = body.dump();
 
-    std::string response_str;
+    std::string response_str = {};
     if (mock_http_fn_) {
         response_str = mock_http_fn_(url, body_str);
     }
@@ -376,7 +376,7 @@ std::vector<json> ElasticsearchImporter::fetchScrollPage(
     const json body{{"scroll", config_.scroll_ttl}, {"scroll_id", scroll_id}};
     const std::string body_str = body.dump();
 
-    std::string response_str;
+    std::string response_str = {};
     if (mock_http_fn_) {
         response_str = mock_http_fn_(url, body_str);
     }
@@ -465,7 +465,7 @@ ImportStats ElasticsearchImporter::importData(
         : std::nullopt;
 
     // Initiate scroll.
-    std::string err_out;
+    std::string err_out = {};
     auto [scroll_id, first_page] = initScroll(index, options, err_out);
 
     if (!err_out.empty()) {
@@ -528,7 +528,7 @@ ImportStats ElasticsearchImporter::importData(
             break;
         }
 
-        std::string page_err;
+        std::string page_err = {};
         const auto page = fetchScrollPage(scroll_id, page_err);
 
         if (!page_err.empty()) {
@@ -593,7 +593,7 @@ json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
     }
 
     const std::string url = config_.host + "/" + index + "/_mapping";
-    std::string response_str;
+    std::string response_str = {};
 
     if (mock_http_fn_) {
         response_str = mock_http_fn_(url, "");

@@ -78,7 +78,7 @@ public:
 protected:
     fs::path original_cwd_;
     fs::path temp_root_;
-    std::string test_path_;
+    std::string test_path_ = {};
 };
 
 BENCHMARK_DEFINE_F(ConfigResolveHotPathFixture, GATE_CFG_01_ResolveCacheHit)

@@ -64,7 +64,7 @@ RasterGridQueryImpl::RasterGridQueryImpl(RasterGrid grid, std::string crs_wkt, s
     : grid_(std::move(grid)), crs_wkt_(std::move(crs_wkt)), band_count_(band_count) {}
 
 RasterResult RasterGridQueryImpl::queryBBox(const MBR &bbox, double resolution, const RasterConfig &config) const {
-    RasterResult result;
+    RasterResult result = {};
 
     if (!isValidBBox(bbox)) {
         result.status        = RasterStatus::INVALID_BBOX;

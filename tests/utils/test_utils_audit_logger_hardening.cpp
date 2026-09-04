@@ -128,7 +128,7 @@ TEST(AuditLoggerHardening, ConcurrentWritersNoDataRace) {
     std::ifstream f(log_path);
     ASSERT_TRUE(f.is_open());
     int line_count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (!line.empty()) {
           ++line_count;

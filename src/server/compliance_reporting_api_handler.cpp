@@ -367,7 +367,7 @@ std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
     
     std::string query_string = url.substr(query_pos + 1);
     std::istringstream iss(query_string);
-    std::string pair;
+    std::string pair = {};
     
     while (std::getline(iss, pair, '&')) {
         size_t eq_pos = pair.find('=');

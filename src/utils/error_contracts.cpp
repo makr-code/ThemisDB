@@ -36,7 +36,7 @@ std::string ErrorContext::toJSON() const {
     
     // Timing - format timestamp as ISO8601 string
     auto ts = std::chrono::system_clock::to_time_t(timestamp);
-    std::stringstream timestamp_ss;
+    std::stringstream timestamp_ss = {};
     timestamp_ss << std::put_time(std::gmtime(&ts), "%Y-%m-%dT%H:%M:%SZ");
     j["timestamp"] = timestamp_ss.str();
     j["elapsed_ms"] = elapsed_ms.count();
@@ -64,7 +64,7 @@ std::string ErrorContext::toJSON() const {
 }
 
 std::string ErrorContext::toFormattedString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "[" << severityName(severity) << "] "
         << "ErrorCode=" << errorCodeName(code) << " "

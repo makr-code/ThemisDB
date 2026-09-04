@@ -135,7 +135,7 @@ std::vector<uint8_t> base64Decode(const std::string &input) {
 // ============================================================================
 
 std::string TOTPSecretEncryption::EncryptedSecret::serialize() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Format: version|salt|iv|ciphertext|tag
     oss << version << "|" << base64Encode(salt) << "|" << base64Encode(iv) << "|" << base64Encode(ciphertext) << "|"
@@ -150,7 +150,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::EncryptedSecret::des
     // Split by '|'
     std::vector<std::string> parts;
     std::istringstream iss(data);
-    std::string part;
+    std::string part = {};
     while (std::getline(iss, part, '|')) {
         parts.push_back(part);
     }

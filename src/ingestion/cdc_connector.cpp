@@ -59,7 +59,7 @@ static const char* operationToString([[maybe_unused]] CdcConnector::CdcEvent::Op
 
 /// Simple JSON string escaping (no external dependencies).
 static std::string jsonEscape(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         if (c == '"')       { out += "\\\""; }
@@ -75,7 +75,7 @@ static std::string jsonEscape(const std::string& s) {
 /// Serialize a string→string map as a JSON object.
 static std::string mapToJson(
         const std::unordered_map<std::string, std::string>& m) {
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << '{';
     bool first = true;
     for (const auto& kv : m) {
@@ -91,7 +91,7 @@ static std::string mapToJson(
 
 /// Serialize a full CdcEvent to a JSON string.
 static std::string cdcEventToJson([[maybe_unused]] const CdcConnector::CdcEvent& ev) {
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << '{'
        << "\"operation\":\"" << operationToString(ev.operation) << "\","
        << "\"table\":\"" << jsonEscape(ev.table) << "\","
@@ -118,7 +118,7 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
         return cdcEventToJson([[maybe_unused]] ev);
     }
 
-    std::string text;
+    std::string text = {};
     for (const auto& col : text_columns) {
         auto it = image.find(col);
         if (it != image.end() && !it->second.empty()) {
@@ -135,7 +135,7 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
 static std::vector<std::string> splitCommaCdc(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         auto b = token.find_first_not_of(" \t");
         auto e = token.find_last_not_of(" \t");
@@ -265,7 +265,7 @@ parseColToken(const std::string& line, size_t& pos) {
 
     if (pos >= line.size()) return {col, ""};
 
-    std::string val;
+    std::string val = {};
     if (line[pos] == '\'') {
         // Single-quoted string; '' is an escaped single quote
         ++pos;
@@ -808,7 +808,7 @@ private:
                         // Payload is one test_decoding output line
                         std::string payload(buf + 25, static_cast<size_t>(len - 25));
 
-                        CdcEvent ev;
+                        CdcEvent ev = {};
                         if (parseTestDecodingLine(payload, wal_start,
                                                    server_time_ms, ev)) {
                             processEvent(ev, stats);

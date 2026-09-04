@@ -304,7 +304,7 @@ public:
     std::vector<Changefeed::ChangeEvent> decompress(const CompressedBatch& batch) {
         stats_batches_decompressed_.fetch_add(1, std::memory_order_relaxed);
 
-        std::string json_str;
+        std::string json_str = {};
 
         if (batch.algorithm == StreamCompressionAlgorithm::ZSTD) {
             auto decompressed = utils::zstd_decompress(batch.payload);

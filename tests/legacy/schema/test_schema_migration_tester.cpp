@@ -53,8 +53,8 @@ static SchemaManager::TableSchema makeSchema(
 
 class SchemaMigrationTesterTest : public ::testing::Test {
 protected:
-    std::string staging_dir_;
-    std::string prod_db_path_;
+    std::string staging_dir_ = {};
+    std::string prod_db_path_ = {};
 
     std::unique_ptr<RocksDBWrapper>       prod_db_;
     std::unique_ptr<SecondaryIndexManager> prod_idx_;

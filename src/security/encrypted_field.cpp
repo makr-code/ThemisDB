@@ -116,7 +116,7 @@ int64_t EncryptedField<int64_t>::deserialize(const std::string& str) {
 // double specialization
 template<>
 std::string EncryptedField<double>::serialize(const double& value) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setprecision(17) << value;
     return oss.str();
 }
@@ -129,7 +129,7 @@ double EncryptedField<double>::deserialize(const std::string& str) {
 // std::vector<float> specialization (for vector embeddings)
 template<>
 std::string EncryptedField<std::vector<float>>::serialize(const std::vector<float>& value) {
-    std::string result;
+    std::string result = {};
     uint32_t size = static_cast<uint32_t>(value.size());
     
     // Append size (4 bytes, little-endian)
@@ -151,7 +151,7 @@ std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::st
     }
     
     // Read size
-    uint32_t size;
+    uint32_t size = {};
     std::memcpy(&size, str.data(), sizeof(size));
     
     // Validate size

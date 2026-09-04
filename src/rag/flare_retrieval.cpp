@@ -157,7 +157,7 @@ std::string FlareRetrieval::buildQuery() const {
     // Production Delta: String-based query vs. semantic embedding vector.
     // Status: EmbeddingQueryFn bridge is available via setEmbeddingQueryFn().
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first = true;
     for (const auto& entry : window_) {
         if (!first) {

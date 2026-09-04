@@ -116,7 +116,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
             }
             ++p;
             
-            std::string key;
+            std::string key = {};
             while (p < end && *p != '"') {
                 if (*p == '\\' && (p + 1) < end) {
                     ++p;  // Skip escape character
@@ -145,7 +145,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
             }
 
             // Parse value — capture raw token/object/array
-            std::string value;
+            std::string value = {};
             if (p >= end) {
                 THEMIS_DEBUG("parseTopLevelFields: value missing after ':'");
                 break;
@@ -238,7 +238,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
 std::string buildJson(const std::map<std::string, std::string>& fields)
 {
     try {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << '{';
         bool first = true;
         
@@ -264,7 +264,7 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
                 oss << '"' << key << "\":" << kv.second;
             } else {
                 // Slow path: escaping is needed, create escaped copy once
-                std::string escaped_key;
+                std::string escaped_key = {};
                 escaped_key.reserve(key.size() + 4);  // Reserve for typical escape overhead
                 for (char c : key) {
                     if (c == '"') {
@@ -291,7 +291,7 @@ std::string computeMmChecksum(const MMWriteEntry& entry)
     std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }

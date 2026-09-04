@@ -87,7 +87,7 @@ SchemaAuditLog::SchemaAuditLog(RocksDBWrapper& db)
 // ============================================================================
 
 std::string SchemaAuditLog::buildKey(std::string_view table_name, uint64_t timestamp_ns) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << kKeyPrefix << table_name << ":" << std::setw(20) << std::setfill('0') << timestamp_ns;
     return oss.str();
 }

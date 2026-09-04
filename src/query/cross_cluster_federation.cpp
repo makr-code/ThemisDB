@@ -43,7 +43,7 @@ static constexpr size_t kMaxResponseBytes = 64u * 1024u * 1024u; // 64 MiB
 
 struct ResponseAccumulator {
     std::string* buffer;
-    size_t       max_bytes;
+    size_t       max_bytes = {};
     size_t       received{0};
 };
 
@@ -405,7 +405,7 @@ nlohmann::json CrossClusterFederator::queryCluster(
         (endpoint.timeout_ms > 0) ? endpoint.timeout_ms
                                   : config_.default_timeout_ms;
 
-    std::string response_body;
+    std::string response_body = {};
     int         status_code = 0;
 
     spdlog::debug("CrossClusterFederator: querying cluster '{}' at {}",

@@ -232,7 +232,7 @@ std::string AccessModelMetrics::describe() const {
 }
 
 std::string AccessModelMetrics::detailedReport() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Access Model Detailed Metrics Report ===\n\n"
         << "### Event Processing Latency\n"
         << event_processing_latency_us_.describe() << "\n\n"

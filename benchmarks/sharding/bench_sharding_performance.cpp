@@ -580,8 +580,8 @@ public:
     }
     
 protected:
-    int num_entities_;
-    int batch_size_;
+    int num_entities_ = {};
+    int batch_size_ = {};
     std::vector<std::string> entities_;
 };
 
@@ -1212,9 +1212,9 @@ public:
     }
     
 protected:
-    int num_peers_;
+    int num_peers_ = {};
     std::vector<std::string> peers_;
-    std::string gossip_message_;
+    std::string gossip_message_ = {};
 };
 
 BENCHMARK_DEFINE_F(GossipOverheadFixture, MessageSerialization)(benchmark::State& state) {
@@ -1456,7 +1456,7 @@ public:
 protected:
     int num_dcs_;
     int shards_per_dc_;
-    std::string local_dc_;
+    std::string local_dc_ = {};
     std::shared_ptr<ConsistentHashRing> hash_ring_;
     std::shared_ptr<ShardTopology> topology_;
     std::vector<URN> test_urns_;

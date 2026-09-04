@@ -397,8 +397,8 @@ TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_NoFnReturnsEmpty) {
 TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_CallsProviderWithResolvedModel) {
     LlmCascadeRouter router;
 
-    std::string last_model;
-    std::string last_prompt;
+    std::string last_model = {};
+    std::string last_prompt = {};
     size_t      last_max_tokens = 0;
 
     router.setLlmInvokeFn([&](const std::string& model_id,

@@ -314,7 +314,7 @@ TEST_F(NLToAQLTranslationTest, StreamExplainAQL_BasicQuery) {
 
         // If tokens were streamed, their concatenation should equal the full response
         if (!received_tokens.empty()) {
-            std::string concatenated;
+            std::string concatenated = {};
             for (const auto& t : received_tokens) {
                 concatenated += t;
             }

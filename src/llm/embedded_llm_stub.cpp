@@ -47,7 +47,7 @@ std::string normalizePrompt(std::string text) {
 
 std::string buildFallbackCompletion(const std::string& prompt, int max_tokens) {
     const std::string normalized = normalizePrompt(prompt);
-    std::string response;
+    std::string response = {};
 
     if (normalized.find("what is 2 2") != std::string::npos) {
         response = "4";
@@ -149,7 +149,7 @@ std::string EmbeddedLLM::chat(
     const std::vector<ChatMessage>& messages,
     [[maybe_unused]] ChatFormat format
 ) {
-    std::string merged;
+    std::string merged = {};
     for (const auto& m : messages) {
         if (!merged.empty()) {
             merged.push_back('\n');
@@ -258,9 +258,9 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     // Blocked prompts fail-closed with success=false; this check runs before
     // any backend dispatch (including injected test functions via generate_full_fn_)
     // to enforce a single, consistent security boundary.
-    std::string sanitized_prompt;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized_prompt = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(
             request.prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
         spdlog::warn("EmbeddedLLM: prompt blocked by safety policy '{}': {}",

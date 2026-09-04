@@ -148,7 +148,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string 
     auto start = std::chrono::steady_clock::now();
 
     std::string key = computeKey(prompt, params);
-    std::string value;
+    std::string value = {};
 
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;

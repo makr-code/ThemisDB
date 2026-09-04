@@ -81,7 +81,7 @@ std::string makeFakeJWT(const std::string &issuer,
         // Minimal base64url (no padding) for ASCII-safe JSON
         static const char tbl[] =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        std::string out;
+        std::string out = {};
         unsigned acc = 0, bits = 0;
         for (unsigned char c : s) {
             acc  = (acc << 8) | c;

@@ -71,7 +71,7 @@ struct Crc32Table {
 inline constexpr Crc32Table kCrc32Table{};
 
 fs::path resolveBlobCheckpointDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     auto base_dir = fs::temp_directory_path(ec);
     if (ec || base_dir.empty()) {
         ec.clear();
@@ -181,7 +181,7 @@ public:
             chunk.set_is_last(false);
             
             // Compress
-            std::string compressed_data;
+            std::string compressed_data = {};
             BlobStatus status = CompressData(
                 std::string(buffer.data(), bytes_read),
                 &compressed_data
@@ -239,7 +239,7 @@ public:
         }
         
         // Decompress
-        std::string decompressed;
+        std::string decompressed = {};
         BlobStatus status = DecompressData(chunk.data(), &decompressed);
         if (status != BlobStatus::OK) {
             return status;
@@ -425,7 +425,7 @@ private:
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(data.data()),
                data.size(), hash);
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);
@@ -446,7 +446,7 @@ private:
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256_Final(hash, &sha256);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);

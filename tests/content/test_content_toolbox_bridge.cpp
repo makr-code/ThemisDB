@@ -112,7 +112,7 @@ struct TestDatabase {
         graph_index.reset();
         vector_index.reset();
         storage.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 };

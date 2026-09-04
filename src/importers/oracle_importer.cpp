@@ -238,7 +238,7 @@ bool OracleImporter::validateSource(const std::string& source_path,
     }
 
     // Check for Oracle dump header markers in the first 100 lines.
-    std::string line;
+    std::string line = {};
     bool found_oracle = false;
     int lines_checked = 0;
     while (std::getline(file, line) && lines_checked < 100) {
@@ -408,8 +408,8 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         return json::array();
     }
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     // PHASE-4-HARDENING: Add bounds to prevent DoS from oversized SQL statements
     const size_t kMaxLineLength = 65536;  // 64 KB per line
     const size_t kMaxSqlLength = 1048576; // 1 MB per statement
@@ -451,7 +451,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         if (line.find(';') != std::string::npos) {
             if (current_sql.find("CREATE TABLE") != std::string::npos ||
                 current_sql.find("create table") != std::string::npos) {
-                TableSchema schema;
+                TableSchema schema = {};
                 if (parseCreateTable(current_sql, schema)) {
                     schemas_[schema.name] = schema;
                 }
@@ -515,7 +515,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
 
     // Detect Oracle dump header in the first 50 lines.
     {
-        std::string hdr_line;
+        std::string hdr_line = {};
         int hdr_lines = 0;
         bool found_header = false;
         bool hdr_trunc = false;
@@ -549,8 +549,8 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
                                    ? options.max_statement_size_bytes
                                    : 64 * 1024 * 1024ULL;
 
-    std::string line;
-    std::string current_sql;
+    std::string line = {};
+    std::string current_sql = {};
     size_t line_number = 0;
     size_t batch_row_count = 0;
     bool line_truncated = false;
@@ -610,14 +610,14 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         }
 
         // Classify and process the completed statement (check first 30 chars for keyword)
-        std::string prefix;
+        std::string prefix = {};
         for (size_t i = 0; i < current_sql.size() && i < 30; ++i) {
             prefix += static_cast<char>(std::toupper(static_cast<unsigned char>(current_sql[i])));
         }
 
         if (prefix.find("CREATE TABLE") != std::string::npos) {
             auto t0 = std::chrono::steady_clock::now();
-            TableSchema schema;
+            TableSchema schema = {};
             if (parseCreateTable(current_sql, schema)) {
                 if (shouldImportTable(schema.name, options)) {
                     schemas_[schema.name] = schema;
@@ -668,7 +668,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     std::regex table_regex(
         R"REGEX(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()REGEX",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, table_regex)) {
         return false;
@@ -721,7 +721,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         int dep = 0;
         bool inq = false;
         char qc  = '\0';
-        std::string cur;
+        std::string cur = {};
         for (size_t i = 0; i < cols_str.size(); ++i) {
             char c = cols_str[i];
             if (inq) {
@@ -767,7 +767,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         }
 
         // Build upper prefix for constraint detection
-        std::string upper_def;
+        std::string upper_def = {};
         for (size_t i = 0; i < col_def.size() && i < 25; ++i)
             upper_def += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
 
@@ -782,7 +782,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         }
 
         // Extract column name (may be double-quote-quoted or plain)
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '"') {
             size_t end_dq = col_def.find('"', 1);
@@ -815,7 +815,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         // or VARCHAR2(255 BYTE))
         // PHASE-4-HARDENING: Add length limit to prevent DoS via oversized type strings
         const size_t kMaxTypeLength = 256;
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size() && col_type.size() < kMaxTypeLength) {
@@ -855,12 +855,12 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     std::regex insert_regex(
         R"REGEX(INSERT\s+INTO\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\(([^)]*)\)\s+VALUES\s*(.+?)\s*;?\s*$)REGEX",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
 
     if (!std::regex_search(sql, match, insert_regex)) {
         // PHASE-2-HARDENING: Prepared statement fallback
         // Try simple parsing to extract table name for audit logging
-        std::string fallback_table;
+        std::string fallback_table = {};
         if (simpleInsertFallbackOracle(sql, fallback_table)) {
             // Successfully extracted table name via fallback
         }
@@ -884,7 +884,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
 
     if (match[5].matched && !match[5].str().empty()) {
         std::istringstream css(match[5].str());
-        std::string col;
+        std::string col = {};
         while (std::getline(css, col, ',')) {
             col = unquoteIdentifier(col);
             col.erase(0, col.find_first_not_of(" \t"));
@@ -1206,7 +1206,7 @@ std::vector<std::string> OracleImporter::parseInsertValues(
         if (c == '\'') {
             // Single-quoted string; Oracle uses '' to escape an embedded quote
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = values_clause[i];
                 if (sc == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
@@ -1262,7 +1262,7 @@ std::vector<std::string> OracleImporter::parseInsertValues(
                 else token = token.substr(f, l - f + 1);
             }
             // NULL -> empty string sentinel
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
             if (upper_tok == "NULL") {
@@ -1301,7 +1301,7 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
 std::string OracleImporter::stripOracleComments(const std::string& sql) {
     // Remove Oracle hint comments (/*+ ... */) and regular block comments (/* ... */).
     // Inline comments (-- ...) are filtered at the line level by the caller.
-    std::string result;
+    std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
     while (i < sql.size()) {

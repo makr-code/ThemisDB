@@ -286,7 +286,7 @@ namespace themis::compression {
 struct SparseVectorCSR {
     std::vector<float> values;
     std::vector<uint32_t> indices;
-    uint32_t dimension;
+    uint32_t dimension = {};
     
     size_t compressed_bytes() const {
         return sizeof(dimension) + 

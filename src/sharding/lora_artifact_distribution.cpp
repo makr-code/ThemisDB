@@ -62,7 +62,7 @@ namespace {
         throw std::runtime_error("portableSha256Hex: EVP_DigestFinal_ex failed");
     }
     EVP_MD_CTX_free(ctx);
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     for (unsigned int i = 0; i < hash_len; ++i) {
         hex << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(hash[i]);
@@ -81,7 +81,7 @@ namespace {
     std::lock_guard<std::mutex> lock(rng_mu);
     const uint64_t a = rng();
     const uint64_t b = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << a
         << std::setw(16) << std::setfill('0') << b;
     return "evt_" + oss.str();
@@ -616,7 +616,7 @@ public:
         }
 
         // Build Merkle root over canonically ordered receipt hashes
-        std::string receipts_root;
+        std::string receipts_root = {};
         if (!receipt_hashes.empty()) {
             std::vector<std::string> layer = receipt_hashes;
             while (layer.size() > 1) {

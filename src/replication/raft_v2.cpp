@@ -204,7 +204,7 @@ MembershipChangeEntry MembershipChangeManager::proposeAdd(
         wal_entry.operation    = "MEMBERSHIP_CHANGE";
         wal_entry.collection   = "__raft_config__";
         wal_entry.document_id  = "joint";
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"phase\":\"joint\",\"old\":[";
         bool first = true;
         for (const auto& m : entry.old_members) {
@@ -265,7 +265,7 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
         wal_entry.operation    = "MEMBERSHIP_CHANGE";
         wal_entry.collection   = "__raft_config__";
         wal_entry.document_id  = "joint";
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"phase\":\"joint\",\"old\":[";
         bool first = true;
         for (const auto& m : entry.old_members) {
@@ -324,7 +324,7 @@ void MembershipChangeManager::onJointCommitted([[maybe_unused]] uint64_t log_ind
         wal_entry.operation    = "MEMBERSHIP_CHANGE";
         wal_entry.collection   = "__raft_config__";
         wal_entry.document_id  = "commit";
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"phase\":\"commit\",\"old\":[";
         bool first = true;
         for (const auto& m : commit.old_members) {

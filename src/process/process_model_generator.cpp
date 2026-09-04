@@ -128,7 +128,7 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
     std::string_view description,
     const Config&    cfg) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     if (cfg.language == "de") {
         oss << "Du bist ein BPMN 2.0-Experte für Verwaltungsprozesse.\n"
@@ -196,7 +196,7 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
     const std::vector<std::string>& errors,
     std::string_view               language)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     const std::string err_prefix =
         (language == "de") ? "Korrigiere folgende Fehler im Prozessmodell:"
                            : "Fix the following errors in the process model:";
@@ -239,7 +239,7 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
 /*static*/ ProcessModelGenerator::ValidationResult ProcessModelGenerator::validate(
     const json& normalized_graph)
 {
-    ValidationResult result;
+    ValidationResult result = {};
 
     if (!normalized_graph.contains("nodes") || !normalized_graph.contains("edges")) {
         result.ok = false;
@@ -455,7 +455,7 @@ std::pair<bool, ProcessModelRecord> ProcessModelGenerator::refine(
     }
 
     // Build a refinement prompt
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (cfg.language == "de") {
         oss << "Verbessere das folgende BPMN-Prozessmodell basierend auf dem Feedback:\n\n"
             << "Feedback: " << feedback << "\n\n"

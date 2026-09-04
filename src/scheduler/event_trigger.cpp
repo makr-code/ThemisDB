@@ -443,7 +443,7 @@ bool EventTrigger::matchesCondition([[maybe_unused]] const Changefeed::ChangeEve
     // Evaluate each cached clause; all must pass (AND semantics)
     for (const auto& clause : parsed_clauses_) {
         // Resolve LHS (now guaranteed to be valid)
-        std::string lhs;
+        std::string lhs = {};
         if (clause.field == "key") {
             lhs = event.key;
         } else { // "value"
@@ -523,7 +523,7 @@ void EventTrigger::rebuildConditionCache_() const {
         ParsedClause pc;
         pc.field = tokens[0];
         pc.op    = tokens[1];
-        std::string rhs;
+        std::string rhs = {};
         for (size_t k = 2; k < tokens.size(); ++k) {
             if (k > 2) {
               rhs += " ";

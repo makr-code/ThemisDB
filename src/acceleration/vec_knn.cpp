@@ -418,7 +418,7 @@ std::vector<float> VecKnnInsertPipeline::computeDistances(const float *query_vec
 // ---------------------------------------------------------------------------
 VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, const std::vector<BaseEntity> &entities,
                                                      std::string_view vectorField) {
-    VecKnnInsertResult result;
+    VecKnnInsertResult result = {};
     if (entities.empty()) {
         return result;
     }
@@ -463,8 +463,8 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
 
     std::atomic<std::size_t> inserted{0};
     std::atomic<std::size_t> failed{0};
-    std::mutex msgMutex;
-    std::string firstError;
+    std::mutex msgMutex = {};
+    std::string firstError = {};
 
     const auto prewarmCache = [this, &field, &extractVectorBridge](const std::vector<BaseEntity> &batch) {
         if (!config_.enable_cache) {

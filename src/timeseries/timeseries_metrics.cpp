@@ -182,7 +182,7 @@ double TimeSeriesMetrics::getAggRefreshLag(const std::string& agg_id) const {
 }
 
 std::string TimeSeriesMetrics::exportPrometheus() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Ingestion metrics
     oss << formatPrometheusMetric("themis_timeseries_data_points_written_total", "counter",
@@ -492,7 +492,7 @@ double TimeSeriesMetrics::getAverageLatency(double total_latency, uint64_t count
 
 std::string TimeSeriesMetrics::formatPrometheusMetric(const std::string& name, const std::string& type,
                                                       const std::string& help, uint64_t value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# HELP " << name << " " << help << "\n";
     oss << "# TYPE " << name << " " << type << "\n";
     oss << name << " " << value << "\n\n";
@@ -501,7 +501,7 @@ std::string TimeSeriesMetrics::formatPrometheusMetric(const std::string& name, c
 
 std::string TimeSeriesMetrics::formatPrometheusMetric(const std::string& name, const std::string& type,
                                                       const std::string& help, double value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# HELP " << name << " " << help << "\n";
     oss << "# TYPE " << name << " " << type << "\n";
     oss << name << " " << std::fixed << std::setprecision(6) << value << "\n\n";

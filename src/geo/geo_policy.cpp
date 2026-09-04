@@ -17,7 +17,7 @@ namespace geo {
 SpatialQueryPolicyValidation
 validateSpatialQueryPolicy(const SpatialQueryPolicy& policy)
 {
-    SpatialQueryPolicyValidation result;
+    SpatialQueryPolicyValidation result = {};
 
     if (policy.max_depth < 0) {
         result.violations.push_back("max_depth must be >= 0 (0 = implementation default)");

@@ -146,8 +146,8 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
         double score = 0.0;
         double bm25_score = 0.0;
         double vector_score = 0.0;
-        std::string tenant_id;
-        std::string document_id;
+        std::string tenant_id = {};
+        std::string document_id = {};
     };
 
     std::unordered_map<std::string, Accumulator> accum; // key = "tenant_id\ndoc_id"

@@ -387,7 +387,7 @@ public:
     /// @return Prometheus format string suitable for scraping by Prometheus server
     std::string exportPrometheus() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::string output;
+        std::string output = {};
         
         for (const auto& [name, counter] : counters_) {
             output += "# HELP " + name + " " + counter->description() + "\n";

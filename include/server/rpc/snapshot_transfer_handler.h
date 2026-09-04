@@ -36,7 +36,7 @@ namespace shard_proto = themis::sharding::proto;
 // Configuration for snapshot transfer
 struct SnapshotConfig {
     std::string shard_id;
-    std::string snapshot_id;
+    std::string snapshot_id = {};
     bool is_incremental;
     std::string base_snapshot_id;  // For incremental snapshots
     

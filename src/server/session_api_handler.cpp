@@ -56,7 +56,7 @@ static std::string timePointToISO8601(std::chrono::system_clock::time_point tp) 
         return "";
     }
     const std::time_t t = std::chrono::system_clock::to_time_t(tp);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -163,8 +163,8 @@ nlohmann::json SessionApiHandler::createSession(
 
     const std::string& user_id = auth_result.user_id;
 
-    std::string device_fingerprint;
-    std::string user_agent;
+    std::string device_fingerprint = {};
+    std::string user_agent = {};
 
     if (body.is_object()) {
         if (body.contains("device_fingerprint") && body["device_fingerprint"].is_string()) {

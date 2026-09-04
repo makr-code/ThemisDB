@@ -119,7 +119,7 @@ namespace {
 [[maybe_unused]] static std::string extractRetryAfterHeader(const std::string &raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         // Trim trailing \r
         if (!line.empty() && line.back() == '\r') {
@@ -455,7 +455,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         }
     }
 
-    std::string token;
+    std::string token = {};
     try {
         token = resolveToken();
     } catch (const std::exception &e) {
@@ -547,7 +547,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
                     = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
             }
 
-            std::string retry_after_hdr;
+            std::string retry_after_hdr = {};
             const int http_status = httpPutFile(upload_url, file_path, token, file_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
@@ -747,7 +747,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
                     = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
             }
 
-            std::string retry_after_hdr;
+            std::string retry_after_hdr = {};
             const int http_status
                 = httpPutBytes(upload_url, shard.content.data(), shard.content.size(), token, shard_progress, &retry_after_hdr);
 

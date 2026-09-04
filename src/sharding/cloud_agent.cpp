@@ -389,7 +389,7 @@ std::string CloudAgent::generateOperationId() const {
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "op_" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
     return ss.str();
 }
@@ -700,7 +700,7 @@ std::string CloudAgent::generateAgentId() const {
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<uint32_t> dis;
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "cloud_agent_" << std::hex << std::setfill('0') << std::setw(8) << dis(gen);
     return ss.str();
 }

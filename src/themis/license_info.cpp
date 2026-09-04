@@ -185,7 +185,7 @@ bool hasEmbeddedLicense() {
 }
 
 std::string formatLicenseInfo(const LicenseData& license) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "\n";
     oss << "===============================================================================\n";
@@ -356,7 +356,7 @@ bool verifyLicenseSignature(const LicenseData& license) {
     }
     
     // Construct the data that was signed (canonical format)
-    std::ostringstream data_stream;
+    std::ostringstream data_stream = {};
     data_stream << license.license_key
                 << "|" << license.organization_name
                 << "|" << license.organization_id
@@ -436,7 +436,7 @@ static std::string computeFingerprintHash(const std::string& raw) {
         EVP_DigestFinal_ex(ctx, digest, &dlen);
         EVP_MD_CTX_free(ctx);
     }
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < dlen; ++i)
         hex << std::setw(2) << static_cast<unsigned>(digest[i]);
@@ -450,7 +450,7 @@ static std::string getPrimaryMacAddress() {
       return "00:00:00:00:00:00";
     }
 
-    std::string result;
+    std::string result = {};
     for (struct ifaddrs* ifa = ifa_list; ifa; ifa = ifa->ifa_next) {
         if (!ifa->ifa_name) {
           continue;
@@ -614,7 +614,7 @@ private:
         const std::string url = cfg_.server_url + "/" + action;
 
         // Build minimal JSON body
-        std::ostringstream body;
+        std::ostringstream body = {};
         body << "{"
              << "\"license_key\":\"" << license.license_key << "\","
              << "\"machine_fingerprint\":\"" << getMachineFingerprint() << "\","
@@ -622,7 +622,7 @@ private:
              << "}";
         const std::string body_str = body.str();
 
-        std::string response_body;
+        std::string response_body = {};
         curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS,     body_str.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,  curlWriteCallback);

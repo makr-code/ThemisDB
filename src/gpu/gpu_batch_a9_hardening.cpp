@@ -142,7 +142,7 @@ bool streamSynchronizeWithTimeout(cudaStream_t stream, uint32_t timeout_ms) noex
     auto start = std::chrono::high_resolution_clock::now();
     
     while (true) {
-        cudaError_t err;
+        cudaError_t err = {};
         if (stream != nullptr) {
             err = cudaStreamQuery(stream);
         } else {

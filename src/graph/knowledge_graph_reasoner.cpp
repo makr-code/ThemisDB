@@ -32,7 +32,7 @@ namespace {
 
 /// Build canonical triple key (shared between InferenceStore and KnowledgeGraphReasoner).
 static std::string makeTripleKey(const themis::graph::Triple &t) {
-    std::string k;
+    std::string k = {};
     k.reserve(t.subject.size() + t.predicate.size() + t.object.size() + 2);
     k += t.subject;
     k += '\0';
@@ -484,7 +484,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 
     struct RuleLoRAConfig {
         double min_lora_score = 0.0;
-        std::string adapter_id;
+        std::string adapter_id = {};
     };
 
     std::unordered_map<std::string, RuleLoRAConfig> rule_cfg_by_id;

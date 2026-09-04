@@ -317,7 +317,7 @@ bool RBAC::checkPermission(
     // [RB-1] Grace period: a transient license server outage must not immediately
     // lock out all users. If the last successful check is within the grace window,
     // allow access and log a warning. Update the timestamp on every success.
-    std::string license_error;
+    std::string license_error = {};
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
         const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now().time_since_epoch()).count();

@@ -164,7 +164,7 @@ static std::string extractXmlText(const std::string& raw,
                                   pugi::parse_default | pugi::parse_fragment
                                   | pugi::parse_pi);
     }
-    std::ostringstream out;
+    std::ostringstream out = {};
     collectTextNodes(doc, out);
     return out.str();
 #else
@@ -177,11 +177,11 @@ static std::string extractXmlText(const std::string& raw,
 /// without requiring nlohmann/json in this translation unit.
 /// Handles both "key":"value" and bare string values.
 static std::string extractJsonText(const std::string& raw) {
-    std::string result;
+    std::string result = {};
     result.reserve(raw.size() / 2);
     bool in_string = false;
     bool escape = false;
-    std::string token;
+    std::string token = {};
 
     for (size_t i = 0; i < raw.size(); ++i) {
         char c = raw[i];
@@ -233,7 +233,7 @@ static std::string runExternalConverter(const std::string& cmd) {
     if (!pipe) {
       return "";
     }
-    std::string result;
+    std::string result = {};
     std::array<char, 4096> buf = {};
 
     while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe) != nullptr) {
@@ -264,7 +264,7 @@ static std::string shellEscapePath(const std::string& path) {
     return escaped;
 #else
     // POSIX single-quote escaping
-    std::string escaped;
+    std::string escaped = {};
     escaped.reserve(path.size() + 2);
     escaped += '\'';
     for (char c : path) {
@@ -607,7 +607,7 @@ private:
         for (auto& ch : ext) {
             ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
         }
-        std::string content;
+        std::string content = {};
 
         // Read raw file content
         std::ifstream file(file_path, std::ios::binary);

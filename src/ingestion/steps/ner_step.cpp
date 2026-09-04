@@ -55,7 +55,7 @@ EntityType entityTypeFromString(const std::string& s) {
 /// Build a German-locale set of regex-based NER rules.
 /// Returns matches as {text, entity_type_string} pairs.
 struct RegexMatch {
-    std::string text;
+    std::string text = {};
     std::string etype;
     std::size_t offset;
 };
@@ -135,7 +135,7 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
 std::string buildNerPrompt(const std::string& text,
                             const std::string& language,
                             const std::vector<std::string>& types) {
-    std::string type_list;
+    std::string type_list = {};
     for (const auto& t : types) {
       type_list += t + ", ";
     }

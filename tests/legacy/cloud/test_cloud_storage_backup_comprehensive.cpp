@@ -93,7 +93,7 @@ protected:
         db_.reset();
         
         // Remove test directory
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_dir_, ec);
         // Ignore errors during cleanup
     }

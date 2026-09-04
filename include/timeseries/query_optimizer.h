@@ -214,7 +214,7 @@ public:
     };
 
     struct IndexHint {
-        std::string metric;
+        std::string metric = {};
         IndexType   type = IndexType::None;
         double      selectivity = 1.0; ///< Estimated fraction of rows selected (0.0 – 1.0)
     };

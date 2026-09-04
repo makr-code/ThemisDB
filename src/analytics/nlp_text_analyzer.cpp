@@ -207,7 +207,7 @@ NlpTextAnalyzer::Language NlpTextAnalyzer::detectLanguage(std::string_view text)
 std::vector<Token> NlpTextAnalyzer::tokenize(std::string_view text) const {
     std::vector<Token> tokens;
 
-    std::string current_word;
+    std::string current_word = {};
     size_t position = 0;
     Language lang   = detectLanguage(text);
 
@@ -1572,7 +1572,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
             return strip(5);
         }
         if (ends_with("tà", 3))
-            return lower;
+            return lower = {};
         if (ends_with("i", 3)) {
             return strip(1, "o");
         }
@@ -1709,7 +1709,7 @@ std::map<std::string, size_t> NlpTextAnalyzer::getStatistics() const {
 
 std::vector<std::string> NlpTextAnalyzer::splitSentences(std::string_view text) const {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
 
     for (char c : text) {
         current += c;
@@ -1727,7 +1727,7 @@ std::vector<std::string> NlpTextAnalyzer::splitSentences(std::string_view text) 
 }
 
 std::string NlpTextAnalyzer::toLowerCase(std::string_view text) const {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     for (char c : text) {
         result += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -1736,7 +1736,7 @@ std::string NlpTextAnalyzer::toLowerCase(std::string_view text) const {
 }
 
 std::string NlpTextAnalyzer::removePunctuation(std::string_view text) const {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     for (char c : text) {
         if (std::isalnum(c) || c == ' ') {
@@ -1868,7 +1868,7 @@ bool NlpTextAnalyzer::loadStopWordsFromYaml(const std::string &yaml_path, Langua
     }
 
     std::set<std::string> words;
-    std::string line;
+    std::string line = {};
     bool in_stopwords_section = false;
 
     // Simple YAML parser (only handles our specific format)
@@ -2048,7 +2048,7 @@ bool NlpTextAnalyzer::loadLegalModalityConfig(const std::string &config_path) co
         if (indent == 6) {
             in_context_requirements = false;
 
-            std::string val;
+            std::string val = {};
             if (!(val = parse_value(stripped, "deontic:")).empty()) {
                 current.deontic_logic = val;
             } else if (!(val = parse_value(stripped, "strength:")).empty()) {
@@ -2129,7 +2129,7 @@ std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(std::string_v
             // Use iterators to avoid creating substring copies
             auto search_begin = text_lower.cbegin();
             auto search_end   = text_lower.cend();
-            std::smatch match;
+            std::smatch match = {};
 
             while (std::regex_search(search_begin, search_end, match, regex_pattern)) {
                 size_t position = std::distance(text_lower.cbegin(), search_begin) + match.position();

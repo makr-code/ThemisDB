@@ -207,7 +207,7 @@ struct RAGDecision {
      *       wires the embedding backend into TensorRAGPipeline via
      *       `setEmbeddingQueryFn()`.
      */
-    std::string flare_query;
+    std::string flare_query = {};
 
     /**
      * @brief Embedding vector for `flare_query`.

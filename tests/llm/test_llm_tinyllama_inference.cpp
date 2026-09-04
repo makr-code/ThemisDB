@@ -108,7 +108,7 @@ protected:
         }
     }
 
-    std::string model_path_;
+    std::string model_path_ = {};
     bool        model_available_ = false;
     std::unique_ptr<EmbeddedLLM> llm_;
 };
@@ -138,7 +138,7 @@ TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
     }
 
     std::vector<std::string> tokens;
-    std::mutex mu;
+    std::mutex mu = {};
 
     const std::string full = llm_->generateStreaming(
         "List three database engines:",
@@ -152,7 +152,7 @@ TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
     EXPECT_GT(tokens.size(), 0u) << "Stream callback must have been invoked at least once";
 
     // Assembled streamed tokens must approximately equal the full output
-    std::string assembled;
+    std::string assembled = {};
     assembled.reserve(full.size() + 16);
     for (const auto& t : tokens) {
       assembled += t;
@@ -330,7 +330,7 @@ TEST_F(TinyLlamaInferenceTest, Infer08_ContextLengthLimit) {
 
     // Build a prompt significantly larger than the configured context window (2048 tokens).
     // Each word ~1 token; 4000 words ≈ 4000 tokens > 2048 context.
-    std::string long_prompt;
+    std::string long_prompt = {};
     long_prompt.reserve(30000);
     for (int i = 0; i < 4000; ++i) {
         long_prompt += "word" + std::to_string(i) + " ";

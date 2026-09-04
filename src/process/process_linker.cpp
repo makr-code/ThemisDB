@@ -245,7 +245,7 @@ bool ProcessLinker::detachObject(std::string_view attachment_id) {
     }
 
     // Read the attachment document to extract fields needed for index cleanup.
-    std::string existing;
+    std::string existing = {};
     if (!db_.get(sid, existing)) {
         SPDLOG_WARN("[process_linker] detachObject: attachment key '{}' not found", sid);
         return false;
@@ -652,7 +652,7 @@ void ProcessLinker::LinkOperationGuard::recordModification(std::string_view key)
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
 
-    std::string prior_value;
+    std::string prior_value = {};
     const bool existed_before = linker_.db_.get(key, prior_value);
 
     ConflictRecord record{
@@ -677,7 +677,7 @@ bool ProcessLinker::detectLinkingConflict_(
     std::shared_lock<std::shared_mutex> lock(link_state_lock_);
     
     // Try to read the current value to detect if it's been modified
-    std::string current_value;
+    std::string current_value = {};
     if (!db_.get(key, current_value)) {
         // Key doesn't exist; conflict only if we expected a version
         return expected_version.has_value();
@@ -833,7 +833,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
         
         // Find the link first to get its components
         bool found = false;
-        std::string link_key_to_delete;
+        std::string link_key_to_delete = {};
         
         db_.scanPrefix("proc:link:", [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {
             try {

@@ -354,7 +354,7 @@ BENCHMARK(BM_ContextScaling_Comparison)
 // ═══════════════════════════════════════════════════════════
 
 static void BM_ThreadSafety_MutexLock(benchmark::State& state) {
-    std::mutex mtx;
+    std::mutex mtx = {};
     int counter = 0;
     
     for (auto _ : state) {

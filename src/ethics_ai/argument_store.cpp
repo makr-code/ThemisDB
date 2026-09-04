@@ -49,7 +49,7 @@ static std::string computeSHA256(const uint8_t* data, size_t len) {
     SHA256_Update(&sha256, data, len);
     SHA256_Final(hash, &sha256);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char c : hash) {
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)c;
     }

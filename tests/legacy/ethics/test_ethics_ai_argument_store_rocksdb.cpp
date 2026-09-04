@@ -57,7 +57,7 @@ struct TempDir {
     }
 
     ~TempDir() noexcept {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(path, ec);
     }
 };

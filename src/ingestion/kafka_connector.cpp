@@ -48,7 +48,7 @@ static std::string kafkaJsonExtractString(const std::string& json,
     auto start = json.find(needle);
     if (start == std::string::npos) return {};
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (size_t i = start; i < json.size(); ++i) {
         char c = json[i];

@@ -196,7 +196,7 @@ bool RocksDBTokenBlacklist::isRevoked(const std::string &jti) const {
         return false;
     }
 
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions ro;
     rocksdb::Status s = db_->Get(ro, cf_, rocksdb::Slice(jti), &value);
 

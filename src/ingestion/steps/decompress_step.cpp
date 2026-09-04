@@ -70,7 +70,7 @@ static bool runProcess(const std::vector<const char*>& argv_vec) {
 
 static void collectPaths(const std::string& dir,
                           std::vector<std::string>& out) {
-    std::error_code ec;
+    std::error_code ec = {};
     for (const auto& entry : fs::recursive_directory_iterator(dir,
             fs::directory_options::skip_permission_denied, ec)) {
         if (entry.is_regular_file(ec)) {
@@ -141,18 +141,18 @@ public:
         }
 
         // ── Resolve output directory ───────────────────────────────────────
-        std::string output_dir;
+        std::string output_dir = {};
         if (cfg.config.contains("output_dir") &&
             cfg.config["output_dir"].is_string()) {
             output_dir = cfg.config["output_dir"].get<std::string>();
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(output_dir, ec);
         } else {
             const auto base = fs::temp_directory_path();
             const auto unique = "themis_decompress_"
                 + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
             output_dir = (base / unique).string();
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(output_dir, ec);
             if (ec) {
                 return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,

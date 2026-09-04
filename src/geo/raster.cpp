@@ -140,7 +140,7 @@ RasterSampleResult sampleAt(const RasterGrid &grid, double lon, double lat) noex
     // Bilinear blend with no-data exclusion: collect valid weights.
     struct WV {
         double w = 0;
-        float v;
+        float v = {};
     };
     WV samples[4] = {
         {(1.0 - tx) * (1.0 - ty), v00},

@@ -129,7 +129,7 @@ struct GeoRTree::Impl {
 
 struct Entry {
     MBR     mbr;
-    std::string key;
+    std::string key = {};
 };
 
 struct GeoRTree::Impl {

@@ -98,7 +98,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        std::string result;
+        std::string result = {};
         for (const auto& arg : args) {
             result += toString(arg);
         }
@@ -351,7 +351,7 @@ public:
         
         nlohmann::json result = nlohmann::json::array();
         size_t start = 0;
-        size_t end;
+        size_t end = {};
         int64_t count = 0;
         
         while ((end = str.find(sep, start)) != std::string::npos) {

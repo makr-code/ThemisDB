@@ -311,7 +311,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
                 return {};
             }
 
-            float scale;
+            float scale = {};
             std::memcpy(&scale, codes.data() + code_offset, sizeof(float));
             code_offset += sizeof(float);
 
@@ -386,7 +386,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                 THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Insufficient data for scale");
                 return std::numeric_limits<float>::max();
             }
-            float scale;
+            float scale = {};
             std::memcpy(&scale, codes.data() + code_offset, sizeof(float));
             code_offset += sizeof(float);
 

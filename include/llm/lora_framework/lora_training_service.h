@@ -53,7 +53,7 @@ struct TrainingDataSample {
     }
     
     static TrainingDataSample fromJSON(const json& j) {
-        TrainingDataSample sample;
+        TrainingDataSample sample = {};
         if (j.contains("input")) {
           sample.input = j["input"];
         }
@@ -72,7 +72,7 @@ struct TrainingDataSample {
  */
 struct TrainingData {
     std::vector<TrainingDataSample> samples;
-    std::string dataset_name;
+    std::string dataset_name = {};
     json metadata;
     
     size_t size() const { return samples.size(); }
@@ -89,7 +89,7 @@ struct TrainingData {
     }
     
     static TrainingData fromJSON(const json& j) {
-        TrainingData data;
+        TrainingData data = {};
         if (j.contains("dataset_name")) {
           data.dataset_name = j["dataset_name"];
         }

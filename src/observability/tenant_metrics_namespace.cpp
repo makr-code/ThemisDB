@@ -79,7 +79,7 @@ std::string TenantMetricsNamespace::makeKey(
     const std::string& metric_name,
     const std::map<std::string, std::string>& labels)
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << metric_name;
     for (const auto& kv : labels) {
         ss << '{' << kv.first << '=' << kv.second << '}';
@@ -222,7 +222,7 @@ std::string TenantMetricsNamespace::formatLine(
     const std::map<std::string, std::string>& labels,
     double value)
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << prefixed_name;
     if (!labels.empty()) {
         ss << '{';
@@ -242,7 +242,7 @@ std::string TenantMetricsNamespace::formatLine(
 
 std::string TenantMetricsNamespace::exportStore(const TenantStore& store) const {
     const std::string prefix = "themis_" + store.tenant_id + "_";
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     // Counters
     for (const auto& kv : store.counters) {
@@ -290,7 +290,7 @@ std::string TenantMetricsNamespace::exportTenant(const std::string& tenant_id) c
 
 std::string TenantMetricsNamespace::exportAll() const {
     std::shared_lock lock(mutex_);
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (const auto& kv : stores_) {
         out << exportStore(*kv.second);
     }

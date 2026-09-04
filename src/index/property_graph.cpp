@@ -54,37 +54,37 @@ std::optional<std::string> PropertyGraphManager::extractType_(const BaseEntity& 
 }
 
 std::string PropertyGraphManager::makeLabelIndexKey_(std::string_view graph_id, std::string_view label, std::string_view pk) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "label:" << graph_id << ":" << label << ":" << pk;
     return oss.str();
 }
 
 std::string PropertyGraphManager::makeTypeIndexKey_(std::string_view graph_id, std::string_view type, std::string_view edgeId) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "type:" << graph_id << ":" << type << ":" << edgeId;
     return oss.str();
 }
 
 std::string PropertyGraphManager::makeNodeKey_(std::string_view graph_id, std::string_view pk) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "node:" << graph_id << ":" << pk;
     return oss.str();
 }
 
 std::string PropertyGraphManager::makeEdgeKey_(std::string_view graph_id, std::string_view edgeId) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "edge:" << graph_id << ":" << edgeId;
     return oss.str();
 }
 
 std::string PropertyGraphManager::makeGraphOutdexKey_(std::string_view graph_id, std::string_view fromPk, std::string_view edgeId) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "graph:out:" << graph_id << ":" << fromPk << ":" << edgeId;
     return oss.str();
 }
 
 std::string PropertyGraphManager::makeGraphIndegKey_(std::string_view graph_id, std::string_view toPk, std::string_view edgeId) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "graph:in:" << graph_id << ":" << toPk << ":" << edgeId;
     return oss.str();
 }
@@ -153,7 +153,7 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
     
     // Scan outgoing edges: graph:out:<graph_id>:<pk>:
     {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "graph:out:" << graph_id << ":" << pk << ":";
         std::string outPrefix = oss.str();
         
@@ -173,7 +173,7 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
     
     // Scan incoming edges: graph:in:<graph_id>:<pk>:
     {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "graph:in:" << graph_id << ":" << pk << ":";
         std::string inPrefix = oss.str();
         
@@ -345,7 +345,7 @@ std::pair<PropertyGraphManager::Status, std::vector<std::string>> PropertyGraphM
     }
 
     std::vector<std::string> nodes;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "label:" << graph_id << ":" << label << ":";
     std::string prefix = oss.str();
 
@@ -489,7 +489,7 @@ PropertyGraphManager::getEdgesByType(std::string_view type, std::string_view gra
     }
 
     std::vector<EdgeInfo> edges;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "type:" << graph_id << ":" << type << ":";
     std::string prefix = oss.str();
 
@@ -561,7 +561,7 @@ PropertyGraphManager::getTypedOutEdges(
     }
 
     std::vector<EdgeInfo> edges;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "graph:out:" << graph_id << ":" << fromPk << ":";
     std::string prefix = oss.str();
 
@@ -646,7 +646,7 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     std::unordered_set<std::string> types;
 
     // Count nodes
-    std::ostringstream nodePrefix;
+    std::ostringstream nodePrefix = {};
     nodePrefix << "node:" << graph_id << ":";
     db_.scanPrefix(nodePrefix.str(), [&stats](std::string_view /*key*/, std::string_view /*val*/) {
         stats.node_count++;
@@ -654,7 +654,7 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     });
 
     // Count edges
-    std::ostringstream edgePrefix;
+    std::ostringstream edgePrefix = {};
     edgePrefix << "edge:" << graph_id << ":";
     db_.scanPrefix(edgePrefix.str(), [&stats](std::string_view /*key*/, std::string_view /*val*/) {
         stats.edge_count++;
@@ -662,7 +662,7 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     });
 
     // Count unique labels
-    std::ostringstream labelPrefix;
+    std::ostringstream labelPrefix = {};
     labelPrefix << "label:" << graph_id << ":";
     db_.scanPrefix(labelPrefix.str(), [&labels, &labelPrefix](std::string_view key, std::string_view /*val*/) {
         std::string keyStr(key);
@@ -678,7 +678,7 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     stats.label_count = labels.size();
 
     // Count unique types
-    std::ostringstream typePrefix;
+    std::ostringstream typePrefix = {};
     typePrefix << "type:" << graph_id << ":";
     db_.scanPrefix(typePrefix.str(), [&types, &typePrefix](std::string_view key, std::string_view /*val*/) {
         std::string keyStr(key);
@@ -856,7 +856,7 @@ PropertyGraphManager::traverseBFS(
         }
         
         // Get outgoing edges
-        std::ostringstream outPrefix;
+        std::ostringstream outPrefix = {};
         outPrefix << "graph:out:" << graph_id << ":" << current_node << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
@@ -912,7 +912,7 @@ PropertyGraphManager::traverseDFS(
         
         // Get outgoing edges (push in reverse order for consistent DFS ordering)
         std::vector<std::string> neighbors;
-        std::ostringstream outPrefix;
+        std::ostringstream outPrefix = {};
         outPrefix << "graph:out:" << graph_id << ":" << current_node << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
@@ -977,7 +977,7 @@ PropertyGraphManager::findShortestPath(
         }
         
         // Get outgoing edges
-        std::ostringstream outPrefix;
+        std::ostringstream outPrefix = {};
         outPrefix << "graph:out:" << graph_id << ":" << current << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
@@ -1063,7 +1063,7 @@ PropertyGraphManager::getOutgoingEdges(
     }
 
     std::vector<EdgeInfo> edges;
-    std::ostringstream outPrefix;
+    std::ostringstream outPrefix = {};
     outPrefix << "graph:out:" << graph_id << ":" << fromPk << ":";
     
     db_.scanPrefix(outPrefix.str(), [this, &edges, &fromPk, &graph_id](std::string_view key, std::string_view val) {
@@ -1111,7 +1111,7 @@ PropertyGraphManager::getIncomingEdges(
     }
 
     std::vector<EdgeInfo> edges;
-    std::ostringstream inPrefix;
+    std::ostringstream inPrefix = {};
     inPrefix << "graph:in:" << graph_id << ":" << toPk << ":";
     
     db_.scanPrefix(inPrefix.str(), [this, &edges, &toPk, &graph_id](std::string_view key, std::string_view val) {
@@ -1164,7 +1164,7 @@ PropertyGraphManager::computePageRank(
 
     // Collect all nodes in the graph
     std::vector<std::string> nodes;
-    std::ostringstream nodePrefix;
+    std::ostringstream nodePrefix = {};
     nodePrefix << "node:" << graph_id << ":";
     
     db_.scanPrefix(nodePrefix.str(), [&nodes, &nodePrefix](std::string_view key, std::string_view /*val*/) {
@@ -1198,7 +1198,7 @@ PropertyGraphManager::computePageRank(
     
     // Count outgoing edges and build incoming edge lists
     for (const auto& node : nodes) {
-        std::ostringstream outPrefix;
+        std::ostringstream outPrefix = {};
         outPrefix << "graph:out:" << graph_id << ":" << node << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {

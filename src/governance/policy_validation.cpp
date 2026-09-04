@@ -982,7 +982,7 @@ bool PolicyMetricsCollector::importMetrics(const nlohmann::json &j) {
 
     try {
         for (const auto &item : j) {
-            RuleMetrics metrics;
+            RuleMetrics metrics = {};
 
             if (item.contains("rule_id")) {
                 metrics.rule_id = item["rule_id"];
@@ -1114,7 +1114,7 @@ PolicyOptimizer::recommendMerges(const PolicyManager &policy_mgr) const {
         }
 
         // Create a signature based on resources and actions
-        std::string signature;
+        std::string signature = {};
         for (const auto &resource : rule.resources) {
             signature += resource + ";";
         }
@@ -1162,7 +1162,7 @@ PolicyOptimizer::recommendSimplifications(const PolicyManager &policy_mgr) const
 
         // Check for overly complex rules
         bool is_complex = false;
-        std::string complexity_reason;
+        std::string complexity_reason = {};
 
         if (rule.resources.size() > 10) {
             is_complex        = true;
@@ -1203,9 +1203,9 @@ std::vector<PolicyOptimizer::OptimizationRecommendation> PolicyOptimizer::recomm
 
     // Build list of rules with their evaluation stats
     struct RuleStats {
-        std::string rule_id;
-        int priority;
-        double match_rate;
+        std::string rule_id = {};
+        int priority = {};
+        double match_rate = {};
         int64_t avg_time_us;
     };
 
@@ -1323,7 +1323,7 @@ PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
     }
 
     // Generate summary
-    std::ostringstream summary;
+    std::ostringstream summary = {};
     summary << "Found " << report.total_recommendations << " optimization opportunities. ";
     summary << report.high_priority_recommendations << " are high priority. ";
 

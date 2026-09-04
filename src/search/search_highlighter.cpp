@@ -37,7 +37,7 @@ SearchHighlighter::SearchHighlighter(Config config)
 std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
                                                       bool case_insensitive) {
     std::vector<std::string> tokens;
-    std::string current;
+    std::string current = {};
 
     for (unsigned char ch : text) {
         // Split on ASCII whitespace or common punctuation
@@ -69,7 +69,7 @@ std::string SearchHighlighter::applyHighlight(
       return text;
     }
 
-    std::string result;
+    std::string result = {};
     result.reserve(text.size() + offsets.size() * (open_tag.size() + close_tag.size()));
 
     size_t cursor = 0;
@@ -306,7 +306,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
         std::string highlighted = highlight(passage, terms);
 
         // Add ellipses
-        std::string result;
+        std::string result = {};
         if (offset > 0) {
           result += config_.ellipsis;
         }

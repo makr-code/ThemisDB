@@ -103,7 +103,7 @@ struct TraceContext {
    */
   static std::string GenerateTraceId() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0')
         << rng();  // Upper 64 bits
     oss << std::hex << std::setw(16) << std::setfill('0')
@@ -113,7 +113,7 @@ struct TraceContext {
 
   static std::string GenerateSpanId() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << rng();
     return oss.str();
   }
@@ -122,7 +122,7 @@ struct TraceContext {
    * @brief Serialize to W3C traceparent header format.
    */
   std::string ToHeader() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "00-" << trace_id << "-" << span_id << "-";
     oss << std::hex << std::setw(2) << std::setfill('0')
         << (int)trace_flags;
@@ -528,7 +528,7 @@ bool ProcessTelemetryIntegrationImpl::ExportSpans() {
 std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
     const std::shared_ptr<DistributedSpan>& span) {
   // Simplified OTLP JSON serialization
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "{"
       << "\"name\":\"" << span->GetOperationName() << "\","
       << "\"context\":{\"trace_id\":\"" << span->GetContext().trace_id << "\","

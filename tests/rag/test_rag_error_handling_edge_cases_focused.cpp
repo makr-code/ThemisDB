@@ -109,7 +109,7 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, A4_BrokenUnicodeInChunkContentHandle
     RAGContextAssembler asm_{cfg};
 
     // Invalid UTF-8 sequence (valid in std::string but semantically invalid UTF-8)
-    std::string broken_utf8;
+    std::string broken_utf8 = {};
     broken_utf8.push_back(static_cast<char>(0xFF));
     broken_utf8.push_back(static_cast<char>(0xFE));
     broken_utf8.push_back(static_cast<char>(0x00));

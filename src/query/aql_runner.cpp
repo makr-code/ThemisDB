@@ -411,7 +411,7 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
     using TQ = AQLTranslator::TranslationResult::TraversalQuery;
 
     // Direction label
-    std::string dir_name;
+    std::string dir_name = {};
     switch (tv.direction) {
         case TQ::Direction::Outbound: dir_name = "OUTBOUND"; break;
         case TQ::Direction::Inbound:  dir_name = "INBOUND";  break;
@@ -420,7 +420,7 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
 
     // Algorithm selection (mirrors GraphQueryOptimizer::selectAlgorithm)
     const int depth = tv.maxDepth > 0 ? tv.maxDepth : 1;
-    std::string algo_name;
+    std::string algo_name = {};
     if (tv.shortestPath) {
         algo_name = (depth > 5) ? "Bidirectional" : "BFS";
     } else {
@@ -985,7 +985,7 @@ Result<nlohmann::json> executeAqlWithRLS(
     // the correct RLS policies are applied.  We re-parse the AQL to get
     // the table name.  This is cheap because parseAndTranslateForExplain()
     // is already called for EXPLAIN paths.
-    std::string collection;
+    std::string collection = {};
     {
         query::AQLParser parser;
         auto pr = parser.parse(aql);

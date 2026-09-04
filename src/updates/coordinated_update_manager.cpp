@@ -320,7 +320,7 @@ CoordinatedUpdateResult CoordinatedUpdateManager::applyLocalUpdate() {
 // ---------------------------------------------------------------------------
 
 bool CoordinatedUpdateManager::rollback(const std::string& reason) {
-    std::string rid;
+    std::string rid = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);

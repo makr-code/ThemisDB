@@ -150,7 +150,7 @@ void SloReporter::publishMetrics() const {
 
 std::string SloReporter::generateReport() const {
     auto statuses = getAllStatuses();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== ThemisDB SLO Compliance Report ===\n\n";
     oss << "SLOs evaluated: " << statuses.size() << "\n\n";
 
@@ -275,7 +275,7 @@ SloStatus SloReporter::computeStatus(const SloState& state) {
     struct LevelSpec {
         BurnRateLevel level;
         std::chrono::seconds window;
-        double hours;
+        double hours = {};
     };
 
     static const LevelSpec kLevels[] = {
@@ -293,7 +293,7 @@ SloStatus SloReporter::computeStatus(const SloState& state) {
             alert.burn_rate    = rate;
             alert.window_hours = spec.hours;
             alert.severity     = burnRateSeverity(spec.level);
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << std::fixed << std::setprecision(1)
                 << "SLO '" << s.name << "' burn rate " << rate
                 << "× (threshold " << threshold << "×) over "

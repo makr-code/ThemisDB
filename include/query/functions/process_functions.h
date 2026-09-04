@@ -228,7 +228,7 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override {
-        std::string filter_case;
+        std::string filter_case = {};
         if (!args.empty() && args[0].is_string()) {
             filter_case = args[0].get<std::string>();
         }

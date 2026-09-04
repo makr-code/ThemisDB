@@ -379,7 +379,7 @@ void PromptEngineeringMetrics::recordBackgroundWorkerDuration([[maybe_unused]] d
 
 // Export metrics in Prometheus format
 std::string PromptEngineeringMetrics::exportMetrics() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     const std::string prefix = config_.namespace_prefix;
 
     // Optimization metrics
@@ -723,7 +723,7 @@ std::string PromptEngineeringMetrics::formatLabels(
       return "";
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [key, value] : labels) {

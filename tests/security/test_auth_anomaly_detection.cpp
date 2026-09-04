@@ -394,7 +394,7 @@ AuditLoggerConfig makeAnomalyTestConfig(const std::string& log_path) {
 size_t countLogLines(const std::string& path) {
     std::ifstream f(path);
     size_t n = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (!line.empty()) {
           ++n;
@@ -407,7 +407,7 @@ size_t countLogLines(const std::string& path) {
 class AuditLoggerIntegrationTest : public ::testing::Test {
 protected:
     std::filesystem::path tmp_dir_;
-    std::string log_path_;
+    std::string log_path_ = {};
 
     void SetUp() override {
         tmp_dir_  = std::filesystem::temp_directory_path() / "auth_anomaly_test";

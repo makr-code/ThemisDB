@@ -188,7 +188,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     
     // Generate revision reasoning
     if (result.was_revised) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Revised to address " << result.critiques.size() << " critique(s). ";
         oss << "Improvement: " << (result.improvement * 100) << "%. ";
         oss << "Iterations: " << result.iterations << ".";
@@ -253,7 +253,7 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     
     // Generate critique using rule-based detection
     // This provides fast, deterministic critique generation without LLM overhead
-    std::string critique;
+    std::string critique = {};
     
     if (principle.id == "human_autonomy") {
         // Check for patronizing language
@@ -639,7 +639,7 @@ std::string ConstitutionalReasoningEngine::buildCritiquePrompt(
     const std::string& query,
     const ConstitutionalPrinciple& principle
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Critique the following response based on the principle: " 
         << principle.name << "\n\n";
     oss << "Principle: " << principle.description << "\n\n";
@@ -654,7 +654,7 @@ std::string ConstitutionalReasoningEngine::buildRevisionPrompt(
     const std::vector<std::string>& critiques,
     const std::string& query
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Revise the following response based on these critiques:\n\n";
     oss << "Original Response: " << response << "\n\n";
     oss << "Critiques:\n";

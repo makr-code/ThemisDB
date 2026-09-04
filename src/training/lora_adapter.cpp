@@ -204,13 +204,13 @@ public:
         const size_t expected_A = e.rank    * e.out_dim;
 
         if (B.size() != expected_B) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::setWeights: B size mismatch for layer '" << layer_name
                 << "' (expected " << expected_B << ", got " << B.size() << ")";
             throw std::invalid_argument(oss.str());
         }
         if (A.size() != expected_A) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::setWeights: A size mismatch for layer '" << layer_name
                 << "' (expected " << expected_A << ", got " << A.size() << ")";
             throw std::invalid_argument(oss.str());
@@ -233,13 +233,13 @@ public:
 
         LoRAWeightEntry& e = it->second;
         if (delta_B.size() != e.B.size()) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_B size mismatch for layer '" << layer_name
                 << "' (expected " << e.B.size() << ", got " << delta_B.size() << ")";
             throw std::invalid_argument(oss.str());
         }
         if (delta_A.size() != e.A.size()) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_A size mismatch for layer '" << layer_name
                 << "' (expected " << e.A.size() << ", got " << delta_A.size() << ")";
             throw std::invalid_argument(oss.str());
@@ -318,7 +318,7 @@ public:
         const LoRAWeightEntry& e = it->second;
 
         if (input.size() != batch_size * e.in_dim) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::forward: input size mismatch for layer '" << layer_name
                 << "' (expected " << (batch_size * e.in_dim)
                 << " = batch_size(" << batch_size << ") × in_dim(" << e.in_dim
@@ -370,7 +370,7 @@ public:
             const size_t expected_A = e.rank    * e.out_dim;
 
             if (e.B.size() != expected_B || e.A.size() != expected_A) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "LoRAAdapter::importWeights: size mismatch for entry '" << e.layer_name
                     << "': B expected " << expected_B << " (got " << e.B.size()
                     << "), A expected " << expected_A << " (got " << e.A.size() << ")";

@@ -85,7 +85,7 @@ MetaVerdict buildMV(const std::vector<DiscourseRoundOutput>& results,
         g.grounding_available = true;
         g.norm_refs           = {"EU AI Act Art. 22"};
     }
-    MetaVerdictBuilder builder;
+    MetaVerdictBuilder builder = {};
     return builder.buildMetaVerdict(results, {}, g, DiscourseMode::LAYERED_FULL, {});
 }
 

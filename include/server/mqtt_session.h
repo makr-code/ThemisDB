@@ -134,7 +134,7 @@ enum class Qos2State {
 
 struct Qos2Message {
     uint16_t packetId;
-    std::string topic;
+    std::string topic = {};
     std::string payload;
     Qos2State state;
     std::chrono::steady_clock::time_point timestamp;

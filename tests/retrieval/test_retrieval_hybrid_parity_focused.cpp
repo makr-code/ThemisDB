@@ -36,8 +36,8 @@ namespace themis::retrieval::testing {
  * @brief Result from a retrieval operation
  */
 struct RetrievalResult {
-    std::string id;
-    float score;
+    std::string id = {};
+    float score = {};
     std::string content;
     
     bool operator==(const RetrievalResult& other) const {
@@ -158,7 +158,7 @@ public:
     
 private:
     std::unordered_map<std::string, std::vector<float>> vectors_;
-    int ann_search_time_us_;
+    int ann_search_time_us_ = {};
     
     float computeDistance(const std::vector<float>& a,
                          const std::vector<float>& b) {

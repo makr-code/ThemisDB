@@ -279,7 +279,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
         pos                         = (slash == std::string::npos) ? path.size() + 1 : slash + 1;
 
         // RFC 6901: unescape '~1' → '/' and '~0' → '~' (in that order).
-        std::string key;
+        std::string key = {};
         key.reserve(raw_token.size());
         for (std::size_t i = 0; i < raw_token.size(); ++i) {
             if (raw_token[i] == '~' && i + 1 < raw_token.size()) {
@@ -674,7 +674,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
             } else if (fmt == "ipv4") {
                 // Dotted-decimal, each octet 0-255
                 static const std::regex re_ipv4(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
-                std::smatch m;
+                std::smatch m = {};
                 if (std::regex_match(s, m, re_ipv4)) {
                     for (int i = 1; i <= 4; ++i) {
                         if (std::stoi(m[i].str()) > 255) {

@@ -246,7 +246,7 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
         }
         start += needle.size();
         // Collect until unescaped closing quote
-        std::string value;
+        std::string value = {};
         bool escape = false;
         for (size_t i = start; i < json.size(); ++i) {
             char c = json[i];
@@ -574,7 +574,7 @@ private:
 
     // Percent-encode a string for use in an application/x-www-form-urlencoded body.
     static std::string urlEncode(const std::string& value) {
-        std::string encoded;
+        std::string encoded = {};
         for (unsigned char c : value) {
             if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
                 encoded += static_cast<char>(c);

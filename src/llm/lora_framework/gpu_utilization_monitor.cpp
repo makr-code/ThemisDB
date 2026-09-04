@@ -83,7 +83,7 @@ GPUUtilizationMonitor::~GPUUtilizationMonitor() {
 }
 
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryMetrics() {
-    Metrics metrics;
+    Metrics metrics = {};
     
     if (!is_available_) {
         return getFallbackMetrics();
@@ -297,7 +297,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryROCm() {
     // Use stored device index (type-safe, no cast needed)
     
     // GPU busy percentage
-    uint32_t busy_percent;
+    uint32_t busy_percent = {};
     rsmi_status_t result = rsmi_dev_busy_percent_get(rocm_device_index_, &busy_percent);
     if (result == RSMI_STATUS_SUCCESS) {
         metrics.gpu_utilization_pct = static_cast<float>(busy_percent);

@@ -366,8 +366,8 @@ TEST_F(BoundedKernelValidationTest, ProvenanceChainDeterminism) {
 
     struct Edge {
         uint64_t from = 0;
-        uint64_t to;
-        int timestamp;
+        uint64_t to = {};
+        int timestamp = {};
     };
 
     // Build chain twice, verify identical order

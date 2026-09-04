@@ -89,7 +89,7 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                     }
                 }
                 // Fallback: join all scalar leaf values
-                std::ostringstream acc;
+                std::ostringstream acc = {};
                 bool first = true;
                 for (const auto &kv : node) {
                     if (kv.second.IsScalar()) {
@@ -136,7 +136,7 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                 return node.as<std::string>("");
             }
             if (node.IsSequence()) {
-                std::ostringstream acc;
+                std::ostringstream acc = {};
                 bool first = true;
                 for (const auto &item : node) {
                     std::string s = joinNode(item);
@@ -157,7 +157,7 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                         return node[key].as<std::string>("");
                     }
                 }
-                std::ostringstream acc;
+                std::ostringstream acc = {};
                 bool first = true;
                 for (const auto &kv : node) {
                     std::string s = joinNode(kv.second);

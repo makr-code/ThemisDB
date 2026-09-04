@@ -85,7 +85,7 @@ std::string_view StorageAuditLogger::eventName(Event e) {
 }
 
 /* static */ std::string StorageAuditLogger::segmentName([[maybe_unused]] uint64_t segment_id) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "audit_" << std::setw(6) << std::setfill('0') << segment_id << ".log";
     return oss.str();
 }
@@ -128,7 +128,7 @@ StorageAuditLogger::open(const Config& config) {
             "StorageAuditLogger: config.dir must not be empty");
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(config.dir, ec);
     if (ec) {
         return Err<std::unique_ptr<StorageAuditLogger>>(
@@ -158,7 +158,7 @@ Result<void> StorageAuditLogger::openOrCreate() {
     // the language rules — false positive.
     for (const auto& entry : fs::directory_iterator(config_.dir)) {
         std::string fn = entry.path().filename().string();
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_match(fn, m, seg_re)) {
             found.push_back(std::stoull(m[1].str()));
         }
@@ -229,7 +229,7 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     }
 
     // Build line:  <ts> <seq> <event> <key> [<extra>]\n
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << currentTimestamp() << ' '
         << std::setw(12) << std::setfill('0') << next_seq_ << ' '
         << eventName(event);

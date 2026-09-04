@@ -322,7 +322,7 @@ inline std::ostream& operator<<(std::ostream& os, DocumentErrorClass cls)
     const auto desc = documentErrorDescription(code);
     const auto& ctx = err.context();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[DOC:" << static_cast<int>(code)
         << "/" << documentErrorClassName(cls) << "] "
         << desc;

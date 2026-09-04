@@ -131,7 +131,7 @@ struct FilteredVectorSearchQuery {
     
     // Attribute filters for pre-filtering via SecondaryIndex
     struct AttributeFilter {
-        std::string field;
+        std::string field = {};
         // Vermeide Konflikt mit möglichem Windows Makro IN
         #ifdef IN
         #undef IN
@@ -188,7 +188,7 @@ struct ContentSearchQuery {
     struct MetadataFilter {
         std::string field;
         enum class Op { EQUALS, NOT_EQUALS, CONTAINS, IN } op = Op::EQUALS;
-        std::string value;
+        std::string value = {};
         std::vector<std::string> values; // for IN
     };
     std::vector<MetadataFilter> metadata_filters;
@@ -257,8 +257,8 @@ struct PredicatePhrase {
 
 // Fuzzy Search Predicate for approximate matching with Levenshtein distance
 struct PredicateFuzzy {
-    std::string column;
-    std::string query;
+    std::string column = {};
+    std::string query = {};
     int maxDistance = 2;  // Maximum edit distance
     size_t limit = 1000;
 };

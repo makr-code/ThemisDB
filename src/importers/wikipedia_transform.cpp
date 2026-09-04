@@ -29,7 +29,7 @@ uint64_t fnv1a64(std::string_view text) {
 }
 
 std::string hex64([[maybe_unused]] uint64_t value) {
-    std::ostringstream output;
+    std::ostringstream output = {};
     output << std::hex << value;
     return output.str();
 }
@@ -47,7 +47,7 @@ std::string WikipediaTransform::normalizeTitle(std::string_view title) {
     std::replace(normalized.begin(), normalized.end(), '_', ' ');
     normalized = trim(normalized);
     bool previous_space = false;
-    std::string compact;
+    std::string compact = {};
     compact.reserve(normalized.size());
     for (const char ch : normalized) {
         const bool is_space = std::isspace(static_cast<unsigned char>(ch)) != 0;

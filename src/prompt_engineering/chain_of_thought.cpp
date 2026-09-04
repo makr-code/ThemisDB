@@ -78,7 +78,7 @@ std::string ChainOfThoughtBuilder::build() const {
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     bool first = true;
 
     for (std::size_t idx = 0; idx < steps_.size(); ++idx) {
@@ -150,7 +150,7 @@ std::string ChainOfThoughtBuilder::buildFewShot(
     const std::string& question,
     const std::vector<std::pair<std::string, std::string>>& examples) {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     for (const auto& [ex_question, ex_answer] : examples) {
         out << "Q: " << ex_question << "\n";
@@ -165,7 +165,7 @@ std::string ChainOfThoughtBuilder::buildFewShot(
 
 std::string ChainOfThoughtBuilder::wrapWithCoT(const std::string& prompt,
                                                bool explicit_steps) {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     if (explicit_steps) {
         out << "Solve the following task by reasoning through it step by step.\n\n";

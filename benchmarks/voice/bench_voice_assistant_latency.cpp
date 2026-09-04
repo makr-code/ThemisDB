@@ -27,7 +27,7 @@ using namespace themis::voice::benchmark;
 class MockCommandParser {
 public:
     struct ParseResult {
-        std::string command;
+        std::string command = {};
         std::map<std::string, std::string> parameters;
     };
 

@@ -145,7 +145,7 @@ TEST_F(DistributedSagaTest, ValidateValidDefinition) {
 
 TEST_F(DistributedSagaTest, SequentialAllStepsExecuted) {
     std::vector<int> order;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     DistributedSagaDefinition def;
     def.saga_id = "seq-success";
@@ -200,7 +200,7 @@ TEST_F(DistributedSagaTest, SingleStepSuccess) {
 
 TEST_F(DistributedSagaTest, CompensationRunsInReverseOrder) {
     std::vector<std::string> comp_order;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     DistributedSagaDefinition def;
     def.saga_id = "comp-order";
@@ -339,7 +339,7 @@ TEST_F(DistributedSagaTest, DiamondDependencyCorrectOrder) {
     //  A → B → D
     //  A → C → D
     std::vector<std::string> exec_order;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     DistributedSagaDefinition def;
     def.saga_id = "diamond";
@@ -724,7 +724,7 @@ TEST(DistributedSagaDistributedTest, ExecuteDistributedFailsClosedWithoutExecuto
 
 TEST(DistributedSagaDistributedTest, ExecuteDistributedWithCustomExecutorRouted) {
     std::vector<std::string> called_endpoints;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     DistributedSagaCoordinator::Config cfg;
     cfg.remote_executor = [&](const std::string& endpoint,
@@ -812,7 +812,7 @@ TEST(DistributedSagaDistributedTest, ExecuteDistributedRejectsRemoteStepWithEmpt
 
 TEST(DistributedSagaDistributedTest, ExecuteDistributedCompensationOnRemoteFailure) {
     std::vector<std::string> comp_calls;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     DistributedSagaCoordinator::Config cfg;
     cfg.remote_executor = [&](const std::string& /*ep*/,

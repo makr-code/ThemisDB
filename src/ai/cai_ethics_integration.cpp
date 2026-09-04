@@ -170,7 +170,7 @@ std::vector<std::string> makeArgumentChainIds(const std::vector<std::string>& do
 /// @return Comma-separated string (empty if input is empty); ostringstream::str() is always safe.
 std::string joinValues(const std::vector<std::string>& values) {
     // Safe ostringstream usage: str() never fails, always returns constructed string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (std::size_t i = 0; i < values.size(); ++i) {
         if (i != 0u) {
             oss << ',';

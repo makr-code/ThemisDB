@@ -37,7 +37,7 @@ namespace {
 std::string hashSessionId(const std::string &session_id) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(session_id.data()), session_id.size(), digest);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned char b : digest) {
         oss << std::setw(2) << static_cast<int>(b);
@@ -85,7 +85,7 @@ std::string SessionManager::generateSessionId() {
     if (RAND_bytes(buf, sizeof(buf)) != 1) {
         throw std::runtime_error("SessionManager: RAND_bytes failed");
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "sess_";
     for (unsigned char b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);

@@ -210,7 +210,7 @@ TEST_F(CronParserTest, GetNextExecutionSimple) {
     ASSERT_TRUE(next.has_value());
     
     auto time_t = std::chrono::system_clock::to_time_t(*next);
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
 #else
@@ -233,7 +233,7 @@ TEST_F(CronParserTest, GetNextExecutionNextDay) {
     ASSERT_TRUE(next.has_value());
     
     auto time_t = std::chrono::system_clock::to_time_t(*next);
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
 #else
@@ -257,7 +257,7 @@ TEST_F(CronParserTest, GetNextExecutionEvery15Minutes) {
     ASSERT_TRUE(next.has_value());
     
     auto time_t = std::chrono::system_clock::to_time_t(*next);
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
 #else

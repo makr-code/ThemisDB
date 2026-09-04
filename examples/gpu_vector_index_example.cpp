@@ -280,7 +280,7 @@ void demonstrateBackendComparison() {
         auto buildTime = std::chrono::duration_cast<std::chrono::milliseconds>(buildEnd - buildStart);
         auto searchTime = std::chrono::duration_cast<std::chrono::microseconds>(searchEnd - searchStart);
         
-        std::string backendName;
+        std::string backendName = {};
         switch (backend) {
             case GPUVectorIndex::Backend::CPU: backendName = "CPU"; break;
             case GPUVectorIndex::Backend::VULKAN: backendName = "Vulkan"; break;

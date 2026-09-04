@@ -26,7 +26,7 @@ std::vector<std::string> GraphWatermark::generateWatermarkIds(const std::string 
     std::vector<std::string> ids;
     ids.reserve(static_cast<size_t>(k));
     for (int i = 0; i < k; ++i) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "wm_" << tenant_id << "_" << seed << "_" << i;
         ids.push_back(oss.str());
     }

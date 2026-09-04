@@ -51,7 +51,7 @@ struct BioDeleter {
 
 [[nodiscard]] std::string bytesToHex(const std::vector<unsigned char>& bytes) {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string result;
+    std::string result = {};
     result.reserve(bytes.size() * 2);
     for (const auto byte : bytes) {
         result.push_back(kHex[(byte >> 4) & 0x0F]);
@@ -275,7 +275,7 @@ protected:
         auto unload_all = manager_.unloadAllPlugins();
         EXPECT_TRUE(unload_all.has_value()) << unload_all.error().message();
 
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove(runtimePluginMetadataPath(runtimePluginPath()), ec);
         if (!discovery_dir_.empty()) {
             fs::remove_all(discovery_dir_, ec);
@@ -341,7 +341,7 @@ TEST_F(PluginRuntimeLoadingFocusedTests, ScanDirectoryRegistersPluginAndLoadByNa
         static_cast<long long>(std::chrono::steady_clock::now().time_since_epoch().count()));
     discovery_dir_ = fs::temp_directory_path() /
         ("themis_runtime_plugin_discovery_" + unique_suffix);
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(discovery_dir_, ec);
     ASSERT_TRUE(fs::create_directories(discovery_dir_));
 

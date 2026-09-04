@@ -176,7 +176,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
     // ── Parse header ──────────────────────────────────────────────────────
     const uint8_t opcode = data[3];
 
-    uint32_t req_id_be;
+    uint32_t req_id_be = {};
     std::memcpy(&req_id_be, data.data() + 4, 4);
     const uint32_t request_id = ntohl(req_id_be);
 
@@ -184,7 +184,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
     std::memcpy(&payload_len_be, data.data() + 8, 2);
     const uint16_t payload_len = ntohs(payload_len_be);
 
-    std::string payload_json;
+    std::string payload_json = {};
     if (payload_len > 0) {
         const uint8_t* payload_start = data.data() + kUdpFastPathHeaderSize;
         payload_json.assign(reinterpret_cast<const char*>(payload_start), payload_len);
@@ -281,7 +281,7 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
                              R"({"error":"storage not configured"})");
     }
 
-    std::string key;
+    std::string key = {};
     try {
         auto j = json::parse(payload_json);
         key    = j.at("key").get<std::string>();
@@ -296,7 +296,7 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
                              R"({"error":"key must not be empty"})");
     }
 
-    std::string value;
+    std::string value = {};
     const bool found = storage_->get(key, value);
     if (!found) {
         return buildResponse(request_id, UdpStatus::NOT_FOUND,

@@ -110,7 +110,7 @@ static void BM_JsonlExport_FormatTemplate(benchmark::State& state) {
     cfg.format_template_type = static_cast<FormatTemplateType>(template_id);
     JSONLLLMExporter exporter(cfg);
 
-    std::string label;
+    std::string label = {};
     switch (template_id) {
         case static_cast<int>(FormatTemplateType::ALPACA):          label = "ALPACA";          break;
         case static_cast<int>(FormatTemplateType::SHAREGPT):        label = "SHAREGPT";        break;

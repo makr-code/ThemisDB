@@ -84,7 +84,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
     }
     
     // Create chunks based on boundaries, respecting chunk_size
-    std::string current_chunk;
+    std::string current_chunk = {};
     size_t chunk_index = 0;
     size_t start_offset = 0;
     size_t current_chunk_start = 0;  // Track where current chunk data starts

@@ -91,7 +91,7 @@ void InMemoryBackend::clearAll() {
 // Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~).
 std::string FileSystemBackend::percentEncode(const std::string& s) {
     static const char hex[] = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 3);
     for (unsigned char c : s) {
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
@@ -108,7 +108,7 @@ std::string FileSystemBackend::percentEncode(const std::string& s) {
 }
 
 std::string FileSystemBackend::percentDecode(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (size_t i = 0; i < s.size(); ) {
         if (s[i] == '%' && i + 2 < s.size()) {
@@ -218,7 +218,7 @@ std::string FileSystemBackend::get(const std::string& key) const {
         const fs::path target = keyToPath(key);
         std::ifstream ifs(target);
         if (!ifs) return {};
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << ifs.rdbuf();
         return ss.str();
     } catch (...) {
@@ -315,7 +315,7 @@ std::string TemporalColdStore::encodeKey(const std::string& table_name,
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     std::snprintf(buf, sizeof(buf), "%016llx",
                   static_cast<unsigned long long>(biasedTimestamp(sys_start)));
-    std::string key;
+    std::string key = {};
     key.reserve(table_name.size() + 1 + doc_key.size() + 1 + 16);
     key += table_name;
     key += '\x01';
@@ -328,7 +328,7 @@ std::string TemporalColdStore::encodeKey(const std::string& table_name,
 // static
 std::string TemporalColdStore::keyPrefix(const std::string& table_name,
                                           const std::string& doc_key) {
-    std::string p;
+    std::string p = {};
     p.reserve(table_name.size() + 1 + doc_key.size() + 1);
     p += table_name;
     p += '\x01';

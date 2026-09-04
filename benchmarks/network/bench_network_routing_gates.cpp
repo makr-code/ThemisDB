@@ -80,7 +80,7 @@ struct BenchBackend {
     std::string   name;
     BackendHealth health;
     uint32_t      latencyMs;
-    std::string   region;
+    std::string   region = {};
 };
 
 /**
@@ -247,7 +247,7 @@ static const BenchTopologyRouter& benchRouter() {
  */
 static void BM_NRG07_TopologySelectHotPath(benchmark::State& state) {
     const auto& router = benchRouter();
-    std::string selected;
+    std::string selected = {};
     // Warmup
     for (int i = 0; i < kWarmupIterations; ++i) {
         (void)router.select(static_cast<std::size_t>(i), selected);

@@ -156,7 +156,7 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
     // Get vocab from model (matches existing pattern in llama_wrapper.cpp)
     const llama_vocab* vocab = llama_model_get_vocab(model_);
     
-    std::string result;
+    std::string result = {};
     result.reserve(tokens.size() * 4);  // Estimate 4 chars per token
     
     for (int token : tokens) {

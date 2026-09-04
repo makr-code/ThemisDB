@@ -239,7 +239,7 @@ public:
 
     XOEVImportResult importFromXML(std::string_view xml_content,
                                    XOEVStandard standard) override {
-        XOEVImportResult result;
+        XOEVImportResult result = {};
         if (xml_content.empty()) {
             result.errors.push_back({0, "", "XML content is empty", true});
             return result;
@@ -294,7 +294,7 @@ public:
     XOEVExportResult exportToXML(const std::vector<XOEVRecord>& records,
                                  XOEVStandard standard,
                                  const XOEVVersion& version) override {
-        XOEVExportResult result;
+        XOEVExportResult result = {};
         if (records.empty()) {
             result.success     = true;
             result.xml_output  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -399,7 +399,7 @@ private:
 
     /// Escape the five XML predefined characters.
     static std::string escapeXML_(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (char c : s) {
             switch (c) {

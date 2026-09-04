@@ -54,7 +54,7 @@ class JWTTokenSizeValidationTest : public ::testing::Test {
  */
 TEST_F(JWTTokenSizeValidationTest, RejectOversizedToken) {
     // Construct a token that exceeds 16 KB
-    std::string oversized_token;
+    std::string oversized_token = {};
     oversized_token.reserve(MAX_JWT_TOKEN_SIZE + 1024);
 
     // Create header.payload.signature format
@@ -91,7 +91,7 @@ TEST_F(JWTTokenSizeValidationTest, RejectBearerPrefixOnly) {
  */
 TEST_F(JWTTokenSizeValidationTest, AcceptTokenAtBoundary) {
     // Create a token exactly at the boundary
-    std::string boundary_token;
+    std::string boundary_token = {};
     boundary_token.reserve(MAX_JWT_TOKEN_SIZE);
 
     // Fill to exactly MAX_JWT_TOKEN_SIZE with valid header.payload.signature

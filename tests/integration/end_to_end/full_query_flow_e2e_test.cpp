@@ -113,7 +113,7 @@ TEST_F(FullQueryFlowE2ETest, AuthenticatedQueryWithAuditLog) {
     
     // If query is not fully implemented, skip gracefully
     if (query_response.contains("error")) {
-        std::string error_text;
+        std::string error_text = {};
         const auto& err = query_response["error"];
         if (err.is_string()) {
             error_text = err.get<std::string>();

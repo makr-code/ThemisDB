@@ -107,7 +107,7 @@ std::string sanitizeKey(const std::string& key) {
       return "_";
     }
 
-    std::string safe;
+    std::string safe = {};
     safe.reserve(trimmed.size());
     for (char c : trimmed) {
         safe += (c == '/' || c == '\\' || c == ':' || c == '*' ||
@@ -205,7 +205,7 @@ bool TieredStorageManager::deleteFromTier(const std::string& key,
     if (!fs::exists(path)) {
       return false;
     }
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove(path, ec);
     if (ec) {
         THEMIS_WARN("TieredStorage: failed to delete '{}': {}", path, ec.message());

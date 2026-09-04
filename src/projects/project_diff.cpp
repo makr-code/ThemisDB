@@ -57,7 +57,7 @@ json DeltaSet::toJson() const {
 }
 
 DeltaSet DeltaSet::fromJson(const json& j) {
-    DeltaSet ds;
+    DeltaSet ds = {};
     if (j.contains("entries") && j["entries"].is_array()) {
         for (const auto& e : j["entries"])
             ds.entries.push_back(DeltaEntry::fromJson(e));
@@ -124,7 +124,7 @@ DeltaSet ProjectDiff::diff(
     // Load content of both snapshots
     auto loadContent = [this](const SnapshotId& snap_id) -> json {
         const auto snap_uuid = snap_id.substr(5); // strip "snap:"
-        std::string content_str;
+        std::string content_str = {};
         if (!storage_->get("snap_data:" + snap_uuid, content_str))
             return json::array();
         try { return json::parse(content_str); }

@@ -41,7 +41,7 @@ namespace {
 /// Case-fold and tokenise text into lower-cased words (≥ 3 chars).
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch) || ch > 127) { // keep umlauts
             cur += static_cast<char>(std::tolower(ch));
@@ -333,7 +333,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
         {
             EthicsIndexQuery meta_q;
             for (const auto& m : registry->queryIndex(meta_q)) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << m.name << " " << m.description_snippet;
                 for (const auto& t : m.tags) {
                   oss << " " << t;
@@ -390,7 +390,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
     {
         EthicsIndexQuery meta_q; // no filters — fetch all
         for (const auto& m : registry->queryIndex(meta_q)) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << m.name << " " << m.description_snippet;
             for (const auto& t : m.tags) {
               oss << " " << t;
@@ -530,7 +530,7 @@ DiscourseOrchestratorPlan EthicsSelectionRouter::planDiscourse(
     }
 
     // Collect all loaded school ids via the registry index.
-    EthicsIndexQuery all_query;
+    EthicsIndexQuery all_query = {};
     if (!domain_context.empty()) {
         all_query.domains = {domain_context};
     }

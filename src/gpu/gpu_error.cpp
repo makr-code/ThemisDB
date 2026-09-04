@@ -226,7 +226,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
   }
 
  private:
-  std::mutex mutex_;
+  std::mutex mutex_ = {};
 
   /// Log a CUDA error without acquiring the mutex (caller must hold it).
   void logErrorNoLock(cudaError_t cuda_err, const std::string& context) noexcept {

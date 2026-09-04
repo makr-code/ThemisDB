@@ -17,7 +17,7 @@ namespace {
 class StubQueryEngine : public themis::IQueryEngine {
 public:
     std::string response_json = R"([{"_key":"doc1"},{"_key":"doc2"}])";
-    std::string last_query;
+    std::string last_query = {};
 
     themis::Result<std::string> execute(const std::string& query) override {
         last_query = query;

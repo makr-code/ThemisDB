@@ -80,7 +80,7 @@ bool CdnCacheMiddleware::isServerError(http::status status) {
 
 std::string CdnCacheMiddleware::generateETag(const std::string& body) {
     uint64_t h = themis::hash::fnv1a64(body);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "W/\"" << std::hex << std::setfill('0') << std::setw(16) << h << "\"";
     return oss.str();
 }
@@ -94,7 +94,7 @@ std::string CdnCacheMiddleware::buildCacheControlValue(
         return "no-store";
     }
 
-    std::string value;
+    std::string value = {};
 
     switch (policy.directive) {
         case CacheDirective::PUBLIC:

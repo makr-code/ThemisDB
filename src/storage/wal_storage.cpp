@@ -154,7 +154,7 @@ public:
     }
 
 private:
-    int fd_;
+    int fd_ = {};
 };
 
 static bool write_all_fd(int fd, const void* data, size_t len) {
@@ -260,14 +260,14 @@ static uint64_t decode_u64(const uint8_t* buf) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::string WALStorage::segmentName([[maybe_unused]] uint64_t segment_id) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "wal_" << std::setw(6) << std::setfill('0') << segment_id << ".log";
     return ss.str();
 }
 
 uint64_t WALStorage::parseSegmentId(const std::string& filename) {
     static const std::regex re(R"(wal_(\d+)\.log)");
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_match(filename, m, re)) {
         return std::stoull(m[1]);
     }
@@ -333,7 +333,7 @@ Result<std::unique_ptr<WALStorage>> WALStorage::open(
 
 Result<void> WALStorage::openOrCreate([[maybe_unused]] RecoveryCallback& on_recover) {
     // Create directory if it doesn't exist.
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(config_.dir, ec);
     if (ec) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,

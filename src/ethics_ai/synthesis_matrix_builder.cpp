@@ -86,7 +86,7 @@ std::string SynthesisMatrixBuilder::buildMatrix(
     const std::vector<ConvergenceMarker>&     convergences,
     int                                       max_tokens) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[POSITIONS-MATRIX — R4 SYNTHESIS INPUT]\n";
 
     for (const auto& pos : positions) {

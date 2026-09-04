@@ -34,7 +34,7 @@ ParsedResponse makeUnavailableJudgeResponse(std::string message) {
 }
 
 std::string makeUnavailableJudgeJson(std::string_view reason) {
-    std::ostringstream response;
+    std::ostringstream response = {};
     response << R"({"score":-1,"confidence":0.0,"reasoning":")"
              << reason
              << R"(","success":false})";

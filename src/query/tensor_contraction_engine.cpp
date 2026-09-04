@@ -212,7 +212,7 @@ TTTrain TensorContractionEngine::recompress(const TTTrain& train,
     TensorTrainConfig cfg;
     cfg.eps      = eps;
     cfg.max_rank = max_rank;
-    TensorTrainDecomposer dec;
+    TensorTrainDecomposer dec = {};
     return dec.round(train, cfg);
 }
 

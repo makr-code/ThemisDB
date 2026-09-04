@@ -100,8 +100,8 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
     // valid references (only possible when per_judge_timeout > 0).
     struct SemState {
         std::atomic<size_t>     running{0};
-        std::mutex              mtx;
-        std::condition_variable cv;
+        std::mutex              mtx = {};
+        std::condition_variable cv = {};
     };
     auto sem = std::make_shared<SemState>();
 

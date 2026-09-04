@@ -63,7 +63,7 @@ public:
  */
 struct EncryptedBlob {
     std::string key_id;
-    uint32_t key_version;
+    uint32_t key_version = {};
     std::vector<uint8_t> iv;          // 12 bytes (AES-GCM standard)
     std::vector<uint8_t> ciphertext;
     std::vector<uint8_t> tag;         // 16 bytes (AES-GCM authentication tag)

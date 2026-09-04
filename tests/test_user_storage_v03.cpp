@@ -176,7 +176,7 @@ TEST(UserStorageV03, USE11_CheckAvailabilityRuns) {
 // ============================================================================
 TEST(UserStorageV03, USE12_GetBackendVersionRuns) {
     GocryptfsBackend backend;
-    std::string version;
+    std::string version = {};
     EXPECT_NO_THROW({ version = backend.getBackendVersion(); });
     // Must be non-empty; either actual version or "unknown"
     EXPECT_FALSE(version.empty());

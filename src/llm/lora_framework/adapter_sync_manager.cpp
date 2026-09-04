@@ -242,7 +242,7 @@ public:
             for (const auto& adapter_id : adapter_ids) {
                 try {
                     // Use a scope block to safely release lock during sync
-                    bool success;
+                    bool success = {};
                     {
                         mutex_.unlock();
                         success = syncAdapter(adapter_id);
@@ -386,7 +386,7 @@ private:
         try {
             // Get peer endpoint from topology
             auto shards = topology_->getHealthyShards();
-            std::string peer_endpoint;
+            std::string peer_endpoint = {};
             
             for (const auto& shard : shards) {
                 if (shard.shard_id == peer_shard_id) {

@@ -73,7 +73,7 @@ static std::vector<std::string> splitOn(const std::string& s, char ch) {
     std::vector<std::string> parts;
     // Pre-allocate to reduce reallocations (Error Code: 7455)
     parts.reserve(std::count(s.begin(), s.end(), ch) + 1);
-    std::string cur;
+    std::string cur = {};
     for (char c : s) {
         if (c == ch) {
             parts.push_back(themis::utils::trim(cur));
@@ -156,7 +156,7 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
         if (token.empty()) {
           continue;
         }
-        ConstraintPart part;
+        ConstraintPart part = {};
         if (!parseConstraintToken(token, part)) {
             // Malformed token – fail closed
             return false;
@@ -180,7 +180,7 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
         if (token.empty()) {
           continue;
         }
-        ConstraintPart part;
+        ConstraintPart part = {};
         if (!parseConstraintToken(token, part)) {
           continue;
         }
@@ -278,7 +278,7 @@ ResolutionResult DependencyResolver::resolve(
                 (cur_it != current_versions.end()) ? cur_it->second : "";
 
             bool needs_update = false;
-            std::string target_ver;
+            std::string target_ver = {};
 
             if (cur_ver.empty()) {
                 // Package not installed → backfill (required deps only)
@@ -293,7 +293,7 @@ ResolutionResult DependencyResolver::resolve(
                     // For a non-empty upper-bound-only constraint: fail immediately with
                     // an actionable error rather than storing an invalid version string.
                     if (target_ver.empty() && !dep.version_constraint.empty()) {
-                        std::ostringstream oss;
+                        std::ostringstream oss = {};
                         oss << "Cannot auto-resolve target version for " << dep.package
                             << ": constraint \"" << dep.version_constraint
                             << "\" has no lower bound.  Specify an explicit >= or == clause.";
@@ -311,7 +311,7 @@ ResolutionResult DependencyResolver::resolve(
                 // Same guard: upper-bound-only or exclusion-only constraints cannot
                 // be auto-resolved to a valid install target.
                 if (target_ver.empty()) {
-                    std::ostringstream oss;
+                    std::ostringstream oss = {};
                     oss << "Cannot auto-resolve target version for " << dep.package
                         << ": constraint \"" << dep.version_constraint
                         << "\" has no lower bound.  Installed version is \"" << cur_ver
@@ -338,7 +338,7 @@ ResolutionResult DependencyResolver::resolve(
 
     // ── Fail immediately on conflicts ─────────────────────────────────────
     if (!result.conflicts.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Dependency conflicts detected:";
         for (const auto& c : result.conflicts) {
             oss << " [" << c.package1 << " conflicts with " << c.package2 << "]";
@@ -463,7 +463,7 @@ ResolutionResult DependencyResolver::resolve(
        }
        std::sort(cycle_nodes.begin(), cycle_nodes.end());
 
-       std::ostringstream oss;
+       std::ostringstream oss = {};
        oss << "Circular dependency detected among packages:";
        for (const auto& cn : cycle_nodes) {
            oss << " " << cn;

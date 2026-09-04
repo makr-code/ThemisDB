@@ -1506,7 +1506,7 @@ bool StreamReceiveTask::start() {
     std::filesystem::path parent_dir = out_path.parent_path();
     
     if (!parent_dir.empty() && !std::filesystem::exists(parent_dir)) {
-        std::error_code ec;
+        std::error_code ec = {};
         if (!std::filesystem::create_directories(parent_dir, ec)) {
             std::cerr << "Failed to create output directory: " << parent_dir 
                       << " - " << ec.message() << std::endl;

@@ -57,7 +57,7 @@ std::string normalizeHex(std::string value) {
 
 std::optional<std::string> readChecksumSidecar(const std::filesystem::path& model_path) {
     const auto sidecar_path = model_path.string() + ".sha256";
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(sidecar_path, ec) || ec) {
         return std::nullopt;
     }
@@ -65,7 +65,7 @@ std::optional<std::string> readChecksumSidecar(const std::filesystem::path& mode
     if (!sidecar.is_open()) {
         return std::nullopt;
     }
-    std::string checksum;
+    std::string checksum = {};
     sidecar >> checksum;
     checksum = normalizeHex(checksum);
     if (checksum.empty()) {
@@ -75,7 +75,7 @@ std::optional<std::string> readChecksumSidecar(const std::filesystem::path& mode
 }
 
 bool verifyModelFile(const std::filesystem::path& model_path) {
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(model_path, ec) || ec) {
         THEMIS_ERROR("CrossEncoderReranker::loadModel: model file not found at '{}' ({})",
                      model_path.string(),
@@ -125,7 +125,7 @@ std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens = {};
 
     tokens.reserve(text.size() / 5);  // Estimate: average token ~5 chars
-    std::string cur;
+    std::string cur = {};
     cur.reserve(20);  // Reserve space for typical token length
     
     for (unsigned char ch : text) {
@@ -168,7 +168,7 @@ std::unordered_map<std::string, size_t> bigramFreq(
     
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         // Build bigram string: "token1 token2"
-        std::string bigram;
+        std::string bigram = {};
         bigram.reserve(tokens[i].size() + tokens[i+1].size() + 1);
         bigram.append(tokens[i]);
         bigram.push_back(' ');
@@ -282,7 +282,7 @@ struct CrossEncoderReranker::Impl {
                          const std::string& doc_id) const {
         const std::uint64_t h1 = std::hash<std::string>{}(query);
         const std::uint64_t h2 = std::hash<std::string>{}(doc_id);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << h1 << ":" << h2;
         return oss.str();
     }
@@ -414,7 +414,7 @@ RerankResult CrossEncoderReranker::rerank(
     // ── Score all candidates ─────────────────────────────────────────────────
     struct ScoredCandidate {
         double relevance = 0;
-        size_t original_idx;
+        size_t original_idx = {};
     };
     std::vector<ScoredCandidate> scored = {};
 
@@ -508,7 +508,7 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         return false;
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     const std::filesystem::path input_path(model_path);
     const auto canonical_path = std::filesystem::weakly_canonical(input_path, ec);
     if (ec || canonical_path.empty()) {

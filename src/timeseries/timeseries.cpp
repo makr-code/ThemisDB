@@ -69,7 +69,7 @@ std::string TimeSeriesStore::makeKey(std::string_view metric,
                                      int64_t timestamp_ms) const {
     // Format: ts:{metric}:{entity}:{timestamp_ms}
     // Pad timestamp with zeros for lexicographic ordering
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << KEY_PREFIX << metric << ":" << entity << ":" 
         << std::setw(20) << std::setfill('0') << timestamp_ms;
     return oss.str();
@@ -77,7 +77,7 @@ std::string TimeSeriesStore::makeKey(std::string_view metric,
 
 std::string TimeSeriesStore::makePrefix(std::string_view metric,
                                        std::string_view entity) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << KEY_PREFIX << metric << ":" << entity << ":";
     return oss.str();
 }

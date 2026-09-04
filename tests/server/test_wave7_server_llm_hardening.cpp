@@ -131,7 +131,7 @@ static ValidationResult validateRAGInput(
 
 /// Simulates the fixed call_once pattern from LLMPluginManager::instance().
 struct OOMCallbackInstaller {
-    std::once_flag   flag_;
+    std::once_flag   flag_ = {};
     std::atomic<int> install_count_{0};
 
     void ensureInstalled() {
@@ -269,7 +269,7 @@ TEST(Wave7Hardening, T03_FieldFromFAEmptyCapture) {
     std::function<std::string(const std::vector<std::string>&, std::string&)> extractPath =
         [](const std::vector<std::string>& parts, std::string& root) -> std::string {
             root = "v";
-            std::string result;
+            std::string result = {};
             for (size_t i = parts.size(); i-- > 0;) {
                 if (!result.empty()) {
                   result += ".";
@@ -279,7 +279,7 @@ TEST(Wave7Hardening, T03_FieldFromFAEmptyCapture) {
             return result;
         };
 
-    std::string rootVar;
+    std::string rootVar = {};
     std::string path = extractPath({"field2", "field1"}, rootVar);
     EXPECT_EQ(rootVar, "v");
     EXPECT_EQ(path, "field1.field2");

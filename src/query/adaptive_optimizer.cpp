@@ -401,7 +401,7 @@ MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAcc
     const std::vector<IndexCandidate>& available_indexes,
     size_t table_size) const {
     
-    IntersectionPlan plan;
+    IntersectionPlan plan = {};
     
     if (available_indexes.empty()) {
         plan.estimated_result_rows = table_size;

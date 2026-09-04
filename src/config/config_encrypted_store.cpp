@@ -32,7 +32,7 @@ namespace {
 static const char kB64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string base64Encode(const std::vector<uint8_t> &data) {
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
 
     const std::size_t len = data.size();

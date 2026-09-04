@@ -20,7 +20,7 @@ namespace {
 /// @param s Raw string value
 /// @return JSON-safe escaped string (without surrounding quotes)
 std::string jsonEscape(const std::string& s) {
-  std::string out;
+  std::string out = {};
   out.reserve(s.size() + 8);
   for (unsigned char c : s) {
     switch (c) {
@@ -61,7 +61,7 @@ std::optional<std::string> extractJsonString(const std::string& json,
   }
   pos += search.size();
 
-  std::string result;
+  std::string result = {};
   bool escaped = false;
   while (pos < json.size()) {
     char c = json[pos++];
@@ -141,7 +141,7 @@ bool DeltaLogEntry::isValid() const {
 }
 
 std::string DeltaLogEntry::serialize() const {
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << sequence_number << "|"
       << static_cast<int>(mutation_type) << "|"
       << affected_entity_id << "|"
@@ -156,7 +156,7 @@ std::string DeltaLogEntry::serialize() const {
 std::optional<DeltaLogEntry> DeltaLogEntry::deserialize(const std::string& serialized) {
   DeltaLogEntry entry;
   std::istringstream iss(serialized);
-  std::string field;
+  std::string field = {};
 
   try {
     // Parse sequence_number
@@ -254,7 +254,7 @@ bool DeltaWindow::isValid() const {
 }
 
 std::string DeltaWindow::serialize() const {
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << artifact_id << "\n"
       << sequence_start << "\n"
       << sequence_end << "\n"
@@ -273,7 +273,7 @@ std::optional<DeltaWindow> DeltaWindow::deserialize(const std::string& data) {
   try {
     DeltaWindow window;
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
 
     if (!std::getline(iss, window.artifact_id)) {
       return std::nullopt;
@@ -521,7 +521,7 @@ TensorDeltaLog::Stats TensorDeltaLog::getStats() const {
 
 std::string DeltaWindow::toJSON() const {
   // JSON representation with proper escaping of all string fields
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << "{\"artifact_id\":\"" << jsonEscape(artifact_id) << "\","
       << "\"sequence_start\":" << sequence_start << ","
       << "\"sequence_end\":" << sequence_end << ","

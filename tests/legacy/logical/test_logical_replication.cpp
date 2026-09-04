@@ -28,12 +28,12 @@ ReplicationConfig makeConfig(const std::string& wal_dir) {
 struct TempDir {
     TempDir() {
         auto base = std::filesystem::temp_directory_path();
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937_64 gen(rd());
         std::uniform_int_distribution<uint64_t> dist;
         int attempts = 0;
         do {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "themis_logical_repl-" << std::hex
                 << std::chrono::steady_clock::now().time_since_epoch().count() << "-" << dist(gen);
             path = (base / oss.str()).string();
@@ -45,7 +45,7 @@ struct TempDir {
         std::filesystem::create_directories(path);
     }
     ~TempDir() { std::filesystem::remove_all(path); }
-    std::string path;
+    std::string path = {};
 };
 }  // namespace
 

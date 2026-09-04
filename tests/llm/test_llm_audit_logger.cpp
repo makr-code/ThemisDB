@@ -139,14 +139,14 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_WritesValidJsonLines) {
     logger.logEvent(LLMModelAuditEventType::MODEL_LOADED, "m1", {});
     logger.logEvent(LLMModelAuditEventType::MODEL_LOADED, "m2", {});
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t count = logger.exportAnalytics(oss);
 
     EXPECT_EQ(count, 2u);
 
     // Each line must be valid JSON
     std::istringstream iss(oss.str());
-    std::string line;
+    std::string line = {};
     size_t line_count = 0;
     while (std::getline(iss, line)) {
         if (line.empty()) {
@@ -165,7 +165,7 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_ContainsRequiredFields) {
     auto logger = makeLogger();
     logger.logEvent(LLMModelAuditEventType::MODEL_LOADED, "m1", {{"extra", 42}});
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     logger.exportAnalytics(oss);
 
     auto obj = json::parse(oss.str());
@@ -180,7 +180,7 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_FiltersByModelId) {
     logger.logEvent(LLMModelAuditEventType::MODEL_LOADED, "alpha", {});
     logger.logEvent(LLMModelAuditEventType::MODEL_LOADED, "beta",  {});
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t count = logger.exportAnalytics(oss, "alpha");
 
     EXPECT_EQ(count, 1u);
@@ -194,7 +194,7 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_EmptyFilter_ReturnsAll) {
     logger.logEvent(LLMModelAuditEventType::MODEL_UNLOADED, "m2", {});
     logger.logEvent(LLMModelAuditEventType::INFERENCE_COMPLETED, "m1", {});
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t count = logger.exportAnalytics(oss);
     EXPECT_EQ(count, 3u);
 }
@@ -203,7 +203,7 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_TimestampIsISO8601) {
     auto logger = makeLogger();
     logger.logEvent(LLMModelAuditEventType::MODEL_LOADED, "m1", {});
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     logger.exportAnalytics(oss);
     auto obj = json::parse(oss.str());
 

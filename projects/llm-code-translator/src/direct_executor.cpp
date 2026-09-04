@@ -118,7 +118,7 @@ DirectExecutor::DirectExecutor(std::shared_ptr<DatabaseInterface> db)
 DirectExecutor::~DirectExecutor() = default;
 
 ExecutionResult DirectExecutor::execute(const ExecutionPlan& plan) {
-    ResourceLimits default_limits;
+    ResourceLimits default_limits = {};
     return execute(plan, default_limits);
 }
 
@@ -284,7 +284,7 @@ ExecutionResult DirectExecutor::executeJoin(const ExecutionPlan& plan, const Res
     if (!left.is_array()) { left = nlohmann::json::array(); }
 
     // Right datasource from parameters["join_source"]
-    std::string right_source;
+    std::string right_source = {};
     std::string join_key = "id";
     if (plan.parameters.count("join_source")) {
         right_source = std::get<std::string>(plan.parameters.at("join_source"));
@@ -394,8 +394,8 @@ ExecutionResult DirectExecutor::executeVectorSearch(const ExecutionPlan& plan, c
 ExecutionResult DirectExecutor::executeTimeSeries(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
     
-    std::string start_time;
-    std::string end_time;
+    std::string start_time = {};
+    std::string end_time = {};
     std::string aggregation = "none";
     
     auto start_it = plan.parameters.find("start_time");
@@ -436,7 +436,7 @@ ExecutionResult DirectExecutor::executeMutation(const ExecutionPlan& plan, const
 
     if (mutation_type == "insert") {
         // record is passed as a JSON string in parameters["record_json"]
-        std::string record_json;
+        std::string record_json = {};
         if (plan.parameters.count("record_json")) {
             record_json = std::get<std::string>(plan.parameters.at("record_json"));
         }

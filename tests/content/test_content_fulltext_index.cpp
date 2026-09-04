@@ -96,7 +96,7 @@ protected:
         json spec;
         
         // Content metadata - use more predictable ID generation for tests
-        std::string cid;
+        std::string cid = {};
         if (content_id.empty()) {
             // Use timestamp-based ID for better uniqueness in tests
             auto now = std::chrono::system_clock::now();

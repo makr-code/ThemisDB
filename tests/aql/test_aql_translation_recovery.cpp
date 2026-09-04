@@ -110,8 +110,8 @@ struct TranslationRetryContext {
 
     std::string last_aql_result;
     std::string last_error;
-    uint32_t retry_count;
-    bool should_retry;
+    uint32_t retry_count = {};
+    bool should_retry = {};
 
     TranslationRetryContext(MockLLMProvider& p, const std::string& nq,
                            const std::string& sc, uint32_t max_r = 3)

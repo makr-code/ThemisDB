@@ -465,10 +465,10 @@ private:
     mutable std::shared_mutex mutex_;
 
     // Background compaction
-    std::thread             compact_thread_;
+    std::thread             compact_thread_ = {};
     std::atomic<bool>       compact_stop_{false};
-    std::mutex              compact_cv_mutex_;
-    std::condition_variable compact_cv_;
+    std::mutex              compact_cv_mutex_ = {};
+    std::condition_variable compact_cv_ = {};
 
     void compactionLoop();
 

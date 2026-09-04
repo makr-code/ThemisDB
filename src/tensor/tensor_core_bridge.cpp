@@ -158,7 +158,7 @@ Result<void> TensorCoreStorageBridge::write(
     }
 
     // --- Build key and persist ----------------------------------------------
-    std::string key;
+    std::string key = {};
     try {
         key = makeKey(tenant_id, record.source_file_id, record.chunk_id);
     } catch (const std::invalid_argument& e) {
@@ -189,7 +189,7 @@ std::optional<std::vector<uint8_t>>
 TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
                                const std::string& source_file_id,
                                const std::string& chunk_id) const {
-    std::string key;
+    std::string key = {};
     try {
         key = makeKey(tenant_id, source_file_id, chunk_id);
     } catch (...) {

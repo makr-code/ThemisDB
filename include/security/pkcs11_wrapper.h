@@ -101,7 +101,7 @@ inline std::string ckrvToString(CK_RV rv) noexcept {
         case CKR_ARGUMENTS_BAD:      return "CKR_ARGUMENTS_BAD";
         case CKR_SIGNATURE_INVALID:  return "CKR_SIGNATURE_INVALID";
         default: {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "CKR_0x" << std::hex << rv;
             return oss.str();
         }

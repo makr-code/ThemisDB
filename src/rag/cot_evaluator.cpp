@@ -38,7 +38,7 @@ struct CoTEvaluator::Impl {
         const std::vector<std::pair<std::string, std::string>>& documents,
         const std::string& dimension
     ) {
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         
         prompt << "Evaluate the following answer using chain-of-thought reasoning.\n\n";
         prompt << "Dimension: " << dimension << "\n\n";
@@ -129,7 +129,7 @@ std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& res
     // Fallback: simple line-based parsing
     if (steps.empty()) {
         std::istringstream stream(response);
-        std::string line;
+        std::string line = {};
         int step_num = 0;
         ReasoningStep current_step;
         
@@ -207,7 +207,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                 // Extract key terms
                 std::set<std::string> terms_i, terms_j;
                 std::istringstream stream_i(conclusion_i), stream_j(conclusion_j);
-                std::string word;
+                std::string word = {};
                 
                 while (stream_i >> word) {
                     if (word.length() > 4) {
@@ -226,7 +226,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                                     std::inserter(common, common.begin()));
                 
                 if (common.size() >= 2) {
-                    std::ostringstream inconsistency;
+                    std::ostringstream inconsistency = {};
                     inconsistency << "Potential contradiction between Step " 
                                  << step_i.step_number << " and Step " 
                                  << step_j.step_number;
@@ -245,7 +245,7 @@ double CoTEvaluator::extractFinalScore(
 ) {
     // Try to extract from "Final Score:" line
     std::regex score_regex(R"(Final\s+Score:\s*([0-9.]+))", std::regex::icase);
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(response, match, score_regex)) {
         try {
@@ -310,7 +310,7 @@ CoTEvaluationResult CoTEvaluator::evaluate(
         // Extract final reasoning
         std::regex reasoning_regex(R"(Final\s+Reasoning:\s*(.+?)(?:\n\n|$))", 
                       std::regex::icase);
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_search(response, match, reasoning_regex)) {
             result.final_reasoning = match[1].str();

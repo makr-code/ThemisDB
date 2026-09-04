@@ -42,7 +42,7 @@ json ContentValidationConfig::toJson() const {
 }
 
 ContentValidationConfig ContentValidationConfig::fromJson(const json &j) {
-    ContentValidationConfig config;
+    ContentValidationConfig config = {};
 
     if (j.contains("max_content_size")) {
         config.max_content_size = j["max_content_size"];
@@ -229,7 +229,7 @@ ContentError ContentValidator::validateSize(uint64_t size, const std::string &mi
     }
 
     if (size > max_size) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Content size (" << size << " bytes) exceeds maximum allowed (" << max_size << " bytes)";
 
         auto err     = ContentError::error(ContentErrorCode::CONTENT_SIZE_EXCEEDED, msg.str());
@@ -297,7 +297,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
 
     // Check for path traversal sequences using both Unix ("/") and Windows ("\") separators
     // Normalise to forward slashes for uniform traversal detection
-    std::string normalised;
+    std::string normalised = {};
     normalised.reserve(filename.size());
     for (char c : filename) {
         normalised.push_back(c == '\\' ? '/' : c);
@@ -305,7 +305,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
 
     // Split by '/' and inspect each component
     std::istringstream iss(normalised);
-    std::string component;
+    std::string component = {};
     while (std::getline(iss, component, '/')) {
         if (component == "..") {
             return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
@@ -326,7 +326,7 @@ ContentError ContentValidator::checkTimeout(const std::chrono::steady_clock::tim
     if (elapsed > timeout) {
         stats_.timeouts++;
 
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Operation '" << operation_type << "' timed out after " << elapsed.count()
             << " seconds (limit: " << timeout.count() << "s)";
 
@@ -448,7 +448,7 @@ ContentError ContentValidator::validateWithPolicy(const std::string &mime_type, 
     // Check size against policy
     auto max_size = policy_->getMaxSize(mime_type);
     if (max_size > 0 && size > max_size) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Content size (" << size << " bytes) exceeds policy limit for " << mime_type << " (" << max_size
             << " bytes)";
 

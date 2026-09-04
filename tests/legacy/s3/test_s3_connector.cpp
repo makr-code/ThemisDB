@@ -233,7 +233,7 @@ TEST(S3ConnectorTest, IngestJsonObjectExtractsTextField) {
     });
 
     // Capture the extracted text via the document-write hook.
-    std::string captured_text;
+    std::string captured_text = {};
     conn.setDocumentWriteForTesting([&](const std::string& /*key*/,
                                         const std::string& text) {
         captured_text = text;
@@ -470,7 +470,7 @@ TEST(S3ConnectorTest, StartAfterFromConfigSkipsEarlierKeys) {
     cfg.options["start_after"] = "key_005";
     conn.initialize(cfg);
 
-    std::string received_start_after;
+    std::string received_start_after = {};
     conn.setObjectListForTesting([&](const std::string& sa)
                                     -> std::vector<std::string> {
         received_start_after = sa;
@@ -501,7 +501,7 @@ TEST(S3ConnectorTest, CheckpointCursorUsedAsStartAfterOnResume) {
     conn.initialize(makeS3Cfg());
     conn.setCheckpointStore(store);
 
-    std::string received_start_after;
+    std::string received_start_after = {};
     conn.setObjectListForTesting([&](const std::string& sa)
                                     -> std::vector<std::string> {
         received_start_after = sa;

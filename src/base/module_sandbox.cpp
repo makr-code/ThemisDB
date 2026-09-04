@@ -109,7 +109,7 @@ static bool isCgroupV2Available() {
 /// Replace characters that are invalid inside a cgroup directory name
 /// (anything that is not alphanumeric, '_', or '-') with '_'.
 static std::string sanitizeCgroupName(const std::string &name) {
-    std::string out;
+    std::string out = {};
     out.reserve(name.size());
     for (unsigned char c : name) {
         out += (std::isalnum(c) || c == '_' || c == '-') ? static_cast<char>(c) : '_';
@@ -238,7 +238,7 @@ AbiCheckResult AbiChecker::check(void *module_handle, const ModuleMetadata &modu
         }
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << (combined.compatible ? "ABI OK" : "ABI INCOMPATIBLE");
     oss << " – " << combined.issues.size() << " issue(s)";
     combined.summary = oss.str();
@@ -708,7 +708,7 @@ SandboxStats ModuleSandbox::stats() const {
 #if defined(__linux__)
     // Read peak memory from /proc/self/status
     std::ifstream status("/proc/self/status");
-    std::string line;
+    std::string line = {};
     while (std::getline(status, line)) {
         if (line.rfind("VmPeak:", 0) == 0) {
             uint64_t kb = 0;

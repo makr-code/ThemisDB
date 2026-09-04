@@ -62,7 +62,7 @@ public:
     }
     
 private:
-    std::string mode_;
+    std::string mode_ = {};
     std::shared_ptr<KeyProvider> key_provider_;
     std::shared_ptr<FieldEncryption> encryption_;
     std::shared_ptr<RocksDBWrapper> db_;

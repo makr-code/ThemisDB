@@ -69,7 +69,7 @@ public:
 /// cluster CA.
 struct AdminContext {
     /// Base64-encoded admin capability token signed by the cluster CA.
-    std::string capability_token;
+    std::string capability_token = {};
 
     bool isValid() const noexcept { return !capability_token.empty(); }
 };

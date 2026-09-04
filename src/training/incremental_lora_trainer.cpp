@@ -135,7 +135,7 @@ namespace checkpoint {
                                    size_t step,
                                    double loss,
                                    double accuracy) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "version=" << version << "\n"
             << "format_version=" << FORMAT_VERSION << "\n"
             << "epoch=" << epoch << "\n"
@@ -154,7 +154,7 @@ namespace checkpoint {
                        double& accuracy,
                        std::string* error_reason = nullptr) {
         std::istringstream iss(data);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             auto eq = line.find('=');
             if (eq == std::string::npos) {
@@ -209,7 +209,7 @@ namespace checkpoint {
 // Version registry (Phase 4) – in-memory store for deployed versions
 // ============================================================================
 struct VersionRecord {
-    std::string version;
+    std::string version = {};
     float traffic_split = 0.0f;   ///< 0..1, fraction of traffic routed to this version
     bool is_active = false;
     std::chrono::system_clock::time_point deployed_at;
@@ -249,9 +249,9 @@ public:
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
 
-        std::string sanitized_collection_name;
-        std::string blocked_rule;
-        std::string blocked_reason;
+        std::string sanitized_collection_name = {};
+        std::string blocked_rule = {};
+        std::string blocked_reason = {};
         if (!sanitizeTrainingPromptLikeText(config_.training_data_collection,
                                             sanitized_collection_name,
                                             &blocked_rule,
@@ -403,12 +403,12 @@ public:
         } else {
             try {
                 // Phase 5: Load checkpoint metadata
-                std::string version;
+                std::string version = {};
                 size_t resumed_epoch = 0;
                 size_t resumed_step  = 0;
                 double saved_loss    = 0.0;
                 double saved_acc     = 0.0;
-                std::string load_error;
+                std::string load_error = {};
 
                 bool loaded = loadCheckpoint(checkpoint_path, version,
                                              resumed_epoch, resumed_step,
@@ -421,7 +421,7 @@ public:
                         result.error_message += " (" + load_error + ")";
                     }
                 } else {
-                    std::string integrity_error;
+                    std::string integrity_error = {};
                     if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
                                                           version,
                                                           resumed_epoch,
@@ -436,7 +436,7 @@ public:
 #ifdef THEMIS_ENABLE_LLM
                         // Restore LoRA weights from saved checkpoint if available
                         initLoRAComponents();
-                        std::string weight_load_error;
+                        std::string weight_load_error = {};
                         if (!loadCheckpointWeights(checkpoint_path, &weight_load_error)) {
                             result.success = false;
                             result.error_message =
@@ -868,7 +868,7 @@ public:
         // to prevent lock-order inversion / deadlock (gap-scanner finding).
         // The failure reason is captured inside router_mutex_, then the registry
         // revert is performed afterward under version_registry_mutex_ alone.
-        std::string router_failure;
+        std::string router_failure = {};
         {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
@@ -916,7 +916,7 @@ public:
         // Propagate to LLM router when available.
         // router_mutex_ and version_registry_mutex_ are NEVER held simultaneously
         // to prevent lock-order inversion / deadlock (gap-scanner finding).
-        std::string router_failure;
+        std::string router_failure = {};
         {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
@@ -1195,7 +1195,7 @@ public:
           return vec;
         }
 
-        std::string safe_text;
+        std::string safe_text = {};
         if (!sanitizeTrainingPromptLikeText(text, safe_text, nullptr, nullptr)) {
             safe_text = "[BLOCKED_PROMPT]";
         }
@@ -1887,7 +1887,7 @@ std::string IncrementalLoRATrainer::validateTrainingState() const {
 }
 
 std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Training Diagnostics:\n"
         << "  Metrics available: " << (impl_ ? "yes" : "no") << "\n";
     
@@ -1903,7 +1903,7 @@ std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
 
 std::string IncrementalLoRATrainer::getRecoveryStatus() const {
     if (impl_->checkpointing_enabled_ && impl_->metrics_.total_steps > 0) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Checkpointing enabled (every " << impl_->checkpoint_steps_ << " steps); "
             << impl_->metrics_.total_steps << " steps recorded — checkpoint available for resume";
         return oss.str();

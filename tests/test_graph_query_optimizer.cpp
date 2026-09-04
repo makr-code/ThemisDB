@@ -21,7 +21,7 @@ protected:
             ("themis_graph_optimizer_test_" +
              std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))
             ).string();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
         
         themis::RocksDBWrapper::Config config;
@@ -45,7 +45,7 @@ protected:
         optimizer_.reset();
         graph_mgr_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
     }
 
@@ -910,7 +910,7 @@ namespace bhttp = beast::http;
 
 class GraphApiHandlerMetricsTest : public ::testing::Test {
 protected:
-    std::string test_db_path_;
+    std::string test_db_path_ = {};
     std::unique_ptr<themis::RocksDBWrapper> db_;
     std::shared_ptr<themis::GraphIndexManager> graph_mgr_;
     std::unique_ptr<themis::server::GraphApiHandler> handler_;
@@ -3305,7 +3305,7 @@ protected:
             ("themis_graph_analytics_integration_test_" +
              std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))
             ).string();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
 
         themis::RocksDBWrapper::Config config;
@@ -3345,7 +3345,7 @@ protected:
         optimizer_.reset();
         graph_mgr_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
     }
 

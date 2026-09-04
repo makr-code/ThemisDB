@@ -515,7 +515,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                                    // for multi-source parallel traversal use ParallelTraversal directly.
     
     // Generate explanation
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Constrained path finding from '" << start_vertex << "' to '" << end_vertex << "'\n";
     oss << "Algorithm: " << (plan.algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << "\n";
     oss << "Constraints: " << constraint_list.size() << " active\n";
@@ -613,7 +613,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
                            shouldUseParallel(TraversalAlgorithm::BFS, plan.estimated_nodes_explored);
 
     // Build explanation
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Temporal graph traversal from '" << start_vertex << "'\n";
     oss << "Algorithm: BFS (optimal for time-range edge filtering)\n";
     oss << "Max depth: " << max_depth << "\n";
@@ -893,7 +893,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         // Build next frontier: expand each node in current_frontier, optionally in parallel
         std::vector<std::string> next_frontier;
         bool vertex_error = false;
-        std::string error_vertex;
+        std::string error_vertex = {};
 
         if (!use_parallel || current_frontier.size() < effective_threads) {
             // Sequential expansion
@@ -924,7 +924,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 std::vector<std::string> neighbors; // raw (may have duplicates across chunks)
                 size_t edges_seen = 0;
                 bool error = false;
-                std::string error_vertex;
+                std::string error_vertex = {};
             };
 
             const size_t chunk_size = (current_frontier.size() + effective_threads - 1) / effective_threads;
@@ -1306,9 +1306,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
         // edge_count = total edges examined by the task (light + skipped heavy);
         // accumulated into edges_traversed by the main thread.
         struct RelaxResult {
-            std::string vertex;
-            double new_dist;
-            std::string parent_vertex;
+            std::string vertex = {};
+            double new_dist = {};
+            std::string parent_vertex = {};
         };
         struct TaskOutput {
             std::vector<RelaxResult> relaxations;
@@ -2097,7 +2097,7 @@ void GraphQueryOptimizer::setNodeLabelStats(
 }
 
 std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const {
-    std::string algo_name;
+    std::string algo_name = {};
     switch (plan.algorithm) {
         case TraversalAlgorithm::BFS: algo_name = "BFS"; break;
         case TraversalAlgorithm::DFS: algo_name = "DFS"; break;
@@ -2106,7 +2106,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         case TraversalAlgorithm::DIJKSTRA: algo_name = "Dijkstra"; break;
     }
     
-    std::string pattern_name;
+    std::string pattern_name = {};
     switch (plan.pattern) {
         case QueryPattern::SHORTEST_PATH: pattern_name = "Shortest Path"; break;
         case QueryPattern::ALL_PATHS: pattern_name = "All Paths"; break;
@@ -2145,7 +2145,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
     if (!plan.alternatives.empty()) {
         explanation += "\nAlternatives Considered:\n";
         for (const auto& [alt_algo, alt_cost] : plan.alternatives) {
-            std::string alt_name;
+            std::string alt_name = {};
             switch (alt_algo) {
                 case TraversalAlgorithm::BFS: alt_name = "BFS"; break;
                 case TraversalAlgorithm::DFS: alt_name = "DFS"; break;
@@ -2745,7 +2745,7 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
 
 GraphQueryOptimizer::CostModelCalibrationReport
 GraphQueryOptimizer::calibrateFromHistory() {
-    CostModelCalibrationReport report;
+    CostModelCalibrationReport report = {};
 
     if (execution_history_.empty()) {
         return report;

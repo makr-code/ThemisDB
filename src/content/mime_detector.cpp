@@ -301,7 +301,7 @@ std::string MimeDetector::fromContent(const std::vector<uint8_t>& data) const {
 
 std::string MimeDetector::computeDeterministicHash() const {
     // Deterministic serialization of extensions, magic signatures, categories
-    std::string buffer;
+    std::string buffer = {};
     
     // Extensions
     std::vector<std::string> ext_lines = {};
@@ -321,14 +321,14 @@ std::string MimeDetector::computeDeterministicHash() const {
 
     magic_lines.reserve(magic_signatures_.size());
     for (const auto& sig : magic_signatures_) {
-        std::string hex;
+        std::string hex = {};
         hex.reserve(sig.signature.size() * 2);
         for (auto b : sig.signature) {
             char tmp[3];
             snprintf(tmp, sizeof(tmp), "%02x", static_cast<unsigned int>(b));
             hex += tmp;
         }
-        std::string wildcards;
+        std::string wildcards = {};
         if (!sig.wildcard_positions.empty()) {
             wildcards += ":";
             bool first = true;
@@ -355,7 +355,7 @@ std::string MimeDetector::computeDeterministicHash() const {
     for (const auto& cat : categories_) {
         std::vector<std::string> mimes(cat.second.begin(), cat.second.end());
         std::sort(mimes.begin(), mimes.end());
-        std::string joined;
+        std::string joined = {};
         for (size_t i = 0; i < mimes.size(); ++i) {
             if (i) {
               joined += ",";

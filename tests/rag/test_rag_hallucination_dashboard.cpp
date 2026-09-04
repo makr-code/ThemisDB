@@ -436,14 +436,14 @@ TEST(HallucinationDashboardTest, ExportCSVCreatesFile) {
     ASSERT_TRUE(file.is_open());
 
     // First line should be the header
-    std::string header;
+    std::string header = {};
     std::getline(file, header);
     EXPECT_NE(header.find("faithfulness_score"), std::string::npos);
     EXPECT_NE(header.find("is_hallucination"),   std::string::npos);
 
     // Should have at least two data rows
     int row_count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
       ++row_count;
     }
@@ -465,7 +465,7 @@ TEST(HallucinationDashboardTest, PrintReportProducesOutput) {
     for (int i = 0; i < 5; ++i) {
         dashboard.recordFaithfulness(i % 2 == 0 ? 0.9 : 0.3);
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     dashboard.printReport(oss);
     EXPECT_FALSE(oss.str().empty());
     EXPECT_NE(oss.str().find("HALLUCINATION"), std::string::npos);
@@ -473,7 +473,7 @@ TEST(HallucinationDashboardTest, PrintReportProducesOutput) {
 
 TEST(HallucinationDashboardTest, PrintReportOnEmptyDashboardDoesNotCrash) {
     HallucinationDashboard dashboard;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     EXPECT_NO_THROW(dashboard.printReport(oss));
 }
 

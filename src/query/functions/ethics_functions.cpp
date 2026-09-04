@@ -81,7 +81,7 @@ std::vector<float> embedText(std::string_view text) {
         return embedding;
     }
 
-    std::string padded;
+    std::string padded = {};
     padded.reserve(text.size() + 2);
     padded.push_back(' ');
     for (unsigned char ch : text) {
@@ -394,7 +394,7 @@ json EthicsTraverseChainFunction::execute(
     }
 
     struct QueueItem {
-        std::string node_id;
+        std::string node_id = {};
         int depth = 0;
         std::vector<std::string> path;
     };

@@ -255,7 +255,7 @@ LoRATrainingConfig::parseAdapterConfig(
 }
 
 LoRAHyperparameters LoRATrainingConfig::parseHyperparameters(const YAML::Node& node) {
-    LoRAHyperparameters params;
+    LoRAHyperparameters params = {};
     
     if (node["rank"]) {
       params.rank = node["rank"].as<int>();
@@ -289,7 +289,7 @@ LoRAHyperparameters LoRATrainingConfig::parseHyperparameters(const YAML::Node& n
 
 LoRATrainingConfig::FeedbackWeighting 
 LoRATrainingConfig::parseFeedbackWeighting(const YAML::Node& node) {
-    FeedbackWeighting weighting;
+    FeedbackWeighting weighting = {};
     
     if (node["direct_response_weight"])
         weighting.direct_response_weight = node["direct_response_weight"].as<float>();
@@ -328,7 +328,7 @@ LoRATrainingConfig::parseFeedbackWeighting(const YAML::Node& node) {
 
 LoRATrainingConfig::TrainingTrigger 
 LoRATrainingConfig::parseTrainingTrigger(const YAML::Node& node) {
-    TrainingTrigger trigger;
+    TrainingTrigger trigger = {};
     
     if (node["automatic"]) {
         auto automatic = node["automatic"];
@@ -370,7 +370,7 @@ LoRATrainingConfig::parseTrainingTrigger(const YAML::Node& node) {
 
 LoRATrainingConfig::QualityConfig 
 LoRATrainingConfig::parseQualityConfig(const YAML::Node& node) {
-    QualityConfig quality;
+    QualityConfig quality = {};
     
     if (node["ab_testing"]) {
         auto ab = node["ab_testing"];
@@ -403,7 +403,7 @@ LoRATrainingConfig::parseQualityConfig(const YAML::Node& node) {
 
 LoRATrainingConfig::TrainingDataSource 
 LoRATrainingConfig::parseTrainingDataSource(const YAML::Node& node) {
-    TrainingDataSource source;
+    TrainingDataSource source = {};
     
     if (node["enabled"]) {
       source.enabled = node["enabled"].as<bool>();

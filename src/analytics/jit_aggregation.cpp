@@ -117,7 +117,7 @@ static void updateDistinctJit(JitAggState &st, const Column &col, size_t row) {
     }
     ++st.count_nonnull;
     auto val = col.get(row);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::visit(
         [&oss](auto &&v) {
             using T = std::decay_t<decltype(v)>;
@@ -150,7 +150,7 @@ static double finalizeAggJit(const JitAggState &st, AggregateSpec::Function fn) 
 }
 
 static std::string makeGroupKeyJit(const ColumnBatch &batch, const std::vector<std::string> &group_cols, size_t row) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &gc : group_cols) {
         auto col = batch.getColumn(gc);
         if (!col) {
@@ -593,7 +593,7 @@ size_t JITAggregationCompiler::callCount(const std::string &spec_key) const {
 std::string JITAggregationCompiler::makeSpecKey(const std::vector<AggregateSpec> &specs) {
     // Encode: function_name|input_col|result_name;... followed by group_by cols.
     static const char *kFnName[] = {"cnt", "sum", "avg", "min", "max", "cntd"};
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &s : specs) {
         int fi = static_cast<int>(s.function);
         oss << (fi >= 0 && fi < 6 ? kFnName[fi] : "?") << '|' << s.input_column << '|' << s.result_name << ';';

@@ -4391,7 +4391,7 @@ class exception : public std::exception
 
   private:
     /// an exception object as storage for error messages
-    std::runtime_error m;
+    std::runtime_error m = {};
 };
 
 /// @brief exception indicating a parse error
@@ -8750,7 +8750,7 @@ scan_number_done:
     std::string get_token_string() const
     {
         // escape control characters
-        std::string result;
+        std::string result = {};
         for (const auto c : token_string)
         {
             if (static_cast<unsigned char>(c) <= '\x1F')
@@ -9360,7 +9360,7 @@ class binary_reader
             case 0x02: // string
             {
                 std::int32_t len{};
-                string_t value;
+                string_t value = {};
                 return get_number<std::int32_t, true>(input_format_t::bson, len) && get_bson_string(len, value) && sax->string(value);
             }
 
@@ -9377,7 +9377,7 @@ class binary_reader
             case 0x05: // binary
             {
                 std::int32_t len{};
-                binary_t value;
+                binary_t value = {};
                 return get_number<std::int32_t, true>(input_format_t::bson, len) && get_bson_binary(len, value) && sax->binary(value);
             }
 
@@ -9637,7 +9637,7 @@ class binary_reader
             case 0x5B: // Binary data (eight-byte uint64_t for n follow)
             case 0x5F: // Binary data (indefinite length)
             {
-                binary_t b;
+                binary_t b = {};
                 return get_cbor_binary(b) && sax->binary(b);
             }
 
@@ -9672,7 +9672,7 @@ class binary_reader
             case 0x7B: // UTF-8 string (eight-byte uint64_t for n follow)
             case 0x7F: // UTF-8 string (indefinite length)
             {
-                string_t s;
+                string_t s = {};
                 return get_cbor_string(s) && sax->string(s);
             }
 
@@ -10051,7 +10051,7 @@ class binary_reader
             {
                 while (get() != 0xFF)
                 {
-                    string_t chunk;
+                    string_t chunk = {};
                     if (!get_cbor_string(chunk))
                     {
                         return false;
@@ -10151,7 +10151,7 @@ class binary_reader
             {
                 while (get() != 0xFF)
                 {
-                    binary_t chunk;
+                    binary_t chunk = {};
                     if (!get_cbor_binary(chunk))
                     {
                         return false;
@@ -10224,7 +10224,7 @@ class binary_reader
 
         if (len != 0)
         {
-            string_t key;
+            string_t key = {};
             if (len != static_cast<std::size_t>(-1))
             {
                 for (std::size_t i = 0; i < len; ++i)
@@ -10484,7 +10484,7 @@ class binary_reader
             case 0xDA: // str 16
             case 0xDB: // str 32
             {
-                string_t s;
+                string_t s = {};
                 return get_msgpack_string(s) && sax->string(s);
             }
 
@@ -10509,7 +10509,7 @@ class binary_reader
             case 0xD7: // fixext 8
             case 0xD8: // fixext 16
             {
-                binary_t b;
+                binary_t b = {};
                 return get_msgpack_binary(b) && sax->binary(b);
             }
 
@@ -11001,7 +11001,7 @@ class binary_reader
                 break;
         }
         auto last_token = get_token_string();
-        std::string message;
+        std::string message = {};
 
         if (input_format != input_format_t::bjdata)
         {
@@ -11283,7 +11283,7 @@ class binary_reader
                 break;
         }
         auto last_token = get_token_string();
-        std::string message;
+        std::string message = {};
 
         if (input_format != input_format_t::bjdata)
         {
@@ -11537,7 +11537,7 @@ class binary_reader
 
             case 'S':  // string
             {
-                string_t s;
+                string_t s = {};
                 return get_ubjson_string(s) && sax->string(s);
             }
 
@@ -11683,7 +11683,7 @@ class binary_reader
                                     exception_message(input_format, "BJData object does not support ND-array size in optimized format", "object"), nullptr));
         }
 
-        string_t key;
+        string_t key = {};
         if (size_and_type.first != npos)
         {
             if (JSON_HEDLEY_UNLIKELY(!sax->start_object(size_and_type.first)))
@@ -17105,8 +17105,8 @@ constexpr int kGamma = -32;
 
 struct cached_power // c = f * 2^e ~= 10^k
 {
-    std::uint64_t f;
-    int e;
+    std::uint64_t f = {};
+    int e = {};
     int k;
 };
 

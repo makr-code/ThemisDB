@@ -30,7 +30,7 @@ namespace {
 /// Tokenise @p text into a set of lowercase alpha-numeric tokens.
 std::unordered_set<std::string> tokeniseSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
-    std::string tok;
+    std::string tok = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             tok += static_cast<char>(std::tolower(ch));

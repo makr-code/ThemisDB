@@ -98,7 +98,7 @@ bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sa
     std::iota(indices_.begin(), indices_.end(), 0);
     
     if (config_.shuffle) {
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
         spdlog::debug("Shuffled {} samples", indices_.size());
@@ -121,7 +121,7 @@ GPUBatch GPUDataLoader::getNextBatch() {
         return GPUBatch{};
     }
     
-    GPUBatch batch;
+    GPUBatch batch = {};
     
     if (config_.async_loading && prefetch_active_.load(std::memory_order_acquire)) {
         // Get from prefetch queue
@@ -158,7 +158,7 @@ void GPUDataLoader::reset() {
     
     // Reshuffle if enabled
     if (config_.shuffle && !indices_.empty()) {
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
     }

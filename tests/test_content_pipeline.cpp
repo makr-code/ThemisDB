@@ -277,7 +277,7 @@ TEST(ContentPipelineTest, BulkUploadInterface_ProgressCallback) {
     BulkUploadInterface uploader;
     
     bool callback_called = false;
-    std::string callback_id;
+    std::string callback_id = {};
     size_t callback_bytes = 0;
     
     uploader.set_progress_callback(

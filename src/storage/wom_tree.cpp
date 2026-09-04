@@ -81,7 +81,7 @@ enum class OpType : uint8_t {
 /** A single pending mutation (put or delete). */
 struct Op {
     OpType      type;
-    std::string key;
+    std::string key = {};
     std::string value;  // empty for REMOVE
 
     size_t byteSize() const noexcept {
@@ -405,7 +405,7 @@ struct WomTree::Impl {
           return;
         }
 
-        std::string pivot;
+        std::string pivot = {};
         auto right_leaf = splitLeaf(*root, pivot);
 
         // Create a new internal root.
@@ -428,7 +428,7 @@ struct WomTree::Impl {
           return;
         }
 
-        std::string pivot;
+        std::string pivot = {};
         auto right = splitLeaf(child, pivot);
 
         // Insert the new child and pivot into parent.
@@ -464,7 +464,7 @@ struct WomTree::Impl {
             return false;
         }
 
-        std::string pivot;
+        std::string pivot = {};
         auto right = splitInternal(*node_ref, pivot);
 
         if (parent == nullptr) {

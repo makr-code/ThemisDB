@@ -97,7 +97,7 @@ TEST(LongRunningStressTest, SustainedWriteLoad) {
     
     for (int i = 0; i < NUM_WRITERS; ++i) {
         writers.emplace_back([&stats, &stop, i]() {
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd() + i);
             std::uniform_int_distribution<> size_dis(64, 4096);
             
@@ -169,7 +169,7 @@ TEST(LongRunningStressTest, ConcurrentReadWriteOperations) {
     // Writer threads
     for (int i = 0; i < NUM_WRITERS; ++i) {
         threads.emplace_back([&shared, &stop, &write_count, i]() {
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd() + i);
             std::uniform_int_distribution<> key_dis(0, 1000);
             
@@ -191,7 +191,7 @@ TEST(LongRunningStressTest, ConcurrentReadWriteOperations) {
     // Reader threads
     for (int i = 0; i < NUM_READERS; ++i) {
         threads.emplace_back([&shared, &stop, &read_count, i]() {
-            std::random_device rd;
+            std::random_device rd = {};
             std::mt19937 gen(rd() + i + 1000);
             std::uniform_int_distribution<> key_dis(0, 1000);
             
@@ -289,7 +289,7 @@ TEST(LongRunningStressTest, ResourceCleanupUnderErrors) {
     std::atomic<int> open_resources{0};
     std::atomic<int> closed_resources{0};
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution error_dis(0.2); // 20% error rate
     
@@ -337,7 +337,7 @@ TEST(LongRunningStressTest, DiskIOFailureHandling) {
     
     IOStats stats;
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution failure_dis(0.15); // 15% failure rate
     
@@ -390,7 +390,7 @@ TEST(LongRunningStressTest, PerformanceDegradationUnderLoad) {
     
     struct LoadLevel {
         int thread_count = 0;
-        double avg_latency_ms;
+        double avg_latency_ms = {};
     };
     
     std::vector<LoadLevel> results;

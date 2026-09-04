@@ -46,7 +46,7 @@ protected:
     
     LoRASecurityConfig config_;
     std::unique_ptr<LoRASecurityValidator> validator_;
-    std::string test_file_;
+    std::string test_file_ = {};
 };
 
 TEST_F(LoRASecurityTest, CalculateChecksum) {
@@ -593,7 +593,7 @@ static std::string certFingerprint(const std::string& cert_pem) {
     X509_digest(cert, EVP_sha256(), digest, &digest_len);
     X509_free(cert);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(digest[i]);

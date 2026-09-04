@@ -273,7 +273,7 @@ void TTSProcessor::unloadTTSModel() {
 TTSResult TTSProcessor::synthesizeInternal(const std::string &text, const TTSOptions &options) {
     auto start = std::chrono::steady_clock::now();
 
-    TTSResult result;
+    TTSResult result = {};
 
     if (text.empty()) {
         result.success       = false;

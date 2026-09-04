@@ -66,7 +66,7 @@ struct GEvalEvaluator::Impl {
         const std::vector<std::pair<std::string, std::string>>& documents,
         const std::string& dimension
     ) {
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         
         prompt << "You are evaluating the quality of a generated answer.\n\n";
         prompt << "Evaluation Dimension: " << dimension << "\n\n";
@@ -246,7 +246,7 @@ struct GEvalEvaluator::Impl {
             if (!response.logprobs.empty()) {
                 // Walk the generated text tokens and pick the first score digit
                 std::istringstream iss(response.text);
-                std::string tok;
+                std::string tok = {};
                 size_t idx = 0;
                 while (iss >> tok && idx < response.logprobs.size()) {
                     // kNumScoreLevels ≤ 9 so single-digit check is safe
@@ -261,7 +261,7 @@ struct GEvalEvaluator::Impl {
 
             // Fallback: parse a score from the response text
             static const std::regex kScoreRegex(R"(\b([1-5])\b)");
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(response.text, m, kScoreRegex)) {
                 double parsed = std::stod(m[1].str());
                 return probsFromScore(parsed);
@@ -351,7 +351,7 @@ GEvalResult GEvalEvaluator::evaluate(
         }
         
         // Generate reasoning summary
-        std::ostringstream reasoning;
+        std::ostringstream reasoning = {};
         reasoning << "G-Eval probabilistic scoring for " << dimension << ":\n";
         reasoning << "Token probability distribution:\n";
         for (size_t i = 0; i < result.token_probabilities.size(); i++) {

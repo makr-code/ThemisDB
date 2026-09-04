@@ -88,7 +88,7 @@ static const std::vector<std::string_view> UNSAFE_PATTERNS = {
 };
 
 bool containsUnsafePattern(const std::string& text) {
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
     for (unsigned char c : text) {
       lower += static_cast<char>(std::tolower(c));
@@ -208,7 +208,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     const WikiIngestOptions& opts)
 {
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    WikiIngestResult result;
+    WikiIngestResult result = {};
 
     if (!initialized_) {
         result.errors = 1;

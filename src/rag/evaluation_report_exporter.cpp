@@ -29,7 +29,7 @@ std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
     // Worst-case: each character becomes \uXXXX (6 chars), but typically 1-2
     // Reserve to account for escaped sequences without runtime reallocation
     // Complexity: O(n) linear time, minimal allocations
-    std::string out;
+    std::string out = {};
     // Reserve conservative estimate: assume average 30% growth for escaping
     out.reserve(s.size() + (s.size() / 3));
     
@@ -63,7 +63,7 @@ std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     // Common HTML entities: & (5 chars), <, >, ", ' (each 4-6 chars)
     // Reserve conservative estimate: assume average 40% growth for escaping
     // Complexity: O(n) linear time, minimal allocations
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + (s.size() / 2));
     
     for (unsigned char c : s) {
@@ -98,7 +98,7 @@ std::string EvaluationReportExporter::scoreBarHTML(const std::string& label,
         colour = "#ff9800"; // orange
     }
 
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "<div class=\"score-row\">"
        << "<span class=\"score-label\">" << escapeHTML(label) << "</span>"
        << "<div class=\"score-bar-bg\">"
@@ -124,7 +124,7 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
                       std::chrono::system_clock::now().time_since_epoch())
                       .count();
 
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << std::fixed << std::setprecision(6);
 
     os << "{\n";
@@ -249,7 +249,7 @@ std::string EvaluationReportExporter::toHTML(const PerQueryReport& report) const
     const char* pass_colour  = res.passed_quality_threshold ? "#4caf50" : "#f44336";
     const char* pass_label   = res.passed_quality_threshold ? "PASSED"  : "FAILED";
 
-    std::ostringstream os;
+    std::ostringstream os = {};
 
     // ── head ──────────────────────────────────────────────────────────────
     os << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"

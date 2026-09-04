@@ -322,7 +322,7 @@ MoralAnalyzer::analyzeWithPhilosophy(
     std::vector<std::pair<std::string, ReasoningPath>> action_evaluations;
     
     for (const auto& action : scenario.possible_actions) {
-        ReasoningPath path;
+        ReasoningPath path = {};
         
         if (philosophy == "kant" || philosophy == "deontological") {
             path = evaluateDeontological(scenario, action);
@@ -488,7 +488,7 @@ MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateConsequentialist(
     arg.argument_type = (expected_utility > 0) ? "pro" : "contra";
     arg.strength = std::abs(expected_utility);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Expected utility: " << expected_utility 
         << ". This action " << (expected_utility > 0 ? "maximizes" : "does not maximize")
         << " overall well-being.";
@@ -658,7 +658,7 @@ MoralAnalyzer::EthicalDecision MoralAnalyzer::synthesizeDecision(
     }
     
     // Generate synthesis reasoning
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "After considering " << paths.size() << " philosophical perspectives, "
         << "the recommended action is: " << synthesized.recommended_action << ". ";
     
@@ -908,7 +908,7 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
     for (const auto& principle : decision.principle_citations) {
         // Simple keyword extraction: split on spaces and take significant words
         std::istringstream iss(principle);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             // Convert to lowercase (locale-agnostic for ASCII)
             for (auto& c : word) {
@@ -950,7 +950,7 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
 }
 
 std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id) {
-    std::ostringstream dot;
+    std::ostringstream dot = {};
     
     dot << "digraph EthicalDecision {" << std::endl;
     dot << "  rankdir=TB;" << std::endl;
@@ -969,7 +969,7 @@ std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id
 std::string MoralAnalyzer::getReasoningExplanation(
     const EthicalDecision& decision
 ) {
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     
     explanation << "Ethical Decision Analysis\n";
     explanation << "========================\n\n";
@@ -1102,7 +1102,7 @@ std::map<std::string, double> MoralAnalyzer::calculateStakeholderImpacts(
 }
 
 std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "From the perspective of " << decision.philosophy << " ethics, "
         << "the recommended action is: " << decision.recommended_action << ". ";

@@ -48,7 +48,7 @@ static constexpr uint64_t kCanonicalSeed = 42u;
 }
 
 void BM_SD_TimeToPng_Stub512(benchmark::State& state) {
-    SDPlugin plugin;
+    SDPlugin plugin = {};
     if (!plugin.initialize("", {})) {
         state.SkipWithError("failed to initialize SDPlugin in stub mode");
         return;

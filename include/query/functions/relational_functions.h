@@ -118,7 +118,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string sep = args.size() > 1 ? args[1].get<std::string>() : ",";
-        std::string result;
+        std::string result = {};
         
         bool first = true;
         for (const auto& val : args[0]) {

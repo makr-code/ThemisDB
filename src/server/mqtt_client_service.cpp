@@ -233,10 +233,10 @@ struct MqttClientService::AsioImpl {
 // ── MqttClientService ─────────────────────────────────────────────────────────
 
 static std::string generateClientIdImpl() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937       gen(rd());
     std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "themisdb-" << std::hex << std::setw(8) << std::setfill('0')
         << dist(gen);
     return oss.str();
@@ -916,7 +916,7 @@ bool MqttCDCTransport::publish([[maybe_unused]] const Changefeed::ChangeEvent& e
 std::string MqttCDCTransport::topicForEvent(
         const Changefeed::ChangeEvent& event) const {
     using ET = Changefeed::ChangeEventType;
-    std::string type_str;
+    std::string type_str = {};
     switch ([[maybe_unused]] event.type) {
     case ET::EVENT_PUT:                  type_str = "PUT";                  break;
     case ET::EVENT_DELETE:               type_str = "DELETE";               break;

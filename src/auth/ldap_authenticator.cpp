@@ -128,7 +128,7 @@ std::string escapeLDAPDNComponent(const std::string& value)
         return value;
     }
 
-    std::string out;
+    std::string out = {};
     out.reserve(value.size() * 2);
 
     for (std::size_t i = 0; i < value.size(); ++i) {
@@ -173,7 +173,7 @@ std::string escapeLDAPDNComponent(const std::string& value)
  */
 std::string escapeLDAPFilterValue(const std::string& value)
 {
-    std::string out;
+    std::string out = {};
     out.reserve(value.size() * 3);
 
     for (const unsigned char c : value) {

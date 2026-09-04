@@ -239,7 +239,7 @@ std::string JWKSSecureFetcher::fetch(const std::string& url) {
     
     auto start_time = std::chrono::steady_clock::now();
     
-    std::string response_data;
+    std::string response_data = {};
     
     // Setup CURL options
     curl_easy_setopt(impl_->curl, CURLOPT_URL, url.c_str());
@@ -299,7 +299,7 @@ std::string JWKSSecureFetcher::fetch(const std::string& url) {
     }
     
     // Get response code
-    long response_code;
+    long response_code = {};
     curl_easy_getinfo(impl_->curl, CURLINFO_RESPONSE_CODE, &response_code);
     
     if (response_code != 200) {

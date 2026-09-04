@@ -101,7 +101,7 @@ struct MockTensor {
 /// Mock non-owning view: points into parent data.
 struct MockView {
     float* ptr;          // into parent's buffer
-    std::size_t count;
+    std::size_t count = {};
     bool*  parent_alive; // pointer to parent's alive flag
 };
 

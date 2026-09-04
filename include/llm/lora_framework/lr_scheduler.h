@@ -82,7 +82,7 @@ struct LRSchedulerConfig {
     }
     
     static LRSchedulerConfig fromJSON(const json& j) {
-        LRSchedulerConfig config;
+        LRSchedulerConfig config = {};
         if (j.contains("type")) {
           config.type = static_cast<SchedulerType>(j["type"].get<int>());
         }

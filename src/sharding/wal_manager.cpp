@@ -445,7 +445,7 @@ void WALManager::rotateSegment() {
 
 /** @brief Build filesystem path for WAL segment number. */
 std::string WALManager::getSegmentPath([[maybe_unused]] uint64_t segment_number) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.wal_directory << "/wal_" 
         << std::setfill('0') << std::setw(16) << std::hex << segment_number 
         << ".wal";

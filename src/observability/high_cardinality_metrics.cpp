@@ -230,7 +230,7 @@ public:
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
-        CardinalityStats stats;
+        CardinalityStats stats = {};
 
         if (it != metrics_.end() && it->second) {
             const auto& state = it->second;

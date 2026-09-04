@@ -158,7 +158,7 @@ public:
         double  mean_error      = 0.0; ///< Mean absolute error over training set
         size_t  num_keys        = 0;
         size_t  num_experts     = 0;
-        std::string message;
+        std::string message = {};
 
         static TrainResult Ok(int64_t me, double avg, size_t nk, size_t ne) {
             TrainResult r;
@@ -489,7 +489,7 @@ LearnedIndex<KeyT>::fitLinear(const std::vector<double>& xs,
     }
     const double fn   = static_cast<double>(n);
     const double denom = fn * sxx - sx * sx;
-    LinearModel m;
+    LinearModel m = {};
     if (std::abs(denom) < 1e-12) {
         // All x values identical — constant model
         m.slope     = 0.0;
@@ -552,7 +552,7 @@ bool LearnedIndex<KeyT>::deserialize(const std::vector<uint8_t>& data) {
     if (!need(4)) {
       return false;
     }
-    uint32_t magic;
+    uint32_t magic = {};
     std::memcpy(&magic, p, 4); p += 4;
     if (magic != 0x4C494458u) {
       return false;
@@ -562,7 +562,7 @@ bool LearnedIndex<KeyT>::deserialize(const std::vector<uint8_t>& data) {
       return false;
     }
     uint64_t ne, nk, me_u;
-    double   mean_err;
+    double   mean_err = {};
     std::memcpy(&ne,      p, 8); p += 8;
     std::memcpy(&nk,      p, 8); p += 8;
     std::memcpy(&me_u,    p, 8); p += 8;

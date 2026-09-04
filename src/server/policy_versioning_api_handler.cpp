@@ -431,7 +431,7 @@ std::optional<std::string> PolicyVersioningApiHandler::getQueryParam(
     
     // Parse query parameters
     std::istringstream iss(query_string);
-    std::string pair;
+    std::string pair = {};
     
     while (std::getline(iss, pair, '&')) {
         size_t eq_pos = pair.find('=');

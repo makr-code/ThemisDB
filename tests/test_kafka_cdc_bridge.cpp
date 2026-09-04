@@ -57,7 +57,7 @@ TEST_F(KafkaCdcBridgeTest, SuccessFnsReturnTrue) {
 
     bool start_called   = false;
     bool publish_called = false;
-    std::string received_key;
+    std::string received_key = {};
 
     KafkaCDCProducer::setStartFn([&]() -> bool {
         start_called = true;

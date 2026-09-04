@@ -565,7 +565,7 @@ QuotaTracker::QuotaRemaining VisionResourceMonitor::getUserQuota(const std::stri
 }
 
 std::string VisionResourceMonitor::exportMetrics() const {
-    std::stringstream ss;
+    std::stringstream ss = {};
     constexpr uint64_t kBytesPerMb = 1024ULL * 1024ULL;
     
     auto usage = getResourceUsage();

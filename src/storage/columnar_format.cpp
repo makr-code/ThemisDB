@@ -258,7 +258,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     size_t pos = 0;
 
     // Read dictionary size
-    uint32_t dict_size;
+    uint32_t dict_size = {};
     std::memcpy(&dict_size, &encoded[pos], sizeof(uint32_t));
     pos += sizeof(uint32_t);
 
@@ -292,7 +292,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
             ));
         }
 
-        uint32_t str_len;
+        uint32_t str_len = {};
         std::memcpy(&str_len, &encoded[pos], sizeof(uint32_t));
         pos += sizeof(uint32_t);
 
@@ -539,7 +539,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 
     uint8_t bits_required = encoded[pos++];
 
-    uint32_t count;
+    uint32_t count = {};
     std::memcpy(&count, &encoded[pos], sizeof(uint32_t));
     pos += sizeof(uint32_t);
 
@@ -608,7 +608,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
 
     uint8_t bits_required = encoded[pos++];
 
-    uint32_t count;
+    uint32_t count = {};
     std::memcpy(&count, &encoded[pos], sizeof(uint32_t));
     pos += sizeof(uint32_t);
 
@@ -856,7 +856,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     }
 
     // Read original size from 8-byte header
-    uint64_t original_size;
+    uint64_t original_size = {};
     std::memcpy(&original_size, compressed.data(), 8);
 
     // Validate original size

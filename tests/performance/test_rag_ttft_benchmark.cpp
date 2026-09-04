@@ -75,7 +75,7 @@ void simulateStreamingPrefill(
 // Each token is represented as one word-character for test purposes.
 std::string buildRetrievedContext(std::size_t doc_count, std::size_t tokens_each)
 {
-    std::string ctx;
+    std::string ctx = {};
     ctx.reserve(doc_count * tokens_each * 5); // ~5 chars per token
     for (std::size_t d = 0; d < doc_count; ++d) {
         ctx += "Document " + std::to_string(d) + ": ";

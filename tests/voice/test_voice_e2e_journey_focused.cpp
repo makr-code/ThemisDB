@@ -463,7 +463,7 @@ TEST_F(E2EJourneyFixture, FullAuditTrail) {
     EXPECT_GT(audit.size(), 0) << "Should have audit entries";
     
     // Verify audit contains key events
-    std::string audit_str;
+    std::string audit_str = {};
     for (const auto& entry : audit) {
         audit_str += entry + ";";
     }

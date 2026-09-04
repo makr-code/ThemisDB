@@ -170,7 +170,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
         throw std::runtime_error("CBOR: expected map for attestation object");
     }
 
-    uint64_t count;
+    uint64_t count = {};
     pos = cborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
@@ -180,7 +180,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             pos = cborSkip(d, pos);
             continue;
         }
-        uint64_t klen;
+        uint64_t klen = {};
         pos = cborReadArg(d, pos, klen);
         if (pos + klen > d.size()) {
             throw std::runtime_error("CBOR: key text out of bounds");
@@ -192,7 +192,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             if (pos >= d.size() || (d[pos] >> 5) != 3) {
                 throw std::runtime_error("CBOR: fmt value must be text");
             }
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
             if (pos + vlen > d.size()) {
                 throw std::runtime_error("CBOR: fmt text out of bounds");
@@ -204,7 +204,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             if (pos >= d.size() || (d[pos] >> 5) != 2) {
                 throw std::runtime_error("CBOR: authData must be a byte string");
             }
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
             if (pos + vlen > d.size()) {
                 throw std::runtime_error("CBOR: authData out of bounds");
@@ -242,7 +242,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         throw std::runtime_error("CBOR: expected map for COSE key");
     }
 
-    uint64_t count;
+    uint64_t count = {};
     pos = cborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
@@ -255,11 +255,11 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         const uint8_t k_major   = k_initial >> 5;
         int64_t k{0};
         if (k_major == 0) { // positive integer key
-            uint64_t v;
+            uint64_t v = {};
             pos = cborReadArg(d, pos, v);
             k   = static_cast<int64_t>(v);
         } else if (k_major == 1) { // negative integer key
-            uint64_t v;
+            uint64_t v = {};
             pos = cborReadArg(d, pos, v);
             k   = -1 - static_cast<int64_t>(v);
         } else {
@@ -351,7 +351,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
 static const char kB64Table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static std::string base64UrlEncodeImpl(const uint8_t *data, std::size_t len) {
-    std::string out;
+    std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
 
     for (std::size_t i = 0; i < len; i += 3) {
@@ -573,7 +573,7 @@ WebAuthnAuthenticator::AttestationResult WebAuthnAuthenticator::completeRegistra
     }
 
     // --- 3. Decode and parse attestation object ---
-    std::string fmt;
+    std::string fmt = {};
     std::vector<uint8_t> auth_data_bytes;
     try {
         const std::vector<uint8_t> attest_obj_bytes = base64UrlDecode(attest_obj_b64);
@@ -613,7 +613,7 @@ WebAuthnAuthenticator::AttestationResult WebAuthnAuthenticator::completeRegistra
 
     // --- 8. Parse COSE key → DER SPKI ---
     std::vector<uint8_t> spki;
-    std::string algorithm;
+    std::string algorithm = {};
     try {
         auto [s, a] = coseKeyToSpki(ad.cose_key_bytes);
         spki        = std::move(s);

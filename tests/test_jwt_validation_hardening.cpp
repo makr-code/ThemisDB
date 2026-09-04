@@ -11,7 +11,7 @@ using namespace themis::auth;
 // Helper: base64url encode
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -139,7 +139,7 @@ class JWTValidationTest : public ::testing::Test {
 protected:
     std::unique_ptr<RSAFixture> rsa_fixture_;
     std::unique_ptr<JWTValidator> validator_;
-    std::string kid_;
+    std::string kid_ = {};
     
     void SetUp() override {
         rsa_fixture_ = std::make_unique<RSAFixture>();
@@ -377,7 +377,7 @@ class KidRevocationTest : public ::testing::Test {
 protected:
     std::unique_ptr<RSAFixture> rsa_fixture_;
     std::unique_ptr<JWTValidator> validator_;
-    std::string kid_;
+    std::string kid_ = {};
     
     void SetUp() override {
         rsa_fixture_ = std::make_unique<RSAFixture>();

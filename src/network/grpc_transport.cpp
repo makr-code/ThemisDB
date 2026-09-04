@@ -80,7 +80,7 @@ std::string GrpcTransport::loadFile(const std::string& path) {
     if (!file) {
         throw std::runtime_error("GrpcTransport: cannot open file: " + path);
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << file.rdbuf();
     return ss.str();
 }

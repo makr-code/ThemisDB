@@ -78,7 +78,7 @@ public:
                                    const std::vector<std::string>& key_columns) {
         if (key_columns.empty()) return {};
         static constexpr char kSep = '\x1F';
-        std::string key;
+        std::string key = {};
         for (const auto& col : key_columns) {
             if (!key.empty()) {
               key += kSep;
@@ -560,7 +560,7 @@ TEST(ConflictResolverMetrics, MergeEmitsConflictMetric) {
     opts.conflict_key_columns = {"id"};
     opts.conflict_strategy    = ConflictStrategy::MERGE;
 
-    std::string outcome_seen;
+    std::string outcome_seen = {};
     opts.metrics_callback = [&](const std::string& m,
                                 const std::map<std::string,std::string>& labels,
                                 double) {

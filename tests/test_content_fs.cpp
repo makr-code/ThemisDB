@@ -37,7 +37,7 @@ protected:
             db->close();
         }
         db.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(test_dir, ec);
     }
     std::string test_dir = "./test_content_fs_tmp";

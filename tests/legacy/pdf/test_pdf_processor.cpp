@@ -254,7 +254,7 @@ TEST(PDFProcessorTest, ChunkLongTextProducesMultipleChunks) {
     PDFProcessor proc;
 
     // Build a long text > 10 words
-    std::string long_text;
+    std::string long_text = {};
     for (int i = 0; i < 100; ++i) {
         long_text += "Word" + std::to_string(i) + ". ";
     }

@@ -44,11 +44,11 @@ nlohmann::json ReportsApiHandler::generateComplianceReport([[maybe_unused]] cons
         size_t encrypted_events = 0;
 
         // Try capturing time range (best-effort)
-        std::string first_ts;
-        std::string last_ts;
+        std::string first_ts = {};
+        std::string last_ts = {};
 
         if (in.good()) {
-            std::string line;
+            std::string line = {};
             while (std::getline(in, line)) {
                 if (line.empty()) {
                   continue;

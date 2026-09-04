@@ -200,7 +200,7 @@ TEST_F(CompensationIdempotencyTest, CompensationIdempotency_10ConcurrentRetries)
   
   // And: Trigger compensation concurrently N times (simulate retries)
   std::vector<std::map<std::string, int>> compensation_results;
-  std::mutex result_lock;
+  std::mutex result_lock = {};
   
   auto run_compensation = [&](int retry_num) {
     auto result = saga_orchestrator_->compensateStep(saga_id, "debit", 100);

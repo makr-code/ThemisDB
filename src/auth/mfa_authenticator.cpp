@@ -31,7 +31,7 @@ namespace {
     constexpr char BASE32_ALPHABET[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
     
     // Random device for cryptographic randomness
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
 }
 
@@ -115,7 +115,7 @@ MFAAuthenticator::EnrollmentData MFAAuthenticator::generateEnrollment(const std:
 }
 
 std::string MFAAuthenticator::generateProvisioningURI(const EnrollmentData& enrollment) const {
-    std::ostringstream uri;
+    std::ostringstream uri = {};
     uri << "otpauth://totp/"
         << config_.issuer << ":" << enrollment.user_id
         << "?secret=" << enrollment.secret_base32
@@ -267,7 +267,7 @@ std::string MFAAuthenticator::generateRecoveryCode() const {
     const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     std::uniform_int_distribution<> dis(0, sizeof(charset) - 2);
     
-    std::string code;
+    std::string code = {};
     code.reserve(8);
     for (int i = 0; i < 8; ++i) {
         code += charset[dis(gen)];
@@ -306,7 +306,7 @@ std::string MFAAuthenticator::computeTOTP(
     uint32_t code_value = binary % modulus;
     
     // Format with leading zeros
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::setw(config_.code_length) << std::setfill('0') << code_value;
     return oss.str();
 }
@@ -341,7 +341,7 @@ std::vector<uint8_t> MFAAuthenticator::base32Decode(const std::string& input) co
 }
 
 std::string MFAAuthenticator::base32Encode(const std::vector<uint8_t>& input) const {
-    std::string output;
+    std::string output = {};
     int buffer = 0;
     int bits_left = 0;
     

@@ -46,7 +46,7 @@ LoRARopeAdapter LoRARopeAdapter::createRandom(
     adapter.scaling = 1.0f;
     
     // Initialize random number generator with small random values
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<double> dist(0.0, LORA_INIT_STD_DEV);
     

@@ -78,7 +78,7 @@ std::string PromptTemplate::format(
     
     // Build complete prompt
     // F-018: replace ostringstream with reserve+append to avoid heap overhead.
-    std::string prompt;
+    std::string prompt = {};
     prompt.reserve(system_prompt.size() + few_shot_examples.size() +
                    result.size() + output_format_instruction.size() + 8);
     if (!system_prompt.empty()) {
@@ -184,7 +184,7 @@ std::string LLMIntegration::generate(
             // available (InferenceResponse.logprobs stores per-token log-probs),
             // otherwise fall back to a neutral default of 0.5.
             std::istringstream iss(response.text);
-            std::string tok;
+            std::string tok = {};
             size_t pos = 0;
             while (iss >> tok) {
                 TokenProbability tp;
@@ -228,7 +228,7 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
     samples.reserve(num_samples);
     
     // Use different seeds for each sample to get diverse responses
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<unsigned int> seed_dist(1, 1000000);
     
@@ -266,7 +266,7 @@ LLMEvaluationResponse LLMIntegration::parseEvaluationResponse(
     try {
         // Look for score in format: "score": 0.85 or "score": 4/5
         std::regex score_regex(R"("score"\s*:\s*([0-9.]+))");
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_search(response, match, score_regex)) {
             result.score = std::stod(match[1]);
@@ -334,7 +334,7 @@ double LLMIntegration::calculateSemanticSimilarity(
     auto tokenize = [](const std::string& text) {
         std::vector<std::string> tokens;
         std::istringstream iss(text);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             // Simple normalization: lowercase
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);

@@ -94,7 +94,7 @@ protected:
         std::string event_type;
         std::string principal_id;
         std::string resource;
-        bool allowed;
+        bool allowed = {};
     };
 
     std::unordered_map<std::string, MockPolicy> policy_cache_;
@@ -237,7 +237,7 @@ TEST_F(Phase3PolicyHardeningTest, P_RLS_03_MixedStaticDynamic) {
     };
     
     struct MockRow {
-        std::string region;
+        std::string region = {};
         std::string department;
         std::string data;
     };
@@ -605,8 +605,8 @@ TEST_F(Phase3PolicyHardeningTest, P_DENY_04_ConcurrentPolicyUpdate) {
 TEST_F(Phase3PolicyHardeningTest, P_MASK_01_PIIRedaction) {
     struct Row {
         std::string user_id;
-        std::string email;
-        std::string phone;
+        std::string email = {};
+        std::string phone = {};
     };
     
     Row original{"user_123", "alice@example.com", "555-1234"};

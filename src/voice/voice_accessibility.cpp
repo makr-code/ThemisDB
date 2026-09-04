@@ -141,7 +141,7 @@ std::string VoiceAccessibility::formatAsVTT(
     const std::vector<CaptionCue>& cues,
     const TranscriptExportOptions& opts) const
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "WEBVTT\n\n";
 
     auto sorted = mergeSortCues(cues);
@@ -163,7 +163,7 @@ std::string VoiceAccessibility::formatAsSRT(
     const std::vector<CaptionCue>& cues,
     [[maybe_unused]] const TranscriptExportOptions& opts) const
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
 
     auto sorted = mergeSortCues(cues);
     int seq = 1;
@@ -180,7 +180,7 @@ std::string VoiceAccessibility::formatAsPlainText(
     const std::vector<CaptionCue>& cues,
     const TranscriptExportOptions& opts) const
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
 
     if (!opts.title.empty()) {
         ss << opts.title << "\n";
@@ -213,7 +213,7 @@ std::string VoiceAccessibility::formatAsHTML(
     const std::vector<CaptionCue>& cues,
     const TranscriptExportOptions& opts) const
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "<!DOCTYPE html>\n";
     ss << "<html lang=\"" << opts.language << "\">\n";
     ss << "<head><meta charset=\"UTF-8\">";
@@ -261,7 +261,7 @@ std::string VoiceAccessibility::formatAsJSONString(
         arr.push_back(obj);
     }
 
-    json result;
+    json result = {};
     if (!opts.title.empty()) {
       result["title"] = opts.title;
     }
@@ -298,7 +298,7 @@ std::string VoiceAccessibility::formatTimestamp(int64_t ms, bool vtt_style) cons
     int frac = static_cast<int>(total_ms % 1000);
 
     char sep = vtt_style ? '.' : ',';
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << std::setfill('0')
         << std::setw(2) << hh << ":"
         << std::setw(2) << mm << ":"
@@ -320,7 +320,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
         // Split at word boundaries
         std::istringstream iss(cue.text);
         std::vector<std::string> words;
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
           words.push_back(word);
         }
@@ -343,7 +343,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
 
             size_t from = static_cast<size_t>(p) * words_per_part;
             size_t to   = std::min(from + words_per_part, words.size());
-            std::ostringstream txt;
+            std::ostringstream txt = {};
             for (size_t w = from; w < to; ++w) {
                 if (w > from) {
                   txt << " ";
@@ -391,7 +391,7 @@ std::string VoiceAccessibility::wrapText(const std::string& text, int max_chars)
       return text;
     }
 
-    std::ostringstream wrapped;
+    std::ostringstream wrapped = {};
     size_t start = 0;
     while (start < text.size()) {
         size_t end = start + static_cast<size_t>(max_chars);

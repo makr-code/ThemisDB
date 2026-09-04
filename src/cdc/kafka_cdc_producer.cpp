@@ -103,7 +103,7 @@ bool KafkaCDCProducer::start() {
     }
 
     // ── Build librdkafka configuration ──────────────────────────────────────
-    std::string errstr;
+    std::string errstr = {};
     std::unique_ptr<RdKafka::Conf> conf(
         RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL));
 
@@ -234,7 +234,7 @@ RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
         return it->second.get();
     }
 
-    std::string errstr;
+    std::string errstr = {};
     std::unique_ptr<RdKafka::Conf> tconf(
         RdKafka::Conf::create(RdKafka::Conf::CONF_TOPIC));
     std::unique_ptr<RdKafka::Topic> topic(
@@ -266,7 +266,7 @@ bool KafkaCDCProducer::publish([[maybe_unused]] const Changefeed::ChangeEvent& e
 
     // Serialise value to UTF-8.
     // Use Debezium envelope format when configured; fall back to native JSON.
-    std::string payload;
+    std::string payload = {};
     if (config_.use_debezium_format) {
         DebeziumFormatter fmt(config_.debezium_config);
         // Pass an empty collection name so the formatter derives it from the

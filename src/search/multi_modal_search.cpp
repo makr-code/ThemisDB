@@ -62,7 +62,7 @@ std::vector<MultiModalResult> MultiModalSearch::search(
             all_lists.push_back(std::move(results));
             weights.push_back(q.weight > 0.0 ? q.weight : 1.0);
             // Build a human-readable modality label
-            std::string mod_label;
+            std::string mod_label = {};
             switch (q.modality) {
                 case Modality::TEXT:   mod_label = "text";   break;
                 case Modality::IMAGE:  mod_label = "image";  break;

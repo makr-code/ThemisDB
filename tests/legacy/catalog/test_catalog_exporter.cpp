@@ -73,7 +73,7 @@ class CatalogExporterAtlasTest : public ::testing::Test {
 protected:
     struct Capture {
         std::string url;
-        std::string body;
+        std::string body = {};
         std::string auth_header;
     };
 
@@ -239,7 +239,7 @@ class CatalogExporterDataHubTest : public ::testing::Test {
 protected:
     struct Capture {
         std::string url;
-        std::string body;
+        std::string body = {};
         std::string auth_header;
     };
 

@@ -571,7 +571,7 @@ TEST_F(RPCServiceIntegrationTest, HealthCheckWithUptime) {
         << "Health check should return result";
     
     // Extract result
-    json result1;
+    json result1 = {};
     if (health_response1.contains("result")) {
         result1 = health_response1["result"];
     } else if (health_response1.contains("success") && health_response1["success"].get<bool>()) {
@@ -594,7 +594,7 @@ TEST_F(RPCServiceIntegrationTest, HealthCheckWithUptime) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     
     json health_response2 = rpc_service_->handleHealthCheck(health_params);
-    json result2;
+    json result2 = {};
     if (health_response2.contains("result")) {
         result2 = health_response2["result"];
     } else if (health_response2.contains("success") && health_response2["success"].get<bool>()) {

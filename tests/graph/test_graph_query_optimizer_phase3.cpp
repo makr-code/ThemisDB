@@ -23,7 +23,7 @@ protected:
             ("themis_opt_p3_" +
              std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
             .string();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
 
         RocksDBWrapper::Config cfg;
@@ -45,7 +45,7 @@ protected:
         opt_.reset();
         mgr_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
     }
 

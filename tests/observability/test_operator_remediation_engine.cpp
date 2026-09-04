@@ -299,7 +299,7 @@ TEST_F(OperatorRemediationEngineTest, HintLifecycle) {
 TEST_F(OperatorRemediationEngineTest, ConcurrentHintOperations) {
     std::vector<std::thread> threads;
     std::vector<std::string> hint_ids;
-    std::mutex ids_mutex;
+    std::mutex ids_mutex = {};
 
     // Generate hints concurrently
     for (int t = 0; t < 5; ++t) {

@@ -160,7 +160,7 @@ TEST(IngestionResilienceTest, BinaryNoise) {
 
 TEST(IngestionResilienceTest, NonUtf8Bytes) {
     // Latin-1 bytes outside ASCII range
-    std::string content;
+    std::string content = {};
     for (int i = 128; i < 256; ++i) {
         content += static_cast<char>(i);
     }

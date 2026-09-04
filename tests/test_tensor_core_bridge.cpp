@@ -265,7 +265,7 @@ static void closeAndCleanupTempRdb(const std::shared_ptr<themis::RocksDBWrapper>
     if (db) {
         db->close();
     }
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(path, ec);
 }
 

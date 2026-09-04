@@ -203,7 +203,7 @@ MergeResult LoRAAdapterMerger::mergeLinearAll(
     const std::vector<float>&               weights,
     size_t                                  output_rank) const
 {
-    MergeResult result;
+    MergeResult result = {};
 
     if (adapters.empty()) {
         result.error_message = "No adapters provided";
@@ -379,7 +379,7 @@ MergeResult LoRAAdapterMerger::mergeTIESAll(
     size_t                                  output_rank,
     float                                   trim_threshold) const
 {
-    MergeResult result;
+    MergeResult result = {};
 
     if (adapters.empty()) {
         result.error_message = "No adapters provided";

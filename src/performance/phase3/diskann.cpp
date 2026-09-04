@@ -292,7 +292,7 @@ bool DiskANNIndex::load_metadata(const std::string& meta_path) {
 
 DiskANNNode DiskANNIndex::load_node(VectorID id) {
     // Check cache first
-    DiskANNNode node;
+    DiskANNNode node = {};
     if (cache_->get(id, node)) {
         cache_hits_.fetch_add(1, std::memory_order_relaxed);
         return node;
@@ -320,7 +320,7 @@ DiskANNNode DiskANNIndex::load_node(VectorID id) {
                       dimension_ * sizeof(float));
     
     // Read neighbor count
-    uint32_t neighbor_count;
+    uint32_t neighbor_count = {};
     graph_file_->read(reinterpret_cast<char*>(&neighbor_count), sizeof(uint32_t));
     
     // Read neighbors

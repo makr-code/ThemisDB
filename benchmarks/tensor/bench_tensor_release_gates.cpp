@@ -82,7 +82,7 @@ using Float16 = std::uint16_t;
 static Float16 f32ToF16(float v) {
     // Trivial bit-manipulation approximation (not IEEE 754 half — just a mock
     // to measure the conversion loop cost without I/O).
-    std::uint32_t bits;
+    std::uint32_t bits = {};
     std::memcpy(&bits, &v, sizeof(bits));
     return static_cast<Float16>((bits >> 16) & 0xFFFF);
 }
@@ -137,7 +137,7 @@ static MockDevice mockSelectDevice(bool gpu_available) {
 /// Mock slice view: returns pointer + length (no copy).
 struct MockView {
     const float* ptr;
-    std::size_t  count;
+    std::size_t  count = {};
 };
 
 static MockView mockSliceView(const float* base, std::size_t offset, std::size_t count) {

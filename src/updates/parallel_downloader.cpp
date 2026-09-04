@@ -274,7 +274,7 @@ void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const
 // ============================================================================
 
 uint64_t ParallelDownloader::resumeOffset(const std::string& dest) const {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto sz = fs::file_size(dest, ec);
     if (ec || sz == static_cast<std::uintmax_t>(-1)) {
       return 0;
@@ -365,7 +365,7 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
     // RAII cleanup happens automatically on scope exit
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -498,7 +498,7 @@ DownloadResult ParallelDownloader::executeTask(
     {
         const fs::path dest_dir = fs::path(task.dest).parent_path();
         if (!dest_dir.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::create_directories(dest_dir, ec);
             if (ec) {
                 result.error_message =
@@ -605,7 +605,7 @@ DownloadResult ParallelDownloader::executeTask(
                 ": expected " + task.expected_hash +
                 ", got " + actual_hash;
             // Remove the corrupt file so a future attempt starts fresh
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove(task.dest, ec);
             result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - t0);
@@ -653,8 +653,8 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
     }
 
     // Shared state for the worker pool
-    std::mutex              queue_mutex;
-    std::condition_variable cv;
+    std::mutex              queue_mutex = {};
+    std::condition_variable cv = {};
     bool                    all_queued = false;
 
     // Launch up to concurrency_ workers

@@ -276,7 +276,7 @@ struct BackendFallbackDiagnostic {
      * @return Formatted string suitable for logging or user error reporting
      */
     [[nodiscard]] std::string formatMessage() const noexcept {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Geo backend fallback: operation=" << operation_name
             << " geom_a=" << geometry_type_a << " geom_b=" << geometry_type_b
             << " batch_size=" << batch_size
@@ -309,7 +309,7 @@ public:
         double value,
         const std::string& coord_name,
         std::size_t coord_index) noexcept {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Geometry validation failed: " << coord_name
             << "[" << coord_index << "] is not finite (value=" << value << "); "
             << "expected a finite real number in [-180, 180] for longitude "
@@ -325,7 +325,7 @@ public:
         const std::string& coord_name,
         double min_bound,
         double max_bound) noexcept {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Geometry validation failed: " << coord_name
             << " is out of bounds (value=" << value << "); "
             << "expected range [" << min_bound << ", " << max_bound << "]";
@@ -338,7 +338,7 @@ public:
     [[nodiscard]] static std::string unclosedRing(
         std::size_t ring_index,
         std::size_t vertex_count) noexcept {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Geometry validation failed: polygon ring " << ring_index
             << " is not closed (first and last coordinates differ); "
             << "ring has " << vertex_count << " vertices; "
@@ -353,7 +353,7 @@ public:
         const std::string& geometry_type,
         std::size_t actual_count,
         std::size_t required_min) noexcept {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Geometry validation failed: " << geometry_type
             << " has insufficient vertices (actual=" << actual_count
             << ", required_minimum=" << required_min << "); "
@@ -367,7 +367,7 @@ public:
     [[nodiscard]] static std::string geometryTooLarge(
         std::size_t coordinate_count,
         std::size_t max_allowed) noexcept {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Geometry validation failed: geometry is too large "
             << "(coordinate_count=" << coordinate_count
             << ", max_allowed=" << max_allowed << "); "

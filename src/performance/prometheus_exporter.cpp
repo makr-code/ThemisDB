@@ -33,7 +33,7 @@ public:
      * @return Prometheus formatted string
      */
     static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         try {
             // Write HELP and TYPE for each metric
             oss << "# HELP themis_hnsw_search_cycles HNSW vector search cycles\n";

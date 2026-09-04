@@ -337,7 +337,7 @@ inline CheckpointFaultResult CheckpointFaultHandler::handle(
     const CheckpointFaultContext& ctx,
     TrainingIncidentEmitter*      emitter) const noexcept
 {
-    CheckpointFaultResult result;
+    CheckpointFaultResult result = {};
 
     if (isCorruptionFault(ctx.fault_code) || isTransientIoFault(ctx.fault_code)) {
         if (ctx.has_fallback && !ctx.fallback_path.empty()) {

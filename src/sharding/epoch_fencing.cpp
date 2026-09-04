@@ -477,7 +477,7 @@ void LeaseManager::loadFromWal() {
         return;  // WAL does not exist yet — fresh start
     }
     auto now = std::chrono::system_clock::now();
-    std::string line;
+    std::string line = {};
     std::unordered_map<LeaseKey, LeaseRecord> latest;
 
     while (std::getline(wal, line)) {

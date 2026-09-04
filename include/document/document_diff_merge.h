@@ -260,7 +260,7 @@ private:
     static DocumentDiff computeDiff(const nlohmann::json& base,
                                      const nlohmann::json& target)
     {
-        DocumentDiff d;
+        DocumentDiff d = {};
         if (!base.is_object() || !target.is_object()) {
             return d; // non-object payloads: no field-level diff
         }

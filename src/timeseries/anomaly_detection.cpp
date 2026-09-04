@@ -162,12 +162,12 @@ std::vector<AnomalyPoint> AnomalyDetector::detect(
     const AnomalyConfig& cfg) const {
 
     if (cfg.method == AnomalyMethod::ZScore) {
-        ZScoreDetector det;
+        ZScoreDetector det = {};
         return det.detect(points, cfg);
     }
 
     if (cfg.method == AnomalyMethod::IQR) {
-        IQRDetector det;
+        IQRDetector det = {};
         return det.detect(points, cfg);
     }
 

@@ -250,7 +250,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             policy_fn = policy_fn_;
         }
         if (policy_fn) {
-            std::string denial_reason;
+            std::string denial_reason = {};
             if (!policy_fn(request, denial_reason)) {
                 ++error_count_;
                 llm::InferenceResponse denied;
@@ -300,7 +300,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 #endif
 
     GenerateFn generate_fn;
-    std::string bridged_model_id;
+    std::string bridged_model_id = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         generate_fn = generate_fn_;
@@ -375,7 +375,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 
         // When tools are provided, synthesize a minimal stub tool-call JSON so
         // tests can verify the tool-calling path without a real model.
-        std::string text;
+        std::string text = {};
         if (!request.tools.empty()) {
             const auto& first_tool = request.tools.front();
             nlohmann::json tool_call_json = {
@@ -418,8 +418,8 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     // Snapshot shared state under the mutex to eliminate data races on
     // model_loaded_ and context_length_ that may be concurrently written
     // by loadModel() / unloadModel().
-    bool   snap_model_loaded;
-    size_t snap_context_length;
+    bool   snap_model_loaded = {};
+    size_t snap_context_length = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         snap_model_loaded   = model_loaded_;
@@ -524,7 +524,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
         const size_t slot_count = std::min(
             ranked_chunks.size(), static_cast<size_t>(rag_tensor_slots));
 
-        std::ostringstream compact_prompt;
+        std::ostringstream compact_prompt = {};
         compact_prompt << "SYSTEM: Use the semantic memory slots below as the primary evidence. "
                           "When uncertain, say so and cite slot source ids.\n\n";
         for (size_t i = 0; i < slot_count; ++i) {
@@ -542,7 +542,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
         compact_prompt << "User Question: " << request.prompt;
         augmented.prompt = compact_prompt.str();
     } else {
-        std::ostringstream augmented_prompt;
+        std::ostringstream augmented_prompt = {};
         for (const auto& c : ctx.chunks_used) {
             augmented_prompt << c.content << "\n";
         }
@@ -755,7 +755,7 @@ std::string LlamaCppPlugin::computeFileDigest(const std::string& path) {
             hash *= kFnvPrime;
         }
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << hash;
     return oss.str();
 }

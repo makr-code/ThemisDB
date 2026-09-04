@@ -168,7 +168,7 @@ PolyglotPersistenceMapper::ModelTransformer::tableToGraph(
 
     for (const auto& row : rows) {
         // Build node id from primary key
-        std::string node_id;
+        std::string node_id = {};
         for (const auto& pk : schema.primary_keys) {
             if (row.contains(pk)) {
                 node_id += row.at(pk).dump();

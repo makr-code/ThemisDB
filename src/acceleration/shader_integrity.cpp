@@ -93,7 +93,7 @@ size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
     }
 
     size_t count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         // Strip comments and whitespace
         auto comment_pos = line.find('#');
@@ -194,7 +194,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (unsigned int i = 0; i < hashLen; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }

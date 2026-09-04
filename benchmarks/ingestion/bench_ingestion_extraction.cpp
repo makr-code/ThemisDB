@@ -76,7 +76,7 @@ static const std::vector<std::string> kLegalSentences = {
 };
 
 static const std::string kLongLegalText = []() {
-    std::string text;
+    std::string text = {};
     text.reserve(kLegalSentences.size() * 120);
     for (int i = 0; i < 10; ++i) {
         for (const auto& s : kLegalSentences) {

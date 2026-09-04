@@ -464,7 +464,7 @@ TemporalTierManager::KeyTierStats
 TemporalTierManager::keyStats(const std::string& table_name,
                                const std::string& doc_key) const {
     std::shared_lock lk(mutex_);
-    KeyTierStats s;
+    KeyTierStats s = {};
 
     if (auto tit = hot_.find(table_name); tit != hot_.end())
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end())

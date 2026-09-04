@@ -466,7 +466,7 @@ private:
             R"(^\s*FOR\s+(\w+)\s+IN\s+(\w+)\s*(?:FILTER\s+\1\.(\w+)\s*==\s*['\"]([^'\"]+)['\"]\s*)?RETURN\s+\1\._key\s*$)",
             std::regex::icase);
 
-        std::smatch match;
+        std::smatch match = {};
         if (!std::regex_match(aql, match, simple_key_query)) {
             return ids;
         }
@@ -536,7 +536,7 @@ private:
     // Falls back to a representative German legal text in offline / test mode.
     std::string fetchDocumentText(const std::string& document_id) const {
         if (query_engine_ && !document_id.empty()) {
-            std::string safe_id;
+            std::string safe_id = {};
             safe_id.reserve(document_id.size());
             for (char c : document_id) {
                 switch (c) {
@@ -720,7 +720,7 @@ private:
             return false;
         }
 
-        std::string normalized;
+        std::string normalized = {};
         normalized.reserve(aql.size());
         for (unsigned char c : aql) {
             normalized.push_back(static_cast<char>(std::toupper(c)));
@@ -783,7 +783,7 @@ private:
                       + ", Interpretation: " + modality.interpretation;
 
         // Phase 2: Metadata with NLP provenance
-        std::ostringstream meta;
+        std::ostringstream meta = {};
         meta << "{\"verb\":\"" << modality.verb
              << "\",\"position\":" << modality.position
              << ",\"auto_labeled\":true}";

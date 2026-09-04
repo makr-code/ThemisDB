@@ -48,7 +48,7 @@ RetryStatistics TransactionRetryManager::getStatistics() const {
 }
 
 CircuitState TransactionRetryManager::getCircuitState() const {
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
     CircuitState current_state;
     {
@@ -248,7 +248,7 @@ void TransactionRetryManager::recordSuccess() {
         return;
     }
 
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
     {
         std::lock_guard<std::mutex> lock(circuit_mutex_);
@@ -272,7 +272,7 @@ void TransactionRetryManager::recordFailure() {
         return;
     }
 
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
     CircuitState new_state = CircuitState::HEALTHY;
     {
@@ -301,9 +301,9 @@ void TransactionRetryManager::recordFailure() {
 }
 
 bool TransactionRetryManager::isCircuitOpen() const {
-    std::string alert_message;
+    std::string alert_message = {};
     bool state_changed = false;
-    bool open;
+    bool open = {};
     {
         std::lock_guard<std::mutex> lock(circuit_mutex_);
 
@@ -354,7 +354,7 @@ bool TransactionRetryManager::transitionCircuitState(CircuitState new_state, std
         }
     };
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Circuit breaker state transition: "
         << state_to_string(old_state) << " -> " << state_to_string(new_state)
         << " (consecutive_failures: " << consecutive_failures_ << ")";

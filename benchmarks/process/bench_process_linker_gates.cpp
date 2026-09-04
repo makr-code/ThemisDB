@@ -449,7 +449,7 @@ BENCHMARK(BM_LP04_GraphTraversal)
 // ============================================================================
 
 struct LinkRecord {
-    std::string id;
+    std::string id = {};
     std::string source_model_id;
     std::string target_model_id;
     int64_t created_ms{0};

@@ -81,7 +81,7 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
 
     // Step 2: per-(file:line:level) token-bucket rate limit.
     // Build a compact key string.
-    std::string key;
+    std::string key = {};
     key.reserve(128);
     key += (file ? file : "?");
     key += ':';

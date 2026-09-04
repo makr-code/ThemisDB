@@ -70,7 +70,7 @@ const double* ArrowRecordBatch::getDoubleData([[maybe_unused]] size_t col_idx) c
 }
 
 std::string ArrowRecordBatch::toJSON() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\n";
     oss << "  \"metadata\": {\n";
     oss << "    \"row_count\": " << row_count_ << ",\n";

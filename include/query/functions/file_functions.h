@@ -88,7 +88,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        std::string result;
+        std::string result = {};
         
         for (const auto& arg : args) {
             std::string part = arg.is_string() ? arg.get<std::string>() : arg.dump();
@@ -264,7 +264,7 @@ public:
         // Split into components
         std::vector<std::string> parts;
         std::istringstream iss(path);
-        std::string part;
+        std::string part = {};
         bool isAbsolute = !path.empty() && path[0] == '/';
         
         while (std::getline(iss, part, '/')) {
@@ -283,7 +283,7 @@ public:
         }
         
         // Rebuild path
-        std::string result;
+        std::string result = {};
         if (isAbsolute) {
           result = "/";
         }
@@ -336,7 +336,7 @@ public:
         
         std::replace(path.begin(), path.end(), '\\', '/');
         std::istringstream iss(path);
-        std::string part;
+        std::string part = {};
         
         while (std::getline(iss, part, '/')) {
             if (!part.empty()) {
@@ -621,7 +621,7 @@ public:
         // Characters not allowed in filenames on most systems
         const std::string unsafe = "<>:\"/\\|?*";
         
-        std::string result;
+        std::string result = {};
         for (char c : filename) {
             if (unsafe.find(c) != std::string::npos || c < 32) {
                 result += replacement;
@@ -968,7 +968,7 @@ public:
             unitIndex++;
         }
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::fixed << std::setprecision(precision) << bytes << " " << units[unitIndex];
         return oss.str();
     }
@@ -1004,10 +1004,10 @@ public:
         
         // Extract number and unit
         double value = 0;
-        std::string unit;
+        std::string unit = {};
         
         std::regex re("^([0-9.]+)([A-Za-z]*)$");
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_match(sizeStr, match, re)) {
             value = std::stod(match[1]);

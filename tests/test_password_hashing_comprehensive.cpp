@@ -34,7 +34,7 @@ using namespace themis::security;
 namespace {
 
 std::string toHex(const unsigned char* data, int len) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (int i = 0; i < len; ++i)
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
     return ss.str();

@@ -449,7 +449,7 @@ bool HIPVectorBackend::initialize() {
         deviceId = 0;
         
         for (int i = 0; i < deviceCount; i++) {
-            hipDeviceProp_t prop;
+            hipDeviceProp_t prop = {};
             if (hipGetDeviceProperties(&prop, i) == hipSuccess) {
                 std::cout << "Device " << i << ": " << prop.name 
                           << " (" << prop.multiProcessorCount << " CUs, " 
@@ -790,7 +790,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
 // HIP-specific methods
 
 HIPVectorBackend::DeviceInfo HIPVectorBackend::getDeviceInfo() const {
-    DeviceInfo info;
+    DeviceInfo info = {};
     if (impl_->initialized) {
         info.name = impl_->deviceProps.name;
         info.computeUnits = impl_->deviceProps.multiProcessorCount;
@@ -823,7 +823,7 @@ std::vector<HIPVectorBackend::DeviceInfo> HIPVectorBackend::getAvailableDevices(
     }
     
     for (int i = 0; i < deviceCount; i++) {
-        hipDeviceProp_t prop;
+        hipDeviceProp_t prop = {};
         if (hipGetDeviceProperties(&prop, i) == hipSuccess) {
             DeviceInfo info;
             info.name = prop.name;
@@ -912,7 +912,7 @@ BackendCapabilities HIPGeoBackend::getCapabilities() const {
     caps.supportedPrecisions = PrecisionMode::FP32;
 
     if (isAvailable()) {
-        hipDeviceProp_t prop;
+        hipDeviceProp_t prop = {};
         if (hipGetDeviceProperties(&prop, 0) == hipSuccess) {
             caps.deviceName = std::string(prop.name) + " (HIP)";
             caps.maxMemoryBytes = prop.totalGlobalMem;

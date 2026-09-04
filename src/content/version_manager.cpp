@@ -29,7 +29,7 @@ std::string VersionManager::computeHash(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(digest[i]);
@@ -45,7 +45,7 @@ std::string VersionManager::computeDelta(const std::string& old_content,
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             lines.push_back(line);
         }
@@ -55,7 +55,7 @@ std::string VersionManager::computeDelta(const std::string& old_content,
     std::vector<std::string> old_lines = split_lines(old_content);
     std::vector<std::string> new_lines = split_lines(new_content);
 
-    std::ostringstream delta;
+    std::ostringstream delta = {};
 
     // Simple O(n*m) LCS-based diff for small files; for large content in
     // production this would be replaced by a proper diff algorithm.

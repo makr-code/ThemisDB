@@ -49,7 +49,7 @@ static void run_concurrent(unsigned n_threads, std::function<void(unsigned /*tid
     std::vector<std::thread> workers;
     workers.reserve(n_threads);
     std::exception_ptr first_exc = nullptr;
-    std::mutex first_exc_mutex;
+    std::mutex first_exc_mutex = {};
 
     for (unsigned tid = 0; tid < n_threads; ++tid) {
         workers.emplace_back([&fn, &first_exc, &first_exc_mutex, tid] {

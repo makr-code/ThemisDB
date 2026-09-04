@@ -38,7 +38,7 @@ nlohmann::json TemplateParameter::toJson() const {
 }
 
 TemplateParameter TemplateParameter::fromJson(const nlohmann::json &j) {
-    TemplateParameter param;
+    TemplateParameter param = {};
     if (j.contains("name")) {
         param.name = j["name"].get<std::string>();
     }

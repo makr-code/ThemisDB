@@ -37,7 +37,7 @@ namespace {
 // Convert time_point to ISO 8601 string
 std::string timeToISO8601(const std::chrono::system_clock::time_point& tp) {
     auto time_t_val = std::chrono::system_clock::to_time_t(tp);
-    std::tm tm_val;
+    std::tm tm_val = {};
     #ifdef _WIN32
         gmtime_s(&tm_val, &time_t_val);
     #else
@@ -102,8 +102,8 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 
 namespace {
 struct TLSRequestContext {
-    std::string user_id;
-    std::string client_ip;
+    std::string user_id = {};
+    std::string client_ip = {};
     bool is_set = false;
 };
 static thread_local TLSRequestContext tls_deploy_ctx;
@@ -348,7 +348,7 @@ ModelDownloadResult LLMDeploymentPlugin::downloadModel(const std::string& model_
         return result;
     }
     
-    ModelDownloadResult result;
+    ModelDownloadResult result = {};
     
     if (source->type == "ollama") {
         // Download from Ollama - use the source's location (Ollama endpoint)
@@ -708,7 +708,7 @@ std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const st
     try {
         YAML::Node config = YAML::LoadFile(config_path);
         
-        DeploymentConfig deployment_config;
+        DeploymentConfig deployment_config = {};
         
         if (config["deployment"]) {
             YAML::Node dep = config["deployment"];
@@ -1004,7 +1004,7 @@ std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const
 bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
                                           const std::string& expected_checksum,
                                           const std::string& checksum_type) {
-    std::string calculated_checksum;
+    std::string calculated_checksum = {};
 
     if (checksum_type == "sha256") {
         calculated_checksum = utils::calculateSHA256(file_path);

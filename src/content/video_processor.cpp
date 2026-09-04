@@ -280,8 +280,8 @@ std::vector<ContentChunk> VideoProcessor::chunk(const ContentExtractionResult &r
     // Each subtitle block becomes a chunk with timestamp metadata
 
     std::istringstream stream(result.text);
-    std::string line;
-    std::string current_text;
+    std::string line = {};
+    std::string current_text = {};
     int sequence = 0;
 
     while (std::getline(stream, line)) {

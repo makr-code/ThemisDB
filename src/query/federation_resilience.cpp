@@ -112,7 +112,7 @@ std::optional<std::string> CircuitBreaker::getFailureReason() const {
 }
 
 std::string CircuitBreaker::getStatistics() const {
-    std::string state_str;
+    std::string state_str = {};
     switch (state_) {
         case State::CLOSED:
             state_str = "CLOSED";
@@ -406,7 +406,7 @@ FederationResilienceCoordinator::getShardStatesSummary() const {
     std::unordered_map<std::string, std::string> summary = {};
 
     for (const auto& [shard_id, cb] : circuit_breakers_) {
-        std::string state_str;
+        std::string state_str = {};
         switch (cb.getState()) {
             case CircuitBreaker::State::CLOSED:
                 state_str = "healthy";

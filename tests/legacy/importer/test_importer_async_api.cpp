@@ -231,7 +231,7 @@ static std::string buildPrometheusText(const ImportJobRegistry& registry) {
         }
     }
 
-    std::ostringstream o;
+    std::ostringstream o = {};
     o << "themisdb_import_jobs_total{status=\"running\"} " << running << "\n"
       << "themisdb_import_jobs_total{status=\"completed\"} " << completed << "\n"
       << "themisdb_import_rows_total{status=\"imported\"} " << imported << "\n"
@@ -504,7 +504,7 @@ static ImportOptions optionsFromJson(const std::string& json_str) {
     // GAP-020: mirrors the production cap of 100,000 for batch_size.
     static constexpr size_t kMaxBatchSize = 100'000;
     auto j = nlohmann::json::parse(json_str);
-    ImportOptions opts;
+    ImportOptions opts = {};
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())

@@ -465,7 +465,7 @@ private:
     }
 
     std::string selectLeastLoaded() {
-        std::string best;
+        std::string best = {};
         uint64_t    min_load = UINT64_MAX;
         for (const auto& id : shard_order_) {
             const auto& s = stats_.at(id);
@@ -481,7 +481,7 @@ private:
     }
 
     std::string selectLatencyAware() {
-        std::string best;
+        std::string best = {};
         double      min_latency = std::numeric_limits<double>::max();
         for (const auto& id : shard_order_) {
             const auto& s = stats_.at(id);

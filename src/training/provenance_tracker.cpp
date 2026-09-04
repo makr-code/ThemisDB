@@ -202,7 +202,7 @@ public:
 
         // In production: call utils::AuditLogger::log() with structured event.
         // Build a simple JSON-like audit string for in-process traceability:
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{"
             << "\"event\":\"sample_filtered\","
             << "\"sample_id\":\"" << sample_id << "\","
@@ -241,7 +241,7 @@ public:
                         if (!item.is_object()) {
                           continue;
                         }
-                        LineageNode node;
+                        LineageNode node = {};
                         if (item.contains("node_id") && item["node_id"].is_string())
                             node.node_id = item["node_id"].get<std::string>();
                         if (item.contains("node_type") && item["node_type"].is_string())
@@ -390,7 +390,7 @@ private:
 
     // Escape characters that would break an AQL inline string literal.
     static std::string escapedStr(const std::string& raw) {
-        std::string out;
+        std::string out = {};
         out.reserve(raw.size());
         for (char c : raw) {
             switch (c) {

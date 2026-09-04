@@ -491,7 +491,7 @@ TEST_F(MetricsServerHTTPTest, AdminDeleteSession_NoCallback_ReturnsNotImplemente
 }
 
 TEST_F(MetricsServerHTTPTest, AdminDeleteSession_WithCallback_InvokesCallbackWithId) {
-    std::string captured_id;
+    std::string captured_id = {};
     server->setSessionDeleteCallback([&](const std::string& id) {
         captured_id = id;
         return R"({"status":"deleted","session_id":")" + id + "\"}";

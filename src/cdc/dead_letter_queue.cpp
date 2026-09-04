@@ -65,7 +65,7 @@ std::string DeadLetterQueue::makeKey([[maybe_unused]] uint64_t dlq_sequence) con
 uint64_t DeadLetterQueue::nextSequence() {
     std::lock_guard<std::mutex> lock(sequence_mutex_);
 
-    std::string seq_value;
+    std::string seq_value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -134,7 +134,7 @@ DLQEntry DeadLetterQueue::enqueue(const Changefeed::ChangeEvent& event,
 
 DLQEntry DeadLetterQueue::getEntry([[maybe_unused]] uint64_t dlq_sequence) const {
     const std::string key = makeKey(dlq_sequence);
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions read_opts;
     rocksdb::Status s;
 
@@ -175,7 +175,7 @@ Changefeed::ChangeEvent DeadLetterQueue::replay(uint64_t dlq_sequence,
 bool DeadLetterQueue::remove([[maybe_unused]] uint64_t dlq_sequence) {
     const std::string key = makeKey(dlq_sequence);
     rocksdb::ReadOptions read_opts;
-    std::string existing;
+    std::string existing = {};
     rocksdb::Status read_status;
 
     if (cf_) {

@@ -36,7 +36,7 @@ class StressTransactionManager {
 public:
     struct Transaction {
         int txn_id = 0;
-        bool committed;
+        bool committed = {};
         std::chrono::steady_clock::time_point start_time;
     };
 

@@ -151,7 +151,7 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
             
             for (const auto& name : template_names) {
                 if (pa[name]) {
-                    AugmentationTemplate tmpl;
+                    AugmentationTemplate tmpl = {};
                     if (pa[name]["system_prefix"]) {
                         tmpl.system_prefix = pa[name]["system_prefix"].as<std::string>();
                     }
@@ -168,7 +168,7 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
             domain_guidelines_.clear();
             for (const auto& domain : config["domain_guidelines"]) {
                 std::string domain_name = domain.first.as<std::string>();
-                DomainGuideline guideline;
+                DomainGuideline guideline = {};
                 
                 if (domain.second["name"]) {
                   guideline.name = domain.second["name"].as<std::string>();
@@ -397,7 +397,7 @@ std::string EthicalGuidelinesManager::augmentPrompt(
     }
     
     // Construct augmented prompt
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << tmpl->system_prefix << "\n\n";
     ss << original_prompt;
     
@@ -579,7 +579,7 @@ EthicalGuidelinesManager::detectWithLLMJudge(
     }
     
     // Build context from conversation history
-    std::stringstream context_builder;
+    std::stringstream context_builder = {};
     context_builder << "Conversation History:\n";
     for (size_t i = 0; i < conversation_context.size(); i++) {
         context_builder << (i + 1) << ". " << conversation_context[i] << "\n";
@@ -640,7 +640,7 @@ Analyze the above text and context. Respond in JSON format:
     {
         static const std::regex kFence("```(?:json)?\\s*([\\s\\S]*?)```",
                                        std::regex_constants::icase);
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(json_text, m, kFence)) {
             json_text = m[1].str();
         }

@@ -282,7 +282,7 @@ std::string EthicsEvaluator::getMetricsText() const {
     double conf_avg
         = (decisions > 0) ? static_cast<double>(conf_sum) / (static_cast<double>(decisions) * 1'000'000.0) : 0.0;
 
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     out << "# HELP ethics_decisions_total Total ethical decisions synthesised.\n";
     out << "# TYPE ethics_decisions_total counter\n";

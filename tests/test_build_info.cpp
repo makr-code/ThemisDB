@@ -142,7 +142,7 @@ TEST(ReproducibilityInfo, BuildHostFieldPresent) {
 TEST(BuildManifest, ExportCreatesFile) {
     const std::string path = tmpPath("test_build_manifest.json");
     // Remove any leftover from a previous run
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
 
     ASSERT_TRUE(exportBuildManifest(path));
@@ -157,11 +157,11 @@ TEST(BuildManifest, ExportCreatesFile) {
 
 TEST(BuildManifest, ExportedManifestContainsGitCommit) {
     const std::string path = tmpPath("test_build_manifest_git.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     ASSERT_TRUE(exportBuildManifest(path));
 
-    std::string content;
+    std::string content = {};
     {
         std::ifstream f(path);
         ASSERT_TRUE(f.is_open());
@@ -177,7 +177,7 @@ TEST(BuildManifest, ExportedManifestContainsGitCommit) {
 
 TEST(BuildManifest, ExportedManifestVerifies) {
     const std::string path = tmpPath("test_build_manifest_verify.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     ASSERT_TRUE(exportBuildManifest(path));
 
@@ -189,7 +189,7 @@ TEST(BuildManifest, ExportedManifestVerifies) {
 
 TEST(BuildManifest, TamperedManifestFailsVerification) {
     const std::string path = tmpPath("test_build_manifest_tamper.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     ASSERT_TRUE(exportBuildManifest(path));
 
@@ -266,7 +266,7 @@ TEST(ReproducibilityInfo, DependencyMapPopulated) {
 
 TEST(BuildManifest, ManifestHasValidJsonStructure) {
     const std::string path = tmpPath("test_manifest_json_structure.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     
     ASSERT_TRUE(exportBuildManifest(path));
@@ -301,7 +301,7 @@ TEST(BuildManifest, ManifestHasValidJsonStructure) {
 
 TEST(BuildManifest, ManifestRoundTripConsistency) {
     const std::string path = tmpPath("test_manifest_consistency.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     
     // Export manifest twice and verify they're identical
@@ -329,7 +329,7 @@ TEST(BuildManifest, VerificationFailsWithMissingFile) {
 
 TEST(BuildManifest, VerificationFailsWithEmptyFile) {
     const std::string path = tmpPath("test_manifest_empty.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     
     // Create an empty file
@@ -346,7 +346,7 @@ TEST(BuildManifest, VerificationFailsWithEmptyFile) {
 
 TEST(BuildManifest, VerificationFailsWithInvalidJson) {
     const std::string path = tmpPath("test_manifest_invalid.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     
     // Create a file with invalid JSON
@@ -363,7 +363,7 @@ TEST(BuildManifest, VerificationFailsWithInvalidJson) {
 
 TEST(BuildManifest, VerificationFailsWithWrongToolchain) {
     const std::string path = tmpPath("test_manifest_wrong_toolchain.json");
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(path, ec);
     
     ASSERT_TRUE(exportBuildManifest(path));
@@ -399,7 +399,7 @@ TEST(BuildManifest, ExportToReadOnlyDirectoryFails) {
     GTEST_SKIP() << "Read-only directory test not reliable on Windows";
 #else
     const std::string readOnlyDir = tmpPath("readonly_test_dir");
-    std::error_code ec;
+    std::error_code ec = {};
     
     // Create directory and make it read-only
     std::filesystem::create_directories(readOnlyDir, ec);

@@ -84,7 +84,7 @@ protected:
         if (!file.is_open()) {
             return "";
         }
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         return buffer.str();
     }
@@ -143,7 +143,7 @@ protected:
         // Extract markdown-style links: [text](path)
         std::vector<std::string> links;
         std::regex link_regex(R"(\[([^\]]+)\]\(([^)]+)\))");
-        std::smatch match;
+        std::smatch match = {};
         std::string::const_iterator search_start(content.cbegin());
 
         while (std::regex_search(search_start, content.cend(), match, link_regex)) {
@@ -165,7 +165,7 @@ TEST_F(CMT_FIN_43_LinkFormatValidation, ReadmeLinksWellFormed) {
     std::ifstream file(content_module_path / "README.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -187,7 +187,7 @@ TEST_F(CMT_FIN_43_LinkFormatValidation, RoadmapLinksWellFormed) {
     std::ifstream file(content_module_path / "ROADMAP.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -244,7 +244,7 @@ TEST_F(CMT_FIN_44_ProcessorInventoryCoverage, ReadmeListsMultipleProcessors) {
     std::ifstream file(content_module_path / "README.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -260,7 +260,7 @@ TEST_F(CMT_FIN_44_ProcessorInventoryCoverage, CoreProcessorsDocumented) {
     std::ifstream file(content_module_path / "README.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -295,7 +295,7 @@ TEST_F(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsBatch5References) {
     std::ifstream file(content_module_path / "ROADMAP.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -308,7 +308,7 @@ TEST_F(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsCMT7504Reference) {
     std::ifstream file(content_module_path / "ROADMAP.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -321,7 +321,7 @@ TEST_F(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsCMT7505Reference) {
     std::ifstream file(content_module_path / "ROADMAP.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 
@@ -334,7 +334,7 @@ TEST_F(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsCMT7506Reference) {
     std::ifstream file(content_module_path / "ROADMAP.md");
     ASSERT_TRUE(file.is_open());
 
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     auto content = buffer.str();
 

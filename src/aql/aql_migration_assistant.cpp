@@ -46,7 +46,7 @@ std::string MigrationResult::summary() const {
         }
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first  = true;
     auto append = [&](int count, const char *singular, const char *plural) {
         if (count <= 0) {
@@ -69,7 +69,7 @@ std::string MigrationResult::summary() const {
 // ---------------------------------------------------------------------------
 
 MigrationResult AQLMigrationAssistant::migrate(const std::string &arango_aql) const {
-    MigrationResult result;
+    MigrationResult result = {};
 
     if (arango_aql.empty()) {
         result.migrated_query       = "";
@@ -252,7 +252,7 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
         return query;
     }
 
-    std::string result;
+    std::string result = {};
     result.reserve(query.size());
     bool rewritten = false;
 
@@ -295,7 +295,7 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
 
 std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "NEAR";
-    std::string result;
+    std::string result = {};
     result.reserve(query.size() + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
@@ -374,7 +374,7 @@ std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::ve
 
 std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "WITHIN";
-    std::string result;
+    std::string result = {};
     result.reserve(query.size() + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
@@ -452,7 +452,7 @@ std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::
 std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
                                                    std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "FULLTEXT";
-    std::string result;
+    std::string result = {};
     result.reserve(query.size() + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
@@ -534,7 +534,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
 std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
                                                    std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "DOCUMENT";
-    std::string result;
+    std::string result = {};
     result.reserve(query.size() + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;

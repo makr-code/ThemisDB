@@ -49,7 +49,7 @@ public:
         __asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
         return ((uint64_t)hi << 32) | lo;
 #elif defined(__aarch64__) || defined(_M_ARM64)
-        uint64_t val;
+        uint64_t val = {};
 #if defined(_MSC_VER)
         val = _ReadStatusReg(ARM64_CNTVCT);
 #else
@@ -86,7 +86,7 @@ public:
 #else
         // ARM64: use ISB to serialize
         __asm__ __volatile__("isb" ::: "memory");
-        uint64_t val;
+        uint64_t val = {};
         __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
         return val;
 #endif

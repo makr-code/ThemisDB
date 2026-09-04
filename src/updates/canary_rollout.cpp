@@ -206,7 +206,7 @@ ReloadResult CanaryRollout::applyIfIncluded() {
 }
 
 bool CanaryRollout::rollback(const std::string& reason) {
-    std::string rid;
+    std::string rid = {};
     RollbackCallback cb;
 
     {
@@ -257,7 +257,7 @@ void CanaryRollout::reportSuccess() {
 
 void CanaryRollout::reportError() {
     bool trigger_rollback = false;
-    std::string reason;
+    std::string reason = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -653,7 +653,7 @@ bool CanaryDeployment::isNodeInCanaryGroup() const {
 
 LatencyStats CanaryDeployment::computeLatencyStats() const {
     // Caller must hold mutex_.
-    LatencyStats stats;
+    LatencyStats stats = {};
     if (latency_samples_us_.empty()) {
         return stats;
     }

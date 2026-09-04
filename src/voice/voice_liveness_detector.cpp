@@ -305,7 +305,7 @@ int64_t VoiceLivenessDetector::nowMs() const {
 }
 
 std::string VoiceLivenessDetector::normalizeText(const std::string& text) {
-    std::string normalized;
+    std::string normalized = {};
     
     for (const unsigned char c : text) {
         if (std::isalnum(c)) {

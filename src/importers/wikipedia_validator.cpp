@@ -23,7 +23,7 @@ std::string checksumFile(const std::string& path) {
     if (!input.is_open()) {
         return {};
     }
-    std::ostringstream buffer;
+    std::ostringstream buffer = {};
     buffer << input.rdbuf();
     return WikipediaTransform::checksumHex(buffer.str());
 }

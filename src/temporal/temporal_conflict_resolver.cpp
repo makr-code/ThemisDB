@@ -291,11 +291,11 @@ std::string TemporalConflictResolver::generateConflictId() const {
         now.time_since_epoch()
     ).count();
 
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint32_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "conflict_" << now_ms << "_" << dist(gen);
     return oss.str();
 }
@@ -404,7 +404,7 @@ std::string TemporalConflictDetector::makeQueueKey(
     const std::string& table_name,
     const Conflict& conflict
 ) {
-    std::string type_str;
+    std::string type_str = {};
     switch (conflict.type) {
         case ConflictType::CONCURRENT_UPDATE:     type_str = "CONCURRENT_UPDATE";     break;
         case ConflictType::OVERLAPPING_PERIODS:   type_str = "OVERLAPPING_PERIODS";   break;

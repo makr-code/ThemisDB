@@ -64,8 +64,8 @@ private:
     // CURL helper for reading data
     struct ReadData {
         const uint8_t* data;
-        size_t size;
-        size_t offset;
+        size_t size = {};
+        size_t offset = {};
     };
     
     static size_t readCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
@@ -90,7 +90,7 @@ private:
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(), data.size(), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') 
                << static_cast<int>(hash[i]);
@@ -202,7 +202,7 @@ public:
                 );
             }
             
-            long response_code;
+            long response_code = {};
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
             curl_easy_cleanup(curl);
             
@@ -272,7 +272,7 @@ public:
                 );
             }
             
-            long response_code;
+            long response_code = {};
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
             curl_easy_cleanup(curl);
             

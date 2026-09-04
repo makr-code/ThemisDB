@@ -45,7 +45,7 @@ protected:
         }
     }
     
-    std::string test_dir_;
+    std::string test_dir_ = {};
     ConsensusConfig config_;
 };
 

@@ -249,7 +249,7 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
 void WireProtocolWebSocketSession::processTextMessage(const std::string& text) {
     THEMIS_DEBUG("[WireWS] session {} text message: {}", session_id_, text);
 
-    std::string req_id;
+    std::string req_id = {};
     try {
         auto msg = json::parse(text);
         req_id           = msg.value("id",   "");
@@ -443,7 +443,7 @@ void WireProtocolWebSocketSession::handleBinaryGet(const uint8_t* payload_data,
         }
 
         const auto result = server_->storage_->get(key);
-        ProtobufSerializer serializer;
+        ProtobufSerializer serializer = {};
         if (result.has_value()) {
             serializer.writeTag(1, 0);
             serializer.writeVarint(0u);

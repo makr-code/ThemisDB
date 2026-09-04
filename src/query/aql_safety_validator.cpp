@@ -61,7 +61,7 @@ static constexpr MutationPattern kMutationPatterns[] = {
 
 // static
 std::string AqlSafetyValidator::toUpper(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out.push_back(static_cast<char>(std::toupper(c)));

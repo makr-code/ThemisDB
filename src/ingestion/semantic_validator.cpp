@@ -44,7 +44,7 @@ static std::string extractSectionRef(const std::string& fragment) {
     static const std::regex kRefRe(
         "^\\s*(§\\s*\\d+[a-z]*)\\s*(.*?)(?:\\n|$)",
         std::regex::ECMAScript);
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(fragment, m, kRefRe)) {
         return m[1].str();
     }
@@ -245,8 +245,8 @@ LegalExtractionResult SemanticValidator::extractDocument(
     std::vector<std::string> fragments;
     {
         std::istringstream ss(full_text);
-        std::string current_fragment;
-        std::string line;
+        std::string current_fragment = {};
+        std::string line = {};
         static const std::regex kSectionStart(
             "^\\s*§\\s*\\d+", std::regex::ECMAScript);
         while (std::getline(ss, line)) {

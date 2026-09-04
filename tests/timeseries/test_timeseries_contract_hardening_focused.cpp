@@ -64,8 +64,8 @@ static constexpr uint64_t kTimeseriesContractSeed = 42;
 // ============================================================================
 
 struct TimePoint {
-    std::int64_t ts_ns;
-    double       value;
+    std::int64_t ts_ns = {};
+    double       value = {};
 };
 
 /// Validates that the new point's timestamp is strictly greater than tail.
@@ -238,9 +238,9 @@ TEST(TimeseriesContractHardening, TSCH09_GorillaRoundTripArbitrary) {
         auto bits   = mockGorillaEncode(original);
         double decoded  = mockGorillaDecode(bits);
         // Bit-identical round-trip
-        std::uint64_t orig_bits;
+        std::uint64_t orig_bits = {};
         std::memcpy(&orig_bits, &original, sizeof(orig_bits));
-        std::uint64_t dec_bits;
+        std::uint64_t dec_bits = {};
         std::memcpy(&dec_bits, &decoded,   sizeof(dec_bits));
         EXPECT_EQ(orig_bits, dec_bits) << "Round-trip failed for value=" << original;
     }

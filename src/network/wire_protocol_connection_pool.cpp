@@ -51,7 +51,7 @@ std::string anonymizeTargetForLog(std::string_view target) {
     if (target.empty()) {
         return "target#unknown";
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "target#" << std::hex << fnv1a64Pool(target);
     return oss.str();
 }
@@ -668,9 +668,9 @@ void WireProtocolConnectionPool::adaptPoolSize() {
     for (const auto& target : targets) {
         auto pool = getOrCreateTargetPool(target);
 
-        size_t current_count;
-        size_t active_count;
-        size_t available_count;
+        size_t current_count = {};
+        size_t active_count = {};
+        size_t available_count = {};
         std::chrono::seconds oldest_idle{0};
 
         {

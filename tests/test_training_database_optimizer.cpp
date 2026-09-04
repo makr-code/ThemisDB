@@ -127,7 +127,7 @@ TEST(DatabaseOptimizerLabeler, DBO05_ExportToJsonlProducesValidLines) {
 
     // Every line must contain the mandatory field names
     std::istringstream iss(jsonl);
-    std::string line;
+    std::string line = {};
     int line_number = 0;
     while (std::getline(iss, line)) {
         ++line_number;

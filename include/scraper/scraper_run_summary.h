@@ -98,7 +98,7 @@ struct ScraperRunSummary {
      * (all on one line)
      */
     [[nodiscard]] std::string toLogLine() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "scrape-run:"
             << " succeeded="      << succeeded
             << " failed_fetch="   << failed_fetch

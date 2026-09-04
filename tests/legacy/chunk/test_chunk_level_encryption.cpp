@@ -292,7 +292,7 @@ protected:
             db->close();
         }
         db.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path, ec);
     }
 
@@ -462,7 +462,7 @@ protected:
     std::vector<uint8_t> key_bytes_v2;
 
     // Mutable active key — modified during tests to simulate rotation.
-    std::string          active_key_id;
+    std::string          active_key_id = {};
     std::vector<uint8_t> active_key_bytes;
 
     static constexpr int64_t BASE = 1700000000000LL;
@@ -512,7 +512,7 @@ protected:
             db->close();
         }
         db.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path, ec);
     }
 

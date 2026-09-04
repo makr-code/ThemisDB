@@ -27,7 +27,7 @@ namespace {
 std::string contentHash(const std::string &data) {
     unsigned char digest[SHA256_DIGEST_LENGTH] = {};
     SHA256(reinterpret_cast<const unsigned char *>(data.data()), data.size(), digest);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < 8; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
@@ -63,7 +63,7 @@ json ContentSecurityConfig::toJson() const {
 }
 
 ContentSecurityConfig ContentSecurityConfig::fromJson(const json &j) {
-    ContentSecurityConfig config;
+    ContentSecurityConfig config = {};
 
     if (j.contains("enable_malware_scan")) {
         config.enable_malware_scan = j["enable_malware_scan"];

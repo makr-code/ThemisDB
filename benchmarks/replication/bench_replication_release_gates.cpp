@@ -89,9 +89,9 @@ static GCounter gCounterMerge(const GCounter& a, const GCounter& b) {
 }
 
 struct LwwVersion {
-    std::int64_t timestamp;
-    std::string  node_id;
-    int          value;
+    std::int64_t timestamp = {};
+    std::string  node_id = {};
+    int          value = {};
 };
 
 static LwwVersion lwwResolve(const LwwVersion& a, const LwwVersion& b) {

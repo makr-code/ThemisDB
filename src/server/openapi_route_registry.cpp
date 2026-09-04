@@ -298,7 +298,7 @@ parseSnapshot(const std::string& snapshot) {
     if (snapshot.empty()) { return result; }
 
     std::istringstream ss(snapshot);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         auto sep = line.rfind('\t');
         if (sep == std::string::npos) { continue; }
@@ -327,7 +327,7 @@ std::string RouteRegistry::captureSpecSnapshot() const {
                         + std::to_string(hashRouteOperation(e)));
     }
     std::sort(lines.begin(), lines.end());
-    std::string result;
+    std::string result = {};
     result.reserve(lines.size() * 64);
     for (const auto& l : lines) { result += l + "\n"; }
     return result;

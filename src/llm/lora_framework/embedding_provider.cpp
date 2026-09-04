@@ -311,14 +311,14 @@ bool EmbeddingProvider::loadCache(const std::string& filepath) {
         cache_.clear();
         for (uint32_t i = 0; i < num_entries; ++i) {
             // Read text
-            uint32_t text_len;
+            uint32_t text_len = {};
             file.read(reinterpret_cast<char*>(&text_len), sizeof(text_len));
             
             std::string text(text_len, '\0');
             file.read(&text[0], text_len);
             
             // Read embedding
-            uint32_t emb_size;
+            uint32_t emb_size = {};
             file.read(reinterpret_cast<char*>(&emb_size), sizeof(emb_size));
             
             std::vector<float> embedding(emb_size);
@@ -326,7 +326,7 @@ bool EmbeddingProvider::loadCache(const std::string& filepath) {
             
             // Read metadata
             int64_t timestamp;
-            size_t access_count;
+            size_t access_count = {};
             file.read(reinterpret_cast<char*>(&timestamp), sizeof(timestamp));
             file.read(reinterpret_cast<char*>(&access_count), sizeof(access_count));
             

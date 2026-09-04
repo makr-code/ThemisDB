@@ -46,7 +46,7 @@ static constexpr uint32_t kSeed = 42;
 // ---------------------------------------------------------------------------
 
 struct InFlightGuard {
-    std::mutex                    mu;
+    std::mutex                    mu = {};
     std::unordered_set<std::string> in_flight;
 
     /// Returns false if schedule_id already in-flight (SKIPPED_CONCURRENT case).

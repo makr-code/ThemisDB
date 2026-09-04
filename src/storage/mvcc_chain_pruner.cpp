@@ -192,7 +192,7 @@ themisdb::temporal::Document MVCCChainPruner::valueToDocument(
     }
 
     // Hex-encode non-JSON bytes for lossless round-trip.
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setfill('0');
     for (const auto b : raw) {
         hex << std::setw(2) << static_cast<unsigned>(b);

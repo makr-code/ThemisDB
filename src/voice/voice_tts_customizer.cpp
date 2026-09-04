@@ -231,7 +231,7 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
     }
 
     // Strip all XML tags
-    std::string plain;
+    std::string plain = {};
     plain.reserve(ssml_text.size());
     bool in_tag = false;
     for (char c : ssml_text) {
@@ -243,7 +243,7 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
     }
 
     // Collapse whitespace
-    std::string collapsed;
+    std::string collapsed = {};
     bool last_space = true;
     for (char c : plain) {
         if (std::isspace(static_cast<unsigned char>(c))) {
@@ -331,7 +331,7 @@ std::string sanitizeTagAttributes(
     auto it = allowed_map.find(tag_name);
     const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;
 
-    std::string output;
+    std::string output = {};
     size_t ap = 0;
 
     while (ap < attrs_str.size()) {
@@ -419,7 +419,7 @@ SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_inpu
     SSMLSanitizeResult result;
     const auto& allowed_tags = ssmlAllowedTags();
 
-    std::string output;
+    std::string output = {};
     output.reserve(ssml_input.size());
     size_t pos = 0;
 
@@ -458,7 +458,7 @@ SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_inpu
 
         if (allowed_tags.count(tag_name_lower)) {
             // Allowed tag: emit with sanitized attributes
-            std::string safe_attrs;
+            std::string safe_attrs = {};
             if (!is_closing && !attrs_str.empty()) {
                 safe_attrs = sanitizeTagAttributes(tag_name_lower, attrs_str,
                                                    result.had_injection_attempt);
@@ -570,7 +570,7 @@ std::string VoiceTTSCustomizer::classifyMOS([[maybe_unused]] float mos) const {
 MOSMetrics VoiceTTSCustomizer::estimateMOS(
     const std::vector<uint8_t>& audio_data, int sample_rate) const
 {
-    MOSMetrics m;
+    MOSMetrics m = {};
     if (audio_data.size() < 2) {
         m.mos_score = 1.0f;
         m.quality_label = classifyMOS(1.0f);

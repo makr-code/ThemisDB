@@ -115,7 +115,7 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     
     std::string query = path.substr(query_start + 1);
     std::istringstream iss(query);
-    std::string param;
+    std::string param = {};
     
     while (std::getline(iss, param, '&')) {
         size_t eq_pos = param.find('=');
@@ -759,7 +759,7 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                 for (const auto& row : shard_result.data) {
                     total_left_rows++;
                     if (row.contains(join_field)) {
-                        std::string key;
+                        std::string key = {};
                         if (row[join_field].is_string()) {
                             key = row[join_field].get<std::string>();
                         } else {
@@ -788,7 +788,7 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         // Expected query format:
         //   "JOIN <left_coll> ON <field> WITH <right_coll> [WHERE ...]"
         // A plain collection name is also accepted as a fallback.
-        std::string right_collection;
+        std::string right_collection = {};
         {
             const std::string with_kw = " WITH ";  // uppercase per convention
             const std::string WITH_KW = " with ";  // case-insensitive fallback
@@ -1102,7 +1102,7 @@ ShardResult ShardRouter::executeLocal(
             // Handle PUT/POST requests
             if (path.find(API_QUERY) != std::string::npos) {
                 // Query execution
-                std::string query;
+                std::string query = {};
                 if (body && body->contains("query")) {
                     query = body->value("query", "");
                 }
@@ -1329,7 +1329,7 @@ nlohmann::json ShardRouter::applyPagination(
 std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     // Simple regex to find URN in query
     std::regex urn_pattern(R"(urn:themis:[^:]+:[^:]+:[^:]+:[a-f0-9-]+)");
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(query, match, urn_pattern)) {
         return URN::parse(match[0].str());
@@ -1346,7 +1346,7 @@ std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
 std::optional<std::string> ShardRouter::extractNamespace(const std::string& query) const {
     // Simple pattern matching for namespace
     std::regex ns_pattern(R"(NAMESPACE\s+([a-zA-Z0-9_]+))");
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(query, match, ns_pattern)) {
         return match[1].str();

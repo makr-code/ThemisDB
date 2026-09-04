@@ -50,7 +50,7 @@ using namespace themis::plugins::ethics;
 // ============================================================================
 
 static std::string generateRandomId(int index) {
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "arg_bench_" << index << "_" << std::rand();
     return ss.str();
 }
@@ -210,7 +210,7 @@ static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
 }
 
 static void BM_PhilosophyLoader_GetProfile(benchmark::State& state) {
-    PhilosophyLoader loader;
+    PhilosophyLoader loader = {};
     if (!loadBenchmarkProfiles(state, loader)) {
         return;
     }
@@ -224,7 +224,7 @@ static void BM_PhilosophyLoader_GetProfile(benchmark::State& state) {
 }
 
 static void BM_PhilosophyLoader_HasProfile(benchmark::State& state) {
-    PhilosophyLoader loader;
+    PhilosophyLoader loader = {};
     if (!loadBenchmarkProfiles(state, loader)) {
         return;
     }
@@ -238,7 +238,7 @@ static void BM_PhilosophyLoader_HasProfile(benchmark::State& state) {
 }
 
 static void BM_PhilosophyLoader_ListSchools(benchmark::State& state) {
-    PhilosophyLoader loader;
+    PhilosophyLoader loader = {};
     if (!loadBenchmarkProfiles(state, loader)) {
         return;
     }
@@ -256,7 +256,7 @@ static void BM_PhilosophyLoader_ListSchools(benchmark::State& state) {
 // ============================================================================
 
 static void BM_ArgumentStore_StoreArgument(benchmark::State& state) {
-    ArgumentStore store;
+    ArgumentStore store = {};
     if (!initializeStore(state, store)) {
         return;
     }
@@ -273,7 +273,7 @@ static void BM_ArgumentStore_StoreArgument(benchmark::State& state) {
 }
 
 static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
-    ArgumentStore store;
+    ArgumentStore store = {};
     if (!initializeStore(state, store)) {
         return;
     }
@@ -300,7 +300,7 @@ static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
 }
 
 static void BM_ArgumentStore_GetArgumentsByPhilosophy(benchmark::State& state) {
-    ArgumentStore store;
+    ArgumentStore store = {};
     if (!initializeStore(state, store)) {
         return;
     }
@@ -321,7 +321,7 @@ static void BM_ArgumentStore_GetArgumentsByPhilosophy(benchmark::State& state) {
 }
 
 static void BM_ArgumentStore_StoreDecision(benchmark::State& state) {
-    ArgumentStore store;
+    ArgumentStore store = {};
     if (!initializeStore(state, store)) {
         return;
     }
@@ -630,7 +630,7 @@ static void BM_DiscourseEngine_ContinueDebateRound(benchmark::State& state) {
 }
 
 static void BM_ArgumentStore_StoreDebateRound(benchmark::State& state) {
-    ArgumentStore store;
+    ArgumentStore store = {};
     if (!initializeStore(state, store)) {
         return;
     }
@@ -647,7 +647,7 @@ static void BM_ArgumentStore_StoreDebateRound(benchmark::State& state) {
 }
 
 static void BM_ArgumentStore_GetDebateTranscript(benchmark::State& state) {
-    ArgumentStore store;
+    ArgumentStore store = {};
     if (!initializeStore(state, store)) {
         return;
     }

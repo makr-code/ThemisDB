@@ -46,7 +46,7 @@ static const int B64_DECODE_TABLE[256] = {
 
 // Helper function: Base64 encode
 static std::string base64Encode(const std::string& input) {
-    std::string output;
+    std::string output = {};
     output.reserve(((input.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= input.size()) {
@@ -78,7 +78,7 @@ static std::string base64Encode(const std::string& input) {
 
 // Helper function: Base64 decode
 static std::string base64Decode(const std::string& input) {
-    std::string output;
+    std::string output = {};
     int val = 0, valb = -8;
     for (unsigned char c : input) {
         if (c == '=') {

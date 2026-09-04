@@ -61,7 +61,7 @@ static std::string sha256hex(const std::string& data) {
     unsigned int  len = 0;
     EVP_DigestFinal_ex(ctx, digest, &len);
     EVP_MD_CTX_free(ctx);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < len; ++i)
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -354,7 +354,7 @@ TEST_F(ParallelDownloaderPriorityTest, HighPriorityTasksScheduledFirst) {
     // With concurrency = 1 all tasks run sequentially; the order must follow
     // descending priority.
     std::vector<int> execution_order;
-    std::mutex        order_mutex;
+    std::mutex        order_mutex = {};
 
     // task 0: priority 1  (low)
     // task 1: priority 10 (high)
@@ -845,7 +845,7 @@ TEST_F(ParallelDownloaderProgressTest, ProgressCallbackInvoked) {
 
     std::atomic<int>        cb_count{0};
     std::vector<std::string> messages;
-    std::mutex               msg_mutex;
+    std::mutex               msg_mutex = {};
 
     ParallelDownloader dl;
     dl.setConcurrency(1);

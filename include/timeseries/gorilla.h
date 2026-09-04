@@ -154,7 +154,7 @@ public:
             if (idx_ >= size_) {
               return result;
             }
-            uint8_t byte;
+            uint8_t byte = {};
             if (bitpos_ == 0) {
                 // Fast path: byte-aligned — read directly without going through readBit().
                 byte = ptr_[idx_++];

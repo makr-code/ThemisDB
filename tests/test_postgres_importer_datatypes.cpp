@@ -20,8 +20,8 @@ public:
     >;
     
     struct Column {
-        std::string name;
-        std::string pg_type;
+        std::string name = {};
+        std::string pg_type = {};
         Value value;
     };
     

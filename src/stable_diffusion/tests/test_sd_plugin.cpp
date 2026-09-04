@@ -322,7 +322,7 @@ TEST(SDPluginFocusedTests, J4_InitializeFailsOnModelShaMismatch) {
         json{{"model_sha256", "deadbeef"}}
     );
     EXPECT_FALSE(ok);
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(p, ec);
 }
 
@@ -341,7 +341,7 @@ TEST(SDPluginFocusedTests, J5_InitializeSucceedsOnModelShaMatch) {
         json{{"model_sha256", digest}}
     );
     EXPECT_TRUE(ok);
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(p, ec);
 }
 

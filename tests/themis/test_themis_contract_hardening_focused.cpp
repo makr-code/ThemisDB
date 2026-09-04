@@ -49,7 +49,7 @@ TEST(ThemisContractTest, THE05_MilitaryEditionHighest) {
 
 TEST(ThemisContractTest, THE06_EditionSwitchDispatch) {
     Edition ed = Edition::kEnterprise;
-    std::string name;
+    std::string name = {};
     switch (ed) {
         case Edition::kMinimal:     name = "minimal";     break;
         case Edition::kCommunity:   name = "community";   break;

@@ -103,11 +103,11 @@ std::string getCurrentTimestamp() {
 
 int main(int argc, char* argv[]) {
     try {
-        std::string certPath;
-        std::string signaturePath;
+        std::string certPath = {};
+        std::string signaturePath = {};
         std::string outputPath = "plugin_embedded_cert.h";
         std::string namespaceName = "themis::plugins";
-        std::string pluginName;
+        std::string pluginName = {};
         
         // Parse command line arguments
         for (int i = 1; i < argc; ++i) {

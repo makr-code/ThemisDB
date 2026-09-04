@@ -210,7 +210,7 @@ bool HSMProvider::initialize() {
     }
 
     // Runtime license gate: HSM is an Enterprise/Hyperscaler feature.
-    std::string license_error;
+    std::string license_error = {};
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("hsm", license_error)) {
         last_error_ = "HSM unavailable: " + license_error;
         THEMIS_ERROR("{}", last_error_);
@@ -300,7 +300,7 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
-    HSMSignatureResult r;
+    HSMSignatureResult r = {};
     if (!initialized_ || !impl_) {
         r.error_message = "HSM stub not initialized";
         if (impl_) {

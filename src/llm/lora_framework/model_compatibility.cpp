@@ -249,7 +249,7 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::read_safetensors_metadat
     }
     
     // SafeTensors format: 8-byte header size, then JSON metadata
-    uint64_t header_size;
+    uint64_t header_size = {};
     file.read(reinterpret_cast<char*>(&header_size), 8);
     
     if (header_size > 0 && header_size < 1000000) {  // Sanity check

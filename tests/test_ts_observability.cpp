@@ -177,7 +177,7 @@ TEST_F(TimeSeriesObservabilityTest, PrometheusExportIsValidText) {
     std::string output = metrics->exportPrometheus();
     // Valid Prometheus format: each line should be either comment (#), metric, or empty
     std::istringstream ss(output);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         if (line.empty()) {
           continue;

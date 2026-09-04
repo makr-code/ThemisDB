@@ -61,7 +61,7 @@ OcelExporter::OcelExporter(
 #else
     gmtime_r(&sec, &tm_val);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_val, "%Y-%m-%dT%H:%M:%S")
         << '.' << std::setfill('0') << std::setw(3) << milliseconds << 'Z';
     return oss.str();
@@ -111,7 +111,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 
     // Build an ordered list of (activity_name, timestamp_ms) from all tokens
     struct EventEntry {
-        std::string node_id;
+        std::string node_id = {};
         int64_t     timestamp_ms;
     };
     std::vector<EventEntry> entries = {};

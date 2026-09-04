@@ -764,7 +764,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 
 	// Parallele Scans pro Prädikat
 	std::vector<std::vector<std::string>> all_lists(q.predicates.size());
-	std::mutex errors_mutex;
+	std::mutex errors_mutex = {};
 	std::vector<std::string> errors = {};
 
 	errors.reserve(q.predicates.size());
@@ -1017,7 +1017,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
@@ -1152,7 +1152,7 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
-	std::mutex errors_mutex;
+	std::mutex errors_mutex = {};
 	std::vector<std::string> errors = {};
 
 	errors.reserve(q.disjuncts.size());
@@ -1238,7 +1238,7 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	std::vector<std::string> errors = {};
 
 	errors.reserve(q.disjuncts.size());
-	std::mutex error_mutex;
+	std::mutex error_mutex = {};
 	tbb::task_group tg;
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
@@ -1317,7 +1317,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
@@ -1405,7 +1405,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
@@ -1573,7 +1573,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 		std::vector<std::string> failed_deserialize_pks = {};
 
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
@@ -1756,7 +1756,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		return Ok(nlohmann::json(0));
 	}
 	if (funcName == "CONCAT") {
-		std::string out;
+		std::string out = {};
 		for (size_t i = 0; i < args.size(); ++i) {
 			auto v = evalArg(i);
 			if (!v) {
@@ -2340,7 +2340,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			std::string inner = u.substr(a+2, b-(a+2));
 			nlohmann::json ring = nlohmann::json::array();
 			std::stringstream ringStream(inner);
-			std::string pointToken;
+			std::string pointToken = {};
 			while (std::getline(ringStream, pointToken, ',')) {
 				pointToken = trim(pointToken);
 				if (pointToken.empty()) {
@@ -3381,7 +3381,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	std::vector<nlohmann::json> results;
 	
 	// Phase 4.1: Initialize context with parent CTEs if provided
-	EvaluationContext initial_context;
+	EvaluationContext initial_context = {};
 	if (parent_context) {
 		initial_context.cte_results = parent_context->cte_results;
 		initial_context.bm25_scores = parent_context->bm25_scores;
@@ -4190,7 +4190,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			vertexKeys.reserve(pathResult.path.size());
 			for (const auto& vertexPk : pathResult.path) {
 				// Extract table from PK format "collection/id" -> DB key is "collection:collection/id"
-				std::string table;
+				std::string table = {};
 				auto slashPos = vertexPk.find('/');
 				if (slashPos != std::string::npos) {
 					table = vertexPk.substr(0, slashPos);
@@ -4284,7 +4284,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			vertexKeys.reserve(reachableNodes.size());
 			for (const auto& vertexPk : reachableNodes) {
 				// Extract table from PK format "collection/id" -> DB key is "collection:collection/id"
-				std::string table;
+				std::string table = {};
 				auto slashPos = vertexPk.find('/');
 				if (slashPos != std::string::npos) {
 					table = vertexPk.substr(0, slashPos);
@@ -4424,7 +4424,7 @@ QueryEngine::executeGeneralTraversal(
 	
 	// BFS with depth tracking
 	struct VisitInfo {
-		std::string vertex;
+		std::string vertex = {};
 		int depth;
 		std::vector<std::string> path;   // vertex PKs from start
 		std::vector<std::string> edges;  // edge IDs traversed
@@ -4452,7 +4452,7 @@ QueryEngine::executeGeneralTraversal(
 			// Try to load vertex data from storage
 			// Extract table from PK format "collection/id"
 			// Note: Uses standard key format "table:pk" consistent with rest of codebase
-			std::string table;
+			std::string table = {};
 			auto slashPos = current.vertex.find('/');
 			if (slashPos != std::string::npos) {
 				table = current.vertex.substr(0, slashPos);
@@ -4773,7 +4773,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			}
 			auto *var = dynamic_cast<query::VariableExpr*>(fa->object.get()); if (!var) continue;
 			// Literal -> String
-			std::string value;
+			std::string value = {};
 			if (std::holds_alternative<std::string>(lit->value)) {
 			  value = std::get<std::string>(lit->value);
 			}
@@ -5421,7 +5421,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			if (!doc.contains(q.text_field)) {
 			  continue;
 			}
-			std::string text;
+			std::string text = {};
 			try { if (doc[q.text_field].is_string()) text = doc[q.text_field].get<std::string>(); else continue; } catch (...) { continue; }
 			auto docTokens = SecondaryIndexManager::tokenize(text); std::unordered_set<std::string> docSet(docTokens.begin(), docTokens.end());
 			bool all=true; for(auto &t : tokenSet){ if(docSet.find(t)==docSet.end()){ all=false; break; } }

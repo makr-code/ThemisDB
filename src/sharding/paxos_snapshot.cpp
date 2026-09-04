@@ -93,7 +93,7 @@ std::string PaxosSnapshot::calculateChecksum() const {
            data_str.size(), hash);
     
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -252,22 +252,22 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         file.flush();
         if (!file.good()) {
             file.close();
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_filepath, ec);
             spdlog::error("Failed to fully write snapshot file: {}", temp_filepath);
             return std::nullopt;
         }
         file.close();
         if (!file) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(temp_filepath, ec);
             spdlog::error("Failed to close snapshot file cleanly: {}", temp_filepath);
             return std::nullopt;
         }
-        std::error_code rename_ec;
+        std::error_code rename_ec = {};
         std::filesystem::rename(temp_filepath, filepath, rename_ec);
         if (rename_ec) {
-            std::error_code cleanup_ec;
+            std::error_code cleanup_ec = {};
             std::filesystem::remove(temp_filepath, cleanup_ec);
             spdlog::error("Failed to publish snapshot file {}: {}", filepath, rename_ec.message());
             return std::nullopt;
@@ -285,7 +285,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         return snapshot.snapshot_id;
         
     } catch (const std::exception& e) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(temp_filepath, ec);
         spdlog::error("Failed to create Paxos snapshot: {}", e.what());
         return std::nullopt;
@@ -325,7 +325,7 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot([[maybe_unused]]
         const bool is_compressed = (magic[0] == 'P' && magic[1] == 'A' &&
                                     magic[2] == 'X' && magic[3] == 'Z');
 
-        PaxosSnapshot snapshot;
+        PaxosSnapshot snapshot = {};
 
         if (is_compressed) {
             // Read remaining bytes as compressed data

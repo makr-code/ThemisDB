@@ -69,7 +69,7 @@ constexpr int64_t kNumOperations = 1'000'000;
 /// Mock connection for pool benchmarking
 struct MockConnection {
     int id = 0;
-    bool is_open;
+    bool is_open = {};
     
     MockConnection(int id_val = 0) : id(id_val), is_open(true) {}
     ~MockConnection() { is_open = false; }
@@ -263,8 +263,8 @@ static void BCP_06_AggregationLockContention(benchmark::State& state) {
     // Gap: circular_lock_ordering (verify lock order doesn't add overhead)
     
     struct AggStage {
-        std::mutex compile_lock;
-        std::mutex execute_lock;
+        std::mutex compile_lock = {};
+        std::mutex execute_lock = {};
         int64_t acc = 0;
     };
     

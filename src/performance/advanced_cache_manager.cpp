@@ -170,11 +170,11 @@ std::string AdvancedCacheManager::compress(const std::string& val,
 
 #ifdef THEMIS_ENABLE_SNAPPY
     if (algo == CompressionAlgorithm::Snappy) {
-        std::string compressed_body;
+        std::string compressed_body = {};
         snappy::Compress(src, static_cast<size_t>(src_size), &compressed_body);
         if (!compressed_body.empty()) {
             // Frame: [tag(1)] [snappy_data] (Snappy encodes original size internally)
-            std::string out;
+            std::string out = {};
             out.reserve(1 + compressed_body.size());
             out += static_cast<char>(kTagSnappy);
             out += compressed_body;
@@ -221,7 +221,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
     }
 
     // Passthrough: [tag(1)] [original data]
-    std::string out;
+    std::string out = {};
     out.reserve(1 + val.size());
     out += static_cast<char>(kTagPassthrough);
     out += val;
@@ -260,7 +260,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
 #ifdef THEMIS_ENABLE_SNAPPY
     if (tag == kTagSnappy && val.size() > 1) {
-        std::string out;
+        std::string out = {};
         if (snappy::Uncompress(&val[1], val.size() - 1, &out)) {
             return out;
         }

@@ -386,7 +386,7 @@ std::string DistributedTaskCoordinator::generateId(const ScheduledTask& task) {
     auto now = std::chrono::system_clock::now();
     auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
                    now.time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "task_" << std::hex << ms;
     if (!task.name.empty()) {
         oss << "_";

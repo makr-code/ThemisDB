@@ -199,7 +199,7 @@ class VoiceSession {
 // =============================================================================
 
 struct ChallengeToken {
-  std::string value;
+  std::string value = {};
   bool stale = false;
 };
 

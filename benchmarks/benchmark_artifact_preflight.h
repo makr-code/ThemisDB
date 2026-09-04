@@ -109,7 +109,7 @@ static constexpr const char* kRepoLocalModelsDir = "models";
  * Returns the repository-local model directory when running from repo root.
  */
 inline std::string repoLocalModelDir() {
-    std::error_code ec;
+    std::error_code ec = {};
     const auto local = std::filesystem::current_path(ec) / kRepoLocalModelsDir;
     if (ec) {
         return "";

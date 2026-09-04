@@ -44,7 +44,7 @@ struct AggConfig {
  *   raw → 1m aggregates → 5m aggregates → 1h aggregates → 1d aggregates
  */
 struct RollupHierarchy {
-    std::string metric;
+    std::string metric = {};
     std::optional<std::string> entity;
     std::vector<std::chrono::milliseconds> levels;  // ordered from smallest to largest
 

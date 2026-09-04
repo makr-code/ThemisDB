@@ -68,7 +68,7 @@ public:
          *         log output.
          */
         std::string formatErrors() const {
-            std::string result;
+            std::string result = {};
             for (const auto& error : errors) {
                 result += "ERROR: " + error + "\n";
             }
@@ -133,7 +133,7 @@ public:
      * @return ValidationResult capturing hard failures and soft warnings.
      */
     static ValidationResult validateJWTConfig(const auth::JWTValidatorConfig& config, bool production_mode) {
-        ValidationResult result;
+        ValidationResult result = {};
         
         if (production_mode) {
             // In production, strict validation
@@ -225,7 +225,7 @@ public:
      * @return ValidationResult describing configuration issues.
      */
     static ValidationResult validateTracingConfig(bool enabled, const std::string& endpoint, const std::string& service_name) {
-        ValidationResult result;
+        ValidationResult result = {};
         
         if (enabled) {
             if (endpoint.empty()) {
@@ -289,7 +289,7 @@ public:
                   return;
                 }
             }
-            std::string allowed;
+            std::string allowed = {};
             for (size_t i = 0; i < valid_values.size(); ++i) {
                 if (i > 0) {
                   allowed += ", ";
@@ -330,7 +330,7 @@ public:
      *         settings.
      */
     static ValidationResult validateCacheConfig(size_t max_size, uint64_t default_ttl) {
-        ValidationResult result;
+        ValidationResult result = {};
         
         if (max_size == 0) {
             result.addWarning("cache_max_size is 0 - cache effectively disabled");

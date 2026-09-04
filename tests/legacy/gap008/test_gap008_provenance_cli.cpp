@@ -38,7 +38,7 @@ std::unordered_map<std::string, std::string> parseQueryString(const std::string&
 
         std::string key = qs.substr(pos, eq_pos - pos);
         size_t amp_pos = qs.find('&', eq_pos);
-        std::string value;
+        std::string value = {};
         if (amp_pos == std::string::npos) {
             value = qs.substr(eq_pos + 1);
             pos = qs.length();
@@ -63,7 +63,7 @@ protected:
         const std::string& query_id = "",
         int64_t start_ts_ms = -1,
         int64_t end_ts_ms = -1) {
-        std::ostringstream qs;
+        std::ostringstream qs = {};
         qs << "/api/v1/observability/provenance?limit=" << limit;
         if (!query_id.empty()) {
             qs << "&query_id=" << query_id;
@@ -152,7 +152,7 @@ TEST_F(ProvenanceCliTest, FormatJsonResponse) {
 
 TEST_F(ProvenanceCliTest, FormatCsvResponse) {
     json records = generateMockProvenanceResponse(2);
-    std::ostringstream csv_stream;
+    std::ostringstream csv_stream = {};
     csv_stream << "query_id,operation,timestamp_ms,details\n";
 
     for (const auto& rec : records) {
@@ -160,7 +160,7 @@ TEST_F(ProvenanceCliTest, FormatCsvResponse) {
         std::string operation = rec.value("operation", "");
         int64_t ts_ms = rec.value("timestamp_ms", 0);
 
-        std::string details_str;
+        std::string details_str = {};
         if (rec.contains("details")) {
             try {
                 details_str = rec["details"].dump();

@@ -154,7 +154,7 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
     const double util = std::max(forecast.predicted_cpu_utilization,
                                  forecast.predicted_memory_utilization);
 
-    std::ostringstream reason_stream;
+    std::ostringstream reason_stream = {};
 
     if (util >= config_.scale_up_threshold) {
         rec.direction = ScaleDirection::UP;

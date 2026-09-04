@@ -171,7 +171,7 @@ DocumentSplitter::Impl::splitFixed(const std::string& text,
         const size_t core_end = std::min(pos + step_chars, text.size());
 
         // Build chunk: optional overlap prefix + core
-        std::string content;
+        std::string content = {};
         size_t core_start_in_chunk = 0;
 
         if (chunk_idx > 0 && config.overlap > 0 && !chunks.empty()) {
@@ -269,7 +269,7 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
     }
 
     size_t chunk_idx  = 0;
-    std::string current;
+    std::string current = {};
     size_t current_tokens = 0;
     size_t chunk_start_offset = sentences.front().second;
 

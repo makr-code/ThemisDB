@@ -196,7 +196,7 @@ public:
      */
     struct Pattern {
         std::string name;
-        std::regex  compiled;
+        std::regex  compiled = {};
         AbuseAction action;
     };
 

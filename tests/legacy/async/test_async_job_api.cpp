@@ -326,7 +326,7 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusEventuallyCompleted) {
 
     // Poll until completed (max 2 s)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
-    std::string status_str;
+    std::string status_str = {};
     while (std::chrono::steady_clock::now() < deadline) {
         auto res  = handler.handleGetStatus(make_status_req(job_id));
         auto body = json::parse(res.body());
@@ -358,7 +358,7 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusFailed) {
     auto job_id = json::parse(sub.body())["job_id"].get<std::string>();
 
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
-    std::string status_str;
+    std::string status_str = {};
     while (std::chrono::steady_clock::now() < deadline) {
         auto res  = handler.handleGetStatus(make_status_req(job_id));
         auto body = json::parse(res.body());

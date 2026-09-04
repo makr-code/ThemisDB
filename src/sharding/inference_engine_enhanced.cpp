@@ -265,7 +265,7 @@ bool InferenceEngineEnhanced::generateTokens(
     auto start_time = std::chrono::steady_clock::now();
     
     // Simple simulation: generate random tokens
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> vocab_dist(0, 50000);  // Typical vocab size
     
@@ -428,7 +428,7 @@ bool InferenceEngineEnhanced::generateDraftTokens(
     // In a real implementation, this would use the draft model
     // For simulation, we'll generate random tokens
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> vocab_dist(0, 50000);
     
@@ -461,7 +461,7 @@ double InferenceEngineEnhanced::verifyDraftTokens(
     // In a real implementation, this would use the target model to verify
     // For simulation, we'll accept all draft tokens with a certain probability
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution accept_dist(model_config_.speculative_acceptance_threshold);
     
@@ -797,7 +797,7 @@ std::vector<int> InferenceEngineEnhanced::tokenize(const std::string& text) cons
     // For simulation, we'll split by words and map to random token IDs
     
     std::vector<int> token_ids;
-    std::string word;
+    std::string word = {};
     
     for (char c : text) {
         if (isalnum(c) || c == '\'' || c == '-') {
@@ -831,7 +831,7 @@ std::string InferenceEngineEnhanced::detokenize(const std::vector<int>& token_id
     // In a real implementation, this would use a detokenizer
     // For simulation, we'll just return a placeholder
     
-    std::string text;
+    std::string text = {};
     for (size_t i = 0; i < token_ids.size(); ++i) {
         if (i > 0) {
             text += " ";

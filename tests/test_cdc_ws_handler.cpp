@@ -583,7 +583,7 @@ TEST_F(CdcWsGroupIntegrationTest, PartitionFilterDeliverOnlyConsumerEvents) {
         const uint32_t key_part = themis::cdc::ConsumerGroupManager::partitionForKey(key, 2);
 
         // Determine which consumer this event was sent to.
-        std::string consumer_in_sub;
+        std::string consumer_in_sub = {};
         if (sub_id == "split-group:worker-0") {
           consumer_in_sub = "worker-0";
         }

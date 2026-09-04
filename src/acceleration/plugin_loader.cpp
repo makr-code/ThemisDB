@@ -107,7 +107,7 @@ void PluginLoader::unloadLibrary(void *handle) {
 
 bool PluginLoader::loadPlugin(const std::string &libraryPath) {
     // SECURITY: Validate path to prevent path traversal attacks
-    std::string pathError;
+    std::string pathError = {};
     if (!PluginSecurityVerifier::validatePluginPath(libraryPath, pathError)) {
         std::cerr << "SECURITY: Plugin path validation failed: " << libraryPath << std::endl;
         std::cerr << "  Reason: " << pathError << std::endl;
@@ -160,7 +160,7 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
 #endif
 
     PluginSecurityVerifier verifier(policy);
-    std::string errorMessage;
+    std::string errorMessage = {};
 
     if (!verifier.verifyPlugin(libraryPath, errorMessage)) {
         std::cerr << "SECURITY: Plugin verification failed: " << libraryPath << std::endl;
@@ -228,7 +228,7 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string &directoryPath) 
     }
 
     // SECURITY: Resolve the canonical directory path once to detect symlink escapes
-    std::error_code ec;
+    std::error_code ec = {};
     fs::path canonicalDir = fs::canonical(directoryPath, ec);
     if (ec) {
         std::cerr << "SECURITY: Cannot resolve canonical directory path: " << directoryPath << std::endl;

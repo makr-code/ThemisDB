@@ -140,7 +140,7 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::strin
     THEMIS_INFO("GdprSubjectRights: PORTABILITY request subject='{}' format='{}'", subject_id, format);
 
     // Collect and concatenate exports from all targets
-    std::string combined;
+    std::string combined = {};
     if (format == "json") {
         combined   = "[";
         bool first = true;

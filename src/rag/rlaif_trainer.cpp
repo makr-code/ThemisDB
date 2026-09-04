@@ -33,12 +33,12 @@ double lexicalDiversity(const std::string& text) {
         return 0.0;
     }
     std::istringstream ss(text);
-    std::string word;
+    std::string word = {};
     std::unordered_set<std::string> unique;
     size_t total = 0;
     while (ss >> word) {
         ++total;
-        std::string lower;
+        std::string lower = {};
         lower.reserve(word.size());
         for (char c : word) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -71,7 +71,7 @@ double heuristicQuality(const std::string& response) {
 /// Check whether @p text contains any of the given patterns (case-insensitive).
 bool containsAnyPattern(const std::string&              text,
                          const std::vector<std::string>& patterns) {
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
     for (char c : text) {
         lower += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -375,7 +375,7 @@ PreferencePair RLAIFTrainer::createPreferencePair(
     }
 
     if (impl_->config.include_rationale) {
-        std::ostringstream rationale;
+        std::ostringstream rationale = {};
         rationale << "AI judge (" << impl_->judge->name() << ") assigned "
                   << "preference score " << pair.preference_score
                   << " to the chosen response.";
@@ -599,7 +599,7 @@ std::string RLAIFTrainer::judgeName() const {
 // ============================================================
 
 RLAIFTrainer RLAIFTrainerFactory::createDefault() {
-    RLAIFTrainer trainer;
+    RLAIFTrainer trainer = {};
     return trainer;
 }
 

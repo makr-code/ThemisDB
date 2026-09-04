@@ -97,7 +97,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
 
         // Governance enforcement: block ANN for certain classifications in enforce mode
         auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
-        std::string classification;
+        std::string classification = {};
         std::string mode = "observe";
         for (const auto& h : req) {
             auto name = h.name_string();
@@ -346,7 +346,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
         }
 
         // Extract auth context for user-based HKDF (salt = user_id) if encryption active
-        std::string enc_user_ctx;
+        std::string enc_user_ctx = {};
         if (vector_enc_enabled) {
             auto auth_ctx = extractAuthContext(req);
             enc_user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
@@ -398,7 +398,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                           continue;
                         }
                         // Serialize value to string (reuse logic similar to handlePutEntity for primitives)
-                        std::string plain_str;
+                        std::string plain_str = {};
                         const auto& v = *valOpt;
                         if (std::holds_alternative<std::string>(v)) {
                           plain_str = std::get<std::string>(v);
@@ -618,7 +618,7 @@ http::response<http::string_body> VectorApiHandler::handleIndexConfigGet(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string metricStr;
+        std::string metricStr = {};
         if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
             metricStr = "L2";
         } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
@@ -684,7 +684,7 @@ http::response<http::string_body> VectorApiHandler::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string metricStr;
+        std::string metricStr = {};
         if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
             metricStr = "L2";
         } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {

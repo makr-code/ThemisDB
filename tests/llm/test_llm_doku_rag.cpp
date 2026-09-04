@@ -174,7 +174,7 @@ static std::vector<std::string> parseFlowSeq(const std::string& val) {
     }
 
     std::stringstream ss(inner);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         trim(token);
         unquote(token);
@@ -195,7 +195,7 @@ static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path)
     GoldenEntry current;
     bool in_entry = false;
 
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
         // Skip comments and blank lines
         std::string trimmed = line;
@@ -336,7 +336,7 @@ TEST_F(DokuRagTest, Rag02_ImplementationPhases) {
     ASSERT_GT(chunks.size(), 0u) << "Query returned no results";
 
     // Concatenate all content for broad keyword check
-    std::string combined;
+    std::string combined = {};
     for (const auto& c : chunks) {
       combined += c.text + " " + c.section_title + " ";
     }
@@ -517,7 +517,7 @@ void skipIfNoDb() {
     }
 
     std::string db_path_;
-    std::string golden_path_;
+    std::string golden_path_ = {};
     std::unique_ptr<JsonWikiIndexReader> reader_;
     std::vector<GoldenEntry> golden_entries_;
 };

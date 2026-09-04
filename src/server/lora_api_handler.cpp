@@ -164,7 +164,7 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     }
     
     try {
-        std::string model_id;
+        std::string model_id = {};
         if (body->contains("model_id")) {
             model_id = body->at("model_id").get<std::string>();
         } else {
@@ -335,7 +335,7 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     auto& orchestrator = *orchestrator_;
     
     try {
-        std::string adapter_id;
+        std::string adapter_id = {};
         if (body->contains("adapter_id")) {
             adapter_id = body->at("adapter_id").get<std::string>();
         } else {
@@ -568,8 +568,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         std::string_view target = req.target();
         size_t limit = 10;
         size_t offset = 0;
-        std::string base_model_filter;
-        std::string status_filter;
+        std::string base_model_filter = {};
+        std::string status_filter = {};
         
         // Simple query parameter parsing
         size_t query_pos = target.find('?');
@@ -866,7 +866,7 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
             );
         }
 
-        std::string status_str;
+        std::string status_str = {};
         switch (latest->status) {
             case llm::lora::LoRAOrchestrator::JobStatus::Pending:   status_str = "pending";   break;
             case llm::lora::LoRAOrchestrator::JobStatus::Running:   status_str = "loading";   break;
@@ -928,7 +928,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
         // Perform inference using InferenceEngineEnhanced when available.
         auto start_time = std::chrono::steady_clock::now();
 
-        std::string response_text;
+        std::string response_text = {};
         int tokens_used = 0;
 
         if (inference_engine_) {
@@ -1205,7 +1205,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         std::string base_model = metadata_json.at("base_model").get<std::string>();
         
         // Extract and decode base64-encoded data using Cursor::base64Decode.
-        std::string data_str;
+        std::string data_str = {};
         if (body->at("data").is_string()) {
             std::string data_base64 = body->at("data").get<std::string>();
             auto decoded = utils::Cursor::base64Decode(data_base64);

@@ -474,7 +474,7 @@ std::string MTLSAuthenticator::computeFingerprint(void *x509_ptr) {
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -513,12 +513,12 @@ std::vector<std::string> MTLSAuthenticator::extractSANs(void *x509_ptr, int san_
             const unsigned char *data = ASN1_STRING_get0_data(gn->d.iPAddress);
             const int len             = ASN1_STRING_length(gn->d.iPAddress);
             if (data && len == 4) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << static_cast<int>(data[0]) << '.' << static_cast<int>(data[1]) << '.' << static_cast<int>(data[2])
                     << '.' << static_cast<int>(data[3]);
                 result.push_back(oss.str());
             } else if (data && len == 16) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << std::hex;
                 for (int b = 0; b < 16; b += 2) {
                     if (b > 0) {

@@ -60,7 +60,7 @@ json HuggingFaceIngestionPlugin::Config::toJson() const {
 }
 
 HuggingFaceIngestionPlugin::Config HuggingFaceIngestionPlugin::Config::fromJson(const json& j) {
-    Config config;
+    Config config = {};
     if (j.contains("dataset_name")) {
       config.dataset_name = j["dataset_name"];
     }
@@ -182,10 +182,10 @@ std::string HuggingFaceIngestionPlugin::submitDatasetJob(
     content::IngestionJob job;
     
     // Generate job ID with better randomness
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 rng(rd());
     auto u64 = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "hf_job_" << std::hex << std::setw(16) << std::setfill('0') << u64;
     job.job_id = oss.str();
     
@@ -282,7 +282,7 @@ size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& datase
 std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
     waitForRateLimit();
     
-    std::string response_body;
+    std::string response_body = {};
     
     for (size_t attempt = 0; attempt < config_.max_retries; ++attempt) {
         response_body.clear();
@@ -358,7 +358,7 @@ HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
     size_t limit
 ) {
     // Construct API URL for rows endpoint
-    std::ostringstream url_stream;
+    std::ostringstream url_stream = {};
     url_stream << HF_API_BASE << "/rows"
                << "?dataset=" << dataset_name
                << "&config=default"
@@ -610,7 +610,7 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
     json spec;
     
     // Generate unique ID
-    std::ostringstream id_stream;
+    std::ostringstream id_stream = {};
     id_stream << "hf_" << dataset_name << "_" << index;
     std::string content_id = id_stream.str();
     
@@ -639,7 +639,7 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
     };
     
     // Extract text content
-    std::string text_content;
+    std::string text_content = {};
     if (doc.contains(config_.text_field)) {
         text_content = doc[config_.text_field].get<std::string>();
     } else if (doc.contains("text")) {

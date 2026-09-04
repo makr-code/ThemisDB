@@ -37,7 +37,7 @@ protected:
 
     // Helper to create test artifact payload
     std::string createTestPayload(size_t size = 1024) {
-        std::string payload;
+        std::string payload = {};
         payload.reserve(size);
         for (size_t i = 0; i < size; ++i) {
             payload.push_back(static_cast<char>(i % 256));

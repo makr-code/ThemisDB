@@ -61,7 +61,7 @@ namespace analytics {
 // ===========================================================================
 
 std::string FlightDescriptor::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (type == Type::PATH) {
         oss << "path://";
         for (size_t i = 0; i < path.size(); ++i) {
@@ -86,7 +86,7 @@ using RecordBatch = themis::analytics::ArrowRecordBatch;
 
 /** Convert a path vector to a flat registry key string. */
 static std::string pathToKey(const std::vector<std::string> &path) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (size_t i = 0; i < path.size(); ++i) {
         if (i > 0) {
             oss << '/';
@@ -181,7 +181,7 @@ class InProcessRegistry {
             // Reconstruct path components from the slash-separated key
             std::vector<std::string> parts;
             std::istringstream iss(key);
-            std::string part;
+            std::string part = {};
             while (std::getline(iss, part, '/')) {
                 if (!part.empty()) {
                     parts.push_back(part);
@@ -631,7 +631,7 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
         }
 
       private:
-        std::string endpoint_;
+        std::string endpoint_ = {};
 
         static FlightDescriptor toThemisDescriptor(const arrow::flight::FlightDescriptor &fd) {
             if (fd.type == arrow::flight::FlightDescriptor::PATH) {
@@ -642,7 +642,7 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
     };
 
     std::unique_ptr<ThemisFlightService> flight_service_;
-    std::thread flight_thread_;
+    std::thread flight_thread_ = {};
 
     void startNativeFlight() {
         arrow::flight::Location loc;
@@ -757,7 +757,7 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
 
   private:
     FlightClientOptions opts_;
-    std::string endpoint_;
+    std::string endpoint_ = {};
     std::atomic<bool> connected_;
 
     void ensureConnected() const {

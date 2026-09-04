@@ -75,7 +75,7 @@ OAuthDeviceFlow::DeviceCodeResponse OAuthDeviceFlow::requestDeviceCode() {
     std::vector<std::pair<std::string, std::string>> params = {{"client_id", config_.client_id}};
 
     if (!config_.scopes.empty()) {
-        std::string scope_str;
+        std::string scope_str = {};
         for (size_t i = 0; i < config_.scopes.size(); ++i) {
             if (i > 0) {
                 scope_str += ' ';
@@ -88,7 +88,7 @@ OAuthDeviceFlow::DeviceCodeResponse OAuthDeviceFlow::requestDeviceCode() {
     const std::string body = buildFormBody(params);
     spdlog::debug("OAuthDeviceFlow: requesting device code from {}", config_.device_authorization_endpoint);
 
-    std::string response_body;
+    std::string response_body = {};
     try {
         response_body = httpPost(config_.device_authorization_endpoint, body);
     } catch (const std::exception &ex) {
@@ -150,7 +150,7 @@ OAuthDeviceFlow::TokenResponse OAuthDeviceFlow::pollForToken(const std::string &
     const std::string body = buildFormBody(params);
     spdlog::debug("OAuthDeviceFlow: polling token endpoint {}", config_.token_endpoint);
 
-    std::string response_body;
+    std::string response_body = {};
     {
         // B4: retry httpPost() with exponential backoff on transient transport errors
         constexpr int kMaxRetries  = 3;
@@ -354,7 +354,7 @@ std::string OAuthDeviceFlow::httpPost(const std::string &url, const std::string 
         throw std::runtime_error("Failed to initialize libcurl handle");
     }
 
-    std::string response_body;
+    std::string response_body = {};
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
@@ -439,7 +439,7 @@ std::string OAuthDeviceFlow::urlEncode(const std::string &value) {
     }
 
     char *encoded = curl_easy_escape(curl, value.c_str(), static_cast<int>(value.size()));
-    std::string result;
+    std::string result = {};
     if (encoded) {
         result = encoded;
         curl_free(encoded);
@@ -449,7 +449,7 @@ std::string OAuthDeviceFlow::urlEncode(const std::string &value) {
 }
 
 std::string OAuthDeviceFlow::buildFormBody(const std::vector<std::pair<std::string, std::string>> &params) {
-    std::string body;
+    std::string body = {};
     for (size_t i = 0; i < params.size(); ++i) {
         if (i > 0) {
             body += '&';

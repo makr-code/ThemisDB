@@ -405,7 +405,7 @@ TEST_F(LLMPluginTest, AsyncInference_Callback) {
     request.max_tokens = 20;
     
     std::atomic<bool> callback_called{false};
-    std::string result_text;
+    std::string result_text = {};
     
     engine.submitAsync(
         request,
@@ -435,7 +435,7 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     AsyncInferenceEngine engine(plugin, config);
     
     std::vector<int> completion_order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
     
     // Submit low priority request
     engine.submitAsync(

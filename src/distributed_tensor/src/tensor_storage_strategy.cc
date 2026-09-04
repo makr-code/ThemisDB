@@ -506,7 +506,7 @@ StorageStrategyRecommendation StorageStrategyAssessor::assess(const Config& conf
     }
 
     // ── Summary string ────────────────────────────────────────────────────
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << quant.rationale << " ";
 
     switch (rec.load_mechanism) {

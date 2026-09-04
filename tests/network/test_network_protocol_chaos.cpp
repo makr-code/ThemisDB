@@ -97,7 +97,7 @@ TEST(NetworkProtocolChaosTest, LatencySimulation) {
     };
     
     std::vector<Request> requests;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> latency_dis(1, 50); // 1-50ms
     
@@ -144,7 +144,7 @@ TEST(NetworkProtocolChaosTest, PacketLossSimulation) {
     constexpr int NUM_PACKETS = 200;
     constexpr double LOSS_RATE = 0.1; // 10% packet loss
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution loss_dis(LOSS_RATE);
     
@@ -189,7 +189,7 @@ TEST(NetworkProtocolChaosTest, ConnectionTimeoutHandling) {
     };
     
     std::vector<Connection> connections;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> delay_dis(50, 150); // 50-150ms
     
@@ -235,7 +235,7 @@ TEST(NetworkProtocolChaosTest, DataCorruptionDetection) {
         std::vector<uint8_t> payload;
     };
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution corrupt_dis(CORRUPTION_RATE);
     std::uniform_int_distribution<> byte_dis(0, 255);
@@ -382,7 +382,7 @@ TEST(NetworkProtocolChaosTest, OutOfOrderMessages) {
     
     struct Message {
         int sequence_number = 0;
-        int payload;
+        int payload = {};
     };
     
     std::vector<Message> sent_messages;
@@ -395,7 +395,7 @@ TEST(NetworkProtocolChaosTest, OutOfOrderMessages) {
     
     // Shuffle to simulate out-of-order delivery
     received_messages = sent_messages;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::shuffle(received_messages.begin(), received_messages.end(), gen);
     
@@ -419,7 +419,7 @@ TEST(NetworkProtocolChaosTest, ConnectionRetryLogic) {
     constexpr int MAX_RETRIES = 5;
     constexpr int RETRY_DELAY_MS = 10;
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution success_dis(0.3); // 30% success rate
     

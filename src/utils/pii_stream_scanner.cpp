@@ -145,7 +145,7 @@ std::string hmacPseudonym(const std::string& key, const std::string& value) {
          static_cast<int>(value.size()),
          digest, &digest_len);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 4; ++i) { // 4 bytes → 8 hex chars
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -186,7 +186,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
 
     // Reconstruct the text for this chunk with PII spans replaced.
     // `findings` use absolute offsets; we need offsets relative to this chunk.
-    std::string result;
+    std::string result = {};
     result.reserve(chunk.size());
 
     // The scanner may not have returned findings for bytes it is still

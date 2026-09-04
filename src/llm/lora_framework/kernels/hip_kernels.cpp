@@ -476,7 +476,7 @@ hipError_t launch_check_inf_nan_kernel(
     }
     
     // Copy result back
-    int h_overflow;
+    int h_overflow = {};
     err = hipMemcpy(&h_overflow, d_overflow, sizeof(int), hipMemcpyDeviceToHost);
     
     // Securely clear before freeing

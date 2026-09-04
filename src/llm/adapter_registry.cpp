@@ -442,7 +442,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
 
         // BATCH 2: RAII wrapper for EVP_MD_CTX - automatically freed at scope exit
         ScopedEVPContext ctx(EVP_MD_CTX_new());
-        std::string signature_bytes;
+        std::string signature_bytes = {};
         bool sign_ok = false;
 
         if (ctx && EVP_DigestSignInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
@@ -473,7 +473,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
 
         // Hex-encode the raw signature bytes for storage
         static constexpr char hex[] = "0123456789abcdef";
-        std::string hex_sig;
+        std::string hex_sig = {};
         hex_sig.reserve(signature_bytes.size() * 2);
         for (unsigned char c : signature_bytes) {
             hex_sig += hex[(c >> 4) & 0xf];

@@ -93,7 +93,7 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
                   return a.start_offset < b.start_offset;
               });
 
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     size_t pos = 0;

@@ -106,7 +106,7 @@ uint64_t TsOperatorDiagnostics::totalIncidentCount() const noexcept {
 
 std::string TsOperatorDiagnostics::formatSummary(std::size_t max_count) const noexcept {
     auto recent = recentIncidents(max_count);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Timeseries Module Diagnostic Summary ===\n";
     oss << "Total incidents recorded: " << total_count_ << "\n";
     if (recent.empty()) {

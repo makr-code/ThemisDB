@@ -24,7 +24,7 @@ protected:
 
     void TearDown() override {
         closeDB();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
     }
 
@@ -76,7 +76,7 @@ protected:
           return false;
         }
 
-        std::string value;
+        std::string value = {};
         rocksdb::Status s = db_->Get(rocksdb::ReadOptions(), key, &value);
 
         if (s.IsNotFound()) {
@@ -112,7 +112,7 @@ protected:
             file.close();
 
             // Use filesystem to actually truncate if possible
-            std::error_code ec;
+            std::error_code ec = {};
             fs::resize_file(file_path, bytes_to_keep, ec);
         }
     }
@@ -221,7 +221,7 @@ TEST_F(WALManifestCorruptionTest, WALTruncationRecovery) {
     // Even if recovery fails initially, we test graceful handling
     if (s.ok() && recovery_db) {
         // Check if some data persists
-        std::string value;
+        std::string value = {};
         rocksdb::Status check = recovery_db->Get(rocksdb::ReadOptions(), "doc_0", &value);
         // We don't assert here - the important thing is DB didn't crash
         delete recovery_db;
@@ -354,7 +354,7 @@ TEST_F(WALManifestCorruptionTest, LargeTransactionWithCompaction) {
 
     // Verify all committed data
     for (int i = 0; i < 50; ++i) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status check = db_->Get(rocksdb::ReadOptions(), "large_txn_" + std::to_string(i), &value);
         EXPECT_TRUE(check.ok()) << "Failed to read at index " << i;
     }
@@ -364,7 +364,7 @@ TEST_F(WALManifestCorruptionTest, LargeTransactionWithCompaction) {
     // Reopen and re-verify
     openDB();
     for (int i = 0; i < 50; ++i) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status check = db_->Get(rocksdb::ReadOptions(), "large_txn_" + std::to_string(i), &value);
         EXPECT_TRUE(check.ok()) << "Data lost after restart at index " << i;
     }
@@ -432,7 +432,7 @@ TEST_F(WALManifestCorruptionTest, SnapshotIsolationDuringCompaction) {
 
     // Read through snapshot should only see first 25
     for (int i = 0; i < 25; ++i) {
-        std::string value;
+        std::string value = {};
         rocksdb::Status check = db_->Get(rocksdb::ReadOptions(), "snap_" + std::to_string(i), &value);
         EXPECT_TRUE(check.ok());
     }

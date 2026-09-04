@@ -35,12 +35,12 @@ protected:
         
         // Clean up test logs
         if (fs::exists(test_log_dir_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_log_dir_, ec);
         }
     }
 
-    std::string test_log_dir_;
+    std::string test_log_dir_ = {};
     
     // Helper to read log file content
     std::string readLogFile(const std::string& path) {
@@ -754,7 +754,7 @@ TEST_F(SpdlogLibIntegrationTest, FileHandleRelease) {
     }
     
     // Should be able to delete file after logger is dropped
-    std::error_code ec;
+    std::error_code ec = {};
     bool removed = fs::remove(log_path, ec);
     EXPECT_TRUE(removed || !fs::exists(log_path)) 
         << "Could not remove log file, file handle might not be released. Error: " << ec.message();

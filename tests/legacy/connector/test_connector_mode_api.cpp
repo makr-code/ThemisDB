@@ -105,7 +105,7 @@ std::optional<std::string> loadTextFileLimited(const std::filesystem::path& path
         return std::nullopt;
     }
 
-    std::string content;
+    std::string content = {};
     content.reserve(max_chars);
     char buffer[2048];
     while (in && content.size() < max_chars) {
@@ -142,7 +142,7 @@ std::string buildDocsNdjsonFromDirectory(const std::filesystem::path& docs_dir,
     const std::size_t max_files_safe = max_files > 0 ? static_cast<std::size_t>(max_files) : 1u;
     const std::size_t max_chars_safe = max_chars_per_file > 0 ? static_cast<std::size_t>(max_chars_per_file) : 2048u;
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     std::size_t emitted = 0;
     for (const auto& entry : std::filesystem::recursive_directory_iterator(docs_dir)) {
         if (emitted >= max_files_safe) {

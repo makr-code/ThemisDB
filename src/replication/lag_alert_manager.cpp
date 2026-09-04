@@ -207,7 +207,7 @@ std::string LagAlertManager::exportPrometheusMetrics() const
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Lag per replica
     oss << "# HELP replication_lag_ms Current replication lag per replica (ms)\n"

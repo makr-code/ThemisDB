@@ -174,7 +174,7 @@ void CacheMissAnalyzer::start() noexcept {
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
+    CacheMissMetrics m = {};
     if (!available_) {
       return m;
     }
@@ -476,7 +476,7 @@ void CacheMissAnalyzer::start() noexcept {
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
+    CacheMissMetrics m = {};
     if (!available_) {
       return m;
     }
@@ -649,7 +649,7 @@ void CacheMissAnalyzer::start() noexcept {
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
+    CacheMissMetrics m = {};
     if (!available_) {
       return m;
     }
@@ -786,7 +786,7 @@ void CacheMissAnalyzer::start() noexcept {
 }
 
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
-    CacheMissMetrics m;
+    CacheMissMetrics m = {};
     if (!available_) {
       return m;
     }

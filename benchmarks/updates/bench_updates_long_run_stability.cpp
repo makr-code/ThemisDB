@@ -51,7 +51,7 @@ private:
     std::unique_ptr<DeltaUpdateEngine> delta_engine_;
     std::unique_ptr<TenantUpdateScheduler> scheduler_;
     WorkloadStats stats_;
-    std::mt19937 rng_;
+    std::mt19937 rng_ = {};
     
 public:
     LongRunStabilityBenchmark()
@@ -211,12 +211,12 @@ private:
         #else
             // On Unix, read from /proc/self/status
             std::ifstream status("/proc/self/status");
-            std::string line;
+            std::string line = {};
             while (std::getline(status, line)) {
                 if (line.find("VmRSS:") != std::string::npos) {
                     std::istringstream iss(line);
                     std::string key;
-                    size_t value;
+                    size_t value = {};
                     iss >> key >> value;
                     return value * 1024;  // Convert KB to bytes
                 }

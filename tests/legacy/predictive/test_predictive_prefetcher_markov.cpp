@@ -214,7 +214,7 @@ TEST_F(PrefetchMetricsTest, OverheadBytesEmitted) {
 class PrefetchPersistenceTest : public ::testing::Test {
 protected:
     AdaptiveQueryCache::Config config_;
-    std::string db_path_;
+    std::string db_path_ = {};
 
     void SetUp() override {
         const std::string suffix =
@@ -239,7 +239,7 @@ protected:
 
     void TearDown() override {
         if (!db_path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(db_path_, ec);
         }
     }
@@ -338,7 +338,7 @@ TEST(AdaptiveQueryCachePrefetchConfigTest, ToDBucketingFlagPropagated) {
     EXPECT_TRUE(stats["enabled"].get<bool>());
     EXPECT_TRUE(stats["time_of_day_weighting"].get<bool>());
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(db_path, ec);
 }
 
@@ -368,6 +368,6 @@ TEST(AdaptiveQueryCachePrefetchConfigTest, ABTestFlagPropagated) {
     EXPECT_TRUE(stats["enabled"].get<bool>());
     EXPECT_TRUE(stats["ab_test_enabled"].get<bool>());
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(db_path, ec);
 }

@@ -39,7 +39,7 @@ struct ScopedTempDir {
     }
 
     ~ScopedTempDir() {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(path, ec);
     }
 };

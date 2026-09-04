@@ -126,7 +126,7 @@ bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
 }
 
 std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
-    std::string out;
+    std::string out = {};
     out.reserve(hex.size());
     for (unsigned char c : hex) {
         if (!std::isspace(c)) {
@@ -145,7 +145,7 @@ std::string SDPlugin::sha256Hex(const std::string& input) {
         hash ^= static_cast<uint64_t>(c);
         hash *= 1099511628211ULL;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << hash;
     return oss.str();
 }
@@ -192,7 +192,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
         }
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << bits;
     return oss.str();
 }
@@ -201,7 +201,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
 
 std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height) {
-    std::string dim_error;
+    std::string dim_error = {};
     if (!validateGenerationDimensions(width, height, dim_error)) {
         throw std::runtime_error("encodeMinimalPng: " + dim_error);
     }
@@ -374,7 +374,7 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
     const std::string sanitized = sanitizer_.sanitize(prompt);
     img.prompt_hash = sha256Hex(sanitized);
 
-    std::string dim_error;
+    std::string dim_error = {};
     if (!validateGenerationDimensions(cfg.width, cfg.height, dim_error)) {
         ++error_count_;
         img.success = false;
@@ -382,7 +382,7 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
         return img;
     }
     if (!cfg.control_image_rgb.empty()) {
-        std::string control_error;
+        std::string control_error = {};
         if (!validateRgbBufferShape(cfg.control_image_rgb,
                                     cfg.control_width,
                                     cfg.control_height,
@@ -408,7 +408,7 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
 
     try {
         {
-            std::string lora_error;
+            std::string lora_error = {};
             const float lora_scale = cfg.lora_adapter_path.empty() ? 1.0f : cfg.lora_scale;
             if (!generator_->applyLoRA(cfg.lora_adapter_path, lora_scale, lora_error)) {
                 ++error_count_;
@@ -423,7 +423,7 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
         int      w = 0, h = 0;
         uint64_t seed_used = 0;
         const auto rgb = generator_->generate(sanitized, cfg, w, h, seed_used);
-        std::string rgb_error;
+        std::string rgb_error = {};
         if (!validateRgbBufferShape(rgb, w, h, rgb_error)) {
             ++error_count_;
             img.success = false;
@@ -515,7 +515,7 @@ GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
     const std::string sanitized = sanitizer_.sanitize(prompt);
     img.prompt_hash = sha256Hex(sanitized);
 
-    std::string input_error;
+    std::string input_error = {};
     if (!validateRgbBufferShape(cfg.input_image_rgb,
                                 cfg.input_width,
                                 cfg.input_height,
@@ -527,7 +527,7 @@ GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
     }
     const int target_w = (cfg.width > 0) ? cfg.width : cfg.input_width;
     const int target_h = (cfg.height > 0) ? cfg.height : cfg.input_height;
-    std::string dim_error;
+    std::string dim_error = {};
     if (!validateGenerationDimensions(target_w, target_h, dim_error)) {
         ++error_count_;
         img.success = false;
@@ -535,7 +535,7 @@ GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
         return img;
     }
     if (!cfg.control_image_rgb.empty()) {
-        std::string control_error;
+        std::string control_error = {};
         if (!validateRgbBufferShape(cfg.control_image_rgb,
                                     cfg.control_width,
                                     cfg.control_height,
@@ -561,7 +561,7 @@ GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
 
     try {
         {
-            std::string lora_error;
+            std::string lora_error = {};
             const float lora_scale = cfg.lora_adapter_path.empty() ? 1.0f : cfg.lora_scale;
             if (!generator_->applyLoRA(cfg.lora_adapter_path, lora_scale, lora_error)) {
                 ++error_count_;
@@ -576,7 +576,7 @@ GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
         int      w = 0, h = 0;
         uint64_t seed_used = 0;
         const auto rgb = generator_->generateImg2Img(sanitized, cfg, w, h, seed_used);
-        std::string rgb_error;
+        std::string rgb_error = {};
         if (!validateRgbBufferShape(rgb, w, h, rgb_error)) {
             ++error_count_;
             img.success = false;

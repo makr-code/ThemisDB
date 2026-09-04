@@ -562,7 +562,7 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, LoRA_TrainingStep_Fused)->Unit(benc
 BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, BufferUploadDownload)(benchmark::State& state) {
     size_t size = state.range(0) * sizeof(float);
     
-    VulkanContext context;
+    VulkanContext context = {};
     if (!context.initialize(0, false)) {
         state.SkipWithError("Failed to initialize Vulkan context");
         return;

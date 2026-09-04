@@ -30,7 +30,7 @@ static http::request<http::string_body> makeRequest(unsigned version = 11) {
 // Helper: decode RFC 7230 chunked body back to plain text
 // ----------------------------------------------------------------------------
 static std::string decodeChunked(const std::string& body) {
-    std::string result;
+    std::string result = {};
     size_t pos = 0;
     while (pos < body.size()) {
         // Find CRLF after hex size
@@ -184,7 +184,7 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorChunkBatching) {
     // Decode and count NDJSON lines
     std::string decoded = decodeChunked(res.body());
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(iss, line)) {
         if (!line.empty()) {
@@ -211,7 +211,7 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorMaxItemsLimit) {
 
     // Only 5 items should appear
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(iss, line)) {
         if (!line.empty()) {
@@ -242,7 +242,7 @@ TEST(ChunkedResponseWriterTest, FromStreamBasic) {
     std::string decoded = decodeChunked(res.body());
 
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int count = 0;
     while (std::getline(iss, line)) {
         if (!line.empty()) {
@@ -282,7 +282,7 @@ TEST(ChunkedResponseWriterTest, FromStreamMaxItems) {
     std::string decoded = decodeChunked(res.body());
 
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int count = 0;
     while (std::getline(iss, line)) {
         if (!line.empty()) {
@@ -363,7 +363,7 @@ TEST(ChunkedResponseWriterTest, DecodePreservesContent) {
 
     // Should be 5 NDJSON lines
     std::istringstream iss(decoded);
-    std::string line;
+    std::string line = {};
     int count = 0;
     while (std::getline(iss, line)) {
         if (!line.empty()) {

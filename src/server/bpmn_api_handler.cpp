@@ -312,8 +312,8 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
         json variables = request.value("variables", json::object());
         
         // Task ID format: "instance_id:node_id"
-        std::string instance_id;
-        std::string node_id;
+        std::string instance_id = {};
+        std::string node_id = {};
         
         size_t colon_pos = task_id.find(':');
         if (colon_pos != std::string::npos) {

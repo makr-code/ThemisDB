@@ -74,9 +74,9 @@ namespace graphql {
 class PersistedQueryRegistry {
 public:
     struct PersistedQuery {
-        std::string query_id;
-        std::string query_text;
-        std::string description;
+        std::string query_id = {};
+        std::string query_text = {};
+        std::string description = {};
         bool deprecated = false;
         std::string deprecation_reason;
     };
@@ -300,7 +300,7 @@ public:
      * different formatting produce the same hash.
      */
     static std::string normalize(const std::string& query) {
-        std::string normalized;
+        std::string normalized = {};
         normalized.reserve(query.size());
         
         bool in_string = false;

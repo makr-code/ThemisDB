@@ -149,7 +149,7 @@ class V2SessionImpl : public V2Session {
           headers_handler_([[maybe_unused]] std::move(headers_handler)), rst_handler_(std::move(rst_handler)) {
         // Generate a simple connection ID
         static std::atomic<uint64_t> counter{1};
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "v2conn-" << counter.fetch_add(1, std::memory_order_relaxed);
         connection_id_ = oss.str();
     }
@@ -226,7 +226,7 @@ class V2SessionImpl : public V2Session {
         hdr.flags      = static_cast<uint16_t>(V2FrameFlags::END_HEADERS);
 
         // Minimal header encoding: "key: value\n" pairs
-        std::string encoded;
+        std::string encoded = {};
         encoded += ":push-stream-id: " + std::to_string(new_sid) + "\n";
         for (const auto &[k, v] : headers)
             encoded += k + ": " + v + "\n";
@@ -598,7 +598,7 @@ class V2SessionImpl : public V2Session {
 
         std::string text(reinterpret_cast<const char *>(payload.data()), payload.size());
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             // Guard against excessively long lines
             if (line.size() > MAX_HEADER_FIELD_SIZE)

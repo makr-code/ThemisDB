@@ -23,7 +23,7 @@ namespace themis {
 // ============================================================
 
 AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards) {
-    AggShardResult merged;
+    AggShardResult merged = {};
     if (shards.empty()) {
       return merged;
     }
@@ -175,7 +175,7 @@ void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
 // ============================================================
 
 std::string ContinuousAggregateManager::derivedMetricName(const std::string& base, std::chrono::milliseconds win) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << base << "__agg_" << win.count() << "ms";
     return oss.str();
 }

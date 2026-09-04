@@ -48,7 +48,7 @@ nlohmann::json PolicyReview::toJson() const {
 }
 
 PolicyReview PolicyReview::fromJson(const nlohmann::json &j) {
-    PolicyReview review;
+    PolicyReview review = {};
     if (j.contains("review_id")) {
         review.review_id = j["review_id"].get<std::string>();
     }
@@ -95,7 +95,7 @@ nlohmann::json ReviewScheduler::ReviewSchedule::toJson() const {
 }
 
 ReviewScheduler::ReviewSchedule ReviewScheduler::ReviewSchedule::fromJson(const nlohmann::json &j) {
-    ReviewSchedule schedule;
+    ReviewSchedule schedule = {};
     if (j.contains("rule_id")) {
         schedule.rule_id = j["rule_id"].get<std::string>();
     }
@@ -275,7 +275,7 @@ std::string ReviewWorkflow::generateReviewId() const {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "review-" << std::hex << dis(gen);
     return oss.str();
 }
@@ -514,7 +514,7 @@ nlohmann::json PolicyExpiration::ExpirationConfig::toJson() const {
 }
 
 PolicyExpiration::ExpirationConfig PolicyExpiration::ExpirationConfig::fromJson(const nlohmann::json &j) {
-    ExpirationConfig config;
+    ExpirationConfig config = {};
     if (j.contains("rule_id")) {
         config.rule_id = j["rule_id"].get<std::string>();
     }
@@ -788,7 +788,7 @@ nlohmann::json NotificationManager::NotificationConfig::toJson() const {
 }
 
 NotificationManager::NotificationConfig NotificationManager::NotificationConfig::fromJson(const nlohmann::json &j) {
-    NotificationConfig config;
+    NotificationConfig config = {};
     if (j.contains("email_enabled")) {
         config.email_enabled = j["email_enabled"].get<bool>();
     }
@@ -826,7 +826,7 @@ std::string NotificationManager::generateNotificationId() const {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "notif-" << std::hex << dis(gen);
     return oss.str();
 }
@@ -845,10 +845,10 @@ NotificationManager::NotificationConfig NotificationManager::getConfig() const {
 }
 
 bool NotificationManager::notifyReviewDue(const std::string &recipient, const PolicyReview &review) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "Policy Review Due: " << review.rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "A policy review is due for rule: " << review.rule_id << "\n"
             << "Review ID: " << review.review_id << "\n"
             << "Reviewer: " << review.reviewer << "\n"
@@ -861,10 +861,10 @@ bool NotificationManager::notifyReviewDue(const std::string &recipient, const Po
 
 bool NotificationManager::notifyReviewOverdue(const std::string &recipient, const PolicyReview &review,
                                               int days_overdue) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "OVERDUE: Policy Review for " << review.rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "A policy review is OVERDUE for rule: " << review.rule_id << "\n"
             << "Review ID: " << review.review_id << "\n"
             << "Reviewer: " << review.reviewer << "\n"
@@ -878,10 +878,10 @@ bool NotificationManager::notifyReviewOverdue(const std::string &recipient, cons
 
 bool NotificationManager::notifyExpirationWarning(const std::string &recipient,
                                                   const PolicyExpiration::ExpirationWarning &warning) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "Policy Expiration Warning: " << warning.rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "Policy rule " << warning.rule_id << " is expiring soon.\n"
             << "Expiration Date: " << warning.expiration_date << "\n"
             << "Days Until Expiration: " << warning.days_until_expiration << "\n"
@@ -893,10 +893,10 @@ bool NotificationManager::notifyExpirationWarning(const std::string &recipient,
 }
 
 bool NotificationManager::notifyRuleExpired(const std::string &recipient, const std::string &rule_id) {
-    std::ostringstream subject;
+    std::ostringstream subject = {};
     subject << "Policy Rule Expired: " << rule_id;
 
-    std::ostringstream message;
+    std::ostringstream message = {};
     message << "Policy rule " << rule_id << " has expired and has been disabled.\n"
             << "Please review the rule and update or remove it as appropriate.";
 

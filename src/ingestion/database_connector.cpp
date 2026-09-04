@@ -46,7 +46,7 @@ namespace {
 
 struct JdbcUrl {
     std::string subprotocol; ///< e.g. "postgresql", "mysql", "sqlserver", "sqlite"
-    std::string host;
+    std::string host = {};
     int         port = 0;
     std::string database;
     std::string raw; ///< original location string
@@ -98,8 +98,8 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
 
     // SQL Server uses semicolons: "host:port;databaseName=db"
     // Generic: "host:port/db" or "host/db"
-    std::string host_part;
-    std::string db_part;
+    std::string host_part = {};
+    std::string db_part = {};
 
     auto semicolon = after_sub.find(';');
     if (semicolon != std::string::npos) {
@@ -146,7 +146,7 @@ static std::string buildOdbcConnectionString(
         int timeout_s) {
 
     // Default driver names per subprotocol
-    std::string driver;
+    std::string driver = {};
     if (!driver_override.empty()) {
         driver = driver_override;
     } else if (jdbc.subprotocol == "postgresql") {
@@ -163,7 +163,7 @@ static std::string buildOdbcConnectionString(
         driver = jdbc.subprotocol; // pass-through
     }
 
-    std::ostringstream cs;
+    std::ostringstream cs = {};
     cs << "DRIVER={" << driver << "};";
 
     if (jdbc.subprotocol == "sqlite") {
@@ -219,7 +219,7 @@ static std::string buildOdbcConnectionString(
 
 /// Serialize a DbRow to a minimal JSON object (no external dependencies).
 static std::string rowToJson(const DatabaseConnector::DbRow& row) {
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << '{';
     bool first = true;
     for (const auto& kv : row) {
@@ -229,7 +229,7 @@ static std::string rowToJson(const DatabaseConnector::DbRow& row) {
         first = false;
         // Simple JSON string escaping
         auto escape = [](const std::string& s) -> std::string {
-            std::string out;
+            std::string out = {};
             out.reserve(s.size() + 4);
             for (unsigned char c : s) {
                 if (c == '"')  { out += "\\\""; }
@@ -255,7 +255,7 @@ static std::string rowToText(const DatabaseConnector::DbRow& row,
     if (text_columns.empty()) {
         return rowToJson(row);
     }
-    std::string text;
+    std::string text = {};
     for (const auto& col : text_columns) {
         auto it = row.find(col);
         if (it != row.end() && !it->second.empty()) {
@@ -272,7 +272,7 @@ static std::string rowToText(const DatabaseConnector::DbRow& row,
 static std::vector<std::string> splitComma(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         // trim whitespace
         auto b = token.find_first_not_of(" \t");
@@ -669,7 +669,7 @@ private:
 
                 DbRow row;
                 for (SQLSMALLINT i = 1; i <= col_count; ++i) {
-                    std::string cell_value;
+                    std::string cell_value = {};
                     SQLCHAR buf[buf_size];
                     SQLLEN ind = 0;
                     SQLRETURN grc = SQLGetData(hstmt, i, SQL_C_CHAR,

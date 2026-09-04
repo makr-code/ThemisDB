@@ -202,7 +202,7 @@ struct CypherParser::Lexer {
             // --- String literal ---
             if (ch == '\'' || ch == '"') {
                 char delim = advance();
-                std::string s;
+                std::string s = {};
                 while (pos < src.size() && peek() != delim) {
                     char c = advance();
                     if (c == '\\' && pos < src.size()) {
@@ -227,7 +227,7 @@ struct CypherParser::Lexer {
             // --- Number literal ---
             if (std::isdigit(static_cast<unsigned char>(ch)) ||
                 (ch == '-' && std::isdigit(static_cast<unsigned char>(peek(1))))) {
-                std::string num;
+                std::string num = {};
                 if (ch == '-') {
                   num += advance();
                 }
@@ -262,7 +262,7 @@ struct CypherParser::Lexer {
 
             // --- Identifier or keyword ---
             if (std::isalpha(static_cast<unsigned char>(ch)) || ch == '_') {
-                std::string id;
+                std::string id = {};
                 while (pos < src.size() &&
                        (std::isalnum(static_cast<unsigned char>(peek())) || peek() == '_'))
                     id += advance();
@@ -278,7 +278,7 @@ struct CypherParser::Lexer {
             // --- Backtick-quoted identifier ---
             if (ch == '`') {
                 advance();
-                std::string id;
+                std::string id = {};
                 while (pos < src.size() && peek() != '`')
                     id += advance();
                 if (pos < src.size()) {
@@ -351,7 +351,7 @@ struct CypherParser::Parser {
 
     // Collapse token-boundary spaces around dots: "n . prop" → "n.prop"
     static std::string collapseDotSpaces(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (size_t i = 0; i < s.size(); ) {
             if (i + 2 < s.size() &&
@@ -945,7 +945,7 @@ struct CypherParser::Parser {
             size_t start = cursor;
             auto expr = parseExpr();  // parse and discard the AST node (we only need the text)
             // Reconstruct expression text from token values, collapsing "n . prop" → "n.prop"
-            std::string expr_text;
+            std::string expr_text = {};
             for (size_t i = start; i < cursor; ++i) {
                 if (i > start) {
                   expr_text += " ";
@@ -969,7 +969,7 @@ struct CypherParser::Parser {
             CypherSortSpec spec;
             size_t start = cursor;
             parseExpr();
-            std::string expr_text;
+            std::string expr_text = {};
             for (size_t i = start; i < cursor; ++i) {
                 if (i > start) {
                   expr_text += " ";
@@ -1024,7 +1024,7 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
         } else if constexpr (std::is_same_v<T, int64_t>) {
             return std::to_string(v);
         } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << v;
             return oss.str();
         } else {
@@ -1032,7 +1032,7 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
             if (v.size() >= 2 && v.front() == '[' && v.back() == ']') {
                 return v;
             }
-            std::string out;
+            std::string out = {};
             out.reserve(v.size() + 2);
             out += '"';
             for (char c : v) {
@@ -1118,7 +1118,7 @@ std::string CypherToAQLTranspiler::exprToAQL(const CypherExpr& expr,
 /*static*/
 std::string CypherToAQLTranspiler::nodePatternToFilter(const CypherNodePattern& node,
                                                         const std::string& var) {
-    std::string filter;
+    std::string filter = {};
     for (const auto& prop : node.properties) {
         if (!filter.empty()) {
           filter += " AND ";
@@ -1139,7 +1139,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                                     "Query has no MATCH patterns");
         }
 
-        std::ostringstream aql;
+        std::ostringstream aql = {};
 
         // ----------------------------------------------------------------
         // Collect all bound variables (for RETURN * expansion)
@@ -1188,7 +1188,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                 const auto& dest = seg.node;
 
                 // Direction keyword
-                std::string dir_kw;
+                std::string dir_kw = {};
                 switch (rel.direction) {
                     case CypherRelDirection::Out:  dir_kw = "OUTBOUND"; break;
                     case CypherRelDirection::In:   dir_kw = "INBOUND";  break;
@@ -1217,7 +1217,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
 
                 // Multi-type filter: e._type IN ["T1","T2",…]
                 if (rel.types.size() > 1) {
-                    std::string type_list;
+                    std::string type_list = {};
                     for (size_t i = 0; i < rel.types.size(); ++i) {
                         if (i) {
                           type_list += ", ";

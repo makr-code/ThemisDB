@@ -524,7 +524,7 @@ TEST(PluginDependencyGraph, ToStringEqualsExportTo) {
     for (auto fmt : {GraphExportFormat::DOT,
                      GraphExportFormat::JSON,
                      GraphExportFormat::ASCII}) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         g.exportTo(oss, fmt);
         EXPECT_EQ(oss.str(), g.toString(fmt));
     }

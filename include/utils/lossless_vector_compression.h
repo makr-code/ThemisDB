@@ -82,7 +82,7 @@ struct SparseVectorCSR {
     
     // Deserialize from bytes
     static SparseVectorCSR deserialize(const std::vector<uint8_t>& data) {
-        SparseVectorCSR result;
+        SparseVectorCSR result = {};
         if (data.size() < 12) {
           return result;
         }

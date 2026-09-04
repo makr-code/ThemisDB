@@ -511,7 +511,7 @@ TEST_P(SingleAlgoTest, TrainsAndPredicts) {
       cfg.metric = AutoMLMetric::R2;
     }
 
-    AutoMLModel model;
+    AutoMLModel model = {};
     if (is_cls)
         ASSERT_NO_THROW(model = automl.trainClassifier(data, cfg));
     else

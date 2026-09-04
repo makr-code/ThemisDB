@@ -257,7 +257,7 @@ static std::string unquoteIdent(const std::string& s) {
 
 /// Strip Oracle hint comments (/*+ ... */) and block comments (/* ... */).
 static std::string stripOracleComments(const std::string& sql) {
-    std::string result;
+    std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
     while (i < sql.size()) {
@@ -296,7 +296,7 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
 
         if (c == '\'') {
             ++i;
-            std::string val;
+            std::string val = {};
             while (i < n) {
                 char sc = tuple_str[i];
                 if (sc == '\'' && i + 1 < n && tuple_str[i + 1] == '\'') {
@@ -339,7 +339,7 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
               token.clear();
             }
             else token = token.substr(tf, tl - tf + 1);
-            std::string upper_tok;
+            std::string upper_tok = {};
             for (char ch : token)
                 upper_tok += static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
             if (upper_tok == "NULL") {
@@ -372,7 +372,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
     std::regex table_regex(
         R"REGEX(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()REGEX",
         std::regex_constants::icase);
-    std::smatch match;
+    std::smatch match = {};
     if (!std::regex_search(sql, match, table_regex)) {
       return false;
     }
@@ -449,7 +449,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
           continue;
         }
 
-        std::string up;
+        std::string up = {};
         for (size_t i = 0; i < col_def.size() && i < 25; ++i)
             up += static_cast<char>(std::toupper(static_cast<unsigned char>(col_def[i])));
         if (up.find("PRIMARY")    != std::string::npos ||
@@ -459,7 +459,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             up.find("FOREIGN")    != std::string::npos ||
             up.find("SUPPLEMENTAL") != std::string::npos) continue;
 
-        std::string col_name;
+        std::string col_name = {};
         size_t type_start = 0;
         if (!col_def.empty() && col_def[0] == '"') {
             size_t end_dq = col_def.find('"', 1);
@@ -482,7 +482,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
         while (type_start < col_def.size() &&
                (col_def[type_start] == ' ' || col_def[type_start] == '\t')) ++type_start;
 
-        std::string col_type;
+        std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
         while (k < col_def.size()) {
@@ -834,7 +834,7 @@ TEST(OracleInsertValues, AllNullRow) {
 /// Returns true if the file content contains an Oracle dump header.
 static bool looksLikeOracleDump(const std::string& content) {
     std::istringstream ss(content);
-    std::string line;
+    std::string line = {};
     int checked = 0;
     while (std::getline(ss, line) && checked < 100) {
         if (line.find("Oracle")  != std::string::npos ||
@@ -1185,9 +1185,9 @@ TEST(OracleIntegration, StreamingCallbackReceivesRows) {
     ASSERT_TRUE(f.is_open());
 
     size_t insert_count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
-        std::string up;
+        std::string up = {};
         for (size_t i = 0; i < line.size() && i < 10; ++i)
             up += static_cast<char>(std::toupper(static_cast<unsigned char>(line[i])));
         if (up.find("INSERT") != std::string::npos) {

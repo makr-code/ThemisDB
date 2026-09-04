@@ -108,7 +108,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
     size_t current_pos                     = 0;
 
     while (current_pos < sentence_list.size()) {
-        std::string chunk_text;
+        std::string chunk_text = {};
         int chunk_tokens       = 0;
         size_t chunk_start_idx = current_pos;
         size_t chunk_end_idx   = current_pos;
@@ -210,7 +210,7 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
     // Split text into tokens
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -297,7 +297,7 @@ int TextProcessor::countTokens(const std::string &text) {
     }
 
     std::istringstream iss(text);
-    std::string token;
+    std::string token = {};
     int count = 0;
 
     while (iss >> token) {
@@ -354,7 +354,7 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     std::vector<std::string> words;
     {
         std::istringstream iss(text);
-        std::string w;
+        std::string w = {};
         while (iss >> w) {
             std::transform(w.begin(), w.end(), w.begin(),
                            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });

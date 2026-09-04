@@ -30,7 +30,7 @@
 namespace {
 
 bool isBooleanLiteral(const std::string& value, bool& parsed) {
-    std::string normalized;
+    std::string normalized = {};
     normalized.reserve(value.size());
     for (const unsigned char ch : value) {
         normalized.push_back(static_cast<char>(std::tolower(ch)));
@@ -253,7 +253,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
 bool PIIDetector::loadFromYaml(const std::string& path) {
     try {
         // Use ConfigPathResolver to handle both new and legacy paths
-        std::string resolved;
+        std::string resolved = {};
         auto maybe_resolved = themis::config::ConfigPathResolver::tryResolve(path);
         if (maybe_resolved) {
             resolved = *maybe_resolved;
@@ -424,7 +424,7 @@ void PIIDetector::initializeDefaultEngine() {
 }
 
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
-    std::string engine_type;
+    std::string engine_type = {};
     
     try {
         engine_type = engine_config.value("type", "");

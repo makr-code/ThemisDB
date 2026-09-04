@@ -93,7 +93,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
         // %PDF-1.7
         std::string header = blob.substr(0, 8);
         std::regex version_regex("%PDF-(\\d+\\.\\d+)");
-        std::smatch match;
+        std::smatch match = {};
         if (std::regex_search(header, match, version_regex)) {
             version = match[1].str();
         }
@@ -146,7 +146,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
         result.metadata["is_linearized"]     = metadata.is_linearized;
 
         // Extract pages using the already-loaded doc (avoids redundant PDF loading)
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
         int max_pages = config_.max_pages > 0 ? std::min(config_.max_pages, doc->pages()) : doc->pages();
 
         json pages_array = json::array();
@@ -155,7 +155,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
             if (!page)
                 continue;
 
-            std::string page_text;
+            std::string page_text = {};
             if (config_.maintain_layout) {
                 // Layout-preserving: use positioned text boxes
                 auto text_boxes = page->text_list();
@@ -211,7 +211,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
     result.metadata["page_count"] = page_count;
 
     // Try to extract text from BT/ET blocks
-    std::ostringstream extracted;
+    std::ostringstream extracted = {};
     std::regex text_regex("\\(([^)]+)\\)\\s*Tj");
     auto text_begin = std::sregex_iterator(blob.begin(), blob.end(), text_regex);
     auto text_end   = std::sregex_iterator();
@@ -286,7 +286,7 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
     // Look for /Title, /Author, etc. in the PDF
     auto extractInfo = [&blob](const std::string &key) -> std::string {
         std::regex pattern("/" + key + "\\s*\\(([^)]+)\\)");
-        std::smatch match;
+        std::smatch match = {};
         if (std::regex_search(blob, match, pattern)) {
             return match[1].str();
         }
@@ -358,8 +358,8 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
     // Collect text boxes with their bounding box coordinates
     struct Item {
         float x, y, w, h;
-        std::string text;
-        bool has_space_after;
+        std::string text = {};
+        bool has_space_after = {};
     };
 
     std::vector<Item> items = {};
@@ -399,7 +399,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
     }
 
     // Assemble text inserting spaces and newlines based on position
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     float prev_y = items[0].y;
     float prev_h = items[0].h;
 
@@ -437,7 +437,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
 #endif
 
 std::string PDFProcessor::extractAllText(const std::vector<PDFPageInfo> &pages) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (size_t i = 0; i < pages.size(); ++i) {
         oss << pages[i].text;
         if (i + 1 < pages.size()) {
@@ -459,7 +459,7 @@ std::vector<json> PDFProcessor::chunk(const ExtractionResult &extraction_result,
     std::vector<std::string> sentences;
     std::regex sentence_regex("[.!?]+\\s+");
     std::sregex_token_iterator iter(text.begin(), text.end(), sentence_regex, -1);
-    std::sregex_token_iterator end;
+    std::sregex_token_iterator end = {};
 
     for (; iter != end; ++iter) {
         std::string sentence = iter->str();
@@ -470,7 +470,7 @@ std::vector<json> PDFProcessor::chunk(const ExtractionResult &extraction_result,
 
     // Group sentences into chunks of approximately chunk_size tokens
     int seq_num = 0;
-    std::string current_chunk;
+    std::string current_chunk = {};
     int current_tokens = 0;
 
     for (const auto &sentence : sentences) {
@@ -529,7 +529,7 @@ std::vector<float> PDFProcessor::generateEmbedding(const std::string &chunk_data
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string tok;
+    std::string tok = {};
     while (iss >> tok) {
         tokens.push_back(tok);
     }
@@ -601,7 +601,7 @@ std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
         return "";
     }
 
-    std::ostringstream iso;
+    std::ostringstream iso = {};
     iso << date.substr(0, 4) << "-" << date.substr(4, 2) << "-" << date.substr(6, 2);
 
     if (date.size() >= 14) {

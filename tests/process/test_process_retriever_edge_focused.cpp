@@ -206,7 +206,7 @@ TEST_F(RetrieverEdgeTest, R08_ConcurrentQueryIsolation) {
     static constexpr int32_t kNumConcurrentQueries = 10;
 
     std::vector<MockRetrievalResult> results;
-    std::mutex results_mutex;
+    std::mutex results_mutex = {};
 
     auto run_query = [&](int32_t query_id) {
         size_t target_size = 100 * 1024 + (query_id * 10 * 1024);  // Vary sizes

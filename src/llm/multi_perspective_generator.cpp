@@ -35,7 +35,7 @@ int clampSizeToInt(const size_t value) {
 // Extract unique words from text (words longer than 3 characters)
 std::unordered_set<std::string> extractWords(const std::string& text) {
     std::unordered_set<std::string> words;
-    std::string current;
+    std::string current = {};
     
     for (char c : text) {
         const auto uc = static_cast<unsigned char>(c);
@@ -181,7 +181,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         );
         
         // Generate synthesis reasoning
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Synthesized " << result.perspectives.size() << " perspectives: ";
         for (size_t i = 0; i < result.perspectives.size(); ++i) {
             oss << result.perspectives[i].perspective.tradition;
@@ -235,7 +235,7 @@ PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     
     // Generate perspective-specific response using rule-based approach
     // This provides deterministic perspective generation without LLM overhead
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     if (perspective.tradition == "Utilitarian") {
         oss << "From a utilitarian perspective, we must consider the consequences "
@@ -274,7 +274,7 @@ PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     response.key_points = extractKeyPoints(response.response, perspective);
     
     // Generate reasoning
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Applied " << perspective.tradition << " framework focusing on ";
     reasoning << perspective.key_principles[0];
     response.reasoning = reasoning.str();
@@ -299,7 +299,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
     
     // Create synthesis using rule-based approach
     // This provides deterministic synthesis without LLM overhead
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "Considering this question from multiple ethical perspectives:\n\n";
     
@@ -769,7 +769,7 @@ std::string MultiPerspectiveGenerator::buildPerspectivePrompt(
     const std::string& query,
     const EthicalPerspective& perspective
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "You are analyzing an ethical question from the " << perspective.name 
         << " perspective.\n\n";
     oss << "Framework: " << perspective.description << "\n\n";
@@ -787,7 +787,7 @@ std::string MultiPerspectiveGenerator::buildSynthesisPrompt(
     const std::vector<PerspectiveResponse>& perspectives,
     const std::string& query
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Synthesize the following ethical perspectives into a balanced response:\n\n";
     oss << "Query: " << query << "\n\n";
     oss << "Perspectives:\n";
@@ -837,10 +837,10 @@ std::vector<std::string> MultiPerspectiveGenerator::extractKeyPoints(
     
     // Extract sentences that contain key principles
     std::istringstream iss(response);
-    std::string sentence;
+    std::string sentence = {};
     
     // Simple sentence extraction (split by periods)
-    std::string current;
+    std::string current = {};
     for (char c : response) {
         current += c;
         if (c == '.' || c == '!' || c == '?') {

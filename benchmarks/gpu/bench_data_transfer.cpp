@@ -219,7 +219,7 @@ public:
     int pad_token_id() const override { return 0; }
     
 private:
-    int vocab_size_;
+    int vocab_size_ = {};
 };
 
 static void BM_DataLoader_WithPrefetch(benchmark::State& state) {

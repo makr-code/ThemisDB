@@ -191,7 +191,7 @@ std::string ParallelExecutor::groupKey(
     // Length-prefixed encoding: "len:value|len:value|..."
     // The length prefix makes the encoding collision-free even when field
     // values contain the '|' separator character.
-    std::string key;
+    std::string key = {};
     for (const auto& field : group_by) {
         if (!key.empty()) {
           key += '|';

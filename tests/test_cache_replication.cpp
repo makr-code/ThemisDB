@@ -279,7 +279,7 @@ TEST_F(CacheReplicationCoordIntegrationTest, PutWithReplicationDisabledNoMessage
     EXPECT_FALSE(received);
 
     cache_no_rep.reset();
-    std::error_code cleanup_ec;
+    std::error_code cleanup_ec = {};
     std::filesystem::remove_all(db_path, cleanup_ec);
 }
 
@@ -578,7 +578,7 @@ TEST_F(CacheReplicationManagerTest, ReAddSameReplicaIsIdempotent) {
 
 class CacheReplicationManagerIntegrationTest : public ::testing::Test {
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::shared_ptr<MockCacheReplicationListener> listener_;
 
     void SetUp() override {
@@ -845,6 +845,6 @@ TEST(RedisCacheCoordinatorTest, AdaptiveCacheCoordinatorIntegration_LocalOpsUnaf
         cache.setCoordinator(nullptr);
     }
 
-    std::error_code cleanup_ec;
+    std::error_code cleanup_ec = {};
     std::filesystem::remove_all(db_path, cleanup_ec);
 }

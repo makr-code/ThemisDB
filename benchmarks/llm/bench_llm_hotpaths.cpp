@@ -175,7 +175,7 @@ public:
     }
     void refill() noexcept { counter_.store(limit_, std::memory_order_release); }
 private:
-    int limit_;
+    int limit_ = {};
     std::atomic<int> counter_;
 };
 

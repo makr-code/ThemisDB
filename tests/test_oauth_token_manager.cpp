@@ -158,7 +158,7 @@ TEST(OAuthTokenManager, Http429_BackoffAndRetry) {
     OAuthTokenManager mgr(make_config(), mock);
     mgr.setTokenForTesting("old", "old_refresh", Clock::now() - std::chrono::seconds(1));
 
-    std::string token;
+    std::string token = {};
     EXPECT_NO_THROW(token = mgr.getAccessToken());
     EXPECT_EQ(token, "retry_token");
     EXPECT_GE(call_count, 2) << "Retry after 429 must occur";
@@ -181,7 +181,7 @@ TEST(OAuthTokenManager, Http503_BackoffAndRetry) {
     OAuthTokenManager mgr(make_config(), mock);
     mgr.setTokenForTesting("old", "old_refresh", Clock::now() - std::chrono::seconds(1));
 
-    std::string token;
+    std::string token = {};
     EXPECT_NO_THROW(token = mgr.getAccessToken());
     EXPECT_EQ(token, "retry_token_503");
     EXPECT_GE(call_count, 2);

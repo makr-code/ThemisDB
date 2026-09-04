@@ -29,7 +29,7 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
     std::vector<std::string> result;
     int   depth     = 0;
     bool  in_string = false;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < s.size(); ++i) {
         char c = s[i];
         if (in_string) {
@@ -296,7 +296,7 @@ static std::string fixturePath(const std::string& name) {
 
 class Pg16FixtureTest : public ::testing::Test {
 protected:
-    std::string sql_;
+    std::string sql_ = {};
     void SetUp() override {
         sql_ = readFile(fixturePath("sample_pg16.sql"));
         if (sql_.empty()) {
@@ -354,7 +354,7 @@ TEST_F(Pg16FixtureTest, CustomerRowCount) {
     // Actually just count non-empty lines
     count = 0;
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (!line.empty()) {
           ++count;
@@ -370,7 +370,7 @@ TEST_F(Pg16FixtureTest, OrderItemsRowCount) {
     std::string data  = sql_.substr(data_start, data_end - data_start);
     size_t count = 0;
     std::istringstream iss(data);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         if (!line.empty()) {
           ++count;

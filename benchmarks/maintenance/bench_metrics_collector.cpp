@@ -391,7 +391,7 @@ static void BM_HistogramRecording(benchmark::State& state) {
     auto& collector = MetricsCollector::getInstance();
     ResetCollector(state);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<> dist(50.0, 10.0); // mean=50ms, stddev=10ms
     
@@ -408,7 +408,7 @@ static void BM_MultipleHistograms(benchmark::State& state) {
     auto& collector = MetricsCollector::getInstance();
     ResetCollector(state);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<> dist(50.0, 10.0);
     
@@ -501,7 +501,7 @@ static void BM_SimulateQueryWorkload(benchmark::State& state) {
     auto& collector = MetricsCollector::getInstance();
     ResetCollector(state);
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::normal_distribution<> latency_dist(25.0, 8.0);
     std::uniform_int_distribution<> result_dist(0, 1000);

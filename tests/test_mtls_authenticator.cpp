@@ -18,7 +18,7 @@ namespace {
 std::string loadFile(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open()) return {};
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     return ss.str();
 }
@@ -260,7 +260,7 @@ TEST(MTLSAuthenticatorTest, CertFingerprint_ValidCert_Returns64HexChars) {
       GTEST_SKIP() << "Client cert not found; skipping";
     }
 
-    std::string fp;
+    std::string fp = {};
     ASSERT_NO_THROW(fp = MTLSAuthenticator::certFingerprint(pem));
     EXPECT_EQ(fp.size(), 64u);
     // Should be lowercase hex
@@ -295,7 +295,7 @@ TEST(MTLSAuthenticatorTest, ExtractSubjectCN_ReturnsTestClient) {
       GTEST_SKIP() << "Client cert not found; skipping";
     }
 
-    std::string cn;
+    std::string cn = {};
     ASSERT_NO_THROW(cn = MTLSAuthenticator::extractSubjectCN(pem));
     EXPECT_EQ(cn, "test-client");
 }

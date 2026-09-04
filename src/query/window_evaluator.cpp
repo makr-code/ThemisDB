@@ -49,7 +49,7 @@ nlohmann::json WindowEvalSpec::toJSON() const {
 nlohmann::json WindowFunctionCall::toJSON() const {
     nlohmann::json j;
     
-    std::string funcName;
+    std::string funcName = {};
     switch (funcType) {
         case WindowFunctionType::ROW_NUMBER: funcName = "ROW_NUMBER"; break;
         case WindowFunctionType::RANK: funcName = "RANK"; break;
@@ -182,7 +182,7 @@ std::string WindowEvaluator::makePartitionKey(
     const std::vector<std::shared_ptr<Expression>>& partitionBy,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     for (size_t i = 0; i < partitionBy.size(); ++i) {
         if (i > 0) {

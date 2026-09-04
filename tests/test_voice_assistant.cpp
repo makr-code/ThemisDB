@@ -357,8 +357,8 @@ TEST(VoiceBiometricAuth, AuthAuditCounterAndCallbackCoverFailureAndSuccess) {
     VoiceBiometricAuthenticator auth;
 
     int callback_count = 0;
-    std::string last_claimed_user;
-    std::string last_reason;
+    std::string last_claimed_user = {};
+    std::string last_reason = {};
     auth.setAuthAuditCallback(
         [&](const std::string& claimed_user_id, const VoiceAuthResult& result) {
             ++callback_count;
@@ -1526,7 +1526,7 @@ TEST(VoiceAssistantAudioConvert, VA_CAF_02_InjectedFnReturnValueUsed) {
     themis::voice::VoiceAssistant va(cfg);
 
     const std::vector<uint8_t> fake_encoded = {0xAA, 0xBB, 0xCC};
-    std::string captured_format;
+    std::string captured_format = {};
 
     va.setAudioConvertFn([&](const std::vector<uint8_t>& /*audio*/,
                               const std::string& fmt) -> std::vector<uint8_t> {

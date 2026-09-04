@@ -144,8 +144,8 @@ bool evaluateRange(std::string_view expr, const json& value) {
 
     // Numeric comparison operators: >=, <=, !=, >, <, =
     if (expr.size() >= 2) {
-        std::string_view op;
-        std::string_view rhs_sv;
+        std::string_view op = {};
+        std::string_view rhs_sv = {};
 
         if (expr.substr(0, 2) == ">=" || expr.substr(0, 2) == "<=" ||
             expr.substr(0, 2) == "!=") {
@@ -346,8 +346,8 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     bool    in_rule = false;
     bool    in_input_entry = false;
     bool    in_output_entry = false;
-    std::string output_col_name;
-    std::string current_text;
+    std::string output_col_name = {};
+    std::string current_text = {};
 
     auto flushTag = [&](std::string_view raw_tag, bool closing) {
         const std::string tag_lower = toLower(std::string(stripNs(raw_tag)));

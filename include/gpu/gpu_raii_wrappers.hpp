@@ -199,8 +199,8 @@ class GPUMemoryHandle {
 
  private:
     void* ptr_;
-    size_t size_;
-    size_t count_;
+    size_t size_ = {};
+    size_t count_ = {};
 
     /// Destroy and free GPU memory
     void destroy() noexcept {

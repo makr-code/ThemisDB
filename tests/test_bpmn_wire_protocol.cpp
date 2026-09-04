@@ -176,7 +176,7 @@ TEST_F(BpmnIntegrationTest, CompleteTask) {
     ASSERT_FALSE(instance2.tokens.empty());
     
     // Find the task node - assert it exists
-    std::string task_node;
+    std::string task_node = {};
     for (const auto& token : instance2.tokens) {
         if (token.current_node == "userTask1") {
             task_node = token.current_node;

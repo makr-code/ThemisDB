@@ -48,7 +48,7 @@ bool hasAESNI() {
  * @return String describing active acceleration
  */
 std::string getEncryptionCapabilities() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "OpenSSL Version: " << OpenSSL_version(OPENSSL_VERSION) << "\n";
     

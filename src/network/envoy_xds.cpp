@@ -43,7 +43,7 @@ namespace {
 
 // Escape a string value for embedding in JSON.
 static std::string jsonEscape(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         switch (c) {
@@ -75,7 +75,7 @@ static std::string extractString(const std::string& json, const std::string& key
     if (colon == std::string::npos) return {};
     auto q1 = json.find('"', colon + 1);
     if (q1 == std::string::npos) return {};
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (std::size_t i = q1 + 1; i < json.size(); ++i) {
         if (escape) {
@@ -328,7 +328,7 @@ std::string EnvoyXdsClient::buildDiscoveryRequest(
     const std::string&              nonce,
     const std::vector<std::string>& names) const
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "{"
        << "\"node\":{"
        <<   "\"id\":\"" << jsonEscape(config_.node_id) << "\","
@@ -605,7 +605,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
                     if (q1 == std::string::npos) {
                       break;
                     }
-                    std::string domain;
+                    std::string domain = {};
                     bool esc = false;
                     std::size_t i = q1 + 1;
                     for (; i < dom_body.size(); ++i) {
@@ -786,7 +786,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── LDS ────────────────────────────────────────────────────────────
         if ([[maybe_unused]] config_.subscribe_listeners) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlListener, "/v3/discovery:listeners",
@@ -818,7 +818,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── CDS ────────────────────────────────────────────────────────────
         if (config_.subscribe_clusters) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlCluster, "/v3/discovery:clusters",
@@ -850,7 +850,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── EDS ────────────────────────────────────────────────────────────
         if (config_.subscribe_endpoints) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlEndpoint, "/v3/discovery:endpoints",
@@ -882,7 +882,7 @@ void EnvoyXdsClient::pollLoop() {
 
         // ── RDS ────────────────────────────────────────────────────────────
         if (config_.subscribe_routes) {
-            std::string res_json;
+            std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
                 kXdsTypeUrlRoute, "/v3/discovery:routes",

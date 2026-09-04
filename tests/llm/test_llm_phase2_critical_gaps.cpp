@@ -533,7 +533,7 @@ TEST_F(LLMPhase2CriticalGapsTest, CONC01_ConcurrentTrackerThreadSafe) {
     struct ConcurrentInferenceTracker {
         std::atomic<size_t> active{0};
         size_t max_concurrent{256};
-        std::mutex lock;
+        std::mutex lock = {};
         bool Acquire() noexcept {
             std::lock_guard<std::mutex> g(lock);
             if (active >= max_concurrent) {

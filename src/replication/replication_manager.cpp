@@ -489,7 +489,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
         SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
                content.size(), hash);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') 
                 << static_cast<int>(hash[i]);
@@ -610,7 +610,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                             unsigned char hash[SHA256_DIGEST_LENGTH];
                             SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
                                    content.size(), hash);
-                            std::ostringstream oss;
+                            std::ostringstream oss = {};
                             for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
                                 oss << std::hex << std::setw(2) << std::setfill('0')
                                     << static_cast<int>(hash[i]);
@@ -663,7 +663,7 @@ void WALManager::sync() {
     // Minimal portable implementation: iterate WAL files and call fsync/_commit
     // on each file descriptor. This provides a best-effort durability guarantee
     // and is preferable to a silent no-op.
-    std::error_code ec;
+    std::error_code ec = {};
     const fs::path dir(config_.wal_directory);
     if (dir.empty() || !fs::exists(dir, ec)) {
         if (ec) THEMIS_WARN("WALManager::sync: wal directory inaccessible: {}", ec.message());
@@ -797,7 +797,7 @@ void LeaderElection::start() {
 }
 
 void LeaderElection::electionLoop() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
 
     while (running_.load()) {
@@ -1201,7 +1201,7 @@ bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
 ReplicationManager::ReplicationManager(const ReplicationConfig& config)
     : config_(config) {
     // Generate unique node ID if not provided
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
     node_id_ = "node-" + std::to_string(dis(gen));
@@ -1332,8 +1332,8 @@ bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_
                    std::chrono::milliseconds(timeout_ms > 0 ? timeout_ms : config_.replication_timeout_ms);
     
     uint32_t acked_count = 0;
-    uint32_t required;
-    uint32_t active_streams;
+    uint32_t required = {};
+    uint32_t active_streams = {};
     {
         std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
         active_streams = static_cast<uint32_t>(streams_.size());
@@ -1675,7 +1675,7 @@ std::map<std::string, bool> ReplicationManager::getClusterHealth() const {
 }
 
 std::string ReplicationManager::exportPrometheusMetrics() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Export basic stats
     oss << stats_.toPrometheusFormat();
@@ -1825,7 +1825,7 @@ void ReplicationManager::performHealthCheck() {
     // Collect all health status changes under the write lock, then
     // notify listeners outside the lock to avoid holding it during callbacks.
     struct HealthChange {
-        std::string node_id;
+        std::string node_id = {};
         HealthStatus old_status;
         HealthStatus new_status;
     };
@@ -1973,7 +1973,7 @@ void ReplicationManager::healthMonitorLoop() {
         // Check for leader failure and trigger automatic failover if enabled
         if (config_.enable_auto_failover && election_ && !election_->isLeader()) {
             std::string current_leader_id = election_->getLeaderId();
-            std::string failed_leader_id;
+            std::string failed_leader_id = {};
             
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
@@ -2564,7 +2564,7 @@ bool VectorClock::isConcurrent(const VectorClock& other) const {
 
 std::string VectorClock::toJson() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [node, ts] : clocks_) {
@@ -2683,7 +2683,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
         std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
@@ -2752,7 +2752,7 @@ MMWriteEntry CRDTMergeResolver::resolve(
 {
     if (conflicting_writes.empty()) return MMWriteEntry{};
 
-    std::string merged_data;
+    std::string merged_data = {};
     switch (crdt_type_) {
         case CRDTType::LWW_REGISTER: merged_data = mergeLWWRegister(conflicting_writes); break;
         case CRDTType::MV_REGISTER:  merged_data = mergeMVRegister(conflicting_writes);  break;
@@ -2776,7 +2776,7 @@ MMWriteEntry CRDTMergeResolver::resolve(
     std::string content = result.operation + result.collection + result.document_id + result.data;
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -2823,7 +2823,7 @@ std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>&
 
 std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& writes) {
     // Multi-value register: return all concurrent values as a JSON array
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto& w : writes) {
@@ -2989,7 +2989,7 @@ std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& wr
             merged[k] = std::max(merged[k], v);
         }
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [k, v] : merged) {
@@ -3022,7 +3022,7 @@ std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& w
     }
     // Serialise as {"P":{...},"N":{...}}
     auto serializeMap = [](const std::map<std::string, int64_t>& m) {
-        std::ostringstream o;
+        std::ostringstream o = {};
         o << "{";
         bool first = true;
         for (const auto& [k, v] : m) {
@@ -3035,7 +3035,7 @@ std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& w
         o << "}";
         return o.str();
     };
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"P\":" << serializeMap(mergedP) << ",\"N\":" << serializeMap(mergedN) << "}";
     return oss.str();
 }
@@ -3059,7 +3059,7 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
             p = qe + 1;
         }
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto& s : seen) {
@@ -3130,7 +3130,7 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
             if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }
 
     // Produce JSON array of live elements
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto& e : liveElements) {
@@ -3156,7 +3156,7 @@ std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writ
             }
         }
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     bool first = true;
     for (const auto& [k, p] : best) {
@@ -3189,7 +3189,7 @@ std::string CRDTMergeResolver::mergeTwoPSet(const std::vector<MMWriteEntry>& wri
         }
     }
     // Build result: elements in addSet not in removeSet
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto& e : addSet) {
@@ -3219,8 +3219,8 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
 
     // Element struct: id, value, deleted
     struct RGAElem {
-        std::string id;
-        std::string value;
+        std::string id = {};
+        std::string value = {};
         bool deleted{false};
     };
 
@@ -3301,7 +3301,7 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
     }
 
     // Produce sorted JSON array (include tombstones so remote nodes can apply deletes)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool first = true;
     for (const auto& [id, elem] : byId) {
@@ -3340,7 +3340,7 @@ std::string CRDTMergeResolver::mergeFlagEW(const std::vector<MMWriteEntry>& writ
     for (const auto& t : enableTags) {
         if (disableTags.find(t) == disableTags.end()) { enabled = true; break; }
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"enabled\":" << (enabled ? "true" : "false") << "}";
     return oss.str();
 }
@@ -3364,7 +3364,7 @@ std::string CRDTMergeResolver::mergeFlagDW(const std::vector<MMWriteEntry>& writ
             disableTags.insert(t);
     }
     bool enabled = !enableTags.empty() && disableTags.empty();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\"enabled\":" << (enabled ? "true" : "false") << "}";
     return oss.str();
 }
@@ -3483,7 +3483,7 @@ MMWriteEntry CustomResolver::resolve(
         return resolver_(document_id, conflicting_writes);
     }
     // Fallback to LWW
-    LastWriteWinsResolver lwr;
+    LastWriteWinsResolver lwr = {};
     return lwr.resolve(document_id, conflicting_writes);
 }
 
@@ -3593,7 +3593,7 @@ std::string MultiMasterReplicationManager::write(
         std::string content = operation + collection + document_id + data;
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         entry.checksum = oss.str();
@@ -3900,7 +3900,7 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
 
 std::string MultiMasterReplicationManager::exportPrometheusMetrics() const {
     auto s = getStats();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# HELP themisdb_mm_writes_total Total multi-master writes\n"
         << "# TYPE themisdb_mm_writes_total counter\n"
         << "themisdb_mm_writes_total{node=\"" << config_.node_id << "\"} " << s.writes_total << "\n"
@@ -4622,7 +4622,7 @@ std::string QuorumReadManager::generateSessionToken([[maybe_unused]] uint64_t ve
         (std::chrono::system_clock::now() +
          std::chrono::milliseconds(config_.session_token_ttl_ms))
         .time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "seq=" << version << ";exp=" << expiry_ms;
     return oss.str();
 }
@@ -4755,7 +4755,7 @@ bool PersistentReplicationState::persist(const State& state) {
 
 PersistentReplicationState::State PersistentReplicationState::load() const {
     std::lock_guard<std::mutex> lock(file_mutex_);
-    State state;
+    State state = {};
     if (!std::filesystem::exists(path_)) {
         return state;  // First-run: return default
     }
@@ -4765,7 +4765,7 @@ PersistentReplicationState::State PersistentReplicationState::load() const {
           return state;
         }
 
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line)) {
             auto eq = line.find('=');
             if (eq == std::string::npos) {
@@ -4854,7 +4854,7 @@ std::vector<uint8_t> CompressedReplicationStream::serializeEntries(
     const std::vector<WALEntry>& entries) const
 {
     // Simple serialization: length-prefixed JSON-like representation
-    std::string buf;
+    std::string buf = {};
     for (const auto& e : entries) {
         buf += std::to_string(e.sequence_number) + "|"
              + e.collection   + "|"
@@ -4921,7 +4921,7 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
 
         case CompressionAlgorithm::SNAPPY: {
             std::string input(reinterpret_cast<const char*>(data.data()), data.size());
-            std::string output;
+            std::string output = {};
             snappy::Compress(input.data(), input.size(), &output);
             return std::vector<uint8_t>(output.begin(), output.end());
         }
@@ -4993,7 +4993,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
         case CompressionAlgorithm::SNAPPY: {
             std::string input(reinterpret_cast<const char*>(compressed.data()),
                               compressed.size());
-            std::string output;
+            std::string output = {};
             if (!snappy::Uncompress(input.data(), input.size(), &output)) {
                 THEMIS_ERROR("Snappy decompression failed");
                 return {};  // Production behavior: return empty on error
@@ -5320,7 +5320,7 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
 
 std::string ReplicationAnalytics::exportPrometheusMetrics() const {
     std::shared_lock<std::shared_mutex> lock(data_mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "# HELP themisdb_replication_lag_ms Current replication lag\n"
         << "# TYPE themisdb_replication_lag_ms gauge\n";
     for (const auto& [replica_id, history] : lag_history_) {
@@ -5557,7 +5557,7 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
 }
 
 std::string ReplicationBenchmark::format(const BenchmarkResult& r) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== ReplicationBenchmark Results ===\n"
         << "Entries:       " << r.total_entries       << "\n"
         << "Duration:      " << r.duration_seconds    << "s\n"
@@ -5715,7 +5715,7 @@ void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
 
 std::string CrossClusterPublication::exportPrometheusMetrics() const {
     std::string label = "{publication=\"" + name_ + "\"}";
-    std::string m;
+    std::string m = {};
     m += "themisdb_cross_cluster_publication_published_total" + label + " " +
          std::to_string(published_count_.load()) + "\n";
     m += "themisdb_cross_cluster_publication_subscribers" + label + " " +
@@ -5780,7 +5780,7 @@ uint64_t CrossClusterSubscription::errorCount() const { return error_count_.load
 
 std::string CrossClusterSubscription::exportPrometheusMetrics() const {
     std::string label = "{subscription=\"" + name_ + "\"}";
-    std::string m;
+    std::string m = {};
     m += "themisdb_cross_cluster_subscription_applied_total" + label + " " +
          std::to_string(applied_count_.load()) + "\n";
     m += "themisdb_cross_cluster_subscription_errors_total" + label + " " +
@@ -5799,7 +5799,7 @@ WALArchivalManager::WALArchivalManager(const ArchivalConfig& config,
     : config_(config), backend_(std::move(backend)) {
     if (!backend_) {
         // Local filesystem backend: ensure archive directory exists
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(config_.archive_directory, ec);
     }
     // Load existing index if present
@@ -5807,7 +5807,7 @@ WALArchivalManager::WALArchivalManager(const ArchivalConfig& config,
 }
 
 std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     if (backend_) {
         // Cloud object key: use configured prefix
         oss << config_.prefix;
@@ -5989,7 +5989,7 @@ void WALArchivalManager::loadIndex() {
     if (!f) {
       return;
     }
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
           continue;
@@ -6011,7 +6011,7 @@ void WALArchivalManager::loadIndex() {
         // indexes written by earlier versions that omit these fields.
         seg.storage_tier = "standard";
         seg.encrypted    = false;
-        std::string tier_field;
+        std::string tier_field = {};
         int encrypted_field = 0;
         if (iss >> tier_field) {
           seg.storage_tier = tier_field;
@@ -6251,7 +6251,7 @@ uint32_t WALArchivalManager::purgeExpired() {
             if (backend_) {
                 static_cast<void>(backend_->deleteObject(it->archive_path));
             } else {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::remove(it->archive_path, ec);
             }
             THEMIS_INFO("WALArchival: purged expired segment {} ({})",
@@ -6317,7 +6317,7 @@ uint32_t WALArchivalManager::runArchivalCycle() {
 
     // Collect segment files from the WAL directory older than the retention limit
     std::vector<std::string> candidates;
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(config_.wal_directory, ec)) {
       return 0;
     }
@@ -6388,7 +6388,7 @@ std::string MultiRegionActiveActiveManager::generateWriteId([[maybe_unused]] uin
     // atomic increment and this read.
     auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << config_.local_region_id << "-" << sequence << "-" << now_ns;
     return oss.str();
 }
@@ -6399,7 +6399,7 @@ std::string MultiRegionActiveActiveManager::generateSessionToken([[maybe_unused]
         (std::chrono::system_clock::now() +
          std::chrono::milliseconds(config_.session_token_ttl_ms))
         .time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "seq=" << sequence
         << ";region=" << config_.local_region_id
         << ";exp=" << expiry_ms;
@@ -7310,7 +7310,7 @@ std::string GeoReplicationManager::selectReadRegion(
                 return config_.local_region;
             }
             // Pick the region with smallest staleness that is within bound.
-            std::string best_region;
+            std::string best_region = {};
             int64_t best_lag = std::numeric_limits<int64_t>::max();
             for (const auto& [rid, info] : region_staleness_) {
                 if (info.is_healthy && info.staleness_ms <= bound &&

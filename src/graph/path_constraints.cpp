@@ -612,7 +612,7 @@ void PathConstraints::clearConstraints() {
 }
 
 std::string PathConstraints::describeConstraints() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Path Constraints (" << constraints_.size() << " total):\n";
 
     for (const auto &constraint : constraints_) {

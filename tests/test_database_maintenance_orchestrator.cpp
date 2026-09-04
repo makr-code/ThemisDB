@@ -1044,7 +1044,7 @@ TEST_F(SchedulePersistenceIntegrationTest, DeletedScheduleNotReloadedAfterRestar
 }
 
 TEST_F(SchedulePersistenceIntegrationTest, UpdatedSchedulePersistedAfterRestart) {
-    std::string id;
+    std::string id = {};
 
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, engine_.get());
@@ -1070,7 +1070,7 @@ TEST_F(SchedulePersistenceIntegrationTest, UpdatedSchedulePersistedAfterRestart)
 }
 
 TEST_F(SchedulePersistenceIntegrationTest, PatchedSchedulePersistedAfterRestart) {
-    std::string id;
+    std::string id = {};
 
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, engine_.get());
@@ -1097,7 +1097,7 @@ TEST_F(SchedulePersistenceIntegrationTest, PatchedSchedulePersistedAfterRestart)
 TEST_F(SchedulePersistenceIntegrationTest,
        CorruptEntrySkippedValidEntriesLoadedAfterRestart)
 {
-    std::string id_good;
+    std::string id_good = {};
 
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, engine_.get());
@@ -1128,7 +1128,7 @@ TEST_F(SchedulePersistenceIntegrationTest,
     // Without a storage engine, the orchestrator operates purely in-memory.
     // Schedules created in the first instance must NOT appear in the second
     // (since there is no shared backing store).
-    std::string id;
+    std::string id = {};
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, nullptr);
         auto r = orc.createSchedule(makeEntry("In-Memory Only"));

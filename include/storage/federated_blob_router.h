@@ -27,7 +27,7 @@ namespace storage {
  * reported to the caller.
  */
 struct FederatedBlobReplicaTarget {
-    std::string region;
+    std::string region = {};
     bool        required = true;
 };
 
@@ -215,7 +215,7 @@ public:
      */
     [[nodiscard]] Result<void> remove(const FederatedBlobRoute& route) {
         bool        saw_failure = false;
-        std::string failure_message;
+        std::string failure_message = {};
 
         for (const auto& [region, ref] : route.region_refs) {
             auto backend = backendFor(region);

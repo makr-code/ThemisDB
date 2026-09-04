@@ -235,7 +235,7 @@ std::string QueryMaskingPolicy::maskStringValue(
                           return a.start_offset < b.start_offset;
                       });
 
-            std::string result;
+            std::string result = {};
             result.reserve(value.size());
             size_t pos = 0;
             for (const auto& f : findings) {

@@ -111,7 +111,7 @@ void BatchWriteOptimizer::recordBatchWrite(size_t items, double latency_ms) {
 BatchWriteOptimizer::Config BatchWriteOptimizer::recommendedConfigForUseCase(
     const std::string& use_case
 ) {
-    Config config;
+    Config config = {};
     
     if (use_case == "production") {
         config.durability = DurabilityMode::Async;

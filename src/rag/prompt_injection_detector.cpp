@@ -56,7 +56,7 @@ struct DetectionRule {
     std::string       category;
     InjectionSeverity severity;
     std::string       description;
-    std::regex        pattern;
+    std::regex        pattern = {};
 };
 
 /// Build the static rule list (shared registry base + RAG-specific rules).
@@ -262,7 +262,7 @@ InjectionScanResult PromptInjectionDetector::scan(const std::string& text) const
             rule.category == "markup_injection")       { continue; }
 
         std::sregex_iterator it(text.begin(), text.end(), rule.pattern);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             const std::smatch& m = *it;
             InjectionFinding   f;

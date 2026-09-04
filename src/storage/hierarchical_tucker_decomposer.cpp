@@ -270,7 +270,7 @@ void serializeNode(std::vector<uint8_t>& buf, const HTNode* node) {
 
 struct Reader {
     const uint8_t* p;
-    std::size_t    left;
+    std::size_t    left = {};
     bool           ok = true;
 
     bool readU64([[maybe_unused]] uint64_t& v) {

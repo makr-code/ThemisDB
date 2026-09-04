@@ -355,7 +355,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
 
     // Shared LLM safety policy to keep rag/llm/training prompt sanitization aligned.
     // NOLINT: Inputs are sanitized before passing to LLM safety policy
-    std::string sanitized_query;
+    std::string sanitized_query = {};
     if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
             safe_input.query, sanitized_query, nullptr, nullptr)) {
         safe_input.query = std::move(sanitized_query);
@@ -363,7 +363,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
         safe_input.query = "[BLOCKED_PROMPT]";
     }
 
-    std::string sanitized_answer;
+    std::string sanitized_answer = {};
     if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
             safe_input.generated_answer, sanitized_answer, nullptr, nullptr)) {
         safe_input.generated_answer = std::move(sanitized_answer);

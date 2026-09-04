@@ -117,7 +117,7 @@ class MockCacheWarmup final : public ICacheWarmup {
 public:
     std::vector<CacheEntry<std::string, std::string>> inserted;
     bool should_error = false;
-    std::string error_message;
+    std::string error_message = {};
 
     WarmupResult warm(IWarmupSource& source) override {
         if (should_error) {

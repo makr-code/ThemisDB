@@ -35,7 +35,7 @@ uint64_t HardwareCycleCounter::cpu_frequency_hz() noexcept {
     // Try to read from /proc/cpuinfo
     std::ifstream cpuinfo("/proc/cpuinfo");
     if (cpuinfo.is_open()) {
-        std::string line;
+        std::string line = {};
         while (std::getline(cpuinfo, line)) {
             if (line.find("cpu MHz") != std::string::npos) {
                 size_t colon_pos = line.find(':');
@@ -73,7 +73,7 @@ std::string HardwareCycleCounter::cpu_model() noexcept {
 #ifdef __linux__
     std::ifstream cpuinfo("/proc/cpuinfo");
     if (cpuinfo.is_open()) {
-        std::string line;
+        std::string line = {};
         while (std::getline(cpuinfo, line)) {
             if (line.find("model name") != std::string::npos) {
                 size_t colon_pos = line.find(':');

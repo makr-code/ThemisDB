@@ -145,7 +145,7 @@ ConcurrentCompactor::Stats ConcurrentCompactor::get_stats() const {
 
 void ConcurrentCompactor::worker_loop() {
     while (running_.load(std::memory_order_relaxed)) {
-        CompactionTask task;
+        CompactionTask task = {};
         
         if (!g_task_queue.pop(task, true)) {
             continue;  // Shutdown or no tasks

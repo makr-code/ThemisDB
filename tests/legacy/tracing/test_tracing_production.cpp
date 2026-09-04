@@ -122,7 +122,7 @@ TEST_F(BaggageTest, ExtractIgnoresUnknownHeaders) {
 TEST_F(BaggageTest, ThreadLocalIsolation) {
     Baggage::set("main-key", "main-value");
 
-    std::string other_value;
+    std::string other_value = {};
     std::thread t([&]() {
         other_value = Baggage::get("main-key"); // Should be empty in another thread
     });

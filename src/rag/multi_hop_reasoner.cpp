@@ -94,7 +94,7 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
 {
     std::vector<std::string> sub_queries;
     std::istringstream ss(response);
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         // Strip leading list markers: "1.", "2.", "-", "*"
         std::string t = themis::utils::trim(line);
@@ -132,7 +132,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     std::vector<std::string> sentences = {};
 
     sentences.reserve(q.size() / 20);  // Estimate: average sentence ~20 chars
-    std::string acc;
+    std::string acc = {};
     for (size_t i = 0; i < q.size(); ++i) {
         acc += q[i];
         if ((q[i] == '.' || q[i] == '?') &&
@@ -196,7 +196,7 @@ std::string MultiHopReasoner::buildHopPrompt(
     const std::vector<judge::RetrievedDocument>& documents,
     const std::vector<std::string>& previous_answers) const
 {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
 
     // Inject previous answers as context when available
     if (!previous_answers.empty()) {
@@ -255,7 +255,7 @@ std::string MultiHopReasoner::composeAnswer(
 
     if (!inference_fn) {
         // Without LLM, concatenate partial answers
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (const auto& pa : partial_answers) {
             oss << pa << "\n";
         }
@@ -263,7 +263,7 @@ std::string MultiHopReasoner::composeAnswer(
     }
 
     // Assemble composition prompt
-    std::ostringstream pa_block;
+    std::ostringstream pa_block = {};
     for (const auto& pa : partial_answers) {
         pa_block << pa << "\n";
     }
@@ -285,7 +285,7 @@ MultiHopResult MultiHopReasoner::reason(
     RetrievalFn retrieval_fn,
     InferenceFn inference_fn) const
 {
-    MultiHopResult result;
+    MultiHopResult result = {};
 
     if (query.empty() || !retrieval_fn || !inference_fn) {
         return result;

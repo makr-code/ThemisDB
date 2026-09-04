@@ -57,7 +57,7 @@ TEST(CudaGeoBackend, Capabilities_SupportsBatchAndAsync) {
 // =============================================================================
 
 TEST(CudaGeoBackend, BatchDistances_NullInputReturnsEmpty) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -67,7 +67,7 @@ TEST(CudaGeoBackend, BatchDistances_NullInputReturnsEmpty) {
 }
 
 TEST(CudaGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -79,7 +79,7 @@ TEST(CudaGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
 }
 
 TEST(CudaGeoBackend, BatchPointInPolygon_NullInputReturnsEmpty) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -90,7 +90,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_NullInputReturnsEmpty) {
 }
 
 TEST(CudaGeoBackend, BatchPointInPolygon_TooFewVerticesReturnsEmpty) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -107,7 +107,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_TooFewVerticesReturnsEmpty) {
 // =============================================================================
 
 TEST(CudaGeoBackend, BatchDistances_Haversine_SamePointIsZero) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -124,7 +124,7 @@ TEST(CudaGeoBackend, BatchDistances_Haversine_SamePointIsZero) {
 }
 
 TEST(CudaGeoBackend, BatchDistances_Haversine_LondonParis) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -145,7 +145,7 @@ TEST(CudaGeoBackend, BatchDistances_Haversine_LondonParis) {
 }
 
 TEST(CudaGeoBackend, BatchDistances_Haversine_BatchOf2) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -166,7 +166,7 @@ TEST(CudaGeoBackend, BatchDistances_Haversine_BatchOf2) {
 }
 
 TEST(CudaGeoBackend, BatchPointInPolygon_InsideAndOutside) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -190,7 +190,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_InsideAndOutside) {
 }
 
 TEST(CudaGeoBackend, BatchPointInPolygon_AllInside) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -216,7 +216,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_AllInside) {
 // =============================================================================
 
 TEST(CudaGeoBackend, GeoDispatch_DistanceSlotIsNonNullOnGPU) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }

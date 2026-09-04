@@ -63,7 +63,7 @@ std::string resolveDefaultModelPathFromEnv() {
         // THEMIS_MODEL_DIR may point to a directory. In that case try phi4 first.
         if (env_name == std::string("THEMIS_MODEL_DIR")) {
             std::filesystem::path dir(candidate);
-            std::error_code ec;
+            std::error_code ec = {};
             if (std::filesystem::is_directory(dir, ec)) {
                 auto preferred = dir / "phi4.gguf";
                 if (std::filesystem::exists(preferred, ec)) {
@@ -72,7 +72,7 @@ std::string resolveDefaultModelPathFromEnv() {
             }
         }
 
-        std::error_code ec;
+        std::error_code ec = {};
         if (std::filesystem::exists(candidate, ec)) {
             return candidate;
         }
@@ -83,7 +83,7 @@ std::string resolveDefaultModelPathFromEnv() {
 
 std::vector<std::string> tokenizeLower(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch) || ch == '_' || ch == '-') {
             cur.push_back(static_cast<char>(std::tolower(ch)));
@@ -309,7 +309,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         
         impl_->documents.clear();
         for (const auto& doc_json : db_json["documents"]) {
-            DocumentEntry doc;
+            DocumentEntry doc = {};
             
             if (doc_json.contains("file_path")) {
                 doc.file_path = doc_json["file_path"].get<std::string>();
@@ -373,7 +373,7 @@ float DocsAssistant::computeRelevance(const DocumentEntry& doc, const std::strin
     // Split query into words
     std::istringstream iss(query_lower);
     std::vector<std::string> query_words;
-    std::string word;
+    std::string word = {};
     while (iss >> word) {
         // Remove punctuation
         word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -467,7 +467,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         impl_->config.llm_model_id.empty() ? std::string{"default"} : impl_->config.llm_model_id);
 
     // Build a conservative fallback prompt used only when plugin RAG is unavailable.
-    std::stringstream fallback_context;
+    std::stringstream fallback_context = {};
     fallback_context << "# ThemisDB Documentation Context\n\n";
 
     for (const auto& doc : context_docs) {
@@ -482,7 +482,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         fallback_context << "---\n\n";
     }
 
-    std::stringstream fallback_prompt;
+    std::stringstream fallback_prompt = {};
     fallback_prompt << "You are a helpful ThemisDB documentation assistant. ";
     fallback_prompt << "Answer the user's question based on the provided documentation context. ";
     fallback_prompt << "Be concise, accurate, and provide specific references to configuration options or commands when applicable.\n\n";
@@ -622,7 +622,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 }
 
 DocsQueryResult DocsAssistant::query(const std::string& query) {
-    DocsQueryResult result;
+    DocsQueryResult result = {};
     
     if (!isReady()) {
         result.generated_answer = "Documentation database not loaded. Please ensure docs_database.json is available.";
@@ -684,9 +684,9 @@ DocsQueryResult DocsAssistant::getConfigHelp(const std::string& topic) {
     constexpr size_t kMaxTopicLen = 128;
     const std::string safe_topic = topic.substr(0, kMaxTopicLen);
 
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_topic, sanitized,
                                                        &blocked_rule, &blocked_reason)) {
         THEMIS_WARN("getConfigHelp: topic blocked by prompt safety policy [{}]: {}",
@@ -707,9 +707,9 @@ DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_d
     constexpr size_t kMaxDescLen = 512;
     const std::string safe_desc = error_description.substr(0, kMaxDescLen);
 
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_desc, sanitized,
                                                        &blocked_rule, &blocked_reason)) {
         THEMIS_WARN("getTroubleshootingHelp: error_description blocked by prompt safety policy [{}]: {}",

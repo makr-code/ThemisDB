@@ -228,7 +228,7 @@ void DiagnosticEmitter::emitCoordinatedEvent(const std::string& operation,
 }
 
 std::string DiagnosticEmitter::formatErrorMessage(const ErrorContext& context) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "[" << errorCodeName(context.error_code) << ":" 
         << static_cast<uint16_t>(context.error_code) << "] ";

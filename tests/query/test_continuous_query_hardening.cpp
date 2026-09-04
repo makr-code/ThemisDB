@@ -448,10 +448,10 @@ class MockPersistenceManager {
 public:
     /// Simulate checkpoint: capture current state
     struct Checkpoint {
-        std::string query_name;
+        std::string query_name = {};
         std::vector<std::string> buffered_results;
         int64_t last_watermark_us;
-        size_t checkpoint_id;
+        size_t checkpoint_id = {};
     };
     
     std::optional<Checkpoint> lastCheckpoint() const {

@@ -174,7 +174,7 @@ static ModelDownloadResult pullWithModelName(const std::string& model_name) {
     cfg.timeout_seconds = 1;
     cfg.use_cache       = false;
 
-    ModelDownloader dl;
+    ModelDownloader dl = {};
     return dl.downloadFromOllama(cfg);
 }
 

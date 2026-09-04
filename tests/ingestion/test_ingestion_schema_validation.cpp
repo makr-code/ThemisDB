@@ -574,7 +574,7 @@ TEST(ApiConnectorSchemaTest, ValidatorRejectsInvalidDocs) {
 
     // Validator: only accept docs that contain "keyword"
     connector.setDocumentValidator([](const std::string& content) -> DocumentValidationResult {
-        DocumentValidationResult r;
+        DocumentValidationResult r = {};
         if (content.find("keyword") == std::string::npos) {
             r.addViolation("", "missing keyword");
         }

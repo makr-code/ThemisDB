@@ -35,7 +35,7 @@ static std::string makeTempPath(const std::string& tag) {
 }
 
 struct TSBatchFixture : ::testing::Test {
-    std::string              db_path;
+    std::string              db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> store;
     const int64_t            BASE_MS = 1700000000000LL;

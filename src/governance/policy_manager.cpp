@@ -95,7 +95,7 @@ nlohmann::json PolicyRule::toJson() const {
 }
 
 PolicyRule PolicyRule::fromJson(const nlohmann::json &j) {
-    PolicyRule rule;
+    PolicyRule rule = {};
     if (j.contains("id")) {
         rule.id = j["id"].get<std::string>();
     }
@@ -230,7 +230,7 @@ bool PolicyManager::loadRules(const std::string &path) {
 
             const auto &rules_node = config["rules"];
             for (const auto &rule_node : rules_node) {
-                PolicyRule rule;
+                PolicyRule rule = {};
 
                 if (rule_node["id"]) {
                     rule.id = rule_node["id"].as<std::string>();
@@ -440,7 +440,7 @@ PolicyManager::PolicyDecision PolicyManager::evaluatePolicy(const std::string &r
 }
 
 PolicyManager::PolicyDecision PolicyManager::aggregateRules(const std::vector<PolicyRule> &rules) const {
-    PolicyDecision decision;
+    PolicyDecision decision = {};
 
     if (rules.empty()) {
         // Default permissive policy
@@ -799,7 +799,7 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     }
 
     // 3. Capture the old version hash for the audit entry.
-    std::string old_version;
+    std::string old_version = {};
     {
         std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
         if (active_policy_set_) {
@@ -823,7 +823,7 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
         ids.push_back(id);
     }
     std::sort(ids.begin(), ids.end());
-    std::string concat;
+    std::string concat = {};
     for (const auto &id : ids) {
         concat += id;
         concat += '|';

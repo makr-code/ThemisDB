@@ -71,7 +71,7 @@ class GPUMemoryPool {
     size_t getSize() const { return size_; }
    
    private:
-    size_t size_;
+    size_t size_ = {};
     GPUMemoryPool* pool_;
     std::atomic<bool> is_freed_;
   };
@@ -975,7 +975,7 @@ TEST(MemorySafetyHardening, EXS_14_ShutdownUnderException) {
 // EXS-15: Concurrent Load Operations Exception Safety
 TEST(MemorySafetyHardening, EXS_15_ConcurrentLoadExceptionSafety) {
   struct ThreadSafeModel {
-    std::mutex mutex;
+    std::mutex mutex = {};
     bool loaded = false;
     
     void load() {
@@ -1137,7 +1137,7 @@ TEST(MemorySafetyHardening, EXS_23_StateAfterFailedInit) {
 // EXS-24: Concurrent Model Access with Exception
 TEST(MemorySafetyHardening, EXS_24_ConcurrentAccessException) {
   struct Model {
-    std::mutex mu;
+    std::mutex mu = {};
     int value = 0;
     
     void set(int v) {

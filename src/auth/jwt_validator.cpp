@@ -218,10 +218,10 @@ nlohmann::json JWTValidator::fetchJWKS() {
     // Perform the HTTP fetch completely outside all locks so concurrent
     // readers/validators are never stalled.
     nlohmann::json fetched_json;
-    std::exception_ptr fetch_exc;
+    std::exception_ptr fetch_exc = {};
 
     try {
-        std::string response;
+        std::string response = {};
         int attempt        = 0;
         int retry_delay_ms = 100; // Start with 100 ms; doubles each attempt
         CURLcode rc        = CURLE_FAILED_INIT;
@@ -757,7 +757,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
 
     std::vector<std::string> parts;
     std::stringstream ss(jwt);
-    std::string part;
+    std::string part = {};
     while (std::getline(ss, part, '.')) {
         parts.push_back(part);
     }
@@ -846,7 +846,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     if (payload.contains("scope") && payload["scope"].is_string()) {
         const std::string scope_str = payload["scope"].get<std::string>();
         std::istringstream iss(scope_str);
-        std::string token_item;
+        std::string token_item = {};
         while (iss >> token_item) {
             if (!token_item.empty()) {
                 claims.scopes.push_back(token_item);
@@ -859,7 +859,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
             // Some implementations use space-separated string in scp as well
             const std::string scp_str = payload["scp"].get<std::string>();
             std::istringstream iss(scp_str);
-            std::string token_item;
+            std::string token_item = {};
             while (iss >> token_item) {
                 if (!token_item.empty()) {
                     claims.scopes.push_back(token_item);

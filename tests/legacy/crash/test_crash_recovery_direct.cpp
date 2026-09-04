@@ -28,7 +28,7 @@ protected:
 
     void TearDown() override {
         closeDB();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(db_path_, ec);
     }
 
@@ -82,7 +82,7 @@ protected:
           return nlohmann::json();
         }
 
-        std::string value;
+        std::string value = {};
         rocksdb::Status s = db_->Get(rocksdb::ReadOptions(), key, &value);
 
         if (s.IsNotFound()) {
@@ -232,7 +232,7 @@ TEST_F(TransactionDBDurabilityTest, ParallelTransactions) {
     openDB();
 
     std::vector<std::string> keys;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     auto writer = [&](int thread_id) {
         for (int i = 0; i < 10; ++i) {
@@ -271,7 +271,7 @@ TEST_F(TransactionDBDurabilityTest, CheckpointDurability) {
 
     // Create checkpoint
     fs::path checkpoint_path = fs::temp_directory_path() / "themis_checkpoint";
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(checkpoint_path, ec);
     // Note: Do NOT create the directory - RocksDB expects it to not exist
 
@@ -299,7 +299,7 @@ TEST_F(TransactionDBDurabilityTest, CheckpointDurability) {
     ASSERT_TRUE(s.ok()) << "Failed to open checkpoint DB: " << s.ToString();
 
     for (const auto& [key, expected_val] : docs) {
-        std::string value;
+        std::string value = {};
         s = checkpoint_db->Get(rocksdb::ReadOptions(), key, &value);
         EXPECT_TRUE(s.ok()) << "Get from checkpoint failed: " << s.ToString();
 
@@ -316,7 +316,7 @@ TEST_F(TransactionDBDurabilityTest, ConcurrentReadWrite) {
     openDB();
 
     std::vector<std::string> written_keys;
-    std::mutex mtx;
+    std::mutex mtx = {};
 
     auto writer = [&]() {
         for (int i = 0; i < 50; ++i) {

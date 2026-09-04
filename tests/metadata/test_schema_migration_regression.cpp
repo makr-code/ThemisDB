@@ -30,7 +30,7 @@ static std::string makeTempDbPath(const std::string& prefix) {
 
 class MigrationRegressionTest : public ::testing::Test {
 protected:
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper>     db;
     std::unique_ptr<SecondaryIndexManager> idx;
     std::unique_ptr<SchemaManager>      schema_mgr;

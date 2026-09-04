@@ -94,7 +94,7 @@ static void BM_WebCrawlerIngestion(benchmark::State& state) {
     const int num_pages = state.range(0);
 
     // Build a simple site: seed links to /p1 .. /pN, each page has text content.
-    std::string seed_html;
+    std::string seed_html = {};
     seed_html.reserve(64 + num_pages * 30);
     seed_html = "<html><body>";
     for (int i = 1; i <= num_pages; ++i) {

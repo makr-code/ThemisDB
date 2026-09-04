@@ -616,7 +616,7 @@ TEST_F(HttpVectorApiTest, VectorSearch_CursorPagination_Works) {
     if (!has_more) return; // nothing more to test
 
     // Page 2 using cursor
-    std::string cursor;
+    std::string cursor = {};
     if (r1["next_cursor"].is_string()) {
         cursor = r1["next_cursor"].get<std::string>();
     } else {

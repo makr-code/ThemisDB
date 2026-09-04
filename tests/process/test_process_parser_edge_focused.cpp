@@ -23,12 +23,12 @@ protected:
     struct ParseResult {
         bool success{false};
         ProcError error_code{ProcError::kDeserialiserFailed};
-        std::string error_message;
+        std::string error_message = {};
     };
 
     // Mock parser that validates basic XML structure
     ParseResult mock_parse_xml(std::string_view xml) {
-        ParseResult result;
+        ParseResult result = {};
 
         if (xml.empty()) {
             result.error_code = ProcError::kDeserialiserFailed;
@@ -106,7 +106,7 @@ TEST_F(ParserEdgeTest, P04_InvalidReference) {
     struct LinkValidationResult {
         bool valid{true};
         ProcError error{ProcError::kUnsupportedElement};
-        std::string message;
+        std::string message = {};
     };
 
     // Simulate link resolution
@@ -330,7 +330,7 @@ TEST_F(ParserEdgeTest, P10_MissingRequiredAttributes) {
     struct AttributeCheckResult {
         bool valid{true};
         ProcError error{ProcError::kUnsupportedElement};
-        std::string missing_attr;
+        std::string missing_attr = {};
     };
 
     auto check_required_attrs = [](const std::map<std::string, std::string>& attrs,
@@ -367,7 +367,7 @@ TEST_F(ParserEdgeTest, P11_InvalidAttributeDataType) {
     };
 
     auto check_type = [](std::string_view value, const std::string& expected_type) -> TypeCheckResult {
-        TypeCheckResult result;
+        TypeCheckResult result = {};
 
         if (expected_type == "integer") {
             try {
@@ -475,12 +475,12 @@ TEST_F(ParserEdgeTest, P13_ConflictingElementDefinitions) {
 TEST_F(ParserEdgeTest, P14_ProtocolVersionMismatch) {
     struct VersionCheckResult {
         bool compatible{false};
-        std::string detected_version;
+        std::string detected_version = {};
         ProcError error{ProcError::kUnsupportedElement};
     };
 
     auto check_version = [](std::string_view xml) -> VersionCheckResult {
-        VersionCheckResult result;
+        VersionCheckResult result = {};
 
         if (xml.find("2.0") != std::string::npos) {
             result.compatible = true;
@@ -513,7 +513,7 @@ TEST_F(ParserEdgeTest, P15_NullMissingProcessDefinition) {
     };
 
     auto check_process_def = [](const std::map<std::string, std::string>& definitions) -> ProcessDefCheckResult {
-        ProcessDefCheckResult result;
+        ProcessDefCheckResult result = {};
 
         if (definitions.empty()) {
             result.valid = false;

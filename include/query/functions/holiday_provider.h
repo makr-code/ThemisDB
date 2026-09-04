@@ -253,7 +253,7 @@ public:
             throw std::runtime_error("Cannot open calendar file: " + filePath);
         }
         
-        std::stringstream buffer;
+        std::stringstream buffer = {};
         buffer << file.rdbuf();
         std::string content = buffer.str();
         file.close();

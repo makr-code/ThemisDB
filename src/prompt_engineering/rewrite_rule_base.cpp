@@ -90,7 +90,7 @@ RewriteResult RegexRewriteRule::apply(
         const uint32_t limit = (max_replacements_ == 0) ? UINT32_MAX : max_replacements_;
 
         // Apply replacements with limit
-        std::smatch match;
+        std::smatch match = {};
         std::string::const_iterator search_start(transformed.cbegin());
 
         while (std::regex_search(search_start, transformed.cend(), match, pattern_) &&

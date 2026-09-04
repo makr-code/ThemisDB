@@ -55,7 +55,7 @@ struct FakeJwtToken {
     bool is_structurally_valid{false};
     bool signature_ok{false};
     bool expired{false};
-    std::string scope;
+    std::string scope = {};
 };
 
 /// Stub auth gate: applies the server contract's auth gate logic.

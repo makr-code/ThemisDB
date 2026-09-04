@@ -143,7 +143,7 @@ VerificationResult ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext& conte
                     context.user_id, context.client_ip, context.request_id);
 
         // Find policy_id for audit trail
-        std::string pid;
+        std::string pid = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             const auto* p = findPolicyForIdentity(context.user_id);

@@ -132,7 +132,7 @@ SystemMemoryPressureMonitor::read_os_memory() const {
     std::ifstream meminfo("/proc/meminfo");
     size_t mem_total_kb = 0;
     size_t mem_available_kb = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(meminfo, line)) {
         if (line.rfind("MemTotal:", 0) == 0) {
             mem_total_kb = std::stoull(line.substr(9));

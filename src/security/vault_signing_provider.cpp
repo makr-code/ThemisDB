@@ -33,7 +33,7 @@ static const std::string b64_chars =
     "0123456789+/";
 
 static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
-    std::string ret;
+    std::string ret = {};
     int val = 0, valb = -6;
     for (uint8_t c : data) {
         val = (val << 8) + c;
@@ -121,7 +121,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
       throw std::runtime_error("Failed to init CURL for VaultSigningProvider");
     }
 
-    std::string response;
+    std::string response = {};
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.dump().c_str());
@@ -151,7 +151,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
     // Parse response JSON to extract signature
     try {
         json j = json::parse(response);
-        std::string sig_b64;
+        std::string sig_b64 = {};
         if (j.contains("data") && j["data"].contains("signature")) {
             sig_b64 = j["data"]["signature"].get<std::string>();
         } else if (j.contains("data") && j["data"].contains("signatures") && j["data"]["signatures"].is_array()) {

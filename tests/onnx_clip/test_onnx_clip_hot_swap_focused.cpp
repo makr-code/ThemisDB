@@ -268,7 +268,7 @@ TEST_F(OnnxClipHotSwapTest, OCP_HS_08_NoDroppingRequests) {
     }
     
     std::vector<EmbeddingResult> results;
-    std::mutex results_mutex;
+    std::mutex results_mutex = {};
     std::vector<std::thread> threads;
     
     // Spawn workers generating embeddings

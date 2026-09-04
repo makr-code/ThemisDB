@@ -101,7 +101,7 @@ enum class TxnState { IDLE, PREPARED, COMMITTED, ABORTED, IN_DOUBT };
 
 struct StubTxnRecord {
     TxnState state{TxnState::IDLE};
-    std::string txn_id;
+    std::string txn_id = {};
 };
 
 /// Stub distributed coordinator implementing 2PC contract (§2).
@@ -170,7 +170,7 @@ private:
 /// Stub WAL entry.
 struct WalEntry {
     uint64_t lsn{0};
-    std::string data;
+    std::string data = {};
     uint32_t crc{0};
 
     static uint32_t computeCrc(const std::string& d) {

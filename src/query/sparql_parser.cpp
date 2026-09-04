@@ -48,12 +48,12 @@ std::string sparqlLiteralToAQL(const SPARQLLiteralValue& val) {
         } else if constexpr (std::is_same_v<T, int64_t>) {
             return std::to_string(v);
         } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << v;
             return oss.str();
         } else {
             // std::string – emit as a quoted AQL string literal
-            std::string out;
+            std::string out = {};
             out.reserve(v.size() + 2);
             out += '"';
             for (char c : v) {
@@ -254,7 +254,7 @@ public:
 
 private:
     const std::string& input_;
-    size_t pos_;
+    size_t pos_ = {};
 
     void skipWhitespace() {
         while (pos_ < input_.size() &&
@@ -265,7 +265,7 @@ private:
 
     SPARQLToken readString(char quote, size_t start) {
         ++pos_;  // skip opening quote
-        std::string val;
+        std::string val = {};
         while (pos_ < input_.size() && input_[pos_] != quote) {
             if (input_[pos_] == '\\' && pos_ + 1 < input_.size()) {
                 char esc = input_[pos_ + 1];
@@ -382,7 +382,7 @@ public:
 
 private:
     std::vector<SPARQLToken> tokens_;
-    size_t pos_;
+    size_t pos_ = {};
 
     const SPARQLToken& current() const { return tokens_[pos_]; }
 
@@ -581,7 +581,7 @@ private:
     }
 
     Result<SPARQLTerm> parseTerm() {
-        SPARQLTerm term;
+        SPARQLTerm term = {};
 
         if (check(SPARQLTokenType::VAR)) {
             term.type  = SPARQLTermType::Variable;
@@ -706,7 +706,7 @@ private:
           return left;
         }
 
-        std::string op;
+        std::string op = {};
         if      (check(SPARQLTokenType::EQ)) {
           op = "==";
         }
@@ -901,7 +901,7 @@ Result<SPARQLASTNode> SPARQLParser::parse(const std::string& sparql_query) {
 // ============================================================================
 
 std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& stmt) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Maps variable name -> AQL path expression (e.g. "_t0.subject")
     std::map<std::string, std::string> var_bindings;

@@ -127,7 +127,7 @@ EmotionTimeline EmotionAnalyzer::track(
     const std::vector<AudioSegment>& segments,
     const EmotionConfig&             config) const
 {
-    EmotionTimeline timeline;
+    EmotionTimeline timeline = {};
     if (segments.empty()) {
         return timeline;
     }
@@ -472,7 +472,7 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
     const std::vector<float>&        stress_levels,
     const std::vector<float>&        engagement_scores)
 {
-    EmotionStatistics stats;
+    EmotionStatistics stats = {};
     if (entries.empty()) {
         return stats;
     }

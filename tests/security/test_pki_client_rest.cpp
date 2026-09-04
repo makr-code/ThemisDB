@@ -43,7 +43,7 @@ private:
 
                 std::string body_s = responses_[idx++];
                 std::cerr << "SimplePkiServer: accepted connection, sending response index=" << (idx-1) << " len=" << body_s.size() << std::endl;
-                std::ostringstream out;
+                std::ostringstream out = {};
                 out << "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " << body_s.size() << "\r\nConnection: close\r\n\r\n" << body_s;
                 boost::asio::write(sock, boost::asio::buffer(out.str()));
                 boost::system::error_code ec2; sock.shutdown(tcp::socket::shutdown_both, ec2);

@@ -295,7 +295,7 @@ DiagnosticRecord produceCapacityDiagnostic(
     double percent = limit_value > 0 ? 
         (static_cast<double>(used_value) / static_cast<double>(limit_value)) * 100.0 : 0.0;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << percent;
     std::string percent_str = oss.str();
 

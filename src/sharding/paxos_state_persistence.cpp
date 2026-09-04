@@ -332,7 +332,7 @@ bool PaxosStatePersistence::persistCommit([[maybe_unused]] uint64_t slot) {
 
     ++commits_since_compact_;
 
-    ConsensusLogEntry entry;
+    ConsensusLogEntry entry = {};
     if (slot_cache_.count(slot) && !slot_cache_[slot].accepted_value.empty()) {
         entry = buildConsensusEntryFromAcceptedValue(slot_cache_[slot].accepted_value,
                                                      slot,

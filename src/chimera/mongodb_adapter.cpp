@@ -112,7 +112,7 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Translate AQL to MongoDB aggregation pipeline and execute
-    RelationalTable table;
+    RelationalTable table = {};
     return Result<RelationalTable>::ok(std::move(table));
 #else
     return Result<RelationalTable>::err(

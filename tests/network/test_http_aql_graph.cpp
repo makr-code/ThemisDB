@@ -175,7 +175,7 @@ TEST_F(HttpAqlGraphApiTest, Traversal_ReturnEdges) {
     std::set<std::string> ids = {};
 
     for (const auto& e : body["entities"]) {
-        json ej;
+        json ej = {};
         if (e.is_string()) {
             ej = json::parse(e.get<std::string>());
         } else if (e.is_object()) {

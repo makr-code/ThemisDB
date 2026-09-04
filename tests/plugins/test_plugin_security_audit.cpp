@@ -39,19 +39,19 @@ static fs::path createTempFile(const fs::path& dir, const std::string& name,
 class PathValidationTest : public ::testing::Test {};
 
 TEST_F(PathValidationTest, EmptyPathIsRejected) {
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginSecurityVerifier::validatePluginPath("", err));
     EXPECT_FALSE(err.empty());
 }
 
 TEST_F(PathValidationTest, DotDotSequenceIsRejected) {
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginSecurityVerifier::validatePluginPath("/plugins/../etc/passwd", err));
     EXPECT_FALSE(err.empty());
 }
 
 TEST_F(PathValidationTest, RelativeTraversalIsRejected) {
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginSecurityVerifier::validatePluginPath("../../lib/evil.so", err));
     EXPECT_FALSE(err.empty());
 }
@@ -60,13 +60,13 @@ TEST_F(PathValidationTest, NullByteIsRejected) {
     std::string path = "/plugins/good.so";
     path.push_back('\0');
     path += "/extra";
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(PluginSecurityVerifier::validatePluginPath(path, err));
     EXPECT_FALSE(err.empty());
 }
 
 TEST_F(PathValidationTest, ShellInjectionCharsAreRejected) {
-    std::string err;
+    std::string err = {};
     // Semicolon
     EXPECT_FALSE(PluginSecurityVerifier::validatePluginPath("/plugins/a;b.so", err));
     // Pipe
@@ -80,7 +80,7 @@ TEST_F(PathValidationTest, ShellInjectionCharsAreRejected) {
 }
 
 TEST_F(PathValidationTest, AbsoluteCleanPathIsAccepted) {
-    std::string err;
+    std::string err = {};
     // A simple absolute path without traversal should be accepted.
     const std::string good_path = (fs::temp_directory_path() / "good_plugin.so").string();
     EXPECT_TRUE(PluginSecurityVerifier::validatePluginPath(good_path, err))

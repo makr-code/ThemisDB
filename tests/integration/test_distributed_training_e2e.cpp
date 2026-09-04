@@ -87,8 +87,8 @@ class MockTrainingCoordinator {
 public:
     struct AggregatedResult {
         double global_loss = 0;
-        int successful_shards;
-        int failed_shards;
+        int successful_shards = {};
+        int failed_shards = {};
         std::vector<int> failed_shard_ids;
         int64_t aggregation_time_ns;
     };

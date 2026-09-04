@@ -104,7 +104,7 @@ void writeIfAbsent(const std::filesystem::path& path, std::string_view content) 
 
 /// Create directory tree, ignoring the error if it already exists.
 void mkdirP(const std::filesystem::path& p) {
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(p, ec);
     // ec is non-fatal if path already existed
 }
@@ -116,7 +116,7 @@ void mkdirP(const std::filesystem::path& p) {
 // ═════════════════════════════════════════════════════════════════════════════
 
 std::string WikiWorkspaceOrchestrator::slugify(const std::string& text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     for (unsigned char c : text) {
         if (std::isalnum(c)) {
@@ -271,7 +271,7 @@ void WikiWorkspaceOrchestrator::saveState(const std::string& root, const WikiSta
         ofs << j.dump(2);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::rename(tmp_path, state_path, ec);
     if (ec) {
         spdlog::warn("[llm_wiki/orch] Rename {} -> {} failed: {}", tmp_path,
@@ -308,7 +308,7 @@ void WikiWorkspaceOrchestrator::rebuildIndex(const std::string& root,
 
 bool WikiWorkspaceOrchestrator::hasContradictionCue(const std::string& text) {
     // Lower-case copy for case-insensitive search
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
     for (unsigned char c : text) {
       lower += static_cast<char>(std::tolower(c));
@@ -356,7 +356,7 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
     const std::vector<themis::llm::WikiChunk>& chunks)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    WikiIngestResult result;
+    WikiIngestResult result = {};
 
     if (workspace_root_.empty()) {
         result.errors++;
@@ -377,7 +377,7 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
     // ── 1. Copy source to raw_sources ─────────────────────────────────────────
     auto raw_dest = fs::path(root) / "raw_sources" / src.filename();
     if (!fs::exists(raw_dest)) {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::copy_file(source_path, raw_dest,
                       fs::copy_options::skip_existing, ec);
         if (ec) {
@@ -575,7 +575,7 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     int max_staleness_days)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    WikiLintResult result;
+    WikiLintResult result = {};
 
     if (workspace_root.empty()) {
       return result;
@@ -658,7 +658,7 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
 
 WikiWorkspaceStats WikiWorkspaceOrchestrator::stats(const std::string& workspace_root) {
     std::lock_guard<std::mutex> lock(mutex_);
-    WikiWorkspaceStats s;
+    WikiWorkspaceStats s = {};
     if (workspace_root.empty()) {
       return s;
     }

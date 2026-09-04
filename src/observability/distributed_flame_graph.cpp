@@ -33,7 +33,7 @@ namespace {
 [[nodiscard]] std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         if (line.empty()) {
           continue;
@@ -68,7 +68,7 @@ namespace {
 // ---------------------------------------------------------------------------
 
 std::string MergedFlameGraph::toFoldedText() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (const auto& [stack, count] : stacks) {
         out << stack << ' ' << count << '\n';
     }

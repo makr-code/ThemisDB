@@ -15,7 +15,7 @@
 namespace themis {
 
 std::string KeySchema::makeRelationalKey(std::string_view table, std::string_view pk) {
-    std::string key;
+    std::string key = {};
     key.reserve(4 + table.size() + pk.size());
     key += "rel";
     key += SEPARATOR;
@@ -26,7 +26,7 @@ std::string KeySchema::makeRelationalKey(std::string_view table, std::string_vie
 }
 
 std::string KeySchema::makeDocumentKey(std::string_view collection, std::string_view pk) {
-    std::string key;
+    std::string key = {};
     key.reserve(4 + collection.size() + pk.size());
     key += "doc";
     key += SEPARATOR;
@@ -37,7 +37,7 @@ std::string KeySchema::makeDocumentKey(std::string_view collection, std::string_
 }
 
 std::string KeySchema::makeGraphNodeKey(std::string_view pk) {
-    std::string key;
+    std::string key = {};
     key.reserve(5 + pk.size());
     key += "node";
     key += SEPARATOR;
@@ -46,7 +46,7 @@ std::string KeySchema::makeGraphNodeKey(std::string_view pk) {
 }
 
 std::string KeySchema::makeGraphEdgeKey(std::string_view pk) {
-    std::string key;
+    std::string key = {};
     key.reserve(5 + pk.size());
     key += "edge";
     key += SEPARATOR;
@@ -55,7 +55,7 @@ std::string KeySchema::makeGraphEdgeKey(std::string_view pk) {
 }
 
 std::string KeySchema::makeVectorKey(std::string_view object_name, std::string_view pk) {
-    std::string key;
+    std::string key = {};
     key.reserve(4 + object_name.size() + pk.size());
     key += "vec";
     key += SEPARATOR;
@@ -71,7 +71,7 @@ std::string KeySchema::makeSecondaryIndexKey(
     std::string_view value,
     std::string_view pk
 ) {
-    std::string key;
+    std::string key = {};
     key.reserve(5 + table.size() + column.size() + value.size() + pk.size());
     key += "idx";
     key += SEPARATOR;
@@ -86,7 +86,7 @@ std::string KeySchema::makeSecondaryIndexKey(
 }
 
 std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string_view pk_edge) {
-    std::string key;
+    std::string key = {};
     key.reserve(10 + pk_start.size() + pk_edge.size());
     key += "graph";
     key += SEPARATOR;
@@ -99,7 +99,7 @@ std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string
 }
 
 std::string KeySchema::makeGraphIndexKey(std::string_view pk_target, std::string_view pk_edge) {
-    std::string key;
+    std::string key = {};
     key.reserve(9 + pk_target.size() + pk_edge.size());
     key += "graph";
     key += SEPARATOR;

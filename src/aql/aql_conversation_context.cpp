@@ -44,8 +44,8 @@ class AQLConversationContext::Impl {
     IHistoryCompressor* compressor_;  // Non-owning pointer to compressor (can be nullptr)
     std::string schema_context_;
     std::vector<llm::ChatMessage> history_;
-    std::string last_query_;
-    std::size_t turn_count_;
+    std::string last_query_ = {};
+    std::size_t turn_count_ = {};
     mutable std::shared_mutex history_mutex_; // guards history_, turn_count_, last_query_, compressor_
     std::mutex call_mutex_;                   // serializes LLM round-trips and reset/start
 
@@ -53,7 +53,7 @@ class AQLConversationContext::Impl {
     // For very small token budgets, shrink the prompt to a compact variant so
     // max_history_tokens can still be satisfied.
     std::string buildSystemPrompt() const {
-        std::ostringstream sp;
+        std::ostringstream sp = {};
         sp << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n"
            << "Your job is to produce a single valid AQL query based on the "
            << "conversation history.\n";
@@ -159,7 +159,7 @@ class AQLConversationContext::Impl {
         }
 
         try {
-            std::string response;
+            std::string response = {};
             if (config_.llm_executor) {
                 std::vector<std::pair<std::string, std::string>> pairs;
                 pairs.reserve(history_snapshot.size());
@@ -349,7 +349,7 @@ std::string AQLConversationContext::refine(const std::string &instruction) {
     }
 
     // Compose a user message that includes the current query for context
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     {
         std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
         if (!impl_->last_query_.empty()) {

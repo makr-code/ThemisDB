@@ -206,7 +206,7 @@ Result<void> StepRegistry::loadStepPlugin(
     // §Phase 3 DLL sandbox — validate path and MIME constraints
     if (!manifest.allowed_paths.empty()) {
         namespace fs = std::filesystem;
-        std::error_code ec;
+        std::error_code ec = {};
         const auto canonical = fs::weakly_canonical(library_path, ec);
         const std::string canon_str = ec ? library_path : canonical.string();
         bool path_allowed = false;
@@ -229,7 +229,7 @@ Result<void> StepRegistry::loadStepPlugin(
     if (!manifest.allowed_mime_types.empty()) {
         // Read sidecar manifest: <library_path>.manifest.json with {"mime_type":"..."}
         const std::string sidecar_path = library_path + ".manifest.json";
-        std::string plugin_mime;
+        std::string plugin_mime = {};
         {
             std::ifstream sf(sidecar_path);
             if (sf.is_open()) {
@@ -645,7 +645,7 @@ Result<void> WorkflowEngine::loadProfile(const std::string& yaml_path) {
             Error{ErrorCode::ERR_WORKFLOW_PROFILE_NOT_FOUND,
                   "Cannot open workflow profile: " + yaml_path});
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << file.rdbuf();
     const std::string content = ss.str();
 
@@ -713,7 +713,7 @@ std::size_t WorkflowEngine::loadProfilesFromDirectory(
         const std::string& directory_path) {
     std::size_t count = 0;
     namespace fs = std::filesystem;
-    std::error_code ec;
+    std::error_code ec = {};
     for (const auto& entry : fs::directory_iterator(directory_path, ec)) {
         if (ec) {
           break;

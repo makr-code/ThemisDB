@@ -36,7 +36,7 @@ struct AudioFrame {
     };
     
     Codec codec;
-    uint32_t sample_rate;
+    uint32_t sample_rate = {};
     uint16_t channels;
     std::vector<uint8_t> data;
     

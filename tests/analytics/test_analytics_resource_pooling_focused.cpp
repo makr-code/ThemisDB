@@ -74,8 +74,8 @@ class MockConnection {
 public:
     static int instance_count;
 
-    int connection_id;
-    bool is_open;
+    int connection_id = {};
+    bool is_open = {};
 
     explicit MockConnection(int id = 0) : connection_id(id), is_open(true) {
         instance_count++;

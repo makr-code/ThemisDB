@@ -141,13 +141,13 @@ TEST(LearningMetricsTest, ExportCreatesValidCSV) {
     std::ifstream f(tmpfile);
     ASSERT_TRUE(f.is_open()) << "CSV file should have been created";
 
-    std::string header;
+    std::string header = {};
     std::getline(f, header);
     EXPECT_EQ(header, "timestamp,accuracy,faithfulness,relevance,completeness,coherence");
 
     // Should have exactly two data rows
     int row_count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (!line.empty()) {
           ++row_count;
@@ -163,11 +163,11 @@ TEST(LearningMetricsTest, ExportEmptyMetricsCreatesHeaderOnly) {
 
     std::ifstream f(tmpfile);
     ASSERT_TRUE(f.is_open());
-    std::string header;
+    std::string header = {};
     std::getline(f, header);
     EXPECT_EQ(header, "timestamp,accuracy,faithfulness,relevance,completeness,coherence");
 
-    std::string extra;
+    std::string extra = {};
     std::getline(f, extra);
     EXPECT_TRUE(extra.empty());
 }
@@ -178,7 +178,7 @@ TEST(LearningMetricsTest, PrintReportContainsKeyLabels) {
     LearningMetrics lm;
     lm.recordEvaluation(makeEntry(0.75, 0.80, 0.65, 0.70, 0.85));
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     lm.printReport(oss);
     std::string report = oss.str();
 
@@ -191,7 +191,7 @@ TEST(LearningMetricsTest, PrintReportContainsKeyLabels) {
 
 TEST(LearningMetricsTest, PrintReportEmptyMetrics) {
     LearningMetrics lm;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     EXPECT_NO_THROW(lm.printReport(oss));
     // Should produce a non-empty report even with no data
     EXPECT_FALSE(oss.str().empty());

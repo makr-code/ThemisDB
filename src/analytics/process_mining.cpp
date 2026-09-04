@@ -342,7 +342,7 @@ std::string ProcessMining::computeVariantSignature(const std::vector<std::string
     }
     
     // Create a deterministic string signature from activities
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (size_t i = 0; i < activities.size(); ++i) {
         if (i > 0) {
           oss << ",";
@@ -431,7 +431,7 @@ ProcessMining::ProcessMining(RocksDBWrapper &db) : db_(db) {}
 
 std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::string_view collection,
                                                                           const EventLogConfig &config) {
-    EventLog log;
+    EventLog log = {};
 
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), log};
@@ -590,7 +590,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
 
 std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGraph(std::string_view edge_collection,
                                                                                    std::string_view case_id_field) {
-    EventLog log;
+    EventLog log = {};
 
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), log};
@@ -675,7 +675,7 @@ std::pair<ProcessMining::Status, EventLog>
 ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
                                              const std::vector<std::string> &reference_fields,
                                              std::string_view activity_field) {
-    EventLog log;
+    EventLog log = {};
 
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), log};
@@ -741,7 +741,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
 
                 // Load referenced entity
                 std::string nextKey = std::string(start_collection) + ":" + nextRef;
-                std::string nextValue;
+                std::string nextValue = {};
                 if (!db_.get(nextKey, nextValue)) {
                     break;
                 }
@@ -2182,7 +2182,7 @@ ProcessMining::checkConformance(const EventLog &log, const DiscoveredProcess &mo
 // ===== Export =====
 
 std::pair<ProcessMining::Status, std::string> ProcessMining::exportToBPMN(const DiscoveredProcess &model) {
-    std::ostringstream xml;
+    std::ostringstream xml = {};
 
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)" << "\n";
     xml << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL")" << "\n";
@@ -2193,7 +2193,7 @@ std::pair<ProcessMining::Status, std::string> ProcessMining::exportToBPMN(const 
 
     // Nodes
     for (const auto &node : model.nodes) {
-        std::string element;
+        std::string element = {};
         if (node.type == "EVENT" && node.name == "Start") {
             element = "startEvent";
         } else if (node.type == "EVENT" && node.name == "End") {
@@ -2285,7 +2285,7 @@ ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredPro
 // ===== Helper Functions =====
 
 std::string ProcessMining::computeVariantSignature(const std::vector<std::string> &activities) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (size_t i = 0; i < activities.size(); i++) {
         if (i > 0) {
             oss << "->";
@@ -2782,7 +2782,7 @@ ProcessMining::detectBottlenecks(const EnhancedProcess &process, double threshol
 }
 
 std::pair<ProcessMining::Status, std::string> ProcessMining::exportToPNML(const DiscoveredProcess &model) {
-    std::ostringstream xml;
+    std::ostringstream xml = {};
     xml << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     xml << "<pnml xmlns=\"http://www.pnml.org/version-1-0/pnml\">\n";
     xml << "  <net id=\"net1\" type=\"http://www.pnml.org/version-1-0/ptnet\">\n";
@@ -2896,7 +2896,7 @@ ProcessMining::discoverGeoVariants(const EventLog &log, double) {
 
 std::pair<ProcessMining::Status, ProcessMining::ProcessEvolution> ProcessMining::analyzeEvolution(const EventLog &log,
                                                                                                   int num_periods) {
-    ProcessEvolution evolution;
+    ProcessEvolution evolution = {};
 
     if (log.traces.empty() || num_periods <= 0) {
         return {Status::OK(), evolution};

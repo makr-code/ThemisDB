@@ -174,7 +174,7 @@ Result<GesetzHierarchy> GesetzParser::parse(
     hier.root.number  = norm_abbreviation;
 
     // Extract full title from first matching line
-    std::smatch tm;
+    std::smatch tm = {};
     if (std::regex_search(text, tm, RE_TITLE)) {
         hier.full_title = themis::utils::trim(tm[0].str());
         hier.root.heading = hier.full_title;
@@ -288,16 +288,16 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
     };
 
     std::istringstream input(text);
-    std::string line;
-    std::string current_number;
-    std::string current_heading;
-    std::string current_body;
+    std::string line = {};
+    std::string current_number = {};
+    std::string current_heading = {};
+    std::string current_body = {};
     std::size_t current_offset = 0;
     std::size_t line_offset = 0;
 
     while (std::getline(input, line)) {
-        std::string parsed_number;
-        std::string parsed_heading;
+        std::string parsed_number = {};
+        std::string parsed_heading = {};
         if (parseParagraphHeader(line, parsed_number, parsed_heading)) {
             finalizeParagraph(current_offset, current_number, current_heading, current_body);
             current_offset = line_offset;
@@ -400,7 +400,7 @@ std::string TemporalExtractor::normaliseDate(const std::string& raw) {
 
     // Numeric: DD.MM.YYYY
     static const std::regex re_dmy(R"((\d{1,2})\.(\d{1,2})\.(\d{4}))");
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(s, m, re_dmy)) {
         return m[3].str() + "-" + pad2(m[2].str()) + "-" + pad2(m[1].str());
     }
@@ -437,7 +437,7 @@ TemporalValidity TemporalExtractor::extract(const std::string& text) const {
         R"((?:außer Kraft (?:getreten|tretend) am|aufgehoben(?:\s+mit Wirkung)? (?:vom?|am)|befristet bis(?:\s+zum?)?)\s+(\d{1,2}[.\s]\w+[.\s]\d{4}|\d{4}-\d{2}-\d{2}))",
         std::regex::icase);
 
-    std::smatch m;
+    std::smatch m = {};
     if (std::regex_search(text, m, re_from)) {
         tv.effective_from = normaliseDate(m[1].str());
         tv.source_hint    = m[0].str();
@@ -595,7 +595,7 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
         R"((?:^|\n)\s*Nebenbestimmung[:\s]+([^\n]{5,200}))",
         std::regex::icase);
 
-    std::smatch m;
+    std::smatch m = {};
 
     if (std::regex_search(text, m, re_az)) {
       be.aktenzeichen  = themis::utils::trim(m[1].str());
@@ -638,7 +638,7 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
 BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
                                         const std::string& source_doc) const
 {
-    BaseEntity e;
+    BaseEntity e = {};
     if (!be.aktenzeichen.empty()) {
         e.id = "bescheid:" + be.aktenzeichen;
     } else {
@@ -654,7 +654,7 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
     e.properties["behoerde"]       = be.behoerde;
     if (!be.auflagen.empty()) {
         // Serialize auflagen list as a semicolon-delimited string
-        std::string auflagen_str;
+        std::string auflagen_str = {};
         for (std::size_t i = 0; i < be.auflagen.size(); ++i) {
             if (i > 0) {
               auflagen_str += "; ";
@@ -770,7 +770,7 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
     // Percent-encode characters that are unsafe in IRI path components
     static const std::string safe =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:@!$&'()*+,;=";
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 3);
     for (const unsigned char c : s) {
         if (safe.find(static_cast<char>(c)) != std::string::npos) {
@@ -785,7 +785,7 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
 }
 
 std::string LegalEntityExport::escapeTurtleLiteral(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() + 16);
     for (char c : s) {
         switch (c) {
@@ -867,7 +867,7 @@ nlohmann::json LegalEntityExport::exportJsonLd(
 std::string LegalEntityExport::buildTurtle(
     const BaseEntitySet& es, const std::string& base) const
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "@base <" << base << "> .\n";
     out << "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n";
     out << "@prefix dc:   <http://purl.org/dc/elements/1.1/> .\n";
@@ -912,7 +912,7 @@ std::string LegalEntityExport::buildTurtle(
 std::string LegalEntityExport::buildNTriples(
     const BaseEntitySet& es, const std::string& base) const
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
     const std::string p_label  = "<http://www.w3.org/2000/01/rdf-schema#label>";
     const std::string p_type   = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>";
     const std::string p_source = "<http://purl.org/dc/elements/1.1/source>";

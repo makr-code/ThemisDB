@@ -106,7 +106,7 @@ std::optional<URN> URN::parse(std::string_view urn_str) {
 
 /** @brief Serialize URN components into canonical urn:themis:... format. */
 std::string URN::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "urn:themis:" << model << ":" << namespace_ << ":" << collection << ":" << uuid;
     return oss.str();
 }

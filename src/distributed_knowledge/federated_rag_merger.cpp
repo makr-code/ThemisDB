@@ -24,7 +24,7 @@ namespace themis::distributed_knowledge {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string MergedRAGContext::buildPromptContext(size_t max_docs, size_t max_chars) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t count = 0;
     size_t chars = 0;
 

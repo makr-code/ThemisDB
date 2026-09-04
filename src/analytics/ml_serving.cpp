@@ -249,7 +249,7 @@ bool ONNXServingBackend::isAvailable() const {
 
 MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
     Stopwatch sw;
-    MLServingResponse resp;
+    MLServingResponse resp = {};
 
     if (req.inputs.empty()) {
         resp.status        = MLServingStatus::INVALID_INPUT;
@@ -420,7 +420,7 @@ bool TFServingBackend::isAvailable() const {
 MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
     using json = nlohmann::json;
     Stopwatch sw;
-    MLServingResponse resp;
+    MLServingResponse resp = {};
 
     if (req.inputs.empty()) {
         resp.status        = MLServingStatus::INVALID_INPUT;
@@ -467,7 +467,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     spdlog::debug("MLServing[TF]: sending request to {} for model '{}'", url, req.model_name);
 
     // Perform HTTP POST via libcurl
-    std::string response_body;
+    std::string response_body = {};
 
     CURL *curl = curl_easy_init();
     if (!curl) {
@@ -659,10 +659,10 @@ bool MLServingClient::isBackendAvailable(MLBackendType type) const {
     }
     // Construct a temporary backend to check availability
     if (type == MLBackendType::ONNX_RUNTIME) {
-        ONNXServingBackend tmp;
+        ONNXServingBackend tmp = {};
         return tmp.isAvailable();
     }
-    TFServingBackend tmp;
+    TFServingBackend tmp = {};
     return tmp.isAvailable();
 }
 

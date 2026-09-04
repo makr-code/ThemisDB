@@ -64,7 +64,7 @@ static const double kBoostPi = 3.14159265358979323846;
 
 /// Convert GeometryInfo to Boost.Geometry polygon
 static Polygon toBoostPolygon(const GeometryInfo& geom) {
-    Polygon poly;
+    Polygon poly = {};
     
     if (geom.rings.empty() && !geom.coords.empty()) {
         // Simple polygon from coords

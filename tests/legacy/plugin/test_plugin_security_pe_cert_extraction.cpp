@@ -343,7 +343,7 @@ TEST_F(PECertExtractionTest, ELF_NoteGnuSignatureSection_Extracted) {
     uint64_t sig_size = sig_payload.size();
 
     // Build .shstrtab: "\0.note.gnu.signature\0"
-    std::string shstrtab_str;
+    std::string shstrtab_str = {};
     shstrtab_str.push_back('\0');            // index 0: empty name for SHT_NULL
     uint32_t sig_name_idx = 1u;              // index of ".note.gnu.signature"
     shstrtab_str += ".note.gnu.signature";

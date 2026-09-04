@@ -61,7 +61,7 @@ struct DistributedConfig {
     }
     
     static DistributedConfig fromJSON(const json& j) {
-        DistributedConfig config;
+        DistributedConfig config = {};
         if (j.contains("backend")) {
           config.backend = static_cast<DistributedBackend>(j["backend"].get<int>());
         }

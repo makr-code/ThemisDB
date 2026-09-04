@@ -54,7 +54,7 @@ protected:
         }
     }
 
-    std::string                    db_path_;
+    std::string                    db_path_ = {};
     std::shared_ptr<StorageEngine> engine_;
 };
 

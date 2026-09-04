@@ -262,7 +262,7 @@ TEST(KafkaImporterExtractEntity, AvroMagicByteStripped) {
     importer.initialize(buildConfig("themis-import", "avro"));
 
     // Build a Confluent-framed Avro message: 0x00 + 4-byte schema ID + JSON
-    std::string avro_payload;
+    std::string avro_payload = {};
     avro_payload += '\x00';
     avro_payload += '\x00'; avro_payload += '\x00';
     avro_payload += '\x00'; avro_payload += '\x01'; // schema ID = 1
@@ -697,7 +697,7 @@ TEST(KafkaImporterMockImport, AvroMagicByteStrippedOnImport) {
 
     // Build two Confluent-framed Avro messages.
     auto makeAvro = [](const std::string& json_payload) -> std::string {
-        std::string msg;
+        std::string msg = {};
         msg += '\x00';
         msg += '\x00'; msg += '\x00'; msg += '\x00'; msg += '\x02'; // schema ID = 2
         msg += json_payload;

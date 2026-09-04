@@ -178,7 +178,7 @@ std::string SecurityEvidenceCollector::generateBundleId() {
     raw[8] = (raw[8] & 0x3F) | 0x80;
 
     // Format as xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 16; ++i) {
         if (i == 4 || i == 6 || i == 8 || i == 10) {
@@ -519,7 +519,7 @@ bool SecurityEvidenceCollector::exportToFile(const SecurityEvidenceBundle& bundl
     } catch (const std::exception& e) {
         THEMIS_ERROR("SecurityEvidenceCollector::exportToFile: {}", e.what());
         // Clean up temporary file if it exists
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(tmp_path, ec);
         return false;
     }
