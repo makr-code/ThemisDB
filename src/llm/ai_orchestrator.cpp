@@ -340,8 +340,9 @@ public:
                 return "unload_failed";
             case ErrorCode::LoadFailed:
                 return "load_failed";
+            default:
+                return "unknown";
         }
-        return "unknown";
     }
 
 private:

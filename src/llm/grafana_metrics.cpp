@@ -154,6 +154,10 @@ std::string PrometheusExporter::exportMetrics() const {
             case MetricType::SUMMARY:
                 oss << "# TYPE " << name << " summary\n";
                 break;
+            default:
+                // Unknown metric type, output generic type
+                oss << "# TYPE " << name << " gauge\n";
+                break;
         }
     }
     

@@ -581,6 +581,9 @@ bool LlamaWrapper::loadModel(
             case RopeScalingMethod::DYNAMIC:
                 load_config["rope_scaling_method"] = "dynamic";
                 break;
+            default:
+                load_config["rope_scaling_method"] = "linear";  // Default to LINEAR
+                break;
         }
         
         // Pass scaling parameters
@@ -2647,6 +2650,11 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
                 draft_ctx_params.yarn_beta_slow = config_.rope_scaling.yarn_beta_slow;
                 break;
             case RopeScalingMethod::DYNAMIC:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+            default:
+                // Default to LINEAR scaling
                 draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
                 draft_ctx_params.rope_freq_scale = scale_factor;
                 break;
