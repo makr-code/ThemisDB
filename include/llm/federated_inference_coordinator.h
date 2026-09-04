@@ -69,8 +69,10 @@ public:
      * @param config     Coordinator configuration.
      */
     FederatedInferenceCoordinator(sharding::RemoteExecutor*                executor,
+                                  std::shared_ptr<sharding::ShardTopology>  topology);
+    FederatedInferenceCoordinator(sharding::RemoteExecutor*                executor,
                                   std::shared_ptr<sharding::ShardTopology>  topology,
-                                  const Config&                             config = {});
+                                  const Config&                             config);
 
     ~FederatedInferenceCoordinator() override = default;
 

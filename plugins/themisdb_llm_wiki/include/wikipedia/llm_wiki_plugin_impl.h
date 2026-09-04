@@ -140,7 +140,7 @@ public:
      *   "json_index_path":         "",
      *   "retrieval_top_k":         5,
      *   "retrieval_min_score":     0.0,
-     *   "fail_open":               true,
+     *   "fail_open":               false,
      *   "lint_max_staleness_days": 30,
      *   "llm_wiki_wikipedia":      false,
      *   "splitter_max_tokens":     220,
@@ -280,7 +280,7 @@ private:
     std::string json_index_path_;
     int         retrieval_top_k_{5};
     float       retrieval_min_score_{0.0f};
-    bool        fail_open_{true};
+    bool        fail_open_{false};
     int         lint_max_staleness_days_{30};
     bool        has_wikipedia_license_{false};
 

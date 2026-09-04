@@ -1732,6 +1732,10 @@ endif()
 
     add_executable(llm_bench
         llm/llm_bench.cpp
+        ${CMAKE_SOURCE_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/targ_retrieval.cpp
     )
 
     target_link_libraries(llm_bench PRIVATE
@@ -1740,6 +1744,25 @@ endif()
         spdlog::spdlog
         Threads::Threads
     )
+    if(TARGET themis_llm_api)
+        target_link_libraries(llm_bench PRIVATE themis_llm_api)
+    endif()
+    if(TARGET themis_sharding)
+        target_link_libraries(llm_bench PRIVATE themis_sharding)
+    endif()
+    if(TARGET themis_geo)
+        target_link_libraries(llm_bench PRIVATE themis_geo)
+    endif()
+    if(TARGET CURL::libcurl)
+        target_link_libraries(llm_bench PRIVATE CURL::libcurl)
+    endif()
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(llm_bench PRIVATE pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(llm_bench PRIVATE pugixml::static)
+    elseif(TARGET pugixml)
+        target_link_libraries(llm_bench PRIVATE pugixml)
+    endif()
 
     target_compile_definitions(llm_bench PRIVATE
         THEMIS_BENCHMARK_BUILD=1
