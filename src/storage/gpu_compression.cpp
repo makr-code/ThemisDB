@@ -336,6 +336,7 @@ public:
                     static_cast<uint8_t*>(d_in), size, cfg, result,
                     NvcompAlgo::LZ4);
                 break;
+            default: break;
         }
 
         // use_after_free_gpu scanner alert: nvcomp_compress_chunked waits for
@@ -368,6 +369,7 @@ public:
                 return nvcomp_decompress_chunked(compressed, NvcompAlgo::SNAPPY);
             case GpuCompressionAlgorithm::LZ4:
                 return nvcomp_decompress_chunked(compressed, NvcompAlgo::LZ4);
+            default: break;
         }
         return {};
     }
@@ -452,6 +454,7 @@ public:
                 nvcompBatchedLZ4CompressGetMaxOutputChunkSize(
                     max_in_size, nvcompBatchedLZ4DefaultOpts, &max_out);
                 break;
+            default: break;
         }
 
         // --- Step 3: Allocate device pointer/size arrays + output buffers ---
@@ -490,6 +493,7 @@ public:
                 nvcompBatchedLZ4CompressGetWorkspaceSize(
                     n, max_in_size, nvcompBatchedLZ4DefaultOpts, &ws_sz);
                 break;
+            default: break;
         }
         if (!cuda_alloc(&d_workspace, ws_sz)) { free_all(); return results; }
 
@@ -535,6 +539,7 @@ public:
                     d_out_ptrs_arr, d_out_sz_arr,
                     nvcompBatchedLZ4DefaultOpts, stream_);
                 break;
+            default: break;
         }
         e = cudaStreamSynchronize(stream_);
 
@@ -662,6 +667,7 @@ private:
                 nvcompBatchedLZ4CompressGetWorkspaceSize(
                     n_chunks, chunk, nvcompBatchedLZ4DefaultOpts, &workspace_sz);
                 break;
+            default: break;
         }
 
         void** d_in_ptrs    = nullptr;
@@ -732,6 +738,7 @@ private:
                     d_out_ptrs, d_out_sizes,
                     nvcompBatchedLZ4DefaultOpts, stream_);
                 break;
+            default: break;
         }
         e = cudaStreamSynchronize(stream_);
 
@@ -862,6 +869,7 @@ private:
             case NvcompAlgo::LZ4:
                 nvcompBatchedLZ4DecompressGetTempSize(n_chunks, per_chunk_out, &ws_sz);
                 break;
+            default: break;
         }
 
         if (!cuda_alloc(reinterpret_cast<void**>(&d_in_ptrs),   n_chunks * sizeof(void*)) ||
@@ -918,6 +926,7 @@ private:
                     d_out_ptrs, d_out_sizes,
                     n_chunks, stream_);
                 break;
+            default: break;
         }
         e = cudaStreamSynchronize(stream_);
 
@@ -1131,6 +1140,7 @@ GpuCompressionResult GpuCompressionManager::compress(
         case GpuCompressionAlgorithm::LZ4:
             result = cpu_compress_lz4(data, size);
             break;
+        default: break;
     }
 
     {
@@ -1243,6 +1253,7 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
             case GpuCompressionAlgorithm::LZ4:
                 result = cpu_decompress_lz4(compressed, original_size);
                 break;
+            default: break;
         }
     }
 
@@ -1625,6 +1636,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 }
                 decompressed_chunk.resize(static_cast<size_t>(r));
                 break;
+            default: break;
             }
         }
 
