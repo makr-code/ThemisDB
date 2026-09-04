@@ -392,7 +392,7 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
 #endif
 }
 
-std::vector<uint8_t> VideoProcessor::generateThumbnail([[maybe_unused]] const std::vector<uint8_t> &blob) {
+std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return generateThumbnailFFmpeg(blob);
 #else
@@ -410,7 +410,7 @@ std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t> & /*blob
     return "";
 }
 
-std::vector<int64_t> VideoProcessor::detectScenes([[maybe_unused]] const std::vector<uint8_t> &blob) {
+std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return detectScenesFFmpeg(blob);
 #else
@@ -420,7 +420,7 @@ std::vector<int64_t> VideoProcessor::detectScenes([[maybe_unused]] const std::ve
 #endif
 }
 
-std::vector<int64_t> VideoProcessor::extractKeyframes([[maybe_unused]] const std::vector<uint8_t> &blob) {
+std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return extractKeyframesFFmpeg(blob);
 #else

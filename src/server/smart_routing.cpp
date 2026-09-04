@@ -134,7 +134,7 @@ void SmartRouter::recordCacheHit(const std::string& backend_id,
  * @param backend_id Backend identifier.
  */
 void SmartRouter::recordCacheMiss(const std::string& backend_id,
-                                  [[maybe_unused]] const std::string& resource_key)
+                                  const std::string& resource_key)
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);

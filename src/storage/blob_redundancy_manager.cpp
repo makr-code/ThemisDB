@@ -334,7 +334,7 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
     }
 }
 
-bool CollectionRedundancyConfig::saveToYaml([[maybe_unused]] const std::string& path) const {
+bool CollectionRedundancyConfig::saveToYaml(const std::string& path) const {
     // Simplified YAML saving
     return false;
 }
@@ -1101,8 +1101,8 @@ Result<void> BlobRedundancyManager::deleteBlob(
 }
 
 Result<void> BlobRedundancyManager::tierDown(
-    [[maybe_unused]] const std::string& blob_id,
-    [[maybe_unused]] StorageTier target
+    const std::string& blob_id,
+    StorageTier target
 ) {
     stats_tier_transitions_++;
     
@@ -1110,8 +1110,8 @@ Result<void> BlobRedundancyManager::tierDown(
 }
 
 Result<void> BlobRedundancyManager::tierUp(
-    [[maybe_unused]] const std::string& blob_id,
-    [[maybe_unused]] StorageTier target
+    const std::string& blob_id,
+    StorageTier target
 ) {
     stats_tier_transitions_++;
     
@@ -1253,7 +1253,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     }
 }
 
-void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
+void BlobRedundancyManager::runScrub(bool full) {
     spdlog::info("Running blob scrub (full={})", full);
 
     // Phase 1: Collect degraded blob IDs under the shared read lock.
@@ -1626,12 +1626,12 @@ std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
     return "local";
 }
 
-void BlobRedundancyManager::updateMetadataStore([[maybe_unused]] const BlobMetadata& blob) {
+void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
     // Update distributed metadata store (etcd, etc.)
     // Simplified: no-op for now
 }
 
-void BlobRedundancyManager::removeFromMetadataStore([[maybe_unused]] const std::string& blob_id) {
+void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) {
     // Remove from distributed metadata store
     // Simplified: no-op for now
 }
@@ -1653,7 +1653,7 @@ RocksDBBlobListener::RocksDBBlobListener(
 }
 
 void RocksDBBlobListener::OnFlushCompleted(
-    [[maybe_unused]] rocksdb::DB* db,
+    rocksdb::DB* db,
     const rocksdb::FlushJobInfo& info
 ) {
     // New SST file created
@@ -1670,7 +1670,7 @@ void RocksDBBlobListener::OnFlushCompleted(
 }
 
 void RocksDBBlobListener::OnCompactionCompleted(
-    [[maybe_unused]] rocksdb::DB* db,
+    rocksdb::DB* db,
     const rocksdb::CompactionJobInfo& info
 ) {
     // New SST files created by compaction
@@ -1699,7 +1699,7 @@ void RocksDBBlobListener::OnTableFileDeleted(
     manager_.notifySSTFileDeleted(info.file_path);
 }
 
-BlobType RocksDBBlobListener::levelToBlobType([[maybe_unused]] int level) {
+BlobType RocksDBBlobListener::levelToBlobType(int level) {
     if (level == 0) {
         return BlobType::SST_L0;
     } else if (level == 1) {

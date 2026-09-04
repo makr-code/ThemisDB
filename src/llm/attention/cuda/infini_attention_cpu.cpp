@@ -86,7 +86,7 @@ private:
     /**
      * @brief Sigmoid activation function
      */
-    static float sigmoid([[maybe_unused]] float x) {
+    static float sigmoid(float x) {
         return 1.0f / (1.0f + std::exp(-x));
     }
     

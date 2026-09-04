@@ -285,7 +285,7 @@ private:
         return {SPARQLTokenType::STRING_LIT, val, start};
     }
 
-    SPARQLToken readNumber([[maybe_unused]] size_t start) {
+    SPARQLToken readNumber(size_t start) {
         size_t num_start = pos_;
         if (input_[pos_] == '-') {
           ++pos_;
@@ -308,7 +308,7 @@ private:
                 num_str, start};
     }
 
-    SPARQLToken readIdent([[maybe_unused]] size_t start) {
+    SPARQLToken readIdent(size_t start) {
         size_t ident_start = pos_;
         while (pos_ < input_.size() &&
                (std::isalnum(static_cast<unsigned char>(input_[pos_])) ||
@@ -831,7 +831,8 @@ static std::string termToAQLStr(const SPARQLTerm& term,
             return current_triple + "." + field;  // first/unbound variable
         }
         case SPARQLTermType::URIRef:
-        [[fallthrough]];\n        case SPARQLTermType::PrefixedName:
+        [[fallthrough]];
+        case SPARQLTermType::PrefixedName:
             return "\"" + term.value + "\"";
         case SPARQLTermType::Literal:
             if (term.is_literal_value) {

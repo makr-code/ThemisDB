@@ -233,8 +233,8 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
         }
     }
 
-    if ([[maybe_unused]] peer_discovered_callback) {
-        peer_discovered_callback([[maybe_unused]] discovered_peer);
+    if (peer_discovered_callback) {
+        peer_discovered_callback(discovered_peer);
     }
 }
 
@@ -258,8 +258,8 @@ void GossipProtocol::removePeer(const std::string& peer_id) {
         peer_lost_callback = on_peer_lost_;
     }
 
-    if ([[maybe_unused]] peer_lost_callback) {
-        peer_lost_callback([[maybe_unused]] peer_id);
+    if (peer_lost_callback) {
+        peer_lost_callback(peer_id);
     }
 }
 
@@ -291,13 +291,13 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
         std::function<void(const GossipMessage&)> custom_handler;
         {
             std::lock_guard<std::mutex> lock(peers_mutex_);
-            auto it = custom_handlers_.find([[maybe_unused]] message.message_type);
-            if ([[maybe_unused]] it != custom_handlers_.end()) {
+            auto it = custom_handlers_.find(message.message_type);
+            if (it != custom_handlers_.end()) {
                 custom_handler = it->second;
             }
         }
-        if ([[maybe_unused]] custom_handler) {
-            custom_handler([[maybe_unused]] message);
+        if (custom_handler) {
+            custom_handler(message);
         }
     }
 
@@ -358,14 +358,14 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     return GossipMessage{};
 }
 
-void GossipProtocol::onPeerDiscovered([[maybe_unused]] PeerDiscoveryCallback callback) {
+void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    on_peer_discovered_ = std::move([[maybe_unused]] callback);
+    on_peer_discovered_ = std::move(callback);
 }
 
-void GossipProtocol::onPeerLost([[maybe_unused]] PeerLostCallback callback) {
+void GossipProtocol::onPeerLost(PeerLostCallback callback) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    on_peer_lost_ = std::move([[maybe_unused]] callback);
+    on_peer_lost_ = std::move(callback);
 }
 
 void GossipProtocol::setRaftMembershipGateFn(RaftMembershipGateFn fn) {
@@ -378,12 +378,12 @@ void GossipProtocol::registerCustomHandler(
     std::function<void(const GossipMessage&)> handler
 ) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    auto it = custom_handlers_.find([[maybe_unused]] message_type);
-    if ([[maybe_unused]] it != custom_handlers_.end()) {
+    auto it = custom_handlers_.find(message_type);
+    if (it != custom_handlers_.end()) {
         std::cerr << "[GossipProtocol] WARNING: duplicate registerCustomHandler for type '"
                   << message_type << "' — previous handler overwritten\n";
     }
-    custom_handlers_[message_type] = std::move([[maybe_unused]] handler);
+    custom_handlers_[message_type] = std::move(handler);
 }
 
 nlohmann::json GossipProtocol::getStatistics() const {
@@ -571,7 +571,7 @@ void GossipProtocol::bootstrapFromSeedNodes() {
     }
 }
 
-std::vector<PeerInfo> GossipProtocol::selectRandomPeers([[maybe_unused]] size_t count) {
+std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
     std::vector<PeerInfo> selected;
     
     std::lock_guard<std::mutex> lock(peers_mutex_);

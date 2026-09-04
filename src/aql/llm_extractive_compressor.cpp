@@ -79,7 +79,7 @@ LLMExtractiveCompressor::LLMExtractiveCompressor(
     LLMAQLHandler& handler,
     LLMInteractionStore* store,
     const Config& config)
-    : handler_([[maybe_unused]] handler), store_(store), config_(config) {}
+    : handler_(handler), store_(store), config_(config) {}
 
 std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
     const std::vector<std::pair<std::string, std::string>>& history,

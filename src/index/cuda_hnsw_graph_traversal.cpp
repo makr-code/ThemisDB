@@ -134,7 +134,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
             int32_t end   = g.offsets[static_cast<size_t>(entry) + 1];
             for (int32_t ni = start; ni < end; ++ni) {
                 int32_t nb = g.neighbours[static_cast<size_t>(ni)];
-                if (nb < 0 || static_cast<uint32_t>(nb) >= g.num_nodes) {
+                if (nb < 0 || static_cast<uint32_t>(nb) >=g.num_nodes) {
                   continue;
                 }
                 float d = computeDistance(query,
@@ -170,7 +170,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     std::priority_queue<QEl> results;
     std::vector<bool> visited(bottom.num_nodes, false);
 
-    auto enqueue = [&]([[maybe_unused]] int32_t node_id) {
+    auto enqueue = [&](int32_t node_id) {
         float d = computeDistance(query,
                                   flat_vectors.data() + static_cast<size_t>(node_id) * dim,
                                   dim, metric);
@@ -192,7 +192,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
         int32_t end   = bottom.offsets[static_cast<size_t>(cn) + 1];
         for (int32_t ni = start; ni < end; ++ni) {
             int32_t nb = bottom.neighbours[static_cast<size_t>(ni)];
-            if (nb < 0 || static_cast<uint32_t>(nb) >= bottom.num_nodes) {
+            if (nb < 0 || static_cast<uint32_t>(nb) >=bottom.num_nodes) {
               continue;
             }
             if (visited[static_cast<size_t>(nb)]) {
@@ -453,7 +453,7 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
 // addNode
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool CudaHnswTraversalEngine::addNode([[maybe_unused]] int64_t new_id,
+bool CudaHnswTraversalEngine::addNode(int64_t new_id,
                                        const float* vector,
                                        const std::vector<HnswLayerGraph>& updated_layers) {
     if (!impl_->index_built) {
@@ -481,7 +481,7 @@ std::vector<HnswTraversalResult>
 CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) const {
     if (!impl_->index_built || impl_->flat_vectors.empty()) {
         THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: index not built or flat_vectors empty (index_built={} flat_vectors={})",
-                    impl_->index_built.load(), impl_-> static_cast<int>(flat_vectors.size()));
+                    impl_->index_built.load(), impl_->flat_vectors.size());
         return {};
     }
     if (ef == 0) {
@@ -768,7 +768,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                                 for (uint32_t ri = 0; ri < pass_k; ++ri) {
                                     const int64_t id    = h_ids[qi * pass_k + ri];
                                     const float   score = h_sc [qi * pass_k + ri];
-                                    if (id >= 0) {
+                                    if (id >=0) {
                                         all_cands[gqi].emplace_back(score, id);
                                     }
                                 }
@@ -877,7 +877,7 @@ std::string CudaHnswTraversalEngine::deviceInfo() const {
 // Visited pool tuning
 // ─────────────────────────────────────────────────────────────────────────────
 
-void CudaHnswTraversalEngine::setMaxBatchSize([[maybe_unused]] size_t n) {
+void CudaHnswTraversalEngine::setMaxBatchSize(size_t n) {
     if (n == 0) {
       n = 1;
     }
@@ -900,4 +900,5 @@ bool CudaHnswTraversalEngine::hasVisitedPool() const noexcept {
 }
 
 } // namespace themis
+
 

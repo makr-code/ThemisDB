@@ -215,7 +215,7 @@ bool InferenceEngineEnhanced::generate(
 
         if (generateTokens(request_id, input_token_ids, max_tokens, true, output_tokens)) {
             // Call token callback
-            if ([[maybe_unused]] token_callback) {
+            if (token_callback) {
                 TokenGenerationResult result;
                 result.token_ids = output_tokens;
                 result.generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -224,7 +224,7 @@ bool InferenceEngineEnhanced::generate(
             }
             
             // Call completion callback
-            if ([[maybe_unused]] completion_callback) {
+            if (completion_callback) {
                 completion_callback(request_id, detokenize(output_tokens));
             }
             
@@ -619,8 +619,8 @@ void InferenceEngineEnhanced::updateAdapterCapabilities(
                      adapter_id, accuracy_delta, performance_delta_p99_ms);
         
         // Broadcast update via gossip
-        if ([[maybe_unused]] capability_update_callback_) {
-            capability_update_callback_([[maybe_unused]] it->second);
+        if (capability_update_callback_) {
+            capability_update_callback_(it->second);
         }
     }
 }
@@ -673,17 +673,17 @@ ContinuousBatchScheduler* InferenceEngineEnhanced::getScheduler() {
 // Capability Announcement (Gossip)
 // ============================================================================
 
-void InferenceEngineEnhanced::setCapabilityUpdateCallback([[maybe_unused]] CapabilityUpdateCallback callback) {
+void InferenceEngineEnhanced::setCapabilityUpdateCallback(CapabilityUpdateCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    capability_update_callback_ = std::move([[maybe_unused]] callback);
+    capability_update_callback_ = std::move(callback);
 }
 
 void InferenceEngineEnhanced::broadcastAdapterCapabilities() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     for (const auto& [adapter_id, config] : loaded_adapters_) {
-        if ([[maybe_unused]] capability_update_callback_) {
-            capability_update_callback_([[maybe_unused]] config);
+        if (capability_update_callback_) {
+            capability_update_callback_(config);
         }
     }
 }

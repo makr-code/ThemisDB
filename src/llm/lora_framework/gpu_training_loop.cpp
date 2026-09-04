@@ -121,7 +121,7 @@ void GPUTrainingLoop::setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer) {
                  trainer ? trainer->is_enabled() : false);
 }
 
-void GPUTrainingLoop::registerCallback([[maybe_unused]] GPUTrainingCallback callback) {
+void GPUTrainingLoop::registerCallback(GPUTrainingCallback callback) {
     callback_ = callback;
 }
 
@@ -400,7 +400,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     spdlog::info("  Estimated compute overhead: {:.1f}%", compute_overhead);
 }
 
-float GPUTrainingLoop::trainEpoch([[maybe_unused]] int epoch) {
+float GPUTrainingLoop::trainEpoch(int epoch) {
     current_metrics_.current_epoch = epoch + 1;
     
     data_loader_->reset();
@@ -662,8 +662,8 @@ void GPUTrainingLoop::updateMetrics(int epoch, int step, float loss) {
     current_metrics_.progress = static_cast<float>(step) / 
                                 static_cast<float>(current_metrics_.total_steps);
     
-    if ([[maybe_unused]] callback_) {
-        callback_([[maybe_unused]] current_metrics_);
+    if (callback_) {
+        callback_(current_metrics_);
     }
 }
 

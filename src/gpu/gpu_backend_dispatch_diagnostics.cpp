@@ -48,9 +48,9 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
 
         // Event callback emission
         {
-            std::lock_guard<std::mutex> lock([[maybe_unused]] g_callback_mutex);
-            if ([[maybe_unused]] g_event_callback) {
-                GPUDispatchEventType event_type = errorCodeToEventType([[maybe_unused]] error_code);
+            std::lock_guard<std::mutex> lock(g_callback_mutex);
+            if (g_event_callback) {
+                GPUDispatchEventType event_type = errorCodeToEventType(error_code);
                 g_event_callback(event_type, error_code, device_id, detail);
             }
         }
@@ -63,13 +63,13 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
 // Event callback management
 // ============================================================================
 
-void GPUBackendDispatchDiagnostics::setEventCallback([[maybe_unused]] GPUDispatchEventCallback callback) noexcept {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] g_callback_mutex);
+void GPUBackendDispatchDiagnostics::setEventCallback(GPUDispatchEventCallback callback) noexcept {
+    std::lock_guard<std::mutex> lock(g_callback_mutex);
     g_event_callback = callback;
 }
 
 GPUDispatchEventCallback GPUBackendDispatchDiagnostics::getEventCallback() noexcept {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] g_callback_mutex);
+    std::lock_guard<std::mutex> lock(g_callback_mutex);
     return g_event_callback;
 }
 
@@ -83,10 +83,14 @@ GPUDispatchEventType GPUBackendDispatchDiagnostics::errorCodeToEventType(
     switch (code) {
         // Allocation errors
         case GPUDispatchErrorCode::ALLOC_SIZE_EXCEEDS_LIMIT:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_INVALID_PARAMS:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_QUOTA_EXCEEDED:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::ALLOC_INVALID_PARAMS:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::ALLOC_QUOTA_EXCEEDED:
             return GPUDispatchEventType::ALLOCATION_FAILED;
 
         // Backend selection errors
@@ -97,27 +101,36 @@ GPUDispatchEventType GPUBackendDispatchDiagnostics::errorCodeToEventType(
             return GPUDispatchEventType::CAPABILITY_MISMATCH;
         
         case GPUDispatchErrorCode::BACKEND_TOPOLOGY_UNAVAILABLE:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::BACKEND_NOT_ENABLED:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::BACKEND_DEGRADED:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::BACKEND_NOT_ENABLED:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::BACKEND_DEGRADED:
             return GPUDispatchEventType::DEVICE_DEGRADED;
 
         // Dispatch errors
         case GPUDispatchErrorCode::DISPATCH_TIMEOUT:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_KERNEL_LAUNCH_FAILED:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_STREAM_FULL:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_CONCURRENT_EXECUTION_REJECTED:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::DISPATCH_KERNEL_LAUNCH_FAILED:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::DISPATCH_STREAM_FULL:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::DISPATCH_CONCURRENT_EXECUTION_REJECTED:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED:
             return GPUDispatchEventType::DISPATCH_FAILED;
 
         // Fallback/degradation
         case GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::FALLBACK_UNAVAILABLE:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::FALLBACK_UNAVAILABLE:
             return GPUDispatchEventType::FALLBACK_TO_CPU;
 
         // Internal/unknown
         case GPUDispatchErrorCode::INTERNAL_ERROR:
-        [[fallthrough]];\n        case GPUDispatchErrorCode::SUCCESS:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case GPUDispatchErrorCode::SUCCESS:
+        [[fallthrough]];
+        default:
             return GPUDispatchEventType::DISPATCH_FAILED;
     }
 }
@@ -186,7 +199,7 @@ std::string GPUBackendDispatchDiagnostics::errorCodeToString(GPUDispatchErrorCod
 // Event type to string conversion
 // ============================================================================
 
-std::string GPUBackendDispatchDiagnostics::eventTypeToString([[maybe_unused]] GPUDispatchEventType type) noexcept {
+std::string GPUBackendDispatchDiagnostics::eventTypeToString(GPUDispatchEventType type) noexcept {
     switch (type) {
         case GPUDispatchEventType::ALLOCATION_FAILED:
             return "ALLOCATION_FAILED";

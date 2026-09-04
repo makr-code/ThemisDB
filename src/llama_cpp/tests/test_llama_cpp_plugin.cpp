@@ -149,7 +149,7 @@ TEST(LlamaCppPluginFocusedTests, E4_GenerateRAGHonoursExplicitContextOverrideFor
     p.loadModel("", {});
 
     int observed_max_tokens = -1;
-    p.setGenerateFn([&]([[maybe_unused]] const InferenceRequest& request) {
+    p.setGenerateFn([&](const InferenceRequest& request) {
         observed_max_tokens = request.max_tokens;
         InferenceResponse response;
         response.success = true;
@@ -601,7 +601,7 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
     // No deadlock or crash is expected.
     std::atomic<int> generate_ok{0};
 
-    auto lora_writer = [&]([[maybe_unused]] int id) {
+    auto lora_writer = [&](int id) {
         const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";
         const std::string name = "lora_" + std::to_string(id);
         plugin.loadLoRA(name, path, 1.0f);
@@ -642,7 +642,7 @@ TEST(LlamaCppPluginFocusedTests, Q1_EmbedFn_InjectedFnCalled) {
     plugin.loadModel("", {});
 
     bool called = false;
-    plugin.setEmbedFn([&]([[maybe_unused]] const std::string& text) -> std::vector<float> {
+    plugin.setEmbedFn([&](const std::string& text) -> std::vector<float> {
         called = true;
         EXPECT_EQ(text, "hello");
         return std::vector<float>(128, 1.0f);
@@ -710,7 +710,7 @@ TEST(LlamaCppPluginFocusedTests, R1_GenerateFn_InjectedFnCalled) {
     plugin.loadModel("", {});
 
     bool called = false;
-    plugin.setGenerateFn([&]([[maybe_unused]] const InferenceRequest& request) {
+    plugin.setGenerateFn([&](const InferenceRequest& request) {
         called = true;
         EXPECT_EQ(request.prompt, "bridge");
         InferenceResponse response;
@@ -814,7 +814,7 @@ TEST(LlamaCppPluginFocusedTests, T1_CancellationToken_PreCancelledRejectsRequest
     plugin.loadModel("", {});
     // Wire a bridge so the test can verify the path never reaches generation.
     bool bridge_called = false;
-    plugin.setGenerateFn([&]([[maybe_unused]] const InferenceRequest&) -> InferenceResponse {
+    plugin.setGenerateFn([&](const InferenceRequest&) -> InferenceResponse {
         bridge_called = true;
         InferenceResponse r;
         r.success = true;
@@ -1091,7 +1091,7 @@ TEST(LlamaCppPluginFocusedTests, X1_StreamCallbackRetry_TransientException) {
     int throw_count = 0;
     InferenceRequest req;
     req.prompt = "x1_retry_test";
-    req.stream_callback = [&]([[maybe_unused]] const std::string&) {
+    req.stream_callback = [&](const std::string&) {
         // Throw on the first two calls to force the retry path.
         if (throw_count++ < 2) {
           throw std::runtime_error("transient");

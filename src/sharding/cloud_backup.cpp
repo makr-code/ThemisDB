@@ -144,7 +144,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-               [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+               const std::map<std::string, std::string>& metadata) override {
         S3UploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -316,7 +316,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+                const std::map<std::string, std::string>& metadata) override {
         AzureUploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -494,7 +494,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+                const std::map<std::string, std::string>& metadata) override {
         GCSUploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -1013,9 +1013,9 @@ private:
         };
 
         if (config_.provider == "s3") {
-            if ([[maybe_unused]] !has_s3_callbacks()) {
-                if ([[maybe_unused]] !try_initialize_callbacks_from_sdk() || !has_s3_callbacks()) {
-                    THEMIS_ERROR([[maybe_unused]] "S3 provider requires upload/download/delete/list/exists callbacks");
+            if (!has_s3_callbacks()) {
+                if (!try_initialize_callbacks_from_sdk() || !has_s3_callbacks()) {
+                    THEMIS_ERROR("S3 provider requires upload/download/delete/list/exists callbacks");
                     storage_provider_.reset();
                     return;
                 }
@@ -1026,9 +1026,9 @@ private:
                 config_.s3_endpoint
             );
         } else if (config_.provider == "azure") {
-            if ([[maybe_unused]] !has_azure_callbacks()) {
-                if ([[maybe_unused]] !try_initialize_callbacks_from_sdk() || !has_azure_callbacks()) {
-                    THEMIS_ERROR([[maybe_unused]] "Azure provider requires upload/download/delete/list/exists callbacks");
+            if (!has_azure_callbacks()) {
+                if (!try_initialize_callbacks_from_sdk() || !has_azure_callbacks()) {
+                    THEMIS_ERROR("Azure provider requires upload/download/delete/list/exists callbacks");
                     storage_provider_.reset();
                     return;
                 }
@@ -1038,9 +1038,9 @@ private:
                 config_.azure_container
             );
         } else if (config_.provider == "gcs") {
-            if ([[maybe_unused]] !has_gcs_callbacks()) {
-                if ([[maybe_unused]] !try_initialize_callbacks_from_sdk() || !has_gcs_callbacks()) {
-                    THEMIS_ERROR([[maybe_unused]] "GCS provider requires upload/download/delete/list/exists callbacks");
+            if (!has_gcs_callbacks()) {
+                if (!try_initialize_callbacks_from_sdk() || !has_gcs_callbacks()) {
+                    THEMIS_ERROR("GCS provider requires upload/download/delete/list/exists callbacks");
                     storage_provider_.reset();
                     return;
                 }

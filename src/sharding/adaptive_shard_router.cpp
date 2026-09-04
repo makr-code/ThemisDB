@@ -495,7 +495,7 @@ std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     const std::string& query,
     const std::vector<std::string>& shard_ids,
-    [[maybe_unused]] uint32_t timeout_ms
+    uint32_t timeout_ms
 ) {
     // Delegate to the base-class implementation which fans out via RemoteExecutor.
     // timeout_ms is advisory; per-request timeouts are governed by the mTLS client

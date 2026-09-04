@@ -106,11 +106,13 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
 
     switch (major) {
         case 0:
-        [[fallthrough]];\n        case 1:  // unsigned / negative integer
+        [[fallthrough]];
+        case 1:  // unsigned / negative integer
             return passkeyCborReadArg(d, pos, arg);
 
         case 2:
-        [[fallthrough]];\n        case 3:  // byte / text string
+        [[fallthrough]];
+        case 3:  // byte / text string
             pos = passkeyCborReadArg(d, pos, arg);
             if (pos + arg > static_cast<int>(d.size())) {
               throw std::runtime_error("CBOR: string OOB (skip)");
@@ -137,7 +139,8 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
             return passkeyCborSkip(d, pos);
 
         default:
-        [[fallthrough]];\n        case 7: {  // float / simple
+        [[fallthrough]];
+        case 7: {  // float / simple
             const uint8_t info2 = initial & 0x1F;
             ++pos;
             if (info2 == 24) {
@@ -607,7 +610,7 @@ PasskeyAuthenticator::PasskeyAuthenticator(std::string relying_party_id,
 // generateSecureChallenge
 // ============================================================================
 
-std::string PasskeyAuthenticator::generateSecureChallenge([[maybe_unused]] size_t bytes) const {
+std::string PasskeyAuthenticator::generateSecureChallenge(size_t bytes) const {
     if (bytes < 16) {
       bytes = 16;
     }

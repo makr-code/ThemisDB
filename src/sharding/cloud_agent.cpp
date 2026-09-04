@@ -664,8 +664,8 @@ void CloudAgent::updateStatistics(const CloudAgentResult& result) {
 }
 
 void CloudAgent::recordMetrics(
-    [[maybe_unused]] const CloudAgentOperation& operation,
-    [[maybe_unused]] const CloudAgentResult& result
+    const CloudAgentOperation& operation,
+    const CloudAgentResult& result
 ) {
     if (!metrics_ || !config_.enable_metrics) {
         return;

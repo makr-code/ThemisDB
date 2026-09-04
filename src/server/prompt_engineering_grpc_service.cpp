@@ -53,7 +53,7 @@ PromptEngineeringGrpcService::PromptEngineeringGrpcService(
             THEMIS_ERROR("Prompt gRPC service accessor callback failed: {}", e.what());
             service_ptr_ = nullptr;
         } catch (...) {
-            THEMIS_ERROR([[maybe_unused]] "Prompt gRPC service accessor callback failed: unknown error");
+            THEMIS_ERROR("Prompt gRPC service accessor callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }

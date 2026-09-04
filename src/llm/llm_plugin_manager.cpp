@@ -270,7 +270,7 @@ LLMPluginManager& LLMPluginManager::instance() {
     // sequentially-consistent execution even under concurrent callers.
     static std::once_flag oom_cb_flag;
     std::call_once(oom_cb_flag, [](LLMPluginManager& mgr) {
-        mgr.vram_allocator_.setOOMCallback([[maybe_unused]] [](const ActiveVRAMAllocator::OOMEvent& ev) {
+        mgr.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
             spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
                          "recovered={}, freed={} bytes",
                          ev.requested_bytes,
@@ -467,7 +467,7 @@ std::vector<std::string> LLMPluginManager::listModels() const {
 }
 
 bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, 
-                                [[maybe_unused]] const std::string& base_model) {
+                                const std::string& base_model) {
     // Fail-closed: reject empty lora_id or path immediately
     if (lora_id.empty() || path.empty()) {
         spdlog::error("LLMPluginManager::loadLoRA: lora_id or path is empty");
@@ -571,7 +571,7 @@ std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest
 }
 
 bool LLMPluginManager::ingestModel(const std::string& model_id, 
-                                   [[maybe_unused]] const std::string& data) {
+                                   const std::string& data) {
     return loadModel(model_id, model_id);
 }
 

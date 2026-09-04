@@ -73,7 +73,7 @@ DistributedTxnApiHandler::DistributedTxnApiHandler(
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleBegin([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleBegin");
         auto body = json::parse(req.body());
@@ -146,7 +146,7 @@ DistributedTxnApiHandler::handleBegin([[maybe_unused]] const http::request<http:
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleOperation([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleOperation");
         auto body = json::parse(req.body());
@@ -193,7 +193,7 @@ DistributedTxnApiHandler::handleOperation([[maybe_unused]] const http::request<h
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleCommit([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleCommit");
         auto body = json::parse(req.body());
@@ -230,7 +230,7 @@ DistributedTxnApiHandler::handleCommit([[maybe_unused]] const http::request<http
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleAbort([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleAbort");
         auto body = json::parse(req.body());
@@ -261,9 +261,9 @@ DistributedTxnApiHandler::handleAbort([[maybe_unused]] const http::request<http:
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleReadOnly([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>& req) {
     try {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleReadOnly");
+    auto span = Tracer::startSpan("handleReadOnly");
         auto body = json::parse(req.body());
 
         if (!body.contains("shards") || !body["shards"].is_array()) {
@@ -306,7 +306,7 @@ DistributedTxnApiHandler::handleReadOnly([[maybe_unused]] const http::request<ht
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleStatus([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleStatus");
         // Extract transaction ID from the URL path: /dtxn/status/{txn_id}
@@ -344,7 +344,7 @@ DistributedTxnApiHandler::handleStatus([[maybe_unused]] const http::request<http
 // ─────────────────────────────────────────────────────────────────────────────
 
 http::response<http::string_body>
-DistributedTxnApiHandler::handleStats([[maybe_unused]] const http::request<http::string_body>& req) {
+DistributedTxnApiHandler::handleStats(const http::request<http::string_body>& req) {
     try {
     auto span = Tracer::startSpan("handleStats");
         return ok(coordinator_->getStatistics(), req);
@@ -385,7 +385,7 @@ DistributedTxnApiHandler::error(http::status        status,
 }
 
 std::string
-DistributedTxnApiHandler::stateToString([[maybe_unused]] sharding::TransactionState state) {
+DistributedTxnApiHandler::stateToString(sharding::TransactionState state) {
     using TS = sharding::TransactionState;
     switch (state) {
         case TS::ACTIVE:     return "ACTIVE";

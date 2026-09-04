@@ -279,7 +279,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         THEMIS_INFO("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
     }
 
-    [[maybe_unused]] const double total_ms = std::chrono::duration<double, std::milli>(
+    const double total_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t0).count();
 
     if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {

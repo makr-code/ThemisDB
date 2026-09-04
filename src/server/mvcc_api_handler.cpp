@@ -51,7 +51,7 @@ MvccApiHandler::MvccApiHandler(
     , metrics_(std::move(metrics))
 {
     if (!store_) {
-        throw std::invalid_argument([[maybe_unused]] "MvccApiHandler: store cannot be null");
+        throw std::invalid_argument("MvccApiHandler: store cannot be null");
     }
 }
 
@@ -59,7 +59,7 @@ MvccApiHandler::MvccApiHandler(
 // Route registration
 // ─────────────────────────────────────────────────────────────────────────────
 
-void MvccApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
+void MvccApiHandler::registerRoutes(httplib::Server& server) {
     // GET  /api/v1/mvcc/clock
     server.Get("/api/v1/mvcc/clock",
         [this](const httplib::Request& req, httplib::Response& res) {
@@ -125,7 +125,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
             try {
                 ts_val = std::stoull(req.get_param_value("timestamp"));
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "mvcc_api_handler: unhandled exception caught");
+                THEMIS_WARN("mvcc_api_handler: unhandled exception caught");
                 sendError(res, 400, "Invalid timestamp parameter (must be uint64)");
                 return;
             }
@@ -234,7 +234,7 @@ void MvccApiHandler::handleListVersions(const httplib::Request& req,
 
     try {
         json versions_array = json::array();
-        store_->scanVersions(key, [&]([[maybe_unused]] const MVCCStore::VersionEntry& entry) {
+        store_->scanVersions(key, [&](const MVCCStore::VersionEntry& entry) {
             json v;
             v["timestamp"] = entry.timestamp.value;
             v["value"]     = valueToString(entry.value);
@@ -360,7 +360,7 @@ void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::string MvccApiHandler::extractKey([[maybe_unused]] const httplib::Request& req) {
+std::string MvccApiHandler::extractKey(const httplib::Request& req) {
     if (static_cast<int>(req.matches.size()) < 2) return {};
     std::string key = req.matches[1];
     if (!isValidMvccKey(key)) {
@@ -369,11 +369,11 @@ std::string MvccApiHandler::extractKey([[maybe_unused]] const httplib::Request& 
     return key;
 }
 
-std::string MvccApiHandler::valueToString([[maybe_unused]] const std::vector<uint8_t>& v) {
+std::string MvccApiHandler::valueToString(const std::vector<uint8_t>& v) {
     return std::string(v.begin(), v.end());
 }
 
-std::vector<uint8_t> MvccApiHandler::stringToValue([[maybe_unused]] const std::string& s) {
+std::vector<uint8_t> MvccApiHandler::stringToValue(const std::string& s) {
     return std::vector<uint8_t>(s.begin(), s.end());
 }
 

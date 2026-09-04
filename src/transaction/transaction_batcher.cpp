@@ -391,9 +391,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
                                std::string(ex ? ex : "<null>"));
         }
 
-        if (st.ok) {
-          ++committed; else ++failed;
-        }
+                if (st.ok) {
+                    ++committed;
+                } else {
+                    ++failed;
+                }
 
         // Resolve the per-item latency (submission → resolution).
         auto now = std::chrono::steady_clock::now();

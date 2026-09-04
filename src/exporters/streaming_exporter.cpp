@@ -49,7 +49,7 @@ std::vector<BaseEntity> VectorExportCursor::nextPage() {
     return page;
 }
 
-bool VectorExportCursor::seekTo([[maybe_unused]] size_t offset) {
+bool VectorExportCursor::seekTo(size_t offset) {
     if (offset > static_cast<int>(entities_.size())) {
         return false;
     }
@@ -153,7 +153,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     stats.exported_entities++;
 
                     // Progress reporting with ETA
-                    if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+                    if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
                         auto now       = std::chrono::steady_clock::now();
                         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time);
 
@@ -162,7 +162,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                                 = calculateETA(stats.exported_entities, total_count, start_time);
                         }
 
-                        options.progress_callback([[maybe_unused]] stats);
+                        options.progress_callback(stats);
                     }
 
                 } catch (const SizeLimitException &) {
@@ -252,7 +252,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     throw ExportIOException("Failed to rename encrypted file: " + rename_ec.message(), enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch ([[maybe_unused]] const std::exception &e) {
+            } catch (const std::exception &e) {
                 std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;
@@ -323,7 +323,7 @@ std::string StreamingExporter::formatEntity(const BaseEntity &entity, const Expo
 
         // Serialise the variant value to JSON
         std::visit(
-            [&]([[maybe_unused]] const auto &v) {
+            [&](const auto &v) {
                 using T = std::decay_t<decltype(v)>;
                 if constexpr (std::is_same_v<T, std::monostate>) {
                     j[key] = nullptr;

@@ -159,9 +159,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	}
 
 	// Variablen verwendet in addEdge-Überladung
-	[[maybe_unused]] const std::string& eid = *eidOpt;
-	[[maybe_unused]] const std::string& from = *fromOpt;
-	[[maybe_unused]] const std::string& to = *toOpt;
+	const std::string& eid = *eidOpt;
+	const std::string& from = *fromOpt;
+	const std::string& to = *toOpt;
 
 	auto batch = db_.createWriteBatch();
 	if (!batch) {
@@ -420,7 +420,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
-			result.reserve(it-> static_cast<int>(second.size()));
+			result.reserve(it->second.size());
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -455,7 +455,7 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
-			result.reserve(it-> static_cast<int>(second.size()));
+			result.reserve(it->second.size());
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -799,7 +799,7 @@ void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std:
 	addEdgeToTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
 }
 
-void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
+void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
  // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 	removeEdgeFromTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
@@ -810,7 +810,7 @@ void GraphIndexManager::addEdgeToTopologyUnlocked_(const std::string& edgeId, co
 	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 }
 
-void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
+void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
 	// Remove from outEdges_
 	auto outIt = outEdges_.find(fromPk);
 	if (outIt != outEdges_.end()) {

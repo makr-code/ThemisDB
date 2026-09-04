@@ -273,7 +273,7 @@ public:
     ) override {
         ComputeDistancesFn fn;
         {
-            std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+            std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
             fn = s_compute_distances_fn_;
         }
         if (fn) {
@@ -299,7 +299,7 @@ public:
         {
             ZludaKernelFn kfn;
             {
-                std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+                std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
                 kfn = s_zluda_kernel_fn_;
             }
             if (kfn) {
@@ -428,7 +428,7 @@ public:
     ) override {
         BatchKnnSearchFn fn;
         {
-            std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+            std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
             fn = s_batch_knn_fn_;
         }
         if (fn) {
@@ -459,7 +459,7 @@ public:
         {
             ZludaKernelFn kfn;
             {
-                std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+                std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
                 kfn = s_zluda_kernel_fn_;
             }
             if (kfn) {
@@ -607,17 +607,17 @@ ZLUDAVectorBackend::BatchKnnSearchFn ZLUDAVectorBackend::s_batch_knn_fn_;
 ZludaKernelFn ZLUDAVectorBackend::s_zluda_kernel_fn_;
 
 void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_compute_distances_fn_ = std::move(fn);
 }
 
 void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_batch_knn_fn_ = std::move(fn);
 }
 
 void ZLUDAVectorBackend::setZludaKernelFnImpl(ZludaKernelFn fn) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
+    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_zluda_kernel_fn_ = std::move(fn);
 }
 

@@ -296,7 +296,7 @@ DistributedTransactionManager::beginDistributed(
     // dispatch is enabled, ensure Phase-2 bridge is available to prevent participants
     // from remaining indefinitely in PREPARED state.
     for (const auto& part : participants) {
-        if ([[maybe_unused]] !part.callback && !part.endpoint.empty()) {
+        if (!part.callback && !part.endpoint.empty()) {
             // This is a remote participant. Validate Phase-2 bridge is configured.
             const bool has_phase2_transport =
                 static_cast<bool>(config_.phase2_rpc_fn) ||
@@ -877,7 +877,7 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
                 if (part.node_id != node_id) {
                   continue;
                 }
-                if ([[maybe_unused]] part.callback != nullptr) {
+                if (part.callback != nullptr) {
                     return true;   // in-process — always alive
                 }
                 // Remote participant found.
@@ -1081,7 +1081,7 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
     futures.reserve(parts.size());
 
     for (const auto& part : parts) {
-        if ([[maybe_unused]] !part.callback) {
+        if (!part.callback) {
             const std::string ep  = part.endpoint;
             const std::string nid = part.node_id;
             const std::string tid = txn_id;
@@ -1288,7 +1288,7 @@ bool DistributedTransactionManager::runPhase2Unlocked(
     bool all_delivered = true;
 
     for (const auto& part : parts) {
-        if ([[maybe_unused]] !part.callback) {
+        if (!part.callback) {
             // Remote participant: deliver Phase-2 decision via one of the configured
             // bridges (new Phase2RpcFn, legacy static RpcPhase2Fn, or
             // remote_phase2_dispatch).

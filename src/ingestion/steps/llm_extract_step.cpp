@@ -75,13 +75,13 @@ public:
     const char* getName()    const override { return "builtin.llm_extract"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
+    bool  initialize(const char*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    bool canHandle(cons[[maybe_unused]] t ExtractionContext& [[maybe_unused]] ctx) const override {
+    bool canHandle(const ExtractionContext& ctx) const override {
         // Skip when no text available or backend unavailable
         return ctx.hasText() && backend_ && backend_->isAvailable();
     }
@@ -90,7 +90,7 @@ public:
         backend_ = std::move(b);
     }
 
-    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
+    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
         if (!ctx.hasText()) return {};
         if (!backend_ || !backend_->isAvailable()) {
             ctx.warnings.push_back(

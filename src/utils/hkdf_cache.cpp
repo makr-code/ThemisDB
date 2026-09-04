@@ -164,7 +164,7 @@ HKDFCache& HKDFCache::threadLocal() {
     return instance;
 }
 
-void HKDFCache::setCapacity([[maybe_unused]] size_t cap) {
+void HKDFCache::setCapacity(size_t cap) {
     impl_->cfg.max_entries = cap ? cap : 1;
     size_t per_shard = std::max<size_t>(1, impl_->cfg.max_entries / kShards);
     for (auto& s : impl_->shards) {

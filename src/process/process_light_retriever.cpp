@@ -180,11 +180,11 @@ bool ProcessLightRetriever::isWithinTimeoutBudget(int64_t start_time_ms) const {
     return (now_ms - start_time_ms) < resource_limits_.max_retrieval_time_ms;
 }
 
-bool ProcessLightRetriever::isWithinSizeBudget([[maybe_unused]] size_t current_size_bytes) const {
+bool ProcessLightRetriever::isWithinSizeBudget(size_t current_size_bytes) const {
     return current_size_bytes < resource_limits_.max_context_bytes;
 }
 
-bool ProcessLightRetriever::isWithinDepthBudget([[maybe_unused]] size_t current_depth) const {
+bool ProcessLightRetriever::isWithinDepthBudget(size_t current_depth) const {
     return current_depth <= resource_limits_.max_traversal_depth;
 }
 

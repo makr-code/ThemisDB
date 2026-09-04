@@ -360,8 +360,8 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
 
 std::string ProcessCommunityDetector::generateReport(
     const ProcessCommunity& community,
-    [[maybe_unused]] std::string_view model_id,
-    [[maybe_unused]] std::string_view llm_endpoint,
+    std::string_view model_id,
+    std::string_view llm_endpoint,
     std::string_view language) const
 {
     // Structured community report built from available metadata (node IDs, label,

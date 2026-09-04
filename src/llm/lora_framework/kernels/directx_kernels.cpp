@@ -202,7 +202,7 @@ static uint32_t checked_u32_size(size_t value, const char* context) {
     return static_cast<uint32_t>(value);
 }
 
-bool initialize_directx_lora([[maybe_unused]] int adapter_id) {
+bool initialize_directx_lora(int adapter_id) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     if (g_directx_state.initialized) {
         return true;
@@ -1097,7 +1097,7 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-bool initialize_directx_lora([[maybe_unused]] int adapter_id) {
+bool initialize_directx_lora(int adapter_id) {
     return false;
 }
 

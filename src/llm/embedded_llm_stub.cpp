@@ -121,12 +121,12 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
 EmbeddedLLM::~EmbeddedLLM() = default;
 
 void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     generate_full_fn_ = std::move(fn);
 }
 
 void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     embed_fn_ = std::move(fn);
 }
 
@@ -147,7 +147,7 @@ std::string EmbeddedLLM::generateWithParams(
 
 std::string EmbeddedLLM::chat(
     const std::vector<ChatMessage>& messages,
-    [[maybe_unused]] ChatFormat format
+    ChatFormat format
 ) {
     std::string merged = {};
     for (const auto& m : messages) {
@@ -168,9 +168,9 @@ std::string EmbeddedLLM::chatSimple(
     return chat({{"system", system_prompt}, {"user", user_message}});
 }
 
-std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) {
+std::vector<float> EmbeddedLLM::embed(const std::string& text) {
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+        std::lock_guard<std::mutex> lock(callback_mutex_);
         if (embed_fn_) {
             try {
                 auto result = embed_fn_(text);
@@ -224,8 +224,8 @@ std::string EmbeddedLLM::generateStreaming(
     int max_tokens
 ) {
     auto text = generate(prompt, max_tokens);
-    if ([[maybe_unused]] callback) {
-        callback([[maybe_unused]] text);
+    if (callback) {
+        callback(text);
     }
     return text;
 }
@@ -237,7 +237,7 @@ std::string EmbeddedLLM::generateStreamingSSE(
     int max_tokens
 ) {
     auto text = generate(prompt, max_tokens);
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         callback("event: done\ndata: {\"request_id\":\"" + request_id + "\",\"text\":\"\"}\n\n");
     }
     return text;
@@ -282,13 +282,13 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     safe_req.prompt           = std::move(sanitized_prompt);
 
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+        std::lock_guard<std::mutex> lock(callback_mutex_);
         if (generate_full_fn_) {
             try {
                 auto response = generate_full_fn_(safe_req);
-                if ([[maybe_unused]] safe_req.stream_callback && !response.text.empty()) {
+                if (safe_req.stream_callback && !response.text.empty()) {
                     try {
-                        safe_req.stream_callback([[maybe_unused]] response.text);
+                        safe_req.stream_callback(response.text);
                     } catch (const std::exception& e) {
                         spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
                     } catch (...) {
@@ -349,8 +349,8 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
         {"backend", "deterministic-fallback"},
         {"model_backend_ready", false}
     };
-    if ([[maybe_unused]] safe_req.stream_callback && !resp.text.empty()) {
-        safe_req.stream_callback([[maybe_unused]] resp.text);
+    if (safe_req.stream_callback && !resp.text.empty()) {
+        safe_req.stream_callback(resp.text);
     }
 #else
     spdlog::error("EmbeddedLLM: no backend configured — call EmbeddedLLMManager::initialize() "
@@ -375,7 +375,7 @@ std::string EmbeddedLLM::getModelInfo() const {
 }
 
 json EmbeddedLLM::getStats() const {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     const bool has_backend = static_cast<bool>(generate_full_fn_);
 #ifdef THEMIS_LLM_STUB_MODE
     const std::string backend = has_backend ? "injected-callback" : "deterministic-fallback";
@@ -422,7 +422,7 @@ InferenceRequest EmbeddedLLM::createRequest(
 
 std::string EmbeddedLLM::applyEthicalGuidelines(
     const std::string& prompt,
-    [[maybe_unused]] const std::string& context_text
+    const std::string& context_text
 ) {
     return prompt;
 }

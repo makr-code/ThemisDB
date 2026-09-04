@@ -349,7 +349,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
                 ctx.set_deadline(deadline);
             }
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "grpc_web_proxy_handler: unhandled exception caught");
+            THEMIS_WARN("grpc_web_proxy_handler: unhandled exception caught");
             // Ignore malformed grpc-timeout; use default deadline
         }
     } else if (config_.deadline_ms > 0) {

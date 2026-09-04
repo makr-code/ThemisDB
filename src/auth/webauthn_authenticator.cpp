@@ -108,11 +108,13 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
 
     switch (major) {
         case 0:
-        [[fallthrough]];\n        case 1: // unsigned / negative integer
+        [[fallthrough]];
+        case 1: // unsigned / negative integer
             return cborReadArg(d, pos, arg);
 
         case 2:
-        [[fallthrough]];\n        case 3: // byte / text string
+        [[fallthrough]];
+        case 3: // byte / text string
             pos = cborReadArg(d, pos, arg);
             if (pos + arg > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: string out of bounds (skip)");
@@ -139,7 +141,8 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
             return cborSkip(d, pos);
 
         default:
-        [[fallthrough]];\n        case 7: { // float / simple
+        [[fallthrough]];
+        case 7: { // float / simple
             const uint8_t info = initial & 0x1F;
             ++pos;
             if (info == 24) {

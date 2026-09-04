@@ -136,7 +136,7 @@ private:
 
 ParallelDownloader::ParallelDownloader()
     : concurrency_(static_cast<size_t>(
-          std::max(1, std::thread::hardware_concurrency())))
+          std::max<size_t>(1, static_cast<size_t>(std::thread::hardware_concurrency()))))
     , bandwidth_limit_bps_(0)
     , connect_timeout_s_(10)
     , transfer_timeout_s_(30)
@@ -154,7 +154,7 @@ ParallelDownloader::~ParallelDownloader() = default;
 // Configuration
 // ============================================================================
 
-void ParallelDownloader::setConcurrency([[maybe_unused]] size_t n) {
+void ParallelDownloader::setConcurrency(size_t n) {
     if (n == 0) {
         throw std::invalid_argument("ParallelDownloader::setConcurrency: n must be >= 1");
     }
@@ -165,7 +165,7 @@ size_t ParallelDownloader::getConcurrency() const noexcept {
     return concurrency_;
 }
 
-void ParallelDownloader::setBandwidthLimit([[maybe_unused]] uint64_t bytes_per_second) {
+void ParallelDownloader::setBandwidthLimit(uint64_t bytes_per_second) {
     bandwidth_limit_bps_ = bytes_per_second;
     if (bytes_per_second > 0) {
         // Pre-fill bucket with one 100 ms slice
@@ -189,7 +189,7 @@ void ParallelDownloader::setTransferTimeoutSeconds(long seconds) {
 void ParallelDownloader::setProgressCallback(
     std::function<void(size_t, uint64_t, uint64_t, const std::string&)> callback)
 {
-    progress_cb_ = std::move([[maybe_unused]] callback);
+    progress_cb_ = std::move(callback);
 }
 
 void ParallelDownloader::setFetchFunction(FetchFn fn) {
@@ -204,7 +204,7 @@ DownloadBatchStats ParallelDownloader::lastBatchStats() const noexcept {
 // Bandwidth throttle helpers (token-bucket)
 // ============================================================================
 
-void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/) const {
+void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
     if (bandwidth_limit_bps_ == 0) {
       return;
     }
@@ -239,7 +239,7 @@ void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/
     }
 }
 
-void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const {
+void ParallelDownloader::consumeBandwidth(uint64_t bytes) const {
     if (bandwidth_limit_bps_ == 0) {
       return;
     }
@@ -379,14 +379,14 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
 // ============================================================================
 
 bool ParallelDownloader::defaultFetch(
-    [[maybe_unused]] const std::string& url,
-    [[maybe_unused]] const std::string& dest,
-    [[maybe_unused]] uint64_t          resume_offset,
-    [[maybe_unused]] long               connect_timeout_s,
-    [[maybe_unused]] long               transfer_timeout_s,
-    [[maybe_unused]] uint64_t*          out_bytes,
-    [[maybe_unused]] uint64_t*          out_total,
-    [[maybe_unused]] std::string*       out_error)
+    const std::string& url,
+    const std::string& dest,
+    uint64_t          resume_offset,
+    long               connect_timeout_s,
+    long               transfer_timeout_s,
+    uint64_t*          out_bytes,
+    uint64_t*          out_total,
+    std::string*       out_error)
 {
     static_cast<void>(url);
     static_cast<void>(dest);
@@ -437,7 +437,7 @@ bool ParallelDownloader::defaultFetch(
 
     WriteCtx ctx{fp.get()};
     curl_easy_setopt(curl.get(), CURLOPT_URL,             url.c_str());
-    curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
+    curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
     curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA,       &ctx);
     curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION,  1L);
     curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT,  connect_timeout_s);

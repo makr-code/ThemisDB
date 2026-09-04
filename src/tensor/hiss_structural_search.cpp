@@ -306,7 +306,7 @@ bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
         return false;
     }
     const auto exists = std::any_of(edges_.begin(), edges_.end(),
-                                    [&]([[maybe_unused]] const auto& e) { return e.from == edge.from && e.to == edge.to; });
+                                    [&](const auto& e) { return e.from == edge.from && e.to == edge.to; });
     if (exists) {
       return false;
     }

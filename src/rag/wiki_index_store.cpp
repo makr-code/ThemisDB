@@ -562,7 +562,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
 
     std::vector<std::string> candidates = {};
 
-    candidates.reserve(it_first-> static_cast<int>(second.size()));
+    candidates.reserve(it_first->second.size());
     for (const auto& [doc_id, _] : it_first->second) {
         candidates.push_back(doc_id);
     }

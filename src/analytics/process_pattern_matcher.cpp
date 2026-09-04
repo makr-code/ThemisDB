@@ -171,7 +171,7 @@ double ProcessPatternMatcher::computeGraphSimilarity(const ProcessPattern &patte
 
     // Path similarity (LCS ratio)
     int lcs         = longestCommonSubsequence(pat_acts, trace_acts);
-    double max_len  = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
+    double max_len  = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
     double path_sim = (max_len > 0) ? static_cast<double>(lcs) / max_len : 1.0;
 
     // Approx. edit distance normalised (symmetric difference)
@@ -237,7 +237,7 @@ double ProcessPatternMatcher::computeBehavioralSimilarity(const ProcessPattern &
 
     // Sequence similarity (LCS ratio)
     int lcs        = longestCommonSubsequence(pat_acts, trace_acts);
-    double max_len = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
+    double max_len = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
     double seq_sim = static_cast<double>(lcs) / max_len;
 
     // Weak-order footprint Jaccard
@@ -367,7 +367,7 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
         metrics.edge_overlap = jaccardSimilarity(pat_edges, trace_edge_set);
 
         int lcs                 = longestCommonSubsequence(pattern.activities, trace_acts);
-        double mlen             = static_cast<double>(std::max(pattern.activities.size(),static_cast<int>(trace_acts.size())));
+        double mlen             = static_cast<double>(std::max(pattern.activities.size(), trace_acts.size()));
         metrics.path_similarity = (mlen > 0) ? static_cast<double>(lcs) / mlen : 1.0;
 
         std::set<std::string> inter_set;
@@ -419,7 +419,7 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
     });
 
     // Apply max_results
-    if (config.max_results > 0  && static_cast<size_t>(static_cast) < int>(results.size()) > config.max_results) {
+    if (config.max_results > 0 && static_cast<size_t>(config.max_results) < results.size()) {
         results.resize(static_cast<size_t>(config.max_results));
     }
 
@@ -470,7 +470,7 @@ ProcessPatternMatcher::compareWithIdeal(const std::string &case_id, const Proces
 
     // Fitness approximation via LCS ratio
     int lcs        = longestCommonSubsequence(pat_acts, trace_acts);
-    double max_len = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
+    double max_len = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
     result.fitness = (max_len > 0) ? static_cast<double>(lcs) / max_len : 1.0;
 
     // Precision approximation: how much of the trace is accounted for by the pattern
@@ -548,7 +548,7 @@ ProcessPatternMatcher::hasPattern(const std::string &case_id, const ProcessPatte
     } else {
         // Direct LCS ratio without DB
         int lcs        = longestCommonSubsequence(pat_acts, trace_acts);
-        double max_len = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
+        double max_len = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
         sim            = (max_len > 0) ? static_cast<double>(lcs) / max_len : 1.0;
     }
 
@@ -625,7 +625,7 @@ ProcessPatternMatcher::findPatternsInBatch(const std::vector<std::string> &case_
             traceEdges(trace));
 
         int lcs                   = longestCommonSubsequence(pattern.activities, trace_acts);
-        double ml                 = static_cast<double>(std::max(pattern.activities.size(),static_cast<int>(trace_acts.size())));
+        double ml                 = static_cast<double>(std::max(pattern.activities.size(), trace_acts.size()));
         r.metrics.path_similarity = (ml > 0) ? static_cast<double>(lcs) / ml : 1.0;
 
         for (const auto &a : trace_set) {
@@ -659,7 +659,7 @@ ProcessPatternMatcher::loadAdministrativeModels() {
         return {Status::OK(), model_cache_};
     }
 
-    auto add = [&]([[maybe_unused]] ProcessPattern p) { model_cache_[p.id] = std::move(p); };
+    auto add = [&](ProcessPattern p) { model_cache_[p.id] = std::move(p); };
 
     // ── Bauantragsverfahren (Building Permit) ───────────────────────────────
     {

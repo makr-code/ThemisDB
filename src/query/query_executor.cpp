@@ -202,7 +202,7 @@ ResultSet QueryExecutor::execute()
 std::size_t QueryExecutor::execute_streaming(RowCallback cb)
 {
     if (!cb) {
-        throw std::invalid_argument([[maybe_unused]] "QueryExecutor::execute_streaming: null callback");
+        throw std::invalid_argument("QueryExecutor::execute_streaming: null callback");
     }
 
     const auto& source = plan_->source_rows;

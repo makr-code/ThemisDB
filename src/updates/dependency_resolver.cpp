@@ -376,7 +376,7 @@ ResolutionResult DependencyResolver::resolve(
     }
 
     // Pre-reserve space in successors vectors to avoid reallocations (Error Code: 7457)
-    size_t avg_deps_per_pkg = std::max(size_t(1),static_cast<int>(node_target.size()) / 4);
+    size_t avg_deps_per_pkg = std::max<size_t>(size_t(1), node_target.size() / 4);
     
     for (const auto& kv : node_target) {
         const std::string& pkg      = kv.first;
@@ -395,7 +395,7 @@ ResolutionResult DependencyResolver::resolve(
         // Track edges already added for this pkg to guard against duplicate deps.
         std::unordered_set<std::string> added_edges = {};
 
-        added_edges.reserve(it_ver-> static_cast<int>(second.size()));
+        added_edges.reserve(it_ver->second.size());
 
         for (const auto& dep : it_ver->second) {
             // Only create an ordering edge when dep.package is also being updated.

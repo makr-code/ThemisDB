@@ -273,11 +273,11 @@ struct Reader {
     std::size_t    left = {};
     bool           ok = true;
 
-    bool readU64([[maybe_unused]] uint64_t& v) {
+    bool readU64(uint64_t& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
-    bool readU8([[maybe_unused]] uint8_t& v) {
+    bool readU8(uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
     }

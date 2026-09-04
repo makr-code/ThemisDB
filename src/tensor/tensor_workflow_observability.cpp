@@ -47,7 +47,7 @@ void TensorWorkflowObservability::recordTrainingTransition(TrainingState state) 
     }
 }
 
-void TensorWorkflowObservability::recordTrainingLatency([[maybe_unused]] double latency_ms) {
+void TensorWorkflowObservability::recordTrainingLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     training_latency_ms_.push_back(latency_ms);
 }
@@ -65,12 +65,12 @@ void TensorWorkflowObservability::recordGpuDispatch(bool used_gpu, bool used_fal
     }
 }
 
-void TensorWorkflowObservability::recordCompressionLatency([[maybe_unused]] double latency_ms) {
+void TensorWorkflowObservability::recordCompressionLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     compression_latency_ms_.push_back(latency_ms);
 }
 
-void TensorWorkflowObservability::recordRoutingLatency([[maybe_unused]] double latency_ms) {
+void TensorWorkflowObservability::recordRoutingLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     routing_latency_ms_.push_back(latency_ms);
 }

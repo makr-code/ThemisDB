@@ -243,7 +243,7 @@ DataDeletionResult VoiceSecurityManager::deleteUserData(const DataDeletionReques
         size_t removed = 0;
         audit_log_.erase(
             std::remove_if(audit_log_.begin(), audit_log_.end(),
-                [&]([[maybe_unused]] const VoiceAuditEntry& e) {
+                [&](const VoiceAuditEntry& e) {
                     if (e.user_id == request.user_id) { ++removed; return true; }
                     return false;
                 }),

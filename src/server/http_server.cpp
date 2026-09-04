@@ -396,7 +396,7 @@ HttpServer::HttpServer(
             adaptive_query_cache_ = std::make_shared<AdaptiveQueryCache>(cache_admin_config);
             cache_admin_api_ = std::make_unique<themis::server::CacheAdminApiHandler>(
                 adaptive_query_cache_, auth_);
-            THEMIS_INFO([[maybe_unused]] "Cache Admin API Handler initialized");
+            THEMIS_INFO("Cache Admin API Handler initialized");
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize Cache Admin API Handler: {}", e.what());
         }
@@ -441,7 +441,7 @@ HttpServer::HttpServer(
                                     r["max_age_hours"].as<uint32_t>(168));  // default: 7 days
                         if (r["max_event_count"])
                             cdc_retention_policy.max_event_count =
-                                r["max_event_count"].as<uint64_t>([[maybe_unused]] 1000000); // default: 1M events
+                                r["max_event_count"].as<uint64_t>(1000000); // default: 1M events
                         if (r["max_size_bytes"])
                             cdc_retention_policy.max_size_bytes =
                                 r["max_size_bytes"].as<size_t>(
@@ -486,16 +486,16 @@ HttpServer::HttpServer(
         
         // Initialize SnapshotManager (Named Snapshots feature)
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
-        snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>([[maybe_unused]] *snapshot_manager_);
+        snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
 
         // Initialize MVCC API Handler (per-record versioning + HLC)
         {
             auto clock = std::make_shared<themis::HybridLogicalClock>();
             mvcc_store_ = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
-            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>([[maybe_unused]] mvcc_store_);
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(mvcc_store_);
         }
-        THEMIS_INFO([[maybe_unused]] "MVCC API Handler initialized");
+        THEMIS_INFO("MVCC API Handler initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
         // CRITICAL FIX: null_dereference + uncaught_exception - Add null checks and exception handling
@@ -505,7 +505,7 @@ HttpServer::HttpServer(
                     storage_ ? "OK" : "NULL", changefeed_ ? "OK" : "NULL", snapshot_manager_ ? "OK" : "NULL");
             } else {
                 pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
-                pitr_api_handler_ = std::make_unique<server::PITRApiHandler>([[maybe_unused]] *pitr_manager_);
+                pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
                 THEMIS_INFO("PITRManager initialized");
             }
         } catch (const std::exception& e) {
@@ -519,7 +519,7 @@ HttpServer::HttpServer(
                 THEMIS_ERROR("Cannot initialize BranchManager: missing required dependencies");
             } else {
                 branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
-                branch_api_handler_ = std::make_unique<BranchApiHandler>([[maybe_unused]] *branch_manager_);
+                branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
                 THEMIS_INFO("BranchManager initialized");
             }
         } catch (const std::exception& e) {
@@ -533,7 +533,7 @@ HttpServer::HttpServer(
                 THEMIS_ERROR("Cannot initialize DiffEngine: changefeed is NULL");
             } else {
                 diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
-                diff_api_handler_ = std::make_unique<DiffApiHandler>([[maybe_unused]] *diff_engine_);
+                diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
                 THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
             }
         } catch (const std::exception& e) {
@@ -602,7 +602,7 @@ HttpServer::HttpServer(
        auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
        if (cf_result) {
            pii_cf_handle_ = *cf_result;
-           pii_api_ = std::make_unique<PIIApiHandler>([[maybe_unused]] storage_->getRawDB(), pii_cf_handle_);
+           pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);
            THEMIS_INFO("PII Manager initialized with dedicated CF 'pii_mappings'");
        } else {
            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
@@ -610,7 +610,7 @@ HttpServer::HttpServer(
     } else {
        // Fallback: use default CF (still functional, just no separation)
        std::lock_guard<std::mutex> lock(storage_mutex_);
-       pii_api_ = std::make_unique<PIIApiHandler>([[maybe_unused]] storage_->getRawDB(), nullptr);
+       pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);
        THEMIS_INFO("PII Manager initialized using default CF (feature flag off, CF isolation disabled)");
     }
 
@@ -780,14 +780,14 @@ HttpServer::HttpServer(
     }
 
     // Initialize Keys API Handler with KeyProvider
-    keys_api_ = std::make_unique<themis::server::KeysApiHandler>([[maybe_unused]] key_provider_);
-    THEMIS_INFO([[maybe_unused]] "Keys API Handler initialized");
+    keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
+    THEMIS_INFO("Keys API Handler initialized");
 
     // Deferred CacheApiHandler initialization (requires auth_ which is now available)
     if (semantic_cache_ && auth_) {
         try {
             cache_api_ = std::make_unique<server::CacheApiHandler>(semantic_cache_, auth_);
-            THEMIS_INFO([[maybe_unused]] "Cache API Handler initialized (semantic cache endpoints active)");
+            THEMIS_INFO("Cache API Handler initialized (semantic cache endpoints active)");
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize Cache API Handler: {}", e.what());
         }
@@ -798,23 +798,23 @@ HttpServer::HttpServer(
         try {
             timeseries_api_ = std::make_unique<server::TimeSeriesApiHandler>(
                 storage_, timeseries_, ts_agg_manager_, auth_);
-            THEMIS_INFO([[maybe_unused]] "TimeSeries API Handler initialized (time-series endpoints active)");
+            THEMIS_INFO("TimeSeries API Handler initialized (time-series endpoints active)");
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize TimeSeries API Handler: {}", e.what());
         }
     }
 
     // Initialize API Key Management Handler
-    api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>([[maybe_unused]] auth_);
-    THEMIS_INFO([[maybe_unused]] "API Key Management Handler initialized");
+    api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
+    THEMIS_INFO("API Key Management Handler initialized");
     // Initialize Session Management Handler
     session_manager_ = std::make_shared<themis::auth::SessionManager>();
     session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_, audit_logger_);
-    THEMIS_INFO([[maybe_unused]] "Session Management Handler initialized");
+    THEMIS_INFO("Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
-        pki_api_ = std::make_unique<themis::server::PkiApiHandler>([[maybe_unused]] themis::createKeyProviderSigningService(key_provider_));
-        THEMIS_INFO([[maybe_unused]] "PKI API Handler initialized");
+        pki_api_ = std::make_unique<themis::server::PkiApiHandler>(themis::createKeyProviderSigningService(key_provider_));
+        THEMIS_INFO("PKI API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize PKI API Handler: {}", e.what());
     }
@@ -824,8 +824,8 @@ HttpServer::HttpServer(
     THEMIS_INFO("PII Detector initialized");
     
     // Initialize Classification API Handler with PIIDetector
-    classification_api_ = std::make_unique<themis::server::ClassificationApiHandler>([[maybe_unused]] pii_detector);
-    THEMIS_INFO([[maybe_unused]] "Classification API Handler initialized");
+    classification_api_ = std::make_unique<themis::server::ClassificationApiHandler>(pii_detector);
+    THEMIS_INFO("Classification API Handler initialized");
 
     // Initialize Audit Logger and Audit API Handler
     try {
@@ -875,7 +875,7 @@ HttpServer::HttpServer(
         // Audit API Handler reads/decrypts/filters audit logs
         audit_api_ = std::make_unique<themis::server::AuditApiHandler>(
             field_encryption_, pki_client, audit_cfg.log_path);
-        THEMIS_INFO([[maybe_unused]] "Audit API Handler initialized");
+        THEMIS_INFO("Audit API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
     }
@@ -899,37 +899,37 @@ HttpServer::HttpServer(
     if (audit_logger_) {
         export_api_->setAuditLogger(audit_logger_.get());
     }
-    THEMIS_INFO([[maybe_unused]] "Export API Handler initialized");
+    THEMIS_INFO("Export API Handler initialized");
 
     // Initialize Admin API Handler
     admin_api_ = std::make_unique<themis::server::AdminApiHandler>(
         storage_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Admin API Handler initialized");
+    THEMIS_INFO("Admin API Handler initialized");
     
     // Initialize Vector API Handler
     vector_api_ = std::make_unique<themis::server::VectorApiHandler>(
         storage_, vector_index_, auth_, field_encryption_, key_provider_
     );
-    THEMIS_INFO([[maybe_unused]] "Vector API Handler initialized");
+    THEMIS_INFO("Vector API Handler initialized");
     
     // Initialize RoPE API Handler
     rope_api_ = std::make_unique<themis::server::RopeApiHandler>(
         storage_, vector_index_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "RoPE API Handler initialized");
+    THEMIS_INFO("RoPE API Handler initialized");
     
     // Initialize Spatial API Handler
     spatial_api_ = std::make_unique<themis::server::SpatialApiHandler>(
         storage_, spatial_index_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Spatial API Handler initialized");
+    THEMIS_INFO("Spatial API Handler initialized");
 
     // Initialize Geo Topology API Handler
     geo_topology_api_ = std::make_unique<themis::server::GeoTopologyApiHandler>(
         shard_topology_, redundancy_manager_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Geo Topology API Handler initialized");
+    THEMIS_INFO("Geo Topology API Handler initialized");
 
     // Initialize Replication Topology API Handler (web UI visualizer)
     {
@@ -940,7 +940,7 @@ HttpServer::HttpServer(
         replication_topology_api_ = std::make_unique<themis::server::ReplicationTopologyApiHandler>(
             replication_coordinator_, wal_manager_, repl_primary_id, auth_
         );
-        THEMIS_INFO([[maybe_unused]] "Replication Topology API Handler initialized");
+        THEMIS_INFO("Replication Topology API Handler initialized");
     }
     
     // Initialize Monitoring API Handler
@@ -983,7 +983,7 @@ HttpServer::HttpServer(
     continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
     workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+        std::lock_guard<std::mutex> lock(api_handlers_mutex_);
         monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
     }
     // Wire a disabled-by-default Alertmanager so the Operator API is always available.
@@ -1002,7 +1002,7 @@ HttpServer::HttpServer(
         }
         alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
         {
-            std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
             monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
         }
 
@@ -1020,13 +1020,13 @@ HttpServer::HttpServer(
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
                 slo_cfg, alertmanager_);
             {
-                std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                 cache_admin_api_->setSloMonitor(std::move(cache_slo));
             }
-            THEMIS_INFO([[maybe_unused]] "Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
+            THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
         }
     }
-    THEMIS_INFO([[maybe_unused]] "Monitoring API Handler initialized");
+    THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
     query_api_ = std::make_unique<themis::server::QueryApiHandler>(
         storage_, secondary_index_, graph_index_, field_encryption_, key_provider_,
@@ -1035,7 +1035,7 @@ HttpServer::HttpServer(
         config_.feature_llm_store
     );
     query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
-    THEMIS_INFO([[maybe_unused]] "Query API Handler initialized");
+    THEMIS_INFO("Query API Handler initialized");
 
     // Initialize Ranger client (optional) BEFORE PolicyApiHandler so that
     // policy_api_ receives a valid raw pointer instead of nullptr.
@@ -1091,22 +1091,22 @@ HttpServer::HttpServer(
         auth_,
         ranger_service
     );
-    THEMIS_INFO([[maybe_unused]] "Policy API Handler initialized");
+    THEMIS_INFO("Policy API Handler initialized");
     // Initialize Prompt API Handler
     prompt_api_ = std::make_unique<themis::server::PromptApiHandler>(
         storage_, prompt_manager_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Prompt API Handler initialized");
+    THEMIS_INFO("Prompt API Handler initialized");
     // Initialize Graph API Handler
     graph_api_ = std::make_unique<themis::server::GraphApiHandler>(
         storage_, graph_index_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Graph API Handler initialized");
+    THEMIS_INFO("Graph API Handler initialized");
     // Initialize Index API Handler
     index_api_ = std::make_unique<themis::server::IndexApiHandler>(
         storage_, secondary_index_, adaptive_index_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Index API Handler initialized");
+    THEMIS_INFO("Index API Handler initialized");
     // Initialize Entity API Handler
     server::EntityApiConfig entity_config;
     entity_config.feature_cdc = config_.feature_cdc;
@@ -1132,7 +1132,7 @@ HttpServer::HttpServer(
         hash_ring_,
         shard_topology_
     );
-    THEMIS_INFO([[maybe_unused]] "Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
+    THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
 
     // Initialize ProcessGraphManager for BPMN/EPK workflow engine
     try {
@@ -1148,9 +1148,9 @@ HttpServer::HttpServer(
         auth_
     );
     if (process_graph_) {
-        THEMIS_INFO([[maybe_unused]] "BPMN API Handler initialized with ProcessGraphManager");
+        THEMIS_INFO("BPMN API Handler initialized with ProcessGraphManager");
     } else {
-        THEMIS_INFO([[maybe_unused]] "BPMN API Handler initialized (ProcessGraphManager not available - endpoints will return 503)");
+        THEMIS_INFO("BPMN API Handler initialized (ProcessGraphManager not available - endpoints will return 503)");
     }
     
     // Initialize Content API Handler
@@ -1158,7 +1158,7 @@ HttpServer::HttpServer(
         storage_, content_manager_, nullptr, auth_,
         secondary_index_, vector_index_
     );
-    THEMIS_INFO([[maybe_unused]] "Content API Handler initialized");
+    THEMIS_INFO("Content API Handler initialized");
 
     // Initialize ContentFS (binary content CRUD over HTTP: PUT/GET/HEAD/DELETE /api/v1/content/fs/{pk})
     if (storage_) {
@@ -1181,7 +1181,7 @@ HttpServer::HttpServer(
 #endif
             auth_, config_.feature_cdc
         );
-        THEMIS_INFO([[maybe_unused]] "Changefeed API Handler initialized");
+        THEMIS_INFO("Changefeed API Handler initialized");
     }
 
     // Initialize PII Pseudonymizer (used for reveal/erase)
@@ -1197,13 +1197,13 @@ HttpServer::HttpServer(
     
     // Initialize Reports API Handler
     reports_api_ = std::make_unique<themis::server::ReportsApiHandler>();
-    THEMIS_INFO([[maybe_unused]] "Reports API Handler initialized");
+    THEMIS_INFO("Reports API Handler initialized");
     
     // Initialize Transaction API Handler
     transaction_api_ = std::make_unique<themis::server::TransactionApiHandler>(
         storage_, tx_manager_, auth_
     );
-    THEMIS_INFO([[maybe_unused]] "Transaction API Handler initialized");
+    THEMIS_INFO("Transaction API Handler initialized");
 
     // Initialize Distributed Transaction (2PC) API Handler
     {
@@ -1220,14 +1220,14 @@ HttpServer::HttpServer(
             dtxn_coordinator
         );
     }
-    THEMIS_INFO([[maybe_unused]] "Distributed Transaction (2PC) API Handler initialized");
+    THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
 
     // Initialize WAL API Handler
     wal_api_ = std::make_unique<themis::server::WALApiHandler>(
         storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
         wal_shared_secret_, wal_hmac_secret_
     );
-    THEMIS_INFO([[maybe_unused]] "WAL API Handler initialized");
+    THEMIS_INFO("WAL API Handler initialized");
 
     // Initialize Ethics AI API Handler
     try {
@@ -1237,9 +1237,9 @@ HttpServer::HttpServer(
             std::shared_ptr<QueryEngine>(ethics_query_engine_.get(), [](QueryEngine*) {}),
             auth_
         );
-        THEMIS_INFO([[maybe_unused]] "Ethics AI API Handler initialized");
+        THEMIS_INFO("Ethics AI API Handler initialized");
     } catch (const std::exception& e) {
-        THEMIS_WARN([[maybe_unused]] "Ethics AI API Handler skipped: " + std::string(e.what()));
+        THEMIS_WARN("Ethics AI API Handler skipped: " + std::string(e.what()));
     }
 
     // Initialize Update Checker (if feature enabled)
@@ -1269,7 +1269,7 @@ HttpServer::HttpServer(
             }
             
             update_checker_ = std::make_shared<themis::utils::UpdateChecker>(update_config);
-            update_api_ = std::make_unique<themis::server::UpdateApiHandler>([[maybe_unused]] update_checker_);
+            update_api_ = std::make_unique<themis::server::UpdateApiHandler>(update_checker_);
             
             // Start background checking
             update_checker_->start();
@@ -1328,12 +1328,12 @@ HttpServer::HttpServer(
             feedback_storage->registerPlugin(std::make_shared<CacheAwareWeightingPlugin>(cache_config));
         }
         
-        feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>([[maybe_unused]] feedback_storage);
-        if ([[maybe_unused]] feedback_api_handler_) {
-            feedback_api_handler_->setLiveFeedbackCollector([[maybe_unused]] live_feedback_collector_);
-            feedback_api_handler_->setLearningOrchestrator([[maybe_unused]] continuous_learning_orchestrator_);
+        feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>(feedback_storage);
+        if (feedback_api_handler_) {
+            feedback_api_handler_->setLiveFeedbackCollector(live_feedback_collector_);
+            feedback_api_handler_->setLearningOrchestrator(continuous_learning_orchestrator_);
         }
-        THEMIS_INFO([[maybe_unused]] "Feedback API Handler initialized");
+        THEMIS_INFO("Feedback API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
     }
@@ -1359,15 +1359,15 @@ HttpServer::HttpServer(
             // Connect audit log to version manager so every version is audited
             schema_version_mgr_->setAuditLog(schema_audit_log_.get());
 
-            schema_api_handler_->setStatisticsCollector([[maybe_unused]] stats_collector_.get());
-            schema_api_handler_->setSchemaConstraints([[maybe_unused]] schema_constraints_.get());
-            schema_api_handler_->setSchemaVersionManager([[maybe_unused]] schema_version_mgr_.get());
-            schema_api_handler_->setIndexRecommender([[maybe_unused]] index_recommender_.get());
-            schema_api_handler_->setAuditLog([[maybe_unused]] schema_audit_log_.get());
+            schema_api_handler_->setStatisticsCollector(stats_collector_.get());
+            schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
+            schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
+            schema_api_handler_->setIndexRecommender(index_recommender_.get());
+            schema_api_handler_->setAuditLog(schema_audit_log_.get());
 
             // Wire ColumnLineageTracker into SchemaApiHandler
             column_lineage_tracker_ = std::make_unique<themis::metadata::ColumnLineageTracker>();
-            schema_api_handler_->setColumnLineageTracker([[maybe_unused]] column_lineage_tracker_.get());
+            schema_api_handler_->setColumnLineageTracker(column_lineage_tracker_.get());
 
             // Wire IndexRecommender into query handler for access-pattern recording
             if (query_api_) {
@@ -1402,7 +1402,7 @@ HttpServer::HttpServer(
     // enables the /api/v1/capabilities schema capability block.
     if (monitoring_api_ && schema_manager_) {
         monitoring_api_->setSchemaManager(schema_manager_.get());
-        THEMIS_INFO([[maybe_unused]] "SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
+        THEMIS_INFO("SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
     }
 
     // Initialize GraphQL API Handler with a dedicated AQL query engine
@@ -1423,16 +1423,16 @@ HttpServer::HttpServer(
     {
         GrpcWebProxyHandler::Config gwcfg;
         gwcfg.backend_address = "localhost:18765";
-        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>([[maybe_unused]] std::move(gwcfg));
+        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>(std::move(gwcfg));
         THEMIS_INFO("gRPC-Web proxy handler initialized (endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)");
     }
 
     // Initialize Serverless Function Hosting Handler
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
-    THEMIS_INFO([[maybe_unused]] "Serverless function handler initialized (endpoints: /api/v1/functions)");
+    THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
     udf_api_handler_ = std::make_unique<server::UdfApiHandler>();
-    THEMIS_INFO([[maybe_unused]] "UDF API handler initialized (endpoints: /api/v1/query/udfs)");
+    THEMIS_INFO("UDF API handler initialized (endpoints: /api/v1/query/udfs)");
 
     // Initialize Task Scheduler and its API / Web UI handler
     {
@@ -1458,13 +1458,13 @@ HttpServer::HttpServer(
             THEMIS_INFO("Alertmanager wired into TaskScheduler");
         }
         task_scheduler_->start();
-        task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>([[maybe_unused]] task_scheduler_.get());
+        task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
 
         // Initialize Database Maintenance Orchestrator
         maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
             task_scheduler_.get());
-        [[maybe_unused]] const auto maintenance_started = maintenance_orchestrator_->start();
+        const auto maintenance_started = maintenance_orchestrator_->start();
 
         // Wire STORAGE_COMPACTION handler — calls CompactionManager::compactAll()
         {
@@ -1479,15 +1479,15 @@ HttpServer::HttpServer(
         if (mvcc_store_) {
             maintenance_orchestrator_->registerTaskHandler(
                 themis::maintenance::MaintenanceTaskType::MVCC_CLEANUP,
-                std::make_shared<themis::maintenance::MvccCleanupHandler>([[maybe_unused]] mvcc_store_));
+                std::make_shared<themis::maintenance::MvccCleanupHandler>(mvcc_store_));
         }
 
         // Wire REPLICA_VALIDATION handler — delegates to ShardRepairEngine::runConsistencyCheck()
         if (shard_repair_engine_) {
             maintenance_orchestrator_->registerTaskHandler(
                 themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION,
-                themis::maintenance::makeReplicaValidationHandler([[maybe_unused]] shard_repair_engine_));
-            THEMIS_INFO([[maybe_unused]] "REPLICA_VALIDATION handler wired to ShardRepairEngine");
+                themis::maintenance::makeReplicaValidationHandler(shard_repair_engine_));
+            THEMIS_INFO("REPLICA_VALIDATION handler wired to ShardRepairEngine");
         }
 
         maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
@@ -1516,7 +1516,7 @@ HttpServer::HttpServer(
             };
         async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
             std::move(executor), auth_);
-        THEMIS_INFO([[maybe_unused]] "Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
+        THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
     }
 
     // Initialize Retention Policy Admin API Handler
@@ -1533,7 +1533,7 @@ HttpServer::HttpServer(
                 "config/retention_policies.yaml"
             };
 
-            auto try_find_in_ancestors = [&]([[maybe_unused]] const std::filesystem::path& start) -> std::optional<std::string> {
+            auto try_find_in_ancestors = [&](const std::filesystem::path& start) -> std::optional<std::string> {
                 std::filesystem::path p = start;
                 for (int i = 0; i < 8 && !p.empty(); ++i) {
                     for (const auto& c : candidates) {
@@ -1563,7 +1563,7 @@ HttpServer::HttpServer(
 
         auto retention_mgr = std::make_shared<vcc::RetentionManager>(
             resolved.value_or(retention_path));
-        retention_api_ = std::make_unique<server::RetentionApiHandler>([[maybe_unused]] retention_mgr);
+        retention_api_ = std::make_unique<server::RetentionApiHandler>(retention_mgr);
         THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*), using {}",
                     resolved.value_or(retention_path));
     }
@@ -1594,8 +1594,8 @@ HttpServer::HttpServer(
             auto saga_logger = std::make_shared<themis::utils::SAGALogger>(
                 field_encryption_, saga_pki, saga_cfg);
             saga_logger_ = saga_logger;  // retain shared ownership via HttpServer member
-            saga_api_ = std::make_unique<server::SAGAApiHandler>([[maybe_unused]] saga_logger);
-            THEMIS_INFO([[maybe_unused]] "SAGAApiHandler initialized (endpoints: /api/saga/*)");
+            saga_api_ = std::make_unique<server::SAGAApiHandler>(saga_logger);
+            THEMIS_INFO("SAGAApiHandler initialized (endpoints: /api/saga/*)");
         } catch (const std::exception& e) {
             THEMIS_WARN("SAGAApiHandler init failed: {} — SAGA endpoints disabled", e.what());
         }
@@ -1689,7 +1689,7 @@ HttpServer::HttpServer(
     // currently owns themis::PolicyEngine. Keep exports operational without
     // unsafe cross-namespace pointer casting.
     if (export_api_ && !policy_engine_) {
-        THEMIS_WARN([[maybe_unused]] "ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
+        THEMIS_WARN("ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
     }
 
     // Initialize Rate Limiter for DoS protection
@@ -1740,7 +1740,7 @@ HttpServer::HttpServer(
     {
         std::weak_ptr<themis::utils::AuditLogger> weak_audit = audit_logger_;
         rate_limiter_->setAnomalyCallback(
-            [weak_audit]([[maybe_unused]] const AnomalyEvent& ev) {
+            [weak_audit](const AnomalyEvent& ev) {
                 const char* type_str =
                     (ev.type == AnomalyEvent::Type::IP_BLACKLISTED)
                         ? "IP_BLACKLISTED"
@@ -1753,12 +1753,12 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent([[maybe_unused]] entry); } catch (const std::exception& ex) {
+                    try { audit->logEvent(entry); } catch (const std::exception& ex) {
                         THEMIS_ERROR("Failed to log rate limiter anomaly: {}", ex.what());
                     }
                 }
             });
-        THEMIS_INFO([[maybe_unused]] "RateLimiter anomaly callback wired");
+        THEMIS_INFO("RateLimiter anomaly callback wired");
     }
 
     // Initialize rate limiting middleware with configurable per-client token bucket
@@ -2113,7 +2113,7 @@ HttpServer::HttpServer(
 #ifdef THEMIS_ENABLE_HTTP2
             // Configure ALPN for HTTP/2 protocol negotiation
             if (config_.enable_http2) {
-                Http2Handler::configureAlpn([[maybe_unused]] *ssl_ctx_);
+                Http2Handler::configureAlpn(*ssl_ctx_);
                 THEMIS_INFO("HTTP/2: ALPN configured for protocol negotiation (h2, http/1.1)");
             }
 #endif
@@ -2226,7 +2226,7 @@ void HttpServer::start() {
                         ssl_ctx_raw,
                         config_.http3_max_idle_timeout_ms);
                     http3_handler_->start();
-                    THEMIS_INFO([[maybe_unused]] "HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
+                    THEMIS_INFO("HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
                 } else {
                     THEMIS_ERROR("HTTP/3: Failed to create SSL context; HTTP/3 disabled");
                 }
@@ -2283,11 +2283,11 @@ void HttpServer::stop() {
 
 #ifdef THEMIS_ENABLE_HTTP3
     // Stop HTTP/3 QUIC handler
-    if ([[maybe_unused]] http3_handler_) {
+    if (http3_handler_) {
         try {
             http3_handler_->stop();
             http3_handler_.reset();
-            THEMIS_INFO([[maybe_unused]] "HTTP/3 handler stopped");
+            THEMIS_INFO("HTTP/3 handler stopped");
         } catch (const std::exception& e) {
             THEMIS_ERROR("Error stopping HTTP/3 handler: {}", e.what());
         }
@@ -2483,7 +2483,7 @@ bool HttpServer::reloadTls() {
 
 #ifdef THEMIS_ENABLE_HTTP2
         if (config_.enable_http2) {
-            Http2Handler::configureAlpn([[maybe_unused]] *new_ctx);
+            Http2Handler::configureAlpn(*new_ctx);
         }
 #endif
 
@@ -4618,7 +4618,7 @@ http::response<http::string_body> HttpServer::routeRequest(
     {
         // Helper: extract and validate a path segment after a known prefix.
         // Returns a 400 response if the segment is invalid; otherwise continues.
-        auto checkSegment = [&]([[maybe_unused]] const std::string& prefix) -> std::optional<http::response<http::string_body>> {
+        auto checkSegment = [&](const std::string& prefix) -> std::optional<http::response<http::string_body>> {
             if (path_only.rfind(prefix, 0) == 0 && validator_) {
                 std::string segment = path_only.substr(prefix.size());
                 // Strip any trailing sub-path (e.g., /versions) for the check
@@ -4806,7 +4806,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 return *auth_err;
             }
             {
-                std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                 if (ethics_api_) {
                     http::response<http::string_body> response = ethics_api_->handle(req, target);
                     applyGovernanceHeaders(req, response);
@@ -5554,12 +5554,12 @@ http::response<http::string_body> HttpServer::routeRequest(
     // eliminates the theoretical race and is mandated by the gap policy.
     themis::server::MonitoringApiHandler* monitoring_api_snap = nullptr;
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] api_handlers_mutex_);
+        std::lock_guard<std::mutex> lk(api_handlers_mutex_);
         monitoring_api_snap = monitoring_api_.get();
     }
 
     auto ensure_handler_ready = [&](const char* handler_name, const void* handler_ptr) {
-        if ([[maybe_unused]] handler_ptr != nullptr) {
+        if (handler_ptr != nullptr) {
             return true;
         }
         THEMIS_ERROR("HTTP route aborted: {} not initialized", handler_name);
@@ -5590,7 +5590,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::HealthReady:
             if (monitoring_api_snap) {
-                response = monitoring_api_snap->handleReadiness([[maybe_unused]] req);
+                response = monitoring_api_snap->handleReadiness(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -5828,7 +5828,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!ensure_handler_ready("Admin API handler", admin_api_.get())) {
                 break;
             }
-            response = admin_api_->handleRestore([[maybe_unused]] req);
+            response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
             if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
@@ -5925,13 +5925,13 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!ensure_handler_ready("Index API handler", index_api_.get())) {
                 break;
             }
-            response = index_api_->handleRebuild([[maybe_unused]] req);
+            response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
             if (!ensure_handler_ready("Index API handler", index_api_.get())) {
                 break;
             }
-            response = index_api_->handleReindex([[maybe_unused]] req);
+            response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
@@ -5966,7 +5966,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             
         case Route::GraphTraversePost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleTraverse(req);
                } else {
@@ -5976,7 +5976,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphEdgePost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleEdgeCreate(req);
                } else {
@@ -5986,7 +5986,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphEdgeDelete:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleEdgeDelete(req);
                } else {
@@ -5996,7 +5996,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphMetricsGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleMetrics(req);
                } else {
@@ -6006,7 +6006,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphMetricsPrometheusGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleMetricsPrometheus(req);
                } else {
@@ -6016,7 +6016,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphQueryIncrementalPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleIncrementalQueryRegister(req);
                } else {
@@ -6026,7 +6026,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphQueryIncrementalDelete:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleIncrementalQueryUnregister(req);
                } else {
@@ -6036,7 +6036,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphChangesPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleGraphChanges(req);
                } else {
@@ -6046,7 +6046,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphCostModelCalibratePost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleCostModelCalibrate(req);
                } else {
@@ -6056,7 +6056,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphCostModelGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleCostModelExport(req);
                } else {
@@ -6066,7 +6066,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphCostModelImportPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleCostModelImport(req);
                } else {
@@ -6076,7 +6076,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphQueryExplainPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleQueryExplain(req);
                } else {
@@ -6086,7 +6086,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorSearchPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleSearch(req);
                } else {
@@ -6096,7 +6096,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorBatchInsertPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleBatchInsert(req);
                } else {
@@ -6106,7 +6106,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorDeleteByFilterDelete:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleDeleteByFilter(req);
                } else {
@@ -6116,7 +6116,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::CacheQueryPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_api_) {
                    response = cache_api_->handleQuery(req);
                } else {
@@ -6126,7 +6126,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplatePost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handlePost(req);
                } else {
@@ -6136,7 +6136,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplateList:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handleList(req);
                } else {
@@ -6146,7 +6146,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplateGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handleGet(req);
                } else {
@@ -6156,7 +6156,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplatePut:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handlePut(req);
                } else {
@@ -6166,7 +6166,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::CachePutPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_api_) {
                    response = cache_api_->handlePut(req);
                } else {
@@ -6176,7 +6176,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::CacheStatsGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_api_) {
                    response = cache_api_->handleStats(req);
                } else {
@@ -6186,7 +6186,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheHealthGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleHealth(req);
                } else {
@@ -6196,7 +6196,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheStatsGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleStats(req);
                } else {
@@ -6206,7 +6206,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheEvictKeyDelete:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleEvictKey(req);
                } else {
@@ -6216,7 +6216,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheEvictTenantDelete:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleEvictTenant(req);
                } else {
@@ -6226,7 +6226,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::AdminCacheCbResetPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleCircuitBreakerReset(req);
                } else {
@@ -6236,7 +6236,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheCbStatusGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleCircuitBreakerStatus(req);
                } else {
@@ -6246,7 +6246,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheWarmupPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleWarmup(req);
                } else {
@@ -6256,7 +6256,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheSnapshotPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleSnapshot(req);
                } else {
@@ -6266,7 +6266,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheTenantsGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleListTenants(req);
                } else {
@@ -6276,7 +6276,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheTenantStatsGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleTenantStats(req);
                } else {
@@ -6286,7 +6286,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheTenantQuotaPatch:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleUpdateTenantQuota(req);
                } else {
@@ -6296,7 +6296,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCachePiiEvictDelete:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handlePiiEvict(req);
                } else {
@@ -6418,7 +6418,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // GET /v1/admin/repair/health
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -6429,7 +6429,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // POST /v1/admin/repair
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -6440,7 +6440,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // POST /v1/admin/repair/scan
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -6451,7 +6451,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // GET /v1/admin/repair/jobs/{job_id}
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -6462,7 +6462,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // GET /v1/admin/repair/dashboard
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -6662,21 +6662,21 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ChangefeedRetentionPost:
             if (changefeed_api_) {
-                response = changefeed_api_->handleRetention([[maybe_unused]] req);
+                response = changefeed_api_->handleRetention(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
             break;
         case Route::ChangefeedRetentionGet:
             if (changefeed_api_) {
-                response = changefeed_api_->handleRetentionGet([[maybe_unused]] req);
+                response = changefeed_api_->handleRetentionGet(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
             break;
         case Route::ChangefeedRetentionPut:
             if (changefeed_api_) {
-                response = changefeed_api_->handleRetentionPut([[maybe_unused]] req);
+                response = changefeed_api_->handleRetentionPut(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
@@ -6698,7 +6698,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Snapshot API (temporarily disabled - needs refactoring to Beast)
         case Route::SnapshotsTagsPost:
-            if ([[maybe_unused]] snapshot_api_handler_) {
+            if (snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6711,7 +6711,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsTagsGet:
-            if ([[maybe_unused]] snapshot_api_handler_) {
+            if (snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6724,7 +6724,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsTagGet:
-            if ([[maybe_unused]] snapshot_api_handler_) {
+            if (snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6737,7 +6737,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsTagDelete:
-            if ([[maybe_unused]] snapshot_api_handler_) {
+            if (snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6750,7 +6750,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsStatsGet:
-            if ([[maybe_unused]] snapshot_api_handler_) {
+            if (snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6765,7 +6765,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Diff API
         case Route::DiffGet:
-            if ([[maybe_unused]] diff_api_handler_) {
+            if (diff_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6778,7 +6778,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::DiffCacheStatsGet:
-            if ([[maybe_unused]] diff_api_handler_) {
+            if (diff_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6791,7 +6791,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::DiffCacheClear:
-            if ([[maybe_unused]] diff_api_handler_) {
+            if (diff_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6806,7 +6806,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // PITR API
         case Route::PITRRestorePost:
-            if ([[maybe_unused]] pitr_api_handler_) {
+            if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6819,7 +6819,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PITRPreviewPost:
-            if ([[maybe_unused]] pitr_api_handler_) {
+            if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6832,7 +6832,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PITRProgressGet:
-            if ([[maybe_unused]] pitr_api_handler_) {
+            if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6846,7 +6846,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         // Branch API handlers
         case Route::BranchesPost:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleCreateBranch(httplib_req, httplib_res);
@@ -6857,7 +6857,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesGet:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleListBranches(httplib_req, httplib_res);
@@ -6868,7 +6868,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesActiveGet:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleGetActiveBranch(httplib_req, httplib_res);
@@ -6879,7 +6879,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesStatsGet:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleGetStats(httplib_req, httplib_res);
@@ -6890,7 +6890,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchGet:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleGetBranch(httplib_req, httplib_res);
@@ -6901,7 +6901,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchSwitchPost:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleSwitchBranch(httplib_req, httplib_res);
@@ -6912,7 +6912,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchDelete:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleDeleteBranch(httplib_req, httplib_res);
@@ -6923,7 +6923,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesMergePost:
-            if ([[maybe_unused]] branch_api_handler_) {
+            if (branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleMergeBranches(httplib_req, httplib_res);
@@ -6936,7 +6936,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Merge API handlers
         case Route::MergePost:
-            if ([[maybe_unused]] merge_api_handler_) {
+            if (merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleMerge(httplib_req, httplib_res);
@@ -6947,7 +6947,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::MergePreviewPost:
-            if ([[maybe_unused]] merge_api_handler_) {
+            if (merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleMergePreview(httplib_req, httplib_res);
@@ -6958,7 +6958,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::MergeByTagPost:
-            if ([[maybe_unused]] merge_api_handler_) {
+            if (merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleMergeByTag(httplib_req, httplib_res);
@@ -6969,7 +6969,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::MergeCanFastForwardGet:
-            if ([[maybe_unused]] merge_api_handler_) {
+            if (merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleCanFastForward(httplib_req, httplib_res);
@@ -7030,7 +7030,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::TimeSeriesRetentionGet:
             if (timeseries_api_) {
-                response = timeseries_api_->handleRetentionGet([[maybe_unused]] req);
+                response = timeseries_api_->handleRetentionGet(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Time-series feature not enabled", req);
@@ -7059,14 +7059,14 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = index_api_->handlePatterns(req);
             break;
         case Route::IndexRecordPatternPost:
-            response = index_api_->handleRecordPattern([[maybe_unused]] req);
+            response = index_api_->handleRecordPattern(req);
             break;
         case Route::IndexClearPatternsDelete:
             response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexSave(req);
                } else {
@@ -7076,7 +7076,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexLoadPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexLoad(req);
                } else {
@@ -7086,7 +7086,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexConfigGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexConfigGet(req);
                } else {
@@ -7096,7 +7096,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexConfigPut:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexConfigPut(req);
                } else {
@@ -7106,7 +7106,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexStatsGet:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexStats(req);
                } else {
@@ -7116,7 +7116,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexIncrementalReindexPost:
            {
-               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIncrementalReindex(req);
                } else {
@@ -7226,7 +7226,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleClassificationTest(req);
             break;
         case Route::ReportsComplianceGet:
-            response = handleReportsCompliance([[maybe_unused]] req);
+            response = handleReportsCompliance(req);
             break;
         case Route::PiiListGet:
             response = handlePiiListMappings(req);
@@ -7269,11 +7269,14 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::UpdateStatusGet:
-        [[fallthrough]];\n        case Route::UpdateCheckPost:
-        [[fallthrough]];\n        case Route::UpdateConfigGet:
-        [[fallthrough]];\n        case Route::UpdateConfigPut:
+        [[fallthrough]];
+        case Route::UpdateCheckPost:
+        [[fallthrough]];
+        case Route::UpdateConfigGet:
+        [[fallthrough]];
+        case Route::UpdateConfigPut:
             if (update_api_) {
-                response = update_api_->handleRequest([[maybe_unused]] req);
+                response = update_api_->handleRequest(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Update checker not enabled", req);
@@ -7283,8 +7286,8 @@ http::response<http::string_body> HttpServer::routeRequest(
 #if THEMIS_ENABLE_LLM
         // Feedback API routes
         case Route::FeedbackPost:
-            if ([[maybe_unused]] feedback_api_handler_) {
-                response = feedback_api_handler_->handleCreateFeedback([[maybe_unused]] req);
+            if (feedback_api_handler_) {
+                response = feedback_api_handler_->handleCreateFeedback(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Feedback API not available", req);
@@ -7292,8 +7295,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::FeedbackGet:
-            if ([[maybe_unused]] feedback_api_handler_) {
-                response = feedback_api_handler_->handleListFeedback([[maybe_unused]] req);
+            if (feedback_api_handler_) {
+                response = feedback_api_handler_->handleListFeedback(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Feedback API not available", req);
@@ -7301,7 +7304,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::FeedbackGetById: {
-            if ([[maybe_unused]] feedback_api_handler_) {
+            if (feedback_api_handler_) {
                 std::string path(req.target());
                 std::string id = path.substr(14); // Remove "/api/feedback/"
                 size_t query_pos = id.find('?');
@@ -7317,7 +7320,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackPut: {
-            if ([[maybe_unused]] feedback_api_handler_) {
+            if (feedback_api_handler_) {
                 std::string path(req.target());
                 std::string id = path.substr(14); // Remove "/api/feedback/"
                 size_t query_pos = id.find('?');
@@ -7333,7 +7336,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackDelete: {
-            if ([[maybe_unused]] feedback_api_handler_) {
+            if (feedback_api_handler_) {
                 std::string path(req.target());
                 std::string id = path.substr(14); // Remove "/api/feedback/"
                 size_t query_pos = id.find('?');
@@ -7349,7 +7352,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackAdapterGet: {
-            if ([[maybe_unused]] feedback_api_handler_) {
+            if (feedback_api_handler_) {
                 std::string path(req.target());
                 std::string adapter_id = path.substr(22); // Remove "/api/feedback/adapter/"
                 size_t query_pos = adapter_id.find('?');
@@ -7365,8 +7368,8 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackStatsGet:
-            if ([[maybe_unused]] feedback_api_handler_) {
-                response = feedback_api_handler_->handleGetStatistics([[maybe_unused]] req);
+            if (feedback_api_handler_) {
+                response = feedback_api_handler_->handleGetStatistics(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Feedback API not available", req);
@@ -7374,12 +7377,18 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
 #else
         case Route::FeedbackPost:
-        [[fallthrough]];\n        case Route::FeedbackGet:
-        [[fallthrough]];\n        case Route::FeedbackGetById:
-        [[fallthrough]];\n        case Route::FeedbackPut:
-        [[fallthrough]];\n        case Route::FeedbackDelete:
-        [[fallthrough]];\n        case Route::FeedbackAdapterGet:
-        [[fallthrough]];\n        case Route::FeedbackStatsGet:
+        [[fallthrough]];
+        case Route::FeedbackGet:
+        [[fallthrough]];
+        case Route::FeedbackGetById:
+        [[fallthrough]];
+        case Route::FeedbackPut:
+        [[fallthrough]];
+        case Route::FeedbackDelete:
+        [[fallthrough]];
+        case Route::FeedbackAdapterGet:
+        [[fallthrough]];
+        case Route::FeedbackStatsGet:
             response = makeErrorResponse(http::status::service_unavailable,
                 "Feedback API disabled (LLM feature off)", req);
             break;
@@ -7395,7 +7404,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = transaction_api_->handleCommit(req);
             break;
         case Route::TransactionRollbackPost:
-            response = transaction_api_->handleRollback([[maybe_unused]] req);
+            response = transaction_api_->handleRollback(req);
             break;
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
@@ -7421,7 +7430,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = distributed_txn_api_->handleAbort(req);
             break;
         case Route::DtxnReadOnlyPost:
-            response = distributed_txn_api_->handleReadOnly([[maybe_unused]] req);
+            response = distributed_txn_api_->handleReadOnly(req);
             break;
         case Route::DtxnStatusGet:
             response = distributed_txn_api_->handleStatus(req);
@@ -7570,7 +7579,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = geo_topology_api_->handleTopologyGet(req);
             break;
         case Route::GeoRegionsGet:
-            response = geo_topology_api_->handleRegionsGet([[maybe_unused]] req);
+            response = geo_topology_api_->handleRegionsGet(req);
             break;
         case Route::GeoHealthGet:
             response = geo_topology_api_->handleHealthGet(req);
@@ -7699,8 +7708,9 @@ http::response<http::string_body> HttpServer::routeRequest(
         // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
         // and populate req.matches so MvccApiHandler::extractKey() works.
         case Route::MvccKeyGet:
-        [[fallthrough]];\n        case Route::MvccKeyPost: {
-            if ([[maybe_unused]] mvcc_api_handler_) {
+        [[fallthrough]];
+        case Route::MvccKeyPost: {
+            if (mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
                     static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
@@ -7723,8 +7733,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccKeyVersionsGet:
-        [[fallthrough]];\n        case Route::MvccKeyVersionsDelete: {
-            if ([[maybe_unused]] mvcc_api_handler_) {
+        [[fallthrough]];
+        case Route::MvccKeyVersionsDelete: {
+            if (mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
                     static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
@@ -7747,7 +7758,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccClockGet: {
-            if ([[maybe_unused]] mvcc_api_handler_) {
+            if (mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);
@@ -7759,7 +7770,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccStatsGet: {
-            if ([[maybe_unused]] mvcc_api_handler_) {
+            if (mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);
@@ -7772,12 +7783,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::GraphQLPost: {
-            response = graphql_api_handler_->handlePost([[maybe_unused]] req);
+            response = graphql_api_handler_->handlePost(req);
             break;
         }
 
         case Route::GraphQLSchemaGet: {
-            response = graphql_api_handler_->handleSchemaGet([[maybe_unused]] req);
+            response = graphql_api_handler_->handleSchemaGet(req);
             break;
         }
 
@@ -7810,18 +7821,22 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── Serverless function hosting ──────────────────────────────────────
         case Route::ServerlessFnPost: {
-            response = serverless_fn_handler_->handleRegister([[maybe_unused]] req);
+            response = serverless_fn_handler_->handleRegister(req);
             break;
         }
         case Route::ServerlessFnListGet: {
-            response = serverless_fn_handler_->handleList([[maybe_unused]] req);
+            response = serverless_fn_handler_->handleList(req);
             break;
         }
         case Route::ServerlessFnGet:
-        [[fallthrough]];\n        case Route::ServerlessFnPut:
-        [[fallthrough]];\n        case Route::ServerlessFnDelete:
-        [[fallthrough]];\n        case Route::ServerlessFnInvokePost:
-        [[fallthrough]];\n        case Route::ServerlessFnVersionsGet: {
+        [[fallthrough]];
+        case Route::ServerlessFnPut:
+        [[fallthrough]];
+        case Route::ServerlessFnDelete:
+        [[fallthrough]];
+        case Route::ServerlessFnInvokePost:
+        [[fallthrough]];
+        case Route::ServerlessFnVersionsGet: {
             // HS-7: Serverless function invocation requires auth.
             if (auto auth_err = requireAccess(req, "functions", "functions.invoke", path_only)) {
                 response = *auth_err;
@@ -7941,10 +7956,10 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── UDF Registration API ──────────────────────────────────────────────
         case Route::UdfPost:
-            response = udf_api_handler_->handleRegister([[maybe_unused]] req);
+            response = udf_api_handler_->handleRegister(req);
             break;
         case Route::UdfListGet:
-            response = udf_api_handler_->handleList([[maybe_unused]] req);
+            response = udf_api_handler_->handleList(req);
             break;
         case Route::UdfGet: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
@@ -8022,7 +8037,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 entry["user_id"]    = authz.user_id;
                                 entry["authorized"] = true;
                                 entry["reason"]     = authz.reason;
-                                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                                try { audit_logger_->logEvent(entry); } catch (...) {}
                             }
                         } else if (audit_logger_) {
                             nlohmann::json entry;
@@ -8032,7 +8047,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             entry["user_id"]    = authz.user_id;
                             entry["authorized"] = false;
                             entry["reason"]     = authz.reason;
-                            try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                            try { audit_logger_->logEvent(entry); } catch (...) {}
                         }
                     }
                 }
@@ -8247,7 +8262,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 entry["user_id"]    = authz.user_id;
                                 entry["authorized"] = true;
                                 entry["reason"]     = authz.reason;
-                                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                                try { audit_logger_->logEvent(entry); } catch (...) {}
                             }
                         } else if (audit_logger_) {
                             nlohmann::json entry;
@@ -8258,7 +8273,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             entry["user_id"]    = authz.user_id;
                             entry["authorized"] = false;
                             entry["reason"]     = authz.reason;
-                            try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                            try { audit_logger_->logEvent(entry); } catch (...) {}
                         }
                     }
                 }
@@ -8889,7 +8904,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& continuous_query_api = *continuous_query_api_;
-            response = continuous_query_api.handleRegister([[maybe_unused]] req);
+            response = continuous_query_api.handleRegister(req);
             break;
         }
 
@@ -9064,16 +9079,20 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 #else  // !THEMIS_ENABLE_MCP
         case Route::AiPendingApprovalsGet:
-        [[fallthrough]];\n        case Route::AiApprovePendingPost:
-        [[fallthrough]];\n        case Route::AiDenyPendingPost:
-        [[fallthrough]];\n        case Route::AiRollbackPost:
+        [[fallthrough]];
+        case Route::AiApprovePendingPost:
+        [[fallthrough]];
+        case Route::AiDenyPendingPost:
+        [[fallthrough]];
+        case Route::AiRollbackPost:
             response = makeErrorResponse(http::status::not_implemented,
                 "MCP support not enabled in this build", req);
             break;
 #endif  // THEMIS_ENABLE_MCP
 
         case Route::NotFound:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
             break;
     }
@@ -10674,7 +10693,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                     entry["resource"] = "config";
                     entry["action"]   = "config.write";
                     entry["path"]     = path_only;
-                    try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
                 }
                 return *resp;
             }
@@ -10684,7 +10703,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                 entry["resource"] = "config";
                 entry["action"]   = "config.write";
                 entry["path"]     = path_only;
-                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                try { audit_logger_->logEvent(entry); } catch (...) {}
             }
         } else {
             if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
@@ -10694,7 +10713,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                     entry["resource"] = "config";
                     entry["action"]   = "config.read";
                     entry["path"]     = path_only;
-                    try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
                 }
                 return *resp;
             }
@@ -10723,7 +10742,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         nlohmann::json entry;
                         entry["event"]        = "logging_level_updated";
                         entry["level"]        = lvl;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: logging.level set to {}", lvl);
                 }
@@ -10743,7 +10762,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         nlohmann::json entry;
                         entry["event"]        = "logging_format_updated";
                         entry["format"]       = fmt;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: logging.format set to {}", fmt);
                 }
@@ -10761,7 +10780,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         nlohmann::json entry;
                         entry["event"]        = "request_timeout_updated";
                         entry["timeout_ms"]   = timeout;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
@@ -10770,7 +10789,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]        = "request_timeout_invalid";
                         entry["requested_ms"] = timeout;
                         entry["valid_range"]  = "1000-300000";
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
                 }
@@ -10788,7 +10807,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "semantic_cache";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_semantic_cache set to {}", enabled);
                 }
@@ -10800,7 +10819,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "llm_store";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_llm_store set to {}", enabled);
                 }
@@ -10812,7 +10831,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "cdc";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_cdc set to {}", enabled);
                 }
@@ -10824,7 +10843,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "timeseries";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_timeseries set to {}", enabled);
                 }
@@ -10842,7 +10861,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "config_cdc_retention_invalid";
                         entry["requested_hours"] = hours;
                         entry["valid_range"] = "1-8760";
-                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
                     }
                     return makeErrorResponse(http::status::bad_request, "cdc_retention_hours must be 1-8760", req);
                 }
@@ -10856,7 +10875,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                     nlohmann::json entry;
                     entry["event"]      = "config_cdc_retention_updated";
                     entry["retention_hours"] = hours;
-                    try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
                 }
                 THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} and retention policy enabled", hours);
             }
@@ -10964,7 +10983,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
         entry["user_id"]    = ar.user_id;
         entry["authorized"] = ar.authorized;
         entry["reason"]     = ar.reason;
-        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+        try { audit_logger_->logEvent(entry); } catch (...) {}
     }
     if (!ar.authorized) {
         http::response<http::string_body> res{http::status::forbidden, req.version()};
@@ -11040,7 +11059,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["user_id"]    = vres.user_id;
                 entry["authorized"] = vres.authorized;
                 entry["reason"]     = vres.reason;
-                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                try { audit_logger_->logEvent(entry); } catch (...) {}
             }
         } catch (...) {}
         auto ar = auth_->authorize(*token, required_scope);
@@ -11083,7 +11102,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["user_id"]    = user_id;
                 entry["resource"]   = resource;
                 entry["action"]     = action;
-                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
+                try { audit_logger_->logEvent(entry); } catch (...) {}
             }
             return std::nullopt;
         }
@@ -11496,7 +11515,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string query = (qpos == std::string::npos) ? std::string() : target.substr(qpos + 1);
-    auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
+    auto getParam = [&](const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
         auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
@@ -11596,7 +11615,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string query = (qpos == std::string::npos) ? std::string() : target.substr(qpos + 1);
-    auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
+    auto getParam = [&](const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
         auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
@@ -13113,7 +13132,7 @@ void HttpServer::applyGovernanceHeaders(
         origin = std::string(it->value());
     }
 
-    auto set_cors_common = [&]([[maybe_unused]] const std::string& allow_origin) {
+    auto set_cors_common = [&](const std::string& allow_origin) {
         res.set("Access-Control-Allow-Origin", allow_origin);
         // Preserve existing Vary if already set (e.g., by preflight)
         if (res.find(http::field::vary) == res.end()) {
@@ -13360,12 +13379,12 @@ void HttpServer::Session::processRequest() {
                                             ? ws_target
                                             : ws_target.substr(0, ws_qpos);
 
-            if ([[maybe_unused]] api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
                 // Dedicated /v2/changes endpoint: validate auth and CDC params
                 // before accepting the WebSocket handshake.
                 api::WsChangeHandler ws_handler(server_->auth_,
                                                 server_->changefeed_.get());
-                const auto decision = ws_handler.validate([[maybe_unused]] request_);
+                const auto decision = ws_handler.validate(request_);
                 if (!decision.should_upgrade) {
                     THEMIS_WARN("WebSocket /v2/changes rejected ({}): {}",
                                 static_cast<int>(decision.reject_status),
@@ -13714,12 +13733,12 @@ void HttpServer::SslSession::processRequest() {
                                             ? ws_target
                                             : ws_target.substr(0, ws_qpos);
 
-            if ([[maybe_unused]] api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
                 // Dedicated /v2/changes endpoint: validate auth and CDC params
                 // before accepting the WebSocket handshake.
                 api::WsChangeHandler ws_handler(server_->auth_,
                                                 server_->changefeed_.get());
-                const auto decision = ws_handler.validate([[maybe_unused]] request_);
+                const auto decision = ws_handler.validate(request_);
                 if (!decision.should_upgrade) {
                     THEMIS_WARN("WebSocket /v2/changes (TLS) rejected ({}): {}",
                                 static_cast<int>(decision.reject_status),
@@ -14912,7 +14931,7 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
         
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
+        handler_req.method = std::string(http::to_string(req.method()));
         handler_req.path = target_str;
         handler_req.query = query_params;
         handler_req.params = nlohmann::json::object();
@@ -14920,7 +14939,7 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
         
         // Call handler
         server::Response handler_res;
-        if ([[maybe_unused]] !error_api_handler_) {
+        if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -14956,7 +14975,7 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
+        handler_req.method = std::string(http::to_string(req.method()));
         handler_req.path = target_str;
         handler_req.query = nlohmann::json::object();
         handler_req.params = nlohmann::json::object();
@@ -14965,7 +14984,7 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         
         // Call handler
         server::Response handler_res;
-        if ([[maybe_unused]] !error_api_handler_) {
+        if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -14988,15 +15007,15 @@ http::response<http::string_body> HttpServer::handleErrorApiCategories(
     try {
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
-        handler_req.path = std::string([[maybe_unused]] req.target());
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = std::string(req.target());
         handler_req.query = nlohmann::json::object();
         handler_req.params = nlohmann::json::object();
         handler_req.body = nlohmann::json::object();
         
         // Call handler
         server::Response handler_res;
-        if ([[maybe_unused]] !error_api_handler_) {
+        if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -15023,7 +15042,7 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
         
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
+        handler_req.method = std::string(http::to_string(req.method()));
         handler_req.path = target_str;
         handler_req.query = query_params;
         handler_req.params = nlohmann::json::object();
@@ -15031,7 +15050,7 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
         
         // Call handler
         server::Response handler_res;
-        if ([[maybe_unused]] !error_api_handler_) {
+        if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -15055,45 +15074,45 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
 http::response<http::string_body> HttpServer::handleSchemaGetFull(
     const http::request<http::string_body>& req
 ) {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetSchema([[maybe_unused]] req);
+    return schema_api_handler.handleGetSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTables(
     const http::request<http::string_body>& req
 ) {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetTables([[maybe_unused]] req);
+    return schema_api_handler.handleGetTables(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTable(
     const http::request<http::string_body>& req
 ) {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetTable([[maybe_unused]] req);
+    return schema_api_handler.handleGetTable(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPut(
     const http::request<http::string_body>& req
 ) {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handlePutSchema([[maybe_unused]] req);
+    auto response = schema_api_handler.handlePutSchema(req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -15105,12 +15124,12 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
 http::response<http::string_body> HttpServer::handleSchemaPatch(
     const http::request<http::string_body>& req
 ) {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handlePatchSchema([[maybe_unused]] req);
+    auto response = schema_api_handler.handlePatchSchema(req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -15126,78 +15145,78 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
 http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetInformationSchema([[maybe_unused]] req);
+    return schema_api_handler.handleGetInformationSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetStats(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetStats([[maybe_unused]] req);
+    return schema_api_handler.handleGetStats(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataCollectStats(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleCollectStats([[maybe_unused]] req);
+    return schema_api_handler.handleCollectStats(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetConstraints([[maybe_unused]] req);
+    return schema_api_handler.handleGetConstraints(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetIndexRecommendations([[maybe_unused]] req);
+    return schema_api_handler.handleGetIndexRecommendations(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetVersionHistory([[maybe_unused]] req);
+    return schema_api_handler.handleGetVersionHistory(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handleCreateVersion([[maybe_unused]] req);
+    auto response = schema_api_handler.handleCreateVersion(req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -15209,34 +15228,34 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
 http::response<http::string_body> HttpServer::handleSchemaDiff(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetDiff([[maybe_unused]] req);
+    return schema_api_handler.handleGetDiff(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataAuditLog(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetAuditLog([[maybe_unused]] req);
+    return schema_api_handler.handleGetAuditLog(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handleSchemaImport([[maybe_unused]] req);
+    auto response = schema_api_handler.handleSchemaImport(req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -15248,34 +15267,34 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleBatchConstraintValidation([[maybe_unused]] req);
+    return schema_api_handler.handleBatchConstraintValidation(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetColumnLineage([[maybe_unused]] req);
+    return schema_api_handler.handleGetColumnLineage(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
     const http::request<http::string_body>& req)
 {
-    if ([[maybe_unused]] !schema_api_handler_) {
+    if (!schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleRecordLineageDerivation([[maybe_unused]] req);
+    return schema_api_handler.handleRecordLineageDerivation(req);
 }
 
 // ── ContentFS HTTP handlers ─────────────────────────────────────────────────
@@ -15471,7 +15490,7 @@ void HttpServer::setContinuousQueryEngine(
     continuous_query_engine_ = engine;
     if (engine) {
         continuous_query_api_ =
-            std::make_unique<themis::server::ContinuousQueryApiHandler>([[maybe_unused]] std::move(engine));
+            std::make_unique<themis::server::ContinuousQueryApiHandler>(std::move(engine));
         THEMIS_INFO("ContinuousQueryEngine wired — CQL REST/SSE endpoints active "
                     "at /v1/queries/continuous");
     } else {

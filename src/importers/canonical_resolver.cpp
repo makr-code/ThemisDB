@@ -213,7 +213,8 @@ std::string CanonicalEntityResolver::bestStringValue(const std::string &v1, cons
         case ResolutionPolicy::NEWEST_FIRST:
             return (v1 >= v2) ? v1 : v2;
         case ResolutionPolicy::MOST_COMPLETE:
-        [[fallthrough]];\n        case ResolutionPolicy::RICHEST_MERGE:
+        [[fallthrough]];
+        case ResolutionPolicy::RICHEST_MERGE:
             return static_cast<bool>(( static_cast<int>(v1.size()) < static_cast<int>(= v2.size()))) ? v1 : v2;
         case ResolutionPolicy::EXISTING_PREFERRED:
             return v1;

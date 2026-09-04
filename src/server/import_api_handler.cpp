@@ -67,7 +67,7 @@ bool hasUsableSchemaPayload(const json& schema) {
 // Schema bridge setters (stub #294)
 // ============================================================================
 
-void ImportApiHandler::setSchemaInspectorFn([[maybe_unused]] SchemaInspectorFn fn) {
+void ImportApiHandler::setSchemaInspectorFn(SchemaInspectorFn fn) {
     schemaInspectorFn_ = std::move(fn);
 }
 
@@ -75,7 +75,7 @@ void ImportApiHandler::clearSchemaInspectorFn() {
     schemaInspectorFn_ = nullptr;
 }
 
-void ImportApiHandler::setSchemaValidatorFn([[maybe_unused]] SchemaValidatorFn fn) {
+void ImportApiHandler::setSchemaValidatorFn(SchemaValidatorFn fn) {
     schemaValidatorFn_ = std::move(fn);
 }
 
@@ -98,7 +98,7 @@ ImportApiHandler::ImportApiHandler(
 // Route registration
 // ============================================================================
 
-void ImportApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
+void ImportApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/import/postgresql – start async import
     server.Post("/api/v1/import/postgresql",
         [this](const httplib::Request& req, httplib::Response& res) {
@@ -415,11 +415,11 @@ void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
 // Helpers
 // ============================================================================
 
-json ImportApiHandler::parseRequestBody([[maybe_unused]] const std::string& body) {
+json ImportApiHandler::parseRequestBody(const std::string& body) {
     return json::parse(body);
 }
 
-ImportOptions ImportApiHandler::optionsFromJson([[maybe_unused]] const json& j) {
+ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
     ImportOptions opts = {};
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
         opts.dry_run = j["dry_run"].get<bool>();

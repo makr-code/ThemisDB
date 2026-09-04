@@ -90,7 +90,7 @@ std::vector<std::unordered_set<std::string>> collectCycles(
     int next_index = 0;
 
     std::function<void(const std::string&)> strong_connect =
-        [&]([[maybe_unused]] const std::string& node) {
+        [&](const std::string& node) {
         index[node] = next_index;
         lowlink[node] = next_index;
         ++next_index;
@@ -369,8 +369,8 @@ bool CrossShardTransactionCoordinator::start() {
     // Start PreCommit retry thread for non-blocking 3PC
     // Only start if deferred PreCommit callback is configured
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-        if ([[maybe_unused]] deferred_precommit_callback_) {
+        std::lock_guard<std::mutex> lk(callbacks_mutex_);
+        if (deferred_precommit_callback_) {
             precommit_retry_thread_ = std::thread(
                 &CrossShardTransactionCoordinator::preCommitRetryThread, this
             );
@@ -490,7 +490,8 @@ CrossShardTransactionCoordinator::getRecoverableTransactions() const {
                 info.state = themis::transaction::RecoverableTwoPhaseState::UNKNOWN;
                 break;
             case TransactionState::COMMITTED:
-            [[fallthrough]];\n            case TransactionState::ABORTED:
+            [[fallthrough]];
+            case TransactionState::ABORTED:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
                 break;
             default: break;
@@ -773,7 +774,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     {
         std::shared_ptr<CrossShardForeignKeyValidator> fk_val;
         {
-            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
             fk_val = fk_validator_;
         }
         if (fk_val) {
@@ -818,7 +819,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     // holding two mutexes simultaneously.
     std::shared_ptr<CrossShardForeignKeyValidator> fk_validator;
     {
-        std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
+        std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
         fk_validator = fk_validator_;
     }
     if (fk_validator) {
@@ -1496,24 +1497,24 @@ nlohmann::json CrossShardTransactionCoordinator::getStatistics() const {
 void CrossShardTransactionCoordinator::onTransactionStateChange(
     std::function<void(const std::string&, TransactionState, TransactionState)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_state_change_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_state_change_callback_ = std::move(callback);
 }
 
-void CrossShardTransactionCoordinator::setPreCommitCallback([[maybe_unused]] PreCommitRpcFn fn) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    precommit_callback_ = std::move([[maybe_unused]] fn);
+void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    precommit_callback_ = std::move(fn);
 }
 
-void CrossShardTransactionCoordinator::setDeferredPreCommitCallback([[maybe_unused]] DeferredPreCommitFn fn) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    deferred_precommit_callback_ = std::move([[maybe_unused]] fn);
+void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    deferred_precommit_callback_ = std::move(fn);
 }
 
 void CrossShardTransactionCoordinator::setForeignKeyValidator(
     std::shared_ptr<CrossShardForeignKeyValidator> validator)
 {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
     fk_validator_ = std::move(validator);
 }
 
@@ -1661,7 +1662,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     // during the (potentially blocking) RPC fan-out.
     PreCommitRpcFn precommit_cb;
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+        std::lock_guard<std::mutex> lk(callbacks_mutex_);
         precommit_cb = precommit_callback_;
     }
 
@@ -1682,7 +1683,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     if (!precommit_cb) {
         spdlog::error("execute3PC [{}]: missing PreCommit RPC callback; failing closed",
                       txn.transaction_id);
-        failClosedAbortAllParticipants([[maybe_unused]] "precommit_callback_missing");
+        failClosedAbortAllParticipants("precommit_callback_missing");
         return false;
     }
 
@@ -1765,7 +1766,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         // prepare(), which takes transactions_mutex_ before callbacks_mutex_.
         DeferredPreCommitFn deferred_cb;
         {
-            std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+            std::lock_guard<std::mutex> lk(callbacks_mutex_);
             deferred_cb = deferred_precommit_callback_;
         }
 
@@ -1795,7 +1796,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_.erase(txn.transaction_id);
                 }
-                failClosedAbortAllParticipants([[maybe_unused]] "deferred_precommit_callback_threw");
+                failClosedAbortAllParticipants("deferred_precommit_callback_threw");
                 return false;
             } catch (...) {
                 spdlog::error("execute3PC [{}]: deferred PreCommit callback threw unknown exception - failing closed",
@@ -1804,7 +1805,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_.erase(txn.transaction_id);
                 }
-                failClosedAbortAllParticipants([[maybe_unused]] "deferred_precommit_callback_unknown_exception");
+                failClosedAbortAllParticipants("deferred_precommit_callback_unknown_exception");
                 return false;
             }
 
@@ -2894,16 +2895,20 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 case ::sharding::TransactionState::PREPARED:
                     return TransactionState::PREPARED;
                 case ::sharding::TransactionState::PRE_COMMITTING:
-                [[fallthrough]];\n                case ::sharding::TransactionState::PRE_COMMITTED:
-                [[fallthrough]];\n                case ::sharding::TransactionState::COMMITTING:
+                [[fallthrough]];
+                case ::sharding::TransactionState::PRE_COMMITTED:
+                [[fallthrough]];
+                case ::sharding::TransactionState::COMMITTING:
                     return TransactionState::COMMITTING;
                 case ::sharding::TransactionState::COMMITTED:
                     return TransactionState::COMMITTED;
                 case ::sharding::TransactionState::ABORTING:
                     return TransactionState::ABORTING;
                 case ::sharding::TransactionState::ABORTED:
-                [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATING:
-                [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATED:
+                [[fallthrough]];
+                case ::sharding::TransactionState::COMPENSATING:
+                [[fallthrough]];
+                case ::sharding::TransactionState::COMPENSATED:
                     return TransactionState::ABORTED;
                 default: break;
             }
@@ -3094,7 +3099,8 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     transactions_to_resume.push_back(txn_id);
                     break;
                 case TransactionState::COMMITTED:
-                [[fallthrough]];\n                case TransactionState::ABORTED:
+                [[fallthrough]];
+                case TransactionState::ABORTED:
                     // Final states - can be cleaned up eventually
                     break;
                 default:
@@ -3325,7 +3331,7 @@ bool PercolatorCoordinator::execute(
 
     // Helper: acquire a lock on one shard with retry/backoff honoring
     // config_.max_retries and config_.lock_timeout.
-    auto acquire_lock = [&]([[maybe_unused]] const std::string& shard_id) -> bool {
+    auto acquire_lock = [&](const std::string& shard_id) -> bool {
         for (uint32_t attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0) {
                 // Exponential backoff capped at lock_timeout.
@@ -3590,7 +3596,7 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
             // Snapshot the PreCommit callback under the lock
             PreCommitRpcFn precommit_cb;
             {
-                std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                std::lock_guard<std::mutex> lk(callbacks_mutex_);
                 precommit_cb = precommit_callback_;
             }
             

@@ -105,7 +105,7 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
     if (it != metrics_.end()) {
         it->second.histogram_buckets.push_back(value);
         // Keep only recent values (max MAX_HISTOGRAM_SAMPLES)
-        if (it-> static_cast<int>(second.histogram_buckets.size()) > MAX_HISTOGRAM_SAMPLES) {
+        if (it->second.histogram_buckets.size() > MAX_HISTOGRAM_SAMPLES) {
             it->second.histogram_buckets.erase(it->second.histogram_buckets.begin());
         }
     } else {
@@ -563,11 +563,11 @@ void LLMMetricsCollector::recordTokensGenerated(const std::string& model_id, siz
     exporter_->incrementCounter("llm_tokens_generated_total", {{"model_id", model_id}}, static_cast<double>(count));
 }
 
-void LLMMetricsCollector::recordBatchSize([[maybe_unused]] size_t batch_size) {
+void LLMMetricsCollector::recordBatchSize(size_t batch_size) {
     exporter_->setGauge("llm_batch_size", static_cast<double>(batch_size));
 }
 
-void LLMMetricsCollector::recordConcurrentRequests([[maybe_unused]] size_t count) {
+void LLMMetricsCollector::recordConcurrentRequests(size_t count) {
     exporter_->setGauge("llm_concurrent_requests", static_cast<double>(count));
 }
 
@@ -576,11 +576,11 @@ void LLMMetricsCollector::recordGPUMemoryUsage(size_t vram_mb, size_t total_vram
     exporter_->setGauge("llm_gpu_memory_total_mb", static_cast<double>(total_vram_mb));
 }
 
-void LLMMetricsCollector::recordGPUUtilization([[maybe_unused]] double utilization_pct) {
+void LLMMetricsCollector::recordGPUUtilization(double utilization_pct) {
     exporter_->setGauge("llm_gpu_utilization_percent", utilization_pct);
 }
 
-void LLMMetricsCollector::recordGPUTemperature([[maybe_unused]] double temp_celsius) {
+void LLMMetricsCollector::recordGPUTemperature(double temp_celsius) {
     exporter_->setGauge("llm_gpu_temperature_celsius", temp_celsius);
 }
 
@@ -594,7 +594,7 @@ void LLMMetricsCollector::recordModelUnloaded(const std::string& model_id) {
     exporter_->setGauge("llm_model_memory_mb", 0.0, {{"model_id", model_id}});
 }
 
-void LLMMetricsCollector::recordModelSwitchLatency([[maybe_unused]] double latency_ms) {
+void LLMMetricsCollector::recordModelSwitchLatency(double latency_ms) {
     exporter_->observeHistogram("llm_model_switch_latency_ms", latency_ms);
 }
 
@@ -610,15 +610,15 @@ void LLMMetricsCollector::recordCacheSize(const std::string& cache_type, size_t 
     exporter_->setGauge("llm_cache_size_mb", static_cast<double>(size_mb), {{"cache_type", cache_type}});
 }
 
-void LLMMetricsCollector::recordQueueLength([[maybe_unused]] size_t length) {
+void LLMMetricsCollector::recordQueueLength(size_t length) {
     exporter_->setGauge("llm_queue_length", static_cast<double>(length));
 }
 
-void LLMMetricsCollector::recordPreemptions([[maybe_unused]] size_t count) {
+void LLMMetricsCollector::recordPreemptions(size_t count) {
     exporter_->incrementCounter("llm_preemptions_total", {}, static_cast<double>(count));
 }
 
-void LLMMetricsCollector::recordSchedulingLatency([[maybe_unused]] double latency_ms) {
+void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
     exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
 }
 
@@ -630,7 +630,7 @@ void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, 
     exporter_->setGauge("llm_quantization_format", 1.0, {{"model_id", model_id}, {"format", format}});
 }
 
-void LLMMetricsCollector::recordDequantizationLatency([[maybe_unused]] double latency_ms) {
+void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {
     exporter_->observeHistogram("llm_dequantization_latency_ms", latency_ms);
 }
 
@@ -751,12 +751,12 @@ void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model
 
 // ─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────
 
-void LLMMetricsCollector::recordWorkerPoolQueueDepth([[maybe_unused]] size_t depth) {
+void LLMMetricsCollector::recordWorkerPoolQueueDepth(size_t depth) {
     exporter_->setGauge("llm_worker_pool_queue_depth",
                         static_cast<double>(depth));
 }
 
-void LLMMetricsCollector::recordWorkerPoolTasksCompleted([[maybe_unused]] uint64_t total_completed) {
+void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_completed) {
     // Compute delta against last reported total and increment the counter.
     // Uses compare-exchange to avoid losing increments under concurrent callers.
     //

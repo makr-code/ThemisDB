@@ -46,7 +46,7 @@ uint64_t hashValue(const nlohmann::json& v) {
 }
 
 // Count leading zeros of a 64-bit integer plus 1.
-uint8_t rho([[maybe_unused]] uint64_t value) {
+uint8_t rho(uint64_t value) {
     if (value == 0) {
       return 65;
     }
@@ -307,7 +307,7 @@ nlohmann::json SamplingAggregator::estimate() const {
         case AggregationType::AVG: {
             const double sample_sum =
                 std::accumulate(reservoir_.begin(), reservoir_.end(), 0.0);
-            return static_cast<bool>(sample_sum / static_cast<double < static_cast<int>((reservoir_.size())));
+            return sample_sum / static_cast<double>(reservoir_.size());
         }
     }
     return nullptr;

@@ -160,7 +160,7 @@ size_t RaftConfiguration::getQuorumSize() const {
 }
 
 /** @brief Compute majority threshold for provided member count. */
-size_t RaftConfiguration::calculateQuorum([[maybe_unused]] size_t size) const {
+size_t RaftConfiguration::calculateQuorum(size_t size) const {
     return (size / 2) + 1;
 }
 

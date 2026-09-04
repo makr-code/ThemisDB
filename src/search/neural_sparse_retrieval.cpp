@@ -103,7 +103,7 @@ void NeuralSparseRetrieval::eraseFromIndex(const std::string& doc_id,
         }
         auto& posting = it->second;
         posting.erase(std::remove_if(posting.begin(), posting.end(),
-                                     [&]([[maybe_unused]] const auto& p) { return p.first == doc_id; }),
+                                     [&](const auto& p) { return p.first == doc_id; }),
                       posting.end());
         if (posting.empty()) {
             inverted_index_.erase(it);

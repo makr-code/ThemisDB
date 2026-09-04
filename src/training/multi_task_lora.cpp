@@ -401,7 +401,7 @@ public:
         return gates;
     }
 
-    MTLTrainResult benchmarkThreeTaskTransfer([[maybe_unused]] size_t num_samples_per_task = 100) {
+    MTLTrainResult benchmarkThreeTaskTransfer(size_t num_samples_per_task = 100) {
         if (!tasks_.empty())
             throw std::runtime_error("benchmarkThreeTaskTransfer: clear tasks first");
         
@@ -628,7 +628,7 @@ AcceptanceGateMetrics MultiTaskLoRATrainer::validateAcceptanceGates() const {
     return impl_->validateAcceptanceGates();
 }
 
-MTLTrainResult MultiTaskLoRATrainer::benchmarkThreeTaskTransfer([[maybe_unused]] size_t num_samples) {
+MTLTrainResult MultiTaskLoRATrainer::benchmarkThreeTaskTransfer(size_t num_samples) {
     return impl_->benchmarkThreeTaskTransfer(num_samples);
 }
 

@@ -65,7 +65,7 @@ static long perf_event_open_syscall(struct perf_event_attr* attr,
  * @param sw_config  A PERF_COUNT_SW_* constant.
  * @return           A non-negative file descriptor, or -1 on failure.
  */
-static int openSoftwareCounter([[maybe_unused]] uint64_t sw_config) noexcept {
+static int openSoftwareCounter(uint64_t sw_config) noexcept {
     struct perf_event_attr attr{};
     attr.type        = PERF_TYPE_SOFTWARE;
     attr.size        = sizeof(attr);
@@ -84,7 +84,7 @@ static int openSoftwareCounter([[maybe_unused]] uint64_t sw_config) noexcept {
 }
 
 /** Enable a perf counter fd; no-op if fd < 0. */
-static void enableCounter([[maybe_unused]] int fd) noexcept {
+static void enableCounter(int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_RESET,  0);
         ::ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
@@ -92,14 +92,14 @@ static void enableCounter([[maybe_unused]] int fd) noexcept {
 }
 
 /** Disable a perf counter fd; no-op if fd < 0. */
-static void disableCounter([[maybe_unused]] int fd) noexcept {
+static void disableCounter(int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
     }
 }
 
 /** Read the current absolute count from a perf fd.  Returns -1 on error. */
-static int64_t readCounter([[maybe_unused]] int fd) noexcept {
+static int64_t readCounter(int fd) noexcept {
     if (fd < 0) {
       return -1;
     }
@@ -210,7 +210,7 @@ public:
 
     void registerEventCallback(std::function<void(const std::vector<KernelEvent>&)> cb) {
         std::lock_guard<std::mutex> lk(mu_);
-        callback_ = std::move([[maybe_unused]] cb);
+        callback_ = std::move(cb);
     }
 
     void reset() {
@@ -412,8 +412,8 @@ private:
             {
                 std::lock_guard<std::mutex> slk(mu_);
                 for (const auto& ev : batch) {
-                    accumulateEvent([[maybe_unused]] ev);
-                    appendEvent([[maybe_unused]] ev);
+                    accumulateEvent(ev);
+                    appendEvent(ev);
                 }
                 ++stats_.collection_cycles;
                 publishMetrics();
@@ -433,7 +433,7 @@ private:
         }
     }
 
-    void accumulateEvent([[maybe_unused]] const KernelEvent& ev) {
+    void accumulateEvent(const KernelEvent& ev) {
         switch (ev.type) {
             case EbpfProbeType::CONTEXT_SWITCH:
                 stats_.context_switches_total += ev.delta;
@@ -452,9 +452,9 @@ private:
         }
     }
 
-    void appendEvent([[maybe_unused]] const KernelEvent& ev) {
-        events_.push_back([[maybe_unused]] ev);
-        while ([[maybe_unused]] static_cast<int>(events_.size()) > config_.max_events_retained) {
+    void appendEvent(const KernelEvent& ev) {
+        events_.push_back(ev);
+        while (static_cast<int>(events_.size()) > config_.max_events_retained) {
             events_.pop_front();
         }
     }
@@ -524,8 +524,8 @@ std::vector<KernelEvent> EbpfTracer::getRecentEvents() const {
 }
 
 void EbpfTracer::registerEventCallback(
-        std::function<void([[maybe_unused]] const std::vector<KernelEvent>&)> cb) {
-    impl_->registerEventCallback([[maybe_unused]] std::move(cb));
+        std::function<void(const std::vector<KernelEvent>&)> cb) {
+    impl_->registerEventCallback(std::move(cb));
 }
 
 void EbpfTracer::reset() { impl_->reset(); }

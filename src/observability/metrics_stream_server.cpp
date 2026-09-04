@@ -32,7 +32,7 @@ MetricsStreamServer::~MetricsStreamServer() = default;
 // Configuration
 // ---------------------------------------------------------------------------
 
-void MetricsStreamServer::setDeliveryCallback([[maybe_unused]] SendFn fn) {
+void MetricsStreamServer::setDeliveryCallback(SendFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     send_fn_ = std::move(fn);
 }

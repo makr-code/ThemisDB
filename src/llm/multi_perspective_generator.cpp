@@ -211,8 +211,8 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     }
     
     // Call callback if set
-    if ([[maybe_unused]] impl_->callback) {
-        impl_->callback([[maybe_unused]] result);
+    if (impl_->callback) {
+        impl_->callback(result);
     }
     
     if (static_cast<int>(result.perspectives.size()) >= 2) {
@@ -363,7 +363,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
         auto it = std::find_if(
             impl_->perspectives.begin(),
             impl_->perspectives.end(),
-            [&]([[maybe_unused]] const EthicalPerspective& p) { return p.id == req_id; }
+            [&](const EthicalPerspective& p) { return p.id == req_id; }
         );
         if (it != impl_->perspectives.end()) {
             selected.push_back(*it);
@@ -391,7 +391,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
                 auto it = std::find_if(
                     impl_->perspectives.begin(),
                     impl_->perspectives.end(),
-                    [&]([[maybe_unused]] const EthicalPerspective& p) { return p.tradition == tradition; }
+                    [&](const EthicalPerspective& p) { return p.tradition == tradition; }
                 );
                 if (it != impl_->perspectives.end()) {
                     selected.push_back(*it);
@@ -446,7 +446,7 @@ void MultiPerspectiveGenerator::removePerspective(const std::string& perspective
         std::remove_if(
             perspectives.begin(),
             perspectives.end(),
-            [&]([[maybe_unused]] const EthicalPerspective& p) { return p.id == perspective_id; }
+            [&](const EthicalPerspective& p) { return p.id == perspective_id; }
         ),
         perspectives.end()
     );

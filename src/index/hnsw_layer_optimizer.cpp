@@ -109,7 +109,7 @@ int HnswLayerOptimizer::getOptimalEntryLayer() const {
     return best_layer;
 }
 
-int HnswLayerOptimizer::getOptimalEf([[maybe_unused]] size_t k) const {
+int HnswLayerOptimizer::getOptimalEf(size_t k) const {
     if (!config_.enabled || !config_.adaptive_layer_selection.enabled) {
       return -1;
     }

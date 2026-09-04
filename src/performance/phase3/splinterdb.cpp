@@ -80,7 +80,7 @@ static std::atomic<double> g_total_compaction_time_ms{0.0};
 
 // ==================== ConcurrentCompactor Implementation ====================
 
-ConcurrentCompactor::ConcurrentCompactor([[maybe_unused]] size_t num_threads)
+ConcurrentCompactor::ConcurrentCompactor(size_t num_threads)
     : num_threads_(num_threads) {
 }
 

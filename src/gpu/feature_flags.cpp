@@ -79,8 +79,10 @@ bool GPUFeatureFlags::editionDefaultFor(Feature f) {
             return false;
 
         case edition::EditionType::ENTERPRISE:
-        [[fallthrough]];\n        case edition::EditionType::MILITARY:
-        [[fallthrough]];\n        case edition::EditionType::HYPERSCALER:
+        [[fallthrough]];
+        case edition::EditionType::MILITARY:
+        [[fallthrough]];
+        case edition::EditionType::HYPERSCALER:
             // Enterprise-class editions enable the full GPU surface, with
             // feature-specific exceptions handled below.
             break;

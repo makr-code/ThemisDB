@@ -325,7 +325,7 @@ TranscriptionResult STTProcessor::transcribe(const std::vector<uint8_t> &audio_b
 
 bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
                                     std::function<void(const TranscriptionSegment &)> callback) {
-    if ([[maybe_unused]] !initialized_ || !callback || audio_stream.empty()) {
+    if (!initialized_ || !callback || audio_stream.empty()) {
         return false;
     }
 
@@ -378,7 +378,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
             // Emit only segments that start at or beyond the current watermark
             // to avoid re-delivering text that was already reported in a prior window.
             if (seg.start_ms >= emitted_end_ms) {
-                callback([[maybe_unused]] seg);
+                callback(seg);
                 emitted_end_ms = seg.end_ms;
             }
         }
@@ -471,7 +471,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
     }
 
     // Helper lambda to read little-endian uint32
-    auto readUInt32LE = [&wav_data]([[maybe_unused]] size_t offset) -> uint32_t {
+    auto readUInt32LE = [&wav_data](size_t offset) -> uint32_t {
         if (offset + 4 > static_cast<int>(wav_data.size())) {
             throw std::runtime_error("Buffer overflow reading uint32 at offset " + std::to_string(offset));
         }
@@ -481,7 +481,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
     };
 
     // Helper lambda to read little-endian uint16
-    auto readUInt16LE = [&wav_data]([[maybe_unused]] size_t offset) -> uint16_t {
+    auto readUInt16LE = [&wav_data](size_t offset) -> uint16_t {
         if (offset + 2 > static_cast<int>(wav_data.size())) {
             throw std::runtime_error("Buffer overflow reading uint16 at offset " + std::to_string(offset));
         }
@@ -899,7 +899,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
     // Step 1: Extract an L2-normalised acoustic feature vector for each
     //         segment by analysing the corresponding PCM audio window.
     // -----------------------------------------------------------------------
-    auto extractFeatures = [&]([[maybe_unused]] const TranscriptionSegment &seg) -> std::vector<float> {
+    auto extractFeatures = [&](const TranscriptionSegment &seg) -> std::vector<float> {
         int64_t s0 = std::max(int64_t(0), seg.start_ms * SAMPLE_RATE / 1000);
         int64_t s1 = std::min(static_cast<int64_t>(pcm_data.size()), seg.end_ms * SAMPLE_RATE / 1000);
 

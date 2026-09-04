@@ -137,14 +137,14 @@ void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
     }
 }
 
-void InProcessCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+void InProcessCacheCoordinator::subscribeEntries(EntryCallback callback) {
     std::lock_guard<std::mutex> lk(mutex_);
-    entry_cb_ = std::move([[maybe_unused]] callback);
+    entry_cb_ = std::move(callback);
 }
 
-void InProcessCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+void InProcessCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(mutex_);
-    invalidation_cb_ = std::move([[maybe_unused]] callback);
+    invalidation_cb_ = std::move(callback);
 }
 
 void InProcessCacheCoordinator::deliver(const ReplicationMessage& msg) {
@@ -184,7 +184,7 @@ nlohmann::json InProcessCacheCoordinator::getStats() const {
     size_t peer_count = 0;
     if (bus_) {
         std::lock_guard<std::mutex> bus_lk(bus_->mutex);
-        peer_count = bus_-> static_cast<int>(peers.size()) > 0 ? bus_-> static_cast<int>(peers.size()) - 1 : 0;
+        peer_count = bus_->peers.size() > 0 ? bus_->peers.size() - 1 : 0;
     }
     return {
         {"name",               name()},
@@ -285,12 +285,12 @@ void CacheReplicationCoordinator::publishInvalidation(const std::string& pattern
     enqueueFanout(std::move(item));
 }
 
-void CacheReplicationCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
-    local_.subscribeEntries([[maybe_unused]] std::move(callback));
+void CacheReplicationCoordinator::subscribeEntries(EntryCallback callback) {
+    local_.subscribeEntries(std::move(callback));
 }
 
-void CacheReplicationCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
-    local_.subscribeInvalidations([[maybe_unused]] std::move(callback));
+void CacheReplicationCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+    local_.subscribeInvalidations(std::move(callback));
 }
 
 bool CacheReplicationCoordinator::isConnected() const {

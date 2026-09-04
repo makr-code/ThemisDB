@@ -98,7 +98,7 @@ bool AutoFailoverManager::stop() {
         auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
             monitoring_deadline - std::chrono::steady_clock::now());
         if (remaining.count() <= 0) {
-            spdlog::warn([[maybe_unused]] "Monitoring thread join deadline already exceeded; joining anyway to prevent std::terminate()");
+            spdlog::warn("Monitoring thread join deadline already exceeded; joining anyway to prevent std::terminate()");
         }
         monitoring_thread_.join();
         spdlog::debug("Monitoring thread joined successfully");
@@ -110,7 +110,7 @@ bool AutoFailoverManager::stop() {
         auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
             failover_deadline - std::chrono::steady_clock::now());
         if (remaining.count() <= 0) {
-            spdlog::warn([[maybe_unused]] "Failover thread join deadline already exceeded; joining anyway to prevent std::terminate()");
+            spdlog::warn("Failover thread join deadline already exceeded; joining anyway to prevent std::terminate()");
         }
         failover_thread_.join();
         spdlog::debug("Failover thread joined successfully");
@@ -202,7 +202,7 @@ bool AutoFailoverManager::triggerManualFailover(
 
     // Emit pressure event outside the failover lock to avoid recursive locking.
     // No locks are held during this operation to prevent deadlocks with callbacks.
-    if ([[maybe_unused]] pressure_event_pending) {
+    if (pressure_event_pending) {
         emitEvent(FailoverEventType::QUEUE_PRESSURE, failed_node_id, pressure_detail);
     }
 
@@ -254,9 +254,9 @@ AutoFailoverManager::Statistics AutoFailoverManager::getStatistics() const {
     return stats_;
 }
 
-void AutoFailoverManager::registerEventCallback([[maybe_unused]] FailoverEventCallback callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    event_callbacks_.push_back([[maybe_unused]] std::move(callback));
+void AutoFailoverManager::registerEventCallback(FailoverEventCallback callback) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    event_callbacks_.push_back(std::move(callback));
 }
 
 void AutoFailoverManager::monitoringLoop() {
@@ -355,7 +355,7 @@ void AutoFailoverManager::checkForNetworkPartitions() {
             stats_.network_partitions_detected++;
         }
 
-        if ([[maybe_unused]] config_.enable_split_brain_prevention) {
+        if (config_.enable_split_brain_prevention) {
             handleNetworkPartition();
         }
     }
@@ -506,16 +506,16 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
         // FO-IMPL-003: fencing is always attempted if a fencing manager is available,
         // regardless of enable_split_brain_prevention. The flag only controls whether
         // we BLOCK promotion when no fencing manager is configured.
-        if ([[maybe_unused]] config_.enable_split_brain_prevention) {
-            if ([[maybe_unused]] !preventSplitBrain(task.failed_node_id)) {
-                spdlog::error([[maybe_unused]] "Split-brain prevention failed; blocking promotion");
+        if (config_.enable_split_brain_prevention) {
+            if (!preventSplitBrain(task.failed_node_id)) {
+                spdlog::error("Split-brain prevention failed; blocking promotion");
                 transitionState(FailoverOrchestratorState::FAILED);
                 result.success = false;
                 return result;
             }
         } else if (fencing_manager_) {
             // Manager available but prevention disabled — still fence but don't block
-            preventSplitBrain([[maybe_unused]] task.failed_node_id);
+            preventSplitBrain(task.failed_node_id);
         }
 
         // Step 4: Select and promote replica or spare
@@ -723,7 +723,7 @@ bool AutoFailoverManager::verifyFailoverCompletion(const FailoverTask& task) {
     return replication_mgr_ && replication_mgr_->hasQuorum();
 }
 
-bool AutoFailoverManager::preventSplitBrain([[maybe_unused]] const std::string& failed_node_id) {
+bool AutoFailoverManager::preventSplitBrain(const std::string& failed_node_id) {
     if (!fencing_manager_) {
         // Fail closed: split-brain prevention requires a fencing manager.
         // Returning true here would be unsafe — we cannot guarantee exclusive leadership.
@@ -779,7 +779,7 @@ bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
 
 #ifdef THEMIS_TEST_BUILD
     if (recovery_override_) {
-        const bool ok = recovery_override_(failed_node_i[[maybe_unused]] d);
+        const bool ok = recovery_override_(failed_node_id);
         {
             std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             stats_.total_retry_attempts++;
@@ -982,7 +982,7 @@ bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
     const auto window_start = now - cfg.gc_grace_window;
     recent_failure_timestamps_.erase(
         std::remove_if(recent_failure_timestamps_.begin(), recent_failure_timestamps_.end(),
-            [&]([[maybe_unused]] const auto& ts) { return ts < window_start; }),
+            [&](const auto& ts) { return ts < window_start; }),
         recent_failure_timestamps_.end());
     if (static_cast<int>(recent_failure_timestamps_.size()) >= cfg.gc_grace_failure_count) {
         gc_grace_expiry_ = now + cfg.gc_grace_period;
@@ -1041,16 +1041,16 @@ void AutoFailoverManager::emitEvent(FailoverEventType type,
                                     const std::string& node_id,
                                     const std::string& detail) noexcept {
     try {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+        std::lock_guard<std::mutex> lock(callbacks_mutex_);
 
-        for ([[maybe_unused]] auto& callback : event_callbacks_) {
+        for (auto& callback : event_callbacks_) {
             try {
                 callback(type, node_id, detail);
             } catch (const std::exception& e) {
                 spdlog::error("Error in failover event callback: {}", e.what());
                 // Continue with remaining callbacks
             } catch (...) {
-                spdlog::error([[maybe_unused]] "Unknown exception in failover event callback");
+                spdlog::error("Unknown exception in failover event callback");
                 // Continue with remaining callbacks
             }
         }
@@ -1059,7 +1059,7 @@ void AutoFailoverManager::emitEvent(FailoverEventType type,
         spdlog::error("Error in emitEvent: {}", e.what());
     } catch (...) {
         // Catch-all to uphold noexcept contract; non-std exceptions must not escape.
-        spdlog::error([[maybe_unused]] "Unknown exception in emitEvent");
+        spdlog::error("Unknown exception in emitEvent");
     }
 }
 

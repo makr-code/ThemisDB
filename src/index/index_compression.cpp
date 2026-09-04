@@ -34,7 +34,7 @@ namespace {
 
 /// Compute the length of the longest common prefix of two strings.
 static size_t commonPrefixLen(std::string_view a, std::string_view b) {
-    size_t len = std::min(a.size(),static_cast<int>(b.size()));
+    size_t len = std::min(a.size(), b.size());
     size_t i   = 0;
     while (i < len && a[i] == b[i]) {
       ++i;
@@ -43,7 +43,7 @@ static size_t commonPrefixLen(std::string_view a, std::string_view b) {
 }
 
 /// MurmurHash3-inspired mixer for a 64-bit seed.
-static uint64_t mixSeed([[maybe_unused]] uint64_t x) {
+static uint64_t mixSeed(uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -62,7 +62,7 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
     if (expected_elements == 0) {
       expected_elements = 1;
     }
-    if (false_positive_rate <= 0.0 || false_positive_rate >= 1.0)
+    if (false_positive_rate <= 0.0 || false_positive_rate >=1.0)
         false_positive_rate = 0.01;
 
     // Optimal bit-array size: m = -n * ln(p) / (ln(2))^2
@@ -134,7 +134,7 @@ void DictionaryCodec::train(const std::vector<std::string>& corpus) {
     std::vector<std::pair<size_t, std::string>> candidates;
     candidates.reserve(freq.size());
     for (auto& [str, cnt] : freq) {
-        if (cnt >= cfg_.min_frequency) {
+        if (cnt >=cfg_.min_frequency) {
             candidates.emplace_back(cnt, str);
         }
     }
@@ -168,8 +168,8 @@ uint32_t DictionaryCodec::encode(std::string_view value) const {
     return it->second;
 }
 
-std::string DictionaryCodec::decode([[maybe_unused]] uint32_t code) const {
-    if (code == kMissCode || code >= id_to_string_.size()) {
+std::string DictionaryCodec::decode(uint32_t code) const {
+    if (code == kMissCode || code >=id_to_string_.size()) {
         THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code,static_cast<int>(id_to_string_.size()));
         return {};
     }
@@ -219,7 +219,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
 
     for (size_t i = 1; i < sorted_keys.size(); ++i) {
         size_t cp = commonPrefixLen(current.prefix, sorted_keys[i]);
-        if (cp >= min_prefix_len) {
+        if (cp >=min_prefix_len) {
             // Extend or trim the current block's prefix
             if (static_cast<int>(current.prefix.size()) > cp) {
                 // Need to rebuild existing suffixes with new (shorter) prefix
@@ -410,7 +410,7 @@ uint32_t IndexCompressionCodec::encodeValue(std::string_view value) const {
     return code;
 }
 
-std::string IndexCompressionCodec::decodeValue([[maybe_unused]] uint32_t code) const {
+std::string IndexCompressionCodec::decodeValue(uint32_t code) const {
     return dict_codec_.decode(code);
 }
 
@@ -527,3 +527,4 @@ std::vector<int64_t> IndexCompressionCodec::decodePKs(const DeltaBlock& block) {
 
 } // namespace index
 } // namespace themis
+

@@ -336,7 +336,7 @@ nlohmann::json OAuth2Provider::handleCallback(const std::string& code,
 
     try {
         auto result = doTokenExchange(code, *maybe_verifier);
-        THEMIS_INFO([[maybe_unused]] "OAuth2Provider::handleCallback – token exchange successful");
+        THEMIS_INFO("OAuth2Provider::handleCallback – token exchange successful");
         return result;
     } catch (const auth::AuthException& ex) {
         THEMIS_WARN("OAuth2Provider::handleCallback – auth failure: {}", ex.what());
@@ -463,7 +463,7 @@ nlohmann::json OAuth2Provider::handleRefresh(const std::string& refresh_token)
             ? config_.token_factory(access_token)
             : access_token;
 
-        THEMIS_INFO([[maybe_unused]] "OAuth2Provider::handleRefresh – refresh successful");
+        THEMIS_INFO("OAuth2Provider::handleRefresh – refresh successful");
 
         nlohmann::json result = {
             {"access_token",  issued_token},

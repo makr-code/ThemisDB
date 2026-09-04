@@ -933,7 +933,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         }
 
         // Streaming callback
-        if ([[maybe_unused]] options.streaming_row_callback) {
+        if (options.streaming_row_callback) {
             if (!options.streaming_row_callback(table, entity)) {
                 THEMIS_INFO("Streaming callback aborted import at line {}",
                             line_number);
@@ -1191,7 +1191,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         }
 
         // Streaming callback
-        if ([[maybe_unused]] options.streaming_row_callback) {
+        if (options.streaming_row_callback) {
             if (!options.streaming_row_callback(table, entity)) {
                 THEMIS_INFO("Streaming callback aborted import at line {}",
                             line_number);
@@ -1441,7 +1441,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
             }
 
             // ---- Streaming callback ----
-            if ([[maybe_unused]] options.streaming_row_callback) {
+            if (options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table, entity)) {
                     THEMIS_INFO(
                         "Streaming callback aborted Parquet import at row {}",
@@ -1524,7 +1524,7 @@ void FlatFileImporter::emitMetric(const ImportOptions& options,
                                    const std::string& metric,
                                    const std::map<std::string, std::string>& labels,
                                    double value) const {
-    if ([[maybe_unused]] options.metrics_callback) {
+    if (options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1533,7 +1533,7 @@ void FlatFileImporter::emitSpan(const ImportOptions& options,
                                  const std::string& operation,
                                  const std::map<std::string, std::string>& attributes,
                                  double duration_seconds) const {
-    if ([[maybe_unused]] options.tracing_callback) {
+    if (options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -1541,7 +1541,7 @@ void FlatFileImporter::emitSpan(const ImportOptions& options,
 void FlatFileImporter::reportProgress(ProgressCallback& callback,
                                        const std::string& stage,
                                        size_t current, size_t total) {
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         callback(stage, current, total);
     }
 }

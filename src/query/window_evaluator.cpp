@@ -84,7 +84,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluate(
     const std::vector<nlohmann::json>& rows,
     const WindowEvalSpec& windowSpec,
     const WindowFunctionCall& windowFunc,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     if (rows.empty()) {
         return {};
@@ -147,7 +147,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluate(
 std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
     const std::vector<nlohmann::json>& rows,
     const std::vector<std::shared_ptr<Expression>>& partitionBy,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     if (partitionBy.empty()) {
         // Keine Partitionierung → alle Rows in einer Partition
@@ -180,7 +180,7 @@ std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
 std::string WindowEvaluator::makePartitionKey(
     const nlohmann::json& row,
     const std::vector<std::shared_ptr<Expression>>& partitionBy,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::ostringstream oss = {};
     
@@ -204,7 +204,7 @@ std::vector<size_t> WindowEvaluator::sortPartition(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& partition,
     const std::vector<SortSpec>& orderBy,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<size_t> sorted = partition;
     
@@ -214,7 +214,7 @@ std::vector<size_t> WindowEvaluator::sortPartition(
     }
     
     // Sortiere basierend auf ORDER BY
-    std::sort([[maybe_unused]] sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
+    std::sort(sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
         const auto& rowA = rows[idxA];
         const auto& rowB = rows[idxB];
         
@@ -229,7 +229,7 @@ int WindowEvaluator::compareRows(
     const nlohmann::json& row1,
     const nlohmann::json& row2,
     const std::vector<SortSpec>& orderBy,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     for (const auto& spec : orderBy) {
         auto val1 = evaluateExpression(spec.expression, row1, forVariable);
@@ -283,7 +283,7 @@ int WindowEvaluator::compareRows(
 // Window Function Evaluations
 // ============================================================================
 
-std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber([[maybe_unused]] size_t partitionSize) {
+std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber(size_t partitionSize) {
     std::vector<nlohmann::json> results;
     results.reserve(partitionSize);
     
@@ -298,7 +298,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
     const std::vector<SortSpec>& orderBy,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results = {};
 
@@ -337,7 +337,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
     const std::vector<SortSpec>& orderBy,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results = {};
 
@@ -375,7 +375,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
     const std::shared_ptr<Expression>& argument,
     int64_t offset,
     const std::shared_ptr<Expression>& defaultValue,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results = {};
 
@@ -417,7 +417,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     const std::shared_ptr<Expression>& argument,
     int64_t offset,
     const std::shared_ptr<Expression>& defaultValue,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results = {};
 
@@ -456,7 +456,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
     const std::shared_ptr<Expression>& argument,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results = {};
 
@@ -488,7 +488,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     const std::vector<size_t>& sortedIndices,
     const std::shared_ptr<Expression>& argument,
     const WindowFrame& frame,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results = {};
 
@@ -546,7 +546,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
 nlohmann::json WindowEvaluator::evaluateExpression(
     const std::shared_ptr<Expression>& expr,
     const nlohmann::json& row,
-    [[maybe_unused]] const std::string& forVariable
+    const std::string& forVariable
 ) {
     if (!expr) {
       return nullptr;
@@ -558,7 +558,7 @@ nlohmann::json WindowEvaluator::evaluateExpression(
     
     try {
         return evaluator.evaluateExpression(expr, row);
-    } catch ([[maybe_unused]] const std::exception& e) {
+    } catch (const std::exception& e) {
         // Fallback: null
         return nullptr;
     }

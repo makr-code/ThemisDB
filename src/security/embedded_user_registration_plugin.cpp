@@ -242,7 +242,7 @@ public:
         it->second.password_history.push_back(new_hash);
         
         // Keep only last 5 passwords
-        if (it-> static_cast<int>(second.password_history.size()) > 5) {
+        if (it->second.password_history.size() > 5) {
             it->second.password_history.erase(it->second.password_history.begin());
         }
         

@@ -63,7 +63,7 @@ public:
         return manager_->erase(table_name_, primary_key).ok;
     }
 
-    std::vector<std::string> lookup(st[[maybe_unused]] d::string_vie[[maybe_unused]] w valu[[maybe_unused]] e) const override {
+    std::vector<std::string> lookup(std::string_view value) const override {
         if (is_partial_) {
             auto [st, keys] = manager_->scanKeysEqualPartial(table_name_, field_name_, value);
             if (!st.ok) {
@@ -502,7 +502,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
-    [[maybe_unused]] const std::string& config) {
+    const std::string& config) {
     
     std::lock_guard<std::shared_mutex> lock(registry_mutex_);
     

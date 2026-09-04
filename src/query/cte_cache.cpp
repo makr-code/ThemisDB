@@ -191,7 +191,7 @@ size_t CTECache::estimateSize(const std::vector<nlohmann::json>& data) const {
     
     // Sample-based estimation: Check first few elements and extrapolate
     constexpr size_t SAMPLE_SIZE = 10;
-    size_t sample_count = std::min(SAMPLE_SIZE,static_cast<int>(data.size()));
+    size_t sample_count = std::min(SAMPLE_SIZE, data.size());
     size_t sample_bytes = 0;
     
     for (size_t i = 0; i < sample_count; i++) {
@@ -299,7 +299,7 @@ std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::str
     }
 }
 
-bool CTECache::makeRoom([[maybe_unused]] size_t required_bytes) {
+bool CTECache::makeRoom(size_t required_bytes) {
     // Find largest in-memory CTE to spill
     std::string largest_cte = {};
     size_t largest_size = 0;

@@ -157,7 +157,7 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     result.status = OptimizationStatus::NOT_STARTED;
     result.started_at = std::chrono::system_clock::now();
 
-    auto finalizeResult = [&]([[maybe_unused]] OptimizationStatus fallback_status) {
+    auto finalizeResult = [&](OptimizationStatus fallback_status) {
         if (result.status == OptimizationStatus::NOT_STARTED) {
             result.status = fallback_status;
         }

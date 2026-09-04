@@ -485,7 +485,7 @@ ImportStats ElasticsearchImporter::importData(
         return stats;
     }
 
-    auto processPage = [&]([[maybe_unused]] const std::vector<json>& page) {
+    auto processPage = [&](const std::vector<json>& page) {
         for (const auto& doc : page) {
             if (cancelled_.load(std::memory_order_relaxed)) {
               break;
@@ -505,7 +505,7 @@ ImportStats ElasticsearchImporter::importData(
             // In production, the document would be written to ThemisDB storage here.
             ++stats.imported_records;
         }
-        if ([[maybe_unused]] progress_callback) {
+        if (progress_callback) {
             progress_callback("scroll", stats.total_records, 0);
         }
     };

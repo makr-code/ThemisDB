@@ -47,7 +47,7 @@ http::response<http::string_body> RequestCoalescingManager::handle(
     // Fast path: coalescing disabled or method not eligible.
     if (!config_.enabled || !isCoalescible(req)) {
         backend_calls_.fetch_add(1, std::memory_order_relaxed);
-        return handler([[maybe_unused]] req);
+        return handler(req);
     }
 
     const std::string key = makeKey(req);
@@ -69,7 +69,7 @@ http::response<http::string_body> RequestCoalescingManager::handle(
                 // Too many waiters; fall through to a direct backend call.
                 capacity_fallbacks_.fetch_add(1, std::memory_order_relaxed);
                 backend_calls_.fetch_add(1, std::memory_order_relaxed);
-                return handler([[maybe_unused]] req);
+                return handler(req);
             }
             it->second.waiter_count++;
             shared_future = it->second.future;
@@ -96,7 +96,7 @@ http::response<http::string_body> RequestCoalescingManager::handle(
     if (is_originator) {
         backend_calls_.fetch_add(1, std::memory_order_relaxed);
         try {
-            auto response = handler([[maybe_unused]] req);
+            auto response = handler(req);
             my_promise->set_value(response);
 
             // Remove the in-flight entry so new requests create a fresh slot.
@@ -132,7 +132,7 @@ http::response<http::string_body> RequestCoalescingManager::handle(
                          "falling back to direct call", key, e.what());
             timeout_fallbacks_.fetch_add(1, std::memory_order_relaxed);
             backend_calls_.fetch_add(1, std::memory_order_relaxed);
-            return handler([[maybe_unused]] req);
+            return handler(req);
         }
     }
 
@@ -141,7 +141,7 @@ http::response<http::string_body> RequestCoalescingManager::handle(
                  "falling back to direct call", key);
     timeout_fallbacks_.fetch_add(1, std::memory_order_relaxed);
     backend_calls_.fetch_add(1, std::memory_order_relaxed);
-    return handler([[maybe_unused]] req);
+    return handler(req);
 }
 
 // ===========================================================================

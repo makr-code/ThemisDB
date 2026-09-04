@@ -151,14 +151,14 @@ bool RaftV2ClusterConfig::hasQuorum(const std::set<std::string>& votes) const {
         for (const auto& v : votes) {
             if (new_members_.count(v) > 0) { ++new_votes; }
         }
-        return static_cast<bool>(old_votes  < static_cast<int>(= majority(old_members_.size()))) &&
+        return old_votes >= majority(old_members_.size()) &&
                new_votes >= majority(new_members_.size());
     } else {
         size_t cnt = 0;
         for (const auto& v : votes) {
             if (new_members_.count(v) > 0) { ++cnt; }
         }
-        return static_cast<bool>(cnt  < static_cast<int>(= majority(new_members_.size())));
+        return cnt >= majority(new_members_.size());
     }
 }
 
@@ -301,7 +301,7 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
     return entry;
 }
 
-void MembershipChangeManager::onJointCommitted([[maybe_unused]] uint64_t log_index) {
+void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
     MembershipChangeEntry commit;
     {
         std::lock_guard<std::mutex> lock(mutex_);

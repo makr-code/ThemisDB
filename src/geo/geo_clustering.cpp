@@ -134,7 +134,7 @@ static LonLat extractLonLat(const GeometryInfo &g) noexcept {
 // ---------------------------------------------------------------------------
 
 GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const DbscanConfig &config,
-                               [[maybe_unused]] const GpuClusteringConfig &gpu_cfg) {
+                               const GpuClusteringConfig &gpu_cfg) {
     const std::size_t n = points.size();
     GeoClusterResult result;
     result.labels.assign(n, kDbscanUnclassified);
@@ -180,7 +180,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
     const bool use_gpu_adj = !gpu_adj.empty();
 
     // Returns the indices of all valid points within epsilon_m of point i.
-    auto regionQuery = [&]([[maybe_unused]] std::size_t i) -> std::vector<std::size_t> {
+    auto regionQuery = [&](std::size_t i) -> std::vector<std::size_t> {
         std::vector<std::size_t> neighbours = {};
 
         if (use_gpu_adj) {
@@ -274,7 +274,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
 // ---------------------------------------------------------------------------
 
 GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KMeansConfig &config,
-                               [[maybe_unused]] const GpuClusteringConfig &gpu_cfg) {
+                               const GpuClusteringConfig &gpu_cfg) {
     const std::size_t n = points.size();
     GeoClusterResult result;
     result.labels.assign(n, -1);

@@ -119,14 +119,14 @@ AsyncWalShipper::~AsyncWalShipper()
 
 void AsyncWalShipper::setAlertCallback(AlertCallback cb)
 {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     alert_cb_ = std::move(cb);
 }
 
 void AsyncWalShipper::setShipHandler(ShipHandler handler)
 {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
-    ship_handler_ = std::move([[maybe_unused]] handler);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    ship_handler_ = std::move(handler);
 }
 
 // ---------------------------------------------------------------------------
@@ -324,7 +324,7 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     if (lag > static_cast<int64_t>(config_.max_lag_ms)) {
         AlertCallback cb;
         {
-            std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+            std::lock_guard<std::mutex> lock(callback_mutex_);
             cb = alert_cb_;
         }
         if (cb) {
@@ -343,11 +343,11 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     // Lag threshold is telemetry/alerting only: shipping must still be attempted.
     ShipHandler handler;
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+        std::lock_guard<std::mutex> lock(callback_mutex_);
         handler = ship_handler_;
     }
-    if ([[maybe_unused]] handler) {
-        handler([[maybe_unused]] seg);
+    if (handler) {
+        handler(seg);
         // bytes_shipped / segments_shipped updated inside default handler;
         // for custom handlers we update bytes here if not already counted.
     } else {

@@ -79,12 +79,12 @@ GraphAnalytics::degreeCentrality(const std::vector<std::string>& node_pks) const
         
         auto out_it = topo.outgoing.find(pk);
         if (out_it != topo.outgoing.end()) {
-            dr.out_degree = static_cast<int>(out_it-> static_cast<int>(second.size()));
+            dr.out_degree = static_cast<int>(out_it->second.size());
         }
         
         auto in_it = topo.incoming.find(pk);
         if (in_it != topo.incoming.end()) {
-            dr.in_degree = static_cast<int>(in_it-> static_cast<int>(second.size()));
+            dr.in_degree = static_cast<int>(in_it->second.size());
         }
         
         dr.total_degree = dr.in_degree + dr.out_degree;
@@ -146,7 +146,7 @@ GraphAnalytics::pageRank(
         out_degrees.reserve(n);
         for (const auto& pk : node_pks) {
             auto out_it = topo.outgoing.find(pk);
-            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it-> static_cast<int>(second.size()) : 0);
+            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it->second.size() : 0);
         }
         
         // Distribute rank from each node to its outgoing neighbors

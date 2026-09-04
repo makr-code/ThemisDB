@@ -41,7 +41,7 @@ namespace geo {
 class CpuParallelBackend final : public ISpatialComputeBackend {
   public:
     CpuParallelBackend() {
-        thread_count_ = std::max(1, std::thread::hardware_concurrency());
+        thread_count_ = std::max(1u, std::thread::hardware_concurrency());
     }
 
     const char *name() const noexcept override {
@@ -52,7 +52,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         return true;
     }
 
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count, 0);
 
@@ -112,7 +112,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         // Use MBR as fast pre-check
         auto mbr1 = geom1.computeMBR();
         auto mbr2 = geom2.computeMBR();
@@ -138,22 +138,22 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     // Previously the default base-class implementations returned an empty
     // GeometryInfo; now they are properly wired to the CPU exact path.
 
-    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
         auto *b = getCpuExactBackend();
         return b ? b->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
     }
 
-    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
         auto *b = getCpuExactBackend();
         return b ? b->stUnion(g1, g2) : GeometryInfo{};
     }
 
-    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
         auto *b = getCpuExactBackend();
         return b ? b->stDifference(g1, g2) : GeometryInfo{};
     }
 
-    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
         auto *b = getCpuExactBackend();
         return b ? b->geodesicDistance(lat1, lon1, lat2, lon2) : 0.0;
     }
@@ -346,7 +346,7 @@ class CudaBackend final : public ISpatialComputeBackend {
     //   Phase 1 — GPU MBR filter (conservative, no false negatives).
     //   Phase 2 — CPU exact verification for MBR-positive candidates only.
     // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
 
@@ -444,14 +444,14 @@ class CudaBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         // For single geometry checks, CPU is often faster due to transfer overhead
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
     /// GPU-accelerated ST_BUFFER for Point geometries using the batch kernel.
     /// Falls back to cpu_exact_ for non-Point types or on any CUDA error.
-    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
         if (!is_available_ || !geom.isPoint() || geom.coords.empty() || distance_m <= 0.0 || arc_points < 3) {
             return cpu_exact_.stBuffer(geom, distance_m, arc_points);
         }
@@ -518,15 +518,15 @@ class CudaBackend final : public ISpatialComputeBackend {
         return result;
     }
 
-    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
         return cpu_exact_.stUnion(g1, g2);
     }
 
-    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
         return cpu_exact_.stDifference(g1, g2);
     }
 
-    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
         return cpu_exact_.geodesicDistance(lat1, lon1, lat2, lon2);
     }
 
@@ -561,7 +561,7 @@ class CudaBackend final : public ISpatialComputeBackend {
             d_cached_mbrs_a_.free();
             return false;
         }
-        if ([[maybe_unused]] (e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
+        if ((e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
             THEMIS_WARN("CUDA cudaMalloc failed for d_cached_results_ ({})", static_cast<int>(e));
             d_cached_mbrs_a_.free();
             d_cached_mbrs_b_.free();
@@ -679,7 +679,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         return is_available_;
     }
 
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
 
@@ -836,23 +836,23 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
-    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
         return cpu_exact_.stBuffer(geom, distance_m, arc_points);
     }
 
-    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
         return cpu_exact_.stUnion(g1, g2);
     }
 
-    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
         return cpu_exact_.stDifference(g1, g2);
     }
 
-    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
         return cpu_exact_.geodesicDistance(lat1, lon1, lat2, lon2);
     }
 
@@ -930,7 +930,7 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return active_backend_ != nullptr;
     }
 
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         if (active_backend_) {
             return active_backend_->batchIntersects(in);
         }
@@ -940,7 +940,7 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         if (active_backend_) {
             return active_backend_->exactIntersects(geom1, geom2);
         }
@@ -949,19 +949,19 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return mbr1.intersects(mbr2);
     }
 
-    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
         return active_backend_ ? active_backend_->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
     }
 
-    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
         return active_backend_ ? active_backend_->stUnion(g1, g2) : GeometryInfo{};
     }
 
-    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
         return active_backend_ ? active_backend_->stDifference(g1, g2) : GeometryInfo{};
     }
 
-    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
         return active_backend_ ? active_backend_->geodesicDistance(lat1, lon1, lat2, lon2) : 0.0;
     }
 
@@ -992,7 +992,7 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
         auto *b = getProductionGpuBackend();
         return b && b->isAvailable();
     }
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         auto *b = getProductionGpuBackend();
         if (b) {
             return b->batchIntersects(in);
@@ -1001,7 +1001,7 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
         out.mask.assign(in.count, 0);
         return out;
     }
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
         auto *b = getProductionGpuBackend();
         return b ? b->exactIntersects(g1, g2) : false;
     }

@@ -252,7 +252,7 @@ int SessionManager::terminateAllOtherSessions(const std::string &user_id, const 
 
     THEMIS_INFO("SessionManager: terminated {} sessions for user '{}' (kept '{}')",static_cast<int>(to_erase.size()), user_id,
                 keep_session_id);
-    return static_cast<bool>(static_cast<int < static_cast<int>((to_erase.size())));
+    return static_cast<int>(to_erase.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -316,3 +316,4 @@ size_t SessionManager::pruneExpiredLocked() {
 
 } // namespace auth
 } // namespace themis
+

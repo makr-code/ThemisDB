@@ -229,7 +229,7 @@ bool RBAC::loadFromJson(const nlohmann::json& j) {
     return true;
 }
 
-bool RBAC::loadFromYaml([[maybe_unused]] const std::string& content) {
+bool RBAC::loadFromYaml(const std::string& content) {
     // unused parameter
     // Simple YAML-to-JSON conversion (limited parser)
     // For production, use a real YAML library (yaml-cpp)

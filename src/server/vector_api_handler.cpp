@@ -178,7 +178,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
                 }
                 offset = static_cast<size_t>(std::stoull(cur));
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "vector_api_handler: unhandled exception caught");
+                THEMIS_WARN("vector_api_handler: unhandled exception caught");
                 offset = 0;
             }
         }
@@ -341,7 +341,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 }
             }
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "vector_api_handler: unhandled exception caught");
+            THEMIS_WARN("vector_api_handler: unhandled exception caught");
             vector_enc_enabled = false; // fail-safe
         }
 
@@ -435,7 +435,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 auto st = vector_index_->addEntity(e, *batch, vector_field);
                 if (st.ok) ++inserted; else { ++errors; }
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "vector_api_handler: unhandled exception caught");
+                THEMIS_WARN("vector_api_handler: unhandled exception caught");
                 ++errors;
             }
         }
@@ -796,7 +796,7 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess(
-    [[maybe_unused]] const http::request<http::string_body>& req,
+    const http::request<http::string_body>& req,
     const std::string& permission,
     const std::string& /*resource*/,
     const std::string& /*path*/)
@@ -830,7 +830,7 @@ std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess
     return std::nullopt;
 }
 
-AuthContext VectorApiHandler::extractAuthContext([[maybe_unused]] const http::request<http::string_body>& req) const {
+AuthContext VectorApiHandler::extractAuthContext(const http::request<http::string_body>& req) const {
     AuthContext ctx;
     
     // Extract from Authorization header

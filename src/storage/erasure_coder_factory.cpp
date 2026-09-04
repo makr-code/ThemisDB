@@ -239,7 +239,7 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return product;
 }
 
-uint8_t ReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
+uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
         return 0;
     }
@@ -298,7 +298,7 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return product;
 }
 
-uint8_t CauchyReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
+uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
         return 0;
     }

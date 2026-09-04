@@ -154,7 +154,8 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
         case ToTSearchStrategy::DFS:  return solveDFS(problem, config, generator, evaluator);
         case ToTSearchStrategy::BEAM: return solveBeam(problem, config, generator, evaluator);
         case ToTSearchStrategy::BFS:  // fallthrough
-        [[fallthrough]];\n        default:                      return solveBFS(problem, config, generator, evaluator);
+        [[fallthrough]];
+        default:                      return solveBFS(problem, config, generator, evaluator);
     }
 }
 

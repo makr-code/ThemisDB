@@ -663,7 +663,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return static_cast<bool>(sum + static_cast<int < static_cast<int>((t.events.size()))); });
+                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
 
     THEMIS_INFO("Extracted event log from graph: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -779,7 +779,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return static_cast<bool>(sum + static_cast<int < static_cast<int>((t.events.size()))); });
+                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
 
     THEMIS_INFO("Extracted event log from references: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -867,7 +867,8 @@ std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProce
                                                                                    const MiningConfig &config) {
     switch (config.algorithm) {
         case MiningAlgorithm::ALPHA:
-        [[fallthrough]];\n        case MiningAlgorithm::ALPHA_PLUS:
+        [[fallthrough]];
+        case MiningAlgorithm::ALPHA_PLUS:
             return {Status::OK(), runAlphaMiner(log, config)};
         case MiningAlgorithm::HEURISTIC:
             return {Status::OK(), runHeuristicMiner(log, config)};
@@ -1087,7 +1088,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
 
                 // Remove old edges from activity to targets and add new ones
                 process.edges.erase(std::remove_if(process.edges.begin(), process.edges.end(),
-                                                   [&]([[maybe_unused]] const DiscoveredProcess::Edge &e) {
+                                                   [&](const DiscoveredProcess::Edge &e) {
                                                        return e.from == actNode && targetNodes.count(e.to) > 0;
                                                    }),
                                     process.edges.end());
@@ -1163,7 +1164,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
 
                 // Remove old edges from sources to activity
                 process.edges.erase(std::remove_if(process.edges.begin(), process.edges.end(),
-                                                   [&]([[maybe_unused]] const DiscoveredProcess::Edge &e) {
+                                                   [&](const DiscoveredProcess::Edge &e) {
                                                        return e.to == actNode && sourceNodes.count(e.from) > 0;
                                                    }),
                                     process.edges.end());
@@ -1383,7 +1384,7 @@ std::vector<std::set<std::string>> findComponents(const SubDFG &dfg) {
         parent[a] = a;
     }
 
-    std::function<std::string(const std::string &)> find = [&]([[maybe_unused]] const std::string &x) -> std::string {
+    std::function<std::string(const std::string &)> find = [&](const std::string &x) -> std::string {
         if (parent[x] != x) {
             parent[x] = find(parent[x]);
         }
@@ -2385,7 +2386,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
     // ── 3. Pad embeddings to equal length ──
     size_t emb_dim = 0;
     for (const auto &emb : variant_embeddings) {
-        emb_dim = std::max(emb_dim,static_cast<int>(emb.size()));
+        emb_dim = std::max(emb_dim, emb.size());
     }
     if (emb_dim == 0) {
         emb_dim = 1;
@@ -2768,7 +2769,7 @@ ProcessMining::detectBottlenecks(const EnhancedProcess &process, double threshol
     // Calculate percentile threshold
     std::sort(durations.begin(), durations.end());
     size_t idx       = static_cast<size_t>(durations.size() * (threshold_percentile / 100.0));
-    double threshold = durations[std::min(idx, static_cast<int>(durations.size()) - 1)];
+    double threshold = durations[std::min(idx, durations.size() - 1)];
 
     // Find bottlenecks
     for (const auto &[activity, duration] : process.node_avg_duration) {

@@ -430,7 +430,7 @@ bool AIDecisionAuditor::recordOverride(
     
     auto audit_opt = getDecision(decision_id);
     if (!audit_opt.has_value()) {
-        THEMIS_WARN("Canno[[maybe_unused]] t recor[[maybe_unused]] d overrid[[maybe_unused]] e: decisio[[maybe_unused]] n {} no[[maybe_unused]] t foun[[maybe_unused]] d", decision_i[[maybe_unused]] d);
+        THEMIS_WARN("Cannot record override: decision {} not found", decision_id);
         return false;
     }
     

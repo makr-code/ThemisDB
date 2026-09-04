@@ -332,7 +332,7 @@ MergeEngine::MergeResult MergeEngine::merge(
         conflict_keys.insert(conflict.key);
     }
     
-    auto addNonConflictingChanges = [&]([[maybe_unused]] const std::vector<analytics::DiffEngine::Change>& changes) {
+    auto addNonConflictingChanges = [&](const std::vector<analytics::DiffEngine::Change>& changes) {
         for (const auto& change : changes) {
             if (conflict_keys.find(change.key) == conflict_keys.end()) {
                 result.changes_applied.push_back(change);
@@ -448,7 +448,7 @@ MergeEngine::MergeResult MergeEngine::previewMerge(
 // Check if fast-forward is possible
 bool MergeEngine::canFastForward(
     uint64_t base_sequence,
-    [[maybe_unused]] uint64_t source_sequence,
+    uint64_t source_sequence,
     uint64_t target_sequence) {
     
     analytics::DiffEngine::DiffOptions opts;
@@ -571,7 +571,8 @@ std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
                 change.new_value = conflict.source_value;
                 break;
             case MergeStrategy::MANUAL:
-            [[fallthrough]];\n            case MergeStrategy::FAST_FORWARD:
+            [[fallthrough]];
+            case MergeStrategy::FAST_FORWARD:
                 // Leave unresolved
                 continue;
         }

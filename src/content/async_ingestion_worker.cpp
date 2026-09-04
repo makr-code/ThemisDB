@@ -556,7 +556,7 @@ void AsyncIngestionWorker::setCompletionCallback(const std::string &job_id,
 }
 
 void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::function<void(IngestionJob &)> handler) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] handlers_mutex_);
+    std::lock_guard<std::mutex> lock(handlers_mutex_);
     job_handlers_[job_type] = handler;
 
     if (config_.verbose_logging) {
@@ -568,7 +568,7 @@ void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::fu
 // Worker Thread Implementation
 // ============================================================================
 
-void AsyncIngestionWorker::workerLoop([[maybe_unused]] int worker_id) {
+void AsyncIngestionWorker::workerLoop(int worker_id) {
     if (config_.verbose_logging) {
         THEMIS_INFO("Worker {} started", worker_id);
     }
@@ -683,9 +683,9 @@ void AsyncIngestionWorker::workerLoop([[maybe_unused]] int worker_id) {
 void AsyncIngestionWorker::processJob(IngestionJob &job) {
     // Check for custom handler first
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] handlers_mutex_);
-        auto it = job_handlers_.find([[maybe_unused]] job.type);
-        if ([[maybe_unused]] it != job_handlers_.end()) {
+        std::lock_guard<std::mutex> lock(handlers_mutex_);
+        auto it = job_handlers_.find(job.type);
+        if (it != job_handlers_.end()) {
             it->second(job);
             return;
         }
@@ -706,9 +706,12 @@ void AsyncIngestionWorker::processJob(IngestionJob &job) {
             processBatchFiles(job);
             break;
         case IngestionJobType::HUGGINGFACE:
-        [[fallthrough]];\n        case IngestionJobType::FILESYSTEM_BULK:
-        [[fallthrough]];\n        case IngestionJobType::DATABASE_EXPORT:
-        [[fallthrough]];\n        case IngestionJobType::REST_API:
+        [[fallthrough]];
+        case IngestionJobType::FILESYSTEM_BULK:
+        [[fallthrough]];
+        case IngestionJobType::DATABASE_EXPORT:
+        [[fallthrough]];
+        case IngestionJobType::REST_API:
             // Plugin-based job types
             processPluginJob(job);
             break;
@@ -877,8 +880,8 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     // a direct job-type handler, in which case plugin lookup is optional.
     bool has_custom_handler = false;
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] handlers_mutex_);
-        has_custom_handler = job_handlers_.find([[maybe_unused]] source.type) != job_handlers_.end();
+        std::lock_guard<std::mutex> lock(handlers_mutex_);
+        has_custom_handler = job_handlers_.find(source.type) != job_handlers_.end();
     }
 
     // Find plugin
@@ -887,7 +890,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
         std::lock_guard<std::mutex> lock(plugins_mutex_);
         auto it = plugins_.find(source.plugin_name);
         if (it == plugins_.end()) {
-            if ([[maybe_unused]] !has_custom_handler) {
+            if (!has_custom_handler) {
                 throw std::runtime_error("Plugin not found: " + source.plugin_name);
             }
         } else {

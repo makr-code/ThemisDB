@@ -208,8 +208,8 @@ size_t IoUringBatchedSender::submitAndWait() {
 // enqueueSqe  (io_uring path only)
 // ============================================================================
 
-bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] const ::iovec* iovs,
-                                       [[maybe_unused]] size_t iov_cnt, [[maybe_unused]] uint64_t user_data) {
+bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
+                                       size_t iov_cnt, uint64_t user_data) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     if (ring_fd_ < 0 || !sqe_base_) {
       return false;
@@ -257,22 +257,22 @@ bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] 
     int32_t fd_i = fd;
     std::memcpy(sqe + 4, &fd_i, sizeof(fd_i));
     
-    // Write addr at offset 16, size sizeof([[maybe_unused]] uintptr_t)
-    if ([[maybe_unused]] 16 + sizeof(uintptr_t) > SQE_SIZE) {
+    // Write addr at offset 16, size sizeof(uintptr_t)
+    if (16 + sizeof(uintptr_t) > SQE_SIZE) {
         return false;
     }
     auto addr = reinterpret_cast<uintptr_t>(iovs);
     std::memcpy(sqe + 16, &addr, sizeof(addr));
     
     // Write len at offset 24, size 4
-    if ([[maybe_unused]] 24 + sizeof(uint32_t) > SQE_SIZE) {
+    if (24 + sizeof(uint32_t) > SQE_SIZE) {
         return false;
     }
     uint32_t len = static_cast<uint32_t>(iov_cnt);
     std::memcpy(sqe + 24, &len, sizeof(len));
     
     // Write user_data at offset 32, size 8
-    if ([[maybe_unused]] 32 + sizeof(uint64_t) > SQE_SIZE) {
+    if (32 + sizeof(uint64_t) > SQE_SIZE) {
         return false;
     }
     std::memcpy(sqe + 32, &user_data, sizeof(user_data));
@@ -289,7 +289,7 @@ bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] 
 // initRing / teardownRing
 // ============================================================================
 
-bool IoUringBatchedSender::initRing([[maybe_unused]] unsigned queue_depth) {
+bool IoUringBatchedSender::initRing(unsigned queue_depth) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     struct io_uring_params params;
     std::memset(&params, 0, sizeof(params));

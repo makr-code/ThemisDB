@@ -54,7 +54,7 @@ std::string HtmlProcessor::removeElement(
     while (static_cast<size_t>(pos) <static_cast<int>(html.size())) {
         // Case-insensitive search for the opening tag
         // We compare lower-cased prefix of the html substring
-        auto ciFind = [&]([[maybe_unused]] const std::string& pat) -> size_t {
+        auto ciFind = [&](const std::string& pat) -> size_t {
             for (size_t i = pos; i + static_cast<int>(pat.size()) <= html.size(); ++i) {
                 bool match = true;
                 for (size_t j = 0; j < pat.size(); ++j) {
@@ -542,7 +542,7 @@ std::vector<json> HtmlProcessor::chunk(
     std::string current_chunk = {};
     int current_tokens = 0;
 
-    auto flushChunk = [&]([[maybe_unused]] const std::string& text_chunk) {
+    auto flushChunk = [&](const std::string& text_chunk) {
         if (text_chunk.empty()) {
           return;
         }

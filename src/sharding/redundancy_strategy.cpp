@@ -185,12 +185,14 @@ double RedundancyConfig::getStorageEfficiency() const {
         case RedundancyMode::STRIPE:
             return 1.0;  // No redundancy
         case RedundancyMode::MIRROR:
-        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];
+        case RedundancyMode::GEO_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::STRIPE_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::PARITY:
-        [[fallthrough]];\n        case RedundancyMode::RAID6:
+        [[fallthrough]];
+        case RedundancyMode::RAID6:
             return erasure_coding.storageEfficiency();
         default:
             return 1.0;
@@ -201,14 +203,18 @@ double RedundancyConfig::getStorageEfficiency() const {
 uint32_t RedundancyConfig::getFaultTolerance() const {
     switch (mode) {
         case RedundancyMode::NONE:
-        [[fallthrough]];\n        case RedundancyMode::STRIPE:
+        [[fallthrough]];
+        case RedundancyMode::STRIPE:
             return 0;  // No fault tolerance
         case RedundancyMode::MIRROR:
-        [[fallthrough]];\n        case RedundancyMode::STRIPE_MIRROR:
-        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];
+        case RedundancyMode::STRIPE_MIRROR:
+        [[fallthrough]];
+        case RedundancyMode::GEO_MIRROR:
             return replication_factor - 1;
         case RedundancyMode::PARITY:
-        [[fallthrough]];\n        case RedundancyMode::RAID6:
+        [[fallthrough]];
+        case RedundancyMode::RAID6:
             return erasure_coding.faultTolerance();
         default:
             return 0;
@@ -219,10 +225,12 @@ uint32_t RedundancyConfig::getFaultTolerance() const {
 uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
     switch (mode) {
         case RedundancyMode::NONE:
-        [[fallthrough]];\n        case RedundancyMode::STRIPE:
+        [[fallthrough]];
+        case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::PARITY:
-        [[fallthrough]];\n        case RedundancyMode::RAID6:
+        [[fallthrough]];
+        case RedundancyMode::RAID6:
             return erasure_coding.totalShards();
         default:
             return replication_factor;
@@ -242,7 +250,7 @@ std::vector<uint8_t> ChunkInfo::serialize() const {
 }
 
 /** @brief Deserialize chunk metadata from binary payload (placeholder parser). */
-std::optional<ChunkInfo> ChunkInfo::deserialize([[maybe_unused]] const std::vector<uint8_t>& data) {
+std::optional<ChunkInfo> ChunkInfo::deserialize(const std::vector<uint8_t>& data) {
     // Simple binary deserialization
     // In production, use protobuf or similar
     return std::nullopt;
@@ -275,7 +283,7 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
 }
 
 /** @brief Return whether available data+parity chunks are sufficient for recovery. */
-bool StripeGroup::canRecover(uint32_t data_shards, [[maybe_unused]] uint32_t parity_shards) const {
+bool StripeGroup::canRecover(uint32_t data_shards, uint32_t parity_shards) const {
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
         if (!chunk.shard_id.empty()) {
@@ -496,7 +504,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     }
 
     // Apply inverse matrix byte-by-byte to recover original data chunks
-    size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
+    size_t chunk_size = available_chunks.begin()->second.size();
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                       std::vector<uint8_t>(chunk_size, 0));
     for (size_t x = 0; x < chunk_size; ++x) {
@@ -537,7 +545,7 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return p;
 }
 
-uint8_t ReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
+uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
       return 0;
     }
@@ -606,7 +614,7 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
 }
 
 // Galois Field inverse using Extended Euclidean algorithm
-uint8_t CauchyReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
+uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
       return 0;
     }
@@ -843,7 +851,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
     
     // Need to use erasure decoding
-    size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
+    size_t chunk_size = available_chunks.begin()->second.size();
     uint32_t total_shards = data_shards + parity_shards;
     
     // Build full Cauchy matrix (identity for data, Cauchy for parity)
@@ -947,7 +955,7 @@ static uint8_t lrc_gf_pow(uint8_t a, uint8_t exp) {
     return r;
 }
 
-static uint8_t lrc_gf_inv([[maybe_unused]] uint8_t a) {
+static uint8_t lrc_gf_inv(uint8_t a) {
     // Extended Euclidean / brute-force for GF(2^8)
     for (int b = 1; b < 256; ++b)
         if (lrc_gf_mul(a, static_cast<uint8_t>(b)) == 1)
@@ -955,7 +963,7 @@ static uint8_t lrc_gf_inv([[maybe_unused]] uint8_t a) {
     return 0;
 }
 
-[[maybe_unused]] static void lrc_gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
+static void lrc_gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
                                                 const std::vector<uint8_t>& v,
                                                 std::vector<uint8_t>& result) {
     const std::size_t rows = m.size(), cols = v.size();
@@ -1105,7 +1113,7 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
     const uint32_t n_total   = data_shards + parity_shards;
     const uint32_t n_local   = localGroupCount(data_shards, parity_shards);
     const uint32_t shard_size = static_cast<uint32_t>(
-        available_chunks.begin()-> static_cast<int>(second.size()));
+        available_chunks.begin()->second.size());
 
     // Build full shard array (fill known shards; zeros for missing)
     std::vector<std::vector<uint8_t>> shards(n_total,
@@ -1300,7 +1308,7 @@ std::vector<uint8_t> HammingCoder::decode(
 
     const uint32_t total_shards = data_shards + parity_shards;
     const uint32_t shard_size =
-        static_cast<uint32_t>(available_chunks.begin()-> static_cast<int>(second.size()));
+        static_cast<uint32_t>(available_chunks.begin()->second.size());
 
     // Fast path: all data shards present
     if (missing_indices.empty()) {
@@ -1514,7 +1522,7 @@ void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double 
 WriteResult RedundancyStrategy::write(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
-    const std::string& collection [[maybe_unused]],
+    const std::string& collection ,
     ConsistentHashRing& ring,
     ShardTopology& topology,
     WriteHandler handler
@@ -1559,7 +1567,8 @@ WriteResult RedundancyStrategy::write(
                 result = writeStripeMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
-            [[fallthrough]];\n            case RedundancyMode::RAID6:
+            [[fallthrough]];
+            case RedundancyMode::RAID6:
                 result = writeParity(document_id, data, ring, topology, handler);
                 break;
             default:
@@ -1592,7 +1601,7 @@ WriteResult RedundancyStrategy::write(
  */
 ReadResult RedundancyStrategy::read(
     const std::string& document_id,
-    const std::string& collection [[maybe_unused]],
+    const std::string& collection ,
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler handler
@@ -1628,18 +1637,21 @@ ReadResult RedundancyStrategy::read(
     try {
         switch (mode) {
             case RedundancyMode::NONE:
-            [[fallthrough]];\n            case RedundancyMode::MIRROR:
+            [[fallthrough]];
+            case RedundancyMode::MIRROR:
                 result = readMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::GEO_MIRROR:
                 result = readGeoMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
-            [[fallthrough]];\n            case RedundancyMode::STRIPE_MIRROR:
+            [[fallthrough]];
+            case RedundancyMode::STRIPE_MIRROR:
                 result = readStripe(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
-            [[fallthrough]];\n            case RedundancyMode::RAID6:
+            [[fallthrough]];
+            case RedundancyMode::RAID6:
                 result = readParity(document_id, ring, topology, handler);
                 break;
             default:
@@ -1670,7 +1682,7 @@ WriteResult RedundancyStrategy::writeMirror(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
     ConsistentHashRing& ring,
-    ShardTopology& topology [[maybe_unused]],
+    ShardTopology& topology ,
     WriteHandler handler
 ) {
     // Get primary shard
@@ -1954,7 +1966,7 @@ WriteResult RedundancyStrategy::writeStripe(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
     ConsistentHashRing& ring,
-    ShardTopology& topology [[maybe_unused]],
+    ShardTopology& topology ,
     WriteHandler handler
 ) {
     // Split data into chunks
@@ -2056,8 +2068,10 @@ WriteResult RedundancyStrategy::writeStripe(
             success = successful >= 1;
             break;
         case WriteConcern::MAJORITY:
-        [[fallthrough]];\n        case WriteConcern::ALL:
-        [[fallthrough]];\n        case WriteConcern::QUORUM:
+        [[fallthrough]];
+        case WriteConcern::ALL:
+        [[fallthrough]];
+        case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
         default: break;
@@ -2111,7 +2125,7 @@ WriteResult RedundancyStrategy::writeParity(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
     ConsistentHashRing& ring,
-    ShardTopology& topology [[maybe_unused]],
+    ShardTopology& topology ,
     WriteHandler handler
 ) {
     // W2-S06: Erasure coding consensus — snapshot config under lock to prevent races
@@ -2454,7 +2468,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
             geo.failed_regions.begin(), geo.failed_regions.end());
         candidates.erase(
             std::remove_if(candidates.begin(), candidates.end(),
-                [&]([[maybe_unused]] const std::string& sid) {
+                [&](const std::string& sid) {
                     auto info = topology.getShard(sid);
                     return info && read_failed_set.count(info->region);
                 }),
@@ -2518,7 +2532,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
         std::vector<std::string> ordered = candidates;
         if (!geo.local_region.empty()) {
             std::stable_partition(ordered.begin(), ordered.end(),
-                [&]([[maybe_unused]] const std::string& sid) {
+                [&](const std::string& sid) {
                     auto info = topology.getShard(sid);
                     return info && info->region == geo.local_region;
                 });
@@ -2688,7 +2702,7 @@ ReadResult RedundancyStrategy::readMirror(
 ReadResult RedundancyStrategy::readStripe(
     const std::string& document_id,
     ConsistentHashRing& ring,
-    ShardTopology& topology [[maybe_unused]],
+    ShardTopology& topology ,
     ReadHandler handler
 ) {
     ReadResult result;
@@ -2741,7 +2755,7 @@ ReadResult RedundancyStrategy::readStripe(
 ReadResult RedundancyStrategy::readParity(
     const std::string& document_id,
     ConsistentHashRing& ring,
-    [[maybe_unused]] ShardTopology& topology,
+    ShardTopology& topology,
     ReadHandler handler
 ) {
     // W2-S06: Read consensus for erasure coding — snapshot config under lock to prevent races
@@ -3221,7 +3235,7 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
  */
 bool RedundancyStrategy::remove(
     const std::string& document_id,
-    const std::string& collection [[maybe_unused]],
+    const std::string& collection ,
     ConsistentHashRing& ring,
     ShardTopology& topology,
     WriteHandler handler
@@ -3362,7 +3376,7 @@ bool RedundancyStrategy::remove(
  */
 bool RedundancyStrategy::recoverDocument(
     const std::string& document_id,
-    const std::string& collection [[maybe_unused]],
+    const std::string& collection ,
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler read_handler,
@@ -3537,7 +3551,7 @@ bool RedundancyStrategy::recoverDocument(
  */
 RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     const std::string& document_id,
-    const std::string& collection [[maybe_unused]],
+    const std::string& collection ,
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler handler

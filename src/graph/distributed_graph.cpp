@@ -165,7 +165,7 @@ DistributedGraphManager::healthyShards() const {
     return result;
 }
 
-size_t DistributedGraphManager::effectiveParallelism([[maybe_unused]] size_t num_shards) const {
+size_t DistributedGraphManager::effectiveParallelism(size_t num_shards) const {
     if (config_.max_parallel_shards == 0) {
         return num_shards;
     }
@@ -218,7 +218,8 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
         case PartitionStrategy::CUSTOM:
             [[fallthrough]];
         case PartitionStrategy::HASH:
-        [[fallthrough]];\n        default: {
+        [[fallthrough]];
+        default: {
             // FNV-1a hash → uniform bucket assignment.
             uint64_t h = 14695981039346656037;
             for (unsigned char c : local_vertex_id) {
@@ -434,10 +435,10 @@ DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<GraphQueryOptimizer::OptimizationPlan>
-DistributedGraphManager::optimizePlan([[maybe_unused]] std::string_view start_vertex,
-                                      [[maybe_unused]] std::string_view target_vertex,
+DistributedGraphManager::optimizePlan(std::string_view start_vertex,
+                                      std::string_view target_vertex,
                                       GraphQueryOptimizer::QueryPattern pattern,
-                                      [[maybe_unused]] const GraphQueryOptimizer::QueryConstraints &constraints) {
+                                      const GraphQueryOptimizer::QueryConstraints &constraints) {
     if (const auto constraint_error = validateConstraintSet(constraints); constraint_error.has_value()) {
         return makeInvalidTraversalInput<GraphQueryOptimizer::OptimizationPlan>("optimize_plan", *constraint_error);
     }

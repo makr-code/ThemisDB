@@ -399,7 +399,7 @@ bool CUDAVectorBackend::isHnswIndexBuilt() const noexcept {
     return hnswEngine_ && hnswEngine_->isBuilt();
 }
 
-void CUDAVectorBackend::setMaxBatchSize([[maybe_unused]] size_t n) {
+void CUDAVectorBackend::setMaxBatchSize(size_t n) {
     if (n == 0) {
         n = 1;
     }

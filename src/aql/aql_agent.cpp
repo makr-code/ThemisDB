@@ -31,7 +31,7 @@ namespace aql {
 class ReActAgent::Impl {
   public:
     explicit Impl(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-        : handler_([[maybe_unused]] std::move(handler)), config_(config) {}
+        : handler_(std::move(handler)), config_(config) {}
 
     // -----------------------------------------------------------------------
     // Tool registry
@@ -231,7 +231,7 @@ class ReActAgent::Impl {
         ReasoningStep step;
 
         // Extract Thought:
-        auto extract_field = [&]([[maybe_unused]] const std::string &field_prefix) -> std::string {
+        auto extract_field = [&](const std::string &field_prefix) -> std::string {
             auto pos = response.find(field_prefix);
             if (pos == std::string::npos) {
                 return "";
@@ -302,7 +302,7 @@ class ReActAgent::Impl {
 // ============================================================================
 
 ReActAgent::ReActAgent(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-    : impl_([[maybe_unused]] std::make_unique<Impl>(std::move(handler), config)) {}
+    : impl_(std::make_unique<Impl>(std::move(handler), config)) {}
 
 ReActAgent::~ReActAgent() = default;
 

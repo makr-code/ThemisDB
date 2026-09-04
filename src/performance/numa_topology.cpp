@@ -42,7 +42,7 @@ namespace performance {
 // NumaTopology helpers
 // ============================================================================
 
-int NumaTopology::node_of_cpu([[maybe_unused]] int cpu_id) const noexcept {
+int NumaTopology::node_of_cpu(int cpu_id) const noexcept {
     for (const auto& node : nodes) {
         for (int c : node.cpu_ids) {
             if (c == cpu_id) {
@@ -331,7 +331,7 @@ static bool set_affinity_from_cpu_set(cpu_set_t* cs) noexcept {
     return pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), cs) == 0;
 }
 
-bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
+bool ThreadPinner::pin_to_cpu(int cpu_id) noexcept {
     if (cpu_id < 0) {
       return false;
     }
@@ -341,7 +341,7 @@ bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
     return set_affinity_from_cpu_set(&cs);
 }
 
-bool ThreadPinner::pin_to_node([[maybe_unused]] int node_id) noexcept {
+bool ThreadPinner::pin_to_node(int node_id) noexcept {
     const auto& topo = NumaTopologyDetector::detect();
     for (const auto& node : topo.nodes) {
         if (node.node_id == node_id) {
@@ -403,7 +403,7 @@ int ThreadPinner::current_node() noexcept {
 
 #elif defined(_WIN32)
 
-bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
+bool ThreadPinner::pin_to_cpu(int cpu_id) noexcept {
     if (cpu_id < 0) {
       return false;
     }
@@ -413,7 +413,7 @@ bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
     return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;
 }
 
-bool ThreadPinner::pin_to_node([[maybe_unused]] int node_id) noexcept {
+bool ThreadPinner::pin_to_node(int node_id) noexcept {
     if (node_id < 0) {
       return false;
     }
@@ -480,8 +480,8 @@ int ThreadPinner::current_node() noexcept {
 
 #else // Generic fallback
 
-bool ThreadPinner::pin_to_cpu([[maybe_unused]] int /*cpu_id*/) noexcept { return false; }
-bool ThreadPinner::pin_to_node([[maybe_unused]] int /*node_id*/) noexcept { return false; }
+bool ThreadPinner::pin_to_cpu(int /*cpu_id*/) noexcept { return false; }
+bool ThreadPinner::pin_to_node(int /*node_id*/) noexcept { return false; }
 bool ThreadPinner::pin_to_cpus(const std::vector<int>& /*cpu_ids*/) noexcept { return false; }
 bool ThreadPinner::unpin() noexcept { return false; }
 

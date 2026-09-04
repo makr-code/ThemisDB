@@ -440,7 +440,7 @@ bool WikiIndexStore::isReady() const noexcept {
 // WikiIndexStore — Evaluation API (Recall@k / MRR / p95)
 // ─────────────────────────────────────────────────────────────────────────────
 
-void WikiIndexStore::recordLatencyLocked([[maybe_unused]] double latency_ms) const noexcept {
+void WikiIndexStore::recordLatencyLocked(double latency_ms) const noexcept {
     // Ring buffer: overwrite oldest entry when full.
     latency_ring_[latency_ring_head_] = latency_ms;
     latency_ring_head_ = (latency_ring_head_ + 1) % kLatencyRingSize;
@@ -465,7 +465,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // ── Recall@k ────────────────────────────────────────────────────────
         // For each k: count how many of the top-k returned results have a
         // doc_id in the ground-truth set, normalised by ground-truth size.
-        auto recall_at = [&]([[maybe_unused]] int k) -> double {
+        auto recall_at = [&](int k) -> double {
             const int n = std::min(k, static_cast<int>(results.size()));
             int hits = 0;
             for (int i = 0; i < n; ++i) {
@@ -833,8 +833,8 @@ void JsonWikiIndexReader::load() {
         c.line_start    = obj.value("line_start",      0);
         c.line_end      = obj.value("line_end",        0);
         c.text          = obj.value("text",            "");
-        // Optional score_override (no[[maybe_unused]] t i[[maybe_unused]] n basi[[maybe_unused]] c MV[[maybe_unused]] P forma[[maybe_unused]] t, bu[[maybe_unused]] t accepte[[maybe_unused]] d)
-        if (ob[[maybe_unused]] j.contain[[maybe_unused]] s("score_overrid[[maybe_unused]] e") && obj["score_override"].is_number()) {
+        // Optional score_override (not in basic MVP format, but accepted)
+        if (obj.contains("score_override") && obj["score_override"].is_number()) {
             c.score = obj["score_override"].get<float>();
         }
         if (!c.chunk_id.empty()) {

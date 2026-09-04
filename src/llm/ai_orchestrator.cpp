@@ -93,7 +93,7 @@ constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
     }
 
     // Precedence rule: explicit tenant_budget_override wins over tenant_budgets map.
-    if (extr[[maybe_unused]] a.contain[[maybe_unused]] s("tenant_budget_overrid[[maybe_unused]] e")) {
+    if (extra.contains("tenant_budget_override")) {
         if (!extra["tenant_budget_override"].is_number()) {
             return {
                 std::nullopt,
@@ -160,7 +160,7 @@ constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
 class ThemisRagCostModelService final : public IRagCostModelService {
 public:
     [[nodiscard]] std::optional<RagCostEstimate>
-    estimate(cons[[maybe_unused]] t RagCostModelInput& [[maybe_unused]] input) const override {
+    estimate(const RagCostModelInput& input) const override {
         const json extra = input.extra.is_object() ? input.extra : json::object();
 
         ::themis::query::DistributedQueryCostModel model;
@@ -827,7 +827,7 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
 std::string AIOrchestrator::assemblePrompt(
         const std::string&                         query,
         const std::vector<RAGContext::Document>&   docs,
-        [[maybe_unused]] const ModeSpec&           mode) const {
+        const ModeSpec&           mode) const {
     if (docs.empty()) {
         return query;
     }
@@ -955,7 +955,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
     double effective_budget_limit = policy_copy.max_total_cost;
     std::string effective_budget_source = "policy";
-    const auto tenant_budget_override = resolveTenantBudgetOverride(ct[[maybe_unused]] x.extr[[maybe_unused]] a, tenan[[maybe_unused]] t);
+    const auto tenant_budget_override = resolveTenantBudgetOverride(ctx.extra, tenant);
     if (tenant_budget_override.value.has_value() && tenant_budget_override.value.value() > 0.0) {
         effective_budget_limit = tenant_budget_override.value.value();
         effective_budget_source = tenant_budget_override.source;
@@ -1074,7 +1074,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     if (mode.retrieval.enabled) {
         // Filter by threshold
         docs.erase(std::remove_if(docs.begin(), docs.end(),
-            [&]([[maybe_unused]] const RAGContext::Document& d) {
+            [&](const RAGContext::Document& d) {
                 return d.relevance_score < mode.retrieval.threshold;
             }), docs.end());
 

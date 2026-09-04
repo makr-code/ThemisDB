@@ -249,7 +249,7 @@ bool GPUUnifiedMemoryAllocator::free(void *ptr) {
 // prefetch
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, [[maybe_unused]] int device_id) {
+bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, int device_id) {
     if (!ptr || bytes == 0) {
         return false;
     }
@@ -290,7 +290,7 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, [[maybe_
 // advise
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_unused]] MemAdvice advice, [[maybe_unused]] int device_id) {
+bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, MemAdvice advice, int device_id) {
     if (!ptr || bytes == 0) {
         return false;
     }

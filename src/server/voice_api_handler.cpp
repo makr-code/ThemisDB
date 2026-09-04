@@ -71,7 +71,7 @@ namespace {
                 octets[i] = octet;
             }
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "voice_api_handler::parseIPv4: unhandled exception caught");
+            THEMIS_WARN("voice_api_handler::parseIPv4: unhandled exception caught");
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -215,7 +215,7 @@ VoiceApiHandler::VoiceApiHandler(
 http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRequest");
+    auto span = Tracer::startSpan("handleRequest");
     if (!voice_assistant_) {
         return createErrorResponse(
             http::status::service_unavailable,
@@ -256,7 +256,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         return handleWakeWordDetect(req);
     }
     else if (path == "/api/v1/voice/call/record" && method == http::verb::post) {
-        return handleRecordCall([[maybe_unused]] req);
+        return handleRecordCall(req);
     }
     else if (path == "/api/v1/voice/meeting/protocol" && method == http::verb::post) {
         return handleGenerateProtocol(req);
@@ -789,7 +789,7 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     json segments_json = json::array();
     std::string full_transcript = {};
 
-    auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
+    auto on_segment = [&](const content::TranscriptionSegment& seg) {
         json seg_obj;
         seg_obj["text"]       = seg.text;
         seg_obj["start_ms"]   = seg.start_ms;
@@ -846,7 +846,7 @@ http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
 http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRecordCall");
+    auto span = Tracer::startSpan("handleRecordCall");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -1654,7 +1654,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
             }
             limit = static_cast<size_t>(parsed_limit);
         } catch (...) {
-            THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
+            THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1753,7 +1753,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
             }
             limit = static_cast<size_t>(parsed_limit);
         } catch (...) {
-            THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
+            THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1809,14 +1809,14 @@ bool VoiceApiHandler::validateBearerToken(
 ) {
     const auto auth_header = req[http::field::authorization];
     if (auth_header.empty()) {
-        THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: missing Authorization header");
+        THEMIS_DEBUG("VoiceApiHandler: missing Authorization header");
         return false;
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
         std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token || token->empty()) {
-        THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: missing or empty bearer token");
+        THEMIS_DEBUG("VoiceApiHandler: missing or empty bearer token");
         return false;
     }
 
@@ -1828,7 +1828,7 @@ bool VoiceApiHandler::validateBearerToken(
             try {
                 const bool valid = s_token_validator_fn(*token);
                 if (!valid) {
-                    THEMIS_WARN([[maybe_unused]] "VoiceApiHandler: injected token validator rejected token");
+                    THEMIS_WARN("VoiceApiHandler: injected token validator rejected token");
                 }
                 return valid;
             } catch (const std::exception& ex) {
@@ -1841,7 +1841,7 @@ bool VoiceApiHandler::validateBearerToken(
     // Fallback: use AuthMiddleware validation if no injected validator.
     // This validates static tokens and JWT if configured in AuthMiddleware.
     if (!auth_) {
-        THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: no AuthMiddleware configured; rejecting token");
+        THEMIS_DEBUG("VoiceApiHandler: no AuthMiddleware configured; rejecting token");
         return false;
     }
     auto& auth = *auth_;
@@ -1849,7 +1849,7 @@ bool VoiceApiHandler::validateBearerToken(
     try {
         const auto auth_result = auth.validateToken(*token);
         if (!auth_result.authorized) {
-            THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: AuthMiddleware rejected token");
+            THEMIS_DEBUG("VoiceApiHandler: AuthMiddleware rejected token");
         }
         return auth_result.authorized;
     } catch (const std::exception& ex) {
@@ -1906,7 +1906,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
     try {
         return json::parse(req.body());
     } catch (...) {
-        THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
+        THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -1939,7 +1939,7 @@ std::vector<uint8_t> VoiceApiHandler::extractAudioData(
     return std::vector<uint8_t>(req.body().begin(), req.body().end());
 }
 
-std::vector<uint8_t> VoiceApiHandler::decodeBase64([[maybe_unused]] const std::string& encoded) {
+std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
     static const int T[256] = {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -1980,7 +1980,7 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64([[maybe_unused]] const std::s
     return out;
 }
 
-std::string VoiceApiHandler::encodeBase64([[maybe_unused]] const std::vector<uint8_t>& data) {
+std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     static const char b64_table[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
@@ -2013,7 +2013,7 @@ std::string VoiceApiHandler::encodeBase64([[maybe_unused]] const std::vector<uin
     return out;
 }
 
-std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl([[maybe_unused]] const std::string& url) {
+std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {
     // Validate URL format - parseURL will handle this
     if (url.empty()) {
         throw std::invalid_argument("URL cannot be empty");
@@ -2029,7 +2029,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl([[maybe_unused]] cons
     try {
         components = utils::parseURL(url);
     } catch (...) {
-        THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
+        THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
         throw std::invalid_argument("Invalid URL format");
     }
     
@@ -2451,7 +2451,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
 }
 
 http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
-    [[maybe_unused]] const http::request<http::string_body>& req)
+    const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleAuthListProfiles");
     const auto profiles = voice_assistant_->listVoiceProfiles();
@@ -2466,7 +2466,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
 }
 
 http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
-    [[maybe_unused]] const http::request<http::string_body>& req,
+    const http::request<http::string_body>& req,
     const std::string& profile_id)
 {
     auto span = Tracer::startSpan("handleAuthDeleteProfile");
@@ -2489,13 +2489,13 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
 
 // CRITICAL FIX for stub #302: Static token validator implementation.
 // Enables injection of proper JWT/OIDC validation at runtime.
-void VoiceApiHandler::setTokenValidatorFn([[maybe_unused]] TokenValidatorFn fn) {
+void VoiceApiHandler::setTokenValidatorFn(TokenValidatorFn fn) {
     std::lock_guard<std::mutex> lock(s_token_validator_mutex);
     s_token_validator_fn = std::move(fn);
     if (fn) {
-        THEMIS_INFO([[maybe_unused]] "VoiceApiHandler: JWT/OIDC token validator installed");
+        THEMIS_INFO("VoiceApiHandler: JWT/OIDC token validator installed");
     } else {
-        THEMIS_INFO([[maybe_unused]] "VoiceApiHandler: JWT/OIDC token validator cleared (fallback to AuthMiddleware)");
+        THEMIS_INFO("VoiceApiHandler: JWT/OIDC token validator cleared (fallback to AuthMiddleware)");
     }
 }
 

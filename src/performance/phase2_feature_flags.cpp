@@ -91,7 +91,7 @@ static void detect_storage_capabilities(HardwareCapabilities& caps) {
     // Ordered candidate list: NVMe, virtio, and conventional SATA block devices.
     // For each, check the sysfs "rotational" flag: 0 = non-rotational (SSD/NVMe).
     // If the sysfs entry is absent, also accept the device existing at all
-    // (som[[maybe_unused]] e virtua[[maybe_unused]] l environment[[maybe_unused]] s do[[maybe_unused]] n't expos[[maybe_unused]] e th[[maybe_unused]] e rotationa[[maybe_unused]] l fla[[maybe_unused]] g).
+    // (some virtual environments don't expose the rotational flag).
     static const char* const kCandidates[] = {
         "/dev/nvme0n1", "/dev/nvme1n1",
         "/dev/vda",     "/dev/vdb",

@@ -164,7 +164,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	// Sortiere Prädikate nach (capped? maxProbe : count) aufsteigend
 	std::vector<size_t> idx(q.predicates.size());
 	std::iota(idx.begin(), idx.end(), 0);
-	std::sort([[maybe_unused]] idx.begin(), idx.end(), [&](size_t a, size_t b){
+	std::sort(idx.begin(), idx.end(), [&](size_t a, size_t b){
 		auto va = plan.details[a];
 		auto vb = plan.details[b];
 		auto ea = va.capped ? maxProbePerPred : va.estimatedCount;
@@ -546,7 +546,7 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 
 // ---------------- Adaptive & Distributed Optimization ----------------
 
-void QueryOptimizer::enableAdaptiveOptimization([[maybe_unused]] bool enable) {
+void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
 	adaptive_enabled_ = enable;
 	
 	if (enable && !adaptive_stats_) {
@@ -697,7 +697,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 
 bool QueryOptimizer::DistributedQueryCostModel::shouldPrunePartition(
     const ShardInfo& info, 
-	[[maybe_unused]] size_t total_shards, 
+	size_t total_shards, 
     double selectivity) const {
     
     // Production implementation: Prune partitions with low expected row count
@@ -896,7 +896,7 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
 QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
 	size_t k,
 	size_t dataset_size,
-	[[maybe_unused]] size_t dimension,
+	size_t dimension,
 	double target_recall) const {
 	
 	VectorWorkloadPlan plan;

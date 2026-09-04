@@ -48,7 +48,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             params.M = std::max(8, params.M - 6);  // Optimize for bulk loading
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+default:
             // Keep default M
             break;
     }
@@ -74,7 +75,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             params.ef_construction = static_cast<int>(params.ef_construction * 0.6);
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+default:
             // Keep default ef_construction
             break;
     }
@@ -97,7 +99,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             // ef_search less relevant for batch insert
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+default:
             // Keep default ef_search
             break;
     }
@@ -161,7 +164,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedP
             profile = PerformanceProfile::LATENCY_OPTIMIZED;  // Fast inserts
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+default:
             profile = PerformanceProfile::BALANCED;
             break;
     }
@@ -169,7 +173,7 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedP
     return getRecommendedParams(dataset_size, dimension, profile, workload);
 }
 
-int HnswProductionDefaults::getRecommendedM([[maybe_unused]] size_t dataset_size) {
+int HnswProductionDefaults::getRecommendedM(size_t dataset_size) {
     // Based on HNSW paper and production experience
     // Smaller M for small datasets (faster build, less memory)
     // Larger M for large datasets (better connectivity, higher recall)
@@ -211,7 +215,7 @@ int HnswProductionDefaults::getRecommendedEfSearch(
     size_t k,
     PerformanceProfile profile) {
     
-    // ef_search must be >= k
+    // ef_search must be >=k
     // Higher ef_search = better recall but slower queries
     
     int base_ef = static_cast<int>(k);
@@ -252,9 +256,9 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
     WorkloadType workload = WorkloadType::MIXED;
     if (target_latency_ms > 0.0 && target_latency_ms < 5.0) {
         workload = WorkloadType::OLTP;
-    } else if (target_recall >= 0.98) {
+    } else if (target_recall >=0.98) {
         workload = WorkloadType::ANALYTICS;
-    } else if (target_recall >= 0.95 && target_latency_ms >= 5.0 && target_latency_ms <= 20.0) {
+    } else if (target_recall >=0.95 && target_latency_ms >=5.0 && target_latency_ms <= 20.0) {
         workload = WorkloadType::RAG;
     }
 
@@ -262,9 +266,9 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
 
     // Fine-tune ef_construction based on the recall target.
     // A higher recall target during construction means a denser graph is needed.
-    if (target_recall >= 0.99) {
+    if (target_recall >=0.99) {
         params.ef_construction = static_cast<int>(params.ef_construction * 1.5);
-    } else if (target_recall >= 0.97) {
+    } else if (target_recall >=0.97) {
         params.ef_construction = static_cast<int>(params.ef_construction * 1.2);
     } else if (target_recall < 0.90) {
         params.ef_construction = static_cast<int>(params.ef_construction * 0.8);
@@ -394,7 +398,7 @@ int HnswRuntimeAdapter::adjustEfSearch(
     int new_ef = current_ef;
     
     // Priority 1: Meet recall target if we have recall data
-    if (actual_recall >= 0.0) {
+    if (actual_recall >=0.0) {
         if (actual_recall < target_recall - 0.01) {
             // Recall too low - increase ef_search
             new_ef = static_cast<int>(current_ef * 1.2);
@@ -461,11 +465,11 @@ double HnswRuntimeAdapter::getOverfetchMultiplier(
     // When applying post-filters, need to fetch more candidates
     // to ensure we get k results after filtering
     
-    if (filter_selectivity >= 0.9) {
+    if (filter_selectivity >=0.9) {
         return 1.2;  // High selectivity - minimal overfetch
-    } else if (filter_selectivity >= 0.5) {
+    } else if (filter_selectivity >=0.5) {
         return 2.0;  // Medium selectivity
-    } else if (filter_selectivity >= 0.1) {
+    } else if (filter_selectivity >=0.1) {
         return 5.0;  // Low selectivity
     } else {
         // Very low selectivity - use heuristic based on k
@@ -476,4 +480,5 @@ double HnswRuntimeAdapter::getOverfetchMultiplier(
 
 } // namespace index
 } // namespace themis
+
 

@@ -196,14 +196,14 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
     }
 }
 
-void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-    entry_cb_ = std::move([[maybe_unused]] callback);
+void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-    invalidation_cb_ = std::move([[maybe_unused]] callback);
+void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    invalidation_cb_ = std::move(callback);
 }
 
 bool RedisCacheCoordinator::isConnected() const {
@@ -401,14 +401,14 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 // ICacheCoordinator – subscriber side
 // ---------------------------------------------------------------------------
 
-void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-    entry_cb_ = std::move([[maybe_unused]] callback);
+void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-    invalidation_cb_ = std::move([[maybe_unused]] callback);
+void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    invalidation_cb_ = std::move(callback);
 }
 
 // ---------------------------------------------------------------------------
@@ -768,7 +768,7 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     //   $<n>\r\n <channel>\r\n
     //   $<n>\r\n <payload>\r\n   (or :<count> for subscribe reply)
 
-    auto readBulkString = [&]([[maybe_unused]] std::string &out) -> bool {
+    auto readBulkString = [&](std::string &out) -> bool {
         std::string line = {};
         if (!readLine(fd, line))
             return false = {};
@@ -851,7 +851,7 @@ void RedisCacheCoordinator::dispatchMessage(const std::string &channel, const st
     EntryCallback entry_cb;
     InvalidationCallback inv_cb;
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+        std::lock_guard<std::mutex> lk(callbacks_mutex_);
         entry_cb = entry_cb_;
         inv_cb   = invalidation_cb_;
     }

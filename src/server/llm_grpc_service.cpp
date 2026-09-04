@@ -107,7 +107,7 @@ std::string LLMGrpcService::extractBearerToken(grpc::ServerContext* context) {
         return "";
     }
     
-    std::string auth_value(it->second.data(), it-> static_cast<int>(second.size()));
+    std::string auth_value(it->second.data(), it->second.size());
     std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
     std::smatch matches = {};
     

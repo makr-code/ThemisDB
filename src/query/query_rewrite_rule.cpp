@@ -90,7 +90,7 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
     // Recursively collect from left (which might itself be an OR chain)
     OrChain result;
 
-    auto processEq = [&]([[maybe_unused]] const nlohmann::json& eq) -> bool {
+    auto processEq = [&](const nlohmann::json& eq) -> bool {
         if (!hasType(eq, "eq")) {
           return false;
         }
@@ -132,7 +132,7 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
         }
         result.field = sub->field;
         // Reserve capacity to avoid invalidation during resize
-        result.values.reserve(result.values.size() + sub-> static_cast<int>(values.size()));
+        result.values.reserve(result.values.size() + sub->values.size());
         // Move values instead of copying to be more efficient
         for (auto& val : sub->values) {
             result.values.push_back(std::move(val));
@@ -189,7 +189,7 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
     // "scan" child's own children, if a scan child is present.
     size_t changes = 0;
 
-    auto tryPush = [&]([[maybe_unused]] nlohmann::json& node) {
+    auto tryPush = [&](nlohmann::json& node) {
         // Only apply to JOIN nodes.
         if (!hasType(node, "join")) {
           return;
@@ -271,7 +271,7 @@ size_t ProjectionPushdownRule::apply(nlohmann::json& plan,
                                      const RewriteContext& /*ctx*/) const {
     size_t changes = 0;
 
-    auto tryPush = [&]([[maybe_unused]] nlohmann::json& node) {
+    auto tryPush = [&](nlohmann::json& node) {
         if (!hasType(node, "project")) {
           return;
         }
@@ -322,7 +322,7 @@ bool OrToInRewriteRule::applies(const nlohmann::json& plan,
           return false;
         }
         auto chain = collectOrChain(*cond_it);
-        return static_cast<bool>(chain.has_value() && chain- < static_cast<int>(values.size())) >= ctx.or_to_in_threshold;
+        return chain.has_value() && chain->values.size() >= ctx.or_to_in_threshold;
     }) > 0;
 }
 
@@ -330,7 +330,7 @@ size_t OrToInRewriteRule::apply(nlohmann::json& plan,
                                  const RewriteContext& ctx) const {
     size_t changes = 0;
 
-    auto tryRewrite = [&]([[maybe_unused]] nlohmann::json& node) {
+    auto tryRewrite = [&](nlohmann::json& node) {
         if (!hasType(node, "filter")) {
           return;
         }
@@ -342,7 +342,7 @@ size_t OrToInRewriteRule::apply(nlohmann::json& plan,
           return;
         }
         auto chain = collectOrChain(*cond_it);
-        if (!chain || chain-> static_cast<int>(values.size()) < ctx.or_to_in_threshold) {
+        if (!chain || chain->values.size() < ctx.or_to_in_threshold) {
           return;
         }
 
@@ -402,7 +402,7 @@ size_t ConstantFoldingRule::apply(nlohmann::json& plan,
     }
     size_t changes = 0;
 
-    auto tryFold = [&]([[maybe_unused]] nlohmann::json& node) {
+    auto tryFold = [&](nlohmann::json& node) {
         if (!node.is_object()) {
           return;
         }
@@ -455,7 +455,7 @@ bool CommonSubexpressionRule::applies(const nlohmann::json& plan,
     std::unordered_map<std::string, size_t> seen;
     bool found = false;
 
-    std::function<void(const nlohmann::json&)> walk = [&]([[maybe_unused]] const nlohmann::json& n) {
+    std::function<void(const nlohmann::json&)> walk = [&](const nlohmann::json& n) {
         if (!n.is_object()) {
           return;
         }
@@ -480,7 +480,7 @@ size_t CommonSubexpressionRule::apply(nlohmann::json& plan,
     size_t alias_counter = 0;
     size_t changes = 0;
 
-    std::function<void(nlohmann::json&)> walk = [&]([[maybe_unused]] nlohmann::json& n) {
+    std::function<void(nlohmann::json&)> walk = [&](nlohmann::json& n) {
         if (!n.is_object()) {
           return;
         }
@@ -514,7 +514,7 @@ size_t CommonSubexpressionRule::apply(nlohmann::json& plan,
 // QueryRewritePipeline
 // ─────────────────────────────────────────────────────────────────────────────
 
-QueryRewritePipeline::QueryRewritePipeline([[maybe_unused]] size_t max_iterations)
+QueryRewritePipeline::QueryRewritePipeline(size_t max_iterations)
     : max_iterations_(max_iterations) {}
 
 void QueryRewritePipeline::addRule(std::shared_ptr<IQueryRewriteRule> rule) {

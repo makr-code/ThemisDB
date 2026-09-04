@@ -34,7 +34,7 @@ namespace server {
 }
 
 /*static*/ std::string SamlAuthProvider::defaultTokenFactory(
-    [[maybe_unused]] const auth::SAMLClaims& claims)
+    const auth::SAMLClaims& claims)
 {
     // Generate a 16-byte random token and hex-encode it, prefix with "saml_"
     unsigned char buf[16]{};
@@ -176,12 +176,18 @@ nlohmann::json SamlAuthProvider::handleAcs(
                 http_status = 401;
                 break;
             case EC::SAML_REPLAY_DETECTED:
-            [[fallthrough]];\n            case EC::SAML_INVALID_SIGNATURE:
-            [[fallthrough]];\n            case EC::SAML_INVALID_RESPONSE:
-            [[fallthrough]];\n            case EC::SAML_MISSING_ASSERTION:
-            [[fallthrough]];\n            case EC::SAML_DESTINATION_MISMATCH:
-            [[fallthrough]];\n            case EC::SAML_STATUS_FAILURE:
-            [[fallthrough]];\n            case EC::SAML_ISSUER_MISMATCH:
+            [[fallthrough]];
+            case EC::SAML_INVALID_SIGNATURE:
+            [[fallthrough]];
+            case EC::SAML_INVALID_RESPONSE:
+            [[fallthrough]];
+            case EC::SAML_MISSING_ASSERTION:
+            [[fallthrough]];
+            case EC::SAML_DESTINATION_MISMATCH:
+            [[fallthrough]];
+            case EC::SAML_STATUS_FAILURE:
+            [[fallthrough]];
+            case EC::SAML_ISSUER_MISMATCH:
                 http_status = 401;
                 break;
             default:

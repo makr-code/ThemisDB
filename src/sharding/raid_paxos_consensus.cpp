@@ -160,12 +160,12 @@ int RAIDPaxosConsensus::calculateRAIDQuorumSize() const {
     return raid_config_.calculateQuorumSize(total_shards);
 }
 
-bool RAIDPaxosConsensus::isParityShard([[maybe_unused]] int shard_index) const {
+bool RAIDPaxosConsensus::isParityShard(int shard_index) const {
     return raid_config_.raid_mode == RAIDMode::PARITY &&
            shard_index == raid_config_.parity_shard_index;
 }
 
-bool RAIDPaxosConsensus::isDataShard([[maybe_unused]] int shard_index) const {
+bool RAIDPaxosConsensus::isDataShard(int shard_index) const {
     if (raid_config_.raid_mode != RAIDMode::PARITY) {
         return true;  // For non-RAID5, all shards are "data" shards
     }
@@ -212,35 +212,35 @@ std::optional<std::vector<uint8_t>> RAIDPaxosConsensus::reconstructFromParity(
     const std::vector<std::vector<uint8_t>>& data_chunks,
     int failed_shard_index
 ) const {
-    if ([[maybe_unused]] parity_reconstruction_callback_) {
+    if (parity_reconstruction_callback_) {
         try {
             return parity_reconstruction_callback_(data_chunks, failed_shard_index);
         } catch (const std::exception& e) {
             spdlog::error("RAIDPaxosConsensus: Parity reconstruction callback failed: {}", e.what());
         } catch (...) {
-            spdlog::error([[maybe_unused]] "RAIDPaxosConsensus: Parity reconstruction callback threw unknown exception");
+            spdlog::error("RAIDPaxosConsensus: Parity reconstruction callback threw unknown exception");
         }
     }
     
-    spdlog::warn([[maybe_unused]] "RAIDPaxosConsensus: No parity reconstruction callback configured");
+    spdlog::warn("RAIDPaxosConsensus: No parity reconstruction callback configured");
     return std::nullopt;
 }
 
-void RAIDPaxosConsensus::setParityReconstructionCallback([[maybe_unused]] ParityReconstructionFn fn) {
-    parity_reconstruction_callback_ = std::move([[maybe_unused]] fn);
-    spdlog::info([[maybe_unused]] "RAIDPaxosConsensus: Parity reconstruction callback set");
+void RAIDPaxosConsensus::setParityReconstructionCallback(ParityReconstructionFn fn) {
+    parity_reconstruction_callback_ = std::move(fn);
+    spdlog::info("RAIDPaxosConsensus: Parity reconstruction callback set");
 }
 
-void RAIDPaxosConsensus::setMirrorSelectionCallback([[maybe_unused]] MirrorSelectionFn fn) {
-    mirror_selection_callback_ = std::move([[maybe_unused]] fn);
-    spdlog::info([[maybe_unused]] "RAIDPaxosConsensus: Mirror selection callback set");
+void RAIDPaxosConsensus::setMirrorSelectionCallback(MirrorSelectionFn fn) {
+    mirror_selection_callback_ = std::move(fn);
+    spdlog::info("RAIDPaxosConsensus: Mirror selection callback set");
 }
 
 // ============================================================================
 // RAID failure handling
 // ============================================================================
 
-void RAIDPaxosConsensus::reportShardFailure([[maybe_unused]] int shard_index) {
+void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     
     if (failed_shards_.insert(shard_index).second) {
@@ -259,7 +259,7 @@ void RAIDPaxosConsensus::reportShardFailure([[maybe_unused]] int shard_index) {
     }
 }
 
-void RAIDPaxosConsensus::reportShardRecovery([[maybe_unused]] int shard_index) {
+void RAIDPaxosConsensus::reportShardRecovery(int shard_index) {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     
     if (failed_shards_.erase(shard_index)) {
@@ -275,7 +275,7 @@ std::vector<int> RAIDPaxosConsensus::getFailedShards() const {
     return std::vector<int>(failed_shards_.begin(), failed_shards_.end());
 }
 
-bool RAIDPaxosConsensus::isShardFailed([[maybe_unused]] int shard_index) const {
+bool RAIDPaxosConsensus::isShardFailed(int shard_index) const {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     return failed_shards_.find(shard_index) != failed_shards_.end();
 }

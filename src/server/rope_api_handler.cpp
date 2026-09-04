@@ -30,7 +30,7 @@ using json = nlohmann::json;
 // AuthorizeFn + StatsQueryFn bridges (stubs #280, #307)
 // ============================================================================
 
-void RopeApiHandler::setAuthorizeFn([[maybe_unused]] AuthorizeFn fn) {
+void RopeApiHandler::setAuthorizeFn(AuthorizeFn fn) {
     authorizeFn_ = std::move(fn);
 }
 
@@ -38,7 +38,7 @@ void RopeApiHandler::clearAuthorizeFn() {
     authorizeFn_ = nullptr;
 }
 
-void RopeApiHandler::setStatsQueryFn([[maybe_unused]] StatsQueryFn fn) {
+void RopeApiHandler::setStatsQueryFn(StatsQueryFn fn) {
     statsQueryFn_ = std::move(fn);
 }
 
@@ -71,7 +71,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigPost(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigPost");
+    auto span = Tracer::startSpan("handleRopeConfigPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -178,7 +178,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigGet(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigGet");
+    auto span = Tracer::startSpan("handleRopeConfigGet");
     span.setAttribute("http.method", "GET");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -246,7 +246,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigDelete(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeConfigDelete");
+    auto span = Tracer::startSpan("handleRopeConfigDelete");
     span.setAttribute("http.method", "DELETE");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -305,7 +305,7 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeAddPost");
+    auto span = Tracer::startSpan("handleRopeAddPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -435,7 +435,7 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeAddRelationalPost");
+    auto span = Tracer::startSpan("handleRopeAddRelationalPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -564,7 +564,7 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeSearchPost");
+    auto span = Tracer::startSpan("handleRopeSearchPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -683,7 +683,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeBatchAddPost");
+    auto span = Tracer::startSpan("handleRopeBatchAddPost");
     span.setAttribute("http.method", "POST");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -786,7 +786,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                 }
                 
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "rope_api_handler: unhandled exception caught");
+                THEMIS_WARN("rope_api_handler: unhandled exception caught");
                 ++errors;
             }
         }
@@ -829,7 +829,7 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
         }
     }
     
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRopeStatsGet");
+    auto span = Tracer::startSpan("handleRopeStatsGet");
     span.setAttribute("http.method", "GET");
     span.setAttribute("http.path", std::string(req.target()));
     
@@ -943,8 +943,8 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& permission,
-    [[maybe_unused]] const std::string& resource,
-    [[maybe_unused]] const std::string& path)
+    const std::string& resource,
+    const std::string& path)
 {
     // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
     // When auth middleware is not configured or not enabled, fail-closed by denying access.
@@ -995,7 +995,7 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     return std::nullopt;  // null = access allowed
 }
 
-std::optional<std::string> RopeApiHandler::extractIndexName([[maybe_unused]] const std::string& path) {
+std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {
     // Expected format: /api/v1/vector-index/{index_name}/rope/...
     const std::string prefix = "/api/v1/vector-index/";
     const std::string suffix = "/rope/";

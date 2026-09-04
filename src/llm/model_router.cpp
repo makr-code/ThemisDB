@@ -163,7 +163,7 @@ void ModelRouter::addRule(const RoutingRule& rule) {
 bool ModelRouter::removeRule(const std::string& rule_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(rules_.begin(), rules_.end(),
-        [&]([[maybe_unused]] const CompiledRule& cr) { return cr.rule.id == rule_id; });
+        [&](const CompiledRule& cr) { return cr.rule.id == rule_id; });
     if (it == rules_.end()) {
       return false;
     }

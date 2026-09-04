@@ -148,7 +148,7 @@ ExportStats IncrementalExporter::exportEntities(
                     auto now = std::chrono::steady_clock::now();
                     stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                         now - start_time);
-                    options.progress_callback([[maybe_unused]] stats);
+                    options.progress_callback(stats);
                 }
 
             } catch (const SizeLimitException&) {
@@ -203,7 +203,7 @@ ExportStats IncrementalExporter::exportEntities(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch ([[maybe_unused]] const std::exception& e) {
+            } catch (const std::exception& e) {
                 std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;
@@ -364,7 +364,7 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
             if (excluded) { continue; }
         }
 
-        std::visit([&]([[maybe_unused]] const auto& v) {
+        std::visit([&](const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, std::monostate>) {
                 j[key] = nullptr;

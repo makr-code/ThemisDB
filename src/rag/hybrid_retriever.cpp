@@ -351,7 +351,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
 // HybridRetrieverFactory
 // ---------------------------------------------------------------------------
 
-HybridRetriever HybridRetrieverFactory::createBalanced([[maybe_unused]] size_t top_k) {
+HybridRetriever HybridRetrieverFactory::createBalanced(size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.5;
     cfg.vector_weight = 0.5;
@@ -361,7 +361,7 @@ HybridRetriever HybridRetrieverFactory::createBalanced([[maybe_unused]] size_t t
     return HybridRetriever(cfg);
 }
 
-HybridRetriever HybridRetrieverFactory::createSemanticFocused([[maybe_unused]] size_t top_k) {
+HybridRetriever HybridRetrieverFactory::createSemanticFocused(size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.3;
     cfg.vector_weight = 0.7;
@@ -371,7 +371,7 @@ HybridRetriever HybridRetrieverFactory::createSemanticFocused([[maybe_unused]] s
     return HybridRetriever(cfg);
 }
 
-HybridRetriever HybridRetrieverFactory::createKeywordFocused([[maybe_unused]] size_t top_k) {
+HybridRetriever HybridRetrieverFactory::createKeywordFocused(size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.7;
     cfg.vector_weight = 0.3;

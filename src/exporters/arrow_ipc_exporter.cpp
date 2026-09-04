@@ -100,14 +100,14 @@ class FBuf {
     }
 
     /// Align to n bytes (prepend zero bytes)
-    void align([[maybe_unused]] uint32_t n) {
+    void align(uint32_t n) {
         while (buf_.size() % n != 0) {
             preByte(0);
         }
     }
 
     /// Prepend a single byte
-    void preByte([[maybe_unused]] uint8_t v) {
+    void preByte(uint8_t v) {
         buf_.insert(buf_.begin(), v);
     }
 
@@ -146,7 +146,7 @@ class FBuf {
 
     /// Prepend a UOffset field pointing to an object at cursor C_obj.
     ///   Stored value = cursor_after_this_write – C_obj
-    uint32_t preUOffset([[maybe_unused]] uint32_t C_obj) {
+    uint32_t preUOffset(uint32_t C_obj) {
         uint32_t val = (cursor() + 4) - C_obj;
         return pre32(static_cast<int32_t>(val));
     }
@@ -214,7 +214,7 @@ class FBuf {
     // ── Finalize: prepend root UOffset ────────────────────────────────────────
     // root_table_C = cursor AFTER writing the root table's soffset_t.
     // The root UOffset at position 0 of the final buffer points to the table.
-    void finishWithRoot([[maybe_unused]] uint32_t root_table_C) {
+    void finishWithRoot(uint32_t root_table_C) {
         preUOffset(root_table_C);
     }
 
@@ -270,7 +270,7 @@ static uint32_t buildEmptyTable(FBuf &fb) {
 //   data_size = 20
 //
 // Returns C_obj = cursor AFTER writing soffset_t.
-static uint32_t buildField(FBuf &fb, [[maybe_unused]] const std::string &name, uint32_t C_name_str,
+static uint32_t buildField(FBuf &fb, const std::string &name, uint32_t C_name_str,
                            uint32_t C_utf8_table, uint32_t C_children_vec) {
     // Prepend fields in REVERSE layout order (soffset_t last = lowest address)
 
@@ -656,7 +656,7 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
         std::vector<uint8_t> offsets_buf = {};
 
         offsets_buf.reserve((static_cast<int>(vals.size()) + 1) * 4);
-        auto append_i32 = [&]([[maybe_unused]] int32_t v) {
+        auto append_i32 = [&](int32_t v) {
             uint32_t u = static_cast<uint32_t>(v);
             offsets_buf.push_back(static_cast<uint8_t>(u & 0xFF));
             offsets_buf.push_back(static_cast<uint8_t>((u >> 8) & 0xFF));
@@ -930,7 +930,7 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     }
 
     // Schema message frame
-    [[maybe_unused]] int64_t schema_frame_start = file_pos;
+    int64_t schema_frame_start = file_pos;
     writeMessageFrame(out, schema_msg, {});
     // frame size: 4 (continuation) + 4 (meta_size) + static_cast<int>(schema_msg.size()) 
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());
@@ -988,8 +988,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     stats.bytes_written     = static_cast<size_t>(file_pos);
 
     // Progress callback
-    if ([[maybe_unused]] options.progress_callback) {
-        options.progress_callback([[maybe_unused]] stats);
+    if (options.progress_callback) {
+        options.progress_callback(stats);
     }
 
     THEMIS_INFO("ArrowIPCExporter: wrote {} entities, {} columns, {} bytes to {}", stats.exported_entities,
@@ -1094,8 +1094,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
     stats.exported_entities = entities.size();
     stats.bytes_written     = maybe_pos.ok() ? static_cast<size_t>(*maybe_pos) : 0;
 
-    if ([[maybe_unused]] options.progress_callback) {
-        options.progress_callback([[maybe_unused]] stats);
+    if (options.progress_callback) {
+        options.progress_callback(stats);
     }
 
     return stats;

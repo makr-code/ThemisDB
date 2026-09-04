@@ -160,7 +160,7 @@ LoRAEnhancedRetriever::rerank(
     if (config_.min_lora_score > 0.0) {
         auto partition_it = std::stable_partition(
             to_rerank.begin(), to_rerank.end(),
-            [&]([[maybe_unused]] const judge::RetrievedDocument& d) {
+            [&](const judge::RetrievedDocument& d) {
                 auto it = d.metadata.find("lora_score");
                 if (it == d.metadata.end()) {
                   return true;

@@ -115,7 +115,7 @@ struct Node {
     // ── Leaf-node fields ─────────────────────────────────────────────
     std::vector<KVEntry>     data;  // sorted by key
 
-    explicit Node([[maybe_unused]] bool leaf) : is_leaf(leaf) {}
+    explicit Node(bool leaf) : is_leaf(leaf) {}
 
     // Returns the child index that should contain the given key.
     size_t childIndex(std::string_view key) const {
@@ -520,7 +520,7 @@ struct WomTree::Impl {
         auto& buf = node.buffer;
         size_t freed = 0;
         buf.erase(std::remove_if(buf.begin(), buf.end(),
-                                 [&]([[maybe_unused]] const Op& op) {
+                                 [&](const Op& op) {
                                      if (op.key == key) {
                                          freed += op.byteSize();
                                          return true;

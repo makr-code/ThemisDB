@@ -239,7 +239,7 @@ void fusedSoftmaxDropoutAttention(
     float* attention_weights,
     const float* scores,
     const float* values,
-    [[maybe_unused]] const float* attention_mask,
+    const float* attention_mask,
     int batch_size,
     int num_heads,
     int seq_len_q,
@@ -446,9 +446,9 @@ bool KernelFusionManager::shouldFuseLayerNormLinear(
 }
 
 bool KernelFusionManager::shouldFuseQKV(
-    [[maybe_unused]] int batch,
-    [[maybe_unused]] int seq_len,
-    [[maybe_unused]] int hidden_dim
+    int batch,
+    int seq_len,
+    int hidden_dim
 ) const {
     if (!config_.enable_fusion || !config_.enable_qkv_fusion) {
         return false;
@@ -459,7 +459,7 @@ bool KernelFusionManager::shouldFuseQKV(
 }
 
 bool KernelFusionManager::shouldFuseFFN(
-    int batch, int seq_len, [[maybe_unused]] int hidden_dim
+    int batch, int seq_len, int hidden_dim
 ) const {
     if (!config_.enable_fusion || !config_.enable_ffn_fusion) {
         return false;
@@ -471,9 +471,9 @@ bool KernelFusionManager::shouldFuseFFN(
 
 double KernelFusionManager::estimateSpeedup(
     const std::string& fusion_type,
-    [[maybe_unused]] int batch,
-    [[maybe_unused]] int seq_len,
-    [[maybe_unused]] int hidden_dim
+    int batch,
+    int seq_len,
+    int hidden_dim
 ) const {
     // Estimate speedup based on fusion type and dimensions
     

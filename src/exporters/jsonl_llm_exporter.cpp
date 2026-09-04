@@ -301,7 +301,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.exported_entities++;
 
                 // Progress reporting with duration and ETA
-                if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+                if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
                     auto now       = std::chrono::steady_clock::now();
                     stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time);
                     if (total_count > 0 && stats.exported_entities < total_count) {
@@ -311,7 +311,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                     } else {
                         stats.estimated_eta_seconds = 0.0;
                     }
-                    options.progress_callback([[maybe_unused]] stats);
+                    options.progress_callback(stats);
                 }
 
             } catch (const ExporterException &e) {

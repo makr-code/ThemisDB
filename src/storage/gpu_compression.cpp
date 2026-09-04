@@ -205,7 +205,7 @@ static bool parse_gpu_container(
 
 /// Build and append the GPU container header to @p out.
 /// @p out must have been empty (or cleared) before the call.
-[[maybe_unused]] static void write_gpu_container_header(
+static void write_gpu_container_header(
     std::vector<uint8_t>& out,
     uint64_t n_chunks,
     uint64_t orig_size,
@@ -1049,7 +1049,7 @@ bool GpuCompressionManager::init_gpu()
     }
 }
 
-bool GpuCompressionManager::should_use_gpu([[maybe_unused]] size_t data_size) const
+bool GpuCompressionManager::should_use_gpu(size_t data_size) const
 {
     if (force_cpu_) {
       return false;

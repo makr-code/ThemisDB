@@ -101,7 +101,7 @@ public:
      *
      * @param interval_seconds How often to emit the aggregated report (default 300 s).
      */
-    void start([[maybe_unused]] int interval_seconds = DEFAULT_INTERVAL_SECONDS) {
+    void start(int interval_seconds = DEFAULT_INTERVAL_SECONDS) {
         std::lock_guard<std::mutex> tlock(thread_mutex_);
         if (running_.load()) {
             return;  // Already running
@@ -1617,7 +1617,7 @@ std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
     return categories;
 }
 
-void ConfigPathResolver::setCachingEnabled([[maybe_unused]] bool enabled) {
+void ConfigPathResolver::setCachingEnabled(bool enabled) {
     caching_enabled_.store(enabled);
     if (!enabled) {
         cache_.clear();
@@ -1637,7 +1637,7 @@ void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_second
     }
 }
 
-void ConfigPathResolver::setLegacyFallbackRateThreshold([[maybe_unused]] double threshold) {
+void ConfigPathResolver::setLegacyFallbackRateThreshold(double threshold) {
     // Clamp to [0.0, 1.0]
     if (threshold < 0.0) {
       threshold = 0.0;
@@ -1736,7 +1736,7 @@ ConfigEnvironment ConfigPathResolver::getEnvironment() {
     return current_env_.load();
 }
 
-void ConfigPathResolver::setAuditLogEnabled([[maybe_unused]] bool enabled) {
+void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
     if (enabled) {
         audit_log_.enable();
     } else {
@@ -1760,7 +1760,7 @@ void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
 // ═══════════════════════════════════════════════════════════
 
 // Static signal handler – must be async-signal-safe; only sets a flag.
-void ConfigPathResolver::handleSighup([[maybe_unused]] int /*sig*/) {
+void ConfigPathResolver::handleSighup(int /*sig*/) {
     sighup_pending_ = 1;
 }
 

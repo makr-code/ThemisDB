@@ -203,7 +203,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::vector<Row> left  = op.left_rows;
     std::vector<Row> right = op.right_rows;
 
-    auto keyFn = [&]([[maybe_unused]] size_t col) {
+    auto keyFn = [&](size_t col) {
         return [col](const Row& a, const Row& b) {
             if (col >= a.size() || col >= b.size()) {
               return false;
@@ -451,11 +451,14 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
     const size_t rows = [&]() -> size_t {
         switch (op.op_type) {
             case OperatorType::HashJoin:
-            [[fallthrough]];\n            case OperatorType::SortMergeJoin:
+            [[fallthrough]];
+            case OperatorType::SortMergeJoin:
                 return static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
             case OperatorType::Aggregate:
-            [[fallthrough]];\n            case OperatorType::Filter:
-            [[fallthrough]];\n            case OperatorType::Sort:
+            [[fallthrough]];
+            case OperatorType::Filter:
+            [[fallthrough]];
+            case OperatorType::Sort:
                 return static_cast<int>(op.rows.size());
             case OperatorType::PatternMatch:
                 return static_cast<int>(op.string_rows.size());
@@ -487,7 +490,8 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
 
     switch (op.op_type) {
         case OperatorType::HashJoin:
-        [[fallthrough]];\n        case OperatorType::SortMergeJoin:
+        [[fallthrough]];
+        case OperatorType::SortMergeJoin:
             if (is_gpu)  return 5.0 + scale * 15.0;   // 5–20×
             if (is_simd) return 2.0 + scale * 4.0;    // 2–6×
             return 1.0;
@@ -520,11 +524,11 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
 // Private helpers
 // ============================================================================
 
-bool HardwareAccelerator::shouldUseGPU([[maybe_unused]] size_t num_rows) const noexcept {
+bool HardwareAccelerator::shouldUseGPU(size_t num_rows) const noexcept {
     return num_rows >= config_.gpu_row_threshold;
 }
 
-bool HardwareAccelerator::shouldUseSIMD([[maybe_unused]] size_t num_rows) const noexcept {
+bool HardwareAccelerator::shouldUseSIMD(size_t num_rows) const noexcept {
     return num_rows >= config_.simd_row_threshold;
 }
 
@@ -712,11 +716,14 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
         const size_t rows = [&]() -> size_t {
             switch (op.op_type) {
                 case OperatorType::HashJoin:
-                [[fallthrough]];\n                case OperatorType::SortMergeJoin:
+                [[fallthrough]];
+                case OperatorType::SortMergeJoin:
                     return static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
                 case OperatorType::Aggregate:
-                [[fallthrough]];\n                case OperatorType::Filter:
-                [[fallthrough]];\n                case OperatorType::Sort:
+                [[fallthrough]];
+                case OperatorType::Filter:
+                [[fallthrough]];
+                case OperatorType::Sort:
                     return static_cast<int>(op.rows.size());
                 case OperatorType::PatternMatch:
                     return static_cast<int>(op.string_rows.size());

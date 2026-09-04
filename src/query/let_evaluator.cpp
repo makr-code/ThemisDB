@@ -100,7 +100,7 @@ nlohmann::json LetEvaluator::evaluateExpression(
         }
 
         if (auto bound = resolveVariable(root); bound.has_value()) {
-            if (pathFA-> static_cast<int>(path.size()) == 1) {
+            if (pathFA->path.size() == 1) {
                 return *bound;
             }
             std::vector<std::string> tail(pathFA->path.begin() + 1, pathFA->path.end());
@@ -569,7 +569,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         };
         if ((looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0))) {
             constexpr double kEarthRadiusKm = 6371.0;
-            auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
+            auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
             double lat1 = deg2rad(y1), lon1 = deg2rad(x1);
             double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
             double dlat = lat2 - lat1;
@@ -636,7 +636,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
         // Helper: resolve a string-wrapped GeoJSON node.
         std::function<nlohmann::json(const nlohmann::json&)> resolveJson =
-            [&]([[maybe_unused]] const nlohmann::json& v) -> nlohmann::json {
+            [&](const nlohmann::json& v) -> nlohmann::json {
             if (v.is_string()) {
                 try { return nlohmann::json::parse(v.get<std::string>()); }
                 catch (...) {}
@@ -645,7 +645,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         };
 
         // Extract a 2D point from a GeoJSON Point or [x,y] array.
-        auto extractPoint = [&]([[maybe_unused]] const nlohmann::json& raw) -> std::pair<double, double> {
+        auto extractPoint = [&](const nlohmann::json& raw) -> std::pair<double, double> {
             const auto j = resolveJson(raw);
             if (j.is_object() && j.contains("type") && j["type"] == "Point") {
                 if (j.contains("coordinates") && j["coordinates"].size() >= 2)
@@ -1119,14 +1119,16 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t pos = 0;
-            while (static_cast<size_t>(pos) <static_cast<int>(inner.size())) {
+            while (pos < inner.size()) {
                 size_t comma = inner.find(',', pos);
                 std::string token = (comma == std::string::npos) ? inner.substr(pos) : inner.substr(pos, comma - pos);
                 // trim token
                 auto lpos = token.find_first_not_of(" \t\n\r");
                 auto rpos = token.find_last_not_of(" \t\n\r");
                 if (lpos != std::string::npos) {
-                  token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                  token = token.substr(lpos, rpos - lpos + 1);
+                } else {
+                  token.clear();
                 }
                 if (!token.empty()) {
                     std::istringstream tss(token);
@@ -1141,7 +1143,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     }
                 }
                 if (comma == std::string::npos) {
-                  break; else pos = comma + 1;
+                  break;
+                } else {
+                  pos = comma + 1;
                 }
             }
 
@@ -1163,14 +1167,16 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t start = 0;
-            while (static_cast<size_t>(start) <static_cast<int>(inner.size())) {
+            while (start < inner.size()) {
                 size_t comma = inner.find(',', start);
                 std::string token = (comma == std::string::npos) ? inner.substr(start) : inner.substr(start, comma - start);
                 // trim token
                 auto lpos = token.find_first_not_of(" \t\n\r");
                 auto rpos = token.find_last_not_of(" \t\n\r");
                 if (lpos != std::string::npos) {
-                  token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                  token = token.substr(lpos, rpos - lpos + 1);
+                } else {
+                  token.clear();
                 }
                 if (!token.empty()) {
                     std::istringstream tss(token);
@@ -1185,7 +1191,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     }
                 }
                 if (comma == std::string::npos) {
-                  break; else start = comma + 1;
+                  break;
+                } else {
+                  start = comma + 1;
                 }
             }
 
@@ -1399,7 +1407,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::string type = geom["type"];
         const auto& coords = geom["coordinates"];
 
-        auto inRange = [&]([[maybe_unused]] double z){ return z >= zmin && z <= zmax; };
+        auto inRange = [&](double z){ return z >= zmin && z <= zmax; };
 
         if (type == "Point") {
             if (coords.is_array() && static_cast<int>(coords.size()) >= 3) {

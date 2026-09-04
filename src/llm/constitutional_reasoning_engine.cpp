@@ -112,7 +112,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
             auto it = std::find_if(
                 impl_->config.principles.begin(),
                 impl_->config.principles.end(),
-                [&]([[maybe_unused]] const ConstitutionalPrinciple& p) { return p.id == principle_id; }
+                [&](const ConstitutionalPrinciple& p) { return p.id == principle_id; }
             );
             
             if (it != impl_->config.principles.end()) {
@@ -212,8 +212,8 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     updateStatistics(result);
     
     // Call callback if set
-    if ([[maybe_unused]] impl_->callback) {
-        impl_->callback([[maybe_unused]] result);
+    if (impl_->callback) {
+        impl_->callback(result);
     }
     
     return result;
@@ -385,7 +385,7 @@ void ConstitutionalReasoningEngine::removePrinciple(const std::string& principle
         std::remove_if(
             principles.begin(),
             principles.end(),
-            [&]([[maybe_unused]] const ConstitutionalPrinciple& p) { return p.id == principle_id; }
+            [&](const ConstitutionalPrinciple& p) { return p.id == principle_id; }
         ),
         principles.end()
     );

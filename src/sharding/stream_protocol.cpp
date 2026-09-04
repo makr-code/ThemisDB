@@ -447,7 +447,7 @@ std::string StreamingStats::toPrometheusFormat() const {
 std::vector<uint8_t> StreamCompressor::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
-    [[maybe_unused]] int level) {
+    int level) {
     
     if (data.empty() || algorithm == CompressionAlgorithm::NONE) {
         return data;
@@ -503,7 +503,7 @@ std::vector<uint8_t> StreamCompressor::compress(
 std::vector<uint8_t> StreamCompressor::decompress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
-    [[maybe_unused]] size_t uncompressed_size) {
+    size_t uncompressed_size) {
     
     if (data.empty() || algorithm == CompressionAlgorithm::NONE) {
         return data;
@@ -577,7 +577,7 @@ StreamRateLimiter::StreamRateLimiter(uint64_t bytes_per_second)
     , last_refill_(std::chrono::steady_clock::now()) {
 }
 
-std::chrono::milliseconds StreamRateLimiter::acquire([[maybe_unused]] size_t bytes) {
+std::chrono::milliseconds StreamRateLimiter::acquire(size_t bytes) {
     if (bytes_per_second_.load() == 0) {
         return std::chrono::milliseconds(0);  // Unlimited
     }
@@ -612,7 +612,7 @@ std::chrono::milliseconds StreamRateLimiter::acquire([[maybe_unused]] size_t byt
     return std::chrono::milliseconds(wait_ms + 1);
 }
 
-void StreamRateLimiter::setRate([[maybe_unused]] uint64_t bytes_per_second) {
+void StreamRateLimiter::setRate(uint64_t bytes_per_second) {
     bytes_per_second_.store(bytes_per_second);
 }
 
@@ -656,7 +656,7 @@ bool StreamSession::initialize() {
         std::lock_guard<std::mutex> lock(mutex_);
         prepare_callback = prepare_callback_;
     }
-    if ([[maybe_unused]] prepare_callback) {
+    if (prepare_callback) {
         const bool prepared = prepare_callback();
         if (!prepared) {
             transitionState(StreamSessionState::ABORTED);
@@ -800,7 +800,7 @@ void StreamSession::abort(const std::string& reason) {
         }
     }
     
-    if ([[maybe_unused]] completion_callback) {
+    if (completion_callback) {
         completion_callback(session_id_, false, reason);
     }
 }
@@ -841,19 +841,19 @@ StreamSessionProgress StreamSession::getProgress() const {
     return progress;
 }
 
-void StreamSession::setProgressCallback([[maybe_unused]] StreamProgressCallback callback) {
+void StreamSession::setProgressCallback(StreamProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    progress_callback_ = std::move([[maybe_unused]] callback);
+    progress_callback_ = std::move(callback);
 }
 
-void StreamSession::setCompletionCallback([[maybe_unused]] StreamCompletionCallback callback) {
+void StreamSession::setCompletionCallback(StreamCompletionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    completion_callback_ = std::move([[maybe_unused]] callback);
+    completion_callback_ = std::move(callback);
 }
 
-void StreamSession::setPrepareTransferCallback([[maybe_unused]] std::function<bool()> cb) {
+void StreamSession::setPrepareTransferCallback(std::function<bool()> cb) {
     std::lock_guard<std::mutex> lk(mutex_);
-    prepare_callback_ = std::move([[maybe_unused]] cb);
+    prepare_callback_ = std::move(cb);
 }
 
 bool StreamSession::isActive() const {
@@ -903,7 +903,7 @@ void StreamSession::sessionLoop() {
                 std::lock_guard<std::mutex> lock(mutex_);
                 completion_callback = completion_callback_;
             }
-            if ([[maybe_unused]] completion_callback) {
+            if (completion_callback) {
                 completion_callback(session_id_, false, "Transfer task failed");
             }
             break;
@@ -919,7 +919,7 @@ void StreamSession::sessionLoop() {
                 std::lock_guard<std::mutex> lock(mutex_);
                 completion_callback = completion_callback_;
             }
-            if ([[maybe_unused]] completion_callback) {
+            if (completion_callback) {
                 completion_callback(session_id_, true, "");
             }
             break;
@@ -952,8 +952,8 @@ void StreamSession::notifyProgress() {
         std::lock_guard<std::mutex> lock(mutex_);
         progress_callback = progress_callback_;
     }
-    if ([[maybe_unused]] progress_callback) {
-        progress_callback([[maybe_unused]] getProgress());
+    if (progress_callback) {
+        progress_callback(getProgress());
     }
 }
 
@@ -961,7 +961,7 @@ void StreamSession::transitionState(StreamSessionState new_state) {
     state_.store(new_state);
 }
 
-bool StreamSession::sendMessage([[maybe_unused]] StreamMessageType type, [[maybe_unused]] const std::vector<uint8_t>& payload) {
+bool StreamSession::sendMessage(StreamMessageType type, const std::vector<uint8_t>& payload) {
     // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
     // Purpose: Allow testing of the heartbeat mechanism when mTLS transport not wired.
     // Activation: No real mTLS client injected.
@@ -1134,9 +1134,9 @@ std::vector<StreamSessionProgress> StreamPlan::getProgress() const {
     return progress;
 }
 
-void StreamPlan::addListener([[maybe_unused]] std::shared_ptr<IStreamListener> listener) {
+void StreamPlan::addListener(std::shared_ptr<IStreamListener> listener) {
     std::lock_guard<std::mutex> lock(mutex_);
-    listeners_.push_back([[maybe_unused]] listener);
+    listeners_.push_back(listener);
 }
 
 void StreamPlan::executorLoop() {
@@ -1201,9 +1201,9 @@ void StreamPlan::notifyListeners(std::function<void(IStreamListener&)> callback)
         listeners = listeners_;
     }
 
-    for ([[maybe_unused]] auto& listener : listeners) {
-        if ([[maybe_unused]] listener) {
-            callback([[maybe_unused]] *listener);
+    for (auto& listener : listeners) {
+        if (listener) {
+            callback(*listener);
         }
     }
 }
@@ -1252,7 +1252,7 @@ void StreamTransferTask::abort() {
     cv_.notify_all();
 }
 
-void StreamTransferTask::onChunkAck([[maybe_unused]] uint32_t chunk_index) {
+void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(progress_mutex_);
         if (static_cast<int>(chunks_acked_.size()) > chunk_index) {
@@ -1262,7 +1262,7 @@ void StreamTransferTask::onChunkAck([[maybe_unused]] uint32_t chunk_index) {
     cv_.notify_all();
 }
 
-void StreamTransferTask::onRetryRequest([[maybe_unused]] uint32_t chunk_index) {
+void StreamTransferTask::onRetryRequest(uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         pending_retries_.push(chunk_index);
@@ -1346,7 +1346,7 @@ void StreamTransferTask::transferLoop() {
     }
 }
 
-std::optional<StreamChunk> StreamTransferTask::createChunk([[maybe_unused]] uint32_t chunk_index) {
+std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index) {
     StreamChunk chunk;
     chunk.chunk_index = chunk_index;
     chunk.file_offset = static_cast<uint64_t>(chunk_index) * config_.chunk_size;
@@ -1611,7 +1611,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         }
 
         const bool all_received = std::all_of(
-            chunks_received_.begin(), chunks_received_.end(), []([[maybe_unused]] bool received) {
+            chunks_received_.begin(), chunks_received_.end(), [](bool received) {
                 return received;
             });
         if (all_received) {
@@ -1720,7 +1720,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     return true;
 }
 
-void StreamReceiveTask::requestRetry([[maybe_unused]] uint32_t chunk_index) {
+void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
     // Request retry for a specific chunk
     // In a real implementation, this would send a network message to the sender
     // For now, we log the retry request

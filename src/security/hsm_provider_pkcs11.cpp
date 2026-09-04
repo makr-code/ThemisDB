@@ -401,7 +401,7 @@ bool HSMProvider::initialize(){
                         if(!pin.empty()){
                             CK_RV rvLogin = api->C_Login(
                                 impl_->pool[i].handle, CKU_USER,
-                                ([[maybe_unused]] CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
+                                (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
                             if(rvLogin == CKR_USER_ALREADY_LOGGED_IN){
                                 // Session is already authenticated – this is fine
                                 THEMIS_DEBUG("PKCS#11 session {} already logged in", i);
@@ -663,7 +663,7 @@ HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     return nullptr;
 }
 
-void HSMProvider::releaseSession([[maybe_unused]] SessionEntry* s){ 
+void HSMProvider::releaseSession(SessionEntry* s){ 
     // No-op for lock-free implementation (no busy flag to clear)
 }
 
@@ -865,7 +865,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label){
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
@@ -917,7 +917,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     return ciphertext;
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label){
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {

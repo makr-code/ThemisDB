@@ -74,7 +74,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
 
     if (config_.require_special && !config_.special_chars.empty()) {
         bool found = std::any_of(password.begin(), password.end(),
-                                 [&]([[maybe_unused]] char c) { return config_.special_chars.find(c) != std::string::npos; });
+                                 [&](char c) { return config_.special_chars.find(c) != std::string::npos; });
         if (!found) {
             result.violations.push_back("Password must contain at least one special character");
         }

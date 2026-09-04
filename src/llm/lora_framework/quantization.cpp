@@ -108,7 +108,7 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
             } catch (const std::exception& e) {
                 spdlog::warn("quantization debug callback failed: {}", e.what());
             } catch (...) {
-                spdlog::warn([[maybe_unused]] "quantization debug callback failed with unknown exception");
+                spdlog::warn("quantization debug callback failed with unknown exception");
             }
         }
     }
@@ -122,7 +122,7 @@ void setDebugLogFn(DebugLogFn fn) {
     g_debug_log_fn = std::move(fn);
 }
 
-uint8_t find_nf4_bin([[maybe_unused]] float value) {
+uint8_t find_nf4_bin(float value) {
     // Clamp value to [-1, 1] range
     value = std::max(-1.0f, std::min(1.0f, value));
     

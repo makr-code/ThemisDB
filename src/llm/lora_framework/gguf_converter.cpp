@@ -20,7 +20,7 @@ namespace llm {
 namespace lora {
 
 // FP16 to FP32 conversion helper
-float GGUFConverter::fp16_to_fp32([[maybe_unused]] uint16_t h) {
+float GGUFConverter::fp16_to_fp32(uint16_t h) {
     // Extract sign, exponent, and mantissa
     uint32_t sign = (h & 0x8000) << 16;
     uint32_t exponent = (h & 0x7C00) >> 10;
@@ -66,9 +66,12 @@ size_t GGUFConverter::calculateElements(const std::vector<int64_t>& shape) {
 bool GGUFConverter::isSupported(GGMLType type) {
     switch (type) {
         case GGMLType::F32:
-        [[fallthrough]];\n        case GGMLType::F16:
-        [[fallthrough]];\n        case GGMLType::Q4_K:  // Q4_K_M
-        [[fallthrough]];\n        case GGMLType::Q8_0:
+        [[fallthrough]];
+        case GGMLType::F16:
+        [[fallthrough]];
+        case GGMLType::Q4_K:  // Q4_K_M
+        [[fallthrough]];
+        case GGMLType::Q8_0:
             return true;
         default:
             return false;
@@ -80,8 +83,10 @@ QuantizationType GGUFConverter::getInternalType(GGMLType type) {
         case GGMLType::Q4_K: return QuantizationType::NF4;
         case GGMLType::Q8_0: return QuantizationType::INT8;
         case GGMLType::F32:
-        [[fallthrough]];\n        case GGMLType::F16:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case GGMLType::F16:
+        [[fallthrough]];
+        default:
             return QuantizationType::NONE;
     }
 }

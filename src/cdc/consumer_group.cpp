@@ -575,7 +575,7 @@ size_t ConsumerGroupManager::getInFlightCount(const std::string &group_id, const
     if (cit == git->second.end()) {
         return 0;
     }
-    return static_cast<bool>(cit- < static_cast<int>(second.size()));
+    return static_cast<size_t>(cit->second.size());
 }
 
 InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id, const std::string &consumer_id,
@@ -613,4 +613,5 @@ InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id
 
 } // namespace cdc
 } // namespace themis
+
 

@@ -540,7 +540,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         for (const auto& nd : new_docs) {
             const bool already_present = std::any_of(
                 accumulated.begin(), accumulated.end(),
-                [&]([[maybe_unused]] const RetrievedChunk& c) {
+                [&](const RetrievedChunk& c) {
                     return !c.source.empty() && c.source == nd.source;
                 });
             if (!already_present) {

@@ -30,7 +30,7 @@ MergeApiHandler::MergeApiHandler(
       snapshot_manager_(snapshot_manager) {
 }
 
-void MergeApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
+void MergeApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/merge - Perform three-way merge
     server.Post("/api/v1/merge", [this](const httplib::Request& req, httplib::Response& res) {
         handleMerge(req, res);
@@ -186,7 +186,7 @@ void MergeApiHandler::handleCanFastForward(const httplib::Request& req, httplib:
     }
 }
 
-transaction::MergeEngine::MergeOptions MergeApiHandler::parseMergeOptions([[maybe_unused]] const json& body) const {
+transaction::MergeEngine::MergeOptions MergeApiHandler::parseMergeOptions(const json& body) const {
     transaction::MergeEngine::MergeOptions options;
     
     // Parse strategy

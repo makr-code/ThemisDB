@@ -251,8 +251,8 @@ bool MetadataShard::put(
         std::lock_guard<std::mutex> lock(subscriptions_mutex_);
         auto sub_it = subscriptions_.find(partition);
         if (sub_it != subscriptions_.end()) {
-            for ([[maybe_unused]] auto& callback : sub_it->second) {
-                callback([[maybe_unused]] entry);
+            for (auto& callback : sub_it->second) {
+                callback(entry);
             }
         }
     }
@@ -344,7 +344,7 @@ nlohmann::json MetadataShard::getPartitionStats(MetadataPartitionKey partition) 
     
     return {
         {"partition", static_cast<int>(partition)},
-        {"entry_count", partition_it-> static_cast<int>(second.size())}
+        {"entry_count", partition_it->second.size()}
     };
 }
 
@@ -381,12 +381,12 @@ void MetadataShard::subscribe(
     std::function<void(const MetadataEntry&)> callback
 ) {
     std::lock_guard<std::mutex> lock(subscriptions_mutex_);
-    subscriptions_[partition].push_back([[maybe_unused]] callback);
+    subscriptions_[partition].push_back(callback);
 }
 
 /** @brief Determine shard owner id by hashing key into metadata shard space. */
 std::string MetadataShard::determineShardOwner(
-    [[maybe_unused]] MetadataPartitionKey partition,
+    MetadataPartitionKey partition,
     const std::string& key
 ) const {
     // Simple hash-based sharding
@@ -583,7 +583,7 @@ nlohmann::json MetadataShardRouter::getStatistics() const {
 
 /** @brief Resolve target shard id for key using hash-based routing. */
 std::string MetadataShardRouter::routeToShard(
-    [[maybe_unused]] MetadataPartitionKey partition,
+    MetadataPartitionKey partition,
     const std::string& key
 ) const {
     size_t hash = hashKey(key);

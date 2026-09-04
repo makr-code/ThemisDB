@@ -104,7 +104,7 @@ public:
         return true; 
     }
     
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs& [[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0);
 
@@ -119,7 +119,7 @@ public:
     
     /// Exact intersects check between two geometries
     /// This is the core exact check function called by the query engine
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo& [[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo& [[maybe_unused]] geom2) override {
+    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         try {
             // Handle different geometry types
             if (geom1.isPolygon() && geom2.isPolygon()) {

@@ -25,11 +25,11 @@
 namespace themis {
 
 // CounterMergeOperator Implementation
-bool CounterMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
+bool CounterMergeOperator::Merge(const rocksdb::Slice& key,
                                   const rocksdb::Slice* existing_value,
                                   const rocksdb::Slice& value,
                                   std::string* new_value,
-                                  [[maybe_unused]] rocksdb::Logger* logger) const {
+                                  rocksdb::Logger* logger) const {
     // Parse new value as integer
     int64_t delta = 0;
     auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , delta);
@@ -62,11 +62,11 @@ bool CounterMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
 AppendMergeOperator::AppendMergeOperator(std::string delimiter) 
     : delimiter_(std::move(delimiter)) {}
 
-bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
+bool AppendMergeOperator::Merge(const rocksdb::Slice& key,
                                  const rocksdb::Slice* existing_value,
                                  const rocksdb::Slice& value,
                                  std::string* new_value,
-                                 [[maybe_unused]] rocksdb::Logger* logger) const {
+                                 rocksdb::Logger* logger) const {
     if (existing_value) {
         new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + static_cast<int>(value.size()) );
         new_value->assign(existing_value->data(), existing_value->size());
@@ -79,11 +79,11 @@ bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
 }
 
 // SetMergeOperator Implementation
-bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
+bool SetMergeOperator::Merge(const rocksdb::Slice& key,
                               const rocksdb::Slice* existing_value,
                               const rocksdb::Slice& value,
                               std::string* new_value,
-                              [[maybe_unused]] rocksdb::Logger* logger) const {
+                              rocksdb::Logger* logger) const {
     // Parse existing set
     std::set<std::string> unique_values;
     
@@ -123,11 +123,11 @@ bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
 }
 
 // MaxMergeOperator Implementation
-bool MaxMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
+bool MaxMergeOperator::Merge(const rocksdb::Slice& key,
                               const rocksdb::Slice* existing_value,
                               const rocksdb::Slice& value,
                               std::string* new_value,
-                              [[maybe_unused]] rocksdb::Logger* logger) const {
+                              rocksdb::Logger* logger) const {
     // Parse new value as double
     double new_val = 0.0;
     auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , new_val);

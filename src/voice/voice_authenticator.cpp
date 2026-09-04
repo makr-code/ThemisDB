@@ -555,7 +555,7 @@ void VoiceBiometricAuthenticator::setAuthAuditCallback(
     std::function<void(const std::string&, const VoiceAuthResult&)> callback)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    auth_audit_callback_ = std::move([[maybe_unused]] callback);
+    auth_audit_callback_ = std::move(callback);
 }
 
 VoiceAuthConfig VoiceBiometricAuthenticator::get_config() const {
@@ -586,7 +586,7 @@ void VoiceBiometricAuthenticator::emitAuthAuditEvent(
         callback = auth_audit_callback_;
     }
 
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         try {
             callback(claimed_user_id, result);
         } catch (...) {

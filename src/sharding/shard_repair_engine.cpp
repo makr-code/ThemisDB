@@ -57,7 +57,7 @@ ShardRepairEngine::ShardRepairEngine(
       ring_(ring),
       topology_(topology),
       read_handler_(std::move(read_handler)),
-      write_handler_([[maybe_unused]] std::move(write_handler)) {}
+      write_handler_(std::move(write_handler)) {}
 
 /** @brief Stop worker threads on destruction. */
 ShardRepairEngine::~ShardRepairEngine() {
@@ -700,7 +700,7 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
         // Filter to the requested shard
         shards_to_repair.erase(
             std::remove_if(shards_to_repair.begin(), shards_to_repair.end(),
-                           [&]([[maybe_unused]] const ShardInfo& s) { return s.shard_id != job.shard_id; }),
+                           [&](const ShardInfo& s) { return s.shard_id != job.shard_id; }),
             shards_to_repair.end());
     }
 

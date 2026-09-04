@@ -143,7 +143,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
  * @param session_id Session identifier (optional)
  * @param additional_context Additional diagnostic info (optional)
  */
-[[maybe_unused]] void diagnosticStreamRejection(
+void diagnosticStreamRejection(
     const std::string& reason,
     int error_code,
     const std::string& session_id = "",
@@ -471,7 +471,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     std::string full_transcript = {};
     std::mutex transcript_mutex = {};
 
-    auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
+    auto on_segment = [&](const content::TranscriptionSegment& seg) {
         {
             std::lock_guard<std::mutex> lock(transcript_mutex);
             if (!full_transcript.empty()) {
@@ -480,8 +480,8 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
             full_transcript += seg.text;
         }
         // Forward to caller's callback if provided.
-        if ([[maybe_unused]] segment_callback) {
-            segment_callback([[maybe_unused]] seg);
+        if (segment_callback) {
+            segment_callback(seg);
         }
     };
 
@@ -879,7 +879,7 @@ void VoiceAssistant::logVoiceAuthenticationAudit(
         {"confidence_score", result.confidence_score},
         {"threshold", result.threshold}
     };
-    voice_security_manager_.logEvent([[maybe_unused]] entry);
+    voice_security_manager_.logEvent(entry);
 }
 
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(
@@ -903,7 +903,7 @@ VerificationResult VoiceAssistant::verifyVoiceSpeaker(
         {"match_score", result.match_score},
         {"threshold", result.threshold}
     };
-    voice_security_manager_.logEvent([[maybe_unused]] entry);
+    voice_security_manager_.logEvent(entry);
     
     return result;
 }
@@ -930,7 +930,7 @@ IdentificationResult VoiceAssistant::identifyVoiceProfiles(
         {"candidate_count",static_cast<int>(candidate_profiles.size())},
         {"match_count",static_cast<int>(result.matches.size())}
     };
-    voice_security_manager_.logEvent([[maybe_unused]] entry);
+    voice_security_manager_.logEvent(entry);
     
     return result;
 }
@@ -961,8 +961,8 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     }
 }
 
-void VoiceAssistant::setWakeWordCallback([[maybe_unused]] WakeWordDetector::DetectionCallback callback) {
-    wake_word_detector_->setDetectionCallback([[maybe_unused]] std::move(callback));
+void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
+    wake_word_detector_->setDetectionCallback(std::move(callback));
 }
 
 VoiceMacroManager& VoiceAssistant::macroManager() {

@@ -113,7 +113,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked) {
     req.max_tokens = 16;
 
     std::atomic<int> callback_count{0};
-    req.stream_callback = [&callback_count]([[maybe_unused]] const std::string& chunk) {
+    req.stream_callback = [&callback_count](const std::string& chunk) {
         if (!chunk.empty()) {
             ++callback_count;
         }

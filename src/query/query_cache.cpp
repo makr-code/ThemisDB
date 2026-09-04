@@ -348,10 +348,10 @@ Result<size_t> QueryCache::clearExpired() {
     }
     
     if (!to_remove.empty()) {
-        THEMIS_DEBUG("Cleared {} expired cache entries",static_cast<int>(to_remove.size()));
+        THEMIS_DEBUG("Cleared {} expired cache entries", static_cast<int>(to_remove.size()));
     }
     
-    return static_cast<bool>(Ok<size_t < static_cast<int>((to_remove.size())));
+    return Ok<size_t>(to_remove.size());
 }
 
 QueryCache::CacheStats QueryCache::getStats() const {
@@ -581,7 +581,7 @@ size_t QueryCache::estimateEntrySize(const CacheEntry& entry) const {
     return size;
 }
 
-void QueryCache::updateStats([[maybe_unused]] bool hit) {
+void QueryCache::updateStats(bool hit) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_requests++;
     if (hit) {

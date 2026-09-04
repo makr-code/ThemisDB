@@ -316,7 +316,7 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
     merged.allow_cache  = base.allow_cache && override_decision.allow_cache;
 
     // Retention: shortest wins.
-    merged.retention_days = std::min(bas[[maybe_unused]] e.retention_day[[maybe_unused]] s, override_decisio[[maybe_unused]] n.retention_day[[maybe_unused]] s);
+    merged.retention_days = std::min(base.retention_days, override_decision.retention_days);
 
     // Redaction: strictest wins ("none" < "standard" < "strict").
     auto stricterRedaction = [](const std::string &a, const std::string &b) {
@@ -331,7 +331,7 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
         };
         return rank(a) >= rank(b) ? a : b;
     };
-    merged.redaction_level = stricterRedaction(bas[[maybe_unused]] e.redaction_leve[[maybe_unused]] l, override_decisio[[maybe_unused]] n.redaction_leve[[maybe_unused]] l);
+    merged.redaction_level = stricterRedaction(base.redaction_level, override_decision.redaction_level);
 
     // Classification level: use the higher (stricter) level.
     // Ordering: offen < vs-nfd < geheim < streng-geheim
@@ -347,12 +347,12 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
         }
         return 0; // "offen" or unknown
     };
-    if (classificationRan[[maybe_unused]] k(override_decisio[[maybe_unused]] n.classification_leve[[maybe_unused]] l) > classificationRank(base.classification_level)) {
+    if (classificationRank(override_decision.classification_level) > classificationRank(base.classification_level)) {
         merged.classification_level = override_decision.classification_level;
     }
 
     // Merge applied rule IDs.
-    merged.applied_rules.insert(merge[[maybe_unused]] d.applied_rule[[maybe_unused]] s.en[[maybe_unused]] d(), override_decision.applied_rules.begin(),
+    merged.applied_rules.insert(merged.applied_rules.end(), override_decision.applied_rules.begin(),
                                 override_decision.applied_rules.end());
 
     // allowed: AND (any rule denying → denied).

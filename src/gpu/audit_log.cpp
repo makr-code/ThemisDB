@@ -23,7 +23,7 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUAuditLog::GPUAuditLog([[maybe_unused]] size_t capacity) : capacity_(capacity > 0 ? capacity : 1) {
+GPUAuditLog::GPUAuditLog(size_t capacity) : capacity_(capacity > 0 ? capacity : 1) {
     ring_.resize(capacity_);
 }
 

@@ -216,15 +216,15 @@ size_t LLMBatchTuner::totalBatches() const noexcept {
 }
 
 std::vector<LLMBatchTuner::BatchRecord>
-LLMBatchTuner::getRecentRecords([[maybe_unused]] size_t limit) const {
+LLMBatchTuner::getRecentRecords(size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {
         return {};
     }
 
-    size_t count = std::min(limit,static_cast<int>(records_.size()));
-    size_t start = static_cast<int>(records_.size()) - count;
+    size_t count = std::min(limit, records_.size());
+    size_t start = records_.size() - count;
     return std::vector<BatchRecord>(records_.begin() + static_cast<std::ptrdiff_t>(start),
                                     records_.end());
 }

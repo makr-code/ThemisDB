@@ -190,9 +190,9 @@ void MetricAnomalyDetector::clearAllAnomalies() {
 // setCallback
 // ---------------------------------------------------------------------------
 
-void MetricAnomalyDetector::setCallback([[maybe_unused]] AnomalyCallback cb) {
+void MetricAnomalyDetector::setCallback(AnomalyCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
-    callback_ = std::move([[maybe_unused]] cb);
+    callback_ = std::move(cb);
 }
 
 // ---------------------------------------------------------------------------
@@ -322,7 +322,7 @@ std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {
 // ---------------------------------------------------------------------------
 
 /*static*/
-std::string MetricAnomalyDetector::scoreSeverity([[maybe_unused]] double score) noexcept {
+std::string MetricAnomalyDetector::scoreSeverity(double score) noexcept {
     if (score >= 0.9) {
       return "critical";
     }

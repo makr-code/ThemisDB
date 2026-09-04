@@ -51,7 +51,7 @@ bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
 }
 
 bool isValidSlice(const std::vector<float>& values, size_t offset, size_t length) {
-    return static_cast<bool>(offset <= values.size()  && static_cast<size_t>(length) < static_cast<int>(= values.size())) - offset;
+    return offset <= values.size() && length <= (values.size() - offset);
 }
 
 } // namespace
@@ -418,7 +418,7 @@ float ProductQuantizer::computeAsymmetricDistance(
 
 float ProductQuantizer::getCompressionRatio() const {
     // Original: dimension * sizeof(float)
-    // Compressed: num_subquantizers * sizeof([[maybe_unused]] uint8_t)
+    // Compressed: num_subquantizers * sizeof(uint8_t)
     if (dimension_ <= 0 || config_.num_subquantizers <= 0) {
         return 0.0f;
     }

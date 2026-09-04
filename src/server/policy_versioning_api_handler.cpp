@@ -51,7 +51,7 @@ PolicyVersioningApiHandler::PolicyVersioningApiHandler(
     , auth_(std::move(auth))
 {
     if (!policy_manager_versioned_) {
-        THEMIS_WARN([[maybe_unused]] "PolicyVersioningApiHandler created with null PolicyManagerWithVersioning");
+        THEMIS_WARN("PolicyVersioningApiHandler created with null PolicyManagerWithVersioning");
     }
 }
 
@@ -136,7 +136,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
     const std::string& rule_id,
     const std::string& target_version
 ) {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRollback");
+    auto span = Tracer::startSpan("handleRollback");
     try {
         if (!isValidIdentifier(rule_id) || !isValidIdentifier(target_version)) {
             return makeErrorResponse(http::status::bad_request, "Invalid rule ID or target version", req);
@@ -266,7 +266,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             try {
                 start_time = std::stoll(*start_str);
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "policy_versioning_api_handler: unhandled exception caught");
+                THEMIS_WARN("policy_versioning_api_handler: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
             }
         }
@@ -279,7 +279,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             try {
                 end_time = std::stoll(*end_str);
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "policy_versioning_api_handler: unhandled exception caught");
+                THEMIS_WARN("policy_versioning_api_handler: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
             }
         }

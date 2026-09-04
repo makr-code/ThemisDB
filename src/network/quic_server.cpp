@@ -269,7 +269,7 @@ bool QUICServer::isValidCongestionControl(const std::string &algo) {
 }
 
 /* static */
-bool QUICServer::isValidPort([[maybe_unused]] uint16_t port) {
+bool QUICServer::isValidPort(uint16_t port) {
     if (port == 0 || port == 80 || port == 443) {
         return false;
     }
@@ -504,7 +504,7 @@ void QUICServer::handlePacket(const udp::endpoint &sender, const uint8_t *data, 
     // callback: if the connection is still in early-data state the first
     // stream data is 0-RTT.
     callbacks.recv_stream_data
-        = []([[maybe_unused]] ngtcp2_conn *conn, uint32_t flags, int64_t /*stream_id*/, uint64_t /*offset*/,
+        = [](ngtcp2_conn *conn, uint32_t flags, int64_t /*stream_id*/, uint64_t /*offset*/,
              const uint8_t * /*data*/, size_t /*datalen*/, void *user_data, void * /*stream_user_data*/) -> int {
         auto *srv = static_cast<QUICServer *>(user_data);
         // Track 0-RTT early data reception.  The NGTCP2_STREAM_DATA_FLAG_EARLY

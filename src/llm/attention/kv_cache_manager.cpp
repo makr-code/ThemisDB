@@ -90,7 +90,7 @@ BlockTable KVCacheManager::allocateSequence(uint64_t seq_id, int expected_tokens
     return table;
 }
 
-void KVCacheManager::freeSequence([[maybe_unused]] uint64_t seq_id) {
+void KVCacheManager::freeSequence(uint64_t seq_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = sequences_.find(seq_id);
@@ -187,7 +187,7 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
     sequences_[new_seq_id] = new_table;
 }
 
-const BlockTable* KVCacheManager::getBlockTable([[maybe_unused]] uint64_t seq_id) const {
+const BlockTable* KVCacheManager::getBlockTable(uint64_t seq_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = sequences_.find(seq_id);
@@ -198,7 +198,7 @@ const BlockTable* KVCacheManager::getBlockTable([[maybe_unused]] uint64_t seq_id
     return &it->second;
 }
 
-const Block* KVCacheManager::getBlock([[maybe_unused]] int block_id) const {
+const Block* KVCacheManager::getBlock(int block_id) const {
     if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return nullptr;
     }
@@ -254,7 +254,7 @@ int KVCacheManager::allocateBlock() {
     return block_id;
 }
 
-void KVCacheManager::freeBlock([[maybe_unused]] int block_id) {
+void KVCacheManager::freeBlock(int block_id) {
     if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return;
     }

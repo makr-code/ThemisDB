@@ -479,7 +479,7 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
 }
 
 MultiGPUMemoryCoordinator::GPUDevice 
-MultiGPUMemoryCoordinator::getGPUInfo([[maybe_unused]] int device_id) const {
+MultiGPUMemoryCoordinator::getGPUInfo(int device_id) const {
     for (const auto& gpu : impl_->gpus_) {
         if (gpu.device_id == device_id) {
             return gpu;

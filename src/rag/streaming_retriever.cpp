@@ -104,7 +104,7 @@ bool ContextWindowFiller::tryAdd(const StreamedDocument& doc) {
     return true;
 }
 
-bool ContextWindowFiller::hasCapacity([[maybe_unused]] size_t min_tokens) const {
+bool ContextWindowFiller::hasCapacity(size_t min_tokens) const {
     return (max_tokens_ >= tokens_used_) &&
            (max_tokens_ - tokens_used_ >= min_tokens);
 }
@@ -182,18 +182,18 @@ StreamingRetriever::StreamingRetriever(const StreamingRetrieverConfig& config)
 
 StreamingRetriever::~StreamingRetriever() = default;
 
-void StreamingRetriever::setDocumentAcceptedCallback([[maybe_unused]] DocumentAcceptedCallback cb) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+void StreamingRetriever::setDocumentAcceptedCallback(DocumentAcceptedCallback cb) {
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_accepted = std::move(cb);
 }
 
-void StreamingRetriever::setDocumentSkippedCallback([[maybe_unused]] DocumentSkippedCallback cb) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+void StreamingRetriever::setDocumentSkippedCallback(DocumentSkippedCallback cb) {
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_skipped = std::move(cb);
 }
 
-void StreamingRetriever::setWindowFullCallback([[maybe_unused]] WindowFullCallback cb) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+void StreamingRetriever::setWindowFullCallback(WindowFullCallback cb) {
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_window_full = std::move(cb);
 }
 
@@ -281,7 +281,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                             result.documents_added, filler.snapshot().total_tokens_used);
                 WindowFullCallback cb;
                 {
-                    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+                    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
                     cb = impl_->on_window_full;
                 }
                 if (cb) {
@@ -299,7 +299,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
             result.skipped_documents.push_back(doc);
             DocumentSkippedCallback cb;
             {
-                std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
                 cb = impl_->on_skipped;
             }
             if (cb) {
@@ -316,7 +316,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                          filler.snapshot().total_tokens_used);
             DocumentAcceptedCallback cb;
             {
-                std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
                 cb = impl_->on_accepted;
             }
             if (cb) {
@@ -329,7 +329,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
             result.skipped_documents.push_back(doc);
             DocumentSkippedCallback cb;
             {
-                std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
                 cb = impl_->on_skipped;
             }
             if (cb) {

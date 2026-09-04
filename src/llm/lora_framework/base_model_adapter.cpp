@@ -408,7 +408,7 @@ std::string BaseModelAdapter::findEmbeddingTensorName() const {
     return "";
 }
 
-std::vector<float> BaseModelAdapter::extractEmbeddingFromGGUF([[maybe_unused]] int token_id) const {
+std::vector<float> BaseModelAdapter::extractEmbeddingFromGGUF(int token_id) const {
     if (!gguf_loader_ || !model_loaded_) {
         spdlog::warn("Model not loaded");
         return {};
@@ -455,7 +455,7 @@ std::vector<float> BaseModelAdapter::extractEmbeddingFromGGUF([[maybe_unused]] i
     return embedding;
 }
 
-std::vector<float> BaseModelAdapter::getTokenEmbedding([[maybe_unused]] int token_id) const {
+std::vector<float> BaseModelAdapter::getTokenEmbedding(int token_id) const {
     if (!model_loaded_) {
         spdlog::warn("Model not loaded");
         return {};

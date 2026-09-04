@@ -373,7 +373,8 @@ CompressionResult SimplePromptCompressor::compress(
             compressed = truncateTail(prompt, budget);
             break;
         case CompressionStrategy::SELECTIVE_TRIM:
-        [[fallthrough]];\n        case CompressionStrategy::EMBEDDING_PRUNE:  // fallback
+        [[fallthrough]];
+        case CompressionStrategy::EMBEDDING_PRUNE:  // fallback
             compressed = selectiveTrim(prompt, budget,
                                        config.preserve_system_prompt,
                                        config.preserve_last_n_turns);

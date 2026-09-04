@@ -111,7 +111,7 @@ class AQLQueryBuilder::Impl {
     }
 
     // Renders the partial or complete query
-    std::string render([[maybe_unused]] bool require_complete) const {
+    std::string render(bool require_complete) const {
         bool has_for           = !for_clauses.empty() || !for_traverse_clauses.empty();
         bool has_return_or_dml = !return_expr.empty() || !dml_clauses.empty();
 
@@ -620,7 +620,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
                << "Return each suggestion on a separate line. "
                << "Return ONLY the AQL snippets, no explanations.";
 
-        auto response = handler.executeInfer([[maybe_unused]] prompt.str());
+        auto response = handler.executeInfer(prompt.str());
 
         // Split response by newlines into individual suggestions
         std::istringstream ss(response);
@@ -674,7 +674,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std:
 // Ingestion enrichment flag
 // ============================================================================
 
-AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment([[maybe_unused]] bool enabled) {
+AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
     impl_->ingestion_enrichment = enabled;
     return *this;
 }

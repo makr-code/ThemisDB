@@ -39,7 +39,7 @@ void TokenBucket::refill() {
     }
 }
 
-bool TokenBucket::tryConsume([[maybe_unused]] size_t tokens) {
+bool TokenBucket::tryConsume(size_t tokens) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     refill();
     
@@ -91,9 +91,9 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
                      config_.whitelist_ips.end(), ip) != config_.whitelist_ips.end();
 }
 
-void RateLimiter::setAnomalyCallback([[maybe_unused]] AnomalyCallback callback) {
-    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
-    anomaly_callback_ = std::move([[maybe_unused]] callback);
+void RateLimiter::setAnomalyCallback(AnomalyCallback callback) {
+    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
+    anomaly_callback_ = std::move(callback);
 }
 
 void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
@@ -102,7 +102,7 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
     // Use a separate mutex so this is safe to call while mutex_ is held.
     AnomalyCallback cb;
     {
-        std::shared_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
+        std::shared_lock<std::shared_mutex> lock(callback_mutex_);
         cb = anomaly_callback_;
     }
     if (cb) {
@@ -155,7 +155,7 @@ void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     auto window = std::chrono::seconds(config_.adaptive_window_seconds);
     entry.rejection_times.erase(
         std::remove_if(entry.rejection_times.begin(), entry.rejection_times.end(),
-                       [&]([[maybe_unused]] const auto& t){ return (now - t) > window; }),
+                       [&](const auto& t){ return (now - t) > window; }),
         entry.rejection_times.end());
 
     entry.rejection_times.push_back(now);

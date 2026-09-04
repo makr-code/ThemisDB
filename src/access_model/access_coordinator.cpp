@@ -126,7 +126,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     bool isRunning() const override { return running_; }
 
     // Event listening (from cache/storage)
-    void onEviction(cons[[maybe_unused]] t EvictionEvent& [[maybe_unused]] event) override {
+    void onEviction(const EvictionEvent& event) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string correlation_id = generateCorrelationId("evict");
@@ -217,7 +217,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         accessModelLogger().logEvictionEvent(eviction_log);
     }
 
-    void onHotAccess(cons[[maybe_unused]] t AccessEvent& [[maybe_unused]] event) override {
+    void onHotAccess(const AccessEvent& event) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string correlation_id = generateCorrelationId("hot-access");
@@ -429,7 +429,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return result;
     }
 
-    void setAgePolicy(cons[[maybe_unused]] t AgeBasedPolicy& [[maybe_unused]] policy) override {
+    void setAgePolicy(const AgeBasedPolicy& policy) override {
         std::lock_guard<std::mutex> lock(mutex_);
         policy_ = policy;
         policy_set_ = true;
@@ -444,7 +444,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         policy_.storage_promotion_threshold = storage_threshold;
     }
 
-    AccessMetrics getKeyMetrics(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key) override {
+    AccessMetrics getKeyMetrics(const std::string& key) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return stub for now
@@ -463,7 +463,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return metrics_;
     }
 
-    std::vector<AccessTransitionEvent> getRecentTransitions([[maybe_unused]] size_t limit = 100)
+    std::vector<AccessTransitionEvent> getRecentTransitions(size_t limit = 100)
         override {
 
         std::lock_guard<std::mutex> lock(mutex_);

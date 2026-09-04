@@ -315,7 +315,7 @@ std::string AsyncJobApiHandler::generateJobId() {
     return oss.str();
 }
 
-std::string AsyncJobApiHandler::extractJobId([[maybe_unused]] const std::string& target) {
+std::string AsyncJobApiHandler::extractJobId(const std::string& target) {
     // Strip query string
     std::string path = target;
     auto qpos = path.find('?');
@@ -347,7 +347,7 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
 // Background execution
 // ============================================================================
 
-void AsyncJobApiHandler::launchJob([[maybe_unused]] std::shared_ptr<AsyncJobRecord> job) {
+void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
     // Capture strong refs so the lambda keeps them alive beyond the handler.
     auto registry     = registry_;
     auto executor     = executor_;
@@ -464,7 +464,7 @@ void AsyncJobApiHandler::launchJob([[maybe_unused]] std::shared_ptr<AsyncJobReco
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "async_job_api_handler: unhandled exception caught");
+                THEMIS_WARN("async_job_api_handler: unhandled exception caught");
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     job->error      = "unknown error during async AQL execution";

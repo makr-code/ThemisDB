@@ -434,9 +434,9 @@ void UDPServer::dispatchPacket(const UdpPacket& pkt) {
         }
     }
 
-    if ([[maybe_unused]] handler_) {
+    if (handler_) {
         try {
-            handler_([[maybe_unused]] pkt);
+            handler_(pkt);
         } catch (const std::exception& ex) {
             THEMIS_ERROR("[UDPServer] handler exception: {}", ex.what());
         }
@@ -488,12 +488,12 @@ void UDPServer::batchFlushLoop() {
         }
 
         // Deliver to application handler
-        if ([[maybe_unused]] handler_) {
+        if (handler_) {
             for (const auto& pkt : local) {
                 try {
-                    handler_([[maybe_unused]] pkt);
+                    handler_(pkt);
                 } catch (const std::exception& ex) {
-                    THEMIS_ERROR([[maybe_unused]] "[UDPServer] handler exception (batch): {}", ex.what());
+                    THEMIS_ERROR("[UDPServer] handler exception (batch): {}", ex.what());
                 }
             }
         }
@@ -519,12 +519,12 @@ void UDPServer::batchFlushLoop() {
         }
     }
 
-    if ([[maybe_unused]] handler_) {
+    if (handler_) {
         for (const auto& pkt : remaining) {
             try {
-                handler_([[maybe_unused]] pkt);
+                handler_(pkt);
             } catch (const std::exception& ex) {
-                THEMIS_ERROR([[maybe_unused]] "[UDPServer] handler exception (final drain): {}", ex.what());
+                THEMIS_ERROR("[UDPServer] handler exception (final drain): {}", ex.what());
             }
         }
     }

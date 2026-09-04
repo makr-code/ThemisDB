@@ -268,7 +268,7 @@ public:
                 default:  tokens.push_back({SQLTokenType::INVALID, std::string(1, c), start}); ++pos_; break;
             }
         }
-        tokens.push_back({SQLTokenType::END_OF_INPUT, "",static_cast<int>(input_.size())});
+        tokens.push_back({SQLTokenType::END_OF_INPUT, "", input_.size()});
         return tokens;
     }
 
@@ -313,7 +313,7 @@ private:
         return {SQLTokenType::STRING_LIT, val, start};
     }
 
-    SQLToken readNumber([[maybe_unused]] size_t start) {
+    SQLToken readNumber(size_t start) {
         std::string val = {};
         if (input_[pos_] == '-') { val += '-'; ++pos_; }
         bool is_float = false;
@@ -326,7 +326,7 @@ private:
         return {is_float ? SQLTokenType::FLOAT_LIT : SQLTokenType::INT_LIT, val, start};
     }
 
-    SQLToken readIdent([[maybe_unused]] size_t start) {
+    SQLToken readIdent(size_t start) {
         std::string val = {};
         while ((pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_'))) {
             val += input_[pos_++];
@@ -985,14 +985,22 @@ private:
     static bool isKeyword(SQLTokenType t) {
         switch (t) {
             case SQLTokenType::SELECT: case SQLTokenType::FROM:   case SQLTokenType::WHERE:
-            [[fallthrough]];\n            case SQLTokenType::ORDER:  case SQLTokenType::BY:     case SQLTokenType::ASC:
-            [[fallthrough]];\n            case SQLTokenType::DESC:   case SQLTokenType::LIMIT:  case SQLTokenType::OFFSET:
-            [[fallthrough]];\n            case SQLTokenType::INSERT: case SQLTokenType::INTO:   case SQLTokenType::VALUES:
-            [[fallthrough]];\n            case SQLTokenType::UPDATE: case SQLTokenType::SET:    case SQLTokenType::DELETE:
-            [[fallthrough]];\n            case SQLTokenType::AND:    case SQLTokenType::OR:     case SQLTokenType::NOT:
-            [[fallthrough]];\n            case SQLTokenType::IN:     case SQLTokenType::LIKE:   case SQLTokenType::IS:
-            [[fallthrough]];\n            case SQLTokenType::NUL:    case SQLTokenType::TRUE_KW: case SQLTokenType::FALSE_KW:
-            [[fallthrough]];\n            case SQLTokenType::AS:     case SQLTokenType::DISTINCT:
+            [[fallthrough]];
+            case SQLTokenType::ORDER:  case SQLTokenType::BY:     case SQLTokenType::ASC:
+            [[fallthrough]];
+            case SQLTokenType::DESC:   case SQLTokenType::LIMIT:  case SQLTokenType::OFFSET:
+            [[fallthrough]];
+            case SQLTokenType::INSERT: case SQLTokenType::INTO:   case SQLTokenType::VALUES:
+            [[fallthrough]];
+            case SQLTokenType::UPDATE: case SQLTokenType::SET:    case SQLTokenType::DELETE:
+            [[fallthrough]];
+            case SQLTokenType::AND:    case SQLTokenType::OR:     case SQLTokenType::NOT:
+            [[fallthrough]];
+            case SQLTokenType::IN:     case SQLTokenType::LIKE:   case SQLTokenType::IS:
+            [[fallthrough]];
+            case SQLTokenType::NUL:    case SQLTokenType::TRUE_KW: case SQLTokenType::FALSE_KW:
+            [[fallthrough]];
+            case SQLTokenType::AS:     case SQLTokenType::DISTINCT:
                 return true;
             default: return false;
         }

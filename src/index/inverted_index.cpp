@@ -206,7 +206,7 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
         auto sw   = utils::Stopwords::merge(base, config.stopwords);
         tokens.erase(
             std::remove_if(tokens.begin(), tokens.end(),
-                           [&]([[maybe_unused]] const std::string& t) { return sw.count(t) > 0; }),
+                           [&](const std::string& t) { return sw.count(t) > 0; }),
             tokens.end());
     }
 
@@ -383,7 +383,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
           universe.insert(pk);
         }
 
-    const double N = static_cast<double>(std::max<size_t>(1,static_cast<int>(universe.size())));
+    const double N = static_cast<double>(std::max<size_t>(1, universe.size()));
 
     std::unordered_map<std::string, double> docLen;
     double totalLen = 0.0;
@@ -595,10 +595,10 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         // separator between token and pk (tokens never contain ':' because the
         // tokeniser splits on punctuation).
         size_t lastColon = key.rfind(':');
-        if (lastColon == std::string_view::npos  || static_cast<size_t>(lastColon) < = prefix.size())
+                if (lastColon == std::string_view::npos || lastColon <= prefix.size())
             return true;
 
-        std::string tok(key.substr(prefix.size(), lastColon - static_cast<int>(prefix.size()) ));
+                std::string tok(key.substr(prefix.size(), lastColon - prefix.size()));
         std::string pk(key.substr(lastColon + 1));
         if (tok.empty() || pk.empty()) {
           return true;

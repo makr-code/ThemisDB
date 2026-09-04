@@ -374,7 +374,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
         }
     };
 
-    auto tag_cb = [&]([[maybe_unused]] const XmlTag& tag) {
+    auto tag_cb = [&](const XmlTag& tag) {
         if (tag.is_close) {
             if (tag.name == "Model") {
                 flush_model();
@@ -464,7 +464,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
     };
 
     std::string pending_text = {};
-    auto text_cb = [&]([[maybe_unused]] std::string_view text) {
+    auto text_cb = [&](std::string_view text) {
         if (ctx == Context::MODEL_NAME) {
             current_model.model_name += std::string(text);
         } else if (ctx == Context::OBJ_DEF_NAME) {
@@ -565,7 +565,7 @@ EpkArisXmlImporter::ImportResult buildImportResult(
 // EpkArisXmlImporter – public API
 // ---------------------------------------------------------------------------
 
-EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType([[maybe_unused]] int type_num) {
+EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType(int type_num) {
     switch (type_num) {
         case  1: return EPKNodeType::FUNCTION;
         case 14: return EPKNodeType::EVENT;
@@ -580,7 +580,7 @@ EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType([[maybe_unused]] int type_n
     }
 }
 
-std::string_view EpkArisXmlImporter::typeNumToLabel([[maybe_unused]] int type_num) {
+std::string_view EpkArisXmlImporter::typeNumToLabel(int type_num) {
     switch (type_num) {
         case  1: return "Funktion";
         case 14: return "Ereignis";

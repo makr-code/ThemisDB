@@ -68,7 +68,7 @@ bool PIIRedactionPolicy::isStrictMode() const {
     return strict_mode_;
 }
 
-void PIIRedactionPolicy::setStrictMode([[maybe_unused]] bool strict) {
+void PIIRedactionPolicy::setStrictMode(bool strict) {
     std::lock_guard<std::mutex> lock(mutex_);
     strict_mode_ = strict;
 }

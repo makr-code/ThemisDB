@@ -107,8 +107,8 @@ HTTPClientPool::~HTTPClientPool() {
 }
 
 std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
-    [[maybe_unused]] const json& body,
-    [[maybe_unused]] const std::unordered_map<std::string, std::string>& headers
+    const json& body,
+    const std::unordered_map<std::string, std::string>& headers
 ) {
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
     auto future = promise->get_future();
@@ -149,7 +149,7 @@ std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
 }
 
 std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
-    [[maybe_unused]] const std::unordered_map<std::string, std::string>& headers
+    const std::unordered_map<std::string, std::string>& headers
 ) {
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
     auto future = promise->get_future();

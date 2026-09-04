@@ -104,7 +104,7 @@ public:
      * @brief Start async export thread
      * @param export_interval_seconds Interval between exports (default: 1s)
      */
-    void start([[maybe_unused]] int export_interval_seconds = 1) {
+    void start(int export_interval_seconds = 1) {
         if (running_.load(std::memory_order_acquire)) {
             return;
         }
@@ -267,7 +267,7 @@ public:
         return instance;
     }
 
-    void start([[maybe_unused]] int export_interval_seconds = 1) {
+    void start(int export_interval_seconds = 1) {
         CycleMetricsCollector::instance().start(export_interval_seconds);
     }
 

@@ -230,7 +230,7 @@ Aspects:)";
 
 std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     const std::string& answer,
-    [[maybe_unused]] const std::vector<QueryAspect>& aspects
+    const std::vector<QueryAspect>& aspects
 ) {
     static_cast<void>(aspects);
     if (answer.empty()) {
@@ -297,8 +297,8 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
 }
 
 std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
-    [[maybe_unused]] const std::string& answer,
-    [[maybe_unused]] const std::string& query,
+    const std::string& answer,
+    const std::string& query,
     const std::vector<QueryAspect>& aspects
 ) {
     std::vector<std::string> missing_info;

@@ -391,7 +391,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
         return false;
     } else if (op == ">=") {
         if (leftVal.is_number() && rightVal.is_number()) {
-            return leftVal.get<double>() >= rightVal.get<double>();
+            return leftVal.get<double>() >=rightVal.get<double>();
         }
         return false;
     }
@@ -720,10 +720,10 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
         }
     }
     if (!hasStart) {
-        result.errors.push_back([[maybe_unused]] "Process has no start event");
+        result.errors.push_back("Process has no start event");
     }
     if (!hasEnd) {
-        result.warnings.push_back([[maybe_unused]] "Process has no end event");
+        result.warnings.push_back("Process has no end event");
     }
 
     // 2. Check for orphan nodes (no incoming or outgoing edges)
@@ -814,7 +814,7 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
             BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
             
             auto nodeType = entity.getFieldAsString("node_type").value_or("");
-            if ([[maybe_unused]] nodeType == "START_EVENT" || nodeType == "EVENT") {
+            if (nodeType == "START_EVENT" || nodeType == "EVENT") {
                 startNodeId = nodeId;
                 return false; // Stop scanning
             }
@@ -1304,10 +1304,10 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
         
         // Check if this is a message or signal catching event
         bool isMatchingEvent = false;
-        if ([[maybe_unused]] nodeTypeStr == "INTERMEDIATE_EVENT" || nodeTypeStr == "BOUNDARY_EVENT") {
+        if (nodeTypeStr == "INTERMEDIATE_EVENT" || nodeTypeStr == "BOUNDARY_EVENT") {
             // Check if the event name matches
-            auto eventNameField = nodeEntity.getFieldAsString([[maybe_unused]] "event_name");
-            if ([[maybe_unused]] eventNameField && *eventNameField == std::string(event_name)) {
+            auto eventNameField = nodeEntity.getFieldAsString("event_name");
+            if (eventNameField && *eventNameField == std::string(event_name)) {
                 isMatchingEvent = true;
             }
         }
@@ -1344,7 +1344,7 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
     }
     
     if (!foundWaiting) {
-        return Status::Error([[maybe_unused]] "No tokens waiting for event '" + std::string(event_name) + "'");
+        return Status::Error("No tokens waiting for event '" + std::string(event_name) + "'");
     }
     
     return Status::OK();
@@ -1691,7 +1691,7 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
             
             // Update average duration (incremental average)
             // Ensure we don't underflow when subtracting failure_count
-            if (metrics.execution_count >= metrics.failure_count) {
+            if (metrics.execution_count >=metrics.failure_count) {
                 size_t completedCount = metrics.execution_count - metrics.failure_count;
                 if (completedCount > 0) {
                     metrics.avg_duration_ms = 
@@ -1707,7 +1707,7 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
             }
             
             // Ensure we don't underflow
-            if (metrics.execution_count >= metrics.failure_count) {
+            if (metrics.execution_count >=metrics.failure_count) {
                 size_t completedCount = metrics.execution_count - metrics.failure_count;
                 if (completedCount > 0) {
                     metrics.avg_duration_ms = 
@@ -1801,7 +1801,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
         
         auto nodeType = entity.getFieldAsString("node_type").value_or("");
-        if ([[maybe_unused]] nodeType == "START_EVENT" || nodeType == "EVENT") {
+        if (nodeType == "START_EVENT" || nodeType == "EVENT") {
             startNode = nodeId;
             return false; // Stop scanning
         }
@@ -2298,7 +2298,7 @@ ProcessGraphManager::aggregateByField(
     const std::string pid(process_id);
     const std::string gf(group_field);
     const std::string af(agg_field);
-    [[maybe_unused]] const std::string fn(agg_function);
+    const std::string fn(agg_function);
 
     struct GroupAcc {
         size_t count = 0;
@@ -2539,7 +2539,7 @@ ProcessGraphManager::findSimilarTasks(
           return true;
         }
 
-        [[maybe_unused]] const float sim = computeCosineSimilarity(queryEmb, emb);
+        const float sim = computeCosineSimilarity(queryEmb, emb);
 
         ProcessToken token;
         token.token_id            = tid;
@@ -2785,7 +2785,7 @@ ProcessGraphManager::detectAnomalies(
             if (!tokenNodes.empty()) {
                 const float score = static_cast<float>(deviatedCount) /
                                     static_cast<float>(tokenNodes.size());
-                if (score >= threshold) {
+                if (score >=threshold) {
                     AnomalyResult ar;
                     ar.instance_id   = ti.instanceId;
                     ar.anomaly_type  = "path_deviation";
@@ -3149,7 +3149,7 @@ ProcessGraphManager::validateLocationConstraint(
     // 1. WKT polygon constraint.
     if (locationConstraint && !locationConstraint->empty()) {
         const auto ring = parseWktPolygon(*locationConstraint);
-        if (static_cast<int>(ring.size()) >= 3) {
+        if (static_cast<int>(ring.size()) >=3) {
             const bool inside = pointInPolygon(execution_lon, execution_lat, ring);
             if (!inside) {
                 return {Status::Error("Execution location is outside the required geofence"), false};
@@ -3207,7 +3207,7 @@ ProcessGraphManager::getRegionalParameters(
         for (auto& [key, params] : regParams.items()) {
             if (key.substr(0, 7) == "POLYGON") {
                 const auto ring = parseWktPolygon(key);
-                if (static_cast<int>(ring.size()) >= 3 && pointInPolygon(lon, lat, ring)) {
+                if (static_cast<int>(ring.size()) >=3 && pointInPolygon(lon, lat, ring)) {
                     if (params.is_object()) {
                         for (auto& [pk, pv] : params.items()) {
                           merged[pk] = pv;
@@ -3260,7 +3260,7 @@ ProcessGraphManager::executeMultiModelQuery(
             }
             visited.insert(node);
             allowedNodes.insert(node);
-            if (depth >= maxDepth) {
+            if (depth >=maxDepth) {
               continue;
             }
 
@@ -3415,7 +3415,7 @@ ProcessGraphManager::Status ProcessGraphManager::createToken_(
 }
 
 ProcessGraphManager::Status ProcessGraphManager::moveToken_(
-    [[maybe_unused]] ProcessInstance& instance,
+    ProcessInstance& instance,
     ProcessToken& token,
     std::string_view target_node
 ) {
@@ -3426,8 +3426,8 @@ ProcessGraphManager::Status ProcessGraphManager::moveToken_(
 }
 
 std::vector<std::string> ProcessGraphManager::evaluateGateway_(
-    [[maybe_unused]] const ProcessNodeInfo& gateway,
-    [[maybe_unused]] const ProcessToken& token,
+    const ProcessNodeInfo& gateway,
+    const ProcessToken& token,
     const std::vector<ProcessEdgeInfo>& outgoing_edges
 ) const {
     
@@ -3448,7 +3448,7 @@ bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) c
             return !hyperedge.activated_sources.empty();
         case Hyperedge::SyncType::N_OF_M_JOIN:
             return hyperedge.required_count.has_value() && 
-                   static_cast<int>(hyperedge.activated_sources.size()) >= static_cast<size_t>(*hyperedge.required_count);
+                   static_cast<int>(hyperedge.activated_sources.size()) >=static_cast<size_t>(*hyperedge.required_count);
         case Hyperedge::SyncType::DISCRIMINATOR:
             return static_cast<int>(hyperedge.activated_sources.size()) == 1;
         default:
@@ -3474,4 +3474,5 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
+
 

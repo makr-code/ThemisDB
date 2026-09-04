@@ -225,7 +225,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // predicate otherwise.  All metrics, audit events, and fallback paths
     // are instrumented so that operators can observe behaviour.
     // ------------------------------------------------------------------
-    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         const auto t0 = std::chrono::steady_clock::now();
         ++batch_calls_;
         SpatialBatchResults out;
@@ -237,14 +237,14 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
         // Attempt GPU kernel dispatch for the common point-in-polygon pattern.
         const bool have_geoms = !in.geoms_a.empty() && !in.geoms_b.empty();
-        const std::size_t n   = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
+        const std::size_t n   = std::min<std::size_t>({static_cast<std::size_t>(in.count), in.geoms_a.size(), in.geoms_b.size()});
 
         if (have_geoms && n >= cfg_.gpu_batch_threshold && gpu_device_present_ && active_device_.is_healthy
             && safe_fail_.shouldAttemptGPU() && kernel_dispatcher_.isAvailable() && isAllPointsVsPolygon(in, n)) {
             auto gpu_result = tryGpuContainmentDispatch(in, n);
             if (gpu_result.dispatched) {
                 safe_fail_.recordSuccess();
-                const std::size_t m = std::min(out.mask.size(),static_cast<int>(gpu_result.mask.size()));
+                const std::size_t m = std::min(out.mask.size(), gpu_result.mask.size());
                 for (std::size_t i = 0; i < m; ++i) {
                     out.mask[i] = gpu_result.mask[i];
                 }
@@ -290,10 +290,10 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         if (have_geoms && (static_cast<int>(in.geoms_a.size()) != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("GPU spatial batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({}); processing {} pairs",
-                        in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count,
-                        std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())}));
+                        in.geoms_a.size(), static_cast<int>(in.geoms_b.size()), in.count,
+                        std::min<std::size_t>({static_cast<std::size_t>(in.count), in.geoms_a.size(), in.geoms_b.size()}));
         }
-        const std::size_t n_cpu = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
+        const std::size_t n_cpu = std::min<std::size_t>({static_cast<std::size_t>(in.count), in.geoms_a.size(), in.geoms_b.size()});
         for (std::size_t i = 0; i < n_cpu; ++i) {
             try {
                 out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
@@ -319,7 +319,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // batchIntersects.  We still record fallback metrics so that when a
     // GPU kernel is eventually wired in the counters start from 0.
     // ------------------------------------------------------------------
-    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
+    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
         ++exact_calls_;
         try {
             bool result = computeExactIntersects(g1, g2);
@@ -508,7 +508,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // This implementation falls back to the CPU exact backend and records
     // the fallback in the audit log.
     // ------------------------------------------------------------------
-    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s) override {
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points) override {
         audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
         return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
@@ -520,13 +520,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // CUDA kernel dispatch for set-operations is deferred to a future
     // release.  Both operations fall back to the CPU exact backend.
     // ------------------------------------------------------------------
-    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
+    GeometryInfo stUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
-    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
+    GeometryInfo stDifference(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
         return getCpuExactBackend()->stDifference(geom1, geom2);
@@ -538,7 +538,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // CUDA kernel dispatch for geodesic distance is deferred to a future
     // release.  Delegates to the CPU exact backend (Vincenty WGS-84).
     // ------------------------------------------------------------------
-    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
         return getCpuExactBackend()->geodesicDistance(lat1, lon1, lat2, lon2);
     }
 
@@ -681,7 +681,7 @@ ISpatialComputeBackend *getGpuSpatialBackend() {
 std::string getGpuSpatialBackendStatsJson() {
     const auto s = getGpuSpatialBackendInstance().getStats();
     // Hand-rolled JSON to avoid a nlohmann/json dependency in this TU.
-    auto boolStr = []([[maybe_unused]] bool v) -> const char * { return v ? "true" : "false"; };
+    auto boolStr = [](bool v) -> const char * { return v ? "true" : "false"; };
     auto escStr  = [](const std::string &v) -> std::string {
         std::string out = {};
         out.reserve(static_cast<int>(v.size()) + 2);

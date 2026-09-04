@@ -322,7 +322,7 @@ bool PromptEvaluator::isStatisticallySignificant(
         double bb = use_sym ? a : b;
 
         // Log of the beta function prefactor
-        auto lgamma_approx = []([[maybe_unused]] double z) -> double {
+        auto lgamma_approx = [](double z) -> double {
             // Stirling series approximation
             if (z < 0.5) {
                 // Reflection: lgamma(z) = log(pi/sin(pi*z)) - lgamma(1-z)

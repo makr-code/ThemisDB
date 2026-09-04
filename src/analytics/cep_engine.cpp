@@ -446,7 +446,7 @@ std::vector<uint8_t> Event::serialize() const {
     return std::vector<uint8_t>(s.begin(), s.end());
 }
 
-std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8_t> &data) {
+std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
     if (data.empty()) {
         return std::nullopt;
     }
@@ -463,13 +463,13 @@ std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8
                     ev.event_id = part;
                     break;
                 case 1:
-                    ev.type = static_cast<EventType>([[maybe_unused]] std::stoul(part));
+                    ev.type = static_cast<EventType>(std::stoul(part));
                     break;
                 case 2:
                     ev.event_name = part;
                     break;
                 case 3:
-                    ev.priority = static_cast<EventPriority>([[maybe_unused]] std::stoul(part));
+                    ev.priority = static_cast<EventPriority>(std::stoul(part));
                     break;
                 case 4: {
                     int64_t us   = std::stoll(part);
@@ -511,7 +511,7 @@ std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8
             return std::nullopt;
         }
     }
-    if ([[maybe_unused]] ev.event_id.empty()) {
+    if (ev.event_id.empty()) {
         return std::nullopt;
     }
     return ev;
@@ -521,8 +521,8 @@ std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8
 // EventStream
 // ============================================================================
 
-EventStream::EventStream([[maybe_unused]] const StreamConfig &config) : config_(config) {
-    uint32_t n = std::max(1, config_.partitions);
+EventStream::EventStream(const StreamConfig &config) : config_(config) {
+    uint32_t n = std::max(1u, config_.partitions);
     partitions_.reserve(n);
     for (uint32_t i = 0; i < n; ++i) {
         partitions_.emplace_back(std::make_unique<Partition>());
@@ -531,30 +531,33 @@ EventStream::EventStream([[maybe_unused]] const StreamConfig &config) : config_(
 
 EventStream::~EventStream() = default;
 
-uint32_t EventStream::getPartitionId([[maybe_unused]] const Event &event) const {
-    if ([[maybe_unused]] config_.partition_key_field.empty() || event.partition_key.empty()) {
-        return static_cast<bool>(event.partition_id % static_cast<uint32_t < static_cast<int>(([[maybe_unused]] partitions_.size())));
+uint32_t EventStream::getPartitionId(const Event &event) const {
+    if (partitions_.empty()) {
+        return 0;
+    }
+    if (config_.partition_key_field.empty() || event.partition_key.empty()) {
+        return event.partition_id % static_cast<uint32_t>(partitions_.size());
     }
     std::hash<std::string> h = {};
 
-    return static_cast<bool>(static_cast<uint32_t < static_cast<int>(([[maybe_unused]] h(event.partition_key) % partitions_.size())));
+    return static_cast<uint32_t>(h(event.partition_key) % partitions_.size());
 }
 
-void EventStream::notifySubscribers([[maybe_unused]] const Event &event) {
+void EventStream::notifySubscribers(const Event &event) {
     std::shared_lock lock(subscribers_mutex_);
     for (const auto &[id, cb] : subscribers_) {
         try {
-            cb([[maybe_unused]] event);
+            cb(event);
         } catch (const std::exception &e) {
             spdlog::warn("CEP: subscriber callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn([[maybe_unused]] "CEP: subscriber callback threw unknown exception");
+            spdlog::warn("CEP: subscriber callback threw unknown exception");
         }
     }
 }
 
-EventStream::PushResult EventStream::push([[maybe_unused]] Event event) {
-    uint32_t pid = getPartitionId([[maybe_unused]] event);
+EventStream::PushResult EventStream::push(Event event) {
+    uint32_t pid = getPartitionId(event);
     auto &part   = *partitions_[pid];
 
     // Backpressure check
@@ -570,7 +573,7 @@ EventStream::PushResult EventStream::push([[maybe_unused]] Event event) {
             ++backpressure_count_;
             // Still push but signal backpressure
             std::lock_guard lk(part.mutex);
-            part.buffer.push_back([[maybe_unused]] std::move(event));
+            part.buffer.push_back(std::move(event));
             ++part.size;
             ++events_pushed_;
             notifySubscribers(part.buffer.back());
@@ -580,7 +583,7 @@ EventStream::PushResult EventStream::push([[maybe_unused]] Event event) {
 
     {
         std::lock_guard lk(part.mutex);
-        part.buffer.push_back([[maybe_unused]] std::move(event));
+        part.buffer.push_back(std::move(event));
         ++part.size;
         ++events_pushed_;
         notifySubscribers(part.buffer.back());
@@ -588,7 +591,7 @@ EventStream::PushResult EventStream::push([[maybe_unused]] Event event) {
     return PushResult::SUCCESS;
 }
 
-std::optional<Event> EventStream::pull([[maybe_unused]] uint32_t partition_id) {
+std::optional<Event> EventStream::pull(uint32_t partition_id) {
     if (partition_id >= static_cast<int>(partitions_.size())) {
         return std::nullopt;
     }
@@ -597,14 +600,14 @@ std::optional<Event> EventStream::pull([[maybe_unused]] uint32_t partition_id) {
     if (part.buffer.empty()) {
         return std::nullopt;
     }
-    Event ev = std::move([[maybe_unused]] part.buffer.front());
+    Event ev = std::move(part.buffer.front());
     part.buffer.pop_front();
     --part.size;
     ++events_pulled_;
     return ev;
 }
 
-std::optional<Event> EventStream::peek([[maybe_unused]] uint32_t partition_id) const {
+std::optional<Event> EventStream::peek(uint32_t partition_id) const {
     if (partition_id >= static_cast<int>(partitions_.size())) {
         return std::nullopt;
     }
@@ -616,7 +619,7 @@ std::optional<Event> EventStream::peek([[maybe_unused]] uint32_t partition_id) c
     return part.buffer.front();
 }
 
-float EventStream::getFillLevel([[maybe_unused]] uint32_t partition_id) const {
+float EventStream::getFillLevel(uint32_t partition_id) const {
     if (partition_id >= static_cast<int>(partitions_.size())) {
         return 0.0f;
     }
@@ -652,14 +655,14 @@ EventStream::Stats EventStream::getStats() const {
         getOverallFillLevel()};
 }
 
-uint64_t EventStream::subscribe([[maybe_unused]] EventCallback callback) {
+uint64_t EventStream::subscribe(EventCallback callback) {
     uint64_t id = next_subscription_id_++;
     std::unique_lock lock(subscribers_mutex_);
-    subscribers_[id] = std::move([[maybe_unused]] callback);
+    subscribers_[id] = std::move(callback);
     return id;
 }
 
-void EventStream::unsubscribe([[maybe_unused]] uint64_t subscription_id) {
+void EventStream::unsubscribe(uint64_t subscription_id) {
     std::unique_lock lock(subscribers_mutex_);
     subscribers_.erase(subscription_id);
 }
@@ -706,17 +709,17 @@ bool PatternMatcher::matchesEventType(const Event &event, const std::string &exp
     if (expected.empty() || expected == "*") {
         return true;
     }
-    if ([[maybe_unused]] !event.event_name.empty() && event.event_name == expected) {
+    if (!event.event_name.empty() && event.event_name == expected) {
         return true;
     }
     // Match by EventType string representation
-    const char *type_str = eventTypeToString([[maybe_unused]] event.type);
+    const char *type_str = eventTypeToString(event.type);
     if (type_str && expected == type_str)
-        return true = {};
+        return true;
     return false;
 }
 
-bool PatternMatcher::evaluateCondition([[maybe_unused]] const Event &event) const {
+bool PatternMatcher::evaluateCondition(const Event &event) const {
     if (config_.condition.empty()) {
         return true;
     }
@@ -739,7 +742,7 @@ void PatternMatcher::pruneExpiredMatches() {
     for (auto &[key, matches] : partial_matches_) {
         auto &vec = matches;
         vec.erase(std::remove_if(vec.begin(), vec.end(),
-                                 [&]([[maybe_unused]] const PartialMatch &pm) {
+                                 [&](const PartialMatch &pm) {
                                      return std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time)
                                             > config_.within;
                                  }),
@@ -747,7 +750,7 @@ void PatternMatcher::pruneExpiredMatches() {
     }
 }
 
-std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Event &event) {
+std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
     if (nfa_states_.empty()) {
         return {};
     }
@@ -760,7 +763,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
     if (!config_.group_by.empty()) {
         std::ostringstream oss = {};
         for (const auto &field : config_.group_by) {
-            auto it = event.fields.find([[maybe_unused]] field);
+            auto it = event.fields.find(field);
             oss << (it != event.fields.end() ? fieldValueToString(it->second) : "") << ":";
         }
         group_key = oss.str();
@@ -771,13 +774,13 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
 
     // DISJUNCTION: match if any event type matches
     if (config_.type == PatternType::DISJUNCTION) {
-        for ([[maybe_unused]] const auto &et : config_.event_types) {
+        for (const auto &et : config_.event_types) {
             if (matchesEventType(event, et) && evaluateCondition(event)) {
                 ++match_count_;
                 PatternMatch pm = PatternMatch{};
                 pm.pattern_id = config_.pattern_id;
                 pm.match_time = std::chrono::system_clock::now();
-                pm.matched_events.push_back([[maybe_unused]] event);
+                pm.matched_events.push_back(event);
                 completed.push_back(std::move(pm));
             }
         }
@@ -785,12 +788,12 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
     }
 
     // NEGATION: complete if NOT followed by the second event type after first matched
-    if ([[maybe_unused]] config_.type == PatternType::NEGATION && static_cast<int>(config_.event_types.size()) == 2) {
+    if (config_.type == PatternType::NEGATION && static_cast<int>(config_.event_types.size()) == 2) {
         // Start a partial match on first event type
         if (matchesEventType(event, config_.event_types[0]) && evaluateCondition(event)) {
             PartialMatch pm;
             pm.current_state = 1;
-            pm.matched_events.push_back([[maybe_unused]] event);
+            pm.matched_events.push_back(event);
             pm.start_time = std::chrono::steady_clock::now();
             active.push_back(std::move(pm));
         }
@@ -825,14 +828,14 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
     if (config_.type == PatternType::CONJUNCTION) {
         const auto now      = std::chrono::steady_clock::now();
         bool event_relevant = false;
-        for ([[maybe_unused]] const auto &et : config_.event_types) {
+        for (const auto &et : config_.event_types) {
             if (matchesEventType(event, et)) {
                 event_relevant = true;
                 break;
             }
         }
 
-        if ([[maybe_unused]] event_relevant && evaluateCondition(event)) {
+        if (event_relevant && evaluateCondition(event)) {
             // Extend currently active conjunction candidates.
             for (auto &pm : active) {
                 const bool within_tolerance
@@ -840,14 +843,14 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
                       || (std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time)
                           <= config_.tolerance);
                 if (within_tolerance) {
-                    pm.matched_events.push_back([[maybe_unused]] event);
+                    pm.matched_events.push_back(event);
                 }
             }
 
             // Start a new candidate with the current event as first seen member.
             PartialMatch pm;
             pm.current_state = 0;
-            pm.matched_events.push_back([[maybe_unused]] event);
+            pm.matched_events.push_back(event);
             pm.start_time = now;
             active.push_back(std::move(pm));
         }
@@ -860,11 +863,11 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
             // Pre-allocate set with expected size to avoid reallocations.
             std::unordered_set<std::string> seen = {};
 
-            seen.reserve([[maybe_unused]] config_.event_types.size());
+            seen.reserve(config_.event_types.size());
 
             // For each event, find all matching event types (optimized single pass)
-            for ([[maybe_unused]] const auto &ev : pm.matched_events) {
-                for ([[maybe_unused]] const auto &et : config_.event_types) {
+            for (const auto &ev : pm.matched_events) {
+                for (const auto &et : config_.event_types) {
                     if (matchesEventType(ev, et)) {
                         seen.insert(et); // O(1) insertion with unordered_set
                     }
@@ -872,12 +875,12 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
             }
 
             // Check if all required event types have been seen
-            bool all_seen = ([[maybe_unused]] static_cast<int>(seen.size()) == static_cast<int>(config_.event_types.size()));
+            bool all_seen = (static_cast<int>(seen.size()) == static_cast<int>(config_.event_types.size()));
             if (!all_seen) {
                 // Fallback detailed check in case sizes don't match exactly
                 // (e.g., duplicates or special handling)
                 all_seen = true;
-                for ([[maybe_unused]] const auto &et : config_.event_types) {
+                for (const auto &et : config_.event_types) {
                     if (seen.find(et) == seen.end()) {
                         all_seen = false;
                         break;
@@ -911,9 +914,9 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
         const auto &state = nfa_states_[pm.current_state];
         if (matchesEventType(event, state.expected_event_type) && evaluateCondition(event)) {
             PartialMatch extended = pm;
-            extended.matched_events.push_back([[maybe_unused]] event);
+            extended.matched_events.push_back(event);
             if (state.is_accepting) {
-                uint32_t count = static_cast<uint32_t>([[maybe_unused]] extended.matched_events.size());
+                uint32_t count = static_cast<uint32_t>(extended.matched_events.size());
                 if (count >= config_.min_occurrences && count <= config_.max_occurrences) {
                     ++match_count_;
                     PatternMatch result;
@@ -946,7 +949,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
 
     // Start a new partial match from state 0 (SEQUENCE can start on any event)
     if (!nfa_states_.empty() && matchesEventType(event, nfa_states_[0].expected_event_type)
-        && evaluateCondition([[maybe_unused]] event)) {
+        && evaluateCondition(event)) {
         PartialMatch pm;
         pm.start_time = std::chrono::steady_clock::now();
         if (nfa_states_[0].is_accepting) {
@@ -956,14 +959,14 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
                 PatternMatch result;
                 result.pattern_id = config_.pattern_id;
                 result.match_time = std::chrono::system_clock::now();
-                result.matched_events.push_back([[maybe_unused]] event);
+                result.matched_events.push_back(event);
                 completed.push_back(std::move(result));
             }
         }
         for (uint32_t next : nfa_states_[0].transitions) {
             PartialMatch newpm;
             newpm.current_state = next;
-            newpm.matched_events.push_back([[maybe_unused]] event);
+            newpm.matched_events.push_back(event);
             newpm.start_time = std::chrono::steady_clock::now();
             active.push_back(std::move(newpm));
         }
@@ -972,7 +975,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
             PatternMatch result;
             result.pattern_id = config_.pattern_id;
             result.match_time = std::chrono::system_clock::now();
-            result.matched_events.push_back([[maybe_unused]] event);
+            result.matched_events.push_back(event);
             completed.push_back(std::move(result));
         }
     }
@@ -1007,7 +1010,7 @@ std::string PatternMatcher::serializeState() const {
         for (const auto &pm : matches) {
             int64_t age_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time).count();
             oss << "pm_match=" << gk_hex << "|" << pm.current_state << "|" << age_ms << "\n";
-            for ([[maybe_unused]] const auto &ev : pm.matched_events) {
+            for (const auto &ev : pm.matched_events) {
                 auto bytes = ev.serialize();
                 oss << "pm_ev=" << hexEncode(std::string(bytes.begin(), bytes.end())) << "\n";
             }
@@ -1061,9 +1064,9 @@ void PatternMatcher::restoreState(const std::string &data) {
         } else if (line.rfind("pm_ev=", 0) == 0 && current_pm != nullptr) {
            std::string bytes_str = hexDecode(line.substr(6));
            std::vector<uint8_t> bytes(bytes_str.begin(), bytes_str.end());
-           auto ev = Event::deserialize([[maybe_unused]] bytes);
+           auto ev = Event::deserialize(bytes);
            if (ev.has_value()) {
-               current_pm->matched_events.push_back([[maybe_unused]] std::move(*ev));
+               current_pm->matched_events.push_back(std::move(*ev));
            }
         }
     }
@@ -1086,8 +1089,8 @@ WindowManager::~WindowManager() {
     }
 }
 
-void WindowManager::setWindowCallback([[maybe_unused]] WindowCallback callback) {
-    callback_ = std::move([[maybe_unused]] callback);
+void WindowManager::setWindowCallback(WindowCallback callback) {
+    callback_ = std::move(callback);
 }
 
 void WindowManager::advanceWatermark(std::chrono::system_clock::time_point wm) {
@@ -1096,22 +1099,22 @@ void WindowManager::advanceWatermark(std::chrono::system_clock::time_point wm) {
     }
 }
 
-void WindowManager::addEvent([[maybe_unused]] const Event &event) {
+void WindowManager::addEvent(const Event &event) {
     switch (config_.type) {
         case WindowType::TUMBLING:
-            handleTumblingWindow([[maybe_unused]] event);
+            handleTumblingWindow(event);
             break;
         case WindowType::SLIDING:
-            handleSlidingWindow([[maybe_unused]] event);
+            handleSlidingWindow(event);
             break;
         case WindowType::SESSION:
-            handleSessionWindow([[maybe_unused]] event);
+            handleSessionWindow(event);
             break;
         case WindowType::HOPPING:
-            handleSlidingWindow([[maybe_unused]] event);
+            handleSlidingWindow(event);
             break; // same logic
         case WindowType::COUNT:
-            handleCountWindow([[maybe_unused]] event);
+            handleCountWindow(event);
             break;
         case WindowType::GLOBAL: {
             std::lock_guard lk(windows_mutex_);
@@ -1128,7 +1131,7 @@ void WindowManager::addEvent([[maybe_unused]] const Event &event) {
     }
 }
 
-void WindowManager::handleTumblingWindow([[maybe_unused]] const Event &event) {
+void WindowManager::handleTumblingWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
         std::lock_guard lk(windows_mutex_);
@@ -1153,21 +1156,21 @@ void WindowManager::handleTumblingWindow([[maybe_unused]] const Event &event) {
             // Late event
             ++late_events_;
         } else {
-            current.events.push_back([[maybe_unused]] event);
+            current.events.push_back(event);
         }
     }
-    if ([[maybe_unused]] batch && callback_) {
+    if (batch && callback_) {
         try {
             callback_(batch->events, batch->start, batch->end);
         } catch (const std::exception &e) {
             spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn([[maybe_unused]] "CEP: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
 
-void WindowManager::handleSlidingWindow([[maybe_unused]] const Event &event) {
+void WindowManager::handleSlidingWindow(const Event &event) {
     std::vector<WindowCallbackBatch> batches;
     {
         std::lock_guard lk(windows_mutex_);
@@ -1186,7 +1189,7 @@ void WindowManager::handleSlidingWindow([[maybe_unused]] const Event &event) {
         // Add event to all open windows that contain this timestamp
         for (auto &w : windows_) {
             if (!w.closed && ts >= w.start && ts < w.end) {
-                w.events.push_back([[maybe_unused]] event);
+                w.events.push_back(event);
             }
         }
 
@@ -1211,12 +1214,12 @@ void WindowManager::handleSlidingWindow([[maybe_unused]] const Event &event) {
         } catch (const std::exception &e) {
             spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn([[maybe_unused]] "CEP: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
 
-void WindowManager::handleSessionWindow([[maybe_unused]] const Event &event) {
+void WindowManager::handleSessionWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
         std::lock_guard lk(windows_mutex_);
@@ -1230,7 +1233,7 @@ void WindowManager::handleSessionWindow([[maybe_unused]] const Event &event) {
             Window w;
             w.start = ts;
             w.end   = ts + config_.gap;
-            w.events.push_back([[maybe_unused]] event);
+            w.events.push_back(event);
             auto result = session_windows_.insert({key, std::move(w)});
             if (result.second) {
                 ++windows_created_;
@@ -1244,27 +1247,27 @@ void WindowManager::handleSessionWindow([[maybe_unused]] const Event &event) {
                 Window nw;
                 nw.start = ts;
                 nw.end   = ts + config_.gap;
-                nw.events.push_back([[maybe_unused]] event);
+                nw.events.push_back(event);
                 it->second = std::move(nw);
                 ++windows_created_;
             } else {
-                w.events.push_back([[maybe_unused]] event);
+                w.events.push_back(event);
                 w.end = ts + config_.gap; // extend
             }
         }
     }
-    if ([[maybe_unused]] batch && callback_) {
+    if (batch && callback_) {
         try {
             callback_(batch->events, batch->start, batch->end);
         } catch (const std::exception &e) {
             spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn([[maybe_unused]] "CEP: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
 
-void WindowManager::handleCountWindow([[maybe_unused]] const Event &event) {
+void WindowManager::handleCountWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
         std::lock_guard lk(windows_mutex_);
@@ -1276,9 +1279,9 @@ void WindowManager::handleCountWindow([[maybe_unused]] const Event &event) {
             ++windows_created_;
         }
         Window &current = windows_.back();
-        current.events.push_back([[maybe_unused]] event);
+        current.events.push_back(event);
         current.end = event.timestamp;
-        if ([[maybe_unused]] config_.count > 0 && static_cast<int>(current.events.size()) >= config_.count) {
+        if (config_.count > 0 && static_cast<int>(current.events.size()) >= config_.count) {
             batch = closeWindow(current);
             Window nw;
             nw.start = event.timestamp;
@@ -1287,24 +1290,24 @@ void WindowManager::handleCountWindow([[maybe_unused]] const Event &event) {
             ++windows_created_;
         }
     }
-    if ([[maybe_unused]] batch && callback_) {
+    if (batch && callback_) {
         try {
             callback_(batch->events, batch->start, batch->end);
         } catch (const std::exception &e) {
             spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn([[maybe_unused]] "CEP: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
 
-std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow([[maybe_unused]] Window &w) {
+std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Window &w) {
     if (w.closed) {
         return std::nullopt;
     }
     w.closed = true;
     ++windows_closed_;
-    if ([[maybe_unused]] callback_ && config_.emit_on_close && !w.events.empty()) {
+    if (callback_ && config_.emit_on_close && !w.events.empty()) {
         return WindowCallbackBatch{std::move(w.events), w.start, w.end};
     }
     return std::nullopt;
@@ -1330,7 +1333,7 @@ std::vector<Event> WindowManager::getEvents(std::chrono::system_clock::time_poin
     std::vector<Event> result = {};
 
     for (const auto &w : windows_) {
-        for ([[maybe_unused]] const auto &ev : w.events) {
+        for (const auto &ev : w.events) {
             if (ev.timestamp >= start && ev.timestamp < end) {
                 result.push_back(ev);
             }
@@ -1338,7 +1341,7 @@ std::vector<Event> WindowManager::getEvents(std::chrono::system_clock::time_poin
     }
     // Also check session windows
     for (const auto &[key, w] : session_windows_) {
-        for ([[maybe_unused]] const auto &ev : w.events) {
+        for (const auto &ev : w.events) {
             if (ev.timestamp >= start && ev.timestamp < end) {
                 result.push_back(ev);
             }
@@ -1376,13 +1379,13 @@ void WindowManager::timerLoop() {
         // Emit on_event for GLOBAL windows periodically.
         // Snapshot event vectors under the lock, then dispatch outside so the
         // lock is not held while executing arbitrary user callbacks.
-        if ([[maybe_unused]] config_.type == WindowType::GLOBAL && config_.emit_on_event && callback_) {
+        if (config_.type == WindowType::GLOBAL && config_.emit_on_event && callback_) {
             std::vector<WindowCallbackBatch> batches;
             auto now = std::chrono::system_clock::now();
             {
                 std::lock_guard wlk(windows_mutex_);
                 for (auto &w : windows_) {
-                    if ([[maybe_unused]] !w.closed && !w.events.empty()) {
+                    if (!w.closed && !w.events.empty()) {
                         // Copy (not move): the window stays open; events must
                         // remain in the window for future emissions.
                         batches.push_back({w.events, w.start, now});
@@ -1395,7 +1398,7 @@ void WindowManager::timerLoop() {
                 } catch (const std::exception &e) {
                     spdlog::warn("CEP: window callback threw exception: {}", e.what());
                 } catch (...) {
-                    spdlog::warn([[maybe_unused]] "CEP: window callback threw unknown exception");
+                    spdlog::warn("CEP: window callback threw unknown exception");
                 }
             }
         }
@@ -1422,7 +1425,7 @@ void WindowManager::timerLoop() {
                 } catch (const std::exception &e) {
                     spdlog::warn("CEP: window callback threw exception: {}", e.what());
                 } catch (...) {
-                    spdlog::warn([[maybe_unused]] "CEP: window callback threw unknown exception");
+                    spdlog::warn("CEP: window callback threw unknown exception");
                 }
             }
         }
@@ -1466,20 +1469,20 @@ void Aggregator::reset() {
     grouped_aggregations_.clear();
 }
 
-std::string Aggregator::getGroupKey([[maybe_unused]] const Event &event) const {
+std::string Aggregator::getGroupKey(const Event &event) const {
     if (group_by_fields_.empty()) {
         return "";
     }
     std::string key = {};
     for (const auto &f : group_by_fields_) {
-        auto it = event.fields.find([[maybe_unused]] f);
+        auto it = event.fields.find(f);
         key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + "|";
     }
     return key;
 }
 
 void Aggregator::updateAggregation(AggregationState &s, const Event &event) {
-    auto it          = event.fields.find([[maybe_unused]] s.field);
+    auto it          = event.fields.find(s.field);
     CepFieldValue fv = (it != event.fields.end()) ? it->second : CepFieldValue{std::monostate{}};
     double dval      = toDouble(fv);
 
@@ -1500,10 +1503,14 @@ void Aggregator::updateAggregation(AggregationState &s, const Event &event) {
 
     switch (s.type) {
         case AggregationType::STDDEV:
-        [[fallthrough]];\n        case AggregationType::VARIANCE:
-        [[fallthrough]];\n        case AggregationType::PERCENTILE:
-        [[fallthrough]];\n        case AggregationType::COLLECT:
-        [[fallthrough]];\n        case AggregationType::TOPN:
+        [[fallthrough]];
+        case AggregationType::VARIANCE:
+        [[fallthrough]];
+        case AggregationType::PERCENTILE:
+        [[fallthrough]];
+        case AggregationType::COLLECT:
+        [[fallthrough]];
+        case AggregationType::TOPN:
             s.values.push_back(dval);
             break;
         case AggregationType::DISTINCT_COUNT:
@@ -1535,7 +1542,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::LAST:
             return s.last_value;
         case AggregationType::DISTINCT_COUNT:
-            return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.distinct_values.size())));
+            return static_cast<int64_t>(s.distinct_values.size());
         case AggregationType::VARIANCE: {
             if (static_cast<int>(s.values.size()) < 2) {
                 return 0.0;
@@ -1588,14 +1595,14 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
     }
 }
 
-void Aggregator::processEvent([[maybe_unused]] const Event &event) {
+void Aggregator::processEvent(const Event &event) {
     std::lock_guard lk(mutex_);
     if (group_by_fields_.empty()) {
         for (auto &[n, s] : aggregations_) {
             updateAggregation(s, event);
         }
     } else {
-        std::string gkey = getGroupKey([[maybe_unused]] event);
+        std::string gkey = getGroupKey(event);
         for (auto &[n, s] : aggregations_) {
             auto &grouped = grouped_aggregations_[gkey];
             if (grouped.find(n) == grouped.end()) {
@@ -1738,7 +1745,7 @@ bool RuleEngine::evaluateFilter(const Event &event, const std::string &filter) c
     ctx["collection"]    = event.collection_name;
     ctx["document_id"]   = event.document_id;
     ctx["partition_key"] = event.partition_key;
-    ctx["priority"]      = std::to_string([[maybe_unused]] static_cast<int>(event.priority));
+    ctx["priority"]      = std::to_string(static_cast<int>(event.priority));
     for (const auto &[k, v] : event.fields) {
         ctx[k] = fieldValueToString(v);
     }
@@ -1802,7 +1809,7 @@ void RuleEngine::executeActions(const RuleConfig &config, const PatternMatch &ma
     }
 }
 
-std::vector<Alert> RuleEngine::processEvent([[maybe_unused]] const Event &event) {
+std::vector<Alert> RuleEngine::processEvent(const Event &event) {
     std::vector<Alert> alerts;
 
     std::shared_lock lk(rules_mutex_);
@@ -1812,14 +1819,14 @@ std::vector<Alert> RuleEngine::processEvent([[maybe_unused]] const Event &event)
         }
 
         // Priority check
-        if ([[maybe_unused]] event.priority > state.config.min_priority) {
+        if (event.priority > state.config.min_priority) {
             continue;
         }
 
         // Stream filter
         if (!state.config.streams.empty()) {
             bool in_stream = std::any_of(state.config.streams.begin(), state.config.streams.end(),
-                                         [&]([[maybe_unused]] const std::string &s) { return s == event.partition_key || s == "*"; });
+                                         [&](const std::string &s) { return s == event.partition_key || s == "*"; });
             if (!in_stream) {
                 continue;
             }
@@ -1836,11 +1843,11 @@ std::vector<Alert> RuleEngine::processEvent([[maybe_unused]] const Event &event)
 
         // Add event to window manager
         if (state.window_manager) {
-            state.window_manager->addEvent([[maybe_unused]] event);
+            state.window_manager->addEvent(event);
         }
 
         // Update aggregations
-        state.aggregator->processEvent([[maybe_unused]] event);
+        state.aggregator->processEvent(event);
 
         // Check HAVING if no pattern
         if (!state.config.pattern) {
@@ -1854,14 +1861,14 @@ std::vector<Alert> RuleEngine::processEvent([[maybe_unused]] const Event &event)
         std::vector<PatternMatch> matches = {};
 
         if (state.pattern_matcher) {
-            matches = state.pattern_matcher->processEvent([[maybe_unused]] event);
+            matches = state.pattern_matcher->processEvent(event);
         } else {
             // No pattern: create a synthetic match for every event
             PatternMatch pm;
             pm.pattern_id = "";
             pm.rule_id    = rule_id;
             pm.match_time = std::chrono::system_clock::now();
-            pm.matched_events.push_back([[maybe_unused]] event);
+            pm.matched_events.push_back(event);
             matches.push_back(std::move(pm));
         }
 
@@ -2102,13 +2109,13 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             }
 
             std::string events_str = m[2];
-            std::istringstream iss([[maybe_unused]] events_str);
+            std::istringstream iss(events_str);
             std::string token = {};
             while (std::getline(iss, token, ',')) {
                 token.erase(0, token.find_first_not_of(" \t"));
                 token.erase(token.find_last_not_of(" \t") + 1);
                 if (!token.empty()) {
-                    pc.event_types.push_back([[maybe_unused]] token);
+                    pc.event_types.push_back(token);
                 }
             }
 
@@ -2474,7 +2481,7 @@ void CEPEngine::initialize(const CEPConfig &config) {
         default_sc.stream_name = "default";
         default_sc.buffer_size = DEFAULT_STREAM_BUFFER_SIZE;
         default_sc.partitions  = config_.worker_threads;
-        default_stream_        = std::make_shared<EventStream>([[maybe_unused]] default_sc);
+        default_stream_        = std::make_shared<EventStream>(default_sc);
         {
             std::unique_lock lk(streams_mutex_);
             streams_["default"] = default_stream_;
@@ -2524,15 +2531,15 @@ void CEPEngine::shutdown() {
     spdlog::info("CEPEngine shut down");
 }
 
-std::shared_ptr<EventStream> CEPEngine::createStream([[maybe_unused]] const StreamConfig &config) {
-    auto stream = std::make_shared<EventStream>([[maybe_unused]] config);
+std::shared_ptr<EventStream> CEPEngine::createStream(const StreamConfig &config) {
+    auto stream = std::make_shared<EventStream>(config);
     std::unique_lock lk(streams_mutex_);
     streams_[config.stream_id] = stream;
     spdlog::debug("CEPEngine: stream '{}' created", config.stream_id);
     return stream;
 }
 
-std::shared_ptr<EventStream> CEPEngine::getStream([[maybe_unused]] const std::string &stream_id) const {
+std::shared_ptr<EventStream> CEPEngine::getStream(const std::string &stream_id) const {
     std::shared_lock lk(streams_mutex_);
     auto it = streams_.find(stream_id);
     return (it != streams_.end()) ? it->second : nullptr;
@@ -2553,7 +2560,7 @@ bool CEPEngine::removeStream(const std::string &stream_id) {
     return streams_.erase(stream_id) > 0;
 }
 
-bool CEPEngine::submitEvent([[maybe_unused]] Event event) {
+bool CEPEngine::submitEvent(Event event) {
     return submitEvent("default", std::move(event));
 }
 
@@ -2566,11 +2573,11 @@ bool CEPEngine::submitEvent(const std::string &stream_id, Event event) {
     // Assign sequence number and processing time
     event.sequence_number = events_received_.load();
     event.processing_time = std::chrono::system_clock::now();
-    if ([[maybe_unused]] event.event_id.empty()) {
+    if (event.event_id.empty()) {
         event.event_id = generateId();
     }
 
-    if ([[maybe_unused]] !event_queue_) {
+    if (!event_queue_) {
         return false;
     }
 
@@ -2614,7 +2621,7 @@ Event CEPEngine::createCDCEvent(EventType type, const std::string &collection, c
     Event ev = Event{};
     ev.event_id        = generateId();
     ev.type            = type;
-    ev.event_name      = eventTypeToString([[maybe_unused]] type);
+    ev.event_name      = eventTypeToString(type);
     ev.collection_name = collection;
     ev.document_id     = document_id;
     ev.timestamp       = std::chrono::system_clock::now();
@@ -2684,7 +2691,7 @@ std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) 
     std::lock_guard lk(alerts_mutex_);
     std::vector<Alert> result = {};
 
-    result.reserve(std::min(limit,static_cast<int>(alerts_.size())));
+    result.reserve(std::min(limit, alerts_.size()));
     for (auto it = alerts_.rbegin(); it != alerts_.rend() && static_cast<int>(result.size()) < limit; ++it) {
         if (unacknowledged_only && it->acknowledged) {
             continue;
@@ -2705,9 +2712,9 @@ bool CEPEngine::acknowledgeAlert(const std::string &alert_id) {
     return false;
 }
 
-void CEPEngine::setAlertCallback([[maybe_unused]] AlertCallback callback) {
+void CEPEngine::setAlertCallback(AlertCallback callback) {
     std::lock_guard lk(alerts_mutex_);
-    alert_callback_ = std::move([[maybe_unused]] callback);
+    alert_callback_ = std::move(callback);
 }
 
 void CEPEngine::addAlert(Alert alert) {
@@ -2720,13 +2727,13 @@ void CEPEngine::addAlert(Alert alert) {
         }
         ++alerts_generated_;
     }
-    if ([[maybe_unused]] alert_callback_) {
+    if (alert_callback_) {
         try {
-            alert_callback_([[maybe_unused]] alert);
+            alert_callback_(alert);
         } catch (const std::exception &e) {
             spdlog::warn("CEP: alert callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn([[maybe_unused]] "CEP: alert callback threw unknown exception");
+            spdlog::warn("CEP: alert callback threw unknown exception");
         }
     }
 }
@@ -2927,14 +2934,14 @@ void CEPEngine::workerLoop() {
     while (running_) {
         std::pair<std::string, Event> item;
         // Attempt a lock-free pop from the ring buffer.
-        bool got = event_queue_ && event_queue_->pop([[maybe_unused]] item);
+        bool got = event_queue_ && event_queue_->pop(item);
         if (!got) {
             // Nothing in the queue — sleep briefly to avoid busy-wait.
             std::unique_lock lk(mutex_);
             cv_.wait_for(lk, std::chrono::milliseconds(100),
-                         [this] { return (([[maybe_unused]] event_queue_ && !event_queue_->empty()) || !running_.load()); });
+                         [this] { return ((event_queue_ && !event_queue_->empty()) || !running_.load()); });
             // Re-try the pop after waking.
-            if ([[maybe_unused]] !event_queue_ || !event_queue_->pop(item)) {
+            if (!event_queue_ || !event_queue_->pop(item)) {
                 continue;
             }
         }
@@ -2948,8 +2955,8 @@ void CEPEngine::processEvent(const std::string &stream_id, const Event &event) {
         std::shared_lock lk(streams_mutex_);
         auto it = streams_.find(stream_id);
         if (it != streams_.end()) {
-            auto result = it->second->push([[maybe_unused]] event);
-            if ([[maybe_unused]] result == EventStream::PushResult::DROPPED) {
+            auto result = it->second->push(event);
+            if (result == EventStream::PushResult::DROPPED) {
                 ++events_dropped_;
                 return;
             }
@@ -2960,7 +2967,7 @@ void CEPEngine::processEvent(const std::string &stream_id, const Event &event) {
     if (!rule_engine_) {
         return;
     }
-    auto new_alerts = rule_engine_->processEvent([[maybe_unused]] event);
+    auto new_alerts = rule_engine_->processEvent(event);
     ++events_processed_;
 
     pattern_matches_ += new_alerts.size();

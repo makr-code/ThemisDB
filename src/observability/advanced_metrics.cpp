@@ -266,7 +266,7 @@ double AdvancedMetrics::getRate(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rate_samples_.find(name);
-    if (it == rate_samples_.end() || it-> static_cast<int>(second.size()) < 2) {
+    if (it == rate_samples_.end() || it->second.size() < 2) {
         return 0.0;
     }
 

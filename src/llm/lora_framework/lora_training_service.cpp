@@ -881,8 +881,8 @@ public:
                     loss_history_.push_back(batch_loss);
                     
                     // Call callback if registered
-                    if ([[maybe_unused]] training_callback_) {
-                        training_callback_([[maybe_unused]] current_metrics_);
+                    if (training_callback_) {
+                        training_callback_(current_metrics_);
                     }
                     
                     // Periodic checkpointing
@@ -961,7 +961,7 @@ public:
                     int correct_predictions = 0;
                     int total_predictions = 0;
                     
-                    for ([[maybe_unused]] const auto& sample : validation_data.samples) {
+                    for (const auto& sample : validation_data.samples) {
                         // Simulate forward pass on validation data
                         // In real implementation, this would use the trained model
                         // For now, we use model loss as proxy for accuracy
@@ -1069,9 +1069,9 @@ public:
         return current_metrics_;
     }
     
-    void registerCallback([[maybe_unused]] TrainingCallback callback) {
+    void registerCallback(TrainingCallback callback) {
         training_callback_ = callback;
-        spdlog::debug([[maybe_unused]] "Registered training callback");
+        spdlog::debug("Registered training callback");
     }
     
     bool isTraining() const {
@@ -1333,12 +1333,12 @@ TrainingMetrics LoRATrainingService::getMetrics() const {
     return service_impl->getMetrics();
 }
 
-void LoRATrainingService::registerCallback([[maybe_unused]] TrainingCallback callback) {
+void LoRATrainingService::registerCallback(TrainingCallback callback) {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
     }
     auto* service_impl = impl_.get();
-    service_impl->registerCallback([[maybe_unused]] callback);
+    service_impl->registerCallback(callback);
 }
 
 bool LoRATrainingService::isTraining() const {
@@ -1648,8 +1648,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 metrics.learning_rate
             );
             
-            if ([[maybe_unused]] service_impl->training_callback_) {
-                service_impl->training_callback_([[maybe_unused]] service_impl->current_metrics_);
+            if (service_impl->training_callback_) {
+                service_impl->training_callback_(service_impl->current_metrics_);
             }
         });
         
@@ -1810,11 +1810,11 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
             return gguf_file.good() && gguf_file.gcount() == count;
         };
 
-        const auto read_u32 = [&read_exact]([[maybe_unused]] uint32_t& value) -> bool {
+        const auto read_u32 = [&read_exact](uint32_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint32_t)));
         };
 
-        const auto read_u64 = [&read_exact]([[maybe_unused]] uint64_t& value) -> bool {
+        const auto read_u64 = [&read_exact](uint64_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint64_t)));
         };
          

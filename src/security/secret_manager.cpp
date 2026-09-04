@@ -235,7 +235,7 @@ SecretManager::listVersions(const std::string& name) const {
 
     std::vector<VersionInfo> result = {};
 
-    result.reserve(it-> static_cast<int>(second.versions.size()));
+    result.reserve(it->second.versions.size());
     for (const auto& v : it->second.versions) {
         VersionInfo info;
         info.version    = v.version;

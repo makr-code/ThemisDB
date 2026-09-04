@@ -496,8 +496,8 @@ Result<void> writeBinaryFileBytes(const fs::path& file_path, const std::vector<u
 
 std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
     StorageBackend backend,
-    [[maybe_unused]] const RemoteBackupLocation& location,
-    [[maybe_unused]] const std::map<std::string, std::string>& config) {
+    const RemoteBackupLocation& location,
+    const std::map<std::string, std::string>& config) {
     switch (backend) {
     case StorageBackend::S3:
 #if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK
@@ -978,7 +978,7 @@ uint64_t BackupManager::getCurrentSequenceNumber() const {
 }
 
 Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
-                                         [[maybe_unused]] uint64_t min_sequence) {
+                                         uint64_t min_sequence) {
     namespace fs = std::filesystem;
     try {
         std::error_code ec = {};
@@ -1087,7 +1087,7 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
 
 bool BackupManager::createFullBackup(const std::string& dest_dir, 
                                      std::error_code& ec,
-                                     [[maybe_unused]] const BackupOptions& options) {
+                                     const BackupOptions& options) {
     // Call the Result-based version and convert to bool + error_code
     auto result = createFullBackup(dest_dir);
     if (result) {
@@ -1870,8 +1870,8 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 // New Helper Methods
 // ============================================================================
 
-bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
-                                 [[maybe_unused]] const std::string& dest_path,
+bool BackupManager::compressPath(const std::string& src_path,
+                                 const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
     // ZSTD: compress each file to dest_path/<relpath>.zst (THEMIS_HAS_ZSTD)
@@ -1985,8 +1985,8 @@ bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
 #endif
 }
 
-bool BackupManager::decompressPath([[maybe_unused]] const std::string& src_path,
-                                   [[maybe_unused]] const std::string& dest_path,
+bool BackupManager::decompressPath(const std::string& src_path,
+                                   const std::string& dest_path,
                                    CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
     // ZSTD: decompress *.zst files; THEMIS_HAS_ZSTD must be set.
@@ -2133,9 +2133,9 @@ bool BackupManager::decompressPath([[maybe_unused]] const std::string& src_path,
 #endif
 }
 
-bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
-                                [[maybe_unused]] const std::string& dest_path,
-                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+bool BackupManager::encryptFile(const std::string& src_path,
+                                const std::string& dest_path,
+                                const std::string& key, std::error_code& ec) {
     static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM encryption.  File format:
@@ -2222,9 +2222,9 @@ bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
 #endif
 }
 
-bool BackupManager::decryptFile([[maybe_unused]] const std::string& src_path,
-                                [[maybe_unused]] const std::string& dest_path,
-                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+bool BackupManager::decryptFile(const std::string& src_path,
+                                const std::string& dest_path,
+                                const std::string& key, std::error_code& ec) {
     static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM decryption — mirrors encryptFile() format:

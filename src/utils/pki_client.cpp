@@ -184,7 +184,7 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
     return out;
 }
 
-static std::string random_hex_id([[maybe_unused]] size_t bytes = 8) {
+static std::string random_hex_id(size_t bytes = 8) {
     std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
@@ -524,8 +524,8 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     res.signature_id = "sig_" + random_hex_id(8);
     res.algorithm = cfg_.signature_algorithm.empty() ? std::string("RSA-SHA256") : cfg_.signature_algorithm;
 
-    [[maybe_unused]] size_t expected_len = 0;
-    [[maybe_unused]] int nid = nid_for_algorithm(res.algorithm, expected_len);
+    size_t expected_len = 0;
+    int nid = nid_for_algorithm(res.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST signing first
     if (!cfg_.endpoint.empty()) {
@@ -758,8 +758,8 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
       return false;
     }
 
-    [[maybe_unused]] size_t expected_len = 0;
-    [[maybe_unused]] int nid = nid_for_algorithm(sig.algorithm, expected_len);
+    size_t expected_len = 0;
+    int nid = nid_for_algorithm(sig.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST verify first
     if (!cfg_.endpoint.empty()) {
@@ -864,7 +864,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         if (pub_result) {
             EVP_PKEY* pub = *pub_result;
             // Use EVP_PKEY verification instead of deprecated RSA_verify
-            [[maybe_unused]] int max_sig_len = EVP_PKEY_size(pub);
+            int max_sig_len = EVP_PKEY_size(pub);
             auto sig_bytes = base64_decode(sig.signature_b64);
             EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pub, nullptr);
             if (ctx) {

@@ -247,7 +247,7 @@ bool ONNXServingBackend::isAvailable() const {
     return true; // ONNX Runtime linked at compile time
 }
 
-MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
+MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
     Stopwatch sw;
     MLServingResponse resp = {};
 
@@ -417,7 +417,7 @@ bool TFServingBackend::isAvailable() const {
     return true;
 }
 
-MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
+MLServingResponse TFServingBackend::infer(const MLServingRequest &req) {
     using json = nlohmann::json;
     Stopwatch sw;
     MLServingResponse resp = {};
@@ -542,7 +542,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
                 t.name = name;
                 if (val.is_array()) {
                     // Flatten potentially nested arrays to 1-D float vector
-                    std::function<void(const json &)> flatten = [&]([[maybe_unused]] const json &node) {
+                    std::function<void(const json &)> flatten = [&](const json &node) {
                         if (node.is_array()) {
                             for (const auto &elem : node)
                                 flatten(elem);
@@ -593,7 +593,7 @@ bool TFServingBackend::isAvailable() const {
     return false;
 }
 
-MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
+MLServingResponse TFServingBackend::infer(const MLServingRequest &req) {
 #if !defined(THEMIS_HAS_CURL) || !THEMIS_HAS_CURL
     spdlog::warn("MLServing[TF]: libcurl not compiled in – "
                  "rebuild with THEMIS_HAS_CURL=1");
@@ -633,7 +633,8 @@ struct MLServingClient::Impl {
                 backend = std::make_unique<TFServingBackend>(cfg.tf_config);
                 break;
             case MLBackendType::AUTO:
-            [[fallthrough]];\n            default: {
+            [[fallthrough]];
+            default: {
                 // Prefer ONNX Runtime; fall back to TF Serving.
                 auto onnx = std::make_unique<ONNXServingBackend>(cfg.onnx_config);
                 if (onnx->isAvailable()) {

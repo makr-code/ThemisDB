@@ -339,7 +339,7 @@ ContinuousLearningClient::Statistics ContinuousLearningClient::getStatistics() c
 void ContinuousLearningClient::setTriggerCallback(
     std::function<void(const OptimizationTrigger&)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->trigger_callback = callback;
 }
 
@@ -360,9 +360,9 @@ void ContinuousLearningClient::evaluateTriggers() {
         THEMIS_INFO("Recommendation: {}", trigger->recommendation);
         
         // Call callback if set
-        std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);
-        if ([[maybe_unused]] impl_->trigger_callback) {
-            impl_->trigger_callback([[maybe_unused]] *trigger);
+        std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+        if (impl_->trigger_callback) {
+            impl_->trigger_callback(*trigger);
         }
     }
 }

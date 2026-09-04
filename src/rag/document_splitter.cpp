@@ -273,7 +273,7 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
     size_t current_tokens = 0;
     size_t chunk_start_offset = sentences.front().second;
 
-    auto flush = [&]([[maybe_unused]] size_t end_offset) {
+    auto flush = [&](size_t end_offset) {
         if (current.empty()) {
           return;
         }
@@ -370,7 +370,8 @@ DocumentSplitter::split(const std::string& text,
         case SplitStrategy::Sliding:
             return impl_->splitSliding(text, document_id);
         case SplitStrategy::Sentence:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return impl_->splitSentence(text, document_id);
     }
 }

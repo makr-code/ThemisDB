@@ -165,7 +165,7 @@ std::string VoiceAccessibility::formatAsVTT(
 
 std::string VoiceAccessibility::formatAsSRT(
     const std::vector<CaptionCue>& cues,
-    [[maybe_unused]] const TranscriptExportOptions& opts) const
+    const TranscriptExportOptions& opts) const
 {
     std::ostringstream ss = {};
 

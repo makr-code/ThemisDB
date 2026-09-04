@@ -299,7 +299,7 @@ inline void cleanupRawAllocation(void* ptr,
     }
 }
 
-inline std::optional<float> queryNvmlTemperatureCelsius([[maybe_unused]] int gpu_device_id) {
+inline std::optional<float> queryNvmlTemperatureCelsius(int gpu_device_id) {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     using nvmlReturn_t = int;
     using nvmlDevice_t = void*;
@@ -1875,13 +1875,13 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
     return true;
 }
 
-size_t GPUMemoryManager::getGPUVRAM([[maybe_unused]] int gpu_device_id) const {
+size_t GPUMemoryManager::getGPUVRAM(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = per_gpu_vram_used_.find(gpu_device_id);
     return it != per_gpu_vram_used_.end() ? it->second : 0;
 }
 
-size_t GPUMemoryManager::getFreeGPUVRAM([[maybe_unused]] int gpu_device_id) const {
+size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
         return 0;
@@ -1907,7 +1907,7 @@ std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
     return runtime_available_gpus;
 }
 
-bool GPUMemoryManager::isGPUAvailable([[maybe_unused]] int gpu_device_id) const {
+bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return gpu_available_ && isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
 }
@@ -2043,7 +2043,7 @@ void GPUMemoryManager::clearGPUTemperatureProviderFn() {
 
 // GPU Health Monitoring Implementation
 
-GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats([[maybe_unused]] int gpu_device_id) const {
+GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUStats stats = {};
@@ -2172,7 +2172,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
     return all_stats;
 }
 
-GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth([[maybe_unused]] int gpu_device_id) const {
+GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUHealth health = {};
@@ -2245,7 +2245,7 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
     return all_health;
 }
 
-bool GPUMemoryManager::isGPUHealthy([[maybe_unused]] int gpu_device_id) const {
+bool GPUMemoryManager::isGPUHealthy(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
@@ -2293,7 +2293,7 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
     gpu_health_data_[gpu_device_id] = health;
 }
 
-void GPUMemoryManager::markGPUHealthy([[maybe_unused]] int gpu_device_id) {
+void GPUMemoryManager::markGPUHealthy(int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
@@ -2398,7 +2398,7 @@ float GPUMemoryManager::getAverageGPULoad() const {
     return (healthy_count > 0) ? (total_load / healthy_count) : 0.0f;
 }
 
-bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) const {
+bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (static_cast<int>(available_gpus_.size()) < 2) {
@@ -2447,7 +2447,7 @@ bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) co
     return false;
 }
 
-void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
+void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     std::unique_lock<std::mutex> lock(mutex_);
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
         !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
@@ -2618,7 +2618,7 @@ void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
         "gpu_runtime_unavailable");
 }
 
-void GPUMemoryManager::checkGPUHealth([[maybe_unused]] int gpu_device_id) {
+void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
     updateGPUHealth(gpu_device_id);
 
     if (!gpu_available_) {

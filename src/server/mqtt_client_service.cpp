@@ -43,7 +43,7 @@ namespace server {
 namespace detail {
 
 // Encode a variable-length integer (MQTT remaining-length encoding).
-static std::vector<uint8_t> encodeVarLen([[maybe_unused]] uint32_t value) {
+static std::vector<uint8_t> encodeVarLen(uint32_t value) {
     std::vector<uint8_t> out;
     do {
         uint8_t byte = static_cast<uint8_t>(value & 0x7F);
@@ -199,7 +199,7 @@ static std::vector<uint8_t> buildUnsubscribe(
 
 static std::vector<uint8_t> buildPingReq()    { return {0xC0, 0x00}; }
 static std::vector<uint8_t> buildDisconnect() { return {0xE0, 0x00}; }
-static std::vector<uint8_t> buildPubAck([[maybe_unused]] uint16_t id) {
+static std::vector<uint8_t> buildPubAck(uint16_t id) {
     return {0x40, 0x02,
             static_cast<uint8_t>(id >> 8),
             static_cast<uint8_t>(id & 0xFF)};
@@ -398,8 +398,8 @@ bool MqttClientService::unsubscribe(const std::string& topic_filter) {
 
 void MqttClientService::setMessageHandler(
         std::shared_ptr<IMqttMessageHandler> handler) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
-    handler_ = std::move([[maybe_unused]] handler);
+    std::lock_guard<std::mutex> lk(handler_mutex_);
+    handler_ = std::move(handler);
 }
 
 void MqttClientService::registerWithServiceRegistry(
@@ -471,7 +471,7 @@ void MqttClientService::doConnect() {
     asio_->connect_timer.async_wait([this, connected](boost::system::error_code ec3) {
         if (!ec3 && !connected->load()) {
             boost::system::error_code ce;
-            asio_->socket.close([[maybe_unused]] ce); // triggers the async_connect error handler
+            asio_->socket.close(ce); // triggers the async_connect error handler
         }
     });
 }
@@ -584,8 +584,10 @@ void MqttClientService::processBuffer() {
             break;
         }
         case 9:  // SUBACK — accepted, nothing extra to do
-        [[fallthrough]];\n        case 11: // UNSUBACK
-        [[fallthrough]];\n        case 13: // PINGRESP
+        [[fallthrough]];
+        case 11: // UNSUBACK
+        [[fallthrough]];
+        case 13: // PINGRESP
             break;
         case 14: // DISCONNECT from broker
             handleDisconnect("broker sent DISCONNECT");
@@ -614,7 +616,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
     std::string cid = effective_client_id_;
     std::shared_ptr<IMqttMessageHandler> h;
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
+        std::lock_guard<std::mutex> lk(handler_mutex_);
         h = handler_;
     }
     if (h) {
@@ -630,7 +632,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
     ++stats_.messages_received;
     std::shared_ptr<IMqttMessageHandler> h;
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
+        std::lock_guard<std::mutex> lk(handler_mutex_);
         h = handler_;
     }
     if (h) {
@@ -776,7 +778,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     if (was_connected) {
         std::shared_ptr<IMqttMessageHandler> h;
         {
-            std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
+            std::lock_guard<std::mutex> lk(handler_mutex_);
             h = handler_;
         }
         if (h) {
@@ -901,11 +903,11 @@ void MqttCDCTransport::stop() {
     service_.stop();
 }
 
-bool MqttCDCTransport::publish([[maybe_unused]] const Changefeed::ChangeEvent& event) {
+bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
     try {
         nlohmann::json j = event.toJson();
         std::string    payload = j.dump();
-        std::string    topic   = topicForEvent([[maybe_unused]] event);
+        std::string    topic   = topicForEvent(event);
         return service_.publish(topic, payload, qos_, false);
     } catch (...) {
         THEMIS_WARN("mqtt_client_service::service_: unhandled exception caught");
@@ -917,7 +919,7 @@ std::string MqttCDCTransport::topicForEvent(
         const Changefeed::ChangeEvent& event) const {
     using ET = Changefeed::ChangeEventType;
     std::string type_str = {};
-    switch ([[maybe_unused]] event.type) {
+    switch (event.type) {
     case ET::EVENT_PUT:                  type_str = "PUT";                  break;
     case ET::EVENT_DELETE:               type_str = "DELETE";               break;
     case ET::EVENT_TRANSACTION_COMMIT:   type_str = "TRANSACTION_COMMIT";   break;
@@ -939,7 +941,7 @@ void MqttCDCTransport::setTopicPrefix(const std::string& prefix) {
     topic_prefix_ = prefix;
 }
 
-void MqttCDCTransport::setQos([[maybe_unused]] uint8_t qos) {
+void MqttCDCTransport::setQos(uint8_t qos) {
     qos_ = qos;
 }
 

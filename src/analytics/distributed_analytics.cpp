@@ -208,7 +208,8 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::StdDev:
-            [[fallthrough]];\n            case Measure::Function::Variance: {
+            [[fallthrough]];
+            case Measure::Function::Variance: {
                 // Welford online update
                 count += 1.0;
                 double delta = dval - mean;
@@ -225,7 +226,8 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::Median:
-            [[fallthrough]];\n            case Measure::Function::Percentile:
+            [[fallthrough]];
+            case Measure::Function::Percentile:
                 // Approximate: accumulate values and compute average at end.
                 sum += dval;
                 count += 1.0;
@@ -331,7 +333,8 @@ struct MeasureAccumulator {
                 return RowValue{static_cast<int64_t>(std::llround(sum))};
 
             case Measure::Function::Median:
-            [[fallthrough]];\n            case Measure::Function::Percentile:
+            [[fallthrough]];
+            case Measure::Function::Percentile:
                 // count is integer-valued; use < 1.0 rather than == 0.0.
                 if (count < 1.0) {
                     return RowValue{0.0};
@@ -478,7 +481,7 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
 void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(
-        std::remove_if(shards_.begin(), shards_.end(), [&]([[maybe_unused]] const ShardEntry &e) { return e.shard_id == shard_id; }),
+        std::remove_if(shards_.begin(), shards_.end(), [&](const ShardEntry &e) { return e.shard_id == shard_id; }),
         shards_.end());
 }
 

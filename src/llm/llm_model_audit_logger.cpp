@@ -383,7 +383,7 @@ size_t LLMModelAuditLogger::exportAnalytics(
 // Control
 // ---------------------------------------------------------------------------
 
-void LLMModelAuditLogger::setEnabled([[maybe_unused]] bool enabled) {
+void LLMModelAuditLogger::setEnabled(bool enabled) {
     std::lock_guard<std::mutex> lk(impl_->mu);
     impl_->enabled = enabled;
 }

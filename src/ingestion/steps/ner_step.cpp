@@ -64,7 +64,7 @@ std::vector<RegexMatch> runGermanRegexNer(const std::string& text,
                                           const std::vector<std::string>& requested_types) {
     std::vector<RegexMatch> results;
 
-    auto wants = [&]([[maybe_unused]] const std::string& t) {
+    auto wants = [&](const std::string& t) {
         return requested_types.empty()
                || std::find(requested_types.begin(), requested_types.end(), t)
                   != requested_types.end();
@@ -184,7 +184,7 @@ public:
     const char* getName()    const override { return "builtin.ner_de"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
+    bool  initialize(const char*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -195,7 +195,7 @@ public:
         backend_ = std::move(b);
     }
 
-    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
+    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
         if (!ctx.hasText() && !ctx.hasChunks()) return {};
 
         const json& config_json = cfg.config.is_object() ? cfg.config : json::object();

@@ -126,7 +126,7 @@ using CC_EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, CC_EVP_CIPHER_CTX_
 // RAII guard for POSIX file descriptors — prevents fd leaks on exception paths
 struct ScopedFd {
     int fd = 0;
-    explicit ScopedFd([[maybe_unused]] int f) noexcept : fd(f) {}
+    explicit ScopedFd(int f) noexcept : fd(f) {}
     ~ScopedFd() { if (fd >= 0) ::close(fd); }
     ScopedFd(const ScopedFd&) = delete;
     ScopedFd& operator=(const ScopedFd&) = delete;

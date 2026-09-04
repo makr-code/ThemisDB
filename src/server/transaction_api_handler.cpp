@@ -565,7 +565,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         try {
             txn_id = std::stoull(id_str);
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "transaction_api_handler: unhandled exception caught");
+            THEMIS_WARN("transaction_api_handler: unhandled exception caught");
             span.setStatus(false, "Invalid transaction ID");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid transaction ID: '" + id_str + "'", req);

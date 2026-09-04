@@ -74,7 +74,7 @@ static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
     return out;
 }
 
-VaultSigningProvider::VaultSigningProvider([[maybe_unused]] const Config& cfg) {
+VaultSigningProvider::VaultSigningProvider(const Config& cfg) {
     // store config by copying into a simple global curl state via local static
     // For this prototype we store nothing special; HTTP calls will construct CURL per-call
     // no-op stored in this minimal prototype

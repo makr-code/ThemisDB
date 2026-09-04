@@ -273,7 +273,7 @@ float VoiceBatchProcessor::computeWER(
     return static_cast<float>(dp[R][H]) / static_cast<float>(R);
 }
 
-float VoiceBatchProcessor::estimatePESQ([[maybe_unused]] float snr_db) const {
+float VoiceBatchProcessor::estimatePESQ(float snr_db) const {
     // Linear approximation: clamp(1.0 + snr_db * 0.07, 1.0, 5.0)
     // SNR 0dB→1.0, SNR 28.57dB→3.0, SNR 57.14dB→5.0
     float pesq = 1.0f + snr_db * 0.07f;

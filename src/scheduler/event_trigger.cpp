@@ -78,7 +78,7 @@ std::string CDCTriggerConfig::getValidationError() const {
     if (key_prefix.empty()) {
         return "Key prefix cannot be empty";
     }
-    if ([[maybe_unused]] event_types.empty()) {
+    if (event_types.empty()) {
         return "At least one event type must be specified";
     }
     return "";
@@ -113,7 +113,7 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
             "[EventTrigger::EventTrigger] "
             "code={} msg='changefeed cannot be null' context={{}}",
             static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
-        throw std::invalid_argument([[maybe_unused]] "EventTrigger: changefeed cannot be null");
+        throw std::invalid_argument("EventTrigger: changefeed cannot be null");
     }
     
     if (!config_.isValid()) {
@@ -126,12 +126,12 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
                                    config_.getValidationError());
     }
     
-    if ([[maybe_unused]] !callback_) {
+    if (!callback_) {
         THEMIS_ERROR(
             "[EventTrigger::EventTrigger] "
             "code={} msg='callback cannot be null' context={{}}",
             static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
-        throw std::invalid_argument([[maybe_unused]] "EventTrigger: callback cannot be null");
+        throw std::invalid_argument("EventTrigger: callback cannot be null");
     }
 }
 
@@ -148,7 +148,7 @@ void EventTrigger::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (running_.load()) {
-        THEMIS_WARN([[maybe_unused]] "EventTrigger already running");
+        THEMIS_WARN("EventTrigger already running");
         return;
     }
     
@@ -173,14 +173,14 @@ void EventTrigger::stop() {
     
     cv_.notify_all();
     
-    if ([[maybe_unused]] listener_thread_.joinable()) {
+    if (listener_thread_.joinable()) {
         listener_thread_.join();
     }
     
-    THEMIS_INFO([[maybe_unused]] "EventTrigger stopped (triggers_fired={})", triggers_fired_.load());
+    THEMIS_INFO("EventTrigger stopped (triggers_fired={})", triggers_fired_.load());
 }
 
-void EventTrigger::updateConfig([[maybe_unused]] const CDCTriggerConfig& config) {
+void EventTrigger::updateConfig(const CDCTriggerConfig& config) {
     if (!config.isValid()) {
         throw std::invalid_argument("EventTrigger: invalid config - " +
                                    config.getValidationError());
@@ -223,7 +223,7 @@ EventTrigger::Stats EventTrigger::getStats() const {
     return stats;
 }
 
-void EventTrigger::setCircuitBreakerConfig([[maybe_unused]] const CircuitBreakerConfig& config) {
+void EventTrigger::setCircuitBreakerConfig(const CircuitBreakerConfig& config) {
     // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     cb_config_ = config;
@@ -248,7 +248,7 @@ void EventTrigger::circuitRecordSuccess() {
     // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     if (cb_open_) {
-        THEMIS_INFO([[maybe_unused]] "EventTrigger circuit breaker: closing (callback recovered)");
+        THEMIS_INFO("EventTrigger circuit breaker: closing (callback recovered)");
     }
     cb_consecutive_failures_ = 0;
     cb_open_ = false;
@@ -269,7 +269,7 @@ void EventTrigger::circuitRecordFailure() {
 }
 
 void EventTrigger::listenerLoop() {
-    THEMIS_DEBUG([[maybe_unused]] "EventTrigger listener loop started");
+    THEMIS_DEBUG("EventTrigger listener loop started");
     
     while (running_.load()) {
         try {
@@ -283,17 +283,17 @@ void EventTrigger::listenerLoop() {
             options.limit = 100;
             options.long_poll_ms = 1000; // 1 second long poll
             
-            auto events = changefeed_->listEvents([[maybe_unused]] options);
+            auto events = changefeed_->listEvents(options);
             events_received_ += events.size();
             
-            for ([[maybe_unused]] const auto& event : events) {
+            for (const auto& event : events) {
                 // Update last sequence
-                if ([[maybe_unused]] event.sequence > last_sequence_) {
+                if (event.sequence > last_sequence_) {
                     last_sequence_ = event.sequence;
                 }
                 
                 // Check if event matches filter
-                if ([[maybe_unused]] !matchesFilter(event)) {
+                if (!matchesFilter(event)) {
                     continue;
                 }
                 
@@ -303,7 +303,7 @@ void EventTrigger::listenerLoop() {
                 if (shouldDebounce()) {
                     events_debounced_++;
                     THEMIS_DEBUG("Event debounced (key={}, type={})",
-                                event.key, static_cast<int>([[maybe_unused]] event.type));
+                                event.key, static_cast<int>(event.type));
                     continue;
                 }
                 
@@ -324,7 +324,7 @@ void EventTrigger::listenerLoop() {
                 // GAP 2 FIX: Deduplication - prevent duplicate trigger firings
                 // Check if this event is the same as the last fired event (within debounce window)
                 if (shouldDebounce() && last_fired_event_key_ == event.key && 
-                    last_fired_event_value_ == ([[maybe_unused]] event.value ? *event.value : "")) {
+                    last_fired_event_value_ == (event.value ? *event.value : "")) {
                     THEMIS_DEBUG("EventTrigger: duplicate trigger prevented (key={}, debounce_active)",
                                 event.key);
                     continue;
@@ -336,10 +336,10 @@ void EventTrigger::listenerLoop() {
 
                 triggers_fired_++;
                 THEMIS_DEBUG("EventTrigger fired (key={}, type={}, sequence={})",
-                            event.key, static_cast<int>([[maybe_unused]] event.type), event.sequence);
+                            event.key, static_cast<int>(event.type), event.sequence);
                 
                 try {
-                    callback_([[maybe_unused]] event);
+                    callback_(event);
                     circuitRecordSuccess();
                 } catch (const std::exception& e) {
                     THEMIS_ERROR("EventTrigger callback failed: {}", e.what());
@@ -348,7 +348,7 @@ void EventTrigger::listenerLoop() {
             }
             
             // If no events, wait a bit before polling again
-            if ([[maybe_unused]] events.empty()) {
+            if (events.empty()) {
                 std::unique_lock<std::mutex> lock(mutex_);
                 cv_.wait_for(lock, std::chrono::milliseconds(100),
                            [this] { return !running_.load(); });
@@ -364,29 +364,29 @@ void EventTrigger::listenerLoop() {
         }
     }
     
-    THEMIS_DEBUG([[maybe_unused]] "EventTrigger listener loop stopped");
+    THEMIS_DEBUG("EventTrigger listener loop stopped");
 }
 
-bool EventTrigger::matchesFilter([[maybe_unused]] const Changefeed::ChangeEvent& event) const {
+bool EventTrigger::matchesFilter(const Changefeed::ChangeEvent& event) const {
     // Check key prefix
-    if ([[maybe_unused]] !matchesKeyPrefix(event.key)) {
+    if (!matchesKeyPrefix(event.key)) {
         return false;
     }
     
     // Check event type
-    if ([[maybe_unused]] !matchesEventType(event.type)) {
+    if (!matchesEventType(event.type)) {
         return false;
     }
     
     // Check optional condition
-    if ([[maybe_unused]] !matchesCondition(event)) {
+    if (!matchesCondition(event)) {
         return false;
     }
     
     return true;
 }
 
-bool EventTrigger::matchesKeyPrefix([[maybe_unused]] const std::string& key) const {
+bool EventTrigger::matchesKeyPrefix(const std::string& key) const {
     const auto& prefix = config_.key_prefix;
     
     // Handle wildcard
@@ -404,11 +404,11 @@ bool EventTrigger::matchesKeyPrefix([[maybe_unused]] const std::string& key) con
     return key.find(prefix) == 0;
 }
 
-bool EventTrigger::matchesEventType([[maybe_unused]] Changefeed::ChangeEventType type) const {
-    return config_.event_types.find([[maybe_unused]] type) != config_.event_types.end();
+bool EventTrigger::matchesEventType(Changefeed::ChangeEventType type) const {
+    return config_.event_types.find(type) != config_.event_types.end();
 }
 
-bool EventTrigger::matchesCondition([[maybe_unused]] const Changefeed::ChangeEvent& event) const {
+bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const {
     // If no condition specified, always match
     if (!config_.condition || config_.condition->empty()) {
         return true;
@@ -425,7 +425,7 @@ bool EventTrigger::matchesCondition([[maybe_unused]] const Changefeed::ChangeEve
     
     // GAP 3 FIX: Detect circular dependencies early
     if (!validateNoCircularDependencies()) {
-        THEMIS_ERROR([[maybe_unused]] "EventTrigger: condition validation failed due to circular dependency");
+        THEMIS_ERROR("EventTrigger: condition validation failed due to circular dependency");
         return false;  // Reject event on structural validation failure
     }
 
@@ -575,7 +575,7 @@ EventTriggerManager::EventTriggerManager(Changefeed* changefeed)
             "[EventTriggerManager::EventTriggerManager] "
             "code={} msg='changefeed cannot be null' context={{}}",
             static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
-        throw std::invalid_argument([[maybe_unused]] "EventTriggerManager: changefeed cannot be null");
+        throw std::invalid_argument("EventTriggerManager: changefeed cannot be null");
     }
 }
 
@@ -610,7 +610,7 @@ bool EventTriggerManager::registerTrigger(const std::string& id,
     }
 }
 
-void EventTriggerManager::unregisterTrigger([[maybe_unused]] const std::string& id) {
+void EventTriggerManager::unregisterTrigger(const std::string& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = triggers_.find(id);
@@ -631,7 +631,7 @@ void EventTriggerManager::updateTrigger(const std::string& id, const CDCTriggerC
     }
 }
 
-std::optional<EventTrigger::Stats> EventTriggerManager::getTriggerStats([[maybe_unused]] const std::string& id) const {
+std::optional<EventTrigger::Stats> EventTriggerManager::getTriggerStats(const std::string& id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = triggers_.find(id);
@@ -651,7 +651,7 @@ void EventTriggerManager::startAll() {
         }
     }
     
-    THEMIS_INFO([[maybe_unused]] "Started all event triggers (count={})",static_cast<int>(triggers_.size()));
+    THEMIS_INFO("Started all event triggers (count={})",static_cast<int>(triggers_.size()));
 }
 
 void EventTriggerManager::stopAll() {
@@ -663,7 +663,7 @@ void EventTriggerManager::stopAll() {
         }
     }
     
-    THEMIS_INFO([[maybe_unused]] "Stopped all event triggers (count={})",static_cast<int>(triggers_.size()));
+    THEMIS_INFO("Stopped all event triggers (count={})",static_cast<int>(triggers_.size()));
 }
 
 } // namespace themis

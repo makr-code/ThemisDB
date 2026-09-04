@@ -287,7 +287,7 @@ std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 }
 
 std::vector<MIGManager::MIGInstance>
-MIGManager::getInstancesForDevice([[maybe_unused]] int device_index) const
+MIGManager::getInstancesForDevice(int device_index) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<MIGInstance> result = {};

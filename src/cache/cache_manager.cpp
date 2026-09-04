@@ -53,7 +53,7 @@ CacheManager& CacheManager::operator=(CacheManager&& other) noexcept {
 
     config_ = other.config_;
     caches_ = std::move(other.caches_);
-    event_handlers_ = std::move([[maybe_unused]] other.event_handlers_);
+    event_handlers_ = std::move(other.event_handlers_);
     next_handler_id_ = other.next_handler_id_;
     is_moved_from_ = false;
 
@@ -85,7 +85,7 @@ bool CacheManager::register_cache(const std::string& cache_name, size_t size) {
     CacheEvent event;
     event.type = CacheEvent::Type::CLEAR;
     event.cache_name = cache_name;
-    dispatch_event([[maybe_unused]] event);
+    dispatch_event(event);
 
     return true;
 }
@@ -131,7 +131,7 @@ bool CacheManager::set_eviction_policy(const std::string& cache_name,
     event.cache_name = cache_name;
     event.timestamp_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    dispatch_event([[maybe_unused]] event);
+    dispatch_event(event);
     return true;
 }
 
@@ -143,42 +143,42 @@ const CacheEvictionPolicy* CacheManager::get_eviction_policy(const std::string& 
     return it->second.policy.get();
 }
 
-uint32_t CacheManager::register_event_handler([[maybe_unused]] EventHandler&& handler) {
+uint32_t CacheManager::register_event_handler(EventHandler&& handler) {
     if (is_moved_from_) {
-        throw std::logic_error([[maybe_unused]] "Cannot register handler on moved-from manager");
+        throw std::logic_error("Cannot register handler on moved-from manager");
     }
 
     EventHandlerEntry entry;
     entry.id = next_handler_id_++;
-    entry.handler = std::move([[maybe_unused]] handler);
+    entry.handler = std::move(handler);
 
-    event_handlers_.push_back([[maybe_unused]] std::move(entry));
+    event_handlers_.push_back(std::move(entry));
     return entry.id;
 }
 
-bool CacheManager::unregister_event_handler([[maybe_unused]] uint32_t handler_id) {
+bool CacheManager::unregister_event_handler(uint32_t handler_id) {
     auto it = std::find_if(event_handlers_.begin(), event_handlers_.end(),
-                          [handler_id]([[maybe_unused]] const EventHandlerEntry& e) { 
+                          [handler_id](const EventHandlerEntry& e) {
                               return e.id == handler_id; 
                           });
 
-    if ([[maybe_unused]] it == event_handlers_.end()) {
+    if (it == event_handlers_.end()) {
         return false;
     }
 
-    event_handlers_.erase([[maybe_unused]] it);
+    event_handlers_.erase(it);
     return true;
 }
 
-void CacheManager::dispatch_event([[maybe_unused]] const CacheEvent& event) noexcept {
+void CacheManager::dispatch_event(const CacheEvent& event) noexcept {
     if (is_moved_from_) {
         return;
     }
 
-    for ([[maybe_unused]] auto& entry : event_handlers_) {
+    for (auto& entry : event_handlers_) {
         try {
-            if ([[maybe_unused]] entry.handler) {
-                entry.handler([[maybe_unused]] event);
+            if (entry.handler) {
+                entry.handler(event);
             }
         } catch (...) {
             THEMIS_WARN("cache_manager: unhandled exception caught");
@@ -208,7 +208,7 @@ void CacheManager::clear_all() {
         CacheEvent event;
         event.type = CacheEvent::Type::CLEAR;
         event.cache_name = pair.first;
-        dispatch_event([[maybe_unused]] event);
+        dispatch_event(event);
     }
 }
 

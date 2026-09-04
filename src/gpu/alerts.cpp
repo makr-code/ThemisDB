@@ -31,27 +31,27 @@ GPUAlerts::GPUAlerts(const Config &cfg) : cfg_(cfg) {}
 // Metric update
 // ============================================================================
 
-void GPUAlerts::setVRAMUsage([[maybe_unused]] float used_fraction) {
+void GPUAlerts::setVRAMUsage(float used_fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     vram_used_frac_ = used_fraction;
 }
 
-void GPUAlerts::setErrorRate([[maybe_unused]] float rate) {
+void GPUAlerts::setErrorRate(float rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_ = rate;
 }
 
-void GPUAlerts::setFallbackRate([[maybe_unused]] float rate) {
+void GPUAlerts::setFallbackRate(float rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     fallback_rate_ = rate;
 }
 
-void GPUAlerts::setCircuitOpen([[maybe_unused]] bool is_open) {
+void GPUAlerts::setCircuitOpen(bool is_open) {
     std::lock_guard<std::mutex> lock(mutex_);
     circuit_open_ = is_open;
 }
 
-void GPUAlerts::setDeviceAvailable([[maybe_unused]] bool available) {
+void GPUAlerts::setDeviceAvailable(bool available) {
     std::lock_guard<std::mutex> lock(mutex_);
     device_available_ = available;
 }
@@ -60,9 +60,9 @@ void GPUAlerts::setDeviceAvailable([[maybe_unused]] bool available) {
 // Callbacks
 // ============================================================================
 
-void GPUAlerts::onAlert([[maybe_unused]] AlertCallback callback) {
+void GPUAlerts::onAlert(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    callbacks_.push_back([[maybe_unused]] std::move(callback));
+    callbacks_.push_back(std::move(callback));
 }
 
 // ============================================================================
@@ -85,13 +85,13 @@ void GPUAlerts::updateAlert(const std::string &name, bool condition, float value
         if (new_state == AlertState::FIRING) {
             s.fired_at = std::chrono::system_clock::now();
         }
-        fireCallback([[maybe_unused]] s);
+        fireCallback(s);
     }
 }
 
-void GPUAlerts::fireCallback([[maybe_unused]] const AlertStatus &s) {
+void GPUAlerts::fireCallback(const AlertStatus &s) {
     // Called under mutex_ — copy the vector to avoid re-entrancy issues.
-    for ([[maybe_unused]] const auto &cb : callbacks_) {
+    for (const auto &cb : callbacks_) {
         if (cb) {
             cb(s);
         }

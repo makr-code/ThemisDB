@@ -100,7 +100,7 @@ struct ConnectionPoolState {
 static thread_local ConnectionPoolState g_mysql_connection_pool;
 
 /// Maps MySQL-specific error patterns to ImporterErrorCode
-[[maybe_unused]] static ImportErrorCode mapMySQLErrorToCode(const std::string& error_msg) {
+static ImportErrorCode mapMySQLErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {
@@ -231,7 +231,7 @@ bool MySQLImporter::initialize(const std::string& config) {
             }
         }
 
-        // ---- Individual connection fields (overrid[[maybe_unused]] e UR[[maybe_unused]] L i[[maybe_unused]] f presen[[maybe_unused]] t) ----
+        // ---- Individual connection fields (override URL if present) ----
         if (cfg.contains("host") && cfg["host"].is_string())
             jdbc_config_.host = cfg["host"].get<std::string>();
         if (cfg.contains("port") && cfg["port"].is_number_integer())
@@ -249,9 +249,9 @@ bool MySQLImporter::initialize(const std::string& config) {
         if (cfg.contains("tinyint1_as_boolean") && cfg["tinyint1_as_boolean"].is_boolean())
             jdbc_config_.tinyint1_as_boolean = cfg["tinyint1_as_boolean"].get<bool>();
 
-        // ---- Config-level type overrides (applie[[maybe_unused]] d befor[[maybe_unused]] e ImportOption[[maybe_unused]] s override[[maybe_unused]] s) ----
-        if (cf[[maybe_unused]] g.contain[[maybe_unused]] s("type_override[[maybe_unused]] s") && cfg["type_overrides"].is_object()) {
-            std::lock_guard<std::mutex> lock(config_type_overrides_mutex[[maybe_unused]] _);
+        // ---- Config-level type overrides (applied before ImportOptions overrides) ----
+        if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
+            std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
             for (auto& [k, v] : cfg["type_overrides"].items()) {
                 if (v.is_string())
                     config_type_overrides_[k] = v.get<std::string>();
@@ -271,7 +271,7 @@ bool MySQLImporter::initialize(const std::string& config) {
                     jdbc_config_.ssl,
                     jdbc_config_.tinyint1_as_boolean);
     }
-    THEMIS_INFO("MySQ[[maybe_unused]] L/MariaD[[maybe_unused]] B Importe[[maybe_unused]] r initialize[[maybe_unused]] d ({} confi[[maybe_unused]] g type_override[[maybe_unused]] s)",
+    THEMIS_INFO("MySQL/MariaDB Importer initialized ({} config type_overrides)",
                 config_type_overrides_.size());
     return true;
 }
@@ -1120,7 +1120,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
         } else {
             json entity = convertRowToEntity(eff_schema, values);
             THEMIS_DEBUG("MySQL INSERT entity: {}", entity.dump());
-            if ([[maybe_unused]] options.streaming_row_callback) {
+            if (options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
                 }
@@ -1142,17 +1142,17 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
 
 std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
                                                  const ImportOptions& options) const {
-    // 1. Per-call options overrides (highes[[maybe_unused]] t priorit[[maybe_unused]] y)
-    auto it = options.type_overrides.find(mysql_typ[[maybe_unused]] e);
-    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
+    // 1. Per-call options overrides (highest priority)
+    auto it = options.type_overrides.find(mysql_type);
+    if (it != options.type_overrides.end()) {
       return it->second;
     }
 
-    // 2. Config-level overrides (fro[[maybe_unused]] m initializ[[maybe_unused]] e())
+    // 2. Config-level overrides (from initialize())
     {
-        std::lock_guard<std::mutex> lock(config_type_overrides_mutex[[maybe_unused]] _);
-        auto ci = config_type_overrides_.find(mysql_typ[[maybe_unused]] e);
-        if (c[[maybe_unused]] i != config_type_overrides[[maybe_unused]] _.en[[maybe_unused]] d()) {
+        std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
+        auto ci = config_type_overrides_.find(mysql_type);
+        if (ci != config_type_overrides_.end()) {
           return ci->second;
         }
     }
@@ -1636,7 +1636,7 @@ void MySQLImporter::emitMetric(const ImportOptions& options,
                                 const std::string& metric,
                                 const std::map<std::string, std::string>& labels,
                                 double value) const {
-    if ([[maybe_unused]] options.metrics_callback) {
+    if (options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1645,14 +1645,14 @@ void MySQLImporter::emitSpan(const ImportOptions& options,
                               const std::string& operation,
                               const std::map<std::string, std::string>& attributes,
                               double duration_seconds) const {
-    if ([[maybe_unused]] options.tracing_callback) {
+    if (options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
 
 void MySQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage,
                                     size_t current, size_t total) {
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         callback(stage, current, total);
     }
 }

@@ -185,9 +185,9 @@ void TokenBlacklist::pruneExpiredLocked() {
     last_cleanup_ = std::chrono::steady_clock::now();
 }
 
-void TokenBlacklist::setOnRevokeCallback([[maybe_unused]] RevocationCallback cb) {
+void TokenBlacklist::setOnRevokeCallback(RevocationCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    on_revoke_callback_ = std::move([[maybe_unused]] cb);
+    on_revoke_callback_ = std::move(cb);
 }
 
 void TokenBlacklist::clearOnRevokeCallback() {
@@ -197,3 +197,4 @@ void TokenBlacklist::clearOnRevokeCallback() {
 
 } // namespace auth
 } // namespace themis
+

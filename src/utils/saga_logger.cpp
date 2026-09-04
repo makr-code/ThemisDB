@@ -432,7 +432,7 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
     // 3. Rebuild hash: iv || ciphertext || tag
     std::vector<uint8_t> to_hash = {};
 
-    to_hash.reserve(batch_meta-> static_cast<int>(iv.size()) + ciphertext->size() + batch_meta-> static_cast<int>(tag.size()));
+    to_hash.reserve(batch_meta->iv.size() + ciphertext->size() + batch_meta->tag.size());
     to_hash.insert(to_hash.end(), batch_meta->iv.begin(), batch_meta->iv.end());
     to_hash.insert(to_hash.end(), ciphertext->begin(), ciphertext->end());
     to_hash.insert(to_hash.end(), batch_meta->tag.begin(), batch_meta->tag.end());
@@ -655,7 +655,7 @@ SAGALogReplayer::SAGALogReplayer(const SAGALoggerConfig& cfg)
     : cfg_(cfg)
 {}
 
-size_t SAGALogReplayer::replay_incomplete([[maybe_unused]] RecoveryHandler handler) {
+size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
     // Scan the WAL for steps where action == "compensate" and
     // status == "pending".  These represent compensation steps that were
     // recorded but not yet confirmed as complete after a crash.
@@ -709,7 +709,7 @@ size_t SAGALogReplayer::replay_incomplete([[maybe_unused]] RecoveryHandler handl
             };
         }
 
-        handler([[maybe_unused]] step);
+        handler(step);
         ++replayed;
     }
 

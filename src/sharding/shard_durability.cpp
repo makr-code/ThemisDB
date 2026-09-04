@@ -67,8 +67,8 @@ bool ShardDurability::initialize() {
             return false;
         }
         
-        if ([[maybe_unused]] recovery_callback_ && recovery.recovery_needed) {
-            recovery_callback_([[maybe_unused]] recovery);
+        if (recovery_callback_ && recovery.recovery_needed) {
+            recovery_callback_(recovery);
         }
     }
     
@@ -265,7 +265,7 @@ uint64_t ShardDurability::getCurrentSequenceNumber() const {
     return db_->GetBaseDB()->GetLatestSequenceNumber();
 }
 
-void ShardDurability::setRecoveryCallback([[maybe_unused]] RecoveryCallback callback) {
+void ShardDurability::setRecoveryCallback(RecoveryCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     recovery_callback_ = callback;
 }

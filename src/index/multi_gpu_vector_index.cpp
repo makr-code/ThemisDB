@@ -76,7 +76,7 @@ public:
         shutdown();
     }
     
-    bool initialize([[maybe_unused]] int dim) {
+    bool initialize(int dim) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         dimension = dim;
         
@@ -188,7 +188,8 @@ public:
             }
 #endif
             case CommBackend::CPU:
-            [[fallthrough]];\n            default:
+            [[fallthrough]];
+            default:
                 activeCommBackend = CommBackend::CPU;
                 success = true;
                 THEMIS_INFO("MultiGPUVectorIndex: Using CPU-based communication (no GPU collectives)");
@@ -207,7 +208,7 @@ public:
         }
     }
     
-    bool initializeGPU([[maybe_unused]] int deviceId) {
+    bool initializeGPU(int deviceId) {
         // Create GPU-specific configuration
         GPUVectorIndex::Config gpuConfig;
         gpuConfig.backend = config.backend;
@@ -658,7 +659,7 @@ MultiGPUVectorIndex::MultiGPUVectorIndex(const Config& config)
 
 MultiGPUVectorIndex::~MultiGPUVectorIndex() = default;
 
-bool MultiGPUVectorIndex::initialize([[maybe_unused]] int dimension) {
+bool MultiGPUVectorIndex::initialize(int dimension) {
     return pImpl->initialize(dimension);
 }
 
@@ -703,7 +704,7 @@ std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> MultiGPUVectorIndex:
     return pImpl->searchBatch(queries, k);
 }
 
-bool MultiGPUVectorIndex::addGPU([[maybe_unused]] int deviceId) {
+bool MultiGPUVectorIndex::addGPU(int deviceId) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
@@ -718,7 +719,7 @@ bool MultiGPUVectorIndex::addGPU([[maybe_unused]] int deviceId) {
     return pImpl->initializeGPU(deviceId);
 }
 
-bool MultiGPUVectorIndex::removeGPU([[maybe_unused]] int deviceId) {
+bool MultiGPUVectorIndex::removeGPU(int deviceId) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
@@ -784,7 +785,7 @@ void MultiGPUVectorIndex::setLoadBalancingMode(LoadBalancingMode mode) {
     pImpl->config.loadBalancing = mode;
 }
 
-void MultiGPUVectorIndex::setEfSearch([[maybe_unused]] int ef) {
+void MultiGPUVectorIndex::setEfSearch(int ef) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.efSearch = ef;
     for (auto& gpuIndex : pImpl->gpuIndices) {

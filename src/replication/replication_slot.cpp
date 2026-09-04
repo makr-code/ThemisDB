@@ -173,7 +173,7 @@ bool ReplicationSlot::drop()
 // Progress tracking
 // ---------------------------------------------------------------------------
 
-bool ReplicationSlot::advance([[maybe_unused]] uint64_t confirmed_lsn)
+bool ReplicationSlot::advance(uint64_t confirmed_lsn)
 {
     SlotState state_copy;
     {
@@ -301,7 +301,7 @@ void ReplicationSlot::loadState()
 
     std::string line = {};
     while (std::getline(ifs, line)) {
-        auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
+        auto extract = [&](const std::string& key) -> std::string {
             const std::string search = "\"" + key + "\": ";
             auto pos = line.find(search);
             if (pos == std::string::npos) {

@@ -192,7 +192,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
                                                    const std::string& layer_name) const {
     const auto all_stats = adapter.getLayerStats();
     const auto it = std::find_if(all_stats.begin(), all_stats.end(),
-                                 [&]([[maybe_unused]] const AdaLoRALayerStats& s) {
+                                 [&](const AdaLoRALayerStats& s) {
                                      return s.layer_name == layer_name;
                                  });
     if (it == all_stats.end()) {

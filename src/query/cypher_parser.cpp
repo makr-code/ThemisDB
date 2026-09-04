@@ -82,7 +82,7 @@ struct CypherParser::Lexer {
 
     explicit Lexer(const std::string& s) : src(s) {}
 
-    char peek([[maybe_unused]] size_t offset = 0) const {
+    char peek(size_t offset = 0) const {
         size_t p = pos + offset;
         return static_cast<bool>((p < src.size())) ? src[p] : '\0';
     }
@@ -368,12 +368,14 @@ struct CypherParser::Parser {
     // ---- Token helpers -------------------------------------------------------
 
     const CypherParser::Token& current() const {
-        return static_cast<bool>(tokens[cursor  < static_cast<int>(tokens.size() ? cursor : tokens.size())) - 1];
+        const size_t idx = (cursor < tokens.size()) ? cursor : (tokens.empty() ? 0 : tokens.size() - 1);
+        return tokens[idx];
     }
 
-    const CypherParser::Token& peek([[maybe_unused]] size_t offset = 1) const {
-        size_t idx = cursor + offset;
-        return static_cast<bool>(tokens[idx  < static_cast<int>(tokens.size() ? idx : tokens.size())) - 1];
+    const CypherParser::Token& peek(size_t offset = 1) const {
+        const size_t idx = cursor + offset;
+        const size_t safe_idx = (idx < tokens.size()) ? idx : (tokens.empty() ? 0 : tokens.size() - 1);
+        return tokens[safe_idx];
     }
 
     bool check(TokenType t) const { return current().type == t; }
@@ -1145,7 +1147,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         // Collect all bound variables (for RETURN * expansion)
         // ----------------------------------------------------------------
         std::vector<std::string> all_vars;
-        auto addVar = [&]([[maybe_unused]] const std::string& v) {
+        auto addVar = [&](const std::string& v) {
             if (!v.empty() &&
                 std::find(all_vars.begin(), all_vars.end(), v) == all_vars.end())
                 all_vars.push_back(v);

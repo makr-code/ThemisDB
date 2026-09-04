@@ -355,7 +355,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_slow_queries(
     return result;
 }
 
-std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries([[maybe_unused]] size_t limit) const {
+std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t limit) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
@@ -511,11 +511,11 @@ ScopedOperatorProfile::~ScopedOperatorProfile() {
     profiler_.record_operator(query_id_, stats_);
 }
 
-void ScopedOperatorProfile::record_rows([[maybe_unused]] size_t count) {
+void ScopedOperatorProfile::record_rows(size_t count) {
     stats_.rows_processed += count;
 }
 
-void ScopedOperatorProfile::record_bytes([[maybe_unused]] size_t count) {
+void ScopedOperatorProfile::record_bytes(size_t count) {
     stats_.bytes_processed += count;
 }
 

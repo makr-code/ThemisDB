@@ -159,7 +159,7 @@ void DiscourseOrchestrator::setLLMInferenceFn(LLMInferenceFn fn)
     impl_->inference_fn = std::move(fn);
 }
 
-void DiscourseOrchestrator::setSchoolTimeoutMs([[maybe_unused]] int timeout_ms) noexcept
+void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms) noexcept
 {
     impl_->timeout_ms = timeout_ms;
 }

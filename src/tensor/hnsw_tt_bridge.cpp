@@ -67,7 +67,7 @@ struct HnswTTBridge::HnswLayer {
 
     /// Lazy initialisation — called on the first insert() once dim is known.
     /// Exception-safe: cleans up space_ on HierarchicalNSW ctor failure.
-    void ensureInit([[maybe_unused]] size_t dim) {
+    void ensureInit(size_t dim) {
         if (appr_) {
           return;
         }
@@ -87,8 +87,8 @@ struct HnswTTBridge::HnswLayer {
     // Constructor / destructor
     // -----------------------------------------------------------------------
 
-    explicit HnswLayer([[maybe_unused]] size_t M               = 16,
-                       [[maybe_unused]] size_t ef_construction = 200) {
+    explicit HnswLayer(size_t M               = 16,
+                       size_t ef_construction = 200) {
 #ifdef THEMIS_HNSW_ENABLED
         M_               = M;
         ef_construction_ = ef_construction;

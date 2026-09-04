@@ -96,7 +96,7 @@ std::string ServerlessFunctionApiHandler::utcNow() {
     return oss.str();
 }
 
-std::string ServerlessFunctionApiHandler::validateCode([[maybe_unused]] const json& code) {
+std::string ServerlessFunctionApiHandler::validateCode(const json& code) {
     if (!code.is_object()) {
         return "code must be a JSON object";
     }
@@ -265,7 +265,7 @@ http::response<http::string_body>
 ServerlessFunctionApiHandler::handleRegister(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRegister");
+    auto span = Tracer::startSpan("handleRegister");
     json body;
     try {
         body = json::parse(req.body());

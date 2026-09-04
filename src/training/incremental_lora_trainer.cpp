@@ -325,7 +325,7 @@ public:
                     metrics_.step_losses.push_back(step_loss);
                     metrics_.total_steps++;
 
-                    if ([[maybe_unused]] callback && steps_in_epoch % 10 == 0) {
+                    if (callback && steps_in_epoch % 10 == 0) {
                         callback(epoch, steps_in_epoch, step_loss,
                                  "Training epoch " + std::to_string(epoch));
                     }
@@ -490,7 +490,7 @@ public:
             // Phase 4: Compute metrics (simulated)
             if (!validation_samples.empty()) {
                 double total_loss = 0.0;
-                for ([[maybe_unused]] const auto& s : validation_samples) {
+                for (const auto& s : validation_samples) {
                     total_loss += 0.45;
                 }
                 result.validation_loss = total_loss / validation_samples.size();
@@ -704,14 +704,14 @@ public:
         shard_id_ = shard_id.empty() ? "default_shard" : shard_id;
     }
 
-    void setFederatedLearningRate([[maybe_unused]] double lr) {
+    void setFederatedLearningRate(double lr) {
         if (lr <= 0.0)
             throw std::invalid_argument("Federated learning rate must be positive");
         federated_lr_ = lr;
     }
 
     themis::distributed_knowledge::EncryptedGradient
-    exportGradient([[maybe_unused]] uint64_t federation_round) {
+    exportGradient(uint64_t federation_round) {
         if (gradient_update_count_ == 0) {
             throw std::runtime_error("no training since last export");
         }
@@ -1461,7 +1461,7 @@ public:
             return;
         }
 
-        auto writeMatrix = [&]([[maybe_unused]] const llm::lora::Tensor& t) {
+        auto writeMatrix = [&](const llm::lora::Tensor& t) {
             if (t.shape().size() < 2) {
               return;
             }
@@ -1534,7 +1534,7 @@ public:
 
                 uint32_t rows = 0, cols = 0;
                 readExact(reinterpret_cast<char*>(&rows), sizeof(uint32_t), "matrix rows");
-                readExact([[maybe_unused]] reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
+                readExact(reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
                 if (rows == 0 || cols == 0) {
                     throw std::runtime_error("invalid matrix shape in checkpoint payload");
                 }
@@ -1629,7 +1629,7 @@ public:
     }
 
     // Estimate accuracy from loss (Phase 3)
-    static double computeAccuracy([[maybe_unused]] double loss) {
+    static double computeAccuracy(double loss) {
         // Rough sigmoid mapping: acc ≈ 1 / (1 + exp(loss - 1))
         return 1.0 / (1.0 + std::exp(loss - 1.0));
     }
@@ -1857,12 +1857,12 @@ void IncrementalLoRATrainer::setShardId(const std::string& shard_id) {
     impl_->setShardId(shard_id);
 }
 
-void IncrementalLoRATrainer::setFederatedLearningRate([[maybe_unused]] double lr) {
+void IncrementalLoRATrainer::setFederatedLearningRate(double lr) {
     impl_->setFederatedLearningRate(lr);
 }
 
 themis::distributed_knowledge::EncryptedGradient
-IncrementalLoRATrainer::exportGradient([[maybe_unused]] uint64_t federation_round) {
+IncrementalLoRATrainer::exportGradient(uint64_t federation_round) {
     return impl_->exportGradient(federation_round);
 }
 

@@ -411,7 +411,7 @@ GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& /*blob*/) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -592,7 +592,7 @@ GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vecto
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -689,7 +689,7 @@ GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vect
 }
 
 // Helper function for GeoTIFF processing
-GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
     GeoExtractionData data;
     data.crs = default_crs_;
     data.geometry_type = "Raster";

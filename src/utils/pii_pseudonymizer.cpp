@@ -49,7 +49,7 @@ PIIPseudonymizer::PIIPseudonymizer(std::shared_ptr<themis::RocksDBWrapper> db,
             throw std::runtime_error(
                 "PIIPseudonymizer: key generation failed – pseudonymization key unavailable");
         }
-        [[maybe_unused]] const uint32_t created_version =
+        const uint32_t created_version =
             key_provider->createKeyFromBytes(key_id_, key_bytes);
     }
 }

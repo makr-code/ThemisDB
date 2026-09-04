@@ -440,7 +440,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions
 http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRollback");
+    auto span = Tracer::startSpan("handleRollback");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(

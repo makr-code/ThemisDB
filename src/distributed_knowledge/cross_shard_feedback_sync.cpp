@@ -143,7 +143,7 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
 // setFeedbackCallback / setInboundPolicyCheck
 // ─────────────────────────────────────────────────────────────────────────────
 
-void CrossShardFeedbackSync::setFeedbackCallback([[maybe_unused]] FeedbackCallback cb) {
+void CrossShardFeedbackSync::setFeedbackCallback(FeedbackCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     on_feedback_ = std::move(cb);
 }

@@ -58,7 +58,7 @@ uint64_t PhotoDNAAbuseDetector::computeHash(const std::string& data) {
     uint64_t hash = 0;
     for (std::size_t i = 0; i < kSamples; ++i) {
         if (samples[i] >= mean) {
-            hash |= ([[maybe_unused]] uint64_t{1} << i);
+            hash |= (uint64_t{1} << i);
         }
     }
     return hash;

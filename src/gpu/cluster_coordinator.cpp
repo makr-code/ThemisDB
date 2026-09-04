@@ -122,7 +122,7 @@ void GPUClusterCoordinator::updateTopology() {
 // Placement
 // ---------------------------------------------------------------------------
 
-GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice([[maybe_unused]] uint64_t required_vram_bytes) const {
+GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     Placement result;
@@ -378,7 +378,7 @@ void GPUClusterCoordinator::expireStaleNodes() {
 // Work placement
 // ============================================================================
 
-const GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::selectNode([[maybe_unused]] uint64_t required_vram_bytes) {
+const GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::selectNode(uint64_t required_vram_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     const NodeInfo *best = nullptr;

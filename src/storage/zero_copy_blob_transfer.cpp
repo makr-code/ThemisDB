@@ -71,7 +71,7 @@ namespace {
 #if defined(__linux__) || defined(__APPLE__)
 class ScopedFd final {
 public:
-    explicit ScopedFd([[maybe_unused]] int fd) noexcept : fd_(fd) {}
+    explicit ScopedFd(int fd) noexcept : fd_(fd) {}
     ~ScopedFd() {
         if (fd_ >= 0) {
             ::close(fd_);
@@ -227,7 +227,7 @@ static void ensureAwsSdkInitialized() {
 // MmapBlobView
 // ─────────────────────────────────────────────────────────────────────────────
 
-MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool sequential_hint) {
+MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
 #if defined(__linux__) || defined(__APPLE__)
     // no_timeout scanner alert: local file open for mmap — block device I/O,
     // no network timeout applicable here.
@@ -596,10 +596,10 @@ MmapBlobView ZeroCopyBlobTransfer::openMmap(const std::string& file_path) const 
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
-    [[maybe_unused]] const std::string& bucket,
-    [[maybe_unused]] const std::string& s3_key,
-    [[maybe_unused]] const std::string& source_path,
-    [[maybe_unused]] const std::string& blob_id)
+    const std::string& bucket,
+    const std::string& s3_key,
+    const std::string& source_path,
+    const std::string& blob_id)
 {
 #if THEMIS_ZERO_COPY_S3_AVAILABLE
     auto t0 = std::chrono::steady_clock::now();

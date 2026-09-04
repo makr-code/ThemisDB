@@ -84,7 +84,7 @@ double CanaryRollout::computeNodeHash() const {
     return static_cast<double>(h % 100000 + 1) / 100000.0;
 }
 
-bool CanaryRollout::isNodeInStage([[maybe_unused]] size_t stage_index) const {
+bool CanaryRollout::isNodeInStage(size_t stage_index) const {
     if (stage_index >= config_.stages.size()) {
         return false;
     }
@@ -338,12 +338,12 @@ CanaryStatus CanaryRollout::status() const {
     return s;
 }
 
-void CanaryRollout::setStageCompleteCallback([[maybe_unused]] StageCompleteCallback cb) {
+void CanaryRollout::setStageCompleteCallback(StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
-void CanaryRollout::setRollbackCallback([[maybe_unused]] RollbackCallback cb) {
+void CanaryRollout::setRollbackCallback(RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }
@@ -417,7 +417,7 @@ void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     stages_ = std::move(stages);
 }
 
-void CanaryDeployment::setErrorRateThreshold([[maybe_unused]] double threshold) {
+void CanaryDeployment::setErrorRateThreshold(double threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_threshold_ = threshold;
 }
@@ -499,7 +499,7 @@ ReloadResult CanaryDeployment::deploy() {
                    } catch (...) {
                        // Error Code: 7488 - Never let stage callbacks crash the rollout
                        // Log and silently ignore to ensure deployment continuity
-                       LOG_WARN([[maybe_unused]] "CanaryRollout: stage complete callback threw exception; silently caught");
+                       LOG_WARN("CanaryRollout: stage complete callback threw exception; silently caught");
                    }
                }
            });
@@ -518,7 +518,7 @@ ReloadResult CanaryDeployment::deploy() {
                     } catch (...) {
                         // Error Code: 7489 - Never let rollback callbacks crash the rollout
                         // Log and silently ignore to ensure rollout can proceed
-                        LOG_WARN([[maybe_unused]] "CanaryRollout: rollback callback threw exception; silently caught");
+                        LOG_WARN("CanaryRollout: rollback callback threw exception; silently caught");
                     }
                 }
             });
@@ -542,12 +542,12 @@ ReloadResult CanaryDeployment::deploy() {
 // Callbacks
 // ---------------------------------------------------------------------------
 
-void CanaryDeployment::onStageComplete([[maybe_unused]] StageCompleteCallback cb) {
+void CanaryDeployment::onStageComplete(StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
-void CanaryDeployment::onRollback([[maybe_unused]] RollbackCallback cb) {
+void CanaryDeployment::onRollback(RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }
@@ -594,17 +594,17 @@ void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     checkLatencyThreshold();
 }
 
-void CanaryDeployment::reportMemoryUsage([[maybe_unused]] double bytes) {
+void CanaryDeployment::reportMemoryUsage(double bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     memory_bytes_ = bytes;
 }
 
-void CanaryDeployment::reportCpuUsage([[maybe_unused]] double fraction) {
+void CanaryDeployment::reportCpuUsage(double fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     cpu_fraction_ = fraction;
 }
 
-void CanaryDeployment::reportDiskIO([[maybe_unused]] double bytes_per_sec) {
+void CanaryDeployment::reportDiskIO(double bytes_per_sec) {
     std::lock_guard<std::mutex> lock(mutex_);
     disk_io_bytes_per_sec_ = bytes_per_sec;
 }
@@ -665,7 +665,7 @@ LatencyStats CanaryDeployment::computeLatencyStats() const {
     stats.sample_count = sorted.size();
     const size_t n = sorted.size();
 
-    auto percentile = [&]([[maybe_unused]] double p) -> std::chrono::microseconds {
+    auto percentile = [&](double p) -> std::chrono::microseconds {
         // Nearest-rank method: index = ceil(p/100 * n) - 1 (0-based).
         // Guard against underflow from size_t subtraction: ensure n >= 1 (checked above).
         const auto rank = static_cast<size_t>(

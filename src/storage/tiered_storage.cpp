@@ -551,7 +551,7 @@ void TieredStorageManager::emitPromotionEvent(const std::string& key,
 // BLOCK 3: Storage Module Integration — AccessCoordinator Listener
 // ─────────────────────────────────────────────────────────────────────────────
 
-void TieredStorageManager::setPromotionListener([[maybe_unused]] access_model::PromotionListener* listener) noexcept {
+void TieredStorageManager::setPromotionListener(access_model::PromotionListener* listener) noexcept {
     std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
     promotion_listener_ = listener;
     if (promotion_listener_) {

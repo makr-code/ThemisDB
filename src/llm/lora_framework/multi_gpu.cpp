@@ -153,7 +153,7 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     }
 }
 
-Device MultiGPUContext::get_device([[maybe_unused]] int rank) const {
+Device MultiGPUContext::get_device(int rank) const {
     if (rank < 0 || rank >= num_gpus()) {
         throw std::out_of_range("Invalid rank: " + std::to_string(rank));
     }

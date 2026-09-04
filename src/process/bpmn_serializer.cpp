@@ -520,7 +520,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     bool        in_extension_elements{false};
     std::map<std::string, ProcessNodeInfo::DsgvoAnnotation> dsgvo_map;
 
-    auto tag_cb = [&]([[maybe_unused]] const XmlTag& t) {
+    auto tag_cb = [&](const XmlTag& t) {
         // Phase 3: Check timeout before processing tag
         if (parser_tracker.hasTimedOut()) {
             SPDLOG_WARN("[bpmn_serializer] Timeout during BPMN parsing at tag: {}", t.name);
@@ -528,7 +528,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
 
         // Helper lambda for resource limit checks before adding edges
-        auto checkAndAddEdge = [&]([[maybe_unused]] const ProcessEdgeInfo& edge) {
+        auto checkAndAddEdge = [&](const ProcessEdgeInfo& edge) {
             if (!edge.from_node.empty() && !edge.to_node.empty()) {
                 if (!parser_tracker.recordElement()) {
                     SPDLOG_WARN("[bpmn_serializer] Element limit exceeded while adding edge '{}'", edge.edge_id);
@@ -606,10 +606,10 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
 
         // <dc:Bounds x="…" y="…" width="…" height="…" /> inside BPMNShape
-        if ((in_shape && (tn == "Bounds" || tn == "bounds") &&
+        if (in_shape && (tn == "Bounds" || tn == "bounds") &&
             !shape_elem_ref.empty()) {
             BpmnBounds b;
-            auto parseAttr = [&]([[maybe_unused]] const char* key) -> float {
+            auto parseAttr = [&](const char* key) -> float {
                 auto it = t.attrs.find(key);
                 if (it == t.attrs.end()) {
                   return 0.f;
@@ -643,7 +643,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             return;
         }
         if (in_extension_elements && tn == "SecurityAnnotation") {
-            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
+            auto get = [&](const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -661,7 +661,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
         // ── sequenceFlow ──────────────────────────────────────────────────
         if (tn == "sequenceFlow") {
-            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
+            auto get = [&](const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -689,7 +689,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
         // ── messageFlow ───────────────────────────────────────────────────
         if (tn == "messageFlow") {
-            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
+            auto get = [&](const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -705,7 +705,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         // ── association / dataInputAssociation ────────────────────────────
         if (tn == "association" || tn == "dataInputAssociation" ||
             tn == "dataOutputAssociation") {
-            auto get = [&]([[maybe_unused]] const char* k) -> std::string {
+            auto get = [&](const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
             };
@@ -809,7 +809,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         }
     };
 
-    auto text_cb = [&]([[maybe_unused]] std::string_view txt) {
+    auto text_cb = [&](std::string_view txt) {
         if (in_cond_expr) {
           cond_text += std::string(txt);
         }

@@ -32,13 +32,13 @@ public:
     const char* getName()    const override { return "builtin.chunk_embed"; }
     const char* getVersion() const override { return "1.4.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
+    bool  initialize(const char*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
+    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
         // ── Config ────────────────────────────────────────────────────────
         bool skip_when_unavailable = true;
         if (cfg.config.contains("skip_when_unavailable") &&

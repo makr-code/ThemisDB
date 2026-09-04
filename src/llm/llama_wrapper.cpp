@@ -377,7 +377,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     //
     // A mismatch means the linked library was built from a different commit than
     // the one this code was compiled against.  This can happen when:
-    //  - A system-level llama.cpp package (e.g. fro[[maybe_unused]] m a distr[[maybe_unused]] o o[[maybe_unused]] r cond[[maybe_unused]] a) overrides
+    //  - A system-level llama.cpp package (e.g. from a distro or conda) overrides
     //    the FetchContent build.
     //  - A developer manually replaces the library file without rebuilding.
     //
@@ -935,7 +935,7 @@ void LlamaWrapper::unloadModel() {
     spdlog::info("Model unloaded");
 }
 
-size_t LlamaWrapper::cleanupTempModels([[maybe_unused]] int days_old) {
+size_t LlamaWrapper::cleanupTempModels(int days_old) {
     std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
     
     if (!std::filesystem::exists(temp_dir)) {
@@ -1191,7 +1191,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
     }
 #endif
-    // Check response cache first ([[maybe_unused]] if enabled); key includes model_id to prevent cross-tenant leakage
+    // Check response cache first (if enabled); key includes model_id to prevent cross-tenant leakage
     {
         std::lock_guard<std::mutex> cache_lock(mutex_);  // W1-L04: Data race fix - protect response_cache access
         auto* const response_cache_ptr = response_cache_.get();
@@ -1427,11 +1427,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             // **Streaming support**: Call callback if provided
             // Note: Callback is called while holding mutex_. Ensure callback
             // is non-blocking to avoid performance issues.
-            if ([[maybe_unused]] request.stream_callback) {
+            if (request.stream_callback) {
                 try {
                     // Detokenize this single token for streaming
                     std::string token_text = detokenizeInternal(lctx, {next_token});
-                    request.stream_callback([[maybe_unused]] token_text);
+                    request.stream_callback(token_text);
                 } catch (const std::exception& e) {
                     spdlog::warn("Streaming callback error: {}", e.what());
                     // Continue generation even if streaming fails
@@ -2928,10 +2928,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                     accepted++;
                     
                     // Stream token if callback provided
-                    if ([[maybe_unused]] request.stream_callback) {
+                    if (request.stream_callback) {
                         try {
                             std::string token_text = detokenizeInternal(target_context, {draft_tokens[i]});
-                            request.stream_callback([[maybe_unused]] token_text);
+                            request.stream_callback(token_text);
                         } catch (const std::exception& e) {
                             spdlog::warn("Streaming callback error: {}", e.what());
                         }
@@ -2951,10 +2951,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                     accepted++;
                     
                     // Stream corrected token
-                    if ([[maybe_unused]] request.stream_callback) {
+                    if (request.stream_callback) {
                         try {
                             std::string token_text = detokenizeInternal(target_context, {corrected_token});
-                            request.stream_callback([[maybe_unused]] token_text);
+                            request.stream_callback(token_text);
                         } catch (const std::exception& e) {
                             spdlog::warn("Streaming callback error: {}", e.what());
                         }
@@ -3164,10 +3164,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             
             generated_tokens.push_back(next_token);
             
-            if ([[maybe_unused]] request.stream_callback) {
+            if (request.stream_callback) {
                 try {
                     std::string token_text = detokenizeInternal(lctx, {next_token});
-                    request.stream_callback([[maybe_unused]] token_text);
+                    request.stream_callback(token_text);
                 } catch (const std::exception& e) {
                     spdlog::warn("Streaming callback error: {}", e.what());
                 }

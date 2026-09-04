@@ -113,7 +113,7 @@ struct OracleConnectionPoolState {
 static thread_local OracleConnectionPoolState g_oracle_connection_pool;
 
 /// Maps Oracle-specific error patterns to ImporterErrorCode
-[[maybe_unused]] static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
+static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {
@@ -978,7 +978,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         } else {
             json entity = convertRowToEntity(eff_schema, values);
             THEMIS_DEBUG("Oracle INSERT entity: {}", entity.dump());
-            if ([[maybe_unused]] options.streaming_row_callback) {
+            if (options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
                 }
@@ -1000,8 +1000,8 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
 std::string OracleImporter::mapOracleTypeToThemis(const std::string& oracle_type,
                                                    const ImportOptions& options) const {
     // User-configurable overrides take priority
-    auto it = options.type_overrides.find(oracle_typ[[maybe_unused]] e);
-    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
+    auto it = options.type_overrides.find(oracle_type);
+    if (it != options.type_overrides.end()) {
       return it->second;
     }
 
@@ -1346,7 +1346,7 @@ void OracleImporter::emitMetric(const ImportOptions& options,
                                  const std::string& metric,
                                  const std::map<std::string, std::string>& labels,
                                  double value) const {
-    if ([[maybe_unused]] options.metrics_callback) {
+    if (options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1355,14 +1355,14 @@ void OracleImporter::emitSpan(const ImportOptions& options,
                                const std::string& operation,
                                const std::map<std::string, std::string>& attributes,
                                double duration_seconds) const {
-    if ([[maybe_unused]] options.tracing_callback) {
+    if (options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
 
 void OracleImporter::reportProgress(ProgressCallback& callback, const std::string& stage,
                                      size_t current, size_t total) {
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         callback(stage, current, total);
     }
 }

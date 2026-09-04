@@ -53,7 +53,7 @@ bool ABTestingFramework::startTest(const ABTestConfig &config) {
 }
 
 void ABTestingFramework::recordObservation(const std::string &test_id, bool is_treatment, bool success,
-                                           [[maybe_unused]] double metric_value) {
+                                           double metric_value) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     auto it = impl_->tests.find(test_id);

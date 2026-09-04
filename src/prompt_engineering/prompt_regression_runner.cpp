@@ -239,13 +239,13 @@ RegressionResult PromptRegressionRunner::run(
 // Logging
 // ============================================================================
 
-void PromptRegressionRunner::setLogCallback([[maybe_unused]] LogCallback cb) {
-    log_callback_ = std::move([[maybe_unused]] cb);
+void PromptRegressionRunner::setLogCallback(LogCallback cb) {
+    log_callback_ = std::move(cb);
 }
 
 void PromptRegressionRunner::emitLog(const RegressionResult& result,
                                      const std::string&       template_id) const {
-    if ([[maybe_unused]] !log_callback_) { return; }
+    if (!log_callback_) { return; }
     try {
         const auto ts = static_cast<std::int64_t>(
             std::chrono::system_clock::to_time_t(

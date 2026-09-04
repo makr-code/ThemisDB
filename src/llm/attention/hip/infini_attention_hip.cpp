@@ -151,7 +151,7 @@ Status InfiniAttentionHIP::initializeHIPDevice() {
     return Status::SUCCESS;
 }
 
-void* InfiniAttentionHIP::allocateGPUMemory([[maybe_unused]] size_t bytes) const {
+void* InfiniAttentionHIP::allocateGPUMemory(size_t bytes) const {
     void* ptr = nullptr;
     hipError_t err = hipMalloc(&ptr, bytes);
     if (err != hipSuccess) {

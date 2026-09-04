@@ -398,7 +398,7 @@ HealthStatus OperationalMetrics::getClusterHealth() const {
 
 void OperationalMetrics::recordRpcCall(
     const std::string& shard_id,
-    [[maybe_unused]] const std::string& method,
+    const std::string& method,
     const std::string& outcome,
     uint64_t latency_us
 ) {

@@ -888,7 +888,7 @@ DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::execu
     result.total_time_ms = std::chrono::duration<float, std::milli>(step_end - step_start).count();
     
     // 7. Call progress callback
-    if ([[maybe_unused]] progress_callback_) {
+    if (progress_callback_) {
         progress_callback_(current_step_, result);
     }
     
@@ -925,7 +925,7 @@ void DistributedTrainingCoordinator::stop() {
 }
 
 std::map<std::string, std::vector<GradientTensor>> 
-DistributedTrainingCoordinator::collectGradients([[maybe_unused]] int step_number) {
+DistributedTrainingCoordinator::collectGradients(int step_number) {
     std::map<std::string, std::vector<GradientTensor>> collected;
     
     spdlog::debug("Collecting gradients from {} shards for step {}", 
@@ -1323,7 +1323,7 @@ bool DistributedTrainingCoordinator::handleShardFailure(const std::string& faile
     return true;
 }
 
-bool DistributedTrainingCoordinator::saveCheckpoint([[maybe_unused]] int step_number) {
+bool DistributedTrainingCoordinator::saveCheckpoint(int step_number) {
     if (config_.checkpoint_path.empty()) {
         spdlog::warn("Checkpoint path not configured");
         return false;
@@ -1447,7 +1447,7 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     return 0.0f;
 }
 
-void DistributedTrainingCoordinator::setProgressCallback([[maybe_unused]] ProgressCallback callback) {
+void DistributedTrainingCoordinator::setProgressCallback(ProgressCallback callback) {
     progress_callback_ = callback;
 }
 
@@ -1489,7 +1489,8 @@ void DistributedTrainingCoordinator::initializeAggregator() {
         }
         
         case SyncStrategy::HIERARCHICAL:
-        [[fallthrough]];\n        case SyncStrategy::ASYNC_SGD:
+        [[fallthrough]];
+        case SyncStrategy::ASYNC_SGD:
             // Fall back to AllReduce for now
             aggregator_ = std::make_unique<AllReduceAggregator>();
             spdlog::warn("Strategy not fully implemented, using AllReduce");

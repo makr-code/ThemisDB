@@ -376,7 +376,7 @@ void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapsh
     }
     
     // Store snapshot locally
-    handleResourceSnapshot([[maybe_unused]] snapshot);
+    handleResourceSnapshot(snapshot);
     
     // Propagate to peers
     auto peers = selectRandomPeers(config_.fanout);
@@ -464,7 +464,7 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
                 return ack;
             }
             
-            handleResourceSnapshot([[maybe_unused]] snapshot);
+            handleResourceSnapshot(snapshot);
         }
     } else if (message.message_type() == "heartbeat") {
         // Respond with our heartbeat
@@ -490,14 +490,14 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
     return ack;
 }
 
-void GossipConfigManager::onConfigUpdate([[maybe_unused]] ConfigUpdateCallback callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
-    config_update_callback_ = std::move([[maybe_unused]] callback);
+void GossipConfigManager::onConfigUpdate(ConfigUpdateCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    config_update_callback_ = std::move(callback);
 }
 
-void GossipConfigManager::onResourceSnapshot([[maybe_unused]] ResourceSnapshotCallback callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
-    resource_snapshot_callback_ = std::move([[maybe_unused]] callback);
+void GossipConfigManager::onResourceSnapshot(ResourceSnapshotCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    resource_snapshot_callback_ = std::move(callback);
 }
 
 std::string GossipConfigManager::getConfig(const std::string& config_key) const {
@@ -639,7 +639,7 @@ void GossipConfigManager::performAntiEntropyScan() {
     }
 }
 
-std::vector<std::string> GossipConfigManager::selectRandomPeers([[maybe_unused]] size_t count) {
+std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     std::vector<std::string> selected;
     
     if (!topology_) {
@@ -800,11 +800,11 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     // Notify callback
     ConfigUpdateCallback config_update_callback;
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+        std::lock_guard<std::mutex> lock(callback_mutex_);
         config_update_callback = config_update_callback_;
     }
-    if ([[maybe_unused]] config_update_callback) {
-        config_update_callback([[maybe_unused]] update);
+    if (config_update_callback) {
+        config_update_callback(update);
     }
     
     // Calculate and track propagation latency
@@ -831,7 +831,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
 }
 
-void GossipConfigManager::handleResourceSnapshot([[maybe_unused]] const ResourceSnapshot& snapshot) {
+void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapshot) {
     {
         std::lock_guard<std::mutex> lock(resource_mutex_);
         
@@ -855,11 +855,11 @@ void GossipConfigManager::handleResourceSnapshot([[maybe_unused]] const Resource
     // Notify callback
     ResourceSnapshotCallback resource_snapshot_callback;
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+        std::lock_guard<std::mutex> lock(callback_mutex_);
         resource_snapshot_callback = resource_snapshot_callback_;
     }
-    if ([[maybe_unused]] resource_snapshot_callback) {
-        resource_snapshot_callback([[maybe_unused]] snapshot);
+    if (resource_snapshot_callback) {
+        resource_snapshot_callback(snapshot);
     }
 }
 

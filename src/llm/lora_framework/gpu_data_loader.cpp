@@ -269,7 +269,7 @@ void GPUDataLoader::prefetchWorker() {
     }
 }
 
-GPUBatch GPUDataLoader::prepareBatch([[maybe_unused]] size_t batch_idx) {
+GPUBatch GPUDataLoader::prepareBatch(size_t batch_idx) {
     GPUBatch batch;
     
     // Calculate batch bounds
@@ -350,7 +350,7 @@ std::vector<int> GPUDataLoader::tokenizeSample(const InstructionDataSample& samp
     return tokenizer_->encode(formatted);
 }
 
-bool GPUDataLoader::updateBatchSize([[maybe_unused]] size_t new_batch_size) {
+bool GPUDataLoader::updateBatchSize(size_t new_batch_size) {
     if (new_batch_size == 0) {
         spdlog::warn("Cannot update batch size to 0");
         return false;

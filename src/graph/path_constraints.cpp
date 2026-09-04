@@ -78,11 +78,11 @@ void PathConstraints::setGraphManager(GraphIndexManager *graph_mgr) {
     graph_mgr_ = graph_mgr;
 }
 
-void PathConstraints::addMinLength([[maybe_unused]] int min_length) {
+void PathConstraints::addMinLength(int min_length) {
     constraints_.emplace_back(ConstraintType::MIN_LENGTH, min_length);
 }
 
-void PathConstraints::addMaxLength([[maybe_unused]] int max_length) {
+void PathConstraints::addMaxLength(int max_length) {
     constraints_.emplace_back(ConstraintType::MAX_LENGTH, max_length);
 }
 
@@ -146,11 +146,11 @@ void PathConstraints::addNodePropertyConstraint(std::string_view field_name, std
     constraints_.push_back(std::move(c));
 }
 
-void PathConstraints::addMaxWeight([[maybe_unused]] double max_weight) {
+void PathConstraints::addMaxWeight(double max_weight) {
     constraints_.emplace_back(ConstraintType::MAX_WEIGHT, max_weight);
 }
 
-void PathConstraints::addMinWeight([[maybe_unused]] double min_weight) {
+void PathConstraints::addMinWeight(double min_weight) {
     constraints_.emplace_back(ConstraintType::MIN_WEIGHT, min_weight);
 }
 
@@ -264,7 +264,8 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                 break;
 
             case ConstraintType::NO_CYCLES:
-            [[fallthrough]];\n            case ConstraintType::UNIQUE_NODES: {
+            [[fallthrough]];
+            case ConstraintType::UNIQUE_NODES: {
                 std::unordered_set<std::string> seen = {};
 
                 for (const auto &node : nodes) {
@@ -332,7 +333,8 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                 break;
 
             case ConstraintType::MAX_WEIGHT:
-            [[fallthrough]];\n            case ConstraintType::MIN_WEIGHT:
+            [[fallthrough]];
+            case ConstraintType::MIN_WEIGHT:
                 // Weight validation requires the accumulated path cost which is stored
                 // in PathResult::cost, not available here. Callers (findConstrainedPaths)
                 // enforce weight constraints using the PathResult cost directly.

@@ -390,7 +390,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 
 Result<bool> ThemisDBAdapter::create_index(
     const std::string& collection,
-    [[maybe_unused]] size_t dimensions,
+    size_t dimensions,
     const std::map<std::string, Scalar>& /*index_params*/
 ) {
     if (!connected_) {
@@ -621,7 +621,7 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
         std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
 
-        auto append_bfs_results = [&]([[maybe_unused]] const std::vector<std::string>& bfs_result) {
+        auto append_bfs_results = [&](const std::vector<std::string>& bfs_result) {
             for (const auto& nid : bfs_result) {
                 if (!seen_ids.insert(nid).second) continue; // already added
                 auto it = graph_nodes_.find(nid);
@@ -1174,19 +1174,32 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
 bool ThemisDBAdapter::has_capability(Capability cap) const {
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
-        [[fallthrough]];\n        case Capability::VECTOR_SEARCH:
-        [[fallthrough]];\n        case Capability::GRAPH_TRAVERSAL:
-        [[fallthrough]];\n        case Capability::DOCUMENT_STORE:
-        [[fallthrough]];\n        case Capability::FULL_TEXT_SEARCH:
-        [[fallthrough]];\n        case Capability::TRANSACTIONS:
-        [[fallthrough]];\n        case Capability::DISTRIBUTED_QUERIES:
-        [[fallthrough]];\n        case Capability::GEOSPATIAL_QUERIES:
-        [[fallthrough]];\n        case Capability::TIME_SERIES:
-        [[fallthrough]];\n        case Capability::BATCH_OPERATIONS:
-        [[fallthrough]];\n        case Capability::SECONDARY_INDEXES:
-        [[fallthrough]];\n        case Capability::ASYNC_OPERATIONS:
-        [[fallthrough]];\n        case Capability::STREAMING_RESULTS:
-        [[fallthrough]];\n        case Capability::PREPARED_STATEMENTS:
+        [[fallthrough]];
+        case Capability::VECTOR_SEARCH:
+        [[fallthrough]];
+        case Capability::GRAPH_TRAVERSAL:
+        [[fallthrough]];
+        case Capability::DOCUMENT_STORE:
+        [[fallthrough]];
+        case Capability::FULL_TEXT_SEARCH:
+        [[fallthrough]];
+        case Capability::TRANSACTIONS:
+        [[fallthrough]];
+        case Capability::DISTRIBUTED_QUERIES:
+        [[fallthrough]];
+        case Capability::GEOSPATIAL_QUERIES:
+        [[fallthrough]];
+        case Capability::TIME_SERIES:
+        [[fallthrough]];
+        case Capability::BATCH_OPERATIONS:
+        [[fallthrough]];
+        case Capability::SECONDARY_INDEXES:
+        [[fallthrough]];
+        case Capability::ASYNC_OPERATIONS:
+        [[fallthrough]];
+        case Capability::STREAMING_RESULTS:
+        [[fallthrough]];
+        case Capability::PREPARED_STATEMENTS:
             return true;
         case Capability::CONNECTION_POOLING:
             // Resolved: returns true when a connection-pool provider has been
@@ -1382,7 +1395,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                     ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
             }
 
-            if ([[maybe_unused]] progress_callback) {
+            if (progress_callback) {
                 // Drive the insert in chunks to report incremental progress.
                 // A single preallocated buffer is reused across all chunks to
                 // avoid repeated heap allocations.
@@ -1408,7 +1421,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                         return chunk_result;
                     }
                     total_inserted += chunk_result.value.value_or(0);
-                    progress_callback([[maybe_unused]] total_inserted);
+                    progress_callback(total_inserted);
                 }
                 return Result<size_t>::ok(total_inserted);
             }

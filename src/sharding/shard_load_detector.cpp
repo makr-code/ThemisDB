@@ -570,7 +570,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     auto it_hist = shard_load_history_.find(shard_id);
     const bool has_history = (it_hist != shard_load_history_.end()) &&
-                             (it_hist-> static_cast<int>(second.size()) >= config_.min_samples_per_shard);
+                             (it_hist->second.size() >= config_.min_samples_per_shard);
     forecast.has_sufficient_history = has_history;
 
     if (!has_history) {

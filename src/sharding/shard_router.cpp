@@ -94,7 +94,7 @@ uint64_t resolveShardResultVersion(const ShardResult& result) {
     return std::max(result.version_token, extractVersionToken(result.data));
 }
 
-uint64_t makeStrictMergeVersionToken([[maybe_unused]] uint64_t observed_max_version) {
+uint64_t makeStrictMergeVersionToken(uint64_t observed_max_version) {
     const uint64_t candidate = makeMergeVersionToken();
     if (observed_max_version == std::numeric_limits<uint64_t>::max()) {
         return observed_max_version;

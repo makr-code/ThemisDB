@@ -111,14 +111,14 @@ using themis::compression::kTagLZ4;
 using themis::compression::kTagSnappy;
 using themis::compression::kTagZstd;
 
-[[maybe_unused]] static void write_le32(uint8_t* dst, uint32_t v) noexcept {
+static void write_le32(uint8_t* dst, uint32_t v) noexcept {
     dst[0] = static_cast<uint8_t>(v & 0xFFu);
     dst[1] = static_cast<uint8_t>((v >> 8) & 0xFFu);
     dst[2] = static_cast<uint8_t>((v >> 16) & 0xFFu);
     dst[3] = static_cast<uint8_t>(v >> 24);
 }
 
-[[maybe_unused]] static uint32_t read_le32(const uint8_t* src) noexcept {
+static uint32_t read_le32(const uint8_t* src) noexcept {
     return static_cast<uint32_t>(src[0])
          | (static_cast<uint32_t>(src[1]) << 8)
          | (static_cast<uint32_t>(src[2]) << 16)
@@ -138,15 +138,15 @@ void AdvancedCacheManager::setDecompressFn(DecompressFn fn) {
 }
 
 std::string AdvancedCacheManager::compress(const std::string& val,
-                                             [[maybe_unused]] CompressionAlgorithm algo) {
+                                             CompressionAlgorithm algo) {
     if (val.empty()) {
         // Empty input: tag-only frame, decompress returns ""
         return std::string(1, static_cast<char>(kTagPassthrough));
     }
 
-    [[maybe_unused]] const auto src      = reinterpret_cast<const char*>(val.data());
-    [[maybe_unused]] const auto src_size = static_cast<int>(val.size());
-    [[maybe_unused]] const auto orig_u32 = static_cast<uint32_t>(val.size());
+    const auto src      = reinterpret_cast<const char*>(val.data());
+    const auto src_size = static_cast<int>(val.size());
+    const auto orig_u32 = static_cast<uint32_t>(val.size());
 
 #ifdef THEMIS_ENABLE_LZ4
     if (algo == CompressionAlgorithm::LZ4) {
@@ -229,7 +229,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
 }
 
 std::string AdvancedCacheManager::decompress(const std::string& val,
-                                              [[maybe_unused]] CompressionAlgorithm algo) {
+                                              CompressionAlgorithm algo) {
     if (val.empty()) return {};
 
     const auto tag = static_cast<uint8_t>(val[0]);
@@ -425,7 +425,7 @@ void AdvancedCacheManager::put(const std::string& key,
         ps->lru_list.splice(ps->lru_list.begin(), ps->lru_list, it->second);
     } else {
         // Evict if full
-        if (ps-> static_cast<int>(lru_list.size()) >= ps->capacity) {
+        if (ps->lru_list.size() >= ps->capacity) {
             auto& lru_entry = ps->lru_list.back();
             ps->index.erase(lru_entry.key);
             ps->lru_list.pop_back();
@@ -458,8 +458,8 @@ bool AdvancedCacheManager::evict(const std::string& key,
       return false;
     }
 
-    ps->stats.bytes_used = ps->stats.bytes_used > it->second-> static_cast<int>(value.size())
-        ? ps->stats.bytes_used - it->second-> static_cast<int>(value.size()) : 0;
+    ps->stats.bytes_used = ps->stats.bytes_used > it->second->value.size()
+        ? ps->stats.bytes_used - it->second->value.size() : 0;
     ps->lru_list.erase(it->second);
     ps->index.erase(it);
     if (ps->stats.entries > 0) {
@@ -490,7 +490,7 @@ void AdvancedCacheManager::reset_stats() {
     for (auto& p : partitions_) {
         std::lock_guard<std::mutex> lk(p->mtx);
         p->stats = PartitionStats{};
-        p->stats.entries   = p-> static_cast<int>(index.size());
+        p->stats.entries   = p->index.size();
         p->stats.bytes_used = 0;
         for (const auto& e : p->lru_list) {
           p->stats.bytes_used += e.value.size();

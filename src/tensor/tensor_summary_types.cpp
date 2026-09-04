@@ -100,7 +100,7 @@ ShardSummary SummaryFactory::createShardSummary(
 // ShardSummary freshness checking implementation
 // ============================================================================
 
-bool ShardSummary::isStale([[maybe_unused]] const std::string& now_timestamp) const noexcept {
+bool ShardSummary::isStale(const std::string& now_timestamp) const noexcept {
     // First check explicit state
     if (freshness_state == SummaryFreshnessState::STALE ||
         freshness_state == SummaryFreshnessState::INVALID) {
@@ -143,7 +143,7 @@ bool ShardSummary::isStale([[maybe_unused]] const std::string& now_timestamp) co
     }
 }
 
-void ShardSummary::markAsFresh([[maybe_unused]] bool update_timestamp) noexcept {
+void ShardSummary::markAsFresh(bool update_timestamp) noexcept {
     freshness_state = SummaryFreshnessState::FRESH;
     if (update_timestamp) {
         created_at = getCurrentTimestamp();

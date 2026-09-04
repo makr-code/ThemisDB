@@ -64,7 +64,7 @@ void ResourceProfiler::snapshot(int epoch, int step, float loss, float lr) {
     query_gpu_utilization(snapshot);
     check_alerts(snapshot);
     impl_->snapshots.push_back(snapshot);
-    for ([[maybe_unused]] const auto& cb : impl_->callbacks) {
+    for (const auto& cb : impl_->callbacks) {
         cb(snapshot);
     }
 }
@@ -104,8 +104,8 @@ ResourceStats ResourceProfiler::compute_stats() const {
     return stats;
 }
 
-void ResourceProfiler::register_callback([[maybe_unused]] ResourceMonitorCallback callback) {
-    impl_->callbacks.push_back([[maybe_unused]] std::move(callback));
+void ResourceProfiler::register_callback(ResourceMonitorCallback callback) {
+    impl_->callbacks.push_back(std::move(callback));
 }
 
 void ResourceProfiler::clear() {

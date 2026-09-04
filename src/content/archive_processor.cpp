@@ -61,7 +61,7 @@ namespace {
 /**
  * @brief Generate random temporary directory name
  */
-std::string generateRandomString([[maybe_unused]] size_t length) {
+std::string generateRandomString(size_t length) {
     static const char alphanum[] = "0123456789"
                                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                    "abcdefghijklmnopqrstuvwxyz";

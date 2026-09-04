@@ -212,7 +212,7 @@ SupportLevel FaithfulnessEvaluator::checkEntailment(
 
 std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
     const std::string& answer,
-    [[maybe_unused]] const std::vector<std::pair<std::string, std::string>>& documents,
+    const std::vector<std::pair<std::string, std::string>>& documents,
     const std::vector<Claim>& claims
 ) {
     std::vector<Citation> citations;
@@ -269,7 +269,7 @@ std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
 FaithfulnessResult FaithfulnessEvaluator::evaluate(
     const std::string& answer,
     const std::vector<std::pair<std::string, std::string>>& documents,
-    [[maybe_unused]] const std::string& query
+    const std::string& query
 ) {
     FaithfulnessResult result;
     static_cast<void>(query);

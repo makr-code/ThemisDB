@@ -157,7 +157,7 @@ double scoreFeatures(const std::string& upperQuery, const Feature (&features)[N]
 }
 
 /// Logistic function (sigmoid).
-double sigmoid([[maybe_unused]] double x) {
+double sigmoid(double x) {
     return 1.0 / (1.0 + std::exp(-x));
 }
 
@@ -293,7 +293,8 @@ double IntentClassifier::riskDelta(IntentType t) noexcept {
         case IntentType::DATA_DESTRUCTION:    return 0.90;
         case IntentType::SCHEMA_MUTATION:     return 0.75;
         case IntentType::LEGITIMATE:
-        [[fallthrough]];\n        default:                              return 0.0;
+        [[fallthrough]];
+default:                              return 0.0;
     }
 }
 
@@ -521,4 +522,5 @@ bool IntentClassifier::configureLoraEndpoint(
 
 } // namespace security
 } // namespace themis
+
 

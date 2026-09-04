@@ -263,7 +263,7 @@ size_t AdaptiveFlushController::flushInternal() {
 
         {
             std::lock_guard<std::mutex> lock(buffer_mutex_);
-            size_t take = std::min(config_.flush_batch_size,static_cast<int>(buffer_.size()));
+            size_t take = std::min(config_.flush_batch_size, buffer_.size());
             if (take == 0) {
               break;
             }

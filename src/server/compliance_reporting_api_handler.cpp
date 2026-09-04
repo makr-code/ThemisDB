@@ -30,7 +30,7 @@ ComplianceReportingApiHandler::ComplianceReportingApiHandler(
     , auth_(std::move(auth))
 {
     if (!reporter_) {
-        THEMIS_WARN([[maybe_unused]] "ComplianceReportingApiHandler created with null ComplianceReporter");
+        THEMIS_WARN("ComplianceReportingApiHandler created with null ComplianceReporter");
     }
 }
 
@@ -58,7 +58,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
                     resources = body["resources"].get<std::vector<std::string>>();
                 }
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "compliance_reporting_api_handler: unhandled exception caught");
+                THEMIS_WARN("compliance_reporting_api_handler: unhandled exception caught");
                 // If parsing fails, analyze with empty resource list
             }
         }

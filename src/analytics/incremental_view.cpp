@@ -199,7 +199,7 @@ FieldValue IncrementalView::AggState::result(ViewAggFunc func) const {
         case ViewAggFunc::VARIANCE:
             return (count >= 2) ? welford_m2 / static_cast<double>(count - 1) : 0.0;
         case ViewAggFunc::COUNT_DISTINCT:
-            return static_cast<bool>(static_cast<int64_t < static_cast<int>((distinct_ref_counts.size())));
+            return static_cast<int64_t>(distinct_ref_counts.size());
         case ViewAggFunc::FIRST:
             return has_first ? first_val : FieldValue{nullptr};
         case ViewAggFunc::LAST:
@@ -425,7 +425,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     // The exclusive lock is acquired and released once per micro-batch so that
     // concurrent readers (query()) can slip in between batches.
     for (size_t batch_start = 0; batch_start < filtered.size(); batch_start += kMicroBatchSize) {
-        const size_t batch_end = std::min(batch_start + kMicroBatchSize,static_cast<int>(filtered.size()));
+        const size_t batch_end = std::min(batch_start + kMicroBatchSize, filtered.size());
         int batch_applied      = 0;
 
         {
@@ -505,7 +505,7 @@ ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, i
             ++row_idx;
             continue;
         }
-        if (limit > 0  && static_cast<size_t>(static_cast) < int64_t>(result.rows.size()) >= limit) {
+        if (limit > 0 && static_cast<int64_t>(result.rows.size()) >= limit) {
             continue;
         }
 
@@ -533,7 +533,7 @@ void IncrementalView::clear() {
 
 int64_t IncrementalView::groupCount() const {
     std::shared_lock lk(rw_mutex_);
-    return static_cast<bool>(static_cast<int64_t < static_cast<int>((groups_.size())));
+    return static_cast<int64_t>(groups_.size());
 }
 
 bool IncrementalView::isStale() const {
@@ -640,3 +640,4 @@ ViewQueryResult IncrementalViewManager::query(const std::string &view_name, cons
 
 } // namespace analytics
 } // namespace themisdb
+

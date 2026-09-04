@@ -43,7 +43,7 @@ uint64_t fnv1a64(const std::string& s) {
     return hash;
 }
 
-std::string toHex16([[maybe_unused]] uint64_t v) {
+std::string toHex16(uint64_t v) {
     std::ostringstream ss = {};
     ss << std::hex << std::setfill('0') << std::setw(16) << v;
     return ss.str();

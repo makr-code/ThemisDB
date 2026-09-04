@@ -179,12 +179,18 @@ std::size_t escapedJsonStringLength(std::string_view value) {
     for (unsigned char ch : value) {
         switch (ch) {
             case '\"':
-            [[fallthrough]];\n            case '\\':
-            [[fallthrough]];\n            case '\b':
-            [[fallthrough]];\n            case '\f':
-            [[fallthrough]];\n            case '\n':
-            [[fallthrough]];\n            case '\r':
-            [[fallthrough]];\n            case '\t':
+            [[fallthrough]];
+            case '\\':
+            [[fallthrough]];
+            case '\b':
+            [[fallthrough]];
+            case '\f':
+            [[fallthrough]];
+            case '\n':
+            [[fallthrough]];
+            case '\r':
+            [[fallthrough]];
+            case '\t':
                 escaped_length += 2;
                 break;
             default:
@@ -367,7 +373,7 @@ void WireProtocolServer::start() {
     bool has_geo_callback = false;
     {
         std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
-        has_geo_callback = static_cast<bool>([[maybe_unused]] g_network_geo_query_fn);
+        has_geo_callback = static_cast<bool>(g_network_geo_query_fn);
     }
     const bool has_geo_backend = static_cast<bool>(spatial_index_) || has_geo_callback;
     if (!wire_bootstrap::validateRequiredBackends(
@@ -1170,7 +1176,7 @@ void WireProtocolServer::Session::asyncUpgradeToWebSocket(
 }
 #endif // THEMIS_ENABLE_WEBSOCKET
 
-void WireProtocolServer::Session::asyncReadPayload([[maybe_unused]] uint32_t payload_size) {
+void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
     if (payload_size == 0) {
         // No payload, check if we need to read checksum
         payload_buffer_.clear();
@@ -1408,7 +1414,7 @@ void WireProtocolServer::Session::handleClose() {
     close();
 }
 
-void WireProtocolServer::Session::handleError([[maybe_unused]] const std::string& context, const boost::system::error_code& ec) {
+void WireProtocolServer::Session::handleError(const std::string& context, const boost::system::error_code& ec) {
     if (ec != net::error::operation_aborted) {
         // Log error
     }
@@ -3764,7 +3770,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             sendError(400, "Invalid include_history: expected boolean");
             return;
         }
-        if ([[maybe_unused]] request.contains("max_history_events") && !request["max_history_events"].is_number_unsigned()) {
+        if (request.contains("max_history_events") && !request["max_history_events"].is_number_unsigned()) {
             sendError(400, "Invalid max_history_events: expected unsigned integer");
             return;
         }
@@ -3782,7 +3788,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             sendError(400, "Invalid process_instance_id: must be <= 256 chars and contain no control characters");
             return;
         }
-        if ([[maybe_unused]] max_history_events == 0 || max_history_events > kMaxBpmnHistoryEvents) {
+        if (max_history_events == 0 || max_history_events > kMaxBpmnHistoryEvents) {
             sendError(400, "Invalid max_history_events: must be in range 1..10000");
             return;
         }
@@ -3850,7 +3856,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
-                    if ([[maybe_unused]] static_cast<int>(history.size()) >= max_history_events) {
+                    if (static_cast<int>(history.size()) >= max_history_events) {
                         history_truncated = true;
                         break;
                     }
@@ -3866,7 +3872,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
                     }
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
-                    history.push_back([[maybe_unused]] event);
+                    history.push_back(event);
                 }
                 if (history_truncated) {
                     break;

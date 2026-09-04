@@ -52,7 +52,7 @@ uint64_t HybridLogicalClock::wallClockMs() {
 
 // advanceTo is a helper for the CAS loop in now() – not called externally.
 // Computes the next HLCTimestamp value given current packed state and wall clock.
-HLCTimestamp HybridLogicalClock::advanceTo([[maybe_unused]] uint64_t phys_ms) {
+HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
     // CAS loop: atomically advance the packed (physical||logical) state.
     // memory_order scanner alert: the initial state_.load() uses relaxed ordering
     // because compare_exchange_weak provides acq_rel on success and refreshes `cur`

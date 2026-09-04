@@ -287,7 +287,7 @@ std::vector<LogicalChange> LogicalReplicationManager::readChanges(
     }
 
     std::lock_guard<std::mutex> lock(runtime->mutex);
-    const uint32_t count = std::min<uint32_t>(max_changes, static_cast<uint32_t>(runtime-> static_cast<int>(buffer.size())));
+    const uint32_t count = std::min<uint32_t>(max_changes, static_cast<uint32_t>(runtime->buffer.size()));
     // BATCH B OPTIMIZATION: Reserve space for all changes upfront
     out.reserve(count);
     for (uint32_t i = 0; i < count; ++i) {

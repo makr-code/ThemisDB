@@ -74,7 +74,8 @@ bool isConverterSafe(const std::string& converter) {
     for (char c : converter) {
         switch (c) {
             case '|': case ';': case '&': case '$': case '<': case '>':
-            [[fallthrough]];\n            case '`': case '!': case '\n': case '\r': case '\0':
+            [[fallthrough]];
+            case '`': case '!': case '\n': case '\r': case '\0':
                 return false;
             default:
                 break;
@@ -149,7 +150,7 @@ static void collectTextNodes(const pugi::xml_node& node, std::ostringstream& out
 /// Extract plain text from an XML/HTML buffer using pugixml.
 /// Falls back to returning an empty string when pugixml is not available.
 static std::string extractXmlText(const std::string& raw,
-                                   [[maybe_unused]] bool is_html) {
+                                   bool is_html) {
 #ifdef THEMIS_HAS_PUGIXML
     pugi::xml_document doc;
     unsigned int parse_flags = is_html
@@ -685,7 +686,7 @@ public:
         format_ = format;
     }
 
-    void setMetadataExtraction([[maybe_unused]] bool enabled) {
+    void setMetadataExtraction(bool enabled) {
         metadata_extraction_ = enabled;
     }
 
@@ -784,7 +785,7 @@ void FileSystemIngester::setFileFormat(FileFormat format) {
     impl_->setFileFormat(format);
 }
 
-void FileSystemIngester::setMetadataExtraction([[maybe_unused]] bool enabled) {
+void FileSystemIngester::setMetadataExtraction(bool enabled) {
     impl_->setMetadataExtraction(enabled);
 }
 

@@ -268,8 +268,10 @@ std::string DynamicReflectionPromptBuilder::buildRevisionPrompt(
 
     switch (strategy_) {
     case ReflectionStrategy::SELF_REFINE:
-    [[fallthrough]];\n    case ReflectionStrategy::REFLEXION:
-    [[fallthrough]];\n    case ReflectionStrategy::SOCRATIC:
+    [[fallthrough]];
+    case ReflectionStrategy::REFLEXION:
+    [[fallthrough]];
+    case ReflectionStrategy::SOCRATIC:
         out << "Revise your previous response by addressing the critique below.\n\n";
         out << "Original task:\n" << original_prompt << "\n\n";
         out << "Previous response:\n" << response << "\n\n";

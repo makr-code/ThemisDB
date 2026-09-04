@@ -168,7 +168,7 @@ class AQLConversationContext::Impl {
                 }
                 response = config_.llm_executor(pairs);
             } else {
-                response = handler_.executeChat([[maybe_unused]] history_snapshot);
+                response = handler_.executeChat(history_snapshot);
             }
             const std::string query = cleanQuery(response);
 

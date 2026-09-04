@@ -35,7 +35,7 @@ namespace {
 
 // MurmurHash3-inspired 64-bit finaliser for string keys.
 // Produces a uniform-looking hash without requiring external libraries.
-uint64_t murmur_mix64([[maybe_unused]] uint64_t k) noexcept {
+uint64_t murmur_mix64(uint64_t k) noexcept {
     k ^= k >> 33;
     k *= UINT64_C(0xff51afd7ed558ccd);
     k ^= k >> 33;
@@ -165,7 +165,8 @@ size_t DistributedVectorIndex::shardFor_(const std::string& key) const noexcept 
     const uint64_t h = hashKey_(key);
     switch (config_.strategy) {
     case ShardingStrategy::HASH:
-    [[fallthrough]];\n    case ShardingStrategy::RANGE:
+    [[fallthrough]];
+    case ShardingStrategy::RANGE:
         // RANGE uses hash-bucket assignment as an alias for HASH.
         // Proper lexicographic range partitioning is deferred.
         return static_cast<size_t>(h % config_.num_shards);

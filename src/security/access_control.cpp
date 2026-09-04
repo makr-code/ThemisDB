@@ -767,7 +767,7 @@ void AccessControl::invalidateUserSessions(const std::string& user_id) {
 // Threat Detection
 // ============================================================================
 
-bool AccessControl::isRateLimited(const std::string& user_id, [[maybe_unused]] const std::string& resource) {
+bool AccessControl::isRateLimited(const std::string& user_id, const std::string& resource) {
     // unused for now
     return !checkRateLimit(user_id);
 }
@@ -835,7 +835,7 @@ bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::s
     return false;
 }
 
-void AccessControl::recordFailedLogin(const std::string& user_id, [[maybe_unused]] const std::string& ip_address) {
+void AccessControl::recordFailedLogin(const std::string& user_id, const std::string& ip_address) {
     // SECURITY NOTE: Lockout state is in-memory only. On process restart, counters reset.
     // Persistent lockout requires an external store (Redis, DB). Log lockout events for SIEM.
     auto& entry = rate_limits_[user_id];

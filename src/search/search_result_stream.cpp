@@ -126,20 +126,20 @@ void SearchResultStream::close() {
 // forEachResult
 // ============================================================================
 
-void SearchResultStream::forEachResult([[maybe_unused]] ResultCallback callback) {
+void SearchResultStream::forEachResult(ResultCallback callback) {
     if (!callback) {
       return;
     }
     while (static_cast<size_t>(cursor_) <static_cast<int>(results_.size())) {
         try {
-            if ([[maybe_unused]] !callback(results_[cursor_])) {
+            if (!callback(results_[cursor_])) {
                 break;
             }
         } catch (const std::exception& e) {
             THEMIS_ERROR("SearchResultStream: callback threw: {}", e.what());
             break;
         } catch (...) {
-            THEMIS_ERROR([[maybe_unused]] "SearchResultStream: callback threw unknown error");
+            THEMIS_ERROR("SearchResultStream: callback threw unknown error");
             break;
         }
         ++cursor_;

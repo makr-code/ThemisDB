@@ -880,7 +880,7 @@ bool RocksDBWrapper::isOpen() const {
     return db_ != nullptr;
 }
 
-void RocksDBWrapper::addEventListener([[maybe_unused]] std::shared_ptr<rocksdb::EventListener> listener) {
+void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> listener) {
     if (!listener) {
       return;
     }
@@ -1249,7 +1249,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
-        [[maybe_unused]] uint64_t chunk_size = readLE64(raw + 4);
+        uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || chunk_size == 0 || total_size == 0) {
@@ -1518,7 +1518,7 @@ void RocksDBWrapper::WriteBatchWithIndexWrapper::rollback() {
     batch_->Clear();
 }
 
-std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex([[maybe_unused]] bool overwrite_key) {
+std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex(bool overwrite_key) {
     return std::make_unique<WriteBatchWithIndexWrapper>(this, overwrite_key);
 }
 
@@ -2022,7 +2022,7 @@ void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view e
     }
 }
 
-void RocksDBWrapper::scanAll([[maybe_unused]] ScanCallback callback) {
+void RocksDBWrapper::scanAll(ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
     if (!guard) {

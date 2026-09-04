@@ -123,7 +123,7 @@ TemporalQueryEngine::joinAsOf(
     auto right_rows = right.scan(as_of);
 
     std::vector<std::pair<VersionedDocument, VersionedDocument>> result;
-    result.reserve(std::min(left_rows.size(),static_cast<int>(right_rows.size())));
+    result.reserve(std::min(left_rows.size(), right_rows.size()));
 
     for (const auto& l : left_rows) {
         for (const auto& r : right_rows) {
@@ -341,7 +341,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
 // QueryCache implementation
 // ============================================================================
 
-QueryCache::QueryCache([[maybe_unused]] size_t max_entries)
+QueryCache::QueryCache(size_t max_entries)
     : max_entries_(max_entries > 0 ? max_entries : 1) {}
 
 std::optional<std::vector<VersionedDocument>> QueryCache::get(

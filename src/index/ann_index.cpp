@@ -57,7 +57,7 @@ bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
 }
 
 const float* checkedRow(const float* data, size_t rows, size_t dim, size_t row_index) {
-    if (data == nullptr || dim == 0 || row_index >= rows) {
+    if (data == nullptr || dim == 0 || row_index >=rows) {
         return nullptr;
     }
 
@@ -136,7 +136,7 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
         size_t chosen = n - 1;
         for (size_t i = 0; i < n; ++i) {
             cumsum += dists[i];
-            if (cumsum >= threshold) { chosen = i; break; }
+            if (cumsum >=threshold) { chosen = i; break; }
         }
         if (const float* chosen_row = checkedRow(data, n, d, chosen)) {
             centroids.emplace_back(chosen_row, chosen_row + d);
@@ -169,7 +169,7 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
         for (size_t i = 0; i < n; ++i) {
             size_t c = assignments[i];
             const float* row = checkedRow(data, n, d, i);
-            if (c >= new_cents.size() || row == nullptr) {
+            if (c >=new_cents.size() || row == nullptr) {
                 return;
             }
             ++counts[c];
@@ -224,7 +224,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 
     num_subspaces = nss;
     sub_dim = d / nss;
-    if (bits >= sizeof(size_t) * 8) {
+    if (bits >=sizeof(size_t) * 8) {
         num_subspaces = 0;
         sub_dim = 0;
         centroids.clear();
@@ -269,7 +269,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
     }
 }
 
-std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]] size_t d) const {
+std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, size_t d) const {
     const size_t expected_dim = num_subspaces * sub_dim;
     if (vec == nullptr || num_subspaces == 0 || sub_dim == 0  || static_cast<size_t>(d) < expected_dim || static_cast<int>(centroids.size()) < num_subspaces) {
         THEMIS_WARN("ScaNN::PQCodebook::encode: invalid input or uninitialized codebook (num_subspaces={} sub_dim={} d={} expected_dim={})",
@@ -304,7 +304,7 @@ float ScaNN::PQCodebook::decode_distance(const float* query,
 
     float total = 0.f;
     for (size_t s = 0; s < num_subspaces; ++s) {
-        if (code[s] >= centroids[s].size()) {
+        if (code[s] >=centroids[s].size()) {
             return std::numeric_limits<float>::max();
         }
         const float* sq = query + s * sub_dim;
@@ -330,7 +330,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     }
     if (cfg_.pq_num_subspaces != 0 && dim % cfg_.pq_num_subspaces != 0) {
         // Adjust pq_num_subspaces to be a divisor of dim
-        for (size_t s = cfg_.pq_num_subspaces; s >= 1; --s) {
+        for (size_t s = cfg_.pq_num_subspaces; s >=1; --s) {
             if (dim % s == 0) { cfg_.pq_num_subspaces = s; break; }
         }
     }
@@ -352,7 +352,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     for (size_t i = 0; i < count; ++i) {
         size_t c = assignments[i];
         const float* row = checkedRow(vectors, count, dim, i);
-        if (c >= leaves_.size() || row == nullptr) {
+        if (c >=leaves_.size() || row == nullptr) {
             return false;
         }
         int64_t label = ids ? ids[i] : static_cast<int64_t>(i);
@@ -361,7 +361,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     }
 
     // ---- Phase 2: Train PQ codebook & encode leaf vectors ----
-    if (cfg_.enable_ah && count >= cfg_.pq_num_subspaces) {
+    if (cfg_.enable_ah && count >=cfg_.pq_num_subspaces) {
         codebook_.train(vectors, count, dim,
                         cfg_.pq_num_subspaces,
                         cfg_.pq_bits_per_subspace,
@@ -404,7 +404,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     float best_dist = std::numeric_limits<float>::max();
     size_t best_leaf = 0;
     for (size_t i = 0; i < leaves_.size(); ++i) {
-        if (leaves_[i].static_cast<int>(centroid.size()) != dim_) {
+        if (leaves_[i].centroid.size() != dim_) {
             THEMIS_WARN("ScaNN::addToLeaf: leaf {} centroid size {} != dim_ {}", i, leaves_[i].centroid.size(), dim_);
             return false;
         }
@@ -421,7 +421,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     return true;
 }
 
-std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] size_t dim,
+std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
                                             int k) const {
     if (query == nullptr || k <= 0) {
         THEMIS_WARN("ScaNN::search: invalid arguments (query==nullptr={}, k={})", query == nullptr, k);
@@ -448,7 +448,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     if (dim != dim_) { THEMIS_WARN("ScaNN::search: query dim {} != index dim {}", dim, dim_); return {}; }
 
     // ---- Step 1: Score leaf centroids ----
-    size_t probe = std::min(cfg_.num_leaves_to_search,static_cast<int>(leaves_.size()));
+    size_t probe = std::min(cfg_.num_leaves_to_search, leaves_.size());
     using LeafScore = std::pair<float, size_t>;
     std::vector<LeafScore> leaf_scores(leaves_.size());
     for (size_t i = 0; i < leaves_.size(); ++i)
@@ -473,7 +473,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
                       && static_cast<int>(leaf.codes.size()) == static_cast<int>(leaf.vectors.size())
                       && !leaf.codes.empty();
 
-        const size_t scan_count = std::min(leaf.ids.size(),static_cast<int>(leaf.vectors.size()));
+        const size_t scan_count = std::min(leaf.ids.size(), leaf.vectors.size());
         for (size_t i = 0; i < scan_count; ++i) {
             float dist = use_ah
                 ? codebook_.decode_distance(query, leaf.codes[i])
@@ -581,3 +581,4 @@ bool ScaNN::load(const std::string& path) {
 
 } // namespace index
 } // namespace themis
+

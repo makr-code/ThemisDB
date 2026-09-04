@@ -50,7 +50,7 @@ IntentCategory stringToIntent(const std::string& s) {
 
 // ---- ConversationContext ----
 
-ConversationContext::ConversationContext([[maybe_unused]] size_t max_history)
+ConversationContext::ConversationContext(size_t max_history)
     : max_history_(max_history) {}
 
 void ConversationContext::addTurn(const std::string& user_input, const std::string& assistant_response) {
@@ -80,7 +80,7 @@ const std::vector<std::pair<std::string, std::string>>& ConversationContext::get
     return history_;
 }
 
-std::string ConversationContext::buildContextString([[maybe_unused]] size_t max_turns) const {
+std::string ConversationContext::buildContextString(size_t max_turns) const {
     std::ostringstream oss = {};
     size_t start = (static_cast<int>(history_.size()) > max_turns) ? static_cast<int>(history_.size()) - max_turns : 0;
     for (size_t i = start; i < history_.size(); ++i) {
@@ -291,7 +291,7 @@ std::string VoiceIntentDetector::normalizeQuery(
     return result;
 }
 
-bool VoiceIntentDetector::meetsThreshold([[maybe_unused]] float confidence) const {
+bool VoiceIntentDetector::meetsThreshold(float confidence) const {
     return confidence >= config_.min_confidence_threshold;
 }
 
@@ -389,7 +389,7 @@ json VoiceIntentDetector::getStatistics() const {
 // Phase 3: Confidence and Safe Defaults
 // ============================================================================
 
-bool VoiceIntentDetector::isConfidenceTooLow([[maybe_unused]] float confidence) const noexcept {
+bool VoiceIntentDetector::isConfidenceTooLow(float confidence) const noexcept {
     return confidence < config_.min_confidence_threshold;
 }
 

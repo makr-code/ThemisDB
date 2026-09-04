@@ -156,7 +156,8 @@ void Aggregator::accumulate(AccState& acc, AggregateFunction fn,
             break;
 
         case AggregateFunction::kSum:
-        [[fallthrough]];\n        case AggregateFunction::kAvg: {
+        [[fallthrough]];
+        case AggregateFunction::kAvg: {
             if (is_null) { break; }
             double d = 0.0;
             std::visit([&d](const auto& v) {
@@ -218,7 +219,8 @@ AggValue Aggregator::extract(const AccState& acc, AggregateFunction fn)
         case AggregateFunction::kSum:
             return acc.sum;
         case AggregateFunction::kCount:
-        [[fallthrough]];\n        case AggregateFunction::kCountNonNull:
+        [[fallthrough]];
+        case AggregateFunction::kCountNonNull:
             return static_cast<int64_t>(acc.count);
         case AggregateFunction::kAvg:
             if (acc.count == 0) { return std::monostate{}; }

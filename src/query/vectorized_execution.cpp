@@ -128,7 +128,7 @@ VectorizedQueryPlan& VectorizedQueryPlan::addSort(
     return *this;
 }
 
-VectorizedQueryPlan& VectorizedQueryPlan::setLimit([[maybe_unused]] size_t n) {
+VectorizedQueryPlan& VectorizedQueryPlan::setLimit(size_t n) {
     limit_ = n;
     return *this;
 }
@@ -355,7 +355,8 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
                         col.appendString(val.dump());
                     break;
                 case ColumnType::Null:
-                [[fallthrough]];\n                default:
+                [[fallthrough]];
+                default:
                     col.appendNull();
                     break;
             }
@@ -404,7 +405,8 @@ std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
                     obj[name] = col.stringData()[r];
                     break;
                 case ColumnType::Null:
-                [[fallthrough]];\n                default:
+                [[fallthrough]];
+                default:
                     obj[name] = nullptr;
                     break;
             }
@@ -486,7 +488,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
                     spec.input_column = agg.input_field;
                     spec.group_by     = agg.group_by;
                     switch (agg.function) {
-                        [[fallthrough]];\n                        case VectorizedAggregation::Function::Count:
+                        [[fallthrough]];
+                        case VectorizedAggregation::Function::Count:
                             spec.function = AggregateSpec::Function::Count; break;
                         case VectorizedAggregation::Function::Sum:
                             spec.function = AggregateSpec::Function::Sum; break;

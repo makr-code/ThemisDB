@@ -231,7 +231,7 @@ size_t TSAutoBuffer::flushFor(const std::string& metric, const std::string& enti
     return flushBuffer(buffer_key, it->second);
 }
 
-size_t TSAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
+size_t TSAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("TSAutoBuffer.flush");
     
     std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
@@ -539,7 +539,7 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
 
     THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
                 restored.size(), wal_path);
-    return static_cast<bool>(static_cast<std::ptrdiff_t < static_cast<int>((restored.size())));
+    return !restored.empty();
 }
 
 bool TSAutoBuffer::removeWAL(const std::string& wal_path) {

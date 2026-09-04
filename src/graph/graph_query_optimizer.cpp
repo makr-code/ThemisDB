@@ -228,7 +228,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
 }
 
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopNeighborhood(
-    [[maybe_unused]] std::string_view start_vertex,
+    std::string_view start_vertex,
     int k,
     const QueryConstraints& constraints) {
 
@@ -448,7 +448,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     bool has_min_length = false;
     bool has_max_length = false;
     bool has_required_nodes = false;
-    [[maybe_unused]] bool has_forbidden_nodes = false;
+    bool has_forbidden_nodes = false;
     bool requires_unique = false;
     
     size_t min_length = 0;
@@ -475,7 +475,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                 has_forbidden_nodes = true;
                 break;
             case PathConstraints::ConstraintType::UNIQUE_NODES:
-            [[fallthrough]];\n            case PathConstraints::ConstraintType::NO_CYCLES:
+            [[fallthrough]];
+            case PathConstraints::ConstraintType::NO_CYCLES:
                 requires_unique = true;
                 break;
             default:
@@ -1934,7 +1935,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     size_t vf2_iteration_count = 0;
     bool vf2_limit_exceeded = false;
 
-    std::function<void(size_t)> backtrack = [&]([[maybe_unused]] size_t depth) {
+    std::function<void(size_t)> backtrack = [&](size_t depth) {
         if (timedOut()) { local_stats.early_terminated = true; return; }
         if (local_stats.early_terminated) {
           return;
@@ -2019,7 +2020,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
 }
 
 Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatistics(
-    [[maybe_unused]] std::optional<std::string_view> graph_id) {
+    std::optional<std::string_view> graph_id) {
     
     GraphStatistics stats;
     
@@ -2395,7 +2396,8 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
                     candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DFS};
                     break;
                 case QueryPattern::PATTERN_MATCH:
-                [[fallthrough]];\n                case QueryPattern::ALL_PATHS:
+                [[fallthrough]];
+                case QueryPattern::ALL_PATHS:
                     candidates = {TraversalAlgorithm::DFS, TraversalAlgorithm::BFS};
                     break;
                 case QueryPattern::CONNECTED_COMPONENT:
@@ -2459,7 +2461,8 @@ size_t GraphQueryOptimizer::estimateDepth(
     
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
-        [[fallthrough]];\n        case QueryPattern::REACHABILITY:
+        [[fallthrough]];
+        case QueryPattern::REACHABILITY:
             // Assume average case is half the diameter
             return estimated / 2;
             
@@ -2631,12 +2634,15 @@ bool GraphQueryOptimizer::shouldUseParallel(
     // Some algorithms parallelize better
     switch (algorithm) {
         case TraversalAlgorithm::BFS:
-        [[fallthrough]];\n        case TraversalAlgorithm::BIDIRECTIONAL:
+        [[fallthrough]];
+        case TraversalAlgorithm::BIDIRECTIONAL:
             return true;
             
         case TraversalAlgorithm::DFS:
-        [[fallthrough]];\n        case TraversalAlgorithm::ASTAR:
-        [[fallthrough]];\n        case TraversalAlgorithm::DIJKSTRA:
+        [[fallthrough]];
+        case TraversalAlgorithm::ASTAR:
+        [[fallthrough]];
+        case TraversalAlgorithm::DIJKSTRA:
             return false; // These don't parallelize well
         default: break;
     }
@@ -2860,7 +2866,7 @@ GraphQueryOptimizer::registerIncrementalBFS(
     entry.start_vertex = std::string(start_vertex);
     entry.max_depth    = max_depth;
     entry.constraints  = constraints;
-    entry.callback     = std::move([[maybe_unused]] callback);
+    entry.callback     = std::move(callback);
 
     // Execute initial BFS to seed the last_result snapshot.
     auto result = executeBFS(start_vertex, max_depth, constraints);
@@ -2970,7 +2976,7 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     // This ensures that any unregisterIncrementalQuery() call inside a callback
     // does not invalidate iterators used in the first pass above.
     for (auto& p : pending) {
-        p.callback([[maybe_unused]] p.delta);
+        p.callback(p.delta);
     }
 
     return static_cast<int>(pending.size());

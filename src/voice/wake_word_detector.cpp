@@ -100,7 +100,7 @@ bool WakeWordDetector::addWakeWord(const WakeWordID& id, const std::string& phra
 bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = std::find_if(wake_words_.begin(), wake_words_.end(),
-                           [&]([[maybe_unused]] const WakeWord& w) { return w.id == id; });
+                           [&](const WakeWord& w) { return w.id == id; });
     if (it == wake_words_.end()) {
         return false;
     }
@@ -221,8 +221,8 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     last_detection_ms_ = now;
     ++total_detections_;
 
-    if ([[maybe_unused]] detection_callback_) {
-        detection_callback_([[maybe_unused]] result);
+    if (detection_callback_) {
+        detection_callback_(result);
     }
 
     // If not continuous listening, clear the buffer so we stop firing
@@ -233,9 +233,9 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     return result;
 }
 
-void WakeWordDetector::setDetectionCallback([[maybe_unused]] DetectionCallback callback) {
+void WakeWordDetector::setDetectionCallback(DetectionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    detection_callback_ = std::move([[maybe_unused]] callback);
+    detection_callback_ = std::move(callback);
 }
 
 // ---------------------------------------------------------------------------
@@ -380,7 +380,7 @@ int64_t WakeWordDetector::nowMs() const {
 // Phase 3: Confidence Thresholds and Safe Defaults
 // ============================================================================
 
-bool WakeWordDetector::meetsConfidenceThreshold([[maybe_unused]] float confidence) const noexcept {
+bool WakeWordDetector::meetsConfidenceThreshold(float confidence) const noexcept {
     return confidence >= config_.confidence_threshold;
 }
 

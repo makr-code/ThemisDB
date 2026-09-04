@@ -141,7 +141,7 @@ std::string escapeLDAPDNComponent(const std::string& value)
         }
 
         // Leading or trailing space must be escaped
-        if ((c == ' ' && (i == 0 || i == static_cast<int>(value.size()) - 1)) {
+        if (c == ' ' && (i == 0 || i == static_cast<int>(value.size()) - 1)) {
             out += "\\ ";
             continue;
         }
@@ -906,3 +906,4 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
 } // namespace auth
 } // namespace themis
+

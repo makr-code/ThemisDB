@@ -79,7 +79,7 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
 } // anonymous namespace
 // ---------------------------------------------------------------------------
 
-[[maybe_unused]] static std::string toHex(const std::string& in) {
+static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
     std::string out = {};
     out.reserve(in.size() * 2);
@@ -160,7 +160,7 @@ static bool whitelistContainsChunkPk(
 }
 
 // Helper: convert category enum to string
-[[maybe_unused]] static std::string categoryToString(ContentCategory cat) {
+static std::string categoryToString(ContentCategory cat) {
     switch (cat) {
         case ContentCategory::TEXT: return "TEXT";
         case ContentCategory::IMAGE: return "IMAGE";
@@ -371,7 +371,7 @@ static std::vector<std::string> buildChunkWhitelist(
 
     std::vector<std::string> whitelist;
     // Scan all content metas
-    storage.scanPrefix("content:", [&]([[maybe_unused]] std::string_view key, std::string_view val){
+    storage.scanPrefix("content:", [&](std::string_view key, std::string_view val){
         // Ignore non-meta keys like content:chunks lists by checking JSON
         try {
             std::string s(val);
@@ -775,7 +775,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
     return std::nullopt;
 }
 
-[[maybe_unused]] static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
+static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
     auto& reg = ContentTypeRegistry::instance();
     ContentType ct = {};
     if (!mime.empty()) {
@@ -893,8 +893,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             std::vector<uint8_t> to_store = {};
 
             size_t original_size = bb.size();
-            [[maybe_unused]] size_t compressed_size = original_size;
-            [[maybe_unused]] float compression_ratio = 1.0f;
+            size_t compressed_size = original_size;
+            float compression_ratio = 1.0f;
             
             if (should_compress(meta.mime_type,static_cast<int>(bb.size()))) {
 #ifdef THEMIS_HAS_ZSTD
@@ -1497,7 +1497,7 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
 
 // ===================== Content Assembly & Navigation =====================
 
-std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum([[maybe_unused]] int seq_num) const {
+std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum(int seq_num) const {
     for (const auto& chunk : chunks) {
         if (chunk.seq_num == seq_num) {
             return chunk;
@@ -1791,7 +1791,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 
     // Metrik beachten: COSINE liefert distance = 1 - cosine → similarity = 1 - d
     auto metric = vector_index_ ? vector_index_->getMetric() : VectorIndexManager::Metric::COSINE;
-    auto toSim = [&]([[maybe_unused]] float distance) -> double {
+    auto toSim = [&](float distance) -> double {
         if (metric == VectorIndexManager::Metric::COSINE) {
           return 1.0 - static_cast<double>(distance);
         }
@@ -1856,7 +1856,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
         std::vector<std::string> allow = buildChunkWhitelist(*storage_, filters);
         if (!allow.empty()) {
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
-            out.erase(std::remove_if(out.begin(), out.end(), [&]([[maybe_unused]] const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
+            out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
     } catch (...) {
     }
@@ -1902,7 +1902,7 @@ IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
 
 // ===================== Virtual Filesystem =====================
 
-std::optional<std::string> ContentManager::resolvePath(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
+std::optional<std::string> ContentManager::resolvePath(const std::string& virtual_path) {
     std::optional<std::string> result;
     
     // Normalize path (remove trailing slash, ensure leading slash)
@@ -1918,7 +1918,7 @@ std::optional<std::string> ContentManager::resolvePath(cons[[maybe_unused]] t st
     storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
         try {
             json j = json::parse(value);
-            if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h") && j["virtual_path"].get<std::string>() == normalized) {
+            if (j.contains("virtual_path") && j["virtual_path"].get<std::string>() == normalized) {
                 // Extract content ID from key "content:<uuid>"
                 std::string key_str(key);
                 if (static_cast<int>(key_str.size()) > 8) {
@@ -1935,7 +1935,7 @@ std::optional<std::string> ContentManager::resolvePath(cons[[maybe_unused]] t st
     return result;
 }
 
-std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
+std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtual_path) {
     std::vector<ContentMeta> results;
     
     // Normalize directory path
@@ -1974,7 +1974,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st
         storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
-                if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h")) {
+                if (j.contains("virtual_path")) {
                     std::string vpath = j["virtual_path"].get<std::string>();
                     // Check if this is a direct child
                     if (static_cast<int>(vpath.size()) > static_cast<int>(prefix.size()) && vpath.rfind(prefix, 0) == 0) {
@@ -1995,7 +1995,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st
     return results;
 }
 
-Status ContentManager::createDirectory(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path, boo[[maybe_unused]] l recursiv[[maybe_unused]] e) {
+Status ContentManager::createDirectory(const std::string& virtual_path, bool recursive) {
     // Normalize path
     std::string normalized = virtual_path;
     if (!normalized.empty() && normalized.back() == '/') {
@@ -2060,7 +2060,7 @@ Status ContentManager::createDirectory(cons[[maybe_unused]] t st[[maybe_unused]]
     return Status::OK();
 }
 
-Status ContentManager::registerPath(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] content_id, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
+Status ContentManager::registerPath(const std::string& content_id, const std::string& virtual_path) {
     // Normalize path
     std::string normalized = virtual_path;
     if (!normalized.empty() && normalized.back() == '/') {
@@ -2480,7 +2480,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 std::string extraction_error;
                 int extraction_attempts = 0;
                 bool extraction_ok = executeWithRetry(
-                    [&]([[maybe_unused]] std::string& err) -> bool {
+                    [&](std::string& err) -> bool {
                         chunks_json = json::array();
                         HtmlProcessor retry_html_proc;
                         ContentType retry_ct;
@@ -2559,7 +2559,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 std::string extraction_error;
                 int extraction_attempts = 0;
                 bool extraction_ok = executeWithRetry(
-                    [&]([[maybe_unused]] std::string& err) -> bool {
+                    [&](std::string& err) -> bool {
                         chunks_json = json::array();
                         MarkdownProcessor retry_md_proc;
                         ContentType retry_ct;
@@ -2711,7 +2711,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         std::string storage_error = {};
         int storage_attempts = 0;
         bool stored = executeWithRetry(
-            [&]([[maybe_unused]] std::string& err) -> bool {
+            [&](std::string& err) -> bool {
                 auto status = importContent(spec, blob, user_context);
                 if (!status.ok) { err = status.message; return false; }
                 return true;
@@ -2965,7 +2965,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
 
     // --- Helper: store one text segment as a chunk ---
-    auto storeTextChunk = [&]([[maybe_unused]] const std::string& text) {
+    auto storeTextChunk = [&](const std::string& text) {
         if (text.empty()) {
           return;
         }
@@ -3028,7 +3028,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
 
     // --- Helper: split carry buffer into text segments ---
     std::string carry;  // incomplete segment carried over between read iterations
-    auto flushCarry = [&]([[maybe_unused]] bool force) {
+    auto flushCarry = [&](bool force) {
         size_t pos = 0;
         while (static_cast<size_t>(pos) <static_cast<int>(carry.size())) {
             size_t remaining = static_cast<int>(carry.size()) - pos;

@@ -141,7 +141,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
             case ArrowRecordBatch::DataType::STRING: {
                 // Strings are stored as variants; use builder (no contiguous buffer)
                 arrow::StringBuilder builder;
-                for (size_t i = 0; i <static_cast<int>(col.data.size()); ++i) {
+                for (size_t i = 0; i < col.data.size(); ++i) {
                     if (col.null_bitmap[i]) {
                         ARROW_RETURN_NOT_OK(builder.AppendNull());
                     } else {
@@ -154,7 +154,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
             case ArrowRecordBatch::DataType::BOOLEAN: {
                 // Booleans are stored as variants; use builder (no contiguous buffer)
                 arrow::BooleanBuilder builder;
-                for (size_t i = 0; i <static_cast<int>(col.data.size()); ++i) {
+                for (size_t i = 0; i < col.data.size(); ++i) {
                     if (col.null_bitmap[i]) {
                         ARROW_RETURN_NOT_OK(builder.AppendNull());
                     } else {
@@ -163,8 +163,9 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
                 }
                 ARROW_RETURN_NOT_OK(builder.Finish(&array));
                 break;
-            default: break;
             }
+            default:
+                break;
         }
 
         arrays.push_back(array);
@@ -191,7 +192,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
     ~JSONCSVExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              [[maybe_unused]] const ExportOptions &options) override {
+                              const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
 
         ExportResult result;
@@ -212,8 +213,10 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     break;
 
                 case ExportFormat::FMT_ARROW_IPC:
-                [[fallthrough]];\n                case ExportFormat::FMT_ARROW_PARQUET:
-                [[fallthrough]];\n                case ExportFormat::FMT_ARROW_FEATHER:
+                [[fallthrough]];
+                case ExportFormat::FMT_ARROW_PARQUET:
+                [[fallthrough]];
+                case ExportFormat::FMT_ARROW_FEATHER:
                     spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                     result.status  = ExportStatus::NOT_SUPPORTED;
                     result.message = "Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
@@ -251,7 +254,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(cons[[maybe_unused]] t ArrowRecordBatch &[[maybe_unused]] batch, cons[[maybe_unused]] t ExportOptions &[[maybe_unused]] options) override {
+    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
         switch (options.format) {
             case ExportFormat::JSON:
                 return batch.toJSON();
@@ -260,8 +263,10 @@ class JSONCSVExporter : public IAnalyticsExporter {
                 return exportToCSV(batch);
 
             case ExportFormat::FMT_ARROW_IPC:
-            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_PARQUET:
-            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_FEATHER:
+            [[fallthrough]];
+            case ExportFormat::FMT_ARROW_PARQUET:
+            [[fallthrough]];
+            case ExportFormat::FMT_ARROW_FEATHER:
                 spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                 return "# ERROR: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
                        "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
@@ -289,7 +294,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
             while (static_cast<size_t>(offset) <static_cast<int>(data.size())) {
                 size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
-                callback([[maybe_unused]] chunk);
+                callback(chunk);
                 offset += len;
             }
 
@@ -307,14 +312,17 @@ class JSONCSVExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
+    bool supportsFormat(ExportFormat format) const override {
         switch (format) {
             case ExportFormat::JSON:
-            [[fallthrough]];\n            case ExportFormat::CSV:
+            [[fallthrough]];
+            case ExportFormat::CSV:
                 return true;
             case ExportFormat::FMT_ARROW_IPC:
-            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_PARQUET:
-            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_FEATHER:
+            [[fallthrough]];
+            case ExportFormat::FMT_ARROW_PARQUET:
+            [[fallthrough]];
+            case ExportFormat::FMT_ARROW_FEATHER:
                 return false;
             default: break;
         }
@@ -414,7 +422,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
     ~ArrowIPCExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              [[maybe_unused]] const ExportOptions &options) override {
+                              const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
@@ -478,7 +486,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
+    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
         // format is implicitly FMT_ARROW_IPC for this exporter
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
@@ -607,7 +615,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
+    bool supportsFormat(ExportFormat format) const override {
         return format == ExportFormat::FMT_ARROW_IPC;
     }
 
@@ -630,7 +638,7 @@ class ParquetExporter : public IAnalyticsExporter {
     ~ParquetExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              [[maybe_unused]] const ExportOptions &options) override {
+                              const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
@@ -699,7 +707,7 @@ class ParquetExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(cons[[maybe_unused]] t ArrowRecordBatc[[maybe_unused]] h & /*batc[[maybe_unused]] h*/, cons[[maybe_unused]] t ExportOption[[maybe_unused]] s & /*option[[maybe_unused]] s*/) override {
+    std::string exportToString(const ArrowRecordBatch & /*batch*/, const ExportOptions & /*options*/) override {
         // Parquet is a binary columnar format; exporting to a plain string is not
         // meaningful.  Throw to signal this clearly, consistent with the factory's
         // error-handling convention.  Use exportToFile() instead.
@@ -717,7 +725,7 @@ class ParquetExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
+    bool supportsFormat(ExportFormat format) const override {
         return format == ExportFormat::FMT_ARROW_PARQUET;
     }
 
@@ -740,7 +748,7 @@ class FeatherExporter : public IAnalyticsExporter {
     ~FeatherExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              [[maybe_unused]] const ExportOptions &options) override {
+                              const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
@@ -804,7 +812,7 @@ class FeatherExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
+    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
         // format is implicitly FMT_ARROW_FEATHER for this exporter
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
@@ -860,7 +868,7 @@ class FeatherExporter : public IAnalyticsExporter {
             while (static_cast<size_t>(offset) <static_cast<int>(data.size())) {
                 size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
-                callback([[maybe_unused]] chunk);
+                callback(chunk);
                 offset += len;
             }
             result.rows_exported = batch.rowCount();
@@ -875,7 +883,7 @@ class FeatherExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
+    bool supportsFormat(ExportFormat format) const override {
         return format == ExportFormat::FMT_ARROW_FEATHER;
     }
 
@@ -903,7 +911,8 @@ class FeatherExporter : public IAnalyticsExporter {
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat format) {
     switch (format) {
         case ExportFormat::JSON:
-        [[fallthrough]];\n        case ExportFormat::CSV:
+        [[fallthrough]];
+        case ExportFormat::CSV:
             return std::make_unique<JSONCSVExporter>();
 
         case ExportFormat::FMT_ARROW_IPC:

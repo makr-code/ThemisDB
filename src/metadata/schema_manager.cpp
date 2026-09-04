@@ -495,7 +495,7 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
             };
 
             const bool is_internal = std::any_of(kInternalPrefixes.begin(), kInternalPrefixes.end(),
-                [&]([[maybe_unused]] std::string_view prefix) {
+                [&](std::string_view prefix) {
                     return key.rfind(prefix, 0) == 0;
                 });
 
@@ -890,7 +890,7 @@ void SchemaManager::buildCache() {
         for (const auto& idx : schema.indexes) {
             for (const auto& col : idx.columns) {
                 auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                                       [&]([[maybe_unused]] const PropertyInfo& prop) {
+                                       [&](const PropertyInfo& prop) {
                                            return prop.name == col;
                                        });
                 if (it != schema.properties.end()) {

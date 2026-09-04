@@ -291,7 +291,7 @@ bool LoRAOrchestrator::updateMetadata(const std::string& adapter_id, const Adapt
 std::string LoRAOrchestrator::createVersion(const std::string& adapter_id, const std::string& description) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
-    const size_t next_version = (it != impl_->versions.end()) ? it-> static_cast<int>(second.size()) + 1 : 1;
+    const size_t next_version = (it != impl_->versions.end()) ? it->second.size() + 1 : 1;
     const std::string version = description.empty() ? "v" + std::to_string(next_version) : description;
 
     if (!impl_->adapters.count(adapter_id)) {
@@ -328,7 +328,7 @@ bool LoRAOrchestrator::switchVersion(const std::string& adapter_id, const std::s
 bool LoRAOrchestrator::rollback(const std::string& adapter_id) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
-    if (it == impl_->versions.end() || it-> static_cast<int>(second.size()) < 2) {
+    if (it == impl_->versions.end() || it->second.size() < 2) {
         return false;
     }
 
@@ -457,9 +457,9 @@ LoRAOrchestrator::JobInfo LoRAOrchestrator::waitForJob(const std::string& job_id
     return missing;
 }
 
-void LoRAOrchestrator::registerEventCallback([[maybe_unused]] EventCallback callback) {
+void LoRAOrchestrator::registerEventCallback(EventCallback callback) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
-    impl_->callbacks.push_back([[maybe_unused]] std::move(callback));
+    impl_->callbacks.push_back(std::move(callback));
 }
 
 json LoRAOrchestrator::getStats() const {
@@ -514,7 +514,7 @@ MultiLoRAManager* LoRAOrchestrator::getMultiLoRAManager() {
     return nullptr;
 }
 
-void LoRAOrchestrator::enableAdvancedFeatures([[maybe_unused]] bool enable) {
+void LoRAOrchestrator::enableAdvancedFeatures(bool enable) {
     impl_->advanced_enabled = enable;
 }
 

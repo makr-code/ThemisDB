@@ -204,7 +204,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         if (rel_start > static_cast<int>(finalized_chunk.size())) {
           break;
         }
-        rel_end = std::min(rel_end,static_cast<int>(finalized_chunk.size()));
+                rel_end = std::min(rel_end, finalized_chunk.size());
 
         // Copy gap before this finding.
         if (rel_start > cursor) {

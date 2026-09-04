@@ -40,7 +40,7 @@ public:
     const char* getName()    const override { return "builtin.chunk_text"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
+    bool  initialize(const char*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 

@@ -131,7 +131,7 @@ void LearningMetrics::printReport(std::ostream& os) const {
     os << "Range (accuracy): ["
        << snap.min_accuracy << ", " << snap.max_accuracy << "]\n\n";
 
-    auto arrow = []([[maybe_unused]] double slope) -> const char* {
+    auto arrow = [](double slope) -> const char* {
         return slope > 0.0 ? "up" : slope < 0.0 ? "down" : "flat";
     };
     os << "Trends:\n";

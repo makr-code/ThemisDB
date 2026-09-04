@@ -24,7 +24,7 @@ SnapshotApiHandler::SnapshotApiHandler(transaction::SnapshotManager& snapshot_ma
     : snapshot_manager_(snapshot_manager) {
 }
 
-void SnapshotApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
+void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/snapshots/tags - Create tag
     server.Post("/api/v1/snapshots/tags", [this](const httplib::Request& req, httplib::Response& res) {
         handleCreateTag(req, res);
@@ -95,7 +95,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
             try {
                 limit = std::stoull(req.get_param_value("limit"));
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "snapshot_api_handler: unhandled exception caught");
+                THEMIS_WARN("snapshot_api_handler: unhandled exception caught");
                 sendError(res, 400, "Invalid limit parameter");
                 return;
             }

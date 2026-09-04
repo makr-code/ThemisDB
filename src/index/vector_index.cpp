@@ -361,7 +361,7 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 	return false;  // Default: encryption disabled (backward compatible)
 }
 
-void VectorIndexManager::setVectorEncryptionEnabled([[maybe_unused]] bool enabled) {
+void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -400,7 +400,7 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 	return false;  // Default: encryption disabled (backward compatible)
 }
 
-void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled) {
+void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -766,7 +766,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 	return Status::OK();
 }
 
-	VectorIndexManager::Status VectorIndexManager::setEfSearch([[maybe_unused]] int efSearch) {
+	VectorIndexManager::Status VectorIndexManager::setEfSearch(int efSearch) {
 		if (efSearch <= 0) {
 		  return Status::Error("setEfSearch: efSearch muss > 0 sein");
 		}
@@ -1381,7 +1381,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	if (whitelist && !whitelist->empty()) {
 		for (const auto& pk : *whitelist) {
 			auto it = cache_.find(pk);
-			if (it != cache_.end() && it-> static_cast<int>(second.size()) == expected_dim) {
+			if (it != cache_.end() && it->second.size() == expected_dim) {
 				consider(pk, it->second);
 			} else {
 				// Lade aus Storage on-demand
@@ -1486,7 +1486,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				// Prefetch next block of vectors into L2 cache
 				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
 				if (static_cast<int>(cache_ptrs.size()) > prefetch_start) {
-					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE,static_cast<int>(cache_ptrs.size()));
+					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE, cache_ptrs.size());
 					for (size_t i = prefetch_start; i < prefetch_end; ++i) {
 						const auto& vec = cache_ptrs[i]->second;
 						if (!vec.empty()) {
@@ -1507,7 +1507,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				}
 				
 				// Process current block
-				size_t block_end = std::min(block_start + BLOCK_SIZE,static_cast<int>(cache_ptrs.size()));
+				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
 				for (size_t i = block_start; i < block_end; ++i) {
 					const auto& [pk, vec] = *cache_ptrs[i];
 					if (static_cast<int>(vec.size()) == expected_dim) {
@@ -1536,7 +1536,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (static_cast<int>(query.size()) != expected_dim) {
-		return {Status::Error("searchKnn: Query-Dimension passt nicht"), std::vector<Result>();
+		return {Status::Error("searchKnn: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
     
 	// Deterministic correctness path for Phase 1 encryption: use brute-force to avoid
@@ -1760,12 +1760,12 @@ VectorIndexManager::searchKnnEvaluated(
 	const size_t candidate_count = std::max(k, k * safe_multiplier);
 	auto [status, candidates] = searchKnn(query, candidate_count, whitelist);
 	if (!status.ok) {
-		return {status, std::vector<Result>();
+		return {status, std::vector<Result>()};
 	}
 
 	std::vector<Result> filtered = {};
 
-	filtered.reserve(std::min(k,static_cast<int>(candidates.size())));
+	filtered.reserve(std::min(k, candidates.size()));
 	for (const auto& candidate : candidates) {
 		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
 		if (!entity_blob.has_value()) {
@@ -1816,7 +1816,7 @@ VectorIndexManager::searchKnnRadiusEvaluated(
 
 	auto [status, candidates] = searchKnnRadius(query, epsilon, max_results, whitelist);
 	if (!status.ok) {
-		return {status, std::vector<Result>();
+		return {status, std::vector<Result>()};
 	}
 
 	std::vector<Result> filtered = {};
@@ -1866,7 +1866,7 @@ VectorIndexManager::searchKnnFiltered(
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (static_cast<int>(query.size()) != expected_dim) {
-		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), std::vector<Result>();
+		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
 	if (filters.empty()) {
@@ -2036,7 +2036,7 @@ VectorIndexManager::searchKnnPreFiltered(
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (static_cast<int>(query.size()) != expected_dim) {
-		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), std::vector<Result>();
+		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
 	if (filters.empty()) {
@@ -2121,9 +2121,12 @@ VectorIndexManager::searchKnnPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::GREATER_THAN:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::GREATER_EQUAL:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_THAN:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_EQUAL: {
+				[[fallthrough]];
+			case AttributeFilterV2::Op::GREATER_EQUAL:
+				[[fallthrough]];
+			case AttributeFilterV2::Op::LESS_THAN:
+				[[fallthrough]];
+			case AttributeFilterV2::Op::LESS_EQUAL: {
 				// Use range scan with appropriate bounds
 				std::optional<std::string> lower, upper;
 				bool includeLower = false, includeUpper = false;
@@ -2157,7 +2160,8 @@ VectorIndexManager::searchKnnPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::NOT_EQUALS:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::CONTAINS: {
+				[[fallthrough]];
+			case AttributeFilterV2::Op::CONTAINS: {
 				// These require full scan, not supported for pre-filtering
 				THEMIS_WARN("searchKnnPreFiltered: {} operator requires post-filtering, skipping", 
 					filter.op == AttributeFilterV2::Op::NOT_EQUALS ? "NOT_EQUALS" : "CONTAINS");
@@ -2183,7 +2187,7 @@ VectorIndexManager::searchKnnPreFiltered(
 		// Early exit if whitelist is empty
 		if (whitelistSet.empty()) {
 			THEMIS_INFO("searchKnnPreFiltered: Whitelist empty after filter on {}", filter.field);
-			return {Status::OK(), std::vector<Result>();
+			return {Status::OK(), std::vector<Result>()};
 		}
 	}
 
@@ -2225,7 +2229,7 @@ VectorIndexManager::searchKnnRadius(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (static_cast<int>(query.size()) != dim_) {
-		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), std::vector<Result>();
+		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
 	std::vector<Result> results;
@@ -2235,7 +2239,7 @@ VectorIndexManager::searchKnnRadius(
 		// HNSW unterstützt keine native radius search; nutze searchKnn mit großem k und filter
 		size_t fetchK = max_results > 0 ? std::max(max_results * 2, size_t(100)) : pkToId_.size();
 		auto [st, candidates] = searchKnn(query, fetchK, whitelistPks);
-		if (!st.ok) return {st, std::vector<Result>();
+		if (!st.ok) return {st, std::vector<Result>()};
 		
 		for (const auto& c : candidates) {
 			if (c.distance <= epsilon) {
@@ -2315,7 +2319,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (static_cast<int>(query.size()) != dim_) {
-		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), std::vector<Result>();
+		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
 	if (filters.empty()) {
@@ -2377,9 +2381,12 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::GREATER_THAN:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::GREATER_EQUAL:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_THAN:
-   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_EQUAL: {
+				[[fallthrough]];
+			case AttributeFilterV2::Op::GREATER_EQUAL:
+				[[fallthrough]];
+			case AttributeFilterV2::Op::LESS_THAN:
+				[[fallthrough]];
+			case AttributeFilterV2::Op::LESS_EQUAL: {
 				std::optional<std::string> lower, upper;
 				bool includeLower = false, includeUpper = false;
 				if (filter.op == AttributeFilterV2::Op::GREATER_THAN) {
@@ -2421,7 +2428,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 
 		if (whitelistSet.empty()) {
 			THEMIS_INFO("searchKnnRadiusPreFiltered: Whitelist empty after filter on {}", filter.field);
-			return {Status::OK(), std::vector<Result>();
+			return {Status::OK(), std::vector<Result>()};
 		}
 	}
 
@@ -2546,7 +2553,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Check for encryption flag (Phase 2)
 			std::string encryptionFlag = {};
 			std::getline(metaFile, encryptionFlag);
-			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
+			const bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) {
 			  return Status::Error("loadIndex: objectName passt nicht zum Manager");
@@ -3008,8 +3015,8 @@ VectorIndexManager::getStatistics() const {
 	}
 
 	// Sample random pairs
-	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) <static_cast<int>(pks.size()); ++i) {
-		for (size_t j = i + 1; j < std::min(i + 10,static_cast<int>(pks.size())); ++j) {
+	for (size_t i = 0; i < sample_count && i < pks.size(); ++i) {
+		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);
 		}
@@ -3044,7 +3051,7 @@ std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeCentroid() const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
-		return {Status::Error("computeCentroid: No vectors in index"), std::vector<Result>();
+		return {Status::Error("computeCentroid: No vectors in index"), std::vector<float>()};
 	}
 
 	std::vector<float> centroid(dim_, 0.0f);
@@ -3070,12 +3077,12 @@ std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeVariance() const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
-		return {Status::Error("computeVariance: No vectors in index"), std::vector<Result>();
+		return {Status::Error("computeVariance: No vectors in index"), std::vector<float>()};
 	}
 
 	auto [st, centroid] = computeCentroid();
 	if (!st.ok) {
-		return {st, std::vector<Result>();
+		return {st, std::vector<float>()};
 	}
 
 	std::vector<float> variance(dim_, 0.0f);
@@ -3099,20 +3106,20 @@ VectorIndexManager::computeVariance() const {
 }
 
 std::pair<VectorIndexManager::Status, std::vector<std::string>>
-VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
+VectorIndexManager::findOutliers(float threshold) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
-		return {Status::OK(), std::vector<Result>();
+		return {Status::OK(), std::vector<std::string>()};
 	}
 
 	auto [st_cent, centroid] = computeCentroid();
 	if (!st_cent.ok) {
-		return {st_cent, std::vector<Result>();
+		return {st_cent, std::vector<std::string>()};
 	}
 
 	auto [st_stats, stats] = getStatistics();
 	if (!st_stats.ok) {
-		return {st_stats, std::vector<Result>();
+		return {st_stats, std::vector<std::string>()};
 	}
 
 	std::vector<std::string> outliers;
@@ -3419,7 +3426,7 @@ VectorIndexManager::searchWithRotation(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
-		return {Status::Error("Rotary embeddings not enabled"), std::vector<Result>();
+		return {Status::Error("Rotary embeddings not enabled"), std::vector<Result>()};
 	}
 	
 	try {
@@ -3441,7 +3448,7 @@ VectorIndexManager::searchWithRotation(
 		
 		return {status, results};
 	} catch (const std::exception& e) {
-		return {Status::Error(std::string("Rotation search failed: ") + e.what()), std::vector<Result>();
+		return {Status::Error(std::string("Rotation search failed: ") + e.what()), std::vector<Result>()};
 	}
 }
 

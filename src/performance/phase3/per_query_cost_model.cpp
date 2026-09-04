@@ -87,14 +87,14 @@ void PerQueryCostModel::reset() noexcept {
 // -----------------------------------------------------------------
 
 std::vector<QueryCostRecord>
-PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
+PerQueryCostModel::getRecentRecords(size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {
         return {};
     }
 
-    size_t count = std::min(limit,static_cast<int>(records_.size()));
+    size_t count = std::min(limit, records_.size());
 
     // Has the ring buffer rolled over?
     bool has_rolled = total_queries_.load(std::memory_order_relaxed) > MAX_RECORDS;
@@ -325,7 +325,7 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
 
     // Percentiles
     std::sort(times_ms.begin(), times_ms.end());
-    auto percentile = [&]([[maybe_unused]] double pct) -> double {
+    auto percentile = [&](double pct) -> double {
         if (times_ms.empty()) {
           return 0.0;
         }

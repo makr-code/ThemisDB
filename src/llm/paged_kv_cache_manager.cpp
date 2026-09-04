@@ -50,7 +50,7 @@ void PagedKVCacheManager::initializeBlocks() {
     }
 }
 
-std::vector<int> PagedKVCacheManager::allocateBlocks([[maybe_unused]] size_t num_blocks) {
+std::vector<int> PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
     std::vector<int> allocated;
     allocated.reserve(num_blocks);
     
@@ -92,7 +92,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
     // Calculate number of blocks to share
     // IVB-PKV-02: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
     size_t blocks_to_share = (prefix_length + config_.block_size - 1) / config_.block_size;
-    blocks_to_share = std::min(blocks_to_share, parent_it-> static_cast<int>(second.block_ids.size()));
+    blocks_to_share = std::min(blocks_to_share, parent_it->second.block_ids.size());
     
     // Create new sequence with shared blocks
     BlockTable child_table;
@@ -115,7 +115,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
 }
 
 PagedKVCacheManager::BlockTable 
-PagedKVCacheManager::getBlockTable([[maybe_unused]] uint64_t seq_id) const {
+PagedKVCacheManager::getBlockTable(uint64_t seq_id) const {
     auto it = sequence_tables_.find(seq_id);
     if (it != sequence_tables_.end()) {
         return it->second;
@@ -160,7 +160,7 @@ PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     return table;
 }
 
-void PagedKVCacheManager::removeSequence([[maybe_unused]] uint64_t seq_id) {
+void PagedKVCacheManager::removeSequence(uint64_t seq_id) {
     auto it = sequence_tables_.find(seq_id);
     if (it != sequence_tables_.end()) {
         freeBlocks(it->second.block_ids);
@@ -209,14 +209,14 @@ PagedKVCacheManager::getMemoryStats() const {
     return stats;
 }
 
-bool PagedKVCacheManager::isBlockAvailable([[maybe_unused]] int block_id) const {
+bool PagedKVCacheManager::isBlockAvailable(int block_id) const {
     return block_id >= 0 && 
            block_id < blocks_.size() && 
            blocks_[block_id].ref_count > 0;
 }
 
 PagedKVCacheManager::BlockInfo 
-PagedKVCacheManager::getBlockInfo([[maybe_unused]] int block_id) const {
+PagedKVCacheManager::getBlockInfo(int block_id) const {
     if (block_id >= 0  && static_cast<size_t>(block_id) < static_cast<int>(blocks_.size())) {
         const auto& block = blocks_[block_id];
         BlockInfo info;
@@ -275,7 +275,7 @@ int PagedKVCacheManager::getFreeBlock() {
     return block_id;
 }
 
-void PagedKVCacheManager::releaseBlock([[maybe_unused]] int block_id) {
+void PagedKVCacheManager::releaseBlock(int block_id) {
     if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
         return;
     }
@@ -404,8 +404,10 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(Workl
         case WorkloadPattern::LOW_PREFIX_REUSE:
             return CacheType::STREAMING;
         case WorkloadPattern::MIXED:
-        [[fallthrough]];\n        case WorkloadPattern::UNKNOWN:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case WorkloadPattern::UNKNOWN:
+        [[fallthrough]];
+        default:
             return CacheType::STANDARD;
     }
 }

@@ -29,7 +29,7 @@ static bool is_rabitq_hardware_supported() {
 }
 
 /// Validate dimension and hardware before any allocation; returns dimension on success.
-static size_t validate_rabitq_dimension([[maybe_unused]] size_t dimension) {
+static size_t validate_rabitq_dimension(size_t dimension) {
     if (dimension == 0) {
         throw std::runtime_error("RaBitQ: dimension must be positive");
     }

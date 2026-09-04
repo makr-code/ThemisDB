@@ -95,7 +95,7 @@ ScriptCounts countScriptBytes(std::string_view text) {
             // Arabic / Arabic Supplement
             ++c.arabic;
         } else if (i + 2 < text.size()) {
-            [[maybe_unused]] auto b2 = static_cast<unsigned char>(text[i + 2]);
+            auto b2 = static_cast<unsigned char>(text[i + 2]);
             if (b0 == 0xE3 && b1 >= 0x81 && b1 <= 0x83) {
                 // Hiragana (E3 81..) / Katakana (E3 82..)
                 ++c.hiragana;
@@ -171,7 +171,7 @@ DetectedLanguage LanguageDetector::detect(std::string_view text) const {
     ScriptCounts sc    = countScriptBytes(text);
     size_t total_chars = text.size();
 
-    auto scriptFraction = [&]([[maybe_unused]] size_t count) -> float {
+    auto scriptFraction = [&](size_t count) -> float {
         return (total_chars > 0) ? static_cast<float>(count) / static_cast<float>(total_chars) : 0.0f;
     };
 

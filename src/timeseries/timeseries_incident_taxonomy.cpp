@@ -26,23 +26,23 @@ namespace timeseries {
 /// Global incident handler pointer (relaxed atomicity, updated rarely).
 static std::atomic<IncidentHandler> g_incident_handler{nullptr};
 
-void setIncidentHandler([[maybe_unused]] IncidentHandler handler) noexcept {
+void setIncidentHandler(IncidentHandler handler) noexcept {
     g_incident_handler.store(handler, std::memory_order_release);
 }
 
 IncidentHandler getIncidentHandler() noexcept {
-    return g_incident_handler.load([[maybe_unused]] std::memory_order_acquire);
+    return g_incident_handler.load(std::memory_order_acquire);
 }
 
 void emitIncident(const Incident& incident) noexcept {
-    auto handler = g_incident_handler.load([[maybe_unused]] std::memory_order_acquire);
-    if ([[maybe_unused]] handler) {
+    auto handler = g_incident_handler.load(std::memory_order_acquire);
+    if (handler) {
         try {
-            handler([[maybe_unused]] incident);
+            handler(incident);
         } catch (...) {
             // Swallow exceptions from handler to prevent cascade failures.
             // Log at DEBUG level only to avoid spam.
-            THEMIS_DEBUG([[maybe_unused]] "Incident handler exception caught (swallowed)");
+            THEMIS_DEBUG("Incident handler exception caught (swallowed)");
         }
     }
 

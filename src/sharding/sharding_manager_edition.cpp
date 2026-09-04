@@ -51,7 +51,7 @@ int ShardingManager::GetRemainingNodeCapacity() const {
     return std::max(0, max_nodes - current_nodes);
 }
 
-void ShardingManager::ValidateNodeCount([[maybe_unused]] size_t requested_nodes) {
+void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
     int max_nodes = GetMaxShardNodes();
     if (static_cast<int>(requested_nodes) > max_nodes) {
         throw std::runtime_error(fmt::format(
@@ -76,7 +76,7 @@ int ShardingManager::GetHealthyNodeCount() const {
     return count;
 }
 
-bool ShardingManager::RemoveShardNode([[maybe_unused]] uint32_t node_id) {
+bool ShardingManager::RemoveShardNode(uint32_t node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
         if (it->node_id == node_id) {
@@ -213,7 +213,7 @@ inline std::string GetReplicationStrategy() {
 }
 
 // Suggest upgrade path if node limit is exceeded
-inline std::string SuggestUpgrade([[maybe_unused]] size_t requested_nodes) {
+inline std::string SuggestUpgrade(size_t requested_nodes) {
     const auto info = edition::EditionInfo::Get();
     std::string suggestion = "Your deployment requires ";
     suggestion += std::to_string(requested_nodes);

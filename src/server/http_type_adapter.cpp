@@ -165,7 +165,7 @@ std::string HttpTypeAdapter::methodToString(http::verb method) {
     }
 }
 
-http::status HttpTypeAdapter::intToStatus([[maybe_unused]] int status_code) {
+http::status HttpTypeAdapter::intToStatus(int status_code) {
     // Map common status codes
     switch (status_code) {
         // 2xx Success

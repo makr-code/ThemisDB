@@ -424,7 +424,7 @@ GgmlTensorBridge::GgmlTensorBridge(
 
 GgmlTensorBridge::~GgmlTensorBridge() = default;
 
-MappedTTTensor GgmlTensorBridge::map([[maybe_unused]] ggml_context* ctx,
+MappedTTTensor GgmlTensorBridge::map(ggml_context* ctx,
                                       const TensorFieldKey&          key,
                                       uint64_t                       version) {
     if (!impl_->storage) {
@@ -435,7 +435,7 @@ MappedTTTensor GgmlTensorBridge::map([[maybe_unused]] ggml_context* ctx,
     return impl_->doMap(ctx, key, version);
 }
 
-MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,
+MappedTTTensor GgmlTensorBridge::mapAdapter(ggml_context* ctx,
                                              const std::string&             adapter_id,
                                              const std::string&             tenant) {
     TensorFieldKey key;
@@ -445,8 +445,8 @@ MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,
     return map(ctx, key, 0);
 }
 
-void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
-                                 [[maybe_unused]] uint64_t              version) {
+void GgmlTensorBridge::prefetch(const TensorFieldKey& key,
+                                 uint64_t              version) {
     // Delegate to injected PrefetchFn when available.
     PrefetchFn fn_copy;
     {

@@ -159,7 +159,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     }
     
     // Vector ANN search
-    if ((vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
+    if (vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
         try {
             std::vector<float> query_vec(vector_query, vector_query + vector_dim);
             if (ann_frontdoor_) {
@@ -172,7 +172,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 );
 
                 vector_results.reserve(frontdoor_result.candidates.size());
-                for (size_t i = 0; i <static_cast<int>(frontdoor_result.candidates.size()); ++i) {
+                for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
                     const auto& candidate = frontdoor_result.candidates[i];
                     Result r = Result();
                     r.document_id = std::to_string(candidate.id);

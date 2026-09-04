@@ -150,7 +150,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     result.download_path = version_dir;
     
     // Download files
-    size_t file_count = manifest-> static_cast<int>(files.size());
+    size_t file_count = manifest->files.size();
     size_t current_file = 0;
     
     for (const auto& file : manifest->files) {
@@ -268,7 +268,7 @@ ReloadResult HotReloadEngine::applyHotReload(
 
     // Apply updates
     reportProgress(50, "Applying updates");
-    size_t file_count = manifest-> static_cast<int>(files.size());
+    size_t file_count = manifest->files.size();
     size_t current_file = 0;
 
     std::string version_dir = config_.download_directory + "/" + version;
@@ -518,7 +518,7 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
     return rollback_points;
 }
 
-void HotReloadEngine::cleanRollbackPoints([[maybe_unused]] size_t keep_count) {
+void HotReloadEngine::cleanRollbackPoints(size_t keep_count) {
     auto rollback_points = listRollbackPoints();
     
     if (static_cast<int>(rollback_points.size()) <= keep_count) {
@@ -540,7 +540,7 @@ void HotReloadEngine::cleanRollbackPoints([[maybe_unused]] size_t keep_count) {
 void HotReloadEngine::setProgressCallback(
     std::function<void(int, const std::string&)> callback
 ) {
-    progress_callback_ = std::move([[maybe_unused]] callback);
+    progress_callback_ = std::move(callback);
 }
 
 void HotReloadEngine::setPostUpdateHealthCheck(PostUpdateHealthCheck check) {
@@ -728,7 +728,7 @@ std::string HotReloadEngine::generateRollbackId() {
 void HotReloadEngine::reportProgress(int percentage, const std::string& message) {
     LOG_DEBUG("Progress: {}% - {}", percentage, message);
     
-    if ([[maybe_unused]] progress_callback_) {
+    if (progress_callback_) {
         progress_callback_(percentage, message);
     }
 }

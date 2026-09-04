@@ -235,7 +235,7 @@ bool HotSpareManager::activateSpare(
         
         {
             std::lock_guard<std::mutex> lock(history_mutex_);
-            failover_history_.push_back([[maybe_unused]] event);
+            failover_history_.push_back(event);
             if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
                 failover_history_.erase(failover_history_.begin());
             }
@@ -303,7 +303,7 @@ bool HotSpareManager::activateSpare(
     
     {
         std::lock_guard<std::mutex> lock(history_mutex_);
-        failover_history_.push_back([[maybe_unused]] event);
+        failover_history_.push_back(event);
         if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
             failover_history_.erase(failover_history_.begin());
         }
@@ -752,8 +752,8 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
     spdlog::info("Starting rebuild for spare: {}, {} documents to transfer", 
                  task.spare_shard_id,static_cast<int>(task.documents.size()));
     
-    if ([[maybe_unused]] !task.ring || !task.read_handler || !task.write_handler) {
-        spdlog::error([[maybe_unused]] "Invalid rebuild task: missing ring or handlers");
+    if (!task.ring || !task.read_handler || !task.write_handler) {
+        spdlog::error("Invalid rebuild task: missing ring or handlers");
         return false;
     }
     
@@ -896,8 +896,8 @@ std::optional<std::string> HotSpareManager::selectBestSpare() const {
 }
 
 void HotSpareManager::sendAlert(const std::string& message) {
-    if ([[maybe_unused]] config_.enable_alerts && config_.alert_callback) {
-        config_.alert_callback([[maybe_unused]] message);
+    if (config_.enable_alerts && config_.alert_callback) {
+        config_.alert_callback(message);
     }
     
     spdlog::info("Alert: {}", message);

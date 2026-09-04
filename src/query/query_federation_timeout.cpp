@@ -67,7 +67,7 @@ TimeoutPolicy::TimeoutPolicy(
         max_retries_);
 }
 
-std::chrono::milliseconds TimeoutPolicy::calculateBackoff([[maybe_unused]] int attempt) const {
+std::chrono::milliseconds TimeoutPolicy::calculateBackoff(int attempt) const {
     if (attempt < 0) {
         return std::chrono::milliseconds(0);
     }

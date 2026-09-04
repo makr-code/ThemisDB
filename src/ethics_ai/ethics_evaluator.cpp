@@ -156,7 +156,7 @@ double EthicsEvaluator::evaluateAlignment(const EthicalDecision &decision,
 }
 
 double EthicsEvaluator::evaluateTransparency(const EthicalDecision &decision,
-                                             [[maybe_unused]] const std::vector<EthicalArgument> &arguments) {
+                                             const std::vector<EthicalArgument> &arguments) {
     double score = 0.5; // Base score
 
     // Factor 1: Decision text completeness
@@ -220,11 +220,13 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
         int vote = 0;
         switch (arg.argument_type) {
             case ArgumentType::PRO:
-            [[fallthrough]];\n            case ArgumentType::SYNTHESIS:
+            [[fallthrough]];
+            case ArgumentType::SYNTHESIS:
                 vote = 1;
                 break;
             case ArgumentType::CONTRA:
-            [[fallthrough]];\n            case ArgumentType::REBUTTAL:
+            [[fallthrough]];
+            case ArgumentType::REBUTTAL:
                 vote = -1;
                 break;
             default:
@@ -264,7 +266,7 @@ void EthicsEvaluator::recordDecision(double confidence, bool rag_hit, uint64_t l
     confidence_sum_micro_ += static_cast<uint64_t>(confidence * 1'000'000.0);
 }
 
-void EthicsEvaluator::setArgumentStoreSize([[maybe_unused]] uint64_t count) {
+void EthicsEvaluator::setArgumentStoreSize(uint64_t count) {
     argument_store_size_.store(count);
 }
 

@@ -130,7 +130,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
         return std::nullopt;
     }
 
-    if (req_it-> static_cast<int>(second.block_ids.size()) >= config_.max_blocks_per_request) {
+    if (req_it->second.block_ids.size() >= config_.max_blocks_per_request) {
         spdlog::warn("PagedKVCache: Request {} already reached max block limit ({})",
                      request_id, config_.max_blocks_per_request);
         stats_.allocation_failures++;
@@ -138,11 +138,11 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     }
 
     const uint32_t actual_token_count = std::min(token_count, config_.block_size);
-    auto initialize_block = [&]([[maybe_unused]] uint32_t block_id) -> std::optional<uint32_t> {
+    auto initialize_block = [&](uint32_t block_id) -> std::optional<uint32_t> {
         KVCacheBlock block;
         block.block_id = block_id;
         block.request_id = static_cast<uint32_t>(request_id);
-        block.sequence_number = static_cast<uint32_t>(req_it-> static_cast<int>(second.block_ids.size()));
+        block.sequence_number = static_cast<uint32_t>(req_it->second.block_ids.size());
         block.token_start = req_it->second.total_tokens;
         block.token_count = actual_token_count;
         block.is_active = true;
@@ -216,7 +216,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     return std::nullopt;
 }
 
-void PagedKVCache::freeBlock([[maybe_unused]] uint32_t block_id) {
+void PagedKVCache::freeBlock(uint32_t block_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     destroyBlockUnlocked(block_id);
 }
@@ -390,7 +390,7 @@ bool PagedKVCache::readBlock(
     return true;
 }
 
-std::optional<KVCacheBlock> PagedKVCache::getBlock([[maybe_unused]] uint32_t block_id) const {
+std::optional<KVCacheBlock> PagedKVCache::getBlock(uint32_t block_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = blocks_.find(block_id);
     if (it != blocks_.end()) {
@@ -500,10 +500,10 @@ bool PagedKVCache::sharePrefixBlock(
 
     const auto token_start = static_cast<size_t>(block_it->second.token_start);
     const auto token_end = token_start + block_it->second.token_count;
-    if (token_end <= source_it-> static_cast<int>(second.token_sequence.size())) {
+    if (token_end <= source_it->second.token_sequence.size()) {
         const auto prefix_begin = source_it->second.token_sequence.begin() + static_cast<std::ptrdiff_t>(token_start);
         const auto prefix_end = prefix_begin + static_cast<std::ptrdiff_t>(block_it->second.token_count);
-        if (target_it-> static_cast<int>(second.token_sequence.size()) < token_end) {
+        if (target_it->second.token_sequence.size() < token_end) {
             target_it->second.token_sequence.insert(
                 target_it->second.token_sequence.end(),
                 prefix_begin,
@@ -600,9 +600,9 @@ void PagedKVCache::setBlockDeallocator(BlockDeallocator deallocator) {
     block_deallocator_ = std::move(deallocator);
 }
 
-void PagedKVCache::setEvictionCallback([[maybe_unused]] EvictionCallback callback) {
+void PagedKVCache::setEvictionCallback(EvictionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    eviction_callback_ = std::move([[maybe_unused]] callback);
+    eviction_callback_ = std::move(callback);
 }
 
 // ============================================================================
@@ -692,11 +692,11 @@ uint32_t PagedKVCache::allocateBlockId() {
     return static_cast<uint32_t>(-1);
 }
 
-void PagedKVCache::freeBlockId([[maybe_unused]] uint32_t block_id) {
+void PagedKVCache::freeBlockId(uint32_t block_id) {
     free_blocks_.push(block_id);
 }
 
-bool PagedKVCache::evictBlocks([[maybe_unused]] uint32_t needed_blocks) {
+bool PagedKVCache::evictBlocks(uint32_t needed_blocks) {
     std::unique_lock<std::mutex> lock(mutex_);
     
     uint32_t evicted = 0;
@@ -725,9 +725,9 @@ bool PagedKVCache::evictBlocks([[maybe_unused]] uint32_t needed_blocks) {
     auto eviction_callback = eviction_callback_;
     lock.unlock();
 
-    if ([[maybe_unused]] eviction_callback) {
+    if (eviction_callback) {
         for (const auto& [block_id, request_id] : evicted_blocks) {
-            eviction_callback([[maybe_unused]] static_cast<uint32_t>(request_id), block_id);
+            eviction_callback(static_cast<uint32_t>(request_id), block_id);
         }
     }
 
@@ -798,7 +798,7 @@ void PagedKVCache::releaseRequestBlockUnlocked(int64_t request_id, uint32_t bloc
     }
 }
 
-void PagedKVCache::destroyBlockUnlocked([[maybe_unused]] uint32_t block_id) {
+void PagedKVCache::destroyBlockUnlocked(uint32_t block_id) {
     auto block_it = blocks_.find(block_id);
     if (block_it == blocks_.end()) {
         spdlog::warn("PagedKVCache: Block {} not found", block_id);

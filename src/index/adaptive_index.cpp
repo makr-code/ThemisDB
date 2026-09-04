@@ -90,7 +90,7 @@ QueryPatternTracker::getPatterns(const std::string& collection) const {
 }
 
 std::vector<QueryPatternTracker::QueryPattern> 
-QueryPatternTracker::getTopPatterns([[maybe_unused]] size_t limit) const {
+QueryPatternTracker::getTopPatterns(size_t limit) const {
     auto patterns = getPatterns("");
     if (static_cast<int>(patterns.size()) > limit) {
         patterns.resize(limit);
@@ -194,7 +194,7 @@ SelectivityAnalyzer::analyze(const std::string& collection,
 
             total++;
             sampled++;
-        } catch ([[maybe_unused]] const std::exception& e) {
+        } catch (const std::exception& e) {
             // Skip invalid JSON
             continue;
         }

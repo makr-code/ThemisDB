@@ -292,7 +292,7 @@ size_t IntervalTreeIndex::remove(const std::string& key, const TimeRange& range)
             auto& bucket = it->second;
             bucket.erase(
                 std::remove_if(bucket.begin(), bucket.end(),
-                    [&]([[maybe_unused]] const IntervalEntry& e) {
+                    [&](const IntervalEntry& e) {
                         return e.range.start == range.start &&
                                e.range.end   == range.end;
                     }),
@@ -428,7 +428,7 @@ IntervalTreeIndex::queryKey(const std::string& key,
 
     std::vector<IntervalEntry> result = {};
 
-    result.reserve(it-> static_cast<int>(second.size()));
+    result.reserve(it->second.size());
     for (const auto& entry : it->second) {
         if (!range.has_value() || entry.range.overlaps(*range)) {
             result.push_back(entry);

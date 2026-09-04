@@ -87,7 +87,7 @@ ReplicationEventStream::subscribeAll(EventCallback callback)
         id);
 }
 
-void ReplicationEventStream::unsubscribe([[maybe_unused]] uint64_t subscription_id)
+void ReplicationEventStream::unsubscribe(uint64_t subscription_id)
 {
     std::lock_guard<std::mutex> lock(subs_mutex_);
     subscriptions_.erase(
@@ -141,7 +141,7 @@ void ReplicationEventStream::emit(Event ev)
     // Append to ring buffer
     {
         std::lock_guard<std::mutex> lock(buffer_mutex_);
-        if ([[maybe_unused]] static_cast<int>(buffer_.size()) >= config_.max_history_events) {
+        if (static_cast<int>(buffer_.size()) >= config_.max_history_events) {
             if (config_.drop_oldest_on_full) {
                 buffer_.pop_front();
             } else {
@@ -159,7 +159,7 @@ void ReplicationEventStream::emit(Event ev)
     }
     for (const auto& sub : snapshot) {
         if (!sub.filter || *sub.filter == ev.type) {
-            sub.callback([[maybe_unused]] ev);
+            sub.callback(ev);
         }
     }
 }

@@ -73,12 +73,12 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
     setGauge("query_result_count", static_cast<double>(result_count), {{"type", query_type}});
 }
 
-void MetricsCollector::recordIndexScan(const std::string& index_type, [[maybe_unused]] size_t keys_scanned) {
+void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
     incrementCounter("index_scans_total", {{"type", index_type}});
     incrementCounter("index_keys_scanned", {{"type", index_type}});
 }
 
-void MetricsCollector::recordFullScan(const std::string& table, [[maybe_unused]] size_t keys_scanned) {
+void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
     incrementCounter("full_scans_total", {{"table", table}});
     incrementCounter("full_scan_keys", {{"table", table}});
 }
@@ -114,7 +114,7 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
 
 // ===== Content Processing Metrics =====
 
-void MetricsCollector::recordContentImport(const std::string& mime_type, [[maybe_unused]] size_t size_bytes) {
+void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
     incrementCounter("content_bytes_imported", {{"mime_type", mime_type}});
 }
@@ -154,7 +154,7 @@ void MetricsCollector::recordCPUUsage(double percent) {
     setGauge("cpu_usage_percent", percent, {});
 }
 
-void MetricsCollector::recordDiskIOps(size_t read_ops, [[maybe_unused]] size_t write_ops) {
+void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
 }

@@ -99,13 +99,13 @@ NUMAMemoryManager::NUMAMemoryManager()
 
 NUMAMemoryManager::~NUMAMemoryManager() = default;
 
-int NUMAMemoryManager::resolve_node([[maybe_unused]] int hint_node) const noexcept {
+int NUMAMemoryManager::resolve_node(int hint_node) const noexcept {
     if (hint_node >= 0 && static_cast<size_t>(hint_node) < topology_.num_nodes)
         return hint_node = {};
     return get_current_node();
 }
 
-void* NUMAMemoryManager::do_allocate(size_t size, [[maybe_unused]] int node, bool /*use_huge_pages*/) {
+void* NUMAMemoryManager::do_allocate(size_t size, int node, bool /*use_huge_pages*/) {
     if (size == 0) {
       return nullptr;
     }
@@ -168,7 +168,7 @@ void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {
     return ptr;
 }
 
-void* NUMAMemoryManager::allocate_local([[maybe_unused]] size_t size) {
+void* NUMAMemoryManager::allocate_local(size_t size) {
     return allocate_on_node(size, get_current_node());
 }
 

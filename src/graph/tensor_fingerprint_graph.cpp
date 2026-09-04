@@ -265,11 +265,11 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
                 for (const auto &e : ait->second) {
                     auto &nadj = adj_[e.to];
                     nadj.erase(
-                        std::remove_if(nadj.begin(), nadj.end(), [&]([[maybe_unused]] const Edge &ne) { return ne.to == tensor_id; }),
+                        std::remove_if(nadj.begin(), nadj.end(), [&](const Edge &ne) { return ne.to == tensor_id; }),
                         nadj.end());
                     edge_count_.fetch_sub(1, std::memory_order_relaxed);
                 }
-                edge_count_.fetch_sub(ait-> static_cast<int>(second.size()), std::memory_order_relaxed);
+                edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
                 adj_.erase(ait);
             }
             removeFromBuckets(tensor_id, previous_fp);
@@ -391,11 +391,11 @@ bool TensorFingerprintGraph::remove(const std::string &tensor_id) {
         if (ait != adj_.end()) {
             for (const auto &e : ait->second) {
                 auto &nadj = adj_[e.to];
-                nadj.erase(std::remove_if(nadj.begin(), nadj.end(), [&]([[maybe_unused]] const Edge &ne) { return ne.to == tensor_id; }),
+                nadj.erase(std::remove_if(nadj.begin(), nadj.end(), [&](const Edge &ne) { return ne.to == tensor_id; }),
                            nadj.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
-            edge_count_.fetch_sub(static_cast<std::size_t>(ait-> static_cast<int>(second.size())), std::memory_order_relaxed);
+            edge_count_.fetch_sub(static_cast<std::size_t>(ait->second.size()), std::memory_order_relaxed);
             adj_.erase(ait);
         }
 
@@ -641,7 +641,7 @@ TensorFingerprintGraph::buildPersistedEdgesForLocked(const std::string &tensor_i
     if (it == adj_.end()) {
         return out;
     }
-    out.reserve(it-> static_cast<int>(second.size()));
+    out.reserve(it->second.size());
     for (const auto &edge : it->second) {
         out.push_back({tensor_id, edge.to, edge.similarity});
     }
@@ -706,11 +706,11 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
             for (const auto &edge : adj_it->second) {
                 auto &reverse = adj_[edge.to];
                 reverse.erase(std::remove_if(reverse.begin(), reverse.end(),
-                                             [&]([[maybe_unused]] const Edge &existing) { return existing.to == tensor_id; }),
+                                             [&](const Edge &existing) { return existing.to == tensor_id; }),
                               reverse.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
-            edge_count_.fetch_sub(adj_it-> static_cast<int>(second.size()), std::memory_order_relaxed);
+            edge_count_.fetch_sub(adj_it->second.size(), std::memory_order_relaxed);
             adj_.erase(adj_it);
         }
 

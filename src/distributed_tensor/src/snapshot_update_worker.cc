@@ -386,7 +386,7 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
   // Phase B: Check rank cap breach (state machine transition guard)
   if (wouldBreachRankCap(current_manifest, delta_window)) {
     if (error_handler_) {
-      [[maybe_unused]] const auto error_info = error_handler_->analyzeRankCapBreach(
+      const auto error_info = error_handler_->analyzeRankCapBreach(
           artifact_id, current_manifest.rank_status + 100, current_manifest.rank_cap);
     }
     return false;
@@ -395,7 +395,7 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
   // Phase B: Validate manifest state before refit
   if (!current_manifest.validate()) {
     if (error_handler_) {
-      [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
+      const auto error_info = error_handler_->analyzePartialRefitFailure(
           artifact_id, "manifest validation failed", current_manifest.residual, current_manifest.residual);
     }
     return false;
@@ -422,7 +422,7 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
       // Revert and fail to signal rebuild fallback
       current_manifest.residual = prev_residual;
       if (error_handler_) {
-        [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
+        const auto error_info = error_handler_->analyzePartialRefitFailure(
             artifact_id, "residual threshold exceeded", prev_residual, current_manifest.residual);
       }
       return false;
@@ -436,7 +436,7 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
     return true;
   } catch (const std::exception& e) {
     if (error_handler_) {
-      [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
+      const auto error_info = error_handler_->analyzePartialRefitFailure(
           artifact_id, std::string(e.what()), current_manifest.residual, current_manifest.residual);
     }
     return false;
@@ -453,7 +453,7 @@ bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
   // Phase B: Validate manifest state before rebuild
   if (!current_manifest.validate()) {
     if (error_handler_) {
-      [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
+      const auto error_info = error_handler_->analyzePartialRefitFailure(
           artifact_id, "rebuild: manifest validation failed", current_manifest.residual, 0.0);
     }
     return false;
@@ -470,7 +470,7 @@ bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
     return true;
   } catch (const std::exception& e) {
     if (error_handler_) {
-      [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
+      const auto error_info = error_handler_->analyzePartialRefitFailure(
           artifact_id, std::string("rebuild exception: ") + e.what(), 
           current_manifest.residual, current_manifest.residual);
     }

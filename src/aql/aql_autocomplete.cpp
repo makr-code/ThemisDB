@@ -283,7 +283,7 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
     static const std::regex collect_count_re(R"(COLLECT\s+WITH\s+COUNT\s+INTO\s+([A-Za-z_][A-Za-z0-9_]*))",
                                              std::regex::icase);
 
-    auto collect_matches = [&]([[maybe_unused]] const std::regex &re) {
+    auto collect_matches = [&](const std::regex &re) {
         std::sregex_iterator it(prefix_text.begin(), prefix_text.end(), re);
         std::sregex_iterator end = {};
         for (; it != end; ++it) {
@@ -381,8 +381,8 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
 // AQLAutoComplete::keywordCandidates
 // ============================================================================
 
-std::vector<CompletionItem> AQLAutoComplete::keywordCandidates([[maybe_unused]] const std::string &text,
-                                                               [[maybe_unused]] std::size_t cursor) const {
+std::vector<CompletionItem> AQLAutoComplete::keywordCandidates(const std::string &text,
+                                                               std::size_t cursor) const {
     std::vector<CompletionItem> items;
 
     // Always offer clause-level keywords

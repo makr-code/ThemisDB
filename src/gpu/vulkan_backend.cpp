@@ -156,7 +156,7 @@ std::string VulkanComputeBackend::vendorName() const {
 // Launcher backend
 // ============================================================================
 
-GPULauncher::BackendFn VulkanComputeBackend::createBackendFn([[maybe_unused]] int device_index) {
+GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
     // Return a BackendFn that dispatches via Vulkan when available, or falls
     // back to CPU execution.  A single lock covers the entire lambda body to
     // avoid re-entrancy issues with std::mutex (which is not recursive).

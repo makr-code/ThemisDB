@@ -143,7 +143,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
 http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleReadiness");
+    auto span = Tracer::startSpan("handleReadiness");
     // Readiness probe: server is ready to accept traffic.
     // Reports per-layer health: server state, storage, connections, memory.
     bool server_running = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
@@ -446,7 +446,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
         try {
             rocksdb_json = json::parse(rocksdb_stats);
         } catch (...) {
-            THEMIS_DEBUG([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+            THEMIS_DEBUG("monitoring_api_handler: unhandled exception caught");
             rocksdb_json = {{"error", "Failed to parse RocksDB stats"}};
         }
         
@@ -509,7 +509,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
         caps["build"]["uuid"] = THEMIS_BUILD_UUID;
 #endif
     } catch (...) {
-        THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+        THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
         // If build info fails, continue with basic capabilities
     }
 
@@ -584,7 +584,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
                 };
             }
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+            THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
             // If schema manager fails, continue without schema capabilities
             caps["schema_awareness"] = {
                 {"enabled", false}
@@ -622,12 +622,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             rdb = json::parse(storage_->getStats());
         } catch (...) {
-            THEMIS_DEBUG([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+            THEMIS_DEBUG("monitoring_api_handler: unhandled exception caught");
             rdb = json::object();
         }
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
 
-        auto get_u64 = [&]([[maybe_unused]] const char* k) -> uint64_t {
+        auto get_u64 = [&](const char* k) -> uint64_t {
             if (r.contains(k) && r[k].is_number_unsigned()) {
               return r[k].get<uint64_t>();
             }
@@ -805,7 +805,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                     try {
                         return std::stoi(level.substr(1));
                     } catch (...) {
-                        THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+                        THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                     }
                 }
                 return -1;
@@ -1356,7 +1356,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                     duration_minutes = j["duration_minutes"].get<int>();
                 }
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+                THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                 // ignore JSON parse errors; use default duration
             }
         }
@@ -1471,7 +1471,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
                 out = std::stoll(value, &consumed);
                 return consumed == static_cast<int>(value.size());
             } catch (...) {
-                THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
+                THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                 return false;
             }
         };
@@ -1537,7 +1537,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             if (start_ts_ms.has_value()) {
                 records.erase(
                     std::remove_if(records.begin(), records.end(),
-                                   [&]([[maybe_unused]] const observability::ProvenanceStepRecord& rec) {
+                                   [&](const observability::ProvenanceStepRecord& rec) {
                                        return rec.timestamp_ms < *start_ts_ms ||
                                               rec.timestamp_ms > *end_ts_ms;
                                    }),

@@ -412,7 +412,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
                                  worst_version + "' (success rate: " +
                                  std::to_string(worst_rate) + ")";
 
-        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+        impl_->stats.recent_improvements.push_back(event);
         impl_->stats.prompt_optimizations++;
 
         // Deploy A/B test if enabled
@@ -509,7 +509,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
              << " (objective=" << combined_objective << ")";
         event.description = desc.str();
 
-        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+        impl_->stats.recent_improvements.push_back(event);
         impl_->stats.retrieval_optimizations++;
 
         // Deploy A/B test if enabled
@@ -597,7 +597,7 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                         rollback_event.metric_after     = metrics.training_accuracy;
                         rollback_event.description      = "Automated rollback: quality/accuracy "
                                                           "below threshold";
-                        impl_->stats.recent_improvements.push_back([[maybe_unused]] rollback_event);
+                        impl_->stats.recent_improvements.push_back(rollback_event);
                         continue; // Skip retraining for this adapter
                     }
 
@@ -657,7 +657,7 @@ void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &resul
         event.description      = "Promoted after successful A/B test";
 
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+        impl_->stats.recent_improvements.push_back(event);
     }
 }
 
@@ -789,7 +789,7 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
     event.metric_before    = impl_->stats.current_accuracy;
     event.metric_after     = impl_->stats.current_accuracy;
     event.description      = "Checkpoint saved for model: " + model_id;
-    impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+    impl_->stats.recent_improvements.push_back(event);
 }
 
 void ContinuousLearningOrchestrator::learningLoopThread() {
@@ -890,7 +890,7 @@ void ContinuousLearningOrchestrator::registerLoopCompletionHandler(
         LoopPhase phase,
         std::function<void(LoopPhase, const LoopResult&)> handler) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    impl_->loop_handlers[static_cast<int>([[maybe_unused]] phase)] = std::move(handler);
+    impl_->loop_handlers[static_cast<int>(phase)] = std::move(handler);
 }
 
 ContinuousLearningOrchestrator::LoopResult
@@ -1093,12 +1093,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         impl_->active_loop = LoopPhase::IDLE;
         // Store last result for context serialiser
         impl_->last_loop_results[static_cast<int>(phase)] = result;
-        auto it = impl_->loop_handlers.find([[maybe_unused]] static_cast<int>(phase));
-        if ([[maybe_unused]] it != impl_->loop_handlers.end() && it->second) {
+        auto it = impl_->loop_handlers.find(static_cast<int>(phase));
+        if (it != impl_->loop_handlers.end() && it->second) {
             completion_handler = it->second;
         }
     }
-    if ([[maybe_unused]] completion_handler) {
+    if (completion_handler) {
         completion_handler(phase, result);
     }
 

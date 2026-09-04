@@ -69,16 +69,16 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 
 } // namespace
 
-static uint32_t htonl32([[maybe_unused]] uint32_t v) {
+static uint32_t htonl32(uint32_t v) {
     return htonl(v);
 }
-static uint32_t ntohl32([[maybe_unused]] uint32_t v) {
+static uint32_t ntohl32(uint32_t v) {
     return ntohl(v);
 }
-static uint16_t htons16([[maybe_unused]] uint16_t v) {
+static uint16_t htons16(uint16_t v) {
     return htons(v);
 }
-static uint16_t ntohs16([[maybe_unused]] uint16_t v) {
+static uint16_t ntohs16(uint16_t v) {
     return ntohs(v);
 }
 
@@ -146,7 +146,7 @@ class V2SessionImpl : public V2Session {
     V2SessionImpl(tcp::socket socket, const V2ConnectionConfig &cfg, V2DataHandler data_handler,
                   V2HeadersHandler headers_handler, V2RstStreamHandler rst_handler)
         : socket_(std::move(socket)), cfg_(cfg), data_handler_(std::move(data_handler)),
-          headers_handler_([[maybe_unused]] std::move(headers_handler)), rst_handler_(std::move(rst_handler)) {
+          headers_handler_(std::move(headers_handler)), rst_handler_(std::move(rst_handler)) {
         // Generate a simple connection ID
         static std::atomic<uint64_t> counter{1};
         std::ostringstream oss = {};
@@ -166,7 +166,7 @@ class V2SessionImpl : public V2Session {
         on_disconnect_ = std::move(cb);
     }
 
-    void send_data(uint32_[[maybe_unused]] t stream_i[[maybe_unused]] d, cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<uint8_[[maybe_unused]] t> &dat[[maybe_unused]] a, boo[[maybe_unused]] l end_strea[[maybe_unused]] m) override {
+    void send_data(uint32_t stream_id, const std::vector<uint8_t> &data, bool end_stream) override {
         // Attempt connection-level compression (Zstd preferred over LZ4).
         // Only use the compressed result when it is actually smaller than the
         // original (compression is not beneficial for high-entropy data).
@@ -296,13 +296,13 @@ class V2SessionImpl : public V2Session {
         return count;
     }
 
-    int32_t send_window(uint32_[[maybe_unused]] t stream_i[[maybe_unused]] d) const override {
+    int32_t send_window(uint32_t stream_id) const override {
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto it = streams_.find(stream_id);
         return it != streams_.end() ? it->second.send_window : 0;
     }
 
-    void update_connection_window(uint32_[[maybe_unused]] t incremen[[maybe_unused]] t) override {
+    void update_connection_window(uint32_t increment) override {
         connection_send_window_.fetch_add(static_cast<int32_t>(increment), std::memory_order_relaxed);
     }
 
@@ -540,7 +540,7 @@ class V2SessionImpl : public V2Session {
 
     // ── Helpers ───────────────────────────────────────────────────────────
 
-    void ensureStreamOpen([[maybe_unused]] uint32_t stream_id) {
+    void ensureStreamOpen(uint32_t stream_id) {
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto &s = streams_[stream_id];
         if (s.state == V2StreamState::IDLE) {
@@ -695,14 +695,14 @@ class V2Server::Impl {
         return running_.load();
     }
 
-    void set_data_handler([[maybe_unused]] V2DataHandler h) {
-        data_handler_ = std::move([[maybe_unused]] h);
+    void set_data_handler(V2DataHandler h) {
+        data_handler_ = std::move(h);
     }
-    void set_headers_handler([[maybe_unused]] V2HeadersHandler h) {
-        headers_handler_ = std::move([[maybe_unused]] h);
+    void set_headers_handler(V2HeadersHandler h) {
+        headers_handler_ = std::move(h);
     }
-    void set_rst_stream_handler([[maybe_unused]] V2RstStreamHandler h) {
-        rst_handler_ = std::move([[maybe_unused]] h);
+    void set_rst_stream_handler(V2RstStreamHandler h) {
+        rst_handler_ = std::move(h);
     }
 
     bool push_to_client(const std::string &conn_id, uint32_t associated_sid,
@@ -749,7 +749,7 @@ class V2Server::Impl {
                 auto session = std::make_shared<V2SessionImpl>(std::move(socket), cfg_, data_handler_, headers_handler_,
                                                                rst_handler_);
 
-                session->set_disconnect_handler([[maybe_unused]] [this](const std::string &id) {
+                session->set_disconnect_handler([this](const std::string &id) {
                     std::lock_guard<std::mutex> lock(sessions_mutex_);
                     sessions_.erase(id);
                 });
@@ -805,14 +805,14 @@ bool V2Server::is_running() const {
     return impl_->is_running();
 }
 
-void V2Server::set_data_handler([[maybe_unused]] V2DataHandler h) {
-    impl_->set_data_handler([[maybe_unused]] std::move(h));
+void V2Server::set_data_handler(V2DataHandler h) {
+    impl_->set_data_handler(std::move(h));
 }
-void V2Server::set_headers_handler([[maybe_unused]] V2HeadersHandler h) {
-    impl_->set_headers_handler([[maybe_unused]] std::move(h));
+void V2Server::set_headers_handler(V2HeadersHandler h) {
+    impl_->set_headers_handler(std::move(h));
 }
-void V2Server::set_rst_stream_handler([[maybe_unused]] V2RstStreamHandler h) {
-    impl_->set_rst_stream_handler([[maybe_unused]] std::move(h));
+void V2Server::set_rst_stream_handler(V2RstStreamHandler h) {
+    impl_->set_rst_stream_handler(std::move(h));
 }
 
 bool V2Server::push_to_client(const std::string &conn_id, uint32_t associated_sid,

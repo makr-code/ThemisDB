@@ -699,7 +699,7 @@ bool ProcessLinker::detectLinkingConflict_(
     return false;
 }
 
-void ProcessLinker::rollbackLinkOperation_([[maybe_unused]] uint64_t operation_id) {
+void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
     std::unique_lock<std::shared_mutex> lock(link_state_lock_);
 
     auto it = rollback_records_.find(operation_id);
@@ -835,7 +835,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
         bool found = false;
         std::string link_key_to_delete = {};
         
-        db_.scanPrefix("proc:link:", [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {
+        db_.scanPrefix("proc:link:", [&](std::string_view key, std::string_view value) -> bool {
             try {
                 auto doc = json::parse(value);
                 std::string stored_id = doc.value("link_id", "");

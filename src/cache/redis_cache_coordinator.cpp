@@ -321,14 +321,14 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 #endif
 }
 
-void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
-    entry_cb_ = std::move([[maybe_unused]] callback);
+    entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
-    invalidation_cb_ = std::move([[maybe_unused]] callback);
+    invalidation_cb_ = std::move(callback);
 }
 
 // ============================================================================

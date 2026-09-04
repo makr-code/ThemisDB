@@ -165,7 +165,7 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string &pk) const {
             return Ok(std::move(*blob));
         } else {
             uint64_t total                     = j.value("size", static_cast<uint64_t>(0));
-            [[maybe_unused]] uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
+            uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
             std::vector<uint8_t> out;
             out.reserve(static_cast<size_t>(total));
             for (uint64_t i = 0; i < chunks; ++i) {
@@ -298,8 +298,8 @@ Result<void> ContentFS::remove(const std::string &pk) {
         }
     }
 
-    [[maybe_unused]] bool ok1 = db_.del(metaKey(pk));
-    [[maybe_unused]] bool ok2 = db_.del(blobKey(pk));
+    bool ok1 = db_.del(metaKey(pk));
+    bool ok2 = db_.del(blobKey(pk));
     bool ok3                  = false;
     if (chunks > 0) {
         ok3 = true;

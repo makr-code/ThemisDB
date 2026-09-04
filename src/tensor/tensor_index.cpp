@@ -27,7 +27,7 @@ namespace tensor {
 
 namespace {
 
-std::vector<size_t> inferFlatModeShape([[maybe_unused]] size_t dim) {
+std::vector<size_t> inferFlatModeShape(size_t dim) {
     if (dim == 0) {
         return {1, 1};
     }

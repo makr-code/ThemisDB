@@ -41,7 +41,7 @@ std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
 
     for (unsigned char ch : text) {
         // Split on ASCII whitespace or common punctuation
-        if ((ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
+        if (ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
             if (!current.empty()) {
                 tokens.push_back(std::move(current));
             }
@@ -70,11 +70,11 @@ std::string SearchHighlighter::applyHighlight(
     }
 
     std::string result = {};
-    result.reserve(static_cast<int>(text.size()) + static_cast<int>(offsets.size()) * (static_cast<int>(open_tag.size()) + static_cast<int>(close_tag.size()) ));
+    result.reserve(text.size() + offsets.size() * (open_tag.size() + close_tag.size()));
 
     size_t cursor = 0;
     for (auto& [start, end] : offsets) {
-        if (start > static_cast<int>(text.size()) || end > static_cast<int>(text.size()) || start >= end) {
+        if (start > text.size() || end > text.size() || start >= end) {
           continue;
         }
         // Append text before this match
@@ -85,8 +85,8 @@ std::string SearchHighlighter::applyHighlight(
         cursor = end;
     }
     // Append remaining text
-    if (static_cast<int>(text.size()) > cursor) {
-        result.append(text, cursor, static_cast<int>(text.size()) - cursor);
+    if (text.size() > cursor) {
+        result.append(text, cursor, text.size() - cursor);
     }
     return result;
 }
@@ -122,7 +122,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
         }
         size_t pos = 0;
         while ((pos = lower_text.find(term, pos)) != std::string::npos) {
-            matches.push_back({pos, pos + static_cast<int>(term.size()) , ti});
+            matches.push_back({pos, pos + term.size(), ti});
             pos += term.size();
         }
     }
@@ -138,7 +138,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
     size_t best_score  = 0;
 
     // Use two-pointer approach over match start positions as window anchors
-    size_t max_start = static_cast<int>(text.size()) - window_size;
+    size_t max_start = text.size() - window_size;
     for (const auto& m : matches) {
         size_t window_start = (m.start > window_size / 4)
                               ? m.start - window_size / 4 : 0;
@@ -208,7 +208,7 @@ SearchHighlighter::findMatchRanges(const std::string& text,
 
         size_t pos = 0;
         while ((pos = search_text.find(term, pos)) != std::string::npos) {
-            ranges.emplace_back(pos, pos + static_cast<int>(term.size()) );
+            ranges.emplace_back(pos, pos + term.size());
             pos += term.size();
         }
     }
@@ -266,7 +266,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
         }
 
         // If the whole text fits within the window, just highlight it
-        if (static_cast<int>(text.size()) <= window_size) {
+        if (text.size() <= window_size) {
             return highlight(text, terms);
         }
 
@@ -294,7 +294,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
             --offset;
         }
 
-        size_t end_offset = std::min(offset + window_size,static_cast<int>(text.size()));
+        size_t end_offset = std::min(offset + window_size, text.size());
         // Snap end to word boundary (walk forward to next space or end)
         while (end_offset < text.size() && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
             ++end_offset;
@@ -311,12 +311,12 @@ std::string SearchHighlighter::snippet(const std::string& text,
           result += config_.ellipsis;
         }
         result += highlighted;
-        if (static_cast<int>(text.size()) > end_offset) {
+        if (text.size() > end_offset) {
           result += config_.ellipsis;
         }
 
         // Trim to max_snippet_len
-        if (static_cast<int>(result.size()) > config_.max_snippet_len + 2 * config_.ellipsis.size()) {
+        if (result.size() > config_.max_snippet_len + 2 * config_.ellipsis.size()) {
             result = result.substr(0, config_.max_snippet_len);
             result += config_.ellipsis;
         }

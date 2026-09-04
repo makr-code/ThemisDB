@@ -228,7 +228,7 @@ static double computeDomainRelevance(const std::string& text,
     double total_score = 0.0;
     size_t total_keywords = 0;
 
-    auto scoreDomain = [&]([[maybe_unused]] const std::vector<std::string>& keywords) {
+    auto scoreDomain = [&](const std::vector<std::string>& keywords) {
         // Pattern list is bounded (< 32 entries); O(n*m) cost acceptable for training-time quality checks.
         for (const auto& kw : keywords) {
             std::string lkw = kw;
@@ -1371,7 +1371,7 @@ public:
                              const std::string& action,
                              double delta) {
         // Actions encode both the direction (increase/decrease) and the field
-        auto contains = [&]([[maybe_unused]] const std::string& s) {
+        auto contains = [&](const std::string& s) {
             return action.find(s) != std::string::npos;
         };
         if (contains("max_toxicity_score"))

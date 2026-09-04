@@ -104,7 +104,7 @@ bool TenantUpdateScheduler::removeBlackoutPeriod(const std::string& tenant_id,
     auto& vec = it->second.blackouts;
     auto before = vec.size();
     vec.erase(std::remove_if(vec.begin(), vec.end(),
-                              [&]([[maybe_unused]] const BlackoutPeriod& b) {
+                              [&](const BlackoutPeriod& b) {
                                   return b.id == blackout_id;
                               }),
               vec.end());
@@ -334,7 +334,7 @@ TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) co
     };
 
     // Helper: does the window include a given day name?
-    auto dayAllowed = [&]([[maybe_unused]] int wday) -> bool {
+    auto dayAllowed = [&](int wday) -> bool {
         for (const auto& d : win.days) {
             if (toLowerAscii(d) == "daily") {
                 return true;

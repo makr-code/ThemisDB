@@ -491,7 +491,7 @@ MergeResult PromptVersionControl::merge(
     // on corrupted data where the parent chain contains a cycle.
     static constexpr size_t MAX_ANCESTOR_DEPTH = 10000;
 
-    auto collect_ancestors = [&]([[maybe_unused]] const std::string& start_id) {
+    auto collect_ancestors = [&](const std::string& start_id) {
         // Ordered list (most recent first) so we prefer the closest ancestor.
         std::vector<std::string> ancestors;
         std::unordered_set<std::string> visited;  // cycle guard
@@ -694,7 +694,7 @@ nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) cons
     // Count branches
     auto branch_it = branches_.find(prompt_id);
     if (branch_it != branches_.end()) {
-        stats["branch_count"] = branch_it-> static_cast<int>(second.size());
+        stats["branch_count"] = branch_it->second.size();
         stats["branches"] = nlohmann::json::array();
         for (const auto& [name, _] : branch_it->second) {
             stats["branches"].push_back(name);
@@ -706,7 +706,7 @@ nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) cons
     // Count tags
     auto tag_it = tags_.find(prompt_id);
     if (tag_it != tags_.end()) {
-        stats["tag_count"] = tag_it-> static_cast<int>(second.size());
+        stats["tag_count"] = tag_it->second.size();
     } else {
         stats["tag_count"] = 0;
     }

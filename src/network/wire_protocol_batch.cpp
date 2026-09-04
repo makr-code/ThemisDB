@@ -44,7 +44,7 @@ inline int setSockOptInt(int fd, int level, int optname, const int* value) {
 // NagleController
 // =============================================================================
 
-NagleController::NagleController([[maybe_unused]] int fd) noexcept : fd_(fd) {}
+NagleController::NagleController(int fd) noexcept : fd_(fd) {}
 
 bool NagleController::setMode(Mode mode) noexcept {
     if (fd_ < 0) {
@@ -53,7 +53,7 @@ bool NagleController::setMode(Mode mode) noexcept {
 
     // Reset both flags first so we reach a clean state.
     int on  = 1;
-    [[maybe_unused]] int off = 0;
+    int off = 0;
 
     switch (mode) {
     case Mode::NODELAY: {
@@ -112,7 +112,7 @@ bool NagleController::uncork() noexcept {
 
     // Clearing TCP_CORK/TCP_NOPUSH triggers an immediate flush of any
     // data held in the kernel's send buffer.
-    [[maybe_unused]] int off = 0;
+    int off = 0;
 #ifdef TCP_CORK
     if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off) != 0)
         return false;

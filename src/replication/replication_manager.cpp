@@ -220,7 +220,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     // BATCH A OPTIMIZATION: Pre-allocate based on typical WAL entry size.
     // Keep a single reservation estimate to avoid duplicate local declarations.
     
-    auto appendUint64 = [&result]([[maybe_unused]] uint64_t val) {
+    auto appendUint64 = [&result](uint64_t val) {
         // BATCH A OPTIMIZATION: Reserve space for 8 bytes once
         result.reserve(static_cast<int>(result.size()) + 8);
         for (int i = 7; i >= 0; --i) {
@@ -283,7 +283,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos]([[maybe_unused]] uint32_t max_len) -> std::string {
+    auto readString = [&data, &pos](uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > static_cast<int>(data.size())) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -579,7 +579,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     // unsigned wrap can produce a false match.  __builtin_mul_overflow
                     // is additionally applied to the vector allocation so that any
                     // future change to the element type is caught at compile time.
-                    const size_t element_size = sizeof([[maybe_unused]] uint8_t);
+                    const size_t element_size = sizeof(uint8_t);
                     if (static_cast<size_t>(len) > (std::numeric_limits<size_t>::max() / element_size)) {
                         THEMIS_ERROR("WAL segment {}: allocation-size overflow for "
                                      "len={}, skipping entry", seg_path_copy, len);
@@ -962,7 +962,7 @@ void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id)
     last_heartbeat_time_ = std::chrono::steady_clock::now();
 }
 
-void LeaderElection::grantVote([[maybe_unused]] uint64_t term) {
+void LeaderElection::grantVote(uint64_t term) {
     std::lock_guard<std::mutex> lock(election_mutex_);
     
     // Only count votes for the current term while we are still a candidate
@@ -986,7 +986,7 @@ void LeaderElection::grantVote([[maybe_unused]] uint64_t term) {
 // LeaderElection lease management
 // ============================================================================
 
-void LeaderElection::renewLease([[maybe_unused]] uint32_t duration_ms) {
+void LeaderElection::renewLease(uint32_t duration_ms) {
     if (!isLeader()) {
         return;
     }
@@ -1303,7 +1303,7 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
         stats_.bytes_replicated += entry.data.size();
         
         // Notify CDC listeners about the applied WAL entry
-        notifyListeners([[maybe_unused]] [&entry](IReplicationListener& l) {
+        notifyListeners([&entry](IReplicationListener& l) {
             l.onWALEntryApplied(entry);
         });
         
@@ -1432,7 +1432,7 @@ void ReplicationManager::addReplica(const ReplicaInfo& replica) {
         }
     }
     
-    notifyListeners([[maybe_unused]] [&replica](IReplicationListener& l) {
+    notifyListeners([&replica](IReplicationListener& l) {
         l.onReplicaAdded(replica);
     });
 }
@@ -1452,7 +1452,7 @@ void ReplicationManager::removeReplica(const std::string& node_id) {
         }
     }
     
-    notifyListeners([[maybe_unused]] [&node_id](IReplicationListener& l) {
+    notifyListeners([&node_id](IReplicationListener& l) {
         l.onReplicaRemoved(node_id);
     });
 }
@@ -1475,9 +1475,9 @@ void ReplicationManager::addWitnessNode(const std::string& node_id,
     addReplica(witness);
 }
 
-void ReplicationManager::addListener([[maybe_unused]] std::shared_ptr<IReplicationListener> listener) {
+void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> listener) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
-    listeners_.push_back([[maybe_unused]] listener);
+    listeners_.push_back(listener);
 }
 
 bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
@@ -1505,7 +1505,7 @@ bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
         election_->startElection();
         
         if (election_->isLeader()) {
-            notifyListeners([[maybe_unused]] [this](IReplicationListener& l) {
+            notifyListeners([this](IReplicationListener& l) {
                 l.onFailoverCompleted(node_id_, true);
             });
             return true;
@@ -1623,7 +1623,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
     }
     
     // Step 6: Notify all other replicas of new leader via listeners
-    notifyListeners([[maybe_unused]] [&replica_id](IReplicationListener& l) {
+    notifyListeners([&replica_id](IReplicationListener& l) {
         l.onLeaderElected(replica_id);
     });
     
@@ -1718,7 +1718,7 @@ void ReplicationManager::heartbeatLoop() {
             uint64_t current_term = election_->getCurrentTerm();
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
-                for ([[maybe_unused]] const auto& replica : replicas_) {
+                for (const auto& replica : replicas_) {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
                     // endpoint used by real network layer
@@ -1765,10 +1765,10 @@ void ReplicationManager::compactionLoop() {
 }
 
 void ReplicationManager::notifyListeners(
-    std::function<void([[maybe_unused]] IReplicationListener&)> callback) {
-    for ([[maybe_unused]] auto& listener : listeners_) {
-        if ([[maybe_unused]] listener) {
-            callback([[maybe_unused]] *listener);
+    std::function<void(IReplicationListener&)> callback) {
+    for (auto& listener : listeners_) {
+        if (listener) {
+            callback(*listener);
         }
     }
 }
@@ -1844,7 +1844,7 @@ void ReplicationManager::performHealthCheck() {
     }
     
     for (const auto& change : changes) {
-        notifyListeners([[maybe_unused]] [&change](IReplicationListener& l) {
+        notifyListeners([&change](IReplicationListener& l) {
             l.onReplicaHealthChanged(change.node_id, change.old_status, change.new_status);
         });
     }
@@ -2007,7 +2007,7 @@ void ReplicationManager::healthMonitorLoop() {
                 }
             }
             
-            notifyListeners([[maybe_unused]] [&unreachable_nodes](IReplicationListener& l) {
+            notifyListeners([&unreachable_nodes](IReplicationListener& l) {
                 l.onNetworkPartitionDetected(unreachable_nodes);
             });
         }
@@ -2027,7 +2027,7 @@ void ReplicationManager::healthMonitorLoop() {
                 
                 // Notify listeners of excessive lag
                 if (lag > static_cast<int64_t>(config_.max_replication_lag_ms)) {
-                    notifyListeners([[maybe_unused]] [lag](IReplicationListener& l) {
+                    notifyListeners([lag](IReplicationListener& l) {
                         l.onReplicationLagWarning(lag);
                     });
                 }
@@ -2063,11 +2063,11 @@ void ReplicationManager::attemptAutomaticFailover(const std::string& failed_node
             l.onFailoverStarted(failed_node_id, new_leader_id);
         });
         
-        notifyListeners([[maybe_unused]] [&new_leader_id](IReplicationListener& l) {
+        notifyListeners([&new_leader_id](IReplicationListener& l) {
             l.onFailoverCompleted(new_leader_id, true);
         });
     } else {
-        notifyListeners([[maybe_unused]] [](IReplicationListener& l) {
+        notifyListeners([](IReplicationListener& l) {
             l.onFailoverCompleted("", false);
         });
     }
@@ -2692,7 +2692,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
 
     // Enrich conflict winner with merged causality from all conflicting writes
     // This preserves the causal history needed for eventual consistency
-    auto enrich_winner_with_causality = [&]([[maybe_unused]] const MMWriteEntry& winner) {
+    auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
         // BATCH C ANNOTATION: Causality Lattice Construction
         // This lambda enriches the winner with merged causality metadata:
         // - merged_clock: Lattice join of all vector clocks. Represents the frontier
@@ -3378,11 +3378,11 @@ std::string CRDTMergeResolver::mergeFlagDW(const std::vector<MMWriteEntry>& writ
 std::vector<uint8_t> MMWriteEntry::serialize() const {
     std::vector<uint8_t> result;
 
-    auto appendUint64 = [&result]([[maybe_unused]] uint64_t val) {
+    auto appendUint64 = [&result](uint64_t val) {
         for (int i = 7; i >= 0; --i)
             result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
     };
-    auto appendUint32 = [&result]([[maybe_unused]] uint32_t val) {
+    auto appendUint32 = [&result](uint32_t val) {
         for (int i = 3; i >= 0; --i)
             result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
     };
@@ -3604,8 +3604,8 @@ std::string MultiMasterReplicationManager::write(
     {
         std::lock_guard<std::mutex> lock(writes_mutex_);
         pending_writes_.push(entry);
-        if ([[maybe_unused]] callback) {
-            write_callbacks_[entry.write_id] = std::move([[maybe_unused]] callback);
+        if (callback) {
+            write_callbacks_[entry.write_id] = std::move(callback);
         }
     }
     writes_cv_.notify_one();
@@ -3756,9 +3756,9 @@ MMPeerInfo MultiMasterReplicationManager::getLocalInfo() const {
 // Conflict Management
 // -------------------------
 
-void MultiMasterReplicationManager::registerConflictCallback([[maybe_unused]] ConflictCallback callback) {
+void MultiMasterReplicationManager::registerConflictCallback(ConflictCallback callback) {
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
-    conflict_callbacks_.push_back([[maybe_unused]] std::move(callback));
+    conflict_callbacks_.push_back(std::move(callback));
 }
 
 void MultiMasterReplicationManager::setConflictResolver(
@@ -3850,7 +3850,8 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
             case MMNodeState::PARTITIONED: return "PARTITIONED";
             case MMNodeState::RECOVERING: return "RECOVERING";
             case MMNodeState::OFFLINE:
-            [[fallthrough]];\n            default:
+            [[fallthrough]];
+            default:
                 return "OFFLINE";
         }
     };
@@ -3947,10 +3948,10 @@ void MultiMasterReplicationManager::replicationLoop() {
                 pending_writes_.pop();
 
                 WriteCallback cb;
-                auto it = write_callbacks_.find([[maybe_unused]] entry.write_id);
-                if ([[maybe_unused]] it != write_callbacks_.end()) {
+                auto it = write_callbacks_.find(entry.write_id);
+                if (it != write_callbacks_.end()) {
                     cb = std::move(it->second);
-                    write_callbacks_.erase([[maybe_unused]] it);
+                    write_callbacks_.erase(it);
                 }
                 batch.emplace_back(std::move(entry), std::move(cb));
             }
@@ -4199,7 +4200,7 @@ void MultiMasterReplicationManager::handleConflict(
         conflicts_.push_back(record);
 
         // Notify registered callbacks
-        for ([[maybe_unused]] const auto& cb : conflict_callbacks_) {
+        for (const auto& cb : conflict_callbacks_) {
             cb(record);
         }
     }
@@ -4618,7 +4619,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     return result;
 }
 
-std::string QuorumReadManager::generateSessionToken([[maybe_unused]] uint64_t version) const {
+std::string QuorumReadManager::generateSessionToken(uint64_t version) const {
     // Format: "seq=<N>;exp=<epoch_ms>"
     auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         (std::chrono::system_clock::now() +
@@ -4676,7 +4677,7 @@ void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
     replicas_ = replicas;
 }
 
-void QuorumReadManager::setDocumentFetchCallback([[maybe_unused]] DocumentFetchFn fn) {
+void QuorumReadManager::setDocumentFetchCallback(DocumentFetchFn fn) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     doc_fetch_fn_ = std::move(fn);
 }
@@ -4839,7 +4840,7 @@ std::string CompressedReplicationStream::algorithmName(CompressionAlgorithm algo
 }
 
 CompressedReplicationStream::CompressionAlgorithm
-CompressedReplicationStream::selectAlgorithm([[maybe_unused]] size_t payload_bytes) const {
+CompressedReplicationStream::selectAlgorithm(size_t payload_bytes) const {
     if (config_.algorithm != CompressionAlgorithm::AUTO) {
         return config_.algorithm;
     }
@@ -5069,7 +5070,7 @@ BatchedAckTracker::~BatchedAckTracker() {
     timedJoin(flush_thread_);
 }
 
-void BatchedAckTracker::recordApplied([[maybe_unused]] uint64_t sequence_number) {
+void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
         pending_.push_back(sequence_number);
@@ -5170,8 +5171,8 @@ int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, dou
       return 0;
     }
     // Caller must pass a sorted vector; index is clamped to valid range.
-    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(static_cast<int>(sorted.size()) - 1));
-    return sorted[std::min(idx, static_cast<int>(sorted.size()) - 1)];
+        size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(sorted.size() - 1));
+        return sorted[std::min(idx, sorted.size() - 1)];
 }
 
 ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
@@ -5536,13 +5537,13 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
 
     // Compute percentiles
     std::sort(latencies_us.begin(), latencies_us.end());
-    auto pct = [&]([[maybe_unused]] double p) -> int64_t {
+    auto pct = [&](double p) -> int64_t {
         if (latencies_us.empty()) {
           return 0;
         }
         size_t idx = static_cast<size_t>(
-            p / 100.0 * static_cast<double>(static_cast<int>(latencies_us.size()) - 1));
-        return latencies_us[std::min(idx, static_cast<int>(latencies_us.size()) - 1)];
+                        p / 100.0 * static_cast<double>(latencies_us.size() - 1));
+                return latencies_us[std::min(idx, latencies_us.size() - 1)];
     };
 
     BenchmarkResult r;
@@ -5583,7 +5584,7 @@ uint64_t CDCManager::subscribe(const std::string& collection, CDCCallback callba
     return id;
 }
 
-void CDCManager::unsubscribe([[maybe_unused]] uint64_t subscription_id) {
+void CDCManager::unsubscribe(uint64_t subscription_id) {
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscriptions_.erase(
         std::remove_if(subscriptions_.begin(), subscriptions_.end(),
@@ -5604,7 +5605,7 @@ void CDCManager::onWALEntryApplied(const WALEntry& entry) {
         // Empty collection = wildcard; otherwise match on collection name
         if (sub.collection.empty() || sub.collection == entry.collection) {
             try {
-                sub.callback([[maybe_unused]] entry);
+                sub.callback(entry);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("CDCManager: subscriber {} threw: {}", sub.id, e.what());
             } catch (...) {
@@ -5663,14 +5664,14 @@ PublicationFilter CrossClusterPublication::getFilter() const {
     return filter_;
 }
 
-uint64_t CrossClusterPublication::addRemoteSubscriber([[maybe_unused]] RemoteSubscriberCallback callback) {
+uint64_t CrossClusterPublication::addRemoteSubscriber(RemoteSubscriberCallback callback) {
     uint64_t id = next_id_.fetch_add(1);
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscribers_.push_back({id, std::move(callback)});
     return id;
 }
 
-void CrossClusterPublication::removeRemoteSubscriber([[maybe_unused]] uint64_t subscriber_id) {
+void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscribers_.erase(
         std::remove_if(subscribers_.begin(), subscribers_.end(),
@@ -5700,7 +5701,7 @@ void CrossClusterPublication::publish(const WALEntry& entry) {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
     for (const auto& sub : subscribers_) {
         try {
-            sub.callback([[maybe_unused]] entry);
+            sub.callback(entry);
         } catch (const std::exception& e) {
             THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw: {}",
                          name_, sub.id, e.what());
@@ -5808,7 +5809,7 @@ WALArchivalManager::WALArchivalManager(const ArchivalConfig& config,
     loadIndex();
 }
 
-std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id) const {
+std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     std::ostringstream oss = {};
     if (backend_) {
         // Cloud object key: use configured prefix
@@ -6383,7 +6384,7 @@ MultiRegionActiveActiveManager::MultiRegionActiveActiveManager(
     }
 }
 
-std::string MultiRegionActiveActiveManager::generateWriteId([[maybe_unused]] uint64_t sequence) const {
+std::string MultiRegionActiveActiveManager::generateWriteId(uint64_t sequence) const {
     // Combine region id, the caller-supplied sequence, and a nanosecond timestamp for uniqueness.
     // Using the already-computed sequence (not a fresh load) avoids a TOCTOU race where
     // another concurrent write could have incremented local_sequence_ between the caller's
@@ -6395,7 +6396,7 @@ std::string MultiRegionActiveActiveManager::generateWriteId([[maybe_unused]] uin
     return oss.str();
 }
 
-std::string MultiRegionActiveActiveManager::generateSessionToken([[maybe_unused]] uint64_t sequence) const {
+std::string MultiRegionActiveActiveManager::generateSessionToken(uint64_t sequence) const {
     // Format: "seq=<N>;region=<R>;exp=<epoch_ms>"
     auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         (std::chrono::system_clock::now() +
@@ -6428,10 +6429,10 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
 
 MultiRegionActiveActiveManager::WriteResult
 MultiRegionActiveActiveManager::write(
-    [[maybe_unused]] const std::string& collection,
-    [[maybe_unused]] const std::string& document_id,
-    [[maybe_unused]] const std::string& operation,
-    [[maybe_unused]] const std::string& data,
+    const std::string& collection,
+    const std::string& document_id,
+    const std::string& operation,
+    const std::string& data,
     ConsistencyLevel   consistency,
     const std::string& /*session_token*/)
 {
@@ -6486,8 +6487,8 @@ MultiRegionActiveActiveManager::write(
 
 MultiRegionActiveActiveManager::ReadResult
 MultiRegionActiveActiveManager::read(
-    [[maybe_unused]] const std::string& collection,
-    [[maybe_unused]] const std::string& document_id,
+    const std::string& collection,
+    const std::string& document_id,
     ConsistencyLevel   consistency,
     const std::string& session_token)
 {
@@ -7205,7 +7206,7 @@ GeoReplicationManager::GeoReplicationManager(const GeoConfig& config)
 
 // ── Session token helpers ─────────────────────────────────────────────────────
 
-std::string GeoReplicationManager::generateSessionToken([[maybe_unused]] uint64_t sequence) const
+std::string GeoReplicationManager::generateSessionToken(uint64_t sequence) const
 {
     auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch() +
@@ -7339,7 +7340,8 @@ std::string GeoReplicationManager::selectReadRegion(
         }
 
         case ConsistencyLevel::EVENTUAL:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return config_.local_region;
     }
 }
@@ -7348,7 +7350,7 @@ std::string GeoReplicationManager::selectReadRegion(
 
 bool GeoReplicationManager::write(
     const std::string& key,
-    [[maybe_unused]] const std::string& value,
+    const std::string& value,
     ConsistencyLevel   consistency)
 {
     // key/value applied by the caller's storage layer

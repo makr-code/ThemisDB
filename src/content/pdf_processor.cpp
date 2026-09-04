@@ -304,7 +304,7 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
     return metadata;
 }
 
-std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::string &blob) {
+std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string &blob) {
     std::vector<PDFPageInfo> pages;
 
 #if PDF_LIBRARY_AVAILABLE

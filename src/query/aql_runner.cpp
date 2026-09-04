@@ -115,7 +115,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     // This provides query analysis for optimization and caching
     auto& nlp = getNlpAnalyzer();
     std::string normalized_query = nlp.normalizeQuery(aql);
-    [[maybe_unused]] double query_complexity = nlp.estimateQueryComplexity(aql);
+    double query_complexity = nlp.estimateQueryComplexity(aql);
     auto query_hints = nlp.extractQueryHints(aql);
     auto suggested_indexes = nlp.suggestIndexes(aql);
 
@@ -152,7 +152,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
         if      (tr.vector_geo.has_value())   { request_type = "vector_geo";    }
         else if (tr.content_geo.has_value())  { request_type = "content_geo";   }
         else if (tr.disjunctive.has_value())  { request_type = "or_disjunctive";
-            shard_count = static_cast<int>(tr.disjunctive-> static_cast<int>(disjuncts.size()));   }
+            shard_count = static_cast<int>(tr.disjunctive->disjuncts.size());   }
         else if (tr.traversal.has_value())    { request_type = "graph_traversal"; }
         else if (tr.join.has_value())         { request_type = "join";           }
         else if (tr.spatial_join.has_value()) { request_type = "spatial_join";   }

@@ -507,7 +507,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			std::vector<std::string> intersection = {};
 
-			intersection.reserve(std::min(phraseKeys.size(),static_cast<int>(structKeys.size())));
+			intersection.reserve(std::min(phraseKeys.size(), structKeys.size()));
 			std::set_intersection(
 				phraseKeys.begin(), phraseKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -572,7 +572,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			std::vector<std::string> intersection = {};
 
-			intersection.reserve(std::min(fuzzyKeys.size(),static_cast<int>(structKeys.size())));
+			intersection.reserve(std::min(fuzzyKeys.size(), structKeys.size()));
 			std::set_intersection(
 				fuzzyKeys.begin(), fuzzyKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -643,7 +643,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			std::vector<std::string> intersection = {};
 
-			intersection.reserve(std::min(fulltextKeys.size(),static_cast<int>(structKeys.size())));
+			intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
 			std::set_intersection(
 				fulltextKeys.begin(), fulltextKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -732,7 +732,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			std::vector<std::string> intersection = {};
 
-			intersection.reserve(std::min(spatialKeys.size(),static_cast<int>(structKeys.size())));
+			intersection.reserve(std::min(spatialKeys.size(), structKeys.size()));
 			std::set_intersection(
 				spatialKeys.begin(), spatialKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -904,7 +904,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		
 		std::vector<std::string> intersection = {};
 
-		intersection.reserve(std::min(fulltextKeys.size(),static_cast<int>(structKeys.size())));
+		intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
 		std::set_intersection(
 			fulltextKeys.begin(), fulltextKeys.end(),
 			structKeys.begin(), structKeys.end(),
@@ -1023,7 +1023,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
+				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 
@@ -1094,7 +1094,7 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 		const auto& next = lists[i];
 		std::vector<std::string> tmp = {};
 
-		tmp.reserve(std::min(result.size(),static_cast<int>(next.size())));
+		tmp.reserve(std::min(result.size(), next.size()));
 		std::set_intersection(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
 		if (result.empty()) {
@@ -1322,7 +1322,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
+				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 				for (size_t i = start; i < end; ++i) {
@@ -1411,7 +1411,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
+				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 
@@ -1521,7 +1521,7 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 			tbb::parallel_sort(keys.begin(), keys.end());
 			std::vector<std::string> tmp = {};
 
-			tmp.reserve(std::min(current.size(),static_cast<int>(keys.size())));
+			tmp.reserve(std::min(current.size(), keys.size()));
 			std::set_intersection(current.begin(), current.end(), keys.begin(), keys.end(), std::back_inserter(tmp));
 			current.swap(tmp);
 			child2.setAttribute("index.result_count", static_cast<int64_t>(current.size()));
@@ -1579,7 +1579,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &table, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
+				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 
@@ -1716,9 +1716,13 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 			try {
 				size_t idx = static_cast<size_t>(std::stoull(key));
 				if (idx < current->size()) {
-				  current = &((*current)[idx]); else return nullptr;
+				  current = &((*current)[idx]);
+				} else {
+				  return nullptr;
 				}
-			} catch (...) { return nullptr; }
+			} catch (...) {
+				return nullptr;
+			}
 		} else {
 			return nullptr;
 		}
@@ -1735,7 +1739,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 									  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
-	auto evalArg = [&]([[maybe_unused]] size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
+	auto evalArg = [&](size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
 
 	// Basic string/number functions (subset, mirroring LetEvaluator)
 	if (funcName == "LENGTH") {
@@ -1864,7 +1868,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			}
 			double x = qe_toNumber(*argRes);
 			if (funcName == "MIN") {
-			  val = std::min(val, x); else val = std::max(val, x);
+			  val = std::min(val, x);
+			} else {
+			  val = std::max(val, x);
 			}
 		}
 		return Ok(nlohmann::json(val));
@@ -1954,7 +1960,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto looksLikeDegrees = [](double lon, double lat) { return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0; };
 		if ((looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2)) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
 			constexpr double kEarthRadiusKm = 6371.0;
-			auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
+			auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
 			double lat1 = deg2rad(y1), lon1 = deg2rad(x1); double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
 			double dlat = lat2 - lat1; double dlon = lon2 - lon1;
 			double a = std::sin(dlat/2.0)*std::sin(dlat/2.0) + std::cos(lat1)*std::cos(lat2)*std::sin(dlon/2.0)*std::sin(dlon/2.0);
@@ -2046,7 +2052,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
-		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&]([[maybe_unused]] const nlohmann::json& g) -> Result<std::pair<double,double>> {
+		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g) -> Result<std::pair<double,double>> {
 			if (g.is_string()) {
 				try {
 					auto parseRes = nlohmann::json::parse(g.get<std::string>());
@@ -2072,7 +2078,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Expected Point geometry");
 		};
 
-		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&]([[maybe_unused]] const nlohmann::json& g) -> Result<utils::geo::MBR> {
+		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_string()) {
 				try {
 					auto parsed = nlohmann::json::parse(g.get<std::string>());
@@ -2273,7 +2279,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		std::string t = g["type"]; const auto& coords = g["coordinates"];
 		double acc = (funcName=="ST_ZMin") ? std::numeric_limits<double>::max() : std::numeric_limits<double>::lowest();
 		bool hasZ=false;
-		auto upd = [&]([[maybe_unused]] double z){ if (funcName=="ST_ZMin") acc = std::min(acc, z); else acc = std::max(acc, z); hasZ=true; };
+		auto upd = [&](double z){ if (funcName=="ST_ZMin") acc = std::min(acc, z); else acc = std::max(acc, z); hasZ=true; };
 		if (t=="Point" && coords.is_array() && static_cast<int>(coords.size())>=3) {
 			return Ok(nlohmann::json(coords[2]));
 		}
@@ -2487,7 +2493,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
 			return Ok(nlohmann::json(false));
 		}
-		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&]([[maybe_unused]] double z){ return z>=zmin && z<=zmax; };
+		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&](double z){ return z>=zmin && z<=zmax; };
 		if (t=="Point") { if (c.is_array() && static_cast<int>(c.size())>=3) return Ok(nlohmann::json(inRange(c[2].get<double>()))); return Ok(nlohmann::json(false)); }
 		if ((t=="LineString" || t=="MultiPoint")) { if (c.is_array()) { for (const auto& pt : c) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
 		if ((t=="Polygon" || t=="MultiLineString")) { if (c.is_array()) { for (const auto& ring : c) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
@@ -2644,7 +2650,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 		case ASTNodeType::Literal: {
 			auto lit = std::static_pointer_cast<LiteralExpr>(expr);
 			nlohmann::json j;
-			std::visit([&]([[maybe_unused]] auto&& arg){ j = arg; }, lit->value);
+			std::visit([&](auto&& arg){ j = arg; }, lit->value);
 			return Ok(j);
 		}
 		case ASTNodeType::Variable: {
@@ -2679,7 +2685,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 			auto obj = std::static_pointer_cast<ObjectConstructExpr>(expr);
 			nlohmann::json o = nlohmann::json::object();
 			std::vector<std::pair<std::string, std::shared_ptr<Expression>>> sorted_fields;
-			sorted_fields.reserve(obj-> static_cast<int>(fields.size()));
+			sorted_fields.reserve(obj->fields.size());
 			for (const auto& [k, e] : obj->fields) {
 				sorted_fields.emplace_back(k, e);
 			}
@@ -2857,7 +2863,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 
 	// Predicate evaluation helper – called from both sequential and parallel paths.
 	// q and compareValues are captured by reference; each invocation is independent.
-	auto matchesPredicates = [&]([[maybe_unused]] const BaseEntity& e) -> bool {
+	auto matchesPredicates = [&](const BaseEntity& e) -> bool {
 		for (const auto& p : q.predicates) {
 			auto v = e.extractField(p.column);
 			if (!v || *v != p.value) {
@@ -2994,7 +3000,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	// Prüfe Gleichheitsindizes
 	if (!q.predicates.empty()) {
-		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
+		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; bool bestCapped=false;
 		for (size_t i=0;i<static_cast<int>(q.predicates.size());++i) {
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
@@ -3520,7 +3526,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				std::sort(bucket.begin(), bucket.end(), stableJsonLess);
 			}
 		
-			auto processProbeDoc = [&]([[maybe_unused]] const nlohmann::json& doc) {
+			auto processProbeDoc = [&](const nlohmann::json& doc) {
 				// Apply pushed-down filters
 				if (probe_filters != single_var_filters.end()) {
 					EvaluationContext filter_ctx = initial_context;
@@ -3852,7 +3858,7 @@ apply_sort_limit:
 		if (offset >= static_cast<int>(results.size())) {
 			results.clear();
 		} else {
-			size_t end = std::min(offset + count,static_cast<int>(results.size()));
+			size_t end = std::min(offset + count, results.size());
 			results = std::vector<nlohmann::json>(
 				results.begin() + offset,
 				results.begin() + end
@@ -4587,12 +4593,12 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
     if (expr->getType() == ASTNodeType::FunctionCall) {
         auto funcCall = std::static_pointer_cast<FunctionCallExpr>(expr);
         
-        if (funcCall->name == "ST_Within" && funcCall-> static_cast<int>(arguments.size()) == 2) {
+        if (funcCall->name == "ST_Within" && funcCall->arguments.size() == 2) {
             // Second argument should be ST_GeomFromText("POLYGON(...)")
             auto arg2 = funcCall->arguments[1];
             if (arg2->getType() == ASTNodeType::FunctionCall) {
                 auto geomFunc = std::static_pointer_cast<FunctionCallExpr>(arg2);
-                if (geomFunc->name == "ST_GeomFromText" && geomFunc-> static_cast<int>(arguments.size()) == 1) {
+                if (geomFunc->name == "ST_GeomFromText" && geomFunc->arguments.size() == 1) {
                     auto litExpr = geomFunc->arguments[0];
                     if (litExpr->getType() == ASTNodeType::Literal) {
                         auto lit = std::static_pointer_cast<LiteralExpr>(litExpr);
@@ -4627,7 +4633,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
         }
         
         // Handle ST_DWithin(geom, ST_Point(x,y), distance)
-        if (funcCall->name == "ST_DWithin" && funcCall-> static_cast<int>(arguments.size()) == 3) {
+        if (funcCall->name == "ST_DWithin" && funcCall->arguments.size() == 3) {
             auto arg2 = funcCall->arguments[1];
             auto arg3 = funcCall->arguments[2];
             
@@ -4635,7 +4641,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
                 auto pointFunc = std::static_pointer_cast<FunctionCallExpr>(arg2);
                 auto distLit = std::static_pointer_cast<LiteralExpr>(arg3);
                 
-                if (pointFunc->name == "ST_Point" && pointFunc-> static_cast<int>(arguments.size()) == 2) {
+                if (pointFunc->name == "ST_Point" && pointFunc->arguments.size() == 2) {
                     if (pointFunc->arguments[0]->getType() == ASTNodeType::Literal &&
                         pointFunc->arguments[1]->getType() == ASTNodeType::Literal) {
                         
@@ -4694,7 +4700,7 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 // or vector-first then spatial filter. Uses bbox/total_bounds ratio if available.
 enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 
-[[maybe_unused]] static VGPlan chooseVGPlan(
+static VGPlan chooseVGPlan(
 	const VectorGeoQuery& q,
 	const index::SpatialIndexManager* spatialIdx,
 	const VectorIndexManager* vectorIdx,
@@ -4785,7 +4791,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				auto [st, keys] = secIdx_->scanKeysEqual(q.table, fa->field, value); if (!st.ok) continue; tbb::parallel_sort(keys.begin(), keys.end());
 				if (first) { current = std::move(keys); first=false; }
 				else {
-					std::vector<std::string> intersected; intersected.reserve(std::min(current.size(),static_cast<int>(keys.size())));
+					std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
 					auto it1=current.begin(); auto it2=keys.begin();
 					while(it1!=current.end() && it2!=keys.end()) { if(*it1<*it2) ++it1; else if(*it2<*it1) ++it2; else { intersected.push_back(*it1); ++it1; ++it2; } }
 					current.swap(intersected);
@@ -4835,7 +4841,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					tbb::parallel_sort(keys.begin(), keys.end());
 					if (first) { current = std::move(keys); first=false; }
 					else {
-						std::vector<std::string> intersected; intersected.reserve(std::min(current.size(),static_cast<int>(keys.size())));
+						std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
 						auto it1=current.begin(); auto it2=keys.begin();
 						while(it1!=current.end() && it2!=keys.end()) { if(*it1<*it2) ++it1; else if(*it2<*it1) ++it2; else { intersected.push_back(*it1); ++it1; ++it2; } }
 						current.swap(intersected);
@@ -4869,7 +4875,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			tbb::parallel_sort(keys.begin(), keys.end());
 			if (first) { current = std::move(keys); first=false; }
 			else {
-				std::vector<std::string> intersected; intersected.reserve(std::min(current.size(),static_cast<int>(keys.size())));
+				std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
 				auto it1=current.begin(); auto it2=keys.begin();
 				while(it1!=current.end() && it2!=keys.end()) { if(*it1<*it2) ++it1; else if(*it2<*it1) ++it2; else { intersected.push_back(*it1); ++it1; ++it2; } }
 				current.swap(intersected);

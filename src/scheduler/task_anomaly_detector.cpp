@@ -42,7 +42,7 @@ void TaskAnomalyDetector::start() {
     
     running_.store(true);
     callback_thread_ = std::thread(&TaskAnomalyDetector::anomalyCallbackWorker, this);
-    THEMIS_INFO([[maybe_unused]] "TaskAnomalyDetector: background callback thread started");
+    THEMIS_INFO("TaskAnomalyDetector: background callback thread started");
 }
 
 void TaskAnomalyDetector::stop() {
@@ -56,16 +56,16 @@ void TaskAnomalyDetector::stop() {
     
     queue_cv_.notify_all();
     
-    if ([[maybe_unused]] callback_thread_.joinable()) {
+    if (callback_thread_.joinable()) {
         callback_thread_.join();
     }
     
-    THEMIS_INFO([[maybe_unused]] "TaskAnomalyDetector: background callback thread stopped");
+    THEMIS_INFO("TaskAnomalyDetector: background callback thread stopped");
 }
 
 // Background worker thread for async anomaly callbacks
 void TaskAnomalyDetector::anomalyCallbackWorker() {
-    THEMIS_DEBUG([[maybe_unused]] "TaskAnomalyDetector callback worker started");
+    THEMIS_DEBUG("TaskAnomalyDetector callback worker started");
     
     while (running_.load()) {
         std::unique_lock<std::mutex> lock(queue_mutex_);
@@ -94,10 +94,10 @@ void TaskAnomalyDetector::anomalyCallbackWorker() {
         }
     }
     
-    THEMIS_DEBUG([[maybe_unused]] "TaskAnomalyDetector callback worker stopped");
+    THEMIS_DEBUG("TaskAnomalyDetector callback worker stopped");
 }
 
-AnomalyMetrics TaskAnomalyDetector::recordExecution([[maybe_unused]] const TaskAuditEvent& event) {
+AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     const std::string& task_id = event.task_id;
@@ -187,7 +187,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     
     // Update execution counts
     stats.total_executions++;
-    if ([[maybe_unused]] !event.success) {
+    if (!event.success) {
         stats.total_failures++;
     }
     
@@ -198,13 +198,13 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     stats.last_execution = event.timestamp;
     
     // Record execution time
-    stats.execution_times.push_back([[maybe_unused]] event.timestamp);
-    stats.execution_durations.push_back([[maybe_unused]] event.duration_ms);
-    stats.execution_results.push_back([[maybe_unused]] event.success);
+    stats.execution_times.push_back(event.timestamp);
+    stats.execution_durations.push_back(event.duration_ms);
+    stats.execution_results.push_back(event.success);
     
     // Record resource usage
-    stats.cpu_usage.push_back([[maybe_unused]] event.resource_usage.cpu_time_ms);
-    stats.memory_usage.push_back([[maybe_unused]] static_cast<double>(event.resource_usage.memory_bytes));
+    stats.cpu_usage.push_back(event.resource_usage.cpu_time_ms);
+    stats.memory_usage.push_back(static_cast<double>(event.resource_usage.memory_bytes));
     
     // Limit history size
     if (static_cast<int>(stats.execution_times.size()) > config_.max_history_size) {
@@ -311,7 +311,7 @@ double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
-                                                 [[maybe_unused]] const std::chrono::system_clock::time_point& now) const {
+                                                 const std::chrono::system_clock::time_point& now) const {
     auto it = task_stats_.find(task_id);
     if (it == task_stats_.end()) {
         return 0.0;
@@ -391,7 +391,7 @@ double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
-                                                     [[maybe_unused]] bool success) const {
+                                                     bool success) const {
     auto it = task_stats_.find(task_id);
     if (it == task_stats_.end()) {
         return 0.0;

@@ -16,7 +16,7 @@
 namespace themis {
 namespace prompt_engineering {
 
-RagContextBudgetManager::RagContextBudgetManager([[maybe_unused]] size_t total_budget)
+RagContextBudgetManager::RagContextBudgetManager(size_t total_budget)
     : total_budget_(total_budget) {
     if (total_budget == 0) {
         throw std::invalid_argument(
@@ -24,7 +24,7 @@ RagContextBudgetManager::RagContextBudgetManager([[maybe_unused]] size_t total_b
     }
 }
 
-BudgetHandle RagContextBudgetManager::allocate([[maybe_unused]] size_t tokens) {
+BudgetHandle RagContextBudgetManager::allocate(size_t tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     const size_t current_allocated = allocated_.load(std::memory_order_relaxed);
@@ -39,10 +39,10 @@ BudgetHandle RagContextBudgetManager::allocate([[maybe_unused]] size_t tokens) {
     alloc_count_.fetch_add(1, std::memory_order_relaxed);
 
     return BudgetHandle(tokens,
-                        [this]([[maybe_unused]] size_t t) noexcept { doRelease(t); });
+                        [this](size_t t) noexcept { doRelease(t); });
 }
 
-void RagContextBudgetManager::doRelease([[maybe_unused]] size_t tokens) noexcept {
+void RagContextBudgetManager::doRelease(size_t tokens) noexcept {
     if (tokens == 0) {
       return;
     }

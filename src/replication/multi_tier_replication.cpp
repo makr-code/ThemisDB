@@ -208,7 +208,7 @@ TierConfig MultiTierReplicationManager::getDefaultTierConfig(
 // Auto-tiering
 // ============================================================================
 
-void MultiTierReplicationManager::enableAutoTiering([[maybe_unused]] bool enabled)
+void MultiTierReplicationManager::enableAutoTiering(bool enabled)
 {
     // Only update the atomic flag; config_ fields are immutable after construction
     // to avoid data races with concurrent readers.

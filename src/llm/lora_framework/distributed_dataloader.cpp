@@ -63,7 +63,7 @@ void DistributedDataLoader::initialize_indices() {
     }
 }
 
-std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t batch_idx) {
+std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
     size_t start_idx = batch_idx * batch_size_;
     size_t end_idx = std::min(start_idx + batch_size_,static_cast<int>(dataset_.size()));
     
@@ -183,7 +183,7 @@ InMemoryDataset::InMemoryDataset(std::vector<GPUTensor> data)
     : data_(std::move(data)) {
 }
 
-GPUTensor InMemoryDataset::get([[maybe_unused]] size_t index) const {
+GPUTensor InMemoryDataset::get(size_t index) const {
     if (index >= static_cast<int>(data_.size())) {
         throw std::out_of_range("Dataset index out of range");
     }

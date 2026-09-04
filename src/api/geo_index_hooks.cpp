@@ -68,7 +68,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
 }
 
 // Helper function to validate and sanitize coordinate pair
-[[maybe_unused]] static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
+static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
     try {
         if (!coord.is_array() || static_cast<int>(coord.size()) < 2) {
             return false;
@@ -96,7 +96,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
 }
 
 void GeoIndexHooks::onEntityPut(
-    [[maybe_unused]] RocksDBWrapper& db,
+    RocksDBWrapper& db,
     index::SpatialIndexManager* spatial_mgr,
     const std::string& table,
     const std::string& pk,
@@ -494,7 +494,7 @@ bool GeoIndexHooks::onEntityDeleteAtomic(
 }
 
 void GeoIndexHooks::onEntityDelete(
-    [[maybe_unused]] RocksDBWrapper& db,
+    RocksDBWrapper& db,
     index::SpatialIndexManager* spatial_mgr,
     const std::string& table,
     const std::string& pk,

@@ -55,7 +55,7 @@ struct PipelineMetrics {
     std::chrono::steady_clock::time_point stage_start;
     std::map<std::string, double> stage_durations_sec;
 
-    void beginStage([[maybe_unused]] const std::string& name) {
+    void beginStage(const std::string& name) {
         stage_start = std::chrono::steady_clock::now();
     }
 
@@ -105,7 +105,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Full pipeline execution
     // -------------------------------------------------------------------------
-    PipelineStats run([[maybe_unused]] PipelineCallback callback) {
+    PipelineStats run(PipelineCallback callback) {
         PipelineStats stats = PipelineStats();
         PipelineMetrics metrics = PipelineMetrics();
         auto pipeline_start = std::chrono::steady_clock::now();
@@ -129,7 +129,7 @@ public:
         auto emitCallback = [&](const std::string& stage,
                                 size_t step,
                                 const std::string& message) {
-            if ([[maybe_unused]] !callback) {
+            if (!callback) {
                 return;
             }
             callback(stage, step, sanitizeTrainingPipelineMessage(message));
@@ -140,7 +140,7 @@ public:
             metrics.beginStage("labeling");
             emitCallback("labeling", 0, "Starting auto-labeling stage");
 
-            LabelingStats ls = labeler_->labelAll([&](size_t proc, [[maybe_unused]] size_t total, const std::string& msg) {
+            LabelingStats ls = labeler_->labelAll([&](size_t proc, size_t total, const std::string& msg) {
                 emitCallback("labeling", proc, msg);
             });
 
@@ -181,7 +181,7 @@ public:
             metrics.beginStage("enrichment");
             emitCallback("enrichment", 0, "Starting graph enrichment stage");
 
-            EnrichmentStats es = enricher_->enrichAll([&](size_t proc, [[maybe_unused]] size_t total, const std::string& msg) {
+            EnrichmentStats es = enricher_->enrichAll([&](size_t proc, size_t total, const std::string& msg) {
                 emitCallback("enrichment", proc, msg);
             });
 
@@ -265,7 +265,7 @@ public:
             emitCallback("training", 0, "Starting LoRA training stage");
 
             TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
-                [&]([[maybe_unused]] size_t epoch, size_t step, [[maybe_unused]] double loss, const std::string& msg) {
+                [&](size_t epoch, size_t step, double loss, const std::string& msg) {
                     emitCallback("training", step, msg);
                 });
 
@@ -303,9 +303,9 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Stage-specific entry points
     // -------------------------------------------------------------------------
-    LabelingStats runLabeling([[maybe_unused]] LabelingCallback callback) {
-        if ([[maybe_unused]] !callback) {
-            return labeler_->labelAll([[maybe_unused]] callback);
+    LabelingStats runLabeling(LabelingCallback callback) {
+        if (!callback) {
+            return labeler_->labelAll(callback);
         }
         return labeler_->labelAll(
             [&](size_t processed, size_t total, const std::string& message) {
@@ -313,9 +313,9 @@ public:
             });
     }
 
-    EnrichmentStats runEnrichment([[maybe_unused]] EnrichmentCallback callback) {
-        if ([[maybe_unused]] !callback) {
-            return enricher_->enrichAll([[maybe_unused]] callback);
+    EnrichmentStats runEnrichment(EnrichmentCallback callback) {
+        if (!callback) {
+            return enricher_->enrichAll(callback);
         }
         return enricher_->enrichAll(
             [&](size_t processed, size_t total, const std::string& message) {
@@ -323,8 +323,8 @@ public:
             });
     }
 
-    TrainingResult runTraining([[maybe_unused]] TrainingCallback callback) {
-        if ([[maybe_unused]] !callback) {
+    TrainingResult runTraining(TrainingCallback callback) {
+        if (!callback) {
             return trainer_->train(TrainingMode::INITIAL, callback);
         }
         return trainer_->train(
@@ -337,7 +337,7 @@ public:
     // -------------------------------------------------------------------------
     // Data selection stage (Quality & Diversity Layer)
     // -------------------------------------------------------------------------
-    DataSelectionResult runDataSelection([[maybe_unused]] SelectionProgressCallback callback) {
+    DataSelectionResult runDataSelection(SelectionProgressCallback callback) {
         // In production: load candidate samples via AQL query:
         //   FOR sample IN @collection
         //     RETURN {id: sample._key, text: CONCAT(sample.input, " ", sample.output)}
@@ -349,7 +349,7 @@ public:
         // Allow live config reload on each call
         data_selector_->setConfig(config_.data_selection_config);
 
-        if ([[maybe_unused]] !callback) {
+        if (!callback) {
             return data_selector_->run(candidates, std::move(callback));
         }
 
@@ -363,7 +363,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Data-quality checks
     // -------------------------------------------------------------------------
-    DataQualityReport checkDataQuality([[maybe_unused]] float min_confidence) {
+    DataQualityReport checkDataQuality(float min_confidence) {
         DataQualityReport report = DataQualityReport();
 
         // In production: AQL query to fetch all samples and validate fields
@@ -391,7 +391,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Label-drift detection
     // -------------------------------------------------------------------------
-    DriftReport detectLabelDrift([[maybe_unused]] const std::vector<std::string>& reference_samples) {
+    DriftReport detectLabelDrift(const std::vector<std::string>& reference_samples) {
         DriftReport report = DriftReport();
 
         // In production: compare category distribution of reference samples
@@ -530,7 +530,7 @@ public:
                 best_lr       = trial.lr;
             }
 
-            if ([[maybe_unused]] callback) {
+            if (callback) {
                 callback(i, trial_result);
             }
         }
@@ -607,29 +607,29 @@ TrainingPipeline::TrainingPipeline(const PipelineConfig& config,
 
 TrainingPipeline::~TrainingPipeline() = default;
 
-PipelineStats TrainingPipeline::run([[maybe_unused]] PipelineCallback callback) {
-    return impl_->run([[maybe_unused]] callback);
+PipelineStats TrainingPipeline::run(PipelineCallback callback) {
+    return impl_->run(callback);
 }
 
-std::string TrainingPipeline::sanitizeCallbackMessage([[maybe_unused]] const std::string& message) {
+std::string TrainingPipeline::sanitizeCallbackMessage(const std::string& message) {
     return sanitizeTrainingPipelineMessage(message);
 }
 
-LabelingStats TrainingPipeline::runLabeling([[maybe_unused]] LabelingCallback callback) {
-    return impl_->runLabeling([[maybe_unused]] callback);
+LabelingStats TrainingPipeline::runLabeling(LabelingCallback callback) {
+    return impl_->runLabeling(callback);
 }
 
-EnrichmentStats TrainingPipeline::runEnrichment([[maybe_unused]] EnrichmentCallback callback) {
-    return impl_->runEnrichment([[maybe_unused]] callback);
+EnrichmentStats TrainingPipeline::runEnrichment(EnrichmentCallback callback) {
+    return impl_->runEnrichment(callback);
 }
 
 DataSelectionResult TrainingPipeline::runDataSelection(
         SelectionProgressCallback callback) {
-    return impl_->runDataSelection([[maybe_unused]] std::move(callback));
+    return impl_->runDataSelection(std::move(callback));
 }
 
-TrainingResult TrainingPipeline::runTraining([[maybe_unused]] TrainingCallback callback) {
-    return impl_->runTraining([[maybe_unused]] callback);
+TrainingResult TrainingPipeline::runTraining(TrainingCallback callback) {
+    return impl_->runTraining(callback);
 }
 
 CalibrationResult TrainingPipeline::runCalibration() {
@@ -642,7 +642,7 @@ void TrainingPipeline::addCalibrationSample(const std::string& category,
     impl_->addCalibrationSample(category, confidence, model_correct);
 }
 
-DataQualityReport TrainingPipeline::checkDataQuality([[maybe_unused]] float min_confidence) {
+DataQualityReport TrainingPipeline::checkDataQuality(float min_confidence) {
     return impl_->checkDataQuality(min_confidence);
 }
 

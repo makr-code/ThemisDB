@@ -339,7 +339,7 @@ public:
                             }
                         }
 
-                        auto renormalize_entity = [&]([[maybe_unused]] size_t e_idx) {
+                        auto renormalize_entity = [&](size_t e_idx) {
                             float norm2 = 0.0f;
                             for (size_t kk = 0; kk < d; ++kk) {
                                 float re = entity_re_[e_idx * d + kk];
@@ -415,7 +415,7 @@ public:
     }
 
     // Expose entity name for a given index (for injection into KGReasoner).
-    std::string entityName([[maybe_unused]] size_t idx) const {
+    std::string entityName(size_t idx) const {
         std::shared_lock lk(mu_);
         return entity_names_.at(idx);
     }

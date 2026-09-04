@@ -291,7 +291,7 @@ public:
      * @param dimension Vector dimension
      * @return true if initialization successful
      */
-    bool initialize([[maybe_unused]] int dimension) {
+    bool initialize(int dimension) {
         if (initialized_) {
             return true;
         }
@@ -838,7 +838,7 @@ public:
                 context_.get(), l2ShaderPath);
             
             // Push constants: numQueries, numVectors, dimension
-            size_t pushConstantSize = sizeof([[maybe_unused]] uint32_t) * 3;
+            size_t pushConstantSize = sizeof(uint32_t) * 3;
             if (!l2_pipeline_->create(pushConstantSize)) {
                 THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create L2 distance pipeline");
                 return false;
@@ -946,7 +946,7 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
-bool VulkanVectorIndexBackend::initialize([[maybe_unused]] int dimension) {
+bool VulkanVectorIndexBackend::initialize(int dimension) {
     return pImpl->initialize(dimension);
 }
 
@@ -1018,7 +1018,7 @@ public:
     ~Impl() = default;
     bool initialized_ = false;
 
-    bool initialize([[maybe_unused]] int dimension) {
+    bool initialize(int dimension) {
         InitializeFn fn;
         {
             std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::initializeFnMutex());
@@ -1100,7 +1100,7 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
-bool VulkanVectorIndexBackend::initialize([[maybe_unused]] int dimension) {
+bool VulkanVectorIndexBackend::initialize(int dimension) {
     return pImpl->initialize(dimension);
 }
 void VulkanVectorIndexBackend::shutdown() { pImpl->shutdown(); }

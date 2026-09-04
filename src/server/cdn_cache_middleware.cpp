@@ -107,7 +107,8 @@ std::string CdnCacheMiddleware::buildCacheControlValue(
             value = "no-cache";
             break;
         case CacheDirective::NO_STORE:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return "no-store";
     }
 

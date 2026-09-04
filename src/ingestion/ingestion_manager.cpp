@@ -81,7 +81,7 @@ static std::string sourceTypeLabel(SourceType t) {
 }
 
 /// Map IngestionErrorCode to its integer string for a metric label
-[[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
+static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
 
@@ -949,7 +949,7 @@ public:
         return stats;
     }
     
-    IngestionReport ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
+    IngestionReport ingestAll(ProgressCallback progress_callback) {
         IngestionReport report;
         report.dry_run = dry_run_;
         
@@ -1105,7 +1105,7 @@ public:
         return true;
     }
 
-    void setDryRun([[maybe_unused]] bool enabled) { dry_run_ = enabled; }
+    void setDryRun(bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
     void setRateLimitConfig(const RateLimitConfig& config) {
@@ -1223,7 +1223,7 @@ public:
           return preview;
         }
 
-        auto addDoc = [&]([[maybe_unused]] const fs::path& p) {
+        auto addDoc = [&](const fs::path& p) {
             std::ifstream f(p, std::ios::binary);
             if (!f) {
               return;
@@ -1267,7 +1267,7 @@ public:
         checkpoint_store_shared_ = std::move(new_store);
     }
 
-    void enableIncrementalMode([[maybe_unused]] bool enabled) {
+    void enableIncrementalMode(bool enabled) {
         incremental_mode_ = enabled;
     }
 
@@ -1321,7 +1321,7 @@ public:
         return plugin_registry_.listPlugins();
     }
 
-    void setLineageTrackingEnabled([[maybe_unused]] bool enabled) {
+    void setLineageTrackingEnabled(bool enabled) {
         std::lock_guard<std::mutex> lock(mutex_);
         lineage_enabled_ = enabled;
     }
@@ -1531,8 +1531,8 @@ IngestionStats IngestionManager::ingestSource(const std::string& source_id,
     return impl_->ingestSource(source_id, progress_callback);
 }
 
-IngestionReport IngestionManager::ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
-    return impl_->ingestAll([[maybe_unused]] progress_callback);
+IngestionReport IngestionManager::ingestAll(ProgressCallback progress_callback) {
+    return impl_->ingestAll(progress_callback);
 }
 
 std::vector<SourceConfig> IngestionManager::getRegisteredSources() const {
@@ -1561,7 +1561,7 @@ bool IngestionManager::getSchemaConfig(const std::string& source_id,
     return impl_->getSchemaConfig(source_id, out);
 }
 
-void IngestionManager::setDryRun([[maybe_unused]] bool enabled) {
+void IngestionManager::setDryRun(bool enabled) {
     impl_->setDryRun(enabled);
 }
 
@@ -1613,7 +1613,7 @@ void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
     impl_->setCheckpointDir(checkpoint_dir);
 }
 
-void IngestionManager::enableIncrementalMode([[maybe_unused]] bool enabled) {
+void IngestionManager::enableIncrementalMode(bool enabled) {
     impl_->enableIncrementalMode(enabled);
 }
 
@@ -1651,7 +1651,7 @@ std::vector<std::string> IngestionManager::listConnectorPlugins() const {
     return impl_->listConnectorPlugins();
 }
 
-void IngestionManager::enableLineageTracking([[maybe_unused]] bool enabled) {
+void IngestionManager::enableLineageTracking(bool enabled) {
     impl_->setLineageTrackingEnabled(enabled);
 }
 
@@ -2147,7 +2147,7 @@ IngestionBuilder& IngestionBuilder::withTargetCollection(
     return *this;
 }
 
-IngestionBuilder& IngestionBuilder::withDryRun([[maybe_unused]] bool enabled) {
+IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
     opts_->dry_run = enabled;
     return *this;
 }

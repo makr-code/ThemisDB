@@ -113,7 +113,7 @@ uint64_t SseConnectionManager::registerConnection(
  * @brief Unregister and deactivate a client connection.
  * @param conn_id Connection id.
  */
-void SseConnectionManager::unregisterConnection([[maybe_unused]] uint64_t conn_id) {
+void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     bool stop_polling = false;
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
@@ -289,7 +289,7 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
  * @param conn_id Connection id.
  * @return true when heartbeat interval elapsed.
  */
-bool SseConnectionManager::needsHeartbeat([[maybe_unused]] uint64_t conn_id) const {
+bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
@@ -308,7 +308,7 @@ bool SseConnectionManager::needsHeartbeat([[maybe_unused]] uint64_t conn_id) con
  * @brief Record heartbeat emission timestamp for a connection.
  * @param conn_id Connection id.
  */
-void SseConnectionManager::recordHeartbeat([[maybe_unused]] uint64_t conn_id) {
+void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);

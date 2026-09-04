@@ -159,7 +159,7 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return shaderModule;
 }
 
-[[maybe_unused]] static std::vector<uint32_t> compileGLSLtoSPIRV(
+static std::vector<uint32_t> compileGLSLtoSPIRV(
     const std::string& glslSource,
     const std::string& shaderType) {
     // Check for an injected GLSL→SPIR-V compiler first.

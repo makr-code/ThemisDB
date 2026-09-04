@@ -818,7 +818,7 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     // integrity verification.
     std::vector<std::string> ids = {};
 
-    ids.reserve(new_set-> static_cast<int>(rules.size()));
+    ids.reserve(new_set->rules.size());
     for (const auto &[id, rule] : new_set->rules) {
         ids.push_back(id);
     }
@@ -849,7 +849,7 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
 
     THEMIS_INFO("PolicyManager::reloadPolicies: {} rules loaded "
                 "(old_version={}, new_version={})",
-                new_set-> static_cast<int>(rules.size()), old_version, new_set->version_hash);
+                new_set->rules.size(), old_version, new_set->version_hash);
 
     observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
                                                               {{"result", "success"}});

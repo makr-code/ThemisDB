@@ -207,7 +207,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     json doc = json::object();
 
     // Top-level scalar fields
-    auto extractTopLevel = [&]([[maybe_unused]] const std::string& key) -> std::string {
+    auto extractTopLevel = [&](const std::string& key) -> std::string {
         std::regex re("^" + key + R"(\s*:\s*["\']?([^"\'\n]+)["\']?\s*$)");
         for (const auto& l : lines) {
             std::smatch m = {};

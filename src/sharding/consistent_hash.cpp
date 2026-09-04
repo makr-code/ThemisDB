@@ -17,7 +17,7 @@
 
 namespace themis::sharding {
 
-static uint64_t mix64([[maybe_unused]] uint64_t x) {
+static uint64_t mix64(uint64_t x) {
         x ^= x >> 33;
         x *= 0xff51afd7ed558ccdULL;
         x ^= x >> 33;
@@ -84,7 +84,7 @@ void ConsistentHashRing::removeShard(const std::string& shard_id) {
     shard_tokens_.erase(it);
 }
 
-std::string ConsistentHashRing::getShardForHash([[maybe_unused]] uint64_t hash) const {
+std::string ConsistentHashRing::getShardForHash(uint64_t hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (ring_.empty()) {

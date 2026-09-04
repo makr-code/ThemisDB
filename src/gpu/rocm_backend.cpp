@@ -68,7 +68,7 @@ bool ROCmBackend::isAvailable() const {
 // Launcher backend
 // ============================================================================
 
-GPULauncher::BackendFn ROCmBackend::createBackendFn([[maybe_unused]] int device_index) {
+GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
     static_cast<void>(device_index);
 #ifdef THEMIS_ENABLE_HIP
     return [device_index](const GPULauncher::WorkItem& item) -> bool {
@@ -167,7 +167,7 @@ ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
     try {
         CHECKED_HIP(hipSetDevice(device_index));
     } catch (const std::exception& e) {
-        // Device selection failed; record a virtual (no[[maybe_unused]] n-hardwar[[maybe_unused]] e) stream so
+        // Device selection failed; record a virtual (non-hardware) stream so
         // that the rest of the stack can continue without hardware.
         if (logger) {
             logger->warn("ROCmBackend::createStream: hipSetDevice({}) failed: {}", 

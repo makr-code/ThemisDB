@@ -91,7 +91,7 @@ public:
         return caps;
     }
     
-    bool initialize(cons[[maybe_unused]] t char* [[maybe_unused]] config_json) override {
+    bool initialize(const char* config_json) override {
         if (initialized_) {
             return false;
         }
@@ -145,7 +145,7 @@ public:
             initialized_ = true;
             return true;
             
-        } catch ([[maybe_unused]] const std::exception& e) {
+        } catch (const std::exception& e) {
             return false;
         }
     }
@@ -237,7 +237,7 @@ public:
         return argument_store_->getArgument(argument_id);
     }
     
-    Status storeArgumentChain(cons[[maybe_unused]] t ArgumentChain& [[maybe_unused]] chain) override {
+    Status storeArgumentChain(const ArgumentChain& chain) override {
         if (!initialized_) {
             return Status::Error("Plugin not initialized");
         }
@@ -344,7 +344,7 @@ public:
         return result;
     }
     
-    Status storeDecision(cons[[maybe_unused]] t EthicalDecision& [[maybe_unused]] decision) override {
+    Status storeDecision(const EthicalDecision& decision) override {
         if (!initialized_) {
             return Status::Error("Plugin not initialized");
         }
@@ -469,12 +469,12 @@ public:
         return stats;
     }
     
-    Status setConfig(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] value) override {
+    Status setConfig(const std::string& key, const std::string& value) override {
         config_[key] = value;
         return Status::OK();
     }
     
-    std::optional<std::string> getConfig(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key) const override {
+    std::optional<std::string> getConfig(const std::string& key) const override {
         auto it = config_.find(key);
         if (it == config_.end()) {
             return std::nullopt;

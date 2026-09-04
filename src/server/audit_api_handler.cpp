@@ -67,7 +67,7 @@ nlohmann::json AuditLogEntry::toJson() const {
     return j;
 }
 
-std::string AuditApiHandler::decryptPayload([[maybe_unused]] const nlohmann::json& payload) {
+std::string AuditApiHandler::decryptPayload(const nlohmann::json& payload) {
     try {
         if (!payload.contains("ciphertext_b64")) {
             return "";
@@ -109,7 +109,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     // Try to decrypt payload if encrypted
     std::string event_data = {};
     if (j.contains("payload") && j["payload"].contains("ciphertext_b64")) {
-        event_data = decryptPayload([[maybe_unused]] j["payload"]);
+        event_data = decryptPayload(j["payload"]);
     } else if (j.contains("payload") && j["payload"].is_string()) {
         event_data = j["payload"].get<std::string>();
     }
@@ -117,11 +117,11 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     // Parse event data (expected to be JSON)
     nlohmann::json event;
     try {
-        if ([[maybe_unused]] !event_data.empty()) {
-            event = nlohmann::json::parse([[maybe_unused]] event_data);
+        if (!event_data.empty()) {
+            event = nlohmann::json::parse(event_data);
         }
     } catch (...) {
-        THEMIS_DEBUG([[maybe_unused]] "audit_api_handler: unhandled exception caught");
+        THEMIS_DEBUG("audit_api_handler: unhandled exception caught");
         // If parsing fails, treat as raw string
     }
     
@@ -140,7 +140,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     return entry;
 }
 
-std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs([[maybe_unused]] const AuditQueryFilter& filter) {
+std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter& filter) {
     std::vector<AuditLogEntry> entries;
     
     std::ifstream ifs(log_path_);
@@ -190,7 +190,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs([[maybe_unused]] const
             entries.push_back(entry);
             
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "audit_api_handler: unhandled exception caught");
+            THEMIS_WARN("audit_api_handler: unhandled exception caught");
             // Skip malformed lines
             continue;
         }
@@ -205,7 +205,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs([[maybe_unused]] const
     return entries;
 }
 
-nlohmann::json AuditApiHandler::queryAuditLogs([[maybe_unused]] const AuditQueryFilter& filter) {
+nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     auto all_entries = readAuditLogs(filter);
     
     int total_count = static_cast<int>(all_entries.size());
@@ -230,7 +230,7 @@ nlohmann::json AuditApiHandler::queryAuditLogs([[maybe_unused]] const AuditQuery
     return result;
 }
 
-std::string AuditApiHandler::exportAuditLogsCsv([[maybe_unused]] const AuditQueryFilter& filter) {
+std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) {
     auto entries = readAuditLogs(filter);
     
     std::ostringstream csv = {};

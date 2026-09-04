@@ -344,22 +344,22 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
 void GossipConsensusAdapter::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_commit_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_commit_callback_ = std::move(callback);
 }
 
 void GossipConsensusAdapter::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_state_change_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_state_change_callback_ = std::move(callback);
 }
 
 void GossipConsensusAdapter::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_leader_change_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_leader_change_callback_ = std::move(callback);
 }
 
 // Private methods
@@ -406,9 +406,9 @@ void GossipConsensusAdapter::gossipThread() {
             commit_index_ = index;
             
             // Call commit callback without holding log_mutex_
-            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
-            if ([[maybe_unused]] on_commit_callback_) {
-                on_commit_callback_([[maybe_unused]] entry);
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            if (on_commit_callback_) {
+                on_commit_callback_(entry);
             }
         }
     }
@@ -416,12 +416,12 @@ void GossipConsensusAdapter::gossipThread() {
     spdlog::debug("Gossip thread stopped");
 }
 
-bool GossipConsensusAdapter::hasReachedQuorum([[maybe_unused]] uint64_t log_index) const {
+bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
     std::lock_guard<std::mutex> lock(log_mutex_);
     return hasReachedQuorumUnlocked(log_index);
 }
 
-bool GossipConsensusAdapter::hasReachedQuorumUnlocked([[maybe_unused]] uint64_t log_index) const {
+bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const {
     // FIXED: Helper method that doesn't acquire lock (caller must hold log_mutex_)
     auto it = log_acknowledgments_.find(log_index);
     if (it == log_acknowledgments_.end()) {

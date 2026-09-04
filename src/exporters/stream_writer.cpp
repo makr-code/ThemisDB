@@ -155,7 +155,7 @@ void StreamWriter::writeBuffer() {
     }
 }
 
-void StreamWriter::compressAndWrite([[maybe_unused]] const char* data, [[maybe_unused]] size_t size) {
+void StreamWriter::compressAndWrite(const char* data, size_t size) {
     (void)data;
     (void)size;
 #ifdef THEMIS_HAS_ZSTD

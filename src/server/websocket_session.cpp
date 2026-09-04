@@ -200,8 +200,8 @@ void WebSocketSession::processMessage(const std::string& message) {
 
         // "/v2/cdc/stream" endpoint: delegate entirely to CdcWebSocketHandler
         // which handles the named-subscription protocol (subscribe/unsubscribe/ack).
-        if ([[maybe_unused]] request_path_ == "/v2/cdc/stream" && cdc_stream_handler_) {
-            auto responses = cdc_stream_handler_->handleFrame([[maybe_unused]] msg);
+        if (request_path_ == "/v2/cdc/stream" && cdc_stream_handler_) {
+            auto responses = cdc_stream_handler_->handleFrame(msg);
             for (const auto& resp : responses) {
                 send(resp.dump());
             }
@@ -250,13 +250,13 @@ void WebSocketSession::processMessage(const std::string& message) {
                     if (flt.contains("type") && flt["type"].is_string()) {
                         const std::string& ft = flt["type"].get<std::string>();
                         if (ft == "PUT") {
-                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_PUT);
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
                         } else if (ft == "DELETE") {
-                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_DELETE);
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
                         } else if (ft == "TRANSACTION_COMMIT") {
-                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
                         } else if (ft == "TRANSACTION_ROLLBACK") {
-                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
                         }
                     }
                 }
@@ -618,7 +618,7 @@ void WebSocketSession::unsubscribeFromCDC() {
     }
 }
 
-void WebSocketSession::updateCDCLastSentSequence([[maybe_unused]] uint64_t sequence) {
+void WebSocketSession::updateCDCLastSentSequence(uint64_t sequence) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     cdc_last_sent_sequence_ = sequence;
 }
@@ -696,12 +696,12 @@ void WebSocketManager::pollCDCEvents() {
 
             // /v2/cdc/stream sessions: delegate to CdcWebSocketHandler which
             // tracks named subscriptions and implements at-least-once delivery.
-            if ([[maybe_unused]] auto* handler = session->getCdcStreamHandler()) {
+            if (auto* handler = session->getCdcStreamHandler()) {
                 if (!handler->hasSubscriptions()) {
                   continue;
                 }
                 try {
-                    auto frames = handler->pollEvents([[maybe_unused]] *changefeed_);
+                    auto frames = handler->pollEvents(*changefeed_);
                     for (const auto& frame : frames) {
                         session->send(frame.dump());
                     }
@@ -734,30 +734,30 @@ void WebSocketManager::pollCDCEvents() {
                 options.key_prefix = sub.key_prefix;
             }
             // Apply per-subscription event-type filter if set
-            if ([[maybe_unused]] !sub.event_types.empty()) {
+            if (!sub.event_types.empty()) {
                 options.event_types = sub.event_types;
             }
             
             try {
-                auto events = changefeed_->listEvents([[maybe_unused]] options);
+                auto events = changefeed_->listEvents(options);
                 
                 // Reuse JSON object for better performance
                 json cdc_message;
                 cdc_message["type"] = "cdc_event";
                 
-                for ([[maybe_unused]] const auto& event : events) {
+                for (const auto& event : events) {
                     cdc_message["sequence"] = event.sequence;
-                    cdc_message["event_type"] = static_cast<int>([[maybe_unused]] event.type);
+                    cdc_message["event_type"] = static_cast<int>(event.type);
                     cdc_message["key"] = event.key;
                     cdc_message["timestamp_ms"] = event.timestamp_ms;
                     
-                    if ([[maybe_unused]] event.value.has_value()) {
+                    if (event.value.has_value()) {
                         cdc_message["value"] = event.value.value();
                     } else {
                         cdc_message.erase("value");
                     }
                     
-                    if ([[maybe_unused]] !event.metadata.empty()) {
+                    if (!event.metadata.empty()) {
                         cdc_message["metadata"] = event.metadata;
                     } else {
                         cdc_message.erase("metadata");
@@ -767,8 +767,8 @@ void WebSocketManager::pollCDCEvents() {
                 }
                 
                 // Always update last sent sequence after polling (even if empty)
-                if ([[maybe_unused]] !events.empty()) {
-                    session->updateCDCLastSentSequence([[maybe_unused]] events.back().sequence);
+                if (!events.empty()) {
+                    session->updateCDCLastSentSequence(events.back().sequence);
                     
                     THEMIS_DEBUG("Sent {} CDC events to WebSocket session {}", 
                                 events.size(), session->getSessionId());

@@ -107,14 +107,14 @@ void setWireGraphTraversalFn(WireGraphTraversalFn fn) {
 }
 
 void MessageDispatcher::register_handler(OpCode opcode, handler_fn handler) {
-    handlers_[opcode] = std::move([[maybe_unused]] handler);
+    handlers_[opcode] = std::move(handler);
 }
 
 void MessageDispatcher::dispatch(WireProtocolSession&        session,
                                  OpCode                      opcode,
                                  const std::vector<uint8_t>& payload) {
-    auto it = handlers_.find([[maybe_unused]] opcode);
-    if ([[maybe_unused]] it != handlers_.end()) {
+    auto it = handlers_.find(opcode);
+    if (it != handlers_.end()) {
         it->second(session, payload);
     } else {
         std::cerr << "[WireV1] No handler for opcode 0x"
@@ -278,7 +278,8 @@ json protoValueToJson(const v1::Value& value) {
             return result;
         }
         case v1::Value::KIND_NOT_SET:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return nullptr;
     }
 }
@@ -403,9 +404,9 @@ void WireProtocolSession::start() {
 }
 
 void WireProtocolSession::set_disconnect_callback(
-    std::function<void([[maybe_unused]] const std::string&)> callback) {
+    std::function<void(const std::string&)> callback) {
     std::lock_guard<std::mutex> lock(session_mutex_);
-    disconnect_callback_ = std::move([[maybe_unused]] callback);
+    disconnect_callback_ = std::move(callback);
 }
 
 void WireProtocolSession::close(const std::string& /*reason*/) {
@@ -425,8 +426,8 @@ void WireProtocolSession::close(const std::string& /*reason*/) {
         socket_.close(ec);
     }
 
-    if ([[maybe_unused]] disconnect_callback) {
-        disconnect_callback([[maybe_unused]] session_id_);
+    if (disconnect_callback) {
+        disconnect_callback(session_id_);
     }
 }
 
@@ -863,13 +864,13 @@ bool WireProtocolSession::verify_checksum(
 }
 
 std::vector<uint8_t> WireProtocolSession::decompress_lz4(
-    [[maybe_unused]] const std::vector<uint8_t>& compressed) {
+    const std::vector<uint8_t>& compressed) {
     // LZ4 decompression deferred until dependency is unconditionally available.
     return {};
 }
 
 std::vector<uint8_t> WireProtocolSession::compress_lz4(
-    [[maybe_unused]] const std::vector<uint8_t>& data) {
+    const std::vector<uint8_t>& data) {
     return {};
 }
 
@@ -1426,7 +1427,7 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
     throw std::runtime_error(
         "CRITICAL: Graph traversal is not integrated in the protobuf wire protocol. "
         "Rebuild with THEMIS_WIRE_V1_PB_HEADER_FOUND enabled.");
-    [[maybe_unused]] auto _ = raw_payload;
+    auto _ = raw_payload;
 #endif
 }
 
@@ -1652,7 +1653,7 @@ void WireProtocolServer::setGraphTraverseFn(WireProtocolSession::GraphTraverseFn
     graph_traverse_fn_ = std::move(fn);
 }
 
-void WireProtocolServer::bindSessionCallbacksLocked([[maybe_unused]] WireProtocolSession& session) const {
+void WireProtocolServer::bindSessionCallbacksLocked(WireProtocolSession& session) const {
     session.aql_query_fn_ = aql_query_fn_;
     session.cursor_next_fn_ = cursor_next_fn_;
     session.cursor_close_fn_ = cursor_close_fn_;
@@ -1670,7 +1671,7 @@ void WireProtocolServer::async_accept() {
             // Propagate the server bootstrap wiring to each accepted session.
             {
                 std::lock_guard<std::mutex> lock(state_mutex_);
-                bindSessionCallbacksLocked([[maybe_unused]] *session);
+                bindSessionCallbacksLocked(*session);
             }
             handle_accept(session, ec);
         });

@@ -170,7 +170,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
             // Build a set of field→value filters from the request parameters
             // (mirrors the conditions built by buildAqlQuery)
             std::vector<std::pair<std::string, std::string>> filters;
-            auto add_filter = [&]([[maybe_unused]] const char* field) {
+            auto add_filter = [&](const char* field) {
                 if (request_json.contains(field) && request_json[field].is_string()) {
                     filters.emplace_back(field, request_json[field].get<std::string>());
                 }
@@ -210,7 +210,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                 try {
                     entity = BaseEntity::fromJson(key, value);
                 } catch (...) {
-                    THEMIS_DEBUG([[maybe_unused]] "export_api_handler: unhandled exception caught");
+                    THEMIS_DEBUG("export_api_handler: unhandled exception caught");
                     return true; // skip malformed records
                 }
 
@@ -247,7 +247,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                         if (to_date.has_value()   && dt > *to_date)   { return true; }
                     }
                 } catch (...) {
-                    THEMIS_WARN([[maybe_unused]] "export_api_handler: unhandled exception caught");
+                    THEMIS_WARN("export_api_handler: unhandled exception caught");
                     return true; // skip malformed records
                 }
 
@@ -387,7 +387,7 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
     }
 }
 
-std::string ExportApiHandler::buildAqlQuery([[maybe_unused]] const json& request_json) {
+std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
     // GAP-004: Prevent AQL injection (CWE-89).
     // String fields (theme, domain, subject, from_date, to_date) are embedded
     // inside single-quoted AQL literals.  Without validation a value like

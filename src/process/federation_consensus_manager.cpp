@@ -517,7 +517,7 @@ void FederationConsensusManagerImpl::BecomeLeader() {
                       current_term_);
 }
 
-void FederationConsensusManagerImpl::BecomeFollower([[maybe_unused]] uint64_t new_term) {
+void FederationConsensusManagerImpl::BecomeFollower(uint64_t new_term) {
   if (new_term > current_term_) {
     current_term_ = new_term;
     voted_for_ = "";

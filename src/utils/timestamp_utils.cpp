@@ -202,7 +202,7 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
 // now
 // ---------------------------------------------------------------------------
 
-std::string TimestampUtils::now([[maybe_unused]] bool include_ms) {
+std::string TimestampUtils::now(bool include_ms) {
     return format(std::chrono::system_clock::now(), include_ms);
 }
 

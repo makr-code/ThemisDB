@@ -198,7 +198,8 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
             }
             break;
         case MutationType::UPDATE:
-        [[fallthrough]];\n        case MutationType::REPLACE:
+        [[fallthrough]];
+        case MutationType::REPLACE:
             coll = extractCollection(upper, "IN");
             break;
         case MutationType::UPSERT:

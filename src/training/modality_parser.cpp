@@ -477,8 +477,8 @@ bool OCRExtractor::isAvailable() const noexcept {
 }
 
 std::vector<TrainingSample>
-OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
-                      [[maybe_unused]] const std::string& document_id) const
+OCRExtractor::extract(const std::string& image_path,
+                      const std::string& document_id) const
 {
     std::vector<TrainingSample> samples;
 

@@ -59,8 +59,8 @@ size_t alignUp(size_t n, size_t alignment) {
  * @param gpu_available   True when a real CUDA device is in use.
  */
 void copyMemory(void* dst, const void* src, size_t bytes,
-                [[maybe_unused]] bool device_to_host,
-                [[maybe_unused]] bool gpu_available)
+                bool device_to_host,
+                bool gpu_available)
 {
     if (bytes == 0 || dst == nullptr || src == nullptr) {
         return;
@@ -273,7 +273,7 @@ public:
     // handleOOM (public wrapper — takes lock)
     // ------------------------------------------------------------------
 
-    bool handleOOM([[maybe_unused]] size_t need_bytes) {
+    bool handleOOM(size_t need_bytes) {
         std::lock_guard<std::mutex> lock(mu_);
         return handleOOMInternal(need_bytes);
     }
@@ -425,7 +425,7 @@ public:
         return stats_.oom_threshold_exceeded;
     }
 
-    void setOOMCallback([[maybe_unused]] OOMCallback cb) {
+    void setOOMCallback(OOMCallback cb) {
         std::lock_guard<std::mutex> lock(mu_);
         oom_cb_ = std::move(cb);
     }
@@ -520,7 +520,7 @@ private:
     // Internal helpers (must be called with mu_ held)
     // ------------------------------------------------------------------
 
-    bool handleOOMInternal([[maybe_unused]] size_t need_bytes) {
+    bool handleOOMInternal(size_t need_bytes) {
         // Strategy 1: Eviction
         {
             size_t freed = evictLRULocked();
@@ -747,7 +747,7 @@ private:
         }
     }
 
-    void notifyOOM([[maybe_unused]] const OOMEvent& ev) {
+    void notifyOOM(const OOMEvent& ev) {
         if (oom_cb_) {
             try { oom_cb_(ev); } catch (...) {}
         }
@@ -812,7 +812,7 @@ void ActiveVRAMAllocator::touch(AllocationHandle& handle)
     impl_->touch(handle);
 }
 
-bool ActiveVRAMAllocator::handleOOM([[maybe_unused]] size_t need_bytes)
+bool ActiveVRAMAllocator::handleOOM(size_t need_bytes)
 {
     return impl_->handleOOM(need_bytes);
 }
@@ -854,7 +854,7 @@ bool ActiveVRAMAllocator::isOOMThresholdExceeded() const
 
 void ActiveVRAMAllocator::setOOMCallback(OOMCallback cb)
 {
-    impl_->setOOMCallback([[maybe_unused]] std::move(cb));
+    impl_->setOOMCallback(std::move(cb));
 }
 
 std::vector<ActiveVRAMAllocator::AllocationHandle>

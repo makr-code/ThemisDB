@@ -263,7 +263,7 @@ struct ShardRPCClient::Impl {
         return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
     }
     
-    bool waitForChannelReady([[maybe_unused]] int timeout_ms) {
+    bool waitForChannelReady(int timeout_ms) {
         if (!channel) {
           return false;
         }
@@ -290,9 +290,9 @@ ShardRPCClient::ShardRPCClient(const Config& config)
 ShardRPCClient::~ShardRPCClient() = default;
 
 /** @brief Install or clear in-process response handler used by simulation fallback. */
-void ShardRPCClient::setInProcessResponseHandler([[maybe_unused]] InProcessResponseHandler handler) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] impl_->handler_mutex);
-    impl_->in_process_handler = std::move([[maybe_unused]] handler);
+void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handler) {
+    std::lock_guard<std::mutex> lk(impl_->handler_mutex);
+    impl_->in_process_handler = std::move(handler);
 }
 
 /**
@@ -909,20 +909,31 @@ bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
         case grpc::StatusCode::UNAVAILABLE:
-        [[fallthrough]];\n        case grpc::StatusCode::DEADLINE_EXCEEDED:
-        [[fallthrough]];\n        case grpc::StatusCode::RESOURCE_EXHAUSTED:
-        [[fallthrough]];\n        case grpc::StatusCode::ABORTED:
-        [[fallthrough]];\n        case grpc::StatusCode::INTERNAL:
+        [[fallthrough]];
+        case grpc::StatusCode::DEADLINE_EXCEEDED:
+        [[fallthrough]];
+        case grpc::StatusCode::RESOURCE_EXHAUSTED:
+        [[fallthrough]];
+        case grpc::StatusCode::ABORTED:
+        [[fallthrough]];
+        case grpc::StatusCode::INTERNAL:
             return true;
         
         case grpc::StatusCode::INVALID_ARGUMENT:
-        [[fallthrough]];\n        case grpc::StatusCode::NOT_FOUND:
-        [[fallthrough]];\n        case grpc::StatusCode::ALREADY_EXISTS:
-        [[fallthrough]];\n        case grpc::StatusCode::PERMISSION_DENIED:
-        [[fallthrough]];\n        case grpc::StatusCode::UNAUTHENTICATED:
-        [[fallthrough]];\n        case grpc::StatusCode::FAILED_PRECONDITION:
-        [[fallthrough]];\n        case grpc::StatusCode::OUT_OF_RANGE:
-        [[fallthrough]];\n        case grpc::StatusCode::UNIMPLEMENTED:
+        [[fallthrough]];
+        case grpc::StatusCode::NOT_FOUND:
+        [[fallthrough]];
+        case grpc::StatusCode::ALREADY_EXISTS:
+        [[fallthrough]];
+        case grpc::StatusCode::PERMISSION_DENIED:
+        [[fallthrough]];
+        case grpc::StatusCode::UNAUTHENTICATED:
+        [[fallthrough]];
+        case grpc::StatusCode::FAILED_PRECONDITION:
+        [[fallthrough]];
+        case grpc::StatusCode::OUT_OF_RANGE:
+        [[fallthrough]];
+        case grpc::StatusCode::UNIMPLEMENTED:
             return false;
         
         default:
@@ -956,7 +967,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     // (possibly sleeping) retry loop.
     InProcessResponseHandler injected_handler;
     {
-        std::lock_guard<std::mutex> lk([[maybe_unused]] impl_->handler_mutex);
+        std::lock_guard<std::mutex> lk(impl_->handler_mutex);
         injected_handler = impl_->in_process_handler;
     }
     
@@ -997,7 +1008,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             // If a custom handler has been injected (e.g. for testing failure
             // scenarios), delegate to it instead of the hardcoded fallback.
             nlohmann::json response;
-            if ([[maybe_unused]] injected_handler) {
+            if (injected_handler) {
                 response = injected_handler(method, params);
             } else {
                 // Built-in hardcoded fallback responses for single-node / test mode.

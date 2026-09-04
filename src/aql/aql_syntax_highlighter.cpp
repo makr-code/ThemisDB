@@ -86,7 +86,7 @@ constexpr const char *FG_DARK_GREY = "\x1b[90m"; // comments
 // Constructor
 // ---------------------------------------------------------------------------
 
-AQLSyntaxHighlighter::AQLSyntaxHighlighter([[maybe_unused]] bool use_ansi) : use_ansi_(use_ansi) {}
+AQLSyntaxHighlighter::AQLSyntaxHighlighter(bool use_ansi) : use_ansi_(use_ansi) {}
 
 // ---------------------------------------------------------------------------
 // Tokenizer
@@ -109,7 +109,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         return c;
     };
     auto peek
-        = [&]([[maybe_unused]] std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset < code.size())) ? code[pos + offset] : '\0'; };
+        = [&](std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset < code.size())) ? code[pos + offset] : '\0'; };
 
     while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
         // Skip whitespace (preserve for faithful reconstruction)
@@ -417,7 +417,7 @@ HighlightedResponse AQLSyntaxHighlighter::formatLLMResponse(const std::string &l
     const std::size_t len = llm_response.size();
 
     // Helper: find ```  possibly followed by "aql" on the same line
-    auto findFence = [&]([[maybe_unused]] std::size_t start) -> std::size_t { return llm_response.find("```", start); };
+    auto findFence = [&](std::size_t start) -> std::size_t { return llm_response.find("```", start); };
 
     while (pos < len) {
         std::size_t fence_open = findFence(pos);

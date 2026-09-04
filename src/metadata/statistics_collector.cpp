@@ -592,7 +592,7 @@ std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
         return {};
     }
 
-    num_buckets = std::min(num_buckets,static_cast<int>(sorted_values.size()));
+    num_buckets = std::min(num_buckets, sorted_values.size());
 
     double min_v = sorted_values.front();
     double max_v = sorted_values.back();
@@ -784,5 +784,6 @@ std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
 }
 
 } // namespace themis
+
 
 

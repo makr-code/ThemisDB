@@ -54,11 +54,16 @@ namespace {
     constexpr bool is_gpu_backend(acceleration::BackendType backend) noexcept {
         switch (backend) {
             case acceleration::BackendType::CUDA:
-            [[fallthrough]];\n            case acceleration::BackendType::HIP:
-            [[fallthrough]];\n            case acceleration::BackendType::VULKAN:
-            [[fallthrough]];\n            case acceleration::BackendType::DIRECTX:
-            [[fallthrough]];\n            case acceleration::BackendType::ROCM:
-            [[fallthrough]];\n            case acceleration::BackendType::ZLUDA:
+            [[fallthrough]];
+            case acceleration::BackendType::HIP:
+            [[fallthrough]];
+            case acceleration::BackendType::VULKAN:
+            [[fallthrough]];
+            case acceleration::BackendType::DIRECTX:
+            [[fallthrough]];
+            case acceleration::BackendType::ROCM:
+            [[fallthrough]];
+            case acceleration::BackendType::ZLUDA:
                 return true;
             default:
                 return false;

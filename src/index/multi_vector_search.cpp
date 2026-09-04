@@ -42,7 +42,7 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
     
     if (range < 1e-6) {
         // All scores are the same, return all 1.0
-        return static_cast<bool>(std::vector<float < static_cast<int>((scores.size())), 1.0f);
+        return std::vector<float>(scores.size(), 1.0f);
     }
     
     std::vector<float> normalized = {};

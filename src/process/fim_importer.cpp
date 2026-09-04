@@ -352,7 +352,7 @@ std::vector<FimModelResult> FimImporter::importFimCatalogue(
     // then extract BPMN payloads between them.
 
     // First pass: collect prozess metadata using the tokenizer.
-    auto tag_cb = [&]([[maybe_unused]] const XmlTag& t) {
+    auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;
 
         if (t.is_close) {
@@ -375,7 +375,7 @@ std::vector<FimModelResult> FimImporter::importFimCatalogue(
             return;
         }
     };
-    auto text_cb = [&]([[maybe_unused]] std::string_view) {};
+    auto text_cb = [&](std::string_view) {};
 
     if (!tokenizeFimXml(catalogue_xml, tag_cb, text_cb)) {
         FimModelResult r;

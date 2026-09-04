@@ -94,7 +94,7 @@ public:
         return count;
     }
 
-    CardinalityLimit getCardinalityLimit(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
+    CardinalityLimit getCardinalityLimit(const std::string& metric_name) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
         if (it != metrics_.end() && it->second) {
@@ -226,7 +226,7 @@ public:
         return state->fallback_strategy->apply(original_labels);
     }
 
-    CardinalityStats getCardinalityStats(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
+    CardinalityStats getCardinalityStats(const std::string& metric_name) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -297,7 +297,7 @@ public:
         return true;
     }
 
-    bool resetMetricCardinality(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
+    bool resetMetricCardinality(const std::string& metric_name) override {
         std::unique_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -320,7 +320,7 @@ public:
         metrics_.clear();
     }
 
-    bool setTrackingEnabled(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name, boo[[maybe_unused]] l enable[[maybe_unused]] d) override {
+    bool setTrackingEnabled(const std::string& metric_name, bool enabled) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -334,7 +334,7 @@ public:
         return true;
     }
 
-    bool isTrackingEnabled(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] metric_name) override {
+    bool isTrackingEnabled(const std::string& metric_name) override {
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 

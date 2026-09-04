@@ -145,7 +145,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
         config.use_geval_scoring ||
         config.use_quality_control_pipeline;
     try {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);  // RAII barrier
+        std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // RAII barrier
         if (requires_llm_judge_client) {
             LLMJudgeClient::Config client_config;
             client_config.model_name = config.judge_model;
@@ -345,7 +345,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             auto cache_it = impl_->injection_cache.find(injection_cache_key);
             if (cache_it != impl_->injection_cache.end()) {
                 injection_cache_hit = true;
-                cached_findings_count = cache_it-> static_cast<int>(second.size());
+                cached_findings_count = cache_it->second.size();
                 // Check if any findings are high severity (CRITICAL or HIGH)
                 for (const auto& finding : cache_it->second) {
                     if (finding.severity == security::InjectionSeverity::CRITICAL ||
@@ -723,11 +723,11 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     try {
         std::function<void(const EvaluationResult&)> callback;
         {
-            std::lock_guard<std::mutex> callback_lock([[maybe_unused]] impl_->callback_mutex);
+            std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
             callback = impl_->eval_callback;
         }
-        if ([[maybe_unused]] callback) {
-            callback([[maybe_unused]] result);
+        if (callback) {
+            callback(result);
         }
     } catch (const std::exception& e) {
         THEMIS_ERROR("Evaluation callback failed: {}", e.what());
@@ -867,8 +867,8 @@ RAGJudgeConfig RAGJudge::getConfig() const {
 void RAGJudge::setEvaluationCallback(
     std::function<void(const EvaluationResult&)> callback
 ) {
-    std::lock_guard<std::mutex> callback_lock([[maybe_unused]] impl_->callback_mutex);
-    impl_->eval_callback = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
+    impl_->eval_callback = std::move(callback);
 }
 
 void RAGJudge::clearCache() {
@@ -1628,7 +1628,8 @@ EvaluationResult JudgeEnsemble::combineResults(
     
     switch (strategy) {
         case VotingStrategy::WEIGHTED_AVERAGE:
-        [[fallthrough]];\n        case VotingStrategy::MAJORITY_VOTING: {
+        [[fallthrough]];
+        case VotingStrategy::MAJORITY_VOTING: {
             // Average scores
             combined.faithfulness_score = 0.0;
             combined.relevance_score = 0.0;
@@ -1746,7 +1747,7 @@ double calculateCohensKappa(
     static constexpr int kBins = 5;
     static constexpr double kBinWidth = 1.0 / kBins;
 
-    auto toBin = []([[maybe_unused]] double score) -> int {
+    auto toBin = [](double score) -> int {
         int bin = static_cast<int>(score / kBinWidth);
         return std::min(bin, kBins - 1);
     };

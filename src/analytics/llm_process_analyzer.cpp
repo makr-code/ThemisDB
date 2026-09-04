@@ -350,7 +350,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest &reque
             try {
                 raw_llm_response = callLLM(prompt, request.parameters);
                 break;
-            } catch ([[maybe_unused]] const std::exception &e) {
+            } catch (const std::exception &e) {
                 if (retries == pImpl->config.max_retries) {
                     throw;
                 }
@@ -572,7 +572,7 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
 // ============================================================================
 
 std::string LLMProcessAnalyzer::callLLM(const std::string &prompt,
-                                        [[maybe_unused]] const std::map<std::string, std::string> &params) {
+                                        const std::map<std::string, std::string> &params) {
     // When THEMIS_ENABLE_LLM_API is defined, delegate to the configured provider
     // (OpenAI, Anthropic, or a local model served over HTTP).
     // SECURITY: Always use sanitizeApiKey(pImpl->config.api_key) in log
@@ -638,7 +638,7 @@ std::string LLMProcessAnalyzer::callLLM(const std::string &prompt,
 // Response Parsing
 // ============================================================================
 
-nlohmann::json LLMProcessAnalyzer::parseResponse(const std::string &raw_response, [[maybe_unused]] TaskType task_type) {
+nlohmann::json LLMProcessAnalyzer::parseResponse(const std::string &raw_response, TaskType task_type) {
     try {
         return nlohmann::json::parse(raw_response);
     } catch (const std::exception &e) {

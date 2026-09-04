@@ -244,7 +244,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
 
 WikiQueryResult LLMWikiPluginImpl::query(
     const std::string& query_text,
-    [[maybe_unused]] const WikiQueryOptions& opts)
+    const WikiQueryOptions& opts)
 {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     WikiQueryResult result;

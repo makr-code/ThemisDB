@@ -312,7 +312,7 @@ GNNEmbeddingManager::computeEmbedding_(
                     for (const auto& nf : neighbor_features_list) {
                         // Compute dot product similarity
                         float similarity = 0.0f;
-                        for (size_t j = 0; j < std::min(nf.size(),static_cast<int>(embedding.size())); ++j) {
+                        for (size_t j = 0; j < std::min(nf.size(), embedding.size()); ++j) {
                             similarity += nf[j] * embedding[j];
                         }
                         raw_similarities.push_back(similarity);
@@ -923,7 +923,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
         return Status::Error("batch_size must be > 0");
     }
     for (size_t i = 0; i < node_pks.size(); i += batch_size) {
-        size_t end = std::min(i + batch_size,static_cast<int>(node_pks.size()));
+        size_t end = std::min(i + batch_size, node_pks.size());
         
         for (size_t j = i; j < end; ++j) {
             auto st = updateNodeEmbedding(node_pks[j], graph_id, model_name);
@@ -944,7 +944,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddingsBatch(
         return Status::Error("batch_size must be > 0");
     }
     for (size_t i = 0; i < edge_ids.size(); i += batch_size) {
-        size_t end = std::min(i + batch_size,static_cast<int>(edge_ids.size()));
+        size_t end = std::min(i + batch_size, edge_ids.size());
         
         for (size_t j = i; j < end; ++j) {
             auto st = updateEdgeEmbedding(edge_ids[j], graph_id, model_name);

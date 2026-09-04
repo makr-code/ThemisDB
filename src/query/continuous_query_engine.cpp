@@ -36,7 +36,7 @@ namespace query {
 // ResultQueue
 // ──────────────────────────────────────────────────────────────────────────────
 
-ResultQueue::ResultQueue([[maybe_unused]] size_t capacity) : capacity_(capacity) {}
+ResultQueue::ResultQueue(size_t capacity) : capacity_(capacity) {}
 
 void ResultQueue::push(CQResult item) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -308,7 +308,7 @@ void ContinuousQueryEngineImpl::tickOnce() {
             for (auto& incoming : inject_queue_) {
                 for (auto& [name, entry] : registry_) {
                     if (entry.spec.source_collection == incoming.collection) {
-                        entry.watermark->observe([[maybe_unused]] incoming.event_ts_us);
+                        entry.watermark->observe(incoming.event_ts_us);
                         SynopsisTuple st{incoming.event_ts_us, incoming.payload};
                         const bool ok = entry.synopsis->insert(std::move(st));
                         if (ok) {

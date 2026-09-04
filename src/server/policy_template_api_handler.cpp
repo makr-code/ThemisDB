@@ -30,10 +30,10 @@ PolicyTemplateApiHandler::PolicyTemplateApiHandler(
     , auth_(std::move(auth))
 {
     if (!template_manager_) {
-        THEMIS_WARN([[maybe_unused]] "PolicyTemplateApiHandler created with null PolicyTemplateManager");
+        THEMIS_WARN("PolicyTemplateApiHandler created with null PolicyTemplateManager");
     }
     if (!policy_manager_) {
-        THEMIS_WARN([[maybe_unused]] "PolicyTemplateApiHandler created with null PolicyManager");
+        THEMIS_WARN("PolicyTemplateApiHandler created with null PolicyManager");
     }
 }
 

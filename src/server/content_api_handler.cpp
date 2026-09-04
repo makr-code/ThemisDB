@@ -722,7 +722,7 @@ http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaGe
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_WARN([[maybe_unused]] "content_api_handler: unhandled exception caught");
+        THEMIS_WARN("content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -745,7 +745,7 @@ http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaPu
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_DEBUG([[maybe_unused]] "content_api_handler: unhandled exception caught");
+        THEMIS_DEBUG("content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -766,7 +766,7 @@ http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigGet(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_WARN([[maybe_unused]] "content_api_handler: unhandled exception caught");
+        THEMIS_WARN("content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -795,7 +795,7 @@ http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigPut(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_DEBUG([[maybe_unused]] "content_api_handler: unhandled exception caught");
+        THEMIS_DEBUG("content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }

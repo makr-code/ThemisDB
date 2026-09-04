@@ -223,7 +223,7 @@ std::string buildQueryString(
     doc.load_string(fragment.c_str(),
                     pugi::parse_default | pugi::parse_fragment);
     std::ostringstream out = {};
-    std::function<void(const pugi::xml_node&)> walk = [&]([[maybe_unused]] const pugi::xml_node& node) {
+    std::function<void(const pugi::xml_node&)> walk = [&](const pugi::xml_node& node) {
         for (const auto& child : node.children()) {
             if (child.type() == pugi::node_pcdata ||
                 child.type() == pugi::node_cdata) {
@@ -336,7 +336,7 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
             const std::size_t ie = form_html.find('>', ip);
             const std::string tag = (ie != std::string::npos)
                                   ? form_html.substr(ip, ie - ip) : "";
-            const auto attr = [&]([[maybe_unused]] const std::string& key) -> std::string {
+            const auto attr = [&](const std::string& key) -> std::string {
                 const std::string k = key + "=\"";
                 std::size_t p = tag.find(k);
                 if (p == std::string::npos) return {};

@@ -53,7 +53,7 @@ struct SQLiteConnectionPoolState {
 static thread_local SQLiteConnectionPoolState g_sqlite_connection_pool;
 
 /// Maps SQLite-specific error patterns to ImporterErrorCode
-[[maybe_unused]] static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
+static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {
@@ -971,7 +971,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
             THEMIS_DEBUG("SQLite INSERT entity: {}", entity.dump());
 
             // Invoke streaming row callback if set
-            if ([[maybe_unused]] options.streaming_row_callback) {
+            if (options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
                     return true;
@@ -994,8 +994,8 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
     const std::string& sqlite_type,
     const ImportOptions& options) const {
     // User-configurable overrides take priority
-    auto it = options.type_overrides.find(sqlite_typ[[maybe_unused]] e);
-    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
+    auto it = options.type_overrides.find(sqlite_type);
+    if (it != options.type_overrides.end()) {
       return it->second;
     }
 
@@ -1239,7 +1239,7 @@ void SQLiteImporter::emitMetric(const ImportOptions& options,
                                  const std::string& metric,
                                  const std::map<std::string, std::string>& labels,
                                  double value) const {
-    if ([[maybe_unused]] options.metrics_callback) {
+    if (options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1248,7 +1248,7 @@ void SQLiteImporter::emitSpan(const ImportOptions& options,
                                const std::string& operation,
                                const std::map<std::string, std::string>& attributes,
                                double duration_seconds) const {
-    if ([[maybe_unused]] options.tracing_callback) {
+    if (options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -1256,7 +1256,7 @@ void SQLiteImporter::emitSpan(const ImportOptions& options,
 void SQLiteImporter::reportProgress(ProgressCallback& callback,
                                      const std::string& stage,
                                      size_t current, size_t total) {
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         callback(stage, current, total);
     }
 }

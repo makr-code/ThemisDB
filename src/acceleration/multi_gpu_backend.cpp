@@ -179,7 +179,7 @@ class MultiGPUVectorBackend::Impl {
     // calls to computeDistances / batchKnnSearch are safe.
     // -------------------------------------------------------------------------
 
-    std::vector<ShardDescriptor> buildRanges([[maybe_unused]] size_t numVectors) const {
+    std::vector<ShardDescriptor> buildRanges(size_t numVectors) const {
         size_t n = shardDescs.size();
         std::vector<ShardDescriptor> ranges(n);
 

@@ -300,7 +300,7 @@ void MTLSClient::reset() {
     }
 }
 
-bool MTLSClient::verifyPeerCertificate(bool preverified, [[maybe_unused]] void* ctx) {
+bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
     // Future: extract certificate for detailed validation
     // In production, this would:
     // 1. Extract peer certificate from context

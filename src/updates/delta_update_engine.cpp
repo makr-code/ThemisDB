@@ -577,7 +577,7 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
 
 void DeltaUpdateEngine::setProgressCallback(
     std::function<void(int, const std::string&)> callback) {
-    progress_cb_ = std::move([[maybe_unused]] callback);
+    progress_cb_ = std::move(callback);
 }
 
 // ── Delta registry ────────────────────────────────────────────────────────
@@ -1006,8 +1006,8 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
                 for (uint32_t off : it->second) {
                     // Extend match
                     size_t len = 0;
-                    size_t max_len = std::min(static_cast<int>(base.size()) - off,
-                                             static_cast<int>(target.size()) - tpos);
+                    size_t max_len = std::min(base.size() - static_cast<size_t>(off),
+                                             target.size() - static_cast<size_t>(tpos));
                     // Cap at 64 KiB to keep u32 offsets safe
                     max_len = std::min(max_len, static_cast<size_t>(64 * 1024));
                     while (len < max_len && base[off + len] == target[tpos + len]) {
@@ -1175,5 +1175,6 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
+
 
 

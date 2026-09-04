@@ -576,7 +576,7 @@ bool MimeDetector::shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled
     return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
 }
 
-void MimeDetector::enableOcr([[maybe_unused]] bool enable) {
+void MimeDetector::enableOcr(bool enable) {
     policy_.ocr_enabled = enable;
 }
 

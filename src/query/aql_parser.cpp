@@ -265,7 +265,7 @@ private:
     size_t line_ = {};
     size_t column_ = {};
     
-    char peek([[maybe_unused]] size_t offset = 0) const {
+    char peek(size_t offset = 0) const {
         size_t p = pos_ + offset;
         return static_cast<bool>((p < input_.size())) ? input_[p] : '\0';
     }
@@ -686,7 +686,7 @@ private:
         return static_cast<bool>((pos_ < tokens_.size())) ? tokens_[pos_] : tokens_.back();
     }
     
-    const Token& peek([[maybe_unused]] size_t offset = 1) const {
+    const Token& peek(size_t offset = 1) const {
         size_t p = pos_ + offset;
         return static_cast<bool>((p < tokens_.size())) ? tokens_[p] : tokens_.back();
     }
@@ -708,7 +708,7 @@ private:
         advance();
     }
     
-    std::shared_ptr<Query> parseQuery([[maybe_unused]] bool isSubquery = false) {
+    std::shared_ptr<Query> parseQuery(bool isSubquery = false) {
         auto query = std::make_shared<Query>();
         
         // Phase 3: Optional WITH clause
@@ -2425,7 +2425,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     }
 
     // Peek helper — returns empty string when out of range
-    auto tok = [&]([[maybe_unused]] size_t idx) -> const std::string& {
+    auto tok = [&](size_t idx) -> const std::string& {
         static const std::string empty;
         return static_cast<bool>(idx < tokens.size()) ? tokens[idx] : empty;
     };
@@ -2756,15 +2756,15 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     }
 
     // Bounds-safe token accessors
-    auto tok_up = [&]([[maybe_unused]] size_t idx) -> const std::string& {
+    auto tok_up = [&](size_t idx) -> const std::string& {
         static const std::string empty;
         return static_cast<bool>(idx < tokens.size()) ? tokens[idx].upper : empty;
     };
-    auto tok_orig = [&]([[maybe_unused]] size_t idx) -> const std::string& {
+    auto tok_orig = [&](size_t idx) -> const std::string& {
         static const std::string empty;
         return static_cast<bool>(idx < tokens.size()) ? tokens[idx].original : empty;
     };
-    auto tok_start = [&]([[maybe_unused]] size_t idx) -> size_t {
+    auto tok_start = [&](size_t idx) -> size_t {
         return static_cast<bool>(idx  < static_cast<int>(tokens.size() ? tokens[idx].start : trimmed.size()));
     };
 

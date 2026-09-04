@@ -249,7 +249,7 @@ bool MptcpSubflowManager::setPriority(uint32_t subflow_id, uint32_t priority) {
 #endif
 }
 
-bool MptcpSubflowManager::removeSubflow([[maybe_unused]] uint32_t subflow_id) {
+bool MptcpSubflowManager::removeSubflow(uint32_t subflow_id) {
 #if defined(__linux__) && defined(THEMIS_ENABLE_MPTCP)
     if (!mptcp_enabled_) {
       return false;
@@ -267,7 +267,7 @@ bool MptcpSubflowManager::removeSubflow([[maybe_unused]] uint32_t subflow_id) {
 void MptcpSubflowManager::setSubflowStateCallback(
     std::function<void(const MptcpSubflowInfo&)> callback)
 {
-    state_cb_ = std::move([[maybe_unused]] callback);
+    state_cb_ = std::move(callback);
 }
 
 } // namespace network

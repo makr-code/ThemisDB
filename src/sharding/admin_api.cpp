@@ -31,27 +31,27 @@ AdminAPI::AdminAPI(const Config& config)
     : config_(config) {
 }
 
-void AdminAPI::registerTopologyHandler([[maybe_unused]] RequestHandler handler) {
+void AdminAPI::registerTopologyHandler(RequestHandler handler) {
     topology_handler_ = handler;
 }
 
-void AdminAPI::registerRebalanceHandler([[maybe_unused]] RequestHandler handler) {
+void AdminAPI::registerRebalanceHandler(RequestHandler handler) {
     rebalance_handler_ = handler;
 }
 
-void AdminAPI::registerHealthHandler([[maybe_unused]] RequestHandler handler) {
+void AdminAPI::registerHealthHandler(RequestHandler handler) {
     health_handler_ = handler;
 }
 
-void AdminAPI::registerStatsHandler([[maybe_unused]] RequestHandler handler) {
+void AdminAPI::registerStatsHandler(RequestHandler handler) {
     stats_handler_ = handler;
 }
 
-void AdminAPI::registerRepairHandler([[maybe_unused]] RequestHandler handler) {
+void AdminAPI::registerRepairHandler(RequestHandler handler) {
     repair_handler_ = handler;
 }
 
-void AdminAPI::registerMigrateHardwareHandler([[maybe_unused]] RequestHandler handler) {
+void AdminAPI::registerMigrateHardwareHandler(RequestHandler handler) {
     migrate_hardware_handler_ = handler;
 }
 
@@ -77,29 +77,29 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
 
     // Route to appropriate handler
     if (path == Endpoints::TOPOLOGY && method == "GET") {
-        if ([[maybe_unused]] topology_handler_) {
-            return topology_handler_([[maybe_unused]] body);
+        if (topology_handler_) {
+            return topology_handler_(body);
         }
     } else if (path == Endpoints::SHARD_ADD && method == "POST") {
-        if ([[maybe_unused]] topology_handler_) {
-            return topology_handler_([[maybe_unused]] body);
+        if (topology_handler_) {
+            return topology_handler_(body);
         }
     } else if (path.find(Endpoints::SHARD_REMOVE) == 0 && method == "DELETE") {
-        if ([[maybe_unused]] topology_handler_) {
-            return topology_handler_([[maybe_unused]] body);
+        if (topology_handler_) {
+            return topology_handler_(body);
         }
     } else if (path == Endpoints::REBALANCE && method == "POST") {
-        if ([[maybe_unused]] rebalance_handler_) {
-            return rebalance_handler_([[maybe_unused]] body);
+        if (rebalance_handler_) {
+            return rebalance_handler_(body);
         }
     } else if (path.find(Endpoints::REBALANCE_STATUS) == 0 && method == "GET") {
-        if ([[maybe_unused]] rebalance_handler_) {
-            return rebalance_handler_([[maybe_unused]] body);
+        if (rebalance_handler_) {
+            return rebalance_handler_(body);
         }
     } else if (path == Endpoints::HEALTH && method == "GET") {
         nlohmann::json health_response;
-        if ([[maybe_unused]] health_handler_) {
-            health_response = health_handler_([[maybe_unused]] body);
+        if (health_handler_) {
+            health_response = health_handler_(body);
         }
         // Enrich with per-shard repair health when a repair engine is attached
         nlohmann::json repair_health = buildRepairHealthJson();
@@ -111,26 +111,26 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
         }
         return health_response;
     } else if (path == Endpoints::STATS && method == "GET") {
-        if ([[maybe_unused]] stats_handler_) {
-            return stats_handler_([[maybe_unused]] body);
+        if (stats_handler_) {
+            return stats_handler_(body);
         }
     } else if (path == Endpoints::REPAIR && method == "POST") {
-        if ([[maybe_unused]] repair_handler_) {
-            return repair_handler_([[maybe_unused]] body);
+        if (repair_handler_) {
+            return repair_handler_(body);
         }
     } else if (path == Endpoints::REPAIR_SCAN && method == "POST") {
-        if ([[maybe_unused]] repair_handler_) {
+        if (repair_handler_) {
             nlohmann::json scan_body = body;
             scan_body["full_scan"] = true;
-            return repair_handler_([[maybe_unused]] scan_body);
+            return repair_handler_(scan_body);
         }
     } else if (path.find(Endpoints::REPAIR_STATUS) == 0 && method == "GET") {
-        if ([[maybe_unused]] repair_handler_) {
+        if (repair_handler_) {
             // Extract job_id from path: /admin/repair/{job_id}
             std::string job_id = path.substr(std::string(Endpoints::REPAIR_STATUS).size());
             nlohmann::json status_body = body;
             status_body["job_id"] = job_id;
-            return repair_handler_([[maybe_unused]] status_body);
+            return repair_handler_(status_body);
         }
     } else if (path.find(Endpoints::MIGRATE_HARDWARE_PREFIX) == 0
                && path.find(Endpoints::MIGRATE_HARDWARE_SUFFIX) != std::string::npos
@@ -329,10 +329,10 @@ nlohmann::json AdminAPI::buildRepairHealthJson() const {
 nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
                                                   const nlohmann::json& body) {
     // Custom handler takes precedence over the built-in path.
-    if ([[maybe_unused]] migrate_hardware_handler_) {
+    if (migrate_hardware_handler_) {
         nlohmann::json req = body;
         req["shard_id"] = shard_id;
-        return migrate_hardware_handler_([[maybe_unused]] req);
+        return migrate_hardware_handler_(req);
     }
 
     if (!migration_manager_) {

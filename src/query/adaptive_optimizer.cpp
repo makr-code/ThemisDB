@@ -55,7 +55,7 @@ std::string toLowerCopy(const std::string& input) {
 }
 
 bool startsWith(const std::string& text, const std::string& prefix) {
-    return static_cast<bool>( static_cast<int>(text.size()) < static_cast<int>(= prefix.size())) &&
+    return text.size() >= prefix.size() &&
            std::equal(prefix.begin(), prefix.end(), text.begin());
 }
 
@@ -89,7 +89,7 @@ AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) cons
     }
     
     const auto& history = it->second;
-    size_t count = std::min(limit,static_cast<int>(history.size()));
+    size_t count = std::min(limit, history.size());
     
     return std::vector<QueryExecution>(
         history.end() - count,
@@ -536,7 +536,7 @@ size_t NumaAwareOptimizer::getNumaNodeCount() {
     return 1;
 }
 
-bool NumaAwareOptimizer::pinThreadToCpu([[maybe_unused]] int cpu_id) {
+bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
 #ifdef __linux__
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -545,7 +545,7 @@ bool NumaAwareOptimizer::pinThreadToCpu([[maybe_unused]] int cpu_id) {
     pthread_t thread = pthread_self();
     return pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset) == 0;
 #else
-    [[maybe_unused]] int unused_cpu_id = cpu_id;
+    int unused_cpu_id = cpu_id;
     return false;
 #endif
 }

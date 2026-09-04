@@ -202,7 +202,7 @@ void InMemoryVectorIndex::normalise(std::vector<float>& v) noexcept
 // toScore() — private
 // ============================================================================
 
-float InMemoryVectorIndex::toScore([[maybe_unused]] float distance) const noexcept
+float InMemoryVectorIndex::toScore(float distance) const noexcept
 {
     switch (cfg_.metric) {
     case DistanceMetric::L2:

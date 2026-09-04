@@ -25,7 +25,7 @@ namespace themis {
 using json = nlohmann::json;
 
 static bool starts_with(const std::string& s, const std::string& prefix) {
-    return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= prefix.size())) && std::equal(prefix.begin(), prefix.end(), s.begin());
+  return s.size() >= prefix.size() && std::equal(prefix.begin(), prefix.end(), s.begin());
 }
 
 // Emit a POLICY_UPDATED audit event if a logger is attached.
@@ -52,7 +52,8 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
     try {
         auto ends_with = [](const std::string& s, const std::string& suffix) {
-            return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
+      return s.size() >= suffix.size()
+        && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
         };
 
         std::vector<Policy> loaded;
@@ -60,7 +61,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
             // YAML parsing
             YAML::Node root = YAML::LoadFile(path);
-            auto parse_policy_node = [&]([[maybe_unused]] const YAML::Node& n) -> std::optional<Policy> {
+            auto parse_policy_node = [&](const YAML::Node& n) -> std::optional<Policy> {
                 try {
                     Policy p = {};
                     if (n["id"]) {
@@ -272,7 +273,7 @@ bool PolicyEngine::removePolicy(const std::string& id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto size_before = policies_.size();
         policies_.erase(std::remove_if(policies_.begin(), policies_.end(),
-                                       [&]([[maybe_unused]] const Policy& p){ return p.id == id; }),
+                                       [&](const Policy& p){ return p.id == id; }),
                         policies_.end());
         removed = static_cast<int>(policies_.size()) != size_before;
         logger  = audit_logger_;

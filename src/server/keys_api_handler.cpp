@@ -88,7 +88,7 @@ nlohmann::json KeysApiHandler::listKeys() {
     }
 }
 
-nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unused]] const nlohmann::json& body) {
+nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("rotateKey");
         if (!key_provider_) {

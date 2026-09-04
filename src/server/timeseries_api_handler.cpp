@@ -41,12 +41,12 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     // handleAggregatesGet() returns live aggregate names instead of the
     // built-in fallback {min,max,avg,sum,count}.  The DI root that calls
     // this constructor should call:
-    //   handler->setAggregatesProvider([[maybe_unused]] [engine]{ return engine->listAggregates(); });
+    //   handler->setAggregatesProvider([engine]{ return engine->listAggregates(); });
     // where `engine` is an injected ContinuousAggMaterializationEngine.
     // See handleAggregatesGet() and AggregatesFn in timeseries_api_handler.h.
 }
 
-void TimeSeriesApiHandler::setRetentionPoliciesProviderFn([[maybe_unused]] RetentionPoliciesProviderFn fn) {
+void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
     std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
     retentionPoliciesFn_ = std::move(fn);
 }

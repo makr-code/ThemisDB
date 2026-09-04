@@ -25,7 +25,7 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
-static size_t ensureMinimumPrefillChunkSize([[maybe_unused]] size_t configured_size) {
+static size_t ensureMinimumPrefillChunkSize(size_t configured_size) {
     // Enforce a lower bound of 1 so that chunked prefill never stalls completely.
     return std::max<size_t>(1, configured_size);
 }
@@ -168,7 +168,7 @@ bool ContinuousBatchScheduler::cancelRequest(const std::string& request_id) {
     // Remove from active list if present
     active_requests_.erase(
         std::remove_if(active_requests_.begin(), active_requests_.end(),
-                      [&]([[maybe_unused]] const auto& r) { return r->request_id == request_id; }),
+                      [&](const auto& r) { return r->request_id == request_id; }),
         active_requests_.end()
     );
     
@@ -355,8 +355,8 @@ void ContinuousBatchScheduler::processBatchResults(
                               [req](const auto& r) { return r && r.get() == req; }),
                 active_requests_.end()
             );
-            if ([[maybe_unused]] req->callback) {
-                req->callback([[maybe_unused]] resp);
+            if (req->callback) {
+                req->callback(resp);
             }
             stats_.failed_requests++;
             continue;
@@ -390,8 +390,8 @@ void ContinuousBatchScheduler::processBatchResults(
             );
             
             // Call callback if provided
-            if ([[maybe_unused]] req->callback) {
-                req->callback([[maybe_unused]] resp);
+            if (req->callback) {
+                req->callback(resp);
             }
             
             stats_.completed_requests++;

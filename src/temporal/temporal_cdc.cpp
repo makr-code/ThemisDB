@@ -80,7 +80,7 @@ nlohmann::json ChangeEvent::toJson() const {
     return j;
 }
 
-ChangeEvent ChangeEvent::fromJson([[maybe_unused]] const nlohmann::json& j) {
+ChangeEvent ChangeEvent::fromJson(const nlohmann::json& j) {
     ChangeEvent ev;
     ev.type             = TemporalCDC::changeTypeFromString(j.at("type").get<std::string>());
     ev.table_name       = j.at("table_name").get<std::string>();
@@ -110,10 +110,10 @@ TemporalCDC::TemporalCDC(size_t max_log_size, OverflowPolicy policy)
 
 std::string TemporalCDC::subscribeToChanges(
     const std::string& table_name,
-    std::function<void([[maybe_unused]] const ChangeEvent&)> callback) {
+    std::function<void(const ChangeEvent&)> callback) {
 
-    if ([[maybe_unused]] !callback) {
-        throw std::invalid_argument([[maybe_unused]] "TemporalCDC::subscribeToChanges: callback must not be null");
+    if (!callback) {
+        throw std::invalid_argument("TemporalCDC::subscribeToChanges: callback must not be null");
     }
 
     const uint64_t id = next_sub_id_.fetch_add(1, std::memory_order_relaxed);
@@ -138,7 +138,7 @@ size_t TemporalCDC::subscriptionCount() const {
 // Event publication
 // ============================================================================
 
-void TemporalCDC::publishEvent([[maybe_unused]] const ChangeEvent& event) {
+void TemporalCDC::publishEvent(const ChangeEvent& event) {
     // Snapshot subscriptions under lock, then dispatch outside lock to avoid
     // holding the mutex during user-supplied callback execution.
     std::vector<std::function<void(const ChangeEvent&)>> callbacks_to_invoke;
@@ -160,12 +160,12 @@ void TemporalCDC::publishEvent([[maybe_unused]] const ChangeEvent& event) {
             log_.erase(log_.begin());
             overflow_count_.fetch_add(1, std::memory_order_relaxed);
         }
-        log_.push_back([[maybe_unused]] event);
+        log_.push_back(event);
 
         // Collect matching subscribers
         for (const auto& [id, sub] : subscriptions_) {
-            if ([[maybe_unused]] sub.table_filter.empty() || sub.table_filter == event.table_name) {
-                callbacks_to_invoke.push_back([[maybe_unused]] sub.callback);
+            if (sub.table_filter.empty() || sub.table_filter == event.table_name) {
+                callbacks_to_invoke.push_back(sub.callback);
             }
         }
     }
@@ -173,8 +173,8 @@ void TemporalCDC::publishEvent([[maybe_unused]] const ChangeEvent& event) {
     total_published_.fetch_add(1, std::memory_order_relaxed);
 
     // Invoke callbacks outside the lock
-    for ([[maybe_unused]] const auto& cb : callbacks_to_invoke) {
-        cb([[maybe_unused]] event);
+    for (const auto& cb : callbacks_to_invoke) {
+        cb(event);
     }
 }
 
@@ -433,7 +433,7 @@ void CDCPersistentLog::close() {
 // append
 // ---------------------------------------------------------------------------
 
-void CDCPersistentLog::append([[maybe_unused]] const ChangeEvent& event) {
+void CDCPersistentLog::append(const ChangeEvent& event) {
     const std::string payload = event.toJson().dump();
 
     std::lock_guard<std::mutex> lk(mutex_);
@@ -478,7 +478,7 @@ void CDCPersistentLog::append([[maybe_unused]] const ChangeEvent& event) {
 // replayAll / replaySegment
 // ---------------------------------------------------------------------------
 
-static std::vector<ChangeEvent> replayFile([[maybe_unused]] const std::string& path) {
+static std::vector<ChangeEvent> replayFile(const std::string& path) {
     std::vector<ChangeEvent> events;
 
     std::FILE* fd = std::fopen(path.c_str(), "rb");
@@ -510,7 +510,7 @@ static std::vector<ChangeEvent> replayFile([[maybe_unused]] const std::string& p
         if (computed_crc != stored_crc) break;  // truncated tail — stop here
 
         try {
-            events.push_back([[maybe_unused]] ChangeEvent::fromJson(nlohmann::json::parse(payload)));
+            events.push_back(ChangeEvent::fromJson(nlohmann::json::parse(payload)));
         } catch (...) {
             // Malformed JSON — skip this record.
         }
@@ -536,7 +536,7 @@ std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
     return all;
 }
 
-std::vector<ChangeEvent> CDCPersistentLog::replaySegment([[maybe_unused]] uint64_t seq) const {
+std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
     std::vector<uint64_t> seqs;
     {
         std::lock_guard<std::mutex> lk(mutex_);
@@ -556,7 +556,7 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment([[maybe_unused]] uint64
 
 uint64_t CDCPersistentLog::segmentCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<bool>(static_cast<uint64_t < static_cast<int>((listSegmentSeqs().size())));
+    return static_cast<uint64_t>(listSegmentSeqs().size());
 }
 
 uint64_t CDCPersistentLog::totalBytesWritten() const noexcept {
@@ -564,7 +564,7 @@ uint64_t CDCPersistentLog::totalBytesWritten() const noexcept {
 }
 
 uint64_t CDCPersistentLog::totalEventsAppended() const noexcept {
-    return total_events_.load([[maybe_unused]] std::memory_order_relaxed);
+    return total_events_.load(std::memory_order_relaxed);
 }
 
 bool CDCPersistentLog::isOpen() const noexcept {
@@ -576,7 +576,7 @@ bool CDCPersistentLog::isOpen() const noexcept {
 // Private helpers
 // ---------------------------------------------------------------------------
 
-std::string CDCPersistentLog::segmentPath([[maybe_unused]] uint64_t seq) const {
+std::string CDCPersistentLog::segmentPath(uint64_t seq) const {
     std::ostringstream oss = {};
     oss << segment_dir_ << "/" << log_prefix_ << "_" << seq << ".wal";
     return oss.str();

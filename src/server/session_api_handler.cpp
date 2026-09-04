@@ -74,8 +74,8 @@ SessionApiHandler::SessionApiHandler(
     , manager_(std::move(manager))
     , audit_logger_(std::move(audit_logger))
 {
-    if ([[maybe_unused]] !auth_)    { throw std::invalid_argument("SessionApiHandler: auth must not be null"); }
-    if ([[maybe_unused]] !manager_) { throw std::invalid_argument("SessionApiHandler: manager must not be null"); }
+    if (!auth_)    { throw std::invalid_argument("SessionApiHandler: auth must not be null"); }
+    if (!manager_) { throw std::invalid_argument("SessionApiHandler: manager must not be null"); }
 }
 
 // ---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ nlohmann::json SessionApiHandler::makeError(int status_code, const std::string& 
     };
 }
 
-nlohmann::json SessionApiHandler::sessionToJson([[maybe_unused]] const auth::SessionManager::SessionInfo& s) {
+nlohmann::json SessionApiHandler::sessionToJson(const auth::SessionManager::SessionInfo& s) {
     nlohmann::json j;
     j["session_id"]         = s.session_id;
     j["user_id"]            = s.user_id;

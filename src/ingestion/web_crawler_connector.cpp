@@ -597,7 +597,7 @@ public:
             std::string text = htmlToText(body);
             if (!text.empty()) {
                 ++stats.documents_processed;
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0 /* total unknown */,

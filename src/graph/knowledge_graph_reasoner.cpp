@@ -169,7 +169,7 @@ void InferenceStore::clear() {
 // KnowledgeGraphReasoner — construction
 // ─────────────────────────────────────────────────────────────────────────────
 
-KnowledgeGraphReasoner::KnowledgeGraphReasoner([[maybe_unused]] int max_inference_hops)
+KnowledgeGraphReasoner::KnowledgeGraphReasoner(int max_inference_hops)
     : max_hops_(std::max(1, std::min(max_inference_hops, kHardMaxHops))) {}
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -182,7 +182,7 @@ bool KnowledgeGraphReasoner::addRule(Rule rule) {
     }
     std::unique_lock lock(rules_mutex_);
     // Remove any existing rule with the same id.
-    auto it = std::find_if(rules_.begin(), rules_.end(), [&]([[maybe_unused]] const Rule &r) { return r.id == rule.id; });
+    auto it = std::find_if(rules_.begin(), rules_.end(), [&](const Rule &r) { return r.id == rule.id; });
     if (it != rules_.end()) {
         *it = std::move(rule);
     } else {
@@ -252,7 +252,7 @@ void KnowledgeGraphReasoner::clearFacts() {
 }
 
 /*static*/ Triple KnowledgeGraphReasoner::ground(const Triple &pattern, const Bindings &bindings) {
-    auto resolve = [&]([[maybe_unused]] const std::string &s) -> std::string {
+    auto resolve = [&](const std::string &s) -> std::string {
         if (!s.empty() && s[0] == '?') {
             auto it = bindings.find(s);
             if (it != bindings.end()) {
@@ -414,15 +414,15 @@ std::optional<InferenceEdge> KnowledgeGraphReasoner::explain(const Triple &fact)
 // onCDCEvent()
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) {
-    if ([[maybe_unused]] event.op == CDCEvent::Op::INSERT) {
+void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent &event) {
+    if (event.op == CDCEvent::Op::INSERT) {
         // Add to base facts (deduplication inside addFact).
-        if ([[maybe_unused]] !event.edge.isGround()) {
+        if (!event.edge.isGround()) {
             return;
         }
 
         // Add the new fact.
-        addFact([[maybe_unused]] event.edge);
+        addFact(event.edge);
 
         // Run one incremental forward-chaining pass with just the new fact plus
         // existing base facts — much cheaper than a full re-evaluation.
@@ -440,16 +440,16 @@ void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) 
         {
             std::unique_lock lock(facts_mutex_);
             auto it = std::remove_if(base_facts_.begin(), base_facts_.end(),
-                                     [&]([[maybe_unused]] const Triple &t) { return t == event.edge; });
+                                     [&](const Triple &t) { return t == event.edge; });
             base_facts_.erase(it, base_facts_.end());
         }
 
         // Conservatively clear derived triples whose premises included this edge.
         // We rebuild on the next infer() call.
-        std::vector<InferenceEdge> all_derived = inference_store_.getDerived([[maybe_unused]] event.edge.subject);
+        std::vector<InferenceEdge> all_derived = inference_store_.getDerived(event.edge.subject);
         for (auto &edge : all_derived) {
             for (const auto &premise : edge.premises) {
-                if ([[maybe_unused]] premise == event.edge) {
+                if (premise == event.edge) {
                     // Evict this derived triple.
                     inference_store_.store(edge.fact, "__deleted__", {}, std::chrono::seconds{0});
                     break;
@@ -496,7 +496,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
         }
     }
 
-    const auto lookupRuleConfig = [&]([[maybe_unused]] const InferenceEdge &edge) -> const RuleLoRAConfig * {
+    const auto lookupRuleConfig = [&](const InferenceEdge &edge) -> const RuleLoRAConfig * {
         if (const auto it = rule_cfg_by_id.find(edge.rule_id); it != rule_cfg_by_id.end()) {
             return &it->second;
         }
@@ -515,7 +515,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
         const std::size_t n = edge.premises.size();
         return 1.0 / static_cast<double>(1 + n);
     };
-    const auto clampScore = []([[maybe_unused]] double score) {
+    const auto clampScore = [](double score) {
         // Fail-closed hardening: malformed scorer outputs (NaN / +/-Inf) should
         // never bypass min_lora_score filters, therefore they normalize to 0.0.
         if (!std::isfinite(score)) {
@@ -557,7 +557,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 
     // Filter out edges whose score falls below the rule's minimum threshold.
     chain.edges.erase(std::remove_if(chain.edges.begin(), chain.edges.end(),
-                                     [&]([[maybe_unused]] const InferenceEdge &e) {
+                                     [&](const InferenceEdge &e) {
                                          const RuleLoRAConfig *cfg = lookupRuleConfig(e);
                                          if (cfg == nullptr) {
                                              return false;
@@ -574,7 +574,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 // setMaxHops()
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::setMaxHops([[maybe_unused]] int hops) noexcept {
+void KnowledgeGraphReasoner::setMaxHops(int hops) noexcept {
     max_hops_ = std::max(1, std::min(hops, kHardMaxHops));
 }
 

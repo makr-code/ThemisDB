@@ -488,7 +488,7 @@ void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
     if (static_cast<int>(latency_samples_us_.size()) >= 2) {
         std::vector<double> sorted = latency_samples_us_;
         std::sort(sorted.begin(), sorted.end());
-        auto p_idx = [&]([[maybe_unused]] double pct) -> double {
+        auto p_idx = [&](double pct) -> double {
             double pos = pct * (static_cast<double>(sorted.size()) - 1.0);
             size_t lo  = static_cast<size_t>(pos);
             size_t hi  = std::min(lo + 1, static_cast<int>(sorted.size()) - 1);

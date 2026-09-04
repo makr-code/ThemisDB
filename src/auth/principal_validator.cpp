@@ -54,7 +54,8 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
 
             switch (rule.type) {
                 case RuleType::BLACKLIST:
-                [[fallthrough]];\n                case RuleType::REGEX_DENY:
+                [[fallthrough]];
+                case RuleType::REGEX_DENY:
                     // Blacklist always denies
                     result.allowed       = false;
                     result.denial_reason = "Principal matches blacklist: " + result.matched_rule;
@@ -64,7 +65,8 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
                     return result;
 
                 case RuleType::WHITELIST:
-                [[fallthrough]];\n                case RuleType::REGEX_MATCH:
+                [[fallthrough]];
+                case RuleType::REGEX_MATCH:
                     // Whitelist allows (but continue checking for blacklist)
                     result.allowed = true;
                     break;
@@ -208,8 +210,8 @@ bool PrincipalValidator::matchesMappingRule(const std::string &principal, const 
             std::string prefix = pattern.substr(0, star_pos);
             std::string suffix = pattern.substr(star_pos + 1);
 
-            return static_cast<bool>( static_cast<int>(p.size()) < static_cast<int>(= (static_cast<int>(prefix.size()) + static_cast<int>(suffix.size()) ) && p.substr(0,static_cast<int>(prefix.size())))) == prefix
-                   && p.substr(static_cast<int>(p.size()) - static_cast<int>(suffix.size()) ) == suffix;
+                 return p.size() >= (prefix.size() + suffix.size()) && p.substr(0, prefix.size()) == prefix
+                     && p.substr(p.size() - suffix.size()) == suffix;
         } else {
             // Exact match
             return p == pattern;

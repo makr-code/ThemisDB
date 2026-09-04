@@ -128,8 +128,8 @@ void KVCacheBuffer::flush() {
     }
     
     // Call flush callback if set
-    if ([[maybe_unused]] flush_callback_) {
-        flush_callback_([[maybe_unused]] current_batch_);
+    if (flush_callback_) {
+        flush_callback_(current_batch_);
     }
     
     // Update stats
@@ -195,7 +195,7 @@ bool KVCacheBuffer::checkAndFlush() {
     return flushed;
 }
 
-KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence([[maybe_unused]] int sequence_id) {
+KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence(int sequence_id) {
     auto it = sequence_to_index_.find(sequence_id);
     
     if (it != sequence_to_index_.end()) {

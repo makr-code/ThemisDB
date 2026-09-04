@@ -41,12 +41,12 @@ AdaptiveCompactionScheduler::~AdaptiveCompactionScheduler() {
 // Pattern monitoring
 // ──────────────────────────────────────────────────────────────────────────────
 
-void AdaptiveCompactionScheduler::recordRead([[maybe_unused]] uint64_t count) {
+void AdaptiveCompactionScheduler::recordRead(uint64_t count) {
     total_reads_.fetch_add(count, std::memory_order_relaxed);
     window_reads_.fetch_add(count, std::memory_order_relaxed);
 }
 
-void AdaptiveCompactionScheduler::recordWrite([[maybe_unused]] uint64_t count) {
+void AdaptiveCompactionScheduler::recordWrite(uint64_t count) {
     total_writes_.fetch_add(count, std::memory_order_relaxed);
     window_writes_.fetch_add(count, std::memory_order_relaxed);
 }
@@ -147,7 +147,7 @@ void AdaptiveCompactionScheduler::collectSample() {
 // ──────────────────────────────────────────────────────────────────────────────
 
 AdaptiveCompactionScheduler::CompactionImpactPrediction
-AdaptiveCompactionScheduler::predictCompactionImpact([[maybe_unused]] double current_write_amp) const {
+AdaptiveCompactionScheduler::predictCompactionImpact(double current_write_amp) const {
     CompactionImpactPrediction pred;
     pred.write_amplification = current_write_amp;
 
@@ -197,7 +197,7 @@ bool AdaptiveCompactionScheduler::isLowLoadPeriod() const {
            (ema_read_rate_  < config_.low_load_read_rate);
 }
 
-bool AdaptiveCompactionScheduler::shouldTriggerCompaction([[maybe_unused]] double current_write_amp) {
+bool AdaptiveCompactionScheduler::shouldTriggerCompaction(double current_write_amp) {
     auto pred = predictCompactionImpact(current_write_amp);
 
     bool trigger = pred.is_urgent ||

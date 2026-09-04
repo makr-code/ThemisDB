@@ -147,7 +147,7 @@ void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3)
         q1 = q3 = 0.0;
         return;
     }
-    auto lerp = [&]([[maybe_unused]] double pos) -> double {
+    auto lerp = [&](double pos) -> double {
         size_t lo   = static_cast<size_t>(pos);
         double frac = pos - static_cast<double>(lo);
         if (lo + 1 >= n) {
@@ -166,7 +166,7 @@ inline double squash(double s, double s0 = 3.0, double k = 1.0) {
 }
 
 /// Clamp to [0,1].
-inline double clamp01([[maybe_unused]] double v) {
+inline double clamp01(double v) {
     return v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
 }
 
@@ -951,7 +951,8 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
                     auto sub_x = impl_->sub_detectors[i]->impl_->extractFeatures(point);
                     std::vector<double> sc;
                     switch (impl_->sub_detectors[i]->impl_->cfg.method) {
-                        [[fallthrough]];\n                        case AnomalyMethod::Z_SCORE:
+                        [[fallthrough]];
+                        case AnomalyMethod::Z_SCORE:
                             sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x);
                             break;
                         case AnomalyMethod::MODIFIED_Z_SCORE:
@@ -1082,7 +1083,7 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
         return parts;
     };
 
-    auto toDoubleVec = [&]([[maybe_unused]] const std::string &s) -> std::vector<double> {
+    auto toDoubleVec = [&](const std::string &s) -> std::vector<double> {
         std::vector<double> v = {};
 
         for (const auto& t : splitComma(s)) {

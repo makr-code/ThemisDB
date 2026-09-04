@@ -115,12 +115,12 @@ public:
         return verifier_.calculateFileHash(modulePath);
     }
     
-    void setRequireSignature([[maybe_unused]] bool require) {
+    void setRequireSignature(bool require) {
         policy_.requireSignature = require;
         verifier_.updatePolicy(policy_);
     }
     
-    void setAllowUnsigned([[maybe_unused]] bool allow) {
+    void setAllowUnsigned(bool allow) {
         policy_.allowUnsigned = allow;
         verifier_.updatePolicy(policy_);
     }
@@ -158,11 +158,11 @@ std::string ModuleSecurityVerifier::calculateFileHash(const std::string& moduleP
     return impl_->calculateFileHash(modulePath);
 }
 
-void ModuleSecurityVerifier::setRequireSignature([[maybe_unused]] bool require) {
+void ModuleSecurityVerifier::setRequireSignature(bool require) {
     impl_->setRequireSignature(require);
 }
 
-void ModuleSecurityVerifier::setAllowUnsigned([[maybe_unused]] bool allow) {
+void ModuleSecurityVerifier::setAllowUnsigned(bool allow) {
     impl_->setAllowUnsigned(allow);
 }
 
@@ -666,11 +666,11 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     return result;
 }
 
-void ModuleLoader::setRequireSignature([[maybe_unused]] bool require) {
+void ModuleLoader::setRequireSignature(bool require) {
     verifier_->setRequireSignature(require);
 }
 
-void ModuleLoader::setAllowUnsigned([[maybe_unused]] bool allow) {
+void ModuleLoader::setAllowUnsigned(bool allow) {
     verifier_->setAllowUnsigned(allow);
 }
 
@@ -797,7 +797,8 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
         case ModuleErrorCode::INTERNAL_ERROR:
             return "Internal module loader error";
         case ModuleErrorCode::UNKNOWN_ERROR:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return "Unknown error";
     }
 }
@@ -806,36 +807,54 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
     switch (code) {
         // Transient errors - may succeed on retry
         case ModuleErrorCode::MODULE_ACCESS_DENIED:
-        [[fallthrough]];\n        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+        [[fallthrough]];
+        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
             return ErrorCategory::TRANSIENT;
             
         // Recoverable errors - user can fix
         case ModuleErrorCode::MODULE_NOT_FOUND:
-        [[fallthrough]];\n        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
-        [[fallthrough]];\n        case ModuleErrorCode::VERSION_INCOMPATIBLE:
-        [[fallthrough]];\n        case ModuleErrorCode::ABI_INCOMPATIBLE:
-        [[fallthrough]];\n        case ModuleErrorCode::METADATA_MISSING:
+        [[fallthrough]];
+        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+        [[fallthrough]];
+        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+        [[fallthrough]];
+        case ModuleErrorCode::ABI_INCOMPATIBLE:
+        [[fallthrough]];
+        case ModuleErrorCode::METADATA_MISSING:
             return ErrorCategory::RECOVERABLE;
             
         // Fatal errors - require system intervention
         case ModuleErrorCode::VERIFICATION_FAILED:
-        [[fallthrough]];\n        case ModuleErrorCode::SIGNATURE_INVALID:
-        [[fallthrough]];\n        case ModuleErrorCode::HASH_MISMATCH:
-        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_REVOKED:
-        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_EXPIRED:
-        [[fallthrough]];\n        case ModuleErrorCode::UNTRUSTED_SIGNER:
-        [[fallthrough]];\n        case ModuleErrorCode::BLACKLISTED:
-        [[fallthrough]];\n        case ModuleErrorCode::QUARANTINED:
-        [[fallthrough]];\n        case ModuleErrorCode::ZONE_ID_BLOCKED:
-        [[fallthrough]];\n        case ModuleErrorCode::POLICY_VIOLATION:
+        [[fallthrough]];
+        case ModuleErrorCode::SIGNATURE_INVALID:
+        [[fallthrough]];
+        case ModuleErrorCode::HASH_MISMATCH:
+        [[fallthrough]];
+        case ModuleErrorCode::CERTIFICATE_REVOKED:
+        [[fallthrough]];
+        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+        [[fallthrough]];
+        case ModuleErrorCode::UNTRUSTED_SIGNER:
+        [[fallthrough]];
+        case ModuleErrorCode::BLACKLISTED:
+        [[fallthrough]];
+        case ModuleErrorCode::QUARANTINED:
+        [[fallthrough]];
+        case ModuleErrorCode::ZONE_ID_BLOCKED:
+        [[fallthrough]];
+        case ModuleErrorCode::POLICY_VIOLATION:
             return ErrorCategory::FATAL;
             
         // Permanent errors - retry won't help
         case ModuleErrorCode::MODULE_ALREADY_LOADED:
-        [[fallthrough]];\n        case ModuleErrorCode::SYMBOL_NOT_FOUND:
-        [[fallthrough]];\n        case ModuleErrorCode::METADATA_CORRUPTED:
-        [[fallthrough]];\n        case ModuleErrorCode::INITIALIZATION_FAILED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+        [[fallthrough]];
+        case ModuleErrorCode::METADATA_CORRUPTED:
+        [[fallthrough]];
+        case ModuleErrorCode::INITIALIZATION_FAILED:
+        [[fallthrough]];
+        default:
             return ErrorCategory::PERMANENT;
     }
 }
@@ -954,7 +973,7 @@ void ModuleLoader::quarantineModule(const std::string& modulePath) {
                      it->second.consecutiveFailures, modulePath, it->second.lastErrorMessage);
 }
 
-uint64_t ModuleLoader::calculateBackoffTime([[maybe_unused]] uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
     // Exponential backoff: 2^(n-1) seconds, capped at maxBackoffSeconds_
     // Use bit shifting for efficiency instead of std::pow
     if (consecutiveFailures == 0) {
@@ -1053,12 +1072,12 @@ void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     }
 }
 
-void ModuleLoader::setQuarantineThreshold([[maybe_unused]] uint32_t threshold) {
+void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
     quarantineThreshold_ = threshold;
     spdlog::info("Quarantine threshold set to: {}", threshold);
 }
 
-void ModuleLoader::setMaxBackoffSeconds([[maybe_unused]] uint32_t maxSeconds) {
+void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
     maxBackoffSeconds_ = maxSeconds;
     spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
 }
@@ -1149,7 +1168,7 @@ void ModuleLoader::clearHealthChecks() {
     spdlog::info("All health checks cleared");
 }
 
-void ModuleLoader::setStagedLoadingEnabled([[maybe_unused]] bool enable) {
+void ModuleLoader::setStagedLoadingEnabled(bool enable) {
     stagedLoadingEnabled_ = enable;
     spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
 }
@@ -2017,7 +2036,7 @@ bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,
     return false;
 }
 
-uint64_t ModuleLoader::watchdogCalculateBackoff([[maybe_unused]] uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::watchdogCalculateBackoff(uint32_t consecutiveFailures) const {
     if (consecutiveFailures == 0) {
         return 0;
     }

@@ -111,7 +111,7 @@ AdaptivePoolingStrategy::AdaptivePoolingStrategy()
 
 size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     size_t current_count,
-    [[maybe_unused]] size_t active_count,
+    size_t active_count,
     double load)
 {
     if (current_count == 0) {
@@ -339,7 +339,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         
         bool timed_out = false;
         bool connect_completed = false;
-        timer.async_wait([&]([[maybe_unused]] const boost::system::error_code& error) {
+        timer.async_wait([&](const boost::system::error_code& error) {
             if (!error && !connect_completed) {
                 timed_out = true;
                 boost::system::error_code close_ec;
@@ -391,7 +391,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             }
             
             // Set hostname verification callback for proper TLS validation
-            ssl_stream->set_verify_callback([[maybe_unused]] ssl::host_name_verification(host));
+            ssl_stream->set_verify_callback(ssl::host_name_verification(host));
             
             // Perform SSL handshake with timeout
             local_io.restart();
@@ -399,7 +399,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             
             timed_out = false;
             bool handshake_completed = false;
-            timer.async_wait([&]([[maybe_unused]] const boost::system::error_code& error) {
+            timer.async_wait([&](const boost::system::error_code& error) {
                 if (!error && !handshake_completed) {
                     timed_out = true;
                     boost::system::error_code shutdown_ec;
@@ -410,7 +410,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             
             ec.clear();
             ssl_stream->async_handshake(ssl::stream_base::client,
-                [&]([[maybe_unused]] const boost::system::error_code& error) {
+                [&](const boost::system::error_code& error) {
                     handshake_completed = true;
                     ec = error;
                     timer.cancel();
@@ -438,7 +438,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         
         return wrapper;
         
-    } catch ([[maybe_unused]] const std::exception& e) {
+    } catch (const std::exception& e) {
         // Only count failures once (already counted above before throw)
         throw;
     }
@@ -516,7 +516,7 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 
                 return ConnectionHandle(socket, this, target);
                 
-            } catch ([[maybe_unused]] const std::exception& e) {
+            } catch (const std::exception& e) {
                 const auto now = std::chrono::steady_clock::now();
                 if (now >= deadline) {
                     acquire_timeouts_.fetch_add(1, std::memory_order_relaxed);

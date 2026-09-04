@@ -93,16 +93,16 @@ namespace analytics {
 // SelectionVector
 // ============================================================================
 
-SelectionVector::SelectionVector([[maybe_unused]] size_t capacity) {
+SelectionVector::SelectionVector(size_t capacity) {
     indices_.reserve(capacity);
 }
 
-void SelectionVector::reset([[maybe_unused]] size_t total_rows) {
+void SelectionVector::reset(size_t total_rows) {
     indices_.resize(total_rows);
     std::iota(indices_.begin(), indices_.end(), static_cast<uint32_t>(0));
 }
 
-void SelectionVector::push_back([[maybe_unused]] uint32_t idx) {
+void SelectionVector::push_back(uint32_t idx) {
     indices_.push_back(idx);
 }
 
@@ -114,7 +114,7 @@ bool SelectionVector::empty() const noexcept {
     return indices_.empty();
 }
 
-uint32_t SelectionVector::operator[]([[maybe_unused]] size_t pos) const {
+uint32_t SelectionVector::operator[](size_t pos) const {
     return indices_[pos];
 }
 
@@ -122,7 +122,7 @@ const std::vector<uint32_t> &SelectionVector::indices() const noexcept {
     return indices_;
 }
 
-SelectionVector SelectionVector::all([[maybe_unused]] size_t n) {
+SelectionVector SelectionVector::all(size_t n) {
     SelectionVector sv(n);
     sv.reset(n);
     return sv;
@@ -134,7 +134,7 @@ SelectionVector SelectionVector::all([[maybe_unused]] size_t n) {
 
 Column::Column(std::string name, ColumnType type) : name_(std::move(name)), type_(type) {}
 
-bool Column::isNull([[maybe_unused]] size_t row) const {
+bool Column::isNull(size_t row) const {
     if (null_bitmap_.empty()) {
         return false;
     }
@@ -200,7 +200,7 @@ void Column::appendNull() {
     ++row_count_;
 }
 
-ColumnValue Column::get([[maybe_unused]] size_t row) const {
+ColumnValue Column::get(size_t row) const {
     if (!null_bitmap_.empty() && null_bitmap_[row]) {
         return nullptr;
     }
@@ -220,7 +220,7 @@ ColumnValue Column::get([[maybe_unused]] size_t row) const {
     return nullptr;
 }
 
-void Column::reserve([[maybe_unused]] size_t n) {
+void Column::reserve(size_t n) {
     switch (type_) {
         case ColumnType::Int64:
             int64_data_.reserve(n);
@@ -314,7 +314,7 @@ std::shared_ptr<Column> Column::slice(size_t offset, size_t length) const {
 // ColumnBatch
 // ============================================================================
 
-ColumnBatch::ColumnBatch([[maybe_unused]] size_t row_count) : row_count_(row_count) {}
+ColumnBatch::ColumnBatch(size_t row_count) : row_count_(row_count) {}
 
 void ColumnBatch::addColumn(std::shared_ptr<Column> col) {
     if (!col) {
@@ -340,7 +340,7 @@ std::shared_ptr<Column> ColumnBatch::getColumn(const std::string &name) const {
     return columns_[it->second];
 }
 
-std::shared_ptr<Column> ColumnBatch::getColumnAt([[maybe_unused]] size_t idx) const {
+std::shared_ptr<Column> ColumnBatch::getColumnAt(size_t idx) const {
     if (idx >= static_cast<int>(columns_.size())) {
         return nullptr;
     }
@@ -380,7 +380,7 @@ ColumnBatch ColumnBatch::materialize() const {
     return out;
 }
 
-std::vector<ColumnBatch> ColumnBatch::split([[maybe_unused]] size_t max_rows) const {
+std::vector<ColumnBatch> ColumnBatch::split(size_t max_rows) const {
     // Materialize first so we have a dense layout.
     ColumnBatch dense = materialize();
     size_t total      = dense.rowCount();
@@ -448,9 +448,9 @@ namespace {
 
 // Sorted-merge intersection of two monotonically increasing index vectors.
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
-    SelectionVector out(std::min(a.size(),static_cast<int>(b.size())));
+    SelectionVector out(std::min(a.size(), b.size()));
     size_t i = 0, j = 0;
-    while (i < a.size()  && static_cast<size_t>(j) <static_cast<int>(b.size())) {
+    while (i < a.size() && j < b.size()) {
         if (a[i] == b[j]) {
             out.push_back(a[i]);
             ++i;
@@ -870,7 +870,7 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
         case AggregateSpec::Function::Max:
             return state.count_nonnull > 0 ? state.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
-            return static_cast<bool>(static_cast<double < static_cast<int>((state.distinct_set.size())));
+            return static_cast<double>(state.distinct_set.size());
         default: break;
     }
     return 0.0;
@@ -1110,7 +1110,7 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
     std::vector<size_t> order(n);
     std::iota(order.begin(), order.end(), 0);
 
-    std::stable_sort([[maybe_unused]] order.begin(), order.end(), [&](size_t a, size_t b) -> bool {
+    std::stable_sort(order.begin(), order.end(), [&](size_t a, size_t b) -> bool {
         for (const auto &key : keys_) {
             auto col = dense.getColumn(key.column);
             if (!col) {

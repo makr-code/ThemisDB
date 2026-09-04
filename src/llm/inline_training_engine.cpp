@@ -712,8 +712,8 @@ TrainingResult InlineTrainingEngine::trainLoop(
             }
 
             // Fire progress callback
-            if ([[maybe_unused]] cfg.progress_callback) {
-                cfg.progress_callback([[maybe_unused]] metrics);
+            if (cfg.progress_callback) {
+                cfg.progress_callback(metrics);
             }
 
             // Periodic evaluation
@@ -752,8 +752,8 @@ TrainingResult InlineTrainingEngine::trainLoop(
                     }
                 }
 
-                if ([[maybe_unused]] cfg.checkpoint_callback) {
-                    cfg.checkpoint_callback([[maybe_unused]] ckpt_path);
+                if (cfg.checkpoint_callback) {
+                    cfg.checkpoint_callback(ckpt_path);
                 }
             }
 
@@ -913,7 +913,8 @@ void InlineTrainingEngine::optimizerStep(
 
     switch (opt.type) {
         case OptimizerType::ADAM:
-        [[fallthrough]];\n        case OptimizerType::ADAM_W: {
+        [[fallthrough]];
+        case OptimizerType::ADAM_W: {
             // Initialise moment vectors on first call
             if (impl_-> static_cast<int>(m_adam.size()) != n) {
                 impl_->m_adam.assign(n, 0.0f);
@@ -987,7 +988,7 @@ void InlineTrainingEngine::optimizerStep(
 // Private – getLearningRate
 // ═══════════════════════════════════════════════════════════════════════════
 
-float InlineTrainingEngine::getLearningRate([[maybe_unused]] int step) const {
+float InlineTrainingEngine::getLearningRate(int step) const {
     const auto& sched = impl_->config.scheduler;
     const float max_lr = sched.max_lr;
     const float min_lr = sched.min_lr;
@@ -1013,7 +1014,8 @@ float InlineTrainingEngine::getLearningRate([[maybe_unused]] int step) const {
             return max_lr * (1.0f - t) + min_lr * t;
 
         case SchedulerType::COSINE:
-        [[fallthrough]];\n        case SchedulerType::COSINE_WITH_WARMUP:
+        [[fallthrough]];
+        case SchedulerType::COSINE_WITH_WARMUP:
             return min_lr + 0.5f * (max_lr - min_lr) * (1.0f + std::cos(kPi * t));
 
         case SchedulerType::POLYNOMIAL:

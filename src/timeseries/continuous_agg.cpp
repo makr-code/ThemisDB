@@ -159,7 +159,7 @@ void ContinuousAggWatermarkStore::setWatermark(const std::string& agg_id, int64_
       return;
     }
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
-    [[maybe_unused]] const auto write_ok = store_->putSystemMeta(key, std::to_string(watermark_ms));
+    const auto write_ok = store_->putSystemMeta(key, std::to_string(watermark_ms));
 }
 
 void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
@@ -167,7 +167,7 @@ void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
       return;
     }
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
-    [[maybe_unused]] const auto delete_ok = store_->deleteSystemMeta(key);
+    const auto delete_ok = store_->deleteSystemMeta(key);
 }
 
 // ============================================================
@@ -236,7 +236,7 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
             {"min", minv}, {"max", maxv}, {"sum", sum}, {"count", count},
             {"from_ms", wstart}, {"to_ms", wend}
         };
-        [[maybe_unused]] const auto write_ok = store_->putDataPoint(out);
+        const auto write_ok = store_->putDataPoint(out);
     }
 }
 

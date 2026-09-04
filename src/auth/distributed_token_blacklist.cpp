@@ -394,7 +394,7 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
             if (::bind(srv, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) == 0
                 && ::listen(srv, 8) == 0) {
                 server_fd_ = static_cast<std::uintptr_t>(srv);
-                listener_thread_ = std::thread([[maybe_unused]] [this] { serveIncomingConnections(); });
+                listener_thread_ = std::thread([this] { serveIncomingConnections(); });
             } else {
                 sockClose(srv);
                 // Non-fatal: node operates without inbound listener
@@ -422,7 +422,7 @@ DistributedTokenBlacklist::~DistributedTokenBlacklist()
     if (replication_thread_.joinable()) {
       replication_thread_.join();
     }
-    if ([[maybe_unused]] listener_thread_.joinable()) {
+    if (listener_thread_.joinable()) {
       listener_thread_.join();
     }
     
@@ -1104,3 +1104,4 @@ bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leade
 
 } // namespace auth
 } // namespace themis
+

@@ -141,7 +141,7 @@ void DistributedTaskCoordinator::stop() {
     }
 
     // Remove the leadership callback so we no longer react to elections.
-    coordinator_->setLeaderElectedCallback([[maybe_unused]] nullptr);
+    coordinator_->setLeaderElectedCallback(nullptr);
 
     THEMIS_INFO("DistributedTaskCoordinator stopped");
 }
@@ -205,7 +205,7 @@ void DistributedTaskCoordinator::deactivateScheduler() {
         for (const auto& [id, task] : task_registry_) {
             try {
                 scheduler_->unregisterTask(id);
-            } catch ([[maybe_unused]] const std::exception& ex) {
+            } catch (const std::exception& ex) {
                 // Ignore: task may not have been registered if there was an
                 // error during activation.
             }

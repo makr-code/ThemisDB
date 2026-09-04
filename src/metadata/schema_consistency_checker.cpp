@@ -108,7 +108,7 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkOrphanKeys_() const
         "stats:", "config:", "audit:", "index:", "meta:", "wal:"
     };
 
-    auto is_system_key = [&]([[maybe_unused]] const std::string& key) -> bool {
+    auto is_system_key = [&](const std::string& key) -> bool {
         for (const auto& pfx : kSystemPrefixes) {
             if (key.rfind(pfx, 0) == 0) {
               return true;

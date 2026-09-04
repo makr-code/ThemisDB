@@ -82,7 +82,7 @@ void TransactionRetryManager::resetStatistics() {
     stats_ = RetryStatistics();
 }
 
-void TransactionRetryManager::setAlertCallback([[maybe_unused]] AlertCallback callback) {
+void TransactionRetryManager::setAlertCallback(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     alert_callback_ = std::move(callback);
 }

@@ -78,7 +78,7 @@ struct FileDescriptorDeleter {
 using UniqueFileDescriptor = std::unique_ptr<int, FileDescriptorDeleter>;
 
 // Helper function to create RAII-wrapped file descriptor
-inline UniqueFileDescriptor makeUniqueFileDescriptor([[maybe_unused]] int fd) {
+inline UniqueFileDescriptor makeUniqueFileDescriptor(int fd) {
     auto fd_ptr = std::make_unique<int>(fd);
     return UniqueFileDescriptor(fd_ptr.release());
 }

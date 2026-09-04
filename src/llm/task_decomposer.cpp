@@ -168,7 +168,7 @@ WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
     WorkflowDefinition def;
     def.source_format = "json";
 
-    auto req = [&]([[maybe_unused]] const char* key) -> const json& {
+    auto req = [&](const char* key) -> const json& {
         if (!j.contains(key))
             throw std::runtime_error(std::string("WorkflowLoader::fromJson: missing key '") + key + "'");
         return j.at(key);

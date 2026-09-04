@@ -81,14 +81,14 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 #endif
     }
 
-    void setThreadCount([[maybe_unused]] int threads) {
+    void setThreadCount(int threads) {
         numThreads_ = threads;
 #if THEMIS_HAS_OPENMP
         omp_set_num_threads(threads);
 #endif
     }
 
-    void enableSIMD([[maybe_unused]] bool enable) {
+    void enableSIMD(bool enable) {
         enableSIMD_ = enable;
     }
 

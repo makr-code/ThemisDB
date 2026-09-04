@@ -47,7 +47,7 @@ namespace themis::sharding {
 class ShardServiceImpl final : public themis::sharding::proto::ShardService::Service {
 public:
     explicit ShardServiceImpl(ShardRPCServer::RequestHandler* handler)
-        : handler_([[maybe_unused]] handler) {}
+        : handler_(handler) {}
 
     // Called once Impl is constructed so we can serve shard identity.
     void setImplRef(const std::string& address) {
@@ -55,11 +55,11 @@ public:
     }
     
     grpc::Status PrepareTransaction(
-        [[maybe_unused]] grpc::ServerContext* context,
+        grpc::ServerContext* context,
         const themis::sharding::proto::PrepareRequest* request,
         themis::sharding::proto::PrepareResponse* response
     ) override {
-        if ([[maybe_unused]] !handler_) {
+        if (!handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
         
@@ -85,18 +85,18 @@ public:
     }
     
     grpc::Status CommitTransaction(
-        [[maybe_unused]] grpc::ServerContext* context,
+        grpc::ServerContext* context,
         const themis::sharding::proto::CommitRequest* request,
         themis::sharding::proto::CommitResponse* response
     ) override {
-        if ([[maybe_unused]] !handler_) {
+        if (!handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
         
         THEMIS_DEBUG("gRPC CommitTransaction: txn_id={}", request->transaction_id());
         
         try {
-            bool success = handler_->onCommit([[maybe_unused]] request->transaction_id());
+            bool success = handler_->onCommit(request->transaction_id());
             response->set_success(success);
             
             return grpc::Status::OK;
@@ -110,18 +110,18 @@ public:
     }
     
     grpc::Status AbortTransaction(
-        [[maybe_unused]] grpc::ServerContext* context,
+        grpc::ServerContext* context,
         const themis::sharding::proto::AbortRequest* request,
         themis::sharding::proto::AbortResponse* response
     ) override {
-        if ([[maybe_unused]] !handler_) {
+        if (!handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
         }
         
         THEMIS_DEBUG("gRPC AbortTransaction: txn_id={}", request->transaction_id());
         
         try {
-            bool success = handler_->onAbort([[maybe_unused]] request->transaction_id());
+            bool success = handler_->onAbort(request->transaction_id());
             response->set_success(success);
             
             return grpc::Status::OK;
@@ -134,13 +134,13 @@ public:
     }
     
     grpc::Status HealthCheck(
-        [[maybe_unused]] grpc::ServerContext* context,
-        [[maybe_unused]] const themis::sharding::proto::HealthRequest* request,
+        grpc::ServerContext* context,
+        const themis::sharding::proto::HealthRequest* request,
         themis::sharding::proto::HealthResponse* response
     ) override {
         THEMIS_DEBUG("gRPC HealthCheck");
         
-        if ([[maybe_unused]] handler_) {
+        if (handler_) {
             auto health_info = handler_->onHealthCheck();
             response->set_status(health_info.is_healthy ? "healthy" : "unhealthy");
             response->set_version(health_info.version);
@@ -160,15 +160,15 @@ public:
     }
 
     grpc::Status CollectWaitForEdges(
-        [[maybe_unused]] grpc::ServerContext* context,
-        [[maybe_unused]] const themis::sharding::proto::CollectWaitForEdgesRequest* request,
+        grpc::ServerContext* context,
+        const themis::sharding::proto::CollectWaitForEdgesRequest* request,
         themis::sharding::proto::CollectWaitForEdgesResponse* response
     ) override {
         THEMIS_DEBUG("gRPC CollectWaitForEdges");
 
         response->set_shard_id(listen_address_);
 
-        if ([[maybe_unused]] handler_) {
+        if (handler_) {
             try {
                 const auto edges = handler_->onCollectWaitForEdges();
                 for (const auto& edge : edges) {
@@ -187,7 +187,7 @@ public:
     }
     
     grpc::Status GetShardStatus(
-        [[maybe_unused]] grpc::ServerContext* context,
+        grpc::ServerContext* context,
         const themis::sharding::proto::StatusRequest* request,
         themis::sharding::proto::StatusResponse* response
     ) override {
@@ -201,7 +201,7 @@ public:
         response->set_shard_id(listen_address_);
 
         // state: derived from health check when handler is available
-        if ([[maybe_unused]] handler_) {
+        if (handler_) {
             try {
                 auto health = handler_->onHealthCheck();
                 response->set_state(health.is_healthy ? "healthy" : "unhealthy");
@@ -271,7 +271,7 @@ ShardRPCServer::~ShardRPCServer() {
 }
 
 /** @brief Install application request handler used by incoming RPC methods. */
-void ShardRPCServer::setRequestHandler([[maybe_unused]] RequestHandler* handler) {
+void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
     impl_->handler = handler;
 }
 
@@ -282,7 +282,7 @@ void ShardRPCServer::setRequestHandler([[maybe_unused]] RequestHandler* handler)
 bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
     try {
-        impl_->service = std::make_unique<ShardServiceImpl>([[maybe_unused]] impl_->handler);
+        impl_->service = std::make_unique<ShardServiceImpl>(impl_->handler);
         impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;

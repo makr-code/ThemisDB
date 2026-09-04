@@ -277,7 +277,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         s = db_->Put(write_opts, key, value);
     }
     
-    [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
+    auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     
     if (!s.ok()) {
@@ -439,7 +439,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         rocksdb::WriteOptions write_opts;
         rocksdb::Status s = db_->Write(write_opts, &batch);
         
-        [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
+        auto latency = std::chrono::duration<double, std::milli>(
             std::chrono::steady_clock::now() - start_time).count();
         
         if (!s.ok()) {
@@ -501,7 +501,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s = db_->Write(write_opts, &batch);
     
-    [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
+    auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     
     if (!s.ok()) {
@@ -942,9 +942,9 @@ TSStore::query(const QueryOptions& options) const {
                                              fmt::format("Scan failed: {}", it->status().ToString()));
     }
     
-    [[maybe_unused]] auto latency = std::chrono::duration<double, std::milli>(
+    auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
-    [[maybe_unused]] int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
+    int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
     
     THEMIS_DEBUG("Query returned {} data points for metric={}",static_cast<int>(results.size()), options.metric);
     return Ok(std::move(results));
@@ -957,7 +957,7 @@ TSStore::aggregate(const QueryOptions& options) const {
 
 Result<TSStore::AggregationResult>
 TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) const {
-    [[maybe_unused]] auto start_time = std::chrono::steady_clock::now();
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.aggregate");
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
@@ -968,7 +968,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     span.setAttribute("use_optimizer", use_optimizer);
     
     AggregationResult result;
-    [[maybe_unused]] bool optimizer_used = false;
+    bool optimizer_used = false;
     
     // Try optimizer first if enabled
     if (use_optimizer) {
@@ -1211,7 +1211,9 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     std::unique_ptr<rocksdb::Iterator> it = {};
 
     if (cf_) {
-      it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
     }
 
     std::string prefix = KEY_PREFIX + metric + ":";
@@ -1231,7 +1233,9 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
         auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->metric == metric && comp->timestamp_ms < before_timestamp_ms) {
             if (cf_) {
-              batch.Delete(cf_, key); else batch.Delete(key);
+                            batch.Delete(cf_, key);
+                        } else {
+                            batch.Delete(key);
             }
             deleted_count++;
         }

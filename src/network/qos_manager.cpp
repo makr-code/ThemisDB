@@ -103,7 +103,7 @@ void TokenBucket::refill() {
     }
 }
 
-bool TokenBucket::tryConsume([[maybe_unused]] uint64_t bytes) {
+bool TokenBucket::tryConsume(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     refill();
 
@@ -208,7 +208,7 @@ void LeakyBucket::drain() {
     }
 }
 
-bool LeakyBucket::add([[maybe_unused]] uint64_t bytes) {
+bool LeakyBucket::add(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     drain();
 
@@ -361,7 +361,7 @@ QoSManager::~QoSManager() = default;
 // -------------------------------------------------------------------------
 
 std::shared_ptr<QoSManager::ConnectionState>
-QoSManager::findConnection([[maybe_unused]] uint64_t id) const {
+QoSManager::findConnection(uint64_t id) const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_.find(id);
     if (it == connections_.end()) {
@@ -391,7 +391,7 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     connections_[connection_id] = std::move(state);
 }
 
-void QoSManager::unregisterConnection([[maybe_unused]] uint64_t connection_id) {
+void QoSManager::unregisterConnection(uint64_t connection_id) {
     // Clean up tenant assignment and decrement tenant connection count
     std::string old_tenant_id = {};
     {
@@ -446,7 +446,7 @@ void QoSManager::setTokenBucket(uint64_t connection_id,
     }
 }
 
-void QoSManager::clearTokenBucket([[maybe_unused]] uint64_t connection_id) {
+void QoSManager::clearTokenBucket(uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -504,7 +504,7 @@ void QoSManager::setLeakyBucket(uint64_t connection_id,
     }
 }
 
-void QoSManager::clearLeakyBucket([[maybe_unused]] uint64_t connection_id) {
+void QoSManager::clearLeakyBucket(uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -630,7 +630,7 @@ void QoSManager::recordAck(uint64_t connection_id,
     cc->recordAck(bytes_acked, rtt);
 }
 
-void QoSManager::recordLoss([[maybe_unused]] uint64_t connection_id) {
+void QoSManager::recordLoss(uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
         return;
@@ -646,7 +646,7 @@ void QoSManager::recordLoss([[maybe_unused]] uint64_t connection_id) {
     cc->recordLoss();
 }
 
-uint64_t QoSManager::getCongestionWindow([[maybe_unused]] uint64_t connection_id) const {
+uint64_t QoSManager::getCongestionWindow(uint64_t connection_id) const {
     auto state = findConnection(connection_id);
     if (!state) {
         return UINT64_MAX;
@@ -796,7 +796,7 @@ bool QoSManager::allowSend(uint64_t connection_id,
 
         // Fire callback if set
         {
-            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callback_mutex_);
+            std::lock_guard<std::mutex> cb_lock(callback_mutex_);
             if (backpressure_cb_) {
                 backpressure_cb_(connection_id, bytes);
             }
@@ -956,7 +956,7 @@ QoSManager::Stats QoSManager::getStats() const {
     s.total_bytes_sent     = total_bytes_sent_.load(std::memory_order_relaxed);
     s.total_bytes_received = total_bytes_received_.load(std::memory_order_relaxed);
     s.total_bytes_shaped   = total_bytes_shaped_.load(std::memory_order_relaxed);
-    s.backpressure_events  = total_backpressure_events_.load([[maybe_unused]] std::memory_order_relaxed);
+    s.backpressure_events  = total_backpressure_events_.load(std::memory_order_relaxed);
 
     {
         std::lock_guard<std::mutex> lock(connections_mutex_);
@@ -972,7 +972,7 @@ QoSManager::Stats QoSManager::getStats() const {
 }
 
 QoSManager::ConnectionStats
-QoSManager::getConnectionStats([[maybe_unused]] uint64_t connection_id) const {
+QoSManager::getConnectionStats(uint64_t connection_id) const {
     auto state = findConnection(connection_id);
     if (!state) {
         return ConnectionStats{};
@@ -985,7 +985,7 @@ QoSManager::getConnectionStats([[maybe_unused]] uint64_t connection_id) const {
     cs.bytes_received       = state->bytes_received.load(std::memory_order_relaxed);
     cs.bytes_shaped         = state->bytes_shaped.load(std::memory_order_relaxed);
     cs.queue_depth          = state->queue_depth.load(std::memory_order_relaxed);
-    cs.backpressure_events  = state->backpressure_events.load([[maybe_unused]] std::memory_order_relaxed);
+    cs.backpressure_events  = state->backpressure_events.load(std::memory_order_relaxed);
     cs.has_token_bucket     = false;
     cs.token_bucket_rate_bps    = 0;
     cs.token_bucket_burst_bytes = 0;
@@ -1035,7 +1035,7 @@ QoSManager::getAllConnectionStats() const {
 
 void QoSManager::setBackpressureCallback(
     std::function<void(uint64_t, uint64_t)> cb) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     backpressure_cb_ = std::move(cb);
 }
 

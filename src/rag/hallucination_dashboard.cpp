@@ -209,7 +209,7 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
     return snap;
 }
 
-std::vector<HallucinationEntry> HallucinationDashboard::recentEntries([[maybe_unused]] size_t n) const {
+std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (n == 0 || n >= impl_-> static_cast<int>(window.size())) {
         return std::vector<HallucinationEntry>(impl_->window.begin(),
@@ -223,9 +223,9 @@ std::vector<HallucinationEntry> HallucinationDashboard::recentEntries([[maybe_un
 // Alerting
 // ─────────────────────────────────────────────────────────────────────────────
 
-void HallucinationDashboard::setAlertCallback([[maybe_unused]] AlertCallback callback) {
+void HallucinationDashboard::setAlertCallback(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    alert_callback_ = std::move([[maybe_unused]] callback);
+    alert_callback_ = std::move(callback);
 }
 
 std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
@@ -233,7 +233,7 @@ std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
     return snap.active_alerts;
 }
 
-void HallucinationDashboard::fireAlertsUnlocked([[maybe_unused]] double rate) {
+void HallucinationDashboard::fireAlertsUnlocked(double rate) {
     if (rate < config_.alert_threshold_info) {
       return;
     }

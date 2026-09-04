@@ -51,14 +51,14 @@ static void wgs84ToEcef(double lon_deg, double lat_deg,
 
 /// Convert ECEF chord distance (unit sphere) to approximate geodesic metres.
 /// chord = 2 × sin(angle/2), so angle = 2 × arcsin(chord/2).
-static double chordToDistanceM([[maybe_unused]] float chord) noexcept {
+static double chordToDistanceM(float chord) noexcept {
     const double half_chord = static_cast<double>(chord) * 0.5;
     const double clamped    = std::min(1.0, std::max(0.0, half_chord));
     return kEarthR_m * 2.0 * std::asin(clamped);
 }
 
 /// Convert a radius in metres to an ECEF unit-sphere chord distance squared.
-static float radiusToChordSq([[maybe_unused]] double radius_m) noexcept {
+static float radiusToChordSq(double radius_m) noexcept {
     const double angle    = radius_m / kEarthR_m;
     const double chord    = 2.0 * std::sin(angle * 0.5);
     return static_cast<float>(chord * chord);

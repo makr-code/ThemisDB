@@ -288,7 +288,7 @@ bool PMemPool::recover() noexcept {
     return true;
 }
 
-void* PMemPool::allocate([[maybe_unused]] size_t size) noexcept {
+void* PMemPool::allocate(size_t size) noexcept {
     if (!base_ || size == 0) {
         return nullptr;
     }

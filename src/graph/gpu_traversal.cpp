@@ -49,7 +49,7 @@ GPUGraphTraversal::GPUGraphTraversal(GraphIndexManager &graph_manager) : graph_m
 
 namespace {
 
-bool probeGPUAvailability([[maybe_unused]] int /*device*/) noexcept {
+bool probeGPUAvailability(int /*device*/) noexcept {
 #if defined(THEMIS_ENABLE_CUDA)
     int count = 0;
     if (cudaGetDeviceCount(&count) != cudaSuccess)
@@ -96,13 +96,13 @@ bool runDFSCuda(const std::vector<uint32_t> &row_offsets, const std::vector<uint
 
 namespace {
 
-bool runBFSCudaIfAvailable([[maybe_unused]] const std::vector<uint32_t> &row_offsets,
-                           [[maybe_unused]] const std::vector<uint32_t> &column_indices,
-                           [[maybe_unused]] uint32_t start_id,
-                           [[maybe_unused]] const std::vector<uint8_t> &forbidden_mask,
-                           [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config &config,
-                           [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult &result,
-                           [[maybe_unused]] std::vector<int> &out_distances) {
+bool runBFSCudaIfAvailable(const std::vector<uint32_t> &row_offsets,
+                           const std::vector<uint32_t> &column_indices,
+                           uint32_t start_id,
+                           const std::vector<uint8_t> &forbidden_mask,
+                           const themis::graph::GPUGraphTraversal::Config &config,
+                           themis::graph::GPUGraphTraversal::TraversalResult &result,
+                           std::vector<int> &out_distances) {
 #if defined(THEMIS_ENABLE_CUDA)
     return cuda_impl::runBFSCuda(row_offsets, column_indices, start_id, forbidden_mask, config, result, out_distances);
 #else
@@ -110,13 +110,13 @@ bool runBFSCudaIfAvailable([[maybe_unused]] const std::vector<uint32_t> &row_off
 #endif
 }
 
-bool runDFSCudaIfAvailable([[maybe_unused]] const std::vector<uint32_t> &row_offsets,
-                           [[maybe_unused]] const std::vector<uint32_t> &column_indices,
-                           [[maybe_unused]] uint32_t start_id,
-                           [[maybe_unused]] const std::vector<uint8_t> &forbidden_mask,
-                           [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config &config,
-                           [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult &result,
-                           [[maybe_unused]] std::vector<int> &out_order) {
+bool runDFSCudaIfAvailable(const std::vector<uint32_t> &row_offsets,
+                           const std::vector<uint32_t> &column_indices,
+                           uint32_t start_id,
+                           const std::vector<uint8_t> &forbidden_mask,
+                           const themis::graph::GPUGraphTraversal::Config &config,
+                           themis::graph::GPUGraphTraversal::TraversalResult &result,
+                           std::vector<int> &out_order) {
 #if defined(THEMIS_ENABLE_CUDA)
     return cuda_impl::runDFSCuda(row_offsets, column_indices, start_id, forbidden_mask, config, result, out_order);
 #else

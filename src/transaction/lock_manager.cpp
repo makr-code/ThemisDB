@@ -199,7 +199,7 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
     // Collect keys before modification
     std::vector<std::string> keys = {};
 
-    keys.reserve(txn_it-> static_cast<int>(second.size()));
+    keys.reserve(txn_it->second.size());
     for (const auto& [k, _] : txn_it->second) {
         keys.push_back(k);
     }
@@ -274,7 +274,7 @@ LockManager::LockResult LockManager::upgradeLock(
                 // (i.e., it is truly a mutual upgrade, not an ordinary acquire).
                 bool is_upgrade_waiter = std::any_of(
                     entry.holders.begin(), entry.holders.end(),
-                    [&]([[maybe_unused]] const LockEntry& e) { return e.holder == waiter->txn_id; });
+                    [&](const LockEntry& e) { return e.holder == waiter->txn_id; });
                 if (is_upgrade_waiter) {
                     THEMIS_WARN(
                         "[TXLOCK] Mutual upgrade deadlock detected for key={}, tx_a={}, tx_b={}: "
@@ -356,7 +356,7 @@ LockManager::getLocksHeld(TransactionId txn_id) const {
       return result;
     }
 
-    result.reserve(it-> static_cast<int>(second.size()));
+        result.reserve(it->second.size());
     for (const auto& [k, lt] : it->second) {
         result.emplace_back(k, lt);
     }
@@ -380,7 +380,7 @@ bool LockManager::isInShrinkingPhase(TransactionId txn_id) const {
 // ---------------------------------------------------------------------------
 // Configuration
 // ---------------------------------------------------------------------------
-void LockManager::setEscalationThreshold([[maybe_unused]] size_t threshold) {
+void LockManager::setEscalationThreshold(size_t threshold) {
     escalation_threshold_.store(threshold, std::memory_order_relaxed);
 }
 
@@ -517,7 +517,7 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
 
     // Cache threshold to avoid repeated atomic loads
     const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);
-    if (txn_it-> static_cast<int>(second.size()) < threshold) {
+    if (txn_it->second.size() < threshold) {
         return;
     }
 
@@ -602,7 +602,7 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     return true;
 }
 
-void LockManager::setMaxPredicateLocks([[maybe_unused]] size_t max_locks) {
+void LockManager::setMaxPredicateLocks(size_t max_locks) {
     max_predicate_locks_.store(max_locks, std::memory_order_relaxed);
 }
 
@@ -610,7 +610,7 @@ size_t LockManager::getMaxPredicateLocks() const {
     return max_predicate_locks_.load(std::memory_order_relaxed);
 }
 
-void LockManager::setPredicateLockingEnabled([[maybe_unused]] bool enabled) {
+void LockManager::setPredicateLockingEnabled(bool enabled) {
     predicate_locking_enabled_.store(enabled, std::memory_order_relaxed);
 }
 

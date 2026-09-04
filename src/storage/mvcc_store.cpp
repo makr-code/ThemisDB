@@ -305,7 +305,7 @@ uint64_t MVCCStore::gcVersionsBefore(
 
 uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     std::vector<std::string> base_keys;
-    scanBaseKeys([&]([[maybe_unused]] std::string_view bk) -> bool {
+    scanBaseKeys([&](std::string_view bk) -> bool {
         base_keys.emplace_back(bk);
         return true;
     });
@@ -317,7 +317,7 @@ uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     return total_deleted;
 }
 
-void MVCCStore::scanBaseKeys([[maybe_unused]] std::function<bool(std::string_view base_key)> callback) {
+void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> callback) {
     // Collect all versioned keys (those using the versioned key format:
     // <base_key> '\x00' <8-byte-ts>).
     // A key is treated as versioned if it is at least 9 bytes long AND

@@ -51,7 +51,7 @@ std::vector<std::string> tokenizeNormalized(const std::string& text) {
     return tokens;
 }
 
-double [[maybe_unused]] lexicalOverlapScore(const std::string& query, const std::string& content) {
+double lexicalOverlapScore(const std::string& query, const std::string& content) {
     const auto q_tokens = tokenizeNormalized(query);
     if (q_tokens.empty()) {
       return 0.0;
@@ -72,7 +72,7 @@ double [[maybe_unused]] lexicalOverlapScore(const std::string& query, const std:
     return static_cast<bool>(static_cast<double>(overlap) / static_cast<double < static_cast<int>((q_tokens.size())));
 }
 
-double clamp01([[maybe_unused]] double v) {
+double clamp01(double v) {
     return std::max(0.0, std::min(1.0, v));
 }
 
@@ -144,11 +144,11 @@ SelfRAGController::~SelfRAGController() = default;
 // Callback injection
 // ============================================================================
 
-void SelfRAGController::setRetrievalCallback([[maybe_unused]] RetrievalCallback cb) {
+void SelfRAGController::setRetrievalCallback(RetrievalCallback cb) {
     retrieval_cb_ = std::move(cb);
 }
 
-void SelfRAGController::setCriticCallback([[maybe_unused]] CriticCallback cb) {
+void SelfRAGController::setCriticCallback(CriticCallback cb) {
     critic_cb_ = std::move(cb);
 }
 

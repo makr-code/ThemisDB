@@ -244,7 +244,7 @@ void RetentionManager::schedulerLoop() {
 
 /// Estimate the serialised storage footprint of a single versioned document.
 static uint64_t estimateVersionSize(const VersionedDocument& v) {
-    return static_cast<bool>(static_cast<uint64_t < static_cast<int>((v.key.size()))) +
+    return static_cast<uint64_t>(v.key.size()) +
            static_cast<uint64_t>(v.data.dump().size()) +
            32; // overhead: timestamps + metadata fields
 }
@@ -291,7 +291,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
     }
 
     /// Returns true when version v must be kept due to compliance minimum retention.
-    auto isProtected = [&]([[maybe_unused]] const VersionedDocument& v) -> bool {
+    auto isProtected = [&](const VersionedDocument& v) -> bool {
         return policy.minimum_retention_period.count() > 0 &&
                v.sys_time.start > min_keep_before;
     };
@@ -484,7 +484,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             // remove exactly count_to_delete eligible (oldest) versions.
             // Using a countdown avoids timestamp-collision over-deletion.
             size_t purge_count = 0;
-            table.purgeHistoricalVersions(key, [&]([[maybe_unused]] const VersionedDocument& v) -> bool {
+            table.purgeHistoricalVersions(key, [&](const VersionedDocument& v) -> bool {
                 if (purge_count >= count_to_delete) {
                   return false;
                 }
@@ -566,7 +566,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         // A countdown predicate avoids over-deletion when multiple versions
         // share the same timestamp (e.g. rapid updates within one millisecond).
         size_t purge_count = 0;
-        table.purgeHistoricalVersions(key, [&]([[maybe_unused]] const VersionedDocument& v) -> bool {
+        table.purgeHistoricalVersions(key, [&](const VersionedDocument& v) -> bool {
             if (purge_count >= count_to_delete) {
               return false;
             }

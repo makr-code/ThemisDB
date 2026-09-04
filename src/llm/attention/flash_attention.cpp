@@ -344,8 +344,10 @@ Backend FlashAttention::selectBestBackend() {
 bool FlashAttention::isBackendAvailable(Backend backend) {
     switch (backend) {
         case Backend::CUDA_SM90:
-        [[fallthrough]];\n        case Backend::CUDA_SM86:
-        [[fallthrough]];\n        case Backend::CUDA_SM80:
+        [[fallthrough]];
+        case Backend::CUDA_SM86:
+        [[fallthrough]];
+        case Backend::CUDA_SM80:
 #ifdef THEMIS_ENABLE_CUDA
             return cuda::FlashAttentionCUDA::isAvailable();
 #else
@@ -360,7 +362,8 @@ bool FlashAttention::isBackendAvailable(Backend backend) {
 #endif
             
         case Backend::HIP_MI300:
-        [[fallthrough]];\n        case Backend::HIP_RDNA:
+        [[fallthrough]];
+        case Backend::HIP_RDNA:
 #ifdef THEMIS_ENABLE_HIP
             return hip::FlashAttentionHIP::isAvailable();
 #else
@@ -425,8 +428,10 @@ double FlashAttention::getExpectedSpeedup() const {
 std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) {
     switch (backend) {
         case Backend::CUDA_SM90:
-        [[fallthrough]];\n        case Backend::CUDA_SM86:
-        [[fallthrough]];\n        case Backend::CUDA_SM80:
+        [[fallthrough]];
+        case Backend::CUDA_SM86:
+        [[fallthrough]];
+        case Backend::CUDA_SM80:
 #ifdef THEMIS_ENABLE_CUDA
             return std::make_unique<cuda::FlashAttentionCUDA>(config_);
 #else
@@ -441,7 +446,8 @@ std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) 
 #endif
 
         case Backend::HIP_MI300:
-        [[fallthrough]];\n        case Backend::HIP_RDNA:
+        [[fallthrough]];
+        case Backend::HIP_RDNA:
 #ifdef THEMIS_ENABLE_HIP
             return std::make_unique<hip::FlashAttentionHIP>(config_);
 #else

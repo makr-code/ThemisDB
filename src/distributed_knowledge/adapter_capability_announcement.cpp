@@ -63,7 +63,7 @@ void GossipAdapterPublisher::handleInboundMessage(const nlohmann::json& payload)
     }
 }
 
-void GossipAdapterPublisher::setAnnouncementCallback([[maybe_unused]] AnnouncementCallback cb) {
+void GossipAdapterPublisher::setAnnouncementCallback(AnnouncementCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     on_announcement_ = std::move(cb);
 }

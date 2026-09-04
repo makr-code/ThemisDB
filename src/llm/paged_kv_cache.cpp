@@ -175,7 +175,7 @@ void PagedKVCache::sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequenc
     block_tables_[new_sequence_id] = new_block_table;
 }
 
-std::shared_ptr<BlockTable> PagedKVCache::getBlockTable([[maybe_unused]] uint64_t sequence_id) {
+std::shared_ptr<BlockTable> PagedKVCache::getBlockTable(uint64_t sequence_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = block_tables_.find(sequence_id);
@@ -186,7 +186,7 @@ std::shared_ptr<BlockTable> PagedKVCache::getBlockTable([[maybe_unused]] uint64_
     return nullptr;
 }
 
-void PagedKVCache::removeSequence([[maybe_unused]] uint64_t sequence_id) {
+void PagedKVCache::removeSequence(uint64_t sequence_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = block_tables_.find(sequence_id);
@@ -459,7 +459,7 @@ int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
     return 32;  // Default to FP32 (no quantization)
 }
 
-uint8_t PagedKVCache::quantizeToNVFP4([[maybe_unused]] float value) {
+uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     // NVFP4: [s1e2m1] format (1 sign, 2 exponent, 1 mantissa)
     // Range: [-448, +448], ~4-5% precision loss vs FP16
     
@@ -481,7 +481,7 @@ uint8_t PagedKVCache::quantizeToNVFP4([[maybe_unused]] float value) {
     return result;
 }
 
-float PagedKVCache::dequantizeFromNVFP4([[maybe_unused]] uint8_t packed) {
+float PagedKVCache::dequantizeFromNVFP4(uint8_t packed) {
     // NVFP4: [s1e2m1] format — reconstruct to FP32
     
     if (packed == 0x00) {

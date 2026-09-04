@@ -178,7 +178,7 @@ static std::vector<uint8_t> aes256gcm_encrypt(
     std::vector<uint8_t> ct(static_cast<int>(plaintext.size()) + 32);
     int len = 0, ct_len = 0;
 
-    auto fail = [&]([[maybe_unused]] const char* where) {
+    auto fail = [&](const char* where) {
         throw std::runtime_error(std::string("aes256gcm_encrypt: ") + where + ": " + ossl_error());
     };
 
@@ -231,7 +231,7 @@ static std::vector<uint8_t> aes256gcm_decrypt(
     std::vector<uint8_t> pt(static_cast<int>(ciphertext.size()) + 32);
     int len = 0, pt_len = 0;
 
-    auto fail = [&]([[maybe_unused]] const char* where) {
+    auto fail = [&](const char* where) {
         throw std::runtime_error(std::string("aes256gcm_decrypt: ") + where + ": " + ossl_error());
     };
 
@@ -1027,7 +1027,7 @@ static std::string b64_enc(const std::vector<uint8_t>& data) {
     return ret;
 }
 
-static bool is_b64([[maybe_unused]] uint8_t c) {
+static bool is_b64(uint8_t c) {
     return isalnum(c) || c == '+' || c == '/';
 }
 
@@ -1378,7 +1378,7 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
         try {
             return fn(message, secret_key);
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "SphincsPlus::sign: exception from user callback (suppressed)");
+            THEMIS_WARN("SphincsPlus::sign: exception from user callback (suppressed)");
             return {};
         }
     }
@@ -1452,7 +1452,7 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
         try {
             return fn(message, signature, public_key);
         } catch (...) {
-            THEMIS_WARN([[maybe_unused]] "SphincsPlus::verify: exception from user callback (suppressed)");
+            THEMIS_WARN("SphincsPlus::verify: exception from user callback (suppressed)");
             return false;
         }
     }

@@ -57,7 +57,7 @@ bool DirectXShader::load() {
     fs::path p(shader_path_);
 
     // If the path points to a compiled bytecode (.cso/.dxil), try to read it.
-    auto try_read_bytecode = [&]([[maybe_unused]] const fs::path& file_path) -> bool {
+    auto try_read_bytecode = [&](const fs::path& file_path) -> bool {
         std::ifstream file(file_path.string(), std::ios::binary | std::ios::ate);
         if (!file.is_open()) {
             return false;
