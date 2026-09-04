@@ -54,11 +54,27 @@ The canonical version is stored in two places that must always be kept in sync:
 | File | Format | Example |
 |---|---|---|
 | [`VERSION`](VERSION) | Plain text, one line | `<major>.<minor>.<patch>[-pre]` |
+| [`RELEASE_TYPE`](RELEASE_TYPE) | Plain text, one line | `nightly`, `alpha`, `beta`, `rc`, or `stable` |
 | [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog header | `## [<major>.<minor>.<patch>] - YYYY-MM-DD` |
 
 Additionally, the CMake build system reads the version at configure time via the `VERSION` file and from `CMakeLists.txt` `project()` call. Keep these consistent.
 
-The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). For GA governance claims, `VERSION`/`RELEASE_TYPE` must be interpreted together with the active promotion evidence state (including Section 9 sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md`).
+The `RELEASE_TYPE` file holds the current release type as a single line of text. This file allows workflows and helper scripts to determine the release classification without parsing version strings. Valid values are: `nightly`, `alpha`, `beta`, `rc`, `stable`.
+
+### Version Update Procedures
+
+When manually creating a release:
+
+1. Update `VERSION` with the new version string (e.g., `2.5.0` or `2.5.0-rc1`)
+2. Update `RELEASE_TYPE` with the release classification (e.g., `stable` or `rc`)
+3. Update `CHANGELOG.md` with the new version section
+4. Verify `CMakeLists.txt` version matches `VERSION`
+5. Commit all three files together
+6. Create release tag: `git tag -s v<version> -m "Release v<version>"`
+
+When using semi-automatic release workflows:
+- `.github/workflows/release-promote.yml` automatically updates `VERSION`, `RELEASE_TYPE`, and `CHANGELOG.md`
+- Manual tag creation is required after PR approval and merge
 
 ### 2.1 Pull Request Version Targeting
 
@@ -109,7 +125,76 @@ Canonical suffixes:
 
 ---
 
-## 3.1 Stable / GA Promotion Evidence
+## 3. Release Types
+
+| Type | Description | Example tag | Cadence |
+|---|---|---|---|
+| **Nightly** | Automated daily builds from develop (for early testing) | `v2.4.0-nightly.20260904.1234` | Daily 03:30 UTC |
+| **Alpha** | Early preview; API may change significantly | `v2.5.0-alpha1` | As needed |
+| **Beta** | Feature-complete; API stabilising | `v2.5.0-beta1` | As needed |
+| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `v2.5.0-rc1` | 1–2 weeks before stable |
+| **Stable** | General availability (GA) | `v2.5.0` | Every 6–8 weeks (MINOR) |
+| **Patch / Hotfix** | Critical fixes on a stable release | `v2.5.1` | As needed (P0: 48h, P1: 1 week) |
+
+### 3.1 Nightly Release Format
+
+Nightly versions use a specialized format to support multiple nightly builds per day:
+
+```
+v<major>.<minor>.<patch>-nightly.<YYYYMMDD>.<runnum>
+```
+
+Where:
+- `<major>.<minor>.<patch>` — base version from `VERSION` file
+- `<YYYYMMDD>` — release date (e.g., `20260904` for September 4, 2026)
+- `<runnum>` — GitHub Actions run number (ensures unique tags even on same day)
+
+**Examples:**
+- `v2.4.0-nightly.20260904.1234`
+- `v2.4.0-nightly.20260904.1235` (second nightly on same day)
+
+**Sorting:** Nightly tags sort correctly chronologically and with semantic version comparison tools.
+
+**Docker tags:** Nightly images receive multiple tags:
+- `themisdb:nightly` (points to latest nightly, always updated)
+- `themisdb:nightly-20260904` (date-specific, never changes)
+- `themisdb:2.4.0-nightly-20260904` (full version with date)
+- **Never** receives `latest` or `<version>` tags
+
+Nightly releases are released automatically via `.github/workflows/release-nightly.yml`. They are always marked as pre-releases on GitHub and are not submitted to WinGet.
+
+### 3.2 Release Type Progression
+
+Releases progress through the type sequence:
+
+```
+nightly → alpha → beta → rc → stable
+```
+
+- **Nightly → Alpha:** Manual decision to stabilize a development build
+- **Alpha → Beta:** Features complete, API stabilizing
+- **Beta → RC:** Beta testing complete, enters feature-freeze
+- **RC → Stable:** Release candidate approved after final soak period
+- **Stable → Patch:** Critical fix on current stable line (may skip other pre-release types)
+
+Releases progress through the type sequence: alpha → beta → rc → stable.  
+Critical security fixes may bypass the pre-release sequence and be released directly as a patch.
+
+`RELEASE_TYPE` values are normalized to: `nightly`, `alpha`, `beta`, `rc`, `stable`.
+
+Canonical suffixes:
+
+| `RELEASE_TYPE` | Canonical suffix | Legacy suffixes (historical entries only) |
+|---|---|---|
+| `nightly` | `-nightly.<YYYYMMDD>.<runnum>` | n/a |
+| `alpha` | `-alphaN` | `-alpha` |
+| `beta` | `-betaN` | `-beta.N` |
+| `rc` | `-rcN` | `-rc.N`, `-rc` |
+| `stable` | _(none)_ | n/a |
+
+---
+
+## 4. Release Types (Previous)
 
 A stable / GA tag may only be cut after the release-policy gates in `RELEASE_STRATEGY.md` are satisfied on `develop`.
 
@@ -123,7 +208,7 @@ Required evidence bundle:
 
 Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`. Technical gates for Batch D (D-1..D-10) have passed. The final human governance sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`, gate D-11) is still pending and is the only remaining GA promotion blocker.
 
-## 4. Release Cadence
+### 4.1 Stable / GA Promotion Evidence
 
 | Release type | Approximate cadence |
 |---|---|
@@ -135,7 +220,7 @@ Release dates are tracked in [`CHANGELOG.md`](CHANGELOG.md) and announced via Gi
 
 ---
 
-## 5. Supported Versions & End-of-Life
+## 5. Release Cadence
 
 | Version line | Status | Security updates | End-of-Life |
 |---|---|---|---|
@@ -147,9 +232,9 @@ Release dates are tracked in [`CHANGELOG.md`](CHANGELOG.md) and announced via Gi
 
 ---
 
-## 6. Edition Versioning
+## 6. Supported Versions & End-of-Life
 
-## 6.1 Private Plugin Version Compatibility
+## 7. Edition Versioning
 
 Private plugins use their own SemVer in addition to the core repository version.
 
@@ -180,7 +265,7 @@ See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for branch rules, CI gates, and t
 
 ---
 
-## 7. Changelog Requirements
+## 7.1 Private Plugin Version Compatibility
 
 Every release **must** include a corresponding entry in [`CHANGELOG.md`](CHANGELOG.md) following the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) convention:
 
@@ -210,7 +295,7 @@ The `[Unreleased]` section accumulates changes in progress and is renamed to the
 
 ---
 
-## 8. Deprecation Policy
+## 8. Changelog Requirements
 
 1. A feature is marked **deprecated** in the CHANGELOG under `### Deprecated`.
 2. A deprecation notice is added to the API documentation and (where applicable) a compiler/runtime warning is emitted.
@@ -219,7 +304,7 @@ The `[Unreleased]` section accumulates changes in progress and is renamed to the
 
 ---
 
-## 9. Breaking Changes
+## 9. Deprecation Policy
 
 Breaking changes (API, ABI, wire-protocol, configuration schema) require a **MAJOR version bump**.
 
@@ -232,7 +317,7 @@ Before introducing a breaking change:
 
 ---
 
-## 10. Pre-release Identifiers
+## 10. Breaking Changes
 
 | Identifier | Meaning |
 |---|---|
