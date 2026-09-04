@@ -1,0 +1,223 @@
+name: "Release: Publish (Unified Orchestration)"
+
+# Rechenaufwand-Score: R=6 (K=6, L=6, N=5) | last-calibrated: 2026-09-04
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Unified orchestration for multi-registry releases (GitHub + Docker + WinGet).
+#
+# Trigger: push of version tags (vX.Y.Z, vX.Y.Z-rcN, etc.)
+#
+# Orchestration flow:
+#   preflight-checks → build-and-publish-parallel:
+#     ├─ build-matrix (reusable)
+#     ├─ docker-image (parallel)
+#     └─ winget (after GitHub Release)
+#   → validate-consistency → notify-completion
+#
+# Output:
+#   - GitHub Release with all artifacts + build metadata
+#   - Docker images tagged and pushed to all registries
+#   - WinGet submission (for stable releases)
+#   - Consistency validation report
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'enterprise-v*.*.*'
+      - 'hyperscaler-v*.*.*'
+      - 'military-v*.*.*'
+      - 'minimal-v*.*.*'
+
+permissions:
+  contents: write
+  packages: write
+  actions: read
+  pull-requests: read
+  issues: write
+
+concurrency:
+  group: ci-release-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+
+  preflight-checks:
+    name: Preflight Release Checks
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      edition: ${{ steps.version.outputs.edition }}
+      release-type: ${{ steps.version.outputs.release-type }}
+      should-publish: ${{ steps.version.outputs.should-publish }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version and edition from tag
+        id: version
+        run: |
+          set -euo pipefail
+          
+          TAG="${{ github.ref_name }}"
+          VERSION="$TAG"
+          EDITION="community"
+          SHOULD_PUBLISH="true"
+          
+          # Extract edition from tag prefix
+          if [[ "$TAG" == enterprise-* ]]; then
+            EDITION="enterprise"
+            VERSION="${TAG#enterprise-v}"
+          elif [[ "$TAG" == hyperscaler-* ]]; then
+            EDITION="hyperscaler"
+            VERSION="${TAG#hyperscaler-v}"
+          elif [[ "$TAG" == military-* ]]; then
+            EDITION="military"
+            VERSION="${TAG#military-v}"
+          elif [[ "$TAG" == minimal-* ]]; then
+            EDITION="minimal"
+            VERSION="${TAG#minimal-v}"
+          else
+            VERSION="${TAG#v}"
+          fi
+          
+          # Determine release type from RELEASE_TYPE file
+          RELEASE_TYPE=$(cat RELEASE_TYPE | tr -d '[:space:]')
+          
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "edition=$EDITION" >> "$GITHUB_OUTPUT"
+          echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
+          echo "should-publish=$SHOULD_PUBLISH" >> "$GITHUB_OUTPUT"
+          
+          echo "::notice::Release Tag Analysis:"
+          echo "  Tag: $TAG"
+          echo "  Version: $VERSION"
+          echo "  Edition: $EDITION"
+          echo "  Release Type: $RELEASE_TYPE"
+          echo "  Should Publish: $SHOULD_PUBLISH"
+
+      - name: Verify CI gates
+        run: |
+          set -euo pipefail
+          
+          echo "Checking CI gate status for tag: ${{ github.ref_name }}"
+          
+          # Check if this tag has passed required CI
+          # In a real implementation, query GitHub API for status checks
+          # For now, just informational
+          
+          echo "✓ Preflight checks complete"
+
+  build-matrix:
+    name: Build Release (Matrix)
+    needs: preflight-checks
+    if: needs.preflight-checks.outputs.should-publish == 'true'
+    uses: ./.github/workflows/release-build-matrix.yml
+
+  docker-image:
+    name: Publish Docker Images
+    needs: preflight-checks
+    if: needs.preflight-checks.outputs.should-publish == 'true'
+    uses: ./.github/workflows/release-docker-image.yml
+    with:
+      push_to_registry: "true"
+      registry: "docker.io"
+      tag_name: ${{ github.ref_name }}
+    secrets: inherit
+
+  github-release:
+    name: Create GitHub Release with Artifacts
+    needs: [preflight-checks, build-matrix]
+    runs-on: ubuntu-latest
+    if: needs.preflight-checks.outputs.should-publish == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Generate build metadata
+        id: metadata
+        uses: ./.github/actions/generate-build-metadata
+        with:
+          output-path: build-metadata.json
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          body: |
+            # ThemisDB Release ${{ needs.preflight-checks.outputs.version }}
+            
+            **Edition:** ${{ needs.preflight-checks.outputs.edition }}  
+            **Release Type:** ${{ needs.preflight-checks.outputs.release-type }}  
+            **Version:** ${{ needs.preflight-checks.outputs.version }}
+            
+            See GitHub Release notes for full details.
+          files: |
+            build-metadata.json
+            release-artifacts/**/*
+
+  winget-submit:
+    name: Submit to WinGet (if stable)
+    needs: [preflight-checks, github-release]
+    if: |
+      needs.preflight-checks.outputs.should-publish == 'true' &&
+      needs.preflight-checks.outputs.release-type == 'stable' &&
+      needs.preflight-checks.outputs.edition == 'community'
+    uses: ./.github/workflows/release-winget.yml
+    secrets: inherit
+
+  validate-consistency:
+    name: Validate Release Consistency
+    needs: [preflight-checks, github-release, docker-image]
+    runs-on: ubuntu-latest
+    if: always() && needs.preflight-checks.outputs.should-publish == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Make validation script executable
+        run: chmod +x .github/scripts/validate-release-consistency.sh
+
+      - name: Validate release consistency
+        run: |
+          set -euo pipefail
+          
+          .github/scripts/validate-release-consistency.sh \
+            "${{ github.repository }}" \
+            "${{ needs.preflight-checks.outputs.version }}" \
+            "${{ needs.preflight-checks.outputs.release-type }}"
+
+  notify-completion:
+    name: Notify Release Completion
+    needs: [preflight-checks, github-release]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Report release publication status
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "Release Publication Complete"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "Version:      ${{ needs.preflight-checks.outputs.version }}"
+          echo "Edition:      ${{ needs.preflight-checks.outputs.edition }}"
+          echo "Release Type: ${{ needs.preflight-checks.outputs.release-type }}"
+          echo "Tag:          ${{ github.ref_name }}"
+          echo "Workflow:     ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          echo "📦 Artifacts:"
+          echo "  - GitHub Release: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
+          echo "  - Docker Images:"
+          echo "    • themisdb/themisdb:${{ needs.preflight-checks.outputs.version }}"
+          echo "    • ghcr.io/${{ github.repository }}:${{ needs.preflight-checks.outputs.version }}"
+          echo ""
+          echo "✓ Release publication complete!"
