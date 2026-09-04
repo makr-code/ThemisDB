@@ -86,7 +86,7 @@ std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory([[maybe_unused]]
     auto entries = loadEntries();
     // Newest first
     std::reverse(entries.begin(), entries.end());
-    if (limit > 0 && entries.size() > limit) {
+    if (limit > 0 && static_cast<int>(entries.size()) > limit) {
         entries.resize(limit);
     }
     return entries;

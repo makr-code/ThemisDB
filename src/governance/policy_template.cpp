@@ -537,7 +537,7 @@ void PolicyTemplateManager::registerBuiltInTemplates() {
     registerTemplate(std::make_shared<TimeBasedAccessTemplate>());
     registerTemplate(std::make_shared<Soc2ComplianceTemplate>());
 
-    THEMIS_INFO("Registered {} built-in policy templates", templates_.size());
+    THEMIS_INFO("Registered {} built-in policy templates",static_cast<int>(templates_.size()));
 }
 
 } // namespace governance

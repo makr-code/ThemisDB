@@ -111,7 +111,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
         try {
             const std::string prompt = buildPrompt(query, batch);
             const std::string llm_output = backend_(prompt);
-            scores = parseScores(llm_output, batch.size());
+            scores = parseScores(llm_output,static_cast<int>(batch.size()));
             llm_ok = true;
         } catch (const std::exception& e) {
             THEMIS_WARN("LlmReranker: backend error: {} — falling back for batch [{}, {})",
@@ -160,7 +160,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
     }
 
     THEMIS_INFO("LlmReranker::rerank: {} candidates -> {} results (query='{}')",
-                candidates.size(), results.size(), query);
+                candidates.size(),static_cast<int>(results.size()), query);
 
     return results;
 }
@@ -232,7 +232,7 @@ std::vector<double> LlmReranker::parseScores(
     std::istringstream iss(llm_output);
     std::string line = {};
 
-    while (std::getline(iss, line) && scores.size() < count) {
+    while (std::getline(iss, line) && static_cast<int>(scores.size()) < count) {
         // Strip whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
         if (start == std::string::npos) {

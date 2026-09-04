@@ -370,7 +370,7 @@ bool MTLSAuthenticator::isRevoked(const std::string &serial_hex) const {
 
 size_t MTLSAuthenticator::revokedCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return revoked_serials_.size();
+    return static_cast<int>(revoked_serials_.size());
 }
 
 // ============================================================================

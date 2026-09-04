@@ -194,7 +194,7 @@ std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPag
 }
 
 size_t WikipediaIngestionPipeline::relationalRowCount() const {
-    return snapshot_.pages.size() + snapshot_.revisions.size() + snapshot_.links.size() +
+    return static_cast<int>(snapshot_.pages.size()) + snapshot_.revisions.size() + snapshot_.links.size() +
         snapshot_.categories.size() + snapshot_.redirects.size() + snapshot_.dead_letters.size();
 }
 

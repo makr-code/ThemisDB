@@ -80,7 +80,7 @@ namespace analytics {
 
 std::size_t MLTensor::numElements() const noexcept {
     if (shape.empty()) {
-        return data.size();
+        return static_cast<int>(data.size());
     }
     std::size_t n = 1;
     for (auto d : shape) {
@@ -292,8 +292,8 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
             std::vector<float> data_copy = t.data;
             std::vector<int64_t> shape   = t.shape;
 
-            input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, data_copy.data(), data_copy.size(),
-                                                                    shape.data(), shape.size()));
+            input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, data_copy.data(),static_cast<int>(data_copy.size()),
+                                                                    shape.data(),static_cast<int>(shape.size())));
         }
 
         // Collect output names from session metadata
@@ -315,7 +315,7 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
 
         // Run inference
         auto output_tensors = session.Run(Ort::RunOptions{nullptr}, input_names.data(), input_tensors.data(),
-                                          input_names.size(), output_names.data(), output_names.size());
+                                          input_names.size(), output_names.data(),static_cast<int>(output_names.size()));
 
         // Convert outputs
         resp.outputs.reserve(output_tensors.size());
@@ -338,7 +338,7 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
         resp.status     = MLServingStatus::OK;
         resp.latency_ms = sw.elapsedMs();
         spdlog::debug("MLServing[ONNX]: inference success for '{}' with {} inputs, {} outputs (latency_ms={})",
-                      req.model_name, req.inputs.size(), resp.outputs.size(), resp.latency_ms);
+                      req.model_name,static_cast<int>(req.inputs.size()),static_cast<int>(resp.outputs.size()), resp.latency_ms);
 
     } catch (const Ort::Exception &e) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
@@ -456,7 +456,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     payload["inputs"] = inputs_json;
 
     std::string json_body = payload.dump();
-    spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name, json_body.size());
+    spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name,static_cast<int>(json_body.size()));
 
     // Build URL
     std::string url = base_url + "/v1/models/" + req.model_name;
@@ -519,7 +519,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         return resp;
     }
 
-    spdlog::debug("MLServing[TF]: received response for model '{}': {} bytes", req.model_name, response_body.size());
+    spdlog::debug("MLServing[TF]: received response for model '{}': {} bytes", req.model_name,static_cast<int>(response_body.size()));
 
     // Parse JSON response: { "outputs": { "<name>": [...] } }
     try {

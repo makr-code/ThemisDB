@@ -164,12 +164,12 @@ ResultSet QueryExecutor::execute()
             const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - execution_start_).count();
             THEMIS_WARN("QueryExecutor::execute: timeout exceeded after {}ms, "
-                        "processed {} rows", elapsed_ms, rs.rows.size());
+                        "processed {} rows", elapsed_ms,static_cast<int>(rs.rows.size()));
             throw std::runtime_error(
                 fmt::format("Query execution timeout ({}ms exceeded after {} rows)",
-                            context_->timeout_ms, rs.rows.size()));
+                            context_->timeout_ms,static_cast<int>(rs.rows.size())));
         }
-        if (context_->row_limit > 0 && rs.rows.size() >= context_->row_limit) {
+        if (context_->row_limit > 0 && static_cast<int>(rs.rows.size()) >= context_->row_limit) {
             throw std::length_error(
                 "QueryExecutor: result exceeds row_limit=" +
                 std::to_string(context_->row_limit));
@@ -188,7 +188,7 @@ ResultSet QueryExecutor::execute()
         } catch (...) {
             throw std::runtime_error(
                 fmt::format("QueryExecutor::execute: row build raised unknown exception "
-                            "at index {}", rs.rows.size()));
+                            "at index {}",static_cast<int>(rs.rows.size())));
         }
     }
 

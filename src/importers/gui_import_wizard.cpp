@@ -246,7 +246,7 @@ ImportWizard::connect(const std::string& session_id,
 
     s.current_step = WizardStep::PREVIEW;
     THEMIS_INFO("ImportWizard: session {} → PREVIEW (schema_cols={})",
-                session_id, s.preview_schema.size());
+                session_id,static_cast<int>(s.preview_schema.size()));
     return s;
 }
 
@@ -259,7 +259,7 @@ ImportWizard::setColumnMappings(const std::string&              session_id,
     s.target_collection = target_collection;
     s.current_step      = WizardStep::OPTIONS;
     THEMIS_INFO("ImportWizard: session {} → OPTIONS (mappings={})",
-                session_id, mappings.size());
+                session_id,static_cast<int>(mappings.size()));
     return s;
 }
 

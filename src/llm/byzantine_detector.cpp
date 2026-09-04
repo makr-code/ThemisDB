@@ -441,7 +441,7 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
             std::sort(values.begin(), values.end());
             
             // Remove top and bottom trim_count values
-            size_t start = std::min<size_t>(trim_count, values.size() / 2);
+            size_t start = std::min<size_t>(trim_count,static_cast<int>(values.size()) / 2);
             size_t end = static_cast<int>(values.size()) - start;
             
             if (start < end) {

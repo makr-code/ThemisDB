@@ -92,7 +92,7 @@ std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
         combined.resize(config_.max_suggestions);
     }
 
-    THEMIS_DEBUG("AutocompleteEngine::suggest('{}') -> {} suggestions", prefix, combined.size());
+    THEMIS_DEBUG("AutocompleteEngine::suggest('{}') -> {} suggestions", prefix,static_cast<int>(combined.size()));
     return combined;
 }
 
@@ -180,7 +180,7 @@ std::vector<Suggestion> AutocompleteEngine::suggestPopular(const std::string& pr
 
     std::vector<Suggestion> suggestions = {};
 
-    for (size_t i = 0; i < std::min(limit, matches.size()); ++i) {
+    for (size_t i = 0; i < std::min(limit,static_cast<int>(matches.size())); ++i) {
         Suggestion s;
         s.text = matches[i].first;
         s.score = static_cast<double>(matches[i].second) * config_.popular_boost;

@@ -950,7 +950,7 @@ nlohmann::json AccessControl::getStatistics() const {
         {"rate_limited_requests", stats_.rate_limited_requests.load()},
         {"sql_injection_attempts", stats_.sql_injection_attempts.load()},
         {"suspicious_queries", stats_.suspicious_queries.load()},
-        {"active_sessions", sessions_.size()}
+        {"active_sessions",static_cast<int>(sessions_.size())}
     };
 }
 

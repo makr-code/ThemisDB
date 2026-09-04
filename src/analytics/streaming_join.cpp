@@ -373,7 +373,7 @@ void IntervalJoin::addBuildBatch(const ColumnBatch &batch) {
 }
 
 size_t IntervalJoin::buildSideSize() const noexcept {
-    return build_buffer_.size();
+    return static_cast<int>(build_buffer_.size());
 }
 
 void IntervalJoin::sortBuildBuffer() {

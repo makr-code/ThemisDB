@@ -798,7 +798,7 @@ TEST(WhisperPluginFocusedTests, P2_VadAllSpeechYieldsOneSegment) {
     const auto segs = vad.detect(speech, 16000.f, cfg);
     ASSERT_FALSE(segs.empty());
     EXPECT_EQ(segs.front().start_sample, 0u);
-    EXPECT_EQ(segs.back().end_sample, speech.size());
+    EXPECT_EQ(segs.back().end_sample,static_cast<int>(speech.size()));
 }
 
 TEST(WhisperPluginFocusedTests, P3_VadMixedYieldsSpeechSegments) {

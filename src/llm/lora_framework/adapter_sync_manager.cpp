@@ -236,7 +236,7 @@ public:
             auto adapter_ids = storage_service_->listAdapters();
             result.adapters_checked = adapter_ids.size();
             
-            spdlog::info("Starting sync job for {} adapters", adapter_ids.size());
+            spdlog::info("Starting sync job for {} adapters",static_cast<int>(adapter_ids.size()));
             
             // Sync each adapter
             for (const auto& adapter_id : adapter_ids) {
@@ -320,7 +320,7 @@ public:
             {"successful_syncs", stats_.successful_syncs},
             {"sync_failures", stats_.sync_failures},
             {"bytes_transferred", stats_.bytes_transferred},
-            {"adapters_tracked", sync_status_.size()},
+            {"adapters_tracked",static_cast<int>(sync_status_.size())},
             {"config", {
                 {"sync_interval_sec", config_.sync_interval.count()},
                 {"replication_factor", config_.replication_factor},
@@ -347,7 +347,7 @@ public:
             peer_ids.push_back(shard.shard_id);
         }
         
-        spdlog::debug("Discovered {} peer shards", peer_ids.size());
+        spdlog::debug("Discovered {} peer shards",static_cast<int>(peer_ids.size()));
         return peer_ids;
     }
     
@@ -449,7 +449,7 @@ private:
             
             // Perform transfer
             spdlog::info("Syncing adapter {} ({} bytes) to peer {} at {}",
-                        adapter_id, weights.data.size(), peer_shard_id, peer_endpoint);
+                        adapter_id,static_cast<int>(weights.data.size()), peer_shard_id, peer_endpoint);
             
             auto result = transport_client_->transfer(
                 peer_endpoint,

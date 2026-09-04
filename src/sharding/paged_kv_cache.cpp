@@ -309,7 +309,7 @@ bool PagedKVCache::writeBlock(
     // Check data sizes
     if (static_cast<int>(key_data.size()) < token_count || value_data.size() < token_count) {
         spdlog::warn("PagedKVCache: Insufficient data for write to block {} (need {}, got key={}, value={})",
-                     block_id, token_count, key_data.size(), value_data.size());
+                     block_id, token_count,static_cast<int>(key_data.size()),static_cast<int>(value_data.size()));
         return false;
     }
     
@@ -430,7 +430,7 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
             continue;
         }
 
-        const size_t comparable_tokens = std::min(candidate.token_sequence.size(), token_sequence.size());
+        const size_t comparable_tokens = std::min(candidate.token_sequence.size(),static_cast<int>(token_sequence.size()));
         size_t matched_tokens = 0;
         while (matched_tokens < comparable_tokens &&
                candidate.token_sequence[matched_tokens] == token_sequence[matched_tokens]) {

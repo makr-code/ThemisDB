@@ -369,7 +369,7 @@ struct WikiIndexStore::Impl {
     static std::string sha256Hex(const std::string& input) {
         unsigned char digest[EVP_MAX_MD_SIZE];
         unsigned int  digest_len = 0;
-        if (EVP_Digest(input.data(), input.size(),
+        if (EVP_Digest(input.data(),static_cast<int>(input.size()),
                        digest, &digest_len,
                        EVP_sha256(), nullptr) != 1) {
             return std::string(64, '0'); // unreachable in practice
@@ -450,7 +450,7 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     }
 
     // Partial sort: only the top_k highest scores needed.
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -610,7 +610,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
         results.push_back(IndexResult{doc_id, score});
     }
 
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -618,7 +618,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
                           return a.score > b.score;
                       });
     results.resize(k);
-    THEMIS_INFO("WikiIndexStore::searchPhrase: '{}' → {} result(s)", phrase, results.size());
+    THEMIS_INFO("WikiIndexStore::searchPhrase: '{}' → {} result(s)", phrase,static_cast<int>(results.size()));
     return results;
 }
 
@@ -692,7 +692,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         results.push_back(IndexResult{doc_id, score});
     }
 
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -701,7 +701,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
                       });
     results.resize(k);
     THEMIS_INFO("WikiIndexStore::searchProximity: '{}'~'{}' dist={} → {} result(s)",
-                term1, term2, distance, results.size());
+                term1, term2, distance,static_cast<int>(results.size()));
     return results;
 }
 
@@ -830,7 +830,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
               [](const IndexResult& a, const IndexResult& b) {
                   return a.score > b.score;
               });
-    THEMIS_INFO("WikiIndexStore::searchHNSW[hnswlib]: top_k={} → {} result(s)", top_k, results.size());
+    THEMIS_INFO("WikiIndexStore::searchHNSW[hnswlib]: top_k={} → {} result(s)", top_k,static_cast<int>(results.size()));
 #else
     // Fallback: exhaustive cosine scan.
     if (impl_->hnsw_vectors_fallback.empty()) {
@@ -841,7 +841,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
     for (const auto& [id, vec] : impl_->hnsw_vectors_fallback) {
         results.push_back(IndexResult{id, Impl::cosineSim(q_unit, vec)});
     }
-    const size_t k = std::min(top_k, results.size());
+    const size_t k = std::min(top_k,static_cast<int>(results.size()));
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -849,7 +849,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
                           return a.score > b.score;
                       });
     results.resize(k);
-    THEMIS_INFO("WikiIndexStore::searchHNSW[fallback]: top_k={} → {} result(s)", top_k, results.size());
+    THEMIS_INFO("WikiIndexStore::searchHNSW[fallback]: top_k={} → {} result(s)", top_k,static_cast<int>(results.size()));
 #endif
     return results;
 }
@@ -925,7 +925,7 @@ std::vector<float> WikiIndexStore::retrieveEmbedding(const std::string& key) con
         if (s.ok() && (raw_val.size() % sizeof(float)) == 0) {
             const size_t n = raw_val.size() / sizeof(float);
             std::vector<float> emb(n);
-            std::memcpy(emb.data(), raw_val.data(), raw_val.size());
+            std::memcpy(emb.data(), raw_val.data(),static_cast<int>(raw_val.size()));
             // Warm the in-memory LRU cache.
             const_cast<Impl*>(impl_.get())->cacheInsert(db_key, emb);
             THEMIS_DEBUG("WikiIndexStore::retrieveEmbedding: RocksDB hit for '{}'", key);
@@ -985,7 +985,7 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
       fused.resize(top_k);
     }
     THEMIS_INFO("WikiIndexStore::searchHybrid: bm25={} hnsw={} fused={}",
-                bm25_ids.size(), hnsw_ids.size(), fused.size());
+                bm25_ids.size(),static_cast<int>(hnsw_ids.size()),static_cast<int>(fused.size()));
     return fused;
 }
 

@@ -224,7 +224,7 @@ Aspects:)";
         aspects.push_back(aspect);
     }
     
-    THEMIS_DEBUG("Extracted {} aspects from query", aspects.size());
+    THEMIS_DEBUG("Extracted {} aspects from query",static_cast<int>(aspects.size()));
     return aspects;
 }
 
@@ -316,7 +316,7 @@ std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
         }
     }
     
-    THEMIS_DEBUG("Detected {} missing information items", missing_info.size());
+    THEMIS_DEBUG("Detected {} missing information items",static_cast<int>(missing_info.size()));
     return missing_info;
 }
 

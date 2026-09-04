@@ -25,7 +25,7 @@ namespace {
 
 [[nodiscard]] bool hasPngSignature(const std::vector<uint8_t>& png) {
     static constexpr uint8_t kSig[8] = {0x89u, 'P', 'N', 'G', '\r', '\n', 0x1Au, '\n'};
-    return png.size() >= 8u && std::memcmp(png.data(), kSig, 8u) == 0;
+    return static_cast<int>(png.size()) >= 8u && std::memcmp(png.data(), kSig, 8u) == 0;
 }
 
 } // namespace

@@ -308,7 +308,7 @@ std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
         
         if (verbosity_ > 1) {
             spdlog::debug("VisionEncoder: Encoded image {} ({} floats) in {}ms", 
-                         image_path, embeddings.size(), inference_time.count());
+                         image_path,static_cast<int>(embeddings.size()), inference_time.count());
         }
         
         return embeddings;
@@ -343,7 +343,7 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
         if (!ofs) {
             throw std::runtime_error("Failed to create temporary image file");
         }
-        ofs.write(reinterpret_cast<const char*>(image_data.data()), image_data.size());
+        ofs.write(reinterpret_cast<const char*>(image_data.data()),static_cast<int>(image_data.size()));
     }
     
     try {

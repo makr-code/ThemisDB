@@ -111,7 +111,7 @@ void GPUGraphCache::clear() {
 
 size_t GPUGraphCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 GPUGraphCache::Stats GPUGraphCache::getStats() const {

@@ -113,7 +113,7 @@ InMemoryTensorBackend::listKeys(const std::string& prefix) const {
     std::vector<std::string> result = {};
 
     for (const auto& kv : store_) {
-        if (kv.first.substr(0, prefix.size()) == prefix)
+        if (kv.first.substr(0,static_cast<int>(prefix.size())) == prefix)
             result.push_back(kv.first);
     }
     std::sort(result.begin(), result.end());

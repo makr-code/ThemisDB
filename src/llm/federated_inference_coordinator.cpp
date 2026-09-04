@@ -137,7 +137,7 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
         static_cast<size_t>(std::count_if(results.begin(), results.end(),
                                           [](const FanOutInstanceResult& r) { return r.success; }));
     spdlog::info("FederatedInferenceCoordinator: fan-out complete — {}/{} instances succeeded",
-                 successes, results.size());
+                 successes,static_cast<int>(results.size()));
 
     return results;
 }

@@ -376,7 +376,7 @@ ResolutionResult DependencyResolver::resolve(
     }
 
     // Pre-reserve space in successors vectors to avoid reallocations (Error Code: 7457)
-    size_t avg_deps_per_pkg = std::max(size_t(1), node_target.size() / 4);
+    size_t avg_deps_per_pkg = std::max(size_t(1),static_cast<int>(node_target.size()) / 4);
     
     for (const auto& kv : node_target) {
         const std::string& pkg      = kv.first;

@@ -443,7 +443,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
 
     const auto& pack = orchestrator_ref.modePack();
     spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
-                 pack.name, pack.version, pack.modes.size(), pack.default_mode);
+                 pack.name, pack.version,static_cast<int>(pack.modes.size()), pack.default_mode);
 }
 #endif
 
@@ -1660,7 +1660,7 @@ json McpServer::toolListIndexes(const json& args) {
         return {
             {"status", "success"},
             {"indexes", indexes},
-            {"total_count", indexes.size()}
+            {"total_count",static_cast<int>(indexes.size())}
         };
     } catch (const std::exception& e) {
         return {
@@ -1818,7 +1818,7 @@ json McpServer::toolLLMEmbed(const json& args) {
         return {
             {"status", "success"},
             {"embedding", embedding},
-            {"dimensions", embedding.size()},
+            {"dimensions",static_cast<int>(embedding.size())},
             {"text_length", text.length()}
         };
         
@@ -1852,7 +1852,7 @@ json McpServer::toolLLMChat(const json& args) {
         return {
             {"status", "success"},
             {"response", response},
-            {"message_count", messages.size()}
+            {"message_count",static_cast<int>(messages.size())}
         };
         
     } catch (const std::exception& e) {
@@ -2015,7 +2015,7 @@ json McpServer::toolGetErrorInfo(const json& args) {
         return {
             {"status", "success"},
             {"errors", errors_json},
-            {"count", results.size()}
+            {"count",static_cast<int>(results.size())}
         };
     }
 }
@@ -2043,7 +2043,7 @@ json McpServer::toolSearchErrors(const json& args) {
     return {
         {"status", "success"},
         {"errors", errors_json},
-        {"count", results.size()}
+        {"count",static_cast<int>(results.size())}
     };
 }
 
@@ -2180,7 +2180,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
         
         for (const auto& category : categories) {
             auto errors = registry.getErrorsByCategory(category);
-            answer += fmt::format("**{}** ({} error types)\n", category, errors.size());
+            answer += fmt::format("**{}** ({} error types)\n", category,static_cast<int>(errors.size()));
         }
         
         answer += "\nAsk me about specific errors, e.g., 'What does error 2000 mean?'";
@@ -2723,7 +2723,7 @@ json McpServer::handleAiPendingApprovals() {
 
     return {
         {"status",  "success"},
-        {"count",   list.size()},
+        {"count",static_cast<int>(list.size())},
         {"pending", list}
     };
 }
@@ -2752,7 +2752,7 @@ void McpServer::purgeExpiredApprovals() {
 
 json McpServer::handleAiRollback(const std::string& snapshot_id) {
     auto hasWindowsDrivePrefix = [](const std::string& value) {
-        return value.size() >= 2 &&
+        return static_cast<int>(value.size()) >= 2 &&
                std::isalpha(static_cast<unsigned char>(value[0])) &&
                value[1] == ':';
     };
@@ -3207,19 +3207,19 @@ void SseTransport::send(const json& message) {
         buffer += event_data;
     }
     
-    spdlog::debug("MCP SSE event sent to {} clients", clients_.size());
+    spdlog::debug("MCP SSE event sent to {} clients",static_cast<int>(clients_.size()));
 }
 
 void SseTransport::addClient(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_[client_id] = "";
-    spdlog::debug("MCP SSE client added: {}, total clients: {}", client_id, clients_.size());
+    spdlog::debug("MCP SSE client added: {}, total clients: {}", client_id,static_cast<int>(clients_.size()));
 }
 
 void SseTransport::removeClient(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_.erase(client_id);
-    spdlog::debug("MCP SSE client removed: {}, remaining clients: {}", client_id, clients_.size());
+    spdlog::debug("MCP SSE client removed: {}, remaining clients: {}", client_id,static_cast<int>(clients_.size()));
 }
 
 std::string SseTransport::getClientData(const std::string& client_id) {
@@ -3246,7 +3246,7 @@ void SseTransport::sendKeepalive() {
         buffer += keepalive;
     }
     
-    spdlog::trace("MCP SSE keepalive sent to {} clients", clients_.size());
+    spdlog::trace("MCP SSE keepalive sent to {} clients",static_cast<int>(clients_.size()));
 }
 
 void SseTransport::scheduleKeepalive() {
@@ -3343,13 +3343,13 @@ void WebSocketTransport::sendToSession(const std::string& session_id, const json
 void WebSocketTransport::addSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_[session_id] = SessionData{true, {}};
-    spdlog::debug("MCP WebSocket session added: {}, total sessions: {}", session_id, sessions_.size());
+    spdlog::debug("MCP WebSocket session added: {}, total sessions: {}", session_id,static_cast<int>(sessions_.size()));
 }
 
 void WebSocketTransport::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
-    spdlog::debug("MCP WebSocket session removed: {}, remaining sessions: {}", session_id, sessions_.size());
+    spdlog::debug("MCP WebSocket session removed: {}, remaining sessions: {}", session_id,static_cast<int>(sessions_.size()));
 }
 
 std::vector<std::string> WebSocketTransport::getPendingMessages(const std::string& session_id) {
@@ -3489,7 +3489,7 @@ json McpServer::toolKgNeighbours(const json& args) {
             }
         }
 
-        spdlog::info("kg_neighbours: node={} depth={} nodes_found={}", node_id, depth, nodes.size());
+        spdlog::info("kg_neighbours: node={} depth={} nodes_found={}", node_id, depth,static_cast<int>(nodes.size()));
         return {
             {"node_id",      node_id},
             {"depth_reached", depth},
@@ -3687,7 +3687,7 @@ json McpServer::toolSemanticSearch(const json& args) {
             }
         }
 
-        spdlog::info("semantic_search: query='{}' top_k={} results={}", query_text, top_k, results.size());
+        spdlog::info("semantic_search: query='{}' top_k={} results={}", query_text, top_k,static_cast<int>(results.size()));
         return {
             {"results",                  results},
             {"total_candidates_scanned", candidates_scanned},
@@ -3781,7 +3781,7 @@ json McpServer::toolHybridSearch(const json& args) {
             merged.push_back(entry);
         }
 
-        spdlog::info("hybrid_search: query='{}' top_k={} merged={}", query_text, top_k, merged.size());
+        spdlog::info("hybrid_search: query='{}' top_k={} merged={}", query_text, top_k,static_cast<int>(merged.size()));
         return {
             {"results",       merged},
             {"top_k_returned", static_cast<int>(merged.size())}
@@ -3858,7 +3858,7 @@ json McpServer::toolRagRetrieve(const json& args) {
         auto t_end = std::chrono::steady_clock::now();
         auto latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
 
-        spdlog::info("rag_retrieve: query='{}' chunks={} tokens_est={}", query_text, chunks.size(), total_tokens);
+        spdlog::info("rag_retrieve: query='{}' chunks={} tokens_est={}", query_text,static_cast<int>(chunks.size()), total_tokens);
         return {
             {"context_chunks",        chunks},
             {"total_tokens_estimate", total_tokens},
@@ -3897,7 +3897,7 @@ json McpServer::toolVectorIndexList(const json& args) {
             }
         }
 
-        spdlog::info("vector_index_list: collection='{}' count={}", filter_collection, vector_indexes.size());
+        spdlog::info("vector_index_list: collection='{}' count={}", filter_collection,static_cast<int>(vector_indexes.size()));
         return {{"indexes", vector_indexes}};
     } catch (const std::exception& e) {
         return {{"error", e.what()}};
@@ -3988,7 +3988,7 @@ json McpServer::toolSchemaValidate(const json& args) {
         }
 
         bool valid = validation_errors.empty();
-        spdlog::info("schema_validate: collection={} valid={} errors={}", collection, valid, validation_errors.size());
+        spdlog::info("schema_validate: collection={} valid={} errors={}", collection, valid,static_cast<int>(validation_errors.size()));
         return {{"valid", valid}, {"errors", validation_errors}};
     } catch (const std::exception& e) {
         return {{"error", e.what()}};

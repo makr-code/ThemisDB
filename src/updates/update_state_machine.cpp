@@ -730,7 +730,7 @@ bool UpdateStateMachine::rollbackToCheckpointWithFallback(
 
 size_t UpdateStateMachine::checkpointCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return checkpoints_.size();
+    return static_cast<int>(checkpoints_.size());
 }
 
 bool UpdateStateMachine::hasPendingRollback() const {

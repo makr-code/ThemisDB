@@ -69,7 +69,7 @@ SequencePacker::PackedBatch SequencePacker::packSequences(
     // Calculate and log memory savings
     size_t max_len = 0;
     for (const auto& seq : sequences) {
-        max_len = std::max(max_len, seq.size());
+        max_len = std::max(max_len,static_cast<int>(seq.size()));
     }
     size_t padded_total = batch.num_sequences * max_len;
     float savings = 100.0f * (1.0f - static_cast<float>(total_tokens) / padded_total);

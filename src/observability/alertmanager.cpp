@@ -235,7 +235,7 @@ Result<void> DefaultAlertmanager::initialize(const AlertmanagerConfig& config) {
                 config_.endpoint_url, config_.enabled);
     THEMIS_INFO("  Timeout: {}s  Retries: {}  Retry-delay: {}ms",
                 config_.timeout_seconds, config_.retry_count, config_.retry_delay_ms);
-    THEMIS_INFO("  Receivers: {}", config_.receivers.size());
+    THEMIS_INFO("  Receivers: {}",static_cast<int>(config_.receivers.size()));
     
     if (!config_.enabled) {
         THEMIS_WARN("Alertmanager is disabled – alerts will only be logged");
@@ -282,7 +282,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
         upsertActiveAlert(alert);
         {
             std::lock_guard<std::mutex> lock(active_alerts_mutex_);
-            THEMIS_DEBUG("Alert added to active alerts (total: {})", active_alerts_.size());
+            THEMIS_DEBUG("Alert added to active alerts (total: {})",static_cast<int>(active_alerts_.size()));
         }
     }
     
@@ -416,7 +416,7 @@ Result<void> DefaultAlertmanager::silenceAlert(const std::string& alert_id,
 
 std::vector<Alert> DefaultAlertmanager::getActiveAlerts() {
     const auto alerts = Alertmanager::getActiveAlerts();
-    THEMIS_DEBUG("Getting active alerts (count: {})", alerts.size());
+    THEMIS_DEBUG("Getting active alerts (count: {})",static_cast<int>(alerts.size()));
     return alerts;
 }
 
@@ -489,7 +489,7 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     for (std::string::size_type pos = result.find(metric_token);
          pos != std::string::npos;
          pos = result.find(metric_token, pos + metric_name.size())) {
-        result.replace(pos, metric_token.size(), metric_name);
+        result.replace(pos,static_cast<int>(metric_token.size()), metric_name);
     }
     // Replace {value} placeholder
     std::string value_token = "{value}";
@@ -505,7 +505,7 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     for (std::string::size_type pos = result.find(value_token);
          pos != std::string::npos;
          pos = result.find(value_token, pos + value_str.size())) {
-        result.replace(pos, value_token.size(), value_str);
+        result.replace(pos,static_cast<int>(value_token.size()), value_str);
     }
     return result;
 }
@@ -719,7 +719,7 @@ void AlertRuleManager::clearRules() {
 
 size_t AlertRuleManager::ruleCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 } // namespace observability

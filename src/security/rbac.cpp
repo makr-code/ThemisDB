@@ -143,7 +143,7 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
         for (const auto& role : getBuiltinRoles()) {
             roles_[role.name] = role;
         }
-        THEMIS_INFO("Loaded {} built-in roles", roles_.size());
+        THEMIS_INFO("Loaded {} built-in roles",static_cast<int>(roles_.size()));
     }
     
     // Load custom roles from config file
@@ -267,7 +267,7 @@ bool RBAC::saveConfig(const std::string& path) {
 void RBAC::addRole(const Role& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     roles_[role.name] = role;
-    THEMIS_INFO("Added role '{}' with {} permissions", role.name, role.permissions.size());
+    THEMIS_INFO("Added role '{}' with {} permissions", role.name,static_cast<int>(role.permissions.size()));
 }
 
 void RBAC::removeRole(const std::string& role_name) {
@@ -585,7 +585,7 @@ bool UserRoleStore::load(const std::string& path) {
             }
         }
         
-        THEMIS_INFO("Loaded {} users from {}", users_.size(), path);
+        THEMIS_INFO("Loaded {} users from {}",static_cast<int>(users_.size()), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -608,7 +608,7 @@ bool UserRoleStore::save(const std::string& path) {
         std::ofstream ofs(path);
         ofs << j.dump(2);
         
-        THEMIS_INFO("Saved {} users to {}", users_.size(), path);
+        THEMIS_INFO("Saved {} users to {}",static_cast<int>(users_.size()), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -630,7 +630,7 @@ std::optional<User> UserRoleStore::getUser(const std::string& user_id) const {
 void UserRoleStore::setUser(const User& user) {
     std::lock_guard<std::mutex> lock(mutex_);
     users_[user.user_id] = user;
-    THEMIS_INFO("Set user '{}' with {} roles", user.user_id, user.roles.size());
+    THEMIS_INFO("Set user '{}' with {} roles", user.user_id,static_cast<int>(user.roles.size()));
 }
 
 } // namespace security

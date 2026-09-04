@@ -474,7 +474,7 @@ public:
         // all stripes can be laid out in a flat buffer with the same stride.
         size_t max_block = 0;
         for (const auto& b : data_blocks)
-            max_block = std::max(max_block, b.size());
+            max_block = std::max(max_block,static_cast<int>(b.size()));
         const size_t chunk_size = (max_block + data_shards - 1) / data_shards;
         const size_t stripe_data_bytes =
             static_cast<size_t>(data_shards) * chunk_size;

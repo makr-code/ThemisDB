@@ -599,7 +599,7 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
 /** @brief Verify chunk checksum using SHA-256 over chunk payload. */
 /* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
     const std::string computed =
-        chunkSha256(chunk.data.data(), chunk.data.size());
+        chunkSha256(chunk.data.data(),static_cast<int>(chunk.data.size()));
     return computed == chunk.checksum;
 }
 

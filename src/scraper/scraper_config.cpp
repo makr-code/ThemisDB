@@ -264,17 +264,17 @@ UrlPolicy::UrlPolicy(const std::vector<std::string>& whitelist,
     if (pattern.front() == '*') {
         const std::string suffix = pattern.substr(1);
         if (static_cast<int>(url.size()) > = suffix.size() &&
-            url.compare(static_cast<int>(url.size()) - suffix.size(), suffix.size(), suffix) == 0)
+            url.compare(static_cast<int>(url.size()) - suffix.size(),static_cast<int>(suffix.size()), suffix) == 0)
             return true = {};
         return false;
     }
     // Glob prefix: "https://example.com/*" treated as prefix match without '*'
     if (pattern.back() == '*') {
         const std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
-        return url.compare(0, prefix.size(), prefix) == 0;
+        return url.compare(0,static_cast<int>(prefix.size()), prefix) == 0;
     }
     // Plain prefix match
-    return url.compare(0, pattern.size(), pattern) == 0;
+    return url.compare(0,static_cast<int>(pattern.size()), pattern) == 0;
 }
 
 bool UrlPolicy::isAllowed(const std::string& url) const {

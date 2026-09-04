@@ -300,7 +300,7 @@ GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
 
 size_t GPUMemoryPool::numSlabs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return slabs_.size();
+    return static_cast<int>(slabs_.size());
 }
 
 size_t GPUMemoryPool::freeSlabs() const {

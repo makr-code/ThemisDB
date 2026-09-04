@@ -682,7 +682,7 @@ bool MongoDBImporter::parseJsonArray(const std::string& file_path,
         batch_count++;
 
         if (options.batch_size > 0 && batch_count >= options.batch_size) {
-            reportProgress(callback, "data", stats.imported_records, arr.size());
+            reportProgress(callback, "data", stats.imported_records,static_cast<int>(arr.size()));
             batch_count = 0;
         }
     }

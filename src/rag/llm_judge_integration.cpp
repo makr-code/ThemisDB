@@ -141,7 +141,7 @@ std::string LLMJudgeIntegration::evaluateDimension(
     }
 
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
-                 static_cast<int>(dimension), prompt.size());
+                 static_cast<int>(dimension),static_cast<int>(prompt.size()));
 
     const themis::utils::RetryConfig dim_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),

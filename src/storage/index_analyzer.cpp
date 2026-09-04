@@ -170,7 +170,7 @@ Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& y
         }
 
         THEMIS_INFO("IndexAnalyzeConfig: loaded from '{}' ({} indices, cron='{}')",
-                    yaml_path, cfg.indices.size(), cfg.cron_expression);
+                    yaml_path,static_cast<int>(cfg.indices.size()), cfg.cron_expression);
         return cfg;
 
     } catch (const YAML::Exception& ex) {
@@ -207,7 +207,7 @@ IndexAnalyzer::IndexAnalyzer(std::shared_ptr<RocksDBWrapper> db_wrapper,
         throw std::invalid_argument("IndexAnalyzer: db_wrapper must not be null");
     }
     THEMIS_INFO("IndexAnalyzer: initialised (cron='{}', {} indices registered)",
-                config_.cron_expression, config_.indices.size());
+                config_.cron_expression,static_cast<int>(config_.indices.size()));
 }
 
 IndexAnalyzer::~IndexAnalyzer() {
@@ -312,7 +312,7 @@ std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
         last_run_time_  = std::chrono::system_clock::now();
     }
 
-    THEMIS_INFO("IndexAnalyzer: analyzeAll completed ({} reports)", reports.size());
+    THEMIS_INFO("IndexAnalyzer: analyzeAll completed ({} reports)",static_cast<int>(reports.size()));
     return reports;
 }
 

@@ -120,7 +120,7 @@ std::vector<VoiceProfile> VoiceTTSCustomizer::getProfilesForLanguage(const std::
 
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang ||
-            (p.language.size() >= 2 && lang.size() >= 2 &&
+            (p.language.size() >= 2 && static_cast<int>(lang.size()) >= 2 &&
              p.language.substr(0, 2) == lang.substr(0, 2))) {
             result.push_back(p);
         }
@@ -605,7 +605,7 @@ MOSMetrics VoiceTTSCustomizer::estimateMOSFromText(
     m.mos_score = 3.5f + 1.0f * intel;
     m.mos_score = std::clamp(m.mos_score, 3.5f, 4.5f);
     m.quality_label = classifyMOS(m.mos_score);
-    m.details = {{"input_len", input_text.size()}, {"output_len", out_len}};
+    m.details = {{"input_len",static_cast<int>(input_text.size())}, {"output_len", out_len}};
     return m;
 }
 
@@ -646,7 +646,7 @@ bool VoiceTTSCustomizer::supportsLanguage(const std::string& lang_code) const {
     // Check profile languages
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang_code ||
-            (p.language.size() >= 2 && lang_code.size() >= 2 &&
+            (p.language.size() >= 2 && static_cast<int>(lang_code.size()) >= 2 &&
              p.language.substr(0, 2) == lang_code.substr(0, 2))) {
             return true;
         }

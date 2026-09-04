@@ -402,7 +402,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     // Store file list in config
     json file_list = json::array();
     for (const auto &[filename, blob] : files) {
-        file_list.push_back({{"filename", filename}, {"size", blob.size()}});
+        file_list.push_back({{"filename", filename}, {"size",static_cast<int>(blob.size())}});
     }
     job.config["files"]  = file_list;
     job.config["_blobs"] = json::array(); // Will be filled with actual blobs
@@ -431,7 +431,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     queue_cv_.notify_one();
 
     if (config_.verbose_logging) {
-        THEMIS_INFO("Batch job submitted: {} ({} files)", job.job_id, files.size());
+        THEMIS_INFO("Batch job submitted: {} ({} files)", job.job_id,static_cast<int>(files.size()));
     }
 
     return job.job_id;
@@ -508,7 +508,7 @@ json AsyncIngestionWorker::getStatistics() {
 
     return json{{"running", running_.load()},
                 {"worker_count", config_.worker_thread_count},
-                {"queue_size", job_queue_.size()},
+                {"queue_size",static_cast<int>(job_queue_.size())},
                 {"max_queue_size", config_.max_queue_size},
                 {"max_queue_depth", config_.max_queue_depth},
                 {"jobs",
@@ -517,7 +517,7 @@ json AsyncIngestionWorker::getStatistics() {
                   {"completed", completed},
                   {"failed", failed},
                   {"cancelled", cancelled},
-                  {"total", job_history_.size()}}},
+                  {"total",static_cast<int>(job_history_.size())}}},
                 {"stats",
                  {{"total_processed", total_jobs_processed_.load()},
                   {"total_failed", total_jobs_failed_.load()},
@@ -630,7 +630,7 @@ void AsyncIngestionWorker::workerLoop([[maybe_unused]] int worker_id) {
             total_jobs_processed_.fetch_add(1);
 
             if (config_.verbose_logging) {
-                THEMIS_INFO("Worker {} completed job {} ({} items)", worker_id, job.job_id, job.content_ids.size());
+                THEMIS_INFO("Worker {} completed job {} ({} items)", worker_id, job.job_id,static_cast<int>(job.content_ids.size()));
             }
 
             // Fulfill promise for ingestStream() callers

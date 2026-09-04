@@ -271,7 +271,7 @@ bool VoiceLivenessDetector::isReplayedChallenge([[maybe_unused]] uint64_t challe
 
 size_t VoiceLivenessDetector::getActiveChallengeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return active_challenges_.size();
+    return static_cast<int>(active_challenges_.size());
 }
 
 std::string VoiceLivenessDetector::speechToText(const std::string& audio) {

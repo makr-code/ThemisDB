@@ -149,7 +149,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     bm25_results.push_back(r);
                 }
                 bm25_ok = true;
-                THEMIS_DEBUG("BM25 search returned {} results", bm25_results.size());
+                THEMIS_DEBUG("BM25 search returned {} results",static_cast<int>(bm25_results.size()));
             } else {
                 THEMIS_WARN("BM25 search failed: {}", status.message);
             }
@@ -230,7 +230,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                         vector_results.push_back(r);
                     }
                     vector_ok = true;
-                    THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+                    THEMIS_DEBUG("Vector search returned {} results",static_cast<int>(vector_results.size()));
                 } else {
                     THEMIS_WARN("Vector search failed: {}", status.message);
                 }
@@ -277,7 +277,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
         if (config_.use_rrf) {
             fused = reciprocalRankFusion(bm25_results, vector_results);
             THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
-                       bm25_results.size(), vector_results.size(), fused.size());
+                       bm25_results.size(),static_cast<int>(vector_results.size()),static_cast<int>(fused.size()));
         } else {
             // Linear combination fallback
             std::unordered_map<std::string, Result> doc_map;
@@ -313,7 +313,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             }
             
             THEMIS_INFO("Hybrid search (linear): {} BM25 + {} vector -> {} combined results",
-                       bm25_results.size(), vector_results.size(), fused.size());
+                       bm25_results.size(),static_cast<int>(vector_results.size()),static_cast<int>(fused.size()));
         }
 
         // LLM re-ranking: optional Phase-3 post-processing step
@@ -349,7 +349,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     reranked_results.push_back(std::move(out));
                 }
             }
-            THEMIS_INFO("LLM re-ranker: {} -> {} results", fused.size(), reranked_results.size());
+            THEMIS_INFO("LLM re-ranker: {} -> {} results",static_cast<int>(fused.size()),static_cast<int>(reranked_results.size()));
             return reranked_results;
         }
 
@@ -415,7 +415,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     }
     
     THEMIS_INFO("RRF fusion: {} BM25 + {} vector -> {} results",
-                bm25_results.size(), vector_results.size(), fused_results.size());
+                bm25_results.size(),static_cast<int>(vector_results.size()),static_cast<int>(fused_results.size()));
     
     return fused_results;
 }

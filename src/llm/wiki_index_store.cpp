@@ -843,7 +843,7 @@ void JsonWikiIndexReader::load() {
     }
 
     loaded_ = true;
-    spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}", chunks_.size(), index_path_);
+    spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}",static_cast<int>(chunks_.size()), index_path_);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -943,7 +943,7 @@ bool JsonWikiIndexReader::isReady() const noexcept {
 }
 
 std::size_t JsonWikiIndexReader::size() const noexcept {
-    return chunks_.size();
+    return static_cast<int>(chunks_.size());
 }
 
 } // namespace llm

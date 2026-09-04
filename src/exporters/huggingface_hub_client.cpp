@@ -128,7 +128,7 @@ namespace {
         // Case-insensitive prefix match for "retry-after:"
         const std::string key = "retry-after:";
         if (static_cast<int>(line.size()) > = key.size()) {
-            std::string lower_line = line.substr(0, key.size());
+            std::string lower_line = line.substr(0,static_cast<int>(key.size()));
             std::transform(lower_line.begin(), lower_line.end(), lower_line.begin(),
                            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
             if (lower_line == key) {
@@ -343,7 +343,7 @@ int HuggingFaceHubClient::httpPutFile([[maybe_unused]] const std::string &url,
     f.read(buf.data(), file_size);
     f.close();
 
-    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb, retry_after_out);
+    return httpPutBytes(url, buf.data(),static_cast<int>(buf.size()), bearer_token, progress_cb, retry_after_out);
 #endif
 }
 
@@ -506,7 +506,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
     }
     std::sort(files.begin(), files.end());
 
-    THEMIS_INFO("HuggingFaceHubClient: uploading {} files to {}", files.size(), repo_id);
+    THEMIS_INFO("HuggingFaceHubClient: uploading {} files to {}",static_cast<int>(files.size()), repo_id);
 
     // 3. Upload each file with retry logic
     const size_t total_files = files.size();
@@ -706,7 +706,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         return repo_res;
     }
 
-    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}", shards.size(), repo_id);
+    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}",static_cast<int>(shards.size()), repo_id);
 
     // 2. Upload each shard with retry logic
     const size_t total_shards = shards.size();
@@ -749,7 +749,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
 
             std::string retry_after_hdr = {};
             const int http_status
-                = httpPutBytes(upload_url, shard.content.data(), shard.content.size(), token, shard_progress, &retry_after_hdr);
+                = httpPutBytes(upload_url, shard.content.data(),static_cast<int>(shard.content.size()), token, shard_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
                 shard_ok = true;

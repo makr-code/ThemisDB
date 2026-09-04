@@ -550,7 +550,7 @@ bool LoRAProvenanceManager::verifyAuditChain(
 
 std::string LoRAProvenanceManager::sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(data.data()),static_cast<int>(data.size()), digest);
     return digestToHex(digest);
 }
 

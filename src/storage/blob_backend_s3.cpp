@@ -54,7 +54,7 @@ private:
     // Compute SHA256 hash
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        SHA256(data.data(),static_cast<int>(data.size()), hash);
         // lock_in_loop scanner alert (line 57): this loop builds a hex string from
         // a fixed-size local byte array using stringstream — no mutex, no lock, no
         // shared state — false positive.
@@ -129,7 +129,7 @@ public:
         // client_ which is constructed with DefaultRetryStrategy(3) — the SDK
         // transparently retries transient errors — false positives.
         auto input_stream = Aws::MakeShared<Aws::StringStream>("PutObjectInputStream");
-        input_stream->write(reinterpret_cast<const char*>(data.data()), data.size());
+        input_stream->write(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
         request.SetBody(input_stream);
         request.SetContentLength(data.size());
         
@@ -155,7 +155,7 @@ public:
         ref.hash_sha256 = computeSHA256(data);
         ref.created_at = std::chrono::system_clock::now().time_since_epoch().count();
         
-        THEMIS_DEBUG("Blob stored in S3: id={}, size={} bytes", blob_id, data.size());
+        THEMIS_DEBUG("Blob stored in S3: id={}, size={} bytes", blob_id,static_cast<int>(data.size()));
         return Ok(ref);
     }
     
@@ -217,7 +217,7 @@ public:
             }
         }
         
-        THEMIS_DEBUG("Blob retrieved from S3: id={}, size={} bytes", ref.id, data.size());
+        THEMIS_DEBUG("Blob retrieved from S3: id={}, size={} bytes", ref.id,static_cast<int>(data.size()));
         return Ok(data);
     }
     

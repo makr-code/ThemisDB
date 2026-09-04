@@ -110,7 +110,7 @@ void CacheReplicationManager::removeReplica(const std::string &replica_id) {
 
 size_t CacheReplicationManager::replicaCount() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
-    return replicas_.size();
+    return static_cast<int>(replicas_.size());
 }
 
 // ---------------------------------------------------------------------------

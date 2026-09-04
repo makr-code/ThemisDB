@@ -1246,7 +1246,7 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
         }
         auto error_msg = fmt::format(
             "Cannot unload plugin '{}' — {} plugin(s) depend on it: {}",
-            name, dependents.size(), dep_list);
+            name,static_cast<int>(dependents.size()), dep_list);
         THEMIS_ERROR("{}", error_msg);
         // Revert state back to LOADED on failure
         {
@@ -1425,7 +1425,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
             }
             auto error_msg = fmt::format(
                 "Cannot reload plugin '{}' — {} plugin(s) depend on it: {}",
-                name, dependents.size(), dep_list);
+                name,static_cast<int>(dependents.size()), dep_list);
             THEMIS_ERROR("{}", error_msg);
             return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
         }
@@ -1450,7 +1450,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                 try {
                     saved_state = stateful->saveState();
                     THEMIS_INFO("Saved state for plugin '{}' ({} bytes)",
-                                name, saved_state.size());
+                                name,static_cast<int>(saved_state.size()));
                 } catch (const std::exception& e) {
                     THEMIS_WARN("Failed to save state for plugin '{}': {}", name, e.what());
                 }

@@ -45,7 +45,7 @@ public:
             case FailureMode::NONE:
                 // Normal path: accept all
                 successful_exports_ += observations.size();
-                return observations.size();
+                return static_cast<int>(observations.size());
 
             case FailureMode::BACKEND_TIMEOUT:
                 // Simulate timeout: reject all
@@ -91,13 +91,13 @@ public:
                         std::chrono::milliseconds(dis(gen)));
                 }
                 successful_exports_ += observations.size();
-                return observations.size();
+                return static_cast<int>(observations.size());
 
             case FailureMode::BACKEND_SLOW:
                 // Simulate 1-2s response time
                 std::this_thread::sleep_for(std::chrono::seconds(1));
                 successful_exports_ += observations.size();
-                return observations.size();
+                return static_cast<int>(observations.size());
 
             case FailureMode::QUEUE_EXHAUSTION:
                 // Simulate queue overflow: accept 50%

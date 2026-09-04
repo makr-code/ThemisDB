@@ -513,7 +513,7 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
-    std::string auth_str(auth_header.data(), auth_header.size());
+    std::string auth_str(auth_header.data(),static_cast<int>(auth_header.size()));
     
     // Check for "Bearer <token>" format
     if (auth_str.find("Bearer ") != 0) {
@@ -536,7 +536,7 @@ bool ExportApiHandler::validateAdminToken(
     if (static_cast<int>(token.size()) != expected.size()) {
         return false;
     }
-    return CRYPTO_memcmp(token.data(), expected.data(), expected.size()) == 0;
+    return CRYPTO_memcmp(token.data(), expected.data(),static_cast<int>(expected.size())) == 0;
 }
 
 http::response<http::string_body> ExportApiHandler::jsonResponse(

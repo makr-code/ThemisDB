@@ -50,7 +50,7 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
 
 std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, bool is_last) {
     // Append incoming chunk to the lookahead buffer.
-    lookahead_buf_.append(chunk.data(), chunk.size());
+    lookahead_buf_.append(chunk.data(),static_cast<int>(chunk.size()));
 
     // Determine how many bytes we can safely finalize: hold back the last
     // `lookahead_bytes` characters unless this is the final chunk (to handle
@@ -58,7 +58,7 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     size_t process_len = lookahead_buf_.size();
     size_t holdback    = 0;
 
-    if (!is_last && lookahead_buf_.size() > cfg_.lookahead_bytes) {
+    if (!is_last && static_cast<int>(lookahead_buf_.size()) > cfg_.lookahead_bytes) {
         holdback    = cfg_.lookahead_bytes;
         process_len = static_cast<int>(lookahead_buf_.size()) - holdback;
     }
@@ -204,7 +204,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         if (rel_start > finalized_chunk.size()) {
           break;
         }
-        rel_end = std::min(rel_end, finalized_chunk.size());
+        rel_end = std::min(rel_end,static_cast<int>(finalized_chunk.size()));
 
         // Copy gap before this finding.
         if (rel_start > cursor) {

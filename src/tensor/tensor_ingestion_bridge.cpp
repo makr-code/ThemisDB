@@ -218,7 +218,7 @@ ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
 
         spdlog::debug("[TensorIngestionBridge] decompose chunk='{}' "
                       "dim={} → κ={:.2f} ε={:.4f} rank={}",
-                      chunk_id, embedding.size(),
+                      chunk_id,static_cast<int>(embedding.size()),
                       rec.compression_ratio, rec.achieved_eps, rec.max_rank);
 
     } catch (const std::exception& e) {

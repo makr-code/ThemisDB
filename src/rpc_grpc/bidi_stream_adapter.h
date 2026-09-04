@@ -163,7 +163,7 @@ public:
      */
     std::size_t queueDepth() const {
         std::lock_guard<std::mutex> lock(queue_mutex_);
-        return queue_.size();
+        return static_cast<int>(queue_.size());
     }
 
     /**

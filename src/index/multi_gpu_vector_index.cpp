@@ -85,7 +85,7 @@ public:
             return false;
         }
         
-        THEMIS_INFO("MultiGPUVectorIndex: Initializing with {} GPUs", config.deviceIds.size());
+        THEMIS_INFO("MultiGPUVectorIndex: Initializing with {} GPUs",static_cast<int>(config.deviceIds.size()));
         
         // Initialize communication backend first (v2.5+)
         if (!initializeCommBackend()) {
@@ -116,7 +116,7 @@ public:
         // Initialize per-GPU utilization counters (one entry per active GPU)
         perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0u);
 
-        THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs", activeDeviceIds.size());
+        THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs",static_cast<int>(activeDeviceIds.size()));
         THEMIS_INFO("MultiGPUVectorIndex: Communication backend: {}", getCommBackendName());
         initialized = true;
         return true;
@@ -352,7 +352,7 @@ public:
         
         if (!initialized || gpuIndices.empty()) {
             THEMIS_WARN("MultiGPUVectorIndex::search: not initialized or no GPU indices available (initialized={} gpu_count={})",
-                        initialized, gpuIndices.size());
+                        initialized,static_cast<int>(gpuIndices.size()));
             return {};
         }
         
@@ -405,7 +405,7 @@ public:
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.empty() || queries.empty()) {
             THEMIS_WARN("MultiGPUVectorIndex::searchBatch: invalid state (initialized={} gpu_count={} queries={})",
-                        initialized, gpuIndices.size(), queries.size());
+                        initialized,static_cast<int>(gpuIndices.size()),static_cast<int>(queries.size()));
             return {};
         }
 
@@ -607,7 +607,7 @@ public:
             return false;
         }
         
-        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...", gpuIndices.size());
+        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...",static_cast<int>(gpuIndices.size()));
         
         // Get current load distribution
         std::vector<size_t> vectorsPerGPU = {};

@@ -2529,7 +2529,7 @@ std::vector<std::string> ErrorRegistry::getAllCategories() const {
 json ErrorRegistry::toJSON() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     json result = {
-        {"total_errors", errors_.size()},
+        {"total_errors",static_cast<int>(errors_.size())},
         {"categories", json::array()},
         {"errors", json::array()}
     };

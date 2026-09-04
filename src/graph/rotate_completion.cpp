@@ -58,7 +58,7 @@ public:
 
     size_t addEntity(const std::string& id) {
         std::unique_lock lk(mu_);
-        auto [it, inserted] = entity_index_.emplace(id, entity_names_.size());
+        auto [it, inserted] = entity_index_.emplace(id,static_cast<int>(entity_names_.size()));
         if (inserted) {
             entity_names_.push_back(id);
         }
@@ -67,7 +67,7 @@ public:
 
     size_t addRelation(const std::string& id) {
         std::unique_lock lk(mu_);
-        auto [it, inserted] = relation_index_.emplace(id, relation_names_.size());
+        auto [it, inserted] = relation_index_.emplace(id,static_cast<int>(relation_names_.size()));
         if (inserted) {
             relation_names_.push_back(id);
         }
@@ -76,12 +76,12 @@ public:
 
     size_t entityCount() const {
         std::shared_lock lk(mu_);
-        return entity_names_.size();
+        return static_cast<int>(entity_names_.size());
     }
 
     size_t relationCount() const {
         std::shared_lock lk(mu_);
-        return relation_names_.size();
+        return static_cast<int>(relation_names_.size());
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ public:
             out[2 * k + 1] = entity_im_[idx * d + k];
         }
         
-        THEMIS_DEBUG("[RotatEModel] entityEmbedding('{}') -> {} floats (trained)", id, out.size());
+        THEMIS_DEBUG("[RotatEModel] entityEmbedding('{}') -> {} floats (trained)", id,static_cast<int>(out.size()));
         return out;
     }
 
@@ -653,7 +653,7 @@ std::vector<LinkPrediction> KGCompletionEngine::completeTail(
         } else if (!preds.empty()) {
             THEMIS_DEBUG("[KGCompletionEngine] completeTail('{}', '{}') retrieved {} predictions; "
                         "none met inject threshold (threshold={})",
-                        head, relation, preds.size(), inject_threshold_);
+                        head, relation,static_cast<int>(preds.size()), inject_threshold_);
         }
     }
 

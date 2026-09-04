@@ -257,7 +257,7 @@ std::string SignedPluginRepository::computeKeyFingerprint(
         return {};
     }
     uint8_t digest[SHA256_DIGEST_LENGTH];
-    if (SHA256(public_key.data(), public_key.size(), digest) == nullptr) {
+    if (SHA256(public_key.data(),static_cast<int>(public_key.size()), digest) == nullptr) {
         return {};
     }
     return bytesToHex(digest, SHA256_DIGEST_LENGTH);
@@ -344,7 +344,7 @@ bool SignedPluginRepository::verifyEd25519Signature(
     }
     // Load the raw Ed25519 public key via OpenSSL EVP_PKEY using RAII wrapper
     EVP_PKEY* pkey_raw = EVP_PKEY_new_raw_public_key(
-        EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size());
+        EVP_PKEY_ED25519, nullptr, public_key.data(),static_cast<int>(public_key.size()));
     if (!pkey_raw) {
         return false;
     }
@@ -360,8 +360,8 @@ bool SignedPluginRepository::verifyEd25519Signature(
     if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
         int rc = EVP_DigestVerify(
             ctx.get(),
-            signature.data(), signature.size(),
-            reinterpret_cast<const uint8_t*>(message.data()), message.size());
+            signature.data(),static_cast<int>(signature.size()),
+            reinterpret_cast<const uint8_t*>(message.data()),static_cast<int>(message.size()));
         ok = (rc == 1);
     }
     // Both ctx and pkey automatically freed when they go out of scope

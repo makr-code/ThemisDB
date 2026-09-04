@@ -41,7 +41,7 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
 
 size_t ShardingManager::GetNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return shard_nodes_.size();
+    return static_cast<int>(shard_nodes_.size());
 }
 
 int ShardingManager::GetRemainingNodeCapacity() const {

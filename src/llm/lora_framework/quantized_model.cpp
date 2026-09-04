@@ -305,7 +305,7 @@ QuantizedModel convert_to_quantized(
     
     QuantizedModel model(config);
     
-    spdlog::info("Converting model to quantized format: {} layers", model_weights.size());
+    spdlog::info("Converting model to quantized format: {} layers",static_cast<int>(model_weights.size()));
     
     for (const auto& pair : model_weights) {
         model.add_layer(pair.first, pair.second);
@@ -330,7 +330,7 @@ QuantizedModel load_from_gguf(
     
     const auto& metadata = loader.getMetadata();
     spdlog::info("GGUF version: {}, architecture: {}, tensors: {}",
-                 metadata.version, metadata.architecture, metadata.tensors.size());
+                 metadata.version, metadata.architecture,static_cast<int>(metadata.tensors.size()));
     
     // Determine quantization config
     QuantizedModelConfig model_config = {};

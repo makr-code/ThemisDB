@@ -186,7 +186,7 @@ public:
         void advance_to_valid()
         {
             while (pos_ < keys_.size() &&
-                   keys_[pos_].substr(0, prefix_.size()) != prefix_)
+                   keys_[pos_].substr(0,static_cast<int>(prefix_.size())) != prefix_)
             {
                 ++pos_;
             }
@@ -321,7 +321,7 @@ struct SchemaMigration::Impl {
 
         try {
             LOG_INFO("SchemaMigration [{}]: starting online DDL ({} operations)",
-                     version_, operations_.size());
+                     version_,static_cast<int>(operations_.size()));
 
             // --- Phase 1: SHADOW_CREATE ---
             // In a full production implementation this creates a shadow table.

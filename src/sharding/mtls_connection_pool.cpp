@@ -577,7 +577,7 @@ std::shared_ptr<EndpointConnectionPool> MTLSConnectionPoolManager::getPool(
     }
     
     // Check global limits
-    if (config_.enable_endpoint_eviction && pools_.size() >= config_.max_endpoints) {
+    if (config_.enable_endpoint_eviction && static_cast<int>(pools_.size()) >= config_.max_endpoints) {
         std::cerr << "Warning: Maximum endpoint pools reached (" 
                   << config_.max_endpoints << ")" << std::endl;
         // In production, we would implement LRU eviction here

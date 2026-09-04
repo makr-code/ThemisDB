@@ -88,7 +88,7 @@ private:
     // Compute SHA256 hash
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        SHA256(data.data(),static_cast<int>(data.size()), hash);
         
         std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
@@ -225,7 +225,7 @@ public:
             ).count();
             
             THEMIS_DEBUG("WebDAVBlobBackend: Stored blob {} ({} bytes) at {}", 
-                blob_id, data.size(), url);
+                blob_id,static_cast<int>(data.size()), url);
             
             return Ok(ref);
             
@@ -293,7 +293,7 @@ public:
             }
             
             THEMIS_DEBUG("WebDAVBlobBackend: Retrieved blob {} ({} bytes)", 
-                ref.id, data.size());
+                ref.id,static_cast<int>(data.size()));
             
             return Ok(data);
             

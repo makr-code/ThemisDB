@@ -149,7 +149,7 @@ void TokenBlacklist::clear() {
 
 size_t TokenBlacklist::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return blacklist_.size();
+    return static_cast<int>(blacklist_.size());
 }
 
 TokenBlacklist::Statistics TokenBlacklist::getStatistics() const {

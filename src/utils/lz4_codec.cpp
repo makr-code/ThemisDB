@@ -157,7 +157,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     }
 
     output.resize(static_cast<size_t>(result));
-    THEMIS_DEBUG("LZ4 decompressed {} → {} bytes", compressed.size(), result);
+    THEMIS_DEBUG("LZ4 decompressed {} → {} bytes",static_cast<int>(compressed.size()), result);
     return Ok(std::move(output));
 #else
     (void)compressed;

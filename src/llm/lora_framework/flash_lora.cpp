@@ -498,7 +498,7 @@ void FlashLoRA::validate_shapes(
 ) {
     // Validate input shape
     auto input_shape = input.shape();
-    if (static_cast<int>(input_shape.size()) != 2 && input_shape.size() != 3) {
+    if (static_cast<int>(input_shape.size()) != 2 && static_cast<int>(input_shape.size()) != 3) {
         throw std::invalid_argument(
             "Input must be 2D [batch, in_dim] or 3D [batch, seq_len, in_dim]"
         );

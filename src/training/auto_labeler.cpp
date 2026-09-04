@@ -153,7 +153,7 @@ public:
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
                 if ([[maybe_unused]] callback && processed % 10 == 0) {
-                    callback(processed, document_ids.size(),
+                    callback(processed,static_cast<int>(document_ids.size()),
                              "Processing document " + doc_id);
                 }
             } catch (...) {
@@ -350,7 +350,7 @@ public:
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
                 if ([[maybe_unused]] callback && processed % 10 == 0) {
-                    callback(processed, document_ids.size(),
+                    callback(processed,static_cast<int>(document_ids.size()),
                              "Labeled document " + doc_id);
                 }
             } catch (...) {
@@ -708,7 +708,7 @@ private:
             std::string token = "@" + placeholder;
             size_t pos = 0;
             while ((pos = query.find(token, pos)) != std::string::npos) {
-                query.replace(pos, token.size(), value);
+                query.replace(pos,static_cast<int>(token.size()), value);
                 pos += value.size();
             }
         }

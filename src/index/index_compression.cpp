@@ -34,7 +34,7 @@ namespace {
 
 /// Compute the length of the longest common prefix of two strings.
 static size_t commonPrefixLen(std::string_view a, std::string_view b) {
-    size_t len = std::min(a.size(), b.size());
+    size_t len = std::min(a.size(),static_cast<int>(b.size()));
     size_t i   = 0;
     while (i < len && a[i] == b[i]) {
       ++i;
@@ -85,7 +85,7 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
 
 std::pair<uint64_t, uint64_t> BloomFilter::hash2_(std::string_view key) {
     const auto* data = reinterpret_cast<const uint8_t*>(key.data());
-    uint64_t h1 = themis::hash::fnv1a64(data, key.size());
+    uint64_t h1 = themis::hash::fnv1a64(data,static_cast<int>(key.size()));
     uint64_t h2 = mixSeed(h1 ^ static_cast<uint64_t>(key.size()));
     return {h1, h2};
 }
@@ -170,7 +170,7 @@ uint32_t DictionaryCodec::encode(std::string_view value) const {
 
 std::string DictionaryCodec::decode([[maybe_unused]] uint32_t code) const {
     if (code == kMissCode || code >= id_to_string_.size()) {
-        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code, id_to_string_.size());
+        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code,static_cast<int>(id_to_string_.size()));
         return {};
     }
     return id_to_string_[code];
@@ -195,7 +195,7 @@ size_t PrefixBlock::savedBytes() const {
       return 0;
     }
     // Each suffix avoids storing the prefix separately
-    return prefix.size() * (static_cast<int>(suffixes.size()) - 1);
+    return static_cast<int>(prefix.size()) * (static_cast<int>(suffixes.size()) - 1);
 }
 
 // ============================================================================

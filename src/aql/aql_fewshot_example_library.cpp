@@ -24,7 +24,7 @@ namespace aql {
 
 AQLFewShotExampleLibrary::AQLFewShotExampleLibrary() {
     registerBuiltins_();
-    THEMIS_DEBUG("AQLFewShotExampleLibrary initialized with {} built-in examples", examples_.size());
+    THEMIS_DEBUG("AQLFewShotExampleLibrary initialized with {} built-in examples",static_cast<int>(examples_.size()));
 }
 
 void AQLFewShotExampleLibrary::registerExample(const AQLFewShotExample &example) {
@@ -128,7 +128,7 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std:
     std::sort(scored.begin(), scored.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
     // Collect top-n results
-    std::size_t count = std::min(n, scored.size());
+    std::size_t count = std::min(n,static_cast<int>(scored.size()));
     std::vector<AQLFewShotExample> result;
     result.reserve(count);
     for (std::size_t i = 0; i < count; ++i) {
@@ -156,7 +156,7 @@ std::string AQLFewShotExampleLibrary::buildPromptSection(const std::string &nl_q
 }
 
 std::size_t AQLFewShotExampleLibrary::size() const {
-    return examples_.size();
+    return static_cast<int>(examples_.size());
 }
 
 // ============================================================================

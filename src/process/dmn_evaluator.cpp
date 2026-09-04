@@ -213,7 +213,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     const json&                 input_context)
 {
     const int n = static_cast<int>(
-        std::min(rule.input_expressions.size(), input_columns.size()));
+        std::min(rule.input_expressions.size(),static_cast<int>(input_columns.size())));
     for (int i = 0; i < n; ++i) {
         const json& col_value = input_context.contains(input_columns[i])
                               ? input_context[input_columns[i]]

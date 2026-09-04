@@ -167,8 +167,8 @@ NegativeKeywordFilter::filter(
     THEMIS_DEBUG(
         "NegativeKeywordFilter: {}/{} candidates survived NOT filter "
         "(excluded {} docs for {} negative terms)",
-        filtered.size(), candidate_pks.size(),
-        excluded.size(), negative_terms.size());
+        filtered.size(),static_cast<int>(candidate_pks.size()),
+        excluded.size(),static_cast<int>(negative_terms.size()));
 
     return {last_error, std::move(filtered)};
 }

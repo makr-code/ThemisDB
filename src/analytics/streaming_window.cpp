@@ -468,7 +468,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         int64_t idx = slotIndex([[maybe_unused]] record.event_time);
         if (open_windows_.find(idx) == open_windows_.end()) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
-            if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
+            if (config_.max_open_windows > 0 && static_cast<int>(open_windows_.size()) >= config_.max_open_windows) {
                 auto oldest = open_windows_.begin();
                 if (config_.emit_empty_windows || !oldest->second.records.empty()) {
                     pending.push_back(computeResult(oldest->second, false));
@@ -1038,7 +1038,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
         auto it                = sessions_.find(key);
         if (it == sessions_.end()) {
             // Enforce max_open_sessions: evict the session with the oldest last_event.
-            if (config_.max_open_sessions > 0 && sessions_.size() >= config_.max_open_sessions) {
+            if (config_.max_open_sessions > 0 && static_cast<int>(sessions_.size()) >= config_.max_open_sessions) {
                 auto oldest = sessions_.end();
                 for (auto sit = sessions_.begin(); sit != sessions_.end(); ++sit) {
                     if ([[maybe_unused]] oldest == sessions_.end() || sit->second.last_event < oldest->second.last_event) {

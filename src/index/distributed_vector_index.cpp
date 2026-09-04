@@ -294,7 +294,7 @@ bool DistributedVectorIndex::insert(const std::string& pk,
 
 bool DistributedVectorIndex::insert(const std::string& pk,
                                     const std::vector<float>& vec) {
-    return insert(pk, vec.data(), vec.size());
+    return insert(pk, vec.data(),static_cast<int>(vec.size()));
 }
 
 bool DistributedVectorIndex::remove(const std::string& pk) {
@@ -388,7 +388,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
 
 std::vector<AnnSearchResult> DistributedVectorIndex::search(
         const std::vector<float>& query, int k) const {
-    return search(query.data(), query.size(), k);
+    return search(query.data(),static_cast<int>(query.size()), k);
 }
 
 // ---------------------------------------------------------------------------
@@ -397,11 +397,11 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(
 
 size_t DistributedVectorIndex::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return pk_to_shard_.size();
+    return static_cast<int>(pk_to_shard_.size());
 }
 
 size_t DistributedVectorIndex::numShards() const {
-    return shards_.size();
+    return static_cast<int>(shards_.size());
 }
 
 std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const {

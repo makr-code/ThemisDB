@@ -585,7 +585,7 @@ private:
                 auto* doc = sr.mutable_document();
                 doc->set_collection(req->collection());
                 doc->set_key(doc_key);
-                doc->set_data(value.data(), value.size());
+                doc->set_data(value.data(),static_cast<int>(value.size()));
                 sr.set_has_more(true);
                 writer->Write(sr);
                 return true; // continue

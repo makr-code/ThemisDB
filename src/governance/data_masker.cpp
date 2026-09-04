@@ -44,7 +44,7 @@ std::string toHex(const unsigned char *data, size_t len) {
 /// Compute SHA-256 hex digest of @p input.
 std::string dataMaskerSha256Hex(const std::string &input) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), digest);
     return toHex(digest, SHA256_DIGEST_LENGTH);
 }
 

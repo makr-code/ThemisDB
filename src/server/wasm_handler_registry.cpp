@@ -69,7 +69,7 @@ json WasmHandlerEntry::toJson() const {
         {"created_at",       created_at},
         {"updated_at",       updated_at},
         {"invocation_count", invocation_count.load(std::memory_order_relaxed)},
-        {"wasm_size_bytes",  wasm_bytes.size()},
+        {"wasm_size_bytes",static_cast<int>(wasm_bytes.size())},
         {"module_info", json{
             {"valid",        module_info.valid},
             {"wasm_version", module_info.wasm_version},
@@ -266,7 +266,7 @@ bool WasmHandlerRegistry::hasHandler([[maybe_unused]] const std::string& id) con
 
 size_t WasmHandlerRegistry::size() const {
     std::shared_lock lock(registry_mutex_);
-    return registry_.size();
+    return static_cast<int>(registry_.size());
 }
 
 std::vector<json> WasmHandlerRegistry::listHandlers(

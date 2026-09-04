@@ -336,7 +336,7 @@ json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t 
     for (const auto& r : results) {
         items.push_back(r.toJson());
     }
-    return json{{"task_id", task_id}, {"items", items}, {"count", items.size()}};
+    return json{{"task_id", task_id}, {"items", items}, {"count",static_cast<int>(items.size())}};
 }
 
 json TaskSchedulerApiHandler::getLatestTaskResult([[maybe_unused]] const std::string& task_id) {
@@ -968,8 +968,8 @@ json TaskSchedulerApiHandler::executeDAG([[maybe_unused]] const json& request) {
         }
 
         spdlog::info("TaskSchedulerApiHandler: executeDAG completed: {} succeeded, {} failed, {} skipped, {} condition_skipped",
-                     dag_result.succeeded.size(), dag_result.failed.size(),
-                     dag_result.skipped.size(), dag_result.condition_skipped.size());
+                     dag_result.succeeded.size(),static_cast<int>(dag_result.failed.size()),
+                     dag_result.skipped.size(),static_cast<int>(dag_result.condition_skipped.size()));
 
         return json{
             {"status",            "executed"},

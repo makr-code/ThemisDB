@@ -721,7 +721,7 @@ Result<BatchStatistics> MongoDBAdapter::flush() {
 
 size_t MongoDBAdapter::get_pending_count() const {
     std::unique_lock<std::mutex> lock(batch_mutex_);
-    return batch_queue_.size();
+    return static_cast<int>(batch_queue_.size());
 }
 
 Result<bool> MongoDBAdapter::set_batch_config(const BatchConfig& config) {

@@ -184,7 +184,7 @@ std::vector<Changefeed::ChangeEvent> CDCAdmin::replayFromSequence(
     opts.event_types = event_types;
 
     auto events = changefeed_->listEvents(opts);
-    THEMIS_INFO("Replayed {} events", events.size());
+    THEMIS_INFO("Replayed {} events",static_cast<int>(events.size()));
     return events;
 }
 

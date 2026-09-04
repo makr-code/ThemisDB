@@ -124,7 +124,7 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
 
     spdlog::debug("ErasureCodingBackend::encode: blob='{}' size={} shards={} "
                   "shard_size={}",
-                  blob_id, original_size, shards.size(),
+                  blob_id, original_size,static_cast<int>(shards.size()),
                   shards.empty() ? 0u : static_cast<unsigned>(shards[0].data.size()));
     return shards;
 }
@@ -186,13 +186,13 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
     // safe because no shared mutable state is involved.
 
     // Trim trailing padding to restore exact original size
-    if (original_size > 0 && recovered.size() > original_size) {
+    if (original_size > 0 && static_cast<int>(recovered.size()) > original_size) {
         recovered.resize(original_size);
     }
 
     spdlog::debug("ErasureCodingBackend::decode: blob='{}' available={} missing={} "
                   "recovered={}",
-                  blob_id, shards.size(), missing.size(), recovered.size());
+                  blob_id,static_cast<int>(shards.size()),static_cast<int>(missing.size()),static_cast<int>(recovered.size()));
     return recovered;
 }
 
@@ -237,7 +237,7 @@ std::optional<std::vector<uint8_t>> ErasureCodingBackend::get(
     if (static_cast<int>(entry.chunks.size()) < static_cast<size_t>(config_.data_shards)) {
         spdlog::warn("ErasureCodingBackend::get: blob='{}' only {}/{} shards "
                      "available (need {}); cannot reconstruct",
-                     blob_id, entry.chunks.size(),
+                     blob_id,static_cast<int>(entry.chunks.size()),
                      config_.totalShards(), config_.data_shards);
         return std::nullopt;
     }

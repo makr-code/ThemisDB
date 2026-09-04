@@ -158,7 +158,7 @@ float NoiseSuppressor::processRNNoiseFrames(
       return 0.0f;
     }
 
-    size_t noise_end = std::max<size_t>(1, samples_48k.size() / 10);
+    size_t noise_end = std::max<size_t>(1,static_cast<int>(samples_48k.size()) / 10);
     float  sum_sq    = 0.0f;
     for (size_t i = 0; i < noise_end; ++i) {
       sum_sq += samples_48k[i] * samples_48k[i];
@@ -242,7 +242,7 @@ float AudioPreprocessingPipeline::computeNoiseFloor(const std::vector<float>& sa
       return 0.0f;
     }
     // Estimate noise from the first 100ms-equivalent samples (first 10% of buffer)
-    size_t noise_end = std::max<size_t>(1, samples.size() / 10);
+    size_t noise_end = std::max<size_t>(1,static_cast<int>(samples.size()) / 10);
     float sum_sq = 0.0f;
     for (size_t i = 0; i < noise_end; ++i) {
       sum_sq += samples[i] * samples[i];
@@ -301,7 +301,7 @@ AudioFrame AudioPreprocessingPipeline::applyEchoCancellation(
     }
 
     // Simple subtraction-based echo cancellation
-    size_t len = std::min(input.samples.size(), reference.samples.size());
+    size_t len = std::min(input.samples.size(),static_cast<int>(reference.samples.size()));
     float ref_rms = computeRMS(reference.samples);
     float input_rms = computeRMS(input.samples);
     float scale = (ref_rms > 1e-6f) ? (input_rms / ref_rms) * 0.3f : 0.0f;
@@ -379,7 +379,7 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
     for (size_t i = 0; i < out_size; ++i) {
         double src_pos = i / ratio;
         size_t idx0 = static_cast<size_t>(src_pos);
-        size_t idx1 = std::min(idx0 + 1, frame.samples.size() - 1);
+        size_t idx1 = std::min(idx0 + 1,static_cast<int>(frame.samples.size()) - 1);
         float frac = static_cast<float>(src_pos - idx0);
         result.samples[i] = frame.samples[idx0] * (1.0f - frac) + frame.samples[idx1] * frac;
     }
@@ -780,7 +780,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
             }
         }
         // If all bytes are identical for more than 10 bytes, suspicious
-        if (all_same && raw_audio.size() > 10) {
+        if (all_same && static_cast<int>(raw_audio.size()) > 10) {
             return true;
         }
     }

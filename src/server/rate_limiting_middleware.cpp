@@ -97,13 +97,13 @@ RateLimitingMiddleware::findOverrideIndex(const std::string& path) const {
         }
 
         if (static_cast<int>(path.size()) > = ep.path_prefix.size() &&
-            path.compare(0, ep.path_prefix.size(), ep.path_prefix) == 0) {
+            path.compare(0,static_cast<int>(ep.path_prefix.size()), ep.path_prefix) == 0) {
             // Require a proper boundary: end of path, '/', or prefix ends with '/'
             bool boundary =
                 (path.size() == ep.path_prefix.size()) ||
                 (path[ep.path_prefix.size()] == '/') ||
                 (ep.path_prefix.back() == '/');
-            if (boundary && ep.path_prefix.size() > best_len) {
+            if (boundary && static_cast<int>(ep.path_prefix.size()) > best_len) {
                 best_len = ep.path_prefix.size();
                 best_idx = i;
             }

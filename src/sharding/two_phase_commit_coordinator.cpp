@@ -123,7 +123,7 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
 /** @brief Return number of currently registered participants. */
 size_t TwoPhaseCommitCoordinator::participantCount() const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
-    return participants_.size();
+    return static_cast<int>(participants_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -504,7 +504,7 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
         {"coordinator_id",      coordinator_id_},
         {"uptime_seconds",      static_cast<uint64_t>(
                                     std::chrono::duration_cast<std::chrono::seconds>(uptime).count())},
-        {"registered_shards",   participants_.size()},
+        {"registered_shards",static_cast<int>(participants_.size())},
         {"total_transactions",  total_transactions_.load()},
         {"total_commits",       total_commits_.load()},
         {"total_aborts",        total_aborts_.load()},

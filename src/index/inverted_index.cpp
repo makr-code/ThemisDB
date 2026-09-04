@@ -383,7 +383,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
           universe.insert(pk);
         }
 
-    const double N = static_cast<double>(std::max<size_t>(1, universe.size()));
+    const double N = static_cast<double>(std::max<size_t>(1,static_cast<int>(universe.size())));
 
     std::unordered_map<std::string, double> docLen;
     double totalLen = 0.0;

@@ -61,7 +61,7 @@ bool CrossCollectionStream::hasCollection(const std::string& name) const {
 
 size_t CrossCollectionStream::collectionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return feeds_.size();
+    return static_cast<int>(feeds_.size());
 }
 
 std::vector<std::string> CrossCollectionStream::listCollections() const {

@@ -188,7 +188,7 @@ void GPUTensor::upload(const float* data, size_t count) {
 }
 
 void GPUTensor::upload(const std::vector<float>& data) {
-    upload(data.data(), data.size());
+    upload(data.data(),static_cast<int>(data.size()));
 }
 
 void GPUTensor::download(float* data, size_t count) const {
@@ -207,7 +207,7 @@ void GPUTensor::download(float* data, size_t count) const {
 
 std::vector<float> GPUTensor::download() const {
     std::vector<float> result(size());
-    download(result.data(), result.size());
+    download(result.data(),static_cast<int>(result.size()));
     return result;
 }
 

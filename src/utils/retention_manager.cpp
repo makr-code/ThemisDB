@@ -28,7 +28,7 @@ RetentionManager::RetentionManager(const std::string& config_path)
         }
     }
     
-    spdlog::info("RetentionManager: Initialized with {} policy/policies", policies_.size());
+    spdlog::info("RetentionManager: Initialized with {} policy/policies",static_cast<int>(policies_.size()));
 }
 
 bool RetentionManager::registerPolicy(const RetentionPolicy& policy) {
@@ -336,7 +336,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
             registerPolicy(policy);
         }
 
-        spdlog::info("RetentionManager: Loaded {} policies from '{}'", policies_.size(), config_path);
+        spdlog::info("RetentionManager: Loaded {} policies from '{}'",static_cast<int>(policies_.size()), config_path);
         return true;
 
     } catch (const std::exception& e) {

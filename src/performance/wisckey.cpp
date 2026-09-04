@@ -104,7 +104,7 @@ ValueAddress ValueLog::append(const std::string& value) {
     // bounded by the host OS/storage stack; production deployments use local
     // SSD-backed logs and monitor latency externally.
     log_file_->seekp(0, std::ios::end);
-    log_file_->write(value.data(), value.size());
+    log_file_->write(value.data(),static_cast<int>(value.size()));
     log_file_->flush();
     
     current_offset_.store(
@@ -190,7 +190,7 @@ void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
         }
         
         // Write value to new log
-        temp_log.write(value.data(), value.size());
+        temp_log.write(value.data(),static_cast<int>(value.size()));
         if (!temp_log.good()) {
             temp_log.close();
             std::remove(temp_log_path.c_str());

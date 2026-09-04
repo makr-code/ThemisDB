@@ -109,7 +109,7 @@ bool PaxosSnapshot::verifyChecksum() const {
 std::vector<uint8_t> PaxosSnapshot::compress([[maybe_unused]] int level) const {
     const std::string json_str = toJSON().dump();
     return themis::utils::zstd_compress(
-        reinterpret_cast<const uint8_t*>(json_str.data()), json_str.size(), level);
+        reinterpret_cast<const uint8_t*>(json_str.data()),static_cast<int>(json_str.size()), level);
 }
 
 /* static */ std::optional<PaxosSnapshot> PaxosSnapshot::decompress(
@@ -228,7 +228,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         const bool compression_succeeded = !compressed.empty();
         const double ratio = compression_succeeded
             ? static_cast<double>(snapshot.toJSON().dump().size()) /
-              std::max<size_t>(1, compressed.size())
+              std::max<size_t>(1,static_cast<int>(compressed.size()))
             : 1.0;
 
         std::ofstream file(temp_filepath, std::ios::binary | std::ios::trunc);
@@ -276,7 +276,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         spdlog::info("Created Paxos snapshot: id={} slot={} instances={} log_entries={} "
                      "compressed={} ratio={:.2f}x",
                     snapshot.snapshot_id, last_committed_slot,
-                    instances.size(), committed_log.size(),
+                    instances.size(),static_cast<int>(committed_log.size()),
                     compression_succeeded, ratio);
         
         // Cleanup old snapshots
@@ -376,7 +376,7 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot([[maybe_unused]]
         
         spdlog::info("Loaded Paxos snapshot: id={} slot={} instances={} log_entries={}",
                     snapshot.snapshot_id, snapshot.last_committed_slot,
-                    snapshot.instances.size(), snapshot.committed_log.size());
+                    snapshot.instances.size(),static_cast<int>(snapshot.committed_log.size()));
         
         return snapshot;
         

@@ -76,7 +76,7 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     if (!isQuorumAchievable(target_nodes.size(), true)) {
         stats_.failed_writes.fetch_add(1, std::memory_order_release);
         THEMIS_WARN("Write quorum not achievable: required={}, available={}", 
-                    required_acks, target_nodes.size());
+                    required_acks,static_cast<int>(target_nodes.size()));
         return QuorumResult::failed("Quorum not achievable with available nodes");
     }
     
@@ -118,7 +118,7 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     } else {
         stats_.failed_writes.fetch_add(1, std::memory_order_release);
         THEMIS_WARN("Write quorum FAILED: {}/{} nodes acknowledged; {} timed out", 
-                    successful_nodes.size(), required_acks, failed_nodes.size());
+                    successful_nodes.size(), required_acks,static_cast<int>(failed_nodes.size()));
         QuorumResult result = QuorumResult::failed("Failed to achieve write quorum");
         result.acks_received = successful_nodes.size();
         result.acks_required = required_acks;
@@ -190,7 +190,7 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     } else {
         stats_.failed_reads.fetch_add(1, std::memory_order_release);
         THEMIS_WARN("Read quorum FAILED: {}/{} nodes responded; {} timed out", 
-                    successful_nodes.size(), required_acks, failed_nodes.size());
+                    successful_nodes.size(), required_acks,static_cast<int>(failed_nodes.size()));
         QuorumResult result = QuorumResult::failed("Failed to achieve read quorum");
         result.acks_received = successful_nodes.size();
         result.acks_required = required_acks;
@@ -318,7 +318,7 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
     }
     
     if (!timed_out_nodes.empty()) {
-        THEMIS_WARN("Quorum wait: {} nodes timed out", timed_out_nodes.size());
+        THEMIS_WARN("Quorum wait: {} nodes timed out",static_cast<int>(timed_out_nodes.size()));
     }
     
     return results;

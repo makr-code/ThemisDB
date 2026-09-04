@@ -381,10 +381,10 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                     long long p99 = doc_times[i99];
                     long long t50 = token_times[token_times.size()/2];
                     std::fprintf(stderr, "SelfRAG critic trace: docs=%zu p50=%lld p95=%lld p99=%lld mean=%lld ns token_p50=%lld ns slow_count=%zu\n",
-                                 doc_times.size(), p50, p95, p99, mean, t50, slow_docs.size());
+                                 doc_times.size(), p50, p95, p99, mean, t50,static_cast<int>(slow_docs.size()));
                     if (!slow_docs.empty()) {
                         std::sort(slow_docs.begin(), slow_docs.end(), [](auto &a, auto &b){ return a.first > b.first; });
-                        size_t show = std::min<size_t>(5, slow_docs.size());
+                        size_t show = std::min<size_t>(5,static_cast<int>(slow_docs.size()));
                         std::fprintf(stderr, "Top %zu slow docs:\n", show);
                         for (size_t si = 0; si < show; ++si) {
                             std::fprintf(stderr, "  %zu: %lld ns id=%s\n", si+1, slow_docs[si].first, slow_docs[si].second.c_str());

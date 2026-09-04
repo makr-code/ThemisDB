@@ -632,8 +632,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         }
         
         // Apply pagination
-        size_t start = std::min(offset, filtered_adapters.size());
-        size_t end = std::min(offset + limit, filtered_adapters.size());
+        size_t start = std::min(offset,static_cast<int>(filtered_adapters.size()));
+        size_t end = std::min(offset + limit,static_cast<int>(filtered_adapters.size()));
         
         json adapters = json::array();
         for (size_t i = start; i < end; i++) {
@@ -642,7 +642,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         
         json response_data = {
             {"adapters", adapters},
-            {"total", filtered_adapters.size()},
+            {"total",static_cast<int>(filtered_adapters.size())},
             {"limit", limit},
             {"offset", offset}
         };
@@ -1077,7 +1077,7 @@ bool LoRAApiHandler::validateBearerToken([[maybe_unused]] const http::request<ht
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token) {
         return false;
     }
@@ -1342,7 +1342,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
                 {"adapter_id", adapter_id},
                 {"version", version},
                 {"status", "received"},
-                {"bytes_received", weights_data.size()},
+                {"bytes_received",static_cast<int>(weights_data.size())},
                 {"compressed", compressed},
                 {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()}
             };
@@ -1476,7 +1476,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     }
     return createJsonResponse(json{
         {"adapter_id", adapter_id},
-        {"count",      entries.size()},
+        {"count",static_cast<int>(entries.size())},
         {"entries",    arr}
     });
 }
@@ -1509,7 +1509,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     }
     return createJsonResponse(json{
         {"adapter_id", adapter_id},
-        {"count",      snaps.size()},
+        {"count",static_cast<int>(snaps.size())},
         {"snapshots",  arr}
     });
 }

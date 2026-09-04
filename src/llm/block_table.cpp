@@ -104,7 +104,7 @@ std::vector<int> BlockTable::getBlockMapping() const {
 
 size_t BlockTable::getNumTokens() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return block_ids_.size() * config_.block_size;
+    return static_cast<int>(block_ids_.size()) * config_.block_size;
 }
 
 BlockTable::Stats BlockTable::getStats() const {

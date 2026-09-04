@@ -135,7 +135,7 @@ http::response<http::string_body> APIGateway::handleRequest(
                 bool auth_ok = false;
                 const auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
-                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                     if (token) {
                         auto result = auth.validateToken(*token);
                         auth_ok = result.authorized;
@@ -514,10 +514,10 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         // Check if Authorization header exists for user-based rate limiting
         const auto auth_header = req[http::field::authorization];
         if (!auth_header.empty()) {
-            std::string auth_value = std::string(auth_header.data(), auth_header.size());
+            std::string auth_value = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
             
             // Extract JWT subject if possible (via AuthMiddleware)
-            if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
+            if (auth_ && static_cast<int>(auth_value.size()) > 7 && auth_value.substr(0, 7) == "Bearer ") {
                 auto& auth = *auth_;
                 std::string token = auth_value.substr(7);
                 auto ctx = auth.extractContext(token);
@@ -561,7 +561,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     const auto auth_header = req[http::field::authorization];
     if (!auth_header.empty()) {
         // Use auth header as client ID
-        client_id = std::string(auth_header.data(), auth_header.size());
+        client_id = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
     } else {
         // Fall back to IP or other identifier
         client_id = ipClientId();

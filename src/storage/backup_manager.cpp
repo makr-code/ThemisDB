@@ -94,7 +94,7 @@ constexpr bool kRemoteBackupGcsLinked = false;
 /// Return whether @p value begins with the provider prefix @p prefix.
 bool hasUriPrefix(const std::string& value, std::string_view prefix) {
     return static_cast<bool>(value.size()  < static_cast<int>(= prefix.size())) &&
-           value.compare(0, prefix.size(), prefix) == 0;
+           value.compare(0,static_cast<int>(prefix.size()), prefix) == 0;
 }
 
 /// Return whether @p value is a local mirror URI handled by the storage module.
@@ -1457,7 +1457,7 @@ std::vector<std::string> BackupManager::listBackups(const std::string& backup_di
         // Sort by timestamp (filename format ensures correct sort order)
         std::sort(backups.begin(), backups.end());
         
-        THEMIS_INFO("Found {} backups in {}", backups.size(), backup_dir);
+        THEMIS_INFO("Found {} backups in {}",static_cast<int>(backups.size()), backup_dir);
     } catch (const std::exception& e) {
         THEMIS_ERROR("Exception listing backups: {}", e.what());
     }
@@ -1919,7 +1919,7 @@ bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
 
 #if defined(THEMIS_HAS_ZSTD)
             if (type == CompressionType::ZSTD) {
-                const auto compressed = utils::zstd_compress(raw_data.data(), raw_data.size());
+                const auto compressed = utils::zstd_compress(raw_data.data(),static_cast<int>(raw_data.size()));
                 if (compressed.empty() && !raw_data.empty()) {
                     THEMIS_ERROR("compressPath: ZSTD compress failed for {}", src_entry.string());
                     all_ok = false; break;
@@ -1938,7 +1938,7 @@ bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
 #endif
 #if defined(THEMIS_HAS_LZ4)
             if (type == CompressionType::LZ4) {
-                const auto res = utils::lz4_compress_safe(raw_data.data(), raw_data.size());
+                const auto res = utils::lz4_compress_safe(raw_data.data(),static_cast<int>(raw_data.size()));
                 if (!res) {
                     THEMIS_ERROR("compressPath: LZ4 compress failed for {}: {}", src_entry.string(), res.error().message());
                     all_ok = false; break;
@@ -2144,7 +2144,7 @@ bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
 
     // Derive 32-byte AES key from the caller-supplied string via SHA-256.
     unsigned char aes_key[32];
-    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()),static_cast<int>(key.size()), aes_key);
 
     // Generate random IV.
     unsigned char iv[IV_LEN];
@@ -2266,7 +2266,7 @@ bool BackupManager::decryptFile([[maybe_unused]] const std::string& src_path,
 
     // Derive AES key via SHA-256.
     unsigned char aes_key[32];
-    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()),static_cast<int>(key.size()), aes_key);
 
     std::ofstream out(dest_path, std::ios::binary);
     if (!out) {
@@ -2750,7 +2750,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
             if (static_cast<int>(backup_name.size()) < static_cast<int>(kPrefix.size()) + 15u) {
               continue;
             }
-            if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) {
+            if (backup_name.compare(0,static_cast<int>(kPrefix.size()), kPrefix) != 0) {
               continue;
             }
 
@@ -3060,7 +3060,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
 
             total_sst_files += sst_files.size();
             THEMIS_INFO("restoreCollections: CF '{}' — {} SST file(s) ingested successfully",
-                        cf_name, sst_files.size());
+                        cf_name,static_cast<int>(sst_files.size()));
         }
 
         if (any_cf_failed) {
@@ -3071,7 +3071,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         }
 
         THEMIS_INFO("restoreCollections: restored {} SST file(s) across {} CF(s) from '{}'",
-                    total_sst_files, cf_descriptors.size(), checkpoint_dir.string());
+                    total_sst_files,static_cast<int>(cf_descriptors.size()), checkpoint_dir.string());
         return true;
 
     } catch (const std::exception& e) {
@@ -3845,7 +3845,7 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
             integrity_map.push_back(info);
         }
 
-        THEMIS_INFO("Phase 1: Built integrity manifest with {} files", integrity_map.size());
+        THEMIS_INFO("Phase 1: Built integrity manifest with {} files",static_cast<int>(integrity_map.size()));
         return OkVoid();
     } catch (const std::exception& e) {
         return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
@@ -3916,7 +3916,7 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
             result.push_back(info);
         }
 
-        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries", result.size());
+        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries",static_cast<int>(result.size()));
         return Ok(result);
     } catch (const std::exception& e) {
         return Err<std::vector<FileIntegrityInfo>>(

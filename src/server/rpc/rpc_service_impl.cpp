@@ -849,7 +849,7 @@ json ThemisRPCService::handleBatchGetInternal(
         
         json result = {
             {"results", results_array},
-            {"count", results_array.size()}
+            {"count",static_cast<int>(results_array.size())}
         };
         
         return createSuccess(result);
@@ -1534,7 +1534,7 @@ json ThemisRPCService::handleGeoQueryInternal(
         
         json result = {
             {"results", results},
-            {"count", results.size()},
+            {"count",static_cast<int>(results.size())},
             {"query_type", query_type},
             {"collection", collection}
         };
@@ -2556,7 +2556,7 @@ json ThemisRPCService::handleGetIndexOperationsInternal(
 
         json result = {
             {"indexes", indexes},
-            {"count", indexes.size()},
+            {"count",static_cast<int>(indexes.size())},
             {"operations_supported", json::array({
                 "create_index",
                 "drop_index",
@@ -2743,7 +2743,7 @@ json ThemisRPCService::handleAggregationPipelineInternal(
         
         json result = {
             {"results", results},
-            {"count", results.size()}
+            {"count",static_cast<int>(results.size())}
         };
         
         return createSuccess(result);
@@ -2823,7 +2823,7 @@ json ThemisRPCService::handleListCollectionsInternal(
         
         json result = {
             {"collections", collections_array},
-            {"count", collections.size()}
+            {"count",static_cast<int>(collections.size())}
         };
         
         return createSuccess(result);

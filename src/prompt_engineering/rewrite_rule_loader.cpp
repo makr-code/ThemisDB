@@ -138,7 +138,7 @@ bool RewriteRuleLoader::load_rules_from_yaml(
         rules.push_back(rule);
     }
 
-    logger->info("Successfully loaded {} rules from {}", temp_rules.size(), yaml_path);
+    logger->info("Successfully loaded {} rules from {}",static_cast<int>(temp_rules.size()), yaml_path);
     return true;
 }
 

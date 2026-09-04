@@ -126,7 +126,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
         
         nlohmann::json response = {
             {"gaps", json_array},
-            {"count", gaps.size()}
+            {"count",static_cast<int>(gaps.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -303,7 +303,7 @@ bool ComplianceReportingApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    const auto auth_value = std::string(auth_header.data(), auth_header.size());
+    const auto auth_value = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {

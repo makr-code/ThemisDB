@@ -221,7 +221,7 @@ std::vector<PromptVersion> PromptVersionControl::getHistory(
               });
     
     // Apply limit if specified
-    if (limit > 0 && history.size() > limit) {
+    if (limit > 0 && static_cast<int>(history.size()) > limit) {
         history.resize(limit);
     }
     
@@ -496,7 +496,7 @@ MergeResult PromptVersionControl::merge(
         std::vector<std::string> ancestors;
         std::unordered_set<std::string> visited;  // cycle guard
         std::string cur = start_id;
-        while (!cur.empty() && ancestors.size() < MAX_ANCESTOR_DEPTH) {
+        while (!cur.empty() && static_cast<int>(ancestors.size()) < MAX_ANCESTOR_DEPTH) {
             if (!visited.insert(cur).second) break;  // cycle detected
             ancestors.push_back(cur);
             auto it = versions_.find(cur);

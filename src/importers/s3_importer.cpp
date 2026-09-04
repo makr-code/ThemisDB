@@ -620,7 +620,7 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
         bool has_more = true;
         bool use_v2_api = true;
 
-        while (has_more && !cancelled_.load() && keys.size() < MAX_OBJECTS) {
+        while (has_more && !cancelled_.load() && static_cast<int>(keys.size()) < MAX_OBJECTS) {
             // PHASE-2-HARDENING: Object listing fallback mechanism
             try {
                 if (use_v2_api) {

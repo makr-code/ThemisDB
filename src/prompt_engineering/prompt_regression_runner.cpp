@@ -115,7 +115,7 @@ void PromptRegressionRunner::clearFixtures() {
 }
 
 std::size_t PromptRegressionRunner::fixtureCount() const noexcept {
-    return fixtures_.size();
+    return static_cast<int>(fixtures_.size());
 }
 
 // ============================================================================

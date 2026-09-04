@@ -588,7 +588,7 @@ PerClientRateLimiter::getClientMetrics(const std::string& client_id) const {
 
 size_t PerClientRateLimiter::getActiveClients() const {
     std::lock_guard<std::mutex> lock(clients_mutex_);
-    return client_buckets_.size();
+    return static_cast<int>(client_buckets_.size());
 }
 
 void PerClientRateLimiter::cleanupIdleClients() {

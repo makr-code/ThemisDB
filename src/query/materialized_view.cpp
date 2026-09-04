@@ -174,7 +174,7 @@ Result<void> MaterializedView::refresh(bool incremental,
         ++stats_.incremental_updates;
         THEMIS_DEBUG("MaterializedView '{}': incremental refresh, "
                      "current row count={}",
-                     def_.name, rows_.size());
+                     def_.name,static_cast<int>(rows_.size()));
     } else {
         // Full refresh: replace snapshot with the supplied rows.
         if (static_cast<int>(new_rows.size()) > config_.max_rows) {
@@ -203,7 +203,7 @@ Result<void> MaterializedView::refresh(bool incremental,
         rows_ = std::move(new_rows);
         ++stats_.full_refreshes;
         THEMIS_INFO("MaterializedView '{}': full refresh, row count={} (with scope tags)",
-                    def_.name, rows_.size());
+                    def_.name,static_cast<int>(rows_.size()));
     }
 
     stats_.current_row_count = rows_.size();
@@ -282,14 +282,14 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
             ++stats_.delta_inserts;
             ++stats_.incremental_updates;
             THEMIS_DEBUG("MaterializedView '{}': IMMEDIATE INSERT, "
-                         "rows={}", def_.name, rows_.size());
+                         "rows={}", def_.name,static_cast<int>(rows_.size()));
             break;
         case DeltaOp::DELETE:
             applyDelete_locked(row);
             ++stats_.delta_deletes;
             ++stats_.incremental_updates;
             THEMIS_DEBUG("MaterializedView '{}': IMMEDIATE DELETE, "
-                         "rows={}", def_.name, rows_.size());
+                         "rows={}", def_.name,static_cast<int>(rows_.size()));
             break;
         case DeltaOp::UPDATE:
             applyDelete_locked(row);
@@ -297,7 +297,7 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
             ++stats_.delta_updates;
             ++stats_.incremental_updates;
             THEMIS_DEBUG("MaterializedView '{}': IMMEDIATE UPDATE, "
-                         "rows={}", def_.name, rows_.size());
+                         "rows={}", def_.name,static_cast<int>(rows_.size()));
             break;
         }
         stats_.current_row_count = rows_.size();

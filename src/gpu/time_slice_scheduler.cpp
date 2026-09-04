@@ -77,7 +77,7 @@ bool GPUTimeSliceScheduler::hasTenant(const std::string &tenant_id) const {
 
 size_t GPUTimeSliceScheduler::tenantCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return tenants_.size();
+    return static_cast<int>(tenants_.size());
 }
 
 std::vector<std::string> GPUTimeSliceScheduler::tenantIds() const {

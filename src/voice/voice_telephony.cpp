@@ -375,7 +375,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
     if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
-                     impl_->pcm_buffer.size(), payload.size(), kMaxSessionRtpBufferBytes);
+                     impl_->pcm_buffer.size(),static_cast<int>(payload.size()), kMaxSessionRtpBufferBytes);
         if (impl_->on_error) {
           impl_->on_error("Session buffer overflow");
         }
@@ -865,7 +865,7 @@ CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     auto id = session->start();
     sip_calls_.emplace(id, std::move(session));
     THEMIS_INFO("TelephonyBridge: accepted SIP call {} (active={})",
-                id, sip_calls_.size());
+                id,static_cast<int>(sip_calls_.size()));
     return id;
 }
 
@@ -894,7 +894,7 @@ void TelephonyBridge::terminateSipCall(const CallID& call_id) {
     it->second->end();
     sip_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated SIP call {} (active={})",
-                call_id, sip_calls_.size());
+                call_id,static_cast<int>(sip_calls_.size()));
 }
 
 std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
@@ -925,7 +925,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     webrtc_calls_.emplace(out_call_id, std::move(session));
     THEMIS_INFO("TelephonyBridge: accepted WebRTC call {} (active={})",
-                out_call_id, webrtc_calls_.size());
+                out_call_id,static_cast<int>(webrtc_calls_.size()));
     return answer;
 }
 
@@ -960,7 +960,7 @@ void TelephonyBridge::terminateWebRtcCall(const CallID& call_id) {
     it->second->end();
     webrtc_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated WebRTC call {} (active={})",
-                call_id, webrtc_calls_.size());
+                call_id,static_cast<int>(webrtc_calls_.size()));
 }
 
 void TelephonyBridge::terminateCall(const CallID& call_id) {
@@ -976,12 +976,12 @@ size_t TelephonyBridge::activeCallCount() const noexcept {
 
 size_t TelephonyBridge::activeSipCallCount() const noexcept {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    return sip_calls_.size();
+    return static_cast<int>(sip_calls_.size());
 }
 
 size_t TelephonyBridge::activeWebRtcCallCount() const noexcept {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
-    return webrtc_calls_.size();
+    return static_cast<int>(webrtc_calls_.size());
 }
 
 CallState TelephonyBridge::callState(const CallID& call_id) const {

@@ -98,7 +98,7 @@ EmbeddingCache::~EmbeddingCache() = default;
 
 std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vector<float> &query_embedding) const {
     if (static_cast<int>(query_embedding.size()) != config_.embedding_dim) {
-        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})", query_embedding.size(), config_.embedding_dim);
+        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})",static_cast<int>(query_embedding.size()), config_.embedding_dim);
         return std::nullopt;
     }
 
@@ -229,7 +229,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
 bool EmbeddingCache::store(const std::string &query_text, const std::vector<float> &embedding,
                            const std::string &metadata) {
     if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
-        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})", embedding.size(), config_.embedding_dim);
+        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})",static_cast<int>(embedding.size()), config_.embedding_dim);
         return false;
     }
 

@@ -388,7 +388,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     std::uint64_t rng = cfg.random_seed;
     std::vector<TensorGraphEdge> candidates = {};
 
-    candidates.reserve(std::min<std::size_t>(cfg.num_samples, train.cores.size() * 2));
+    candidates.reserve(std::min<std::size_t>(cfg.num_samples,static_cast<int>(train.cores.size()) * 2));
 
     const std::size_t max_depth = std::max<std::size_t>(cfg.max_reshape_depth, 1);
     for (std::size_t s = 0; s < cfg.num_samples; ++s) {
@@ -478,7 +478,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
         throw std::invalid_argument("train must contain at least one core and one mode size");
     }
 
-    if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {
+    if (!grid_sizes.empty() && !train.mode_sizes.empty() && static_cast<int>(grid_sizes.size()) != train.mode_sizes.size()) {
         throw std::invalid_argument("grid_sizes.size() (" + std::to_string(grid_sizes.size()) +
                                     ") must match train.mode_sizes.size() (" +
                                     std::to_string(train.mode_sizes.size()) + ")");
@@ -540,7 +540,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     // Avoid numerical drift for small quantics tensors in strict roundtrip
     // tests by building an exact binary TT directly.
     if (padded_dense_elements <= 2048) {
-        reshaped_train = buildExactBinaryTT(padded_dense_tensor, quantics_mode_sizes.size());
+        reshaped_train = buildExactBinaryTT(padded_dense_tensor,static_cast<int>(quantics_mode_sizes.size()));
     } else {
         storage::TensorTrainDecomposer decomposer;
         storage::TensorTrainConfig cfg;
@@ -584,7 +584,7 @@ std::optional<TensorNetworkGraph> TemplateCatalog::lookup(const std::string& dom
 
 std::size_t TemplateCatalog::size() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return templates_.size();
+    return static_cast<int>(templates_.size());
 }
 
 } // namespace tensor

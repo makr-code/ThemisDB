@@ -1487,10 +1487,10 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     const std::string mariadb_prefix = "jdbc:mariadb://";
     size_t authority_start = 0;
     if (static_cast<int>(url.size()) > mysql_prefix.size() &&
-        url.substr(0, mysql_prefix.size()) == mysql_prefix) {
+        url.substr(0,static_cast<int>(mysql_prefix.size())) == mysql_prefix) {
         authority_start = mysql_prefix.size();
     } else if (static_cast<int>(url.size()) > mariadb_prefix.size() &&
-               url.substr(0, mariadb_prefix.size()) == mariadb_prefix) {
+               url.substr(0,static_cast<int>(mariadb_prefix.size())) == mariadb_prefix) {
         authority_start = mariadb_prefix.size();
     } else {
         return false;
@@ -1673,7 +1673,7 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
                                         const std::vector<std::string>& schema_columns) {
     if (key_columns.empty() || schema_columns.empty()) {
         // Hash the entire raw tuple string (full-row fingerprint)
-        return mysql_fnv1a64(tuple_str.data(), tuple_str.size());
+        return mysql_fnv1a64(tuple_str.data(),static_cast<int>(tuple_str.size()));
     }
     // Hash only the key column values, separated by a non-printable sentinel.
     // Setting key_columns = {"updated_at"} is the recommended high-watermark
@@ -1696,7 +1696,7 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
         }
         key_data += kFieldSep;
     }
-    return mysql_fnv1a64(key_data.data(), key_data.size());
+    return mysql_fnv1a64(key_data.data(),static_cast<int>(key_data.size()));
 }
 
 std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {

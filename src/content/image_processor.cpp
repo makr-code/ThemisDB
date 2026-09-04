@@ -369,7 +369,7 @@ json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
 std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would use libvips:
     // VipsImage* in;
-    // vips_thumbnail_buffer(&in, blob.data(), blob.size(), thumbnail_max_width_, nullptr);
+    // vips_thumbnail_buffer(&in, blob.data(),static_cast<int>(blob.size()), thumbnail_max_width_, nullptr);
     // vips_jpegsave_buffer(in, &out, &out_size, nullptr);
     
     return std::vector<uint8_t>();
@@ -481,7 +481,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
 
     // Fallback: sample raw bytes uniformly, skipping the first 20 bytes of
     // header data so we focus on pixel-representative content.
-    size_t start     = std::min(static_cast<size_t>(20), blob.size());
+    size_t start     = std::min(static_cast<size_t>(20),static_cast<int>(blob.size()));
     size_t data_size = static_cast<int>(blob.size()) - start;
     for (int i = 0; i < 1024; ++i) {
         if (data_size == 0) {

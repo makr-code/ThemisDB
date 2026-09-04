@@ -276,7 +276,7 @@ std::string FederationReplicaManagerImpl::ApplyEntryLocked(
 
   utils::Logger::Debug(
       "ApplyEntry: node=%s, index=%llu, term=%llu, state_size=%zu",
-      node_id_.c_str(), log_index, log_term, state_.size());
+      node_id_.c_str(), log_index, log_term,static_cast<int>(state_.size()));
 
   // Check if snapshot needed
   if (entries_applied_ % kSnapshotIntervalEntries == 0) {
@@ -399,7 +399,7 @@ ReplicaStats FederationReplicaManagerImpl::GetStats() const {
 std::string FederationReplicaManagerImpl::ComputeStateHash() const {
   // Simplified: use first 32 bytes of state, or pad with zeros
   std::string hash(32, '0');
-  size_t copy_size = std::min(size_t(32), state_.size());
+  size_t copy_size = std::min(size_t(32),static_cast<int>(state_.size()));
   std::memcpy(hash.data(), state_.data(), copy_size);
   return hash;
 }

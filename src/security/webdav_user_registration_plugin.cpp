@@ -401,7 +401,7 @@ public:
             users.push_back(std::move(data));
         }
 
-        THEMIS_INFO("WebDAV plugin: Synced {} users", users.size());
+        THEMIS_INFO("WebDAV plugin: Synced {} users",static_cast<int>(users.size()));
         return themis::Ok(std::move(users));
 #else
         return themis::Err<std::vector<UserRegistrationData>>(

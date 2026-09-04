@@ -444,7 +444,7 @@ bool HuggingFaceIngestionPlugin::loadFromCache(
                 docs.push_back(doc);
             }
             
-            THEMIS_INFO("Loaded {} documents from cache: {}", docs.size(), cache_file);
+            THEMIS_INFO("Loaded {} documents from cache: {}",static_cast<int>(docs.size()), cache_file);
             return true;
         }
         
@@ -475,7 +475,7 @@ void HuggingFaceIngestionPlugin::saveToCache(
         std::ofstream file(cache_file);
         file << cache_data.dump();  // Compact format to save space
         
-        THEMIS_INFO("Saved {} documents to cache: {}", docs.size(), cache_file);
+        THEMIS_INFO("Saved {} documents to cache: {}",static_cast<int>(docs.size()), cache_file);
         
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to save cache {}: {}", cache_file, e.what());
@@ -599,7 +599,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     job.result_metadata["from_cache"] = from_cache;
     
     THEMIS_INFO("HuggingFace job {} completed: {} documents ingested", 
-        job.job_id, job.content_ids.size());
+        job.job_id,static_cast<int>(job.content_ids.size()));
 }
 
 json HuggingFaceIngestionPlugin::documentToContentSpec(

@@ -70,7 +70,7 @@ double stringSimilarity(const std::string& a, const std::string& b) {
     // Prefix match: shorter is prefix of longer → score = |shorter|/|longer|
     const std::string& shorter = a.size() <= b.size() ? a : b;
     const std::string& longer  = a.size() <= b.size() ? b : a;
-    if (longer.substr(0, shorter.size()) == shorter) {
+    if (longer.substr(0,static_cast<int>(shorter.size())) == shorter) {
         return static_cast<bool>(static_cast<double < static_cast<int>((shorter.size()))) /
                static_cast<double>(longer.size());
     }
@@ -381,9 +381,9 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
         // explicitly enabled `extract_single_word_entities`. This helps tests
         // and real-world documents where entity mentions are not capitalised
         // (e.g., 'alice'). We still enforce min_entity_length.
-        const bool allow_lower_single = config_.extract_single_word_entities && clean.size() >= config_.min_entity_length;
+        const bool allow_lower_single = config_.extract_single_word_entities && static_cast<int>(clean.size()) >= config_.min_entity_length;
 
-        if (is_cap && clean.size() >= config_.min_entity_length) {
+        if (is_cap && static_cast<int>(clean.size()) >= config_.min_entity_length) {
             if (span_start == std::string::npos) {
               span_start = pos;
             }
@@ -392,7 +392,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
             }
             span_buf += clean;
             span_end = word_end;
-        } else if (!is_cap && allow_lower_single && clean.size() >= config_.min_entity_length) {
+        } else if (!is_cap && allow_lower_single && static_cast<int>(clean.size()) >= config_.min_entity_length) {
             // Treat lowercase single-word tokens as individual entity candidates
             // when explicitly enabled, but do NOT join consecutive lowercase
             // tokens into a multi-word span (avoid spurious long spans).
@@ -517,7 +517,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     const auto t_start = std::chrono::steady_clock::now();
 
     THEMIS_INFO("KnowledgeGraphRetriever::retrieve query='{}', candidates={}",
-                query, candidates.size());
+                query,static_cast<int>(candidates.size()));
 
     KGRetrievalResult result;
     const KGRetrieverConfig& cfg = impl_->config;
@@ -532,7 +532,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     }
     result.query_entity_links = linker_ptr->link(query);
 
-    THEMIS_DEBUG("Query '{}' links={}", query, result.query_entity_links.size());
+    THEMIS_DEBUG("Query '{}' links={}", query,static_cast<int>(result.query_entity_links.size()));
     for (const auto& m : result.query_entity_links) {
         THEMIS_DEBUG("  - '{}' linked={} node_id='{}' score={}",
                      m.entity.text, m.is_linked, m.node_id, m.linking_score);
@@ -551,7 +551,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
                   static_cast<double>(result.query_entity_links.size());
 
     THEMIS_DEBUG("Query entity linking: {}/{} linked (coverage={:.2f})",
-                 linked_count, result.query_entity_links.size(),
+                 linked_count,static_cast<int>(result.query_entity_links.size()),
                  result.entity_linking_coverage);
 
     // ── Step 2: BFS traversal from query-linked nodes ─────────────────────────
@@ -579,7 +579,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     }
     result.visited_nodes = query_neighbourhood;
 
-    THEMIS_DEBUG("KG traversal: {} nodes in query neighbourhood", query_neighbourhood.size());
+    THEMIS_DEBUG("KG traversal: {} nodes in query neighbourhood",static_cast<int>(query_neighbourhood.size()));
 
     // ── Step 2b: KnowledgeGraphReasoner multi-hop inference ─────────────────
     // Run forward-chaining inference for each linked query entity when a
@@ -603,7 +603,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
             }
 
             auto chain = impl_->reasoner->infer(match.node_id, cfg.max_inference_hops);
-            THEMIS_DEBUG("infer(subject='{}') -> chain_size={}", match.node_id, chain.size());
+            THEMIS_DEBUG("infer(subject='{}') -> chain_size={}", match.node_id,static_cast<int>(chain.size()));
             if (!chain.empty()) {
                 result.has_reasoning = true;
                 result.inference_chains.push_back(chain);
@@ -635,7 +635,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
         // Link entities in this document
         aug_doc.entity_links = linker_ptr->link(doc.content);
-        THEMIS_DEBUG("Doc '{}' entity_links.size={} content='{}'", doc.id, aug_doc.entity_links.size(), doc.content);
+        THEMIS_DEBUG("Doc '{}' entity_links.size={} content='{}'", doc.id,static_cast<int>(aug_doc.entity_links.size()), doc.content);
         for (const auto& dm : aug_doc.entity_links) {
             THEMIS_DEBUG("  -> entity='{}' node_id='{}' linked={} score={}",
                          dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
@@ -681,7 +681,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         if (cfg.attach_reasoning_chain_to_metadata && result.has_reasoning) {
             std::stringstream chain_builder = {};
             bool first = true;
-            THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains", result.inference_chains.size());
+            THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains",static_cast<int>(result.inference_chains.size()));
             for (const auto& chain : result.inference_chains) {
                 for (const auto& edge : chain.edges) {
                     THEMIS_DEBUG("Chain edge: {} -[{}]-> {} (rule={})",

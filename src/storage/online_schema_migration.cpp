@@ -333,7 +333,7 @@ MigrationResult SchemaMigrator::migrate()
     result.phase       = OnlineDDLPhase::COMPLETED;
 
     LOG_INFO("SchemaMigrator: migration v{} completed; {} op(s) applied across {} table(s)",
-             version_, result.ops_applied, tables.size());
+             version_, result.ops_applied,static_cast<int>(tables.size()));
 
     // Reset staging queue for reuse
     ops_.clear();
@@ -358,7 +358,7 @@ void SchemaMigrator::reset()
 
 size_t SchemaMigrator::pendingOps() const noexcept
 {
-    return ops_.size();
+    return static_cast<int>(ops_.size());
 }
 
 OnlineDDLPhase SchemaMigrator::currentPhase() const noexcept

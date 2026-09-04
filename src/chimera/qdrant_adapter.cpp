@@ -500,7 +500,7 @@ Result<BatchStatistics> QdrantAdapter::flush() {
 
 size_t QdrantAdapter::get_pending_count() const {
     std::unique_lock<std::mutex> lock(batch_mutex_);
-    return vector_queue_.size();
+    return static_cast<int>(vector_queue_.size());
 }
 
 Result<bool> QdrantAdapter::set_batch_config(const BatchConfig& config) {

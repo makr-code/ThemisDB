@@ -284,7 +284,7 @@ void GPULoadBalancer::recordDeallocation(int device_index, uint64_t bytes) {
 
 size_t GPULoadBalancer::totalDevices() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return devices_.size();
+    return static_cast<int>(devices_.size());
 }
 
 size_t GPULoadBalancer::healthyDevices() const {

@@ -484,7 +484,7 @@ void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
 
 size_t DistributedAnalyticsSharding::getShardCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return shards_.size();
+    return static_cast<int>(shards_.size());
 }
 
 size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
@@ -764,7 +764,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     spdlog::debug("DistributedAnalyticsSharding::executeDistributed: collection='{}', "
                   "tenant='{}', dimensions={}, measures={}",
                   query.collection, query.tenant_id,
-                  query.dimensions.size(), query.measures.size());
+                  query.dimensions.size(),static_cast<int>(query.measures.size()));
     // Wave-A AN1: per-shard retry with exponential backoff.
     // Transient failures (timeout, network) are retried up to retry_config.max_retries
     // times with exponential backoff + ±20% jitter before counting the shard as failed.
@@ -1009,7 +1009,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         if (failure_rate > config_.max_failure_rate) {
             spdlog::error("DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
                           "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
-                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards, active.size());
+                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards,static_cast<int>(active.size()));
             // Return partial shard_info without a merged result so the caller
             // can distinguish this from a full success.
             result.total_execution_ms =

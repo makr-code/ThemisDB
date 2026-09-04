@@ -139,13 +139,13 @@ void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std
     usb_protected_scopes_ = usb_cfg.usb_protected_scopes;
     
     THEMIS_INFO("USB Admin Authentication enabled with mount_path='{}', {} protected scopes", 
-                mount_path, usb_protected_scopes_.size());
+                mount_path,static_cast<int>(usb_protected_scopes_.size()));
 }
 
 void AuthMiddleware::addToken(const TokenConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     tokens_[config.token] = config;
-    THEMIS_INFO("Added API token for user '{}' with {} scopes", config.user_id, config.scopes.size());
+    THEMIS_INFO("Added API token for user '{}' with {} scopes", config.user_id,static_cast<int>(config.scopes.size()));
 }
 
 void AuthMiddleware::removeToken(std::string_view token) {
@@ -163,7 +163,7 @@ void AuthMiddleware::setRoleScopeMapping(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     role_scope_map_ = std::move(mapping);
-    THEMIS_INFO("Role-to-scope mapping updated: {} role(s) configured", role_scope_map_.size());
+    THEMIS_INFO("Role-to-scope mapping updated: {} role(s) configured",static_cast<int>(role_scope_map_.size()));
 }
 
 bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
@@ -209,7 +209,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         // Constant-time byte comparison: CRYPTO_memcmp runs in O(len) time
         // regardless of the first differing byte, preventing content-based
         // timing attacks.
-        if (CRYPTO_memcmp(stored.data(), token_str.data(), stored.size()) != 0) {
+        if (CRYPTO_memcmp(stored.data(), token_str.data(),static_cast<int>(stored.size())) != 0) {
           continue;
         }
 
@@ -297,7 +297,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
 
         THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', scopes: {}, groups: {}",
                     claims.email, claims.sub, claims.tenant_id,
-                    claims.scopes.size(), claims.groups.size());
+                    claims.scopes.size(),static_cast<int>(claims.groups.size()));
 
         // Scope enforcement: check required_scope against JWT-granted scopes and role-to-scope map
         if (!required_scope.empty()) {
@@ -367,7 +367,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
         // If scope_claim is "scope" or "scp" the data is already in claims.scopes above.
 
         THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', groups: {}, scopes: {}",
-                    claims.email, claims.sub, claims.tenant_id, claims.groups.size(),
+                    claims.email, claims.sub, claims.tenant_id,static_cast<int>(claims.groups.size()),
                     granted_scopes.size());
 
         // Check required scope (if non-empty)
@@ -466,7 +466,7 @@ std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view a
         return std::nullopt;
     }
 
-    if (auth_header.substr(0, prefix.size()) != prefix) {
+    if (auth_header.substr(0,static_cast<int>(prefix.size())) != prefix) {
         return std::nullopt;
     }
 
@@ -633,7 +633,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
         auto claims = mtls_auth.authenticate(std::string(cert_pem));
 
         THEMIS_INFO("mTLS authentication successful for principal '{}' roles={}",
-                claims.principal, claims.roles.size());
+                claims.principal,static_cast<int>(claims.roles.size()));
 
         metrics_.authz_success_total++;
         return AuthResult::OK(claims.principal, "", claims.roles);
@@ -730,7 +730,7 @@ void AuthMiddleware::loadRoleScopeMapping()
 
         role_scope_map_ = std::move(mapping);
         THEMIS_INFO("Loaded role-to-scope mapping from '{}': {} roles",
-                    *resolved, role_scope_map_.size());
+                    *resolved,static_cast<int>(role_scope_map_.size()));
 
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to load role-to-scope mapping from '{}': {}",

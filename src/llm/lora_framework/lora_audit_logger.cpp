@@ -586,7 +586,7 @@ std::string generateRequestId() {
 
 std::string computeAdapterHash(const std::vector<uint8_t>& weights) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(weights.data(), weights.size(), hash);
+    SHA256(weights.data(),static_cast<int>(weights.size()), hash);
     
     std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {

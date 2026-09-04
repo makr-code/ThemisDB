@@ -145,7 +145,7 @@ Serialization::TypeTag Serialization::Decoder::readTag() {
     if (pos_ >= static_cast<int>(data_.size())) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
-            fmt::format("Decoder read past end: pos={} size={}", pos_, data_.size()),
+            fmt::format("Decoder read past end: pos={} size={}", pos_,static_cast<int>(data_.size())),
             "Serialization::Decoder::readTag",
             ErrorSeverity::Warning, /*is_recoverable=*/false));
         return TypeTag::NULL_VALUE;

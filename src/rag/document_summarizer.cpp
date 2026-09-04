@@ -312,7 +312,7 @@ DocumentSummary DocumentSummarizer::summarize(const std::string& document_id,
                                                const std::string& query) const
 {
     THEMIS_DEBUG("DocumentSummarizer::summarize doc={} chars={}",
-                 document_id, content.size());
+                 document_id,static_cast<int>(content.size()));
     return impl_->summarizeOne(document_id, content, query,
                                impl_->config.max_summary_chars);
 }

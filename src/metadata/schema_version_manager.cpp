@@ -479,7 +479,7 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
     }
 
     spdlog::info("SchemaVersionManager: dry-run validation passed for table '{}' ({} columns)",
-                 table_name, new_schema.properties.size());
+                 table_name,static_cast<int>(new_schema.properties.size()));
     return VersionResult<bool>::success(true);
 }
 

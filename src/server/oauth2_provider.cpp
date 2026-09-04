@@ -283,7 +283,7 @@ nlohmann::json OAuth2Provider::doTokenExchange(const std::string& code,
 nlohmann::json OAuth2Provider::handleAuthorize(const std::string& state,
                                                 const std::string& redirect_uri)
 {
-    if (!state.empty() && state.size() > config_.max_state_length) {
+    if (!state.empty() && static_cast<int>(state.size()) > config_.max_state_length) {
         return makeError(400, "state parameter exceeds maximum allowed length");
     }
 

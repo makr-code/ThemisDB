@@ -99,7 +99,7 @@ size_t CostBasedRateLimiter::getRemainingBudget(
 size_t CostBasedRateLimiter::getActiveClients() const
 {
     std::lock_guard<std::mutex> lock(clients_mutex_);
-    return clients_.size();
+    return static_cast<int>(clients_.size());
 }
 
 void CostBasedRateLimiter::cleanupExpired()

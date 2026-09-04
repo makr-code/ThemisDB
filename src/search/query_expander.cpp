@@ -145,7 +145,7 @@ ExpandedQuery QueryExpander::expand(const std::string& query) const {
     }
 
     THEMIS_DEBUG("QueryExpander::expand('{}') -> {} synonyms, corrected='{}'",
-                 query, added_synonyms.size(),
+                 query,static_cast<int>(added_synonyms.size()),
                  result.corrected.empty() ? "(none)" : result.corrected);
 
     return result;
@@ -259,7 +259,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestSpellingCorrections(
     }
 
     THEMIS_DEBUG("QueryExpander::suggestSpellingCorrections('{}') -> {} candidates",
-                 word, candidates.size());
+                 word,static_cast<int>(candidates.size()));
     return candidates;
 }
 
@@ -362,7 +362,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
     }
 
     THEMIS_DEBUG("QueryExpander::suggestQueryCorrections('{}') -> {} suggestions",
-                 query, results.size());
+                 query,static_cast<int>(results.size()));
     return results;
 }
 

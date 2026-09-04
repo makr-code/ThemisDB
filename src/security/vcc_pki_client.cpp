@@ -303,7 +303,7 @@ struct VCCPKIClient::Impl {
         if (method == "POST") {
             curl_easy_setopt(curl, CURLOPT_POST, 1L);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.size());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,static_cast<int>(body.size()));
         } else if (method == "GET") {
             curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
         }

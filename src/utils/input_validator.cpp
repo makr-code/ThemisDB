@@ -741,7 +741,7 @@ bool InputValidator::validateURL(const std::string& url,
 }
 
 bool InputValidator::validateStringLength(const std::string& input, size_t max_len) const {
-    return input.size() <= max_len;
+    return static_cast<int>(input.size()) <= max_len;
 }
 
 bool InputValidator::validateIntegerRange(int64_t value,

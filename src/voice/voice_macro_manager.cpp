@@ -183,7 +183,7 @@ StepResult executeStep(int index,
                     std::string token = "@" + kv.first;
                     size_t pos = 0;
                     while ((pos = aql.find(token, pos)) != std::string::npos) {
-                        aql.replace(pos, token.size(), kv.second);
+                        aql.replace(pos,static_cast<int>(token.size()), kv.second);
                         pos += kv.second.size();
                     }
                 }

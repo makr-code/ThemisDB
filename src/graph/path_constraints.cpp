@@ -188,7 +188,7 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                     // Guard against negative values: a negative int cast to
                     // size_t becomes SIZE_MAX, causing every path to fail.
                     // Treat a negative limit as "no minimum restriction".
-                    if (limit >= 0 && nodes.size() < static_cast<size_t>(limit)) {
+                    if (limit >= 0 && static_cast<int>(nodes.size()) < static_cast<size_t>(limit)) {
                         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
                                          "Path too short: " + std::to_string(nodes.size()) + " < "
                                              + std::to_string(limit));
@@ -201,7 +201,7 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                     const int limit = *constraint.int_value;
                     // A negative limit would wrap to SIZE_MAX, making this
                     // constraint a no-op; treat it as unlimited instead.
-                    if (limit >= 0 && nodes.size() > static_cast<size_t>(limit)) {
+                    if (limit >= 0 && static_cast<int>(nodes.size()) > static_cast<size_t>(limit)) {
                         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
                                          "Path too long: " + std::to_string(nodes.size()) + " > "
                                              + std::to_string(limit));

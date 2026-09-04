@@ -164,7 +164,7 @@ std::vector<ActiveFault> FaultInjector::getActiveFaults() {
 size_t FaultInjector::activeFaultCount() {
     pruneExpired();
     std::lock_guard<std::mutex> lock(fault_mutex_);
-    return active_faults_.size();
+    return static_cast<int>(active_faults_.size());
 }
 
 void FaultInjector::clearAllFaults() {
@@ -234,7 +234,7 @@ bool ChaosScheduler::isRunning() const noexcept {
 
 size_t ChaosScheduler::pendingCount() const {
     std::lock_guard<std::mutex> lock(sched_mutex_);
-    return pending_.size();
+    return static_cast<int>(pending_.size());
 }
 
 void ChaosScheduler::clearPending() {

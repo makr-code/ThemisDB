@@ -78,7 +78,7 @@ std::vector<CoTSpanRecord> RecordingCoTTracer::spans() const {
 
 std::size_t RecordingCoTTracer::spanCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return spans_.size();
+    return static_cast<int>(spans_.size());
 }
 
 bool RecordingCoTTracer::hasSpans() const noexcept {
@@ -180,7 +180,7 @@ void CoTTraceCollector::removeTracer(const IChainOfThoughtTracer* tracer) {
 
 std::size_t CoTTraceCollector::tracerCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return children_.size();
+    return static_cast<int>(children_.size());
 }
 
 std::vector<CoTSpanRecord> CoTTraceCollector::spans() const {
@@ -190,7 +190,7 @@ std::vector<CoTSpanRecord> CoTTraceCollector::spans() const {
 
 std::size_t CoTTraceCollector::spanCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return spans_.size();
+    return static_cast<int>(spans_.size());
 }
 
 void CoTTraceCollector::reset() {

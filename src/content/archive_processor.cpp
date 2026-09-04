@@ -87,7 +87,7 @@ bool writeBlobToFile(const std::string &path, const std::string &blob) {
         if (!file) {
             return false;
         }
-        file.write(blob.data(), blob.size());
+        file.write(blob.data(),static_cast<int>(blob.size()));
         return file.good();
     } catch (...) {
         return false;
@@ -904,7 +904,7 @@ ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const 
         {"format", static_cast<int>(format)},          {"encrypted", metadata.is_encrypted},
         {"member_count", metadata.member_count},       {"file_count", metadata.file_count},
         {"directory_count", metadata.directory_count}, {"total_uncompressed_size", metadata.total_uncompressed_size},
-        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count", extraction.extracted_files.size()},
+        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count",static_cast<int>(extraction.extracted_files.size())},
         {"temp_directory", extraction.temp_directory}};
 
     // Add extracted file list

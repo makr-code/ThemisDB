@@ -277,7 +277,7 @@ CitationHighlighter::highlight(const std::string&              answer,
 
     THEMIS_DEBUG("CitationHighlighter: {} sentences → {}/{} cited, "
                  "coverage={:.2f}, mean_sim={:.3f}, time={:.1f}ms",
-                 sentences.size(), cited_count, sentences.size(),
+                 sentences.size(), cited_count,static_cast<int>(sentences.size()),
                  result.citation_coverage, result.mean_similarity,
                  result.highlight_time_ms);
 

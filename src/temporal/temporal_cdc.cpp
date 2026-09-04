@@ -131,7 +131,7 @@ bool TemporalCDC::unsubscribe(const std::string& sub_id) {
 
 size_t TemporalCDC::subscriptionCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 // ============================================================================
@@ -208,7 +208,7 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 
 size_t TemporalCDC::logSize() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return log_.size();
+    return static_cast<int>(log_.size());
 }
 
 uint64_t TemporalCDC::totalPublished() const noexcept {
@@ -457,7 +457,7 @@ void CDCPersistentLog::append([[maybe_unused]] const ChangeEvent& event) {
     }
 
     const uint32_t payload_len = static_cast<uint32_t>(payload.size());
-    const uint32_t crc         = computeCRC32(payload.data(), payload.size());
+    const uint32_t crc         = computeCRC32(payload.data(),static_cast<int>(payload.size()));
 
     std::fwrite(&payload_len, 4, 1, active_fd_);
     std::fwrite(&crc,         4, 1, active_fd_);
@@ -594,7 +594,7 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
         const std::string fname = entry.path().filename().string();
         const std::string prefix_part = log_prefix_ + "_";
         if (static_cast<int>(fname.size()) > static_cast<int>(prefix_part.size()) + 4 &&
-            fname.substr(0, prefix_part.size()) == prefix_part &&
+            fname.substr(0,static_cast<int>(prefix_part.size())) == prefix_part &&
             fname.substr(static_cast<int>(fname.size()) - 4) == ".wal") {
             try {
                 uint64_t seq = std::stoull(
@@ -646,7 +646,7 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
 }
 
 /*static*/ uint32_t CDCPersistentLog::crc32(const std::string& data) noexcept {
-    return computeCRC32(data.data(), data.size());
+    return computeCRC32(data.data(),static_cast<int>(data.size()));
 }
 
 void CDCPersistentLog::rotate() {

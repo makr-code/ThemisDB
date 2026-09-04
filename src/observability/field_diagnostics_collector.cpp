@@ -260,7 +260,7 @@ void FieldDiagnosticsCollector::clearBuffer() {
  */
 size_t FieldDiagnosticsCollector::getBufferSize() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
-    return event_buffer_.size();
+    return static_cast<int>(event_buffer_.size());
 }
 
 /**

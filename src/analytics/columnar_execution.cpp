@@ -107,7 +107,7 @@ void SelectionVector::push_back([[maybe_unused]] uint32_t idx) {
 }
 
 size_t SelectionVector::size() const noexcept {
-    return indices_.size();
+    return static_cast<int>(indices_.size());
 }
 
 bool SelectionVector::empty() const noexcept {
@@ -343,7 +343,7 @@ std::shared_ptr<Column> ColumnBatch::getColumnAt([[maybe_unused]] size_t idx) co
 }
 
 size_t ColumnBatch::columnCount() const noexcept {
-    return columns_.size();
+    return static_cast<int>(columns_.size());
 }
 
 const std::vector<std::shared_ptr<Column>> &ColumnBatch::columns() const noexcept {
@@ -359,7 +359,7 @@ size_t ColumnBatch::selectedRowCount() const noexcept {
     if (!has_selection_) {
         return row_count_;
     }
-    return selection_.size();
+    return static_cast<int>(selection_.size());
 }
 
 ColumnBatch ColumnBatch::materialize() const {
@@ -443,7 +443,7 @@ namespace {
 
 // Sorted-merge intersection of two monotonically increasing index vectors.
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
-    SelectionVector out(std::min(a.size(), b.size()));
+    SelectionVector out(std::min(a.size(),static_cast<int>(b.size())));
     size_t i = 0, j = 0;
     while (i < a.size()  && static_cast<size_t>(j) < b.size()) {
         if (a[i] == b[j]) {
@@ -949,7 +949,7 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch &input) const {
             && (spec.function == AggregateSpec::Function::Sum || spec.function == AggregateSpec::Function::Avg
                 || spec.function == AggregateSpec::Function::Min || spec.function == AggregateSpec::Function::Max)) {
             const auto &dd   = col->doubleData();
-            SIMDAggResult ar = simdAggDouble(dd.data(), dd.size());
+            SIMDAggResult ar = simdAggDouble(dd.data(),static_cast<int>(dd.size()));
             st.sum           = ar.sum;
             st.min_val       = ar.min_val;
             st.max_val       = ar.max_val;

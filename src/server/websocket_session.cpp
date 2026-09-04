@@ -178,7 +178,7 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
         buffer_.consume(buffer_.size());
 
         THEMIS_DEBUG("WebSocket binary frame received ({}): {} bytes",
-                     session_id_, frame_data.size());
+                     session_id_,static_cast<int>(frame_data.size()));
         processBinaryMessage(frame_data);
     } else {
         // Text frame: decode as UTF-8 string and dispatch to the JSON handler.
@@ -386,7 +386,7 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
     // WireProtocolWebSocketSession handles the full binary frame dispatch.
     THEMIS_WARN("WebSocket session {} received unexpected binary frame ({} bytes); "
                 "binary frames are not supported on this endpoint",
-                session_id_, data.size());
+                session_id_,static_cast<int>(data.size()));
 
     json response = {
         {"type",     "error"},
@@ -394,7 +394,7 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
         {"message",  "Binary WebSocket frames are not supported on the HTTP API endpoint. "
                      "Connect to the wire-protocol WebSocket endpoint (port 8766) for "
                      "binary wire-protocol frame support."},
-        {"bytes_received", data.size()}
+        {"bytes_received",static_cast<int>(data.size())}
     };
     send(response.dump());
 }
@@ -435,7 +435,7 @@ void WebSocketSession::sendOnExecutor(std::string message) {
         constexpr size_t kMaxQueueSize = 1000;
         if (static_cast<int>(write_queue_.size()) > = kMaxQueueSize) {
             THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
-                        session_id_, write_queue_.size());
+                        session_id_,static_cast<int>(write_queue_.size()));
             active_.store(false, std::memory_order_release);
             // Signal the in-flight write (if any) to issue a 1011 close frame once
             // the current write drains.  The close frame will be sent via onWrite.
@@ -465,7 +465,7 @@ void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
         // Back-pressure: same limit as send()
         if (static_cast<int>(write_queue_.size()) > = kMaxQueueDepth) {
             THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
-                        session_id_, write_queue_.size(), kMaxQueueDepth);
+                        session_id_,static_cast<int>(write_queue_.size()), kMaxQueueDepth);
             active_.store(false, std::memory_order_release);
             close_due_to_backpressure_ = true;
             // If no write is active, force close immediately.
@@ -607,7 +607,7 @@ void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string&
     cdc_event_types_ = event_types;
     
     THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}', event_types={})", 
-                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix, event_types.size());
+                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix,static_cast<int>(event_types.size()));
 }
 
 void WebSocketSession::unsubscribeFromCDC() {
@@ -712,7 +712,7 @@ void WebSocketManager::pollCDCEvents() {
                     if (!frames.empty() || !redeliveries.empty()) {
                         THEMIS_DEBUG("Sent {} new + {} redelivered CDC events via "
                                      "CdcWebSocketHandler to session {}",
-                                     frames.size(), redeliveries.size(),
+                                     frames.size(),static_cast<int>(redeliveries.size()),
                                      session->getSessionId());
                     }
                 } catch (const std::exception& e) {
@@ -805,20 +805,20 @@ void WebSocketManager::addSession(std::shared_ptr<WebSocketSession> session) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_[session->getSessionId()] = session;
     THEMIS_INFO("WebSocket session added to manager: {} (total: {})", 
-                session->getSessionId(), sessions_.size());
+                session->getSessionId(),static_cast<int>(sessions_.size()));
 }
 
 void WebSocketManager::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
     THEMIS_INFO("WebSocket session removed from manager: {} (remaining: {})", 
-                session_id, sessions_.size());
+                session_id,static_cast<int>(sessions_.size()));
 }
 
 void WebSocketManager::broadcast(const std::string& message) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
-    THEMIS_DEBUG("Broadcasting WebSocket message to {} sessions", sessions_.size());
+    THEMIS_DEBUG("Broadcasting WebSocket message to {} sessions",static_cast<int>(sessions_.size()));
     
     for (auto& [id, session] : sessions_) {
         if (session->isActive()) {
@@ -853,7 +853,7 @@ size_t WebSocketManager::getActiveSessionCount() const {
 void WebSocketManager::closeAll() {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
-    THEMIS_INFO("Closing all WebSocket sessions ({} total)", sessions_.size());
+    THEMIS_INFO("Closing all WebSocket sessions ({} total)",static_cast<int>(sessions_.size()));
     
     for (auto& [id, session] : sessions_) {
         if (session->isActive()) {

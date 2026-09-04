@@ -65,7 +65,7 @@ bool PromptPolicy::removeRule(const std::string& name) {
 }
 
 size_t PromptPolicy::ruleCount() const {
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 PolicyResult PromptPolicy::apply(const std::string& prompt) const {

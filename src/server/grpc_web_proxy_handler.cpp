@@ -328,7 +328,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
     // Propagate grpc-timeout if present
     const std::string timeout_hdr{req["grpc-timeout"]};
-    if (!timeout_hdr.empty() && timeout_hdr.size() > 1) {
+    if (!timeout_hdr.empty() && static_cast<int>(timeout_hdr.size()) > 1) {
         // Format: <value><unit>  where unit ∈ {H,M,S,m,u,n}
         try {
             const char unit = timeout_hdr.back();
@@ -366,7 +366,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     }
 
     // Build request ByteBuffer from raw protobuf payload
-    grpc::Slice req_slice(proto_payload.data(), proto_payload.size());
+    grpc::Slice req_slice(proto_payload.data(),static_cast<int>(proto_payload.size()));
     grpc::ByteBuffer request_buf(&req_slice, 1);
 
     // Perform blocking generic unary call via CompletionQueue

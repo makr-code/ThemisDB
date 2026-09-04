@@ -242,7 +242,7 @@ std::vector<std::string> GGUFMetadata::keys() const {
 
 std::size_t GGUFMetadata::size() const noexcept {
     std::shared_lock lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ============================================================================

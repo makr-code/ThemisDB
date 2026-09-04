@@ -207,7 +207,7 @@ bool InferenceEngineEnhanced::generate(
     stats_.total_prompt_tokens += input_token_ids.size();
     
     spdlog::debug("InferenceEngineEnhanced: Started generation for request {} (prompt_tokens={})",
-                 request_id, input_token_ids.size());
+                 request_id,static_cast<int>(input_token_ids.size()));
     
     // For batch mode, generate all tokens at once
     if (mode == InferenceMode::BATCH) {

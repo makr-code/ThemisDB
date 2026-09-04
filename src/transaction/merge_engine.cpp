@@ -299,13 +299,13 @@ MergeEngine::MergeResult MergeEngine::merge(
     result.stats.conflicts_detected = conflicts.size();
     result.stats.has_conflicts = !conflicts.empty();
     
-    spdlog::debug("Detected {} conflicts", conflicts.size());
+    spdlog::debug("Detected {} conflicts",static_cast<int>(conflicts.size()));
     
     // If fail_on_conflict or fast_forward strategy with conflicts
     if ((options.fail_on_conflict || options.strategy == MergeStrategy::FAST_FORWARD) 
         && !conflicts.empty()) {
         result.success = false;
-        result.message = fmt::format("Merge aborted: {} conflicts detected", conflicts.size());
+        result.message = fmt::format("Merge aborted: {} conflicts detected",static_cast<int>(conflicts.size()));
         spdlog::warn("Merge aborted due to conflicts");
         return result;
     }

@@ -155,7 +155,7 @@ private:
                                    const std::string& to) {
         std::size_t pos = 0;
         while ((pos = str.find(from, pos)) != std::string::npos) {
-            str.replace(pos, from.size(), to);
+            str.replace(pos,static_cast<int>(from.size()), to);
             pos += to.size();
         }
         return str;

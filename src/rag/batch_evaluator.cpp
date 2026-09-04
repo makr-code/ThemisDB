@@ -317,7 +317,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
         error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
-        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)", input.query.size());
+        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)",static_cast<int>(input.query.size()));
         return error_result;
     }
     
@@ -386,7 +386,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
         BatchEvaluationResult error_result;
         error_result.progress.total_items = test_cases.size();
         error_result.progress.failed_items = test_cases.size();
-        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", test_cases.size());
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",static_cast<int>(test_cases.size()));
         return error_result;
     }
     // ── end batch input validation ──────────────────────────────────────────
@@ -412,7 +412,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
         BatchEvaluationResult error_result;
         error_result.progress.total_items = inputs.size();
         error_result.progress.failed_items = inputs.size();
-        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", inputs.size());
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",static_cast<int>(inputs.size()));
         return error_result;
     }
     // ── end batch input validation ──────────────────────────────────────────
@@ -706,7 +706,7 @@ void BatchEvaluator::submit(
 
 size_t BatchEvaluator::getQueueSize() const {
     std::lock_guard<std::mutex> lock(queue_mutex_);
-    return eval_queue_.size();
+    return static_cast<int>(eval_queue_.size());
 }
 
 bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {

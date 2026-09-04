@@ -187,7 +187,7 @@ std::vector<uint32_t> VectorIndexManagerSafety::GetIndexIds() const {
 
 size_t VectorIndexManagerSafety::GetIndexCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return indices_.size();
+    return static_cast<int>(indices_.size());
 }
 
 uint64_t VectorIndexManagerSafety::CurrentGeneration([[maybe_unused]] uint32_t index_id) const {

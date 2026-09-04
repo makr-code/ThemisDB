@@ -42,7 +42,7 @@ void DiagnosticEmitter::clearListeners() {
 
 size_t DiagnosticEmitter::listenerCount() const {
     std::lock_guard<std::mutex> lock([[maybe_unused]] listeners_mutex_);
-    return listeners_.size();
+    return static_cast<int>(listeners_.size());
 }
 
 void DiagnosticEmitter::invokeListeners(const ErrorContext& context, bool is_error) const {

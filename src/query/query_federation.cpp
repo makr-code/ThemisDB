@@ -349,7 +349,7 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
                 
             case ExecutionPlan::Strategy::PARTITION_PRUNING: {
                 partition_pruned_queries_++;
-                spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
+                spdlog::debug("QueryFederation: partition pruning to {} shard(s)",static_cast<int>(plan.target_shards.size()));
 
                 // Optimize: Use unordered_set for O(n) deduplication instead of sort + unique (O(n log n))
                 std::unordered_set<std::string> unique_shards;
@@ -448,7 +448,7 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
                      duration_ms);
         
         spdlog::info("Federated query completed in {}ms, {} results", 
-                    duration_ms, final_result.size());
+                    duration_ms,static_cast<int>(final_result.size()));
         
         return final_result;
         
@@ -715,7 +715,7 @@ nlohmann::json QueryFederation::executeJoin(
             }
         }
 
-        spdlog::info("Broadcast join completed: {} result rows", result.size());
+        spdlog::info("Broadcast join completed: {} result rows",static_cast<int>(result.size()));
         
     } else {
         // Shuffle join: both sides are fetched and joined in-process using
@@ -783,7 +783,7 @@ nlohmann::json QueryFederation::executeJoin(
             }
         }
 
-        spdlog::info("Shuffle join completed: {} result rows", result.size());
+        spdlog::info("Shuffle join completed: {} result rows",static_cast<int>(result.size()));
     }
     
     return result;
@@ -964,7 +964,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     if (metadata.tables.empty()) {
         std::regex re_from(R"(\bFROM\s+(\w+))", std::regex::icase);
         std::smatch m_from = {};
-        if (std::regex_search(query, m_from, re_from) && m_from.size() > 1) {
+        if (std::regex_search(query, m_from, re_from) && static_cast<int>(m_from.size()) > 1) {
             push_unique(metadata.tables, m_from[1].str());
         }
     }
@@ -989,7 +989,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             R"(\bON\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*([A-Za-z_][A-Za-z0-9_\.]*))",
             std::regex::icase);
         std::smatch m_join_on = {};
-        if (std::regex_search(query, m_join_on, re_join_on) && m_join_on.size() > 2) {
+        if (std::regex_search(query, m_join_on, re_join_on) && static_cast<int>(m_join_on.size()) > 2) {
             // Optimize: Use fmt::format for cleaner string building instead of + concatenation
             push_unique(
                 metadata.joins,
@@ -1076,7 +1076,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 R"(\bWHERE\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
             std::smatch m_sql_point = {};
-            if (std::regex_search(query, m_sql_point, re_sql_point) && m_sql_point.size() > 2) {
+            if (std::regex_search(query, m_sql_point, re_sql_point) && static_cast<int>(m_sql_point.size()) > 2) {
                 const std::string field = m_sql_point[1].str();
                 const std::string key_value = m_sql_point[2].str();
                 if (isShardKeyFieldName(field) && !key_value.empty()) {
@@ -1097,7 +1097,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 R"(\bWHERE\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*<=\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
             std::smatch m_sql_range = {};
-            if (std::regex_search(query, m_sql_range, re_sql_range) && m_sql_range.size() > 4) {
+            if (std::regex_search(query, m_sql_range, re_sql_range) && static_cast<int>(m_sql_range.size()) > 4) {
                 const std::string left_field = m_sql_range[1].str();
                 const std::string min_val = m_sql_range[2].str();
                 const std::string right_field = m_sql_range[3].str();
@@ -1176,7 +1176,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
                     pred.collection, pred.key_min, pred.key_max);
                 if (!shards.empty()) {
                     spdlog::debug("Shard-key range (predicate) [{}, {}] → {} shard(s)",
-                                  pred.key_min, pred.key_max, shards.size());
+                                  pred.key_min, pred.key_max,static_cast<int>(shards.size()));
                     return normalizeShardIds(std::move(shards));
                 }
             }
@@ -1204,7 +1204,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
                 pred.collection, pred.key_min, pred.key_max);
             if (!shards.empty()) {
                 spdlog::debug("QueryFederation: range-lookup [{},{}] → {} shard(s)",
-                              pred.key_min, pred.key_max, shards.size());
+                              pred.key_min, pred.key_max,static_cast<int>(shards.size()));
                 return normalizeShardIds(std::move(shards));
             }
         }
@@ -1286,7 +1286,7 @@ nlohmann::json QueryFederation::mergeResults(
     }
     
     spdlog::debug("Merged {} results from {} shards", 
-                 merged.size(), results.size());
+                 merged.size(),static_cast<int>(results.size()));
     
     return merged;
 }
@@ -1340,7 +1340,7 @@ nlohmann::json QueryFederation::applyGlobalOperations(
             
             result = paginated;
             spdlog::debug("Applied pagination: offset={}, limit={}, result_size={}",
-                         requested_offset, requested_limit, result.size());
+                         requested_offset, requested_limit,static_cast<int>(result.size()));
         }
     }
     

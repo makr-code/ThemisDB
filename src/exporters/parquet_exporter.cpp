@@ -961,7 +961,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     // ofs closes via RAII when it goes out of scope.
     stats.bytes_written = file_offset;
 
-    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count, columns.size(), file_offset);
+    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count,static_cast<int>(columns.size()), file_offset);
 
     return stats;
 }

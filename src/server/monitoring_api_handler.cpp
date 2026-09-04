@@ -320,9 +320,9 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
         response["modules"] = {
             {"compiled_in", modules_compiled},
             {"not_compiled", modules_disabled},
-            {"total", build_config.modules.size()},
-            {"compiled_count", modules_compiled.size()},
-            {"disabled_count", modules_disabled.size()}
+            {"total",static_cast<int>(build_config.modules.size())},
+            {"compiled_count",static_cast<int>(modules_compiled.size())},
+            {"disabled_count",static_cast<int>(modules_disabled.size())}
         };
 
         // Add API versioning information (supported versions, deprecation policy).

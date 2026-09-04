@@ -101,7 +101,7 @@ bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sa
         std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
-        spdlog::debug("Shuffled {} samples", indices_.size());
+        spdlog::debug("Shuffled {} samples",static_cast<int>(indices_.size()));
     }
     
     current_batch_ = 0;
@@ -111,7 +111,7 @@ bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sa
         startPrefetching();
     }
     
-    spdlog::info("Loaded {} samples, {} batches", samples_.size(), num_batches());
+    spdlog::info("Loaded {} samples, {} batches",static_cast<int>(samples_.size()), num_batches());
     return true;
 }
 
@@ -241,7 +241,7 @@ void GPUDataLoader::prefetchWorker() {
             // B2-blocking_no_timeout: wait_for prevents permanent stall if consumer thread dies.
             static constexpr std::chrono::seconds kPrefetchProduceTimeout{10};
             queue_cv_.wait_for(lock, kPrefetchProduceTimeout, [this, &batch_idx] {
-                return prefetch_queue_.size() < config_.prefetch_batches ||
+                return static_cast<int>(prefetch_queue_.size()) < config_.prefetch_batches ||
                        stop_prefetch_.load(std::memory_order_acquire);
             });
             
@@ -274,7 +274,7 @@ GPUBatch GPUDataLoader::prepareBatch([[maybe_unused]] size_t batch_idx) {
     
     // Calculate batch bounds
     size_t start_idx = batch_idx * config_.batch_size;
-    size_t end_idx = std::min(start_idx + config_.batch_size, samples_.size());
+    size_t end_idx = std::min(start_idx + config_.batch_size,static_cast<int>(samples_.size()));
     size_t actual_batch_size = end_idx - start_idx;
     
     batch.batch_size = actual_batch_size;

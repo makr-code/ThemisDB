@@ -263,7 +263,7 @@ std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
 }
 
 std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
-    THEMIS_DEBUG("LLM call with prompt length: {}", prompt.size());
+    THEMIS_DEBUG("LLM call with prompt length: {}",static_cast<int>(prompt.size()));
 
     if (impl_) {
         impl_->total_calls++;
@@ -285,7 +285,7 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
             request.request_id = "meta_" + std::to_string(req_counter.fetch_add(1));
 
             auto response = engine->submit(request).get();
-            THEMIS_DEBUG("LLMMetaAnalyzer::callLLM response length: {}", response.text.size());
+            THEMIS_DEBUG("LLMMetaAnalyzer::callLLM response length: {}",static_cast<int>(response.text.size()));
             return response.text;
         } catch (const std::exception& e) {
             THEMIS_ERROR("LLMMetaAnalyzer::callLLM engine error: {}", e.what());
@@ -318,7 +318,7 @@ std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate input size for cache key computation
     if (static_cast<int>(input.size()) > 100000) {
-        THEMIS_WARN("LLMMetaAnalyzer::computeCacheKey: input exceeds maximum ({})", input.size());
+        THEMIS_WARN("LLMMetaAnalyzer::computeCacheKey: input exceeds maximum ({})",static_cast<int>(input.size()));
         throw std::invalid_argument("Input for cache key exceeds maximum size");
     }
     // ── end input validation ────────────────────────────────────────────────

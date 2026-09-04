@@ -171,7 +171,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
  */
 void sanitizePromptInput(const std::string &input, const std::string &field_name, std::size_t max_length = 0) {
     // --- Length check ---
-    if (max_length > 0 && input.size() > max_length) {
+    if (max_length > 0 && static_cast<int>(input.size()) > max_length) {
         throw LLMException(LLMErrorCode::PROMPT_TOO_LONG, field_name + " exceeds maximum allowed length of "
                                                               + std::to_string(max_length) + " characters");
     }
@@ -273,7 +273,7 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
     }
 
     std::string bounded = raw_feedback;
-    if (max_length > 0 && bounded.size() > max_length) {
+    if (max_length > 0 && static_cast<int>(bounded.size()) > max_length) {
         bounded.resize(max_length);
     }
 
@@ -487,7 +487,7 @@ bool AQLConversationSession::empty() const {
 }
 
 std::size_t AQLConversationSession::size() const {
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -912,8 +912,8 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
             prompt,
             LLMAQLHandler::json{
                 {"operation", "infer"},
-                {"prompt_bytes", prompt.size()},
-                {"response_bytes", result.size()},
+                {"prompt_bytes",static_cast<int>(prompt.size())},
+                {"response_bytes",static_cast<int>(result.size())},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"latency_ms", latency.count()},
@@ -1036,8 +1036,8 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
             prompt,
             LLMAQLHandler::json{
                 {"operation", "infer_streaming"},
-                {"prompt_bytes", prompt.size()},
-                {"response_bytes", response.text.size()},
+                {"prompt_bytes",static_cast<int>(prompt.size())},
+                {"response_bytes",static_cast<int>(response.text.size())},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"latency_ms", latency.count()},
@@ -1247,8 +1247,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
             query,
             LLMAQLHandler::json{
                 {"operation", "rag"},
-                {"query_bytes", query.size()},
-                {"response_bytes", result.size()},
+                {"query_bytes",static_cast<int>(query.size())},
+                {"response_bytes",static_cast<int>(result.size())},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"retrieved_docs", retrieved_docs},
@@ -1759,7 +1759,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
 
             // Use chat interface for better results
             auto response = executeChat(messages);
-            spdlog::debug("NL-to-AQL: LLM generated {} chars of response", response.size());
+            spdlog::debug("NL-to-AQL: LLM generated {} chars of response",static_cast<int>(response.size()));
 
             // Clean up response – strip markdown fences and trim whitespace
             std::string aql_query = stripMarkdownFences(std::move(response));
@@ -2050,8 +2050,8 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
             original_query,
             LLMAQLHandler::json{
                 {"operation", "chat"},
-                {"message_count", messages.size()},
-                {"response_bytes", response.size()}},
+                {"message_count",static_cast<int>(messages.size())},
+                {"response_bytes",static_cast<int>(response.size())}},
             LLMErrorCode::INFERENCE_FAILED);
         return response;
 

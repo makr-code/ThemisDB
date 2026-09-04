@@ -120,7 +120,7 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectConflicts(co
     auto pci_dss_gdpr = detectPciDssGdprConflicts(policy_mgr);
     all_conflicts.insert(all_conflicts.end(), pci_dss_gdpr.begin(), pci_dss_gdpr.end());
 
-    THEMIS_INFO("Detected {} total conflicts", all_conflicts.size());
+    THEMIS_INFO("Detected {} total conflicts",static_cast<int>(all_conflicts.size()));
 
     return all_conflicts;
 }
@@ -130,7 +130,7 @@ PolicyValidator::detectContradictoryRules(const PolicyManager &policy_mgr) const
     std::vector<ConflictResult> conflicts;
     auto all_rules = policy_mgr.listRules();
 
-    THEMIS_DEBUG("Checking {} rules for contradictions", all_rules.size());
+    THEMIS_DEBUG("Checking {} rules for contradictions",static_cast<int>(all_rules.size()));
 
     // Compare each pair of rules
     for (size_t i = 0; i < all_rules.size(); ++i) {
@@ -221,7 +221,7 @@ PolicyValidator::detectContradictoryRules(const PolicyManager &policy_mgr) const
         }
     }
 
-    THEMIS_INFO("Found {} contradictory rule conflicts", conflicts.size());
+    THEMIS_INFO("Found {} contradictory rule conflicts",static_cast<int>(conflicts.size()));
 
     return conflicts;
 }
@@ -231,7 +231,7 @@ PolicyValidator::detectOverlappingPermissions(const PolicyManager &policy_mgr) c
     std::vector<ConflictResult> conflicts;
     auto all_rules = policy_mgr.listRules();
 
-    THEMIS_DEBUG("Checking for overlapping permissions among {} rules", all_rules.size());
+    THEMIS_DEBUG("Checking for overlapping permissions among {} rules",static_cast<int>(all_rules.size()));
 
     // Group rules by resource/action patterns
     std::unordered_map<std::string, std::vector<std::string>> pattern_rules;
@@ -269,7 +269,7 @@ PolicyValidator::detectOverlappingPermissions(const PolicyManager &policy_mgr) c
         }
     }
 
-    THEMIS_INFO("Found {} overlapping permission conflicts", conflicts.size());
+    THEMIS_INFO("Found {} overlapping permission conflicts",static_cast<int>(conflicts.size()));
 
     return conflicts;
 }
@@ -279,7 +279,7 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
     std::vector<ConflictResult> conflicts;
     auto all_rules = policy_mgr.listRules();
 
-    THEMIS_DEBUG("Checking for circular dependencies in {} rules", all_rules.size());
+    THEMIS_DEBUG("Checking for circular dependencies in {} rules",static_cast<int>(all_rules.size()));
 
     // Build an undirected conflict graph: an edge between rule A and rule B
     // exists when all three conditions hold:
@@ -393,7 +393,7 @@ PolicyValidator::detectCircularDependencies(const PolicyManager &policy_mgr) con
         }
     }
 
-    THEMIS_INFO("Found {} circular dependency conflicts", conflicts.size());
+    THEMIS_INFO("Found {} circular dependency conflicts",static_cast<int>(conflicts.size()));
 
     return conflicts;
 }
@@ -404,7 +404,7 @@ PolicyValidator::calculateEffectiveness(const PolicyManager &policy_mgr,
     std::unordered_map<std::string, EffectivenessMetrics> metrics_map;
     auto all_rules = policy_mgr.listRules();
 
-    THEMIS_DEBUG("Calculating effectiveness for {} rules", all_rules.size());
+    THEMIS_DEBUG("Calculating effectiveness for {} rules",static_cast<int>(all_rules.size()));
 
     int64_t now
         = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -453,7 +453,7 @@ PolicyValidator::calculateEffectiveness(const PolicyManager &policy_mgr,
         metrics_map[rule.id] = metrics;
     }
 
-    THEMIS_INFO("Calculated effectiveness metrics for {} rules", metrics_map.size());
+    THEMIS_INFO("Calculated effectiveness metrics for {} rules",static_cast<int>(metrics_map.size()));
 
     return metrics_map;
 }
@@ -472,7 +472,7 @@ std::vector<std::string> PolicyValidator::identifyUnusedRules(const PolicyManage
         }
     }
 
-    THEMIS_INFO("Identified {} unused rules", unused_rules.size());
+    THEMIS_INFO("Identified {} unused rules",static_cast<int>(unused_rules.size()));
 
     return unused_rules;
 }
@@ -499,7 +499,7 @@ PolicyValidator::performSecurityChecks(const PolicyManager &policy_mgr) const {
     auto retention = checkRetentionCompliance(policy_mgr);
     all_checks.insert(all_checks.end(), retention.begin(), retention.end());
 
-    THEMIS_INFO("Completed {} security checks", all_checks.size());
+    THEMIS_INFO("Completed {} security checks",static_cast<int>(all_checks.size()));
 
     return all_checks;
 }
@@ -569,7 +569,7 @@ PolicyValidator::checkOverlyPermissive(const PolicyManager &policy_mgr) const {
         }
     }
 
-    THEMIS_INFO("Found {} overly permissive issues", checks.size());
+    THEMIS_INFO("Found {} overly permissive issues",static_cast<int>(checks.size()));
 
     return checks;
 }
@@ -617,7 +617,7 @@ PolicyValidator::checkEncryptionRequirements(const PolicyManager &policy_mgr) co
         }
     }
 
-    THEMIS_INFO("Found {} encryption requirement issues", checks.size());
+    THEMIS_INFO("Found {} encryption requirement issues",static_cast<int>(checks.size()));
 
     return checks;
 }
@@ -665,7 +665,7 @@ PolicyValidator::checkAuditLogging(const PolicyManager &policy_mgr) const {
         }
     }
 
-    THEMIS_INFO("Found {} audit logging issues", checks.size());
+    THEMIS_INFO("Found {} audit logging issues",static_cast<int>(checks.size()));
 
     return checks;
 }
@@ -710,7 +710,7 @@ PolicyValidator::checkRetentionCompliance(const PolicyManager &policy_mgr, int m
         }
     }
 
-    THEMIS_INFO("Found {} retention compliance issues", checks.size());
+    THEMIS_INFO("Found {} retention compliance issues",static_cast<int>(checks.size()));
 
     return checks;
 }
@@ -1011,7 +1011,7 @@ bool PolicyMetricsCollector::importMetrics(const nlohmann::json &j) {
             }
         }
 
-        THEMIS_INFO("Imported metrics for {} rules", metrics_.size());
+        THEMIS_INFO("Imported metrics for {} rules",static_cast<int>(metrics_.size()));
         return true;
     } catch (const std::exception &e) {
         THEMIS_ERROR("Failed to import metrics: {}", e.what());
@@ -1093,7 +1093,7 @@ std::vector<PolicyOptimizer::OptimizationRecommendation> PolicyOptimizer::genera
     auto removals = recommendRemovals(policy_mgr, hit_counts);
     all_recommendations.insert(all_recommendations.end(), removals.begin(), removals.end());
 
-    THEMIS_INFO("Generated {} optimization recommendations", all_recommendations.size());
+    THEMIS_INFO("Generated {} optimization recommendations",static_cast<int>(all_recommendations.size()));
 
     return all_recommendations;
 }
@@ -1143,7 +1143,7 @@ PolicyOptimizer::recommendMerges(const PolicyManager &policy_mgr) const {
         }
     }
 
-    THEMIS_INFO("Found {} merge recommendations", recommendations.size());
+    THEMIS_INFO("Found {} merge recommendations",static_cast<int>(recommendations.size()));
 
     return recommendations;
 }
@@ -1188,7 +1188,7 @@ PolicyOptimizer::recommendSimplifications(const PolicyManager &policy_mgr) const
         }
     }
 
-    THEMIS_INFO("Found {} simplification recommendations", recommendations.size());
+    THEMIS_INFO("Found {} simplification recommendations",static_cast<int>(recommendations.size()));
 
     return recommendations;
 }
@@ -1248,7 +1248,7 @@ std::vector<PolicyOptimizer::OptimizationRecommendation> PolicyOptimizer::recomm
         }
     }
 
-    THEMIS_INFO("Found {} reordering recommendations", recommendations.size());
+    THEMIS_INFO("Found {} reordering recommendations",static_cast<int>(recommendations.size()));
 
     return recommendations;
 }
@@ -1300,7 +1300,7 @@ PolicyOptimizer::recommendRemovals(const PolicyManager &policy_mgr,
         }
     }
 
-    THEMIS_INFO("Found {} removal recommendations", recommendations.size());
+    THEMIS_INFO("Found {} removal recommendations",static_cast<int>(recommendations.size()));
 
     return recommendations;
 }
@@ -1360,7 +1360,7 @@ PolicyValidator::detectCcpaHipaaConflicts(const PolicyManager &policy_mgr) const
     CcpaRuleSet ccpa_rules;
     auto all_rules = policy_mgr.listRules();
 
-    THEMIS_DEBUG("Checking {} rules for CCPA/HIPAA cross-framework conflicts", all_rules.size());
+    THEMIS_DEBUG("Checking {} rules for CCPA/HIPAA cross-framework conflicts",static_cast<int>(all_rules.size()));
 
     for (const auto &rule : all_rules) {
         if (!rule.enabled) {
@@ -1384,7 +1384,7 @@ PolicyValidator::detectCcpaHipaaConflicts(const PolicyManager &policy_mgr) const
         }
     }
 
-    THEMIS_INFO("Found {} CCPA/HIPAA cross-framework conflicts", conflicts.size());
+    THEMIS_INFO("Found {} CCPA/HIPAA cross-framework conflicts",static_cast<int>(conflicts.size()));
 
     return conflicts;
 }
@@ -1397,7 +1397,7 @@ PolicyValidator::detectPciDssGdprConflicts(const PolicyManager &policy_mgr) cons
     PciDssRuleSet pci_rules;
     auto all_rules = policy_mgr.listRules();
 
-    THEMIS_DEBUG("Checking {} rules for PCI-DSS/GDPR cross-framework conflicts", all_rules.size());
+    THEMIS_DEBUG("Checking {} rules for PCI-DSS/GDPR cross-framework conflicts",static_cast<int>(all_rules.size()));
 
     for (const auto &rule : all_rules) {
         if (!rule.enabled) {
@@ -1421,7 +1421,7 @@ PolicyValidator::detectPciDssGdprConflicts(const PolicyManager &policy_mgr) cons
         }
     }
 
-    THEMIS_INFO("Found {} PCI-DSS/GDPR cross-framework conflicts", conflicts.size());
+    THEMIS_INFO("Found {} PCI-DSS/GDPR cross-framework conflicts",static_cast<int>(conflicts.size()));
 
     return conflicts;
 }

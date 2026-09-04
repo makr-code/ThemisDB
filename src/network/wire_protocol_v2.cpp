@@ -188,7 +188,7 @@ class V2SessionImpl : public V2Session {
             hdr.flags |= static_cast<uint16_t>(V2FrameFlags::END_STREAM);
 
         // Use compressed payload only when it actually saves bytes
-        if (!compressed_buf.empty() && compressed_buf.size() < data.size()) {
+        if (!compressed_buf.empty() && static_cast<int>(compressed_buf.size()) < data.size()) {
             payload = &compressed_buf;
             if (cfg_.enable_zstd_compression) {
                 hdr.flags |= static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
@@ -596,7 +596,7 @@ class V2SessionImpl : public V2Session {
     static std::unordered_map<std::string, std::string> decodeHeaders(const std::vector<uint8_t> &payload) {
         std::unordered_map<std::string, std::string> headers = {};
 
-        std::string text(reinterpret_cast<const char *>(payload.data()), payload.size());
+        std::string text(reinterpret_cast<const char *>(payload.data()),static_cast<int>(payload.size()));
         std::istringstream ss(text);
         std::string line = {};
         while (std::getline(ss, line)) {
@@ -719,7 +719,7 @@ class V2Server::Impl {
 
     size_t active_connections() const {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
-        return sessions_.size();
+        return static_cast<int>(sessions_.size());
     }
 
     uint64_t total_streams_opened() const {

@@ -143,7 +143,7 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
             it->SeekForPrev(to_key);
         }
         
-        while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {
+        while (it->Valid() && it->key().starts_with(prefix) && static_cast<int>(results.size()) < query.limit) {
             if (it->key().ToString() < from_key) {
               break;
             }
@@ -161,7 +161,7 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
         // Forward iteration
         it->Seek(from_key);
         
-        while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {
+        while (it->Valid() && it->key().starts_with(prefix) && static_cast<int>(results.size()) < query.limit) {
             if (it->key().ToString() > to_key) {
               break;
             }

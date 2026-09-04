@@ -401,7 +401,7 @@ public:
                 auto inline_data_str = entity.getFieldAsString("model_data_inline");
                 if (inline_data_str) {
                     std::vector<uint8_t> blob_data(inline_data_str->begin(), inline_data_str->end());
-                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes", blob_data.size());
+                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes",static_cast<int>(blob_data.size()));
                     return blob_data;
                 }
             }
@@ -853,7 +853,7 @@ public:
             
             // Create a JSON object with dimension count for validation
             json embedding_json = {
-                {"dimensions", embedding.size()},
+                {"dimensions",static_cast<int>(embedding.size())},
                 {"values", embedding}  // nlohmann::json handles float serialization portably
             };
             
@@ -863,7 +863,7 @@ public:
             bool success = config_.db->put(embedding_key, embedding_bytes);
             if (success) {
                 spdlog::info("Stored embedding for model {}: {} dimensions", 
-                            model_id, embedding.size());
+                            model_id,static_cast<int>(embedding.size()));
             }
             return success;
         } catch (const std::exception& e) {

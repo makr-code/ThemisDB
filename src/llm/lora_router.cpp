@@ -155,7 +155,7 @@ RoutingDecision LoRARouter::routeQuery(
     std::vector<std::pair<std::string, float>> candidates;
     if (config_.enable_semantic_routing && active_policy != RoutingPolicy::FALLBACK) {
         candidates = findSemanticCandidates(query, base_model_id);
-        spdlog::debug("Found {} semantic candidates", candidates.size());
+        spdlog::debug("Found {} semantic candidates",static_cast<int>(candidates.size()));
     }
     
     // Apply routing policy
@@ -225,7 +225,7 @@ bool LoRARouter::configureABTest(const ABTestConfig& config) {
     
     ab_test_config_ = config;
     spdlog::info("A/B test configured: experiment_id={}, adapters={}", 
-                 config.experiment_id, config.adapter_ids.size());
+                 config.experiment_id,static_cast<int>(config.adapter_ids.size()));
     
     return true;
 }

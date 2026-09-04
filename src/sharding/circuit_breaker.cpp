@@ -174,7 +174,7 @@ void CircuitBreaker::cleanupOldFailures() {
 }
 
 size_t CircuitBreaker::getCurrentFailureCount() const {
-    return failure_timestamps_.size();
+    return static_cast<int>(failure_timestamps_.size());
 }
 
 // ============================================================================

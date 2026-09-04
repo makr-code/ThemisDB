@@ -199,11 +199,11 @@ struct NLIFaithfulnessVerifier::Impl {
 
                 std::array<Ort::Value, 3> inputs = {
                     Ort::Value::CreateTensor<int64_t>(mem_info,
-                        input_ids.data(), input_ids.size(), shape.data(), 2),
+                        input_ids.data(),static_cast<int>(input_ids.size()), shape.data(), 2),
                     Ort::Value::CreateTensor<int64_t>(mem_info,
-                        attention_mask.data(), attention_mask.size(), shape.data(), 2),
+                        attention_mask.data(),static_cast<int>(attention_mask.size()), shape.data(), 2),
                     Ort::Value::CreateTensor<int64_t>(mem_info,
-                        token_type_ids.data(), token_type_ids.size(), shape.data(), 2),
+                        token_type_ids.data(),static_cast<int>(token_type_ids.size()), shape.data(), 2),
                 };
 
                 const char* input_names[]  = {"input_ids", "attention_mask", "token_type_ids"};
@@ -211,7 +211,7 @@ struct NLIFaithfulnessVerifier::Impl {
 
                 auto output_tensors = ort_session->Run(
                     Ort::RunOptions{nullptr},
-                    input_names, inputs.data(), inputs.size(),
+                    input_names, inputs.data(),static_cast<int>(inputs.size()),
                     output_names, 1);
 
                 // Extract logits [CONTRADICTION, NEUTRAL, ENTAILMENT] (DeBERTa-MNLI order)
@@ -592,7 +592,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     auto claims = impl_->extractClaims(answer);
     result.total_claims = claims.size();
     
-    THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
+    THEMIS_DEBUG("Extracted {} claims from answer",static_cast<int>(claims.size()));
     
     if (claims.empty()) {
         // No claims = potentially low quality or parsing failure

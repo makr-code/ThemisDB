@@ -70,7 +70,7 @@ void ResultQueue::cancel() noexcept {
 
 size_t ResultQueue::depth() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return queue_.size();
+    return static_cast<int>(queue_.size());
 }
 
 bool ResultQueue::isCancelled() const noexcept {

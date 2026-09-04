@@ -599,7 +599,7 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         auto replaceAll = [](std::string s, const std::string& from, const std::string& to) {
             size_t pos = 0;
             while ((pos = s.find(from, pos)) != std::string::npos) {
-                s.replace(pos, from.size(), to);
+                s.replace(pos,static_cast<int>(from.size()), to);
                 pos += to.size();
             }
             return s;
@@ -1066,7 +1066,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                 using namespace std::chrono_literals;
                 const auto timeout = std::chrono::seconds(30); // 30 second timeout
                 if (!queue_cv_.wait_for(lock, timeout, [this] {
-                    return request_queue_.size() < config_.max_queue_size ||
+                    return static_cast<int>(request_queue_.size()) < config_.max_queue_size ||
                            !running_.load();
                 })) {
                     spdlog::warn("Backpressure BLOCK: timeout waiting for queue space");

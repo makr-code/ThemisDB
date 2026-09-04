@@ -191,7 +191,7 @@ json SloReporter::generateReportJson() const {
                      .count();
     return json{
         {"generated_at_ms", ts_ms},
-        {"slo_count",       statuses.size()},
+        {"slo_count",static_cast<int>(statuses.size())},
         {"slos",            arr}
     };
 }
@@ -207,7 +207,7 @@ void SloReporter::clear() {
 
 size_t SloReporter::sloCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return slos_.size();
+    return static_cast<int>(slos_.size());
 }
 
 // ---------------------------------------------------------------------------

@@ -175,7 +175,7 @@ void LoRARopeAdapterRegistry::clear() {
 
 size_t LoRARopeAdapterRegistry::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return adapters_.size();
+    return static_cast<int>(adapters_.size());
 }
 
 // ============================================================================

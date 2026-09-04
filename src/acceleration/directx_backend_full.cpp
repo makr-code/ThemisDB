@@ -487,7 +487,7 @@ private:
 #else
             flags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
 #endif
-            HRESULT hr = D3DCompile(hlsl.c_str(), hlsl.size(), debugName,
+            HRESULT hr = D3DCompile(hlsl.c_str(),static_cast<int>(hlsl.size()), debugName,
                                     nullptr, nullptr, "CSMain", "cs_5_0",
                                     flags, 0, &shaderBlob, &errorBlob);
             if (FAILED(hr)) {

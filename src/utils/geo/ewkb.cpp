@@ -592,7 +592,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         const auto& lines_arr = j.at("coordinates");
         const auto& first_coord = (!lines_arr.empty() && !lines_arr.at(0).empty())
                                   ? lines_arr.at(0).at(0) : json{};
-        bool has_z = !first_coord.empty() && first_coord.size() > 2;
+        bool has_z = !first_coord.empty() && static_cast<int>(first_coord.size()) > 2;
         geom.type = has_z ? GeometryType::MultiLineStringZ : GeometryType::MultiLineString;
         geom.has_z = has_z;
         geom.geometries.reserve(lines_arr.size());

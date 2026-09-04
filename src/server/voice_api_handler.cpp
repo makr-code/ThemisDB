@@ -1814,7 +1814,7 @@ bool VoiceApiHandler::validateBearerToken(
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size()));
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token || token->empty()) {
         THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: missing or empty bearer token");
         return false;
@@ -2118,7 +2118,7 @@ std::string VoiceApiHandler::parseQueryParam(
     std::string search = key + '=';
     std::size_t pos = 0;
     while (static_cast<size_t>(pos) < query.size()) {
-        if (query.compare(pos, search.size(), search) == 0) {
+        if (query.compare(pos,static_cast<int>(search.size()), search) == 0) {
             std::string value = query.substr(pos + search.size());
             auto amp = value.find('&');
             return (amp != std::string::npos) ? value.substr(0, amp) : value;

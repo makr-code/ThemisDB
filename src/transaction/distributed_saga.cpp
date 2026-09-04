@@ -174,7 +174,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     }
 
     journalWrite(saga.saga_id, "STARTED");
-    THEMIS_INFO("DSAGA[{}]: starting ({} steps)", saga.saga_id, saga.steps.size());
+    THEMIS_INFO("DSAGA[{}]: starting ({} steps)", saga.saga_id,static_cast<int>(saga.steps.size()));
 
     // -- Build step map and initialise records --------------------------
     std::map<std::string, DistributedSagaStep> step_map;
@@ -269,7 +269,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
         report.failure_reason = failure_reason;
         journalWrite(saga.saga_id, "COMPENSATING", failure_reason);
         THEMIS_WARN("DSAGA[{}]: compensating {} steps after failure: {}",
-                    saga.saga_id, to_compensate.size(), failure_reason);
+                    saga.saga_id,static_cast<int>(to_compensate.size()), failure_reason);
 
         compensate(step_map, to_compensate, record_index);
 

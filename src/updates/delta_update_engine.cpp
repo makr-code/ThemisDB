@@ -193,7 +193,7 @@ std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
     if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
         return "";
     }
-    if (EVP_DigestUpdate(ctx.get(), data.data(), data.size()) != 1) {
+    if (EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size())) != 1) {
         return "";
     }
 
@@ -567,11 +567,11 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
     // Cycle detection: if we didn't process every delta the graph has a cycle.
     if (static_cast<int>(result.size()) != manifest.deltas.size()) {
         LOG_ERROR("computeApplyOrder: cycle detected – processed {}/{} patches; aborting",
-                  result.size(), manifest.deltas.size());
+                  result.size(),static_cast<int>(manifest.deltas.size()));
         return {};
     }
 
-    LOG_INFO("Patch ordering computed: {} patches in dependency order", result.size());
+    LOG_INFO("Patch ordering computed: {} patches in dependency order",static_cast<int>(result.size()));
     return result;
 }
 
@@ -692,9 +692,9 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
         }
 
         // --- 6. Verify size ---
-        if (fd.target_size > 0 && target_data.size() != fd.target_size) {
+        if (fd.target_size > 0 && static_cast<int>(target_data.size()) != fd.target_size) {
             LOG_WARN("Target size mismatch for {}: expected {} got {}",
-                fd.path, fd.target_size, target_data.size());
+                fd.path, fd.target_size,static_cast<int>(target_data.size()));
             result.files_fallback.push_back(fd.path);
             fs::remove(recon_path);
             continue;
@@ -814,7 +814,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 
     // Create dictionary from base data
     ZSTD_CDict* cdict = ZSTD_createCDict(
-        base.data(), base.size(), ZSTD_CLEVEL_DEFAULT);
+        base.data(),static_cast<int>(base.size()), ZSTD_CLEVEL_DEFAULT);
     if (!cdict) {
         ZSTD_freeCCtx(cctx);
         LOG_ERROR("ZSTD_createCDict failed");
@@ -827,7 +827,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
     size_t compressed_size = ZSTD_compress_usingCDict(
         cctx,
         compressed.data(), bound,
-        target.data(),     target.size(),
+        target.data(),static_cast<int>(target.size()),
         cdict);
 
     ZSTD_freeCDict(cdict);
@@ -908,7 +908,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
         return false;
     }
 
-    ZSTD_DDict* ddict = ZSTD_createDDict(base.data(), base.size());
+    ZSTD_DDict* ddict = ZSTD_createDDict(base.data(),static_cast<int>(base.size()));
     if (!ddict) {
         ZSTD_freeDCtx(dctx);
         LOG_ERROR("ZSTD_createDDict failed");
@@ -918,7 +918,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
     size_t result = ZSTD_decompress_usingDDict(
         dctx,
         target.data(), orig_size,
-        compressed.data(), compressed.size(),
+        compressed.data(),static_cast<int>(compressed.size()),
         ddict);
 
     ZSTD_freeDDict(ddict);
@@ -1042,7 +1042,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     compressed.resize(bound);
     size_t csize = ZSTD_compress(
         compressed.data(), bound,
-        instructions.data(), instructions.size(),
+        instructions.data(),static_cast<int>(instructions.size()),
         ZSTD_CLEVEL_DEFAULT);
     if (ZSTD_isError(csize)) {
         LOG_ERROR("ZSTD compress failed in generatePatchVcdiff: {}",
@@ -1094,7 +1094,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     // Decompress instruction stream
     std::vector<uint8_t> instructions;
 #ifdef THEMIS_HAS_ZSTD
-    size_t dbound = ZSTD_getFrameContentSize(compressed.data(), compressed.size());
+    size_t dbound = ZSTD_getFrameContentSize(compressed.data(),static_cast<int>(compressed.size()));
     if (dbound == ZSTD_CONTENTSIZE_ERROR || dbound == ZSTD_CONTENTSIZE_UNKNOWN) {
         // Fall back to a generous estimate
         dbound = compressed.size() * 4 + 1024;
@@ -1102,7 +1102,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     instructions.resize(dbound);
     size_t dsize = ZSTD_decompress(
         instructions.data(), dbound,
-        compressed.data(), compressed.size());
+        compressed.data(),static_cast<int>(compressed.size()));
     if (ZSTD_isError(dsize)) {
         LOG_ERROR("ZSTD decompress failed in applyPatchVcdiff: {}",
             ZSTD_getErrorName(dsize));
@@ -1131,7 +1131,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
             if (static_cast<size_t>(off) + len > base.size()) {
                 LOG_ERROR("COPY out of bounds: off={} len={} base_size={}",
-                    off, len, base.size());
+                    off, len,static_cast<int>(base.size()));
                 return false;
             }
             target.insert(target.end(),

@@ -640,7 +640,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     if (EVP_PKEY_sign_init(ctx) == 1) {
                         // Use PKCS#1 v1.5 padding for compatibility with RSA_sign
                         EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
-                        if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(), hash_bytes.size()) == 1) {
+                        if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(),static_cast<int>(hash_bytes.size())) == 1) {
                             sig.resize(outlen);
                             res.signature_b64 = base64_encode(sig);
                     // Try to set cert serial if available
@@ -701,7 +701,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     if (ctx) {
                         if (EVP_PKEY_sign_init(ctx) == 1) {
                             EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
-                            if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(), hash_bytes.size()) == 1) {
+                            if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(),static_cast<int>(hash_bytes.size())) == 1) {
                                 sig.resize(outlen);
                                 res.signature_b64 = base64_encode(sig);
                                 res.cert_serial   = cert_serial.empty() ? std::string("CA-PROVISIONED") : cert_serial;
@@ -871,7 +871,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                 if (EVP_PKEY_verify_init(ctx) == 1) {
                     EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
                     size_t siglen = sig_bytes.size();
-                    int ok = EVP_PKEY_verify(ctx, sig_bytes.data(), siglen, hash_bytes.data(), hash_bytes.size());
+                    int ok = EVP_PKEY_verify(ctx, sig_bytes.data(), siglen, hash_bytes.data(),static_cast<int>(hash_bytes.size()));
                     EVP_PKEY_CTX_free(ctx);
                     EVP_PKEY_free(pub);
                     return ok == 1;

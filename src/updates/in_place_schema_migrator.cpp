@@ -260,7 +260,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     LOG_INFO(
         "InPlaceSchemaMigrator: table '{}' migrated in-place to v{}; "
         "added {} column(s): {}",
-        table_name, result.schema_version, result.added_columns.size(),
+        table_name, result.schema_version,static_cast<int>(result.added_columns.size()),
         cols_stream.str());
 
     return result;

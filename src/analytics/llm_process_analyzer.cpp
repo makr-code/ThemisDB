@@ -72,7 +72,7 @@ static std::vector<std::string> loadInjectionPrefixes(const std::string &config_
     if (!file.is_open()) {
         spdlog::warn("LLMProcessAnalyzer: could not open injection prefix config '{}'; "
                      "using built-in defaults ({} patterns)",
-                     config_path, kBuiltinInjectionPrefixes.size());
+                     config_path,static_cast<int>(kBuiltinInjectionPrefixes.size()));
         return kBuiltinInjectionPrefixes;
     }
 
@@ -91,7 +91,7 @@ static std::vector<std::string> loadInjectionPrefixes(const std::string &config_
     if (prefixes.empty()) {
         spdlog::warn("LLMProcessAnalyzer: injection prefix config '{}' produced no entries; "
                      "using built-in defaults ({} patterns)",
-                     config_path, kBuiltinInjectionPrefixes.size());
+                     config_path,static_cast<int>(kBuiltinInjectionPrefixes.size()));
         return kBuiltinInjectionPrefixes;
     }
 
@@ -765,7 +765,7 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest &request) const {
     // is never sent to an LLM or used to construct prompts.
     auto sha256hex = [](const std::string &input) -> std::string {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+        SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
         std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);

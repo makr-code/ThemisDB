@@ -97,7 +97,7 @@ RewriteResult RegexRewriteRule::apply(
                replacements < limit) {
             trace.match_count++;
 
-            if (trace.matched_text.empty() && match.size() > 0) {
+            if (trace.matched_text.empty() && static_cast<int>(match.size()) > 0) {
                 // Record first match (up to 1024 bytes)
                 std::string matched = match[0].str();
                 trace.matched_text = matched.substr(0, 1024);

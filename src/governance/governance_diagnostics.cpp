@@ -126,7 +126,7 @@ void DiagnosticAggregator::clear() {
 
 size_t DiagnosticAggregator::getTotalCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return diagnostics_.size();
+    return static_cast<int>(diagnostics_.size());
 }
 
 DiagnosticAggregator& getGlobalDiagnosticAggregator() {
@@ -731,7 +731,7 @@ void SafeAccessValidator::clearViolationHistory() {
 
 size_t SafeAccessValidator::getViolationCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return violation_history_.size();
+    return static_cast<int>(violation_history_.size());
 }
 
 } // namespace themis::governance

@@ -72,7 +72,7 @@ std::unordered_map<std::string, AccessTracker::Entry> AccessTracker::snapshot() 
 
 std::size_t AccessTracker::size() const {
     std::shared_lock lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

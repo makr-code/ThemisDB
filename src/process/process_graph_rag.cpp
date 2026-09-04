@@ -192,7 +192,7 @@ ProcessGraphRag::buildKnowledgeGraph(std::string_view model_id) const {
     }
 
     SPDLOG_INFO("[process_graph_rag] built KG for model '{}': {} nodes, {} edges",
-                model_id, kg.nodes.size(), kg.edges.size());
+                model_id,static_cast<int>(kg.nodes.size()),static_cast<int>(kg.edges.size()));
     return kg;
 }
 
@@ -545,7 +545,7 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
         
         // Create diagnostic incident for retrieval failure
         DiagnosticContext ctx_diag;
-        ctx_diag.recordResourceMetric("instance_id_length", instance_id.size());
+        ctx_diag.recordResourceMetric("instance_id_length",static_cast<int>(instance_id.size()));
         ctx_diag.recordResourceMetric("query_length", query.length());
         ctx_diag.setRemediationSuggestion(
             "Requested process instance '" + std::string(instance_id) + "' not found in storage. "

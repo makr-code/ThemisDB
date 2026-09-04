@@ -39,10 +39,10 @@ SelectionResult FewShotOptimizer::selectExamples(
     
     size_t target_count = num_examples.value_or(config_.max_examples);
     target_count = std::max(config_.min_examples, 
-                           std::min(target_count, candidate_examples.size()));
+                           std::min(target_count,static_cast<int>(candidate_examples.size())));
     
     THEMIS_DEBUG("Selecting {} examples from {} candidates", 
-                 target_count, candidate_examples.size());
+                 target_count,static_cast<int>(candidate_examples.size()));
     
     // Use greedy diversity selection
     result.selected_examples = greedyDiversitySelection(
@@ -94,7 +94,7 @@ void FewShotOptimizer::cacheExamples(const std::vector<FewShotExample>& examples
     
     updateQueryIndex();
     
-    THEMIS_DEBUG("Cached {} examples, total cache size: {}", examples.size(), cache_.size());
+    THEMIS_DEBUG("Cached {} examples, total cache size: {}",static_cast<int>(examples.size()),static_cast<int>(cache_.size()));
 }
 
 std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
@@ -120,7 +120,7 @@ std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
     // Return top results
     std::vector<FewShotExample> results = {};
 
-    size_t count = std::min(max_results, scored_examples.size());
+    size_t count = std::min(max_results,static_cast<int>(scored_examples.size()));
     
     for (size_t i = 0; i < count; ++i) {
         results.push_back(cache_[scored_examples[i].second]);

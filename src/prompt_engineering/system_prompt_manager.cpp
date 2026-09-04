@@ -93,7 +93,7 @@ std::string SystemPromptManager::injectContext(
         const std::string placeholder = "{" + key + "}";
         size_t pos = 0;
         while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-            result.replace(pos, placeholder.size(), value);
+            result.replace(pos,static_cast<int>(placeholder.size()), value);
             pos += value.size();
         }
     }

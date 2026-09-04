@@ -62,7 +62,7 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
                 "code={} msg='retention limit reached; failing closed' "
                 "context={{task_id='{}', retention_limit={}, current_count={}, oldest_key='{}'}}",
                 static_cast<int>(SchedulerError::kRetentionLimitExceeded),
-                result.task_id, max_per_task_, all_keys.size(),
+                result.task_id, max_per_task_,static_cast<int>(all_keys.size()),
                 all_keys.empty() ? "N/A" : all_keys.front());
             return SchedulerError::kRetentionLimitExceeded;
         }
@@ -133,7 +133,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
     // Entries are oldest-first; reverse so newest come first, then cap.
     std::vector<TaskExecutionResult> results = {};
 
-    results.reserve(std::min(limit, entries.size()));
+    results.reserve(std::min(limit,static_cast<int>(entries.size())));
     size_t start = entries.size() > limit ? static_cast<int>(entries.size()) - limit : 0;
     for (size_t i = entries.size(); i-- > start;) {
         try {

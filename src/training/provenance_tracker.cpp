@@ -381,7 +381,7 @@ private:
             std::string token = "@" + placeholder;
             size_t pos = 0;
             while ((pos = query.find(token, pos)) != std::string::npos) {
-                query.replace(pos, token.size(), value);
+                query.replace(pos,static_cast<int>(token.size()), value);
                 pos += value.size();
             }
         }

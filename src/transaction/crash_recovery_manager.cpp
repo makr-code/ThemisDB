@@ -514,7 +514,7 @@ CrashRecoveryManager::readAllEntries() const {
 
 size_t CrashRecoveryManager::pendingTransactionCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return pending_ops_.size();
+    return static_cast<int>(pending_ops_.size());
 }
 
 } // namespace transaction

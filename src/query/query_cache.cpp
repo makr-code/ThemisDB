@@ -156,7 +156,7 @@ Result<void> QueryCache::put(
     stats_.current_memory_bytes += inserted_entry.result_size_bytes;
     
     THEMIS_DEBUG("Cached query: fingerprint={}, size={} bytes, deps={}", 
-                fingerprint.substr(0, 16), inserted_entry.result_size_bytes, dependencies.size());
+                fingerprint.substr(0, 16), inserted_entry.result_size_bytes,static_cast<int>(dependencies.size()));
     
     return OkVoid();
 }
@@ -348,7 +348,7 @@ Result<size_t> QueryCache::clearExpired() {
     }
     
     if (!to_remove.empty()) {
-        THEMIS_DEBUG("Cleared {} expired cache entries", to_remove.size());
+        THEMIS_DEBUG("Cleared {} expired cache entries",static_cast<int>(to_remove.size()));
     }
     
     return static_cast<bool>(Ok<size_t < static_cast<int>((to_remove.size())));

@@ -587,7 +587,7 @@ void GPUSGDOptimizer::add_parameters(const std::vector<GPUTensor*>& params) {
         }
     }
     
-    spdlog::debug("GPUSGDOptimizer: {} parameters registered", parameters_.size());
+    spdlog::debug("GPUSGDOptimizer: {} parameters registered",static_cast<int>(parameters_.size()));
 }
 
 void GPUSGDOptimizer::step() {

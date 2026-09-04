@@ -69,7 +69,7 @@ void ApiKeyAuthenticator::removeCredential(const std::string& key_id) {
 
 size_t ApiKeyAuthenticator::credentialCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return credentials_.size();
+    return static_cast<int>(credentials_.size());
 }
 
 // ============================================================================
@@ -256,7 +256,7 @@ bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
     if (static_cast<int>(a.size()) != b.size()) {
         return false;
     }
-    return CRYPTO_memcmp(a.data(), b.data(), a.size()) == 0;
+    return CRYPTO_memcmp(a.data(), b.data(),static_cast<int>(a.size())) == 0;
 }
 
 std::string ApiKeyAuthenticator::hexEncode(const unsigned char* data, size_t len) {

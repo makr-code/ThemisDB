@@ -326,7 +326,7 @@ std::vector<AIDecisionAudit> AIDecisionAuditor::queryAuditLog(const QueryFilter&
     
     it->Seek(KEY_PREFIX);
     
-    for (; it->Valid() && results.size() < filter.limit; it->Next()) {
+    for (; it->Valid() && static_cast<int>(results.size()) < filter.limit; it->Next()) {
         std::string key = it->key().ToString();
         
         // Stop if we've left the ai_decision prefix
@@ -502,7 +502,7 @@ bool AIDecisionAuditor::exportForCompliance(
         out << export_data.dump(2); // Pretty-print with 2-space indent
         out.close();
         
-        THEMIS_INFO("Exported {} AI decisions to {}", decisions.size(), output_path);
+        THEMIS_INFO("Exported {} AI decisions to {}",static_cast<int>(decisions.size()), output_path);
         return true;
         
     } catch (const std::exception& e) {

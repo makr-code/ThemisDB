@@ -157,7 +157,7 @@ ContentExtractionResult STTProcessor::extract(const std::vector<uint8_t> &blob, 
         metadata["transcription"] = {{"language", transcription.detected_language},
                                      {"confidence", transcription.average_confidence},
                                      {"duration_ms", transcription.audio_duration_ms},
-                                     {"segment_count", transcription.segments.size()}};
+                                     {"segment_count",static_cast<int>(transcription.segments.size())}};
 
         // Add segments with timestamps
         json segments_json = json::array();
@@ -353,7 +353,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     bool any_success       = false;
 
     for (size_t start = 0; start < pcm_data.size(); start += STEP_SAMPLES) {
-        size_t end = std::min(start + WINDOW_SAMPLES, pcm_data.size());
+        size_t end = std::min(start + WINDOW_SAMPLES,static_cast<int>(pcm_data.size()));
         std::vector<float> window(pcm_data.begin() + static_cast<std::ptrdiff_t>(start),
                                   pcm_data.begin() + static_cast<std::ptrdiff_t>(end));
 
@@ -864,7 +864,7 @@ TranscriptionResult STTProcessor::transcribeInternal(const std::vector<float> &p
 #endif
 
     // Apply speaker diarization when requested and more than one segment exists.
-    if (options.value("speaker_diarization", false) && result.segments.size() >= 2) {
+    if (options.value("speaker_diarization", false) && static_cast<int>(result.segments.size()) >= 2) {
         result.segments = performSpeakerDiarization(result.segments, pcm_data);
     }
 

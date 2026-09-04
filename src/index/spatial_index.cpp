@@ -307,7 +307,7 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
         [&](std::string_view k, std::string_view v) {
             if (static_cast<int>(k.size()) <= pk_strip) {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: malformed per-PK key "
-                            "for table='{}' (len={})", table_str, k.size());
+                            "for table='{}' (len={})", table_str,static_cast<int>(k.size()));
                 return true;
             }
             std::string pk(k.substr(pk_strip));
@@ -596,7 +596,7 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
                     "geo_index_bytes_allocated={}",
-                    table_str, entries.size(),
+                    table_str,static_cast<int>(entries.size()),
                     rtrees_[table_str].memoryBytes());
     }
 
@@ -1324,7 +1324,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     std::vector<SpatialResult> candidates;
 
     // Double the search window until we have k candidates or exceed world bounds.
-    for (size_t iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
+    for (size_t iter = 0; iter < kMaxExpansionIter && static_cast<int>(candidates.size()) < k; ++iter) {
         geo::MBR bbox(x - radius, y - radius, x + radius, y + radius);
         // Clamp to table bounds
         bbox.minx = std::max(bbox.minx, bounds.minx);

@@ -667,7 +667,7 @@ public:
                      const std::vector<std::string>& shard_ids) {
         
         THEMIS_INFO("Creating cloud backup: id={}, shards={}", 
-                   backup_id, shard_ids.size());
+                   backup_id,static_cast<int>(shard_ids.size()));
         
         try {
             if (backup_id.empty()) {
@@ -768,7 +768,7 @@ public:
                       const std::vector<std::string>& shard_ids) {
         
         THEMIS_INFO("Restoring cloud backup: id={}, shards={}", 
-                   backup_id, shard_ids.size());
+                   backup_id,static_cast<int>(shard_ids.size()));
         
         try {
             if (backup_id.empty()) {
@@ -902,7 +902,7 @@ public:
                              const std::vector<std::string>& shard_endpoints) {
         
         THEMIS_INFO("Setting replication target: datacenter={}, endpoints={}", 
-                   datacenter_id, shard_endpoints.size());
+                   datacenter_id,static_cast<int>(shard_endpoints.size()));
 
         if (datacenter_id.empty()) {
             THEMIS_ERROR("Failed to set replication target: datacenter_id must not be empty");

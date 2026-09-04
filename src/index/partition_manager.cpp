@@ -119,7 +119,7 @@ void PartitionManager::RebuildPartitions() {
         THEMIS_DEBUG("Rebuilt partition: id={}, name={}, epoch={}", id, name, new_epoch);
     }
     
-    THEMIS_INFO("Rebuilt {} partitions with epoch invalidation", partition_list.size());
+    THEMIS_INFO("Rebuilt {} partitions with epoch invalidation",static_cast<int>(partition_list.size()));
 }
 
 void PartitionManager::CompactPartitions() {
@@ -164,7 +164,7 @@ void PartitionManager::CompactPartitions() {
         // Replace partitions with compacted version
         partitions_ = std::move(compacted);
         
-        THEMIS_INFO("Compaction complete: {} partitions", partitions_.size());
+        THEMIS_INFO("Compaction complete: {} partitions",static_cast<int>(partitions_.size()));
     }
     catch (const std::exception& e) {
         THEMIS_ERROR("CompactPartitions failed: {}", e.what());
@@ -226,7 +226,7 @@ std::vector<uint32_t> PartitionManager::GetPartitionIds() const {
 
 size_t PartitionManager::GetPartitionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return partitions_.size();
+    return static_cast<int>(partitions_.size());
 }
 
 } // namespace themis

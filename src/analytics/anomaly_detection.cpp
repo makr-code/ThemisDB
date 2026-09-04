@@ -388,7 +388,7 @@ double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
 
 double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
     double sum = 0.0;
-    size_t n   = std::min(a.size(), b.size());
+    size_t n   = std::min(a.size(),static_cast<int>(b.size()));
     for (size_t i = 0; i < n; ++i) {
         double d = a[i] - b[i];
         sum += d * d;

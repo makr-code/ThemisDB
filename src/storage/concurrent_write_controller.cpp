@@ -141,7 +141,7 @@ WriteGuard ConcurrentWriteController::acquire() {
     }
 
     // Slow path: must queue.
-    if (max_queue_depth_ > 0 && waiters_.size() >= max_queue_depth_) {
+    if (max_queue_depth_ > 0 && static_cast<int>(waiters_.size()) >= max_queue_depth_) {
         total_rejected_.fetch_add(1, std::memory_order_relaxed);
         throw std::runtime_error(
             "ConcurrentWriteController: queue full (max_queue_depth exceeded)");

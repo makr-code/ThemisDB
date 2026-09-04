@@ -456,7 +456,7 @@ public:
         if (k == 0) {
             k = std::max<size_t>(1, config_.target_samples / std::max<size_t>(1, config_.clustering_k_ratio));
         }
-        k = std::min(k, samples.size());
+        k = std::min(k,static_cast<int>(samples.size()));
 
         // Represent each sample by a lightweight hash-based "embedding":
         // 8 bucketed values derived from character-level statistics.
@@ -615,7 +615,7 @@ public:
                        size_t from, size_t to,
                        size_t count) -> std::vector<DataSample> {
             if (from >= static_cast<int>(src.size())) return {};
-            to = std::min(to, src.size());
+            to = std::min(to,static_cast<int>(src.size()));
             count = std::min(count, to - from);
             return std::vector<DataSample>(src.begin() + static_cast<ptrdiff_t>(from),
                                            src.begin() + static_cast<ptrdiff_t>(from + count));
@@ -662,31 +662,31 @@ public:
             // Stage 1: Quality Filtering
             auto s1 = filterByQuality(input);
             if (cb) {
-              cb("quality_filter", s1.size(), "Stage 1: quality filtering done");
+              cb("quality_filter",static_cast<int>(s1.size()), "Stage 1: quality filtering done");
             }
 
             // Stage 2: Deduplication
             auto s2 = deduplicate(s1);
             if (cb) {
-              cb("deduplication", s2.size(), "Stage 2: deduplication done");
+              cb("deduplication",static_cast<int>(s2.size()), "Stage 2: deduplication done");
             }
 
             // Stage 3: Cluster-based sampling
             auto s3 = clusterAndSample(s2, 0);
             if (cb) {
-              cb("clustering", s3.size(), "Stage 3: cluster sampling done");
+              cb("clustering",static_cast<int>(s3.size()), "Stage 3: cluster sampling done");
             }
 
             // Stage 4: Scoring (in-place)
             scoreQualityAndDifficulty(s3);
             if (cb) {
-              cb("scoring", s3.size(), "Stage 4: quality/difficulty scoring done");
+              cb("scoring",static_cast<int>(s3.size()), "Stage 4: quality/difficulty scoring done");
             }
 
             // Stage 5: Curriculum stratified sampling
             auto s5 = stratifiedSample(s3, 0);
             if (cb) {
-              cb("curriculum_sampling", s5.size(), "Stage 5: curriculum sampling done");
+              cb("curriculum_sampling",static_cast<int>(s5.size()), "Stage 5: curriculum sampling done");
             }
 
             result.selected_samples = std::move(s5);
@@ -1208,7 +1208,7 @@ static SelfImprovementConfig parseSelfImprovementYAML(
         // indent==4: new list item (`- metric: ...`), indent==6: continuation fields
         if ((indent == 4 || indent == 6) &&
             (state == State::IN_ADAPTIVE_RULES || state == State::IN_RULE)) {
-            if (indent == 4 && content.size() >= 2 && content.substr(0, 2) == "- ") {
+            if (indent == 4 && static_cast<int>(content.size()) >= 2 && content.substr(0, 2) == "- ") {
                 // Start of a new rule
                 commitRule();
                 state = State::IN_RULE;

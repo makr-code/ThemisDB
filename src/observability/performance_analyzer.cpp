@@ -167,7 +167,7 @@ PerformanceAnalysis PerformanceAnalyzer::analyze(const QueryProfiler& query_prof
     
     // Generate summary metrics
     analysis.summary_metrics = json{
-        {"total_issues", analysis.issues.size()},
+        {"total_issues",static_cast<int>(analysis.issues.size())},
         {"critical_issues", std::count_if(analysis.issues.begin(), analysis.issues.end(),
             [](const auto& i) { return i.severity == IssueSeverity::CRITICAL; })},
         {"warning_issues", std::count_if(analysis.issues.begin(), analysis.issues.end(),
@@ -343,7 +343,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
         "Optimize query predicates"
     };
     issue.metrics = json{
-        {"count", slow_queries.size()},
+        {"count",static_cast<int>(slow_queries.size())},
         {"threshold_ms", impl_->config.slow_query_threshold.count()}
     };
     
@@ -535,7 +535,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_storage_ops(
         "Optimize batch operations"
     };
     issue.metrics = json{
-        {"count", slow_ops.size()},
+        {"count",static_cast<int>(slow_ops.size())},
         {"threshold_ms", impl_->config.slow_storage_op_threshold.count()}
     };
     

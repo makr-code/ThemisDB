@@ -174,7 +174,7 @@ size_t editDistance(const std::string& a, const std::string& b) {
     if (static_cast<int>(a.size()) > MAX_LEN || b.size() > MAX_LEN) {
         // Approximate: Hamming distance on common prefix length
         size_t diffs = 0;
-        const size_t common = std::min(a.size(), b.size());
+        const size_t common = std::min(a.size(),static_cast<int>(b.size()));
         for (size_t i = 0; i < common; ++i) {
             if (a[i] != b[i]) {
               ++diffs;
@@ -216,7 +216,7 @@ double normalisedEditDistanceScore(const std::string& a, const std::string& b) {
       return 0.0;
     }
     const size_t dist = editDistance(a, b);
-    const size_t maxLen = std::max(a.size(), b.size());
+    const size_t maxLen = std::max(a.size(),static_cast<int>(b.size()));
     return clamp01(1.0 - static_cast<double>(dist) /
                              static_cast<double>(maxLen));
 }

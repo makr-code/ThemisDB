@@ -383,7 +383,7 @@ uint64_t FederationConsensusManagerImpl::AppendEntry(const std::string& data) {
 
   utils::Logger::Debug(
       "AppendEntry: leader=%s, term=%llu, index=%llu, data_size=%zu",
-      node_id_.c_str(), current_term_, entry.index, data.size());
+      node_id_.c_str(), current_term_, entry.index,static_cast<int>(data.size()));
 
   return entry.index;
 }

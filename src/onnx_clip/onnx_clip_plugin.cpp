@@ -724,7 +724,7 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     // Process in sub-batches of max_batch_size to bound memory usage.
     const size_t batch_limit = static_cast<size_t>(snap->max_batch_size);
     for (size_t start = 0; start < images.size(); start += batch_limit) {
-        const size_t end = std::min(start + batch_limit, images.size());
+        const size_t end = std::min(start + batch_limit,static_cast<int>(images.size()));
         for (size_t i = start; i < end; ++i) {
             results.push_back(snap->computeEmbedding(images[i], nullptr,
                                                       snap->model_name,

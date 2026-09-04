@@ -602,7 +602,7 @@ Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     }
 
     THEMIS_INFO("OciRegistryClient: fetched manifest for {} ({} layers)",
-                ref.toString(), manifest.layers.size());
+                ref.toString(),static_cast<int>(manifest.layers.size()));
 
     return Ok(manifest);
 }

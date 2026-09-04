@@ -438,7 +438,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	
 	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
 	if (static_cast<int>(result.size()) > = 100) {
-		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors", result.size(), 0);
+		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors",static_cast<int>(result.size()), 0);
 	}
 	
 	return {Status::OK(), std::move(result)};
@@ -616,7 +616,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	}
 	
 	// Phase 1: Audit log for graph traversal
-	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs", order.size(), maxDepth);
+	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs",static_cast<int>(order.size()), maxDepth);
 	
 	return {Status::OK(), std::move(order)};
 }
@@ -847,7 +847,7 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 	for (const auto& [node, _] : inEdges_) {
 	  nodes.insert(node);
 	}
-	return nodes.size();
+	return static_cast<int>(nodes.size());
 }
 
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
@@ -1836,7 +1836,7 @@ GraphIndexManager::bfsAtTime(std::string_view startPk, int64_t timestamp_ms, int
 	}
 	
 	// Phase 1: Audit log for temporal query
-	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime", order.size(), maxDepth);
+	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime",static_cast<int>(order.size()), maxDepth);
 
 	return {Status::OK(), std::move(order)};
 }

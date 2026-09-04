@@ -389,7 +389,7 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
         if (!curl) {
             THEMIS_ERROR("OtlpExporter: ERR_OTLP_CURL_INIT_FAILED — curl_easy_init() returned null; "
                     "{} spans lost. Verify libcurl is correctly linked and the process has "
-                    "sufficient memory.", batch.size());
+                    "sufficient memory.",static_cast<int>(batch.size()));
             const auto n = static_cast<uint64_t>(batch.size());
             dropped_count_.fetch_add(n, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -470,7 +470,7 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
                 prom_exported_->Increment(static_cast<double>(n));
             }
 #endif
-            THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})", batch.size(), http_code);
+            THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})",static_cast<int>(batch.size()), http_code);
             if (owns_handle) {
                 if (tmp_headers) {
                     curl_slist_free_all(tmp_headers);

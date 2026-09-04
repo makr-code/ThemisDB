@@ -324,7 +324,7 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
     }
     
 #ifdef THEMIS_ENABLE_CUDA
-    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} GPUs", gpu_ids.size());
+    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} GPUs",static_cast<int>(gpu_ids.size()));
     
     int success_count = 0;
     int fail_count = 0;
@@ -401,7 +401,7 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
     return success_count > 0;
     
 #elif defined(THEMIS_ENABLE_HIP)
-    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} HIP GPUs", gpu_ids.size());
+    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} HIP GPUs",static_cast<int>(gpu_ids.size()));
     
     int success_count = 0;
     int fail_count = 0;

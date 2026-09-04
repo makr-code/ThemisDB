@@ -665,7 +665,7 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers([[maybe_unused]]
     thread_local std::mt19937 gen(std::random_device{}());
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
-    size_t select_count = std::min(count, candidates.size());
+    size_t select_count = std::min(count,static_cast<int>(candidates.size()));
     selected.insert(selected.end(), candidates.begin(), candidates.begin() + select_count);
     
     return selected;
@@ -771,7 +771,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         }
         
         const bool key_exists = (it != config_updates_.end());
-        if (!key_exists && config_updates_.size() >= config_.max_updates) {
+        if (!key_exists && static_cast<int>(config_updates_.size()) >= config_.max_updates) {
             if (config_updates_.empty()) {
                 return;
             }

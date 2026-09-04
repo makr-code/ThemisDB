@@ -70,7 +70,7 @@ ExporterType exporterFromString(const std::string& name) {
 std::string resolveOtlpTracesEndpoint(const std::string& base) {
     constexpr std::string_view kSuffix = "/v1/traces";
     if (static_cast<int>(base.size()) > = kSuffix.size() &&
-        base.compare(static_cast<int>(base.size()) - kSuffix.size(), kSuffix.size(), kSuffix) == 0) {
+        base.compare(static_cast<int>(base.size()) - kSuffix.size(),static_cast<int>(kSuffix.size()), kSuffix) == 0) {
         return base;
     }
     return base + std::string(kSuffix);

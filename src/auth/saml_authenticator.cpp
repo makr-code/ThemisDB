@@ -385,13 +385,13 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
             return false;
         }
         EVP_DigestInit_ex(mctx_ref, digest_md, nullptr);
-        EVP_DigestUpdate(mctx_ref, reference_xml.data(), reference_xml.size());
+        EVP_DigestUpdate(mctx_ref, reference_xml.data(),static_cast<int>(reference_xml.size()));
         EVP_DigestFinal_ex(mctx_ref, computed_digest.data(), &computed_len);
         EVP_MD_CTX_free(mctx_ref);
         computed_digest.resize(computed_len);
 
         if (static_cast<int>(computed_digest.size()) != claimed_digest.size()
-            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(), computed_digest.size()) != 0) {
+            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(),static_cast<int>(computed_digest.size())) != 0) {
             THEMIS_WARN("SAML: Reference DigestValue mismatch");
             return false;
         }
@@ -406,8 +406,8 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
 
     int verify_result = 0;
     if (EVP_DigestVerifyInit(mctx_sig, nullptr, sig_md, nullptr, pkey) == 1) {
-        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(), signed_info_c14n.size()) == 1) {
-            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(), sig_bytes.size());
+        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(),static_cast<int>(signed_info_c14n.size())) == 1) {
+            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(),static_cast<int>(sig_bytes.size()));
         }
     }
     EVP_MD_CTX_free(mctx_sig);
@@ -647,7 +647,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
         bool ok = false;
         if (EVP_PKEY_decrypt_init(rsa_ctx) > 0 && EVP_PKEY_CTX_set_rsa_padding(rsa_ctx, rsa_padding) > 0) {
             size_t key_len = 0;
-            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(), encrypted_key_bytes.size())
+            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(),static_cast<int>(encrypted_key_bytes.size()))
                 > 0) {
                 symmetric_key.resize(key_len);
                 if (EVP_PKEY_decrypt(rsa_ctx, symmetric_key.data(), &key_len, encrypted_key_bytes.data(),
@@ -743,7 +743,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     plaintext.resize(static_cast<size_t>(out1 + out2));
-    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((plaintext.data()), plaintext.size())));
+    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((plaintext.data()),static_cast<int>(plaintext.size()))));
 }
 
 // ============================================================================
@@ -781,7 +781,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                          "Base64 decode of SAMLResponse failed or produced empty output");
     }
-    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()), raw_bytes.size());
+    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()),static_cast<int>(raw_bytes.size()));
 
     // ----------------------------------------------------------------
     // Step 2: Parse XML

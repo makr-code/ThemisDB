@@ -63,7 +63,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::aggregate(
     for (const auto& [window_ts, window_values] : window_data) {
         result.timestamps.push_back(window_ts);
         result.values.push_back(
-            applyAggregate(window_values.data(), window_values.size(), func)
+            applyAggregate(window_values.data(),static_cast<int>(window_values.size()), func)
         );
     }
     
@@ -132,7 +132,7 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
         if (!window_values.empty()) {
             result.timestamps.push_back(timestamps[i]);
             result.values.push_back(
-                applyAggregate(window_values.data(), window_values.size(), func)
+                applyAggregate(window_values.data(),static_cast<int>(window_values.size()), func)
             );
         }
     }

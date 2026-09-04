@@ -94,7 +94,7 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
         
         rebuildFieldHints();
         
-        spdlog::info("RegexDetectionEngine: Initialized with {} patterns", patterns_.size());
+        spdlog::info("RegexDetectionEngine: Initialized with {} patterns",static_cast<int>(patterns_.size()));
         return true;
         
     } catch (const std::exception& e) {
@@ -126,7 +126,7 @@ bool RegexDetectionEngine::reload(const nlohmann::json& config) {
     
     rebuildFieldHints();
     
-    spdlog::info("RegexDetectionEngine: Reloaded {} patterns", patterns_.size());
+    spdlog::info("RegexDetectionEngine: Reloaded {} patterns",static_cast<int>(patterns_.size()));
     return true;
 }
 
@@ -302,7 +302,7 @@ size_t RegexDetectionEngine::maxPatternLength() const {
     // whose match spans straddle a chunk boundary are still detected.
     size_t max_len = 0;
     for (const auto& p : patterns_) {
-        if (p.enabled && p.regex_str.size() > max_len) {
+        if (p.enabled && static_cast<int>(p.regex_str.size()) > max_len) {
             max_len = p.regex_str.size();
         }
     }
@@ -427,7 +427,7 @@ void RegexDetectionEngine::loadEmbeddedDefaults() {
         redaction_modes_[PIIType::URL] = url.redaction_mode;
     }
     
-    spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns", patterns_.size());
+    spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns",static_cast<int>(patterns_.size()));
 }
 
 bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) {

@@ -129,7 +129,7 @@ ReplicationEventStream::getEvents(
 size_t ReplicationEventStream::bufferedEventCount() const
 {
     std::lock_guard<std::mutex> lock(buffer_mutex_);
-    return buffer_.size();
+    return static_cast<int>(buffer_.size());
 }
 
 // ---------------------------------------------------------------------------

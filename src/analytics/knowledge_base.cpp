@@ -310,7 +310,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
                 }
                 for (const auto& item : seq) {
                     TriplePattern tp = {};
-                    if (item.IsSequence() && item.size() >= 3) {
+                    if (item.IsSequence() && static_cast<int>(item.size()) >= 3) {
                         tp.subject   = item[0].as<std::string>("");
                         tp.predicate = item[1].as<std::string>("");
                         tp.object    = item[2].as<std::string>("");

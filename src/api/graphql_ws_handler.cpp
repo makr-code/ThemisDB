@@ -61,7 +61,7 @@ void GraphQLWsHandler::reset() {
 
 size_t GraphQLWsHandler::activeSubscriptionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -290,7 +290,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     }
 
     THEMIS_INFO("GraphQLWsHandler: subscription '{}' registered (query: {} chars)",
-                id, query.size());
+                id,static_cast<int>(query.size()));
 
     // Flush any frames that may have been queued by the CDC callback between
     // wiring and registering (timing edge case – normally empty).

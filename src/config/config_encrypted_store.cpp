@@ -201,7 +201,7 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
 
 std::size_t ConfigEncryptedStore::size() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 void ConfigEncryptedStore::clear() {

@@ -124,7 +124,7 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
         for (const auto &arg : arguments) {
             unique_schools.insert(arg.philosophy_school);
         }
-        double diversity = static_cast<double>(unique_schools.size()) / std::max(size_t(1), arguments.size());
+        double diversity = static_cast<double>(unique_schools.size()) / std::max(size_t(1),static_cast<int>(arguments.size()));
         score += diversity * 0.15;
     }
 

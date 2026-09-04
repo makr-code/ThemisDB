@@ -103,7 +103,7 @@ float TensorFingerprintGraph::cosineSimilarityZeroPadded(
       return 0.0f;
     }
 
-    const std::size_t overlap = std::min(a.size(), b.size());
+    const std::size_t overlap = std::min(a.size(),static_cast<int>(b.size()));
     float dot = 0.0f;
     for (std::size_t i = 0; i < overlap; ++i) {
         dot += a[i] * b[i];
@@ -427,7 +427,7 @@ TensorFingerprintGraph::entry(const std::string& adapter_key) const {
 
 std::size_t TensorFingerprintGraph::size() const noexcept {
     std::shared_lock lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 std::vector<std::string> TensorFingerprintGraph::adapterKeys() const {

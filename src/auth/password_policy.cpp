@@ -44,7 +44,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
         result.violations.push_back(msg.str());
     }
 
-    if (config_.max_length > 0 && password.size() > config_.max_length) {
+    if (config_.max_length > 0 && static_cast<int>(password.size()) > config_.max_length) {
         std::ostringstream msg = {};
         msg << "Password must not exceed " << config_.max_length << " characters";
         result.violations.push_back(msg.str());

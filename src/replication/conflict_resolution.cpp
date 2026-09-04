@@ -290,7 +290,7 @@ std::string computeMmChecksum(const MMWriteEntry& entry)
 {
     std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
     std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -410,7 +410,7 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
     // BATCH D FIX: Bounds check before access
     if (best_idx >= static_cast<int>(writes.size())) {
         THEMIS_ERROR("ThreeWayMergeResolver::selectBase: best_idx {} out of bounds (size {})",
-                    best_idx, writes.size());
+                    best_idx,static_cast<int>(writes.size()));
         return writes[0];
     }
     

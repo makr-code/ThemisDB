@@ -109,7 +109,7 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEven
     unsigned int digest_len = 0;
     EVP_MD_CTX *ctx         = EVP_MD_CTX_new();
     EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx, payload.data(), payload.size());
+    EVP_DigestUpdate(ctx, payload.data(),static_cast<int>(payload.size()));
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
     EVP_MD_CTX_free(ctx);
 
@@ -176,7 +176,7 @@ json AuditedImporter::ImmutableAuditLog::exportForSIEM(const std::string &format
 }
 
 size_t AuditedImporter::ImmutableAuditLog::size() const {
-    return events_.size();
+    return static_cast<int>(events_.size());
 }
 
 const std::vector<AuditedImporter::AuditEvent> &AuditedImporter::ImmutableAuditLog::events() const {

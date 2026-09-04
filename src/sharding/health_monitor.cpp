@@ -214,7 +214,7 @@ void HealthMonitor::setAutoFailoverEnabled([[maybe_unused]] bool enabled) {
 std::vector<FailoverEvent> HealthMonitor::getFailoverHistory([[maybe_unused]] size_t max_events) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    size_t count = std::min(max_events, failover_history_.size());
+    size_t count = std::min(max_events,static_cast<int>(failover_history_.size()));
     return std::vector<FailoverEvent>(
         failover_history_.end() - count,
         failover_history_.end()

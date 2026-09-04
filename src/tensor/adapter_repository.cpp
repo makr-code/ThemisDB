@@ -393,7 +393,7 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     if (exact_fn_copy) {
         try {
             auto results = exact_fn_copy(key, k, backend_);
-            std::fprintf(stderr, "[AR] exactSimilarityFn present for key='%s' -> returned=%zu\n", key.c_str(), results.size());
+            std::fprintf(stderr, "[AR] exactSimilarityFn present for key='%s' -> returned=%zu\n", key.c_str(),static_cast<int>(results.size()));
             if (ann_frontdoor_) {
                 index::AnnQueryContext context;
                 context.scope_id = key;

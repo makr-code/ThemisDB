@@ -85,7 +85,7 @@ bool DualConsensusOrchestrator::initialize(
     }
     
     spdlog::info("DualConsensusOrchestrator initialized: node={}, cluster_size={}",
-                node_id, cluster_nodes.size());
+                node_id,static_cast<int>(cluster_nodes.size()));
     
     return true;
 }
@@ -776,7 +776,7 @@ size_t DualConsensusOrchestrator::triggerFullSync() {
     }
     
     spdlog::info("DualConsensusOrchestrator: Full sync completed. Synced: {}/{}",
-                synced_count, inconsistent_keys.size());
+                synced_count,static_cast<int>(inconsistent_keys.size()));
     
     return synced_count;
 }

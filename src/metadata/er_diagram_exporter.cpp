@@ -105,7 +105,7 @@ std::string ERDiagramExporter::exportMermaid(
     }
 
     spdlog::debug("ERDiagramExporter: exportMermaid() produced {} entities, {} relationships",
-                  tables.size(), relationships.size());
+                  tables.size(),static_cast<int>(relationships.size()));
     return oss.str();
 }
 
@@ -156,7 +156,7 @@ std::string ERDiagramExporter::exportDOT(
     oss << "}\n";
 
     spdlog::debug("ERDiagramExporter: exportDOT() produced {} nodes, {} edges",
-                  tables.size(), relationships.size());
+                  tables.size(),static_cast<int>(relationships.size()));
     return oss.str();
 }
 
@@ -227,7 +227,7 @@ nlohmann::json ERDiagramExporter::exportJSON(
     result["edges"] = std::move(edges);
 
     spdlog::debug("ERDiagramExporter: exportJSON() produced {} nodes, {} edges",
-                  tables.size(), relationships.size());
+                  tables.size(),static_cast<int>(relationships.size()));
     return result;
 }
 

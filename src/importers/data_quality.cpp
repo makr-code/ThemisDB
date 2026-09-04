@@ -196,7 +196,7 @@ DataQualityFramework::QualityAssessor::generateQualityReport(const std::vector<I
 
     report.metadata = json{{"standard", "NIST SP 800-188"},
                            {"framework_version", "2.2.0"},
-                           {"tables_assessed", schemas.size()},
+                           {"tables_assessed",static_cast<int>(schemas.size())},
                            {"generation_timestamp", report.generation_timestamp}};
 
     // Build per-table sample index

@@ -59,7 +59,7 @@ std::string substitute(const std::string& tmpl,
     const std::string placeholder = "{" + key + "}";
     size_t pos = 0;
     while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-        result.replace(pos, placeholder.size(), value);
+        result.replace(pos,static_cast<int>(placeholder.size()), value);
         pos += value.size();
     }
     return result;
@@ -347,7 +347,7 @@ MultiHopResult MultiHopReasoner::reason(
         }
 
         // Early stopping: if this was the only sub-query, stop here
-        if (config_.early_stopping && sub_queries.size() == 1u) {
+        if (config_.early_stopping && static_cast<int>(sub_queries.size()) == 1u) {
             result.early_stopped = true;
             break;
         }

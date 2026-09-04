@@ -84,7 +84,7 @@ PIIDetector::PIIDetector(std::string config_path,
         initializeDefaultEngine();
     }
     
-    spdlog::info("PIIDetector: Initialized with {} engine(s)", engines_.size());
+    spdlog::info("PIIDetector: Initialized with {} engine(s)",static_cast<int>(engines_.size()));
 }
 
 bool PIIDetector::reload(const std::string& config_path) {
@@ -113,7 +113,7 @@ bool PIIDetector::reload(const std::string& config_path) {
         config_path_ = config_path;
     }
     
-    spdlog::info("PIIDetector: Reloaded {} engine(s) from {}", engines_.size(), path);
+    spdlog::info("PIIDetector: Reloaded {} engine(s) from {}",static_cast<int>(engines_.size()), path);
     return true;
 }
 
@@ -229,7 +229,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
     std::scoped_lock lock(mutex_);
 
     nlohmann::json metadata = {
-        {"total_engines", engines_.size()},
+        {"total_engines",static_cast<int>(engines_.size())},
         {"enabled_engines", 0},
         {"pki_verification_enabled", pki_client_ != nullptr},
         {"engines", nlohmann::json::array()}
@@ -420,7 +420,7 @@ void PIIDetector::initializeDefaultEngine() {
         }
     }
 
-    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)", engines_.size());
+    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)",static_cast<int>(engines_.size()));
 }
 
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {

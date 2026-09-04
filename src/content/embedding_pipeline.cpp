@@ -124,7 +124,7 @@ std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
     // overhead while staying within the documented batch_size ≤ 32 constraint.
     const int batch = config_.batch_size;
     for (size_t start = 0; start < texts.size(); start += static_cast<size_t>(batch)) {
-        size_t end = std::min(start + static_cast<size_t>(batch), texts.size());
+        size_t end = std::min(start + static_cast<size_t>(batch),static_cast<int>(texts.size()));
         for (size_t i = start; i < end; ++i) {
             results[i] = embedWithTimeout(texts[i]);
         }

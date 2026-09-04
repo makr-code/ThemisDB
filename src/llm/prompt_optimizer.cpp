@@ -30,7 +30,7 @@ OptimizationResult PromptOptimizer::optimize(
     EvaluationFunction eval_fn,
     ImprovementFunction improve_fn
 ) {
-    THEMIS_INFO("Starting prompt optimization with {} test cases", test_cases.size());
+    THEMIS_INFO("Starting prompt optimization with {} test cases",static_cast<int>(test_cases.size()));
     
     if (test_cases.empty()) {
         THEMIS_ERROR("Cannot optimize without test cases");

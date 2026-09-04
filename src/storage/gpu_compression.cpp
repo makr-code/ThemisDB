@@ -160,7 +160,7 @@ static uint64_t read_le64(const uint8_t* src) {
 
 /// Returns true if @p data starts with the GPU container magic bytes.
 static bool has_gpu_magic(const std::vector<uint8_t>& data) {
-    return data.size() >= kGpuMagicSize &&
+    return static_cast<int>(data.size()) >= kGpuMagicSize &&
            memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
 }
 
@@ -1147,7 +1147,7 @@ GpuCompressionResult GpuCompressionManager::compress(
 GpuCompressionResult GpuCompressionManager::compress(
     const std::vector<uint8_t>& data, GpuCompressionAlgorithm algorithm)
 {
-    return compress(data.data(), data.size(), algorithm);
+    return compress(data.data(),static_cast<int>(data.size()), algorithm);
 }
 
 // ============================================================================
@@ -1180,7 +1180,7 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     // threshold check so we compare against uncompressed bytes (not the
     // compressed payload size).
     size_t effective_size = compressed.size();
-    if (is_gpu_fmt && compressed.size() >= kGpuMagicSize + 16) {
+    if (is_gpu_fmt && static_cast<int>(compressed.size()) >= kGpuMagicSize + 16) {
         effective_size = static_cast<size_t>(
             read_le64(compressed.data() + kGpuMagicSize + 8)); // orig_size field
     }
@@ -1434,7 +1434,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
 {
     std::string decompressed = {};
     bool ok = snappy::Uncompress(
-        reinterpret_cast<const char*>(data.data()), data.size(),
+        reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()),
         &decompressed);
     // prompt_injection scanner alert: `decompressed` is raw binary payload
     // materialized from Snappy and never executed as model/system prompt text.

@@ -385,7 +385,7 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
     std::vector<std::pair<float, VectorID>> best_candidates;
     
     // Greedy search
-    while (!beam.empty() && best_candidates.size() < static_cast<size_t>(k)) {
+    while (!beam.empty() && static_cast<int>(best_candidates.size()) < static_cast<size_t>(k)) {
         auto [dist, current_id] = beam.top();
         beam.pop();
         
@@ -426,7 +426,7 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
 VantagePointTree::VantagePointTree(const std::vector<std::pair<VectorID, std::vector<float>>>& vectors) {
     if (!vectors.empty()) {
         std::vector<std::pair<VectorID, std::vector<float>>> vec_copy = vectors;
-        root_ = build_tree(vec_copy, 0, vec_copy.size());
+        root_ = build_tree(vec_copy, 0,static_cast<int>(vec_copy.size()));
     }
 }
 

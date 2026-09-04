@@ -757,7 +757,7 @@ WebAuthnAuthenticator::completeAuthentication(const nlohmann::json &cred, const 
 
 std::string WebAuthnAuthenticator::generateChallenge() {
     std::array<unsigned char, 32> raw{};
-    fillRandomBytes(raw.data(), raw.size());
+    fillRandomBytes(raw.data(),static_cast<int>(raw.size()));
 
     const std::string b64 = base64UrlEncode(std::vector<uint8_t>(raw.begin(), raw.end()));
 
@@ -809,13 +809,13 @@ void WebAuthnAuthenticator::fillRandomBytes(unsigned char *buf, std::size_t len)
 
 std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::vector<uint8_t> &data) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(data.data(), data.size(), digest.data());
+    SHA256(data.data(),static_cast<int>(data.size()), digest.data());
     return std::vector<uint8_t>(digest.begin(), digest.end());
 }
 
 std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::string &data) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(reinterpret_cast<const unsigned char *>(data.data()), data.size(), digest.data());
+    SHA256(reinterpret_cast<const unsigned char *>(data.data()),static_cast<int>(data.size()), digest.data());
     return std::vector<uint8_t>(digest.begin(), digest.end());
 }
 
@@ -824,7 +824,7 @@ std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::string &data) {
 // ============================================================================
 
 std::string WebAuthnAuthenticator::base64UrlEncode(const std::vector<uint8_t> &data) {
-    return base64UrlEncodeImpl(data.data(), data.size());
+    return base64UrlEncodeImpl(data.data(),static_cast<int>(data.size()));
 }
 
 std::vector<uint8_t> WebAuthnAuthenticator::base64UrlDecode(const std::string &input) {
@@ -898,7 +898,7 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
 
     const std::vector<uint8_t> cred_id_bytes(auth_data_bytes.begin() + off,
                                              auth_data_bytes.begin() + off + cred_id_len);
-    ad.credential_id = base64UrlEncodeImpl(cred_id_bytes.data(), cred_id_bytes.size());
+    ad.credential_id = base64UrlEncodeImpl(cred_id_bytes.data(),static_cast<int>(cred_id_bytes.size()));
     off += cred_id_len;
 
     // Remainder is the CBOR-encoded COSE public key
@@ -956,7 +956,7 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t> &cose_key_bytes)
             throw std::runtime_error("OSSL_PARAM_BLD_new failed");
         }
         OSSL_PARAM_BLD_push_utf8_string(bld, OSSL_PKEY_PARAM_GROUP_NAME, "P-256", 0);
-        OSSL_PARAM_BLD_push_octet_string(bld, OSSL_PKEY_PARAM_PUB_KEY, point.data(), point.size());
+        OSSL_PARAM_BLD_push_octet_string(bld, OSSL_PKEY_PARAM_PUB_KEY, point.data(),static_cast<int>(point.size()));
         OSSL_PARAM *params = OSSL_PARAM_BLD_to_param(bld);
         OSSL_PARAM_BLD_free(bld);
         if (!params) {
@@ -1074,8 +1074,8 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     }
 
     const bool ok = EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1
-                    && EVP_DigestVerifyUpdate(ctx, msg.data(), msg.size()) == 1
-                    && EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size()) == 1;
+                    && EVP_DigestVerifyUpdate(ctx, msg.data(),static_cast<int>(msg.size())) == 1
+                    && EVP_DigestVerifyFinal(ctx, signature_bytes.data(),static_cast<int>(signature_bytes.size())) == 1;
 
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);

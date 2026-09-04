@@ -317,7 +317,7 @@ size_t GPUMemoryAllocator::allocated_memory() const noexcept {
 }
 
 size_t GPUMemoryAllocator::allocation_count() const noexcept {
-    return allocations_.size();
+    return static_cast<int>(allocations_.size());
 }
 
 void GPUMemoryAllocator::cleanup() noexcept {

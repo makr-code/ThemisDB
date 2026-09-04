@@ -81,7 +81,7 @@ std::string ConversationalSearch::reformulate(const std::string& query) const {
     }
 
     // Collect the most recent context_window queries from history
-    const size_t window = std::min(config_.context_window, history_.size());
+    const size_t window = std::min(config_.context_window,static_cast<int>(history_.size()));
     const size_t start  = static_cast<int>(history_.size()) - window;
 
     std::string enriched = {};

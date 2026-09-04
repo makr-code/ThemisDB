@@ -144,7 +144,7 @@ static bool compareString(const std::string& lhs,
                 return static_cast<bool>(lhs.size()  < static_cast<int>(= pattern.size())) &&
                        lhs.substr(static_cast<int>(lhs.size()) - pattern.size()) == pattern;
             if (suffix_wild)
-                return lhs.substr(0, pattern.size()) == pattern;
+                return lhs.substr(0,static_cast<int>(pattern.size())) == pattern;
             return lhs == pattern;
         }
         default: return false;
@@ -852,8 +852,8 @@ private:
           return base;
         }
 
-        size_t start = std::min(query.offset, base.rows.size());
-        size_t end   = std::min(start + query.limit, base.rows.size());
+        size_t start = std::min(query.offset,static_cast<int>(base.rows.size()));
+        size_t end   = std::min(start + query.limit,static_cast<int>(base.rows.size()));
 
         QueryResult result;
         result.rows = std::vector<QueryRow>(base.rows.begin() + static_cast<ptrdiff_t>(start),
@@ -1035,7 +1035,7 @@ private:
                         QueryRow out;
                         out.column_names.push_back(agg_fn + "_result");
                         out.values.push_back(QueryValue{applyAggFunction(
-                            agg_fn, acc, base.rows.size())});
+                            agg_fn, acc,static_cast<int>(base.rows.size()))});
                         QueryResult r;
                         r.rows.push_back(std::move(out));
                         return r;

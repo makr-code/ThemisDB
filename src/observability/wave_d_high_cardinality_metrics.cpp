@@ -81,7 +81,7 @@ ShardLatencyHistogram::LatencyQuantiles ShardLatencyHistogram::getQuantiles(
 
 size_t ShardLatencyHistogram::getCardinality() const {
     std::shared_lock lock(mutex_);
-    return shard_latencies_.size();
+    return static_cast<int>(shard_latencies_.size());
 }
 
 void ShardLatencyHistogram::reset() {
@@ -148,7 +148,7 @@ double ReplicaLagTracker::getMaxLag() const {
 
 size_t ReplicaLagTracker::getCardinality() const {
     std::shared_lock lock(mutex_);
-    return replica_lags_.size();
+    return static_cast<int>(replica_lags_.size());
 }
 
 void ReplicaLagTracker::reset() {

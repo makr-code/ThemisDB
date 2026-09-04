@@ -72,7 +72,7 @@ uint32_t SecretManager::storeSecret(const std::string& name,
             "use rotateSecret() to change its value");
     }
 
-    if (policy_.max_secrets > 0 && secrets_.size() >= policy_.max_secrets) {
+    if (policy_.max_secrets > 0 && static_cast<int>(secrets_.size()) >= policy_.max_secrets) {
         throw std::length_error(
             "SecretManager: max_secrets limit (" +
             std::to_string(policy_.max_secrets) + ") reached");

@@ -41,7 +41,7 @@ bool ModelMetadataCache::remove(const std::string& model_id) {
 }
 
 size_t ModelMetadataCache::size() const {
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 void ModelMetadataCache::clear() {

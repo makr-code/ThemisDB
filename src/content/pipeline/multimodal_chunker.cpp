@@ -101,7 +101,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
             chunks.push_back(std::move(chunk));
             
             // Start new chunk with overlap
-            if (config_.overlap > 0 && current_chunk.size() > config_.overlap) {
+            if (config_.overlap > 0 && static_cast<int>(current_chunk.size()) > config_.overlap) {
                 current_chunk = current_chunk.substr(static_cast<int>(current_chunk.size()) - config_.overlap);
                 current_chunk_start = start_offset - config_.overlap;  // Account for overlap
             } else {

@@ -215,7 +215,7 @@ double computeInjectionDensity(
     // Count distinct offsets flagged vs total characters.
     size_t flagged_chars = 0;
     for (const auto& f : findings) {
-        flagged_chars += std::max<size_t>(1, f.matched_fragment.size());
+        flagged_chars += std::max<size_t>(1,static_cast<int>(f.matched_fragment.size()));
     }
     return static_cast<double>(flagged_chars) /
            static_cast<double>(text.size());
@@ -360,7 +360,7 @@ std::string PromptInjectionSanitizer::sanitize(
 
     // ── Length cap ────────────────────────────────────────────────────────
     std::string out = text;
-    if (cfg.max_document_length > 0 && out.size() > cfg.max_document_length) {
+    if (cfg.max_document_length > 0 && static_cast<int>(out.size()) > cfg.max_document_length) {
         out.resize(cfg.max_document_length);
     }
 
@@ -375,7 +375,7 @@ std::string PromptInjectionSanitizer::sanitize(
         for (const auto& seq : bidi_seqs) {
             size_t pos = 0;
             while ((pos = out.find(seq, pos)) != std::string::npos) {
-                out.replace(pos, seq.size(), "");
+                out.replace(pos,static_cast<int>(seq.size()), "");
             }
         }
     }

@@ -272,7 +272,7 @@ void TSQueryOptimizer::clearCache() {
 
 size_t TSQueryOptimizer::cacheSize() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    return plan_cache_.size();
+    return static_cast<int>(plan_cache_.size());
 }
 
 // ========== Index-Aware Query Planning ==========

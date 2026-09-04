@@ -781,7 +781,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string &key
             ChangeEvent event = ChangeEvent::fromJson([[maybe_unused]] j);
 
             // Skip events whose key does not start with key_prefix
-            if (event.key.compare(0, key_prefix.size(), key_prefix) != 0) {
+            if (event.key.compare(0,static_cast<int>(key_prefix.size()), key_prefix) != 0) {
                 continue;
             }
 

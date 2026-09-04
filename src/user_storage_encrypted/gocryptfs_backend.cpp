@@ -509,7 +509,7 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
         auto n = timed_io.write(ptr + written, static_cast<size_t>(total - written));
         if (!n.has_value()) {
             // Timeout or I/O error
-            secureZero(hex_key.data(), hex_key.size());
+            secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
             if (errno == EAGAIN) {
                 return Result<void>::error("Timeout: write to key stdin pipe blocked");
             }
@@ -520,14 +520,14 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
               continue;
             }
             // Securely clear before returning error.
-            secureZero(hex_key.data(), hex_key.size());
+            secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
             return Result<void>::error("Failed to write key to stdin pipe");
         }
         written += n.value();
     }
 
     // Securely clear key material from the stack buffer.
-    secureZero(hex_key.data(), hex_key.size());
+    secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
     return Result<void>();
 #endif
 }

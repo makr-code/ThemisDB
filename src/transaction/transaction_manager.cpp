@@ -196,7 +196,7 @@ void TransactionManager::deadlockDetectorLoop() {
         std::vector<TransactionId> cycle = {};
 
         if (detectDeadlockCycle(cycle)) {
-            THEMIS_WARN("Deadlock detected involving {} transactions", cycle.size());
+            THEMIS_WARN("Deadlock detected involving {} transactions",static_cast<int>(cycle.size()));
             resolveDeadlock(cycle);
             total_deadlocks_.fetch_add(1, std::memory_order_relaxed);
         }
@@ -809,8 +809,8 @@ size_t TransactionManager::abortTenantTransactions(std::string_view tenant_id) {
         rollbackTransaction(txn_id);
     }
 
-    THEMIS_INFO("Aborted {} transaction(s) for tenant '{}'", to_abort.size(), tenant_id);
-    return to_abort.size();
+    THEMIS_INFO("Aborted {} transaction(s) for tenant '{}'",static_cast<int>(to_abort.size()), tenant_id);
+    return static_cast<int>(to_abort.size());
 }
 
 // ── Transaction Timeout / Auto-Rollback ──────────────────────────────────────
@@ -871,7 +871,7 @@ size_t TransactionManager::abortTimedOutTransactions() {
         total_timed_out_.fetch_add(1, std::memory_order_relaxed);
     }
 
-    return expired.size();
+    return static_cast<int>(expired.size());
 }
 
 // Direct transaction (legacy API)
@@ -1613,7 +1613,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
         }
     }
 
-    THEMIS_DEBUG("bulkPutEntities: table={} count={}", table, entities.size());
+    THEMIS_DEBUG("bulkPutEntities: table={} count={}", table,static_cast<int>(entities.size()));
     return Status::OK();
 }
 
@@ -1655,7 +1655,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
         }
     }
 
-    THEMIS_DEBUG("bulkEraseEntities: table={} count={}", table, pks.size());
+    THEMIS_DEBUG("bulkEraseEntities: table={} count={}", table,static_cast<int>(pks.size()));
     return Status::OK();
 }
 

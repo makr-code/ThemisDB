@@ -105,7 +105,7 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
     // Remove the dimension-1 core by contracting it into its right neighbour
     // (if there is one).  This keeps the result as a proper (d-1)-dimensional TT.
     for (std::size_t k = 0; k < result.cores.size(); ) {
-        if (result.cores[k].n == 1 && result.cores.size() > 1) {
+        if (result.cores[k].n == 1 && static_cast<int>(result.cores.size()) > 1) {
             // Absorb core k into core k+1 (if exists) or k-1
             if (k + 1 < result.cores.size()) {
                 const auto& ck  = result.cores[k];

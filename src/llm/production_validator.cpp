@@ -374,7 +374,7 @@ bool ProductionValidator::validateQuality(const std::string& model_id) {
     
     double score = (tests.size() > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
     
-    spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed, tests.size(), score);
+    spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed,static_cast<int>(tests.size()), score);
     
     return score >= 80.0;  // 80% threshold
 }
@@ -689,7 +689,7 @@ bool ProductionValidator::testModelLoading() {
         // A freshly constructed loader should list no models.
         auto loaded_models = loader.listLoadedModels();
         passed = loaded_models.empty();
-        spdlog::info("  LazyModelLoader instantiated; loaded_models={}", loaded_models.size());
+        spdlog::info("  LazyModelLoader instantiated; loaded_models={}",static_cast<int>(loaded_models.size()));
     } catch (const std::exception& e) {
         spdlog::error("LazyModelLoader construction failed (context: model loader initialization): {}", e.what());
         passed = false;
@@ -1673,7 +1673,7 @@ bool IntegrationTestSuite::testBurstTraffic() {
         return false;
     }
 
-    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)", ids.size(), rejected);
+    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)",static_cast<int>(ids.size()), rejected);
 
     for (const auto& id : ids) {
       scheduler.cancelRequest(id);
@@ -1736,7 +1736,7 @@ IntegrationTestSuite::runAllTests() {
                                   [](const auto& r) { return r.passed; });
     
     spdlog::info("=== Integration Tests: {}/{} passed ===",
-                 passed, results.size());
+                 passed,static_cast<int>(results.size()));
     
     return results;
 }

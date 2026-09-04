@@ -322,7 +322,7 @@ void PlanCache::put(const std::string&                query,
         table_index_[tbl].push_back(fp);
     }
 
-    THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16), tables.size());
+    THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16),static_cast<int>(tables.size()));
 }
 
 bool PlanCache::recordExecutionFailure(const std::string& query,
@@ -410,9 +410,9 @@ size_t PlanCache::evictExpired() {
     }
 
     if (!to_remove.empty()) {
-        THEMIS_DEBUG("PlanCache evicted {} expired plan(s)", to_remove.size());
+        THEMIS_DEBUG("PlanCache evicted {} expired plan(s)",static_cast<int>(to_remove.size()));
     }
-    return to_remove.size();
+    return static_cast<int>(to_remove.size());
 }
 
 // =============================================================================

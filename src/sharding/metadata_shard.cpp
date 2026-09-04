@@ -567,7 +567,7 @@ nlohmann::json MetadataShardRouter::getStatistics() const {
     std::lock_guard<std::mutex> lock(shards_mutex_);
     
     nlohmann::json stats = {
-        {"num_shards", shards_.size()},
+        {"num_shards",static_cast<int>(shards_.size())},
         {"total_operations", total_operations_.load()},
         {"routing_errors", routing_errors_.load()}
     };
@@ -659,7 +659,7 @@ bool MetadataShard::recoverFromWAL() {
             }
             
             last_applied_lsn_ = snapshot->last_applied_lsn;
-            spdlog::info("Restored {} partitions from snapshot", storage_.size());
+            spdlog::info("Restored {} partitions from snapshot",static_cast<int>(storage_.size()));
         } else {
             spdlog::info("No snapshot found, starting with empty metadata");
             last_applied_lsn_ = LSN(0, 0);

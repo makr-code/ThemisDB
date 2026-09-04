@@ -286,7 +286,7 @@ private:
             spdlog::error("Failed to create weights file: {}", weights_path.string());
             return false;
         }
-        weights_file.write(reinterpret_cast<const char*>(weights.data.data()), weights.data.size());
+        weights_file.write(reinterpret_cast<const char*>(weights.data.data()),static_cast<int>(weights.data.size()));
         weights_file.close();
         
         // Save metadata
@@ -301,7 +301,7 @@ private:
         metadata_file.close();
         
         spdlog::info("Saved adapter {} to filesystem ({} bytes)", 
-                     adapter_id, weights.data.size());
+                     adapter_id,static_cast<int>(weights.data.size()));
         
         // Create version if enabled
         if (config_.enable_versioning) {

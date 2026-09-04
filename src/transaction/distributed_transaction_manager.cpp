@@ -338,7 +338,7 @@ DistributedTransactionManager::beginDistributed(
 
     ++stat_total_;
     THEMIS_DEBUG("DistributedTransactionManager [{}] beginDistributed txn={} participants={}",
-                 coordinator_id_, txn_id, participants.size());
+                 coordinator_id_, txn_id,static_cast<int>(participants.size()));
     return txn_id;
 }
 
@@ -650,7 +650,7 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
             ++stat_aborted_;
         }
 
-        return pending.size();
+        return static_cast<int>(pending.size());
     }
 
     THEMIS_INFO("DistributedTransactionManager [{}] starting in-doubt recovery", coordinator_id_);
@@ -719,7 +719,7 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
         if (!parts.empty()) {
             THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting ABORT for "
                         "in-doubt txn={} to {} in-memory participants",
-                        coordinator_id_, tid, parts.size());
+                        coordinator_id_, tid,static_cast<int>(parts.size()));
             runPhase2Unlocked(tid, parts, /*do_commit=*/false);
 
             std::lock_guard<std::mutex> lock(mutex_);
@@ -845,7 +845,7 @@ size_t DistributedTransactionManager::checkTimeouts() {
         ++stat_timeout_aborts_;
     }
 
-    return timed_out.size();
+    return static_cast<int>(timed_out.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1512,7 +1512,7 @@ void DistributedTransactionManager::batchFlushLoop() {
         }
 
         THEMIS_DEBUG("DistributedTransactionManager [{}] batch-flush: {} transactions",
-                     coordinator_id_, batch.size());
+                     coordinator_id_,static_cast<int>(batch.size()));
 
         // Execute Phase-1 directly in the flush thread.
         // runPhase1Unlocked() already parallelizes participant calls via the

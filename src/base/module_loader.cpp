@@ -614,7 +614,7 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
 
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-    spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
+    spdlog::info("Unloading all modules ({} loaded)",static_cast<int>(loadedModules_.size()));
     
     auto& auditor = PluginSecurityAuditor::instance();
     uint64_t now = static_cast<uint64_t>(std::time(nullptr));
@@ -1195,7 +1195,7 @@ bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResul
         return true;  // No health checks = pass
     }
     
-    spdlog::info("Running {} health checks for module: {}", healthChecks_.size(), module.name);
+    spdlog::info("Running {} health checks for module: {}",static_cast<int>(healthChecks_.size()), module.name);
     
     for (const auto& [checkName, checkFunc] : healthChecks_) {
         auto startTime = std::chrono::steady_clock::now();

@@ -69,7 +69,7 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
         THEMIS_WARN("DeliveryTracker: consumer '{}' pending limit ({}) would be exceeded "
                     "(current={}, adding={}); rejecting delivery",
                     consumer_id, config_.max_pending_per_consumer,
-                    state.pending.size(), events.size());
+                    state.pending.size(),static_cast<int>(events.size()));
         return false;
     }
 
@@ -84,7 +84,7 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
     state.total_delivered += events.size();
 
     THEMIS_DEBUG("DeliveryTracker: tracked {} event(s) for consumer '{}' (pending={})",
-                 events.size(), consumer_id, state.pending.size());
+                 events.size(), consumer_id,static_cast<int>(state.pending.size()));
     return true;
 }
 
@@ -106,7 +106,7 @@ bool DeliveryTracker::acknowledge(const std::string& consumer_id, uint64_t seque
     state.total_acknowledged++;
 
     THEMIS_DEBUG("DeliveryTracker: consumer '{}' acknowledged sequence {} (pending={})",
-                 consumer_id, sequence, state.pending.size());
+                 consumer_id, sequence,static_cast<int>(state.pending.size()));
     return true;
 }
 
@@ -133,7 +133,7 @@ size_t DeliveryTracker::acknowledgeUpTo(const std::string& consumer_id,
 
     THEMIS_DEBUG("DeliveryTracker: consumer '{}' cumulative-acked up to seq {} "
                  "(removed={}, pending={})",
-                 consumer_id, up_to_sequence, removed, state.pending.size());
+                 consumer_id, up_to_sequence, removed,static_cast<int>(state.pending.size()));
     return removed;
 }
 
@@ -237,7 +237,7 @@ std::vector<ConsumerDeliveryStats> DeliveryTracker::getAllStats() const {
 
 size_t DeliveryTracker::consumerCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return consumers_.size();
+    return static_cast<int>(consumers_.size());
 }
 
 // ===== Background Redelivery Thread =====

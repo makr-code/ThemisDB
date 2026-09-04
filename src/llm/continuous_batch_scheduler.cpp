@@ -265,7 +265,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     }
     
     // Then, process waiting requests (prefill)
-    while (!waiting_queue_.empty() && batch.size() < config_.max_batch_size) {
+    while (!waiting_queue_.empty() && static_cast<int>(batch.size()) < config_.max_batch_size) {
         auto req = waiting_queue_.top();
         waiting_queue_.pop();
         
@@ -294,7 +294,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     
     // Update stats
     stats_.current_batch_size = batch.size();
-    stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
+    stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen,static_cast<int>(batch.size()));
     stats_.active_requests = active_requests_.size();
     stats_.current_queue_depth = static_cast<int>(waiting_queue_.size()) + active_requests_.size();
     
@@ -327,7 +327,7 @@ void ContinuousBatchScheduler::processBatchResults(
     
     if (static_cast<int>(batch.size()) != responses.size()) {
         spdlog::error("Batch size mismatch: {} requests, {} responses",
-                      batch.size(), responses.size());
+                      batch.size(),static_cast<int>(responses.size()));
         return;
     }
     

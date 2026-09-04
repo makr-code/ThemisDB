@@ -65,7 +65,7 @@ std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
     std::lock_guard<std::mutex> lock(mutex_);
     if (incidents_.empty()) return {};
     std::vector<TsIncident> result(incidents_.rbegin(), incidents_.rend());
-    if (max_count > 0 && result.size() > max_count) {
+    if (max_count > 0 && static_cast<int>(result.size()) > max_count) {
         result.resize(max_count);
     }
     return result;

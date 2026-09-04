@@ -121,7 +121,7 @@ void GeoIndexHooks::onEntityPut(
         
         if (likely_json) {
             try {
-                std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
+                std::string blob_str(reinterpret_cast<const char*>(blob.data()),static_cast<int>(blob.size()));
                 j = nlohmann::json::parse(blob_str);
             } catch (const nlohmann::json::exception &) {
                 throw;
@@ -288,7 +288,7 @@ bool GeoIndexHooks::onEntityPutAtomic(
 
     try {
         // Parse blob as JSON to extract geometry field
-        std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
+        std::string blob_str(reinterpret_cast<const char*>(blob.data()),static_cast<int>(blob.size()));
         auto j = json::parse(blob_str);
 
         // Look for geometry field
@@ -400,7 +400,7 @@ bool GeoIndexHooks::onEntityDeleteAtomic(
 
     try {
         // Parse old blob to extract geometry and compute sidecar
-        std::string blob_str(reinterpret_cast<const char*>(old_blob.data()), old_blob.size());
+        std::string blob_str(reinterpret_cast<const char*>(old_blob.data()),static_cast<int>(old_blob.size()));
         auto j = json::parse(blob_str);
 
         // Look for geometry field

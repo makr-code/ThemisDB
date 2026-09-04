@@ -150,7 +150,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     std::vector<uint8_t> salt;  // Empty salt
     kek_ = utils::HKDFHelper::derive(pubkey_bytes, salt, info, 32);
     
-    spdlog::info("PKIKeyProvider: KEK derived from certificate public key ({} bytes)", kek_.size());
+    spdlog::info("PKIKeyProvider: KEK derived from certificate public key ({} bytes)",static_cast<int>(kek_.size()));
     
     // Load or create initial DEK
     loadOrCreateDEK(current_dek_version_);

@@ -61,7 +61,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     // Must start with "jdbc:"
     const std::string prefix = "jdbc:";
     if (static_cast<int>(url.size()) <= prefix.size() ||
-        url.substr(0, prefix.size()) != prefix) {
+        url.substr(0,static_cast<int>(prefix.size())) != prefix) {
         return result;
     }
 

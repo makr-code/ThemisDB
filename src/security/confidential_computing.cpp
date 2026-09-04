@@ -240,7 +240,7 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
 std::vector<uint8_t> sha256(const std::vector<uint8_t>& data)
 {
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
-    SHA256(data.data(), data.size(), digest.data());
+    SHA256(data.data(),static_cast<int>(data.size()), digest.data());
     return digest;
 }
 
@@ -463,7 +463,7 @@ protected:
         // On non-driver systems return zeros so seal/unseal still work.
         std::vector<uint8_t> zeros(64, 0);
         auto rpt = getAttestationReport(zeros);
-        if (!rpt.raw_report.empty() && rpt.raw_report.size() >= 176) {
+        if (!rpt.raw_report.empty() && static_cast<int>(rpt.raw_report.size()) >= 176) {
             // MRTD is at offset 128, length 48 bytes in the TDREPORT structure
             std::vector<uint8_t> mrtd(rpt.raw_report.begin() + 128,
                                       rpt.raw_report.begin() + 176);
@@ -564,7 +564,7 @@ protected:
         if (tee_type_ == TeeType::AMD_SEV_SNP) {
             std::vector<uint8_t> zeros(64, 0);
             auto rpt = getAttestationReport(zeros);
-            if (!rpt.raw_report.empty() && rpt.raw_report.size() >= 0x60 + 48) {
+            if (!rpt.raw_report.empty() && static_cast<int>(rpt.raw_report.size()) >= 0x60 + 48) {
                 std::vector<uint8_t> meas(rpt.raw_report.begin() + 0x60,
                                           rpt.raw_report.begin() + 0x60 + 48);
                 return sha256(meas);

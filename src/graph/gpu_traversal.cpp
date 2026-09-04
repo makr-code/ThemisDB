@@ -310,7 +310,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
                 result.distances[id_to_vertex_[vid]] = entry.first;
                 ++result.nodes_explored;
 
-                if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
+                if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
                     result.truncated = true;
                     break;
                 }
@@ -339,7 +339,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
             result.distances[id_to_vertex_[v]] = dist[v];
             ++result.nodes_explored;
 
-            if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
+            if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
                 result.truncated = true;
                 break;
             }
@@ -464,7 +464,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
         result.distances[id_to_vertex_[cur]] = disc_order[cur];
         ++result.nodes_explored;
 
-        if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
+        if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
             result.truncated = true;
             break;
         }

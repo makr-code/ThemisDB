@@ -84,7 +84,7 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
     std::vector<std::pair<std::string,size_t>> tvec(table_counts.begin(), table_counts.end());
     std::sort(tvec.begin(), tvec.end(),
               [](const auto& a, const auto& b){ return a.second > b.second; });
-    for (size_t i = 0; i < std::min<size_t>(3, tvec.size()); ++i)
+    for (size_t i = 0; i < std::min<size_t>(3,static_cast<int>(tvec.size())); ++i)
         profile.hot_tables.push_back(tvec[i].first);
 
     // Classification heuristics

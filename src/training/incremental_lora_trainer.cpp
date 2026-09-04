@@ -294,7 +294,7 @@ public:
                 double epoch_loss = 0.0;
                 size_t steps_in_epoch = 0;
 
-                size_t n = std::max<size_t>(1, training_data.size());
+                size_t n = std::max<size_t>(1,static_cast<int>(training_data.size()));
                 for (size_t i = 0; i < n; i += std::max<size_t>(1, config_.batch_size)) {
                     // Real LoRA weight manipulation:
                     //   1. Create input/target batch (from training_data or synthetic)

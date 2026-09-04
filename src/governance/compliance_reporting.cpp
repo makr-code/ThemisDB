@@ -275,7 +275,7 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     result.total_resources_checked = static_cast<int>(resources.size());
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
-                 resources.size(), actions.size());
+                 resources.size(),static_cast<int>(actions.size()));
     
     for (const auto& resource : resources) {
         bool is_covered = false;
@@ -315,7 +315,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     std::vector<OverlapResult> overlaps;
     auto all_rules = policy_mgr.listRules();
     
-    THEMIS_DEBUG("Detecting overlaps among {} policy rules", all_rules.size());
+    THEMIS_DEBUG("Detecting overlaps among {} policy rules",static_cast<int>(all_rules.size()));
     
     // Group rules by resource and action patterns
     std::unordered_map<std::string, std::vector<std::string>> pattern_map;
@@ -348,7 +348,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
         }
     }
     
-    THEMIS_INFO("Detected {} overlapping patterns", overlaps.size());
+    THEMIS_INFO("Detected {} overlapping patterns",static_cast<int>(overlaps.size()));
     
     return overlaps;
 }
@@ -359,7 +359,7 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
 ) const {
     std::vector<std::string> gaps;
 
-    THEMIS_DEBUG("Finding gaps for {} expected resources", expected_resources.size());
+    THEMIS_DEBUG("Finding gaps for {} expected resources",static_cast<int>(expected_resources.size()));
 
     // Consider explicit-action rules when evaluating resource-level coverage.
     const auto action_candidates = collect_action_candidates(policy_mgr);
@@ -374,7 +374,7 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
         }
     }
 
-    THEMIS_INFO("Found {} resource gaps", gaps.size());
+    THEMIS_INFO("Found {} resource gaps",static_cast<int>(gaps.size()));
 
     return gaps;
 }
@@ -479,7 +479,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
     std::vector<ComplianceGap> gaps;
     const auto action_candidates = collect_action_candidates(policy_mgr);
     
-    THEMIS_DEBUG("Detecting compliance gaps for {} requirements", requirements_snapshot.size());
+    THEMIS_DEBUG("Detecting compliance gaps for {} requirements",static_cast<int>(requirements_snapshot.size()));
     
     for (const auto& req : requirements_snapshot) {
         if (!checkRequirement(req, policy_mgr)) {
@@ -546,7 +546,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
         }
     }
     
-    THEMIS_INFO("Detected {} compliance gaps", gaps.size());
+    THEMIS_INFO("Detected {} compliance gaps",static_cast<int>(gaps.size()));
     
     return gaps;
 }
@@ -614,7 +614,7 @@ bool ComplianceGapDetector::loadRequirements(const std::string& path) {
             }
         }
         
-        THEMIS_INFO("Loaded {} compliance requirements from {}", requirements_.size(), path);
+        THEMIS_INFO("Loaded {} compliance requirements from {}",static_cast<int>(requirements_.size()), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -1172,7 +1172,7 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
         }
     }
     
-    THEMIS_INFO("Generated access control matrix with {} entries", matrix.entries.size());
+    THEMIS_INFO("Generated access control matrix with {} entries",static_cast<int>(matrix.entries.size()));
     
     return matrix;
 }
@@ -1821,7 +1821,7 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
         "CCPA report: {} compliant, {} non-compliant rules; {} opt-out subjects; "
         "{} third-party disclosure candidates",
         report.ccpa_compliant_rules, report.ccpa_non_compliant_rules,
-        report.opt_out_count, report.third_party_disclosure_rule_ids.size());
+        report.opt_out_count,static_cast<int>(report.third_party_disclosure_rule_ids.size()));
 
     return report;
 }

@@ -291,7 +291,7 @@ std::vector<std::shared_ptr<INotificationChannel>> AlertingEngine::channels() co
 
 size_t AlertingEngine::channelCount() const {
     std::lock_guard<std::mutex> lock(channels_mutex_);
-    return channels_.size();
+    return static_cast<int>(channels_.size());
 }
 
 // --- Predefined rules --------------------------------------------------------

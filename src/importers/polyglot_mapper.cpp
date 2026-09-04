@@ -116,7 +116,7 @@ PolyglotPersistenceMapper::recommendDataModels(
             {"source",  schema.name},
             {"target_model", dataModelToString(mapping.recommended_model)},
             {"pk_columns", schema.primary_keys},
-            {"fk_count",   schema.foreign_keys.size()}
+            {"fk_count",static_cast<int>(schema.foreign_keys.size())}
         };
 
         result.push_back(std::move(mapping));

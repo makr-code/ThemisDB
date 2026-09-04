@@ -226,7 +226,7 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
     shrinking_txns_.erase(txn_id);
     waiting_for_.erase(txn_id);
 
-    THEMIS_DEBUG("LockManager: released all {} locks for txn {}", keys.size(), txn_id);
+    THEMIS_DEBUG("LockManager: released all {} locks for txn {}",static_cast<int>(keys.size()), txn_id);
 }
 
 // ---------------------------------------------------------------------------
@@ -533,7 +533,7 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
     std::vector<std::string> row_keys = {};
 
     for (const auto& [k, _] : txn_it->second) {
-        if (k.find(table_prefix) == 0 && k.size() > table_prefix.size()) {
+        if (k.find(table_prefix) == 0 && static_cast<int>(k.size()) > table_prefix.size()) {
             row_keys.push_back(k);
         }
     }
@@ -586,7 +586,7 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     }
     std::lock_guard<std::mutex> lk(mutex_);
     size_t max_locks = max_predicate_locks_.load(std::memory_order_relaxed);
-    if (max_locks > 0 && predicate_locks_.size() >= max_locks) {
+    if (max_locks > 0 && static_cast<int>(predicate_locks_.size()) >= max_locks) {
         // Limit reached: drop the lock silently.  This may raise the
         // false-positive abort rate but does not compromise correctness.
         // Wave 4C T4: emit warning so operators can tune max_predicate_locks.

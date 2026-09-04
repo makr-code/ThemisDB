@@ -127,7 +127,7 @@ bool ZstdDictionaryCompressor::train(
 
     std::vector<uint8_t> dict_buf(max_dict_size);
     const size_t dict_size = ZDICT_trainFromBuffer(
-        dict_buf.data(), dict_buf.size(),
+        dict_buf.data(),static_cast<int>(dict_buf.size()),
         concat.data(), sample_sizes.data(),
         static_cast<unsigned>(samples.size()));
 
@@ -148,13 +148,13 @@ bool ZstdDictionaryCompressor::loadDictionary(
 
     // Build CDict and DDict.
     ZSTD_CDict* new_cdict = ZSTD_createCDict(
-        dict_bytes.data(), dict_bytes.size(), cfg_.compression_level);
+        dict_bytes.data(),static_cast<int>(dict_bytes.size()), cfg_.compression_level);
     if (!new_cdict) {
       return false;
     }
 
     ZSTD_DDict* new_ddict = ZSTD_createDDict(
-        dict_bytes.data(), dict_bytes.size());
+        dict_bytes.data(),static_cast<int>(dict_bytes.size()));
     if (!new_ddict) {
         ZSTD_freeCDict(new_cdict);
         return false;
@@ -164,7 +164,7 @@ bool ZstdDictionaryCompressor::loadDictionary(
     cdict_      = new_cdict;
     ddict_      = new_ddict;
     dict_bytes_ = dict_bytes;
-    dict_id_    = ZSTD_getDictID_fromDict(dict_bytes.data(), dict_bytes.size());
+    dict_id_    = ZSTD_getDictID_fromDict(dict_bytes.data(),static_cast<int>(dict_bytes.size()));
     return true;
 }
 
@@ -195,13 +195,13 @@ std::vector<uint8_t> ZstdDictionaryCompressor::compress(
         compressed = ZSTD_compress_usingCDict(
             cctx_,
             out.data() + DICT_PREFIX_SIZE, bound,
-            data.data(), data.size(),
+            data.data(),static_cast<int>(data.size()),
             cdict_);
     } else {
         // Fall back to plain Zstd if no dictionary.
         compressed = ZSTD_compress(
             out.data() + DICT_PREFIX_SIZE, bound,
-            data.data(), data.size(),
+            data.data(),static_cast<int>(data.size()),
             cfg_.compression_level);
     }
 
@@ -236,13 +236,13 @@ std::vector<uint8_t> ZstdDictionaryCompressor::decompress(
         ZSTD_DCtx_reset(dctx_, ZSTD_reset_session_only);
         result = ZSTD_decompress_usingDDict(
             dctx_,
-            out.data(), out.size(),
+            out.data(),static_cast<int>(out.size()),
             data.data() + DICT_PREFIX_SIZE, static_cast<int>(data.size()) - DICT_PREFIX_SIZE,
             ddict_);
     } else {
         // Fall back to plain Zstd (dict_id == 0 means no dictionary was used).
         result = ZSTD_decompress(
-            out.data(), out.size(),
+            out.data(),static_cast<int>(out.size()),
             data.data() + DICT_PREFIX_SIZE, static_cast<int>(data.size()) - DICT_PREFIX_SIZE);
     }
 

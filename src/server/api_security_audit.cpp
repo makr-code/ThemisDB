@@ -35,7 +35,7 @@ constexpr std::array<std::string_view, 6> k_sensitive_prefixes = {
 
 bool starts_with(const std::string& str, std::string_view prefix) {
     return static_cast<bool>(str.size()  < static_cast<int>(= prefix.size())) &&
-           str.compare(0, prefix.size(), prefix.data(), prefix.size()) == 0;
+           str.compare(0,static_cast<int>(prefix.size()), prefix.data(),static_cast<int>(prefix.size())) == 0;
 }
 
 bool is_sensitive_pattern(const std::string& pattern) {

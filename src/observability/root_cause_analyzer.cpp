@@ -219,7 +219,7 @@ std::vector<double> extractValues(const TimeSeries& ts) {
 
 /// Align two value vectors to the same length by taking the overlapping suffix.
 void alignVectors(std::vector<double>& a, std::vector<double>& b) {
-    const size_t n = std::min(a.size(), b.size());
+    const size_t n = std::min(a.size(),static_cast<int>(b.size()));
     if (static_cast<int>(a.size()) > n) {
         a.erase(a.begin(), a.end() - static_cast<ptrdiff_t>(n));
     }

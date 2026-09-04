@@ -439,7 +439,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
         flat_data.reserve(flat_ids_.size() * flat_vectors_[0].size());
         for (auto& v : self->flat_vectors_)
             flat_data.insert(flat_data.end(), v.begin(), v.end());
-        self->build(flat_data.data(), flat_ids_.data(), flat_ids_.size(),
+        self->build(flat_data.data(), flat_ids_.data(),static_cast<int>(flat_ids_.size()),
                     flat_vectors_[0].size());
         self->flat_ids_.clear();
         self->flat_vectors_.clear();
@@ -448,7 +448,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     if (dim != dim_) { THEMIS_WARN("ScaNN::search: query dim {} != index dim {}", dim, dim_); return {}; }
 
     // ---- Step 1: Score leaf centroids ----
-    size_t probe = std::min(cfg_.num_leaves_to_search, leaves_.size());
+    size_t probe = std::min(cfg_.num_leaves_to_search,static_cast<int>(leaves_.size()));
     using LeafScore = std::pair<float, size_t>;
     std::vector<LeafScore> leaf_scores(leaves_.size());
     for (size_t i = 0; i < leaves_.size(); ++i)
@@ -470,10 +470,10 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     for (size_t pi = 0; pi < probe; ++pi) {
         const Leaf& leaf = leaves_[leaf_scores[pi].second];
         bool use_ah = cfg_.enable_ah && codebook_.num_subspaces > 0
-                      && leaf.codes.size() == leaf.vectors.size()
+                      && static_cast<int>(leaf.codes.size()) == leaf.vectors.size()
                       && !leaf.codes.empty();
 
-        const size_t scan_count = std::min(leaf.ids.size(), leaf.vectors.size());
+        const size_t scan_count = std::min(leaf.ids.size(),static_cast<int>(leaf.vectors.size()));
         for (size_t i = 0; i < scan_count; ++i) {
             float dist = use_ah
                 ? codebook_.decode_distance(query, leaf.codes[i])

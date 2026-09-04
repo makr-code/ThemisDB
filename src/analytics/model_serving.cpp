@@ -146,7 +146,7 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
 
 std::string sha256Hex(std::string_view input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
 
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');

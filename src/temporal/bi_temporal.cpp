@@ -370,7 +370,7 @@ std::vector<std::string> BiTemporalTable::getAllKeys() const {
 
 size_t BiTemporalTable::keyCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return rows_.size();
+    return static_cast<int>(rows_.size());
 }
 
 size_t BiTemporalTable::versionCount() const {
@@ -398,7 +398,7 @@ nlohmann::json BiTemporalTable::getStatistics() const {
     }
 
     return {{"table_name", table_name_},
-            {"key_count", rows_.size()},
+            {"key_count",static_cast<int>(rows_.size())},
             {"current_rows", current_count},
             {"historical_rows", historical_count},
             {"total_versions", current_count + historical_count}};

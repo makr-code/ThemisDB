@@ -798,7 +798,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
                 spdlog::error(
                     "Transaction {} aborted during prepare: {} cross-shard FK "
                     "violation(s) detected",
-                    transaction_id, violations.size());
+                    transaction_id,static_cast<int>(violations.size()));
                 for (const auto& v : violations) {
                     spdlog::error("  FK violation: {}", v.message);
                 }
@@ -1218,7 +1218,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     // Validate input early before acquiring locks
     if (static_cast<int>(steps.size()) != compensations.size()) {
         spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
-                     transaction_id, steps.size(), compensations.size());
+                     transaction_id,static_cast<int>(steps.size()),static_cast<int>(compensations.size()));
         return false;
     }
     
@@ -1242,7 +1242,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     lock.unlock();
     
     spdlog::info("Executing SAGA transaction {} with {} steps", 
-                transaction_id, steps.size());
+                transaction_id,static_cast<int>(steps.size()));
     
     // Execute steps sequentially
     size_t completed_steps = 0;
@@ -1771,7 +1771,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         if (deferred_cb && !failed_shards.empty()) {
             spdlog::warn("3PC Phase 2 (PreCommit) partial failure for transaction {}: "
                        "{} failed shards, scheduling deferred retry",
-                       txn.transaction_id, failed_shards.size());
+                       txn.transaction_id,static_cast<int>(failed_shards.size()));
 
             // Store deferred PreCommit for retry tracking before invoking the
             // callback so a concurrent retry thread can observe the entry.
@@ -2022,7 +2022,7 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
     }
 
     spdlog::info("Calvin transaction {}: acquiring locks on {} shards in deterministic order",
-                 txn.transaction_id, shard_order.size());
+                 txn.transaction_id,static_cast<int>(shard_order.size()));
 
     std::vector<std::string> locked_shards;
     bool all_locked = true;
@@ -2569,7 +2569,7 @@ CrossShardTransactionCoordinator::buildWaitForGraph() const {
         }
     }
     
-    spdlog::debug("Built wait-for graph with {} nodes", graph.size());
+    spdlog::debug("Built wait-for graph with {} nodes",static_cast<int>(graph.size()));
     
     return graph;
 }
@@ -2625,7 +2625,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
     const std::vector<nlohmann::json>& compensations
 ) {
     spdlog::info("Executing compensations for SAGA transaction {} ({} steps to compensate)", 
-                transaction_id, executed_steps.size());
+                transaction_id,static_cast<int>(executed_steps.size()));
     
     // Execute compensations in reverse order
     // Using index-based loop to access both executed_steps and compensations arrays
@@ -3043,7 +3043,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
             }
         }
         
-        spdlog::info("WAL replay complete, {} transactions in memory", transactions_.size());
+        spdlog::info("WAL replay complete, {} transactions in memory",static_cast<int>(transactions_.size()));
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to replay WAL: {}", e.what());
@@ -3111,7 +3111,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     
     // Phase 2.3.4: Actually resume transactions (done outside lock to avoid deadlock)
     if (!transactions_to_timeout.empty()) {
-        spdlog::info("Aborting {} stale transactions", transactions_to_timeout.size());
+        spdlog::info("Aborting {} stale transactions",static_cast<int>(transactions_to_timeout.size()));
         for (const auto& txn_id : transactions_to_timeout) {
             try {
                 // Log timeout abort
@@ -3129,7 +3129,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     }
     
     if (!transactions_to_resume.empty()) {
-        spdlog::info("Will resume {} in-flight transactions", transactions_to_resume.size());
+        spdlog::info("Will resume {} in-flight transactions",static_cast<int>(transactions_to_resume.size()));
         // Note: Actual resumption would happen in a background thread
         // For now, we just log what needs to be done
         // In production, you would:
@@ -3245,7 +3245,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         if (snapshot_id.has_value()) {
             operations_since_snapshot_ = 0;
             spdlog::info("Created transaction snapshot {} with {} active transactions", 
-                        snapshot_id.value(), active_txns.size());
+                        snapshot_id.value(),static_cast<int>(active_txns.size()));
         } else {
             spdlog::error("Failed to create transaction snapshot");
         }
@@ -3529,7 +3529,7 @@ size_t PercolatorCoordinator::cleanStaleLocks(
     }
 
     spdlog::info("[Percolator] cleanStaleLocks: cleaned {} / {} stale locks",
-                 cleaned, stale_txn_ids.size());
+                 cleaned,static_cast<int>(stale_txn_ids.size()));
     return cleaned;
 }
 
@@ -3560,7 +3560,7 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
             }
             
             spdlog::debug("Attempting PreCommit retry for transaction {} ({} shards)",
-                        txn_id, failed_shards.size());
+                        txn_id,static_cast<int>(failed_shards.size()));
             
             // Get the transaction
             auto txn_opt = getTransaction(txn_id);

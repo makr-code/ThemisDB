@@ -166,7 +166,7 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         
         metrics_.authentication_success++;
         THEMIS_DEBUG("Authentication successful for user '{}' with {} roles", 
-            context.user_id, context.roles.size());
+            context.user_id,static_cast<int>(context.roles.size()));
         if (config_.enable_audit_logging) {
             nlohmann::json audit_entry = {
                 {"event_type", "authentication"},

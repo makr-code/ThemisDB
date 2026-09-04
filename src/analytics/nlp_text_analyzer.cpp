@@ -397,7 +397,7 @@ ComplexityMetrics NlpTextAnalyzer::analyzeComplexity(std::string_view text) cons
 
     metrics.unique_words        = unique.size();
     metrics.avg_word_length     = static_cast<double>(total_length) / tokens.size();
-    metrics.avg_sentence_length = static_cast<double>(tokens.size()) / std::max<size_t>(1, sentences.size());
+    metrics.avg_sentence_length = static_cast<double>(tokens.size()) / std::max<size_t>(1,static_cast<int>(sentences.size()));
     metrics.lexical_diversity   = static_cast<double>(metrics.unique_words) / metrics.word_count;
 
     return metrics;
@@ -430,7 +430,7 @@ double NlpTextAnalyzer::estimateQueryComplexity(std::string_view query_text) con
 
     // Count tables
     auto tables = extractTableNames(query_text);
-    complexity += std::min(0.3, tables.size() * 0.1);
+    complexity += std::min(0.3,static_cast<int>(tables.size()) * 0.1);
 
     analysis_count_++;
     return std::min(1.0, complexity);
@@ -1078,7 +1078,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
     }
 
     auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
-        return static_cast<bool>(len  < static_cast<int>(suffix.size() + min_stem && lower.compare(len - suffix.size(), suffix.size())), suffix) == 0;
+        return static_cast<bool>(len  < static_cast<int>(suffix.size() + min_stem && lower.compare(len - suffix.size(),static_cast<int>(suffix.size()))), suffix) == 0;
     };
     auto strip = [&](size_t n, std::string_view add = "") -> std::string {
         return lower.substr(0, len - n) + std::string(add);
@@ -1166,7 +1166,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
         size_t blen      = base.length();
 
         auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
-            return static_cast<bool>(blen  < static_cast<int>(suffix.size() + min_stem && base.compare(blen - suffix.size(), suffix.size())), suffix) == 0;
+            return static_cast<bool>(blen  < static_cast<int>(suffix.size() + min_stem && base.compare(blen - suffix.size(),static_cast<int>(suffix.size()))), suffix) == 0;
         };
         auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
             return base.substr(0, blen - n) + std::string(add);
@@ -1701,8 +1701,8 @@ double NlpTextAnalyzer::calculateSimilarity(std::string_view text1, std::string_
 std::map<std::string, size_t> NlpTextAnalyzer::getStatistics() const {
     return {{"analyses_performed", analysis_count_},
             {"tokens_processed", token_count_},
-            {"stopword_languages", stopwords_.size()},
-            {"sentiment_words", sentiment_lexicon_.size()}};
+            {"stopword_languages",static_cast<int>(stopwords_.size())},
+            {"sentiment_words",static_cast<int>(sentiment_lexicon_.size())}};
 }
 
 // ========== Private Helper Methods ==========
@@ -1894,7 +1894,7 @@ bool NlpTextAnalyzer::loadStopWordsFromYaml(const std::string &yaml_path, Langua
         }
 
         // Parse stop word (YAML list item: "  - word")
-        if (in_stopwords_section && line.size() > 2 && line[0] == '-') {
+        if (in_stopwords_section && static_cast<int>(line.size()) > 2 && line[0] == '-') {
             std::string word = line.substr(1);
             // Trim and remove quotes
             word.erase(0, word.find_first_not_of(" \t\"'"));

@@ -481,7 +481,7 @@ nlohmann::json LoraPathFunction::execute(
         // Parse arguments
         std::string start_model = args[0].get<std::string>();
         std::string end_model = args[1].get<std::string>();
-        int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
+        int max_depth = static_cast<int>(args.size()) > 2 ? args[2].get<int>() : 5;
         (void)max_depth;
         
         // Build adaptation path
@@ -771,7 +771,7 @@ nlohmann::json LoraLineageFunction::execute(
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
-        int depth = args.size() > 1 ? args[1].get<int>() : 10;
+        int depth = static_cast<int>(args.size()) > 1 ? args[1].get<int>() : 10;
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
@@ -1037,7 +1037,7 @@ nlohmann::json LoraVerifyChainFunction::execute(
 
         return json{
             {"chain_valid",  chain_valid},
-            {"entry_count",  entries.size()},
+            {"entry_count",static_cast<int>(entries.size())},
             {"message",      chain_valid
                                  ? "Merkle audit chain is intact"
                                  : "Merkle audit chain verification FAILED — possible tampering"}

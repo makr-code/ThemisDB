@@ -256,7 +256,7 @@ bool StreamChunk::verify() const {
     if (data.empty()) {
         return checksum == 0;
     }
-    return calculateCRC32(data.data(), data.size()) == checksum;
+    return calculateCRC32(data.data(),static_cast<int>(data.size())) == checksum;
 }
 
 /** @brief Serialize chunk metadata and payload into transport bytes. */
@@ -1431,7 +1431,7 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         return false;
     }
     if (static_cast<int>(chunk.data.size()) > 1024 * 1024 * 1024) {  // 1GB max chunk
-        spdlog::error("Chunk data exceeds maximum size ({})", chunk.data.size());
+        spdlog::error("Chunk data exceeds maximum size ({})",static_cast<int>(chunk.data.size()));
         return false;
     }
     
@@ -1455,7 +1455,7 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
             out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
             out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
             out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
-            out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
+            out.write(reinterpret_cast<const char*>(chunk.data.data()),static_cast<int>(chunk.data.size()));
 
             if (!out.good()) {
                 spdlog::warn("Failed to write chunk data to file: {}", chunk_file.string());
@@ -1683,7 +1683,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     // Verify checksum
-    uint32_t computed_checksum = calculateCRC32(write_data.data(), write_data.size());
+    uint32_t computed_checksum = calculateCRC32(write_data.data(),static_cast<int>(write_data.size()));
     if (computed_checksum != chunk.checksum) {
         std::cerr << "Checksum mismatch for chunk " << chunk.chunk_index 
                   << " (expected: " << chunk.checksum 
@@ -1709,7 +1709,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     file.seekp(chunk.file_offset);
-    file.write(reinterpret_cast<const char*>(write_data.data()), write_data.size());
+    file.write(reinterpret_cast<const char*>(write_data.data()),static_cast<int>(write_data.size()));
     
     if (!file.good()) {
         std::cerr << "Failed to write chunk " << chunk.chunk_index 

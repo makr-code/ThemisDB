@@ -156,7 +156,7 @@ void InferenceStore::evictExpired() {
 
 std::size_t InferenceStore::size() const {
     std::shared_lock lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 void InferenceStore::clear() {
@@ -193,7 +193,7 @@ bool KnowledgeGraphReasoner::addRule(Rule rule) {
 
 std::size_t KnowledgeGraphReasoner::ruleCount() const {
     std::shared_lock lock(rules_mutex_);
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 void KnowledgeGraphReasoner::clearRules() {
@@ -221,7 +221,7 @@ void KnowledgeGraphReasoner::addFact(Triple fact) {
 
 std::size_t KnowledgeGraphReasoner::factCount() const {
     std::shared_lock lock(facts_mutex_);
-    return base_facts_.size();
+    return static_cast<int>(base_facts_.size());
 }
 
 void KnowledgeGraphReasoner::clearFacts() {

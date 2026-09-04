@@ -104,7 +104,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
 
                 THEMIS_DEBUG("DistributedHybridSearch: local shard '{}' "
                              "returned {} results in {} ms",
-                             local.shard_id, local.results.size(),
+                             local.shard_id,static_cast<int>(local.results.size()),
                              local.execution_time_ms);
             } catch (const std::exception& e) {
                 local.success = false;
@@ -139,14 +139,14 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             }
 
             const size_t max_concurrent = std::min(
-                config_.max_concurrent_shards, remote_shards.size());
+                config_.max_concurrent_shards,static_cast<int>(remote_shards.size()));
 
             for (size_t batch_start = 0;
                  batch_start < remote_shards.size();
                  batch_start += max_concurrent) {
 
                 const size_t batch_end = std::min(
-                    batch_start + max_concurrent, remote_shards.size());
+                    batch_start + max_concurrent,static_cast<int>(remote_shards.size()));
 
                 std::vector<std::future<ShardSearchResult>> futures;
                 futures.reserve(batch_end - batch_start);
@@ -232,7 +232,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
 
     if (n_failed > 0) {
         THEMIS_WARN("DistributedHybridSearch: {}/{} shards failed",
-                    n_failed, shard_results.size());
+                    n_failed,static_cast<int>(shard_results.size()));
     }
 
     // Abort if any shard failed and skip_failed_shards is false
@@ -345,7 +345,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
         merge_underflow = true;
         THEMIS_WARN("DistributedHybridSearch: merge underflow "
                     "(expected {} results, got {})",
-                    config_.k, merged.size());
+                    config_.k,static_cast<int>(merged.size()));
     }
     
     if (static_cast<int>(merged.size()) > config_.k) {
@@ -360,7 +360,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
 
     THEMIS_INFO("DistributedHybridSearch: merged {} shards -> {} results "
                 "(underflow={}, high_overlap={})",
-                shard_results.size(), merged.size(),
+                shard_results.size(),static_cast<int>(merged.size()),
                 merge_underflow, stats ? stats->high_overlap_variance : false);
 
     return merged;
@@ -413,7 +413,7 @@ DistributedHybridSearch::searchRemoteShard(
         THEMIS_DEBUG(
             "DistributedHybridSearch: shard '{}' returned {} results "
             "in {} ms",
-            shard.shard_id, result.results.size(),
+            shard.shard_id,static_cast<int>(result.results.size()),
             result.execution_time_ms);
 
     } catch (const std::exception& e) {

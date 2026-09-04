@@ -177,7 +177,7 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
     // kv_block_size > 0 is guaranteed by the constructor guard.
     size_t uprefix = static_cast<size_t>(prefix_length);
     size_t prefix_blocks = (uprefix - 1) / config_.kv_block_size + 1;
-    size_t max_blocks = std::min(prefix_blocks, parent_table.block_ids.size());
+    size_t max_blocks = std::min(prefix_blocks,static_cast<int>(parent_table.block_ids.size()));
     for (size_t i = 0; i < max_blocks; ++i) {
         int block_id = parent_table.block_ids[i];
         new_table.block_ids.push_back(block_id);
@@ -237,7 +237,7 @@ AttentionMemoryStats KVCacheManager::getStats() const {
 
 size_t KVCacheManager::getFreeBlockCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return free_blocks_.size();
+    return static_cast<int>(free_blocks_.size());
 }
 
 int KVCacheManager::allocateBlock() {

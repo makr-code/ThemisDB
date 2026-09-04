@@ -46,7 +46,7 @@ StreamWriter::~StreamWriter() {
 }
 
 void StreamWriter::write(const std::string& data) {
-    write(data.data(), data.size());
+    write(data.data(),static_cast<int>(data.size()));
 }
 
 void StreamWriter::write(const char* data, size_t size) {
@@ -88,7 +88,7 @@ void StreamWriter::flush() {
             ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
             size_t remaining = 0;
             do {
-                ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+                ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
                 remaining = ZSTD_flushStream(cstream, &out_buf);
                 if (out_buf.pos > 0) {
                     file_.write(buffer_.data(), out_buf.pos);
@@ -164,7 +164,7 @@ void StreamWriter::compressAndWrite([[maybe_unused]] const char* data, [[maybe_u
         ZSTD_inBuffer in_buf = { data, size, 0 };
 
         while (in_buf.pos < in_buf.size) {
-            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+            ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
             size_t ret = ZSTD_compressStream(cstream, &out_buf, &in_buf);
             if (ZSTD_isError(ret)) {
                 throw ExportIOException("ZSTD compression stream error", config_.output_path,
@@ -187,7 +187,7 @@ void StreamWriter::finalizeCompression() {
         ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
         size_t remaining = 0;
         do {
-            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+            ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
             remaining = ZSTD_endStream(cstream, &out_buf);
             if (out_buf.pos > 0) {
                 file_.write(buffer_.data(), out_buf.pos);

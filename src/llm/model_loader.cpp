@@ -914,7 +914,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                 // Get metadata for validation
                 const auto& metadata = gguf_loader.getMetadata();
                 spdlog::info("  Model metadata: architecture={}, version={}, tensors={}",
-                            metadata.architecture, metadata.version, metadata.tensors.size());
+                            metadata.architecture, metadata.version,static_cast<int>(metadata.tensors.size()));
                 
                 // After parsing with custom loader, still use llama.cpp's native loader
                 // for actual model initialization (custom loader validated the file)

@@ -212,7 +212,7 @@ void substitutePreEscapedPlaceholderValue(std::string& target,
     // escaped for the target LDAP context (RFC 4514 for DN, RFC 4515 for filter).
     std::size_t pos = 0;
     while ((pos = target.find(placeholder, pos)) != std::string::npos) {
-        target.replace(pos, placeholder.size(), value);
+        target.replace(pos,static_cast<int>(placeholder.size()), value);
         pos += value.size();
     }
 }

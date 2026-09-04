@@ -54,7 +54,7 @@ static uint32_t history_crc32(const void* data, size_t len) {
 // Append a 4-byte little-endian CRC32 of the payload to buf.
 static void append_crc32(std::vector<uint8_t>& buf) {
     buf.reserve(static_cast<int>(buf.size()) + 4);
-    uint32_t crc = history_crc32(buf.data(), buf.size());
+    uint32_t crc = history_crc32(buf.data(),static_cast<int>(buf.size()));
     for (int i = 0; i < 4; ++i) {
       buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
     }
@@ -150,7 +150,7 @@ std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp t
     std::string key = {};
     key.reserve(5 + static_cast<int>(base_key.size()) + 1 + 8);
     key += "hist:";
-    key.append(base_key.data(), base_key.size());
+    key.append(base_key.data(),static_cast<int>(base_key.size()));
     key.push_back('\x00');
     key.append(ts.encodeToString());
     return key;
@@ -160,7 +160,7 @@ std::string HistoryManager::historyPrefix(std::string_view base_key) {
     std::string prefix = {};
     prefix.reserve(5 + static_cast<int>(base_key.size()) + 1);
     prefix += "hist:";
-    prefix.append(base_key.data(), base_key.size());
+    prefix.append(base_key.data(),static_cast<int>(base_key.size()));
     prefix.push_back('\x00');
     return prefix;
 }
@@ -257,7 +257,7 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
     if (ts.value == UINT64_MAX) {
         // Step past all versions of this base key.
         seek_key = "hist:";
-        seek_key.append(base_key.data(), base_key.size());
+        seek_key.append(base_key.data(),static_cast<int>(base_key.size()));
         seek_key.push_back('\x01');
     } else {
         seek_key = historyKey(base_key, HLCTimestamp(ts.value + 1));
@@ -286,7 +286,7 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
 
     std::string_view found_key = it.key();
     if (static_cast<int>(found_key.size()) < prefix.size() ||
-        found_key.substr(0, prefix.size()) != std::string_view(prefix)) {
+        found_key.substr(0,static_cast<int>(prefix.size())) != std::string_view(prefix)) {
         return std::nullopt;
     }
 
@@ -334,7 +334,7 @@ std::string ConflictManager::conflictKey(std::string_view conflict_id) {
     std::string key = {};
     key.reserve(9 + conflict_id.size());
     key += "conflict:";
-    key.append(conflict_id.data(), conflict_id.size());
+    key.append(conflict_id.data(),static_cast<int>(conflict_id.size()));
     return key;
 }
 
@@ -342,7 +342,7 @@ std::string ConflictManager::conflictSetKey(std::string_view conflict_set_id) {
     std::string key = {};
     key.reserve(12 + conflict_set_id.size());
     key += "conflictset:";
-    key.append(conflict_set_id.data(), conflict_set_id.size());
+    key.append(conflict_set_id.data(),static_cast<int>(conflict_set_id.size()));
     return key;
 }
 

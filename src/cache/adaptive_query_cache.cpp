@@ -192,7 +192,7 @@ std::string AdaptiveQueryCache::generateFingerprint(const std::string &query, co
 
     // Compute SHA256 hash
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
 
     // Convert to hex string
     std::ostringstream ss = {};
@@ -966,7 +966,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     // backtracking budget API, so length capping is the primary mitigation.
     constexpr size_t kMaxRegexPatternLen = 256;
     if (static_cast<int>(pattern.size()) > kMaxRegexPatternLen) {
-        THEMIS_WARN([[maybe_unused]] "Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS", pattern.size());
+        THEMIS_WARN([[maybe_unused]] "Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS",static_cast<int>(pattern.size()));
         return 0;
     }
     std::regex re = {};
@@ -1060,7 +1060,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
                     }
                 }
 
-                THEMIS_DEBUG("Invalidated {} L3 cache entries", keys_to_delete.size());
+                THEMIS_DEBUG("Invalidated {} L3 cache entries",static_cast<int>(keys_to_delete.size()));
             } catch (const std::exception &e) {
                 if (!lock.owns_lock()) {
                     // C1: Re-acquire with timeout in error path.
@@ -1232,7 +1232,7 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
             std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
             eviction_name = std::string(l1_eviction_strategy_->getName());
         }
-        info["l1"] = {{"entries", l1_cache_.size()},
+        info["l1"] = {{"entries",static_cast<int>(l1_cache_.size())},
                       {"max_entries", config_.l1_max_entries},
                       {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries},
                       {"eviction_policy", eviction_name}};
@@ -1240,7 +1240,7 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
 
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        info["l2"] = {{"entries", l2_cache_.size()},
+        info["l2"] = {{"entries",static_cast<int>(l2_cache_.size())},
                       {"max_entries", config_.l2_max_entries},
                       {"utilization", static_cast<double>(l2_cache_.size()) / config_.l2_max_entries},
                       {"eviction_policy", std::string(l2_eviction_strategy_->getName())}};
@@ -1959,7 +1959,7 @@ size_t AdaptiveQueryCache::bulkPut(
         }
     }
 
-    THEMIS_INFO("Bulk put completed: {}/{} entries cached", successful, entries.size());
+    THEMIS_INFO("Bulk put completed: {}/{} entries cached", successful,static_cast<int>(entries.size()));
     return successful;
 }
 

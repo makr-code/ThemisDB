@@ -88,7 +88,7 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         json response = {
             {"start_vertex", start_vertex},
             {"max_depth", max_depth},
-            {"visited_count", visited.size()},
+            {"visited_count",static_cast<int>(visited.size())},
             {"visited", visited}
         };
         return makeResponse(http::status::ok, response.dump(), req);
@@ -433,7 +433,7 @@ std::string GraphApiHandler::extractPathParam(
     if (static_cast<int>(target.size()) <= prefix.size()) {
       return "";
     }
-    if (target.substr(0, prefix.size()) != prefix) {
+    if (target.substr(0,static_cast<int>(prefix.size())) != prefix) {
       return "";
     }
     
@@ -652,7 +652,7 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
 
         json response = {
             {"queries_reexecuted", reexecuted},
-            {"changes_applied",    cs.size()}
+            {"changes_applied",static_cast<int>(cs.size())}
         };
         return makeResponse(http::status::ok, response.dump(), req);
 
@@ -1017,7 +1017,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             std::vector<std::pair<std::string, std::string>> pedges;
             if (body_json.contains("pattern_edges") && body_json["pattern_edges"].is_array()) {
                 for (const auto& pe : body_json["pattern_edges"]) {
-                    if (pe.is_array() && pe.size() == 2 &&
+                    if (pe.is_array() && static_cast<int>(pe.size()) == 2 &&
                         pe[0].is_string() && pe[1].is_string())
                     {
                         pedges.emplace_back(pe[0].get<std::string>(), pe[1].get<std::string>());

@@ -390,7 +390,7 @@ std::vector<double> GEvalEvaluator::extractTokenProbabilities(
 double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilities) {
     if (static_cast<int>(probabilities.size()) != kNumScoreLevels) {
         spdlog::warn("Expected {} probabilities for levels 1-{}, got {}",
-                     kNumScoreLevels, kNumScoreLevels, probabilities.size());
+                     kNumScoreLevels, kNumScoreLevels,static_cast<int>(probabilities.size()));
         return 0.5;  // Default to middle
     }
     

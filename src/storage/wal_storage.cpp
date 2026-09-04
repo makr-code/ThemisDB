@@ -747,7 +747,7 @@ uint64_t WALStorage::lastSequence() const {
 
 size_t WALStorage::segmentCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return segments_.size();
+    return static_cast<int>(segments_.size());
 }
 
 Result<void> WALStorage::flush() {

@@ -34,8 +34,8 @@ PrincipalValidator::PrincipalValidator(const Config &config) : config_(config) {
     utils::Logger::info("Principal Validator initialized:");
     utils::Logger::info("  Default allow: {}", config_.default_allow);
     utils::Logger::info("  Audit logging: {}", config_.enable_audit_logging);
-    utils::Logger::info("  Rules: {}", config_.rules.size());
-    utils::Logger::info("  Mapping rules: {}", config_.mapping_rules.size());
+    utils::Logger::info("  Rules: {}",static_cast<int>(config_.rules.size()));
+    utils::Logger::info("  Mapping rules: {}",static_cast<int>(config_.mapping_rules.size()));
 }
 
 PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::string &principal,
@@ -208,7 +208,7 @@ bool PrincipalValidator::matchesMappingRule(const std::string &principal, const 
             std::string prefix = pattern.substr(0, star_pos);
             std::string suffix = pattern.substr(star_pos + 1);
 
-            return static_cast<bool>(p.size()  < static_cast<int>(= (static_cast<int>(prefix.size()) + suffix.size()) && p.substr(0, prefix.size()))) == prefix
+            return static_cast<bool>(p.size()  < static_cast<int>(= (static_cast<int>(prefix.size()) + suffix.size()) && p.substr(0,static_cast<int>(prefix.size())))) == prefix
                    && p.substr(static_cast<int>(p.size()) - suffix.size()) == suffix;
         } else {
             // Exact match

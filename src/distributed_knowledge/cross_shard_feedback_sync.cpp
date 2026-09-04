@@ -184,7 +184,7 @@ nlohmann::json CrossShardFeedbackSync::getStats() const {
             {"received",             received_count_},
             {"deduplicated",         deduplicated_count_},
             {"rejected_by_policy",   rejected_by_policy_},
-            {"seen_ids_cached",      seen_ids_.size()}};
+            {"seen_ids_cached",static_cast<int>(seen_ids_.size())}};
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

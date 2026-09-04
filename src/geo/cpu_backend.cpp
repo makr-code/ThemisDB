@@ -277,9 +277,9 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         if (have_geoms && (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
             THEMIS_WARN("CPU exact batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({})",
-                        in.geoms_a.size(), in.geoms_b.size(), in.count);
+                        in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count);
         }
-        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
             out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
         }
@@ -803,7 +803,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 
         for (int iter = 0; iter < na + nb + 8; ++iter) {
             if (on_A) {
-                if (cur_a == start_a && ring.size() > 1) {
+                if (cur_a == start_a && static_cast<int>(ring.size()) > 1) {
                     break;
                 }
                 GHVert &v = A[cur_a];
@@ -870,7 +870,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 
         for (int iter = 0; iter < na + nb + 8; ++iter) {
             if (on_A) {
-                if (cur_a == start_a && ring.size() > 1) {
+                if (cur_a == start_a && static_cast<int>(ring.size()) > 1) {
                     break;
                 }
                 GHVert &v = A[cur_a];
@@ -1117,7 +1117,7 @@ class ApproximateCpuBackend final : public ISpatialComputeBackend {
     SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0u);
-        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
             out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
         }

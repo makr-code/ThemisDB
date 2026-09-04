@@ -365,7 +365,7 @@ std::vector<PatternResult> LoRAPatternClassifier::batchClassify(const std::vecto
 
 std::size_t LoRAPatternClassifier::registeredAdapterCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return domains_.size();
+    return static_cast<int>(domains_.size());
 }
 
 bool LoRAPatternClassifier::hasInferenceFn() const {

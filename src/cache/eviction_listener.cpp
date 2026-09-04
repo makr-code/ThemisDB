@@ -99,7 +99,7 @@ public:
 
     std::size_t getListenerCount() const noexcept override {
         std::lock_guard<std::mutex> lock(mutex_);
-        return listeners_.size();
+        return static_cast<int>(listeners_.size());
     }
 
 private:

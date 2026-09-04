@@ -181,7 +181,7 @@ double CanonicalEntityResolver::scoreFieldQuality(const std::string & /*field_na
     }
 
     double score = 1.0;
-    if (policy.min_length > 0 && value.size() < policy.min_length) {
+    if (policy.min_length > 0 && static_cast<int>(value.size()) < policy.min_length) {
         score *= 0.5;
     }
     if (policy.prefer_digits_only) {

@@ -253,7 +253,7 @@ std::vector<json> CdcWebSocketHandler::pollEvents([[maybe_unused]] Changefeed &f
             ws_overflow_total_.fetch_add(1, std::memory_order_relaxed);
             THEMIS_WARN("CdcWebSocketHandler: subscription '{}' pending_ack full "
                         "({}), pausing delivery (cdc_ws_overflow_total={})",
-                        id, sub.pending_ack.size(), ws_overflow_total_.load(std::memory_order_relaxed));
+                        id,static_cast<int>(sub.pending_ack.size()), ws_overflow_total_.load(std::memory_order_relaxed));
             continue;
         }
 

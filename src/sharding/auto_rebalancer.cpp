@@ -574,7 +574,7 @@ bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) 
     }
     
     // For now, allow if we have reasonable recommendations
-    return imbalance.recommendations.size() <= config_.max_concurrent_operations * 2;
+    return static_cast<int>(imbalance.recommendations.size()) <= config_.max_concurrent_operations * 2;
 }
 
 /** @brief Remove completed operations from active map and update history/counters. */
@@ -775,7 +775,7 @@ void AutoRebalancer::evaluateAndExecuteSplits() {
         return;
     }
 
-    THEMIS_INFO("HotShardSplitPolicy: {} split proposal(s) generated", proposals.size());
+    THEMIS_INFO("HotShardSplitPolicy: {} split proposal(s) generated",static_cast<int>(proposals.size()));
     split_proposals_total_ += proposals.size();
 
     if (metrics_) {
@@ -919,7 +919,7 @@ void AutoRebalancer::handleTopologyChange() {
     
     THEMIS_WARN("Topology change detected: {} (was {}, now {} nodes)",
                is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN"),
-               last_known_topology_.size(), current_topology.size());
+               last_known_topology_.size(),static_cast<int>(current_topology.size()));
     
     if (!config_.auto_trigger_enabled) {
         last_known_topology_ = current_topology;

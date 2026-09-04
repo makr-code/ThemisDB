@@ -112,7 +112,7 @@ double KeyCache::getHitRate() const {
 
 size_t KeyCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 std::string KeyCache::makeCacheKey(const std::string& key_id, uint32_t version) const {

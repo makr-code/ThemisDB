@@ -334,7 +334,7 @@ static const uint8_t *parseGssapiKrb5Header(const uint8_t *data, size_t size, si
 static Krb5TokenFields extractKrb5Fields(const std::vector<uint8_t> &token_data) {
     Krb5TokenFields fields;
     size_t inner_size    = 0;
-    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(), token_data.size(), inner_size);
+    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(),static_cast<int>(token_data.size()), inner_size);
     if (!inner) {
         return fields;
     }
@@ -413,7 +413,7 @@ bool KerberosSecurityValidator::validateASN1Structure(const std::vector<uint8_t>
     }
 
     // Start recursive depth validation
-    return validateASN1Depth(data.data(), data.size(), 0);
+    return validateASN1Depth(data.data(),static_cast<int>(data.size()), 0);
 }
 
 bool KerberosSecurityValidator::validateASN1Depth(const uint8_t *data, size_t size, size_t current_depth) {
@@ -550,11 +550,11 @@ bool KerberosSecurityValidator::verifyChannelBinding(const std::vector<uint8_t> 
     // Validate the token is a structurally valid GSSAPI/KRB5 AP-REQ.
     // Reject non-KRB5 tokens fail-closed to prevent token-type confusion.
     size_t inner_size    = 0;
-    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(), token_data.size(), inner_size);
+    const uint8_t *inner = parseGssapiKrb5Header(token_data.data(),static_cast<int>(token_data.size()), inner_size);
     if (!inner) {
         utils::Logger::warn("verifyChannelBinding: token is not a valid GSSAPI/KRB5 "
                             "token (size={}); rejecting {} binding bytes (fail-closed)",
-                            token_data.size(), channel_binding.size());
+                            token_data.size(),static_cast<int>(channel_binding.size()));
         return false;
     }
 
@@ -711,7 +711,7 @@ KerberosSecurityValidator::Config KerberosSecurityValidator::forService(const st
 std::vector<uint8_t> ChannelBindingGenerator::generateFromTLSCertificate(const std::vector<uint8_t> &server_cert) {
     // Compute SHA256 hash of certificate (tls-server-end-point per RFC 5929)
     std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-    SHA256(server_cert.data(), server_cert.size(), hash.data());
+    SHA256(server_cert.data(),static_cast<int>(server_cert.size()), hash.data());
 
     utils::Logger::info("Generated TLS server endpoint channel binding");
 

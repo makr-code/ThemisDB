@@ -1242,7 +1242,7 @@ Result<void> ColumnSegment::encode() {
             encoded_data_ = raw_data_;
             metadata_.compressed_size = raw_data_.size();
             is_encoded_ = true;
-            spdlog::debug("ColumnSegment::encode: codec=NONE, no-op encode ({} bytes)", raw_data_.size());
+            spdlog::debug("ColumnSegment::encode: codec=NONE, no-op encode ({} bytes)",static_cast<int>(raw_data_.size()));
             return {};
 
         default:
@@ -1290,7 +1290,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
-                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = RLECodec::decodeInt64(encoded_data_);
                 if (!decode_result) {
@@ -1298,7 +1298,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
-                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
             } else {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
@@ -1317,7 +1317,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
-                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = BitPackingCodec::decodeInt64(encoded_data_);
                 if (!decode_result) {
@@ -1325,7 +1325,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
-                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
             } else {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
@@ -1344,7 +1344,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
-                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = FrameOfReferenceCodec::decodeInt64(encoded_data_);
                 if (!decode_result) {
@@ -1352,7 +1352,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
-                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
             } else {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
@@ -1421,7 +1421,7 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
     // Encoded data
     append_uint64(encoded_data_.size());
     serialized.insert(serialized.end(), encoded_data_.begin(), encoded_data_.end());
-    append_uint64(calculateSegmentChecksum(serialized.data(), serialized.size()));
+    append_uint64(calculateSegmentChecksum(serialized.data(),static_cast<int>(serialized.size())));
 
     return serialized;
 }

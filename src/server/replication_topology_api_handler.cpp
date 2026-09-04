@@ -162,8 +162,8 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
             {"primary_lsn",     primary_lsn},
             {"nodes",           nodes},
             {"edges",           edges},
-            {"total_nodes",     nodes.size()},
-            {"replica_count",   replicas.size()}
+            {"total_nodes",static_cast<int>(nodes.size())},
+            {"replica_count",static_cast<int>(replicas.size())}
         };
 
         return makeResponse(http::status::ok, response_body.dump(),

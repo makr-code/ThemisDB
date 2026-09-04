@@ -78,7 +78,7 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::runCheck() const {
         issues.insert(issues.end(), missing.begin(), missing.end());
     }
 
-    spdlog::info("SchemaConsistencyChecker: check complete – {} issue(s) found", issues.size());
+    spdlog::info("SchemaConsistencyChecker: check complete – {} issue(s) found",static_cast<int>(issues.size()));
 
     // Update the cached last results (results_mutex_ is mutable — no cast needed).
     {

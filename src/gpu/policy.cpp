@@ -137,7 +137,7 @@ std::vector<GPUPolicy::Capability> GPUPolicy::capabilitiesOf(const std::string &
 
 size_t GPUPolicy::grantedCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return grants_.size();
+    return static_cast<int>(grants_.size());
 }
 
 // ============================================================================

@@ -413,7 +413,7 @@ ReplicationSlotManager::listSlots() const
 size_t ReplicationSlotManager::slotCount() const
 {
     std::lock_guard<std::mutex> lock(slots_mutex_);
-    return slots_.size();
+    return static_cast<int>(slots_.size());
 }
 
 uint64_t ReplicationSlotManager::minConfirmedLsn() const

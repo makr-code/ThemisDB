@@ -26,7 +26,7 @@ namespace gpu {
 // ============================================================================
 
 uint64_t GPUKernelValidator::computeChecksum(const std::vector<uint8_t>& data) {
-    return computeChecksum(data.data(), data.size());
+    return computeChecksum(data.data(),static_cast<int>(data.size()));
 }
 
 uint64_t GPUKernelValidator::computeChecksum(const uint8_t* data,

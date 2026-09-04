@@ -271,7 +271,7 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedback(
         result.push_back(entry);
         
         // Apply limit if specified
-        if (limit > 0 && result.size() >= limit) {
+        if (limit > 0 && static_cast<int>(result.size()) >= limit) {
             break;
         }
     }
@@ -469,7 +469,7 @@ size_t FeedbackCollector::pruneOldFeedback(
         for (const auto& e : to_delete) {
             deleteFromDB(e);
         }
-        THEMIS_DEBUG("Pruned {} old feedback entries from DB", to_delete.size());
+        THEMIS_DEBUG("Pruned {} old feedback entries from DB",static_cast<int>(to_delete.size()));
     }
     
     THEMIS_INFO("Pruned {} old feedback entries", deleted);
@@ -503,7 +503,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
         for (const auto& e : to_delete) {
             deleteFromDB(e);
         }
-        THEMIS_DEBUG("Deleted {} feedback DB entries for prompt '{}'", to_delete.size(), prompt_id);
+        THEMIS_DEBUG("Deleted {} feedback DB entries for prompt '{}'",static_cast<int>(to_delete.size()), prompt_id);
     }
     
     THEMIS_INFO("Cleared {} feedback entries for prompt '{}'", count, prompt_id);
@@ -536,7 +536,7 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackPaged(
             continue;
         }
         result.push_back(entry);
-        if (page_size > 0 && result.size() >= page_size) {
+        if (page_size > 0 && static_cast<int>(result.size()) >= page_size) {
             break;
         }
     }
@@ -782,7 +782,7 @@ FeedbackStats FeedbackCollector::calculateStats(
     std::sort(sorted_types.begin(), sorted_types.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    for (size_t i = 0; i < std::min(size_t(3), sorted_types.size()); ++i) {
+    for (size_t i = 0; i < std::min(size_t(3),static_cast<int>(sorted_types.size())); ++i) {
         stats.common_issues.push_back(feedbackTypeToString(sorted_types[i].first));
     }
     
@@ -814,13 +814,13 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
             if (std::isalnum(c)) {
                 cur += static_cast<char>(std::tolower(c));
             } else if (!cur.empty()) {
-                if (STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+                if (STOP_WORDS.find(cur) == STOP_WORDS.end() && static_cast<int>(cur.size()) >= 2) {
                     tokens.push_back(cur);
                 }
                 cur.clear();
             }
         }
-        if (!cur.empty() && STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+        if (!cur.empty() && STOP_WORDS.find(cur) == STOP_WORDS.end() && static_cast<int>(cur.size()) >= 2) {
             tokens.push_back(cur);
         }
         return tokens;

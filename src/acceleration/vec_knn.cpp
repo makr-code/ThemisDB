@@ -361,7 +361,7 @@ void DistanceCache::clear() {
 
 std::size_t DistanceCache::size() const {
     std::lock_guard<std::mutex> lk(mtx_);
-    return map_.size();
+    return static_cast<int>(map_.size());
 }
 
 // ============================================================================
@@ -506,7 +506,7 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
     futures.reserve((static_cast<int>(entities.size()) + batchSize - 1) / batchSize);
 
     for (std::size_t begin = 0; begin < entities.size(); begin += batchSize) {
-        const std::size_t end = std::min(begin + batchSize, entities.size());
+        const std::size_t end = std::min(begin + batchSize,static_cast<int>(entities.size()));
 
         auto worker = [&, begin, end]() {
             std::vector<BaseEntity> batch;

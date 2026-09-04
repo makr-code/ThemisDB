@@ -579,7 +579,7 @@ bool KafkaImporter::parseKafkaUrl(const std::string& url,
     }
 
     const std::string prefix = "kafka://";
-    if (url.substr(0, prefix.size()) == prefix) {
+    if (url.substr(0,static_cast<int>(prefix.size())) == prefix) {
         // Format: kafka://broker:9092/topic  or kafka://b1,b2/topic
         std::string rest = url.substr(prefix.size());
         auto slash_pos = rest.rfind('/');

@@ -78,7 +78,7 @@ GCSBlobBackend::~GCSBlobBackend() = default;
 // ─────────────────────────────────────────────────────────────────────────────
 /*static*/ std::string GCSBlobBackend::computeSHA256(const std::vector<uint8_t>& data) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data.data(), data.size(), hash);
+    SHA256(data.data(),static_cast<int>(data.size()), hash);
 
     std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
@@ -144,7 +144,7 @@ Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
     ref.created_at = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 
-    THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id, data.size());
+    THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id,static_cast<int>(data.size()));
     return Ok(ref);
 #else
     return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
@@ -206,7 +206,7 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef&
             "Hash mismatch for blob: " + ref.id);
     }
 
-    THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id, data.size());
+    THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id,static_cast<int>(data.size()));
     return Ok(std::move(data));
 #else
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,

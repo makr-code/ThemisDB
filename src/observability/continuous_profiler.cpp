@@ -213,7 +213,7 @@ json ProfileSnapshot::toJSON() const {
         {"type", profileTypeName(type)},
         {"timestamp_ms", ts},
         {"duration_s", duration.count()},
-        {"data_size_bytes", data.size()},
+        {"data_size_bytes",static_cast<int>(data.size())},
         {"data_base64", base64Encode(data)}
     };
 }

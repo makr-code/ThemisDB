@@ -184,7 +184,7 @@ std::vector<std::string> ReviewScheduler::getRulesDueForReview(int64_t current_t
         }
     }
 
-    THEMIS_DEBUG("Found {} rules due for review", due_rules.size());
+    THEMIS_DEBUG("Found {} rules due for review",static_cast<int>(due_rules.size()));
     return due_rules;
 }
 
@@ -206,7 +206,7 @@ std::vector<std::string> ReviewScheduler::getOverdueReviews(int64_t current_time
         }
     }
 
-    THEMIS_INFO("Found {} overdue reviews", overdue_rules.size());
+    THEMIS_INFO("Found {} overdue reviews",static_cast<int>(overdue_rules.size()));
     return overdue_rules;
 }
 
@@ -258,7 +258,7 @@ bool ReviewScheduler::importSchedules(const nlohmann::json &j) {
             schedules_[schedule.rule_id] = schedule;
         }
 
-        THEMIS_INFO("Imported {} review schedules", schedules_.size());
+        THEMIS_INFO("Imported {} review schedules",static_cast<int>(schedules_.size()));
         return true;
 
     } catch (const std::exception &e) {
@@ -436,7 +436,7 @@ std::vector<PolicyReview> ReviewWorkflow::getOverdueReviews(int64_t current_time
         }
     }
 
-    THEMIS_INFO("Found {} overdue reviews", result.size());
+    THEMIS_INFO("Found {} overdue reviews",static_cast<int>(result.size()));
     return result;
 }
 
@@ -492,7 +492,7 @@ bool ReviewWorkflow::importReviews(const nlohmann::json &j) {
             reviews_[review.review_id] = review;
         }
 
-        THEMIS_INFO("Imported {} reviews", reviews_.size());
+        THEMIS_INFO("Imported {} reviews",static_cast<int>(reviews_.size()));
         return true;
 
     } catch (const std::exception &e) {
@@ -611,7 +611,7 @@ std::vector<std::string> PolicyExpiration::getExpiredRules(int64_t current_time)
         }
     }
 
-    THEMIS_INFO("Found {} expired rules", expired_rules.size());
+    THEMIS_INFO("Found {} expired rules",static_cast<int>(expired_rules.size()));
     return expired_rules;
 }
 
@@ -657,7 +657,7 @@ std::vector<PolicyExpiration::ExpirationWarning> PolicyExpiration::getRulesExpir
         }
     }
 
-    THEMIS_DEBUG("Found {} rules expiring soon", warnings.size());
+    THEMIS_DEBUG("Found {} rules expiring soon",static_cast<int>(warnings.size()));
     return warnings;
 }
 
@@ -697,7 +697,7 @@ std::vector<std::string> PolicyExpiration::processExpirations(PolicyManager &pol
         }
     }
 
-    THEMIS_INFO("Processed expirations: disabled {} rules", disabled_rules.size());
+    THEMIS_INFO("Processed expirations: disabled {} rules",static_cast<int>(disabled_rules.size()));
     return disabled_rules;
 }
 
@@ -747,7 +747,7 @@ bool PolicyExpiration::importExpirations(const nlohmann::json &j) {
             expirations_[config.rule_id] = config;
         }
 
-        THEMIS_INFO("Imported {} expirations", expirations_.size());
+        THEMIS_INFO("Imported {} expirations",static_cast<int>(expirations_.size()));
         return true;
 
     } catch (const std::exception &e) {

@@ -420,7 +420,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     // The exclusive lock is acquired and released once per micro-batch so that
     // concurrent readers (query()) can slip in between batches.
     for (size_t batch_start = 0; batch_start < filtered.size(); batch_start += kMicroBatchSize) {
-        const size_t batch_end = std::min(batch_start + kMicroBatchSize, filtered.size());
+        const size_t batch_end = std::min(batch_start + kMicroBatchSize,static_cast<int>(filtered.size()));
         int batch_applied      = 0;
 
         {

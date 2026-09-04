@@ -65,7 +65,7 @@ void DistributedDataLoader::initialize_indices() {
 
 std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t batch_idx) {
     size_t start_idx = batch_idx * batch_size_;
-    size_t end_idx = std::min(start_idx + batch_size_, dataset_.size());
+    size_t end_idx = std::min(start_idx + batch_size_,static_cast<int>(dataset_.size()));
     
     // Load samples for this batch
     std::vector<GPUTensor> batch_samples;
@@ -84,7 +84,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t
     
     for (int gpu_idx = 0; gpu_idx < ctx_.num_gpus(); ++gpu_idx) {
         size_t gpu_start = gpu_idx * samples_per_gpu;
-        size_t gpu_end = std::min(gpu_start + samples_per_gpu, batch_samples.size());
+        size_t gpu_end = std::min(gpu_start + samples_per_gpu,static_cast<int>(batch_samples.size()));
         
         if (gpu_start >= static_cast<int>(batch_samples.size())) {
             // Empty shard for this GPU

@@ -89,7 +89,7 @@ AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) cons
     }
     
     const auto& history = it->second;
-    size_t count = std::min(limit, history.size());
+    size_t count = std::min(limit,static_cast<int>(history.size()));
     
     return std::vector<QueryExecution>(
         history.end() - count,

@@ -227,7 +227,7 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
         if (ranking_response.empty()) {
             return buildRecencyRanking(history.size());
         }
-        return parseRankedIndices(ranking_response, history.size());
+        return parseRankedIndices(ranking_response,static_cast<int>(history.size()));
     } catch (const std::exception& ex) {
         spdlog::warn("LLMExtractiveCompressor: ranking via LLM failed; using recency fallback: {}", ex.what());
         return buildRecencyRanking(history.size());

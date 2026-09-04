@@ -1116,7 +1116,7 @@ std::string BpmnSerializer::validateStructure(
     }
     if (self_loop_count > nodes.size() / 10) {
         // More than 10% self-loops is suspicious, but not necessarily invalid
-        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count, edges.size());
+        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count,static_cast<int>(edges.size()));
     }
 
     // 6. Validate node names are reasonable length

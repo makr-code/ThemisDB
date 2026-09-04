@@ -605,7 +605,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         auto buckets = bucketiseRow(
             row, schema, numeric_thresholds, category_orders, bucket_count);
         applyForeignKeyPropagation(
-            buckets, cfg.fk_graph.edges, cfg.fk_graph, schema.size(), bucket_count);
+            buckets, cfg.fk_graph.edges, cfg.fk_graph,static_cast<int>(schema.size()), bucket_count);
 
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(

@@ -530,7 +530,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
         // Replace all occurrences, advancing past each replacement to avoid re-substitution
         size_t pos = 0;
         while ((pos = resolved_query.find(placeholder, pos)) != std::string::npos) {
-            resolved_query.replace(pos, placeholder.size(), replacement);
+            resolved_query.replace(pos,static_cast<int>(placeholder.size()), replacement);
             pos += replacement.size(); // skip over newly inserted replacement text
         }
     }
@@ -567,7 +567,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
         }
     }
 
-    return nlohmann::json{{"results", rows}, {"count", rows.size()}};
+    return nlohmann::json{{"results", rows}, {"count",static_cast<int>(rows.size())}};
 }
 
 std::string EthicsApiHandler::extractQueryParam(

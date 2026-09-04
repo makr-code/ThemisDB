@@ -430,7 +430,7 @@ float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<floa
 	  return std::numeric_limits<float>::infinity();
 	}
 	// Return squared L2 to match existing distance semantics (lower is better)
-	return simd::l2_distance_sq(a.data(), b.data(), a.size());
+	return simd::l2_distance_sq(a.data(), b.data(),static_cast<int>(a.size()));
 }
 
 float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std::vector<float>& b) {
@@ -879,7 +879,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	
 	// Phase 1: Audit log for bulk embedding rebuild (threshold: 100+ vectors)
 	if (static_cast<int>(cache_.size()) > = 100) {
-		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage", cache_.size());
+		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage",static_cast<int>(cache_.size()));
 	}
 	
 	return Status::OK();
@@ -1363,14 +1363,14 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		float dist = distance(query, vec);
 		
 		// Skip vectors that can't possibly be in top-k
-		if (dist > threshold && heap.size() >= k) {
+		if (dist > threshold && static_cast<int>(heap.size()) >= k) {
 			return;
 		}
 		
 		heap.push_back({pk, dist});
 		
 		// Update threshold periodically using nth_element (partial sort)
-		if (static_cast<int>(heap.size()) > = k && heap.size() % 32 == 0) {
+		if (static_cast<int>(heap.size()) > = k && static_cast<int>(heap.size()) % 32 == 0) {
 			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
 			threshold = heap[static_cast<int>(k - 1)].distance;
@@ -1486,7 +1486,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				// Prefetch next block of vectors into L2 cache
 				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
 				if (static_cast<int>(cache_ptrs.size()) > prefetch_start) {
-					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE, cache_ptrs.size());
+					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE,static_cast<int>(cache_ptrs.size()));
 					for (size_t i = prefetch_start; i < prefetch_end; ++i) {
 						const auto& vec = cache_ptrs[i]->second;
 						if (!vec.empty()) {
@@ -1507,7 +1507,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				}
 				
 				// Process current block
-				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
+				size_t block_end = std::min(block_start + BLOCK_SIZE,static_cast<int>(cache_ptrs.size()));
 				for (size_t i = block_start; i < block_end; ++i) {
 					const auto& [pk, vec] = *cache_ptrs[i];
 					if (static_cast<int>(vec.size()) == expected_dim) {
@@ -1651,7 +1651,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			filtered.reserve(k);
 			std::unordered_set<std::string> seen;
 
-			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && filtered.size() < k; ++attempt) {
+			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && static_cast<int>(filtered.size()) < k; ++attempt) {
 				auto top = appr->searchKnn(q.data(), candidateCount);
 				std::vector<Result> tmp = {};
 
@@ -1696,7 +1696,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				return {Status::OK(), std::move(filtered)};
 			}
 			// Wenn nicht genügend Treffer: Fallback für Rest via Brute-Force über Whitelist (korrekt und vollständig)
-			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force", filtered.size(), k);
+			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force",static_cast<int>(filtered.size()), k);
 			auto bf = bruteForceSearch_(query, k, whitelist);
 			return {Status::OK(), std::move(bf)};
 		} catch (...) {
@@ -1723,7 +1723,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				out.push_back({id_to_pk_snapshot[idx], r.distance});
 			}
 		}
-		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann", out.size());
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann",static_cast<int>(out.size()));
 		return {Status::OK(), std::move(out)};
 	}
 
@@ -1732,7 +1732,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	
 	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
 	if (static_cast<int>(results.size()) > = 10 || (whitelist && !whitelist->empty())) {
-		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn", results.size());
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn",static_cast<int>(results.size()));
 	}
 	
 	return {Status::OK(), std::move(results)};
@@ -1765,7 +1765,7 @@ VectorIndexManager::searchKnnEvaluated(
 
 	std::vector<Result> filtered = {};
 
-	filtered.reserve(std::min(k, candidates.size()));
+	filtered.reserve(std::min(k,static_cast<int>(candidates.size())));
 	for (const auto& candidate : candidates) {
 		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
 		if (!entity_blob.has_value()) {
@@ -1843,7 +1843,7 @@ VectorIndexManager::searchKnnRadiusEvaluated(
 
 		if (evaluator->evaluate(evaluator_type, &doc_json)) {
 			filtered.push_back(candidate);
-			if (max_results > 0 && filtered.size() >= max_results) {
+			if (max_results > 0 && static_cast<int>(filtered.size()) >= max_results) {
 				break;
 			}
 		}
@@ -2191,7 +2191,7 @@ VectorIndexManager::searchKnnPreFiltered(
 	whitelist.assign(whitelistSet.begin(), whitelistSet.end());
 
 	THEMIS_INFO("searchKnnPreFiltered: Generated whitelist with {} candidates from {} filters", 
-		whitelist.size(), filters.size());
+		whitelist.size(),static_cast<int>(filters.size()));
 
 	// Check if whitelist is too large (inefficient for HNSW prefilter)
 	if (static_cast<int>(whitelist.size()) > maxFilterScanSize) {
@@ -2240,7 +2240,7 @@ VectorIndexManager::searchKnnRadius(
 		for (const auto& c : candidates) {
 			if (c.distance <= epsilon) {
 				results.push_back(c);
-				if (max_results > 0 && results.size() >= max_results) {
+				if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
 				  break;
 				}
 			}
@@ -2259,7 +2259,7 @@ VectorIndexManager::searchKnnRadius(
 			float dist = distance(query, vec);
 			if (dist <= epsilon) {
 				results.push_back({pk, dist});
-				if (max_results > 0 && results.size() >= max_results) {
+				if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
 				  break;
 				}
 			}
@@ -2289,7 +2289,7 @@ VectorIndexManager::searchKnnRadius(
 				float dist = distance(query, it->second);
 				if (dist <= epsilon) {
 					results.push_back({pk, dist});
-					if (max_results > 0 && results.size() >= max_results) {
+					if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
 					  break;
 					}
 				}
@@ -2426,7 +2426,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	}
 
 	whitelist.assign(whitelistSet.begin(), whitelistSet.end());
-	THEMIS_INFO("searchKnnRadiusPreFiltered: Generated whitelist with {} candidates", whitelist.size());
+	THEMIS_INFO("searchKnnRadiusPreFiltered: Generated whitelist with {} candidates",static_cast<int>(whitelist.size()));
 
 	return searchKnnRadius(query, epsilon, max_results, &whitelist);
 }
@@ -2504,7 +2504,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					}
 					
 					std::string encData = encField.toBase64();
-					encFile.write(encData.data(), encData.size());
+					encFile.write(encData.data(),static_cast<int>(encData.size()));
 					encFile.close();
 					
 					// 5. Remove temporary file
@@ -2606,7 +2606,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 						return Status::Error("loadIndex: Failed to write temporary index file");
 					}
 					
-					tempFile.write(reinterpret_cast<const char*>(indexData.data()), indexData.size());
+					tempFile.write(reinterpret_cast<const char*>(indexData.data()),static_cast<int>(indexData.size()));
 					tempFile.close();
 					
 					// 4. Load from temporary file
@@ -3009,7 +3009,7 @@ VectorIndexManager::getStatistics() const {
 
 	// Sample random pairs
 	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) < pks.size(); ++i) {
-		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
+		for (size_t j = i + 1; j < std::min(i + 10,static_cast<int>(pks.size())); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);
 		}
@@ -3436,7 +3436,7 @@ VectorIndexManager::searchWithRotation(
 		if (status.ok) {
 			rotary_query_rotations_.fetch_add(1);
 			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
-			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
+			logAuditEvent_("vector", "query", "search_with_rotation",static_cast<int>(results.size()));
 		}
 		
 		return {status, results};

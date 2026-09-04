@@ -279,7 +279,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
 
 #if THEMIS_HAS_TBB
     if (do_parallel) {
-        tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&]([[maybe_unused]] const tbb::blocked_range<size_t>& r) {
+        tbb::parallel_for(tbb::blocked_range<size_t>(0,static_cast<int>(items.size())), [&]([[maybe_unused]] const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
                 process_item(i);
             }
@@ -583,7 +583,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     
     THEMIS_INFO("encryptInternal: key_id={}, key_ver={}, iv_len={}, ciphertext_len={}, tag_len={}",
-                blob.key_id, blob.key_version, blob.iv.size(), blob.ciphertext.size(), blob.tag.size());
+                blob.key_id, blob.key_version,static_cast<int>(blob.iv.size()),static_cast<int>(blob.ciphertext.size()),static_cast<int>(blob.tag.size()));
     // Write debug dump (best-effort, opt-in via THEMIS_DEBUG_ENC_DIR env var)
     write_debug_dump("encrypt", blob, true);
 
@@ -640,7 +640,7 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
     
     // Finalize decryption (verifies authentication tag)
     THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
-                blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
+                blob.key_id, blob.key_version,static_cast<int>(blob.ciphertext.size()),static_cast<int>(blob.tag.size()),static_cast<int>(blob.iv.size()),static_cast<int>(key.size()));
     int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len);
     if (ret <= 0) {
         // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)

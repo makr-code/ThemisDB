@@ -747,7 +747,7 @@ std::string ContentManager::normalizeId(const std::string& id, const std::string
 
 std::string ContentManager::computeSHA256(const std::string& blob) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(blob.data()), blob.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(blob.data()),static_cast<int>(blob.size()), digest);
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
@@ -896,11 +896,11 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             [[maybe_unused]] size_t compressed_size = original_size;
             [[maybe_unused]] float compression_ratio = 1.0f;
             
-            if (should_compress(meta.mime_type, bb.size())) {
+            if (should_compress(meta.mime_type,static_cast<int>(bb.size()))) {
 #ifdef THEMIS_HAS_ZSTD
-                auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()), bb.size(), zstd_level);
+                auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()),static_cast<int>(bb.size()), zstd_level);
                 // Only use compressed version if it actually reduces size (avoid decompression overhead for incompressible data)
-                if (!comp.empty() && comp.size() < bb.size()) {
+                if (!comp.empty() && static_cast<int>(comp.size()) < bb.size()) {
                     to_store = std::move(comp);
                     compressed_size = to_store.size();
                     compression_ratio = static_cast<float>(original_size) / static_cast<float>(compressed_size);
@@ -933,7 +933,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     meta.compression_type.clear();
                     if (!comp.empty()) {
                         THEMIS_INFO("Content blob {} skipped compression (would increase size: {}B -> {}B)", 
-                                   meta.id, original_size, comp.size());
+                                   meta.id, original_size,static_cast<int>(comp.size()));
                     }
                 }
 #else
@@ -981,7 +981,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     auto meta_info = kp->getKeyMetadata(encryption_key_id, 0);
                     // HKDF ableiten (info = "content_blob")
                     std::vector<uint8_t> salt(ctx.begin(), ctx.end());
-                    auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob", key_bytes.size());
+                    auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",static_cast<int>(key_bytes.size()));
                     auto blobEnc = field_encryption_->encryptWithKey(std::string(to_store.begin(), to_store.end()), encryption_key_id, meta_info.version, derived_key);
                     json bjson = blobEnc.toJson();
                     std::string benc = bjson.dump();
@@ -1196,7 +1196,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         auto dek = kp->getKey("dek");
                         auto meta_info = kp->getKeyMetadata("dek", 0);
                         std::string info = std::string("vector_meta:") + f;
-                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info, dek.size());
+                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,static_cast<int>(dek.size()));
                         auto blobEnc = field_encryption_->encryptWithKey(plain, std::string("dek"), meta_info.version, derived);
                         std::string enc_b64 = blobEnc.toBase64();
                         // Metadaten ersetzen: <f>_encrypted + <f>_enc Flag, Original entfernen/neutralisieren
@@ -1330,7 +1330,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                         std::string b64 = enc_section[enc_key].get<std::string>();
                         auto blob = EncryptedBlob::fromBase64(b64);
                         std::string info = std::string("vector_meta:") + f;
-                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info, dek.size());
+                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,static_cast<int>(dek.size()));
                         std::string plain = field_encryption_->decryptWithKey(blob, derived);
                         auto pj = json::parse(plain);
                         j[f] = pj; // wiederherstellen
@@ -1369,7 +1369,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
             auto kp = field_encryption_->getKeyProvider();
             auto key_bytes = kp->getKey(blob.key_id, blob.key_version);
             std::vector<uint8_t> salt(ctx.begin(), ctx.end());
-            auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob", key_bytes.size());
+            auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",static_cast<int>(key_bytes.size()));
             std::string plain = field_encryption_->decryptWithKey(blob, derived_key);
             
             // Lazy Re-Encryption: Check if blob uses outdated key version
@@ -1391,7 +1391,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                 try {
                     // Re-encrypt with latest key version
                     auto latest_key = kp->getKey(blob.key_id); // no version arg -> latest
-                    auto latest_derived = themis::utils::HKDFCache::threadLocal().derive_cached(latest_key, salt, "content_blob", latest_key.size());
+                    auto latest_derived = themis::utils::HKDFCache::threadLocal().derive_cached(latest_key, salt, "content_blob",static_cast<int>(latest_key.size()));
                     auto new_blob = field_encryption_->encryptWithKey(plain, blob.key_id, latest_version, latest_derived);
                     json new_bj = new_blob.toJson();
                     std::string new_raw = new_bj.dump();
@@ -2673,7 +2673,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             }
 
             THEMIS_INFO("OCR extraction: {} chars, {} chunks from '{}' ({})",
-                        ocr_text.size(), chunks_json.size(), filename, detected_mime);
+                        ocr_text.size(),static_cast<int>(chunks_json.size()), filename, detected_mime);
         } else {
             THEMIS_INFO("OCR extraction returned no text for '{}' ({})",
                         filename, detected_mime);
@@ -2923,7 +2923,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
             THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
             sha256_ctx.reset();
         } else {
-            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(), header_buf.size());
+            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(),static_cast<int>(header_buf.size()));
         }
     } else {
         THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
@@ -3125,7 +3125,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
 
     THEMIS_INFO("Streaming ingestion completed: {} bytes, {} text chunks, file '{}'",
-                total_bytes, chunk_ids.size(), filename);
+                total_bytes,static_cast<int>(chunk_ids.size()), filename);
 
     result.success            = true;
     result.primary_content_id = content_id;

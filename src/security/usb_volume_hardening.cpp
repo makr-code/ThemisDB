@@ -137,12 +137,12 @@ bool USBVolumeHardening::verifyVolumeHash(const std::string& mount_path,
 
     if (static_cast<int>(actual.size()) != expected_hash.size()) {
         THEMIS_WARN("USBVolumeHardening: volume hash length mismatch (actual={} expected={})",
-                    actual.size(), expected_hash.size());
+                    actual.size(),static_cast<int>(expected_hash.size()));
         return false;
     }
 
     // Constant-time comparison to prevent timing attacks.
-    bool match = (CRYPTO_memcmp(actual.data(), expected_hash.data(), actual.size()) == 0);
+    bool match = (CRYPTO_memcmp(actual.data(), expected_hash.data(),static_cast<int>(actual.size())) == 0);
     if (!match) {
         THEMIS_WARN("USBVolumeHardening: volume hash mismatch — possible FAT manipulation");
     }
@@ -348,7 +348,7 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
     }
 
     // Constant-time comparison.
-    bool match = (CRYPTO_memcmp(actual.data(), expected_serial.data(), actual.size()) == 0);
+    bool match = (CRYPTO_memcmp(actual.data(), expected_serial.data(),static_cast<int>(actual.size())) == 0);
     if (!match) {
         THEMIS_WARN("USBVolumeHardening: USB serial mismatch — possible cloned USB device");
     }

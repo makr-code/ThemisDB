@@ -469,7 +469,7 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
         std::vector<std::pair<std::string, StepState>> results;
         results.reserve(wave.size());
 
-        if (allow_parallel && wave.size() > 1) {
+        if (allow_parallel && static_cast<int>(wave.size()) > 1) {
             std::vector<std::future<std::pair<std::string, StepState>>> futures;
             futures.reserve(wave.size());
             for (const auto& name : wave) {

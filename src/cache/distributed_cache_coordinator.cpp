@@ -351,7 +351,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
     }
 
     if (static_cast<int>(payload.size()) > config_.max_message_bytes) {
-        THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping", payload.size());
+        THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping",static_cast<int>(payload.size()));
         return;
     }
 
@@ -958,7 +958,7 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(), expected_sig.size()) != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),static_cast<int>(expected_sig.size())) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }

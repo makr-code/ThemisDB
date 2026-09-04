@@ -284,7 +284,7 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
             }
         }
 
-        spdlog::debug("Read {} transaction WAL entries from LSN {}", entries.size(), start_lsn.toString());
+        spdlog::debug("Read {} transaction WAL entries from LSN {}",static_cast<int>(entries.size()), start_lsn.toString());
     } catch (const std::exception& e) {
         spdlog::error("Failed to read transaction WAL entries: {}", e.what());
     }

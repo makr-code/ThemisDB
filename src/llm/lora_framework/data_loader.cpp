@@ -129,7 +129,7 @@ bool DataLoader::loadFromFile(const std::string& filepath) {
         shuffle();
     }
     
-    spdlog::info("Loaded {} samples", samples_.size());
+    spdlog::info("Loaded {} samples",static_cast<int>(samples_.size()));
     return true;
 }
 
@@ -190,7 +190,7 @@ bool DataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sampl
         shuffle();
     }
     
-    spdlog::info("Loaded {} samples from memory", samples_.size());
+    spdlog::info("Loaded {} samples from memory",static_cast<int>(samples_.size()));
     return true;
 }
 
@@ -290,7 +290,7 @@ bool DataLoader::parsePlainText(const std::string& filepath) {
     const size_t chunk_size = 512;  // characters per chunk
     
     for (size_t i = 0; i < text.size(); i += chunk_size) {
-        size_t end = std::min(i + chunk_size, text.size());
+        size_t end = std::min(i + chunk_size,static_cast<int>(text.size()));
         std::string chunk = text.substr(i, end - i);
         
         InstructionDataSample sample;
@@ -352,7 +352,7 @@ TrainingBatch DataLoader::getNextBatch() {
     // Collect indices for this batch
     std::vector<size_t> batch_indices = {};
 
-    size_t end_index = std::min(current_index_ + config_.batch_size, indices_.size());
+    size_t end_index = std::min(current_index_ + config_.batch_size,static_cast<int>(indices_.size()));
     
     for (size_t i = current_index_; i < end_index; ++i) {
         batch_indices.push_back(indices_[i]);

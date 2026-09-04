@@ -37,7 +37,7 @@ public:
     {
         ingestion::FormatExtractResult out;
         try {
-            std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
+            std::string blob(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
 
             ContentType ct;
             ct.mime_type = mime_type;

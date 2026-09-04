@@ -212,7 +212,7 @@ public:
                 processed++;
 
                 if ([[maybe_unused]] callback && processed % 10 == 0) {
-                    callback(processed, sample_ids.size(),
+                    callback(processed,static_cast<int>(sample_ids.size()),
                              "Enriched sample " + sample_id);
                 }
 
@@ -325,7 +325,7 @@ public:
                 processed++;
 
                 if ([[maybe_unused]] callback && processed % 10 == 0) {
-                    callback(processed, sample_ids.size(),
+                    callback(processed,static_cast<int>(sample_ids.size()),
                              "Query-enriched sample " + sample_id);
                 }
             } catch (...) {

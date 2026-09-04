@@ -481,7 +481,7 @@ public:
         shuffle_lcg(trials, cfg.seed);
 
         // Cap at max_trials
-        if (cfg.max_trials > 0 && trials.size() > cfg.max_trials) {
+        if (cfg.max_trials > 0 && static_cast<int>(trials.size()) > cfg.max_trials) {
             trials.resize(cfg.max_trials);
         }
 
@@ -809,7 +809,7 @@ void ConfidenceCalibrator::reset() {
 }
 
 size_t ConfidenceCalibrator::sampleCount() const {
-    return samples_.size();
+    return static_cast<int>(samples_.size());
 }
 
 } // namespace training

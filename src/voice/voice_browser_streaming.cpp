@@ -542,7 +542,7 @@ VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     auto id = session->start();
     sessions_.emplace(id, std::move(session));
     THEMIS_INFO("VoiceStreamingManager: created session {} (active={})",
-                id, sessions_.size());
+                id,static_cast<int>(sessions_.size()));
     return id;
 }
 
@@ -567,12 +567,12 @@ void VoiceStreamingManager::closeSession(const StreamID& stream_id) {
     it->second->end();
     sessions_.erase(it);
     THEMIS_INFO("VoiceStreamingManager: closed session {} (active={})",
-                stream_id, sessions_.size());
+                stream_id,static_cast<int>(sessions_.size()));
 }
 
 size_t VoiceStreamingManager::activeSessionCount() const noexcept {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    return sessions_.size();
+    return static_cast<int>(sessions_.size());
 }
 
 // ============================================================================

@@ -146,7 +146,7 @@ void DownsamplingPipeline::addPolicy([[maybe_unused]] const DownsamplingPolicy& 
     tier_selector_.registerPolicy(policy);
 
     THEMIS_INFO("DownsamplingPipeline: registered policy for '{}' with {} tier(s)",
-                policy.metric, policy.tiers.size());
+                policy.metric,static_cast<int>(policy.tiers.size()));
 }
 
 size_t DownsamplingPipeline::refresh(int64_t to_ms) {

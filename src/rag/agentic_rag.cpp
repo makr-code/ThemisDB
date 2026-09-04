@@ -194,7 +194,7 @@ AgenticRAGResult AgenticRAG::run(
 
     THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}, "
                 "max_session_tokens={}",
-                initial_query, initial_docs.size(), impl_->config.max_iterations,
+                initial_query,static_cast<int>(initial_docs.size()), impl_->config.max_iterations,
                 impl_->config.max_session_tokens);
 
     AgenticRAGResult result;
@@ -270,7 +270,7 @@ AgenticRAGResult AgenticRAG::run(
         const auto iter_start = std::chrono::steady_clock::now();
 
         THEMIS_DEBUG("AgenticRAG iteration {}: query='{}', docs={}",
-                     iter, current_query, accumulated.size());
+                     iter, current_query,static_cast<int>(accumulated.size()));
 
         // ----------------------------------------------------------------
         // 1. Select documents for this iteration.
@@ -356,7 +356,7 @@ AgenticRAGResult AgenticRAG::run(
         }
 
         THEMIS_DEBUG("AgenticRAG iter {}: retrieved {} new docs for query='{}'",
-                     iter, new_docs.size(), next_query);
+                     iter,static_cast<int>(new_docs.size()), next_query);
 
         if (new_docs.empty()) {
             THEMIS_INFO("AgenticRAG no new documents at iteration {}; stopping.", iter);

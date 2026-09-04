@@ -107,7 +107,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     if (config_.preserveState) {
         saved_state = saveState(module_name);
         if (!saved_state.empty()) {
-            spdlog::debug("HotReloadManager: saved state for '{}' ({} bytes)", module_name, saved_state.size());
+            spdlog::debug("HotReloadManager: saved state for '{}' ({} bytes)", module_name,static_cast<int>(saved_state.size()));
         }
     }
 

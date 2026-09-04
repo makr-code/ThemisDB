@@ -109,7 +109,7 @@ ResultFieldType inferFieldType(const nlohmann::json& value) {
 
     if (value.is_array()) {
         // A homogeneous numeric array with >1 elements is a VECTOR (embedding)
-        if (!value.empty() && value.size() > 1) {
+        if (!value.empty() && static_cast<int>(value.size()) > 1) {
             bool all_numeric = true;
             for (const auto& elem : value) {
                 if (!elem.is_number()) { all_numeric = false; break; }

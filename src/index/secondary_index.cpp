@@ -50,13 +50,13 @@ std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std
 	std::string key = {};
 	key.reserve(5 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(token.size()) + 1 + pk.size());
 	key += "fttf:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	key.append(column.data(), column.size());
+	key.append(column.data(),static_cast<int>(column.size()));
 	key += ":";
-	key.append(token.data(), token.size());
+	key.append(token.data(),static_cast<int>(token.size()));
 	key += ":";
-	key.append(pk.data(), pk.size());
+	key.append(pk.data(),static_cast<int>(pk.size()));
 	return key;
 }
 
@@ -65,11 +65,11 @@ std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table,
 	std::string key = {};
 	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + pk.size());
 	key += "ftdlen:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	key.append(column.data(), column.size());
+	key.append(column.data(),static_cast<int>(column.size()));
 	key += ":";
-	key.append(pk.data(), pk.size());
+	key.append(pk.data(),static_cast<int>(pk.size()));
 	return key;
 }
 
@@ -78,9 +78,9 @@ std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view tab
 	std::string key = {};
 	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1);
 	key += "ftdlen:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	key.append(column.data(), column.size());
+	key.append(column.data(),static_cast<int>(column.size()));
 	key += ":";
 	return key;
 }
@@ -131,9 +131,9 @@ std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std:
 	std::string key = {};
 	key.reserve(8 + static_cast<int>(table.size()) + 1 + column.size());
 	key += "idxmeta:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
-	key.append(column.data(), column.size());
+	key.append(column.data(),static_cast<int>(column.size()));
 	return key;
 }
 
@@ -149,7 +149,7 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 	std::string key = {};
 	key.reserve(total);
 	key += "idxmeta:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -185,7 +185,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -198,7 +198,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 		key += encoded;
 		key += ":";
 	}
-	key.append(pk.data(), pk.size());
+	key.append(pk.data(),static_cast<int>(pk.size()));
 	return key;
 }
 
@@ -222,7 +222,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
-	key.append(table.data(), table.size());
+	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -300,13 +300,13 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	// ordering matches numeric ordering for ORDER BY on range indices.
 	bool all_digits = !raw.empty();
 	for (char ch : raw) { if (!std::isdigit(static_cast<unsigned char>(ch))) { all_digits = false; break; } }
-	if (all_digits && raw.size() <= 20) {
+	if (all_digits && static_cast<int>(raw.size()) <= 20) {
 		// Pad to 20 characters (large enough for typical integers)
 		const size_t width = 20;
 		if (static_cast<int>(raw.size()) < width) {
 		  out.append(width - raw.size(), '0');
 		}
-		out.append(raw.data(), raw.size());
+		out.append(raw.data(),static_cast<int>(raw.size()));
 		return out;
 	}
 
@@ -777,7 +777,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	
 		THEMIS_INFO("Fulltext Index erstellt: {}.{} (stemming={}, lang={}, stopwords_enabled={}, stopwords={}, normalize_umlauts={})", 
-			table, column, config.stemming_enabled, config.language, config.stopwords_enabled, config.stopwords.size(), config.normalize_umlauts);
+			table, column, config.stemming_enabled, config.language, config.stopwords_enabled,static_cast<int>(config.stopwords.size()), config.normalize_umlauts);
 	return Status::OK();
 }
 
@@ -1300,7 +1300,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 	}
 
 	for (size_t chunk_begin = 0; chunk_begin < entities.size(); chunk_begin += transaction_batch_size) {
-		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size, entities.size());
+		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size,static_cast<int>(entities.size()));
 		auto batch = db_.createWriteBatch();
 		if (!batch) {
 		  return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
@@ -2738,7 +2738,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	auto parsePhrases = [](std::string_view q) {
 		std::vector<std::string> phrases = {};
 
-		phrases.reserve(std::max<size_t>(1, q.size() / 16));
+		phrases.reserve(std::max<size_t>(1,static_cast<int>(q.size()) / 16));
 		std::string cleaned = {};
 		cleaned.reserve(q.size());
 		bool in_quotes = false;
@@ -2894,7 +2894,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		  universe.insert(pk);
 		}
 	}
-	const double N = static_cast<double>(std::max<size_t>(1, universe.size()));
+	const double N = static_cast<double>(std::max<size_t>(1,static_cast<int>(universe.size())));
 
 	// DocLength laden für Kandidaten (für avgdl)
 	std::unordered_map<std::string, double> docLen = {};
@@ -3194,7 +3194,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
 		// Extract token from ftidx:table:column:token:pk
 		std::string keyStr(key);
-		size_t thirdColon = keyStr.find(':', prefix.size());
+		size_t thirdColon = keyStr.find(':',static_cast<int>(prefix.size()));
 		if (thirdColon != std::string::npos) {
 			size_t fourthColon = keyStr.find(':', thirdColon + 1);
 			if (fourthColon != std::string::npos) {
@@ -3252,7 +3252,7 @@ bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& val
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
 	std::vector<std::string> tokens = {};
 
-	tokens.reserve(std::max<size_t>(1, text.size() / 5));
+	tokens.reserve(std::max<size_t>(1,static_cast<int>(text.size()) / 5));
 	std::string current = {};
 	current.reserve(std::min<size_t>(text.size(), 32));
 	

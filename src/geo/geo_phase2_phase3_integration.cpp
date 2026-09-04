@@ -220,7 +220,7 @@ public:
         std::size_t ring_index) noexcept {
         if (!isRingClosed(lons, lats)) {
             const auto msg = GeometryValidationErrorBuilder::unclosedRing(
-                ring_index, lons.size());
+                ring_index,static_cast<int>(lons.size()));
             spdlog::warn("{}", msg);
             return false;
         }

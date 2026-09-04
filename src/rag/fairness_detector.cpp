@@ -506,7 +506,7 @@ std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
         throw std::runtime_error("FairnessDetector not initialized");
     }
 
-    THEMIS_DEBUG("Batch bias detection for {} documents", documents.size());
+    THEMIS_DEBUG("Batch bias detection for {} documents",static_cast<int>(documents.size()));
     
     std::vector<judge::BiasScore> results = {};
 
@@ -538,7 +538,7 @@ FairnessDetector::filterByBiasThreshold(const std::vector<std::string>& document
     }
     
     THEMIS_INFO("Filtered {} documents by bias threshold {}: {} passed",
-               documents.size(), config_.bias_threshold, filtered.size());
+               documents.size(), config_.bias_threshold,static_cast<int>(filtered.size()));
     
     return filtered;
 }

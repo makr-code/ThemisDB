@@ -672,7 +672,7 @@ void SelfAwareness::pruneSnapshots() {
 // Get statistics
 nlohmann::json SelfAwareness::getStatistics() const {
     return {
-        {"total_snapshots", snapshots_.size()},
+        {"total_snapshots",static_cast<int>(snapshots_.size())},
         {"oldest_snapshot", snapshots_.empty() ? "none" : "timestamp"},
         {"latest_snapshot", snapshots_.empty() ? "none" : "timestamp"},
         {"enabled", config_.enabled},

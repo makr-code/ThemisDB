@@ -111,12 +111,12 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     size_t batch_size = config_.default_batch_size > 0 ? config_.default_batch_size : 1;
 
     for (size_t i = 0; i < items.size(); i += batch_size) {
-        size_t end = std::min(i + batch_size, items.size());
+        size_t end = std::min(i + batch_size,static_cast<int>(items.size()));
         for (size_t j = i; j < end; ++j) {
             results.push_back(processItem(items[j]));
         }
         if (progress_cb) {
-            progress_cb(job_id, end, items.size());
+            progress_cb(job_id, end,static_cast<int>(items.size()));
         }
     }
 
@@ -420,7 +420,7 @@ float VoiceBatchProcessor::computeNoiseFloor(
 
     // Take the quietest 10% of frames as noise floor estimate
     std::sort(frame_rms.begin(), frame_rms.end());
-    size_t n = std::max<size_t>(1, frame_rms.size() / 10);
+    size_t n = std::max<size_t>(1,static_cast<int>(frame_rms.size()) / 10);
     float sum = 0.0f;
     for (size_t i = 0; i < n; ++i) {
       sum += frame_rms[i];

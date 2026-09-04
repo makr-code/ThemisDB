@@ -154,7 +154,7 @@ std::size_t AdaptiveConnectionPool::size() const noexcept {
 
 std::size_t AdaptiveConnectionPool::available() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return available_slots_.size();
+    return static_cast<int>(available_slots_.size());
 }
 
 std::size_t AdaptiveConnectionPool::in_use() const noexcept {

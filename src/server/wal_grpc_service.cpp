@@ -160,7 +160,7 @@ private:
                 if (decompressed.empty()) {
                     return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "Failed to decompress entries_compressed");
                 }
-                std::string payload(reinterpret_cast<const char*>(decompressed.data()), decompressed.size());
+                std::string payload(reinterpret_cast<const char*>(decompressed.data()),static_cast<int>(decompressed.size()));
                 return parseJsonArray(payload, out);
             }
 

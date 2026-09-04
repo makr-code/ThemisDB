@@ -179,7 +179,7 @@ nlohmann::json TemporalCompressor::applyZstd(const nlohmann::json& doc, int /*le
     return nlohmann::json{
         {"__compressed", "zstd"},
         {"__data",       encoded},
-        {"__original_size", raw.size()}
+        {"__original_size",static_cast<int>(raw.size())}
     };
 }
 

@@ -377,7 +377,7 @@ void WasmPluginSandbox::clearHostFunctions() {
 }
 
 size_t WasmPluginSandbox::hostFunctionCount() const noexcept {
-    return host_fns_.size();
+    return static_cast<int>(host_fns_.size());
 }
 
 // =============================================================================
@@ -436,9 +436,9 @@ bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t> &bytes, const s
     module_info_ = WasmModuleValidator::validate(bytes);
 
     if (!module_info_.module_name.empty()) {
-        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_info_.module_name, bytes.size());
+        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_info_.module_name,static_cast<int>(bytes.size()));
     } else {
-        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_name, bytes.size());
+        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_name,static_cast<int>(bytes.size()));
     }
 
     // --- 2. Parse import/export sections and check allowlist --------------
@@ -481,7 +481,7 @@ bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t> &bytes, const s
     // Initialise the fuel counter from the configured budget (UINT64_MAX when
     // max_instructions == 0 signals "unlimited").
     fuel_remaining_ = (config_.max_instructions == 0) ? UINT64_MAX : config_.max_instructions;
-    spdlog::info("WasmPluginSandbox: '{}' loaded (imports={} exports={})", effective_name, module_info_.imports.size(),
+    spdlog::info("WasmPluginSandbox: '{}' loaded (imports={} exports={})", effective_name,static_cast<int>(module_info_.imports.size()),
                  module_info_.exports.size());
     return true;
 }

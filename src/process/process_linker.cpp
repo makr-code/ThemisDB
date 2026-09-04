@@ -849,7 +849,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
                 // Log and create diagnostic for corrupted link document
                 SPDLOG_WARN("[process_linker] cleanupOrphanedLinks: JSON parse error while scanning: {}", e.what());
                 DiagnosticContext ctx;
-                ctx.recordResourceMetric("target_link_id", link_id.size());
+                ctx.recordResourceMetric("target_link_id",static_cast<int>(link_id.size()));
                 ctx.setRemediationSuggestion("A stored link document could not be parsed as JSON during cleanup. "
                                             "This indicates data corruption. Check database integrity.");
                 auto incident = ProcessDiagnostics::createLinkingIncident(

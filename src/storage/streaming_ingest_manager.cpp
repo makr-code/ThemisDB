@@ -139,7 +139,7 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
             : std::chrono::steady_clock::time_point::max();
 
         bool got_space = not_full_.wait_until(lock, deadline, [this] {
-            return buffer_.size() < cfg_.max_buffer_events
+            return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
                 || !running_.load(std::memory_order_relaxed);
         });
 
@@ -180,7 +180,7 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
                 : std::chrono::steady_clock::time_point::max();
 
             bool got_space = not_full_.wait_until(lock, deadline, [this] {
-                return buffer_.size() < cfg_.max_buffer_events
+                return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
                     || !running_.load(std::memory_order_relaxed);
             });
             if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {

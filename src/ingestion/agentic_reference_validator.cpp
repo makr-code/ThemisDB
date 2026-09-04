@@ -78,7 +78,7 @@ void AgenticReferenceValidator::clearKnowledgeBase() {
 }
 
 size_t AgenticReferenceValidator::knownLawCount() const {
-    return known_laws_.size();
+    return static_cast<int>(known_laws_.size());
 }
 
 std::vector<LegalReference> AgenticReferenceValidator::extract(

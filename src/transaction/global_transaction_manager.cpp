@@ -83,7 +83,7 @@ bool GlobalTransactionManager::unregisterRegion(const std::string& region_id) {
 
 size_t GlobalTransactionManager::regionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return regions_.size();
+    return static_cast<int>(regions_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -131,7 +131,7 @@ std::string GlobalTransactionManager::beginTransaction(
     });
 
     THEMIS_DEBUG("GlobalTransactionManager [{}] began txn {} across {} region(s)",
-                 coordinator_id_, txn_id, region_ids.size());
+                 coordinator_id_, txn_id,static_cast<int>(region_ids.size()));
     return txn_id;
 }
 
@@ -560,7 +560,7 @@ nlohmann::json GlobalTransactionManager::getStatistics() const {
         {"coordinator_id",         coordinator_id_},
         {"uptime_seconds",         static_cast<uint64_t>(
                                        std::chrono::duration_cast<std::chrono::seconds>(uptime).count())},
-        {"registered_regions",     regions_.size()},
+        {"registered_regions",static_cast<int>(regions_.size())},
         {"total_transactions",     total_transactions_.load()},
         {"total_commits",          total_commits_.load()},
         {"total_aborts",           total_aborts_.load()},

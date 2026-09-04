@@ -176,7 +176,7 @@ json EntityLinker::exportLinkGraph(const std::string &collection_name, const std
 }
 
 size_t EntityLinker::linkCount() const {
-    return links_.size();
+    return static_cast<int>(links_.size());
 }
 
 void EntityLinker::clear() {

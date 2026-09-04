@@ -314,7 +314,7 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
     try {
 #if THEMIS_HAS_SIMDJSON
         // Use simdjson on-demand API for maximum speed
-        simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()), blob_.size());
+        simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()),static_cast<int>(blob_.size()));
 
         // Obtain a document and object from the parser (store intermediate values as named variables
         // to satisfy the ondemand API requirements that some getters expect lvalue receivers).

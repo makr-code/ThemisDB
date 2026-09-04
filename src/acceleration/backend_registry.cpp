@@ -443,7 +443,7 @@ void BackendRegistry::autoDetect() {
 
     // Acquire shared lock only for the read-only logging pass.
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    THEMIS_INFO("Total backends available: {}", backends_.size());
+    THEMIS_INFO("Total backends available: {}",static_cast<int>(backends_.size()));
 
     // Print available backends
     for (const auto &backend : backends_) {

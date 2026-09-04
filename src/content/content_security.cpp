@@ -26,7 +26,7 @@ namespace {
 /// Compute a short SHA-256 hex digest of @p data (first 16 hex chars = 8 bytes).
 std::string contentHash(const std::string &data) {
     unsigned char digest[SHA256_DIGEST_LENGTH] = {};
-    SHA256(reinterpret_cast<const unsigned char *>(data.data()), data.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char *>(data.data()),static_cast<int>(data.size()), digest);
     std::ostringstream oss = {};
     for (int i = 0; i < 8; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
@@ -417,7 +417,7 @@ SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, co
             result.error            = ContentError::error(ContentErrorCode::CONTENT_PII_DETECTED,
                                                           "Personally identifiable information detected in content");
             result.error.content_id = content_id;
-            result.error.metadata   = {{"pii_count", findings.size()}, {"pii_types", result.pii_types}};
+            result.error.metadata   = {{"pii_count",static_cast<int>(findings.size())}, {"pii_types", result.pii_types}};
         }
     } else {
         result.pii_found = false;

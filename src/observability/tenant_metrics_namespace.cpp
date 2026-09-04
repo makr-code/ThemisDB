@@ -36,7 +36,7 @@ bool TenantMetricsNamespace::registerTenant(const std::string& tenant_id) {
     if (stores_.count(tenant_id)) {
         return false; // already exists
     }
-    if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) {
+    if (config_.max_tenants > 0 && static_cast<int>(stores_.size()) >= config_.max_tenants) {
         return false; // tenant cap reached
     }
     auto store = std::make_unique<TenantStore>();
@@ -68,7 +68,7 @@ std::vector<std::string> TenantMetricsNamespace::tenants() const {
 
 size_t TenantMetricsNamespace::tenantCount() const {
     std::shared_lock lock(mutex_);
-    return stores_.size();
+    return static_cast<int>(stores_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -126,7 +126,7 @@ void TenantMetricsNamespace::increment(
         if (config_.strict_tenant_registration) {
             return;
         }
-        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) {
+        if (config_.max_tenants > 0 && static_cast<int>(stores_.size()) >= config_.max_tenants) {
             return;
         }
         auto s = std::make_unique<TenantStore>();
@@ -158,7 +158,7 @@ void TenantMetricsNamespace::setGauge(
         if (config_.strict_tenant_registration) {
           return;
         }
-        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) {
+        if (config_.max_tenants > 0 && static_cast<int>(stores_.size()) >= config_.max_tenants) {
           return;
         }
         auto s = std::make_unique<TenantStore>();
@@ -190,7 +190,7 @@ void TenantMetricsNamespace::observeHistogram(
         if (config_.strict_tenant_registration) {
           return;
         }
-        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) {
+        if (config_.max_tenants > 0 && static_cast<int>(stores_.size()) >= config_.max_tenants) {
           return;
         }
         auto s = std::make_unique<TenantStore>();

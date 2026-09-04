@@ -342,7 +342,7 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
     }
     
     // Update with data
-    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(), data.size()) != 1) {
+    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(),static_cast<int>(data.size())) != 1) {
         return std::nullopt;
     }
     
@@ -639,7 +639,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
             return false;
         }
-        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
+        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(),static_cast<int>(canonical.size())) != 1) {
             return false;
         }
         return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;

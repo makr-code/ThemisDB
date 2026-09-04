@@ -94,7 +94,7 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         result.rewrites = std::move(parsed);
 
         THEMIS_DEBUG("LlmQueryRewriter::rewrite('{}') -> {} rewrites",
-                     query, result.rewrites.size());
+                     query,static_cast<int>(result.rewrites.size()));
     } catch (const std::exception& e) {
         THEMIS_WARN("LlmQueryRewriter: backend error: {} — falling back to original query",
                     e.what());

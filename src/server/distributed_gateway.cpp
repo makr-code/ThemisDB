@@ -168,7 +168,7 @@ std::size_t ConsistentHashRing::nodeCount() const {
     for (const auto& [h, node] : ring_) {
         seen.insert(node.node_id);
     }
-    return seen.size();
+    return static_cast<int>(seen.size());
 }
 
 // ===========================================================================
@@ -475,7 +475,7 @@ nlohmann::json DistributedGateway::getClusterStatus() const {
         {"has_quorum",     hasQuorum()},
         {"quorum_lost",    quorum_lost_},
         {"config_version", cfg.version},
-        {"route_count",    cfg.routes.size()},
+        {"route_count",static_cast<int>(cfg.routes.size())},
         {"ring_nodes",     hash_ring_.nodeCount()},
         {"cluster_nodes",  nodes},
     };

@@ -210,7 +210,7 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
 
 size_t WorkloadPredictor::observation_count() const noexcept {
     std::shared_lock<std::shared_mutex> lk(mutex_);
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 void WorkloadPredictor::reset() noexcept {

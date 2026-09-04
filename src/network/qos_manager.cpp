@@ -600,10 +600,10 @@ std::optional<QoSManager::PendingSend> QoSManager::dequeueForSend() {
 size_t QoSManager::getPendingQueueDepth(Priority priority) const {
     std::lock_guard<std::mutex> lock(pq_mutex_);
     switch (priority) {
-        case Priority::CRITICAL: return pq_critical_.size();
-        case Priority::HIGH:     return pq_high_.size();
-        case Priority::MEDIUM:   return pq_medium_.size();
-        case Priority::LOW:      return pq_low_.size();
+        case Priority::CRITICAL: return static_cast<int>(pq_critical_.size());
+        case Priority::HIGH:     return static_cast<int>(pq_high_.size());
+        case Priority::MEDIUM:   return static_cast<int>(pq_medium_.size());
+        case Priority::LOW:      return static_cast<int>(pq_low_.size());
     }
     return 0;
 }

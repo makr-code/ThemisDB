@@ -67,7 +67,7 @@ CanaryRollout::CanaryRollout(std::shared_ptr<HotReloadEngine> engine,
     }
 
     LOG_INFO("CanaryRollout initialised: version={} node={} stages={}",
-             config_.version, config_.node_id, config_.stages.size());
+             config_.version, config_.node_id,static_cast<int>(config_.stages.size()));
 }
 
 // ---------------------------------------------------------------------------

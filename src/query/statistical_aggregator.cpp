@@ -89,7 +89,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vecto
     if (static_cast<int>(values.size()) < 2) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
-            fmt::format("Cannot calculate variance: need at least 2 values, got {}", values.size())
+            fmt::format("Cannot calculate variance: need at least 2 values, got {}",static_cast<int>(values.size()))
         );
     }
     
@@ -168,7 +168,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> v
     if (static_cast<int>(values.size()) < 4) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
-            fmt::format("Cannot calculate IQR: need at least 4 values, got {}", values.size())
+            fmt::format("Cannot calculate IQR: need at least 4 values, got {}",static_cast<int>(values.size()))
         );
     }
     

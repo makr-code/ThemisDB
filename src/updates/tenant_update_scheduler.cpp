@@ -108,7 +108,7 @@ bool TenantUpdateScheduler::removeBlackoutPeriod(const std::string& tenant_id,
                                   return b.id == blackout_id;
                               }),
               vec.end());
-    return vec.size() < before;
+    return static_cast<int>(vec.size()) < before;
 }
 
 std::vector<BlackoutPeriod>

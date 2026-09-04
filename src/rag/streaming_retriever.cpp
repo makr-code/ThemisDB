@@ -221,7 +221,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
     impl_->cancel_requested.store(false, std::memory_order_relaxed);
 
     THEMIS_INFO("StreamingRetriever::stream started: query='{}', candidates={}",
-                query, candidates.size());
+                query,static_cast<int>(candidates.size()));
 
     StreamingResult result{};
     result.documents_considered = candidates.size();
@@ -240,7 +240,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                     return d.relevance_score < threshold;
                 }),
             candidates.end());
-        THEMIS_DEBUG("After relevance filter: {} candidates remain", candidates.size());
+        THEMIS_DEBUG("After relevance filter: {} candidates remain",static_cast<int>(candidates.size()));
     }
 
     // ------------------------------------------------------------------

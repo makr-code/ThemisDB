@@ -255,7 +255,7 @@ std::string SAGALogger::generateBatchId() const {
 
 std::vector<uint8_t> SAGALogger::sha256(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
-    ::SHA256(data.data(), data.size(), out.data());
+    ::SHA256(data.data(),static_cast<int>(data.size()), out.data());
     return out;
 }
 

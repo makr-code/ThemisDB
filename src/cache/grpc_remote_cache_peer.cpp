@@ -105,7 +105,7 @@ void GrpcRemoteCachePeer::sendRpc(const std::string& type,
     }.dump();
 
     // Wrap the JSON string in a grpc::ByteBuffer.
-    const grpc::Slice slice(json_str.data(), json_str.size());
+    const grpc::Slice slice(json_str.data(),static_cast<int>(json_str.size()));
     grpc::ByteBuffer request_buf(&slice, 1);
 
     // Set up the RPC deadline.

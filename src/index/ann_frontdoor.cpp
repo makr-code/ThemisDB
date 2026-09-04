@@ -361,7 +361,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
         } else {
             const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
                 ? shard_backends.size()
-                : std::min(config_.distributed_max_fanout, shard_backends.size());
+                : std::min(config_.distributed_max_fanout,static_cast<int>(shard_backends.size()));
             for (std::size_t i = 0; i < fanout_limit; ++i) {
                 execution_backends.push_back(shard_backends[i]);
             }
@@ -515,7 +515,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     // Cardinality check: candidates must not exceed the requested top-k.
     // A backend returning more than k results is a contract violation; truncate
     // defensively and log a warning so the issue is visible in production.
-    if (k > 0 && result.candidates.size() > static_cast<std::size_t>(k)) {
+    if (k > 0 && static_cast<int>(result.candidates.size()) > static_cast<std::size_t>(k)) {
         spdlog::warn("[AnnFrontdoor] cardinality violation: backend returned {} candidates "
                      "but top_k={} was requested; truncating (correlation_id={})",
                      result.candidates.size(), k, result.correlation_id);
@@ -551,7 +551,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 // ============================================================================
 
 std::size_t AnnFrontdoor::registeredBackendCount() const noexcept {
-    return backends_.size();
+    return static_cast<int>(backends_.size());
 }
 
 const AnnFrontdoor::Config& AnnFrontdoor::config() const noexcept {

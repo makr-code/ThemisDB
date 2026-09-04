@@ -198,7 +198,7 @@ double SemanticMatcher::jaroWinklerDistance(const std::string &s1, const std::st
     double jaro = jaroSimilarity(s1, s2);
     // Compute common prefix length (up to 4 characters).
     int prefix = 0;
-    for (size_t i = 0; i < std::min({s1.size(), s2.size(), size_t{4}}); ++i) {
+    for (size_t i = 0; i < std::min({s1.size(),static_cast<int>(s2.size()), size_t{4}}); ++i) {
         if (s1[i] == s2[i]) {
             ++prefix;
         } else {
@@ -242,7 +242,7 @@ double SemanticMatcher::levenshteinSimilarity(const std::string &s1, const std::
     if (s1.empty() || s2.empty()) {
         return 0.0;
     }
-    const size_t max_len = std::max(s1.size(), s2.size());
+    const size_t max_len = std::max(s1.size(),static_cast<int>(s2.size()));
     const size_t dist    = levenshteinDistance(s1, s2);
     return 1.0 - static_cast<double>(dist) / static_cast<double>(max_len);
 }
@@ -293,7 +293,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
     std::string code(1, upper[0]);
     char prev = (upper[0] >= 'A' && upper[0] <= 'Z') ? table[static_cast<unsigned char>(upper[0]) - 'A'] : '0';
 
-    for (size_t i = 1; i < upper.size() && code.size() < 4; ++i) {
+    for (size_t i = 1; i < upper.size() && static_cast<int>(code.size()) < 4; ++i) {
         if (upper[i] < 'A' || upper[i] > 'Z') {
             continue;
         }
@@ -326,7 +326,7 @@ double SemanticMatcher::soundexMatch(const std::string &name1, const std::string
         return 1.0;
     }
     // Partial match: first character plus at least one digit matches.
-    if (code1[0] == code2[0] && code1.size() >= 2 && code2.size() >= 2 && code1[1] == code2[1]) {
+    if (code1[0] == code2[0] && static_cast<int>(code1.size()) >= 2 && static_cast<int>(code2.size()) >= 2 && code1[1] == code2[1]) {
         return 0.5;
     }
     return 0.0;

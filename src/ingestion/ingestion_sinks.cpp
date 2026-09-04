@@ -141,12 +141,12 @@ Result<void> InMemoryGraphWriter::writeRelations(const std::vector<EntityRelatio
 
 std::size_t InMemoryGraphWriter::nodeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 std::size_t InMemoryGraphWriter::edgeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return edges_.size();
+    return static_cast<int>(edges_.size());
 }
 
 void InMemoryGraphWriter::clear() {
@@ -169,7 +169,7 @@ Result<void> InMemoryVectorWriter::writeVectors(const std::vector<VectorRecord>&
 
 std::size_t InMemoryVectorWriter::vectorCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return records_.size();
+    return static_cast<int>(records_.size());
 }
 
 const VectorRecord* InMemoryVectorWriter::findByChunkId(const std::string& chunk_id) const {
@@ -237,7 +237,7 @@ Result<std::string> InMemoryDocWriter::writeDocument(const BaseEntitySet& entity
 
 std::size_t InMemoryDocWriter::documentCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return docs_.size();
+    return static_cast<int>(docs_.size());
 }
 
 std::string InMemoryDocWriter::getDocument(const std::string& doc_id) const {
@@ -443,12 +443,12 @@ Result<void> GraphStoreSinkAdapter::writeRelations(const std::vector<EntityRelat
 
 std::size_t GraphStoreSinkAdapter::nodeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return written_node_ids_.size();
+    return static_cast<int>(written_node_ids_.size());
 }
 
 std::size_t GraphStoreSinkAdapter::edgeCount() const {
     std::lock_guard<std::mutex> lock(mtx_);
-    return written_edge_ids_.size();
+    return static_cast<int>(written_edge_ids_.size());
 }
 
 VectorIndexSinkAdapter::VectorIndexSinkAdapter(

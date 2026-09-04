@@ -105,7 +105,7 @@ TransactionSemanticAdvisor::analyzeBatch(
         }
     }
 
-    emitDecisionRecord(hints.size(), pending_txs.size());
+    emitDecisionRecord(hints.size(),static_cast<int>(pending_txs.size()));
     return hints;
 }
 

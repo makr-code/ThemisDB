@@ -38,7 +38,7 @@ JWTKeyRotationManager::~JWTKeyRotationManager() {
     for (auto &[kid_str, info] : keys_) {
         if (!info.kid.empty()) {
             char *buf = &info.kid[0];
-            OPENSSL_cleanse(buf, info.kid.size());
+            OPENSSL_cleanse(buf,static_cast<int>(info.kid.size()));
         }
     }
 }
@@ -50,7 +50,7 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Enforce max_keys resource limit (new key will be added)
-        if (config_.max_keys > 0 && keys_.size() >= config_.max_keys && keys_.find(new_kid) == keys_.end()) {
+        if (config_.max_keys > 0 && static_cast<int>(keys_.size()) >= config_.max_keys && keys_.find(new_kid) == keys_.end()) {
             if (audit_logger_) {
                 nlohmann::json meta;
                 meta["new_kid"]   = new_kid;

@@ -364,7 +364,7 @@ std::vector<ConflictInfo> PolicyManagerWithVersioning::checkConflictsForRule(con
     }
 
     if (!conflicts.empty()) {
-        THEMIS_WARN("Rule '{}' has {} conflict(s) with existing rules", new_rule.id, conflicts.size());
+        THEMIS_WARN("Rule '{}' has {} conflict(s) with existing rules", new_rule.id,static_cast<int>(conflicts.size()));
     }
     return conflicts;
 }
@@ -401,7 +401,7 @@ std::vector<ConflictInfo> PolicyManagerWithVersioning::getActiveConflicts() cons
         }
     }
 
-    THEMIS_DEBUG("getActiveConflicts: {} conflict(s) across {} rules", all_conflicts.size(), rules.size());
+    THEMIS_DEBUG("getActiveConflicts: {} conflict(s) across {} rules",static_cast<int>(all_conflicts.size()),static_cast<int>(rules.size()));
     return all_conflicts;
 }
 

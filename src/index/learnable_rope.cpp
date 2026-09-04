@@ -373,7 +373,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
         size_t num_batches = 0;
 
         for (size_t i = 0; i < shuffled.size(); i += config.batch_size) {
-            size_t batch_end = std::min(i + config.batch_size, shuffled.size());
+            size_t batch_end = std::min(i + config.batch_size,static_cast<int>(shuffled.size()));
             std::vector<TrainingSample> batch(
                 shuffled.begin() + i,
                 shuffled.begin() + batch_end

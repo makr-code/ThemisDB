@@ -104,7 +104,7 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
     
     // Wait for space in queue with timeout
     bool space = cv_.wait_for(lock, timeout, [this]() {
-        return task_queue_.size() < config_.queue_size;
+        return static_cast<int>(task_queue_.size()) < config_.queue_size;
     });
     
     if (!space) {

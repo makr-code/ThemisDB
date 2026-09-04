@@ -149,7 +149,7 @@ std::vector<std::string> DistributedGraphManager::shardIds() const {
 
 size_t DistributedGraphManager::shardCount() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
-    return shards_.size();
+    return static_cast<int>(shards_.size());
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>

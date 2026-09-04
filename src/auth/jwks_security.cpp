@@ -351,7 +351,7 @@ std::string JWKSSecureFetcher::computeSPKIHash(const std::string& cert_data) {
     // This is a simplified implementation
     // In production, would extract SPKI from X509 certificate and hash it
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256((unsigned char*)cert_data.c_str(), cert_data.size(), hash);
+    SHA256((unsigned char*)cert_data.c_str(),static_cast<int>(cert_data.size()), hash);
     return base64Encode(hash, SHA256_DIGEST_LENGTH);
 }
 

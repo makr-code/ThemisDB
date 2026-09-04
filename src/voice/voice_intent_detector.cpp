@@ -96,7 +96,7 @@ void ConversationContext::clear() {
 }
 
 size_t ConversationContext::turnCount() const {
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 bool ConversationContext::hasEntity(const std::string& key) const {
@@ -200,7 +200,7 @@ std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::str
         size_t pos = lower.find(pattern);
         if (pos != std::string::npos) {
             NamedEntity ent;
-            ent.text = text.substr(pos, pattern.size());
+            ent.text = text.substr(pos,static_cast<int>(pattern.size()));
             ent.type = type;
             ent.confidence = 0.85f;
             ent.start_offset = static_cast<int>(pos);
@@ -242,7 +242,7 @@ std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::s
         size_t pos = lower.find(kw);
         if (pos != std::string::npos) {
             NamedEntity ent;
-            ent.text = text.substr(pos, kw.size());
+            ent.text = text.substr(pos,static_cast<int>(kw.size()));
             ent.type = "METRIC";
             ent.confidence = 0.75f;
             ent.start_offset = static_cast<int>(pos);

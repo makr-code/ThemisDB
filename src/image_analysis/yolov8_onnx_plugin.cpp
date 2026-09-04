@@ -400,8 +400,8 @@ struct YOLOv8OnnxPlugin::Impl {
         auto mem_info = Ort::MemoryInfo::CreateCpu(
             OrtAllocatorType::OrtArenaAllocator, OrtMemType::OrtMemTypeDefault);
         Ort::Value input_val = Ort::Value::CreateTensor<float>(
-            mem_info, input_tensor.data(), input_tensor.size(),
-            input_shape.data(), input_shape.size());
+            mem_info, input_tensor.data(),static_cast<int>(input_tensor.size()),
+            input_shape.data(),static_cast<int>(input_shape.size()));
 
         const char* in_names[]  = {input_name.c_str()};
         const char* out_names[] = {output_name.c_str()};

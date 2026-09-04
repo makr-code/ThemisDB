@@ -188,7 +188,7 @@ ContentValidationResult ContentValidator::validate(const std::string &data, cons
 
     // Step 7: Validate against policy
     if (policy_) {
-        auto policy_error = validateWithPolicy(result.mime_type, data.size());
+        auto policy_error = validateWithPolicy(result.mime_type,static_cast<int>(data.size()));
         if (policy_error.failed()) {
             result.error                = policy_error;
             result.error.correlation_id = correlation_id;
@@ -410,7 +410,7 @@ bool ContentValidator::checkMagicBytes(const std::string &data, const std::strin
 
     // PDF
     if (mime_type == "application/pdf") {
-        return data.size() >= 4 && data.substr(0, 4) == "%PDF";
+        return static_cast<int>(data.size()) >= 4 && data.substr(0, 4) == "%PDF";
     }
 
     // PNG

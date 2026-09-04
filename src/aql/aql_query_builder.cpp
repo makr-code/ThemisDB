@@ -636,7 +636,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
             // (unvalidated LLM output guard: AQL clause snippets should be short).
             static constexpr std::size_t kMaxSuggestionBytes = 256;
             if (!line.empty() && line.find("```") == std::string::npos
-                    && line.size() <= kMaxSuggestionBytes) {
+                    && static_cast<int>(line.size()) <= kMaxSuggestionBytes) {
                 suggestions.push_back(line);
             }
         }

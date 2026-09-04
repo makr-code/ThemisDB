@@ -495,7 +495,7 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
         if (!bld) { err_out = "OSSL_PARAM_BLD_new failed"; return nullptr; }
         OSSL_PARAM_BLD_push_utf8_string(bld, OSSL_PKEY_PARAM_GROUP_NAME, "P-256", 0);
         OSSL_PARAM_BLD_push_octet_string(bld, OSSL_PKEY_PARAM_PUB_KEY,
-                                          point.data(), point.size());
+                                          point.data(),static_cast<int>(point.size()));
         OSSL_PARAM* params = OSSL_PARAM_BLD_to_param(bld);
         OSSL_PARAM_BLD_free(bld);
         if (!params) { err_out = "OSSL_PARAM_BLD_to_param failed"; return nullptr; }
@@ -575,13 +575,13 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
 
 static std::vector<uint8_t> sha256Bytes(const std::string& s) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(reinterpret_cast<const unsigned char*>(s.data()), s.size(), digest.data());
+    SHA256(reinterpret_cast<const unsigned char*>(s.data()),static_cast<int>(s.size()), digest.data());
     return {digest.begin(), digest.end()};
 }
 
 static std::vector<uint8_t> sha256Bytes(const std::vector<uint8_t>& v) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(v.data(), v.size(), digest.data());
+    SHA256(v.data(),static_cast<int>(v.size()), digest.data());
     return {digest.begin(), digest.end()};
 }
 
@@ -615,7 +615,7 @@ std::string PasskeyAuthenticator::generateSecureChallenge([[maybe_unused]] size_
     if (RAND_bytes(buf.data(), static_cast<int>(bytes)) != 1) {
         throw std::runtime_error("PasskeyAuthenticator: RAND_bytes failed");
     }
-    return passkeyBase64UrlEncodeImpl(buf.data(), buf.size());
+    return passkeyBase64UrlEncodeImpl(buf.data(),static_cast<int>(buf.size()));
 }
 
 // ============================================================================
@@ -1009,8 +1009,8 @@ bool PasskeyAuthenticator::verifyAuthentication(
 
         const bool sig_ok =
             EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1
-         && EVP_DigestVerifyUpdate(ctx, signed_data.data(), signed_data.size()) == 1
-         && EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size()) == 1;
+         && EVP_DigestVerifyUpdate(ctx, signed_data.data(),static_cast<int>(signed_data.size())) == 1
+         && EVP_DigestVerifyFinal(ctx, signature_bytes.data(),static_cast<int>(signature_bytes.size())) == 1;
 
         EVP_MD_CTX_free(ctx);
         EVP_PKEY_free(pkey);

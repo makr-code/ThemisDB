@@ -605,7 +605,7 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
 
         spdlog::info("BlobRedundancyManager: loaded config from '{}' "
                      "({} blob-type overrides, {} collection overrides)",
-                     path, blob_type_configs_.size(), collection_overrides_.size());
+                     path,static_cast<int>(blob_type_configs_.size()),static_cast<int>(collection_overrides_.size()));
         return true;
 
     } catch (const YAML::Exception& e) {
@@ -830,7 +830,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     if (healthy < required) {
         const auto missing = metadata.getMissingShards();
         spdlog::warn("verifyBlob '{}': degraded — {}/{} locations healthy, {} shards missing: [{}]",
-                     blob_id, healthy, required, missing.size(),
+                     blob_id, healthy, required,static_cast<int>(missing.size()),
                      [&]() {
                          std::ostringstream ss = {};
                          for (size_t i = 0; i < missing.size(); ++i) {
@@ -868,7 +868,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
         if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
             spdlog::warn("verifyBlob '{}': geo-redundancy degraded — "
                          "{}/{} datacenters have healthy replicas",
-                         blob_id, healthy_dcs.size(), target_dc_count);
+                         blob_id,static_cast<int>(healthy_dcs.size()), target_dc_count);
             return false;
         }
     }
@@ -1226,7 +1226,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     
     // Check blob health
     auto degraded = getDegradedBlobs();
-    spdlog::info("Found {} degraded blobs", degraded.size());
+    spdlog::info("Found {} degraded blobs",static_cast<int>(degraded.size()));
     
     // Queue degraded blobs for repair
     {
@@ -1239,7 +1239,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     
     // Check for tier-down candidates
     auto tier_candidates = getBlobsForTierDown();
-    spdlog::info("Found {} blobs eligible for tier-down", tier_candidates.size());
+    spdlog::info("Found {} blobs eligible for tier-down",static_cast<int>(tier_candidates.size()));
     
     // Process tier transitions (limited per cycle)
     size_t max_tier_ops = 10;
@@ -1298,7 +1298,7 @@ void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
                 if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
                     spdlog::warn("runScrub: blob '{}' geo-redundancy degraded — "
                                  "{}/{} datacenters have healthy replicas",
-                                 blob_id, healthy_dcs.size(), target_dc_count);
+                                 blob_id,static_cast<int>(healthy_dcs.size()), target_dc_count);
                     degraded_ids.push_back(blob_id);
                 }
             }
@@ -1314,7 +1314,7 @@ void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
             }
         }
         repair_cv_.notify_one();
-        spdlog::info("runScrub complete: {} blob(s) queued for repair", degraded_ids.size());
+        spdlog::info("runScrub complete: {} blob(s) queued for repair",static_cast<int>(degraded_ids.size()));
     } else {
         spdlog::info("runScrub complete: all blobs healthy");
     }
@@ -1433,7 +1433,7 @@ void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
     }
 
     spdlog::warn("SST file deleted: {} — queuing {} blob(s) for replication",
-                 file_path, affected_blob_ids.size());
+                 file_path,static_cast<int>(affected_blob_ids.size()));
 
     {
         std::lock_guard<std::mutex> repair_lock(repair_mutex_);
@@ -1671,7 +1671,7 @@ void RocksDBBlobListener::OnCompactionCompleted(
     const rocksdb::CompactionJobInfo& info
 ) {
     // New SST files created by compaction
-    spdlog::debug("Compaction completed, output files: {}", info.output_files.size());
+    spdlog::debug("Compaction completed, output files: {}",static_cast<int>(info.output_files.size()));
     
     for (const auto& file_path : info.output_files) {
         // Get file size

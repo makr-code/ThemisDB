@@ -691,7 +691,7 @@ void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
 
     jsonOk(res, json{
         {"job_id", job_id},
-        {"relationships_configured", validated.size()}
+        {"relationships_configured",static_cast<int>(validated.size())}
     });
 }
 

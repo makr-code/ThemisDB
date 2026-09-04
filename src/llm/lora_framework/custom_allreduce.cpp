@@ -83,7 +83,7 @@ bool CustomAllReduce::allreduce(std::vector<GPUTensor*>& tensors, bool average) 
         if (tensor_size == 0) {
             tensor_size = data.size();
         } else if (static_cast<int>(data.size()) != tensor_size) {
-            spdlog::error("CustomAllReduce shape mismatch: {} vs {}", data.size(), tensor_size);
+            spdlog::error("CustomAllReduce shape mismatch: {} vs {}",static_cast<int>(data.size()), tensor_size);
             return false;
         }
 
@@ -148,7 +148,7 @@ bool CustomAllReduce::broadcast(GPUTensor& tensor, int root) {
             
             Device target_device = ctx_.get_device(i);
             GPUTensor target_tensor({tensor.size()}, target_device);
-            gpu_to_gpu_copy(tensor, target_tensor, 0, tensor.size());
+            gpu_to_gpu_copy(tensor, target_tensor, 0,static_cast<int>(tensor.size()));
         }
     }
     

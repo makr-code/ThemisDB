@@ -455,7 +455,7 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     
     // Process shards in batches to limit concurrency
     for (size_t batch_start = 0; batch_start < shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent, shards.size());
+        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(shards.size()));
         
         // Create futures for this batch
         std::vector<std::future<ShardResult>> futures;
@@ -615,7 +615,7 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
     std::atomic<uint64_t> remote_count{0};
 
     for (size_t batch_start = 0; batch_start < target_shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent, target_shards.size());
+        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(target_shards.size()));
 
         std::vector<std::future<ShardResult>> futures;
         futures.reserve(batch_end - batch_start);
@@ -1303,8 +1303,8 @@ nlohmann::json ShardRouter::applyPagination(
     nlohmann::json paginated = merged;
     nlohmann::json page = nlohmann::json::array();
     
-    size_t start = std::min(offset, results.size());
-    size_t end = std::min(start + limit, results.size());
+    size_t start = std::min(offset,static_cast<int>(results.size()));
+    size_t end = std::min(start + limit,static_cast<int>(results.size()));
     
     // Reserve capacity to reduce reallocations
     page.get_ref<nlohmann::json::array_t&>().reserve(end - start);

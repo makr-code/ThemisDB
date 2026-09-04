@@ -84,14 +84,14 @@ OAuthPKCEFlow::PKCEChallenge OAuthPKCEFlow::generateChallenge() {
     constexpr std::size_t kVerifierBytes = 96;
     std::array<unsigned char, kVerifierBytes> raw{};
 
-    fillRandomBytes(raw.data(), raw.size());
+    fillRandomBytes(raw.data(),static_cast<int>(raw.size()));
 
-    const std::string verifier = base64UrlEncode(raw.data(), raw.size());
+    const std::string verifier = base64UrlEncode(raw.data(),static_cast<int>(raw.size()));
 
     // code_challenge = BASE64URL(SHA256(ASCII(code_verifier)))
     const std::string digest = sha256(verifier);
     const std::string challenge
-        = base64UrlEncode(reinterpret_cast<const unsigned char *>(digest.data()), digest.size());
+        = base64UrlEncode(reinterpret_cast<const unsigned char *>(digest.data()),static_cast<int>(digest.size()));
 
     spdlog::debug("OAuthPKCEFlow: generated PKCE challenge (method=S256, "
                   "verifier_len={})",
@@ -376,7 +376,7 @@ std::string OAuthPKCEFlow::sha256(const std::string &input) {
     }
 
     const bool ok = EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) == 1
-                    && EVP_DigestUpdate(ctx, input.data(), input.size()) == 1
+                    && EVP_DigestUpdate(ctx, input.data(),static_cast<int>(input.size())) == 1
                     && EVP_DigestFinal_ex(ctx, digest.data(), &digest_len) == 1;
 
     EVP_MD_CTX_free(ctx);

@@ -91,7 +91,7 @@ bool InMemorySharedCheckpointStore::exists(const std::string& source_id) const {
 
 size_t InMemorySharedCheckpointStore::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ============================================================================

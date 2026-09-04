@@ -167,7 +167,7 @@ public:
             // Read file in chunks
             std::vector<char> buffer(config_.chunk_size_mb * 1024 * 1024);
             
-            while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
+            while (file.read(buffer.data(),static_cast<int>(buffer.size())) || file.gcount() > 0) {
                 size_t bytes_read = file.gcount();
                 
                 // Create chunk message
@@ -379,7 +379,7 @@ public:
             return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
         
-        file.write(decompressed_data.data(), decompressed_data.size());
+        file.write(decompressed_data.data(),static_cast<int>(decompressed_data.size()));
         
         transferred_bytes_ += decompressed_data.size();
         transferred_chunks_++;
@@ -540,7 +540,7 @@ private:
             case themis::sharding::COMPRESSION_LZ4: {
                 // Validate input size before compression
                 if (static_cast<int>(input.size()) > themis::utils::compression::MAX_INPUT_SIZE) {
-                    THEMIS_ERROR("LZ4: Input too large for compression: {} bytes", input.size());
+                    THEMIS_ERROR("LZ4: Input too large for compression: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
@@ -587,14 +587,14 @@ private:
                 
                 // Convert vector<uint8_t> to string
                 const auto& compressed = *result;
-                output->assign(reinterpret_cast<const char*>(compressed.data()), compressed.size());
+                output->assign(reinterpret_cast<const char*>(compressed.data()),static_cast<int>(compressed.size()));
                 return SnapshotStatus::OK;
             }
             
             case themis::sharding::COMPRESSION_SNAPPY: {
                 // Validate input size before compression
                 if (static_cast<int>(input.size()) > themis::utils::compression::MAX_INPUT_SIZE) {
-                    THEMIS_ERROR("Snappy: Input too large for compression: {} bytes", input.size());
+                    THEMIS_ERROR("Snappy: Input too large for compression: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
@@ -613,7 +613,7 @@ private:
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
-                snappy::RawCompress(input.data(), input.size(),
+                snappy::RawCompress(input.data(),static_cast<int>(input.size()),
                                    &(*output)[0], &compressed_size);
                 output->resize(compressed_size);
                 return SnapshotStatus::OK;
@@ -633,7 +633,7 @@ private:
             case themis::sharding::COMPRESSION_LZ4: {
                 // Validate compressed input size
                 if (static_cast<int>(input.size()) > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
-                    THEMIS_ERROR("LZ4: Compressed data too large: {} bytes", input.size());
+                    THEMIS_ERROR("LZ4: Compressed data too large: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
@@ -677,18 +677,18 @@ private:
                 
                 // Convert vector<uint8_t> to string
                 const auto& decompressed = *result;
-                output->assign(reinterpret_cast<const char*>(decompressed.data()), decompressed.size());
+                output->assign(reinterpret_cast<const char*>(decompressed.data()),static_cast<int>(decompressed.size()));
                 return SnapshotStatus::OK;
             }
             
             case themis::sharding::COMPRESSION_SNAPPY: {
                 // Validate compressed input size
                 if (static_cast<int>(input.size()) > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
-                    THEMIS_ERROR("Snappy: Compressed data too large: {} bytes", input.size());
+                    THEMIS_ERROR("Snappy: Compressed data too large: {} bytes",static_cast<int>(input.size()));
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 
-                if (!snappy::Uncompress(input.data(), input.size(), output)) {
+                if (!snappy::Uncompress(input.data(),static_cast<int>(input.size()), output)) {
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
                 return SnapshotStatus::OK;
@@ -702,7 +702,7 @@ private:
     std::string CalculateChecksum(const std::string& data) {
         switch (config_.checksum_type) {
             case themis::sharding::CHECKSUM_CRC32: {
-                uint32_t crc = crc32c::Crc32c(data.data(), data.size());
+                uint32_t crc = crc32c::Crc32c(data.data(),static_cast<int>(data.size()));
                 return std::to_string(crc);
             }
             
@@ -719,7 +719,7 @@ private:
             }
             
             case themis::sharding::CHECKSUM_XXH64: {
-                XXH64_hash_t h = XXH64(data.data(), data.size(), 0);
+                XXH64_hash_t h = XXH64(data.data(),static_cast<int>(data.size()), 0);
                 std::ostringstream ss = {};
                 ss << std::hex << std::setw(16) << std::setfill('0') << h;
                 return ss.str();
@@ -748,7 +748,7 @@ private:
             std::ifstream file(file_path, std::ios::binary);
             std::vector<char> buffer(1024 * 1024);  // 1 MB buffer
             
-            while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
+            while (file.read(buffer.data(),static_cast<int>(buffer.size())) || file.gcount() > 0) {
                 SHA256_Update(&sha256, buffer.data(), file.gcount());
             }
         }

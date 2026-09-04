@@ -93,7 +93,7 @@ std::string SemanticCache::computeKey(const std::string &prompt, const nlohmann:
     std::string input = prompt + params.dump();
 
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.c_str()), input.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.c_str()),static_cast<int>(input.size()), hash);
 
     return themis::hash::bytes_to_hex(hash, SHA256_DIGEST_LENGTH);
 }

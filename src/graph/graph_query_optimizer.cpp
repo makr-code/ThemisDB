@@ -936,7 +936,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 if (begin_idx >= static_cast<int>(current_frontier.size())) {
                   break;
                 }
-                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
+                const size_t end_idx = std::min(begin_idx + chunk_size,static_cast<int>(current_frontier.size()));
 
                 futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
                     ChunkResult cr;
@@ -1347,7 +1347,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
-                    const size_t ce = std::min(cs + chunk_size, S.size());
+                    const size_t ce = std::min(cs + chunk_size,static_cast<int>(S.size()));
                     futures.push_back(std::async(std::launch::async,
                         [&, cs, ce]() {
                             TaskOutput out;
@@ -1824,7 +1824,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // Use pattern vertex count as depth proxy for cost estimation
     // (0.1 converts cost units → ms; same factor used in optimizeXxx plan construction)
     local_stats.estimated_cost_ms =
-        estimateCost(TraversalAlgorithm::DFS, pattern_vertices.size(), constraints) * 0.1;
+        estimateCost(TraversalAlgorithm::DFS,static_cast<int>(pattern_vertices.size()), constraints) * 0.1;
 
     if (pattern_vertices.empty()) {
         // Empty pattern matches trivially with an empty mapping
@@ -2191,7 +2191,7 @@ void GraphQueryOptimizer::planCacheInsert(const std::string& key,
     }
 
     // Enforce size limit: evict LRU entry when at capacity
-    if (plan_cache_max_size_ > 0 && plan_cache_.size() >= plan_cache_max_size_) {
+    if (plan_cache_max_size_ > 0 && static_cast<int>(plan_cache_.size()) >= plan_cache_max_size_) {
         const std::string& lru_key = plan_cache_lru_.back();
         plan_cache_.erase(lru_key);
         plan_cache_lru_.pop_back();
@@ -2964,7 +2964,7 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
         p.callback([[maybe_unused]] p.delta);
     }
 
-    return pending.size();
+    return static_cast<int>(pending.size());
 }
 
 // Analytics Module Integration (Issue #1821)

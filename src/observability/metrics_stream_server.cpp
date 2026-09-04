@@ -98,7 +98,7 @@ void MetricsStreamServer::unsubscribe(const std::string& client_id) {
 
 size_t MetricsStreamServer::subscriptionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 bool MetricsStreamServer::hasSubscription(const std::string& client_id) const {

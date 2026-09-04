@@ -29,7 +29,7 @@ BiasDetector::BiasDetector(const BiasDetectorConfig& config)
 BiasDetectionResult BiasDetector::detectPositionBias(
     const std::vector<std::pair<ComparisonResult, bool>>& comparisons
 ) {
-    THEMIS_DEBUG("Detecting position bias with {} comparisons", comparisons.size());
+    THEMIS_DEBUG("Detecting position bias with {} comparisons",static_cast<int>(comparisons.size()));
     
     BiasDetectionResult result;
     result.type = BiasType::POSITION_BIAS;
@@ -107,7 +107,7 @@ BiasDetectionResult BiasDetector::detectPositionBias(
 BiasDetectionResult BiasDetector::detectLengthBias(
     const std::vector<std::pair<double, size_t>>& evaluations
 ) {
-    THEMIS_DEBUG("Detecting length bias with {} evaluations", evaluations.size());
+    THEMIS_DEBUG("Detecting length bias with {} evaluations",static_cast<int>(evaluations.size()));
     
     BiasDetectionResult result;
     result.type = BiasType::LENGTH_BIAS;
@@ -133,7 +133,7 @@ BiasDetectionResult BiasDetector::detectLengthBias(
     // Calculate Pearson correlation
     double correlation = calculateCorrelation(scores, lengths);
     result.bias_magnitude = std::abs(correlation);
-    result.p_value = calculatePValue(correlation, evaluations.size());
+    result.p_value = calculatePValue(correlation,static_cast<int>(evaluations.size()));
     
     result.is_significant = (result.p_value < config_.significance_threshold) && 
                             (result.bias_magnitude > config_.bias_threshold);
@@ -158,7 +158,7 @@ BiasDetectionResult BiasDetector::detectLengthBias(
 std::vector<BiasDetectionResult> BiasDetector::analyzeAllBiases(
     const std::vector<EvaluationResult>& evaluation_history
 ) {
-    THEMIS_INFO("Running comprehensive bias analysis on {} evaluations", evaluation_history.size());
+    THEMIS_INFO("Running comprehensive bias analysis on {} evaluations",static_cast<int>(evaluation_history.size()));
     
     std::vector<BiasDetectionResult> results;
     
@@ -181,7 +181,7 @@ std::vector<BiasDetectionResult> BiasDetector::analyzeAllBiases(
     // Position bias would require pairwise comparison history
     // Not available from evaluation history alone
     
-    THEMIS_INFO("Bias analysis complete: {} significant biases detected", results.size());
+    THEMIS_INFO("Bias analysis complete: {} significant biases detected",static_cast<int>(results.size()));
     return results;
 }
 

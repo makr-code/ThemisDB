@@ -667,7 +667,7 @@ private:
         BaseEntity entity = BaseEntity::fromFields(adapter_id, fields);
         
         // Handle large weights with BlobStorageManager
-        if (config_.blob_manager && weights.data.size() > 1024 * 1024) {  // > 1MB
+        if (config_.blob_manager && static_cast<int>(weights.data.size()) > 1024 * 1024) {  // > 1MB
             spdlog::info("Storing large adapter ({} MB) in blob storage", 
                         weights.data.size() / (1024 * 1024));
             
@@ -714,7 +714,7 @@ private:
         
         if (success) {
             spdlog::info("Saved adapter {} to ThemisDB ({} bytes)", 
-                        adapter_id, data_to_store.size());
+                        adapter_id,static_cast<int>(data_to_store.size()));
         }
         
         return success;
@@ -828,7 +828,7 @@ private:
             spdlog::error("Failed to create weights file: {}", weights_path.string());
             return false;
         }
-        weights_file.write(reinterpret_cast<const char*>(weights.data.data()), weights.data.size());
+        weights_file.write(reinterpret_cast<const char*>(weights.data.data()),static_cast<int>(weights.data.size()));
         weights_file.close();
         
         // Save metadata
@@ -843,7 +843,7 @@ private:
         metadata_file.close();
         
         spdlog::info("Saved adapter {} to filesystem ({} bytes)", 
-                     adapter_id, weights.data.size());
+                     adapter_id,static_cast<int>(weights.data.size()));
         
         return true;
     }

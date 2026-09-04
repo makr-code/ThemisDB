@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Inserting user: {}", entity.toJson());
             if (db.put(key, blob)) {
                 THEMIS_INFO("Successfully inserted entity with key: {}", key);
-                THEMIS_INFO("Blob size: {} bytes", blob.size());
+                THEMIS_INFO("Blob size: {} bytes",static_cast<int>(blob.size()));
             }
             
             // Retrieve and parse

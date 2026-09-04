@@ -558,7 +558,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
     if (block.action == query::AqlTransactionAction::Rollback) {
         return Ok(nlohmann::json({
             {"type", "rollback"},
-            {"statements", block.statements.size()}
+            {"statements",static_cast<int>(block.statements.size())}
         }));
     }
 

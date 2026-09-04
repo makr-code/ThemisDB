@@ -86,7 +86,7 @@ struct GeoRTree::Impl {
 
     void clear() { tree.clear(); }
 
-    std::size_t size() const { return tree.size(); }
+    std::size_t size() const { return static_cast<int>(tree.size()); }
 
     std::vector<std::string> intersects(const MBR& query_bbox) const {
         BgBox qbox = toBox(query_bbox);
@@ -162,7 +162,7 @@ struct GeoRTree::Impl {
 
     void clear() { entries.clear(); }
 
-    std::size_t size() const { return entries.size(); }
+    std::size_t size() const { return static_cast<int>(entries.size()); }
 
     std::vector<std::string> intersects(const MBR& query_bbox) const {
         std::vector<std::string> result = {};

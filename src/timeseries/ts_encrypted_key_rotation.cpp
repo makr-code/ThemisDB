@@ -137,7 +137,7 @@ size_t TsEncryptedKeyRotation::runOnce()
 
     while (it->Valid()) {
         std::string key = it->key().ToString();
-        if (key >= end_marker || key.compare(0, prefix.size(), prefix) != 0) {
+        if (key >= end_marker || key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
           break;
         }
 

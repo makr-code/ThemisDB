@@ -268,7 +268,7 @@ public:
                 default:  tokens.push_back({SQLTokenType::INVALID, std::string(1, c), start}); ++pos_; break;
             }
         }
-        tokens.push_back({SQLTokenType::END_OF_INPUT, "", input_.size()});
+        tokens.push_back({SQLTokenType::END_OF_INPUT, "",static_cast<int>(input_.size())});
         return tokens;
     }
 

@@ -108,7 +108,7 @@ private:
             prev_ref   = (*it)[1].str();
         }
         // Last section
-        emit(prev_start, text.size(), prev_ref);
+        emit(prev_start,static_cast<int>(text.size()), prev_ref);
     }
 
     // ── Sentence chunking ──────────────────────────────────────────────────
@@ -132,7 +132,7 @@ private:
             c.char_end   = static_cast<std::uint64_t>(current_start + current.size());
             ctx.chunks.push_back(std::move(c));
             // Overlap: keep last `overlap` chars for next chunk
-            if (overlap > 0 && current.size() > overlap) {
+            if (overlap > 0 && static_cast<int>(current.size()) > overlap) {
                 current = current.substr(static_cast<int>(current.size()) - overlap);
                 current_start += (static_cast<int>(current.size()) - overlap); // approximate
             } else {
@@ -173,7 +173,7 @@ private:
         const std::size_t step = (size > overlap) ? (size - overlap) : size;
         std::uint32_t seq = 0;
         for (std::size_t start = 0; start < text.size(); start += step) {
-            const std::size_t end = std::min(start + size, text.size());
+            const std::size_t end = std::min(start + size,static_cast<int>(text.size()));
             TextChunk c;
             c.seq        = seq++;
             c.text       = text.substr(start, end - start);

@@ -92,7 +92,7 @@ std::vector<uint8_t> ZstdCompression::decompress_streaming(
     
     // Call progress callback when done
     if ([[maybe_unused]] callback && !result.empty()) {
-        callback([[maybe_unused]] result.size(), result.size());
+        callback([[maybe_unused]] result.size(),static_cast<int>(result.size()));
     }
     
     return result;

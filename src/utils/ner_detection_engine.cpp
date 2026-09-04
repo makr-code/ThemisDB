@@ -93,7 +93,7 @@ bool NERDetectionEngine::initialize(const nlohmann::json& config) {
 
         spdlog::info("NERDetectionEngine: Initialized (model_available={}, honorifics={}, org_suffixes={}, "
                      "location_prepositions={})",
-                     model_available_, honorifics_.size(), org_suffixes_.size(), location_prepositions_.size());
+                     model_available_,static_cast<int>(honorifics_.size()),static_cast<int>(org_suffixes_.size()),static_cast<int>(location_prepositions_.size()));
         return true;
 
     } catch (const std::exception& e) {

@@ -102,7 +102,7 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                 }
                 return acc.str();
             }
-            if (node.IsSequence() && node.size() > 0 && node[0].IsScalar()) {
+            if (node.IsSequence() && static_cast<int>(node.size()) > 0 && node[0].IsScalar()) {
                 return node[0].as<std::string>("");
             }
             return "";
@@ -363,7 +363,7 @@ std::variant<size_t, Status> PhilosophyLoader::reloadProfiles(const std::string 
     // Atomic swap under the lock.
     std::lock_guard<std::mutex> lock(mutex_);
     profiles_ = tmp.profiles_;
-    return profiles_.size();
+    return static_cast<int>(profiles_.size());
 }
 
 } // namespace ethics

@@ -558,8 +558,8 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     
     bool valid = false;
     if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),static_cast<int>(data_to_verify.size())) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),static_cast<int>(signature_bytes.size()));
             valid = (verify_result == 1);
             
             if (!valid) {
@@ -712,7 +712,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     unsigned char* result = HMAC(
         EVP_sha256(),
         license_key.data(), static_cast<int>(license_key.size()),
-        reinterpret_cast<const unsigned char*>(challenge.data()), challenge.size(),
+        reinterpret_cast<const unsigned char*>(challenge.data()),static_cast<int>(challenge.size()),
         hmac_out, &hmac_len
     );
 
@@ -735,7 +735,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     }
 
     // CRYPTO_memcmp returns 0 iff both buffers are identical (OpenSSL constant-time compare)
-    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(), response.size()) == 0);
+    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(),static_cast<int>(response.size())) == 0);
 
     if (!valid) {
         THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — HMAC mismatch");

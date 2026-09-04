@@ -86,8 +86,8 @@ std::string SDPromptSanitizer::sanitize(const std::string& prompt) const {
         std::string::size_type pos = 0;
         std::string lower_r = toLower(result);
         while ((pos = lower_r.find(kw, pos)) != std::string::npos) {
-            result.erase(pos, kw.size());
-            lower_r.erase(pos, kw.size());
+            result.erase(pos,static_cast<int>(kw.size()));
+            lower_r.erase(pos,static_cast<int>(kw.size()));
         }
     }
     return result;

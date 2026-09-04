@@ -320,7 +320,7 @@ ReplugFusionResult ReplugRetriever::fuse(
     }
 
     THEMIS_DEBUG("ReplugRetriever::fuse: candidates={} filtered={} returned={}",
-                 candidates.size(), filtered.size(), result.documents.size());
+                 candidates.size(),static_cast<int>(filtered.size()),static_cast<int>(result.documents.size()));
 
     return result;
 }

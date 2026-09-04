@@ -118,7 +118,7 @@ std::string URN::toString() const {
 uint64_t URN::hash() const {
 #ifdef HAS_XXHASH
     // Use xxHash for fast, high-quality hashing
-    return XXH64(uuid.data(), uuid.size(), 0);
+    return XXH64(uuid.data(),static_cast<int>(uuid.size()), 0);
 #else
     // Fallback to std::hash
     std::hash<std::string> hasher;

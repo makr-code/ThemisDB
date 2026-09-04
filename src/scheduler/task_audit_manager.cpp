@@ -304,7 +304,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
         }
         
         std::string line = {};
-        while (std::getline(ifs, line) && results.size() < read_limit) {
+        while (std::getline(ifs, line) && static_cast<int>(results.size()) < read_limit) {
             if (line.empty()) {
               continue;
             }
@@ -468,7 +468,7 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
         }
         
         std::string line = {};
-        while (std::getline(ifs, line) && results.size() < read_limit) {
+        while (std::getline(ifs, line) && static_cast<int>(results.size()) < read_limit) {
             if (line.empty()) {
               continue;
             }
@@ -619,7 +619,7 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
         THEMIS_INFO("Exported {} audit events to {} (format={})",
                    events.size(), output_path, static_cast<int>(format));
         
-        return events.size();
+        return static_cast<int>(events.size());
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to export audit events: {}", e.what());
@@ -717,7 +717,7 @@ std::string TaskAuditManager::generateAuditEntryHMAC([[maybe_unused]] const Task
     if (static_cast<int>(config_.audit_hmac_key.size()) > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
         data.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
         THEMIS_ERROR("TaskAuditManager: HMAC input too large (key_size={}, data_size={})",
-                     config_.audit_hmac_key.size(), data.size());
+                     config_.audit_hmac_key.size(),static_cast<int>(data.size()));
         return "";
     }
 
@@ -830,7 +830,7 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
         }
         
         THEMIS_INFO("TaskAuditManager: retention policy enforced (removed={}, kept={})",
-                   removed_count, lines_to_keep.size());
+                   removed_count,static_cast<int>(lines_to_keep.size()));
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("TaskAuditManager: failed to enforce retention policy: {}", e.what());
@@ -914,7 +914,7 @@ size_t TaskAuditManager::detectAndRecoverCorruption() {
             
             THEMIS_INFO("TaskAuditManager: corruption recovery completed "
                        "(corruption_count={}, recovered={})",
-                       corruption_count, valid_lines.size());
+                       corruption_count,static_cast<int>(valid_lines.size()));
         }
         
     } catch (const std::exception& e) {

@@ -178,7 +178,7 @@ void LookupDecoder::indexTokens(const std::vector<int>& tokens) {
             // Continuation: up to max_draft_tokens tokens following the key.
             const size_t cont_start = start + n;
             const size_t cont_end =
-                std::min(cont_start + config_.max_draft_tokens, tokens.size());
+                std::min(cont_start + config_.max_draft_tokens,static_cast<int>(tokens.size()));
             std::vector<int> cont(tokens.begin() + static_cast<ptrdiff_t>(cont_start),
                                   tokens.begin() + static_cast<ptrdiff_t>(cont_end));
             if (!cont.empty()) {

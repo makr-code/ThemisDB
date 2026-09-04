@@ -66,7 +66,7 @@ class RTreeRangeCursor final : public IRTreeCursor {
     }
 
     std::size_t estimatedResultCount() const noexcept override {
-        return hits_.size();
+        return static_cast<int>(hits_.size());
     }
 
   private:
@@ -99,7 +99,7 @@ class RTreeKNNCursor final : public IRTreeCursor {
     }
 
     std::size_t estimatedResultCount() const noexcept override {
-        return std::min(k_, hits_.size());
+        return std::min(k_,static_cast<int>(hits_.size()));
     }
 
   private:
@@ -189,7 +189,7 @@ std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openKNNCursor(const Coordinate &que
     }
 
     // Partial sort to get k nearest
-    const std::size_t take = std::min(k, candidates.size());
+    const std::size_t take = std::min(k,static_cast<int>(candidates.size()));
     std::partial_sort(candidates.begin(), candidates.begin() + static_cast<std::ptrdiff_t>(take), candidates.end(),
                       [](const GeoIndexEntry &a, const GeoIndexEntry &b) { return a.distance_m < b.distance_m; });
     candidates.resize(take);

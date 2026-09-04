@@ -127,7 +127,7 @@ public:
 
         // Convert to span and call extractor
         const auto* byte_ptr = reinterpret_cast<const std::byte*>(raw_bytes.data());
-        std::span<const std::byte> span{byte_ptr, raw_bytes.size()};
+        std::span<const std::byte> span{byte_ptr,static_cast<int>(raw_bytes.size())};
 
         FormatExtractResult result = extractor_->extract(
             span,

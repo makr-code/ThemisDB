@@ -197,7 +197,7 @@ json RetentionApiHandler::getHistory([[maybe_unused]] size_t limit) {
     
     return json{
         {"items", items},
-        {"total", actions.size()},
+        {"total",static_cast<int>(actions.size())},
         {"limit", limit}
     };
 }

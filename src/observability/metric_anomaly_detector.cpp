@@ -292,7 +292,7 @@ json MetricAnomalyDetector::generateReportJson() const {
                      .count();
     return json{
         {"generated_at_ms", ts_ms},
-        {"monitored_count", streams_.size()},
+        {"monitored_count",static_cast<int>(streams_.size())},
         {"metrics",         metrics_arr}
     };
 }
@@ -303,7 +303,7 @@ json MetricAnomalyDetector::generateReportJson() const {
 
 size_t MetricAnomalyDetector::monitoredCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return streams_.size();
+    return static_cast<int>(streams_.size());
 }
 
 std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {

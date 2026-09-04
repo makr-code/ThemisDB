@@ -209,7 +209,7 @@ void GradientTensor::compress(GradientCompressionType type) {
               break;
             }
             
-            size_t k = std::max(size_t(1), data.size() / 10);
+            size_t k = std::max(size_t(1),static_cast<int>(data.size()) / 10);
             
             // Create indices sorted by absolute value
             std::vector<std::pair<size_t, float>> indexed_vals;
@@ -612,7 +612,7 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
             const auto& grad = shard_grad_list[layer_idx];
             if (static_cast<int>(grad.data.size()) != tensor_size) {
                 spdlog::warn("Gradient size mismatch for layer {}: expected {}, got {}", 
-                           grad.layer_name, tensor_size, grad.data.size());
+                           grad.layer_name, tensor_size,static_cast<int>(grad.data.size()));
                 continue;
             }
             
@@ -712,7 +712,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
 
 void RingAllReduceAggregator::setRingTopology(const std::vector<std::string>& ring_order) {
     ring_order_ = ring_order;
-    spdlog::info("Ring topology set with {} nodes", ring_order.size());
+    spdlog::info("Ring topology set with {} nodes",static_cast<int>(ring_order.size()));
 }
 
 std::vector<GradientTensor> RingAllReduceAggregator::aggregate(
@@ -745,7 +745,7 @@ DistributedTrainingCoordinator::DistributedTrainingCoordinator(
     
     spdlog::info("DistributedTrainingCoordinator created");
     spdlog::info("  Coordinator shard: {}", config_.coordinator_shard);
-    spdlog::info("  Participant shards: {}", config_.participant_shards.size());
+    spdlog::info("  Participant shards: {}",static_cast<int>(config_.participant_shards.size()));
     spdlog::info("  Sync strategy: {}", static_cast<int>(config_.sync_strategy));
 }
 
@@ -970,7 +970,7 @@ DistributedTrainingCoordinator::collectGradients([[maybe_unused]] int step_numbe
             
             if (!shard_grads.empty()) {
                 collected[shard_id] = shard_grads;
-                spdlog::debug("Collected {} gradients from {}", shard_grads.size(), shard_id);
+                spdlog::debug("Collected {} gradients from {}",static_cast<int>(shard_grads.size()), shard_id);
             } else {
                 spdlog::warn("No gradients received from {}", shard_id);
             }
@@ -1140,7 +1140,7 @@ bool DistributedTrainingCoordinator::broadcastGradients(
     int step_number
 ) {
     spdlog::debug("Broadcasting {} gradient tensors to {} shards",
-                 gradients.size(), active_shards_.size());
+                 gradients.size(),static_cast<int>(active_shards_.size()));
     
     if (!shard_router_) {
         spdlog::error("No ShardRouter available; distributed gradient broadcast is disabled");
@@ -1317,7 +1317,7 @@ bool DistributedTrainingCoordinator::handleShardFailure(const std::string& faile
         return false;
     }
     
-    spdlog::info("Continuing with {} active shards", active_shards_.size());
+    spdlog::info("Continuing with {} active shards",static_cast<int>(active_shards_.size()));
     return true;
 }
 

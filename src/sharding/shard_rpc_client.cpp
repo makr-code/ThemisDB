@@ -287,7 +287,7 @@ bool ShardRPCClient::prepare(
     const nlohmann::json& operations
 ) {
     THEMIS_DEBUG("RPC PREPARE to {}: txn={}, ops={}", 
-                impl_->config.endpoint, txn_id, operations.size());
+                impl_->config.endpoint, txn_id,static_cast<int>(operations.size()));
     
     try {
         nlohmann::json params = {

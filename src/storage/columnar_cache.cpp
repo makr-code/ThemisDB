@@ -238,7 +238,7 @@ void ColumnarCache::clear() {
 
 size_t ColumnarCache::size() const noexcept {
     std::lock_guard<std::mutex> lk(mu_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 size_t ColumnarCache::pinnedCount() const noexcept {

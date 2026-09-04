@@ -1180,7 +1180,7 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
             if (recovered[s]) {
               avail_rows.push_back(s);
             }
-        for (uint32_t p = 0; p < n_global && avail_rows.size() < data_shards; ++p)
+        for (uint32_t p = 0; p < n_global && static_cast<int>(avail_rows.size()) < data_shards; ++p)
             if (recovered[global_start + p]) {
               avail_rows.push_back(data_shards + p);
             }
@@ -1717,7 +1717,7 @@ WriteResult RedundancyStrategy::writeMirror(
             break;
         case WriteConcern::QUORUM:
             // W2-S02: Fail-closed on invalid write_quorum
-            if (config_.write_quorum == 0 && target_shards.size() > 1) {
+            if (config_.write_quorum == 0 && static_cast<int>(target_shards.size()) > 1) {
                 spdlog::error("writeMirror: write_quorum is 0 with {} target shards, rejecting write", 
                              target_shards.size());
                 WriteResult result;
@@ -1920,7 +1920,7 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     command.append("|");
     
     // Field 3: raw data
-    command.append(reinterpret_cast<const char*>(data.data()), data.size());
+    command.append(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
     
     // Propose write through Raft
     auto future = raft_manager_->proposeWrite(shard_id, command);
@@ -1971,7 +1971,7 @@ WriteResult RedundancyStrategy::writeStripe(
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
     // W2-S06: Consensus validation — determine required acknowledgments based on write concern
-    const uint32_t configured_targets = std::max<uint32_t>(1, chunks.size());
+    const uint32_t configured_targets = std::max<uint32_t>(1,static_cast<int>(chunks.size()));
     uint32_t required_acks = 1;
     switch (config_.write_concern) {
         case WriteConcern::ONE:
@@ -1984,7 +1984,7 @@ WriteResult RedundancyStrategy::writeStripe(
             required_acks = configured_targets;
             break;
         case WriteConcern::QUORUM:
-            if (config_.write_quorum == 0 && target_shards.size() > 1) {
+            if (config_.write_quorum == 0 && static_cast<int>(target_shards.size()) > 1) {
                 spdlog::error("writeStripe: write_quorum is 0 with {} target shards, rejecting write", 
                              target_shards.size());
                 WriteResult result;

@@ -295,7 +295,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     if (EVP_DigestInit_ex(ctx.get(), md, nullptr) != 1) {
         throw std::runtime_error("EVP_DigestInit_ex failed");
     }
-    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
     if (EVP_DigestFinal_ex(ctx.get(), out.data(), &outlen) != 1) {
         throw std::runtime_error("EVP_DigestFinal_ex failed");
     }
@@ -604,7 +604,7 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
           return false;
         }
         
-        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(), hash.size())==0);
+        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(),static_cast<int>(hash.size()))==0);
         return match;
     } catch (const std::exception& e) {
         THEMIS_ERROR("verifyTimestampForHash error: {}", e.what());

@@ -237,14 +237,14 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
         // Attempt GPU kernel dispatch for the common point-in-polygon pattern.
         const bool have_geoms = !in.geoms_a.empty() && !in.geoms_b.empty();
-        const std::size_t n   = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        const std::size_t n   = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
 
         if (have_geoms && n >= cfg_.gpu_batch_threshold && gpu_device_present_ && active_device_.is_healthy
             && safe_fail_.shouldAttemptGPU() && kernel_dispatcher_.isAvailable() && isAllPointsVsPolygon(in, n)) {
             auto gpu_result = tryGpuContainmentDispatch(in, n);
             if (gpu_result.dispatched) {
                 safe_fail_.recordSuccess();
-                const std::size_t m = std::min(out.mask.size(), gpu_result.mask.size());
+                const std::size_t m = std::min(out.mask.size(),static_cast<int>(gpu_result.mask.size()));
                 for (std::size_t i = 0; i < m; ++i) {
                     out.mask[i] = gpu_result.mask[i];
                 }
@@ -290,10 +290,10 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         if (have_geoms && (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
             THEMIS_WARN("GPU spatial batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({}); processing {} pairs",
-                        in.geoms_a.size(), in.geoms_b.size(), in.count,
-                        std::min({in.count, in.geoms_a.size(), in.geoms_b.size()}));
+                        in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count,
+                        std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())}));
         }
-        const std::size_t n_cpu = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        const std::size_t n_cpu = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n_cpu; ++i) {
             try {
                 out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;

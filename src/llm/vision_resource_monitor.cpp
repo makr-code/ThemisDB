@@ -612,7 +612,7 @@ std::vector<VisionResourceMonitor::AuditEntry> VisionResourceMonitor::getAuditLo
     std::vector<AuditEntry> entries;
     auto q = audit_log_;
     
-    while (!q.empty() && entries.size() < max_entries) {
+    while (!q.empty() && static_cast<int>(entries.size()) < max_entries) {
         entries.push_back(q.front());
         q.pop();
     }

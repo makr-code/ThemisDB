@@ -31,7 +31,7 @@ SecureString::~SecureString() {
 
 void SecureString::securely_clear() noexcept {
     if (!data_.empty()) {
-        OPENSSL_cleanse(data_.data(), data_.size());
+        OPENSSL_cleanse(data_.data(),static_cast<int>(data_.size()));
         data_.clear();
     }
 }
@@ -62,7 +62,7 @@ SecureVector<T>::~SecureVector() {
 template <typename T>
 void SecureVector<T>::securely_clear() noexcept {
     if (!data_.empty()) {
-        OPENSSL_cleanse(data_.data(), data_.size() * sizeof(T));
+        OPENSSL_cleanse(data_.data(),static_cast<int>(data_.size()) * sizeof(T));
         data_.clear();
     }
 }

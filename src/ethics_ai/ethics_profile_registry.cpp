@@ -112,7 +112,7 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
         }
 
         results.push_back(meta);
-        if (query.max_results > 0 && results.size() >= query.max_results) {
+        if (query.max_results > 0 && static_cast<int>(results.size()) >= query.max_results) {
           break;
         }
     }
@@ -131,7 +131,7 @@ EthicsProfileRegistry::EthicsProfileRegistry(size_t lru_capacity)
 
 size_t EthicsProfileRegistry::indexSize() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return index_.size();
+    return static_cast<int>(index_.size());
 }
 
 bool EthicsProfileRegistry::hasProfile(const std::string& school_id) const {
@@ -210,7 +210,7 @@ std::variant<size_t, Status> EthicsProfileRegistry::rebuildIndex(
     lru_map_.clear();
     loader_.clear();
 
-    return index_.size();
+    return static_cast<int>(index_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -109,7 +109,7 @@ public:
         out.mask.assign(in.count, 0u);
 
         // Process geometry pairs when they are provided.
-        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
             out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
         }

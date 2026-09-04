@@ -153,7 +153,7 @@ std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
 {
     std::vector<SchemaValidationError> errors = {};
 
-    const size_t n = std::min(columns.size(), values.size());
+    const size_t n = std::min(columns.size(),static_cast<int>(values.size()));
     
     // PHASE-2-HARDENING: Default null policy (NULLABLE for backward compatibility)
     const NullHandlingPolicy null_policy = NullHandlingPolicy::NULLABLE;
@@ -239,7 +239,7 @@ void SchemaAutoDetector::feedRow(const std::vector<std::string>& columns,
         }
     }
 
-    const size_t n = std::min(columns.size(), values.size());
+    const size_t n = std::min(columns.size(),static_cast<int>(values.size()));
     for (size_t i = 0; i < n; ++i) {
         const auto& col = columns[i];
         const auto& val = values[i];

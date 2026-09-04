@@ -399,7 +399,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
     } catch (const nlohmann::json::exception &ex) {
         spdlog::error("RemoteRegistryClient::listPlugins: JSON parse error: {}", ex.what());
     }
-    spdlog::info("RemoteRegistryClient::listPlugins: found {} plugin(s)", entries.size());
+    spdlog::info("RemoteRegistryClient::listPlugins: found {} plugin(s)",static_cast<int>(entries.size()));
     return entries;
 }
 

@@ -40,7 +40,7 @@ std::string stripMarkdownFences(const std::string& text, std::string* language_t
     std::smatch match = {};
     std::string result = text;
     if (std::regex_search(result, match, open_fence)) {
-        if (language_tag && match.size() > 1) {
+        if (language_tag && static_cast<int>(match.size()) > 1) {
             *language_tag = match[1].str();
         }
         // Remove opening fence

@@ -244,8 +244,8 @@ nlohmann::json CloudAgent::getHealthStatus() const {
         auto all_shards = topology_->getAllShards();
         
         health["shards"] = {
-            {"total", all_shards.size()},
-            {"healthy", healthy_shards.size()},
+            {"total",static_cast<int>(all_shards.size())},
+            {"healthy",static_cast<int>(healthy_shards.size())},
             {"unhealthy", static_cast<int>(all_shards.size()) - healthy_shards.size()}
         };
     }
@@ -501,7 +501,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     
     // Process shards in batches to limit concurrency
     for (size_t batch_start = 0; batch_start < sorted_shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent, sorted_shards.size());
+        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sorted_shards.size()));
         
         // Create futures for this batch
         std::vector<std::future<std::pair<std::string, nlohmann::json>>> futures;
@@ -621,7 +621,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     
     // Build final result
     result.result = {
-        {"total_shards", shards.size()},
+        {"total_shards",static_cast<int>(shards.size())},
         {"success_count", success_count.load()},
         {"failure_count", failure_count.load()},
         {"aggregated_results", aggregated_result},

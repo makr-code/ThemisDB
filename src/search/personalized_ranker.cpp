@@ -132,7 +132,7 @@ void PersonalizedRanker::applyPersonalization(
               });
 
     THEMIS_DEBUG("PersonalizedRanker::applyPersonalization: user='{}', {} candidates",
-                 user_id, candidates.size());
+                 user_id,static_cast<int>(candidates.size()));
 }
 
 // ============================================================================
@@ -155,7 +155,7 @@ std::vector<UserInteraction> PersonalizedRanker::getUserInteractions(
 
 size_t PersonalizedRanker::userCount() const {
     std::lock_guard<std::mutex> lock(mu_);
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 void PersonalizedRanker::clearUser(const std::string& user_id) {

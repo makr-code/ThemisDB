@@ -210,7 +210,7 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
     {
         std::unique_lock lock(registry_mutex_);
         for (auto it = indexes_.begin(); it != indexes_.end(); ) {
-            if (it->first.substr(0, prefix.size()) == prefix) {
+            if (it->first.substr(0,static_cast<int>(prefix.size())) == prefix) {
                 handles_.erase(it->first);
                 it = indexes_.erase(it);
             } else {
@@ -274,7 +274,7 @@ TensorIndexManager::listIndexes(const std::string& tenant_id) const {
     std::vector<IndexHandle> out = {};
 
     for (const auto& [k, h] : handles_) {
-        if (k.substr(0, prefix.size()) == prefix) {
+        if (k.substr(0,static_cast<int>(prefix.size())) == prefix) {
           out.push_back(h);
         }
     }

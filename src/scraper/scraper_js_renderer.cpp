@@ -185,7 +185,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     {
         std::array<char, 4096> buf{};
         ssize_t n = 0;
-        while ((n = ::read(pipefd[0], buf.data(), buf.size())) > 0)
+        while ((n = ::read(pipefd[0], buf.data(),static_cast<int>(buf.size()))) > 0)
             html.append(buf.data(), static_cast<std::size_t>(n));
     }
     ::close(pipefd[0]);

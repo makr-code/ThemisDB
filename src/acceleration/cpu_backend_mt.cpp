@@ -193,7 +193,7 @@ class CPUVectorBackendMT : public CPUVectorBackend {
             }
 
             // Partial sort to get k nearest
-            size_t actualK = std::min(k, distances.size());
+            size_t actualK = std::min(k,static_cast<int>(distances.size()));
             std::partial_sort(distances.begin(), distances.begin() + actualK, distances.end(),
                               [](const auto &a, const auto &b) { return a.second < b.second; });
 

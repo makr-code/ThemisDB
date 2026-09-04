@@ -111,7 +111,7 @@ FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
         // Emit a small stderr diagnostic so focused test runners capture it reliably.
         try {
             std::fprintf(stderr, "[TFML] shard='%s' similar_adapters=%zu candidates=%zu\n",
-                         shard_scope_id.c_str(), shard_summary.similar_adapters.size(), shard_summary.candidate_count);
+                         shard_scope_id.c_str(),static_cast<int>(shard_summary.similar_adapters.size()), shard_summary.candidate_count);
         } catch (...) {
         }
         shard_summary.federated = true;
@@ -202,7 +202,7 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
               [](const auto& lhs, const auto& rhs) {
                   return lhs.score > rhs.score;
               });
-    if (top_k > 0 && out.size() > top_k) {
+    if (top_k > 0 && static_cast<int>(out.size()) > top_k) {
         out.resize(top_k);
     }
     return out;

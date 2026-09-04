@@ -707,7 +707,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         }
         
         model_data = *blob_data_opt;
-        spdlog::info("✓ Model blob retrieved: {} bytes", model_data.size());
+        spdlog::info("✓ Model blob retrieved: {} bytes",static_cast<int>(model_data.size()));
         
         // Step 3: Decryption is already handled by loadModelBlob()
         // The data returned from loadModelBlob() is already decrypted if encryption was enabled
@@ -1540,7 +1540,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 spdlog::debug("Tool calling: model output could not be parsed as a tool call "
                               "(expected one of {} tool(s), output snippet: '{}')",
                               request.tools.size(),
-                              response.text.substr(0, std::min<std::size_t>(80, response.text.size())));
+                              response.text.substr(0, std::min<std::size_t>(80,static_cast<int>(response.text.size()))));
             }
         }
         
@@ -2066,7 +2066,7 @@ bool LlamaWrapper::importLoRA(
     }
     
     spdlog::info("Importing LoRA from remote shard: {} ({} bytes)",
-                 lora_id, data.size());
+                 lora_id,static_cast<int>(data.size()));
     
     // Delegate to multi-LoRA manager
     return lora_manager->importLoRA(lora_id, data, current_model_id_);
@@ -3357,7 +3357,7 @@ void LlamaWrapper::initializeBuiltinGrammars() {
     builtin_grammars_["csv"] = loadGrammarFile(grammars_path + "csv.gbnf");
     builtin_grammars_["react_agent"] = loadGrammarFile(grammars_path + "react_agent.gbnf");
     
-    spdlog::debug("Loaded {} built-in grammars from {}", builtin_grammars_.size(), grammars_path);
+    spdlog::debug("Loaded {} built-in grammars from {}",static_cast<int>(builtin_grammars_.size()), grammars_path);
 }
 
 std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {

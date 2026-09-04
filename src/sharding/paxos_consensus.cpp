@@ -628,7 +628,7 @@ void PaxosConsensus::leaderElectionThread() {
                 current_leader_ = node_id_;
             }
             spdlog::info("Node {} elected as leader (ballot={}, promises={}/{})",
-                         node_id_, ballot, promises, nodes_snapshot.size());
+                         node_id_, ballot, promises,static_cast<int>(nodes_snapshot.size()));
         }
     }
 
@@ -749,12 +749,12 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         // Check if we have quorum
         if (!hasQuorum(instance.prepare_promises.size())) {
             spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
-                        node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
+                        node_id_, slot,static_cast<int>(instance.prepare_promises.size()),static_cast<int>(cluster_nodes_.size()));
             return false;
         }
 
         spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
-                     node_id_, instance.prepare_promises.size(),
+                     node_id_,static_cast<int>(instance.prepare_promises.size()),
                      cluster_nodes_.size(), slot);
 
         // Phase 1b complete: quorum of promises received.
@@ -882,12 +882,12 @@ bool PaxosConsensus::executeAcceptPhase(
         // Phase 2b: Check if we have quorum of accepts
         if (!hasQuorum(instance.accept_acks.size())) {
             spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
-                        node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
+                        node_id_, slot,static_cast<int>(instance.accept_acks.size()),static_cast<int>(cluster_nodes_.size()));
             return false;
         }
 
         spdlog::debug("Node {} got quorum ({}/{}) in accept phase for slot {}",
-                     node_id_, instance.accept_acks.size(),
+                     node_id_,static_cast<int>(instance.accept_acks.size()),
                      cluster_nodes_.size(), slot);
         
         // Quorum reached - value is chosen
@@ -1051,7 +1051,7 @@ bool PaxosConsensus::loadPersistentState() {
         
         spdlog::info("Loaded Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
                      current_round_.load(), next_slot_.load(), commit_index_.load(), 
-                     instances_.size(), committed_log_.size());
+                     instances_.size(),static_cast<int>(committed_log_.size()));
         
         return true;
         
@@ -1144,7 +1144,7 @@ bool PaxosConsensus::savePersistentState() {
         
         spdlog::debug("Saved Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
                       current_round_.load(), next_slot_.load(), commit_index_.load(),
-                      instances_.size(), committed_log_.size());
+                      instances_.size(),static_cast<int>(committed_log_.size()));
         
         return true;
         
@@ -1266,7 +1266,7 @@ bool PaxosConsensus::recoverFromWAL() {
             
             spdlog::info("Recovered from Paxos snapshot: id={}, slot={}, instances={}, log_entries={}",
                         snapshot.snapshot_id, snapshot.last_committed_slot,
-                        snapshot.instances.size(), snapshot.committed_log.size());
+                        snapshot.instances.size(),static_cast<int>(snapshot.committed_log.size()));
         } else {
             spdlog::info("No snapshot found, starting from empty state");
             last_applied_lsn_ = LSN(0, 0);
@@ -1378,7 +1378,7 @@ void PaxosConsensus::createPeriodicSnapshot() {
         if (snapshot_id.has_value()) {
             operations_since_snapshot_.store(0);
             spdlog::info("Created Paxos snapshot: id={}, slot={}, instances={}",
-                        snapshot_id.value(), commit_index_.load(), instances_.size());
+                        snapshot_id.value(), commit_index_.load(),static_cast<int>(instances_.size()));
         }
         
     } catch (const std::exception& e) {

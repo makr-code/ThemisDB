@@ -358,7 +358,7 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
             for (const auto& chunk : chunks) {
                 ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title) << "\n\n";
                 const auto& txt = chunk.text;
-                ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
+                ofs << "> " << txt.substr(0, std::min<std::size_t>(300,static_cast<int>(txt.size())));
                 if (static_cast<int>(txt.size()) > 300) {
                   ofs << "…";
                 }
@@ -473,7 +473,7 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
                     ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title)
                         << " (" << chunk.source_path << ")\n\n";
                     const auto& txt = chunk.text;
-                    ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
+                    ofs << "> " << txt.substr(0, std::min<std::size_t>(300,static_cast<int>(txt.size())));
                     if (static_cast<int>(txt.size()) > 300) {
                       ofs << "…";
                     }

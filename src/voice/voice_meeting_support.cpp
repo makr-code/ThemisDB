@@ -453,7 +453,7 @@ bool RealtimeMeetingSession::isFinalized() const {
 
 size_t RealtimeMeetingSession::segmentCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return protocol_.segments.size();
+    return static_cast<int>(protocol_.segments.size());
 }
 
 }} // namespace themis::voice

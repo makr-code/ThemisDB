@@ -478,7 +478,7 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
 
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-    spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
+    spdlog::info("Unloading all modules ({} loaded)",static_cast<int>(loadedModules_.size()));
 
     auto&    auditor = PluginSecurityAuditor::instance();
     uint64_t now     = static_cast<uint64_t>(std::time(nullptr));
@@ -1537,7 +1537,7 @@ bool isSafeEntryPath(const std::filesystem::path& tempDir,
       return false;
     }
     // Require the temp dir to be a proper prefix followed by a separator.
-    if (resolvedStr.substr(0, tempStr.size()) != tempStr) {
+    if (resolvedStr.substr(0,static_cast<int>(tempStr.size())) != tempStr) {
       return false;
     }
     // At this point resolvedStr.size() > tempStr.size() ensures safe access.
@@ -1705,7 +1705,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
     }
 
     int rc = EVP_DigestVerify(ctx,
-                               signatureBytes.data(), signatureBytes.size(),
+                               signatureBytes.data(),static_cast<int>(signatureBytes.size()),
                                message, messageLen);
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);

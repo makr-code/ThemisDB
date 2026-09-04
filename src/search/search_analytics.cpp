@@ -79,9 +79,9 @@ std::vector<SearchEvent> SearchAnalytics::getRecentEvents([[maybe_unused]] size_
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result = {};
 
-    size_t n = std::min(limit, events_.size());
+    size_t n = std::min(limit,static_cast<int>(events_.size()));
     result.reserve(n);
-    for (auto it = events_.rbegin(); it != events_.rend() && result.size() < n; ++it) {
+    for (auto it = events_.rbegin(); it != events_.rend() && static_cast<int>(result.size()) < n; ++it) {
         result.push_back(*it);
     }
     return result; // most-recent first
@@ -129,10 +129,10 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     // Top queries (up to 20 by frequency)
     std::vector<std::pair<std::string, size_t>> freq_vec(query_freq.begin(), query_freq.end());
     std::partial_sort(freq_vec.begin(),
-                      freq_vec.begin() + std::min(size_t{20}, freq_vec.size()),
+                      freq_vec.begin() + std::min(size_t{20},static_cast<int>(freq_vec.size())),
                       freq_vec.end(),
                       [](const auto& a, const auto& b) { return a.second > b.second; });
-    for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {
+    for (size_t i = 0; i < std::min(size_t{20},static_cast<int>(freq_vec.size())); ++i) {
         m.top_queries[freq_vec[i].first] = freq_vec[i].second;
     }
 
@@ -151,7 +151,7 @@ SearchAnalytics::getTopQueries([[maybe_unused]] size_t limit) const {
     }
 
     std::vector<std::pair<std::string, size_t>> result(freq.begin(), freq.end());
-    size_t n = std::min(limit, result.size());
+    size_t n = std::min(limit,static_cast<int>(result.size()));
     std::partial_sort(result.begin(), result.begin() + static_cast<std::ptrdiff_t>(n),
                       result.end(),
                       [](const auto& a, const auto& b) {
@@ -168,7 +168,7 @@ SearchAnalytics::getTopQueries([[maybe_unused]] size_t limit) const {
 
 size_t SearchAnalytics::eventCount() const {
     std::lock_guard<std::mutex> lock(mu_);
-    return events_.size();
+    return static_cast<int>(events_.size());
 }
 
 void SearchAnalytics::clear() {

@@ -71,9 +71,9 @@ bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
         new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + value.size());
         new_value->assign(existing_value->data(), existing_value->size());
         new_value->append(delimiter_);
-        new_value->append(value.data(), value.size());
+        new_value->append(value.data(),static_cast<int>(value.size()));
     } else {
-        new_value->assign(value.data(), value.size());
+        new_value->assign(value.data(),static_cast<int>(value.size()));
     }
     return true;
 }
@@ -99,7 +99,7 @@ bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
     }
 
     // Parse and add new values (comma-separated)
-    std::string value_str(value.data(), value.size());
+    std::string value_str(value.data(),static_cast<int>(value.size()));
     std::stringstream ss(value_str);
     std::string item = {};
     while (std::getline(ss, item, ',')) {

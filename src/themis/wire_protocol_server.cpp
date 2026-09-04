@@ -788,7 +788,7 @@ void WireProtocolSession::send_error(uint32_t           err_code,
     std::vector<uint8_t> payload(4u + message.size());
     const uint32_t code_be = htonl(err_code);
     std::memcpy(payload.data(), &code_be, 4u);
-    std::memcpy(payload.data() + 4u, message.data(), message.size());
+    std::memcpy(payload.data() + 4u, message.data(),static_cast<int>(message.size()));
 
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
@@ -1069,7 +1069,7 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
     const auto batch_sz =
         req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100u;
     v1::QueryResult qr;
-    size_t end = std::min(entry.offset + batch_sz, entry.results.size());
+    size_t end = std::min(entry.offset + batch_sz,static_cast<int>(entry.results.size()));
     for (size_t i = entry.offset; i < end; ++i)
         qr.add_results(entry.results[i]);
 
@@ -1607,7 +1607,7 @@ void WireProtocolServer::stop() {
 
 size_t WireProtocolServer::active_sessions() const {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    return sessions_.size();
+    return static_cast<int>(sessions_.size());
 }
 
 uint64_t WireProtocolServer::total_connections() const {

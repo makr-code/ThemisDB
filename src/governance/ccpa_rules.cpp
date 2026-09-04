@@ -119,7 +119,7 @@ CcpaRuleSet::CcpaRuleSet() {
     rules_.push_back(std::make_shared<OptOutOfSale>());
     rules_.push_back(std::make_shared<DataPortability>());
 
-    THEMIS_DEBUG("CcpaRuleSet initialized with {} rule evaluators", rules_.size());
+    THEMIS_DEBUG("CcpaRuleSet initialized with {} rule evaluators",static_cast<int>(rules_.size()));
 }
 
 void CcpaRuleSet::addOptOut(const std::string &subject_id) {
@@ -148,12 +148,12 @@ bool CcpaRuleSet::isOptedOut(const std::string &subject_id) const {
 void CcpaRuleSet::setOptOutRegistry(const std::unordered_set<std::string> &subjects) {
     std::lock_guard<std::mutex> lock(opt_out_mutex_);
     opt_out_subjects_ = subjects;
-    THEMIS_INFO("CCPA: opt-out registry replaced with {} subjects", subjects.size());
+    THEMIS_INFO("CCPA: opt-out registry replaced with {} subjects",static_cast<int>(subjects.size()));
 }
 
 size_t CcpaRuleSet::optOutCount() const {
     std::lock_guard<std::mutex> lock(opt_out_mutex_);
-    return opt_out_subjects_.size();
+    return static_cast<int>(opt_out_subjects_.size());
 }
 
 std::vector<CcpaRuleEvalResult> CcpaRuleSet::evaluateRule(const PolicyRule &rule) const {

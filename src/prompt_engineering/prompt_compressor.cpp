@@ -107,7 +107,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
         size_t pos = 0;
         const size_t len = omitted_text.size();
 
-        while (pos < len && summary.size() < kMaxSummaryChars) {
+        while (pos < len && static_cast<int>(summary.size()) < kMaxSummaryChars) {
             // Skip leading whitespace between sentences.
             while (pos < len && std::isspace(static_cast<unsigned char>(omitted_text[pos])))
                 ++pos;

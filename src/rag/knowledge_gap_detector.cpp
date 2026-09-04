@@ -1193,7 +1193,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
 
     // Build each sample from sentences drawn at a stride offset so adjacent
     // samples prefer sentences from different documents (maximising diversity).
-    const std::size_t stride = std::max(std::size_t{1}, tagged.size() / num_samples);
+    const std::size_t stride = std::max(std::size_t{1},static_cast<int>(tagged.size()) / num_samples);
     for (std::size_t s = 0; s < num_samples; ++s) {
         std::ostringstream oss = {};
         oss << "Regarding '" << query << "': ";

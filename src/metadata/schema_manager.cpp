@@ -162,7 +162,7 @@ std::vector<SchemaManager::TableSchema> SchemaManager::getAllTables() {
         tables.push_back(schema);
     }
     
-    spdlog::debug("SchemaManager: getAllTables() returned {} tables", tables.size());
+    spdlog::debug("SchemaManager: getAllTables() returned {} tables",static_cast<int>(tables.size()));
     return tables;
 }
 
@@ -213,7 +213,7 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
         for (const auto& [name, schema] : rel_cache_) {
             relationships.push_back(schema);
         }
-        spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships", relationships.size());
+        spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships",static_cast<int>(relationships.size()));
         return relationships;
     }
     
@@ -224,7 +224,7 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
         relationships.push_back(schema);
     }
     
-    spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships", relationships.size());
+    spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships",static_cast<int>(relationships.size()));
     return relationships;
 }
 
@@ -322,7 +322,7 @@ void SchemaManager::recordMutation(std::string_view table_name) {
     }
 
     spdlog::debug("SchemaManager: Mutation recorded for table '{}' (window count: {})",
-                  table_name, log.size());
+                  table_name,static_cast<int>(log.size()));
 }
 
 void SchemaManager::enableAdaptiveTTL(AdaptiveTTLConfig config) {
@@ -515,7 +515,7 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
             it->Next();
         }
         
-        spdlog::debug("SchemaManager: Discovered {} table names", table_names.size());
+        spdlog::debug("SchemaManager: Discovered {} table names",static_cast<int>(table_names.size()));
         
     } catch (const std::exception& e) {
         spdlog::error("SchemaManager: Exception during table discovery: {}", e.what());
@@ -938,7 +938,7 @@ void SchemaManager::buildCache() {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
     spdlog::info("SchemaManager: Cache built in {}ms - {} tables ({} custom), {} relationships",
-                 duration.count(), table_cache_.size(), custom_schemas_.size(), rel_cache_.size());
+                 duration.count(),static_cast<int>(table_cache_.size()),static_cast<int>(custom_schemas_.size()),static_cast<int>(rel_cache_.size()));
 }
 
 // ============================================================================

@@ -62,7 +62,7 @@ static void writeBytes(std::vector<uint8_t> &buf, const uint8_t *data,
 
 static void writeString(std::vector<uint8_t> &buf, const std::string &s) {
   writeU32(buf, static_cast<uint32_t>(s.size()));
-  writeBytes(buf, reinterpret_cast<const uint8_t *>(s.data()), s.size());
+  writeBytes(buf, reinterpret_cast<const uint8_t *>(s.data()),static_cast<int>(s.size()));
 }
 
 static uint32_t readU32(const uint8_t *p) {
@@ -125,7 +125,7 @@ ExportEncryption::buildAAD(const std::string &job_id, const std::string &kek_id,
   writeString(aad, job_id);
   writeString(aad, kek_id);
   writeU32(aad, key_version);
-  writeBytes(aad, iv.data(), iv.size());
+  writeBytes(aad, iv.data(),static_cast<int>(iv.size()));
   return aad;
 }
 
@@ -159,7 +159,7 @@ ExportEncryption::deriveJobDEK([[maybe_unused]] uint32_t key_version) const {
       kek, {} /*salt*/, config_.job_id, KEY_LEN);
 
   // Securely zero the KEK copy held on the stack once DEK is derived.
-  OPENSSL_cleanse(kek.data(), kek.size());
+  OPENSSL_cleanse(kek.data(),static_cast<int>(kek.size()));
 
   return dek;
 }
@@ -211,7 +211,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   // Generate a random 12-byte IV.
   std::vector<uint8_t> iv(IV_LEN);
   if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw std::runtime_error("ExportEncryption: failed to generate random IV");
   }
 
@@ -224,7 +224,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
 
   EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
   if (!ctx) {
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw std::runtime_error(
         "ExportEncryption: failed to create cipher context");
   }
@@ -274,11 +274,11 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
     }
   } catch (...) {
     EVP_CIPHER_CTX_free(ctx);
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw;
   }
   EVP_CIPHER_CTX_free(ctx);
-  OPENSSL_cleanse(dek.data(), dek.size());
+  OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
 
   // Assemble the container:
   //   [magic][format_ver][job_id][kek_id][key_version][iv][ct_len][ct][tag]
@@ -294,12 +294,12 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   writeU32(container, key_version);
   writeBytes(container, iv.data(), IV_LEN);
   writeU64(container, static_cast<uint64_t>(ciphertext.size()));
-  writeBytes(container, ciphertext.data(), ciphertext.size());
+  writeBytes(container, ciphertext.data(),static_cast<int>(ciphertext.size()));
   writeBytes(container, tag.data(), TAG_LEN);
 
   THEMIS_INFO("ExportEncryption: encrypted {} bytes -> {} bytes "
               "(job_id={}, kek_id={}, key_ver={})",
-              plaintext.size(), container.size(), job_id, kek_id, key_version);
+              plaintext.size(),static_cast<int>(container.size()), job_id, kek_id, key_version);
 
   return container;
 }
@@ -413,7 +413,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
 
   EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
   if (!ctx) {
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw std::runtime_error(
         "ExportEncryption: failed to create cipher context");
   }
@@ -467,15 +467,15 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
     }
   } catch (...) {
     EVP_CIPHER_CTX_free(ctx);
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw;
   }
   EVP_CIPHER_CTX_free(ctx);
-  OPENSSL_cleanse(dek.data(), dek.size());
+  OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
 
   THEMIS_INFO("ExportEncryption: decrypted {} bytes -> {} bytes "
               "(job_id={}, kek_id={}, key_ver={})",
-              container.size(), plaintext.size(), file_job_id, file_kek_id,
+              container.size(),static_cast<int>(plaintext.size()), file_job_id, file_kek_id,
               key_version);
 
   return plaintext;
@@ -528,7 +528,7 @@ void ExportEncryption::encryptFile(const std::string &src_path,
   auto container = encrypt(plaintext);
 
   // Securely zero the plaintext buffer now that encryption is done.
-  OPENSSL_cleanse(plaintext.data(), plaintext.size());
+  OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
 
   // Write encrypted container.
   std::ofstream dst(dst_path, std::ios::binary | std::ios::trunc);
@@ -592,20 +592,20 @@ void ExportEncryption::decryptFile(const std::string &src_path,
   // Write plaintext.
   std::ofstream dst(dst_path, std::ios::binary | std::ios::trunc);
   if (!dst.is_open()) {
-    OPENSSL_cleanse(plaintext.data(), plaintext.size());
+    OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
     throw std::runtime_error(
         "ExportEncryption: cannot open destination file: " + dst_path);
   }
   if (!plaintext.empty() &&
       !dst.write(reinterpret_cast<const char *>(plaintext.data()),
                  static_cast<std::streamsize>(plaintext.size()))) {
-    OPENSSL_cleanse(plaintext.data(), plaintext.size());
+    OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
     throw std::runtime_error(
         "ExportEncryption: failed to write decrypted file: " + dst_path);
   }
 
   // Securely zero the decrypted buffer after the file has been written.
-  OPENSSL_cleanse(plaintext.data(), plaintext.size());
+  OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
 }
 
 // Helper: little-endian binary I/O

@@ -149,7 +149,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
         generateRebalanceRecommendations(shard_loads_, result);
         
         THEMIS_WARN("Load imbalance detected: {} (hotspots: {}, cold: {})",
-                   result.reason, result.hotspot_shards.size(), result.cold_shards.size());
+                   result.reason,static_cast<int>(result.hotspot_shards.size()),static_cast<int>(result.cold_shards.size()));
         
         if (metrics_) {
             metrics_->incrementCounter("themis_load_imbalance_detections_total");
@@ -367,7 +367,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
              [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Generate recommendations: move data from hottest to coldest
-    size_t num_recommendations = std::min(result.hotspot_shards.size(), result.cold_shards.size());
+    size_t num_recommendations = std::min(result.hotspot_shards.size(),static_cast<int>(result.cold_shards.size()));
     
     for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) < load_rankings.size() / 2; i++) {
         LoadImbalanceResult::RebalanceRecommendation rec;
@@ -392,7 +392,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
         result.recommendations.push_back(rec);
     }
     
-    THEMIS_INFO("Generated {} rebalance recommendations", result.recommendations.size());
+    THEMIS_INFO("Generated {} rebalance recommendations",static_cast<int>(result.recommendations.size()));
 }
 
 /** @brief Compute weighted composite shard load score. */

@@ -81,7 +81,7 @@ bool AdjacencyList::has_vertex(VertexId id) const noexcept
 
 std::size_t AdjacencyList::vertex_count() const noexcept
 {
-    return graph_.size();
+    return static_cast<int>(graph_.size());
 }
 
 // ---------------------------------------------------------------------------

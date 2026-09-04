@@ -314,7 +314,7 @@ bool TenantManager::tenantExists(std::string_view tenant_id) const {
 /** @brief Return number of configured tenants. */
 size_t TenantManager::getTenantCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return tenants_.size();
+    return static_cast<int>(tenants_.size());
 }
 
 /**

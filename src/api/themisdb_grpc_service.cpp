@@ -519,7 +519,7 @@ private:
             auto* doc = resp->mutable_document();
             doc->set_collection(req->collection());
             doc->set_key(req->key());
-            doc->set_body(body.data(), body.size());
+            doc->set_body(body.data(),static_cast<int>(body.size()));
             return grpc::Status::OK;
             });
         }
@@ -820,7 +820,7 @@ private:
                     auto* doc = resp->add_documents();
                     doc->set_collection(req->collection());
                     doc->set_key(key);
-                    doc->set_body(body.data(), body.size());
+                    doc->set_body(body.data(),static_cast<int>(body.size()));
                 } else {
                     resp->add_missing_keys(key);
                 }
@@ -1036,7 +1036,7 @@ private:
                 if (req->fetch_docs()) {
                     std::string body = {};
                     if (tryResolveDocumentBody(req->collection(), hit.primary_key, &body)) {
-                        h->set_document(body.data(), body.size());
+                        h->set_document(body.data(),static_cast<int>(body.size()));
                     }
                 }
             }
@@ -1577,7 +1577,7 @@ private:
                 if (req->fetch_docs()) {
                     std::string body = {};
                     if (tryResolveDocumentBody(req->collection(), hit.primary_key, &body)) {
-                        h->set_document(body.data(), body.size());
+                        h->set_document(body.data(),static_cast<int>(body.size()));
                     }
                 }
             }
@@ -1635,7 +1635,7 @@ private:
                 }
                 std::string body = {};
                 if (tryResolveDocumentBody(req->collection(), hit->key(), &body)) {
-                    hit->set_document(body.data(), body.size());
+                    hit->set_document(body.data(),static_cast<int>(body.size()));
                 }
             };
 
@@ -1768,7 +1768,7 @@ private:
                         }
                         if (req->fetch_docs()) {
                             const std::string body = element.dump();
-                            h->set_document(body.data(), body.size());
+                            h->set_document(body.data(),static_cast<int>(body.size()));
                         }
                     }
                 }

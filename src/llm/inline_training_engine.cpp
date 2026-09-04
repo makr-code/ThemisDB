@@ -909,7 +909,7 @@ void InlineTrainingEngine::optimizerStep(
 
     const auto& opt = impl_->config.optimizer;
     const float lr  = getLearningRate(step);
-    const size_t n  = std::min(parameters.size(), gradients.size());
+    const size_t n  = std::min(parameters.size(),static_cast<int>(gradients.size()));
 
     switch (opt.type) {
         case OptimizerType::ADAM:

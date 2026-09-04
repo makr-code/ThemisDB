@@ -197,7 +197,7 @@ void WALApiHandler::recordLatency([[maybe_unused]] int64_t elapsed_us) {
 std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::string& data) {
     unsigned int len = 0;
     unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
-                                 reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
+                                 reinterpret_cast<const unsigned char*>(data.data()),static_cast<int>(data.size()), nullptr, &len);
     if (!result || len == 0) {
         return {};
     }

@@ -635,7 +635,7 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
     zip_error_t error;
     zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),static_cast<int>(zip_blob.size()), 0, &error);
 
     if (!source) {
         zip_error_fini(&error);
@@ -728,7 +728,7 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_
     zip_error_t error;
     zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),static_cast<int>(zip_blob.size()), 0, &error);
 
     if (!source) {
         zip_error_fini(&error);

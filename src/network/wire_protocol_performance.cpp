@@ -273,7 +273,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
 
 size_t PayloadBufferPool::poolDepth() const noexcept {
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
-    return idle_slabs_.size();
+    return static_cast<int>(idle_slabs_.size());
 }
 
 size_t PayloadBufferPool::slabSize() const noexcept {

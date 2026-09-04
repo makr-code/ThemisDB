@@ -222,13 +222,13 @@ std::string LoRACheckpointManager::save(const std::string&         adapter_id,
 
     meta.adapter_id     = adapter_id;
     meta.created_at     = utcNow();
-    meta.weights_sha256 = sha256Hex(weights.data(), weights.size());
+    meta.weights_sha256 = sha256Hex(weights.data(),static_cast<int>(weights.size()));
 
     const std::string wpath = weightPath(adapter_id, meta.step);
     const std::string mpath = metaPath(adapter_id, meta.step);
 
     // Atomic write of weight blob
-    atomicWrite(fs::path(wpath), weights.data(), weights.size());
+    atomicWrite(fs::path(wpath), weights.data(),static_cast<int>(weights.size()));
     writeMeta(mpath, meta);
 
     // Update best-checkpoint record
@@ -237,7 +237,7 @@ std::string LoRACheckpointManager::save(const std::string&         adapter_id,
     }
 
     THEMIS_INFO("LoRACheckpointManager: saved checkpoint step={} adapter={} size={}B val_loss={:.4f}",
-                meta.step, adapter_id, weights.size(), meta.val_loss);
+                meta.step, adapter_id,static_cast<int>(weights.size()), meta.val_loss);
 
     // Prune old checkpoints
     prune(adapter_id);
@@ -361,7 +361,7 @@ LoRACheckpointManager::readWeights(const CheckpointRef& ref) const {
     auto buf = readFile(fs::path(ref.path));
 
     if (config_.verify_hash && !ref.meta.weights_sha256.empty()) {
-        std::string actual = sha256Hex(buf.data(), buf.size());
+        std::string actual = sha256Hex(buf.data(),static_cast<int>(buf.size()));
         if (actual != ref.meta.weights_sha256) {
             throw std::runtime_error(
                 "LoRACheckpointManager::readWeights: SHA-256 mismatch for " +

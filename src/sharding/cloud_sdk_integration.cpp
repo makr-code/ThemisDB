@@ -247,7 +247,7 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
                     results.push_back(object.GetKey());
                 }
 
-                THEMIS_INFO("S3 list completed: s3://{}/{} (found {} objects)", bucket, prefix, results.size());
+                THEMIS_INFO("S3 list completed: s3://{}/{} (found {} objects)", bucket, prefix,static_cast<int>(results.size()));
                 return results;
             } catch (const std::exception &e) {
                 THEMIS_ERROR("S3 list exception: {}", e.what());
@@ -438,7 +438,7 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
                     std::vector<uint8_t> buffer(8192);
                     size_t bytes_read = 0;
                     while ((bytes_read
-                            = download.BodyStream.read(reinterpret_cast<char *>(buffer.data()), buffer.size()).gcount())
+                            = download.BodyStream.read(reinterpret_cast<char *>(buffer.data()),static_cast<int>(buffer.size())).gcount())
                            > 0) {
                         output_file.write(reinterpret_cast<const char *>(buffer.data()), bytes_read);
                     }
@@ -781,7 +781,7 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
                     results.push_back(object->name());
                 }
 
-                THEMIS_INFO("GCS list completed: gs://{}/{} (found {} objects)", bucket, prefix, results.size());
+                THEMIS_INFO("GCS list completed: gs://{}/{} (found {} objects)", bucket, prefix,static_cast<int>(results.size()));
                 return results;
             } catch (const std::exception &e) {
                 THEMIS_ERROR("GCS list exception: {}", e.what());

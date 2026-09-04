@@ -105,7 +105,7 @@ void QueryPatternTracker::clear() {
 
 size_t QueryPatternTracker::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return patterns_.size();
+    return static_cast<int>(patterns_.size());
 }
 
 nlohmann::json QueryPatternTracker::QueryPattern::toJson() const {

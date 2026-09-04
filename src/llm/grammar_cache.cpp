@@ -64,7 +64,7 @@ bool GrammarCache::put(const std::string& name, std::shared_ptr<Grammar> grammar
     }
     
     cache_[name] = grammar;
-    spdlog::debug("Cached grammar '{}' (cache size: {})", name, cache_.size());
+    spdlog::debug("Cached grammar '{}' (cache size: {})", name,static_cast<int>(cache_.size()));
     return true;
 }
 
@@ -76,7 +76,7 @@ void GrammarCache::clear() {
 
 size_t GrammarCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 bool GrammarCache::contains(const std::string& name) const {

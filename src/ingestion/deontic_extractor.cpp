@@ -236,7 +236,7 @@ DeonticExtraction DeonticExtractor::extractRegex(const std::string& text) const 
             "bedarf(?:.*?)(einer|des|der)\\s+([\\w]+)",
             std::regex::ECMAScript | std::regex::icase);
         std::smatch m = {};
-        if (std::regex_search(text, m, kBedarf) && m.size() >= 3) {
+        if (std::regex_search(text, m, kBedarf) && static_cast<int>(m.size()) >= 3) {
             action = m[1].str() + " " + m[2].str() + " einholen";
         }
 

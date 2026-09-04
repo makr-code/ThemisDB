@@ -259,7 +259,7 @@ std::vector<BranchManager::Branch> BranchManager::listBranches(
     }
     
     // Apply limit
-    if (limit > 0 && branches.size() > limit) {
+    if (limit > 0 && static_cast<int>(branches.size()) > limit) {
         branches.resize(limit);
     }
     
@@ -525,7 +525,7 @@ MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
         hist.event_type   = "merged_from";
         hist.branch_name  = target_branch;
         hist.details      = fmt::format("Merged from '{}' with {} manual resolution(s)",
-                                        source_branch, resolutions.size());
+                                        source_branch,static_cast<int>(resolutions.size()));
         hist.performed_by = "system";
         hist.timestamp_ms = now_ms;
         hist.sequence     = result.result_sequence;
@@ -828,7 +828,7 @@ BranchManager::getBranchHistory(const std::string& branch_name,
         auto entry = deserializeHistory(data);
         if (entry.has_value()) {
             result.push_back(*entry);
-            if (limit > 0 && result.size() >= limit) {
+            if (limit > 0 && static_cast<int>(result.size()) >= limit) {
               break;
             }
         }

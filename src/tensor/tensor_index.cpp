@@ -369,7 +369,7 @@ public:
 
     [[nodiscard]] size_t size() const override {
         std::shared_lock lock(rw_mutex_);
-        return store_.size();
+        return static_cast<int>(store_.size());
     }
 
     [[nodiscard]] TensorIndexStats stats() const override {

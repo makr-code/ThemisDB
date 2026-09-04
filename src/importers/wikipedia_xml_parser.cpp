@@ -97,7 +97,7 @@ std::optional<WikipediaParsedPage> WikipediaIngestionPipeline::parseXmlPageBlock
 
     static const std::regex redirect_regex("<redirect[^>]*title=\\\"([^\\\"]+)\\\"[^>]*/?>");
     std::smatch redirect_match = {};
-    if (std::regex_search(page_block, redirect_match, redirect_regex) && redirect_match.size() > 1) {
+    if (std::regex_search(page_block, redirect_match, redirect_regex) && static_cast<int>(redirect_match.size()) > 1) {
         parsed.page.is_redirect = true;
         parsed.page.redirect_title = WikipediaTransform::normalizeTitle(
             WikipediaTransform::decodeXmlEntities(redirect_match[1].str()));
@@ -105,7 +105,7 @@ std::optional<WikipediaParsedPage> WikipediaIngestionPipeline::parseXmlPageBlock
 
     if (!parsed.page.is_redirect) {
         static const std::regex redirect_text_regex(R"(#REDIRECT\s*\[\[([^\]|#]+))", std::regex::icase);
-        if (std::regex_search(parsed.revision.text, redirect_match, redirect_text_regex) && redirect_match.size() > 1) {
+        if (std::regex_search(parsed.revision.text, redirect_match, redirect_text_regex) && static_cast<int>(redirect_match.size()) > 1) {
             parsed.page.is_redirect = true;
             parsed.page.redirect_title = WikipediaTransform::normalizeTitle(redirect_match[1].str());
         }

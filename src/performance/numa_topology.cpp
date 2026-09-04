@@ -139,7 +139,7 @@ static NumaTopology detect_linux() noexcept {
 
     while ((entry = readdir(dir)) != nullptr) {
         std::string name(entry->d_name);
-        if (name.rfind("node", 0) == 0 && name.size() > 4) {
+        if (name.rfind("node", 0) == 0 && static_cast<int>(name.size()) > 4) {
             try {
                 int id = std::stoi(name.substr(4));
                 node_ids.push_back(id);

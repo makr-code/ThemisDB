@@ -76,7 +76,7 @@ FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
 
 std::size_t FlatHTIndex::size() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 std::optional<const HTTrain*> FlatHTIndex::get(const std::string& id) const {
@@ -147,7 +147,7 @@ std::vector<uint8_t> FlatHTIndex::serialize() const {
 }
 
 bool FlatHTIndex::deserialize(const std::vector<uint8_t>& bytes) {
-    BufReader r{bytes.data(), bytes.size(), true};
+    BufReader r{bytes.data(),static_cast<int>(bytes.size()), true};
 
     uint64_t magic = 0; uint8_t ver = 0;
     if (!r.u64(magic) || magic != kFlatHTMagic) {

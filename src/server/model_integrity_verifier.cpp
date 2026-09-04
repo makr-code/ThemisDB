@@ -95,7 +95,7 @@ bool ModelIntegrityVerifier::verifyModel(const std::string& path,
     }
     // Use OpenSSL CRYPTO_memcmp for timing-safe comparison
     // (both strings are hex, same length if SHA-256)
-    return (CRYPTO_memcmp(actual.c_str(), expected_sha256.c_str(), actual.size()) == 0);
+    return (CRYPTO_memcmp(actual.c_str(), expected_sha256.c_str(),static_cast<int>(actual.size())) == 0);
 }
 
 bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {

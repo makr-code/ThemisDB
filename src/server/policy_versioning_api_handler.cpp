@@ -85,7 +85,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
         nlohmann::json response = {
             {"rule_id", rule_id},
             {"versions", json_array},
-            {"count", versions.size()}
+            {"count",static_cast<int>(versions.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -294,7 +294,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
         
         nlohmann::json response = {
             {"entries", json_array},
-            {"count", entries.size()}
+            {"count",static_cast<int>(entries.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -333,7 +333,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts
 
         nlohmann::json response = {
             {"conflicts", conflicts_arr},
-            {"conflict_count", conflicts.size()},
+            {"conflict_count",static_cast<int>(conflicts.size())},
             {"has_critical_conflicts", has_critical}
         };
 
@@ -365,7 +365,7 @@ bool PolicyVersioningApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    std::string auth_str(auth_header.data(), auth_header.size());
+    std::string auth_str(auth_header.data(),static_cast<int>(auth_header.size()));
     auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {

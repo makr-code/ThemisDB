@@ -201,7 +201,7 @@ bool ShardRepairApiHandler::checkAuth(
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string(auth_header.data(), auth_header.size()));
+    auto token = AuthMiddleware::extractBearerToken(std::string(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token) {
         out = makeErrorResponse(http::status::unauthorized,
                                 "Invalid Authorization header", req);

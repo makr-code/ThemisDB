@@ -650,7 +650,7 @@ uint8_t ProductQuantizer::findNearestCentroid(
 
 float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vector<float>& b) {
     if (static_cast<int>(a.size()) != b.size()) {
-        THEMIS_DEBUG("ProductQuantizer::l2Distance - vector size mismatch ({} != {})", a.size(), b.size());
+        THEMIS_DEBUG("ProductQuantizer::l2Distance - vector size mismatch ({} != {})",static_cast<int>(a.size()),static_cast<int>(b.size()));
         return std::numeric_limits<float>::max();
     }
     

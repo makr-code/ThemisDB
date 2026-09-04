@@ -209,7 +209,7 @@ double TimeSeries::max() const {
 
 ForecastMetrics computeMetrics(const std::vector<double> &actual, const std::vector<double> &predicted) {
     ForecastMetrics m;
-    size_t n = std::min(actual.size(), predicted.size());
+    size_t n = std::min(actual.size(),static_cast<int>(predicted.size()));
     if (n == 0) {
         return m;
     }
@@ -270,7 +270,7 @@ uint32_t crc32Compute(const char* data, size_t len) noexcept {
 
 /// Compute CRC-32 of a std::string body and return it as an 8-char uppercase hex string.
 std::string crc32Hex(const std::string& s) {
-    const uint32_t v = crc32Compute(s.data(), s.size());
+    const uint32_t v = crc32Compute(s.data(),static_cast<int>(s.size()));
     char buf[9];
     std::snprintf(buf, sizeof(buf), "%08X", static_cast<unsigned>(v));
     return std::string(buf, 8);
@@ -713,7 +713,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
 
     // Differencing
     std::vector<double> yd = y;
-    if (d == 1 && y.size() > 1) {
+    if (d == 1 && static_cast<int>(y.size()) > 1) {
         std::vector<double> diff(static_cast<int>(y.size()) - 1);
         for (size_t i = 1; i < y.size(); ++i) {
             diff[static_cast<int>(i - 1)] = y[i] - y[static_cast<int>(i - 1)];
@@ -1521,8 +1521,8 @@ struct ForecastModel::Impl {
                                 const ForecastConfig &cfg) const noexcept {
         FitCacheKey k;
         // Hash the value vector bytes
-        k.data_hash = fnv1a64(y.data(), y.size() * sizeof(double));
-        k.data_hash = fnv1a64(ts.data(), ts.size() * sizeof(int64_t)) ^ k.data_hash;
+        k.data_hash = fnv1a64(y.data(),static_cast<int>(y.size()) * sizeof(double));
+        k.data_hash = fnv1a64(ts.data(),static_cast<int>(ts.size()) * sizeof(int64_t)) ^ k.data_hash;
         // Hash the config fields that affect fitting
         uint64_t cfg_h = fnv1a64(&cfg.alpha, sizeof(cfg.alpha));
         cfg_h ^= fnv1a64(&cfg.beta, sizeof(cfg.beta));
@@ -2073,7 +2073,7 @@ void ForecastModel::update([[maybe_unused]] double new_value) {
         // training value is at static_cast<int>(train_y.size()) -2 since we just pushed the new value).
         double y_diff = (ap.d == 1 && impl_->train_y.size() >= 2) ? (y - impl_->train_y[impl_->train_y.size() - 2]) : y;
         // Update last window - use erase+push_back pattern safely
-        if (!ap.last_window.empty() && ap.last_window.size() > 0) {
+        if (!ap.last_window.empty() && static_cast<int>(ap.last_window.size()) > 0) {
             // Rotate instead of erase to avoid iterator invalidation
             for (size_t i = 0; i < ap.last_window.size() - 1; ++i) {
                 ap.last_window[i] = ap.last_window[i + 1];
@@ -2083,7 +2083,7 @@ void ForecastModel::update([[maybe_unused]] double new_value) {
         // Update last_obs (used for integration in multi-step predict)
         ap.last_obs = y;
         // Recompute residual for last step and shift residual buffer
-        if (!ap.last_resid.empty() && ap.last_resid.size() > 0) {
+        if (!ap.last_resid.empty() && static_cast<int>(ap.last_resid.size()) > 0) {
             // Rotate instead of erase to avoid iterator invalidation
             for (size_t i = 0; i < ap.last_resid.size() - 1; ++i) {
                 ap.last_resid[i] = ap.last_resid[i + 1];

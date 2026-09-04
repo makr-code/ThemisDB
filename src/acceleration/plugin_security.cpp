@@ -574,7 +574,7 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
 
         if (decodeHexString(fileHash, hashBytes)) {
             // Verify signature
-            int result = EVP_DigestVerify(mdctx, sigBytes.data(), sigBytes.size(), hashBytes.data(), hashBytes.size());
+            int result = EVP_DigestVerify(mdctx, sigBytes.data(),static_cast<int>(sigBytes.size()), hashBytes.data(),static_cast<int>(hashBytes.size()));
             verified   = (result == 1);
         }
     }
@@ -1840,7 +1840,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()), header.size());
+    file.read(reinterpret_cast<char *>(header.data()),static_cast<int>(header.size()));
 
     if (file.gcount() < 4) {
         return std::nullopt;
@@ -2104,7 +2104,7 @@ std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSigna
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()), header.size());
+    file.read(reinterpret_cast<char *>(header.data()),static_cast<int>(header.size()));
 
     if (file.gcount() < 4) {
         return {};
@@ -2166,7 +2166,7 @@ bool EnhancedPluginSecurityVerifier::verifyRSASignature(const std::vector<uint8_
     // Initialize verification context
     if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubkey) == 1) {
         // Verify signature
-        int result = EVP_DigestVerify(mdctx, signature.data(), signature.size(), data.data(), data.size());
+        int result = EVP_DigestVerify(mdctx, signature.data(),static_cast<int>(signature.size()), data.data(),static_cast<int>(data.size()));
         verified   = (result == 1);
     }
 

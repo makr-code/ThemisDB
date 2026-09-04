@@ -116,7 +116,7 @@ std::vector<uint8_t> CompressionStrategyManager::decompress(
         return data;
     }
     
-    utils::CompressionTimer timer(method_to_string(method), data.size(), false);
+    utils::CompressionTimer timer(method_to_string(method),static_cast<int>(data.size()), false);
     std::vector<uint8_t> result;
     
     switch (method) {
@@ -647,7 +647,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     
     // Only beneficial if dictionary is small
     if (static_cast<int>(dictionary.size()) > 128) {
-        THEMIS_DEBUG("SimpleDictionaryCodec::compress: dictionary too large ({}), skipping compression", dictionary.size());
+        THEMIS_DEBUG("SimpleDictionaryCodec::compress: dictionary too large ({}), skipping compression",static_cast<int>(dictionary.size()));
         return {};  // Not beneficial
     }
     
@@ -670,7 +670,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     uint8_t dict_size = data[0];
     
     if (static_cast<int>(data.size()) < static_cast<size_t>(1 + dict_size)) {
-        THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})", data.size(), dict_size);
+        THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})",static_cast<int>(data.size()), dict_size);
         return {};  // Invalid format
     }
     

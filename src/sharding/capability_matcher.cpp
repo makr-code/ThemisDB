@@ -218,7 +218,7 @@ nlohmann::json CapabilityMatcher::getStatistics() const {
         {"total_matches", total_matches_.load()},
         {"keyword_matches", keyword_matches_.load()},
         {"semantic_matches", semantic_matches_.load()},
-        {"idf_cache_size", idf_cache_.size()},
+        {"idf_cache_size",static_cast<int>(idf_cache_.size())},
         {"total_shards", total_shards_}
     };
 }

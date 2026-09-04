@@ -333,7 +333,7 @@ CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
     bool is_ascii
         = blob.size() > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
 
-    if (!is_ascii && blob.size() >= 84) {
+    if (!is_ascii && static_cast<int>(blob.size()) >= 84) {
         // Binary STL
         // Header: 80 bytes
         // Triangle count: 4 bytes (uint32)

@@ -1944,7 +1944,7 @@ DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const Mi
     process.generalization = 0.9;
     process.simplicity = 1.0 - std::min(1.0, static_cast<double>(process.nodes.size()) / (allActivities.size() * 4));
 
-    THEMIS_INFO("Inductive Miner: {} nodes, {} edges for {} activities", process.nodes.size(), process.edges.size(),
+    THEMIS_INFO("Inductive Miner: {} nodes, {} edges for {} activities",static_cast<int>(process.nodes.size()),static_cast<int>(process.edges.size()),
                 allActivities.size());
 
     return process;
@@ -2276,7 +2276,7 @@ ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredPro
         db_.put(edgeKey, edgeEntity.serialize());
     }
 
-    THEMIS_INFO("Saved discovered process {} with {} nodes and {} edges", process_id, model.nodes.size(),
+    THEMIS_INFO("Saved discovered process {} with {} nodes and {} edges", process_id,static_cast<int>(model.nodes.size()),
                 model.edges.size());
 
     return Status::OK();
@@ -2385,7 +2385,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
     // ── 3. Pad embeddings to equal length ──
     size_t emb_dim = 0;
     for (const auto &emb : variant_embeddings) {
-        emb_dim = std::max(emb_dim, emb.size());
+        emb_dim = std::max(emb_dim,static_cast<int>(emb.size()));
     }
     if (emb_dim == 0) {
         emb_dim = 1;
@@ -2473,7 +2473,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
         }
     }
 
-    THEMIS_INFO("Clustered {} traces ({} variants) into {} K-means clusters", log.traces.size(), n_variants, k);
+    THEMIS_INFO("Clustered {} traces ({} variants) into {} K-means clusters",static_cast<int>(log.traces.size()), n_variants, k);
     return {Status::OK(), result};
 }
 
@@ -2745,7 +2745,7 @@ ProcessMining::enhanceWithPerformance(const DiscoveredProcess &model, const Even
         enhanced.node_frequency[activity]    = static_cast<int>(durations.size());
     }
 
-    THEMIS_INFO("Enhanced process with performance metrics for {} activities", activity_durations.size());
+    THEMIS_INFO("Enhanced process with performance metrics for {} activities",static_cast<int>(activity_durations.size()));
     return {Status::OK(), enhanced};
 }
 
@@ -2777,7 +2777,7 @@ ProcessMining::detectBottlenecks(const EnhancedProcess &process, double threshol
         }
     }
 
-    THEMIS_INFO("Detected {} bottlenecks with threshold {:.2f}s", bottlenecks.size(), threshold / 1000.0);
+    THEMIS_INFO("Detected {} bottlenecks with threshold {:.2f}s",static_cast<int>(bottlenecks.size()), threshold / 1000.0);
     return {Status::OK(), bottlenecks};
 }
 
@@ -2857,7 +2857,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string> &pattern, cons
         results.push_back(frag);
     }
 
-    THEMIS_INFO("Found {} similar patterns", results.size());
+    THEMIS_INFO("Found {} similar patterns",static_cast<int>(results.size()));
     return {Status::OK(), results};
 }
 
@@ -2890,7 +2890,7 @@ ProcessMining::discoverGeoVariants(const EventLog &log, double) {
         processed_variants.insert(variant_sig);
     }
 
-    THEMIS_INFO("Discovered {} geo-process clusters", clusters.size());
+    THEMIS_INFO("Discovered {} geo-process clusters",static_cast<int>(clusters.size()));
     return {Status::OK(), clusters};
 }
 

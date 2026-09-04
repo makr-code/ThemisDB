@@ -153,7 +153,7 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryKey(
 
 size_t TemporalIndex::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return entries_by_start_.size();
+    return static_cast<int>(entries_by_start_.size());
 }
 
 TemporalIndexStats TemporalIndex::stats() const {

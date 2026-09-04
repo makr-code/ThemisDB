@@ -371,7 +371,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     }
 
     // Partial sort to obtain top-k results.
-    const size_t result_k = std::min(k, scored.size());
+    const size_t result_k = std::min(k,static_cast<int>(scored.size()));
     std::partial_sort(scored.begin(),
                       scored.begin() + static_cast<ptrdiff_t>(result_k),
                       scored.end(),
@@ -1398,7 +1398,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                             "Async operation cancelled mid-batch: " + op_id);
                     }
 
-                    const size_t end = std::min(offset + kChunkSize, rows.size());
+                    const size_t end = std::min(offset + kChunkSize,static_cast<int>(rows.size()));
                     chunk.assign(
                         rows.begin() + static_cast<std::ptrdiff_t>(offset),
                         rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1577,7 +1577,7 @@ Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
         ? config_.default_batch_size
         : batch_size;
 
-    const size_t end = std::min(cursor_ + effective, table_.rows.size());
+    const size_t end = std::min(cursor_ + effective,static_cast<int>(table_.rows.size()));
     std::vector<RelationalRow> batch(
         table_.rows.begin() + static_cast<std::ptrdiff_t>(cursor_),
         table_.rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1590,7 +1590,7 @@ size_t ThemisDBResultStream::position() const {
 }
 
 std::optional<size_t> ThemisDBResultStream::total_size() const {
-    return table_.rows.size();
+    return static_cast<int>(table_.rows.size());
 }
 
 Result<bool> ThemisDBResultStream::close() {
@@ -1733,7 +1733,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
 
         size_t pos = 0;
         while ((pos = q.find(token, pos)) != std::string::npos) {
-            q.replace(pos, token.size(), replacement);
+            q.replace(pos,static_cast<int>(token.size()), replacement);
             pos += replacement.size();
         }
     }

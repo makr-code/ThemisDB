@@ -212,7 +212,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
         switch (spec.function) {
             case AggregateSpec::Function::Sum: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && data.size() >= n) {
+                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             st.sum += data[i];
@@ -235,7 +235,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
             }
             case AggregateSpec::Function::Min: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && data.size() >= n) {
+                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             if (data[i] < st.min_val)
@@ -253,7 +253,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
             }
             case AggregateSpec::Function::Max: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && data.size() >= n) {
+                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             if (data[i] > st.max_val)

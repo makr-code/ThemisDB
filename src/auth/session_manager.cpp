@@ -36,7 +36,7 @@ namespace {
 /// map lookups have normalised comparison time regardless of input content.
 std::string hashSessionId(const std::string &session_id) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(session_id.data()), session_id.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char *>(session_id.data()),static_cast<int>(session_id.size()), digest);
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned char b : digest) {
@@ -63,7 +63,7 @@ bool constantTimeSessionIdEquals(const std::string &id1, const std::string &id2)
     if (id1.empty()) {
         return true;
     }
-    return CRYPTO_memcmp(id1.data(), id2.data(), id1.size()) == 0;
+    return CRYPTO_memcmp(id1.data(), id2.data(),static_cast<int>(id1.size())) == 0;
 }
 
 } // anonymous namespace
@@ -250,7 +250,7 @@ int SessionManager::terminateAllOtherSessions(const std::string &user_id, const 
         sessions_.erase(id);
     }
 
-    THEMIS_INFO("SessionManager: terminated {} sessions for user '{}' (kept '{}')", to_erase.size(), user_id,
+    THEMIS_INFO("SessionManager: terminated {} sessions for user '{}' (kept '{}')",static_cast<int>(to_erase.size()), user_id,
                 keep_session_id);
     return static_cast<bool>(static_cast<int < static_cast<int>((to_erase.size())));
 }
@@ -292,7 +292,7 @@ std::vector<SessionManager::SessionInfo> SessionManager::listSessions(const std:
 
 size_t SessionManager::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return sessions_.size();
+    return static_cast<int>(sessions_.size());
 }
 
 size_t SessionManager::pruneExpired() {
@@ -311,7 +311,7 @@ size_t SessionManager::pruneExpiredLocked() {
     for (const auto &id : expired) {
         sessions_.erase(id);
     }
-    return expired.size();
+    return static_cast<int>(expired.size());
 }
 
 } // namespace auth

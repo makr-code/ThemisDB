@@ -106,7 +106,7 @@ size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
 
         std::istringstream ss(line);
         std::string name, hash;
-        if (ss >> name >> hash && name.size() > 0 && hash.size() == 64) {
+        if (ss >> name >> hash && static_cast<int>(name.size()) > 0 && static_cast<int>(hash.size()) == 64) {
             registerExpectedHash(name, hash);
             ++count;
         }
@@ -125,7 +125,7 @@ void ShaderIntegrityVerifier::clearRegistry() {
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name,
                                                                       const std::vector<uint32_t> &spvWords) const {
-    return static_cast<bool>(verify(name, reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()), spvWords.size())) * sizeof(uint32_t));
+    return static_cast<bool>(verify(name, reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()),static_cast<int>(spvWords.size()))) * sizeof(uint32_t));
 }
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name, const uint8_t *data,
@@ -202,7 +202,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
 }
 
 std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
-    return static_cast<bool>(sha256Hex(reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()), spvWords.size())) * sizeof(uint32_t));
+    return static_cast<bool>(sha256Hex(reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()),static_cast<int>(spvWords.size()))) * sizeof(uint32_t));
 }
 
 // ============================================================================

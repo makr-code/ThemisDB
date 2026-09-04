@@ -36,7 +36,7 @@ static inline double clamp(double v, double lo, double hi) noexcept {
 static std::string replaceAll(std::string s, const std::string &from, const std::string &to) {
     std::string::size_type pos = 0;
     while ((pos = s.find(from, pos)) != std::string::npos) {
-        s.replace(pos, from.size(), to);
+        s.replace(pos,static_cast<int>(from.size()), to);
         pos += to.size();
     }
     return s;

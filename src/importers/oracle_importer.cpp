@@ -818,7 +818,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (k < col_def.size() && col_type.size() < kMaxTypeLength) {
+        while (k < col_def.size() && static_cast<int>(col_type.size()) < kMaxTypeLength) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {

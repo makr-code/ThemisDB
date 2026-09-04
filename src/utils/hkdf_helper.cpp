@@ -91,24 +91,24 @@ std::vector<uint8_t> HKDFHelper::derive(
     const char *digest = "SHA256";
     
     params[0] = OSSL_PARAM_construct_utf8_string("digest", (char*)digest, 0);
-    params[1] = OSSL_PARAM_construct_octet_string("key", (void*)ikm.data(), ikm.size());
+    params[1] = OSSL_PARAM_construct_octet_string("key", (void*)ikm.data(),static_cast<int>(ikm.size()));
     
     if (!salt.empty()) {
-        params[2] = OSSL_PARAM_construct_octet_string("salt", (void*)salt.data(), salt.size());
+        params[2] = OSSL_PARAM_construct_octet_string("salt", (void*)salt.data(),static_cast<int>(salt.size()));
     } else {
         params[2] = OSSL_PARAM_construct_end();
     }
     
     if (!info.empty()) {
         size_t param_idx = salt.empty() ? 2 : 3;
-        params[param_idx] = OSSL_PARAM_construct_octet_string("info", (void*)info.data(), info.size());
+        params[param_idx] = OSSL_PARAM_construct_octet_string("info", (void*)info.data(),static_cast<int>(info.size()));
         params[param_idx + 1] = OSSL_PARAM_construct_end();
     } else {
         size_t param_idx = salt.empty() ? 2 : 3;
         params[param_idx] = OSSL_PARAM_construct_end();
     }
     
-    if (EVP_KDF_derive(kctx, output.data(), output.size(), params) <= 0) {
+    if (EVP_KDF_derive(kctx, output.data(),static_cast<int>(output.size()), params) <= 0) {
         EVP_KDF_CTX_free(kctx);
         auto ctx = themis::utils::makeErrorContext(
             themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
@@ -142,13 +142,13 @@ std::vector<uint8_t> HKDFHelper::derive(
     }
     
     if (!salt.empty()) {
-        if (EVP_PKEY_CTX_set1_hkdf_salt(pctx, salt.data(), salt.size()) <= 0) {
+        if (EVP_PKEY_CTX_set1_hkdf_salt(pctx, salt.data(),static_cast<int>(salt.size())) <= 0) {
             EVP_PKEY_CTX_free(pctx);
             throw std::runtime_error("EVP_PKEY_CTX_set1_hkdf_salt failed");
         }
     }
     
-    if (EVP_PKEY_CTX_set1_hkdf_key(pctx, ikm.data(), ikm.size()) <= 0) {
+    if (EVP_PKEY_CTX_set1_hkdf_key(pctx, ikm.data(),static_cast<int>(ikm.size())) <= 0) {
         EVP_PKEY_CTX_free(pctx);
         throw std::runtime_error("EVP_PKEY_CTX_set1_hkdf_key failed");
     }

@@ -343,7 +343,7 @@ FederatedRAGMerger::mergeRoundRobin(const std::vector<ShardRetrievalResult> &res
     size_t pos         = 0;
 
     // Interleave: for each position, collect document from each shard in turn
-    while (any_remaining && merged.size() < config_.top_k * 2) {
+    while (any_remaining && static_cast<int>(merged.size()) < config_.top_k * 2) {
         any_remaining = false;
         for (const auto *list : lists) {
             if (pos < list->size()) {

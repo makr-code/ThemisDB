@@ -249,7 +249,7 @@ QueryResult AnalyticsEngine::RunAggregation(const AggregationBatch& batch) {
         ConnectionGuard guard(conn_id, release_fn);
         
         spdlog::info("Running aggregation with {} group keys and {} agg columns",
-                   batch.group_keys.size(), batch.agg_columns.size());
+                   batch.group_keys.size(),static_cast<int>(batch.agg_columns.size()));
         
         result.success = true;
         result.row_count = batch.group_keys.size();

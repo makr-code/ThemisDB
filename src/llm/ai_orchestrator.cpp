@@ -226,7 +226,7 @@ public:
         out.unit = "cost_units";
         out.extra = {
             {"estimated_result_rows", estimated_result_rows},
-            {"shard_count", shards.size()},
+            {"shard_count",static_cast<int>(shards.size())},
             {"tenant", input.tenant},
         };
         return out;
@@ -747,7 +747,7 @@ OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
     }
     const ModeSpec& mode = *mode_ptr;
 
-    spdlog::debug("[AIOrchestrator] run() mode='{}' query_len={}", mode.id, ctx.query.size());
+    spdlog::debug("[AIOrchestrator] run() mode='{}' query_len={}", mode.id,static_cast<int>(ctx.query.size()));
 
     OrchestratorResult result;
     try {

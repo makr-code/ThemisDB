@@ -301,7 +301,7 @@ ModePack ModeSpecLoader::loadFromFile(const std::string& path,
 
     if (local.ok) {
         spdlog::info("[AIOrchestrator] Loaded ModePack '{}' v{} ({} modes) from '{}'",
-                     pack.name, pack.version, pack.modes.size(), path);
+                     pack.name, pack.version,static_cast<int>(pack.modes.size()), path);
     }
     return pack;
 }

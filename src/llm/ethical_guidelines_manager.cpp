@@ -192,11 +192,11 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
         
         config_path_ = config_path;
         LogInfo("Loaded ethical guidelines from {}", config_path);
-        LogInfo("  - {} core principles", principles_.size());
+        LogInfo("  - {} core principles",static_cast<int>(principles_.size()));
         LogInfo("  - {} German keywords, {} English keywords", 
-                ethical_keywords_de_.size(), ethical_keywords_en_.size());
-        LogInfo("  - {} augmentation templates", augmentation_templates_.size());
-        LogInfo("  - {} domain-specific guidelines", domain_guidelines_.size());
+                ethical_keywords_de_.size(),static_cast<int>(ethical_keywords_en_.size()));
+        LogInfo("  - {} augmentation templates",static_cast<int>(augmentation_templates_.size()));
+        LogInfo("  - {} domain-specific guidelines",static_cast<int>(domain_guidelines_.size()));
         
         return true;
         
@@ -548,8 +548,8 @@ std::string EthicalGuidelinesManager::selectAugmentation(const DetectionResult& 
 void EthicalGuidelinesManager::logDetection(const DetectionResult& result, const std::string& context) const {
     LogInfo("Ethical context detected:");
     LogInfo("  Confidence: {:.2f}", result.confidence);
-    LogInfo("  Keywords: {}", result.detected_keywords.size());
-    LogInfo("  Domains: {}", result.detected_domains.size());
+    LogInfo("  Keywords: {}",static_cast<int>(result.detected_keywords.size()));
+    LogInfo("  Domains: {}",static_cast<int>(result.detected_domains.size()));
     LogInfo("  Augmentation: {}", result.recommended_augmentation);
     LogInfo("  Context length: {}", context);
 }

@@ -223,7 +223,7 @@ CrossClusterFederator::createExecutionPlan(const std::string& query) const {
     spdlog::info(
         "CrossClusterFederator: execution plan: {} of {} clusters selected, "
         "total_cost={:.2f}",
-        plan.selected_clusters.size(), plan.cost_estimates.size(),
+        plan.selected_clusters.size(),static_cast<int>(plan.cost_estimates.size()),
         plan.total_estimated_cost);
 
     return plan;
@@ -268,7 +268,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
 
     std::vector<nlohmann::json> shard_results;
 
-    if (config_.enable_parallel_execution && active.size() > 1) {
+    if (config_.enable_parallel_execution && static_cast<int>(active.size()) > 1) {
         // Parallel execution via std::async
         const size_t n = std::min(active.size(),
                                   static_cast<size_t>(config_.max_parallel_clusters));
@@ -332,7 +332,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
 
     spdlog::info(
         "CrossClusterFederator: query complete, {} results from {} clusters",
-        merged.size(), shard_results.size());
+        merged.size(),static_cast<int>(shard_results.size()));
 
     return merged;
 }
@@ -448,7 +448,7 @@ nlohmann::json CrossClusterFederator::queryCluster(
         ok = true;
         spdlog::debug(
             "CrossClusterFederator: cluster '{}' returned {} result(s)",
-            endpoint.cluster_id, results.size());
+            endpoint.cluster_id,static_cast<int>(results.size()));
         return results;
 
     } catch (const nlohmann::json::parse_error& e) {

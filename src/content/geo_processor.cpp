@@ -270,9 +270,9 @@ std::vector<ContentChunk> GeoProcessor::chunk(
         ContentChunk chunk;
         
         std::ostringstream text = {};
-        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk, geo.coordinates.size()) << ": ";
+        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size())) << ": ";
         
-        size_t end = std::min(i + coords_per_chunk, geo.coordinates.size());
+        size_t end = std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size()));
         for (size_t j = i; j < end; ++j) {
             text << "(" << geo.coordinates[j].first << "," << geo.coordinates[j].second << ") ";
         }

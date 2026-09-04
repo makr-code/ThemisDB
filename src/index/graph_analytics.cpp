@@ -35,7 +35,7 @@ GraphAnalytics::buildTopology(const std::vector<std::string>& node_pks) const {
     // Batch lookups: fewer DB roundtrips (10-100× faster for large graphs)
     const size_t batch_size = 256;
     for (size_t start = 0; start < node_pks.size(); start += batch_size) {
-        size_t end = std::min(start + batch_size, node_pks.size());
+        size_t end = std::min(start + batch_size,static_cast<int>(node_pks.size()));
         
         for (size_t i = start; i < end; ++i) {
             const auto& pk = node_pks[i];
@@ -746,7 +746,7 @@ GraphAnalytics::kShortestPaths(
             // Find spur path from spur node to target
             auto [found_spur, spur_path] = dijkstra(spur_node, target, excluded_edges);
             
-            if (found_spur && spur_path.vertices.size() > 1) {
+            if (found_spur && static_cast<int>(spur_path.vertices.size()) > 1) {
                 // Combine root path + spur path
                 PathInfo total_path;
                 total_path.vertices = root_vertices;

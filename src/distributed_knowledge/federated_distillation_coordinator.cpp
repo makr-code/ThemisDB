@@ -185,7 +185,7 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
                                  {"epsilon_spent", round.epsilon_spent},
                                  {"total_epsilon", total_epsilon_spent_},
                                  {"dp_applied", round.dp_applied},
-                                 {"student_count", students_.size()}});
+                                 {"student_count",static_cast<int>(students_.size())}});
     }
 
     last_round_  = round;
@@ -221,7 +221,7 @@ nlohmann::json FederatedDistillationCoordinator::getStats() const {
             {"policy_block_count", policy_block_count_},
             {"total_epsilon", total_epsilon_spent_},
             {"budget_remaining", privacyBudgetRemaining()},
-            {"student_count", students_.size()},
+            {"student_count",static_cast<int>(students_.size())},
             {"has_pending", has_pending_},
             {"bounded_policy",
              {{"constrained", bounded_policy_.isConstrained()},

@@ -540,7 +540,7 @@ std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
 bool ProcessTelemetryIntegrationImpl::SendSpansToCollector(
     const std::vector<std::string>& span_jsons) {
   // Simplified: log export (production version uses HTTP POST)
-  utils::Logger::Info("ExportSpans: sending %zu spans to %s", span_jsons.size(),
+  utils::Logger::Info("ExportSpans: sending %zu spans to %s",static_cast<int>(span_jsons.size()),
                       config_.otel_exporter_endpoint.c_str());
   return true;
 }

@@ -94,7 +94,7 @@ std::vector<HybridSearch::Result> SearchResultStream::nextPage() {
     if (!hasMore()) {
         return {};
     }
-    const size_t end = std::min(cursor_ + config_.page_size, results_.size());
+    const size_t end = std::min(cursor_ + config_.page_size,static_cast<int>(results_.size()));
     std::vector<HybridSearch::Result> page(results_.begin() + static_cast<std::ptrdiff_t>(cursor_),
                                             results_.begin() + static_cast<std::ptrdiff_t>(end));
     cursor_ = end;

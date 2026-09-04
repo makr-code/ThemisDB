@@ -66,7 +66,7 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
             meta.keyword_scores[kw.text] = kw.score;
         }
 
-        size_t n = std::min(config_.max_keywords, keywords.size());
+        size_t n = std::min(config_.max_keywords,static_cast<int>(keywords.size()));
         meta.keywords.reserve(n);  // upper bound; filtered items may be fewer
         for (size_t i = 0; i < n; ++i) {
             if (keywords[i].text.length() >= config_.min_keyword_length) {

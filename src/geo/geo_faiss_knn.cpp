@@ -255,7 +255,7 @@ struct GeoFaissKnn::Impl {
         for (const auto& c : candidates) {
             if (c.dist_m > radius_m) break; // sorted ascending
             results.push_back(c);
-            if (max_results > 0 && results.size() >= max_results) {
+            if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
               break;
             }
         }

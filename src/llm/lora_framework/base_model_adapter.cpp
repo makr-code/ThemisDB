@@ -69,7 +69,7 @@ bool BaseModelAdapter::loadModel(const std::string& model_path) {
     spdlog::info("  Architecture: {}", architecture_.architecture);
     spdlog::info("  Layers: {}", architecture_.num_layers);
     spdlog::info("  Hidden size: {}", architecture_.hidden_size);
-    spdlog::info("  Adaptable layers: {}", adaptable_layers_.size());
+    spdlog::info("  Adaptable layers: {}",static_cast<int>(adaptable_layers_.size()));
     
     return true;
 }
@@ -537,7 +537,7 @@ void BaseModelAdapter::logCacheStats() const {
     }
     
     spdlog::info("Embedding cache stats:");
-    spdlog::info("  Cache size: {}/{}", embedding_cache_.size(), MAX_CACHE_SIZE);
+    spdlog::info("  Cache size: {}/{}",static_cast<int>(embedding_cache_.size()), MAX_CACHE_SIZE);
     spdlog::info("  Cache hits: {}", cache_hits_);
     spdlog::info("  Cache misses: {}", cache_misses_);
     spdlog::info("  Hit rate: {:.1f}%", hit_rate);
@@ -593,7 +593,7 @@ bool LoRAEnhancedModel::initialize() {
         return false;
     }
     
-    spdlog::info("Found {} layers to adapt", active_layers_.size());
+    spdlog::info("Found {} layers to adapt",static_cast<int>(active_layers_.size()));
     
     // Create LoRA adapters for each target layer
     if (!createLoRAAdapters()) {

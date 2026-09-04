@@ -780,7 +780,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
                 ::_write(fd, payload.data(),
                          static_cast<unsigned int>(payload.size()));
 #else
-                ::write(fd, payload.data(), payload.size());
+                ::write(fd, payload.data(),static_cast<int>(payload.size()));
 #endif
             if (written < 0 || static_cast<size_t>(written) != payload.size()) {
 #ifdef _WIN32

@@ -313,7 +313,7 @@ uint64_t StorageAuditLogger::lastSequence() const {
 
 size_t StorageAuditLogger::segmentCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return segments_.size();
+    return static_cast<int>(segments_.size());
 }
 
 Result<void> StorageAuditLogger::flush() {

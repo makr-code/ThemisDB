@@ -66,7 +66,7 @@ std::string applyTemplate(const std::string& tmpl,
     auto replace = [&](const std::string& key, const std::string& val) {
         std::size_t pos = 0;
         while ((pos = out.find(key, pos)) != std::string::npos) {
-            out.replace(pos, key.size(), val);
+            out.replace(pos,static_cast<int>(key.size()), val);
             pos += val.size();
         }
     };

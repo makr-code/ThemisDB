@@ -177,7 +177,7 @@ nlohmann::json DataLineageTracker::exportLineageAsJson(const std::string &datase
 
 size_t DataLineageTracker::totalEventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return event_index_.size();
+    return static_cast<int>(event_index_.size());
 }
 
 // ─── Phase 2C: Lineage Backpressure Implementation ────────────────────────────

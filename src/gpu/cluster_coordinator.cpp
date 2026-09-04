@@ -419,7 +419,7 @@ std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNod
 
 size_t GPUClusterCoordinator::totalNodes() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 size_t GPUClusterCoordinator::onlineNodeCount() const {

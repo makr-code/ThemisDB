@@ -914,7 +914,7 @@ void LLMDeploymentPlugin::loadModelRegistry() {
             model_registry_.push_back(status);
         }
         
-        LOG_INFO("Loaded {} models from registry", model_registry_.size());
+        LOG_INFO("Loaded {} models from registry",static_cast<int>(model_registry_.size()));
         
     } catch (const std::exception& e) {
         LOG_ERROR("Failed to load model registry: {}", e.what());
@@ -974,7 +974,7 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
         return src;
     }
 
-    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id, sorted_sources.size());
+    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id,static_cast<int>(sorted_sources.size()));
     return std::nullopt;
 }
 

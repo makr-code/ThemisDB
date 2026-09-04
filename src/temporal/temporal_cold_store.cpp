@@ -59,7 +59,7 @@ InMemoryBackend::listKeysWithPrefix(const std::string& prefix) const {
     std::vector<std::string> result = {};
 
     for (auto it = data_.lower_bound(prefix); it != data_.end(); ++it) {
-        if (it->first.substr(0, prefix.size()) != prefix) {
+        if (it->first.substr(0,static_cast<int>(prefix.size())) != prefix) {
           break;
         }
         result.push_back(it->first);
@@ -71,7 +71,7 @@ size_t InMemoryBackend::deletePrefix(const std::string& prefix) {
     std::unique_lock lk(mutex_);
     size_t count = 0;
     auto it = data_.lower_bound(prefix);
-    while (it != data_.end() && it->first.substr(0, prefix.size()) == prefix) {
+    while (it != data_.end() && it->first.substr(0,static_cast<int>(prefix.size())) == prefix) {
         it = data_.erase(it);
         ++count;
     }
@@ -253,7 +253,7 @@ FileSystemBackend::listKeysWithPrefix(const std::string& prefix) const {
               continue;
             }
             const std::string ck = pathToKey(entry.path());
-            if (ck.substr(0, prefix.size()) == prefix)
+            if (ck.substr(0,static_cast<int>(prefix.size())) == prefix)
                 result.push_back(ck);
         }
     } catch (const fs::filesystem_error&) {
@@ -278,7 +278,7 @@ size_t FileSystemBackend::deletePrefix(const std::string& prefix) {
               continue;
             }
             const std::string ck = pathToKey(entry.path());
-            if (ck.substr(0, prefix.size()) == prefix)
+            if (ck.substr(0,static_cast<int>(prefix.size())) == prefix)
                 to_delete.push_back(entry.path());
         }
         for (const auto& p : to_delete) {
@@ -425,7 +425,7 @@ size_t TemporalColdStore::remove(const std::string& table_name,
     std::vector<std::string> to_remove;
     auto it = key_index_.lower_bound(prefix);
     while (it != key_index_.end() &&
-           it->substr(0, prefix.size()) == prefix) {
+           it->substr(0,static_cast<int>(prefix.size())) == prefix) {
         to_remove.push_back(*it);
         ++it;
     }
@@ -446,7 +446,7 @@ size_t TemporalColdStore::removeTable(const std::string& table_name) {
     std::vector<std::string> to_remove;
     auto it = key_index_.lower_bound(prefix);
     while (it != key_index_.end() &&
-           it->substr(0, prefix.size()) == prefix) {
+           it->substr(0,static_cast<int>(prefix.size())) == prefix) {
         to_remove.push_back(*it);
         ++it;
     }
@@ -485,7 +485,7 @@ TemporalColdStore::getAsOf(const std::string& table_name,
     auto it = key_index_.upper_bound(search_key);
     while (it != key_index_.begin()) {
         --it;
-        if (it->substr(0, prefix.size()) != prefix) {
+        if (it->substr(0,static_cast<int>(prefix.size())) != prefix) {
           break;
         }
 
@@ -513,7 +513,7 @@ TemporalColdStore::getAll(const std::string& table_name,
     std::vector<VersionedDocument> result = {};
 
     for (auto it = key_index_.lower_bound(prefix);
-         it != key_index_.end() && it->substr(0, prefix.size()) == prefix;
+         it != key_index_.end() && it->substr(0,static_cast<int>(prefix.size())) == prefix;
          ++it) {
         ++stats_.backend_reads;
         auto doc = parseDocument(backend_->get(*it));
@@ -535,7 +535,7 @@ TemporalColdStore::getRange(const std::string& table_name,
     std::vector<VersionedDocument> result = {};
 
     for (auto it = key_index_.lower_bound(prefix);
-         it != key_index_.end() && it->substr(0, prefix.size()) == prefix;
+         it != key_index_.end() && it->substr(0,static_cast<int>(prefix.size())) == prefix;
          ++it) {
         ++stats_.backend_reads;
         auto doc = parseDocument(backend_->get(*it));
@@ -563,7 +563,7 @@ size_t TemporalColdStore::versionCount(const std::string& table_name,
     std::shared_lock lk(mutex_);
     size_t count = 0;
     for (auto it = key_index_.lower_bound(prefix);
-         it != key_index_.end() && it->substr(0, prefix.size()) == prefix;
+         it != key_index_.end() && it->substr(0,static_cast<int>(prefix.size())) == prefix;
          ++it) ++count;
     return count;
 }

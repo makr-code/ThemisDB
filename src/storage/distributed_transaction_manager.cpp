@@ -196,7 +196,7 @@ bool DistributedTransaction::commit() {
 
     state_ = DistributedTxnState::PREPARING;
     THEMIS_DEBUG("DistributedTransaction [{}]: Phase 1 — PREPARE to {} shard(s)",
-                 txn_id_, pending_ops_.size());
+                 txn_id_,static_cast<int>(pending_ops_.size()));
 
     // ── Phase 1: PREPARE ─────────────────────────────────────────────────────
     bool all_prepared = true;
@@ -259,7 +259,7 @@ bool DistributedTransaction::commit() {
     // ── Phase 2: COMMIT or ABORT ──────────────────────────────────────────────
     if (all_prepared) {
         THEMIS_DEBUG("DistributedTransaction [{}]: Phase 2 — COMMIT to {} shard(s)",
-                     txn_id_, prepared_shards_.size());
+                     txn_id_,static_cast<int>(prepared_shards_.size()));
 
         for (auto& [shard_id, participant] : prepared_shards_) {
             try {
@@ -276,7 +276,7 @@ bool DistributedTransaction::commit() {
 
         state_ = DistributedTxnState::COMMITTED;
         THEMIS_INFO("DistributedTransaction [{}]: COMMITTED across {} shard(s)",
-                    txn_id_, prepared_shards_.size());
+                    txn_id_,static_cast<int>(prepared_shards_.size()));
         mgr_state_->committed.fetch_add(1, std::memory_order_relaxed);
         mgr_state_->active.fetch_sub(1, std::memory_order_relaxed);
         return true;

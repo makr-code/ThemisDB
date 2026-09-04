@@ -50,7 +50,7 @@ public:
         tasks_.push_back(task);
     }
 
-    size_t taskCount() const { return tasks_.size(); }
+    size_t taskCount() const { return static_cast<int>(tasks_.size()); }
 
     // ──────────────────────────────────────────────────────────────────
     // Training
@@ -199,7 +199,7 @@ public:
                 }
 
                 // MSE loss vs target (truncate to min dimension).
-                size_t out_dim = std::min({pred.size(), s.target.size(), in_dim});
+                size_t out_dim = std::min({pred.size(),static_cast<int>(s.target.size()), in_dim});
                 double loss = 0.0;
                 for (size_t j = 0; j < out_dim; ++j) {
                     double diff = pred[j] - s.target[j];
@@ -294,7 +294,7 @@ public:
 
         for (size_t ti = 0; ti < tasks_.size(); ++ti) {
             const auto& proto = task_prototypes_[ti];
-            size_t n = std::min(input.size(), proto.size());
+            size_t n = std::min(input.size(),static_cast<int>(proto.size()));
 
             float dot = 0.0f, norm_in = 0.0f, norm_p = 0.0f;
             for (size_t k = 0; k < n; ++k) {

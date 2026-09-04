@@ -111,7 +111,7 @@ WASMKernelSandbox::execute(const std::string&          kernel_id,
             std::lock_guard<std::mutex> lock(mutex_);
             limit = config_.memory_limit_bytes;
         }
-        if (limit > 0 && blob.size() > limit) {
+        if (limit > 0 && static_cast<int>(blob.size()) > limit) {
             ExecutionResult r;
             r.status    = Status::REJECTED_MEMORY_LIMIT;
             r.kernel_id = kernel_id;

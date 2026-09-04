@@ -156,7 +156,7 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
         // Check if this buffer needs immediate flush
         if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} vectors",
-                        buffer_key, buffer.operations.size());
+                        buffer_key,static_cast<int>(buffer.operations.size()));
             
             size_t flushed = flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
@@ -289,7 +289,7 @@ size_t VectorAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     stats_.last_flush_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Flushed {} total vectors from {} buffers", 
-                 total_flushed, buffers_.size());
+                 total_flushed,static_cast<int>(buffers_.size()));
     
     return total_flushed;
 }

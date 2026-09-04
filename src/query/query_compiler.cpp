@@ -300,7 +300,7 @@ public:
             e.call_count        = 0;
             e.compilation_time_us = 0;
         }
-        THEMIS_DEBUG("QueryCompiler: all entries invalidated ({})", entries_.size());
+        THEMIS_DEBUG("QueryCompiler: all entries invalidated ({})",static_cast<int>(entries_.size()));
     }
 
     // -----------------------------------------------------------------------

@@ -957,7 +957,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiI
         // Input tensor
         OrtValue *input_tensor = nullptr;
         ort->CreateTensorWithDataAsOrtValue(mem_info, const_cast<float *>(req.input_data),
-                                            req.input_elements * sizeof(float), shape.data(), shape.size(),
+                                            req.input_elements * sizeof(float), shape.data(),static_cast<int>(shape.size()),
                                             ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT, &input_tensor);
 
         // Query input/output names

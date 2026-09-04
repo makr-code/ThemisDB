@@ -79,7 +79,7 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
         }
     }
     
-    THEMIS_INFO("Loaded {} configuration entries", config_.size());
+    THEMIS_INFO("Loaded {} configuration entries",static_cast<int>(config_.size()));
     return validate();
 }
 
@@ -129,7 +129,7 @@ bool JudgeConfigManager::loadFromJSONString(const std::string& json_str) {
             flatten(j, "");
         }
         
-        THEMIS_INFO("Loaded {} configuration entries from JSON", config_.size());
+        THEMIS_INFO("Loaded {} configuration entries from JSON",static_cast<int>(config_.size()));
         return validate();
     } catch (const json::exception& e) {
         THEMIS_ERROR("Failed to parse JSON configuration: {}", e.what());

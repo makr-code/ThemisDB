@@ -148,7 +148,7 @@ void VoiceAuditLogger::clearEventLog() {
 
 size_t VoiceAuditLogger::getEventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return event_log_.size();
+    return static_cast<int>(event_log_.size());
 }
 
 void VoiceAuditLogger::setEventCallback(std::function<void(const json&)> callback) {

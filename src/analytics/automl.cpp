@@ -342,7 +342,7 @@ struct LabelEncoder {
 
 inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
-    size_t n = std::min(a.size(), b.size());
+    size_t n = std::min(a.size(),static_cast<int>(b.size()));
     for (size_t i = 0; i < n; ++i) {
         s += a[i] * b[i];
     }
@@ -351,7 +351,7 @@ inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
 
 inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
-    size_t n = std::min(a.size(), b.size());
+    size_t n = std::min(a.size(),static_cast<int>(b.size()));
     for (size_t i = 0; i < n; ++i) {
         double d = a[i] - b[i];
         s += d * d;
@@ -1172,7 +1172,7 @@ struct KNNModel : ModelBase {
         for (size_t i = 0; i < X_train.size(); ++i) {
             dists.emplace_back(l2sq(x, X_train[i]), static_cast<int>(i));
         }
-        size_t kk = std::min(static_cast<size_t>(k), dists.size());
+        size_t kk = std::min(static_cast<size_t>(k),static_cast<int>(dists.size()));
         std::nth_element(dists.begin(), dists.begin() + static_cast<ptrdiff_t>(kk), dists.end());
         dists.resize(kk);
         return dists;
@@ -1660,7 +1660,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
               [](const auto &a, const auto &b) { return std::abs(a.second) > std::abs(b.second); });
 
     // Build top_features string
-    size_t top_n = std::min(size_t(5), exp.feature_contributions.size());
+    size_t top_n = std::min(size_t(5),static_cast<int>(exp.feature_contributions.size()));
     std::string tf = {};
     for (size_t i = 0; i < top_n; ++i) {
         if (i > 0) {
@@ -1842,7 +1842,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         js << "    \"weights_shape\": [" << classes.size() << ", " << feat.size() << "],\n";
         js << "    \"weights\": [\n";
         // Produce one weight row per class (logistic) or single row (linear)
-        size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && classes.size() > 0) ? classes.size() : 1;
+        size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && static_cast<int>(classes.size()) > 0) ? classes.size() : 1;
         for (size_t r = 0; r < n_rows; ++r) {
             // Estimate weights by evaluating model response to unit vectors
             js << "      [";
@@ -2251,8 +2251,8 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
     result.feat_names = feat_names;
     result.candidates = candidates;
 
-    if (config.ensemble && candidates.size() > 1 && config.ensemble_top_k > 1) {
-        size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k), candidates.size());
+    if (config.ensemble && static_cast<int>(candidates.size()) > 1 && config.ensemble_top_k > 1) {
+        size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k),static_cast<int>(candidates.size()));
         auto ens           = std::make_unique<EnsembleModel>();
         ens->is_classifier = is_classifier;
         ens->n_classes     = n_classes;
@@ -2563,7 +2563,7 @@ ModelAlgorithm AutoML::selectEnsembleMethod(
     double diversity = (max_f1 - min_f1) + (max_acc - min_acc);
     
     // Select ensemble method based on model characteristics
-    if (diversity > 0.2 && candidate_metrics.size() >= 3) {
+    if (diversity > 0.2 && static_cast<int>(candidate_metrics.size()) >= 3) {
         // High diversity: stacking would be beneficial (if implemented)
         // For now, return voting as production-ready method
         return ModelAlgorithm::ENSEMBLE;

@@ -142,7 +142,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     // Bound check: text <= kMaxDocumentChars (5 MiB)
     // Prevents memory exhaustion and ensures bounded ingestion time
     if (static_cast<int>(text.size()) > kMaxDocumentChars) {
-        spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})", text.size());
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})",static_cast<int>(text.size()));
         return IndexResult{
             .ok    = false,
             .error = "input too large"

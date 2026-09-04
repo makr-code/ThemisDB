@@ -806,10 +806,10 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         }
 
         json local_metrics = {
-            {"implementation_code_bytes", generated.implementation_code.size()},
-            {"header_code_bytes", generated.header_code.size()},
-            {"test_code_bytes", generated.test_code.size()},
-            {"cmake_code_bytes", generated.cmake_code.size()},
+            {"implementation_code_bytes",static_cast<int>(generated.implementation_code.size())},
+            {"header_code_bytes",static_cast<int>(generated.header_code.size())},
+            {"test_code_bytes",static_cast<int>(generated.test_code.size())},
+            {"cmake_code_bytes",static_cast<int>(generated.cmake_code.size())},
             {"passed_security_checks", generated.passed_security_checks}
         };
         if (c1_safety_score.has_value()) {

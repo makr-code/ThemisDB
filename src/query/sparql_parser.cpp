@@ -1000,7 +1000,7 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     }
 
     // RETURN
-    if (!stmt.star && stmt.variables.size() == 1) {
+    if (!stmt.star && static_cast<int>(stmt.variables.size()) == 1) {
         // Single variable: return binding directly (or null if unbound)
         auto it = var_bindings.find(stmt.variables[0]);
         oss << "RETURN " << (it != var_bindings.end() ? it->second : "null");

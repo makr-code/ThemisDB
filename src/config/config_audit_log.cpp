@@ -59,7 +59,7 @@ std::vector<AuditEntry> ConfigAuditLog::getEntries() const {
 
 std::size_t ConfigAuditLog::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 void ConfigAuditLog::clear() {

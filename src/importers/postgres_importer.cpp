@@ -631,7 +631,7 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
         }
         // Trim leading whitespace before comment check
         size_t first = line.find_first_not_of(" \t\r\n");
-        if (first != std::string::npos && line.size() >= first + 2 &&
+        if (first != std::string::npos && static_cast<int>(line.size()) >= first + 2 &&
             line[first] == '-' && line[first + 1] == '-') continue;
         
         // Performance: avoid temporary string from `+= line + " "`
@@ -821,7 +821,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
 
     if (!options.delta_hash_file.empty()) {
         delta_hashes = loadDeltaHashes(options.delta_hash_file);
-        THEMIS_INFO("Delta import: loaded {} known hashes from {}", delta_hashes.size(),
+        THEMIS_INFO("Delta import: loaded {} known hashes from {}",static_cast<int>(delta_hashes.size()),
                     options.delta_hash_file);
     }
 
@@ -1235,7 +1235,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         return s.substr(l, r - l + 1);
     };
     auto startsWith = [](const std::string& s, const std::string& pfx) {
-        return static_cast<bool>(s.size()  < static_cast<int>(= pfx.size() && s.compare(0, pfx.size())), pfx) == 0;
+        return static_cast<bool>(s.size()  < static_cast<int>(= pfx.size() && s.compare(0,static_cast<int>(pfx.size()))), pfx) == 0;
     };
 
     for (const auto& raw_def : column_defs) {
@@ -1339,7 +1339,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
           continue;
         }
 
-        if (!col_name.empty() && col_name.front() == '"' && col_name.size() >= 2 && col_name.back() == '"') {
+        if (!col_name.empty() && col_name.front() == '"' && static_cast<int>(col_name.size()) >= 2 && col_name.back() == '"') {
             col_name = col_name.substr(1, static_cast<int>(col_name.size()) - 2);
         }
 
@@ -2270,7 +2270,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         stats.total_records++;
 
         // Row-size guard
-        if (options.max_row_size_bytes > 0 && line.size() > options.max_row_size_bytes) {
+        if (options.max_row_size_bytes > 0 && static_cast<int>(line.size()) > options.max_row_size_bytes) {
             ImportError err;
             err.code     = ImportErrorCode::ROW_TOO_LARGE;
             err.severity = ImportErrorSeverity::WARNING;
@@ -2330,7 +2330,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             delta_hashes.insert(h);
         }
 
-        if (!eff_schema.columns.empty() && values.size() != eff_schema.columns.size()) {
+        if (!eff_schema.columns.empty() && static_cast<int>(values.size()) != eff_schema.columns.size()) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;
@@ -2906,7 +2906,7 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
                                              const std::vector<std::string>& schema_columns) {
     if (key_columns.empty() || schema_columns.empty()) {
         // Hash the entire raw row
-        return fnv1a64(raw_row.data(), raw_row.size());
+        return fnv1a64(raw_row.data(),static_cast<int>(raw_row.size()));
     }
     // Hash only the key column values, separated by a non-printable sentinel
     static constexpr char kDeltaHashFieldSep = '\x01';
@@ -2929,7 +2929,7 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
         }
         key_data += kDeltaHashFieldSep;
     }
-    return fnv1a64(key_data.data(), key_data.size());
+    return fnv1a64(key_data.data(),static_cast<int>(key_data.size()));
 }
 
 std::unordered_set<uint64_t> PostgreSQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {

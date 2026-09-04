@@ -475,8 +475,8 @@ nlohmann::json PkiApiHandler::listCertificates() {
             }
         }
 
-        THEMIS_INFO("PKI API: Listed {} certificates", certs_array.size());
-        return {{"success", true}, {"certificates", certs_array}, {"count", certs_array.size()}};
+        THEMIS_INFO("PKI API: Listed {} certificates",static_cast<int>(certs_array.size()));
+        return {{"success", true}, {"certificates", certs_array}, {"count",static_cast<int>(certs_array.size())}};
 
     } catch (const std::exception& ex) {
         THEMIS_ERROR("PKI API listCertificates failed: {}", ex.what());

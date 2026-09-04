@@ -209,7 +209,7 @@ bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch
     float avg_rating = calculateAverageRating(batch);
     if (avg_rating < config_.min_avg_rating) {
         // Low rating - might indicate model issues, trigger training sooner
-        return batch.size() >= config_.min_batch_size;
+        return static_cast<int>(batch.size()) >= config_.min_batch_size;
     }
     
     // Check time since oldest feedback

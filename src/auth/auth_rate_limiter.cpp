@@ -709,7 +709,7 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string &ip, const std::
     entry.attempt_times.push_back(now);
     entry.usernames.insert(user_id);
 
-    if (!entry.alerted && entry.usernames.size() >= cfg.credential_stuffing_user_threshold) {
+    if (!entry.alerted && static_cast<int>(entry.usernames.size()) >= cfg.credential_stuffing_user_threshold) {
         entry.alerted = true;
         // Caller fires the anomaly event outside the lock.
         return true;

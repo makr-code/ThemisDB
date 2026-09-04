@@ -188,7 +188,7 @@ TransactionConnectionGuard::~TransactionConnectionGuard() noexcept {
     THEMIS_DEBUG(
         "Transaction {} connection guard destroyed: {} connections, "
         "{} successes, {} failures, {}ms total",
-        txn_id_, connections_.size(), success_count_, failure_count_,
+        txn_id_,static_cast<int>(connections_.size()), success_count_, failure_count_,
         total_connection_time_ms_
     );
 }
@@ -215,7 +215,7 @@ TransactionConnectionGuard::acquireConnection(
     trackers_.emplace_back(operation_name, is_write);
     
     THEMIS_DEBUG("Transaction {} acquired connection for '{}' (total: {})",
-                 txn_id_, operation_name, connections_.size());
+                 txn_id_, operation_name,static_cast<int>(connections_.size()));
     
     return conn;
 }
@@ -254,7 +254,7 @@ uint64_t TransactionConnectionGuard::getConnectionTimeMs() const noexcept {
 }
 
 size_t TransactionConnectionGuard::getConnectionCount() const noexcept {
-    return connections_.size();
+    return static_cast<int>(connections_.size());
 }
 
 size_t TransactionConnectionGuard::getSuccessCount() const noexcept {

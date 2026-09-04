@@ -261,7 +261,7 @@ uint64_t RaftLog::getLastLogTerm() const {
 /** @brief Return number of in-memory log entries. */
 size_t RaftLog::size() const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
-    return log_.size();
+    return static_cast<int>(log_.size());
 }
 
 /** @brief Estimate in-memory footprint of current log entries in bytes. */
@@ -432,7 +432,7 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         }
 
         // 2. Compute checksum of raw (pre-compression) state data
-        const std::string checksum = computeChecksum(state_data.data(), state_data.size());
+        const std::string checksum = computeChecksum(state_data.data(),static_cast<int>(state_data.size()));
 
         // 3. Compress with ZSTD level 3
         auto compressed = themis::utils::zstd_compress(state_data, config_.compression_level);
@@ -533,13 +533,13 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         }
 
         const double ratio = uncompressed_size > 0
-            ? static_cast<double>(uncompressed_size) / std::max<size_t>(1, compressed.size())
+            ? static_cast<double>(uncompressed_size) / std::max<size_t>(1,static_cast<int>(compressed.size()))
             : 1.0;
 
         spdlog::info("RaftSnapshotManager: created snapshot index={} term={} "
                      "uncompressed={}B compressed={}B ratio={:.2f}x path={}",
                      snapshot_index, snapshot_term,
-                     uncompressed_size, compressed.size(), ratio, path);
+                     uncompressed_size,static_cast<int>(compressed.size()), ratio, path);
 
         // 5. Compact the in-memory Raft log
         log.compactUpTo(snapshot_index, snapshot_term);
@@ -675,11 +675,11 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot([[maybe_unused]] u
             if (static_cast<int>(decompressed.size()) != snap.uncompressed_size) {
                 spdlog::error("RaftSnapshotManager: decompressed size mismatch for snapshot {}: "
                               "expected {} got {}",
-                              snapshot_index, snap.uncompressed_size, decompressed.size());
+                              snapshot_index, snap.uncompressed_size,static_cast<int>(decompressed.size()));
                 return std::nullopt;
             }
             const std::string actual_checksum =
-                computeChecksum(decompressed.data(), decompressed.size());
+                computeChecksum(decompressed.data(),static_cast<int>(decompressed.size()));
             if (actual_checksum != snap.checksum) {
                 spdlog::error("RaftSnapshotManager: checksum mismatch for snapshot {} "
                               "(expected={} actual={})",
@@ -805,7 +805,7 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
         }
         file.close();
 
-        chunk.checksum = computeChecksum(chunk.data.data(), chunk.data.size());
+        chunk.checksum = computeChecksum(chunk.data.data(),static_cast<int>(chunk.data.size()));
         return chunk;
 
     } catch (const std::exception& e) {

@@ -394,7 +394,7 @@ GPUMemoryManager::~GPUMemoryManager() {
     // Just log what we're cleaning up
     for (const auto& [model_id, allocs] : allocations_) {
         spdlog::info("Cleaning up memory for model: {} ({} allocations)", 
-                     model_id, allocs.size());
+                     model_id,static_cast<int>(allocs.size()));
     }
     
     // Clear allocations - this will trigger holder destructors
@@ -435,7 +435,7 @@ void GPUMemoryManager::initializeGPU() {
         
         // Initialize multi-GPU support (v1.4.0)
         if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-            spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
+            spdlog::info("Initializing multi-GPU support with {} GPUs",static_cast<int>(config_.gpu_devices.size()));
             available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices, deviceCount);
 
             if (available_gpus_.empty()) {
@@ -492,7 +492,7 @@ void GPUMemoryManager::initializeGPU() {
         }
         
         spdlog::info("GPU Memory Manager: Running with real CUDA support");
-        spdlog::info("  Available GPUs: {}", available_gpus_.size());
+        spdlog::info("  Available GPUs: {}",static_cast<int>(available_gpus_.size()));
     } else {
         gpu_available_ = false;
         spdlog::warn("No usable CUDA GPU detected: {}", cudaGetErrorString(err));
@@ -512,7 +512,7 @@ void GPUMemoryManager::initializeGPU() {
     
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs", config_.gpu_devices.size());
+        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs",static_cast<int>(config_.gpu_devices.size()));
         available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices);
         if (available_gpus_.empty()) {
             spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
@@ -537,7 +537,7 @@ void GPUMemoryManager::initializeGPU() {
     }
     
     spdlog::info("GPU Memory Manager: CUDA not enabled at build time; GPU runtime remains unavailable");
-    spdlog::info("  Tracked GPU slots: {}", available_gpus_.size());
+    spdlog::info("  Tracked GPU slots: {}",static_cast<int>(available_gpus_.size()));
 #endif
 
     // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
@@ -560,7 +560,7 @@ void GPUMemoryManager::shutdownGPU() {
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         // Disable peer access if it was enabled
-        if (config_.enable_peer_access && available_gpus_.size() > 1) {
+        if (config_.enable_peer_access && static_cast<int>(available_gpus_.size()) > 1) {
             for (size_t i = 0; i < available_gpus_.size(); ++i) {
                 int src_gpu = available_gpus_[i];
                 cudaError_t set_err = cudaSetDevice(src_gpu);

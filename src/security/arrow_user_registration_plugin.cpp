@@ -117,7 +117,7 @@ Result<std::vector<UserRegistrationData>> ArrowUserRegistrationPlugin::syncUsers
         }
     }
 
-    THEMIS_INFO("Arrow plugin: Synced {} users", users.size());
+    THEMIS_INFO("Arrow plugin: Synced {} users",static_cast<int>(users.size()));
     return themis::Ok(std::move(users));
 #else
     return themis::Err<std::vector<UserRegistrationData>>(

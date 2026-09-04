@@ -295,7 +295,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             }
 
             // Check per-tenant quota (honour limits even during warmup).
-            if (!checkTenantQuota(tenant_id, decoded.size())) {
+            if (!checkTenantQuota(tenant_id,static_cast<int>(decoded.size()))) {
                 THEMIS_DEBUG("warmupFromLog: line {}: tenant '{}' quota exceeded, skipping", line_number, tenant_id);
                 total_skipped.fetch_add(1, std::memory_order_relaxed);
                 enhanced_metrics_.warmup_entries_skipped++;
@@ -329,7 +329,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             bool inserted = false;
 
             if (l1_warmed.load(std::memory_order_relaxed) < l1_warmup_cap
-                && decoded.size() <= config_.l1_max_entry_size) {
+                && static_cast<int>(decoded.size()) <= config_.l1_max_entry_size) {
                 // Store in L1 (per-shard insertion under l1_mutex_).
                 auto entry    = std::make_unique<L1Entry>();
                 entry->result = value_json;

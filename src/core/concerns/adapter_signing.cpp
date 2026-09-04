@@ -59,7 +59,7 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
     }
 
     // CRYPTO_memcmp is a constant-time byte comparison from OpenSSL.
-    return CRYPTO_memcmp(computed.data(), expected.data(), computed.size()) == 0;
+    return CRYPTO_memcmp(computed.data(), expected.data(),static_cast<int>(computed.size())) == 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -92,7 +92,7 @@ std::string SignedAdapterValidator::sha256Hex(std::string_view data) {
         return {};
     }
 
-    if (EVP_DigestUpdate(ctx, data.data(), data.size()) != 1) {
+    if (EVP_DigestUpdate(ctx, data.data(),static_cast<int>(data.size())) != 1) {
         EVP_MD_CTX_free(ctx);
         return {};
     }

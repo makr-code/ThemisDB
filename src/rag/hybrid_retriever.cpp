@@ -53,7 +53,7 @@ double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b
         return 0.0;
     }
 
-    const size_t dim = std::min(a.size(), b.size());
+    const size_t dim = std::min(a.size(),static_cast<int>(b.size()));
     double dot = 0.0;
     double norm_a = 0.0;
     double norm_b = 0.0;
@@ -127,7 +127,7 @@ HybridFusionResult HybridRetriever::fuse(
 ) const {
     THEMIS_DEBUG("HybridRetriever::fuse: bm25={}, vector={}, use_rrf={}, "
                  "bm25_w={:.2f}, vec_w={:.2f}, rrf_k={:.0f}, top_k={}",
-                 bm25_candidates.size(), vector_candidates.size(),
+                 bm25_candidates.size(),static_cast<int>(vector_candidates.size()),
                  config_.use_rrf, config_.bm25_weight, config_.vector_weight,
                  config_.rrf_k, config_.top_k);
 
@@ -240,7 +240,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
         });
 
     // Apply top_k truncation.
-    if (config_.top_k > 0 && entries.size() > config_.top_k) {
+    if (config_.top_k > 0 && static_cast<int>(entries.size()) > config_.top_k) {
         entries.resize(config_.top_k);
     }
 
@@ -258,7 +258,7 @@ HybridFusionResult HybridRetriever::fuseRRF(
     }
 
     THEMIS_INFO("HybridRetriever (RRF): {} candidates → {} results",
-                result.total_candidates, result.documents.size());
+                result.total_candidates,static_cast<int>(result.documents.size()));
     return result;
 }
 
@@ -326,7 +326,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
             return a.score.hybrid_score > b.score.hybrid_score;
         });
 
-    if (config_.top_k > 0 && entries.size() > config_.top_k) {
+    if (config_.top_k > 0 && static_cast<int>(entries.size()) > config_.top_k) {
         entries.resize(config_.top_k);
     }
 
@@ -343,7 +343,7 @@ HybridFusionResult HybridRetriever::fuseLinear(
     }
 
     THEMIS_INFO("HybridRetriever (Linear): {} candidates → {} results",
-                result.total_candidates, result.documents.size());
+                result.total_candidates,static_cast<int>(result.documents.size()));
     return result;
 }
 

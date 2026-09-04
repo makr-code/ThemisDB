@@ -134,7 +134,7 @@ void InMemoryVectorIndex::remove(const std::string& id)
 std::size_t InMemoryVectorIndex::size() const noexcept
 {
     std::lock_guard<std::mutex> lk(mutex_);
-    return vectors_.size();
+    return static_cast<int>(vectors_.size());
 }
 
 // ============================================================================

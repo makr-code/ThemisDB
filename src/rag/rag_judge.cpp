@@ -279,7 +279,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
         error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
-        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)", input.query.size());
+        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)",static_cast<int>(input.query.size()));
         return error_result;
     }
     
@@ -308,7 +308,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
     // ── end input validation ────────────────────────────────────────────────
     
-    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})", input.query.size());
+    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})",static_cast<int>(input.query.size()));
     
     // Check cache (protected by mutex)
     if (config.cache_evaluations) {
@@ -815,7 +815,7 @@ ComparisonResult RAGJudge::compare(
 std::vector<EvaluationResult> RAGJudge::batchEvaluate(
     const std::vector<RAGTestCase>& test_cases
 ) {
-    THEMIS_INFO("Batch evaluating {} test cases", test_cases.size());
+    THEMIS_INFO("Batch evaluating {} test cases",static_cast<int>(test_cases.size()));
     
     std::vector<EvaluationResult> results = {};
 
@@ -1325,7 +1325,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer
                     }
                 }
             }
-            THEMIS_DEBUG("LLM extracted {} claims", claims.size());
+            THEMIS_DEBUG("LLM extracted {} claims",static_cast<int>(claims.size()));
             return claims;
         }
     } catch (const std::exception& e) {
@@ -1406,7 +1406,7 @@ double RAGJudge::calculateTermOverlap(
             ++overlap;
         }
     }
-    int total = static_cast<int>(std::max(terms1.size(), terms2.size()));
+    int total = static_cast<int>(std::max(terms1.size(),static_cast<int>(terms2.size())));
     return static_cast<double>(overlap) / total;
 }
 

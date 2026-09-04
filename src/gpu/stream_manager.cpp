@@ -242,7 +242,7 @@ std::vector<std::string> GPUStreamManager::streamNames() const {
 
 size_t GPUStreamManager::streamCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return streams_.size();
+    return static_cast<int>(streams_.size());
 }
 
 // ============================================================================

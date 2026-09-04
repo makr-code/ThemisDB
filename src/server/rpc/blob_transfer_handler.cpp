@@ -166,7 +166,7 @@ public:
             }
         }
         
-        while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
+        while (file.read(buffer.data(),static_cast<int>(buffer.size())) || file.gcount() > 0) {
             if (cancelled_) {
                 break;
             }
@@ -250,7 +250,7 @@ public:
             output_file_.open(config_.dest_path, std::ios::binary);
         }
         
-        output_file_.write(decompressed.data(), decompressed.size());
+        output_file_.write(decompressed.data(),static_cast<int>(decompressed.size()));
         
         transferred_bytes_ += decompressed.size();
         transferred_chunks_++;
@@ -347,7 +347,7 @@ private:
                 output->resize(max_size);
                 size_t size = ZSTD_compress(
                     &(*output)[0], max_size,
-                    input.data(), input.size(),
+                    input.data(),static_cast<int>(input.size()),
                     config_.compression_level
                 );
                 if (ZSTD_isError(size)) {
@@ -369,11 +369,11 @@ private:
                 return BlobStatus::OK;
                 
             case themis::sharding::proto::COMPRESSION_ZSTD: {
-                size_t size = ZSTD_getFrameContentSize(input.data(), input.size());
+                size_t size = ZSTD_getFrameContentSize(input.data(),static_cast<int>(input.size()));
                 output->resize(size);
                 size_t actual = ZSTD_decompress(
                     &(*output)[0], size,
-                    input.data(), input.size()
+                    input.data(),static_cast<int>(input.size())
                 );
                 if (ZSTD_isError(actual)) {
                     return BlobStatus::ERROR_COMPRESSION_FAILED;
@@ -418,7 +418,7 @@ private:
             // Table-based CRC-32 (Ethernet, poly 0xEDB88320): ~8× faster than
             // the previous bit-by-bit loop. Stub #32 resolved.
             const auto* buf = reinterpret_cast<const uint8_t*>(data.data());
-            uint32_t c = crc32_table(buf, data.size());
+            uint32_t c = crc32_table(buf,static_cast<int>(data.size()));
             return std::to_string(static_cast<unsigned long long>(c));
         }
         // SHA256 fallback
@@ -439,7 +439,7 @@ private:
         SHA256_Init(&sha256);
         
         std::vector<char> buffer(1024 * 1024);
-        while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
+        while (file.read(buffer.data(),static_cast<int>(buffer.size())) || file.gcount() > 0) {
             SHA256_Update(&sha256, buffer.data(), file.gcount());
         }
         

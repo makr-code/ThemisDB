@@ -426,7 +426,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 // Record compression metrics
                 if (metrics_) {
                     size_t uncompressed_size = group_points.size() * (sizeof(int64_t) + sizeof(double));
-                    metrics_->recordCompression(group_points.front().metric, uncompressed_size, compressed.size());
+                    metrics_->recordCompression(group_points.front().metric, uncompressed_size,static_cast<int>(compressed.size()));
                 }
                 
             } catch (const std::exception& e) {
@@ -449,7 +449,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         }
         
         THEMIS_INFO("Wrote Gorilla-compressed batch of {} data points ({} chunks)", 
-            points.size(), grouped.size());
+            points.size(),static_cast<int>(grouped.size()));
         return OkVoid();
     }
     
@@ -505,12 +505,12 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         std::chrono::steady_clock::now() - start_time).count();
     
     if (!s.ok()) {
-        THEMIS_ERROR("Failed to write batch of {} data points: {}", points.size(), s.ToString());
+        THEMIS_ERROR("Failed to write batch of {} data points: {}",static_cast<int>(points.size()), s.ToString());
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
-                       fmt::format("Failed to write batch of {} data points: {}", points.size(), s.ToString()));
+                       fmt::format("Failed to write batch of {} data points: {}",static_cast<int>(points.size()), s.ToString()));
     }
     
-    THEMIS_INFO("Wrote batch of {} data points (raw)", points.size());
+    THEMIS_INFO("Wrote batch of {} data points (raw)",static_cast<int>(points.size()));
     return OkVoid();
 }
 
@@ -635,7 +635,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                 if (metrics_) {
                     size_t uncompressed = indices.size() * (sizeof(int64_t) + sizeof(double));
                     metrics_->recordCompression(std::string(first_row.metric),
-                                                uncompressed, compressed.size());
+                                                uncompressed,static_cast<int>(compressed.size()));
                 }
             } catch (const std::exception& e) {
                 // Mark all rows in this group as failed
@@ -780,7 +780,7 @@ TSStore::query(const QueryOptions& options) const {
             
             if (!options.entity.has_value()) {
                 std::string expected_prefix = KEY_PREFIX + options.metric + ":";
-                if (key.compare(0, expected_prefix.size(), expected_prefix) != 0) {
+                if (key.compare(0,static_cast<int>(expected_prefix.size()), expected_prefix) != 0) {
                     break;
                 }
             }
@@ -946,7 +946,7 @@ TSStore::query(const QueryOptions& options) const {
         std::chrono::steady_clock::now() - start_time).count();
     [[maybe_unused]] int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
     
-    THEMIS_DEBUG("Query returned {} data points for metric={}", results.size(), options.metric);
+    THEMIS_DEBUG("Query returned {} data points for metric={}",static_cast<int>(results.size()), options.metric);
     return Ok(std::move(results));
 }
 
@@ -1225,7 +1225,7 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     it->Seek(prefix);
     while (it->Valid()) {
         std::string key = it->key().ToString();
-        if (key.compare(0, prefix.size(), prefix) != 0) {
+        if (key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
           break;
         }
         auto comp = parseKeyInternal(key);
@@ -1279,7 +1279,7 @@ Result<void> TSStore::deleteMetric(const std::string& metric) {
     while (it->Valid()) {
         std::string key = it->key().ToString();
         
-        if (key.compare(0, prefix.size(), prefix) != 0) {
+        if (key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
             break;
         }
         

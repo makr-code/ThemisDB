@@ -66,7 +66,7 @@ std::vector<uint8_t> CompressedValue::serialize() const {
     result.insert(result.end(), data.begin(), data.end());
 
     // CRC32 of all previous bytes (4 bytes, little-endian)
-    uint32_t crc = cv_crc32(result.data(), result.size());
+    uint32_t crc = cv_crc32(result.data(),static_cast<int>(result.size()));
     for (int i = 0; i < 4; ++i) {
       result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
     }

@@ -139,7 +139,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     const size_t top_k = (mq.top_k > 0) ? mq.top_k : cfg.top_k;
 
     THEMIS_INFO("MultiModalRAG::query text='{}', modalities={}, top_k={}",
-                mq.text, mq.modalities.size(), top_k);
+                mq.text,static_cast<int>(mq.modalities.size()), top_k);
 
     // Determine which modalities are active for this query.
     bool want_text  = false;
@@ -163,7 +163,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     if (want_text && impl_->text_retriever && !mq.text.empty()) {
         auto text_docs = impl_->text_retriever(mq.text, top_k);
 
-        THEMIS_DEBUG("MultiModalRAG text retrieval: {} docs", text_docs.size());
+        THEMIS_DEBUG("MultiModalRAG text retrieval: {} docs",static_cast<int>(text_docs.size()));
 
         for (size_t i = 0; i < text_docs.size(); ++i) {
             const auto& doc = text_docs[i];
@@ -182,7 +182,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     {
         auto image_docs = impl_->image_retriever(mq.image_embedding, top_k);
 
-        THEMIS_DEBUG("MultiModalRAG image retrieval: {} docs", image_docs.size());
+        THEMIS_DEBUG("MultiModalRAG image retrieval: {} docs",static_cast<int>(image_docs.size()));
 
         for (const auto& img : image_docs) {
             image_ranked.emplace_back(img.id, img.relevance_score);

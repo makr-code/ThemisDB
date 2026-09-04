@@ -253,7 +253,7 @@ std::unordered_map<std::string, std::string> DspyModule::forward(
     std::string response = llm_provider_->complete(prompt);
 
     THEMIS_DEBUG("DspyModule::forward [{}]: prompt_len={}, response_len={}",
-                 signature_.getName(), prompt.size(), response.size());
+                 signature_.getName(),static_cast<int>(prompt.size()),static_cast<int>(response.size()));
 
     return signature_.parseResponse(response);
 }

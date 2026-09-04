@@ -164,7 +164,7 @@ bool hasControlCharacters(std::string_view value) {
 }
 
 bool isReasonableWireIdentifier(std::string_view value) {
-    return !value.empty() && value.size() <= kMaxWireIdentifierLength &&
+    return !value.empty() && static_cast<int>(value.size()) <= kMaxWireIdentifierLength &&
            !hasControlCharacters(value);
 }
 
@@ -662,7 +662,7 @@ size_t WireProtocolServer::getActiveConnections() const {
 #ifdef THEMIS_ENABLE_WEBSOCKET
     return static_cast<int>(active_sessions_.size()) + active_ws_sessions_.size();
 #else
-    return active_sessions_.size();
+    return static_cast<int>(active_sessions_.size());
 #endif
 }
 
@@ -1225,11 +1225,11 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 
                 uint32_t computed_crc = crc32Update(
                     0,
-                    header_buffer_.data(), header_buffer_.size());
+                    header_buffer_.data(),static_cast<int>(header_buffer_.size()));
                 if (!payload_buffer_.empty()) {
                     computed_crc = crc32Update(
                         computed_crc,
-                        payload_buffer_.data(), payload_buffer_.size());
+                        payload_buffer_.data(),static_cast<int>(payload_buffer_.size()));
                 }
 
                 if (computed_crc != expected_crc) {
@@ -1563,7 +1563,7 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // timing side-channel attacks that leak the pre-shared token prefix/length.
             const auto& stored = server_->config_.auth_token;
             if (static_cast<int>(token.size()) == stored.size()) {
-                accepted = (CRYPTO_memcmp(token.data(), stored.data(), stored.size()) == 0);
+                accepted = (CRYPTO_memcmp(token.data(), stored.data(),static_cast<int>(stored.size())) == 0);
             }
             // Different lengths → accepted stays false (no timing leak from size mismatch
             // because the size comparison itself is O(1) and constant).
@@ -2512,7 +2512,7 @@ void WireProtocolServer::Session::handleQuery() {
             json first_batch;
             std::string cursor_id = {};
 
-            if (result_json.is_array() && result_json.size() > batch_size) {
+            if (result_json.is_array() && static_cast<int>(result_json.size()) > batch_size) {
                 // Large result: store in cursor registry and return first batch.
                 first_batch = json::array();
                 for (size_t i = 0; i < batch_size; ++i) {

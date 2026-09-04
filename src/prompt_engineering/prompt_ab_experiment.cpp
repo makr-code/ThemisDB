@@ -528,7 +528,7 @@ std::optional<ExperimentSummary> PromptABExperimentFramework::getSummary(
                 s.mean_control_score * 100.0;
         }
 
-        if (static_cast<int>(store.control.size()) >= 2 && store.treatment.size() >= 2) {
+        if (static_cast<int>(store.control.size()) >= 2 && static_cast<int>(store.treatment.size()) >= 2) {
             s.p_value    = welchPValue(store.control, store.treatment);
             const double alpha = 1.0 - eit->second.confidence_level;
             s.significant = (s.p_value < alpha);

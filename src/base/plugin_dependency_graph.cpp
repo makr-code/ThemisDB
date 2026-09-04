@@ -100,12 +100,12 @@ void PluginDependencyGraph::clear()
 
 std::size_t PluginDependencyGraph::nodeCount() const
 {
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 std::size_t PluginDependencyGraph::edgeCount() const
 {
-    return edges_.size();
+    return static_cast<int>(edges_.size());
 }
 
 std::vector<PluginDependencyGraph::Node> PluginDependencyGraph::nodes() const

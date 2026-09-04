@@ -281,7 +281,7 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 
     // Avoid overfitting tiny training sets by capping centroids with a
     // sample-dependent bound instead of blindly using up to n centroids.
-    const size_t k_upper = std::min(static_cast<size_t>(256), training_data.size());
+    const size_t k_upper = std::min(static_cast<size_t>(256),static_cast<int>(training_data.size()));
     const size_t suggested_k = static_cast<size_t>(
         std::max(1.0, std::sqrt(static_cast<double>(training_data.size())) * 2.0));
     const size_t adaptive_k = std::max(static_cast<size_t>(1), std::min(k_upper, suggested_k));

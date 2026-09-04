@@ -166,8 +166,8 @@ nlohmann::json RetentionManager::getCumulativeStats() const {
     return {{"total_deleted", total_deleted_},
             {"total_archived", total_archived_},
             {"total_space_freed_bytes", total_space_freed_bytes_},
-            {"archive_size", archive_.size()},
-            {"registered_policies", policies_.size()}};
+            {"archive_size",static_cast<int>(archive_.size())},
+            {"registered_policies",static_cast<int>(policies_.size())}};
 }
 
 // ============================================================================

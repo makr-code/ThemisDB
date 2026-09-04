@@ -60,7 +60,7 @@ PIIDetectionResult PIIStreamDetectorAdapter::detect(
     cfg.lookahead_bytes = lookaheadBytes_;
     PIIStreamScanner scanner(engine_, cfg);
 
-    std::string_view sv(reinterpret_cast<const char*>(chunk.data()), chunk.size());
+    std::string_view sv(reinterpret_cast<const char*>(chunk.data()),static_cast<int>(chunk.size()));
     auto findings = scanner.scan_chunk(sv, /*is_last=*/true);
 
     PIIDetectionResult result;
@@ -101,7 +101,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
     cfg.lookahead_bytes = lookaheadBytes_;
     PIIStreamScanner scanner(engine_, cfg);
 
-    std::string_view sv(reinterpret_cast<const char*>(chunk.data()), chunk.size());
+    std::string_view sv(reinterpret_cast<const char*>(chunk.data()),static_cast<int>(chunk.size()));
     auto findings = scanner.scan_chunk(sv, /*is_last=*/true);
 
     // Build the sanitised output by masking each finding.
@@ -129,7 +129,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
 }
 
 std::span<const PIICategory> PIIStreamDetectorAdapter::supportedCategories() const {
-    return {kAllCategories.data(), kAllCategories.size()};
+    return {kAllCategories.data(),static_cast<int>(kAllCategories.size())};
 }
 
 // ============================================================================
@@ -228,7 +228,7 @@ size_t HKDFKeyCacheAdapter::maxCacheSize() const {
 // static
 std::string HKDFKeyCacheAdapter::ikmHash(const std::vector<uint8_t>& ikm) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(ikm.data(), ikm.size(), digest);
+    SHA256(ikm.data(),static_cast<int>(ikm.size()), digest);
 
     std::ostringstream oss = {};
     for (unsigned char byte : digest) {

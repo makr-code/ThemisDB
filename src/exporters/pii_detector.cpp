@@ -187,7 +187,7 @@ std::string PIIDetector::maskString(const std::string& value) const {
 
 std::string PIIDetector::hashString(const std::string& value) const {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(value.data()), value.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(value.data()),static_cast<int>(value.size()), hash);
     
     std::ostringstream oss = {};
     oss << "SHA256:";

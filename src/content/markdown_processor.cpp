@@ -171,7 +171,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 continue;
             }
             if (in_fenced_code) {
-                if (is_fence && sl.substr(0, fence_marker.size()) == fence_marker) {
+                if (is_fence && sl.substr(0,static_cast<int>(fence_marker.size())) == fence_marker) {
                     in_fenced_code = false;
                     fence_marker.clear();
                     out << '\n';
@@ -537,7 +537,7 @@ ExtractionResult MarkdownProcessor::extract(
     text = normalizeWhitespace(text);
 
     // 4. Enforce max_text_length
-    if (config_.max_text_length > 0 && text.size() > config_.max_text_length) {
+    if (config_.max_text_length > 0 && static_cast<int>(text.size()) > config_.max_text_length) {
         text = text.substr(0, config_.max_text_length);
     }
 

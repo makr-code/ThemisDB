@@ -296,7 +296,7 @@ size_t PagedOptimizerStateManager::evictUnused(
     
     // Evict up to num_to_evict states
     size_t evicted = 0;
-    for (size_t i = 0; i < std::min(num_to_evict, evictable.size()); ++i) {
+    for (size_t i = 0; i < std::min(num_to_evict,static_cast<int>(evictable.size())); ++i) {
         PagedOptimizerState* state = evictable[i].second;
         
         // Page out momentum

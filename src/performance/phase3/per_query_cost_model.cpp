@@ -94,7 +94,7 @@ PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
         return {};
     }
 
-    size_t count = std::min(limit, records_.size());
+    size_t count = std::min(limit,static_cast<int>(records_.size()));
 
     // Has the ring buffer rolled over?
     bool has_rolled = total_queries_.load(std::memory_order_relaxed) > MAX_RECORDS;

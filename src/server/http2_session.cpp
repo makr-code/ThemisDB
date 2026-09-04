@@ -587,7 +587,7 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
     data_prd.source.ptr = nullptr;
     data_prd.read_callback = responseDataReadCallback;
     
-    int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
+    int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(),static_cast<int>(nva.size()), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
         std::lock_guard<std::mutex> lock(response_mutex_);
@@ -645,7 +645,7 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
     // Submit push promise
     int32_t promised_stream_id = -1;
     int rv = nghttp2_submit_push_promise(ng2_session_, NGHTTP2_FLAG_NONE, stream_id,
-                                         nva.data(), nva.size(), &promised_stream_id);
+                                         nva.data(),static_cast<int>(nva.size()), &promised_stream_id);
     
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_push_promise failed: {}", nghttp2_strerror(rv));

@@ -87,7 +87,7 @@ std::vector<double> aggregateElementWiseTrimmedMean(
             values.push_back(upd.gradient[d]);
         }
         std::sort(values.begin(), values.end());
-        const std::size_t begin = std::min(trim_count, values.size());
+        const std::size_t begin = std::min(trim_count,static_cast<int>(values.size()));
         const std::size_t end = values.size() > trim_count ? static_cast<int>(values.size()) - trim_count : values.size();
         if (begin >= end) {
             out[d] = 0.0;
@@ -151,7 +151,7 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
                 std::sort(values.begin(), values.end());
                 size_t mid      = values.size() / 2;
                 aggregated[key] = values.size() % 2 == 0 ? (values[static_cast<int>(mid - 1)] + values[mid]) / 2.0 : values[mid];
-            } else if (aggregation_algorithm == "trimmed_mean" && values.size() >= 3) {
+            } else if (aggregation_algorithm == "trimmed_mean" && static_cast<int>(values.size()) >= 3) {
                 std::sort(values.begin(), values.end());
                 // trim one min and one max when possible (Byzantine-robust default)
                 double trimmed_sum = 0.0;
@@ -236,7 +236,7 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::maskGr
     const std::vector<double>& gradient,
     const std::string& participant_id,
     const std::string& round_id) const {
-    const auto mask = buildDeterministicMask(participant_id, round_id, gradient.size());
+    const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(gradient.size()));
     std::vector<double> out = {};
 
     out.reserve(gradient.size());
@@ -252,7 +252,7 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::unmask
     const std::string& round_id) const {
     std::vector<double> out = masked_sum;
     for (const auto& participant_id : participant_ids) {
-        const auto mask = buildDeterministicMask(participant_id, round_id, out.size());
+        const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(out.size()));
         for (std::size_t i = 0; i < out.size(); ++i) {
             out[i] -= mask[i];
         }

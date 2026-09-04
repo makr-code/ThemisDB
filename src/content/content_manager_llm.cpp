@@ -359,7 +359,7 @@ std::vector<std::string> ContentManager::parseTags(const std::string &tags_text)
         tag.erase(0, tag.find_first_not_of(" \t\n\r"));
         tag.erase(tag.find_last_not_of(" \t\n\r") + 1);
 
-        if (!tag.empty() && tag.size() <= 50) { // Reasonable tag length
+        if (!tag.empty() && static_cast<int>(tag.size()) <= 50) { // Reasonable tag length
             tags.push_back(tag);
         }
     }

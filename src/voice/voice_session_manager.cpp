@@ -128,7 +128,7 @@ std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
 
 size_t InMemorySessionBackend::count() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ---- VoiceSessionManager ----

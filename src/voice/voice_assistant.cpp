@@ -285,7 +285,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
             // CRITICAL GAP 4: Audit logging for authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
             THEMIS_INFO("[AUDIT] voice_authenticate: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
-                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
+                        uid, session_id,static_cast<int>(audio_data.size()), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
                 THEMIS_WARN("[AUDIT] voice_authenticate_failed: user_id={}, session_id={}, reason={}",
                            uid, session_id, auth_result.decision_reason);
@@ -450,7 +450,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
             // CRITICAL GAP 5: Audit logging for stream authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
             THEMIS_INFO("[AUDIT] voice_authenticate_stream: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
-                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
+                        uid, session_id,static_cast<int>(audio_data.size()), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
                 THEMIS_WARN("[AUDIT] voice_authenticate_stream_failed: user_id={}, session_id={}, reason={}",
                            uid, session_id, auth_result.decision_reason);
@@ -852,7 +852,7 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     // CRITICAL GAP 6: Audit logging for authenticateSpeaker() with detailed diagnostics
     logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
     THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, reason={}",
-                user_id, audio_sample.size(), result.authenticated, result.timestamp_ms, result.decision_reason);
+                user_id,static_cast<int>(audio_sample.size()), result.authenticated, result.timestamp_ms, result.decision_reason);
     return result;
 }
 
@@ -927,8 +927,8 @@ IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     entry.details = "Identification against " + std::to_string(candidate_profiles.size()) + 
                     " candidate profiles, " + std::to_string(result.matches.size()) + " matched";
     entry.metadata = {
-        {"candidate_count", candidate_profiles.size()},
-        {"match_count", result.matches.size()}
+        {"candidate_count",static_cast<int>(candidate_profiles.size())},
+        {"match_count",static_cast<int>(result.matches.size())}
     };
     voice_security_manager_.logEvent([[maybe_unused]] entry);
     
@@ -1046,7 +1046,7 @@ VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
         {
             FILE* f = fopen(tmp_in.c_str(), "wb");
             if (!f) return {};
-            fwrite(audio_data.data(), 1, audio_data.size(), f);
+            fwrite(audio_data.data(), 1,static_cast<int>(audio_data.size()), f);
             fclose(f);
         }
 

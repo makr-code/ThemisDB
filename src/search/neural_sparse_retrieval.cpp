@@ -138,7 +138,7 @@ void NeuralSparseRetrieval::addDocument(const std::string& doc_id,
 
     insertVector(doc_id, sanitized);
     THEMIS_DEBUG("NeuralSparseRetrieval::addDocument: doc='{}' indexed with {} terms",
-                 doc_id, sanitized.size());
+                 doc_id,static_cast<int>(sanitized.size()));
 }
 
 // ============================================================================
@@ -185,7 +185,7 @@ void NeuralSparseRetrieval::clear() {
 // ============================================================================
 
 size_t NeuralSparseRetrieval::size() const {
-    return forward_index_.size();
+    return static_cast<int>(forward_index_.size());
 }
 
 // ============================================================================
@@ -279,7 +279,7 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     THEMIS_INFO("NeuralSparseRetrieval::search: query_terms={} -> {} results",
-                query_vec.size(), results.size());
+                query_vec.size(),static_cast<int>(results.size()));
 
     return results;
 }

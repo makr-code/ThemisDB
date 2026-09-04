@@ -386,7 +386,7 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
             // suffix
             const std::string suffix = pat.substr(1);
             match = s.size() >= suffix.size() &&
-                    s.compare(static_cast<int>(s.size()) - suffix.size(), suffix.size(), suffix) == 0;
+                    s.compare(static_cast<int>(s.size()) - suffix.size(),static_cast<int>(suffix.size()), suffix) == 0;
         } else {
             match = s == pat;
         }
@@ -412,7 +412,7 @@ ExecutionResult simdVectorOp(const QueryOperator& op) {
     }
     const auto& a = op.left_rows[0];
     const auto& b = op.right_rows[0];
-    const size_t n = std::min(a.size(), b.size());
+    const size_t n = std::min(a.size(),static_cast<int>(b.size()));
     double dot = 0.0;
     for (size_t i = 0; i < n; ++i) {
         dot += static_cast<double>(a[i]) * static_cast<double>(b[i]);
@@ -452,13 +452,13 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
         switch (op.op_type) {
             case OperatorType::HashJoin:
             [[fallthrough]];\n            case OperatorType::SortMergeJoin:
-                return op.left_rows.size() + op.right_rows.size();
+                return static_cast<int>(op.left_rows.size()) + op.right_rows.size();
             case OperatorType::Aggregate:
             [[fallthrough]];\n            case OperatorType::Filter:
             [[fallthrough]];\n            case OperatorType::Sort:
-                return op.rows.size();
+                return static_cast<int>(op.rows.size());
             case OperatorType::PatternMatch:
-                return op.string_rows.size();
+                return static_cast<int>(op.string_rows.size());
             case OperatorType::VectorOp:
                 return op.left_rows.empty() ? 0 : op.left_rows[0].size();
             default:
@@ -713,13 +713,13 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
             switch (op.op_type) {
                 case OperatorType::HashJoin:
                 [[fallthrough]];\n                case OperatorType::SortMergeJoin:
-                    return op.left_rows.size() + op.right_rows.size();
+                    return static_cast<int>(op.left_rows.size()) + op.right_rows.size();
                 case OperatorType::Aggregate:
                 [[fallthrough]];\n                case OperatorType::Filter:
                 [[fallthrough]];\n                case OperatorType::Sort:
-                    return op.rows.size();
+                    return static_cast<int>(op.rows.size());
                 case OperatorType::PatternMatch:
-                    return op.string_rows.size();
+                    return static_cast<int>(op.string_rows.size());
                 default: return 0;
             }
         }();

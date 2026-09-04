@@ -52,7 +52,7 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
     try {
         auto ends_with = [](const std::string& s, const std::string& suffix) {
-            return static_cast<bool>(s.size()  < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - suffix.size(), suffix.size())), suffix) == 0;
+            return static_cast<bool>(s.size()  < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - suffix.size(),static_cast<int>(suffix.size()))), suffix) == 0;
         };
 
         std::vector<Policy> loaded;
@@ -254,7 +254,7 @@ void PolicyEngine::addPolicy(const Policy& p) {
     std::string id = p.id;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (config_.max_policies > 0 && policies_.size() >= config_.max_policies) {
+        if (config_.max_policies > 0 && static_cast<int>(policies_.size()) >= config_.max_policies) {
             throw std::length_error(
                 "PolicyEngine: max_policies limit (" +
                 std::to_string(config_.max_policies) + ") reached");

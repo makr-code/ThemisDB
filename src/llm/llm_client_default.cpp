@@ -126,7 +126,7 @@ public:
         const GenerationOptions& options) override
     {
         spdlog::debug("LLM generating AQL for NL: '{}' (schema_context: {} chars)",
-                      nl_query, schema_context.size());
+                      nl_query,static_cast<int>(schema_context.size()));
         
         // Construct prompt from NL query + schema context
         std::string prompt = "Generate a ThemisDB AQL query for: " + nl_query;

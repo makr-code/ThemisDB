@@ -484,9 +484,9 @@ void LLMSemanticValidator::validateJoins(
         return;
     }
     
-    spdlog::debug("[aql_semantic_validator] JOIN detected with {} clauses", for_bindings.size());
+    spdlog::debug("[aql_semantic_validator] JOIN detected with {} clauses",static_cast<int>(for_bindings.size()));
     result.warnings.push_back(
-        fmt::format("JOIN detected: {} collections involved", for_bindings.size())
+        fmt::format("JOIN detected: {} collections involved",static_cast<int>(for_bindings.size()))
     );
     
     // Step 1: Verify all referenced collections exist
@@ -530,13 +530,13 @@ void LLMSemanticValidator::validateJoins(
         std::unordered_set<std::string> referenced_vars = extractVariablesFromExpression(filter_node->condition);
         
         if (static_cast<int>(referenced_vars.size()) > = 2) {
-            spdlog::debug("[aql_semantic_validator] Join condition found with {} variables", referenced_vars.size());
+            spdlog::debug("[aql_semantic_validator] Join condition found with {} variables",static_cast<int>(referenced_vars.size()));
             join_condition_found = true;
             break;
         }
     }
     
-    if (!join_condition_found && for_bindings.size() > 1) {
+    if (!join_condition_found && static_cast<int>(for_bindings.size()) > 1) {
         spdlog::warn("[aql_semantic_validator] JOIN without explicit join condition (Cartesian product)");
         result.warnings.push_back(
             "JOIN without explicit join condition may result in Cartesian product (performance impact)"
@@ -677,7 +677,7 @@ static void estimateJoinSelectivity(
 }
     if (schema_context_) {
         auto collections = schema_context_->listCollections();
-        spdlog::debug("[aql_semantic_validator] Available collections: {}", collections.size());
+        spdlog::debug("[aql_semantic_validator] Available collections: {}",static_cast<int>(collections.size()));
     }
 }
 
@@ -814,7 +814,7 @@ void LLMSemanticValidator::validateFunctionSignatures(
         }
     }
     
-    spdlog::debug("[aql_semantic_validator] Found {} function calls", function_calls.size());
+    spdlog::debug("[aql_semantic_validator] Found {} function calls",static_cast<int>(function_calls.size()));
     
     // Validate each function call
     for (const auto& func_call : function_calls) {

@@ -435,7 +435,7 @@ public:
         
         if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
             THEMIS_WARN("VulkanVectorIndexBackend::searchIndices: uninitialized or query dimension mismatch (initialized={} dim={} expected={})",
-                        initialized_, query.size(), static_cast<size_t>(dimension_));
+                        initialized_,static_cast<int>(query.size()), static_cast<size_t>(dimension_));
             return {};
         }
 
@@ -1054,12 +1054,12 @@ public:
 
     std::vector<std::pair<float, size_t>> searchIndices(
         const std::vector<float>& query, size_t k) {
-        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})", query.size(), k);
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})",static_cast<int>(query.size()), k);
         return {};
     }
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k) {
-        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})", queries.size(), k);
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})",static_cast<int>(queries.size()), k);
         return {};
     }
 

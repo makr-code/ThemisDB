@@ -117,7 +117,7 @@ GPUTensorBuffer::~GPUTensorBuffer() {
 // ---------------------------------------------------------------------------
 
 size_t GPUTensorBuffer::totalBytes() const noexcept {
-    return data_.size();
+    return static_cast<int>(data_.size());
 }
 
 // ---------------------------------------------------------------------------

@@ -60,7 +60,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleListTemplates(
         
         nlohmann::json response = {
             {"templates", json_array},
-            {"count", templates.size()}
+            {"count",static_cast<int>(templates.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -229,7 +229,7 @@ bool PolicyTemplateApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    std::string auth_str(auth_header.data(), auth_header.size());
+    std::string auth_str(auth_header.data(),static_cast<int>(auth_header.size()));
     auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {

@@ -401,8 +401,8 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     // OBSERVABILITY: Add trace point for critical function
     auto start = std::chrono::high_resolution_clock::now();
     spdlog::debug("OLAPEngine::execute: grouping_mode={}, dimensions={}, measures={}, filters={}",
-                  static_cast<int>(query.grouping_mode), query.dimensions.size(), 
-                  query.measures.size(), query.filters.size());
+                  static_cast<int>(query.grouping_mode),static_cast<int>(query.dimensions.size()), 
+                  query.measures.size(),static_cast<int>(query.filters.size()));
 
     // INPUT VALIDATION: Check for empty collection name
     if (query.collection.empty()) {
@@ -890,7 +890,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
                 start = (i > static_cast<size_t>(*window.rows_preceding)) ? (i - *window.rows_preceding) : 0;
             }
             if (window.rows_following) {
-                end = std::min(i + *window.rows_following + 1, data.size());
+                end = std::min(i + *window.rows_following + 1,static_cast<int>(data.size()));
             }
 
             // Collect window values
@@ -1009,7 +1009,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
     size_t gpu_threshold = 0;
     {
         std::lock_guard<std::mutex> lock(impl_->config_mutex);
-        if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+        if (impl_->gpu_accelerator && static_cast<int>(values.size()) >= impl_->config.gpu_threshold_rows) {
             gpu_accel = impl_->gpu_accelerator.get();
             gpu_threshold = impl_->config.gpu_threshold_rows;
         }
@@ -1301,7 +1301,7 @@ class ColumnarStore::Impl {
                 buf.push_back(static_cast<double>(*i64));
             }
         }
-        return {buf.data(), buf.size()};
+        return {buf.data(),static_cast<int>(buf.size())};
     }
 };
 
@@ -1441,7 +1441,7 @@ double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> 
     }
 
     double result  = 0.0;
-    size_t minSize = std::min(it->second.data.size(), mask.size());
+    size_t minSize = std::min(it->second.data.size(),static_cast<int>(mask.size()));
     for (size_t i = 0; i < minSize; ++i) {
         if (mask[i]) {
             const auto &val = it->second.data[i];
@@ -1736,7 +1736,7 @@ void MaterializedView::incrementalRefresh(
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
     spdlog::debug("MaterializedView::query: filters={}, sorts={}, limit={}", 
-                  filters.size(), sorts.size(), limit ? std::to_string(*limit) : "none");
+                  filters.size(),static_cast<int>(sorts.size()), limit ? std::to_string(*limit) : "none");
     auto query_start = std::chrono::high_resolution_clock::now();
     
     bool needs_refresh = false;
@@ -1981,7 +1981,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
     auto query_end = std::chrono::high_resolution_clock::now();
     auto query_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
     spdlog::debug("MaterializedView::query: completed in {}ms, returned {} rows", 
-                  query_ms, result.rows.size());
+                  query_ms,static_cast<int>(result.rows.size()));
     
     return result;
 }

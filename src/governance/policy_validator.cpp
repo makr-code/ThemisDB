@@ -399,7 +399,7 @@ std::vector<SecurityViolation> PolicyValidator::checkSecurityBestPractices() con
         }
 
         // Check for overly permissive rules
-        if (static_cast<int>(rule.actions.size()) == 1 && rule.actions[0] == "*" && rule.resources.size() == 1
+        if (static_cast<int>(rule.actions.size()) == 1 && rule.actions[0] == "*" && static_cast<int>(rule.resources.size()) == 1
             && rule.resources[0] == "*") {
             overly_permissive.push_back(rule.id);
         }
@@ -638,7 +638,7 @@ bool PolicyValidator::areContradictory(const PolicyRule &rule1, const PolicyRule
 
 bool PolicyValidator::followsSecurityBestPractices(const PolicyRule &rule) const {
     // Basic checks
-    if (static_cast<int>(rule.actions.size()) == 1 && rule.actions[0] == "*" && rule.resources.size() == 1 && rule.resources[0] == "*") {
+    if (static_cast<int>(rule.actions.size()) == 1 && rule.actions[0] == "*" && static_cast<int>(rule.resources.size()) == 1 && rule.resources[0] == "*") {
         return false; // Too permissive
     }
 

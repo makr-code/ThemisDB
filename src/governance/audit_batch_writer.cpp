@@ -421,7 +421,7 @@ std::string AuditBatchWriter::computeBatchHash(
     for (const auto& entry : batch) {
         // Hash the JSON serialisation of each entry for deterministic content coverage
         const std::string serialised = entry.toJson().dump();
-        SHA256_Update(&ctx, serialised.data(), serialised.size());
+        SHA256_Update(&ctx, serialised.data(),static_cast<int>(serialised.size()));
     }
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256_Final(digest, &ctx);

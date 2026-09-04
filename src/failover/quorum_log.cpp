@@ -61,8 +61,8 @@ uint32_t QuorumLog::computeCrc32(uint64_t epoch, const std::string& node_id,
                                   const std::string& decision, int64_t ts_ms) noexcept {
     uint32_t crc = 0;
     crc = crc32Update(crc, &epoch, sizeof(epoch));
-    crc = crc32Update(crc, node_id.data(), node_id.size());
-    crc = crc32Update(crc, decision.data(), decision.size());
+    crc = crc32Update(crc, node_id.data(),static_cast<int>(node_id.size()));
+    crc = crc32Update(crc, decision.data(),static_cast<int>(decision.size()));
     crc = crc32Update(crc, &ts_ms, sizeof(ts_ms));
     return crc;
 }

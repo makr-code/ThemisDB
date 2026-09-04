@@ -107,7 +107,7 @@ void IdempotencyCache::store(const std::string& request_id, std::string result) 
     }
 
     // Evict oldest entry when at capacity.
-    if (window_size_ > 0 && cache_.size() >= window_size_) {
+    if (window_size_ > 0 && static_cast<int>(cache_.size()) >= window_size_) {
         const auto& oldest = insertion_order_.front();
         cache_.erase(oldest);
         insertion_order_.pop_front();
@@ -126,7 +126,7 @@ void IdempotencyCache::clear() {
 
 size_t IdempotencyCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 } // namespace network

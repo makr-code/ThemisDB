@@ -428,7 +428,7 @@ CitationExtractor::extract(const std::string& text,
         auto begin = std::sregex_iterator(text.begin(), text.end(),
                                           detail::RE_STATUTORY);
         auto end   = std::sregex_iterator();
-        for (auto it = begin; it != end && samples.size() < config_.max_citations_per_document; ++it) {
+        for (auto it = begin; it != end && static_cast<int>(samples.size()) < config_.max_citations_per_document; ++it) {
             addMatch((*it)[0].str(), "statutory");
         }
     }
@@ -438,7 +438,7 @@ CitationExtractor::extract(const std::string& text,
         auto begin = std::sregex_iterator(text.begin(), text.end(),
                                           detail::RE_COURT_DECISION);
         auto end   = std::sregex_iterator();
-        for (auto it = begin; it != end && samples.size() < config_.max_citations_per_document; ++it) {
+        for (auto it = begin; it != end && static_cast<int>(samples.size()) < config_.max_citations_per_document; ++it) {
             addMatch((*it)[0].str(), "case_law");
         }
     }
@@ -448,7 +448,7 @@ CitationExtractor::extract(const std::string& text,
         auto begin = std::sregex_iterator(text.begin(), text.end(),
                                           detail::RE_EU_CITATION);
         auto end   = std::sregex_iterator();
-        for (auto it = begin; it != end && samples.size() < config_.max_citations_per_document; ++it) {
+        for (auto it = begin; it != end && static_cast<int>(samples.size()) < config_.max_citations_per_document; ++it) {
             addMatch((*it)[0].str(), "eu_regulation");
         }
     }

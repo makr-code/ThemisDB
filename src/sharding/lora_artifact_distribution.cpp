@@ -51,7 +51,7 @@ namespace {
         throw std::runtime_error("portableSha256Hex: EVP_MD_CTX_new failed");
     }
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1
-        || EVP_DigestUpdate(ctx, input.data(), input.size()) != 1) {
+        || EVP_DigestUpdate(ctx, input.data(),static_cast<int>(input.size())) != 1) {
         EVP_MD_CTX_free(ctx);
         throw std::runtime_error("portableSha256Hex: EVP_Digest init/update failed");
     }

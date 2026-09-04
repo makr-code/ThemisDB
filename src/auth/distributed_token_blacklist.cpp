@@ -820,7 +820,7 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
             if (!sendAll(fd, jlen_buf, 2)) {
               return;
             }
-            if (!jti.empty() && !sendAll(fd, jti.data(), jti.size())) {
+            if (!jti.empty() && !sendAll(fd, jti.data(),static_cast<int>(jti.size()))) {
               return;
             }
             if (!sendAll(fd, exp_buf, 8)) {
@@ -989,7 +989,7 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
             
             if (!sendAll(fd, jlen_buf, 2))
                 throw std::runtime_error("send jti_len failed");
-            if (!jti.empty() && !sendAll(fd, jti.data(), jti.size()))
+            if (!jti.empty() && !sendAll(fd, jti.data(),static_cast<int>(jti.size())))
                 throw std::runtime_error("send jti failed");
             if (!sendAll(fd, exp_buf, 8))
                 throw std::runtime_error("send expiry failed");

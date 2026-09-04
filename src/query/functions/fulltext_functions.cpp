@@ -739,7 +739,7 @@ public:
         
         std::string s1 = args[0].get<std::string>();
         std::string s2 = args[1].get<std::string>();
-        int n = args.size() > 2 ? args[2].get<int>() : 2;
+        int n = static_cast<int>(args.size()) > 2 ? args[2].get<int>() : 2;
         
         if (s1.empty() || s2.empty()) {
           return 0.0;
@@ -872,7 +872,7 @@ public:
         }
         
         std::string word = args[0].get<std::string>();
-        int maxLen = args.size() > 1 ? args[1].get<int>() : 6;
+        int maxLen = static_cast<int>(args.size()) > 1 ? args[1].get<int>() : 6;
         
         return metaphone(word, maxLen);
     }

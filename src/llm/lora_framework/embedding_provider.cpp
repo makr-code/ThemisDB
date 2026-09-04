@@ -138,7 +138,7 @@ std::vector<std::vector<float>> EmbeddingProvider::getEmbeddings(
     
     // Process in batches for efficiency
     for (size_t i = 0; i < texts.size(); i += config_.batch_size) {
-        size_t batch_end = std::min(i + config_.batch_size, texts.size());
+        size_t batch_end = std::min(i + config_.batch_size,static_cast<int>(texts.size()));
         
         for (size_t j = i; j < batch_end; ++j) {
             embeddings.push_back(getEmbedding(texts[j]));
@@ -152,7 +152,7 @@ bool EmbeddingProvider::buildEmbeddingCache(
     const std::vector<std::string>& training_texts,
     std::vector<EmbeddingCache>& cache_out
 ) {
-    spdlog::info("Building embedding cache for {} texts", training_texts.size());
+    spdlog::info("Building embedding cache for {} texts",static_cast<int>(training_texts.size()));
     
     cache_out.clear();
     cache_out.reserve(training_texts.size());
@@ -227,7 +227,7 @@ EmbeddingCacheStats EmbeddingProvider::getCacheStats() const {
 void EmbeddingProvider::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
-    spdlog::info("Clearing embedding cache ({} entries)", cache_.size());
+    spdlog::info("Clearing embedding cache ({} entries)",static_cast<int>(cache_.size()));
     cache_.clear();
     cache_stats_.total_entries = 0;
     cache_stats_.memory_bytes = 0;
@@ -271,7 +271,7 @@ bool EmbeddingProvider::saveCache(const std::string& filepath) {
             file.write(reinterpret_cast<const char*>(&entry.access_count), sizeof(entry.access_count));
         }
         
-        spdlog::info("Saved {} cache entries to {}", cache_.size(), filepath);
+        spdlog::info("Saved {} cache entries to {}",static_cast<int>(cache_.size()), filepath);
         return true;
         
     } catch (const std::exception& e) {
@@ -341,7 +341,7 @@ bool EmbeddingProvider::loadCache(const std::string& filepath) {
             cache_[text] = entry;
         }
         
-        spdlog::info("Loaded {} cache entries from {}", cache_.size(), filepath);
+        spdlog::info("Loaded {} cache entries from {}",static_cast<int>(cache_.size()), filepath);
         return true;
         
     } catch (const std::exception& e) {

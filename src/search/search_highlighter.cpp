@@ -294,7 +294,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
             --offset;
         }
 
-        size_t end_offset = std::min(offset + window_size, text.size());
+        size_t end_offset = std::min(offset + window_size,static_cast<int>(text.size()));
         // Snap end to word boundary (walk forward to next space or end)
         while (end_offset < text.size() && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
             ++end_offset;

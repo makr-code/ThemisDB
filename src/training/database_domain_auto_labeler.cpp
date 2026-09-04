@@ -174,7 +174,7 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
 
         result.push_back(std::move(sample));
 
-        if (max_samples > 0 && result.size() >= max_samples) {
+        if (max_samples > 0 && static_cast<int>(result.size()) >= max_samples) {
           break;
         }
     }

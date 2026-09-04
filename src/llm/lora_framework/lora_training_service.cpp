@@ -271,7 +271,7 @@ public:
             
             spdlog::info("Starting on-the-fly training for adapter: {}", adapter_id);
             spdlog::info("  Model: {}", is_phi3_model ? "Phi-3" : "Generic");
-            spdlog::info("  Training samples: {}", data.size());
+            spdlog::info("  Training samples: {}",static_cast<int>(data.size()));
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
             if (!local_config.target_modules.empty()) {
@@ -379,7 +379,7 @@ public:
                 throw std::runtime_error("Failed to load training data");
             }
             
-            spdlog::info("Loaded {} samples into DataLoader", data_loader.size());
+            spdlog::info("Loaded {} samples into DataLoader",static_cast<int>(data_loader.size()));
             spdlog::info("Number of batches per epoch: {}", data_loader.num_batches());
             
             // Initialize LoRA or QLoRA model
@@ -940,7 +940,7 @@ public:
             if (!data.samples.empty()) {
                 try {
                     // Use a portion of training data for validation (holdout validation)
-                    size_t validation_size = std::max(size_t(1), data.samples.size() / 5);
+                    size_t validation_size = std::max(size_t(1),static_cast<int>(data.samples.size()) / 5);
                     TrainingData validation_data;
                     validation_data.dataset_name = "validation_" + data.dataset_name;
                     validation_data.metadata = data.metadata;
@@ -1037,7 +1037,7 @@ public:
         }
         
         spdlog::info("Batch training with {} datasets, total {} samples", 
-                     dataset.size(), combined.size());
+                     dataset.size(),static_cast<int>(combined.size()));
         
         return trainOnTheFly(adapter_id, combined, hyperparameters);
     }
@@ -2040,7 +2040,7 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         // Add transformer layers with proper names from model
         if (!layer_names.empty()) {
-            spdlog::info("Loading {} transformer layers from GGUF", layer_names.size());
+            spdlog::info("Loading {} transformer layers from GGUF",static_cast<int>(layer_names.size()));
             for (const auto& layer_name : layer_names) {
                 // Load weights for each layer
                 // In production, this would load actual quantized weights
@@ -2242,7 +2242,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto start_time = std::chrono::system_clock::now();
         
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
-        spdlog::info("  Participant shards: {}", service_config.participant_shards.size());
+        spdlog::info("  Participant shards: {}",static_cast<int>(service_config.participant_shards.size()));
         spdlog::info("  Coordinator shard: {}", service_config.coordinator_shard);
         
         // 1. Create DistributedTrainingConfig from service config
@@ -2512,7 +2512,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);
         spdlog::info("  Successful steps: {}", successful_steps);
-        spdlog::info("  Active shards: {}/{}", active_shards, service_config.participant_shards.size());
+        spdlog::info("  Active shards: {}/{}", active_shards,static_cast<int>(service_config.participant_shards.size()));
         spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
         spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         

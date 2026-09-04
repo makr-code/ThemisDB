@@ -527,7 +527,7 @@ LayeredRetrievalResult LayeredRetrievalOrchestrator::execute(
         }
 
         auto prompt = prompt_builder.str();
-        if (config_.guardrails.enabled && prompt.size() > config_.guardrails.max_prompt_chars) {
+        if (config_.guardrails.enabled && static_cast<int>(prompt.size()) > config_.guardrails.max_prompt_chars) {
             prompt.resize(config_.guardrails.max_prompt_chars);
             result.guardrail_pruned = true;
             result.diagnostics.push_back("llm prompt truncated by guardrail");

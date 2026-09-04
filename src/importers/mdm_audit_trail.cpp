@@ -205,7 +205,7 @@ json MDMAuditTrail::exportAuditReport(const std::string &collection_name, const 
 
 size_t MDMAuditTrail::eventCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return events_.size();
+    return static_cast<int>(events_.size());
 }
 
 void MDMAuditTrail::clear() {

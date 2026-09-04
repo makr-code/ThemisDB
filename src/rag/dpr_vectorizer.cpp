@@ -154,9 +154,9 @@ public:
             OrtArenaAllocator, OrtMemTypeDefault);
 
         Ort::Value input_ids_tensor = Ort::Value::CreateTensor<int64_t>(
-            mem_info, input_ids.data(), input_ids.size(), shape.data(), shape.size());
+            mem_info, input_ids.data(),static_cast<int>(input_ids.size()), shape.data(),static_cast<int>(shape.size()));
         Ort::Value attention_mask_tensor = Ort::Value::CreateTensor<int64_t>(
-            mem_info, attention_mask.data(), attention_mask.size(), shape.data(), shape.size());
+            mem_info, attention_mask.data(),static_cast<int>(attention_mask.size()), shape.data(),static_cast<int>(shape.size()));
 
         Ort::AllocatorWithDefaultOptions allocator;
         std::vector<Ort::AllocatedStringPtr> input_name_holders;
@@ -204,13 +204,13 @@ public:
         // Common DPR output patterns: [1, hidden] or [1, seq, hidden].
         if (static_cast<int>(out_shape.size()) == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
             const size_t hidden = static_cast<size_t>(out_shape[1]);
-            const size_t copy = std::min(hidden, embedding.size());
+            const size_t copy = std::min(hidden,static_cast<int>(embedding.size()));
             std::copy_n(out_data, copy, embedding.begin());
         } else if (static_cast<int>(out_shape.size()) == 3 && out_shape[0] == 1 &&
                    out_shape[1] > 0 && out_shape[2] > 0) {
             const size_t seq = static_cast<size_t>(out_shape[1]);
             const size_t hidden = static_cast<size_t>(out_shape[2]);
-            const size_t copy = std::min(hidden, embedding.size());
+            const size_t copy = std::min(hidden,static_cast<int>(embedding.size()));
             // CLS-pooling equivalent: first token embedding.
             std::copy_n(out_data, copy, embedding.begin());
             // If the first token is empty/zero, mean-pool as robust fallback.
@@ -229,7 +229,7 @@ public:
         } else {
             // Unexpected tensor shape: flatten-first strategy.
             const auto total = static_cast<size_t>(type_info.GetElementCount());
-            const size_t copy = std::min(total, embedding.size());
+            const size_t copy = std::min(total,static_cast<int>(embedding.size()));
             std::copy_n(out_data, copy, embedding.begin());
         }
 
@@ -429,7 +429,7 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
         }
         
         THEMIS_DEBUG("Encoded query (validated, {} bytes) -> {} dimensions", 
-                    query.size(), embedding.size());
+                    query.size(),static_cast<int>(embedding.size()));
         return embedding;
         
     } catch (const std::exception& e) {
@@ -482,7 +482,7 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
         }
         
         THEMIS_DEBUG("Encoded passage (length={}): {} dimensions", 
-                     passage.length(), embedding.size());
+                     passage.length(),static_cast<int>(embedding.size()));
         return embedding;
         
     } catch (const std::exception& e) {
@@ -514,7 +514,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         total_bytes += passage.size();
         if (static_cast<int>(passage.size()) > 100000) {
             THEMIS_WARN("DPRVectorizer::encodePassageBatch: passage {} exceeds size limit ({})", 
-                       passages.size(), passage.size());
+                       passages.size(),static_cast<int>(passage.size()));
             throw std::invalid_argument("Individual passage exceeds maximum size (100KB)");
         }
     }
@@ -542,7 +542,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         for (size_t batch_start = 0; batch_start < passages.size(); 
              batch_start += config_.batch_size) {
             
-            size_t batch_end = std::min(batch_start + config_.batch_size, passages.size());
+            size_t batch_end = std::min(batch_start + config_.batch_size,static_cast<int>(passages.size()));
             
             // Tokenize batch (with synchronization to protect tokenizer access)
             std::vector<std::vector<int>> batch_tokens;

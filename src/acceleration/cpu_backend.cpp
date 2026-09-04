@@ -98,7 +98,7 @@ CPUVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_t
         // Note: exact float equality is intentional — two entries are considered
         // tied only when their distance values are bit-for-bit identical, which
         // happens when the same computational path is applied to equal inputs.
-        size_t actualK = std::min(k, distances.size());
+        size_t actualK = std::min(k,static_cast<int>(distances.size()));
         std::partial_sort(distances.begin(), distances.begin() + actualK, distances.end(),
                           [](const auto &a, const auto &b) {
                               if (a.second != b.second) {

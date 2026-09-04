@@ -372,7 +372,7 @@ std::string MimeDetector::computeDeterministicHash() const {
     
     // SHA256
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(buffer.data()), buffer.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(buffer.data()),static_cast<int>(buffer.size()), digest);
     char hex_out[SHA256_DIGEST_LENGTH * 2 + 1];
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         snprintf(&hex_out[i * 2], 3, "%02x", static_cast<unsigned int>(digest[i]));

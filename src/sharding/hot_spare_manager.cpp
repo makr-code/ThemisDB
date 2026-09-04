@@ -351,7 +351,7 @@ bool HotSpareManager::activateSpare(
         }
         
         spdlog::info("Queued rebuild for spare {}, {} documents to rebuild", 
-                     spare_id, documents.size());
+                     spare_id,static_cast<int>(documents.size()));
     }
 
     // Notify ShardRepairEngine (if attached) so it can perform erasure-aware
@@ -475,7 +475,7 @@ std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     size_t max_count) const {
     std::lock_guard<std::mutex> lock(history_mutex_);
     
-    size_t count = std::min(max_count, failover_history_.size());
+    size_t count = std::min(max_count,static_cast<int>(failover_history_.size()));
     
     std::vector<HotSpareFailoverEvent> history = {};
 
@@ -750,7 +750,7 @@ void HotSpareManager::handleShardFailure(const std::string& shard_id) {
 
 bool HotSpareManager::rebuildShard(RebuildTask& task) {
     spdlog::info("Starting rebuild for spare: {}, {} documents to transfer", 
-                 task.spare_shard_id, task.documents.size());
+                 task.spare_shard_id,static_cast<int>(task.documents.size()));
     
     if ([[maybe_unused]] !task.ring || !task.read_handler || !task.write_handler) {
         spdlog::error([[maybe_unused]] "Invalid rebuild task: missing ring or handlers");
@@ -877,7 +877,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
                     bytes_transferred, rebuild_duration.count());
     } else {
         spdlog::warn("Rebuild completed with errors for spare {}: {}/{} documents failed", 
-                    task.spare_shard_id, failed_documents, task.documents.size());
+                    task.spare_shard_id, failed_documents,static_cast<int>(task.documents.size()));
     }
     
     return success;

@@ -72,7 +72,7 @@ ResultAggregator::~ResultAggregator() noexcept {
     // ========================================================================
     try {
         if (!buffer_.empty()) {
-            spdlog::warn("ResultAggregator destroyed with {} pending records", buffer_.size());
+            spdlog::warn("ResultAggregator destroyed with {} pending records",static_cast<int>(buffer_.size()));
             // In production, would flush pending records
             buffer_.clear();
         }
@@ -117,7 +117,7 @@ WriteResult ResultAggregator::WriteResults(const ResultBatch& batch) {
         ConnectionGuard guard(conn_id, release_fn);
         
         spdlog::debug("WriteResults: batch_id={}, records={}", 
-                     batch.batch_id, batch.records.size());
+                     batch.batch_id,static_cast<int>(batch.records.size()));
         
         // ====================================================================
         // Gap A-2-13: Scoped transaction guards for begin/commit/rollback
@@ -241,7 +241,7 @@ WriteResult ResultAggregator::FlushBuffer() {
         auto release_fn = [this, conn_id]() { pool_->release(conn_id); };
         ConnectionGuard guard(conn_id, release_fn);
         
-        spdlog::info("FlushBuffer: {} records pending", buffer_.size());
+        spdlog::info("FlushBuffer: {} records pending",static_cast<int>(buffer_.size()));
         
         size_t flushed = 0;
         try {
@@ -382,7 +382,7 @@ void ResultAggregator::WriteRecord(int connection_id, const ResultRecord& record
         throw std::invalid_argument("Record has no values");
     }
     spdlog::debug("WriteRecord: conn_id={}, record_id={}, values={}", 
-                connection_id, record.record_id, record.values.size());
+                connection_id, record.record_id,static_cast<int>(record.values.size()));
     // In production, would execute INSERT statement
 }
 
@@ -391,7 +391,7 @@ void ResultAggregator::LogDiagnostics(const std::string& error) const {
     spdlog::error(
         "ResultAggregator diagnostics: error={}, buffered={}, "
         "total_written={}, total_failed={}, error_count={}",
-        error, buffer_.size(), stats.total_written, stats.total_failed,
+        error,static_cast<int>(buffer_.size()), stats.total_written, stats.total_failed,
         stats.error_count);
 }
 

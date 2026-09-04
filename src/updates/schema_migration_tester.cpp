@@ -161,7 +161,7 @@ MigrationTestResult SchemaMigrationTester::testMigration(
 
     result.success = true;
     LOG_INFO("Schema migration staging tests passed for table '{}' ({} tests)",
-             table_name, result.test_results.size());
+             table_name,static_cast<int>(result.test_results.size()));
     return result;
 }
 

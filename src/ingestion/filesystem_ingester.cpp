@@ -157,10 +157,10 @@ static std::string extractXmlText(const std::string& raw,
         : pugi::parse_default;
     // Try lenient parsing for HTML
     pugi::xml_parse_result result =
-        doc.load_buffer(raw.data(), raw.size(), parse_flags);
+        doc.load_buffer(raw.data(),static_cast<int>(raw.size()), parse_flags);
     if (!result && is_html) {
         // Retry with declaration stripping for malformed HTML
-        result = doc.load_buffer(raw.data(), raw.size(),
+        result = doc.load_buffer(raw.data(),static_cast<int>(raw.size()),
                                   pugi::parse_default | pugi::parse_fragment
                                   | pugi::parse_pi);
     }

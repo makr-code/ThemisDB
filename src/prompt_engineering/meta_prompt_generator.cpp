@@ -85,7 +85,7 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
                 result.improvement_suggestion = llm_response;
                 result.metadata["llm_provider"] = llm_provider_->name();
                 result.metadata["llm_generated"] = true;
-                THEMIS_DEBUG("LLM provider returned {} chars", llm_response.size());
+                THEMIS_DEBUG("LLM provider returned {} chars",static_cast<int>(llm_response.size()));
                 // key_insights remain from the template-based path below
             } else {
                 THEMIS_WARN("LLM provider '{}' returned empty response – falling back to template",

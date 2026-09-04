@@ -400,7 +400,7 @@ void CrossShardSpeculativeDecoder::verifyDraft(DraftVerificationRequest request)
     
     spdlog::debug("CrossShardSpeculativeDecoder: Verified draft tokens for request {} "
                  "(accepted={}/{}, rate={:.2f}%)",
-                 request.request_id, verified_tokens.size(), request.draft_token_ids.size(),
+                 request.request_id,static_cast<int>(verified_tokens.size()),static_cast<int>(request.draft_token_ids.size()),
                  acceptance_rate * 100.0);
     
     // Call success callback
@@ -484,7 +484,7 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     
     spdlog::debug("CrossShardSpeculativeDecoder: Local speculative decoding for request {} "
                  "(accepted={}/{}, rate={:.2f}%)",
-                 request_id, verified_tokens.size(), draft_tokens.size(), acceptance_rate * 100.0);
+                 request_id,static_cast<int>(verified_tokens.size()),static_cast<int>(draft_tokens.size()), acceptance_rate * 100.0);
     
     // Call callback
     if ([[maybe_unused]] callback) {
@@ -807,7 +807,7 @@ void CrossShardSpeculativeDecoder::handleDraftGenerated(
     stats_.total_draft_tokens_generated += draft_tokens.size();
     
     spdlog::debug("CrossShardSpeculativeDecoder: Draft generated for request {} ({} tokens)",
-                 request_id, draft_tokens.size());
+                 request_id,static_cast<int>(draft_tokens.size()));
     
     // Update speculation state
     active_speculations_[request_id] = speculation;
@@ -929,7 +929,7 @@ void CrossShardSpeculativeDecoder::handleDraftVerified(
     
     spdlog::info("CrossShardSpeculativeDecoder: Draft verified for request {} "
                 "(accepted={}/{}, rate={:.2f}%, speedup={:.2f}x)",
-                request_id, verified_tokens.size(), speculation.draft_token_ids.size(),
+                request_id,static_cast<int>(verified_tokens.size()),static_cast<int>(speculation.draft_token_ids.size()),
                 acceptance_rate * 100.0, speculation.speedup);
     
     // Update adaptive speculation

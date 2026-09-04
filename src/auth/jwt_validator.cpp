@@ -147,7 +147,7 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
  */
 std::string JWTValidator::decodeBase64UrlToString(const std::string &input) {
     auto bytes = decodeBase64Url(input);
-    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((bytes.data()), bytes.size())));
+    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((bytes.data()),static_cast<int>(bytes.size()))));
 }
 
 /**
@@ -383,10 +383,10 @@ const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, co
         // Pad shorter strings to cmp_len with NUL bytes before comparing.
         std::string a_padded(cmp_len, '\0');
         std::string b_padded(cmp_len, '\0');
-        std::memcpy(a_padded.data(), stored_kid.data(), stored_kid.size());
+        std::memcpy(a_padded.data(), stored_kid.data(),static_cast<int>(stored_kid.size()));
         std::memcpy(b_padded.data(), kid.data(),        target_len);
         if (CRYPTO_memcmp(a_padded.data(), b_padded.data(), cmp_len) == 0
-                && stored_kid.size() == target_len) {
+                && static_cast<int>(stored_kid.size()) == target_len) {
             // Record first match but keep iterating to avoid early-exit leakage.
             if (match == nullptr) {
                 match = &k;
@@ -478,11 +478,11 @@ bool JWTValidator::verifySignatureRSA(const std::string &header_payload, const s
     if (ok != 1) {
         return false;
     }
-    ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size());
+    ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),static_cast<int>(header_payload.size()));
     if (ok != 1) {
         return false;
     }
-    ok = EVP_DigestVerifyFinal(mctx.get(), signature.data(), signature.size());
+    ok = EVP_DigestVerifyFinal(mctx.get(), signature.data(),static_cast<int>(signature.size()));
     return ok == 1;
 }
 
@@ -633,7 +633,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
     if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) {
         return false;
     }
-    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) {
+    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),static_cast<int>(header_payload.size())) != 1) {
         return false;
     }
     return EVP_DigestVerifyFinal(mctx.get(), der_buf.data(), static_cast<size_t>(der_len)) == 1;
@@ -656,7 +656,7 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
         return false; // Ed25519 public key is exactly 32 bytes
     }
 
-    EVP_PKEY *raw_pkey = EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, pub_bytes.data(), pub_bytes.size());
+    EVP_PKEY *raw_pkey = EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, pub_bytes.data(),static_cast<int>(pub_bytes.size()));
     if (!raw_pkey) {
         return false;
     }
@@ -673,8 +673,8 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
         return false;
     }
     int result
-        = EVP_DigestVerify(ctx.get(), signature.data(), signature.size(),
-                           reinterpret_cast<const unsigned char *>(header_payload.data()), header_payload.size());
+        = EVP_DigestVerify(ctx.get(), signature.data(),static_cast<int>(signature.size()),
+                           reinterpret_cast<const unsigned char *>(header_payload.data()),static_cast<int>(header_payload.size()));
     return result == 1;
 }
 

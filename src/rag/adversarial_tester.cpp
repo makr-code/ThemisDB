@@ -166,7 +166,7 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
     for (const auto& [from, to] : substitutions) {
         if (result.find(from) != std::string::npos) {
             auto pos = result.find(from);
-            result.replace(pos, from.size(), to);
+            result.replace(pos,static_cast<int>(from.size()), to);
             ++applied;
             if (applied > variant_index % 3 + 1) { break; }
         }
@@ -222,7 +222,7 @@ std::string negationFlip(const std::string& query, size_t variant_index)
         const auto& [from, to] = negations[(idx + i) % negations.size()];
         auto pos = result.find(from);
         if (pos != std::string::npos) {
-            result.replace(pos, from.size(), to);
+            result.replace(pos,static_cast<int>(from.size()), to);
             return result;
         }
     }

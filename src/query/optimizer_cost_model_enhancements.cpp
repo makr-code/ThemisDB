@@ -83,7 +83,7 @@ double ColumnHistogram::estimateSelectivity(
         return estimateSelectivity(">", vals);
     }
     
-    if (predicateType == "BETWEEN" && values.size() >= 2) {
+    if (predicateType == "BETWEEN" && static_cast<int>(values.size()) >= 2) {
         double lower = values[0];
         double upper = values[1];
         if (lower > upper) {

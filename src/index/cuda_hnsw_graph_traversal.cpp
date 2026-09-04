@@ -109,7 +109,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
 {
     if (layers.empty() || flat_vectors.empty()) {
         THEMIS_WARN("cpuHnswSearch: empty graph layers or flat_vectors (layers={} flat_vectors={})",
-                    layers.size(), flat_vectors.size());
+                    layers.size(),static_cast<int>(flat_vectors.size()));
         return {};
     }
 

@@ -126,7 +126,7 @@ public:
         return insertion_order_;
     }
 
-    size_t layerCount() const { return layers_.size(); }
+    size_t layerCount() const { return static_cast<int>(layers_.size()); }
 
     // -------------------------------------------------------------------------
     // Importance update

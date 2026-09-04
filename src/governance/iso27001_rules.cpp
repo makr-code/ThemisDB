@@ -432,7 +432,7 @@ Iso27001ControlSet::Iso27001ControlSet() {
     controls_.push_back(std::make_shared<Iso27001A1323Control>());
     controls_.push_back(std::make_shared<Iso27001A1813Control>());
 
-    THEMIS_DEBUG("Iso27001ControlSet initialized with {} control evaluators", controls_.size());
+    THEMIS_DEBUG("Iso27001ControlSet initialized with {} control evaluators",static_cast<int>(controls_.size()));
 }
 
 std::vector<Iso27001ControlResult> Iso27001ControlSet::evaluateRule(const PolicyRule &rule) const {

@@ -44,7 +44,7 @@ void ErrorApiHandler::handleGetErrors(const Request& req, Response& res) {
             {"status", "success"},
             {"category", category},
             {"errors", errors_json},
-            {"count", errors.size()}
+            {"count",static_cast<int>(errors.size())}
         };
     } else {
         response = registry.toJSON();
@@ -107,7 +107,7 @@ void ErrorApiHandler::handleGetCategories(const Request& /*req*/, Response& res)
     json response = {
         {"status", "success"},
         {"categories", categories},
-        {"count", categories.size()}
+        {"count",static_cast<int>(categories.size())}
     };
     
     res.status_code = 200;
@@ -144,7 +144,7 @@ void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
         {"status", "success"},
         {"query", query},
         {"errors", errors_json},
-        {"count", results.size()}
+        {"count",static_cast<int>(results.size())}
     };
     
     res.status_code = 200;

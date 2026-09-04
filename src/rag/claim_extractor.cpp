@@ -87,7 +87,7 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
         }
     }
     
-    THEMIS_DEBUG("Extracted {} claims", claims.size());
+    THEMIS_DEBUG("Extracted {} claims",static_cast<int>(claims.size()));
     return claims;
 }
 
@@ -209,7 +209,7 @@ double ClaimExtractor::calculateFaithfulness(
 SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     const std::vector<std::string>& samples
 ) {
-    THEMIS_DEBUG("Evaluating self-consistency across {} samples", samples.size());
+    THEMIS_DEBUG("Evaluating self-consistency across {} samples",static_cast<int>(samples.size()));
     
     ConsistencyResult result;
     result.consistency_score = 0.0;

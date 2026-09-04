@@ -170,7 +170,7 @@ public:
         return names;
     }
 
-    size_t layerCount() const { return layers_.size(); }
+    size_t layerCount() const { return static_cast<int>(layers_.size()); }
 
     size_t totalParameterCount() const {
         size_t total = 0;

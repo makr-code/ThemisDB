@@ -57,7 +57,7 @@ std::string ContentFS::sha256Hex(const std::vector<uint8_t> &data) {
     }
 
     if (!data.empty()) {
-        if (EVP_DigestUpdate(mdctx.get(), data.data(), data.size()) != 1) {
+        if (EVP_DigestUpdate(mdctx.get(), data.data(),static_cast<int>(data.size())) != 1) {
           return "";
         }
     }

@@ -51,7 +51,7 @@ static uint32_t readU32LE(const uint8_t* p) {
 
 bool WavAudioChunkReader::canRead(const std::string& path) const {
     const std::string lower = toLower(path);
-    return lower.size() >= 4 &&
+    return static_cast<int>(lower.size()) >= 4 &&
            lower.substr(static_cast<int>(lower.size()) - 4) == ".wav";
 }
 
@@ -282,7 +282,7 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
     std::array<char, 65536> buf = {};
 
     while (!std::feof(pipe.get())) {
-        const size_t n = std::fread(buf.data(), 1, buf.size(), pipe.get());
+        const size_t n = std::fread(buf.data(), 1,static_cast<int>(buf.size()), pipe.get());
         if (n == 0) {
           break;
         }

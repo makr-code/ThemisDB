@@ -211,7 +211,7 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatch(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
-    if (gpu_available_ && embeddings.size() >= gpu_batch_threshold_) {
+    if (gpu_available_ && static_cast<int>(embeddings.size()) >= gpu_batch_threshold_) {
         return rotateBatchGPU(embeddings, positions);
     }
     return RotaryEmbedding::rotateBatch(embeddings, positions);

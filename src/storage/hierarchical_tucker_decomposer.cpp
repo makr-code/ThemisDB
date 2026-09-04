@@ -55,7 +55,7 @@ static uint32_t ht_crc32(const void* data, size_t len) {
 }
 
 static void appendCrc32(std::vector<uint8_t>& buf) {
-    uint32_t crc = ht_crc32(buf.data(), buf.size());
+    uint32_t crc = ht_crc32(buf.data(),static_cast<int>(buf.size()));
     for (int i = 0; i < 4; ++i) {
       buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
     }
@@ -246,7 +246,7 @@ void writeF64(std::vector<uint8_t>& buf, double v) {
 }
 
 void writeFloats(std::vector<uint8_t>& buf, const std::vector<float>& v) {
-    writeU64(buf, v.size());
+    writeU64(buf,static_cast<int>(v.size()));
     const uint8_t* p = reinterpret_cast<const uint8_t*>(v.data());
     buf.insert(buf.end(), p, p + v.size() * sizeof(float));
 }

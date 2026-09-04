@@ -473,7 +473,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     }
 
     THEMIS_INFO("planAnnGraphHybrid: fused {} ANN + {} graph → {} results in {:.1f}ms",
-                ann_list.size(), graph_list.size(), results.size(), elapsed_ms());
+                ann_list.size(),static_cast<int>(graph_list.size()),static_cast<int>(results.size()), elapsed_ms());
 
     return results;
 }

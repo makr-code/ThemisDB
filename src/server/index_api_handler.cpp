@@ -370,7 +370,7 @@ http::response<http::string_body> IndexApiHandler::handleReindex(
         json resp = {
             {"success", true},
             {"table", table},
-            {"indexes_rebuilt", all_stats.size()}
+            {"indexes_rebuilt",static_cast<int>(all_stats.size())}
         };
         
         // Include stats for each index

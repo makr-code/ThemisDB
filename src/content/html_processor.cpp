@@ -482,7 +482,7 @@ ExtractionResult HtmlProcessor::extract(
     text = normalizeWhitespace(text);
 
     // 7. Enforce max_text_length
-    if (config_.max_text_length > 0 && text.size() > config_.max_text_length) {
+    if (config_.max_text_length > 0 && static_cast<int>(text.size()) > config_.max_text_length) {
         text = text.substr(0, config_.max_text_length);
     }
 

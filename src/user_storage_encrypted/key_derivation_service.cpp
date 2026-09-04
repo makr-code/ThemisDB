@@ -84,7 +84,7 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
     if (rc != 1) {
         // PKCS5_PBKDF2_HMAC only fails on invalid arguments (e.g. null EVP_MD);
         // zero the output and propagate to caller.
-        secureZero(out.data(), out.size());
+        secureZero(out.data(),static_cast<int>(out.size()));
         out.assign(out_len, 0);
     }
     return out;
@@ -151,8 +151,8 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
         kTimeCost,
         kMemoryCost,
         kParallelism,
-        master_key.data(), master_key.size(),
-        salt.data(),       salt.size(),
+        master_key.data(),static_cast<int>(master_key.size()),
+        salt.data(),static_cast<int>(salt.size()),
         derived.data(),    kKeyLength
     );
 
@@ -174,7 +174,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::generateSalt() const 
     std::vector<uint8_t> salt(kKeyLength, 0);
 
 #ifdef __linux__
-    ssize_t got = getrandom(salt.data(), salt.size(), 0);
+    ssize_t got = getrandom(salt.data(),static_cast<int>(salt.size()), 0);
     if (got < 0 || static_cast<size_t>(got) != salt.size()) {
         return Result<std::vector<uint8_t>>::error("getrandom() failed");
     }
@@ -295,12 +295,12 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
         params_.iterations,
         params_.memory_kb,
         params_.parallelism,
-        password.data(),  password.size(),
-        salt.data(),      salt.size(),
-        derived_key.data(), derived_key.size()
+        password.data(),static_cast<int>(password.size()),
+        salt.data(),static_cast<int>(salt.size()),
+        derived_key.data(),static_cast<int>(derived_key.size())
     );
 
-    secureZero(password.data(), password.size());
+    secureZero(password.data(),static_cast<int>(password.size()));
 
     if (rc != ARGON2_OK) {
         throw std::runtime_error(
@@ -311,7 +311,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     return derived_key;
 #else
     auto derived = deriveFallbackPbkdf2(password, salt, params_.output_len, params_.iterations);
-    secureZero(password.data(), password.size());
+    secureZero(password.data(),static_cast<int>(password.size()));
     return derived;
 #endif
 }

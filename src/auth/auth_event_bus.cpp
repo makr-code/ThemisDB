@@ -75,7 +75,7 @@ public:
 
     size_t subscriberCount() const override {
         std::shared_lock lock(subscribers_mutex_);
-        return subscribers_.size();
+        return static_cast<int>(subscribers_.size());
     }
 };
 

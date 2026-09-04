@@ -133,7 +133,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
         return fp;
     }
 
-    const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs, fp.minhash.size());
+    const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs,static_cast<int>(fp.minhash.size()));
     std::vector<uint64_t> a_params(hash_count);
     std::vector<uint64_t> b_params(hash_count);
     std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
@@ -755,7 +755,7 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
 
 std::size_t TensorFingerprintGraph::nodeCount() const noexcept {
     std::unique_lock<std::mutex> lk(mutex_);
-    return nodes_.size();
+    return static_cast<int>(nodes_.size());
 }
 
 std::size_t TensorFingerprintGraph::edgeCount() const noexcept {

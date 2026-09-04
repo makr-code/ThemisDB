@@ -284,12 +284,12 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
                     if (cf.rule.expected_type == SchemaFieldType::STRING && !is_string) {
                         result.addViolation(cf.name, "expected a string value");
                     } else if (is_string) {
-                        if (cf.rule.min_length > 0 && str_val.size() < cf.rule.min_length) {
+                        if (cf.rule.min_length > 0 && static_cast<int>(str_val.size()) < cf.rule.min_length) {
                             result.addViolation(cf.name,
                                 "string too short: " + std::to_string(str_val.size()) +
                                 " chars (minimum " + std::to_string(cf.rule.min_length) + ")");
                         }
-                        if (cf.rule.max_length > 0 && str_val.size() > cf.rule.max_length) {
+                        if (cf.rule.max_length > 0 && static_cast<int>(str_val.size()) > cf.rule.max_length) {
                             result.addViolation(cf.name,
                                 "string too long: " + std::to_string(str_val.size()) +
                                 " chars (maximum " + std::to_string(cf.rule.max_length) + ")");
@@ -983,9 +983,9 @@ public:
             }
         }
 
-        if (parallel_enabled_ && enabled_sources.size() > 1) {
+        if (parallel_enabled_ && static_cast<int>(enabled_sources.size()) > 1) {
             const size_t concurrency =
-                std::min(max_threads_, enabled_sources.size());
+                std::min(max_threads_,static_cast<int>(enabled_sources.size()));
 
             std::vector<std::future<std::pair<std::string, IngestionStats>>> futures;
             futures.reserve(enabled_sources.size());

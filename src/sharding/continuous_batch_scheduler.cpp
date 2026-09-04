@@ -101,7 +101,7 @@ bool ContinuousBatchScheduler::submitRequest(
     current_stats_.pending_requests++;
     
     spdlog::debug("ContinuousBatchScheduler: Submitted request {} (priority={}, prompt_tokens={})",
-                 request_id, static_cast<int>(priority), input_token_ids.size());
+                 request_id, static_cast<int>(priority),static_cast<int>(input_token_ids.size()));
     
     return true;
 }
@@ -181,7 +181,7 @@ void ContinuousBatchScheduler::processNextBatch() {
     current_stats_.in_progress_requests += current_stats_.current_batch_size;
     current_stats_.pending_requests -= current_stats_.current_batch_size;
     
-    spdlog::debug("ContinuousBatchScheduler: Processing batch of {} requests", batch.size());
+    spdlog::debug("ContinuousBatchScheduler: Processing batch of {} requests",static_cast<int>(batch.size()));
     
     // Process each request in the batch
     for (int64_t request_id : batch) {
@@ -494,10 +494,10 @@ std::vector<int64_t> ContinuousBatchScheduler::selectNextBatch() {
     uint32_t tokens_used = 0;
     
     // Select requests from highest priority to lowest
-    for (size_t i = 0; i < priority_queues_.size() && batch.size() < config_.max_batch_size; ++i) {
+    for (size_t i = 0; i < priority_queues_.size() && static_cast<int>(batch.size()) < config_.max_batch_size; ++i) {
         auto& queue = priority_queues_[i];
         
-        while (!queue.empty() && batch.size() < config_.max_batch_size) {
+        while (!queue.empty() && static_cast<int>(batch.size()) < config_.max_batch_size) {
             Request request = std::move(const_cast<Request&>(queue.front()));
             queue.pop();
             
@@ -546,7 +546,7 @@ bool ContinuousBatchScheduler::processPrefill(Request& request) {
         request.input_token_ids = output_tokens;
         
         spdlog::debug("ContinuousBatchScheduler: Prefill completed for request {} ({} tokens)",
-                     request.stats.request_id, output_tokens.size());
+                     request.stats.request_id,static_cast<int>(output_tokens.size()));
         return false; // Not completed yet, continue with decode
     }
     
@@ -735,7 +735,7 @@ void ContinuousBatchScheduler::checkPreemption() {
     uint32_t high_priority_pending = static_cast<uint32_t>(priority_queues_[0].size()) +
                                    static_cast<uint32_t>(priority_queues_[1].size());
     
-    if (high_priority_pending > 0 && in_progress_requests_.size() >= config_.max_batch_size) {
+    if (high_priority_pending > 0 && static_cast<int>(in_progress_requests_.size()) >= config_.max_batch_size) {
         // Find lowest priority in-progress request
         int64_t lowest_request_id = -1;
         SchedulingPriority lowest_priority = SchedulingPriority::REALTIME;

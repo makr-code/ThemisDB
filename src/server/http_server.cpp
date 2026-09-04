@@ -1838,7 +1838,7 @@ HttpServer::HttpServer(
                     "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
                     "This is NOT recommended for production deployments (GAP-012/CWE-346).");
     } else if (!cors_allowed_origins_.empty()) {
-        THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
+        THEMIS_INFO("CORS: allowed origins configured ({} entries)",static_cast<int>(cors_allowed_origins_.size()));
     } else {
         THEMIS_INFO("CORS: no origins allowed by default (set THEMIS_CORS_ALLOW_ALL=1 for dev)");
     }
@@ -3433,7 +3433,7 @@ namespace {
     if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) {
       return Route::AdminRepairScanPost;
     }
-    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && path_only.size() > 22 &&
+    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && static_cast<int>(path_only.size()) > 22 &&
         method == http::verb::get) return Route::AdminRepairJobStatusGet;
     if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) {
       return Route::AdminRepairDashboardGet;
@@ -3836,7 +3836,7 @@ namespace {
         const std::string complete_suffix = "/complete";
         if (path_only.rfind(task_prefix, 0) == 0 &&
             path_only.size() > static_cast<int>(task_prefix.size()) + complete_suffix.size() &&
-            path_only.compare(static_cast<int>(path_only.size()) - complete_suffix.size(), complete_suffix.size(), complete_suffix) == 0) {
+            path_only.compare(static_cast<int>(path_only.size()) - complete_suffix.size(),static_cast<int>(complete_suffix.size()), complete_suffix) == 0) {
             // Ensure there is a non-empty taskId segment between prefix and suffix
             const std::size_t task_id_start = task_prefix.size();
             const std::size_t suffix_pos = static_cast<int>(path_only.size()) - complete_suffix.size();
@@ -3951,7 +3951,7 @@ namespace {
             return Route::ContentGet;
         }
         // ContentFS binary blob API (/api/v1/content/fs/{pk})
-        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && path_only.size() > 19) {
+        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && static_cast<int>(path_only.size()) > 19) {
             if (method == http::verb::get) {
               return Route::ContentFsGet;
             }
@@ -4094,7 +4094,7 @@ namespace {
           return Route::MvccKeyVersionsDelete;
         }
     }
-    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && static_cast<int>(path_only.size()) > 18) {
         if (method == http::verb::get) {
           return Route::MvccKeyGet;
         }
@@ -4202,7 +4202,7 @@ namespace {
           return Route::ApiKeyListGet;
         }
     }
-    if (path_only.rfind("/api/keys/", 0) == 0 && path_only.size() > 10) {
+    if (path_only.rfind("/api/keys/", 0) == 0 && static_cast<int>(path_only.size()) > 10) {
         if (method == http::verb::get) {
           return Route::ApiKeyGet;
         }
@@ -4225,7 +4225,7 @@ namespace {
           return Route::SessionDeleteOthers;
         }
     }
-    if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
+    if (path_only.rfind("/auth/sessions/", 0) == 0 && static_cast<int>(path_only.size()) > 15) {
         if (method == http::verb::delete_) {
           return Route::SessionDeleteById;
         }
@@ -5640,7 +5640,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const auto auth_header = req[http::field::authorization];
                         if (!auth_header.empty()) {
                             auto bearer = themis::AuthMiddleware::extractBearerToken(
-                                std::string_view(auth_header.data(), auth_header.size()));
+                                std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                             token_ok = (bearer && *bearer == expected_tok);
                         }
                     }
@@ -6498,7 +6498,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     });
                 }
                 response = makeResponse(http::status::ok,
-                    json{{"modules", arr}, {"count", arr.size()}}.dump(), req);
+                    json{{"modules", arr}, {"count",static_cast<int>(arr.size())}}.dump(), req);
             } catch (const std::exception& e) {
                 response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
             }
@@ -8009,7 +8009,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(auth_header.data(), auth_header.size()));
+                        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
@@ -8233,7 +8233,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(auth_header.data(), auth_header.size()));
+                        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
@@ -9714,7 +9714,7 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9763,7 +9763,7 @@ http::response<http::string_body> HttpServer::handleSessionList(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9797,7 +9797,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9829,7 +9829,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -10944,7 +10944,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     res.prepare_payload();
         return res;
     }
-    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11018,7 +11018,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             return res;
         }
         // Authorization header presence validated
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11151,7 +11151,7 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -11215,7 +11215,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11364,7 +11364,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -12013,7 +12013,7 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
             }
             arr.push_back(std::move(j));
         }
-        json resp = { {"count", chunks.size()}, {"chunks", std::move(arr)} };
+        json resp = { {"count",static_cast<int>(chunks.size())}, {"chunks", std::move(arr)} };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -12050,7 +12050,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
             resp.push_back({{"pk", pk}, {"score", score}});
         }
         json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp}
         };
         return makeResponse(http::status::ok, out.dump(), req);
@@ -12113,7 +12113,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         }
         
         json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp},
             {"table", table},
             {"column", column},
@@ -12305,7 +12305,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         }
         
         json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"fusion_mode", fusionMode},
             {"table", table},
             {"results", resp}
@@ -13419,7 +13419,7 @@ void HttpServer::Session::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_header.data(), auth_header.size()));
+                    std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -13772,7 +13772,7 @@ void HttpServer::SslSession::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_header.data(), auth_header.size()));
+                    std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -14085,7 +14085,7 @@ http::response<http::string_body> HttpServer::handleIndexReindex(
         json resp = {
             {"success", true},
             {"table", table},
-            {"indexes_rebuilt", all_stats.size()}
+            {"indexes_rebuilt",static_cast<int>(all_stats.size())}
         };
         
         // Include stats for each index
@@ -15333,7 +15333,7 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
             result.error().message(), req);
     }
 
-    json body = {{"pk", pk}, {"size", data.size()}, {"mime", mime}};
+    json body = {{"pk", pk}, {"size",static_cast<int>(data.size())}, {"mime", mime}};
     if (sha256_hint) {
       body["sha256"] = *sha256_hint;
     }

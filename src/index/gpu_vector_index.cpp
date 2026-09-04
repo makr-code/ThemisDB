@@ -137,7 +137,7 @@ public:
         if (!oversubManager || vectorData.empty() ||
             query.size() != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
-                        static_cast<bool>(oversubManager), vectorData.size(), query.size(), dimension);
+                        static_cast<bool>(oversubManager),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), dimension);
             return {};
         }
 
@@ -150,7 +150,7 @@ public:
 
         // Accumulate candidates from each partition.
         std::vector<std::pair<float, size_t>> candidates;
-        candidates.reserve(std::min(k * 4, vectorData.size()));
+        candidates.reserve(std::min(k * 4,static_cast<int>(vectorData.size())));
 
         {
             const auto partIds = oversubManager->getAllPartitionIds();
@@ -178,7 +178,7 @@ public:
         }
 
         // Select top-k from all candidates.
-        const size_t topK = std::min(k, candidates.size());
+        const size_t topK = std::min(k,static_cast<int>(candidates.size()));
         std::partial_sort(candidates.begin(), candidates.begin() + topK,
                           candidates.end(),
                           [](const auto& a, const auto& b) {
@@ -660,7 +660,7 @@ public:
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
         if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
-                        vectorData.size(), query.size(), static_cast<size_t>(dimension));
+                        vectorData.size(),static_cast<int>(query.size()), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -676,7 +676,7 @@ public:
         }
         
         // Sort and take top-k
-        size_t topK = std::min(k, distances.size());
+        size_t topK = std::min(k,static_cast<int>(distances.size()));
         std::partial_sort(distances.begin(), distances.begin() + topK, distances.end(),
                          [](const auto& a, const auto& b) { return a.first < b.first; });
         
@@ -697,7 +697,7 @@ public:
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
         if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
             THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
-                        static_cast<bool>(cudaBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
+                        static_cast<bool>(cudaBackend),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -720,7 +720,7 @@ public:
         }
         
         // Clamp k to number of vectors to prevent out-of-bounds access
-        const size_t effectiveK = std::min(k, vectorData.size());
+        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
         
         // Use CUDA backend for batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
@@ -756,7 +756,7 @@ public:
         
         if (!cudaBackend || vectorData.empty() || queries.empty()) {
             THEMIS_DEBUG("GPUVectorIndex::searchBatchGPU - invalid state (cudaBackend={} vectors={} queries={})",
-                        static_cast<bool>(cudaBackend), vectorData.size(), queries.size());
+                        static_cast<bool>(cudaBackend),static_cast<int>(vectorData.size()),static_cast<int>(queries.size()));
             return {};
         }
         
@@ -801,7 +801,7 @@ public:
         }
         
         // Clamp k to number of vectors
-        const size_t effectiveK = std::min(k, vectorData.size());
+        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
         
         // Use CUDA backend for true batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
@@ -855,7 +855,7 @@ public:
         if (!hipBackend || vectorData.empty() ||
             query.size() != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
-                        static_cast<bool>(hipBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
+                        static_cast<bool>(hipBackend),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), static_cast<size_t>(dimension));
             return {};
         }
 
@@ -871,7 +871,7 @@ public:
             hipFlatVectorCacheDirty = false;
         }
 
-        const size_t effectiveK = std::min(k, vectorData.size());
+        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
         auto gpuResults = hipBackend->batchKnnSearchWithMetric(
             query.data(),
             1,  // Single query
@@ -904,7 +904,7 @@ public:
 
         if (!hipBackend || vectorData.empty() || queries.empty()) {
             THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
-                        static_cast<bool>(hipBackend), vectorData.size(), queries.size());
+                        static_cast<bool>(hipBackend),static_cast<int>(vectorData.size()),static_cast<int>(queries.size()));
             return {};
         }
 
@@ -936,7 +936,7 @@ public:
             flatQueries.insert(flatQueries.end(), query.begin(), query.end());
         }
 
-        const size_t effectiveK = std::min(k, vectorData.size());
+        const size_t effectiveK = std::min(k,static_cast<int>(vectorData.size()));
         auto gpuResults = hipBackend->batchKnnSearchWithMetric(
             flatQueries.data(),
             queries.size(),

@@ -94,8 +94,8 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
         fields.push_back(field);
     }
     
-    if (static_cast<int>(fields.size()) != 5 && fields.size() != 6) {
-        THEMIS_ERROR("Invalid cron expression: expected 5 or 6 fields, got {}", fields.size());
+    if (static_cast<int>(fields.size()) != 5 && static_cast<int>(fields.size()) != 6) {
+        THEMIS_ERROR("Invalid cron expression: expected 5 or 6 fields, got {}",static_cast<int>(fields.size()));
         return std::nullopt;
     }
 
@@ -181,7 +181,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
         fields.push_back(field);
     }
     
-    if (static_cast<int>(fields.size()) != 5 && fields.size() != 6) {
+    if (static_cast<int>(fields.size()) != 5 && static_cast<int>(fields.size()) != 6) {
         result.error_message = "Cron expression must have 5 fields (minute hour day month weekday)"
                                " or 6 fields (minute hour day month weekday year), got " +
                                std::to_string(fields.size());
@@ -425,20 +425,20 @@ std::string CronExpression::describe() const {
         return oss.str();
     }
     
-    if (static_cast<int>(minutes_.size()) == 60 && hours_.size() == 1 &&
-        days_.size() == 31 && months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 60 && static_cast<int>(hours_.size()) == 1 &&
+        days_.size() == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every minute during hour " << *hours_.begin();
         return oss.str();
     }
     
-    if (static_cast<int>(minutes_.size()) == 4 && hours_.size() == 24 &&
-        days_.size() == 31 && months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 4 && static_cast<int>(hours_.size()) == 24 &&
+        days_.size() == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every 15 minutes";
         return oss.str();
     }
     
-    if (static_cast<int>(minutes_.size()) == 12 && hours_.size() == 24 &&
-        days_.size() == 31 && months_.size() == 12) {
+    if (static_cast<int>(minutes_.size()) == 12 && static_cast<int>(hours_.size()) == 24 &&
+        days_.size() == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every 5 minutes";
         return oss.str();
     }

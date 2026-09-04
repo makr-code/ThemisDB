@@ -74,7 +74,7 @@ bool RAIDPaxosConsensus::initialize(
     }
     
     spdlog::info("RAIDPaxosConsensus initialized: node={}, mode={}, cluster_size={}",
-                node_id_, raidModeToString(raid_config_.raid_mode), cluster_nodes_.size());
+                node_id_, raidModeToString(raid_config_.raid_mode),static_cast<int>(cluster_nodes_.size()));
     
     return true;
 }

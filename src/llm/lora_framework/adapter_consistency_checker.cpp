@@ -41,7 +41,7 @@ public:
         }
         
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        SHA256(data.data(),static_cast<int>(data.size()), hash);
         
         std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {

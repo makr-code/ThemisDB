@@ -126,7 +126,7 @@ std::string MultiStepRAGOrchestrator::substitute(
     const std::string placeholder = "{" + key + "}";
     size_t pos = 0;
     while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-        result.replace(pos, placeholder.size(), value);
+        result.replace(pos,static_cast<int>(placeholder.size()), value);
         pos += value.size();
     }
     return result;
@@ -146,7 +146,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     for (auto& c : upper) {
       c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     }
-    if (upper.find("NONE") != std::string::npos && llm_response.size() < 20u) {
+    if (upper.find("NONE") != std::string::npos && static_cast<int>(llm_response.size()) < 20u) {
         return aspects;
     }
 
@@ -274,11 +274,11 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
 {
     MultiStepRAGResult result = {};
     if (query.empty() || query.size() > kMaxQueryChars) {
-        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}", query.size());
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}",static_cast<int>(query.size()));
         return result;
     }
     if (static_cast<int>(documents.size()) > std::numeric_limits<int>::max()) {
-        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}", documents.size());
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}",static_cast<int>(documents.size()));
         return result;
     }
     for (const auto& doc : documents) {
@@ -347,7 +347,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         result.was_truncated,
         map_max_tok);
 
-    if (config_.enable_parallel_map && batches.size() > 1u) {
+    if (config_.enable_parallel_map && static_cast<int>(batches.size()) > 1u) {
         // F-029: Launch all map steps in parallel.
         // LIFETIME: batches and query are local variables / parameters that
         // outlive all futures — get() is called before returning.
@@ -434,7 +434,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
 {
     MultiStepRAGResult result = {};
     if (query.empty() || query.size() > kMaxQueryChars) {
-        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}", query.size());
+        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}",static_cast<int>(query.size()));
         return result;
     }
     for (const auto& doc : documents) {

@@ -178,7 +178,7 @@ std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags(
     }
     
     // Apply limit
-    if (limit > 0 && snapshots.size() > limit) {
+    if (limit > 0 && static_cast<int>(snapshots.size()) > limit) {
         snapshots.resize(limit);
     }
     

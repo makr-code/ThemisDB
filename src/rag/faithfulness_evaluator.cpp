@@ -143,7 +143,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
             auto json_resp = nlohmann::json::parse(response);
             if (json_resp.contains("claims") && json_resp["claims"].is_array()) {
                 for (const auto& item : json_resp["claims"]) {
-                    if (item.is_string() && claims.size() < impl_->config.max_claims_to_extract) {
+                    if (item.is_string() && static_cast<int>(claims.size()) < impl_->config.max_claims_to_extract) {
                         std::string text = item.get<std::string>();
                         if (!text.empty()) {
                             Claim claim;
@@ -155,7 +155,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
                         }
                     }
                 }
-                THEMIS_DEBUG("LLM extracted {} claims", claims.size());
+                THEMIS_DEBUG("LLM extracted {} claims",static_cast<int>(claims.size()));
                 return claims;
             }
         } catch (const std::exception& e) {
@@ -169,7 +169,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
     auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
     auto sentences_end = std::sregex_iterator();
     
-    for (auto it = sentences_begin; it != sentences_end && claims.size() < impl_->config.max_claims_to_extract; ++it) {
+    for (auto it = sentences_begin; it != sentences_end && static_cast<int>(claims.size()) < impl_->config.max_claims_to_extract; ++it) {
         Claim claim;
         claim.text = it->str();
         claim.category = "factual";
@@ -178,7 +178,7 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
         claims.push_back(claim);
     }
     
-    THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
+    THEMIS_DEBUG("Extracted {} claims from answer",static_cast<int>(claims.size()));
     return claims;
 }
 
@@ -262,7 +262,7 @@ std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
         }
     }
     
-    THEMIS_DEBUG("Verified {} citations", citations.size());
+    THEMIS_DEBUG("Verified {} citations",static_cast<int>(citations.size()));
     return citations;
 }
 

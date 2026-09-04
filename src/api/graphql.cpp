@@ -589,7 +589,7 @@ bool Parser::match(char c) {
 
 bool Parser::match(std::string_view s) {
     if (pos_ + s.size() <= source_.size()) {
-        if (source_.substr(pos_, s.size()) == s) {
+        if (source_.substr(pos_,static_cast<int>(s.size())) == s) {
             // Make sure it's a complete token (not followed by alphanumeric)
             if (pos_ + s.size() < source_.size()) {
                 char next = source_[pos_ + s.size()];

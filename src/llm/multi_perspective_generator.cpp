@@ -174,7 +174,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         !result.disagreements.empty();
     
     // Synthesize perspectives if enabled
-    if (impl_->config.enable_synthesis && result.perspectives.size() >= 2) {
+    if (impl_->config.enable_synthesis && static_cast<int>(result.perspectives.size()) >= 2) {
         result.synthesized_response = synthesizePerspectives(
             result.perspectives,
             query
@@ -709,7 +709,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
     }
     
     // Add some general disagreements if we have multiple perspectives
-    if (disagreements.empty() && perspectives.size() >= 2) {
+    if (disagreements.empty() && static_cast<int>(perspectives.size()) >= 2) {
         disagreements.push_back("Different emphases on key ethical considerations");
     }
     

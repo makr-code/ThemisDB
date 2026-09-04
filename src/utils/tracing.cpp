@@ -608,9 +608,9 @@ bool parseTraceparent(const std::string& value,
     }
 
     trace_id_out = otel::trace::TraceId(
-        otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(), tid.size()));
+        otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(),static_cast<int>(tid.size())));
     parent_id_out = otel::trace::SpanId(
-        otel::nostd::span<const uint8_t, otel::trace::SpanId::kSize>(pid.data(), pid.size()));
+        otel::nostd::span<const uint8_t, otel::trace::SpanId::kSize>(pid.data(),static_cast<int>(pid.size())));
     flags_out     = otel::trace::TraceFlags(flg);
     return true;
 }

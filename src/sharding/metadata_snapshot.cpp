@@ -35,7 +35,7 @@ std::string MetadataSnapshot::calculateChecksum() const {
     
     // Calculate SHA-256
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()), data.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()),static_cast<int>(data.size()), hash);
     
     // Convert to hex string
     std::stringstream ss = {};

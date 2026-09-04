@@ -338,7 +338,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
 
     // Structured log: all key fields on one line for log-scraping / alerting
     spdlog::info("StatisticsCollector: collect table='{}' duration_ms={:.2f} rows_sampled={} total_rows={} cols={} error_code=0",
-                 table_name, duration_ms, row_count, total_rows, stats.column_stats.size());
+                 table_name, duration_ms, row_count, total_rows,static_cast<int>(stats.column_stats.size()));
 
     if (metrics_hook_) {
         metrics_hook_->onCollect(table_name, duration_ms, row_count, true);
@@ -592,7 +592,7 @@ std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
         return {};
     }
 
-    num_buckets = std::min(num_buckets, sorted_values.size());
+    num_buckets = std::min(num_buckets,static_cast<int>(sorted_values.size()));
 
     double min_v = sorted_values.front();
     double max_v = sorted_values.back();

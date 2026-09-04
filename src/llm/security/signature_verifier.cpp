@@ -103,7 +103,7 @@ SignatureVerificationResult RSA_SHA256_Verifier::verify(
         
         // 4. Compute SHA-256 hash of data
         std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-        SHA256(data.data(), data.size(), hash.data());
+        SHA256(data.data(),static_cast<int>(data.size()), hash.data());
         
         // 5. Verify signature using EVP API
         std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> ctx(
@@ -758,7 +758,7 @@ SignatureVerificationResult ECDSA_SHA256_Verifier::verify(
         
         // 5. Compute SHA-256 hash of data
         std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-        SHA256(data.data(), data.size(), hash.data());
+        SHA256(data.data(),static_cast<int>(data.size()), hash.data());
         
         // 6. Convert signature to DER format if needed
         auto der_signature = convertSignatureToDER(signature);
@@ -992,7 +992,7 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     result.insert(result.end(), s_der.begin(), s_der.end());
 
     spdlog::debug("ECDSA_SHA256_Verifier: converted {}-byte r||s to {}-byte DER",
-                  sz, result.size());
+                  sz,static_cast<int>(result.size()));
     return result;
 }
 
@@ -1063,7 +1063,7 @@ SignatureVerificationResult ECDSA_SHA384_Verifier::verify(
         
         // 5. Compute SHA-384 hash of data
         std::vector<uint8_t> hash(SHA384_DIGEST_LENGTH);
-        SHA384(data.data(), data.size(), hash.data());
+        SHA384(data.data(),static_cast<int>(data.size()), hash.data());
         
         // 6. Convert signature to DER format if needed
         auto der_signature = convertSignatureToDER(signature);
@@ -1287,7 +1287,7 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
     result.insert(result.end(), s_der.begin(), s_der.end());
 
     spdlog::debug("ECDSA_SHA384_Verifier: converted {}-byte r||s to {}-byte DER",
-                  sz, result.size());
+                  sz,static_cast<int>(result.size()));
     return result;
 }
 

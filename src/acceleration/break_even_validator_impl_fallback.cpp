@@ -140,7 +140,7 @@ size_t BreakEvenValidator::GetCacheMissCount() const {
 
 size_t BreakEvenValidator::GetCacheSize() const {
     std::lock_guard<std::mutex> lock(g_impl.mu_);
-    return g_impl.cache_.size();
+    return static_cast<int>(g_impl.cache_.size());
 }
 
 std::string BreakEvenValidator::KernelTypeToString(KernelType kernel) {

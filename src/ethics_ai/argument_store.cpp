@@ -88,7 +88,7 @@ static bool verifyModelIntegrity(const std::vector<uint8_t>& blob,
                                   const std::string& entity_id,
                                   const std::optional<std::string>& expected_hash) {
     // Compute actual hash
-    std::string actual_hash = computeSHA256(blob.data(), blob.size());
+    std::string actual_hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
     
     if (!expected_hash) {
         // No out-of-band record — legacy entity written before integrity tracking
@@ -167,7 +167,7 @@ Status ArgumentStore::storeArgument(const EthicalArgument &argument, [[maybe_unu
     // Store SHA256 hash under a separate out-of-band key so retrievals can
     // verify integrity without trusting any field embedded in the payload.
     {
-        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }
@@ -419,7 +419,7 @@ Status ArgumentStore::storeDecision(const EthicalDecision &decision) {
 
     // Store SHA256 hash out-of-band.
     {
-        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }
@@ -496,7 +496,7 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile &profile) {
 
     // Store SHA256 hash out-of-band.
     {
-        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }

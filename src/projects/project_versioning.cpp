@@ -112,7 +112,7 @@ Sha256Digest ProjectVersioning::computeChecksum(const std::string& data) const {
         return {};
 
     EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
     EVP_DigestFinal_ex(ctx.get(), digest, &len);
 
     std::ostringstream oss = {};

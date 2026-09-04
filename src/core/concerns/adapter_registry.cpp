@@ -121,7 +121,7 @@ AdapterRegistry::~AdapterRegistry() {
 
 size_t AdapterRegistry::count() const {
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
-    return registry_.size();
+    return static_cast<int>(registry_.size());
 }
 
 // ---------------------------------------------------------------------------

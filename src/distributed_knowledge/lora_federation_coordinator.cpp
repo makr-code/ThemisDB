@@ -372,7 +372,7 @@ uint64_t LoRAFederationCoordinator::currentRound() const {
 
 size_t LoRAFederationCoordinator::submittedCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return pending_gradients_.size();
+    return static_cast<int>(pending_gradients_.size());
 }
 
 std::optional<GlobalAdapterDelta> LoRAFederationCoordinator::lastDelta() const {
@@ -383,7 +383,7 @@ std::optional<GlobalAdapterDelta> LoRAFederationCoordinator::lastDelta() const {
 nlohmann::json LoRAFederationCoordinator::getStats() const {
     std::lock_guard<std::mutex> lk(mutex_);
     return {{"current_round", current_round_},
-            {"pending_gradients", pending_gradients_.size()},
+            {"pending_gradients",static_cast<int>(pending_gradients_.size())},
             {"total_rounds_completed", total_rounds_completed_},
             {"total_gradients_processed", total_gradients_processed_},
             {"total_gradients_filtered", total_gradients_filtered_},

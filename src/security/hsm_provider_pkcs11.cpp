@@ -543,7 +543,7 @@ static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
         THEMIS_ERROR("sha256: EVP_DigestInit_ex failed");
         return {};
     }
-    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
     if (EVP_DigestFinal_ex(ctx.get(), out.data(), &len) != 1) {
         THEMIS_ERROR("sha256: EVP_DigestFinal_ex failed");
         return {};
@@ -561,7 +561,7 @@ static const uint8_t SHA256_DER_PREFIX[] = {
 static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
     std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + digest.size());
     std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));
-    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(), digest.size());
+    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(),static_cast<int>(digest.size()));
     return di;
 }
 
@@ -618,7 +618,7 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
                 std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
                 if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
                     const unsigned char* p = der.data(); 
-                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p, der.size()));
+                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p,static_cast<int>(der.size())));
                     if(x.get()){
                         ASN1_INTEGER* si = X509_get_serialNumber(x.get());
                         if(si){
@@ -1012,7 +1012,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     
     CK_ATTRIBUTE pub_template[] = {
         {CKA_CLASS, &cls_pub, sizeof(cls_pub)},
-        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_LABEL, (void*)label.c_str(),static_cast<int>(label.size())},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_VERIFY, &ck_true, sizeof(ck_true)},
         {CKA_MODULUS_BITS, &modulus_bits, sizeof(modulus_bits)},
@@ -1022,7 +1022,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     // Private key template
     CK_ATTRIBUTE priv_template[] = {
         {CKA_CLASS, &cls_priv, sizeof(cls_priv)},
-        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_LABEL, (void*)label.c_str(),static_cast<int>(label.size())},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_PRIVATE, &ck_true, sizeof(ck_true)},
         {CKA_SENSITIVE, &ck_true, sizeof(ck_true)},
@@ -1082,7 +1082,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     // Parse PEM certificate to DER format
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(), cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(),static_cast<int>(cert_pem.size()));
     if(!bio){
         THEMIS_ERROR("importCertificate: Failed to create BIO");
         releaseSession(sess);
@@ -1137,7 +1137,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     CK_ATTRIBUTE cert_template[] = {
         {CKA_CLASS, &cert_class, sizeof(cert_class)},
         {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
-        {CKA_LABEL, (void*)key_label.c_str(), key_label.size()},
+        {CKA_LABEL, (void*)key_label.c_str(),static_cast<int>(key_label.size())},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_VALUE, der.get(), (CK_ULONG)der_len}
     };
@@ -1216,7 +1216,7 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) {
       return std::nullopt;
     }
-    const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p, der.size()); if(!x) return std::nullopt;
+    const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p,static_cast<int>(der.size())); if(!x) return std::nullopt;
     BIO* mem = BIO_new(BIO_s_mem());
     PEM_write_bio_X509(mem, x);
     X509_free(x);

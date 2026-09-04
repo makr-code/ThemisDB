@@ -269,7 +269,7 @@ json EthicsGetArgumentsFunction::execute(
     const auto philosophy = toLowerAscii(args[0].get<std::string>());
     const auto types = args.size() > 1 ? args[1] : json::array();
     const auto limit = static_cast<std::size_t>(
-        std::max(0, args.size() > 2 && args[2].is_number_integer() ? args[2].get<int>() : 20));
+        std::max(0,static_cast<int>(args.size()) > 2 && args[2].is_number_integer() ? args[2].get<int>() : 20));
 
     std::unordered_set<std::string> type_filter = {};
 
@@ -318,7 +318,7 @@ json EthicsFindSimilarDilemmasFunction::execute(
         0.0,
         1.0);
     const auto limit = static_cast<std::size_t>(
-        std::max(0, args.size() > 2 && args[2].is_number_integer() ? args[2].get<int>() : 10));
+        std::max(0,static_cast<int>(args.size()) > 2 && args[2].is_number_integer() ? args[2].get<int>() : 10));
 
     const auto query_embedding = embedText(query_text);
     std::vector<std::pair<double, json>> ranked;
@@ -370,7 +370,7 @@ json EthicsTraverseChainFunction::execute(
 
     const auto start_id = normalizeArgumentId(args[0].get<std::string>());
     const auto max_depth = std::max(
-        0, args.size() > 1 && args[1].is_number_integer() ? args[1].get<int>() : 5);
+        0,static_cast<int>(args.size()) > 1 && args[1].is_number_integer() ? args[1].get<int>() : 5);
 
     const auto vertices = ctx.scanCollection("ethics_arguments", [](const json&) { return true; });
     std::unordered_map<std::string, json> vertex_by_id = {};

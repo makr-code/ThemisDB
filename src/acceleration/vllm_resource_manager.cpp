@@ -549,7 +549,7 @@ bool VLLMResourceManager::initializeNVML() {
     // all devices.
     nvml_device_ = nvml_devices_.empty() ? nullptr : nvml_devices_.front();
 
-    THEMIS_INFO("NVML initialized, monitoring {} GPU device(s)", nvml_devices_.size());
+    THEMIS_INFO("NVML initialized, monitoring {} GPU device(s)",static_cast<int>(nvml_devices_.size()));
     return true;
 #else
     return false; // NVML not available

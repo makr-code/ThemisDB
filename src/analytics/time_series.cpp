@@ -43,7 +43,7 @@ TimeSeries::TimeSeries(std::string name)
 
 const std::string& TimeSeries::name() const noexcept { return name_; }
 
-std::size_t TimeSeries::size() const noexcept { return points_.size(); }
+std::size_t TimeSeries::size() const noexcept { return static_cast<int>(points_.size()); }
 
 // ---------------------------------------------------------------------------
 // TimeSeries::ensure_sorted

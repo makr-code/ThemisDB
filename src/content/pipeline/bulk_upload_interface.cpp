@@ -40,7 +40,7 @@ BulkUploadInterface::UploadResult BulkUploadInterface::upload(
     
     // Notify progress if callback is set
     if ([[maybe_unused]] progress_callback_) {
-        progress_callback_(metadata.content_id, content.size(), content.size());
+        progress_callback_(metadata.content_id,static_cast<int>(content.size()),static_cast<int>(content.size()));
     }
     
     return result;

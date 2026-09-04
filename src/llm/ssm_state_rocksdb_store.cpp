@@ -218,7 +218,7 @@ uint64_t SSMStateRocksDBStore::compact([[maybe_unused]] uint64_t retention_windo
             }
         }
 
-        return keys_to_delete.size();
+        return static_cast<int>(keys_to_delete.size());
     } catch (...) {
         return 0;
     }

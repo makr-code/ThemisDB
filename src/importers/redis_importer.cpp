@@ -373,7 +373,7 @@ ImportStats RedisImporter::importData(
         std::vector<std::string> keys;
         try {
             const json resp = json::parse(scan_resp);
-            if (resp.is_array() && resp.size() == 2) {
+            if (resp.is_array() && static_cast<int>(resp.size()) == 2) {
                 next_cursor = resp[0].get<std::string>();
                 for (const auto& k : resp[1]) {
                     keys.push_back(k.get<std::string>());
@@ -501,7 +501,7 @@ json RedisImporter::getSourceSchema(const std::string& source_path) {
 
     try {
         const json resp = json::parse(scan_resp);
-        if (resp.is_array() && resp.size() == 2) {
+        if (resp.is_array() && static_cast<int>(resp.size()) == 2) {
             for (const auto& k : resp[1]) {
                 const std::string key = k.get<std::string>();
                 const std::string t = sendCmd({"TYPE", key});

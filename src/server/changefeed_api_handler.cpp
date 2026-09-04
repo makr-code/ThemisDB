@@ -420,7 +420,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
         
         // OP-AUDIT-002: Log successful query with latency and correlation ID
         THEMIS_DEBUG("Changefeed GET success (correlation_id={}, events={}, latency_ms={})",
-                    correlation_id, events.size(), query_latency.count());
+                    correlation_id,static_cast<int>(events.size()), query_latency.count());
         
         return makeResponse(http::status::ok, response.dump(), req);
         
@@ -595,7 +595,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 size_t cid_end = query_str.find('&', cid_pos);
                 std::string cid_str = query_str.substr(cid_pos + 12,
                     cid_end == std::string::npos ? std::string::npos : cid_end - cid_pos - 12);
-                if (!cid_str.empty() && cid_str.size() <= CONSUMER_ID_MAX_LEN &&
+                if (!cid_str.empty() && static_cast<int>(cid_str.size()) <= CONSUMER_ID_MAX_LEN &&
                     isValidChangefeedIdentifier(cid_str)) {
                     consumer_id = std::move(cid_str);
                 } else if (!cid_str.empty() && !isValidChangefeedIdentifier(cid_str)) {
@@ -1226,7 +1226,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Extract and validate token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     
     if (!token) {
@@ -1322,7 +1322,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Extract and validate token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     
     if (!token) {

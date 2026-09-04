@@ -528,7 +528,7 @@ void QueryRewritePipeline::clearRules() {
 }
 
 size_t QueryRewritePipeline::ruleCount() const {
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 RewriteStats QueryRewritePipeline::run(nlohmann::json& plan,

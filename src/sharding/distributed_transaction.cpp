@@ -155,7 +155,7 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     }
     
     THEMIS_DEBUG("Began distributed transaction {} with {} shards, isolation={}",
-                txn_id, shard_ids.size(),
+                txn_id,static_cast<int>(shard_ids.size()),
                 isolation_level == DistributedIsolationLevel::SERIALIZABLE
                     ? "SERIALIZABLE" : "SNAPSHOT_ISOLATION");
     
@@ -603,7 +603,7 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
         {"committed_transactions", committed_transactions_.load()},
         {"aborted_transactions", aborted_transactions_.load()},
         {"readonly_transactions", readonly_transactions_.load()},
-        {"active_transactions", transactions_.size()}
+        {"active_transactions",static_cast<int>(transactions_.size())}
     };
 }
 
@@ -1215,7 +1215,7 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
         
         std::vector<WALEntry> entries = wal_manager_->readRange(oldest_lsn, current_lsn);
         
-        THEMIS_INFO("Found {} WAL entries to process", entries.size());
+        THEMIS_INFO("Found {} WAL entries to process",static_cast<int>(entries.size()));
 
         const auto recovered =
             themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);

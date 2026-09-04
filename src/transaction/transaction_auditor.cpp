@@ -79,7 +79,7 @@ TransactionAuditor::queryAuditLog(
         }
 
         result.push_back(rec);
-        if (limit != 0 && result.size() >= limit) {
+        if (limit != 0 && static_cast<int>(result.size()) >= limit) {
           break;
         }
     }
@@ -94,7 +94,7 @@ TransactionAuditor::queryAuditLog(
 size_t TransactionAuditor::size() const
 {
     std::lock_guard<std::mutex> lk(log_mutex_);
-    return log_.size();
+    return static_cast<int>(log_.size());
 }
 
 void TransactionAuditor::clear()

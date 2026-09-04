@@ -61,7 +61,7 @@ void GdprSubjectRightsManager::registerEraseTarget(std::shared_ptr<IGdprEraseTar
 
 size_t GdprSubjectRightsManager::targetCount() const {
     std::lock_guard<std::mutex> lock(targets_mutex_);
-    return targets_.size();
+    return static_cast<int>(targets_.size());
 }
 
 std::mutex &GdprSubjectRightsManager::getSubjectMutex(const std::string &subject_id) {

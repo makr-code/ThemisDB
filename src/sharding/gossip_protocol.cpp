@@ -190,7 +190,7 @@ std::vector<PeerInfo> GossipProtocol::getHealthyPeers() const {
 
 size_t GossipProtocol::getPeerCount() const {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    return peers_.size();
+    return static_cast<int>(peers_.size());
 }
 
 void GossipProtocol::addPeer(const PeerInfo& peer) {
@@ -598,7 +598,7 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers([[maybe_unused]] size_t 
 
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
-    size_t select_count = std::min(count, candidates.size());
+    size_t select_count = std::min(count,static_cast<int>(candidates.size()));
     selected.insert(selected.end(), candidates.begin(), candidates.begin() + select_count);
     
     return selected;
@@ -840,7 +840,7 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
 
         if (ctx) {
             if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1 &&
-                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(), to_verify.size()) == 1 &&
+                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(),static_cast<int>(to_verify.size())) == 1 &&
                 EVP_DigestVerifyFinal(ctx.get(),
                                       sig.data(),
                                       static_cast<size_t>(sig_len)) == 1) {

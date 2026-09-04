@@ -785,7 +785,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
     }
 
     // NEGATION: complete if NOT followed by the second event type after first matched
-    if ([[maybe_unused]] config_.type == PatternType::NEGATION && config_.event_types.size() == 2) {
+    if ([[maybe_unused]] config_.type == PatternType::NEGATION && static_cast<int>(config_.event_types.size()) == 2) {
         // Start a partial match on first event type
         if (matchesEventType(event, config_.event_types[0]) && evaluateCondition(event)) {
             PartialMatch pm;
@@ -1278,7 +1278,7 @@ void WindowManager::handleCountWindow([[maybe_unused]] const Event &event) {
         Window &current = windows_.back();
         current.events.push_back([[maybe_unused]] event);
         current.end = event.timestamp;
-        if ([[maybe_unused]] config_.count > 0 && current.events.size() >= config_.count) {
+        if ([[maybe_unused]] config_.count > 0 && static_cast<int>(current.events.size()) >= config_.count) {
             batch = closeWindow(current);
             Window nw;
             nw.start = event.timestamp;
@@ -2684,8 +2684,8 @@ std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) 
     std::lock_guard lk(alerts_mutex_);
     std::vector<Alert> result = {};
 
-    result.reserve(std::min(limit, alerts_.size()));
-    for (auto it = alerts_.rbegin(); it != alerts_.rend() && result.size() < limit; ++it) {
+    result.reserve(std::min(limit,static_cast<int>(alerts_.size())));
+    for (auto it = alerts_.rbegin(); it != alerts_.rend() && static_cast<int>(result.size()) < limit; ++it) {
         if (unacknowledged_only && it->acknowledged) {
             continue;
         }

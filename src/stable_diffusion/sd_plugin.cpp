@@ -301,7 +301,7 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
         remaining -= block_len;
     } while (remaining > 0u);
 
-    put_be32(idat_payload, adler32_of(filtered.data(), filtered.size()));
+    put_be32(idat_payload, adler32_of(filtered.data(),static_cast<int>(filtered.size())));
 
     // ── Assemble PNG ──────────────────────────────────────────────────────────
     std::vector<uint8_t> png = {};

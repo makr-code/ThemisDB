@@ -114,7 +114,7 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
             is_yaml = true;
         }
     }
-    if (!is_yaml && file_path.size() >= 4) {
+    if (!is_yaml && static_cast<int>(file_path.size()) >= 4) {
         std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 4);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -306,7 +306,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
         } else if (node->is_array()) {
             // RFC 6901 §4: array index must be "0" or a positive decimal
             // integer with no leading zeros.
-            if (key.empty() || (key[0] == '0' && key.size() > 1)) {
+            if (key.empty() || (key[0] == '0' && static_cast<int>(key.size()) > 1)) {
                 return nullptr;
             }
             try {

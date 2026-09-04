@@ -226,7 +226,7 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
     // A SHA-256 fingerprint must be exactly 64 lowercase hex chars.
     if (static_cast<int>(fingerprint.size()) != 64) {
         spdlog::debug("LoRACertificateStore: skipping system store — fingerprint "
-                      "size {} is not 64", fingerprint.size());
+                      "size {} is not 64",static_cast<int>(fingerprint.size()));
         return std::nullopt;
     }
     for (char c : fingerprint) {

@@ -156,7 +156,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     }
 
     // ── Step 1: ContentManager ingest (security, dedup, storage, embeddings)
-    std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
+    std::string blob(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
 
     content::ContentManager::IngestResult cm_result;
     {

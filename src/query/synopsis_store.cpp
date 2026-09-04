@@ -53,7 +53,7 @@ std::deque<SynopsisTuple> SynopsisStore::snapshot() const {
 
 size_t SynopsisStore::size() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return tuples_.size();
+    return static_cast<int>(tuples_.size());
 }
 
 size_t SynopsisStore::bytes() const noexcept {

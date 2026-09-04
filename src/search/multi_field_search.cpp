@@ -174,7 +174,7 @@ std::vector<MultiFieldBoostedSearch::Result> MultiFieldBoostedSearch::search(
     }
 
     THEMIS_INFO("MultiFieldBoostedSearch: query='{}' fields={} -> {} results",
-                query, fields.size(), results.size());
+                query,static_cast<int>(fields.size()),static_cast<int>(results.size()));
 
     return results;
 }

@@ -113,7 +113,7 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization
         }
 
         auto all_metrics = tracker_->getAllMetrics();
-        THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
+        THEMIS_INFO("Running auto-optimization check on {} prompts",static_cast<int>(all_metrics.size()));
 
         for (const auto& metrics : all_metrics) {
             if (!shouldOptimize(metrics.prompt_id)) {

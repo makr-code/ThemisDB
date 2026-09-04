@@ -468,11 +468,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             span.setAttribute("query.result_count", static_cast<int64_t>(res.second.size()));
             span.setStatus(true);
             
-            json j = {{"table", table}, {"count", res.second.size()}, {"keys", res.second}};
+            json j = {{"table", table}, {"count",static_cast<int>(res.second.size())}, {"keys", res.second}};
             if (explain && !plan_json.is_null()) {
               j["plan"] = plan_json;
             }
-            if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, res.second.size())) {
+            if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req,static_cast<int>(res.second.size()))) {
                 std::vector<nlohmann::json> key_items = {};
 
                 key_items.reserve(res.second.size());
@@ -655,11 +655,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     entities.push_back(obj);
                 }
             }
-            json j = {{"table", table}, {"count", res.second.size()}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
+            json j = {{"table", table}, {"count",static_cast<int>(res.second.size())}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
             if (explain && !plan_json.is_null()) {
               j["plan"] = plan_json;
             }
-            if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
+            if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req,static_cast<int>(entities.size()))) {
                 std::vector<nlohmann::json> entity_items = {};
 
                 entity_items.reserve(entities.size());
@@ -907,11 +907,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::BaseEntity> out = {};
 
             // Reserve based on expected join cardinality (smaller input set)
-            out.reserve(std::min(leftVec.size(), rightVec.size()));
+            out.reserve(std::min(leftVec.size(),static_cast<int>(rightVec.size())));
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
             if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (static_cast<int>(out.size()) > off) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
-            nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}};
+            nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count",static_cast<int>(out.size())}, {"entities", applyMasking(entities, req)}};
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
             return makeResponse(http::status::ok, response_body.dump(), req);
@@ -2045,7 +2045,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                           entities.push_back(e.toJson());
                         }
                         nlohmann::json response_body = {
-                            {"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}
+                            {"table_left", table1}, {"table_right", table2}, {"count",static_cast<int>(out.size())}, {"entities", applyMasking(entities, req)}
                         };
                         if (explain) {
                             response_body["query"] = aql_query;
@@ -2527,7 +2527,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             
             nlohmann::json response_body = {
                 {"table", dq.table},
-                {"count", entities.size()},
+                {"count",static_cast<int>(entities.size())},
                 {"entities", applyMasking(entities, req)}
             };
             // Provide "result" alias for compatibility with older clients/tests
@@ -2655,7 +2655,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 std::string table = jq.for_nodes.empty() ? std::string("unknown") : jq.for_nodes.front().collection;
 
                 // Fallback: Single-FOR + LET + Object/Projection RETURN produced no results due to join-path edge case
-                if (entities.empty() && jq.for_nodes.size() == 1 && !jq.let_nodes.empty() && jq.return_node) {
+                if (entities.empty() && static_cast<int>(jq.for_nodes.size()) == 1 && !jq.let_nodes.empty() && jq.return_node) {
                     try {
                         THEMIS_WARN("Join path returned 0 rows; applying single-FOR LET projection fallback");
                         const auto& forNode = jq.for_nodes.front();
@@ -2753,7 +2753,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 
                 response_body = {
                     {"table", table},
-                    {"count", entities.size()},
+                    {"count",static_cast<int>(entities.size())},
                     {"entities", applyMasking(entities, req)}
                 };
                 
@@ -3248,7 +3248,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
             nlohmann::json response_body = {
                 {"table", table},
-                {"count", groups.size()},
+                {"count",static_cast<int>(groups.size())},
                 {"groups", applyMasking(groups, req)}
             };
             if (explain) {
@@ -3736,7 +3736,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Traditional response format
             response_body = {
                 {"table", table},
-                {"count", sliced.size()},
+                {"count",static_cast<int>(sliced.size())},
                 {"entities", applyMasking(entities, req)}
             };
             // Provide "result" alias for compatibility
@@ -3767,7 +3767,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
             }
         }
-        if (resource_limits.max_rows > 0 && sliced.size() > resource_limits.max_rows) {
+        if (resource_limits.max_rows > 0 && static_cast<int>(sliced.size()) > resource_limits.max_rows) {
             return makeErrorResponse(http::status::bad_request,
                 "result row count " + std::to_string(sliced.size()) +
                 " exceeds max_rows limit of " + std::to_string(resource_limits.max_rows), req);
@@ -3956,7 +3956,7 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     }
     
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -3987,7 +3987,7 @@ QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext([[maybe_unused]
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context

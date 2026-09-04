@@ -398,7 +398,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 
 size_t SystemVersionedTable::keyCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return rows_.size();
+    return static_cast<int>(rows_.size());
 }
 
 size_t SystemVersionedTable::versionCount() const {
@@ -428,7 +428,7 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
     nlohmann::json stats = {
         {"table_name",       table_name_},
         {"history_table",    config_.history_table_name},
-        {"key_count",        rows_.size()},
+        {"key_count",static_cast<int>(rows_.size())},
         {"current_rows",     current_count},
         {"historical_rows",  historical_count},
         {"total_versions",   current_count + historical_count},

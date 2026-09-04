@@ -297,7 +297,7 @@ void GPUTrainingLoop::initializeOptimizer() {
     
     optimizer_->add_parameters(params);
     
-    spdlog::info("Optimizer initialized with {} parameters", params.size());
+    spdlog::info("Optimizer initialized with {} parameters",static_cast<int>(params.size()));
 }
 
 void GPUTrainingLoop::initializeMemoryManagement() {

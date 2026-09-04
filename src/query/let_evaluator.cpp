@@ -652,7 +652,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     return {j["coordinates"][0].get<double>(),
                             j["coordinates"][1].get<double>()};
             }
-            if (j.is_array() && j.size() >= 2)
+            if (j.is_array() && static_cast<int>(j.size()) >= 2)
                 return {j[0].get<double>(), j[1].get<double>()};
             throw std::runtime_error("ST_Within: g1 must be a GeoJSON Point or [x,y] array");
         };
@@ -746,7 +746,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
 
             // Fallback for bbox [minx, miny, maxx, maxy] or Point degenerate case.
-            if (g2j.is_array() && g2j.size() == 4) {
+            if (g2j.is_array() && static_cast<int>(g2j.size()) == 4) {
                 return (px >= g2j[0].get<double>() && px <= g2j[2].get<double>()
                      && py >= g2j[1].get<double>() && py <= g2j[3].get<double>());
             }
@@ -834,7 +834,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                             double maxy = std::numeric_limits<double>::lowest();
                             
                             for (const auto& coord : exteriorRing) {
-                                if (coord.is_array() && coord.size() >= 2) {
+                                if (coord.is_array() && static_cast<int>(coord.size()) >= 2) {
                                     double x = coord[0].get<double>();
                                     double y = coord[1].get<double>();
                                     minx = std::min(minx, x);
@@ -911,7 +911,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             const auto& coords = geom["coordinates"];
             std::string type = geom["type"];
             
-            if (type == "Point" && coords.is_array() && coords.size() >= 3) {
+            if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
                 return true;
             }
             if ((type == "LineString" || type == "MultiPoint") && coords.is_array() && !coords.empty()) {
@@ -966,13 +966,13 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         double zmin = std::numeric_limits<double>::max();
         bool hasZ = false;
         
-        if (type == "Point" && coords.is_array() && coords.size() >= 3) {
+        if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
             return coords[2];
         }
         
         if ((type == "LineString" || type == "MultiPoint") && coords.is_array()) {
             for (const auto& pt : coords) {
-                if (pt.is_array() && pt.size() >= 3) {
+                if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                     double z = pt[2].get<double>();
                     zmin = std::min(zmin, z);
                     hasZ = true;
@@ -984,7 +984,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             for (const auto& ring : coords) {
                 if (ring.is_array()) {
                     for (const auto& pt : ring) {
-                        if (pt.is_array() && pt.size() >= 3) {
+                        if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                             double z = pt[2].get<double>();
                             zmin = std::min(zmin, z);
                             hasZ = true;
@@ -1015,13 +1015,13 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         double zmax = std::numeric_limits<double>::lowest();
         bool hasZ = false;
         
-        if (type == "Point" && coords.is_array() && coords.size() >= 3) {
+        if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
             return coords[2];
         }
         
         if ((type == "LineString" || type == "MultiPoint") && coords.is_array()) {
             for (const auto& pt : coords) {
-                if (pt.is_array() && pt.size() >= 3) {
+                if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                     double z = pt[2].get<double>();
                     zmax = std::max(zmax, z);
                     hasZ = true;
@@ -1033,7 +1033,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             for (const auto& ring : coords) {
                 if (ring.is_array()) {
                     for (const auto& pt : ring) {
-                        if (pt.is_array() && pt.size() >= 3) {
+                        if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                             double z = pt[2].get<double>();
                             zmax = std::max(zmax, z);
                             hasZ = true;
@@ -1246,7 +1246,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                   wkt << ", ";
                 }
                 const auto& pt = coords[i];
-                if (pt.is_array() && pt.size() >= 2) {
+                if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
                     wkt << pt[0].get<double>() << " " << pt[1].get<double>();
                     if (static_cast<int>(pt.size()) > = 3) {
                         wkt << " " << pt[2].get<double>();
@@ -1273,7 +1273,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                           wkt << ", ";
                         }
                         const auto& pt = ring[i];
-                        if (pt.is_array() && pt.size() >= 2) {
+                        if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
                             wkt << pt[0].get<double>() << " " << pt[1].get<double>();
                             if (static_cast<int>(pt.size()) > = 3) {
                                 wkt << " " << pt[2].get<double>();
@@ -1348,7 +1348,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         
         // Helper to strip Z from coordinate array
         auto strip2D = [](const nlohmann::json& coord) -> nlohmann::json {
-            if (coord.is_array() && coord.size() >= 2) {
+            if (coord.is_array() && static_cast<int>(coord.size()) >= 2) {
                 return nlohmann::json::array({coord[0], coord[1]});
             }
             return coord;
@@ -1402,7 +1402,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         auto inRange = [&]([[maybe_unused]] double z){ return z >= zmin && z <= zmax; };
 
         if (type == "Point") {
-            if (coords.is_array() && coords.size() >= 3) {
+            if (coords.is_array() && static_cast<int>(coords.size()) >= 3) {
                 double z = coords[2].get<double>();
                 return inRange(z);
             }
@@ -1411,7 +1411,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         if (type == "LineString" || type == "MultiPoint") {
             if (coords.is_array()) {
                 for (const auto& pt : coords) {
-                    if (pt.is_array() && pt.size() >= 3) {
+                    if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                         double z = pt[2].get<double>();
                         if (inRange(z)) {
                           return true;
@@ -1426,7 +1426,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 for (const auto& ring : coords) {
                     if (ring.is_array()) {
                         for (const auto& pt : ring) {
-                            if (pt.is_array() && pt.size() >= 3) {
+                            if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                                 double z = pt[2].get<double>();
                                 if (inRange(z)) {
                                   return true;
@@ -1479,7 +1479,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             const auto& ext = rings[0];
             double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
             double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
-            for (const auto& pt : ext) if (pt.is_array() && pt.size()>=2) {
+            for (const auto& pt : ext) if (pt.is_array() && static_cast<int>(pt.size())>=2) {
                 double x=pt[0].get<double>(), y=pt[1].get<double>();
                 minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
             }
@@ -1513,7 +1513,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                         double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
                         double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
                         const auto& ext = rings[0];
-                        for (const auto& pt : ext) if (pt.is_array() && pt.size()>=2) {
+                        for (const auto& pt : ext) if (pt.is_array() && static_cast<int>(pt.size())>=2) {
                             double x=pt[0].get<double>(), y=pt[1].get<double>();
                             minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
                         }

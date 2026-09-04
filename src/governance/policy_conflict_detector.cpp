@@ -117,7 +117,7 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectAllConflicts(
     }
     
     total_detections_++;
-    THEMIS_INFO("Conflict detection completed: {} conflicts found", all_conflicts.size());
+    THEMIS_INFO("Conflict detection completed: {} conflicts found",static_cast<int>(all_conflicts.size()));
     
     return all_conflicts;
 }

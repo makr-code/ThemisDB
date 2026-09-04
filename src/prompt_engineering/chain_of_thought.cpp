@@ -62,7 +62,7 @@ void ChainOfThoughtBuilder::clear() {
 }
 
 size_t ChainOfThoughtBuilder::stepCount() const {
-    return steps_.size();
+    return static_cast<int>(steps_.size());
 }
 
 const CoTConfig& ChainOfThoughtBuilder::getConfig() const {

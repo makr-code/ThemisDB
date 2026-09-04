@@ -113,7 +113,7 @@ bool Hypertable::insertBatch(const std::vector<std::pair<int64_t, std::string>>&
     }
     
     THEMIS_INFO("Batch inserted {} records across {} chunks", 
-                batch.size(), chunk_batches.size());
+                batch.size(),static_cast<int>(chunk_batches.size()));
     return true;
 }
 
@@ -212,7 +212,7 @@ std::vector<Hypertable::ChunkHealth> Hypertable::getChunkHealth() {
         health_reports.push_back(h);
     }
 
-    THEMIS_INFO("Hypertable '{}' health: {} chunks assessed", config_.table_name, health_reports.size());
+    THEMIS_INFO("Hypertable '{}' health: {} chunks assessed", config_.table_name,static_cast<int>(health_reports.size()));
     return health_reports;
 }
 
@@ -273,7 +273,7 @@ std::vector<Hypertable::ChunkInfo> Hypertable::listChunks() {
                   return a.start_time < b.start_time;
               });
 
-    THEMIS_INFO("Hypertable '{}': found {} chunk(s)", config_.table_name, chunks.size());
+    THEMIS_INFO("Hypertable '{}': found {} chunk(s)", config_.table_name,static_cast<int>(chunks.size()));
     return chunks;
 }
 

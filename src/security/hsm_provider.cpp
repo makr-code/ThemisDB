@@ -96,7 +96,7 @@ static std::string derive_fallback_cert_serial(const std::string& cert_pem,
     }
 
     unsigned char digest[SHA256_DIGEST_LENGTH] = {0};
-    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()), seed.size(), digest)) {
+    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()),static_cast<int>(seed.size()), digest)) {
         return {};
     }
 

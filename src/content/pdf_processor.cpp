@@ -109,9 +109,9 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
 
         if (!config_.password.empty()) {
             doc.reset(
-                poppler::document::load_from_raw_data(data.data(), data.size(), config_.password, config_.password));
+                poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size()), config_.password, config_.password));
         } else {
-            doc.reset(poppler::document::load_from_raw_data(data.data(), data.size()));
+            doc.reset(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));
         }
 
         if (!doc) {
@@ -164,7 +164,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
             } else {
                 // Simple reading-order extraction
                 poppler::byte_array bytes = page->text().to_utf8();
-                page_text                 = std::string(bytes.data(), bytes.size());
+                page_text                 = std::string(bytes.data(),static_cast<int>(bytes.size()));
             }
 
             poppler::rectf rect = page->page_rect();
@@ -248,12 +248,12 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
 
 #if PDF_LIBRARY_AVAILABLE
     std::vector<char> data(blob.begin(), blob.end());
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(), data.size()));
+    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));
 
     if (doc) {
         auto to_string = [](const poppler::ustring &us) -> std::string {
             poppler::byte_array bytes = us.to_utf8();
-            return std::string(bytes.data(), bytes.size());
+            return std::string(bytes.data(),static_cast<int>(bytes.size()));
         };
 
         metadata.title    = to_string(doc->get_title());
@@ -309,7 +309,7 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::
 
 #if PDF_LIBRARY_AVAILABLE
     std::vector<char> data(blob.begin(), blob.end());
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(), data.size()));
+    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));
 
     if (!doc)
         return pages;
@@ -331,7 +331,7 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::
         } else {
             // Simple text extraction (reading order from poppler)
             poppler::byte_array text_bytes = page->text().to_utf8();
-            info.text                      = std::string(text_bytes.data(), text_bytes.size());
+            info.text                      = std::string(text_bytes.data(),static_cast<int>(text_bytes.size()));
         }
 
         // Get dimensions
@@ -368,7 +368,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
 
     for (const auto &box : boxes) {
         poppler::byte_array bytes = box.text().to_utf8();
-        std::string text(bytes.data(), bytes.size());
+        std::string text(bytes.data(),static_cast<int>(bytes.size()));
         if (text.empty())
             continue;
 

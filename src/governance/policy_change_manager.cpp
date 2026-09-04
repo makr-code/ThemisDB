@@ -248,7 +248,7 @@ RollbackSafetyReport PolicyChangeManager::checkRollbackSafety(
     if (!affected.empty()) {
         report.safety_level = RollbackSafetyLevel::WARNING;
         report.warnings.push_back(
-            fmt::format("{} rules depend on this policy", affected.size())
+            fmt::format("{} rules depend on this policy",static_cast<int>(affected.size()))
         );
     }
     

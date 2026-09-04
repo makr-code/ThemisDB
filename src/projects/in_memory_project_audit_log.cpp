@@ -90,7 +90,7 @@ std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::query(
         return {};
     result.erase(result.begin(),
                  result.begin() + static_cast<std::ptrdiff_t>(opts.offset));
-    if (opts.limit > 0 && result.size() > opts.limit)
+    if (opts.limit > 0 && static_cast<int>(result.size()) > opts.limit)
         result.resize(opts.limit);
 
     return result;
@@ -118,7 +118,7 @@ bool InMemoryProjectAuditLog::purge(
                 return e.project_id == project_id && e.timestamp < before;
             }),
         entries_.end());
-    return entries_.size() < before_size;
+    return static_cast<int>(entries_.size()) < before_size;
 }
 
 // ── size / clear ──────────────────────────────────────────────────────────────
@@ -126,7 +126,7 @@ bool InMemoryProjectAuditLog::purge(
 size_t InMemoryProjectAuditLog::size() const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    return entries_.size();
+    return static_cast<int>(entries_.size());
 }
 
 void InMemoryProjectAuditLog::clear()

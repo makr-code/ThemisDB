@@ -146,7 +146,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigPost(
                 {"num_rotation_pairs", config.num_rotation_pairs},
                 {"base_theta", config.base_theta},
                 {"normalize_after", config.normalize_after},
-                {"theta_cache_size", config.theta_cache.size()}
+                {"theta_cache_size",static_cast<int>(config.theta_cache.size())}
             }}
         };
         
@@ -218,7 +218,7 @@ http::response<http::string_body> RopeApiHandler::handleConfigGet(
                 {"num_rotation_pairs", config.num_rotation_pairs},
                 {"base_theta", config.base_theta},
                 {"normalize_after", config.normalize_after},
-                {"theta_cache_size", config.theta_cache.size()}
+                {"theta_cache_size",static_cast<int>(config.theta_cache.size())}
             }}
         };
         
@@ -651,7 +651,7 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
             {"query_time_ms", duration_ms},
             {"rotation_enabled", true},
             {"k", k},
-            {"count", results.size()}
+            {"count",static_cast<int>(results.size())}
         };
         
         span.setAttribute("rope.results_count", static_cast<int64_t>(results.size()));
@@ -962,7 +962,7 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);

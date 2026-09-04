@@ -252,7 +252,7 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
     }
 
     THEMIS_DEBUG("MultiModalSearch::fuseRRF: {} lists -> {} results (k={})",
-                 ranked_lists.size(), results.size(), config_.k);
+                 ranked_lists.size(),static_cast<int>(results.size()), config_.k);
     return results;
 }
 

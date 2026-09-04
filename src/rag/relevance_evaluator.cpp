@@ -175,7 +175,7 @@ Questions:)";
         questions.push_back(answer);
     }
     
-    THEMIS_DEBUG("Generated {} reverse questions", questions.size());
+    THEMIS_DEBUG("Generated {} reverse questions",static_cast<int>(questions.size()));
     return questions;
 }
 
@@ -270,7 +270,7 @@ std::vector<std::string> RelevanceEvaluator::detectNoise(
         }
     }
     
-    THEMIS_DEBUG("Detected {} potentially irrelevant segments", irrelevant_segments.size());
+    THEMIS_DEBUG("Detected {} potentially irrelevant segments",static_cast<int>(irrelevant_segments.size()));
     return irrelevant_segments;
 }
 

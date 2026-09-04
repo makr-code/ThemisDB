@@ -179,7 +179,7 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
                                 [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
-    return loras_.size() < before;
+    return static_cast<int>(loras_.size()) < before;
 }
 
 std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
@@ -649,7 +649,7 @@ json LlamaCppPlugin::getMemoryStats() const {
         {"plugin",       "llama_cpp"},
         {"model_loaded", model_loaded_},
         {"model_id",     model_id_},
-        {"lora_count",   loras_.size()}
+        {"lora_count",static_cast<int>(loras_.size())}
     };
 
 #ifdef THEMIS_LLM_ENABLED

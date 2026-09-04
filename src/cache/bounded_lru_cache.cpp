@@ -311,7 +311,7 @@ bool BoundedLRUCache::contains(const std::string &key) const {
 
 std::size_t BoundedLRUCache::size() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 } // namespace cache

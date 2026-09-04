@@ -55,7 +55,7 @@ static std::string sha256Hex(const std::string& input) {
     // EVP_Digest is the OpenSSL 3.x-recommended one-shot hash API.
     // It avoids the deprecated SHA256() shortcut and works with both
     // the legacy and default OpenSSL 3.x provider configurations.
-    if (EVP_Digest(input.data(), input.size(),
+    if (EVP_Digest(input.data(),static_cast<int>(input.size()),
                    digest, &digest_len,
                    EVP_sha256(), nullptr) != 1) {
         // Fallback: return a fixed string to avoid silent cache collisions.
@@ -242,7 +242,7 @@ std::vector<std::string> FederatedIdentityManager::realmIssuers() const {
 
 size_t FederatedIdentityManager::realmCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return realms_.size();
+    return static_cast<int>(realms_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -493,7 +493,7 @@ void FederatedIdentityManager::clearTokenCache() {
 
 size_t FederatedIdentityManager::tokenCacheSize() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    return token_cache_.size();
+    return static_cast<int>(token_cache_.size());
 }
 
 // ---------------------------------------------------------------------------

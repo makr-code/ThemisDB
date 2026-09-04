@@ -66,7 +66,7 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
     if (incidents_.empty()) return {};
     // Newest at back; return newest first.
     std::vector<GeoIncident> result(incidents_.rbegin(), incidents_.rend());
-    if (max_count > 0 && result.size() > max_count) {
+    if (max_count > 0 && static_cast<int>(result.size()) > max_count) {
         result.resize(max_count);
     }
     return result;

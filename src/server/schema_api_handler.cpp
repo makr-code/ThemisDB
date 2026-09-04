@@ -144,7 +144,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
         res.prepare_payload();
         
         span.setStatus(true);
-        spdlog::debug("Schema API: Returned {} tables", tables.size());
+        spdlog::debug("Schema API: Returned {} tables",static_cast<int>(tables.size()));
         return res;
         
     } catch (const std::exception& e) {

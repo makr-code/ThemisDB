@@ -77,7 +77,7 @@ static std::string extractUserId(const http::request<http::string_body>& req, st
     }
     
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return "";
@@ -255,7 +255,7 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
             }
             arr.push_back(std::move(j));
         }
-        nlohmann::json resp = { {"count", chunks.size()}, {"chunks", std::move(arr)} };
+        nlohmann::json resp = { {"count",static_cast<int>(chunks.size())}, {"chunks", std::move(arr)} };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -291,7 +291,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
             resp.push_back({{"pk", result.first}, {"score", result.second}});
         }
         nlohmann::json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp}
         };
         return makeResponse(http::status::ok, out.dump(), req);
@@ -478,7 +478,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         nlohmann::json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"fusion_mode", fusionMode},
             {"table", table},
             {"results", resp}
@@ -564,7 +564,7 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         }
         
         nlohmann::json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp},
             {"table", table},
             {"column", column},

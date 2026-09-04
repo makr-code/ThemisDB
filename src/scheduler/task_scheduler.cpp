@@ -2309,7 +2309,7 @@ void TaskScheduler::saveTasks() {
         chmod(filepath.c_str(), S_IRUSR | S_IWUSR);
         #endif
         
-        THEMIS_DEBUG("Saved {} tasks to disk with secure permissions", tasks_.size());
+        THEMIS_DEBUG("Saved {} tasks to disk with secure permissions",static_cast<int>(tasks_.size()));
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to save tasks: {}", e.what());
     }
@@ -2426,7 +2426,7 @@ void TaskScheduler::loadTasks() {
             registerTask(task);
         }
         
-        THEMIS_INFO("Loaded {} tasks from disk", tasks_.size());
+        THEMIS_INFO("Loaded {} tasks from disk",static_cast<int>(tasks_.size()));
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to load tasks: {}", e.what());
     }

@@ -397,7 +397,7 @@ double computeGraphSimilarity(const ProcessPattern& pattern, const ProcessTrace&
     const auto edge_overlap = jaccardSimilarity(pattern_edges, trace_edge_set);
     const auto lcs = longestCommonSubsequence(pattern.activities, trace_activity_sequence);
     const auto max_len = static_cast<double>(
-        std::max(pattern.activities.size(), trace_activity_sequence.size()));
+        std::max(pattern.activities.size(),static_cast<int>(trace_activity_sequence.size())));
     const auto path_similarity = max_len > 0.0 ? static_cast<double>(lcs) / max_len : 1.0;
     return 0.4 * node_overlap + 0.35 * edge_overlap + 0.25 * path_similarity;
 }
@@ -413,7 +413,7 @@ double computeBehavioralSimilarity(const ProcessPattern& pattern, const ProcessT
 
     const auto lcs = longestCommonSubsequence(pattern.activities, trace_activity_sequence);
     const auto max_len = static_cast<double>(
-        std::max(pattern.activities.size(), trace_activity_sequence.size()));
+        std::max(pattern.activities.size(),static_cast<int>(trace_activity_sequence.size())));
     const auto seq_similarity = max_len > 0.0 ? static_cast<double>(lcs) / max_len : 0.0;
     const auto pattern_order = weakOrderPairs(pattern.activities);
     const auto trace_order = weakOrderPairs(trace_activity_sequence);
@@ -779,7 +779,7 @@ json PmFindSimilarFunction::execute(
 
     return {
         {"results", std::move(results)},
-        {"total", ranked.size()}
+        {"total",static_cast<int>(ranked.size())}
     };
 }
 

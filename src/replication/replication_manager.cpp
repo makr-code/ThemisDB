@@ -264,7 +264,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     constexpr uint32_t MAX_STRING_LENGTH = 1024 * 1024 * 100;  // 100 MB limit per field
     
     if (static_cast<int>(data.size()) < MIN_HEADER_SIZE) {
-        THEMIS_DEBUG("WALEntry::deserialize: buffer too small ({} < {})", data.size(), MIN_HEADER_SIZE);
+        THEMIS_DEBUG("WALEntry::deserialize: buffer too small ({} < {})",static_cast<int>(data.size()), MIN_HEADER_SIZE);
         return std::nullopt;
     }
     
@@ -508,7 +508,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
         // Write length prefix
         uint32_t len = static_cast<uint32_t>(serialized.size());
         ofs.write(reinterpret_cast<char*>(&len), sizeof(len));
-        ofs.write(reinterpret_cast<char*>(serialized.data()), serialized.size());
+        ofs.write(reinterpret_cast<char*>(serialized.data()),static_cast<int>(serialized.size()));
         
         if (config_.wal_sync_on_commit) {
             ofs.flush();
@@ -1560,7 +1560,7 @@ bool ReplicationManager::enableMultiRegion(const std::string& region_id,
         election_->setClusterSize(static_cast<uint32_t>(replicas_.size()) + 1);
     }
     
-    THEMIS_INFO("Multi-region replication enabled with {} peer regions", peer_regions.size());
+    THEMIS_INFO("Multi-region replication enabled with {} peer regions",static_cast<int>(peer_regions.size()));
     return true;
 }
 
@@ -1637,7 +1637,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
 bool ReplicationManager::setupCascadingReplication(const std::string& source_replica,
                                                    const std::vector<std::string>& target_replicas) {
     THEMIS_INFO("Setting up cascading replication: {} -> {} targets",
-               source_replica, target_replicas.size());
+               source_replica,static_cast<int>(target_replicas.size()));
     
     // In production, configure source replica to replicate to targets
     // This reduces load on primary by having intermediate replicas
@@ -2682,7 +2682,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
     auto compute_mm_checksum = [](const MMWriteEntry& entry) {
         std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
         std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -2775,7 +2775,7 @@ MMWriteEntry CRDTMergeResolver::resolve(
     // Keep checksum aligned with merged payload and metadata-carrying fields.
     std::string content = result.operation + result.collection + result.document_id + result.data;
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
     std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -3592,7 +3592,7 @@ std::string MultiMasterReplicationManager::write(
     {
         std::string content = operation + collection + document_id + data;
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
         std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -4530,7 +4530,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
         // Without a session token a plain quorum check suffices, so we can
         // stop as soon as we have enough responses.  With a session token we
         // need the full picture to correctly count qualifying replicas.
-        if (session_token.empty() && responses.size() >= required) {
+        if (session_token.empty() && static_cast<int>(responses.size()) >= required) {
           break;
         }
     }
@@ -4552,7 +4552,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
         }
     }
 
-    if (!session_token.empty() && qualifying.size() < required) {
+    if (!session_token.empty() && static_cast<int>(qualifying.size()) < required) {
         THEMIS_WARN("QuorumRead: SESSION not satisfied for {}/{} – "
                     "only {}/{} replicas at required_version={}",
                     collection, document_id,
@@ -4908,7 +4908,7 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
             std::vector<uint8_t> out(bound);
             size_t compressed = ZSTD_compress(
                 out.data(), bound,
-                data.data(), data.size(),
+                data.data(),static_cast<int>(data.size()),
                 config_.compression_level
             );
             if (ZSTD_isError(compressed)) {
@@ -4920,9 +4920,9 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
         }
 
         case CompressionAlgorithm::SNAPPY: {
-            std::string input(reinterpret_cast<const char*>(data.data()), data.size());
+            std::string input(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
             std::string output = {};
-            snappy::Compress(input.data(), input.size(), &output);
+            snappy::Compress(input.data(),static_cast<int>(input.size()), &output);
             return std::vector<uint8_t>(output.begin(), output.end());
         }
 
@@ -4972,7 +4972,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
         }
 
         case CompressionAlgorithm::ZSTD: {
-            uint64_t dsize = ZSTD_getFrameContentSize(compressed.data(), compressed.size());
+            uint64_t dsize = ZSTD_getFrameContentSize(compressed.data(),static_cast<int>(compressed.size()));
             if (dsize == ZSTD_CONTENTSIZE_UNKNOWN || dsize == ZSTD_CONTENTSIZE_ERROR) {
                 THEMIS_ERROR("ZSTD: cannot determine decompressed size");
                 return {};  // Production behavior: return empty on size error
@@ -4980,7 +4980,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
             std::vector<uint8_t> out(dsize);
             size_t result = ZSTD_decompress(
                 out.data(), dsize,
-                compressed.data(), compressed.size()
+                compressed.data(),static_cast<int>(compressed.size())
             );
             if (ZSTD_isError(result)) {
                 THEMIS_ERROR("ZSTD decompression error: {}", ZSTD_getErrorName(result));
@@ -4994,7 +4994,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
             std::string input(reinterpret_cast<const char*>(compressed.data()),
                               compressed.size());
             std::string output = {};
-            if (!snappy::Uncompress(input.data(), input.size(), &output)) {
+            if (!snappy::Uncompress(input.data(),static_cast<int>(input.size()), &output)) {
                 THEMIS_ERROR("Snappy decompression failed");
                 return {};  // Production behavior: return empty on error
             }
@@ -5593,7 +5593,7 @@ void CDCManager::unsubscribe([[maybe_unused]] uint64_t subscription_id) {
 
 size_t CDCManager::subscriptionCount() const {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 void CDCManager::onWALEntryApplied(const WALEntry& entry) {
@@ -5680,7 +5680,7 @@ void CrossClusterPublication::removeRemoteSubscriber([[maybe_unused]] uint64_t s
 
 size_t CrossClusterPublication::subscriberCount() const {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
-    return subscribers_.size();
+    return static_cast<int>(subscribers_.size());
 }
 
 uint64_t CrossClusterPublication::publishedCount() const {
@@ -5845,7 +5845,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     
     // Validate: must be non-empty, even-length, and contain only hex digits
     if (hex.empty() || hex.size() % 2 != 0) {
-        THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})", hex.size());
+        THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})",static_cast<int>(hex.size()));
         return {};  // Production behavior: return empty on format error
     }
     for (char c : hex) {
@@ -5910,7 +5910,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     const std::vector<uint8_t>& key) {
     // Minimum: IV(12) + Tag(16) = 28 bytes
     if (static_cast<int>(data.size()) < 28) {
-        THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})", data.size());
+        THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})",static_cast<int>(data.size()));
         return std::nullopt;
     }
 
@@ -5952,7 +5952,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     size_t bound = ZSTD_compressBound(data.size());
     std::vector<uint8_t> out(bound);
     size_t compressed = ZSTD_compress(
-        out.data(), bound, data.data(), data.size(), /*level=*/3);
+        out.data(), bound, data.data(),static_cast<int>(data.size()), /*level=*/3);
     if (ZSTD_isError(compressed)) {
         return data;  // fall back to uncompressed on error
     }
@@ -6131,7 +6131,7 @@ uint32_t WALArchivalManager::archiveSegments(
         ++archived;
 
         THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes, compressed={}, encrypted={})",
-                    segment_id, dest, payload.size(),
+                    segment_id, dest,static_cast<int>(payload.size()),
                     meta.compressed, meta.encrypted);
     }
 
@@ -6207,7 +6207,7 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
     }
 
     // Decompress with ZSTD
-    uint64_t decompressed_size = ZSTD_getFrameContentSize(raw.data(), raw.size());
+    uint64_t decompressed_size = ZSTD_getFrameContentSize(raw.data(),static_cast<int>(raw.size()));
     if (decompressed_size == ZSTD_CONTENTSIZE_ERROR ||
         decompressed_size == ZSTD_CONTENTSIZE_UNKNOWN) {
         THEMIS_ERROR("WALArchival: cannot determine decompressed size for segment {}",
@@ -6216,7 +6216,7 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
     }
     std::vector<uint8_t> out(decompressed_size);
     size_t result = ZSTD_decompress(
-        out.data(), out.size(), raw.data(), raw.size());
+        out.data(),static_cast<int>(out.size()), raw.data(),static_cast<int>(raw.size()));
     if (ZSTD_isError(result)) {
         THEMIS_ERROR("WALArchival: decompression failed for segment {}", segment_id);
         return std::nullopt;

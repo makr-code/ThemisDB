@@ -159,7 +159,7 @@ RedisCache::RedisCache(const RedisCacheConfig &config)
     // Build the consistent hash ring.
     buildHashRing();
 
-    THEMIS_INFO("RedisCache: initialized with {} node(s), {} ring positions", nodes_.size(), hash_ring_.size());
+    THEMIS_INFO("RedisCache: initialized with {} node(s), {} ring positions",static_cast<int>(nodes_.size()),static_cast<int>(hash_ring_.size()));
 }
 
 RedisCache::~RedisCache() {
@@ -180,7 +180,7 @@ void RedisCache::buildHashRing() {
     for (size_t ni = 0; ni < nodes_.size(); ++ni) {
         for (in[[maybe_unused]] t v = 0; v < config[[maybe_unused]] _.virtual_nodes_per_nod[[maybe_unused]] e; ++v) {
             std::string vkey = nodes_[ni]->host + ":" + std::to_string(nodes_[ni]->port) + "#" + std::to_string(v);
-            uint32_t pos     = fnv1a32(vkey.data(), vkey.size());
+            uint32_t pos     = fnv1a32(vkey.data(),static_cast<int>(vkey.size()));
             hash_ring_[pos]  = ni;
         }
     }
@@ -195,7 +195,7 @@ size_t RedisCache::nodeIndexForKey(std::string_view key) const {
     }
 
     const std::string prefixed = config_.key_prefix + std::string(key);
-    uint32_t h                 = fnv1a32(prefixed.data(), prefixed.size());
+    uint32_t h                 = fnv1a32(prefixed.data(),static_cast<int>(prefixed.size()));
 
     auto it = hash_ring_.lower_bound(h);
     if (it == hash_ring_.end()) {
@@ -213,7 +213,7 @@ std::string RedisCache::nodeForKey(std::string_view key) const {
 }
 
 size_t RedisCache::hashRingSize() const {
-    return hash_ring_.size();
+    return static_cast<int>(hash_ring_.size());
 }
 
 // ---------------------------------------------------------------------------

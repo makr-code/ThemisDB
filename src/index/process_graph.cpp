@@ -3439,14 +3439,14 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
 bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) const {
     switch (hyperedge.sync_type) {
         case Hyperedge::SyncType::AND_JOIN:
-            return hyperedge.activated_sources.size() == hyperedge.source_nodes.size();
+            return static_cast<int>(hyperedge.activated_sources.size()) == hyperedge.source_nodes.size();
         case Hyperedge::SyncType::OR_JOIN:
             return !hyperedge.activated_sources.empty();
         case Hyperedge::SyncType::N_OF_M_JOIN:
             return hyperedge.required_count.has_value() && 
                    hyperedge.activated_sources.size() >= static_cast<size_t>(*hyperedge.required_count);
         case Hyperedge::SyncType::DISCRIMINATOR:
-            return hyperedge.activated_sources.size() == 1;
+            return static_cast<int>(hyperedge.activated_sources.size()) == 1;
         default:
             return false;
     }
