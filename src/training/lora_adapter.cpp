@@ -62,10 +62,10 @@ static std::vector<float> kaimingUniform(size_t size, size_t fan_in, uint32_t se
  * B weights.
  */
 static uint32_t seedFromName(const std::string& name) {
-    uint32_t h = 2166136261u;  // FNV-1a 32-bit offset basis
+    uint32_t h = 2166136261;  // FNV-1a 32-bit offset basis
     for (unsigned char c : name) {
         h ^= static_cast<uint32_t>(c);
-        h *= 16777619u;         // FNV prime
+        h *= 16777619;         // FNV prime
     }
     return h;
 }
@@ -176,7 +176,7 @@ public:
         size_t total = 0;
         for (const auto& kv : layers_) {
             const auto& e = kv.second;
-            total += static_cast<int>(e.B.size()) + e.A.size();  // in_dim*rank + rank*out_dim
+            total += static_cast<int>(e.B.size()) + static_cast<int>(e.A.size()) ;  // in_dim*rank + rank*out_dim
         }
         return total;
     }

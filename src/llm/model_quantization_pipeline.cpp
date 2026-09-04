@@ -285,7 +285,7 @@ std::vector<float> ModelQuantizationPipeline::unpack_int32_weights(
     int bits)
 {
     const int values_per_int32 = 32 / bits;
-    const uint32_t mask = (1u << bits) - 1u;
+    const uint32_t mask = (1 << bits) - 1;
 
     std::vector<float> out;
     out.reserve(n_packed * static_cast<size_t>(values_per_int32));
@@ -310,8 +310,8 @@ std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
     for (size_t i = 0; i < n; ++i) {
         const uint16_t h = src[i];
         // IEEE 754 FP16 → FP32 conversion
-        const uint32_t sign     = (h & 0x8000u) << 16u;
-        const uint32_t exponent = (h & 0x7C00u) >> 10u;
+        const uint32_t sign     = (h & 0x8000u) << 16;
+        const uint32_t exponent = (h & 0x7C00u) >> 10;
         const uint32_t mantissa = (h & 0x03FFu);
 
         uint32_t bits32 = 0;
@@ -323,14 +323,14 @@ std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
                 // Normalise subnormal
                 uint32_t m = mantissa;
                 uint32_t e = 0;
-                while ((m & 0x0400u) == 0) { m <<= 1u; ++e; }
-                bits32 = sign | ((127u - 14u - e) << 23u) | ((m & 0x03FFu) << 13u);
+                while ((m & 0x0400u) == 0) { m <<= 1; ++e; }
+                bits32 = sign | ((127 - 14 - e) << 23) | ((m & 0x03FFu) << 13);
             }
-        } else if (exponent == 31u) {
+        } else if (exponent == 31) {
             // Inf or NaN
-            bits32 = sign | 0x7F800000u | (mantissa << 13u);
+            bits32 = sign | 0x7F800000u | (mantissa << 13);
         } else {
-            bits32 = sign | ((exponent + 127u - 15u) << 23u) | (mantissa << 13u);
+            bits32 = sign | ((exponent + 127 - 15) << 23) | (mantissa << 13);
         }
         std::memcpy(&out[i], &bits32, sizeof(float));
     }
@@ -365,7 +365,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     //
     // Dequantize: W_fp[i, j] = (weight[i,j] - zero[i/group_size, j]) * scales[i/group_size, j]
     const int vpw    = 32 / bits;
-    const uint32_t mask = (1u << bits) - 1u;
+    const uint32_t mask = (1 << bits) - 1;
 
     const int64_t qw_cols = (out_features + vpw - 1) / vpw;   // packed cols in qweight/qzeros
     const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
@@ -429,7 +429,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
     //
     // Dequantize: W_fp[i, j] = (weight[i,j] - zero[i/group_size, j]) * scales[i/group_size, j]
     const int vpw    = 32 / bits;
-    const uint32_t mask = (1u << bits) - 1u;
+    const uint32_t mask = (1 << bits) - 1;
 
     const int64_t qz_cols = (out_features + vpw - 1) / vpw;
     const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);

@@ -56,7 +56,7 @@ struct dim3 {
     unsigned int x;
     unsigned int y;
     unsigned int z;
-    constexpr dim3(unsigned int x_ = 1u, unsigned int y_ = 1u, unsigned int z_ = 1u) noexcept
+    constexpr dim3(unsigned int x_ = 1, unsigned int y_ = 1, unsigned int z_ = 1) noexcept
         : x(x_), y(y_), z(z_) {}
 };
 #endif
@@ -369,10 +369,10 @@ public:
 
                     const unsigned int gridX  = static_cast<unsigned int>((numVectors + 31) / 32);
                     const unsigned int gridY  = static_cast<unsigned int>(numQueries);
-                    const unsigned int blockX = 32u;
+                    const unsigned int blockX = 32;
 
-                    if (fnLaunchKernel_(kfunc, gridX, gridY, 1u,
-                                        blockX, 1u, 1u, 0u,
+                    if (fnLaunchKernel_(kfunc, gridX, gridY, 1,
+                                        blockX, 1, 1, 0,
                                         stream_, args, nullptr) == ZLUDA_SUCCESS) {
 
                         if (fnStreamSynchronize_) {

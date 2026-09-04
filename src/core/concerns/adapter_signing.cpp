@@ -68,7 +68,7 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
 
 std::string SignedAdapterValidator::canonicalString(const AdapterMetadata& m) {
     std::string result = {};
-    result.reserve(m.id.size() + 12 + m.description.size());
+    result.reserve(m.id.size() + 12 + static_cast<int>(m.description.size()) );
     result += m.id;
     result += ':';
     result += std::to_string(m.apiVersion);

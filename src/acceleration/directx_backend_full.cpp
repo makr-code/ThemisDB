@@ -351,7 +351,7 @@ public:
             static_cast<UINT>(numQueries),
             static_cast<UINT>(numVectors),
             static_cast<UINT>(dim),
-            0u
+            0
         };
         commandList_->SetComputeRoot32BitConstants(3, 4, constants, 0);
 

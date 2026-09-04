@@ -349,7 +349,7 @@ std::string RaftLoadBalancer::selectRoundRobin() {
     auto healthy = healthyBackends();
     if (healthy.empty())
         return {};
-    const size_t n   = healthy.size();
+    const size_t n = healthy.size();
     const size_t idx = rr_index_.fetch_add(1, std::memory_order_relaxed) % n;
     return healthy[idx]->address;
 }

@@ -502,7 +502,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
         const std::string key   = "tenant_id=";
         auto kpos = query.find(key);
         if (kpos != std::string::npos) {
-            tenant_filter = query.substr(kpos + key.size());
+            tenant_filter = query.substr(kpos + static_cast<int>(key.size()) );
             const auto amp = tenant_filter.find('&');
             if (amp != std::string::npos) {
               tenant_filter = tenant_filter.substr(0, amp);

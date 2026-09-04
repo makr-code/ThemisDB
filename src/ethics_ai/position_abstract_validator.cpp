@@ -152,7 +152,7 @@ bool PositionAbstractValidator::autoRepair(DiscourseRoundOutput &output) const {
 
     // 3. Truncate position_abstract if too long (rough char-based truncation)
     if (countTokens(output.position_abstract) > config_.max_abstract_tokens) {
-        const std::size_t max_chars = static_cast<std::size_t>(config_.max_abstract_tokens) * 4u;
+        const std::size_t max_chars = static_cast<std::size_t>(config_.max_abstract_tokens) * 4;
         if (static_cast<int>(output.position_abstract.size()) > max_chars) {
             output.position_abstract = output.position_abstract.substr(0, max_chars);
         }

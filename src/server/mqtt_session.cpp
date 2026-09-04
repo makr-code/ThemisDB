@@ -159,7 +159,7 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     
     // Update metrics
     metrics_.messagesReceived++;
-    metrics_.bytesReceived += static_cast<int>(topic.size()) + payload.size();
+    metrics_.bytesReceived += static_cast<int>(topic.size()) + static_cast<int>(payload.size()) ;
     metrics_.publishCount++;
     
     switch (qos) {
@@ -321,13 +321,13 @@ void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     
     if (protocolVersion_ == 5) {
         // MQTT 5.0: Add properties length (0 for now)
-        packet.push_back(static_cast<uint8_t>(3u));    // Remaining length
-        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1u : 0u));
+        packet.push_back(static_cast<uint8_t>(3));    // Remaining length
+        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1 : 0));
         packet.push_back(returnCode);
-        packet.push_back(static_cast<uint8_t>(0u));    // Properties length
+        packet.push_back(static_cast<uint8_t>(0));    // Properties length
     } else {
-        packet.push_back(static_cast<uint8_t>(2u));    // Remaining length
-        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1u : 0u));
+        packet.push_back(static_cast<uint8_t>(2));    // Remaining length
+        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1 : 0));
         packet.push_back(returnCode);
     }
     
@@ -377,10 +377,10 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     
     // Encode remaining length (variable length)
     while (true) {
-        uint8_t encodedByte = static_cast<uint8_t>(remainingLength % 128u);
-        remainingLength = remainingLength / 128u;
+        uint8_t encodedByte = static_cast<uint8_t>(remainingLength % 128);
+        remainingLength = remainingLength / 128;
         if (remainingLength > 0) {
-            encodedByte = static_cast<uint8_t>(encodedByte | 128u);
+            encodedByte = static_cast<uint8_t>(encodedByte | 128);
         }
         packet.push_back(encodedByte);
         if (remainingLength == 0) {
@@ -454,10 +454,10 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     std::vector<uint8_t> packet;
     std::vector<uint8_t> packet = {};
 
-    packet.reserve(4 + returnCodes.size());
+    packet.reserve(4 + static_cast<int>(returnCodes.size()) );
     
     packet.push_back(0x90); // SUBACK packet type
-    const size_t remaining_suback = 2 + returnCodes.size();
+    const size_t remaining_suback = 2 + static_cast<int>(returnCodes.size()) ;
     if (remaining_suback > static_cast<size_t>(std::numeric_limits<uint8_t>::max())) {
         return;
     }
@@ -553,7 +553,7 @@ void MqttSession::doRead() {
                             payloadOffset += 2;
                         }
 
-                        const size_t payload_prefix = 2 + topicLen + (qos > 0 ? 2u : 0u);
+                        const size_t payload_prefix = 2 + topicLen + (qos > 0 ? 2 : 0);
                         if (remainingLength < payload_prefix) {
                             doRead();
                             return;

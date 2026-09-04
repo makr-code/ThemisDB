@@ -522,7 +522,7 @@ std::optional<Event> Event::deserialize([[maybe_unused]] const std::vector<uint8
 // ============================================================================
 
 EventStream::EventStream([[maybe_unused]] const StreamConfig &config) : config_(config) {
-    uint32_t n = std::max(1u, config_.partitions);
+    uint32_t n = std::max(1, config_.partitions);
     partitions_.reserve(n);
     for (uint32_t i = 0; i < n; ++i) {
         partitions_.emplace_back(std::make_unique<Partition>());

@@ -384,7 +384,7 @@ bool HSMProvider::initialize(){
                     
                     uint32_t poolSize = config_.session_pool_size;
                     if(const char* envPool = std::getenv("THEMIS_HSM_SESSION_POOL")){
-                        poolSize = std::max(1u, (uint32_t)std::atoi(envPool));
+                        poolSize = std::max(1, (uint32_t)std::atoi(envPool));
                     }
                     impl_->pool.resize(poolSize);
                     for(uint32_t i=0;i<poolSize;++i){
@@ -559,7 +559,7 @@ static const uint8_t SHA256_DER_PREFIX[] = {
 
 // Append DER prefix + digest for raw RSA PKCS#1v1.5 signing
 static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
-    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + digest.size());
+    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + static_cast<int>(digest.size()) );
     std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));
     std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(),static_cast<int>(digest.size()));
     return di;

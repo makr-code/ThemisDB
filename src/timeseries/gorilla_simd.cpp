@@ -46,7 +46,7 @@ bool gorilla_simd_has_avx2() noexcept {
 #  else
     unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
     __cpuid_count(7, 0, eax, ebx, ecx, edx);
-    return (ebx & (1u << 5)) != 0;     // EBX bit 5 = AVX2
+    return (ebx & (1 << 5)) != 0;     // EBX bit 5 = AVX2
 #  endif
 #else
     return false;
@@ -245,7 +245,7 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         // Same conservative estimate used by the SIMD path below:
         // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
         // avoids repeated reallocations without changing decode semantics.
-        out.reserve(static_cast<int>(out.size()) + data_.size() / 2 + 1);
+        out.reserve(static_cast<int>(out.size()) + static_cast<int>(data_.size()) / 2 + 1);
         while (auto p = fallback.next()) {
             out.push_back(*p);
         }
@@ -259,7 +259,7 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     // Detect and validate the Gorilla chunk header (3 bytes: magic0, magic1, version).
     // Legacy chunks (encoded before v1) have no header; fall through to decode as-is.
     const uint8_t* payload_ptr  = data_.data();
-    size_t         payload_size = data_.size();
+    size_t payload_size = data_.size();
 
     if (static_cast<int>(data_.size()) >= 3 &&
             data_[0] == kGorillaMagic0 &&

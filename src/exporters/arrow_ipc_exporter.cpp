@@ -705,7 +705,7 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
 static std::vector<uint8_t> buildRecordBatchMessage(const std::vector<BaseEntity> &entities,
                                                     const std::vector<std::string> &columns, const BatchBody &body) {
     int64_t num_rows  = static_cast<int64_t>(entities.size());
-    size_t num_cols   = columns.size();
+    size_t num_cols = columns.size();
     int64_t body_size = static_cast<int64_t>(body.bytes.size());
 
     FBuf fb;
@@ -932,7 +932,7 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     // Schema message frame
     [[maybe_unused]] int64_t schema_frame_start = file_pos;
     writeMessageFrame(out, schema_msg, {});
-    // frame size: 4 (continuation) + 4 (meta_size) + schema_msg.size()
+    // frame size: 4 (continuation) + 4 (meta_size) + static_cast<int>(schema_msg.size()) 
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());
     file_pos += schema_frame_size;
 

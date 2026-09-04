@@ -55,7 +55,7 @@ std::string HtmlProcessor::removeElement(
         // Case-insensitive search for the opening tag
         // We compare lower-cased prefix of the html substring
         auto ciFind = [&]([[maybe_unused]] const std::string& pat) -> size_t {
-            for (size_t i = pos; i + pat.size() <= html.size(); ++i) {
+            for (size_t i = pos; i + static_cast<int>(pat.size()) <= html.size(); ++i) {
                 bool match = true;
                 for (size_t j = 0; j <static_cast<int>(pat.size()); ++j) {
                     if (std::tolower(static_cast<unsigned char>(html[i + j])) !=
@@ -67,7 +67,7 @@ std::string HtmlProcessor::removeElement(
                 if (match) {
                     // Ensure the character after the tag name is a space, '>', or '/'
                     // to avoid matching e.g. <navigation> when looking for <nav>
-                    size_t after = i + pat.size();
+                    size_t after = i + static_cast<int>(pat.size()) ;
                     if (after >= static_cast<int>(html.size())) {
                       return i;
                     }
@@ -99,7 +99,7 @@ std::string HtmlProcessor::removeElement(
             bool at_open = false;
             bool at_close = false;
 
-            if (scan + open_pattern.size() <= html.size()) {
+            if (scan + static_cast<int>(open_pattern.size()) <= html.size()) {
                 bool m = true;
                 for (size_t j = 0; j <static_cast<int>(open_pattern.size()); ++j) {
                     if (std::tolower(static_cast<unsigned char>(html[scan + j])) !=
@@ -108,14 +108,14 @@ std::string HtmlProcessor::removeElement(
                     }
                 }
                 if (m) {
-                    size_t after = scan + open_pattern.size();
+                    size_t after = scan + static_cast<int>(open_pattern.size()) ;
                     char next = (after <static_cast<int>(html.size())) ? html[after] : '>';
                     if (next == '>' || next == '/' || std::isspace(static_cast<unsigned char>(next))) {
                         at_open = true;
                     }
                 }
             }
-            if (!at_open && scan + close_pattern.size() <= html.size()) {
+            if (!at_open && scan + static_cast<int>(close_pattern.size()) <= html.size()) {
                 bool m = true;
                 for (size_t j = 0; j <static_cast<int>(close_pattern.size()); ++j) {
                     if (std::tolower(static_cast<unsigned char>(html[scan + j])) !=
@@ -124,7 +124,7 @@ std::string HtmlProcessor::removeElement(
                     }
                 }
                 if (m) {
-                    size_t after = scan + close_pattern.size();
+                    size_t after = scan + static_cast<int>(close_pattern.size()) ;
                     char next = (after <static_cast<int>(html.size())) ? html[after] : '>';
                     if (next == '>' || std::isspace(static_cast<unsigned char>(next))) {
                         at_close = true;

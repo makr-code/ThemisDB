@@ -82,8 +82,8 @@ SemVer SemVer::parse(const std::string& s) {
             return false;
         }
         int result = 0;
-        auto [ptr, ec] = std::from_chars(sv.data(), sv.data() + sv.size(), result);
-        if (ec != std::errc{} || ptr != sv.data() + sv.size()) {
+        auto [ptr, ec] = std::from_chars(sv.data(), sv.data() + static_cast<int>(sv.size()) , result);
+        if (ec != std::errc{} || ptr != sv.data() + static_cast<int>(sv.size()) ) {
             return false;
         }
         out = result;

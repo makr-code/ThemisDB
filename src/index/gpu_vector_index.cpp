@@ -1126,9 +1126,9 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
 
         const size_t baseIndex = pImpl-> static_cast<int>(vectorData.size());
         try {
-            pImpl->vectorIds.reserve(baseIndex + ids.size());
-            pImpl->vectorData.reserve(baseIndex + vectors.size());
-            pImpl->idToIndex.reserve(baseIndex + ids.size());
+            pImpl->vectorIds.reserve(baseIndex + static_cast<int>(ids.size()) );
+            pImpl->vectorData.reserve(baseIndex + static_cast<int>(vectors.size()) );
+            pImpl->idToIndex.reserve(baseIndex + static_cast<int>(ids.size()) );
 
             for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
                 pImpl->vectorIds.push_back(ids[i]);
@@ -1363,7 +1363,7 @@ bool GPUVectorIndex::saveIndex(const std::string& path) {
     //     [char[]] id string (no null terminator)
     //     [float[dimension]] vector data
     const uint32_t magic   = 0x54484D53u;
-    const uint32_t version = 1u;
+    const uint32_t version = 1;
     ofs.write(reinterpret_cast<const char*>(&magic),   sizeof(magic));
     ofs.write(reinterpret_cast<const char*>(&version), sizeof(version));
 
@@ -1406,7 +1406,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     ifs.read(reinterpret_cast<char*>(&magic),   sizeof(magic));
     ifs.read(reinterpret_cast<char*>(&version), sizeof(version));
 
-    if (!ifs || magic != 0x54484D53u || version != 1u) {
+    if (!ifs || magic != 0x54484D53u || version != 1) {
         THEMIS_ERROR("GPUVectorIndex: Invalid or unsupported index file format");
         return false;
     }
@@ -1476,7 +1476,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
             THEMIS_ERROR("GPUVectorIndex: loadIndex read error at vector {} (ID length)", i);
             return false;
         }
-        if (idLen > (1u << 20u)) { // Sanity cap at 1 MiB per ID
+        if (idLen > (1 << 20)) { // Sanity cap at 1 MiB per ID
             pImpl->oversubBulkLoading_ = false;
             THEMIS_WARN("GPUVectorIndex: loadIndex rejected oversized ID ({} bytes) at vector {})", idLen, i);
             return false;

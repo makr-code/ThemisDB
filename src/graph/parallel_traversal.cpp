@@ -39,8 +39,8 @@ ParallelTraversal::ParallelTraversal(GraphIndexManager &graph_manager) : graph_m
 size_t ParallelTraversal::effectiveThreadCount(const Config &config, size_t num_sources) {
     size_t requested = (config.num_threads > 0) ? static_cast<size_t>(config.num_threads) : []() -> size_t {
         const size_t hw   = std::thread::hardware_concurrency();
-        const size_t base = (hw > 0) ? hw : 4u;
-        return std::max<size_t>(2u, std::min<size_t>(base, 16u));
+        const size_t base = (hw > 0) ? hw : 4;
+        return std::max<size_t>(2, std::min<size_t>(base, 16));
     }();
 
     // Never spawn more threads than there are sources.

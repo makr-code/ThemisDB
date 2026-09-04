@@ -28,14 +28,14 @@ using ::themis::llm::estimateTokens;
 
 namespace {
 
-constexpr std::size_t kMaxMapStepsHardLimit = 64u;
-constexpr std::size_t kMaxIterationsHardLimit = 16u;
-constexpr std::size_t kMaxRetrievalTopKHardLimit = 64u;
-constexpr std::size_t kMaxQueryChars = 32u * 1024u;
-constexpr std::size_t kMaxChunkChars = 512u * 1024u;
-constexpr std::size_t kMaxGapResponseChars = 16u * 1024u;
-constexpr std::size_t kMaxAspectChars = 512u;
-constexpr std::size_t kMaxAspectsPerIteration = 8u;
+constexpr std::size_t kMaxMapStepsHardLimit = 64;
+constexpr std::size_t kMaxIterationsHardLimit = 16;
+constexpr std::size_t kMaxRetrievalTopKHardLimit = 64;
+constexpr std::size_t kMaxQueryChars = 32 * 1024;
+constexpr std::size_t kMaxChunkChars = 512 * 1024;
+constexpr std::size_t kMaxGapResponseChars = 16 * 1024;
+constexpr std::size_t kMaxAspectChars = 512;
+constexpr std::size_t kMaxAspectsPerIteration = 8;
 
 std::string trimAsciiWhitespace(const std::string& input) {
     const auto first = input.find_first_not_of(" \t\r\n");
@@ -50,12 +50,12 @@ MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
 {
     MultiStepRAGConfig out = cfg;
 
-    if (out.assembler.model_context_tokens == 0u) {
+    if (out.assembler.model_context_tokens == 0) {
         out.assembler.model_context_tokens =
             ::themis::llm::kDefaultContextWindowTokens;
     }
 
-    if (out.assembler.min_response_tokens == 0u) {
+    if (out.assembler.min_response_tokens == 0) {
         out.assembler.min_response_tokens =
             ::themis::llm::kDefaultMinResponseTokens;
     }
@@ -68,20 +68,20 @@ MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
         out.max_response_tokens = 1;
     }
 
-    if (out.max_map_steps == 0u) {
-        out.max_map_steps = 1u;
+    if (out.max_map_steps == 0) {
+        out.max_map_steps = 1;
     }
     if (out.max_map_steps > kMaxMapStepsHardLimit) {
         out.max_map_steps = kMaxMapStepsHardLimit;
     }
-    if (out.max_iterations == 0u) {
-        out.max_iterations = 1u;
+    if (out.max_iterations == 0) {
+        out.max_iterations = 1;
     }
     if (out.max_iterations > kMaxIterationsHardLimit) {
         out.max_iterations = kMaxIterationsHardLimit;
     }
-    if (out.retrieval_top_k == 0u) {
-        out.retrieval_top_k = 1u;
+    if (out.retrieval_top_k == 0) {
+        out.retrieval_top_k = 1;
     }
     if (out.retrieval_top_k > kMaxRetrievalTopKHardLimit) {
         out.retrieval_top_k = kMaxRetrievalTopKHardLimit;
@@ -146,7 +146,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     for (auto& c : upper) {
       c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     }
-    if (upper.find("NONE") != std::string::npos && static_cast<int>(llm_response.size()) < 20u) {
+    if (upper.find("NONE") != std::string::npos && static_cast<int>(llm_response.size()) < 20) {
         return aspects;
     }
 
@@ -155,7 +155,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     std::string line = {};
     aspects.reserve(std::min<std::size_t>(
         kMaxAspectsPerIteration,
-        1u + std::count(llm_response.begin(), llm_response.end(), '\n')));
+        1 + std::count(llm_response.begin(), llm_response.end(), '\n')));
     while (std::getline(ss, line)) {
         const std::string trimmed = trimAsciiWhitespace(line);
         if (trimmed.empty()) {
@@ -235,7 +235,7 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
 
     std::vector<std::vector<RetrievedChunk>> batches;
     std::vector<RetrievedChunk>              current_batch;
-    size_t                                   current_tokens = 0u;
+    size_t                                   current_tokens = 0;
 
     for (const auto& doc : documents) {
         const size_t doc_tokens = estimateTokens(doc.content);
@@ -245,7 +245,7 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
         {
             // Current batch is full — flush it.
             batches.push_back(std::move(current_batch));
-            current_tokens = 0u;
+            current_tokens = 0;
 
             if (static_cast<int>(batches.size()) > = config_.max_map_steps) {
               break;
@@ -321,7 +321,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
         result.final_answer   = infer(prompt, bounded_max_tokens);
-        result.steps_executed = 1u;
+        result.steps_executed = 1;
         result.was_truncated  = false;
         result.context_overflow = false;
         result.steps.push_back(result.final_answer);
@@ -347,7 +347,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         result.was_truncated,
         map_max_tok);
 
-    if (config_.enable_parallel_map && static_cast<int>(batches.size()) > 1u) {
+    if (config_.enable_parallel_map && static_cast<int>(batches.size()) > 1) {
         // F-029: Launch all map steps in parallel.
         // LIFETIME: batches and query are local variables / parameters that
         // outlive all futures — get() is called before returning.
@@ -399,7 +399,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         return result;
     }
 
-    if (static_cast<int>(result.steps.size()) == 1u) {
+    if (static_cast<int>(result.steps.size()) == 1) {
         result.final_answer = result.steps.front();
         spdlog::info(
             "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={}",
@@ -467,7 +467,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     // Accumulate all documents across iterations.
     std::vector<RetrievedChunk> accumulated = documents;
 
-    for (size_t iter = 0u; iter < config_.max_iterations; ++iter) {
+    for (size_t iter = 0; iter < config_.max_iterations; ++iter) {
         // Assemble context within budget.
         AssembledContext ctx = assembler_.assemble(
             accumulated, config_.system_prompt, query);
@@ -567,11 +567,11 @@ std::unique_ptr<MultiStepRAGOrchestrator>
 MultiStepRAGFactory::createSmallContext()
 {
     MultiStepRAGConfig cfg;
-    cfg.assembler.model_context_tokens = 4096u;
-    cfg.assembler.min_response_tokens  = 512u;
+    cfg.assembler.model_context_tokens = 4096;
+    cfg.assembler.min_response_tokens  = 512;
     cfg.max_response_tokens            = 512;
-    cfg.max_map_steps                  = 3u;
-    cfg.max_iterations                 = 3u;
+    cfg.max_map_steps                  = 3;
+    cfg.max_iterations                 = 3;
     return std::make_unique<MultiStepRAGOrchestrator>(cfg);
 }
 
@@ -579,11 +579,11 @@ std::unique_ptr<MultiStepRAGOrchestrator>
 MultiStepRAGFactory::createMediumContext()
 {
     MultiStepRAGConfig cfg;
-    cfg.assembler.model_context_tokens = 8192u;
-    cfg.assembler.min_response_tokens  = 512u;
+    cfg.assembler.model_context_tokens = 8192;
+    cfg.assembler.min_response_tokens  = 512;
     cfg.max_response_tokens            = 512;
-    cfg.max_map_steps                  = 4u;
-    cfg.max_iterations                 = 4u;
+    cfg.max_map_steps                  = 4;
+    cfg.max_iterations                 = 4;
     return std::make_unique<MultiStepRAGOrchestrator>(cfg);
 }
 
@@ -591,11 +591,11 @@ std::unique_ptr<MultiStepRAGOrchestrator>
 MultiStepRAGFactory::createLargeContext()
 {
     MultiStepRAGConfig cfg;
-    cfg.assembler.model_context_tokens = 32768u;
-    cfg.assembler.min_response_tokens  = 1024u;
+    cfg.assembler.model_context_tokens = 32768;
+    cfg.assembler.min_response_tokens  = 1024;
     cfg.max_response_tokens            = 1024;
-    cfg.max_map_steps                  = 8u;
-    cfg.max_iterations                 = 5u;
+    cfg.max_map_steps                  = 8;
+    cfg.max_iterations                 = 5;
     return std::make_unique<MultiStepRAGOrchestrator>(cfg);
 }
 

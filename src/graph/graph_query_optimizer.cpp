@@ -63,7 +63,7 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
             // Verify it is a complete token (preceded by start-of-string or ',')
             bool valid_start = (pos == 0) || (labels_str[static_cast<int>(pos - 1)] == ',');
             // Verify it is a complete token (followed by end-of-string or ',')
-            std::string::size_type end = pos + lbl.size();
+            std::string::size_type end = pos + static_cast<int>(lbl.size()) ;
             bool valid_end = (end == labels_str.size()) || (labels_str[end] == ',');
             if (valid_start && valid_end) {
               return true;
@@ -827,15 +827,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     const bool use_parallel = constraints.enable_parallel;
     const size_t effective_threads = [&]() -> size_t {
         if (!use_parallel) {
-          return 1u;
+          return 1;
         }
         if (constraints.num_threads > 0) {
-            return std::min<size_t>(constraints.num_threads, 16u);
+            return std::min<size_t>(constraints.num_threads, 16);
         }
         // hardware_concurrency() may return 0 on unsupported platforms; default to 4
         const size_t hw = std::thread::hardware_concurrency();
-        const size_t base = (hw > 0) ? hw : 8u;
-        return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+        const size_t base = (hw > 0) ? hw : 8;
+        return std::max<size_t>(2, std::min<size_t>(base / 2, 16));
     }();
 
     // Helper: timeout check reused in the loop
@@ -1239,7 +1239,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
     {
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::DIJKSTRA, depth_hint, constraints) * 0.1;
     }
@@ -1259,11 +1259,11 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
         // Effective thread count (mirrors BFS logic)
         const size_t nthreads = [&]() -> size_t {
             if (constraints.num_threads > 0) {
-                return std::min<size_t>(constraints.num_threads, 16u);
+                return std::min<size_t>(constraints.num_threads, 16);
             }
             const size_t hw = std::thread::hardware_concurrency();
-            const size_t base = (hw > 0) ? hw : 8u;
-            return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+            const size_t base = (hw > 0) ? hw : 8;
+            return std::max<size_t>(2, std::min<size_t>(base / 2, 16));
         }();
 
         // Choose Δ: average weight of the start vertex's first-hop edges.
@@ -1343,7 +1343,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
 
                 // Chunk S into at most nthreads groups.
                 const size_t chunk_size =
-                    std::max<size_t>(1u, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
+                    std::max<size_t>(1, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs <static_cast<int>(S.size()); cs += chunk_size) {
@@ -1551,7 +1551,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     local_stats.algorithm = TraversalAlgorithm::ASTAR;
     {
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::ASTAR, depth_hint, constraints) * 0.1;
     }
@@ -1597,7 +1597,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     local_stats.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
     {
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::BIDIRECTIONAL, depth_hint, constraints) * 0.1;
     }
@@ -3012,7 +3012,7 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
         // Default depth of 10 is consistent with other Dijkstra call sites when
         // max_depth is not constrained; 0.1 converts cost units → ms.
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::DIJKSTRA, depth_hint, constraints) * 0.1;
     }
@@ -3050,7 +3050,7 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
         local_stats.nodes_explored = paths[0].vertices.size();
         // hop_count is int; guard against any unexpected negative value
         const int hc = paths[0].hop_count;
-        local_stats.max_depth_reached = (hc > 0) ? static_cast<size_t>(hc) : 0u;
+        local_stats.max_depth_reached = (hc > 0) ? static_cast<size_t>(hc) : 0;
     }
 
     if (stats) { *stats = local_stats; }

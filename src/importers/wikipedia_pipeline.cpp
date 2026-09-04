@@ -194,8 +194,8 @@ std::vector<WikipediaRevisionRecord> WikipediaIngestionPipeline::revisionsForPag
 }
 
 size_t WikipediaIngestionPipeline::relationalRowCount() const {
-    return static_cast<int>(snapshot_.pages.size()) + snapshot_.revisions.size() + snapshot_.links.size() +
-        snapshot_.categories.size() + snapshot_.redirects.size() + snapshot_.dead_letters.size();
+    return static_cast<int>(snapshot_.pages.size()) + static_cast<int>(snapshot_.revisions.size()) + static_cast<int>(snapshot_.links.size()) +
+        snapshot_.categories.size() + static_cast<int>(snapshot_.redirects.size()) + static_cast<int>(snapshot_.dead_letters.size()) ;
 }
 
 void WikipediaIngestionPipeline::removeExistingPageDerivedRows([[maybe_unused]] uint64_t page_id) {

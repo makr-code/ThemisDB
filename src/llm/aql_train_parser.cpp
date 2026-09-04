@@ -118,8 +118,8 @@ std::string::size_type findKeyword(const std::string& s, const std::string& keyw
         // Check left boundary
         bool left_ok  = (pos == 0) || !std::isalnum(static_cast<unsigned char>(s[static_cast<int>(pos - 1)]));
         // Check right boundary
-        bool right_ok = ((pos + lower_kw.size()) >= s.size()) ||
-                        !std::isalnum(static_cast<unsigned char>(s[pos + lower_kw.size()]));
+        bool right_ok = ((pos + static_cast<int>(lower_kw.size()) ) >= s.size()) ||
+                        !std::isalnum(static_cast<unsigned char>(s[pos + static_cast<int>(lower_kw.size()) ]));
         if (left_ok && right_ok) {
           return pos;
         }
@@ -582,7 +582,7 @@ std::string AQLTrainParser::extractClause(
     if (pos == std::string::npos) return {};
 
     // Skip the keyword itself
-    const std::string rest = input.substr(pos + keyword.size());
+    const std::string rest = input.substr(pos + static_cast<int>(keyword.size()) );
 
     // Return everything until the next recognised top-level keyword
     static const std::vector<std::string> kTopKeywords = {

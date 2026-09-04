@@ -540,7 +540,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
             }
             // Late-arrival / out-of-order check
             if (config_.late_arrival_window_ms > 0) {
-                std::string wm_key; wm_key.reserve(row.metric.size() + 1 + row.entity.size()); wm_key.append(row.metric).append(":").append(row.entity);
+                std::string wm_key; wm_key.reserve(row.metric.size() + 1 + static_cast<int>(row.entity.size()) ); wm_key.append(row.metric).append(":").append(row.entity);
                 std::lock_guard<std::mutex> lock(watermark_mutex_);
                 int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
                 if (r < 0) {
@@ -560,7 +560,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                     }
                 }
             }
-            std::string gk; gk.reserve(row.metric.size() + 1 + row.entity.size()); gk.append(row.metric).append(":").append(row.entity);
+            std::string gk; gk.reserve(row.metric.size() + 1 + static_cast<int>(row.entity.size()) ); gk.append(row.metric).append(":").append(row.entity);
             groups[gk].push_back(i);
         }
 
@@ -598,7 +598,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
                     chunk_key.reserve(std::strlen(GORILLA_CHUNK_PREFIX) +
                                       first_row.metric.size() + 1 +
                                       first_row.entity.size() + 1 +
-                                      static_cast<int>(ts_front.size()) + 1 + ts_back.size());
+                                      static_cast<int>(ts_front.size()) + 1 + static_cast<int>(ts_back.size()) );
                     chunk_key.append(GORILLA_CHUNK_PREFIX)
                              .append(first_row.metric).append(":")
                              .append(first_row.entity).append(":")
@@ -612,7 +612,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
 
                 if (enc_chunk_store_) {
                     std::string series_id = {};
-                    series_id.reserve(first_row.metric.size() + 1 + first_row.entity.size());
+                    series_id.reserve(first_row.metric.size() + 1 + static_cast<int>(first_row.entity.size()) );
                     series_id.append(first_row.metric).append(":").append(first_row.entity);
                     std::string chunk_range = "[" + std::to_string(timestamps.front()) +
                                               "," + std::to_string(timestamps.back()) + "]";
@@ -674,7 +674,7 @@ Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows)
         }
 
         if (config_.late_arrival_window_ms > 0) {
-            std::string wm_key; wm_key.reserve(row.metric.size() + 1 + row.entity.size()); wm_key.append(row.metric).append(":").append(row.entity);
+            std::string wm_key; wm_key.reserve(row.metric.size() + 1 + static_cast<int>(row.entity.size()) ); wm_key.append(row.metric).append(":").append(row.entity);
             std::lock_guard<std::mutex> lock(watermark_mutex_);
             int r = checkAndUpdateWatermarkLocked(wm_key, row.timestamp_ms);
             if (r < 0) {

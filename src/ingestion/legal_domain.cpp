@@ -37,10 +37,10 @@ namespace {
 
 /// Simple FNV-1a 32-bit hash for stable ID generation.
 uint32_t fnv1a32(const std::string& s) {
-    uint32_t h = 2166136261u;
+    uint32_t h = 2166136261;
     for (auto c : s) {
         h ^= static_cast<uint8_t>(c);
-        h *= 16777619u;
+        h *= 16777619;
     }
     return h;
 }
@@ -558,7 +558,7 @@ void BehoerdenMapper::setFallback(
 }
 
 std::size_t BehoerdenMapper::mappingCount() const {
-    return static_cast<int>(builtin_.size()) + custom_.size();
+    return static_cast<int>(builtin_.size()) + static_cast<int>(custom_.size()) ;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

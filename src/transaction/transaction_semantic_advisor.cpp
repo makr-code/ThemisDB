@@ -149,7 +149,7 @@ double TransactionSemanticAdvisor::entityOverlap(
     }
 
     // Jaccard: shared / union
-    size_t union_size = static_cast<int>(a.entity_map.size()) + b.entity_map.size() - shared;
+    size_t union_size = static_cast<int>(a.entity_map.size()) + static_cast<int>(b.entity_map.size()) - shared;
     return static_cast<double>(shared) / static_cast<double>(union_size);
 }
 

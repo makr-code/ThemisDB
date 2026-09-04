@@ -159,7 +159,7 @@ std::string VoiceMeetingSupport::extractAssignee(
     for (const auto& pat : patterns) {
         size_t pos = lower.find(pat);
         if (pos != std::string::npos) {
-            size_t start = pos + pat.size();
+            size_t start = pos + static_cast<int>(pat.size()) ;
             // Read a word
             size_t end = start;
             while (end <static_cast<int>(text.size()) && !std::isspace(static_cast<unsigned char>(text[end])) &&

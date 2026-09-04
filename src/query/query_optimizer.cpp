@@ -206,7 +206,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		    ? static_cast<size_t>(table_stats_ptr->avg_row_size_bytes > 0.0
 		                              ? table_stats_ptr->avg_row_size_bytes
 		                              : 256.0)
-		    : 256u;
+		    : 256;
 		const auto   gpu       = probeGpu();
 		const auto   workload  = inferWorkloadType(q);
 		// THREAD-SAFE: Acquire read lock when accessing advisor_cost_model_
@@ -274,7 +274,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
             : (plan.details.empty() ? 0 : plan.details[0].estimatedCount);
         const size_t avg_bytes = tsp
             ? static_cast<size_t>(tsp->avg_row_size_bytes > 0.0 ? tsp->avg_row_size_bytes : 256.0)
-            : 256u;
+            : 256;
 
         const auto gpu = probeGpu();
         OptimizerCostModel advisor;
@@ -289,7 +289,7 @@ Result<std::vector<std::string>>
 QueryOptimizer::executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
-		const size_t estimated_rows = plan.details.empty() ? 0u : plan.details.front().estimatedCount;
+		const size_t estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
 		std::string diagMsg = "Optimized key execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicates: " + std::to_string(plan.orderedPredicates.size());
@@ -307,7 +307,7 @@ Result<std::vector<BaseEntity>>
 QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
 	auto result = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
-		const size_t estimated_rows = plan.details.empty() ? 0u : plan.details.front().estimatedCount;
+		const size_t estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
 		const double plan_cost = static_cast<double>(estimated_rows);
 		std::string diagMsg = "Optimized entity execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
@@ -328,7 +328,7 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
 	if (!result.has_value()) {
 		const double cost_estimate =
-			static_cast<double>(plan.details.empty() ? 0u : plan.details.front().estimatedCount);
+			static_cast<double>(plan.details.empty() ? 0 : plan.details.front().estimatedCount);
 		std::string diagMsg = "Optimized count execution failed for table '" + q.table + "'";
 		if (!plan.orderedPredicates.empty()) {
 			diagMsg += "; predicates: " + std::to_string(plan.orderedPredicates.size());

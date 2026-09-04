@@ -598,7 +598,7 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         if (lastColon == std::string_view::npos  || static_cast<size_t>(lastColon) < = prefix.size())
             return true;
 
-        std::string tok(key.substr(prefix.size(), lastColon - prefix.size()));
+        std::string tok(key.substr(prefix.size(), lastColon - static_cast<int>(prefix.size()) ));
         std::string pk(key.substr(lastColon + 1));
         if (tok.empty() || pk.empty()) {
           return true;

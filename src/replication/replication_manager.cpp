@@ -197,7 +197,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
 
     // Estimate capacity: fixed header (24 bytes) + lengths (4*4) + string contents
     size_t estimated_size = 24 + 16 + static_cast<int>(operation.size()) + static_cast<int>(collection.size()) + 
-                           static_cast<int>(document_id.size()) + static_cast<int>(data.size()) + checksum.size();
+                           static_cast<int>(document_id.size()) + static_cast<int>(data.size()) + static_cast<int>(checksum.size()) ;
     result.reserve(estimated_size);
     
     // BATCH A ANNOTATION: Write Consensus and Replication Pipeline
@@ -231,7 +231,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     auto appendString = [&result](const std::string& s) {
         // BATCH A OPTIMIZATION: Avoid insert() which can reallocate; use direct append
         uint32_t len = static_cast<uint32_t>(s.size());
-        result.reserve(static_cast<int>(result.size()) + 4 + s.size());
+        result.reserve(static_cast<int>(result.size()) + 4 + static_cast<int>(s.size()) );
         result.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));
         result.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));
         result.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));
@@ -566,7 +566,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     // Use unsigned literals to avoid signed multiplication overflow (CWE-190).
                     // Calculation: 64 * 1024 * 1024 = 67,108,864 bytes (67 MB max WAL record)
                     // This is safely within uint32_t range [0, 4,294,967,295]
-                    static constexpr uint32_t MAX_WAL_RECORD_SIZE = 64u * 1024u * 1024u;
+                    static constexpr uint32_t MAX_WAL_RECORD_SIZE = 64 * 1024 * 1024;
                     if (len > MAX_WAL_RECORD_SIZE) {
                         THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
                                    seg_path_copy, len);
@@ -2350,7 +2350,7 @@ std::string CRDTConflictResolver::resolve(
             // Find all occurrences of key and replace the first numeric value
             while ((pos = merged.find(search, pos)) != std::string::npos) {
                 // Skip to value
-                size_t vp = pos + search.size();
+                size_t vp = pos + static_cast<int>(search.size()) ;
                 while (vp <static_cast<int>(merged.size()) && (merged[vp] == ' ' || merged[vp] == ':')) {
                   ++vp;
                 }
@@ -3865,7 +3865,7 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
 
     {
         std::shared_lock<std::shared_mutex> lock(peers_mutex_);
-        snapshot.nodes.reserve(snapshot.nodes.size() + peers_.size());
+        snapshot.nodes.reserve(snapshot.nodes.size() + static_cast<int>(peers_.size()) );
         snapshot.edges.reserve(peers_.size() * 2);
 
         for (const auto& [peer_id, peer] : peers_) {
@@ -3966,7 +3966,7 @@ void MultiMasterReplicationManager::replicationLoop() {
                     std::lock_guard<std::mutex> log_lock(committed_log_mutex_);
                     committed_writes_log_.push_back(entry);
                     // Cap to 2× max_pending_writes to bound memory.
-                    const size_t cap = static_cast<size_t>(config_.max_pending_writes) * 2u;
+                    const size_t cap = static_cast<size_t>(config_.max_pending_writes) * 2;
                     while (committed_writes_log_.size() > cap) {
                         committed_writes_log_.pop_front();
                     }
@@ -4348,7 +4348,7 @@ ParallelReplicationWorker::Stats ParallelReplicationWorker::getStats() const {
     uint64_t applied        = s.entries_applied;
     s.average_latency_us    = (applied > 0)
         ? stats_total_latency_us_.load() / applied
-        : 0u;
+        : 0;
     uint64_t batches        = s.parallel_batches;
     s.parallelism_factor    = (batches > 0)
         ? static_cast<double>(applied) / static_cast<double>(batches)
@@ -4636,7 +4636,7 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
     auto exp_pos = token.find("exp=");
     if (exp_pos != std::string::npos) {
         const std::string exp_prefix = "exp=";
-        auto val_start = exp_pos + exp_prefix.size();
+        auto val_start = exp_pos + static_cast<int>(exp_prefix.size()) ;
         if (static_cast<int>(token.size()) > val_start) {
             try {
                 int64_t expiry_ms = std::stoll(token.substr(val_start));

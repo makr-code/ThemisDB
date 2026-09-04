@@ -32,7 +32,7 @@ bool CounterMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                   [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse new value as integer
     int64_t delta = 0;
-    auto result = std::from_chars(value.data(), value.data() + value.size(), delta);
+    auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , delta);
     if (result.ec != std::errc()) {
         spdlog::warn("CounterMergeOperator: Failed to parse value as integer");
         return false;
@@ -68,7 +68,7 @@ bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                  std::string* new_value,
                                  [[maybe_unused]] rocksdb::Logger* logger) const {
     if (existing_value) {
-        new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + value.size());
+        new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + static_cast<int>(value.size()) );
         new_value->assign(existing_value->data(), existing_value->size());
         new_value->append(delimiter_);
         new_value->append(value.data(),static_cast<int>(value.size()));
@@ -130,7 +130,7 @@ bool MaxMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                               [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse new value as double
     double new_val = 0.0;
-    auto result = std::from_chars(value.data(), value.data() + value.size(), new_val);
+    auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , new_val);
     if (result.ec != std::errc()) {
         spdlog::warn("MaxMergeOperator: Failed to parse value as double");
         return false;

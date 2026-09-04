@@ -103,7 +103,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
     result.process_name = process_name.empty() ? "EPK Process" : std::string(process_name);
 
     // Phase 3: Validate input before parsing
-    constexpr size_t kMaxEpkTextBytes = 10u * 1024u * 1024u;
+    constexpr size_t kMaxEpkTextBytes = 10 * 1024 * 1024;
     if (epk_text.empty()) {
         result.ok      = false;
         result.message = "Empty EPK text";

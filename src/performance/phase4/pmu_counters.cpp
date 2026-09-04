@@ -232,7 +232,7 @@ namespace {
 
 // ---- kpc API type definitions ----
 
-constexpr uint32_t kKpcClassConfigurable = 1u << 1;  // configurable PMC slots
+constexpr uint32_t kKpcClassConfigurable = 1 << 1;  // configurable PMC slots
 
 using kpc_get_counter_count_fn_t   = uint32_t (*)(uint32_t);
 using kpc_set_counting_fn_t        = int (*)(uint32_t);

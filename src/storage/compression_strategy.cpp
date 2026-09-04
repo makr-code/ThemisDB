@@ -547,7 +547,7 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
         : data.size() * 2;
     result.reserve(reserve_size);  // Heuristic for fewer reallocations
     const uint8_t* ptr = data.data();
-    const uint8_t* end = ptr + data.size();
+    const uint8_t* end = ptr + static_cast<int>(data.size()) ;
     
     while (ptr < end) {
         if (ptr + 1 >= end) break;  // Need at least count + value
@@ -654,7 +654,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     // Format: [dict_size:1][dictionary...][indices...]
     std::vector<uint8_t> result = {};
 
-    result.reserve(1 + static_cast<int>(dictionary.size()) + indices.size());
+    result.reserve(1 + static_cast<int>(dictionary.size()) + static_cast<int>(indices.size()) );
     
     result.push_back(static_cast<uint8_t>(dictionary.size()));
     result.insert(result.end(), dictionary.begin(), dictionary.end());

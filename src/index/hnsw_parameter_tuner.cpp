@@ -581,8 +581,8 @@ size_t HnswMemoryOptimizer::getCacheLineSize() {
         : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
         : "a"(eax), "c"(ecx));
 #   endif
-    if (edx & (1u << 19)) {                     // CLFLUSH feature bit
-        const size_t sz = ((ebx >> 8) & 0xFFu) * 8u;
+    if (edx & (1 << 19)) {                     // CLFLUSH feature bit
+        const size_t sz = ((ebx >> 8) & 0xFFu) * 8;
         if (sz > 0) {
           return sz;
         }

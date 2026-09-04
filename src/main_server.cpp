@@ -492,7 +492,7 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     int path_len = snprintf(
         dump_path,
         sizeof(dump_path),
-        "logs\\themis_server_crash_%04u%02u%02u_%02u%02u%02u_pid%lu_tid%lu.dmp",
+        "logs\\themis_server_crash_%04%02%02u_%02%02%02u_pid%lu_tid%lu.dmp",
         static_cast<unsigned>(st.wYear),
         static_cast<unsigned>(st.wMonth),
         static_cast<unsigned>(st.wDay),
@@ -575,7 +575,7 @@ LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
 
     const auto* record = pExp ? pExp->ExceptionRecord : nullptr;
     const auto* context = pExp ? pExp->ContextRecord : nullptr;
-    const auto code = record ? record->ExceptionCode : 0u;
+    const auto code = record ? record->ExceptionCode : 0;
     const char* exception_name = "UNKNOWN";
     switch (code) {
         case EXCEPTION_ACCESS_VIOLATION:
@@ -981,7 +981,7 @@ int main(int argc, char* argv[]) {
         auto load_config = [&]([[maybe_unused]] const std::string& path) -> std::optional<json> {
             try {
                 auto ends_with = [](const std::string& s, const std::string& suffix){
-                    return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) -suffix.size(),static_cast<int>(suffix.size()))), suffix) == 0;
+                    return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
                 };
 
                 if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
@@ -1820,7 +1820,7 @@ int main(int argc, char* argv[]) {
                     hm_cfg.health_check_timeout = std::chrono::milliseconds(
                         hm_json.value("health_check_timeout_ms", 500)
                     );
-                    hm_cfg.max_consecutive_failures = hm_json.value("max_consecutive_failures", 3u);
+                    hm_cfg.max_consecutive_failures = hm_json.value("max_consecutive_failures", 3);
                     hm_cfg.auto_failover_enabled = hm_json.value("auto_failover_enabled", true);
                     hm_cfg.auto_promote_standby = hm_json.value("auto_promote_standby", true);
                     hm_cfg.failover_cooldown = std::chrono::milliseconds(

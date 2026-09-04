@@ -184,11 +184,11 @@ static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
 
     if (exp16 == 0x1Fu) {
         exp32  = 0xFFu;
-        mant32 = mant16 ? (mant16 << 13) : 0u;
-    } else if (exp16 == 0u) {
-        if (mant16 == 0u) {
-            exp32  = 0u;
-            mant32 = 0u;
+        mant32 = mant16 ? (mant16 << 13) : 0;
+    } else if (exp16 == 0) {
+        if (mant16 == 0) {
+            exp32  = 0;
+            mant32 = 0;
         } else {
             // Subnormal FP16 → normalise into FP32
             int e = -1;
@@ -226,20 +226,20 @@ float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
     if (exp32 == 0xFFu) {
         // Inf or NaN
         exp16  = 0x1Fu;
-        mant16 = (mant32 != 0) ? 0x200u : 0u; // preserve NaN vs Inf
-    } else if (exp32 == 0u) {
+        mant16 = (mant32 != 0) ? 0x200u : 0; // preserve NaN vs Inf
+    } else if (exp32 == 0) {
         // Subnormal FP32 → FP16 zero (too small for FP16 subnormals)
-        exp16  = 0u;
-        mant16 = 0u;
+        exp16  = 0;
+        mant16 = 0;
     } else {
         int32_t exp_shifted = static_cast<int32_t>(exp32) - 127 + 15;
         if (exp_shifted >= 31) {
             // Overflow → FP16 infinity
             exp16  = 0x1Fu;
-            mant16 = 0u;
+            mant16 = 0;
         } else if (exp_shifted <= 0) {
             // Underflow → FP16 subnormal or zero
-            exp16  = 0u;
+            exp16  = 0;
             // Shift mantissa (implicit leading 1 included)
             uint32_t mant_with_implicit = (mant32 | 0x800000u) >> (1 - exp_shifted);
             mant16 = mant_with_implicit >> 13; // truncate to 10 bits
@@ -250,9 +250,9 @@ float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
             mant16 = (mant32 >> 13) + round_bit;
             if (mant16 > 0x3FFu) {
                 // Mantissa overflow → increment exponent
-                mant16 = 0u;
+                mant16 = 0;
                 ++exp16;
-                if (exp16 >= 0x1Fu) { exp16 = 0x1Fu; mant16 = 0u; } // clamp to Inf
+                if (exp16 >= 0x1Fu) { exp16 = 0x1Fu; mant16 = 0; } // clamp to Inf
             }
         }
     }

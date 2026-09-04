@@ -270,7 +270,7 @@ NUMAStats NUMAMemoryManager::get_stats() const {
     s.per_node_allocations.resize(num_nodes_, 0);
     for (size_t i = 0; i < num_nodes_; ++i) {
         int64_t bytes = per_node_bytes_[i].load(std::memory_order_relaxed);
-        s.per_node_allocations[i] = (bytes > 0) ? static_cast<uint64_t>(bytes) : 0u;
+        s.per_node_allocations[i] = (bytes > 0) ? static_cast<uint64_t>(bytes) : 0;
     }
     return s;
 }

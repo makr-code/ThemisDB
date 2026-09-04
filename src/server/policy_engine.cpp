@@ -52,7 +52,7 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
     try {
         auto ends_with = [](const std::string& s, const std::string& suffix) {
-            return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - suffix.size(),static_cast<int>(suffix.size()))), suffix) == 0;
+            return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
         };
 
         std::vector<Policy> loaded;

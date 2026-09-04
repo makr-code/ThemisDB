@@ -138,7 +138,7 @@ bool SemanticCache::put(const std::string &prompt, const nlohmann::json &params,
     if (s.ok()) {
         // Update in-memory size counters so getStats() avoids a full RocksDB scan.
         entry_count_.fetch_add(1, std::memory_order_relaxed);
-        total_bytes_.fetch_add(static_cast<int>(key.size()) + value.size(), std::memory_order_relaxed);
+        total_bytes_.fetch_add(static_cast<int>(key.size()) + static_cast<int>(value.size()) , std::memory_order_relaxed);
     }
 
     return s.ok();
@@ -292,7 +292,7 @@ uint64_t SemanticCache::clearExpired() {
         uint64_t expected = entry_count_.load(std::memory_order_relaxed);
         uint64_t desired = 0;
         do {
-            desired = (expected >= removed) ? expected - removed : 0u;
+            desired = (expected >= removed) ? expected - removed : 0;
         } while (!entry_count_.compare_exchange_weak(expected, desired, std::memory_order_relaxed,
                                                      std::memory_order_relaxed));
     }

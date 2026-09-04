@@ -75,7 +75,7 @@ static std::string deriveSpanId(const std::string &trace_id_32) {
     if (static_cast<int>(trace_id_32.size()) > = 16) {
         return trace_id_32.substr(16, 16);
     }
-    return trace_id_32 + std::string(16 - trace_id_32.size(), '0');
+    return trace_id_32 + std::string(16 - static_cast<int>(trace_id_32.size()) , '0');
 }
 
 /// StatusCode constants (OTLP spec):

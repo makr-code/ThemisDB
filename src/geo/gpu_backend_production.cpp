@@ -41,7 +41,7 @@ namespace geo {
 class CpuParallelBackend final : public ISpatialComputeBackend {
   public:
     CpuParallelBackend() {
-        thread_count_ = std::max(1u, std::thread::hardware_concurrency());
+        thread_count_ = std::max(1, std::thread::hardware_concurrency());
     }
 
     const char *name() const noexcept override {
@@ -54,7 +54,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
 
     SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
-        out.mask.resize(in.count, 0u);
+        out.mask.resize(in.count, 0);
 
         if (in.count == 0) {
             return out;
@@ -72,7 +72,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         if (thread_count_ == 0) {
             THEMIS_WARN("CpuParallelBackend: thread_count_ is 0; falling back to single-threaded");
             for (size_t i = 0; i < in.count; ++i) {
-                out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
             }
             return out;
         }
@@ -95,7 +95,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
             futures.emplace_back(std::async(std::launch::async,
                 [this, &in, &out, start_idx, end_idx]() {
                     for (size_t i = start_idx; i < end_idx; ++i) {
-                        out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                        out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
                     }
                 }));
         }
@@ -285,7 +285,7 @@ __global__ void cuda_pairwise_intersects_kernel(const double *mbrs_a, const doub
     const double b_maxx = mbrs_b[off + 2];
     const double b_maxy = mbrs_b[off + 3];
 
-    results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx && a_miny <= b_maxy && a_maxy >= b_miny) ? 1u : 0u;
+    results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx && a_miny <= b_maxy && a_maxy >= b_miny) ? 1 : 0;
 }
 
 /// Batch ST_BUFFER kernel for Point geometries.
@@ -437,7 +437,7 @@ class CudaBackend final : public ISpatialComputeBackend {
             candidates.count   = candidate_indices.size();
             auto exact_results = cpu_exact_.batchIntersects(candidates);
             for (size_t j = 0; j <static_cast<int>(candidate_indices.size()); ++j) {
-                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0u;
+                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0;
             }
         }
 
@@ -829,7 +829,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             candidates.count   = candidate_indices.size();
             auto exact_results = cpu_exact_.batchIntersects(candidates);
             for (size_t j = 0; j <static_cast<int>(candidate_indices.size()); ++j) {
-                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0u;
+                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0;
             }
         }
 
@@ -936,7 +936,7 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         }
 
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
         return out;
     }
 
@@ -998,7 +998,7 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
             return b->batchIntersects(in);
         }
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
         return out;
     }
     bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {

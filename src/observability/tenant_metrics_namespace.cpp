@@ -311,7 +311,7 @@ TenantMetricsStats TenantMetricsNamespace::stats(const std::string& tenant_id) c
     s.tenant_id = tenant_id;
     s.total_observations = store.total_observations.load(std::memory_order_relaxed);
     s.dropped_observations = store.dropped_observations.load(std::memory_order_relaxed);
-    s.active_series = static_cast<int>(store.counters.size()) + store.gauges.size() + store.histograms.size();
+    s.active_series = static_cast<int>(store.counters.size()) + static_cast<int>(store.gauges.size()) + static_cast<int>(store.histograms.size()) ;
     return s;
 }
 
@@ -326,7 +326,7 @@ std::vector<TenantMetricsStats> TenantMetricsNamespace::allStats() const {
         s.tenant_id = kv.first;
         s.total_observations = store.total_observations.load(std::memory_order_relaxed);
         s.dropped_observations = store.dropped_observations.load(std::memory_order_relaxed);
-        s.active_series = static_cast<int>(store.counters.size()) + store.gauges.size() + store.histograms.size();
+        s.active_series = static_cast<int>(store.counters.size()) + static_cast<int>(store.gauges.size()) + static_cast<int>(store.histograms.size()) ;
         result.push_back(std::move(s));
     }
     return result;

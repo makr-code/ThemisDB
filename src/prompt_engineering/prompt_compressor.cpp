@@ -119,7 +119,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
             size_t end = omitted_text.find_first_of(".!?\n", pos);
             if (end == std::string::npos) {
                 // Last fragment — take what remains up to the budget.
-                const size_t avail = kMaxSummaryChars - summary.size();
+                const size_t avail = kMaxSummaryChars - static_cast<int>(summary.size()) ;
                 summary += omitted_text.substr(pos, avail);
                 pos = len;
             } else {

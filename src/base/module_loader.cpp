@@ -1329,7 +1329,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
         return -1;
     }
     try {
-        return std::stoi(content.substr(pos + zoneIdKey.size()));
+        return std::stoi(content.substr(pos + static_cast<int>(zoneIdKey.size()) ));
     } catch (const std::invalid_argument &) {
         return -1;
     } catch (const std::out_of_range &) {
@@ -1596,8 +1596,8 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             }
             remaining -= sizeof(nhdr);
 
-            uint64_t nameSize  = (nhdr.n_namesz + 3) & ~3u;
-            uint64_t descSize  = (nhdr.n_descsz + 3) & ~3u;
+            uint64_t nameSize  = (nhdr.n_namesz + 3) & ~3;
+            uint64_t descSize  = (nhdr.n_descsz + 3) & ~3;
 
             if (nameSize > remaining) {
               break;

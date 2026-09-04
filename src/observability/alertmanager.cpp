@@ -488,7 +488,7 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     std::string metric_token = "{metric}";
     for (std::string::size_type pos = result.find(metric_token);
          pos != std::string::npos;
-         pos = result.find(metric_token, pos + metric_name.size())) {
+         pos = result.find(metric_token, pos + static_cast<int>(metric_name.size()) )) {
         result.replace(pos,static_cast<int>(metric_token.size()), metric_name);
     }
     // Replace {value} placeholder
@@ -504,7 +504,7 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     }
     for (std::string::size_type pos = result.find(value_token);
          pos != std::string::npos;
-         pos = result.find(value_token, pos + value_str.size())) {
+         pos = result.find(value_token, pos + static_cast<int>(value_str.size()) )) {
         result.replace(pos,static_cast<int>(value_token.size()), value_str);
     }
     return result;

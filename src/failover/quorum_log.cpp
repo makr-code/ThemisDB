@@ -26,10 +26,10 @@ constexpr uint32_t kCrc32Polynomial = 0xEDB88320u;
 const std::array<uint32_t, 256>& crc32Table() noexcept {
     static const auto table = []() noexcept {
         std::array<uint32_t, 256> t{};
-        for (uint32_t i = 0; i < 256u; ++i) {
+        for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int k = 0; k < 8; ++k) {
-                c = (c & 1u) ? (kCrc32Polynomial ^ (c >> 1u)) : (c >> 1u);
+                c = (c & 1) ? (kCrc32Polynomial ^ (c >> 1)) : (c >> 1);
             }
             t[i] = c;
         }
@@ -43,7 +43,7 @@ uint32_t crc32Update(uint32_t crc, const void* data, std::size_t len) noexcept {
     const auto& table = crc32Table();
     crc ^= 0xFFFFFFFFu;
     for (std::size_t i = 0; i < len; ++i) {
-        crc = table[(crc ^ p[i]) & 0xFFu] ^ (crc >> 8u);
+        crc = table[(crc ^ p[i]) & 0xFFu] ^ (crc >> 8);
     }
     return crc ^ 0xFFFFFFFFu;
 }

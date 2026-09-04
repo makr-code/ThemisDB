@@ -1245,7 +1245,7 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 
 // Returns true when parity shard `p` covers data shard `j` (both 0-indexed).
 static inline bool hammingCovers(uint32_t j, uint32_t p) noexcept {
-    return (((j + 1u) >> p) & 1u) != 0u;
+    return (((j + 1) >> p) & 1) != 0;
 }
 
 std::vector<std::vector<uint8_t>> HammingCoder::encode(
@@ -1904,7 +1904,7 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     
     // Build command with explicit field lengths to prevent injection attacks
     std::string command = {};
-    command.reserve(20 + static_cast<int>(document_id.size()) + data.size());
+    command.reserve(20 + static_cast<int>(document_id.size()) + static_cast<int>(data.size()) );
     
     // Field 0: command type
     command.append("WRITE|");

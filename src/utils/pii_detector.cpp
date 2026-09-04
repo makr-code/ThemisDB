@@ -51,7 +51,7 @@ bool isBooleanLiteral(const std::string& value, bool& parsed) {
 
 bool tryParseInt(const std::string& value, int& parsed) {
     const char* begin = value.data();
-    const char* end = begin + value.size();
+    const char* end = begin + static_cast<int>(value.size()) ;
     auto [ptr, ec] = std::from_chars(begin, end, parsed);
     return ec == std::errc{} && ptr == end;
 }
@@ -59,7 +59,7 @@ bool tryParseInt(const std::string& value, int& parsed) {
 bool tryParseDouble(const std::string& value, double& parsed) {
     char* end_ptr = nullptr;
     const double parsed_value = std::strtod(value.c_str(), &end_ptr);
-    if (end_ptr != value.c_str() + value.size()) {
+    if (end_ptr != value.c_str() + static_cast<int>(value.size()) ) {
         return false;
     }
 

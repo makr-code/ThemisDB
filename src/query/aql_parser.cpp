@@ -2269,7 +2269,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                     return Err<AqlTransactionBlock>(
                         stmtResult.error().code(),
                         fmt::format("Error in statement {} of transaction block: {}",
-                                    block.ordered_statements.size() + block.statements.size() + 1,
+                                    block.ordered_statements.size() + static_cast<int>(block.statements.size()) + 1,
                                     stmtResult.error().message())
                     );
                 }
@@ -2587,8 +2587,8 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
             }
             // Check word boundary
             bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(found - 1)]));
-            bool right_ok = (found + needle.size() >= upper.size()) ||
-                            !std::isalnum(static_cast<unsigned char>(upper[found + needle.size()]));
+            bool right_ok = (found + static_cast<int>(needle.size()) >= upper.size()) ||
+                            !std::isalnum(static_cast<unsigned char>(upper[found + static_cast<int>(needle.size()) ]));
             if (left_ok && right_ok) {
                 return_pos = found;
                 break;
@@ -2600,7 +2600,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
             return make_err("CREATE CONTINUOUS QUERY is missing a RETURN clause");
         }
 
-        std::string body = trimmed.substr(return_pos + needle.size());
+        std::string body = trimmed.substr(return_pos + static_cast<int>(needle.size()) );
         // Trim leading whitespace from body
         size_t bs = body.find_first_not_of(" \t\n\r");
         ddl.spec.aql_body = (bs == std::string::npos) ? "" : body.substr(bs);
@@ -2814,7 +2814,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
         // ── CREATE [UNIQUE] INDEX ─────────────────────────────────────────────
         if (kw1 == "UNIQUE" || kw1 == "INDEX") {
             const bool is_unique = (kw1 == "UNIQUE");
-            const size_t idx_kw  = is_unique ? 2u : 1u; // token index of INDEX keyword
+            const size_t idx_kw  = is_unique ? 2 : 1; // token index of INDEX keyword
 
             if (tok_up(idx_kw) != "INDEX") {
                 return make_err(

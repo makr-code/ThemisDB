@@ -535,7 +535,7 @@ public:
             
             // Dispatch compute shader
             // Local size is 16x16, so we need to dispatch enough workgroups
-            uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
+            uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15) / 16;
             uint32_t workgroupsY = 1; // Single query
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             
@@ -711,8 +711,8 @@ public:
             };
 
             pipeline->set_push_constants(&pushConstants, sizeof(PushConstants));
-            const uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
-            const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15u) / 16u;
+            const uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15) / 16;
+            const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15) / 16;
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             if (!pipeline->wait()) {
                 THEMIS_ERROR("VulkanVectorIndexBackend: pipeline->wait() timed out in batchSearch (GPU hang?)");

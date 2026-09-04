@@ -395,7 +395,7 @@ void CrossShardSpeculativeDecoder::verifyDraft(DraftVerificationRequest request)
     speculation.completed = true;
     
     stats_.total_tokens_accepted += verified_tokens.size();
-    stats_.total_tokens_rejected += (request.draft_token_ids.size() - verified_tokens.size());
+    stats_.total_tokens_rejected += (request.draft_token_ids.size() - static_cast<int>(verified_tokens.size()) );
     stats_.successful_speculative_requests++;
     
     spdlog::debug("CrossShardSpeculativeDecoder: Verified draft tokens for request {} "
@@ -476,7 +476,7 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     stats_.local_speculations++;
     stats_.total_draft_tokens_generated += draft_tokens.size();
     stats_.total_tokens_accepted += verified_tokens.size();
-    stats_.total_tokens_rejected += (static_cast<int>(draft_tokens.size()) - verified_tokens.size());
+    stats_.total_tokens_rejected += (static_cast<int>(draft_tokens.size()) - static_cast<int>(verified_tokens.size()) );
     stats_.successful_speculative_requests++;
     
     // Update adaptive speculation

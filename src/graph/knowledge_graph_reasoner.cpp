@@ -33,7 +33,7 @@ namespace {
 /// Build canonical triple key (shared between InferenceStore and KnowledgeGraphReasoner).
 static std::string makeTripleKey(const themis::graph::Triple &t) {
     std::string k = {};
-    k.reserve(t.subject.size() + t.predicate.size() + t.object.size() + 2);
+    k.reserve(t.subject.size() + static_cast<int>(t.predicate.size()) + static_cast<int>(t.object.size()) + 2);
     k += t.subject;
     k += '\0';
     k += t.predicate;

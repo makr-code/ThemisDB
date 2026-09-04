@@ -71,7 +71,7 @@ static std::string extractString(const std::string& json, const std::string& key
     const std::string needle = "\"" + key + "\"";
     const auto pos = json.find(needle);
     if (pos == std::string::npos) return {};
-    auto colon = json.find(':', pos + needle.size());
+    auto colon = json.find(':', pos + static_cast<int>(needle.size()) );
     if (colon == std::string::npos) return {};
     auto q1 = json.find('"', colon + 1);
     if (q1 == std::string::npos) return {};
@@ -106,7 +106,7 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     const std::string needle = "\"" + key + "\"";
     const auto pos = json.find(needle);
     if (pos == std::string::npos) return {};
-    auto colon = json.find(':', pos + needle.size());
+    auto colon = json.find(':', pos + static_cast<int>(needle.size()) );
     if (colon == std::string::npos) return {};
     // Skip whitespace
     std::size_t start = colon + 1;

@@ -309,7 +309,7 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
                        }),
         versions.end());
 
-    return before - versions.size();
+    return before - static_cast<int>(versions.size()) ;
 }
 
 size_t SystemVersionedTable::purgeHistoricalVersions(
@@ -389,7 +389,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
                        }),
         versions.end());
 
-    return before - versions.size();
+    return before - static_cast<int>(versions.size()) ;
 }
 
 // ============================================================================

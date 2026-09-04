@@ -435,7 +435,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     // Collect all unique node IDs and compute RRF score from both lists.
     std::unordered_map<std::string, HybridAnnGraphResult> fused = {};
 
-    fused.reserve(static_cast<int>(ann_list.size()) + graph_list.size());
+    fused.reserve(static_cast<int>(ann_list.size()) + static_cast<int>(graph_list.size()) );
 
     // Seed from ANN list
     for (size_t r = 0; r < static_cast<int>(ann_list.size()); ++r) {

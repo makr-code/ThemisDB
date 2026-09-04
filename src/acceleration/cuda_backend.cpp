@@ -92,7 +92,7 @@ namespace acceleration {
 // Mirrors kMaxK in src/acceleration/cuda/cuda_hnsw_kernels.cu.
 // For k > kHnswSinglePassMaxK the engine falls through to a multi-pass
 // host-merge strategy; this is considered a degraded operation mode.
-static constexpr uint32_t kHnswSinglePassMaxK = 1024u;
+static constexpr uint32_t kHnswSinglePassMaxK = 1024;
 
 #ifdef THEMIS_ENABLE_CUDA
 namespace {
@@ -365,7 +365,7 @@ bool CUDAVectorBackend::buildHnswAnnIndex(const std::vector<HnswLayerGraph> &lay
     size_t effectiveBatchSize = maxBatchSize_;
     const size_t numNodes     = layers[0].num_nodes;
     if (numNodes > 0) {
-        const size_t vis_per_q = (numNodes + 7u) / 8u;
+        const size_t vis_per_q = (numNodes + 7) / 8;
         const size_t caps_mem  = getCapabilities().maxMemoryBytes;
         // Reserve ≥ 10% of VRAM for other allocations; cap pool to 90% of VRAM.
         const size_t pool_limit = (caps_mem > 0) ? static_cast<size_t>(caps_mem * 0.9) : SIZE_MAX;

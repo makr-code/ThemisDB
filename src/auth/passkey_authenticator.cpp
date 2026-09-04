@@ -325,8 +325,8 @@ static std::string passkeyBase64UrlEncodeImpl(const uint8_t* data, std::size_t l
     out.reserve(((len + 2) / 3) * 4);
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0 = data[i];
-        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0u;
-        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0;
+        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0;
         const uint32_t t  = (b0 << 16) | (b1 << 8) | b2;
         out += passkeyB64Table[(t >> 18) & 0x3F];
         out += passkeyB64Table[(t >> 12) & 0x3F];
@@ -973,7 +973,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         const auto client_data_hash = sha256Bytes(client_data_bytes);
         std::vector<uint8_t> signed_data = {};
 
-        signed_data.reserve(static_cast<int>(auth_data_bytes.size()) + client_data_hash.size());
+        signed_data.reserve(static_cast<int>(auth_data_bytes.size()) + static_cast<int>(client_data_hash.size()) );
         signed_data.insert(signed_data.end(),
                            auth_data_bytes.begin(), auth_data_bytes.end());
         signed_data.insert(signed_data.end(),
@@ -983,7 +983,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         const std::vector<uint8_t> cose_key(
             reinterpret_cast<const uint8_t*>(credential.public_key_cbor.data()),
             reinterpret_cast<const uint8_t*>(credential.public_key_cbor.data())
-                + credential.public_key_cbor.size());
+                + static_cast<int>(credential.public_key_cbor.size()) );
 
         std::string key_err = {};
         EVP_PKEY* pkey = coseKeyToEvpPkey(cose_key, key_err);

@@ -374,12 +374,12 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
         }
 
         if (!matchesFilter(slot_change, slot->meta.filter)) {
-            return {1u, 0u};
+            return {1, 0};
         }
 
         applyTransform(slot_change);
         slot->buffer.push_back(slot_change);
-        return {0u, 1u};
+        return {0, 1};
     };
 
     auto process_slots_sequential = [&] {

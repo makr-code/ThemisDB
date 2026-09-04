@@ -106,12 +106,12 @@ public:
     
     SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs& [[maybe_unused]] in) override {
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
 
         // Process geometry pairs when they are provided.
         std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
-            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
 
         return out;

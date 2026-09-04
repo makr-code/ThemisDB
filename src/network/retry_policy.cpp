@@ -25,13 +25,13 @@ namespace network {
 std::chrono::milliseconds RetryPolicy::computeDelay([[maybe_unused]] uint32_t attempt) const noexcept {
     // base_delay_ms * 2^attempt  — protect against left-shift overflow.
     uint64_t backoff = 0;
-    if (attempt >= 31u) {
+    if (attempt >= 31) {
         backoff = static_cast<uint64_t>(max_delay_ms);
     } else {
         // Use multiplication instead of bit-shift to stay well-defined for
         // large base_delay_ms values.
         const uint64_t multiplier =
-            static_cast<uint64_t>(1u) << attempt; // 2^attempt
+            static_cast<uint64_t>(1) << attempt; // 2^attempt
         backoff = static_cast<uint64_t>(base_delay_ms) * multiplier;
     }
 

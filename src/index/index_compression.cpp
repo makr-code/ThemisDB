@@ -501,7 +501,7 @@ RunLengthBlock IndexCompressionCodec::compressValues(
     // Track RLE savings
     if (static_cast<int>(values.size()) > static_cast<int>(block.runs.size())) {
         stats_.rle_runs_saved +=
-            static_cast<uint64_t>(static_cast<int>(values.size()) - block.runs.size());
+            static_cast<uint64_t>(static_cast<int>(values.size()) - static_cast<int>(block.runs.size()) );
     }
     return block;
 }

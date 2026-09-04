@@ -565,7 +565,7 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
             try {
                 std::string pk = key.substr(prefix.length());
                 const auto value = it->value();
-                std::vector<uint8_t> blob(value.data(), value.data() + value.size());
+                std::vector<uint8_t> blob(value.data(), value.data() + static_cast<int>(value.size()) );
                 
                 // Try to deserialize as BaseEntity
                 BaseEntity entity = BaseEntity::deserialize(pk, blob);
@@ -1323,7 +1323,7 @@ void SchemaManager::loadCustomSchemas() {
             // Parse schema JSON
             try {
                 const auto value = it->value();
-                std::string schema_json(value.data(), value.data() + value.size());
+                std::string schema_json(value.data(), value.data() + static_cast<int>(value.size()) );
                 json j = json::parse(schema_json);
                 TableSchema schema = parseTableSchema(j);
                 

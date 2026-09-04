@@ -26,8 +26,8 @@ AdaptiveRetrievalConfig sanitizeConfig(const AdaptiveRetrievalConfig& cfg)
 {
     AdaptiveRetrievalConfig out = cfg;
 
-    if (out.base_top_k == 0u) {
-        out.base_top_k = 1u;
+    if (out.base_top_k == 0) {
+        out.base_top_k = 1;
     }
     if (out.max_top_k < out.base_top_k) {
         out.max_top_k = out.base_top_k;

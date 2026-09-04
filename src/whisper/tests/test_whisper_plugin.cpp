@@ -293,7 +293,7 @@ TEST(WhisperPluginFocusedTests, F2_TranscribeFileSuccessCountsTranscription) {
     p.initialize("", {});
     p.transcribeFile("any.wav");
     const auto stats = p.getStatistics();
-    EXPECT_GE(stats["transcription_count"].get<uint64_t>(), 1u);
+    EXPECT_GE(stats["transcription_count"].get<uint64_t>(), 1);
 }
 
 TEST(WhisperPluginFocusedTests, F3_TranscribeFileReaderThrowsReturnsError) {
@@ -413,7 +413,7 @@ TEST(WhisperPluginFocusedTests, J3_ErrorCountIncrements) {
     // Trigger two errors (not initialized)
     p.transcribe({}, 16000.f);
     p.transcribeFile("any.wav");
-    EXPECT_GE(p.getStatistics()["error_count"].get<uint64_t>(), 2u);
+    EXPECT_GE(p.getStatistics()["error_count"].get<uint64_t>(), 2);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -688,7 +688,7 @@ TEST(WhisperPluginFocusedTests, O1_StreamSingleTokenFallback) {
 
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.text, "hello world");
-    ASSERT_EQ(received.size(), 1u);
+    ASSERT_EQ(received.size(), 1);
     EXPECT_EQ(received[0].text, "hello world");
     EXPECT_FLOAT_EQ(received[0].confidence, 0.9f);
 }
@@ -718,7 +718,7 @@ TEST(WhisperPluginFocusedTests, O2_StreamMultipleTokens) {
         [&]([[maybe_unused]] const TranscriptionToken& tok) { received.push_back(tok); });
 
     EXPECT_TRUE(result.success);
-    ASSERT_EQ(received.size(), 3u);
+    ASSERT_EQ(received.size(), 3);
     EXPECT_EQ(received[0].text, "one");
     EXPECT_EQ(received[1].text, "two");
     EXPECT_EQ(received[2].text, "three");
@@ -797,7 +797,7 @@ TEST(WhisperPluginFocusedTests, P2_VadAllSpeechYieldsOneSegment) {
     std::vector<float> speech(16000, 0.5f);
     const auto segs = vad.detect(speech, 16000.f, cfg);
     ASSERT_FALSE(segs.empty());
-    EXPECT_EQ(segs.front().start_sample, 0u);
+    EXPECT_EQ(segs.front().start_sample, 0);
     EXPECT_EQ(segs.back().end_sample,static_cast<int>(speech.size()));
 }
 
@@ -817,9 +817,9 @@ TEST(WhisperPluginFocusedTests, P3_VadMixedYieldsSpeechSegments) {
     const auto segs = vad.detect(mixed, 16000.f, cfg);
     ASSERT_FALSE(segs.empty());
     // The speech segment should cover roughly [160, 320)
-    EXPECT_GE(segs[0].start_sample, 0u);
-    EXPECT_LE(segs[0].start_sample, 160u);
-    EXPECT_GE(segs[0].end_sample,   160u);
+    EXPECT_GE(segs[0].start_sample, 0);
+    EXPECT_LE(segs[0].start_sample, 160);
+    EXPECT_GE(segs[0].end_sample,   160);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -984,7 +984,7 @@ static std::vector<uint8_t> buildWav(uint16_t num_channels,
                                      uint16_t audio_format,
                                      uint16_t bits_per_sample,
                                      uint32_t sample_rate = 16000) {
-    const uint32_t bytes_per_sample = bits_per_sample / 8u;
+    const uint32_t bytes_per_sample = bits_per_sample / 8;
     const uint32_t data_bytes       = 4 * num_channels * bytes_per_sample;  // 4 frames
     const uint32_t riff_size        = 36 + data_bytes;
 
@@ -1079,7 +1079,7 @@ TEST(WhisperPluginFocusedTests, T1_DiarisationFixtureResultFromTranscriber) {
 
     const auto res = p.transcribeWithDiarisation({0.1f, 0.2f}, 16000.f, {});
     ASSERT_TRUE(res.success);
-    ASSERT_EQ(res.segments.size(), 1u);
+    ASSERT_EQ(res.segments.size(), 1);
     EXPECT_EQ(res.segments[0].speaker_id, "speaker_1");
 }
 

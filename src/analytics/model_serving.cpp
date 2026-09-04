@@ -132,7 +132,7 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     }
 
     // Running mean
-    size_t n     = e.latency_buf.size();
+    size_t n = e.latency_buf.size();
     double delta = ms - e.health.avg_latency_ms;
     e.health.avg_latency_ms += delta / static_cast<double>(n);
     e.health.last_latency_ms = ms;

@@ -246,7 +246,7 @@ nlohmann::json CloudAgent::getHealthStatus() const {
         health["shards"] = {
             {"total",static_cast<int>(all_shards.size())},
             {"healthy",static_cast<int>(healthy_shards.size())},
-            {"unhealthy", static_cast<int>(all_shards.size()) - healthy_shards.size()}
+            {"unhealthy", static_cast<int>(all_shards.size()) - static_cast<int>(healthy_shards.size()) }
         };
     }
     

@@ -33,7 +33,7 @@ namespace {
 /// Reference: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 MBR tileToWGS84(const TileCoord &tile) {
     constexpr double kPi     = 3.14159265358979323846;
-    const double n           = static_cast<double>(1u << tile.zoom);
+    const double n           = static_cast<double>(1 << tile.zoom);
     const double lon_min     = static_cast<double>(tile.x) / n * 360.0 - 180.0;
     const double lon_max     = static_cast<double>(tile.x + 1) / n * 360.0 - 180.0;
     const double lat_min_rad = std::atan(std::sinh(kPi * (1.0 - 2.0 * static_cast<double>(tile.y + 1) / n)));
@@ -50,7 +50,7 @@ bool isValidTile(const TileCoord &tile) noexcept {
     if (tile.zoom > 22) {
         return false;
     }
-    const uint32_t max_xy = 1u << tile.zoom;
+    const uint32_t max_xy = 1 << tile.zoom;
     return tile.x < max_xy && tile.y < max_xy;
 }
 

@@ -25,7 +25,7 @@ namespace {
 /// Latency (ms) assigned to regions without an explicit hint in
 /// LOWEST_LATENCY mode.  High enough to deprioritise unspecified regions
 /// while keeping them reachable if every hinted region is unavailable.
-constexpr uint32_t kUnhintedRegionLatencyMs = 999999u;
+constexpr uint32_t kUnhintedRegionLatencyMs = 999999;
 }  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────

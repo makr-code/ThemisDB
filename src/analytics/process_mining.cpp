@@ -2828,10 +2828,10 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string> &pattern, cons
         }
 
         // Sliding window to find similar patterns
-        // NOTE: Loop condition ensures i + pattern.size() <= activities.size(),
+        // NOTE: Loop condition ensures i + static_cast<int>(pattern.size()) <= activities.size(),
         // so pointer arithmetic is always within bounds. Scanner false positive.
-        for (size_t i = 0; i + pattern.size() <= activities.size(); ++i) {
-            std::vector<std::string> window(activities.begin() + i, activities.begin() + i + pattern.size());
+        for (size_t i = 0; i + static_cast<int>(pattern.size()) <= activities.size(); ++i) {
+            std::vector<std::string> window(activities.begin() + i, activities.begin() + i + static_cast<int>(pattern.size()) );
             pattern_info[window].first++;
             pattern_info[window].second.push_back(trace.case_id);
         }

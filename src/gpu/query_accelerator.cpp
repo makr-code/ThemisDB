@@ -102,7 +102,7 @@ static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
     // Special cases
     if (exp32 == 128) {
         // Inf or NaN
-        return static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0u)); // preserve NaN signal
+        return static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0)); // preserve NaN signal
     }
     if (exp32 < -24) {
         // Too small: flush to ±0
@@ -123,7 +123,7 @@ static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
     uint32_t mant16 = mant32 >> 13;
     // Round to nearest even
     uint32_t round = mant32 & 0x1FFFu;
-    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u))) {
+    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
         ++mant16;
     }
     if (mant16 >= 0x400u) {
@@ -159,7 +159,7 @@ static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
             bits = (sign << 31) | (static_cast<uint32_t>(e + 127) << 23) | (m << 13);
         }
     } else {
-        bits = (sign << 31) | ((exp16 + 112u) << 23) | (mant16 << 13);
+        bits = (sign << 31) | ((exp16 + 112) << 23) | (mant16 << 13);
     }
     float f = 0;
     std::memcpy(&f, &bits, 4);
@@ -176,7 +176,7 @@ static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
     uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
     // Round to nearest even
-    bits += 0x7FFFu + ((bits >> 16) & 1u);
+    bits += 0x7FFFu + ((bits >> 16) & 1);
     return static_cast<uint16_t>(bits >> 16);
 }
 
@@ -664,12 +664,12 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
         return result;
     }
 
-    bool use_gpu    = shouldUseGPU(static_cast<int>(left.size()) + right.size());
+    bool use_gpu    = shouldUseGPU(static_cast<int>(left.size()) + static_cast<int>(right.size()) );
     result.used_gpu = use_gpu;
 
     // Graph cache check — key on total row count -----------------------------
     if (graph_cache_enabled_) {
-        size_t total     = static_cast<int>(left.size()) + right.size();
+        size_t total     = static_cast<int>(left.size()) + static_cast<int>(right.size()) ;
         QueryShape shape = makeShape(QueryShape::OpType::JOIN, total);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
@@ -786,7 +786,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                 bytes += r.data.size();
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.total_joins;
-            recordOp(static_cast<int>(left.size()) + right.size(), bytes, true);
+            recordOp(static_cast<int>(left.size()) + static_cast<int>(right.size()) , bytes, true);
             return result;
         }
         result.used_gpu = false;
@@ -822,7 +822,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     }
     std::lock_guard<std::mutex> lk(mutex_);
     ++stats_.total_joins;
-    recordOp(static_cast<int>(left.size()) + right.size(), bytes, result.used_gpu);
+    recordOp(static_cast<int>(left.size()) + static_cast<int>(right.size()) , bytes, result.used_gpu);
 
     return result;
 }
@@ -1396,7 +1396,7 @@ GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows,
 
     // Graph cache check — pack k and order into the param hash ----------------
     if (graph_cache_enabled_) {
-        uint64_t param   = static_cast<uint64_t>(k) ^ (static_cast<uint64_t>(order) << 32u);
+        uint64_t param   = static_cast<uint64_t>(k) ^ (static_cast<uint64_t>(order) << 32);
         QueryShape shape = makeShape(QueryShape::OpType::TOPK,static_cast<int>(rows.size()), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);

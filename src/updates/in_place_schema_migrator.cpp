@@ -97,7 +97,7 @@ std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
 
     std::vector<std::string> added = {};
 
-    added.reserve(to_schema.properties.size() - from_schema.properties.size());
+    added.reserve(to_schema.properties.size() - static_cast<int>(from_schema.properties.size()) );
     for (const auto& p : to_schema.properties) {
         if (from_names.find(p.name) == from_names.end()) {
             added.push_back(p.name);
@@ -131,7 +131,7 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     }
 
     // Added columns: present in to_schema but not in from_schema
-    result.added_columns.reserve(to_schema.properties.size() - from_schema.properties.size());
+    result.added_columns.reserve(to_schema.properties.size() - static_cast<int>(from_schema.properties.size()) );
     for (const auto& p : to_schema.properties) {
         if (from_map.find(p.name) == from_map.end()) {
             result.added_columns.push_back(p);
@@ -139,7 +139,7 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     }
 
     // Removed columns: present in from_schema but not in to_schema
-    result.removed_columns.reserve(from_schema.properties.size() - to_schema.properties.size());
+    result.removed_columns.reserve(from_schema.properties.size() - static_cast<int>(to_schema.properties.size()) );
     for (const auto& p : from_schema.properties) {
         if (to_map.find(p.name) == to_map.end()) {
             result.removed_columns.push_back(p);

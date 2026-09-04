@@ -39,7 +39,7 @@ namespace {
 #ifdef THEMIS_HAS_CURL
 // Maximum number of bytes accepted from a single cluster HTTP response.
 // Prevents a rogue or compromised cluster from exhausting server memory.
-static constexpr size_t kMaxResponseBytes = 64u * 1024u * 1024u; // 64 MiB
+static constexpr size_t kMaxResponseBytes = 64 * 1024 * 1024; // 64 MiB
 
 struct ResponseAccumulator {
     std::string* buffer;

@@ -809,10 +809,10 @@ std::string VoiceAssistant::createRevisionEntry(
     const std::string rev_id = ss.str();
 
     // FNV-1a hash of the data payload for integrity / change-detection purposes.
-    uint32_t hash = 2166136261u;
+    uint32_t hash = 2166136261;
     for (const uint8_t byte : data) {
         hash ^= static_cast<uint32_t>(byte);
-        hash *= 16777619u;
+        hash *= 16777619;
     }
 
     // Store the revision record so that history queries find it within this

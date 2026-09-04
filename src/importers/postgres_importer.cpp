@@ -1653,7 +1653,7 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
         if (pos == std::string::npos) {
           return "";
         }
-        std::string rest = upper.substr(pos + keyword.size());
+        std::string rest = upper.substr(pos + static_cast<int>(keyword.size()) );
         // Remove leading whitespace
         size_t ws = rest.find_first_not_of(" \t\r\n");
         if (ws == std::string::npos) {
@@ -2747,7 +2747,7 @@ bool PostgreSQLImporter::isValidUtf8(const std::string& s) {
     //   4-byte continuation:   11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
     // Rejects overlong encodings, surrogates (U+D800–U+DFFF), and values > U+10FFFF.
     const auto* bytes = reinterpret_cast<const unsigned char*>(s.data());
-    const size_t len  = s.size();
+    const size_t len = s.size();
     size_t i = 0;
     while (i < len) {
         unsigned char c = bytes[i];

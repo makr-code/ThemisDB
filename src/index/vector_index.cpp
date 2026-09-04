@@ -1019,8 +1019,8 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 	if (rebuild_threshold > 0.0f && rebuild_threshold <= 1.0f) {
 		// idToPk_.size() = total ever-allocated labels (including holes for deleted entries)
 		// pkToId_.size() = currently active labels
-		size_t total_ever  = idToPk_.size();
-		size_t active      = pkToId_.size();
+		size_t total_ever = idToPk_.size();
+		size_t active = pkToId_.size();
 		size_t holes       = (total_ever > active) ? (total_ever - active) : 0;
 		float  ratio       = (total_ever > 0)
 		                         ? (static_cast<float>(holes) / static_cast<float>(total_ever))

@@ -279,14 +279,14 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     // This ensures domain separation between containers and users.
     std::vector<uint8_t> password = {};
 
-    password.reserve(static_cast<int>(master_key.size()) + static_cast<int>(user_id.size()) + container_id.size());
+    password.reserve(static_cast<int>(master_key.size()) + static_cast<int>(user_id.size()) + static_cast<int>(container_id.size()) );
     password.insert(password.end(), master_key.begin(), master_key.end());
     password.insert(password.end(),
                     reinterpret_cast<const uint8_t*>(user_id.data()),
-                    reinterpret_cast<const uint8_t*>(user_id.data()) + user_id.size());
+                    reinterpret_cast<const uint8_t*>(user_id.data()) + static_cast<int>(user_id.size()) );
     password.insert(password.end(),
                     reinterpret_cast<const uint8_t*>(container_id.data()),
-                    reinterpret_cast<const uint8_t*>(container_id.data()) + container_id.size());
+                    reinterpret_cast<const uint8_t*>(container_id.data()) + static_cast<int>(container_id.size()) );
 
 #if THEMIS_HAS_ARGON2
     std::vector<uint8_t> derived_key(params_.output_len);

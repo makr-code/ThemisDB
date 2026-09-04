@@ -333,7 +333,7 @@ std::vector<PatternResult> LoRAPatternClassifier::batchClassify(const std::vecto
         return {};
     }
 
-    const std::size_t n       = events.size();
+    const std::size_t n = events.size();
     const std::size_t workers = std::max<std::size_t>(1, cfg_.max_parallel_workers);
 
     std::vector<PatternResult> results(n);

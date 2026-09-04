@@ -3323,10 +3323,10 @@ bool PercolatorCoordinator::execute(
             if (attempt > 0) {
                 // Exponential backoff capped at lock_timeout.
                 // Guard the left-shift against overflow by capping the exponent.
-                const uint32_t shift = std::min(attempt - 1u, MAX_BACKOFF_SHIFT);
+                const uint32_t shift = std::min(attempt - 1, MAX_BACKOFF_SHIFT);
                 auto delay = std::min(
                     config_.lock_timeout,
-                    std::chrono::milliseconds(BASE_RETRY_DELAY_MS) * (1u << shift)
+                    std::chrono::milliseconds(BASE_RETRY_DELAY_MS) * (1 << shift)
                 );
                 spdlog::debug("[Percolator] Retry {} for lock on shard {} (delay {}ms)",
                               attempt, shard_id, delay.count());

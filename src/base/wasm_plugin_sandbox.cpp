@@ -142,7 +142,7 @@ std::string WasmModuleInfo::summary() const {
 
     // Parse sections to collect imports and exports
     const uint8_t *p   = bytes.data() + 8;
-    const uint8_t *end = bytes.data() + bytes.size();
+    const uint8_t *end = bytes.data() + static_cast<int>(bytes.size()) ;
 
     while (p < end) {
         if (p + 1 > end) {
@@ -545,8 +545,8 @@ WasmCallResult WasmPluginSandbox::callExport(const std::string &export_name, con
             stats_.calls_trapped++;
             return result;
         }
-        const uint64_t cost = (config_.fuel_check_interval > 0) ? config_.fuel_check_interval : 1u;
-        fuel_remaining_     = (fuel_remaining_ >= cost) ? (fuel_remaining_ - cost) : 0u;
+        const uint64_t cost = (config_.fuel_check_interval > 0) ? config_.fuel_check_interval : 1;
+        fuel_remaining_     = (fuel_remaining_ >= cost) ? (fuel_remaining_ - cost) : 0;
     }
 
     auto t0 = std::chrono::steady_clock::now();
@@ -710,7 +710,7 @@ bool WasmPluginSandbox::launchOsSandbox(const std::string &module_name) {
     // avoid re-calling the accessor on each iteration, and build the prefixed
     // string with append() instead of operator+ to skip one temporary per call.
     const auto& os_warnings = os_sandbox_->launchWarnings();
-    load_warnings_.reserve(static_cast<int>(load_warnings_.size()) + os_warnings.size());
+    load_warnings_.reserve(static_cast<int>(load_warnings_.size()) + static_cast<int>(os_warnings.size()) );
     for (const auto &w : os_warnings) {
         load_warnings_.push_back(std::string("[OS sandbox] ").append(w));
         spdlog::debug("WasmPluginSandbox: OS sandbox warning: {}", w);

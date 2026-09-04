@@ -323,7 +323,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     
     // Extract left and right operands
     std::string left = expr.substr(0, op_pos);
-    std::string right = expr.substr(op_pos + op.size());
+    std::string right = expr.substr(op_pos + static_cast<int>(op.size()) );
     
     // Trim whitespace
     left.erase(0, left.find_first_not_of(" \t"));
@@ -464,7 +464,7 @@ ProcessGraphManager::Status ProcessGraphManager::registerProcess(
     if (embedder_) {
         const std::string embed_text =
             std::string(name) + (bpmn_xml.empty() ? "" : " " + std::string(bpmn_xml).substr(
-                0, std::min<size_t>(bpmn_xml.size(), 2048u)));
+                0, std::min<size_t>(bpmn_xml.size(), 2048)));
         try {
             std::vector<float> emb = embedder_(embed_text);
             if (!emb.empty()) {
@@ -701,7 +701,7 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     // Validation checks
     
     // Pre-allocate result vectors based on worst-case sizes to avoid repeated reallocations
-    result.errors.reserve(static_cast<int>(nodes.size()) + edges.size());
+    result.errors.reserve(static_cast<int>(nodes.size()) + static_cast<int>(edges.size()) );
     result.warnings.reserve(nodes.size());
 
     // 1. Check for start node

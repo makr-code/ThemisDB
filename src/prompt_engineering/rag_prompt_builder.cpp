@@ -77,7 +77,7 @@ std::vector<RetrievedChunk> RAGPromptBuilder::selectChunks(
     for (size_t i = 0; i <static_cast<int>(ordered.size()); ++i) {
         const auto& chunk = *ordered[i];
         std::string formatted = formatChunk(chunk,static_cast<int>(selected.size()));
-        size_t chunk_len = static_cast<int>(formatted.size()) + config_.chunk_separator.size();
+        size_t chunk_len = static_cast<int>(formatted.size()) + static_cast<int>(config_.chunk_separator.size()) ;
 
         if (total + chunk_len > max_total_length && !selected.empty()) {
             break; // budget exhausted

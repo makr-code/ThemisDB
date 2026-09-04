@@ -588,11 +588,11 @@ bool Parser::match(char c) {
 }
 
 bool Parser::match(std::string_view s) {
-    if (pos_ + s.size() <= source_.size()) {
+    if (pos_ + static_cast<int>(s.size()) <= source_.size()) {
         if (source_.substr(pos_,static_cast<int>(s.size())) == s) {
             // Make sure it's a complete token (not followed by alphanumeric)
-            if (pos_ + s.size() <static_cast<int>(source_.size())) {
-                char next = source_[pos_ + s.size()];
+            if (pos_ + static_cast<int>(s.size()) <static_cast<int>(source_.size())) {
+                char next = source_[pos_ + static_cast<int>(s.size()) ];
                 if (std::isalnum(next) || next == '_') {
                     return false;
                 }
@@ -744,7 +744,7 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
     // Track execution time and record metrics via RAII.
     // Compute actual max depth from the selection tree so metrics are accurate.
     size_t field_count = op-> static_cast<int>(selections.size());
-    size_t depth       = op->selections.empty() ? 0u : computeSelectionDepth(op->selections);
+    size_t depth       = op->selections.empty() ? 0 : computeSelectionDepth(op->selections);
     QueryTimer timer(op_type_str, depth, field_count);
 
     try {

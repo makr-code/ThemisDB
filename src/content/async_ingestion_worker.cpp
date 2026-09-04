@@ -261,7 +261,7 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
         }
         job_queue_.push(job);
         // Update queue depth high-watermark
-        size_t depth   = job_queue_.size();
+        size_t depth = job_queue_.size();
         size_t old_hwm = queue_depth_high_watermark_.load(std::memory_order_relaxed);
         while (depth > old_hwm
                && !queue_depth_high_watermark_.compare_exchange_weak(old_hwm, depth, std::memory_order_relaxed)) {
@@ -323,7 +323,7 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
         }
         job_queue_.push(job);
         // Update queue depth high-watermark
-        size_t depth   = job_queue_.size();
+        size_t depth = job_queue_.size();
         size_t old_hwm = queue_depth_high_watermark_.load(std::memory_order_relaxed);
         while (depth > old_hwm
                && !queue_depth_high_watermark_.compare_exchange_weak(old_hwm, depth, std::memory_order_relaxed)) {

@@ -582,7 +582,7 @@ size_t PlanCache::estimatePlanSizeBytes(const CachedPlan& plan) {
         total += hint.size();
     }
     for (const auto& [key, value] : plan.plan.nlp_hints) {
-        total += static_cast<int>(key.size()) + value.size();
+        total += static_cast<int>(key.size()) + static_cast<int>(value.size()) ;
     }
 
     return total;

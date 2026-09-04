@@ -389,7 +389,7 @@ std::optional<sharding::URN> APIGateway::extractUrnFromPath(const std::string& p
     const std::string entities_prefix = "/entities/";
     auto urn_pos = path.find(entities_prefix);
     if (urn_pos != std::string::npos) {
-        std::string urn_str = path.substr(urn_pos + entities_prefix.size());
+        std::string urn_str = path.substr(urn_pos + static_cast<int>(entities_prefix.size()) );
         auto qpos = urn_str.find('?');
         if (qpos != std::string::npos) {
             urn_str = urn_str.substr(0, qpos);

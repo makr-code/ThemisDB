@@ -1294,7 +1294,7 @@ std::unique_ptr<ModelBase> trainGradientBoosting(const std::vector<std::vector<d
     auto gb           = std::make_unique<GBModel>();
     gb->is_classifier = is_classifier;
     gb->n_classes     = n_classes;
-    size_t n          = X.size();
+    size_t n = X.size();
 
     if (!is_classifier) {
         // Base value = mean

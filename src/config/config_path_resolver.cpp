@@ -1510,7 +1510,7 @@ void ConfigPathResolver::validatePath(const std::string& path) {
         constexpr std::string_view kConfigSuffix = "/config";
         const bool ends_with_config =
             str.size() >= kConfigSuffix.size() &&
-            str.compare(static_cast<int>(str.size()) - kConfigSuffix.size(),
+            str.compare(static_cast<int>(str.size()) - static_cast<int>(kConfigSuffix.size()) ,
                         kConfigSuffix.size(), kConfigSuffix) == 0;
         if (str.find("/config/") == std::string::npos && !ends_with_config) {
             throw InvalidPathException(path, "absolute path outside config directory");

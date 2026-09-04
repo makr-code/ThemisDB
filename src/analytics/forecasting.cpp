@@ -251,10 +251,10 @@ uint32_t crc32Compute(const char* data, size_t len) noexcept {
     // Build the 256-entry lookup table from the reflected polynomial 0xEDB88320.
     static const std::array<uint32_t, 256> kTable = []() {
         std::array<uint32_t, 256> t{};
-        for (uint32_t i = 0; i < 256u; ++i) {
+        for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int j = 0; j < 8; ++j) {
-                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1u)) : (c >> 1u);
+                c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             }
             t[i] = c;
         }
@@ -263,7 +263,7 @@ uint32_t crc32Compute(const char* data, size_t len) noexcept {
     uint32_t crc = 0xFFFFFFFFu;
     for (size_t i = 0; i < len; ++i) {
         const uint8_t idx = static_cast<uint8_t>((crc ^ static_cast<uint8_t>(data[i])) & 0xFFu);
-        crc = kTable[idx] ^ (crc >> 8u);
+        crc = kTable[idx] ^ (crc >> 8);
     }
     return crc ^ 0xFFFFFFFFu;
 }
@@ -502,7 +502,7 @@ SESParams fitSES(const std::vector<double> &y, double alpha) {
     }
     double level = y[0];
     double ss    = 0.0;
-    size_t n     = y.size();
+    size_t n = y.size();
     for (size_t i = 0; i < n; ++i) {
         double pred = level;
         double res  = y[i] - pred;
@@ -737,7 +737,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     }
 
     // Compute AR residuals
-    size_t n  = yc.size();
+    size_t n = yc.size();
     size_t ap = params.ar_coeffs.size();
     std::vector<double> residuals(n, 0.0);
     for (size_t i = ap; i < n; ++i) {
@@ -911,7 +911,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
     // Build OLS design matrix for AR via Yule-Walker generalisation
     // (simple OLS regression of yc[t] on yc[t-lag] for lag in ar_lags)
     int total_ar = static_cast<int>(ar_lags.size());
-    size_t n     = yc.size();
+    size_t n = yc.size();
     int max_lag  = ar_lags.empty() ? 0 : ar_lags.back();
     if (max_lag < 1 || static_cast<int>(n) <= max_lag + 1) {
         // fall back to plain AR(p) via Yule-Walker
@@ -1082,8 +1082,8 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
 
     std::vector<double> window = p.last_window;
     std::vector<double> resid  = p.last_resid;
-    size_t ap                  = p.ar_coeffs.size();
-    size_t mq                  = p.ma_coeffs.size();
+    size_t ap = p.ar_coeffs.size();
+    size_t mq = p.ma_coeffs.size();
 
     // Keep a rolling buffer of doubly-differenced predictions for integration
     // We integrate back: first add non-seasonal mean, then seasonal mean.
@@ -1209,7 +1209,7 @@ ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t
         return p;
     }
 
-    size_t n     = y.size();
+    size_t n = y.size();
     p.last_ts_ms = ts.back();
 
     // Compute interval in ms and convert timestamps to days
@@ -1637,8 +1637,8 @@ struct ForecastModel::Impl {
         // Multi-step AR forecast (iterated one-step-ahead)
         std::vector<double> window = arima_p.last_window;
         std::vector<double> resid  = arima_p.last_resid;
-        size_t ap                  = arima_p.ar_coeffs.size();
-        size_t mq                  = arima_p.ma_coeffs.size();
+        size_t ap = arima_p.ar_coeffs.size();
+        size_t mq = arima_p.ma_coeffs.size();
         double last_val            = arima_p.last_obs;
 
         for (int k = 0; k < steps; ++k) {
@@ -2114,7 +2114,7 @@ DecompositionResult ForecastModel::decompose([[maybe_unused]] bool multiplicativ
     }
 
     const auto &y = impl_->train_y;
-    size_t n      = y.size();
+    size_t n = y.size();
     int seasonality = impl_->config.seasonality;
     DecompositionResult dr;
     dr.multiplicative = multiplicative;

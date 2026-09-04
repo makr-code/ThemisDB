@@ -82,7 +82,7 @@ SIMDLevel detectSIMDLevel() noexcept {
 #if (defined(__GNUC__) || defined(__clang__)) && !defined(_MSC_VER)
         unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
         if (__get_cpuid_count(7, 0, &eax, &ebx, &ecx, &edx)) {
-            if (ebx & (1u << 5)) {
+            if (ebx & (1 << 5)) {
                 level = SIMDLevel::AVX2;
             }
         }
@@ -90,7 +90,7 @@ SIMDLevel detectSIMDLevel() noexcept {
         // __cpuidex is required to pass the sub-leaf (ECX=0) for leaf 7.
         int cpuInfo[4] = {};
         __cpuidex(cpuInfo, 7, 0);
-        if (static_cast<unsigned int>(cpuInfo[1]) & (1u << 5)) {
+        if (static_cast<unsigned int>(cpuInfo[1]) & (1 << 5)) {
             level = SIMDLevel::AVX2;
         }
 #endif
@@ -119,7 +119,7 @@ inline int themis_ctz(unsigned int x) noexcept {
 }
 
 inline void reserve_filter_output(std::vector<uint32_t>& out, size_t n) {
-    if (n <= (out.max_size() - out.size())) {
+    if (n <= (out.max_size() - static_cast<int>(out.size()) )) {
         out.reserve(static_cast<int>(out.size()) + n);
     }
 }
@@ -369,8 +369,8 @@ static inline int neon_movemask_u32([[maybe_unused]] uint32x4_t mask) noexcept {
 
 // Helper: collapse a uint64x2 predicate mask into a 2-bit integer.
 static inline int neon_movemask_u64([[maybe_unused]] uint64x2_t mask) noexcept {
-    uint64_t lo = vgetq_lane_u64(mask, 0) & 1u;
-    uint64_t hi = vgetq_lane_u64(mask, 1) & 1u;
+    uint64_t lo = vgetq_lane_u64(mask, 0) & 1;
+    uint64_t hi = vgetq_lane_u64(mask, 1) & 1;
     return static_cast<int>(lo | (hi << 1));
 }
 

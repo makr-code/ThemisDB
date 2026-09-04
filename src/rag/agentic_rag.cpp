@@ -35,7 +35,7 @@ AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
     // overflow/exceeded conditions. Clamp SIZE_MAX to keep that sentinel
     // representable and avoid wrap-around.
     if (out.max_session_tokens == std::numeric_limits<size_t>::max()) {
-        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1u;
+        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1;
     }
 
     return out;
@@ -409,7 +409,7 @@ AgenticRAGResult AgenticRAG::run(
                 // separated by newlines.  This gives the relay a realistic
                 // snapshot of what the agent produced.
                 // Reserve capacity up-front to avoid quadratic reallocation.
-                size_t total_size = result.final_documents.empty() ? 0u
+                size_t total_size = result.final_documents.empty() ? 0
                     : result.final_documents.size() - 1; // newline separators
                 for (const auto& doc : result.final_documents) {
                     total_size += doc.content.size();

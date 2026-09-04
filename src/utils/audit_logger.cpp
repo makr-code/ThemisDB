@@ -363,7 +363,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                 // Build bytes for hashing: iv || ciphertext || tag
                 std::vector<uint8_t> to_hash = {};
 
-                to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size());
+                to_hash.reserve(blob.iv.size() + static_cast<int>(blob.ciphertext.size()) + static_cast<int>(blob.tag.size()) );
                 to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
                 to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
                 to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());

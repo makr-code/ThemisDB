@@ -393,7 +393,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
     });
 
     // Store (x, y) positions for each item
-    positions_out.reserve(static_cast<int>(positions_out.size()) + items.size());
+    positions_out.reserve(static_cast<int>(positions_out.size()) + static_cast<int>(items.size()) );
     for (const auto &item : items) {
         positions_out.push_back({item.x, item.y});
     }
@@ -540,12 +540,12 @@ std::vector<float> PDFProcessor::generateEmbedding(const std::string &chunk_data
     for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         const size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
-            const size_t combined = token_hash ^ (i * 31u) ^ (static_cast<size_t>(seed) * 97u);
+            const size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);
             for (int d = 0; d < 10; ++d) {
-                const int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
+                const int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73) % static_cast<size_t>(kDim));
                 const float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
                 const float phase
-                    = static_cast<float>((combined + static_cast<size_t>(dim)) % 360u) * 3.14159f / 180.0f;
+                    = static_cast<float>((combined + static_cast<size_t>(dim)) % 360) * 3.14159f / 180.0f;
                 embedding[dim] += std::sin(phase) * weight;
             }
         }

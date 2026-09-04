@@ -208,7 +208,7 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
         std::string user_ctx = extractUserId(req, auth_);
         auto blob = content_manager.getContentBlob(id, user_ctx);
         if (!blob) {
@@ -244,7 +244,7 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
         auto chunks = content_manager.getContentChunks(id);
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& c : chunks) {

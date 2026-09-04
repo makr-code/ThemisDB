@@ -304,7 +304,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     if (strategy == AggregationStrategy::MAJORITY_VOTING) {
         // Each dimension is binarised at 0.5; majority determines the aggregate.
         judge::EvaluationResult out{};
-        const size_t            n       = results.size();
+        const size_t n = results.size();
         const size_t            half    = n / 2;
 
         auto majorityScore = [&]([[maybe_unused]] auto field_fn) -> double {

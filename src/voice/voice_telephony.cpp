@@ -109,11 +109,11 @@ std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
     if (static_cast<int>(pkt.size()) < 12) return {};
     size_t offset = 12;
     uint8_t cc = pkt[0] & 0x0F;   // CSRC count
-    offset += 4u * cc;             // skip CSRC list
+    offset += 4 * cc;             // skip CSRC list
     if (pkt[0] & 0x10) {           // extension bit
         if (static_cast<int>(pkt.size()) < offset + 4) return {};
         uint16_t ext_len = static_cast<uint16_t>((pkt[offset + 2] << 8) | pkt[offset + 3]);
-        offset += 4u + 4u * ext_len;
+        offset += 4 + 4 * ext_len;
     }
     if (offset >= static_cast<int>(pkt.size())) return {};
     return std::vector<uint8_t>(pkt.begin() + static_cast<std::ptrdiff_t>(offset),
@@ -373,7 +373,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     // TASK 2.6: Audio buffer size limits (anti-DoS)
     // CRITICAL GAP 13: Oversized session buffer rejection
     static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
-    if (impl_-> static_cast<int>(pcm_buffer.size()) + payload.size() > kMaxSessionRtpBufferBytes) {
+    if (impl_-> static_cast<int>(pcm_buffer.size()) + static_cast<int>(payload.size()) > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
                      impl_-> static_cast<int>(pcm_buffer.size()),static_cast<int>(payload.size()), kMaxSessionRtpBufferBytes);
         if (impl_->on_error) {
@@ -422,7 +422,7 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
         THEMIS_WARN("SipCallSession: empty PCM frame rejected (error 6910)");
         return empty;
     }
-    if (impl_-> static_cast<int>(pcm_buffer.size()) + pcm_samples.size() > (10 * 1024 * 1024)) {
+    if (impl_-> static_cast<int>(pcm_buffer.size()) + static_cast<int>(pcm_samples.size()) > (10 * 1024 * 1024)) {
         THEMIS_WARN("SipCallSession: PCM buffer limit exceeded, rejecting frame (error 6910)");
         return empty;
     }
@@ -468,7 +468,7 @@ SipCallSession::synthesizeTts(const std::string& text) {
         for (auto& frame : frames) {
             std::vector<uint8_t> pkt = {};
 
-            pkt.reserve(12 + frame.size());
+            pkt.reserve(12 + static_cast<int>(frame.size()) );
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
             pkt[1] = static_cast<uint8_t>(
@@ -709,7 +709,7 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
         for (auto& frame : frames) {
             std::vector<uint8_t> pkt = {};
 
-            pkt.reserve(12 + frame.size());
+            pkt.reserve(12 + static_cast<int>(frame.size()) );
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
             pkt[1] = 111;  // dynamic Opus payload type
@@ -848,7 +848,7 @@ TelephonyBridge::TelephonyBridge(Config config)
 
 CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    size_t total = static_cast<int>(sip_calls_.size()) + webrtc_calls_.size();
+    size_t total = static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
     if (total >= config_.max_concurrent_calls) {
         THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                     config_.max_concurrent_calls);
@@ -909,7 +909,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     {
         std::lock_guard<std::mutex> lock_sip(sip_mutex_);
         std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-        size_t total = static_cast<int>(sip_calls_.size()) + webrtc_calls_.size();
+        size_t total = static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
         if (total >= config_.max_concurrent_calls) {
             THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                         config_.max_concurrent_calls);
@@ -971,7 +971,7 @@ void TelephonyBridge::terminateCall(const CallID& call_id) {
 size_t TelephonyBridge::activeCallCount() const noexcept {
     std::lock_guard<std::mutex> lock_sip(sip_mutex_);
     std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-    return static_cast<int>(sip_calls_.size()) + webrtc_calls_.size();
+    return static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
 }
 
 size_t TelephonyBridge::activeSipCallCount() const noexcept {

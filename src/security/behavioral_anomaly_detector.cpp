@@ -92,7 +92,7 @@ size_t BehavioralAnomalyDetector::sessionEventCount(
     const std::string& session_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(session_id);
-    return static_cast<bool>(it != sessions_.end() ? it- < static_cast<int>(second.events.size())) : 0u;
+    return static_cast<bool>(it != sessions_.end() ? it- < static_cast<int>(second.events.size())) : 0;
 }
 
 // ============================================================================

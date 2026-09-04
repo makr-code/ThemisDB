@@ -41,7 +41,7 @@ void launchHnswSearchKernel(const float* d_vectors, uint32_t dim,
                              cudaStream_t stream, bool* h_overflow,
                              uint8_t* d_visited);
 // Maximum k for a single GPU kernel pass (mirrors kMaxK in cuda_hnsw_kernels.cu)
-static constexpr uint32_t kHnswKernelMaxK = 1024u;
+static constexpr uint32_t kHnswKernelMaxK = 1024;
 } // namespace themis::cuda
 #endif
 
@@ -384,7 +384,7 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     // Upload bottom-layer CSR graph (layer 0 is used for the search kernel)
     const HnswLayerGraph& bottom = layers[0];
     size_t off_bytes = (bottom.num_nodes + 1) * sizeof(int32_t);
-    size_t nb_bytes  = bottom.neighbours.size() * sizeof(int32_t);
+    size_t nb_bytes = bottom.neighbours.size() * sizeof(int32_t);
 
     // Wave-B I1: cudaMakeUnique for offsets and neighbours.
     impl_->d_offsets = themis::index::cudaMakeUnique<int32_t>(bottom.num_nodes + 1);
@@ -421,7 +421,7 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     // A failure here is non-fatal; batchSearch() will fall back to per-invocation
     // allocation (with a degraded warning) so searches still succeed.
     {
-        const size_t vis_per_q    = ((size_t)bottom.num_nodes + 7u) / 8u;
+        const size_t vis_per_q    = ((size_t)bottom.num_nodes + 7) / 8;
         const size_t new_pool_sz  = impl_->max_batch_size * vis_per_q;
         if (new_pool_sz > 0) {
             // Wave-B I1: cudaMakeUnique for the visited bitset pool.
@@ -540,7 +540,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
         std::lock_guard<std::mutex> search_lock(impl_->search_mutex_);
 
         const uint32_t num_nodes = impl_->layers[0].num_nodes;
-        const size_t   vis_per_q = ((size_t)num_nodes + 7u) / 8u;
+        const size_t   vis_per_q = ((size_t)num_nodes + 7) / 8;
 
         // ── Determine query-chunk size based on persistent pool capacity ───────
         // pool_capacity > 0: pool was successfully allocated in buildIndex().
@@ -621,7 +621,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         num_nodes,
                         chunk_q, static_cast<uint32_t>(this_chunk),
                         k, ef, static_cast<uint8_t>(config_.metric),
-                        /*entry_node=*/0u,
+                        /*entry_node=*/0,
                         impl_->d_result_ids.get(), impl_->d_result_scores.get(),
                         impl_->stream, &overflow,
                         visited_ptr);
@@ -679,7 +679,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
         // that the persistent pool covers each sub-batch.
         if (!gpu_path_ok) {
             const uint32_t pass_k     = themis::cuda::kHnswKernelMaxK;
-            const uint32_t num_passes = (k + pass_k - 1u) / pass_k;
+            const uint32_t num_passes = (k + pass_k - 1) / pass_k;
             // Chunk size for multi-pass mirrors the single-pass chunk_size
             const size_t mp_chunk = chunk_size;
 
@@ -725,8 +725,8 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                                               : nullptr;
 
                         for (uint32_t pass = 0; pass < num_passes; ++pass) {
-                            const uint32_t entry_node = (pass == 0u)
-                                ? 0u
+                            const uint32_t entry_node = (pass == 0)
+                                ? 0
                                 : static_cast<uint32_t>(
                                       (static_cast<uint64_t>(pass) * num_nodes)
                                       / num_passes);

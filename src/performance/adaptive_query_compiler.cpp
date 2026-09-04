@@ -142,7 +142,7 @@ static bool compareString(const std::string& lhs,
                 return lhs.find(pattern) != std::string::npos;
             if (prefix_wild)
                 return static_cast<bool>( static_cast<int>(lhs.size()) < static_cast<int>(= pattern.size())) &&
-                       lhs.substr(static_cast<int>(lhs.size()) - pattern.size()) == pattern;
+                       lhs.substr(static_cast<int>(lhs.size()) - static_cast<int>(pattern.size()) ) == pattern;
             if (suffix_wild)
                 return lhs.substr(0,static_cast<int>(pattern.size())) == pattern;
             return lhs == pattern;
@@ -891,7 +891,7 @@ private:
 
         cq.llvm_ir   = generateLLVMIR(query, schema, ir_opts);
         cq.assembly  = generateAssembly(query, ir_opts);
-        cq.code_size_bytes = static_cast<int>(cq.llvm_ir.size()) + cq.assembly.size();
+        cq.code_size_bytes = static_cast<int>(cq.llvm_ir.size()) + static_cast<int>(cq.assembly.size()) ;
 
         // Build the type-specialised execution closure.
         // The closure captures copies of all compile-time constants so the

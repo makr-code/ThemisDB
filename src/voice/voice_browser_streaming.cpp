@@ -110,7 +110,7 @@ bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
     if (config.audio_format.encoding != StreamAudioFormat::Encoding::PCM16) {
         return true;
     }
-    const uint32_t bytes_per_sample = config.audio_format.bits_per_sample / 8u;
+    const uint32_t bytes_per_sample = config.audio_format.bits_per_sample / 8;
     const uint32_t frame_bytes =
         bytes_per_sample * static_cast<uint32_t>(std::max<uint16_t>(1, config.audio_format.channels));
     return static_cast<bool>(frame_bytes  < static_cast<int>(0 && (audio_chunk.size())) % frame_bytes) == 0;
@@ -330,7 +330,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Bounded buffer overflow detection and rejection
     // CRITICAL GAP 10: Oversized session buffer rejection
     // Error code 6900: Buffer overflow
-    size_t new_total = impl_->buffer_size_bytes + audio_chunk.size();
+    size_t new_total = impl_->buffer_size_bytes + static_cast<int>(audio_chunk.size()) ;
     if (new_total > kMaxBufferSizeBytes) {
         std::string msg = "VoiceStreamingSession: buffer overflow (session buffer would exceed " +
                           std::to_string(new_total) + " > " +

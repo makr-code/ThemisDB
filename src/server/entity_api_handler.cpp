@@ -1307,7 +1307,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
     json result = {
         {"inserted",    inserted},
-        {"total",       static_cast<int64_t>(static_cast<int>(documents.size()) + errors.size())},
+        {"total",       static_cast<int64_t>(static_cast<int>(documents.size()) + static_cast<int>(errors.size()) )},
         {"error_count", static_cast<int64_t>(errors.size())}
     };
     if (!errors.empty()) {

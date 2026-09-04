@@ -123,12 +123,12 @@ double computeMedian(std::vector<double> v) { // takes by value – sorted local
     if (v.empty()) {
         return 0.0;
     }
-    std::nth_element(v.begin(), v.begin() + v.size() / 2, v.end());
+    std::nth_element(v.begin(), v.begin() + static_cast<int>(v.size()) / 2, v.end());
     if (v.size() % 2 == 1) {
         return v[v.size() / 2];
     }
     double hi = v[v.size() / 2];
-    std::nth_element(v.begin(), v.begin() + v.size() / 2 - 1, v.end());
+    std::nth_element(v.begin(), v.begin() + static_cast<int>(v.size()) / 2 - 1, v.end());
     return (v[v.size() / 2 - 1] + hi) * 0.5;
 }
 

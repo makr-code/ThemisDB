@@ -2747,7 +2747,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         for (const auto& backup_name : backups) {
             // Only consider full backups (incremental replay not yet implemented).
             static constexpr std::string_view kPrefix = "full_";
-            if (static_cast<int>(backup_name.size()) < static_cast<int>(kPrefix.size()) + 15u) {
+            if (static_cast<int>(backup_name.size()) < static_cast<int>(kPrefix.size()) + 15) {
               continue;
             }
             if (backup_name.compare(0,static_cast<int>(kPrefix.size()), kPrefix) != 0) {
@@ -3750,7 +3750,7 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
         if (verify_result) {
             // No corruption detected
             THEMIS_INFO("Phase 1: No corruption detected, repair not needed");
-            return Ok(0u);
+            return Ok(0);
         }
 
         // If compressed_source is not available, we can't repair

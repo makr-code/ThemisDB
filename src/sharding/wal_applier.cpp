@@ -181,7 +181,7 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
         // Wait before the next attempt (bounded exponential backoff, no-op on
         // the last iteration).
         if (attempt < config_.max_apply_retries - 1) {
-            constexpr uint64_t kMaxBackoffMs = 30'000u;
+            constexpr uint64_t kMaxBackoffMs = 30'000;
             const size_t shift = std::min<size_t>(attempt, 20);  // clamp for overflow safety
             const uint64_t factor = (1ull << shift);
             const uint64_t raw_delay =

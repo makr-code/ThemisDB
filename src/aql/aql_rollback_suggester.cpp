@@ -52,7 +52,7 @@ bool wordContains(const std::string &upper, const std::string &kw) {
     size_t p = 0;
     while ((p = upper.find(kw, p)) != std::string::npos) {
         bool ok_before = (p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])) && upper[static_cast<int>(p - 1)] != '_'));
-        size_t after   = p + kw.size();
+        size_t after   = p + static_cast<int>(kw.size()) ;
         bool ok_after  = (after >= upper.size()
                           || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_'));
         if (ok_before && ok_after) {
@@ -74,7 +74,7 @@ std::string extractCollection(const std::string &upper, const std::string &in_ke
     size_t p = upper.find(in_keyword);
     while (p != std::string::npos) {
         bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])));
-        size_t after   = p + in_keyword.size();
+        size_t after   = p + static_cast<int>(in_keyword.size()) ;
         bool ok_after  = (after >= upper.size() || !std::isalnum(static_cast<unsigned char>(upper[after])));
         if (ok_before && ok_after  && static_cast<size_t>(after) <static_cast<int>(upper.size()) && upper[after] == ' ') {
             // Skip space, read word.

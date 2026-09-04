@@ -92,7 +92,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
     for (size_t boundary : boundaries) {
         std::string segment = text.substr(start_offset, boundary - start_offset);
         
-        if (static_cast<int>(current_chunk.size()) + segment.size() > config_.chunk_size && !current_chunk.empty()) {
+        if (static_cast<int>(current_chunk.size()) + static_cast<int>(segment.size()) > config_.chunk_size && !current_chunk.empty()) {
             // Create chunk
             ContentChunker::Chunk chunk;
             chunk.data = std::vector<uint8_t>(current_chunk.begin(), current_chunk.end());

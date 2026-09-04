@@ -123,7 +123,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
     const themis::utils::RetryConfig retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries + 1),
         /* initial_backoff_ms */ static_cast<uint32_t>(config_.retry_backoff_ms),
-        /* max_backoff_ms     */ 30'000u,
+        /* max_backoff_ms     */ 30'000,
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };

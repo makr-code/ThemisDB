@@ -38,8 +38,8 @@ namespace themis {
 namespace llamacpp {
 
 namespace {
-constexpr size_t kDefaultDraftFallbackVocabSize = 32000u;
-constexpr size_t kMaxDraftFallbackVocabSize = 65536u;
+constexpr size_t kDefaultDraftFallbackVocabSize = 32000;
+constexpr size_t kMaxDraftFallbackVocabSize = 65536;
 } // namespace
 
 LlamaCppPlugin::LlamaCppPlugin() = default;
@@ -54,13 +54,13 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
 
     // Read context window size from config (keys: "context_length" or "n_ctx").
     // Fall back to 4 096 when neither key is present or the value is 0.
-    size_t ctx = 0u;
+    size_t ctx = 0;
     if (config.contains("context_length") && config["context_length"].is_number()) {
         ctx = config["context_length"].get<size_t>();
     } else if (config.contains("n_ctx") && config["n_ctx"].is_number()) {
         ctx = config["n_ctx"].get<size_t>();
     }
-    context_length_ = (ctx > 0u) ? ctx : llm::kDefaultContextWindowTokens;
+    context_length_ = (ctx > 0) ? ctx : llm::kDefaultContextWindowTokens;
 
 #ifdef THEMIS_LLM_ENABLED
     // When a real model path is supplied, attempt to create a LlamaWrapper and
@@ -708,7 +708,7 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
                                  const std::vector<uint8_t>& data) {
     // SECURITY: Validate GGUF magic bytes and size bound before processing.
     // GGUF magic: 0x47 0x47 0x55 0x46 ('G','G','U','F')
-    constexpr size_t kMinLoRASize = 8u;
+    constexpr size_t kMinLoRASize = 8;
     constexpr size_t kMaxLoRASize = 2 * 1024 * 1024 * 1024; // 2 GB
 
     if (static_cast<int>(data.size()) < kMinLoRASize) {

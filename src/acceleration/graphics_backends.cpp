@@ -238,7 +238,7 @@ public:
 
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags flags) {
         for (uint32_t i = 0; i < memoryProps.memoryTypeCount; ++i) {
-            if ((typeFilter & (1u << i)) &&
+            if ((typeFilter & (1 << i)) &&
                 (memoryProps.memoryTypes[i].propertyFlags & flags) == flags)
                 return i;
         }
@@ -1128,7 +1128,7 @@ void VulkanVectorBackend::setWorkgroupSizeBatchSearch([[maybe_unused]] uint32_t 
     if (initialized_) {
       return;
     }
-    if (wgX == 0 || wgX > 256u) {
+    if (wgX == 0 || wgX > 256) {
       return;
     }
     if (impl_) {
@@ -1143,7 +1143,7 @@ std::pair<uint32_t, uint32_t> VulkanVectorBackend::getWorkgroupSizeL2() const no
 #ifdef THEMIS_ENABLE_VULKAN
     if (impl_) return {impl_->wgL2X, impl_->wgL2Y};
 #endif
-    return {16u, 16u};
+    return {16, 16};
 }
 
 uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
@@ -1152,7 +1152,7 @@ uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
       return impl_->wgBatchSearchX;
     }
 #endif
-    return 256u;
+    return 256;
 }
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
@@ -1772,7 +1772,7 @@ void main() {
       return;
     }
     float sum = 0.0;
-    for (uint dd = 0u; dd < uDim; ++dd) {
+    for (uint dd = 0; dd < uDim; ++dd) {
         float diff = q[qi * uDim + dd] - v[vi * uDim + dd];
         sum += diff * diff;
     }
@@ -1802,7 +1802,7 @@ void main() {
       return;
     }
     float dot = 0.0, nq = 0.0, nv = 0.0;
-    for (uint dd = 0u; dd < uDim; ++dd) {
+    for (uint dd = 0; dd < uDim; ++dd) {
         float qv = q[qi * uDim + dd];
         float vv = v[vi * uDim + dd];
         dot += qv * vv;
@@ -1891,7 +1891,7 @@ void main() {
         }
         j = i;
     }
-    result[p] = inside ? 1u : 0u;
+    result[p] = inside ? 1 : 0;
 }
 )glsl";
 
@@ -1918,14 +1918,14 @@ void main() {
     if (s >= uNumStarts) {
       return;
     }
-    for (uint v = 0u; v < uNumVerts; ++v) {
-        frontier[s * uNumVerts + v] = 0u;
-        visited[s * uNumVerts + v]  = 0u;
+    for (uint v = 0; v < uNumVerts; ++v) {
+        frontier[s * uNumVerts + v] = 0;
+        visited[s * uNumVerts + v]  = 0;
     }
     uint sv = startVerts[s];
     if (sv < uNumVerts) {
-        frontier[s * uNumVerts + sv] = 1u;
-        visited[s * uNumVerts + sv]  = 1u;
+        frontier[s * uNumVerts + sv] = 1;
+        visited[s * uNumVerts + sv]  = 1;
     }
 }
 )glsl";
@@ -1958,18 +1958,18 @@ void main() {
     }
 
     // Always clear the next-frontier slot for this invocation
-    nextFront[s * uNumVerts + v] = 0u;
+    nextFront[s * uNumVerts + v] = 0;
 
-    if (frontier[s * uNumVerts + v] == 0u) {
+    if (frontier[s * uNumVerts + v] == 0) {
       return;
     }
 
     // Expand neighbours of v
-    for (uint u = 0u; u < uNumVerts; ++u) {
-        if (adj[v * uNumVerts + u] != 0u) {
-            uint prev = atomicOr(visited[s * uNumVerts + u], 1u);
-            if (prev == 0u) {
-                nextFront[s * uNumVerts + u] = 1u;
+    for (uint u = 0; u < uNumVerts; ++u) {
+        if (adj[v * uNumVerts + u] != 0) {
+            uint prev = atomicOr(visited[s * uNumVerts + u], 1);
+            if (prev == 0) {
+                nextFront[s * uNumVerts + u] = 1;
             }
         }
     }
@@ -2034,8 +2034,8 @@ void main() {
     int   bestPred = pred[p * uNumVerts + v];
 
     // Scan all incoming edges u → v
-    for (uint u = 0u; u < uNumVerts; ++u) {
-        if (adj[u * uNumVerts + v] != 0u) {
+    for (uint u = 0; u < uNumVerts; ++u) {
+        if (adj[u * uNumVerts + v] != 0) {
             float du = dist[p * uNumVerts + u];
             if (du < 1e29) {
                 float candidate = du + wgt[u * uNumVerts + v];
@@ -2432,9 +2432,9 @@ public:
           pfnGlUniform1ui(locDim, dim);
         }
 
-        const GL_GLuint gx = (nq + 7u) / 8u;
-        const GL_GLuint gy = (nv + 7u) / 8u;
-        pfnGlDispatchCompute(gx, gy, 1u);
+        const GL_GLuint gx = (nq + 7) / 8;
+        const GL_GLuint gy = (nv + 7) / 8;
+        pfnGlDispatchCompute(gx, gy, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
 
         std::vector<float> out(static_cast<size_t>(nq) * nv);
@@ -2787,8 +2787,8 @@ public:
         if (locCount >= 0) {
           pfnGlUniform1ui(locCount, static_cast<GL_GLuint>(count));
         }
-        const GL_GLuint gx = (static_cast<GL_GLuint>(count) + 63u) / 64u;
-        pfnGlDispatchCompute(gx, 1u, 1u);
+        const GL_GLuint gx = (static_cast<GL_GLuint>(count) + 63) / 64;
+        pfnGlDispatchCompute(gx, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
         std::vector<float> out(count);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
@@ -2838,8 +2838,8 @@ public:
         if (locVerts >= 0) {
           pfnGlUniform1ui(locVerts, static_cast<GL_GLuint>(numVerts));
         }
-        const GL_GLuint gx = (static_cast<GL_GLuint>(numPoints) + 63u) / 64u;
-        pfnGlDispatchCompute(gx, 1u, 1u);
+        const GL_GLuint gx = (static_cast<GL_GLuint>(numPoints) + 63) / 64;
+        pfnGlDispatchCompute(gx, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
         std::vector<GL_GLuint> raw(numPoints);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
@@ -2848,7 +2848,7 @@ public:
         pfnGlDeleteBuffers(4, bufs);
         std::vector<bool> out(numPoints);
         for (size_t i = 0; i < numPoints; ++i) {
-          out[i] = (raw[i] != 0u);
+          out[i] = (raw[i] != 0);
         }
         return out;
     }
@@ -3136,14 +3136,14 @@ public:
               pfnGlUniform1ui(locNV, nv);
             }
         }
-        const GL_GLuint gsInit = (ns + 63u) / 64u;
-        pfnGlDispatchCompute(gsInit, 1u, 1u);
+        const GL_GLuint gsInit = (ns + 63) / 64;
+        pfnGlDispatchCompute(gsInit, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
 
         // BFS expand: maxDepth iterations, ping-pong frontA ↔ frontB
-        GL_GLuint curFront = 2u, nextFront = 3u;  // indices into bufs[]
-        const GL_GLuint gsx = (ns + 7u) / 8u;
-        const GL_GLuint gsy = (nv + 7u) / 8u;
+        GL_GLuint curFront = 2, nextFront = 3;  // indices into bufs[]
+        const GL_GLuint gsx = (ns + 7) / 8;
+        const GL_GLuint gsy = (nv + 7) / 8;
         for (uint32_t depth = 0; depth < maxDepth; ++depth) {
             pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[0]);   // adj
             pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[curFront]);
@@ -3160,7 +3160,7 @@ public:
                   pfnGlUniform1ui(locNV, nv);
                 }
             }
-            pfnGlDispatchCompute(gsx, gsy, 1u);
+            pfnGlDispatchCompute(gsx, gsy, 1);
             pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
             std::swap(curFront, nextFront);
         }
@@ -3206,8 +3206,8 @@ public:
         pfnGlBufferData(k_SHADER_STORAGE_BUFFER, predBytes, nullptr, k_DYNAMIC_COPY);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
 
-        const GL_GLuint gpx = (np + 7u) / 8u;
-        const GL_GLuint gpy = (nv + 7u) / 8u;
+        const GL_GLuint gpx = (np + 7) / 8;
+        const GL_GLuint gpy = (nv + 7) / 8;
 
         // Bellman-Ford init
         pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[2]);  // starts
@@ -3224,7 +3224,7 @@ public:
               pfnGlUniform1ui(locNV, nv);
             }
         }
-        pfnGlDispatchCompute(gpx, gpy, 1u);
+        pfnGlDispatchCompute(gpx, gpy, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
 
         // Bellman-Ford relax (nv-1 iterations)
@@ -3244,7 +3244,7 @@ public:
             }
         }
         for (uint32_t iter = 0; iter + 1 < nv; ++iter) {
-            pfnGlDispatchCompute(gpx, gpy, 1u);
+            pfnGlDispatchCompute(gpx, gpy, 1);
             pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
         }
 
@@ -4035,7 +4035,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
             std::vector<std::vector<uint32_t>> results(numStarts);
             for (size_t s = 0; s < numStarts; ++s) {
                 for (size_t v = 0; v < numVertices; ++v) {
-                    if (visited[s * numVertices + v] != 0u)
+                    if (visited[s * numVertices + v] != 0)
                         results[s].push_back(static_cast<uint32_t>(v));
                 }
             }
@@ -4062,9 +4062,9 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
               continue;
             }
             for (size_t u = 0; u < numVertices; ++u) {
-                if (adjacency[cur * numVertices + u] != 0u && !visited[u]) {
+                if (adjacency[cur * numVertices + u] != 0 && !visited[u]) {
                     visited[u] = true;
-                    q.push({static_cast<uint32_t>(u), depth + 1u});
+                    q.push({static_cast<uint32_t>(u), depth + 1});
                 }
             }
         }
@@ -4168,7 +4168,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                   continue;
                 }
                 for (size_t v = 0; v < numVertices; ++v) {
-                    if (adjacency[u * numVertices + v] != 0u) {
+                    if (adjacency[u * numVertices + v] != 0) {
                         float nd = dist[u] + weights[u * numVertices + v];
                         if (nd < dist[v]) {
                             dist[v] = nd;
@@ -4338,7 +4338,7 @@ static int vulkan_geo_containment(
             }
             j = i;
         }
-        results[p] = inside ? 1u : 0u;
+        results[p] = inside ? 1 : 0;
     }
     return 0;
 }

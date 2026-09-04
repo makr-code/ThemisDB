@@ -356,8 +356,8 @@ static std::string base64UrlEncodeImpl(const uint8_t *data, std::size_t len) {
 
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0 = data[i];
-        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0u;
-        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0;
+        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0;
         const uint32_t t  = (b0 << 16) | (b1 << 8) | b2;
         out += kB64Table[(t >> 18) & 0x3F];
         out += kB64Table[(t >> 12) & 0x3F];
@@ -1062,7 +1062,7 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     // Signed data = authData || SHA256(clientDataJSON)
     std::vector<uint8_t> msg = {};
 
-    msg.reserve(static_cast<int>(auth_data_bytes.size()) + client_data_hash.size());
+    msg.reserve(static_cast<int>(auth_data_bytes.size()) + static_cast<int>(client_data_hash.size()) );
     msg.insert(msg.end(), auth_data_bytes.begin(), auth_data_bytes.end());
     msg.insert(msg.end(), client_data_hash.begin(), client_data_hash.end());
 

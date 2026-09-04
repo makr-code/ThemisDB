@@ -354,7 +354,7 @@ TTTrain TensorContractionEngine::contractModes(
     // Result shape: [free dims of a] + [free dims of b]
     std::vector<std::size_t> result_shape = {};
 
-    result_shape.reserve(static_cast<int>(free_a.size()) + free_b.size());
+    result_shape.reserve(static_cast<int>(free_a.size()) + static_cast<int>(free_b.size()) );
     for (auto k : free_a) {
       result_shape.push_back(sha[k]);
     }
@@ -432,7 +432,7 @@ TTTrain TensorContractionEngine::contractModes(
             // Build result index: free_a indices first, then free_b indices.
             std::vector<std::size_t> ridx = {};
 
-            ridx.reserve(static_cast<int>(free_a.size()) + free_b.size());
+            ridx.reserve(static_cast<int>(free_a.size()) + static_cast<int>(free_b.size()) );
             for (auto k : free_a) {
               ridx.push_back(idx_a[k]);
             }

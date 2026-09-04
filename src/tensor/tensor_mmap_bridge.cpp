@@ -235,7 +235,7 @@ TensorMmapBridge::buildFromFd(const storage::TTTrain& train, int fd,
 
         std::size_t current_offset = byte_offset;
         const long page_size = ::sysconf(_SC_PAGESIZE);
-        const std::size_t ps = (page_size > 0) ? static_cast<std::size_t>(page_size) : 4096u;
+        const std::size_t ps = (page_size > 0) ? static_cast<std::size_t>(page_size) : 4096;
 
         for (std::size_t ci = 0; ci <static_cast<int>(train.cores.size()); ++ci) {
             const auto& core  = train.cores[ci];

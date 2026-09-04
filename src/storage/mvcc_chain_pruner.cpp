@@ -71,7 +71,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     // 2. Determine how many versions may be pruned.
     //    Candidates: ts < gc_horizon AND not among the newest min_versions_to_keep.
     const uint32_t min_keep =
-        (config.min_versions_to_keep > 0) ? config.min_versions_to_keep : 1u;
+        (config.min_versions_to_keep > 0) ? config.min_versions_to_keep : 1;
     const uint64_t max_deletable =
         (total > min_keep) ? static_cast<uint64_t>(total - min_keep) : 0;
 
@@ -185,7 +185,7 @@ themisdb::temporal::Document MVCCChainPruner::valueToDocument(
     if (!raw.empty()) {
         const auto* cbegin = reinterpret_cast<const char*>(raw.data());
         try {
-            return nlohmann::json::parse(cbegin, cbegin + raw.size());
+            return nlohmann::json::parse(cbegin, cbegin + static_cast<int>(raw.size()) );
         } catch (const nlohmann::json::exception&) {
             // Fall through: encode as hex string.
         }

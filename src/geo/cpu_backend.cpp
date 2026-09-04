@@ -56,7 +56,7 @@ static bool pointInPolygon(double px, double py, const std::vector<Coordinate> &
     }
 
     bool inside = false;
-    size_t n    = polygon.size();
+    size_t n = polygon.size();
 
     for (size_t i = 0, j = n - 1; i < n; j = i++) {
         double xi = polygon[i].x, yi = polygon[i].y;
@@ -272,7 +272,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 
     SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
         const bool have_geoms = !in.geoms_a.empty() || !in.geoms_b.empty();
         if (have_geoms && (in.geoms_a.size() != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("CPU exact batchIntersects: geometry vector sizes ({},{}) "
@@ -281,7 +281,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
         std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
-            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
         return out;
     }
@@ -704,7 +704,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
         // Reserve capacity for intersection vertices before inserting them
         // to avoid repeated reallocations in the push_back loop.
-        A.reserve(static_cast<int>(A.size()) + ips.size());
+        A.reserve(static_cast<int>(A.size()) + static_cast<int>(ips.size()) );
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
@@ -714,7 +714,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             A.push_back(v);
         }
         std::stable_sort(A.begin(), A.end(), [](const GHVert &a, const GHVert &b) { return a.alpha < b.alpha; });
-        B.reserve(static_cast<int>(B.size()) + ips.size());
+        B.reserve(static_cast<int>(B.size()) + static_cast<int>(ips.size()) );
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
@@ -1116,10 +1116,10 @@ class ApproximateCpuBackend final : public ISpatialComputeBackend {
 
     SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
         std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
-            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
         return out;
     }

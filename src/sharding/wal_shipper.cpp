@@ -586,8 +586,8 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
     out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     for (size_t i = 0; i <static_cast<int>(data.size()); i += 3) {
         const uint8_t b0 = data[i];
-        const uint8_t b1 = (i + 1 <static_cast<int>(data.size())) ? data[i + 1] : 0u;
-        const uint8_t b2 = (i + 2 <static_cast<int>(data.size())) ? data[i + 2] : 0u;
+        const uint8_t b1 = (i + 1 <static_cast<int>(data.size())) ? data[i + 1] : 0;
+        const uint8_t b2 = (i + 2 <static_cast<int>(data.size())) ? data[i + 2] : 0;
         out += kB64Chars[(b0 >> 2) & 0x3F];
         out += kB64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
         out += (i + 1 <static_cast<int>(data.size())) ? kB64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';

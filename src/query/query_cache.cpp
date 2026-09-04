@@ -42,7 +42,7 @@ std::string QueryCache::generateFingerprint(
     // Optimized: Concatenate query + params for hashing using StringBuilder pattern
     // Pre-estimate size to reduce allocations (avoid repeated reallocations)
     std::string params_json = (!params.empty() && !params.is_null()) ? params.dump() : "";
-    size_t total_size = static_cast<int>(query.size()) + (params_json.empty() ? 0 : (2 + params_json.size()));
+    size_t total_size = static_cast<int>(query.size()) + (params_json.empty() ? 0 : (2 + static_cast<int>(params_json.size()) ));
     
     std::string input = {};
     input.reserve(total_size);  // Reserve capacity once to eliminate reallocations

@@ -951,7 +951,7 @@ ExportResult IAnalyticsExporter::exportToFile(
     }
 
     // ── Concurrency enforcement ──────────────────────────────────────────────
-    if (effective_policy.max_concurrent_requests > 0u) {
+    if (effective_policy.max_concurrent_requests > 0) {
         uint32_t concurrent_snapshot = inflight_export_count_.load(std::memory_order_relaxed);
         while (true) {
             if (concurrent_snapshot >= effective_policy.max_concurrent_requests) {
@@ -966,23 +966,23 @@ ExportResult IAnalyticsExporter::exportToFile(
                 return result;
             }
             if (inflight_export_count_.compare_exchange_weak(
-                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    concurrent_snapshot, concurrent_snapshot + 1, std::memory_order_acq_rel,
                     std::memory_order_relaxed)) {
                 break;
             }
         }
     } else {
-        inflight_export_count_.fetch_add(1u, std::memory_order_acq_rel);
+        inflight_export_count_.fetch_add(1, std::memory_order_acq_rel);
     }
 
     // RAII guard for in-flight count.
     struct Guard {
         std::atomic<uint32_t> &counter;
-        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
+        ~Guard() { counter.fetch_sub(1, std::memory_order_acq_rel); }
     } guard{inflight_export_count_};
 
     // ── Timeout enforcement ──────────────────────────────────────────────────
-    if (effective_policy.max_latency_ms > 0u) {
+    if (effective_policy.max_latency_ms > 0) {
         auto fut = std::async(std::launch::async,
             [this, &batch, &output_path, &options]() -> ExportResult {
                 return exportToFile(batch, output_path, options);

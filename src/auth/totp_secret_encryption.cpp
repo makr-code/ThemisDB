@@ -434,7 +434,7 @@ size_t TOTPSecretRotationManager::cleanupExpiredSecrets() {
                                      [this](const SecretVersion &sv) { return !isSecretValid(sv); }),
                       secrets.end());
 
-        cleaned += (original_size - secrets.size());
+        cleaned += (original_size - static_cast<int>(secrets.size()) );
     }
 
     if (cleaned > 0) {

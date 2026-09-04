@@ -264,7 +264,7 @@ std::string LockFreeMetrics::makeKey(const std::string &name, const Labels &labe
     }
 
     std::string key = {};
-    key.reserve(static_cast<int>(name.size()) + labels.size() * 16);
+    key.reserve(static_cast<int>(name.size()) + static_cast<int>(labels.size()) * 16);
     key += name;
     key += '{';
     bool first = true;

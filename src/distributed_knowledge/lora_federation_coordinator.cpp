@@ -274,7 +274,7 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
                 vals.push_back(v);
             }
             std::sort(vals.begin(), vals.end());
-            const size_t n  = vals.size();
+            const size_t n = vals.size();
              
             // Bounds safety: Ensure vals is non-empty before accessing elements.
             // Guaranteed by key_values population logic, but defensive check prevents

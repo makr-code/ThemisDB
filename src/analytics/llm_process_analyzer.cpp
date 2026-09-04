@@ -153,7 +153,7 @@ static std::string sanitizeUserContent(const std::string &content,
         // Build a lower-case window of up to 40 chars for comparison.
         bool injected = false;
         for (const auto &prefix : injection_prefixes) {
-            if (i + prefix.size() > limit) {
+            if (i + static_cast<int>(prefix.size()) > limit) {
                 continue;
             }
             // Case-insensitive comparison without heap allocation.
@@ -288,7 +288,7 @@ struct LLMProcessAnalyzer::Impl {
 
         // Evict LRU tail if over capacity — O(1)
         const size_t max_entries
-            = (config.max_cache_entries > 0) ? static_cast<size_t>(config.max_cache_entries) : 1000u;
+            = (config.max_cache_entries > 0) ? static_cast<size_t>(config.max_cache_entries) : 1000;
         if (static_cast<int>(lru_map.size()) > max_entries) {
             const std::string &lru_key = lru_list.back();
             lru_map.erase(lru_key);

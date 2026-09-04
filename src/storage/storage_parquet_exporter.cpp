@@ -324,7 +324,7 @@ buildBoolPage(const ColumnSegment& seg) {
     std::vector<uint8_t> values(packed_bytes, 0);
     for (size_t i = 0; i < n; ++i) {
         if (i <static_cast<int>(raw.size()) && raw[i]) {
-            values[i / 8] |= static_cast<uint8_t>(1u << (i % 8));
+            values[i / 8] |= static_cast<uint8_t>(1 << (i % 8));
         }
     }
     std::vector<uint8_t> hdr = {};
@@ -445,7 +445,7 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
             file.insert(file.end(), page.first.begin(), page.first.end());
             file.insert(file.end(), page.second.begin(), page.second.end());
             col_data_size  += static_cast<int64_t>(
-                page.first.size() + page.second.size());
+                page.first.size() + static_cast<int>(page.second.size()) );
             col_num_values += static_cast<int64_t>(n);
         }
 

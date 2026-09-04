@@ -229,7 +229,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         const auto t0 = std::chrono::steady_clock::now();
         ++batch_calls_;
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
 
         if (in.count == 0) {
             return out;
@@ -296,11 +296,11 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         const std::size_t n_cpu = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n_cpu; ++i) {
             try {
-                out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
             } catch (const std::exception &e) {
                 ++exact_errors_;
                 THEMIS_WARN("GPU spatial batchIntersects[{}] error: {}", i, e.what());
-                out.mask[i] = 0u;
+                out.mask[i] = 0;
             }
         }
 

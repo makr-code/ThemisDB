@@ -105,7 +105,7 @@ void Serialization::Encoder::encodeFloatVector(const std::vector<float>& vec) {
     // Note: reinterpret_cast to uint8_t* (or char*) is explicitly allowed by C++ standard
     // for accessing object representation (not a strict aliasing violation)
     const uint8_t* data = reinterpret_cast<const uint8_t*>(vec.data());
-    buffer_.insert(buffer_.end(), data, data + vec.size() * sizeof(float));
+    buffer_.insert(buffer_.end(), data, data + static_cast<int>(vec.size()) * sizeof(float));
 }
 
 void Serialization::Encoder::beginArray([[maybe_unused]] size_t size) {

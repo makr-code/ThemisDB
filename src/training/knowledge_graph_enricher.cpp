@@ -196,9 +196,9 @@ public:
                 auto context = enrichSample(sample_id);
 
                 stats.context_items_added += context.related_provisions.size()
-                                           + context.case_law.size()
-                                           + context.similar_documents.size()
-                                           + context.internal_guidance.size();
+                                           + static_cast<int>(context.case_law.size()) 
+                                           + static_cast<int>(context.similar_documents.size()) 
+                                           + static_cast<int>(context.internal_guidance.size()) ;
 
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
@@ -312,9 +312,9 @@ public:
                 auto context = enrichSample(sample_id);
 
                 stats.context_items_added += context.related_provisions.size()
-                                           + context.case_law.size()
-                                           + context.internal_guidance.size()
-                                           + context.similar_documents.size();
+                                           + static_cast<int>(context.case_law.size()) 
+                                           + static_cast<int>(context.internal_guidance.size()) 
+                                           + static_cast<int>(context.similar_documents.size()) ;
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
                 }

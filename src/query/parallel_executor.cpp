@@ -421,7 +421,7 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
           return parts;
         }
 
-        const size_t n     = rows.size();
+        const size_t n = rows.size();
         const size_t nmors = (n + morsel - 1) / morsel;
 
         // [morsel_idx][partition_idx]

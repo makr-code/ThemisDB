@@ -98,7 +98,7 @@ namespace {
             VkPhysicalDeviceMemoryProperties mem_props{};
             vkGetPhysicalDeviceMemoryProperties(physical_device, &mem_props);
             for (uint32_t i = 0; i < mem_props.memoryTypeCount; ++i) {
-                if ((type_bits & (1u << i)) &&
+                if ((type_bits & (1 << i)) &&
                     (mem_props.memoryTypes[i].propertyFlags & props) == props) {
                     return i;
                 }

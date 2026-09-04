@@ -56,9 +56,9 @@ public:
         const std::string strategy =
             cfg.config.value("strategy", std::string("fixed"));
         const std::size_t chunk_size =
-            cfg.config.value("size", 512u);
+            cfg.config.value("size", 512);
         const std::size_t overlap =
-            cfg.config.value("overlap", 64u);
+            cfg.config.value("overlap", 64);
 
         if (strategy == "section") {
             chunkBySection(ctx);
@@ -129,7 +129,7 @@ private:
             c.seq        = seq++;
             c.text       = current;
             c.char_start = static_cast<std::uint64_t>(current_start);
-            c.char_end   = static_cast<std::uint64_t>(current_start + current.size());
+            c.char_end   = static_cast<std::uint64_t>(current_start + static_cast<int>(current.size()) );
             ctx.chunks.push_back(std::move(c));
             // Overlap: keep last `overlap` chars for next chunk
             if (overlap > 0 && static_cast<int>(current.size()) > overlap) {
@@ -161,7 +161,7 @@ private:
             c.seq        = seq++;
             c.text       = current;
             c.char_start = static_cast<std::uint64_t>(current_start);
-            c.char_end   = static_cast<std::uint64_t>(current_start + current.size());
+            c.char_end   = static_cast<std::uint64_t>(current_start + static_cast<int>(current.size()) );
             ctx.chunks.push_back(std::move(c));
         }
     }

@@ -117,8 +117,8 @@ ClusterAssignment DynamicClusteringEngine::cluster(
     // Determine target cluster count: user-supplied, or √N rounded up.
     const std::size_t n = graph.schools.size();
     std::size_t k = target_cluster_count_;
-    if (k == 0u) {
-        k = 1u;
+    if (k == 0) {
+        k = 1;
         while (k * k < n) { ++k; }
     }
     k = std::min(k, n); // cannot have more clusters than schools
@@ -127,10 +127,10 @@ ClusterAssignment DynamicClusteringEngine::cluster(
     // has the lowest cumulative tension with already-assigned schools.
     for (std::size_t i = 0; i < n; ++i) {
         const std::string& school = graph.schools[i];
-        std::size_t best_cluster  = 0u;
+        std::size_t best_cluster  = 0;
         double      best_tension  = std::numeric_limits<double>::infinity();
 
-        for (std::size_t c = 0u; c < k; ++c) {
+        for (std::size_t c = 0; c < k; ++c) {
             double tension = 0.0;
             for (const auto& [assigned_school, assigned_cluster] : result.school_to_cluster) {
                 if (assigned_cluster == c) {
@@ -146,9 +146,9 @@ ClusterAssignment DynamicClusteringEngine::cluster(
     }
 
     // Count distinct clusters actually used.
-    std::size_t used = 0u;
+    std::size_t used = 0;
     for (const auto& [s, c] : result.school_to_cluster) {
-        if (c + 1u > used) { used = c + 1u; }
+        if (c + 1 > used) { used = c + 1; }
     }
     result.cluster_count = used;
     return result;

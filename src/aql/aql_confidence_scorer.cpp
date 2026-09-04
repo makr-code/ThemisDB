@@ -184,7 +184,7 @@ bool AQLConfidenceScorer::containsKeyword(const std::string &aql_lower, const st
     std::size_t pos = 0;
     while ((pos = aql_lower.find(keyword, pos)) != std::string::npos) {
         bool leftOk  = (pos == 0) || !isWordChar(aql_lower[static_cast<int>(pos - 1)]);
-        bool rightOk = (pos + keyword.size() >= aql_lower.size()) || !isWordChar(aql_lower[pos + keyword.size()]);
+        bool rightOk = (pos + static_cast<int>(keyword.size()) >= aql_lower.size()) || !isWordChar(aql_lower[pos + static_cast<int>(keyword.size()) ]);
         if (leftOk && rightOk) {
             return true;
         }

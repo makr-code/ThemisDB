@@ -251,7 +251,7 @@ private:
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
         
         std::cout << "\n⏱️  Write performance: " << duration << "μs total\n";
-        std::cout << "   Average: " << duration / (static_cast<int>(users_.size()) + customers_.size()) << "μs per record\n\n";
+        std::cout << "   Average: " << duration / (static_cast<int>(users_.size()) + static_cast<int>(customers_.size()) ) << "μs per record\n\n";
     }
     
     void demoRetrieval() {
@@ -420,7 +420,7 @@ private:
         std::cout << "✅ Data Created:\n";
         std::cout << "   • Users: " <<static_cast<int>(users_.size()) << "\n";
         std::cout << "   • Customers: " <<static_cast<int>(customers_.size()) << "\n";
-        std::cout << "   • Encrypted Fields: " << (users_.size() * 4 + customers_.size() * 3) << "\n\n";
+        std::cout << "   • Encrypted Fields: " << (users_.size() * 4 + static_cast<int>(customers_.size()) * 3) << "\n\n";
         
         std::cout << "✅ Security Features:\n";
         std::cout << "   • Encryption at rest: ✓\n";

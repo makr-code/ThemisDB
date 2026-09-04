@@ -217,7 +217,7 @@ class ReActAgent::Impl {
         if (pos == std::string::npos) {
             return response;
         }
-        std::string answer = response.substr(pos + marker.size());
+        std::string answer = response.substr(pos + static_cast<int>(marker.size()) );
         // Trim leading/trailing whitespace.
         auto start = answer.find_first_not_of(" \t\n\r");
         auto end   = answer.find_last_not_of(" \t\n\r");

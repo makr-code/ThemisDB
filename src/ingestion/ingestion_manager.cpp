@@ -2364,14 +2364,14 @@ std::string IngestionAdminApi::healthJson() const {
     auto sources    = mgr_.getRegisteredSources();
     auto quarantine = mgr_.getQuarantineItems();
 
-    size_t total     = sources.size();
+    size_t total = sources.size();
     size_t enabled   = 0;
     for (const auto& s : sources) {
         if (s.enabled) {
           ++enabled;
         }
     }
-    size_t qsize          = quarantine.size();
+    size_t qsize = quarantine.size();
     size_t retry_successes = mgr_.getQuarantineRetrySuccessCount();
 
     // Determine overall status

@@ -226,7 +226,7 @@ ProTeGiResult ProTeGiOptimizer::optimize(
 
         // Clamp beam_width to at least 1 to prevent UB on empty scored vector
         std::size_t effective_beam_width = config_.beam_width >= 1
-            ? static_cast<std::size_t>(config_.beam_width) : 1u;
+            ? static_cast<std::size_t>(config_.beam_width) : 1;
         if (config_.beam_width < 1) {
             THEMIS_INFO(
                 "ProTeGi optimizer: invalid beam_width={} configured; clamping to 1.",
@@ -339,7 +339,7 @@ std::vector<TestCase> ProTeGiOptimizer::sampleMiniBatch(
     // Deterministic shuffle seeded on test_cases size to remain reproducible
     std::vector<size_t> indices(test_cases.size());
     std::iota(indices.begin(), indices.end(), 0);
-    std::mt19937 rng(static_cast<unsigned>(test_cases.size() * 31337u));
+    std::mt19937 rng(static_cast<unsigned>(test_cases.size() * 31337));
     std::shuffle(indices.begin(), indices.end(), rng);
 
     std::vector<TestCase> batch;

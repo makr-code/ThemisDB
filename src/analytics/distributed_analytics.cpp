@@ -720,7 +720,7 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
         }
         const auto &acc = git->second;
         Row out         = acc.prototype;
-        out.values.reserve(query.measures.size() + query.dimensions.size());
+        out.values.reserve(query.measures.size() + static_cast<int>(query.dimensions.size()) );
 
         for (const auto &m : query.measures) {
             auto ait = acc.measures.find(m.name);
@@ -861,9 +861,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                 std::uniform_real_distribution<double> jitter_dist(0.0, 1.0);
 
                 const auto t0 = std::chrono::steady_clock::now();
-                const uint32_t max_attempts = retry_cfg.max_retries + 1u;
+                const uint32_t max_attempts = retry_cfg.max_retries + 1;
 
-                for (uint32_t attempt = 0u; attempt < max_attempts; ++attempt) {
+                for (uint32_t attempt = 0; attempt < max_attempts; ++attempt) {
                     try {
                         if (!entry.executor) {
                             throw std::runtime_error("shard executor is null");
@@ -885,7 +885,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             lower.find("permission denied") != std::string::npos ||
                             lower.find("auth")             != std::string::npos;
 
-                        if (is_permanent || attempt + 1u >= max_attempts) {
+                        if (is_permanent || attempt + 1 >= max_attempts) {
                             const auto t1 = std::chrono::steady_clock::now();
                             info.success = false;
                             info.error   = err_msg;
@@ -899,16 +899,16 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                         }
                         // Transient: backoff = base * 2^attempt, capped, ±20% jitter.
                         const uint32_t raw_ms =
-                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
+                            retry_cfg.base_delay_ms * (1 << std::min(attempt, 10));
                         const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
                         const double jf = 0.8 + 0.4 * jitter_dist(rng);
                         const uint32_t delay_ms =
                             static_cast<uint32_t>(static_cast<double>(capped_ms) * jf);
                         THEMIS_INFO("[AN1] shard '{}' retry {} of {}",
-                                    entry.shard_id, attempt + 1u, retry_cfg.max_retries);
+                                    entry.shard_id, attempt + 1, retry_cfg.max_retries);
                         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     } catch (...) {
-                        if (attempt + 1u >= max_attempts) {
+                        if (attempt + 1 >= max_attempts) {
                             const auto t1 = std::chrono::steady_clock::now();
                             info.success = false;
                             info.error   = "unknown shard error";
@@ -921,13 +921,13 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             return;
                         }
                         const uint32_t raw_ms =
-                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
+                            retry_cfg.base_delay_ms * (1 << std::min(attempt, 10));
                         const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
                         const double jf = 0.8 + 0.4 * jitter_dist(rng);
                         const uint32_t delay_ms =
                             static_cast<uint32_t>(static_cast<double>(capped_ms) * jf);
                         THEMIS_INFO("[AN1] shard '{}' retry {} of {}",
-                                    entry.shard_id, attempt + 1u, retry_cfg.max_retries);
+                                    entry.shard_id, attempt + 1, retry_cfg.max_retries);
                         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     }
                 }

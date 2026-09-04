@@ -402,7 +402,7 @@ ImportStats MySQLImporter::importData(
                static_cast<double>(stats.imported_records));
     emitMetric(options, "importers_mysql_errors_total",
                {},
-               static_cast<double>(stats.failed_records + stats.structured_errors.size()));
+               static_cast<double>(stats.failed_records + static_cast<int>(stats.structured_errors.size()) ));
 
     // OTel span for the entire import
     emitSpan(options, "import_total",

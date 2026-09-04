@@ -577,7 +577,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
             metrics.statistics_staleness_ms =
                 (last_metrics_update_ms_ > 0 && now_ms >= last_metrics_update_ms_)
                 ? now_ms - last_metrics_update_ms_
-                : 0u;
+                : 0;
         }
         
         return metrics;

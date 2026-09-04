@@ -131,10 +131,10 @@ static bool containsPII(const std::string& text) {
 
 // Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing)
 static uint32_t fnv1a(const std::string& s) {
-    uint32_t hash = 2166136261u;
+    uint32_t hash = 2166136261;
     for (unsigned char c : s) {
         hash ^= static_cast<uint32_t>(c);
-        hash *= 16777619u;
+        hash *= 16777619;
     }
     return hash;
 }
@@ -166,12 +166,12 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
     // Simulate permutations via (a*hash + b) % p  (universal hashing)
     // Using fixed seeds for reproducibility
     std::vector<uint32_t> signature(num_perm, UINT32_MAX);
-    const uint32_t large_prime = 4294967291u;
+    const uint32_t large_prime = 4294967291;
     for (const auto& shingle : shingles) {
         uint32_t h0 = fnv1a(shingle);
         for (size_t perm = 0; perm < num_perm; ++perm) {
-            uint32_t a = static_cast<uint32_t>(perm * 2654435761u + 1);
-            uint32_t b = static_cast<uint32_t>(perm * 40503u + 7);
+            uint32_t a = static_cast<uint32_t>(perm * 2654435761 + 1);
+            uint32_t b = static_cast<uint32_t>(perm * 40503 + 7);
             uint32_t val = static_cast<uint32_t>((static_cast<uint64_t>(a) * h0 + b) % large_prime);
             if (val < signature[perm]) {
               signature[perm] = val;
@@ -699,9 +699,9 @@ public:
                 result.audit_entry.config_hash       = detail::hashConfig(config_);
                 result.audit_entry.input_sample_count  = input.size();
                 result.audit_entry.output_sample_count = result.selected_samples.size();
-                result.audit_entry.filtered_by_quality = static_cast<int>(input.size()) - s1.size();
-                result.audit_entry.filtered_by_dedup   = static_cast<int>(s1.size()) - s2.size();
-                result.audit_entry.filtered_by_cluster = static_cast<int>(s2.size()) - s3.size();
+                result.audit_entry.filtered_by_quality = static_cast<int>(input.size()) - static_cast<int>(s1.size()) ;
+                result.audit_entry.filtered_by_dedup   = static_cast<int>(s1.size()) - static_cast<int>(s2.size()) ;
+                result.audit_entry.filtered_by_cluster = static_cast<int>(s2.size()) - static_cast<int>(s3.size()) ;
                 for (const auto& s : result.selected_samples) {
                     result.audit_entry.selected_ids.push_back(s.id);
                     if (!s.domain.empty()) {

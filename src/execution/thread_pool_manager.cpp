@@ -26,9 +26,9 @@ WorkStealingThreadPool::WorkStealingThreadPool(const Config& cfg)
     : cfg_(cfg) {
     if (cfg_.max_threads == 0) {
         cfg_.max_threads =
-            std::max<std::size_t>(4u * std::thread::hardware_concurrency(), 4u);
+            std::max<std::size_t>(4 * std::thread::hardware_concurrency(), 4);
     }
-    cfg_.min_threads = std::max<std::size_t>(cfg_.min_threads, 1u);
+    cfg_.min_threads = std::max<std::size_t>(cfg_.min_threads, 1);
     cfg_.min_threads = std::min(cfg_.min_threads, cfg_.max_threads);
 
     // Pre-create per-thread queues up to max_threads.

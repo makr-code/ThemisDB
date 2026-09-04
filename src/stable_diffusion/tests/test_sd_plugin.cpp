@@ -174,7 +174,7 @@ TEST(SDPluginFocusedTests, E2_GenerateReturnsPresetPixels) {
     g.initialize(SDConfig{});
     int w = 0, h = 0; uint64_t seed = 0;
     const auto result = g.generate("test", SDGenerationConfig{}, w, h, seed);
-    EXPECT_EQ(w, 1); EXPECT_EQ(h, 1); EXPECT_EQ(seed, 7u);
+    EXPECT_EQ(w, 1); EXPECT_EQ(h, 1); EXPECT_EQ(seed, 7);
     EXPECT_EQ(result, px);
 }
 
@@ -250,14 +250,14 @@ TEST(SDPluginFocusedTests, H2_BlockedCountIncrements) {
     p.initialize("", {});
     p.generate("evil thing", {});
     p.generate("evil again", {});
-    EXPECT_GE(p.getStatistics()["blocked_count"].get<uint64_t>(), 2u);
+    EXPECT_GE(p.getStatistics()["blocked_count"].get<uint64_t>(), 2);
 }
 
 TEST(SDPluginFocusedTests, H3_AllowedPromptDoesNotIncrementBlockedCount) {
     SDPlugin p(std::make_unique<InMemorySDGenerator>(), SDPromptSanitizer({"nsfw"}));
     p.initialize("", {});
     p.generate("a nice landscape", {});
-    EXPECT_EQ(p.getStatistics()["blocked_count"].get<uint64_t>(), 0u);
+    EXPECT_EQ(p.getStatistics()["blocked_count"].get<uint64_t>(), 0);
 }
 
 // ── Group I – getStatistics ───────────────────────────────────────────────────
@@ -283,7 +283,7 @@ TEST(SDPluginFocusedTests, I3_GenerationCountIncrements) {
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     p.generate("a", {}); p.generate("b", {});
-    EXPECT_GE(p.getStatistics()["generation_count"].get<uint64_t>(), 2u);
+    EXPECT_GE(p.getStatistics()["generation_count"].get<uint64_t>(), 2);
 }
 
 // ── Group J – Error paths ─────────────────────────────────────────────────────
@@ -363,7 +363,7 @@ TEST(SDPluginFocusedTests, K2_BlockedNegativePromptIncrementsBlockedCount) {
     SDGenerationConfig cfg;
     cfg.negative_prompt = "banned keyword";
     p.generate("safe prompt", cfg);
-    EXPECT_GE(p.getStatistics()["blocked_count"].get<uint64_t>(), 1u);
+    EXPECT_GE(p.getStatistics()["blocked_count"].get<uint64_t>(), 1);
 }
 
 TEST(SDPluginFocusedTests, K3_EmptyNegativePromptDoesNotBlock) {
@@ -396,7 +396,7 @@ TEST(SDPluginFocusedTests, L1_BatchReturnsOneResultPerPrompt) {
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     const auto results = p.generateBatch({"cat", "dog", "bird"}, SDGenerationConfig{});
-    EXPECT_EQ(results.size(), 3u);
+    EXPECT_EQ(results.size(), 3);
     for (const auto& img : results) {
         EXPECT_TRUE(img.success);
     }
@@ -409,7 +409,7 @@ TEST(SDPluginFocusedTests, L2_BatchBlockedPromptDoesNotBlockOthers) {
     p.initialize("", {});
     const auto results = p.generateBatch({"safe prompt", "blocked content", "also safe"},
                                           SDGenerationConfig{});
-    ASSERT_EQ(results.size(), 3u);
+    ASSERT_EQ(results.size(), 3);
     EXPECT_TRUE(results[0].success);
     EXPECT_FALSE(results[1].success);
     EXPECT_TRUE(results[2].success);
@@ -480,7 +480,7 @@ TEST(SDPluginFocusedTests, N2_Img2ImgStrengthRecorded) {
     p.initialize("", {});
     Img2ImgConfig cfg;
     cfg.input_width = 2; cfg.input_height = 3;
-    cfg.input_image_rgb = std::vector<uint8_t>(2 * 3 * 3, 8u);
+    cfg.input_image_rgb = std::vector<uint8_t>(2 * 3 * 3, 8);
     cfg.strength = 0.45f;
     p.generateImg2Img("test", cfg);
     EXPECT_FLOAT_EQ(raw_gen->lastImg2ImgStrength(), 0.45f);
@@ -493,7 +493,7 @@ TEST(SDPluginFocusedTests, N3_Img2ImgInputDimensionsRecorded) {
     p.initialize("", {});
     Img2ImgConfig cfg;
     cfg.input_width = 128; cfg.input_height = 64;
-    cfg.input_image_rgb = std::vector<uint8_t>(128 * 64 * 3, 1u);
+    cfg.input_image_rgb = std::vector<uint8_t>(128 * 64 * 3, 1);
     p.generateImg2Img("test", cfg);
     EXPECT_EQ(raw_gen->lastImg2ImgInputWidth(),  128);
     EXPECT_EQ(raw_gen->lastImg2ImgInputHeight(),  64);
@@ -501,13 +501,13 @@ TEST(SDPluginFocusedTests, N3_Img2ImgInputDimensionsRecorded) {
 
 TEST(SDPluginFocusedTests, N4_ControlNetAndLoRAFieldsPassedToGenerator) {
     auto* raw_gen = new InMemorySDGenerator();
-    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 77u), 8, 8);
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 77), 8, 8);
     SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
     p.initialize("", {});
     SDGenerationConfig cfg;
     cfg.width = 8;
     cfg.height = 8;
-    cfg.control_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 11u);
+    cfg.control_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 11);
     cfg.control_width = 8;
     cfg.control_height = 8;
     cfg.control_strength = 0.4f;
@@ -529,7 +529,7 @@ TEST(SDPluginFocusedTests, N4_ControlNetAndLoRAFieldsPassedToGenerator) {
 
 TEST(SDPluginFocusedTests, N5_LoRAApplyFailureReturnsError) {
     auto g = std::make_unique<LoRAFailingGenerator>();
-    g->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 3u), 8, 8);
+    g->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 3), 8, 8);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     SDGenerationConfig cfg;
@@ -544,7 +544,7 @@ TEST(SDPluginFocusedTests, N5_LoRAApplyFailureReturnsError) {
 
 TEST(SDPluginFocusedTests, N6_ControlNetAndLoRAFieldsPassedToImg2Img) {
     auto* raw_gen = new InMemorySDGenerator();
-    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 12u), 8, 8);
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 12), 8, 8);
     SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
     p.initialize("", {});
     Img2ImgConfig cfg;
@@ -552,8 +552,8 @@ TEST(SDPluginFocusedTests, N6_ControlNetAndLoRAFieldsPassedToImg2Img) {
     cfg.height = 8;
     cfg.input_width = 8;
     cfg.input_height = 8;
-    cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1u);
-    cfg.control_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 2u);
+    cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1);
+    cfg.control_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 2);
     cfg.control_width = 8;
     cfg.control_height = 8;
     cfg.control_strength = 0.25f;
@@ -572,7 +572,7 @@ TEST(SDPluginFocusedTests, N6_ControlNetAndLoRAFieldsPassedToImg2Img) {
 
 TEST(SDPluginFocusedTests, N7_EmptyLoraPathClearsPreviousStateOnGenerate) {
     auto* raw_gen = new InMemorySDGenerator();
-    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 7u), 8, 8);
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 7), 8, 8);
     SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
     p.initialize("", {});
 
@@ -598,7 +598,7 @@ TEST(SDPluginFocusedTests, N7_EmptyLoraPathClearsPreviousStateOnGenerate) {
 
 TEST(SDPluginFocusedTests, N8_EmptyLoraPathClearsPreviousStateOnImg2Img) {
     auto* raw_gen = new InMemorySDGenerator();
-    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 9u), 8, 8);
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 9), 8, 8);
     SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
     p.initialize("", {});
 
@@ -607,7 +607,7 @@ TEST(SDPluginFocusedTests, N8_EmptyLoraPathClearsPreviousStateOnImg2Img) {
     first_cfg.height = 8;
     first_cfg.input_width = 8;
     first_cfg.input_height = 8;
-    first_cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1u);
+    first_cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1);
     first_cfg.lora_adapter_path = "/tmp/lora-img2img.safetensors";
     first_cfg.lora_scale = 1.3f;
     const auto first_img = p.generateImg2Img("first", first_cfg);
@@ -620,7 +620,7 @@ TEST(SDPluginFocusedTests, N8_EmptyLoraPathClearsPreviousStateOnImg2Img) {
     second_cfg.height = 8;
     second_cfg.input_width = 8;
     second_cfg.input_height = 8;
-    second_cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1u);
+    second_cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1);
     second_cfg.lora_adapter_path.clear();
     const auto second_img = p.generateImg2Img("second", second_cfg);
     ASSERT_TRUE(second_img.success);
@@ -652,7 +652,7 @@ TEST(SDPluginFocusedTests, O3_GenerateBatchCountsGenerations) {
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     p.generateBatch({"a", "b", "c"}, SDGenerationConfig{});
-    EXPECT_EQ(p.getStatistics()["generation_count"].get<uint64_t>(), 3u);
+    EXPECT_EQ(p.getStatistics()["generation_count"].get<uint64_t>(), 3);
 }
 
 // ── PNG parsing helpers ───────────────────────────────────────────────────────
@@ -662,17 +662,17 @@ namespace {
 // Returns true when buf contains a PNG chunk with the given 4-byte type.
 // Scans the entire buffer (post-signature) to find any matching chunk.
 bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
-    if (static_cast<int>(buf.size()) < 8u) {
+    if (static_cast<int>(buf.size()) < 8) {
       return false;
     }
-    size_t pos = 8u;  // skip PNG signature
-    while (pos + 12u <= buf.size()) {
+    size_t pos = 8;  // skip PNG signature
+    while (pos + 12 <= buf.size()) {
         const uint32_t len =
             (static_cast<uint32_t>(buf[pos])     << 24) |
             (static_cast<uint32_t>(buf[pos + 1]) << 16) |
             (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
              static_cast<uint32_t>(buf[pos + 3]);
-        if (static_cast<int>(buf.size()) < pos + 12u + len) {
+        if (static_cast<int>(buf.size()) < pos + 12 + len) {
           break;
         }
         if (buf[pos + 4] == static_cast<uint8_t>(type[0]) &&
@@ -681,7 +681,7 @@ bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
             buf[pos + 7] == static_cast<uint8_t>(type[3])) {
             return true;
         }
-        pos += 12u + len;
+        pos += 12 + len;
     }
     return false;
 }
@@ -689,15 +689,15 @@ bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
 // Read the IDAT chunk data (first occurrence) from a PNG buffer.
 // Returns empty vector if not found.
 std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
-    if (static_cast<int>(buf.size()) < 8u) return {};
-    size_t pos = 8u;
-    while (pos + 12u <= buf.size()) {
+    if (static_cast<int>(buf.size()) < 8) return {};
+    size_t pos = 8;
+    while (pos + 12 <= buf.size()) {
         const uint32_t len =
             (static_cast<uint32_t>(buf[pos])     << 24) |
             (static_cast<uint32_t>(buf[pos + 1]) << 16) |
             (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
              static_cast<uint32_t>(buf[pos + 3]);
-        if (static_cast<int>(buf.size()) < pos + 12u + len) {
+        if (static_cast<int>(buf.size()) < pos + 12 + len) {
           break;
         }
         if (buf[pos + 4] == 'I' && buf[pos + 5] == 'D' &&
@@ -705,7 +705,7 @@ std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
             return std::vector<uint8_t>(buf.begin() + pos + 8,
                                         buf.begin() + pos + 8 + len);
         }
-        pos += 12u + len;
+        pos += 12 + len;
     }
     return {};
 }
@@ -713,15 +713,15 @@ std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
 // Read IHDR dimensions from a PNG buffer.
 // Returns {-1,-1} on error.
 std::pair<int,int> png_ihdr_dims(const std::vector<uint8_t>& buf) {
-    if (static_cast<int>(buf.size()) < 8u + 25u) return {-1, -1};
-    const size_t pos = 8u;
+    if (static_cast<int>(buf.size()) < 8 + 25) return {-1, -1};
+    const size_t pos = 8;
     // Length of IHDR data must be 13
     const uint32_t len =
         (static_cast<uint32_t>(buf[pos])     << 24) |
         (static_cast<uint32_t>(buf[pos + 1]) << 16) |
         (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
          static_cast<uint32_t>(buf[pos + 3]);
-    if (len != 13u) return {-1, -1};
+    if (len != 13) return {-1, -1};
     if (buf[pos + 4] != 'I' || buf[pos + 5] != 'H' ||
         buf[pos + 6] != 'D' || buf[pos + 7] != 'R') return {-1, -1};
     const int w =
@@ -749,7 +749,7 @@ TEST(SDPluginFocusedTests, P1_PngSignatureCorrect) {
     SDGenerationConfig cfg; cfg.width = 1; cfg.height = 1;
     const auto img = p.generate("test", cfg);
     ASSERT_TRUE(img.success);
-    ASSERT_GE(img.png_data.size(), 8u);
+    ASSERT_GE(img.png_data.size(), 8);
     // PNG magic: 89 50 4E 47 0D 0A 1A 0A
     EXPECT_EQ(img.png_data[0], 0x89u);
     EXPECT_EQ(img.png_data[1], static_cast<uint8_t>('P'));
@@ -763,7 +763,7 @@ TEST(SDPluginFocusedTests, P1_PngSignatureCorrect) {
 
 TEST(SDPluginFocusedTests, P2_PngContainsIdatChunk) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    std::vector<uint8_t> px(2 * 3 * 3, 128u);  // 2×3 grey image
+    std::vector<uint8_t> px(2 * 3 * 3, 128);  // 2×3 grey image
     g->setNextPixels(px, 2, 3);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
@@ -780,7 +780,7 @@ TEST(SDPluginFocusedTests, P2_PngContainsIdatChunk) {
 
 TEST(SDPluginFocusedTests, P3_PngIhdrDimensionsMatchRequest) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    std::vector<uint8_t> px(4 * 7 * 3, 0u);
+    std::vector<uint8_t> px(4 * 7 * 3, 0);
     g->setNextPixels(px, 4, 7);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
@@ -794,7 +794,7 @@ TEST(SDPluginFocusedTests, P3_PngIhdrDimensionsMatchRequest) {
 
 TEST(SDPluginFocusedTests, P4_PerceptualHashDeterministic) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    std::vector<uint8_t> px(8 * 8 * 3, 42u);
+    std::vector<uint8_t> px(8 * 8 * 3, 42);
     g->setNextPixels(px, 8, 8);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});

@@ -249,7 +249,7 @@ public:
             stats.selection_input_count    = sel.audit_entry.input_sample_count;
             stats.selection_output_count   = sel.selected_samples.size();
             stats.selection_filtered_count =
-                sel.audit_entry.input_sample_count - sel.selected_samples.size();
+                sel.audit_entry.input_sample_count - static_cast<int>(sel.selected_samples.size()) ;
 
             metrics.endStage("data_selection");
 

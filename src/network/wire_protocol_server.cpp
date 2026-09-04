@@ -98,7 +98,7 @@ constexpr std::size_t kMaxBpmnVariablesFields = 256;
 constexpr std::size_t kDefaultBpmnHistoryEvents = 1000;
 constexpr std::size_t kMaxBpmnHistoryEvents = 10000;
 constexpr uint32_t kMaxWireFrameSizeMb =
-    static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024u * 1024u));
+    static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024 * 1024));
 constexpr int kBindListenMaxRetries = 3; // kept for reference; active retry uses WireRetryPolicy
 constexpr auto kBindListenRetryBaseDelay = std::chrono::milliseconds(100); // kept for reference
 
@@ -188,7 +188,7 @@ std::size_t escapedJsonStringLength(std::string_view value) {
                 escaped_length += 2;
                 break;
             default:
-                escaped_length += (ch < 0x20u) ? 6u : 1u;
+                escaped_length += (ch < 0x20u) ? 6 : 1;
                 break;
         }
     }
@@ -660,7 +660,7 @@ void WireProtocolServer::wait() {
 size_t WireProtocolServer::getActiveConnections() const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
 #ifdef THEMIS_ENABLE_WEBSOCKET
-    return static_cast<int>(active_sessions_.size()) + active_ws_sessions_.size();
+    return static_cast<int>(active_sessions_.size()) + static_cast<int>(active_ws_sessions_.size()) ;
 #else
     return static_cast<int>(active_sessions_.size());
 #endif
@@ -1285,7 +1285,7 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
 
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
-    bytes_received_.fetch_add(static_cast<int>(header_buffer_.size()) + payload_buffer_.size(), std::memory_order_relaxed);
+    bytes_received_.fetch_add(static_cast<int>(header_buffer_.size()) + static_cast<int>(payload_buffer_.size()) , std::memory_order_relaxed);
     
     // Validate header size (must be at least 12 bytes)
     if (static_cast<int>(header_buffer_.size()) < 12) {

@@ -65,7 +65,7 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
 
     // Check pending limit before adding
     if (config_.max_pending_per_consumer > 0 &&
-        state.pending.size() + events.size() > config_.max_pending_per_consumer) {
+        state.pending.size() + static_cast<int>(events.size()) > config_.max_pending_per_consumer) {
         THEMIS_WARN("DeliveryTracker: consumer '{}' pending limit ({}) would be exceeded "
                     "(current={}, adding={}); rejecting delivery",
                     consumer_id, config_.max_pending_per_consumer,

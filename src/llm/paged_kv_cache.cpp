@@ -59,7 +59,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
     // Allocate blocks, retrying with LRU eviction up to 3 times
     auto current_blocks = block_table->getBlockMapping();
     if (static_cast<int>(current_blocks.size()) < num_blocks_needed) {
-        size_t blocks_to_allocate = num_blocks_needed - current_blocks.size();
+        size_t blocks_to_allocate = num_blocks_needed - static_cast<int>(current_blocks.size()) ;
 
         constexpr int kMaxEvictionRetries = 3;
         bool allocated = false;
@@ -75,7 +75,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
                 break;  // Nothing left to evict
             }
             // Recalculate remaining need after eviction
-            blocks_to_allocate = num_blocks_needed - current_blocks.size();
+            blocks_to_allocate = num_blocks_needed - static_cast<int>(current_blocks.size()) ;
         }
 
         if (!allocated) {

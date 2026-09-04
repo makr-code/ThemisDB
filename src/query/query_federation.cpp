@@ -443,7 +443,7 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
         spdlog::info("[audit] {{\"event\":\"federation_result_merge\","
                      "\"result_count\":{},\"truncated\":{},"
                      "\"merge_time_ms\":{}}}",
-                     final_result.is_array() ?static_cast<int>(final_result.size()) : 0u,
+                     final_result.is_array() ?static_cast<int>(final_result.size()) : 0,
                      truncated,
                      duration_ms);
         

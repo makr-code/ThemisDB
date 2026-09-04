@@ -146,15 +146,15 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     struct QNode { uint32_t x0, y0; int bits; };
 
     std::vector<std::pair<uint64_t, uint64_t>> ranges;
-    std::vector<QNode> stack = {{0u, 0u, 32}};  // root covers the full space
+    std::vector<QNode> stack = {{0, 0, 32}};  // root covers the full space
 
     while (!stack.empty()) {
         QNode n = stack.back();
         stack.pop_back();
 
         // Inclusive high corner of this node.
-        uint32_t x1 = (n.bits < 32) ? n.x0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
-        uint32_t y1 = (n.bits < 32) ? n.y0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
+        uint32_t x1 = (n.bits < 32) ? n.x0 + (1 << n.bits) - 1 : 0xFFFFFFFFu;
+        uint32_t y1 = (n.bits < 32) ? n.y0 + (1 << n.bits) - 1 : 0xFFFFFFFFu;
 
         // Skip nodes that do not overlap the query bbox.
         if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) {
@@ -169,8 +169,8 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
         if (n.bits == 0) {
             hi = lo;
         } else {
-            const uint64_t free_bits = 2u * static_cast<uint64_t>(n.bits);
-            const uint64_t mask = (free_bits < 64u) ? (1 << free_bits) - 1u : ~0;
+            const uint64_t free_bits = 2 * static_cast<uint64_t>(n.bits);
+            const uint64_t mask = (free_bits < 64) ? (1 << free_bits) - 1 : ~0;
             hi = lo | mask;
         }
 
@@ -181,7 +181,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
         if (fully_inside || n.bits == 0 || budget_full) {
             // Emit this range.  Merge with the previous entry when adjacent to
             // reduce the output size.
-            if (!ranges.empty() && ranges.back().second + 1u == lo) {
+            if (!ranges.empty() && ranges.back().second + 1 == lo) {
                 ranges.back().second = hi;
             } else {
                 ranges.emplace_back(lo, hi);
@@ -191,7 +191,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
             // Push in reverse processing order so SW is popped/processed first,
             // keeping output ranges sorted in ascending Morton-code order.
             const int cb   = n.bits - 1;
-            const uint32_t half = (cb < 32) ? (1u << cb) : 0x80000000u;
+            const uint32_t half = (cb < 32) ? (1 << cb) : 0x80000000u;
             stack.push_back({n.x0 + half, n.y0 + half, cb});  // NE
             stack.push_back({n.x0,        n.y0 + half, cb});  // NW
             stack.push_back({n.x0 + half, n.y0,        cb});  // SE

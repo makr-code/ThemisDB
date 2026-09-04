@@ -440,7 +440,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
         // Dispatch
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
@@ -512,7 +512,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
@@ -600,7 +600,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         std::cout << "DirectX Debug: dispatch thread_groups=" << thread_groups << "\n";
         pipeline->dispatch(thread_groups, 1, 1);
         
@@ -671,7 +671,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
@@ -986,7 +986,7 @@ void launch_embedding_lookup_shader(
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_token_ids));
         
         // Dispatch: each thread handles one token
-        uint32_t thread_groups = (total_tokens_u32 + 255u) / 256u;
+        uint32_t thread_groups = (total_tokens_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
@@ -1072,7 +1072,7 @@ void launch_sequence_mean_shader(
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));
         
         // Dispatch: each thread handles one output element
-        uint32_t thread_groups = (output_size_u32 + 255u) / 256u;
+        uint32_t thread_groups = (output_size_u32 + 255) / 256;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait

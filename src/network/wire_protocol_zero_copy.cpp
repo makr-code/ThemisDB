@@ -156,7 +156,7 @@ ssize_t ZeroCopyFrameBuilder::writeTo([[maybe_unused]] int fd) const noexcept {
     bufs[1].len = static_cast<ULONG>(payload_size_);
 
     DWORD sent = 0;
-    const DWORD buf_count = payload_size_ == 0 ? 1u : 2u;
+    const DWORD buf_count = payload_size_ == 0 ? 1 : 2;
     const int rc = ::WSASend(static_cast<SOCKET>(fd), bufs, buf_count, &sent, 0, nullptr, nullptr);
     return rc == 0 ? static_cast<ssize_t>(sent) : -1;
 #else

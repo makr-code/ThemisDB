@@ -153,12 +153,12 @@ std::uint32_t PromptABExperimentFramework::murmur3_32(
         k1 *= c2;
         h1 ^= k1;
         h1 = (h1 << 13) | (h1 >> 19);
-        h1 = h1 * 5u + 0xe6546b64u;
+        h1 = h1 * 5 + 0xe6546b64u;
     }
 
     const auto* tail = data + nblocks * 4;
     std::uint32_t k1 = 0;
-    switch (n & 3u) {
+    switch (n & 3) {
         case 3: k1 ^= static_cast<std::uint32_t>(tail[2]) << 16; [[fallthrough]];
         case 2: k1 ^= static_cast<std::uint32_t>(tail[1]) <<  8; [[fallthrough]];
         case 1: k1 ^= static_cast<std::uint32_t>(tail[0]);
@@ -347,7 +347,7 @@ ExperimentVariant PromptABExperimentFramework::assignVariant(
     }
     const int split_pct = it->second.split_pct;
     const std::uint32_t h = murmur3_32(context.request_id);
-    return (static_cast<int>(h % 100u) < split_pct)
+    return (static_cast<int>(h % 100) < split_pct)
            ? ExperimentVariant::TREATMENT
            : ExperimentVariant::CONTROL;
 }
@@ -575,14 +575,14 @@ void PromptABExperimentFramework::setWinnerCallback([[maybe_unused]] WinnerCallb
 uint32_t SimplePromptABFramework::fnv1a32(const std::string& user_id,
                                            const std::string& key) noexcept {
     // FNV-1a-32 over (user_id + NUL + key)
-    constexpr uint32_t FNV_OFFSET = 2166136261u;
-    constexpr uint32_t FNV_PRIME  = 16777619u;
+    constexpr uint32_t FNV_OFFSET = 2166136261;
+    constexpr uint32_t FNV_PRIME  = 16777619;
     uint32_t hash = FNV_OFFSET;
     for (unsigned char c : user_id) {
         hash ^= c;
         hash *= FNV_PRIME;
     }
-    hash ^= 0u;
+    hash ^= 0;
     hash *= FNV_PRIME;
     for (unsigned char c : key) {
         hash ^= c;
@@ -625,7 +625,7 @@ ABVariant SimplePromptABFramework::assignVariant(const UserId&        user_id,
             return exp.variants[0];
         }
         // Use FNV-1a hash modulo 100 for traffic split.
-        const uint32_t bucket = fnv1a32(user_id, key) % 100u;
+        const uint32_t bucket = fnv1a32(user_id, key) % 100;
         double cumulative = 0.0;
         for (const auto& v : exp.variants) {
             cumulative += v.trafficWeight * 100.0;

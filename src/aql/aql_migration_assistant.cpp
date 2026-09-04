@@ -220,17 +220,17 @@ bool findNextFunctionCall(const std::string &query, const std::string &keyword, 
 
         // Word boundary check before keyword
         if (pos > 0 && !isWordBoundary(query, pos - 1)) {
-            search_from = pos + keyword.size();
+            search_from = pos + static_cast<int>(keyword.size()) ;
             continue;
         }
 
         // Must be followed by optional whitespace then '('
-        std::size_t check = pos + keyword.size();
+        std::size_t check = pos + static_cast<int>(keyword.size()) ;
         while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
         }
         if (check >= query.size() || query[check] != '(') {
-            search_from = pos + keyword.size();
+            search_from = pos + static_cast<int>(keyword.size()) ;
             continue;
         }
 
@@ -650,7 +650,7 @@ void AQLMigrationAssistant::detectTypeCheckFunctions(const std::string &query,
             continue;
         }
 
-        std::size_t check = pos + fn.size();
+        std::size_t check = pos + static_cast<int>(fn.size()) ;
         while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
         }
@@ -680,7 +680,7 @@ void AQLMigrationAssistant::detectHashFunction(const std::string &query, std::ve
         return;
     }
 
-    std::size_t check = pos + fn.size();
+    std::size_t check = pos + static_cast<int>(fn.size()) ;
     while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
@@ -709,7 +709,7 @@ void AQLMigrationAssistant::detectAttributesFunction(const std::string &query,
         return;
     }
 
-    std::size_t check = pos + fn.size();
+    std::size_t check = pos + static_cast<int>(fn.size()) ;
     while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
@@ -737,7 +737,7 @@ void AQLMigrationAssistant::detectTranslateFunction(const std::string &query,
         return;
     }
 
-    std::size_t check = pos + fn.size();
+    std::size_t check = pos + static_cast<int>(fn.size()) ;
     while (check <static_cast<int>(query.size()) && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }

@@ -150,7 +150,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     }
 
     // If only one sentence, return it as-is (single hop)
-    if (static_cast<int>(sentences.size()) <= 1u) {
+    if (static_cast<int>(sentences.size()) <= 1) {
         parts.push_back(q);
         return parts;
     }
@@ -249,7 +249,7 @@ std::string MultiHopReasoner::composeAnswer(
     if (partial_answers.empty()) return {};
 
     // If only one hop, its answer IS the final answer
-    if (static_cast<int>(partial_answers.size()) == 1u) {
+    if (static_cast<int>(partial_answers.size()) == 1) {
       return hop_records[0].intermediate_answer;
     }
 
@@ -347,7 +347,7 @@ MultiHopResult MultiHopReasoner::reason(
         }
 
         // Early stopping: if this was the only sub-query, stop here
-        if (config_.early_stopping && static_cast<int>(sub_queries.size()) == 1u) {
+        if (config_.early_stopping && static_cast<int>(sub_queries.size()) == 1) {
             result.early_stopped = true;
             break;
         }

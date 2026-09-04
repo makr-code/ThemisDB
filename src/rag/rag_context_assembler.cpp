@@ -56,7 +56,7 @@ std::string RAGContextAssembler::truncateContent(const std::string& content,
         // No room even for the marker — return marker only (capped to max_chars).
         return marker.substr(0, max_chars);
     }
-    return content.substr(0, max_chars - marker.size()) + marker;
+    return content.substr(0, max_chars - static_cast<int>(marker.size()) ) + marker;
 }
 
 // ---------------------------------------------------------------------------
@@ -151,7 +151,7 @@ AssembledContext RAGContextAssembler::assemble(
     size_t remaining = budget.available_context_tokens;
     result.chunks_used.reserve(ordered.size());
 
-    for (size_t i = 0; i <static_cast<int>(ordered.size()) && remaining > 0u; ++i) {
+    for (size_t i = 0; i <static_cast<int>(ordered.size()) && remaining > 0; ++i) {
         const RetrievedChunk& chunk     = *ordered[i];
         const size_t          chunk_tok = estimateTokens(chunk.content);
 
@@ -169,7 +169,7 @@ AssembledContext RAGContextAssembler::assemble(
                 truncated.content        = truncateContent(chunk.content, max_chars);
                 result.chunks_used.push_back(std::move(truncated));
                 result.tokens_used   += remaining; // consumed all remaining budget
-                remaining             = 0u;
+                remaining             = 0;
                 result.was_truncated  = true;
             }
             break; // budget exhausted

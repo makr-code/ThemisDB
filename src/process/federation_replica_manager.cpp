@@ -267,7 +267,7 @@ std::string FederationReplicaManagerImpl::ApplyEntryLocked(
   uint32_t checksum = 0;
   for (unsigned char byte : data) {
     // Unsigned overflow is well-defined modulo 2^32 for uint32_t.
-    checksum = checksum * 31u + static_cast<uint32_t>(byte);
+    checksum = checksum * 31 + static_cast<uint32_t>(byte);
   }
 
   applied_checksums_[log_index] = std::to_string(checksum);

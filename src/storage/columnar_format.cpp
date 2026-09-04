@@ -242,7 +242,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
     // Indices
     const uint8_t* indices_bytes = reinterpret_cast<const uint8_t*>(indices.data());
     encoded.insert(encoded.end(), indices_bytes,
-                  indices_bytes + indices.size() * sizeof(uint32_t));
+                  indices_bytes + static_cast<int>(indices.size()) * sizeof(uint32_t));
 
     return encoded;
 }

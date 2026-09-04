@@ -178,7 +178,7 @@ static bool parse_gpu_container(
       return false;
     }
     const uint8_t* p   = compressed.data() + kGpuMagicSize;
-    const uint8_t* end = compressed.data() + compressed.size();
+    const uint8_t* end = compressed.data() + static_cast<int>(compressed.size()) ;
 
     if (p + 16 > end) {
       return false;
@@ -187,7 +187,7 @@ static bool parse_gpu_container(
     out_orig_size = read_le64(p); p += 8;
 
     // Sanity cap: 64 M chunks would be > 512 MB of header alone
-    static constexpr uint64_t kMaxChunks = 64u * 1024 * 1024;
+    static constexpr uint64_t kMaxChunks = 64 * 1024 * 1024;
     if (out_n_chunks == 0 || out_n_chunks > kMaxChunks) {
       return false;
     }
@@ -211,7 +211,7 @@ static bool parse_gpu_container(
     uint64_t orig_size,
     const std::vector<uint64_t>& chunk_sizes)
 {
-    out.resize(kGpuMagicSize + 8 + 8 + chunk_sizes.size() * 8);
+    out.resize(kGpuMagicSize + 8 + 8 + static_cast<int>(chunk_sizes.size()) * 8);
     uint8_t* p = out.data();
     memcpy(p, kGpuMagic, kGpuMagicSize); p += kGpuMagicSize;
     write_le64(p, n_chunks);  p += 8;
@@ -1417,7 +1417,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
         res.data.assign(
             reinterpret_cast<const uint8_t*>(compressed_str.data()),
             reinterpret_cast<const uint8_t*>(
-                compressed_str.data() + compressed_str.size()));
+                compressed_str.data() + static_cast<int>(compressed_str.size()) ));
         res.compression_ratio =
             static_cast<float>(size) / static_cast<float>(res.data.size());
         res.success = true;
@@ -1445,7 +1445,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(decompressed.data()),
         reinterpret_cast<const uint8_t*>(
-            decompressed.data() + decompressed.size()));
+            decompressed.data() + static_cast<int>(decompressed.size()) ));
 }
 
 // ------------------------------------------------------------------
@@ -1578,7 +1578,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
     for (size_t i = 0; i < n_chunks; ++i) {
         size_t cs = static_cast<size_t>(chunk_sizes[i]);
         // Bounds check: ensure chunk_data + cs doesn't exceed compressed buffer
-        const uint8_t* end_of_buf = compressed.data() + compressed.size();
+        const uint8_t* end_of_buf = compressed.data() + static_cast<int>(compressed.size()) ;
         if (chunk_data + cs > end_of_buf) {
             spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
                           "chunk[{}] overruns buffer", i);
@@ -1604,7 +1604,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 decompressed_chunk.assign(
                     reinterpret_cast<const uint8_t*>(out_str.data()),
                     reinterpret_cast<const uint8_t*>(
-                        out_str.data() + out_str.size()));
+                        out_str.data() + static_cast<int>(out_str.size()) ));
                 break;
             }
             case GpuCompressionAlgorithm::LZ4: {

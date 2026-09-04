@@ -168,7 +168,7 @@ struct TensorRouter::Impl {
             sample.resize(m * n);
             n_pilot = m;
         } else {
-            pilot_shape = {sample.size(), 1u};
+            pilot_shape = {sample.size(), 1};
             n_pilot = sample.size();
         }
 

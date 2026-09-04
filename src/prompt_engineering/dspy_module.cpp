@@ -125,7 +125,7 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
         }
 
         // Extract text after the marker up to the next field label or end
-        size_t value_start = pos + marker.size();
+        size_t value_start = pos + static_cast<int>(marker.size()) ;
 
         // Skip leading whitespace / newline
         while (value_start <static_cast<int>(response.size()) &&

@@ -4035,8 +4035,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
             auto pos = qs.find(prefix);
             if (pos == std::string::npos) return {};
             auto end = qs.find('&', pos);
-            std::string raw = qs.substr(pos + prefix.size(),
-                end == std::string::npos ? std::string::npos : end - pos - prefix.size());
+            std::string raw = qs.substr(pos + static_cast<int>(prefix.size()) ,
+                end == std::string::npos ? std::string::npos : end - pos - static_cast<int>(prefix.size()) );
             // Basic URL-decode: replace '+' with ' ' and %XX with char
             std::string decoded = {};
             decoded.reserve(raw.size());

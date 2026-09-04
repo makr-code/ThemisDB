@@ -640,7 +640,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
 
     // CUBE generates all possible grouping combinations
     // For n dimensions, this is 2^n grouping sets
-    size_t numDimensions   = query.dimensions.size();
+    size_t numDimensions = query.dimensions.size();
     size_t numCombinations = 1 << numDimensions;
 
     // Build column list
@@ -884,7 +884,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
         for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
             // Determine window bounds
             size_t start = 0;
-            size_t end   = data.size();
+            size_t end = data.size();
 
             if (window.rows_preceding) {
                 start = (i > static_cast<size_t>(*window.rows_preceding)) ? (i - *window.rows_preceding) : 0;
@@ -1919,7 +1919,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (static_cast<int>(fs.size()) <static_cast<int>(fvs.size()) || fs.rfind(fvs) != static_cast<int>(fs.size()) - fvs.size()) {
+                        if (static_cast<int>(fs.size()) <static_cast<int>(fvs.size()) || fs.rfind(fvs) != static_cast<int>(fs.size()) - static_cast<int>(fvs.size()) ) {
                             return false;
                         }
                         break;

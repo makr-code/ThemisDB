@@ -431,7 +431,7 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
           continue;
         }
         std::string lhs = strip(expr.substr(0, pos));
-        std::string rhs = strip(expr.substr(pos + op.size()));
+        std::string rhs = strip(expr.substr(pos + static_cast<int>(op.size()) ));
 
         if (lhs != std::string(column_name)) continue;  // Different column, skip
 

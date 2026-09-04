@@ -521,9 +521,9 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         // Exponential backoff for transient errors (HTTP 429 uses its own
         // Retry-After sleep and does NOT advance the backoff state).
         themis::utils::RetryConfig hub_backoff_cfg;
-        hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1u;
+        hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1;
         hub_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(std::max(0, retry_delay_ms));
-        hub_backoff_cfg.max_backoff_ms     = 30'000u;
+        hub_backoff_cfg.max_backoff_ms     = 30'000;
         hub_backoff_cfg.multiplier         = 2.0;
         hub_backoff_cfg.jitter_fraction    = 0.0;
         themis::utils::ExponentialBackoff file_backoff(hub_backoff_cfg);
@@ -721,9 +721,9 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         // Exponential backoff for transient errors (HTTP 429 uses its own
         // Retry-After sleep and does NOT advance the backoff state).
         themis::utils::RetryConfig shard_backoff_cfg;
-        shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1u;
+        shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1;
         shard_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(std::max(0, retry_delay_ms));
-        shard_backoff_cfg.max_backoff_ms     = 30'000u;
+        shard_backoff_cfg.max_backoff_ms     = 30'000;
         shard_backoff_cfg.multiplier         = 2.0;
         shard_backoff_cfg.jitter_fraction    = 0.0;
         themis::utils::ExponentialBackoff shard_backoff(shard_backoff_cfg);

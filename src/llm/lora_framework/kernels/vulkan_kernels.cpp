@@ -448,8 +448,8 @@ static void dispatch_matmul_device(
     pipeline->bind_buffer(2, buf_C);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups_x = (N + 15u) / 16u;
-    const uint32_t groups_y = (M + 15u) / 16u;
+    const uint32_t groups_x = (N + 15) / 16;
+    const uint32_t groups_y = (M + 15) / 16;
     pipeline->dispatch(groups_x, groups_y, 1);
 }
 
@@ -462,10 +462,10 @@ static void dispatch_transpose_device(
 
     ElementwisePushConstants pc;
     pc.size = rows * cols;
-    pc.op = 5u; // transpose
+    pc.op = 5; // transpose
     pc.rows = rows;
     pc.cols = cols;
-    pc.scalar_bits = 0u;
+    pc.scalar_bits = 0;
 
     pipeline->bind_buffer(0, buf_input);
     // Layout requires binding 1 for elementwise pipeline; reuse input as dummy.
@@ -473,7 +473,7 @@ static void dispatch_transpose_device(
     pipeline->bind_buffer(2, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (pc.size + 255u) / 256u;
+    const uint32_t groups = (pc.size + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
 }
 
@@ -565,7 +565,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     pipeline->set_push_constants(&pc, sizeof(pc));
     
     // Dispatch with workgroup size 256
-    uint32_t groups = (size_u32 + 255u) / 256u;
+    uint32_t groups = (size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_add_shader");
@@ -613,7 +613,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (size_u32 + 255u) / 256u;
+    uint32_t groups = (size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_multiply_shader");
@@ -663,7 +663,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (size_u32 + 255u) / 256u;
+    uint32_t groups = (size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_relu_shader");
@@ -711,7 +711,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (total_size_u32 + 255u) / 256u;
+    uint32_t groups = (total_size_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
     
     wait_for_pipeline_or_throw(pipeline, "launch_gelu_shader");
@@ -894,7 +894,7 @@ void launch_embedding_lookup_shader(
     pipeline->bind_buffer(2, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (total_tokens_u32 + 255u) / 256u;
+    const uint32_t groups = (total_tokens_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
 
     wait_for_pipeline_or_throw(pipeline, "launch_lora_backward_shader");
@@ -945,7 +945,7 @@ void launch_sequence_mean_shader(
     pipeline->bind_buffer(1, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (output_elems_u32 + 255u) / 256u;
+    const uint32_t groups = (output_elems_u32 + 255) / 256;
     pipeline->dispatch(groups, 1, 1);
 
     wait_for_pipeline_or_throw(pipeline, "launch_lora_grad_A_shader");

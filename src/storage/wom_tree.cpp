@@ -85,7 +85,7 @@ struct Op {
     std::string value;  // empty for REMOVE
 
     size_t byteSize() const noexcept {
-        return sizeof(Op) + static_cast<int>(key.size()) + value.size();
+        return sizeof(Op) + static_cast<int>(key.size()) + static_cast<int>(value.size()) ;
     }
 };
 

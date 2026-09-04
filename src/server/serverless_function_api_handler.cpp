@@ -304,10 +304,10 @@ ServerlessFunctionApiHandler::handleRegister(
     fn.tenant_id   = body.value("tenant_id", "");
     fn.description = body.value("description", "");
     fn.code        = body["code"];
-    fn.timeout_ms       = body.value("timeout_ms", 5000u);
+    fn.timeout_ms       = body.value("timeout_ms", 5000);
     // GAP-022: Cap creation-time memory_limit_kb at 16 GB (16,777,216 KB).
-    static constexpr uint32_t kMaxMemoryLimitKb = 16'777'216u;
-    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096u), kMaxMemoryLimitKb);
+    static constexpr uint32_t kMaxMemoryLimitKb = 16'777'216;
+    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096), kMaxMemoryLimitKb);
     fn.version     = 1;
     fn.created_at  = utcNow();
     fn.updated_at  = fn.created_at;

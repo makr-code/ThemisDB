@@ -48,7 +48,7 @@ inline std::vector<uint8_t> toBytes(std::string_view sv) {
 // static
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
 	std::string key = {};
-	key.reserve(5 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(token.size()) + 1 + pk.size());
+	key.reserve(5 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(token.size()) + 1 + static_cast<int>(pk.size()) );
 	key += "fttf:";
 	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
@@ -63,7 +63,7 @@ std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
 	std::string key = {};
-	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + pk.size());
+	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(pk.size()) );
 	key += "ftdlen:";
 	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
@@ -129,7 +129,7 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
 	std::string key = {};
-	key.reserve(8 + static_cast<int>(table.size()) + 1 + column.size());
+	key.reserve(8 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) );
 	key += "idxmeta:";
 	key.append(table.data(),static_cast<int>(table.size()));
 	key += ":";
@@ -171,7 +171,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	std::vector<std::string> encoded_values = {};
 
 	encoded_values.reserve(values.size());
-	size_t total = 4 + static_cast<int>(table.size()) + 1 + pk.size();
+	size_t total = 4 + static_cast<int>(table.size()) + 1 + static_cast<int>(pk.size()) ;
 	for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -243,7 +243,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 std::string SecondaryIndexManager::makeUniqueSentinelKey_(
 		std::string_view table, std::string_view col, std::string_view encodedVal) {
 	std::string key = {};
-	key.reserve(5 + static_cast<int>(table.size()) + static_cast<int>(col.size()) + encodedVal.size());
+	key.reserve(5 + static_cast<int>(table.size()) + static_cast<int>(col.size()) + static_cast<int>(encodedVal.size()) );
 	key += "uidx:";
 	key += table;
 	key += ":";
@@ -304,7 +304,7 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 		// Pad to 20 characters (large enough for typical integers)
 		const size_t width = 20;
 		if (static_cast<int>(raw.size()) < width) {
-		  out.append(width - raw.size(), '0');
+		  out.append(width - static_cast<int>(raw.size()) , '0');
 		}
 		out.append(raw.data(),static_cast<int>(raw.size()));
 		return out;
@@ -1039,7 +1039,7 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 		}
 
 		std::string field = trim(expr.substr(0, pos));
-		std::string rhs   = trim(expr.substr(pos + op.size()));
+		std::string rhs   = trim(expr.substr(pos + static_cast<int>(op.size()) ));
 
 		if (field.empty()) {
 		  continue;
@@ -2476,7 +2476,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			}
 
 			// Rest auffüllen
-			auto [st2, more] = scanKeysRange(table, column, lb, ub, il, iu, limit - out.size(), reversed);
+			auto [st2, more] = scanKeysRange(table, column, lb, ub, il, iu, limit - static_cast<int>(out.size()) , reversed);
 			if (!st2.ok) return {st2, std::vector<std::string>()};
 
 			// Anhängen
@@ -2768,7 +2768,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	if (tokens.empty() && !phrases.empty()) {
 		// Fallback: use tokens from phrases to generate candidates
 		std::string concat = {};
-		concat.reserve(static_cast<int>(cleanedQuery.size()) + query.size());
+		concat.reserve(static_cast<int>(cleanedQuery.size()) + static_cast<int>(query.size()) );
 		for (size_t i = 0; i <static_cast<int>(phrases.size()); ++i) {
 			if (i) {
 			  concat.push_back(' ');
@@ -3198,7 +3198,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 		if (thirdColon != std::string::npos) {
 			size_t fourthColon = keyStr.find(':', thirdColon + 1);
 			if (fourthColon != std::string::npos) {
-				std::string token = keyStr.substr(prefix.size(), thirdColon - prefix.size());
+				std::string token = keyStr.substr(prefix.size(), thirdColon - static_cast<int>(prefix.size()) );
 				std::string pk = keyStr.substr(fourthColon + 1);
 				
 				// Check token against all query tokens

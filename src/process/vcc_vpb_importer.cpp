@@ -666,7 +666,7 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
 
     // Each model is introduced by "  - id:" or "  -\n    id:"
     // Split the block into individual model YAML chunks.
-    std::string block = text.substr(list_start + key_pattern.size());  // RAII-managed substring
+    std::string block = text.substr(list_start + static_cast<int>(key_pattern.size()) );  // RAII-managed substring
     std::istringstream ss(block);
     std::string line;  // RAII-managed line buffer
     std::vector<std::string> model_chunks;  // RAII-managed vector

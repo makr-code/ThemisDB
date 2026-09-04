@@ -299,7 +299,7 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
                 ++raw;
             }
             closedir(fd_dir);
-            metrics.open_file_descriptors = (raw > 3u) ? (raw - 3u) : 0u;
+            metrics.open_file_descriptors = (raw > 3) ? (raw - 3) : 0;
         }
     }
 #endif

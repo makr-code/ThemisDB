@@ -272,7 +272,7 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
         if (start == std::string::npos) {
           break;
         }
-        auto val_start = start + open.size();
+        auto val_start = start + static_cast<int>(open.size()) ;
         auto end = xml.find(close, val_start);
         if (end == std::string::npos) {
           break;
@@ -288,7 +288,7 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
         if (!loc.empty()) {
           locs.push_back(loc);
         }
-        pos = end + close.size();
+        pos = end + static_cast<int>(close.size()) ;
     }
     return locs;
 }
@@ -504,7 +504,7 @@ public:
             if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) {
               return;
             }
-            if (max_pages_ > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) + queue.size() >= max_pages_) {
+            if (max_pages_ > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) + static_cast<int>(queue.size()) >= max_pages_) {
               return;
             }
             visited.insert(norm);

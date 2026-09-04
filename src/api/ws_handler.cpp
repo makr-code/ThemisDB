@@ -167,7 +167,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         const std::string search = key + "=";
         const auto pos = qs.find(search);
         if (pos == std::string::npos) return {};
-        const auto val_start = pos + search.size();
+        const auto val_start = pos + static_cast<int>(search.size()) ;
         const auto val_end   = qs.find('&', val_start);
         const std::string raw = (val_end == std::string::npos)
                    ? qs.substr(val_start)
@@ -180,7 +180,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         uint64_t v = 0;
         const auto [ptr, ec] = std::from_chars(
             from_seq_str.data(),
-            from_seq_str.data() + from_seq_str.size(),
+            from_seq_str.data() + static_cast<int>(from_seq_str.size()) ,
             v);
         if (ec == std::errc{}) {
             decision.from_sequence = v;

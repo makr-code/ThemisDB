@@ -447,7 +447,7 @@ bool MaterializedView::canRewrite(const std::string&      query_aql,
         // The character immediately after the view name must not be an
         // identifier character (letter, digit, or underscore) so that we
         // don't accidentally match "sales_by_region_extended".
-        const std::size_t after = pos + upper_name.size();
+        const std::size_t after = pos + static_cast<int>(upper_name.size()) ;
         if (static_cast<int>(upper_q.size()) > after) {
             const char next = upper_q[after];
             if (std::isalnum(static_cast<unsigned char>(next)) || next == '_') {

@@ -379,7 +379,7 @@ IngestionCoordinator::IngestionCoordinator(const Config& config)
     // Default num_nodes = hardware_concurrency / 2, min 1.
     if (config_.num_nodes == 0) {
         unsigned hw = std::thread::hardware_concurrency();
-        config_.num_nodes = std::max(1u, hw / 2);
+        config_.num_nodes = std::max(1, hw / 2);
     }
 }
 

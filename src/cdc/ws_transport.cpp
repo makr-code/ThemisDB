@@ -191,7 +191,7 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
             }
 
             // Back-pressure: close and remove sessions that cannot accept more events.
-            if (session.pending_events + result.events.size() > kMaxPendingEvents) {
+            if (session.pending_events + static_cast<int>(result.events.size()) > kMaxPendingEvents) {
                 THEMIS_WARN("WsTransport: session {} back-pressure limit reached "
                             "(pending={}, new={}), closing with 1011",
                             result.session_id, session.pending_events,

@@ -375,7 +375,7 @@ VecKnnInsertPipeline::VecKnnInsertPipeline(VecKnnPipelineConfig config)
         config_.batch_size = 32;
     }
     if (config_.num_threads == 0) {
-        config_.num_threads = std::max(1u, std::thread::hardware_concurrency());
+        config_.num_threads = std::max(1, std::thread::hardware_concurrency());
     }
 }
 
@@ -386,7 +386,7 @@ void VecKnnInsertPipeline::setBatchSize(std::size_t sz) {
 }
 
 void VecKnnInsertPipeline::setThreadCount(std::size_t n) {
-    config_.num_threads = (n > 0) ? n : std::max(1u, std::thread::hardware_concurrency());
+    config_.num_threads = (n > 0) ? n : std::max(1, std::thread::hardware_concurrency());
 }
 
 void VecKnnInsertPipeline::enableDistanceCache([[maybe_unused]] bool enable) {

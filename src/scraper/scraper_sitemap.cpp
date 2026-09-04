@@ -33,7 +33,7 @@ SitemapCrawler::SitemapCrawler(FetchFn fetch_fn,
     std::vector<std::string> urls;
     const std::string open_tag  = "<loc>";
     const std::string close_tag = "</loc>";
-    const std::size_t open_len  = open_tag.size();
+    const std::size_t open_len = open_tag.size();
     const std::size_t close_len = close_tag.size();
 
     std::size_t pos = 0;

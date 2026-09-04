@@ -114,7 +114,7 @@ public:
         }
         
         // Initialize per-GPU utilization counters (one entry per active GPU)
-        perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0u);
+        perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0);
 
         THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs",static_cast<int>(activeDeviceIds.size()));
         THEMIS_INFO("MultiGPUVectorIndex: Communication backend: {}", getCommBackendName());

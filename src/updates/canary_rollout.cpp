@@ -81,7 +81,7 @@ double CanaryRollout::computeNodeHash() const {
     const std::string key = config_.version + ":" + config_.node_id;
     const std::size_t h = std::hash<std::string>{}(key);
     // Map to (0, 1] – avoid exact 0 so 0% always excludes the node.
-    return static_cast<double>(h % 100000u + 1u) / 100000.0;
+    return static_cast<double>(h % 100000 + 1) / 100000.0;
 }
 
 bool CanaryRollout::isNodeInStage([[maybe_unused]] size_t stage_index) const {
@@ -631,7 +631,7 @@ bool CanaryDeployment::isCanaryRequest(const std::string& request_id) const {
     }
     const std::string key = request_id + ab_config_.experiment_id;
     const std::size_t h = std::hash<std::string>{}(key);
-    const double frac = static_cast<double>(h % 100000u) / 100000.0;
+    const double frac = static_cast<double>(h % 100000) / 100000.0;
     return frac < ab_config_.canary_fraction;
 }
 

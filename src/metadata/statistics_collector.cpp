@@ -270,7 +270,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
         // Parse entity fields
         try {
             std::vector<uint8_t> data(raw_value.data(),
-                                      raw_value.data() + raw_value.size());
+                                      raw_value.data() + static_cast<int>(raw_value.size()) );
             // Extract the primary key from the full key (table:pk)
             std::string pk = key.substr(prefix.size());
             BaseEntity entity = BaseEntity::deserialize(pk, data);

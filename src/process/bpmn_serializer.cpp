@@ -51,7 +51,7 @@ using json = nlohmann::json;
 namespace {
 
 /// Maximum BPMN XML document size accepted (10 MiB security guard).
-static constexpr size_t kMaxBpmnXmlBytes = 10u * 1024u * 1024u;
+static constexpr size_t kMaxBpmnXmlBytes = 10 * 1024 * 1024;
 
 /// Strip XML character entities and leading/trailing whitespace.
 std::string unescapeXml(std::string_view s) {

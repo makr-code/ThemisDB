@@ -264,7 +264,7 @@ std::vector<uint8_t> StreamChunk::serialize() const {
     std::vector<uint8_t> result;
     
     // Reserve space
-    result.reserve(24 + data.size());
+    result.reserve(24 + static_cast<int>(data.size()) );
     
     // file_offset (8 bytes, big-endian)
     for (int i = 7; i >= 0; --i) {
@@ -351,7 +351,7 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
     
     // W2-S03: Validate chunk metadata consistency
     // Fail-closed if uncompressed_size exceeds 1GB (impossibly large single chunk)
-    constexpr uint32_t MAX_UNCOMPRESSED_SIZE = 1024u * 1024u * 1024u;  // 1GB
+    constexpr uint32_t MAX_UNCOMPRESSED_SIZE = 1024 * 1024 * 1024;  // 1GB
     if (chunk.uncompressed_size == 0 || chunk.uncompressed_size > MAX_UNCOMPRESSED_SIZE) {
         return std::nullopt;
     }

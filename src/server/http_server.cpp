@@ -3231,8 +3231,8 @@ namespace {
         static constexpr std::string_view kSilenceSuffix{"/silence"};
         if (method == http::verb::post &&
             path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kAlertsPrefix.size()) + kSilenceSuffix.size() &&
-            path_only.substr(static_cast<int>(path_only.size()) - kSilenceSuffix.size()) == kSilenceSuffix) {
+            path_only.size() > static_cast<int>(kAlertsPrefix.size()) + static_cast<int>(kSilenceSuffix.size()) &&
+            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kSilenceSuffix.size()) ) == kSilenceSuffix) {
             return Route::ObservabilityAlertSilencePost;
         }
     }
@@ -3835,11 +3835,11 @@ namespace {
         const std::string task_prefix = "/api/v1/bpmn/task/";
         const std::string complete_suffix = "/complete";
         if (path_only.rfind(task_prefix, 0) == 0 &&
-            path_only.size() > static_cast<int>(task_prefix.size()) + complete_suffix.size() &&
-            path_only.compare(static_cast<int>(path_only.size()) - complete_suffix.size(),static_cast<int>(complete_suffix.size()), complete_suffix) == 0) {
+            path_only.size() > static_cast<int>(task_prefix.size()) + static_cast<int>(complete_suffix.size()) &&
+            path_only.compare(static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ,static_cast<int>(complete_suffix.size()), complete_suffix) == 0) {
             // Ensure there is a non-empty taskId segment between prefix and suffix
             const std::size_t task_id_start = task_prefix.size();
-            const std::size_t suffix_pos = static_cast<int>(path_only.size()) - complete_suffix.size();
+            const std::size_t suffix_pos = static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ;
             // Check that there's exactly the taskId between prefix and suffix (no additional slashes)
             std::string task_id_segment = path_only.substr(task_id_start, suffix_pos - task_id_start);
             if (!task_id_segment.empty() && task_id_segment.find('/') == std::string::npos) {
@@ -4143,16 +4143,16 @@ namespace {
         static constexpr std::string_view kInvokeSuffix{"/invoke"};
         if (method == http::verb::post &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + kInvokeSuffix.size() &&
-            path_only.substr(static_cast<int>(path_only.size()) - kInvokeSuffix.size()) == kInvokeSuffix)
+            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kInvokeSuffix.size()) &&
+            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kInvokeSuffix.size()) ) == kInvokeSuffix)
             return Route::ServerlessFnInvokePost;
 
         // /api/v1/functions/{id}/versions  (GET)
         static constexpr std::string_view kVersionsSuffix{"/versions"};
         if (method == http::verb::get &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + kVersionsSuffix.size() &&
-            path_only.substr(static_cast<int>(path_only.size()) - kVersionsSuffix.size()) == kVersionsSuffix)
+            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kVersionsSuffix.size()) &&
+            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kVersionsSuffix.size()) ) == kVersionsSuffix)
             return Route::ServerlessFnVersionsGet;
 
         // /api/v1/functions/{id}  (GET / PUT / DELETE)
@@ -7838,8 +7838,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
                 if (static_cast<int>(id.size()) > static_cast<int>(sv.size()) &&
-                    id.substr(static_cast<int>(id.size()) - sv.size()) == sv) {
-                    id = id.substr(0, static_cast<int>(id.size()) - sv.size());
+                    id.substr(static_cast<int>(id.size()) - static_cast<int>(sv.size()) ) == sv) {
+                    id = id.substr(0, static_cast<int>(id.size()) - static_cast<int>(sv.size()) );
                     break;
                 }
             }
@@ -8691,7 +8691,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     auto key = seg + "=";
                     auto pos = qs.find(key);
                     if (pos != std::string::npos) {
-                        auto val = qs.substr(pos + key.size());
+                        auto val = qs.substr(pos + static_cast<int>(key.size()) );
                         if (auto end = val.find('&'); end != std::string::npos) {
                           val = val.substr(0, end);
                         }
@@ -11961,7 +11961,7 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
     auto auth_ctx = extractAuthContext(req);
     std::string user_ctx = auth_ctx.user_id;
     auto blob = content_manager.getContentBlob(id, user_ctx);
@@ -12001,7 +12001,7 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
         auto chunks = content_manager.getContentChunks(id);
         json arr = json::array();
         arr.get_ref<json::array_t&>().reserve(chunks.size());
@@ -12219,7 +12219,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores = {};
 
-            scores.reserve(static_cast<int>(textResults.size()) + vectorResults.size());
+            scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
 
             // Text contributions
             for (size_t i = 0; i <static_cast<int>(textResults.size()); ++i) {
@@ -12259,7 +12259,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             
             std::unordered_map<std::string, double> scores = {};
 
-            scores.reserve(static_cast<int>(textResults.size()) + vectorResults.size());
+            scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
             
             // Text contributions
             for (const auto& res : textResults) {

@@ -29,7 +29,7 @@ namespace {
 // Parity shard p (0-indexed) covers data shard j (0-indexed) when bit p is
 // set in the 1-based position (j + 1).
 inline bool hammingCovers(const uint32_t j, const uint32_t p) noexcept {
-    return (((j + 1u) >> p) & 1u) != 0u;
+    return (((j + 1) >> p) & 1) != 0;
 }
 
 } // namespace

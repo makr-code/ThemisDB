@@ -232,7 +232,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     // valid string_view data() pointer is safe — false positives.
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(raw_val.data()),
-        reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size()
+        reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
     );
 }
 
@@ -251,7 +251,7 @@ void MVCCStore::scanVersions(
         entry.timestamp = decodeTimestamp(vkey);
         entry.value.assign(
             reinterpret_cast<const uint8_t*>(raw_val.data()),
-            reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size()
+            reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
         );
         return callback([[maybe_unused]] entry);
     });

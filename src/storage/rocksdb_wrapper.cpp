@@ -791,7 +791,7 @@ bool RocksDBWrapper::open() {
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
-        cf_handles_.reserve(static_cast<int>(cf_handles_.size()) + cf_handles.size());
+        cf_handles_.reserve(static_cast<int>(cf_handles_.size()) + static_cast<int>(cf_handles.size()) );
         // Store column family handles
         // When sharding mode filtered CFs,static_cast<int>(cf_handles.size()) == cf_descriptors.size()
         for (size_t i = 0; i <static_cast<int>(cf_handles.size()); ++i) {
@@ -805,7 +805,7 @@ bool RocksDBWrapper::open() {
                 config_.db_path,static_cast<int>(cf_descriptors.size()));
     if (sharding_mode && static_cast<int>(cf_descriptors.size()) <static_cast<int>(cf_names.size())) {
         THEMIS_INFO("  (Sharding mode: {} additional CFs deferred for cluster initialization)", 
-                    static_cast<int>(cf_names.size()) - cf_descriptors.size());
+                    static_cast<int>(cf_names.size()) - static_cast<int>(cf_descriptors.size()) );
     }
     return true;
 }
@@ -1042,7 +1042,7 @@ namespace {
 // Returns the internal manifest key for a logical blob key.
 inline std::string blobManifestKey(std::string_view key) {
     std::string mk = {};
-    mk.reserve(10 + key.size());
+    mk.reserve(10 + static_cast<int>(key.size()) );
     mk.append("__tmbs_m__:");
     mk.append(key.data(),static_cast<int>(key.size()));
     return mk;
@@ -1051,7 +1051,7 @@ inline std::string blobManifestKey(std::string_view key) {
 // Returns the internal chunk key for chunk index `idx` of a logical blob key.
 inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     char buf[16];
-    const int written = std::snprintf(buf, sizeof(buf), "%06u", idx);
+    const int written = std::snprintf(buf, sizeof(buf), "%06", idx);
     if (written < 0 || written >= static_cast<int>(sizeof(buf))) {
         throw std::overflow_error("RocksDB chunk key index overflow");
     }

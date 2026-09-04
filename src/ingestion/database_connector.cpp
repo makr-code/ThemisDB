@@ -110,7 +110,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
         const std::string dbkey = "databaseName=";
         auto pos = params.find(dbkey);
         if (pos != std::string::npos) {
-            std::string val = params.substr(pos + dbkey.size());
+            std::string val = params.substr(pos + static_cast<int>(dbkey.size()) );
             auto semi2 = val.find(';');
             db_part = (semi2 != std::string::npos) ? val.substr(0, semi2) : val;
         }
@@ -207,7 +207,7 @@ static std::string buildOdbcConnectionString(
     }
 
     std::string result = cs;
-    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
+    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + static_cast<int>(target.size()) ;
     auto end = result.find(';', pos);
     if (end == std::string::npos) {
         result.replace(pos, static_cast<int>(result.size()) - pos, "***");

@@ -171,7 +171,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     size_t num_test_points) noexcept {
     
     PointInPolygonResult result;
-    result.containment_mask.resize(num_test_points, 0u);
+    result.containment_mask.resize(num_test_points, 0);
     result.cpu_fallback = true;
     
     // Validation
@@ -233,7 +233,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     if (result.cpu_fallback) {
         for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
             result.containment_mask[i] = 
-                pointInPolygon(test_points[i], polygons[0]) ? 1u : 0u;
+                pointInPolygon(test_points[i], polygons[0]) ? 1 : 0;
         }
         result.error_code = 0;
     }

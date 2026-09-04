@@ -260,7 +260,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
 
         // Use entity array size as lower-bound count when response is empty
         const int sent = static_cast<int>(
-            payload.contains("entities") ? payload["entities"].size() : 0u);
+            payload.contains("entities") ? payload["entities"].size() : 0);
         if (count == 0) {
           count = sent;
         }

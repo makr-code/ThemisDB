@@ -542,13 +542,13 @@ HardwareSnapshot HardwareTelemetryReporter::collect() const {
             bucketed.cache_hit_rate_pct        = raw.cache_hit_rate_pct;
             bucketed.process_rss_mb_bucket     =
                 static_cast<uint32_t>(floorBucket<uint32_t>(
-                    raw.process_rss_mb_bucket, 64u));
+                    raw.process_rss_mb_bucket, 64));
             bucketed.uptime_seconds            = raw.uptime_seconds;
             bucketed.active_connections_bucket =
                 floorPow2(raw.active_connections_bucket);
             bucketed.db_size_mb_bucket         =
                 static_cast<uint32_t>(floorBucket<uint32_t>(
-                    raw.db_size_mb_bucket, 512u));
+                    raw.db_size_mb_bucket, 512));
 
             snap.performance = bucketed;
         }

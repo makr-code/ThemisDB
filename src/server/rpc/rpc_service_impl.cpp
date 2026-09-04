@@ -51,7 +51,7 @@ namespace {
         }
         long long parsed = 0;
         const char* begin = raw.data();
-        const char* end = raw.data() + raw.size();
+        const char* end = raw.data() + static_cast<int>(raw.size()) ;
         const auto [ptr, ec] = std::from_chars(begin, end, parsed);
         if (ec != std::errc{} || ptr != end) {
             return std::nullopt;

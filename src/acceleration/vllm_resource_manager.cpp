@@ -398,7 +398,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         }
         if (mem_total_kb > 0) {
             uint64_t used_kb      = (mem_total_kb > mem_avail_kb) ? (mem_total_kb - mem_avail_kb) : 0;
-            stats.ram_used_mb     = used_kb / 1024u;
+            stats.ram_used_mb     = used_kb / 1024;
             stats.ram_utilization = 100.0 * static_cast<double>(used_kb) / static_cast<double>(mem_total_kb);
         }
     }
@@ -479,7 +479,7 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         if (GlobalMemoryStatusEx(&ms)) {
             stats.ram_utilization = static_cast<double>(ms.dwMemoryLoad);
             uint64_t used         = ms.ullTotalPhys - ms.ullAvailPhys;
-            stats.ram_used_mb     = static_cast<size_t>(used / (1024u * 1024u));
+            stats.ram_used_mb     = static_cast<size_t>(used / (1024 * 1024));
         }
     }
 #endif

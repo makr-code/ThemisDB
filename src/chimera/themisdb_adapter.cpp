@@ -279,7 +279,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         auto& store = vector_store_[collection];
-        store.reserve(static_cast<int>(store.size()) + vectors.size());
+        store.reserve(static_cast<int>(store.size()) + static_cast<int>(vectors.size()) );
         for (const auto& v : vectors) {
             store.emplace_back(generate_id(), v);
         }

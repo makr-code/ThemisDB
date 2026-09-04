@@ -96,8 +96,8 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     // Call LLM with retries
     const themis::utils::RetryConfig llm_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
-        /* initial_backoff_ms */ 100u,
-        /* max_backoff_ms     */ 30'000u,
+        /* initial_backoff_ms */ 100,
+        /* max_backoff_ms     */ 30'000,
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };
@@ -145,8 +145,8 @@ std::string LLMJudgeIntegration::evaluateDimension(
 
     const themis::utils::RetryConfig dim_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
-        /* initial_backoff_ms */ 100u,
-        /* max_backoff_ms     */ 30'000u,
+        /* initial_backoff_ms */ 100,
+        /* max_backoff_ms     */ 30'000,
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };

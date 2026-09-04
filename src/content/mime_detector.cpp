@@ -266,7 +266,7 @@ std::string MimeDetector::fromExtension(std::string_view filename) const {
 
 bool MimeDetector::matchesMagicSignature(const std::vector<uint8_t>& content,
                                          const MagicSignature& sig) const {
-    if (static_cast<int>(content.size()) < sig.offset + sig.signature.size()) {
+    if (static_cast<int>(content.size()) < sig.offset + static_cast<int>(sig.signature.size()) ) {
         return false;
     }
     

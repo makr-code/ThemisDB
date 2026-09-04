@@ -204,7 +204,7 @@ std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::str
             ent.type = type;
             ent.confidence = 0.85f;
             ent.start_offset = static_cast<int>(pos);
-            ent.end_offset = static_cast<int>(pos + pattern.size());
+            ent.end_offset = static_cast<int>(pos + static_cast<int>(pattern.size()) );
             entities.push_back(ent);
         }
     }
@@ -246,7 +246,7 @@ std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::s
             ent.type = "METRIC";
             ent.confidence = 0.75f;
             ent.start_offset = static_cast<int>(pos);
-            ent.end_offset   = static_cast<int>(pos + kw.size());
+            ent.end_offset   = static_cast<int>(pos + static_cast<int>(kw.size()) );
             entities.push_back(ent);
         }
     }

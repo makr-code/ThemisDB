@@ -983,7 +983,7 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     auto r_der = encodeDERInt(r_ptr, half);
     auto s_der = encodeDERInt(s_ptr, half);
 
-    const size_t payload_len = static_cast<int>(r_der.size()) + s_der.size();
+    const size_t payload_len = static_cast<int>(r_der.size()) + static_cast<int>(s_der.size()) ;
     std::vector<uint8_t> result;
     result.reserve(2 + payload_len);
     result.push_back(0x30);  // SEQUENCE tag
@@ -1277,7 +1277,7 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
 
     auto r_der = encodeDERInt(r_ptr, half);
     auto s_der = encodeDERInt(s_ptr, half);
-    const size_t payload_len = static_cast<int>(r_der.size()) + s_der.size();
+    const size_t payload_len = static_cast<int>(r_der.size()) + static_cast<int>(s_der.size()) ;
 
     std::vector<uint8_t> result;
     result.reserve(2 + payload_len);

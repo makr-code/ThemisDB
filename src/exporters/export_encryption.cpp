@@ -33,10 +33,10 @@ namespace themis::exporters {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static constexpr uint8_t MAGIC[4] = {'T', 'E', 'N', 'C'};
-static constexpr uint32_t FORMAT_VER = 1u;
-static constexpr size_t IV_LEN = 12u;  // AES-GCM recommended nonce size
-static constexpr size_t TAG_LEN = 16u; // Full GCM authentication tag
-static constexpr size_t KEY_LEN = 32u; // AES-256
+static constexpr uint32_t FORMAT_VER = 1;
+static constexpr size_t IV_LEN = 12;  // AES-GCM recommended nonce size
+static constexpr size_t TAG_LEN = 16; // Full GCM authentication tag
+static constexpr size_t KEY_LEN = 32; // AES-256
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Little-endian I/O helpers
@@ -81,7 +81,7 @@ static uint64_t readU64(const uint8_t *p) {
 
 // Maximum length accepted for job_id and kek_id strings in the TENC header.
 // Prevents allocation of enormous strings from malformed or malicious files.
-static constexpr uint32_t MAX_HEADER_STRING_LEN = 4096u;
+static constexpr uint32_t MAX_HEADER_STRING_LEN = 4096;
 
 static std::string readString(const uint8_t *buf, size_t buf_size,
                               size_t &offset) {

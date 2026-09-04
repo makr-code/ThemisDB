@@ -1118,7 +1118,7 @@ QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 		const auto& next = lists[i];
 		std::vector<std::string> tmp = {};
 
-		tmp.reserve(static_cast<int>(result.size()) + next.size()); // Reserve max possible size
+		tmp.reserve(static_cast<int>(result.size()) + static_cast<int>(next.size()) ); // Reserve max possible size
 		std::set_union(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
 	}
@@ -3124,7 +3124,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 
 	// 1) Hole Listen für alle Gleichheitsprädikate
 	std::vector<std::vector<std::string>> lists;
-	lists.reserve(static_cast<int>(ordered_predicates.size()) + q.rangePredicates.size());
+	lists.reserve(static_cast<int>(ordered_predicates.size()) + static_cast<int>(q.rangePredicates.size()) );
 
 	for (const auto& p : ordered_predicates) {
 		auto child = Tracer::startSpan("index.scanEqual");
@@ -4297,7 +4297,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			
 			// Evaluate spatial filter for each vertex (parallel)
 			const size_t n = reachableNodes.size();
-			const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
+			const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency());
 			const size_t CHUNK = std::max<std::size_t>(128, (n + T - 1) / T);
 			std::vector<std::vector<std::string>> buckets((n + CHUNK - 1) / CHUNK);
 			tbb::task_group tg3;
@@ -5027,7 +5027,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 
 			local.reserve(vr.size());
 			const size_t n = vr.size();
-			const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
+			const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency());
 			const size_t CHUNK = std::max<std::size_t>(cfg.min_chunk_spatial_eval, (n + T - 1) / T);
 			std::vector<std::vector<VectorGeoResult>> buckets((n + CHUNK - 1) / CHUNK);
 			tbb::task_group tg;
@@ -5242,7 +5242,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	std::vector<std::pair<std::string, float>> vectorResults;
 	vectorResults.reserve(spatialCandidates.size());
 	const size_t n = spatialCandidates.size();
-	const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
+	const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency());
 	const size_t CHUNK = std::max<std::size_t>(cfg.min_chunk_vector_bf, (n + T - 1) / T);
 	std::vector<std::vector<std::pair<std::string, float>>> buckets((n + CHUNK - 1) / CHUNK);
 	tbb::task_group tg2;
@@ -5374,7 +5374,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		std::unordered_map<std::string,double> bm25; bm25.reserve(ftResults.size());
 		for (const auto &kv : ftResults) { keys.emplace_back(q.table+":"+kv.pk); pks.emplace_back(kv.pk); bm25.try_emplace(kv.pk, kv.score); }
 		auto blobs = db_->multiGet(keys);
-		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
+		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
 		for(size_t bi=0; bi<static_cast<int>(buckets.size()); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		// [WAVE3B-FIX: blocking_no_timeout — query_engine.cpp inline tg.wait()]

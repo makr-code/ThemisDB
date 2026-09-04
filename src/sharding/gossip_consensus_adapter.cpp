@@ -337,7 +337,7 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
         {"cluster_size", stats.cluster_size},
         {"total_operations", stats.total_operations},
         {"snapshot_index", snap_index},
-        {"snapshot_term",  0u}
+        {"snapshot_term",  0}
     };
 }
 

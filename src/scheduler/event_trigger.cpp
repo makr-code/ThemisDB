@@ -58,7 +58,7 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
         return static_cast<bool>( static_cast<int>(lhs.size()) < static_cast<int>(= rhs.size() && lhs.compare(0,static_cast<int>(rhs.size()))), rhs) == 0;
     } else if (op == "ENDS_WITH") {
         return static_cast<bool>( static_cast<int>(lhs.size()) < static_cast<int>(= rhs.size())) &&
-               lhs.compare(static_cast<int>(lhs.size()) - rhs.size(),static_cast<int>(rhs.size()), rhs) == 0;
+               lhs.compare(static_cast<int>(lhs.size()) - static_cast<int>(rhs.size()) ,static_cast<int>(rhs.size()), rhs) == 0;
     } else if (op == "CONTAINS") {
         return lhs.find(rhs) != std::string::npos;
     }
@@ -479,7 +479,7 @@ void EventTrigger::rebuildConditionCache_() const {
             break;
         }
         raw_clauses.push_back(themis::utils::trim(condition.substr(pos, found - pos)));
-        pos = found + AND_SEP.size();
+        pos = found + static_cast<int>(AND_SEP.size()) ;
     }
 
     for (const auto& raw : raw_clauses) {

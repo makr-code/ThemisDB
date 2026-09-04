@@ -638,9 +638,9 @@ std::pair<bool, bool> NVMeManager::recommendedDirectIOFlags() const {
 uint32_t NVMeManager::recommendedBackgroundThreads() const {
     auto caps = detectCapabilities();
     // Heuristic: 2× hardware queues, bounded to [2, 16]
-    uint32_t threads = caps.hw_queue_count * 2u;
-    threads = std::max(threads, 2u);
-    threads = std::min(threads, 16u);
+    uint32_t threads = caps.hw_queue_count * 2;
+    threads = std::max(threads, 2);
+    threads = std::min(threads, 16);
     return threads;
 }
 
@@ -686,9 +686,9 @@ uint32_t NVMeManager::readHwQueueCount() const {
     }
     // Fallback: use nproc as a conservative estimate
     long nproc = ::sysconf(_SC_NPROCESSORS_ONLN);
-    return nproc > 0 ? static_cast<uint32_t>(nproc) : 1u;
+    return nproc > 0 ? static_cast<uint32_t>(nproc) : 1;
 #else
-    return 1u;
+    return 1;
 #endif
 }
 

@@ -202,11 +202,11 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
 
     // Determine number of workers (at least 1). For small logs, force
     // single-worker mode to keep duplicate handling deterministic.
-    uint32_t num_workers = (config_.max_parallel_workers > 0) ? config_.max_parallel_workers : 1u;
+    uint32_t num_workers = (config_.max_parallel_workers > 0) ? config_.max_parallel_workers : 1;
 
     const size_t total_lines = lines.size();
     if (total_lines < 64) {
-        num_workers = 1u;
+        num_workers = 1;
     }
     const size_t chunk_size = (total_lines + num_workers - 1) / num_workers;
 

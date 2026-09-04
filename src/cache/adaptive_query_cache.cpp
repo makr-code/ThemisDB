@@ -600,7 +600,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
 
     const int64_t now_ms         = getCurrentTimeMs();
     const std::string result_str = result.dump();
-    const size_t result_size     = result_str.size();
+    const size_t result_size = result_str.size();
 
     if (!checkTenantQuota(tenant_id, result_size)) {
         THEMIS_WARN("Tenant {} quota exceeded, rejecting entry", tenant_id);
@@ -1776,7 +1776,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // L1 tier
     {
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
-        size_t entries          = l1_cache_.size();
+        size_t entries = l1_cache_.size();
         double util             = static_cast<double>(entries) / config_.l1_max_entries;
         std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
         tiers["l1"]             = {{"status", tier_status},
@@ -1792,7 +1792,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // L2 tier
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        size_t entries          = l2_cache_.size();
+        size_t entries = l2_cache_.size();
         double util             = static_cast<double>(entries) / config_.l2_max_entries;
         std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
         tiers["l2"]             = {{"status", tier_status},
@@ -2405,7 +2405,7 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
 
     int64_t now_ms         = getCurrentTimeMs();
     std::string result_str = msg.result.dump();
-    size_t result_size     = result_str.size();
+    size_t result_size = result_str.size();
 
     // Honour per-entry size limit and tenant quota checks
     if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {

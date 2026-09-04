@@ -144,7 +144,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
             start_offset += sentence_list[i].size() + 1; // +1 for space
         }
 
-        size_t end_offset = start_offset + chunk_text.size();
+        size_t end_offset = start_offset + static_cast<int>(chunk_text.size()) ;
 
         json chunk = {{"text", chunk_text},
                       {"seq_num", seq_num},
@@ -379,14 +379,14 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
 
     // For each shingle, update each MinHash slot.
     // Hash function h_k(s) = FNV-1a(s) XOR-mixed with seed k.
-    static constexpr uint32_t kFnvPrime  = 16777619u;
-    static constexpr uint32_t kFnvOffset = 2166136261u;
-    static constexpr uint32_t kSeedMix   = 2246822519u;
+    static constexpr uint32_t kFnvPrime  = 16777619;
+    static constexpr uint32_t kFnvOffset = 2166136261;
+    static constexpr uint32_t kSeedMix   = 2246822519;
 
     for (const auto &shingle : shingles) {
         for (size_t k = 0; k < num_hashes; ++k) {
             // FNV-1a over the shingle bytes, seeded by k
-            uint32_t h = kFnvOffset ^ (static_cast<uint32_t>(k) * 2654435761u);
+            uint32_t h = kFnvOffset ^ (static_cast<uint32_t>(k) * 2654435761);
             for (unsigned char c : shingle) {
                 h ^= c;
                 h *= kFnvPrime;

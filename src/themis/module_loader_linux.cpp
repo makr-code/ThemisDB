@@ -212,8 +212,8 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             }
             remaining -= sizeof(nhdr);
 
-            uint64_t nameSize = (nhdr.n_namesz + 3) & ~3u;
-            uint64_t descSize = (nhdr.n_descsz + 3) & ~3u;
+            uint64_t nameSize = (nhdr.n_namesz + 3) & ~3;
+            uint64_t descSize = (nhdr.n_descsz + 3) & ~3;
 
             if (nameSize > remaining) {
               break;
@@ -248,7 +248,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 }
                 metadata += "BuildID=" + hexId;
                 // Skip remaining alignment padding
-                uint64_t padded = (nhdr.n_descsz + 3) & ~3u;
+                uint64_t padded = (nhdr.n_descsz + 3) & ~3;
                 if (padded > nhdr.n_descsz) {
                     file.seekg(
                         static_cast<std::streamoff>(file.tellg()) +

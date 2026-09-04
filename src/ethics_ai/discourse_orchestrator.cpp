@@ -334,7 +334,7 @@ DiscourseOrchestrator::runEbene2(
         const auto sep_pos = axis.find(kAxisSep);
         if (sep_pos != std::string::npos) {
             entry.cluster_a = axis.substr(0, sep_pos);
-            entry.cluster_b = axis.substr(sep_pos + kAxisSep.size());
+            entry.cluster_b = axis.substr(sep_pos + static_cast<int>(kAxisSep.size()) );
         } else {
             entry.cluster_a = axis;
             entry.cluster_b = axis;

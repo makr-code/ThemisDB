@@ -908,7 +908,7 @@ PostQuantumKeyProvider::unwrapKeyWithKyber(
     }
 
     const uint8_t* p = wrapped_key.data();
-    const uint8_t* end = p + wrapped_key.size();
+    const uint8_t* end = p + static_cast<int>(wrapped_key.size()) ;
 
     // Read KEM ciphertext
     uint32_t kem_ct_len = read_u32_le(p); p += 4;

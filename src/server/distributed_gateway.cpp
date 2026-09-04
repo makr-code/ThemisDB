@@ -598,7 +598,7 @@ std::chrono::milliseconds DistributedGateway::retryDelay(
     uint32_t max_ms) noexcept
 {
     // Clamp the shift to avoid undefined behaviour on 32-bit left-shift overflow.
-    constexpr uint32_t kMaxShift = 31u;
+    constexpr uint32_t kMaxShift = 31;
     const uint32_t shift = (attempt < kMaxShift) ? attempt : kMaxShift;
     // base_ms × 2^shift, saturating at UINT32_MAX before the max clamp.
     const uint64_t raw = static_cast<uint64_t>(base_ms) << shift;

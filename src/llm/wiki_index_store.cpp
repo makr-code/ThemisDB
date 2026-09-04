@@ -570,7 +570,7 @@ std::string WikiIndexStore::makeEmbeddingCacheKey(const WikiChunk& chunk) {
 
 std::size_t WikiIndexStore::estimateEmbeddingBytes(const std::string& cache_key,
                                                    const std::vector<float>& embedding) noexcept {
-    return static_cast<int>(cache_key.size()) + embedding.size() * sizeof(float);
+    return static_cast<int>(cache_key.size()) + static_cast<int>(embedding.size()) * sizeof(float);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

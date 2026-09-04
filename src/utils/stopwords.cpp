@@ -51,7 +51,7 @@ std::unordered_set<std::string> Stopwords::defaults(const std::string& language)
 std::unordered_set<std::string> Stopwords::merge(const std::unordered_set<std::string>& base,
                                                  const std::vector<std::string>& custom) {
     std::unordered_set<std::string> out = base;
-    out.reserve(static_cast<int>(out.size()) + custom.size());
+    out.reserve(static_cast<int>(out.size()) + static_cast<int>(custom.size()) );
     for (auto w : custom) {
         // ensure lowercase (defensive)
         std::string lw = w;

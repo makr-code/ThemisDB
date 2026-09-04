@@ -513,7 +513,7 @@ private:
             constexpr int ITER         = 100000;
 
             // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars
-            if (static_cast<int>(stored_hash.size()) != 7u + SALT_HEX_LEN + 1u + 64u) {
+            if (static_cast<int>(stored_hash.size()) != 7 + SALT_HEX_LEN + 1 + 64) {
                 return false;
             }
 

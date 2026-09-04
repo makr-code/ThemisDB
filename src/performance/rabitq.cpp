@@ -303,7 +303,7 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
         const size_t n = subvec_data.size();
 
         // --- k-means++ initialisation ---
-        std::mt19937 rng(static_cast<uint32_t>(sq * 1337u + 42u));
+        std::mt19937 rng(static_cast<uint32_t>(sq * 1337 + 42));
         std::uniform_int_distribution<uint64_t> uniform(0, n - 1);
 
         std::vector<std::vector<float>> centroids;

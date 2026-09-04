@@ -62,7 +62,7 @@ __global__ void cuda_haversine_adjacency_kernel(const double *lons, const double
     const double a        = sin_dlat * sin_dlat + cos(lat1) * cos(lat2) * sin_dlon * sin_dlon;
     const double dist_m   = 6371000.0 * 2.0 * asin(sqrt(a < 1.0 ? a : 1.0));
 
-    adj[i * n + j] = (dist_m <= epsilon_m) ? 1u : 0u;
+    adj[i * n + j] = (dist_m <= epsilon_m) ? 1 : 0;
 }
 
 /// Build GPU adjacency matrix for DBSCAN.

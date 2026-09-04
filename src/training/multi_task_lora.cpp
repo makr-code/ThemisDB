@@ -77,7 +77,7 @@ public:
             throw std::runtime_error("MultiTaskLoRATrainer: zero input dimension");
 
         const size_t shared_rank = cfg_.shared_rank;
-        const size_t n_tasks     = tasks_.size();
+        const size_t n_tasks = tasks_.size();
 
         // STUB/SIMULATION NOTE (MTL-S02 — SGD training loop, no BLAS):
         // Purpose: CPU-only, element-wise SGD with cosine-similarity gating proxy.

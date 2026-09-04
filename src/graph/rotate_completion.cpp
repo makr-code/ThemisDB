@@ -202,8 +202,8 @@ public:
     RotatETrainResult train(const std::vector<KGTriple>& triples) {
         std::unique_lock lk(mu_);
 
-        const size_t n_ent  = entity_names_.size();
-        const size_t n_rel  = relation_names_.size();
+        const size_t n_ent = entity_names_.size();
+        const size_t n_rel = relation_names_.size();
         const size_t d      = cfg_.embedding_dim;
 
         if (n_ent == 0 || n_rel == 0 || triples.empty())

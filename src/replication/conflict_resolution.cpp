@@ -88,7 +88,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
 
     try {
         const char* p   = json.c_str();
-        const char* end = p + json.size();
+        const char* end = p + static_cast<int>(json.size()) ;
 
         // Skip leading whitespace and opening '{'
         while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')) {

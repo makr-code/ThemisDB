@@ -66,7 +66,7 @@ static uint64_t hexToU64(const std::string& hex) {
     // Portable popcount
     uint32_t count = 0;
     while (diff) {
-        count += diff & 1u;
+        count += diff & 1;
         diff >>= 1;
     }
     return count;

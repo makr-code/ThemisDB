@@ -457,8 +457,8 @@ public:
         // Both choices keep the total invocation count (≤1024) within spec limits.
         const uint32_t maxInvocations =
             ctx.deviceProps.limits.maxComputeWorkGroupInvocations;
-        const uint32_t localSizeX = (maxInvocations >= 512u) ? 32u : 16u;
-        const uint32_t localSizeY = (maxInvocations >= 512u) ? 16u : 16u;
+        const uint32_t localSizeX = (maxInvocations >= 512) ? 32 : 16;
+        const uint32_t localSizeY = (maxInvocations >= 512) ? 16 : 16;
 
         // MapEntries map constant_id → offset in the data block.
         VkSpecializationMapEntry specMapEntries[2] = {};

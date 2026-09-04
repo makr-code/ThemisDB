@@ -593,7 +593,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
 
     // 2. Select embedding function — priority chain:
     //    ITextEncoder (registered) > EmbedFn bridge > built-in lexical encoder
-    const std::size_t num_segs  = segments.size();
+    const std::size_t num_segs = segments.size();
     const std::size_t embed_dim = cfg.embed_dim;
 
     // Snapshot encoder state once to guarantee consistency across all segments

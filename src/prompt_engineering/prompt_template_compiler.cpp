@@ -128,7 +128,7 @@ struct Token {
 static std::vector<Token> lex(const std::string& src) {
     std::vector<Token> tokens;
     std::size_t        pos = 0;
-    const std::size_t  len = src.size();
+    const std::size_t len = src.size();
     std::string        text_buf = {};
 
     auto flush_text = [&]() {

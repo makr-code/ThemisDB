@@ -231,7 +231,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
         const auto bd = bit_depths[d];
         for (std::size_t b = 0; b < bd; ++b) {
             --bit_pos;
-            const auto bit = (multi_idx[d] >> (bd - 1u - b)) & 1;
+            const auto bit = (multi_idx[d] >> (bd - 1 - b)) & 1;
             qtt_idx |= bit << bit_pos;
         }
     }
@@ -273,7 +273,7 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
         for (std::size_t b = 0; b < bd; ++b) {
             --bit_pos;
             const auto bit = (qtt_idx >> bit_pos) & 1;
-            idx_d = (idx_d << 1u) | bit;
+            idx_d = (idx_d << 1) | bit;
         }
         if (idx_d >= grid_sizes[d]) {
             return std::nullopt;

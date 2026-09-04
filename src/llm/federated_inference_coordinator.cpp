@@ -192,7 +192,7 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
         }
 
         // Exponential back-off before retry.
-        const uint32_t delay_ms = config_.retry_base_delay_ms * (1u << (attempt - 1));
+        const uint32_t delay_ms = config_.retry_base_delay_ms * (1 << (attempt - 1));
         spdlog::debug("FederatedInferenceCoordinator: instance '{}' attempt {} failed "
                       "({}); retrying in {} ms",
                       instance_id, attempt, remote_result.error, delay_ms);

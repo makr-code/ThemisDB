@@ -484,7 +484,7 @@ namespace {
 
 // File format constants
 constexpr std::array<char, 8> kMagic = {'A','D','A','L','O','R','A','\0'};
-constexpr uint32_t kFormatVersion = 1u;
+constexpr uint32_t kFormatVersion = 1;
 constexpr size_t   kFingerprintBytes = 64; // 64-char hex SHA-256 + NUL-pad
 
 template <typename T>

@@ -364,7 +364,7 @@ PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& quer
     const size_t queries_with_index = stats.value("queries_with_index", static_cast<size_t>(0));
     const size_t full_scan_proxy    = (queries_with_index <= total_queries)
                                       ? (total_queries - queries_with_index)
-                                      : 0u;
+                                      : 0;
 
     if (full_scan_proxy == 0 || full_scan_proxy < impl_->config.max_full_scan_threshold) {
         return PerformanceIssue{};

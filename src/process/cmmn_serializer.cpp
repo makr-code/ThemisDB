@@ -43,7 +43,7 @@ namespace process {
 namespace {
 
 /// Maximum CMMN XML document size (10 MiB).
-static constexpr size_t kMaxCmmnXmlBytes = 10u * 1024u * 1024u;
+static constexpr size_t kMaxCmmnXmlBytes = 10 * 1024 * 1024;
 
 /// Strip XML namespace prefix ("cmmn:humanTask" → "humanTask").
 static std::string_view stripNs(std::string_view name) {

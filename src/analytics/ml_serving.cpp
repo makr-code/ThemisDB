@@ -622,7 +622,7 @@ struct MLServingClient::Impl {
     MLBackendType requested_type;
     MLServingConfig config;
     /// In-flight request counter, used by the BoundedExecutionPolicy enforcement.
-    std::atomic<uint32_t> inflight_count{0u};
+    std::atomic<uint32_t> inflight_count{0};
 
     Impl(const MLServingConfig &cfg) : requested_type(cfg.backend), config(cfg) {
         switch (cfg.backend) {
@@ -699,7 +699,7 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
     }
 
     // ── Concurrency enforcement ──────────────────────────────────────────────
-    if (policy.max_concurrent_requests > 0u) {
+    if (policy.max_concurrent_requests > 0) {
         uint32_t concurrent_snapshot = impl_->inflight_count.load(std::memory_order_relaxed);
         while (true) {
             if (concurrent_snapshot >= policy.max_concurrent_requests) {
@@ -714,23 +714,23 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
                 return resp;
             }
             if (impl_->inflight_count.compare_exchange_weak(
-                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    concurrent_snapshot, concurrent_snapshot + 1, std::memory_order_acq_rel,
                     std::memory_order_relaxed)) {
                 break;
             }
         }
     } else {
-        impl_->inflight_count.fetch_add(1u, std::memory_order_acq_rel);
+        impl_->inflight_count.fetch_add(1, std::memory_order_acq_rel);
     }
 
     // Track in-flight count with RAII guard.
     struct Guard {
         std::atomic<uint32_t> &counter;
-        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
+        ~Guard() { counter.fetch_sub(1, std::memory_order_acq_rel); }
     } guard{impl_->inflight_count};
 
     // ── Timeout enforcement ──────────────────────────────────────────────────
-    if (policy.max_latency_ms > 0u) {
+    if (policy.max_latency_ms > 0) {
         auto fut = std::async(std::launch::async, [this, req]() {
             return impl_->backend->infer(req);
         });

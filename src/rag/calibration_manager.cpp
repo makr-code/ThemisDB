@@ -388,7 +388,7 @@ double CalibrationManager::calculateInterAnnotatorAgreement(
     }
 
     const size_t num_items       = annotations[0].size();
-    const size_t num_annotators  = annotations.size();
+    const size_t num_annotators = annotations.size();
     if (num_annotators < 2) {
       return 1.0;
     }

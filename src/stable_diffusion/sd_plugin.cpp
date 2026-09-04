@@ -101,7 +101,7 @@ bool SDPlugin::validateGenerationDimensions(int width, int height, std::string& 
         return false;
     }
     const auto total_pixels = static_cast<uint64_t>(width) * static_cast<uint64_t>(height);
-    if (total_pixels > static_cast<uint64_t>(std::numeric_limits<size_t>::max() / 3u)) {
+    if (total_pixels > static_cast<uint64_t>(std::numeric_limits<size_t>::max() / 3)) {
         error_out = "image dimensions overflow";
         return false;
     }
@@ -116,7 +116,7 @@ bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
     if (!validateGenerationDimensions(width, height, error_out)) {
         return false;
     }
-    const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3u;
+    const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3;
     if (static_cast<int>(rgb.size()) < expected) {
         error_out = "generator returned undersized RGB buffer";
         return false;
@@ -159,7 +159,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
     if (width < 8 || height < 8) {
         return std::nullopt;
     }
-    const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3u;
+    const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3;
     if (static_cast<int>(rgb.size()) < expected) {
         return std::nullopt;
     }
@@ -171,21 +171,21 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
         for (int bx = 0; bx < 8; ++bx) {
             const int sx = (bx * width) / 8;
             const size_t idx = (static_cast<size_t>(sy) * static_cast<size_t>(width)
-                              + static_cast<size_t>(sx)) * 3u;
-            if (idx + 2u >= rgb.size()) {
+                              + static_cast<size_t>(sx)) * 3;
+            if (idx + 2 >= rgb.size()) {
                 return std::nullopt;
             }
-            const uint16_t y = static_cast<uint16_t>((static_cast<uint16_t>(rgb[idx]) * 30u
-                               + static_cast<uint16_t>(rgb[idx + 1u]) * 59u
-                               + static_cast<uint16_t>(rgb[idx + 2u]) * 11u) / 100u);
-            const size_t pos = static_cast<size_t>(by) * 8u + static_cast<size_t>(bx);
+            const uint16_t y = static_cast<uint16_t>((static_cast<uint16_t>(rgb[idx]) * 30
+                               + static_cast<uint16_t>(rgb[idx + 1]) * 59
+                               + static_cast<uint16_t>(rgb[idx + 2]) * 11) / 100);
+            const size_t pos = static_cast<size_t>(by) * 8 + static_cast<size_t>(bx);
             luma[pos] = static_cast<uint8_t>(y);
             sum += y;
         }
     }
 
-    const uint8_t avg = static_cast<uint8_t>(sum / 64u);
-    uint64_t bits = 0u;
+    const uint8_t avg = static_cast<uint8_t>(sum / 64);
+    uint64_t bits = 0;
     for (size_t i = 0; i <static_cast<int>(luma.size()); ++i) {
         if (luma[i] >= avg) {
             bits |= (1 << i);
@@ -208,10 +208,10 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
     // ── CRC-32 (ISO 3309) ─────────────────────────────────────────────────────
     static const auto kCrcTable = []() {
         std::array<uint32_t, 256> t{};
-        for (uint32_t n = 0; n < 256u; ++n) {
+        for (uint32_t n = 0; n < 256; ++n) {
             uint32_t c = n;
             for (int k = 0; k < 8; ++k)
-                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+                c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             t[n] = c;
         }
         return t;
@@ -226,10 +226,10 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
 
     // ── Adler-32 (RFC 1950) ───────────────────────────────────────────────────
     auto adler32_of = [](const uint8_t* data, size_t len) -> uint32_t {
-        uint32_t s1 = 1u, s2 = 0u;
+        uint32_t s1 = 1, s2 = 0;
         for (size_t i = 0; i < len; ++i) {
-            s1 = (s1 + data[i]) % 65521u;
-            s2 = (s2 + s1)      % 65521u;
+            s1 = (s1 + data[i]) % 65521;
+            s2 = (s2 + s1)      % 65521;
         }
         return (s2 << 16) | s1;
     };
@@ -255,22 +255,22 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
         png.insert(png.end(), type, type + 4);
         if (data_len > 0)
             png.insert(png.end(), data, data + data_len);
-        put_be32(png, crc32_of(png.data() + type_pos, 4u + data_len));
+        put_be32(png, crc32_of(png.data() + type_pos, 4 + data_len));
     };
 
     // ── Filtered scanlines (PNG filter method 0: None) ────────────────────────
     // Each row is preceded by a 0x00 "None" filter byte.
-    const size_t row_bytes = static_cast<size_t>(width)  * 3u;
+    const size_t row_bytes = static_cast<size_t>(width)  * 3;
     const size_t num_rows  = static_cast<size_t>(height);
-    const size_t filt_size = num_rows * (1u + row_bytes);
+    const size_t filt_size = num_rows * (1 + row_bytes);
 
-    std::vector<uint8_t> filtered(filt_size, 0u);
+    std::vector<uint8_t> filtered(filt_size, 0);
     for (size_t y = 0; y < num_rows; ++y) {
-        filtered[y * (1u + row_bytes)] = 0x00u;  // filter type: None
+        filtered[y * (1 + row_bytes)] = 0x00u;  // filter type: None
         const size_t src_off = y * row_bytes;
-        const size_t dst_off = y * (1u + row_bytes) + 1u;
+        const size_t dst_off = y * (1 + row_bytes) + 1;
         const size_t avail = (src_off <static_cast<int>(rgb.size()))
-                             ? std::min(row_bytes, static_cast<int>(rgb.size()) - src_off) : 0u;
+                             ? std::min(row_bytes, static_cast<int>(rgb.size()) - src_off) : 0;
         if (avail > 0)
             std::copy(rgb.begin() + static_cast<ptrdiff_t>(src_off),
                       rgb.begin() + static_cast<ptrdiff_t>(src_off + avail),
@@ -284,13 +284,13 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
     idat_payload.push_back(0x01u);
 
     const uint8_t* src_ptr  = filtered.data();
-    size_t         remaining = filtered.size();
+    size_t remaining = filtered.size();
 
     // Emit at least one stored deflate block (handles empty images too).
     do {
         const uint16_t block_len = static_cast<uint16_t>(
                 std::min(remaining, static_cast<size_t>(0xFFFFu)));
-        const bool is_final = (remaining - block_len == 0u);
+        const bool is_final = (remaining - block_len == 0);
 
         idat_payload.push_back(is_final ? 0x01u : 0x00u);  // BFINAL | BTYPE=00
         put_le16(idat_payload, block_len);
@@ -299,17 +299,17 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
 
         src_ptr   += block_len;
         remaining -= block_len;
-    } while (remaining > 0u);
+    } while (remaining > 0);
 
     put_be32(idat_payload, adler32_of(filtered.data(),static_cast<int>(filtered.size())));
 
     // ── Assemble PNG ──────────────────────────────────────────────────────────
     std::vector<uint8_t> png = {};
 
-    png.reserve(8u + 25u + 12u + static_cast<int>(idat_payload.size()) + 12u);
+    png.reserve(8 + 25 + 12 + static_cast<int>(idat_payload.size()) + 12);
 
     static const uint8_t kSig[] = {0x89u,'P','N','G','\r','\n',0x1Au,'\n'};
-    png.insert(png.end(), kSig, kSig + 8u);
+    png.insert(png.end(), kSig, kSig + 8);
 
     // IHDR: width(4) + height(4) + bit_depth(1) + color_type(1)
     //       + compression(1) + filter(1) + interlace(1) = 13 bytes
@@ -318,13 +318,13 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
     ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );
     ihdr[4]  = static_cast<uint8_t>(height >> 24); ihdr[5]  = static_cast<uint8_t>(height >> 16);
     ihdr[6]  = static_cast<uint8_t>(height >>  8); ihdr[7]  = static_cast<uint8_t>(height      );
-    ihdr[8]  = 8u;   // bit depth: 8
-    ihdr[9]  = 2u;   // color type: RGB truecolor
-    ihdr[10] = 0u;   // compression method: deflate
-    ihdr[11] = 0u;   // filter method: adaptive
-    ihdr[12] = 0u;   // interlace: none
+    ihdr[8]  = 8;   // bit depth: 8
+    ihdr[9]  = 2;   // color type: RGB truecolor
+    ihdr[10] = 0;   // compression method: deflate
+    ihdr[11] = 0;   // filter method: adaptive
+    ihdr[12] = 0;   // interlace: none
     static const uint8_t kIHDR[4] = {'I','H','D','R'};
-    append_chunk(png, kIHDR, ihdr, 13u);
+    append_chunk(png, kIHDR, ihdr, 13);
 
     // IDAT: one chunk containing the full zlib stream
     static const uint8_t kIDAT[4] = {'I','D','A','T'};
@@ -334,7 +334,7 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
 
     // IEND
     static const uint8_t kIEND[4] = {'I','E','N','D'};
-    append_chunk(png, kIEND, nullptr, 0u);
+    append_chunk(png, kIEND, nullptr, 0);
 
     return png;
 }

@@ -163,7 +163,7 @@ ExecutionResult gpuSimHashJoin(const QueryOperator& op, size_t batch_size) {
 
     auto ht = buildHashTable(op.right_rows, op.right_key_col);
 
-    const size_t n    = op.left_rows.size();
+    const size_t n = op.left_rows.size();
     const size_t step = (batch_size > 0) ? batch_size : n;
 
     for (size_t start = 0; start < n; start += step) {
@@ -273,7 +273,7 @@ ExecutionResult simdAggregate(const QueryOperator& op) {
 
     const std::string& fn      = op.agg_fn;
     const size_t       col     = op.agg_col;
-    const size_t       n       = op.rows.size();
+    const size_t n = op.rows.size();
 
     if (fn == "COUNT") {
         r.agg_count = static_cast<int64_t>(n);
@@ -386,7 +386,7 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
             // suffix
             const std::string suffix = pat.substr(1);
             match = s.size() >= suffix.size() &&
-                    s.compare(static_cast<int>(s.size()) - suffix.size(),static_cast<int>(suffix.size()), suffix) == 0;
+                    s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()), suffix) == 0;
         } else {
             match = s == pat;
         }
@@ -452,7 +452,7 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
         switch (op.op_type) {
             case OperatorType::HashJoin:
             [[fallthrough]];\n            case OperatorType::SortMergeJoin:
-                return static_cast<int>(op.left_rows.size()) + op.right_rows.size();
+                return static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
             case OperatorType::Aggregate:
             [[fallthrough]];\n            case OperatorType::Filter:
             [[fallthrough]];\n            case OperatorType::Sort:
@@ -548,7 +548,7 @@ bool HardwareAccelerator::shouldUseSIMD([[maybe_unused]] size_t num_rows) const 
 
 ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op,
                                                        const AcceleratorConfig& cfg) const {
-    const size_t rows = static_cast<int>(op.left_rows.size()) + op.right_rows.size();
+    const size_t rows = static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
     ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
@@ -571,7 +571,7 @@ ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op
 
 ExecutionResult HardwareAccelerator::dispatchSortMergeJoin(const QueryOperator&    op,
                                                             const AcceleratorConfig& cfg) const {
-    const size_t rows = static_cast<int>(op.left_rows.size()) + op.right_rows.size();
+    const size_t rows = static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
     ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
@@ -713,7 +713,7 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
             switch (op.op_type) {
                 case OperatorType::HashJoin:
                 [[fallthrough]];\n                case OperatorType::SortMergeJoin:
-                    return static_cast<int>(op.left_rows.size()) + op.right_rows.size();
+                    return static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
                 case OperatorType::Aggregate:
                 [[fallthrough]];\n                case OperatorType::Filter:
                 [[fallthrough]];\n                case OperatorType::Sort:

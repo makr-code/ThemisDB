@@ -136,7 +136,7 @@ void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     // kv_block_size > 0 is guaranteed by the constructor guard.
     size_t slot_in_block = static_cast<size_t>(table.num_tokens) % config_.kv_block_size;
     size_t offset = slot_in_block * kv.data.size();
-    if (offset + kv.data.size() <= block.data.size()) {
+    if (offset + static_cast<int>(kv.data.size()) <= block.data.size()) {
         std::memcpy(block.data.data() + offset, kv.data.data(), 
                     kv.data.size() * sizeof(float));
     }
@@ -210,7 +210,7 @@ AttentionMemoryStats KVCacheManager::getStats() const {
     
     AttentionMemoryStats stats;
     
-    stats.blocks_used = static_cast<int>(blocks_.size()) - free_blocks_.size();
+    stats.blocks_used = static_cast<int>(blocks_.size()) - static_cast<int>(free_blocks_.size()) ;
     stats.blocks_free = free_blocks_.size();
     
     size_t block_size = calculateBlockSize();

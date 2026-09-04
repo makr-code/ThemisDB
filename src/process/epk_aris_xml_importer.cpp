@@ -66,11 +66,11 @@ std::string unescapeAml(std::string_view s) {
                 if (cp < 0x80u) {
                     out += static_cast<char>(cp);
                 } else if (cp < 0x800u) {
-                    out += static_cast<char>(0xC0u | (cp >> 6u));
+                    out += static_cast<char>(0xC0u | (cp >> 6));
                     out += static_cast<char>(0x80u | (cp & 0x3Fu));
                 } else if (cp < 0x10000u) {
-                    out += static_cast<char>(0xE0u | (cp >> 12u));
-                    out += static_cast<char>(0x80u | ((cp >> 6u) & 0x3Fu));
+                    out += static_cast<char>(0xE0u | (cp >> 12));
+                    out += static_cast<char>(0x80u | ((cp >> 6) & 0x3Fu));
                     out += static_cast<char>(0x80u | (cp & 0x3Fu));
                 } else {
                     out += std::string(ent); // keep as-is for supplementary planes

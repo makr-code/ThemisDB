@@ -62,7 +62,7 @@ struct Crc32Table {
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int j = 0; j < 8; ++j) {
-                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+                c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             }
             table[i] = c;
         }
@@ -408,7 +408,7 @@ private:
             for (size_t i = 0; i < len; ++i) {
                 crc ^= static_cast<uint32_t>(buf[i]);
                 for (int j = 0; j < 8; ++j) {
-                    const uint32_t mask = (crc & 1u) ? 0xFFFFFFFFu : 0u;
+                    const uint32_t mask = (crc & 1) ? 0xFFFFFFFFu : 0;
                     crc = (crc >> 1) ^ (0xEDB88320u & mask);
                 }
             }

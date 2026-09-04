@@ -40,7 +40,7 @@ static uint32_t ht_crc32(const void* data, size_t len) {
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int k = 0; k < 8; ++k) {
-              c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+              c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             }
             t[i] = c;
         }
@@ -144,7 +144,7 @@ std::vector<float> expandNode(const HTNode& node) {
     std::size_t r_right = node.r_right;
     std::size_t r_out   = node.rank;
 
-    std::size_t N_left  = F_left.size()  / r_left;
+    std::size_t N_left = F_left.size()  / r_left;
     std::size_t N_right = F_right.size() / r_right;
 
     // Result: shape [N_left * N_right, r_out]
@@ -248,7 +248,7 @@ void writeF64(std::vector<uint8_t>& buf, double v) {
 void writeFloats(std::vector<uint8_t>& buf, const std::vector<float>& v) {
     writeU64(buf,static_cast<int>(v.size()));
     const uint8_t* p = reinterpret_cast<const uint8_t*>(v.data());
-    buf.insert(buf.end(), p, p + v.size() * sizeof(float));
+    buf.insert(buf.end(), p, p + static_cast<int>(v.size()) * sizeof(float));
 }
 
 void serializeNode(std::vector<uint8_t>& buf, const HTNode* node) {
@@ -385,7 +385,7 @@ std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // Verify trailing CRC32 (4 bytes) if present.  Legacy blobs without a
     // CRC trailer are still accepted when the CRC does not match (fall-through).
     const uint8_t* data  = bytes.data();
-    size_t         size  = bytes.size();
+    size_t size = bytes.size();
     constexpr size_t kCrcSize = 4;
     if (size >= kCrcSize) {
         const size_t payload_size = size - kCrcSize;
@@ -578,7 +578,7 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKUnfolding(
 {
     std::size_t d = shape.size();
     std::size_t nk = shape[mode_k];
-    std::size_t N  = data.size();
+    std::size_t N = data.size();
     std::size_t N_other = N / nk;  // n_cols
 
     // stride of mode k in row-major layout

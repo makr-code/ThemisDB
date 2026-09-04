@@ -50,7 +50,7 @@ std::string encodeValue(const ColumnValue &v) {
             } else {
                 // std::string
                 std::string s = {};
-                s.reserve(2 + arg.size());
+                s.reserve(2 + static_cast<int>(arg.size()) );
                 s += 'S';
                 s += arg;
                 s += '\x01'; // terminator
@@ -252,7 +252,7 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
 
     // Create output columns.
     std::vector<std::shared_ptr<Column>> out_cols;
-    out_cols.reserve(static_cast<int>(probe_cols.size()) + build_non_key_names.size());
+    out_cols.reserve(static_cast<int>(probe_cols.size()) + static_cast<int>(build_non_key_names.size()) );
     for (const auto &c : probe_cols) {
         out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
     }
@@ -477,7 +477,7 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     // Create output columns (probe first, then non-key build columns).
     // We need the types for build columns — infer from first build row if available.
     std::vector<std::shared_ptr<Column>> out_cols;
-    out_cols.reserve(static_cast<int>(probe_cols.size()) + build_output_names.size());
+    out_cols.reserve(static_cast<int>(probe_cols.size()) + static_cast<int>(build_output_names.size()) );
     for (const auto &c : probe_cols) {
         out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
     }
@@ -485,8 +485,8 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     // Use Int64 as default; actual appending uses appendNull / correct typed append via ColumnValue.
     // We'll accumulate output rows as ColumnValue vectors and materialise at end.
 
-    const size_t n_probe_cols   = probe_cols.size();
-    const size_t n_build_out    = build_output_names.size();
+    const size_t n_probe_cols = probe_cols.size();
+    const size_t n_build_out = build_output_names.size();
     const auto &probe_time_data = probe_batch.getColumnAt(probe_time_idx)->int64Data();
 
     // Collect output rows as variant vectors.

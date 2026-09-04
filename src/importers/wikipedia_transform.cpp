@@ -250,7 +250,7 @@ void WikipediaIngestionPipeline::applyParsedPage(
     checkpoint_state_.last_page_title = parsed_page.page.title;
     ++stats.imported_records;
     stats.tables_processed = 6;
-    stats.relationships_processed = static_cast<int>(snapshot_.links.size()) + snapshot_.categories.size() + snapshot_.redirects.size();
+    stats.relationships_processed = static_cast<int>(snapshot_.links.size()) + static_cast<int>(snapshot_.categories.size()) + static_cast<int>(snapshot_.redirects.size()) ;
 }
 
 } // namespace themis::importers

@@ -150,7 +150,7 @@ bool KnowledgeGraph::removeNode(const std::string& node_id) {
         edges.erase(std::remove_if(edges.begin(), edges.end(),
                         [&]([[maybe_unused]] const KGEdge& e) { return e.to_id == node_id; }),
                     edges.end());
-        impl_->edge_count -= (before - edges.size());
+        impl_->edge_count -= (before - static_cast<int>(edges.size()) );
     }
     return true;
 }
@@ -213,7 +213,7 @@ bool KnowledgeGraph::removeEdge(const std::string& from_id,
                         return e.to_id == to_id && e.relation == relation;
                     }),
                 edges.end());
-    const size_t removed = before - edges.size();
+    const size_t removed = before - static_cast<int>(edges.size()) ;
     impl_->edge_count -= removed;
     return removed > 0;
 }
@@ -250,7 +250,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         // GAP-010: Check node count before dequeuing.
         // visited always contains at least start_id (inserted before the loop),
         // so visited.size() >= 1 and the subtraction is safe from underflow.
-        if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1u >= max_nodes) {
+        if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1 >= max_nodes) {
             spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
                          "from '{}'; truncating traversal", max_nodes, start_id);
             break;
@@ -269,7 +269,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         }
 
         for (const auto& edge : adj_it->second) {
-            if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1u >= max_nodes) {
+            if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1 >= max_nodes) {
               break;
             }
             if (edge.weight < min_edge_weight) {
@@ -364,7 +364,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
     while (ss >> word) {
         // Find position in text (approximate)
         pos = text.find(word, pos);
-        const size_t word_end = (pos == std::string::npos) ? 0 : pos + word.size();
+        const size_t word_end = (pos == std::string::npos) ? 0 : pos + static_cast<int>(word.size()) ;
 
         // Strip leading/trailing punctuation for check
         std::stringstream clean_builder = {};

@@ -2111,7 +2111,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     // Use the actual vocab size reported by the target model when available;
     // fall back to a common LLaMA-family default to keep logit vectors finite.
-    size_t vocab_size = 32000u;
+    size_t vocab_size = 32000;
     {
         auto model_info = target_plugin->getModelInfo();
         if (model_info && model_info->vocab_size > 0) {
@@ -2121,7 +2121,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     if (vocab_size > static_cast<size_t>(std::numeric_limits<int>::max())) {
         spdlog::warn("Speculative decoding vocab size {} exceeds int range; using fallback 32000",
                      vocab_size);
-        vocab_size = 32000u;
+        vocab_size = 32000;
     }
 
     // ── Remote draft path ─────────────────────────────────────────────────

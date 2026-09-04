@@ -111,7 +111,7 @@ std::vector<std::string> collectFormalizedPrinciples(
     const llm::ConstitutionalReasoningResult& cai_result) {
     std::vector<std::string> principles = {};
 
-    principles.reserve(cai_result.violated_principles.size() + cai_result.applied_principles.size());
+    principles.reserve(cai_result.violated_principles.size() + static_cast<int>(cai_result.applied_principles.size()) );
 
     for (const auto& principle_id : cai_result.violated_principles) {
         appendUnique(principles, principle_id);
@@ -172,7 +172,7 @@ std::string joinValues(const std::vector<std::string>& values) {
     // Safe ostringstream usage: str() never fails, always returns constructed string
     std::ostringstream oss = {};
     for (std::size_t i = 0; i <static_cast<int>(values.size()); ++i) {
-        if (i != 0u) {
+        if (i != 0) {
             oss << ',';
         }
         oss << values[i];

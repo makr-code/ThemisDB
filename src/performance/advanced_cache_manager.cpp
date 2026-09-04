@@ -175,7 +175,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
         if (!compressed_body.empty()) {
             // Frame: [tag(1)] [snappy_data] (Snappy encodes original size internally)
             std::string out = {};
-            out.reserve(1 + compressed_body.size());
+            out.reserve(1 + static_cast<int>(compressed_body.size()) );
             out += static_cast<char>(kTagSnappy);
             out += compressed_body;
             return out;
@@ -222,7 +222,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
 
     // Passthrough: [tag(1)] [original data]
     std::string out = {};
-    out.reserve(1 + val.size());
+    out.reserve(1 + static_cast<int>(val.size()) );
     out += static_cast<char>(kTagPassthrough);
     out += val;
     return out;
@@ -433,7 +433,7 @@ void AdvancedCacheManager::put(const std::string& key,
               --ps->stats.entries;
             }
             ps->stats.bytes_used = ps->stats.bytes_used > static_cast<int>(lru_entry.value.size())
-                ? ps->stats.bytes_used - lru_entry.value.size() : 0;
+                ? ps->stats.bytes_used - static_cast<int>(lru_entry.value.size()) : 0;
         }
         ps->lru_list.push_front({key, std::move(stored_value)});
         ps->index[key] = ps->lru_list.begin();

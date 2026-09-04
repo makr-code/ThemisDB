@@ -343,7 +343,7 @@ std::string Http3Handler::extractConnectionId(const uint8_t* data, size_t len) {
         static const char kHex[] = "0123456789abcdef";
         std::string hex = {};
         hex.reserve(dcid_len * 2);
-        for (size_t i = 6; i < 6u + dcid_len; ++i) {
+        for (size_t i = 6; i < 6 + dcid_len; ++i) {
             hex += kHex[(data[i] >> 4) & 0xf];
             hex += kHex[data[i] & 0xf];
         }

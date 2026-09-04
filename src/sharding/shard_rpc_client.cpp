@@ -618,7 +618,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
-            impl_->recordMetrics(method, "non_retryable_error", 0u);
+            impl_->recordMetrics(method, "non_retryable_error", 0);
             THEMIS_WARN("gRPC {} non-retryable error: {}", method, e.what());
             throw;  // Rethrow immediately without further retry attempts
 
@@ -629,7 +629,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
-            impl_->recordMetrics(method, "retryable_error", 0u);
+            impl_->recordMetrics(method, "retryable_error", 0);
 
             THEMIS_WARN("gRPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, err_msg);
@@ -1051,7 +1051,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
-            impl_->recordMetrics(method, "retryable_error", 0u);
+            impl_->recordMetrics(method, "retryable_error", 0);
 
             THEMIS_WARN("RPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, e.what());

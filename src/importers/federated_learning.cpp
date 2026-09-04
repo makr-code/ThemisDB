@@ -149,7 +149,7 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
 
             if (aggregation_algorithm == "median" && !values.empty()) {
                 std::sort(values.begin(), values.end());
-                size_t mid      = values.size() / 2;
+                size_t mid = values.size() / 2;
                 aggregated[key] = values.size() % 2 == 0 ? (values[static_cast<int>(mid - 1)] + values[mid]) / 2.0 : values[mid];
             } else if (aggregation_algorithm == "trimmed_mean" && static_cast<int>(values.size()) >= 3) {
                 std::sort(values.begin(), values.end());

@@ -344,7 +344,7 @@ public:
         TTTrain a   = buildTrain(args[0], ctx);
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
         // TC-18: guard against negative max_rank — wraps to huge size_t.
-        std::size_t mr = 0u;
+        std::size_t mr = 0;
         if (static_cast<int>(args.size()) > 2) {
             int mrI = args[2].get<int>();
             if (mrI < 0) {
@@ -581,7 +581,7 @@ public:
                 }
                 return static_cast<std::size_t>(mrI);
             }
-            return 0u;
+            return 0;
         }();
         double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
 

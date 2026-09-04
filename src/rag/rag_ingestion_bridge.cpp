@@ -29,12 +29,12 @@ namespace rag {
 
 namespace {
 
-constexpr std::size_t kMaxDocumentChars = 5u * 1024u * 1024u; // 5 MiB
-constexpr std::size_t kMaxCollectionChars = 256u;
-constexpr std::size_t kMaxMimeChars = 128u;
-constexpr std::size_t kMaxFilenameChars = 512u;
-constexpr std::size_t kMaxChunkSnippetChars = 128u * 1024u; // 128 KiB
-constexpr std::size_t kMaxMetadataValueChars = 16u * 1024u; // 16 KiB
+constexpr std::size_t kMaxDocumentChars = 5 * 1024 * 1024; // 5 MiB
+constexpr std::size_t kMaxCollectionChars = 256;
+constexpr std::size_t kMaxMimeChars = 128;
+constexpr std::size_t kMaxFilenameChars = 512;
+constexpr std::size_t kMaxChunkSnippetChars = 128 * 1024; // 128 KiB
+constexpr std::size_t kMaxMetadataValueChars = 16 * 1024; // 16 KiB
 
 std::string trimCopy(const std::string& in) {
     const auto begin = in.find_first_not_of(" \t\r\n");
@@ -54,7 +54,7 @@ std::string truncateCopy(const std::string& in, std::size_t max_chars) {
 
 bool hasControlCharacters(const std::string& value) {
     return std::any_of(value.begin(), value.end(), [](unsigned char c) {
-        return c < 32u && c != '\t' && c != '\r' && c != '\n';
+        return c < 32 && c != '\t' && c != '\r' && c != '\n';
     });
 }
 

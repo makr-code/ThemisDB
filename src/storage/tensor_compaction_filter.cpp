@@ -142,7 +142,7 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     // Deserialize raw TTTrain
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
-        reinterpret_cast<const uint8_t*>(value.data()) + value.size());
+        reinterpret_cast<const uint8_t*>(value.data()) + static_cast<int>(value.size()) );
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = TTTrain::deserialize(bytes);
@@ -179,7 +179,7 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     // Deserialize QuantizedTrain header
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
-        reinterpret_cast<const uint8_t*>(value.data()) + value.size());
+        reinterpret_cast<const uint8_t*>(value.data()) + static_cast<int>(value.size()) );
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = QuantizedTrain::deserialize(bytes);

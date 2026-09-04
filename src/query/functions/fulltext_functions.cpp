@@ -766,7 +766,7 @@ public:
             }
         }
         
-        const size_t totalSz = static_cast<int>(ngrams1.size()) + ngrams2.size();
+        const size_t totalSz = static_cast<int>(ngrams1.size()) + static_cast<int>(ngrams2.size()) ;
         if (totalSz == 0) {
           return 0.0;
         }

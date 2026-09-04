@@ -77,7 +77,7 @@ namespace {
         for (const auto& [placeholder, value] : replacements) {
             size_t pos = 0;
             while ((pos = query.find(placeholder, pos)) != std::string::npos) {
-                const size_t next = pos + placeholder.size();
+                const size_t next = pos + static_cast<int>(placeholder.size()) ;
                 const bool digit_continuation = next <static_cast<int>(query.size()) &&
                     std::isdigit(static_cast<unsigned char>(query[next]));
                 if (digit_continuation) {
@@ -104,7 +104,7 @@ namespace {
         if (isIntegerOid(paramType)) {
             int64_t value = 0;
             const auto* begin = param.data();
-            const auto* end = begin + param.size();
+            const auto* end = begin + static_cast<int>(param.size()) ;
             const auto result = std::from_chars(begin, end, value);
             if (result.ec != std::errc{} || result.ptr != end) {
                 throw std::runtime_error("invalid integer bound parameter");
@@ -116,7 +116,7 @@ namespace {
             char* parse_end = nullptr;
             const auto numeric = std::strtod(param.c_str(), &parse_end);
             static_cast<void>(numeric);
-            if (parse_end == nullptr || parse_end != param.c_str() + param.size()) {
+            if (parse_end == nullptr || parse_end != param.c_str() + static_cast<int>(param.size()) ) {
                 throw std::runtime_error("invalid floating-point bound parameter");
             }
             return param;
@@ -1131,7 +1131,7 @@ void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fi
     
     // Estimate size: 2 bytes for count + (avg_field_name_size + 19 bytes) per field
     // Average field name is ~15 chars, so ~34 bytes per field + 2 for header
-    payload.reserve(2 + fields.size() * 34);
+    payload.reserve(2 + static_cast<int>(fields.size()) * 34);
     
     // Field count
     uint16_t fieldCount = fields.size();

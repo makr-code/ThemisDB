@@ -1597,8 +1597,8 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                         const uint16_t* h = reinterpret_cast<const uint16_t*>(raw.data());
                         for (size_t i = 0; i < n_f16; ++i) {
                             // IEEE 754 half-precision to single-precision conversion.
-                            uint32_t s = (h[i] >> 15u) & 1u;
-                            uint32_t e = (h[i] >> 10u) & 0x1fu;
+                            uint32_t s = (h[i] >> 15) & 1;
+                            uint32_t e = (h[i] >> 10) & 0x1fu;
                             uint32_t m = h[i] & 0x3ffu;
                             if (e == 0) {
                                 weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m), -24);
@@ -1607,7 +1607,7 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
                                                             :  std::numeric_limits<float>::infinity())
                                                        : std::numeric_limits<float>::quiet_NaN();
                             } else {
-                                weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m + (1u << 10u)),
+                                weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m + (1 << 10)),
                                                                              static_cast<int>(e) - 25);
                             }
                         }

@@ -70,7 +70,7 @@ std::string SearchHighlighter::applyHighlight(
     }
 
     std::string result = {};
-    result.reserve(static_cast<int>(text.size()) + offsets.size() * (static_cast<int>(open_tag.size()) + close_tag.size()));
+    result.reserve(static_cast<int>(text.size()) + static_cast<int>(offsets.size()) * (static_cast<int>(open_tag.size()) + static_cast<int>(close_tag.size()) ));
 
     size_t cursor = 0;
     for (auto& [start, end] : offsets) {
@@ -122,7 +122,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
         }
         size_t pos = 0;
         while ((pos = lower_text.find(term, pos)) != std::string::npos) {
-            matches.push_back({pos, pos + term.size(), ti});
+            matches.push_back({pos, pos + static_cast<int>(term.size()) , ti});
             pos += term.size();
         }
     }
@@ -208,7 +208,7 @@ SearchHighlighter::findMatchRanges(const std::string& text,
 
         size_t pos = 0;
         while ((pos = search_text.find(term, pos)) != std::string::npos) {
-            ranges.emplace_back(pos, pos + term.size());
+            ranges.emplace_back(pos, pos + static_cast<int>(term.size()) );
             pos += term.size();
         }
     }

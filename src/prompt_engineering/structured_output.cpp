@@ -143,7 +143,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractStringArray(
     }
 
     // Find the opening '[' after the key
-    const auto arr_start = json.find('[', key_pos + search.size());
+    const auto arr_start = json.find('[', key_pos + static_cast<int>(search.size()) );
     if (arr_start == std::string::npos) {
       return result;
     }
@@ -179,7 +179,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
       return names;
     }
 
-    const auto obj_start = schema.find('{', prop_pos + prop_key.size());
+    const auto obj_start = schema.find('{', prop_pos + static_cast<int>(prop_key.size()) );
     if (obj_start == std::string::npos) {
       return names;
     }

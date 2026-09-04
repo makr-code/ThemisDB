@@ -154,7 +154,7 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
             const auto h0 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i]));
             const auto h1 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 1]));
             const auto h2 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 2]));
-            const auto bucket = (h0 * 31u * 31u + h1 * 31u + h2) % kProcessEmbeddingDimensions;
+            const auto bucket = (h0 * 31 * 31 + h1 * 31 + h2) % kProcessEmbeddingDimensions;
             embedding[bucket] += 1.0f;
         }
     }

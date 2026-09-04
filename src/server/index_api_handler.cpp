@@ -324,7 +324,7 @@ http::response<http::string_body> IndexApiHandler::handleRebuild(
         // Rebuild the index – online mode keeps the live index readable throughout
         bool online = body.value("online", false);
         if (online) {
-            uint32_t throttle_us = body.value("throttle_us", 0u);
+            uint32_t throttle_us = body.value("throttle_us", 0);
             secondary_index_->rebuildIndexOnline(table, column, throttle_us);
         } else {
             secondary_index_->rebuildIndex(table, column);

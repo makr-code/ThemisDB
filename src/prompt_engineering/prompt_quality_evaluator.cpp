@@ -165,7 +165,7 @@ QualityReport PromptQualityEvaluator::evaluateText(
     if (total_checks == 0) {
         report.score = 1.0;
     } else {
-        const size_t passed = total_checks - report.failed_checks.size();
+        const size_t passed = total_checks - static_cast<int>(report.failed_checks.size()) ;
         report.score = static_cast<double>(passed) /
                        static_cast<double>(total_checks);
     }

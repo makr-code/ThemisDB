@@ -40,7 +40,7 @@ namespace {
 static constexpr size_t   kWireHeaderSize       = 12;
 static constexpr uint8_t  kWireMagic[4]         = {0x54, 0x4D, 0x44, 0x42};  // "TMDB"
 static constexpr uint16_t kWireSkipChecksumFlag = 0x0004;
-static constexpr uint32_t kWireMaxPayloadBytes  = 64u * 1024u * 1024u;  // 64 MB
+static constexpr uint32_t kWireMaxPayloadBytes  = 64 * 1024 * 1024;  // 64 MB
 
 // CRC-32 (ISO-HDLC) – same polynomial as wire_protocol_server.cpp.
 // Used to verify the integrity of incoming binary wire-protocol frames.
@@ -232,7 +232,7 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
     if (ws_.got_binary()) {
         // Binary frame: raw wire-protocol bytes
         const auto* data = static_cast<const uint8_t*>(buffer_.data().data());
-        std::vector<uint8_t> payload(data, data + buffer_.size());
+        std::vector<uint8_t> payload(data, data + static_cast<int>(buffer_.size()) );
         processBinaryFrame(payload);
     } else {
         // Text frame: JSON message
@@ -366,7 +366,7 @@ static uint32_t crc32Binary(const uint8_t* data, size_t len) {
     for (size_t i = 0; i < len; ++i) {
         crc ^= data[i];
         for (int b = 0; b < 8; ++b)
-            crc = (crc >> 1) ^ (0xEDB88320u & -(crc & 1u));
+            crc = (crc >> 1) ^ (0xEDB88320u & -(crc & 1));
     }
     return crc ^ 0xFFFFFFFFu;
 }
@@ -387,7 +387,7 @@ std::vector<uint8_t> WireProtocolWebSocketSession::buildBinaryResponseFrame(
 {
     std::vector<uint8_t> frame = {};
 
-    frame.reserve(kWireHeaderSize + payload.size());
+    frame.reserve(kWireHeaderSize + static_cast<int>(payload.size()) );
     frame.insert(frame.end(), std::begin(kWireMagic), std::end(kWireMagic));
     frame.push_back(0x01u);
     frame.push_back(resp_opcode);
@@ -446,12 +446,12 @@ void WireProtocolWebSocketSession::handleBinaryGet(const uint8_t* payload_data,
         ProtobufSerializer serializer = {};
         if (result.has_value()) {
             serializer.writeTag(1, 0);
-            serializer.writeVarint(0u);
+            serializer.writeVarint(0);
             serializer.writeTag(2, 2);
             serializer.writeLengthDelimited(result.value());
         } else {
             serializer.writeTag(1, 0);
-            serializer.writeVarint(1u);
+            serializer.writeVarint(1);
         }
         sendBinary(buildBinaryResponseFrame(kOpcodeGetResponse, serializer.data()));
     } catch (const json::exception& e) {
@@ -480,7 +480,7 @@ void WireProtocolWebSocketSession::handleBinaryPut(const uint8_t* payload_data,
         const bool ok = server_->storage_->put(key, value);
         ProtobufSerializer serializer;
         serializer.writeTag(1, 0);
-        serializer.writeVarint(ok ? 0u : 2u);
+        serializer.writeVarint(ok ? 0 : 2);
         if (!ok) {
             serializer.writeTag(2, 2);
             serializer.writeString("Put operation failed");
@@ -511,7 +511,7 @@ void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_dat
         const bool ok = server_->storage_->del(key);
         ProtobufSerializer serializer;
         serializer.writeTag(1, 0);
-        serializer.writeVarint(ok ? 0u : 1u);
+        serializer.writeVarint(ok ? 0 : 1);
         sendBinary(buildBinaryResponseFrame(kOpcodeDeleteResponse, serializer.data()));
     } catch (const json::exception& e) {
         sendBinaryError(0x0009u, std::string("Invalid JSON in DELETE payload: ") + e.what());
@@ -545,7 +545,7 @@ void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>
     }
 
     const bool has_checksum = !(flags & kWireSkipChecksumFlag);
-    const size_t expected_size = kWireHeaderSize + payload_size + (has_checksum ? 4u : 0u);
+    const size_t expected_size = kWireHeaderSize + payload_size + (has_checksum ? 4 : 0);
     if (static_cast<int>(data.size()) < expected_size) {
         sendBinaryError(0x000Au, "Binary frame incomplete");
         return;
@@ -559,7 +559,7 @@ void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>
             (static_cast<uint32_t>(data[crc_offset + 2]) << 8) |
              static_cast<uint32_t>(data[crc_offset + 3]);
 
-        uint32_t computed_crc = wsCrc32Update(0u, data.data(), kWireHeaderSize);
+        uint32_t computed_crc = wsCrc32Update(0, data.data(), kWireHeaderSize);
         if (payload_size > 0) {
             computed_crc = wsCrc32Update(computed_crc,
                                          data.data() + kWireHeaderSize,

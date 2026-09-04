@@ -38,7 +38,7 @@ namespace storage {
 std::string ProvenanceRecord::canonicalBytes() const {
     // Concatenate fields with null-byte separators for an unambiguous encoding.
     std::string out = {};
-    out.reserve(static_cast<int>(source_filename.size()) + source_doc_id.size()
+    out.reserve(static_cast<int>(source_filename.size()) + static_cast<int>(source_doc_id.size()) 
                 + static_cast<int>(tenant_id.size()) + static_cast<int>(ingest_timestamp.size()) + 32);
     out += source_filename;  out += '\0';
     out += std::to_string(source_page); out += '\0';

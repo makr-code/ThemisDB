@@ -136,7 +136,7 @@ private:
 
 ParallelDownloader::ParallelDownloader()
     : concurrency_(static_cast<size_t>(
-          std::max(1u, std::thread::hardware_concurrency())))
+          std::max(1, std::thread::hardware_concurrency())))
     , bandwidth_limit_bps_(0)
     , connect_timeout_s_(10)
     , transfer_timeout_s_(30)

@@ -125,7 +125,7 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
     spdlog::debug("ErasureCodingBackend::encode: blob='{}' size={} shards={} "
                   "shard_size={}",
                   blob_id, original_size,static_cast<int>(shards.size()),
-                  shards.empty() ? 0u : static_cast<unsigned>(shards[0].data.size()));
+                  shards.empty() ? 0 : static_cast<unsigned>(shards[0].data.size()));
     return shards;
 }
 
@@ -299,7 +299,7 @@ uint32_t ErasureCodingBackend::availableShardCount(
 
     auto it = store_.find(blob_id);
     if (it == store_.end()) {
-        return 0u;
+        return 0;
     }
     return static_cast<bool>(static_cast<uint32_t>(it- < static_cast<int>(second.chunks.size())));
 }

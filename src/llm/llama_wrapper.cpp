@@ -2284,7 +2284,7 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
-    const std::size_t estimated_tokens = static_cast<int>(text.size()) + (add_bos ? 1u : 0u) + 8u;
+    const std::size_t estimated_tokens = static_cast<int>(text.size()) + (add_bos ? 1 : 0) + 8;
     if (estimated_tokens > static_cast<std::size_t>(std::numeric_limits<int32_t>::max())) {
         throw std::runtime_error("Input too large for llama_tokenize");
     }

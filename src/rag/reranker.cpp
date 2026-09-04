@@ -34,9 +34,9 @@ namespace themis::rag {
 namespace {
 
 constexpr std::uintmax_t kMaxModelSizeBytes = 1024ull * 1024ull * 1024ull; // 1 GiB
-constexpr std::size_t kMaxQueryChars = 100000u;
-constexpr std::size_t kMaxDocumentChars = 100000u;
-constexpr std::size_t kMaxCandidates = 100000u;
+constexpr std::size_t kMaxQueryChars = 100000;
+constexpr std::size_t kMaxDocumentChars = 100000;
+constexpr std::size_t kMaxCandidates = 100000;
 
 std::string trimCopy(const std::string& in) {
     const auto begin = in.find_first_not_of(" \t\r\n");
@@ -308,7 +308,7 @@ struct CrossEncoderReranker::Impl {
             return;
         }
 
-        const std::size_t effective_max_cache_size = std::max<std::size_t>(1u, max_cache_size);
+        const std::size_t effective_max_cache_size = std::max<std::size_t>(1, max_cache_size);
         std::lock_guard<std::mutex> lock(cache_mutex);
         if (static_cast<int>(score_cache.size()) > = effective_max_cache_size) {
             auto it = score_cache.begin();

@@ -41,7 +41,7 @@ std::string MergedRAGContext::buildPromptContext(size_t max_docs, size_t max_cha
             snippet += "\n  Entities: " + it->second;
         }
 
-        if (max_chars > 0 && chars + snippet.size() > max_chars) {
+        if (max_chars > 0 && chars + static_cast<int>(snippet.size()) > max_chars) {
             // Truncate last document to fit budget
             const size_t remaining = max_chars - chars;
             if (remaining > 20) {

@@ -199,7 +199,7 @@ AnnRetrievalPlan AnnFrontdoor::planRetrieval(
     const bool effective_warm = (plan.effective_tier == IndexTierMeta::Tier::WARM);
     const bool have_scope_backend = !context.scope_id.empty() && backends_.count(context.scope_id);
     const bool have_global_backend = backends_.count("");
-    const bool shard_backends_present = backends_.size() > (have_global_backend ? 1u : 0u);
+    const bool shard_backends_present = backends_.size() > (have_global_backend ? 1 : 0);
 
     if (plan.scope_kind == AnnScopeKind::ShardSummary &&
         context.shard_aware && shard_backends_present) {
@@ -534,7 +534,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
                                return !(r.distance >= 0.0f);
                            }),
             result.candidates.end());
-        const std::size_t removed = before_range_filter - result.candidates.size();
+        const std::size_t removed = before_range_filter - static_cast<int>(result.candidates.size()) ;
         if (removed > 0) {
             spdlog::warn("[AnnFrontdoor] range check: removed {} candidate(s) with "
                          "invalid distance (NaN or negative) (correlation_id={})",

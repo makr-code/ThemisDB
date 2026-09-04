@@ -137,7 +137,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adj
         std::queue<std::pair<uint32_t, uint32_t>> bfsQueue; // (vertex, depth)
 
         visited[start] = true;
-        bfsQueue.push({start, 0u});
+        bfsQueue.push({start, 0});
         results[s].push_back(start);
 
         while (!bfsQueue.empty()) {
@@ -157,10 +157,10 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adj
             // for graphs where the caller already uses a dense format.
             const uint32_t *row = adjacency + current * numVertices;
             for (uint32_t v = 0; v < static_cast<uint32_t>(numVertices); ++v) {
-                if (row[v] != 0u && !visited[v]) {
+                if (row[v] != 0 && !visited[v]) {
                     visited[v] = true;
                     results[s].push_back(v);
-                    bfsQueue.push({v, depth + 1u});
+                    bfsQueue.push({v, depth + 1});
                 }
             }
         }
@@ -220,7 +220,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             const uint32_t *adjRow = adjacency + u * N;
             const float *wRow      = weights + u * N;
             for (uint32_t v = 0; v < N; ++v) {
-                if (adjRow[v] == 0u) {
+                if (adjRow[v] == 0) {
                     continue;
                 }
                 const float raw_w = wRow[v];
@@ -461,7 +461,7 @@ static int cpu_geo_containment(const double *point_lats, const double *point_lon
             }
             j = i;
         }
-        results[p] = inside ? 1u : 0u;
+        results[p] = inside ? 1 : 0;
     }
     return 0;
 }

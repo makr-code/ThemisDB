@@ -166,7 +166,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
         // Capture sizes for logging before the move (must be outside the lock)
         const size_t n_profiles = new_profiles.size();
         const size_t n_mappings = new_mapping.size();
-        const size_t n_masking  = new_masking.rules.size();
+        const size_t n_masking = new_masking.rules.size();
 
         // Atomically swap policy data under the mutex
         {
@@ -286,7 +286,7 @@ void PolicyEngine::setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std:
     std::lock_guard<std::mutex> lock(mutex_);
     ccpa_opt_out_subjects_ = std::move(opt_out_registry);
     THEMIS_INFO("PolicyEngine: CCPA opt-out registry updated ({} subjects)",
-                ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0u);
+                ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0);
 }
 
 bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {

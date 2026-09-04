@@ -133,7 +133,7 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
     rle.push_back(static_cast<uint8_t>('R'));
     rle.push_back(static_cast<uint8_t>('L'));
     rle.push_back(static_cast<uint8_t>('E'));
-    rle.push_back(1u);
+    rle.push_back(1);
 
     for (size_t i = 0; i < size;) {
         const uint8_t value = data[i];
@@ -153,7 +153,7 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
         raw.push_back(static_cast<uint8_t>('R'));
         raw.push_back(static_cast<uint8_t>('L'));
         raw.push_back(static_cast<uint8_t>('E'));
-        raw.push_back(0u);
+        raw.push_back(0);
         raw.insert(raw.end(), data, data + size);
         return Ok(std::move(raw));
     }
@@ -304,10 +304,10 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     }
 
     const uint8_t mode = compressed[4];
-    if (mode == 0u) {
+    if (mode == 0) {
         return Ok(std::vector<uint8_t>(compressed.begin() + 5, compressed.end()));
     }
-    if (mode != 1u) {
+    if (mode != 1) {
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             "Fallback RLE frame mode invalid"

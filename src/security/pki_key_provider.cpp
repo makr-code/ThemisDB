@@ -401,7 +401,7 @@ std::vector<KeyMetadata> PKIKeyProvider::listKeys() {
     
     std::vector<KeyMetadata> keys = {};
 
-    keys.reserve(1 + field_key_cache_.size());
+    keys.reserve(1 + static_cast<int>(field_key_cache_.size()) );
     
     // Add DEK
     KeyMetadata dek_meta;
@@ -589,7 +589,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         // Store: nonce + ciphertext + tag
         std::vector<uint8_t> encrypted = {};
 
-        encrypted.reserve(static_cast<int>(nonce.size()) + len + final_len + tag.size());
+        encrypted.reserve(static_cast<int>(nonce.size()) + len + final_len + static_cast<int>(tag.size()) );
         encrypted.insert(encrypted.end(), nonce.begin(), nonce.end());
         encrypted.insert(encrypted.end(), ciphertext.begin(), ciphertext.begin() + len + final_len);
         encrypted.insert(encrypted.end(), tag.begin(), tag.end());

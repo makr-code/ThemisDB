@@ -369,7 +369,7 @@ nlohmann::json RLSManager::filterRows(
     }
 
     nlohmann::json result = nlohmann::json::array();
-    size_t total   = rows.size();
+    size_t total = rows.size();
     size_t removed = 0;
 
     for (const auto& row : rows) {

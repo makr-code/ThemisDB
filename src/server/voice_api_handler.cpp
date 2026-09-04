@@ -2119,7 +2119,7 @@ std::string VoiceApiHandler::parseQueryParam(
     std::size_t pos = 0;
     while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
         if (query.compare(pos,static_cast<int>(search.size()), search) == 0) {
-            std::string value = query.substr(pos + search.size());
+            std::string value = query.substr(pos + static_cast<int>(search.size()) );
             auto amp = value.find('&');
             return (amp != std::string::npos) ? value.substr(0, amp) : value;
         }

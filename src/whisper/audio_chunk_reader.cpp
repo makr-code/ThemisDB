@@ -141,7 +141,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
             // audio_format: 1=PCM, 3=IEEE_FLOAT
             if (audio_format == 3 && bits_per_sample == 32) {
                 // IEEE 32-bit float – convert multi-channel to mono
-                const size_t total_frames = data_bytes / (4u * num_channels);
+                const size_t total_frames = data_bytes / (4 * num_channels);
                 std::vector<float> out;
                 out.reserve(total_frames);
                 for (size_t i = 0; i < total_frames; ++i) {
@@ -156,7 +156,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
                 return out;
             } else if (audio_format == 1 && bits_per_sample == 16) {
                 // 16-bit PCM – convert to float32 mono
-                const size_t total_frames = data_bytes / (2u * num_channels);
+                const size_t total_frames = data_bytes / (2 * num_channels);
                 std::vector<float> out;
                 out.reserve(total_frames);
                 for (size_t i = 0; i < total_frames; ++i) {

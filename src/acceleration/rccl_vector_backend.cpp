@@ -526,7 +526,7 @@ bool RCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* loc
     }
 
     std::vector<size_t> order(totalK);
-    std::iota(order.begin(), order.end(), 0u);
+    std::iota(order.begin(), order.end(), 0);
     const size_t select_k = (k < totalK) ? k : totalK;
     std::partial_sort(order.begin(), order.begin() + select_k, order.end(),
                       [&](size_t a, size_t b) {

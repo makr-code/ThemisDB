@@ -1487,7 +1487,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         // 4 bytes NumberOfSymbols, 2 bytes SizeOfOptionalHeader,
         // 2 bytes Characteristics  → total 20 bytes after pe_sig.
         // Optional header starts at pe_offset + 4 (sig) + 20 (file hdr) = +24.
-        uint64_t opt_hdr_offset = static_cast<uint64_t>(pe_offset) + 24u;
+        uint64_t opt_hdr_offset = static_cast<uint64_t>(pe_offset) + 24;
 
         // Optional header magic: 0x10B = PE32, 0x20B = PE32+
         file.seekg(static_cast<std::streamoff>(opt_hdr_offset));
@@ -1502,16 +1502,16 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         //   PE32+ (0x20B): +112 from start of optional header
         uint64_t data_dir_start = 0;
         if (opt_magic == 0x010Bu) {
-            data_dir_start = opt_hdr_offset + 96u;
+            data_dir_start = opt_hdr_offset + 96;
         } else if (opt_magic == 0x020Bu) {
-            data_dir_start = opt_hdr_offset + 112u;
+            data_dir_start = opt_hdr_offset + 112;
         } else {
             return std::nullopt;
         }
 
         // IMAGE_DIRECTORY_ENTRY_SECURITY = index 4; each entry is 8 bytes
         // (4-byte VirtualAddress + 4-byte Size).
-        uint64_t security_dir_offset = data_dir_start + 4u * 8u;
+        uint64_t security_dir_offset = data_dir_start + 4 * 8;
         file.seekg(static_cast<std::streamoff>(security_dir_offset));
         uint32_t sec_rva = 0, sec_size = 0;
         file.read(reinterpret_cast<char *>(&sec_rva), sizeof(sec_rva));
@@ -1535,7 +1535,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         uint32_t tbl_pos       = sec_rva;
         const uint32_t tbl_end = sec_rva + sec_size;
 
-        while (tbl_pos + 8u <= tbl_end) {
+        while (tbl_pos + 8 <= tbl_end) {
             file.seekg(static_cast<std::streamoff>(tbl_pos));
             uint32_t win_cert_len  = 0;
             uint16_t win_cert_rev  = 0;
@@ -1544,12 +1544,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             file.read(reinterpret_cast<char *>(&win_cert_rev), sizeof(win_cert_rev));
             file.read(reinterpret_cast<char *>(&win_cert_type), sizeof(win_cert_type));
 
-            if (!file.good() || win_cert_len < 8u || win_cert_len > (tbl_end - tbl_pos)) {
+            if (!file.good() || win_cert_len < 8 || win_cert_len > (tbl_end - tbl_pos)) {
                 break;
             }
 
             if (win_cert_type == 0x0002u) {
-                uint32_t data_len = win_cert_len - 8u;
+                uint32_t data_len = win_cert_len - 8;
                 std::vector<uint8_t> blob(data_len);
                 file.read(reinterpret_cast<char *>(blob.data()), static_cast<std::streamsize>(data_len));
                 if (static_cast<uint32_t>(file.gcount()) == data_len) {
@@ -1562,7 +1562,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             if (win_cert_len > 0xFFFFFFF8u) {
                 break;
             }
-            const uint32_t padded = (win_cert_len + 7u) & ~7u;
+            const uint32_t padded = (win_cert_len + 7) & ~7;
             tbl_pos += padded;
         }
 
@@ -1570,7 +1570,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return std::nullopt;
         }
 
-        if (static_cast<int>(pkcs7_blobs.size()) > 1u) {
+        if (static_cast<int>(pkcs7_blobs.size()) > 1) {
             THEMIS_WARN("extractEmbeddedCertificate: {} PKCS#7 certificates found "
                         "in PE certificate table; using the first one.",
                         pkcs7_blobs.size());
@@ -1585,8 +1585,8 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
     else if (header[0] == 0x7F && header[1] == 'E' && header[2] == 'L' && header[3] == 'F') {
         // ELF class (e_ident[4]): 1 = 32-bit, 2 = 64-bit
         // ELF data encoding (e_ident[5]): 1 = LE, 2 = BE
-        const bool elf64 = (header[4] == 2u);
-        const bool le    = (header[5] == 1u);
+        const bool elf64 = (header[4] == 2);
+        const bool le    = (header[5] == 1);
 
         if (le && header_bytes >= static_cast<std::streamsize>(elf64 ? 64 : 52)) {
             // Helper lambdas: read little-endian integers from a byte buffer.
@@ -1625,8 +1625,8 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                 shstrndx  = readLE16(header.data() + 50);
             }
 
-            constexpr uint32_t kMaxSections = 4096u;
-            constexpr uint64_t kMaxSigSize  = 64u * 1024u;
+            constexpr uint32_t kMaxSections = 4096;
+            constexpr uint64_t kMaxSigSize  = 64 * 1024;
 
             if (shoff > 0 && shentsize > 0 && shnum > 0 && shnum <= kMaxSections && shstrndx < shnum) {
                 // Locate the section-name string table (shstrndx).
@@ -1655,9 +1655,9 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                     }
                 }
 
-                if (strtab_off > 0 && strtab_size > 0 && strtab_size <= 65536u) {
+                if (strtab_off > 0 && strtab_size > 0 && strtab_size <= 65536) {
                     // Load the section-name string table.
-                    std::vector<char> strtab(strtab_size + 1u, '\0');
+                    std::vector<char> strtab(strtab_size + 1, '\0');
                     file.seekg(static_cast<std::streamoff>(strtab_off));
                     file.read(strtab.data(), static_cast<std::streamsize>(strtab_size));
                     if (file.gcount() == static_cast<std::streamsize>(strtab_size)) {
@@ -1764,11 +1764,11 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         // mach_header layout (32-bit): magic(4)+cputype(4)+cpusubtype(4)+
         //   filetype(4)+ncmds(4)+sizeofcmds(4)+flags(4) = 28 bytes.
         // mach_header_64 adds reserved(4) = 32 bytes total.
-        constexpr uint32_t kMachHeader32Size = 28u;
-        constexpr uint32_t kMachHeader64Size = 32u;
+        constexpr uint32_t kMachHeader32Size = 28;
+        constexpr uint32_t kMachHeader64Size = 32;
         constexpr uint32_t kLcCodeSignature  = 0x0000001Du;
-        constexpr uint32_t kMaxSigSizeMacho  = 64u * 1024u * 1024u; // 64 MiB
-        constexpr uint32_t kMinLoadCmdSize   = 8u;
+        constexpr uint32_t kMaxSigSizeMacho  = 64 * 1024 * 1024; // 64 MiB
+        constexpr uint32_t kMinLoadCmdSize   = 8;
 
         const uint32_t hdr_size = macho_64 ? kMachHeader64Size : kMachHeader32Size;
 
@@ -1784,7 +1784,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             const uint32_t sizeofcmds = readU32(hdr_buf.data() + 20);
 
             // Sanity-cap: refuse unreasonably large load-command regions.
-            constexpr uint32_t kMaxLoadCmdsSize = 16u * 1024u * 1024u;
+            constexpr uint32_t kMaxLoadCmdsSize = 16 * 1024 * 1024;
             if (ncmds > 0 && sizeofcmds >= kMinLoadCmdSize && sizeofcmds <= kMaxLoadCmdsSize) {
                 // Load all load commands into memory.
                 std::vector<uint8_t> lc_buf(sizeofcmds);
@@ -1802,7 +1802,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                             break;
                         }
 
-                        if (cmd == kLcCodeSignature && cmdsize >= 16u) {
+                        if (cmd == kLcCodeSignature && cmdsize >= 16) {
                             // linkedit_data_command:
                             //   cmd(4) + cmdsize(4) + dataoff(4) + datasize(4)
                             const uint32_t dataoff  = readU32(lc + 8);

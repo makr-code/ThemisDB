@@ -28,7 +28,7 @@ static uint32_t cv_crc32(const void* data, size_t len) {
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int k = 0; k < 8; ++k) {
-              c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+              c = (c & 1) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             }
             t[i] = c;
         }
@@ -298,7 +298,7 @@ std::string ColumnCompressedStorage::get_all_column_stats() const {
     
     for (const auto& pair : column_compressors_) {
         const auto metrics = pair.second->get_metrics();
-        result.reserve(static_cast<int>(result.size()) + 8 + pair.first.size() + 1 + static_cast<int>(metrics.size()) + 1);
+        result.reserve(static_cast<int>(result.size()) + 8 + static_cast<int>(pair.first.size()) + 1 + static_cast<int>(metrics.size()) + 1);
         result.append("Column: ");
         result.append(pair.first);
         result.push_back('\n');
@@ -314,7 +314,7 @@ std::string ColumnCompressedStorage::get_column_stats(const std::string& column)
     auto it = column_compressors_.find(column);
     if (it == column_compressors_.end()) {
         std::string message = {};
-        message.reserve(39 + column.size());
+        message.reserve(39 + static_cast<int>(column.size()) );
         message.append("Column '");
         message.append(column);
         message.append("' not found or has no statistics.");

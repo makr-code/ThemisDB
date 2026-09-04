@@ -214,7 +214,7 @@ ingestion::BaseEntitySet IngestionToolbox::extractEntitySet(
         std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
     const bool success = !entity_set.nodes.empty() || !entity_set.chunks.empty()
                          || static_cast<int>(text.size()) < kMinTextSizeForValidation;
-    recordExtraction(entity_set.nodes.size() + entity_set.chunks.size(),
+    recordExtraction(entity_set.nodes.size() + static_cast<int>(entity_set.chunks.size()) ,
                      latency_ms, success);
 
     return entity_set;

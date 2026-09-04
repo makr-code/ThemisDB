@@ -41,8 +41,8 @@ std::string base64Encode(const std::vector<uint8_t> &data) {
         const bool have3 = (i + 2) < len;
 
         const uint32_t b0     = data[i];
-        const uint32_t b1     = have2 ? data[i + 1] : 0u;
-        const uint32_t b2     = have3 ? data[i + 2] : 0u;
+        const uint32_t b1     = have2 ? data[i + 1] : 0;
+        const uint32_t b2     = have3 ? data[i + 2] : 0;
         const uint32_t triple = (b0 << 16) | (b1 << 8) | b2;
 
         out += kB64Chars[(triple >> 18) & 0x3F];

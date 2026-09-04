@@ -218,7 +218,7 @@ size_t DownsamplingPipeline::refreshTier(
 
     // We don't have a direct "points written" count from ContinuousAggregateManager,
     // so return a positive sentinel to signal progress.
-    return (to_ms > from_ms) ? 1u : 0u;
+    return (to_ms > from_ms) ? 1 : 0;
 }
 
 int64_t DownsamplingPipeline::getWatermark(

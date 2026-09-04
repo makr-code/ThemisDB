@@ -220,7 +220,7 @@ private:
             
             // Keep last N entries (e.g., 10000)
             constexpr size_t MAX_ENTRIES = 10000;
-            if (static_cast<int>(aggregated_metrics_.size()) + new_metrics.size() > MAX_ENTRIES) {
+            if (static_cast<int>(aggregated_metrics_.size()) + static_cast<int>(new_metrics.size()) > MAX_ENTRIES) {
                 size_t to_remove = static_cast<int>(aggregated_metrics_.size()) + static_cast<int>(new_metrics.size()) - MAX_ENTRIES;
                 aggregated_metrics_.erase(
                     aggregated_metrics_.begin(),

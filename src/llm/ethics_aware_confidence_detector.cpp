@@ -289,7 +289,7 @@ float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     auto imperatives = detectImperatives(text);
     
     // Count total violations
-    const auto violations = static_cast<int>(patronizing.size() + imperatives.size());
+    const auto violations = static_cast<int>(patronizing.size() + static_cast<int>(imperatives.size()) );
     
     // Check if human choice is preserved
     bool preserves_choice = checkChoicePreservation(text);

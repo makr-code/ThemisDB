@@ -126,7 +126,7 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
 
     // ── DistillationBoundedPolicy enforcement ────────────────────────────────
     if (bounded_policy_.isConstrained()) {
-        bool rounds_violated  = bounded_policy_.max_distillation_rounds != 0u &&
+        bool rounds_violated  = bounded_policy_.max_distillation_rounds != 0 &&
                                 current_round_ >= static_cast<uint64_t>(bounded_policy_.max_distillation_rounds);
         bool budget_violated  = bounded_policy_.privacy_budget_hard_limit > 0.0 &&
                                 (total_epsilon_spent_ + config_.dp_epsilon) >= bounded_policy_.privacy_budget_hard_limit;
@@ -205,7 +205,7 @@ uint64_t FederatedDistillationCoordinator::currentRound() const {
 
 size_t FederatedDistillationCoordinator::submittedCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return has_pending_ ? 1u : 0u;
+    return has_pending_ ? 1 : 0;
 }
 
 std::optional<DistillationRound> FederatedDistillationCoordinator::lastRound() const {

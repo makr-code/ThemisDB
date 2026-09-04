@@ -1428,7 +1428,7 @@ static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
 /// Build the version key for an entity.
 static std::string versionKey(std::string_view table, std::string_view pk) {
     std::string k = {};
-    k.reserve(9 + static_cast<int>(table.size()) + 1 + pk.size()); // "occ:ver:" + table + ":" + pk
+    k.reserve(9 + static_cast<int>(table.size()) + 1 + static_cast<int>(pk.size()) ); // "occ:ver:" + table + ":" + pk
     k += "occ:ver:";
     k += table;
     k += ':';
@@ -1979,7 +1979,7 @@ void TransactionManager::applyDefaultTimeout(Transaction& txn) const {
 void TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds timeout) {
     // Clamp to 0: a negative duration is treated the same as "no timeout".
     auto ms = timeout.count();
-    default_transaction_timeout_ms_.store(ms > 0 ? static_cast<uint64_t>(ms) : 0u,
+    default_transaction_timeout_ms_.store(ms > 0 ? static_cast<uint64_t>(ms) : 0,
                                           std::memory_order_relaxed);
     THEMIS_INFO("Default transaction timeout set to {} ms", ms > 0 ? ms : 0);
 }

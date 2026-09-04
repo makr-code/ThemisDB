@@ -271,7 +271,7 @@ size_t RaftLog::estimatedSizeBytes() const {
     constexpr size_t kEntryOverhead = sizeof(uint64_t) * 3;
     size_t total = 0;
     for (const auto& [idx, entry] : log_) {
-        total += kEntryOverhead + entry.command.size();
+        total += kEntryOverhead + static_cast<int>(entry.command.size()) ;
     }
     return total;
 }

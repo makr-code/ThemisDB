@@ -449,7 +449,7 @@ void ShardRepairEngine::performAntiEntropyScan() {
     // Determine number of parallel workers (0 → use hardware_concurrency)
     uint32_t num_workers = config_.num_parallel_workers;
     if (num_workers == 0) {
-        num_workers = std::max(1u, std::thread::hardware_concurrency());
+        num_workers = std::max(1, std::thread::hardware_concurrency());
     }
     num_workers = std::min(num_workers, static_cast<uint32_t>(total_shards));
 

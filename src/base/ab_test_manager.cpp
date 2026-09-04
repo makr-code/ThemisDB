@@ -374,7 +374,7 @@ bool ABTestManager::shouldUseTreatment(const std::string &test_id, const std::st
     }
 
     size_t hash       = hashRequestKey(request_key);
-    double normalized = static_cast<double>(hash % 10000u) / 10000.0;
+    double normalized = static_cast<double>(hash % 10000) / 10000.0;
     return normalized < it->second.config.traffic_split;
 }
 

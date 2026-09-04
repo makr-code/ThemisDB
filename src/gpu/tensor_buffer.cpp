@@ -147,7 +147,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
                 const uint32_t mant32 = b32 & 0x7FFFFFu;
                 uint16_t v = {};
                 if (exp32 == 128) {
-                    v = static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0u));
+                    v = static_cast<uint16_t>((sign << 15) | 0x7C00u | (mant32 ? 0x0200u : 0));
                 } else if (exp32 < -24) {
                     v = static_cast<uint16_t>(sign << 15);
                 } else if (exp32 < -14) {
@@ -160,7 +160,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
                     uint32_t exp16  = static_cast<uint32_t>(exp32 + 15);
                     uint32_t mant16 = mant32 >> 13;
                     uint32_t round  = mant32 & 0x1FFFu;
-                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u))) {
+                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
                         ++mant16;
                     }
                     if (mant16 >= 0x400u) {
@@ -178,7 +178,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
                 uint32_t bits = {};
                 std::memcpy(&bits, &f, 4);
                 // Round to nearest even by adding 0x7FFF + ((bits >> 16) & 1).
-                bits += 0x7FFFu + ((bits >> 16) & 1u);
+                bits += 0x7FFFu + ((bits >> 16) & 1);
                 uint16_t v = static_cast<uint16_t>(bits >> 16);
                 std::memcpy(dest, &v, 2);
                 break;
@@ -269,7 +269,7 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<uint8_t> out = {};
 
-    out.reserve(16 + 4 * shape_.dims.size() + static_cast<int>(name_.size()) + data_.size());
+    out.reserve(16 + 4 * shape_.dims.size() + static_cast<int>(name_.size()) + static_cast<int>(data_.size()) );
 
     write32(out, 0x54454E53u); // magic
     write32(out, static_cast<uint32_t>(dtype_));
@@ -286,7 +286,7 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
 GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) {
     try {
         const uint8_t *p   = bytes.data();
-        const uint8_t *end = p + bytes.size();
+        const uint8_t *end = p + static_cast<int>(bytes.size()) ;
 
         auto need = [&]([[maybe_unused]] size_t n) {
             if (p + n > end) {

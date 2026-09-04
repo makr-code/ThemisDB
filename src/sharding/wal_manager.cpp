@@ -215,7 +215,7 @@ LSN WALManager::append(const WALEntry& entry) {
     auto bytes = entry_copy.serialize();
     
     // Check if we need to rotate segment
-    if (current_lsn_.offset + bytes.size() > config_.segment_size) {
+    if (current_lsn_.offset + static_cast<int>(bytes.size()) > config_.segment_size) {
         flush();
         rotateSegment();
     }

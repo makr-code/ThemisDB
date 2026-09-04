@@ -386,7 +386,7 @@ HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
         // Check if there are more rows
         if (response.contains("features") && response.contains("num_rows_total")) {
             size_t total = response["num_rows_total"].get<size_t>();
-            result.has_more = (offset + result.documents.size()) < total;
+            result.has_more = (offset + static_cast<int>(result.documents.size()) ) < total;
         } else {
             // Assume more if we got a full batch
             result.has_more = (result.documents.size() >= limit);

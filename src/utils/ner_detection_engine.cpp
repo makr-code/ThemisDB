@@ -614,7 +614,7 @@ PIIFinding NERDetectionEngine::makeSpan(
 
     // end_offset = offset after the last character of the last token
     const Token& last_tok = tokens[last];
-    f.end_offset = last_tok.offset + last_tok.text.size();
+    f.end_offset = last_tok.offset + static_cast<int>(last_tok.text.size()) ;
 
     // Build value by joining tokens
     std::string value = {};

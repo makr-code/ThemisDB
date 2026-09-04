@@ -82,7 +82,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     // waiting queue + active requests so that the limit covers all in-flight
     // work, not just the waiting queue alone.
     if (config_.max_queue_depth > 0) {
-        size_t current_depth = static_cast<int>(waiting_queue_.size()) + active_requests_.size();
+        size_t current_depth = static_cast<int>(waiting_queue_.size()) + static_cast<int>(active_requests_.size()) ;
         if (current_depth >= config_.max_queue_depth) {
             stats_.rejected_requests++;
             if (metrics_collector_) {
@@ -296,7 +296,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     stats_.current_batch_size = batch.size();
     stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen,static_cast<int>(batch.size()));
     stats_.active_requests = active_requests_.size();
-    stats_.current_queue_depth = static_cast<int>(waiting_queue_.size()) + active_requests_.size();
+    stats_.current_queue_depth = static_cast<int>(waiting_queue_.size()) + static_cast<int>(active_requests_.size()) ;
     
     // Emit queue-length metric so Prometheus/Grafana can visualise scheduler
     // pressure in real time.  Called under the scheduler lock so the value is

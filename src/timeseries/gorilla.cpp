@@ -163,7 +163,7 @@ std::vector<uint8_t> GorillaEncoder::finish() {
     auto payload = bw_.finish();
     std::vector<uint8_t> result = {};
 
-    result.reserve(3 + payload.size());
+    result.reserve(3 + static_cast<int>(payload.size()) );
     result.push_back(kGorillaMagic0);
     result.push_back(kGorillaMagic1);
     result.push_back(kGorillaCurrentVersion);

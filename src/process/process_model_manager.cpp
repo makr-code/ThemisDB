@@ -649,7 +649,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
     if (fts_index_) {
         auto [st, hits] = fts_index_->search(
             "process_definitions", "text", query,
-            limit > 0 ? limit : 1000u);
+            limit > 0 ? limit : 1000);
 
         std::vector<ProcessModelRecord> results = {};
 

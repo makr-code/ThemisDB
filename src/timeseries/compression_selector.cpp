@@ -202,7 +202,7 @@ void PerSeriesCompressionRegistry::clearCache() {
 }
 
 size_t PerSeriesCompressionRegistry::registrySize() const {
-    return static_cast<int>(pinned_.size()) + cached_.size();
+    return static_cast<int>(pinned_.size()) + static_cast<int>(cached_.size()) ;
 }
 
 void PerSeriesCompressionRegistry::clear() {

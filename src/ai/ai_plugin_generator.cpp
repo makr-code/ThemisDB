@@ -44,7 +44,7 @@ namespace fs = std::filesystem;
 /// User-supplied and LLM-generated content is never logged verbatim. Log helpers truncate strings to
 /// kLogMaxLen characters and append "[…]" when truncation occurs. Error messages must not embed raw
 /// LLM output to prevent information leakage in logs.
-static constexpr std::size_t kLogMaxLen = 120u;
+static constexpr std::size_t kLogMaxLen = 120;
 
 /// @brief Truncate a string to kLogMaxLen for safe logging (privacy/security).
 ///
@@ -75,8 +75,8 @@ std::string sanitizeArtifactStem(std::string_view value) {
     if (sanitized.empty()) {
         sanitized = "generated_plugin";
     }
-    if (static_cast<int>(sanitized.size()) > 64u) {
-        sanitized.resize(64u);
+    if (static_cast<int>(sanitized.size()) > 64) {
+        sanitized.resize(64);
     }
     return sanitized;
 }
@@ -403,16 +403,16 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
     // - kMaxPromptListEntries: Maximum entries in required_capabilities or dependencies arrays (64).
     // - kMaxCapabilityTokenLen: Maximum length of a single capability token (128 chars).
     // - kMaxDependencyTokenLen: Maximum length of a single dependency token (256 chars).
-    static constexpr std::size_t kMaxPromptListEntries = 64u;
-    static constexpr std::size_t kMaxCapabilityTokenLen = 128u;
-    static constexpr std::size_t kMaxDependencyTokenLen = 256u;
+    static constexpr std::size_t kMaxPromptListEntries = 64;
+    static constexpr std::size_t kMaxCapabilityTokenLen = 128;
+    static constexpr std::size_t kMaxDependencyTokenLen = 256;
 
     if (prompt.description.empty()) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description must not be empty"));
     }
-    if (static_cast<int>(prompt.description.size()) > 8192u) {
+    if (static_cast<int>(prompt.description.size()) > 8192) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description exceeds 8192-character limit"));
@@ -665,12 +665,12 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     // --- Schema-level LLM output validation ---
     // PRODUCTION REQUIREMENT: All LLM-generated fields are validated for size and structure.
     // This ensures generated code is sandboxable and won't cause downstream issues.
-    static constexpr std::size_t kMaxCodeSize   = 1u << 20u;   // 1 MiB per code field
-    static constexpr std::size_t kMaxReportSize = 64u << 10u;  // 64 KiB for security_report
-    static constexpr std::size_t kMaxNameLen    = 256u;
-    static constexpr std::size_t kMaxVersionLen = 64u;
-    static constexpr std::size_t kMaxDescLen    = 8192u;
-    static constexpr std::size_t kMaxDepEntryLen = 256u;
+    static constexpr std::size_t kMaxCodeSize   = 1 << 20;   // 1 MiB per code field
+    static constexpr std::size_t kMaxReportSize = 64 << 10;  // 64 KiB for security_report
+    static constexpr std::size_t kMaxNameLen    = 256;
+    static constexpr std::size_t kMaxVersionLen = 64;
+    static constexpr std::size_t kMaxDescLen    = 8192;
+    static constexpr std::size_t kMaxDepEntryLen = 256;
     
     // Validate code field sizes (prevents memory exhaustion attacks)
     if (static_cast<int>(generated.implementation_code.size()) > kMaxCodeSize ||

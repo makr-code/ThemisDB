@@ -1185,8 +1185,8 @@ public:
 
     // Synthetic data seed constants for deterministic but varied per-step batches.
     // These primes avoid seed collisions across steps and batch elements.
-    static constexpr uint32_t kSyntheticSeedBase      = 31337u; ///< Per-step entropy factor
-    static constexpr uint32_t kSyntheticBatchMultiplier =  997u; ///< Per-batch-element offset
+    static constexpr uint32_t kSyntheticSeedBase      = 31337; ///< Per-step entropy factor
+    static constexpr uint32_t kSyntheticBatchMultiplier =  997; ///< Per-batch-element offset
 
     // Encode a text sample as a float feature vector via stable character hashing.
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
@@ -1239,7 +1239,7 @@ public:
                 const auto seed_in = static_cast<std::uint64_t>(
                     step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
                 const auto seed_tg = static_cast<std::uint64_t>(
-                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
                 std::mt19937_64 gen_in(seed_in);
                 std::mt19937_64 gen_tg(seed_tg);
                 std::normal_distribution<float> d(0.0f, 0.1f);
@@ -1328,7 +1328,7 @@ public:
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
@@ -1379,7 +1379,7 @@ public:
                 tg_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 in_vec.resize(feature_dim); tg_vec.resize(feature_dim);
                 for (auto& v : in_vec) {
@@ -1523,7 +1523,7 @@ public:
         }
 
         try {
-            constexpr size_t kMaxMatrixElements = 64u * 1024u * 1024u;
+            constexpr size_t kMaxMatrixElements = 64 * 1024 * 1024;
             auto readMatrix = [&]() -> llm::lora::Tensor {
                 auto readExact = [&](char* out, std::streamsize bytes, const std::string& field) {
                     f.read(out, bytes);

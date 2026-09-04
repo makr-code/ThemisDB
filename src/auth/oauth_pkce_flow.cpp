@@ -398,8 +398,8 @@ std::string OAuthPKCEFlow::base64UrlEncode(const unsigned char *data, std::size_
 
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0     = data[i];
-        const uint32_t b1     = (i + 1 < len) ? data[i + 1] : 0u;
-        const uint32_t b2     = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t b1     = (i + 1 < len) ? data[i + 1] : 0;
+        const uint32_t b2     = (i + 2 < len) ? data[i + 2] : 0;
         const uint32_t triple = (b0 << 16) | (b1 << 8) | b2;
 
         out += kTable[(triple >> 18) & 0x3F];

@@ -174,7 +174,7 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
     if (is_binary) {
         // Binary frame: collect the raw bytes and dispatch to the binary handler.
         const auto* raw = static_cast<const uint8_t*>(buffer_.data().data());
-        std::vector<uint8_t> frame_data(raw, raw + buffer_.size());
+        std::vector<uint8_t> frame_data(raw, raw + static_cast<int>(buffer_.size()) );
         buffer_.consume(buffer_.size());
 
         THEMIS_DEBUG("WebSocket binary frame received ({}): {} bytes",

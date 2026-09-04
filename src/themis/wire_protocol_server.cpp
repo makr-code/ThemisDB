@@ -469,9 +469,9 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
     const bool        with_checksum =
         !header.has_flag(MessageFlags::SKIP_CHECKSUM);
     const std::size_t total =
-        header.payload_length + (with_checksum ? CHECKSUM_SIZE : 0u);
+        header.payload_length + (with_checksum ? CHECKSUM_SIZE : 0);
 
-    if (total == 0u) {
+    if (total == 0) {
         ++messages_received_;
         // Dispatch with empty payload inline (captures `this`).
         const OpCode opcode = header.get_opcode();
@@ -785,10 +785,10 @@ void WireProtocolSession::async_write_response(
 
 void WireProtocolSession::send_error(uint32_t           err_code,
                                      const std::string& message) {
-    std::vector<uint8_t> payload(4u + message.size());
+    std::vector<uint8_t> payload(4 + static_cast<int>(message.size()) );
     const uint32_t code_be = htonl(err_code);
-    std::memcpy(payload.data(), &code_be, 4u);
-    std::memcpy(payload.data() + 4u, message.data(),static_cast<int>(message.size()));
+    std::memcpy(payload.data(), &code_be, 4);
+    std::memcpy(payload.data() + 4, message.data(),static_cast<int>(message.size()));
 
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
@@ -993,7 +993,7 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     try {
         auto results = fn(req.aql());
 
-        const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100u;
+        const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100;
         v1::QueryResult qr;
 
         if (static_cast<int>(results.size()) > batch_sz) {
@@ -1067,7 +1067,7 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
         return;
     }
     const auto batch_sz =
-        req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100u;
+        req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100;
     v1::QueryResult qr;
     size_t end = std::min(entry.offset + batch_sz,static_cast<int>(entry.results.size()));
     for (size_t i = entry.offset; i < end; ++i)

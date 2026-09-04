@@ -98,7 +98,7 @@ bool AdaptiveConnectionPool::acquire(std::chrono::milliseconds timeout, int& slo
     ++total_acquires_;
 
     // Update peak utilization.
-    const double util = static_cast<double>(pool_size_ - available_slots_.size()) /
+    const double util = static_cast<double>(pool_size_ - static_cast<int>(available_slots_.size()) ) /
                         static_cast<double>(pool_size_);
     if (util > peak_utilization_) {
         peak_utilization_ = util;
@@ -128,7 +128,7 @@ void AdaptiveConnectionPool::release([[maybe_unused]] int slot_id) {
     available_slots_.push_back(slot_id);
 
     // Adaptive scale-down: if utilisation < 20 % for idle_shrink_periods.
-    const double util = static_cast<double>(pool_size_ - available_slots_.size()) /
+    const double util = static_cast<double>(pool_size_ - static_cast<int>(available_slots_.size()) ) /
                         static_cast<double>(pool_size_);
     if (util < 0.20) {
         ++idle_periods_;
@@ -159,7 +159,7 @@ std::size_t AdaptiveConnectionPool::available() const noexcept {
 
 std::size_t AdaptiveConnectionPool::in_use() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return pool_size_ - available_slots_.size();
+    return pool_size_ - static_cast<int>(available_slots_.size()) ;
 }
 
 AdaptiveConnectionPool::Statistics
@@ -168,7 +168,7 @@ AdaptiveConnectionPool::statistics() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
     st.pool_size          = pool_size_;
     st.available          = available_slots_.size();
-    st.in_use             = pool_size_ - available_slots_.size();
+    st.in_use             = pool_size_ - static_cast<int>(available_slots_.size()) ;
     st.total_acquires     = total_acquires_;
     st.total_timeouts     = total_timeouts_;
     st.scale_up_events    = scale_up_events_;
