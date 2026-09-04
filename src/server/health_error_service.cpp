@@ -249,12 +249,12 @@ http::response<http::string_body> HealthErrorService::handleRequest(
         }
         // Error endpoints - delegate to ErrorApiHandler
         else if (path == "/errors") {
-            Request handler_req;
+            Request handler_req = Request();
             handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
             handler_req.query = parse_query([[maybe_unused]] query_string);
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleGetErrors(handler_req, handler_res);
             
             res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
@@ -262,11 +262,11 @@ http::response<http::string_body> HealthErrorService::handleRequest(
             res.prepare_payload();
             return res;
         } else if (path == "/errors/categories") {
-            Request handler_req;
+            Request handler_req = Request();
             handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleGetCategories(handler_req, handler_res);
             
             res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
@@ -274,12 +274,12 @@ http::response<http::string_body> HealthErrorService::handleRequest(
             res.prepare_payload();
             return res;
         } else if (path == "/errors/search") {
-            Request handler_req;
+            Request handler_req = Request();
             handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
             handler_req.query = parse_query([[maybe_unused]] query_string);
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleSearchErrors(handler_req, handler_res);
             
             res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
@@ -290,12 +290,12 @@ http::response<http::string_body> HealthErrorService::handleRequest(
             // Extract error code: /errors/:code
             std::string code_str = path.substr(8); // Skip "/errors/"
             
-            Request handler_req;
+            Request handler_req = Request();
             handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
             handler_req.params["code"] = code_str;
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleGetError(handler_req, handler_res);
             
             res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
