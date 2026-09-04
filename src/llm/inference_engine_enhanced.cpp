@@ -849,13 +849,13 @@ InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() con
         for (const auto& [model, count] : stats.requests_per_model) {
             mean += count;
         }
-        mean /= stats.requests_per_model.size();
+        mean /= static_cast<double>(stats.requests_per_model.size());
         
         double variance = 0.0;
         for (const auto& [model, count] : stats.requests_per_model) {
             variance += (count - mean) * (count - mean);
         }
-        variance /= stats.requests_per_model.size();
+        variance /= static_cast<double>(stats.requests_per_model.size());
         
         // Fairness: 1 - (stddev / mean), closer to 1 is more fair
         if (mean > 0) {

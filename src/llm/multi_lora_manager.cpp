@@ -1540,7 +1540,7 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
         stats.min_scale = *std::min_element(lora->scale_factors.begin(), lora->scale_factors.end());
         stats.max_scale = *std::max_element(lora->scale_factors.begin(), lora->scale_factors.end());
         stats.avg_scale = std::accumulate(lora->scale_factors.begin(), lora->scale_factors.end(), 0.0f) 
-                         / lora->scale_factors.size();
+                         / static_cast<float>(lora->scale_factors.size());
     }
     
     return stats;
