@@ -1384,7 +1384,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Phase 2: Collect token probabilities for knowledge gap detection
         std::vector<float> token_probabilities;
-        token_probabilities.reserve(max_tokens);
+        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
         
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
@@ -2850,7 +2850,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         // Phase 2: Collect token probabilities for knowledge gap detection
         std::vector<float> token_probabilities;
-        token_probabilities.reserve(max_tokens);
+        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
         
         size_t total_speculations = 0;
         size_t total_accepted = 0;
@@ -3132,7 +3132,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         // Phase 2: Collect token probabilities for knowledge gap detection
         std::vector<float> token_probabilities;
-        token_probabilities.reserve(max_tokens);
+        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
         
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
