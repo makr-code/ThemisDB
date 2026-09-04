@@ -122,7 +122,7 @@ static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while (pos <static_cast<int>(upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+    while ((pos < static_cast<int>(upper_sql.size())) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
         ++pos;
     
     // Extract table name (stop at whitespace or '(')
@@ -133,8 +133,8 @@ static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_
     if (start < pos) {
         out_table_name = sql.substr(start, pos - start);
         // Remove quotes if present (both double and backtick for SQLite)
-        if ((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`')) {
+        if (((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`'))) {
             out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
@@ -807,7 +807,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
                 ++tdep; col_type += c;
             } else if (c == ')') {
                 if (tdep > 0) { --tdep; col_type += c; } else break;
-            } else if ((c == ' ' || c == '\t') && tdep == 0) {
+            } else if (((c == ' ' || c == '\t') && tdep == 0)) {
                 break;
             } else {
                 col_type += c;
@@ -1008,7 +1008,7 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
     }
     std::string lower = toLower(base_type);
     // Trim trailing whitespace
-    while (!lower.empty() && (lower.back() == ' ' || lower.back() == '\t'))
+    while ((!lower.empty()) && (lower.back() == ' ' || lower.back() == '\t'))
         lower.pop_back();
 
     // SQLite type affinity rules (§3.1 of the SQLite documentation):
@@ -1107,7 +1107,7 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
     const size_t n = values_clause.size();
 
     auto skipWs = [&]() {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+        while ((i < n) && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
                           values_clause[i] == '\r' ||
                           values_clause[i] == '\n')) {
             ++i;
@@ -1157,7 +1157,7 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
                 }
             }
             result.push_back(val);
-        } else if ((c == 'X' || c == 'x') && i + 1 < n &&
+        } else if (((c == 'X' || c == 'x') && (i + 1 < n)) &&
                    values_clause[i + 1] == '\'') {
             // Hex literal: X'deadbeef'
             i += 2;  // skip X'

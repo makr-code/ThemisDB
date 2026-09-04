@@ -182,7 +182,7 @@ static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while (pos <static_cast<int>(upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+    while ((pos < static_cast<int>(upper_sql.size())) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
         ++pos;
     
     // Skip owner prefix if present (e.g., "OWNER.")
@@ -193,8 +193,8 @@ static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_
     if (name_start < pos) {
         out_table_name = sql.substr(name_start, pos - name_start);
         // Remove quotes if present (both double and single quotes for Oracle)
-        if ((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
+        if (((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\''))) {
             out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
@@ -427,7 +427,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         }
          
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
+        if ((line.empty()) || ((static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
           continue;
         }
 
@@ -572,7 +572,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
+        if ((line.empty()) || ((static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
             continue;
         }
 
@@ -824,7 +824,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             else if (c == ')') {
                 if (tdep > 0) { --tdep; col_type += c; }
                 else break;
-            } else if ((c == ' ' || c == '\t') && tdep == 0) {
+            } else if (((c == ' ' || c == '\t') && tdep == 0)) {
                 break;
             } else {
                 col_type += c;
@@ -1191,7 +1191,7 @@ std::vector<std::string> OracleImporter::parseInsertValues(
     size_t n = values_clause.size();
 
     auto skipWs = [&]() {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+        while ((i < n) && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
                          values_clause[i] == '\r' || values_clause[i] == '\n')) ++i;
     };
 

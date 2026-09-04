@@ -182,7 +182,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         }
 
         const bool known_llm_route =
-            (target == "/api/v1/llm/inference" && method == http::verb::post) ||
+            ((target == "/api/v1/llm/inference" && method == http::verb::post) ||
             (target == "/api/v1/llm/rag" && method == http::verb::post) ||
             (target == "/api/v1/llm/embed" && method == http::verb::post) ||
             (target == "/api/v1/llm/stream" && method == http::verb::get) ||
@@ -205,7 +205,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
             (target == "/api/v1/llm/feedback" && method == http::verb::get) ||
             (target == "/api/v1/llm/feedback/stats" && method == http::verb::get) ||
             (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) ||
-            (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post);
+            (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post));
 
         if (!known_llm_route) {
             return createErrorResponse(
