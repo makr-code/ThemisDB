@@ -1161,7 +1161,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // which passed through sanitizePromptText() above; image paths validated in generateVision()
     if (!safe_request.image_paths.empty() && vision_enabled_) {
         try {
-            VisionRequest vision_req;
+            VisionRequest vision_req = VisionRequest();
             vision_req.text_prompt = safe_request.prompt;  // Already sanitized
             vision_req.image_paths = safe_request.image_paths;
             vision_req.max_tokens  = safe_request.max_tokens;
@@ -1175,7 +1175,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                         ? "Vision inference failed"
                         : vision_resp.error_message);
             }
-            InferenceResponse resp;
+            InferenceResponse resp = InferenceResponse();
             resp.request_id       = safe_request.request_id;
             resp.model_id         = current_model_id_;
             resp.text             = vision_resp.text;
@@ -1331,7 +1331,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         // BATCH 1.1: Validate tokenization result
         validateTokenArray(prompt_tokens, 1, "generateRegular() -> tokenizeInternal()");
         
-        InferenceResponse response;
+        InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
@@ -1936,7 +1936,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 LLMCapabilities LlamaWrapper::getCapabilities() const {
-    LLMCapabilities caps;
+    LLMCapabilities caps = LLMCapabilities();
     
     caps.supports_instruct = true;
     caps.supports_chat = true;
@@ -2808,7 +2808,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 1. Tokenize prompt (same for both models)
         std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
         
-        InferenceResponse response;
+        InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
@@ -3084,7 +3084,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
-        InferenceResponse response;
+        InferenceResponse response = InferenceResponse();
         response.request_id = request.request_id;
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
@@ -3577,7 +3577,7 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
 }
 
 VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request) {
-    VisionResponse response;
+    VisionResponse response = VisionResponse();
     
     // Check if vision is enabled
     if (!vision_enabled_ || !vision_encoder_) {
@@ -3635,7 +3635,7 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         std::string prompt = buildVisionPrompt(vision_request);
         
         // Create inference request for the text part of the prompt.
-        InferenceRequest inference_request;
+        InferenceRequest inference_request = InferenceRequest();
         inference_request.prompt = prompt;
         inference_request.max_tokens = vision_request.max_tokens;
         inference_request.temperature = vision_request.temperature;

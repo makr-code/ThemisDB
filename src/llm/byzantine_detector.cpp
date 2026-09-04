@@ -195,7 +195,7 @@ GradientStatistics MedianDetector::computeStatistics(
 DetectionResult MedianDetector::detectByzantineShards(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    DetectionResult result;
+    DetectionResult result = DetectionResult();
     result.detection_method = "MEDIAN";
     
     if (static_cast<int>(shard_gradients.size()) < 2) {
@@ -354,7 +354,7 @@ GradientStatistics KrumDetector::computeStatistics(
 DetectionResult KrumDetector::detectByzantineShards(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    DetectionResult result;
+    DetectionResult result = DetectionResult();
     result.detection_method = "KRUM";
     
     const auto n = static_cast<int>(shard_gradients.size());
@@ -422,7 +422,7 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
     std::vector<GradientTensor> result;
     
     for (size_t layer_idx = 0; layer_idx < num_layers; ++layer_idx) {
-        GradientTensor aggregated;
+        GradientTensor aggregated = GradientTensor();
         aggregated.layer_name = selected_gradients[0][layer_idx].layer_name;
         aggregated.shape = selected_gradients[0][layer_idx].shape;
         
@@ -471,7 +471,7 @@ GradientStatistics BulyanDetector::computeStatistics(
 DetectionResult BulyanDetector::detectByzantineShards(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    DetectionResult result;
+    DetectionResult result = DetectionResult();
     result.detection_method = "BULYAN";
     
     const auto n = static_cast<int>(shard_gradients.size());
@@ -534,7 +534,7 @@ DetectionResult EnsembleDetector::combineResults(
     const DetectionResult& median_result,
     const DetectionResult& krum_result
 ) const {
-    DetectionResult combined;
+    DetectionResult combined = DetectionResult();
     combined.detection_method = "ENSEMBLE";
     
     // Combine anomaly scores (take maximum)
