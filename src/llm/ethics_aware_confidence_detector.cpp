@@ -333,7 +333,7 @@ float EthicsAwareConfidenceDetector::evaluateTransparency(const std::string& tex
     float score = 0.5f; // Base score
     
     // Add for hedge words (up to 0.3)
-    score += std::min(0.3f, hedge_words.size() * 0.05f);
+    score += std::min(0.3f, static_cast<float>(hedge_words.size()) * 0.05f);
     
     // Add for limitation acknowledgments (up to 0.2)
     score += std::min(0.2f, limitation_count * 0.1f);

@@ -2094,7 +2094,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         case MultiGPUStrategy::ROUND_ROBIN: {
             // Simple round-robin across GPUs
             int selected_gpu = config_.multi_gpu.devices[next_round_robin_gpu_];
-            next_round_robin_gpu_ = (next_round_robin_gpu_ + 1) % config_.multi_gpu.devices.size();
+            next_round_robin_gpu_ = static_cast<int>((next_round_robin_gpu_ + 1) % static_cast<int>(config_.multi_gpu.devices.size()));
             
             // Validate GPU is in tracking map
             if (gpu_vram_usage_.find(selected_gpu) == gpu_vram_usage_.end()) {

@@ -236,7 +236,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
         metrics.latency_p50_ms = calculatePercentile(latencies, 50.0);
         metrics.latency_p95_ms = calculatePercentile(latencies, 95.0);
         metrics.latency_p99_ms = calculatePercentile(latencies, 99.0);
-        metrics.avg_latency_ms = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        metrics.avg_latency_ms = std::accumulate(latencies.begin(), latencies.end(), 0.0) / static_cast<double>(latencies.size());
         
         // For min/max, we need to find them without sorting
         auto [min_it, max_it] = std::minmax_element(latencies.begin(), latencies.end());
@@ -597,7 +597,7 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
         std::sort(latencies.begin(), latencies.end());
         double sum = 0;
         for (double v : latencies) sum += v;
-        result.avg_latency_ms = sum / latencies.size();
+        result.avg_latency_ms = sum / static_cast<double>(latencies.size());
         // Use consistent ceil-based percentile for p50, p95, p99
         auto pct_idx = [&](double p) -> size_t {
             size_t n   = latencies.size();
