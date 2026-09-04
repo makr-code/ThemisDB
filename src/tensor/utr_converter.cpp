@@ -559,8 +559,8 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         segments = splitSentences(text);
         break;
     case DocumentStructureHint::PARAGRAPHS:
-    case DocumentStructureHint::NONE:
-    default:
+    [[fallthrough]];\n    case DocumentStructureHint::NONE:
+    [[fallthrough]];\n    default:
         segments = splitParagraphs(text);
         break;
     }

@@ -667,7 +667,7 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
             break;
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             config.nlist = base_nlist;
             config.nprobe = 64;
             config.index_type = Config::Type::IVF_PQ;

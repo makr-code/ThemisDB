@@ -318,8 +318,8 @@ bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) 
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2:
-            case IndexType::FLAT_IP:
-            case IndexType::HNSW_FLAT:
+            [[fallthrough]];\n            case IndexType::FLAT_IP:
+            [[fallthrough]];\n            case IndexType::HNSW_FLAT:
                 // These index types are pre-trained; no explicit training step needed.
                 return true;
 

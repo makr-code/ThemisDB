@@ -270,7 +270,7 @@ SchemaAutoDetector::mapViolationToErrorCode(
         case ConstraintViolationType::UNIQUE_VIOLATION:
             return {"IMPORT_DUPLICATE_KEY", "Unique constraint violation: duplicate value"};
         case ConstraintViolationType::NONE:
-        default:
+        [[fallthrough]];\n        default:
             return {"OK", "No violation"};
     }
 }

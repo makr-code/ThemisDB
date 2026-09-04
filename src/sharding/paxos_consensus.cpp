@@ -1282,7 +1282,7 @@ bool PaxosConsensus::recoverFromWAL() {
                 }
                     
                 case themis::sharding::PaxosWALEntryType::ACCEPT:
-                case themis::sharding::PaxosWALEntryType::ACCEPTED: {
+                [[fallthrough]];\n                case themis::sharding::PaxosWALEntryType::ACCEPTED: {
                     spdlog::debug("Replay ACCEPT: slot={}, round={}", entry.slot, entry.round);
                     auto& inst = instances_[entry.slot];
                     inst.slot = entry.slot;

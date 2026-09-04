@@ -23,7 +23,7 @@ void IncrementalAgg::add(double value) {
     ++count_;
     switch (op_) {
         case AggOp::SUM:
-        case AggOp::AVG:
+        [[fallthrough]];\n        case AggOp::AVG:
             sum_ += value;
             break;
         case AggOp::MIN:
@@ -42,7 +42,7 @@ void IncrementalAgg::remove(double value) {
     --count_;
     switch (op_) {
         case AggOp::SUM:
-        case AggOp::AVG:
+        [[fallthrough]];\n        case AggOp::AVG:
             sum_ -= value;
             break;
         case AggOp::MIN:

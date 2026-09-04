@@ -6616,9 +6616,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::UpdateStatusGet:
-        case Route::UpdateCheckPost:
-        case Route::UpdateConfigGet:
-        case Route::UpdateConfigPut:
+        [[fallthrough]];\n        case Route::UpdateCheckPost:
+        [[fallthrough]];\n        case Route::UpdateConfigGet:
+        [[fallthrough]];\n        case Route::UpdateConfigPut:
             if (update_api_) {
                 response = update_api_->handleRequest(req);
             } else {
@@ -6721,12 +6721,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
 #else
         case Route::FeedbackPost:
-        case Route::FeedbackGet:
-        case Route::FeedbackGetById:
-        case Route::FeedbackPut:
-        case Route::FeedbackDelete:
-        case Route::FeedbackAdapterGet:
-        case Route::FeedbackStatsGet:
+        [[fallthrough]];\n        case Route::FeedbackGet:
+        [[fallthrough]];\n        case Route::FeedbackGetById:
+        [[fallthrough]];\n        case Route::FeedbackPut:
+        [[fallthrough]];\n        case Route::FeedbackDelete:
+        [[fallthrough]];\n        case Route::FeedbackAdapterGet:
+        [[fallthrough]];\n        case Route::FeedbackStatsGet:
             response = makeErrorResponse(http::status::service_unavailable,
                 "Feedback API disabled (LLM feature off)", req);
             break;
@@ -7036,7 +7036,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
         // and populate req.matches so MvccApiHandler::extractKey() works.
         case Route::MvccKeyGet:
-        case Route::MvccKeyPost: {
+        [[fallthrough]];\n        case Route::MvccKeyPost: {
             if (mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
@@ -7060,7 +7060,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccKeyVersionsGet:
-        case Route::MvccKeyVersionsDelete: {
+        [[fallthrough]];\n        case Route::MvccKeyVersionsDelete: {
             if (mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
@@ -7155,10 +7155,10 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::ServerlessFnGet:
-        case Route::ServerlessFnPut:
-        case Route::ServerlessFnDelete:
-        case Route::ServerlessFnInvokePost:
-        case Route::ServerlessFnVersionsGet: {
+        [[fallthrough]];\n        case Route::ServerlessFnPut:
+        [[fallthrough]];\n        case Route::ServerlessFnDelete:
+        [[fallthrough]];\n        case Route::ServerlessFnInvokePost:
+        [[fallthrough]];\n        case Route::ServerlessFnVersionsGet: {
             // HS-7: Serverless function invocation requires auth.
             if (auto auth_err = requireAccess(req, "functions", "functions.invoke", path_only)) {
                 response = *auth_err;
@@ -8355,16 +8355,16 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 #else  // !THEMIS_ENABLE_MCP
         case Route::AiPendingApprovalsGet:
-        case Route::AiApprovePendingPost:
-        case Route::AiDenyPendingPost:
-        case Route::AiRollbackPost:
+        [[fallthrough]];\n        case Route::AiApprovePendingPost:
+        [[fallthrough]];\n        case Route::AiDenyPendingPost:
+        [[fallthrough]];\n        case Route::AiRollbackPost:
             response = makeErrorResponse(http::status::not_implemented,
                 "MCP support not enabled in this build", req);
             break;
 #endif  // THEMIS_ENABLE_MCP
 
         case Route::NotFound:
-        default:
+        [[fallthrough]];\n        default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
             break;
     }

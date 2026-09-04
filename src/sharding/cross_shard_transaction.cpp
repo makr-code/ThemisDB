@@ -488,7 +488,7 @@ CrossShardTransactionCoordinator::getRecoverableTransactions() const {
                 info.state = themis::transaction::RecoverableTwoPhaseState::UNKNOWN;
                 break;
             case TransactionState::COMMITTED:
-            case TransactionState::ABORTED:
+            [[fallthrough]];\n            case TransactionState::ABORTED:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
                 break;
         }
@@ -2885,16 +2885,16 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                 case ::sharding::TransactionState::PREPARED:
                     return TransactionState::PREPARED;
                 case ::sharding::TransactionState::PRE_COMMITTING:
-                case ::sharding::TransactionState::PRE_COMMITTED:
-                case ::sharding::TransactionState::COMMITTING:
+                [[fallthrough]];\n                case ::sharding::TransactionState::PRE_COMMITTED:
+                [[fallthrough]];\n                case ::sharding::TransactionState::COMMITTING:
                     return TransactionState::COMMITTING;
                 case ::sharding::TransactionState::COMMITTED:
                     return TransactionState::COMMITTED;
                 case ::sharding::TransactionState::ABORTING:
                     return TransactionState::ABORTING;
                 case ::sharding::TransactionState::ABORTED:
-                case ::sharding::TransactionState::COMPENSATING:
-                case ::sharding::TransactionState::COMPENSATED:
+                [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATING:
+                [[fallthrough]];\n                case ::sharding::TransactionState::COMPENSATED:
                     return TransactionState::ABORTED;
             }
             return TransactionState::UNKNOWN;
@@ -3083,7 +3083,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
                     transactions_to_resume.push_back(txn_id);
                     break;
                 case TransactionState::COMMITTED:
-                case TransactionState::ABORTED:
+                [[fallthrough]];\n                case TransactionState::ABORTED:
                     // Final states - can be cleaned up eventually
                     break;
                 default:

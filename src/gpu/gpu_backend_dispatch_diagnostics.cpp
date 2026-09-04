@@ -83,10 +83,10 @@ GPUDispatchEventType GPUBackendDispatchDiagnostics::errorCodeToEventType(
     switch (code) {
         // Allocation errors
         case GPUDispatchErrorCode::ALLOC_SIZE_EXCEEDS_LIMIT:
-        case GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM:
-        case GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE:
-        case GPUDispatchErrorCode::ALLOC_INVALID_PARAMS:
-        case GPUDispatchErrorCode::ALLOC_QUOTA_EXCEEDED:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_INVALID_PARAMS:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::ALLOC_QUOTA_EXCEEDED:
             return GPUDispatchEventType::ALLOCATION_FAILED;
 
         // Backend selection errors
@@ -97,27 +97,27 @@ GPUDispatchEventType GPUBackendDispatchDiagnostics::errorCodeToEventType(
             return GPUDispatchEventType::CAPABILITY_MISMATCH;
         
         case GPUDispatchErrorCode::BACKEND_TOPOLOGY_UNAVAILABLE:
-        case GPUDispatchErrorCode::BACKEND_NOT_ENABLED:
-        case GPUDispatchErrorCode::BACKEND_DEGRADED:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::BACKEND_NOT_ENABLED:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::BACKEND_DEGRADED:
             return GPUDispatchEventType::DEVICE_DEGRADED;
 
         // Dispatch errors
         case GPUDispatchErrorCode::DISPATCH_TIMEOUT:
-        case GPUDispatchErrorCode::DISPATCH_KERNEL_LAUNCH_FAILED:
-        case GPUDispatchErrorCode::DISPATCH_STREAM_FULL:
-        case GPUDispatchErrorCode::DISPATCH_CONCURRENT_EXECUTION_REJECTED:
-        case GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_KERNEL_LAUNCH_FAILED:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_STREAM_FULL:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_CONCURRENT_EXECUTION_REJECTED:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED:
             return GPUDispatchEventType::DISPATCH_FAILED;
 
         // Fallback/degradation
         case GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED:
-        case GPUDispatchErrorCode::FALLBACK_UNAVAILABLE:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::FALLBACK_UNAVAILABLE:
             return GPUDispatchEventType::FALLBACK_TO_CPU;
 
         // Internal/unknown
         case GPUDispatchErrorCode::INTERNAL_ERROR:
-        case GPUDispatchErrorCode::SUCCESS:
-        default:
+        [[fallthrough]];\n        case GPUDispatchErrorCode::SUCCESS:
+        [[fallthrough]];\n        default:
             return GPUDispatchEventType::DISPATCH_FAILED;
     }
 }

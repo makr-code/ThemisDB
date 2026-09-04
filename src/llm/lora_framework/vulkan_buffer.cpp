@@ -180,7 +180,7 @@ VkMemoryPropertyFlags VulkanBuffer::get_memory_properties() const {
         case Usage::DeviceLocal:
             return VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
         case Usage::Staging:
-        case Usage::Uniform:
+        [[fallthrough]];\n        case Usage::Uniform:
             return VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
         default:

@@ -160,14 +160,14 @@ CompressionMethod CompressionStrategyManager::select_method(
 ) {
     switch (type) {
         case DataType::TEXT:
-        case DataType::JSON:
+        [[fallthrough]];\n        case DataType::JSON:
             return CompressionMethod::ZSTD;
             
         case DataType::VECTOR_SPARSE:
             return CompressionMethod::RLE;
             
         case DataType::INTEGER_SEQ:
-        case DataType::TIMESERIES:
+        [[fallthrough]];\n        case DataType::TIMESERIES:
             return CompressionMethod::DELTA;
             
         case DataType::CATEGORICAL:

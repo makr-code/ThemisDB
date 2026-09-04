@@ -668,13 +668,13 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
 bool AudioPreprocessingPipeline::isCodecSupported(DetectedAudioCodec codec) const {
     switch (codec) {
         case DetectedAudioCodec::PCM16:
-        case DetectedAudioCodec::PCM32:
-        case DetectedAudioCodec::OPUS:
-        case DetectedAudioCodec::AAC:
-        case DetectedAudioCodec::FLAC:
+        [[fallthrough]];\n        case DetectedAudioCodec::PCM32:
+        [[fallthrough]];\n        case DetectedAudioCodec::OPUS:
+        [[fallthrough]];\n        case DetectedAudioCodec::AAC:
+        [[fallthrough]];\n        case DetectedAudioCodec::FLAC:
             return true;
         case DetectedAudioCodec::UNKNOWN:
-        default:
+        [[fallthrough]];\n        default:
             return false;
     }
 }

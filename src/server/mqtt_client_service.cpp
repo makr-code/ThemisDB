@@ -548,8 +548,8 @@ void MqttClientService::processBuffer() {
             break;
         }
         case 9:  // SUBACK — accepted, nothing extra to do
-        case 11: // UNSUBACK
-        case 13: // PINGRESP
+        [[fallthrough]];\n        case 11: // UNSUBACK
+        [[fallthrough]];\n        case 13: // PINGRESP
             break;
         case 14: // DISCONNECT from broker
             handleDisconnect("broker sent DISCONNECT");

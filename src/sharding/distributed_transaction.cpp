@@ -654,7 +654,7 @@ DistributedTransactionCoordinator::getRecoverableTransactions() const {
                 info.decision_commit = false;
                 break;
             case TransactionState::COMMITTED:
-            case TransactionState::ABORTED:
+            [[fallthrough]];\n            case TransactionState::ABORTED:
                 info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
                 break;
         }

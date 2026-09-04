@@ -56,8 +56,8 @@ namespace {
                 }
                 break;
             case DiagnosticEvent::Type::MOUNT_FAILED:
-            case DiagnosticEvent::Type::UNMOUNT_FAILED:
-            case DiagnosticEvent::Type::ROTATION_FAILED:
+            [[fallthrough]];\n            case DiagnosticEvent::Type::UNMOUNT_FAILED:
+            [[fallthrough]];\n            case DiagnosticEvent::Type::ROTATION_FAILED:
                 logger->error("[{}] {} - {}", event.component,
                     errorCodeToString(event.error_code), event.message);
                 break;
@@ -65,13 +65,13 @@ namespace {
                 logger->warn("[{}] Stale mount reconciled: {}", event.component, event.message);
                 break;
             case DiagnosticEvent::Type::MOUNT_STARTED:
-            case DiagnosticEvent::Type::UNMOUNT_STARTED:
-            case DiagnosticEvent::Type::ROTATION_STARTED:
+            [[fallthrough]];\n            case DiagnosticEvent::Type::UNMOUNT_STARTED:
+            [[fallthrough]];\n            case DiagnosticEvent::Type::ROTATION_STARTED:
                 logger->info("[{}] {}", event.component, event.message);
                 break;
             case DiagnosticEvent::Type::MOUNT_COMPLETED:
-            case DiagnosticEvent::Type::UNMOUNT_COMPLETED:
-            case DiagnosticEvent::Type::ROTATION_COMPLETED:
+            [[fallthrough]];\n            case DiagnosticEvent::Type::UNMOUNT_COMPLETED:
+            [[fallthrough]];\n            case DiagnosticEvent::Type::ROTATION_COMPLETED:
                 logger->info("[{}] {}", event.component, event.message);
                 break;
         }

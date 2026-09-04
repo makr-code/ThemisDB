@@ -55,8 +55,8 @@ ErasureCodingBackend::ErasureCodingBackend(const ErasureCodingConfig& config)
             algo = themis::sharding::ErasureCodingAlgorithm::CAUCHY;
             break;
         case ErasureCodingAlgorithm::REED_SOLOMON:
-        case ErasureCodingAlgorithm::LRC:
-        default:
+        [[fallthrough]];\n        case ErasureCodingAlgorithm::LRC:
+        [[fallthrough]];\n        default:
             algo = themis::sharding::ErasureCodingAlgorithm::REED_SOLOMON;
             break;
     }

@@ -94,11 +94,11 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
 
     switch (major) {
         case 0:
-        case 1:  // unsigned / negative integer
+        [[fallthrough]];\n        case 1:  // unsigned / negative integer
             return passkeyCborReadArg(d, pos, arg);
 
         case 2:
-        case 3:  // byte / text string
+        [[fallthrough]];\n        case 3:  // byte / text string
             pos = passkeyCborReadArg(d, pos, arg);
             if (pos + arg > d.size()) throw std::runtime_error("CBOR: string OOB (skip)");
             return pos + static_cast<size_t>(arg);
@@ -121,7 +121,7 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
             return passkeyCborSkip(d, pos);
 
         default:
-        case 7: {  // float / simple
+        [[fallthrough]];\n        case 7: {  // float / simple
             const uint8_t info2 = initial & 0x1F;
             ++pos;
             if (info2 == 24) return pos + 1;

@@ -1997,9 +1997,9 @@ VectorIndexManager::searchKnnPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::GREATER_THAN:
-			case AttributeFilterV2::Op::GREATER_EQUAL:
-			case AttributeFilterV2::Op::LESS_THAN:
-			case AttributeFilterV2::Op::LESS_EQUAL: {
+   [[fallthrough]];\n			case AttributeFilterV2::Op::GREATER_EQUAL:
+   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_THAN:
+   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_EQUAL: {
 				// Use range scan with appropriate bounds
 				std::optional<std::string> lower, upper;
 				bool includeLower = false, includeUpper = false;
@@ -2033,7 +2033,7 @@ VectorIndexManager::searchKnnPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::NOT_EQUALS:
-			case AttributeFilterV2::Op::CONTAINS: {
+   [[fallthrough]];\n			case AttributeFilterV2::Op::CONTAINS: {
 				// These require full scan, not supported for pre-filtering
 				THEMIS_WARN("searchKnnPreFiltered: {} operator requires post-filtering, skipping", 
 					filter.op == AttributeFilterV2::Op::NOT_EQUALS ? "NOT_EQUALS" : "CONTAINS");
@@ -2234,9 +2234,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				break;
 			}
 			case AttributeFilterV2::Op::GREATER_THAN:
-			case AttributeFilterV2::Op::GREATER_EQUAL:
-			case AttributeFilterV2::Op::LESS_THAN:
-			case AttributeFilterV2::Op::LESS_EQUAL: {
+   [[fallthrough]];\n			case AttributeFilterV2::Op::GREATER_EQUAL:
+   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_THAN:
+   [[fallthrough]];\n			case AttributeFilterV2::Op::LESS_EQUAL: {
 				std::optional<std::string> lower, upper;
 				bool includeLower = false, includeUpper = false;
 				if (filter.op == AttributeFilterV2::Op::GREATER_THAN) {

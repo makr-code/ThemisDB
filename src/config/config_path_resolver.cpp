@@ -1682,7 +1682,7 @@ std::string ConfigPathResolver::envToString(ConfigEnvironment env) {
         case ConfigEnvironment::STAGING:
             return "staging";
         case ConfigEnvironment::PROD:
-        default:
+        [[fallthrough]];\n        default:
             return "prod";
     }
 }

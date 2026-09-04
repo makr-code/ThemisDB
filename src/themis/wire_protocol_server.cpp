@@ -278,7 +278,7 @@ json protoValueToJson(const v1::Value& value) {
             return result;
         }
         case v1::Value::KIND_NOT_SET:
-        default:
+        [[fallthrough]];\n        default:
             return nullptr;
     }
 }

@@ -3735,7 +3735,7 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
             case MMNodeState::PARTITIONED: return "PARTITIONED";
             case MMNodeState::RECOVERING: return "RECOVERING";
             case MMNodeState::OFFLINE:
-            default:
+            [[fallthrough]];\n            default:
                 return "OFFLINE";
         }
     };
@@ -7090,7 +7090,7 @@ std::string GeoReplicationManager::selectReadRegion(
         }
 
         case ConsistencyLevel::EVENTUAL:
-        default:
+        [[fallthrough]];\n        default:
             return config_.local_region;
     }
 }

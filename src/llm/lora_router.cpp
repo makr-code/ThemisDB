@@ -408,7 +408,7 @@ RoutingDecision LoRARouter::applyRoutingPolicy(
             return selectByRollout(candidates);
         
         case RoutingPolicy::FALLBACK:
-        default:
+        [[fallthrough]];\n        default:
             return selectFallback("Fallback policy selected");
     }
 }

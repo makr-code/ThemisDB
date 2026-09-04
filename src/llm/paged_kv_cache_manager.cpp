@@ -402,8 +402,8 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(Workl
         case WorkloadPattern::LOW_PREFIX_REUSE:
             return CacheType::STREAMING;
         case WorkloadPattern::MIXED:
-        case WorkloadPattern::UNKNOWN:
-        default:
+        [[fallthrough]];\n        case WorkloadPattern::UNKNOWN:
+        [[fallthrough]];\n        default:
             return CacheType::STANDARD;
     }
 }

@@ -167,7 +167,7 @@ int HnswParameterTuner::getRecommendedM(size_t dataset_size, WorkloadType worklo
             return std::max(8, base_M - 6);
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Balanced configuration
             return base_M;
     }
@@ -209,7 +209,7 @@ int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M,
             return static_cast<int>(base_ef * 0.6);
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             return base_ef;
     }
 }
@@ -291,7 +291,7 @@ int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
             break;
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             base_ef = k * 2.0;
             break;
     }
@@ -364,7 +364,7 @@ HnswParameterTuner::Config HnswParameterTuner::getWorkloadOptimizedConfig(
             break;
             
         case WorkloadType::MIXED:
-        default:
+        [[fallthrough]];\n        default:
             // Mixed: Balanced configuration
             config.ef_search_min = 32;
             config.ef_search_max = 512;

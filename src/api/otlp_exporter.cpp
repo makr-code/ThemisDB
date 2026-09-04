@@ -359,12 +359,12 @@ static bool isRetriableHttpCode(long code) noexcept {
 static bool isRetriableCurlError(CURLcode code) noexcept {
     switch (code) {
         case CURLE_COULDNT_RESOLVE_HOST:
-        case CURLE_COULDNT_CONNECT:
-        case CURLE_OPERATION_TIMEDOUT:
-        case CURLE_SEND_ERROR:
-        case CURLE_RECV_ERROR:
-        case CURLE_GOT_NOTHING:
-        case CURLE_SSL_CONNECT_ERROR:
+        [[fallthrough]];\n        case CURLE_COULDNT_CONNECT:
+        [[fallthrough]];\n        case CURLE_OPERATION_TIMEDOUT:
+        [[fallthrough]];\n        case CURLE_SEND_ERROR:
+        [[fallthrough]];\n        case CURLE_RECV_ERROR:
+        [[fallthrough]];\n        case CURLE_GOT_NOTHING:
+        [[fallthrough]];\n        case CURLE_SSL_CONNECT_ERROR:
             return true;
         default:
             return false;

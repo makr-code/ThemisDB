@@ -218,11 +218,11 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
         int vote = 0;
         switch (arg.argument_type) {
             case ArgumentType::PRO:
-            case ArgumentType::SYNTHESIS:
+            [[fallthrough]];\n            case ArgumentType::SYNTHESIS:
                 vote = 1;
                 break;
             case ArgumentType::CONTRA:
-            case ArgumentType::REBUTTAL:
+            [[fallthrough]];\n            case ArgumentType::REBUTTAL:
                 vote = -1;
                 break;
             default:

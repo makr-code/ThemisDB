@@ -1180,7 +1180,7 @@ ISpatialComputeBackend *getBackendForPrecision(GeoPrecisionMode mode) {
         case GeoPrecisionMode::Approximate:
             return getCpuApproximateBackend();
         case GeoPrecisionMode::Exact:
-        default:
+        [[fallthrough]];\n        default:
             return getCpuExactBackend();
     }
 }

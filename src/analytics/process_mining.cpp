@@ -862,7 +862,7 @@ std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProce
                                                                                    const MiningConfig &config) {
     switch (config.algorithm) {
         case MiningAlgorithm::ALPHA:
-        case MiningAlgorithm::ALPHA_PLUS:
+        [[fallthrough]];\n        case MiningAlgorithm::ALPHA_PLUS:
             return {Status::OK(), runAlphaMiner(log, config)};
         case MiningAlgorithm::HEURISTIC:
             return {Status::OK(), runHeuristicMiner(log, config)};

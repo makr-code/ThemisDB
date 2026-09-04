@@ -1622,7 +1622,7 @@ EvaluationResult JudgeEnsemble::combineResults(
     
     switch (strategy) {
         case VotingStrategy::WEIGHTED_AVERAGE:
-        case VotingStrategy::MAJORITY_VOTING: {
+        [[fallthrough]];\n        case VotingStrategy::MAJORITY_VOTING: {
             // Average scores
             combined.faithfulness_score = 0.0;
             combined.relevance_score = 0.0;

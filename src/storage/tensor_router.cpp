@@ -206,9 +206,9 @@ struct TensorRouter::Impl {
         if (policy.force_lift_for_inference && hint.inference_use) {
             switch (hint.category) {
                 case Cat::LLM_WEIGHTS:
-                case Cat::LLM_ADAPTER:
-                case Cat::EMBEDDING:
-                case Cat::SIMULATION:
+                [[fallthrough]];\n                case Cat::LLM_ADAPTER:
+                [[fallthrough]];\n                case Cat::EMBEDDING:
+                [[fallthrough]];\n                case Cat::SIMULATION:
                     return TensorRouteDecision::LIFT;
                 default:
                     break;

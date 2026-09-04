@@ -705,9 +705,9 @@ void AsyncIngestionWorker::processJob(IngestionJob &job) {
             processBatchFiles(job);
             break;
         case IngestionJobType::HUGGINGFACE:
-        case IngestionJobType::FILESYSTEM_BULK:
-        case IngestionJobType::DATABASE_EXPORT:
-        case IngestionJobType::REST_API:
+        [[fallthrough]];\n        case IngestionJobType::FILESYSTEM_BULK:
+        [[fallthrough]];\n        case IngestionJobType::DATABASE_EXPORT:
+        [[fallthrough]];\n        case IngestionJobType::REST_API:
             // Plugin-based job types
             processPluginJob(job);
             break;

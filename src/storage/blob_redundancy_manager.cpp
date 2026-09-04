@@ -63,11 +63,11 @@ uint32_t BlobMetadata::healthyLocationCount() const {
 uint32_t BlobMetadata::requiredLocationCount() const {
     switch (config.mode) {
         case RedundancyMode::NONE:
-        case RedundancyMode::STRIPE:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::MIRROR:
-        case RedundancyMode::STRIPE_MIRROR:
-        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
             return config.replication_factor;
         case RedundancyMode::PARITY:
             return config.erasure_coding.data_shards;

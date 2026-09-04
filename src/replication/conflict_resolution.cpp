@@ -600,8 +600,8 @@ std::string FieldLevelMergeResolver::mergeFields(
                     merged[key] = field_maps[present_indices.back()][key];
                     break;
                 case MergeStrategy::UNION:
-                case MergeStrategy::INTERSECT:
-                default: {
+                [[fallthrough]];\n                case MergeStrategy::INTERSECT:
+                [[fallthrough]];\n                default: {
                     // BATCH D FIX: Bounds check before accessing writes vector
                     if (present_indices[0] >= writes.size()) {
                         THEMIS_ERROR("FieldLevelMergeResolver: present_indices[0] {} out of bounds",

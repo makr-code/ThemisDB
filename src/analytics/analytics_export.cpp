@@ -211,8 +211,8 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     break;
 
                 case ExportFormat::FMT_ARROW_IPC:
-                case ExportFormat::FMT_ARROW_PARQUET:
-                case ExportFormat::FMT_ARROW_FEATHER:
+                [[fallthrough]];\n                case ExportFormat::FMT_ARROW_PARQUET:
+                [[fallthrough]];\n                case ExportFormat::FMT_ARROW_FEATHER:
                     spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                     result.status  = ExportStatus::NOT_SUPPORTED;
                     result.message = "Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
@@ -258,8 +258,8 @@ class JSONCSVExporter : public IAnalyticsExporter {
                 return exportToCSV(batch);
 
             case ExportFormat::FMT_ARROW_IPC:
-            case ExportFormat::FMT_ARROW_PARQUET:
-            case ExportFormat::FMT_ARROW_FEATHER:
+            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_PARQUET:
+            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_FEATHER:
                 spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                 return "# ERROR: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
                        "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
@@ -307,11 +307,11 @@ class JSONCSVExporter : public IAnalyticsExporter {
     bool supportsFormat(ExportFormat format) const override {
         switch (format) {
             case ExportFormat::JSON:
-            case ExportFormat::CSV:
+            [[fallthrough]];\n            case ExportFormat::CSV:
                 return true;
             case ExportFormat::FMT_ARROW_IPC:
-            case ExportFormat::FMT_ARROW_PARQUET:
-            case ExportFormat::FMT_ARROW_FEATHER:
+            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_PARQUET:
+            [[fallthrough]];\n            case ExportFormat::FMT_ARROW_FEATHER:
                 return false;
         }
         return false;
@@ -899,7 +899,7 @@ class FeatherExporter : public IAnalyticsExporter {
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat format) {
     switch (format) {
         case ExportFormat::JSON:
-        case ExportFormat::CSV:
+        [[fallthrough]];\n        case ExportFormat::CSV:
             return std::make_unique<JSONCSVExporter>();
 
         case ExportFormat::FMT_ARROW_IPC:

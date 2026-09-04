@@ -461,7 +461,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                 has_forbidden_nodes = true;
                 break;
             case PathConstraints::ConstraintType::UNIQUE_NODES:
-            case PathConstraints::ConstraintType::NO_CYCLES:
+            [[fallthrough]];\n            case PathConstraints::ConstraintType::NO_CYCLES:
                 requires_unique = true;
                 break;
             default:
@@ -2299,7 +2299,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
                     candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DFS};
                     break;
                 case QueryPattern::PATTERN_MATCH:
-                case QueryPattern::ALL_PATHS:
+                [[fallthrough]];\n                case QueryPattern::ALL_PATHS:
                     candidates = {TraversalAlgorithm::DFS, TraversalAlgorithm::BFS};
                     break;
                 case QueryPattern::CONNECTED_COMPONENT:
@@ -2361,7 +2361,7 @@ size_t GraphQueryOptimizer::estimateDepth(
     
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
-        case QueryPattern::REACHABILITY:
+        [[fallthrough]];\n        case QueryPattern::REACHABILITY:
             // Assume average case is half the diameter
             return estimated / 2;
             
@@ -2532,12 +2532,12 @@ bool GraphQueryOptimizer::shouldUseParallel(
     // Some algorithms parallelize better
     switch (algorithm) {
         case TraversalAlgorithm::BFS:
-        case TraversalAlgorithm::BIDIRECTIONAL:
+        [[fallthrough]];\n        case TraversalAlgorithm::BIDIRECTIONAL:
             return true;
             
         case TraversalAlgorithm::DFS:
-        case TraversalAlgorithm::ASTAR:
-        case TraversalAlgorithm::DIJKSTRA:
+        [[fallthrough]];\n        case TraversalAlgorithm::ASTAR:
+        [[fallthrough]];\n        case TraversalAlgorithm::DIJKSTRA:
             return false; // These don't parallelize well
     }
     

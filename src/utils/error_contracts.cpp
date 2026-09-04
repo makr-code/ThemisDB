@@ -200,7 +200,7 @@ std::string errorCodeName(ErrorCode code) {
         case ErrorCode::SERIALIZATION_SIZE_EXCEEDED:      return "SERIALIZATION_SIZE_EXCEEDED";
         
         case ErrorCode::UNKNOWN_ERROR:
-        default:
+        [[fallthrough]];\n        default:
             return fmt::format("UNKNOWN_ERROR({})", static_cast<uint16_t>(code));
     }
 }
@@ -270,16 +270,16 @@ IncidentCategory categorizeIncident(ErrorCode code) {
     switch (code) {
         // Buffer overflow incidents
         case ErrorCode::AUDIT_BUFFER_OVERFLOW:
-        case ErrorCode::AUDIT_QUEUE_FULL:
-        case ErrorCode::LOG_BUFFER_OVERFLOW:
-        case ErrorCode::TRACE_BUFFER_OVERFLOW:
-        case ErrorCode::PRIVACY_BUFFER_OVERFLOW:
+        [[fallthrough]];\n        case ErrorCode::AUDIT_QUEUE_FULL:
+        [[fallthrough]];\n        case ErrorCode::LOG_BUFFER_OVERFLOW:
+        [[fallthrough]];\n        case ErrorCode::TRACE_BUFFER_OVERFLOW:
+        [[fallthrough]];\n        case ErrorCode::PRIVACY_BUFFER_OVERFLOW:
             return IncidentCategory::BufferOverflow;
         
         // Memory exhaustion incidents
         case ErrorCode::PRIVACY_MEMORY_EXCEEDED:
-        case ErrorCode::UTILS_ALLOCATION_FAILED:
-        case ErrorCode::UTILS_RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorCode::UTILS_ALLOCATION_FAILED:
+        [[fallthrough]];\n        case ErrorCode::UTILS_RESOURCE_EXHAUSTED:
             return IncidentCategory::MemoryExhaustion;
         
         // Connection pool exhaustion incidents
@@ -296,31 +296,31 @@ IncidentCategory categorizeIncident(ErrorCode code) {
         
         // General operation timeout incidents
         case ErrorCode::UTILS_TIMEOUT:
-        case ErrorCode::CONNECTION_POOL_TIMEOUT:
-        case ErrorCode::LOCK_TIMEOUT:
+        [[fallthrough]];\n        case ErrorCode::CONNECTION_POOL_TIMEOUT:
+        [[fallthrough]];\n        case ErrorCode::LOCK_TIMEOUT:
             return IncidentCategory::OperationTimeout;
         
         // Key derivation failures
         case ErrorCode::CRYPTO_KEY_DERIVATION_FAILED:
-        case ErrorCode::CRYPTO_CACHE_MISS:
+        [[fallthrough]];\n        case ErrorCode::CRYPTO_CACHE_MISS:
             return IncidentCategory::KeyDerivationFailure;
         
         // Privacy detection failures
         case ErrorCode::PRIVACY_ENGINE_FAILED:
-        case ErrorCode::PRIVACY_ENGINE_LOAD_FAILED:
-        case ErrorCode::PRIVACY_NO_ENGINE:
+        [[fallthrough]];\n        case ErrorCode::PRIVACY_ENGINE_LOAD_FAILED:
+        [[fallthrough]];\n        case ErrorCode::PRIVACY_NO_ENGINE:
             return IncidentCategory::PrivacyDetectionFailure;
         
         // Compression failures
         case ErrorCode::COMPRESSION_FAILED:
-        case ErrorCode::DECOMPRESSION_FAILED:
-        case ErrorCode::COMPRESSION_BOMB_DETECTED:
-        case ErrorCode::CODEC_INITIALIZATION_FAILED:
+        [[fallthrough]];\n        case ErrorCode::DECOMPRESSION_FAILED:
+        [[fallthrough]];\n        case ErrorCode::COMPRESSION_BOMB_DETECTED:
+        [[fallthrough]];\n        case ErrorCode::CODEC_INITIALIZATION_FAILED:
             return IncidentCategory::CompressionFailure;
         
         // Fallback activated indicators
         case ErrorCode::PRIVACY_PATTERN_OVERFLOW:  // Fall back to simpler detection
-        case ErrorCode::LOG_SINK_FAILED:           // Fall back to console logging
+        [[fallthrough]];\n        case ErrorCode::LOG_SINK_FAILED:           // Fall back to console logging
             return IncidentCategory::FallbackActivated;
         
         // Rate limit exhaustion
@@ -329,15 +329,15 @@ IncidentCategory categorizeIncident(ErrorCode code) {
         
         // Invalid configuration
         case ErrorCode::PRIVACY_CONFIG_INVALID:
-        case ErrorCode::LOG_LEVEL_INVALID:
-        case ErrorCode::LOG_PATTERN_ERROR:
-        case ErrorCode::UTILS_INVALID_ARGUMENT:
+        [[fallthrough]];\n        case ErrorCode::LOG_LEVEL_INVALID:
+        [[fallthrough]];\n        case ErrorCode::LOG_PATTERN_ERROR:
+        [[fallthrough]];\n        case ErrorCode::UTILS_INVALID_ARGUMENT:
             return IncidentCategory::InvalidConfiguration;
         
         // Data corruption indicators
         case ErrorCode::COMPRESSION_INPUT_INVALID:
-        case ErrorCode::SERIALIZATION_FORMAT_INVALID:
-        case ErrorCode::SERIALIZATION_VERSION_MISMATCH:
+        [[fallthrough]];\n        case ErrorCode::SERIALIZATION_FORMAT_INVALID:
+        [[fallthrough]];\n        case ErrorCode::SERIALIZATION_VERSION_MISMATCH:
             return IncidentCategory::DataCorruption;
         
         // External service unavailable
@@ -402,8 +402,8 @@ ErrorContext makeErrorContext(ErrorCode code,
     // Set recovery hints based on error code
     switch (code) {
         case ErrorCode::AUDIT_BUFFER_OVERFLOW:
-        case ErrorCode::LOG_BUFFER_OVERFLOW:
-        case ErrorCode::TRACE_BUFFER_OVERFLOW:
+        [[fallthrough]];\n        case ErrorCode::LOG_BUFFER_OVERFLOW:
+        [[fallthrough]];\n        case ErrorCode::TRACE_BUFFER_OVERFLOW:
             ctx.recovery_hint = "Increase buffer size or reduce logging volume";
             break;
         
@@ -420,7 +420,7 @@ ErrorContext makeErrorContext(ErrorCode code,
             break;
         
         case ErrorCode::COMPRESSION_FAILED:
-        case ErrorCode::DECOMPRESSION_FAILED:
+        [[fallthrough]];\n        case ErrorCode::DECOMPRESSION_FAILED:
             ctx.recovery_hint = "Verify input data and retry with different compression level";
             break;
         

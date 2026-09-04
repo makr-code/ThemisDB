@@ -185,12 +185,12 @@ double RedundancyConfig::getStorageEfficiency() const {
         case RedundancyMode::STRIPE:
             return 1.0;  // No redundancy
         case RedundancyMode::MIRROR:
-        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::STRIPE_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::PARITY:
-        case RedundancyMode::RAID6:
+        [[fallthrough]];\n        case RedundancyMode::RAID6:
             return erasure_coding.storageEfficiency();
         default:
             return 1.0;
@@ -201,14 +201,14 @@ double RedundancyConfig::getStorageEfficiency() const {
 uint32_t RedundancyConfig::getFaultTolerance() const {
     switch (mode) {
         case RedundancyMode::NONE:
-        case RedundancyMode::STRIPE:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE:
             return 0;  // No fault tolerance
         case RedundancyMode::MIRROR:
-        case RedundancyMode::STRIPE_MIRROR:
-        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
             return replication_factor - 1;
         case RedundancyMode::PARITY:
-        case RedundancyMode::RAID6:
+        [[fallthrough]];\n        case RedundancyMode::RAID6:
             return erasure_coding.faultTolerance();
         default:
             return 0;
@@ -219,10 +219,10 @@ uint32_t RedundancyConfig::getFaultTolerance() const {
 uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
     switch (mode) {
         case RedundancyMode::NONE:
-        case RedundancyMode::STRIPE:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::PARITY:
-        case RedundancyMode::RAID6:
+        [[fallthrough]];\n        case RedundancyMode::RAID6:
             return erasure_coding.totalShards();
         default:
             return replication_factor;
@@ -1492,7 +1492,7 @@ WriteResult RedundancyStrategy::write(
                 result = writeStripeMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
-            case RedundancyMode::RAID6:
+            [[fallthrough]];\n            case RedundancyMode::RAID6:
                 result = writeParity(document_id, data, ring, topology, handler);
                 break;
             default:
@@ -1561,18 +1561,18 @@ ReadResult RedundancyStrategy::read(
     try {
         switch (mode) {
             case RedundancyMode::NONE:
-            case RedundancyMode::MIRROR:
+            [[fallthrough]];\n            case RedundancyMode::MIRROR:
                 result = readMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::GEO_MIRROR:
                 result = readGeoMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
-            case RedundancyMode::STRIPE_MIRROR:
+            [[fallthrough]];\n            case RedundancyMode::STRIPE_MIRROR:
                 result = readStripe(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
-            case RedundancyMode::RAID6:
+            [[fallthrough]];\n            case RedundancyMode::RAID6:
                 result = readParity(document_id, ring, topology, handler);
                 break;
             default:
@@ -1984,8 +1984,8 @@ WriteResult RedundancyStrategy::writeStripe(
             success = successful >= 1;
             break;
         case WriteConcern::MAJORITY:
-        case WriteConcern::ALL:
-        case WriteConcern::QUORUM:
+        [[fallthrough]];\n        case WriteConcern::ALL:
+        [[fallthrough]];\n        case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
     }

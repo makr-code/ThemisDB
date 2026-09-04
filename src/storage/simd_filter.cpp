@@ -592,12 +592,12 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
 
     switch (pred.column_type) {
         case ColumnType::INT32:
-        case ColumnType::INT64: {
+        [[fallthrough]];\n        case ColumnType::INT64: {
             int64_t thr = (pred.column_type == ColumnType::INT32)
                 ? static_cast<int64_t>(pred.threshold.i32)
                 : pred.threshold.i64;
             switch (pred.op) {
-                case FilterOp::EQ: return zm.canSkipForInt(thr);
+                [[fallthrough]];\n                case FilterOp::EQ: return zm.canSkipForInt(thr);
                 case FilterOp::NE: return false; // may always match
                 case FilterOp::LT: return thr <= zm.min_int; // all >= min, need < thr
                 case FilterOp::LE: return thr <  zm.min_int;
@@ -607,12 +607,12 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
             break;
         }
         case ColumnType::FLOAT32:
-        case ColumnType::FLOAT64: {
+        [[fallthrough]];\n        case ColumnType::FLOAT64: {
             double thr = (pred.column_type == ColumnType::FLOAT32)
                 ? static_cast<double>(pred.threshold.f32)
                 : pred.threshold.f64;
             switch (pred.op) {
-                case FilterOp::EQ: return zm.canSkipForFloat(thr);
+                [[fallthrough]];\n                case FilterOp::EQ: return zm.canSkipForFloat(thr);
                 case FilterOp::NE: return false;
                 case FilterOp::LT: return thr <= zm.min_float;
                 case FilterOp::LE: return thr <  zm.min_float;

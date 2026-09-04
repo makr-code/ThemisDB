@@ -264,7 +264,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
             THEMIS_WARN("{}", ss.str());
             break;
         case AlertSeverity::ERROR:
-        case AlertSeverity::CRITICAL:
+        [[fallthrough]];\n        case AlertSeverity::CRITICAL:
             THEMIS_ERROR("{}", ss.str());
             break;
     }

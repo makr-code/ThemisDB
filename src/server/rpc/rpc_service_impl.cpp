@@ -141,11 +141,11 @@ namespace {
 
         switch (unit) {
             case 'H':
-            case 'M':
-            case 'S':
-            case 'm':
-            case 'u':
-            case 'n':
+            [[fallthrough]];\n            case 'M':
+            [[fallthrough]];\n            case 'S':
+            [[fallthrough]];\n            case 'm':
+            [[fallthrough]];\n            case 'u':
+            [[fallthrough]];\n            case 'n':
                 return clampMillisFromUnit(*value, unit);
             default: return std::nullopt;
         }

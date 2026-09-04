@@ -405,7 +405,7 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
         for (const auto& kv : status_rec.step_states) {
             switch (kv.second) {
                 case StepState::COMPLETED:
-                case StepState::COMPENSATED:
+                [[fallthrough]];\n                case StepState::COMPENSATED:
                     ++status_rec.completed_steps;
                     break;
                 case StepState::FAILED:
@@ -415,8 +415,8 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
                     ++status_rec.skipped_steps;
                     break;
                 case StepState::PENDING:
-                case StepState::RUNNING:
-                case StepState::COMPENSATING:
+                [[fallthrough]];\n                case StepState::RUNNING:
+                [[fallthrough]];\n                case StepState::COMPENSATING:
                     ++status_rec.pending_steps;
                     break;
             }

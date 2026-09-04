@@ -269,7 +269,7 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
     switch (def_.strategy) {
     case RefreshStrategy::IMMEDIATE:
         switch (op) {
-        case DeltaOp::INSERT:
+        [[fallthrough]];\n        case DeltaOp::INSERT:
             applyInsert_locked(row);
             ++stats_.delta_inserts;
             ++stats_.incremental_updates;
@@ -296,7 +296,7 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
         break;
 
     case RefreshStrategy::DEFERRED:
-    case RefreshStrategy::PERIODIC:
+    [[fallthrough]];\n    case RefreshStrategy::PERIODIC:
         stale_          = true;
         stats_.is_stale = true;
         THEMIS_DEBUG("MaterializedView '{}': delta received (strategy={}), "

@@ -415,11 +415,11 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
     const size_t rows = [&]() -> size_t {
         switch (op.op_type) {
             case OperatorType::HashJoin:
-            case OperatorType::SortMergeJoin:
+            [[fallthrough]];\n            case OperatorType::SortMergeJoin:
                 return op.left_rows.size() + op.right_rows.size();
             case OperatorType::Aggregate:
-            case OperatorType::Filter:
-            case OperatorType::Sort:
+            [[fallthrough]];\n            case OperatorType::Filter:
+            [[fallthrough]];\n            case OperatorType::Sort:
                 return op.rows.size();
             case OperatorType::PatternMatch:
                 return op.string_rows.size();
@@ -449,7 +449,7 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
 
     switch (op.op_type) {
         case OperatorType::HashJoin:
-        case OperatorType::SortMergeJoin:
+        [[fallthrough]];\n        case OperatorType::SortMergeJoin:
             if (is_gpu)  return 5.0 + scale * 15.0;   // 5–20×
             if (is_simd) return 2.0 + scale * 4.0;    // 2–6×
             return 1.0;
@@ -674,11 +674,11 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
         const size_t rows = [&]() -> size_t {
             switch (op.op_type) {
                 case OperatorType::HashJoin:
-                case OperatorType::SortMergeJoin:
+                [[fallthrough]];\n                case OperatorType::SortMergeJoin:
                     return op.left_rows.size() + op.right_rows.size();
                 case OperatorType::Aggregate:
-                case OperatorType::Filter:
-                case OperatorType::Sort:
+                [[fallthrough]];\n                case OperatorType::Filter:
+                [[fallthrough]];\n                case OperatorType::Sort:
                     return op.rows.size();
                 case OperatorType::PatternMatch:
                     return op.string_rows.size();

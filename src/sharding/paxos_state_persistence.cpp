@@ -172,7 +172,7 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
                 s.promised_node  = entry.node_id;
                 break;
             case PaxosWALEntryType::ACCEPT:
-            case PaxosWALEntryType::ACCEPTED:
+            [[fallthrough]];\n            case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
                 if (entry.data.contains("value")) {
                     const auto& logged_value = entry.data["value"];

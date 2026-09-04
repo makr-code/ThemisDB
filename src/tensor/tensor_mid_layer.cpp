@@ -46,7 +46,7 @@ TensorLayerPlan TensorMidLayer::plan(const TensorLayerContext& context) const no
             plan.reason = "fingerprint summary routed through TensorFingerprintGraph";
             break;
         case TensorLayerKind::Adapter:
-        default:
+        [[fallthrough]];\n        default:
             plan.reason = "adapter scope routed through TensorFingerprintGraph";
             break;
     }
@@ -158,8 +158,8 @@ index::AnnScopeKind TensorMidLayer::annScopeKindForLayer(TensorLayerKind kind) n
         case TensorLayerKind::ShardSummary:
             return index::AnnScopeKind::ShardSummary;
         case TensorLayerKind::FingerprintSummary:
-        case TensorLayerKind::Adapter:
-        default:
+        [[fallthrough]];\n        case TensorLayerKind::Adapter:
+        [[fallthrough]];\n        default:
             return index::AnnScopeKind::Adapter;
     }
 }

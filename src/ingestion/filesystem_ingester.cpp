@@ -72,7 +72,7 @@ bool isConverterSafe(const std::string& converter) {
     for (char c : converter) {
         switch (c) {
             case '|': case ';': case '&': case '$': case '<': case '>':
-            case '`': case '!': case '\n': case '\r': case '\0':
+            [[fallthrough]];\n            case '`': case '!': case '\n': case '\r': case '\0':
                 return false;
             default:
                 break;

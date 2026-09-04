@@ -175,12 +175,12 @@ std::size_t escapedJsonStringLength(std::string_view value) {
     for (unsigned char ch : value) {
         switch (ch) {
             case '\"':
-            case '\\':
-            case '\b':
-            case '\f':
-            case '\n':
-            case '\r':
-            case '\t':
+            [[fallthrough]];\n            case '\\':
+            [[fallthrough]];\n            case '\b':
+            [[fallthrough]];\n            case '\f':
+            [[fallthrough]];\n            case '\n':
+            [[fallthrough]];\n            case '\r':
+            [[fallthrough]];\n            case '\t':
                 escaped_length += 2;
                 break;
             default:

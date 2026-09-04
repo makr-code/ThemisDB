@@ -2213,7 +2213,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                                    {{"table", table_name}, {"strategy", "skip"}, {"outcome", "skipped"}}, 1.0);
                         stats.skipped_records++;
                         continue;
-                    case ConflictStrategy::OVERWRITE:
+                    [[fallthrough]];\n                    case ConflictStrategy::OVERWRITE:
                         stats.conflicts_overwritten++;
                         emitMetric(options, "importers_conflicts_total",
                                    {{"table", table_name}, {"strategy", "overwrite"}, {"outcome", "overwritten"}}, 1.0);

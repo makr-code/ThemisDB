@@ -98,7 +98,7 @@ WorkloadCacheConfig WorkloadCacheConfig::forWorkload(WorkloadType type) {
             break;
             
         case WorkloadType::UNKNOWN:
-        default:
+        [[fallthrough]];\n        default:
             // UNKNOWN: Conservative defaults
             config.max_entries = 10000;
             config.max_memory_bytes = 100 * 1024 * 1024;     // 100MB

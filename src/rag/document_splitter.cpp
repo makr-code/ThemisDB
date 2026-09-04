@@ -351,7 +351,7 @@ DocumentSplitter::split(const std::string& text,
         case SplitStrategy::Sliding:
             return impl_->splitSliding(text, document_id);
         case SplitStrategy::Sentence:
-        default:
+        [[fallthrough]];\n        default:
             return impl_->splitSentence(text, document_id);
     }
 }

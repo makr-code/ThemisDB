@@ -1101,7 +1101,7 @@ CompressionCodec ColumnSegment::selectOptimalCodec(
     // Simple heuristic-based codec selection
     switch (type) {
         case ColumnType::INT32:
-        case ColumnType::INT64:
+        [[fallthrough]];\n        case ColumnType::INT64:
             // For integers, check if data is sorted/has patterns
             // Default to RLE for simplicity
             return CompressionCodec::RLE;
@@ -1110,9 +1110,9 @@ CompressionCodec ColumnSegment::selectOptimalCodec(
             return CompressionCodec::DICTIONARY;
 
         case ColumnType::FLOAT32:
-        case ColumnType::FLOAT64:
-        case ColumnType::BOOL:
-        default:
+        [[fallthrough]];\n        case ColumnType::FLOAT64:
+        [[fallthrough]];\n        case ColumnType::BOOL:
+        [[fallthrough]];\n        default:
             return CompressionCodec::NONE;
     }
 }
@@ -1131,11 +1131,11 @@ Result<ColumnSegment> ColumnSegment::create(
     size_t element_size = 0;
     switch (type) {
         case ColumnType::INT32:
-        case ColumnType::FLOAT32:
+        [[fallthrough]];\n        case ColumnType::FLOAT32:
             element_size = 4;
             break;
         case ColumnType::INT64:
-        case ColumnType::FLOAT64:
+        [[fallthrough]];\n        case ColumnType::FLOAT64:
             element_size = 8;
             break;
         case ColumnType::BOOL:
@@ -1496,7 +1496,7 @@ bool ColumnSegment::canSkipSegment(const void* filter_value) const {
 
     switch (metadata_.type) {
         case ColumnType::INT32:
-        case ColumnType::INT64: {
+        [[fallthrough]];\n        case ColumnType::INT64: {
             int64_t value = (metadata_.type == ColumnType::INT32)
                 ? *static_cast<const int32_t*>(filter_value)
                 : *static_cast<const int64_t*>(filter_value);
@@ -1504,7 +1504,7 @@ bool ColumnSegment::canSkipSegment(const void* filter_value) const {
         }
 
         case ColumnType::FLOAT32:
-        case ColumnType::FLOAT64: {
+        [[fallthrough]];\n        case ColumnType::FLOAT64: {
             double value = (metadata_.type == ColumnType::FLOAT32)
                 ? *static_cast<const float*>(filter_value)
                 : *static_cast<const double*>(filter_value);

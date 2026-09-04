@@ -633,7 +633,7 @@ struct MLServingClient::Impl {
                 backend = std::make_unique<TFServingBackend>(cfg.tf_config);
                 break;
             case MLBackendType::AUTO:
-            default: {
+            [[fallthrough]];\n            default: {
                 // Prefer ONNX Runtime; fall back to TF Serving.
                 auto onnx = std::make_unique<ONNXServingBackend>(cfg.onnx_config);
                 if (onnx->isAvailable()) {

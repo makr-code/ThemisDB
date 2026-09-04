@@ -189,15 +189,15 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
             break;
 
         case OfficeDocumentType::ODT:
-        case OfficeDocumentType::ODS:
-        case OfficeDocumentType::ODP:
+        [[fallthrough]];\n        case OfficeDocumentType::ODS:
+        [[fallthrough]];\n        case OfficeDocumentType::ODP:
             result.metadata["document_type"] = "odf";
             result                           = extractODF(blob, doc_type);
             break;
 
         case OfficeDocumentType::DOC:
-        case OfficeDocumentType::XLS:
-        case OfficeDocumentType::PPT:
+        [[fallthrough]];\n        case OfficeDocumentType::XLS:
+        [[fallthrough]];\n        case OfficeDocumentType::PPT:
             result = extractLegacyViaLibreOffice(blob, doc_type);
             break;
 

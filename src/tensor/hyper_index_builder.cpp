@@ -339,7 +339,7 @@ struct FkResolvedEdge {
                 break;
             case HyperIndexConfig::MissingFkStatsFallback::IGNORE_EDGE:
                 continue;
-            case HyperIndexConfig::MissingFkStatsFallback::THROW:
+            [[fallthrough]];\n            case HyperIndexConfig::MissingFkStatsFallback::THROW:
                 throw std::runtime_error(
                     "fk_graph edge is missing join_strength for from=" +
                     std::to_string(edge.from_column) + ", to=" +

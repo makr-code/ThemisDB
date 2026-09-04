@@ -647,7 +647,7 @@ double PluginHealthMonitor::computeHealthScore(const PluginDiagnostics& diag) no
         case PluginHealthStatus::UNHEALTHY:
             return std::max(0.0, 0.3 - error_rate * 0.2);
         case PluginHealthStatus::CRITICAL:
-        case PluginHealthStatus::RECOVERING:
+        [[fallthrough]];\n        case PluginHealthStatus::RECOVERING:
             return std::max(0.0, 0.1 - error_rate * 0.1);
         default:
             return 0.0;

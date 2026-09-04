@@ -677,7 +677,7 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
         case ModuleErrorCode::INTERNAL_ERROR:
             return "Internal module loader error";
         case ModuleErrorCode::UNKNOWN_ERROR:
-        default:
+        [[fallthrough]];\n        default:
             return "Unknown error";
     }
 }
@@ -688,33 +688,33 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
             return ErrorCategory::NONE;
 
         case ModuleErrorCode::MODULE_ACCESS_DENIED:
-        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+        [[fallthrough]];\n        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
             return ErrorCategory::TRANSIENT;
 
         case ModuleErrorCode::MODULE_NOT_FOUND:
-        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
-        case ModuleErrorCode::VERSION_INCOMPATIBLE:
-        case ModuleErrorCode::ABI_INCOMPATIBLE:
-        case ModuleErrorCode::METADATA_MISSING:
+        [[fallthrough]];\n        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+        [[fallthrough]];\n        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+        [[fallthrough]];\n        case ModuleErrorCode::ABI_INCOMPATIBLE:
+        [[fallthrough]];\n        case ModuleErrorCode::METADATA_MISSING:
             return ErrorCategory::RECOVERABLE;
 
         case ModuleErrorCode::VERIFICATION_FAILED:
-        case ModuleErrorCode::SIGNATURE_INVALID:
-        case ModuleErrorCode::HASH_MISMATCH:
-        case ModuleErrorCode::CERTIFICATE_REVOKED:
-        case ModuleErrorCode::CERTIFICATE_EXPIRED:
-        case ModuleErrorCode::UNTRUSTED_SIGNER:
-        case ModuleErrorCode::BLACKLISTED:
-        case ModuleErrorCode::QUARANTINED:
-        case ModuleErrorCode::ZONE_ID_BLOCKED:
-        case ModuleErrorCode::POLICY_VIOLATION:
+        [[fallthrough]];\n        case ModuleErrorCode::SIGNATURE_INVALID:
+        [[fallthrough]];\n        case ModuleErrorCode::HASH_MISMATCH:
+        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_REVOKED:
+        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+        [[fallthrough]];\n        case ModuleErrorCode::UNTRUSTED_SIGNER:
+        [[fallthrough]];\n        case ModuleErrorCode::BLACKLISTED:
+        [[fallthrough]];\n        case ModuleErrorCode::QUARANTINED:
+        [[fallthrough]];\n        case ModuleErrorCode::ZONE_ID_BLOCKED:
+        [[fallthrough]];\n        case ModuleErrorCode::POLICY_VIOLATION:
             return ErrorCategory::FATAL;
 
         case ModuleErrorCode::MODULE_ALREADY_LOADED:
-        case ModuleErrorCode::SYMBOL_NOT_FOUND:
-        case ModuleErrorCode::METADATA_CORRUPTED:
-        case ModuleErrorCode::INITIALIZATION_FAILED:
-        default:
+        [[fallthrough]];\n        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+        [[fallthrough]];\n        case ModuleErrorCode::METADATA_CORRUPTED:
+        [[fallthrough]];\n        case ModuleErrorCode::INITIALIZATION_FAILED:
+        [[fallthrough]];\n        default:
             return ErrorCategory::PERMANENT;
     }
 }

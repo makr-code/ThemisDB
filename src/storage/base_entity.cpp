@@ -465,12 +465,12 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     break;
                     
                 case utils::Serialization::TypeTag::BOOL_FALSE:
-                case utils::Serialization::TypeTag::BOOL_TRUE:
+                [[fallthrough]];\n                case utils::Serialization::TypeTag::BOOL_TRUE:
                     fields[field_name] = decoder.decodeBool();
                     break;
                     
                 case utils::Serialization::TypeTag::INT32:
-                case utils::Serialization::TypeTag::INT64:
+                [[fallthrough]];\n                case utils::Serialization::TypeTag::INT64:
                     fields[field_name] = decoder.decodeInt64();
                     break;
                     

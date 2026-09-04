@@ -880,20 +880,20 @@ bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
         case grpc::StatusCode::UNAVAILABLE:
-        case grpc::StatusCode::DEADLINE_EXCEEDED:
-        case grpc::StatusCode::RESOURCE_EXHAUSTED:
-        case grpc::StatusCode::ABORTED:
-        case grpc::StatusCode::INTERNAL:
+        [[fallthrough]];\n        case grpc::StatusCode::DEADLINE_EXCEEDED:
+        [[fallthrough]];\n        case grpc::StatusCode::RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case grpc::StatusCode::ABORTED:
+        [[fallthrough]];\n        case grpc::StatusCode::INTERNAL:
             return true;
         
         case grpc::StatusCode::INVALID_ARGUMENT:
-        case grpc::StatusCode::NOT_FOUND:
-        case grpc::StatusCode::ALREADY_EXISTS:
-        case grpc::StatusCode::PERMISSION_DENIED:
-        case grpc::StatusCode::UNAUTHENTICATED:
-        case grpc::StatusCode::FAILED_PRECONDITION:
-        case grpc::StatusCode::OUT_OF_RANGE:
-        case grpc::StatusCode::UNIMPLEMENTED:
+        [[fallthrough]];\n        case grpc::StatusCode::NOT_FOUND:
+        [[fallthrough]];\n        case grpc::StatusCode::ALREADY_EXISTS:
+        [[fallthrough]];\n        case grpc::StatusCode::PERMISSION_DENIED:
+        [[fallthrough]];\n        case grpc::StatusCode::UNAUTHENTICATED:
+        [[fallthrough]];\n        case grpc::StatusCode::FAILED_PRECONDITION:
+        [[fallthrough]];\n        case grpc::StatusCode::OUT_OF_RANGE:
+        [[fallthrough]];\n        case grpc::StatusCode::UNIMPLEMENTED:
             return false;
         
         default:

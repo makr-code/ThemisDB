@@ -308,8 +308,8 @@ JWTClaims OAuthDeviceFlow::authenticate(std::function<void(const DeviceCodeRespo
                     break;
 
                 case PollStatus::AccessDenied:
-                case PollStatus::ExpiredToken:
-                case PollStatus::Error:
+                [[fallthrough]];\n                case PollStatus::ExpiredToken:
+                [[fallthrough]];\n                case PollStatus::Error:
                     // pollForToken has already thrown for AccessDenied/ExpiredToken.
                     // For Error, surface a generic exception.
                     throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "OAuth device flow failed",

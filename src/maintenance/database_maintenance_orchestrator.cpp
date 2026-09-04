@@ -1341,17 +1341,17 @@ void DatabaseMaintenanceOrchestrator::executeTask(
         // ---- Module-delegated tasks (handled via registered IMaintenanceTaskHandler) ----
 
         case MaintenanceTaskType::METRICS_COLLECTION:
-        case MaintenanceTaskType::QUOTA_CHECK:
-        case MaintenanceTaskType::REPLICA_VALIDATION:
-        case MaintenanceTaskType::PERFORMANCE_ANALYSIS:
-        case MaintenanceTaskType::MVCC_CLEANUP:
-        case MaintenanceTaskType::FULL_CHECKDB:
-        case MaintenanceTaskType::BACKUP_VERIFICATION:
-        case MaintenanceTaskType::CAPACITY_TREND_ANALYSIS:
-        case MaintenanceTaskType::INDEX_FRAGMENTATION_REPORT:
-        case MaintenanceTaskType::DISASTER_RECOVERY_DRILL:
-        case MaintenanceTaskType::BASELINE_UPDATE:
-        case MaintenanceTaskType::STORAGE_COMPACTION: {
+        [[fallthrough]];\n        case MaintenanceTaskType::QUOTA_CHECK:
+        [[fallthrough]];\n        case MaintenanceTaskType::REPLICA_VALIDATION:
+        [[fallthrough]];\n        case MaintenanceTaskType::PERFORMANCE_ANALYSIS:
+        [[fallthrough]];\n        case MaintenanceTaskType::MVCC_CLEANUP:
+        [[fallthrough]];\n        case MaintenanceTaskType::FULL_CHECKDB:
+        [[fallthrough]];\n        case MaintenanceTaskType::BACKUP_VERIFICATION:
+        [[fallthrough]];\n        case MaintenanceTaskType::CAPACITY_TREND_ANALYSIS:
+        [[fallthrough]];\n        case MaintenanceTaskType::INDEX_FRAGMENTATION_REPORT:
+        [[fallthrough]];\n        case MaintenanceTaskType::DISASTER_RECOVERY_DRILL:
+        [[fallthrough]];\n        case MaintenanceTaskType::BASELINE_UPDATE:
+        [[fallthrough]];\n        case MaintenanceTaskType::STORAGE_COMPACTION: {
             // Look for a registered handler for this task type.
             std::shared_ptr<IMaintenanceTaskHandler> handler;
             {

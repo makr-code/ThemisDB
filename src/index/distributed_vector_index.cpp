@@ -161,7 +161,7 @@ size_t DistributedVectorIndex::shardFor_(const std::string& key) const noexcept 
     const uint64_t h = hashKey_(key);
     switch (config_.strategy) {
     case ShardingStrategy::HASH:
-    case ShardingStrategy::RANGE:
+    [[fallthrough]];\n    case ShardingStrategy::RANGE:
         // RANGE uses hash-bucket assignment as an alias for HASH.
         // Proper lexicographic range partitioning is deferred.
         return static_cast<size_t>(h % config_.num_shards);

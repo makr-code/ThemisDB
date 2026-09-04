@@ -1494,10 +1494,10 @@ void Aggregator::updateAggregation(AggregationState &s, const Event &event) {
 
     switch (s.type) {
         case AggregationType::STDDEV:
-        case AggregationType::VARIANCE:
-        case AggregationType::PERCENTILE:
-        case AggregationType::COLLECT:
-        case AggregationType::TOPN:
+        [[fallthrough]];\n        case AggregationType::VARIANCE:
+        [[fallthrough]];\n        case AggregationType::PERCENTILE:
+        [[fallthrough]];\n        case AggregationType::COLLECT:
+        [[fallthrough]];\n        case AggregationType::TOPN:
             s.values.push_back(dval);
             break;
         case AggregationType::DISTINCT_COUNT:

@@ -77,8 +77,8 @@ double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) 
             return *std::min_element(vals.begin(), vals.end());
 
         case AggregationType::P50:
-        case AggregationType::P95:
-        case AggregationType::P99: {
+        [[fallthrough]];\n        case AggregationType::P95:
+        [[fallthrough]];\n        case AggregationType::P99: {
             // Guard: already checked above, but be explicit for static analysis.
             if (vals.empty()) return 0.0;
             std::sort(vals.begin(), vals.end());

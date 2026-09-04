@@ -111,16 +111,16 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 
       // Backend/driver errors
       case cudaErrorInsufficientDriver:
-      case cudaErrorNotSupported:
-      case cudaErrorNoDevice:
-      case cudaErrorDeviceAlreadyInUse:
+      [[fallthrough]];\n      case cudaErrorNotSupported:
+      [[fallthrough]];\n      case cudaErrorNoDevice:
+      [[fallthrough]];\n      case cudaErrorDeviceAlreadyInUse:
         return GPUErrorClass::kBackendUnavailable;
 
       // Memory communication errors
       case cudaErrorInvalidValue:
-      case cudaErrorInvalidHostPointer:
-      case cudaErrorInvalidDevicePointer:
-      case cudaErrorInvalidMemcpyDirection:
+      [[fallthrough]];\n      case cudaErrorInvalidHostPointer:
+      [[fallthrough]];\n      case cudaErrorInvalidDevicePointer:
+      [[fallthrough]];\n      case cudaErrorInvalidMemcpyDirection:
         return GPUErrorClass::kMemoryCommunication;
 
       // Kernel timeout (synthetic; not a native CUDA error)
@@ -150,14 +150,14 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 
       // Backend/driver errors
       case hipErrorInsufficientDriver:
-      case hipErrorNotSupported:
-      case hipErrorNoDevice:
+      [[fallthrough]];\n      case hipErrorNotSupported:
+      [[fallthrough]];\n      case hipErrorNoDevice:
         return GPUErrorClass::kBackendUnavailable;
 
       // Memory communication errors
       case hipErrorInvalidValue:
-      case hipErrorInvalidDevicePointer:
-      case hipErrorInvalidMemcpyDirection:
+      [[fallthrough]];\n      case hipErrorInvalidDevicePointer:
+      [[fallthrough]];\n      case hipErrorInvalidMemcpyDirection:
         return GPUErrorClass::kMemoryCommunication;
 
       default:

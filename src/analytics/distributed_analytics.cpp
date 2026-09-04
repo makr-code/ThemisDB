@@ -200,7 +200,7 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::StdDev:
-            case Measure::Function::Variance: {
+            [[fallthrough]];\n            case Measure::Function::Variance: {
                 // Welford online update
                 count += 1.0;
                 double delta = dval - mean;
@@ -217,7 +217,7 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::Median:
-            case Measure::Function::Percentile:
+            [[fallthrough]];\n            case Measure::Function::Percentile:
                 // Approximate: accumulate values and compute average at end.
                 sum += dval;
                 count += 1.0;
@@ -323,7 +323,7 @@ struct MeasureAccumulator {
                 return RowValue{static_cast<int64_t>(std::llround(sum))};
 
             case Measure::Function::Median:
-            case Measure::Function::Percentile:
+            [[fallthrough]];\n            case Measure::Function::Percentile:
                 // count is integer-valued; use < 1.0 rather than == 0.0.
                 if (count < 1.0) {
                     return RowValue{0.0};

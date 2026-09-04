@@ -231,7 +231,7 @@ double BehavioralAnomalyDetector::levelToScore(ThreatLevel lvl) noexcept {
         case ThreatLevel::HIGH:     return 0.75;
         case ThreatLevel::MEDIUM:   return 0.5;
         case ThreatLevel::LOW:
-        default:                    return 0.0;
+        [[fallthrough]];\n        default:                    return 0.0;
     }
 }
 

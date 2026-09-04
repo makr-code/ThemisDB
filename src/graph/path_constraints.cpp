@@ -264,7 +264,7 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                 break;
 
             case ConstraintType::NO_CYCLES:
-            case ConstraintType::UNIQUE_NODES: {
+            [[fallthrough]];\n            case ConstraintType::UNIQUE_NODES: {
                 std::unordered_set<std::string> seen;
                 for (const auto &node : nodes) {
                     if (seen.count(node) > 0) {
@@ -330,7 +330,7 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                 break;
 
             case ConstraintType::MAX_WEIGHT:
-            case ConstraintType::MIN_WEIGHT:
+            [[fallthrough]];\n            case ConstraintType::MIN_WEIGHT:
                 // Weight validation requires the accumulated path cost which is stored
                 // in PathResult::cost, not available here. Callers (findConstrainedPaths)
                 // enforce weight constraints using the PathResult cost directly.

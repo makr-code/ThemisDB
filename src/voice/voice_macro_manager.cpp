@@ -226,8 +226,8 @@ StepResult executeStep(int index,
             break;
         }
         case StepType::CONDITION:
-        case StepType::LOOP:
-        default:
+        [[fallthrough]];\n        case StepType::LOOP:
+        [[fallthrough]];\n        default:
             result.output  = "Step type not yet supported: " + std::to_string(static_cast<int>(step.type));
             result.success = false;
             result.error_message = result.output;

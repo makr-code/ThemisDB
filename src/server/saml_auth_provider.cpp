@@ -176,12 +176,12 @@ nlohmann::json SamlAuthProvider::handleAcs(
                 http_status = 401;
                 break;
             case EC::SAML_REPLAY_DETECTED:
-            case EC::SAML_INVALID_SIGNATURE:
-            case EC::SAML_INVALID_RESPONSE:
-            case EC::SAML_MISSING_ASSERTION:
-            case EC::SAML_DESTINATION_MISMATCH:
-            case EC::SAML_STATUS_FAILURE:
-            case EC::SAML_ISSUER_MISMATCH:
+            [[fallthrough]];\n            case EC::SAML_INVALID_SIGNATURE:
+            [[fallthrough]];\n            case EC::SAML_INVALID_RESPONSE:
+            [[fallthrough]];\n            case EC::SAML_MISSING_ASSERTION:
+            [[fallthrough]];\n            case EC::SAML_DESTINATION_MISMATCH:
+            [[fallthrough]];\n            case EC::SAML_STATUS_FAILURE:
+            [[fallthrough]];\n            case EC::SAML_ISSUER_MISMATCH:
                 http_status = 401;
                 break;
             default:

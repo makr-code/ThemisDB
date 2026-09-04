@@ -45,9 +45,9 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk(const std::vector<ui
             return chunk_text(std::string(data.begin(), data.end()));
         
         case ContentType::BINARY:
-        case ContentType::AUDIO:
-        case ContentType::VIDEO:
-        default:
+        [[fallthrough]];\n        case ContentType::AUDIO:
+        [[fallthrough]];\n        case ContentType::VIDEO:
+        [[fallthrough]];\n        default:
             // Use generic byte-based chunking
             return generic_chunker_.chunk(data);
         

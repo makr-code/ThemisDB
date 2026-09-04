@@ -279,9 +279,9 @@ struct VaultKeyProvider::Impl {
             bool transient = false;
             switch (res) {
                 case CURLE_OPERATION_TIMEDOUT:
-                case CURLE_COULDNT_CONNECT:
-                case CURLE_COULDNT_RESOLVE_HOST:
-                case CURLE_PARTIAL_FILE:
+                [[fallthrough]];\n                case CURLE_COULDNT_CONNECT:
+                [[fallthrough]];\n                case CURLE_COULDNT_RESOLVE_HOST:
+                [[fallthrough]];\n                case CURLE_PARTIAL_FILE:
                     transient = true; break;
                 default: transient = false; break;
             }

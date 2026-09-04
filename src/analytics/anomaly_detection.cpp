@@ -945,7 +945,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
                     auto sub_x = impl_->sub_detectors[i]->impl_->extractFeatures(point);
                     std::vector<double> sc;
                     switch (impl_->sub_detectors[i]->impl_->cfg.method) {
-                        case AnomalyMethod::Z_SCORE:
+                        [[fallthrough]];\n                        case AnomalyMethod::Z_SCORE:
                             sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x);
                             break;
                         case AnomalyMethod::MODIFIED_Z_SCORE:

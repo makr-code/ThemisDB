@@ -267,7 +267,7 @@ CrashRecoveryManager::scanInFlight() const {
                 begun.insert(entry->txn_id);
                 break;
             case EntryType::COMMIT:
-            case EntryType::ABORT:
+            [[fallthrough]];\n            case EntryType::ABORT:
                 finished.insert(entry->txn_id);
                 break;
             case EntryType::CHECKPOINT:

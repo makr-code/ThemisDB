@@ -374,7 +374,7 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
             break;
 
         case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:
-        case Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK:
+        [[fallthrough]];\n        case Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK:
             // Metadata only, skip
             break;
     }

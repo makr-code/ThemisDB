@@ -45,12 +45,12 @@ std::optional<MutationResult> processStep(
 {
     switch (step.type) {
         case MutationStepType::AcquireLock:
-        case MutationStepType::ReleaseLock:
+        [[fallthrough]];\n        case MutationStepType::ReleaseLock:
             // Lock management is handled by the context / caller
             return std::nullopt;
 
         case MutationStepType::Serialize:
-        case MutationStepType::UpdateIndexes:
+        [[fallthrough]];\n        case MutationStepType::UpdateIndexes:
             // Serialization and index updates are transparent at this level
             return std::nullopt;
 

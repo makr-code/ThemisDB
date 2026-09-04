@@ -1409,7 +1409,7 @@ void DistributedTrainingCoordinator::initializeAggregator() {
         }
         
         case SyncStrategy::HIERARCHICAL:
-        case SyncStrategy::ASYNC_SGD:
+        [[fallthrough]];\n        case SyncStrategy::ASYNC_SGD:
             // Fall back to AllReduce for now
             aggregator_ = std::make_unique<AllReduceAggregator>();
             spdlog::warn("Strategy not fully implemented, using AllReduce");

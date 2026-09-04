@@ -403,7 +403,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
     const auto payload = uri.substr(scheme_end + 3);
     switch (backend) {
     case StorageBackend::S3:
-    case StorageBackend::GCS: {
+    [[fallthrough]];\n    case StorageBackend::GCS: {
         const auto slash = payload.find('/');
         RemoteBackupLocation location;
         location.authority = slash == std::string::npos ? payload : payload.substr(0, slash);
@@ -851,7 +851,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             break;
             
         case RAIDMode::NONE:
-        default:
+        [[fallthrough]];\n        default:
             // No RAID configuration
             break;
     }

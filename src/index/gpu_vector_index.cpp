@@ -1290,8 +1290,8 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
             return {};
         }
         case Backend::CPU:
-        case Backend::AUTO:
-        default:
+        [[fallthrough]];\n        case Backend::AUTO:
+        [[fallthrough]];\n        default:
             // CPU fallback
             std::vector<std::vector<SearchResult>> results;
             results.reserve(queries.size());

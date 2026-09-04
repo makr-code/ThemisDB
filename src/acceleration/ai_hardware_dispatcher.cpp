@@ -431,12 +431,12 @@ AiInferenceResult AiHardwareDispatcher::runOn(BackendType backend, AiInferenceRe
         case BackendType::ONNX_RUNTIME:
             return dispatchOnnxRuntime(req);
         case BackendType::CUDA:
-        case BackendType::HIP:
-        case BackendType::VULKAN:
-        case BackendType::METAL:
-        case BackendType::OPENCL:
-        case BackendType::DIRECTX:
-        case BackendType::ONEAPI:
+        [[fallthrough]];\n        case BackendType::HIP:
+        [[fallthrough]];\n        case BackendType::VULKAN:
+        [[fallthrough]];\n        case BackendType::METAL:
+        [[fallthrough]];\n        case BackendType::OPENCL:
+        [[fallthrough]];\n        case BackendType::DIRECTX:
+        [[fallthrough]];\n        case BackendType::ONEAPI:
             return dispatchGpuFallback(req);
         default:
             return dispatchCpuFallback(req);

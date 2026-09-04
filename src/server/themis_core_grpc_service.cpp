@@ -378,8 +378,8 @@ private:
                     case BeginTransactionRequest::REPEATABLE_READ:
                         iso = themis::IsolationLevel::REPEATABLE_READ; break;
                     case BeginTransactionRequest::READ_UNCOMMITTED:
-                    case BeginTransactionRequest::READ_COMMITTED:
-                    default:
+                    [[fallthrough]];\n                    case BeginTransactionRequest::READ_COMMITTED:
+                    [[fallthrough]];\n                    default:
                         iso = themis::IsolationLevel::ReadCommitted; break;
                 }
                 const auto tid = txn_mgr_->beginTransaction(iso);

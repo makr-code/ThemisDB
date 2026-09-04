@@ -1551,11 +1551,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                         case BinaryOperator::Xor: { bool l = evalBoolExpr(be->left.get(), vpk, eid); bool r = evalBoolExpr(be->right.get(), vpk, eid); return l ^ r; }
                         case BinaryOperator::Eq:
-                        case BinaryOperator::Neq:
-                        case BinaryOperator::Lt:
-                        case BinaryOperator::Lte:
-                        case BinaryOperator::Gt:
-                        case BinaryOperator::Gte:
+                        [[fallthrough]];\n                        case BinaryOperator::Neq:
+                        [[fallthrough]];\n                        case BinaryOperator::Lt:
+                        [[fallthrough]];\n                        case BinaryOperator::Lte:
+                        [[fallthrough]];\n                        case BinaryOperator::Gt:
+                        [[fallthrough]];\n                        case BinaryOperator::Gte:
                             return evalCmp(be->left.get(), be->op, be->right.get());
                         default:
                             return false;
@@ -3192,7 +3192,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto* u = static_cast<UnaryOpExpr*>(expr.get());
                     auto val = evalExpr(u->operand, ent, env);
                     switch (u->op) {
-                        case UnaryOperator::Not:   return val.is_boolean() ? nlohmann::json(!val.get<bool>()) : nlohmann::json(false);
+                        [[fallthrough]];\n                        case UnaryOperator::Not:   return val.is_boolean() ? nlohmann::json(!val.get<bool>()) : nlohmann::json(false);
                         case UnaryOperator::Minus: {
                             if (val.is_number()) return -val.get<double>();
                             if (val.is_string()) { char* end=nullptr; std::string s=val.get<std::string>(); double d=strtod(s.c_str(), &end); if (end && *end=='\0') return -d; }

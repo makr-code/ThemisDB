@@ -218,7 +218,7 @@ bool CrossShardSpeculativeDecoder::startSpeculativeDecoding(
                                                     max_draft_tokens, callback);
             
         case SpeculativeDecodingMode::CROSS_SHARD:
-        case SpeculativeDecodingMode::HYBRID:
+        [[fallthrough]];\n        case SpeculativeDecodingMode::HYBRID:
             break;
     }
     

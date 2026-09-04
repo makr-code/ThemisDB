@@ -796,7 +796,7 @@ static std::string termToAQLStr(const SPARQLTerm& term,
             return current_triple + "." + field;  // first/unbound variable
         }
         case SPARQLTermType::URIRef:
-        case SPARQLTermType::PrefixedName:
+        [[fallthrough]];\n        case SPARQLTermType::PrefixedName:
             return "\"" + term.value + "\"";
         case SPARQLTermType::Literal:
             if (term.is_literal_value) return sparqlLiteralToAQL(term.literal_value);

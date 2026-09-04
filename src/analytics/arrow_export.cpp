@@ -37,7 +37,7 @@ void ArrowRecordBatch::appendRow(const std::vector<std::variant<
         // Populate typed contiguous buffers for zero-copy Arrow access
         switch (columns_[i].schema.type) {
             case DataType::INT64:
-            case DataType::TIMESTAMP:
+            [[fallthrough]];\n            case DataType::TIMESTAMP:
                 columns_[i].int64_buffer.push_back(
                     is_null ? int64_t(0) : std::get<int64_t>(row_data[i]));
                 break;

@@ -159,8 +159,11 @@ std::string TensorMetadata::type_string() const {
 bool GGUFLoader::isFormatSupported(GGMLType type) {
     switch (type) {
         case GGMLType::F32:
+        [[fallthrough]];
         case GGMLType::F16:
+        [[fallthrough]];
         case GGMLType::Q4_K:  // Q4_K_M and Q4_K_S share the same enum value
+        [[fallthrough]];
         case GGMLType::Q8_0:
             return true;
         default:
@@ -454,7 +457,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
     
     switch (type) {
         case GGUFValueType::UINT8:
+        [[fallthrough]];
         case GGUFValueType::INT8:
+        [[fallthrough]];
         case GGUFValueType::BOOL: {
             if (offset + 1 > mmap_size_) return false;
             uint8_t val;
@@ -464,6 +469,7 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             return true;
         }
         case GGUFValueType::UINT16:
+        [[fallthrough]];
         case GGUFValueType::INT16: {
             if (offset + 2 > mmap_size_) return false;
             uint16_t val;
@@ -473,7 +479,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             return true;
         }
         case GGUFValueType::UINT32:
+        [[fallthrough]];
         case GGUFValueType::INT32:
+        [[fallthrough]];
         case GGUFValueType::FLOAT32: {
             if (offset + 4 > mmap_size_) return false;
             uint32_t val;
@@ -483,7 +491,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
             return true;
         }
         case GGUFValueType::UINT64:
+        [[fallthrough]];
         case GGUFValueType::INT64:
+        [[fallthrough]];
         case GGUFValueType::FLOAT64: {
             if (offset + 8 > mmap_size_) return false;
             uint64_t val;

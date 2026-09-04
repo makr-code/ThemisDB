@@ -454,7 +454,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     // ------------------------------------------------------------------
     case AnnStrategy::SCANN:
     // fallthrough: both use the global IAnnIndex backend
-    case AnnStrategy::DISKANN: {
+    [[fallthrough]];\n    case AnnStrategy::DISKANN: {
         if (!context.scope_id.empty()) {
             if (auto backend = resolveBackend(context.scope_id); backend) {
                 result.candidates = executeSearch(*backend, query_vector, dim, k);
@@ -477,7 +477,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
     // ------------------------------------------------------------------
     case AnnStrategy::FLAT_BRUTE_FORCE:
-    default: {
+    [[fallthrough]];\n    default: {
         // Try scope-specific or global backend first (may itself be brute force)
         if (auto backend = resolveBackend(context.scope_id); backend) {
             result.candidates = executeSearch(*backend, query_vector, dim, k);

@@ -168,20 +168,20 @@ bool TransactionRetryManager::isRetryable(ErrorType error_type) {
     switch (error_type) {
         // Retryable
         case ErrorType::WRITE_CONFLICT:
-        case ErrorType::TIMEOUT:
-        case ErrorType::NETWORK_ERROR:
-        case ErrorType::RESOURCE_EXHAUSTED:
-        case ErrorType::SERVICE_UNAVAILABLE:
+        [[fallthrough]];\n        case ErrorType::TIMEOUT:
+        [[fallthrough]];\n        case ErrorType::NETWORK_ERROR:
+        [[fallthrough]];\n        case ErrorType::RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorType::SERVICE_UNAVAILABLE:
             return true;
         
         // Non-retryable
         case ErrorType::CONSTRAINT_VIOLATION:
-        case ErrorType::INVALID_ARGUMENT:
-        case ErrorType::NOT_FOUND:
-        case ErrorType::PERMISSION_DENIED:
-        case ErrorType::DATA_CORRUPTION:
-        case ErrorType::UNKNOWN:
-        default:
+        [[fallthrough]];\n        case ErrorType::INVALID_ARGUMENT:
+        [[fallthrough]];\n        case ErrorType::NOT_FOUND:
+        [[fallthrough]];\n        case ErrorType::PERMISSION_DENIED:
+        [[fallthrough]];\n        case ErrorType::DATA_CORRUPTION:
+        [[fallthrough]];\n        case ErrorType::UNKNOWN:
+        [[fallthrough]];\n        default:
             return false;
     }
 }

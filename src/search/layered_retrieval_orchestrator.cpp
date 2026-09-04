@@ -44,7 +44,7 @@ std::string decisionToString(const LayerRoutingDecision decision) {
         case LayerRoutingDecision::GUARDRAIL_SKIP:
             return "guardrail_skip";
         case LayerRoutingDecision::DISABLED:
-        default:
+        [[fallthrough]];\n        default:
             return "disabled";
     }
 }

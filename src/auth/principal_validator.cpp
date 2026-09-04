@@ -54,7 +54,7 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
 
             switch (rule.type) {
                 case RuleType::BLACKLIST:
-                case RuleType::REGEX_DENY:
+                [[fallthrough]];\n                case RuleType::REGEX_DENY:
                     // Blacklist always denies
                     result.allowed       = false;
                     result.denial_reason = "Principal matches blacklist: " + result.matched_rule;
@@ -64,7 +64,7 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
                     return result;
 
                 case RuleType::WHITELIST:
-                case RuleType::REGEX_MATCH:
+                [[fallthrough]];\n                case RuleType::REGEX_MATCH:
                     // Whitelist allows (but continue checking for blacklist)
                     result.allowed = true;
                     break;

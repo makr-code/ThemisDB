@@ -918,14 +918,14 @@ private:
     static bool isKeyword(SQLTokenType t) {
         switch (t) {
             case SQLTokenType::SELECT: case SQLTokenType::FROM:   case SQLTokenType::WHERE:
-            case SQLTokenType::ORDER:  case SQLTokenType::BY:     case SQLTokenType::ASC:
-            case SQLTokenType::DESC:   case SQLTokenType::LIMIT:  case SQLTokenType::OFFSET:
-            case SQLTokenType::INSERT: case SQLTokenType::INTO:   case SQLTokenType::VALUES:
-            case SQLTokenType::UPDATE: case SQLTokenType::SET:    case SQLTokenType::DELETE:
-            case SQLTokenType::AND:    case SQLTokenType::OR:     case SQLTokenType::NOT:
-            case SQLTokenType::IN:     case SQLTokenType::LIKE:   case SQLTokenType::IS:
-            case SQLTokenType::NUL:    case SQLTokenType::TRUE_KW: case SQLTokenType::FALSE_KW:
-            case SQLTokenType::AS:     case SQLTokenType::DISTINCT:
+            [[fallthrough]];\n            case SQLTokenType::ORDER:  case SQLTokenType::BY:     case SQLTokenType::ASC:
+            [[fallthrough]];\n            case SQLTokenType::DESC:   case SQLTokenType::LIMIT:  case SQLTokenType::OFFSET:
+            [[fallthrough]];\n            case SQLTokenType::INSERT: case SQLTokenType::INTO:   case SQLTokenType::VALUES:
+            [[fallthrough]];\n            case SQLTokenType::UPDATE: case SQLTokenType::SET:    case SQLTokenType::DELETE:
+            [[fallthrough]];\n            case SQLTokenType::AND:    case SQLTokenType::OR:     case SQLTokenType::NOT:
+            [[fallthrough]];\n            case SQLTokenType::IN:     case SQLTokenType::LIKE:   case SQLTokenType::IS:
+            [[fallthrough]];\n            case SQLTokenType::NUL:    case SQLTokenType::TRUE_KW: case SQLTokenType::FALSE_KW:
+            [[fallthrough]];\n            case SQLTokenType::AS:     case SQLTokenType::DISTINCT:
                 return true;
             default: return false;
         }

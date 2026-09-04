@@ -365,9 +365,9 @@ bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
 bool UDPFastPath::isReadOnlyOpCode(uint8_t opcode) {
     switch (static_cast<UdpOpCode>(opcode)) {
         case UdpOpCode::GET:
-        case UdpOpCode::QUERY_AQL:
-        case UdpOpCode::VECTOR_SEARCH:
-        case UdpOpCode::PING:
+        [[fallthrough]];\n        case UdpOpCode::QUERY_AQL:
+        [[fallthrough]];\n        case UdpOpCode::VECTOR_SEARCH:
+        [[fallthrough]];\n        case UdpOpCode::PING:
             // These opcodes are semantically read-only and accepted by the
             // fast path.  QUERY_AQL and VECTOR_SEARCH currently return an
             // advisory "use TCP" response because multi-result streaming does

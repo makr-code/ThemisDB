@@ -280,7 +280,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const Rec
 
         switch (col.schema.type) {
             case DT::INT64:
-            case DT::TIMESTAMP: {
+            [[fallthrough]];\n            case DT::TIMESTAMP: {
                 fields.push_back(arrow::field(col.schema.name, arrow::int64(), col.schema.nullable));
                 const int64_t *raw = tb.getInt64Data(ci);
                 if (raw && !col.null_bitmap.empty()
@@ -412,13 +412,13 @@ static void appendFromArrowBatch(const arrow::RecordBatch &ab, RecordBatch &tb) 
             }
             switch (arr->type_id()) {
                 case arrow::Type::INT64:
-                case arrow::Type::TIMESTAMP: {
+                [[fallthrough]];\n                case arrow::Type::TIMESTAMP: {
                     auto *a = static_cast<const arrow::Int64Array *>(arr.get());
                     row.emplace_back(a->Value(ri));
                     break;
                 }
                 case arrow::Type::DOUBLE:
-                case arrow::Type::FLOAT: {
+                [[fallthrough]];\n                case arrow::Type::FLOAT: {
                     auto *a = static_cast<const arrow::DoubleArray *>(arr.get());
                     row.emplace_back(a->Value(ri));
                     break;
@@ -877,7 +877,7 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
             std::shared_ptr<arrow::DataType> dt;
             switch (col.schema.type) {
                 case DT::INT64:
-                case DT::TIMESTAMP:
+                [[fallthrough]];\n                case DT::TIMESTAMP:
                     dt = arrow::int64();
                     break;
                 case DT::DOUBLE:

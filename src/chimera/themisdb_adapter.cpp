@@ -1161,19 +1161,19 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
 bool ThemisDBAdapter::has_capability(Capability cap) const {
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
-        case Capability::VECTOR_SEARCH:
-        case Capability::GRAPH_TRAVERSAL:
-        case Capability::DOCUMENT_STORE:
-        case Capability::FULL_TEXT_SEARCH:
-        case Capability::TRANSACTIONS:
-        case Capability::DISTRIBUTED_QUERIES:
-        case Capability::GEOSPATIAL_QUERIES:
-        case Capability::TIME_SERIES:
-        case Capability::BATCH_OPERATIONS:
-        case Capability::SECONDARY_INDEXES:
-        case Capability::ASYNC_OPERATIONS:
-        case Capability::STREAMING_RESULTS:
-        case Capability::PREPARED_STATEMENTS:
+        [[fallthrough]];\n        case Capability::VECTOR_SEARCH:
+        [[fallthrough]];\n        case Capability::GRAPH_TRAVERSAL:
+        [[fallthrough]];\n        case Capability::DOCUMENT_STORE:
+        [[fallthrough]];\n        case Capability::FULL_TEXT_SEARCH:
+        [[fallthrough]];\n        case Capability::TRANSACTIONS:
+        [[fallthrough]];\n        case Capability::DISTRIBUTED_QUERIES:
+        [[fallthrough]];\n        case Capability::GEOSPATIAL_QUERIES:
+        [[fallthrough]];\n        case Capability::TIME_SERIES:
+        [[fallthrough]];\n        case Capability::BATCH_OPERATIONS:
+        [[fallthrough]];\n        case Capability::SECONDARY_INDEXES:
+        [[fallthrough]];\n        case Capability::ASYNC_OPERATIONS:
+        [[fallthrough]];\n        case Capability::STREAMING_RESULTS:
+        [[fallthrough]];\n        case Capability::PREPARED_STATEMENTS:
             return true;
         case Capability::CONNECTION_POOLING:
             // Resolved: returns true when a connection-pool provider has been

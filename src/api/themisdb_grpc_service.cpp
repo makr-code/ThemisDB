@@ -110,57 +110,57 @@ grpc::StatusCode mapThemisErrorCodeToGrpcStatusCode(themis::errors::ErrorCode co
             return grpc::StatusCode::UNAUTHENTICATED;
 
         case ErrorCode::ERR_QUERY_ACCESS_DENIED:
-        case ErrorCode::ERR_UTIL_PERMISSION_DENIED:
-        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
-        case ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED:
-        case ErrorCode::ERR_EXPORT_POLICY_DENIED:
+        [[fallthrough]];\n        case ErrorCode::ERR_UTIL_PERMISSION_DENIED:
+        [[fallthrough]];\n        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
+        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED:
+        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_POLICY_DENIED:
             return grpc::StatusCode::PERMISSION_DENIED;
 
         case ErrorCode::ERR_DOC_NOT_FOUND:
-        case ErrorCode::ERR_INDEX_NOT_FOUND:
-        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
-        case ErrorCode::ERR_BACKUP_NOT_FOUND:
-        case ErrorCode::ERR_PLUGIN_NOT_FOUND:
-        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_INDEX_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_BACKUP_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_PLUGIN_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
             return grpc::StatusCode::NOT_FOUND;
 
         case ErrorCode::ERR_QUERY_INVALID_SYNTAX:
-        case ErrorCode::ERR_QUERY_INVALID:
-        case ErrorCode::ERR_QUERY_INVALID_INPUT:
-        case ErrorCode::ERR_UTIL_INVALID_ARGUMENT:
-        case ErrorCode::ERR_API_INVALID_REQUEST:
+        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_INVALID:
+        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_INVALID_INPUT:
+        [[fallthrough]];\n        case ErrorCode::ERR_UTIL_INVALID_ARGUMENT:
+        [[fallthrough]];\n        case ErrorCode::ERR_API_INVALID_REQUEST:
             return grpc::StatusCode::INVALID_ARGUMENT;
 
         case ErrorCode::ERR_QUERY_TIMEOUT:
-        case ErrorCode::ERR_NET_TIMEOUT:
-        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
+        [[fallthrough]];\n        case ErrorCode::ERR_NET_TIMEOUT:
+        [[fallthrough]];\n        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
             return grpc::StatusCode::DEADLINE_EXCEEDED;
 
         case ErrorCode::ERR_QUERY_CANCELLED:
             return grpc::StatusCode::CANCELLED;
 
         case ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED:
-        case ErrorCode::ERR_API_RATE_LIMIT:
-        case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
-        case ErrorCode::ERR_MEMORY_POOL_EXHAUSTED:
-        case ErrorCode::ERR_MEMORY_ALLOCATION_FAILED:
-        case ErrorCode::ERR_LLM_GPU_OOM:
-        case ErrorCode::ERR_LLM_RAM_OOM:
-        case ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE:
-        case ErrorCode::ERR_CACHE_FULL:
-        case ErrorCode::ERR_EXPORT_SIZE_LIMIT_EXCEEDED:
+        [[fallthrough]];\n        case ErrorCode::ERR_API_RATE_LIMIT:
+        [[fallthrough]];\n        case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorCode::ERR_MEMORY_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorCode::ERR_MEMORY_ALLOCATION_FAILED:
+        [[fallthrough]];\n        case ErrorCode::ERR_LLM_GPU_OOM:
+        [[fallthrough]];\n        case ErrorCode::ERR_LLM_RAM_OOM:
+        [[fallthrough]];\n        case ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE:
+        [[fallthrough]];\n        case ErrorCode::ERR_CACHE_FULL:
+        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_SIZE_LIMIT_EXCEEDED:
             return grpc::StatusCode::RESOURCE_EXHAUSTED;
 
         case ErrorCode::ERR_STORAGE_TRANSACTION_FAILED:
             return grpc::StatusCode::ABORTED;
 
         case ErrorCode::ERR_NET_CONNECTION_REFUSED:
-        case ErrorCode::ERR_NET_DNS_FAILURE:
+        [[fallthrough]];\n        case ErrorCode::ERR_NET_DNS_FAILURE:
             return grpc::StatusCode::UNAVAILABLE;
 
         case ErrorCode::ERR_PLUGIN_INCOMPATIBLE:
-        case ErrorCode::ERR_QUERY_TYPE_MISMATCH:
-        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
+        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_TYPE_MISMATCH:
+        [[fallthrough]];\n        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
             return grpc::StatusCode::FAILED_PRECONDITION;
 
         default:

@@ -833,7 +833,7 @@ void InlineTrainingEngine::optimizerStep(
 
     switch (opt.type) {
         case OptimizerType::ADAM:
-        case OptimizerType::ADAM_W: {
+        [[fallthrough]];\n        case OptimizerType::ADAM_W: {
             // Initialise moment vectors on first call
             if (impl_->m_adam.size() != n) {
                 impl_->m_adam.assign(n, 0.0f);
@@ -933,7 +933,7 @@ float InlineTrainingEngine::getLearningRate(int step) const {
             return max_lr * (1.0f - t) + min_lr * t;
 
         case SchedulerType::COSINE:
-        case SchedulerType::COSINE_WITH_WARMUP:
+        [[fallthrough]];\n        case SchedulerType::COSINE_WITH_WARMUP:
             return min_lr + 0.5f * (max_lr - min_lr) * (1.0f + std::cos(kPi * t));
 
         case SchedulerType::POLYNOMIAL:

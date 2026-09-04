@@ -216,10 +216,10 @@ std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode co
 bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_FAILED_LOCKED:
-        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
-        case DiagnosticErrorCode::NETWORK_PARTITION:
-        case DiagnosticErrorCode::DATA_LOSS_RISK:
-        case DiagnosticErrorCode::CASCADE_DETECTED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::NETWORK_PARTITION:
+        [[fallthrough]];\n        case DiagnosticErrorCode::DATA_LOSS_RISK:
+        [[fallthrough]];\n        case DiagnosticErrorCode::CASCADE_DETECTED:
             return true;
         default:
             return false;
@@ -233,9 +233,9 @@ bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
 bool UpdatesEdgeCaseHandler::requiresIsolation(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:
-        case DiagnosticErrorCode::STATE_FAILED_LOCKED:
-        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
-        case DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE:
+        [[fallthrough]];\n        case DiagnosticErrorCode::STATE_FAILED_LOCKED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
+        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE:
             return true;
         default:
             return false;

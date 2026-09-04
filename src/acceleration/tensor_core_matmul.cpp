@@ -98,7 +98,7 @@ int dispatchMatmul(const MatrixKernelParams &params, void *opaque_stream) {
             return launchINT8MatmulKernel(static_cast<const int8_t *>(params.A), static_cast<const int8_t *>(params.B),
                                           static_cast<int32_t *>(params.C), M, K, N, params.alpha, params.beta, stream);
         case MatrixPrecision::FP32:
-        default:
+        [[fallthrough]];\n        default:
             return launchFP32MatmulKernel(static_cast<const float *>(params.A), static_cast<const float *>(params.B),
                                           static_cast<float *>(params.C), M, K, N, params.alpha, params.beta, stream);
     }

@@ -387,7 +387,7 @@ std::string AuthMetrics::authMethodToString(AuthMethod method) {
         case AuthMethod::API_KEY:
             return "api_key";
         case AuthMethod::UNKNOWN:
-        default:
+        [[fallthrough]];\n        default:
             return "unknown";
     }
 }

@@ -215,7 +215,7 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
         case PartitionStrategy::CUSTOM:
             [[fallthrough]];
         case PartitionStrategy::HASH:
-        default: {
+        [[fallthrough]];\n        default: {
             // FNV-1a hash → uniform bucket assignment.
             uint64_t h = 14695981039346656037ULL;
             for (unsigned char c : local_vertex_id) {

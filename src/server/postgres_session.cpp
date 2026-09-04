@@ -253,7 +253,7 @@ char PostgresSession::currentTransactionStatus() const {
         case TransactionState::FAILED:
             return 'E';
         case TransactionState::IDLE:
-        default:
+        [[fallthrough]];\n        default:
             return 'I';
     }
 }

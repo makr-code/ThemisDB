@@ -242,7 +242,7 @@ json VoiceErrorHandler::handleError(
     // Suggest recovery action
     switch (code) {
         case VoiceErrorCode::SESSION_NOT_FOUND:
-        case VoiceErrorCode::SESSION_EXPIRED:
+        [[fallthrough]];\n        case VoiceErrorCode::SESSION_EXPIRED:
             report["recovery_action"] = "create_new_session";
             break;
         case VoiceErrorCode::CONSENT_MISSING:
@@ -252,7 +252,7 @@ json VoiceErrorHandler::handleError(
             report["recovery_action"] = "backoff_and_retry";
             break;
         case VoiceErrorCode::NETWORK_ERROR:
-        case VoiceErrorCode::TIMEOUT:
+        [[fallthrough]];\n        case VoiceErrorCode::TIMEOUT:
             report["recovery_action"] = "retry_with_backoff";
             break;
         case VoiceErrorCode::MODEL_NOT_LOADED:

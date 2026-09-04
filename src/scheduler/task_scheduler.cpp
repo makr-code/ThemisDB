@@ -246,7 +246,7 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
 
     switch (policy.strategy) {
         case ScheduledTask::RetryStrategy::NONE:
-        case ScheduledTask::RetryStrategy::FIXED_DELAY:
+        [[fallthrough]];\n        case ScheduledTask::RetryStrategy::FIXED_DELAY:
             delay_ms = base_ms;
             break;
 

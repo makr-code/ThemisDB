@@ -188,7 +188,7 @@ public:
             }
 #endif
             case CommBackend::CPU:
-            default:
+            [[fallthrough]];\n            default:
                 activeCommBackend = CommBackend::CPU;
                 success = true;
                 THEMIS_INFO("MultiGPUVectorIndex: Using CPU-based communication (no GPU collectives)");

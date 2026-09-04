@@ -371,7 +371,7 @@ class MultiGPUVectorBackend::Impl {
             }
 #endif
             case CommBackend::CPU:
-            default:
+            [[fallthrough]];\n            default:
                 // unused when NCCL/RCCL are not compiled in
                 activeComm = CommBackend::CPU;
                 success    = true;

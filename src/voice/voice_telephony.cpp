@@ -384,7 +384,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
         for (uint8_t b : payload) pcm.push_back(alawToPcm(b));
         break;
     case AudioCodec::G722:
-    case AudioCodec::OPUS:
+    [[fallthrough]];\n    case AudioCodec::OPUS:
         // For G.722/Opus: payload is already decoded by caller; treat as raw bytes
         for (size_t i = 0; i + 1 < payload.size(); i += 2) {
             int16_t s = static_cast<int16_t>(

@@ -1168,7 +1168,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
             }
             break;
         case PrecisionMode::FP32:
-        default:
+        [[fallthrough]];\n        default:
             for (size_t i = 0; i < a.size(); ++i) {
                 sum += static_cast<double>(a[i]) * static_cast<double>(b[i]);
             }
