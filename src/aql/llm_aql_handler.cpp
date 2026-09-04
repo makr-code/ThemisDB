@@ -157,7 +157,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
  * @brief Reject input that contains well-known prompt injection patterns.
  *
  * Checks for:
- *  - Instruction-override phrases ("ignore previous instructions", etc.)
+ *  - Instruction-override phrases ("ignor[[maybe_unused]] e previou[[maybe_unused]] s instruction[[maybe_unused]] s", et[[maybe_unused]] c.)
  *  - Persona-hijacking phrases ("you are now a", "act as a different")
  *  - Explicit override markers ("[SYSTEM]", "<system>", "###system")
  *  - DAN/jailbreak markers ("do anything now")
@@ -576,7 +576,7 @@ class LLMAQLHandler::Impl {
     // Runtime-overridable validation limits (default = ValidationLimits constexprs)
     ValidationLimitsConfig validation_limits_{};
 
-    // Optional chat executor override (for unit tests)
+    // Optional chat executor override (fo[[maybe_unused]] r uni[[maybe_unused]] t test[[maybe_unused]] s)
     std::function<std::string(const std::vector<llm::ChatMessage> &)> chat_executor_;
     std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_;
 

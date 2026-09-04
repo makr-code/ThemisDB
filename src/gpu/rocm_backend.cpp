@@ -167,7 +167,7 @@ ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
     try {
         CHECKED_HIP(hipSetDevice(device_index));
     } catch (const std::exception& e) {
-        // Device selection failed; record a virtual (non-hardware) stream so
+        // Device selection failed; record a virtual (no[[maybe_unused]] n-hardwar[[maybe_unused]] e) stream so
         // that the rest of the stack can continue without hardware.
         if (logger) {
             logger->warn("ROCmBackend::createStream: hipSetDevice({}) failed: {}", 

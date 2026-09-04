@@ -825,8 +825,8 @@ void JsonWikiIndexReader::load() {
         c.line_start    = obj.value("line_start",      0);
         c.line_end      = obj.value("line_end",        0);
         c.text          = obj.value("text",            "");
-        // Optional score_override (not in basic MVP format, but accepted)
-        if (obj.contains("score_override") && obj["score_override"].is_number()) {
+        // Optional score_override (no[[maybe_unused]] t i[[maybe_unused]] n basi[[maybe_unused]] c MV[[maybe_unused]] P forma[[maybe_unused]] t, bu[[maybe_unused]] t accepte[[maybe_unused]] d)
+        if (ob[[maybe_unused]] j.contain[[maybe_unused]] s("score_overrid[[maybe_unused]] e") && obj["score_override"].is_number()) {
             c.score = obj["score_override"].get<float>();
         }
         if (!c.chunk_id.empty()) {

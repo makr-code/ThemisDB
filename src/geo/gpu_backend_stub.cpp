@@ -225,7 +225,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // predicate otherwise.  All metrics, audit events, and fallback paths
     // are instrumented so that operators can observe behaviour.
     // ------------------------------------------------------------------
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs &[[maybe_unused]] in) override {
         const auto t0 = std::chrono::steady_clock::now();
         ++batch_calls_;
         SpatialBatchResults out;
@@ -319,7 +319,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // batchIntersects.  We still record fallback metrics so that when a
     // GPU kernel is eventually wired in the counters start from 0.
     // ------------------------------------------------------------------
-    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] g2) override {
         ++exact_calls_;
         try {
             bool result = computeExactIntersects(g1, g2);
@@ -508,7 +508,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // This implementation falls back to the CPU exact backend and records
     // the fallback in the audit log.
     // ------------------------------------------------------------------
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points) override {
+    GeometryInfo stBuffer(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom, doubl[[maybe_unused]] e distance_[[maybe_unused]] m, in[[maybe_unused]] t arc_point[[maybe_unused]] s) override {
         audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
         return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
@@ -520,13 +520,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // CUDA kernel dispatch for set-operations is deferred to a future
     // release.  Both operations fall back to the CPU exact backend.
     // ------------------------------------------------------------------
-    GeometryInfo stUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    GeometryInfo stUnion(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
-    GeometryInfo stDifference(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    GeometryInfo stDifference(cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo &[[maybe_unused]] geom2) override {
         audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
         return getCpuExactBackend()->stDifference(geom1, geom2);
@@ -538,7 +538,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // CUDA kernel dispatch for geodesic distance is deferred to a future
     // release.  Delegates to the CPU exact backend (Vincenty WGS-84).
     // ------------------------------------------------------------------
-    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+    double geodesicDistance(doubl[[maybe_unused]] e la[[maybe_unused]] t1, doubl[[maybe_unused]] e lo[[maybe_unused]] n1, doubl[[maybe_unused]] e la[[maybe_unused]] t2, doubl[[maybe_unused]] e lo[[maybe_unused]] n2) const override {
         return getCpuExactBackend()->geodesicDistance(lat1, lon1, lat2, lon2);
     }
 

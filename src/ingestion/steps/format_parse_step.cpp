@@ -67,12 +67,12 @@ public:
     const char* getName()    const override { return plugin_name_; }
     const char* getVersion() const override { return "0.1.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     // canHandle: delegate to extractor's MIME list
-    bool canHandle(const ExtractionContext& ctx) const override {
+    bool canHandle(cons[[maybe_unused]] t ExtractionContext& [[maybe_unused]] ctx) const override {
         if (!extractor_) return false;
         const auto& mimes = extractor_->supportedMimeTypes();
         if (mimes.empty()) return true;

@@ -949,9 +949,9 @@ std::vector<std::pair<std::vector<size_t>, std::vector<size_t>>> makeFolds(size_
 /** Abstract base for type-erased trained models. */
 struct ModelBase {
     virtual ~ModelBase()                                                            = default;
-    virtual double predictOneReg(const std::vector<double> &x) const                = 0;
-    virtual int predictOneCls(const std::vector<double> &x) const                   = 0;
-    virtual std::vector<double> predictProbaOne(const std::vector<double> &x) const = 0;
+    virtual double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const                = 0;
+    virtual int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const                   = 0;
+    virtual std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const = 0;
     virtual ModelAlgorithm algorithm() const noexcept                               = 0;
     virtual std::unique_ptr<ModelBase> clone() const                                = 0;
 };
@@ -961,13 +961,13 @@ struct ModelBase {
 struct DTModel : ModelBase {
     DecisionTree tree;
     explicit DTModel(DecisionTree t) : tree(std::move(t)) {}
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return tree.predictOne(x);
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return static_cast<int>(std::round(tree.predictOne(x)));
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return tree.predictProbaOne(x);
     }
     ModelAlgorithm algorithm() const noexcept override {
@@ -981,7 +981,7 @@ struct DTModel : ModelBase {
 struct LRModel : ModelBase {
     LogisticRegression lr;
     explicit LRModel(LogisticRegression l) : lr(std::move(l)) {}
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         // Compute the expected class value: sum(class_index * P(class_index)).
         // For binary classification (classes 0 and 1) this equals P(class=1),
         // the standard logistic-regression regression proxy.
@@ -993,11 +993,11 @@ struct LRModel : ModelBase {
         }
         return v;
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         auto p = lr.predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return lr.predictProbaOne(x);
     }
     ModelAlgorithm algorithm() const noexcept override {
@@ -1011,13 +1011,13 @@ struct LRModel : ModelBase {
 struct LinRegModel : ModelBase {
     LinearReg lr;
     explicit LinRegModel(LinearReg l) : lr(std::move(l)) {}
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return lr.predictOne(x);
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return static_cast<int>(std::round(lr.predictOne(x)));
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         return {lr.predictOne(x)};
     }
     ModelAlgorithm algorithm() const noexcept override {
@@ -1034,7 +1034,7 @@ struct RFModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         if (trees.empty()) {
             return 0.0;
         }
@@ -1044,11 +1044,11 @@ struct RFModel : ModelBase {
         }
         return s / static_cast<double>(trees.size());
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         std::vector<double> probs = predictProbaOne(x);
         return static_cast<int>(std::max_element(probs.begin(), probs.end()) - probs.begin());
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         if (trees.empty()) {
             return std::vector<double>(static_cast<size_t>(n_classes), 1.0 / n_classes);
         }
@@ -1084,18 +1084,18 @@ struct GBModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         double v = base_value;
         for (const auto &s : stages) {
             v += s.lr * s.tree.predictOne(x);
         }
         return v;
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         double v = predictOneReg(x);
         return v >= 0.5 ? 1 : 0;
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         double raw = predictOneReg(x);
         double p   = sigmoid(raw);
         return {1.0 - p, p};
@@ -1117,7 +1117,7 @@ struct KNNModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         auto nbrs  = neighbors(x);
         double sum = 0.0, wsum = 0.0;
         for (auto [d2, i] : nbrs) {
@@ -1127,11 +1127,11 @@ struct KNNModel : ModelBase {
         }
         return (wsum > 0) ? sum / wsum : 0.0;
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         auto p = predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         auto nbrs = neighbors(x);
         std::vector<double> votes(static_cast<size_t>(n_classes), 0.0);
         double wsum = 0.0;
@@ -1177,7 +1177,7 @@ struct EnsembleModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(const std::vector<double> &x) const override {
+    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         if (members.empty()) {
             return 0.0;
         }
@@ -1187,11 +1187,11 @@ struct EnsembleModel : ModelBase {
         }
         return s / static_cast<double>(members.size());
     }
-    int predictOneCls(const std::vector<double> &x) const override {
+    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         auto p = predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
     }
-    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
+    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         if (members.empty()) {
             return std::vector<double>(static_cast<size_t>(n_classes), 1.0 / n_classes);
         }

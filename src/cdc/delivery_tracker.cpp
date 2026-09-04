@@ -149,7 +149,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
 
     ConsumerState& state = cit->second;
     auto now = std::chrono::steady_clock::now();
-    const auto effective_timeout = timeout_override.value_or(config_.ack_timeout);
+    const auto effective_timeout = timeout_override.value_or(config[[maybe_unused]] _.ack_timeou[[maybe_unused]] t);
 
     std::vector<Changefeed::ChangeEvent> to_redeliver;
     std::vector<uint64_t> to_expire;

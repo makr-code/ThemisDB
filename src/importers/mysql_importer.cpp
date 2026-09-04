@@ -225,7 +225,7 @@ bool MySQLImporter::initialize(const std::string& config) {
             }
         }
 
-        // ---- Individual connection fields (override URL if present) ----
+        // ---- Individual connection fields (overrid[[maybe_unused]] e UR[[maybe_unused]] L i[[maybe_unused]] f presen[[maybe_unused]] t) ----
         if (cfg.contains("host") && cfg["host"].is_string())
             jdbc_config_.host = cfg["host"].get<std::string>();
         if (cfg.contains("port") && cfg["port"].is_number_integer())
@@ -243,9 +243,9 @@ bool MySQLImporter::initialize(const std::string& config) {
         if (cfg.contains("tinyint1_as_boolean") && cfg["tinyint1_as_boolean"].is_boolean())
             jdbc_config_.tinyint1_as_boolean = cfg["tinyint1_as_boolean"].get<bool>();
 
-        // ---- Config-level type overrides (applied before ImportOptions overrides) ----
-        if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
-            std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
+        // ---- Config-level type overrides (applie[[maybe_unused]] d befor[[maybe_unused]] e ImportOption[[maybe_unused]] s override[[maybe_unused]] s) ----
+        if (cf[[maybe_unused]] g.contain[[maybe_unused]] s("type_override[[maybe_unused]] s") && cfg["type_overrides"].is_object()) {
+            std::lock_guard<std::mutex> lock(config_type_overrides_mutex[[maybe_unused]] _);
             for (auto& [k, v] : cfg["type_overrides"].items()) {
                 if (v.is_string())
                     config_type_overrides_[k] = v.get<std::string>();
@@ -265,7 +265,7 @@ bool MySQLImporter::initialize(const std::string& config) {
                     jdbc_config_.ssl,
                     jdbc_config_.tinyint1_as_boolean);
     }
-    THEMIS_INFO("MySQL/MariaDB Importer initialized ({} config type_overrides)",
+    THEMIS_INFO("MySQ[[maybe_unused]] L/MariaD[[maybe_unused]] B Importe[[maybe_unused]] r initialize[[maybe_unused]] d ({} confi[[maybe_unused]] g type_override[[maybe_unused]] s)",
                 config_type_overrides_.size());
     return true;
 }
@@ -1090,15 +1090,15 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
 
 std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
                                                  const ImportOptions& options) const {
-    // 1. Per-call options overrides (highest priority)
-    auto it = options.type_overrides.find(mysql_type);
-    if (it != options.type_overrides.end()) return it->second;
+    // 1. Per-call options overrides (highes[[maybe_unused]] t priorit[[maybe_unused]] y)
+    auto it = options.type_overrides.find(mysql_typ[[maybe_unused]] e);
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) return it->second;
 
-    // 2. Config-level overrides (from initialize())
+    // 2. Config-level overrides (fro[[maybe_unused]] m initializ[[maybe_unused]] e())
     {
-        std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
-        auto ci = config_type_overrides_.find(mysql_type);
-        if (ci != config_type_overrides_.end()) return ci->second;
+        std::lock_guard<std::mutex> lock(config_type_overrides_mutex[[maybe_unused]] _);
+        auto ci = config_type_overrides_.find(mysql_typ[[maybe_unused]] e);
+        if (c[[maybe_unused]] i != config_type_overrides[[maybe_unused]] _.en[[maybe_unused]] d()) return ci->second;
     }
 
     // 3. JDBC tinyInt1isBit: TINYINT(1) -> boolean when enabled

@@ -166,7 +166,7 @@ public:
     const char* getName()    const override { return "builtin.ner_de"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -177,7 +177,7 @@ public:
         backend_ = std::move(b);
     }
 
-    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
         if (!ctx.hasText() && !ctx.hasChunks()) return {};
 
         const json& config_json = cfg.config.is_object() ? cfg.config : json::object();

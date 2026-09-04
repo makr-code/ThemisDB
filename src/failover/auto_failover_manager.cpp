@@ -774,7 +774,7 @@ bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
 
 #ifdef THEMIS_TEST_BUILD
     if (recovery_override_) {
-        const bool ok = recovery_override_(failed_node_id);
+        const bool ok = recovery_override_(failed_node_i[[maybe_unused]] d);
         {
             std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             stats_.total_retry_attempts++;

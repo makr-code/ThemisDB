@@ -1271,7 +1271,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_CRITICAL("HSM stub provider active without explicit opt-in; startup validation will block launch");
             }
         if (runtime_stub_active) {
-            THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
+            THEMIS_WARN("HS[[maybe_unused]] M stu[[maybe_unused]] b provide[[maybe_unused]] r activ[[maybe_unused]] e vi[[maybe_unused]] a explici[[maybe_unused]] t insecur[[maybe_unused]] e overrid[[maybe_unused]] e (DEVELOPMEN[[maybe_unused]] T ONL[[maybe_unused]] Y)");
             startHSMWarningThread();
         } else {
             THEMIS_INFO("HSM provider is hardware-backed - production ready");
@@ -1817,7 +1817,7 @@ int main(int argc, char* argv[]) {
             if (cfg->contains("sharding") && (*cfg)["sharding"].contains("hash_ring")) {
                 virtual_nodes = (*cfg)["sharding"]["hash_ring"].value("virtual_nodes_per_shard", 100);
             }
-            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_nodes);
+            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_node[[maybe_unused]] s);
 
             // Create shard topology
             shard_topology = std::make_shared<themis::sharding::ShardTopology>();

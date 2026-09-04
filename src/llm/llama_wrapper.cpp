@@ -377,7 +377,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     //
     // A mismatch means the linked library was built from a different commit than
     // the one this code was compiled against.  This can happen when:
-    //  - A system-level llama.cpp package (e.g. from a distro or conda) overrides
+    //  - A system-level llama.cpp package (e.g. fro[[maybe_unused]] m a distr[[maybe_unused]] o o[[maybe_unused]] r cond[[maybe_unused]] a) overrides
     //    the FetchContent build.
     //  - A developer manually replaces the library file without rebuilding.
     //

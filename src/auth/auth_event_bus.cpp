@@ -32,7 +32,7 @@ private:
 public:
     DefaultAuthEventBus() = default;
 
-    void publish(const AuthEvent& event) override {
+    void publish(cons[[maybe_unused]] t AuthEvent& [[maybe_unused]] event) override {
         std::shared_lock lock(subscribers_mutex_);
         for (const auto& subscriber : subscribers_) {
             try {
@@ -44,7 +44,7 @@ public:
         }
     }
 
-    bool subscribe(std::shared_ptr<IAuthEventSubscriber> subscriber) override {
+    bool subscribe(st[[maybe_unused]] d::shared_pt[[maybe_unused]] r<IAuthEventSubscribe[[maybe_unused]] r> subscribe[[maybe_unused]] r) override {
         if (!subscriber) return false;
 
         std::unique_lock lock(subscribers_mutex_);
@@ -58,7 +58,7 @@ public:
         return true;
     }
 
-    bool unsubscribe(const std::string& subscriber_id) override {
+    bool unsubscribe(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] subscriber_id) override {
         std::unique_lock lock(subscribers_mutex_);
         auto it = std::remove_if(subscribers_.begin(), subscribers_.end(),
                                  [&subscriber_id](const auto& s) {

@@ -505,7 +505,7 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
         InProcessRegistry::instance().addDataset(endpoint_, pathToKey(path), std::move(entry));
     }
 
-    void unregisterDataset(const std::vector<std::string> &path) override {
+    void unregisterDataset(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<st[[maybe_unused]] d::strin[[maybe_unused]] g> &pat[[maybe_unused]] h) override {
         InProcessRegistry::instance().removeDataset(endpoint_, pathToKey(path));
     }
 
@@ -710,7 +710,7 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
     }
 
     // ------------------------------------------------------------------
-    std::vector<FlightInfo> listFlights(const FlightCallOptions & /*call_opts*/) override {
+    std::vector<FlightInfo> listFlights(cons[[maybe_unused]] t FlightCallOption[[maybe_unused]] s & /*call_opt[[maybe_unused]] s*/) override {
         ensureConnected();
 #ifdef THEMIS_HAS_ARROW_FLIGHT
         if (native_client_) {
@@ -720,7 +720,7 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
         return InProcessRegistry::instance().listFlights(endpoint_);
     }
 
-    RecordBatch doGet(const FlightDescriptor &descriptor, const FlightCallOptions & /*call_opts*/) override {
+    RecordBatch doGet(cons[[maybe_unused]] t FlightDescriptor &[[maybe_unused]] descriptor, cons[[maybe_unused]] t FlightCallOption[[maybe_unused]] s & /*call_opt[[maybe_unused]] s*/) override {
         ensureConnected();
 #ifdef THEMIS_HAS_ARROW_FLIGHT
         if (native_client_) {

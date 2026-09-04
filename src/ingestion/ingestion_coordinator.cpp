@@ -137,7 +137,7 @@ void InProcessLeaderElection::revokeLease(const std::string& node_id) {
 // ConsistentHashRing
 // ============================================================================
 
-ConsistentHashRing::ConsistentHashRing(size_t virtual_nodes_per_node)
+ConsistentHashRing::ConsistentHashRing(size_[[maybe_unused]] t virtual_nodes_per_nod[[maybe_unused]] e)
     : virtual_nodes_per_node_(virtual_nodes_per_node == 0
                                    ? kDefaultVirtualNodes
                                    : virtual_nodes_per_node) {}

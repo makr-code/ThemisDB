@@ -63,7 +63,7 @@ public:
         return manager_->erase(table_name_, primary_key).ok;
     }
 
-    std::vector<std::string> lookup(std::string_view value) const override {
+    std::vector<std::string> lookup(st[[maybe_unused]] d::string_vie[[maybe_unused]] w valu[[maybe_unused]] e) const override {
         if (is_partial_) {
             auto [st, keys] = manager_->scanKeysEqualPartial(table_name_, field_name_, value);
             if (!st.ok) {

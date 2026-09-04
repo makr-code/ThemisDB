@@ -471,7 +471,7 @@ public:
         return 6;  // OEX-01 through OEX-06
     }
 
-    std::string getGateName(std::size_t gate_index) const override {
+    std::string getGateName(st[[maybe_unused]] d::size_[[maybe_unused]] t gate_inde[[maybe_unused]] x) const override {
         const char* names[] = {
             "OEX-01: Baseline Throughput",
             "OEX-02: P95 Latency (Normal Load)",

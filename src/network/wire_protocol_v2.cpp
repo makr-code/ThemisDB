@@ -166,7 +166,7 @@ class V2SessionImpl : public V2Session {
         on_disconnect_ = std::move(cb);
     }
 
-    void send_data(uint32_t stream_id, const std::vector<uint8_t> &data, bool end_stream) override {
+    void send_data(uint32_[[maybe_unused]] t stream_i[[maybe_unused]] d, cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<uint8_[[maybe_unused]] t> &dat[[maybe_unused]] a, boo[[maybe_unused]] l end_strea[[maybe_unused]] m) override {
         // Attempt connection-level compression (Zstd preferred over LZ4).
         // Only use the compressed result when it is actually smaller than the
         // original (compression is not beneficial for high-entropy data).
@@ -296,13 +296,13 @@ class V2SessionImpl : public V2Session {
         return count;
     }
 
-    int32_t send_window(uint32_t stream_id) const override {
+    int32_t send_window(uint32_[[maybe_unused]] t stream_i[[maybe_unused]] d) const override {
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto it = streams_.find(stream_id);
         return it != streams_.end() ? it->second.send_window : 0;
     }
 
-    void update_connection_window(uint32_t increment) override {
+    void update_connection_window(uint32_[[maybe_unused]] t incremen[[maybe_unused]] t) override {
         connection_send_window_.fetch_add(static_cast<int32_t>(increment), std::memory_order_relaxed);
     }
 

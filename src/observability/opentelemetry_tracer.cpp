@@ -118,26 +118,26 @@ public:
         attributes_[key] = value;
     }
 
-    void setAttribute(const std::string& key, int64_t value) override {
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, int64_[[maybe_unused]] t valu[[maybe_unused]] e) override {
         setAttribute(key, std::to_string(value));
     }
 
-    void setAttribute(const std::string& key, double value) override {
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, doubl[[maybe_unused]] e valu[[maybe_unused]] e) override {
         std::ostringstream oss;
         oss << value;
         setAttribute(key, oss.str());
     }
 
-    void setAttribute(const std::string& key, bool value) override {
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key, boo[[maybe_unused]] l valu[[maybe_unused]] e) override {
         setAttribute(key, std::string(value ? "true" : "false"));
     }
 
-    void recordError(const std::string& errorMessage) override {
+    void recordError(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] errorMessage) override {
         setStatus(false, errorMessage);
         setAttribute("error.message", errorMessage);
     }
 
-    void setStatus(bool ok, const std::string& description = "") override {
+    void setStatus(boo[[maybe_unused]] l o[[maybe_unused]] k, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] description = "") override {
         ok_                 = ok;
         status_description_ = description;
     }
@@ -217,12 +217,12 @@ private:
  */
 class DroppedOtelSpan : public core::concerns::ITracer::ISpan {
 public:
-    void setAttribute(const std::string&, const std::string&) override {}
-    void setAttribute(const std::string&, int64_t)            override {}
-    void setAttribute(const std::string&, double)             override {}
-    void setAttribute(const std::string&, bool)               override {}
-    void recordError(const std::string&)                      override {}
-    void setStatus(bool, const std::string& = "")             override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&) override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, int64_[[maybe_unused]] t)            override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, doubl[[maybe_unused]] e)             override {}
+    void setAttribute(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&, boo[[maybe_unused]] l)               override {}
+    void recordError(cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g&)                      override {}
+    void setStatus(boo[[maybe_unused]] l, cons[[maybe_unused]] t st[[maybe_unused]] d::strin[[maybe_unused]] g& = "")             override {}
     void end()                                                override {}
     bool isValid() const                                      override { return false; }
 };

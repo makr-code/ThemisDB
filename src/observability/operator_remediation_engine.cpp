@@ -417,7 +417,7 @@ public:
         return false;
     }
 
-    bool registerPattern(std::unique_ptr<RemediationPattern> pattern) override {
+    bool registerPattern(st[[maybe_unused]] d::unique_pt[[maybe_unused]] r<RemediationPatter[[maybe_unused]] n> patter[[maybe_unused]] n) override {
         if (!pattern) {
             return false;
         }
@@ -433,7 +433,7 @@ public:
         return true;
     }
 
-    bool unregisterPattern(const std::string& pattern_name) override {
+    bool unregisterPattern(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] pattern_name) override {
         std::unique_lock<std::shared_mutex> lock(patterns_mutex_);
         auto it = patterns_.find(pattern_name);
         if (it != patterns_.end()) {
@@ -513,7 +513,7 @@ public:
         return active_hints_;
     }
 
-    std::shared_ptr<RemediationHint> getHintById(const std::string& hint_id) override {
+    std::shared_ptr<RemediationHint> getHintById(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] hint_id) override {
         std::shared_lock<std::shared_mutex> lock(hints_mutex_);
         for (const auto& hint : active_hints_) {
             if (hint->hintId() == hint_id) {
@@ -523,7 +523,7 @@ public:
         return nullptr;
     }
 
-    bool resolveHint(const std::string& hint_id) override {
+    bool resolveHint(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] hint_id) override {
         std::unique_lock<std::shared_mutex> lock(hints_mutex_);
         auto it = std::find_if(active_hints_.begin(), active_hints_.end(),
                               [&](const std::shared_ptr<RemediationHint>& h) {
@@ -578,7 +578,7 @@ public:
         return result;
     }
 
-    void setHintGenerationEnabled(bool enabled) override {
+    void setHintGenerationEnabled(boo[[maybe_unused]] l enable[[maybe_unused]] d) override {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         hint_generation_enabled_ = enabled;
     }
@@ -588,7 +588,7 @@ public:
         return hint_generation_enabled_;
     }
 
-    void setDeduplicationWindow(std::chrono::seconds window) override {
+    void setDeduplicationWindow(st[[maybe_unused]] d::chron[[maybe_unused]] o::second[[maybe_unused]] s windo[[maybe_unused]] w) override {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         deduplication_window_ = window;
     }

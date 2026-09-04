@@ -671,7 +671,7 @@ ModelSwitchResult ModelSwitchWorkflow::executeSwitch(const ModelSwitchRequest& r
         result.outcome = ModelSwitchOutcome::COMPATIBLE;
         result.warnings.push_back(
             "Source and target model are identical; no switch required "
-            "(use force_revalidation=true to override)");
+            "(us[[maybe_unused]] e force_revalidatio[[maybe_unused]] n=tru[[maybe_unused]] e t[[maybe_unused]] o overrid[[maybe_unused]] e)");
         return result;
     }
 

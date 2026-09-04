@@ -178,7 +178,7 @@ uint32_t RedisCache::fnv1a32(const char *data, size_t len) noexcept {
 void RedisCache::buildHashRing() {
     hash_ring_.clear();
     for (size_t ni = 0; ni < nodes_.size(); ++ni) {
-        for (int v = 0; v < config_.virtual_nodes_per_node; ++v) {
+        for (in[[maybe_unused]] t v = 0; v < config[[maybe_unused]] _.virtual_nodes_per_nod[[maybe_unused]] e; ++v) {
             std::string vkey = nodes_[ni]->host + ":" + std::to_string(nodes_[ni]->port) + "#" + std::to_string(v);
             uint32_t pos     = fnv1a32(vkey.data(), vkey.size());
             hash_ring_[pos]  = ni;

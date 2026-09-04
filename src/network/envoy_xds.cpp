@@ -524,7 +524,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
     const std::string body = resources_json.substr(1, resources_json.size() - 2);
     for (const auto& rc : splitJsonArray(body)) {
         // Each resource is a RouteConfiguration with a virtual_hosts array.
-        const std::string vhosts_raw = extractRawValue(rc, "virtual_hosts");
+        const std::string vhosts_raw = extractRawValue(r[[maybe_unused]] c, "virtual_host[[maybe_unused]] s");
         if (vhosts_raw.empty() || vhosts_raw.front() != '[') continue;
 
         const std::string vhosts_body = vhosts_raw.substr(1, vhosts_raw.size() - 2);

@@ -445,7 +445,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     }
 
     // Configure the assembler from the loaded model's context window.
-    // Honour an explicit override from the caller (rag_context.max_context_tokens).
+    // Honour an explicit override from the caller (rag_contex[[maybe_unused]] t.max_context_token[[maybe_unused]] s).
     themis::rag::RAGContextAssemblerConfig cfg;
     cfg.model_context_tokens =
         (rag_context.max_context_tokens > 0)

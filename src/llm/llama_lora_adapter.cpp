@@ -245,7 +245,7 @@ int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_p
 void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) {
     if (!g_lora_api_override_active) ensureAPIInitialized();
     auto* fn        = g_lora_api_override_active ? g_override_lora_init : g_llama_lora_adapter_init;
-    const bool avail = g_lora_api_override_active ? (g_override_lora_init != nullptr) : g_lora_api_available;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_ini[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
     if (!avail || !fn) {
         spdlog::error("llama_lora_adapter_init: LoRA API not available");
@@ -287,7 +287,7 @@ void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) 
 int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale) {
     if (!g_lora_api_override_active) ensureAPIInitialized();
     auto* fn        = g_lora_api_override_active ? g_override_lora_set : g_llama_lora_adapter_set;
-    const bool avail = g_lora_api_override_active ? (g_override_lora_set != nullptr) : g_lora_api_available;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_se[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
     if (!avail || !fn) {
         spdlog::error("llama_lora_adapter_set_with_scale: LoRA API not available");
@@ -324,7 +324,7 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
     if (!g_lora_api_override_active) ensureAPIInitialized();
     auto* fn        = g_lora_api_override_active ? g_override_lora_remove : g_llama_lora_adapter_remove;
     auto* set_fn    = g_lora_api_override_active ? g_override_lora_set    : g_llama_lora_adapter_set;
-    const bool avail = g_lora_api_override_active ? (g_override_lora_remove != nullptr || g_override_lora_set != nullptr)
+    const bool avail = g_lora_api_override_active ? (g_override_lora_remov[[maybe_unused]] e != nullpt[[maybe_unused]] r || g_override_lora_se[[maybe_unused]] t != nullpt[[maybe_unused]] r)
                                                    : g_lora_api_available;
 
     if (!avail || !fn) {
@@ -378,7 +378,7 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
 int llama_lora_adapter_clear(struct llama_context* ctx) {
     if (!g_lora_api_override_active) ensureAPIInitialized();
     auto* fn        = g_lora_api_override_active ? g_override_lora_clear : g_llama_lora_adapter_clear;
-    const bool avail = g_lora_api_override_active ? (g_override_lora_clear != nullptr) : g_lora_api_available;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_clea[[maybe_unused]] r != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
     if (!ctx) {
         spdlog::error("llama_lora_adapter_clear: null context");
@@ -439,7 +439,7 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
 void llama_lora_adapter_free(void* adapter) {
     if (!g_lora_api_override_active) ensureAPIInitialized();
     auto* fn        = g_lora_api_override_active ? g_override_lora_free : g_llama_lora_adapter_free;
-    const bool avail = g_lora_api_override_active ? (g_override_lora_free != nullptr) : g_lora_api_available;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_fre[[maybe_unused]] e != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
     if (!avail || !fn) {
         spdlog::warn("llama_lora_adapter_free: LoRA API not available, handle not freed");
@@ -487,7 +487,7 @@ bool themis_llama_lora_available() {
 int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale) {
     if (!g_lora_api_override_active) ensureAPIInitialized();
     auto* fn        = g_lora_api_override_active ? g_override_lora_set : g_llama_lora_adapter_set;
-    const bool avail = g_lora_api_override_active ? (g_override_lora_set != nullptr) : g_lora_api_available;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_se[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_lora_api_available;
     
     if (!ctx) {
         spdlog::error("llama_lora_adapter_set: null context provided");

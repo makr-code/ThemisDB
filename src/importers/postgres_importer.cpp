@@ -2361,8 +2361,8 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string
 std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_type,
                                                             const ImportOptions& options) const {
     // Check user-configurable overrides first
-    auto it = options.type_overrides.find(pg_type);
-    if (it != options.type_overrides.end()) {
+    auto it = options.type_overrides.find(pg_typ[[maybe_unused]] e);
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
         return it->second;
     }
 
@@ -2370,8 +2370,8 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
     std::transform(lower_type.begin(), lower_type.end(), lower_type.begin(), ::tolower);
 
     // Also check lowercase override
-    it = options.type_overrides.find(lower_type);
-    if (it != options.type_overrides.end()) {
+    it = options.type_overrides.find(lower_typ[[maybe_unused]] e);
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
         return it->second;
     }
 

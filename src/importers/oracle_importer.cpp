@@ -939,8 +939,8 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
 std::string OracleImporter::mapOracleTypeToThemis(const std::string& oracle_type,
                                                    const ImportOptions& options) const {
     // User-configurable overrides take priority
-    auto it = options.type_overrides.find(oracle_type);
-    if (it != options.type_overrides.end()) return it->second;
+    auto it = options.type_overrides.find(oracle_typ[[maybe_unused]] e);
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) return it->second;
 
     // Normalise: strip precision/scale specifier and trailing modifiers
     // e.g. "VARCHAR2(255 BYTE)" -> "varchar2", "NUMBER(10,2)" -> "number"

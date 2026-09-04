@@ -137,7 +137,7 @@ public:
         return generate(prompt, options);
     }
     
-    size_t estimateTokens(const std::string& text) const override {
+    size_t estimateTokens(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] text) const override {
         // Rough heuristic: ~4 characters per token
         return (text.size() + 3) / 4;
     }

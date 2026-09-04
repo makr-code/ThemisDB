@@ -1736,7 +1736,7 @@ IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
 
 // ===================== Virtual Filesystem =====================
 
-std::optional<std::string> ContentManager::resolvePath(const std::string& virtual_path) {
+std::optional<std::string> ContentManager::resolvePath(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
     std::optional<std::string> result;
     
     // Normalize path (remove trailing slash, ensure leading slash)
@@ -1752,7 +1752,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
     storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
         try {
             json j = json::parse(value);
-            if (j.contains("virtual_path") && j["virtual_path"].get<std::string>() == normalized) {
+            if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h") && j["virtual_path"].get<std::string>() == normalized) {
                 // Extract content ID from key "content:<uuid>"
                 std::string key_str(key);
                 if (key_str.size() > 8) {
@@ -1769,7 +1769,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
     return result;
 }
 
-std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtual_path) {
+std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
     std::vector<ContentMeta> results;
     
     // Normalize directory path
@@ -1806,7 +1806,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
         storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
-                if (j.contains("virtual_path")) {
+                if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h")) {
                     std::string vpath = j["virtual_path"].get<std::string>();
                     // Check if this is a direct child
                     if (vpath.size() > prefix.size() && vpath.rfind(prefix, 0) == 0) {
@@ -1827,7 +1827,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
     return results;
 }
 
-Status ContentManager::createDirectory(const std::string& virtual_path, bool recursive) {
+Status ContentManager::createDirectory(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path, boo[[maybe_unused]] l recursiv[[maybe_unused]] e) {
     // Normalize path
     std::string normalized = virtual_path;
     if (!normalized.empty() && normalized.back() == '/') {
@@ -1892,7 +1892,7 @@ Status ContentManager::createDirectory(const std::string& virtual_path, bool rec
     return Status::OK();
 }
 
-Status ContentManager::registerPath(const std::string& content_id, const std::string& virtual_path) {
+Status ContentManager::registerPath(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] content_id, cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] virtual_path) {
     // Normalize path
     std::string normalized = virtual_path;
     if (!normalized.empty() && normalized.back() == '/') {

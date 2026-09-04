@@ -67,7 +67,7 @@ class WasmRuntimeAdapter final : public WasmRuntime {
         return impl_->instantiate(wasm_bytes, host_fns, memory_size);
     }
 
-    bool call(const std::string &export_name, const std::vector<uint8_t> &args, std::vector<uint8_t> &out) override {
+    bool call(cons[[maybe_unused]] t st[[maybe_unused]] d::string &[[maybe_unused]] export_name, cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<uint8_[[maybe_unused]] t> &arg[[maybe_unused]] s, st[[maybe_unused]] d::vecto[[maybe_unused]] r<uint8_[[maybe_unused]] t> &ou[[maybe_unused]] t) override {
         return impl_->call(export_name, args, out);
     }
 

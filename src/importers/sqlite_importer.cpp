@@ -946,8 +946,8 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
     const std::string& sqlite_type,
     const ImportOptions& options) const {
     // User-configurable overrides take priority
-    auto it = options.type_overrides.find(sqlite_type);
-    if (it != options.type_overrides.end()) return it->second;
+    auto it = options.type_overrides.find(sqlite_typ[[maybe_unused]] e);
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) return it->second;
 
     // Normalise: strip size specifier, e.g. "varchar(255)" -> "varchar"
     std::string base_type = sqlite_type;

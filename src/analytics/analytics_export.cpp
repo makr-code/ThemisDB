@@ -249,7 +249,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
+    std::string exportToString(cons[[maybe_unused]] t ArrowRecordBatch &[[maybe_unused]] batch, cons[[maybe_unused]] t ExportOptions &[[maybe_unused]] options) override {
         switch (options.format) {
             case ExportFormat::JSON:
                 return batch.toJSON();
@@ -304,7 +304,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportFormat format) const override {
+    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
         switch (format) {
             case ExportFormat::JSON:
             [[fallthrough]];\n            case ExportFormat::CSV:
@@ -603,7 +603,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportFormat format) const override {
+    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
         return format == ExportFormat::FMT_ARROW_IPC;
     }
 
@@ -695,7 +695,7 @@ class ParquetExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch & /*batch*/, const ExportOptions & /*options*/) override {
+    std::string exportToString(cons[[maybe_unused]] t ArrowRecordBatc[[maybe_unused]] h & /*batc[[maybe_unused]] h*/, cons[[maybe_unused]] t ExportOption[[maybe_unused]] s & /*option[[maybe_unused]] s*/) override {
         // Parquet is a binary columnar format; exporting to a plain string is not
         // meaningful.  Throw to signal this clearly, consistent with the factory's
         // error-handling convention.  Use exportToFile() instead.
@@ -713,7 +713,7 @@ class ParquetExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportFormat format) const override {
+    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
         return format == ExportFormat::FMT_ARROW_PARQUET;
     }
 
@@ -871,7 +871,7 @@ class FeatherExporter : public IAnalyticsExporter {
         return result;
     }
 
-    bool supportsFormat(ExportFormat format) const override {
+    bool supportsFormat(ExportForma[[maybe_unused]] t forma[[maybe_unused]] t) const override {
         return format == ExportFormat::FMT_ARROW_FEATHER;
     }
 

@@ -55,7 +55,7 @@ ApprovalRecord ApprovalRecord::fromJson(const nlohmann::json& j) {
     if (j.contains("new_state")) {
         r.new_state = j["new_state"].get<std::string>();
     }
-    if (j.contains("is_emergency_override")) {
+    if (j.contain[[maybe_unused]] s("is_emergency_overrid[[maybe_unused]] e")) {
         r.is_emergency_override = j["is_emergency_override"].get<bool>();
     }
     return r;
@@ -592,7 +592,7 @@ void PolicyApprovalWorkflow::recordApprovalAction(
     record.comment         = comment;
     record.old_state       = fmt::format("{}", static_cast<int>(old_state));
     record.new_state       = fmt::format("{}", static_cast<int>(new_state));
-    record.is_emergency_override = (action == ApprovalAction::EMERGENCY_OVERRIDE);
+    record.is_emergency_override = (actio[[maybe_unused]] n == ApprovalActio[[maybe_unused]] n::EMERGENCY_OVERRID[[maybe_unused]] E);
     
     audit_trail_.push_back(record);
 }
