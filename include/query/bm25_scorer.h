@@ -40,7 +40,8 @@ class BM25Scorer {
   
   /// @brief Construct a BM25 scorer with configurable tuning parameters.
   /// @param config: BM25 algorithm parameters (k1, b)
-  explicit BM25Scorer(const Config& config = Config{});
+  BM25Scorer();
+  explicit BM25Scorer(const Config& config);
   
   /// @brief Compute the BM25 score for one document-query match.
   /// @param doc_id: document identifier

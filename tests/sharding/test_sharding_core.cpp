@@ -3,7 +3,9 @@
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "sharding/urn_resolver.h"
+#include "sharding/rebalance_operation.h"
 #include <memory>
+#include <thread>
 
 using namespace themis::sharding;
 
@@ -100,6 +102,118 @@ TEST(URNTest, Equality) {
     
     EXPECT_EQ(*urn1, *urn2);
     EXPECT_NE(*urn1, *urn3);
+}
+
+#include "sharding/locality_aware_router.h"
+#include "sharding/global_secondary_index.h"
+
+TEST(ShardingProductionLogic, LatencyAwareRoutingPrefersLowestRTTReplica) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto local = ShardInfo{"shard_a", "10.0.0.1:9000", {"10.0.0.2:9000", "10.0.0.3:9000"}, "dc1", "us-east", "us-east-1a", "rack1", 0, 100, true, "", {}, DomainCapability{}, "LEADER", 1, 10, "shard_a", true};
+    auto replica = ShardInfo{"shard_b", "10.0.0.2:9000", {"10.0.0.3:9000"}, "dc2", "us-west", "us-west-1a", "rack2", 101, 200, true, "", {}, DomainCapability{}, "FOLLOWER", 1, 9, "shard_a", true};
+    topology->addShard(local);
+    topology->addShard(replica);
+
+    auto resource_mgr = std::make_shared<ShardResourceManager>("shard_a", std::make_shared<GossipConfigManager>(GossipConfigManagerConfig{}, topology));
+    LocalityAwareRouter router("shard_a", topology, resource_mgr);
+    router.recordReplicaLatency("shard_b", "dc1", 40);
+    router.recordReplicaLatency("shard_a", "dc1", 5);
+
+    EXPECT_EQ(router.selectLowestRTTReplica("shard_b", "dc1", 50), "shard_a");
+}
+
+TEST(ShardingProductionLogic, MultiShardExactConsistencyUsesQuorumAndDeterministicOrdering) {
+    auto topology = std::make_shared<ShardTopology>();
+    ShardInfo a{"shard_a", "10.0.0.1:9000", {}, "dc1", "us-east", "us-east-1a", "rack1", 0, 100, true, "", {}, DomainCapability{}, "LEADER", 1, 10, "shard_a", true};
+    ShardInfo b{"shard_b", "10.0.0.2:9000", {}, "dc1", "us-east", "us-east-1b", "rack2", 101, 200, true, "", {}, DomainCapability{}, "FOLLOWER", 1, 9, "shard_a", true};
+    ShardInfo c{"shard_c", "10.0.0.3:9000", {}, "dc2", "us-west", "us-west-1a", "rack3", 201, 300, true, "", {}, DomainCapability{}, "FOLLOWER", 1, 8, "shard_a", true};
+    topology->addShard(a);
+    topology->addShard(b);
+    topology->addShard(c);
+
+    auto resource_mgr = std::make_shared<ShardResourceManager>("shard_a", std::make_shared<GossipConfigManager>(GossipConfigManagerConfig{}, topology));
+    LocalityAwareRouter router("shard_a", topology, resource_mgr);
+    auto quorum = router.computeMultiShardExactConsistency({"shard_a", "shard_b", "shard_c"}, "strong");
+
+    ASSERT_GE(quorum.size(), 2u);
+    EXPECT_EQ(quorum.front(), "shard_a");
+}
+
+TEST(ShardingProductionLogic, GlobalSecondaryIndexSupportsCrossShardEqualityQueries) {
+    GlobalSecondaryIndexManager gsi;
+    gsi.createIndex("customer_region", "region");
+    gsi.upsert("customer_region", "region", "shard_1", "customer:1", "us-east");
+    gsi.upsert("customer_region", "region", "shard_2", "customer:2", "us-east");
+    gsi.upsert("customer_region", "region", "shard_3", "customer:3", "eu-west");
+
+    auto matches = gsi.queryEquals("customer_region", "us-east");
+    ASSERT_EQ(matches.size(), 2u);
+    EXPECT_EQ(matches[0].shard_id, "shard_1");
+    EXPECT_EQ(matches[1].shard_id, "shard_2");
+}
+
+TEST(ShardingProductionLogic, GlobalSecondaryIndexRangeQueryHonorsBoundsAndErasure) {
+    GlobalSecondaryIndexManager gsi;
+    gsi.createIndex("customer_region", "region");
+    gsi.upsert("customer_region", "region", "shard_1", "customer:1", "us-east");
+    gsi.upsert("customer_region", "region", "shard_2", "customer:2", "us-east");
+    gsi.upsert("customer_region", "region", "shard_3", "customer:3", "us-west");
+
+    gsi.erase("customer_region", "shard_2", "customer:2");
+    auto remaining = gsi.queryEquals("customer_region", "us-east");
+    ASSERT_EQ(remaining.size(), 1u);
+    EXPECT_EQ(remaining[0].primary_key, "customer:1");
+
+    auto range = gsi.queryRange("customer_region", "us-east", "us-west");
+    ASSERT_EQ(range.size(), 2u);
+    EXPECT_TRUE((range[0].value == "us-east" || range[1].value == "us-east"));
+    EXPECT_TRUE((range[0].value == "us-west" || range[1].value == "us-west"));
+}
+
+TEST(ShardingProductionLogic, GlobalSecondaryIndexDropsStaleEntriesAfterBudgetExpiration) {
+    GlobalSecondaryIndexManager::Config config;
+    config.staleness_budget = std::chrono::milliseconds(10);
+    GlobalSecondaryIndexManager gsi(config);
+    gsi.createIndex("customer_region", "region");
+    gsi.upsert("customer_region", "region", "shard_1", "customer:1", "us-east");
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(25));
+    EXPECT_TRUE(gsi.queryEquals("customer_region", "us-east").empty());
+}
+
+TEST(ShardingProductionLogic, LatencyAwareRoutingFailsClosedWhenNoReplicaMeasurementIsValid) {
+    auto topology = std::make_shared<ShardTopology>();
+    ShardInfo shard_a{"shard_a", "10.0.0.1:9000", {}, "dc1", "us-east", "us-east-1a", "rack1", 0, 100, true, "", {}, DomainCapability{}, "LEADER", 1, 10, "shard_a", true};
+    ShardInfo shard_b{"shard_b", "10.0.0.2:9000", {}, "dc2", "us-west", "us-west-1a", "rack2", 101, 200, true, "", {}, DomainCapability{}, "FOLLOWER", 1, 9, "shard_a", true};
+    topology->addShard(shard_a);
+    topology->addShard(shard_b);
+
+    auto resource_mgr = std::make_shared<ShardResourceManager>("shard_a", std::make_shared<GossipConfigManager>(GossipConfigManagerConfig{}, topology));
+    LocalityAwareRouter router("shard_a", topology, resource_mgr);
+
+    EXPECT_EQ(router.selectLowestRTTReplica("shard_b", "dc3", 25), "shard_b");
+}
+
+TEST(ShardingProductionLogic, LatencyAwareRoutingIgnoresOutOfShardReplicaRTTs) {
+    auto topology = std::make_shared<ShardTopology>();
+    ShardInfo shard_a{"shard_a", "10.0.0.1:9000", {"shard_a_replica"}, "dc1", "us-east", "us-east-1a", "rack1", 0, 100, true, "", {}, DomainCapability{}, "LEADER", 1, 10, "shard_a", true};
+    ShardInfo shard_b{"shard_b", "10.0.0.2:9000", {}, "dc1", "us-east", "us-east-1b", "rack2", 101, 200, true, "", {}, DomainCapability{}, "FOLLOWER", 1, 9, "shard_a", true};
+    topology->addShard(shard_a);
+    topology->addShard(shard_b);
+
+    auto resource_mgr = std::make_shared<ShardResourceManager>("shard_a", std::make_shared<GossipConfigManager>(GossipConfigManagerConfig{}, topology));
+    LocalityAwareRouter router("shard_a", topology, resource_mgr);
+    router.recordReplicaLatency("shard_b", "dc1", 5);
+    router.recordReplicaLatency("shard_a_replica", "dc1", 20);
+    router.recordReplicaLatency("shard_a", "dc1", 40);
+
+    EXPECT_EQ(router.selectLowestRTTReplica("shard_a", "dc1", 50), "shard_a_replica");
+}
+
+TEST(ShardingProductionLogic, TopologyChangeRebalancingDetectsMembershipReplacementWithoutSizeDelta) {
+    EXPECT_TRUE(RebalanceOperation::isTopologyChangeRebalancingNeeded(
+        {"shard_a", "shard_b"},
+        {"shard_a", "shard_c"}));
 }
 
 // ============================================================================

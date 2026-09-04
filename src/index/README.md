@@ -47,6 +47,7 @@ Out of scope:
 
 - behavior depends on configured backend/capability and selected index strategies.
 - unsupported GPU/capability paths degrade deterministically with bounded fallback behavior.
+- `GPUVectorIndex` failover is explicit: when `allowCPUFallback=false`, backend gate/runtime failures fail closed instead of silently routing to CPU.
 - rebuild/tiering and distributed features require explicit operational configuration.
 
 **Production Readiness Status (Batch 3 verified 2026-08-14):**

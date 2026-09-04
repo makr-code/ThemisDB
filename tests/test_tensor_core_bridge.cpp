@@ -100,6 +100,23 @@ static ExtractionContext makeCtxWithCores(std::vector<TensorCoreRecord> cores) {
     return ctx;
 }
 
+class ThrowingTensorBackend final : public storage::ITensorStorageBackend {
+public:
+    bool put(const std::string&, const std::vector<uint8_t>&) override {
+        throw std::runtime_error("put failed");
+    }
+
+    std::optional<std::vector<uint8_t>> get(const std::string&) const override {
+        throw std::runtime_error("get failed");
+    }
+
+    bool del(const std::string&) override { return false; }
+
+    std::vector<std::string> listKeys(const std::string&) const override {
+        return {};
+    }
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // TCS-01..TCS-04 — ITensorCoreBridge validation (via InMemoryTensorCoreBridge)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -233,6 +250,27 @@ TEST(TCS, TCS_13_WriteCountAtomic) {
     auto write_result_3 = sink.write(makeRecord("f:2"), "t1");
     ASSERT_TRUE(write_result_3) << write_result_3.error().message();
     EXPECT_EQ(sink.writeCount(), 3u);
+}
+
+TEST(TCS, TCS_13B_WriteConvertsBackendExceptionToErrorResult) {
+    auto backend = std::make_shared<ThrowingTensorBackend>();
+    tensor::TensorCoreStorageBridge sink(backend);
+
+    auto rec = makeRecord("file1:0", "sha256abcdef");
+    auto res = sink.write(rec, "mytenant");
+    ASSERT_FALSE(res);
+    EXPECT_EQ(res.error().code(), errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED);
+    EXPECT_EQ(sink.writeCount(), 0u);
+}
+
+TEST(TCS, TCS_13C_GetRawReturnsNulloptOnBackendException) {
+    auto backend = std::make_shared<ThrowingTensorBackend>();
+    tensor::TensorCoreStorageBridge sink(backend);
+
+    EXPECT_NO_THROW({
+        auto raw = sink.getRaw("mytenant", "sha256abcdef", "file1:0");
+        EXPECT_FALSE(raw.has_value());
+    });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

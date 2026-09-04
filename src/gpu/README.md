@@ -48,6 +48,7 @@ Out of scope:
 
 - behavior is bounded by enabled backend support, feature flags, and edition policy limits.
 - GPU-disabled and degraded-hardware paths must remain deterministic and fallback-safe.
+- backend gate denials and fallback transitions emit structured `GPUBackendDispatchDiagnostics` events for parity/debug checks.
 - cluster/topology capabilities can be limited by host/runtime environment features.
 
 ## Sourcecode Verification (Module: gpu/readme)

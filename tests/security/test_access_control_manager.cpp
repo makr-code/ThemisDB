@@ -330,7 +330,32 @@ TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailClosedMode) {
     EXPECT_NE(decision.reason.find("Authorization error: boom"), std::string::npos);
 }
 
-TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailOpenMode) {
+TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsExplicitFailOpenMode) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.fail_closed = false;
+    config.fail_open_reason = "maintenance override for local test environment";
+    config.custom_authorizer = []([[maybe_unused]] const SecurityContext& ctx,
+                                  [[maybe_unused]] const std::string& resource,
+                                  [[maybe_unused]] const std::string& action) -> AccessDecision {
+        throw std::runtime_error("boom");
+    };
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    SecurityContext context;
+    context.user_id = "admin@test.com";
+    context.roles = {"admin"};
+
+    auto decision = acm.authorize(context, "data", "write");
+    EXPECT_TRUE(decision.granted);
+    EXPECT_EQ(decision.reason,
+              "Authorization bypassed due to explicit fail-open policy: maintenance override for local test environment");
+}
+
+TEST_F(AccessControlManagerTest, AuthorizationExceptionRejectsFailOpenWithoutReason) {
     AccessControlConfig config;
     config.rbac_config_path = rbac_config_path_.string();
     config.user_role_store_path = user_roles_path_.string();
@@ -349,8 +374,8 @@ TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailOpenMode) {
     context.roles = {"admin"};
 
     auto decision = acm.authorize(context, "data", "write");
-    EXPECT_TRUE(decision.granted);
-    EXPECT_EQ(decision.reason, "Authorization bypassed due to error (fail-open mode)");
+    EXPECT_FALSE(decision.granted);
+    EXPECT_NE(decision.reason.find("fail-open override requires a documented reason"), std::string::npos);
 }
 
 // ============================================================================

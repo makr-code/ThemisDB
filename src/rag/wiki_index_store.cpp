@@ -320,7 +320,7 @@ struct WikiIndexStore::Impl {
             {"embedding_cache",                 rocksdb::ColumnFamilyOptions{}}
         };
         std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-        std::unique_ptr<rocksdb::DB> raw_db;
+        rocksdb::DB* raw_db = nullptr;
         const rocksdb::Status s = rocksdb::DB::Open(
             opts, config.cache_dir, cf_descs, &cf_handles, &raw_db);
         if (!s.ok()) {
@@ -328,7 +328,7 @@ struct WikiIndexStore::Impl {
                         config.cache_dir, s.ToString());
             return false;
         }
-        cache_db = raw_db.release();
+        cache_db = raw_db;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
         if (cf_handles.size() >= 2) {
             cache_cf = cf_handles[1];

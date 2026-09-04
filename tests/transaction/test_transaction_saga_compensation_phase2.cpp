@@ -25,6 +25,7 @@
 #include <memory>
 #include <chrono>
 #include <deque>
+#include <future>
 
 #include "transaction/saga_orchestrator.h"
 #include "transaction/compensation_log.h"
@@ -373,6 +374,98 @@ TEST_F(TransactionSAGAPhase2Test, RetryStormHandling_CircuitBreaker) {
     EXPECT_TRUE(circuit_open) << "Circuit breaker should open after threshold";
     EXPECT_LE(step->getExecutionCount(), failure_threshold + 1)
         << "Circuit breaker should limit retry attempts";
+}
+
+TEST(TransactionSAGAPhase2OrchestratorHardening, CircuitBreakerBlocksRetryStormAfterThreshold) {
+    SAGAOrchestrator orchestrator{
+        SAGAOrchestratorConfig{
+            .enable_parallel = false,
+            .default_timeout = std::chrono::milliseconds(1000),
+            .default_retry_delay = std::chrono::milliseconds(1),
+            .circuit_breaker_threshold = 2,
+            .circuit_breaker_timeout = std::chrono::milliseconds(30000),
+        }
+    };
+
+    std::atomic<int> attempts{0};
+    SAGADefinition saga;
+    saga.id = "cb-open-storm";
+    saga.name = "cb-open-storm";
+    saga.steps.push_back(SAGAStep{
+        .name = "remote-step",
+        .forward = [&attempts]() {
+            ++attempts;
+            throw std::runtime_error("remote failure");
+        },
+        .max_retries = 10,
+        .retry_delay = std::chrono::milliseconds(1),
+    });
+
+    const auto status = orchestrator.execute(saga);
+    EXPECT_FALSE(status.ok);
+    EXPECT_EQ(attempts.load(), 2)
+        << "Circuit breaker must stop retries at threshold to suppress retry storms";
+}
+
+TEST(TransactionSAGAPhase2OrchestratorHardening, HalfOpenAllowsOnlySingleConcurrentProbe) {
+    SAGAOrchestrator orchestrator{
+        SAGAOrchestratorConfig{
+            .enable_parallel = false,
+            .default_timeout = std::chrono::milliseconds(1000),
+            .default_retry_delay = std::chrono::milliseconds(1),
+            .circuit_breaker_threshold = 1,
+            .circuit_breaker_timeout = std::chrono::milliseconds(5),
+        }
+    };
+
+    {
+        SAGADefinition open_saga;
+        open_saga.id = "cb-open";
+        open_saga.name = "cb-open";
+        open_saga.steps.push_back(SAGAStep{
+            .name = "shared-remote-step",
+            .forward = []() { throw std::runtime_error("open circuit"); },
+            .max_retries = 0,
+        });
+        EXPECT_FALSE(orchestrator.execute(open_saga).ok);
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(8));
+
+    std::promise<void> release_probe;
+    auto release_probe_future = release_probe.get_future().share();
+    std::atomic<int> probe_executions{0};
+
+    auto run_probe = [&](const std::string& saga_id) {
+        SAGADefinition saga;
+        saga.id = saga_id;
+        saga.name = saga_id;
+        saga.steps.push_back(SAGAStep{
+            .name = "shared-remote-step",
+            .forward = [&probe_executions, release_probe_future]() {
+                ++probe_executions;
+                release_probe_future.wait();
+            },
+            .max_retries = 0,
+        });
+        return orchestrator.execute(saga);
+    };
+
+    auto first = std::async(std::launch::async, [&]() { return run_probe("half-open-1"); });
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    auto second = std::async(std::launch::async, [&]() { return run_probe("half-open-2"); });
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    EXPECT_EQ(probe_executions.load(), 1)
+        << "Half-open state must allow only one in-flight probe execution";
+
+    release_probe.set_value();
+    const auto first_status = first.get();
+    const auto second_status = second.get();
+
+    EXPECT_TRUE(first_status.ok || second_status.ok);
+    EXPECT_TRUE(!first_status.ok || !second_status.ok)
+        << "Exactly one concurrent half-open probe should be rejected";
 }
 
 /**

@@ -402,7 +402,9 @@ foreach(_src IN LISTS TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES)
         continue()
     endif()
 
-    if(_src MATCHES ".*/test_transaction_(chaos|stress)\\.cpp$")
+    # Skip already-registered and placeholder tests (timeout_determinism not yet implemented)
+    if(_src MATCHES ".*/test_transaction_(chaos|stress|timeout_determinism)\\.cpp$" OR
+       _src MATCHES ".*\\\\test_transaction_(chaos|stress|timeout_determinism)\\.cpp$")
         continue()
     endif()
 

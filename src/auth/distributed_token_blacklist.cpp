@@ -336,16 +336,16 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
         config_.column_family, rocksdb::ColumnFamilyOptions{}));
     
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-    rocksdb::DB* db_instance = nullptr;
+    rocksdb::DB* db_raw = nullptr;
     rocksdb::Status status = rocksdb::DB::Open(
-        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &db_instance);
+        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &db_raw);
 
     if (!status.ok()) {
         throw std::runtime_error(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
     
-    db_.reset(db_instance);
+    db_ = std::unique_ptr<rocksdb::DB>(db_raw);
     cf_ = cf_handles[1];  // Our column family (not default)
     
     // Keep other CF handles alive for proper cleanup

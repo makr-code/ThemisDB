@@ -93,6 +93,7 @@ public:
         
         // mTLS Configuration (optional, required for production)
         bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
+        bool allow_insecure = false;    // Explicit local/test-only override; rejected by default
         std::string tls_cert_path;      // Path to client certificate (PEM format)
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)

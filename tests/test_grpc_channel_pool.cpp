@@ -11,6 +11,7 @@ protected:
         GrpcChannelPool::Config config;
         config.max_channels_per_target = 5;
         config.idle_timeout = std::chrono::seconds(2);
+        config.allow_insecure = true;
         pool = std::make_unique<GrpcChannelPool>(config);
     }
     
@@ -28,6 +29,14 @@ TEST_F(GrpcChannelPoolTest, AcquireAndReleaseChannel) {
     pool->releaseChannel(target, channel);
     EXPECT_EQ(pool->getStats().available_channels, 1);
     EXPECT_EQ(pool->getStats().in_use_channels, 0);
+}
+
+TEST(GrpcChannelPoolSecurity, MissingCredentialsRequiresExplicitOverride) {
+    GrpcChannelPool::Config config;
+    config.allow_insecure = false;
+    GrpcChannelPool pool(config);
+
+    EXPECT_THROW(pool.acquireChannel("localhost:50051"), std::runtime_error);
 }
 
 TEST_F(GrpcChannelPoolTest, ReuseChannel) {

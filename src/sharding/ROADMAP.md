@@ -10,17 +10,19 @@
 
 Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability. Cloud-backup coordinator startup now attempts real S3/Azure/GCS SDK initialization from `CloudBackupConfig` and fails closed if the required provider callbacks still cannot be resolved.
 
+This module is in the source-validated “implemented + hardening” state: the core runtime exists and is operationally relevant, but GA readiness still requires release-critical CI green, representative-hardware benckmark evidence, and operator validation under topology churn.
+
 **Wave Alignment (see root ROADMAP.md § Program Execution Model):**
 - **Wave A (Q3–Q4 2026):** Multi-shard exact-path gate (Phase C), topology-change auto-rebalance, latency-aware routing, distributed write stress
 - **Wave A Exit Criteria:** Deterministic chaos evidence (network partition, coordinator failure, cascade) + thread-safety sign-off + release-critical CI GREEN + p95/p99 baselines
 - **Tier 1 Criticality:** Runtime-critical for distributed databases; thread-safety and fail-closed guarantees mandatory
-- **Rollout Readiness:** 35% 🔴 (Phase A ready, Phase B/C blocked on thread-safety gates)
+- **Rollout Readiness:** 75% 🟡 (core runtime implemented; GA evidence and benchmark closure still pending)
 
-**Hybrid Retrieval Rollout Readiness**: 35% 🔴 (issue #5468).
+**Hybrid Retrieval Rollout Readiness**: 75% 🟡 (issue #5468).
 - Phase A (single-shard exact): ✅ Ready — single-shard path is stable.
-- Phase B (multi-shard exact): ❌ Q3 2026 — blocked by 340+ cross-shard thread-safety gaps.
-- Phase C (distributed summary-first): ❌ Q4 2026 — requires consensus coordination robustness.
-- **Critical**: Multi-shard is disabled until Phase C thread-safety and lock-ordering gates pass.
+- Phase B (multi-shard exact): ✅ Implemented — source-valid runtime exists; release-grade hardening and CI validation still in progress.
+- Phase C (distributed summary-first): 🟡 In hardening — runtime semantics exist, but full load/chaos validation pending.
+- **Critical**: Multi-shard remains gated on release-critical validation and benchmark evidence; no silent fallback is allowed in production paths.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## Recently Completed
@@ -99,17 +101,17 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 - [~] **Automatic shard rebalancing on topology change**: when a node joins or leaves the cluster,
   automatically redistribute shards to maintain target balance; rebalancing must complete within a
-  configurable time bound without halting query throughput (Target: Q3 2026) — basic rebalance framework exists in `src/sharding/rebalance_operation.cpp`; topology-change automation remains unfinished
+  configurable time bound without halting query throughput (Target: Q3 2026) — real topology-change logic exists in `src/sharding/rebalance_operation.cpp`, but the end-to-end GA path still requires representative-load validation and bounded rollback evidence
   - Inputs: topology change event, rebalance policy (min-movement / round-robin), target shard count
   - Acceptance: rebalance completes at ≥ 80% throughput of steady-state; no data loss; CTest `release_critical` green
-- [ ] **Cross-datacenter latency-aware routing**: route cross-shard reads to the replica with lowest
+- [~] **Cross-datacenter latency-aware routing**: route cross-shard reads to the replica with lowest
   measured RTT in the requesting DC; fall back to nearest-replica on timeout (Target: Q3 2026)
-  - Clarification: no `src/sharding/*.cpp` implementation evidence for latency-aware / multi-DC routing was found in this validation pass.
+  - Source status: runtime implementation exists in `src/sharding/locality_aware_router.cpp`; GA status remains pending 3-DC benchmark proof and timeout/fail-closed validation.
   - Acceptance: routing selects correct replica in 3-DC topology benchmark; p99 read latency
     improves vs. random routing; deterministic under-load benchmark result
-- [ ] **Global secondary indexes (GSI)**: maintain a distributed index over all shards for a user-specified
+- [~] **Global secondary indexes (GSI)**: maintain a distributed index over all shards for a user-specified
   field; GSI updates are asynchronous and eventually consistent; index-backed range scan available in AQL (Target: Q4 2026)
-  - Clarification: no `src/sharding/*.cpp` implementation evidence for GSI support was found in this validation pass.
+  - Source status: functional core exists in `src/sharding/global_secondary_index.cpp`; GA status remains pending full cross-shard invalidation, consistency, and AQL planner proof.
   - Inputs: `CREATE INDEX … GLOBAL` DDL (via AQL DDL extension); field, type, consistency level
   - Acceptance: GSI scan returns correct results for 100K documents across 4 shards;
     AQL `FILTER doc.field == @val USE INDEX gsi_name` selects GSI plan
