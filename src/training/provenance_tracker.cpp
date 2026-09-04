@@ -80,7 +80,7 @@ public:
 
     // -------------------------------------------------------------------------
     ProvenanceWriteStats write(const std::vector<ProvenanceRecord>& records) {
-        ProvenanceWriteStats stats;
+        ProvenanceWriteStats stats = ProvenanceWriteStats();
         auto t0 = std::chrono::steady_clock::now();
 
         // Compute optional write deadline (0 = no limit).
@@ -216,7 +216,7 @@ public:
 
     // -------------------------------------------------------------------------
     LineageNode queryLineage(const std::string& model_id, size_t max_hops) const {
-        LineageNode root;
+        LineageNode root = LineageNode();
         root.node_type = "model";
         root.node_id   = model_id;
         root.label     = "LoRA adapter " + model_id;
@@ -289,13 +289,13 @@ public:
         // Used in offline / test mode and as a fallback when the AQL traversal
         // returns an empty result set.
         for (const auto& [sample_id, rec] : store_) {
-            LineageNode sample_node;
+            LineageNode sample_node = LineageNode();
             sample_node.node_type = "sample";
             sample_node.node_id   = sample_id;
             sample_node.label     = "TrainingSample " + sample_id;
 
             if (!rec.source_doc_urn.empty()) {
-                LineageNode doc_node;
+                LineageNode doc_node = LineageNode();
                 doc_node.node_type = "document";
                 doc_node.node_id   = rec.source_doc_urn;
                 doc_node.label     = "Document " + rec.source_doc_urn;
@@ -335,7 +335,7 @@ public:
                     doc_ptr = &json[0];
                 }
                 if (doc_ptr && doc_ptr->is_object()) {
-                    ProvenanceRecord rec;
+                    ProvenanceRecord rec = ProvenanceRecord();
                     const auto& d = *doc_ptr;
                     if (d.contains("_key") && d["_key"].is_string())
                         rec.sample_id = d["_key"].get<std::string>();

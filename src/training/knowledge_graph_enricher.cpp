@@ -183,7 +183,7 @@ public:
     // Phase 6: Enrich all samples in collection
     // -------------------------------------------------------------------------
     EnrichmentStats enrichAll([[maybe_unused]] EnrichmentCallback callback) {
-        EnrichmentStats stats;
+        EnrichmentStats stats = EnrichmentStats();
         auto start_time = std::chrono::steady_clock::now();
 
         // Phase 6: AQL to fetch sample IDs (graph_aql::FETCH_ALL_SAMPLES)

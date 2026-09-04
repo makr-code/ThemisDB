@@ -655,7 +655,7 @@ public:
     DataSelectionResult run(
             const std::vector<DataSample>& input,
             SelectionProgressCallback cb) {
-        DataSelectionResult result;
+        DataSelectionResult result = DataSelectionResult();
         auto t0 = std::chrono::steady_clock::now();
 
         try {
@@ -788,7 +788,7 @@ const LoRADataSelectionConfig& DataSelectionPipeline::getConfig() const {
 
 DataSelectionMetrics DataSelectionPipeline::computeMetrics(
         const DataSelectionResult& result) {
-    DataSelectionMetrics m;
+    DataSelectionMetrics m = DataSelectionMetrics();
 
     const auto& ae = result.audit_entry;
 
@@ -935,7 +935,7 @@ static void applyScalar(LoRADataSelectionConfig& cfg,
  */
 static LoRADataSelectionConfig parseYAMLText(const std::string& text,
                                               const std::string& section) {
-    LoRADataSelectionConfig cfg;
+    LoRADataSelectionConfig cfg = LoRADataSelectionConfig();
     std::istringstream iss(text);
     std::string line = {};
 
@@ -1124,13 +1124,13 @@ namespace yaml_detail {
 static SelfImprovementConfig parseSelfImprovementYAML(
         const std::string& text,
         const std::string& section) {
-    SelfImprovementConfig cfg;
+    SelfImprovementConfig cfg = SelfImprovementConfig();
     std::istringstream iss(text);
     std::string line = {};
 
     enum class State { OUTSIDE, IN_SECTION, IN_ADAPTIVE_RULES, IN_RULE };
     State state = State::OUTSIDE;
-    AdaptiveRule current_rule;
+    AdaptiveRule current_rule = AdaptiveRule();
 
     auto commitRule = [&]() {
         if (!current_rule.metric.empty())
