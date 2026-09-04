@@ -218,14 +218,19 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
             }
             break;
         }
-        
+         
         case BackoffStrategy::LINEAR:
             // delay = base * (attempt + 1)
             delay = base_delay * static_cast<uint32_t>(attempt + 1);
             break;
-        
+         
         case BackoffStrategy::FIXED:
             // delay = base (constant)
+            delay = base_delay;
+            break;
+         
+        default:
+            // Unknown strategy, use FIXED
             delay = base_delay;
             break;
     }

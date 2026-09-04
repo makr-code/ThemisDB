@@ -95,8 +95,8 @@ std::string to_string(TensorRouteDecision d) noexcept {
         case TensorRouteDecision::LIFT:   return "LIFT";
         case TensorRouteDecision::HYBRID: return "HYBRID";
         case TensorRouteDecision::KEEP:   return "KEEP";
+        default: return "KEEP";
     }
-    return "KEEP";
 }
 
 // ============================================================================
@@ -375,6 +375,7 @@ TensorRouteDecision TensorRouter::route(
         case TensorRouteDecision::LIFT:   ++s.lift_decisions;   break;
         case TensorRouteDecision::HYBRID: ++s.hybrid_decisions; break;
         case TensorRouteDecision::KEEP:   ++s.keep_decisions;   break;
+        default: break;  // Unknown decision type
     }
     // Exponential moving average for ratio and latency
     constexpr double alpha = 0.1;

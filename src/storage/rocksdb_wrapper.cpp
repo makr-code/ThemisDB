@@ -310,6 +310,9 @@ void RocksDBWrapper::configureOptions() {
             options_->merge_operator =
                 std::make_shared<SequenceU64IncrementMergeOperator>();
             break;
+        default:
+            // No merge operator configured
+            break;
     }
     
     // Enable statistics for monitoring (can be disabled for microbenchmarks)
@@ -565,6 +568,10 @@ void RocksDBWrapper::configureOptions() {
             break;
         case Config::WritePolicy::WriteUnprepared:
             txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_UNPREPARED;
+            break;
+        default:
+            // Default to WriteCommitted
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_COMMITTED;
             break;
     }
     if (config_.write_policy != Config::WritePolicy::WriteCommitted) {

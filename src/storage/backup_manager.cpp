@@ -311,9 +311,9 @@ bool isRemoteBackupProviderLinked(StorageBackend backend) {
         return kRemoteBackupGcsLinked;
     case StorageBackend::LOCAL:
         return false;
+    default:
+        return false;
     }
-
-    return false;
 }
 
 Result<void> validateRemotePayloadSize(std::uintmax_t size_bytes, const std::string& label) {
