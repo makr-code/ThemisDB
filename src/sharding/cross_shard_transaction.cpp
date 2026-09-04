@@ -2509,8 +2509,8 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
                     }
                     case DeadlockVictimPolicy::RANDOM: {
                         thread_local std::mt19937 rng{std::random_device{}()};
-                        std::uniform_int_distribution<size_t> dist(0, candidates.size() - 1);
-                        victim_id = candidates[dist(rng)].first;
+                        std::uniform_int_distribution<uint64_t> dist(0, candidates.size() - 1);
+                        victim_id = candidates[static_cast<size_t>(dist(rng))].first;
                         break;
                     }
                 }

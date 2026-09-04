@@ -139,9 +139,9 @@ struct TensorRouter::Impl {
         } else {
             // Uniform sub-sampling
             std::mt19937 rng(42);
-            std::uniform_int_distribution<std::size_t> dist(0, total - 1);
+            std::uniform_int_distribution<uint64_t> dist(0, total - 1);
             sample.resize(sample_n);
-            for (auto& v : sample) v = data[dist(rng)];
+            for (auto& v : sample) v = data[static_cast<std::size_t>(dist(rng))];
         }
 
         // Pilot as a 1D tensor (can only estimate compressibility, not shape)

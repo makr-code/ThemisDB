@@ -1293,7 +1293,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     std::vector<SpatialResult> candidates;
 
     // Double the search window until we have k candidates or exceed world bounds.
-    for (int iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
+    for (size_t iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
         geo::MBR bbox(x - radius, y - radius, x + radius, y + radius);
         // Clamp to table bounds
         bbox.minx = std::max(bbox.minx, bounds.minx);

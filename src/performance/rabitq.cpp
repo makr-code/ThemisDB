@@ -299,11 +299,11 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 
         // --- k-means++ initialisation ---
         std::mt19937 rng(static_cast<uint32_t>(sq * 1337u + 42u));
-        std::uniform_int_distribution<size_t> uniform(0, n - 1);
+        std::uniform_int_distribution<uint64_t> uniform(0, n - 1);
 
         std::vector<std::vector<float>> centroids;
         centroids.reserve(k);
-        centroids.push_back(subvec_data[uniform(rng)]);
+        centroids.push_back(subvec_data[static_cast<size_t>(uniform(rng))]);
 
         for (size_t ci = 1; ci < k; ++ci) {
             // For each sample compute D^2 distance to the nearest existing centroid.
@@ -372,7 +372,7 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
                     max_shift = std::max(max_shift, shift);
                 } else {
                     // Empty cluster: reinitialize to a random sample
-                    new_centroids[ci] = subvec_data[uniform(rng)];
+                    new_centroids[ci] = subvec_data[static_cast<size_t>(uniform(rng))];
                 }
             }
 

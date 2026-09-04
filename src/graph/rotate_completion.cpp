@@ -251,7 +251,7 @@ public:
         const float lr     = cfg_.learning_rate;
         const float margin = cfg_.margin;
         const size_t neg_k = cfg_.neg_samples;
-        std::uniform_int_distribution<size_t> ent_dist(0, n_ent - 1);
+        std::uniform_int_distribution<uint64_t> ent_dist(0, n_ent - 1);
 
         double final_loss = 0.0;
         std::vector<size_t> order(triples.size());
@@ -270,7 +270,7 @@ public:
                 double pos_score = scoreImpl(h_idx, r_idx, t_idx);
 
                 for (size_t ns = 0; ns < neg_k; ++ns) {
-                    size_t neg_ent = ent_dist(rng);
+                    size_t neg_ent = static_cast<size_t>(ent_dist(rng));
                     bool corrupt_tail = (ns % 2 == 0);
                     size_t h_neg = corrupt_tail ? h_idx : neg_ent;
                     size_t t_neg = corrupt_tail ? neg_ent : t_idx;

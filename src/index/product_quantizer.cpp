@@ -530,7 +530,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<size_t> dis(0, num_samples - 1);
+    std::uniform_int_distribution<uint64_t> dis(0, num_samples - 1);
     
     // Pick first centroid randomly
     centroids.push_back(subvector_data[dis(gen)]);
@@ -550,8 +550,8 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         }
         
         // Sample next centroid with probability proportional to D^2
-        std::discrete_distribution<size_t> weighted_dis(distances.begin(), distances.end());
-        const size_t selected_index = weighted_dis(gen);
+        std::discrete_distribution<uint64_t> weighted_dis(distances.begin(), distances.end());
+        const size_t selected_index = static_cast<size_t>(weighted_dis(gen));
         if (selected_index >= subvector_data.size()) {
             THEMIS_WARN("ProductQuantizer::runKMeans - Weighted centroid index out of range");
             return {};

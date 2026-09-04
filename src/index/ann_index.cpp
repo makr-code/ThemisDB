@@ -107,8 +107,8 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
     centroids.reserve(k);
 
     // Pick first centroid uniformly at random
-    std::uniform_int_distribution<size_t> uni(0, n - 1);
-    size_t idx = uni(rng);
+    std::uniform_int_distribution<uint64_t> uni(0, n - 1);
+    size_t idx = static_cast<size_t>(uni(rng));
     if (const float* first_row = checkedRow(data, n, d, idx)) {
         centroids.emplace_back(first_row, first_row + d);
     } else {

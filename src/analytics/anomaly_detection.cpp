@@ -297,14 +297,14 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
             continue;
         }
 
-        std::uniform_int_distribution<size_t> feat_dist(0, n_features - 1);
+        std::uniform_int_distribution<uint64_t> feat_dist(0, n_features - 1);
         size_t feat              = 0;
         double fmin              = 0.0;
         double fmax              = 0.0;
         bool found_split_feature = false;
 
         for (size_t attempt = 0; attempt < n_features; ++attempt) {
-            feat = feat_dist(rng);
+            feat = static_cast<size_t>(feat_dist(rng));
             fmin = std::numeric_limits<double>::max();
             fmax = std::numeric_limits<double>::lowest();
             for (size_t i : idx) {
@@ -659,12 +659,12 @@ struct AnomalyDetector::Impl {
             std::mt19937 rng(42);
             forest.clear();
             forest.reserve(static_cast<size_t>(cfg.n_estimators));
-            std::uniform_int_distribution<size_t> idx_dist(0, data.size() - 1);
+            std::uniform_int_distribution<uint64_t> idx_dist(0, data.size() - 1);
 
             for (int t = 0; t < cfg.n_estimators; ++t) {
                 std::vector<size_t> sample(static_cast<size_t>(sub_size));
                 for (auto &s : sample) {
-                    s = idx_dist(rng);
+                    s = static_cast<size_t>(idx_dist(rng));
                 }
                 forest.push_back(buildITree(fm, sample, 0, hl, rng));
             }
