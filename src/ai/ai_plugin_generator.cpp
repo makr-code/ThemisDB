@@ -674,8 +674,8 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     
     // Validate code field sizes (prevents memory exhaustion attacks)
     if (static_cast<int>(generated.implementation_code.size()) > kMaxCodeSize ||
-        generated.header_code.size()         > kMaxCodeSize ||
-        generated.test_code.size()           > kMaxCodeSize) {
+        static_cast<int>(generated.header_code.size()) > kMaxCodeSize ||
+        static_cast<int>(generated.test_code.size()) > kMaxCodeSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,

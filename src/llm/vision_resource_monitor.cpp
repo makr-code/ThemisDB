@@ -741,7 +741,7 @@ void VisionResourceMonitor::logAuditEvent(const std::string& event_type, const s
     audit_log_.push(entry);
     
     // Limit audit log size
-    while (audit_log_.size() > MAX_AUDIT_ENTRIES) {
+    while (static_cast<int>(audit_log_.size()) > MAX_AUDIT_ENTRIES) {
         audit_log_.pop();
     }
     

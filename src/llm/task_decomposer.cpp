@@ -117,7 +117,7 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
             }
         }
     }
-    if (static_cast<int>(result.size()) != steps.size()) return {}; // cycle detected
+    if (static_cast<int>(result.size()) != static_cast<int>(steps.size())) return {}; // cycle detected
     return result;
 }
 
@@ -257,14 +257,14 @@ static json parseYamlScalar(const std::string& raw) {
     try {
         size_t pos = 0;
         long long iv = std::stoll(s, &pos);
-        if (pos == s.size()) {
+        if (pos == static_cast<int>(s.size())) {
           return iv;
         }
     } catch (...) {}
     try {
         size_t pos = 0;
         double dv = std::stod(s, &pos);
-        if (pos == s.size()) {
+        if (pos == static_cast<int>(s.size())) {
           return dv;
         }
     } catch (...) {}

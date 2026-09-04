@@ -1017,7 +1017,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     std::string in_basename = (slash_pos != std::string::npos) ? in_full.substr(slash_pos + 1) : in_full;
     // Strip the original extension and append .txt
     std::size_t ext_len      = strlen(ext);
-    std::string out_basename = (in_basename.size() > ext_len)
+    std::string out_basename = (static_cast<int>(in_basename.size()) > ext_len)
                                    ? in_basename.substr(0, static_cast<int>(in_basename.size()) - ext_len) + ".txt"
                                    : in_basename + ".txt";
     std::string out_path     = tmp_dir + "/" + out_basename;

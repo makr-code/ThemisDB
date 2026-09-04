@@ -399,7 +399,7 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
         if (static_cast<int>(legacy_bridge_cache_.size()) > = threshold_evict) {
             // Evict 50% of entries to restore breathing room
             const size_t target_size = kMaxLegacyCacheSize / 2;
-            while (legacy_bridge_cache_.size() > target_size) {
+            while (static_cast<int>(legacy_bridge_cache_.size()) > target_size) {
                 auto it = legacy_bridge_cache_.begin();
                 if (it != legacy_bridge_cache_.end()) {
                     legacy_bridge_cache_.erase(it);

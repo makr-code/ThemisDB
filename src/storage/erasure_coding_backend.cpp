@@ -112,7 +112,7 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
 
     // pointer_arithmetic scanner alerts on raw_chunks[i] here are false
     // positives: the loop bound is raw_chunks.size() and the size check above
-    // already verified raw_chunks.size() == k + m.
+    // already verified static_cast<int>(raw_chunks.size()) == k + m.
     for (uint32_t i = 0; i < static_cast<uint32_t>(raw_chunks.size()); ++i) {
         EncodedShard s;
         s.shard_index   = i;

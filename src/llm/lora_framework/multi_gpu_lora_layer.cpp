@@ -257,7 +257,7 @@ bool MultiGPULoRALayer::broadcast_parameters() {
     for (int i = 1; i < ctx_.num_gpus(); ++i) {
         auto target_params = layers_[i]->parameters();
         
-        if (static_cast<int>(master_params.size()) != target_params.size()) {
+        if (static_cast<int>(master_params.size()) != static_cast<int>(target_params.size())) {
             spdlog::error("Parameter count mismatch between GPUs");
             return false;
         }

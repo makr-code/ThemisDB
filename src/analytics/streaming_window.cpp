@@ -495,7 +495,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         auto& win_slot = open_windows_[idx];
         if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
             win_slot.seen_partition_keys.count(record.partition_key) == 0 &&
-            win_slot.seen_partition_keys.size() >= config_.max_distinct_partition_keys) {
+            static_cast<int>(win_slot.seen_partition_keys.size()) >= config_.max_distinct_partition_keys) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             key_rejected = true;
@@ -506,7 +506,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
 
         // Enforce max_records_per_window: drop the record when the window is full.
         if (!key_rejected && config_.max_records_per_window > 0 &&
-            open_windows_[idx].records.size() >= config_.max_records_per_window) {
+            open_windows_[idx].static_cast<int>(records.size()) >= config_.max_records_per_window) {
             ++records_dropped_;
             record_added = false;
             spdlog::debug("TumblingWindow: dropped record (window full, limit={})",
@@ -819,7 +819,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         // partition key workloads.
         if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
             seen_partition_keys_.count(record.partition_key) == 0 &&
-            seen_partition_keys_.size() >= config_.max_distinct_partition_keys) {
+            static_cast<int>(seen_partition_keys_.size()) >= config_.max_distinct_partition_keys) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             record_added = false;
@@ -836,7 +836,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         for (auto &w : windows_) {
             if ([[maybe_unused]] !w.closed && record.event_time >= w.start && record.event_time < w.end) {
                 if (config_.max_records_per_window > 0 &&
-                    w.records.size() >= config_.max_records_per_window) {
+                    static_cast<int>(w.records.size()) >= config_.max_records_per_window) {
                     ++records_dropped_;
                     spdlog::debug("SlidingWindow: dropped record from window (limit={})",
                                   config_.max_records_per_window);
@@ -1104,7 +1104,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 s.last_event = std::max(s.last_event, record.event_time);
                 // Enforce max_records_per_session on existing session.
                 if (config_.max_records_per_session > 0 &&
-                    s.records.size() >= config_.max_records_per_session) {
+                    static_cast<int>(s.records.size()) >= config_.max_records_per_session) {
                     ++records_dropped_;
                     spdlog::debug("SessionWindow: dropped record (session full, limit={})",
                                   config_.max_records_per_session);
@@ -1347,7 +1347,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         bool hop_key_rejected = false;
         if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
             seen_partition_keys_.count(record.partition_key) == 0 &&
-            seen_partition_keys_.size() >= config_.max_distinct_partition_keys) {
+            static_cast<int>(seen_partition_keys_.size()) >= config_.max_distinct_partition_keys) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             hop_key_rejected = true;
@@ -1364,7 +1364,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         for (auto &w : windows_) {
             if ([[maybe_unused]] !w.closed && record.event_time >= w.start && record.event_time < w.end) {
                 if (config_.max_records_per_window > 0 &&
-                    w.records.size() >= config_.max_records_per_window) {
+                    static_cast<int>(w.records.size()) >= config_.max_records_per_window) {
                     ++records_dropped_;
                     spdlog::debug("HoppingWindow: dropped record from window (limit={})",
                                   config_.max_records_per_window);

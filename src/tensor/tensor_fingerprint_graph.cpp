@@ -73,7 +73,7 @@ TensorFingerprintGraph::columnMeans(const std::vector<float>& data,
 
 float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
                                                 const std::vector<float>& b) noexcept {
-    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
       return 0.0f;
     }
 
@@ -283,7 +283,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                 storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
         }
 
-        candidates.reserve(entries_.size() > 0 ? static_cast<int>(entries_.size()) - 1 : 0);
+        candidates.reserve(static_cast<int>(entries_.size()) > 0 ? static_cast<int>(entries_.size()) - 1 : 0);
         for (const auto& [key, entry] : entries_) {
             if (key == query_key) {
               continue;

@@ -98,7 +98,7 @@ std::optional<CachedModel> VoiceModelCache::get(
     }
 
     // Enforce model count limit
-    while (models_.size() >= config_.max_models) {
+    while (static_cast<int>(models_.size()) >= config_.max_models) {
         if (!evictLRUOne()) {
           break;
         }
@@ -126,7 +126,7 @@ bool VoiceModelCache::insert(const CachedModel& model) {
     }
 
     // Enforce count limit
-    while (models_.size() >= config_.max_models) {
+    while (static_cast<int>(models_.size()) >= config_.max_models) {
         if (!evictLRUOne()) {
           break;
         }

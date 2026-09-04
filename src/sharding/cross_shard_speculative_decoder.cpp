@@ -489,7 +489,7 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     // Call callback
     if ([[maybe_unused]] callback) {
         // Calculate speedup (simplified)
-        double speedup = draft_tokens.size() > 0 ? 
+        double speedup = static_cast<int>(draft_tokens.size()) > 0 ? 
             static_cast<double>(draft_tokens.size()) / verified_tokens.size() : 1.0;
         callback(request_id, verified_tokens, acceptance_rate, speedup);
     }

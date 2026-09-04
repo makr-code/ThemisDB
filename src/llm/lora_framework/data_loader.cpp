@@ -334,7 +334,7 @@ void DataLoader::tokenizeSample(InstructionDataSample& sample) {
     
     // Truncate if needed
     if (config_.truncate_to_max_length && 
-        sample.input_ids.size() > static_cast<size_t>(config_.max_sequence_length)) {
+        static_cast<int>(sample.input_ids.size()) > static_cast<size_t>(config_.max_sequence_length)) {
         sample.input_ids.resize(config_.max_sequence_length);
         sample.label_ids.resize(config_.max_sequence_length);
     }

@@ -107,7 +107,7 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     auto end = std::chrono::steady_clock::now();
     auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    bool success = successful_nodes.size() >= required_acks;
+    bool success = static_cast<int>(successful_nodes.size()) >= required_acks;
     
     if (success) {
         stats_.successful_writes.fetch_add(1, std::memory_order_release);
@@ -179,7 +179,7 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     auto end = std::chrono::steady_clock::now();
     auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    bool success = successful_nodes.size() >= required_acks;
+    bool success = static_cast<int>(successful_nodes.size()) >= required_acks;
     
     if (success) {
         stats_.successful_reads.fetch_add(1, std::memory_order_release);

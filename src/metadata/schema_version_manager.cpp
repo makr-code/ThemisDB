@@ -459,7 +459,7 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
         if (current_change.has_value()) {
             const auto& existing = current_change->snapshot;
             if (existing.name == new_schema.name &&
-                existing.properties.size() == new_schema.properties.size())
+                static_cast<int>(existing.properties.size()) == static_cast<int>(new_schema.properties.size()))
             {
                 bool identical = true;
                 for (size_t i = 0; i <static_cast<int>(existing.properties.size()) && identical; ++i) {

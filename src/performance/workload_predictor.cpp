@@ -38,7 +38,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
     std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.push_back(snapshot);
     // Evict oldest observation when window is full
-    while (history_.size() > config_.history_window) {
+    while (static_cast<int>(history_.size()) > config_.history_window) {
         history_.pop_front();
     }
 }

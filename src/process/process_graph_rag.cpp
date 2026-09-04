@@ -49,7 +49,7 @@ namespace {
 /// Cosine similarity between two float vectors; returns 0.0 when either is
 /// empty or the norms are zero.
 float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
       return 0.f;
     }
     float dot = 0.f, na = 0.f, nb = 0.f;

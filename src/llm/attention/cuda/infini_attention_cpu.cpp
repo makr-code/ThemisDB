@@ -238,7 +238,7 @@ float validateNumericConsistency(
     const std::vector<float>& cpu_output,
     const std::vector<float>& cuda_output) {
     
-    if (static_cast<int>(cpu_output.size()) != cuda_output.size()) {
+    if (static_cast<int>(cpu_output.size()) != static_cast<int>(cuda_output.size())) {
         return std::numeric_limits<float>::max();
     }
     

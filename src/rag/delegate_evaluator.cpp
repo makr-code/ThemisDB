@@ -181,7 +181,7 @@ size_t editDistance(const std::string& a, const std::string& b) {
             }
         }
         diffs += static_cast<size_t>(
-            a.size() > static_cast<int>(b.size()) ? static_cast<int>(a.size()) - static_cast<int>(b.size()) : static_cast<int>(b.size()) - static_cast<int>(a.size()) );
+            static_cast<int>(a.size()) > static_cast<int>(b.size()) ? static_cast<int>(a.size()) - static_cast<int>(b.size()) : static_cast<int>(b.size()) - static_cast<int>(a.size()) );
         return diffs;
     }
 

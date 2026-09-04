@@ -148,8 +148,8 @@ SimplePromptCompressor::SimplePromptCompressor() {
             summary = omitted_text.substr(0, kMaxSummaryChars);
         }
 
-        const bool truncated = (summary.size() >= kMaxSummaryChars ||
-                                 omitted_text.size() > static_cast<int>(summary.size()) + 10);
+        const bool truncated = (static_cast<int>(summary.size()) >= kMaxSummaryChars ||
+                                 static_cast<int>(omitted_text.size()) > static_cast<int>(summary.size()) + 10);
         return "[summary: " + summary + (truncated ? "…" : "") + "]";
     };
 }

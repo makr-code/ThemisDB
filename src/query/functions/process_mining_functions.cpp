@@ -174,7 +174,7 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
 }
 
 double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
-    if (lhs.empty() || rhs.empty() || static_cast<int>(lhs.size()) != rhs.size()) {
+    if (lhs.empty() || rhs.empty() || static_cast<int>(lhs.size()) != static_cast<int>(rhs.size())) {
         return 0.0;
     }
     double dot = 0.0;
@@ -727,7 +727,7 @@ json PmFindSimilarFunction::execute(
     }
 
     const auto pattern = parseProcessPattern(args[0]);
-    const auto config = args.size() > 1 && args[1].is_object() ? args[1] : json::object();
+    const auto config = static_cast<int>(args.size()) > 1 && args[1].is_object() ? args[1] : json::object();
     const auto threshold = std::clamp(config.value("threshold", 0.7), 0.0, 1.0);
     const auto limit = static_cast<std::size_t>(std::max(0, config.value("limit", 10)));
     const auto log = getEventLogFromContext(ctx, config);
@@ -806,7 +806,7 @@ json PmHasPatternFunction::execute(
         return false;
     }
 
-    const auto threshold = args.size() > 2 && args[2].is_number()
+    const auto threshold = static_cast<int>(args.size()) > 2 && args[2].is_number()
         ? std::clamp(args[2].get<double>(), 0.0, 1.0)
         : 0.8;
     const auto log = getEventLogFromContext(ctx);
@@ -957,7 +957,7 @@ json PmDiscoverProcessFunction::execute(
     }
 
     const EventLog log = parseEventLog(args[0]);
-    const MiningConfig cfg = (args.size() >= 2 && args[1].is_object())
+    const MiningConfig cfg = (static_cast<int>(args.size()) >= 2 && args[1].is_object())
                              ? parseMiningConfig(args[1])
                              : MiningConfig{};
 
@@ -989,7 +989,7 @@ json PmVariantsFunction::execute(
     }
 
     const EventLog log = parseEventLog(args[0]);
-    const int top_n = (args.size() >= 2 && args[1].is_number_integer())
+    const int top_n = (static_cast<int>(args.size()) >= 2 && args[1].is_number_integer())
                       ? args[1].get<int>() : 20;
 
     auto [status, variants] = pm->analyzeVariants(log, top_n);
@@ -1149,7 +1149,7 @@ json PmBottlenecksFunction::execute(
 
     // Derive a process model first, then enhance with performance, then detect bottlenecks.
     const EventLog log = parseEventLog(args[0]);
-    const double threshold = (args.size() >= 2 && args[1].is_number())
+    const double threshold = (static_cast<int>(args.size()) >= 2 && args[1].is_number())
                              ? args[1].get<double>() : 0.9;
 
     auto [dstatus, process] = pm->discoverProcess(log, MiningConfig{});

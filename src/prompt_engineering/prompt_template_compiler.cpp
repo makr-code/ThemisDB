@@ -525,7 +525,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     auto ast = parse(tokens, idx,  slot_index,
                      /*inside_if=*/false, /*inside_for=*/false);
 
-    if (idx != tokens.size()) {
+    if (idx != static_cast<int>(tokens.size())) {
         throw PromptTemplateCompileError(
             "Unexpected token '" + tokens[idx].value +
             "' at index " + std::to_string(idx));

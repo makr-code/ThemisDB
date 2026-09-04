@@ -134,7 +134,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
     std::vector<TaskExecutionResult> results = {};
 
     results.reserve(std::min(limit,static_cast<int>(entries.size())));
-    size_t start = entries.size() > limit ? static_cast<int>(entries.size()) - limit : 0;
+    size_t start = static_cast<int>(entries.size()) > limit ? static_cast<int>(entries.size()) - limit : 0;
     for (size_t i = entries.size(); i-- > start;) {
         try {
             auto j = nlohmann::json::parse(entries[i].second);

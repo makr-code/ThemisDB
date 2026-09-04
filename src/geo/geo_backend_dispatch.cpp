@@ -98,7 +98,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     result.cpu_fallback = true;
     
     // Validation
-    if (static_cast<int>(points1.size()) != points2.size()) {
+    if (static_cast<int>(points1.size()) != static_cast<int>(points2.size())) {
         result.error_code = -1;  // Size mismatch
         return result;
     }
@@ -250,7 +250,7 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     result.cpu_fallback = true;
     
     // Validation
-    if (static_cast<int>(points1.size()) != points2.size()) {
+    if (static_cast<int>(points1.size()) != static_cast<int>(points2.size())) {
         result.error_code = -1;  // Size mismatch
         return result;
     }

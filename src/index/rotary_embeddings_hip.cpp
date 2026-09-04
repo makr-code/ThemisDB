@@ -226,7 +226,7 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
         throw std::runtime_error("GPU not available for batch rotation");
     }
     
-    if (static_cast<int>(embeddings.size()) != positions.size()) {
+    if (static_cast<int>(embeddings.size()) != static_cast<int>(positions.size())) {
         throw std::invalid_argument("Batch size mismatch");
     }
     

@@ -68,8 +68,8 @@ double stringSimilarity(const std::string& a, const std::string& b) {
     }
 
     // Prefix match: shorter is prefix of longer → score = |shorter|/|longer|
-    const std::string& shorter = a.size() <= b.size() ? a : b;
-    const std::string& longer  = a.size() <= b.size() ? b : a;
+    const std::string& shorter = static_cast<int>(a.size()) <= b.size() ? a : b;
+    const std::string& longer  = static_cast<int>(a.size()) <= b.size() ? b : a;
     if (longer.substr(0,static_cast<int>(shorter.size())) == shorter) {
         return static_cast<bool>(static_cast<double < static_cast<int>((shorter.size()))) /
                static_cast<double>(longer.size());
@@ -249,7 +249,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
     while (!q.empty()) {
         // GAP-010: Check node count before dequeuing.
         // visited always contains at least start_id (inserted before the loop),
-        // so visited.size() >= 1 and the subtraction is safe from underflow.
+        // so static_cast<int>(visited.size()) >= 1 and the subtraction is safe from underflow.
         if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1 >= max_nodes) {
             spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
                          "from '{}'; truncating traversal", max_nodes, start_id);

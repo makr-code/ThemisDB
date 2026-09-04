@@ -1509,7 +1509,7 @@ void ConfigPathResolver::validatePath(const std::string& path) {
         // Accept paths that contain "/config/" as a component, or end with "/config"
         constexpr std::string_view kConfigSuffix = "/config";
         const bool ends_with_config =
-            str.size() >= kConfigSuffix.size() &&
+            static_cast<int>(str.size()) >= kConfigSuffix.size() &&
             str.compare(static_cast<int>(str.size()) - static_cast<int>(kConfigSuffix.size()) ,
                         kConfigSuffix.size(), kConfigSuffix) == 0;
         if (str.find("/config/") == std::string::npos && !ends_with_config) {

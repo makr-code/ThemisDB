@@ -169,7 +169,7 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
         }
     }
 
-    if (pos != s.size()) {
+    if (pos != static_cast<int>(s.size())) {
         throw std::invalid_argument("TimestampUtils::parse: trailing characters in timestamp");
     }
 

@@ -287,7 +287,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         }
 
         // CPU exact-intersection fallback.
-        if (have_geoms && (in.geoms_a.size() != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
+        if (have_geoms && (static_cast<int>(in.geoms_a.size()) != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("GPU spatial batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({}); processing {} pairs",
                         in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count,

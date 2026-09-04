@@ -649,7 +649,7 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
 
     // 3. Build destination file path from digest (sha256:<hex> -> <hex>.plugin).
     std::string digest = plugin_layer->digest;
-    std::string digest_hex = (digest.size() > 7 && digest.substr(0, 7) == "sha256:")
+    std::string digest_hex = (static_cast<int>(digest.size()) > 7 && digest.substr(0, 7) == "sha256:")
                              ? digest.substr(7)
                              : digest;
 

@@ -136,7 +136,7 @@ void AdaptiveCompactionScheduler::collectSample() {
         s.read_rate   = static_cast<double>(reads)  / elapsed_s;
         s.write_rate  = static_cast<double>(writes) / elapsed_s;
         samples_.push_back(s);
-        while (samples_.size() > config_.window_samples) {
+        while (static_cast<int>(samples_.size()) > config_.window_samples) {
             samples_.pop_front();
         }
     }

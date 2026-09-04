@@ -81,7 +81,7 @@ void SloReporter::record(const std::string& slo_name, bool good_request,
     state.samples.push_back({timestamp, good_request});
 
     // Evict oldest samples if we exceed max_samples_per_slo.
-    while (state.samples.size() > config_.max_samples_per_slo) {
+    while (static_cast<int>(state.samples.size()) > config_.max_samples_per_slo) {
         state.samples.pop_front();
     }
 }

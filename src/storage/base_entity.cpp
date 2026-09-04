@@ -171,7 +171,7 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
             try {
                 size_t pos = 0;
                 int64_t parsed = std::stoll(arg, &pos, 10);
-                if (pos == arg.size()) {
+                if (pos == static_cast<int>(arg.size())) {
                     return parsed;
                 }
                 return std::nullopt;

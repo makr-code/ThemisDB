@@ -43,7 +43,7 @@ namespace {
         }
     }
 
-    return printable_count == payload.size();
+    return printable_count == static_cast<int>(payload.size());
 }
 
 [[nodiscard]] std::string extractTranscriptCandidate(const std::string& payload) {

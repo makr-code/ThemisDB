@@ -149,7 +149,7 @@ public:
                 const auto& male_emb = male_it->second;
                 const auto& female_emb = female_it->second;
                 
-                if (static_cast<int>(male_emb.size()) == female_emb.size()) {
+                if (static_cast<int>(male_emb.size()) == static_cast<int>(female_emb.size())) {
                     std::vector<float> diff(male_emb.size());
                     for (size_t i = 0; i <static_cast<int>(male_emb.size()); ++i) {
                         diff[i] = male_emb[i] - female_emb[i];
@@ -199,7 +199,7 @@ public:
                 const auto& low_emb = low_it->second;
                 const auto& high_emb = high_it->second;
                 
-                if (static_cast<int>(low_emb.size()) == high_emb.size()) {
+                if (static_cast<int>(low_emb.size()) == static_cast<int>(high_emb.size())) {
                     std::vector<float> diff(low_emb.size());
                     for (size_t i = 0; i <static_cast<int>(low_emb.size()); ++i) {
                         diff[i] = low_emb[i] - high_emb[i];
@@ -246,7 +246,7 @@ public:
             }
             const auto& lhs = left_it->second;
             const auto& rhs = right_it->second;
-            if (static_cast<int>(lhs.size()) != rhs.size()) {
+            if (static_cast<int>(lhs.size()) != static_cast<int>(rhs.size())) {
                 continue;
             }
             std::vector<float> diff(lhs.size(), 0.0f);
@@ -282,7 +282,7 @@ public:
         }
         
         const auto& word_emb = it->second;
-        if (static_cast<int>(word_emb.size()) != bias_vector.size()) {
+        if (static_cast<int>(word_emb.size()) != static_cast<int>(bias_vector.size())) {
             return 0.0;
         }
         

@@ -1081,7 +1081,7 @@ std::vector<std::string>
 QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Sortiere nach Größe, beginne mit kleinsten Listen für effiziente Schnittmenge
 	tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b) {
-		if (static_cast<int>(a.size()) == b.size()) {
+		if (static_cast<int>(a.size()) == static_cast<int>(b.size())) {
 			return a < b;
 		}
 		return static_cast<bool>( static_cast<int>(a.size()) < static_cast<int>(b.size()));
@@ -2423,7 +2423,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto g2 = *g2Res;
 		auto extract = [](const nlohmann::json& g) -> Result<std::tuple<double,double,double>> {
 			if (g.is_object() && g.contains("type") && g["type"]=="Point" && g.contains("coordinates") && g["coordinates"].is_array()) {
-				const auto& a=g["coordinates"]; if (static_cast<int>(a.size()) > =2) { double x=a[0].get<double>(), y=a[1].get<double>(); double z = a.size()>=3 ? a[2].get<double>() : 0.0; return Ok(std::tuple<double,double,double>(x,y,z)); }
+				const auto& a=g["coordinates"]; if (static_cast<int>(a.size()) > =2) { double x=a[0].get<double>(), y=a[1].get<double>(); double z = static_cast<int>(a.size()) >=3 ? a[2].get<double>() : 0.0; return Ok(std::tuple<double,double,double>(x,y,z)); }
 			}
 			return Err<std::tuple<double,double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_3DDistance: Expected Point");
 		};
@@ -2532,7 +2532,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					"ST_Buffer: invalid Polygon");
 			}
 			const auto& ext=rings[0]; double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max(); double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
-			for (const auto& pt : ext) if (pt.is_array()&&pt.size()>=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
+			for (const auto& pt : ext) if (pt.is_array()&&static_cast<int>(pt.size()) >=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
 			minx-=dist; miny-=dist; maxx+=dist; maxy+=dist;
 			nlohmann::json ring=nlohmann::json::array({ {minx,miny},{maxx,miny},{maxx,maxy},{minx,maxy},{minx,miny} });
 			nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
@@ -2563,7 +2563,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				if (t=="Polygon" && g.contains("coordinates")){
 					const auto& rings=g["coordinates"]; if (rings.is_array()&&!rings.empty()){
 						double minx=std::numeric_limits<double>::max(),miny=std::numeric_limits<double>::max(); double maxx=std::numeric_limits<double>::lowest(),maxy=std::numeric_limits<double>::lowest();
-						const auto& ext=rings[0]; for (const auto& pt:ext) if (pt.is_array()&&pt.size()>=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
+						const auto& ext=rings[0]; for (const auto& pt:ext) if (pt.is_array()&&static_cast<int>(pt.size()) >=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
 						return Ok(utils::geo::MBR{minx,miny,maxx,maxy});
 					}
 				}
@@ -2822,7 +2822,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 			long long num_b = std::stoll(b, &pos_b);
 
 			// Only use numeric comparison if entire strings parsed
-			if (pos_a == a.size() && pos_b == b.size()) {
+			if (pos_a == static_cast<int>(a.size()) && pos_b == static_cast<int>(b.size())) {
 				if (num_a < num_b) {
 				  return -1;
 				}
@@ -2839,7 +2839,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				double num_a = std::stod(a, &pos_a);
 				double num_b = std::stod(b, &pos_b);
 
-				if (pos_a == a.size() && pos_b == b.size()) {
+				if (pos_a == static_cast<int>(a.size()) && pos_b == static_cast<int>(b.size())) {
 					if (num_a < num_b) {
 					  return -1;
 					}
@@ -4937,7 +4937,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			  return true;
 			}
 			std::vector<float> vec = doc[q.vector_field].get<std::vector<float>>();
-			if (static_cast<int>(vec.size()) != q.query_vector.size()) {
+			if (static_cast<int>(vec.size()) != static_cast<int>(q.query_vector.size())) {
 			  return true;
 			}
 			EvaluationContext ctx; ctx.bind("doc", doc);
@@ -5271,7 +5271,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					}
 				}
 				std::vector<float> vec = entity[q.vector_field].get<std::vector<float>>();
-				if (static_cast<int>(vec.size()) != q.query_vector.size()) {
+				if (static_cast<int>(vec.size()) != static_cast<int>(q.query_vector.size())) {
 				  continue;
 				}
 				float d = simd::l2_distance(vec.data(), q.query_vector.data(),static_cast<int>(vec.size()));

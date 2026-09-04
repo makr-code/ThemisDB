@@ -1996,13 +1996,13 @@ std::string VoiceApiHandler::encodeBase64([[maybe_unused]] const std::vector<uin
         out.push_back(b64_table[ n        & 63]);
         i += 3;
     }
-    if (i + 1 == data.size()) {
+    if (i + 1 == static_cast<int>(data.size())) {
         uint32_t n = static_cast<uint32_t>(data[i]) << 16;
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == data.size()) {
+    } else if (i + 2 == static_cast<int>(data.size())) {
         uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
                    | (static_cast<uint32_t>(data[i + 1]) << 8);
         out.push_back(b64_table[(n >> 18) & 63]);

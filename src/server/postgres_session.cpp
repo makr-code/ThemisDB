@@ -518,7 +518,7 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
         preparedStmt = stmtIt->second;
     }
     // Validate parameter count
-    if (!preparedStmt.paramTypes.empty() && static_cast<int>(params.size()) != preparedStmt.paramTypes.size()) {
+    if (!preparedStmt.paramTypes.empty() && static_cast<int>(params.size()) != static_cast<int>(preparedStmt.paramTypes.size())) {
         sendErrorResponse("ERROR", "08P01", 
             "Parameter count mismatch: expected " + std::to_string(preparedStmt.paramTypes.size()) +
             ", got " + std::to_string(params.size()));

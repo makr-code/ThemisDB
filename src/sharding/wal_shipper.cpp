@@ -217,7 +217,7 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
         
         // Check if adding this entry would exceed limits
         if (!batch.empty() && 
-            (batch.size() >= config_.batch_size || 
+            (static_cast<int>(batch.size()) >= config_.batch_size || 
              batch_bytes + entry_size > config_.max_batch_bytes)) {
             // Ship current batch
             if (!shipBatch(replica.endpoint, batch)) {

@@ -171,7 +171,7 @@ ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     // 3. Long query flag
     analysis.is_long_query =
         (config_.long_query_threshold > 0 &&
-         query.size() > config_.long_query_threshold);
+         static_cast<int>(query.size()) > config_.long_query_threshold);
 
     // 4. Assemble raw score
     // Connectives contribute the most: each connective ~ 0.15

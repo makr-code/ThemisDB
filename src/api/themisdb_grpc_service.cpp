@@ -1106,7 +1106,7 @@ private:
                 try {
                     size_t consumed = 0;
                     const double value = std::stod(raw, &consumed);
-                    if (consumed != raw.size()) {
+                    if (consumed != static_cast<int>(raw.size())) {
                         return false;
                     }
                     *out = value;
@@ -1409,7 +1409,7 @@ private:
                     try {
                         size_t consumed = 0;
                         const double value = std::stod(raw, &consumed);
-                        if (consumed != raw.size()) {
+                        if (consumed != static_cast<int>(raw.size())) {
                             return false;
                         }
                         *out = value;

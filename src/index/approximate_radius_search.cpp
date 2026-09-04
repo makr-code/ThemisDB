@@ -113,7 +113,7 @@ ApproximateRadiusSearch::search(
     // Set metadata
     search_result.total_candidates = results.size();
     search_result.actual_max_distance = max_distance;
-    search_result.truncated = (results.size() >= max_results && max_results > 0);
+    search_result.truncated = (static_cast<int>(results.size()) >= max_results && max_results > 0);
     
     auto end = std::chrono::high_resolution_clock::now();
     search_result.computation_time_ms = 
@@ -312,7 +312,7 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     // Extrapolate to full dataset
     // This is a rough estimate since we're sampling the k-nearest neighbors
     // which is biased towards closer vectors
-    if (within_radius == sample_results.size()) {
+    if (within_radius == static_cast<int>(sample_results.size())) {
         // All samples within radius, likely many more
         size_t estimate = (total_vectors * within_radius) / sample_size;
         return std::min(estimate, total_vectors);

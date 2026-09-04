@@ -1469,7 +1469,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             try {
                 std::size_t consumed = 0;
                 out = std::stoll(value, &consumed);
-                return consumed == value.size();
+                return consumed == static_cast<int>(value.size());
             } catch (...) {
                 THEMIS_WARN([[maybe_unused]] "monitoring_api_handler: unhandled exception caught");
                 return false;

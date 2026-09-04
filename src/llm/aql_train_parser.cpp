@@ -55,7 +55,7 @@ std::string stripQuotes(const std::string& s) {
  * @brief Case-insensitive string comparison.
  */
 bool iequal(const std::string& a, const std::string& b) {
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
       return false;
     }
     return std::equal(a.begin(), a.end(), b.begin(),
@@ -68,7 +68,7 @@ int parseIntegerValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
         const long long parsed = std::stoll(value, &parsed_chars);
-        if (parsed_chars != value.size()) {
+        if (parsed_chars != static_cast<int>(value.size())) {
             throw std::invalid_argument("trailing characters");
         }
         if (parsed < std::numeric_limits<int>::min() ||
@@ -91,7 +91,7 @@ double parseDoubleValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
         const double parsed = std::stod(value, &parsed_chars);
-        if (parsed_chars != value.size() || !std::isfinite(parsed)) {
+        if (parsed_chars != static_cast<int>(value.size()) || !std::isfinite(parsed)) {
             throw std::invalid_argument("invalid floating value");
         }
         return parsed;

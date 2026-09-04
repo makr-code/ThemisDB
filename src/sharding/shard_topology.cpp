@@ -59,13 +59,13 @@ static std::string base64Encode(const std::string& input) {
         output.push_back(B64_ENCODE_TABLE[n & 63]);
         i += 3;
     }
-    if (i + 1 == input.size()) {
+    if (i + 1 == static_cast<int>(input.size())) {
         uint32_t n = static_cast<uint8_t>(input[i]) << 16;
         output.push_back(B64_ENCODE_TABLE[(n >> 18) & 63]);
         output.push_back(B64_ENCODE_TABLE[(n >> 12) & 63]);
         output.push_back('=');
         output.push_back('=');
-    } else if (i + 2 == input.size()) {
+    } else if (i + 2 == static_cast<int>(input.size())) {
         uint32_t n = (static_cast<uint8_t>(input[i]) << 16) | 
                     (static_cast<uint8_t>(input[i + 1]) << 8);
         output.push_back(B64_ENCODE_TABLE[(n >> 18) & 63]);

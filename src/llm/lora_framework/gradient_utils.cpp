@@ -145,7 +145,7 @@ void GradientUtils::accumulate_gradients(
         const auto& new_data = new_gradients[i]->data();
         auto& acc_data = accumulated[i].data();
         
-        if (static_cast<int>(acc_data.size()) != new_data.size()) {
+        if (static_cast<int>(acc_data.size()) != static_cast<int>(new_data.size())) {
             spdlog::error("Gradient size mismatch at index {} (expected {}, got {})", 
                          i,static_cast<int>(acc_data.size()),static_cast<int>(new_data.size()));
             throw std::runtime_error("Gradient accumulation failed: size mismatch");

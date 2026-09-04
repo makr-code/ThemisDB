@@ -228,9 +228,9 @@ bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
     const std::vector<std::string>& old_topology,
     const std::vector<std::string>& new_topology) {
     
-    // Detect node join: new_topology.size() > static_cast<int>(old_topology.size())
-    // Detect node leave: new_topology.size() <static_cast<int>(old_topology.size())
-    if (static_cast<int>(new_topology.size()) == old_topology.size()) {
+    // Detect node join: static_cast<int>(new_topology.size()) > static_cast<int>(old_topology.size())
+    // Detect node leave: static_cast<int>(new_topology.size()) <static_cast<int>(old_topology.size())
+    if (static_cast<int>(new_topology.size()) == static_cast<int>(old_topology.size())) {
         return false; // No topology change
     }
     
@@ -264,7 +264,7 @@ std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChange
 
     // For node join: redistribute from overloaded nodes to new node
     // For node leave: redistribute from removed node to remaining nodes
-    bool is_join = new_topology.size() > static_cast<int>(old_topology.size());
+    bool is_join = static_cast<int>(new_topology.size()) > static_cast<int>(old_topology.size());
     
     if (is_join) {
         // Find new nodes

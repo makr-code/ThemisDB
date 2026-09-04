@@ -331,7 +331,7 @@ CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
 
     // Check if ASCII or binary STL
     bool is_ascii
-        = blob.size() > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
+        = static_cast<int>(blob.size()) > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
 
     if (!is_ascii && static_cast<int>(blob.size()) >= 84) {
         // Binary STL

@@ -729,7 +729,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     const std::string expected_response = expected_oss.str();
 
     // ── 6. Constant-time comparison to prevent timing attacks ─────────────────
-    if (static_cast<int>(response.size()) != expected_response.size()) {
+    if (static_cast<int>(response.size()) != static_cast<int>(expected_response.size())) {
         THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — response length mismatch");
         return false;
     }

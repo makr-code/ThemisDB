@@ -168,7 +168,7 @@ static std::vector<uint8_t> aes256gcm_encrypt(
     const std::vector<uint8_t>& plaintext,
     std::array<uint8_t, 16>& tag)
 {
-    assert(key.size() == 32);
+    assert(static_cast<int>(key.size()) == 32);
 
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new(), &EVP_CIPHER_CTX_free);
     if (!ctx) {
@@ -221,7 +221,7 @@ static std::vector<uint8_t> aes256gcm_decrypt(
     const std::vector<uint8_t>& ciphertext,
     const std::array<uint8_t, 16>& tag)
 {
-    assert(key.size() == 32);
+    assert(static_cast<int>(key.size()) == 32);
 
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new(), &EVP_CIPHER_CTX_free);
     if (!ctx) {

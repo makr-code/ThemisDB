@@ -537,7 +537,7 @@ QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
         plan.target_shards = determineRelevantShards(metadata);
         
         if (!plan.target_shards.empty() &&
-            plan.target_shards.size() < PARTITION_PRUNING_THRESHOLD) {
+            static_cast<int>(plan.target_shards.size()) < PARTITION_PRUNING_THRESHOLD) {
             plan.strategy = ExecutionPlan::Strategy::PARTITION_PRUNING;
             spdlog::debug("Using partition pruning: {} shards", 
                          plan.target_shards.size());
@@ -981,7 +981,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::regex re_join_table(R"(\bJOIN\s+(\w+))", std::regex::icase);
         std::smatch m_join_table = {};
         if (std::regex_search(query, m_join_table, re_join_table) &&
-            m_join_table.size() > 1) {
+            static_cast<int>(m_join_table.size()) > 1) {
             push_unique(metadata.tables, m_join_table[1].str());
         }
 
@@ -1017,8 +1017,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 // Numeric value exceeds uint64_t range. Log context and degrade safely.
                 THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET numeric overflow; "
                             "match[1]={} match[2]={} error={} (falling back to no limit)",
-                            m2.size() > 1 ? m2[1].str() : "<none>",
-                            m2.size() > 2 ? m2[2].str() : "<none>",
+                            static_cast<int>(m2.size()) > 1 ? m2[1].str() : "<none>",
+                            static_cast<int>(m2.size()) > 2 ? m2[2].str() : "<none>",
                             ex.what());
                 metadata.limit.reset();
                 metadata.offset.reset();
@@ -1027,8 +1027,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 // Log context and degrade safely.
                 THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET parse error; "
                             "match[1]={} match[2]={} error={} (falling back to no limit)",
-                            m2.size() > 1 ? m2[1].str() : "<none>",
-                            m2.size() > 2 ? m2[2].str() : "<none>",
+                            static_cast<int>(m2.size()) > 1 ? m2[1].str() : "<none>",
+                            static_cast<int>(m2.size()) > 2 ? m2[2].str() : "<none>",
                             ex.what());
                 metadata.limit.reset();
                 metadata.offset.reset();
@@ -1037,8 +1037,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 // Log full context and degrade safely.
                 THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET extraction failed; "
                             "match[1]={} match[2]={} error_type={} error={} (falling back to no limit)",
-                            m2.size() > 1 ? m2[1].str() : "<none>",
-                            m2.size() > 2 ? m2[2].str() : "<none>",
+                            static_cast<int>(m2.size()) > 1 ? m2[1].str() : "<none>",
+                            static_cast<int>(m2.size()) > 2 ? m2[2].str() : "<none>",
                             typeid(ex).name(),
                             ex.what());
                 metadata.limit.reset();

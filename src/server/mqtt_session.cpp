@@ -785,7 +785,7 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
         }
     }
     
-    return filterPos == filter.size() && topicPos == topic.size();
+    return filterPos == static_cast<int>(filter.size()) && topicPos == static_cast<int>(topic.size());
 }
 
 void MqttBroker::publish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {

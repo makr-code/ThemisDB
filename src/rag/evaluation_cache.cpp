@@ -150,7 +150,7 @@ void EvaluationCache::put(
     }
 
     // Evict LRU entry if at capacity
-    while (cache_.size() >= config_.max_entries) {
+    while (static_cast<int>(cache_.size()) >= config_.max_entries) {
         evictLRU();
     }
 

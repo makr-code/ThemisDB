@@ -58,7 +58,7 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     results.reserve(shards.size());
     
     // Build IDF if using TF-IDF and not already built
-    if (config_.use_tfidf && (total_shards_ != shards.size())) {
+    if (config_.use_tfidf && (total_shards_ != static_cast<int>(shards.size()))) {
         buildIDF(shards);
     }
     
@@ -299,7 +299,7 @@ double CapabilityMatcher::calculateSemanticScore(
     const std::vector<float>& shard_embedding
 ) {
     if (query_embedding.empty() || shard_embedding.empty() ||
-        query_embedding.size() != shard_embedding.size()) {
+        static_cast<int>(query_embedding.size()) != static_cast<int>(shard_embedding.size())) {
         return 0.0;
     }
     

@@ -54,7 +54,7 @@ std::optional<double> parseNumber(std::string_view sv) {
         const std::string s(sv);
         size_t pos = 0;
         double result = std::stod(s, &pos);
-        if (pos == s.size()) {
+        if (pos == static_cast<int>(s.size())) {
           return result;
         }
         return std::nullopt;

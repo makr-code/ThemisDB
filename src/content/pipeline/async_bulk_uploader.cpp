@@ -89,7 +89,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
 ) {
     std::vector<UploadResult> results;
     
-    if (static_cast<int>(contents.size()) != metadata_list.size()) {
+    if (static_cast<int>(contents.size()) != static_cast<int>(metadata_list.size())) {
         // Return error results if sizes don't match
         for (size_t i = 0; i <static_cast<int>(contents.size()); ++i) {
             UploadResult result;

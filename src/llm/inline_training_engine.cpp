@@ -642,7 +642,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
             // Wave-B L5: params are retained across steps so optimizer moments
             // and weight-decay accumulate correctly over the full training run.
             if (!accumulated_gradients.empty()) {
-                if (impl_-> static_cast<int>(model_params_.size()) != accumulated_gradients.size()) {
+                if (impl_-> static_cast<int>(model_params_.size()) != static_cast<int>(accumulated_gradients.size())) {
                     // Lazy initialisation: small random values in [-0.01, 0.01].
                     impl_->model_params_.resize(accumulated_gradients.size());
                     const float kInitScale = 0.01f;

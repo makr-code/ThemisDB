@@ -409,7 +409,7 @@ double SemanticMatcher::scorePhonePair(const std::string &p1, const std::string 
 }
 
 double SemanticMatcher::vectorSimilarity(const std::vector<float> &v1, const std::vector<float> &v2) {
-    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != v2.size()) {
+    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != static_cast<int>(v2.size())) {
         return 0.0;
     }
 

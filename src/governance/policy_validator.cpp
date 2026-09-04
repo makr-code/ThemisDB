@@ -482,7 +482,7 @@ std::vector<SecurityViolation> PolicyValidator::detectCcpaConflicts() const {
 
         // Detect rules that block export on all resources (would prevent CCPA
         // data portability from being fulfilled)
-        bool blocks_all_export = !rule.allow_export && (rule.resources.size() == 1 && rule.resources[0] == "*");
+        bool blocks_all_export = !rule.allow_export && (static_cast<int>(rule.resources.size()) == 1 && rule.resources[0] == "*");
         if (blocks_all_export) {
             ccpa_export_block_rules.push_back(rule.id);
         }

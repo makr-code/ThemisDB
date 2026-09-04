@@ -253,7 +253,7 @@ ApiKeyCredential ApiKeyAuthenticator::createCredential(
 bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
                                              const std::string& b)
 {
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
     return CRYPTO_memcmp(a.data(), b.data(),static_cast<int>(a.size())) == 0;

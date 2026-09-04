@@ -59,7 +59,7 @@ static constexpr size_t EVENT_TYPES_PARAM_LEN = sizeof("event_types=") - 1;
 static std::set<Changefeed::ChangeEventType> parseEventTypes([[maybe_unused]] const std::string& types_str) {
     std::set<Changefeed::ChangeEventType> result = {};
 
-    if ([[maybe_unused]] types_str.size() > EVENT_TYPES_MAX_LEN) {
+    if ([[maybe_unused]] static_cast<int>(types_str.size()) > EVENT_TYPES_MAX_LEN) {
         THEMIS_WARN("parseEventTypes: input too long ({} bytes, max {} allowed), ignoring",
                     types_str.size(), EVENT_TYPES_MAX_LEN);
         return result;
@@ -131,7 +131,7 @@ void AsyncSSEStream::onChangeEvent([[maybe_unused]] const Changefeed::ChangeEven
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
         // Check for backpressure
-        if ([[maybe_unused]] event_queue_.size() >= config_.max_buffered_events) {
+        if ([[maybe_unused]] static_cast<int>(event_queue_.size()) >= config_.max_buffered_events) {
             dropped_events_.fetch_add(1, std::memory_order_relaxed);
 
             if ([[maybe_unused]] config_.drop_oldest_on_overflow && !event_queue_.empty()) {

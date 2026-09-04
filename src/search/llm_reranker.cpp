@@ -212,7 +212,7 @@ std::string LlmReranker::buildPrompt(
     for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
         // Truncate snippet to max_snippet_length
         const std::string& full = batch[i].content;
-        const std::string snippet = (full.size() > config_.max_snippet_length)
+        const std::string snippet = (static_cast<int>(full.size()) > config_.max_snippet_length)
             ? full.substr(0, config_.max_snippet_length)
             : full;
         oss << "Document " << (i + 1) << ": " << snippet << "\n";

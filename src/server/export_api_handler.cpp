@@ -533,7 +533,7 @@ bool ExportApiHandler::validateAdminToken(
     // timing-oracle attacks that could allow an attacker to recover the
     // admin token one byte at a time by measuring response latency.
     const std::string expected(admin_token);
-    if (static_cast<int>(token.size()) != expected.size()) {
+    if (static_cast<int>(token.size()) != static_cast<int>(expected.size())) {
         return false;
     }
     return CRYPTO_memcmp(token.data(), expected.data(),static_cast<int>(expected.size())) == 0;

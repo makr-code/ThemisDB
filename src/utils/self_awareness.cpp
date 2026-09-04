@@ -664,7 +664,7 @@ void SelfAwareness::loadSnapshots() {
 
 // Prune snapshots
 void SelfAwareness::pruneSnapshots() {
-    while (snapshots_.size() > config_.max_snapshots_retained) {
+    while (static_cast<int>(snapshots_.size()) > config_.max_snapshots_retained) {
         snapshots_.erase(snapshots_.begin());
     }
 }

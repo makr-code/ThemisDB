@@ -419,7 +419,7 @@ void ResultAccumulator::truncateResults() {
     uint64_t freed = 0;
 
     for (auto& [shard_id, batches] : shard_batches_) {
-        while (batches.size() > 1) {
+        while (static_cast<int>(batches.size()) > 1) {
             const auto& batch = batches.back();
             freed += batch.size_bytes;
             current_memory_bytes_ -= batch.size_bytes;

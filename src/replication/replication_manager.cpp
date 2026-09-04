@@ -531,7 +531,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     // instead of a hardcoded magic number so operators can tune I/O patience.
     const uint32_t FILE_IO_TIMEOUT_MS = config_.file_io_timeout_ms;
     
-    for (uint64_t seg = segment_id; entries.size() < limit; ++seg) {
+    for (uint64_t seg = segment_id; static_cast<int>(entries.size()) < limit; ++seg) {
         std::string segment_path = config_.wal_directory + "/wal_" + 
                                    std::to_string(seg) + ".log";
         
@@ -3967,7 +3967,7 @@ void MultiMasterReplicationManager::replicationLoop() {
                     committed_writes_log_.push_back(entry);
                     // Cap to 2× max_pending_writes to bound memory.
                     const size_t cap = static_cast<size_t>(config_.max_pending_writes) * 2;
-                    while (committed_writes_log_.size() > cap) {
+                    while (static_cast<int>(committed_writes_log_.size()) > cap) {
                         committed_writes_log_.pop_front();
                     }
                 }
@@ -4318,7 +4318,7 @@ void ParallelReplicationWorker::submit(const WALEntry& entry) {
     {
         std::lock_guard<std::mutex> q_lock(queue_mutex_);
         // Enforce max queue size: drop oldest if full
-        while (work_queue_.size() >= config_.queue_size) {
+        while (static_cast<int>(work_queue_.size()) >= config_.queue_size) {
             work_queue_.pop();
         }
         in_flight_count_.fetch_add(1);
@@ -5158,7 +5158,7 @@ void ReplicationAnalytics::recordLag(const std::string& replica_id, int64_t lag_
     auto& history = lag_history_[replica_id];
     history.push_back({std::chrono::system_clock::now(), lag_ms});
     // Rolling window: drop oldest entries beyond max_history_per_replica
-    while (history.size() > config_.max_history_per_replica) {
+    while (static_cast<int>(history.size()) > config_.max_history_per_replica) {
         history.pop_front();
     }
 }

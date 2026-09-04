@@ -537,7 +537,7 @@ public:
                                 ++processed;
                                 if (progress_callback &&
                                     (processed % 10 == 0 ||
-                                     processed == files_to_process.size())) {
+                                     processed == static_cast<int>(files_to_process.size()))) {
                                     progress_callback(config_.source_id, processed,
                                                       files_to_process.size(),
                                                       "Validation failed: " +
@@ -567,7 +567,7 @@ public:
                     // Report progress
                     if (progress_callback &&
                         (processed % 10 == 0 ||
-                         processed == files_to_process.size())) {
+                         processed == static_cast<int>(files_to_process.size()))) {
                         progress_callback(config_.source_id, processed, 
                                         files_to_process.size(),
                                         "Processing: " + file_path.filename().string());

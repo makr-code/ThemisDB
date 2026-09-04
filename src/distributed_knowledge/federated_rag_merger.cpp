@@ -94,7 +94,7 @@ MergedRAGContext FederatedRAGMerger::merge(const std::vector<ShardRetrievalResul
     if (config_.shard_timeout_ms != std::numeric_limits<size_t>::max()) {
         const size_t timed_out_count = static_cast<size_t>(std::count_if(
             shard_results.begin(), shard_results.end(), [](const ShardRetrievalResult &r) { return r.timed_out; }));
-        if (!shard_results.empty() && timed_out_count == shard_results.size()) {
+        if (!shard_results.empty() && timed_out_count == static_cast<int>(shard_results.size())) {
             throw std::runtime_error("all shards timed out");
         }
     }

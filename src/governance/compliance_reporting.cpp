@@ -1520,7 +1520,7 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
         page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
                                std::to_string(static_cast<int>(y)) + " Td\n";
         // Truncate very long lines
-        std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
+        std::string display = static_cast<int>(line.size()) > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
     }

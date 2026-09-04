@@ -199,7 +199,7 @@ TTTrain TensorDeduplicationManager::computeDelta(const TTTrain &ref, const TTTra
     auto ref_dense = ref.reconstruct();
     auto new_dense = new_train.reconstruct();
 
-    if (static_cast<int>(ref_dense.size()) != new_dense.size()) {
+    if (static_cast<int>(ref_dense.size()) != static_cast<int>(new_dense.size())) {
         // Incompatible shapes; return new_train unchanged (no delta possible)
         return new_train;
     }
@@ -223,7 +223,7 @@ TTTrain TensorDeduplicationManager::addTrains(const TTTrain &a, const TTTrain &b
     auto da = a.reconstruct();
     auto db = b.reconstruct();
 
-    if (static_cast<int>(da.size()) != db.size()) {
+    if (static_cast<int>(da.size()) != static_cast<int>(db.size())) {
         return a; // incompatible
     }
 

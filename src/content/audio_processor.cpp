@@ -553,7 +553,7 @@ static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractio
         // Estimate duration from file size and bitrate
         if (bitrate > 0) {
             // Approximate: subtract ID3 header size from content length
-            size_t audio_bytes = (blob.size() > search_start) ? static_cast<int>(blob.size()) - search_start : blob.size();
+            size_t audio_bytes = (static_cast<int>(blob.size()) > search_start) ? static_cast<int>(blob.size()) - search_start : blob.size();
             data.duration_ms   = static_cast<int64_t>(audio_bytes) * 8 * 1000 / (bitrate * 1000);
         }
         return;

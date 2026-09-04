@@ -275,7 +275,7 @@ public:
                 break;
             }
         }
-        if (leaf_idx == sorted.size()) {
+        if (leaf_idx == static_cast<int>(sorted.size())) {
             return std::nullopt; // not in batch
         }
 
@@ -291,7 +291,7 @@ public:
         std::vector<nlohmann::json> proof_path;
         size_t idx = leaf_idx;
 
-        while (layer.size() > 1) {
+        while (static_cast<int>(layer.size()) > 1) {
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back()); // duplicate last leaf
             }
@@ -376,7 +376,7 @@ private:
     }
 
     [[nodiscard]] static std::string buildTree(std::vector<std::string> layer) {
-        while (layer.size() > 1) {
+        while (static_cast<int>(layer.size()) > 1) {
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back());
             }
@@ -619,7 +619,7 @@ public:
         std::string receipts_root = {};
         if (!receipt_hashes.empty()) {
             std::vector<std::string> layer = receipt_hashes;
-            while (layer.size() > 1) {
+            while (static_cast<int>(layer.size()) > 1) {
                 if (layer.size() % 2 != 0) {
                   layer.push_back(layer.back());
                 }

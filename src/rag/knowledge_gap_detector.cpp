@@ -165,7 +165,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
 
     // If most documents are outdated, flag it
     if (static_cast<int>(documents.size()) > 0 &&
-        static_cast<double>(outdated_count) / documents.size() > 0.5) {
+        static_cast<double>(outdated_count) / static_cast<int>(documents.size()) > 0.5) {
         result.gap_detected = true;
         result.gap_type = GapType::OUTDATED_INFO;
         result.confidence_score = 0.75;
@@ -312,7 +312,7 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
         }
 
         if (static_cast<int>(claims.size()) > 0 &&
-            static_cast<double>(unverified_count) / claims.size() > 0.3) {
+            static_cast<double>(unverified_count) / static_cast<int>(claims.size()) > 0.3) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
             result.confidence_score = 0.8;

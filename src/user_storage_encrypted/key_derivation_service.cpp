@@ -175,7 +175,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::generateSalt() const 
 
 #ifdef __linux__
     ssize_t got = getrandom(salt.data(),static_cast<int>(salt.size()), 0);
-    if (got < 0 || static_cast<size_t>(got) != salt.size()) {
+    if (got < 0 || static_cast<size_t>(got) != static_cast<int>(salt.size())) {
         return Result<std::vector<uint8_t>>::error("getrandom() failed");
     }
 #elif defined(_WIN32)

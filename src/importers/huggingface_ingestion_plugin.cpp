@@ -389,7 +389,7 @@ HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
             result.has_more = (offset + static_cast<int>(result.documents.size()) ) < total;
         } else {
             // Assume more if we got a full batch
-            result.has_more = (result.documents.size() >= limit);
+            result.has_more = (static_cast<int>(result.documents.size()) >= limit);
         }
         
     } catch (const std::exception& e) {

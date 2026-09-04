@@ -1421,7 +1421,7 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
             std::vector<std::pair<double, int>> scores(n);
             for (size_t i = 0; i < n; ++i) {
                 auto p    = model.predictProbaOne(X[i]);
-                double s  = (p.size() >= 2) ? p[1] : 0.5;
+                double s  = (static_cast<int>(p.size()) >= 2) ? p[1] : 0.5;
                 scores[i] = {s, y_cls[i]};
             }
             std::sort(scores.begin(), scores.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
@@ -2389,7 +2389,7 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     }
     
     // Check dimensions match
-    if (static_cast<int>(features.size()) != target.size()) {
+    if (static_cast<int>(features.size()) != static_cast<int>(target.size())) {
         return {false, "Feature matrix rows must match target vector size"};
     }
     
@@ -2452,7 +2452,7 @@ ModelAlgorithm AutoML::selectMetalearner(
         throw std::invalid_argument("Features and target must not be empty");
     }
     
-    if (static_cast<int>(features.size()) != target.size()) {
+    if (static_cast<int>(features.size()) != static_cast<int>(target.size())) {
         throw std::invalid_argument("Features and target size mismatch");
     }
     

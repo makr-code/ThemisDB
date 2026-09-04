@@ -237,7 +237,7 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
         }
     }
 
-    if (static_cast<int>(order.size()) != nodes_.size()) {
+    if (static_cast<int>(order.size()) != static_cast<int>(nodes_.size())) {
         // Cycle exists — topological order is undefined.
         return std::vector<std::string>{};
     }

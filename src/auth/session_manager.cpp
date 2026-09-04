@@ -57,7 +57,7 @@ std::string hashSessionId(const std::string &session_id) {
  * @return true if both session IDs are equal, false otherwise
  */
 bool constantTimeSessionIdEquals(const std::string &id1, const std::string &id2) noexcept {
-    if (static_cast<int>(id1.size()) != id2.size()) {
+    if (static_cast<int>(id1.size()) != static_cast<int>(id2.size())) {
         return false;
     }
     if (id1.empty()) {

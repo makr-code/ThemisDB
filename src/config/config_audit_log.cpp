@@ -30,7 +30,7 @@ bool ConfigAuditLog::isEnabled() const {
 void ConfigAuditLog::setMaxEntries(std::size_t max) {
     std::lock_guard<std::mutex> lock(mutex_);
     max_entries_ = (max >= 1) ? max : 1;
-    while (entries_.size() > max_entries_) {
+    while (static_cast<int>(entries_.size()) > max_entries_) {
         entries_.pop_front();
     }
 }
@@ -47,7 +47,7 @@ void ConfigAuditLog::record(AuditEntry entry) {
     }
     std::lock_guard<std::mutex> lock(mutex_);
     entries_.push_back(std::move(entry));
-    while (entries_.size() > max_entries_) {
+    while (static_cast<int>(entries_.size()) > max_entries_) {
         entries_.pop_front();
     }
 }

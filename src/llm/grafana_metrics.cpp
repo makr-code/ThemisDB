@@ -1383,7 +1383,7 @@ bool MetricsServer::start() {
         [this](const httplib::Request& req, httplib::Response& res) {
             // matches[0] = full path, matches[1] = :id
             const std::string session_id =
-                req.matches.size() > 1 ? std::string(req.matches[1]) : "";
+                static_cast<int>(req.matches.size()) > 1 ? std::string(req.matches[1]) : "";
             std::string body = {};
             handleDelete(config_.admin_sessions_path, session_id, body);
             res.set_content(body, "application/json");

@@ -159,7 +159,7 @@ uint32_t SecretManager::rotateSecret(const std::string& name,
     SecretEntry& entry = it->second;
 
     if (policy_.max_versions_per_secret > 0 &&
-            entry.versions.size() >= policy_.max_versions_per_secret) {
+            static_cast<int>(entry.versions.size()) >= policy_.max_versions_per_secret) {
         throw std::length_error(
             "SecretManager: max_versions_per_secret limit (" +
             std::to_string(policy_.max_versions_per_secret) +

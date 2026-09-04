@@ -261,7 +261,7 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
 
     // Ensure minimum turns preserved
     if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.min_preserved_turns) && 
-        selected.size() <static_cast<int>(history.size())) {
+        static_cast<int>(selected.size()) <static_cast<int>(history.size())) {
         // Add more turns to reach minimum
         for (int32_t idx : ranked_indices) {
             if (std::find(selected.begin(), selected.end(), idx) == selected.end()) {

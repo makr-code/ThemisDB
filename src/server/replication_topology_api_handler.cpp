@@ -207,7 +207,7 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
         }
 
         json response_body = {
-            {"overall_status", healthy_replicas == replicas.size() ? "HEALTHY" : "DEGRADED"},
+            {"overall_status", healthy_replicas == static_cast<int>(replicas.size()) ? "HEALTHY" : "DEGRADED"},
             {"total_nodes", static_cast<int>(replicas.size()) + 1},
             {"healthy_replicas", healthy_replicas},
             {"failed_replicas", failed_replicas},

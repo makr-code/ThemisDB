@@ -1108,7 +1108,7 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
         return 0.0f;
     }
     
-    if (static_cast<int>(embedding.size()) != mean_embedding_.size()) {
+    if (static_cast<int>(embedding.size()) != static_cast<int>(mean_embedding_.size())) {
         spdlog::error("Embedding dimension mismatch");
         return 1.0f;  // Definitely anomalous
     }
@@ -1179,7 +1179,7 @@ float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
       return 0.0f;
     }
     
@@ -1197,7 +1197,7 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
       return std::numeric_limits<float>::max();
     }
     

@@ -577,7 +577,7 @@ private:
             db_->scanPrefix(prefix, [&](std::string_view raw_key, std::string_view value) -> bool {
                 if (ctx->IsCancelled()) { cancelled = true; return false; }
                 // Strip prefix to recover doc key.
-                const std::string doc_key(raw_key.size() > static_cast<int>(prefix.size())
+                const std::string doc_key(static_cast<int>(raw_key.size()) > static_cast<int>(prefix.size())
                     ? raw_key.substr(prefix.size())
                     : raw_key);
 

@@ -90,7 +90,7 @@ bool ModelIntegrityVerifier::verifyModel(const std::string& path,
         return false;
     }
     // Constant-time string comparison to prevent timing side-channels on hash
-    if (static_cast<int>(actual.size()) != expected_sha256.size()) {
+    if (static_cast<int>(actual.size()) != static_cast<int>(expected_sha256.size())) {
         return false;
     }
     // Use OpenSSL CRYPTO_memcmp for timing-safe comparison

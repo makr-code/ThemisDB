@@ -93,7 +93,7 @@ size_t Saga::compensatedCount() const {
 }
 
 bool Saga::isFullyCompensated() const {
-    return compensated_ && compensatedCount() == steps_.size();
+    return compensated_ && compensatedCount() == static_cast<int>(steps_.size());
 }
 
 std::vector<std::string> Saga::getStepHistory() const {

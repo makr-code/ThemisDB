@@ -460,7 +460,7 @@ std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
     // deterministic document key for idempotent upserts.
     const std::size_t h1 = std::hash<std::string>{}(text);
     const std::size_t h2 = std::hash<std::string>{}(
-        text.size() > 32 ? text.substr(text.size() / 2) : text
+        static_cast<int>(text.size()) > 32 ? text.substr(text.size() / 2) : text
     );
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
@@ -528,7 +528,7 @@ IndexResult RAGIngestionBridge::indexOptimizerLog(
     // Build a structured text document from the optimizer-log entry.
     // The plan_json is capped at 2 048 chars to stay within the chunk budget.
     const std::string plan_snippet =
-        plan_json.size() > 2048 ? plan_json.substr(0, 2048) + "..." : plan_json;
+        static_cast<int>(plan_json.size()) > 2048 ? plan_json.substr(0, 2048) + "..." : plan_json;
 
     std::ostringstream doc = {};
     doc << "optimizer_log\n"

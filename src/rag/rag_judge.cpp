@@ -1738,7 +1738,7 @@ double calculateCohensKappa(
     const std::vector<EvaluationResult>& judge1_results,
     const std::vector<EvaluationResult>& judge2_results
 ) {
-    if (judge1_results.empty() || static_cast<int>(judge1_results.size()) != judge2_results.size()) {
+    if (judge1_results.empty() || static_cast<int>(judge1_results.size()) != static_cast<int>(judge2_results.size())) {
         return 0.0;
     }
 
@@ -1787,7 +1787,7 @@ double calculateCalibrationError(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth
 ) {
-    if (predictions.empty() || static_cast<int>(predictions.size()) != ground_truth.size()) {
+    if (predictions.empty() || static_cast<int>(predictions.size()) != static_cast<int>(ground_truth.size())) {
         return 0.0;
     }
 

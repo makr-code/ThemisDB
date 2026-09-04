@@ -49,13 +49,13 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
         out += kBase64Chars[(v >>  6) & 0x3F];
         out += kBase64Chars[(v      ) & 0x3F];
     }
-    if (i + 1 == input.size()) {
+    if (i + 1 == static_cast<int>(input.size())) {
         uint32_t v = uint32_t(data[i]) << 16;
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];
         out += '=';
         out += '=';
-    } else if (i + 2 == input.size()) {
+    } else if (i + 2 == static_cast<int>(input.size())) {
         uint32_t v = (uint32_t(data[i]) << 16) | (uint32_t(data[i+1]) << 8);
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];

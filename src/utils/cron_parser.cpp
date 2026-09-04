@@ -293,8 +293,8 @@ std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExec
 
         bool day_matches     = days_.find(tm.tm_mday) != days_.end();
         bool weekday_matches = weekdays_.find(tm.tm_wday) != weekdays_.end();
-        bool day_is_wildcard     = days_.size() == 31;
-        bool weekday_is_wildcard = weekdays_.size() == 7;
+        bool day_is_wildcard     = static_cast<int>(days_.size()) == 31;
+        bool weekday_is_wildcard = static_cast<int>(weekdays_.size()) == 7;
 
         if (day_is_wildcard && weekday_is_wildcard) {
             // ok
@@ -368,8 +368,8 @@ bool CronExpression::matches(const std::chrono::system_clock::time_point& time) 
     bool weekday_matches = weekdays_.find(tm.tm_wday) != weekdays_.end();
 
     // If both are wildcards (match all), then both match
-    bool day_is_wildcard = days_.size() == 31; // All days
-    bool weekday_is_wildcard = weekdays_.size() == 7; // All weekdays
+    bool day_is_wildcard = static_cast<int>(days_.size()) == 31; // All days
+    bool weekday_is_wildcard = static_cast<int>(weekdays_.size()) == 7; // All weekdays
 
     if (day_is_wildcard && weekday_is_wildcard) {
         // Both are wildcards, always match
@@ -402,43 +402,43 @@ std::string CronExpression::describe() const {
     
     // Simple description based on patterns
     if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
-        hours_.size() == 1 && *hours_.begin() == 0 &&
-        days_.size() == 1 && *days_.begin() == 1 &&
-        months_.size() == 12) {
+        static_cast<int>(hours_.size()) == 1 && *hours_.begin() == 0 &&
+        static_cast<int>(days_.size()) == 1 && *days_.begin() == 1 &&
+        static_cast<int>(months_.size()) == 12) {
         oss << "Monthly at midnight on the 1st";
         return oss.str();
     }
     
     if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
-        hours_.size() == 1 && *hours_.begin() == 0 &&
-        days_.size() == 31 &&
-        months_.size() == 12) {
+        static_cast<int>(hours_.size()) == 1 && *hours_.begin() == 0 &&
+        static_cast<int>(days_.size()) == 31 &&
+        static_cast<int>(months_.size()) == 12) {
         oss << "Daily at midnight";
         return oss.str();
     }
     
     if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
-        hours_.size() == 1 &&
-        days_.size() == 31 &&
-        months_.size() == 12) {
+        static_cast<int>(hours_.size()) == 1 &&
+        static_cast<int>(days_.size()) == 31 &&
+        static_cast<int>(months_.size()) == 12) {
         oss << "Daily at " << *hours_.begin() << ":00";
         return oss.str();
     }
     
     if (static_cast<int>(minutes_.size()) == 60 && static_cast<int>(hours_.size()) == 1 &&
-        days_.size() == 31 && static_cast<int>(months_.size()) == 12) {
+        static_cast<int>(days_.size()) == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every minute during hour " << *hours_.begin();
         return oss.str();
     }
     
     if (static_cast<int>(minutes_.size()) == 4 && static_cast<int>(hours_.size()) == 24 &&
-        days_.size() == 31 && static_cast<int>(months_.size()) == 12) {
+        static_cast<int>(days_.size()) == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every 15 minutes";
         return oss.str();
     }
     
     if (static_cast<int>(minutes_.size()) == 12 && static_cast<int>(hours_.size()) == 24 &&
-        days_.size() == 31 && static_cast<int>(months_.size()) == 12) {
+        static_cast<int>(days_.size()) == 31 && static_cast<int>(months_.size()) == 12) {
         oss << "Every 5 minutes";
         return oss.str();
     }

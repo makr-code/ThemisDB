@@ -47,7 +47,7 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
     // Validate embedding dimension
     if (config_.validate_embedding_dim &&
         !summary.reason_embedding.empty() &&
-        summary.reason_embedding.size() != config_.max_embedding_dim)
+        static_cast<int>(summary.reason_embedding.size()) != config_.max_embedding_dim)
     {
         throw std::invalid_argument(
             "CrossShardFeedbackSync::publishFeedback: embedding dimension "

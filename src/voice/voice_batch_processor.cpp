@@ -89,7 +89,7 @@ std::string VoiceBatchProcessor::submitBatch(
 
     summary.avg_wer  = wer_count  > 0 ? total_wer  / static_cast<float>(wer_count)  : -1.0f;
     summary.avg_pesq = pesq_count > 0 ? total_pesq / static_cast<float>(pesq_count) : -1.0f;
-    summary.status = summary.failed_items == items.size() ? BatchJobStatus::FAILED : BatchJobStatus::COMPLETED;
+    summary.status = summary.failed_items == static_cast<int>(items.size()) ? BatchJobStatus::FAILED : BatchJobStatus::COMPLETED;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);

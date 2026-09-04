@@ -64,7 +64,7 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
             bool valid_start = (pos == 0) || (labels_str[static_cast<int>(pos - 1)] == ',');
             // Verify it is a complete token (followed by end-of-string or ',')
             std::string::size_type end = pos + static_cast<int>(lbl.size()) ;
-            bool valid_end = (end == labels_str.size()) || (labels_str[end] == ',');
+            bool valid_end = (end == static_cast<int>(labels_str.size())) || (labels_str[end] == ',');
             if (valid_start && valid_end) {
               return true;
             }
@@ -710,7 +710,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
             result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
-                result.size() >= constraints.max_results.value()) {
+                static_cast<int>(result.size()) >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 break;
             }
@@ -879,7 +879,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
             result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
-                result.size() >= constraints.max_results.value()) {
+                static_cast<int>(result.size()) >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 break;
             }
@@ -1124,7 +1124,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         }
         
         if (constraints.max_results.has_value() && 
-            result.size() >= constraints.max_results.value()) {
+            static_cast<int>(result.size()) >= constraints.max_results.value()) {
             local_stats.early_terminated = true;
             break;
         }
@@ -1977,7 +1977,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
             used_data_vertices.erase(dv);
             // Early termination on max_results
             if (constraints.max_results.has_value() &&
-                result.matches.size() >= constraints.max_results.value()) {
+                static_cast<int>(result.matches.size()) >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 return;
             }

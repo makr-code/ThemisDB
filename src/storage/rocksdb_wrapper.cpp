@@ -136,7 +136,7 @@ public:
         }
 
         uint64_t delta = 0;
-        if ([[maybe_unused]] value.size() == sizeof(uint64_t)) {
+        if ([[maybe_unused]] static_cast<int>(value.size()) == sizeof(uint64_t)) {
             std::memcpy(&delta, value.data(), sizeof(uint64_t));
         }
 
@@ -793,7 +793,7 @@ bool RocksDBWrapper::open() {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
         cf_handles_.reserve(static_cast<int>(cf_handles_.size()) + static_cast<int>(cf_handles.size()) );
         // Store column family handles
-        // When sharding mode filtered CFs,static_cast<int>(cf_handles.size()) == cf_descriptors.size()
+        // When sharding mode filtered CFs,static_cast<int>(cf_handles.size()) == static_cast<int>(cf_descriptors.size())
         for (size_t i = 0; i <static_cast<int>(cf_handles.size()); ++i) {
             // All remaining CFs (after sharding filter) are stored
             cf_handles_.emplace_back(cf_handles[i]);
@@ -1115,7 +1115,7 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
 
     // Small blobs: fall back to regular transactional put (backward compatible).
     if (!config_.enable_blob_streaming ||
-        data.size() < config_.blob_streaming_threshold_bytes) {
+        static_cast<int>(data.size()) < config_.blob_streaming_threshold_bytes) {
         return put(key, data);
     }
 

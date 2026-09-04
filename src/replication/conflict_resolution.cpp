@@ -617,7 +617,7 @@ std::string FieldLevelMergeResolver::mergeFields(
 
             if (strategy_ == MergeStrategy::INTERSECT) {
                 // Only include if all writes have the key
-                if (static_cast<int>(present_indices.size()) != writes.size()) {
+                if (static_cast<int>(present_indices.size()) != static_cast<int>(writes.size())) {
                   continue;
                 }
             }

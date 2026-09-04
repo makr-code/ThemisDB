@@ -390,7 +390,7 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
         EVP_MD_CTX_free(mctx_ref);
         computed_digest.resize(computed_len);
 
-        if (static_cast<int>(computed_digest.size()) != claimed_digest.size()
+        if (static_cast<int>(computed_digest.size()) != static_cast<int>(claimed_digest.size())
             || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(),static_cast<int>(computed_digest.size())) != 0) {
             THEMIS_WARN("SAML: Reference DigestValue mismatch");
             return false;

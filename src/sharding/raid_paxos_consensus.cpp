@@ -85,7 +85,7 @@ bool RAIDPaxosConsensus::hasQuorum(const std::set<std::string>& responses) const
     int required_quorum = raid_config_.calculateQuorumSize(total_shards);
     
     // Check if we have enough responses
-    bool has_quorum = responses.size() >= static_cast<size_t>(required_quorum);
+    bool has_quorum = static_cast<int>(responses.size()) >= static_cast<size_t>(required_quorum);
     
     if (!has_quorum) {
         spdlog::debug("RAIDPaxosConsensus: Quorum not met. "

@@ -200,7 +200,7 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
 }
 
 double AQLFewShotExampleLibrary::cosineSimilarity_(const std::vector<float> &a, const std::vector<float> &b) {
-    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
         return 0.0;
     }
 

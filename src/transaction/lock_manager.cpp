@@ -259,7 +259,7 @@ LockManager::LockResult LockManager::upgradeLock(
 
     // Check if upgrade is immediately possible (we are the only holder)
     auto& entry = lock_table_[key];
-    bool only_holder = (entry.holders.size() == 1 &&
+    bool only_holder = (static_cast<int>(entry.holders.size()) == 1 &&
                         entry.holders[0].holder == txn_id);
 
     if (!only_holder) {

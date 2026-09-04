@@ -747,7 +747,7 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
         }
 
         // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
-        if (static_cast<int>(received_sig.size()) != expected_sig.size()) {
+        if (static_cast<int>(received_sig.size()) != static_cast<int>(expected_sig.size())) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }

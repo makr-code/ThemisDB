@@ -262,7 +262,7 @@ public:
         // before opening any file (CWE-862 / CWE-22).
         if (path.empty() ||
             path.find("..") != std::string::npos ||
-            path.size() != std::strlen(path.c_str())) {
+            static_cast<int>(path.size()) != std::strlen(path.c_str())) {
             throw std::runtime_error("[ShaderIntegrity] Rejected unsafe shader path");
         }
 

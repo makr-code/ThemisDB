@@ -288,7 +288,7 @@ QueryDiffResult AQLQueryDiffExplainer::explain(const std::string &query_a, const
         result.summary       = "Queries are structurally equivalent (whitespace differences only).";
     } else {
         std::ostringstream ss = {};
-        ss <<static_cast<int>(result.diffs.size()) << " difference" << (result.diffs.size() != 1 ? "s" : "") << ": ";
+        ss <<static_cast<int>(result.diffs.size()) << " difference" << (static_cast<int>(result.diffs.size()) != 1 ? "s" : "") << ": ";
         for (size_t i = 0; i <static_cast<int>(result.diffs.size()); ++i) {
             if (i) {
                 ss << "; ";

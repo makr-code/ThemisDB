@@ -221,7 +221,7 @@ double BiasDetector::calculateCorrelation(
     const std::vector<double>& x,
     const std::vector<double>& y
 ) {
-    if (static_cast<int>(x.size()) != y.size() || x.empty()) {
+    if (static_cast<int>(x.size()) != static_cast<int>(y.size()) || x.empty()) {
         return 0.0;
     }
     
@@ -277,7 +277,7 @@ double BiasDetector::calculateChiSquare(
     const std::vector<int>& observed,
     const std::vector<int>& expected
 ) {
-    if (static_cast<int>(observed.size()) != expected.size()) {
+    if (static_cast<int>(observed.size()) != static_cast<int>(expected.size())) {
         return 0.0;
     }
     

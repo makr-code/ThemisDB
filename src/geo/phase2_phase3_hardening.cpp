@@ -153,7 +153,7 @@ namespace geo {
     const std::vector<double>& lons,
     const std::vector<double>& lats) noexcept {
     // Minimum 4 vertices: 3 unique + 1 closing point
-    if (static_cast<int>(lons.size()) < 4 || static_cast<int>(lats.size()) < 4 || static_cast<int>(lons.size()) != lats.size()) {
+    if (static_cast<int>(lons.size()) < 4 || static_cast<int>(lats.size()) < 4 || static_cast<int>(lons.size()) != static_cast<int>(lats.size())) {
         return false;
     }
 

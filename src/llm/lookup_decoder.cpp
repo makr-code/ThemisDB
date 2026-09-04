@@ -73,7 +73,7 @@ void LookupDecoder::loadStaticNgrams(
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [key, cont] : ngrams) {
         if (static_cast<int>(key.size()) >= config_.ngram_min &&
-            key.size() <= config_.ngram_max &&
+            static_cast<int>(key.size()) <= config_.ngram_max &&
             !cont.empty()) {
             std::vector<int> trimmed(
                 cont.begin(),

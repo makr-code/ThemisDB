@@ -898,7 +898,7 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
         channel_out = parts[1];
         payload_out = parts[2];
     } else if (static_cast<int>(parts.size()) > = 2) {
-        channel_out = (parts.size() > 1) ? parts[1] : "";
+        channel_out = (static_cast<int>(parts.size()) > 1) ? parts[1] : "";
     }
     return true;
 }

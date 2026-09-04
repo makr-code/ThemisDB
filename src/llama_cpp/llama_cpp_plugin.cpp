@@ -827,7 +827,7 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
             vocab_size_hint > 0 ? vocab_size_hint : result.vocab_size);
 
         if (!real_result.tokens.empty() &&
-            real_result.tokens.size() == real_result.logits.size() &&
+            static_cast<int>(real_result.tokens.size()) == static_cast<int>(real_result.logits.size()) &&
             real_result.vocab_size > 0) {
             return real_result;
         }

@@ -263,7 +263,7 @@ static uint64_t fnv1a(std::string_view s) noexcept {
  * @param weight   Signed scalar weight applied to each projected dimension
  *                 (e.g. 1.0 for unigrams, 0.5 for bigrams, 0.35 for trigrams).
  *
- * @pre `vec.size() > 0`; if zero, the function returns without modification.
+ * @pre `static_cast<int>(vec.size()) > 0`; if zero, the function returns without modification.
  */
 static void scatterFeature(std::vector<float>& vec,
                             std::string_view    feature,

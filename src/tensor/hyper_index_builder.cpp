@@ -610,7 +610,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(
                 tenant_id, schema, row, row_idx, buckets);
-            if (static_cast<int>(assigned.size()) != schema.size()) {
+            if (static_cast<int>(assigned.size()) != static_cast<int>(schema.size())) {
                 throw std::runtime_error(
                     "bucket assignment bridge returned " +
                     std::to_string(assigned.size()) +

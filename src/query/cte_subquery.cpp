@@ -243,7 +243,7 @@ bool CTEEvaluator::areResultsEqual(
     const std::vector<nlohmann::json>& a,
     const std::vector<nlohmann::json>& b
 ) const {
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
     

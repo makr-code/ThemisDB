@@ -405,7 +405,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     
     // Ensure minimum perspectives
     while ( static_cast<int>(selected.size()) < static_cast<size_t>(impl_->config.min_perspectives) &&
-           selected.size() < impl_-> static_cast<int>(perspectives.size())) {
+           static_cast<int>(selected.size()) < impl_-> static_cast<int>(perspectives.size())) {
         // Add any remaining perspective
         for (const auto& p : impl_->perspectives) {
             bool already_selected = false;
@@ -645,7 +645,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     }
     
     // Find themes that appear in multiple perspectives
-    const int threshold = (perspectives.size() >= 3) ? 2 : static_cast<int>(perspectives.size());
+    const int threshold = (static_cast<int>(perspectives.size()) >= 3) ? 2 : static_cast<int>(perspectives.size());
     
     for (const auto& [theme, count] : theme_counts) {
         if (count >= threshold) {

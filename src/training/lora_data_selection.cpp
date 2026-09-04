@@ -184,7 +184,7 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
 // Estimate Jaccard similarity from two MinHash signatures
 static double jaccardEstimate(const std::vector<uint32_t>& a,
                                const std::vector<uint32_t>& b) {
-    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
       return 0.0;
     }
     size_t matches = 0;

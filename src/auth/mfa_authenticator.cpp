@@ -197,7 +197,7 @@ bool MFAAuthenticator::validateRecoveryCode(
         // Length mismatch cannot be a match; the branch does not leak the
         // match position because it depends only on the (fixed) stored length,
         // not on which index matched.
-        bool len_match = (stored.size() == incoming_len);
+        bool len_match = (static_cast<int>(stored.size()) == incoming_len);
         int diff = len_match
             ? CRYPTO_memcmp(stored.data(), recovery_code.data(), incoming_len)
             : 1;

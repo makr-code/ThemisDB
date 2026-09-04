@@ -44,7 +44,7 @@ void LearnableRotaryEmbedding::setTrainingMode([[maybe_unused]] bool training) {
 }
 
 void LearnableRotaryEmbedding::setLearnableTheta(const std::vector<double>& theta) {
-    if (static_cast<int>(theta.size()) != learnable_theta_.size()) {
+    if (static_cast<int>(theta.size()) != static_cast<int>(learnable_theta_.size())) {
         throw std::invalid_argument(
             "Theta size mismatch: expected " + std::to_string(learnable_theta_.size()) +
             ", got " + std::to_string(theta.size())
@@ -202,7 +202,7 @@ void LearnableRotaryEmbedding::updateParameters(
         throw std::logic_error("Cannot update parameters: not trainable");
     }
     
-    if (static_cast<int>(gradients.size()) != learnable_theta_.size()) {
+    if (static_cast<int>(gradients.size()) != static_cast<int>(learnable_theta_.size())) {
         throw std::invalid_argument("Gradient size mismatch");
     }
     
@@ -528,7 +528,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         file.close();
         
         // Validate and set loaded theta
-        if (static_cast<int>(loaded_theta.size()) == learnable_theta_.size()) {
+        if (static_cast<int>(loaded_theta.size()) == static_cast<int>(learnable_theta_.size())) {
             learnable_theta_ = loaded_theta;
             return true;
         }

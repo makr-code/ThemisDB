@@ -588,7 +588,7 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
 
         // Per-line size guard
         if (options.max_row_size_bytes > 0 &&
-            line.size() > options.max_row_size_bytes) {
+            static_cast<int>(line.size()) > options.max_row_size_bytes) {
             addError(stats, ImportErrorCode::ROW_TOO_LARGE, ImportErrorSeverity::WARNING,
                      "Document line too large (" + std::to_string(line.size()) +
                      " bytes); skipped",

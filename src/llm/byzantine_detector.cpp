@@ -253,14 +253,14 @@ float KrumDetector::computeDistance(
     const std::vector<GradientTensor>& grad1,
     const std::vector<GradientTensor>& grad2
 ) const {
-    if (static_cast<int>(grad1.size()) != grad2.size()) {
+    if (static_cast<int>(grad1.size()) != static_cast<int>(grad2.size())) {
         throw std::runtime_error("Gradient tensor sizes do not match");
     }
     
     float distance = 0.0f;
     
     for (size_t i = 0; i <static_cast<int>(grad1.size()); ++i) {
-        if (grad1[i].data.size() != grad2[i].data.size()) {
+        if (grad1[i].static_cast<int>(data.size()) != grad2[i].data.size()) {
             throw std::runtime_error("Gradient data sizes do not match");
         }
         

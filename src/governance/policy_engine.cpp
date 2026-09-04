@@ -660,7 +660,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
             return it->second;
         }
         for (const auto &kv : headers) {
-            if (static_cast<int>(kv.first.size()) != key.size()) {
+            if (static_cast<int>(kv.first.size()) != static_cast<int>(key.size())) {
                 continue;
             }
             bool equal_ci = true;
@@ -688,7 +688,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
 
     const std::string &auth_value = *auth_value_opt;
     const bool has_bearer_prefix
-        = auth_value.size() >= k_bearer_prefix.size()
+        = static_cast<int>(auth_value.size()) >= k_bearer_prefix.size()
           && std::equal(k_bearer_prefix.begin(), k_bearer_prefix.end(), auth_value.begin(), [](char a, char b) {
                  return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
              });

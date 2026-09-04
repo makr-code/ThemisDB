@@ -111,7 +111,7 @@ OntologyAwareRetriever::expandConcept(const std::string& concept_id) const {
     std::unordered_set<std::string> visited = {concept_id};
 
     while (!queue.empty() &&
-           expanded.size() < config_.max_superclass_expansion + 1) {
+           static_cast<int>(expanded.size()) < config_.max_superclass_expansion + 1) {
         const std::string current = queue.back();
         queue.pop_back();
 

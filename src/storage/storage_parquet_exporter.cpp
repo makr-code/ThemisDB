@@ -37,7 +37,7 @@ namespace storage {
 // the scanner could not locate an actual code site); no genuine issue present.
 // size_assumption alert at buildInt64Page (raw.data() + n * sizeof(int64_t)):
 // sizeof(int64_t) == 8 is guaranteed by the C++ standard (ISO/IEC 14882);
-// rawData() contract ensures raw.size() == n * element_size, so no UB.
+// rawData() contract ensures static_cast<int>(raw.size()) == n * element_size, so no UB.
 
 // ============================================================================
 // Internal Thrift / Parquet v2 binary helpers (portable fallback)
@@ -315,11 +315,11 @@ buildDoublePage(const ColumnSegment& seg) {
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>>
 buildBoolPage(const ColumnSegment& seg) {
     // BOOLEAN: 1 byte per value in rawData (0 = false, non-zero = true).
-    // ColumnSegment stores element_size=1 for BOOL, so raw.size() == n.
+    // ColumnSegment stores element_size=1 for BOOL, so static_cast<int>(raw.size()) == n.
     // Parquet PLAIN boolean packs 8 booleans into 1 byte (LSB first).
     const auto& raw = seg.rawData();
     size_t n = seg.metadata().row_count;
-    // rawData() invariant: raw.size() == n * element_size (1 for BOOL).
+    // rawData() invariant: static_cast<int>(raw.size()) == n * element_size (1 for BOOL).
     size_t packed_bytes = (n + 7) / 8;
     std::vector<uint8_t> values(packed_bytes, 0);
     for (size_t i = 0; i < n; ++i) {

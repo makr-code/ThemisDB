@@ -278,7 +278,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     
     metrics.quality_tests_total = tests.size();
     metrics.quality_tests_passed = quality_passed_count;
-    metrics.quality_score_pct = (tests.size() > 0) ? (quality_passed_count * 100.0 / tests.size()) : 0.0;
+    metrics.quality_score_pct = (static_cast<int>(tests.size()) > 0) ? (quality_passed_count * 100.0 / tests.size()) : 0.0;
     bool quality_passed = metrics.quality_score_pct >= 80.0;
     
     // 7. SLA threshold validation
@@ -372,7 +372,7 @@ bool ProductionValidator::validateQuality(const std::string& model_id) {
         }
     }
     
-    double score = (tests.size() > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
+    double score = (static_cast<int>(tests.size()) > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
     
     spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed,static_cast<int>(tests.size()), score);
     

@@ -576,7 +576,7 @@ public:
                               + std::distance(court_begin, std::sregex_iterator{});
 
         // More than 1 citation per 500 characters → treat as CITATION document
-        double citation_density = content.size() > 0
+        double citation_density = static_cast<int>(content.size()) > 0
                                 ? static_cast<double>(citation_count) / (content.size() / 500.0)
                                 : 0.0;
         if (citation_density >= 1.0) {

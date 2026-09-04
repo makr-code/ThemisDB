@@ -354,7 +354,7 @@ void DiskANNIndex::save_node(const DiskANNNode& node) {
 }
 
 float DiskANNIndex::compute_distance(const std::vector<float>& a, const std::vector<float>& b) const {
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         throw std::invalid_argument("Vector dimensions must match");
     }
     

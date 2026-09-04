@@ -136,7 +136,7 @@ std::vector<std::pair<double, double>> CalibrationManager::buildIsotonicModel(
 
     for (size_t i : idx) {
         Block b{ground_truth[i], predictions[i], 1};
-        while (blocks.size() >= 2) {
+        while (static_cast<int>(blocks.size()) >= 2) {
             auto& last    = blocks.back();
             auto& second  = blocks[blocks.size() - 2];
             if (second.avg_gt() > last.avg_gt()) {
@@ -277,7 +277,7 @@ CalibrationMetrics CalibrationManager::calculateMetrics(
     const std::vector<EvaluationResult>& predictions,
     const std::vector<GroundTruthAnnotation>& ground_truth) {
     CalibrationMetrics m{};
-    if (predictions.empty() || static_cast<int>(predictions.size()) != ground_truth.size()) {
+    if (predictions.empty() || static_cast<int>(predictions.size()) != static_cast<int>(ground_truth.size())) {
       return m;
     }
 

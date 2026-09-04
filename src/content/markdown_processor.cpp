@@ -161,7 +161,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             std::string sl = trimCopy(line);
-            bool is_fence = sl.size() >= 3 &&
+            bool is_fence = static_cast<int>(sl.size()) >= 3 &&
                             (sl.substr(0, 3) == "```" || sl.substr(0, 3) == "~~~");
 
             if (!in_fenced_code && is_fence) {

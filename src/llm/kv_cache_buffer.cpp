@@ -88,7 +88,7 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
     const size_t expected_elements = n_tokens * config_.embedding_dim;
 
     if (static_cast<int>(keys.size()) != expected_elements ||
-        values.size() != expected_elements) {
+        static_cast<int>(values.size()) != expected_elements) {
         throw std::invalid_argument("Keys/values size mismatch with n_tokens and embedding_dim");
     }
 

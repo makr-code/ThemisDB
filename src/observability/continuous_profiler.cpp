@@ -527,7 +527,7 @@ private:
     void addSnapshot(ProfileType type, const ProfileSnapshot& snap) {
         auto& vec = history_[type];
         vec.push_back(snap);
-        while (vec.size() > config_.max_snapshots_retained) {
+        while (static_cast<int>(vec.size()) > config_.max_snapshots_retained) {
             vec.erase(vec.begin());
         }
     }

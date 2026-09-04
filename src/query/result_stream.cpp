@@ -246,7 +246,7 @@ Result<void> ResultStream<T>::fillBuffer() {
     
     // Check buffer size and apply backpressure if needed
     if (config_.enable_backpressure && 
-        buffer_.size() >= config_.backpressure_threshold) {
+        static_cast<int>(buffer_.size()) >= config_.backpressure_threshold) {
         stats_.backpressure_active = true;
     }
     

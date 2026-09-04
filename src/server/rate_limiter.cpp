@@ -161,7 +161,7 @@ void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     entry.rejection_times.push_back(now);
 
     if (!entry.under_penalty &&
-        entry.rejection_times.size() >= config_.adaptive_rejection_threshold) {
+        static_cast<int>(entry.rejection_times.size()) >= config_.adaptive_rejection_threshold) {
         entry.under_penalty = true;
         entry.penalty_until = now + std::chrono::seconds(
             config_.adaptive_penalty_duration_seconds);

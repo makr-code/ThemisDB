@@ -785,7 +785,7 @@ float VoiceBiometricAuthenticator::cosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) const
 {
-    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
         return 0.0f;
     }
     float dot = 0.0f;

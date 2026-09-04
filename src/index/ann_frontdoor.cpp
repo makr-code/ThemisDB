@@ -199,7 +199,7 @@ AnnRetrievalPlan AnnFrontdoor::planRetrieval(
     const bool effective_warm = (plan.effective_tier == IndexTierMeta::Tier::WARM);
     const bool have_scope_backend = !context.scope_id.empty() && backends_.count(context.scope_id);
     const bool have_global_backend = backends_.count("");
-    const bool shard_backends_present = backends_.size() > (have_global_backend ? 1 : 0);
+    const bool shard_backends_present = static_cast<int>(backends_.size()) > (have_global_backend ? 1 : 0);
 
     if (plan.scope_kind == AnnScopeKind::ShardSummary &&
         context.shard_aware && shard_backends_present) {

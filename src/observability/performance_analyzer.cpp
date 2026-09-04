@@ -330,7 +330,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
     }
     
     PerformanceIssue issue;
-    issue.severity = slow_queries.size() > 10 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
+    issue.severity = static_cast<int>(slow_queries.size()) > 10 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
     issue.category = IssueCategory::SLOW_OPERATIONS;
     issue.title = "Slow Queries Detected";
     issue.description = "Found " + std::to_string(slow_queries.size()) + 
@@ -523,7 +523,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_storage_ops(
     }
     
     PerformanceIssue issue;
-    issue.severity = slow_ops.size() > 100 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
+    issue.severity = static_cast<int>(slow_ops.size()) > 100 ? IssueSeverity::CRITICAL : IssueSeverity::WARNING;
     issue.category = IssueCategory::SLOW_OPERATIONS;
     issue.title = "Slow Storage Operations";
     issue.description = "Found " + std::to_string(slow_ops.size()) + 

@@ -1097,7 +1097,7 @@ std::string JSONLLLMExporter::getQualityMetricsReport() const {
         if (!runtime_metrics_.validation_errors.empty() && config_.structured_gen.log_validation_errors) {
             // Show only last 10 errors to avoid huge reports
             size_t start
-                = runtime_metrics_.validation_errors.size() > 10 ?static_cast<int>(runtime_metrics_.validation_errors.size()) - 10 : 0;
+                = static_cast<int>(runtime_metrics_.validation_errors.size()) > 10 ?static_cast<int>(runtime_metrics_.validation_errors.size()) - 10 : 0;
             j["schema_validation"]["recent_errors"] = json::array();
             for (size_t i = start; i <static_cast<int>(runtime_metrics_.validation_errors.size()); ++i) {
                 j["schema_validation"]["recent_errors"].push_back(runtime_metrics_.validation_errors[i]);

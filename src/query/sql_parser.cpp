@@ -612,7 +612,7 @@ private:
             return Err<SQLInsertStatement>(err.error().code(), err.error().context());
         }
 
-        if (static_cast<int>(stmt.columns.size()) != stmt.values.size()) {
+        if (static_cast<int>(stmt.columns.size()) != static_cast<int>(stmt.values.size())) {
             return Err<SQLInsertStatement>(
                 errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
                 "Column count does not match value count in INSERT"

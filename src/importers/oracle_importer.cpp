@@ -193,8 +193,8 @@ static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_
     if (name_start < pos) {
         out_table_name = sql.substr(name_start, pos - name_start);
         // Remove quotes if present (both double and single quotes for Oracle)
-        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (out_table_name.size() >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
+        if ((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
             out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
@@ -427,7 +427,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         }
          
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
           continue;
         }
 
@@ -528,8 +528,8 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
                 found_header = true;
             }
             if (!hdr_line.empty() &&
-                !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
-                !(hdr_line.size() >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
+                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
+                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
                 break;
             }
             hdr_lines++;
@@ -572,7 +572,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
         }
 
@@ -589,7 +589,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            current_sql.size() > options.max_statement_size_bytes) {
+            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -963,7 +963,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         std::vector<std::string> values = parseInsertValues(tuple_str);
 
         if (!eff_schema.columns.empty() &&
-            values.size() != eff_schema.columns.size()) {
+            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;

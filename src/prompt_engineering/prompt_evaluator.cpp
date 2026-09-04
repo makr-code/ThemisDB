@@ -68,7 +68,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
 ) const {
     AggregatedMetrics agg = {};
     
-    if (static_cast<int>(outputs.size()) != expected.size()) {
+    if (static_cast<int>(outputs.size()) != static_cast<int>(expected.size())) {
         THEMIS_ERROR("Output and expected vectors must have same size");
         return agg;
     }
@@ -483,7 +483,7 @@ double PromptEvaluator::computeCosineSimilarity(
     const std::vector<double>& v1,
     const std::vector<double>& v2
 ) {
-    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != v2.size()) {
+    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != static_cast<int>(v2.size())) {
         return 0.0;
     }
 

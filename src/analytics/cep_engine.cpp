@@ -686,7 +686,7 @@ void PatternMatcher::buildNFA() {
         NFAState s;
         s.state_id            = i;
         s.expected_event_type = ev_types[i];
-        s.is_accepting        = (i + 1 == ev_types.size());
+        s.is_accepting        = (i + 1 == static_cast<int>(ev_types.size()));
         if (i + 1 <static_cast<int>(ev_types.size())) {
             s.transitions.push_back(i + 1);
         }
@@ -872,7 +872,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent([[maybe_unused]] const Ev
             }
 
             // Check if all required event types have been seen
-            bool all_seen = ([[maybe_unused]] seen.size() == config_.event_types.size());
+            bool all_seen = ([[maybe_unused]] static_cast<int>(seen.size()) == static_cast<int>(config_.event_types.size()));
             if (!all_seen) {
                 // Fallback detailed check in case sizes don't match exactly
                 // (e.g., duplicates or special handling)
@@ -1201,7 +1201,7 @@ void WindowManager::handleSlidingWindow([[maybe_unused]] const Event &event) {
         }
 
         // Prune old closed windows
-        while (windows_.size() > 100 && windows_.front().closed) {
+        while (static_cast<int>(windows_.size()) > 100 && windows_.front().closed) {
             windows_.pop_front();
         }
     }
@@ -2715,7 +2715,7 @@ void CEPEngine::addAlert(Alert alert) {
         std::lock_guard lk(alerts_mutex_);
         alerts_.push_back(alert);
         // Keep at most 10000 alerts
-        while (alerts_.size() > 10000) {
+        while (static_cast<int>(alerts_.size()) > 10000) {
             alerts_.pop_front();
         }
         ++alerts_generated_;

@@ -63,7 +63,7 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
     }
 
     // Pad to even count by duplicating last leaf
-    while (layer.size() > 1) {
+    while (static_cast<int>(layer.size()) > 1) {
         if (layer.size() % 2 != 0) {
             layer.push_back(layer.back());
         }

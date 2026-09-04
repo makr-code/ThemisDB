@@ -181,7 +181,7 @@ std::vector<float> BinaryQuantizer::decode(const std::vector<uint8_t>& codes) co
 
 float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
                                       const std::vector<uint8_t>& codes_b) const {
-    if (static_cast<int>(codes_a.size()) != codes_b.size()) {
+    if (static_cast<int>(codes_a.size()) != static_cast<int>(codes_b.size())) {
         THEMIS_ERROR("BinaryQuantizer::hammingDistance - Code size mismatch");
         return std::numeric_limits<float>::max();
     }

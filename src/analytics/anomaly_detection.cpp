@@ -1208,7 +1208,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         ++points_seen_;
 
         window_.push_back(point);
-        while (window_.size() > config_.window_size) {
+        while (static_cast<int>(window_.size()) > config_.window_size) {
             window_.pop_front();
         }
 

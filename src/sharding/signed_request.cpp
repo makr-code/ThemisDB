@@ -462,7 +462,7 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
         return rejectWithAuditCode(kAuditNonceReplay, "nonce=" + std::to_string(nonce));
     }
 
-    while (seen_nonces_.size() >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
+    while (static_cast<int>(seen_nonces_.size()) >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
         nonce_fifo_.pop_front();
         const auto it = seen_nonces_.find(oldest.nonce);

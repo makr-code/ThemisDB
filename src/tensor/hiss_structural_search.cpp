@@ -188,7 +188,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
 
 std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const {
     const auto ndims = grid_sizes.size();
-    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
+    if (ndims == 0 || ndims != static_cast<int>(bit_depths.size()) || ndims != static_cast<int>(padded_grid_sizes.size())) {
         throw std::invalid_argument(
             "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
             "must all be non-empty and have the same length");
@@ -241,7 +241,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
 std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_idx) const {
     const auto ndims = grid_sizes.size();
-    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
+    if (ndims == 0 || ndims != static_cast<int>(bit_depths.size()) || ndims != static_cast<int>(padded_grid_sizes.size())) {
         throw std::invalid_argument(
             "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
             "must all be non-empty and have the same length");
@@ -478,7 +478,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
         throw std::invalid_argument("train must contain at least one core and one mode size");
     }
 
-    if (!grid_sizes.empty() && !train.mode_sizes.empty() && static_cast<int>(grid_sizes.size()) != train.mode_sizes.size()) {
+    if (!grid_sizes.empty() && !train.mode_sizes.empty() && static_cast<int>(grid_sizes.size()) != static_cast<int>(train.mode_sizes.size())) {
         throw std::invalid_argument("grid_sizes.size() (" + std::to_string(grid_sizes.size()) +
                                     ") must match train.mode_sizes.size() (" +
                                     std::to_string(train.mode_sizes.size()) + ")");

@@ -216,7 +216,7 @@ public:
         entries_.insert(entries_.begin(), meta);
 
         // Prune rolling window
-        while (entries_.size() > config_.max_checkpoints) {
+        while (static_cast<int>(entries_.size()) > config_.max_checkpoints) {
             const auto& oldest = entries_.back();
             std::remove(oldest.checkpoint_path.c_str());
             entries_.pop_back();

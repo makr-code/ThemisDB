@@ -128,7 +128,7 @@ std::vector<std::unordered_set<std::string>> collectCycles(
             }
         }
 
-        bool is_cycle_component = component.size() > 1;
+        bool is_cycle_component = static_cast<int>(component.size()) > 1;
         if (!is_cycle_component && !component.empty()) {
             const auto self_it = graph.find(component.front());
             if (self_it != graph.end()) {
@@ -1216,7 +1216,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     const std::vector<nlohmann::json>& compensations
 ) {
     // Validate input early before acquiring locks
-    if (static_cast<int>(steps.size()) != compensations.size()) {
+    if (static_cast<int>(steps.size()) != static_cast<int>(compensations.size())) {
         spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
                      transaction_id,static_cast<int>(steps.size()),static_cast<int>(compensations.size()));
         return false;

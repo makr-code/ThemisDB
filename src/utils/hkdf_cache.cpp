@@ -91,7 +91,7 @@ struct Shard {
 
     /// Evict LRU tail until size <= capacity.
     void evict_lru() {
-        while (map.size() > capacity && !lru.empty()) {
+        while (static_cast<int>(map.size()) > capacity && !lru.empty()) {
             auto tail = lru.back();
             auto it = map.find(tail);
             if (it != map.end()) {

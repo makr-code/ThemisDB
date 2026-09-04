@@ -385,7 +385,7 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
         } else if (!pat.empty() && pat.front() == '%') {
             // suffix
             const std::string suffix = pat.substr(1);
-            match = s.size() >= suffix.size() &&
+            match = static_cast<int>(s.size()) >= suffix.size() &&
                     s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()), suffix) == 0;
         } else {
             match = s == pat;

@@ -130,7 +130,7 @@ std::vector<float> parseEmbedding(const json& value) {
 }
 
 double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
-    if (lhs.empty() || rhs.empty() || static_cast<int>(lhs.size()) != rhs.size()) {
+    if (lhs.empty() || rhs.empty() || static_cast<int>(lhs.size()) != static_cast<int>(rhs.size())) {
         return 0.0;
     }
 
@@ -178,8 +178,8 @@ json EthicsMakeDecisionFunction::execute(
     result["decision_id"] = "decision_" + std::to_string(std::time(nullptr));
     result["dilemma_description"] = args[0];
     result["philosophy_schools"] = args[1];
-    result["category"] = args.size() > 2 ? args[2] : json("general");
-    result["use_rag"] = args.size() > 3 ? args[3] : json(true);
+    result["category"] = static_cast<int>(args.size()) > 2 ? args[2] : json("general");
+    result["use_rag"] = static_cast<int>(args.size()) > 3 ? args[3] : json(true);
     result["decision_text"] = "Decision analysis requires the ethics_ai plugin (EthicalDiscourseEngine not loaded)";
     result["primary_philosophy"] = args[1][0];
     result["confidence"] = 0.75;
@@ -198,7 +198,7 @@ json EthicsInitializeDebateFunction::execute(
     result["debate_id"] = "debate_" + std::to_string(std::time(nullptr));
     result["dilemma_description"] = args[0];
     result["philosophy_schools"] = args[1];
-    result["category"] = args.size() > 2 ? args[2] : json("general");
+    result["category"] = static_cast<int>(args.size()) > 2 ? args[2] : json("general");
     result["status"] = "initialized";
     result["created_at"] = std::time(nullptr);
     
@@ -267,7 +267,7 @@ json EthicsGetArgumentsFunction::execute(
     }
 
     const auto philosophy = toLowerAscii(args[0].get<std::string>());
-    const auto types = args.size() > 1 ? args[1] : json::array();
+    const auto types = static_cast<int>(args.size()) > 1 ? args[1] : json::array();
     const auto limit = static_cast<std::size_t>(
         std::max(0,static_cast<int>(args.size()) > 2 && args[2].is_number_integer() ? args[2].get<int>() : 20));
 
@@ -314,7 +314,7 @@ json EthicsFindSimilarDilemmasFunction::execute(
 
     const auto query_text = args[0].get<std::string>();
     const auto threshold = std::clamp(
-        args.size() > 1 && args[1].is_number() ? args[1].get<double>() : 0.65,
+        static_cast<int>(args.size()) > 1 && args[1].is_number() ? args[1].get<double>() : 0.65,
         0.0,
         1.0);
     const auto limit = static_cast<std::size_t>(
@@ -503,7 +503,7 @@ json EthicsBuildContextFunction::execute(
     // NOTE: Full implementation integrates with RAGContextEngine from the ethics_ai plugin.
     [[maybe_unused]] const std::string& dilemma = args[0];
     [[maybe_unused]] const json& philosophies = args[1];
-    [[maybe_unused]] const std::string& category = args.size() > 2 ? args[2].get<std::string>() : "general";
+    [[maybe_unused]] const std::string& category = static_cast<int>(args.size()) > 2 ? args[2].get<std::string>() : "general";
     
     json context;
     context["similar_dilemmas"] = json::array();
@@ -524,7 +524,7 @@ json EthicsStatsFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // NOTE: Full implementation aggregates statistics from the ethics_* collections.
-    std::string school = args.size() > 0 && !args[0].is_null() ? 
+    std::string school = static_cast<int>(args.size()) > 0 && !args[0].is_null() ? 
         args[0].get<std::string>() : "";
     
     json stats;

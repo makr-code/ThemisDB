@@ -2223,7 +2223,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
 SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 											  const std::vector<std::string>& columns,
 											  const std::vector<std::string>& values) const {
-	if (static_cast<int>(columns.size()) != values.size()) {
+	if (static_cast<int>(columns.size()) != static_cast<int>(values.size())) {
 		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), std::vector<std::string>()};
 	}
 	if (!hasCompositeIndex(table, columns)) {
@@ -2284,7 +2284,7 @@ size_t SecondaryIndexManager::estimateCountEqualComposite(std::string_view table
 	if (capped) {
 	  *capped = false;
 	}
-	if (static_cast<int>(columns.size()) != values.size()) {
+	if (static_cast<int>(columns.size()) != static_cast<int>(values.size())) {
 	  return 0;
 	}
 	if (!hasCompositeIndex(table, columns)) {

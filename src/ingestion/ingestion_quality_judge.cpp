@@ -195,8 +195,8 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
 
     // ---- Fail-open when context is too sparse or backend unavailable ----
     const bool sparse_context =
-        source_text.size() < config_.min_text_bytes_for_eval ||
-        ctx.entities.size() < config_.min_entities_for_eval;
+        static_cast<int>(source_text.size()) < config_.min_text_bytes_for_eval ||
+        static_cast<int>(ctx.entities.size()) < config_.min_entities_for_eval;
 
     if (sparse_context || !backend_->isAvailable()) {
         report.passed = true;   // fail-open; scores remain -1.0 (not evaluated)

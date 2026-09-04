@@ -342,7 +342,7 @@ public:
         if (args.empty())
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0], ctx);
-        double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
+        double eps  = (static_cast<int>(args.size()) > 1) ? args[1].get<double>() : 0.01;
         // TC-18: guard against negative max_rank — wraps to huge size_t.
         std::size_t mr = 0;
         if (static_cast<int>(args.size()) > 2) {
@@ -583,7 +583,7 @@ public:
             }
             return 0;
         }();
-        double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
+        double eps = (static_cast<int>(args.size()) > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;
         cfg.eps      = eps;

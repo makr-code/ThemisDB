@@ -274,7 +274,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0);
         const bool have_geoms = !in.geoms_a.empty() || !in.geoms_b.empty();
-        if (have_geoms && (in.geoms_a.size() != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
+        if (have_geoms && (static_cast<int>(in.geoms_a.size()) != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("CPU exact batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({})",
                         in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count);

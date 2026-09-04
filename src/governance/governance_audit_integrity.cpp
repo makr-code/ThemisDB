@@ -488,7 +488,7 @@ nlohmann::json AuditTamperDetector::generateTamperReport(
     report["incidents"] = incident_details;
     report["critical_incidents"] = critical_count;
     report["severity"] = (critical_count > 0) ? "CRITICAL" : 
-                         (incidents.size() > 0) ? "WARNING" : "NONE";
+                         (static_cast<int>(incidents.size()) > 0) ? "WARNING" : "NONE";
     
     return report;
 }

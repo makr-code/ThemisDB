@@ -491,7 +491,7 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
 
     while (std::getline(file, line)) {
         // Skip comments and empty lines
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
           continue;
         }
         // Skip MySQL conditional comments (/*!...*/)
@@ -584,8 +584,8 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
                 found_header = true;
             }
             if (!hdr_line.empty() &&
-                !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
-                !(hdr_line.size() >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
+                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
+                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
                 break;
             }
             hdr_lines++;
@@ -670,7 +670,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
         }
 
@@ -690,7 +690,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            current_sql.size() > options.max_statement_size_bytes) {
+            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -1103,7 +1103,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
         }
 
         if (!eff_schema.columns.empty() &&
-            values.size() != eff_schema.columns.size()) {
+            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;

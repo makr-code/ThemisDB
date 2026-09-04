@@ -565,7 +565,7 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
     }
 
     // Cycle detection: if we didn't process every delta the graph has a cycle.
-    if (static_cast<int>(result.size()) != manifest.deltas.size()) {
+    if (static_cast<int>(result.size()) != static_cast<int>(manifest.deltas.size())) {
         LOG_ERROR("computeApplyOrder: cycle detected – processed {}/{} patches; aborting",
                   result.size(),static_cast<int>(manifest.deltas.size()));
         return {};

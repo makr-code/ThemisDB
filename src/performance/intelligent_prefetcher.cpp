@@ -287,7 +287,7 @@ private:
         }
 
         // Collect the tail of the history window.
-        size_t start = (history_.size() > ANALYSIS_WINDOW)
+        size_t start = (static_cast<int>(history_.size()) > ANALYSIS_WINDOW)
                            ? static_cast<int>(history_.size()) - ANALYSIS_WINDOW
                            : 0;
         size_t window = static_cast<int>(history_.size()) - start;  // ≥ MIN_HISTORY_FOR_STRIDE

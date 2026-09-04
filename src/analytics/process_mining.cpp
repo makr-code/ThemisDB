@@ -1057,7 +1057,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
                 }
             }
             // Check if all targets are mutually parallel
-            isParallel = (parallelTargets.size() == targets.size());
+            isParallel = (static_cast<int>(parallelTargets.size()) == static_cast<int>(targets.size()));
             if (isParallel) {
                 for (const auto &t : targets) {
                     if (parallelTargets.count(t) == 0) {
@@ -1133,7 +1133,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
                }
            }
            // Check if all sources are mutually parallel
-           isParallel = (parallelSources.size() == sources.size());
+           isParallel = (static_cast<int>(parallelSources.size()) == static_cast<int>(sources.size()));
            if (isParallel) {
                for (const auto &s : sources) {
                    if (parallelSources.count(s) == 0) {
@@ -1467,7 +1467,7 @@ Cut trySeqCut(const SubDFG &dfg) {
         }
     }
 
-    if (static_cast<int>(order.size()) != dfg.activities.size()) {
+    if (static_cast<int>(order.size()) != static_cast<int>(dfg.activities.size())) {
         return {}; // has cycle
     }
 
@@ -1812,7 +1812,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         // Sequence: chain of intermediate nodes
         std::string prevExit = entryId;
         for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
-            std::string nextEntry = (i + 1 == cut.partitions.size()) ? exitId : ("seq_mid_" + std::to_string(nodeId++));
+            std::string nextEntry = (i + 1 == static_cast<int>(cut.partitions.size())) ? exitId : ("seq_mid_" + std::to_string(nodeId++));
             if (nextEntry != exitId) {
                 DiscoveredProcess::Node mid;
                 mid.id           = nextEntry;

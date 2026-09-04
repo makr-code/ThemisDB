@@ -58,7 +58,7 @@ std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     }
 
     // First 20 characters of content
-    const std::string preview = arg.content.size() > 20 ? arg.content.substr(0, 20) : arg.content;
+    const std::string preview = static_cast<int>(arg.content.size()) > 20 ? arg.content.substr(0, 20) : arg.content;
 
     std::ostringstream oss = {};
     oss << "[" << arg.philosophy_school << ": " << type_short << " @ " << preview << "...]";

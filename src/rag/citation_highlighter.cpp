@@ -102,7 +102,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
         current += ch;
 
         bool isDelim = (cfg.sentence_delimiters.find(ch) != std::string::npos);
-        bool atEnd   = (i + 1 == text.size());
+        bool atEnd   = (i + 1 == static_cast<int>(text.size()));
 
         if (isDelim || atEnd) {
             // Consume any trailing whitespace up to the next sentence start

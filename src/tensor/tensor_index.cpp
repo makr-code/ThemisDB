@@ -410,7 +410,7 @@ private:
     static float ttInnerProduct(const storage::TTTrain& A,
                                  const storage::TTTrain& B) {
         const size_t d = A.cores.size();
-        if (d == 0 || d != B.cores.size()) {
+        if (d == 0 || d != static_cast<int>(B.cores.size())) {
           return 0.0f;
         }
 

@@ -355,7 +355,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 
     for (size_t i = 0; i <static_cast<int>(store.size()); ++i) {
         const auto& vdata = store[i].second.data;
-        if (static_cast<int>(vdata.size()) != qdata.size() || qdata.empty()) {
+        if (static_cast<int>(vdata.size()) != static_cast<int>(qdata.size()) || qdata.empty()) {
             continue;
         }
         double dot = 0.0, norm_q = 0.0, norm_v = 0.0;

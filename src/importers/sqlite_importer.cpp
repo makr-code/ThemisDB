@@ -133,8 +133,8 @@ static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_
     if (start < pos) {
         out_table_name = sql.substr(start, pos - start);
         // Remove quotes if present (both double and backtick for SQLite)
-        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`')) {
+        if ((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`')) {
             out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
         }
         return true;
@@ -384,7 +384,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
          
         // Skip comments and empty lines
         if (line.empty() ||
-            (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
+            (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))
             continue;
 
         // Bounds check on accumulated SQL
@@ -539,7 +539,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
         // Skip empty lines and SQL comments (-- ...)
         if (line.empty() ||
-            (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+            (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
         }
 
@@ -547,7 +547,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            current_sql.size() > options.max_statement_size_bytes) {
+            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -952,7 +952,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
         std::vector<std::string> values = parseInsertValues(tuple_str);
 
         if (!eff_schema.columns.empty() &&
-            values.size() != eff_schema.columns.size()) {
+            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;

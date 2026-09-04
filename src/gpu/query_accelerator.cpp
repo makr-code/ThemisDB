@@ -836,7 +836,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     DotProductResult result;
     result.precision_used = config_.precision_mode;
 
-    if (a.empty() || static_cast<int>(a.size()) != b.size()) {
+    if (a.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_dot_products;
         recordOp(0, 0, false);

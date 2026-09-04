@@ -656,7 +656,7 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
         // uncaught_exception scanner alert: this is also public API boundary
         // validation for decompose(), not an unhandled internal exception — false
         // positive.
-        throw std::invalid_argument("TensorTrainDecomposer: data.size() != product(mode_sizes)");
+        throw std::invalid_argument("TensorTrainDecomposer: static_cast<int>(data.size()) != product(mode_sizes)");
 
     auto t0 = std::chrono::steady_clock::now();
 

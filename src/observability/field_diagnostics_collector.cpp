@@ -171,7 +171,7 @@ bool FieldDiagnosticsCollector::addEventToBuffer([[maybe_unused]] const Diagnost
     }
 
     // Buffer full: evict oldest event to make room; count the eviction as dropped
-    if ([[maybe_unused]] event_buffer_.size() >= config_.max_buffer_size) {
+    if ([[maybe_unused]] static_cast<int>(event_buffer_.size()) >= config_.max_buffer_size) {
         event_buffer_.pop_front();
         events_dropped_++;
     }

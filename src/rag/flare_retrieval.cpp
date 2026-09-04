@@ -61,7 +61,7 @@ void FlareRetrieval::notifyTokenEmitted(const std::string& token_text,
     TokenEntry entry{token_text, log_prob, uncertain};
 
     if (cfg_.query_window_tokens > 0 &&
-        window_.size() >= cfg_.query_window_tokens) {
+        static_cast<int>(window_.size()) >= cfg_.query_window_tokens) {
         window_.erase(window_.begin());
     }
     window_.push_back(std::move(entry));

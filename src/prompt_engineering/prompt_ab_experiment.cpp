@@ -394,8 +394,8 @@ bool PromptABExperimentFramework::recordOutcome(
     // declared are still retained for summaries and audit trails.
     const std::size_t min = it->second.min_samples;
     if (status == ExperimentStatus::RUNNING &&
-        store.control.size()   >= min &&
-        store.treatment.size() >= min) {
+        static_cast<int>(store.control.size()) >= min &&
+        static_cast<int>(store.treatment.size()) >= min) {
         checkSignificanceLocked(experiment_id);
     }
 

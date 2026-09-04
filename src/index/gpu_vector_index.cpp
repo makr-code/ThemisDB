@@ -135,7 +135,7 @@ public:
     // Search all oversubscription partitions and return merged top-k results.
     std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
         if (!oversubManager || vectorData.empty() ||
-            query.size() != static_cast<size_t>(dimension)) {
+            static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
                         static_cast<bool>(oversubManager),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), dimension);
             return {};
@@ -853,7 +853,7 @@ public:
 
     std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
         if (!hipBackend || vectorData.empty() ||
-            query.size() != static_cast<size_t>(dimension)) {
+            static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
                         static_cast<bool>(hipBackend),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), static_cast<size_t>(dimension));
             return {};
@@ -1087,7 +1087,7 @@ bool GPUVectorIndex::addVector(const std::string& id, const std::vector<float>& 
 
 bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                    const std::vector<std::vector<float>>& vectors) {
-    if (!pImpl->initialized || static_cast<int>(ids.size()) != vectors.size()) {
+    if (!pImpl->initialized || static_cast<int>(ids.size()) != static_cast<int>(vectors.size())) {
         return false;
     }
 

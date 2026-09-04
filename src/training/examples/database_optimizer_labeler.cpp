@@ -119,7 +119,7 @@ int main() {
 
     std::cout << "\n  Accepted " <<static_cast<int>(labeled_samples.size())
               << " / " <<static_cast<int>(log_entries.size()) << " samples\n\n";
-    assert(labeled_samples.size() == 2 && "Expected exactly 2 high-confidence samples");
+    assert(static_cast<int>(labeled_samples.size()) == 2 && "Expected exactly 2 high-confidence samples");
 
     // -----------------------------------------------------------------------
     // 2. Quality filter via LoRADataSelectionPipeline (dedup, min confidence)

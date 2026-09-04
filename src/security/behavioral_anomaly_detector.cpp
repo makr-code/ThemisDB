@@ -52,7 +52,7 @@ ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
 
     // Append event; evict oldest if ring buffer is full.
     state.events.push_back(event);
-    while (state.events.size() > config_.max_events_per_session) {
+    while (static_cast<int>(state.events.size()) > config_.max_events_per_session) {
         state.events.pop_front();
     }
 

@@ -62,7 +62,7 @@ void HnswLayerOptimizer::recordQueryStats(int entry_layer, int ef_used, int laye
     recent_queries_.push_back(stats);
     
     // Keep only the most recent queries within the window size
-    while (recent_queries_.size() > config_.adaptive_layer_selection.stats_window_size) {
+    while (static_cast<int>(recent_queries_.size()) > config_.adaptive_layer_selection.stats_window_size) {
         recent_queries_.pop_front();
     }
     

@@ -1562,7 +1562,7 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // WPS-2 fix: use CRYPTO_memcmp for constant-time comparison to prevent
             // timing side-channel attacks that leak the pre-shared token prefix/length.
             const auto& stored = server_->config_.auth_token;
-            if (static_cast<int>(token.size()) == stored.size()) {
+            if (static_cast<int>(token.size()) == static_cast<int>(stored.size())) {
                 accepted = (CRYPTO_memcmp(token.data(), stored.data(),static_cast<int>(stored.size())) == 0);
             }
             // Different lengths → accepted stays false (no timing leak from size mismatch
@@ -3850,7 +3850,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
-                    if ([[maybe_unused]] history.size() >= max_history_events) {
+                    if ([[maybe_unused]] static_cast<int>(history.size()) >= max_history_events) {
                         history_truncated = true;
                         break;
                     }

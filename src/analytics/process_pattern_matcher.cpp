@@ -800,7 +800,7 @@ int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::strin
 // ============================================================================
 
 double ProcessPatternMatcher::cosineSimilarity(const std::vector<float> &a, const std::vector<float> &b) const {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return 0.0;
     }
 

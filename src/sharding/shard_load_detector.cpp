@@ -82,7 +82,7 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     // Append to per-shard history for forecasting; enforce ring-buffer size
     auto& history = shard_load_history_[shard_id];
     history.push_back(load);
-    while (history.size() > kMaxHistorySamples) {
+    while (static_cast<int>(history.size()) > kMaxHistorySamples) {
         history.pop_front();
     }
     

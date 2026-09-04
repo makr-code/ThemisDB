@@ -597,7 +597,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
                 // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
                 constexpr size_t kMaxDNFDisjuncts = 1000;
-                if (disjQuery.disjuncts.size() * disjuncts.size() > kMaxDNFDisjuncts) {
+                if (disjQuery.disjuncts.size() * static_cast<int>(disjuncts.size()) > kMaxDNFDisjuncts) {
                     return TranslationResult::Error(
                         "OR query too complex: DNF expansion would produce " +
                         std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +

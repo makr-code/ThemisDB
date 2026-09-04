@@ -58,7 +58,7 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
     const std::vector<std::vector<float>>&       target_logits
 ) {
     // ── Pre-condition checks ─────────────────────────────────────────
-    if (static_cast<int>(draft_tokens.size()) != draft_logits.size()) {
+    if (static_cast<int>(draft_tokens.size()) != static_cast<int>(draft_logits.size())) {
         throw std::invalid_argument(
             "draft_tokens.size() must equal draft_logits.size()");
     }

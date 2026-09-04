@@ -317,7 +317,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     AssembledContext single = assembler_.assemble(
         documents, config_.system_prompt, query);
 
-    if (static_cast<int>(single.chunks_used.size()) == documents.size() && !single.was_truncated) {
+    if (static_cast<int>(single.chunks_used.size()) == static_cast<int>(documents.size()) && !single.was_truncated) {
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
         result.final_answer   = infer(prompt, bounded_max_tokens);

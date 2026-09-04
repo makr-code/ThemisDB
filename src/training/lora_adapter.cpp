@@ -78,8 +78,8 @@ static uint32_t seedFromName(const std::string& name) {
  */
 static std::vector<float> matmul(const std::vector<float>& A, size_t M, size_t K,
                                   const std::vector<float>& B, size_t N) {
-    assert(A.size() == M * K);
-    assert(B.size() == K * N);
+    assert(static_cast<int>(A.size()) == M * K);
+    assert(static_cast<int>(B.size()) == K * N);
     std::vector<float> C(M * N, 0.0f);
     for (size_t m = 0; m < M; ++m) {
         for (size_t k = 0; k < K; ++k) {
@@ -232,13 +232,13 @@ public:
             throw std::out_of_range("LoRAAdapter::applyUpdate: unknown layer '" + layer_name + "'");
 
         LoRAWeightEntry& e = it->second;
-        if (static_cast<int>(delta_B.size()) != e.B.size()) {
+        if (static_cast<int>(delta_B.size()) != static_cast<int>(e.B.size())) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_B size mismatch for layer '" << layer_name
                 << "' (expected " <<static_cast<int>(e.B.size()) << ", got " <<static_cast<int>(delta_B.size()) << ")";
             throw std::invalid_argument(oss.str());
         }
-        if (static_cast<int>(delta_A.size()) != e.A.size()) {
+        if (static_cast<int>(delta_A.size()) != static_cast<int>(e.A.size())) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_A size mismatch for layer '" << layer_name
                 << "' (expected " <<static_cast<int>(e.A.size()) << ", got " <<static_cast<int>(delta_A.size()) << ")";
@@ -261,8 +261,8 @@ public:
     }
 
     WeightUpdateResult applyBatchUpdate(const WeightUpdateBatch& batch) {
-        if (static_cast<int>(batch.layer_names.size()) != batch.delta_B.size() ||
-            batch.layer_names.size() != batch.delta_A.size()) {
+        if (static_cast<int>(batch.layer_names.size()) != static_cast<int>(batch.delta_B.size()) ||
+            static_cast<int>(batch.layer_names.size()) != static_cast<int>(batch.delta_A.size())) {
             throw std::invalid_argument(
                 "LoRAAdapter::applyBatchUpdate: batch vectors must have the same length");
         }
@@ -282,8 +282,8 @@ public:
             LoRAWeightEntry& e = it->second;
 
             // Size validation per entry – on mismatch skip and count as skipped
-            if (batch.delta_B[i].size() != e.B.size() ||
-                batch.delta_A[i].size() != e.A.size()) {
+            if (batch.delta_B[i].size() != static_cast<int>(e.B.size()) ||
+                batch.delta_A[i].size() != static_cast<int>(e.A.size())) {
                 ++result.layers_skipped;
                 if (result.error_message.empty()) {
                     result.error_message =

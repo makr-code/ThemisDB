@@ -202,7 +202,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             for (size_t i = start; i < end; ++i) {
                 items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
             }
-            bool has_more = results.size() > end;
+            bool has_more = static_cast<int>(results.size()) > end;
             json response = {
                 {"items", items},
                 {"batch_size", end - start},

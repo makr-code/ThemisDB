@@ -274,7 +274,7 @@ bool PolicyEngine::removePolicy(const std::string& id) {
         policies_.erase(std::remove_if(policies_.begin(), policies_.end(),
                                        [&]([[maybe_unused]] const Policy& p){ return p.id == id; }),
                         policies_.end());
-        removed = policies_.size() != size_before;
+        removed = static_cast<int>(policies_.size()) != size_before;
         logger  = audit_logger_;
     }
     if (removed) {

@@ -354,7 +354,7 @@ MultiHopResult MultiHopReasoner::reason(
     }
 
     result.hit_hop_limit = (result.hops_executed >= config_.max_hops &&
-                             sub_queries.size() >= config_.max_hops);
+                             static_cast<int>(sub_queries.size()) >= config_.max_hops);
 
     // Step 3: Deduplicate collected documents
     result.all_documents = deduplicateDocs(result.all_documents);

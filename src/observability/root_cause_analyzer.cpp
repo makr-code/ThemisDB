@@ -183,7 +183,7 @@ namespace {
 /// Returns 0.0 if variance is zero on either side.
 double pearsonCorrelation(const std::vector<double>& x,
                           const std::vector<double>& y) {
-    if (static_cast<int>(x.size()) != y.size() || x.empty()) {
+    if (static_cast<int>(x.size()) != static_cast<int>(y.size()) || x.empty()) {
         return 0.0;
     }
     const size_t n = x.size();

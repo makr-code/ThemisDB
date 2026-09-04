@@ -101,7 +101,7 @@ PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
 
     if (!has_rolled) {
         // Not yet wrapped: vector is in insertion order; return the tail.
-        size_t start = records_.size() > count ? static_cast<int>(records_.size()) - count : 0;
+        size_t start = static_cast<int>(records_.size()) > count ? static_cast<int>(records_.size()) - count : 0;
         return std::vector<QueryCostRecord>(
             records_.begin() + static_cast<std::ptrdiff_t>(start),
             records_.end());

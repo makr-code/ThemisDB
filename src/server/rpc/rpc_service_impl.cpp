@@ -656,7 +656,7 @@ json ThemisRPCService::handleDeleteInternal(
                 themis::plugins::rpc::RPCErrorCode::TRANSACTION_CONFLICT,
                 "Referential integrity violation: " +
                     std::to_string(direct_children.size()) + " child entit" +
-                    (direct_children.size() == 1 ? "y" : "ies") +
+                    (static_cast<int>(direct_children.size()) == 1 ? "y" : "ies") +
                     " reference this entity. Use cascade=true to delete them."
             );
         }

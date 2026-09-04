@@ -100,7 +100,7 @@ themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
 
     return [cached_rows = std::move(cached_rows)](const std::vector<float>& logits) -> float {
         for (const auto& cached : cached_rows) {
-            if (static_cast<int>(cached.first.size()) == logits.size() &&
+            if (static_cast<int>(cached.first.size()) == static_cast<int>(logits.size()) &&
                 std::equal(cached.first.begin(), cached.first.end(), logits.begin())) {
                 return cached.second;
             }
@@ -1716,7 +1716,7 @@ InferenceEngineEnhanced::formBatch() {
     size_t batch_tokens = 0;
     
     while (!request_queue_.empty() && 
-           batch.size() < config_.max_batch_size) {
+           static_cast<int>(batch.size()) < config_.max_batch_size) {
         
         auto req = request_queue_.front();
         

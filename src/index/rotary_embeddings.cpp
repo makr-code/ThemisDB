@@ -155,7 +155,7 @@ std::vector<std::vector<float>> RotaryEmbedding::rotateBatch(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
-    if (static_cast<int>(embeddings.size()) != positions.size()) {
+    if (static_cast<int>(embeddings.size()) != static_cast<int>(positions.size())) {
         throw std::invalid_argument(
             "Batch size mismatch: embeddings=" + std::to_string(embeddings.size()) +
             ", positions=" + std::to_string(positions.size())

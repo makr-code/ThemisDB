@@ -235,13 +235,13 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
 
         // --- content-level checks ---
         if (schema.min_content_length > 0 &&
-            content.size() < schema.min_content_length) {
+            static_cast<int>(content.size()) < schema.min_content_length) {
             result.addViolation("",
                 "document too short: " + std::to_string(content.size()) +
                 " bytes (minimum " + std::to_string(schema.min_content_length) + ")");
         }
         if (schema.max_content_length > 0 &&
-            content.size() > schema.max_content_length) {
+            static_cast<int>(content.size()) > schema.max_content_length) {
             result.addViolation("",
                 "document too long: " + std::to_string(content.size()) +
                 " bytes (maximum " + std::to_string(schema.max_content_length) + ")");

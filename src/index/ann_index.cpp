@@ -404,7 +404,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     float best_dist = std::numeric_limits<float>::max();
     size_t best_leaf = 0;
     for (size_t i = 0; i <static_cast<int>(leaves_.size()); ++i) {
-        if (leaves_[i].centroid.size() != dim_) {
+        if (leaves_[i].static_cast<int>(centroid.size()) != dim_) {
             THEMIS_WARN("ScaNN::addToLeaf: leaf {} centroid size {} != dim_ {}", i, leaves_[i].centroid.size(), dim_);
             return false;
         }
@@ -470,7 +470,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     for (size_t pi = 0; pi < probe; ++pi) {
         const Leaf& leaf = leaves_[leaf_scores[pi].second];
         bool use_ah = cfg_.enable_ah && codebook_.num_subspaces > 0
-                      && static_cast<int>(leaf.codes.size()) == leaf.vectors.size()
+                      && static_cast<int>(leaf.codes.size()) == static_cast<int>(leaf.vectors.size())
                       && !leaf.codes.empty();
 
         const size_t scan_count = std::min(leaf.ids.size(),static_cast<int>(leaf.vectors.size()));

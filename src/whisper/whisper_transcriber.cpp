@@ -125,7 +125,7 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
             std::memcpy(block.data() + buffered, bytes + pos, copy_n);
             buffered += copy_n;
             pos += copy_n;
-            if (buffered == block.size()) {
+            if (buffered == static_cast<int>(block.size())) {
                 sha256Transform(state, block.data());
                 buffered = 0;
             }

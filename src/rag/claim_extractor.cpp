@@ -258,7 +258,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         std::unordered_map<std::string, std::string> vars;
         vars["query"] = "Multiple samples comparison";
         vars["response1"] = samples[0];
-        vars["response2"] = samples.size() > 1 ? samples[1] : samples[0];
+        vars["response2"] = static_cast<int>(samples.size()) > 1 ? samples[1] : samples[0];
         
         std::string prompt = consistency_tmpl.format(vars);
         std::string llm_response = LLMIntegration::generate(prompt);

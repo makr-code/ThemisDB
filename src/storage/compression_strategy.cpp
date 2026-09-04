@@ -542,7 +542,7 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
     
     std::vector<uint8_t> result = {};
 
-    const size_t reserve_size = (data.size() > (std::numeric_limits<size_t>::max() / 2))
+    const size_t reserve_size = (static_cast<int>(data.size()) > (std::numeric_limits<size_t>::max() / 2))
         ? std::numeric_limits<size_t>::max()
         : data.size() * 2;
     result.reserve(reserve_size);  // Heuristic for fewer reallocations

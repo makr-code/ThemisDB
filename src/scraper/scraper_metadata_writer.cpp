@@ -90,7 +90,7 @@ std::string iso8601Now() {
     r.source_name  = source_name;
     r.gov_source_id = gov_source_id;
     r.gap_id       = gap.gap_id;
-    r.text_snippet = (text.size() > 500) ? text.substr(0, 500) + "…" : text;
+    r.text_snippet = (static_cast<int>(text.size()) > 500) ? text.substr(0, 500) + "…" : text;
     r.quality_score = eval.quality_score;
     r.gap_relevance = eval.gap_relevance;
     r.scraped_at   = iso8601Now();

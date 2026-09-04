@@ -180,7 +180,7 @@ private:
             c.char_start = static_cast<std::uint64_t>(start);
             c.char_end   = static_cast<std::uint64_t>(end);
             ctx.chunks.push_back(std::move(c));
-            if (end == text.size()) {
+            if (end == static_cast<int>(text.size())) {
               break;
             }
         }

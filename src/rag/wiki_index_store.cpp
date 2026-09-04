@@ -391,7 +391,7 @@ struct WikiIndexStore::Impl {
         }
         // Evict LRU entry if at capacity.
         if (config.max_cache_size > 0 &&
-            embedding_cache.size() >= config.max_cache_size) {
+            static_cast<int>(embedding_cache.size()) >= config.max_cache_size) {
             embedding_cache.erase(cache_lru.back());
             cache_lru.pop_back();
         }

@@ -248,7 +248,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
 }
 
 Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vector<uint8_t>& encoded) {
-    if ([[maybe_unused]] encoded.size() < sizeof(uint32_t)) {
+    if ([[maybe_unused]] static_cast<int>(encoded.size()) < sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Dictionary decode: insufficient data"
@@ -524,7 +524,7 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
 }
 
 Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
-    if ([[maybe_unused]] encoded.size() < sizeof(int32_t) + 1 + sizeof(uint32_t)) {
+    if ([[maybe_unused]] static_cast<int>(encoded.size()) < sizeof(int32_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Bit-packing decode: insufficient header data"
@@ -593,7 +593,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 }
 
 Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint8_t>& encoded) {
-    if ([[maybe_unused]] encoded.size() < sizeof(int64_t) + 1 + sizeof(uint32_t)) {
+    if ([[maybe_unused]] static_cast<int>(encoded.size()) < sizeof(int64_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Bit-packing decode: insufficient header data"
@@ -1427,7 +1427,7 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
 }
 
 Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& data) {
-    if ([[maybe_unused]] data.size() < 2 + 4 * sizeof(uint64_t)) {
+    if ([[maybe_unused]] static_cast<int>(data.size()) < 2 + 4 * sizeof(uint64_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Segment deserialize: insufficient data"
@@ -1550,7 +1550,7 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
     size_t row_count,
     bool auto_select_codec
 ) {
-    if (static_cast<int>(column_types.size()) != column_data.size()) {
+    if (static_cast<int>(column_types.size()) != static_cast<int>(column_data.size())) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "Column types and data size mismatch"

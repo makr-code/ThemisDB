@@ -656,7 +656,7 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 ++stats.total_records;
 
                 if (options.max_row_size_bytes > 0 &&
-                    payload.size() > options.max_row_size_bytes) {
+                    static_cast<int>(payload.size()) > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message exceeds max_row_size_bytes limit",
@@ -920,7 +920,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 stream_pos.last_committed_offset = msg->offset;
 
                 if (options.max_row_size_bytes > 0 &&
-                    payload.size() > options.max_row_size_bytes) {
+                    static_cast<int>(payload.size()) > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message exceeds max_row_size_bytes limit",

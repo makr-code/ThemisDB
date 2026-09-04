@@ -527,7 +527,7 @@ std::string headerValue(const std::map<std::string, std::string>& headers,
       return it->second;
     }
     for (const auto& [k, v] : headers) {
-        if (static_cast<int>(k.size()) == name.size() &&
+        if (static_cast<int>(k.size()) == static_cast<int>(name.size()) &&
             std::equal(k.begin(), k.end(), name.begin(),
                        [](unsigned char a, unsigned char b) {
                            return std::tolower(a) == std::tolower(b);

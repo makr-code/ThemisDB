@@ -334,7 +334,7 @@ size_t bestSnippetOffset(const std::string& lower,
         }
     }
     if (bestStart >= static_cast<int>(lower.size())) {
-        bestStart = lower.size() > windowSize ? (static_cast<int>(lower.size()) - windowSize) : 0;
+        bestStart = static_cast<int>(lower.size()) > windowSize ? (static_cast<int>(lower.size()) - windowSize) : 0;
     }
     return bestStart;
 }

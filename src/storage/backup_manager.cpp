@@ -725,7 +725,7 @@ bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
     while (std::getline(stream, field, ' ')  && static_cast<size_t>(index) <static_cast<int>(fields.size())) {
         fields[index++] = field;
     }
-    if (index != fields.size()) {
+    if (index != static_cast<int>(fields.size())) {
         return false;
     }
 

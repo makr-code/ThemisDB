@@ -212,7 +212,7 @@ std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::stri
 }
 
 bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) {
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
       return false;
     }
     unsigned char diff = 0;

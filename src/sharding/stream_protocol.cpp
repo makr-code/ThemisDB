@@ -1541,7 +1541,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         return false;
     }
 
-    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
+    if (chunk.compressed_size != static_cast<int>(chunk.data.size()) || chunk.uncompressed_size == 0 ||
         chunk.compressed_size > chunk.uncompressed_size) {
         std::cerr << "Rejecting chunk " << chunk.chunk_index
                   << " due to inconsistent size metadata" << std::endl;
@@ -1653,7 +1653,7 @@ bool StreamReceiveTask::verifyIntegrity() const {
 }
 
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
-    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
+    if (chunk.compressed_size != static_cast<int>(chunk.data.size()) || chunk.uncompressed_size == 0 ||
         chunk.compressed_size > chunk.uncompressed_size) {
         std::cerr << "Rejecting chunk " << chunk.chunk_index
                   << " due to invalid payload metadata" << std::endl;

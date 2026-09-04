@@ -75,7 +75,7 @@ void GraphQueryCache::put(const std::string& key,
     }
 
     // L1 is full → evict LRU from L1 to L2 before inserting the new entry.
-    while (l1_.map.size() >= config_.l1_capacity) {
+    while (static_cast<int>(l1_.map.size()) >= config_.l1_capacity) {
         evictL1ToL2();
     }
 
@@ -131,7 +131,7 @@ GraphQueryCache::get(const std::string& key) {
             removeFromL2(key);
 
             // Make room in L1 if needed.
-            while (l1_.map.size() >= config_.l1_capacity) {
+            while (static_cast<int>(l1_.map.size()) >= config_.l1_capacity) {
                 evictL1ToL2();
             }
             l1_.lru.push_front(key);
@@ -211,7 +211,7 @@ void GraphQueryCache::evictL1ToL2() {
     l1_.map.erase(it);
 
     // Demote to L2 — make room if necessary.
-    while (l2_.map.size() >= config_.l2_capacity) {
+    while (static_cast<int>(l2_.map.size()) >= config_.l2_capacity) {
         evictL2();
     }
 

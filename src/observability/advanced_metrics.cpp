@@ -199,7 +199,7 @@ void AdvancedMetrics::recordTimeWeightedAverage(const std::string& name,
     // Prune samples that fall outside the sliding window.
     if (window.count() > 0) {
         auto cutoff = now - window;
-        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
+        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }
@@ -256,7 +256,7 @@ void AdvancedMetrics::recordRate(const std::string& name, double value,
     // Prune samples older than the interval window.
     if (interval.count() > 0) {
         auto cutoff = now - interval;
-        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
+        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }

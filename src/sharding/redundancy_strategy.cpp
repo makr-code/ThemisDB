@@ -3568,7 +3568,7 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
                 }
             }
         }
-        health.is_healthy = (health.available_replicas == all_shards.size());
+        health.is_healthy = (health.available_replicas == static_cast<int>(all_shards.size()));
         health.can_recover = false;  // STRIPE: no recovery without all chunks
         return health;
     }

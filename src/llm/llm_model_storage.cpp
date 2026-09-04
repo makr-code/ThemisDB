@@ -934,7 +934,7 @@ public:
                         json j = json::parse(json_str);
                         if (j.contains("values") && j.contains("dimensions")) {
                             auto emb = j["values"].get<std::vector<float>>();
-                            if (static_cast<int>(emb.size()) == query_embedding.size()) {
+                            if (static_cast<int>(emb.size()) == static_cast<int>(query_embedding.size())) {
                                 all_embeddings.emplace_back(model_id_from_key, std::move(emb));
                             }
                         }
@@ -948,7 +948,7 @@ public:
             
             // Calculate cosine similarity and find top-k
             auto cosine_similarity = [](const std::vector<float>& a, const std::vector<float>& b) -> float {
-                if (a.empty() || b.empty() || static_cast<int>(a.size()) != b.size()) {
+                if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
                     return 0.0f;
                 }
                 

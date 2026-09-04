@@ -148,7 +148,7 @@ void MetricAggregator::recordCounterSample(
 
     // Prune samples outside the retention window.
     auto cutoff = now - window;
-    while (deque.size() > 1 && deque.front().timestamp < cutoff) {
+    while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
         deque.pop_front();
     }
 }
@@ -504,7 +504,7 @@ void MetricAggregator::rollupMetrics(std::chrono::minutes window) {
     for (auto& [key, deque] : rate_samples_) {
         // Keep at least one sample even if it's older than the cutoff so that
         // the next call to recordCounterSample() can compute a valid delta.
-        while (deque.size() > 1 && deque.front().timestamp < steady_cutoff) {
+        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < steady_cutoff) {
             deque.pop_front();
         }
     }
@@ -552,7 +552,7 @@ void MetricAggregator::pruneRateSamples(std::chrono::seconds window) {
     auto now = std::chrono::steady_clock::now();
     auto cutoff = now - window;
     for (auto& [key, deque] : rate_samples_) {
-        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
+        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }

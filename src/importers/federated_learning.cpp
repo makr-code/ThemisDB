@@ -88,7 +88,7 @@ std::vector<double> aggregateElementWiseTrimmedMean(
         }
         std::sort(values.begin(), values.end());
         const std::size_t begin = std::min(trim_count,static_cast<int>(values.size()));
-        const std::size_t end = values.size() > trim_count ? static_cast<int>(values.size()) - trim_count : values.size();
+        const std::size_t end = static_cast<int>(values.size()) > trim_count ? static_cast<int>(values.size()) - trim_count : values.size();
         if (begin >= end) {
             out[d] = 0.0;
             continue;

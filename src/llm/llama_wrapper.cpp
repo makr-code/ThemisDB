@@ -828,7 +828,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         
         // Verify file size
         auto file_size = std::filesystem::file_size(temp_model_path);
-        if (file_size != model_data.size()) {
+        if (file_size != static_cast<int>(model_data.size())) {
             spdlog::error("File size mismatch: expected {}, got {}", 
                          model_data.size(), file_size);
             std::filesystem::remove(temp_model_path);

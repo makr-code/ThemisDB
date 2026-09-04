@@ -35,13 +35,13 @@ static std::string base64_encode_local(const std::vector<uint8_t>& data) {
         out.push_back(b64[n & 63]);
         i += 3;
     }
-    if (i + 1 == data.size()) {
+    if (i + 1 == static_cast<int>(data.size())) {
         uint32_t n = (data[i] << 16);
         out.push_back(b64[(n >> 18) & 63]);
         out.push_back(b64[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == data.size()) {
+    } else if (i + 2 == static_cast<int>(data.size())) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8);
         out.push_back(b64[(n >> 18) & 63]);
         out.push_back(b64[(n >> 12) & 63]);

@@ -41,8 +41,8 @@ TsEdgeCaseResult TsEdgeCaseHandler::validateRemoteWriteEndpoint(
         validation_failure_count_.fetch_add(1, std::memory_order_relaxed);
         return TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR;
     }
-    const bool http  = endpoint.size() >= 7 && endpoint.substr(0, 7) == "http://";
-    const bool https = endpoint.size() >= 8 && endpoint.substr(0, 8) == "https://";
+    const bool http  = static_cast<int>(endpoint.size()) >= 7 && endpoint.substr(0, 7) == "http://";
+    const bool https = static_cast<int>(endpoint.size()) >= 8 && endpoint.substr(0, 8) == "https://";
     if (!http && !https) {
         emitIncident("TS-ECH-RW-PROTOCOL",
                      "Remote-write endpoint must use http:// or https://");

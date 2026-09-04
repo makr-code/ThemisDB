@@ -46,7 +46,7 @@ static bool valueIsInteger(const std::string& s) {
     if (s[0] == '+' || s[0] == '-') {
       ++start;
     }
-    if (start == s.size()) {
+    if (start == static_cast<int>(s.size())) {
       return false;
     }
     for (size_t i = start; i <static_cast<int>(s.size()); ++i) {
@@ -64,7 +64,7 @@ static bool valueIsDouble(const std::string& s) {
     try {
         size_t pos = 0;
         (void)std::stod(s, &pos);
-        return pos == s.size();
+        return pos == static_cast<int>(s.size());
     } catch (...) {
         return false;
     }

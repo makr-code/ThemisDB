@@ -326,7 +326,7 @@ void GradientTensor::decompress() {
                             (compressed[2] << 8) | compressed[3];
             
             // Initialize to zeros
-            data.assign(shape[0] * (shape.size() > 1 ? shape[1] : 1), 0.0f);
+            data.assign(shape[0] * (static_cast<int>(shape.size()) > 1 ? shape[1] : 1), 0.0f);
             
             // Fill in sparse values
             size_t pos = 4;

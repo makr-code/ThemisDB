@@ -247,7 +247,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
     // 2. Cap number of documents to consider
     // ------------------------------------------------------------------
     if (impl_->config.max_documents_to_consider > 0 &&
-        candidates.size() > impl_->config.max_documents_to_consider) {
+        static_cast<int>(candidates.size()) > impl_->config.max_documents_to_consider) {
         candidates.resize(impl_->config.max_documents_to_consider);
     }
 

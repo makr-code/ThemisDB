@@ -33,7 +33,7 @@ namespace {
 static constexpr double kWorstCaseEfficiency = std::numeric_limits<double>::infinity();
 
 bool iequals(const std::string& a, const std::string& b) {
-    if (static_cast<int>(a.size()) != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
     for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
@@ -56,7 +56,7 @@ bool parseDouble(const std::string& raw, double& out) {
     try {
         size_t consumed = 0;
         out = std::stod(raw, &consumed);
-        return consumed == raw.size();
+        return consumed == static_cast<int>(raw.size());
     } catch (const std::exception& e) {
         THEMIS_DEBUG("Failed to parse '{}' as double: {}", raw, e.what());
         return false;

@@ -146,7 +146,7 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
 }
 
 float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return 0.0f;
     }
     float dot = 0.0f;
@@ -164,7 +164,7 @@ float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
 }
 
 float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& vq, float scale) {
-    if (q.empty() || vq.empty() || static_cast<int>(q.size()) != vq.size() || scale <= 0.0f) {
+    if (q.empty() || vq.empty() || static_cast<int>(q.size()) != static_cast<int>(vq.size()) || scale <= 0.0f) {
         return 0.0f;
     }
     float dot = 0.0f;

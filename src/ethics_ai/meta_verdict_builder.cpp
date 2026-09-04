@@ -215,7 +215,7 @@ MetaVerdict MetaVerdictBuilder::buildMetaVerdict(
                 regions_for_dominant.insert(culturalRegion(o->school_id));
             }
         }
-        mv.cross_cultural_flag = (regions_for_dominant.size() >= 2);
+        mv.cross_cultural_flag = (static_cast<int>(regions_for_dominant.size()) >= 2);
     }
 
     return mv;

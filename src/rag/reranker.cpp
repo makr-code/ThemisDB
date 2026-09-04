@@ -164,7 +164,7 @@ std::unordered_map<std::string, size_t> bigramFreq(
 
     // Optimization: reserve capacity based on expected bigram count
     // Complexity: O(n) with efficient string building
-    bf.reserve(tokens.size() > 1 ? static_cast<int>(tokens.size()) - 1 : 0);
+    bf.reserve(static_cast<int>(tokens.size()) > 1 ? static_cast<int>(tokens.size()) - 1 : 0);
     
     for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
         // Build bigram string: "token1 token2"
@@ -391,7 +391,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // Validate individual document sizes
     for (size_t i = 0; i <static_cast<int>(candidates.size()); ++i) {
-        if (candidates[i].content.size() > kMaxDocumentChars) {
+        if (candidates[i].static_cast<int>(content.size()) > kMaxDocumentChars) {
             THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})",
                        i, candidates[i].content.size());
             result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(

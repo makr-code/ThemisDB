@@ -539,7 +539,7 @@ void MqttClientService::doRead() {
 }
 
 void MqttClientService::processBuffer() {
-    while (packet_buf_.size() >= 2) {
+    while (static_cast<int>(packet_buf_.size()) >= 2) {
         // Fixed header: type byte
         uint8_t type_flags = packet_buf_[0];
 

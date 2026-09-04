@@ -251,7 +251,7 @@ PersistentTensorFingerprintGraph::deserializeEntry(const std::vector<uint8_t>& b
         return std::nullopt;
     }
 
-    if (off != bytes.size()) {
+    if (off != static_cast<int>(bytes.size())) {
         return std::nullopt;
     }
     return out;
@@ -292,7 +292,7 @@ bool PersistentTensorFingerprintGraph::deserializeJournalRecord(const std::vecto
         return false;
     }
 
-    return off == bytes.size();
+    return off == static_cast<int>(bytes.size());
 }
 
 void PersistentTensorFingerprintGraph::appendU32(std::vector<uint8_t>& out, uint32_t v) {

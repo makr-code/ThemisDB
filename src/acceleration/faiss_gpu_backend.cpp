@@ -665,7 +665,7 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
         return false;
     }
     if (filepath.find("..") != std::string::npos ||
-        filepath.size() != std::strlen(filepath.c_str())) {
+        static_cast<int>(filepath.size()) != std::strlen(filepath.c_str())) {
         setError(AccelerationErrorCode::InvalidParameter,
                  "saveIndex: filepath contains invalid characters");
         return false;
@@ -747,7 +747,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
         return false;
     }
     if (filepath.find("..") != std::string::npos ||
-        filepath.size() != std::strlen(filepath.c_str())) {
+        static_cast<int>(filepath.size()) != std::strlen(filepath.c_str())) {
         setError(AccelerationErrorCode::InvalidParameter,
                  "loadIndex: filepath contains invalid characters");
         return false;

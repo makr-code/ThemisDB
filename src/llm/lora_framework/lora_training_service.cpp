@@ -72,7 +72,7 @@ void LoRATrainingService::clearModelPathProviderFn() {
 
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
-    if (static_cast<int>(predictions.size()) != targets.size()) {
+    if (static_cast<int>(predictions.size()) != static_cast<int>(targets.size())) {
         throw std::invalid_argument("Predictions and targets must have same size");
     }
     

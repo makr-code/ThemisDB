@@ -1011,7 +1011,7 @@ GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType d
 Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     Tensor result(gpu_tensor.shape());
     auto data = gpu_tensor.cpu_data();
-    if (static_cast<int>(data.size()) == result.size()) {
+    if (static_cast<int>(data.size()) == static_cast<int>(result.size())) {
         std::copy(data.begin(), data.end(), result.data().begin());
     }
     return result;

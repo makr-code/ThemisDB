@@ -158,7 +158,7 @@ void TaskAuditManager::cacheAuditEvent([[maybe_unused]] const TaskAuditEvent& ev
     recent_audit_events_.push_back([[maybe_unused]] event);
     
     // Limit cache size
-    if ([[maybe_unused]] recent_audit_events_.size() > MAX_CACHE_SIZE) {
+    if ([[maybe_unused]] static_cast<int>(recent_audit_events_.size()) > MAX_CACHE_SIZE) {
         recent_audit_events_.pop_front();
     }
 }
@@ -168,7 +168,7 @@ void TaskAuditManager::cacheSecurityEvent([[maybe_unused]] const TaskSecurityEve
     
     recent_security_events_.push_back([[maybe_unused]] event);
     
-    if ([[maybe_unused]] recent_security_events_.size() > MAX_CACHE_SIZE) {
+    if ([[maybe_unused]] static_cast<int>(recent_security_events_.size()) > MAX_CACHE_SIZE) {
         recent_security_events_.pop_front();
     }
 }
@@ -715,7 +715,7 @@ std::string TaskAuditManager::generateAuditEntryHMAC([[maybe_unused]] const Task
     std::string data = j.dump();
     
     if (static_cast<int>(config_.audit_hmac_key.size()) > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
-        data.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        static_cast<int>(data.size()) > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
         THEMIS_ERROR("TaskAuditManager: HMAC input too large (key_size={}, data_size={})",
                      config_.audit_hmac_key.size(),static_cast<int>(data.size()));
         return "";

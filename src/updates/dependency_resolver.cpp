@@ -452,7 +452,7 @@ ResolutionResult DependencyResolver::resolve(
 
     // ── Phase 4: Cycle detection ──────────────────────────────────────────
 
-    if (static_cast<int>(sorted_pkgs.size()) != node_target.size()) {
+    if (static_cast<int>(sorted_pkgs.size()) != static_cast<int>(node_target.size())) {
         std::vector<std::string> cycle_nodes = {};
 
        cycle_nodes.reserve(in_degree.size());  // Pre-allocate (Error Code: 7459)

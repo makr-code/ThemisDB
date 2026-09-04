@@ -107,8 +107,8 @@ void requireHttpOrHttps(const std::string &url, const char *caller) {
     if (url.empty()) {
         throw std::invalid_argument(std::string(caller) + ": URL must not be empty");
     }
-    const bool is_https = (url.size() >= 8 && url.substr(0, 8) == "https://");
-    const bool is_http  = (url.size() >= 7 && url.substr(0, 7) == "http://");
+    const bool is_https = (static_cast<int>(url.size()) >= 8 && url.substr(0, 8) == "https://");
+    const bool is_http  = (static_cast<int>(url.size()) >= 7 && url.substr(0, 7) == "http://");
     if (!is_https && !is_http) {
         throw std::invalid_argument(
             std::string(caller) + ": URL must use http:// or https:// scheme: " + url);
@@ -352,8 +352,8 @@ RemoteRegistryClient::RemoteRegistryClient(const RegistryConfig &config) : confi
     // callers receive an early, clear error rather than a silent mis-configuration.
     if (!config_.registry_url.empty()) {
         const auto &url = config_.registry_url;
-        const bool is_https = (url.size() >= 8 && url.substr(0, 8) == "https://");
-        const bool is_http  = (url.size() >= 7 && url.substr(0, 7) == "http://");
+        const bool is_https = (static_cast<int>(url.size()) >= 8 && url.substr(0, 8) == "https://");
+        const bool is_http  = (static_cast<int>(url.size()) >= 7 && url.substr(0, 7) == "http://");
         if (!is_https && !is_http) {
             throw std::invalid_argument(
                 "RemoteRegistryClient: registry_url must use http:// or https:// scheme: " + url);

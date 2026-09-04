@@ -806,7 +806,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                 stats.is_data_only = true;
             }
             // Stop after non-empty non-comment line
-            if (!hdr_line.empty() && !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-')) {
+            if (!hdr_line.empty() && !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-')) {
                 break;
             }
             hdr_lines++;
@@ -962,7 +962,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         }
 
         // Skip blank lines and SQL comments
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
+        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
         }
         
@@ -971,7 +971,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            current_sql.size() > options.max_statement_size_bytes) {
+            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -2330,7 +2330,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             delta_hashes.insert(h);
         }
 
-        if (!eff_schema.columns.empty() && static_cast<int>(values.size()) != eff_schema.columns.size()) {
+        if (!eff_schema.columns.empty() && static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;
@@ -2435,7 +2435,7 @@ std::vector<std::string> PostgreSQLImporter::parseCopyRow(const std::string& lin
 
     // Process each tab-delimited raw field, then unescape
     for (size_t i = 0; i <= line.size(); ++i) {
-        if (i == line.size() || line[i] == '\t') {
+        if (i == static_cast<int>(line.size()) || line[i] == '\t') {
             std::string raw = line.substr(start, i - start);
             result.push_back(unescapeCopyValue(raw));
             start = i + 1;

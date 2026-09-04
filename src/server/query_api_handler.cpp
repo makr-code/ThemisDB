@@ -897,7 +897,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 res2 = {QueryExecStatus::OK(), std::move(*result2)};
             }
             if (!res2.first.ok) { joinSpan.setStatus(false, res2.first.message); span.setStatus(false, "Right side execution failed"); return makeErrorResponse(http::status::bad_request, res2.first.message, req); }
-            const auto& leftVec = res1.second; const auto& rightVec = res2.second; bool buildLeft = leftVec.size() <= rightVec.size();
+            const auto& leftVec = res1.second; const auto& rightVec = res2.second; bool buildLeft = static_cast<int>(leftVec.size()) <= rightVec.size();
             const auto [colLeft, colRight] = *joinCols; std::unordered_multimap<std::string, themis::BaseEntity> hash;
             auto getFieldStr = [&](const themis::BaseEntity& e, const std::string& col)->std::optional<std::string> { auto v = e.getFieldAsString(col); if (v.has_value()) return v; auto d = e.getFieldAsDouble(col); if (d.has_value()) return std::to_string(*d); return std::nullopt; };
             if (buildLeft) { hash.reserve(leftVec.size()*2+1); for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (k.has_value()) hash.emplace(*k, e); } }
@@ -1569,7 +1569,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             }
                         } else if (varName == "e") {
                             // Iterate over edges; align edge[i] with node[i+1] (to-vertex).
-                            // pathNodes.size() == static_cast<int>(pathEdges.size()) +1 by construction, so the
+                            // static_cast<int>(pathNodes.size()) == static_cast<int>(pathEdges.size()) +1 by construction, so the
                             // node iterator always has a valid next element for each edge.
                             auto nit = pathNodes.begin() + 1; // start at the first 'to' vertex
                             for (const auto& eid2 : pathEdges) {
@@ -1970,7 +1970,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                         // Wähle kleinere Seite für Hash-Index
                         const auto& leftVec = res1.second; const auto& rightVec = res2.second;
-                        bool buildLeft = leftVec.size() <= rightVec.size();
+                        bool buildLeft = static_cast<int>(leftVec.size()) <= rightVec.size();
                         const auto [colLeft, colRight] = *joinCols;
                         std::unordered_multimap<std::string, themis::BaseEntity> hash = {};
 
@@ -3775,7 +3775,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // Serialise once; reuse for both memory check and final response.
         std::string response_body_str = response_body.dump();
         if (resource_limits.max_memory_bytes > 0 &&
-            response_body_str.size() > resource_limits.max_memory_bytes) {
+            static_cast<int>(response_body_str.size()) > resource_limits.max_memory_bytes) {
             return makeErrorResponse(http::status::bad_request,
                 "result memory estimate " + std::to_string(response_body_str.size()) +
                 " bytes exceeds max_memory_bytes limit of " +

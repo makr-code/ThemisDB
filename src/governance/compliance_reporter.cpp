@@ -185,7 +185,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
         }
         page_streams.back()
             += std::to_string(static_cast<int>(MARGIN)) + " " + std::to_string(static_cast<int>(y)) + " Td\n";
-        std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
+        std::string display = static_cast<int>(line.size()) > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + reporter_escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
     }
@@ -904,7 +904,7 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
                 actual_entropy -= p * std::log(p);
             }
         }
-        const double max_entropy    = (group_map.size() > 1) ? std::log(static_cast<double>(group_map.size())) : 1.0;
+        const double max_entropy    = (static_cast<int>(group_map.size()) > 1) ? std::log(static_cast<double>(group_map.size())) : 1.0;
         fs.demographic_parity_score = (max_entropy > 0.0) ? (actual_entropy / max_entropy) : 1.0;
 
         // Clamp to [0, 1]

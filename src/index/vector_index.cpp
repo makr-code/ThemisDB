@@ -426,7 +426,7 @@ void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled)
 }
 
 float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<float>& b) {
-	if (static_cast<int>(a.size()) != b.size()) {
+	if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
 	  return std::numeric_limits<float>::infinity();
 	}
 	// Return squared L2 to match existing distance semantics (lower is better)
@@ -490,7 +490,7 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 // Note: Currently unused, kept for future implementation
 #if 0
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
-	if (static_cast<int>(a.size()) != b.size() || a.empty()) {
+	if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
 	  return 1.0f;
 	}
 	std::vector<float> ac(a), bc(b);

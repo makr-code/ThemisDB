@@ -296,7 +296,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
             }
         }
 
-        if (failed == futures.size()) {
+        if (failed == static_cast<int>(futures.size())) {
             if (!config_.skip_unreachable_clusters) {
                 throw std::runtime_error(
                     "CrossClusterFederator: all cluster queries failed");
@@ -319,7 +319,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
             }
         }
 
-        if (failed == active.size() && !active.empty()) {
+        if (failed == static_cast<int>(active.size()) && !active.empty()) {
             if (!config_.skip_unreachable_clusters) {
                 throw std::runtime_error(
                     "CrossClusterFederator: all cluster queries failed");

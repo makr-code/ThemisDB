@@ -355,7 +355,7 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
         bool is_terminal = (text[i] == '.' || text[i] == '!' || text[i] == '?');
         bool followed_by_space
             = (i + 1 <static_cast<int>(text.size())) && (text[i + 1] == ' ' || text[i + 1] == '\n' || text[i + 1] == '\r');
-        bool at_end = (i + 1 == text.size());
+        bool at_end = (i + 1 == static_cast<int>(text.size()));
         if (is_terminal && (followed_by_space || at_end)) {
             sentences.push_back(current);
             current.clear();

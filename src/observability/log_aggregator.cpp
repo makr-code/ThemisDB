@@ -183,7 +183,7 @@ public:
         // In-process ring buffer
         if (config_.max_retained_entries > 0) {
             buffer_.push_back(entry);
-            while (buffer_.size() > config_.max_retained_entries) {
+            while (static_cast<int>(buffer_.size()) > config_.max_retained_entries) {
                 buffer_.pop_front();
             }
         }

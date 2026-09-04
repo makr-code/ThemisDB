@@ -193,7 +193,7 @@ NodePtr splitLeaf(Node& leaf, std::string& out_pivot) {
 // pivot to the pivot key that moves up.
 NodePtr splitInternal(Node& node, std::string& out_pivot) {
     // Number of children: node.children.size()
-    // Number of pivots: node.pivot_keys.size() == static_cast<int>(node.children.size()) - 1
+    // Number of pivots: static_cast<int>(node.pivot_keys.size()) == static_cast<int>(node.children.size()) - 1
     size_t n_children = node.children.size();
     size_t mid_child  = n_children / 2;
 

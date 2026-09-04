@@ -174,7 +174,7 @@ std::vector<WikipediaTimeSeriesMetric> WikipediaTransform::buildTimeSeriesMetric
 
     metrics.reserve(revisions.size());
     for (const auto& revision : revisions) {
-        const std::string bucket = revision.timestamp.size() >= 10
+        const std::string bucket = static_cast<int>(revision.timestamp.size()) >= 10
             ? revision.timestamp.substr(0, 10)
             : revision.timestamp;
         metrics.push_back({page.page_id, "revisions/day", bucket, 1.0});

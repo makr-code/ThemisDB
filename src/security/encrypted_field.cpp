@@ -146,7 +146,7 @@ std::string EncryptedField<std::vector<float>>::serialize(const std::vector<floa
 
 template<>
 std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::string& str) {
-    if ([[maybe_unused]] str.size() < sizeof(uint32_t)) {
+    if ([[maybe_unused]] static_cast<int>(str.size()) < sizeof(uint32_t)) {
         throw DecryptionException("Invalid vector serialization: too short");
     }
     

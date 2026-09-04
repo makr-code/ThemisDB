@@ -221,7 +221,7 @@ std::vector<int> LigraProcessor::parallel_bfs(
     current.add(start_vertex);
     
     int level = 0;
-    while (current.size() > 0) {
+    while (static_cast<int>(current.size()) > 0) {
         level++;
         
         // EdgeMap: visit all neighbors of current frontier

@@ -1526,7 +1526,7 @@ std::string makeTempDirPath() {
 /// Returns true when safe; false when the path escapes the temp dir.
 ///
 /// Precondition: resolvedPath was produced by lexically_normal() on
-/// (tempDir / non_empty_name), so resolvedStr.size() > static_cast<int>(tempStr.size()) is
+/// (tempDir / non_empty_name), so static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()) is
 /// guaranteed for valid in-directory entries, making the separator access safe.
 bool isSafeEntryPath(const std::filesystem::path& tempDir,
                      const std::filesystem::path& resolvedPath) {
@@ -1540,7 +1540,7 @@ bool isSafeEntryPath(const std::filesystem::path& tempDir,
     if (resolvedStr.substr(0,static_cast<int>(tempStr.size())) != tempStr) {
       return false;
     }
-    // At this point resolvedStr.size() > static_cast<int>(tempStr.size()) ensures safe access.
+    // At this point static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()) ensures safe access.
     char sep = resolvedStr[static_cast<int>(tempStr.size())];
     return sep == '/' || sep == '\\';
 }
@@ -1794,7 +1794,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
         }
 #endif
         // Normalise the entry path and check it stays inside tempDirCanon.
-        // isSafeEntryPath requires resolvedStr.size() > static_cast<int>(tempStr.size()), which is
+        // isSafeEntryPath requires static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()), which is
         // guaranteed here because entryName is non-empty (checked above).
         fs::path entryPath = (tempDirCanon / nameStr).lexically_normal();
         if (!isSafeEntryPath(tempDirCanon, entryPath)) {

@@ -52,7 +52,7 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
             try {
                 std::size_t pos = 0;
                 long long i = std::stoll(s, &pos);
-                if (pos == s.size()) {
+                if (pos == static_cast<int>(s.size())) {
                   return i;
                 }
             } catch (const std::invalid_argument &) {
@@ -64,7 +64,7 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
             try {
                 std::size_t pos = 0;
                 double d = std::stod(s, &pos);
-                if (pos == s.size()) {
+                if (pos == static_cast<int>(s.size())) {
                   return d;
                 }
             } catch (const std::invalid_argument &) {

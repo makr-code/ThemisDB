@@ -401,7 +401,7 @@ public:
         {
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             if (config_.max_subagents > 0 && 
-                subagents_.size() >= config_.max_subagents) {
+                static_cast<int>(subagents_.size()) >= config_.max_subagents) {
                 return tl::make_unexpected(std::string("Maximum subagents limit reached"));
             }
             if (subagents_.count(config.id) > 0) {

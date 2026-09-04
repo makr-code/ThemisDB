@@ -3231,7 +3231,7 @@ namespace {
         static constexpr std::string_view kSilenceSuffix{"/silence"};
         if (method == http::verb::post &&
             path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kAlertsPrefix.size()) + static_cast<int>(kSilenceSuffix.size()) &&
+            static_cast<int>(path_only.size()) > static_cast<int>(kAlertsPrefix.size()) + static_cast<int>(kSilenceSuffix.size()) &&
             path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kSilenceSuffix.size()) ) == kSilenceSuffix) {
             return Route::ObservabilityAlertSilencePost;
         }
@@ -3394,12 +3394,12 @@ namespace {
     }
     // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
-        path_only.size() > 23 &&
+        static_cast<int>(path_only.size()) > 23 &&
         path_only.rfind("/stats") == static_cast<int>(path_only.size()) - 6 &&
         method == http::verb::get) return Route::AdminCacheTenantStatsGet;
     // /v1/admin/cache/tenant/{id}/quota must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
-        path_only.size() > 23 &&
+        static_cast<int>(path_only.size()) > 23 &&
         path_only.rfind("/quota") == static_cast<int>(path_only.size()) - 6 &&
         method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) {
@@ -3443,14 +3443,14 @@ namespace {
       return Route::AdminModulesGet;
     }
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        path_only.size() > 18 &&
+        static_cast<int>(path_only.size()) > 18 &&
         path_only.rfind("/load") == static_cast<int>(path_only.size()) - 5 &&
         method == http::verb::post) return Route::AdminModulesLoadPost;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        path_only.size() > 18 &&
+        static_cast<int>(path_only.size()) > 18 &&
         method == http::verb::delete_) return Route::AdminModulesUnloadDelete;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        path_only.size() > 18 &&
+        static_cast<int>(path_only.size()) > 18 &&
         method == http::verb::get) return Route::AdminModuleStatusGet;
     if (target == "/prompt_template" && method == http::verb::post) {
       return Route::PromptTemplatePost;
@@ -3835,7 +3835,7 @@ namespace {
         const std::string task_prefix = "/api/v1/bpmn/task/";
         const std::string complete_suffix = "/complete";
         if (path_only.rfind(task_prefix, 0) == 0 &&
-            path_only.size() > static_cast<int>(task_prefix.size()) + static_cast<int>(complete_suffix.size()) &&
+            static_cast<int>(path_only.size()) > static_cast<int>(task_prefix.size()) + static_cast<int>(complete_suffix.size()) &&
             path_only.compare(static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ,static_cast<int>(complete_suffix.size()), complete_suffix) == 0) {
             // Ensure there is a non-empty taskId segment between prefix and suffix
             const std::size_t task_id_start = task_prefix.size();
@@ -4085,7 +4085,7 @@ namespace {
     // MVCC versioning API endpoints
     // Note: /versions suffix checked first to avoid matching it as a key named "versions"
     if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
-        path_only.size() > 18 &&
+        static_cast<int>(path_only.size()) > 18 &&
         path_only.rfind("/versions") == static_cast<int>(path_only.size()) - 9) {
         if (method == http::verb::get) {
           return Route::MvccKeyVersionsGet;
@@ -4120,7 +4120,7 @@ namespace {
     {
         static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
         if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kGrpcWebPrefix.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kGrpcWebPrefix.size())) {
             if (method == http::verb::options) {
               return Route::GrpcWebOptions;
             }
@@ -4143,7 +4143,7 @@ namespace {
         static constexpr std::string_view kInvokeSuffix{"/invoke"};
         if (method == http::verb::post &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kInvokeSuffix.size()) &&
+            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kInvokeSuffix.size()) &&
             path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kInvokeSuffix.size()) ) == kInvokeSuffix)
             return Route::ServerlessFnInvokePost;
 
@@ -4151,13 +4151,13 @@ namespace {
         static constexpr std::string_view kVersionsSuffix{"/versions"};
         if (method == http::verb::get &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kVersionsSuffix.size()) &&
+            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kVersionsSuffix.size()) &&
             path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kVersionsSuffix.size()) ) == kVersionsSuffix)
             return Route::ServerlessFnVersionsGet;
 
         // /api/v1/functions/{id}  (GET / PUT / DELETE)
         if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kFnInvokePrefix.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size())) {
             if (method == http::verb::get) {
               return Route::ServerlessFnGet;
             }
@@ -4184,7 +4184,7 @@ namespace {
             }
         }
         if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kJobsPrefix.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kJobsPrefix.size())) {
             if (method == http::verb::get) {
               return Route::AsyncJobStatusGet;
             }
@@ -4253,7 +4253,7 @@ namespace {
     {
         static constexpr std::string_view kUdfPrefix{"/api/v1/query/udfs/"};
         if (path_only.rfind(kUdfPrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kUdfPrefix.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kUdfPrefix.size())) {
             if (method == http::verb::get) {
               return Route::UdfGet;
             }
@@ -4281,7 +4281,7 @@ namespace {
     {
         static constexpr std::string_view kTasksPrefix{"/api/tasks/"};
         if (path_only.rfind(kTasksPrefix.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kTasksPrefix.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kTasksPrefix.size())) {
             std::string rest = path_only.substr(kTasksPrefix.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4342,7 +4342,7 @@ namespace {
         }
         // /api/v1/maintenance/schedules/{id}[/run]
         if (path_only.rfind(kMaintSchedulesPfx.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kMaintSchedulesPfx.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kMaintSchedulesPfx.size())) {
             std::string rest = path_only.substr(kMaintSchedulesPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4371,7 +4371,7 @@ namespace {
             return Route::MaintenanceJobsGet;
         // /api/v1/maintenance/jobs/{id}[/cancel]
         if (path_only.rfind(kMaintJobsPfx.data(), 0) == 0 &&
-            path_only.size() > static_cast<int>(kMaintJobsPfx.size())) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kMaintJobsPfx.size())) {
             std::string rest = path_only.substr(kMaintJobsPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4396,7 +4396,7 @@ namespace {
             }
         }
         if (path_only.rfind("/api/retention/policies/", 0) == 0 &&
-            path_only.size() > 24) {
+            static_cast<int>(path_only.size()) > 24) {
             if (method == http::verb::delete_) {
               return Route::RetentionPolicyDelete;
             }
@@ -4410,7 +4410,7 @@ namespace {
         if (path_only == "/api/saga/flush" && method == http::verb::post)
             return Route::SAGAFlushPost;
         if (path_only.rfind("/api/saga/batches/", 0) == 0 &&
-            path_only.size() > 18) {
+            static_cast<int>(path_only.size()) > 18) {
             std::string rest = path_only.substr(18);
             auto slash_pos = rest.find('/');
             if (slash_pos == std::string::npos) {
@@ -4459,13 +4459,13 @@ namespace {
         // ── AI Safety Layer — HILG Approval endpoints (ASL-6) ──────────────
         // POST /v1/ai/approve/{operation_id}
         if (path_only.rfind("/v1/ai/approve/", 0) == 0 &&
-            path_only.size() > 15 &&
+            static_cast<int>(path_only.size()) > 15 &&
             method == http::verb::post) {
             return Route::AiApprovePendingPost;
         }
         // POST /v1/ai/deny/{operation_id}
         if (path_only.rfind("/v1/ai/deny/", 0) == 0 &&
-            path_only.size() > 12 &&
+            static_cast<int>(path_only.size()) > 12 &&
             method == http::verb::post) {
             return Route::AiDenyPendingPost;
         }
@@ -4476,7 +4476,7 @@ namespace {
         }
         // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
         if (path_only.rfind("/v1/ai/rollback/", 0) == 0 &&
-            path_only.size() > 16 &&
+            static_cast<int>(path_only.size()) > 16 &&
             method == http::verb::post) {
             return Route::AiRollbackPost;
         }
@@ -7844,9 +7844,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             const auto route_method = req.method();
-            const bool has_invoke  = fn_path.size() > 7 &&
+            const bool has_invoke  = static_cast<int>(fn_path.size()) > 7 &&
                 fn_path.substr(static_cast<int>(fn_path.size()) - 7) == "/invoke";
-            const bool has_versions = fn_path.size() > 9 &&
+            const bool has_versions = static_cast<int>(fn_path.size()) > 9 &&
                 fn_path.substr(static_cast<int>(fn_path.size()) - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);

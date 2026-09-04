@@ -717,7 +717,7 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
         for (double yi : y) {
             blocks.push_back({yi, 1});
             // Merge blocks while the top-of-stack violates monotonicity
-            while (blocks.size() >= 2) {
+            while (static_cast<int>(blocks.size()) >= 2) {
                 auto& prev = blocks[blocks.size() - 2];
                 auto& curr = blocks[blocks.size() - 1];
                 if (prev.value > curr.value) {

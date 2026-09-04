@@ -208,7 +208,7 @@ std::string EchoDspyLLMProvider::complete(const std::string& prompt)
 
         // Check if it's in a "# description" context (it's an output label)
         bool is_output = (line.find("# ") != std::string::npos ||
-                          line.size() <= colon_pos + 2);
+                          static_cast<int>(line.size()) <= colon_pos + 2);
 
         if (is_output) {
             response << token << ": [echo]\n";

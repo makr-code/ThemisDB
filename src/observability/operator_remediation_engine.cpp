@@ -488,7 +488,7 @@ public:
                         active_hints_.push_back(hint);
 
                         // Limit active hints
-                        while (active_hints_.size() > kMaxActiveRemediationHints) {
+                        while (static_cast<int>(active_hints_.size()) > kMaxActiveRemediationHints) {
                             active_hints_.erase(active_hints_.begin());
                         }
                     }

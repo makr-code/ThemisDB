@@ -120,7 +120,7 @@ std::vector<VoiceProfile> VoiceTTSCustomizer::getProfilesForLanguage(const std::
 
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang ||
-            (p.language.size() >= 2 && static_cast<int>(lang.size()) >= 2 &&
+            (static_cast<int>(p.language.size()) >= 2 && static_cast<int>(lang.size()) >= 2 &&
              p.language.substr(0, 2) == lang.substr(0, 2))) {
             result.push_back(p);
         }
@@ -646,7 +646,7 @@ bool VoiceTTSCustomizer::supportsLanguage(const std::string& lang_code) const {
     // Check profile languages
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang_code ||
-            (p.language.size() >= 2 && static_cast<int>(lang_code.size()) >= 2 &&
+            (static_cast<int>(p.language.size()) >= 2 && static_cast<int>(lang_code.size()) >= 2 &&
              p.language.substr(0, 2) == lang_code.substr(0, 2))) {
             return true;
         }

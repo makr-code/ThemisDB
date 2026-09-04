@@ -633,7 +633,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     result.success = (success_count.load() > 0);
     if (failure_count.load() > 0 && success_count.load() > 0) {
         result.status = "partial_success";
-    } else if (failure_count.load() == shards.size()) {
+    } else if (failure_count.load() == static_cast<int>(shards.size())) {
         result.success = false;
         result.status = "failed";
         result.error_message = "All shard operations failed";
@@ -690,7 +690,7 @@ void CloudAgent::cleanupOldOperations() {
     
     // Remove completed operations when exceeding the configured threshold
     const size_t max_history = config_.max_completed_operations_history;
-    while (completed_operations_.size() > max_history) {
+    while (static_cast<int>(completed_operations_.size()) > max_history) {
         completed_operations_.erase(completed_operations_.begin());
     }
 }

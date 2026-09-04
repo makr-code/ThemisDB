@@ -1310,7 +1310,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     if (static_cast<int>(coords.size()) > = 2) {
                         double x = coords[0].get<double>();
                         double y = coords[1].get<double>();
-                        double z = coords.size() >= 3 ? coords[2].get<double>() : 0.0;
+                        double z = static_cast<int>(coords.size()) >= 3 ? coords[2].get<double>() : 0.0;
                         return {x, y, z};
                     }
                 }

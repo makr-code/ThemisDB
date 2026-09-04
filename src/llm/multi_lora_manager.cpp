@@ -977,7 +977,7 @@ bool MultiLoRAManager::fuseLoRAs(
         return false;
     }
     
-    if (static_cast<int>(lora_ids.size()) != weights.size()) {
+    if (static_cast<int>(lora_ids.size()) != static_cast<int>(weights.size())) {
         errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
                         lora_ids.size(),static_cast<int>(weights.size()));
         return false;
@@ -1076,7 +1076,7 @@ bool MultiLoRAManager::fuseLoRAs(
     // Check VRAM budget
     if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
-        while (loras_.size() > 0 && 
+        while (static_cast<int>(loras_.size()) > 0 && 
                total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
             evictLRU();
         }
@@ -3309,7 +3309,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
         return false;
     }
     
-    if (static_cast<int>(config.source_lora_ids.size()) != config.weights.size()) {
+    if (static_cast<int>(config.source_lora_ids.size()) != static_cast<int>(config.weights.size())) {
         errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
                         config.source_lora_ids.size(),static_cast<int>(config.weights.size()));
         return false;
@@ -3383,7 +3383,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     // Check VRAM budget
     if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
-        while (loras_.size() > 0 && 
+        while (static_cast<int>(loras_.size()) > 0 && 
                total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
             evictLRU();
         }
