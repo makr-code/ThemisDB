@@ -10,7 +10,7 @@
 mkdocs==1.6.1
 
 # Material theme
-mkdocs-material==9.7.6
+mkdocs-material==9.7.7
 
 # PDF export plugin (requires ENABLE_PDF_EXPORT=1 to activate)
 mkdocs-with-pdf==0.9.3
