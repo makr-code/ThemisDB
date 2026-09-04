@@ -58,10 +58,10 @@ bool isLikelyValidBase64PathToken(std::string_view value) {
         }
 
         // Keep the encoded token in a single path segment.
-        if (!((c >= 'A' && c <= 'Z') ||
+        if (!(((c >= 'A' && c <= 'Z') ||
               (c >= 'a' && c <= 'z') ||
               (c >= '0' && c <= '9') ||
-              c == '+' || c == '-' || c == '_')) {
+              c == '+' || c == '-' || c == '_'))) {
             return false;
         }
     }

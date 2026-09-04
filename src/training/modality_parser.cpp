@@ -77,7 +77,7 @@ static bool isPipeTableRow(const std::string& line) {
     if (t.empty()) {
       return false;
     }
-    return ((t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2);
+    return (((t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2));
 }
 
 // Return true if the line consists primarily of dashes (table separator)

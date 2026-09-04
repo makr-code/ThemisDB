@@ -41,10 +41,10 @@ bool isLikelyValidBase64(std::string_view value) {
 
     return std::all_of(value.begin(), value.end(), [](char ch) {
         const unsigned char c = static_cast<unsigned char>(ch);
-        return (c >= 'A' && c <= 'Z') ||
+        return (((c >= 'A' && c <= 'Z') ||
                (c >= 'a' && c <= 'z') ||
                (c >= '0' && c <= '9') ||
-               c == '+' || c == '/' || c == '=';
+               c == '+' || c == '/' || c == '='));
     });
 }
 
