@@ -32,7 +32,7 @@ public:
     
     struct OllamaConfig {
         bool enabled = false;
-        std::string models_dir;
+        std::string models_dir = {};
         std::map<std::string, std::string> model_hashes;
     };
     
@@ -112,7 +112,7 @@ public:
         
         bool isCUDA() const { return type == "cuda"; }
         bool isHIP() const { return type == "hip"; }
-        bool isAvailable() const { return enabled && (isCUDA() || isHIP()); }
+        bool isAvailable() const { return (enabled && (isCUDA() || isHIP())); }
     };
     
     struct TestExecutionConfig {

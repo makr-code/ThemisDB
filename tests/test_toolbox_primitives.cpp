@@ -73,7 +73,7 @@ namespace {
 std::string makeLongText(std::size_t approx_chars = 3000) {
     const std::string sentence =
         "The quick brown fox jumps over the lazy dog near the riverbank. ";
-    std::string result;
+    std::string result = {};
     result.reserve(approx_chars + sentence.size());
     while (result.size() < approx_chars) {
         result += sentence;
@@ -250,7 +250,7 @@ TEST(TextQualityScorerTest, TQS03_TokenCountForSimpleText) {
 
 TEST(TextQualityScorerTest, TQS04_BoilerplateRepeatedWords) {
     // 20 repetitions of the same word → repetition_ratio = 1 - (1/20) = 0.95
-    std::string repeated;
+    std::string repeated = {};
     for (int i = 0; i < 20; ++i) { repeated += "foo "; }
     auto score = themis::toolbox::scoreText(repeated);
     EXPECT_TRUE(score.has_boilerplate);

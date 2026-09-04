@@ -39,7 +39,9 @@ static std::vector<float> makeRandom(std::size_t n, unsigned seed = 42) {
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -51,9 +53,15 @@ static std::vector<float> makeLowRank3D(std::size_t m, std::size_t r,
     std::vector<float> T(m * m * m, 0.0f);
     for (std::size_t k = 0; k < r; ++k) {
         std::vector<float> u(m), v(m), w(m);
-        for (auto& x : u) x = dist(rng);
-        for (auto& x : v) x = dist(rng);
-        for (auto& x : w) x = dist(rng);
+        for (auto& x : u) {
+          x = dist(rng);
+        }
+        for (auto& x : v) {
+          x = dist(rng);
+        }
+        for (auto& x : w) {
+          x = dist(rng);
+        }
         for (std::size_t i = 0; i < m; ++i)
             for (std::size_t j = 0; j < m; ++j)
                 for (std::size_t l = 0; l < m; ++l)

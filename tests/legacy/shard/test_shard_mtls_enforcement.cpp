@@ -23,13 +23,15 @@ using namespace themis::sharding;
 // ─── Helper: RAII environment variable setter ──────────────────────────────
 struct ScopedEnv {
     const char* name;
-    std::string previous;
-    bool had_previous;
+    std::string previous = {};
+    bool had_previous = {};
 
     ScopedEnv(const char* n, const char* v) : name(n) {
         const char* prev = getenv(n);
         had_previous = (prev != nullptr);
-        if (prev) previous = prev;
+        if (prev) {
+          previous = prev;
+        }
 #ifdef _WIN32
         _putenv_s(n, v);
 #else

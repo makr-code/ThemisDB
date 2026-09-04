@@ -41,7 +41,7 @@ std::string toISO8601Engine(std::chrono::system_clock::time_point tp) {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -272,7 +272,9 @@ AlertingEngine::AlertingEngine(std::shared_ptr<Alertmanager> backend)
 // --- Channel management ------------------------------------------------------
 
 void AlertingEngine::addChannel(std::shared_ptr<INotificationChannel> channel) {
-    if (!channel) return;
+    if (!channel) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(channels_mutex_);
     channels_.push_back(std::move(channel));
 }
@@ -289,7 +291,7 @@ std::vector<std::shared_ptr<INotificationChannel>> AlertingEngine::channels() co
 
 size_t AlertingEngine::channelCount() const {
     std::lock_guard<std::mutex> lock(channels_mutex_);
-    return channels_.size();
+    return static_cast<int>(channels_.size());
 }
 
 // --- Predefined rules --------------------------------------------------------
@@ -382,7 +384,9 @@ void AlertingEngine::loadDefaultRules() {
 
     for (const auto& def : kDefaults) {
         // Skip if already registered (idempotent).
-        if (rule_manager_.getRule(def.rule_id).has_value()) continue;
+        if (rule_manager_.getRule(def.rule_id).has_value()) {
+          continue;
+        }
 
         AlertRule rule;
         rule.rule_id          = def.rule_id;
@@ -418,7 +422,8 @@ Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
         snapshot = channels_;
     }
 
-    std::vector<std::string> failures;
+    std::vector<std::string> failures = {};
+
     for (const auto& ch : snapshot) {
         auto res = ch->send(alert);
         if (!res.has_value()) {
@@ -429,7 +434,7 @@ Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
     }
 
     if (!failures.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (size_t i = 0; i < failures.size(); ++i) {
             if (i != 0) {
                 oss << "; ";

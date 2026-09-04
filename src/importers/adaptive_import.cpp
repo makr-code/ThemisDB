@@ -52,7 +52,8 @@ AdaptiveImportOptimizer::topologicalSort(const std::vector<InferenceTableSchema>
         }
     }
 
-    std::set<std::string> visited;
+    std::set<std::string> visited = {};
+
     while (!ready.empty()) {
         std::string t = *ready.begin();
         ready.erase(ready.begin());
@@ -151,7 +152,7 @@ AdaptiveImportOptimizer::PredictedMetrics AdaptiveImportOptimizer::PerformancePr
     for (const auto &table_name : plan.import_order) {
         // Find schema
         auto sit = std::find_if(schemas.begin(), schemas.end(),
-                                [&](const InferenceTableSchema &s) { return s.name == table_name; });
+                                [&]([[maybe_unused]] const InferenceTableSchema &s) { return s.name == table_name; });
         if (sit == schemas.end()) {
             continue;
         }

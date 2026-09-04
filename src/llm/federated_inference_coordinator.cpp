@@ -57,10 +57,11 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
 
     // Resolve all shards up front so per-instance futures do not need locks.
     struct DispatchItem {
-        std::string instance_id;
+        std::string instance_id = {};
         std::optional<sharding::ShardInfo> shard;
     };
-    std::vector<DispatchItem> items;
+    std::vector<DispatchItem> items = {};
+
     items.reserve(instance_ids.size());
     for (const auto& id : instance_ids) {
         items.push_back({id, resolveShard(id)});
@@ -101,7 +102,8 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
         std::chrono::steady_clock::now() +
         std::chrono::milliseconds(config_.per_instance_timeout_ms);
 
-    std::vector<FanOutInstanceResult> results;
+    std::vector<FanOutInstanceResult> results = {};
+
     results.reserve(futures.size());
 
     for (size_t i = 0; i < futures.size(); ++i) {
@@ -225,7 +227,7 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
         }
 
         // Exponential back-off before retry.
-        const uint32_t delay_ms = config_.retry_base_delay_ms * (1u << (attempt - 1));
+        const uint32_t delay_ms = config_.retry_base_delay_ms * (1 << (attempt - 1));
         spdlog::debug("FederatedInferenceCoordinator: instance '{}' attempt {} failed "
                       "({}); retrying in {} ms",
                       instance_id, attempt, remote_result.error, delay_ms);

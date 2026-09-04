@@ -155,7 +155,7 @@ TEST_F(RollbackHardeningTest, ADD_07_PartialRollbackFallbackDefer) {
 // ADD-08: Rollback callback invocation
 TEST_F(RollbackHardeningTest, ADD_08_RollbackCallbackInvocation) {
     std::atomic<int> callback_count{0};
-    std::string callback_result;
+    std::string callback_result = {};
     
     state_machine_.setRollbackCallback([&](CheckpointId id, bool success, const std::string& err) {
         ++callback_count;

@@ -113,7 +113,9 @@ private:
                 std::this_thread::sleep_for(std::chrono::seconds(1));
             }
             
-            if (!running_) break;
+            if (!running_) {
+              break;
+            }
             
             // Run HSM security check
             hsm_.periodicSecurityCheck();

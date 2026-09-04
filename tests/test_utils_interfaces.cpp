@@ -160,7 +160,8 @@ protected:
 };
 
 TEST_F(PIIStreamDetectorTest, DetectOnEmptyChunkReturnsNoPII) {
-    std::vector<std::byte> empty;
+    std::vector<std::byte> empty = {};
+
     auto result = detector_->detect({empty.data(), empty.size()});
     EXPECT_FALSE(result.containsPII);
     EXPECT_EQ(result.spanCount, 0u);

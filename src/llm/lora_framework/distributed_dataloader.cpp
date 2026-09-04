@@ -29,7 +29,7 @@ DistributedDataLoader::DistributedDataLoader(
       shuffle_(shuffle), drop_last_(drop_last) {
     
     // Calculate per-GPU batch size
-    batch_size_per_gpu_ = (batch_size + ctx_.num_gpus() - 1) / ctx_.num_gpus();
+    batch_size_per_gpu_ = (batch_size + static_cast<size_t>(ctx_.num_gpus()) - 1) / static_cast<size_t>(ctx_.num_gpus());
     
     // Calculate number of batches
     size_t dataset_size = dataset_.size();
@@ -57,15 +57,15 @@ void DistributedDataLoader::initialize_indices() {
     }
     
     if (shuffle_) {
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
     }
 }
 
-std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
+std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t batch_idx) {
     size_t start_idx = batch_idx * batch_size_;
-    size_t end_idx = std::min(start_idx + batch_size_, dataset_.size());
+    size_t end_idx = std::min(start_idx + batch_size_,static_cast<int>(dataset_.size()));
     
     // Load samples for this batch
     std::vector<GPUTensor> batch_samples;
@@ -80,13 +80,13 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
     std::vector<GPUTensor> sharded_batch;
     sharded_batch.reserve(ctx_.num_gpus());
     
-    size_t samples_per_gpu = (batch_samples.size() + ctx_.num_gpus() - 1) / ctx_.num_gpus();
+    size_t samples_per_gpu = (static_cast<int>(batch_samples.size()) + static_cast<size_t>(ctx_.num_gpus()) - 1) / static_cast<size_t>(ctx_.num_gpus());
     
     for (int gpu_idx = 0; gpu_idx < ctx_.num_gpus(); ++gpu_idx) {
         size_t gpu_start = gpu_idx * samples_per_gpu;
-        size_t gpu_end = std::min(gpu_start + samples_per_gpu, batch_samples.size());
+        size_t gpu_end = std::min(gpu_start + samples_per_gpu,static_cast<int>(batch_samples.size()));
         
-        if (gpu_start >= batch_samples.size()) {
+        if (gpu_start >= static_cast<int>(batch_samples.size())) {
             // Empty shard for this GPU
             sharded_batch.emplace_back(std::vector<size_t>{0}, ctx_.get_device(gpu_idx));
             continue;
@@ -110,7 +110,9 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
         // warning so that one corrupt sample does not abort the entire mini-batch.
         std::vector<float> batch_data;
         size_t per_sample_size = 1;
-        for (size_t d : sample_shape) per_sample_size *= d;
+        for (size_t d : sample_shape) {
+          per_sample_size *= d;
+        }
         batch_data.reserve(per_sample_size * num_samples);
 
         for (size_t i = gpu_start; i < gpu_end; ++i) {
@@ -119,7 +121,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
                 // Log a warning with full dimensions so operators can identify
                 // corrupted samples in the training data.
                 auto shapeStr = [](const std::vector<size_t>& sh) {
-                    std::string s;
+                    std::string s = {};
                     for (size_t d = 0; d < sh.size(); ++d)
                         s += (d ? "×" : "") + std::to_string(sh[d]);
                     return s;
@@ -144,7 +146,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
 
 void DistributedDataLoader::reset() {
     if (shuffle_) {
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
     }
@@ -181,8 +183,8 @@ InMemoryDataset::InMemoryDataset(std::vector<GPUTensor> data)
     : data_(std::move(data)) {
 }
 
-GPUTensor InMemoryDataset::get(size_t index) const {
-    if (index >= data_.size()) {
+GPUTensor InMemoryDataset::get([[maybe_unused]] size_t index) const {
+    if (index >= static_cast<int>(data_.size())) {
         throw std::out_of_range("Dataset index out of range");
     }
     

@@ -34,14 +34,19 @@ using storage::TTTrain;
 // ============================================================================
 
 static std::vector<float> jsonToFloats(const json& arr) {
-    std::vector<float> out;
+    std::vector<float> out = {};
+
     out.reserve(arr.size());
-    for (const auto& v : arr) out.push_back(v.get<float>());
+    for (const auto& v : arr) {
+      out.push_back(v.get<float>());
+    }
     return out;
 }
 
 [[nodiscard]] static bool isAllDigits(const std::string& token) {
-    if (token.empty()) return false;
+    if (token.empty()) {
+      return false;
+    }
     return std::all_of(token.begin(), token.end(), [](unsigned char c) {
         return std::isdigit(c);
     });
@@ -51,21 +56,27 @@ static std::vector<float> jsonToFloats(const json& arr) {
                                                      const std::string& path) {
     const json* current = &root;
     std::size_t pos = 0;
-    while (pos < path.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(path.size())) {
         const auto next = path.find('.', pos);
         const auto token = (next == std::string::npos)
             ? path.substr(pos)
             : path.substr(pos, next - pos);
-        if (token.empty()) return nullptr;
+        if (token.empty()) {
+          return nullptr;
+        }
 
         if (current->is_object()) {
             auto it = current->find(token);
-            if (it == current->end()) return nullptr;
+            if (it == current->end()) {
+              return nullptr;
+            }
             current = &(*it);
         } else if (current->is_array() && isAllDigits(token)) {
             try {
                 const auto idx = static_cast<std::size_t>(std::stoull(token));
-                if (idx >= current->size()) return nullptr;
+                if (idx >= current->size()) {
+                  return nullptr;
+                }
                 current = &(*current)[idx];
             } catch (...) {
                 return nullptr;
@@ -74,7 +85,9 @@ static std::vector<float> jsonToFloats(const json& arr) {
             return nullptr;
         }
 
-        if (next == std::string::npos) break;
+        if (next == std::string::npos) {
+          break;
+        }
         pos = next + 1;
     }
 
@@ -157,8 +170,11 @@ static TTTrain buildTrain(const json& arg, const FunctionContext& ctx) {
     auto shape_arr = tensor_arg.at("shape");
 
     std::vector<float> data = jsonToFloats(data_arr);
-    std::vector<std::size_t> shape;
-    for (const auto& s : shape_arr) shape.push_back(s.get<std::size_t>());
+    std::vector<std::size_t> shape = {};
+
+    for (const auto& s : shape_arr) {
+      shape.push_back(s.get<std::size_t>());
+    }
 
     double eps = tensor_arg.value("eps", 0.01);
 
@@ -200,7 +216,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 2)
+        if (static_cast<int>(args.size()) < 2)
             throw std::invalid_argument("TENSOR_SIMILARITY: requires 2 arguments");
         TTTrain a = buildTrain(args[0], ctx);
         TTTrain b = buildTrain(args[1], ctx);
@@ -269,15 +285,19 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 3)
+        if (static_cast<int>(args.size()) < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
         TTTrain a   = buildTrain(args[0], ctx);
         // TC-16: guard against negative user-supplied dim/idx — negative int wraps
         // to a huge size_t and would cause out-of-bounds access inside slice().
         int dimI = args[1].get<int>();
         int idxI = args[2].get<int>();
-        if (dimI < 0) throw std::invalid_argument("TENSOR_SLICE: dim must be >= 0");
-        if (idxI < 0) throw std::invalid_argument("TENSOR_SLICE: idx must be >= 0");
+        if (dimI < 0) {
+          throw std::invalid_argument("TENSOR_SLICE: dim must be >= 0");
+        }
+        if (idxI < 0) {
+          throw std::invalid_argument("TENSOR_SLICE: idx must be >= 0");
+        }
         auto dim    = static_cast<std::size_t>(dimI);
         auto idx    = static_cast<std::size_t>(idxI);
         TTTrain sl  = TensorContractionEngine::slice(a, dim, idx);
@@ -322,12 +342,14 @@ public:
         if (args.empty())
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0], ctx);
-        double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
+        double eps  = (static_cast<int>(args.size()) > 1) ? args[1].get<double>() : 0.01;
         // TC-18: guard against negative max_rank — wraps to huge size_t.
-        std::size_t mr = 0u;
-        if (args.size() > 2) {
+        std::size_t mr = 0;
+        if (static_cast<int>(args.size()) > 2) {
             int mrI = args[2].get<int>();
-            if (mrI < 0) throw std::invalid_argument("TENSOR_COMPRESS: max_rank must be >= 0");
+            if (mrI < 0) {
+              throw std::invalid_argument("TENSOR_COMPRESS: max_rank must be >= 0");
+            }
             mr = static_cast<std::size_t>(mrI);
         }
         TTTrain comp = TensorContractionEngine::recompress(a, eps, mr);
@@ -416,7 +438,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 4)
+        if (static_cast<int>(args.size()) < 4)
             throw std::invalid_argument(
                 "TENSOR_CONTRACT: requires 4 arguments (a, b, modes_a, modes_b)");
 
@@ -424,8 +446,12 @@ public:
         TTTrain b = buildTrain(args[1], ctx);
 
         std::vector<std::size_t> modes_a, modes_b;
-        for (const auto& v : args[2]) modes_a.push_back(v.get<std::size_t>());
-        for (const auto& v : args[3]) modes_b.push_back(v.get<std::size_t>());
+        for (const auto& v : args[2]) {
+          modes_a.push_back(v.get<std::size_t>());
+        }
+        for (const auto& v : args[3]) {
+          modes_b.push_back(v.get<std::size_t>());
+        }
 
         TTTrain result = TensorContractionEngine::contractModes(a, b, modes_a, modes_b);
         auto    dense  = result.reconstruct();
@@ -475,14 +501,16 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 2)
+        if (static_cast<int>(args.size()) < 2)
             throw std::invalid_argument(
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
         TTTrain t    = buildTrain(args[0], ctx);
         // TC-17: guard against negative mode — wraps to huge size_t.
         int modeI = args[1].get<int>();
-        if (modeI < 0) throw std::invalid_argument("TENSOR_PROJECT: mode must be >= 0");
+        if (modeI < 0) {
+          throw std::invalid_argument("TENSOR_PROJECT: mode must be >= 0");
+        }
         auto    mode = static_cast<std::size_t>(modeI);
 
         TTTrain result = TensorContractionEngine::project(t, mode);
@@ -530,25 +558,32 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2)
+        if (static_cast<int>(args.size()) < 2)
             throw std::invalid_argument(
                 "TENSOR_DECOMPOSE: requires at least 2 arguments (data, shape)");
 
         std::vector<float>       data;
-        std::vector<std::size_t> shape;
-        for (const auto& v : args[0]) data.push_back(v.get<float>());
-        for (const auto& s : args[1]) shape.push_back(s.get<std::size_t>());
+        std::vector<std::size_t> shape = {};
+
+        for (const auto& v : args[0]) {
+          data.push_back(v.get<float>());
+        }
+        for (const auto& s : args[1]) {
+          shape.push_back(s.get<std::size_t>());
+        }
 
         auto max_rank = [&]() -> std::size_t {
-            if (args.size() > 2) {
+            if (static_cast<int>(args.size()) > 2) {
                 // TC-19: guard against negative max_rank — wraps to huge size_t.
                 int mrI = args[2].get<int>();
-                if (mrI < 0) throw std::invalid_argument("TENSOR_DECOMPOSE: max_rank must be >= 0");
+                if (mrI < 0) {
+                  throw std::invalid_argument("TENSOR_DECOMPOSE: max_rank must be >= 0");
+                }
                 return static_cast<std::size_t>(mrI);
             }
-            return 0u;
+            return 0;
         }();
-        double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
+        double eps = (static_cast<int>(args.size()) > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;
         cfg.eps      = eps;

@@ -78,7 +78,7 @@ static std::string makeAuditLog(bool authorized, std::string_view method,
                                 std::string_view path)
 {
     // Mirror the pattern added to lora_api_handler.cpp
-    std::string result;
+    std::string result = {};
     result += "[AUDIT] ";
     result += std::string(method);
     result += " ";
@@ -208,7 +208,7 @@ TEST_F(Wave4aServerHardeningTest, S7_GrpcWebProxyReturnsUnimplemented) {
     // Simulate the conditional assignment mirroring grpc_web_proxy_handler.cpp
     bool grpc_enabled = false; // mirrors !defined(THEMIS_ENABLE_GRPC)
     int  grpc_code    = kOk;
-    std::string grpc_message;
+    std::string grpc_message = {};
 
     if (!grpc_enabled) {
         // Mirror of the THEMIS_INFO("[AUDIT] gRPC-Web proxy request rejected:

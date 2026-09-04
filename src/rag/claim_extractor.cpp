@@ -64,12 +64,14 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
     // Parse claims from response
     std::vector<Claim> claims;
     std::istringstream iss(response);
-    std::string line;
+    std::string line = {};
     size_t position = 0;
     
     while (std::getline(iss, line)) {
         // Skip empty lines
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         
         // Remove numbering (e.g., "1. ", "2. ", etc.)
         std::regex number_regex(R"(^\s*\d+\.\s*)");
@@ -85,7 +87,7 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
         }
     }
     
-    THEMIS_DEBUG("Extracted {} claims", claims.size());
+    THEMIS_DEBUG("Extracted {} claims",static_cast<int>(claims.size()));
     return claims;
 }
 
@@ -106,7 +108,7 @@ ClaimVerificationResult ClaimExtractor::verify(
     }
     
     // Concatenate documents
-    std::ostringstream docs_stream;
+    std::ostringstream docs_stream = {};
     for (size_t i = 0; i < documents.size(); ++i) {
         docs_stream << "Document " << (i + 1) << ":\n" << documents[i] << "\n\n";
     }
@@ -165,7 +167,8 @@ std::vector<ClaimVerificationResult> ClaimExtractor::verifyAll(
     auto claims = extract(text);
     
     // Verify each claim
-    std::vector<ClaimVerificationResult> results;
+    std::vector<ClaimVerificationResult> results = {};
+
     results.reserve(claims.size());
     
     for (const auto& claim : claims) {
@@ -206,7 +209,7 @@ double ClaimExtractor::calculateFaithfulness(
 SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     const std::vector<std::string>& samples
 ) {
-    THEMIS_DEBUG("Evaluating self-consistency across {} samples", samples.size());
+    THEMIS_DEBUG("Evaluating self-consistency across {} samples",static_cast<int>(samples.size()));
     
     ConsistencyResult result;
     result.consistency_score = 0.0;
@@ -216,7 +219,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         return result;
     }
     
-    if (samples.size() == 1) {
+    if (static_cast<int>(samples.size()) == 1) {
         result.consistency_score = 1.0;
         result.confidence = 1.0;
         result.consensus_answer = samples[0];
@@ -244,10 +247,10 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     result.consensus_answer = extractConsensus(samples);
     
     // Use LLM to identify specific agreements/disagreements
-    if (samples.size() <= 5) {  // Only for small sets to avoid token limits
+    if (static_cast<int>(samples.size()) <= 5) {  // Only for small sets to avoid token limits
         PromptTemplate consistency_tmpl = PromptLibrary::getConsistencyCheckPrompt();
         
-        std::ostringstream samples_str;
+        std::ostringstream samples_str = {};
         for (size_t i = 0; i < samples.size(); ++i) {
             samples_str << "Sample " << (i + 1) << ": " << samples[i] << "\n\n";
         }
@@ -255,7 +258,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         std::unordered_map<std::string, std::string> vars;
         vars["query"] = "Multiple samples comparison";
         vars["response1"] = samples[0];
-        vars["response2"] = samples.size() > 1 ? samples[1] : samples[0];
+        vars["response2"] = static_cast<int>(samples.size()) > 1 ? samples[1] : samples[0];
         
         std::string prompt = consistency_tmpl.format(vars);
         std::string llm_response = LLMIntegration::generate(prompt);
@@ -290,7 +293,7 @@ std::string SelfConsistencyEvaluator::extractConsensus(
         return "";
     }
     
-    if (samples.size() == 1) {
+    if (static_cast<int>(samples.size()) == 1) {
         return samples[0];
     }
     

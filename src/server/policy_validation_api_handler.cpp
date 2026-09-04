@@ -26,7 +26,7 @@ PolicyValidationApiHandler::PolicyValidationApiHandler(
     , auth_(std::move(auth))
 {
     if (!validator_) {
-        THEMIS_WARN("PolicyValidationApiHandler created with null PolicyValidator");
+        THEMIS_WARN([[maybe_unused]] "PolicyValidationApiHandler created with null PolicyValidator");
     }
 }
 
@@ -135,7 +135,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetMetrics(
         
         nlohmann::json response = {
             {"metrics", json_array},
-            {"count", metrics.size()}
+            {"count",static_cast<int>(metrics.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -167,7 +167,7 @@ bool PolicyValidationApiHandler::checkAuth(
     
     // Extract Bearer token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     
     if (!token) {

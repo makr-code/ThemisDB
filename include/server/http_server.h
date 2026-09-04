@@ -283,7 +283,9 @@ public:
         Config() = default;
         Config(std::string h, uint16_t p, size_t threads = 0) 
             : host(std::move(h)), port(p) {
-            if (threads > 0) num_threads = threads;
+            if (threads > 0) {
+              num_threads = threads;
+            }
         }
     };
 

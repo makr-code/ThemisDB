@@ -103,7 +103,7 @@ public:
     }
 
 protected:
-    std::string                  wal_dir_;
+    std::string                  wal_dir_ = {};
     ReplicationConfig            cfg_;
     std::unique_ptr<WALManager>  wal_;
 };

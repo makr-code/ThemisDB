@@ -33,7 +33,7 @@ nlohmann::json ApprovalRecord::toJson() const {
 }
 
 ApprovalRecord ApprovalRecord::fromJson(const nlohmann::json& j) {
-    ApprovalRecord r;
+    ApprovalRecord r = {};
     if (j.contains("rule_id")) {
         r.rule_id = j["rule_id"].get<std::string>();
     }
@@ -55,7 +55,7 @@ ApprovalRecord ApprovalRecord::fromJson(const nlohmann::json& j) {
     if (j.contains("new_state")) {
         r.new_state = j["new_state"].get<std::string>();
     }
-    if (j.contains("is_emergency_override")) {
+    if (j.contain[[maybe_unused]] s("is_emergency_overrid[[maybe_unused]] e")) {
         r.is_emergency_override = j["is_emergency_override"].get<bool>();
     }
     return r;
@@ -86,7 +86,7 @@ nlohmann::json ApprovalStatus::toJson() const {
 }
 
 ApprovalStatus ApprovalStatus::fromJson(const nlohmann::json& j) {
-    ApprovalStatus s;
+    ApprovalStatus s = {};
     if (j.contains("rule_id")) {
         s.rule_id = j["rule_id"].get<std::string>();
     }
@@ -413,7 +413,8 @@ std::vector<std::string> PolicyApprovalWorkflow::getRulesInState(
 ) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> rules;
+    std::vector<std::string> rules = {};
+
     for (const auto& [rule_id, status] : approvals_) {
         if (status.current_state == state) {
             rules.push_back(rule_id);
@@ -428,7 +429,8 @@ std::vector<std::string> PolicyApprovalWorkflow::getPendingApprovalsFor(
 ) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> pending;
+    std::vector<std::string> pending = {};
+
     for (const auto& [rule_id, status] : approvals_) {
         if (status.current_state == ApprovalState::REVIEW) {
             auto it = std::find(status.approvers.begin(), status.approvers.end(), approver);
@@ -592,7 +594,7 @@ void PolicyApprovalWorkflow::recordApprovalAction(
     record.comment         = comment;
     record.old_state       = fmt::format("{}", static_cast<int>(old_state));
     record.new_state       = fmt::format("{}", static_cast<int>(new_state));
-    record.is_emergency_override = (action == ApprovalAction::EMERGENCY_OVERRIDE);
+    record.is_emergency_override = (actio[[maybe_unused]] n == ApprovalActio[[maybe_unused]] n::EMERGENCY_OVERRID[[maybe_unused]] E);
     
     audit_trail_.push_back(record);
 }

@@ -107,7 +107,8 @@ TEST_F(Phase3CacheEfficiency, MultiTierEvictionOrderingUnderPressure) {
 TEST_F(Phase3CacheEfficiency, MultiTierEvictionConcurrentTierTransitions) {
     policy_.record_insert("k1", 1);
     policy_.record_insert("k2", 1);
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&, t]() {
             for (int i = 0; i < 50; ++i) {
@@ -312,7 +313,8 @@ TEST_F(Phase3CacheEfficiency, IntegrationCacheConsistencyUnderConcurrency) {
     CacheManager manager(makeManagerConfig(128));
     ASSERT_TRUE(manager.register_cache("queries", 128));
     std::atomic<int> success{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([&]() {
             if (manager.set_eviction_policy("queries", makePolicy())) {

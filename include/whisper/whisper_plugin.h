@@ -120,7 +120,7 @@ private:
     std::atomic<uint64_t> error_count_{0};
     std::string model_path_;
     WhisperConfig cfg_;                         ///< config snapshot from initialize()
-    std::string last_error_message_;
+    std::string last_error_message_ = {};
     mutable std::mutex transcriber_mutex_;      ///< serializes transcriber calls
     mutable std::mutex vad_mutex_;              ///< guards vad_ and vad_cfg_ for thread-safe swap
     mutable std::mutex error_mutex_;            ///< guards last_error_message_

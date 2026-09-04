@@ -42,7 +42,7 @@ namespace {
 static std::string b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -66,7 +66,9 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         b64.push_back('=');
     }
     for (char& c : b64) { if (c == '+') c = '-'; else if (c == '/') c = '_'; }
-    while (!b64.empty() && b64.back() == '=') b64.pop_back();
+    while (!b64.empty() && b64.back() == '=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -75,7 +77,7 @@ static std::string b64url(const std::vector<uint8_t>& in) {
 // ============================================================================
 
 struct ECCurveFixture {
-    int          nid;         ///< e.g. NID_secp384r1
+    int          nid = 0;         ///< e.g. NID_secp384r1
     size_t       coord_size;  ///< bytes per coordinate (48 for P-384, 66 for P-521)
     std::string  crv;         ///< JWK "crv" string ("P-384" / "P-521")
     std::string  alg;         ///< JWT "alg" string ("ES384" / "ES512")
@@ -88,18 +90,26 @@ struct ECCurveFixture {
         : nid(nid_), coord_size(coord_size_), crv(crv_), alg(alg_)
     {
         ec_key = EC_KEY_new_by_curve_name(nid);
-        if (!ec_key) throw std::runtime_error("EC_KEY_new_by_curve_name failed");
+        if (!ec_key) {
+          throw std::runtime_error("EC_KEY_new_by_curve_name failed");
+        }
         if (EC_KEY_generate_key(ec_key) != 1)
             throw std::runtime_error("EC_KEY_generate_key failed");
         pkey = EVP_PKEY_new();
-        if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        if (!pkey) {
+          throw std::runtime_error("EVP_PKEY_new failed");
+        }
         if (EVP_PKEY_set1_EC_KEY(pkey, ec_key) != 1)
             throw std::runtime_error("EVP_PKEY_set1_EC_KEY failed");
     }
 
     ~ECCurveFixture() {
-        if (ec_key) EC_KEY_free(ec_key);
-        if (pkey)   EVP_PKEY_free(pkey);
+        if (ec_key) {
+          EC_KEY_free(ec_key);
+        }
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
     }
 
     // Extract raw x,y coordinates (coord_size bytes each)
@@ -126,7 +136,9 @@ static std::string sign_EC(EVP_PKEY* pkey, const EVP_MD* md,
                             const std::string& header_payload, size_t coord_size)
 {
     EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!mctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
 
     size_t der_len = 0;
     EVP_DigestSignInit(mctx, nullptr, md, nullptr, pkey);
@@ -140,7 +152,9 @@ static std::string sign_EC(EVP_PKEY* pkey, const EVP_MD* md,
     // Parse DER-encoded ECDSA_SIG → extract r and s, build r||s
     const unsigned char* der_ptr = der_sig.data();
     ECDSA_SIG* esig = d2i_ECDSA_SIG(nullptr, &der_ptr, (long)der_sig.size());
-    if (!esig) throw std::runtime_error("d2i_ECDSA_SIG failed");
+    if (!esig) {
+      throw std::runtime_error("d2i_ECDSA_SIG failed");
+    }
 
     const BIGNUM *r = nullptr, *s = nullptr;
     ECDSA_SIG_get0(esig, &r, &s);
@@ -214,9 +228,13 @@ struct RSAFixture {
     explicit RSAFixture(int bits = 2048) {
         // Generate RSA key
         pkey = EVP_PKEY_new();
-        if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        if (!pkey) {
+          throw std::runtime_error("EVP_PKEY_new failed");
+        }
         RSA* rsa = RSA_generate_key(bits, RSA_F4, nullptr, nullptr);
-        if (!rsa) throw std::runtime_error("RSA_generate_key failed");
+        if (!rsa) {
+          throw std::runtime_error("RSA_generate_key failed");
+        }
         if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) {
             RSA_free(rsa);
             throw std::runtime_error("EVP_PKEY_assign_RSA failed");
@@ -231,8 +249,12 @@ struct RSAFixture {
     }
 
     ~RSAFixture() {
-        if (pkey)    EVP_PKEY_free(pkey);
-        if (rsa_pub) RSA_free(rsa_pub);
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
+        if (rsa_pub) {
+          RSA_free(rsa_pub);
+        }
     }
 
     // Return base64url-encoded n and e for JWK
@@ -266,7 +288,9 @@ static std::string sign_RSA(EVP_PKEY* pkey, const EVP_MD* md,
                              const std::string& header_payload)
 {
     EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!mctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
     size_t sig_len = 0;
     EVP_DigestSignInit(mctx, nullptr, md, nullptr, pkey);
     EVP_DigestSignUpdate(mctx, header_payload.data(), header_payload.size());
@@ -364,8 +388,10 @@ TEST_F(ES384ValidatorTest, TamperedPayload_Rejected) {
     // Split token
     std::vector<std::string> parts;
     std::istringstream ss(token);
-    std::string p;
-    while (std::getline(ss, p, '.')) parts.push_back(p);
+    std::string p = {};
+    while (std::getline(ss, p, '.')) {
+      parts.push_back(p);
+    }
     ASSERT_EQ(parts.size(), 3u);
     // Tamper with payload but keep original signature
     nlohmann::json evil = {{"sub","admin"}, {"iss","issuerX"}, {"aud","audX"}, {"exp", (int64_t)9999999999LL}};
@@ -483,7 +509,9 @@ TEST_F(ES512ValidatorTest, TamperedPayload_Rejected) {
     auto token = make_valid_ec_jwt(*fix_, EVP_sha512(), "ec-key-1");
     std::vector<std::string> parts;
     std::istringstream ss(token); std::string p;
-    while (std::getline(ss, p, '.')) parts.push_back(p);
+    while (std::getline(ss, p, '.')) {
+      parts.push_back(p);
+    }
     ASSERT_EQ(parts.size(), 3u);
     nlohmann::json evil = {{"sub","admin"}, {"iss","issuerX"}, {"aud","audX"}, {"exp", (int64_t)9999999999LL}};
     std::string evil_str = evil.dump();

@@ -192,7 +192,8 @@ bool CloudAgent::cancelOperation(const std::string& operation_id) {
 std::vector<std::string> CloudAgent::getPendingOperations() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> pending;
+    std::vector<std::string> pending = {};
+
     pending.reserve(pending_operations_.size());
     
     for (const auto& [op_id, op] : pending_operations_) {
@@ -243,9 +244,9 @@ nlohmann::json CloudAgent::getHealthStatus() const {
         auto all_shards = topology_->getAllShards();
         
         health["shards"] = {
-            {"total", all_shards.size()},
-            {"healthy", healthy_shards.size()},
-            {"unhealthy", all_shards.size() - healthy_shards.size()}
+            {"total",static_cast<int>(all_shards.size())},
+            {"healthy",static_cast<int>(healthy_shards.size())},
+            {"unhealthy", static_cast<int>(all_shards.size()) - static_cast<int>(healthy_shards.size()) }
         };
     }
     
@@ -388,7 +389,7 @@ std::string CloudAgent::generateOperationId() const {
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "op_" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
     return ss.str();
 }
@@ -481,13 +482,17 @@ CloudAgentResult CloudAgent::executeScatterGather(
                     // Prioritize local datacenter
                     bool a_local = (shard_a->datacenter == config_.datacenter);
                     bool b_local = (shard_b->datacenter == config_.datacenter);
-                    if (a_local != b_local) return a_local;
+                    if (a_local != b_local) {
+                      return a_local;
+                    }
                     // Then prioritize same region (if both are non-local)
                     if (!config_.region.empty()) {
                         // Check if datacenter contains region identifier
                         bool a_same_region = (shard_a->datacenter.find(config_.region) != std::string::npos);
                         bool b_same_region = (shard_b->datacenter.find(config_.region) != std::string::npos);
-                        if (a_same_region != b_same_region) return a_same_region;
+                        if (a_same_region != b_same_region) {
+                          return a_same_region;
+                        }
                     }
                 }
                 return a < b;  // Fallback: alphabetical order
@@ -496,7 +501,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     
     // Process shards in batches to limit concurrency
     for (size_t batch_start = 0; batch_start < sorted_shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent, sorted_shards.size());
+        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sorted_shards.size()));
         
         // Create futures for this batch
         std::vector<std::future<std::pair<std::string, nlohmann::json>>> futures;
@@ -616,7 +621,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     
     // Build final result
     result.result = {
-        {"total_shards", shards.size()},
+        {"total_shards",static_cast<int>(shards.size())},
         {"success_count", success_count.load()},
         {"failure_count", failure_count.load()},
         {"aggregated_results", aggregated_result},
@@ -628,7 +633,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     result.success = (success_count.load() > 0);
     if (failure_count.load() > 0 && success_count.load() > 0) {
         result.status = "partial_success";
-    } else if (failure_count.load() == shards.size()) {
+    } else if (failure_count.load() == static_cast<int>(shards.size())) {
         result.success = false;
         result.status = "failed";
         result.error_message = "All shard operations failed";
@@ -685,7 +690,7 @@ void CloudAgent::cleanupOldOperations() {
     
     // Remove completed operations when exceeding the configured threshold
     const size_t max_history = config_.max_completed_operations_history;
-    while (completed_operations_.size() > max_history) {
+    while (static_cast<int>(completed_operations_.size()) > max_history) {
         completed_operations_.erase(completed_operations_.begin());
     }
 }
@@ -695,7 +700,7 @@ std::string CloudAgent::generateAgentId() const {
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<uint32_t> dis;
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "cloud_agent_" << std::hex << std::setfill('0') << std::setw(8) << dis(gen);
     return ss.str();
 }

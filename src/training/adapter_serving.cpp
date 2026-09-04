@@ -118,7 +118,7 @@ std::string computeDeploymentFingerprint(
     }
     
     // Convert to hex string (first 16 chars of 64-bit fingerprint)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << hash;
     return oss.str();
 }

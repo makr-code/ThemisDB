@@ -34,7 +34,7 @@ static constexpr std::size_t kNumScoreLevels = 5;
  * @brief G-Eval evaluation result
  */
 struct GEvalResult {
-    double geval_score;                  ///< Continuous score (0-1)
+    double geval_score = 0;                  ///< Continuous score (0-1)
     std::vector<double> token_probabilities;  ///< Probabilities for levels 1-5
     double confidence;                   ///< Confidence in score (0-1)
     std::vector<double> sample_scores;   ///< Individual sample scores

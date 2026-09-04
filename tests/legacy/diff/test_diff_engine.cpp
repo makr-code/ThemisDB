@@ -165,8 +165,12 @@ TEST_F(DiffEngineTest, FilterByTable) {
     all_changes.insert(all_changes.end(), result.modified.begin(), result.modified.end());
     all_changes.insert(all_changes.end(), result.deleted.begin(), result.deleted.end());
     for (const auto& change : all_changes) {
-        if (change.key.find("users") != std::string::npos) has_users = true;
-        if (change.key.find("orders") != std::string::npos) has_orders = true;
+        if (change.key.find("users") != std::string::npos) {
+          has_users = true;
+        }
+        if (change.key.find("orders") != std::string::npos) {
+          has_orders = true;
+        }
     }
     
     EXPECT_TRUE(has_users);
@@ -723,10 +727,18 @@ TEST_F(DiffEngineTest, BoundedFetchReturnsOnlyRangeEvents) {
     EXPECT_EQ(result.stats.total_changes, 2u);
     bool found2 = false, found3 = false, found4 = false, found5 = false;
     for (const auto& c : result.modified) {
-        if (c.key == "key:2") found2 = true;
-        if (c.key == "key:3") found3 = true;
-        if (c.key == "key:4") found4 = true;
-        if (c.key == "key:5") found5 = true;
+        if (c.key == "key:2") {
+          found2 = true;
+        }
+        if (c.key == "key:3") {
+          found3 = true;
+        }
+        if (c.key == "key:4") {
+          found4 = true;
+        }
+        if (c.key == "key:5") {
+          found5 = true;
+        }
     }
     EXPECT_TRUE(found2);
     EXPECT_TRUE(found3);
@@ -764,7 +776,9 @@ TEST_F(DiffEngineTest, StampedePreventionConcurrentSameRange) {
             results[i] = diff_engine_->computeDiff(seq_from, seq_to, opts);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     diff_engine_->setComputeHookForTesting({});  // clear hook
 
@@ -908,7 +922,9 @@ TEST_F(DiffEngineTest, StampedeWait_SecondCallerUnder5ms) {
                 std::chrono::steady_clock::now() - t0).count();
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     for (int i = 0; i < kWarmCallers; ++i) {
         EXPECT_LE(latencies[i], 5)

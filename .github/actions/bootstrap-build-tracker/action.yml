@@ -1,0 +1,92 @@
+name: 'Bootstrap Build Status Tracker'
+
+description: |
+  Ensures the CI build status tracker issue exists with the marker
+  <!-- ci-build:type:build-status -->. If the issue does not exist, creates it
+  with an initial ci/build-ok label and a bootstrapped status message.
+  
+  This action is used by scheduled workflows (e.g., build-benchmarks, release-mainline)
+  to ensure the tracker issue exists before checking build status.
+  
+  Outputs:
+    - issue-number: The issue number of the tracker (created or existing)
+    - action-result: 'created' if issue was created, 'skipped' if already existed
+
+inputs:
+  repo-token:
+    description: 'GitHub token with issues:write permission'
+    required: true
+
+outputs:
+  issue-number:
+    description: 'Number of the build status tracker issue'
+    value: ${{ steps.bootstrap.outputs.issue_number }}
+  action-result:
+    description: "'created' if issue was created, 'skipped' if already existed"
+    value: ${{ steps.bootstrap.outputs.action_result }}
+
+runs:
+  using: composite
+  steps:
+    - name: Bootstrap build status tracker issue
+      id: bootstrap
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+      with:
+        github-token: ${{ inputs.repo-token }}
+        script: |
+          const marker = '<!-- ci-build:type:build-status -->';
+          const { owner, repo } = context.repo;
+
+          const out = {
+            issue_number: '',
+            action_result: 'skipped',
+          };
+
+          const setOutputs = () => {
+            core.setOutput('issue_number', out.issue_number);
+            core.setOutput('action_result', out.action_result);
+          };
+
+          // Search for existing tracker issue
+          const allIssues = await github.paginate(github.rest.issues.listForRepo, {
+            owner, repo, state: 'open', per_page: 100,
+          });
+          const tracker = allIssues.find(i => (i.body || '').includes(marker));
+
+          if (tracker) {
+            // Issue already exists
+            out.issue_number = String(tracker.number);
+            out.action_result = 'skipped';
+            core.notice(`Build tracker issue #${tracker.number} already exists; skipping bootstrap.`);
+            setOutputs();
+            return;
+          }
+
+          // Create new tracker issue with bootstrap status
+          try {
+            const created = await github.rest.issues.create({
+              owner,
+              repo,
+              title: '[CI] Build status tracker — develop',
+              body: [
+                '<!-- ci-build:type:build-status -->',
+                '## CI Build Status — `develop`',
+                '',
+                'Current status: **✅ bootstrapped (no prior build recorded)**',
+                '',
+                '_This issue was auto-created because no tracker issue existed._',
+                '_Labels: `ci/build-failed` + `ci/compiler-linker-failed` = compiler/linker blocker; `ci/test-failed` = non-build blocker; `status/build-pending` = in progress._',
+              ].join('\n'),
+              labels: ['ci/build-ok'],
+            });
+            
+            out.issue_number = String(created.data.number);
+            out.action_result = 'created';
+            core.notice(`Bootstrapped build tracker issue #${created.data.number} with ci/build-ok label.`);
+          } catch (error) {
+            core.setFailed(`Failed to bootstrap build tracker issue: ${error.message}`);
+            setOutputs();
+            return;
+          }
+
+          setOutputs();

@@ -116,7 +116,7 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -149,7 +149,7 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
     }
     
     auto token_opt = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token_opt) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -183,7 +183,9 @@ http::response<http::string_body> EntityApiHandler::handleGet(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
         if (auto resp = requireAccess(req, "data:read", "read", path_only)) {
             // OP-AUDIT-001: Log auth failure with correlation ID
             THEMIS_WARN("Entity GET denied (correlation_id={}): {}", correlation_id, path_only);
@@ -217,7 +219,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
         // Retrieve entity blob (persisted JSON string)
         // Keys are stored as relational keys (entity:table:pk), not raw table:pk.
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -249,7 +251,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
             if (qpos != std::string::npos) {
                 auto qs = target.substr(qpos + 1);
                 std::istringstream iss(qs);
-                std::string kv;
+                std::string kv = {};
                 while (std::getline(iss, kv, '&')) {
                     auto eq = kv.find('=');
                     std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);
@@ -291,31 +293,39 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                     auto coll = schema["collections"][table];
                     if (coll.contains("encryption") && coll["encryption"].value("enabled", false)) {
                         std::string context_type = coll["encryption"].value("context_type", "user");
-                        std::vector<std::string> fields;
+                        std::vector<std::string> fields = {};
+
                         if (coll["encryption"].contains("fields")) {
                             fields.reserve(coll["encryption"]["fields"].size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
-                            for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
+                            for (auto& f : coll["encryption"]["fields"]) {
+                              if (f.is_string()) fields.push_back(f.get<std::string>());
+                            }
                         }
                         // Extract user_id and groups from JWT for decryption context
                         auto auth_ctx = extractAuthContext(req);
                         std::string user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
                         auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
                         for (const auto& f : fields) {
-                            if (!entity_json.contains(f + "_enc") || !entity_json.contains(f + "_encrypted")) continue;
+                            if (!entity_json.contains(f + "_enc") || !entity_json.contains(f + "_encrypted")) {
+                              continue;
+                            }
                             bool encFlag = false;
                             try { encFlag = entity_json[f + "_enc"].get<bool>(); } catch (...) {
                                 THEMIS_WARN("Enc flag cast failed for field {}: defaulting to false", f);
                                 encFlag = false;
                             }
-                            if (!encFlag) continue;
+                            if (!encFlag) {
+                              continue;
+                            }
                             try {
                                 auto enc_meta_str = entity_json[f + "_encrypted"].get<std::string>();
                                 auto enc_meta = nlohmann::json::parse(enc_meta_str);
                                 auto blob = themis::EncryptedBlob::fromJson(enc_meta);
-                                std::vector<uint8_t> raw_key;
+                                std::vector<uint8_t> raw_key = {};
+
                                 if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
                                     // Group context (MVP: first group / single string)
-                                    std::string group_name;
+                                    std::string group_name = {};
                                     try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (...) {
                                         THEMIS_WARN("Group name cast failed for field {}: skipping group context", f);
                                         group_name.clear();
@@ -381,8 +391,12 @@ http::response<http::string_body> EntityApiHandler::handlePut(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "write", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "write", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("PUT /entities/:key");
     
@@ -390,7 +404,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         // Parse request body
         auto body_json = json::parse(req.body());
         
-        std::string key;
+        std::string key = {};
         if (body_json.contains("key")) {
             key = body_json["key"].get<std::string>();
         } else {
@@ -412,7 +426,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
 
         // Split key into table:pk
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -446,11 +460,14 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         } else {
                             // Context type (user|group)
                             std::string context_type = coll["encryption"].value("context_type", "user");
-                            std::vector<std::string> fields;
+                            std::vector<std::string> fields = {};
+
                             if (coll["encryption"].contains("fields")) {
                                 fields.reserve(coll["encryption"]["fields"].size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                 for (auto& f : coll["encryption"]["fields"]) {
-                                    if (f.is_string()) fields.push_back(f.get<std::string>());
+                                    if (f.is_string()) {
+                                      fields.push_back(f.get<std::string>());
+                                    }
                                 }
                             }
                             // Extract user_id and groups from JWT token
@@ -462,7 +479,9 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                             for (const auto& f : fields) {
                                 if (!entity.hasField(f)) continue; // Field does not exist
                                 auto valOpt = entity.getField(f);
-                                if (!valOpt.has_value()) continue;
+                                if (!valOpt.has_value()) {
+                                  continue;
+                                }
                                 
                                 // Serialization of value for all supported types
                                 std::vector<uint8_t> plain_bytes;
@@ -484,7 +503,9 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     // Vector<float>: Serialize as JSON array
                                     const auto& vec = std::get<std::vector<float>>(v);
                                     nlohmann::json j_arr = nlohmann::json::array();
-                                    for (float val : vec) j_arr.push_back(val);
+                                    for (float val : vec) {
+                                      j_arr.push_back(val);
+                                    }
                                     std::string json_str = j_arr.dump();
                                     plain_bytes.assign(json_str.begin(), json_str.end());
                                 } else if (std::holds_alternative<std::vector<uint8_t>>(v)) {
@@ -500,7 +521,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                 }
                                 
                                 std::vector<uint8_t> raw_key;
-                                std::string key_id;
+                                std::string key_id = {};
                                 if (context_type == "group" && pki && !groups_claim.empty()) {
                                     // Take first group as context (MVP)
                                     auto gdek = pki->getGroupDEK(groups_claim.front());
@@ -515,8 +536,11 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     std::string user_ctx = user_id.empty() ? "anonymous" : user_id;
                                     auto dek = key_provider_->getKey("dek");
                                     // salt = user_id (can be empty) - if empty, fallback to static salt to keep HKDF function stable
-                                    std::vector<uint8_t> salt;
-                                    if (!user_ctx.empty()) salt.assign(user_ctx.begin(), user_ctx.end());
+                                    std::vector<uint8_t> salt = {};
+
+                                    if (!user_ctx.empty()) {
+                                      salt.assign(user_ctx.begin(), user_ctx.end());
+                                    }
                                     std::string info = "field:" + f;
                                     raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
                                     key_id = "user_field:" + f;
@@ -543,7 +567,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         }
 
         // Capture before snapshot for CDC enrichment (read prior to the write)
-        std::optional<std::string> cdc_before_snapshot;
+        std::optional<std::string> cdc_before_snapshot = {};
+
         if (changefeed_ && config_.feature_cdc) {
             auto old_bytes = storage_->get(KeySchema::makeRelationalKey(table, pk));
             if (old_bytes.has_value()) {
@@ -589,7 +614,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                 event.metadata = {{"table", table}, {"pk", pk}};
                 event.before_snapshot = cdc_before_snapshot;
                 event.after_snapshot = blob_str;
-                changefeed_->recordEvent(event);
+                changefeed_->recordEvent([[maybe_unused]] event);
             } catch (const std::exception& e) {
                 // Log but don't fail the request
                 THEMIS_WARN("CDC event recording failed: {}", e.what());
@@ -652,7 +677,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
                         span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
                         THEMIS_DEBUG("RAID write successful for {}: {} shards written in {}ms", 
-                                   key, write_result.written_shards.size(), write_result.latency.count());
+                                   key,static_cast<int>(write_result.written_shards.size()), write_result.latency.count());
                     }
                 }
             } catch (const std::exception& e) {
@@ -721,7 +746,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         json response = {
             {"success", true},
             {"key", key},
-            {"blob_size", blob_str.size()}
+            {"blob_size",static_cast<int>(blob_str.size())}
         };
         return makeResponse(http::status::created, response.dump(), req);
 
@@ -743,8 +768,12 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "delete", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "delete", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("DELETE /entities/:key");
     
@@ -759,7 +788,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
 
         // Split key into table:pk
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -785,7 +814,8 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
         }
 
         // Capture before snapshot for CDC enrichment (read prior to the delete)
-        std::optional<std::string> cdc_before_snapshot;
+        std::optional<std::string> cdc_before_snapshot = {};
+
         if (changefeed_ && config_.feature_cdc) {
             auto old_bytes = storage_->get(KeySchema::makeRelationalKey(table, pk));
             if (old_bytes.has_value()) {
@@ -812,7 +842,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
                 ).count();
                 event.metadata = {{"table", table}, {"pk", pk}};
                 event.before_snapshot = cdc_before_snapshot;
-                changefeed_->recordEvent(event);
+                changefeed_->recordEvent([[maybe_unused]] event);
             } catch (const std::exception& e) {
                 THEMIS_WARN("CDC event recording failed: {}", e.what());
             }
@@ -838,7 +868,9 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
     const http::request<http::string_body>& req
 ) {
     if (auth_ && auth_->isEnabled()) {
-        if (auto resp = requireAccess(req, "data:write", "write", "/entities/batch")) return *resp;
+        if (auto resp = requireAccess(req, "data:write", "write", "/entities/batch")) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("POST /entities/batch");
     
@@ -880,8 +912,8 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
         // This ensures we can provide partial success feedback
         struct ValidatedOp {
             std::string op_type; // "put" or "delete"
-            std::string table;
-            std::string pk;
+            std::string table = {};
+            std::string pk = {};
             std::string key; // table:pk
             std::string blob; // Only for PUT
             int64_t index;
@@ -925,7 +957,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                 
                 // Parse key format (table:pk)
                 auto pos = key.find(':');
-                if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+                if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
                     errors.push_back({
                         {"index", i},
                         {"key", key},
@@ -1087,7 +1119,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                     event.before_snapshot = vop.before_snapshot;
                     event.timestamp_ms = now_ms;
                     event.metadata = {{"table", vop.table}, {"pk", vop.pk}, {"batch", true}};
-                    changefeed_->recordEvent(event);
+                    changefeed_->recordEvent([[maybe_unused]] event);
                 } catch (const std::exception& e) {
                     // Log but don't fail the request
                     THEMIS_WARN("CDC event recording failed for {}: {}", vop.key, e.what());
@@ -1171,7 +1203,9 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     const http::request<http::string_body>& req)
 {
     if (auth_ && auth_->isEnabled()) {
-        if (auto resp = requireAccess(req, "data:write", "write", "/v2/documents")) return *resp;
+        if (auto resp = requireAccess(req, "data:write", "write", "/v2/documents")) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("POST /v2/documents");
 
@@ -1199,17 +1233,21 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     errors.reserve(256);  // OPTIMIZATION: Pre-allocate to avoid reallocations
 
     std::istringstream stream(body);
-    std::string line;
+    std::string line = {};
     size_t line_number = 0;
 
     while (std::getline(stream, line)) {
         ++line_number;
         // Skip blank lines
-        if (line.empty() || line == "\r") continue;
+        if (line.empty() || line == "\r") {
+          continue;
+        }
         // Remove trailing CR if present
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
 
-        if (documents.size() >= kMaxDocuments) {
+        if (static_cast<int>(documents.size()) >= kMaxDocuments) {
             span.setStatus(false, "Too many documents");
             return makeErrorResponse(http::status::bad_request,
                 "Request exceeds maximum of " + std::to_string(kMaxDocuments) + " documents",
@@ -1238,7 +1276,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     int64_t inserted = 0;
     for (const auto& doc : documents) {
         // Each document must have a "key" field; generate one if absent.
-        std::string key;
+        std::string key = {};
         if (doc.contains("_key") && doc["_key"].is_string()) {
             key = doc["_key"].get<std::string>();
         } else if (doc.contains("key") && doc["key"].is_string()) {
@@ -1269,7 +1307,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
     json result = {
         {"inserted",    inserted},
-        {"total",       static_cast<int64_t>(documents.size() + errors.size())},
+        {"total",       static_cast<int64_t>(static_cast<int>(documents.size()) + static_cast<int>(errors.size()) )},
         {"error_count", static_cast<int64_t>(errors.size())}
     };
     if (!errors.empty()) {

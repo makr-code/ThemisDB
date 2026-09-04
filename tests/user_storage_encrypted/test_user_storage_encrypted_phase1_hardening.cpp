@@ -346,7 +346,9 @@ TEST(UserStoragePhase1Hardening, USE_PHASE1_18_ProcessExecutionTimeout) {
 
 TEST(UserStoragePhase1Hardening, USE_PHASE1_19_BoundaryInputValidation) {
     auto validate_mount_point = [](const std::string& mp) -> bool {
-        if (mp.empty()) return false;
+        if (mp.empty()) {
+          return false;
+        }
         if (mp[0] != '/') return false;  // Must be absolute
         if (mp.find("..") != std::string::npos) return false;  // No traversal
         return true;

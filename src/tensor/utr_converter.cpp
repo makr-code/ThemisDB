@@ -145,12 +145,12 @@ void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx
     std::size_t x = 0;
     std::size_t y = 0;
     for (std::size_t s = 1, t = d; s < n; s <<= 1) {
-        const std::size_t rx = (t >> 1U) & 1U;
-        const std::size_t ry = (t ^ rx) & 1U;
+        const std::size_t rx = (t >> 1) & 1;
+        const std::size_t ry = (t ^ rx) & 1;
         hilbertRotate(s, x, y, rx, ry);
         x += s * rx;
         y += s * ry;
-        t >>= 2U;
+        t >>= 2;
     }
     return {x, y};
 }
@@ -177,14 +177,18 @@ static std::size_t clampPatchExtent(std::size_t extent) noexcept {
 static std::vector<std::string> splitParagraphs(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    while (start < text.size()) {
+    while (static_cast<size_t>(start) <static_cast<int>(text.size())) {
         const auto pos = text.find("\n\n", start);
-        const auto end = (pos == std::string::npos) ? text.size() : pos;
+        const auto end = (pos == std::string::npos) ?static_cast<int>(text.size()) : pos;
         const auto seg = text.substr(start, end - start);
-        if (!seg.empty()) segments.push_back(seg);
-        start = (pos == std::string::npos) ? text.size() : (pos + 2U);
+        if (!seg.empty()) {
+          segments.push_back(seg);
+        }
+        start = (pos == std::string::npos) ?static_cast<int>(text.size()) : (pos + 2);
     }
-    if (segments.empty()) segments.push_back(text);
+    if (segments.empty()) {
+      segments.push_back(text);
+    }
     return segments;
 }
 
@@ -192,21 +196,29 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
 static std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    for (std::size_t i = 0; i < text.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         if (text[i] == '.' &&
             (i + 1 >= text.size() || text[i + 1] == ' ' || text[i + 1] == '\n'))
         {
             const auto seg = text.substr(start, i + 1 - start);
-            if (!seg.empty()) segments.push_back(seg);
+            if (!seg.empty()) {
+              segments.push_back(seg);
+            }
             start = i + 1;
-            while (start < text.size() && text[start] == ' ') ++start;
+            while (start <static_cast<int>(text.size()) && text[start] == ' ') {
+              ++start;
+            }
         }
     }
-    if (start < text.size()) {
+    if (static_cast<int>(text.size()) > start) {
         const auto seg = text.substr(start);
-        if (!seg.empty()) segments.push_back(seg);
+        if (!seg.empty()) {
+          segments.push_back(seg);
+        }
     }
-    if (segments.empty()) segments.push_back(text);
+    if (segments.empty()) {
+      segments.push_back(text);
+    }
     return segments;
 }
 
@@ -229,8 +241,8 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 
 /// FNV-1a 64-bit hash of a string view.
 static uint64_t fnv1a(std::string_view s) noexcept {
-    constexpr uint64_t kBasis = 14695981039346656037ULL;
-    constexpr uint64_t kPrime = 1099511628211ULL;
+    constexpr uint64_t kBasis = 14695981039346656037;
+    constexpr uint64_t kPrime = 1099511628211;
     uint64_t h = kBasis;
     for (const unsigned char c : s) {
         h ^= static_cast<uint64_t>(c);
@@ -251,7 +263,7 @@ static uint64_t fnv1a(std::string_view s) noexcept {
  * @param weight   Signed scalar weight applied to each projected dimension
  *                 (e.g. 1.0 for unigrams, 0.5 for bigrams, 0.35 for trigrams).
  *
- * @pre `vec.size() > 0`; if zero, the function returns without modification.
+ * @pre `static_cast<int>(vec.size()) > 0`; if zero, the function returns without modification.
  */
 static void scatterFeature(std::vector<float>& vec,
                             std::string_view    feature,
@@ -260,10 +272,10 @@ static void scatterFeature(std::vector<float>& vec,
     if (embed_dim == 0) return; // guard: no-op for zero-dim vectors
     const uint64_t h = fnv1a(feature);
     for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
-        const auto shift = (lane % 4) * 16U;
+        const auto shift = (lane % 4) * 16;
         const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);
-        const auto dim   = static_cast<std::size_t>((bits + lane * 131U) % embed_dim);
-        const auto sign  = ((h >> (shift + 7U)) & 1ULL) ? 1.0f : -1.0f;
+        const auto dim   = static_cast<std::size_t>((bits + lane * 131) % embed_dim);
+        const auto sign  = ((h >> (shift + 7)) & 1) ? 1.0f : -1.0f;
         vec[dim] += sign * weight;
     }
 }
@@ -315,10 +327,12 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
     std::vector<std::string> tokens;
     {
         std::istringstream iss(segment);
-        std::string raw;
+        std::string raw = {};
         while (iss >> raw) {
             auto tok = normalizeToken(std::move(raw));
-            if (!tok.empty()) tokens.push_back(std::move(tok));
+            if (!tok.empty()) {
+              tokens.push_back(std::move(tok));
+            }
         }
     }
 
@@ -345,10 +359,14 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
 
     // L2 normalisation to unit length
     float norm_sq = 0.0f;
-    for (const auto v : vec) norm_sq += v * v;
+    for (const auto v : vec) {
+      norm_sq += v * v;
+    }
     if (norm_sq > 0.0f) {
         const float inv_norm = 1.0f / std::sqrt(norm_sq);
-        for (auto& v : vec) v *= inv_norm;
+        for (auto& v : vec) {
+          v *= inv_norm;
+        }
     }
     return vec;
 }
@@ -368,7 +386,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
         throw std::invalid_argument("RasterGrid::cell_size_deg must be > 0");
     }
     const std::size_t expected = grid.rows * grid.cols;
-    if (grid.values.size() != expected) {
+    if (static_cast<int>(grid.values.size()) != expected) {
         throw std::invalid_argument(
             "RasterGrid::values.size() (" + std::to_string(grid.values.size()) +
             ") != rows*cols (" + std::to_string(expected) + ")");
@@ -395,7 +413,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
 
     const std::size_t hilbert_side = roundUpPowerOfTwo(std::max(grid.rows, grid.cols));
     std::vector<float> hilbert_ordered(hilbert_side * hilbert_side, 0.0f);
-    for (std::size_t d = 0; d < hilbert_ordered.size(); ++d) {
+    for (std::size_t d = 0; d <static_cast<int>(hilbert_ordered.size()); ++d) {
         const auto [x, y] = hilbertIndexToXY(hilbert_side, d);
         if (y < grid.rows && x < grid.cols) {
             hilbert_ordered[d] = normalised[y * grid.cols + x];
@@ -444,7 +462,7 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
         throw std::invalid_argument("image dimensions h, w, c must all be > 0");
     }
     const std::size_t expected = h * w * c;
-    if (pixels.size() != expected) {
+    if (static_cast<int>(pixels.size()) != expected) {
         throw std::invalid_argument(
             "pixels.size() (" + std::to_string(pixels.size()) +
             ") != h*w*c (" + std::to_string(expected) + ")");
@@ -488,9 +506,9 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     // Removal Plan:      Superseded when a plugin registers an IImageEncoder.
     const auto patch_h = clampPatchExtent(h);
     const auto patch_w = clampPatchExtent(w);
-    const auto patch_rows = (h + patch_h - 1U) / patch_h;
-    const auto patch_cols = (w + patch_w - 1U) / patch_w;
-    const auto patch_feature_dim = c * 2U; // mean + stddev per channel
+    const auto patch_rows = (h + patch_h - 1) / patch_h;
+    const auto patch_cols = (w + patch_w - 1) / patch_w;
+    const auto patch_feature_dim = c * 2; // mean + stddev per channel
 
     std::vector<float> patch_features;
     patch_features.reserve(patch_rows * patch_cols * patch_feature_dim);
@@ -559,14 +577,16 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         segments = splitSentences(text);
         break;
     case DocumentStructureHint::PARAGRAPHS:
+    [[fallthrough]];
     case DocumentStructureHint::NONE:
+    [[fallthrough]];
     default:
         segments = splitParagraphs(text);
         break;
     }
 
     // Limit to max_segments to bound the tensor size
-    if (segments.size() > cfg.max_segments) {
+    if (static_cast<int>(segments.size()) > cfg.max_segments) {
         segments.resize(cfg.max_segments);
     }
     if (segments.empty()) {
@@ -575,7 +595,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
 
     // 2. Select embedding function — priority chain:
     //    ITextEncoder (registered) > EmbedFn bridge > built-in lexical encoder
-    const std::size_t num_segs  = segments.size();
+    const std::size_t num_segs = segments.size();
     const std::size_t embed_dim = cfg.embed_dim;
 
     // Snapshot encoder state once to guarantee consistency across all segments
@@ -597,11 +617,12 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     std::vector<float> segment_matrix;
     segment_matrix.reserve(num_segs * embed_dim);
     for (const auto& seg : segments) {
-        std::vector<float> emb;
+        std::vector<float> emb = {};
+
         if (use_text_encoder) {
             // Priority 1: registered ITextEncoder
             emb = text_encoder->encode(seg, embed_dim);
-            if (emb.size() != embed_dim) {
+            if (static_cast<int>(emb.size()) != embed_dim) {
                 throw std::runtime_error(
                     "UTRConverter::fromDocument: registered ITextEncoder ('" +
                     std::string(text_encoder->description()) +
@@ -611,7 +632,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         } else if (use_embed_fn) {
             // Priority 2: raw EmbedFn bridge
             emb = embed_fn(seg, embed_dim);
-            if (emb.size() != embed_dim) {
+            if (static_cast<int>(emb.size()) != embed_dim) {
                 throw std::runtime_error(
                     "UTRConverter::fromDocument: injected EmbedFn returned " +
                     std::to_string(emb.size()) +

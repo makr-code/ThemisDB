@@ -515,7 +515,9 @@ TEST_F(MultiModuleTest, UnregisterOneDoesNotAffectOthers) {
 
     // Others still present.
     for (int i = 0; i < kN; ++i) {
-        if (i == 2) continue;
+        if (i == 2) {
+          continue;
+        }
         const std::string expected = "rem_mod_" + std::to_string(i);
         EXPECT_NE(std::find(names.begin(), names.end(), expected), names.end());
     }

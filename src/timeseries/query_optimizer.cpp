@@ -272,7 +272,7 @@ void TSQueryOptimizer::clearCache() {
 
 size_t TSQueryOptimizer::cacheSize() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    return plan_cache_.size();
+    return static_cast<int>(plan_cache_.size());
 }
 
 // ========== Index-Aware Query Planning ==========
@@ -286,7 +286,9 @@ std::optional<TSQueryOptimizer::IndexHint> TSQueryOptimizer::getIndexHint(
     const std::string& metric) const {
     std::lock_guard<std::mutex> lock(index_mutex_);
     auto it = index_hints_.find(metric);
-    if (it == index_hints_.end()) return std::nullopt;
+    if (it == index_hints_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -295,7 +297,7 @@ std::string TSQueryOptimizer::buildCacheKey(
     const std::optional<std::string>& entity,
     int64_t from_ms, int64_t to_ms,
     const OptimizationHint& hint) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << metric << "|" << (entity.has_value() ? *entity : "") << "|"
         << from_ms << "|" << to_ms << "|"
         << hint.use_aggregates << "|" << hint.min_window_for_agg_ms << "|"
@@ -346,7 +348,7 @@ std::string TSQueryOptimizer::buildExplanation(
     size_t raw_points,
     size_t agg_points) const {
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     if (used_agg) {
         oss << "Using pre-computed aggregate: " << plan.source_metric << " ";
@@ -397,7 +399,7 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeWithTiers(
                                              ? static_cast<double>(raw_points) / std::max(agg_points, size_t{1})
                                              : 1.0;
             if (hint.explain) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << "Tier routing: using downsampled metric '" << *tier_metric
                     << "' (resolution=" << requested_resolution_ms.count() << "ms"
                     << ", scans " << agg_points << " vs " << raw_points << " raw, "

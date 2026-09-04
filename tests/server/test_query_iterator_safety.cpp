@@ -49,7 +49,9 @@ static void reconstructPathSafe(const std::string&     start,
     nodes_out.clear();
     edges_out.clear();
 
-    if (start.empty()) return;
+    if (start.empty()) {
+      return;
+    }
 
     nodes_out.push_back(start);
     std::unordered_set<std::string> visited;

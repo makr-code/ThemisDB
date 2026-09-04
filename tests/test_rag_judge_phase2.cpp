@@ -261,7 +261,7 @@ TEST_F(CoherenceEvaluatorTest, ContradictionDetection) {
 class RAGJudgeIntegrationTest : public ::testing::Test {
 protected:
     RAGJudgeConfig config;
-    std::string judge_init_error;
+    std::string judge_init_error = {};
 
     std::unique_ptr<RAGJudge> createJudgeOrSkip() {
         try {

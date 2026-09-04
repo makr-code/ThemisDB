@@ -44,7 +44,7 @@ namespace access_model {
  * @return Formatted string representation
  */
 [[maybe_unused]] static std::string describeResult(const DemotionResult& result) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "DemotionResult{"
         << "success=" << (result.success ? "true" : "false")
         << ", size_bytes=" << result.size_bytes

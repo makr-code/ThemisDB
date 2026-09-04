@@ -36,7 +36,7 @@ struct RelevanceEvaluator::Impl {
     static std::vector<std::string> tokenize(const std::string& text) {
         std::vector<std::string> tokens;
         std::istringstream stream(text);
-        std::string word;
+        std::string word = {};
         while (stream >> word) {
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
             word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -53,7 +53,8 @@ struct RelevanceEvaluator::Impl {
         const std::vector<std::string>& vocab
     ) {
         // Build frequency map in O(token_count), then populate in O(vocab_size)
-        std::unordered_map<std::string, double> freq;
+        std::unordered_map<std::string, double> freq = {};
+
         for (const auto& t : tokens) {
             freq[t] += 1.0;
         }
@@ -78,7 +79,9 @@ struct RelevanceEvaluator::Impl {
             na  += a[i] * a[i];
             nb  += b[i] * b[i];
         }
-        if (na < 1e-9 || nb < 1e-9) return 0.0;
+        if (na < 1e-9 || nb < 1e-9) {
+          return 0.0;
+        }
         return dot / (std::sqrt(na) * std::sqrt(nb));
     }
 
@@ -157,7 +160,7 @@ Questions:)";
                 if (question.is_string()) {
                     questions.push_back(question.get<std::string>());
                     
-                    if (questions.size() >= impl_->config.num_reverse_questions) {
+                    if (static_cast<int>(questions.size()) >= impl_->config.num_reverse_questions) {
                         break;
                     }
                 }
@@ -172,7 +175,7 @@ Questions:)";
         questions.push_back(answer);
     }
     
-    THEMIS_DEBUG("Generated {} reverse questions", questions.size());
+    THEMIS_DEBUG("Generated {} reverse questions",static_cast<int>(questions.size()));
     return questions;
 }
 
@@ -267,7 +270,7 @@ std::vector<std::string> RelevanceEvaluator::detectNoise(
         }
     }
     
-    THEMIS_DEBUG("Detected {} potentially irrelevant segments", irrelevant_segments.size());
+    THEMIS_DEBUG("Detected {} potentially irrelevant segments",static_cast<int>(irrelevant_segments.size()));
     return irrelevant_segments;
 }
 
@@ -293,7 +296,7 @@ RelevanceResult RelevanceEvaluator::evaluate(
     const std::string& answer,
     const std::string& query
 ) {
-    RelevanceResult result;
+    RelevanceResult result = {};
     
     if (answer.empty() || query.empty()) {
         result.relevance_score = 0.0;
@@ -346,7 +349,7 @@ RelevanceResult RelevanceEvaluator::evaluate(
     result.relevance_score = std::min(1.0, std::max(0.0, result.relevance_score));
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Relevance Score: " << result.relevance_score << "\n";
     explanation << "Question Similarity: " << result.question_similarity_score << "\n";
     explanation << "Intent: ";

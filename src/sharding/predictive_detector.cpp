@@ -84,12 +84,14 @@ struct PredictiveFailureDetector::ModelImpl {
         };
 
         float score = 0.0f;
-        const std::size_t n = std::min(features.size(), kWeights.size());
+        const std::size_t n = std::min(features.size(),static_cast<int>(kWeights.size()));
         for (std::size_t i = 0; i < n; ++i) {
             float v = features[i];
             // recovery_success_rate (index 17) is a positive health signal — invert
             // its contribution so a high success rate lowers the risk score.
-            if (i == 17) [[unlikely]] v = 1.0f - v;
+            if (i == 17) {
+              [[unlikely]] v = 1.0f - v;
+            }
             score += v * kWeights[i];
         }
 
@@ -176,8 +178,8 @@ void PredictiveFailureDetector::monitoringLoop() {
             checkAllShards();
         } catch (const std::exception& e) {
             // Log error but continue monitoring
-            if (config_.alert_callback) {
-                config_.alert_callback("Monitoring error: " + std::string(e.what()));
+            if ([[maybe_unused]] config_.alert_callback) {
+                config_.alert_callback([[maybe_unused]] "Monitoring error: " + std::string(e.what()));
             }
         }
         
@@ -227,7 +229,8 @@ void PredictiveFailureDetector::checkAllShards() {
 std::vector<FailurePrediction> PredictiveFailureDetector::getPredictions() {
     std::lock_guard<std::mutex> lock(predictions_mutex_);
     
-    std::vector<FailurePrediction> predictions;
+    std::vector<FailurePrediction> predictions = {};
+
     predictions.reserve(cached_predictions_.size());
     
     for (const auto& [shard_id, prediction] : cached_predictions_) {
@@ -312,7 +315,8 @@ std::vector<PredictiveShardMetrics> PredictiveFailureDetector::getMetricsHistory
     
     auto cutoff_time = std::chrono::system_clock::now() - lookback;
     
-    std::vector<PredictiveShardMetrics> result;
+    std::vector<PredictiveShardMetrics> result = {};
+
     for (const auto& metrics : it->second) {
         if (metrics.timestamp >= cutoff_time) {
             result.push_back(metrics);
@@ -360,25 +364,31 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     
     // Helper: compute mean
     auto compute_mean = [](const std::vector<double>& values) -> float {
-        if (values.empty()) return 0.0f;
+        if (values.empty()) {
+          return 0.0f;
+        }
         double sum = std::accumulate(values.begin(), values.end(), 0.0);
-        return static_cast<float>(sum / values.size());
+        return static_cast<bool>(static_cast<float < static_cast<int>((sum / values.size())));
     };
     
     // Helper: compute stddev
     auto compute_stddev = [&compute_mean](const std::vector<double>& values) -> float {
-        if (values.empty()) return 0.0f;
+        if (values.empty()) {
+          return 0.0f;
+        }
         float mean = compute_mean(values);
         double sq_sum = 0.0;
         for (double v : values) {
             sq_sum += (v - mean) * (v - mean);
         }
-        return static_cast<float>(std::sqrt(sq_sum / values.size()));
+        return static_cast<bool>(static_cast<float < static_cast<int>((std::sqrt(sq_sum / values.size()))));
     };
     
     // Helper: compute trend (linear regression slope)
     auto compute_trend = [](const std::vector<double>& values) -> float {
-        if (values.size() < 2) return 0.0f;
+        if (static_cast<int>(values.size()) < 2) {
+          return 0.0f;
+        }
         
         double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
         for (size_t i = 0; i < values.size(); ++i) {
@@ -423,7 +433,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     features.push_back(static_cast<float>(history.back().retry_count));
     
     // Pad to 50 features with zeros
-    while (features.size() < 50) {
+    while ( static_cast<int>(features.size()) < 50) {
         features.push_back(0.0f);
     }
     
@@ -452,11 +462,11 @@ FailurePrediction PredictiveFailureDetector::runInference(
         std::lock_guard<std::mutex> fn_lock(predict_fn_mutex_);
         if (predict_fn_) {
             auto output = predict_fn_(features);
-            if (output.size() >= 2) {
+            if (static_cast<int>(output.size()) >= 2) {
                 prediction.failure_probability = output[0];
                 prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
             }
-            for (size_t i = 0; i < std::min(size_t(5), features.size()); ++i) {
+            for (size_t i = 0; i < std::min(size_t(5),static_cast<int>(features.size())); ++i) {
                 prediction.feature_importance["feature_" + std::to_string(i)] = features[i];
             }
             return prediction;
@@ -473,13 +483,13 @@ FailurePrediction PredictiveFailureDetector::runInference(
     // Run model inference
     auto output = model_->predict(features);
     
-    if (output.size() >= 2) {
+    if (static_cast<int>(output.size()) >= 2) {
         prediction.failure_probability = output[0];
         prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
     }
     
     // Feature importance (top 5 features)
-    for (size_t i = 0; i < std::min(size_t(5), features.size()); ++i) {
+    for (size_t i = 0; i < std::min(size_t(5),static_cast<int>(features.size())); ++i) {
         prediction.feature_importance["feature_" + std::to_string(i)] = features[i];
     }
     
@@ -520,7 +530,7 @@ void PredictiveFailureDetector::setPredictFn(PredictFn fn) {
 // ═══════════════════════════════════════════════════════════
 
 void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
-    if (!config_.alert_callback) {
+    if ([[maybe_unused]] !config_.alert_callback) {
         return;
     }
     
@@ -529,7 +539,7 @@ void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
                          "% failure probability in next " +
                          std::to_string(prediction.predicted_days_to_failure) + " days";
     
-    config_.alert_callback(message);
+    config_.alert_callback([[maybe_unused]] message);
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.alerts_sent++;

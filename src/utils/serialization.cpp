@@ -30,14 +30,14 @@ void Serialization::Encoder::writeTag(TypeTag tag) {
     buffer_.push_back(static_cast<uint8_t>(tag));
 }
 
-void Serialization::Encoder::writeUInt32(uint32_t value) {
+void Serialization::Encoder::writeUInt32([[maybe_unused]] uint32_t value) {
     buffer_.push_back((value >> 0) & 0xFF);
     buffer_.push_back((value >> 8) & 0xFF);
     buffer_.push_back((value >> 16) & 0xFF);
     buffer_.push_back((value >> 24) & 0xFF);
 }
 
-void Serialization::Encoder::writeUInt64(uint64_t value) {
+void Serialization::Encoder::writeUInt64([[maybe_unused]] uint64_t value) {
     for (int i = 0; i < 8; ++i) {
         buffer_.push_back((value >> (i * 8)) & 0xFF);
     }
@@ -47,7 +47,7 @@ void Serialization::Encoder::encodeNull() {
     writeTag(TypeTag::NULL_VALUE);
 }
 
-void Serialization::Encoder::encodeBool(bool value) {
+void Serialization::Encoder::encodeBool([[maybe_unused]] bool value) {
     writeTag(value ? TypeTag::BOOL_TRUE : TypeTag::BOOL_FALSE);
 }
 
@@ -61,24 +61,24 @@ void Serialization::Encoder::encodeInt64(int64_t value) {
     writeUInt64(static_cast<uint64_t>(value));
 }
 
-void Serialization::Encoder::encodeUInt32(uint32_t value) {
+void Serialization::Encoder::encodeUInt32([[maybe_unused]] uint32_t value) {
     writeTag(TypeTag::UINT32);
     writeUInt32(value);
 }
 
-void Serialization::Encoder::encodeUInt64(uint64_t value) {
+void Serialization::Encoder::encodeUInt64([[maybe_unused]] uint64_t value) {
     writeTag(TypeTag::UINT64);
     writeUInt64(value);
 }
 
-void Serialization::Encoder::encodeFloat(float value) {
+void Serialization::Encoder::encodeFloat([[maybe_unused]] float value) {
     writeTag(TypeTag::FLOAT);
     // Use safe_cast helper for clarity and consistency
     uint32_t bits = FloatBits::to_u32(value);
     writeUInt32(bits);
 }
 
-void Serialization::Encoder::encodeDouble(double value) {
+void Serialization::Encoder::encodeDouble([[maybe_unused]] double value) {
     writeTag(TypeTag::DOUBLE);
     // Use safe_cast helper for clarity and consistency
     uint64_t bits = FloatBits::to_u64(value);
@@ -105,10 +105,10 @@ void Serialization::Encoder::encodeFloatVector(const std::vector<float>& vec) {
     // Note: reinterpret_cast to uint8_t* (or char*) is explicitly allowed by C++ standard
     // for accessing object representation (not a strict aliasing violation)
     const uint8_t* data = reinterpret_cast<const uint8_t*>(vec.data());
-    buffer_.insert(buffer_.end(), data, data + vec.size() * sizeof(float));
+    buffer_.insert(buffer_.end(), data, data + static_cast<int>(vec.size()) * sizeof(float));
 }
 
-void Serialization::Encoder::beginArray(size_t size) {
+void Serialization::Encoder::beginArray([[maybe_unused]] size_t size) {
     writeTag(TypeTag::ARRAY);
     writeUInt32(static_cast<uint32_t>(size));
 }
@@ -117,7 +117,7 @@ void Serialization::Encoder::endArray() {
     // No-op for now
 }
 
-void Serialization::Encoder::beginObject(size_t num_fields) {
+void Serialization::Encoder::beginObject([[maybe_unused]] size_t num_fields) {
     writeTag(TypeTag::OBJECT);
     writeUInt32(static_cast<uint32_t>(num_fields));
 }
@@ -145,7 +145,7 @@ Serialization::TypeTag Serialization::Decoder::readTag() {
     if (pos_ >= data_.size()) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
-            fmt::format("Decoder read past end: pos={} size={}", pos_, data_.size()),
+            fmt::format("Decoder read past end: pos={} size={}", pos_,static_cast<int>(data_.size())),
             "Serialization::Decoder::readTag",
             ErrorSeverity::Warning, /*is_recoverable=*/false));
         return TypeTag::NULL_VALUE;
@@ -230,7 +230,7 @@ std::string Serialization::Decoder::decodeString() {
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before creating string
     // Prevent out-of-bounds reads when deserializing untrusted data
-    if (pos_ + size > data_.size()) {
+    if (pos_ + size > static_cast<int>(data_.size())) {
         // Malformed: declared string size exceeds available buffer
         // Return empty string instead of reading past buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
@@ -250,7 +250,7 @@ std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before vector construction
     // Prevent out-of-bounds reads and ensure safe vector initialization
-    if (pos_ + size > data_.size()) {
+    if (pos_ + size > static_cast<int>(data_.size())) {
         // Malformed: declared binary size exceeds available buffer
         // Return empty vector instead of reading past buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
@@ -269,7 +269,7 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
     // Phase A.4 Hardening - CRITICAL: Bounds check before memcpy
     // Prevent out-of-bounds reads when deserializing float vectors
     size_t bytes_needed = static_cast<size_t>(count) * sizeof(float);
-    if (pos_ + bytes_needed > data_.size()) {
+    if (pos_ + bytes_needed > static_cast<int>(data_.size())) {
         // Malformed: declared vector count exceeds available buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return std::vector<float>();  // Return empty vector
@@ -322,7 +322,7 @@ void Serialization::Decoder::endObject() {
 }
 
 bool Serialization::Decoder::hasMore() const {
-    return pos_ < data_.size();
+    return static_cast<bool>(pos_ < data_.size());
 }
 
 } // namespace utils

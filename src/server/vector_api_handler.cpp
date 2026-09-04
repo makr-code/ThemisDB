@@ -77,8 +77,12 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "vector.search", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:read", "vector.search", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("handleVectorSearch");
     span.setAttribute("http.method", "POST");
@@ -93,11 +97,13 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
 
         // Governance enforcement: block ANN for certain classifications in enforce mode
         auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
-        std::string classification;
+        std::string classification = {};
         std::string mode = "observe";
         for (const auto& h : req) {
             auto name = h.name_string();
-            if (beast::iequals(name, "X-Classification")) classification = to_lower(std::string(h.value()));
+            if (beast::iequals(name, "X-Classification")) {
+              classification = to_lower(std::string(h.value()));
+            }
             else if (beast::iequals(name, "X-Governance-Mode")) mode = to_lower(std::string(h.value()));
         }
         if (mode == "enforce") {
@@ -119,7 +125,8 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         }
         
         // Parse query vector
-        std::vector<float> queryVector;
+        std::vector<float> queryVector = {};
+
         if (body_json["vector"].is_array()) {
             for (const auto& val : body_json["vector"]) {
                 if (val.is_number()) {
@@ -150,7 +157,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         
         // Validate dimension
         int expectedDim = vector_index_->getDimension();
-        if (expectedDim > 0 && static_cast<int>(queryVector.size()) != expectedDim) {
+        if (expectedDim > 0  && static_cast<size_t>(static_cast) < int>(queryVector.size()) != expectedDim) {
             span.setStatus(false, "Dimension mismatch");
             return makeErrorResponse(http::status::bad_request,
                 "Vector dimension mismatch: expected " + std::to_string(expectedDim) +
@@ -164,14 +171,14 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             try {
                 // Einfaches Cursor-Format: numerischer Offset als String
                 std::string cur = body_json["cursor"].get<std::string>();
-                if (cur.size() > 64) {
+                if (static_cast<int>(cur.size()) > 64) {
                     span.setStatus(false, "Cursor too long");
                     return makeErrorResponse(http::status::bad_request,
                         "Field 'cursor' exceeds maximum allowed length", req);
                 }
                 offset = static_cast<size_t>(std::stoull(cur));
             } catch (...) {
-                THEMIS_WARN("vector_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "vector_api_handler: unhandled exception caught");
                 offset = 0;
             }
         }
@@ -190,18 +197,20 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
         if (use_cursor) {
             // Slice [offset, offset+k) und Cursor-Felder setzen
             json items = json::array();
-            size_t start = std::min(offset, results.size());
+            size_t start = std::min(offset,static_cast<int>(results.size()));
             size_t end = std::min(results.size(), start + k);
             for (size_t i = start; i < end; ++i) {
                 items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
             }
-            bool has_more = results.size() > end;
+            bool has_more = static_cast<int>(results.size()) > end;
             json response = {
                 {"items", items},
                 {"batch_size", end - start},
                 {"has_more", has_more}
             };
-            if (has_more) response["next_cursor"] = std::to_string(end);
+            if (has_more) {
+              response["next_cursor"] = std::to_string(end);
+            }
             span.setAttribute("vector.results_count", static_cast<int64_t>(end - start));
             span.setStatus(true);
             return makeResponse(http::status::ok, response.dump(), req);
@@ -211,7 +220,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             for (const auto& result : results) {
                 resultJson.push_back({{"pk", result.pk}, {"distance", result.distance}});
             }
-            json response = {{"results", resultJson}, {"k", k}, {"count", results.size()}};
+            json response = {{"results", resultJson}, {"k", k}, {"count",static_cast<int>(results.size())}};
             span.setAttribute("vector.results_count", static_cast<int64_t>(results.size()));
             span.setStatus(true);
             return makeResponse(http::status::ok, response.dump(), req);
@@ -234,8 +243,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("handleVectorBatchInsert");
     span.setAttribute("http.method", "POST");
@@ -308,7 +321,9 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                             auto ecfg = coll["encryption"];
                             vector_enc_enabled = ecfg.value("enabled", false);
                             if (ecfg.contains("fields") && ecfg["fields"].is_array()) {
-                                for (const auto& f : ecfg["fields"]) if (f.is_string()) vector_enc_fields.push_back(f.get<std::string>());
+                                for (const auto& f : ecfg["fields"]) {
+                                  if (f.is_string()) vector_enc_fields.push_back(f.get<std::string>());
+                                }
                             }
                         }
                         // Backward-compatible schema: { collections: { name: { fields: { fld: { encrypt: true } } } } }
@@ -326,12 +341,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 }
             }
         } catch (...) {
-            THEMIS_WARN("vector_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "vector_api_handler: unhandled exception caught");
             vector_enc_enabled = false; // fail-safe
         }
 
         // Extract auth context for user-based HKDF (salt = user_id) if encryption active
-        std::string enc_user_ctx;
+        std::string enc_user_ctx = {};
         if (vector_enc_enabled) {
             auto auth_ctx = extractAuthContext(req);
             enc_user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
@@ -346,13 +361,14 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 std::string pk = it["pk"].get<std::string>();
                 if (!isValidVectorPk(pk)) { ++errors; continue; }
 
-                std::vector<float> vec;
+                std::vector<float> vec = {};
+
                 vec.reserve(it["vector"].size());
                 for (const auto& v : it["vector"]) {
                     if (!v.is_number()) { vec.clear(); break; }
                     vec.push_back(v.get<float>());
                 }
-                if (vec.empty() || static_cast<int>(vec.size()) != configured_dim) { ++errors; continue; }
+                if (vec.empty()  || static_cast<size_t>(static_cast) < int>(vec.size()) != configured_dim) { ++errors; continue; }
 
                 // Build entity
                 BaseEntity e(pk);
@@ -361,7 +377,9 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                     for (auto fit = it["fields"].begin(); fit != it["fields"].end(); ++fit) {
                         const auto& val = fit.value();
                         const std::string key = fit.key();
-                        if (val.is_string()) e.setField(key, val.get<std::string>());
+                        if (val.is_string()) {
+                          e.setField(key, val.get<std::string>());
+                        }
                         else if (val.is_number_integer()) e.setField(key, static_cast<int64_t>(val.get<int64_t>()));
                         else if (val.is_number_float()) e.setField(key, val.get<double>());
                         else if (val.is_boolean()) e.setField(key, val.get<bool>());
@@ -372,13 +390,19 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 if (vector_enc_enabled && !vector_enc_fields.empty() && field_encryption_ && key_provider_) {
                     for (const auto& mf : vector_enc_fields) {
                         if (mf == vector_field) continue; // never encrypt embedding itself
-                        if (!e.hasField(mf)) continue;
+                        if (!e.hasField(mf)) {
+                          continue;
+                        }
                         auto valOpt = e.getField(mf);
-                        if (!valOpt.has_value()) continue;
+                        if (!valOpt.has_value()) {
+                          continue;
+                        }
                         // Serialize value to string (reuse logic similar to handlePutEntity for primitives)
-                        std::string plain_str;
+                        std::string plain_str = {};
                         const auto& v = *valOpt;
-                        if (std::holds_alternative<std::string>(v)) plain_str = std::get<std::string>(v);
+                        if (std::holds_alternative<std::string>(v)) {
+                          plain_str = std::get<std::string>(v);
+                        }
                         else if (std::holds_alternative<int64_t>(v)) plain_str = std::to_string(std::get<int64_t>(v));
                         else if (std::holds_alternative<double>(v)) plain_str = std::to_string(std::get<double>(v));
                         else if (std::holds_alternative<bool>(v)) plain_str = std::get<bool>(v) ? "true" : "false";
@@ -389,8 +413,11 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                         try {
                             // Derive field key: HKDF(DEK, user_id, "field:"+mf)
                             auto dek = key_provider_->getKey("dek");
-                            std::vector<uint8_t> salt;
-                            if (!enc_user_ctx.empty()) salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
+                            std::vector<uint8_t> salt = {};
+
+                            if (!enc_user_ctx.empty()) {
+                              salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
+                            }
                             std::string info = std::string("field:") + mf;
                             auto raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
                             auto blob = field_encryption_->encryptWithKey(plain_str, "vector_meta:" + mf, 1, raw_key);
@@ -408,7 +435,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 auto st = vector_index_->addEntity(e, *batch, vector_field);
                 if (st.ok) ++inserted; else { ++errors; }
             } catch (...) {
-                THEMIS_WARN("vector_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "vector_api_handler: unhandled exception caught");
                 ++errors;
             }
         }
@@ -444,8 +471,12 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) {
+          return *resp;
+        }
     }
     auto span = Tracer::startSpan("handleVectorDeleteByFilter");
     span.setAttribute("http.method", "DELETE");
@@ -464,11 +495,17 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
         size_t deleted = 0;
         if (body.contains("pks") && body["pks"].is_array()) {
             for (const auto& v : body["pks"]) {
-                if (!v.is_string()) continue;
+                if (!v.is_string()) {
+                  continue;
+                }
                 const std::string pk = v.get<std::string>();
-                if (!isValidVectorPk(pk)) continue;
+                if (!isValidVectorPk(pk)) {
+                  continue;
+                }
                 auto st = vector_index_->removeByPk(pk);
-                if (st.ok) ++deleted;
+                if (st.ok) {
+                  ++deleted;
+                }
             }
             json resp = {{"deleted", deleted}, {"method", "pks"}};
             span.setAttribute("deleted", static_cast<int64_t>(deleted));
@@ -488,7 +525,9 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
                 try {
                     std::string pk = KeySchema::extractPrimaryKey(key);
                     auto st = vector_index_->removeByPk(pk);
-                    if (st.ok) ++deleted;
+                    if (st.ok) {
+                      ++deleted;
+                    }
                 } catch (...) {}
                 return true; // continue
             });
@@ -579,7 +618,7 @@ http::response<http::string_body> VectorApiHandler::handleIndexConfigGet(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string metricStr;
+        std::string metricStr = {};
         if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
             metricStr = "L2";
         } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
@@ -645,7 +684,7 @@ http::response<http::string_body> VectorApiHandler::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string metricStr;
+        std::string metricStr = {};
         if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
             metricStr = "L2";
         } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
@@ -678,7 +717,9 @@ http::response<http::string_body> VectorApiHandler::handleIncrementalReindex(
     if (auth_) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
         if (auto resp = requireAccess(req, "index:write", "vector.incremental-reindex", path_only))
             return *resp;
     }
@@ -774,7 +815,7 @@ std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
@@ -789,13 +830,13 @@ std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess
     return std::nullopt;
 }
 
-AuthContext VectorApiHandler::extractAuthContext(const http::request<http::string_body>& req) const {
+AuthContext VectorApiHandler::extractAuthContext([[maybe_unused]] const http::request<http::string_body>& req) const {
     AuthContext ctx;
     
     // Extract from Authorization header
     const auto auth_header = req[http::field::authorization];
     if (!auth_header.empty()) {
-        std::string auth_value(auth_header.data(), auth_header.size());
+        std::string auth_value(auth_header.data(),static_cast<int>(auth_header.size()));
         // Simple extraction - in real impl, parse JWT or other tokens
         // For now, just extract basic info from headers
     }

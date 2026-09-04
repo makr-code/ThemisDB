@@ -59,7 +59,7 @@ public:
     }
 
 private:
-    std::string shard_id_;
+    std::string shard_id_ = {};
 };
 
 class FailingExecutor final : public themis::graph::ShardGraphExecutor {
@@ -86,7 +86,7 @@ public:
     }
 
 private:
-    std::string shard_id_;
+    std::string shard_id_ = {};
 };
 
 themis::graph::DistributedGraphManager makeManager(int total_shards) {

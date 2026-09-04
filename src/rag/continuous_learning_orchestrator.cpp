@@ -364,7 +364,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     try {
-        if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
+        if (impl_-> static_cast<int>(interactions.size()) < impl_->config.min_feedback_samples) {
             return;
         }
 
@@ -382,10 +382,12 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
         }
 
         // Find worst-performing prompt version
-        std::string worst_version;
+        std::string worst_version = {};
         double worst_rate = 1.0;
         for (const auto& [ver, total] : total_per_version) {
-            if (total == 0) continue;
+            if (total == 0) {
+              continue;
+            }
             double rate = static_cast<double>(success_per_version[ver]) / total;
             if (rate < worst_rate) {
                 worst_rate    = rate;
@@ -410,7 +412,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
                                  worst_version + "' (success rate: " +
                                  std::to_string(worst_rate) + ")";
 
-        impl_->stats.recent_improvements.push_back(event);
+        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
         impl_->stats.prompt_optimizations++;
 
         // Deploy A/B test if enabled
@@ -427,7 +429,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     try {
-        if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
+        if (impl_-> static_cast<int>(interactions.size()) < impl_->config.min_feedback_samples) {
             return;
         }
 
@@ -452,7 +454,9 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
             }
         }
 
-        if (total == 0 && eval_score_count == 0) return;
+        if (total == 0 && eval_score_count == 0) {
+          return;
+        }
 
         // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
         // Fall back to the neutral baseline when one source has no data.
@@ -466,7 +470,8 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
                                   + kEvalConfidenceWeight * eval_rate;
 
         // Use BayesianOptimizer to suggest new retrieval parameters
-        std::unordered_map<std::string, ParameterBounds> param_bounds;
+        std::unordered_map<std::string, ParameterBounds> param_bounds = {};
+
         param_bounds["top_k"]               = {1.0, 20.0};
         param_bounds["similarity_threshold"] = {0.5,  0.95};
 
@@ -496,7 +501,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
         event.metric_before    = combined_objective;
         event.metric_after     = combined_objective; // updated after A/B test
 
-        std::ostringstream desc;
+        std::ostringstream desc = {};
         desc << "Suggested retrieval params: top_k="
              << impl_->current_retrieval_params.top_k
              << " similarity_threshold="
@@ -504,7 +509,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
              << " (objective=" << combined_objective << ")";
         event.description = desc.str();
 
-        impl_->stats.recent_improvements.push_back(event);
+        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
         impl_->stats.retrieval_optimizations++;
 
         // Deploy A/B test if enabled
@@ -592,7 +597,7 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                         rollback_event.metric_after     = metrics.training_accuracy;
                         rollback_event.description      = "Automated rollback: quality/accuracy "
                                                           "below threshold";
-                        impl_->stats.recent_improvements.push_back(rollback_event);
+                        impl_->stats.recent_improvements.push_back([[maybe_unused]] rollback_event);
                         continue; // Skip retraining for this adapter
                     }
 
@@ -652,7 +657,7 @@ void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &resul
         event.description      = "Promoted after successful A/B test";
 
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        impl_->stats.recent_improvements.push_back(event);
+        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
     }
 }
 
@@ -660,7 +665,9 @@ void ContinuousLearningOrchestrator::saveMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     const std::string& path = impl_->config.metrics_db_path;
-    if (path.empty()) return;
+    if (path.empty()) {
+      return;
+    }
 
     try {
         // Check if file is new (empty) so we can write the header once
@@ -707,7 +714,9 @@ void ContinuousLearningOrchestrator::loadMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     const std::string& path = impl_->config.metrics_db_path;
-    if (path.empty()) return;
+    if (path.empty()) {
+      return;
+    }
 
     try {
         std::ifstream file(path);
@@ -717,19 +726,23 @@ void ContinuousLearningOrchestrator::loadMetrics() {
         }
 
         // Skip header line
-        std::string line;
-        if (!std::getline(file, line)) return;
+        std::string line = {};
+        if (!std::getline(file, line)) {
+          return;
+        }
 
         // Read last data row
-        std::string last_line;
+        std::string last_line = {};
         while (std::getline(file, last_line)) {
             // keep iterating to get the last line
         }
 
-        if (last_line.empty()) return;
+        if (last_line.empty()) {
+          return;
+        }
 
         std::istringstream row(last_line);
-        std::string field;
+        std::string field = {};
         int col = 0;
         while (std::getline(row, field, ',')) {
             try {
@@ -764,7 +777,9 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     const std::string& registry_path = impl_->config.model_registry_path;
-    if (registry_path.empty() || model_id.empty()) return;
+    if (registry_path.empty() || model_id.empty()) {
+      return;
+    }
 
     // Record checkpoint event in stats
     ImprovementEvent event;
@@ -774,7 +789,7 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
     event.metric_before    = impl_->stats.current_accuracy;
     event.metric_after     = impl_->stats.current_accuracy;
     event.description      = "Checkpoint saved for model: " + model_id;
-    impl_->stats.recent_improvements.push_back(event);
+    impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
 }
 
 void ContinuousLearningOrchestrator::learningLoopThread() {
@@ -875,7 +890,7 @@ void ContinuousLearningOrchestrator::registerLoopCompletionHandler(
         LoopPhase phase,
         std::function<void(LoopPhase, const LoopResult&)> handler) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    impl_->loop_handlers[static_cast<int>(phase)] = std::move(handler);
+    impl_->loop_handlers[static_cast<int>([[maybe_unused]] phase)] = std::move(handler);
 }
 
 ContinuousLearningOrchestrator::LoopResult
@@ -1078,12 +1093,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         impl_->active_loop = LoopPhase::IDLE;
         // Store last result for context serialiser
         impl_->last_loop_results[static_cast<int>(phase)] = result;
-        auto it = impl_->loop_handlers.find(static_cast<int>(phase));
-        if (it != impl_->loop_handlers.end() && it->second) {
+        auto it = impl_->loop_handlers.find([[maybe_unused]] static_cast<int>(phase));
+        if ([[maybe_unused]] it != impl_->loop_handlers.end() && it->second) {
             completion_handler = it->second;
         }
     }
-    if (completion_handler) {
+    if ([[maybe_unused]] completion_handler) {
         completion_handler(phase, result);
     }
 
@@ -1200,7 +1215,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     auto iso_time = [](std::chrono::system_clock::time_point tp) -> std::string {
         if (tp == std::chrono::system_clock::time_point{}) return "";
         const auto t = std::chrono::system_clock::to_time_t(tp);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         struct tm buf{};
 #if defined(_WIN32)
         gmtime_s(&buf, &t);
@@ -1212,10 +1227,12 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     };
 
     auto escape_json = [](const std::string& s) -> std::string {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (const char c : s) {
-            if      (c == '"')  out += "\\\"";
+            if      (c == '"') {
+              out += "\\\"";
+            }
             else if (c == '\\') out += "\\\\";
             else if (c == '\n') out += "\\n";
             else                out += c;
@@ -1230,11 +1247,13 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
         {static_cast<int>(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
     };
 
-    std::ostringstream json;
+    std::ostringstream json = {};
     json << "{\"loops\":[";
     bool first = true;
     for (const auto& [key, res] : snap.results) {
-        if (!first) json << ",";
+        if (!first) {
+          json << ",";
+        }
         first = false;
         const std::string phase_name =
             kPhaseNames.count(key) ? kPhaseNames.at(key) : "UNKNOWN";
@@ -1267,7 +1286,7 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
 
     // Hard-cap at ~8 000 chars (≈ 2 000 tokens) to respect the context budget
     std::string out = json.str();
-    if (out.size() > 8000) {
+    if (static_cast<int>(out.size()) > 8000) {
         out.resize(8000);
         // ensure valid closing brackets
         out += "...]}";

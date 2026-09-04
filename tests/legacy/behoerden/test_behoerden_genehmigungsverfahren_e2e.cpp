@@ -431,8 +431,8 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase2_FormalePruefungVollstaendig
 TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase3_BauamtErstelltStellungnahmeAnfragen) {
     // Bauamt erzeugt je einen XDOMEA-Vorgang für drei Fachbehörden
     struct FachBehoerde {
-        std::string id;
-        std::string name;
+        std::string id = {};
+        std::string name = {};
     };
     std::vector<FachBehoerde> behoerden = {
         {"VG-DSB-001", "Denkmalschutzbehörde NRW"},
@@ -723,7 +723,9 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase5_BauamtAggregatiertUndLLMEnt
     int zustimmungen = 0;
     for (const auto& doc : alle_docs) {
         auto it = doc.metadata.find("ergebnis");
-        if (it == doc.metadata.end()) continue;
+        if (it == doc.metadata.end()) {
+          continue;
+        }
         if (it->second == "KEINE_EINWAENDE" || it->second == "ZUSTIMMUNG" ||
             it->second == "ZUSTIMMUNG_MIT_AUFLAGEN") {
             ++zustimmungen;
@@ -990,7 +992,9 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, GesamtprozessProzessschrittReihenf
     // Phase1 kommt vor Phase2 kommt vor Phase3 usw.
     auto find_idx = [this](const std::string& substr) -> int {
         for (int i = 0; i < static_cast<int>(prozess_log_.size()); ++i) {
-            if (prozess_log_[i].find(substr) != std::string::npos) return i;
+            if (prozess_log_[i].find(substr) != std::string::npos) {
+              return i;
+            }
         }
         return -1;
     };
@@ -1015,11 +1019,12 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, ParalleleStellungnahmenThreadSiche
     // 9 Dokumente parallel in verschiedene Behörden-Stores schreiben
     struct WriteJob {
         InMemoryXDOMEAConnector* dms;
-        std::string doc_id;
-        std::string behoerde;
+        std::string doc_id = {};
+        std::string behoerde = {};
     };
 
-    std::vector<WriteJob> jobs;
+    std::vector<WriteJob> jobs = {};
+
     for (int i = 0; i < 3; ++i) {
         jobs.push_back({&dms_denkmalschutz_, "TSAFE-DSB-" + std::to_string(i), "Denkmalschutz"});
         jobs.push_back({&dms_umweltamt_,     "TSAFE-UWA-" + std::to_string(i), "Umweltamt"});

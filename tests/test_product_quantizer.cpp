@@ -16,7 +16,7 @@ class ProductQuantizerTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Generate random training vectors
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(42);  // Fixed seed for reproducibility
         std::normal_distribution<float> dis(0.0f, 1.0f);
         
@@ -196,7 +196,7 @@ TEST_F(ProductQuantizerTest, Different1024DimensionWith16Subquantizers) {
     ProductQuantizer pq(large_dim, config);
     
     // Generate training data
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(42);
     std::normal_distribution<float> dis(0.0f, 1.0f);
     

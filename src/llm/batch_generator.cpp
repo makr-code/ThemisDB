@@ -17,7 +17,7 @@
 
 namespace themis::llm {
 
-BatchGenerator::BatchGenerator(size_t batch_size)
+BatchGenerator::BatchGenerator([[maybe_unused]] size_t batch_size)
     : batch_size_(batch_size), total_batches_(0) {
     spdlog::debug("BatchGenerator initialized with batch_size={}", batch_size);
 }

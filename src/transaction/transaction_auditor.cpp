@@ -25,7 +25,7 @@ namespace themis {
 // enableAuditing
 // ─────────────────────────────────────────────────────────────────────────────
 
-void TransactionAuditor::enableAuditing(bool enabled)
+void TransactionAuditor::enableAuditing([[maybe_unused]] bool enabled)
 {
     enabled_.store(enabled, std::memory_order_release);
 }
@@ -36,7 +36,9 @@ void TransactionAuditor::enableAuditing(bool enabled)
 
 void TransactionAuditor::record(AuditRecord record)
 {
-    if (!enabled_.load(std::memory_order_acquire)) return;
+    if (!enabled_.load(std::memory_order_acquire)) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lk(log_mutex_);
     // Sprint 8 Phase 1 (GAP A-2): Record is moved to log vector.
@@ -58,19 +60,28 @@ TransactionAuditor::queryAuditLog(
 {
     std::lock_guard<std::mutex> lk(log_mutex_);
 
-    std::vector<AuditRecord> result;
-    result.reserve(limit == 0 ? log_.size() : std::min(log_.size(), limit));
+    std::vector<AuditRecord> result = {};
+
+    result.reserve(limit == 0 ?static_cast<int>(log_.size()) : std::min(log_.size(), limit));
 
     // Iterate in reverse (most-recent-first).
     for (auto it = log_.rbegin(); it != log_.rend(); ++it) {
         const auto& rec = *it;
 
-        if (user_id    && rec.user_id   != *user_id)    continue;
-        if (start_time && rec.timestamp <  *start_time) continue;
-        if (end_time   && rec.timestamp >  *end_time)   continue;
+        if (user_id    && rec.user_id   != *user_id) {
+          continue;
+        }
+        if (start_time && rec.timestamp <  *start_time) {
+          continue;
+        }
+        if (end_time   && rec.timestamp >  *end_time) {
+          continue;
+        }
 
         result.push_back(rec);
-        if (limit != 0 && result.size() >= limit) break;
+        if (limit != 0 && static_cast<int>(result.size()) >= limit) {
+          break;
+        }
     }
 
     return result;
@@ -83,7 +94,7 @@ TransactionAuditor::queryAuditLog(
 size_t TransactionAuditor::size() const
 {
     std::lock_guard<std::mutex> lk(log_mutex_);
-    return log_.size();
+    return static_cast<int>(log_.size());
 }
 
 void TransactionAuditor::clear()
@@ -104,7 +115,7 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
 
     // Timestamp → ISO-8601 string
     auto t = std::chrono::system_clock::to_time_t(rec.timestamp);
-    std::ostringstream ts_stream;
+    std::ostringstream ts_stream = {};
     ts_stream << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
 
     auto result_str = [&]() -> std::string {
@@ -128,8 +139,12 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
         }
         j["table"] = op.table;
         j["key"]   = op.key;
-        if (op.old_value) j["old_value"] = *op.old_value;
-        if (op.new_value) j["new_value"] = *op.new_value;
+        if (op.old_value) {
+          j["old_value"] = *op.old_value;
+        }
+        if (op.new_value) {
+          j["new_value"] = *op.new_value;
+        }
         ops.push_back(std::move(j));
     }
 
@@ -147,7 +162,7 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
 
 /// Serialise all records to newline-delimited JSON (NDJSON).
 std::string serializeToNDJSON(const std::vector<TransactionAuditor::AuditRecord>& records) {
-    std::string out;
+    std::string out = {};
     out.reserve(records.size() * 256);
     for (const auto& rec : records) {
         out += recordToJson(rec).dump();
@@ -160,10 +175,12 @@ std::string serializeToNDJSON(const std::vector<TransactionAuditor::AuditRecord>
 std::string buildS3Key(const std::string& prefix) {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(std::gmtime(&t), "%Y%m%dT%H%M%SZ");
     std::string key = prefix;
-    if (!key.empty() && key.back() != '/') key += '/';
+    if (!key.empty() && key.back() != '/') {
+      key += '/';
+    }
     key += "audit_" + ss.str() + ".ndjson";
     return key;
 }

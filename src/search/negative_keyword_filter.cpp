@@ -40,13 +40,13 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
     ParsedQuery result;
 
     std::istringstream iss(raw_query);
-    std::string token;
+    std::string token = {};
     bool next_is_negative = false;
-    std::string positive_buf;
+    std::string positive_buf = {};
 
     while (iss >> token) {
         // Check for the `NOT` keyword (case-insensitive)
-        std::string token_upper;
+        std::string token_upper = {};
         token_upper.reserve(token.size());
         for (unsigned char c : token) {
             token_upper += static_cast<char>(std::toupper(c));
@@ -59,7 +59,7 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
 
         if (next_is_negative) {
             // The previous token was `NOT` — this token is excluded
-            std::string neg;
+            std::string neg = {};
             neg.reserve(token.size());
             for (unsigned char c : token) {
                 neg += static_cast<char>(std::tolower(c));
@@ -71,7 +71,7 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
             continue;
         }
 
-        if (token.size() >= 2 && token[0] == '-') {
+        if (static_cast<int>(token.size()) >= 2 && token[0] == '-') {
             // Minus-prefix syntax: `-term`
             std::string neg(token.begin() + 1, token.end());
             std::transform(neg.begin(), neg.end(), neg.begin(),
@@ -83,7 +83,9 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
         }
 
         // Regular positive token
-        if (!positive_buf.empty()) positive_buf += ' ';
+        if (!positive_buf.empty()) {
+          positive_buf += ' ';
+        }
         positive_buf += token;
         next_is_negative = false;
     }
@@ -123,7 +125,9 @@ NegativeKeywordFilter::filter(
     SecondaryIndexManager::Status last_error = SecondaryIndexManager::Status::OK();
 
     for (const auto& term : negative_terms) {
-        if (term.empty()) continue;
+        if (term.empty()) {
+          continue;
+        }
 
         try {
             auto [status, neg_results] = index_->scanFulltext(
@@ -151,7 +155,8 @@ NegativeKeywordFilter::filter(
     }
 
     // Remove excluded PKs from the candidate set while preserving order.
-    std::vector<std::string> filtered;
+    std::vector<std::string> filtered = {};
+
     filtered.reserve(candidate_pks.size());
     for (const auto& pk : candidate_pks) {
         if (excluded.find(pk) == excluded.end()) {
@@ -162,8 +167,8 @@ NegativeKeywordFilter::filter(
     THEMIS_DEBUG(
         "NegativeKeywordFilter: {}/{} candidates survived NOT filter "
         "(excluded {} docs for {} negative terms)",
-        filtered.size(), candidate_pks.size(),
-        excluded.size(), negative_terms.size());
+        filtered.size(),static_cast<int>(candidate_pks.size()),
+        excluded.size(),static_cast<int>(negative_terms.size()));
 
     return {last_error, std::move(filtered)};
 }

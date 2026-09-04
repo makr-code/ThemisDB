@@ -87,8 +87,8 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
 
     const size_t expected_elements = n_tokens * config_.embedding_dim;
 
-    if (keys.size() != expected_elements ||
-        values.size() != expected_elements) {
+    if (static_cast<int>(keys.size()) != expected_elements ||
+        static_cast<int>(values.size()) != expected_elements) {
         throw std::invalid_argument("Keys/values size mismatch with n_tokens and embedding_dim");
     }
 
@@ -128,8 +128,8 @@ void KVCacheBuffer::flush() {
     }
     
     // Call flush callback if set
-    if (flush_callback_) {
-        flush_callback_(current_batch_);
+    if ([[maybe_unused]] flush_callback_) {
+        flush_callback_([[maybe_unused]] current_batch_);
     }
     
     // Update stats
@@ -195,7 +195,7 @@ bool KVCacheBuffer::checkAndFlush() {
     return flushed;
 }
 
-KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence(int sequence_id) {
+KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence([[maybe_unused]] int sequence_id) {
     auto it = sequence_to_index_.find(sequence_id);
     
     if (it != sequence_to_index_.end()) {
@@ -272,7 +272,7 @@ KVCacheBufferPool::PoolStats KVCacheBufferPool::getPoolStats() const {
     return PoolStats{
         .total_buffers = buffers_.size(),
         .available_buffers = available,
-        .acquired_buffers = buffers_.size() - available
+        .acquired_buffers = static_cast<int>(buffers_.size()) - available
     };
 }
 

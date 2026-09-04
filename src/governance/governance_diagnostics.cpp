@@ -42,7 +42,8 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCompone
     const std::string& component) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GovernanceDiagnostic> result;
+    std::vector<GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         if (d.component == component) {
             result.push_back(d);
@@ -55,7 +56,8 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCode(
     GovDiagnosticCode code) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GovernanceDiagnostic> result;
+    std::vector<GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         if (d.code == code) {
             result.push_back(d);
@@ -68,7 +70,8 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsInTimeRang
     int64_t start_ms, int64_t end_ms) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<GovernanceDiagnostic> result;
+    std::vector<GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         bool in_range = true;
         if (start_ms > 0 && d.timestamp_ms < start_ms) {
@@ -95,7 +98,8 @@ std::unordered_map<std::string, GovernanceDiagnostic>
 DiagnosticAggregator::getLatestPerComponent() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::unordered_map<std::string, GovernanceDiagnostic> result;
+    std::unordered_map<std::string, GovernanceDiagnostic> result = {};
+
     for (const auto& d : diagnostics_) {
         auto it = result.find(d.component);
         if (it == result.end() || it->second.timestamp_ms < d.timestamp_ms) {
@@ -122,7 +126,7 @@ void DiagnosticAggregator::clear() {
 
 size_t DiagnosticAggregator::getTotalCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return diagnostics_.size();
+    return static_cast<int>(diagnostics_.size());
 }
 
 DiagnosticAggregator& getGlobalDiagnosticAggregator() {
@@ -154,7 +158,7 @@ ConflictDiagnosticHelper::detectConflict(
     
     // Detect conflicts between policy pairs
     // For Phase 3B, this is a stub implementation that checks policy_ids count
-    if (policy_ids.size() > 1) {
+    if (static_cast<int>(policy_ids.size()) > 1) {
         // Simple conflict detection: if multiple policies exist, potential conflict
         result.has_conflicts = true;
         
@@ -288,10 +292,18 @@ bool ConflictDiagnosticHelper::detectPrivilegeEscalation(
 ) const {
     // Tier hierarchy: read_only (0) < editor (1) < auditor (2) < admin (3)
     auto getTierLevel = [](const std::string& tier) -> int {
-        if (tier == "read_only") return 0;
-        if (tier == "editor") return 1;
-        if (tier == "auditor") return 2;
-        if (tier == "admin") return 3;
+        if (tier == "read_only") {
+          return 0;
+        }
+        if (tier == "editor") {
+          return 1;
+        }
+        if (tier == "auditor") {
+          return 2;
+        }
+        if (tier == "admin") {
+          return 3;
+        }
         return -1;  // Unknown tier
     };
     
@@ -366,7 +378,7 @@ std::vector<MaskingRuleViolation> ConflictDiagnosticHelper::validateMaskingRuleC
     
     // Detect conflicting rules on same schema
     for (const auto& [schema, rules] : schema_to_rules) {
-        if (rules.size() > 1) {
+        if (static_cast<int>(rules.size()) > 1) {
             MaskingRuleViolation violation;
             violation.rule_id = schema;
             violation.violation_type = "inconsistent_redaction";
@@ -697,7 +709,7 @@ SafeAccessResult SafeAccessValidator::validateAccessRequest(
         diag.context["violation_count"] = std::to_string(result.violations.size());
         diag.context["user_tier"] = request.user_tier;
         
-        for (size_t i = 0; i < result.scenario_codes.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(result.scenario_codes.size()); ++i) {
             diag.remediation_steps.push_back(result.remediation_steps[i]);
         }
         
@@ -719,7 +731,7 @@ void SafeAccessValidator::clearViolationHistory() {
 
 size_t SafeAccessValidator::getViolationCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return violation_history_.size();
+    return static_cast<int>(violation_history_.size());
 }
 
 } // namespace themis::governance

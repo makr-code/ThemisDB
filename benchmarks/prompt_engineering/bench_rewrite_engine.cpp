@@ -77,7 +77,7 @@ namespace {
 
 /// Create a synthetic input document for rewrite testing.
 std::string MakeSyntheticPrompt(int variant = 0) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "User query: analyze data for variant " << variant << ". "
         << "Context: this is a test input. "
         << "Instructions: be concise and accurate. "
@@ -236,7 +236,7 @@ BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG03_NlToAqlPhase)
 BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG04_YamlRuleLoading)
 (benchmark::State& state) {
     // Build a 100-rule YAML config
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "---\nrules:\n";
     for (int i = 0; i < 100; ++i) {
         oss << "  - id: rule_" << i << "\n"
@@ -278,7 +278,7 @@ BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG05_TraceGeneration)
     for (auto _ : state) {
         int id = counter.fetch_add(1, std::memory_order_relaxed);
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Trace test document " << id << " with multiple lines:\n";
         for (int j = 0; j < 10; ++j) {
             oss << "Line " << j << ": content for tracing\n";

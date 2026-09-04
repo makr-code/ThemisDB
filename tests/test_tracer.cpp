@@ -186,8 +186,12 @@ TEST(ObservabilityTracerTest, ChildSpanInheritsTraceId) {
     const SpanRecord* parent_rec = nullptr;
     const SpanRecord* child_rec  = nullptr;
     for (const auto& r : completed) {
-        if (r.name == "parent") parent_rec = &r;
-        if (r.name == "child")  child_rec  = &r;
+        if (r.name == "parent") {
+          parent_rec = &r;
+        }
+        if (r.name == "child") {
+          child_rec  = &r;
+        }
     }
     ASSERT_NE(nullptr, parent_rec);
     ASSERT_NE(nullptr, child_rec);
@@ -320,7 +324,9 @@ TEST(ObservabilityTracerTest, ConcurrentSpanCreation) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(kThreads * kEach, tracer.stats().total_spans);
 }

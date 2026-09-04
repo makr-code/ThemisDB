@@ -69,7 +69,7 @@ static constexpr int      kWarmup          = 500;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -154,7 +154,7 @@ public:
         // Warmup
         KeyGenerator wkg(kW7CanonicalSeed + 1);
         for (int i = 0; i < kWarmup; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.Next(kDatasetSize), val);
         }
     }
@@ -179,7 +179,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR01_LatencyInjectionReads)(benchmark::Stat
     KeyGenerator kg(kW7CanonicalSeed + 101);
     for (auto _ : state) {
         fi.MaybeInject();
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -236,13 +236,15 @@ BENCHMARK_F(DegradationBaseFixture, DFR03_SaturationConcurrency)(benchmark::Stat
             threads.emplace_back([this, t, ops_per_thread, &total_ops]() {
                 KeyGenerator kg(kW7CanonicalSeed + 103 + static_cast<uint64_t>(t));
                 for (int i = 0; i < ops_per_thread; ++i) {
-                    std::string val;
+                    std::string val = {};
                     db_->get(kg.Next(kDatasetSize), val);
                     ++total_ops;
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         state.SetItemsProcessed(total_ops.load());
     }
 }
@@ -294,7 +296,9 @@ public:
         {
             RocksDBWrapper::Config cfg = DefaultCfg(db_path_);
             RocksDBWrapper warm_db(cfg);
-            if (!warm_db.open()) throw std::runtime_error("W7C DFR-05: warm open failed");
+            if (!warm_db.open()) {
+              throw std::runtime_error("W7C DFR-05: warm open failed");
+            }
             for (int i = 0; i < kDatasetSize; ++i) {
                 warm_db.put("k_" + std::to_string(i), "v_" + std::to_string(i));
             }
@@ -304,7 +308,9 @@ public:
         RocksDBWrapper::Config cold_cfg = DefaultCfg(db_path_);
         cold_cfg.block_cache_size_mb = 1;
         db_ = std::make_unique<RocksDBWrapper>(cold_cfg);
-        if (!db_->open()) throw std::runtime_error("W7C DFR-05: cold open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7C DFR-05: cold open failed");
+        }
     }
 
     void TearDown(const ::benchmark::State&) override {
@@ -313,14 +319,14 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
 BENCHMARK_F(ColdStartFixture, DFR05_ColdStartReadLatency)(benchmark::State& state) {
     KeyGenerator kg(kW7CanonicalSeed + 105);
     for (auto _ : state) {
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -347,12 +353,14 @@ BENCHMARK_F(DegradationBaseFixture, DFR06_HalfThreadsResourceReduction)(benchmar
             workers.emplace_back([this, t]() {
                 KeyGenerator kg(kW7CanonicalSeed + 106 + static_cast<uint64_t>(t));
                 for (int i = 0; i < kOpsPerWorker; ++i) {
-                    std::string val;
+                    std::string val = {};
                     db_->get(kg.Next(kDatasetSize), val);
                 }
             });
         }
-        for (auto& w : workers) w.join();
+        for (auto& w : workers) {
+          w.join();
+        }
     }
     state.SetItemsProcessed(
         static_cast<int64_t>(state.iterations()) * kConstrainedThreads * kOpsPerWorker);
@@ -383,7 +391,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR07_RecoveryAfterCompaction)(benchmark::St
             // Recovery read phase – measure whether latency has normalised
             KeyGenerator kg(kW7CanonicalSeed + 200 + static_cast<uint64_t>(iter));
             for (int i = 0; i < 1'000; ++i) {
-                std::string val;
+                std::string val = {};
                 benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
             }
         }
@@ -419,7 +427,7 @@ BENCHMARK_F(DegradationBaseFixture, DFR08_DegradedMixedWorkload)(benchmark::Stat
             }
         } else {
             read_fi.MaybeInject();
-            std::string val;
+            std::string val = {};
             benchmark::DoNotOptimize(db_->get(kg.Next(kDatasetSize), val));
             ++successful_ops;
         }

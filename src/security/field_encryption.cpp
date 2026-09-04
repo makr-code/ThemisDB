@@ -56,7 +56,7 @@ namespace {
     using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 }
 
-// [E-1] key parameter removed: raw key bytes must never be passed into debug utilities.
+// [static_cast<int>(E - 1)] key parameter removed: raw key bytes must never be passed into debug utilities.
 // SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs
 // (IV, tag, ciphertext) to disk in plaintext JSON.  Enforce absence of this variable via
 // your deployment's environment guard or startup validation.
@@ -82,7 +82,7 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 
         nlohmann::json j = blob.toJson();
-        // [E-1] Do NOT include key material in debug dumps.
+        // [static_cast<int>(E - 1)] Do NOT include key material in debug dumps.
         // key_fingerprint_prefix was removed because it embeds the first 8 bytes
         // of the raw encryption key in a plain-text on-disk file, violating the
         // principle of minimum key exposure.  Use key_id/key_version (already
@@ -109,11 +109,11 @@ static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     if (data.empty()) {
         return {};
     }
-    if (data.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(data.size()) > static_cast<size_t>(INT_MAX)) {
         throw std::runtime_error("fieldBase64Encode: input too large");
     }
 
-    std::string encoded(4 * ((data.size() + 2) / 3), '\0');
+    std::string encoded(4 * ((static_cast<int>(data.size()) + 2) / 3), '\0');
     int encoded_len = EVP_EncodeBlock(
         reinterpret_cast<unsigned char*>(encoded.data()),
         data.data(),
@@ -129,7 +129,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     if (encoded_string.empty()) {
         return {};
     }
-    if (encoded_string.size() % 4 != 0 || encoded_string.size() > static_cast<size_t>(INT_MAX)) {
+    if (encoded_string.size() % 4 != 0 || static_cast<int>(encoded_string.size()) > static_cast<size_t>(INT_MAX)) {
         return {};
     }
 
@@ -145,7 +145,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     size_t padding = 0;
     if (!encoded_string.empty() && encoded_string.back() == '=') {
         padding++;
-        if (encoded_string.size() > 1 && encoded_string[encoded_string.size() - 2] == '=') {
+        if (static_cast<int>(encoded_string.size()) > 1 && encoded_string[encoded_string.size() - 2] == '=') {
             padding++;
         }
     }
@@ -161,7 +161,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
 
 std::string EncryptedBlob::toBase64() const {
     // Format: key_id:version:base64(iv):base64(ciphertext):base64(tag)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << key_id << ":"
         << key_version << ":"
         << fieldBase64Encode(iv) << ":"
@@ -176,12 +176,12 @@ EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
     // Split by ':'
     std::vector<std::string> parts;
     std::stringstream ss(b64);
-    std::string part;
+    std::string part = {};
     while (std::getline(ss, part, ':')) {
         parts.push_back(part);
     }
     
-    if (parts.size() != 5) {
+    if (static_cast<int>(parts.size()) != 5) {
         throw std::runtime_error("Invalid EncryptedBlob format: expected 5 parts, got " + std::to_string(parts.size()));
     }
     
@@ -205,7 +205,7 @@ nlohmann::json EncryptedBlob::toJson() const {
 }
 
 EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
-    EncryptedBlob blob;
+    EncryptedBlob blob = {};
 
     if (!j.is_object()) {
         throw std::runtime_error("EncryptedBlob::fromJson: expected JSON object");
@@ -232,7 +232,8 @@ EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
 
 std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector<std::pair<std::string,std::string>>& items,
                                                                 const std::string& key_id) {
-    std::vector<EncryptedBlob> out;
+    std::vector<EncryptedBlob> out = {};
+
     out.resize(items.size());
 
     // Fetch base key once
@@ -256,7 +257,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
         }
     };
 
-    const auto process_item = [&](size_t i) {
+    const auto process_item = [&]([[maybe_unused]] size_t i) {
         const auto& ent = items[i];
         try {
             out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
@@ -278,7 +279,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
 
 #if THEMIS_HAS_TBB
     if (do_parallel) {
-        tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
+        tbb::parallel_for(tbb::blocked_range<size_t>(0,static_cast<int>(items.size())), [&]([[maybe_unused]] const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
                 process_item(i);
             }
@@ -415,7 +416,7 @@ EncryptedBlob FieldEncryption::encrypt(const std::string& plaintext, const std::
 
 EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, const std::string& key_id) {
     // Runtime license gate: field-level encryption is an Enterprise/Hyperscaler feature.
-    std::string license_error;
+    std::string license_error = {};
     if (!license::RuntimeLicenseGate::instance()
             .isFeatureAllowed("field_encryption", license_error)) {
         throw std::runtime_error("Field encryption unavailable: " + license_error);
@@ -530,7 +531,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
                                                 const std::string& key_id,
                                                 uint32_t key_version,
                                                 const std::vector<uint8_t>& key) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw EncryptionException("Key must be 32 bytes (256 bits)");
     }
     
@@ -561,7 +562,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     
     // Encrypt plaintext
-    blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    blob.ciphertext.resize(static_cast<int>(plaintext.size()) + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
     int len = 0;
     if (EVP_EncryptUpdate(ctx.get(), blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
         throw EncryptionException("Encryption failed");
@@ -582,7 +583,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     
     THEMIS_INFO("encryptInternal: key_id={}, key_ver={}, iv_len={}, ciphertext_len={}, tag_len={}",
-                blob.key_id, blob.key_version, blob.iv.size(), blob.ciphertext.size(), blob.tag.size());
+                blob.key_id, blob.key_version,static_cast<int>(blob.iv.size()),static_cast<int>(blob.ciphertext.size()),static_cast<int>(blob.tag.size()));
     // Write debug dump (best-effort, opt-in via THEMIS_DEBUG_ENC_DIR env var)
     write_debug_dump("encrypt", blob, true);
 
@@ -591,15 +592,15 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
 
 std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
                                                        const std::vector<uint8_t>& key) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw DecryptionException("Key must be 32 bytes (256 bits)");
     }
     
-    if (blob.iv.size() != 12) {
+    if (static_cast<int>(blob.iv.size()) != 12) {
         throw DecryptionException("IV must be 12 bytes");
     }
     
-    if (blob.tag.size() != 16) {
+    if (static_cast<int>(blob.tag.size()) != 16) {
         throw DecryptionException("Tag must be 16 bytes");
     }
     
@@ -639,7 +640,7 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
     
     // Finalize decryption (verifies authentication tag)
     THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
-                blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
+                blob.key_id, blob.key_version,static_cast<int>(blob.ciphertext.size()),static_cast<int>(blob.tag.size()),static_cast<int>(blob.iv.size()),static_cast<int>(key.size()));
     int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len);
     if (ret <= 0) {
         // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)

@@ -221,8 +221,8 @@ public:
 private:
     DistributedBlacklistConfig config_;
     
-    // RocksDB state (same ownership model as RocksDBTokenBlacklist)
-    std::unique_ptr<rocksdb::DB> db_{nullptr};
+    // RocksDB state (raw pointer; destruction handled manually)
+    rocksdb::DB* db_{nullptr};
     rocksdb::ColumnFamilyHandle* cf_{nullptr};
     std::vector<rocksdb::ColumnFamilyHandle*> other_cf_handles_;
     

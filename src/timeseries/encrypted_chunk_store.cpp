@@ -172,8 +172,9 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
     EVP_CIPHER_CTX_free(ctx);
 
     // 5. Assemble blob: KEY_ID_LEN(4 BE) | key_id | IV[12] | CT | TAG[16]
-    std::vector<uint8_t> blob;
-    blob.reserve(KEY_ID_PREFIX_LEN_BYTES + key_id.size() + IV_LEN + ciphertext.size() + TAG_LEN);
+    std::vector<uint8_t> blob = {};
+
+    blob.reserve(KEY_ID_PREFIX_LEN_BYTES + static_cast<int>(key_id.size()) + IV_LEN + static_cast<int>(ciphertext.size()) + TAG_LEN);
 
     writeU32BE(blob, static_cast<uint32_t>(key_id.size()));
     blob.insert(blob.end(), key_id.begin(), key_id.end());
@@ -198,7 +199,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
 {
     // Minimum blob size: 4 (key_id len) + 0 (key_id) + 12 (IV) + 0 (CT) + 16 (TAG)
     constexpr size_t MIN_BLOB = KEY_ID_PREFIX_LEN_BYTES + IV_LEN + TAG_LEN;
-    if (blob.size() < MIN_BLOB) {
+    if (static_cast<int>(blob.size()) < MIN_BLOB) {
         throw std::runtime_error("EncryptedChunkStore: blob too short");
     }
 
@@ -208,8 +209,8 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     uint32_t key_id_len = readU32BE(p);
     p += KEY_ID_PREFIX_LEN_BYTES;
 
-    if (key_id_len > 4096u ||
-        static_cast<size_t>(p - blob.data()) + key_id_len + IV_LEN + TAG_LEN > blob.size()) {
+    if (key_id_len > 4096 ||
+        static_cast<size_t>(p - blob.data()) + key_id_len + IV_LEN + TAG_LEN > static_cast<int>(blob.size())) {
         throw std::runtime_error("EncryptedChunkStore: invalid blob (key_id_len out of bounds)");
     }
 
@@ -229,7 +230,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     const uint8_t* iv  = p;
     p += IV_LEN;
 
-    size_t remaining = static_cast<size_t>(blob.data() + blob.size() - p);
+    size_t remaining = static_cast<size_t>(blob.data() + static_cast<int>(blob.size()) - p);
     if (remaining < TAG_LEN) {
         throw std::runtime_error("EncryptedChunkStore: blob too short for ciphertext");
     }
@@ -301,14 +302,16 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
     // Snapshot the mutable state under a shared lock so reads are consistent
     // with concurrent setAuditLogger() / setAccessorIdentity() calls.
     utils::AuditLogger* logger;
-    std::string         accessor;
+    std::string         accessor = {};
     {
         std::shared_lock<std::shared_mutex> lk(rw_mu_);
         logger   = audit_logger_;
         accessor = accessor_identity_;
     }
 
-    if (!logger) return;
+    if (!logger) {
+      return;
+    }
 
     logger->logSecurityEvent(
         utils::SecurityEventType::KEY_ACCESS,

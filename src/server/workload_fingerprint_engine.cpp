@@ -38,7 +38,9 @@ void l1Normalise(std::vector<double>& v) {
         std::fill(v.begin(), v.end(), uniform);
         return;
     }
-    for (auto& x : v) x /= sum;
+    for (auto& x : v) {
+      x /= sum;
+    }
 }
 
 } // anonymous namespace
@@ -62,23 +64,39 @@ WorkloadFingerprintEngine::classify(
     // ── OLTP score ──────────────────────────────────────────────────────────
     // High query rate, short latency, mostly reads.
     double oltpScore = 0.0;
-    if (stats.query_count >= 1000)          oltpScore += 0.40;
+    if (stats.query_count >= 1000) {
+      oltpScore += 0.40;
+    }
     else if (stats.query_count >= 100)      oltpScore += 0.20;
-    if (stats.avg_p99_ms <= 10.0)           oltpScore += 0.30;
+    if (stats.avg_p99_ms <= 10.0) {
+      oltpScore += 0.30;
+    }
     else if (stats.avg_p99_ms <= 50.0)      oltpScore += 0.15;
-    if (stats.write_ratio < 0.30)           oltpScore += 0.15;
-    if (stats.avg_rows_per_query <= 100)    oltpScore += 0.15;
+    if (stats.write_ratio < 0.30) {
+      oltpScore += 0.15;
+    }
+    if (stats.avg_rows_per_query <= 100) {
+      oltpScore += 0.15;
+    }
 
     // ── OLAP score ──────────────────────────────────────────────────────────
     // Low query count, heavy latency, large row scans, mostly reads.
     double olapScore = 0.0;
-    if (stats.query_count <= 20)            olapScore += 0.30;
+    if (stats.query_count <= 20) {
+      olapScore += 0.30;
+    }
     else if (stats.query_count <= 100)      olapScore += 0.15;
-    if (stats.avg_p99_ms >= 1000.0)         olapScore += 0.40;
+    if (stats.avg_p99_ms >= 1000.0) {
+      olapScore += 0.40;
+    }
     else if (stats.avg_p99_ms >= 100.0)     olapScore += 0.20;
-    if (stats.avg_rows_per_query >= 100000) olapScore += 0.30;
+    if (stats.avg_rows_per_query >= 100000) {
+      olapScore += 0.30;
+    }
     else if (stats.avg_rows_per_query >= 10000) olapScore += 0.15;
-    if (stats.write_ratio < 0.10)           olapScore += 0.10;
+    if (stats.write_ratio < 0.10) {
+      olapScore += 0.10;
+    }
 
     // OLAP should represent read-heavy analytical workloads. Strong write-heavy
     // or bulk-ingest patterns are more indicative of BATCH and should reduce
@@ -90,11 +108,17 @@ WorkloadFingerprintEngine::classify(
     // ── BATCH score ─────────────────────────────────────────────────────────
     // Periodic bulk inserts, high write ratio.
     double batchScore = 0.0;
-    if (stats.bulk_insert_count >= 5)       batchScore += 0.40;
+    if (stats.bulk_insert_count >= 5) {
+      batchScore += 0.40;
+    }
     else if (stats.bulk_insert_count >= 1)  batchScore += 0.25;
-    if (stats.write_ratio >= 0.70)          batchScore += 0.30;
+    if (stats.write_ratio >= 0.70) {
+      batchScore += 0.30;
+    }
     else if (stats.write_ratio >= 0.50)     batchScore += 0.15;
-    if (stats.avg_rows_per_query >= 10000)  batchScore += 0.20;
+    if (stats.avg_rows_per_query >= 10000) {
+      batchScore += 0.20;
+    }
 
     // ── MIXED score ──────────────────────────────────────────────────────────
     // Residual after the dominant classes.
@@ -169,7 +193,7 @@ double WorkloadFingerprintEngine::similarityTo(
     const WorkloadFingerprint& a,
     const WorkloadFingerprint& b
 ) const {
-    if (a.vector.size() != b.vector.size() || a.vector.empty()) {
+    if (static_cast<int>(a.vector.size()) != static_cast<int>(b.vector.size()) || a.vector.empty()) {
         return 0.0;
     }
 
@@ -177,7 +201,9 @@ double WorkloadFingerprintEngine::similarityTo(
     const auto normA = std::inner_product(a.vector.begin(), a.vector.end(), a.vector.begin(), 0.0);
     const auto normB = std::inner_product(b.vector.begin(), b.vector.end(), b.vector.begin(), 0.0);
     const double denom = std::sqrt(normA) * std::sqrt(normB);
-    if (denom < 1e-12) return 0.0;
+    if (denom < 1e-12) {
+      return 0.0;
+    }
     return std::clamp(dot / denom, 0.0, 1.0);
 }
 

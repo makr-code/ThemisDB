@@ -51,7 +51,7 @@ private:
     std::unique_ptr<DeltaUpdateEngine> delta_engine_;
     std::unique_ptr<TenantUpdateScheduler> scheduler_;
     WorkloadStats stats_;
-    std::mt19937 rng_;
+    std::mt19937 rng_ = {};
     
 public:
     LongRunStabilityBenchmark()
@@ -102,18 +102,24 @@ public:
     }
     
     double getMemoryGrowthPercentage() const {
-        if (stats_.memory_snapshots.size() < 2) return 0.0;
+        if (stats_.memory_snapshots.size() < 2) {
+          return 0.0;
+        }
         
         double initial = stats_.memory_snapshots.front();
         double final = stats_.memory_snapshots.back();
         
-        if (initial == 0) return 0.0;
+        if (initial == 0) {
+          return 0.0;
+        }
         return ((final - initial) / initial) * 100.0;
     }
     
     double getErrorRate() const {
         uint64_t total = stats_.successful_operations + stats_.failed_operations;
-        if (total == 0) return 0.0;
+        if (total == 0) {
+          return 0.0;
+        }
         return (static_cast<double>(stats_.failed_operations) / total) * 100.0;
     }
     
@@ -127,7 +133,9 @@ public:
     
     double getThroughputOpsPerSecond() const {
         auto elapsed = getElapsedTime();
-        if (elapsed.count() == 0) return 0.0;
+        if (elapsed.count() == 0) {
+          return 0.0;
+        }
         return getTotalOperations() / elapsed.count();
     }
     
@@ -203,12 +211,12 @@ private:
         #else
             // On Unix, read from /proc/self/status
             std::ifstream status("/proc/self/status");
-            std::string line;
+            std::string line = {};
             while (std::getline(status, line)) {
                 if (line.find("VmRSS:") != std::string::npos) {
                     std::istringstream iss(line);
                     std::string key;
-                    size_t value;
+                    size_t value = {};
                     iss >> key >> value;
                     return value * 1024;  // Convert KB to bytes
                 }

@@ -81,7 +81,9 @@ public:
             "abcdefghijklmnopqrstuvwxyz0123456789";
         std::uniform_int_distribution<std::size_t> d(0, kC.size() - 1);
         std::string s(len, ' ');
-        for (auto& c : s) c = kC[d(eng_)];
+        for (auto& c : s) {
+          c = kC[d(eng_)];
+        }
         return s;
     }
     int64_t integer(int64_t lo, int64_t hi) {
@@ -89,7 +91,7 @@ public:
         return d(eng_);
     }
 private:
-    std::mt19937_64 eng_;
+    std::mt19937_64 eng_ = {};
 };
 
 /** @brief Simple manual percentile tracker (no allocations during benchmarking). */
@@ -98,7 +100,9 @@ public:
     void record(double us) { samples_.push_back(us); }
 
     double percentile(double p) {
-        if (samples_.empty()) return 0.0;
+        if (samples_.empty()) {
+          return 0.0;
+        }
         auto& s = samples_;
         std::sort(s.begin(), s.end());
         const std::size_t idx =
@@ -162,7 +166,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -254,7 +258,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 
@@ -346,7 +350,7 @@ static void BM_W5B_IndexRebuild_Cost(benchmark::State& state) {
     state.SetLabel("index rebuild, " + std::to_string(rebuildCount) + " records");
 
     db->close();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(dbPath, ec);
 }
 BENCHMARK(BM_W5B_IndexRebuild_Cost)
@@ -400,7 +404,7 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(dbPath_, ec);
     }
 

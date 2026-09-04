@@ -75,7 +75,7 @@ TEST(BwTreeTest, InsertAndSearch) {
     EXPECT_TRUE(tree.insert(30, "thirty"));
     
     // Search for existing keys
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(tree.search(10, value));
     EXPECT_EQ(value, "ten");
     
@@ -92,7 +92,7 @@ TEST(BwTreeTest, SearchNonExistent) {
     tree.insert(10, "ten");
     tree.insert(30, "thirty");
     
-    std::string value;
+    std::string value = {};
     EXPECT_FALSE(tree.search(20, value));  // Key doesn't exist
     EXPECT_FALSE(tree.search(40, value));  // Key doesn't exist
 }
@@ -107,7 +107,7 @@ TEST(BwTreeTest, UpdateExistingKey) {
     EXPECT_TRUE(tree.insert(10, "TEN"));
     
     // Verify updated value
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(tree.search(10, value));
     EXPECT_EQ(value, "TEN");
 }
@@ -152,7 +152,7 @@ TEST(BwTreeTest, MultipleInserts) {
     }
     
     // Verify some keys
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(tree.search(0, value));
     EXPECT_EQ(value, "value_0");
     
@@ -198,7 +198,7 @@ TEST(BwTreeTest, ConcurrentInserts) {
     // Verify all inserts succeeded
     int found_count = 0;
     for (int i = 0; i < num_threads * inserts_per_thread; i++) {
-        std::string value;
+        std::string value = {};
         if (tree.search(i, value)) {
             found_count++;
         }
@@ -225,7 +225,7 @@ TEST(BwTreeTest, MixedConcurrentOperations) {
     for (int t = 0; t < 2; t++) {
         threads.emplace_back([&tree, &search_count]() {
             for (int i = 0; i < 100; i++) {
-                std::string value;
+                std::string value = {};
                 if (tree.search(i % 50, value)) {
                     search_count.fetch_add(1, std::memory_order_relaxed);
                 }
@@ -290,7 +290,7 @@ TEST(BwTreeTest, ConcurrentConsolidationSafety) {
             int count = 0;
             while (!stop.load() && count < 100) {
                 for (int i = 0; i < 20; i++) {
-                    std::string value;
+                    std::string value = {};
                     tree.search(i, value);
                 }
                 count++;
@@ -311,7 +311,7 @@ TEST(BwTreeTest, ConcurrentConsolidationSafety) {
     // memory management is correct.
     
     // Verify tree is still functional
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(tree.search(5, value));
 }
 
@@ -333,7 +333,7 @@ TEST(BwTreeTest, AutomaticConsolidation) {
     EXPECT_LT(stats.num_deltas, 15u);
     
     // Verify the tree still works correctly after consolidation
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(tree.search(1, value));
     EXPECT_EQ(value, "value_14");  // Last inserted value
 }
@@ -351,7 +351,7 @@ TEST(BwTreeTest, RemoveExistingKey) {
     EXPECT_TRUE(tree.remove(20));
 
     // Removed key must not be found
-    std::string value;
+    std::string value = {};
     EXPECT_FALSE(tree.search(20, value));
 
     // Other keys must still be present
@@ -373,7 +373,7 @@ TEST(BwTreeTest, RemoveNonExistentKeyReturnsFalse) {
     tree.remove(99);  // key absent — operation is benign
 
     // Existing key must be unaffected
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(tree.search(10, value));
     EXPECT_FALSE(tree.search(99, value));
 }
@@ -384,7 +384,7 @@ TEST(BwTreeTest, RemoveThenReinsert) {
     tree.insert(42, "original");
     EXPECT_TRUE(tree.remove(42));
 
-    std::string value;
+    std::string value = {};
     EXPECT_FALSE(tree.search(42, value));
 
     // Re-insert the same key with a different value
@@ -422,7 +422,7 @@ TEST(BwTreeTest, RemoveAfterConsolidation) {
     // Remove a key that survived consolidation
     EXPECT_TRUE(tree.remove(50));
 
-    std::string value;
+    std::string value = {};
     EXPECT_FALSE(tree.search(50, value));
     EXPECT_TRUE(tree.search(40, value));
     EXPECT_TRUE(tree.search(60, value));

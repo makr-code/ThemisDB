@@ -258,7 +258,9 @@ TEST(InMemoryCDCEventSchemaTest, ConcurrentRegisterAndGet) {
     }
 
     writer.join();
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     // After all writes, the version should be kVersions
     EXPECT_EQ(schema.currentVersion("orders"), kVersions);

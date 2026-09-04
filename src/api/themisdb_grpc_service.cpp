@@ -110,57 +110,57 @@ grpc::StatusCode mapThemisErrorCodeToGrpcStatusCode(themis::errors::ErrorCode co
             return grpc::StatusCode::UNAUTHENTICATED;
 
         case ErrorCode::ERR_QUERY_ACCESS_DENIED:
-        case ErrorCode::ERR_UTIL_PERMISSION_DENIED:
-        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
-        case ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED:
-        case ErrorCode::ERR_EXPORT_POLICY_DENIED:
+        [[fallthrough]];\n        case ErrorCode::ERR_UTIL_PERMISSION_DENIED:
+        [[fallthrough]];\n        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
+        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED:
+        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_POLICY_DENIED:
             return grpc::StatusCode::PERMISSION_DENIED;
 
         case ErrorCode::ERR_DOC_NOT_FOUND:
-        case ErrorCode::ERR_INDEX_NOT_FOUND:
-        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
-        case ErrorCode::ERR_BACKUP_NOT_FOUND:
-        case ErrorCode::ERR_PLUGIN_NOT_FOUND:
-        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_INDEX_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_BACKUP_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_PLUGIN_NOT_FOUND:
+        [[fallthrough]];\n        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
             return grpc::StatusCode::NOT_FOUND;
 
         case ErrorCode::ERR_QUERY_INVALID_SYNTAX:
-        case ErrorCode::ERR_QUERY_INVALID:
-        case ErrorCode::ERR_QUERY_INVALID_INPUT:
-        case ErrorCode::ERR_UTIL_INVALID_ARGUMENT:
-        case ErrorCode::ERR_API_INVALID_REQUEST:
+        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_INVALID:
+        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_INVALID_INPUT:
+        [[fallthrough]];\n        case ErrorCode::ERR_UTIL_INVALID_ARGUMENT:
+        [[fallthrough]];\n        case ErrorCode::ERR_API_INVALID_REQUEST:
             return grpc::StatusCode::INVALID_ARGUMENT;
 
         case ErrorCode::ERR_QUERY_TIMEOUT:
-        case ErrorCode::ERR_NET_TIMEOUT:
-        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
+        [[fallthrough]];\n        case ErrorCode::ERR_NET_TIMEOUT:
+        [[fallthrough]];\n        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
             return grpc::StatusCode::DEADLINE_EXCEEDED;
 
         case ErrorCode::ERR_QUERY_CANCELLED:
             return grpc::StatusCode::CANCELLED;
 
         case ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED:
-        case ErrorCode::ERR_API_RATE_LIMIT:
-        case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
-        case ErrorCode::ERR_MEMORY_POOL_EXHAUSTED:
-        case ErrorCode::ERR_MEMORY_ALLOCATION_FAILED:
-        case ErrorCode::ERR_LLM_GPU_OOM:
-        case ErrorCode::ERR_LLM_RAM_OOM:
-        case ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE:
-        case ErrorCode::ERR_CACHE_FULL:
-        case ErrorCode::ERR_EXPORT_SIZE_LIMIT_EXCEEDED:
+        [[fallthrough]];\n        case ErrorCode::ERR_API_RATE_LIMIT:
+        [[fallthrough]];\n        case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorCode::ERR_MEMORY_POOL_EXHAUSTED:
+        [[fallthrough]];\n        case ErrorCode::ERR_MEMORY_ALLOCATION_FAILED:
+        [[fallthrough]];\n        case ErrorCode::ERR_LLM_GPU_OOM:
+        [[fallthrough]];\n        case ErrorCode::ERR_LLM_RAM_OOM:
+        [[fallthrough]];\n        case ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE:
+        [[fallthrough]];\n        case ErrorCode::ERR_CACHE_FULL:
+        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_SIZE_LIMIT_EXCEEDED:
             return grpc::StatusCode::RESOURCE_EXHAUSTED;
 
         case ErrorCode::ERR_STORAGE_TRANSACTION_FAILED:
             return grpc::StatusCode::ABORTED;
 
         case ErrorCode::ERR_NET_CONNECTION_REFUSED:
-        case ErrorCode::ERR_NET_DNS_FAILURE:
+        [[fallthrough]];\n        case ErrorCode::ERR_NET_DNS_FAILURE:
             return grpc::StatusCode::UNAVAILABLE;
 
         case ErrorCode::ERR_PLUGIN_INCOMPATIBLE:
-        case ErrorCode::ERR_QUERY_TYPE_MISMATCH:
-        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
+        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_TYPE_MISMATCH:
+        [[fallthrough]];\n        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
             return grpc::StatusCode::FAILED_PRECONDITION;
 
         default:
@@ -378,7 +378,7 @@ private:
                 return true;
             }
 
-            std::string entity_blob;
+            std::string entity_blob = {};
             const std::string entity_key = "entity:" + std::string(collection) + ":" + std::string(key);
             if (!db_->get(entity_key, entity_blob)) {
                 return false;
@@ -493,7 +493,7 @@ private:
                 return grpc::Status::OK;
             }
 
-            std::string body;
+            std::string body = {};
 
             if (active_txn) {
                 auto tx_body = active_txn->readEntityJson(req->collection(), req->key());
@@ -519,7 +519,7 @@ private:
             auto* doc = resp->mutable_document();
             doc->set_collection(req->collection());
             doc->set_key(req->key());
-            doc->set_body(body.data(), body.size());
+            doc->set_body(body.data(),static_cast<int>(body.size()));
             return grpc::Status::OK;
             });
         }
@@ -586,7 +586,7 @@ private:
 
             // Check existence when not upserting
             if (!req->create_if_missing()) {
-                std::string existing;
+                std::string existing = {};
                 if (!db_ || !db_->get(storage_key, existing)) {
                     resp->set_success(false);
                     auto* err = resp->mutable_error();
@@ -607,7 +607,7 @@ private:
             // Read-increment-store version counter.
             uint64_t new_version = 1;
             if (db_) {
-                std::string ver_str;
+                std::string ver_str = {};
                 if (db_->get(versionKey(storage_key), ver_str)) {
                     try { new_version = std::stoull(ver_str) + 1; }
                     catch (const std::invalid_argument&) {
@@ -803,7 +803,7 @@ private:
             }
 
             for (const auto& key : req->keys()) {
-                std::string body;
+                std::string body = {};
 
                 bool found = false;
                 if (active_txn) {
@@ -820,7 +820,7 @@ private:
                     auto* doc = resp->add_documents();
                     doc->set_collection(req->collection());
                     doc->set_key(key);
-                    doc->set_body(body.data(), body.size());
+                    doc->set_body(body.data(),static_cast<int>(body.size()));
                 } else {
                     resp->add_missing_keys(key);
                 }
@@ -1034,9 +1034,9 @@ private:
                 h->set_key(hit.primary_key);
                 h->set_score(hit.distance);
                 if (req->fetch_docs()) {
-                    std::string body;
+                    std::string body = {};
                     if (tryResolveDocumentBody(req->collection(), hit.primary_key, &body)) {
-                        h->set_document(body.data(), body.size());
+                        h->set_document(body.data(),static_cast<int>(body.size()));
                     }
                 }
             }
@@ -1088,7 +1088,7 @@ private:
                 Field field{Field::Key};
                 Type type;
                 std::string attribute_name;
-                std::string scalar;
+                std::string scalar = {};
                 std::vector<std::string> set;
                 bool has_numeric_scalar{false};
                 double numeric_scalar{0.0};
@@ -1106,7 +1106,7 @@ private:
                 try {
                     size_t consumed = 0;
                     const double value = std::stod(raw, &consumed);
-                    if (consumed != raw.size()) {
+                    if (consumed != static_cast<int>(raw.size())) {
                         return false;
                     }
                     *out = value;
@@ -1303,7 +1303,7 @@ private:
                     const std::string id = collection_ + "/" + key;
 
                     for (const auto& clause : clauses_) {
-                        std::string candidate;
+                        std::string candidate = {};
                         bool has_numeric_candidate = false;
                         double numeric_candidate = 0.0;
 
@@ -1356,7 +1356,7 @@ private:
                                 if (clause.has_numeric_set) {
                                     const bool matches_numeric_set = has_numeric_candidate &&
                                         std::any_of(clause.numeric_set.begin(), clause.numeric_set.end(),
-                                                    [&](double item) {
+                                                    [&]([[maybe_unused]] double item) {
                                                         return nearlyEqual(numeric_candidate, item);
                                                     });
                                     if (!matches_numeric_set) {
@@ -1409,7 +1409,7 @@ private:
                     try {
                         size_t consumed = 0;
                         const double value = std::stod(raw, &consumed);
-                        if (consumed != raw.size()) {
+                        if (consumed != static_cast<int>(raw.size())) {
                             return false;
                         }
                         *out = value;
@@ -1427,10 +1427,11 @@ private:
                 }
 
                 std::vector<KeyFilterClause> clauses_;
-                std::string collection_;
+                std::string collection_ = {};
             };
 
-            std::unique_ptr<themis::IExpressionEvaluator> vector_filter_evaluator;
+            std::unique_ptr<themis::IExpressionEvaluator> vector_filter_evaluator = {};
+
             if (!key_filters.empty()) {
                 vector_filter_evaluator =
                     std::make_unique<JsonClauseFilterEvaluator>(key_filters, req->collection());
@@ -1442,14 +1443,14 @@ private:
             resp->set_success(true);
             for (const auto& hit : hits) {
                 bool include_hit = true;
-                std::string doc_body;
+                std::string doc_body = {};
                 bool has_doc_body = false;
 #if THEMIS_HAS_JSON
                 nlohmann::json doc_json;
                 bool has_doc_json = false;
 #endif
                 for (const auto& clause : key_filters) {
-                    std::string candidate;
+                    std::string candidate = {};
                     bool has_numeric_candidate = false;
                     double numeric_candidate = 0.0;
                     if (clause.field == KeyFilterClause::Field::Key) {
@@ -1524,7 +1525,7 @@ private:
                             if (clause.has_numeric_set) {
                                 const bool matches_numeric_set = has_numeric_candidate &&
                                     std::any_of(clause.numeric_set.begin(), clause.numeric_set.end(),
-                                                [&](double item) {
+                                                [&]([[maybe_unused]] double item) {
                                                     return nearlyEqual(numeric_candidate, item);
                                                 });
                                 if (!matches_numeric_set) {
@@ -1574,9 +1575,9 @@ private:
                 h->set_key(hit.primary_key);
                 h->set_score(hit.distance);
                 if (req->fetch_docs()) {
-                    std::string body;
+                    std::string body = {};
                     if (tryResolveDocumentBody(req->collection(), hit.primary_key, &body)) {
-                        h->set_document(body.data(), body.size());
+                        h->set_document(body.data(),static_cast<int>(body.size()));
                     }
                 }
             }
@@ -1628,13 +1629,13 @@ private:
                                     "storage backend not wired into this service instance");
             }
 
-            auto maybeAttachDoc = [&](SearchHit* hit) {
+            auto maybeAttachDoc = [&]([[maybe_unused]] SearchHit* hit) {
                 if (!req->fetch_docs() || !hit || !db_) {
                     return;
                 }
-                std::string body;
+                std::string body = {};
                 if (tryResolveDocumentBody(req->collection(), hit->key(), &body)) {
-                    hit->set_document(body.data(), body.size());
+                    hit->set_document(body.data(),static_cast<int>(body.size()));
                 }
             };
 
@@ -1672,7 +1673,9 @@ private:
                         const auto json = nlohmann::json::parse(*result);
                         if (json.is_array()) {
                             for (const auto& element : json) {
-                                if (!element.is_object()) continue;
+                                if (!element.is_object()) {
+                                  continue;
+                                }
                                 auto* h = resp->add_hits();
                                 h->set_collection(req->collection());
                                 if (element.contains("_key")) {
@@ -1765,7 +1768,7 @@ private:
                         }
                         if (req->fetch_docs()) {
                             const std::string body = element.dump();
-                            h->set_document(body.data(), body.size());
+                            h->set_document(body.data(),static_cast<int>(body.size()));
                         }
                     }
                 }
@@ -1891,10 +1894,10 @@ void ThemisDBGrpcService::buildImpl() {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
         } catch (const std::string&) {
-            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            THEMIS_ERROR([[maybe_unused]] "ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         } catch (const char*) {
-            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            THEMIS_ERROR([[maybe_unused]] "ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }

@@ -491,7 +491,8 @@ static void BM_EthicalGapDetection_VaryingDocCount(benchmark::State& state) {
     KnowledgeGapDetector detector(config);
     
     // Generate docs based on state.range(0)
-    std::vector<themis::rag::knowledge_gap::RetrievedDocument> docs;
+    std::vector<themis::rag::knowledge_gap::RetrievedDocument> docs = {};
+
     for (int i = 0; i < state.range(0); ++i) {
         themis::rag::knowledge_gap::RetrievedDocument doc;
         doc.id = "doc" + std::to_string(i);

@@ -117,7 +117,7 @@ static void updateDistinctJit(JitAggState &st, const Column &col, size_t row) {
     }
     ++st.count_nonnull;
     auto val = col.get(row);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::visit(
         [&oss](auto &&v) {
             using T = std::decay_t<decltype(v)>;
@@ -144,13 +144,13 @@ static double finalizeAggJit(const JitAggState &st, AggregateSpec::Function fn) 
         case AggregateSpec::Function::Max:
             return st.count_nonnull > 0 ? st.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
-            return static_cast<double>(st.distinct_set.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((st.distinct_set.size())));
     }
     return 0.0;
 }
 
 static std::string makeGroupKeyJit(const ColumnBatch &batch, const std::vector<std::string> &group_cols, size_t row) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &gc : group_cols) {
         auto col = batch.getColumn(gc);
         if (!col) {
@@ -212,7 +212,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
         switch (spec.function) {
             case AggregateSpec::Function::Sum: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && data.size() >= n) {
+                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             st.sum += data[i];
@@ -235,7 +235,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
             }
             case AggregateSpec::Function::Min: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && data.size() >= n) {
+                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             if (data[i] < st.min_val)
@@ -253,7 +253,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
             }
             case AggregateSpec::Function::Max: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && data.size() >= n) {
+                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             if (data[i] > st.max_val)
@@ -341,7 +341,8 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
     ColumnBatch result(num_rows);
 
     // Group-key columns (representative first-row value per group).
-    std::unordered_map<std::string, size_t> first_row;
+    std::unordered_map<std::string, size_t> first_row = {};
+
     for (size_t row = 0; row < n; ++row) {
         std::string k = makeGroupKeyJit(input, group_cols, row);
         if (!first_row.count(k)) {
@@ -507,7 +508,7 @@ class JITAggregationCompiler::Impl {
 
     void compileSpecialisation(const std::string &key, const std::vector<AggregateSpec> &specs) {
         // Enforce cache capacity limit (evict LRU – here simplest: drop oldest).
-        if (cache_.size() >= config_.max_cache_entries) {
+        if (static_cast<int>(cache_.size()) >= config_.max_cache_entries) {
             auto oldest = cache_.begin();
             call_counts_.erase(oldest->first);
             cache_.erase(oldest);
@@ -592,7 +593,7 @@ size_t JITAggregationCompiler::callCount(const std::string &spec_key) const {
 std::string JITAggregationCompiler::makeSpecKey(const std::vector<AggregateSpec> &specs) {
     // Encode: function_name|input_col|result_name;... followed by group_by cols.
     static const char *kFnName[] = {"cnt", "sum", "avg", "min", "max", "cntd"};
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &s : specs) {
         int fi = static_cast<int>(s.function);
         oss << (fi >= 0 && fi < 6 ? kFnName[fi] : "?") << '|' << s.input_column << '|' << s.result_name << ';';

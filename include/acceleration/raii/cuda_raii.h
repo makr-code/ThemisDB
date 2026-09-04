@@ -298,7 +298,7 @@ public:
             throw std::runtime_error("Copy size exceeds allocated size");
         }
         
-        cudaError_t err;
+        cudaError_t err = {};
         if (stream) {
             err = cudaMemcpyAsync(ptr_, host, size, cudaMemcpyHostToDevice, stream);
         } else {
@@ -326,7 +326,7 @@ public:
             throw std::runtime_error("Copy size exceeds allocated size");
         }
         
-        cudaError_t err;
+        cudaError_t err = {};
         if (stream) {
             err = cudaMemcpyAsync(host, ptr_, size, cudaMemcpyDeviceToHost, stream);
         } else {

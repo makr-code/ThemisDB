@@ -338,7 +338,8 @@ protected:
     }
 
     std::vector<BaseEntity> makeSampleEntities(int count = 5) const {
-        std::vector<BaseEntity> entities;
+        std::vector<BaseEntity> entities = {};
+
         for (int i = 0; i < count; ++i) {
             entities.push_back(makeFullEntity(
                 "ent_" + std::to_string(i),
@@ -356,9 +357,11 @@ protected:
     std::vector<std::string> readLines(const std::string& path) const {
         std::vector<std::string> lines;
         std::ifstream f(path);
-        std::string line;
+        std::string line = {};
         while (std::getline(f, line)) {
-            if (!line.empty()) lines.push_back(line);
+            if (!line.empty()) {
+              lines.push_back(line);
+            }
         }
         return lines;
     }
@@ -374,7 +377,8 @@ TEST_F(FormatTemplateExporterTest, AlpacaViaExporter) {
     cfg.template_field_mapping.output_field      = "answer";
     cfg.quality.min_text_length = 0;  // Allow short test answers
 
-    std::vector<BaseEntity> entities;
+    std::vector<BaseEntity> entities = {};
+
     for (int i = 0; i < 3; ++i) {
         BaseEntity e;
         e.setPrimaryKey("a" + std::to_string(i));
@@ -535,8 +539,12 @@ protected:
                                  bool with_output = true) const {
         BaseEntity e;
         e.setPrimaryKey(pk);
-        if (with_instruction) e.setField("question", "Q");
-        if (with_output)      e.setField("answer",   "A");
+        if (with_instruction) {
+          e.setField("question", "Q");
+        }
+        if (with_output) {
+          e.setField("answer",   "A");
+        }
         return e;
     }
 
@@ -545,8 +553,12 @@ protected:
                                bool with_assistant = true) const {
         BaseEntity e;
         e.setPrimaryKey(pk);
-        if (with_user)      e.setField("user_message",       "Hello");
-        if (with_assistant) e.setField("assistant_response", "Hi");
+        if (with_user) {
+          e.setField("user_message",       "Hello");
+        }
+        if (with_assistant) {
+          e.setField("assistant_response", "Hi");
+        }
         return e;
     }
 };

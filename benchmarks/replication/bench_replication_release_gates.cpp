@@ -89,9 +89,9 @@ static GCounter gCounterMerge(const GCounter& a, const GCounter& b) {
 }
 
 struct LwwVersion {
-    std::int64_t timestamp;
-    std::string  node_id;
-    int          value;
+    std::int64_t timestamp = {};
+    std::string  node_id = {};
+    int          value = {};
 };
 
 static LwwVersion lwwResolve(const LwwVersion& a, const LwwVersion& b) {
@@ -252,8 +252,11 @@ BENCHMARK(BM_RRG04_WalApply)
  * GATE-RRG-05: p99 ≤ 100 µs.
  */
 static void BM_RRG05_PartitionOffsetLookup(benchmark::State& state) {
-    std::unordered_map<int, std::int64_t> offsets;
-    for (int i = 0; i < 64; ++i) offsets[i] = static_cast<std::int64_t>(i) * 1000LL;
+    std::unordered_map<int, std::int64_t> offsets = {};
+
+    for (int i = 0; i < 64; ++i) {
+      offsets[i] = static_cast<std::int64_t>(i) * 1000LL;
+    }
 
     std::mt19937_64 rng(kReplicationCanonicalSeed);
     std::uniform_int_distribution<int> dist(0, 63);

@@ -266,11 +266,15 @@ TEST_F(StorageFuzzTest, ConcurrentWriters_AllEntriesRecoverable) {
                 auto r = wal->appendPut(
                     "t" + std::to_string(t) + "_k" + std::to_string(i),
                     "v" + std::to_string(t * 1000 + i));
-                if (!r.has_value()) ++failures;
+                if (!r.has_value()) {
+                  ++failures;
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     wal->flush();
     wal.reset();
 

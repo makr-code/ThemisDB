@@ -95,8 +95,8 @@ std::string to_string(TensorRouteDecision d) noexcept {
         case TensorRouteDecision::LIFT:   return "LIFT";
         case TensorRouteDecision::HYBRID: return "HYBRID";
         case TensorRouteDecision::KEEP:   return "KEEP";
+        default: return "KEEP";
     }
-    return "KEEP";
 }
 
 // ============================================================================
@@ -133,15 +133,18 @@ struct TensorRouter::Impl {
         std::size_t total = data.size();
         std::size_t sample_n = std::min(total, policy.probe_sample_elements);
 
-        std::vector<float> sample;
+        std::vector<float> sample = {};
+
         if (sample_n >= total) {
             sample = data;
         } else {
             // Uniform sub-sampling
             std::mt19937 rng(42);
-            std::uniform_int_distribution<std::size_t> dist(0, total - 1);
+            std::uniform_int_distribution<uint64_t> dist(0, total - 1);
             sample.resize(sample_n);
-            for (auto& v : sample) v = data[dist(rng)];
+            for (auto& v : sample) {
+              v = data[static_cast<std::size_t>(dist(rng))];
+            }
         }
 
         // Pilot as a 1D tensor (can only estimate compressibility, not shape)
@@ -152,16 +155,20 @@ struct TensorRouter::Impl {
         std::vector<std::size_t> pilot_shape;
         std::size_t n_pilot = 64;
         // Use first two mode dimensions capped at sample_n
-        if (mode_sizes.size() >= 2) {
+        if (static_cast<int>(mode_sizes.size()) >= 2) {
             std::size_t m = std::min(mode_sizes[0], (std::size_t)64);
             std::size_t n = sample_n / m;
-            if (n < 1) n = 1;
-            if (m * n > sample_n) m = sample_n / n;
+            if (n < 1) {
+              n = 1;
+            }
+            if (m * n > sample_n) {
+              m = sample_n / n;
+            }
             pilot_shape = {m, n};
             sample.resize(m * n);
             n_pilot = m;
         } else {
-            pilot_shape = {sample.size(), 1u};
+            pilot_shape = {sample.size(), 1};
             n_pilot = sample.size();
         }
 
@@ -206,9 +213,12 @@ struct TensorRouter::Impl {
         if (policy.force_lift_for_inference && hint.inference_use) {
             switch (hint.category) {
                 case Cat::LLM_WEIGHTS:
-                case Cat::LLM_ADAPTER:
-                case Cat::EMBEDDING:
-                case Cat::SIMULATION:
+                [[fallthrough]];
+        case Cat::LLM_ADAPTER:
+                [[fallthrough]];
+        case Cat::EMBEDDING:
+                [[fallthrough]];
+        case Cat::SIMULATION:
                     return TensorRouteDecision::LIFT;
                 default:
                     break;
@@ -255,7 +265,9 @@ struct TensorRouter::Impl {
         // 4. κ + compression-ratio heuristic
         // Category override has highest priority
         auto override = categoryOverride(hint);
-        if (override.has_value()) return *override;
+        if (override.has_value()) {
+          return *override;
+        }
 
         if (!hint.domain_tag.empty() && template_catalog) {
             const auto tmpl = template_catalog->lookup(hint.domain_tag);
@@ -366,6 +378,7 @@ TensorRouteDecision TensorRouter::route(
         case TensorRouteDecision::LIFT:   ++s.lift_decisions;   break;
         case TensorRouteDecision::HYBRID: ++s.hybrid_decisions; break;
         case TensorRouteDecision::KEEP:   ++s.keep_decisions;   break;
+        default: break;  // Unknown decision type
     }
     // Exponential moving average for ratio and latency
     constexpr double alpha = 0.1;
@@ -494,4 +507,5 @@ TensorRouter::TemplateTopologyApplyFn TensorRouter::getTemplateTopologyApplyFn()
 
 } // namespace storage
 } // namespace themis
+
 

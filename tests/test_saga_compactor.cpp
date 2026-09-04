@@ -67,10 +67,12 @@ TEST_F(SAGACompactorTest, CompactArchivesCompletedEntries) {
 
     // The WAL must only contain the pending entry now.
     std::ifstream ifs(kWalPath);
-    std::string line;
+    std::string line = {};
     size_t remaining = 0;
     while (std::getline(ifs, line)) {
-        if (!line.empty()) ++remaining;
+        if (!line.empty()) {
+          ++remaining;
+        }
     }
     EXPECT_EQ(remaining, 1u);
 }

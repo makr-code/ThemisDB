@@ -104,7 +104,9 @@ protected:
     }
 
     void TearDown() override {
-        if (plugin_) plugin_->shutdown();
+        if (plugin_) {
+          plugin_->shutdown();
+        }
     }
 
     std::unique_ptr<YOLOv8OnnxPlugin> plugin_;
@@ -209,7 +211,9 @@ protected:
     }
 
     void TearDown() override {
-        if (plugin_) plugin_->shutdown();
+        if (plugin_) {
+          plugin_->shutdown();
+        }
     }
 
     std::unique_ptr<TesseractOCRPlugin> plugin_;

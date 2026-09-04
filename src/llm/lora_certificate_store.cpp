@@ -38,7 +38,7 @@ namespace {
 
 // Convert a raw byte digest to lowercase hex string.
 std::string bytesToHex(const unsigned char* bytes, size_t len) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(bytes[i]);
@@ -176,7 +176,7 @@ std::optional<std::string> LoRACertificateStore::loadPemFile(
     if (!file.is_open()) {
         return std::nullopt;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << file.rdbuf();
     std::string pem = oss.str();
     if (pem.empty()) {
@@ -187,16 +187,22 @@ std::optional<std::string> LoRACertificateStore::loadPemFile(
 
 bool LoRACertificateStore::fingerprintMatches(const std::string& cert_pem,
                                               const std::string& fingerprint) {
-    if (cert_pem.empty() || fingerprint.empty()) return false;
+    if (cert_pem.empty() || fingerprint.empty()) {
+      return false;
+    }
 
     BIO* bio = BIO_new_mem_buf(cert_pem.data(),
                                static_cast<int>(cert_pem.size()));
-    if (!bio) return false;
+    if (!bio) {
+      return false;
+    }
 
     X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
     BIO_free(bio);
 
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
 
     std::string computed = computeCertFingerprint(cert);
     X509_free(cert);
@@ -218,9 +224,9 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
 
     // Validate fingerprint format before iterating the store.
     // A SHA-256 fingerprint must be exactly 64 lowercase hex chars.
-    if (fingerprint.size() != 64) {
+    if (static_cast<int>(fingerprint.size()) != 64) {
         spdlog::debug("LoRACertificateStore: skipping system store — fingerprint "
-                      "size {} is not 64", fingerprint.size());
+                      "size {} is not 64",static_cast<int>(fingerprint.size()));
         return std::nullopt;
     }
     for (char c : fingerprint) {
@@ -231,7 +237,7 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
         }
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(system_store_path_, ec) || ec) {
         spdlog::debug("LoRACertificateStore: system store path '{}' not accessible",
                       system_store_path_);
@@ -243,16 +249,24 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
              system_store_path_,
              std::filesystem::directory_options::skip_permission_denied, ec)) {
 
-        if (ec) break;
+        if (ec) {
+          break;
+        }
 
         const auto& p = entry.path();
-        if (!entry.is_regular_file(ec) || ec) continue;
+        if (!entry.is_regular_file(ec) || ec) {
+          continue;
+        }
 
         const std::string ext = p.extension().string();
-        if (ext != ".pem" && ext != ".crt" && ext != ".cer") continue;
+        if (ext != ".pem" && ext != ".crt" && ext != ".cer") {
+          continue;
+        }
 
         auto pem = loadPemFile(p.string());
-        if (!pem.has_value()) continue;
+        if (!pem.has_value()) {
+          continue;
+        }
 
         if (fingerprintMatches(*pem, fingerprint)) {
             spdlog::debug(
@@ -297,12 +311,16 @@ std::optional<std::string> LoRACertificateStore::searchWindowsCertStore(
             const unsigned char* der_ptr = ctx->pbCertEncoded;
             X509* x509 = d2i_X509(nullptr, &der_ptr,
                                    static_cast<long>(ctx->cbCertEncoded));
-            if (!x509) continue;
+            if (!x509) {
+              continue;
+            }
 
             std::string computed = computeCertFingerprint(x509);
             X509_free(x509);
 
-            if (computed.empty()) continue;
+            if (computed.empty()) {
+              continue;
+            }
 
             // Case-insensitive comparison
             std::string lower_fp = fingerprint;
@@ -319,7 +337,7 @@ std::optional<std::string> LoRACertificateStore::searchWindowsCertStore(
                 X509* match = d2i_X509(nullptr, &der_ptr2,
                                        static_cast<long>(ctx->cbCertEncoded));
 
-                std::string pem_str;
+                std::string pem_str = {};
                 if (match) {
                     BIO* bio = BIO_new(BIO_s_mem());
                     if (bio && PEM_write_bio_X509(bio, match) == 1) {
@@ -327,7 +345,9 @@ std::optional<std::string> LoRACertificateStore::searchWindowsCertStore(
                         BIO_get_mem_ptr(bio, &mem);
                         pem_str.assign(mem->data, mem->length);
                     }
-                    if (bio) BIO_free(bio);
+                    if (bio) {
+                      BIO_free(bio);
+                    }
                     X509_free(match);
                 }
 

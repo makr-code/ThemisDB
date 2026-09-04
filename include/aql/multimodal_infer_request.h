@@ -177,8 +177,12 @@ private:
         static const std::unordered_set<std::string> kExtras = {
             "application/json", "application/xml", "application/octet-stream",
         };
-        if (mime_type.rfind("text/", 0) == 0) return;
-        if (kExtras.count(mime_type)) return;
+        if (mime_type.rfind("text/", 0) == 0) {
+          return;
+        }
+        if (kExtras.count(mime_type)) {
+          return;
+        }
         throw std::invalid_argument(
             "MultiModalInput: unsupported TEXT mime_type '" + mime_type + "'"
         );
@@ -273,7 +277,9 @@ struct MultiModalInferRequest : public llm::InferenceRequest {
      */
     bool hasNonTextInputs() const {
         for (const auto& inp : inputs) {
-            if (inp.type != ModalityType::TEXT) return true;
+            if (inp.type != ModalityType::TEXT) {
+              return true;
+            }
         }
         return false;
     }

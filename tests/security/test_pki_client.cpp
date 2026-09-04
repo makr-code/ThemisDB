@@ -20,7 +20,9 @@ std::vector<uint8_t> random_bytes(size_t n) {
     std::vector<uint8_t> v(n);
     std::mt19937 rng(42);
     std::uniform_int_distribution<int> dist(0, 255);
-    for (size_t i = 0; i < n; ++i) v[i] = static_cast<uint8_t>(dist(rng));
+    for (size_t i = 0; i < n; ++i) {
+      v[i] = static_cast<uint8_t>(dist(rng));
+    }
     return v;
 }
 
@@ -35,23 +37,37 @@ bool generate_rsa_key_and_self_signed_cert(const std::string& key_path,
 
     RSA* rsa = RSA_new();
     BIGNUM* e = BN_new();
-    if (!rsa || !e) goto cleanup;
-    if (BN_set_word(e, RSA_F4) != 1) goto cleanup;
-    if (RSA_generate_key_ex(rsa, bits, e, nullptr) != 1) goto cleanup;
+    if (!rsa || !e) {
+      goto cleanup;
+    }
+    if (BN_set_word(e, RSA_F4) != 1) {
+      goto cleanup;
+    }
+    if (RSA_generate_key_ex(rsa, bits, e, nullptr) != 1) {
+      goto cleanup;
+    }
 
     pkey = EVP_PKEY_new();
-    if (!pkey) goto cleanup;
+    if (!pkey) {
+      goto cleanup;
+    }
 #if OPENSSL_VERSION_NUMBER < 0x30000000L
-    if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) goto cleanup;
+    if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) {
+      goto cleanup;
+    }
     // rsa is now owned by pkey
     rsa = nullptr;
 #else
-    if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) goto cleanup;
+    if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) {
+      goto cleanup;
+    }
     rsa = nullptr;
 #endif
 
     x509 = X509_new();
-    if (!x509) goto cleanup;
+    if (!x509) {
+      goto cleanup;
+    }
 
     // Version 3 certificate
     X509_set_version(x509, 2);
@@ -65,22 +81,30 @@ bool generate_rsa_key_and_self_signed_cert(const std::string& key_path,
 
     // Subject/Issuer (self-signed)
     name = X509_get_subject_name(x509);
-    if (!name) goto cleanup;
+    if (!name) {
+      goto cleanup;
+    }
     X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (unsigned char*)"DE", -1, -1, 0);
     X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, (unsigned char*)"ThemisDB", -1, -1, 0);
     X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (unsigned char*)"themis-test", -1, -1, 0);
     X509_set_issuer_name(x509, name);
 
     // Public key
-    if (X509_set_pubkey(x509, pkey) != 1) goto cleanup;
+    if (X509_set_pubkey(x509, pkey) != 1) {
+      goto cleanup;
+    }
 
     // Sign certificate
-    if (X509_sign(x509, pkey, EVP_sha256()) == 0) goto cleanup;
+    if (X509_sign(x509, pkey, EVP_sha256()) == 0) {
+      goto cleanup;
+    }
 
     // Write key
     {
         FILE* f = fopen(key_path.c_str(), "wb");
-        if (!f) goto cleanup;
+        if (!f) {
+          goto cleanup;
+        }
         if (PEM_write_PrivateKey(f, pkey, nullptr, nullptr, 0, nullptr, nullptr) != 1) { fclose(f); goto cleanup; }
         fclose(f);
     }
@@ -88,7 +112,9 @@ bool generate_rsa_key_and_self_signed_cert(const std::string& key_path,
     // Write cert
     {
         FILE* f = fopen(cert_path.c_str(), "wb");
-        if (!f) goto cleanup;
+        if (!f) {
+          goto cleanup;
+        }
         if (PEM_write_X509(f, x509) != 1) { fclose(f); goto cleanup; }
         fclose(f);
     }
@@ -96,10 +122,18 @@ bool generate_rsa_key_and_self_signed_cert(const std::string& key_path,
     ok = true;
 
 cleanup:
-    if (x509) X509_free(x509);
-    if (pkey) EVP_PKEY_free(pkey);
-    if (rsa) RSA_free(rsa);
-    if (e) BN_free(e);
+    if (x509) {
+      X509_free(x509);
+    }
+    if (pkey) {
+      EVP_PKEY_free(pkey);
+    }
+    if (rsa) {
+      RSA_free(rsa);
+    }
+    if (e) {
+      BN_free(e);
+    }
     return ok;
 }
 

@@ -44,7 +44,7 @@ void SearchAnalytics::record(const std::string& query,
     ev.is_zero_result = (result_count == 0);
 
     std::lock_guard<std::mutex> lock(mu_);
-    if (events_.size() >= config_.max_events) {
+    if (static_cast<int>(events_.size()) >= config_.max_events) {
         // Evict the oldest entry
         events_.erase(events_.begin());
     }
@@ -60,24 +60,28 @@ void SearchAnalytics::record(const std::string& query,
 // Querying
 // ============================================================================
 
-std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) const {
+std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
-    std::vector<SearchEvent> result;
+    std::vector<SearchEvent> result = {};
+
     for (auto it = events_.rbegin(); it != events_.rend(); ++it) {
         if (it->is_zero_result) {
             result.push_back(*it);
-            if (result.size() >= limit) break;
+            if (static_cast<int>(result.size()) >= limit) {
+              break;
+            }
         }
     }
     return result; // most-recent first
 }
 
-std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
+std::vector<SearchEvent> SearchAnalytics::getRecentEvents([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
-    std::vector<SearchEvent> result;
-    size_t n = std::min(limit, events_.size());
+    std::vector<SearchEvent> result = {};
+
+    size_t n = std::min(limit,static_cast<int>(events_.size()));
     result.reserve(n);
-    for (auto it = events_.rbegin(); it != events_.rend() && result.size() < n; ++it) {
+    for (auto it = events_.rbegin(); it != events_.rend() && static_cast<int>(result.size()) < n; ++it) {
         result.push_back(*it);
     }
     return result; // most-recent first
@@ -85,16 +89,21 @@ std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
 
 SearchMetrics SearchAnalytics::computeMetrics() const {
     std::lock_guard<std::mutex> lock(mu_);
-    SearchMetrics m;
-    if (events_.empty()) return m;
+    SearchMetrics m = {};
+    if (events_.empty()) {
+      return m;
+    }
 
     m.total_queries = events_.size();
     std::map<std::string, size_t> query_freq;
-    std::vector<double> latencies;
+    std::vector<double> latencies = {};
+
     latencies.reserve(events_.size());
 
     for (const auto& ev : events_) {
-        if (ev.is_zero_result) ++m.zero_result_queries;
+        if (ev.is_zero_result) {
+          ++m.zero_result_queries;
+        }
         latencies.push_back(ev.latency_ms);
         query_freq[ev.query]++;
     }
@@ -106,8 +115,8 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     // Percentiles
     std::vector<double> sorted_lat = latencies;
     std::sort(sorted_lat.begin(), sorted_lat.end());
-    auto percentile = [&](double p) -> double {
-        size_t idx = static_cast<size_t>(p * static_cast<double>(sorted_lat.size() - 1));
+    auto percentile = [&]([[maybe_unused]] double p) -> double {
+        size_t idx = static_cast<size_t>(p * static_cast<double>(static_cast<int>(sorted_lat.size()) - 1));
         return sorted_lat[idx];
     };
     m.p95_latency_ms = percentile(0.95);
@@ -120,10 +129,10 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     // Top queries (up to 20 by frequency)
     std::vector<std::pair<std::string, size_t>> freq_vec(query_freq.begin(), query_freq.end());
     std::partial_sort(freq_vec.begin(),
-                      freq_vec.begin() + std::min(size_t{20}, freq_vec.size()),
+                      freq_vec.begin() + std::min(size_t{20},static_cast<int>(freq_vec.size())),
                       freq_vec.end(),
                       [](const auto& a, const auto& b) { return a.second > b.second; });
-    for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {
+    for (size_t i = 0; i < std::min(size_t{20},static_cast<int>(freq_vec.size())); ++i) {
         m.top_queries[freq_vec[i].first] = freq_vec[i].second;
     }
 
@@ -131,17 +140,18 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
 }
 
 std::vector<std::pair<std::string, size_t>>
-SearchAnalytics::getTopQueries(size_t limit) const {
+SearchAnalytics::getTopQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     if (events_.empty() || limit == 0) return {};
 
-    std::map<std::string, size_t> freq;
+    std::map<std::string, size_t> freq = {};
+
     for (const auto& ev : events_) {
         freq[ev.query]++;
     }
 
     std::vector<std::pair<std::string, size_t>> result(freq.begin(), freq.end());
-    size_t n = std::min(limit, result.size());
+    size_t n = std::min(limit,static_cast<int>(result.size()));
     std::partial_sort(result.begin(), result.begin() + static_cast<std::ptrdiff_t>(n),
                       result.end(),
                       [](const auto& a, const auto& b) {
@@ -158,7 +168,7 @@ SearchAnalytics::getTopQueries(size_t limit) const {
 
 size_t SearchAnalytics::eventCount() const {
     std::lock_guard<std::mutex> lock(mu_);
-    return events_.size();
+    return static_cast<int>(events_.size());
 }
 
 void SearchAnalytics::clear() {

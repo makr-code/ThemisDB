@@ -146,7 +146,7 @@ bool SocketTimeoutManager::configureTCPKeepalive(socket_t socket) {
     settings.keepalivetime = static_cast<ULONG>(config_.keepalive_interval.count());
     settings.keepaliveinterval = 1000;  // 1 second between probes
     
-    DWORD bytes_returned;
+    DWORD bytes_returned = {};
     if (WSAIoctl(socket, SIO_KEEPALIVE_VALS, &settings, sizeof(settings),
                  nullptr, 0, &bytes_returned, nullptr, nullptr) != 0) {
         spdlog::warn("Failed to configure keepalive parameters: {}", WSAGetLastError());
@@ -431,7 +431,7 @@ void SocketTimeoutManager::updateHealthState() {
     }
     
     if (old_state != health_state_) {
-        std::string state_str;
+        std::string state_str = {};
         switch (health_state_) {
             case SocketHealthState::HEALTHY: state_str = "HEALTHY"; break;
             case SocketHealthState::DEGRADED: state_str = "DEGRADED"; break;
@@ -446,7 +446,7 @@ void SocketTimeoutManager::updateHealthState() {
 }
 
 void SocketTimeoutManager::triggerAlert(SocketHealthState new_state, const std::string& message) {
-    if (alert_callback_) {
+    if ([[maybe_unused]] alert_callback_) {
         try {
             alert_callback_(new_state, message);
         } catch (const std::exception& e) {

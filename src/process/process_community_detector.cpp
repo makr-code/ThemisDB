@@ -53,14 +53,16 @@ struct Graph {
 };
 
 Graph buildGraph(const json& normalized) {
-    Graph g;
+    Graph g = {};
     if (!normalized.contains("nodes") || !normalized.contains("edges")) {
         return g;
     }
 
     for (const auto& n : normalized["nodes"]) {
         const std::string id = n.value("id", "");
-        if (id.empty()) continue;
+        if (id.empty()) {
+          continue;
+        }
         if (g.node_index.find(id) == g.node_index.end()) {
             g.node_index[id] = static_cast<int>(g.node_ids.size());
             g.node_ids.push_back(id);
@@ -74,11 +76,15 @@ Graph buildGraph(const json& normalized) {
     for (const auto& e : normalized["edges"]) {
         const std::string from = e.value("from", e.value("source", ""));
         const std::string to   = e.value("to",   e.value("target", ""));
-        if (from.empty() || to.empty()) continue;
+        if (from.empty() || to.empty()) {
+          continue;
+        }
 
         auto fi = g.node_index.find(from);
         auto ti = g.node_index.find(to);
-        if (fi == g.node_index.end() || ti == g.node_index.end()) continue;
+        if (fi == g.node_index.end() || ti == g.node_index.end()) {
+          continue;
+        }
 
         const int u = fi->second;
         const int v = ti->second;
@@ -105,13 +111,17 @@ float modularityGain(
     float resolution)
 {
     const float two_m = g.total_weight * 2.f;
-    if (two_m <= 0.f) return 0.f;
+    if (two_m <= 0.f) {
+      return 0.f;
+    }
 
     float k_u_in = 0.f;
     float sigma_tot = 0.f;
     for (int v : community_nodes) {
         auto it = g.adj[u].find(v);
-        if (it != g.adj[u].end()) k_u_in += it->second;
+        if (it != g.adj[u].end()) {
+          k_u_in += it->second;
+        }
         sigma_tot += g.degree[v];
     }
 
@@ -141,11 +151,16 @@ bool louvainPhase(
         int best_comm = current_comm;
 
         // Evaluate each neighbouring community
-        std::set<int> visited_comms;
+        std::set<int> visited_comms = {};
+
         for (const auto& [v, _] : g.adj[u]) {
             const int nc = assignment[v];
-            if (!visited_comms.insert(nc).second) continue;
-            if (nc == current_comm) continue;
+            if (!visited_comms.insert(nc).second) {
+              continue;
+            }
+            if (nc == current_comm) {
+              continue;
+            }
 
             const float gain = modularityGain(u, comm_nodes[nc], g, resolution);
             if (gain > best_gain) {
@@ -193,13 +208,16 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
-    std::unordered_map<std::string, std::string> node_names;
+    std::unordered_map<std::string, std::string> node_names = {};
+
     node_names.reserve(normalized["nodes"].size());
     for (const auto& node_json : normalized["nodes"]) {
         const std::string id = node_json.value("id", "");
         const std::string nm = node_json.value("name",
                                 node_json.value("label", id));
-        if (!id.empty()) node_names[id] = nm;
+        if (!id.empty()) {
+          node_names[id] = nm;
+        }
     }
 
     // Initialise: each node in its own community (community label = node index)
@@ -209,7 +227,9 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Phase 1: iterate until no improvement
     constexpr int kMaxIterations = 100;
     for (int iter = 0; iter < kMaxIterations; ++iter) {
-        if (!louvainPhase(assignment, g, resolution)) break;
+        if (!louvainPhase(assignment, g, resolution)) {
+          break;
+        }
     }
 
     // Phase 2: build super-graph and repeat (one level of coarsening)
@@ -223,7 +243,9 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
             }
         }
         // Remap
-        for (auto& a : assignment) a = label_remap[a];
+        for (auto& a : assignment) {
+          a = label_remap[a];
+        }
 
         // Build super-graph only when there is enough structure to benefit
         // from a second-level optimization. For exactly two communities this
@@ -232,14 +254,18 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         if (comm_count > 2) {
             Graph sg;
             sg.node_ids.resize(comm_count);
-            for (int i = 0; i < comm_count; ++i) sg.node_ids[i] = std::to_string(i);
+            for (int i = 0; i < comm_count; ++i) {
+              sg.node_ids[i] = std::to_string(i);
+            }
             sg.adj.resize(comm_count);
             sg.degree.assign(comm_count, 0.f);
             for (int u = 0; u < n; ++u) {
                 for (const auto& [v, w] : g.adj[u]) {
                     const int cu = assignment[u];
                     const int cv = assignment[v];
-                    if (cu == cv) continue;
+                    if (cu == cv) {
+                      continue;
+                    }
                     sg.adj[cu][cv] += w;
                     sg.degree[cu] += w;
                     sg.total_weight += w;
@@ -249,10 +275,14 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
                 std::vector<int> sg_assign(comm_count);
                 std::iota(sg_assign.begin(), sg_assign.end(), 0);
                 for (int iter = 0; iter < kMaxIterations; ++iter) {
-                    if (!louvainPhase(sg_assign, sg, resolution)) break;
+                    if (!louvainPhase(sg_assign, sg, resolution)) {
+                      break;
+                    }
                 }
                 // Propagate super-graph assignment back
-                for (auto& a : assignment) a = sg_assign[a];
+                for (auto& a : assignment) {
+                  a = sg_assign[a];
+                }
             }
         }
     }
@@ -266,7 +296,8 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Compute global modularity Q for score computation
     const float two_m = g.total_weight * 2.f;
 
-    std::vector<ProcessCommunity> communities;
+    std::vector<ProcessCommunity> communities = {};
+
     communities.reserve(comm_map.size());
 
     int idx = 0;
@@ -275,7 +306,9 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         pc.community_id = "community_" + std::to_string(idx++);
 
         pc.node_ids.reserve(members.size());
-        for (int u : members) pc.node_ids.push_back(g.node_ids[u]);
+        for (int u : members) {
+          pc.node_ids.push_back(g.node_ids[u]);
+        }
 
         // Compute local modularity contribution
         // OPTIMIZATION: Convert members to set for O(log n) lookup instead of O(n²) iterations
@@ -297,10 +330,12 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         }
 
         // Label: first 3 node names joined with "; "
-        std::ostringstream label_ss;
+        std::ostringstream label_ss = {};
         const int label_count = std::min(static_cast<int>(pc.node_ids.size()), 3);
         for (int i = 0; i < label_count; ++i) {
-            if (i > 0) label_ss << "; ";
+            if (i > 0) {
+              label_ss << "; ";
+            }
             auto nit = node_names.find(pc.node_ids[i]);
             label_ss << (nit != node_names.end() ? nit->second : pc.node_ids[i]);
         }
@@ -315,7 +350,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Sort by size descending
     std::sort(communities.begin(), communities.end(),
               [](const ProcessCommunity& a, const ProcessCommunity& b) {
-                  return a.node_ids.size() > b.node_ids.size();
+                  return static_cast<bool>( static_cast<int>(a.node_ids.size()) < static_cast<int>(b.node_ids.size()));
               });
 
     THEMIS_INFO("ProcessCommunityDetector: detected {} communities for model '{}'",
@@ -338,7 +373,7 @@ std::string ProcessCommunityDetector::generateReport(
     if (community.node_ids.empty()) return {};
 
     const bool german = (language == "de");
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     const int n = static_cast<int>(community.node_ids.size());
 
@@ -357,7 +392,7 @@ std::string ProcessCommunityDetector::generateReport(
 
     // Modularity contribution (use ostringstream for safe float formatting)
     {
-        std::ostringstream mod_oss;
+        std::ostringstream mod_oss = {};
         mod_oss << std::fixed;
         mod_oss.precision(4);
         mod_oss << community.modularity_score;

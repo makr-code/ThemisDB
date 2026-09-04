@@ -19,8 +19,8 @@
 namespace {
 
 struct Article {
-    std::string title;
-    std::string body;
+    std::string title = {};
+    std::string body = {};
 };
 
 std::vector<Article> makeCorpus(std::size_t count) {
@@ -71,7 +71,7 @@ void BM_WikipediaCheckpointResume(benchmark::State& state) {
     const std::size_t article_count = static_cast<std::size_t>(state.range(0));
     const auto corpus = makeCorpus(article_count);
 
-    std::string checkpoint;
+    std::string checkpoint = {};
     checkpoint.reserve(article_count * 16U);
 
     for (auto _ : state) {

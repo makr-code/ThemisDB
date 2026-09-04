@@ -110,7 +110,7 @@ MigrationResult DataMigrator::migrate(
         // 10 000 estimate if the endpoint is not available or returns a bad response.
         {
             auto count_client = createMTLSClient(config_);
-            std::ostringstream count_path;
+            std::ostringstream count_path = {};
             count_path << "/api/v1/data/migrate/count"
                        << "?token_range_start=" << token_range_start
                        << "&token_range_end=" << token_range_end
@@ -153,7 +153,7 @@ MigrationResult DataMigrator::migrate(
             }
             
             // Calculate hash if verification enabled
-            std::string batch_hash;
+            std::string batch_hash = {};
             if (config_.verify_integrity) {
                 batch_hash = calculateHash(batch);
             }
@@ -195,8 +195,8 @@ MigrationResult DataMigrator::migrate(
                 );
             }
             
-            if (progress_callback) {
-                progress_callback(progress);
+            if ([[maybe_unused]] progress_callback) {
+                progress_callback([[maybe_unused]] progress);
             }
             
             offset += records_in_batch;
@@ -285,7 +285,7 @@ nlohmann::json DataMigrator::fetchBatch(
     }
     
     // Build the query endpoint for fetching data in the specified token range
-    std::ostringstream path_oss;
+    std::ostringstream path_oss = {};
     path_oss << "/api/v1/data/migrate/fetch"
              << "?token_range_start=" << token_range_start
              << "&token_range_end=" << token_range_end
@@ -386,7 +386,7 @@ std::string DataMigrator::calculateHash(const nlohmann::json& data) {
     SHA256(reinterpret_cast<const unsigned char*>(data_str.c_str()), 
            data_str.size(), hash);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') 
            << static_cast<int>(hash[i]);
@@ -434,7 +434,7 @@ std::string DataMigrator::generateMigrationId(
     uint64_t token_range_end
 ) {
     // Create deterministic string for hashing
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << source_shard_id << ":"
         << target_shard_id << ":"
         << token_range_start << ":"
@@ -447,7 +447,7 @@ std::string DataMigrator::generateMigrationId(
            input.size(), hash);
     
     // Convert to hex string
-    std::ostringstream hex_oss;
+    std::ostringstream hex_oss = {};
     hex_oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         hex_oss << std::setw(2) << static_cast<unsigned>(hash[i]);

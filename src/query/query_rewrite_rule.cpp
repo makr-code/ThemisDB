@@ -71,7 +71,7 @@ size_t transformNodes(nlohmann::json& node, Pred pred, Xform transform) {
 /// Collect all OR-chained equality predicates on the same field.
 /// Returns {field_name, [values]} or empty if not applicable.
 struct OrChain {
-    std::string field;
+    std::string field = {};
     std::vector<nlohmann::json> values;
 };
 
@@ -90,10 +90,14 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
     // Recursively collect from left (which might itself be an OR chain)
     OrChain result;
 
-    auto processEq = [&](const nlohmann::json& eq) -> bool {
-        if (!hasType(eq, "eq")) return false;
+    auto processEq = [&]([[maybe_unused]] const nlohmann::json& eq) -> bool {
+        if (!hasType(eq, "eq")) {
+          return false;
+        }
         // Use contains() and at() to avoid iterator invalidation
-        if (!eq.contains("field") || !eq.contains("value")) return false;
+        if (!eq.contains("field") || !eq.contains("value")) {
+          return false;
+        }
         
         try {
             const std::string field = eq.at("field").get<std::string>();
@@ -118,13 +122,17 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
 
     // Left side: accept either an eq node or a nested OR
     if (hasType(left, "eq")) {
-        if (!processEq(left)) return std::nullopt;
+        if (!processEq(left)) {
+          return std::nullopt;
+        }
     } else if (hasType(left, "or")) {
         auto sub = collectOrChain(left);
-        if (!sub) return std::nullopt;
+        if (!sub) {
+          return std::nullopt;
+        }
         result.field = sub->field;
         // Reserve capacity to avoid invalidation during resize
-        result.values.reserve(result.values.size() + sub->values.size());
+        result.values.reserve(result.values.size() + sub-> static_cast<int>(values.size()));
         // Move values instead of copying to be more efficient
         for (auto& val : sub->values) {
             result.values.push_back(std::move(val));
@@ -134,7 +142,9 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
     }
 
     // Right side: must be an eq node on the same field
-    if (!processEq(right)) return std::nullopt;
+    if (!processEq(right)) {
+      return std::nullopt;
+    }
 
     return result;
 }
@@ -150,14 +160,24 @@ bool PredicatePushdownRule::applies(const nlohmann::json& plan,
     // Applicable when there is at least one FILTER node that is a direct
     // child of a JOIN node (meaning it hasn't been pushed yet).
     return countNodes(plan, [](const nlohmann::json& n) {
-        if (!n.is_object()) return false;
-        if (!hasType(n, "join")) return false;
+        if (!n.is_object()) {
+          return false;
+        }
+        if (!hasType(n, "join")) {
+          return false;
+        }
         auto children = n.find("children");
-        if (children == n.end() || !children->is_array()) return false;
+        if (children == n.end() || !children->is_array()) {
+          return false;
+        }
         bool has_filter = false, has_scan = false;
         for (const auto& child : *children) {
-            if (hasType(child, "filter")) has_filter = true;
-            if (hasType(child, "scan"))   has_scan   = true;
+            if (hasType(child, "filter")) {
+              has_filter = true;
+            }
+            if (hasType(child, "scan")) {
+              has_scan   = true;
+            }
         }
         return has_filter && has_scan;
     }) > 0;
@@ -169,11 +189,15 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
     // "scan" child's own children, if a scan child is present.
     size_t changes = 0;
 
-    auto tryPush = [&](nlohmann::json& node) {
+    auto tryPush = [&]([[maybe_unused]] nlohmann::json& node) {
         // Only apply to JOIN nodes.
-        if (!hasType(node, "join")) return;
+        if (!hasType(node, "join")) {
+          return;
+        }
         auto children_it = node.find("children");
-        if (children_it == node.end() || !children_it->is_array()) return;
+        if (children_it == node.end() || !children_it->is_array()) {
+          return;
+        }
 
         std::vector<nlohmann::json> filters;
         std::vector<nlohmann::json> others;
@@ -192,7 +216,9 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
             }
         }
 
-        if (filters.empty() || scan_index < 0) return;
+        if (filters.empty() || scan_index < 0) {
+          return;
+        }
 
         // Ensure the scan child has a "children" array.
         nlohmann::json& scan = others[static_cast<size_t>(scan_index)];
@@ -225,11 +251,17 @@ bool ProjectionPushdownRule::applies(const nlohmann::json& plan,
     // Applicable when a PROJECT node appears as a parent of a SCAN node;
     // we want to push the column list down to the SCAN.
     return countNodes(plan, [](const nlohmann::json& n) {
-        if (!hasType(n, "project")) return false;
+        if (!hasType(n, "project")) {
+          return false;
+        }
         auto children = n.find("children");
-        if (children == n.end() || !children->is_array()) return false;
+        if (children == n.end() || !children->is_array()) {
+          return false;
+        }
         for (const auto& c : *children) {
-            if (hasType(c, "scan")) return true;
+            if (hasType(c, "scan")) {
+              return true;
+            }
         }
         return false;
     }) > 0;
@@ -239,12 +271,18 @@ size_t ProjectionPushdownRule::apply(nlohmann::json& plan,
                                      const RewriteContext& /*ctx*/) const {
     size_t changes = 0;
 
-    auto tryPush = [&](nlohmann::json& node) {
-        if (!hasType(node, "project")) return;
+    auto tryPush = [&]([[maybe_unused]] nlohmann::json& node) {
+        if (!hasType(node, "project")) {
+          return;
+        }
         auto cols_it     = node.find("columns");
         auto children_it = node.find("children");
-        if (cols_it == node.end() || children_it == node.end()) return;
-        if (!children_it->is_array()) return;
+        if (cols_it == node.end() || children_it == node.end()) {
+          return;
+        }
+        if (!children_it->is_array()) {
+          return;
+        }
 
         for (auto& child : *children_it) {
             if (hasType(child, "scan")) {
@@ -273,12 +311,18 @@ size_t ProjectionPushdownRule::apply(nlohmann::json& plan,
 bool OrToInRewriteRule::applies(const nlohmann::json& plan,
                                  const RewriteContext& ctx) const {
     return countNodes(plan, [&ctx](const nlohmann::json& n) {
-        if (!hasType(n, "filter")) return false;
+        if (!hasType(n, "filter")) {
+          return false;
+        }
         auto cond_it = n.find("condition");
-        if (cond_it == n.end()) return false;
-        if (!hasType(*cond_it, "or")) return false;
+        if (cond_it == n.end()) {
+          return false;
+        }
+        if (!hasType(*cond_it, "or")) {
+          return false;
+        }
         auto chain = collectOrChain(*cond_it);
-        return chain.has_value() && chain->values.size() >= ctx.or_to_in_threshold;
+        return static_cast<bool>(chain.has_value() && chain- < static_cast<int>(values.size())) >= ctx.or_to_in_threshold;
     }) > 0;
 }
 
@@ -286,13 +330,21 @@ size_t OrToInRewriteRule::apply(nlohmann::json& plan,
                                  const RewriteContext& ctx) const {
     size_t changes = 0;
 
-    auto tryRewrite = [&](nlohmann::json& node) {
-        if (!hasType(node, "filter")) return;
+    auto tryRewrite = [&]([[maybe_unused]] nlohmann::json& node) {
+        if (!hasType(node, "filter")) {
+          return;
+        }
         auto cond_it = node.find("condition");
-        if (cond_it == node.end()) return;
-        if (!hasType(*cond_it, "or")) return;
+        if (cond_it == node.end()) {
+          return;
+        }
+        if (!hasType(*cond_it, "or")) {
+          return;
+        }
         auto chain = collectOrChain(*cond_it);
-        if (!chain || chain->values.size() < ctx.or_to_in_threshold) return;
+        if (!chain || chain-> static_cast<int>(values.size()) < ctx.or_to_in_threshold) {
+          return;
+        }
 
         // Replace the OR condition with an IN expression.
         nlohmann::json in_expr;
@@ -318,41 +370,65 @@ size_t OrToInRewriteRule::apply(nlohmann::json& plan,
 
 bool ConstantFoldingRule::applies(const nlohmann::json& plan,
                                    const RewriteContext& ctx) const {
-    if (!ctx.enable_constant_folding) return false;
+    if (!ctx.enable_constant_folding) {
+      return false;
+    }
     // Applicable when there is an arithmetic node whose operands are both literals.
     return countNodes(plan, [](const nlohmann::json& n) {
-        if (!n.is_object()) return false;
+        if (!n.is_object()) {
+          return false;
+        }
         auto type_it = n.find("type");
-        if (type_it == n.end() || !type_it->is_string()) return false;
+        if (type_it == n.end() || !type_it->is_string()) {
+          return false;
+        }
         const std::string t = type_it->get<std::string>();
-        if (t != "add" && t != "sub" && t != "mul" && t != "div") return false;
+        if (t != "add" && t != "sub" && t != "mul" && t != "div") {
+          return false;
+        }
         auto l = n.find("left");
         auto r = n.find("right");
-        if (l == n.end() || r == n.end()) return false;
+        if (l == n.end() || r == n.end()) {
+          return false;
+        }
         return l->is_number() && r->is_number();
     }) > 0;
 }
 
 size_t ConstantFoldingRule::apply(nlohmann::json& plan,
                                    const RewriteContext& ctx) const {
-    if (!ctx.enable_constant_folding) return 0;
+    if (!ctx.enable_constant_folding) {
+      return 0;
+    }
     size_t changes = 0;
 
-    auto tryFold = [&](nlohmann::json& node) {
-        if (!node.is_object()) return;
+    auto tryFold = [&]([[maybe_unused]] nlohmann::json& node) {
+        if (!node.is_object()) {
+          return;
+        }
         auto type_it = node.find("type");
-        if (type_it == node.end() || !type_it->is_string()) return;
+        if (type_it == node.end() || !type_it->is_string()) {
+          return;
+        }
         const std::string t = type_it->get<std::string>();
-        if (t != "add" && t != "sub" && t != "mul" && t != "div") return;
+        if (t != "add" && t != "sub" && t != "mul" && t != "div") {
+          return;
+        }
         auto l = node.find("left");
         auto r = node.find("right");
-        if (l == node.end() || r == node.end()) return;
-        if (!l->is_number() || !r->is_number()) return;
+        if (l == node.end() || r == node.end()) {
+          return;
+        }
+        if (!l->is_number() || !r->is_number()) {
+          return;
+        }
 
         const double lv = l->get<double>();
         const double rv = r->get<double>();
         double result = 0.0;
-        if (t == "add") result = lv + rv;
+        if (t == "add") {
+          result = lv + rv;
+        }
         else if (t == "sub") result = lv - rv;
         else if (t == "mul") result = lv * rv;
         else if (t == "div" && rv != 0.0) result = lv / rv;
@@ -379,8 +455,10 @@ bool CommonSubexpressionRule::applies(const nlohmann::json& plan,
     std::unordered_map<std::string, size_t> seen;
     bool found = false;
 
-    std::function<void(const nlohmann::json&)> walk = [&](const nlohmann::json& n) {
-        if (!n.is_object()) return;
+    std::function<void(const nlohmann::json&)> walk = [&]([[maybe_unused]] const nlohmann::json& n) {
+        if (!n.is_object()) {
+          return;
+        }
         auto type_it = n.find("type");
         if (type_it != n.end() && type_it->is_string()) {
             const std::string key = n.dump();
@@ -402,8 +480,10 @@ size_t CommonSubexpressionRule::apply(nlohmann::json& plan,
     size_t alias_counter = 0;
     size_t changes = 0;
 
-    std::function<void(nlohmann::json&)> walk = [&](nlohmann::json& n) {
-        if (!n.is_object()) return;
+    std::function<void(nlohmann::json&)> walk = [&]([[maybe_unused]] nlohmann::json& n) {
+        if (!n.is_object()) {
+          return;
+        }
         auto type_it = n.find("type");
         if (type_it != n.end() && type_it->is_string()) {
             const std::string key = n.dump();
@@ -434,11 +514,13 @@ size_t CommonSubexpressionRule::apply(nlohmann::json& plan,
 // QueryRewritePipeline
 // ─────────────────────────────────────────────────────────────────────────────
 
-QueryRewritePipeline::QueryRewritePipeline(size_t max_iterations)
+QueryRewritePipeline::QueryRewritePipeline([[maybe_unused]] size_t max_iterations)
     : max_iterations_(max_iterations) {}
 
 void QueryRewritePipeline::addRule(std::shared_ptr<IQueryRewriteRule> rule) {
-    if (rule) rules_.push_back(std::move(rule));
+    if (rule) {
+      rules_.push_back(std::move(rule));
+    }
 }
 
 void QueryRewritePipeline::clearRules() {
@@ -446,7 +528,7 @@ void QueryRewritePipeline::clearRules() {
 }
 
 size_t QueryRewritePipeline::ruleCount() const {
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 RewriteStats QueryRewritePipeline::run(nlohmann::json& plan,

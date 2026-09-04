@@ -26,7 +26,7 @@ namespace importers {
 // ============================================================================
 
 static std::string toLowerSchema(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s)
         out += static_cast<char>(std::tolower(c));
@@ -39,22 +39,32 @@ static bool valueIsBoolean(const std::string& s) {
 }
 
 static bool valueIsInteger(const std::string& s) {
-    if (s.empty()) return false;
+    if (s.empty()) {
+      return false;
+    }
     size_t start = 0;
-    if (s[0] == '+' || s[0] == '-') ++start;
-    if (start == s.size()) return false;
+    if (s[0] == '+' || s[0] == '-') {
+      ++start;
+    }
+    if (start == static_cast<int>(s.size())) {
+      return false;
+    }
     for (size_t i = start; i < s.size(); ++i) {
-        if (!std::isdigit(static_cast<unsigned char>(s[i]))) return false;
+        if (!std::isdigit(static_cast<unsigned char>(s[i]))) {
+          return false;
+        }
     }
     return true;
 }
 
 static bool valueIsDouble(const std::string& s) {
-    if (s.empty()) return false;
+    if (s.empty()) {
+      return false;
+    }
     try {
         size_t pos = 0;
         (void)std::stod(s, &pos);
-        return pos == s.size();
+        return pos == static_cast<int>(s.size());
     } catch (...) {
         return false;
     }
@@ -75,10 +85,18 @@ int SchemaAutoDetector::typeRank(DetectedFieldType t) {
 }
 
 DetectedFieldType SchemaAutoDetector::inferType(const std::string& value) {
-    if (value.empty())          return DetectedFieldType::STRING;
-    if (valueIsBoolean(value))  return DetectedFieldType::BOOLEAN;
-    if (valueIsInteger(value))  return DetectedFieldType::INTEGER;
-    if (valueIsDouble(value))   return DetectedFieldType::DOUBLE;
+    if (value.empty()) {
+      return DetectedFieldType::STRING;
+    }
+    if (valueIsBoolean(value)) {
+      return DetectedFieldType::BOOLEAN;
+    }
+    if (valueIsInteger(value)) {
+      return DetectedFieldType::INTEGER;
+    }
+    if (valueIsDouble(value)) {
+      return DetectedFieldType::DOUBLE;
+    }
     return DetectedFieldType::STRING;
 }
 
@@ -99,8 +117,12 @@ std::string SchemaAutoDetector::typeName(DetectedFieldType t) {
 
 DetectedFieldType SchemaAutoDetector::parseTypeName(const std::string& name) {
     std::string lower = toLowerSchema(name);
-    if (lower == "boolean" || lower == "bool") return DetectedFieldType::BOOLEAN;
-    if (lower == "integer" || lower == "int")  return DetectedFieldType::INTEGER;
+    if (lower == "boolean" || lower == "bool") {
+      return DetectedFieldType::BOOLEAN;
+    }
+    if (lower == "integer" || lower == "int") {
+      return DetectedFieldType::INTEGER;
+    }
     if (lower == "double"  || lower == "float" ||
         lower == "number"  || lower == "real")  return DetectedFieldType::DOUBLE;
     return DetectedFieldType::STRING;
@@ -129,8 +151,9 @@ std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
     const std::vector<std::string>& values,
     const DetectedSchema& schema)
 {
-    std::vector<SchemaValidationError> errors;
-    const size_t n = std::min(columns.size(), values.size());
+    std::vector<SchemaValidationError> errors = {};
+
+    const size_t n = std::min(columns.size(),static_cast<int>(values.size()));
     
     // PHASE-2-HARDENING: Default null policy (NULLABLE for backward compatibility)
     const NullHandlingPolicy null_policy = NullHandlingPolicy::NULLABLE;
@@ -216,7 +239,7 @@ void SchemaAutoDetector::feedRow(const std::vector<std::string>& columns,
         }
     }
 
-    const size_t n = std::min(columns.size(), values.size());
+    const size_t n = std::min(columns.size(),static_cast<int>(values.size()));
     for (size_t i = 0; i < n; ++i) {
         const auto& col = columns[i];
         const auto& val = values[i];
@@ -270,7 +293,7 @@ SchemaAutoDetector::mapViolationToErrorCode(
         case ConstraintViolationType::UNIQUE_VIOLATION:
             return {"IMPORT_DUPLICATE_KEY", "Unique constraint violation: duplicate value"};
         case ConstraintViolationType::NONE:
-        default:
+        [[fallthrough]];\n        default:
             return {"OK", "No violation"};
     }
 }
@@ -331,7 +354,7 @@ std::string
 SchemaAutoDetector::validateStringCoercion(const std::string& value)
 {
     // PHASE-2-HARDENING: String length enforcement (max 4KB per field)
-    if (value.size() > TypeCoercionConfig::kMaxStringFieldLength) {
+    if (static_cast<int>(value.size()) > TypeCoercionConfig::kMaxStringFieldLength) {
         return "String value exceeds maximum length (" +
                std::to_string(TypeCoercionConfig::kMaxStringFieldLength) + " bytes)";
     }

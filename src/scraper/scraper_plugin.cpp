@@ -139,22 +139,30 @@ std::vector<std::pair<std::string, std::string>> ScraperPlugin::collectSeeds() c
     } else {
         if (gs.bund_enabled) {
             for (const auto* s : gov_catalog_.byType(GovSourceType::BUND))
-                if (s->enabled) gov_sources.push_back(s);
+                if (s->enabled) {
+                  gov_sources.push_back(s);
+                }
         }
         if (gs.bundeslaender_enabled) {
             for (const auto* s : gov_catalog_.byType(GovSourceType::BUNDESLAND))
-                if (s->enabled) gov_sources.push_back(s);
+                if (s->enabled) {
+                  gov_sources.push_back(s);
+                }
         }
         if (gs.eu_enabled) {
             for (const auto* s : gov_catalog_.byType(GovSourceType::EU))
-                if (s->enabled) gov_sources.push_back(s);
+                if (s->enabled) {
+                  gov_sources.push_back(s);
+                }
         }
     }
 
     for (const auto* src : gov_sources) {
         const std::string& url = src->search_url.empty()
                                ? src->base_url : src->search_url;
-        if (!url.empty()) seeds.emplace_back(url, src->id);
+        if (!url.empty()) {
+          seeds.emplace_back(url, src->id);
+        }
     }
 
     return seeds;
@@ -167,7 +175,7 @@ std::vector<std::pair<std::string, std::string>> ScraperPlugin::collectSeeds() c
 namespace {
 #ifdef THEMIS_ENABLE_CURL
 struct CurlBuf {
-    std::string data;
+    std::string data = {};
     static std::size_t write(char* p, std::size_t sz, std::size_t nmemb, void* ud) {
         static_cast<CurlBuf*>(ud)->data.append(p, sz * nmemb);
         return sz * nmemb;
@@ -211,8 +219,8 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
 #ifdef THEMIS_ENABLE_PUGIXML
     pugi::xml_document doc;
     doc.load_string(html.c_str(), pugi::parse_default | pugi::parse_fragment);
-    std::ostringstream out;
-    std::function<void(const pugi::xml_node&)> walk = [&](const pugi::xml_node& n) {
+    std::ostringstream out = {};
+    std::function<void(const pugi::xml_node&)> walk = [&]([[maybe_unused]] const pugi::xml_node& n) {
         for (const auto& child : n.children()) {
             if (child.type() == pugi::node_pcdata ||
                 child.type() == pugi::node_cdata) {
@@ -221,7 +229,9 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
             } else {
                 // Skip script/style content
                 const std::string name = child.name();
-                if (name != "script" && name != "style") walk(child);
+                if (name != "script" && name != "style") {
+                  walk(child);
+                }
             }
         }
     };
@@ -229,7 +239,7 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
     return out.str();
 #else
     // Minimal tag stripper
-    std::string out;
+    std::string out = {};
     bool in_tag = false;
     bool in_script = false;
     for (std::size_t i = 0; i < html.size(); ++i) {
@@ -248,7 +258,9 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
             continue;
         }
         if (html[i] == '>') { in_tag = false; out += ' '; continue; }
-        if (!in_tag && !in_script) out += html[i];
+        if (!in_tag && !in_script) {
+          out += html[i];
+        }
     }
     return out;
 #endif
@@ -271,7 +283,9 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
     cfg.page_size    = src.results_per_page;
     if (!src.api_key_env.empty()) {
         const char* key = std::getenv(src.api_key_env.c_str());
-        if (key) cfg.headers["Authorization"] = std::string("Bearer ") + key;
+        if (key) {
+          cfg.headers["Authorization"] = std::string("Bearer ") + key;
+        }
     }
     for (const auto& kv : src.extra_params)
         cfg.headers[kv.first] = kv.second;
@@ -291,7 +305,7 @@ void ScraperPlugin::processDocument(
         const std::string& date_issued,
         const std::string& title_hint) {
     const std::string text = extractText(html);
-    if (text.size() < 50) return; // skip near-empty pages
+    if (static_cast<int>(text.size()) < 50) return; // skip near-empty pages
 
     // LLM evaluation
     const EvaluationResult eval = evaluator_->evaluate(
@@ -301,11 +315,11 @@ void ScraperPlugin::processDocument(
     std::string title = title_hint;
     if (title.empty()) {
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             // Trim
             const auto begin = line.find_first_not_of(" \t\r\n");
-            if (begin != std::string::npos && (line.size() - begin) > 5) {
+            if (begin != std::string::npos && (static_cast<int>(line.size()) - begin) > 5) {
                 title = line.substr(begin, 120);
                 break;
             }
@@ -357,11 +371,17 @@ void ScraperPlugin::runSearchLoop(
         const std::string& page_html,
         const std::string& source_name,
         const std::string& gov_source_id) {
-    if (!config_.search_options.enabled) return;
-    if (!search_engine_) return;
+    if (!config_.search_options.enabled) {
+      return;
+    }
+    if (!search_engine_) {
+      return;
+    }
 
     const auto forms = search_engine_->discoverForms(page_html, seed_url);
-    if (forms.empty()) return;
+    if (forms.empty()) {
+      return;
+    }
 
     const auto& form = forms.front(); // use first discovered form
     const auto queries = config_.effectiveSearchQueries();
@@ -371,7 +391,9 @@ void ScraperPlugin::runSearchLoop(
     for (const auto& query : queries) {
         for (int pg = 1; pg <= max_pages; ++pg) {
             const std::string search_url = search_engine_->buildSearchUrl(form, query, pg);
-            if (!policy.isAllowed(search_url)) break;
+            if (!policy.isAllowed(search_url)) {
+              break;
+            }
 
             // Polite delay
             if (pg > 1 && config_.crawl_options.request_delay_ms > 0) {
@@ -379,7 +401,7 @@ void ScraperPlugin::runSearchLoop(
                     std::chrono::milliseconds(config_.crawl_options.request_delay_ms));
             }
 
-            std::string result_html;
+            std::string result_html = {};
             if (form.method == "POST") {
                 const std::string body = search_engine_->buildSearchBody(form, query, pg);
                 // For POST: use api_client with form body
@@ -394,7 +416,9 @@ void ScraperPlugin::runSearchLoop(
                 result_html = fetchPage(search_url);
             }
 
-            if (result_html.empty()) break;
+            if (result_html.empty()) {
+              break;
+            }
             ++stats_.result_pages_parsed;
 
             const SearchResultPage result_page =
@@ -404,20 +428,24 @@ void ScraperPlugin::runSearchLoop(
 
             // Process each result item
             for (const auto& item : result_page.items) {
-                if (item.url.empty() || !policy.isAllowed(item.url)) continue;
+                if (item.url.empty() || !policy.isAllowed(item.url)) {
+                  continue;
+                }
                 if (config_.crawl_options.request_delay_ms > 0) {
                     std::this_thread::sleep_for(
                         std::chrono::milliseconds(config_.crawl_options.request_delay_ms));
                 }
 
-                std::string doc_html;
+                std::string doc_html = {};
                 if (config_.crawl_options.render_mode == ScraperRenderMode::JS_RENDERED
                     && js_renderer_ && js_renderer_->isAvailable()) {
                     JsRenderRequest jreq;
                     jreq.url        = item.url;
                     jreq.timeout_ms = config_.crawl_options.js_timeout_ms;
                     const auto jres = js_renderer_->render(jreq);
-                    if (jres.success) doc_html = jres.html;
+                    if (jres.success) {
+                      doc_html = jres.html;
+                    }
                 } else {
                     doc_html = fetchPage(item.url);
                 }
@@ -430,7 +458,9 @@ void ScraperPlugin::runSearchLoop(
             }
 
             ++stats_.forms_submitted;
-            if (!result_page.has_more || result_page.next_page_url.empty()) break;
+            if (!result_page.has_more || result_page.next_page_url.empty()) {
+              break;
+            }
         }
     }
 }
@@ -443,7 +473,9 @@ void ScraperPlugin::runApiLoop(
         const std::string& endpoint_url,
         const std::string& source_name,
         const std::string& gov_source_id) {
-    if (!api_client_) return;
+    if (!api_client_) {
+      return;
+    }
 
     ApiEndpointConfig cfg;
     cfg.url = endpoint_url;
@@ -461,7 +493,9 @@ void ScraperPlugin::runApiLoop(
         const auto results = api_client_->fetchAll(cfg, query);
         stats_.api_pages_fetched += static_cast<int>(results.size());
         for (const auto& r : results) {
-            if (!policy.isAllowed(r.url) && r.url != endpoint_url) continue;
+            if (!policy.isAllowed(r.url) && r.url != endpoint_url) {
+              continue;
+            }
             ++stats_.docs_scraped;
             ++stats_.urls_visited;
             const EvaluationResult eval = evaluator_->evaluate(
@@ -491,7 +525,9 @@ void ScraperPlugin::runApiLoop(
                 const auto edges = ScraperRecordBuilder::buildEdges(rel, eval);
                 const auto vec   = ScraperRecordBuilder::buildVector(rel);
                 const WriteResult wr = writer_->write(rel, node, edges, vec);
-                if (wr.success) ++stats_.docs_written;
+                if (wr.success) {
+                  ++stats_.docs_written;
+                }
                 else            ++stats_.write_errors;
                 ++stats_.docs_accepted;
             } else {
@@ -514,7 +550,9 @@ void ScraperPlugin::runApiLoop(
 // ============================================================================
 
 ScraperRunStats ScraperPlugin::scrape() {
-    if (!initialized_) throw std::runtime_error("ScraperPlugin not initialized");
+    if (!initialized_) {
+      throw std::runtime_error("ScraperPlugin not initialized");
+    }
 
     std::lock_guard<std::mutex> lk(mutex_);
     const auto t0 = std::chrono::steady_clock::now();
@@ -538,7 +576,9 @@ ScraperRunStats ScraperPlugin::scrape() {
             : ([&]() {
                     // Extract hostname as source name
                     const std::size_t p = seed_url.find("://");
-                    if (p == std::string::npos) return seed_url;
+                    if (p == std::string::npos) {
+                      return seed_url;
+                    }
                     const std::size_t e = seed_url.find('/', p + 3);
                     return e != std::string::npos
                         ? seed_url.substr(p + 3, e - p - 3)
@@ -557,19 +597,23 @@ ScraperRunStats ScraperPlugin::scrape() {
         }
 
         // HTML / JS_RENDERED path
-        std::string page_html;
+        std::string page_html = {};
         if (config_.crawl_options.render_mode == ScraperRenderMode::JS_RENDERED &&
             js_renderer_ && js_renderer_->isAvailable()) {
             JsRenderRequest jreq;
             jreq.url        = seed_url;
             jreq.timeout_ms = config_.crawl_options.js_timeout_ms;
             const auto jres = js_renderer_->render(jreq);
-            if (jres.success) page_html = jres.html;
+            if (jres.success) {
+              page_html = jres.html;
+            }
         } else {
             page_html = fetchPage(seed_url);
         }
 
-        if (page_html.empty()) continue;
+        if (page_html.empty()) {
+          continue;
+        }
         ++stats_.urls_visited;
 
         // Search loop

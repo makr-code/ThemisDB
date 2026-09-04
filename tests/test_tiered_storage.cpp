@@ -148,7 +148,7 @@ TEST_F(AccessTrackerTest, Remove) {
 
 class TieredStorageTest : public ::testing::Test {
 protected:
-    std::string base_dir_;
+    std::string base_dir_ = {};
 
     TieredStorageConfig makeConfig() {
         TieredStorageConfig cfg;
@@ -168,12 +168,12 @@ protected:
         auto pid = std::to_string(
             static_cast<long>(reinterpret_cast<std::uintptr_t>(this)));
         base_dir_ = (fs::temp_directory_path() / ("themis_tiered_" + pid)).string();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(base_dir_, ec);  // best-effort cleanup; errors ignored
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(base_dir_, ec);
     }
 };

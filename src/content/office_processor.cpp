@@ -57,7 +57,7 @@ constexpr const char *PPTX_CONTENT_TYPE = "application/vnd.openxmlformats-office
 
 // ZIP signatures
 constexpr uint32_t ZIP_SIGNATURE = 0x04034b50; // PK\x03\x04
-constexpr size_t MAX_OFFICE_BLOB_BYTES = 256ULL * 1024ULL * 1024ULL; // 256 MiB safety ceiling
+constexpr size_t MAX_OFFICE_BLOB_BYTES = 256 * 1024 * 1024; // 256 MiB safety ceiling
 
 // ============================================================================
 // OfficeProcessor Implementation
@@ -76,7 +76,7 @@ bool OfficeProcessor::isAvailable() {
 }
 
 OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) {
-    if (blob.size() < 4) {
+    if (static_cast<int>(blob.size()) < 4) {
         return OfficeDocumentType::UNKNOWN;
     }
 
@@ -85,7 +85,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
     std::memcpy(&sig, blob.data(), 4);
     if (sig != ZIP_SIGNATURE) {
         // Check for legacy Office formats (OLE Compound Document)
-        if (blob.size() >= 8) {
+        if (static_cast<int>(blob.size()) >= 8) {
             const unsigned char *data = reinterpret_cast<const unsigned char *>(blob.data());
             // Full 8-byte OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1
             if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 && data[4] == 0xA1
@@ -104,7 +104,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
             }
         }
         // Check for RTF
-        if (blob.size() >= 5 && blob.substr(0, 5) == "{\\rtf") {
+        if (static_cast<int>(blob.size()) >= 5 && blob.substr(0, 5) == "{\\rtf") {
             return OfficeDocumentType::RTF;
         }
         return OfficeDocumentType::UNKNOWN;
@@ -155,7 +155,7 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
         return result;
     }
 
-    if (blob.size() > MAX_OFFICE_BLOB_BYTES) {
+    if (static_cast<int>(blob.size()) > MAX_OFFICE_BLOB_BYTES) {
         result.error_message = "Office payload exceeds maximum supported size";
         result.metadata["size_bytes"] = blob.size();
         result.metadata["max_size_bytes"] = MAX_OFFICE_BLOB_BYTES;
@@ -189,15 +189,15 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
             break;
 
         case OfficeDocumentType::ODT:
-        case OfficeDocumentType::ODS:
-        case OfficeDocumentType::ODP:
+        [[fallthrough]];\n        case OfficeDocumentType::ODS:
+        [[fallthrough]];\n        case OfficeDocumentType::ODP:
             result.metadata["document_type"] = "odf";
             result                           = extractODF(blob, doc_type);
             break;
 
         case OfficeDocumentType::DOC:
-        case OfficeDocumentType::XLS:
-        case OfficeDocumentType::PPT:
+        [[fallthrough]];\n        case OfficeDocumentType::XLS:
+        [[fallthrough]];\n        case OfficeDocumentType::PPT:
             result = extractLegacyViaLibreOffice(blob, doc_type);
             break;
 
@@ -205,10 +205,10 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
             result.metadata["document_type"] = "rtf";
             // Basic RTF text extraction
             {
-                std::string text;
+                std::string text = {};
                 std::regex rtf_text_regex("\\\\([a-z]+)\\s*([^\\\\{}]+)");
                 std::sregex_iterator it(blob.begin(), blob.end(), rtf_text_regex);
-                std::sregex_iterator end;
+                std::sregex_iterator end = {};
 
                 for (; it != end; ++it) {
                     std::string control = (*it)[1].str();
@@ -279,11 +279,11 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
 
         // Extract paragraphs
         std::vector<std::string> paragraphs;
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
 
         // Navigate to w:body/w:p elements
         for (auto p : doc.select_nodes("//w:p")) {
-            std::string para_text;
+            std::string para_text = {};
             for (auto t : p.node().select_nodes(".//w:t")) {
                 para_text += t.node().child_value();
             }
@@ -307,7 +307,7 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
 
     // Try to find text between <w:t> tags
     std::regex text_regex("<w:t[^>]*>([^<]+)</w:t>");
-    std::ostringstream extracted;
+    std::ostringstream extracted = {};
 
     auto text_begin = std::sregex_iterator(blob.begin(), blob.end(), text_regex);
     auto text_end   = std::sregex_iterator();
@@ -338,13 +338,14 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         std::string shared_strings_xml = readZipEntry(blob, "xl/sharedStrings.xml");
 
         // Parse shared strings
-        std::vector<std::string> shared_strings;
+        std::vector<std::string> shared_strings = {};
+
         if (!shared_strings_xml.empty()) {
             auto ss_parse = themis::security::parseXmlSafe(shared_strings_xml, "XLSX sharedStrings.xml");
             if (ss_parse.success) {
                 pugi::xml_document& ss_doc = ss_parse.document;
                 for (auto si : ss_doc.select_nodes("//si")) {
-                    std::string text;
+                    std::string text = {};
                     for (auto t : si.node().select_nodes(".//t")) {
                         text += t.node().child_value();
                     }
@@ -362,7 +363,8 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
 
         // Read workbook.xml to get sheet names
         std::string workbook_xml = readZipEntry(blob, "xl/workbook.xml");
-        std::vector<std::string> sheet_names;
+        std::vector<std::string> sheet_names = {};
+
         if (!workbook_xml.empty()) {
             auto wb_parse = themis::security::parseXmlSafe(workbook_xml, "XLSX workbook.xml");
             if (wb_parse.success) {
@@ -381,7 +383,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
 
         // Read first sheet
         std::string sheet1_xml = readZipEntry(blob, "xl/worksheets/sheet1.xml");
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
         int row_count  = 0;
         int cell_count = 0;
 
@@ -399,7 +401,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                             break;
                         }
 
-                        std::string value;
+                        std::string value = {};
                         const char *type = cell.node().attribute("t").value();
                         auto v_node      = cell.node().child("v");
 
@@ -407,7 +409,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                             if (type && std::string(type) == "s") {
                                 // Shared string reference
                                 int idx = std::stoi(v_node.child_value());
-                                if (idx >= 0 && idx < static_cast<int>(shared_strings.size())) {
+                                if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int>(shared_strings.size())) {
                                     value = shared_strings[idx];
                                 }
                             } else {
@@ -484,7 +486,7 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
 
         result.metadata["slide_count"] = slides.size();
 
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
         int slide_num = 1;
 
         for (const auto &slide_path : slides) {
@@ -559,7 +561,7 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
     result.ok       = false;
     result.metadata = json::object();
 
-    std::string type_str;
+    std::string type_str = {};
     switch (type) {
         case OfficeDocumentType::ODT:
             type_str = "odt";
@@ -595,11 +597,11 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
 
         pugi::xml_document& doc = content_parse.document;
 
-        std::ostringstream all_text;
+        std::ostringstream all_text = {};
 
         // Extract text from text:p and text:h elements
         for (auto node : doc.select_nodes("//text:p | //text:h")) {
-            std::string para_text;
+            std::string para_text = {};
             for (auto child : node.node().children()) {
                 if (child.type() == pugi::node_pcdata) {
                     para_text += child.value();
@@ -633,7 +635,7 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
     zip_error_t error;
     zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),static_cast<int>(zip_blob.size()), 0, &error);
 
     if (!source) {
         zip_error_fini(&error);
@@ -653,7 +655,7 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
         return "";
     }
 
-    zip_stat_t stat;
+    zip_stat_t stat = {};
     if (zip_stat_index(archive, index, 0, &stat) != 0) {
         zip_close(archive);
         return "";
@@ -726,7 +728,7 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_
     zip_error_t error;
     zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),static_cast<int>(zip_blob.size()), 0, &error);
 
     if (!source) {
         zip_error_fini(&error);
@@ -798,7 +800,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     result.metadata["extraction_method"] = "libreoffice_headless";
 
     // Validate OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1 (all 8 bytes)
-    if (blob.size() < 8) {
+    if (static_cast<int>(blob.size()) < 8) {
         result.error_message = "Legacy Office document too small (< 8 bytes)";
         return result;
     }
@@ -827,9 +829,9 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
 
     // RAII guard: always remove temp dir + tracked files on scope exit
     struct TempGuard {
-        std::string dir;
-        std::string in_file;
-        std::string out_file;
+        std::string dir = {};
+        std::string in_file = {};
+        std::string out_file = {};
         ~TempGuard() {
             if (!in_file.empty())
                 unlink(in_file.c_str());
@@ -859,7 +861,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     fchmod(in_fd, S_IRUSR | S_IWUSR);
 
     const char *bdata = blob.data();
-    size_t remaining  = blob.size();
+    size_t remaining = blob.size();
     while (remaining > 0) {
         ssize_t written = write(in_fd, bdata, remaining);
         if (written < 0) {
@@ -1015,8 +1017,8 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     std::string in_basename = (slash_pos != std::string::npos) ? in_full.substr(slash_pos + 1) : in_full;
     // Strip the original extension and append .txt
     std::size_t ext_len      = strlen(ext);
-    std::string out_basename = (in_basename.size() > ext_len)
-                                   ? in_basename.substr(0, in_basename.size() - ext_len) + ".txt"
+    std::string out_basename = (static_cast<int>(in_basename.size()) > ext_len)
+                                   ? in_basename.substr(0, static_cast<int>(in_basename.size()) - ext_len) + ".txt"
                                    : in_basename + ".txt";
     std::string out_path     = tmp_dir + "/" + out_basename;
     guard.out_file           = out_path;
@@ -1028,7 +1030,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     }
 
     // Read converted text
-    std::string extracted_text;
+    std::string extracted_text = {};
     {
         char buf[4096];
         ssize_t n;
@@ -1068,7 +1070,7 @@ std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_resu
     // Split by paragraphs first
     std::vector<std::string> paragraphs;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         if (!line.empty()) {
             paragraphs.push_back(line);
@@ -1077,7 +1079,7 @@ std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_resu
 
     // Group paragraphs into chunks
     int seq_num = 0;
-    std::string current_chunk;
+    std::string current_chunk = {};
     int current_tokens = 0;
 
     for (const auto &para : paragraphs) {
@@ -1129,7 +1131,7 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_d
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string tok;
+    std::string tok = {};
     while (iss >> tok) {
         tokens.push_back(tok);
     }
@@ -1140,12 +1142,12 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_d
     for (size_t i = 0; i < tokens.size(); ++i) {
         const size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
-            const size_t combined = token_hash ^ (i * 31u) ^ (static_cast<size_t>(seed) * 97u);
+            const size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);
             for (int d = 0; d < 10; ++d) {
-                const int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
+                const int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73) % static_cast<size_t>(kDim));
                 const float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
                 const float phase
-                    = static_cast<float>((combined + static_cast<size_t>(dim)) % 360u) * 3.14159f / 180.0f;
+                    = static_cast<float>((combined + static_cast<size_t>(dim)) % 360) * 3.14159f / 180.0f;
                 embedding[dim] += std::sin(phase) * weight;
             }
         }

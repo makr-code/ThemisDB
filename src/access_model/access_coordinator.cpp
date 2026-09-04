@@ -59,13 +59,15 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         override {
         std::lock_guard<std::mutex> lock(mutex_);
         tiers_ = tiers;
-        THEMIS_INFO("AccessCoordinator initialized with {} tiers", tiers_.size());
+        THEMIS_INFO("AccessCoordinator initialized with {} tiers",static_cast<int>(tiers_.size()));
         return true;
     }
 
     void start() override {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (running_) return;
+        if (running_) {
+          return;
+        }
 
         running_ = true;
         worker_threads_.clear();
@@ -91,7 +93,9 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     void shutdown() override {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (!running_) return;
+            if (!running_) {
+              return;
+            }
             running_ = false;
         }
 
@@ -122,7 +126,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     bool isRunning() const override { return running_; }
 
     // Event listening (from cache/storage)
-    void onEviction(const EvictionEvent& event) override {
+    void onEviction(cons[[maybe_unused]] t EvictionEvent& [[maybe_unused]] event) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string correlation_id = generateCorrelationId("evict");
@@ -187,7 +191,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         recent_transitions_.emplace_back(transition);
 
         // Keep only last 1000 transitions
-        if (recent_transitions_.size() > 1000) {
+        if (static_cast<int>(recent_transitions_.size()) > 1000) {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
@@ -213,7 +217,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         accessModelLogger().logEvictionEvent(eviction_log);
     }
 
-    void onHotAccess(const AccessEvent& event) override {
+    void onHotAccess(cons[[maybe_unused]] t AccessEvent& [[maybe_unused]] event) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string correlation_id = generateCorrelationId("hot-access");
@@ -275,7 +279,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         recent_transitions_.emplace_back(transition);
 
         // Keep only last 1000 transitions
-        if (recent_transitions_.size() > 1000) {
+        if (static_cast<int>(recent_transitions_.size()) > 1000) {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
@@ -425,7 +429,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return result;
     }
 
-    void setAgePolicy(const AgeBasedPolicy& policy) override {
+    void setAgePolicy(cons[[maybe_unused]] t AgeBasedPolicy& [[maybe_unused]] policy) override {
         std::lock_guard<std::mutex> lock(mutex_);
         policy_ = policy;
         policy_set_ = true;
@@ -440,7 +444,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         policy_.storage_promotion_threshold = storage_threshold;
     }
 
-    AccessMetrics getKeyMetrics(const std::string& key) override {
+    AccessMetrics getKeyMetrics(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] key) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return stub for now
@@ -459,12 +463,12 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return metrics_;
     }
 
-    std::vector<AccessTransitionEvent> getRecentTransitions(size_t limit = 100)
+    std::vector<AccessTransitionEvent> getRecentTransitions([[maybe_unused]] size_t limit = 100)
         override {
 
         std::lock_guard<std::mutex> lock(mutex_);
 
-        if (recent_transitions_.size() <= limit) {
+        if (static_cast<int>(recent_transitions_.size()) <= limit) {
             return recent_transitions_;
         }
 
@@ -490,9 +494,13 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             condition_.wait(lock,
                            [this] { return !pending_tasks_.empty() || !running_; });
 
-            if (!running_) break;
+            if (!running_) {
+              break;
+            }
 
-            if (pending_tasks_.empty()) continue;
+            if (pending_tasks_.empty()) {
+              continue;
+            }
 
             DemotionEvent task = pending_tasks_.front();
             pending_tasks_.pop();

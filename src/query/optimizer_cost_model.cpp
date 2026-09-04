@@ -60,7 +60,7 @@ double OptimizerCostModel::calculateIoCost(size_t pagesRead, bool sequential) co
 }
 
 // Memory Cost Calculation
-double OptimizerCostModel::calculateMemoryCost(size_t memoryUsed) const {
+double OptimizerCostModel::calculateMemoryCost([[maybe_unused]] size_t memoryUsed) const {
     if (memoryUsed <= constants_.availableMemory) {
         return 0.0;  // No penalty if within available memory
     }
@@ -714,7 +714,9 @@ void StatisticsManager::refreshStaleStatistics() {
     constexpr int64_t kStaleThresholdSeconds = 3600;  // 1 hour
     int64_t now = getCurrentTimestamp();
     for (auto& [tableName, stats] : tableStats_) {
-        if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) continue;
+        if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) {
+          continue;
+        }
         if (table_scan_provider_) {
             auto live = (*table_scan_provider_)(tableName);
             stats.rowCount = live.rowCount;

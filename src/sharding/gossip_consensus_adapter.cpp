@@ -95,7 +95,9 @@ void GossipConsensusAdapter::stop() {
 bool GossipConsensusAdapter::isLeader() const {
     // Gossip is leaderless, so we'll return true if we're the "coordinator"
     // based on deterministic selection
-    if (cluster_nodes_.empty()) return false;
+    if (cluster_nodes_.empty()) {
+      return false;
+    }
     
     std::string expected_coordinator = *std::min_element(
         cluster_nodes_.begin(), cluster_nodes_.end()
@@ -105,7 +107,9 @@ bool GossipConsensusAdapter::isLeader() const {
 }
 
 std::string GossipConsensusAdapter::getLeaderId() const {
-    if (cluster_nodes_.empty()) return "";
+    if (cluster_nodes_.empty()) {
+      return "";
+    }
     
     // Return the deterministic "leader" (lowest node ID)
     return *std::min_element(cluster_nodes_.begin(), cluster_nodes_.end());
@@ -333,29 +337,29 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
         {"cluster_size", stats.cluster_size},
         {"total_operations", stats.total_operations},
         {"snapshot_index", snap_index},
-        {"snapshot_term",  0u}
+        {"snapshot_term",  0}
     };
 }
 
 void GossipConsensusAdapter::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_commit_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_commit_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void GossipConsensusAdapter::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_state_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_state_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void GossipConsensusAdapter::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_leader_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_leader_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // Private methods
@@ -371,7 +375,9 @@ void GossipConsensusAdapter::gossipThread() {
             return !running_.load();
         });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         lock.unlock();
         
@@ -400,9 +406,9 @@ void GossipConsensusAdapter::gossipThread() {
             commit_index_ = index;
             
             // Call commit callback without holding log_mutex_
-            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-            if (on_commit_callback_) {
-                on_commit_callback_(entry);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
+            if ([[maybe_unused]] on_commit_callback_) {
+                on_commit_callback_([[maybe_unused]] entry);
             }
         }
     }
@@ -410,12 +416,12 @@ void GossipConsensusAdapter::gossipThread() {
     spdlog::debug("Gossip thread stopped");
 }
 
-bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
+bool GossipConsensusAdapter::hasReachedQuorum([[maybe_unused]] uint64_t log_index) const {
     std::lock_guard<std::mutex> lock(log_mutex_);
     return hasReachedQuorumUnlocked(log_index);
 }
 
-bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const {
+bool GossipConsensusAdapter::hasReachedQuorumUnlocked([[maybe_unused]] uint64_t log_index) const {
     // FIXED: Helper method that doesn't acquire lock (caller must hold log_mutex_)
     auto it = log_acknowledgments_.find(log_index);
     if (it == log_acknowledgments_.end()) {
@@ -424,7 +430,7 @@ bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const 
     
     // Calculate quorum (majority)
     size_t quorum_size = (cluster_nodes_.size() / 2) + 1;
-    return it->second.size() >= quorum_size;
+    return static_cast<bool>(it- < static_cast<int>(second.size())) >= quorum_size;
 }
 
 } // namespace sharding

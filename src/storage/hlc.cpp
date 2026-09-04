@@ -30,7 +30,7 @@ namespace themis {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string HLCTimestamp::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << physical() << '.' << logical();
     return oss.str();
 }
@@ -52,7 +52,7 @@ uint64_t HybridLogicalClock::wallClockMs() {
 
 // advanceTo is a helper for the CAS loop in now() – not called externally.
 // Computes the next HLCTimestamp value given current packed state and wall clock.
-HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
+HLCTimestamp HybridLogicalClock::advanceTo([[maybe_unused]] uint64_t phys_ms) {
     // CAS loop: atomically advance the packed (physical||logical) state.
     // memory_order scanner alert: the initial state_.load() uses relaxed ordering
     // because compare_exchange_weak provides acq_rel on success and refreshes `cur`
@@ -66,8 +66,8 @@ HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
         uint64_t cur_phys = cur >> HLCTimestamp::LOGICAL_BITS;
         uint32_t cur_log  = static_cast<uint32_t>(cur & HLCTimestamp::LOGICAL_MASK);
 
-        uint64_t new_phys;
-        uint32_t new_log;
+        uint64_t new_phys = {};
+        uint32_t new_log = 0;
         if (phys_ms > cur_phys) {
             new_phys = phys_ms;
             new_log  = 0;
@@ -103,8 +103,8 @@ HLCTimestamp HybridLogicalClock::update(HLCTimestamp received) {
         uint64_t cur_phys = cur >> HLCTimestamp::LOGICAL_BITS;
         uint32_t cur_log  = static_cast<uint32_t>(cur & HLCTimestamp::LOGICAL_MASK);
 
-        uint64_t new_phys;
-        uint32_t new_log;
+        uint64_t new_phys = {};
+        uint32_t new_log = 0;
         if (max_phys == cur_phys) {
             // Both local and remote share the same physical millisecond.
             new_phys = cur_phys;

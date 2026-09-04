@@ -44,7 +44,9 @@ static std::vector<uint8_t> leb128(uint32_t v) {
     do {
         uint8_t byte = v & 0x7f;
         v >>= 7;
-        if (v) byte |= 0x80;
+        if (v) {
+          byte |= 0x80;
+        }
         out.push_back(byte);
     } while (v);
     return out;
@@ -53,7 +55,9 @@ static std::vector<uint8_t> leb128(uint32_t v) {
 /// Build a WASM name entry (length-prefixed UTF-8 string).
 static std::vector<uint8_t> wasmName(const std::string& s) {
     std::vector<uint8_t> out = leb128(static_cast<uint32_t>(s.size()));
-    for (char c : s) out.push_back(static_cast<uint8_t>(c));
+    for (char c : s) {
+      out.push_back(static_cast<uint8_t>(c));
+    }
     return out;
 }
 
@@ -764,7 +768,9 @@ TEST(WasmPluginSandboxFuel, InfiniteLoopBoundedByFuelBudget) {
     WasmCallResult last;
     for (int i = 0; i < 100; ++i) {
         last = sb.callExport("loop", {});
-        if (!last.success) break;
+        if (!last.success) {
+          break;
+        }
         ++successful;
     }
 

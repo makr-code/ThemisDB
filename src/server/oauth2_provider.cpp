@@ -62,7 +62,7 @@ size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
 
 /*static*/ std::string OAuth2Provider::urlEncode(const std::string& input)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char c : input) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             oss << c;
@@ -79,7 +79,7 @@ size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
 {
     unsigned char buf[16]{};
     RAND_bytes(buf, static_cast<int>(sizeof(buf)));
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char b : buf) {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<unsigned>(b);
@@ -219,7 +219,7 @@ std::string OAuth2Provider::httpPost(const std::string& url,
         throw std::runtime_error("Failed to initialize libcurl handle");
     }
 
-    std::string response;
+    std::string response = {};
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
@@ -283,7 +283,7 @@ nlohmann::json OAuth2Provider::doTokenExchange(const std::string& code,
 nlohmann::json OAuth2Provider::handleAuthorize(const std::string& state,
                                                 const std::string& redirect_uri)
 {
-    if (!state.empty() && state.size() > config_.max_state_length) {
+    if (!state.empty() && static_cast<int>(state.size()) > config_.max_state_length) {
         return makeError(400, "state parameter exceeds maximum allowed length");
     }
 
@@ -336,7 +336,7 @@ nlohmann::json OAuth2Provider::handleCallback(const std::string& code,
 
     try {
         auto result = doTokenExchange(code, *maybe_verifier);
-        THEMIS_INFO("OAuth2Provider::handleCallback – token exchange successful");
+        THEMIS_INFO([[maybe_unused]] "OAuth2Provider::handleCallback – token exchange successful");
         return result;
     } catch (const auth::AuthException& ex) {
         THEMIS_WARN("OAuth2Provider::handleCallback – auth failure: {}", ex.what());
@@ -419,7 +419,7 @@ nlohmann::json OAuth2Provider::handleRefresh(const std::string& refresh_token)
         // Build an RFC 6749 refresh_token grant body
         auto enc = [](const std::string& v) { return urlEncode(v); };
 
-        std::string body;
+        std::string body = {};
         body += "grant_type=" + enc("refresh_token");
         body += "&refresh_token=" + enc(refresh_token);
         body += "&client_id=" + enc(config_.oidc.client_id);
@@ -463,7 +463,7 @@ nlohmann::json OAuth2Provider::handleRefresh(const std::string& refresh_token)
             ? config_.token_factory(access_token)
             : access_token;
 
-        THEMIS_INFO("OAuth2Provider::handleRefresh – refresh successful");
+        THEMIS_INFO([[maybe_unused]] "OAuth2Provider::handleRefresh – refresh successful");
 
         nlohmann::json result = {
             {"access_token",  issued_token},
@@ -521,7 +521,7 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
             result["roles"] = claims.roles;
         }
         if (!claims.audience.empty()) {
-            if (claims.audience.size() == 1) {
+            if (static_cast<int>(claims.audience.size()) == 1) {
                 result["aud"] = claims.audience[0];
             } else {
                 result["aud"] = claims.audience;

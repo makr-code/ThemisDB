@@ -47,7 +47,7 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
     // Validate embedding dimension
     if (config_.validate_embedding_dim &&
         !summary.reason_embedding.empty() &&
-        summary.reason_embedding.size() != config_.max_embedding_dim)
+        static_cast<int>(summary.reason_embedding.size()) != config_.max_embedding_dim)
     {
         throw std::invalid_argument(
             "CrossShardFeedbackSync::publishFeedback: embedding dimension "
@@ -125,7 +125,7 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
         // ─────────────────────────────────────────────────────────────────────
 
         // Evict oldest if cache full (simple: clear half the cache)
-        if (seen_ids_.size() >= config_.dedup_cache_size) {
+        if (static_cast<int>(seen_ids_.size()) >= config_.dedup_cache_size) {
             seen_ids_.clear();
         }
         seen_ids_.insert(summary.summary_id);
@@ -143,7 +143,7 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
 // setFeedbackCallback / setInboundPolicyCheck
 // ─────────────────────────────────────────────────────────────────────────────
 
-void CrossShardFeedbackSync::setFeedbackCallback(FeedbackCallback cb) {
+void CrossShardFeedbackSync::setFeedbackCallback([[maybe_unused]] FeedbackCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     on_feedback_ = std::move(cb);
 }
@@ -184,7 +184,7 @@ nlohmann::json CrossShardFeedbackSync::getStats() const {
             {"received",             received_count_},
             {"deduplicated",         deduplicated_count_},
             {"rejected_by_policy",   rejected_by_policy_},
-            {"seen_ids_cached",      seen_ids_.size()}};
+            {"seen_ids_cached",static_cast<int>(seen_ids_.size())}};
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -199,7 +199,7 @@ std::string CrossShardFeedbackSync::generateSummaryId() {
     std::mt19937_64 rng(std::random_device{}());
     std::uniform_int_distribution<uint64_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << now_ms << "-" << dist(rng);
     return oss.str();
 }

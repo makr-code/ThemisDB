@@ -106,7 +106,7 @@ TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_RAndT) {
  * Backspace (\\b) and form-feed (\\f) must use their named JSON escapes.
  */
 TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_BAndF) {
-    std::string token;
+    std::string token = {};
     token += '\x08'; // backspace
     token += '\x0C'; // form feed
 
@@ -122,7 +122,7 @@ TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_BAndF) {
  * Other C0 control characters (< 0x20 and not named) must be \\uXXXX encoded.
  */
 TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_ControlChars) {
-    std::string token;
+    std::string token = {};
     token += '\x01'; // SOH — not a named escape
 
     std::string event = StreamingHandler::formatSseEvent(token, kRequestId, 0);
@@ -250,7 +250,7 @@ TEST_F(StreamingHandlerTest, MakeStreamCallback_IndexIncrements) {
  * Events embed the correct request_id.
  */
 TEST_F(StreamingHandlerTest, MakeStreamCallback_RequestIdPropagated) {
-    std::string captured;
+    std::string captured = {};
 
     auto cb = StreamingHandler::makeStreamCallback(
         [&captured](const std::string& evt) { captured = evt; },
@@ -275,7 +275,7 @@ TEST_F(StreamingHandlerTest, MakeStreamCallback_NullSinkThrows) {
  * Callback with empty request_id still functions correctly.
  */
 TEST_F(StreamingHandlerTest, MakeStreamCallback_EmptyRequestId) {
-    std::string captured;
+    std::string captured = {};
 
     auto cb = StreamingHandler::makeStreamCallback(
         [&captured](const std::string& evt) { captured = evt; },

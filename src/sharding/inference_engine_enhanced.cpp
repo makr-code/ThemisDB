@@ -207,14 +207,15 @@ bool InferenceEngineEnhanced::generate(
     stats_.total_prompt_tokens += input_token_ids.size();
     
     spdlog::debug("InferenceEngineEnhanced: Started generation for request {} (prompt_tokens={})",
-                 request_id, input_token_ids.size());
+                 request_id,static_cast<int>(input_token_ids.size()));
     
     // For batch mode, generate all tokens at once
     if (mode == InferenceMode::BATCH) {
-        std::vector<int> output_tokens;
+        std::vector<int> output_tokens = {};
+
         if (generateTokens(request_id, input_token_ids, max_tokens, true, output_tokens)) {
             // Call token callback
-            if (token_callback) {
+            if ([[maybe_unused]] token_callback) {
                 TokenGenerationResult result;
                 result.token_ids = output_tokens;
                 result.generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -223,7 +224,7 @@ bool InferenceEngineEnhanced::generate(
             }
             
             // Call completion callback
-            if (completion_callback) {
+            if ([[maybe_unused]] completion_callback) {
                 completion_callback(request_id, detokenize(output_tokens));
             }
             
@@ -264,7 +265,7 @@ bool InferenceEngineEnhanced::generateTokens(
     auto start_time = std::chrono::steady_clock::now();
     
     // Simple simulation: generate random tokens
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> vocab_dist(0, 50000);  // Typical vocab size
     
@@ -309,7 +310,8 @@ int InferenceEngineEnhanced::generateSingleToken(
     const std::vector<int>& input_token_ids,
     bool is_prefill
 ) {
-    std::vector<int> output_token_ids;
+    std::vector<int> output_token_ids = {};
+
     if (generateTokens(request_id, input_token_ids, 1, is_prefill, output_token_ids)) {
         if (!output_token_ids.empty()) {
             return output_token_ids[0];
@@ -426,7 +428,7 @@ bool InferenceEngineEnhanced::generateDraftTokens(
     // In a real implementation, this would use the draft model
     // For simulation, we'll generate random tokens
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> vocab_dist(0, 50000);
     
@@ -459,7 +461,7 @@ double InferenceEngineEnhanced::verifyDraftTokens(
     // In a real implementation, this would use the target model to verify
     // For simulation, we'll accept all draft tokens with a certain probability
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution accept_dist(model_config_.speculative_acceptance_threshold);
     
@@ -481,7 +483,7 @@ double InferenceEngineEnhanced::verifyDraftTokens(
     
     // Update speculative decoding stats
     stats_.total_speculative_acceptances += accepted_count;
-    stats_.total_speculative_rejections += (draft_token_ids.size() - accepted_count);
+    stats_.total_speculative_rejections += (static_cast<int>(draft_token_ids.size()) - accepted_count);
     
     spdlog::debug("InferenceEngineEnhanced: Verified draft tokens for request {} (acceptance={:.2f}%)",
                  request_id, acceptance_rate * 100.0);
@@ -568,7 +570,8 @@ std::optional<LoRAConfig> InferenceEngineEnhanced::getAdapterConfig(
 
 std::vector<LoRAConfig> InferenceEngineEnhanced::getAllAdapterConfigs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<LoRAConfig> configs;
+    std::vector<LoRAConfig> configs = {};
+
     for (const auto& [adapter_id, config] : loaded_adapters_) {
         configs.push_back(config);
     }
@@ -616,8 +619,8 @@ void InferenceEngineEnhanced::updateAdapterCapabilities(
                      adapter_id, accuracy_delta, performance_delta_p99_ms);
         
         // Broadcast update via gossip
-        if (capability_update_callback_) {
-            capability_update_callback_(it->second);
+        if ([[maybe_unused]] capability_update_callback_) {
+            capability_update_callback_([[maybe_unused]] it->second);
         }
     }
 }
@@ -670,17 +673,17 @@ ContinuousBatchScheduler* InferenceEngineEnhanced::getScheduler() {
 // Capability Announcement (Gossip)
 // ============================================================================
 
-void InferenceEngineEnhanced::setCapabilityUpdateCallback(CapabilityUpdateCallback callback) {
+void InferenceEngineEnhanced::setCapabilityUpdateCallback([[maybe_unused]] CapabilityUpdateCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    capability_update_callback_ = std::move(callback);
+    capability_update_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void InferenceEngineEnhanced::broadcastAdapterCapabilities() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     for (const auto& [adapter_id, config] : loaded_adapters_) {
-        if (capability_update_callback_) {
-            capability_update_callback_(config);
+        if ([[maybe_unused]] capability_update_callback_) {
+            capability_update_callback_([[maybe_unused]] config);
         }
     }
 }
@@ -794,7 +797,7 @@ std::vector<int> InferenceEngineEnhanced::tokenize(const std::string& text) cons
     // For simulation, we'll split by words and map to random token IDs
     
     std::vector<int> token_ids;
-    std::string word;
+    std::string word = {};
     
     for (char c : text) {
         if (isalnum(c) || c == '\'' || c == '-') {
@@ -828,7 +831,7 @@ std::string InferenceEngineEnhanced::detokenize(const std::vector<int>& token_id
     // In a real implementation, this would use a detokenizer
     // For simulation, we'll just return a placeholder
     
-    std::string text;
+    std::string text = {};
     for (size_t i = 0; i < token_ids.size(); ++i) {
         if (i > 0) {
             text += " ";

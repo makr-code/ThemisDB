@@ -28,7 +28,7 @@ namespace {
     std::string computeHash(const std::string& input) {
         std::hash<std::string> hasher;
         auto hash = hasher(input);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0') << std::setw(16) << hash;
         return oss.str();
     }
@@ -155,11 +155,11 @@ RoutingDecision LoRARouter::routeQuery(
     std::vector<std::pair<std::string, float>> candidates;
     if (config_.enable_semantic_routing && active_policy != RoutingPolicy::FALLBACK) {
         candidates = findSemanticCandidates(query, base_model_id);
-        spdlog::debug("Found {} semantic candidates", candidates.size());
+        spdlog::debug("Found {} semantic candidates",static_cast<int>(candidates.size()));
     }
     
     // Apply routing policy
-    RoutingDecision decision;
+    RoutingDecision decision = {};
     if (candidates.empty() && fallback_config_.enable_fallback) {
         decision = selectFallback("No semantic candidates found");
     } else {
@@ -193,7 +193,8 @@ std::vector<RoutingDecision> LoRARouter::routeQueryBatch(
     const std::vector<std::string>& queries,
     const std::string& base_model_id) {
     
-    std::vector<RoutingDecision> decisions;
+    std::vector<RoutingDecision> decisions = {};
+
     decisions.reserve(queries.size());
     
     for (const auto& query : queries) {
@@ -207,7 +208,7 @@ bool LoRARouter::configureABTest(const ABTestConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Validate configuration
-    if (config.adapter_ids.size() != config.traffic_splits.size()) {
+    if (static_cast<int>(config.adapter_ids.size()) != static_cast<int>(config.traffic_splits.size())) {
         spdlog::error("A/B test config invalid: adapter count != traffic split count");
         return false;
     }
@@ -224,7 +225,7 @@ bool LoRARouter::configureABTest(const ABTestConfig& config) {
     
     ab_test_config_ = config;
     spdlog::info("A/B test configured: experiment_id={}, adapters={}", 
-                 config.experiment_id, config.adapter_ids.size());
+                 config.experiment_id,static_cast<int>(config.adapter_ids.size()));
     
     return true;
 }
@@ -282,7 +283,7 @@ float LoRARouter::incrementRollout() {
     return new_percentage;
 }
 
-void LoRARouter::endRollout(bool promote) {
+void LoRARouter::endRollout([[maybe_unused]] bool promote) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (rollout_config_) {
@@ -381,7 +382,7 @@ std::vector<std::pair<std::string, float>> LoRARouter::findSemanticCandidates(
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Keep top-K
-    if (candidates.size() > config_.top_k_candidates) {
+    if (static_cast<int>(candidates.size()) > config_.top_k_candidates) {
         candidates.resize(config_.top_k_candidates);
     }
     
@@ -408,7 +409,7 @@ RoutingDecision LoRARouter::applyRoutingPolicy(
             return selectByRollout(candidates);
         
         case RoutingPolicy::FALLBACK:
-        default:
+        [[fallthrough]];\n        default:
             return selectFallback("Fallback policy selected");
     }
 }
@@ -454,7 +455,7 @@ RoutingDecision LoRARouter::selectByLoadAware(
     
     // Score each candidate: (1-load_weight) * similarity + load_weight * (1-gpu_load)
     float best_score = -1.0f;
-    std::string best_adapter;
+    std::string best_adapter = {};
     int best_gpu = -1;
     float best_similarity = 0.0f;
     
@@ -464,7 +465,9 @@ RoutingDecision LoRARouter::selectByLoadAware(
         if (gpu_id == -1) {
             // Not placed yet, select GPU
             auto adapter_meta = adapter_registry_->getAdapter(adapter_id);
-            if (!adapter_meta) continue;
+            if (!adapter_meta) {
+              continue;
+            }
             
             size_t vram_bytes = adapter_meta->file_size_bytes;
             gpu_id = load_balancer_->selectGPUForAdapter(adapter_id, vram_bytes, 1);
@@ -528,8 +531,8 @@ RoutingDecision LoRARouter::selectByABTest(
     float rand_val = dist(gen);
     float cumulative = 0.0f;
     
-    std::string selected_adapter;
-    for (size_t i = 0; i < ab_test_config_->adapter_ids.size(); ++i) {
+    std::string selected_adapter = {};
+    for (size_t i = 0; i < ab_test_config_-> static_cast<int>(adapter_ids.size()); ++i) {
         cumulative += ab_test_config_->traffic_splits[i];
         if (rand_val <= cumulative) {
             selected_adapter = ab_test_config_->adapter_ids[i];
@@ -580,7 +583,7 @@ RoutingDecision LoRARouter::selectByRollout(
     thread_local std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
-    std::string selected_adapter;
+    std::string selected_adapter = {};
     if (dist(gen) < rollout_config_->rollout_percentage) {
         selected_adapter = rollout_config_->new_adapter_id;
     } else {
@@ -650,7 +653,7 @@ float LoRARouter::cosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) const {
     
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
         return 0.0f;
     }
     
@@ -693,13 +696,13 @@ void LoRARouter::updateMetrics(const RoutingDecision& decision) {
     
     // Update rolling averages
     recent_latencies_.push_back(decision.routing_latency_ms.count());
-    if (recent_latencies_.size() > config_.metrics_window_size) {
+    if (static_cast<int>(recent_latencies_.size()) > config_.metrics_window_size) {
         recent_latencies_.erase(recent_latencies_.begin());
     }
     
     if (decision.similarity_score > 0.0f) {
         recent_similarities_.push_back(decision.similarity_score);
-        if (recent_similarities_.size() > config_.metrics_window_size) {
+        if (static_cast<int>(recent_similarities_.size()) > config_.metrics_window_size) {
             recent_similarities_.erase(recent_similarities_.begin());
         }
     }
@@ -730,7 +733,7 @@ std::optional<RoutingDecision> LoRARouter::getCachedDecision(const std::string& 
 }
 
 void LoRARouter::cacheDecision(const std::string& query, const RoutingDecision& decision) {
-    if (decision_cache_.size() >= config_.decision_cache_size) {
+    if (static_cast<int>(decision_cache_.size()) >= config_.decision_cache_size) {
         // Remove oldest entry
         auto oldest = decision_cache_.begin();
         for (auto it = decision_cache_.begin(); it != decision_cache_.end(); ++it) {

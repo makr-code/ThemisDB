@@ -133,7 +133,7 @@ static void BM_EncodeDataRow(benchmark::State& state) {
 // ============================================================================
 
 static std::string escapeSQLString(const std::string& input) {
-    std::string result;
+    std::string result = {};
     result.reserve(input.size() + 10);
     
     for (char c : input) {
@@ -204,7 +204,9 @@ static std::string bindParameterValue(const std::string& param, int32_t paramTyp
         bool hasDot = false;
         for (size_t i = 0; i < param.size(); ++i) {
             char c = param[i];
-            if (i == 0 && (c == '-' || c == '+')) continue;
+            if ((i == 0 && (c == '-' || c == '+')) {
+              continue;
+            }
             if (c == '.' && !hasDot) {
                 hasDot = true;
                 continue;
@@ -267,11 +269,14 @@ static void BM_ParameterSubstitution(benchmark::State& state) {
     std::string query = "SELECT * FROM users WHERE ";
     
     for (int i = 0; i < num_params; ++i) {
-        if (i > 0) query += " AND ";
+        if (i > 0) {
+          query += " AND ";
+        }
         query += "field" + std::to_string(i) + " = $" + std::to_string(i + 1);
     }
     
-    std::vector<std::string> params;
+    std::vector<std::string> params = {};
+
     for (int i = 0; i < num_params; ++i) {
         params.push_back("value" + std::to_string(i));
     }
@@ -302,7 +307,7 @@ static void BM_ParameterSubstitution(benchmark::State& state) {
 
 static void BM_COPYDataParsing(benchmark::State& state) {
     int num_rows = state.range(0);
-    std::string data;
+    std::string data = {};
     
     for (int i = 0; i < num_rows; ++i) {
         data += "value1\tvalue2\tvalue3\n";
@@ -311,7 +316,7 @@ static void BM_COPYDataParsing(benchmark::State& state) {
     for (auto _ : state) {
         std::vector<std::string> rows;
         std::istringstream stream(data);
-        std::string line;
+        std::string line = {};
         
         while (std::getline(stream, line)) {
             if (!line.empty()) {

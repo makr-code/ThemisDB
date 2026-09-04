@@ -148,7 +148,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_IsAvailable) {
 TEST(CudaGeoKernelDispatch, WithCudaTable_ContainmentReturnsNotDispatchedWithoutDevice) {
     // On a machine without an NVIDIA GPU, dispatch fails through the
     // cuda*Malloc path.  On a machine WITH a GPU this test must be skipped.
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (backend.isAvailable()) {
         GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }
@@ -164,7 +164,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_ContainmentReturnsNotDispatchedWithout
 }
 
 TEST(CudaGeoKernelDispatch, WithCudaTable_DistanceReturnsNotDispatchedWithoutDevice) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (backend.isAvailable()) {
         GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }
@@ -179,7 +179,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_DistanceReturnsNotDispatchedWithoutDev
 }
 
 TEST(CudaGeoKernelDispatch, WithCudaTable_VincentyDistanceReturnsNotDispatchedWithoutDevice) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (backend.isAvailable()) {
         GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }

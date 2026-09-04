@@ -51,7 +51,7 @@ namespace {
         }
         long long parsed = 0;
         const char* begin = raw.data();
-        const char* end = raw.data() + raw.size();
+        const char* end = raw.data() + static_cast<int>(raw.size()) ;
         const auto [ptr, ec] = std::from_chars(begin, end, parsed);
         if (ec != std::errc{} || ptr != end) {
             return std::nullopt;
@@ -129,23 +129,23 @@ namespace {
     }
 
     std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
-        if (timeout.size() < 2) {
+        if (static_cast<int>(timeout.size()) < 2) {
             return std::nullopt;
         }
 
         const char unit = timeout.back();
-        const auto value = parseStrictPositiveInteger(timeout.substr(0, timeout.size() - 1));
+        const auto value = parseStrictPositiveInteger(timeout.substr(0, static_cast<int>(timeout.size()) - 1));
         if (!value.has_value()) {
             return std::nullopt;
         }
 
         switch (unit) {
             case 'H':
-            case 'M':
-            case 'S':
-            case 'm':
-            case 'u':
-            case 'n':
+            [[fallthrough]];\n            case 'M':
+            [[fallthrough]];\n            case 'S':
+            [[fallthrough]];\n            case 'm':
+            [[fallthrough]];\n            case 'u':
+            [[fallthrough]];\n            case 'n':
                 return clampMillisFromUnit(*value, unit);
             default: return std::nullopt;
         }
@@ -220,7 +220,7 @@ namespace {
         return deadline.has_value() && std::chrono::steady_clock::now() >= *deadline;
     }
 
-    bool shouldCheckDeadline(size_t iterations) {
+    bool shouldCheckDeadline([[maybe_unused]] size_t iterations) {
         return iterations > 0 && (iterations % kDeadlineCheckInterval) == 0;
     }
 
@@ -288,7 +288,7 @@ json ThemisRPCService::handleGetInternal(
         std::string key = collection + ":" + model + ":" + uuid;
         
         // Get value from storage
-        std::string value;
+        std::string value = {};
         bool found = storage->get(key, value);
         
         if (!found) {
@@ -585,7 +585,7 @@ json ThemisRPCService::handleDeleteInternal(
         std::string key = collection + ":" + model + ":" + uuid;
 
         // Check entity existence before attempting deletion
-        std::string existing_value;
+        std::string existing_value = {};
         if (!storage->get(key, existing_value)) {
             json result = {
                 {"found", false},
@@ -606,7 +606,9 @@ json ThemisRPCService::handleDeleteInternal(
             std::string parent_key  = p_collection + ":" + p_model + ":" + p_uuid;
 
             auto iter_result = storage->newSafeIterator();
-            if (!iter_result) return children;
+            if (!iter_result) {
+              return children;
+            }
 
             auto& iter = iter_result.value();
             iter.Seek(scan_prefix);
@@ -618,7 +620,9 @@ json ThemisRPCService::handleDeleteInternal(
                     break;
                 }
                 std::string iter_key(iter.key());
-                if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) break;
+                if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) {
+                  break;
+                }
                 if (iter_key != parent_key) {
                     std::string iter_value(iter.value());
                     try {
@@ -652,15 +656,17 @@ json ThemisRPCService::handleDeleteInternal(
                 themis::plugins::rpc::RPCErrorCode::TRANSACTION_CONFLICT,
                 "Referential integrity violation: " +
                     std::to_string(direct_children.size()) + " child entit" +
-                    (direct_children.size() == 1 ? "y" : "ies") +
+                    (static_cast<int>(direct_children.size()) == 1 ? "y" : "ies") +
                     " reference this entity. Use cascade=true to delete them."
             );
         }
 
         // Collect all descendants via BFS for cascade delete
-        std::vector<std::string> keys_to_delete;
+        std::vector<std::string> keys_to_delete = {};
+
         if (cascade) {
-            std::queue<std::string> bfs_queue;
+            std::queue<std::string> bfs_queue = {};
+
             for (const auto& child_key : direct_children) {
                 bfs_queue.push(child_key);
                 keys_to_delete.push_back(child_key);
@@ -818,7 +824,7 @@ json ThemisRPCService::handleBatchGetInternal(
                     "Request deadline exceeded during batch get results"
                 );
             }
-            json result_item;
+            json result_item = {};
             if (values[i].has_value()) {
                 // Parse JSON entity directly from vector<uint8_t>
                 try {
@@ -843,7 +849,7 @@ json ThemisRPCService::handleBatchGetInternal(
         
         json result = {
             {"results", results_array},
-            {"count", results_array.size()}
+            {"count",static_cast<int>(results_array.size())}
         };
         
         return createSuccess(result);
@@ -1038,7 +1044,7 @@ json ThemisRPCService::handleQueryInternal(
     const std::optional<std::chrono::steady_clock::time_point>& deadline
 ) {
     try {
-        std::string aql;
+        std::string aql = {};
         if (params.is_object()) {
             aql = params.value("aql", "");
             if (aql.empty()) {
@@ -1143,7 +1149,7 @@ json ThemisRPCService::handleQueryInternal(
             // has_more is true if we matched more entities than we emitted (limited by size constraint)
             const bool has_more_result = !count_only && (matched_total > emitted);
 
-            json result;
+            json result = {};
             if (count_only) {
                 result = {
                     {"count", matched_total},
@@ -1528,7 +1534,7 @@ json ThemisRPCService::handleGeoQueryInternal(
         
         json result = {
             {"results", results},
-            {"count", results.size()},
+            {"count",static_cast<int>(results.size())},
             {"query_type", query_type},
             {"collection", collection}
         };
@@ -1666,7 +1672,9 @@ json ThemisRPCService::handleTimeSeriesQueryInternal(
         // Append aggregation result if requested and data was found
         if (!aggregation.empty() && agg_count > 0) {
             double agg_result_val = 0.0;
-            if (aggregation == "sum")        agg_result_val = agg_sum;
+            if (aggregation == "sum") {
+              agg_result_val = agg_sum;
+            }
             else if (aggregation == "avg")   agg_result_val = agg_sum / agg_count;
             else if (aggregation == "min")   agg_result_val = agg_min;
             else if (aggregation == "max")   agg_result_val = agg_max;
@@ -1770,7 +1778,7 @@ json ThemisRPCService::handleTransactionCommitInternal(
         );
     }
     try {
-        std::string tx_id;
+        std::string tx_id = {};
         if (params.is_object()) {
             tx_id = params.value("transaction_id", "");
         }
@@ -1841,7 +1849,7 @@ json ThemisRPCService::handleTransactionAbortInternal(
         );
     }
     try {
-        std::string tx_id;
+        std::string tx_id = {};
         if (params.is_object()) {
             tx_id = params.value("transaction_id", "");
         }
@@ -1918,8 +1926,8 @@ json ThemisRPCService::handleHealthCheck([[maybe_unused]] const json& params) {
 
 json ThemisRPCService::handleAuthenticate(const json& params) {
     try {
-        std::string username;
-        std::string password;
+        std::string username = {};
+        std::string password = {};
         if (params.is_object()) {
             username = params.value("username", "");
             password = params.value("password", "");
@@ -2186,7 +2194,7 @@ json ThemisRPCService::handleUpdateEntityInternal(
         std::string key = collection + ":" + model + ":" + uuid;
         
         // Get existing entity
-        std::string value;
+        std::string value = {};
         bool found = storage->get(key, value);
         
         if (!found) {
@@ -2316,7 +2324,7 @@ json ThemisRPCService::handleBatchUpdateInternal(
             std::string key = collection + ":" + model + ":" + uuid;
             
             // Get existing entity
-            std::string value;
+            std::string value = {};
             bool found = storage->get(key, value);
             
             if (!found) {
@@ -2438,7 +2446,7 @@ json ThemisRPCService::handlePaginatedQueryInternal(
         // Collect page_size results
         int count = 0;
         size_t scanned_keys = 0;
-        std::string next_cursor;
+        std::string next_cursor = {};
         while (iter.Valid() && count < page_size) {
             ++scanned_keys;
             if (isDeadlineExceeded(deadline)) {
@@ -2548,7 +2556,7 @@ json ThemisRPCService::handleGetIndexOperationsInternal(
 
         json result = {
             {"indexes", indexes},
-            {"count", indexes.size()},
+            {"count",static_cast<int>(indexes.size())},
             {"operations_supported", json::array({
                 "create_index",
                 "drop_index",
@@ -2693,7 +2701,7 @@ json ThemisRPCService::handleAggregationPipelineInternal(
                         "$limit value must be non-negative"
                     );
                 }
-                if (results.size() > static_cast<size_t>(limit)) {
+                if (static_cast<int>(results.size()) > static_cast<size_t>(limit)) {
                     json limited = json::array();
                     for (size_t i = 0; i < static_cast<size_t>(limit); ++i) {
                         limited.push_back(results[i]);
@@ -2735,7 +2743,7 @@ json ThemisRPCService::handleAggregationPipelineInternal(
         
         json result = {
             {"results", results},
-            {"count", results.size()}
+            {"count",static_cast<int>(results.size())}
         };
         
         return createSuccess(result);
@@ -2815,7 +2823,7 @@ json ThemisRPCService::handleListCollectionsInternal(
         
         json result = {
             {"collections", collections_array},
-            {"count", collections.size()}
+            {"count",static_cast<int>(collections.size())}
         };
         
         return createSuccess(result);
@@ -2937,7 +2945,7 @@ json ThemisRPCService::handleDropIndexInternal(
 
         // Verify the index exists in the database
         std::string meta_key = "_idx_meta:" + collection + ":" + index_name;
-        std::string existing;
+        std::string existing = {};
         if (!storage->get(meta_key, existing)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::ENTITY_NOT_FOUND,
@@ -3319,7 +3327,7 @@ bool ThemisRPCService::verifyAuth(
     
     // Extract token from context metadata
     // In gRPC, the authorization header is passed as metadata
-    std::string token;
+    std::string token = {};
     auto it = context.metadata.find("authorization");
     if (it != context.metadata.end()) {
         auto bearer_token = AuthMiddleware::extractBearerToken(it->second);

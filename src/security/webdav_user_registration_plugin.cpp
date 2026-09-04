@@ -54,7 +54,7 @@ bool starts_with(const std::string& value, const char* prefix) {
 std::string extract_url_host(const std::string& url) {
     const size_t scheme_pos = url.find("://");
     const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
-    if (host_start >= url.size()) {
+    if (host_start >= static_cast<int>(url.size())) {
         return {};
     }
 
@@ -246,7 +246,7 @@ public:
         }
 
         // Collect the raw PROPFIND response body.
-        std::string response_body;
+        std::string response_body = {};
         WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return themis::Err<std::vector<UserRegistrationData>>(
@@ -288,7 +288,7 @@ public:
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kPropfindBody);
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                          static_cast<long>(sizeof(kPropfindBody) - 1));
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -339,7 +339,9 @@ public:
         size_t pos = 0;
         while ((pos = response_body.find("<D:response>", pos)) != std::string::npos) {
             size_t end = response_body.find("</D:response>", pos);
-            if (end == std::string::npos) break;
+            if (end == std::string::npos) {
+              break;
+            }
             std::string entry = response_body.substr(pos, end - pos);
             pos = end + 1;
 
@@ -347,17 +349,23 @@ public:
             static constexpr size_t kHrefOpenLen  = sizeof("<D:href>") - 1;
             size_t href_start = entry.find("<D:href>");
             size_t href_end   = entry.find("</D:href>");
-            if (href_start == std::string::npos || href_end == std::string::npos) continue;
+            if (href_start == std::string::npos || href_end == std::string::npos) {
+              continue;
+            }
             href_start += kHrefOpenLen;
             std::string href = entry.substr(href_start, href_end - href_start);
 
             // Strip the base path and any trailing slash to get the user id.
-            if (href == base_href || href == base_href + "/") continue;
+            if (href == base_href || href == base_href + "/") {
+              continue;
+            }
             size_t slash = href.rfind('/');
             std::string user_id = (slash != std::string::npos)
                                   ? href.substr(slash + 1)
                                   : href;
-            if (user_id.empty()) continue;
+            if (user_id.empty()) {
+              continue;
+            }
 
             // Extract displayname if present.
             static constexpr size_t kDisplayNameOpenLen = sizeof("<D:displayname>") - 1;
@@ -393,7 +401,7 @@ public:
             users.push_back(std::move(data));
         }
 
-        THEMIS_INFO("WebDAV plugin: Synced {} users", users.size());
+        THEMIS_INFO("WebDAV plugin: Synced {} users",static_cast<int>(users.size()));
         return themis::Ok(std::move(users));
 #else
         return themis::Err<std::vector<UserRegistrationData>>(
@@ -420,7 +428,7 @@ public:
             url += "/" + user_id;
         }
 
-        std::string response_body;
+        std::string response_body = {};
         WebDAV_CURL_ptr curl(curl_easy_init());
         if (curl) {
             curl_slist* raw_headers = curl_slist_append(nullptr, "Depth: 0");
@@ -454,7 +462,7 @@ public:
             curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kPropfindBody);
             curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                              static_cast<long>(sizeof(kPropfindBody) - 1));
-            curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+            curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
             curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
             curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
             curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -468,7 +476,7 @@ public:
             long http_code = 0;
             curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
-            if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
+            if ((res == CURLE_OK && (http_code == 200 || http_code == 207))) {
                 // Extract displayname from the PROPFIND response.
                 static constexpr size_t kDisplayNameOpenLen = sizeof("<D:displayname>") - 1;
                 size_t dn_start = response_body.find("<D:displayname>");
@@ -531,12 +539,12 @@ private:
         }
         
         // Set up CURL for WebDAV PROPFIND request
-        std::string response_body;
+        std::string response_body = {};
         curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_USERNAME, user_id.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, password.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "PROPFIND");
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -601,7 +609,7 @@ private:
         properties["mail"]        = user_id + "@" + extractHostFromUrl(config_.webdav_base_url);
 
 #ifdef THEMIS_ENABLE_WEBDAV
-        std::string response_body;
+        std::string response_body = {};
         WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
@@ -641,7 +649,7 @@ private:
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kAdPropfindBody);
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                          static_cast<long>(sizeof(kAdPropfindBody) - 1));
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -655,7 +663,7 @@ private:
         long http_code = 0;
         curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
-        if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
+        if ((res == CURLE_OK && (http_code == 200 || http_code == 207))) {
             // Helper: extract text between open and close tags.
             auto extract = [&](const std::string& open_tag,
                                const std::string& close_tag) -> std::string {
@@ -667,19 +675,29 @@ private:
             };
 
             auto dn = extract("<D:displayname>", "</D:displayname>");
-            if (!dn.empty()) properties["displayName"] = dn;
+            if (!dn.empty()) {
+              properties["displayName"] = dn;
+            }
 
             auto given = extract("<C:givenname>", "</C:givenname>");
-            if (!given.empty()) properties["givenName"] = given;
+            if (!given.empty()) {
+              properties["givenName"] = given;
+            }
 
             auto sn = extract("<C:sn>", "</C:sn>");
-            if (!sn.empty()) properties["sn"] = sn;
+            if (!sn.empty()) {
+              properties["sn"] = sn;
+            }
 
             auto mail = extract("<M:to>", "</M:to>");
-            if (!mail.empty()) properties["mail"] = mail;
+            if (!mail.empty()) {
+              properties["mail"] = mail;
+            }
 
             auto member_of = extract("<C:memberOf>", "</C:memberOf>");
-            if (!member_of.empty()) properties["memberOf"] = member_of;
+            if (!member_of.empty()) {
+              properties["memberOf"] = member_of;
+            }
         } else {
             THEMIS_WARN("WebDAV AD PROPFIND for user '{}' returned HTTP {}", user_id, http_code);
         }
@@ -733,7 +751,7 @@ private:
      * Returns "company.com" when the URL cannot be parsed.
      */
     static std::string extractHostFromUrl(const std::string& url) {
-        std::string host;
+        std::string host = {};
         size_t p = url.find("://");
         host = (p != std::string::npos) ? url.substr(p + 3) : url;
         size_t slash = host.find('/');
@@ -754,7 +772,7 @@ private:
         EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
         EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (unsigned int i = 0; i < hash_len; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }

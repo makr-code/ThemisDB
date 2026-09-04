@@ -323,7 +323,7 @@ public:
     // Resource quota enforcement
     struct QuotaCheckResult {
         bool allowed = true;
-        std::string reason;
+        std::string reason = {};
     };
     
     /**

@@ -82,7 +82,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     }
 
     // For very small embeddings the decomposition never compresses.
-    if (embedding.size() < 4) {
+    if (static_cast<int>(embedding.size()) < 4) {
         return false;
     }
 
@@ -91,7 +91,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     std::vector<float> pilot;
     std::vector<std::size_t> pilot_shape;
 
-    if (embedding.size() <= kPilotMaxDim) {
+    if (static_cast<int>(embedding.size()) <= kPilotMaxDim) {
         pilot       = embedding;
         pilot_shape = inferModeShape(embedding.size());
     } else {
@@ -114,10 +114,10 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
         // (when called from the same thread).
         pilot.resize(kPilotMaxDim);
         const float    scale     = 1.0f / std::sqrt(static_cast<float>(embedding.size()));
-        const uint64_t base_seed = static_cast<uint64_t>(embedding.size()) * 11400714819323198485ULL;
+        const uint64_t base_seed = static_cast<uint64_t>(embedding.size()) * 11400714819323198485;
         for (std::size_t j = 0; j < kPilotMaxDim; ++j) {
             float    dot = 0.0f;
-            uint64_t h   = base_seed ^ (static_cast<uint64_t>(j) * 6364136223846793005ULL + 1442695040888963407ULL);
+            uint64_t h   = base_seed ^ (static_cast<uint64_t>(j) * 6364136223846793005 + 1442695040888963407);
             for (std::size_t i = 0; i < embedding.size(); ++i) {
                 // xorshift64 — period 2^64-1, uniform distribution of bits
                 h ^= h >> 12; h ^= h << 25; h ^= h >> 27;
@@ -218,7 +218,7 @@ ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
 
         spdlog::debug("[TensorIngestionBridge] decompose chunk='{}' "
                       "dim={} → κ={:.2f} ε={:.4f} rank={}",
-                      chunk_id, embedding.size(),
+                      chunk_id,static_cast<int>(embedding.size()),
                       rec.compression_ratio, rec.achieved_eps, rec.max_rank);
 
     } catch (const std::exception& e) {

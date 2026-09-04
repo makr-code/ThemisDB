@@ -32,9 +32,9 @@ namespace fs = std::filesystem;
 
 std::string FilesystemBlobBackend::computeSHA256(const std::vector<uint8_t>& data) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data.data(), data.size(), hash);
+    SHA256(data.data(),static_cast<int>(data.size()), hash);
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0')
            << static_cast<int>(hash[i]);
@@ -78,7 +78,7 @@ Result<BlobRef> FilesystemBlobBackend::put(const std::string& blob_id, const std
             throw std::runtime_error("Failed to open file for writing: " + file_path);
         }
 
-        ofs.write(reinterpret_cast<const char*>(data.data()), data.size());
+        ofs.write(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
         ofs.close();
 
         if (!ofs) {
@@ -96,7 +96,7 @@ Result<BlobRef> FilesystemBlobBackend::put(const std::string& blob_id, const std
         ).count();
 
         THEMIS_DEBUG("FilesystemBlobBackend: Stored blob {} ({} bytes) at {}",
-            blob_id, data.size(), file_path);
+            blob_id,static_cast<int>(data.size()), file_path);
 
         return Ok(std::move(ref));
 
@@ -121,7 +121,7 @@ Result<std::vector<uint8_t>> FilesystemBlobBackend::get(const BlobRef& ref) {
         );
 
         THEMIS_DEBUG("FilesystemBlobBackend: Retrieved blob {} ({} bytes)",
-            ref.id, data.size());
+            ref.id,static_cast<int>(data.size()));
 
         return Ok(std::move(data));
 

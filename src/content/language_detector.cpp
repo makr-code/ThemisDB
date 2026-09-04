@@ -111,8 +111,8 @@ ScriptCounts countScriptBytes(std::string_view text) {
 // Convert to lowercase ASCII in-place (leaves non-ASCII bytes unchanged so
 // that script detection still works on the raw bytes).
 std::string toLower(std::string_view text) {
-    std::string lower;
-    lower.reserve(text.size() + 2);
+    std::string lower = {};
+    lower.reserve(static_cast<int>(text.size()) + 2);
     lower += ' '; // sentinel: ensure first word gets a leading space
     for (unsigned char c : text) {
         lower += static_cast<char>((c < 128) ? static_cast<char>(std::tolower(static_cast<int>(c))) : c);
@@ -171,7 +171,7 @@ DetectedLanguage LanguageDetector::detect(std::string_view text) const {
     ScriptCounts sc    = countScriptBytes(text);
     size_t total_chars = text.size();
 
-    auto scriptFraction = [&](size_t count) -> float {
+    auto scriptFraction = [&]([[maybe_unused]] size_t count) -> float {
         return (total_chars > 0) ? static_cast<float>(count) / static_cast<float>(total_chars) : 0.0f;
     };
 

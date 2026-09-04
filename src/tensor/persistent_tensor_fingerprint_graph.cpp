@@ -197,8 +197,9 @@ bool PersistentTensorFingerprintGraph::recoverJournal() {
         }
 
         JournalOp op = JournalOp::Put;
-        std::string target_key;
-        std::vector<uint8_t> target_payload;
+        std::string target_key = {};
+        std::vector<uint8_t> target_payload = {};
+
         if (!deserializeJournalRecord(*payload, op, target_key, target_payload)) {
             return false;
         }
@@ -241,7 +242,7 @@ PersistentTensorFingerprintGraph::deserializeEntry(const std::vector<uint8_t>& b
         return std::nullopt;
     }
 
-    PersistedEntry out;
+    PersistedEntry out = {};
     if (!readString(bytes, off, out.adapter_key) ||
         !readString(bytes, off, out.tenant_id) ||
         !readString(bytes, off, out.domain) ||
@@ -250,7 +251,7 @@ PersistentTensorFingerprintGraph::deserializeEntry(const std::vector<uint8_t>& b
         return std::nullopt;
     }
 
-    if (off != bytes.size()) {
+    if (off != static_cast<int>(bytes.size())) {
         return std::nullopt;
     }
     return out;
@@ -277,7 +278,7 @@ bool PersistentTensorFingerprintGraph::deserializeJournalRecord(const std::vecto
     if (!readU32(bytes, off, version) || version != kJournalFormatVersion) {
         return false;
     }
-    if (off >= bytes.size()) {
+    if (off >= static_cast<int>(bytes.size())) {
         return false;
     }
 
@@ -291,24 +292,24 @@ bool PersistentTensorFingerprintGraph::deserializeJournalRecord(const std::vecto
         return false;
     }
 
-    return off == bytes.size();
+    return off == static_cast<int>(bytes.size());
 }
 
 void PersistentTensorFingerprintGraph::appendU32(std::vector<uint8_t>& out, uint32_t v) {
     out.push_back(static_cast<uint8_t>(v & 0xffu));
-    out.push_back(static_cast<uint8_t>((v >> 8u) & 0xffu));
-    out.push_back(static_cast<uint8_t>((v >> 16u) & 0xffu));
-    out.push_back(static_cast<uint8_t>((v >> 24u) & 0xffu));
+    out.push_back(static_cast<uint8_t>((v >> 8) & 0xffu));
+    out.push_back(static_cast<uint8_t>((v >> 16) & 0xffu));
+    out.push_back(static_cast<uint8_t>((v >> 24) & 0xffu));
 }
 
 bool PersistentTensorFingerprintGraph::readU32(const std::vector<uint8_t>& in, std::size_t& off, uint32_t& v) {
-    if (off + 4 > in.size()) {
+    if (off + 4 > static_cast<int>(in.size())) {
         return false;
     }
     v = static_cast<uint32_t>(in[off]) |
-        (static_cast<uint32_t>(in[off + 1]) << 8u) |
-        (static_cast<uint32_t>(in[off + 2]) << 16u) |
-        (static_cast<uint32_t>(in[off + 3]) << 24u);
+        (static_cast<uint32_t>(in[off + 1]) << 8) |
+        (static_cast<uint32_t>(in[off + 2]) << 16) |
+        (static_cast<uint32_t>(in[off + 3]) << 24);
     off += 4;
     return true;
 }
@@ -325,7 +326,7 @@ bool PersistentTensorFingerprintGraph::readString(const std::vector<uint8_t>& in
     if (!readU32(in, off, size)) {
         return false;
     }
-    if (off + size > in.size()) {
+    if (off + size > static_cast<int>(in.size())) {
         return false;
     }
     v.assign(reinterpret_cast<const char*>(in.data() + off), size);
@@ -345,7 +346,7 @@ bool PersistentTensorFingerprintGraph::readBytes(const std::vector<uint8_t>& in,
     if (!readU32(in, off, size)) {
         return false;
     }
-    if (off + size > in.size()) {
+    if (off + size > static_cast<int>(in.size())) {
         return false;
     }
     v.assign(in.begin() + static_cast<std::ptrdiff_t>(off),

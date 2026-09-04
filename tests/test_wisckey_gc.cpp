@@ -20,7 +20,7 @@ protected:
     }
 
     std::string test_dir_;
-    std::string log_path_;
+    std::string log_path_ = {};
 };
 
 TEST_F(WiscKeyGCTest, BasicCompaction) {

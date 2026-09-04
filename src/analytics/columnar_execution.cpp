@@ -93,28 +93,28 @@ namespace analytics {
 // SelectionVector
 // ============================================================================
 
-SelectionVector::SelectionVector(size_t capacity) {
+SelectionVector::SelectionVector([[maybe_unused]] size_t capacity) {
     indices_.reserve(capacity);
 }
 
-void SelectionVector::reset(size_t total_rows) {
+void SelectionVector::reset([[maybe_unused]] size_t total_rows) {
     indices_.resize(total_rows);
     std::iota(indices_.begin(), indices_.end(), static_cast<uint32_t>(0));
 }
 
-void SelectionVector::push_back(uint32_t idx) {
+void SelectionVector::push_back([[maybe_unused]] uint32_t idx) {
     indices_.push_back(idx);
 }
 
 size_t SelectionVector::size() const noexcept {
-    return indices_.size();
+    return static_cast<int>(indices_.size());
 }
 
 bool SelectionVector::empty() const noexcept {
     return indices_.empty();
 }
 
-uint32_t SelectionVector::operator[](size_t pos) const {
+uint32_t SelectionVector::operator[]([[maybe_unused]] size_t pos) const {
     return indices_[pos];
 }
 
@@ -122,7 +122,7 @@ const std::vector<uint32_t> &SelectionVector::indices() const noexcept {
     return indices_;
 }
 
-SelectionVector SelectionVector::all(size_t n) {
+SelectionVector SelectionVector::all([[maybe_unused]] size_t n) {
     SelectionVector sv(n);
     sv.reset(n);
     return sv;
@@ -134,7 +134,7 @@ SelectionVector SelectionVector::all(size_t n) {
 
 Column::Column(std::string name, ColumnType type) : name_(std::move(name)), type_(type) {}
 
-bool Column::isNull(size_t row) const {
+bool Column::isNull([[maybe_unused]] size_t row) const {
     if (null_bitmap_.empty()) {
         return false;
     }
@@ -193,13 +193,14 @@ void Column::appendNull() {
             break;
         case ColumnType::Null:
             break;
+        default: break;
     }
     null_bitmap_.push_back(true);
     has_nulls_ = true;
     ++row_count_;
 }
 
-ColumnValue Column::get(size_t row) const {
+ColumnValue Column::get([[maybe_unused]] size_t row) const {
     if (!null_bitmap_.empty() && null_bitmap_[row]) {
         return nullptr;
     }
@@ -214,11 +215,12 @@ ColumnValue Column::get(size_t row) const {
             return bool_data_[row];
         case ColumnType::Null:
             return nullptr;
+        default: break;
     }
     return nullptr;
 }
 
-void Column::reserve(size_t n) {
+void Column::reserve([[maybe_unused]] size_t n) {
     switch (type_) {
         case ColumnType::Int64:
             int64_data_.reserve(n);
@@ -234,6 +236,7 @@ void Column::reserve(size_t n) {
             break;
         case ColumnType::Null:
             break;
+        default: break;
     }
     null_bitmap_.reserve(n);
 }
@@ -270,6 +273,7 @@ std::shared_ptr<Column> Column::filter(const SelectionVector &sel) const {
             case ColumnType::Null:
                 out->appendNull();
                 break;
+            default: break;
         }
     }
     return out;
@@ -300,6 +304,7 @@ std::shared_ptr<Column> Column::slice(size_t offset, size_t length) const {
             case ColumnType::Null:
                 out->appendNull();
                 break;
+            default: break;
         }
     }
     return out;
@@ -309,7 +314,7 @@ std::shared_ptr<Column> Column::slice(size_t offset, size_t length) const {
 // ColumnBatch
 // ============================================================================
 
-ColumnBatch::ColumnBatch(size_t row_count) : row_count_(row_count) {}
+ColumnBatch::ColumnBatch([[maybe_unused]] size_t row_count) : row_count_(row_count) {}
 
 void ColumnBatch::addColumn(std::shared_ptr<Column> col) {
     if (!col) {
@@ -335,15 +340,15 @@ std::shared_ptr<Column> ColumnBatch::getColumn(const std::string &name) const {
     return columns_[it->second];
 }
 
-std::shared_ptr<Column> ColumnBatch::getColumnAt(size_t idx) const {
-    if (idx >= columns_.size()) {
+std::shared_ptr<Column> ColumnBatch::getColumnAt([[maybe_unused]] size_t idx) const {
+    if (idx >= static_cast<int>(columns_.size())) {
         return nullptr;
     }
     return columns_[idx];
 }
 
 size_t ColumnBatch::columnCount() const noexcept {
-    return columns_.size();
+    return static_cast<int>(columns_.size());
 }
 
 const std::vector<std::shared_ptr<Column>> &ColumnBatch::columns() const noexcept {
@@ -359,7 +364,7 @@ size_t ColumnBatch::selectedRowCount() const noexcept {
     if (!has_selection_) {
         return row_count_;
     }
-    return selection_.size();
+    return static_cast<int>(selection_.size());
 }
 
 ColumnBatch ColumnBatch::materialize() const {
@@ -375,7 +380,7 @@ ColumnBatch ColumnBatch::materialize() const {
     return out;
 }
 
-std::vector<ColumnBatch> ColumnBatch::split(size_t max_rows) const {
+std::vector<ColumnBatch> ColumnBatch::split([[maybe_unused]] size_t max_rows) const {
     // Materialize first so we have a dense layout.
     ColumnBatch dense = materialize();
     size_t total      = dense.rowCount();
@@ -383,7 +388,8 @@ std::vector<ColumnBatch> ColumnBatch::split(size_t max_rows) const {
         return {};
     }
 
-    std::vector<ColumnBatch> result;
+    std::vector<ColumnBatch> result = {};
+
     for (size_t offset = 0; offset < total; offset += max_rows) {
         size_t len = std::min(max_rows, total - offset);
         ColumnBatch sub;
@@ -442,9 +448,9 @@ namespace {
 
 // Sorted-merge intersection of two monotonically increasing index vectors.
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
-    SelectionVector out(std::min(a.size(), b.size()));
+    SelectionVector out(std::min(a.size(),static_cast<int>(b.size())));
     size_t i = 0, j = 0;
-    while (i < a.size() && j < b.size()) {
+    while (i < a.size()  && static_cast<size_t>(j) <static_cast<int>(b.size())) {
         if (a[i] == b[j]) {
             out.push_back(a[i]);
             ++i;
@@ -588,6 +594,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
         case ColumnType::Null:
             // All values are null – no row passes any comparison predicate.
             break;
+        default: break;
     }
     return sel;
 }
@@ -628,7 +635,7 @@ ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
 ProjectOperator::ProjectOperator(std::vector<std::string> column_names) : column_names_(std::move(column_names)) {}
 
 ColumnBatch ProjectOperator::execute(const ColumnBatch &input) const {
-    ColumnBatch result;
+    ColumnBatch result = {};
     if (input.hasSelection()) {
         result.setSelection(input.selection());
     }
@@ -680,7 +687,7 @@ struct SIMDAggResult {
 
 // Aggregate SUM/MIN/MAX over a non-null double array in a single pass.
 static SIMDAggResult simdAggDouble(const double *data, size_t n) noexcept {
-    SIMDAggResult r;
+    SIMDAggResult r = {};
     if (n == 0) {
         return r;
     }
@@ -836,7 +843,7 @@ static void updateDistinct(AggState &state, const Column &col, size_t row) {
     }
     ++state.count_nonnull;
     auto val = col.get(row);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     std::visit(
         [&oss](auto &&v) {
             using T = std::decay_t<decltype(v)>;
@@ -863,14 +870,15 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
         case AggregateSpec::Function::Max:
             return state.count_nonnull > 0 ? state.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
-            return static_cast<double>(state.distinct_set.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((state.distinct_set.size())));
+        default: break;
     }
     return 0.0;
 }
 
 // Produce a single string key for a group-by tuple at row @p row.
 static std::string makeGroupKey(const ColumnBatch &batch, const std::vector<std::string> &group_cols, size_t row) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (const auto &gc : group_cols) {
         auto col = batch.getColumn(gc);
         if (!col) {
@@ -948,7 +956,7 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch &input) const {
             && (spec.function == AggregateSpec::Function::Sum || spec.function == AggregateSpec::Function::Avg
                 || spec.function == AggregateSpec::Function::Min || spec.function == AggregateSpec::Function::Max)) {
             const auto &dd   = col->doubleData();
-            SIMDAggResult ar = simdAggDouble(dd.data(), dd.size());
+            SIMDAggResult ar = simdAggDouble(dd.data(),static_cast<int>(dd.size()));
             st.sum           = ar.sum;
             st.min_val       = ar.min_val;
             st.max_val       = ar.max_val;
@@ -1064,6 +1072,7 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
                 case ColumnType::Null:
                     out_col->appendNull();
                     break;
+                default: break;
             }
         }
         result.addColumn(out_col);
@@ -1101,7 +1110,7 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
     std::vector<size_t> order(n);
     std::iota(order.begin(), order.end(), 0);
 
-    std::stable_sort(order.begin(), order.end(), [&](size_t a, size_t b) -> bool {
+    std::stable_sort([[maybe_unused]] order.begin(), order.end(), [&](size_t a, size_t b) -> bool {
         for (const auto &key : keys_) {
             auto col = dense.getColumn(key.column);
             if (!col) {
@@ -1155,6 +1164,7 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
                 }
                 case ColumnType::Null:
                     break;
+                default: break;
             }
         }
         return false;
@@ -1230,6 +1240,7 @@ ColumnBatch VectorizedPipeline::execute(const ColumnBatch &input) const {
                 // Sort materializes internally.
                 current = stage.sort->execute(current);
                 break;
+            default: break;
         }
     }
     return current;
@@ -1261,7 +1272,8 @@ ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const Vec
 
 std::vector<ColumnBatch> ColumnarExecutionEngine::executeBatched(const std::vector<ColumnBatch> &batches,
                                                                  const VectorizedPipeline &pipeline) {
-    std::vector<ColumnBatch> results;
+    std::vector<ColumnBatch> results = {};
+
     results.reserve(batches.size());
     for (const auto &batch : batches) {
         results.push_back(execute(batch, pipeline));

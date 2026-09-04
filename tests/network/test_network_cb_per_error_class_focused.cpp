@@ -273,7 +273,9 @@ TEST(NetworkCbPerErrorClass, NCB_PEC_07_AdaptiveReducesPerClassThreshold) {
     AdaptiveCircuitBreaker cb(cfg);
 
     // First trip at class threshold = 4
-    for (int i = 0; i < 4; ++i) cb.recordFailure("db");
+    for (int i = 0; i < 4; ++i) {
+      cb.recordFailure("db");
+    }
     ASSERT_EQ(cb.getState(), CircuitState::OPEN) << "First trip at threshold=4";
 
     // Reset circuit (simulate recovery without full HALF_OPEN cycle)

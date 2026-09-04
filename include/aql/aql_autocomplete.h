@@ -70,7 +70,7 @@ enum class CompletionItemKind {
  */
 struct CompletionItem {
     /// The label shown in the editor completion list (e.g., "FILTER")
-    std::string label;
+    std::string label = {};
 
     /// Kind hint for the editor (maps to an icon / colour)
     CompletionItemKind kind = CompletionItemKind::Keyword;
@@ -84,7 +84,7 @@ struct CompletionItem {
     /// Text to insert when the item is accepted.
     /// May contain snippet placeholders using ${N:placeholder} syntax.
     /// Defaults to `label` when empty.
-    std::string insert_text;
+    std::string insert_text = {};
 
     /// 0-based column offset of the start of the prefix to replace.
     /// The range [prefix_start, cursor_column) will be replaced by insert_text.
@@ -105,7 +105,7 @@ struct CompletionItem {
  */
 struct CompletionContext {
     /// The full AQL query text as typed so far
-    std::string query_text;
+    std::string query_text = {};
 
     /// 0-based offset of the cursor within query_text.
     /// Defaults to end-of-text when set to std::string::npos.

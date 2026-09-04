@@ -81,7 +81,7 @@ void SloReporter::record(const std::string& slo_name, bool good_request,
     state.samples.push_back({timestamp, good_request});
 
     // Evict oldest samples if we exceed max_samples_per_slo.
-    while (state.samples.size() > config_.max_samples_per_slo) {
+    while (static_cast<int>(state.samples.size()) > config_.max_samples_per_slo) {
         state.samples.pop_front();
     }
 }
@@ -105,7 +105,8 @@ SloStatus SloReporter::getStatus(const std::string& slo_name) const {
 std::vector<SloStatus> SloReporter::getAllStatuses() const {
     std::lock_guard<std::mutex> lk(mutex_);
     auto now = std::chrono::system_clock::now();
-    std::vector<SloStatus> result;
+    std::vector<SloStatus> result = {};
+
     result.reserve(slos_.size());
     for (const auto& [name, state] : slos_) {
         SloState state_copy = state;
@@ -149,9 +150,9 @@ void SloReporter::publishMetrics() const {
 
 std::string SloReporter::generateReport() const {
     auto statuses = getAllStatuses();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== ThemisDB SLO Compliance Report ===\n\n";
-    oss << "SLOs evaluated: " << statuses.size() << "\n\n";
+    oss << "SLOs evaluated: " <<static_cast<int>(statuses.size()) << "\n\n";
 
     for (const auto& s : statuses) {
         oss << "--- " << s.name << " ---\n";
@@ -190,7 +191,7 @@ json SloReporter::generateReportJson() const {
                      .count();
     return json{
         {"generated_at_ms", ts_ms},
-        {"slo_count",       statuses.size()},
+        {"slo_count",static_cast<int>(statuses.size())},
         {"slos",            arr}
     };
 }
@@ -206,7 +207,7 @@ void SloReporter::clear() {
 
 size_t SloReporter::sloCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return slos_.size();
+    return static_cast<int>(slos_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -233,7 +234,9 @@ SloStatus SloReporter::computeStatus(const SloState& state) {
     s.total_requests = static_cast<uint64_t>(samples.size());
     uint64_t good = 0;
     for (const auto& sample : samples) {
-        if (sample.good) ++good;
+        if (sample.good) {
+          ++good;
+        }
     }
     s.error_requests = s.total_requests - good;
 
@@ -272,7 +275,7 @@ SloStatus SloReporter::computeStatus(const SloState& state) {
     struct LevelSpec {
         BurnRateLevel level;
         std::chrono::seconds window;
-        double hours;
+        double hours = {};
     };
 
     static const LevelSpec kLevels[] = {
@@ -290,7 +293,7 @@ SloStatus SloReporter::computeStatus(const SloState& state) {
             alert.burn_rate    = rate;
             alert.window_hours = spec.hours;
             alert.severity     = burnRateSeverity(spec.level);
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << std::fixed << std::setprecision(1)
                 << "SLO '" << s.name << "' burn rate " << rate
                 << "× (threshold " << threshold << "×) over "
@@ -308,15 +311,23 @@ double SloReporter::computeBurnRate(const std::deque<Sample>& samples,
                                      std::chrono::seconds window,
                                      std::chrono::system_clock::time_point now,
                                      double allowed_error_rate) noexcept {
-    if (allowed_error_rate <= 0.0) return 0.0;
+    if (allowed_error_rate <= 0.0) {
+      return 0.0;
+    }
     const auto cutoff = now - window;
     uint64_t total = 0, good = 0;
     for (const auto& s : samples) {
-        if (s.ts < cutoff) continue;
+        if (s.ts < cutoff) {
+          continue;
+        }
         ++total;
-        if (s.good) ++good;
+        if (s.good) {
+          ++good;
+        }
     }
-    if (total == 0) return 0.0;
+    if (total == 0) {
+      return 0.0;
+    }
     double actual_error_rate = 1.0 -
         (static_cast<double>(good) / static_cast<double>(total));
     return actual_error_rate / allowed_error_rate;

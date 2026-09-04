@@ -116,14 +116,15 @@ void MultiGPULoRALayer::initialize_backend(CommBackend backend) {
 }
 
 std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& inputs) {
-    if (inputs.size() != static_cast<size_t>(ctx_.num_gpus())) {
+    if (static_cast<int>(inputs.size()) != static_cast<size_t>(ctx_.num_gpus())) {
         throw std::invalid_argument(
             "Number of input tensors must match number of GPUs");
     }
     
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<GPUTensor> outputs;
+    std::vector<GPUTensor> outputs = {};
+
     outputs.reserve(inputs.size());
     
     // Forward pass on each GPU independently
@@ -152,14 +153,15 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
 std::vector<GPUTensor> MultiGPULoRALayer::backward(
     const std::vector<GPUTensor>& grad_outputs) {
     
-    if (grad_outputs.size() != static_cast<size_t>(ctx_.num_gpus())) {
+    if (static_cast<int>(grad_outputs.size()) != static_cast<size_t>(ctx_.num_gpus())) {
         throw std::invalid_argument(
             "Number of gradient tensors must match number of GPUs");
     }
     
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<GPUTensor> grad_inputs;
+    std::vector<GPUTensor> grad_inputs = {};
+
     grad_inputs.reserve(grad_outputs.size());
     
     // Backward pass on each GPU independently
@@ -213,7 +215,8 @@ bool MultiGPULoRALayer::allreduce_gradients() {
     
     // All-reduce each parameter separately
     for (size_t param_idx = 0; param_idx < num_params; ++param_idx) {
-        std::vector<GPUTensor*> param_grads;
+        std::vector<GPUTensor*> param_grads = {};
+
         for (size_t gpu_idx = 0; gpu_idx < all_gradients.size(); ++gpu_idx) {
             param_grads.push_back(all_gradients[gpu_idx][param_idx]);
         }
@@ -254,7 +257,7 @@ bool MultiGPULoRALayer::broadcast_parameters() {
     for (int i = 1; i < ctx_.num_gpus(); ++i) {
         auto target_params = layers_[i]->parameters();
         
-        if (master_params.size() != target_params.size()) {
+        if (static_cast<int>(master_params.size()) != static_cast<int>(target_params.size())) {
             spdlog::error("Parameter count mismatch between GPUs");
             return false;
         }
@@ -277,7 +280,7 @@ void MultiGPULoRALayer::zero_grad() {
     gradients_synced_ = false;
 }
 
-GPULoRALayer& MultiGPULoRALayer::get_layer(int rank) {
+GPULoRALayer& MultiGPULoRALayer::get_layer([[maybe_unused]] int rank) {
     if (rank < 0 || rank >= ctx_.num_gpus()) {
         throw std::out_of_range("Invalid GPU rank: " + std::to_string(rank));
     }
@@ -285,7 +288,8 @@ GPULoRALayer& MultiGPULoRALayer::get_layer(int rank) {
 }
 
 std::vector<GPULoRALayer*> MultiGPULoRALayer::get_layers() {
-    std::vector<GPULoRALayer*> result;
+    std::vector<GPULoRALayer*> result = {};
+
     result.reserve(layers_.size());
     for (auto& layer : layers_) {
         result.push_back(layer.get());

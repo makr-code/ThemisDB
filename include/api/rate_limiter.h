@@ -92,10 +92,10 @@ public:
     };
     
     struct Bucket {
-        double tokens;
+        double tokens = 0;
         std::chrono::steady_clock::time_point last_refill;
-        size_t capacity;
-        size_t refill_rate;
+        size_t capacity = {};
+        size_t refill_rate = {};
         
         Bucket(size_t cap, size_t rate)
             : tokens(static_cast<double>(cap))

@@ -72,7 +72,7 @@ public:
         std::string token_type;
         int         expires_in{0};
         std::string refresh_token;
-        std::string scope;
+        std::string scope = {};
         std::string id_token;   ///< OIDC id_token (when "openid" scope requested)
     };
 

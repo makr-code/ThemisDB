@@ -176,7 +176,7 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
     plan.fits_in_vram = plan.total <= hw.available_vram_bytes;
     
     // 11. Generate recommendation
-    std::stringstream ss;
+    std::stringstream ss = {};
     if (plan.fits_in_vram) {
         ss << "✓ Allocation fits in available VRAM. ";
         ss << "Model: " << (plan.model_weights / (1024.0 * 1024 * 1024)) << " GB, ";
@@ -362,7 +362,7 @@ AdaptiveVRAMAllocator::calculateDualModelAllocation(
     plan.fits_in_vram = (plan.total <= hw.available_vram_bytes);
 
     // Rebuild the recommendation string with dual-model context.
-    std::stringstream ss;
+    std::stringstream ss = {};
     if (plan.fits_in_vram) {
         ss << "✓ Dual-model allocation fits in available VRAM. ";
         ss << "Target: " << (target_plan.model_weights / (1024.0 * 1024 * 1024)) << " GB, ";

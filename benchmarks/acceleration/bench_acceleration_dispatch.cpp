@@ -35,7 +35,9 @@ std::vector<float> randomFloatVectors(size_t count, size_t dim,
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
     std::vector<float> data(count * dim);
-    for (auto& v : data) v = dist(rng);
+    for (auto& v : data) {
+      v = dist(rng);
+    }
     return data;
 }
 

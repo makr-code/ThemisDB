@@ -126,7 +126,8 @@ TEST_F(RAIDLoRAIntegrationTest, RAID0_UniformDistribution) {
     ASSERT_TRUE(saveStriped(key, lora_data, raid));
     
     // Check chunk sizes are relatively uniform
-    std::vector<size_t> chunk_sizes;
+    std::vector<size_t> chunk_sizes = {};
+
     for (int i = 0; i < 4; ++i) {
         std::string chunk_key = key + ":chunk:" + std::to_string(i);
         auto chunk = cluster_->loadFromShard(i, chunk_key);

@@ -93,7 +93,8 @@ public:
     /** @brief Return all shard ids containing the provided replica id. */
     std::vector<std::string> findShardsByReplica(const std::string& replica_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<std::string> shards;
+        std::vector<std::string> shards = {};
+
         for (const auto& [shard_id, replica_set] : replica_sets_) {
             if (replica_set.contains_replica(replica_id)) {
                 shards.push_back(shard_id);
@@ -105,7 +106,8 @@ public:
     /** @brief Return all known shard identifiers. */
     std::vector<std::string> getAllShards() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<std::string> shards;
+        std::vector<std::string> shards = {};
+
         for (const auto& [shard_id, _] : replica_sets_) {
             shards.push_back(shard_id);
         }
@@ -140,7 +142,8 @@ public:
      */
     std::vector<ShardReplicaSet> getReplicaSetsInRegion(const std::string& region) const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<ShardReplicaSet> result;
+        std::vector<ShardReplicaSet> result = {};
+
         for (const auto& [shard_id, rs] : replica_sets_) {
             if (rs.region == region) {
                 result.push_back(rs);
@@ -155,7 +158,8 @@ public:
      */
     std::vector<std::string> getRegions() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         for (const auto& [shard_id, rs] : replica_sets_) {
             if (!rs.region.empty()) {
                 seen.insert(rs.region);

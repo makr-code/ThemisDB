@@ -128,7 +128,9 @@ TEST_F(StressTest, STRESS_01_ConcurrentMountUnmount) {
     
     // Wait for all threads to complete
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Assertions:
@@ -182,7 +184,9 @@ TEST_F(StressTest, STRESS_02_KeyRotationHighConcurrency) {
     }
     
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Assertions:

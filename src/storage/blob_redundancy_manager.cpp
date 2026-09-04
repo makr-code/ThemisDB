@@ -46,7 +46,9 @@ bool BlobMetadata::isHealthy() const {
 uint32_t BlobMetadata::healthyLocationCount() const {
     uint32_t count = 0;
     for (const auto& loc : locations) {
-        if (loc.is_healthy) count++;
+        if (loc.is_healthy) {
+          count++;
+        }
     }
     return count;
 }
@@ -63,10 +65,13 @@ uint32_t BlobMetadata::healthyLocationCount() const {
 uint32_t BlobMetadata::requiredLocationCount() const {
     switch (config.mode) {
         case RedundancyMode::NONE:
+        [[fallthrough]];
         case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::MIRROR:
+        [[fallthrough]];
         case RedundancyMode::STRIPE_MIRROR:
+        [[fallthrough]];
         case RedundancyMode::GEO_MIRROR:
             return config.replication_factor;
         case RedundancyMode::PARITY:
@@ -87,7 +92,8 @@ bool BlobMetadata::canRecover() const {
 }
 
 std::vector<std::string> BlobMetadata::getMissingShards() const {
-    std::vector<std::string> missing;
+    std::vector<std::string> missing = {};
+
     missing.reserve(locations.size());
     for (const auto& loc : locations) {
         if (!loc.is_healthy) {
@@ -283,21 +289,35 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
 ) {
     try {
         YAML::Node root = YAML::LoadFile(path);
-        if (!root || !root.IsMap()) return std::nullopt;
+        if (!root || !root.IsMap()) {
+          return std::nullopt;
+        }
 
-        CollectionRedundancyConfig cfg;
-        if (root["collection"]) cfg.collection   = root["collection"].as<std::string>();
-        if (root["description"]) cfg.description = root["description"].as<std::string>();
+        CollectionRedundancyConfig cfg = {};
+        if (root["collection"]) {
+          cfg.collection   = root["collection"].as<std::string>();
+        }
+        if (root["description"]) {
+          cfg.description = root["description"].as<std::string>();
+        }
 
         // Parse default BlobRedundancyConfig
         if (const YAML::Node& def = root["defaults"]) {
             auto& d = cfg.defaults;
-            if (def["replication_factor"]) d.replication_factor = def["replication_factor"].as<uint32_t>(d.replication_factor);
-            if (def["sync_write"])         d.sync_write          = def["sync_write"].as<bool>(d.sync_write);
-            if (def["compression"])        d.compression         = def["compression"].as<std::string>(d.compression);
+            if (def["replication_factor"]) {
+              d.replication_factor = def["replication_factor"].as<uint32_t>(d.replication_factor);
+            }
+            if (def["sync_write"]) {
+              d.sync_write          = def["sync_write"].as<bool>(d.sync_write);
+            }
+            if (def["compression"]) {
+              d.compression         = def["compression"].as<std::string>(d.compression);
+            }
             if (def["mode"]) {
                 const std::string m = def["mode"].as<std::string>("");
-                if      (m == "NONE")         d.mode = RedundancyMode::NONE;
+                if      (m == "NONE") {
+                  d.mode = RedundancyMode::NONE;
+                }
                 else if (m == "MIRROR")        d.mode = RedundancyMode::MIRROR;
                 else if (m == "PARITY")        d.mode = RedundancyMode::PARITY;
                 else if (m == "STRIPE")        d.mode = RedundancyMode::STRIPE;
@@ -454,38 +474,66 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
     // existing config as default for any field not present in the YAML node.
     auto parseBlobConfig = [](const YAML::Node& node,
                                BlobRedundancyConfig base = {}) -> BlobRedundancyConfig {
-        if (!node || !node.IsMap()) return base;
+        if (!node || !node.IsMap()) {
+          return base;
+        }
 
         if (node["mode"]) {
             const std::string mode_str = node["mode"].as<std::string>("");
-            if      (mode_str == "NONE")         base.mode = RedundancyMode::NONE;
+            if      (mode_str == "NONE") {
+              base.mode = RedundancyMode::NONE;
+            }
             else if (mode_str == "MIRROR")        base.mode = RedundancyMode::MIRROR;
             else if (mode_str == "STRIPE")        base.mode = RedundancyMode::STRIPE;
             else if (mode_str == "STRIPE_MIRROR") base.mode = RedundancyMode::STRIPE_MIRROR;
             else if (mode_str == "PARITY")        base.mode = RedundancyMode::PARITY;
             else if (mode_str == "GEO_MIRROR")    base.mode = RedundancyMode::GEO_MIRROR;
         }
-        if (node["replication_factor"]) base.replication_factor = node["replication_factor"].as<uint32_t>(base.replication_factor);
-        if (node["sync_write"])         base.sync_write         = node["sync_write"].as<bool>(base.sync_write);
-        if (node["geo_replicate"])      base.geo_replicate      = node["geo_replicate"].as<bool>(base.geo_replicate);
-        if (node["auto_tier_down"])     base.auto_tier_down     = node["auto_tier_down"].as<bool>(base.auto_tier_down);
-        if (node["tier_down_after_days"]) base.tier_down_after_days = node["tier_down_after_days"].as<uint32_t>(base.tier_down_after_days);
-        if (node["retention_days"])     base.retention_days     = node["retention_days"].as<uint32_t>(base.retention_days);
-        if (node["version_history"])    base.version_history    = node["version_history"].as<uint32_t>(base.version_history);
-        if (node["compression"])        base.compression        = node["compression"].as<std::string>(base.compression);
-        if (node["compression_level"])  base.compression_level  = node["compression_level"].as<int32_t>(base.compression_level);
+        if (node["replication_factor"]) {
+          base.replication_factor = node["replication_factor"].as<uint32_t>(base.replication_factor);
+        }
+        if (node["sync_write"]) {
+          base.sync_write         = node["sync_write"].as<bool>(base.sync_write);
+        }
+        if (node["geo_replicate"]) {
+          base.geo_replicate      = node["geo_replicate"].as<bool>(base.geo_replicate);
+        }
+        if (node["auto_tier_down"]) {
+          base.auto_tier_down     = node["auto_tier_down"].as<bool>(base.auto_tier_down);
+        }
+        if (node["tier_down_after_days"]) {
+          base.tier_down_after_days = node["tier_down_after_days"].as<uint32_t>(base.tier_down_after_days);
+        }
+        if (node["retention_days"]) {
+          base.retention_days     = node["retention_days"].as<uint32_t>(base.retention_days);
+        }
+        if (node["version_history"]) {
+          base.version_history    = node["version_history"].as<uint32_t>(base.version_history);
+        }
+        if (node["compression"]) {
+          base.compression        = node["compression"].as<std::string>(base.compression);
+        }
+        if (node["compression_level"]) {
+          base.compression_level  = node["compression_level"].as<int32_t>(base.compression_level);
+        }
 
         if (node["tier"]) {
             const std::string tier_str = node["tier"].as<std::string>("");
-            if      (tier_str == "HOT")     base.tier = StorageTier::HOT;
+            if      (tier_str == "HOT") {
+              base.tier = StorageTier::HOT;
+            }
             else if (tier_str == "WARM")    base.tier = StorageTier::WARM;
             else if (tier_str == "COLD")    base.tier = StorageTier::COLD;
             else if (tier_str == "ARCHIVE") base.tier = StorageTier::ARCHIVE;
         }
 
         if (const YAML::Node& ec = node["erasure_coding"]) {
-            if (ec["data_shards"])   base.erasure_coding.data_shards   = ec["data_shards"].as<uint32_t>(base.erasure_coding.data_shards);
-            if (ec["parity_shards"]) base.erasure_coding.parity_shards = ec["parity_shards"].as<uint32_t>(base.erasure_coding.parity_shards);
+            if (ec["data_shards"]) {
+              base.erasure_coding.data_shards   = ec["data_shards"].as<uint32_t>(base.erasure_coding.data_shards);
+            }
+            if (ec["parity_shards"]) {
+              base.erasure_coding.parity_shards = ec["parity_shards"].as<uint32_t>(base.erasure_coding.parity_shards);
+            }
         }
         return base;
     };
@@ -521,7 +569,7 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
 
         // --- Global default ---
-        BlobRedundancyConfig global_default;
+        BlobRedundancyConfig global_default = {};
         if (root["default"]) {
             global_default = parseBlobConfig(root["default"]);
         }
@@ -538,7 +586,9 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
                 // Merge with existing config (or global default for first-time keys)
                 BlobRedundancyConfig base = global_default;
                 auto existing = blob_type_configs_.find(it->second);
-                if (existing != blob_type_configs_.end()) base = existing->second;
+                if (existing != blob_type_configs_.end()) {
+                  base = existing->second;
+                }
                 blob_type_configs_[it->second] = parseBlobConfig(kv.second, base);
             }
         }
@@ -549,14 +599,16 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
                 const std::string col = kv.first.as<std::string>();
                 BlobRedundancyConfig base = global_default;
                 auto existing = collection_overrides_.find(col);
-                if (existing != collection_overrides_.end()) base = existing->second;
+                if (existing != collection_overrides_.end()) {
+                  base = existing->second;
+                }
                 collection_overrides_[col] = parseBlobConfig(kv.second, base);
             }
         }
 
         spdlog::info("BlobRedundancyManager: loaded config from '{}' "
                      "({} blob-type overrides, {} collection overrides)",
-                     path, blob_type_configs_.size(), collection_overrides_.size());
+                     path,static_cast<int>(blob_type_configs_.size()),static_cast<int>(collection_overrides_.size()));
         return true;
 
     } catch (const YAML::Exception& e) {
@@ -781,11 +833,13 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     if (healthy < required) {
         const auto missing = metadata.getMissingShards();
         spdlog::warn("verifyBlob '{}': degraded — {}/{} locations healthy, {} shards missing: [{}]",
-                     blob_id, healthy, required, missing.size(),
+                     blob_id, healthy, required,static_cast<int>(missing.size()),
                      [&]() {
-                         std::ostringstream ss;
-                         for (size_t i = 0; i < missing.size(); ++i) {
-                             if (i) ss << ", ";
+                         std::ostringstream ss = {};
+                         for (size_t i = 0; i <static_cast<int>(missing.size()); ++i) {
+                             if (i) {
+                               ss << ", ";
+                             }
                              ss << missing[i];
                          }
                          return ss.str();
@@ -804,17 +858,20 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
             static_cast<uint32_t>(metadata.config.geo_targets.size());
 
         // Collect distinct datacenter identifiers from healthy locations.
-        std::unordered_set<std::string> healthy_dcs;
+        std::unordered_set<std::string> healthy_dcs = {};
+
         healthy_dcs.reserve(metadata.locations.size());
         for (const auto& loc : metadata.locations) {
-            if (!loc.is_healthy || loc.datacenter.empty()) continue;
+            if (!loc.is_healthy || loc.datacenter.empty()) {
+              continue;
+            }
             healthy_dcs.insert(loc.datacenter);
         }
 
         if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
             spdlog::warn("verifyBlob '{}': geo-redundancy degraded — "
                          "{}/{} datacenters have healthy replicas",
-                         blob_id, healthy_dcs.size(), target_dc_count);
+                         blob_id,static_cast<int>(healthy_dcs.size()), target_dc_count);
             return false;
         }
     }
@@ -830,7 +887,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
 /// Uses the pre-assigned location if available, otherwise falls back to a
 /// deterministic "shard-<N>" name so each chunk can live on a distinct node.
 static std::string ecShardId(const BlobMetadata& meta, uint32_t chunk_index) {
-    if (chunk_index < meta.locations.size()) {
+    if (static_cast<int>(meta.locations.size()) > chunk_index) {
         return meta.locations[chunk_index].shard_id;
     }
     return "shard-" + std::to_string(chunk_index);
@@ -879,7 +936,8 @@ Result<void> BlobRedundancyManager::writeBlob(
             );
         }
 
-        std::vector<std::string> written_shards;
+        std::vector<std::string> written_shards = {};
+
         written_shards.reserve(shards.size());
         for (const auto& shard : shards) {
             const std::string shard_id   = ecShardId(metadata, shard.shard_index);
@@ -889,7 +947,7 @@ Result<void> BlobRedundancyManager::writeBlob(
             }
         }
 
-        if (written_shards.size() < static_cast<size_t>(ec_config.data_shards)) {
+        if (static_cast<int>(written_shards.size()) < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<void>(
                 themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
                 "Failed to write enough erasure-coded shards for blob '" +
@@ -905,7 +963,8 @@ Result<void> BlobRedundancyManager::writeBlob(
     // --- Replication path (MIRROR / STRIPE / GEO_MIRROR) ---
     auto target_shards = selectTargetShards(metadata);
     
-    std::vector<std::string> written_shards;
+    std::vector<std::string> written_shards = {};
+
     written_shards.reserve(target_shards.size());
     for (const auto& shard_id : target_shards) {
         if (handler(shard_id, metadata.blob_id, data)) {
@@ -972,7 +1031,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
             }
         }
 
-        if (available.size() < static_cast<size_t>(ec_config.data_shards)) {
+        if (static_cast<int>(available.size()) < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<std::vector<uint8_t>>(
                 themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                 "Not enough shards to reconstruct blob '" + blob_id +
@@ -1026,7 +1085,8 @@ Result<void> BlobRedundancyManager::deleteBlob(
     
     const auto& metadata = it->second;
     
-    std::vector<std::string> deleted_shards;
+    std::vector<std::string> deleted_shards = {};
+
     deleted_shards.reserve(metadata.locations.size());
     for (const auto& location : metadata.locations) {
         if (handler(location.shard_id, location.path)) {
@@ -1067,7 +1127,9 @@ std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() const {
     auto now = std::chrono::system_clock::now();
     
     for (const auto& [blob_id, metadata] : blobs_) {
-        if (!metadata.config.auto_tier_down) continue;
+        if (!metadata.config.auto_tier_down) {
+          continue;
+        }
         
         auto age_days = std::chrono::duration_cast<std::chrono::hours>(
             now - metadata.last_accessed).count() / 24;
@@ -1167,7 +1229,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     
     // Check blob health
     auto degraded = getDegradedBlobs();
-    spdlog::info("Found {} degraded blobs", degraded.size());
+    spdlog::info("Found {} degraded blobs",static_cast<int>(degraded.size()));
     
     // Queue degraded blobs for repair
     {
@@ -1180,7 +1242,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     
     // Check for tier-down candidates
     auto tier_candidates = getBlobsForTierDown();
-    spdlog::info("Found {} blobs eligible for tier-down", tier_candidates.size());
+    spdlog::info("Found {} blobs eligible for tier-down",static_cast<int>(tier_candidates.size()));
     
     // Process tier transitions (limited per cycle)
     size_t max_tier_ops = 10;
@@ -1191,7 +1253,7 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     }
 }
 
-void BlobRedundancyManager::runScrub(bool full) {
+void BlobRedundancyManager::runScrub([[maybe_unused]] bool full) {
     spdlog::info("Running blob scrub (full={})", full);
 
     // Phase 1: Collect degraded blob IDs under the shared read lock.
@@ -1226,17 +1288,20 @@ void BlobRedundancyManager::runScrub(bool full) {
                 const auto target_dc_count =
                     static_cast<uint32_t>(metadata.config.geo_targets.size());
 
-                std::unordered_set<std::string> healthy_dcs;
+                std::unordered_set<std::string> healthy_dcs = {};
+
                 healthy_dcs.reserve(metadata.locations.size());
                 for (const auto& loc : metadata.locations) {
-                    if (!loc.is_healthy || loc.datacenter.empty()) continue;
+                    if (!loc.is_healthy || loc.datacenter.empty()) {
+                      continue;
+                    }
                     healthy_dcs.insert(loc.datacenter);
                 }
 
                 if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
                     spdlog::warn("runScrub: blob '{}' geo-redundancy degraded — "
                                  "{}/{} datacenters have healthy replicas",
-                                 blob_id, healthy_dcs.size(), target_dc_count);
+                                 blob_id,static_cast<int>(healthy_dcs.size()), target_dc_count);
                     degraded_ids.push_back(blob_id);
                 }
             }
@@ -1252,7 +1317,7 @@ void BlobRedundancyManager::runScrub(bool full) {
             }
         }
         repair_cv_.notify_one();
-        spdlog::info("runScrub complete: {} blob(s) queued for repair", degraded_ids.size());
+        spdlog::info("runScrub complete: {} blob(s) queued for repair",static_cast<int>(degraded_ids.size()));
     } else {
         spdlog::info("runScrub complete: all blobs healthy");
     }
@@ -1262,7 +1327,7 @@ void BlobRedundancyManager::runRepairQueue() {
     spdlog::debug("Processing blob repair queue");
 
     while (true) {
-        std::string blob_id;
+        std::string blob_id = {};
         {
             std::unique_lock<std::mutex> lock(repair_mutex_);
             if (repair_queue_.empty()) {
@@ -1282,7 +1347,7 @@ void BlobRedundancyManager::runRepairQueue() {
 std::string BlobRedundancyManager::exportPrometheusMetrics() const {
     auto stats = getStats();
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     ss << "# HELP themis_blob_redundancy_total_blobs Total number of blobs\n";
     ss << "# TYPE themis_blob_redundancy_total_blobs gauge\n";
@@ -1371,7 +1436,7 @@ void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
     }
 
     spdlog::warn("SST file deleted: {} — queuing {} blob(s) for replication",
-                 file_path, affected_blob_ids.size());
+                 file_path,static_cast<int>(affected_blob_ids.size()));
 
     {
         std::lock_guard<std::mutex> repair_lock(repair_mutex_);
@@ -1417,7 +1482,9 @@ void BlobRedundancyManager::repairLoop() {
             return !repair_queue_.empty() || !running_.load();
         });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         lock.unlock();
         
@@ -1441,7 +1508,9 @@ void BlobRedundancyManager::configReloadLoop() {
             std::chrono::seconds(config_.hot_reload_check_seconds),
             [this] { return !running_.load(); });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         try {
             // Check if config file has changed
@@ -1462,7 +1531,7 @@ std::string BlobRedundancyManager::generateBlobId() {
     
     uint64_t id = dis(gen);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "blob-" << std::hex << std::setfill('0') << std::setw(16) << id;
     
     return ss.str();
@@ -1476,7 +1545,7 @@ std::string BlobRedundancyManager::calculateChecksum(const std::vector<uint8_t>&
         sum += byte;
     }
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::hex << sum;
     return ss.str();
 }
@@ -1528,7 +1597,8 @@ bool BlobRedundancyManager::deleteFromShard(
 }
 
 std::vector<std::string> BlobRedundancyManager::selectTargetShards(const BlobMetadata& blob) {
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     shards.reserve(blob.locations.size());
     
     // Simplified: return locations from metadata
@@ -1604,7 +1674,7 @@ void RocksDBBlobListener::OnCompactionCompleted(
     const rocksdb::CompactionJobInfo& info
 ) {
     // New SST files created by compaction
-    spdlog::debug("Compaction completed, output files: {}", info.output_files.size());
+    spdlog::debug("Compaction completed, output files: {}",static_cast<int>(info.output_files.size()));
     
     for (const auto& file_path : info.output_files) {
         // Get file size
@@ -1629,7 +1699,7 @@ void RocksDBBlobListener::OnTableFileDeleted(
     manager_.notifySSTFileDeleted(info.file_path);
 }
 
-BlobType RocksDBBlobListener::levelToBlobType(int level) {
+BlobType RocksDBBlobListener::levelToBlobType([[maybe_unused]] int level) {
     if (level == 0) {
         return BlobType::SST_L0;
     } else if (level == 1) {

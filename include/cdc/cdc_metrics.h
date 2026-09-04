@@ -106,7 +106,9 @@ public:
      */
     uint64_t percentile(double p) const {
         uint64_t total = count_.load();
-        if (total == 0) return 0;
+        if (total == 0) {
+          return 0;
+        }
         
         uint64_t target = static_cast<uint64_t>(total * p);
         uint64_t accumulated = 0;
@@ -157,19 +159,45 @@ private:
     std::atomic<uint64_t> sum_micros_;
     
     size_t bucketIndex(uint64_t latency_micros) const {
-        if (latency_micros < 100) return 0;
-        if (latency_micros < 250) return 1;
-        if (latency_micros < 500) return 2;
-        if (latency_micros < 1000) return 3;
-        if (latency_micros < 2500) return 4;
-        if (latency_micros < 5000) return 5;
-        if (latency_micros < 10000) return 6;
-        if (latency_micros < 25000) return 7;
-        if (latency_micros < 50000) return 8;
-        if (latency_micros < 100000) return 9;
-        if (latency_micros < 250000) return 10;
-        if (latency_micros < 500000) return 11;
-        if (latency_micros < 1000000) return 12;
+        if (latency_micros < 100) {
+          return 0;
+        }
+        if (latency_micros < 250) {
+          return 1;
+        }
+        if (latency_micros < 500) {
+          return 2;
+        }
+        if (latency_micros < 1000) {
+          return 3;
+        }
+        if (latency_micros < 2500) {
+          return 4;
+        }
+        if (latency_micros < 5000) {
+          return 5;
+        }
+        if (latency_micros < 10000) {
+          return 6;
+        }
+        if (latency_micros < 25000) {
+          return 7;
+        }
+        if (latency_micros < 50000) {
+          return 8;
+        }
+        if (latency_micros < 100000) {
+          return 9;
+        }
+        if (latency_micros < 250000) {
+          return 10;
+        }
+        if (latency_micros < 500000) {
+          return 11;
+        }
+        if (latency_micros < 1000000) {
+          return 12;
+        }
         return 13;  // 1s+
     }
     

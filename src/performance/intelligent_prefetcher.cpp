@@ -93,7 +93,7 @@ constexpr size_t MAX_PENDING_PREDICTIONS = 4096;
 class IntelligentPrefetcher::Impl {
 public:
     struct AccessEntry {
-        uint64_t address;
+        uint64_t address = 0;
         uint64_t timestamp;
     };
 
@@ -142,7 +142,7 @@ public:
 
         // Append to sliding history window.
         history_.push_back({address, timestamp});
-        if (history_.size() > config_.history_size) {
+        if (static_cast<int>(history_.size()) > config_.history_size) {
             history_.pop_front();
         }
 
@@ -195,7 +195,7 @@ public:
             }
 
             // Track in pending set for the feedback loop.
-            if (pending_.size() < MAX_PENDING_PREDICTIONS) {
+            if (static_cast<int>(pending_.size()) < MAX_PENDING_PREDICTIONS) {
                 pending_.insert(addr);
             } else {
                 // Set is full – evict one arbitrary entry as wasted.
@@ -280,23 +280,24 @@ private:
      * as no-pattern (confidence = 0).
      */
     void analyse_pattern() {
-        if (history_.size() < MIN_HISTORY_FOR_STRIDE) {
+        if (static_cast<int>(history_.size()) < MIN_HISTORY_FOR_STRIDE) {
             pattern_.confidence = 0.0;
             pattern_.stride     = 0;
             return;
         }
 
         // Collect the tail of the history window.
-        size_t start = (history_.size() > ANALYSIS_WINDOW)
-                           ? history_.size() - ANALYSIS_WINDOW
+        size_t start = (static_cast<int>(history_.size()) > ANALYSIS_WINDOW)
+                           ? static_cast<int>(history_.size()) - ANALYSIS_WINDOW
                            : 0;
-        size_t window = history_.size() - start;  // ≥ MIN_HISTORY_FOR_STRIDE
+        size_t window = static_cast<int>(history_.size()) - start;  // ≥ MIN_HISTORY_FOR_STRIDE
 
         // Compute signed differences (cast to int64 to handle backward strides).
-        std::unordered_map<int64_t, size_t> stride_counts;
+        std::unordered_map<int64_t, size_t> stride_counts = {};
+
         for (size_t i = start + 1; i < history_.size(); ++i) {
             int64_t diff = static_cast<int64_t>(history_[i].address) -
-                           static_cast<int64_t>(history_[i - 1].address);
+                           static_cast<int64_t>(history_[static_cast<int>(i - 1)].address);
             stride_counts[diff]++;
         }
 
@@ -332,10 +333,16 @@ private:
         signed_stride_ = best_stride;
     }
 
-    static CacheLevel confidence_to_level(double confidence) noexcept {
-        if (confidence >= 0.90) return CacheLevel::L1;
-        if (confidence >= 0.75) return CacheLevel::L2;
-        if (confidence >= 0.60) return CacheLevel::L3;
+    static CacheLevel confidence_to_level([[maybe_unused]] double confidence) noexcept {
+        if (confidence >= 0.90) {
+          return CacheLevel::L1;
+        }
+        if (confidence >= 0.75) {
+          return CacheLevel::L2;
+        }
+        if (confidence >= 0.60) {
+          return CacheLevel::L3;
+        }
         return CacheLevel::DRAM;
     }
 

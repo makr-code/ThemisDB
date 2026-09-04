@@ -41,7 +41,8 @@ TEST(DistributedMergePhase2, P2_01_AllShardsSuccessful) {
   DistributedHybridSearch distributed(nullptr, nullptr, nullptr, config);
   
   // Create successful shard results
-  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results;
+  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results = {};
+
   for (int shard_id = 0; shard_id < 3; ++shard_id) {
     DistributedHybridSearch::ShardSearchResult sr;
     sr.shard_id = "shard_" + std::to_string(shard_id);
@@ -79,7 +80,8 @@ TEST(DistributedMergePhase2, P2_02_MergeUnderflow) {
   DistributedHybridSearch distributed(nullptr, nullptr, nullptr, config);
   
   // Create shard results with only 2 documents total (< k)
-  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results;
+  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results = {};
+
   for (int shard_id = 0; shard_id < 2; ++shard_id) {
     DistributedHybridSearch::ShardSearchResult sr;
     sr.shard_id = "shard_" + std::to_string(shard_id);
@@ -112,7 +114,8 @@ TEST(DistributedMergePhase2, P2_03_HighOverlapVariance) {
   DistributedHybridSearch distributed(nullptr, nullptr, nullptr, config);
   
   // Create many shards with the same high-overlap documents
-  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results;
+  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results = {};
+
   for (int shard_id = 0; shard_id < 5; ++shard_id) {
     DistributedHybridSearch::ShardSearchResult sr;
     sr.shard_id = "shard_" + std::to_string(shard_id);
@@ -201,7 +204,8 @@ TEST(DistributedMergePhase2, P2_05_ExactKCandidates) {
   DistributedHybridSearch distributed(nullptr, nullptr, nullptr, config);
   
   // Create exactly k documents across shards
-  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results;
+  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results = {};
+
   for (int shard_id = 0; shard_id < 5; ++shard_id) {
     DistributedHybridSearch::ShardSearchResult sr;
     sr.shard_id = "shard_" + std::to_string(shard_id);
@@ -275,7 +279,8 @@ TEST(DistributedMergePhase2, P2_07_BoundedResourceEnforcement) {
   DistributedHybridSearch distributed(nullptr, nullptr, nullptr, config);
   
   // Create large result sets (e.g., 100 documents per shard)
-  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results;
+  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results = {};
+
   for (int shard_id = 0; shard_id < 3; ++shard_id) {
     DistributedHybridSearch::ShardSearchResult sr;
     sr.shard_id = "shard_" + std::to_string(shard_id);
@@ -313,7 +318,8 @@ TEST(DistributedMergePhase2, P2_08_ConcurrentShardFailures) {
   DistributedHybridSearch distributed(nullptr, nullptr, nullptr, config);
   
   // Create scenario with 5 shards, 3 failures
-  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results;
+  std::vector<DistributedHybridSearch::ShardSearchResult> shard_results = {};
+
   for (int shard_id = 0; shard_id < 5; ++shard_id) {
     DistributedHybridSearch::ShardSearchResult sr;
     sr.shard_id = "shard_" + std::to_string(shard_id);

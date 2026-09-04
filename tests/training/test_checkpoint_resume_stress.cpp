@@ -39,9 +39,9 @@ class SimpleCheckpointManager {
 public:
     struct CheckpointData {
         std::vector<LoRAWeightEntry> weights;
-        size_t epoch;
-        size_t step;
-        double loss;
+        size_t epoch = {};
+        size_t step = {};
+        double loss = {};
     };
 
     void saveCheckpoint(const LoRAAdapter& adapter, size_t epoch, size_t step, double loss) {
@@ -66,17 +66,23 @@ public:
     }
 
     size_t getLastEpoch() const {
-        if (!hasCheckpoint()) return 0;
+        if (!hasCheckpoint()) {
+          return 0;
+        }
         return checkpoints_.at(latest_checkpoint_id_).epoch;
     }
 
     size_t getLastStep() const {
-        if (!hasCheckpoint()) return 0;
+        if (!hasCheckpoint()) {
+          return 0;
+        }
         return checkpoints_.at(latest_checkpoint_id_).step;
     }
 
     double getLastLoss() const {
-        if (!hasCheckpoint()) return 0.0;
+        if (!hasCheckpoint()) {
+          return 0.0;
+        }
         return checkpoints_.at(latest_checkpoint_id_).loss;
     }
 
@@ -458,7 +464,8 @@ TEST_F(CheckpointResumeStressTest, RollbackSimulation) {
     adapter.addLayer("rollback", IN_DIM, OUT_DIM);
 
     // Create checkpoints at different points
-    std::vector<size_t> checkpoint_steps;
+    std::vector<size_t> checkpoint_steps = {};
+
     for (int cp = 0; cp < 5; ++cp) {
         trainAdapter(adapter, 20, "rollback");
         mgr.saveCheckpoint(adapter, cp + 1, (cp + 1) * 20, 2.0 - cp * 0.1);

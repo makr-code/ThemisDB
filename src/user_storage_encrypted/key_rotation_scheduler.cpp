@@ -26,8 +26,8 @@ namespace user_storage {
 
 struct RotationSchedule {
     SecurityLevel level;
-    int interval_days;
-    bool auto_rotate;
+    int interval_days = {};
+    bool auto_rotate = {};
     KeyRotationScheduler::RotationCallback callback;
     int64_t last_check_ms;
 
@@ -44,7 +44,7 @@ struct KeyRotationScheduler::Impl {
     std::mutex mutex;
     std::atomic<bool> running;
     std::thread scheduler_thread;
-    int check_interval_seconds;
+    int check_interval_seconds = {};
     std::shared_ptr<IRotationStore> store;  // optional persistence backend
 
     // Condition variable used by shutdown() to interrupt the sleep.
@@ -125,7 +125,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
     if (impl_->store) {
         const std::string key =
             "user_storage:rotation_state:" + securityLevelToString(level);
-        std::string json_value;
+        std::string json_value = {};
         if (impl_->store->get(key, json_value)) {
             try {
                 auto j = nlohmann::json::parse(json_value);
@@ -194,7 +194,7 @@ void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
     const int64_t now = getCurrentTimeMs();
     schedule.last_check_ms = now;
 
-    if (schedule.callback) {
+    if ([[maybe_unused]] schedule.callback) {
         try {
             schedule.callback(level, true, "");
         } catch (...) {}
@@ -212,7 +212,7 @@ void KeyRotationScheduler::schedulerLoop() {
             for (auto& pair : impl_->schedules) {
                 auto& schedule = pair.second;
 
-                if (!schedule.auto_rotate || !schedule.callback) {
+                if ([[maybe_unused]] !schedule.auto_rotate || !schedule.callback) {
                     continue;
                 }
 
@@ -252,10 +252,14 @@ int64_t KeyRotationScheduler::getCurrentTimeMs() const {
 // ---------------------------------------------------------------------------
 
 void KeyRotationScheduler::persistRotationState(SecurityLevel level) {
-    if (!impl_->store) return;
+    if (!impl_->store) {
+      return;
+    }
 
     auto it = impl_->schedules.find(level);
-    if (it == impl_->schedules.end()) return;
+    if (it == impl_->schedules.end()) {
+      return;
+    }
 
     const auto& sched = it->second;
     nlohmann::json j;
@@ -268,15 +272,21 @@ void KeyRotationScheduler::persistRotationState(SecurityLevel level) {
 }
 
 void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
-    if (!impl_->store) return;
+    if (!impl_->store) {
+      return;
+    }
 
     auto it = impl_->schedules.find(level);
-    if (it == impl_->schedules.end()) return;
+    if (it == impl_->schedules.end()) {
+      return;
+    }
 
     const std::string key =
         "user_storage:rotation_state:" + securityLevelToString(level);
-    std::string json_value;
-    if (!impl_->store->get(key, json_value)) return;
+    std::string json_value = {};
+    if (!impl_->store->get(key, json_value)) {
+      return;
+    }
 
     try {
         auto j = nlohmann::json::parse(json_value);

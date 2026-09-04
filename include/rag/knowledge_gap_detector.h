@@ -68,7 +68,7 @@ struct RetrievedDocument {
  * @brief Context for generation and gap detection
  */
 struct GenerationContext {
-    double token_probability_avg;    ///< Average token probability
+    double token_probability_avg = 0;    ///< Average token probability
     double perplexity;                ///< Generation perplexity
     std::vector<double> token_probs; ///< Per-token probabilities
     bool generation_started;          ///< Whether generation has begun
@@ -78,7 +78,7 @@ struct GenerationContext {
  * @brief Result of gap detection analysis
  */
 struct DetectionResult {
-    bool gap_detected;                           ///< Whether a gap was found
+    bool gap_detected = 0;                           ///< Whether a gap was found
     double confidence_score;                     ///< Confidence in the detection (0-1)
     GapType gap_type;                           ///< Type of gap detected
     std::vector<std::string> missing_aspects;    ///< Missing query aspects

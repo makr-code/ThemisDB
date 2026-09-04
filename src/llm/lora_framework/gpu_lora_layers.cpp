@@ -446,7 +446,7 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
 
     // Gradient checkpointing: Recompute activations if needed
     GPUTensor input_for_backward;
-    GPUTensor h_for_backward;
+    GPUTensor h_for_backward = {};
 
     if (use_checkpointing_) {
         // Recompute activations (trade compute for memory)
@@ -587,7 +587,7 @@ void GPUSGDOptimizer::add_parameters(const std::vector<GPUTensor*>& params) {
         }
     }
     
-    spdlog::debug("GPUSGDOptimizer: {} parameters registered", parameters_.size());
+    spdlog::debug("GPUSGDOptimizer: {} parameters registered",static_cast<int>(parameters_.size()));
 }
 
 void GPUSGDOptimizer::step() {
@@ -606,7 +606,7 @@ void GPUSGDOptimizer::step() {
         if (param->device().type == DeviceType::CUDA) {
             float* param_ptr = reinterpret_cast<float*>(param->data());
             const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());
-            float* momentum_ptr = (momentum_ > 0.0f && i < momentum_buffers_.size()) 
+            float* momentum_ptr = (momentum_ > 0.0f  && static_cast<size_t>(i) <static_cast<int>(momentum_buffers_.size())) 
                 ? reinterpret_cast<float*>(momentum_buffers_[i]->data()) 
                 : nullptr;
             
@@ -625,7 +625,7 @@ void GPUSGDOptimizer::step() {
         if (param->device().type == DeviceType::HIP) {
             float* param_ptr = reinterpret_cast<float*>(param->data());
             const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());
-            float* momentum_ptr = (momentum_ > 0.0f && i < momentum_buffers_.size()) 
+            float* momentum_ptr = (momentum_ > 0.0f  && static_cast<size_t>(i) <static_cast<int>(momentum_buffers_.size())) 
                 ? reinterpret_cast<float*>(momentum_buffers_[i]->data()) 
                 : nullptr;
             
@@ -743,7 +743,7 @@ float GPULoRATrainer::compute_mse_loss(const GPUTensor& output, const GPUTensor&
 GPUTensor GPULoRATrainer::compute_mse_grad(const GPUTensor& output, const GPUTensor& target) {
     // grad_MSE = 2 * (output - target) / n
     auto diff = output - target;
-    float scale = 2.0f / output.size();
+    float scale = 2.0f / static_cast<float>(output.size());
     return diff * scale;
 }
 

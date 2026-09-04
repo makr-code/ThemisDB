@@ -58,7 +58,7 @@ UdfApiHandler::makeErrorResponse(
 http::response<http::string_body>
 UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("handleRegister");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRegister");
     const themis::utils::InputValidator validator;
 
     if (!validator.validateStringLength(req.body(), 1'000'000)) {
@@ -113,7 +113,7 @@ UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
                 return makeErrorResponse(http::status::bad_request,
                                          "Each element of 'arguments' must be a JSON object", req);
             }
-            ArgSpec spec;
+            ArgSpec spec = {};
             if (a.contains("name") && a["name"].is_string()) {
                 spec.name = a["name"].get<std::string>();
             }
@@ -178,7 +178,7 @@ UdfApiHandler::handleList(const http::request<http::string_body>& req)
         arr.push_back(d.toJson());
     }
     return makeJsonResponse(http::status::ok,
-                            {{"udfs", arr}, {"count", arr.size()}},
+                            {{"udfs", arr}, {"count",static_cast<int>(arr.size())}},
                             req);
 }
 

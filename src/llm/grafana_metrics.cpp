@@ -105,7 +105,7 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
     if (it != metrics_.end()) {
         it->second.histogram_buckets.push_back(value);
         // Keep only recent values (max MAX_HISTOGRAM_SAMPLES)
-        if (it->second.histogram_buckets.size() > MAX_HISTOGRAM_SAMPLES) {
+        if (it-> static_cast<int>(second.histogram_buckets.size()) > MAX_HISTOGRAM_SAMPLES) {
             it->second.histogram_buckets.erase(it->second.histogram_buckets.begin());
         }
     } else {
@@ -120,10 +120,11 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
 
 std::string PrometheusExporter::exportMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     // Group metrics by base name for HELP and TYPE annotations
-    std::map<std::string, MetricType> metric_types;
+    std::map<std::string, MetricType> metric_types = {};
+
     for (const auto& [key, value] : metrics_) {
         // Extract base metric name (before any labels)
         size_t brace_pos = key.find('{');
@@ -152,6 +153,10 @@ std::string PrometheusExporter::exportMetrics() const {
                 break;
             case MetricType::SUMMARY:
                 oss << "# TYPE " << name << " summary\n";
+                break;
+            default:
+                // Unknown metric type, output generic type
+                oss << "# TYPE " << name << " gauge\n";
                 break;
         }
     }
@@ -224,7 +229,7 @@ std::string PrometheusExporter::makeMetricKey(const std::string& name,
         return name;
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << name << "{";
     bool first = true;
     
@@ -232,7 +237,9 @@ std::string PrometheusExporter::makeMetricKey(const std::string& name,
     std::map<std::string, std::string> sorted_labels(labels.begin(), labels.end());
     
     for (const auto& [key, value] : sorted_labels) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << key << "=\"" << value << "\"";
         first = false;
     }
@@ -241,7 +248,7 @@ std::string PrometheusExporter::makeMetricKey(const std::string& name,
 }
 
 std::string PrometheusExporter::serializeMetric(const std::string& name, const MetricValue& value) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << name << " " << value.value;
     return oss.str();
 }
@@ -556,11 +563,11 @@ void LLMMetricsCollector::recordTokensGenerated(const std::string& model_id, siz
     exporter_->incrementCounter("llm_tokens_generated_total", {{"model_id", model_id}}, static_cast<double>(count));
 }
 
-void LLMMetricsCollector::recordBatchSize(size_t batch_size) {
+void LLMMetricsCollector::recordBatchSize([[maybe_unused]] size_t batch_size) {
     exporter_->setGauge("llm_batch_size", static_cast<double>(batch_size));
 }
 
-void LLMMetricsCollector::recordConcurrentRequests(size_t count) {
+void LLMMetricsCollector::recordConcurrentRequests([[maybe_unused]] size_t count) {
     exporter_->setGauge("llm_concurrent_requests", static_cast<double>(count));
 }
 
@@ -569,11 +576,11 @@ void LLMMetricsCollector::recordGPUMemoryUsage(size_t vram_mb, size_t total_vram
     exporter_->setGauge("llm_gpu_memory_total_mb", static_cast<double>(total_vram_mb));
 }
 
-void LLMMetricsCollector::recordGPUUtilization(double utilization_pct) {
+void LLMMetricsCollector::recordGPUUtilization([[maybe_unused]] double utilization_pct) {
     exporter_->setGauge("llm_gpu_utilization_percent", utilization_pct);
 }
 
-void LLMMetricsCollector::recordGPUTemperature(double temp_celsius) {
+void LLMMetricsCollector::recordGPUTemperature([[maybe_unused]] double temp_celsius) {
     exporter_->setGauge("llm_gpu_temperature_celsius", temp_celsius);
 }
 
@@ -587,7 +594,7 @@ void LLMMetricsCollector::recordModelUnloaded(const std::string& model_id) {
     exporter_->setGauge("llm_model_memory_mb", 0.0, {{"model_id", model_id}});
 }
 
-void LLMMetricsCollector::recordModelSwitchLatency(double latency_ms) {
+void LLMMetricsCollector::recordModelSwitchLatency([[maybe_unused]] double latency_ms) {
     exporter_->observeHistogram("llm_model_switch_latency_ms", latency_ms);
 }
 
@@ -603,15 +610,15 @@ void LLMMetricsCollector::recordCacheSize(const std::string& cache_type, size_t 
     exporter_->setGauge("llm_cache_size_mb", static_cast<double>(size_mb), {{"cache_type", cache_type}});
 }
 
-void LLMMetricsCollector::recordQueueLength(size_t length) {
+void LLMMetricsCollector::recordQueueLength([[maybe_unused]] size_t length) {
     exporter_->setGauge("llm_queue_length", static_cast<double>(length));
 }
 
-void LLMMetricsCollector::recordPreemptions(size_t count) {
+void LLMMetricsCollector::recordPreemptions([[maybe_unused]] size_t count) {
     exporter_->incrementCounter("llm_preemptions_total", {}, static_cast<double>(count));
 }
 
-void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
+void LLMMetricsCollector::recordSchedulingLatency([[maybe_unused]] double latency_ms) {
     exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
 }
 
@@ -623,7 +630,7 @@ void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, 
     exporter_->setGauge("llm_quantization_format", 1.0, {{"model_id", model_id}, {"format", format}});
 }
 
-void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {
+void LLMMetricsCollector::recordDequantizationLatency([[maybe_unused]] double latency_ms) {
     exporter_->observeHistogram("llm_dequantization_latency_ms", latency_ms);
 }
 
@@ -744,12 +751,12 @@ void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model
 
 // ─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────
 
-void LLMMetricsCollector::recordWorkerPoolQueueDepth(size_t depth) {
+void LLMMetricsCollector::recordWorkerPoolQueueDepth([[maybe_unused]] size_t depth) {
     exporter_->setGauge("llm_worker_pool_queue_depth",
                         static_cast<double>(depth));
 }
 
-void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_completed) {
+void LLMMetricsCollector::recordWorkerPoolTasksCompleted([[maybe_unused]] uint64_t total_completed) {
     // Compute delta against last reported total and increment the counter.
     // Uses compare-exchange to avoid losing increments under concurrent callers.
     //
@@ -758,8 +765,8 @@ void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_complete
     //                             total_completed as a fresh delta from zero.
     uint64_t prev = last_pool_tasks_completed_.load(std::memory_order_relaxed);
     while (true) {
-        uint64_t new_val;
-        double   delta;
+        uint64_t new_val = 0;
+        double   delta = 0;
         if (total_completed >= prev) {
             delta   = static_cast<double>(total_completed - prev);
             new_val = total_completed;
@@ -1035,7 +1042,7 @@ GrafanaDashboardGenerator::GrafanaDashboardGenerator(const DashboardConfig& conf
 }
 
 std::string GrafanaDashboardGenerator::generateDashboard() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "{\n";
     oss << "  \"dashboard\": {\n";
@@ -1101,7 +1108,7 @@ std::string GrafanaDashboardGenerator::createPanel(const std::string& title,
                                                    const std::string& type,
                                                    int grid_pos_x, int grid_pos_y,
                                                    int grid_width, int grid_height) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "      {\n";
     oss << "        \"title\": \"" << title << "\",\n";
@@ -1143,7 +1150,7 @@ std::string GrafanaDashboardGenerator::generateThroughputPanel() const {
 }
 
 std::string GrafanaDashboardGenerator::generateGPUPanel() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{\n";
     oss << "  \"title\": \"GPU Metrics\",\n";
     oss << "  \"panels\": [\n";
@@ -1174,7 +1181,7 @@ std::string GrafanaDashboardGenerator::generateErrorPanel() const {
 }
 
 std::string GrafanaDashboardGenerator::generateUnifiedDashboard() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     oss << "{\n";
     oss << "  \"dashboard\": {\n";
@@ -1317,7 +1324,7 @@ bool MetricsServer::start() {
     // /health
     impl_->svr.Get(config_.health_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.health_path, body);
             res.set_content(body, "application/json");
         });
@@ -1325,7 +1332,7 @@ bool MetricsServer::start() {
     // /ready
     impl_->svr.Get(config_.ready_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.ready_path, body);
             const int status = (body.find("\"ready\"") != std::string::npos) ? 200 : 503;
             res.status = status;
@@ -1335,7 +1342,7 @@ bool MetricsServer::start() {
     // /models
     impl_->svr.Get(config_.models_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.models_path, body);
             res.set_content(body, "application/json");
         });
@@ -1343,7 +1350,7 @@ bool MetricsServer::start() {
     // /dashboard — serve the unified Grafana dashboard JSON
     impl_->svr.Get(config_.dashboard_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.dashboard_path, body);
             res.set_content(body, "application/json");
         });
@@ -1352,7 +1359,7 @@ bool MetricsServer::start() {
     // POST /admin/models/reload
     impl_->svr.Post(config_.admin_reload_path.c_str(),
         [this](const httplib::Request& req, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handlePost(config_.admin_reload_path, req.body, body);
             res.set_content(body, "application/json");
         });
@@ -1360,7 +1367,7 @@ bool MetricsServer::start() {
     // POST /admin/prompt/simulate
     impl_->svr.Post(config_.admin_simulate_path.c_str(),
         [this](const httplib::Request& req, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handlePost(config_.admin_simulate_path, req.body, body);
             res.set_content(body, "application/json");
         });
@@ -1368,7 +1375,7 @@ bool MetricsServer::start() {
     // GET /admin/sessions — list active inference sessions
     impl_->svr.Get(config_.admin_sessions_path.c_str(),
         [this](const httplib::Request& /*req*/, httplib::Response& res) {
-            std::string body;
+            std::string body = {};
             handleRequest(config_.admin_sessions_path, body);
             res.set_content(body, "application/json");
         });
@@ -1380,8 +1387,8 @@ bool MetricsServer::start() {
         [this](const httplib::Request& req, httplib::Response& res) {
             // matches[0] = full path, matches[1] = :id
             const std::string session_id =
-                req.matches.size() > 1 ? std::string(req.matches[1]) : "";
-            std::string body;
+                static_cast<int>(req.matches.size()) > 1 ? std::string(req.matches[1]) : "";
+            std::string body = {};
             handleDelete(config_.admin_sessions_path, session_id, body);
             res.set_content(body, "application/json");
         });

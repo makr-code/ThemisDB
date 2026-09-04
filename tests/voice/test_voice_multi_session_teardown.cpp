@@ -80,7 +80,7 @@ TEST_F(VoiceMultiSessionTeardownTest, TeardownConcurrent10Sessions) {
     
     // Create 10 sessions concurrently
     std::vector<std::thread> create_threads;
-    std::mutex ids_mutex;
+    std::mutex ids_mutex = {};
     
     for (int i = 0; i < NUM_SESSIONS; ++i) {
         create_threads.emplace_back([this, i, &session_ids, &ids_mutex]() {
@@ -266,7 +266,8 @@ TEST_F(VoiceMultiSessionTeardownTest, ReverseDependencyCleanupOrder) {
 // ============================================================================
 TEST_F(VoiceMultiSessionTeardownTest, AbortSignalCleanup) {
     // Create sessions
-    std::vector<std::string> session_ids;
+    std::vector<std::string> session_ids = {};
+
     for (int i = 0; i < 10; ++i) {
         auto session = manager_->createSession("user-" + std::to_string(i));
         if (!session.session_id.empty()) {

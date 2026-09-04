@@ -56,7 +56,9 @@ protected:
     }
 
     void writePoints(const std::string& metric, int count, int64_t start_ms = 0) {
-        if (start_ms == 0) start_ms = BASE_MS;
+        if (start_ms == 0) {
+          start_ms = BASE_MS;
+        }
         for (int i = 0; i < count; ++i) {
             TSStore::DataPoint dp;
             dp.metric       = metric;

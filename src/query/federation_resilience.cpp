@@ -112,7 +112,7 @@ std::optional<std::string> CircuitBreaker::getFailureReason() const {
 }
 
 std::string CircuitBreaker::getStatistics() const {
-    std::string state_str;
+    std::string state_str = {};
     switch (state_) {
         case State::CLOSED:
             state_str = "CLOSED";
@@ -123,6 +123,7 @@ std::string CircuitBreaker::getStatistics() const {
         case State::HALF_OPEN:
             state_str = "HALF_OPEN";
             break;
+        default: break;
     }
 
     std::string stats = "CircuitBreaker[" + shard_id_ + "]:\n";
@@ -182,6 +183,7 @@ bool DegradedModeExecutor::shouldProceedDegraded(
             return available_shards > 0;
         case Strategy::BEST_EFFORT:
             return available_shards > 0;
+        default: break;
     }
     return false;
 }
@@ -200,7 +202,7 @@ double DegradedModeExecutor::getMinimumCoverage() const {
     return minimum_coverage_pct_;
 }
 
-void DegradedModeExecutor::setMinimumCoverage(double coverage_pct) {
+void DegradedModeExecutor::setMinimumCoverage([[maybe_unused]] double coverage_pct) {
     if (coverage_pct < 0.0 || coverage_pct > 100.0) {
         spdlog::warn("Invalid coverage percentage: {}; ignoring", coverage_pct);
         return;
@@ -224,6 +226,7 @@ std::string DegradedModeExecutor::getStatistics() const {
         case Strategy::BEST_EFFORT:
             stats += "BEST_EFFORT";
             break;
+        default: break;
     }
     stats += "\n";
     stats += "  minimum_coverage: " + std::to_string(minimum_coverage_pct_) + "%\n";
@@ -403,9 +406,10 @@ std::string FederationResilienceCoordinator::getResilienceStatistics() const {
 
 std::unordered_map<std::string, std::string>
 FederationResilienceCoordinator::getShardStatesSummary() const {
-    std::unordered_map<std::string, std::string> summary;
+    std::unordered_map<std::string, std::string> summary = {};
+
     for (const auto& [shard_id, cb] : circuit_breakers_) {
-        std::string state_str;
+        std::string state_str = {};
         switch (cb.getState()) {
             case CircuitBreaker::State::CLOSED:
                 state_str = "healthy";
@@ -416,6 +420,7 @@ FederationResilienceCoordinator::getShardStatesSummary() const {
             case CircuitBreaker::State::HALF_OPEN:
                 state_str = "recovering";
                 break;
+            default: break;
         }
         summary[shard_id] = state_str;
     }

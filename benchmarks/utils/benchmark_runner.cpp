@@ -88,7 +88,9 @@ BenchmarkResult run_benchmark(const std::string& name, int repetitions, int iter
     std::sort(times_ns.begin(), times_ns.end());
     
     long long sum = 0;
-    for (auto t : times_ns) sum += t;
+    for (auto t : times_ns) {
+      sum += t;
+    }
     long long mean = sum / times_ns.size();
     long long median = times_ns[times_ns.size() / 2];
     long long min = times_ns.front();
@@ -147,7 +149,9 @@ int main() {
     // GATE-UTL-04: RetryPolicy batch alloc
     results.push_back(run_benchmark("BM_RetryPolicy_BatchAlloc_1000", 5, 10000, [](int) {
         std::vector<RetryPolicy> v(1000);
-        for (auto& p : v) p.maxAttempts = 3;
+        for (auto& p : v) {
+          p.maxAttempts = 3;
+        }
         __asm__ volatile("" : : "r"(v.data()) : );
     }));
     

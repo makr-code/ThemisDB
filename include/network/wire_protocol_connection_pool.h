@@ -288,7 +288,9 @@ public:
          */
         double getReuseRate() const {
             size_t total = connections_created + connections_reused;
-            if (total == 0) return 0.0;
+            if (total == 0) {
+              return 0.0;
+            }
             return static_cast<double>(connections_reused) / static_cast<double>(total);
         }
     };

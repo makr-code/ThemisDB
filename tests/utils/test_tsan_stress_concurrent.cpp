@@ -46,7 +46,8 @@ TEST(UtilsTsanStressConcurrent, AuditLoggerConcurrentWritersSmoke) {
     AuditLogger logger(enc, pki, cfg);
     std::atomic<int> written{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 8; ++i) {
         threads.emplace_back([&logger, &written, i]() {
             for (int j = 0; j < 25; ++j) {
@@ -99,7 +100,8 @@ TEST(UtilsTsanStressConcurrent, PiiScannerSmokeAcrossThreads) {
     ASSERT_TRUE(engine->initialize(config));
 
     std::atomic<int> findings_seen{0};
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([engine, &findings_seen, i]() {
             PIIStreamScanner scanner(engine);

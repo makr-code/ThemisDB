@@ -232,7 +232,7 @@ TEST(GenericApiConnectorOAuthTest, NoRefreshWhenOAuthNotConfigured) {
 
 TEST(GenericApiConnectorOAuthTest, OAuthAccessTokenOverridesStaticApiKey) {
     // When both oauth.access_token and api_key are set, the OAuth token wins.
-    std::string captured_auth;
+    std::string captured_auth = {};
 
     GenericApiConnector conn;
     ASSERT_TRUE(conn.initialize(makeApiSourceConfig()));

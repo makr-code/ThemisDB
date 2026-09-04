@@ -48,7 +48,9 @@ std::vector<float> make_random_vec(size_t dim, unsigned seed = 0) {
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
     std::vector<float> v(dim);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -439,13 +441,17 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
     const size_t nVecs = 32;
     for (size_t i = 0; i < nVecs; ++i) {
         std::vector<float> v(dim);
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : v) {
+          x = dist(rng);
+        }
         ASSERT_TRUE(idx.addVector("v" + std::to_string(i), v));
     }
 
     // Search should return results.
     std::vector<float> q(dim);
-    for (auto& x : q) x = dist(rng);
+    for (auto& x : q) {
+      x = dist(rng);
+    }
     const auto results = idx.search(q, 5u);
     EXPECT_FALSE(results.empty());
     EXPECT_LE(results.size(), 5u);
@@ -548,7 +554,8 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
     auto mgr = makeManager(PrefetchStrategy::NONE, 0);
     const size_t N = 4;
 
-    std::vector<size_t> pids;
+    std::vector<size_t> pids = {};
+
     for (size_t i = 0; i < 5; ++i) {
         pids.push_back(mgr.addPartition(make_flat(N, kDim), N, kDim));
     }
@@ -675,7 +682,8 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
 TEST_F(GPUMemoryOversubscriptionFocusedTests,
        EdgeCase_GetAllPartitionIds_OrderMatches) {
     auto mgr = makeManager(PrefetchStrategy::NONE, 0);
-    std::vector<size_t> added;
+    std::vector<size_t> added = {};
+
     for (size_t i = 0; i < 4; ++i) {
         added.push_back(mgr.addPartition(make_flat(2, kDim), 2, kDim));
     }
@@ -717,7 +725,9 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
     std::uniform_real_distribution<float> dist(-1.f, 1.f);
     for (size_t i = 0; i < 16; ++i) {
         std::vector<float> v(dim);
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : v) {
+          x = dist(rng);
+        }
         ASSERT_TRUE(idx.addVector("v" + std::to_string(i), v));
     }
 
@@ -725,7 +735,9 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
     std::vector<std::vector<float>> queries;
     for (size_t q = 0; q < 3; ++q) {
         std::vector<float> qv(dim);
-        for (auto& x : qv) x = dist(rng);
+        for (auto& x : qv) {
+          x = dist(rng);
+        }
         queries.push_back(qv);
     }
 
@@ -766,7 +778,9 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
         std::uniform_real_distribution<float> dist(-1.f, 1.f);
         for (size_t i = 0; i < nVecs; ++i) {
             std::vector<float> v(dim);
-            for (auto& x : v) x = dist(rng);
+            for (auto& x : v) {
+              x = dist(rng);
+            }
             ASSERT_TRUE(src.addVector("v" + std::to_string(i), v));
         }
 

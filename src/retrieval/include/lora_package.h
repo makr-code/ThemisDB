@@ -197,7 +197,7 @@ struct ArtifactIntegrity {
      * @brief Ed25519 or ECDSA P-256 signature over `manifest_hash`.
      * Base64-encoded DER blob.  Empty when the artifact has not been signed.
      */
-    std::string signature;
+    std::string signature = {};
 
     std::string signature_algorithm; ///< e.g. "Ed25519", "ECDSA-P256-SHA256"
     std::string signer_id;           ///< Key / identity used for signing

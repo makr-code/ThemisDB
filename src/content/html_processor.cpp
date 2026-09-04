@@ -44,18 +44,18 @@ std::string HtmlProcessor::removeElement(
     const std::string& html,
     const std::string& tag
 ) {
-    std::string result;
+    std::string result = {};
     result.reserve(html.size());
 
     const std::string open_pattern = "<" + tag;   // <nav, <header …
     const std::string close_pattern = "</" + tag; // </nav, </header …
 
     size_t pos = 0;
-    while (pos < html.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(html.size())) {
         // Case-insensitive search for the opening tag
         // We compare lower-cased prefix of the html substring
-        auto ciFind = [&](const std::string& pat) -> size_t {
-            for (size_t i = pos; i + pat.size() <= html.size(); ++i) {
+        auto ciFind = [&]([[maybe_unused]] const std::string& pat) -> size_t {
+            for (size_t i = pos; i + static_cast<int>(pat.size()) <= html.size(); ++i) {
                 bool match = true;
                 for (size_t j = 0; j < pat.size(); ++j) {
                     if (std::tolower(static_cast<unsigned char>(html[i + j])) !=
@@ -67,8 +67,10 @@ std::string HtmlProcessor::removeElement(
                 if (match) {
                     // Ensure the character after the tag name is a space, '>', or '/'
                     // to avoid matching e.g. <navigation> when looking for <nav>
-                    size_t after = i + pat.size();
-                    if (after >= html.size()) return i;
+                    size_t after = i + static_cast<int>(pat.size()) ;
+                    if (after >= static_cast<int>(html.size())) {
+                      return i;
+                    }
                     char next = html[after];
                     if (next == '>' || next == '/' || std::isspace(static_cast<unsigned char>(next))) {
                         return i;
@@ -81,7 +83,7 @@ std::string HtmlProcessor::removeElement(
         size_t open_pos = ciFind(open_pattern);
         if (open_pos == std::string::npos) {
             // No more occurrences — append remainder
-            result.append(html, pos, html.size() - pos);
+            result.append(html, pos, static_cast<int>(html.size()) - pos);
             break;
         }
 
@@ -91,13 +93,13 @@ std::string HtmlProcessor::removeElement(
         // Skip over the entire element (handle nesting)
         int depth = 0;
         size_t scan = open_pos;
-        while (scan < html.size()) {
+        while (static_cast<size_t>(scan) <static_cast<int>(html.size())) {
             // Find next opening or closing tag for this element name
             // We look for < followed by optional / and the tag name
             bool at_open = false;
             bool at_close = false;
 
-            if (scan + open_pattern.size() <= html.size()) {
+            if (scan + static_cast<int>(open_pattern.size()) <= html.size()) {
                 bool m = true;
                 for (size_t j = 0; j < open_pattern.size(); ++j) {
                     if (std::tolower(static_cast<unsigned char>(html[scan + j])) !=
@@ -106,14 +108,14 @@ std::string HtmlProcessor::removeElement(
                     }
                 }
                 if (m) {
-                    size_t after = scan + open_pattern.size();
+                    size_t after = scan + static_cast<int>(open_pattern.size()) ;
                     char next = (after < html.size()) ? html[after] : '>';
                     if (next == '>' || next == '/' || std::isspace(static_cast<unsigned char>(next))) {
                         at_open = true;
                     }
                 }
             }
-            if (!at_open && scan + close_pattern.size() <= html.size()) {
+            if (!at_open && scan + static_cast<int>(close_pattern.size()) <= html.size()) {
                 bool m = true;
                 for (size_t j = 0; j < close_pattern.size(); ++j) {
                     if (std::tolower(static_cast<unsigned char>(html[scan + j])) !=
@@ -122,7 +124,7 @@ std::string HtmlProcessor::removeElement(
                     }
                 }
                 if (m) {
-                    size_t after = scan + close_pattern.size();
+                    size_t after = scan + static_cast<int>(close_pattern.size()) ;
                     char next = (after < html.size()) ? html[after] : '>';
                     if (next == '>' || std::isspace(static_cast<unsigned char>(next))) {
                         at_close = true;
@@ -134,12 +136,14 @@ std::string HtmlProcessor::removeElement(
                 depth++;
                 // Advance past the '>'
                 size_t end = html.find('>', scan);
-                scan = (end == std::string::npos) ? html.size() : end + 1;
+                scan = (end == std::string::npos) ?static_cast<int>(html.size()) : end + 1;
             } else if (at_close) {
                 depth--;
                 size_t end = html.find('>', scan);
-                scan = (end == std::string::npos) ? html.size() : end + 1;
-                if (depth == 0) break;
+                scan = (end == std::string::npos) ?static_cast<int>(html.size()) : end + 1;
+                if (depth == 0) {
+                  break;
+                }
             } else {
                 scan++;
             }
@@ -181,7 +185,7 @@ std::string HtmlProcessor::stripTags(const std::string& html,
         static const std::regex heading_close(R"(<\s*/\s*h[1-6][^>]*>)",
                                               std::regex::icase);
 
-        std::string replaced;
+        std::string replaced = {};
         replaced.reserve(text.size());
         size_t last_pos = 0;
 
@@ -196,7 +200,7 @@ std::string HtmlProcessor::stripTags(const std::string& html,
             replaced += ' ';
             last_pos = static_cast<size_t>(m.position()) + static_cast<size_t>(m.length());
         }
-        replaced.append(text, last_pos, text.size() - last_pos);
+        replaced.append(text, last_pos, static_cast<int>(text.size()) - last_pos);
 
         // Replace closing heading tags with newline
         text = std::regex_replace(replaced, heading_close, "\n");
@@ -231,11 +235,11 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
         {"middot", "\xC2\xB7"}, {"times", "\xC3\x97"}, {"divide", "\xC3\xB7"}
     };
 
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     size_t pos = 0;
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
         if (text[pos] != '&') {
             result += text[pos++];
             continue;
@@ -251,7 +255,7 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
             // Numeric entity
             long code = 0;
             try {
-                if (ref.size() > 1 && (ref[1] == 'x' || ref[1] == 'X')) {
+                if (static_cast<int>(ref.size()) > 1 && (ref[1] == 'x' || ref[1] == 'X')) {
                     code = std::stol(ref.substr(2), nullptr, 16);
                 } else {
                     code = std::stol(ref.substr(1));
@@ -312,7 +316,7 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
             R"(<title[^>]*>([\s\S]*?)<\/title>)",
             std::regex::icase
         );
-        std::smatch m;
+        std::smatch m = {};
         if (std::regex_search(html, m, title_re)) {
             std::string t = m[1].str();
             // Strip any nested tags inside <title>
@@ -357,8 +361,12 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
         );
 
         std::smatch nm, cm;
-        if (!std::regex_search(tag, nm, name_re)) continue;
-        if (!std::regex_search(tag, cm, content_re)) continue;
+        if (!std::regex_search(tag, nm, name_re)) {
+          continue;
+        }
+        if (!std::regex_search(tag, cm, content_re)) {
+          continue;
+        }
 
         std::string attr_name = nm[1].str();
         std::string attr_val  = cm[1].str();
@@ -382,7 +390,7 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
 // ============================================================================
 
 std::string HtmlProcessor::normalizeWhitespace(const std::string& text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
 
     bool last_was_newline = false;
@@ -413,16 +421,22 @@ std::string HtmlProcessor::normalizeWhitespace(const std::string& text) {
     // Trim leading/trailing whitespace
     auto start = result.find_first_not_of(" \t\n\r");
     auto end   = result.find_last_not_of(" \t\n\r");
-    if (start == std::string::npos) return "";
+    if (start == std::string::npos) {
+      return "";
+    }
     return result.substr(start, end - start + 1);
 }
 
 int HtmlProcessor::countTokens(const std::string& text) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     std::istringstream iss(text);
-    std::string tok;
+    std::string tok = {};
     int n = 0;
-    while (iss >> tok) ++n;
+    while (iss >> tok) {
+      ++n;
+    }
     return n;
 }
 
@@ -468,7 +482,7 @@ ExtractionResult HtmlProcessor::extract(
     text = normalizeWhitespace(text);
 
     // 7. Enforce max_text_length
-    if (config_.max_text_length > 0 && text.size() > config_.max_text_length) {
+    if (config_.max_text_length > 0 && static_cast<int>(text.size()) > config_.max_text_length) {
         text = text.substr(0, config_.max_text_length);
     }
 
@@ -492,12 +506,14 @@ std::vector<json> HtmlProcessor::chunk(
     std::vector<json> chunks;
 
     const std::string& text = extraction_result.text;
-    if (text.empty()) return chunks;
+    if (text.empty()) {
+      return chunks;
+    }
 
     // Split into paragraphs (double-newline boundaries)
     std::vector<std::string> paragraphs;
     {
-        std::string para;
+        std::string para = {};
         for (size_t i = 0; i < text.size(); ) {
             if (i + 1 < text.size() && text[i] == '\n' && text[i + 1] == '\n') {
                 if (!para.empty()) {
@@ -516,16 +532,20 @@ std::vector<json> HtmlProcessor::chunk(
                 para += text[i++];
             }
         }
-        if (!para.empty()) paragraphs.push_back(para);
+        if (!para.empty()) {
+          paragraphs.push_back(para);
+        }
     }
 
     // Merge paragraphs into chunks of roughly chunk_size tokens
     int seq = 0;
-    std::string current_chunk;
+    std::string current_chunk = {};
     int current_tokens = 0;
 
-    auto flushChunk = [&](const std::string& text_chunk) {
-        if (text_chunk.empty()) return;
+    auto flushChunk = [&]([[maybe_unused]] const std::string& text_chunk) {
+        if (text_chunk.empty()) {
+          return;
+        }
         json c = json::object();
         c["seq_num"]    = seq++;
         c["chunk_type"] = "text";
@@ -539,7 +559,9 @@ std::vector<json> HtmlProcessor::chunk(
 
         if (current_tokens + para_tokens <= chunk_size || current_chunk.empty()) {
             // Fits in current chunk
-            if (!current_chunk.empty()) current_chunk += "\n\n";
+            if (!current_chunk.empty()) {
+              current_chunk += "\n\n";
+            }
             current_chunk += para;
             current_tokens += para_tokens;
         } else {
@@ -547,17 +569,21 @@ std::vector<json> HtmlProcessor::chunk(
             flushChunk(current_chunk);
 
             // Build overlap text from end of flushed chunk
-            std::string overlap_text;
+            std::string overlap_text = {};
             if (overlap > 0 && !current_chunk.empty()) {
                 // Take last `overlap` tokens from current_chunk
                 std::istringstream iss(current_chunk);
                 std::vector<std::string> tokens;
-                std::string tok;
-                while (iss >> tok) tokens.push_back(tok);
+                std::string tok = {};
+                while (iss >> tok) {
+                  tokens.push_back(tok);
+                }
                 int take = std::min(overlap, static_cast<int>(tokens.size()));
                 for (int i = static_cast<int>(tokens.size()) - take;
-                     i < static_cast<int>(tokens.size()); ++i) {
-                    if (!overlap_text.empty()) overlap_text += ' ';
+                     i < tokens.size(); ++i) {
+                    if (!overlap_text.empty()) {
+                      overlap_text += ' ';
+                    }
                     overlap_text += tokens[i];
                 }
             }
@@ -577,15 +603,21 @@ std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_dat
     const int DIM = 768;
     std::vector<float> embedding(DIM, 0.0f);
 
-    if (chunk_data.empty()) return embedding;
+    if (chunk_data.empty()) {
+      return embedding;
+    }
 
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
-    while (iss >> token) tokens.push_back(token);
+    std::string token = {};
+    while (iss >> token) {
+      tokens.push_back(token);
+    }
 
-    if (tokens.empty()) return embedding;
+    if (tokens.empty()) {
+      return embedding;
+    }
 
     for (size_t i = 0; i < tokens.size(); ++i) {
         size_t token_hash = hasher(tokens[i]);
@@ -603,10 +635,14 @@ std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_dat
 
     // L2 normalize
     float norm = 0.0f;
-    for (float v : embedding) norm += v * v;
+    for (float v : embedding) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-6f) {
-        for (float& v : embedding) v /= norm;
+        for (float& v : embedding) {
+          v /= norm;
+        }
     }
 
     return embedding;

@@ -50,7 +50,7 @@ namespace {
 
 /// Read CBOR argument value (length or integer payload) and advance pos.
 static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &out) {
-    if (pos >= d.size()) {
+    if (pos >= static_cast<int>(d.size())) {
         throw std::runtime_error("CBOR: truncated data");
     }
     const uint8_t info = d[pos] & 0x1F;
@@ -60,7 +60,7 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
         return pos;
     }
     if (info == 24) {
-        if (pos >= d.size()) {
+        if (pos >= static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: truncated 1-byte arg");
         }
         out = d[pos++];
@@ -99,7 +99,7 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
 
 /// Skip one CBOR item, returning the new position.
 static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
-    if (pos >= d.size()) {
+    if (pos >= static_cast<int>(d.size())) {
         throw std::runtime_error("CBOR: truncated (skip)");
     }
     const uint8_t initial = d[pos];
@@ -108,13 +108,13 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
 
     switch (major) {
         case 0:
-        case 1: // unsigned / negative integer
+        [[fallthrough]];\n        case 1: // unsigned / negative integer
             return cborReadArg(d, pos, arg);
 
         case 2:
-        case 3: // byte / text string
+        [[fallthrough]];\n        case 3: // byte / text string
             pos = cborReadArg(d, pos, arg);
-            if (pos + arg > d.size()) {
+            if (pos + arg > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: string out of bounds (skip)");
             }
             return pos + static_cast<size_t>(arg);
@@ -139,7 +139,7 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
             return cborSkip(d, pos);
 
         default:
-        case 7: { // float / simple
+        [[fallthrough]];\n        case 7: { // float / simple
             const uint8_t info = initial & 0x1F;
             ++pos;
             if (info == 24) {
@@ -170,7 +170,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
         throw std::runtime_error("CBOR: expected map for attestation object");
     }
 
-    uint64_t count;
+    uint64_t count = {};
     pos = cborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
@@ -180,9 +180,9 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             pos = cborSkip(d, pos);
             continue;
         }
-        uint64_t klen;
+        uint64_t klen = {};
         pos = cborReadArg(d, pos, klen);
-        if (pos + klen > d.size()) {
+        if (pos + klen > static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: key text out of bounds");
         }
         const std::string key(d.begin() + pos, d.begin() + pos + klen);
@@ -192,9 +192,9 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             if (pos >= d.size() || (d[pos] >> 5) != 3) {
                 throw std::runtime_error("CBOR: fmt value must be text");
             }
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: fmt text out of bounds");
             }
             fmt.assign(d.begin() + pos, d.begin() + pos + vlen);
@@ -204,9 +204,9 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             if (pos >= d.size() || (d[pos] >> 5) != 2) {
                 throw std::runtime_error("CBOR: authData must be a byte string");
             }
-            uint64_t vlen;
+            uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: authData out of bounds");
             }
             auth_data.assign(d.begin() + pos, d.begin() + pos + vlen);
@@ -242,11 +242,11 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         throw std::runtime_error("CBOR: expected map for COSE key");
     }
 
-    uint64_t count;
+    uint64_t count = {};
     pos = cborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
-        if (pos >= d.size()) {
+        if (pos >= static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: truncated COSE key map");
         }
 
@@ -255,11 +255,11 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         const uint8_t k_major   = k_initial >> 5;
         int64_t k{0};
         if (k_major == 0) { // positive integer key
-            uint64_t v;
+            uint64_t v = {};
             pos = cborReadArg(d, pos, v);
             k   = static_cast<int64_t>(v);
         } else if (k_major == 1) { // negative integer key
-            uint64_t v;
+            uint64_t v = {};
             pos = cborReadArg(d, pos, v);
             k   = -1 - static_cast<int64_t>(v);
         } else {
@@ -269,25 +269,25 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         }
 
         // --- read value ---
-        if (pos >= d.size()) {
+        if (pos >= static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: truncated COSE key value");
         }
         const uint8_t v_major = d[pos] >> 5;
 
         auto readInt = [&]() -> int64_t {
-            uint64_t v;
+            uint64_t v = 0;
             pos = cborReadArg(d, pos, v);
             return static_cast<int64_t>(v);
         };
         auto readNegInt = [&]() -> int64_t {
-            uint64_t v;
+            uint64_t v = 0;
             pos = cborReadArg(d, pos, v);
             return -1 - static_cast<int64_t>(v);
         };
         auto readBytes = [&]() -> std::vector<uint8_t> {
-            uint64_t vlen;
+            uint64_t vlen = 0;
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: byte value out of bounds");
             }
             std::vector<uint8_t> b(d.begin() + pos, d.begin() + pos + vlen);
@@ -351,13 +351,13 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
 static const char kB64Table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static std::string base64UrlEncodeImpl(const uint8_t *data, std::size_t len) {
-    std::string out;
+    std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
 
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0 = data[i];
-        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0u;
-        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0;
+        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0;
         const uint32_t t  = (b0 << 16) | (b1 << 8) | b2;
         out += kB64Table[(t >> 18) & 0x3F];
         out += kB64Table[(t >> 12) & 0x3F];
@@ -407,7 +407,8 @@ static std::vector<uint8_t> base64UrlDecodeImpl(const std::string &input) {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     };
 
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve(padded.size() / 4 * 3);
 
     for (std::size_t i = 0; i < padded.size(); i += 4) {
@@ -572,7 +573,7 @@ WebAuthnAuthenticator::AttestationResult WebAuthnAuthenticator::completeRegistra
     }
 
     // --- 3. Decode and parse attestation object ---
-    std::string fmt;
+    std::string fmt = {};
     std::vector<uint8_t> auth_data_bytes;
     try {
         const std::vector<uint8_t> attest_obj_bytes = base64UrlDecode(attest_obj_b64);
@@ -612,7 +613,7 @@ WebAuthnAuthenticator::AttestationResult WebAuthnAuthenticator::completeRegistra
 
     // --- 8. Parse COSE key → DER SPKI ---
     std::vector<uint8_t> spki;
-    std::string algorithm;
+    std::string algorithm = {};
     try {
         auto [s, a] = coseKeyToSpki(ad.cose_key_bytes);
         spki        = std::move(s);
@@ -756,7 +757,7 @@ WebAuthnAuthenticator::completeAuthentication(const nlohmann::json &cred, const 
 
 std::string WebAuthnAuthenticator::generateChallenge() {
     std::array<unsigned char, 32> raw{};
-    fillRandomBytes(raw.data(), raw.size());
+    fillRandomBytes(raw.data(),static_cast<int>(raw.size()));
 
     const std::string b64 = base64UrlEncode(std::vector<uint8_t>(raw.begin(), raw.end()));
 
@@ -808,13 +809,13 @@ void WebAuthnAuthenticator::fillRandomBytes(unsigned char *buf, std::size_t len)
 
 std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::vector<uint8_t> &data) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(data.data(), data.size(), digest.data());
+    SHA256(data.data(),static_cast<int>(data.size()), digest.data());
     return std::vector<uint8_t>(digest.begin(), digest.end());
 }
 
 std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::string &data) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(reinterpret_cast<const unsigned char *>(data.data()), data.size(), digest.data());
+    SHA256(reinterpret_cast<const unsigned char *>(data.data()),static_cast<int>(data.size()), digest.data());
     return std::vector<uint8_t>(digest.begin(), digest.end());
 }
 
@@ -823,7 +824,7 @@ std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::string &data) {
 // ============================================================================
 
 std::string WebAuthnAuthenticator::base64UrlEncode(const std::vector<uint8_t> &data) {
-    return base64UrlEncodeImpl(data.data(), data.size());
+    return base64UrlEncodeImpl(data.data(),static_cast<int>(data.size()));
 }
 
 std::vector<uint8_t> WebAuthnAuthenticator::base64UrlDecode(const std::string &input) {
@@ -861,7 +862,7 @@ WebAuthnAuthenticator::parseClientDataJSON(const std::vector<uint8_t> &client_da
 
 WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::vector<uint8_t> &auth_data_bytes) {
     // Minimum: 37 bytes (rpIdHash[32] + flags[1] + signCount[4])
-    if (auth_data_bytes.size() < 37) {
+    if (static_cast<int>(auth_data_bytes.size()) < 37) {
         throw std::runtime_error("authData too short (" + std::to_string(auth_data_bytes.size()) + " bytes)");
     }
 
@@ -879,7 +880,7 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
 
     // Attested credential data starts at byte 37
     // Layout: AAGUID[16] + credentialIdLength[2] + credentialId[N] + credentialPublicKey[CBOR]
-    if (auth_data_bytes.size() < 37 + 16 + 2) {
+    if (static_cast<int>(auth_data_bytes.size()) < 37 + 16 + 2) {
         throw std::runtime_error("authData too short for attested credential");
     }
 
@@ -891,13 +892,13 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
         = (static_cast<uint16_t>(auth_data_bytes[off]) << 8) | static_cast<uint16_t>(auth_data_bytes[off + 1]);
     off += 2;
 
-    if (auth_data_bytes.size() < off + cred_id_len) {
+    if (static_cast<int>(auth_data_bytes.size()) < off + cred_id_len) {
         throw std::runtime_error("authData too short for credentialId");
     }
 
     const std::vector<uint8_t> cred_id_bytes(auth_data_bytes.begin() + off,
                                              auth_data_bytes.begin() + off + cred_id_len);
-    ad.credential_id = base64UrlEncodeImpl(cred_id_bytes.data(), cred_id_bytes.size());
+    ad.credential_id = base64UrlEncodeImpl(cred_id_bytes.data(),static_cast<int>(cred_id_bytes.size()));
     off += cred_id_len;
 
     // Remainder is the CBOR-encoded COSE public key
@@ -938,7 +939,7 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t> &cose_key_bytes)
                           "Only EC curve P-256 (crv=1) is supported; got crv=" + std::to_string(fields.crv)));
         }
 
-        if (fields.neg2_bytes.size() != 32 || fields.neg3_bytes.size() != 32) {
+        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || static_cast<int>(fields.neg3_bytes.size()) != 32) {
             throw std::runtime_error("EC P-256 key: x or y coordinate is not 32 bytes");
         }
 
@@ -955,7 +956,7 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t> &cose_key_bytes)
             throw std::runtime_error("OSSL_PARAM_BLD_new failed");
         }
         OSSL_PARAM_BLD_push_utf8_string(bld, OSSL_PKEY_PARAM_GROUP_NAME, "P-256", 0);
-        OSSL_PARAM_BLD_push_octet_string(bld, OSSL_PKEY_PARAM_PUB_KEY, point.data(), point.size());
+        OSSL_PARAM_BLD_push_octet_string(bld, OSSL_PKEY_PARAM_PUB_KEY, point.data(),static_cast<int>(point.size()));
         OSSL_PARAM *params = OSSL_PARAM_BLD_to_param(bld);
         OSSL_PARAM_BLD_free(bld);
         if (!params) {
@@ -1059,8 +1060,9 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     }
 
     // Signed data = authData || SHA256(clientDataJSON)
-    std::vector<uint8_t> msg;
-    msg.reserve(auth_data_bytes.size() + client_data_hash.size());
+    std::vector<uint8_t> msg = {};
+
+    msg.reserve(static_cast<int>(auth_data_bytes.size()) + static_cast<int>(client_data_hash.size()) );
     msg.insert(msg.end(), auth_data_bytes.begin(), auth_data_bytes.end());
     msg.insert(msg.end(), client_data_hash.begin(), client_data_hash.end());
 
@@ -1072,8 +1074,8 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     }
 
     const bool ok = EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1
-                    && EVP_DigestVerifyUpdate(ctx, msg.data(), msg.size()) == 1
-                    && EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size()) == 1;
+                    && EVP_DigestVerifyUpdate(ctx, msg.data(),static_cast<int>(msg.size())) == 1
+                    && EVP_DigestVerifyFinal(ctx, signature_bytes.data(),static_cast<int>(signature_bytes.size())) == 1;
 
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);

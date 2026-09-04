@@ -105,7 +105,7 @@ TEST_F(ResourceManagementTest, SingletonExceptionSafe) {
  */
 TEST_F(ResourceManagementTest, SingletonThreadSafe) {
     std::vector<DocsAssistantFunctions*> ptrs;
-    std::mutex mtx;
+    std::mutex mtx = {};
     const int N = 10;
 
     auto worker = [&]() {
@@ -114,7 +114,8 @@ TEST_F(ResourceManagementTest, SingletonThreadSafe) {
         ptrs.push_back(&ref);
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < N; ++i) {
         threads.emplace_back(worker);
     }
@@ -189,7 +190,7 @@ TEST_F(ResourceManagementTest, ThreadGuardNoexcept) {
  * Expected: THROWS std::invalid_argument
  */
 TEST_F(ResourceManagementTest, ThreadGuardRejectsNonJoinable) {
-    std::thread empty_thread;
+    std::thread empty_thread = {};
     EXPECT_FALSE(empty_thread.joinable());
 
     EXPECT_THROW({
@@ -310,7 +311,7 @@ TEST_F(ResourceManagementTest, SharedPtrRefCounting) {
  * - Subsequent locks succeed
  */
 TEST_F(ResourceManagementTest, LockGuardExceptionSafety) {
-    std::mutex mtx;
+    std::mutex mtx = {};
     bool lock_acquired_twice = false;
 
     try {
@@ -355,7 +356,8 @@ TEST_F(ResourceManagementTest, NoCircularLockOrdering) {
         ++successful_acquisitions;
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back(worker);
     }
@@ -377,7 +379,7 @@ TEST_F(ResourceManagementTest, NoCircularLockOrdering) {
  * - No locks left in bad state
  */
 TEST_F(ResourceManagementTest, LockContentionNoLeak) {
-    std::mutex mtx;
+    std::mutex mtx = {};
     std::vector<std::unique_ptr<int>> allocations;
 
     auto worker = [&]() {
@@ -390,7 +392,8 @@ TEST_F(ResourceManagementTest, LockContentionNoLeak) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back(worker);
     }
@@ -420,7 +423,7 @@ TEST_F(ResourceManagementTest, DestructorOrder) {
     destruction_order.clear();
 
     struct Tracker {
-        int id;
+        int id = 0;
         explicit Tracker(int id_) : id(id_) {}
         ~Tracker() { destruction_order.push_back(id); }
     };

@@ -33,7 +33,9 @@ struct CoherenceEvaluator::Impl {
     
     // Calculate readability score (Flesch-like metric)
     double calculateReadability(const std::string& text) {
-        if (text.empty()) return 0.0;
+        if (text.empty()) {
+          return 0.0;
+        }
         
         // Count sentences
         std::regex sentence_regex(R"([^.!?]+[.!?])");
@@ -41,11 +43,13 @@ struct CoherenceEvaluator::Impl {
         auto sentences_end = std::sregex_iterator();
         size_t sentence_count = std::distance(sentences_begin, sentences_end);
         
-        if (sentence_count == 0) return 0.5;
+        if (sentence_count == 0) {
+          return 0.5;
+        }
         
         // Count words
         std::istringstream stream(text);
-        std::string word;
+        std::string word = {};
         size_t word_count = 0;
         size_t syllable_count = 0;
         
@@ -55,7 +59,9 @@ struct CoherenceEvaluator::Impl {
             syllable_count += std::max(1, static_cast<int>(word.length() / 3));
         }
         
-        if (word_count == 0) return 0.5;
+        if (word_count == 0) {
+          return 0.5;
+        }
         
         // Average sentence length
         double avg_sentence_length = static_cast<double>(word_count) / sentence_count;
@@ -249,8 +255,10 @@ double CoherenceEvaluator::evaluateLinguisticQuality(const std::string& answer) 
         std::string sentence = it->str();
         std::istringstream sent_stream(sentence);
         size_t word_count = 0;
-        std::string w;
-        while (sent_stream >> w) word_count++;
+        std::string w = {};
+        while (sent_stream >> w) {
+          word_count++;
+        }
         
         if (word_count > 40) {
             issue_count++;
@@ -326,10 +334,10 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
             // Parse sent_i words and check for negations
             if (!i_has_negation) {
                 std::istringstream stream_i(sent_i);
-                std::string word;
+                std::string word = {};
                 while (stream_i >> word && !i_has_negation) {
                     // Remove punctuation from word end
-                    while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                    while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                         word.pop_back();
                     }
                     if (negation_words_set.count(word)) {
@@ -341,10 +349,10 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
             // Parse sent_j words and check for negations
             if (!j_has_negation) {
                 std::istringstream stream_j(sent_j);
-                std::string word;
+                std::string word = {};
                 while (stream_j >> word && !j_has_negation) {
                     // Remove punctuation from word end
-                    while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                    while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                         word.pop_back();
                     }
                     if (negation_words_set.count(word)) {
@@ -358,13 +366,17 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                 // Extract key terms
                 std::set<std::string> terms_i, terms_j;
                 std::istringstream stream_i(sent_i), stream_j(sent_j);
-                std::string word;
+                std::string word = {};
                 
                 while (stream_i >> word) {
-                    if (word.length() > 4) terms_i.insert(word);
+                    if (word.length() > 4) {
+                      terms_i.insert(word);
+                    }
                 }
                 while (stream_j >> word) {
-                    if (word.length() > 4) terms_j.insert(word);
+                    if (word.length() > 4) {
+                      terms_j.insert(word);
+                    }
                 }
                 
                 std::set<std::string> common;
@@ -373,19 +385,19 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                                     std::inserter(common, common.begin()));
                 
                 // If they share significant terms, might be contradiction
-                if (common.size() >= 2) {
+                if (static_cast<int>(common.size()) >= 2) {
                     contradictions.push_back(sentences[i] + " <-> " + sentences[j]);
                 }
             }
         }
     }
     
-    THEMIS_DEBUG("Detected {} potential contradictions", contradictions.size());
+    THEMIS_DEBUG("Detected {} potential contradictions",static_cast<int>(contradictions.size()));
     return contradictions;
 }
 
 CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
-    CoherenceResult result;
+    CoherenceResult result = {};
     
     if (answer.empty()) {
         result.coherence_score = 0.0;
@@ -409,7 +421,7 @@ CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     // Calculate consistency score based on contradictions
     if (result.has_contradictions) {
         // Penalty based on number of contradictions
-        double contradiction_penalty = std::min(1.0, result.contradictions.size() * 0.3);
+        double contradiction_penalty = std::min(1.0,static_cast<int>(result.contradictions.size()) * 0.3);
         result.consistency_score = 1.0 - contradiction_penalty;
     } else {
         result.consistency_score = 1.0;
@@ -426,7 +438,7 @@ CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     result.coherence_score = std::min(1.0, std::max(0.0, result.coherence_score));
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Coherence Score: " << result.coherence_score << "\n";
     explanation << "Logical Flow: " << result.logical_flow_score << " (30%)\n";
     explanation << "Structure: " << result.structural_score << " (20%)\n";
@@ -434,7 +446,7 @@ CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     explanation << "Consistency: " << result.consistency_score << " (30%)\n";
     
     if (result.has_contradictions) {
-        explanation << "Warning: " << result.contradictions.size() << " potential contradiction(s) detected.\n";
+        explanation << "Warning: " <<static_cast<int>(result.contradictions.size()) << " potential contradiction(s) detected.\n";
     }
     
     if (result.coherence_score >= 0.8) {

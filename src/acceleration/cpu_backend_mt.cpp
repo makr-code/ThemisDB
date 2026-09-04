@@ -54,8 +54,8 @@ namespace acceleration {
 /** @brief Multi-Threaded CPUVectorBackend Implementation. */
 class CPUVectorBackendMT : public CPUVectorBackend {
   private:
-    int numThreads_;
-    bool enableSIMD_;
+    int numThreads_ = {};
+    bool enableSIMD_ = {};
 
   public:
     CPUVectorBackendMT() {
@@ -81,14 +81,14 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 #endif
     }
 
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         numThreads_ = threads;
 #if THEMIS_HAS_OPENMP
         omp_set_num_threads(threads);
 #endif
     }
 
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
 
@@ -193,7 +193,7 @@ class CPUVectorBackendMT : public CPUVectorBackend {
             }
 
             // Partial sort to get k nearest
-            size_t actualK = std::min(k, distances.size());
+            size_t actualK = std::min(k,static_cast<int>(distances.size()));
             std::partial_sort(distances.begin(), distances.begin() + actualK, distances.end(),
                               [](const auto &a, const auto &b) { return a.second < b.second; });
 
@@ -214,7 +214,7 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 /** @brief Multi-Threaded CPUGeoBackend Implementation. */
 class CPUGeoBackendMT : public CPUGeoBackend {
   private:
-    int numThreads_;
+    int numThreads_ = {};
 
   public:
     CPUGeoBackendMT() {

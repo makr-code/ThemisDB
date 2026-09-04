@@ -265,7 +265,8 @@ TEST_F(RateLimiterTest, Concurrency) {
     std::atomic<int> rejected{0};
     
     // Spawn multiple threads making requests
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 5; ++t) {
         threads.emplace_back([&limiter, &allowed, &rejected, t]() {
             for (int i = 0; i < 10; ++i) {

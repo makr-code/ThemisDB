@@ -143,7 +143,7 @@ public:
      * @return Structured error report with all context information
      */
     std::string formatForLogging() const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "[AQLError] Type=" << error_type_
             << " Category=" << category_
             << " Component=" << component_;
@@ -173,7 +173,9 @@ public:
         if (!diagnostic_hints_.empty()) {
             oss << " Hints=[";
             for (size_t i = 0; i < diagnostic_hints_.size(); ++i) {
-                if (i > 0) oss << "; ";
+                if (i > 0) {
+                  oss << "; ";
+                }
                 oss << diagnostic_hints_[i];
             }
             oss << "]";

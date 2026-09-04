@@ -38,7 +38,9 @@ public:
     // Non-capturing handler forwarded to the active fixture.
     static void staticHandler(const Incident& incident) noexcept {
         auto* self = s_active;
-        if (!self) return;
+        if (!self) {
+          return;
+        }
         {
             std::lock_guard<std::mutex> lk(self->incidents_mutex_);
             self->captured_incidents.push_back(incident);

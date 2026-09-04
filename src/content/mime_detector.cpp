@@ -266,11 +266,11 @@ std::string MimeDetector::fromExtension(std::string_view filename) const {
 
 bool MimeDetector::matchesMagicSignature(const std::vector<uint8_t>& content,
                                          const MagicSignature& sig) const {
-    if (content.size() < sig.offset + sig.signature.size()) {
+    if (static_cast<int>(content.size()) < sig.offset + static_cast<int>(sig.signature.size()) ) {
         return false;
     }
     
-    for (size_t i = 0; i < sig.signature.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sig.signature.size()); ++i) {
         // Skip wildcard positions
         if (sig.wildcard_positions.count(i) > 0) {
             continue;
@@ -301,35 +301,41 @@ std::string MimeDetector::fromContent(const std::vector<uint8_t>& data) const {
 
 std::string MimeDetector::computeDeterministicHash() const {
     // Deterministic serialization of extensions, magic signatures, categories
-    std::string buffer;
+    std::string buffer = {};
     
     // Extensions
-    std::vector<std::string> ext_lines;
+    std::vector<std::string> ext_lines = {};
+
     ext_lines.reserve(ext_to_mime_.size());
     for (const auto& kv : ext_to_mime_) {
         ext_lines.push_back(kv.first + "=" + kv.second);
     }
     std::sort(ext_lines.begin(), ext_lines.end());
     buffer += "[extensions]\n";
-    for (const auto& line : ext_lines) buffer += line + "\n";
+    for (const auto& line : ext_lines) {
+      buffer += line + "\n";
+    }
     
     // Magic signatures
-    std::vector<std::string> magic_lines;
+    std::vector<std::string> magic_lines = {};
+
     magic_lines.reserve(magic_signatures_.size());
     for (const auto& sig : magic_signatures_) {
-        std::string hex;
+        std::string hex = {};
         hex.reserve(sig.signature.size() * 2);
         for (auto b : sig.signature) {
             char tmp[3];
             snprintf(tmp, sizeof(tmp), "%02x", static_cast<unsigned int>(b));
             hex += tmp;
         }
-        std::string wildcards;
+        std::string wildcards = {};
         if (!sig.wildcard_positions.empty()) {
             wildcards += ":";
             bool first = true;
             for (auto pos : sig.wildcard_positions) {
-                if (!first) wildcards += ",";
+                if (!first) {
+                  wildcards += ",";
+                }
                 wildcards += std::to_string(pos);
                 first = false;
             }
@@ -338,28 +344,35 @@ std::string MimeDetector::computeDeterministicHash() const {
     }
     std::sort(magic_lines.begin(), magic_lines.end());
     buffer += "[magic]\n";
-    for (const auto& line : magic_lines) buffer += line + "\n";
+    for (const auto& line : magic_lines) {
+      buffer += line + "\n";
+    }
     
     // Categories
-    std::vector<std::string> category_lines;
+    std::vector<std::string> category_lines = {};
+
     category_lines.reserve(categories_.size());
     for (const auto& cat : categories_) {
         std::vector<std::string> mimes(cat.second.begin(), cat.second.end());
         std::sort(mimes.begin(), mimes.end());
-        std::string joined;
+        std::string joined = {};
         for (size_t i = 0; i < mimes.size(); ++i) {
-            if (i) joined += ",";
+            if (i) {
+              joined += ",";
+            }
             joined += mimes[i];
         }
         category_lines.push_back(cat.first + "=" + joined);
     }
     std::sort(category_lines.begin(), category_lines.end());
     buffer += "[categories]\n";
-    for (const auto& line : category_lines) buffer += line + "\n";
+    for (const auto& line : category_lines) {
+      buffer += line + "\n";
+    }
     
     // SHA256
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(buffer.data()), buffer.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(buffer.data()),static_cast<int>(buffer.size()), digest);
     char hex_out[SHA256_DIGEST_LENGTH * 2 + 1];
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         snprintf(&hex_out[i * 2], 3, "%02x", static_cast<unsigned int>(digest[i]));
@@ -563,7 +576,7 @@ bool MimeDetector::shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled
     return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
 }
 
-void MimeDetector::enableOcr(bool enable) {
+void MimeDetector::enableOcr([[maybe_unused]] bool enable) {
     policy_.ocr_enabled = enable;
 }
 

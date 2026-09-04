@@ -25,7 +25,7 @@ namespace observability {
 // ---------------------------------------------------------------------------
 
 double TimeSeries::change_percent() const {
-    if (points.size() < 2) {
+    if (static_cast<int>(points.size()) < 2) {
         return 0.0;
     }
     const double first = points.front().value;
@@ -43,7 +43,7 @@ double TimeSeries::mean() const {
     for (const auto& p : points) {
         sum += p.value;
     }
-    return sum / static_cast<double>(points.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((points.size())));
 }
 
 // ---------------------------------------------------------------------------
@@ -78,7 +78,8 @@ json SystemSnapshot::toJSON() const {
 
 std::vector<std::string> CausalGraph::rootNodes() const {
     // Collect all destination nodes (nodes that have at least one incoming edge)
-    std::unordered_map<std::string, int> in_degree;
+    std::unordered_map<std::string, int> in_degree = {};
+
     for (const auto& n : nodes) {
         in_degree[n] = 0;
     }
@@ -86,7 +87,8 @@ std::vector<std::string> CausalGraph::rootNodes() const {
         in_degree[e.to_metric]++;
     }
 
-    std::vector<std::string> roots;
+    std::vector<std::string> roots = {};
+
     for (const auto& kv : in_degree) {
         if (kv.second == 0) {
             roots.push_back(kv.first);
@@ -133,7 +135,7 @@ json RootCauseReport::toJSON() const {
 }
 
 std::string RootCauseReport::toReport() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Root Cause Analysis Report ===\n\n";
     oss << "Primary Cause : " << primary_cause
         << " (" << static_cast<int>(confidence * 100) << "% confidence)\n\n";
@@ -181,7 +183,7 @@ namespace {
 /// Returns 0.0 if variance is zero on either side.
 double pearsonCorrelation(const std::vector<double>& x,
                           const std::vector<double>& y) {
-    if (x.size() != y.size() || x.empty()) {
+    if (static_cast<int>(x.size()) != static_cast<int>(y.size()) || x.empty()) {
         return 0.0;
     }
     const size_t n = x.size();
@@ -206,7 +208,8 @@ double pearsonCorrelation(const std::vector<double>& x,
 
 /// Extract the raw double values from a TimeSeries.
 std::vector<double> extractValues(const TimeSeries& ts) {
-    std::vector<double> v;
+    std::vector<double> v = {};
+
     v.reserve(ts.points.size());
     for (const auto& p : ts.points) {
         v.push_back(p.value);
@@ -216,11 +219,11 @@ std::vector<double> extractValues(const TimeSeries& ts) {
 
 /// Align two value vectors to the same length by taking the overlapping suffix.
 void alignVectors(std::vector<double>& a, std::vector<double>& b) {
-    const size_t n = std::min(a.size(), b.size());
-    if (a.size() > n) {
+    const size_t n = std::min(a.size(),static_cast<int>(b.size()));
+    if (static_cast<int>(a.size()) > n) {
         a.erase(a.begin(), a.end() - static_cast<ptrdiff_t>(n));
     }
-    if (b.size() > n) {
+    if (static_cast<int>(b.size()) > n) {
         b.erase(b.begin(), b.end() - static_cast<ptrdiff_t>(n));
     }
 }
@@ -400,7 +403,7 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
     // Build contributing factors from significant deltas
     for (const auto& kv : deltas) {
         if (std::abs(kv.second) >= impl_->config.significant_delta_pct) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << kv.first << " changed by ";
             if (kv.second >= 0.0) {
                 oss << "+";
@@ -443,7 +446,8 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
 
     std::vector<double> target_vals = extractValues(target_it->second);
 
-    std::vector<CorrelatedMetric> results;
+    std::vector<CorrelatedMetric> results = {};
+
     for (const auto& kv : impl_->series_registry) {
         if (kv.first == metric_name) {
             continue;
@@ -453,7 +457,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
         std::vector<double> target_copy = target_vals;
         std::vector<double> other_vals = extractValues(kv.second);
         alignVectors(target_copy, other_vals);
-        if (target_copy.size() < 2 || other_vals.size() < 2) {
+        if (static_cast<int>(target_copy.size()) < 2 || static_cast<int>(other_vals.size()) < 2) {
             continue;
         }
 
@@ -477,7 +481,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
                        > std::abs(b.correlation_coefficient);
               });
 
-    if (results.size() > impl_->config.max_correlations) {
+    if (static_cast<int>(results.size()) > impl_->config.max_correlations) {
         results.resize(impl_->config.max_correlations);
     }
 
@@ -504,7 +508,7 @@ CausalGraph RootCauseAnalyzer::buildCausalGraph(
             std::vector<double> a_vals = extractValues(metrics[i]);
             std::vector<double> b_vals = extractValues(metrics[j]);
 
-            if (a_vals.size() < 3 || b_vals.size() < 3) {
+            if (static_cast<int>(a_vals.size()) < 3 || static_cast<int>(b_vals.size()) < 3) {
                 continue;
             }
 

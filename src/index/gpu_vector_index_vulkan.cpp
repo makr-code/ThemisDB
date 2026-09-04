@@ -157,8 +157,12 @@ struct VkBufferRaii {
     }
     VkBufferRaii& operator=(VkBufferRaii&& o) noexcept {
         if (this != &o) {
-            if (buffer != VK_NULL_HANDLE) vkDestroyBuffer(device, buffer, nullptr);
-            if (memory != VK_NULL_HANDLE) vkFreeMemory(device, memory, nullptr);
+            if (buffer != VK_NULL_HANDLE) {
+              vkDestroyBuffer(device, buffer, nullptr);
+            }
+            if (memory != VK_NULL_HANDLE) {
+              vkFreeMemory(device, memory, nullptr);
+            }
             device = o.device;  buffer = o.buffer;  memory = o.memory;
             o.device = VK_NULL_HANDLE;
             o.buffer = VK_NULL_HANDLE;
@@ -287,7 +291,7 @@ public:
      * @param dimension Vector dimension
      * @return true if initialization successful
      */
-    bool initialize(int dimension) {
+    bool initialize([[maybe_unused]] int dimension) {
         if (initialized_) {
             return true;
         }
@@ -393,7 +397,7 @@ public:
             {
                 size_t offset = 0;
                 for (const auto& vec : vectors) {
-                    if (vec.size() != static_cast<size_t>(dimension_)) {
+                    if (static_cast<int>(vec.size()) != static_cast<size_t>(dimension_)) {
                         THEMIS_ERROR("VulkanVectorIndexBackend: Vector dimension mismatch");
                         return false;
                     }
@@ -429,9 +433,9 @@ public:
     std::vector<std::pair<float, size_t>> searchIndices(
         const std::vector<float>& query, size_t k) {
         
-        if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
+        if (!initialized_ || static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
             THEMIS_WARN("VulkanVectorIndexBackend::searchIndices: uninitialized or query dimension mismatch (initialized={} dim={} expected={})",
-                        initialized_, query.size(), static_cast<size_t>(dimension_));
+                        initialized_,static_cast<int>(query.size()), static_cast<size_t>(dimension_));
             return {};
         }
 
@@ -519,9 +523,9 @@ public:
             
             // Set push constants
             struct PushConstants {
-                uint32_t numQueries;
+                uint32_t numQueries = 0;
                 uint32_t numVectors;
-                uint32_t dimension;
+                uint32_t dimension = {};
             } pushConstants = {
                 1,                        // Single query
                 static_cast<uint32_t>(num_vectors_),
@@ -531,7 +535,7 @@ public:
             
             // Dispatch compute shader
             // Local size is 16x16, so we need to dispatch enough workgroups
-            uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
+            uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15) / 16;
             uint32_t workgroupsY = 1; // Single query
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             
@@ -575,7 +579,8 @@ public:
         auto indices = searchIndices(query, k);
         
         // Convert to SearchResult format (IDs will be filled by main implementation)
-        std::vector<GPUVectorIndex::SearchResult> results;
+        std::vector<GPUVectorIndex::SearchResult> results = {};
+
         results.reserve(indices.size());
         for (const auto& [distance, index] : indices) {
             results.push_back({"", distance});
@@ -592,7 +597,8 @@ public:
         results.reserve(indexedResults.size());
 
         for (const auto& queryResults : indexedResults) {
-            std::vector<GPUVectorIndex::SearchResult> converted;
+            std::vector<GPUVectorIndex::SearchResult> converted = {};
+
             converted.reserve(queryResults.size());
             for (const auto& [distance, index] : queryResults) {
                 (void)index;
@@ -619,7 +625,7 @@ public:
         }
 
         // For small batches, use the single-query path to avoid dispatch overhead.
-        if (queries.size() < 4) {
+        if (static_cast<int>(queries.size()) < 4) {
             std::vector<std::vector<std::pair<float, size_t>>> results;
             results.reserve(queries.size());
             for (const auto& query : queries) {
@@ -637,7 +643,7 @@ public:
             {
                 size_t queryOffset = 0;
                 for (const auto& query : queries) {
-                    if (query.size() != static_cast<size_t>(dimension_)) {
+                    if (static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
                         THEMIS_ERROR("VulkanVectorIndexBackend: Query dimension mismatch in batch");
                         return {};
                     }
@@ -695,9 +701,9 @@ public:
                 lastBoundDistanceBuffer_);
 
             struct PushConstants {
-                uint32_t numQueries;
+                uint32_t numQueries = 0;
                 uint32_t numVectors;
-                uint32_t dimension;
+                uint32_t dimension = {};
             } pushConstants = {
                 static_cast<uint32_t>(numQueries),
                 static_cast<uint32_t>(num_vectors_),
@@ -705,8 +711,8 @@ public:
             };
 
             pipeline->set_push_constants(&pushConstants, sizeof(PushConstants));
-            const uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
-            const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15u) / 16u;
+            const uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15) / 16;
+            const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15) / 16;
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             if (!pipeline->wait()) {
                 THEMIS_ERROR("VulkanVectorIndexBackend: pipeline->wait() timed out in batchSearch (GPU hang?)");
@@ -805,7 +811,7 @@ public:
                 "/usr/local/share/themis/shaders/vector_index/"  // Local install
             };
             
-            std::string shaderDir;
+            std::string shaderDir = {};
             for (const auto& path : searchPaths) {
                 std::string testPath = path + "l2_distance.comp.spv";
                 std::ifstream testFile(testPath);
@@ -832,7 +838,7 @@ public:
                 context_.get(), l2ShaderPath);
             
             // Push constants: numQueries, numVectors, dimension
-            size_t pushConstantSize = sizeof(uint32_t) * 3;
+            size_t pushConstantSize = sizeof([[maybe_unused]] uint32_t) * 3;
             if (!l2_pipeline_->create(pushConstantSize)) {
                 THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create L2 distance pipeline");
                 return false;
@@ -870,10 +876,18 @@ public:
      */
     size_t calculateVRAMUsage() const {
         size_t usage = 0;
-        if (vector_buffer_) usage += vector_buffer_->size();
-        if (query_buffer_) usage += query_buffer_->size();
-        if (distance_buffer_) usage += distance_buffer_->size();
-        if (result_buffer_) usage += result_buffer_->size();
+        if (vector_buffer_) {
+          usage += vector_buffer_->size();
+        }
+        if (query_buffer_) {
+          usage += query_buffer_->size();
+        }
+        if (distance_buffer_) {
+          usage += distance_buffer_->size();
+        }
+        if (result_buffer_) {
+          usage += result_buffer_->size();
+        }
         return usage;
     }
     
@@ -932,7 +946,7 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
-bool VulkanVectorIndexBackend::initialize(int dimension) {
+bool VulkanVectorIndexBackend::initialize([[maybe_unused]] int dimension) {
     return pImpl->initialize(dimension);
 }
 
@@ -1004,7 +1018,7 @@ public:
     ~Impl() = default;
     bool initialized_ = false;
 
-    bool initialize(int dimension) {
+    bool initialize([[maybe_unused]] int dimension) {
         InitializeFn fn;
         {
             std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::initializeFnMutex());
@@ -1040,12 +1054,12 @@ public:
 
     std::vector<std::pair<float, size_t>> searchIndices(
         const std::vector<float>& query, size_t k) {
-        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})", query.size(), k);
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})",static_cast<int>(query.size()), k);
         return {};
     }
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k) {
-        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})", queries.size(), k);
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})",static_cast<int>(queries.size()), k);
         return {};
     }
 
@@ -1086,7 +1100,7 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
-bool VulkanVectorIndexBackend::initialize(int dimension) {
+bool VulkanVectorIndexBackend::initialize([[maybe_unused]] int dimension) {
     return pImpl->initialize(dimension);
 }
 void VulkanVectorIndexBackend::shutdown() { pImpl->shutdown(); }

@@ -173,7 +173,7 @@ void ScheduledGraphEdgeRefreshEngine::setANNIndex(std::shared_ptr<index::IAnnInd
 
 void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(std::function<void(themisdb::analytics::Event)> callback) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    cep_event_callback_ = std::move(callback);
+    cep_event_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -182,7 +182,7 @@ void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(std::function<void(the
 
 float ScheduledGraphEdgeRefreshEngine::computeSimilarity(const std::vector<float> &a,
                                                          const std::vector<float> &b) const {
-    if (a.empty() || b.empty() || a.size() != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return 0.0f;
     }
 
@@ -223,7 +223,7 @@ float ScheduledGraphEdgeRefreshEngine::computeSimilarity(const std::vector<float
 }
 
 float ScheduledGraphEdgeRefreshEngine::computeTemporalDecay(const BaseEntity &edge_entity) const {
-    double half_life;
+    double half_life = 0;
     {
         std::lock_guard<std::mutex> lock(policy_mutex_);
         half_life = policy_.decay_half_life_seconds;
@@ -299,7 +299,7 @@ EdgeScore ScheduledGraphEdgeRefreshEngine::scoreEdge(const BaseEntity &edge_enti
     // ── Combined relevance ─────────────────────────────────────────────────
     score.relevance = score.similarity * score.temporal_factor * score.centrality_weight;
 
-    float threshold;
+    float threshold = {};
     {
         std::lock_guard<std::mutex> lock(policy_mutex_);
         threshold = policy_.relevance_threshold;
@@ -336,7 +336,7 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(const std::vector<std::str
         if (dim == 0) {
             dim = emb.size();
         }
-        if (emb.size() != dim) {
+        if (static_cast<int>(emb.size()) != dim) {
             continue; // dimension mismatch – skip
         }
 
@@ -351,8 +351,8 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(const std::vector<std::str
         return;
     }
 
-    ann_index_->build(flat_vecs.data(), flat_ids.data(), flat_ids.size(), dim);
-    spdlog::debug("[ScheduledEdgeRefresh] ANN index rebuilt with {} vertices (dim={})", flat_ids.size(), dim);
+    ann_index_->build(flat_vecs.data(), flat_ids.data(),static_cast<int>(flat_ids.size()), dim);
+    spdlog::debug("[ScheduledEdgeRefresh] ANN index rebuilt with {} vertices (dim={})",static_cast<int>(flat_ids.size()), dim);
 }
 
 /* static */ void ScheduledGraphEdgeRefreshEngine::validatePolicy(const RefreshPolicy &policy) {
@@ -463,7 +463,8 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
         policy = policy_;
     }
 
-    std::vector<std::string> to_remove;
+    std::vector<std::string> to_remove = {};
+
     for (const auto &s : scores) {
         if (s.is_removal_candidate) {
             to_remove.push_back(s.edge_id);
@@ -471,7 +472,7 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
     }
 
     // Enforce max_edges_to_remove limit.
-    if (policy.max_edges_to_remove > 0 && to_remove.size() > static_cast<size_t>(policy.max_edges_to_remove)) {
+    if (policy.max_edges_to_remove > 0 && static_cast<int>(to_remove.size()) > static_cast<size_t>(policy.max_edges_to_remove)) {
         to_remove.resize(policy.max_edges_to_remove);
     }
 
@@ -501,7 +502,7 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
     auto to_add = discoverCandidateEdges(edges);
 
     // Enforce max_edges_to_add limit.
-    if (policy.max_edges_to_add > 0 && to_add.size() > static_cast<size_t>(policy.max_edges_to_add)) {
+    if (policy.max_edges_to_add > 0 && static_cast<int>(to_add.size()) > static_cast<size_t>(policy.max_edges_to_add)) {
         to_add.resize(policy.max_edges_to_add);
     }
 
@@ -640,7 +641,8 @@ std::vector<BaseEntity> ScheduledGraphEdgeRefreshEngine::collectEdges() const {
 }
 
 std::vector<EdgeScore> ScheduledGraphEdgeRefreshEngine::scoreAllEdges(const std::vector<BaseEntity> &edges) const {
-    std::vector<EdgeScore> scores;
+    std::vector<EdgeScore> scores = {};
+
     scores.reserve(edges.size());
 
     for (const auto &edge : edges) {
@@ -663,7 +665,8 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
     }
 
     // Build a set of (from, to) pairs that already exist.
-    std::unordered_set<std::string> existing_pairs;
+    std::unordered_set<std::string> existing_pairs = {};
+
     existing_pairs.reserve(existing_edges.size());
     for (const auto &e : existing_edges) {
         auto from = e.getFieldAsString("_from");
@@ -676,7 +679,8 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
     // Collect all vertices with available embeddings.
     auto vertices = graph_mgr_.getAllVertices();
     if (vertices.empty()) {
-        std::unordered_set<std::string> dedup;
+        std::unordered_set<std::string> dedup = {};
+
         dedup.reserve(existing_edges.size() * 2);
         for (const auto &e : existing_edges) {
             auto from = e.getFieldAsString("_from");
@@ -705,7 +709,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
         ann_idx = ann_index_;
     }
 
-    if (ann_idx && vertices.size() > policy.ann_min_vertices) {
+    if (ann_idx && static_cast<int>(vertices.size()) > policy.ann_min_vertices) {
         rebuildANNIndex(vertices);
 
         // Search top-k*3 candidates per vertex to give the threshold filter
@@ -718,7 +722,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
                 continue;
             }
 
-            auto results = ann_idx->search(emb_v.data(), emb_v.size(), k_search);
+            auto results = ann_idx->search(emb_v.data(),static_cast<int>(emb_v.size()), k_search);
 
             std::vector<std::pair<float, std::string>> scored;
             scored.reserve(results.size());
@@ -746,7 +750,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
             }
 
             // Keep only top-k.
-            if (scored.size() > policy.top_k_candidates) {
+            if (static_cast<int>(scored.size()) > policy.top_k_candidates) {
                 std::partial_sort(scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(policy.top_k_candidates),
                                   scored.end(), [](const auto &a, const auto &b) {
                                       return a.first > b.first; // descending
@@ -793,7 +797,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
         }
 
         // Keep only top-k.
-        if (scored.size() > policy.top_k_candidates) {
+        if (static_cast<int>(scored.size()) > policy.top_k_candidates) {
             std::partial_sort(scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(policy.top_k_candidates),
                               scored.end(), [](const auto &a, const auto &b) {
                                   return a.first > b.first; // descending
@@ -805,7 +809,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
             const std::string pair_key = vertex + "|" + other;
             if (!existing_pairs.count(pair_key)) {
                 candidates.emplace_back(vertex, other, sim);
-                existing_pairs.insert(pair_key); // prevent duplicates within this discovery pass
+                existing_pairs.insert([[maybe_unused]] pair_key); // prevent duplicates within this discovery pass
             }
         }
     }
@@ -845,9 +849,10 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     // that made it into the batch (addEdge() succeeds) and only after commit.
     struct AddedEdgeRecord {
         std::string id, from, to;
-        float sim;
+        float sim = {};
     };
-    std::vector<AddedEdgeRecord> added_records;
+    std::vector<AddedEdgeRecord> added_records = {};
+
     added_records.reserve(edges_to_add.size());
 
     for (size_t i = 0; i < edges_to_add.size(); ++i) {
@@ -911,7 +916,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             try {
                 cep_cb(std::move(ev));
             } catch (const std::exception &ex) {
-                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_REMOVED) failed: {}", ex.what());
+                spdlog::warn([[maybe_unused]] "[ScheduledEdgeRefresh] CEP callback(EDGE_REMOVED) failed: {}", ex.what());
             }
         }
 
@@ -928,7 +933,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             try {
                 cep_cb(std::move(ev));
             } catch (const std::exception &ex) {
-                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_ADDED) failed: {}", ex.what());
+                spdlog::warn([[maybe_unused]] "[ScheduledEdgeRefresh] CEP callback(EDGE_ADDED) failed: {}", ex.what());
             }
         }
     }
@@ -938,7 +943,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
 
 void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    if (audit_trail_.size() >= kMaxAuditEntries) {
+    if (static_cast<int>(audit_trail_.size()) >= kMaxAuditEntries) {
         audit_trail_.erase(audit_trail_.begin()); // evict oldest
     }
 
@@ -957,7 +962,7 @@ void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
                        {"relevance_score", entry.relevance_score},
                        {"cycle_number", entry.cycle_number}};
         try {
-            changefeed_->recordEvent(std::move(ev));
+            changefeed_->recordEvent([[maybe_unused]] std::move(ev));
         } catch (const std::exception &ex) {
             spdlog::warn("[ScheduledEdgeRefresh] changefeed recordEvent failed: {}", ex.what());
         }

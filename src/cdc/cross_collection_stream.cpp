@@ -61,12 +61,13 @@ bool CrossCollectionStream::hasCollection(const std::string& name) const {
 
 size_t CrossCollectionStream::collectionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return feeds_.size();
+    return static_cast<int>(feeds_.size());
 }
 
 std::vector<std::string> CrossCollectionStream::listCollections() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(feeds_.size());
     for (const auto& kv : feeds_) {
         names.push_back(kv.first);
@@ -156,7 +157,7 @@ std::vector<AggregatedEvent> CrossCollectionStream::listEvents(
     std::sort(all_events.begin(), all_events.end(), aggregatedEventLess);
 
     // Truncate to the requested limit
-    if (all_events.size() > effective_limit) {
+    if (static_cast<int>(all_events.size()) > effective_limit) {
         all_events.resize(effective_limit);
     }
 

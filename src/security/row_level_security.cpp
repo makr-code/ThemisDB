@@ -41,27 +41,47 @@ std::string resolveUserAttr(const std::string& user_attr, const SecurityContext&
 /// Compare two JSON scalars (string / number / bool) with a given operator.
 /// Returns false if either operand cannot be compared.
 bool compareScalar(const nlohmann::json& lhs, const std::string& op, const nlohmann::json& rhs) {
-    if (op == "eq") return lhs == rhs;
-    if (op == "ne") return lhs != rhs;
+    if (op == "eq") {
+      return lhs == rhs;
+    }
+    if (op == "ne") {
+      return lhs != rhs;
+    }
 
     // Numeric comparisons require both sides to be numbers.
     if (lhs.is_number() && rhs.is_number()) {
         double l = lhs.get<double>();
         double r = rhs.get<double>();
-        if (op == "lt") return l < r;
-        if (op == "le") return l <= r;
-        if (op == "gt") return l > r;
-        if (op == "ge") return l >= r;
+        if (op == "lt") {
+          return l < r;
+        }
+        if (op == "le") {
+          return l <= r;
+        }
+        if (op == "gt") {
+          return l > r;
+        }
+        if (op == "ge") {
+          return l >= r;
+        }
     }
 
     // String comparisons.
     if (lhs.is_string() && rhs.is_string()) {
         const auto& l = lhs.get_ref<const std::string&>();
         const auto& r = rhs.get_ref<const std::string&>();
-        if (op == "lt") return l < r;
-        if (op == "le") return l <= r;
-        if (op == "gt") return l > r;
-        if (op == "ge") return l >= r;
+        if (op == "lt") {
+          return l < r;
+        }
+        if (op == "le") {
+          return l <= r;
+        }
+        if (op == "gt") {
+          return l > r;
+        }
+        if (op == "ge") {
+          return l >= r;
+        }
     }
 
     return false;
@@ -213,7 +233,8 @@ std::optional<RLSPolicy> RLSManager::getPolicy(const std::string& policy_id) con
 
 std::vector<std::string> RLSManager::listPolicies() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(policies_.size());
     for (const auto& [id, _] : policies_) {
         ids.push_back(id);
@@ -277,7 +298,8 @@ std::vector<const RLSPolicy*> RLSManager::matchingPolicies(
     const SecurityContext& ctx
 ) const {
     // Called with mutex_ held.
-    std::vector<const RLSPolicy*> matches;
+    std::vector<const RLSPolicy*> matches = {};
+
     for (const auto& [_, policy] : policies_) {
         if (!policy.enabled) {
             continue;
@@ -336,7 +358,8 @@ nlohmann::json RLSManager::filterRows(
 
     // Partition into permissive and restrictive.
     std::vector<const RLSPolicy*> permissive_policies;
-    std::vector<const RLSPolicy*> restrictive_policies;
+    std::vector<const RLSPolicy*> restrictive_policies = {};
+
     for (const auto* p : applicable) {
         if (p->type == RLSPolicyType::PERMISSIVE) {
             permissive_policies.push_back(p);
@@ -346,7 +369,7 @@ nlohmann::json RLSManager::filterRows(
     }
 
     nlohmann::json result = nlohmann::json::array();
-    size_t total   = rows.size();
+    size_t total = rows.size();
     size_t removed = 0;
 
     for (const auto& row : rows) {

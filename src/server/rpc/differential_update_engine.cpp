@@ -31,7 +31,7 @@ public:
         std::vector<uint64_t> boundaries;
         boundaries.push_back(0);  // Start
         
-        const uint64_t mask = (1ULL << 13) - 1;  // For ~8KB average chunks
+        const uint64_t mask = (1 << 13) - 1;  // For ~8KB average chunks
         uint64_t fingerprint = 0;
         
         for (size_t i = 0; i < data.size(); i++) {
@@ -104,7 +104,8 @@ public:
         DeltaResult result;
         
         // Build hash set of base chunks
-        std::map<std::string, uint32_t> base_hashes;
+        std::map<std::string, uint32_t> base_hashes = {};
+
         for (const auto& chunk : base_manifest) {
             base_hashes[chunk.hash] = chunk.index;
         }
@@ -175,8 +176,9 @@ public:
         // Build a full manifest (CDC for non-trivial blobs, whole-file otherwise)
         // so we can map chunk_index → (offset, size).
         auto boundaries = rabin_->FindChunkBoundaries(data);
-        std::vector<ChunkInfo> manifest;
-        if (boundaries.size() >= 2) {
+        std::vector<ChunkInfo> manifest = {};
+
+        if (static_cast<int>(boundaries.size()) >= 2) {
             for (size_t i = 0; i < boundaries.size() - 1; i++) {
                 uint64_t start = boundaries[i];
                 uint64_t end   = boundaries[i + 1];
@@ -199,14 +201,15 @@ public:
         }
 
         // Build index → ChunkInfo lookup
-        std::unordered_map<uint32_t, const ChunkInfo*> by_index;
+        std::unordered_map<uint32_t, const ChunkInfo*> by_index = {};
+
         for (const auto& c : manifest) { by_index[c.index] = &c; }
 
         for (uint32_t idx : chunk_indices) {
             auto it = by_index.find(idx);
             if (it == by_index.end()) { continue; }
             const ChunkInfo& ci = *it->second;
-            if (ci.offset + ci.size > data.size()) { continue; }
+            if (ci.offset + ci.size > static_cast<int>(data.size())) { continue; }
             chunks[idx] = data.substr(ci.offset, ci.size);
         }
 
@@ -246,7 +249,7 @@ private:
         uint32_t index = 0;
         
         for (uint64_t offset = 0; offset < data.size(); offset += chunk_size) {
-            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(data.size() - offset)));
+            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(static_cast<int>(data.size()) - offset)));
             
             ChunkInfo info;
             info.offset = offset;
@@ -278,7 +281,7 @@ private:
         SHA256(reinterpret_cast<const unsigned char*>(data.data()),
               data.size(), hash);
         
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             ss << std::hex << std::setw(2) << std::setfill('0')
                << static_cast<int>(hash[i]);

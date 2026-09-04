@@ -66,9 +66,9 @@ public:
      */
     struct RelationshipMapping {
         std::string edge_type;          ///< e.g. "orders_references_users"
-        std::string source_table;
+        std::string source_table = {};
         std::string source_column;      ///< comma-joined for composite FKs
-        std::string target_table;
+        std::string target_table = {};
         std::string target_column;      ///< comma-joined for composite FKs
         std::string cardinality;        ///< ONE_TO_ONE | MANY_TO_ONE | MANY_TO_MANY
         std::string on_delete_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
@@ -111,10 +111,15 @@ public:
     static std::vector<RelationshipMapping> generateInverseEdges(
             const std::vector<RelationshipMapping>& mappings) {
 
-        std::vector<RelationshipMapping> inverse;
+        std::vector<RelationshipMapping> inverse = {};
+
         for (const auto& m : mappings) {
-            if (m.cardinality != "MANY_TO_ONE") continue;
-            if (m.is_self_referential) continue;
+            if (m.cardinality != "MANY_TO_ONE") {
+              continue;
+            }
+            if (m.is_self_referential) {
+              continue;
+            }
 
             RelationshipMapping inv;
             inv.source_table      = m.target_table;
@@ -147,12 +152,17 @@ public:
             const TableSchemaMap& schemas,
             const std::string& mode = "auto") {
 
-        std::vector<RelationshipMapping> result;
-        if (mode != "auto") return result;
+        std::vector<RelationshipMapping> result = {};
+
+        if (mode != "auto") {
+          return result;
+        }
 
         for (const auto& [tname, tschema] : schemas) {
             for (const auto& fk : tschema.foreign_keys) {
-                if (fk.target_table.empty()) continue;
+                if (fk.target_table.empty()) {
+                  continue;
+                }
 
                 RelationshipMapping m;
                 m.source_table       = tname;
@@ -280,18 +290,22 @@ public:
 
     static std::vector<std::string> splitColumns(const std::string& cols) {
         std::vector<std::string> result;
-        std::string cur;
+        std::string cur = {};
         for (char c : cols) {
             if (c == ',') {
                 auto s = trimStr(cur);
-                if (!s.empty()) result.push_back(s);
+                if (!s.empty()) {
+                  result.push_back(s);
+                }
                 cur.clear();
             } else {
                 cur += c;
             }
         }
         auto s = trimStr(cur);
-        if (!s.empty()) result.push_back(s);
+        if (!s.empty()) {
+          result.push_back(s);
+        }
         return result;
     }
 
@@ -328,7 +342,9 @@ private:
                     break;
                 }
             }
-            if (is_pk) return "ONE_TO_ONE";
+            if (is_pk) {
+              return "ONE_TO_ONE";
+            }
         }
 
         // Check if the target column is a primary key in the target table.
@@ -348,7 +364,9 @@ private:
                     }
                 }
             }
-            if (!tgt_is_pk) return "MANY_TO_MANY";
+            if (!tgt_is_pk) {
+              return "MANY_TO_MANY";
+            }
         }
 
         return "MANY_TO_ONE";
@@ -376,12 +394,16 @@ private:
                 } else if (in_stack.count(neighbour)) {
                     // Found a cycle – reconstruct the chain from the cycle start
                     found_cycle = true;
-                    std::string chain;
+                    std::string chain = {};
                     bool in_cycle = false;
                     for (const auto& n : path) {
-                        if (n == neighbour) in_cycle = true;
+                        if (n == neighbour) {
+                          in_cycle = true;
+                        }
                         if (in_cycle) {
-                            if (!chain.empty()) chain += " -> ";
+                            if (!chain.empty()) {
+                              chain += " -> ";
+                            }
                             chain += n;
                         }
                     }

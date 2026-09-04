@@ -86,7 +86,7 @@ public:
             .count() / 1000000;
         
         // Build summary from compressed history
-        std::ostringstream summary;
+        std::ostringstream summary = {};
         summary << "[Compressed Episode " << compression_count_ << "]\n";
         for (const auto& [role, content] : history) {
             if (role == "system") {
@@ -509,7 +509,8 @@ static void BenchmarkConcurrentCompressionStress(State& state) {
     GenerateTestHistory(history);
     
     for (auto _ : state) {
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < kThreadCount; ++t) {
             threads.emplace_back([&compressor, &history]() {
                 auto result = compressor->compressHistory(history, 2048, 0.85f);

@@ -57,7 +57,7 @@ static constexpr uint32_t kHttp3StressSeed = 7331U;
 
 /// Simulated peer endpoint (address + port tuple)
 struct FakePeerEndpoint {
-    std::string address;
+    std::string address = {};
     uint16_t    port;
 
     bool operator==(const FakePeerEndpoint& o) const noexcept {
@@ -117,12 +117,12 @@ public:
 
 /// Stub retransmit simulator: injects packet loss and measures completion time
 struct RetransmitSimulator {
-    double   loss_rate;          ///< 0.0–1.0 fraction of packets dropped
+    double   loss_rate = 0;          ///< 0.0–1.0 fraction of packets dropped
     uint32_t base_rtt_ms;        ///< base round-trip time (ms)
     uint32_t max_retransmits;    ///< maximum retransmit attempts before giving up
 
     struct Result {
-        bool     completed;
+        bool     completed = 0;
         uint64_t observed_latency_ms;
     };
 
@@ -185,7 +185,9 @@ TEST(ServerHttp3Stress, SH302_ConcurrentMigrationsSerialised) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Total migrations ≤ kThreads × kMigrationsPerThread (some may be skipped
     // if draining, but draining is not active here, so all should count).

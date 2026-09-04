@@ -128,7 +128,7 @@ struct WikipediaLinkRecord {
  */
 struct WikipediaCategoryRecord {
     uint64_t page_id = 0;
-    std::string category_title;
+    std::string category_title = {};
 
     [[nodiscard]] json toJson() const {
         return json{{"page_id", page_id}, {"category_title", category_title}};
@@ -140,7 +140,7 @@ struct WikipediaCategoryRecord {
  */
 struct WikipediaRedirectRecord {
     uint64_t from_page_id = 0;
-    std::string target_title;
+    std::string target_title = {};
 
     [[nodiscard]] json toJson() const {
         return json{{"from_page_id", from_page_id}, {"target_title", target_title}};
@@ -152,7 +152,7 @@ struct WikipediaRedirectRecord {
  */
 struct WikipediaDirtyPageRecord {
     uint64_t page_id = 0;
-    std::string reason;
+    std::string reason = {};
 
     [[nodiscard]] json toJson() const {
         return json{{"page_id", page_id}, {"reason", reason}};

@@ -22,16 +22,16 @@ namespace network {
 // RetryPolicy
 // ============================================================================
 
-std::chrono::milliseconds RetryPolicy::computeDelay(uint32_t attempt) const noexcept {
+std::chrono::milliseconds RetryPolicy::computeDelay([[maybe_unused]] uint32_t attempt) const noexcept {
     // base_delay_ms * 2^attempt  — protect against left-shift overflow.
-    uint64_t backoff;
-    if (attempt >= 31u) {
+    uint64_t backoff = 0;
+    if (attempt >= 31) {
         backoff = static_cast<uint64_t>(max_delay_ms);
     } else {
         // Use multiplication instead of bit-shift to stay well-defined for
         // large base_delay_ms values.
         const uint64_t multiplier =
-            static_cast<uint64_t>(1u) << attempt; // 2^attempt
+            static_cast<uint64_t>(1) << attempt; // 2^attempt
         backoff = static_cast<uint64_t>(base_delay_ms) * multiplier;
     }
 
@@ -50,7 +50,7 @@ std::chrono::milliseconds RetryPolicy::computeDelay(uint32_t attempt) const noex
     return std::chrono::milliseconds{backoff};
 }
 
-bool RetryPolicy::isTransient(int error_code) noexcept {
+bool RetryPolicy::isTransient([[maybe_unused]] int error_code) noexcept {
     return error_code == ECONNRESET
         || error_code == ETIMEDOUT
         || error_code == EAGAIN
@@ -107,7 +107,7 @@ void IdempotencyCache::store(const std::string& request_id, std::string result) 
     }
 
     // Evict oldest entry when at capacity.
-    if (window_size_ > 0 && cache_.size() >= window_size_) {
+    if (window_size_ > 0 && static_cast<int>(cache_.size()) >= window_size_) {
         const auto& oldest = insertion_order_.front();
         cache_.erase(oldest);
         insertion_order_.pop_front();
@@ -126,7 +126,7 @@ void IdempotencyCache::clear() {
 
 size_t IdempotencyCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return cache_.size();
+    return static_cast<int>(cache_.size());
 }
 
 } // namespace network

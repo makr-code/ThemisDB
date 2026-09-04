@@ -159,7 +159,9 @@ int main() {
         if (!stats.loaded_adapters.empty()) {
             std::cout << "    ";
             for (size_t i = 0; i < stats.loaded_adapters.size(); ++i) {
-                if (i > 0) std::cout << ", ";
+                if (i > 0) {
+                  std::cout << ", ";
+                }
                 std::cout << stats.loaded_adapters[i];
             }
             std::cout << std::endl;
@@ -251,7 +253,9 @@ int main() {
     auto healthy_gpus = memory_manager->getHealthyGPUs();
     std::cout << "  Healthy GPUs: ";
     for (size_t i = 0; i < healthy_gpus.size(); ++i) {
-        if (i > 0) std::cout << ", ";
+        if (i > 0) {
+          std::cout << ", ";
+        }
         std::cout << healthy_gpus[i];
     }
     std::cout << std::endl;

@@ -40,10 +40,10 @@ enum class FaultType {
 
 struct FaultSpec {
     FaultType   type;
-    std::string target_node_id;
+    std::string target_node_id = {};
     std::chrono::milliseconds duration{0};   ///< 0 = permanent until manually cleared
     double      probability{1.0};            ///< [0.0, 1.0] — used for RANDOM_FAILURE
-    std::string description;
+    std::string description = {};
 
     FaultSpec() = default;
     FaultSpec(FaultType t, std::string node, std::chrono::milliseconds dur = {},
@@ -60,7 +60,9 @@ struct ActiveFault {
     std::chrono::steady_clock::time_point expires_at;  ///< steady_clock::time_point::max() if permanent
 
     bool isExpired() const noexcept {
-        if (expires_at == std::chrono::steady_clock::time_point::max()) return false;
+        if (expires_at == std::chrono::steady_clock::time_point::max()) {
+          return false;
+        }
         return std::chrono::steady_clock::now() >= expires_at;
     }
 };

@@ -131,8 +131,11 @@ static void BM_PM02_DiscoverInductiveProcess(benchmark::State& state) {
     }
     
     auto computeFrequency = [](const std::vector<int>& log) {
-        std::unordered_map<int, int> freq;
-        for (int task : log) freq[task]++;
+        std::unordered_map<int, int> freq = {};
+
+        for (int task : log) {
+          freq[task]++;
+        }
         return freq;
     };
     
@@ -162,7 +165,8 @@ static void BM_PM03_ConformanceCheck(benchmark::State& state) {
     // Build 100 traces
     std::vector<std::vector<int>> traces;
     for (std::size_t t = 0; t < 100; ++t) {
-        std::vector<int> trace;
+        std::vector<int> trace = {};
+
         for (std::size_t e = 0; e < 50; ++e) {
             trace.push_back(task_dist(rng));
         }
@@ -172,7 +176,9 @@ static void BM_PM03_ConformanceCheck(benchmark::State& state) {
     auto checkTrace = [](const std::vector<int>& trace) {
         int prev = -1;
         for (int task : trace) {
-            if (prev != -1 && std::abs(task - prev) > 5) return false;
+            if (prev != -1 && std::abs(task - prev) > 5) {
+              return false;
+            }
             prev = task;
         }
         return true;
@@ -254,7 +260,8 @@ static void BM_AM02_Prediction(benchmark::State& state) {
     // 100 samples x 50 features
     std::vector<std::vector<double>> X;
     for (std::size_t i = 0; i < 100; ++i) {
-        std::vector<double> sample;
+        std::vector<double> sample = {};
+
         for (std::size_t j = 0; j < 50; ++j) {
             sample.push_back(dist(rng));
         }
@@ -262,10 +269,13 @@ static void BM_AM02_Prediction(benchmark::State& state) {
     }
     
     auto predict = [](const std::vector<std::vector<double>>& features) {
-        std::vector<double> predictions;
+        std::vector<double> predictions = {};
+
         for (const auto& sample : features) {
             double pred = 0.0;
-            for (double f : sample) pred += f;
+            for (double f : sample) {
+              pred += f;
+            }
             predictions.push_back(pred / sample.size());
         }
         return predictions;
@@ -306,13 +316,19 @@ static void BM_FC01_TimeSeriesFit(benchmark::State& state) {
     }
     
     auto fitSeries = [](const std::vector<double>& data) {
-        if (data.size() < 2) return 0.0;
+        if (data.size() < 2) {
+          return 0.0;
+        }
         double mean = 0.0;
-        for (double v : data) mean += v;
+        for (double v : data) {
+          mean += v;
+        }
         mean /= data.size();
         
         double var = 0.0;
-        for (double v : data) var += (v - mean) * (v - mean);
+        for (double v : data) {
+          var += (v - mean) * (v - mean);
+        }
         return var / data.size();
     };
     
@@ -340,7 +356,8 @@ static void BM_FC02_BatchPredictSIMD(benchmark::State& state) {
     std::uniform_real_distribution<double> dist(0.0, 1.0);
     
     // Simulate batch of 100 forecast points
-    std::vector<double> batch;
+    std::vector<double> batch = {};
+
     for (std::size_t i = 0; i < 100; ++i) {
         batch.push_back(dist(rng));
     }
@@ -476,7 +493,9 @@ static void BM_KB01_FactAssertion(benchmark::State& state) {
         kb.clear();
         for (std::size_t j = 0; j < kCapacity; ++j) {
             int id = id_dist(rng);
-            if (kb.size() >= kCapacity) kb.erase(kb.begin());
+            if (kb.size() >= kCapacity) {
+              kb.erase(kb.begin());
+            }
             kb.push_back({id, "fact_" + std::to_string(id)});
         }
         benchmark::DoNotOptimize(kb);
@@ -486,7 +505,9 @@ static void BM_KB01_FactAssertion(benchmark::State& state) {
         kb.clear();
         for (std::size_t j = 0; j < kCapacity; ++j) {
             int id = id_dist(rng);
-            if (kb.size() >= kCapacity) kb.erase(kb.begin());
+            if (kb.size() >= kCapacity) {
+              kb.erase(kb.begin());
+            }
             kb.push_back({id, "fact_" + std::to_string(id)});
         }
         benchmark::DoNotOptimize(kb);
@@ -517,7 +538,9 @@ static void BM_KB02_QueryFacts(benchmark::State& state) {
     auto queryKB = [](const std::vector<std::pair<int, std::string>>& kb, int pattern) {
         int matches = 0;
         for (const auto& fact : kb) {
-            if (fact.first % 10 == pattern % 10) matches++;
+            if (fact.first % 10 == pattern % 10) {
+              matches++;
+            }
         }
         return matches;
     };
@@ -600,7 +623,8 @@ static void BM_UT02_DistributedMerge(benchmark::State& state) {
     std::sort(seq2.begin(), seq2.end());
     
     auto merge = [](const std::vector<int>& a, const std::vector<int>& b) {
-        std::vector<int> result;
+        std::vector<int> result = {};
+
         result.reserve(a.size() + b.size());
         std::merge(a.begin(), a.end(), b.begin(), b.end(), 
                    std::back_inserter(result));

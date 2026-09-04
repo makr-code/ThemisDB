@@ -66,14 +66,14 @@ Parser::Result Parser::parse(std::string_view query, const QueryLimits &limits) 
 }
 
 bool Parser::checkQuerySize() {
-    if (source_.size() > limits_.max_query_size_bytes) {
+    if (static_cast<int>(source_.size()) > limits_.max_query_size_bytes) {
         error("Query size exceeds maximum allowed size of " + std::to_string(limits_.max_query_size_bytes) + " bytes");
         return false;
     }
     return true;
 }
 
-bool Parser::checkDepthLimit(size_t depth) {
+bool Parser::checkDepthLimit([[maybe_unused]] size_t depth) {
     if (depth > max_depth_reached_) {
         max_depth_reached_ = depth;
     }
@@ -119,14 +119,14 @@ Parser::Result Parser::parseDocument() {
     skipWhitespace();
 
     // Empty or whitespace-only documents are invalid GraphQL input.
-    if (pos_ >= source_.size()) {
+    if (pos_ >= static_cast<int>(source_.size())) {
         result.success = false;
         result.errors.push_back(
             ParseError{.message = "Document must contain at least one operation", .line = line_, .column = column_});
         return result;
     }
 
-    while (pos_ < source_.size()) {
+    while (static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
         auto opResult = parseOperation();
         if (opResult) {
             result.document.operations.push_back(std::move(*opResult));
@@ -182,7 +182,7 @@ themis::Result<Operation> Parser::parseOperation() {
     skipWhitespace();
 
     // Optional operation name
-    if (op.type != OperationType::Query || (!peek('{') && !peek('('))) {
+    if ((op.type != OperationType::Query) || ((!peek('{')) && (!peek('(')))) {
         auto nameResult = parseName();
         if (nameResult) {
             op.name = *nameResult;
@@ -193,7 +193,7 @@ themis::Result<Operation> Parser::parseOperation() {
 
     // Optional variable definitions
     if (match('(')) {
-        while (!peek(')') && pos_ < source_.size()) {
+        while (!peek(')')  && static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
             skipWhitespace();
             auto varDefResult = parseVariableDefinition();
             if (!varDefResult) {
@@ -216,7 +216,7 @@ themis::Result<Operation> Parser::parseOperation() {
         return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '{'");
     }
 
-    while (!peek('}') && pos_ < source_.size()) {
+    while (!peek('}')  && static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
         skipWhitespace();
         auto fieldResult = parseField(1); // Start at depth 1
         if (!fieldResult) {
@@ -233,7 +233,7 @@ themis::Result<Operation> Parser::parseOperation() {
     return themis::Ok(std::move(op));
 }
 
-themis::Result<Field> Parser::parseField(size_t depth) {
+themis::Result<Field> Parser::parseField([[maybe_unused]] size_t depth) {
     Field field;
     incrementFieldCount();
     incrementASTNodeCount();
@@ -290,7 +290,7 @@ themis::Result<Field> Parser::parseField(size_t depth) {
 
     // Arguments
     if (match('(')) {
-        while (!peek(')') && pos_ < source_.size()) {
+        while (!peek(')')  && static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
             skipWhitespace();
             auto argNameResult = parseName();
             if (!argNameResult) {
@@ -325,7 +325,7 @@ themis::Result<Field> Parser::parseField(size_t depth) {
     }
 
     if (match('{')) {
-        while (!peek('}') && pos_ < source_.size()) {
+        while (!peek('}')  && static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
             skipWhitespace();
             auto nestedFieldResult = parseField(depth + 1); // Increment depth for nested fields
             if (!nestedFieldResult) {
@@ -367,7 +367,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
         return themis::Ok(Value::string(std::move(*strResult)));
     }
 
-    // Number (int or float)
+    // Number ([[maybe_unused]] int or float)
     if (peek('-') || std::isdigit(source_[pos_])) {
         size_t start = pos_;
         bool isFloat = false;
@@ -392,11 +392,11 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
             }
         }
 
-        if (pos_ < source_.size() && (source_[pos_] == 'e' || source_[pos_] == 'E')) {
+        if ((pos_ < source_.size()) && (source_[pos_] == 'e' || source_[pos_] == 'E')) {
             isFloat = true;
             ++pos_;
             ++column_;
-            if (pos_ < source_.size() && (source_[pos_] == '+' || source_[pos_] == '-')) {
+            if ((pos_ < source_.size()) && (source_[pos_] == '+' || source_[pos_] == '-')) {
                 ++pos_;
                 ++column_;
             }
@@ -417,7 +417,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     // List
     if (match('[')) {
         ValueList list;
-        while (!peek(']') && pos_ < source_.size()) {
+        while (!peek(']')  && static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
             skipWhitespace();
             auto valResult = parseValue();
             if (!valResult) {
@@ -437,7 +437,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     // Object
     if (match('{')) {
         ValueMap obj;
-        while (!peek('}') && pos_ < source_.size()) {
+        while (!peek('}')  && static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
             skipWhitespace();
             auto keyResult = parseName();
             if (!keyResult) {
@@ -487,7 +487,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
 }
 
 themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
-    VariableDefinition def;
+    VariableDefinition def = {};
 
     if (!match('$')) {
         return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
@@ -553,7 +553,7 @@ themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
 }
 
 void Parser::skipWhitespace() {
-    while (pos_ < source_.size()) {
+    while (static_cast<size_t>(pos_) <static_cast<int>(source_.size())) {
         char c = source_[pos_];
         if (c == ' ' || c == '\t' || c == '\r' || c == ',') {
             ++pos_;
@@ -588,11 +588,11 @@ bool Parser::match(char c) {
 }
 
 bool Parser::match(std::string_view s) {
-    if (pos_ + s.size() <= source_.size()) {
-        if (source_.substr(pos_, s.size()) == s) {
+    if (pos_ + static_cast<int>(s.size()) <= source_.size()) {
+        if (source_.substr(pos_,static_cast<int>(s.size())) == s) {
             // Make sure it's a complete token (not followed by alphanumeric)
-            if (pos_ + s.size() < source_.size()) {
-                char next = source_[pos_ + s.size()];
+            if (pos_ + static_cast<int>(s.size()) <static_cast<int>(source_.size())) {
+                char next = source_[pos_ + static_cast<int>(s.size()) ];
                 if (std::isalnum(next) || next == '_') {
                     return false;
                 }
@@ -606,17 +606,17 @@ bool Parser::match(std::string_view s) {
 }
 
 bool Parser::peek(char c) const {
-    return pos_ < source_.size() && source_[pos_] == c;
+    return static_cast<bool>(pos_ < source_.size()) && source_[pos_] == c;
 }
 
 themis::Result<std::string> Parser::parseName() {
     size_t start = pos_;
 
     // Name must start with letter or underscore
-    if (pos_ < source_.size() && (std::isalpha(source_[pos_]) || source_[pos_] == '_')) {
+    if ((pos_ < source_.size()) && (std::isalpha(source_[pos_]) || source_[pos_] == '_')) {
         ++pos_;
         ++column_;
-        while (pos_ < source_.size() && (std::isalnum(source_[pos_]) || source_[pos_] == '_')) {
+        while ((pos_ < source_.size()) && (std::isalnum(source_[pos_]) || source_[pos_] == '_')) {
             ++pos_;
             ++column_;
         }
@@ -631,12 +631,12 @@ themis::Result<std::string> Parser::parseString() {
                                         getLocationContext() + ": Expected string");
     }
 
-    std::string result;
+    std::string result = {};
     while (pos_ < source_.size() && source_[pos_] != '"') {
         if (source_[pos_] == '\\') {
             ++pos_;
             ++column_;
-            if (pos_ < source_.size()) {
+            if (static_cast<int>(source_.size()) > pos_) {
                 switch (source_[pos_]) {
                     case 'n':
                         result += '\n';
@@ -728,7 +728,7 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
     }
 
     // Determine operation type string for metrics
-    std::string op_type_str;
+    std::string op_type_str = {};
     switch (op->type) {
         case OperationType::Query:
             op_type_str = "Query";
@@ -743,8 +743,8 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
 
     // Track execution time and record metrics via RAII.
     // Compute actual max depth from the selection tree so metrics are accurate.
-    size_t field_count = op->selections.size();
-    size_t depth       = op->selections.empty() ? 0u : computeSelectionDepth(op->selections);
+    size_t field_count = op-> static_cast<int>(selections.size());
+    size_t depth       = op->selections.empty() ? 0 : computeSelectionDepth(op->selections);
     QueryTimer timer(op_type_str, depth, field_count);
 
     try {
@@ -942,7 +942,7 @@ const TypeDefinition *Schema::getType(std::string_view name) const {
 }
 
 std::string Schema::toSDL() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Schema definition
     oss << "schema {\n";
@@ -958,8 +958,8 @@ std::string Schema::toSDL() const {
     // Type definitions
     for (const auto &[name, type] : types_) {
         // Skip built-in scalars
-        if (type.kind == TypeDefinition::Kind::Scalar
-            && (name == "String" || name == "Int" || name == "Float" || name == "Boolean" || name == "ID")) {
+        if ((type.kind == TypeDefinition::Kind::Scalar)
+            && ((name == "String") || (name == "Int") || (name == "Float") || (name == "Boolean") || (name == "ID"))) {
             continue;
         }
 
@@ -1005,7 +1005,7 @@ std::string Schema::toSDL() const {
                 oss << "type " << name;
                 if (!type.interfaces.empty()) {
                     oss << " implements";
-                    for (size_t i = 0; i < type.interfaces.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(type.interfaces.size()); ++i) {
                         if (i > 0) {
                             oss << " &";
                         }
@@ -1084,7 +1084,7 @@ std::shared_ptr<Value> Schema::introspect(const Field &field) const {
             type_obj["name"]        = Value::string(name);
             type_obj["description"] = Value::string(type.description);
 
-            std::string kind_str;
+            std::string kind_str = {};
             switch (type.kind) {
                 case TypeDefinition::Kind::Scalar:
                     kind_str = "SCALAR";
@@ -1155,7 +1155,7 @@ std::shared_ptr<Value> Schema::introspect(const Field &field) const {
         type_obj["name"]        = Value::string(type->name);
         type_obj["description"] = Value::string(type->description);
 
-        std::string kind_str;
+        std::string kind_str = {};
         switch (type->kind) {
             case TypeDefinition::Kind::Scalar:
                 kind_str = "SCALAR";

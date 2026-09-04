@@ -59,7 +59,7 @@ std::string isoTimestamp() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -418,7 +418,7 @@ AQLDatasetBuilder &AQLDatasetBuilder::loadFromJsonObject(const json &data) {
         if (!item.is_object()) {
             continue;
         }
-        TrainingDataSample s;
+        TrainingDataSample s = {};
         if (item.contains("input")) {
             s.input = item["input"].get<std::string>();
         }
@@ -446,7 +446,7 @@ TrainingData AQLDatasetBuilder::build(const std::string &dataset_name) const {
 }
 
 std::size_t AQLDatasetBuilder::size() const {
-    return samples_.size();
+    return static_cast<int>(samples_.size());
 }
 
 AQLDatasetBuilder &AQLDatasetBuilder::clear() {
@@ -562,7 +562,7 @@ struct AQLLoRAFinetuner::Impl {
     std::shared_ptr<::themis::llm::AdapterRegistry> registry;
     AQLDatasetBuilder dataset_builder;
     bool trained = false;
-    std::string trained_adapter_id;
+    std::string trained_adapter_id = {};
     mutable std::mutex mutex;
 
     explicit Impl(const Config &cfg, std::shared_ptr<::themis::llm::lora::LoRATrainingService> svc)
@@ -602,7 +602,7 @@ TrainingResult AQLLoRAFinetuner::train() {
     // Build the training dataset
     auto dataset = impl_->dataset_builder.build("themisdb_aql");
 
-    if (dataset.size() < impl_->config.min_training_samples) {
+    if (static_cast<int>(dataset.size()) < impl_->config.min_training_samples) {
         throw std::runtime_error("AQLLoRAFinetuner: insufficient training samples (" + std::to_string(dataset.size())
                                  + " < " + std::to_string(impl_->config.min_training_samples) + " required)");
     }
@@ -611,9 +611,9 @@ TrainingResult AQLLoRAFinetuner::train() {
                  dataset.size(), impl_->config.base_model);
 
     // Wire epoch_callback through LoRATrainingService::registerCallback if provided
-    if (impl_->config.epoch_callback) {
+    if ([[maybe_unused]] impl_->config.epoch_callback) {
         auto cb = impl_->config.epoch_callback;
-        impl_->training_service->registerCallback([cb](const ::themis::llm::lora::TrainingMetrics &metrics) {
+        impl_->training_service->registerCallback([[maybe_unused]] [cb](const ::themis::llm::lora::TrainingMetrics &metrics) {
             // Deliver a callback at the end of each epoch (status == "training"
             // and current_step == total_steps within that epoch, or per-epoch
             // transition).  We forward every metrics update; callers can

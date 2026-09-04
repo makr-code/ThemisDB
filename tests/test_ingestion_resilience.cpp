@@ -141,7 +141,9 @@ TEST(IngestionResilienceTest, BinaryNoise) {
     std::vector<unsigned char> noise(512);
     std::mt19937 rng(42);
     std::uniform_int_distribution<unsigned> dist(0, 255);
-    for (auto& b : noise) b = static_cast<unsigned char>(dist(rng));
+    for (auto& b : noise) {
+      b = static_cast<unsigned char>(dist(rng));
+    }
 
     auto p = makeTmpBinaryFile("resilience_binary.bin", noise);
 
@@ -158,7 +160,7 @@ TEST(IngestionResilienceTest, BinaryNoise) {
 
 TEST(IngestionResilienceTest, NonUtf8Bytes) {
     // Latin-1 bytes outside ASCII range
-    std::string content;
+    std::string content = {};
     for (int i = 128; i < 256; ++i) {
         content += static_cast<char>(i);
     }
@@ -234,7 +236,8 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentRegisterAndList) {
     IngestionManager mgr("test_db");
 
     // Spawn threads that register sources while another reads them
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int i = 0; i < 10; ++i) {
         writers.emplace_back([&mgr, i]() {
             SourceConfig cfg;
@@ -245,8 +248,11 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentRegisterAndList) {
         });
     }
 
-    std::vector<SourceConfig> result;
-    for (auto& t : writers) t.join();
+    std::vector<SourceConfig> result = {};
+
+    for (auto& t : writers) {
+      t.join();
+    }
     EXPECT_NO_THROW(result = mgr.getRegisteredSources());
     EXPECT_EQ(result.size(), 10u);  // all 10 sources with unique IDs must be registered
 }
@@ -255,7 +261,8 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentQuarantineAccess) {
     IngestionManager mgr("test_db");
 
     // Multiple threads calling quarantine APIs concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&mgr]() {
             EXPECT_NO_THROW(mgr.getQuarantineItems());
@@ -263,7 +270,9 @@ TEST(IngestionResilienceConcurrencyTest, ConcurrentQuarantineAccess) {
             EXPECT_NO_THROW(mgr.dismissQuarantineItem("nonexistent"));
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }
 
 // ============================================================================

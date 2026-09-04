@@ -898,7 +898,7 @@ TEST(TextAbuseDetectorTest, CaseInsensitiveMatch) {
 }
 
 TEST(TextAbuseDetectorTest, LoadFromYAMLMissingFileReturnsEmptyDetector) {
-    std::string error;
+    std::string error = {};
     auto detector = TextAbuseDetector::loadFromYAML("/nonexistent/path/abuse.yaml", error);
     ASSERT_NE(detector, nullptr);
     EXPECT_FALSE(error.empty());

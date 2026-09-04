@@ -146,7 +146,9 @@ public:
     // Configuration loading
     void load_from_config(const std::unordered_map<std::string, bool>& config) {
         for (const auto& [key, value] : config) {
-            if (key == "enable_mimalloc") set_mimalloc_enabled(value);
+            if (key == "enable_mimalloc") {
+              set_mimalloc_enabled(value);
+            }
             else if (key == "enable_huge_pages") set_huge_pages_enabled(value);
             else if (key == "enable_rcu_index") set_rcu_index_enabled(value);
             else if (key == "enable_lirs_cache") set_lirs_cache_enabled(value);

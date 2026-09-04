@@ -96,7 +96,8 @@ themis::tensor::HyperIndexTensor buildSimpleHyperIndex() {
 
     const std::vector<ColumnSchema> schema = {c0, c1};
 
-    std::vector<TableRow> rows;
+    std::vector<TableRow> rows = {};
+
     for (int i = 0; i < 50; ++i) {
         TableRow r;
         r.numeric_values = {20.0 + (i % 60), 30000.0 + (i % 8) * 20000.0};
@@ -212,7 +213,8 @@ TEST(UTRConverter, FromGeospatialRoundTripRMSE) {
     for (const auto v : g.values) { vmin = std::min(vmin, v); vmax = std::max(vmax, v); }
     const float range = (vmax > vmin) ? (vmax - vmin) : 1.0f;
 
-    std::vector<float> expected;
+    std::vector<float> expected = {};
+
     expected.reserve(recon.size());
     for (std::size_t i = 0; i < g.values.size(); ++i) {
         expected.push_back((g.values[i] - vmin) / range);
@@ -465,7 +467,8 @@ TEST(UTRConverter, HyperIndexBuilderQuantileBucketingPreservesTailSignal) {
     status.type = ColumnType::CATEGORY;
     status.categories = {"cold", "warm", "hot"};
 
-    std::vector<TableRow> rows;
+    std::vector<TableRow> rows = {};
+
     for (int i = 0; i < 63; ++i) {
         TableRow row;
         row.numeric_values = {static_cast<double>(i)};

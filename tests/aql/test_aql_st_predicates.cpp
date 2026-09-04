@@ -50,7 +50,7 @@ std::shared_ptr<FunctionCallExpr> makeCall(
 
 /// Evaluate a single expression against an empty document.
 json eval(const std::shared_ptr<Expression>& expr) {
-    LetEvaluator ev;
+    LetEvaluator ev = {};
     return ev.evaluateExpression(expr, json::object());
 }
 

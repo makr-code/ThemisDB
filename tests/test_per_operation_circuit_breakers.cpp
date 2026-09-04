@@ -207,7 +207,7 @@ TEST(PerOperationCircuitBreakerConfig, DefaultConfigMatchesOriginalThresholds) {
 // ============================================================================
 
 TEST_F(PerOperationCircuitBreakerTest, ExecuteStats_IncludesCircuitBreakerSection) {
-    std::string stats;
+    std::string stats = {};
     ASSERT_NO_THROW(stats = handler->executeStats());
 
     EXPECT_NE(stats.find("Circuit breakers"), std::string::npos)

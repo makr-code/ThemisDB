@@ -264,7 +264,7 @@ TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_ValidMetadataPath_Succeed
     trainer.setCheckpointing(true, 10);
 
     const auto temp_dir = std::filesystem::temp_directory_path() / "themis_resume_valid_checkpoint";
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::create_directories(temp_dir, ec);
     const auto checkpoint_prefix = temp_dir / "checkpoint_epoch2_step500";
 
@@ -330,7 +330,8 @@ TEST_F(LoRATrainerProductionTest, SelectAdapter_TwoVersions_BothPossible) {
     trainer.deployVersion("legal_v1.1", 0.5f);
 
     // With 50/50 split, repeated calls should return both versions across N trials.
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 200; ++i) {
         seen.insert(trainer.selectAdapterForRequest());
     }

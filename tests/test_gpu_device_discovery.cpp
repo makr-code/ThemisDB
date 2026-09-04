@@ -163,7 +163,8 @@ TEST(DeviceDiscoveryTest, GetHealthyDevices_FiltersUnhealthy) {
 }
 
 TEST(DeviceDiscoveryTest, GetHealthyDevices_AllHealthy_ReturnsSameCount) {
-    std::vector<DeviceInfo> devices;
+    std::vector<DeviceInfo> devices = {};
+
     for (int i = 0; i < 3; ++i) {
         DeviceInfo d;
         d.index      = i;

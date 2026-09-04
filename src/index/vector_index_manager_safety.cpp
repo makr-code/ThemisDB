@@ -26,8 +26,8 @@ public:
 
 private:
     uint32_t id_;
-    std::string name_;
-    uint32_t dimension_;
+    std::string name_ = {};
+    uint32_t dimension_ = {};
 };
 
 // ============================================================================
@@ -35,7 +35,9 @@ private:
 // ============================================================================
 
 bool VectorIndexHandle::isValid() const {
-    if (!manager_) return false;
+    if (!manager_) {
+      return false;
+    }
     return manager_->CurrentGeneration(index_id_) == generation_;
 }
 
@@ -74,7 +76,7 @@ VectorIndexHandle VectorIndexManagerSafety::CreateIndex(
     return VectorIndexHandle(id, generation, this);
 }
 
-bool VectorIndexManagerSafety::RemoveVectorIndex(uint32_t index_id) {
+bool VectorIndexManagerSafety::RemoveVectorIndex([[maybe_unused]] uint32_t index_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = indices_.find(index_id);
@@ -94,7 +96,7 @@ bool VectorIndexManagerSafety::RemoveVectorIndex(uint32_t index_id) {
     return true;
 }
 
-bool VectorIndexManagerSafety::UpdateVectorIndex(uint32_t index_id) {
+bool VectorIndexManagerSafety::UpdateVectorIndex([[maybe_unused]] uint32_t index_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = indices_.find(index_id);
@@ -160,7 +162,7 @@ std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexByHandle(
     return idx_it->second.data;
 }
 
-std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexById(uint32_t index_id) {
+std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexById([[maybe_unused]] uint32_t index_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = indices_.find(index_id);
@@ -174,7 +176,8 @@ std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexById(uint32_t
 std::vector<uint32_t> VectorIndexManagerSafety::GetIndexIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<uint32_t> ids;
+    std::vector<uint32_t> ids = {};
+
     for (const auto& [id, metadata] : indices_) {
         ids.push_back(id);
     }
@@ -184,10 +187,10 @@ std::vector<uint32_t> VectorIndexManagerSafety::GetIndexIds() const {
 
 size_t VectorIndexManagerSafety::GetIndexCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return indices_.size();
+    return static_cast<int>(indices_.size());
 }
 
-uint64_t VectorIndexManagerSafety::CurrentGeneration(uint32_t index_id) const {
+uint64_t VectorIndexManagerSafety::CurrentGeneration([[maybe_unused]] uint32_t index_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = generation_map_.find(index_id);

@@ -51,7 +51,7 @@ namespace {
         throw std::runtime_error("portableSha256Hex: EVP_MD_CTX_new failed");
     }
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1
-        || EVP_DigestUpdate(ctx, input.data(), input.size()) != 1) {
+        || EVP_DigestUpdate(ctx, input.data(),static_cast<int>(input.size())) != 1) {
         EVP_MD_CTX_free(ctx);
         throw std::runtime_error("portableSha256Hex: EVP_Digest init/update failed");
     }
@@ -62,7 +62,7 @@ namespace {
         throw std::runtime_error("portableSha256Hex: EVP_DigestFinal_ex failed");
     }
     EVP_MD_CTX_free(ctx);
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     for (unsigned int i = 0; i < hash_len; ++i) {
         hex << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<int>(hash[i]);
@@ -81,7 +81,7 @@ namespace {
     std::lock_guard<std::mutex> lock(rng_mu);
     const uint64_t a = rng();
     const uint64_t b = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << a
         << std::setw(16) << std::setfill('0') << b;
     return "evt_" + oss.str();
@@ -163,8 +163,12 @@ public:
         }
         for (const auto& eid : it->second) {
             auto rit = receipts_.find(eid);
-            if (rit == receipts_.end()) continue;
-            if (status.has_value() && rit->second.status != *status) continue;
+            if (rit == receipts_.end()) {
+              continue;
+            }
+            if (status.has_value() && rit->second.status != *status) {
+              continue;
+            }
             result.push_back(rit->second);
         }
         return result;
@@ -245,7 +249,8 @@ public:
             throw std::invalid_argument("buildRoot: artifacts must not be empty");
         }
         auto sorted = sortedArtifacts(artifacts);
-        std::vector<std::string> layer;
+        std::vector<std::string> layer = {};
+
         layer.reserve(sorted.size());
         for (const auto& a : sorted) {
             layer.push_back(leafHash(a));
@@ -257,7 +262,9 @@ public:
         const std::vector<LoRAPackageRef>& artifacts,
         const std::string& adapter_id,
         const std::string& version) const override {
-        if (artifacts.empty()) return std::nullopt;
+        if (artifacts.empty()) {
+          return std::nullopt;
+        }
         auto sorted = sortedArtifacts(artifacts);
 
         // Find leaf index by composite key (adapter_id, version)
@@ -268,12 +275,13 @@ public:
                 break;
             }
         }
-        if (leaf_idx == sorted.size()) {
+        if (leaf_idx == static_cast<int>(sorted.size())) {
             return std::nullopt; // not in batch
         }
 
         // Build all layers and collect proof path
-        std::vector<std::string> layer;
+        std::vector<std::string> layer = {};
+
         layer.reserve(sorted.size());
         for (const auto& a : sorted) {
             layer.push_back(leafHash(a));
@@ -283,18 +291,19 @@ public:
         std::vector<nlohmann::json> proof_path;
         size_t idx = leaf_idx;
 
-        while (layer.size() > 1) {
+        while (static_cast<int>(layer.size()) > 1) {
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back()); // duplicate last leaf
             }
-            std::vector<std::string> next;
+            std::vector<std::string> next = {};
+
             next.reserve(layer.size() / 2);
             for (size_t i = 0; i < layer.size(); i += 2) {
                 next.push_back(combineHashes(layer[i], layer[i + 1]));
                 // Collect sibling for our proof path
                 if (i == idx || i + 1 == idx) {
                     size_t sibling_i = (idx % 2 == 0) ? idx + 1 : idx - 1;
-                    if (sibling_i < layer.size()) {
+                    if (static_cast<int>(layer.size()) > sibling_i) {
                         std::string position = (sibling_i > idx) ? "right" : "left";
                         proof_path.push_back({
                             {"hash",     layer[sibling_i]},
@@ -318,10 +327,14 @@ public:
     }
 
     [[nodiscard]] bool verifyProof(const ArtifactMerkleProof& proof) const override {
-        if (!proof.isValid()) return false;
+        if (!proof.isValid()) {
+          return false;
+        }
         std::string current = proof.leaf_hash;
         for (const auto& step : proof.proof_path) {
-            if (!step.contains("hash") || !step.contains("position")) return false;
+            if (!step.contains("hash") || !step.contains("position")) {
+              return false;
+            }
             const std::string sibling  = step["hash"].get<std::string>();
             const std::string position = step["position"].get<std::string>();
             if (position == "right") {
@@ -354,18 +367,21 @@ private:
         auto sorted = artifacts;
         std::sort(sorted.begin(), sorted.end(),
             [](const LoRAPackageRef& a, const LoRAPackageRef& b) {
-                if (a.adapter_id != b.adapter_id) return a.adapter_id < b.adapter_id;
+                if (a.adapter_id != b.adapter_id) {
+                  return a.adapter_id < b.adapter_id;
+                }
                 return a.version < b.version;
             });
         return sorted;
     }
 
     [[nodiscard]] static std::string buildTree(std::vector<std::string> layer) {
-        while (layer.size() > 1) {
+        while (static_cast<int>(layer.size()) > 1) {
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back());
             }
-            std::vector<std::string> next;
+            std::vector<std::string> next = {};
+
             next.reserve(layer.size() / 2);
             for (size_t i = 0; i < layer.size(); i += 2) {
                 next.push_back(combineHashes(layer[i], layer[i + 1]));
@@ -453,7 +469,8 @@ public:
         // Use same batch Merkle root (single artifact → deterministic)
         const std::string batch_root = proof_engine_->buildRoot({artifact});
 
-        std::unordered_map<DistributionShardId, DistributionEventId> result;
+        std::unordered_map<DistributionShardId, DistributionEventId> result = {};
+
         for (const auto& target : target_shard_ids) {
             result[target] = distributeArtifact(artifact, source_shard_id, target, batch_root);
         }
@@ -464,7 +481,9 @@ public:
         const DistributionEventId& event_id,
         const std::string& target_signature) override {
         auto receipt = store_->getReceipt(event_id);
-        if (!receipt.has_value()) return false;
+        if (!receipt.has_value()) {
+          return false;
+        }
         // Only Pending or InTransit receipts may be confirmed.
         if (receipt->status != ArtifactDistributionStatus::Pending
             && receipt->status != ArtifactDistributionStatus::InTransit) {
@@ -487,7 +506,9 @@ public:
         const DistributionEventId& event_id,
         const std::string& error_message) override {
         auto receipt = store_->getReceipt(event_id);
-        if (!receipt.has_value()) return false;
+        if (!receipt.has_value()) {
+          return false;
+        }
         return store_->updateReceiptStatus(
             event_id,
             ArtifactDistributionStatus::Failed,
@@ -498,8 +519,12 @@ public:
     [[nodiscard]] std::optional<DistributionEventId> recoverDistribution(
         const DistributionEventId& failed_event_id) override {
         auto failed = store_->getReceipt(failed_event_id);
-        if (!failed.has_value()) return std::nullopt;
-        if (failed->status != ArtifactDistributionStatus::Failed) return std::nullopt;
+        if (!failed.has_value()) {
+          return std::nullopt;
+        }
+        if (failed->status != ArtifactDistributionStatus::Failed) {
+          return std::nullopt;
+        }
 
         // Create a new distribution event linked via receipt chain
         const std::string recovery_event_id = generateEventId();
@@ -555,14 +580,18 @@ public:
             auto receipts = store_->listReceiptsForShard(
                 shard_id, ArtifactDistributionStatus::Confirmed);
             for (const auto& r : receipts) {
-                if (r.batch_merkle_root != batch_merkle_root) continue;
+                if (r.batch_merkle_root != batch_merkle_root) {
+                  continue;
+                }
                 const std::string key = r.artifact_ref.adapter_id + "@" + r.artifact_ref.version;
                 if (seen.insert(key).second) {
                     batch_artifacts.push_back(r.artifact_ref);
                 }
             }
         }
-        if (batch_artifacts.empty()) return std::nullopt;
+        if (batch_artifacts.empty()) {
+          return std::nullopt;
+        }
         return proof_engine_->generateProof(batch_artifacts, adapter_id, version);
     }
 
@@ -579,19 +608,23 @@ public:
             });
 
         std::vector<DistributionEventId> event_ids;
-        std::vector<std::string> receipt_hashes;
+        std::vector<std::string> receipt_hashes = {};
+
         for (const auto& r : confirmed) {
             event_ids.push_back(r.event_id);
             receipt_hashes.push_back(r.receipt_hash);
         }
 
         // Build Merkle root over canonically ordered receipt hashes
-        std::string receipts_root;
+        std::string receipts_root = {};
         if (!receipt_hashes.empty()) {
             std::vector<std::string> layer = receipt_hashes;
-            while (layer.size() > 1) {
-                if (layer.size() % 2 != 0) layer.push_back(layer.back());
-                std::vector<std::string> next;
+            while (static_cast<int>(layer.size()) > 1) {
+                if (layer.size() % 2 != 0) {
+                  layer.push_back(layer.back());
+                }
+                std::vector<std::string> next = {};
+
                 next.reserve(layer.size() / 2);
                 for (size_t i = 0; i < layer.size(); i += 2) {
                     next.push_back(combineHashes(layer[i], layer[i + 1]));

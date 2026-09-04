@@ -70,7 +70,9 @@ static std::vector<float> makePCM(int duration_ms, float sample_rate = 16000.0f)
 
     std::mt19937 rng(0xDEADC0DE);
     std::uniform_real_distribution<float> dist(-0.001f, 0.001f);
-    for (auto& s : pcm) s = dist(rng);
+    for (auto& s : pcm) {
+      s = dist(rng);
+    }
 
     return pcm;
 }

@@ -20,7 +20,7 @@ protected:
         rng_.seed(42);
     }
 
-    std::mt19937 rng_;
+    std::mt19937 rng_ = {};
     
     // Helper to generate random data
     std::vector<char> generateRandomData(size_t size) {
@@ -343,7 +343,7 @@ TEST_F(ZstdLibIntegrationTest, ThemisDBBackupCompression) {
     })";
     
     // Repeat to make it larger and more compressible
-    std::string large_backup;
+    std::string large_backup = {};
     for (int i = 0; i < 100; ++i) {
         large_backup += backup_data;
     }

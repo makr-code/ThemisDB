@@ -242,7 +242,8 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
     const int effective_batch_size = std::max(1, config_.batch_size);
 
     // Collect indices of chunks that still need embeddings
-    std::vector<std::size_t> need_embed;
+    std::vector<std::size_t> need_embed = {};
+
     for (std::size_t i = 0; i < chunks.size(); ++i) {
         if (chunks[i].embedding.empty()) {
             if (!tryResolveEmbeddingFromCaches(chunks[i], &chunks[i].embedding)) {
@@ -377,12 +378,13 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
     rag::HybridFusionResult fused = retriever_.fuse(bm25_docs, vec_docs);
 
     // ── Convert to WikiChunks ──────────────────────────────────────────────
-    std::vector<WikiChunk> out;
+    std::vector<WikiChunk> out = {};
+
     out.reserve(fused.documents.size());
 
-    for (std::size_t i = 0; i < fused.documents.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(fused.documents.size()); ++i) {
         const auto& doc = fused.documents[i];
-        float score = (i < fused.scores.size())
+        float score = (i <static_cast<int>(fused.scores.size()))
                       ? static_cast<float>(fused.scores[i].hybrid_score)
                       : static_cast<float>(doc.similarity_score);
 
@@ -397,15 +399,21 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         for (const auto& meta_entry : doc.metadata) {
             const auto& meta_key = meta_entry.first;
             const auto& meta_value = meta_entry.second;
-            if      (meta_key == "doc_id")        c.doc_id        = meta_value;
+            if      (meta_key == "doc_id") {
+              c.doc_id        = meta_value;
+            }
             else if (meta_key == "section_title") c.section_title = meta_value;
             else if (meta_key == "source_path")   c.source_path   = meta_value;
             else if (meta_key == "content")       c.text          = meta_value;
         }
-        if (c.text.empty()) c.text = doc.content;
+        if (c.text.empty()) {
+          c.text = doc.content;
+        }
 
         out.push_back(std::move(c));
-        if (static_cast<int>(out.size()) >= k) break;
+        if (static_cast<int>(out.size()) >= k) {
+          break;
+        }
     }
 
     // ── Record query latency ───────────────────────────────────────────────
@@ -432,7 +440,7 @@ bool WikiIndexStore::isReady() const noexcept {
 // WikiIndexStore — Evaluation API (Recall@k / MRR / p95)
 // ─────────────────────────────────────────────────────────────────────────────
 
-void WikiIndexStore::recordLatencyLocked(double latency_ms) const noexcept {
+void WikiIndexStore::recordLatencyLocked([[maybe_unused]] double latency_ms) const noexcept {
     // Ring buffer: overwrite oldest entry when full.
     latency_ring_[latency_ring_head_] = latency_ms;
     latency_ring_head_ = (latency_ring_head_ + 1) % kLatencyRingSize;
@@ -457,7 +465,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // ── Recall@k ────────────────────────────────────────────────────────
         // For each k: count how many of the top-k returned results have a
         // doc_id in the ground-truth set, normalised by ground-truth size.
-        auto recall_at = [&](int k) -> double {
+        auto recall_at = [&]([[maybe_unused]] int k) -> double {
             const int n = std::min(k, static_cast<int>(results.size()));
             int hits = 0;
             for (int i = 0; i < n; ++i) {
@@ -465,7 +473,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
                     ++hits;
                 }
             }
-            return static_cast<double>(hits) / static_cast<double>(rel_set.size());
+            return static_cast<bool>(static_cast<double>(hits) / static_cast<double < static_cast<int>((rel_set.size())));
         };
 
         // ── MRR ─────────────────────────────────────────────────────────────
@@ -520,7 +528,7 @@ WikiEvalStats WikiIndexStore::getEvaluationStats() const {
         const std::size_t p95_idx = static_cast<std::size_t>(
             std::ceil(0.95 * static_cast<double>(samples.size())));
         const std::size_t clamped = (p95_idx == 0) ? 0 : p95_idx - 1;
-        s.p95_query_latency_ms = samples[std::min(clamped, samples.size() - 1)];
+        s.p95_query_latency_ms = samples[std::min(clamped, static_cast<int>(samples.size()) - 1)];
     }
 
     return s;
@@ -553,7 +561,7 @@ std::string WikiIndexStore::makeEmbeddingCacheKey(const WikiChunk& chunk) {
     auto key = core::concerns::SignedAdapterValidator::sha256Hex(material);
     if (key.empty()) {
         const auto fallback = std::hash<std::string>{}(material);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "fallback-hash:" << std::hex << fallback;
         key = oss.str();
     }
@@ -562,7 +570,7 @@ std::string WikiIndexStore::makeEmbeddingCacheKey(const WikiChunk& chunk) {
 
 std::size_t WikiIndexStore::estimateEmbeddingBytes(const std::string& cache_key,
                                                    const std::vector<float>& embedding) noexcept {
-    return cache_key.size() + embedding.size() * sizeof(float);
+    return static_cast<int>(cache_key.size()) + static_cast<int>(embedding.size()) * sizeof(float);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -825,8 +833,8 @@ void JsonWikiIndexReader::load() {
         c.line_start    = obj.value("line_start",      0);
         c.line_end      = obj.value("line_end",        0);
         c.text          = obj.value("text",            "");
-        // Optional score_override (not in basic MVP format, but accepted)
-        if (obj.contains("score_override") && obj["score_override"].is_number()) {
+        // Optional score_override (no[[maybe_unused]] t i[[maybe_unused]] n basi[[maybe_unused]] c MV[[maybe_unused]] P forma[[maybe_unused]] t, bu[[maybe_unused]] t accepte[[maybe_unused]] d)
+        if (ob[[maybe_unused]] j.contain[[maybe_unused]] s("score_overrid[[maybe_unused]] e") && obj["score_override"].is_number()) {
             c.score = obj["score_override"].get<float>();
         }
         if (!c.chunk_id.empty()) {
@@ -835,7 +843,7 @@ void JsonWikiIndexReader::load() {
     }
 
     loaded_ = true;
-    spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}", chunks_.size(), index_path_);
+    spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}",static_cast<int>(chunks_.size()), index_path_);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -871,7 +879,8 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
 
     // Score each chunk
     struct Scored { std::size_t idx; float score; };
-    std::vector<Scored> scored;
+    std::vector<Scored> scored = {};
+
     scored.reserve(chunks_.size());
 
     for (std::size_t ci = 0; ci < chunks_.size(); ++ci) {
@@ -934,7 +943,7 @@ bool JsonWikiIndexReader::isReady() const noexcept {
 }
 
 std::size_t JsonWikiIndexReader::size() const noexcept {
-    return chunks_.size();
+    return static_cast<int>(chunks_.size());
 }
 
 } // namespace llm

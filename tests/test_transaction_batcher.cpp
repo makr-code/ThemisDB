@@ -326,7 +326,9 @@ TEST_F(TransactionBatcherTest, Stats_CommittedAndFailedCounts) {
             return fail ? TransactionBatcher::Status::Error("err") : TransactionBatcher::Status::OK();
         }));
     }
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
 
     auto stats = batcher_->getStats();
     EXPECT_EQ(stats.transactions_committed, 3u);
@@ -345,7 +347,9 @@ TEST_F(TransactionBatcherTest, Stats_AvgBatchSizeIsPositive) {
             return TransactionBatcher::Status::OK();
         }));
     }
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
 
     auto stats = batcher_->getStats();
     EXPECT_GT(stats.avg_batch_size, 0.0);
@@ -423,7 +427,7 @@ TEST(TransactionBatcherConcurrencyTest, ConcurrentSubmitters_AllResolve) {
     const int N_THREADS = 10;
     const int PER_THREAD = 20;
 
-    std::mutex fut_mutex;
+    std::mutex fut_mutex = {};
     std::vector<std::future<TransactionBatcher::Status>> futures;
     futures.reserve(N_THREADS * PER_THREAD);
 
@@ -445,7 +449,9 @@ TEST(TransactionBatcherConcurrencyTest, ConcurrentSubmitters_AllResolve) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     for (auto& f : futures) {
         auto st = f.get();
@@ -468,7 +474,7 @@ TEST_F(TransactionBatcherTest, FIFO_OrderPreservedWithinBatch) {
     batcher_->setBatchConfig(cfg);
 
     const int N = 10;
-    std::mutex mu;
+    std::mutex mu = {};
     std::vector<int> exec_order;
 
     std::vector<std::future<TransactionBatcher::Status>> futures;
@@ -483,7 +489,9 @@ TEST_F(TransactionBatcherTest, FIFO_OrderPreservedWithinBatch) {
     // Force flush so all items are processed now.
     batcher_->flush();
 
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
 
     ASSERT_EQ(static_cast<int>(exec_order.size()), N);
     for (int i = 0; i < N; ++i) {
@@ -515,7 +523,9 @@ TEST(TransactionBatcherAdaptiveTest, Adaptive_AdjustmentsIncrement) {
                 return TransactionBatcher::Status::OK();
             }));
         }
-        for (auto& f : futures) f.get();
+        for (auto& f : futures) {
+          f.get();
+        }
     }
 
     auto stats = b.getStats();

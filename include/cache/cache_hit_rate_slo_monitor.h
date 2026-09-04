@@ -340,7 +340,9 @@ private:
         std::atomic<uint64_t> count{0};
 
         LatencyHistogram() noexcept {
-            for (auto& b : buckets) b.store(0, std::memory_order_relaxed);
+            for (auto& b : buckets) {
+              b.store(0, std::memory_order_relaxed);
+            }
             count.store(0, std::memory_order_relaxed);
         }
 
@@ -363,13 +365,19 @@ private:
         /// Returns the p-th percentile latency in milliseconds (0.0 when empty).
         double percentileMs(double p) const noexcept {
             uint64_t total = count.load(std::memory_order_relaxed);
-            if (total == 0) return 0.0;
+            if (total == 0) {
+              return 0.0;
+            }
             uint64_t target = static_cast<uint64_t>(static_cast<double>(total) * p);
-            if (target == 0) target = 1;
+            if (target == 0) {
+              target = 1;
+            }
             uint64_t cumulative = 0;
             for (std::size_t i = 0; i < kNumBuckets; ++i) {
                 cumulative += buckets[i].load(std::memory_order_relaxed);
-                if (cumulative >= target) return kMidpointsMs[i];
+                if (cumulative >= target) {
+                  return kMidpointsMs[i];
+                }
             }
             return kMidpointsMs[kNumBuckets - 1];
         }

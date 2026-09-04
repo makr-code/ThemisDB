@@ -118,7 +118,7 @@ LLMValidationResult LLMValidationPipeline::execute(
         return std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::high_resolution_clock::now() - start_time);
     };
-    LLMValidationResult result;
+    LLMValidationResult result = {};
 
     if (!impl_->llm_client || !impl_->llm_client->isReady()) {
         result.status = LLMValidationStatus::LLM_GENERATION_FAILED;
@@ -131,7 +131,7 @@ LLMValidationResult LLMValidationPipeline::execute(
     }
     
     spdlog::debug("LLMValidationPipeline::execute: nl_query='{}'", nl_query);
-    std::string retry_feedback;
+    std::string retry_feedback = {};
     
     // Loop: LLM generation + validation + retry
     for (size_t attempt = 0; attempt <= impl_->config.max_retries; ++attempt) {
@@ -149,7 +149,7 @@ LLMValidationResult LLMValidationPipeline::execute(
         }
         
         // Generate AQL via LLM
-        std::string generated_aql;
+        std::string generated_aql = {};
         try {
             generated_aql = generateAQL(nl_query, schema_context, retry_feedback);
             

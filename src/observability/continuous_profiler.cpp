@@ -117,12 +117,16 @@ std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
 std::string base64Encode(const std::vector<uint8_t>& bytes) {
     static const char kTable[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
-    out.reserve((bytes.size() + 2) / 3 * 4);
+    std::string out = {};
+    out.reserve((static_cast<int>(bytes.size()) + 2) / 3 * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
-        if (i + 1 < bytes.size()) b |= static_cast<uint32_t>(bytes[i + 1]) << 8;
-        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i + 2]);
+        if (i + 1 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i + 1]) << 8;
+        }
+        if (i + 2 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i + 2]);
+        }
         out += kTable[(b >> 18) & 0x3f];
         out += kTable[(b >> 12) & 0x3f];
         out += (i + 1 < bytes.size()) ? kTable[(b >> 6) & 0x3f] : '=';
@@ -135,11 +139,15 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
 std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     std::istringstream stream(text);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         auto space = line.rfind(' ');
-        if (space == std::string::npos) continue;
+        if (space == std::string::npos) {
+          continue;
+        }
         std::string stack = line.substr(0, space);
         uint64_t count = 0;
         try {
@@ -205,7 +213,7 @@ json ProfileSnapshot::toJSON() const {
         {"type", profileTypeName(type)},
         {"timestamp_ms", ts},
         {"duration_s", duration.count()},
-        {"data_size_bytes", data.size()},
+        {"data_size_bytes",static_cast<int>(data.size())},
         {"data_base64", base64Encode(data)}
     };
 }
@@ -240,7 +248,9 @@ public:
 
     void start() {
         std::unique_lock<std::mutex> lock(mutex_);
-        if (running_ || !enabled_) return;
+        if (running_ || !enabled_) {
+          return;
+        }
         running_ = true;
         worker_ = std::thread(&Impl::workerLoop, this);
     }
@@ -267,16 +277,18 @@ public:
                 enabled_.load(std::memory_order_acquire) &&
                 config_.enable_cpu_profiling) {
                 auto frames = captureStack(64);
-                std::string key;
+                std::string key = {};
                 for (size_t i = 0; i < frames.size(); ++i) {
-                    if (i > 0) key += ';';
+                    if (i > 0) {
+                      key += ';';
+                    }
                     key += frames[i];
                 }
                 cpu_stacks_[key]++;
             }
 
             // Serialise current accumulated stacks to folded-stacks text
-            std::string text;
+            std::string text = {};
             for (const auto& [stack, count] : cpu_stacks_) {
                 text += stack;
                 text += ' ';
@@ -299,7 +311,9 @@ public:
         std::unique_lock<std::mutex> lock(mutex_);
         std::vector<ProfileSnapshot> result;
         auto it = history_.find(type);
-        if (it == history_.end()) return result;
+        if (it == history_.end()) {
+          return result;
+        }
         for (const auto& s : it->second) {
             if (s.timestamp >= from && s.timestamp < to) {
                 result.push_back(s);
@@ -310,7 +324,7 @@ public:
 
     ProfileDiff compare(const ProfileSnapshot& baseline,
                         const ProfileSnapshot& current) const {
-        ProfileDiff diff;
+        ProfileDiff diff = {};
         if (baseline.type != ProfileType::CPU || current.type != ProfileType::CPU) {
             return diff;
         }
@@ -319,8 +333,12 @@ public:
         auto curMap  = parseFolded(current.dataAsString());
 
         uint64_t baseTotal = 0, curTotal = 0;
-        for (auto& [k, v] : baseMap) baseTotal += v;
-        for (auto& [k, v] : curMap)  curTotal  += v;
+        for (auto& [k, v] : baseMap) {
+          baseTotal += v;
+        }
+        for (auto& [k, v] : curMap) {
+          curTotal  += v;
+        }
 
         if (baseTotal > 0 && curTotal > 0) {
             diff.cpu_regression_percent =
@@ -354,7 +372,9 @@ public:
 
         // Deduplicate lists (they may be long; cap at 20 entries for usability)
         auto trim = [](std::vector<std::string>& v) {
-            if (v.size() > 20) v.resize(20);
+            if (static_cast<int>(v.size()) > 20) {
+              v.resize(20);
+            }
         };
         trim(diff.new_hotspots);
         trim(diff.removed_hotspots);
@@ -396,11 +416,19 @@ private:
         // cpu_sample_rate = desired overhead fraction → sample period ≈ 1/rate ms
         // Clamp to [1 ms, 1000 ms] to stay practical.
         double rate = config_.cpu_sample_rate;
-        if (rate <= 0.0) rate = 0.01;
-        if (rate > 1.0)  rate = 1.0;
+        if (rate <= 0.0) {
+          rate = 0.01;
+        }
+        if (rate > 1.0) {
+          rate = 1.0;
+        }
         auto sample_period_ms = static_cast<int64_t>(1.0 / rate);
-        if (sample_period_ms < 1)    sample_period_ms = 1;
-        if (sample_period_ms > 1000) sample_period_ms = 1000;
+        if (sample_period_ms < 1) {
+          sample_period_ms = 1;
+        }
+        if (sample_period_ms > 1000) {
+          sample_period_ms = 1000;
+        }
         const auto sample_period = std::chrono::milliseconds(sample_period_ms);
 
         auto next_flush = std::chrono::steady_clock::now() + config_.snapshot_interval;
@@ -412,7 +440,9 @@ private:
             {
                 std::unique_lock<std::mutex> lk(mutex_);
                 cv_.wait_for(lk, sample_period, [this] { return !running_; });
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
             }
 
             if (!enabled_.load(std::memory_order_acquire)) {
@@ -423,9 +453,11 @@ private:
             if (config_.enable_cpu_profiling) {
                 auto frames = captureStack(64);
                 // Build the folded key (semicolon-joined frames, no count suffix)
-                std::string key;
+                std::string key = {};
                 for (size_t i = 0; i < frames.size(); ++i) {
-                    if (i > 0) key += ';';
+                    if (i > 0) {
+                      key += ';';
+                    }
                     key += frames[i];
                 }
                 std::unique_lock<std::mutex> lk(mutex_);
@@ -479,7 +511,7 @@ private:
         snap.timestamp = std::chrono::system_clock::now();
         snap.duration = config_.snapshot_interval;
         if (type == ProfileType::CPU) {
-            std::string text;
+            std::string text = {};
             for (const auto& [stack, count] : cpu_stacks_) {
                 text += stack;
                 text += ' ';
@@ -495,7 +527,7 @@ private:
     void addSnapshot(ProfileType type, const ProfileSnapshot& snap) {
         auto& vec = history_[type];
         vec.push_back(snap);
-        while (vec.size() > config_.max_snapshots_retained) {
+        while (static_cast<int>(vec.size()) > config_.max_snapshots_retained) {
             vec.erase(vec.begin());
         }
     }
@@ -518,7 +550,9 @@ private:
     void stopInternal() {
         {
             std::unique_lock<std::mutex> lock(mutex_);
-            if (!running_) return;
+            if (!running_) {
+              return;
+            }
             running_ = false;
         }
         cv_.notify_all();
@@ -579,7 +613,7 @@ ProfileDiff ContinuousProfiler::compare(const ProfileSnapshot& baseline,
 
 void ContinuousProfiler::registerAnomalyCallback(
         std::function<void(const ProfileSnapshot&, const std::string&)> cb) {
-    impl_->registerAnomalyCallback(std::move(cb));
+    impl_->registerAnomalyCallback([[maybe_unused]] std::move(cb));
 }
 
 void ContinuousProfiler::enable()       { impl_->enable();    }

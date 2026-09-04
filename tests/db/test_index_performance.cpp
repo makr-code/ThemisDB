@@ -99,11 +99,11 @@ protected:
     std::string randomString(size_t length) {
         static const char charset[] = 
             "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dist(0, sizeof(charset) - 2);
         
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result += charset[dist(gen)];
@@ -340,7 +340,7 @@ TEST_F(IndexPerformanceTest, Lookup_ThroughputMeasurement) {
     }
 
     test::ThroughputCalculator throughput;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, num_items - 1);
 

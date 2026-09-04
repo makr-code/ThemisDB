@@ -25,7 +25,7 @@ using json = nlohmann::json;
 
 // Action item with assignment
 struct ActionItem {
-    std::string id;
+    std::string id = {};
     std::string description;
     std::string assignee;           // Extracted or assigned name/email
     std::string due_date;           // Extracted or empty

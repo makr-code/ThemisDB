@@ -19,7 +19,9 @@ public:
     ~ServerFixture2() { stopServer(); }
 
     void startServer() {
-        if (server_running_) return;
+        if (server_running_) {
+          return;
+        }
         // If test runner already started a server, reuse it
         try {
             if (check("/health") == http::status::ok) {
@@ -62,11 +64,15 @@ public:
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             if (check("/health") == http::status::ok) { ready=true; break; }
         }
-        if (!ready) throw std::runtime_error("Server not ready");
+        if (!ready) {
+          throw std::runtime_error("Server not ready");
+        }
     }
 
     void stopServer() {
-        if (!server_running_) return;
+        if (!server_running_) {
+          return;
+        }
 #ifdef _WIN32
         int stop_rc = std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");
         (void)stop_rc; // best effort

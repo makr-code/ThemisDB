@@ -306,7 +306,7 @@ std::string GrpcApiServer::loadFile(const std::string& path) {
     if (!file) {
         throw std::runtime_error("GrpcApiServer: cannot open file: " + path);
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << file.rdbuf();
     return ss.str();
 }

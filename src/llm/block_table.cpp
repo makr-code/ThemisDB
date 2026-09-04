@@ -27,7 +27,7 @@ BlockTable::~BlockTable() {
     releaseBlocks();
 }
 
-std::vector<int> BlockTable::allocateBlocks(size_t num_blocks) {
+std::vector<int> BlockTable::allocateBlocks([[maybe_unused]] size_t num_blocks) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<int> new_blocks;
@@ -88,7 +88,7 @@ void BlockTable::sharePrefix(uint64_t /*parent_sequence_id*/, size_t prefix_leng
     
     // For simplicity, assume parent blocks are available
     // In production, would need coordination with parent BlockTable
-    for (size_t i = 0; i < num_prefix_blocks && i < block_ids_.size(); ++i) {
+    for (size_t i = 0; i < num_prefix_blocks  && static_cast<size_t>(i) <static_cast<int>(block_ids_.size()); ++i) {
         is_shared_[i] = true;
         
         // Increment reference count
@@ -104,7 +104,7 @@ std::vector<int> BlockTable::getBlockMapping() const {
 
 size_t BlockTable::getNumTokens() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return block_ids_.size() * config_.block_size;
+    return static_cast<int>(block_ids_.size()) * config_.block_size;
 }
 
 BlockTable::Stats BlockTable::getStats() const {

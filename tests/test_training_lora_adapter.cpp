@@ -190,8 +190,12 @@ TEST(TrainingLoRAAdapterTest, SetWeights_RoundTrip) {
     adapter.setWeights("layer", B_new, A_new);
 
     const auto& w = adapter.getWeights("layer");
-    for (float v : w.B) EXPECT_FLOAT_EQ(v, 1.5f);
-    for (float v : w.A) EXPECT_FLOAT_EQ(v, 2.5f);
+    for (float v : w.B) {
+      EXPECT_FLOAT_EQ(v, 1.5f);
+    }
+    for (float v : w.A) {
+      EXPECT_FLOAT_EQ(v, 2.5f);
+    }
 }
 
 TEST(TrainingLoRAAdapterTest, SetWeights_UnknownLayerThrows) {

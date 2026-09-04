@@ -61,7 +61,7 @@ OcelExporter::OcelExporter(
 #else
     gmtime_r(&sec, &tm_val);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_val, "%Y-%m-%dT%H:%M:%S")
         << '.' << std::setfill('0') << std::setw(3) << milliseconds << 'Z';
     return oss.str();
@@ -111,10 +111,11 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 
     // Build an ordered list of (activity_name, timestamp_ms) from all tokens
     struct EventEntry {
-        std::string node_id;
+        std::string node_id = {};
         int64_t     timestamp_ms;
     };
-    std::vector<EventEntry> entries;
+    std::vector<EventEntry> entries = {};
+
     entries.reserve(inst.tokens.size() * 16);  // Estimate based on typical token path lengths
     std::unordered_set<std::string> added_nodes;  // Track already-added nodes for O(1) lookup
 
@@ -271,7 +272,7 @@ json OcelExporter::exportFiltered(std::string_view model_id,
     db_.scanPrefix(instance_prefix, [&](std::string_view key, std::string_view) -> bool {
         // Extract instance_id from key
         const std::string full_key = std::string(key);
-        if (full_key.size() <= instance_prefix.size()) {
+        if (static_cast<int>(full_key.size()) <= instance_prefix.size()) {
             return true;
         }
         const std::string iid = full_key.substr(instance_prefix.size());

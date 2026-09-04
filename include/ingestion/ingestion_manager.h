@@ -375,9 +375,11 @@ struct DocumentValidationResult {
 
     /** @brief Return all violation messages joined by "; " */
     std::string summary() const {
-        std::string out;
+        std::string out = {};
         for (const auto& v : violations) {
-            if (!out.empty()) out += "; ";
+            if (!out.empty()) {
+              out += "; ";
+            }
             if (!v.field.empty()) { out += v.field; out += ": "; }
             out += v.message;
         }
@@ -608,9 +610,12 @@ public:
     /// Return all records whose `source_id` matches (thread-safe).
     std::vector<IngestionLineageRecord> getBySource(const std::string& source_id) const {
         std::lock_guard<std::mutex> lk(mutex_);
-        std::vector<IngestionLineageRecord> out;
+        std::vector<IngestionLineageRecord> out = {};
+
         for (const auto& r : records_) {
-            if (r.source_id == source_id) out.push_back(r);
+            if (r.source_id == source_id) {
+              out.push_back(r);
+            }
         }
         return out;
     }
@@ -618,9 +623,12 @@ public:
     /// Return all records whose `run_correlation_id` matches (thread-safe).
     std::vector<IngestionLineageRecord> getByCorrelationId(const std::string& run_id) const {
         std::lock_guard<std::mutex> lk(mutex_);
-        std::vector<IngestionLineageRecord> out;
+        std::vector<IngestionLineageRecord> out = {};
+
         for (const auto& r : records_) {
-            if (r.run_correlation_id == run_id) out.push_back(r);
+            if (r.run_correlation_id == run_id) {
+              out.push_back(r);
+            }
         }
         return out;
     }

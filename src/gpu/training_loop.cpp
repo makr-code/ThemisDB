@@ -49,7 +49,7 @@ GPUTrainingLoop::EpochStats GPUTrainingLoop::run(const std::vector<Batch> &batch
         // Deterministic shuffle based on current step for reproducibility.
         for (size_t i = order.size(); i > 1; --i) {
             size_t j = (step_ + i) % i;
-            std::swap(order[i - 1], order[j]);
+            std::swap(order[static_cast<int>(i - 1)], order[j]);
         }
     }
 

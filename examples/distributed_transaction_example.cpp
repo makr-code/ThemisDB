@@ -329,7 +329,7 @@ void example_participant_setup() {
     // instances that hold lambdas capturing them by reference.
 
     struct MockStore {
-        std::mutex mu;
+        std::mutex mu = {};
         // key → {value, commit_timestamp}
         std::map<std::string, std::pair<std::string, int64_t>> data;
         std::map<std::string, std::vector<std::string>> lock_table; // txn_id → locked keys
@@ -340,9 +340,13 @@ void example_participant_setup() {
             // by a different active transaction (mimics row-level locking).
             for (const auto& op : ops) {
                 std::string key = op.value("key", "");
-                if (key.empty()) continue;
+                if (key.empty()) {
+                  continue;
+                }
                 for (const auto& [other_txn, locked_keys] : lock_table) {
-                    if (other_txn == txn_id) continue;
+                    if (other_txn == txn_id) {
+                      continue;
+                    }
                     for (const auto& lk : locked_keys) {
                         if (lk == key) {
                             std::cout << "  CONFLICT: key '" << key

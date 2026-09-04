@@ -28,7 +28,7 @@ namespace aql {
  */
 struct ClassifyResult {
     /// Winning category label (empty string on failure).
-    std::string category;
+    std::string category = {};
 
     /// Confidence in [0, 1] for the winning category.
     double confidence = 0.0;

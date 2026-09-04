@@ -164,8 +164,8 @@ int main(int argc, char** argv) {
     }
 #else
     // Single-shot mode: read from stdin for manual testing.
-    std::string input;
-    std::string line;
+    std::string input = {};
+    std::string line = {};
     while (std::getline(std::cin, line)) {
         input += line + "\n";
     }

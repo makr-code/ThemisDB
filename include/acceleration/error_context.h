@@ -92,7 +92,7 @@ struct ErrorContext {
      * Format error for display/logging
      */
     std::string format() const {
-        std::string result;
+        std::string result = {};
         result += "[" + backendName + "] ";
         result += errorCodeToString(code);
         result += " (" + std::to_string(static_cast<uint32_t>(code)) + ")";
@@ -123,13 +123,27 @@ struct ErrorContext {
      * Get error category as string
      */
     std::string getCategory() const {
-        if (code == AccelerationErrorCode::Success) return "Success";
-        if (isInitializationError(code)) return "Initialization";
-        if (isResourceError(code)) return "Resource";
-        if (isRuntimeError(code)) return "Runtime";
-        if (isConfigurationError(code)) return "Configuration";
-        if (isKernelError(code)) return "Kernel";
-        if (isValidationError(code)) return "Validation";
+        if (code == AccelerationErrorCode::Success) {
+          return "Success";
+        }
+        if (isInitializationError(code)) {
+          return "Initialization";
+        }
+        if (isResourceError(code)) {
+          return "Resource";
+        }
+        if (isRuntimeError(code)) {
+          return "Runtime";
+        }
+        if (isConfigurationError(code)) {
+          return "Configuration";
+        }
+        if (isKernelError(code)) {
+          return "Kernel";
+        }
+        if (isValidationError(code)) {
+          return "Validation";
+        }
         return "Unknown";
     }
 };

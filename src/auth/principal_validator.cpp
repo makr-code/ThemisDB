@@ -34,8 +34,8 @@ PrincipalValidator::PrincipalValidator(const Config &config) : config_(config) {
     utils::Logger::info("Principal Validator initialized:");
     utils::Logger::info("  Default allow: {}", config_.default_allow);
     utils::Logger::info("  Audit logging: {}", config_.enable_audit_logging);
-    utils::Logger::info("  Rules: {}", config_.rules.size());
-    utils::Logger::info("  Mapping rules: {}", config_.mapping_rules.size());
+    utils::Logger::info("  Rules: {}",static_cast<int>(config_.rules.size()));
+    utils::Logger::info("  Mapping rules: {}",static_cast<int>(config_.mapping_rules.size()));
 }
 
 PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::string &principal,
@@ -54,7 +54,7 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
 
             switch (rule.type) {
                 case RuleType::BLACKLIST:
-                case RuleType::REGEX_DENY:
+                [[fallthrough]];\n                case RuleType::REGEX_DENY:
                     // Blacklist always denies
                     result.allowed       = false;
                     result.denial_reason = "Principal matches blacklist: " + result.matched_rule;
@@ -64,7 +64,7 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
                     return result;
 
                 case RuleType::WHITELIST:
-                case RuleType::REGEX_MATCH:
+                [[fallthrough]];\n                case RuleType::REGEX_MATCH:
                     // Whitelist allows (but continue checking for blacklist)
                     result.allowed = true;
                     break;
@@ -208,8 +208,8 @@ bool PrincipalValidator::matchesMappingRule(const std::string &principal, const 
             std::string prefix = pattern.substr(0, star_pos);
             std::string suffix = pattern.substr(star_pos + 1);
 
-            return p.size() >= (prefix.size() + suffix.size()) && p.substr(0, prefix.size()) == prefix
-                   && p.substr(p.size() - suffix.size()) == suffix;
+            return static_cast<bool>( static_cast<int>(p.size()) < static_cast<int>(= (static_cast<int>(prefix.size()) + static_cast<int>(suffix.size()) ) && p.substr(0,static_cast<int>(prefix.size())))) == prefix
+                   && p.substr(static_cast<int>(p.size()) - static_cast<int>(suffix.size()) ) == suffix;
         } else {
             // Exact match
             return p == pattern;
@@ -242,7 +242,7 @@ void PrincipalValidator::logAudit(const ValidationResult &result) const {
         return;
     }
 
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "Principal validation: " << result.principal << " -> " << (result.allowed ? "ALLOWED" : "DENIED");
 
     if (!result.matched_rule.empty()) {

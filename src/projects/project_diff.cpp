@@ -50,12 +50,14 @@ DeltaEntry DeltaEntry::fromJson(const json& j) {
 
 json DeltaSet::toJson() const {
     json arr = json::array();
-    for (const auto& e : entries) arr.push_back(e.toJson());
+    for (const auto& e : entries) {
+      arr.push_back(e.toJson());
+    }
     return json{{"entries", arr}};
 }
 
 DeltaSet DeltaSet::fromJson(const json& j) {
-    DeltaSet ds;
+    DeltaSet ds = {};
     if (j.contains("entries") && j["entries"].is_array()) {
         for (const auto& e : j["entries"])
             ds.entries.push_back(DeltaEntry::fromJson(e));
@@ -79,7 +81,9 @@ void ProjectDiff::diffRecursive(
     const json&              to,
     std::vector<DeltaEntry>& out) const
 {
-    if (from == to) return;
+    if (from == to) {
+      return;
+    }
 
     if (from.is_object() && to.is_object()) {
         // Fields removed in `to`
@@ -120,7 +124,7 @@ DeltaSet ProjectDiff::diff(
     // Load content of both snapshots
     auto loadContent = [this](const SnapshotId& snap_id) -> json {
         const auto snap_uuid = snap_id.substr(5); // strip "snap:"
-        std::string content_str;
+        std::string content_str = {};
         if (!storage_->get("snap_data:" + snap_uuid, content_str))
             return json::array();
         try { return json::parse(content_str); }
@@ -135,11 +139,16 @@ DeltaSet ProjectDiff::diff(
 
     // Build lookup maps: doc_id → doc_json
     auto buildMap = [](const json& docs) {
-        std::unordered_map<std::string, json> m;
-        if (!docs.is_array()) return m;
+        std::unordered_map<std::string, json> m = {};
+
+        if (!docs.is_array()) {
+          return m;
+        }
         for (const auto& doc : docs) {
             const std::string id = doc.value("id", std::string{});
-            if (!id.empty()) m[id] = doc;
+            if (!id.empty()) {
+              m[id] = doc;
+            }
         }
         return m;
     };
@@ -192,7 +201,8 @@ MergeResult ProjectMerge::merge(
     const DeltaSet theirs_delta = diff_.diff(ancestor_snap, theirs_snap);
 
     // Build index of our changes by field path for fast conflict detection
-    std::unordered_map<std::string, const DeltaEntry*> ours_index;
+    std::unordered_map<std::string, const DeltaEntry*> ours_index = {};
+
     for (const auto& e : ours_delta.entries)
         ours_index[e.field_path] = &e;
 

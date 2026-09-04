@@ -34,7 +34,7 @@ std::vector<int> ShardFailureInjector::injectRandomFailures(
     int num_failures, int max_shard_id, bool transient,
     std::chrono::milliseconds max_duration) {
     std::vector<int> scenario_ids;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> shard_dist(0, max_shard_id);
     std::uniform_int_distribution<> type_dist(0, 3);
@@ -180,7 +180,8 @@ void ShardFailureInjector::update() {
 }
 
 std::map<std::string, int> ShardFailureInjector::getStatistics() const {
-    std::map<std::string, int> stats;
+    std::map<std::string, int> stats = {};
+
     stats["total_scenarios"] = static_cast<int>(scenarios_.size());
     stats["active_scenarios"] = 0;
     stats["transient_failures"] = 0;

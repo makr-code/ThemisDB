@@ -71,12 +71,12 @@ public:
         return verifier_.calculateFileHash(modulePath);
     }
 
-    void setRequireSignature(bool require) {
+    void setRequireSignature([[maybe_unused]] bool require) {
         policy_.requireSignature = require;
         verifier_.updatePolicy(policy_);
     }
 
-    void setAllowUnsigned(bool allow) {
+    void setAllowUnsigned([[maybe_unused]] bool allow) {
         policy_.allowUnsigned = allow;
         verifier_.updatePolicy(policy_);
     }
@@ -115,11 +115,11 @@ std::string ModuleSecurityVerifier::calculateFileHash(const std::string& moduleP
     return impl_->calculateFileHash(modulePath);
 }
 
-void ModuleSecurityVerifier::setRequireSignature(bool require) {
+void ModuleSecurityVerifier::setRequireSignature([[maybe_unused]] bool require) {
     impl_->setRequireSignature(require);
 }
 
-void ModuleSecurityVerifier::setAllowUnsigned(bool allow) {
+void ModuleSecurityVerifier::setAllowUnsigned([[maybe_unused]] bool allow) {
     impl_->setAllowUnsigned(allow);
 }
 

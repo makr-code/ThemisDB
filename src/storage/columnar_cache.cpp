@@ -33,7 +33,9 @@ size_t ColumnSegment::byteSize() const noexcept {
         case SegmentDType::Bool:   return n + n;
         case SegmentDType::String: {
             size_t total = n; // null bitmap
-            for (const auto& s : string_data) total += s.size() + sizeof(std::string);
+            for (const auto& s : string_data) {
+              total += static_cast<int>(s.size()) + sizeof(std::string);
+            }
             return total;
         }
     }
@@ -172,7 +174,9 @@ bool ColumnarCache::evict(const SegmentKey& key) {
             return false;
         }
         bytes_used_ -= it->second.segment.byteSize();
-        if (cfg_.on_evict) on_evict_cb = cfg_.on_evict;
+        if (cfg_.on_evict) {
+          on_evict_cb = cfg_.on_evict;
+        }
 
         auto lit = lru_map_.find(key);
         if (lit != lru_map_.end()) {
@@ -183,7 +187,9 @@ bool ColumnarCache::evict(const SegmentKey& key) {
         evicted = true;
     }
 
-    if (evicted && on_evict_cb) on_evict_cb(key);
+    if (evicted && on_evict_cb) {
+      on_evict_cb(key);
+    }
     return evicted;
 }
 
@@ -201,7 +207,9 @@ void ColumnarCache::clear() {
         for (auto it = store_.begin(); it != store_.end(); ) {
             if (it->second.pin_count == 0) {
                 bytes_used_ -= it->second.segment.byteSize();
-                if (on_evict_cb) evicted_keys.push_back(it->first);
+                if (on_evict_cb) {
+                  evicted_keys.push_back(it->first);
+                }
                 auto lit = lru_map_.find(it->first);
                 if (lit != lru_map_.end()) {
                     lru_list_.erase(lit->second);
@@ -218,7 +226,9 @@ void ColumnarCache::clear() {
         // lock_in_loop scanner alert: this loop executes outside the
         // lock_guard scope (the brace block closed above), so no mutex is
         // held during the callbacks — false positive.
-        for (const auto& k : evicted_keys) on_evict_cb(k);
+        for (const auto& k : evicted_keys) {
+          on_evict_cb(k);
+        }
     }
 }
 
@@ -228,7 +238,7 @@ void ColumnarCache::clear() {
 
 size_t ColumnarCache::size() const noexcept {
     std::lock_guard<std::mutex> lk(mu_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 size_t ColumnarCache::pinnedCount() const noexcept {
@@ -240,7 +250,9 @@ size_t ColumnarCache::pinnedCount() const noexcept {
     // deadlock_risk scanner alert: there is exactly one mutex (mu_) in this
     // class; no nested or cross-mutex acquisition is possible — false positive.
     for (const auto& [k, e] : store_) {
-        if (e.pin_count > 0) ++n;
+        if (e.pin_count > 0) {
+          ++n;
+        }
     }
     return n;
 }
@@ -291,7 +303,9 @@ void ColumnarCache::evictLRU() {
             auto sit = store_.find(k);
             if (sit != store_.end() && sit->second.pin_count == 0) {
                 bytes_used_ -= sit->second.segment.byteSize();
-                if (cfg_.on_evict) to_notify.push_back(k);
+                if (cfg_.on_evict) {
+                  to_notify.push_back(k);
+                }
                 lru_map_.erase(k);
                 store_.erase(sit);
                 it = lru_list_.erase(it);
@@ -305,7 +319,9 @@ void ColumnarCache::evictLRU() {
     // Fire callbacks outside the scan loop but still under mu_.
     // (Users must not call back into the cache from the callback.)
     if (cfg_.on_evict) {
-        for (const auto& k : to_notify) cfg_.on_evict(k);
+        for (const auto& k : to_notify) {
+          cfg_.on_evict(k);
+        }
     }
 }
 

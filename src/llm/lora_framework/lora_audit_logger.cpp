@@ -50,7 +50,9 @@ public:
     }
     
     void logInference(const LoRAInferenceAudit& audit) {
-        if (!enabled_) return;
+        if (!enabled_) {
+          return;
+        }
         
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -107,7 +109,9 @@ public:
         const std::string& adapter_id,
         const json& details
     ) {
-        if (!enabled_) return;
+        if (!enabled_) {
+          return;
+        }
         
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -208,9 +212,11 @@ public:
                 return results;
             }
             
-            std::string line;
+            std::string line = {};
             while (std::getline(file, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 
                 try {
                     json entry = json::parse(line);
@@ -261,17 +267,31 @@ public:
                 LoRAInferenceAudit audit;
                 
                 // Parse log entry back to audit structure
-                if (log.contains("request_id")) audit.request_id = log["request_id"];
-                if (log.contains("base_model_id")) audit.base_model_id = log["base_model_id"];
-                if (log.contains("adapter_id")) audit.adapter_id = log["adapter_id"];
-                if (log.contains("adapter_version")) audit.adapter_version = log["adapter_version"];
-                if (log.contains("prompt")) audit.prompt = log["prompt"];
-                if (log.contains("response")) audit.response = log["response"];
-                if (log.contains("success")) audit.success = log["success"];
+                if (log.contains("request_id")) {
+                  audit.request_id = log["request_id"];
+                }
+                if (log.contains("base_model_id")) {
+                  audit.base_model_id = log["base_model_id"];
+                }
+                if (log.contains("adapter_id")) {
+                  audit.adapter_id = log["adapter_id"];
+                }
+                if (log.contains("adapter_version")) {
+                  audit.adapter_version = log["adapter_version"];
+                }
+                if (log.contains("prompt")) {
+                  audit.prompt = log["prompt"];
+                }
+                if (log.contains("response")) {
+                  audit.response = log["response"];
+                }
+                if (log.contains("success")) {
+                  audit.success = log["success"];
+                }
                 
                 results.push_back(audit);
                 
-                if (results.size() >= static_cast<size_t>(limit)) {
+                if (static_cast<int>(results.size()) >= static_cast<size_t>(limit)) {
                     break;
                 }
             }
@@ -303,10 +323,18 @@ public:
             
             if (log.contains("event_type")) {
                 std::string event_type = log["event_type"];
-                if (event_type == "TRAINING_COMPLETED") trainings++;
-                if (event_type == "FEEDBACK_POSITIVE") positive_feedback++;
-                if (event_type == "FEEDBACK_NEGATIVE") negative_feedback++;
-                if (event_type == "VERSION_CREATED") versions++;
+                if (event_type == "TRAINING_COMPLETED") {
+                  trainings++;
+                }
+                if (event_type == "FEEDBACK_POSITIVE") {
+                  positive_feedback++;
+                }
+                if (event_type == "FEEDBACK_NEGATIVE") {
+                  negative_feedback++;
+                }
+                if (event_type == "VERSION_CREATED") {
+                  versions++;
+                }
             }
         }
         
@@ -321,7 +349,7 @@ public:
         return stats;
     }
     
-    void setEnabled(bool enabled) {
+    void setEnabled([[maybe_unused]] bool enabled) {
         enabled_ = enabled;
         spdlog::info("LoRAAuditLogger {}", enabled ? "enabled" : "disabled");
     }
@@ -489,7 +517,7 @@ json LoRAAuditLogger::getAdapterStats(const std::string& adapter_id) {
     return impl_->getAdapterStats(adapter_id);
 }
 
-void LoRAAuditLogger::setEnabled(bool enabled) {
+void LoRAAuditLogger::setEnabled([[maybe_unused]] bool enabled) {
     impl_->setEnabled(enabled);
 }
 
@@ -549,7 +577,7 @@ std::string generateRequestId() {
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -558,9 +586,9 @@ std::string generateRequestId() {
 
 std::string computeAdapterHash(const std::vector<uint8_t>& weights) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(weights.data(), weights.size(), hash);
+    SHA256(weights.data(),static_cast<int>(weights.size()), hash);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') 
             << static_cast<int>(hash[i]);

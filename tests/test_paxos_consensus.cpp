@@ -198,7 +198,7 @@ TEST_F(PaxosConsensusTest, OnCommitCallback) {
     
     std::atomic<int> commit_count{0};
     std::vector<std::string> committed_ops;
-    std::mutex ops_mutex;
+    std::mutex ops_mutex = {};
     
     module->onCommit([&](const ConsensusLogEntry& entry) {
         commit_count++;

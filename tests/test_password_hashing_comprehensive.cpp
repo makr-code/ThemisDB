@@ -34,7 +34,7 @@ using namespace themis::security;
 namespace {
 
 std::string toHex(const unsigned char* data, int len) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (int i = 0; i < len; ++i)
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
     return ss.str();
@@ -61,8 +61,12 @@ bool pbkdf2Verify(const std::string& password, const std::string& stored) {
     constexpr int DK_LEN       = 32;
     constexpr int ITER         = 100000;
 
-    if (stored.rfind("pbkdf2$", 0) != 0) return false;
-    if (stored.size() != 7u + SALT_HEX_LEN + 1u + 64u) return false;
+    if (stored.rfind("pbkdf2$", 0) != 0) {
+      return false;
+    }
+    if (stored.size() != 7u + SALT_HEX_LEN + 1u + 64u) {
+      return false;
+    }
 
     std::string salt_hex = stored.substr(7, SALT_HEX_LEN);
     std::string dk_hex   = stored.substr(7 + SALT_HEX_LEN + 1);
@@ -308,7 +312,9 @@ TEST(Argon2idHashTest, Hash_HasFiveSegments) {
     // → 5 non-empty segments separated by '$' (leading '$' makes 6 tokens)
     size_t count = 0;
     for (char c : result->password_hash)
-        if (c == '$') ++count;
+        if (c == '$') {
+          ++count;
+        }
     EXPECT_EQ(count, 5u);
 }
 

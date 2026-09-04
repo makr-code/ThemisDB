@@ -35,7 +35,7 @@ FlushController::FlushController(FlushControllerConfig config)
 // reportFlushLatency
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FlushController::reportFlushLatency(double latency_ms) {
+void FlushController::reportFlushLatency([[maybe_unused]] double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     ++sample_count_;
@@ -109,7 +109,9 @@ bool FlushController::checkBackpressure(size_t                    buffered_point
     std::unique_lock<std::mutex> lock(mutex_);
     current_buffered_ = buffered_points;
 
-    if (!backpressure_) return true;
+    if (!backpressure_) {
+      return true;
+    }
 
     // Block until queue drains below low-water mark or timeout
     bool ok = cv_.wait_for(lock, timeout, [this]() {
@@ -122,7 +124,7 @@ bool FlushController::checkBackpressure(size_t                    buffered_point
 // notifyDrained
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FlushController::notifyDrained(size_t remaining_points) {
+void FlushController::notifyDrained([[maybe_unused]] size_t remaining_points) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_buffered_ = remaining_points;
     if (remaining_points <= config_.low_water_mark) {

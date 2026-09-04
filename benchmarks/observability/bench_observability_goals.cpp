@@ -328,7 +328,9 @@ static void OBS3_ExclusiveMutexScrape(benchmark::State& state) {
     static ExclusiveMutexMetricsScrape store;
     // Pre-populate so scrape has something to read.
     if (state.thread_index() == 0) {
-        for (int i = 0; i < 1000; ++i) store.recordMetric(i * 0.1);
+        for (int i = 0; i < 1000; ++i) {
+          store.recordMetric(i * 0.1);
+        }
     }
 
     for (auto _ : state) {
@@ -347,7 +349,9 @@ BENCHMARK(OBS3_ExclusiveMutexScrape)->ThreadRange(1, 16);
 static void OBS3_SharedMutexScrape(benchmark::State& state) {
     static SharedMutexMetricsScrape store;
     if (state.thread_index() == 0) {
-        for (int i = 0; i < 1000; ++i) store.recordMetric(i * 0.1);
+        for (int i = 0; i < 1000; ++i) {
+          store.recordMetric(i * 0.1);
+        }
     }
 
     for (auto _ : state) {

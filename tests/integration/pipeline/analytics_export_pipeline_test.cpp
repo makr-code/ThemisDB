@@ -139,7 +139,7 @@ TEST_F(AnalyticsExportPipelineTest, AEP03_ParquetExportUsesSecurityKeyContext) {
     ASSERT_TRUE(pipeline_->ExportParquetEncrypted(42, out_file, "kms-key-1"));
 
     std::ifstream in(out_file);
-    std::string line;
+    std::string line = {};
     std::getline(in, line);
 
     EXPECT_NE(line.find("enc(kms-key-1):42"), std::string::npos);

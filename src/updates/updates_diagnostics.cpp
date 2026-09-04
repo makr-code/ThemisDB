@@ -71,7 +71,9 @@ std::optional<ErrorContext> ErrorContext::fromJson(const json& j) {
         
         // Parse severity
         std::string sev = j.value("severity", "ERROR");
-        if (sev == "INFO") ctx.severity = DiagnosticSeverity::INFO;
+        if (sev == "INFO") {
+          ctx.severity = DiagnosticSeverity::INFO;
+        }
         else if (sev == "WARN") ctx.severity = DiagnosticSeverity::WARN;
         else if (sev == "CRITICAL") ctx.severity = DiagnosticSeverity::CRITICAL;
         else ctx.severity = DiagnosticSeverity::ERROR;

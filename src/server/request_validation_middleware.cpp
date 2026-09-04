@@ -57,7 +57,7 @@ void RequestValidationMiddleware::clearSchemas() {
 
 size_t RequestValidationMiddleware::schemaCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return schemas_.size();
+    return static_cast<int>(schemas_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -69,29 +69,35 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
     const std::string& path) const
 {
     // Helper: find the best (longest-prefix) schema for a given method string.
-    auto findForMethod = [&](const std::string& m) -> const nlohmann::json* {
+    auto findForMethod = [&]([[maybe_unused]] const std::string& m) -> const nlohmann::json* {
         // 1. Exact match
         auto it = schemas_.find(EndpointKey{m, path});
-        if (it != schemas_.end()) return &it->second;
+        if (it != schemas_.end()) {
+          return &it->second;
+        }
 
         // 2. Longest prefix match
         const nlohmann::json* best = nullptr;
         size_t best_len = 0;
         for (const auto& [key, schema] : schemas_) {
-            if (key.method != m) continue;
+            if (key.method != m) {
+              continue;
+            }
             const std::string& registered_path = key.path;
-            if (registered_path.empty()) continue;
+            if (registered_path.empty()) {
+              continue;
+            }
             // path must start with registered_path
-            if (path.size() >= registered_path.size() &&
-                path.compare(0, registered_path.size(), registered_path) == 0) {
+            if (static_cast<int>(path.size()) >= registered_path.size() &&
+                path.compare(0,static_cast<int>(registered_path.size()), registered_path) == 0) {
                 // Ensure it's a proper prefix boundary:
                 //   - exact match, OR
                 //   - next char in request path is '/', OR
                 //   - registered path ends with '/' (already encodes the separator)
-                bool boundary = (path.size() == registered_path.size()) ||
-                                (path[registered_path.size()] == '/') ||
+                bool boundary = (static_cast<int>(path.size()) == static_cast<int>(registered_path.size())) ||
+                                (path[static_cast<int>(registered_path.size())] == '/') ||
                                 (registered_path.back() == '/');
-                if (boundary && registered_path.size() > best_len) {
+                if (boundary && static_cast<int>(registered_path.size()) > best_len) {
                     best_len = registered_path.size();
                     best = &schema;
                 }
@@ -101,9 +107,13 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
     };
 
     // Try specific method first, then wildcard
-    if (auto* s = findForMethod(method)) return s;
+    if (auto* s = findForMethod(method)) {
+      return s;
+    }
     if (method != "*") {
-        if (auto* s = findForMethod("*")) return s;
+        if (auto* s = findForMethod("*")) {
+          return s;
+        }
     }
     return nullptr;
 }

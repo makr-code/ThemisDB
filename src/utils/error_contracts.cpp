@@ -36,7 +36,7 @@ std::string ErrorContext::toJSON() const {
     
     // Timing - format timestamp as ISO8601 string
     auto ts = std::chrono::system_clock::to_time_t(timestamp);
-    std::stringstream timestamp_ss;
+    std::stringstream timestamp_ss = {};
     timestamp_ss << std::put_time(std::gmtime(&ts), "%Y-%m-%dT%H:%M:%SZ");
     j["timestamp"] = timestamp_ss.str();
     j["elapsed_ms"] = elapsed_ms.count();
@@ -64,7 +64,7 @@ std::string ErrorContext::toJSON() const {
 }
 
 std::string ErrorContext::toFormattedString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "[" << severityName(severity) << "] "
         << "ErrorCode=" << errorCodeName(code) << " "
@@ -200,6 +200,7 @@ std::string errorCodeName(ErrorCode code) {
         case ErrorCode::SERIALIZATION_SIZE_EXCEEDED:      return "SERIALIZATION_SIZE_EXCEEDED";
         
         case ErrorCode::UNKNOWN_ERROR:
+        [[fallthrough]];
         default:
             return fmt::format("UNKNOWN_ERROR({})", static_cast<uint16_t>(code));
     }
@@ -270,15 +271,21 @@ IncidentCategory categorizeIncident(ErrorCode code) {
     switch (code) {
         // Buffer overflow incidents
         case ErrorCode::AUDIT_BUFFER_OVERFLOW:
+        [[fallthrough]];
         case ErrorCode::AUDIT_QUEUE_FULL:
+        [[fallthrough]];
         case ErrorCode::LOG_BUFFER_OVERFLOW:
+        [[fallthrough]];
         case ErrorCode::TRACE_BUFFER_OVERFLOW:
+        [[fallthrough]];
         case ErrorCode::PRIVACY_BUFFER_OVERFLOW:
             return IncidentCategory::BufferOverflow;
         
         // Memory exhaustion incidents
         case ErrorCode::PRIVACY_MEMORY_EXCEEDED:
+        [[fallthrough]];
         case ErrorCode::UTILS_ALLOCATION_FAILED:
+        [[fallthrough]];
         case ErrorCode::UTILS_RESOURCE_EXHAUSTED:
             return IncidentCategory::MemoryExhaustion;
         
@@ -296,30 +303,39 @@ IncidentCategory categorizeIncident(ErrorCode code) {
         
         // General operation timeout incidents
         case ErrorCode::UTILS_TIMEOUT:
+        [[fallthrough]];
         case ErrorCode::CONNECTION_POOL_TIMEOUT:
+        [[fallthrough]];
         case ErrorCode::LOCK_TIMEOUT:
             return IncidentCategory::OperationTimeout;
         
         // Key derivation failures
         case ErrorCode::CRYPTO_KEY_DERIVATION_FAILED:
+        [[fallthrough]];
         case ErrorCode::CRYPTO_CACHE_MISS:
             return IncidentCategory::KeyDerivationFailure;
         
         // Privacy detection failures
         case ErrorCode::PRIVACY_ENGINE_FAILED:
+        [[fallthrough]];
         case ErrorCode::PRIVACY_ENGINE_LOAD_FAILED:
+        [[fallthrough]];
         case ErrorCode::PRIVACY_NO_ENGINE:
             return IncidentCategory::PrivacyDetectionFailure;
         
         // Compression failures
         case ErrorCode::COMPRESSION_FAILED:
+        [[fallthrough]];
         case ErrorCode::DECOMPRESSION_FAILED:
+        [[fallthrough]];
         case ErrorCode::COMPRESSION_BOMB_DETECTED:
+        [[fallthrough]];
         case ErrorCode::CODEC_INITIALIZATION_FAILED:
             return IncidentCategory::CompressionFailure;
         
         // Fallback activated indicators
         case ErrorCode::PRIVACY_PATTERN_OVERFLOW:  // Fall back to simpler detection
+        [[fallthrough]];
         case ErrorCode::LOG_SINK_FAILED:           // Fall back to console logging
             return IncidentCategory::FallbackActivated;
         
@@ -329,14 +345,19 @@ IncidentCategory categorizeIncident(ErrorCode code) {
         
         // Invalid configuration
         case ErrorCode::PRIVACY_CONFIG_INVALID:
+        [[fallthrough]];
         case ErrorCode::LOG_LEVEL_INVALID:
+        [[fallthrough]];
         case ErrorCode::LOG_PATTERN_ERROR:
+        [[fallthrough]];
         case ErrorCode::UTILS_INVALID_ARGUMENT:
             return IncidentCategory::InvalidConfiguration;
         
         // Data corruption indicators
         case ErrorCode::COMPRESSION_INPUT_INVALID:
+        [[fallthrough]];
         case ErrorCode::SERIALIZATION_FORMAT_INVALID:
+        [[fallthrough]];
         case ErrorCode::SERIALIZATION_VERSION_MISMATCH:
             return IncidentCategory::DataCorruption;
         
@@ -402,7 +423,9 @@ ErrorContext makeErrorContext(ErrorCode code,
     // Set recovery hints based on error code
     switch (code) {
         case ErrorCode::AUDIT_BUFFER_OVERFLOW:
+        [[fallthrough]];
         case ErrorCode::LOG_BUFFER_OVERFLOW:
+        [[fallthrough]];
         case ErrorCode::TRACE_BUFFER_OVERFLOW:
             ctx.recovery_hint = "Increase buffer size or reduce logging volume";
             break;
@@ -420,6 +443,7 @@ ErrorContext makeErrorContext(ErrorCode code,
             break;
         
         case ErrorCode::COMPRESSION_FAILED:
+        [[fallthrough]];
         case ErrorCode::DECOMPRESSION_FAILED:
             ctx.recovery_hint = "Verify input data and retry with different compression level";
             break;

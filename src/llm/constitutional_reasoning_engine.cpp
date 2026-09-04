@@ -112,7 +112,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
             auto it = std::find_if(
                 impl_->config.principles.begin(),
                 impl_->config.principles.end(),
-                [&](const ConstitutionalPrinciple& p) { return p.id == principle_id; }
+                [&]([[maybe_unused]] const ConstitutionalPrinciple& p) { return p.id == principle_id; }
             );
             
             if (it != impl_->config.principles.end()) {
@@ -188,8 +188,8 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     
     // Generate revision reasoning
     if (result.was_revised) {
-        std::ostringstream oss;
-        oss << "Revised to address " << result.critiques.size() << " critique(s). ";
+        std::ostringstream oss = {};
+        oss << "Revised to address " <<static_cast<int>(result.critiques.size()) << " critique(s). ";
         oss << "Improvement: " << (result.improvement * 100) << "%. ";
         oss << "Iterations: " << result.iterations << ".";
         result.revision_reasoning = oss.str();
@@ -212,8 +212,8 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     updateStatistics(result);
     
     // Call callback if set
-    if (impl_->callback) {
-        impl_->callback(result);
+    if ([[maybe_unused]] impl_->callback) {
+        impl_->callback([[maybe_unused]] result);
     }
     
     return result;
@@ -253,7 +253,7 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     
     // Generate critique using rule-based detection
     // This provides fast, deterministic critique generation without LLM overhead
-    std::string critique;
+    std::string critique = {};
     
     if (principle.id == "human_autonomy") {
         // Check for patronizing language
@@ -364,7 +364,7 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
     }
     
     float compliance_rate = 1.0f - (static_cast<float>(violations.size()) / 
-                                   impl_->config.principles.size());
+                                   impl_-> static_cast<int>(config.principles.size()));
     
     return std::max(0.0f, std::min(1.0f, compliance_rate));
 }
@@ -385,7 +385,7 @@ void ConstitutionalReasoningEngine::removePrinciple(const std::string& principle
         std::remove_if(
             principles.begin(),
             principles.end(),
-            [&](const ConstitutionalPrinciple& p) { return p.id == principle_id; }
+            [&]([[maybe_unused]] const ConstitutionalPrinciple& p) { return p.id == principle_id; }
         ),
         principles.end()
     );
@@ -639,7 +639,7 @@ std::string ConstitutionalReasoningEngine::buildCritiquePrompt(
     const std::string& query,
     const ConstitutionalPrinciple& principle
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Critique the following response based on the principle: " 
         << principle.name << "\n\n";
     oss << "Principle: " << principle.description << "\n\n";
@@ -654,7 +654,7 @@ std::string ConstitutionalReasoningEngine::buildRevisionPrompt(
     const std::vector<std::string>& critiques,
     const std::string& query
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Revise the following response based on these critiques:\n\n";
     oss << "Original Response: " << response << "\n\n";
     oss << "Critiques:\n";

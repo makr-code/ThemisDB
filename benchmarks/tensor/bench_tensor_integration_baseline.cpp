@@ -218,7 +218,8 @@ BENCHMARK_F(TensorPipelineFixture, FederatedShardSummarization_3Shards)(benchmar
 }
 
 BENCHMARK_F(TensorPipelineFixture, FederatedShardSummarization_10Shards)(benchmark::State& state) {
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     for (int i = 0; i < 10; ++i) {
         shard_ids.push_back("shard:shard" + std::to_string(i));
     }
@@ -338,7 +339,8 @@ static void BM_RedundancyDetection_SimilarityBased(benchmark::State& state) {
         s.similarity_score = 0.5f + static_cast<float>(i) * 0.01f;
         summaries.push_back(std::move(s));
     }
-    std::vector<const BaseTensorSummary*> ptrs;
+    std::vector<const BaseTensorSummary*> ptrs = {};
+
     ptrs.reserve(summaries.size());
     for (const auto& s : summaries) {
         ptrs.push_back(&s);

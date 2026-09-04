@@ -87,7 +87,7 @@ namespace {
     std::string makeRandomString(size_t len) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
         std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 3);
-        std::string s;
+        std::string s = {};
         s.reserve(len);
         for (size_t i = 0; i < len; ++i) {
             s += charset[dist(rng)];
@@ -96,7 +96,7 @@ namespace {
     }
     
     void cleanupTestDB(const std::string& path) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 }
@@ -198,7 +198,7 @@ protected:
             themis::BaseEntity emb("emb_" + std::to_string(i));
             emb.setField("product_id", static_cast<int64_t>(i));
             // Store embedding as string (simplified - would be binary in production)
-            std::string emb_str;
+            std::string emb_str = {};
             for (float val : embedding) {
                 emb_str += std::to_string(val) + ",";
             }
@@ -323,7 +323,9 @@ BENCHMARK_DEFINE_F(MMDBFixture, GraphTraversal)(benchmark::State& state) {
             auto edge = getEntity(edges_, "edge_similar_" + std::to_string(start_product) + "_" + std::to_string(i));
             if (edge) {
                 auto to_id = edge->getFieldAsInt("to_id");
-                if (to_id) hop1_products.push_back(*to_id);
+                if (to_id) {
+                  hop1_products.push_back(*to_id);
+                }
             }
         }
         
@@ -404,7 +406,7 @@ BENCHMARK_DEFINE_F(MMDBFixture, RAGWorkflow)(benchmark::State& state) {
                          [](const auto& a, const auto& b) { return a.first > b.first; });
         
         // Phase 2: Context building (retrieve documents)
-        std::string context;
+        std::string context = {};
         size_t top_results = std::min(size_t(5), similarities.size());
         for (size_t i = 0; i < top_results; ++i) {
             auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));

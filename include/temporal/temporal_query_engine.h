@@ -68,7 +68,7 @@ enum class TemporalSemantics {
  * A simple field-level filter applied to Document rows.
  */
 struct RowFilter {
-    std::string field;
+    std::string field = {};
     nlohmann::json value;
 
     bool matches(const Document& doc) const {
@@ -513,7 +513,7 @@ public:
 
 private:
     struct CacheKey {
-        std::string table_name;
+        std::string table_name = {};
         Timestamp   as_of;
         bool operator==(const CacheKey& o) const noexcept {
             return as_of == o.as_of && table_name == o.table_name;

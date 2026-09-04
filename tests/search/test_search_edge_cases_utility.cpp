@@ -130,7 +130,7 @@ TEST_F(UtilityComponentEdgeCasesTest, UTL_11_TokenizationEmptyTokens) {
   std::string text = "   hello     world    ";
   std::vector<std::string> tokens;
   std::istringstream iss(text);
-  std::string token;
+  std::string token = {};
   while (iss >> token) {
     if (!token.empty()) {
       tokens.push_back(token);

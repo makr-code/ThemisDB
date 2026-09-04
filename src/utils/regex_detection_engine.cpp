@@ -94,7 +94,7 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
         
         rebuildFieldHints();
         
-        spdlog::info("RegexDetectionEngine: Initialized with {} patterns", patterns_.size());
+        spdlog::info("RegexDetectionEngine: Initialized with {} patterns",static_cast<int>(patterns_.size()));
         return true;
         
     } catch (const std::exception& e) {
@@ -126,7 +126,7 @@ bool RegexDetectionEngine::reload(const nlohmann::json& config) {
     
     rebuildFieldHints();
     
-    spdlog::info("RegexDetectionEngine: Reloaded {} patterns", patterns_.size());
+    spdlog::info("RegexDetectionEngine: Reloaded {} patterns",static_cast<int>(patterns_.size()));
     return true;
 }
 
@@ -158,7 +158,9 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
     auto kRegexMatchTimeoutMs = std::chrono::milliseconds(pattern_timeout_ms_);
     
     for (const auto& pattern : patterns_) {
-        if (!pattern.enabled) continue;
+        if (!pattern.enabled) {
+          continue;
+        }
         
         // Check for overall timeout before processing next pattern
         auto elapsed = std::chrono::steady_clock::now() - start_time;
@@ -175,11 +177,13 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         }
         
         PIIType type = PIITypeUtils::fromString(pattern.name);
-        if (type == PIIType::UNKNOWN) continue;
+        if (type == PIIType::UNKNOWN) {
+          continue;
+        }
         
         try {
             std::sregex_iterator it(text.begin(), text.end(), pattern.compiled_regex);
-            std::sregex_iterator end;
+            std::sregex_iterator end = {};
             
             for (; it != end; ++it) {
                 // Check timeout during match iteration (each 10 matches)
@@ -298,7 +302,7 @@ size_t RegexDetectionEngine::maxPatternLength() const {
     // whose match spans straddle a chunk boundary are still detected.
     size_t max_len = 0;
     for (const auto& p : patterns_) {
-        if (p.enabled && p.regex_str.size() > max_len) {
+        if (p.enabled && static_cast<int>(p.regex_str.size()) > max_len) {
             max_len = p.regex_str.size();
         }
     }
@@ -423,7 +427,7 @@ void RegexDetectionEngine::loadEmbeddedDefaults() {
         redaction_modes_[PIIType::URL] = url.redaction_mode;
     }
     
-    spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns", patterns_.size());
+    spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns",static_cast<int>(patterns_.size()));
 }
 
 bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) {
@@ -448,7 +452,8 @@ bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) 
             pattern.enabled = pattern_node.value("enabled", true);
             
             // Parse regex flags
-            std::vector<std::string> flag_strings;
+            std::vector<std::string> flag_strings = {};
+
             if (pattern_node.contains("flags") && pattern_node["flags"].is_array()) {
                 for (const auto& flag : pattern_node["flags"]) {
                     flag_strings.push_back(flag.get<std::string>());
@@ -516,10 +521,14 @@ void RegexDetectionEngine::rebuildFieldHints() {
     }
     
     for (const auto& pattern : patterns_) {
-        if (!pattern.enabled) continue;
+        if (!pattern.enabled) {
+          continue;
+        }
         
         PIIType type = PIITypeUtils::fromString(pattern.name);
-        if (type == PIIType::UNKNOWN) continue;
+        if (type == PIIType::UNKNOWN) {
+          continue;
+        }
         
         for (const auto& hint : pattern.field_hints) {
             std::string lower_hint = hint;
@@ -552,7 +561,7 @@ std::regex::flag_type RegexDetectionEngine::parseRegexFlags(
 }
 
 bool RegexDetectionEngine::luhnCheck(const std::string& number) const {
-    std::string digits;
+    std::string digits = {};
     for (char c : number) {
         if (std::isdigit(c)) {
             digits += c;
@@ -604,14 +613,14 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
     size_t pos = 0;
     
     // Skip BOM marker if present (EF BB BF)
-    if (text.size() >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
+    if (static_cast<int>(text.size()) >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
         pos = 3;
         spdlog::debug("RegexDetectionEngine: Skipping UTF-8 BOM marker");
     }
     
     // Validate UTF-8 byte sequences (RFC 3629 strict: rejects overlong encodings,
     // surrogate halves U+D800–U+DFFF, and code points beyond U+10FFFF).
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
         unsigned char byte = data[pos];
 
         if (byte < 0x80) {
@@ -660,7 +669,7 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
             }
             // Reject code points > U+10FFFF: leading 0xF4 with second byte > 0x8F,
             // or leading bytes 0xF5–0xF7
-            if (byte > 0xF4 || (byte == 0xF4 && data[pos+1] > 0x8F)) {
+            if ((byte > 0xF4 || (byte == 0xF4 && data[pos+1] > 0x8F))) {
                 spdlog::warn("RegexDetectionEngine: Code point > U+10FFFF at position {}", pos);
                 return false;
             }
@@ -714,20 +723,20 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
     for (size_t i = 0; i < pattern.size(); ++i) {
         char c = pattern[i];
         
-        if (c == '(' && (i == 0 || pattern[i-1] != '\\')) {
+        if ((c == '(' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
             paren_depth++;
             alt_count_in_group = 0;
-        } else if (c == ')' && (i == 0 || pattern[i-1] != '\\')) {
+        } else if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
             if (paren_depth > 0) {
                 paren_depth--;
             }
             alt_count_in_group = 0;
-        } else if (c == '|' && paren_depth > 0 && (i == 0 || pattern[i-1] != '\\')) {
+        } else if ((c == '|' && paren_depth > 0 && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
             alt_count_in_group++;
         }
         
         // If group has 3+ alternations and is followed by quantifier, flag it
-        if (c == ')' && (i == 0 || pattern[i-1] != '\\') && 
+        if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) && 
             alt_count_in_group >= 2 && 
             i + 1 < pattern.size()) {
             char next = pattern[i+1];
@@ -751,7 +760,7 @@ bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
      * @return true if input is within bounds, false if exceeds limit
      */
     
-    if (text.size() > max_input_size_) {
+    if (static_cast<int>(text.size()) > max_input_size_) {
         spdlog::warn("RegexDetectionEngine: Input size ({} bytes) exceeds limit ({} bytes)",
                      text.size(), max_input_size_);
         return false;

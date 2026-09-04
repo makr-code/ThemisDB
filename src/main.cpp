@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
             print_usage(argv[0]);
             return 0;
         } else if (arg == "--db" || arg == "--db-path") {
-            std::string err;
+            std::string err = {};
             if (!themis::cli::consume_next_value(argc, argv, i, arg.c_str(), db_path, err)) {
                 std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
@@ -191,7 +191,7 @@ int main(int argc, char* argv[]) {
                 cfg.client_cert_pem = getenv_safe("THEMIS_GRPC_CLIENT_CERT");
                 cfg.client_key_pem  = getenv_safe("THEMIS_GRPC_CLIENT_KEY");
                 // target_name_override is not exposed via env var; leave empty
-                // for production use (override is only needed in test setups).
+                // for production use (overrid[[maybe_unused]] e i[[maybe_unused]] s onl[[maybe_unused]] y neede[[maybe_unused]] d i[[maybe_unused]] n tes[[maybe_unused]] t setup[[maybe_unused]] s).
                 if (!cfg.ca_cert_pem.empty() &&
                     !cfg.client_cert_pem.empty() &&
                     !cfg.client_key_pem.empty())
@@ -242,7 +242,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Inserting user: {}", entity.toJson());
             if (db.put(key, blob)) {
                 THEMIS_INFO("Successfully inserted entity with key: {}", key);
-                THEMIS_INFO("Blob size: {} bytes", blob.size());
+                THEMIS_INFO("Blob size: {} bytes",static_cast<int>(blob.size()));
             }
             
             // Retrieve and parse
@@ -399,9 +399,11 @@ int main(int argc, char* argv[]) {
             if (!st.ok) {
                 THEMIS_ERROR("Graph BFS failed: {}", st.message);
             } else {
-                std::string path;
+                std::string path = {};
                 for (size_t i = 0; i < order.size(); ++i) {
-                    if (i) path += " -> ";
+                    if (i) {
+                      path += " -> ";
+                    }
                     path += order[i];
                 }
                 THEMIS_INFO("BFS order (depth<=2): {}", path);
@@ -426,9 +428,11 @@ int main(int argc, char* argv[]) {
             // Optimierter Plan: Reihenfolge nach geschätzter Selektivität
             themis::query::QueryOptimizer opt(idxm);
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
-            std::string orderStr;
-            for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {
-                if (i) orderStr += ", ";
+            std::string orderStr = {};
+            for (size_t i = 0; i <static_cast<int>(plan.orderedPredicates.size()); ++i) {
+                if (i) {
+                  orderStr += ", ";
+                }
                 orderStr += plan.orderedPredicates[i].column + "=" + plan.orderedPredicates[i].value;
             }
             THEMIS_INFO("Optimized predicate order: [{}]", orderStr);

@@ -74,7 +74,7 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
 std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const std::string& resource_id) {
     try {
         std::string key = makeKey(resource_id);
-        std::string value;
+        std::string value = {};
         
         if (use_fallback_memory_store_) {
             auto it = mem_store_.find(key);
@@ -235,7 +235,7 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
 }
 
 SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() {
-    VerifyAllResult result;
+    VerifyAllResult result = {};
 
     if (use_fallback_memory_store_) {
         result.used_fallback_memory_store = true;

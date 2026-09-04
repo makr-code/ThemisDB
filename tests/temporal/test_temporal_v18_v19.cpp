@@ -55,7 +55,8 @@ static std::vector<ChangeEvent> replayFiltered(const CDCPersistentLog& log,
                                                const std::string& table,
                                                const TimeRange& range) {
     const auto all = log.replayAll();
-    std::vector<ChangeEvent> filtered;
+    std::vector<ChangeEvent> filtered = {};
+
     filtered.reserve(all.size());
     for (const auto& ev : all) {
         if (!table.empty() && ev.table_name != table) {

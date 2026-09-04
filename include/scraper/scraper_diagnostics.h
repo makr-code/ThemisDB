@@ -251,8 +251,12 @@ private:
  */
 [[nodiscard]] inline constexpr ScraperFaultSeverity defaultSeverityOf(
     ScraperError e) noexcept {
-    if (e == ScraperError::kSuccess) return ScraperFaultSeverity::kInfo;
-    if (isScraperFailClosed(e))      return ScraperFaultSeverity::kFatal;
+    if (e == ScraperError::kSuccess) {
+      return ScraperFaultSeverity::kInfo;
+    }
+    if (isScraperFailClosed(e)) {
+      return ScraperFaultSeverity::kFatal;
+    }
     return ScraperFaultSeverity::kError;
 }
 

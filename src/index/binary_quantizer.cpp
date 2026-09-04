@@ -23,7 +23,7 @@
 
 namespace themis {
 
-BinaryQuantizer::BinaryQuantizer(int dimension)
+BinaryQuantizer::BinaryQuantizer([[maybe_unused]] int dimension)
     : BinaryQuantizer(dimension, Config{}) {
 }
 
@@ -116,7 +116,7 @@ BinaryQuantizer::Status BinaryQuantizer::train(
 }
 
 std::vector<uint8_t> BinaryQuantizer::encode(const std::vector<float>& vector) const {
-    if (vector.size() != static_cast<size_t>(dimension_)) {
+    if (static_cast<int>(vector.size()) != static_cast<size_t>(dimension_)) {
         THEMIS_ERROR("BinaryQuantizer::encode - Dimension mismatch: {} vs {}",
                      vector.size(), dimension_);
         return {};
@@ -155,7 +155,7 @@ std::vector<uint8_t> BinaryQuantizer::encode(const std::vector<float>& vector) c
 
 std::vector<float> BinaryQuantizer::decode(const std::vector<uint8_t>& codes) const {
     int expected_size = (dimension_ + 7) / 8;
-    if (codes.size() != static_cast<size_t>(expected_size)) {
+    if (static_cast<int>(codes.size()) != static_cast<size_t>(expected_size)) {
         THEMIS_ERROR("BinaryQuantizer::decode - Code size mismatch: {} vs {}",
                      codes.size(), expected_size);
         return {};
@@ -181,7 +181,7 @@ std::vector<float> BinaryQuantizer::decode(const std::vector<uint8_t>& codes) co
 
 float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
                                       const std::vector<uint8_t>& codes_b) const {
-    if (codes_a.size() != codes_b.size()) {
+    if (static_cast<int>(codes_a.size()) != static_cast<int>(codes_b.size())) {
         THEMIS_ERROR("BinaryQuantizer::hammingDistance - Code size mismatch");
         return std::numeric_limits<float>::max();
     }
@@ -217,7 +217,7 @@ float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
 
 float BinaryQuantizer::asymmetricDistance(const std::vector<float>& query,
                                          const std::vector<uint8_t>& codes) const {
-    if (query.size() != static_cast<size_t>(dimension_)) {
+    if (static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
         THEMIS_ERROR("BinaryQuantizer::asymmetricDistance - Query dimension mismatch");
         return std::numeric_limits<float>::max();
     }
@@ -245,7 +245,7 @@ float BinaryQuantizer::computeNorm(const std::vector<float>& vector) const {
     return std::sqrt(sum_sq);
 }
 
-int BinaryQuantizer::popcount(uint8_t byte) const {
+int BinaryQuantizer::popcount([[maybe_unused]] uint8_t byte) const {
     // Use compiler intrinsic for optimized popcount if available
     #ifdef __GNUC__
         return __builtin_popcount(byte);

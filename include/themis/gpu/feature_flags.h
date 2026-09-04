@@ -122,7 +122,7 @@ public:
      */
     struct FeatureStatus {
         Feature     feature;
-        std::string name;
+        std::string name = {};
         bool        enabled    = false;
         bool        overridden = false;  ///< true = explicitly set, not edition default
     };

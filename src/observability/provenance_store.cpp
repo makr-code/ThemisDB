@@ -28,7 +28,7 @@ namespace {
 
 // Key format: "provenance:<query_id>:<step_number:08d>"
 [[nodiscard]] std::string makeProvenanceKey(const std::string& query_id, int step_number) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "provenance:" << query_id << ":" << std::setfill('0') << std::setw(8)
         << step_number;
     return oss.str();
@@ -38,7 +38,7 @@ namespace {
 [[nodiscard]] std::string makeTimeIndexKey(int64_t timestamp_ms,
                                            const std::string& query_id,
                                            int step_number) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "provenance_ts:" << std::setfill('0') << std::setw(16) << std::hex << timestamp_ms
         << ":" << query_id << ":" << std::setfill('0') << std::setw(8) << std::dec
         << step_number;
@@ -53,7 +53,7 @@ namespace {
 
 struct ParsedTimeIndexKey {
     int64_t timestamp_ms = 0;
-    std::string query_id;
+    std::string query_id = {};
     int step_number = -1;
 };
 
@@ -157,23 +157,28 @@ public:
             options.compression = rocksdb::kSnappyCompression;
         }
 
-        rocksdb::DB* db_raw = nullptr;
-        const auto status = rocksdb::DB::Open(options, config.db_path, &db_raw);
+        rocksdb::DB* db_instance = nullptr;
+        const auto status = rocksdb::DB::Open(options, config.db_path, &db_instance);
 
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());
         }
 
-        db_.reset(db_raw);
+        db_ = db_instance;
         config_ = config;
     }
 
-    [[nodiscard]] rocksdb::DB* getDb() const { return db_.get(); }
+    ~Impl() {
+        delete db_;
+        db_ = nullptr;
+    }
+
+    [[nodiscard]] rocksdb::DB* getDb() const { return db_; }
 
     [[nodiscard]] const RocksDBProvenanceStore::Config& config() const { return config_; }
 
 private:
-    std::unique_ptr<rocksdb::DB> db_;
+    rocksdb::DB*                           db_ = nullptr;
     RocksDBProvenanceStore::Config config_;
 };
 
@@ -234,8 +239,8 @@ void addDeletionForTimeIndexKey(rocksdb::WriteBatch& batch, const std::string& t
             }
         }
 
-        if (time_keys.size() > config.retention_max_records) {
-            const auto to_delete = time_keys.size() - config.retention_max_records;
+        if (static_cast<int>(time_keys.size()) > config.retention_max_records) {
+            const auto to_delete = static_cast<int>(time_keys.size()) - config.retention_max_records;
             for (std::size_t i = 0; i < to_delete; ++i) {
                 addDeletionForTimeIndexKey(batch, time_keys[i]);
                 has_changes = true;
@@ -306,7 +311,7 @@ std::optional<ProvenanceStepRecord> RocksDBProvenanceStore::getRecord(
         }
 
         const auto key = makeProvenanceKey(query_id, step_number);
-        std::string value;
+        std::string value = {};
         const auto status = db->Get(rocksdb::ReadOptions(), key, &value);
 
         if (!status.ok()) {
@@ -445,7 +450,7 @@ std::vector<std::string> RocksDBProvenanceStore::listQueryIds() {
 
         auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
 
-        std::string last_query_id;
+        std::string last_query_id = {};
         for (it->Seek("provenance:"); it->Valid(); it->Next()) {
             const auto key = it->key().ToString();
 

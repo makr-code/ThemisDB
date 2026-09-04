@@ -177,7 +177,7 @@ ContentExtractionResult CADProcessor::extract(const std::vector<uint8_t> &blob, 
         result.metadata = metadata;
 
         // Generate text description
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "CAD model with " << cad.part_count << " parts. ";
         text << "Dimensions: " << dx << " x " << dy << " x " << dz << " " << default_units_ << ". ";
         if (calculate_volume_) {
@@ -218,10 +218,10 @@ std::vector<ContentChunk> CADProcessor::chunk(const ContentExtractionResult &res
     const auto &cad = result.cad.value();
 
     // Create chunks for each part
-    for (size_t i = 0; i < cad.part_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(cad.part_ids.size()); ++i) {
         ContentChunk chunk;
 
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "Part: " << cad.part_ids[i];
 
         // Add BOM info if available
@@ -331,13 +331,13 @@ CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
 
     // Check if ASCII or binary STL
     bool is_ascii
-        = blob.size() > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
+        = static_cast<int>(blob.size()) > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
 
-    if (!is_ascii && blob.size() >= 84) {
+    if (!is_ascii && static_cast<int>(blob.size()) >= 84) {
         // Binary STL
         // Header: 80 bytes
         // Triangle count: 4 bytes (uint32)
-        uint32_t triangle_count;
+        uint32_t triangle_count = {};
         std::memcpy(&triangle_count, blob.data() + 80, 4);
 
         data.part_ids.push_back("mesh_" + std::to_string(triangle_count) + "_triangles");

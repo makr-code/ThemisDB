@@ -31,7 +31,9 @@
 // Use a portable volatile-memset loop to avoid depending on OpenSSL at link time.
 static inline void themis_secure_zero(void* ptr, std::size_t len) {
   volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
-  while (len--) *p++ = 0;
+  while (len--) {
+    *p++ = 0;
+  }
 }
 // Mock classes and test utilities for security testing
 namespace themis { namespace security { namespace test {
@@ -43,7 +45,7 @@ namespace themis { namespace security { namespace test {
 class InputValidator {
  public:
   struct ValidationResult {
-    bool valid;
+    bool valid = 0;
     std::string error_message;
     std::string sanitized_value;
   };
@@ -130,8 +132,8 @@ class MemorySafetyChecker {
  public:
   struct ResourceGuard {
     void* resource;
-    std::string resource_type;
-    bool released;
+    std::string resource_type = {};
+    bool released = {};
 
     ResourceGuard(void* res, std::string_view type) 
         : resource(res), resource_type(type), released(false) {}
@@ -209,7 +211,7 @@ class ErrorPathSecurityChecker {
    * @return Sanitized error message safe for user disclosure
    */
   static std::string SanitizeErrorMessage(std::string_view error_message) {
-    std::string sanitized;
+    std::string sanitized = {};
     
     // Remove sensitive patterns
     static const std::vector<std::string> SENSITIVE_PATTERNS = {
@@ -457,7 +459,7 @@ class Phase4ConcurrencyTest : public ::testing::Test {
 
 // SEC-RACE-01: Mutex protection of shared state
 TEST_F(Phase4ConcurrencyTest, SEC_RACE_01_MutexProtectsSharedState) {
-  std::mutex mtx;
+  std::mutex mtx = {};
   int shared_value = 0;
 
   auto increment = [&] {
@@ -528,7 +530,7 @@ TEST_F(Phase4ConcurrencyTest, SEC_RACE_04_NoConcurrentDataRaces) {
 
 // SEC-RACE-05: Exception-safe locking
 TEST_F(Phase4ConcurrencyTest, SEC_RACE_05_ExceptionSafeLocking) {
-  std::mutex mtx;
+  std::mutex mtx = {};
   int value = 0;
 
   try {
@@ -610,7 +612,7 @@ TEST_F(Phase4ErrorPathSecurityTest, SEC_FAIL_02_FailClosedSecurityCheckFailure) 
 
 // SEC-AUD-01: Authentication operations logged
 TEST_F(Phase4ErrorPathSecurityTest, SEC_AUD_01_LogAuthenticationOperations) {
-  std::ostringstream audit_log;
+  std::ostringstream audit_log = {};
   
   // Simulate auth attempt
   audit_log << "AUTH_ATTEMPT|user=admin|result=success|timestamp=2026-07-28T11:42:38Z\n";
@@ -621,7 +623,7 @@ TEST_F(Phase4ErrorPathSecurityTest, SEC_AUD_01_LogAuthenticationOperations) {
 
 // SEC-AUD-02: Privilege escalation logged
 TEST_F(Phase4ErrorPathSecurityTest, SEC_AUD_02_LogPrivilegeEscalation) {
-  std::ostringstream audit_log;
+  std::ostringstream audit_log = {};
   
   // Simulate privilege escalation
   audit_log << "PRIVILEGE_CHANGE|user=alice|from=user|to=admin|"

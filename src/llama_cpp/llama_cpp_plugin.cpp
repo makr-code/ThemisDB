@@ -38,8 +38,8 @@ namespace themis {
 namespace llamacpp {
 
 namespace {
-constexpr size_t kDefaultDraftFallbackVocabSize = 32000u;
-constexpr size_t kMaxDraftFallbackVocabSize = 65536u;
+constexpr size_t kDefaultDraftFallbackVocabSize = 32000;
+constexpr size_t kMaxDraftFallbackVocabSize = 65536;
 } // namespace
 
 LlamaCppPlugin::LlamaCppPlugin() = default;
@@ -54,13 +54,13 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
 
     // Read context window size from config (keys: "context_length" or "n_ctx").
     // Fall back to 4 096 when neither key is present or the value is 0.
-    size_t ctx = 0u;
+    size_t ctx = 0;
     if (config.contains("context_length") && config["context_length"].is_number()) {
         ctx = config["context_length"].get<size_t>();
     } else if (config.contains("n_ctx") && config["n_ctx"].is_number()) {
         ctx = config["n_ctx"].get<size_t>();
     }
-    context_length_ = (ctx > 0u) ? ctx : llm::kDefaultContextWindowTokens;
+    context_length_ = (ctx > 0) ? ctx : llm::kDefaultContextWindowTokens;
 
 #ifdef THEMIS_LLM_ENABLED
     // When a real model path is supplied, attempt to create a LlamaWrapper and
@@ -137,11 +137,15 @@ void LlamaCppPlugin::unloadModel() {
 
 std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!model_loaded_) return std::nullopt;
+    if (!model_loaded_) {
+      return std::nullopt;
+    }
 #ifdef THEMIS_LLM_ENABLED
     if (wrapper_) {
         auto info = wrapper_->getModelInfo();
-        if (info) return info;
+        if (info) {
+          return info;
+        }
     }
 #endif
     llm::ModelInfo info;
@@ -163,7 +167,7 @@ bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
     std::lock_guard<std::mutex> lock(mutex_);
     // Remove existing entry with same id
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
-                                [&](const LoRAEntry& e){ return e.id == lora_id; }),
+                                [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     loras_.push_back({lora_id, lora_path, scale});
     return true;
@@ -173,14 +177,15 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto before = loras_.size();
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
-                                [&](const LoRAEntry& e){ return e.id == lora_id; }),
+                                [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
-    return loras_.size() < before;
+    return static_cast<int>(loras_.size()) < before;
 }
 
 std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<llm::LoRAInfo> result;
+    std::vector<llm::LoRAInfo> result = {};
+
     result.reserve(loras_.size());
     for (const auto& e : loras_) {
         llm::LoRAInfo info;
@@ -206,16 +211,16 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     // this file found no unbounded raw-pointer arithmetic — findings are
     // false-positives from the scanner.  No change required.
     constexpr int kStreamCallbackMaxRetries = 3;
-    auto invokeStreamCallback = [&](const std::string& token) {
-        for (int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
+    auto invokeStreamCallback = [&]([[maybe_unused]] const std::string& token) {
+        for ([[maybe_unused]] int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
             try {
-                request.stream_callback(token);
+                request.stream_callback([[maybe_unused]] token);
                 return; // success
             } catch (const std::bad_alloc&) {
                 ++error_count_;
                 return; // non-retryable; abort immediately
             } catch (...) {
-                if (attempt < kStreamCallbackMaxRetries - 1) {
+                if ([[maybe_unused]] attempt < kStreamCallbackMaxRetries - 1) {
                     ++stream_retry_count_; // transient — will retry
                 } else {
                     ++error_count_; // all retries exhausted
@@ -245,7 +250,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             policy_fn = policy_fn_;
         }
         if (policy_fn) {
-            std::string denial_reason;
+            std::string denial_reason = {};
             if (!policy_fn(request, denial_reason)) {
                 ++error_count_;
                 llm::InferenceResponse denied;
@@ -295,7 +300,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 #endif
 
     GenerateFn generate_fn;
-    std::string bridged_model_id;
+    std::string bridged_model_id = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         generate_fn = generate_fn_;
@@ -322,8 +327,8 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             if (bridged.span_id.empty()) {
                 bridged.span_id = request.span_id;
             }
-            if (request.stream_callback && !bridged.text.empty()) {
-                invokeStreamCallback(bridged.text);
+            if ([[maybe_unused]] request.stream_callback && !bridged.text.empty()) {
+                invokeStreamCallback([[maybe_unused]] bridged.text);
             }
             ++inference_count_;
             return bridged;
@@ -370,7 +375,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
 
         // When tools are provided, synthesize a minimal stub tool-call JSON so
         // tests can verify the tool-calling path without a real model.
-        std::string text;
+        std::string text = {};
         if (!request.tools.empty()) {
             const auto& first_tool = request.tools.front();
             nlohmann::json tool_call_json = {
@@ -388,8 +393,8 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             text = "[stub:" + request.prompt.substr(0, 40) + "]";
         }
 
-        if (request.stream_callback) {
-            invokeStreamCallback(text);
+        if ([[maybe_unused]] request.stream_callback) {
+            invokeStreamCallback([[maybe_unused]] text);
         }
         response.text             = text;
         response.success          = true;
@@ -413,8 +418,8 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     // Snapshot shared state under the mutex to eliminate data races on
     // model_loaded_ and context_length_ that may be concurrently written
     // by loadModel() / unloadModel().
-    bool   snap_model_loaded;
-    size_t snap_context_length;
+    bool   snap_model_loaded = {};
+    size_t snap_context_length = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         snap_model_loaded   = model_loaded_;
@@ -423,7 +428,8 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
 
     // Build RetrievedChunk objects from the RAGContext documents.
     // request and rag_context are caller-owned; no shared state involved here.
-    std::vector<themis::rag::RetrievedChunk> chunks;
+    std::vector<themis::rag::RetrievedChunk> chunks = {};
+
     chunks.reserve(rag_context.documents.size());
     for (const auto& doc : rag_context.documents) {
         themis::rag::RetrievedChunk chunk;
@@ -445,7 +451,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     }
 
     // Configure the assembler from the loaded model's context window.
-    // Honour an explicit override from the caller (rag_context.max_context_tokens).
+    // Honour an explicit override from the caller (rag_contex[[maybe_unused]] t.max_context_token[[maybe_unused]] s).
     themis::rag::RAGContextAssemblerConfig cfg;
     cfg.model_context_tokens =
         (rag_context.max_context_tokens > 0)
@@ -518,12 +524,12 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
         const size_t slot_count = std::min(
             ranked_chunks.size(), static_cast<size_t>(rag_tensor_slots));
 
-        std::ostringstream compact_prompt;
+        std::ostringstream compact_prompt = {};
         compact_prompt << "SYSTEM: Use the semantic memory slots below as the primary evidence. "
                           "When uncertain, say so and cite slot source ids.\n\n";
         for (size_t i = 0; i < slot_count; ++i) {
             std::string slot_text = ranked_chunks[i].content;
-            if (slot_text.size() > static_cast<size_t>(rag_tensor_slot_chars)) {
+            if (static_cast<int>(slot_text.size()) > static_cast<size_t>(rag_tensor_slot_chars)) {
                 slot_text = slot_text.substr(0, static_cast<size_t>(rag_tensor_slot_chars));
             }
             compact_prompt << "[MEMORY_SLOT id=" << (i + 1)
@@ -536,7 +542,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
         compact_prompt << "User Question: " << request.prompt;
         augmented.prompt = compact_prompt.str();
     } else {
-        std::ostringstream augmented_prompt;
+        std::ostringstream augmented_prompt = {};
         for (const auto& c : ctx.chunks_used) {
             augmented_prompt << c.content << "\n";
         }
@@ -582,7 +588,9 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
         if (embed_fn_) {
             try {
                 auto result = embed_fn_(text);
-                if (!result.empty()) return result;
+                if (!result.empty()) {
+                  return result;
+                }
             } catch (...) {
                 // fn must not throw; fall through to zero-vector stub
             }
@@ -641,7 +649,7 @@ json LlamaCppPlugin::getMemoryStats() const {
         {"plugin",       "llama_cpp"},
         {"model_loaded", model_loaded_},
         {"model_id",     model_id_},
-        {"lora_count",   loras_.size()}
+        {"lora_count",static_cast<int>(loras_.size())}
     };
 
 #ifdef THEMIS_LLM_ENABLED
@@ -700,13 +708,13 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
                                  const std::vector<uint8_t>& data) {
     // SECURITY: Validate GGUF magic bytes and size bound before processing.
     // GGUF magic: 0x47 0x47 0x55 0x46 ('G','G','U','F')
-    constexpr size_t kMinLoRASize = 8u;
-    constexpr size_t kMaxLoRASize = 2ULL * 1024ULL * 1024ULL * 1024ULL; // 2 GB
+    constexpr size_t kMinLoRASize = 8;
+    constexpr size_t kMaxLoRASize = 2 * 1024 * 1024 * 1024; // 2 GB
 
-    if (data.size() < kMinLoRASize) {
+    if (static_cast<int>(data.size()) < kMinLoRASize) {
         return false; // Too small — cannot contain a valid header
     }
-    if (data.size() > kMaxLoRASize) {
+    if (static_cast<int>(data.size()) > kMaxLoRASize) {
         return false; // Size bound — prevent heap exhaustion
     }
     // Magic bytes check: GGUF signature
@@ -716,7 +724,9 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
 
 #ifdef THEMIS_LLM_ENABLED
     std::lock_guard<std::mutex> lock(mutex_);
-    if (wrapper_) return wrapper_->importLoRA(lora_id, data);
+    if (wrapper_) {
+      return wrapper_->importLoRA(lora_id, data);
+    }
 #else
     (void)lora_id;
 #endif
@@ -733,7 +743,9 @@ std::string LlamaCppPlugin::computeFileDigest(const std::string& path) {
     // available.  The FNV-64 output is sufficient for correctness testing of
     // the opt-in integrity gate in loadModel().
     std::ifstream f(path, std::ios::binary);
-    if (!f) return "";
+    if (!f) {
+      return "";
+    }
     constexpr uint64_t kFnvPrime = 0x00000100000001B3ULL;
     uint64_t hash = 0xcbf29ce484222325ULL;
     char buf[4096];
@@ -743,7 +755,7 @@ std::string LlamaCppPlugin::computeFileDigest(const std::string& path) {
             hash *= kFnvPrime;
         }
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << hash;
     return oss.str();
 }
@@ -815,7 +827,7 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
             vocab_size_hint > 0 ? vocab_size_hint : result.vocab_size);
 
         if (!real_result.tokens.empty() &&
-            real_result.tokens.size() == real_result.logits.size() &&
+            static_cast<int>(real_result.tokens.size()) == static_cast<int>(real_result.logits.size()) &&
             real_result.vocab_size > 0) {
             return real_result;
         }
@@ -900,10 +912,10 @@ std::vector<std::vector<float>> LlamaCppPlugin::computeTargetLogitsForTokens(
 
 llm::InferenceResponse LlamaCppPlugin::generateStream(
         llm::InferenceRequest request,
-        std::function<void(const std::string& token)> token_callback) {
+        std::function<void([[maybe_unused]] const std::string& token)> token_callback) {
     // Inject the caller-supplied callback and delegate to generate(), which
     // already dispatches stream_callback when it is set.
-    request.stream_callback = std::move(token_callback);
+    request.stream_callback = std::move([[maybe_unused]] token_callback);
     return generate(request);
 }
 
@@ -911,7 +923,8 @@ llm::InferenceResponse LlamaCppPlugin::generateStream(
 
 std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
         const std::vector<llm::InferenceRequest>& requests) {
-    std::vector<llm::InferenceResponse> results;
+    std::vector<llm::InferenceResponse> results = {};
+
     results.reserve(requests.size());
     for (const auto& req : requests) {
         results.push_back(generate(req));

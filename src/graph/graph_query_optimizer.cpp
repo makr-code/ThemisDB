@@ -47,9 +47,13 @@ namespace {
 static bool nodeMatchesLabels(GraphIndexManager& mgr,
                                const std::string& node_id,
                                const std::vector<std::string>& required_labels) {
-    if (required_labels.empty()) return true;
+    if (required_labels.empty()) {
+      return true;
+    }
     auto labels_opt = mgr.getNodeField(node_id, "_labels");
-    if (!labels_opt.has_value() || labels_opt->empty()) return false;
+    if (!labels_opt.has_value() || labels_opt->empty()) {
+      return false;
+    }
     const std::string& labels_str = *labels_opt;
     for (const auto& lbl : required_labels) {
         // Match whole label tokens in the comma-separated list
@@ -57,11 +61,13 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
         std::string::size_type pos = 0;
         while ((pos = labels_str.find(lbl, pos)) != std::string::npos) {
             // Verify it is a complete token (preceded by start-of-string or ',')
-            bool valid_start = (pos == 0) || (labels_str[pos - 1] == ',');
+            bool valid_start = (pos == 0) || (labels_str[static_cast<int>(pos - 1)] == ',');
             // Verify it is a complete token (followed by end-of-string or ',')
-            std::string::size_type end = pos + lbl.size();
-            bool valid_end = (end == labels_str.size()) || (labels_str[end] == ',');
-            if (valid_start && valid_end) return true;
+            std::string::size_type end = pos + static_cast<int>(lbl.size()) ;
+            bool valid_end = (end == static_cast<int>(labels_str.size())) || (labels_str[end] == ',');
+            if (valid_start && valid_end) {
+              return true;
+            }
             pos = end;
         }
     }
@@ -76,16 +82,20 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
                               const GraphQueryOptimizer::QueryConstraints& constraints) {
     if (!constraints.node_labels.empty()) {
         std::string hint = "Node labels (OR): ";
-        for (size_t i = 0; i < constraints.node_labels.size(); ++i) {
-            if (i > 0) hint += ", ";
+        for (size_t i = 0; i <static_cast<int>(constraints.node_labels.size()); ++i) {
+            if (i > 0) {
+              hint += ", ";
+            }
             hint += constraints.node_labels[i];
         }
         plan.active_schema_hints.push_back(std::move(hint));
     }
     if (!constraints.excluded_edge_types.empty()) {
         std::string hint = "Excluded edge types: ";
-        for (size_t i = 0; i < constraints.excluded_edge_types.size(); ++i) {
-            if (i > 0) hint += ", ";
+        for (size_t i = 0; i <static_cast<int>(constraints.excluded_edge_types.size()); ++i) {
+            if (i > 0) {
+              hint += ", ";
+            }
             hint += constraints.excluded_edge_types[i];
         }
         plan.active_schema_hints.push_back(std::move(hint));
@@ -448,11 +458,15 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
         switch (constraint.type) {
             case PathConstraints::ConstraintType::MIN_LENGTH:
                 has_min_length = true;
-                if (constraint.int_value) min_length = *constraint.int_value;
+                if (constraint.int_value) {
+                  min_length = *constraint.int_value;
+                }
                 break;
             case PathConstraints::ConstraintType::MAX_LENGTH:
                 has_max_length = true;
-                if (constraint.int_value) max_length = *constraint.int_value;
+                if (constraint.int_value) {
+                  max_length = *constraint.int_value;
+                }
                 break;
             case PathConstraints::ConstraintType::REQUIRED_NODE:
                 has_required_nodes = true;
@@ -461,7 +475,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                 has_forbidden_nodes = true;
                 break;
             case PathConstraints::ConstraintType::UNIQUE_NODES:
-            case PathConstraints::ConstraintType::NO_CYCLES:
+            [[fallthrough]];\n            case PathConstraints::ConstraintType::NO_CYCLES:
                 requires_unique = true;
                 break;
             default:
@@ -501,14 +515,18 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                                    // for multi-source parallel traversal use ParallelTraversal directly.
     
     // Generate explanation
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Constrained path finding from '" << start_vertex << "' to '" << end_vertex << "'\n";
     oss << "Algorithm: " << (plan.algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << "\n";
-    oss << "Constraints: " << constraint_list.size() << " active\n";
+    oss << "Constraints: " <<static_cast<int>(constraint_list.size()) << " active\n";
     oss << "Estimated depth: " << estimated_depth << "\n";
     oss << "Estimated cost: " << plan.estimated_cost << "\n";
-    if (has_min_length) oss << "Min length: " << min_length << "\n";
-    if (has_max_length) oss << "Max length: " << max_length << "\n";
+    if (has_min_length) {
+      oss << "Min length: " << min_length << "\n";
+    }
+    if (has_max_length) {
+      oss << "Max length: " << max_length << "\n";
+    }
     plan.explanation = oss.str();
     
     return Ok(plan);
@@ -595,7 +613,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
                            shouldUseParallel(TraversalAlgorithm::BFS, plan.estimated_nodes_explored);
 
     // Build explanation
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Temporal graph traversal from '" << start_vertex << "'\n";
     oss << "Algorithm: BFS (optimal for time-range edge filtering)\n";
     oss << "Max depth: " << max_depth << "\n";
@@ -655,7 +673,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
     // Note: 0.1 converts cost units → ms (same factor used in optimizeXxx plan construction)
 
     auto timedOut = [&]() -> bool {
-        if (constraints.timeout_ms == 0) return false;
+        if (constraints.timeout_ms == 0) {
+          return false;
+        }
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start_time).count();
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
@@ -669,7 +689,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
     visited.insert(std::string(start_vertex));
 
     for (int depth = 0; depth <= max_depth; ++depth) {
-        if (current_frontier.empty()) break;
+        if (current_frontier.empty()) {
+          break;
+        }
 
         if (timedOut()) {
             local_stats.early_terminated = true;
@@ -688,17 +710,22 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
             result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
-                result.size() >= constraints.max_results.value()) {
+                static_cast<int>(result.size()) >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 break;
             }
         }
-        if (local_stats.early_terminated) break;
+        if (local_stats.early_terminated) {
+          break;
+        }
 
-        if (depth == max_depth) break;
+        if (depth == max_depth) {
+          break;
+        }
 
         // Expand frontier using time-range-filtered edges
-        std::vector<std::string> next_frontier;
+        std::vector<std::string> next_frontier = {};
+
         for (const auto& node : current_frontier) {
             auto [status, edges] = graph_manager_.getOutEdgesInTimeRange(
                 node, range_start, range_end,
@@ -714,7 +741,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
             for (const auto& edge : edges) {
                 const std::string& nb = edge.toPk;
 
-                if (visited.count(nb)) continue;
+                if (visited.count(nb)) {
+                  continue;
+                }
                 if (std::find(constraints.forbidden_vertices.begin(),
                               constraints.forbidden_vertices.end(), nb) !=
                     constraints.forbidden_vertices.end()) continue;
@@ -777,7 +806,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 local_stats.execution_time_ms = gpu_result.value().execution_time_ms;
                 local_stats.early_terminated  = gpu_result.value().truncated;
                 local_stats.paths_found       = gpu_result.value().visited_vertices.size();
-                if (stats) *stats = local_stats;
+                if (stats) {
+                  *stats = local_stats;
+                }
                 recordExecution(local_stats);
                 return Ok(std::move(gpu_result.value().visited_vertices));
             }
@@ -795,19 +826,23 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     // Helper: determine effective thread count for parallel BFS
     const bool use_parallel = constraints.enable_parallel;
     const size_t effective_threads = [&]() -> size_t {
-        if (!use_parallel) return 1u;
+        if (!use_parallel) {
+          return 1;
+        }
         if (constraints.num_threads > 0) {
-            return std::min<size_t>(constraints.num_threads, 16u);
+            return std::min<size_t>(constraints.num_threads, 16);
         }
         // hardware_concurrency() may return 0 on unsupported platforms; default to 4
         const size_t hw = std::thread::hardware_concurrency();
-        const size_t base = (hw > 0) ? hw : 8u;
-        return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+        const size_t base = (hw > 0) ? hw : 8;
+        return std::max<size_t>(2, std::min<size_t>(base / 2, 16));
     }();
 
     // Helper: timeout check reused in the loop
     auto timedOut = [&]() -> bool {
-        if (constraints.timeout_ms == 0) return false;
+        if (constraints.timeout_ms == 0) {
+          return false;
+        }
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start_time).count();
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
@@ -822,7 +857,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     visited.insert(std::string(start_vertex));
 
     for (int depth = 0; depth <= max_depth; ++depth) {
-        if (current_frontier.empty()) break;
+        if (current_frontier.empty()) {
+          break;
+        }
 
         // Timeout check at the start of each level
         if (timedOut()) {
@@ -842,33 +879,39 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
             result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
-                result.size() >= constraints.max_results.value()) {
+                static_cast<int>(result.size()) >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 break;
             }
         }
-        if (local_stats.early_terminated) break;
+        if (local_stats.early_terminated) {
+          break;
+        }
 
         if (depth == max_depth) break; // No need to expand last level
 
         // Build next frontier: expand each node in current_frontier, optionally in parallel
         std::vector<std::string> next_frontier;
         bool vertex_error = false;
-        std::string error_vertex;
+        std::string error_vertex = {};
 
-        if (!use_parallel || current_frontier.size() < effective_threads) {
+        if (!use_parallel || static_cast<int>(current_frontier.size()) < effective_threads) {
             // Sequential expansion
             for (const auto& node : current_frontier) {
                 auto [status, neighbors] = graph_manager_.outNeighbors(node);
                 if (!status.ok) { vertex_error = true; error_vertex = node; break; }
                 local_stats.edges_traversed += neighbors.size();
                 for (const auto& nb : neighbors) {
-                    if (visited.count(nb)) continue;
+                    if (visited.count(nb)) {
+                      continue;
+                    }
                     if (std::find(constraints.forbidden_vertices.begin(),
                                   constraints.forbidden_vertices.end(), nb) !=
                         constraints.forbidden_vertices.end()) continue;
                     // Schema hint: skip nodes that do not carry a required label
-                    if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) continue;
+                    if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) {
+                      continue;
+                    }
                     visited.insert(nb);
                     next_frontier.push_back(nb);
                 }
@@ -881,22 +924,26 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 std::vector<std::string> neighbors; // raw (may have duplicates across chunks)
                 size_t edges_seen = 0;
                 bool error = false;
-                std::string error_vertex;
+                std::string error_vertex = {};
             };
 
-            const size_t chunk_size = (current_frontier.size() + effective_threads - 1) / effective_threads;
+            const size_t chunk_size = (static_cast<int>(current_frontier.size()) + effective_threads - 1) / effective_threads;
             std::vector<std::future<ChunkResult>> futures;
             std::atomic<bool> any_error{false};
 
             for (size_t t = 0; t < effective_threads; ++t) {
                 const size_t begin_idx = t * chunk_size;
-                if (begin_idx >= current_frontier.size()) break;
-                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
+                if (begin_idx >= static_cast<int>(current_frontier.size())) {
+                  break;
+                }
+                const size_t end_idx = std::min(begin_idx + chunk_size,static_cast<int>(current_frontier.size()));
 
                 futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
                     ChunkResult cr;
                     for (size_t i = begin_idx; i < end_idx; ++i) {
-                        if (any_error.load(std::memory_order_relaxed)) break;
+                        if (any_error.load(std::memory_order_relaxed)) {
+                          break;
+                        }
                         const std::string& node = current_frontier[i];
                         auto [status, neighbors] = graph_manager_.outNeighbors(node);
                         if (!status.ok) {
@@ -909,7 +956,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                         for (const auto& nb : neighbors) {
                             // Schema hint: filter by node labels in the parallel task
                             // (read-only access to graph_manager_ is safe across threads)
-                            if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) continue;
+                            if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) {
+                              continue;
+                            }
                             cr.neighbors.push_back(nb);
                         }
                     }
@@ -927,7 +976,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 }
                 local_stats.edges_traversed += cr.edges_seen;
                 for (const auto& nb : cr.neighbors) {
-                    if (visited.count(nb)) continue;
+                    if (visited.count(nb)) {
+                      continue;
+                    }
                     if (std::find(constraints.forbidden_vertices.begin(),
                                   constraints.forbidden_vertices.end(), nb) !=
                         constraints.forbidden_vertices.end()) continue;
@@ -998,7 +1049,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
                 local_stats.execution_time_ms = gpu_result.value().execution_time_ms;
                 local_stats.early_terminated  = gpu_result.value().truncated;
                 local_stats.paths_found       = gpu_result.value().visited_vertices.size();
-                if (stats) *stats = local_stats;
+                if (stats) {
+                  *stats = local_stats;
+                }
                 recordExecution(local_stats);
                 return Ok(std::move(gpu_result.value().visited_vertices));
             }
@@ -1063,13 +1116,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         for (const auto& neighbor : neighbors) {
             if (visited.find(neighbor) == visited.end()) {
                 // Schema hint: skip nodes that do not carry a required label
-                if (!nodeMatchesLabels(graph_manager_, neighbor, constraints.node_labels)) continue;
+                if (!nodeMatchesLabels(graph_manager_, neighbor, constraints.node_labels)) {
+                  continue;
+                }
                 stack.push_back({neighbor, depth + 1});
             }
         }
         
         if (constraints.max_results.has_value() && 
-            result.size() >= constraints.max_results.value()) {
+            static_cast<int>(result.size()) >= constraints.max_results.value()) {
             local_stats.early_terminated = true;
             break;
         }
@@ -1184,7 +1239,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
     {
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::DIJKSTRA, depth_hint, constraints) * 0.1;
     }
@@ -1204,11 +1259,11 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
         // Effective thread count (mirrors BFS logic)
         const size_t nthreads = [&]() -> size_t {
             if (constraints.num_threads > 0) {
-                return std::min<size_t>(constraints.num_threads, 16u);
+                return std::min<size_t>(constraints.num_threads, 16);
             }
             const size_t hw = std::thread::hardware_concurrency();
-            const size_t base = (hw > 0) ? hw : 8u;
-            return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+            const size_t base = (hw > 0) ? hw : 8;
+            return std::max<size_t>(2, std::min<size_t>(base / 2, 16));
         }();
 
         // Choose Δ: average weight of the start vertex's first-hop edges.
@@ -1239,7 +1294,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
 
         // Timeout helper (matches BFS / DFS timeout logic)
         auto timedOut = [&]() -> bool {
-            if (constraints.timeout_ms == 0) return false;
+            if (constraints.timeout_ms == 0) {
+              return false;
+            }
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - start_time).count();
             return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
@@ -1249,9 +1306,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
         // edge_count = total edges examined by the task (light + skipped heavy);
         // accumulated into edges_traversed by the main thread.
         struct RelaxResult {
-            std::string vertex;
-            double new_dist;
-            std::string parent_vertex;
+            std::string vertex = {};
+            double new_dist = {};
+            std::string parent_vertex = {};
         };
         struct TaskOutput {
             std::vector<RelaxResult> relaxations;
@@ -1286,11 +1343,11 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
 
                 // Chunk S into at most nthreads groups.
                 const size_t chunk_size =
-                    std::max<size_t>(1u, (S.size() + nthreads - 1) / nthreads);
+                    std::max<size_t>(1, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
-                    const size_t ce = std::min(cs + chunk_size, S.size());
+                    const size_t ce = std::min(cs + chunk_size,static_cast<int>(S.size()));
                     futures.push_back(std::async(std::launch::async,
                         [&, cs, ce]() {
                             TaskOutput out;
@@ -1298,10 +1355,14 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                                 const std::string& v = S[vi];
                                 // dist[v] is fixed for S (only updated serially)
                                 auto dit = dist.find(v);
-                                if (dit == dist.end()) continue;
+                                if (dit == dist.end()) {
+                                  continue;
+                                }
                                 const double d_v = dit->second;
                                 auto [s, adjs] = graph_manager_.outAdjacency(v);
-                                if (!s.ok) continue;
+                                if (!s.ok) {
+                                  continue;
+                                }
                                 out.edge_count += adjs.size();
                                 for (const auto& adj : adjs) {
                                     const double w = graph_manager_.getEdgeWeight(
@@ -1337,7 +1398,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                                 auto bit = buckets.find(old_idx);
                                 if (bit != buckets.end()) {
                                     bit->second.erase(r.vertex);
-                                    if (bit->second.empty()) buckets.erase(bit);
+                                    if (bit->second.empty()) {
+                                      buckets.erase(bit);
+                                    }
                                 }
                             }
                             dist[r.vertex] = r.new_dist;
@@ -1354,10 +1417,14 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
             // count only the heavy-edge traversals to avoid double-counting.
             for (const auto& v : settled_in_bucket) {
                 auto dit = dist.find(v);
-                if (dit == dist.end()) continue;
+                if (dit == dist.end()) {
+                  continue;
+                }
                 const double d_v = dit->second;
                 auto [s, adjs] = graph_manager_.outAdjacency(v);
-                if (!s.ok) continue;
+                if (!s.ok) {
+                  continue;
+                }
                 for (const auto& adj : adjs) {
                     const double w = graph_manager_.getEdgeWeight(
                         "", adj.edgeId, "_weight");
@@ -1375,7 +1442,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                             auto bit = buckets.find(old_idx);
                             if (bit != buckets.end()) {
                                 bit->second.erase(adj.targetPk);
-                                if (bit->second.empty()) buckets.erase(bit);
+                                if (bit->second.empty()) {
+                                  buckets.erase(bit);
+                                }
                             }
                         }
                         dist[adj.targetPk] = nd;
@@ -1386,7 +1455,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
             }
 
             // Early exit once target has received its final (optimal) distance.
-            if (settled_in_bucket.count(target)) break;
+            if (settled_in_bucket.count(target)) {
+              break;
+            }
         }
 
         // Reconstruct path from parent[] map.
@@ -1480,7 +1551,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     local_stats.algorithm = TraversalAlgorithm::ASTAR;
     {
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::ASTAR, depth_hint, constraints) * 0.1;
     }
@@ -1526,7 +1597,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     local_stats.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
     {
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::BIDIRECTIONAL, depth_hint, constraints) * 0.1;
     }
@@ -1548,7 +1619,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     std::optional<std::string> meeting_point;
     int best_distance = std::numeric_limits<int>::max();
     
-    // [GQ-1] Hard timeout for bidirectional BFS: unlike executeBFS/executeDFS, this
+    // [static_cast<int>(GQ - 1)] Hard timeout for bidirectional BFS: unlike executeBFS/executeDFS, this
     // loop had no timeout check, causing indefinite blocking on dense or cyclic graphs.
     // Apply a 30-second default when the caller does not specify a timeout.
     constexpr int64_t BIDIRECTIONAL_BFS_DEFAULT_TIMEOUT_MS = 30'000;
@@ -1566,7 +1637,9 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
             auto end_time = std::chrono::steady_clock::now();
             local_stats.execution_time_ms =
                 std::chrono::duration<double, std::milli>(end_time - start_time).count();
-            if (stats) *stats = local_stats;
+            if (stats) {
+              *stats = local_stats;
+            }
             recordExecution(local_stats);
             metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
             return Err<GraphIndexManager::PathResult>(
@@ -1726,7 +1799,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // A 10-vertex cap is generous for practical subgraph queries while still
     // bounding the worst-case search space to a tractable level.
     static constexpr size_t kMaxPatternVertices = 10;
-    if (pattern_vertices.size() > kMaxPatternVertices) {
+    if (static_cast<int>(pattern_vertices.size()) > kMaxPatternVertices) {
         return Err<SubgraphIsomorphismResult>(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "SubgraphIsomorphism: pattern size " +
@@ -1751,21 +1824,25 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // Use pattern vertex count as depth proxy for cost estimation
     // (0.1 converts cost units → ms; same factor used in optimizeXxx plan construction)
     local_stats.estimated_cost_ms =
-        estimateCost(TraversalAlgorithm::DFS, pattern_vertices.size(), constraints) * 0.1;
+        estimateCost(TraversalAlgorithm::DFS,static_cast<int>(pattern_vertices.size()), constraints) * 0.1;
 
     if (pattern_vertices.empty()) {
         // Empty pattern matches trivially with an empty mapping
         result.matches.push_back({});
         result.execution_time_ms = 0.0;
         local_stats.paths_found = 1;
-        if (stats) *stats = local_stats;
+        if (stats) {
+          *stats = local_stats;
+        }
         recordExecution(local_stats);
         return Ok(result);
     }
 
     // Timeout helper
     auto timedOut = [&]() -> bool {
-        if (constraints.timeout_ms == 0) return false;
+        if (constraints.timeout_ms == 0) {
+          return false;
+        }
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start_time).count();
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
@@ -1857,9 +1934,11 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     size_t vf2_iteration_count = 0;
     bool vf2_limit_exceeded = false;
 
-    std::function<void(size_t)> backtrack = [&](size_t depth) {
+    std::function<void(size_t)> backtrack = [&]([[maybe_unused]] size_t depth) {
         if (timedOut()) { local_stats.early_terminated = true; return; }
-        if (local_stats.early_terminated) return;
+        if (local_stats.early_terminated) {
+          return;
+        }
         if (depth == n_pattern) {
             result.matches.push_back(mapping);
             local_stats.paths_found++;
@@ -1867,9 +1946,13 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
         }
         const std::string& pu = pattern_vertices[depth];
         for (const auto& dv : data_vertices) {
-            if (local_stats.early_terminated) return;
+            if (local_stats.early_terminated) {
+              return;
+            }
             // Injective: data vertex must not already be used
-            if (used_data_vertices.count(dv)) continue;
+            if (used_data_vertices.count(dv)) {
+              continue;
+            }
             // Forbidden vertex check
             if (std::find(constraints.forbidden_vertices.begin(),
                           constraints.forbidden_vertices.end(), dv) !=
@@ -1882,7 +1965,9 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
             }
             result.candidate_pairs_checked++;
             local_stats.nodes_explored++;
-            if (!isFeasible(depth, dv)) continue;
+            if (!isFeasible(depth, dv)) {
+              continue;
+            }
             // Extend mapping
             mapping[pu] = dv;
             used_data_vertices.insert(dv);
@@ -1892,7 +1977,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
             used_data_vertices.erase(dv);
             // Early termination on max_results
             if (constraints.max_results.has_value() &&
-                result.matches.size() >= constraints.max_results.value()) {
+                static_cast<int>(result.matches.size()) >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 return;
             }
@@ -1906,7 +1991,9 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
         end_time - start_time).count();
     local_stats.execution_time_ms = result.execution_time_ms;
 
-    if (stats) *stats = local_stats;
+    if (stats) {
+      *stats = local_stats;
+    }
     recordExecution(local_stats);
 
     // Return an error if terminated early with no matches
@@ -1948,7 +2035,8 @@ Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatist
         if (vertex_status.ok) {
             stats.vertex_count = vertices.size();
 
-            std::unordered_set<std::string> unique_edge_ids;
+            std::unordered_set<std::string> unique_edge_ids = {};
+
             for (const auto& v : vertices) {
                 auto [adj_status, adjs] = graph_manager_.outAdjacency(v);
                 if (!adj_status.ok) {
@@ -1998,7 +2086,9 @@ void GraphQueryOptimizer::setNodeLabelStats(
     const std::unordered_map<std::string, size_t>& label_counts) {
     statistics_.node_label_counts = label_counts;
     statistics_.node_label_selectivity.clear();
-    if (statistics_.vertex_count == 0) return;
+    if (statistics_.vertex_count == 0) {
+      return;
+    }
     const double total = static_cast<double>(statistics_.vertex_count);
     for (const auto& [label, count] : label_counts) {
         statistics_.node_label_selectivity[label] =
@@ -2007,16 +2097,17 @@ void GraphQueryOptimizer::setNodeLabelStats(
 }
 
 std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const {
-    std::string algo_name;
+    std::string algo_name = {};
     switch (plan.algorithm) {
         case TraversalAlgorithm::BFS: algo_name = "BFS"; break;
         case TraversalAlgorithm::DFS: algo_name = "DFS"; break;
         case TraversalAlgorithm::BIDIRECTIONAL: algo_name = "Bidirectional"; break;
         case TraversalAlgorithm::ASTAR: algo_name = "A*"; break;
         case TraversalAlgorithm::DIJKSTRA: algo_name = "Dijkstra"; break;
+        default: break;
     }
     
-    std::string pattern_name;
+    std::string pattern_name = {};
     switch (plan.pattern) {
         case QueryPattern::SHORTEST_PATH: pattern_name = "Shortest Path"; break;
         case QueryPattern::ALL_PATHS: pattern_name = "All Paths"; break;
@@ -2024,6 +2115,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         case QueryPattern::PATTERN_MATCH: pattern_name = "Pattern Match"; break;
         case QueryPattern::REACHABILITY: pattern_name = "Reachability"; break;
         case QueryPattern::CONNECTED_COMPONENT: pattern_name = "Connected Component"; break;
+        default: break;
     }
     
     std::string explanation = "Query Pattern: " + pattern_name + "\n";
@@ -2042,8 +2134,10 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         explanation += "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
         if (!plan.shard_ids.empty()) {
             explanation += "Shards: ";
-            for (size_t i = 0; i < plan.shard_ids.size(); ++i) {
-                if (i > 0) explanation += ", ";
+            for (size_t i = 0; i <static_cast<int>(plan.shard_ids.size()); ++i) {
+                if (i > 0) {
+                  explanation += ", ";
+                }
                 explanation += plan.shard_ids[i];
             }
             explanation += "\n";
@@ -2053,13 +2147,14 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
     if (!plan.alternatives.empty()) {
         explanation += "\nAlternatives Considered:\n";
         for (const auto& [alt_algo, alt_cost] : plan.alternatives) {
-            std::string alt_name;
+            std::string alt_name = {};
             switch (alt_algo) {
                 case TraversalAlgorithm::BFS: alt_name = "BFS"; break;
                 case TraversalAlgorithm::DFS: alt_name = "DFS"; break;
                 case TraversalAlgorithm::BIDIRECTIONAL: alt_name = "Bidirectional"; break;
                 case TraversalAlgorithm::ASTAR: alt_name = "A*"; break;
                 case TraversalAlgorithm::DIJKSTRA: alt_name = "Dijkstra"; break;
+                default: break;
             }
             explanation += "  " + alt_name + ": " + std::to_string(alt_cost) + "\n";
         }
@@ -2099,7 +2194,7 @@ void GraphQueryOptimizer::planCacheInsert(const std::string& key,
     }
 
     // Enforce size limit: evict LRU entry when at capacity
-    if (plan_cache_max_size_ > 0 && plan_cache_.size() >= plan_cache_max_size_) {
+    if (plan_cache_max_size_ > 0 && static_cast<int>(plan_cache_.size()) >= plan_cache_max_size_) {
         const std::string& lru_key = plan_cache_lru_.back();
         plan_cache_.erase(lru_key);
         plan_cache_lru_.pop_back();
@@ -2175,6 +2270,7 @@ double GraphQueryOptimizer::estimateCost(
             // O(b^(d/2) + b^(d/2)) = O(b^(d/2))
             base_cost = 2.0 * std::pow(branching, estimated_depth / 2.0);
             break;
+        default: break;
     }
     
     // Apply optimizations
@@ -2299,12 +2395,13 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
                     candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DFS};
                     break;
                 case QueryPattern::PATTERN_MATCH:
-                case QueryPattern::ALL_PATHS:
+                [[fallthrough]];\n                case QueryPattern::ALL_PATHS:
                     candidates = {TraversalAlgorithm::DFS, TraversalAlgorithm::BFS};
                     break;
                 case QueryPattern::CONNECTED_COMPONENT:
                     candidates = {TraversalAlgorithm::BFS};
                     break;
+                default: break;
             }
 
             TraversalAlgorithm best = candidates[0];
@@ -2343,6 +2440,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
 
         case QueryPattern::CONNECTED_COMPONENT:
             return TraversalAlgorithm::BFS;
+        default: break;
     }
 
     return TraversalAlgorithm::BFS; // Default
@@ -2361,7 +2459,7 @@ size_t GraphQueryOptimizer::estimateDepth(
     
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
-        case QueryPattern::REACHABILITY:
+        [[fallthrough]];\n        case QueryPattern::REACHABILITY:
             // Assume average case is half the diameter
             return estimated / 2;
             
@@ -2380,6 +2478,7 @@ size_t GraphQueryOptimizer::estimateDepth(
         case QueryPattern::CONNECTED_COMPONENT:
             // Full traversal
             return estimated;
+        default: break;
     }
     
     return 5; // Safe default
@@ -2532,13 +2631,14 @@ bool GraphQueryOptimizer::shouldUseParallel(
     // Some algorithms parallelize better
     switch (algorithm) {
         case TraversalAlgorithm::BFS:
-        case TraversalAlgorithm::BIDIRECTIONAL:
+        [[fallthrough]];\n        case TraversalAlgorithm::BIDIRECTIONAL:
             return true;
             
         case TraversalAlgorithm::DFS:
-        case TraversalAlgorithm::ASTAR:
-        case TraversalAlgorithm::DIJKSTRA:
+        [[fallthrough]];\n        case TraversalAlgorithm::ASTAR:
+        [[fallthrough]];\n        case TraversalAlgorithm::DIJKSTRA:
             return false; // These don't parallelize well
+        default: break;
     }
     
     return false;
@@ -2548,7 +2648,7 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     execution_history_.push_back(stats);
     
     // Keep history bounded
-    if (execution_history_.size() > MAX_HISTORY_SIZE) {
+    if (static_cast<int>(execution_history_.size()) > MAX_HISTORY_SIZE) {
         execution_history_.erase(execution_history_.begin());
     }
 
@@ -2603,6 +2703,7 @@ static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
         case GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA:      return "DIJKSTRA";
         case GraphQueryOptimizer::TraversalAlgorithm::ASTAR:         return "ASTAR";
         case GraphQueryOptimizer::TraversalAlgorithm::BIDIRECTIONAL: return "BIDIRECTIONAL";
+        default: break;
     }
     return "UNKNOWN";
 }
@@ -2623,12 +2724,16 @@ std::string GraphQueryOptimizer::exportCostModel() const {
 bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
     try {
         auto j = nlohmann::json::parse(json_model);
-        if (!j.is_object()) return false;
+        if (!j.is_object()) {
+          return false;
+        }
         const auto& name_map = algoNameMap();
         for (auto& [key, val] : j.items()) {
             auto it = name_map.find(key);
             if (it == name_map.end()) continue; // unknown algo – skip
-            if (!val.is_object()) continue;
+            if (!val.is_object()) {
+              continue;
+            }
             AlgorithmCostModel m;
             m.ema_cost_ms = val.value("ema_cost_ms", 0.0);
             m.exec_count  = val.value("exec_count",  static_cast<uint32_t>(0));
@@ -2649,7 +2754,7 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
 
 GraphQueryOptimizer::CostModelCalibrationReport
 GraphQueryOptimizer::calibrateFromHistory() {
-    CostModelCalibrationReport report;
+    CostModelCalibrationReport report = {};
 
     if (execution_history_.empty()) {
         return report;
@@ -2683,7 +2788,9 @@ GraphQueryOptimizer::calibrateFromHistory() {
 
         // Compute mean of actual times
         double sum = 0.0;
-        for (double t : acc.actual_times) sum += t;
+        for (double t : acc.actual_times) {
+          sum += t;
+        }
         const double mean = sum / static_cast<double>(n);
 
         // Compute variance / stddev
@@ -2753,7 +2860,7 @@ GraphQueryOptimizer::registerIncrementalBFS(
     entry.start_vertex = std::string(start_vertex);
     entry.max_depth    = max_depth;
     entry.constraints  = constraints;
-    entry.callback     = std::move(callback);
+    entry.callback     = std::move([[maybe_unused]] callback);
 
     // Execute initial BFS to seed the last_result snapshot.
     auto result = executeBFS(start_vertex, max_depth, constraints);
@@ -2775,13 +2882,20 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     }
 
     // Collect all vertex IDs touched by the change set (edge endpoints + vertex IDs).
-    std::unordered_set<std::string> changed_vertices;
+    std::unordered_set<std::string> changed_vertices = {};
+
     for (const auto& change : changes.changes) {
-        if (!change.from.empty()) changed_vertices.insert(change.from);
-        if (!change.to.empty())   changed_vertices.insert(change.to);
+        if (!change.from.empty()) {
+          changed_vertices.insert(change.from);
+        }
+        if (!change.to.empty()) {
+          changed_vertices.insert(change.to);
+        }
         if (change.type == GraphChangeSet::ChangeType::VERTEX_ADDED ||
             change.type == GraphChangeSet::ChangeType::VERTEX_REMOVED) {
-            if (!change.id.empty()) changed_vertices.insert(change.id);
+            if (!change.id.empty()) {
+              changed_vertices.insert(change.id);
+            }
         }
     }
 
@@ -2856,10 +2970,10 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     // This ensures that any unregisterIncrementalQuery() call inside a callback
     // does not invalidate iterators used in the first pass above.
     for (auto& p : pending) {
-        p.callback(p.delta);
+        p.callback([[maybe_unused]] p.delta);
     }
 
-    return pending.size();
+    return static_cast<int>(pending.size());
 }
 
 // Analytics Module Integration (Issue #1821)
@@ -2907,7 +3021,7 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
         // Default depth of 10 is consistent with other Dijkstra call sites when
         // max_depth is not constrained; 0.1 converts cost units → ms.
         const size_t depth_hint = constraints.max_depth.has_value()
-            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10;
         local_stats.estimated_cost_ms =
             estimateCost(TraversalAlgorithm::DIJKSTRA, depth_hint, constraints) * 0.1;
     }
@@ -2945,7 +3059,7 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
         local_stats.nodes_explored = paths[0].vertices.size();
         // hop_count is int; guard against any unexpected negative value
         const int hc = paths[0].hop_count;
-        local_stats.max_depth_reached = (hc > 0) ? static_cast<size_t>(hc) : 0u;
+        local_stats.max_depth_reached = (hc > 0) ? static_cast<size_t>(hc) : 0;
     }
 
     if (stats) { *stats = local_stats; }

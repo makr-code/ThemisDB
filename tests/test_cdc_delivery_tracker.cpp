@@ -28,7 +28,8 @@ Changefeed::ChangeEvent makeEvent(uint64_t seq, const std::string& key_prefix = 
 }
 
 std::vector<Changefeed::ChangeEvent> makeEventRange(uint64_t from, uint64_t to) {
-    std::vector<Changefeed::ChangeEvent> evs;
+    std::vector<Changefeed::ChangeEvent> evs = {};
+
     for (uint64_t s = from; s <= to; ++s) {
         evs.push_back(makeEvent(s));
     }
@@ -293,7 +294,9 @@ TEST(DeliveryTrackerTest, StatsAllConsumers) {
     // Find c1 stats
     ConsumerDeliveryStats* c1_stats = nullptr;
     for (auto& s : all) {
-        if (s.consumer_id == "c1") c1_stats = &s;
+        if (s.consumer_id == "c1") {
+          c1_stats = &s;
+        }
     }
     ASSERT_NE(c1_stats, nullptr);
     EXPECT_EQ(c1_stats->total_delivered, 2u);

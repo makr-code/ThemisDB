@@ -242,7 +242,9 @@ TEST_F(BinaryClassTest, PredictProbaHasCorrectShape) {
     ASSERT_EQ(proba.size(), 1u);
     EXPECT_EQ(proba[0].size(), 2u);   // two classes: "neg", "pos"
     double sum = 0.0;
-    for (const auto& [lbl, p] : proba[0]) sum += p;
+    for (const auto& [lbl, p] : proba[0]) {
+      sum += p;
+    }
     EXPECT_NEAR(sum, 1.0, 1e-6);
 }
 
@@ -313,7 +315,9 @@ TEST_F(BinaryClassTest, FeatureImportanceSumsToOne) {
     auto fi = model.featureImportance();
     EXPECT_FALSE(fi.empty());
     double sum = 0.0;
-    for (const auto& [k, v] : fi) sum += v;
+    for (const auto& [k, v] : fi) {
+      sum += v;
+    }
     EXPECT_NEAR(sum, 1.0, 1e-4);
 }
 
@@ -503,9 +507,11 @@ TEST_P(SingleAlgoTest, TrainsAndPredicts) {
     cfg.ensemble   = false;
     cfg.max_trials = 2;
     cfg.cv_folds   = 2;
-    if (!is_cls) cfg.metric = AutoMLMetric::R2;
+    if (!is_cls) {
+      cfg.metric = AutoMLMetric::R2;
+    }
 
-    AutoMLModel model;
+    AutoMLModel model = {};
     if (is_cls)
         ASSERT_NO_THROW(model = automl.trainClassifier(data, cfg));
     else

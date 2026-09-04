@@ -104,16 +104,18 @@ MockTlsResult validateMockCert(CertState state, int chainDepth) {
 enum class KeyState { ACTIVE, ROTATING, REVOKED };
 
 struct MockKeyEntry {
-    std::string id;
+    std::string id = {};
     KeyState    state{KeyState::ACTIVE};
-    std::string material;
+    std::string material = {};
 };
 
 class MockKeyStore {
 public:
     SecurityErrorCode generateKey(const std::string& id) {
         std::lock_guard<std::mutex> lk(mtx_);
-        if (keys_.count(id)) return SecurityErrorCode::INTERNAL_ERROR;
+        if (keys_.count(id)) {
+          return SecurityErrorCode::INTERNAL_ERROR;
+        }
         keys_[id] = {id, KeyState::ACTIVE, "key-material-" + id};
         return SecurityErrorCode::OK;
     }
@@ -121,7 +123,9 @@ public:
     SecurityErrorCode retrieve(const std::string& id, std::string& out) {
         std::lock_guard<std::mutex> lk(mtx_);
         auto it = keys_.find(id);
-        if (it == keys_.end())        return SecurityErrorCode::KEY_NOT_FOUND;
+        if (it == keys_.end()) {
+          return SecurityErrorCode::KEY_NOT_FOUND;
+        }
         if (it->second.state == KeyState::ROTATING)
             return SecurityErrorCode::KEY_ROTATION_IN_PROGRESS;
         if (it->second.state == KeyState::REVOKED)
@@ -132,7 +136,9 @@ public:
 
     void setState(const std::string& id, KeyState s) {
         std::lock_guard<std::mutex> lk(mtx_);
-        if (keys_.count(id)) keys_[id].state = s;
+        if (keys_.count(id)) {
+          keys_[id].state = s;
+        }
     }
 
     KeyState getState(const std::string& id) const {
@@ -169,11 +175,15 @@ public:
     SecurityErrorCode evaluate(const std::string& principal,
                                const std::string& resource,
                                bool throwInternalError = false) const {
-        if (throwInternalError) return SecurityErrorCode::ACCESS_DENIED;
+        if (throwInternalError) {
+          return SecurityErrorCode::ACCESS_DENIED;
+        }
 
         std::string key = principal + ":" + resource;
         auto it = rules_.find(key);
-        if (it == rules_.end()) return SecurityErrorCode::POLICY_NOT_FOUND;
+        if (it == rules_.end()) {
+          return SecurityErrorCode::POLICY_NOT_FOUND;
+        }
 
         const auto& rule = it->second;
         if (rule.decision == PolicyDecision::DENY)
@@ -185,7 +195,9 @@ public:
     PolicySource getFirstSource(const std::string& principal,
                                 const std::string& resource) const {
         auto it = rules_.find(principal + ":" + resource);
-        if (it == rules_.end()) return PolicySource::ABAC;
+        if (it == rules_.end()) {
+          return PolicySource::ABAC;
+        }
         return it->second.source;
     }
 
@@ -202,7 +214,9 @@ public:
     void setFull(bool full) { full_ = full; }
 
     SecurityErrorCode write(const std::string& event) {
-        if (full_) return SecurityErrorCode::AUDIT_WRITE_FAILED;
+        if (full_) {
+          return SecurityErrorCode::AUDIT_WRITE_FAILED;
+        }
         std::lock_guard<std::mutex> lk(mtx_);
         entries_.push_back({nextSeq_++, event});
         return SecurityErrorCode::OK;
@@ -210,9 +224,12 @@ public:
 
     std::vector<std::uint64_t> sequences() const {
         std::lock_guard<std::mutex> lk(mtx_);
-        std::vector<std::uint64_t> out;
+        std::vector<std::uint64_t> out = {};
+
         out.reserve(entries_.size());
-        for (const auto& e : entries_) out.push_back(e.first);
+        for (const auto& e : entries_) {
+          out.push_back(e.first);
+        }
         return out;
     }
 
@@ -283,7 +300,7 @@ TEST(SecurityContractTls, SEC04_ChainDepthExceeded) {
 TEST(SecurityContractKeyMgmt, SEC05_GenerateStoreRetrieve) {
     MockKeyStore store;
     EXPECT_EQ(store.generateKey("key-42"), SecurityErrorCode::OK);
-    std::string material;
+    std::string material = {};
     EXPECT_EQ(store.retrieve("key-42", material), SecurityErrorCode::OK);
     EXPECT_FALSE(material.empty());
 }
@@ -293,7 +310,7 @@ TEST(SecurityContractKeyMgmt, SEC05_GenerateStoreRetrieve) {
  */
 TEST(SecurityContractKeyMgmt, SEC06_MissingKeyNotFound) {
     MockKeyStore store;
-    std::string material;
+    std::string material = {};
     auto code = store.retrieve("does-not-exist", material);
     EXPECT_EQ(code, SecurityErrorCode::KEY_NOT_FOUND);
     EXPECT_TRUE(material.empty());
@@ -311,7 +328,7 @@ TEST(SecurityContractKeyMgmt, SEC07_RotationLifecycle) {
     // Simulate rotation start: mark old key as ROTATING.
     store.setState("old-key", KeyState::ROTATING);
 
-    std::string mat;
+    std::string mat = {};
     EXPECT_EQ(store.retrieve("old-key", mat),
               SecurityErrorCode::KEY_ROTATION_IN_PROGRESS);
 
@@ -328,7 +345,7 @@ TEST(SecurityContractKeyMgmt, SEC08_RevokedKeyRejected) {
     ASSERT_EQ(store.generateKey("revoked-key"), SecurityErrorCode::OK);
     store.setState("revoked-key", KeyState::REVOKED);
 
-    std::string mat;
+    std::string mat = {};
     EXPECT_EQ(store.retrieve("revoked-key", mat), SecurityErrorCode::KEY_REVOKED);
     EXPECT_TRUE(mat.empty());
 }
@@ -425,7 +442,9 @@ TEST(SecurityContractAudit, SEC14_ConcurrentWritesNoLoss) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(logger.count(), static_cast<std::size_t>(kThreads * kPerThread));
 }

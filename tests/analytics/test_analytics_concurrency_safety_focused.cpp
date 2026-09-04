@@ -62,7 +62,7 @@ static constexpr uint64_t kConcurrencySeed = 42;
 
 /// Represents a lock with ID for ordering verification
 struct OrderedLock {
-    int lock_id;
+    int lock_id = 0;
     mutable std::timed_mutex mtx;
     int acquisition_order = 0;
 
@@ -76,8 +76,8 @@ static std::atomic<int> g_acquisition_counter(0);
 class LockAcquisitionTracker {
 public:
     struct AcquisitionRecord {
-        int lock_id;
-        int order;
+        int lock_id = 0;
+        int order = {};
         std::thread::id thread_id;
     };
 
@@ -164,7 +164,9 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
 
     auto acquire_locks = [&](int first_id, int second_id, std::atomic<bool>& done_flag) {
         // Ensure lock acquisition order: always lock 1 before lock 2
-        if (first_id > second_id) std::swap(first_id, second_id);
+        if (first_id > second_id) {
+          std::swap(first_id, second_id);
+        }
         
         OrderedLock* first_lock = (first_id == 1) ? &lock1 : &lock2;
         OrderedLock* second_lock = (second_id == 1) ? &lock1 : &lock2;
@@ -189,7 +191,7 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
 
     // Wait for completion with timeout
     auto start = std::chrono::steady_clock::now();
-    while ((!thread1_done || !thread2_done) && 
+    while (((!thread1_done || !thread2_done) && 
            (std::chrono::steady_clock::now() - start) < timeout) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
@@ -237,7 +239,7 @@ TEST_F(ConcurrencySafetyTest, CS_03_ThreeThreadCircularDependency) {
 
         auto start = std::chrono::steady_clock::now();
     auto wait_timeout = std::chrono::seconds(10);
-    while ((!done[0] || !done[1] || !done[2]) &&
+    while (((!done[0] || !done[1] || !done[2]) &&
             (std::chrono::steady_clock::now() - start) < wait_timeout) {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
@@ -298,8 +300,8 @@ TEST_F(ConcurrencySafetyTest, CS_04_LockAcquisitionTimeout) {
 TEST_F(ConcurrencySafetyTest, CS_05_ReaderWriterLockPattern) {
     // Gap: circular_lock_ordering (reader-writer safety)
     // Setup: Simulated reader-writer lock using mutexes
-    std::mutex rw_lock;
-    std::condition_variable cv;
+    std::mutex rw_lock = {};
+    std::condition_variable cv = {};
     int active_writers = 0;
     int active_readers = 0;
     int data_value = 0;
@@ -316,7 +318,9 @@ TEST_F(ConcurrencySafetyTest, CS_05_ReaderWriterLockPattern) {
     auto release_read = [&]() {
         std::unique_lock<std::mutex> ul(rw_lock);
         --active_readers;
-        if (active_readers == 0) cv.notify_all();
+        if (active_readers == 0) {
+          cv.notify_all();
+        }
     };
 
     auto acquire_write = [&]() {
@@ -397,7 +401,8 @@ TEST_F(ConcurrencySafetyTest, CS_06_StreamingWindowInsertFlush) {
     };
 
     // Action: Concurrent inserts and flush
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() { insert_record(i); });
     }
@@ -420,7 +425,7 @@ TEST_F(ConcurrencySafetyTest, CS_07_MultipleWindowsSeparateLocks) {
     // Gap: circular_lock_ordering (per-window lock isolation)
     // Setup: Multiple independent windows with separate locks
     struct Window {
-        std::mutex mtx;
+        std::mutex mtx = {};
         int record_count = 0;
     };
 
@@ -434,7 +439,8 @@ TEST_F(ConcurrencySafetyTest, CS_07_MultipleWindowsSeparateLocks) {
     };
 
     // Action: Each thread processes different window without contention
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 25; ++i) {
         threads.emplace_back([&, i]() { process_window(i % 5); });
     }
@@ -458,8 +464,8 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
     // Gap: circular_lock_ordering (eviction doesn't deadlock)
     // Simulate window eviction under concurrent access
     struct EvictableWindow {
-        std::mutex mtx;
-        int id;
+        std::mutex mtx = {};
+        int id = {};
         bool evicted = false;
         int access_count = 0;
     };
@@ -491,7 +497,8 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
     };
 
     // Action: Concurrent access and eviction
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() { access_window(i % 3); });
     }
@@ -514,8 +521,8 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
 TEST_F(ConcurrencySafetyTest, CS_09_BackpressureSignaling) {
     // Gap: circular_lock_ordering (condition variable safety)
     // Simulate backpressure with condition variables
-    std::mutex mtx;
-    std::condition_variable cv;
+    std::mutex mtx = {};
+    std::condition_variable cv = {};
     bool backpressure_active = false;
     int buffered_events = 0;
     std::atomic<int> events_processed(0);
@@ -541,7 +548,8 @@ TEST_F(ConcurrencySafetyTest, CS_09_BackpressureSignaling) {
     };
 
     // Action: Events processed, then backpressure signal
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 50; ++i) {
         threads.emplace_back([&]() { process_event(); });
     }
@@ -568,7 +576,7 @@ TEST_F(ConcurrencySafetyTest, CS_09_BackpressureSignaling) {
 TEST_F(ConcurrencySafetyTest, CS_10_WatermarkAdvancementNonBlocking) {
     // Gap: circular_lock_ordering (watermark doesn't block inserts)
     // Simulate watermark advancement and concurrent inserts
-    std::mutex mtx;
+    std::mutex mtx = {};
     int64_t watermark = 0;
     int insert_count = 0;
     std::atomic<bool> watermark_advanced(false);
@@ -587,7 +595,8 @@ TEST_F(ConcurrencySafetyTest, CS_10_WatermarkAdvancementNonBlocking) {
     };
 
     // Action: Concurrent inserts and watermark advancement
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 100; ++i) {
         threads.emplace_back([&]() { insert_record(); });
     }
@@ -654,7 +663,7 @@ TEST_F(ConcurrencySafetyTest, CS_11_AggregationStageIndependentLock) {
 TEST_F(ConcurrencySafetyTest, CS_12_CodeGenerationThreadSafe) {
     // Gap: circular_lock_ordering (thread-safe code generation)
     // Simulate multiple threads generating code
-    std::mutex codegen_lock;
+    std::mutex codegen_lock = {};
     std::vector<std::string> generated_code;
     std::atomic<int> codegen_count(0);
 
@@ -665,7 +674,8 @@ TEST_F(ConcurrencySafetyTest, CS_12_CodeGenerationThreadSafe) {
     };
 
     // Action: Multiple threads generate code
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() { generate_code(i); });
     }
@@ -725,7 +735,7 @@ TEST_F(ConcurrencySafetyTest, CS_14_ConcurrentAggregationConsistency) {
     // Gap: circular_lock_ordering (maintain aggregation invariants)
     // Simulate concurrent aggregation updates
     struct AggState {
-        std::mutex mtx;
+        std::mutex mtx = {};
         int64_t sum = 0;
         int count = 0;
     };
@@ -741,7 +751,8 @@ TEST_F(ConcurrencySafetyTest, CS_14_ConcurrentAggregationConsistency) {
     };
 
     // Action: Multiple threads update aggregation
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 100; ++i) {
         threads.emplace_back([&, i]() { update_aggregation(i); });
     }
@@ -796,7 +807,8 @@ TEST_F(ConcurrencySafetyTest, CS_15_AggregationResourceReleaseUnderLock) {
     // Action: Allocate, concurrent access, then release
     allocate();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 20; ++i) {
         threads.emplace_back([&]() { access(); });
     }

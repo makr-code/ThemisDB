@@ -80,7 +80,7 @@ public:
 
     // -------------------------------------------------------------------------
     ProvenanceWriteStats write(const std::vector<ProvenanceRecord>& records) {
-        ProvenanceWriteStats stats;
+        ProvenanceWriteStats stats = ProvenanceWriteStats();
         auto t0 = std::chrono::steady_clock::now();
 
         // Compute optional write deadline (0 = no limit).
@@ -96,10 +96,10 @@ public:
         };
 
         size_t batch_start = 0;
-        while (batch_start < records.size()) {
+        while (static_cast<size_t>(batch_start) <static_cast<int>(records.size())) {
             // Enforce write deadline before starting each batch.
             if (has_timeout && std::chrono::steady_clock::now() >= deadline) {
-                stats.records_rejected += records.size() - batch_start;
+                stats.records_rejected += static_cast<int>(records.size()) - batch_start;
                 break;
             }
 
@@ -196,11 +196,13 @@ public:
                               const std::string& category,
                               float confidence,
                               float threshold_used) {
-        if (!config_.emit_audit_events) return;
+        if (!config_.emit_audit_events) {
+          return;
+        }
 
         // In production: call utils::AuditLogger::log() with structured event.
         // Build a simple JSON-like audit string for in-process traceability:
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{"
             << "\"event\":\"sample_filtered\","
             << "\"sample_id\":\"" << sample_id << "\","
@@ -214,7 +216,7 @@ public:
 
     // -------------------------------------------------------------------------
     LineageNode queryLineage(const std::string& model_id, size_t max_hops) const {
-        LineageNode root;
+        LineageNode root = LineageNode();
         root.node_type = "model";
         root.node_id   = model_id;
         root.label     = "LoRA adapter " + model_id;
@@ -234,17 +236,21 @@ public:
                 const auto& json = *result;
                 // Parse the traversal result into a flat list; build a two-level
                 // tree (model → samples → documents) from the returned nodes.
-                auto parseNodes = [&](const nlohmann::json& arr) {
+                auto parseNodes = [&]([[maybe_unused]] const nlohmann::json& arr) {
                     for (const auto& item : arr) {
-                        if (!item.is_object()) continue;
-                        LineageNode node;
+                        if (!item.is_object()) {
+                          continue;
+                        }
+                        LineageNode node = {};
                         if (item.contains("node_id") && item["node_id"].is_string())
                             node.node_id = item["node_id"].get<std::string>();
                         if (item.contains("node_type") && item["node_type"].is_string())
                             node.node_type = item["node_type"].get<std::string>();
                         if (item.contains("label") && item["label"].is_string())
                             node.label = item["label"].get<std::string>();
-                        if (node.node_id.empty()) continue;
+                        if (node.node_id.empty()) {
+                          continue;
+                        }
                         root.parents.push_back(std::move(node));
                     }
                 };
@@ -283,13 +289,13 @@ public:
         // Used in offline / test mode and as a fallback when the AQL traversal
         // returns an empty result set.
         for (const auto& [sample_id, rec] : store_) {
-            LineageNode sample_node;
+            LineageNode sample_node = LineageNode();
             sample_node.node_type = "sample";
             sample_node.node_id   = sample_id;
             sample_node.label     = "TrainingSample " + sample_id;
 
             if (!rec.source_doc_urn.empty()) {
-                LineageNode doc_node;
+                LineageNode doc_node = LineageNode();
                 doc_node.node_type = "document";
                 doc_node.node_id   = rec.source_doc_urn;
                 doc_node.label     = "Document " + rec.source_doc_urn;
@@ -329,7 +335,7 @@ public:
                     doc_ptr = &json[0];
                 }
                 if (doc_ptr && doc_ptr->is_object()) {
-                    ProvenanceRecord rec;
+                    ProvenanceRecord rec = ProvenanceRecord();
                     const auto& d = *doc_ptr;
                     if (d.contains("_key") && d["_key"].is_string())
                         rec.sample_id = d["_key"].get<std::string>();
@@ -375,7 +381,7 @@ private:
             std::string token = "@" + placeholder;
             size_t pos = 0;
             while ((pos = query.find(token, pos)) != std::string::npos) {
-                query.replace(pos, token.size(), value);
+                query.replace(pos,static_cast<int>(token.size()), value);
                 pos += value.size();
             }
         }
@@ -384,7 +390,7 @@ private:
 
     // Escape characters that would break an AQL inline string literal.
     static std::string escapedStr(const std::string& raw) {
-        std::string out;
+        std::string out = {};
         out.reserve(raw.size());
         for (char c : raw) {
             switch (c) {

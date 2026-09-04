@@ -96,7 +96,9 @@ TEST(InMemoryRateLimiterBackendTest, ConcurrentIncrements) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(backend.getCount("shared", 60), kThreads * kPerThread);
 }

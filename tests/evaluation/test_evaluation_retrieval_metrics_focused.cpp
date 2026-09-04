@@ -17,7 +17,8 @@ using namespace themis::evaluation;
 // ── helpers ───────────────────────────────────────────────────────────────────
 
 static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> ids) {
-    std::vector<RankedResult> v;
+    std::vector<RankedResult> v = {};
+
     v.reserve(ids.size());
     double score = static_cast<double>(ids.size());
     for (const char* id : ids) {
@@ -27,7 +28,8 @@ static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> 
 }
 
 static std::vector<std::string> make_gt(std::initializer_list<const char*> ids) {
-    std::vector<std::string> out;
+    std::vector<std::string> out = {};
+
     out.reserve(ids.size());
     for (const char* id : ids) {
         out.emplace_back(id);

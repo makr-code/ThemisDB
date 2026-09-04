@@ -240,7 +240,7 @@ TEST(LoRATrustBoundaryTest, LTB03b_UnknownSignerAcceptedWithWarningUnderLenientP
     registry.registerSigner("known-signer-org");
 
     const std::string unknown_signer = "external-contributor-unverified";
-    std::string warning;
+    std::string warning = {};
 
     const bool trusted = registry.isTrusted(unknown_signer, &warning);
 
@@ -262,7 +262,7 @@ TEST(LoRATrustBoundaryTest, LTB03c_KnownSignerAcceptedWithoutWarningUnderStrictP
     AdapterTrustRegistry registry(AdapterTrustRegistry::Policy::STRICT);
     registry.registerSigner("trusted-org-prod");
 
-    std::string warning;
+    std::string warning = {};
     const bool trusted = registry.isTrusted("trusted-org-prod", &warning);
 
     EXPECT_TRUE(trusted)

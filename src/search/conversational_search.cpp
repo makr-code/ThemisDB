@@ -46,7 +46,8 @@ std::vector<HybridSearch::Result> ConversationalSearch::search(
 
     const std::string enriched = reformulate(query);
 
-    std::vector<HybridSearch::Result> results;
+    std::vector<HybridSearch::Result> results = {};
+
     if (hybrid_search_) {
         try {
             results = hybrid_search_->search(enriched);
@@ -58,7 +59,7 @@ std::vector<HybridSearch::Result> ConversationalSearch::search(
     }
 
     // Append turn to history, evicting oldest entry when limit is reached
-    if (history_.size() >= config_.max_history) {
+    if (static_cast<int>(history_.size()) >= config_.max_history) {
         history_.pop_front();
     }
     Turn turn;
@@ -80,10 +81,10 @@ std::string ConversationalSearch::reformulate(const std::string& query) const {
     }
 
     // Collect the most recent context_window queries from history
-    const size_t window = std::min(config_.context_window, history_.size());
-    const size_t start  = history_.size() - window;
+    const size_t window = std::min(config_.context_window,static_cast<int>(history_.size()));
+    const size_t start  = static_cast<int>(history_.size()) - window;
 
-    std::string enriched;
+    std::string enriched = {};
     for (size_t i = start; i < history_.size(); ++i) {
         if (!history_[i].query.empty()) {
             enriched += history_[i].query;

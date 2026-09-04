@@ -113,7 +113,7 @@ std::string SAMLAuthenticator::generateRequestId() {
     static std::mt19937_64 local_gen(local_rd());
     std::uniform_int_distribution<uint64_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << '_';
     oss << std::hex << std::setfill('0') << std::setw(16) << dist(local_gen) << std::setw(16) << dist(local_gen);
     return oss.str();
@@ -121,7 +121,7 @@ std::string SAMLAuthenticator::generateRequestId() {
 
 std::string SAMLAuthenticator::buildAuthnRequestXml(const std::string &request_id,
                                                     const std::string &issue_instant) const {
-    std::ostringstream xml;
+    std::ostringstream xml = {};
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)"
         << R"(<samlp:AuthnRequest)"
         << R"( xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol")"
@@ -207,7 +207,7 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) 
 }
 
 std::string SAMLAuthenticator::urlEncode(const std::string &input) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::uppercase;
     for (unsigned char c : input) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
@@ -269,7 +269,7 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
 
 std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std::string &s) {
     // Accepts: "2026-02-22T06:13:57Z" or "2026-02-22T06:13:57.000Z"
-    if (s.size() < 20) {
+    if (static_cast<int>(s.size()) < 20) {
         throw std::runtime_error("SAML: Invalid datetime format: " + s);
     }
     std::tm tm_val{};
@@ -385,13 +385,13 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
             return false;
         }
         EVP_DigestInit_ex(mctx_ref, digest_md, nullptr);
-        EVP_DigestUpdate(mctx_ref, reference_xml.data(), reference_xml.size());
+        EVP_DigestUpdate(mctx_ref, reference_xml.data(),static_cast<int>(reference_xml.size()));
         EVP_DigestFinal_ex(mctx_ref, computed_digest.data(), &computed_len);
         EVP_MD_CTX_free(mctx_ref);
         computed_digest.resize(computed_len);
 
-        if (computed_digest.size() != claimed_digest.size()
-            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(), computed_digest.size()) != 0) {
+        if (static_cast<int>(computed_digest.size()) != static_cast<int>(claimed_digest.size())
+            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(),static_cast<int>(computed_digest.size())) != 0) {
             THEMIS_WARN("SAML: Reference DigestValue mismatch");
             return false;
         }
@@ -406,8 +406,8 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
 
     int verify_result = 0;
     if (EVP_DigestVerifyInit(mctx_sig, nullptr, sig_md, nullptr, pkey) == 1) {
-        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(), signed_info_c14n.size()) == 1) {
-            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(), sig_bytes.size());
+        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(),static_cast<int>(signed_info_c14n.size())) == 1) {
+            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(),static_cast<int>(sig_bytes.size()));
         }
     }
     EVP_MD_CTX_free(mctx_sig);
@@ -457,7 +457,7 @@ pugi::xml_node findDescendantByLocalName(const pugi::xml_node &root, const char 
 
 /// Extract all text content from a node (including child nodes)
 std::string nodeText(const pugi::xml_node &node) {
-    std::string result;
+    std::string result = {};
     for (auto child : node.children()) {
         if (child.type() == pugi::node_pcdata || child.type() == pugi::node_cdata) {
             result += child.value();
@@ -470,7 +470,7 @@ std::string nodeText(const pugi::xml_node &node) {
 
 /// Serialize a node back to XML string
 std::string nodeToString(const pugi::xml_node &node) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     node.print(oss, "", pugi::format_raw);
     return oss.str();
 }
@@ -517,7 +517,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     // Determine data encryption algorithm
-    std::string data_enc_alg;
+    std::string data_enc_alg = {};
     {
         auto enc_method = findChildByLocalName(enc_data_node, "EncryptionMethod");
         if (enc_method) {
@@ -543,7 +543,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     // Key transport algorithm
-    std::string key_transport_alg;
+    std::string key_transport_alg = {};
     {
         auto key_enc_method = findChildByLocalName(enc_key_node, "EncryptionMethod");
         if (key_enc_method) {
@@ -552,7 +552,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     // Extract base64-encoded encrypted symmetric key
-    std::string encrypted_key_b64;
+    std::string encrypted_key_b64 = {};
     {
         auto key_cipher_data = findChildByLocalName(enc_key_node, "CipherData");
         if (key_cipher_data) {
@@ -571,7 +571,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
                             encrypted_key_b64.end());
 
     // Extract base64-encoded encrypted assertion
-    std::string encrypted_data_b64;
+    std::string encrypted_data_b64 = {};
     {
         auto data_cipher_data = findChildByLocalName(enc_data_node, "CipherData");
         if (data_cipher_data) {
@@ -647,7 +647,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
         bool ok = false;
         if (EVP_PKEY_decrypt_init(rsa_ctx) > 0 && EVP_PKEY_CTX_set_rsa_padding(rsa_ctx, rsa_padding) > 0) {
             size_t key_len = 0;
-            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(), encrypted_key_bytes.size())
+            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(),static_cast<int>(encrypted_key_bytes.size()))
                 > 0) {
                 symmetric_key.resize(key_len);
                 if (EVP_PKEY_decrypt(rsa_ctx, symmetric_key.data(), &key_len, encrypted_key_bytes.data(),
@@ -690,10 +690,10 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
         required_key_size = 16;
     } else if (data_enc_alg.empty()) {
         // Infer from the decrypted key length when the algorithm is absent
-        if (symmetric_key.size() == 32) {
+        if (static_cast<int>(symmetric_key.size()) == 32) {
             cipher            = EVP_aes_256_cbc();
             required_key_size = 32;
-        } else if (symmetric_key.size() == 16) {
+        } else if (static_cast<int>(symmetric_key.size()) == 16) {
             cipher            = EVP_aes_128_cbc();
             required_key_size = 16;
         }
@@ -705,7 +705,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
                              + "'. Supported: aes128-cbc, aes256-cbc.");
     }
 
-    if (symmetric_key.size() < required_key_size) {
+    if (static_cast<int>(symmetric_key.size()) < required_key_size) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "Decrypted symmetric key is shorter than required for the "
                          "selected cipher (got "
@@ -714,7 +714,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     const size_t iv_len = static_cast<size_t>(EVP_CIPHER_iv_length(cipher));
-    if (encrypted_data_bytes.size() <= iv_len) {
+    if (static_cast<int>(encrypted_data_bytes.size()) <= iv_len) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "EncryptedData CipherValue is too short to contain an IV");
     }
@@ -743,7 +743,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     plaintext.resize(static_cast<size_t>(out1 + out2));
-    return std::string(reinterpret_cast<const char *>(plaintext.data()), plaintext.size());
+    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((plaintext.data()),static_cast<int>(plaintext.size()))));
 }
 
 // ============================================================================
@@ -781,7 +781,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                          "Base64 decode of SAMLResponse failed or produced empty output");
     }
-    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()), raw_bytes.size());
+    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()),static_cast<int>(raw_bytes.size()));
 
     // ----------------------------------------------------------------
     // Step 2: Parse XML
@@ -1114,7 +1114,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         }
 
         // Enforce maximum cache size (after eviction). If still full, fail closed.
-        if (seen_assertion_ids_.size() >= config_.max_replay_cache_size) {
+        if (static_cast<int>(seen_assertion_ids_.size()) >= config_.max_replay_cache_size) {
             THEMIS_WARN("SAML: Replay cache is full ({} entries). "
                         "Rejecting assertion to prevent cache bypass. "
                         "Consider using a distributed TTL cache for high-volume deployments.",

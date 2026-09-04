@@ -96,7 +96,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::resume(
         if (snapshot_ts.has_value()) {
             // Resume specific snapshot by HLC timestamp
             std::string key = makeSSMStateKey(session_id, *snapshot_ts);
-            std::string value;
+            std::string value = {};
 
             rocksdb::Status status;
             if (cf_) {
@@ -140,7 +140,8 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
             return false;
         }
 
-        std::vector<std::string> keys_to_delete;
+        std::vector<std::string> keys_to_delete = {};
+
         for (it->Seek(prefix); it->Valid() && it->key().starts_with(prefix); it->Next()) {
             keys_to_delete.push_back(it->key().ToString());
         }
@@ -166,7 +167,7 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
     }
 }
 
-uint64_t SSMStateRocksDBStore::compact(uint64_t retention_window_ms) {
+uint64_t SSMStateRocksDBStore::compact([[maybe_unused]] uint64_t retention_window_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (retention_window_ms == 0) {
@@ -213,11 +214,11 @@ uint64_t SSMStateRocksDBStore::compact(uint64_t retention_window_ms) {
                 status = db_->Delete(write_opts, key);
             }
             if (!status.ok()) {
-                return keys_to_delete.size() - 1;  // Return partial count
+                return static_cast<int>(keys_to_delete.size()) - 1;  // Return partial count
             }
         }
 
-        return keys_to_delete.size();
+        return static_cast<int>(keys_to_delete.size());
     } catch (...) {
         return 0;
     }
@@ -242,7 +243,7 @@ std::string SSMStateRocksDBStore::makeSSMStateKey(
     const std::string& session_id,
     const HLCTimestamp& ts) {
     
-    std::ostringstream key;
+    std::ostringstream key = {};
     key << "ssm_state:" << session_id << ":"
         << ts.physical() << ":"
         << ts.logical();
@@ -254,7 +255,7 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     const SSMStateSnapshot& snapshot) {
     
     // Format: [version:1][data...]
-    std::string result;
+    std::string result = {};
     result.push_back(1);  // Version 1
 
     // Serialize snapshot to JSON and then to binary
@@ -266,7 +267,7 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     j["sequence_counter"] = snapshot.sequence_counter;
 
     // Serialize binary state as hex string
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     for (auto b : snapshot.state_data) {
         hex << std::hex << std::setw(2) << std::setfill('0') << (static_cast<int>(b) & 0xFF);
     }
@@ -300,7 +301,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
         int64_t logical = j["snapshot_ts_logical"].get<int64_t>();
         snapshot.snapshot_ts = HLCTimestamp::from(static_cast<uint64_t>(physical), static_cast<uint32_t>(logical));
         snapshot.state_fingerprint = j.value("state_fingerprint", std::string());
-        snapshot.sequence_counter = j.value("sequence_counter", 0ULL);
+        snapshot.sequence_counter = j.value("sequence_counter", 0);
         std::string hex = j.value("state_data_hex", std::string());
         snapshot.state_data.clear();
         snapshot.state_data.reserve(hex.size() / 2);
@@ -370,7 +371,7 @@ SSMStateRocksDBStore::findMostRecentSnapshot(const std::string& session_id) {
         }
     }
 
-    delete it;
+    delete it = {};
     return most_recent;
 }
 

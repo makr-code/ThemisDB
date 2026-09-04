@@ -68,7 +68,7 @@ struct MockEntity {
     std::string               id;
     std::int64_t              timestamp_us; ///< µs since epoch
     std::string               node_id;
-    std::string               payload;
+    std::string               payload = {};
     bool                      tombstone = false;
     int                       version   = 1;
 };
@@ -77,20 +77,26 @@ struct MockEntityStore {
     std::map<std::string, MockEntity> data;
 
     DKErrorCode create(MockEntity e) {
-        if (data.count(e.id)) return DKErrorCode::CONFLICT_UNRESOLVABLE;
+        if (data.count(e.id)) {
+          return DKErrorCode::CONFLICT_UNRESOLVABLE;
+        }
         data[e.id] = std::move(e);
         return DKErrorCode::OK;
     }
 
     std::optional<MockEntity> read(const std::string& id) const {
         auto it = data.find(id);
-        if (it == data.end() || it->second.tombstone) return std::nullopt;
+        if (it == data.end() || it->second.tombstone) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
     DKErrorCode update(const std::string& id, const std::string& new_payload, std::int64_t ts) {
         auto it = data.find(id);
-        if (it == data.end()) return DKErrorCode::ENTITY_NOT_FOUND;
+        if (it == data.end()) {
+          return DKErrorCode::ENTITY_NOT_FOUND;
+        }
         MockEntity updated = it->second;
         updated.payload      = new_payload;
         updated.timestamp_us = ts;
@@ -101,7 +107,9 @@ struct MockEntityStore {
 
     DKErrorCode remove(const std::string& id) {
         auto it = data.find(id);
-        if (it == data.end()) return DKErrorCode::ENTITY_NOT_FOUND;
+        if (it == data.end()) {
+          return DKErrorCode::ENTITY_NOT_FOUND;
+        }
         it->second.tombstone = true;
         return DKErrorCode::OK;
     }
@@ -129,12 +137,15 @@ struct MockGraph {
     std::vector<std::pair<std::string, std::size_t>>
     pathQuery(const std::string& start, std::size_t max_depth) const {
         std::vector<std::pair<std::string, std::size_t>> result;
-        std::set<std::string> visited;
+        std::set<std::string> visited = {};
+
         std::vector<std::pair<std::string, std::size_t>> frontier = {{start, 0}};
         while (!frontier.empty()) {
             auto [node, depth] = frontier.back();
             frontier.pop_back();
-            if (visited.count(node) || depth > max_depth) continue;
+            if (visited.count(node) || depth > max_depth) {
+              continue;
+            }
             visited.insert(node);
             if (depth > 0) result.push_back({node, depth});
             if (depth < max_depth) {
@@ -225,9 +236,14 @@ TEST(DKContractHardeningDKC05, FederationResultIsUnionNoDuplicates) {
     std::vector<std::string> node_a = {"e1", "e2", "e3"};
     std::vector<std::string> node_b = {"e2", "e3", "e4"};
 
-    std::set<std::string> federated;
-    for (auto& id : node_a) federated.insert(id);
-    for (auto& id : node_b) federated.insert(id);
+    std::set<std::string> federated = {};
+
+    for (auto& id : node_a) {
+      federated.insert(id);
+    }
+    for (auto& id : node_b) {
+      federated.insert(id);
+    }
 
     // Union has 4 distinct entities
     EXPECT_EQ(federated.size(), 4u);

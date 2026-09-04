@@ -101,7 +101,8 @@ TEST_F(ContinuousBatchSchedulerTest, BlockAvailabilityCheck) {
     size_t max_requests = free_blocks / blocks_per_request;
     
     // Submit requests up to the limit
-    std::vector<std::string> request_ids;
+    std::vector<std::string> request_ids = {};
+
     for (size_t i = 0; i < max_requests; ++i) {
         auto req = createTestRequest(PROMPT_TOKENS, MAX_TOKENS);
         auto req_id = scheduler->submitRequest(req);
@@ -176,7 +177,8 @@ TEST_F(ContinuousBatchSchedulerTest, RequestCompletionBlockDeallocation) {
     ASSERT_GT(batch.size(), 0);
     
     // Simulate completion by generating all tokens
-    std::vector<InferenceResponse> responses;
+    std::vector<InferenceResponse> responses = {};
+
     for (auto* req_ptr : batch) {
         InferenceResponse resp;
         resp.text = "Generated token";
@@ -209,7 +211,8 @@ TEST_F(ContinuousBatchSchedulerTest, StatisticsUpdate) {
     ASSERT_GT(batch.size(), 0);
     
     // Simulate some token generation
-    std::vector<InferenceResponse> responses;
+    std::vector<InferenceResponse> responses = {};
+
     for (auto* req_ptr : batch) {
         InferenceResponse resp;
         resp.text = "token";
@@ -253,7 +256,8 @@ TEST_F(ContinuousBatchSchedulerTest, OutOfMemoryHandling) {
     small_scheduler->start();
     
     // Submit requests that require more blocks than available
-    std::vector<std::string> request_ids;
+    std::vector<std::string> request_ids = {};
+
     for (int i = 0; i < 5; ++i) {
         auto req = createTestRequest(100, 50);  // ~10 blocks each
         auto req_id = small_scheduler->submitRequest(req);
@@ -327,7 +331,8 @@ TEST_F(ContinuousBatchSchedulerTest, BackpressureRejectWhenQueueFull) {
     sched->start();
     
     // Fill the queue to the limit
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < cfg.max_queue_depth; ++i) {
         auto req = createTestRequest(10, 5);
         std::string id = sched->submitRequest(req);
@@ -363,7 +368,8 @@ TEST_F(ContinuousBatchSchedulerTest, BackpressureUnlimitedWhenZero) {
     sched->start();
     
     // Submit many requests — none should be rejected
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 20; ++i) {
         auto req = createTestRequest(5, 3);
         std::string id = sched->submitRequest(req);

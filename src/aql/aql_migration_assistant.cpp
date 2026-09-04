@@ -46,7 +46,7 @@ std::string MigrationResult::summary() const {
         }
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first  = true;
     auto append = [&](int count, const char *singular, const char *plural) {
         if (count <= 0) {
@@ -69,7 +69,7 @@ std::string MigrationResult::summary() const {
 // ---------------------------------------------------------------------------
 
 MigrationResult AQLMigrationAssistant::migrate(const std::string &arango_aql) const {
-    MigrationResult result;
+    MigrationResult result = {};
 
     if (arango_aql.empty()) {
         result.migrated_query       = "";
@@ -187,7 +187,7 @@ std::size_t findCI(const std::string &haystack, const std::string &needle, std::
 /// Return true when the character at position @p pos (if valid) is NOT an
 /// identifier character, making it a word boundary.
 bool isWordBoundary(const std::string &s, std::size_t pos) {
-    if (pos >= s.size()) {
+    if (pos >= static_cast<int>(s.size())) {
         return true;
     }
     unsigned char c = static_cast<unsigned char>(s[pos]);
@@ -220,17 +220,17 @@ bool findNextFunctionCall(const std::string &query, const std::string &keyword, 
 
         // Word boundary check before keyword
         if (pos > 0 && !isWordBoundary(query, pos - 1)) {
-            search_from = pos + keyword.size();
+            search_from = pos + static_cast<int>(keyword.size()) ;
             continue;
         }
 
         // Must be followed by optional whitespace then '('
-        std::size_t check = pos + keyword.size();
+        std::size_t check = pos + static_cast<int>(keyword.size()) ;
         while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
         }
         if (check >= query.size() || query[check] != '(') {
-            search_from = pos + keyword.size();
+            search_from = pos + static_cast<int>(keyword.size()) ;
             continue;
         }
 
@@ -252,7 +252,7 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
         return query;
     }
 
-    std::string result;
+    std::string result = {};
     result.reserve(query.size());
     bool rewritten = false;
 
@@ -295,8 +295,8 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
 
 std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "NEAR";
-    std::string result;
-    result.reserve(query.size() + 128);
+    std::string result = {};
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -310,7 +310,7 @@ std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::ve
         }
 
         auto args = splitArgs(args_str);
-        if (args.size() < 4) {
+        if (static_cast<int>(args.size()) < 4) {
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "NEAR() detected but argument count is unexpected; manual migration required",
                               "Replace NEAR(collection, lat, lng, n) with: "
@@ -374,8 +374,8 @@ std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::ve
 
 std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "WITHIN";
-    std::string result;
-    result.reserve(query.size() + 128);
+    std::string result = {};
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -388,7 +388,7 @@ std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::
         }
 
         auto args = splitArgs(args_str);
-        if (args.size() < 4) {
+        if (static_cast<int>(args.size()) < 4) {
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "WITHIN() detected but argument count is unexpected; manual migration required",
                               "Replace WITHIN(collection, lat, lng, radius) with: "
@@ -452,8 +452,8 @@ std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::
 std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
                                                    std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "FULLTEXT";
-    std::string result;
-    result.reserve(query.size() + 128);
+    std::string result = {};
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -466,7 +466,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
         }
 
         auto args = splitArgs(args_str);
-        if (args.size() < 3) {
+        if (static_cast<int>(args.size()) < 3) {
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "FULLTEXT() detected but argument count is unexpected; manual migration required",
                               "Replace FULLTEXT(collection, attribute, searchQuery) with: "
@@ -483,9 +483,9 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
 
         // Strip quotes from attribute if present
         std::string attr = attr_quoted;
-        if (attr.size() >= 2
+        if (static_cast<int>(attr.size()) >= 2
             && ((attr.front() == '"' && attr.back() == '"') || (attr.front() == '\'' && attr.back() == '\''))) {
-            attr = attr.substr(1, attr.size() - 2);
+            attr = attr.substr(1, static_cast<int>(attr.size()) - 2);
         }
 
         std::string replacement = "(FOR _ft_doc IN " + collection + " FILTER SIMILARITY(_ft_doc." + attr + ", "
@@ -534,8 +534,8 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
 std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
                                                    std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "DOCUMENT";
-    std::string result;
-    result.reserve(query.size() + 128);
+    std::string result = {};
+    result.reserve(static_cast<int>(query.size()) + 128);
     std::size_t cursor = 0;
     bool any_rewrite   = false;
 
@@ -549,7 +549,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
 
         auto args = splitArgs(args_str);
 
-        if (args.size() == 1) {
+        if (static_cast<int>(args.size()) == 1) {
             // Single-arg form: cannot automatically rewrite
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "DOCUMENT(id) single-argument form is not directly supported in ThemisDB",
@@ -560,7 +560,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
             continue;
         }
 
-        if (args.size() >= 2) {
+        if (static_cast<int>(args.size()) >= 2) {
             const std::string &collection = args[0];
             const std::string &key        = args[1];
 
@@ -650,7 +650,7 @@ void AQLMigrationAssistant::detectTypeCheckFunctions(const std::string &query,
             continue;
         }
 
-        std::size_t check = pos + fn.size();
+        std::size_t check = pos + static_cast<int>(fn.size()) ;
         while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
         }
@@ -680,7 +680,7 @@ void AQLMigrationAssistant::detectHashFunction(const std::string &query, std::ve
         return;
     }
 
-    std::size_t check = pos + fn.size();
+    std::size_t check = pos + static_cast<int>(fn.size()) ;
     while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
@@ -709,7 +709,7 @@ void AQLMigrationAssistant::detectAttributesFunction(const std::string &query,
         return;
     }
 
-    std::size_t check = pos + fn.size();
+    std::size_t check = pos + static_cast<int>(fn.size()) ;
     while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }
@@ -737,7 +737,7 @@ void AQLMigrationAssistant::detectTranslateFunction(const std::string &query,
         return;
     }
 
-    std::size_t check = pos + fn.size();
+    std::size_t check = pos + static_cast<int>(fn.size()) ;
     while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
     }

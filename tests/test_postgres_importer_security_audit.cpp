@@ -149,9 +149,9 @@ static ImportStats importContent(const std::string& content,
 
     std::map<std::string, TableSchema> schemas;
     std::istringstream file(content);
-    std::string line;
-    std::string current_sql;
-    std::string current_table;
+    std::string line = {};
+    std::string current_sql = {};
+    std::string current_table = {};
     bool in_copy = false;
     bool first_copy_line = false;
 
@@ -180,7 +180,9 @@ static ImportStats importContent(const std::string& content,
                     stats.errors.push_back(e.message);
                     in_copy = false;
                     log_capture(e.message);
-                    if (!opts.continue_on_error) return stats;
+                    if (!opts.continue_on_error) {
+                      return stats;
+                    }
                     continue;
                 }
             }
@@ -201,7 +203,9 @@ static ImportStats importContent(const std::string& content,
                 stats.failed_records++;
                 stats.quarantined_records++;
                 log_capture(e.message);
-                if (!opts.continue_on_error) return stats;
+                if (!opts.continue_on_error) {
+                  return stats;
+                }
                 continue;
             }
 
@@ -229,7 +233,9 @@ static ImportStats importContent(const std::string& content,
             stats.errors.push_back(e.message);
             current_sql.clear();
             log_capture(e.message);
-            if (!opts.continue_on_error) return stats;
+            if (!opts.continue_on_error) {
+              return stats;
+            }
             continue;
         }
 
@@ -241,7 +247,9 @@ static ImportStats importContent(const std::string& content,
                 size_t ne = current_sql.find_first_of(" \t(", ns);
                 std::string tname = current_sql.substr(ns, ne - ns);
                 auto dot = tname.rfind('.');
-                if (dot != std::string::npos) tname = tname.substr(dot + 1);
+                if (dot != std::string::npos) {
+                  tname = tname.substr(dot + 1);
+                }
 
                 TableSchema ts;
                 ts.name = tname;
@@ -249,7 +257,7 @@ static ImportStats importContent(const std::string& content,
                 auto cp = current_sql.rfind(')');
                 if (op != std::string::npos && cp != std::string::npos) {
                     std::string body = current_sql.substr(op + 1, cp - op - 1);
-                    std::string cur;
+                    std::string cur = {};
                     int depth = 0;
                     for (char c : body) {
                         if (c == '(') { depth++; cur += c; }
@@ -515,7 +523,7 @@ TEST_F(SqlInjectionTest, PathTraversalInSourcePathFailsGracefully) {
         if (f.good()) {
             // File exists (e.g. /etc/passwd on Linux): verify it does NOT
             // look like a pg_dump (validateSource would reject it).
-            std::string first_line;
+            std::string first_line = {};
             std::getline(f, first_line);
             bool looks_like_pg_dump =
                 first_line.find("PostgreSQL database dump") != std::string::npos ||

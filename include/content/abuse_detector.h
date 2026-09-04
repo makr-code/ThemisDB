@@ -120,7 +120,7 @@ public:
      * @brief Entry in the image hash blocklist.
      */
     struct BlocklistEntry {
-        uint64_t hash;          ///< 64-bit perceptual hash
+        uint64_t hash = 0;          ///< 64-bit perceptual hash
         std::string label;      ///< Descriptive label (e.g. "CSAM_HASH_001")
         AbuseAction action;     ///< BLOCK or FLAG
     };
@@ -196,7 +196,7 @@ public:
      */
     struct Pattern {
         std::string name;
-        std::regex  compiled;
+        std::regex  compiled = {};
         AbuseAction action;
     };
 

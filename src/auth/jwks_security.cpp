@@ -135,7 +135,7 @@ void JWKSSecurityConfig::validate() const {
 
 JWKSSecurityConfig::Config 
 JWKSSecurityConfig::withPublicKeyPinning(const std::vector<std::string>& spki_hashes) {
-    Config config;
+    Config config = Config();
     config.pinning_mode = PinningMode::PUBLIC_KEY;
     config.pinned_hashes = spki_hashes;
     config.min_tls_version = TLSVersion::TLS_1_2;
@@ -146,7 +146,7 @@ JWKSSecurityConfig::withPublicKeyPinning(const std::vector<std::string>& spki_ha
 
 JWKSSecurityConfig::Config 
 JWKSSecurityConfig::withCertificatePinning(const std::string& cert_path) {
-    Config config;
+    Config config = Config();
     config.pinning_mode = PinningMode::CERTIFICATE;
     config.pinned_cert_path = cert_path;
     config.min_tls_version = TLSVersion::TLS_1_2;
@@ -161,7 +161,7 @@ JWKSSecurityConfig::withMTLS(
     const std::string& client_key_path,
     const std::string& key_password)
 {
-    Config config;
+    Config config = Config();
     config.enable_mtls = true;
     config.client_cert_path = client_cert_path;
     config.client_key_path = client_key_path;
@@ -173,7 +173,7 @@ JWKSSecurityConfig::withMTLS(
 }
 
 JWKSSecurityConfig::Config JWKSSecurityConfig::secureDefaults() {
-    Config config;
+    Config config = Config();
     config.min_tls_version = TLSVersion::TLS_1_2;
     config.verify_hostname = true;
     config.verify_certificate = true;
@@ -186,7 +186,7 @@ JWKSSecurityConfig::Config JWKSSecurityConfig::secureDefaults() {
 
 struct JWKSSecureFetcher::Impl {
     JWKSSecurityConfig::Config config;
-    FetchStats last_stats;
+    FetchStats last_stats = FetchStats();
     CURL* curl = nullptr;
     
     explicit Impl(const JWKSSecurityConfig::Config& cfg) : config(cfg) {
@@ -239,7 +239,7 @@ std::string JWKSSecureFetcher::fetch(const std::string& url) {
     
     auto start_time = std::chrono::steady_clock::now();
     
-    std::string response_data;
+    std::string response_data = {};
     
     // Setup CURL options
     curl_easy_setopt(impl_->curl, CURLOPT_URL, url.c_str());
@@ -299,7 +299,7 @@ std::string JWKSSecureFetcher::fetch(const std::string& url) {
     }
     
     // Get response code
-    long response_code;
+    long response_code = {};
     curl_easy_getinfo(impl_->curl, CURLINFO_RESPONSE_CODE, &response_code);
     
     if (response_code != 200) {
@@ -351,7 +351,7 @@ std::string JWKSSecureFetcher::computeSPKIHash(const std::string& cert_data) {
     // This is a simplified implementation
     // In production, would extract SPKI from X509 certificate and hash it
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256((unsigned char*)cert_data.c_str(), cert_data.size(), hash);
+    SHA256((unsigned char*)cert_data.c_str(),static_cast<int>(cert_data.size()), hash);
     return base64Encode(hash, SHA256_DIGEST_LENGTH);
 }
 
@@ -448,7 +448,7 @@ bool CertificateUtils::verifyCertificate(const std::string& cert_path) {
     const ASN1_TIME* notAfter = X509_get0_notAfter(cert);
     ASN1_TIME_diff(&day, &sec, nullptr, notAfter);
     
-    bool is_valid = (day > 0 || (day == 0 && sec > 0));
+    bool is_valid = ((day > 0 || (day == 0 && sec > 0)));
     
     X509_free(cert);
     return is_valid;
@@ -456,7 +456,7 @@ bool CertificateUtils::verifyCertificate(const std::string& cert_path) {
 
 CertificateUtils::CertInfo 
 CertificateUtils::getCertificateInfo(const std::string& cert_path) {
-    CertInfo info;
+    CertInfo info = CertInfo();
     
     FILE* fp = fopen(cert_path.c_str(), "r");
     if (!fp) {
@@ -487,7 +487,7 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
     int day, sec;
     const ASN1_TIME* notAfter = X509_get0_notAfter(cert.get());
     ASN1_TIME_diff(&day, &sec, nullptr, notAfter);
-    info.is_expired = !(day > 0 || (day == 0 && sec > 0));
+    info.is_expired = !(((day > 0 || (day == 0 && sec > 0))));
     
     // Key size
     EVP_PKEY* pkey = X509_get_pubkey(cert.get());

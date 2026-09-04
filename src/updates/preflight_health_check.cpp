@@ -44,7 +44,7 @@ namespace {
 
 /// Default disk-space provider using std::filesystem::space().
 uint64_t defaultSpaceProvider(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     auto info = std::filesystem::space(path, ec);
     if (ec) {
         LOG_WARN("DiskSpaceChecker: std::filesystem::space('{}') failed: {}",
@@ -82,7 +82,7 @@ uint64_t defaultMemoryProvider() {
 std::vector<int> parseVersion(const std::string& v) {
     std::vector<int> parts;
     std::istringstream ss(v);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, '.')) {
         try {
             parts.push_back(std::stoi(token));
@@ -236,7 +236,7 @@ int DependencyVersionChecker::compareVersions(
     const auto pa = parseVersion(a);
     const auto pb = parseVersion(b);
 
-    const size_t len = std::max(pa.size(), pb.size());
+    const size_t len = std::max(pa.size(),static_cast<int>(pb.size()));
     for (size_t i = 0; i < len; ++i) {
         const int va = (i < pa.size()) ? pa[i] : 0;
         const int vb = (i < pb.size()) ? pb[i] : 0;
@@ -290,7 +290,7 @@ PreflightCheckResult PreflightHealthChecker::runAll() {
 }
 
 size_t PreflightHealthChecker::checkCount() const {
-    return checks_.size();
+    return static_cast<int>(checks_.size());
 }
 
 } // namespace updates

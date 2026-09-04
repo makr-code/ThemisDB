@@ -41,16 +41,20 @@ namespace {
 /// Case-fold and tokenise text into lower-cased words (≥ 3 chars).
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch) || ch > 127) { // keep umlauts
             cur += static_cast<char>(std::tolower(ch));
         } else if (!cur.empty()) {
-            if (cur.size() >= 3) tokens.push_back(cur);
+            if (static_cast<int>(cur.size()) >= 3) {
+              tokens.push_back(cur);
+            }
             cur.clear();
         }
     }
-    if (cur.size() >= 3) tokens.push_back(cur);
+    if (static_cast<int>(cur.size()) >= 3) {
+      tokens.push_back(cur);
+    }
     return tokens;
 }
 
@@ -58,12 +62,17 @@ std::vector<std::string> tokenise(const std::string& text) {
 std::map<std::string, double> termFreq(
     const std::vector<std::string>& tokens)
 {
-    std::map<std::string, double> freq;
-    for (const auto& t : tokens) freq[t] += 1.0;
+    std::map<std::string, double> freq = {};
+
+    for (const auto& t : tokens) {
+      freq[t] += 1.0;
+    }
     // Normalise
     if (!tokens.empty()) {
         const double n = static_cast<double>(tokens.size());
-        for (auto& kv : freq) kv.second /= n;
+        for (auto& kv : freq) {
+          kv.second /= n;
+        }
     }
     return freq;
 }
@@ -75,23 +84,31 @@ double termOverlapSimilarity(
     const std::map<std::string, double>& a,
     const std::map<std::string, double>& b)
 {
-    if (a.empty() || b.empty()) return 0.0;
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
     double dot = 0.0;
     double norm_a = 0.0, norm_b = 0.0;
     for (const auto& [t, fa] : a) {
         norm_a += fa * fa;
         // O(log|b|) lookup via map.find(), not O(|b|) via std::find()
         auto it = b.find(t);
-        if (it != b.end()) dot += fa * it->second;
+        if (it != b.end()) {
+          dot += fa * it->second;
+        }
     }
-    for (const auto& [t, fb] : b) norm_b += fb * fb;
+    for (const auto& [t, fb] : b) {
+      norm_b += fb * fb;
+    }
     const double denom = std::sqrt(norm_a) * std::sqrt(norm_b);
-    if (denom < 1e-12) return 0.0;
+    if (denom < 1e-12) {
+      return 0.0;
+    }
     return std::min(1.0, dot / denom);
 }
 
 /// Sigmoid mapping raw score to [0, 1].
-double sigmoid(double x) { return 1.0 / (1.0 + std::exp(-x)); }
+double sigmoid([[maybe_unused]] double x) { return 1.0 / (1.0 + std::exp(-x)); }
 
 /// Steepness of the sigmoid applied to term-overlap similarity scores.
 /// Value 8.0 chosen empirically: at sim=0.25 (weak match) the output is ~0.50;
@@ -104,7 +121,9 @@ static constexpr double kSigmoidBias = 1.0;
 /// Cosine similarity between two dense float vectors.
 /// Returns 0.0 if either vector is empty or has mismatched dimensions.
 double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || a.size() != b.size()) return 0.0;
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+      return 0.0;
+    }
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
     for (std::size_t i = 0; i < a.size(); ++i) {
         dot    += static_cast<double>(a[i]) * static_cast<double>(b[i]);
@@ -112,7 +131,9 @@ double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>
         norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);
     }
     const double denom = std::sqrt(norm_a) * std::sqrt(norm_b);
-    if (denom < 1e-12) return 0.0;
+    if (denom < 1e-12) {
+      return 0.0;
+    }
     return std::max(-1.0, std::min(1.0, dot / denom));
 }
 
@@ -168,7 +189,9 @@ struct EthicsSelectionRouter::Impl {
 
 void EthicsSelectionRouter::Impl::loadTaxonomy(const std::string& yaml_path)
 {
-    if (yaml_path.empty()) return;
+    if (yaml_path.empty()) {
+      return;
+    }
 
 #ifdef HAVE_YAML_CPP
     try {
@@ -215,10 +238,12 @@ std::set<std::string> EthicsSelectionRouter::Impl::stage1(
 {
     std::set<std::string> candidates;
 
-    auto addClassSchools = [&](const std::string& cls) {
+    auto addClassSchools = [&]([[maybe_unused]] const std::string& cls) {
         auto it = taxonomy_map.find(cls);
         if (it != taxonomy_map.end()) {
-            for (const auto& sid : it->second) candidates.insert(sid);
+            for (const auto& sid : it->second) {
+              candidates.insert(sid);
+            }
         }
     };
 
@@ -240,13 +265,17 @@ std::set<std::string> EthicsSelectionRouter::Impl::stage1(
     // --- 1b) Tags: if a tag exactly matches a school_id or taxonomy class ----
     for (const auto& tag : tags) {
         // Direct school_id match
-        if (registry->hasProfile(tag)) candidates.insert(tag);
+        if (registry->hasProfile(tag)) {
+          candidates.insert(tag);
+        }
         // Taxonomy class match - collect into temp vector
         classes_to_process.push_back(tag);
     }
 
     // --- 1c) Always-include rules --------------------------------------------
-    if (regulatory_context) classes_to_process.push_back("compliance");
+    if (regulatory_context) {
+      classes_to_process.push_back("compliance");
+    }
 
     // Now process all collected classes (safe from container modification)
     for (const auto& cls : classes_to_process) {
@@ -262,9 +291,12 @@ std::set<std::string> EthicsSelectionRouter::Impl::stage1(
     }
 
     // Remove school_ids not actually registered
-    std::set<std::string> valid;
+    std::set<std::string> valid = {};
+
     for (const auto& sid : candidates) {
-        if (registry->hasProfile(sid)) valid.insert(sid);
+        if (registry->hasProfile(sid)) {
+          valid.insert(sid);
+        }
     }
     return valid;
 }
@@ -301,15 +333,20 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
         {
             EthicsIndexQuery meta_q;
             for (const auto& m : registry->queryIndex(meta_q)) {
-                std::ostringstream oss;
+                std::ostringstream oss = {};
                 oss << m.name << " " << m.description_snippet;
-                for (const auto& t : m.tags)              oss << " " << t;
-                for (const auto& d : m.applicable_domains) oss << " " << d;
+                for (const auto& t : m.tags) {
+                  oss << " " << t;
+                }
+                for (const auto& d : m.applicable_domains) {
+                  oss << " " << d;
+                }
                 id_to_text[m.school_id] = oss.str();
             }
         }
 
-        std::vector<RouterCandidate> result;
+        std::vector<RouterCandidate> result = {};
+
         result.reserve(candidates.size());
 
         // O(n log m) loop with O(log m) map lookup per iteration = O(n log m) total (already optimized)
@@ -336,7 +373,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
                   [](const RouterCandidate& a, const RouterCandidate& b) {
                       return a.semantic_score > b.semantic_score;
                   });
-        if (result.size() > config.stage2_top_k) {
+        if (static_cast<int>(result.size()) > config.stage2_top_k) {
             result.resize(config.stage2_top_k);
         }
         return result;
@@ -353,15 +390,20 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
     {
         EthicsIndexQuery meta_q; // no filters — fetch all
         for (const auto& m : registry->queryIndex(meta_q)) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << m.name << " " << m.description_snippet;
-            for (const auto& t : m.tags)             oss << " " << t;
-            for (const auto& d : m.applicable_domains) oss << " " << d;
+            for (const auto& t : m.tags) {
+              oss << " " << t;
+            }
+            for (const auto& d : m.applicable_domains) {
+              oss << " " << d;
+            }
             id_to_text[m.school_id] = oss.str();
         }
     }
 
-    std::vector<RouterCandidate> result;
+    std::vector<RouterCandidate> result = {};
+
     result.reserve(candidates.size());
 
     // O(n log m) loop with O(log m) map lookup per iteration
@@ -386,7 +428,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
               [](const RouterCandidate& a, const RouterCandidate& b) {
                   return a.semantic_score > b.semantic_score;
               });
-    if (result.size() > config.stage2_top_k) {
+    if (static_cast<int>(result.size()) > config.stage2_top_k) {
         result.resize(config.stage2_top_k);
     }
     return result;
@@ -427,7 +469,9 @@ void EthicsSelectionRouter::Impl::stage3(
     auto it = precedent_store.find(dilemma_domain);
     if (it == precedent_store.end()) {
         // No precedents yet: all candidates get equal neutral precedent score
-        for (auto& c : candidates) c.precedent_dc = 0.5;
+        for (auto& c : candidates) {
+          c.precedent_dc = 0.5;
+        }
         return;
     }
 
@@ -486,7 +530,7 @@ DiscourseOrchestratorPlan EthicsSelectionRouter::planDiscourse(
     }
 
     // Collect all loaded school ids via the registry index.
-    EthicsIndexQuery all_query;
+    EthicsIndexQuery all_query = {};
     if (!domain_context.empty()) {
         all_query.domains = {domain_context};
     }

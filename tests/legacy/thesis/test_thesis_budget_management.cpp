@@ -199,7 +199,9 @@ TEST_F(ThesisBudgetTest, TBM_05_VerySmallBudget_TopOneOnly) {
     ASSERT_EQ(result.size(), 3u);
 
     int full_count = 0;
-    for (const auto& ti : result) full_count += (ti.is_full ? 1 : 0);
+    for (const auto& ti : result) {
+      full_count += (ti.is_full ? 1 : 0);
+    }
     EXPECT_EQ(full_count, 1) << "TBM-05: with budget for 1, only top-1 should be full";
 
     // top-1 must be t1 (weight 0.9)

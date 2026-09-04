@@ -242,7 +242,7 @@ public:
     struct HealthCheckResult {
         std::string shard_id;
         bool is_healthy = false;
-        std::string adapter_id;
+        std::string adapter_id = {};
         std::string issue_description;
         int64_t last_check_timestamp = 0;
     };

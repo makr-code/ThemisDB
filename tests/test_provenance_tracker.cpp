@@ -131,7 +131,8 @@ TEST_F(ProvenanceTrackerTest, Write_LargeBatch_WrittenInBatches) {
     cfg_.batch_write_size = 5;
     ProvenanceTracker tracker(cfg_, db_conn_);
 
-    std::vector<ProvenanceRecord> records;
+    std::vector<ProvenanceRecord> records = {};
+
     for (int i = 0; i < 13; ++i) {
         records.push_back(makeRecord("s" + std::to_string(i)));
     }
@@ -250,7 +251,8 @@ TEST_F(ProvenanceTrackerTest, WriteTimeout_ZeroMeans_NoLimit) {
     cfg_.write_timeout_ms = 0;
     ProvenanceTracker tracker(cfg_, db_conn_);
 
-    std::vector<ProvenanceRecord> records;
+    std::vector<ProvenanceRecord> records = {};
+
     for (int i = 0; i < 5; ++i) {
         ProvenanceRecord r;
         r.sample_id       = "s" + std::to_string(i);
@@ -271,7 +273,8 @@ TEST_F(ProvenanceTrackerTest, WriteTimeout_LargeTimeout_AllRecordsWritten) {
     cfg_.write_timeout_ms = 100000; // 100 s
     ProvenanceTracker tracker(cfg_, db_conn_);
 
-    std::vector<ProvenanceRecord> records;
+    std::vector<ProvenanceRecord> records = {};
+
     for (int i = 0; i < 3; ++i) {
         ProvenanceRecord r;
         r.sample_id       = "t" + std::to_string(i);
@@ -293,7 +296,8 @@ TEST_F(ProvenanceTrackerTest, WriteTimeout_VeryShortTimeout_ReturnsEarly) {
     ProvenanceTracker tracker(cfg_, db_conn_);
 
     // Build a large record set so the loop would normally take longer than 1 ms.
-    std::vector<ProvenanceRecord> records;
+    std::vector<ProvenanceRecord> records = {};
+
     for (int i = 0; i < 1000; ++i) {
         ProvenanceRecord r;
         r.sample_id       = "u" + std::to_string(i);

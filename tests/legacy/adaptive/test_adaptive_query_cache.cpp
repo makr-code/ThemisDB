@@ -383,7 +383,9 @@ TEST_F(AdaptiveQueryCacheTest, ARCPolicyEvictsCorrectly) {
     // Exactly 3 entries should remain
     int present = 0;
     for (const auto& fp : {"fp1", "fp2", "fp3", "fp4"}) {
-        if (cache.get(fp, "").has_value()) ++present;
+        if (cache.get(fp, "").has_value()) {
+          ++present;
+        }
     }
     EXPECT_EQ(present, 3);
 }
@@ -442,7 +444,8 @@ TEST_F(AdaptiveQueryCacheTest, InvalidatePII_MultipleEntriesSamePIIUUID) {
     AdaptiveQueryCache cache(config_);
 
     std::string pii_uuid = "550e8400-e29b-41d4-a716-446655440002";
-    std::vector<std::string> fps;
+    std::vector<std::string> fps = {};
+
     for (int i = 0; i < 3; ++i) {
         std::string fp = cache.generateFingerprint("Q" + std::to_string(i));
         fps.push_back(fp);

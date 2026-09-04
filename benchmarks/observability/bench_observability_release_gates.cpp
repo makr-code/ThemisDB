@@ -137,7 +137,7 @@ static std::string formatLogEntry(
         const std::string& level,
         const std::string& msg,
         std::uint64_t      req_id) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "{\"level\":\"" << level
        << "\",\"msg\":\""  << msg
        << "\",\"req_id\":" << req_id << "}";
@@ -155,7 +155,9 @@ struct BenchSloWindow {
 
     void recordRequest(bool good) noexcept {
         ++total_count;
-        if (good) ++good_count;
+        if (good) {
+          ++good_count;
+        }
     }
 
     double sli() const noexcept {
@@ -170,8 +172,8 @@ struct BenchSloWindow {
 // ---------------------------------------------------------------------------
 
 struct BenchMetric {
-    std::string        name;
-    std::int64_t       value;
+    std::string        name = {};
+    std::int64_t       value = {};
 };
 
 static std::vector<BenchMetric> makeMetrics(int n) {
@@ -183,7 +185,7 @@ static std::vector<BenchMetric> makeMetrics(int n) {
 }
 
 static std::string scrapeMetrics(const std::vector<BenchMetric>& metrics) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (auto& m : metrics)
         ss << m.name << " " << m.value << "\n";
     return ss.str();
@@ -227,7 +229,9 @@ static void BM_ORG02_HistogramRecord(benchmark::State& state) {
     std::mt19937_64 rng(kObservabilityCanonicalSeed);
     std::uniform_real_distribution<double> dist(0.0, 5000.0);
 
-    for (int i = 0; i < kWarmupIterations; ++i) h.record(dist(rng));
+    for (int i = 0; i < kWarmupIterations; ++i) {
+      h.record(dist(rng));
+    }
 
     for (auto _ : state) {
         h.record(dist(rng));
@@ -272,7 +276,8 @@ static void BM_ORG03B_InvalidTelemetryReject(benchmark::State& state) {
     auto& collector = themis::observability::MetricsCollector::getInstance();
     collector.reset();
 
-    std::map<std::string, std::string> invalid_labels;
+    std::map<std::string, std::string> invalid_labels = {};
+
     for (std::size_t i = 0; i < kMaxMetricLabels + 1; ++i) {
         invalid_labels.emplace("label_" + std::to_string(i), "value");
     }
@@ -323,7 +328,9 @@ static void BM_ORG05_SloComputation(benchmark::State& state) {
     std::bernoulli_distribution good_dist(0.995);
 
     // Pre-fill window
-    for (int i = 0; i < 1000; ++i) w.recordRequest(good_dist(rng));
+    for (int i = 0; i < 1000; ++i) {
+      w.recordRequest(good_dist(rng));
+    }
 
     for (int i = 0; i < kWarmupIterations; ++i) {
         benchmark::DoNotOptimize(w.sli());

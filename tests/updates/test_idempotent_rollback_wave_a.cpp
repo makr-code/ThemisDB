@@ -41,13 +41,19 @@ protected:
     // Helper: Move to a specific state
     void transitionToState(UpdateState target, const std::string& version = "1.0.0") {
         state_machine_.transition(UpdateState::DOWNLOADING, version, "start");
-        if (target == UpdateState::DOWNLOADING) return;
+        if (target == UpdateState::DOWNLOADING) {
+          return;
+        }
         
         state_machine_.transition(UpdateState::VERIFYING, "", "verify");
-        if (target == UpdateState::VERIFYING) return;
+        if (target == UpdateState::VERIFYING) {
+          return;
+        }
         
         state_machine_.transition(UpdateState::APPLYING, "", "apply");
-        if (target == UpdateState::APPLYING) return;
+        if (target == UpdateState::APPLYING) {
+          return;
+        }
         
         state_machine_.transition(UpdateState::IDLE, "", "complete");
     }

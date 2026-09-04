@@ -54,7 +54,7 @@ protected:
     
     void TearDown() override {
         if (!policy_yaml_path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(policy_yaml_path_, ec);
         }
     }

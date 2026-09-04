@@ -19,20 +19,22 @@
 
 namespace themis {
 
-static inline uint64_t dbl_to_bits(double v) {
-    uint64_t b;
+static inline uint64_t dbl_to_bits([[maybe_unused]] double v) {
+    uint64_t b = 0;
     std::memcpy(&b, &v, sizeof(b));
     return b;
 }
 
-static inline double bits_to_dbl(uint64_t b) {
-    double v;
+static inline double bits_to_dbl([[maybe_unused]] uint64_t b) {
+    double v = 0;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }
 
-static inline int clz64(uint64_t x) {
-    if (x == 0) return 64;
+static inline int clz64([[maybe_unused]] uint64_t x) {
+    if (x == 0) {
+      return 64;
+    }
 #if defined(_MSC_VER)
     unsigned long idx;
     _BitScanReverse64(&idx, x);
@@ -42,8 +44,10 @@ static inline int clz64(uint64_t x) {
 #endif
 }
 
-static inline int ctz64(uint64_t x) {
-    if (x == 0) return 64;
+static inline int ctz64([[maybe_unused]] uint64_t x) {
+    if (x == 0) {
+      return 64;
+    }
 #if defined(_MSC_VER)
     unsigned long idx;
     _BitScanForward64(&idx, x);
@@ -54,7 +58,7 @@ static inline int ctz64(uint64_t x) {
 }
 
 // ------- BitWriter -------
-void BitWriter::writeBit(bool bit) {
+void BitWriter::writeBit([[maybe_unused]] bool bit) {
     cur_ |= (static_cast<uint8_t>(bit) & 1) << bitpos_;
     bitpos_++;
     if (bitpos_ == 8) {
@@ -66,11 +70,11 @@ void BitWriter::writeBit(bool bit) {
 
 void BitWriter::writeBits(uint64_t value, int bits) {
     for (int i = 0; i < bits; ++i) {
-        writeBit((value >> i) & 1ULL);
+        writeBit((value >> i) & 1);
     }
 }
 
-void BitWriter::writeVarUInt(uint64_t v) {
+void BitWriter::writeVarUInt([[maybe_unused]] uint64_t v) {
     // LEB128 unsigned
     while (v >= 0x80) {
         buf_.push_back(static_cast<uint8_t>(v & 0x7FUL) | 0x80U);
@@ -157,8 +161,9 @@ void GorillaEncoder::add(int64_t timestamp_ms, double value) {
 
 std::vector<uint8_t> GorillaEncoder::finish() {
     auto payload = bw_.finish();
-    std::vector<uint8_t> result;
-    result.reserve(3 + payload.size());
+    std::vector<uint8_t> result = {};
+
+    result.reserve(3 + static_cast<int>(payload.size()) );
     result.push_back(kGorillaMagic0);
     result.push_back(kGorillaMagic1);
     result.push_back(kGorillaCurrentVersion);
@@ -176,7 +181,7 @@ GorillaDecoder::GorillaDecoder(const std::vector<uint8_t>& data)
 // Legacy chunks (no header) are returned unchanged.
 /* static */ std::vector<uint8_t> GorillaDecoder::gorilla_strip_header(
         const std::vector<uint8_t>& data, bool& error_out) {
-    if (data.size() >= 3 &&
+    if (static_cast<int>(data.size()) >= 3 &&
             data[0] == kGorillaMagic0 &&
             data[1] == kGorillaMagic1) {
         if (data[2] != kGorillaCurrentVersion) {
@@ -190,13 +195,19 @@ GorillaDecoder::GorillaDecoder(const std::vector<uint8_t>& data)
 }
 
 std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
-    if (error_) return std::nullopt;
+    if (error_) {
+      return std::nullopt;
+    }
 
     if (first_) {
-        if (br_.eof()) return std::nullopt;
+        if (br_.eof()) {
+          return std::nullopt;
+        }
         // First timestamp varint is at byte boundary
         br_.alignToByte();
-        if (br_.eof()) return std::nullopt;
+        if (br_.eof()) {
+          return std::nullopt;
+        }
         int64_t ts = br_.readZigZag64();
         if (br_.eof()) { error_ = true; return std::nullopt; }
         uint64_t vbits = br_.readBits(64);
@@ -212,7 +223,9 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
 
     // Subsequent varints are byte-aligned; align and check EOF before reading
     br_.alignToByte();
-    if (br_.eof()) return std::nullopt;
+    if (br_.eof()) {
+      return std::nullopt;
+    }
     
     int64_t dod = br_.readZigZag64();
     int64_t dt = prev_dt_ + dod;
@@ -223,7 +236,7 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     if (br_.eof()) { error_ = true; return std::nullopt; }
     bool different = br_.readBit();
     
-    uint64_t vbits;
+    uint64_t vbits = 0;
     if (!different) {
         vbits = prev_vbits_;
     } else {

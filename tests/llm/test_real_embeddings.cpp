@@ -216,7 +216,8 @@ TEST_F(RealEmbeddingsTest, BatchEmbeddingPerformance) {
     }
     
     // Generate 1000 texts
-    std::vector<std::string> texts;
+    std::vector<std::string> texts = {};
+
     for (int i = 0; i < 1000; ++i) {
         texts.push_back("Test text number " + std::to_string(i));
     }

@@ -554,7 +554,7 @@ private:
  * For per-collection YAML configuration
  */
 struct CollectionRedundancyConfig {
-    std::string collection;
+    std::string collection = {};
     std::string description;
     
     // Collection-level defaults

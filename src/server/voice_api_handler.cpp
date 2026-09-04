@@ -55,7 +55,7 @@ namespace {
      */
     bool parseIPv4(const std::string& str, int octets[4]) {
         std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
-        std::smatch match;
+        std::smatch match = {};
         
         if (!std::regex_match(str, match, ipv4_regex)) {
             return false;
@@ -71,7 +71,7 @@ namespace {
                 octets[i] = octet;
             }
         } catch (...) {
-            THEMIS_WARN("voice_api_handler::parseIPv4: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "voice_api_handler::parseIPv4: unhandled exception caught");
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -94,22 +94,34 @@ namespace {
         int b = octets[1];
         
         // Loopback: 127.0.0.0/8
-        if (a == 127) return true;
+        if (a == 127) {
+          return true;
+        }
         
         // Private: 10.0.0.0/8
-        if (a == 10) return true;
+        if (a == 10) {
+          return true;
+        }
         
         // Private: 172.16.0.0/12
-        if (a == 172 && b >= 16 && b <= 31) return true;
+        if (a == 172 && b >= 16 && b <= 31) {
+          return true;
+        }
         
         // Private: 192.168.0.0/16
-        if (a == 192 && b == 168) return true;
+        if (a == 192 && b == 168) {
+          return true;
+        }
         
         // Link-local: 169.254.0.0/16
-        if (a == 169 && b == 254) return true;
+        if (a == 169 && b == 254) {
+          return true;
+        }
         
         // 0.0.0.0/8
-        if (a == 0) return true;
+        if (a == 0) {
+          return true;
+        }
         
         return false;
     }
@@ -203,7 +215,7 @@ VoiceApiHandler::VoiceApiHandler(
 http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan("handleRequest");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRequest");
     if (!voice_assistant_) {
         return createErrorResponse(
             http::status::service_unavailable,
@@ -244,7 +256,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         return handleWakeWordDetect(req);
     }
     else if (path == "/api/v1/voice/call/record" && method == http::verb::post) {
-        return handleRecordCall(req);
+        return handleRecordCall([[maybe_unused]] req);
     }
     else if (path == "/api/v1/voice/meeting/protocol" && method == http::verb::post) {
         return handleGenerateProtocol(req);
@@ -450,7 +462,7 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     }
     
     // Transcribe
-    json options;
+    json options = {};
     if (body->contains("language")) {
         if (!(*body)["language"].is_string()) {
             return createErrorResponse(
@@ -775,9 +787,9 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     // calling thread (the sliding-window loop in STTProcessor::streamTranscribe
     // is single-threaded), so no additional synchronization is needed here.
     json segments_json = json::array();
-    std::string full_transcript;
+    std::string full_transcript = {};
 
-    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+    auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
         json seg_obj;
         seg_obj["text"]       = seg.text;
         seg_obj["start_ms"]   = seg.start_ms;
@@ -834,7 +846,7 @@ http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
 http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     const http::request<http::string_body>& req
 ) {
-    auto span = Tracer::startSpan("handleRecordCall");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRecordCall");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -845,7 +857,8 @@ http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     }
     
     // Extract audio data
-    std::vector<uint8_t> audio_data;
+    std::vector<uint8_t> audio_data = {};
+
     if (body->contains("audio_base64")) {
         if (!(*body)["audio_base64"].is_string()) {
             return createErrorResponse(
@@ -969,7 +982,8 @@ http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
     }
     
     // Extract audio data
-    std::vector<uint8_t> audio_data;
+    std::vector<uint8_t> audio_data = {};
+
     if (body->contains("audio_base64")) {
         if (!(*body)["audio_base64"].is_string()) {
             return createErrorResponse(
@@ -1221,7 +1235,9 @@ std::optional<std::string> validateMacroStepJson(const json& step_json) {
 voice::MacroStep parseStep(const json& j) {
     voice::MacroStep step;
     std::string type_str = j.value("type", "QUERY");
-    if (type_str == "COMMAND")   step.type = voice::StepType::COMMAND;
+    if (type_str == "COMMAND") {
+      step.type = voice::StepType::COMMAND;
+    }
     else if (type_str == "CONDITION") step.type = voice::StepType::CONDITION;
     else if (type_str == "LOOP")  step.type = voice::StepType::LOOP;
     else if (type_str == "WAIT")  step.type = voice::StepType::WAIT;
@@ -1313,7 +1329,8 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
             http::status::bad_request, "Bad Request", "trigger_phrase must not be empty");
     }
 
-    std::vector<voice::MacroStep> steps;
+    std::vector<voice::MacroStep> steps = {};
+
     if (!(*body)["steps"].is_array()) {
         return createErrorResponse(
             http::status::bad_request, "Bad Request", "'steps' must be an array");
@@ -1395,7 +1412,8 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     {
         std::string name = body->value("name", trigger);
         std::string description = body->value("description", std::string{});
-        std::vector<std::string> tags;
+        std::vector<std::string> tags = {};
+
         if (body->contains("tags") && (*body)["tags"].is_array()) {
             tags = (*body)["tags"].get<std::vector<std::string>>();
         }
@@ -1425,9 +1443,11 @@ http::response<http::string_body> VoiceApiHandler::handleListMacros(
     std::string tags_value = parseQueryParam(std::string(req.target()), "tags");
     if (!tags_value.empty()) {
         std::istringstream ss(tags_value);
-        std::string token;
+        std::string token = {};
         while (std::getline(ss, token, ',')) {
-            if (!token.empty()) tag_filter.push_back(token);
+            if (!token.empty()) {
+              tag_filter.push_back(token);
+            }
         }
     }
 
@@ -1480,7 +1500,8 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
             http::status::bad_request, "Bad Request", "'steps' must be an array");
     }
 
-    std::vector<voice::MacroStep> steps;
+    std::vector<voice::MacroStep> steps = {};
+
     for (const auto& sj : (*body)["steps"]) {
         if (const auto error = validateMacroStepJson(sj); error.has_value()) {
             return createErrorResponse(
@@ -1633,7 +1654,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
             }
             limit = static_cast<size_t>(parsed_limit);
         } catch (...) {
-            THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
+            THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1682,7 +1703,9 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     if (fmt == "audio" && audio.has_value()) {
         std::string mime = "application/octet-stream";
         const auto& codec = rec->format.codec;
-        if (codec == "wav")  mime = "audio/wav";
+        if (codec == "wav") {
+          mime = "audio/wav";
+        }
         else if (codec == "mp3")  mime = "audio/mpeg";
         else if (codec == "ogg")  mime = "audio/ogg";
         else if (codec == "opus") mime = "audio/ogg; codecs=opus";
@@ -1730,7 +1753,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
             }
             limit = static_cast<size_t>(parsed_limit);
         } catch (...) {
-            THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
+            THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1786,14 +1809,14 @@ bool VoiceApiHandler::validateBearerToken(
 ) {
     const auto auth_header = req[http::field::authorization];
     if (auth_header.empty()) {
-        THEMIS_DEBUG("VoiceApiHandler: missing Authorization header");
+        THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: missing Authorization header");
         return false;
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size()));
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token || token->empty()) {
-        THEMIS_DEBUG("VoiceApiHandler: missing or empty bearer token");
+        THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: missing or empty bearer token");
         return false;
     }
 
@@ -1805,7 +1828,7 @@ bool VoiceApiHandler::validateBearerToken(
             try {
                 const bool valid = s_token_validator_fn(*token);
                 if (!valid) {
-                    THEMIS_WARN("VoiceApiHandler: injected token validator rejected token");
+                    THEMIS_WARN([[maybe_unused]] "VoiceApiHandler: injected token validator rejected token");
                 }
                 return valid;
             } catch (const std::exception& ex) {
@@ -1818,7 +1841,7 @@ bool VoiceApiHandler::validateBearerToken(
     // Fallback: use AuthMiddleware validation if no injected validator.
     // This validates static tokens and JWT if configured in AuthMiddleware.
     if (!auth_) {
-        THEMIS_DEBUG("VoiceApiHandler: no AuthMiddleware configured; rejecting token");
+        THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: no AuthMiddleware configured; rejecting token");
         return false;
     }
     auto& auth = *auth_;
@@ -1826,7 +1849,7 @@ bool VoiceApiHandler::validateBearerToken(
     try {
         const auto auth_result = auth.validateToken(*token);
         if (!auth_result.authorized) {
-            THEMIS_DEBUG("VoiceApiHandler: AuthMiddleware rejected token");
+            THEMIS_DEBUG([[maybe_unused]] "VoiceApiHandler: AuthMiddleware rejected token");
         }
         return auth_result.authorized;
     } catch (const std::exception& ex) {
@@ -1883,7 +1906,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
     try {
         return json::parse(req.body());
     } catch (...) {
-        THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -1916,7 +1939,7 @@ std::vector<uint8_t> VoiceApiHandler::extractAudioData(
     return std::vector<uint8_t>(req.body().begin(), req.body().end());
 }
 
-std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
+std::vector<uint8_t> VoiceApiHandler::decodeBase64([[maybe_unused]] const std::string& encoded) {
     static const int T[256] = {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -1935,13 +1958,18 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
     };
-    std::vector<uint8_t> out;
+    std::vector<uint8_t> out = {};
+
     out.reserve((encoded.size() * 3) / 4);
     int val = 0, valb = -8;
     for (unsigned char c : encoded) {
-        if (c == '=') break;
+        if (c == '=') {
+          break;
+        }
         int d = T[c];
-        if (d == -1) continue;
+        if (d == -1) {
+          continue;
+        }
         val = (val << 6) + d;
         valb += 6;
         if (valb >= 0) {
@@ -1952,11 +1980,11 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
     return out;
 }
 
-std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
+std::string VoiceApiHandler::encodeBase64([[maybe_unused]] const std::vector<uint8_t>& data) {
     static const char b64_table[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
-    out.reserve(((data.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
@@ -1968,13 +1996,13 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
         out.push_back(b64_table[ n        & 63]);
         i += 3;
     }
-    if (i + 1 == data.size()) {
+    if (i + 1 == static_cast<int>(data.size())) {
         uint32_t n = static_cast<uint32_t>(data[i]) << 16;
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == data.size()) {
+    } else if (i + 2 == static_cast<int>(data.size())) {
         uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
                    | (static_cast<uint32_t>(data[i + 1]) << 8);
         out.push_back(b64_table[(n >> 18) & 63]);
@@ -1985,7 +2013,7 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     return out;
 }
 
-std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {
+std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl([[maybe_unused]] const std::string& url) {
     // Validate URL format - parseURL will handle this
     if (url.empty()) {
         throw std::invalid_argument("URL cannot be empty");
@@ -2001,7 +2029,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     try {
         components = utils::parseURL(url);
     } catch (...) {
-        THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "voice_api_handler: unhandled exception caught");
         throw std::invalid_argument("Invalid URL format");
     }
     
@@ -2089,14 +2117,16 @@ std::string VoiceApiHandler::parseQueryParam(
     // Note: percent-encoded characters are not decoded.
     std::string search = key + '=';
     std::size_t pos = 0;
-    while (pos < query.size()) {
-        if (query.compare(pos, search.size(), search) == 0) {
-            std::string value = query.substr(pos + search.size());
+    while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
+        if (query.compare(pos,static_cast<int>(search.size()), search) == 0) {
+            std::string value = query.substr(pos + static_cast<int>(search.size()) );
             auto amp = value.find('&');
             return (amp != std::string::npos) ? value.substr(0, amp) : value;
         }
         auto next = query.find('&', pos);
-        if (next == std::string::npos) break;
+        if (next == std::string::npos) {
+          break;
+        }
         pos = next + 1;
     }
     return {};
@@ -2375,7 +2405,8 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
             http::status::bad_request, "Bad Request", "audio must not be empty");
     }
 
-    std::vector<voice::VoiceProfileID> candidates;
+    std::vector<voice::VoiceProfileID> candidates = {};
+
     candidates.reserve(cands_json.size());
     for (const auto& c : cands_json) {
         if (!c.is_string()) {
@@ -2458,13 +2489,13 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
 
 // CRITICAL FIX for stub #302: Static token validator implementation.
 // Enables injection of proper JWT/OIDC validation at runtime.
-void VoiceApiHandler::setTokenValidatorFn(TokenValidatorFn fn) {
+void VoiceApiHandler::setTokenValidatorFn([[maybe_unused]] TokenValidatorFn fn) {
     std::lock_guard<std::mutex> lock(s_token_validator_mutex);
     s_token_validator_fn = std::move(fn);
     if (fn) {
-        THEMIS_INFO("VoiceApiHandler: JWT/OIDC token validator installed");
+        THEMIS_INFO([[maybe_unused]] "VoiceApiHandler: JWT/OIDC token validator installed");
     } else {
-        THEMIS_INFO("VoiceApiHandler: JWT/OIDC token validator cleared (fallback to AuthMiddleware)");
+        THEMIS_INFO([[maybe_unused]] "VoiceApiHandler: JWT/OIDC token validator cleared (fallback to AuthMiddleware)");
     }
 }
 

@@ -122,7 +122,7 @@ struct SimilarityResult {
     
     // Breakdown by method
     struct MetricBreakdown {
-        double graph_similarity;            ///< Structural similarity
+        double graph_similarity = 0;            ///< Structural similarity
         double vector_similarity;           ///< Semantic similarity
         double behavioral_similarity;       ///< Behavioral similarity
         
@@ -409,7 +409,9 @@ private:
      */
     template<typename T>
     double jaccardSimilarity(const std::set<T>& a, const std::set<T>& b) const {
-        if (a.empty() && b.empty()) return 1.0;
+        if (a.empty() && b.empty()) {
+          return 1.0;
+        }
         
         std::set<T> intersection;
         std::set_intersection(a.begin(), a.end(), b.begin(), b.end(),

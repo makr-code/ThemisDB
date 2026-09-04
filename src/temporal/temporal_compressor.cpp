@@ -38,8 +38,8 @@ static constexpr const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string TemporalCompressor::base64Encode(const std::string& input) {
-    std::string out;
-    out.reserve(((input.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(input.size()) + 2) / 3) * 4);
     const auto* data = reinterpret_cast<const unsigned char*>(input.data());
     size_t i = 0;
     for (; i + 2 < input.size(); i += 3) {
@@ -49,13 +49,13 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
         out += kBase64Chars[(v >>  6) & 0x3F];
         out += kBase64Chars[(v      ) & 0x3F];
     }
-    if (i + 1 == input.size()) {
+    if (i + 1 == static_cast<int>(input.size())) {
         uint32_t v = uint32_t(data[i]) << 16;
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];
         out += '=';
         out += '=';
-    } else if (i + 2 == input.size()) {
+    } else if (i + 2 == static_cast<int>(input.size())) {
         uint32_t v = (uint32_t(data[i]) << 16) | (uint32_t(data[i+1]) << 8);
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];
@@ -66,28 +66,46 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
 }
 
 static int base64CharValue(char c) {
-    if (c >= 'A' && c <= 'Z') return c - 'A';
-    if (c >= 'a' && c <= 'z') return c - 'a' + 26;
-    if (c >= '0' && c <= '9') return c - '0' + 52;
-    if (c == '+') return 62;
-    if (c == '/') return 63;
+    if (c >= 'A' && c <= 'Z') {
+      return c - 'A';
+    }
+    if (c >= 'a' && c <= 'z') {
+      return c - 'a' + 26;
+    }
+    if (c >= '0' && c <= '9') {
+      return c - '0' + 52;
+    }
+    if (c == '+') {
+      return 62;
+    }
+    if (c == '/') {
+      return 63;
+    }
     return -1;
 }
 
 std::string TemporalCompressor::base64Decode(const std::string& input) {
-    std::string out;
-    if (input.empty() || input.size() % 4 != 0) return out;
+    std::string out = {};
+    if (input.empty() || static_cast<int>(input.size()) % 4 != 0) {
+      return out;
+    }
     out.reserve((input.size() / 4) * 3);
     for (size_t i = 0; i < input.size(); i += 4) {
         int a = base64CharValue(input[i]);
         int b = base64CharValue(input[i+1]);
         int c = input[i+2] == '=' ? 0 : base64CharValue(input[i+2]);
         int d = input[i+3] == '=' ? 0 : base64CharValue(input[i+3]);
-        if (a < 0 || b < 0) break;
+        if (a < 0 || b < 0) {
+          break;
+        }
         uint32_t v = (uint32_t(a) << 18) | (uint32_t(b) << 12) | (uint32_t(c) << 6) | uint32_t(d);
         out += char((v >> 16) & 0xFF);
-        if (input[i+2] != '=') out += char((v >>  8) & 0xFF);
-        if (input[i+3] != '=') out += char((v      ) & 0xFF);
+        if (input[i+2] != '=') {
+          out += char((v >>  8) & 0xFF);
+        }
+        if (input[i+3] != '=') {
+          out += char((v      ) & 0xFF);
+        }
     }
     return out;
 }
@@ -104,10 +122,10 @@ static constexpr unsigned char kRlEscapeByte   = 0x02;
 
 std::string TemporalCompressor::rlEncode(const std::string& input) {
     if (input.empty()) return {};
-    std::string out;
+    std::string out = {};
     out.reserve(input.size());
     size_t i = 0;
-    while (i < input.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
         unsigned char cur = static_cast<unsigned char>(input[i]);
         size_t run = 1;
         while (i + run < input.size() &&
@@ -131,15 +149,17 @@ std::string TemporalCompressor::rlEncode(const std::string& input) {
 }
 
 std::string TemporalCompressor::rlDecode(const std::string& input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size() * 2);
     size_t i = 0;
-    while (i < input.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
         unsigned char byte = static_cast<unsigned char>(input[i]);
         if (byte == kRlRepeatMarker && i + 2 < input.size()) {
             unsigned char count = static_cast<unsigned char>(input[i+1]);
             char ch = input[i+2];
-            for (unsigned char k = 0; k < count; ++k) out += ch;
+            for (unsigned char k = 0; k < count; ++k) {
+              out += ch;
+            }
             i += 3;
         } else {
             out += static_cast<char>(byte);
@@ -159,7 +179,7 @@ nlohmann::json TemporalCompressor::applyZstd(const nlohmann::json& doc, int /*le
     return nlohmann::json{
         {"__compressed", "zstd"},
         {"__data",       encoded},
-        {"__original_size", raw.size()}
+        {"__original_size",static_cast<int>(raw.size())}
     };
 }
 
@@ -225,19 +245,21 @@ nlohmann::json TemporalCompressor::applyGorilla(
     const std::string& field_name,
     const std::vector<std::pair<Timestamp, double>>& series) {
 
-    if (series.empty()) return nlohmann::json::object();
+    if (series.empty()) {
+      return nlohmann::json::object();
+    }
 
     // Delta-encode timestamps
     nlohmann::json ts_arr = nlohmann::json::array();
     ts_arr.push_back(series[0].first);
     for (size_t i = 1; i < series.size(); ++i)
-        ts_arr.push_back(series[i].first - series[i-1].first);
+        ts_arr.push_back(series[i].first - series[static_cast<int>(i - 1)].first);
 
     // XOR-delta encode doubles (store as uint64 bit patterns)
     nlohmann::json val_arr = nlohmann::json::array();
     uint64_t prev_bits = 0;
     for (size_t i = 0; i < series.size(); ++i) {
-        uint64_t bits;
+        uint64_t bits = 0;
         static_assert(sizeof(double) == sizeof(uint64_t), "");
         std::memcpy(&bits, &series[i].second, sizeof(bits));
         val_arr.push_back(bits ^ prev_bits);
@@ -433,9 +455,12 @@ CompressionStats TemporalCompressor::compressHistory(
 
         // Filter to closed (historical) versions only; skip current versions
         // and versions newer than the grace window.
-        std::vector<const VersionedDocument*> candidates;
+        std::vector<const VersionedDocument*> candidates = {};
+
         for (const auto& v : versions) {
-            if (v.isCurrent()) continue;
+            if (v.isCurrent()) {
+              continue;
+            }
             ++stats.versions_processed;
             if (!config.compress_immediately && v.sys_time.start >= cutoff_start) {
                 ++stats.versions_skipped;
@@ -444,11 +469,16 @@ CompressionStats TemporalCompressor::compressHistory(
             candidates.push_back(&v);
         }
 
-        if (candidates.empty()) continue;
+        if (candidates.empty()) {
+          continue;
+        }
 
         // Sort candidates by sys_time.start ascending for DELTA/GORILLA
-        std::vector<VersionedDocument> sorted_versions;
-        for (const auto* vp : candidates) sorted_versions.push_back(*vp);
+        std::vector<VersionedDocument> sorted_versions = {};
+
+        for (const auto* vp : candidates) {
+          sorted_versions.push_back(*vp);
+        }
         std::sort(sorted_versions.begin(), sorted_versions.end(),
                   [](const VersionedDocument& a, const VersionedDocument& b) {
                       return a.sys_time.start < b.sys_time.start;
@@ -458,7 +488,7 @@ CompressionStats TemporalCompressor::compressHistory(
         // ── DELTA ──────────────────────────────────────────────────────────
         case CompressionAlgorithm::DELTA: {
             for (size_t i = 1; i < sorted_versions.size(); ++i) {
-                const auto& base    = sorted_versions[i - 1];
+                const auto& base    = sorted_versions[static_cast<int>(i - 1)];
                 const auto& current = sorted_versions[i];
 
                 const std::string original_str = current.data.dump();
@@ -516,12 +546,17 @@ CompressionStats TemporalCompressor::compressHistory(
 
         // ── GORILLA ────────────────────────────────────────────────────────
         case CompressionAlgorithm::GORILLA: {
-            if (sorted_versions.empty()) break;
+            if (sorted_versions.empty()) {
+              break;
+            }
 
             // Collect all numeric field names from first version
-            std::vector<std::string> numeric_fields;
+            std::vector<std::string> numeric_fields = {};
+
             for (auto& [f, val] : sorted_versions[0].data.items()) {
-                if (val.is_number()) numeric_fields.push_back(f);
+                if (val.is_number()) {
+                  numeric_fields.push_back(f);
+                }
             }
 
             // Build per-field time series

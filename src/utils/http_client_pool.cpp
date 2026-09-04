@@ -30,7 +30,7 @@ URLComponents parseURL(const std::string& url) {
     
     // Regex: (https?)://([^:/]+)(?::(\d+))?(/.*)?
     std::regex url_regex(R"((https?)://([^:/]+)(?::(\d+))?(/.*)?)", std::regex::icase);
-    std::smatch matches;
+    std::smatch matches = {};
     
     if (!std::regex_match(url, matches, url_regex)) {
         throw std::invalid_argument("Invalid URL format: " + url);
@@ -106,8 +106,7 @@ HTTPClientPool::~HTTPClientPool() {
     clear();
 }
 
-std::future<HTTPResponse> HTTPClientPool::post(
-    [[maybe_unused]] const std::string& url,
+std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
     [[maybe_unused]] const json& body,
     [[maybe_unused]] const std::unordered_map<std::string, std::string>& headers
 ) {
@@ -149,8 +148,7 @@ std::future<HTTPResponse> HTTPClientPool::post(
     return future;
 }
 
-std::future<HTTPResponse> HTTPClientPool::get(
-    [[maybe_unused]] const std::string& url,
+std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
     [[maybe_unused]] const std::unordered_map<std::string, std::string>& headers
 ) {
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
@@ -442,7 +440,7 @@ HTTPResponse BeastHTTPClient::execute(
         tcp::resolver resolver(*ioc_);
         auto const results = resolver.resolve(components.host, components.port);
         
-        HTTPResponse response;
+        HTTPResponse response = {};
         
         if (components.is_https()) {
             // HTTPS request with SSL
@@ -568,3 +566,4 @@ HTTPResponse BeastHTTPClient::execute(
 
 } // namespace utils
 } // namespace themis
+

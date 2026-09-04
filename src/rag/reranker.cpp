@@ -34,9 +34,9 @@ namespace themis::rag {
 namespace {
 
 constexpr std::uintmax_t kMaxModelSizeBytes = 1024ull * 1024ull * 1024ull; // 1 GiB
-constexpr std::size_t kMaxQueryChars = 100000u;
-constexpr std::size_t kMaxDocumentChars = 100000u;
-constexpr std::size_t kMaxCandidates = 100000u;
+constexpr std::size_t kMaxQueryChars = 100000;
+constexpr std::size_t kMaxDocumentChars = 100000;
+constexpr std::size_t kMaxCandidates = 100000;
 
 std::string trimCopy(const std::string& in) {
     const auto begin = in.find_first_not_of(" \t\r\n");
@@ -57,7 +57,7 @@ std::string normalizeHex(std::string value) {
 
 std::optional<std::string> readChecksumSidecar(const std::filesystem::path& model_path) {
     const auto sidecar_path = model_path.string() + ".sha256";
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(sidecar_path, ec) || ec) {
         return std::nullopt;
     }
@@ -65,7 +65,7 @@ std::optional<std::string> readChecksumSidecar(const std::filesystem::path& mode
     if (!sidecar.is_open()) {
         return std::nullopt;
     }
-    std::string checksum;
+    std::string checksum = {};
     sidecar >> checksum;
     checksum = normalizeHex(checksum);
     if (checksum.empty()) {
@@ -75,7 +75,7 @@ std::optional<std::string> readChecksumSidecar(const std::filesystem::path& mode
 }
 
 bool verifyModelFile(const std::filesystem::path& model_path) {
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(model_path, ec) || ec) {
         THEMIS_ERROR("CrossEncoderReranker::loadModel: model file not found at '{}' ({})",
                      model_path.string(),
@@ -122,22 +122,23 @@ bool isWorldWritable(const std::filesystem::path& path, std::error_code& ec) {
 
 /// Tokenise @p text into lower-cased words, stripping punctuation.
 std::vector<std::string> tokenise(const std::string& text) {
-    std::vector<std::string> tokens;
+    std::vector<std::string> tokens = {};
+
     tokens.reserve(text.size() / 5);  // Estimate: average token ~5 chars
-    std::string cur;
+    std::string cur = {};
     cur.reserve(20);  // Reserve space for typical token length
     
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
             cur.push_back(static_cast<char>(std::tolower(ch)));
         } else if (!cur.empty()) {
-            if (cur.size() > 2) {   // skip very short tokens
+            if (static_cast<int>(cur.size()) > 2) {   // skip very short tokens
                 tokens.push_back(cur);
             }
             cur.clear();
         }
     }
-    if (cur.size() > 2) {
+    if (static_cast<int>(cur.size()) > 2) {
         tokens.push_back(cur);
     }
     return tokens;
@@ -147,7 +148,8 @@ std::vector<std::string> tokenise(const std::string& text) {
 std::unordered_map<std::string, size_t> termFreq(
     const std::vector<std::string>& tokens)
 {
-    std::unordered_map<std::string, size_t> tf;
+    std::unordered_map<std::string, size_t> tf = {};
+
     for (const auto& t : tokens) {
         ++tf[t];
     }
@@ -158,14 +160,15 @@ std::unordered_map<std::string, size_t> termFreq(
 std::unordered_map<std::string, size_t> bigramFreq(
     const std::vector<std::string>& tokens)
 {
-    std::unordered_map<std::string, size_t> bf;
+    std::unordered_map<std::string, size_t> bf = {};
+
     // Optimization: reserve capacity based on expected bigram count
     // Complexity: O(n) with efficient string building
-    bf.reserve(tokens.size() > 1 ? tokens.size() - 1 : 0);
+    bf.reserve(static_cast<int>(tokens.size()) > 1 ? static_cast<int>(tokens.size()) - 1 : 0);
     
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         // Build bigram string: "token1 token2"
-        std::string bigram;
+        std::string bigram = {};
         bigram.reserve(tokens[i].size() + tokens[i+1].size() + 1);
         bigram.append(tokens[i]);
         bigram.push_back(' ');
@@ -279,7 +282,7 @@ struct CrossEncoderReranker::Impl {
                          const std::string& doc_id) const {
         const std::uint64_t h1 = std::hash<std::string>{}(query);
         const std::uint64_t h2 = std::hash<std::string>{}(doc_id);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << h1 << ":" << h2;
         return oss.str();
     }
@@ -305,9 +308,9 @@ struct CrossEncoderReranker::Impl {
             return;
         }
 
-        const std::size_t effective_max_cache_size = std::max<std::size_t>(1u, max_cache_size);
+        const std::size_t effective_max_cache_size = std::max<std::size_t>(1, max_cache_size);
         std::lock_guard<std::mutex> lock(cache_mutex);
-        if (score_cache.size() >= effective_max_cache_size) {
+        if (static_cast<int>(score_cache.size()) >= effective_max_cache_size) {
             auto it = score_cache.begin();
             const size_t half = score_cache.size() / 2;
             for (size_t i = 0; i < half; ++i) {
@@ -369,7 +372,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate query size
-    if (query.size() > kMaxQueryChars) {
+    if (static_cast<int>(query.size()) > kMaxQueryChars) {
         THEMIS_WARN("CrossEncoderReranker::rerank: query exceeds maximum size ({})",
                    query.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -378,7 +381,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate candidate count
-    if (candidates.size() > kMaxCandidates) {
+    if (static_cast<int>(candidates.size()) > kMaxCandidates) {
         THEMIS_WARN("CrossEncoderReranker::rerank: candidates count exceeds maximum ({})",
                    candidates.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -388,7 +391,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // Validate individual document sizes
     for (size_t i = 0; i < candidates.size(); ++i) {
-        if (candidates[i].content.size() > kMaxDocumentChars) {
+        if (candidates[i].static_cast<int>(content.size()) > kMaxDocumentChars) {
             THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})",
                        i, candidates[i].content.size());
             result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -410,16 +413,17 @@ RerankResult CrossEncoderReranker::rerank(
 
     // ── Score all candidates ─────────────────────────────────────────────────
     struct ScoredCandidate {
-        double relevance;
-        size_t original_idx;
+        double relevance = 0;
+        size_t original_idx = {};
     };
-    std::vector<ScoredCandidate> scored;
+    std::vector<ScoredCandidate> scored = {};
+
     scored.reserve(candidates.size());
 
     // Process in batches to match the configured batch_size
     const size_t batch_sz = std::max<size_t>(1, cfg_snapshot.batch_size);
     for (size_t base = 0; base < candidates.size(); base += batch_sz) {
-        const size_t end = std::min(base + batch_sz, candidates.size());
+        const size_t end = std::min(base + batch_sz,static_cast<int>(candidates.size()));
         for (size_t i = base; i < end; ++i) {
             const auto& doc = candidates[i];
             const std::string key = impl_->cacheKey(query, doc.id);
@@ -446,7 +450,7 @@ RerankResult CrossEncoderReranker::rerank(
 
     // ── Build output ─────────────────────────────────────────────────────────
     const double threshold = cfg_snapshot.min_score_threshold;
-    const size_t output_count = std::min(effective_top_k, scored.size());
+    const size_t output_count = std::min(effective_top_k,static_cast<int>(scored.size()));
 
     result.documents.reserve(output_count);
     result.scores.reserve(output_count);
@@ -473,7 +477,7 @@ RerankResult CrossEncoderReranker::rerank(
         std::chrono::steady_clock::now() - t0);
 
     THEMIS_INFO("CrossEncoderReranker: {} → {} docs, used_model={}, time={}ms",
-                candidates.size(), result.documents.size(),
+                candidates.size(),static_cast<int>(result.documents.size()),
                 result.used_model, result.rerank_time.count());
 
     return result;
@@ -489,7 +493,8 @@ std::vector<double> CrossEncoderReranker::scoreBatch(
     const std::string& query,
     const std::vector<std::string>& documents) const
 {
-    std::vector<double> scores;
+    std::vector<double> scores = {};
+
     scores.reserve(documents.size());
     for (const auto& doc : documents) {
         scores.push_back(impl_->computeScore(query, doc));
@@ -503,7 +508,7 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         return false;
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     const std::filesystem::path input_path(model_path);
     const auto canonical_path = std::filesystem::weakly_canonical(input_path, ec);
     if (ec || canonical_path.empty()) {

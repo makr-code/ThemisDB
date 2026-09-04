@@ -58,11 +58,11 @@ static std::unique_ptr<RBAC> make_rbac() {
 // Global gate manifest for results collection
 struct GateManifest {
     struct Gate {
-        std::string name;
-        std::string metric;
+        std::string name = {};
+        std::string metric = {};
         double target_value = 0.0;
         double actual_value = 0.0;
-        std::string unit;
+        std::string unit = {};
         bool passed = false;
 
         nlohmann::json toJson() const {

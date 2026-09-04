@@ -227,7 +227,7 @@ TEST(ThreadPoolTest, TaskPriority) {
     
     std::atomic<int> counter{0};
     std::vector<int> execution_order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
     
     // Submit high priority task
     auto high_task = std::make_shared<Task>(

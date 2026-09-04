@@ -179,11 +179,15 @@ TEST(OntologyManagerFocusedTests, OM05_ThreadSafetyIsA) {
                 bool r = (t % 2 == 0)
                     ? onto->isA("Person", "Entity")
                     : onto->isA("Organization", "LegalEntity");
-                if (!r) ++error_count;
+                if (!r) {
+                  ++error_count;
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(error_count.load(), 0);
 }
 

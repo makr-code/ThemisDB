@@ -38,7 +38,7 @@ void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
 // ---------------------------------------------------------------------------
 
 int PriorRoundCompressor::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const std::string &content) {
@@ -119,7 +119,7 @@ CompressionResult PriorRoundCompressor::compressPrincipleCitationsOnly(const Eth
         citations = extractPrincipleCitations(arg.content);
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << arg.philosophy_school << "|R" << "]";
     if (!citations.empty()) {
         oss << " Citations:";
@@ -230,7 +230,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
     // ── 1. Split content into sentences ──────────────────────────────────────
     std::vector<std::string> sentences;
     {
-        std::string current;
+        std::string current = {};
         for (char c : arg.content) {
             current += c;
             if (c == '.' || c == '!' || c == '?' || c == '\n') {
@@ -260,14 +260,14 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
     std::unordered_map<std::string, int> word_freq;
     {
         std::istringstream iss(arg.content);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             // Normalise: lower-case, strip trailing punctuation
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
             while (!word.empty() && !std::isalnum(static_cast<unsigned char>(word.back()))) {
                 word.pop_back();
             }
-            if (word.size() >= 3) { // ignore very short words
+            if (static_cast<int>(word.size()) >= 3) { // ignore very short words
                 ++word_freq[word];
             }
         }
@@ -300,7 +300,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
         // TF component: sum of word frequencies
         // COMPLEXITY FIX: word_freq is unordered_map, so find() is O(1) avg case (HIGH: o_n_squared)
         std::istringstream iss(sent);
-        std::string word;
+        std::string word = {};
         int word_count = 0;
         while (iss >> word) {
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -339,7 +339,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
         }
 
         // Slight position bias: first and last sentences often contain thesis / verdict
-        if (i == 0 || i == sentences.size() - 1) {
+        if (i == 0 || i == static_cast<int>(sentences.size()) - 1) {
             score += 0.5f;
         }
 
@@ -370,7 +370,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
     std::sort(selected_indices.begin(), selected_indices.end());
 
     // ── 6. Build output text with verdict prefix when kept ────────────────────
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << arg.philosophy_school << "|R]";
 
     if (config.keep_verdict) {
@@ -403,7 +403,7 @@ CompressionResult PriorRoundCompressor::compressPriorRound(const std::vector<Eth
                                                            const CompressionConfig &config, int current_round) const {
     // No compression before trigger_round
     if (current_round < config.trigger_round) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (const auto &arg : round_arguments) {
             oss << arg.content << "\n";
         }
@@ -419,7 +419,7 @@ CompressionResult PriorRoundCompressor::compressPriorRound(const std::vector<Eth
     }
 
     // Compress each argument and combine
-    std::ostringstream combined;
+    std::ostringstream combined = {};
     int total_original   = 0;
     int total_compressed = 0;
 
@@ -449,7 +449,7 @@ CompressionResult PriorRoundCompressor::compressPriorRound(const std::vector<Eth
         = total_original > 0 ? static_cast<float>(result.compressed_tokens) / static_cast<float>(total_original) : 1.0f;
 
     // Collect original full text for DC measurement
-    std::ostringstream orig_oss;
+    std::ostringstream orig_oss = {};
     for (const auto &arg : round_arguments) {
         orig_oss << arg.content << "\n";
     }
@@ -464,10 +464,10 @@ std::string PriorRoundCompressor::buildPriorContext(const std::vector<std::vecto
                                                     int max_total_tokens) const {
     // Oldest rounds → HEADLINE; recent rounds → configured mode
     // "Old" = more than 2 rounds in the past
-    std::ostringstream out;
+    std::ostringstream out = {};
     int accumulated_tokens = 0;
 
-    for (int i = 0; i < static_cast<int>(all_rounds.size()); ++i) {
+    for (size_t i = 0; i < all_rounds.size(); ++i) {
         const int round_number = i + 1; // 1-based
         const int rounds_ago   = current_round - round_number;
 
@@ -507,7 +507,7 @@ float PriorRoundCompressor::measureDcLoss(const std::string &original_arg, const
     auto tokenize = [](const std::string &text) -> std::set<std::string> {
         std::set<std::string> tokens;
         std::istringstream iss(text);
-        std::string tok;
+        std::string tok = {};
         while (iss >> tok) {
             tokens.insert(tok);
         }

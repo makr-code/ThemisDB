@@ -134,7 +134,9 @@ int64_t BaseEntity::getFieldInt(std::string_view field_name) const {
 
 std::optional<std::string> BaseEntity::getFieldAsString(std::string_view field_name) const {
     auto value = getField(field_name);
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     return std::visit([](auto&& arg) -> std::optional<std::string> {
         using T = std::decay_t<decltype(arg)>;
@@ -153,7 +155,9 @@ std::optional<std::string> BaseEntity::getFieldAsString(std::string_view field_n
 
 std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) const {
     auto value = getField(field_name);
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     return std::visit([](auto&& arg) -> std::optional<int64_t> {
         using T = std::decay_t<decltype(arg)>;
@@ -167,7 +171,7 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
             try {
                 size_t pos = 0;
                 int64_t parsed = std::stoll(arg, &pos, 10);
-                if (pos == arg.size()) {
+                if (pos == static_cast<int>(arg.size())) {
                     return parsed;
                 }
                 return std::nullopt;
@@ -182,7 +186,9 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
 
 std::optional<double> BaseEntity::getFieldAsDouble(std::string_view field_name) const {
     auto value = getField(field_name);
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     return std::visit([](auto&& arg) -> std::optional<double> {
         using T = std::decay_t<decltype(arg)>;
@@ -197,7 +203,9 @@ std::optional<double> BaseEntity::getFieldAsDouble(std::string_view field_name) 
 
 std::optional<bool> BaseEntity::getFieldAsBool(std::string_view field_name) const {
     auto value = getField(field_name);
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     return std::visit([](auto&& arg) -> std::optional<bool> {
         using T = std::decay_t<decltype(arg)>;
@@ -212,7 +220,9 @@ std::optional<bool> BaseEntity::getFieldAsBool(std::string_view field_name) cons
 
 std::optional<std::vector<float>> BaseEntity::getFieldAsVector(std::string_view field_name) const {
     auto value = getField(field_name);
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     return std::visit([](auto&& arg) -> std::optional<std::vector<float>> {
         using T = std::decay_t<decltype(arg)>;
@@ -238,7 +248,8 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
         try {
             auto arr = nlohmann::json::parse(raw);
             if (arr.is_array()) {
-                std::vector<std::string> result;
+                std::vector<std::string> result = {};
+
                 result.reserve(arr.size());
                 for (const auto& el : arr) {
                     if (el.is_string()) {
@@ -257,7 +268,7 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
     // Legacy comma-separated fallback.
     std::vector<std::string> result;
     std::stringstream ss(raw);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         token.erase(0, token.find_first_not_of(" \t"));
         // iterator_invalidation scanner alert: find_last_not_of returns a
@@ -303,7 +314,7 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
     try {
 #if THEMIS_HAS_SIMDJSON
         // Use simdjson on-demand API for maximum speed
-        simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()), blob_.size());
+        simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()),static_cast<int>(blob_.size()));
 
         // Obtain a document and object from the parser (store intermediate values as named variables
         // to satisfy the ondemand API requirements that some getters expect lvalue receivers).
@@ -339,7 +350,9 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
 
                 case simdjson::ondemand::json_type::boolean: {
                     auto bres = val_res.get_bool();
-                    if (!bres.error()) fields[key_str] = bres.value_unsafe();
+                    if (!bres.error()) {
+                      fields[key_str] = bres.value_unsafe();
+                    }
                     break;
                 }
 
@@ -350,7 +363,9 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
                         fields[key_str] = ires.value_unsafe();
                     } else {
                         auto dres = val_res.get_double();
-                        if (!dres.error()) fields[key_str] = dres.value_unsafe();
+                        if (!dres.error()) {
+                          fields[key_str] = dres.value_unsafe();
+                        }
                     }
                     break;
                 }
@@ -366,7 +381,9 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
                 case simdjson::ondemand::json_type::array: {
                     // Check if it's a float vector (for embeddings)
                     auto arr_res = val_res.get_array();
-                    if (arr_res.error()) break;
+                    if (arr_res.error()) {
+                      break;
+                    }
                     std::vector<float> vec;
                     bool is_float_vec = true;
 
@@ -465,12 +482,14 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     break;
                     
                 case utils::Serialization::TypeTag::BOOL_FALSE:
-                case utils::Serialization::TypeTag::BOOL_TRUE:
+                    [[fallthrough]];
+                    case utils::Serialization::TypeTag::BOOL_TRUE:
                     fields[field_name] = decoder.decodeBool();
                     break;
                     
                 case utils::Serialization::TypeTag::INT32:
-                case utils::Serialization::TypeTag::INT64:
+                    [[fallthrough]];
+                    case utils::Serialization::TypeTag::INT64:
                     fields[field_name] = decoder.decodeInt64();
                     break;
                     
@@ -588,12 +607,14 @@ BaseEntity::Blob BaseEntity::serialize() const {
 std::string BaseEntity::toJson() const {
     ensureCache();
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{";
     
     bool first = true;
     for (const auto& [name, value] : *field_cache_) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         first = false;
         
         oss << "\"" << name << "\":";
@@ -614,7 +635,9 @@ std::string BaseEntity::toJson() const {
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
                 oss << "[";
                 for (size_t i = 0; i < arg.size(); ++i) {
-                    if (i > 0) oss << ",";
+                    if (i > 0) {
+                      oss << ",";
+                    }
                     oss << arg[i];
                 }
                 oss << "]";

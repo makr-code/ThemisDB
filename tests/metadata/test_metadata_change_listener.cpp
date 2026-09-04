@@ -190,7 +190,9 @@ TEST(RecordingMetadataChangeListenerTest, ConcurrentDispatchIsThreadSafe) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(rec.eventCount(), static_cast<std::size_t>(kThreads * kEventsPerThread));
 }

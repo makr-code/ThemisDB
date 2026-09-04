@@ -55,7 +55,7 @@ namespace {
     std::string makeRandomString(size_t len) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 2);
-        std::string s;
+        std::string s = {};
         s.reserve(len);
         for (size_t i = 0; i < len; ++i) {
             s += charset[dist(rng)];
@@ -64,7 +64,7 @@ namespace {
     }
     
     void cleanupTestDB(const std::string& path) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
     
@@ -85,8 +85,12 @@ namespace {
             double u = dist(rng);
             double uz = u * zeta_n_;
             
-            if (uz < 1.0) return 0;
-            if (uz < 1.0 + std::pow(0.5, theta_)) return 1;
+            if (uz < 1.0) {
+              return 0;
+            }
+            if (uz < 1.0 + std::pow(0.5, theta_)) {
+              return 1;
+            }
             
             int64_t ret = static_cast<int64_t>(num_items_ * std::pow(eta_ * u - eta_ + 1.0, alpha_));
             return std::min(ret, num_items_ - 1);

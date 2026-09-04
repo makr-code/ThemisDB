@@ -32,8 +32,8 @@ namespace storage {
 // Pimpl (keeps google-cloud-cpp types out of the public header)
 // ─────────────────────────────────────────────────────────────────────────────
 struct GCSBlobBackend::Impl {
-    std::string bucket;
-    std::string prefix;
+    std::string bucket = {};
+    std::string prefix = {};
     bool        available{false};
     mutable std::mutex mutex;
 
@@ -78,9 +78,9 @@ GCSBlobBackend::~GCSBlobBackend() = default;
 // ─────────────────────────────────────────────────────────────────────────────
 /*static*/ std::string GCSBlobBackend::computeSHA256(const std::vector<uint8_t>& data) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data.data(), data.size(), hash);
+    SHA256(data.data(),static_cast<int>(data.size()), hash);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         ss << std::setw(2) << static_cast<int>(hash[i]);
@@ -94,7 +94,9 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
     }
     // Ensure exactly one '/' between prefix and blob_id
     std::string pfx = impl_->prefix;
-    if (pfx.back() == '/') pfx.pop_back();
+    if (pfx.back() == '/') {
+      pfx.pop_back();
+    }
     return pfx + "/" + blob_id + ".blob";
 }
 
@@ -142,7 +144,7 @@ Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
     ref.created_at = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 
-    THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id, data.size());
+    THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id,static_cast<int>(data.size()));
     return Ok(ref);
 #else
     return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
@@ -177,7 +179,8 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef&
             "GCS download failed: " + status.message());
     }
 
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data = {};
+
     if (ref.size_bytes > 0) {
         data.reserve(static_cast<std::size_t>(ref.size_bytes));
     }
@@ -203,7 +206,7 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef&
             "Hash mismatch for blob: " + ref.id);
     }
 
-    THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id, data.size());
+    THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id,static_cast<int>(data.size()));
     return Ok(std::move(data));
 #else
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,

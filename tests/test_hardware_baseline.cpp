@@ -28,13 +28,13 @@
 namespace {
 
 struct CpuSample {
-    double elapsed_s;
+    double elapsed_s = 0;
     double ops_per_s;
     std::uint64_t ops;
 };
 
 struct CpuFeatures {
-    bool sse42;
+    bool sse42 = 0;
     bool avx;
     bool avx2;
     bool avx512f;
@@ -46,10 +46,10 @@ struct CpuFeatures {
 };
 
 struct StreamSample {
-    double copy_gb_s;
+    double copy_gb_s = 0;
     double scale_gb_s;
     double add_gb_s;
-    double triad_gb_s;
+    double triad_gb_s = {};
 };
 
 CpuSample sampleIntegerCpu(double seconds) {
@@ -105,7 +105,7 @@ double sampleMemoryCopyMBs(std::size_t sizeMB, int iterations) {
 }
 
 struct DiskSample {
-    double write_mb_s;
+    double write_mb_s = 0;
     double read_mb_s;
     double random_read_iops;
     double random_write_iops;
@@ -133,7 +133,7 @@ struct CapabilityTier {
 };
 
 struct TransferSample {
-    bool available;
+    bool available = 0;
     double host_to_vram_gb_s;
     double vram_to_host_gb_s;
     double cpu_to_gpu_dispatch_us;
@@ -148,7 +148,7 @@ double bytesToGB(double bytes) {
 }
 
 std::string jsonEscape(const std::string& input) {
-    std::string out;
+    std::string out = {};
     out.reserve(input.size());
     for (char c : input) {
         if (c == '\\') {
@@ -535,7 +535,7 @@ std::string detectTotalMemoryGB() {
     MEMORYSTATUSEX mem;
     mem.dwLength = sizeof(mem);
     if (GlobalMemoryStatusEx(&mem)) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::fixed << std::setprecision(2) << (static_cast<double>(mem.ullTotalPhys) / (1024.0 * 1024.0 * 1024.0));
         return oss.str();
     }
@@ -552,7 +552,7 @@ std::string isoNowUtc() {
 #else
     gmtime_r(&t, &tmv);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tmv, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -627,8 +627,12 @@ TransferSample sampleGpuTransfers(std::size_t payloadMB, int iterations) {
         &level,
         &context);
     if (FAILED(createHr) || device == nullptr || context == nullptr) {
-        if (context != nullptr) context->Release();
-        if (device != nullptr) device->Release();
+        if (context != nullptr) {
+          context->Release();
+        }
+        if (device != nullptr) {
+          device->Release();
+        }
         return {false, 0.0, 0.0, 0.0, "d3d11", "device_creation_failed", payloadBytes, iterations};
     }
 
@@ -662,10 +666,18 @@ TransferSample sampleGpuTransfers(std::size_t payloadMB, int iterations) {
 
     if (FAILED(gpuHr) || FAILED(uploadHr) || FAILED(readbackHr) || FAILED(queryHr) ||
         gpuBuffer == nullptr || uploadBuffer == nullptr || readbackBuffer == nullptr || query == nullptr) {
-        if (query != nullptr) query->Release();
-        if (readbackBuffer != nullptr) readbackBuffer->Release();
-        if (uploadBuffer != nullptr) uploadBuffer->Release();
-        if (gpuBuffer != nullptr) gpuBuffer->Release();
+        if (query != nullptr) {
+          query->Release();
+        }
+        if (readbackBuffer != nullptr) {
+          readbackBuffer->Release();
+        }
+        if (uploadBuffer != nullptr) {
+          uploadBuffer->Release();
+        }
+        if (gpuBuffer != nullptr) {
+          gpuBuffer->Release();
+        }
         context->Release();
         device->Release();
         return {false, 0.0, 0.0, 0.0, "d3d11", "buffer_or_query_creation_failed", payloadBytes, iterations};
@@ -791,7 +803,7 @@ TEST(HardwareBaseline, CaptureAndPersist) {
     constexpr int kTransferIterations = 20;
     const TransferSample transfer = sampleGpuTransfers(kTransferPayloadMB, kTransferIterations);
 
-    std::ostringstream json;
+    std::ostringstream json = {};
     json << "{\n";
     json << "  \"schema_version\": \"1.1\",\n";
     json << "  \"run_id\": \"" << runId << "\",\n";

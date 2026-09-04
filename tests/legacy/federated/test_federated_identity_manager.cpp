@@ -19,7 +19,7 @@ using json = nlohmann::json;
 static std::string b64url_fed(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string b64;
+    std::string b64 = {};
     b64.reserve(((in.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= in.size()) {
@@ -44,10 +44,14 @@ static std::string b64url_fed(const std::vector<uint8_t>& in) {
         b64.push_back('=');
     }
     for (char& c : b64) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
-    while (!b64.empty() && b64.back() == '=') b64.pop_back();
+    while (!b64.empty() && b64.back() == '=') {
+      b64.pop_back();
+    }
     return b64;
 }
 
@@ -58,27 +62,39 @@ struct RSAFixtureFed {
 
     RSAFixtureFed() {
         bn = BN_new();
-        if (!bn) throw std::runtime_error("BN_new failed");
+        if (!bn) {
+          throw std::runtime_error("BN_new failed");
+        }
         if (BN_set_word(bn, RSA_F4) != 1)
             throw std::runtime_error("BN_set_word failed");
         rsa = RSA_new();
-        if (!rsa) throw std::runtime_error("RSA_new failed");
+        if (!rsa) {
+          throw std::runtime_error("RSA_new failed");
+        }
         if (RSA_generate_key_ex(rsa, 2048, bn, nullptr) != 1)
             throw std::runtime_error("RSA_generate_key_ex failed");
         pkey = EVP_PKEY_new();
-        if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        if (!pkey) {
+          throw std::runtime_error("EVP_PKEY_new failed");
+        }
         if (EVP_PKEY_assign_RSA(pkey, rsa) != 1)
             throw std::runtime_error("EVP_PKEY_assign_RSA failed");
     }
     ~RSAFixtureFed() {
-        if (pkey) EVP_PKEY_free(pkey);
-        if (bn)   BN_free(bn);
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
+        if (bn) {
+          BN_free(bn);
+        }
     }
 };
 
 static std::string signRS256Fed(EVP_PKEY* pkey, const std::string& data) {
     EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!mctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
     if (EVP_DigestSignInit(mctx, nullptr, EVP_sha256(), nullptr, pkey) != 1)
         throw std::runtime_error("EVP_DigestSignInit failed");
     if (EVP_DigestSignUpdate(mctx, data.data(), data.size()) != 1)

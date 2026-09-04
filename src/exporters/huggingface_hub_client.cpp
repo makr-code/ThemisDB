@@ -119,7 +119,7 @@ namespace {
 [[maybe_unused]] static std::string extractRetryAfterHeader(const std::string &raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
-    std::string line;
+    std::string line = {};
     while (std::getline(stream, line)) {
         // Trim trailing \r
         if (!line.empty() && line.back() == '\r') {
@@ -127,8 +127,8 @@ namespace {
         }
         // Case-insensitive prefix match for "retry-after:"
         const std::string key = "retry-after:";
-        if (line.size() >= key.size()) {
-            std::string lower_line = line.substr(0, key.size());
+        if (static_cast<int>(line.size()) >= key.size()) {
+            std::string lower_line = line.substr(0,static_cast<int>(key.size()));
             std::transform(lower_line.begin(), lower_line.end(), lower_line.begin(),
                            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
             if (lower_line == key) {
@@ -343,7 +343,7 @@ int HuggingFaceHubClient::httpPutFile([[maybe_unused]] const std::string &url,
     f.read(buf.data(), file_size);
     f.close();
 
-    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb, retry_after_out);
+    return httpPutBytes(url, buf.data(),static_cast<int>(buf.size()), bearer_token, progress_cb, retry_after_out);
 #endif
 }
 
@@ -402,7 +402,7 @@ static void writeHubUploadAuditEntry(themis::utils::AuditLogger &audit_log, cons
            {"timestamp",
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
                 .count()}};
-    audit_log.logEvent(entry);
+    audit_log.logEvent([[maybe_unused]] entry);
 }
 
 HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_dir,
@@ -455,7 +455,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         }
     }
 
-    std::string token;
+    std::string token = {};
     try {
         token = resolveToken();
     } catch (const std::exception &e) {
@@ -490,7 +490,8 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
     }
 
     // 2. Collect all files to upload
-    std::vector<std::string> files;
+    std::vector<std::string> files = {};
+
     for (const auto &entry : fs::recursive_directory_iterator(dataset_dir)) {
         if (entry.is_regular_file()) {
             files.push_back(entry.path().string());
@@ -505,7 +506,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
     }
     std::sort(files.begin(), files.end());
 
-    THEMIS_INFO("HuggingFaceHubClient: uploading {} files to {}", files.size(), repo_id);
+    THEMIS_INFO("HuggingFaceHubClient: uploading {} files to {}",static_cast<int>(files.size()), repo_id);
 
     // 3. Upload each file with retry logic
     const size_t total_files = files.size();
@@ -520,9 +521,9 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         // Exponential backoff for transient errors (HTTP 429 uses its own
         // Retry-After sleep and does NOT advance the backoff state).
         themis::utils::RetryConfig hub_backoff_cfg;
-        hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1u;
+        hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1;
         hub_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(std::max(0, retry_delay_ms));
-        hub_backoff_cfg.max_backoff_ms     = 30'000u;
+        hub_backoff_cfg.max_backoff_ms     = 30'000;
         hub_backoff_cfg.multiplier         = 2.0;
         hub_backoff_cfg.jitter_fraction    = 0.0;
         themis::utils::ExponentialBackoff file_backoff(hub_backoff_cfg);
@@ -539,13 +540,14 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
             const double frac_start = static_cast<double>(uploaded) / static_cast<double>(total_files);
             const double frac_range = 1.0 / static_cast<double>(total_files);
 
-            std::function<void(double)> file_progress;
+            std::function<void(double)> file_progress = {};
+
             if (progress_cb) {
                 file_progress
-                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
+                    = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
             }
 
-            std::string retry_after_hdr;
+            std::string retry_after_hdr = {};
             const int http_status = httpPutFile(upload_url, file_path, token, file_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
@@ -704,7 +706,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         return repo_res;
     }
 
-    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}", shards.size(), repo_id);
+    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}",static_cast<int>(shards.size()), repo_id);
 
     // 2. Upload each shard with retry logic
     const size_t total_shards = shards.size();
@@ -719,9 +721,9 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         // Exponential backoff for transient errors (HTTP 429 uses its own
         // Retry-After sleep and does NOT advance the backoff state).
         themis::utils::RetryConfig shard_backoff_cfg;
-        shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1u;
+        shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(max_retries) + 1;
         shard_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(std::max(0, retry_delay_ms));
-        shard_backoff_cfg.max_backoff_ms     = 30'000u;
+        shard_backoff_cfg.max_backoff_ms     = 30'000;
         shard_backoff_cfg.multiplier         = 2.0;
         shard_backoff_cfg.jitter_fraction    = 0.0;
         themis::utils::ExponentialBackoff shard_backoff(shard_backoff_cfg);
@@ -738,15 +740,16 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
             const double frac_start = static_cast<double>(uploaded) / static_cast<double>(total_shards);
             const double frac_range = 1.0 / static_cast<double>(total_shards);
 
-            std::function<void(double)> shard_progress;
+            std::function<void(double)> shard_progress = {};
+
             if (progress_cb) {
                 shard_progress
-                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
+                    = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
             }
 
-            std::string retry_after_hdr;
+            std::string retry_after_hdr = {};
             const int http_status
-                = httpPutBytes(upload_url, shard.content.data(), shard.content.size(), token, shard_progress, &retry_after_hdr);
+                = httpPutBytes(upload_url, shard.content.data(),static_cast<int>(shard.content.size()), token, shard_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
                 shard_ok = true;

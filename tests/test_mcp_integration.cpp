@@ -129,11 +129,21 @@ TEST_F(MCPIntegrationTest, ToolsList) {
     
     for (const auto& tool : tools) {
         std::string name = tool["name"];
-        if (name == "create_index") has_create_index = true;
-        if (name == "drop_index") has_drop_index = true;
-        if (name == "list_indexes") has_list_indexes = true;
-        if (name == "get_schema") has_get_schema = true;
-        if (name == "get_stats") has_get_stats = true;
+        if (name == "create_index") {
+          has_create_index = true;
+        }
+        if (name == "drop_index") {
+          has_drop_index = true;
+        }
+        if (name == "list_indexes") {
+          has_list_indexes = true;
+        }
+        if (name == "get_schema") {
+          has_get_schema = true;
+        }
+        if (name == "get_stats") {
+          has_get_stats = true;
+        }
     }
     
     EXPECT_TRUE(has_create_index) << "create_index tool not found";

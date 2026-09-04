@@ -110,7 +110,8 @@ ExportStats JoinExporter::exportEntities(
 
     // Build the optional AQL predicate filter (compiled once, reused per row).
     std::unique_ptr<AqlPredicateFilter> aql_filter;
-    std::unique_ptr<AqlPredicateFilter> options_filter;
+    std::unique_ptr<AqlPredicateFilter> options_filter = {};
+
     if (!config_.join_predicate.empty()) {
         try {
             aql_filter = std::make_unique<AqlPredicateFilter>(config_.join_predicate);
@@ -229,7 +230,7 @@ ExportStats JoinExporter::exportEntities(
                     stats.estimated_eta_seconds =
                         static_cast<double>(total_count - stats.exported_entities) / rate;
                 }
-                options.progress_callback(stats);
+                options.progress_callback([[maybe_unused]] stats);
             }
 
         } catch (const ExporterException& e) {
@@ -240,7 +241,7 @@ ExportStats JoinExporter::exportEntities(
             );
             metrics_->recordError("exporter_exception");
 
-            if (stats.errors.size() >= options.max_errors) {
+            if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                 THEMIS_ERROR("JoinExporter: max errors reached, stopping export");
                 break;
             }
@@ -254,7 +255,7 @@ ExportStats JoinExporter::exportEntities(
             );
             metrics_->recordError("generic_exception");
 
-            if (stats.errors.size() >= options.max_errors) {
+            if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                 THEMIS_ERROR("JoinExporter: max errors reached, stopping export");
                 break;
             }
@@ -292,7 +293,8 @@ BaseEntity JoinExporter::mergeEntities(
     const auto right_fields = right.getAllFields();
 
     // Build a set of field names present in both (for ambiguity detection).
-    std::set<std::string> common_names;
+    std::set<std::string> common_names = {};
+
     for (const auto& [name, _] : left_fields) {
         if (right_fields.count(name)) {
             common_names.insert(name);
@@ -404,7 +406,7 @@ size_t JoinExporter::estimateEntityBytes(const BaseEntity& entity) {
     // Use serialised JSON length as a conservative proxy for heap usage.
     const std::string serialised = entity.toJson();
     // Add primary key + per-entry overhead.
-    return serialised.size() + entity.getPrimaryKey().size() + 64;
+    return static_cast<int>(serialised.size()) + entity.getPrimaryKey().size() + 64;
 }
 
 } // namespace themis::exporters

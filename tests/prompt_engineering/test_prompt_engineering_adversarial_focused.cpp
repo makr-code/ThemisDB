@@ -75,7 +75,9 @@ protected:
         auto result = PromptManager::validateTemplate(t);
         
         // Additional injection detection on content
-        if (!result.valid) return result;
+        if (!result.valid) {
+          return result;
+        }
         
         auto injection_result = detector_.detect(t.content);
         if (injection_result.is_injection) {
@@ -291,7 +293,7 @@ TEST_F(TemplateRecursionTestClass, DetectRecursiveTemplateMarkers) {
     assertPayloadDetected("{% include self %}", TEST_CLASS_ID);
     
     // Payload 4: Deep nesting attack
-    std::string deep_nest;
+    std::string deep_nest = {};
     for (int i = 0; i < 100; ++i) {
         deep_nest += "{{";
     }

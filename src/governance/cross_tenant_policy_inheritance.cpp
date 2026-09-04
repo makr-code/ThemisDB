@@ -130,7 +130,8 @@ std::vector<std::string> CrossTenantPolicyInheritance::getAncestors(const std::s
 
 std::vector<std::string> CrossTenantPolicyInheritance::listTenants() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(tenants_.size());
     for (const auto &[tid, _] : tenants_) {
         result.push_back(tid);
@@ -227,7 +228,8 @@ std::vector<PolicyRule> CrossTenantPolicyInheritance::resolveEffectiveRules(cons
         }
     }
 
-    std::vector<PolicyRule> all_rules;
+    std::vector<PolicyRule> all_rules = {};
+
     for (std::size_t i = 0; i < managers.size(); ++i) {
         if (!managers[i]) {
             continue;
@@ -254,7 +256,7 @@ bool CrossTenantPolicyInheritance::wouldCreateCycle(const std::string &tenant_id
     // so we just walk.
     std::string current         = parent_id;
     std::size_t steps           = 0;
-    const std::size_t max_steps = tenants_.size() + 1; // upper bound on depth
+    const std::size_t max_steps = static_cast<int>(tenants_.size()) + 1; // upper bound on depth
 
     while (!current.empty() && steps <= max_steps) {
         if (current == tenant_id) {
@@ -280,7 +282,7 @@ std::vector<std::string> CrossTenantPolicyInheritance::getAncestorsLocked(const 
 
     std::string current         = it->second.parent_id;
     std::size_t steps           = 0;
-    const std::size_t max_steps = tenants_.size() + 1;
+    const std::size_t max_steps = static_cast<int>(tenants_.size()) + 1;
 
     while (!current.empty() && steps <= max_steps) {
         ancestors.push_back(current);
@@ -314,7 +316,7 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
     merged.allow_cache  = base.allow_cache && override_decision.allow_cache;
 
     // Retention: shortest wins.
-    merged.retention_days = std::min(base.retention_days, override_decision.retention_days);
+    merged.retention_days = std::min(bas[[maybe_unused]] e.retention_day[[maybe_unused]] s, override_decisio[[maybe_unused]] n.retention_day[[maybe_unused]] s);
 
     // Redaction: strictest wins ("none" < "standard" < "strict").
     auto stricterRedaction = [](const std::string &a, const std::string &b) {
@@ -329,7 +331,7 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
         };
         return rank(a) >= rank(b) ? a : b;
     };
-    merged.redaction_level = stricterRedaction(base.redaction_level, override_decision.redaction_level);
+    merged.redaction_level = stricterRedaction(bas[[maybe_unused]] e.redaction_leve[[maybe_unused]] l, override_decisio[[maybe_unused]] n.redaction_leve[[maybe_unused]] l);
 
     // Classification level: use the higher (stricter) level.
     // Ordering: offen < vs-nfd < geheim < streng-geheim
@@ -345,12 +347,12 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
         }
         return 0; // "offen" or unknown
     };
-    if (classificationRank(override_decision.classification_level) > classificationRank(base.classification_level)) {
+    if (classificationRan[[maybe_unused]] k(override_decisio[[maybe_unused]] n.classification_leve[[maybe_unused]] l) > classificationRank(base.classification_level)) {
         merged.classification_level = override_decision.classification_level;
     }
 
     // Merge applied rule IDs.
-    merged.applied_rules.insert(merged.applied_rules.end(), override_decision.applied_rules.begin(),
+    merged.applied_rules.insert(merge[[maybe_unused]] d.applied_rule[[maybe_unused]] s.en[[maybe_unused]] d(), override_decision.applied_rules.begin(),
                                 override_decision.applied_rules.end());
 
     // allowed: AND (any rule denying → denied).

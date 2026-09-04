@@ -21,12 +21,20 @@ std::vector<float> genVec(size_t dim, int seed = 0) {
     static thread_local std::mt19937 gen(std::random_device{}() + seed);
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
     std::vector<float> v(dim);
-    for (auto& x : v) x = dis(gen);
+    for (auto& x : v) {
+      x = dis(gen);
+    }
     // Normalize to unit vector
     float norm = 0.0f;
-    for (auto x : v) norm += x * x;
+    for (auto x : v) {
+      norm += x * x;
+    }
     norm = std::sqrt(norm);
-    if (norm > 0.001f) for (auto& x : v) x /= norm;
+    if (norm > 0.001f) {
+      for (auto& x : v) {
+        x /= norm;
+      }
+    }
     return v;
 }
 
@@ -35,7 +43,7 @@ std::string randStr(size_t len) {
     static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     static thread_local std::mt19937 gen(std::random_device{}());
     std::uniform_int_distribution<int> dis(0, sizeof(charset) - 2);
-    std::string s;
+    std::string s = {};
     s.reserve(len);
     for (size_t i = 0; i < len; ++i) {
         s += charset[dis(gen)];
@@ -67,7 +75,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -140,7 +148,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -207,7 +215,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -310,7 +318,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> idx_mgr_;
 };
@@ -383,7 +391,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<GraphIndexManager> gim_;
     std::unique_ptr<SecondaryIndexManager> sim_;
@@ -451,7 +459,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -537,7 +545,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<GraphIndexManager> gim_;
 };
@@ -627,7 +635,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> sim_;
 };
@@ -733,7 +741,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<VectorIndexManager> vim_;
 };
@@ -810,7 +818,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<VectorIndexManager> vim_;
     std::unique_ptr<SecondaryIndexManager> sim_;

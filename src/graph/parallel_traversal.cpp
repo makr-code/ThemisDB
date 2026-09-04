@@ -39,8 +39,8 @@ ParallelTraversal::ParallelTraversal(GraphIndexManager &graph_manager) : graph_m
 size_t ParallelTraversal::effectiveThreadCount(const Config &config, size_t num_sources) {
     size_t requested = (config.num_threads > 0) ? static_cast<size_t>(config.num_threads) : []() -> size_t {
         const size_t hw   = std::thread::hardware_concurrency();
-        const size_t base = (hw > 0) ? hw : 4u;
-        return std::max<size_t>(2u, std::min<size_t>(base, 16u));
+        const size_t base = (hw > 0) ? hw : 4;
+        return std::max<size_t>(2, std::min<size_t>(base, 16));
     }();
 
     // Never spawn more threads than there are sources.
@@ -90,7 +90,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
             result.visited.push_back(node);
             ++result.nodes_explored;
 
-            if (config.max_results > 0 && result.visited.size() >= config.max_results) {
+            if (config.max_results > 0 && static_cast<int>(result.visited.size()) >= config.max_results) {
                 return result;
             }
         }
@@ -102,7 +102,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
         std::vector<std::string> next_frontier;
 
         const bool use_fan_out_parallel
-            = config.fan_out_threshold > 0 && current_frontier.size() >= static_cast<size_t>(config.fan_out_threshold);
+            = config.fan_out_threshold > 0 && static_cast<int>(current_frontier.size()) >= static_cast<size_t>(config.fan_out_threshold);
 
         if (use_fan_out_parallel) {
             // Parallel fan-out expansion: split the frontier into chunks and
@@ -110,8 +110,8 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
             // produces a raw list of candidate neighbors; de-duplication against
             // the shared visited set is done serially by the main thread after
             // all tasks complete (no data races).
-            const size_t nthreads   = effectiveThreadCount(config, current_frontier.size());
-            const size_t chunk_size = (current_frontier.size() + nthreads - 1) / nthreads;
+            const size_t nthreads   = effectiveThreadCount(config,static_cast<int>(current_frontier.size()));
+            const size_t chunk_size = (static_cast<int>(current_frontier.size()) + nthreads - 1) / nthreads;
 
             struct ChunkResult {
                 std::vector<std::string> candidates;
@@ -122,10 +122,10 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
 
             for (size_t t = 0; t < nthreads; ++t) {
                 const size_t begin = t * chunk_size;
-                if (begin >= current_frontier.size()) {
+                if (begin >= static_cast<int>(current_frontier.size())) {
                     break;
                 }
-                const size_t end = std::min(begin + chunk_size, current_frontier.size());
+                const size_t end = std::min(begin + chunk_size,static_cast<int>(current_frontier.size()));
 
                 futures.push_back(std::async(std::launch::async, [this, &current_frontier, begin, end]() {
                     ChunkResult cr;
@@ -228,7 +228,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(const s
         result.visited.push_back(current);
         ++result.nodes_explored;
 
-        if (config.max_results > 0 && result.visited.size() >= config.max_results) {
+        if (config.max_results > 0 && static_cast<int>(result.visited.size()) >= config.max_results) {
             break;
         }
 
@@ -264,7 +264,8 @@ ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(std::vector
     MultiSourceResult merged;
     merged.execution_time_ms = execution_time_ms;
 
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (auto &sr : per_source) {
         merged.total_nodes_explored += sr.nodes_explored;
         merged.total_edges_traversed += sr.edges_traversed;
@@ -301,14 +302,15 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(c
 
     auto wall_start = std::chrono::steady_clock::now();
 
-    const size_t max_concurrent = effectiveThreadCount(config, sources.size());
+    const size_t max_concurrent = effectiveThreadCount(config,static_cast<int>(sources.size()));
 
-    std::vector<SourceTraversalResult> per_source;
+    std::vector<SourceTraversalResult> per_source = {};
+
     per_source.reserve(sources.size());
 
     // Process sources in batches of max_concurrent to cap thread count.
     for (size_t batch_start = 0; batch_start < sources.size();) {
-        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
+        const size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sources.size()));
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);
@@ -349,13 +351,14 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
 
     auto wall_start = std::chrono::steady_clock::now();
 
-    const size_t max_concurrent = effectiveThreadCount(config, sources.size());
+    const size_t max_concurrent = effectiveThreadCount(config,static_cast<int>(sources.size()));
 
-    std::vector<SourceTraversalResult> per_source;
+    std::vector<SourceTraversalResult> per_source = {};
+
     per_source.reserve(sources.size());
 
     for (size_t batch_start = 0; batch_start < sources.size();) {
-        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
+        const size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sources.size()));
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);

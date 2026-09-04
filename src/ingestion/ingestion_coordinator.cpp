@@ -91,7 +91,7 @@ bool InMemorySharedCheckpointStore::exists(const std::string& source_id) const {
 
 size_t InMemorySharedCheckpointStore::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return store_.size();
+    return static_cast<int>(store_.size());
 }
 
 // ============================================================================
@@ -137,7 +137,7 @@ void InProcessLeaderElection::revokeLease(const std::string& node_id) {
 // ConsistentHashRing
 // ============================================================================
 
-ConsistentHashRing::ConsistentHashRing(size_t virtual_nodes_per_node)
+ConsistentHashRing::ConsistentHashRing(size_[[maybe_unused]] t virtual_nodes_per_nod[[maybe_unused]] e)
     : virtual_nodes_per_node_(virtual_nodes_per_node == 0
                                    ? kDefaultVirtualNodes
                                    : virtual_nodes_per_node) {}
@@ -225,7 +225,7 @@ IngestionReport InProcessWorkerNode::ingest(
         manager.registerSource(src);
     }
 
-    return manager.ingestAll(progress_callback);
+    return manager.ingestAll([[maybe_unused]] progress_callback);
 }
 
 // ============================================================================
@@ -253,7 +253,9 @@ void WorkStealingPool::submitTo(size_t worker_idx, SourceConfig source) {
 
 bool WorkStealingPool::tryPopOwn(size_t idx, SourceConfig& out) {
     std::lock_guard<std::mutex> lock(deques_[idx].mtx);
-    if (deques_[idx].tasks.empty()) return false;
+    if (deques_[idx].tasks.empty()) {
+      return false;
+    }
     out = std::move(deques_[idx].tasks.front());
     deques_[idx].tasks.pop_front();
     return true;
@@ -264,7 +266,9 @@ bool WorkStealingPool::trySteal(size_t thief_idx, SourceConfig& out) {
     for (size_t i = 1; i < n; ++i) {
         size_t victim = (thief_idx + i) % n;
         std::unique_lock<std::mutex> lock(deques_[victim].mtx, std::try_to_lock);
-        if (!lock || deques_[victim].tasks.empty()) continue;
+        if (!lock || deques_[victim].tasks.empty()) {
+          continue;
+        }
         // Steal from the back (classic work-stealing pattern).
         out = std::move(deques_[victim].tasks.back());
         deques_[victim].tasks.pop_back();
@@ -278,17 +282,25 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     while (true) {
         // Try own queue first, then steal from another worker.
         bool got = tryPopOwn(my_idx, src);
-        if (!got) got = trySteal(my_idx, src);
+        if (!got) {
+          got = trySteal(my_idx, src);
+        }
 
         if (!got) {
             // No task found.  If remaining is 0 all work is done; otherwise
             // another worker might push nothing new so we check once more
             // after a brief yield to avoid a tight spin loop.
-            if (remaining_.load(std::memory_order_acquire) == 0) break;
+            if (remaining_.load(std::memory_order_acquire) == 0) {
+              break;
+            }
             std::this_thread::yield();
             got = tryPopOwn(my_idx, src);
-            if (!got) got = trySteal(my_idx, src);
-            if (!got) continue;
+            if (!got) {
+              got = trySteal(my_idx, src);
+            }
+            if (!got) {
+              continue;
+            }
         }
 
         // We own `src` — decrement the global remaining count.
@@ -314,18 +326,21 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     }
 }
 
-std::vector<IngestionReport> WorkStealingPool::run(ProgressCallback cb) {
+std::vector<IngestionReport> WorkStealingPool::run([[maybe_unused]] ProgressCallback cb) {
     if (nodes_.empty() || remaining_.load(std::memory_order_relaxed) == 0) {
         return {};
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     threads.reserve(nodes_.size());
     for (size_t i = 0; i < nodes_.size(); ++i) {
         threads.emplace_back(&WorkStealingPool::workerFn, this, i, cb);
     }
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
 
     std::lock_guard<std::mutex> lock(results_mtx_);
@@ -344,7 +359,7 @@ std::string makeCoordinatorNodeId() {
     auto ts = static_cast<uint64_t>(
         std::chrono::steady_clock::now().time_since_epoch().count());
     auto seq = ++counter;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << ts << '-' << seq;
     return "coord-" + ss.str();
 }
@@ -364,7 +379,7 @@ IngestionCoordinator::IngestionCoordinator(const Config& config)
     // Default num_nodes = hardware_concurrency / 2, min 1.
     if (config_.num_nodes == 0) {
         unsigned hw = std::thread::hardware_concurrency();
-        config_.num_nodes = std::max(1u, hw / 2);
+        config_.num_nodes = std::max(1, hw / 2);
     }
 }
 
@@ -425,7 +440,9 @@ void IngestionCoordinator::stop() {
 // ============================================================================
 
 void IngestionCoordinator::registerNode(std::shared_ptr<IIngestionWorkerNode> node) {
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     // Avoid duplicate registration.
     for (const auto& existing : nodes_) {
@@ -441,7 +458,8 @@ std::vector<NodeInfo> IngestionCoordinator::getNodes() const {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     std::string leader_id = leader_election_->getCurrentLease().owner_node_id;
 
-    std::vector<NodeInfo> result;
+    std::vector<NodeInfo> result = {};
+
     result.reserve(nodes_.size());
     for (const auto& n : nodes_) {
         NodeInfo info;
@@ -555,7 +573,7 @@ IngestionReport IngestionCoordinator::ingestAll(
     }
 
     // Step 4 — Run the pool; idle workers steal from busy workers' deques.
-    std::vector<IngestionReport> partial_reports = pool.run(progress_callback);
+    std::vector<IngestionReport> partial_reports = pool.run([[maybe_unused]] progress_callback);
 
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);

@@ -35,16 +35,16 @@ namespace {
 
 /// FNV-1a 64-bit hash for quick doc-id generation (no libssl needed).
 uint64_t fnv1a64(const std::string& s) {
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
 
-std::string toHex16(uint64_t v) {
-    std::ostringstream ss;
+std::string toHex16([[maybe_unused]] uint64_t v) {
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0') << std::setw(16) << v;
     return ss.str();
 }
@@ -52,7 +52,7 @@ std::string toHex16(uint64_t v) {
 std::string iso8601Now() {
     const auto now = std::chrono::system_clock::now();
     const std::time_t t = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }
@@ -90,7 +90,7 @@ std::string iso8601Now() {
     r.source_name  = source_name;
     r.gov_source_id = gov_source_id;
     r.gap_id       = gap.gap_id;
-    r.text_snippet = (text.size() > 500) ? text.substr(0, 500) + "…" : text;
+    r.text_snippet = (static_cast<int>(text.size()) > 500) ? text.substr(0, 500) + "…" : text;
     r.quality_score = eval.quality_score;
     r.gap_relevance = eval.gap_relevance;
     r.scraped_at   = iso8601Now();
@@ -154,7 +154,9 @@ std::string iso8601Now() {
 
     // Entity nodes from LLM
     for (const auto& entity : eval.key_entities) {
-        if (entity.empty()) continue;
+        if (entity.empty()) {
+          continue;
+        }
         ScraperGraphEdge e;
         e.from_id = rel.doc_id;
         e.to_id   = "ENTITY:" + entity;

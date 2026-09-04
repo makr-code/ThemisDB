@@ -22,7 +22,9 @@ using namespace themis::acceleration;
 class MockComputeGraph final : public IComputeGraph {
 public:
     bool addNode(const ComputeGraphNode& node) override {
-        if (nodes_.count(node.node_id)) return false;
+        if (nodes_.count(node.node_id)) {
+          return false;
+        }
         nodes_[node.node_id] = node;
         return true;
     }
@@ -46,7 +48,9 @@ public:
     }
 
     bool execute() override {
-        if (!compiled_) return false;
+        if (!compiled_) {
+          return false;
+        }
         stats_.nodes_executed = nodes_.size();
         stats_.kernel_fusions = config_.enable_fusion ? 1 : 0;
         stats_.total_execution_ms = 0.5;

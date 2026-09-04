@@ -229,7 +229,9 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentRevokeAndCheck_ThreadSafe) {
         }
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Verify stats are internally consistent: revocations + checks should
     // match what the threads actually performed.
@@ -247,7 +249,8 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
         bl.revoke("jti-" + std::to_string(i), inFuture());
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&bl, t]() {
             for (int i = t * 25; i < (t + 1) * 25; ++i) {
@@ -255,7 +258,9 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All entries should have been unrevoked (none should be found)
     for (int i = 0; i < 100; ++i) {
@@ -269,7 +274,7 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
 
 TEST(TokenBlacklistCallbackTest, CallbackInvokedOnRevoke) {
     TokenBlacklist bl;
-    std::string captured_jti;
+    std::string captured_jti = {};
 
     bl.setOnRevokeCallback([&captured_jti](const std::string& jti) {
         captured_jti = jti;
@@ -329,7 +334,7 @@ TEST(TokenBlacklistCallbackTest, ClearCallbackStopsNotifications) {
 
 TEST(TokenBlacklistCallbackTest, ReplaceCallbackUsesNewOne) {
     TokenBlacklist bl;
-    std::string last_jti;
+    std::string last_jti = {};
 
     bl.setOnRevokeCallback([&last_jti](const std::string& jti) {
         last_jti = "first:" + jti;

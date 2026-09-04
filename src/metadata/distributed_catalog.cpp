@@ -64,7 +64,7 @@ size_t DistributedMetadataCatalog::syncFromSchemaManager(SchemaManager& schema_m
 
     ++sync_count_;
     spdlog::info("DistributedMetadataCatalog: sync complete, {}/{} schemas published",
-                 synced, tables.size());
+                 synced,static_cast<int>(tables.size()));
     return synced;
 }
 

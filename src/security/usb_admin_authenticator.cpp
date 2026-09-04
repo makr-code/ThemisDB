@@ -514,7 +514,7 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     }
     
     // Construct the canonical data that was signed
-    std::ostringstream data_stream;
+    std::ostringstream data_stream = {};
     data_stream << license.license_key
                 << "|" << license.organization
                 << "|" << license.hardware_id
@@ -558,8 +558,8 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     
     bool valid = false;
     if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),static_cast<int>(data_to_verify.size())) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),static_cast<int>(signature_bytes.size()));
             valid = (verify_result == 1);
             
             if (!valid) {
@@ -583,7 +583,7 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
     // Try to read machine-id (most reliable on Linux)
     std::ifstream machine_id_file("/etc/machine-id");
     if (machine_id_file.is_open()) {
-        std::string machine_id;
+        std::string machine_id = {};
         std::getline(machine_id_file, machine_id);
         if (!machine_id.empty()) {
             return machine_id;
@@ -593,7 +593,7 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
     // Fallback: try to read product UUID
     std::ifstream product_uuid("/sys/class/dmi/id/product_uuid");
     if (product_uuid.is_open()) {
-        std::string uuid;
+        std::string uuid = {};
         std::getline(product_uuid, uuid);
         if (!uuid.empty()) {
             return uuid;
@@ -650,7 +650,7 @@ std::string USBAdminAuthenticator::createChallenge() const {
     }
 
     // Convert to hex string
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (auto byte : challenge_bytes) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
     }
@@ -712,7 +712,7 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     unsigned char* result = HMAC(
         EVP_sha256(),
         license_key.data(), static_cast<int>(license_key.size()),
-        reinterpret_cast<const unsigned char*>(challenge.data()), challenge.size(),
+        reinterpret_cast<const unsigned char*>(challenge.data()),static_cast<int>(challenge.size()),
         hmac_out, &hmac_len
     );
 
@@ -722,20 +722,20 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     }
 
     // Encode expected response as lowercase hex
-    std::ostringstream expected_oss;
+    std::ostringstream expected_oss = {};
     for (unsigned int i = 0; i < hmac_len; ++i) {
         expected_oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hmac_out[i]);
     }
     const std::string expected_response = expected_oss.str();
 
     // ── 6. Constant-time comparison to prevent timing attacks ─────────────────
-    if (response.size() != expected_response.size()) {
+    if (static_cast<int>(response.size()) != static_cast<int>(expected_response.size())) {
         THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — response length mismatch");
         return false;
     }
 
     // CRYPTO_memcmp returns 0 iff both buffers are identical (OpenSSL constant-time compare)
-    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(), response.size()) == 0);
+    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(),static_cast<int>(response.size())) == 0);
 
     if (!valid) {
         THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — HMAC mismatch");

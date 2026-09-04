@@ -32,7 +32,7 @@ namespace {
 constexpr uint64_t kMinWasmCpuTimeLimitMs = 1;
 constexpr uint64_t kMaxWasmCpuTimeLimitMs = 60'000;
 
-WasmHandlerConfig sanitizeWasmConfig(const WasmHandlerConfig& config) {
+WasmHandlerConfig sanitizeWasmConfig([[maybe_unused]] const WasmHandlerConfig& config) {
     WasmHandlerConfig sanitized = config;
 
     const auto requested_ms_raw = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -69,7 +69,7 @@ json WasmHandlerEntry::toJson() const {
         {"created_at",       created_at},
         {"updated_at",       updated_at},
         {"invocation_count", invocation_count.load(std::memory_order_relaxed)},
-        {"wasm_size_bytes",  wasm_bytes.size()},
+        {"wasm_size_bytes",static_cast<int>(wasm_bytes.size())},
         {"module_info", json{
             {"valid",        module_info.valid},
             {"wasm_version", module_info.wasm_version},
@@ -101,7 +101,7 @@ std::string WasmHandlerRegistry::utcNow() {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -114,8 +114,9 @@ static bool isBase64(unsigned char c) {
     return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encoded) {
-    std::vector<uint8_t> result;
+std::vector<uint8_t> WasmHandlerRegistry::base64Decode([[maybe_unused]] const std::string& encoded) {
+    std::vector<uint8_t> result = {};
+
     result.reserve((encoded.size() / 4) * 3);
 
     int i = 0;
@@ -146,7 +147,9 @@ std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encode
     }
 
     if (i > 0) {
-        for (int j = i; j < 4; ++j) char4[j] = 0;
+        for (int j = i; j < 4; ++j) {
+          char4[j] = 0;
+        }
         for (int j = 0; j < 4; ++j) {
             const char* pos = std::find(kBase64Chars,
                                         kBase64Chars + 64,
@@ -207,11 +210,13 @@ bool WasmHandlerRegistry::registerHandler(
     // Validate binary first (no lock needed – read-only).
     auto info = themis::modules::WasmModuleValidator::validate(wasm_bytes);
     if (!info.valid) {
-        if (error) *error = "Invalid .wasm binary: magic bytes or version mismatch";
+        if (error) {
+          *error = "Invalid .wasm binary: magic bytes or version mismatch";
+        }
         return false;
     }
 
-    const WasmHandlerConfig sanitized_config = sanitizeWasmConfig(config);
+    const WasmHandlerConfig sanitized_config = sanitizeWasmConfig([[maybe_unused]] config);
 
     std::unique_lock lock(registry_mutex_);
 
@@ -249,26 +254,27 @@ bool WasmHandlerRegistry::registerHandler(
     return true;
 }
 
-bool WasmHandlerRegistry::unregisterHandler(const std::string& id) {
+bool WasmHandlerRegistry::unregisterHandler([[maybe_unused]] const std::string& id) {
     std::unique_lock lock(registry_mutex_);
     return registry_.erase(id) > 0;
 }
 
-bool WasmHandlerRegistry::hasHandler(const std::string& id) const {
+bool WasmHandlerRegistry::hasHandler([[maybe_unused]] const std::string& id) const {
     std::shared_lock lock(registry_mutex_);
     return registry_.count(id) > 0;
 }
 
 size_t WasmHandlerRegistry::size() const {
     std::shared_lock lock(registry_mutex_);
-    return registry_.size();
+    return static_cast<int>(registry_.size());
 }
 
 std::vector<json> WasmHandlerRegistry::listHandlers(
     const std::string& tenant_id_filter) const
 {
     std::shared_lock lock(registry_mutex_);
-    std::vector<json> result;
+    std::vector<json> result = {};
+
     result.reserve(registry_.size());
 
     for (const auto& [key, entry] : registry_) {
@@ -289,7 +295,7 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
     // during the (potentially slow) sandbox invocation.
     std::vector<uint8_t> wasm_bytes;
     WasmHandlerConfig    config;
-    std::string          entry_point;
+    std::string          entry_point = {};
 
     {
         std::shared_lock lock(registry_mutex_);
@@ -311,7 +317,7 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
     // Build sandbox configuration.
     themis::modules::WasmPluginSandbox::Config sandbox_cfg;
     sandbox_cfg.linear_memory_pages   = config.linear_memory_pages;
-    sandbox_cfg.max_memory_mb         = config.memory_limit_bytes / (1024ULL * 1024);
+    sandbox_cfg.max_memory_mb         = config.memory_limit_bytes / (1024 * 1024);
     sandbox_cfg.max_cpu_time_seconds  = 0; // Wall-clock limit enforced via future::wait_until below.
     sandbox_cfg.allow_unregistered_imports = false;
 
@@ -461,8 +467,8 @@ http::response<http::string_body> WasmHandlerRegistry::handleUpload(
                                  "Request body must not be empty", req);
     }
 
-    const bool already_exists = hasHandler(id);
-    std::string error;
+    const bool already_exists = hasHandler([[maybe_unused]] id);
+    std::string error = {};
 
     if (!registerHandler(id, wasm_bytes, config, tenant_id, name, description, &error)) {
         return makeErrorResponse(http::status::bad_request, error, req);
@@ -488,7 +494,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
     const http::request<http::string_body>& req)
 {
     // Parse optional ?tenant_id= query parameter.
-    std::string tenant_filter;
+    std::string tenant_filter = {};
     const std::string target{req.target()};
     const auto qpos = target.find('?');
     if (qpos != std::string::npos) {
@@ -496,13 +502,15 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
         const std::string key   = "tenant_id=";
         auto kpos = query.find(key);
         if (kpos != std::string::npos) {
-            tenant_filter = query.substr(kpos + key.size());
+            tenant_filter = query.substr(kpos + static_cast<int>(key.size()) );
             const auto amp = tenant_filter.find('&');
-            if (amp != std::string::npos) tenant_filter = tenant_filter.substr(0, amp);
+            if (amp != std::string::npos) {
+              tenant_filter = tenant_filter.substr(0, amp);
+            }
         }
     }
 
-    const auto handlers = listHandlers(tenant_filter);
+    const auto handlers = listHandlers([[maybe_unused]] tenant_filter);
     return makeJsonResponse(http::status::ok,
                             json{{"handlers", handlers},
                                  {"count",    static_cast<uint64_t>(handlers.size())}},
@@ -526,7 +534,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleDelete(
     const http::request<http::string_body>& req,
     const std::string&                      id)
 {
-    if (!unregisterHandler(id)) {
+    if ([[maybe_unused]] !unregisterHandler(id)) {
         return makeErrorResponse(http::status::not_found,
                                  "Handler '" + id + "' not found", req);
     }
@@ -541,7 +549,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     const http::request<http::string_body>& req,
     const std::string&                      id)
 {
-    if (!hasHandler(id)) {
+    if ([[maybe_unused]] !hasHandler(id)) {
         return makeErrorResponse(http::status::not_found,
                                  "Handler '" + id + "' not found", req);
     }
@@ -579,7 +587,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     try {
         output_json = json::parse(result.output);
     } catch (...) {
-        THEMIS_DEBUG("wasm_handler_registry: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "wasm_handler_registry: unhandled exception caught");
         output_json = json{{"output", result.output}};
     }
 

@@ -175,7 +175,7 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
                 converged = true;
                 workingSet = newResults;
                 THEMIS_INFO("Recursive CTE '{}' converged after {} iterations with {} rows",
-                           cte.name, iteration, workingSet.size());
+                           cte.name, iteration,static_cast<int>(workingSet.size()));
                 break;
             }
             
@@ -194,13 +194,13 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
             }
             
             // Check result size limit
-            if (newResults.size() > recursiveConfig_.max_result_size) {
+            if (static_cast<int>(newResults.size()) > recursiveConfig_.max_result_size) {
                 THEMIS_ERROR("Recursive CTE '{}' exceeded max result size ({} > {})",
-                            cte.name, newResults.size(), recursiveConfig_.max_result_size);
+                            cte.name,static_cast<int>(newResults.size()), recursiveConfig_.max_result_size);
                 return ErrVoid(
                     ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                     fmt::format("Recursive CTE '{}' exceeded max result size ({} > {})",
-                               cte.name, newResults.size(), recursiveConfig_.max_result_size)
+                               cte.name,static_cast<int>(newResults.size()), recursiveConfig_.max_result_size)
                 );
             }
             
@@ -209,7 +209,7 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
             workingSet = newResults;
             
             THEMIS_DEBUG("Recursive CTE '{}' iteration {}: {} rows",
-                        cte.name, iteration, workingSet.size());
+                        cte.name, iteration,static_cast<int>(workingSet.size()));
         }
         
         // Check if we hit max iterations without converging
@@ -243,7 +243,7 @@ bool CTEEvaluator::areResultsEqual(
     const std::vector<nlohmann::json>& a,
     const std::vector<nlohmann::json>& b
 ) const {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
     
@@ -320,7 +320,9 @@ namespace {
         const std::shared_ptr<query::Expression>& expr,
         const std::unordered_set<std::string>& vars
     ) {
-        if (!expr) return false;
+        if (!expr) {
+          return false;
+        }
         switch (expr->getType()) {
             case query::ASTNodeType::Variable: {
                 auto v = std::static_pointer_cast<query::VariableExpr>(expr);
@@ -341,21 +343,27 @@ namespace {
             case query::ASTNodeType::FunctionCall: {
                 auto fn = std::static_pointer_cast<query::FunctionCallExpr>(expr);
                 for (const auto& arg : fn->arguments) {
-                    if (expressionReferencesVariables(arg, vars)) return true;
+                    if (expressionReferencesVariables(arg, vars)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             case query::ASTNodeType::ArrayLiteral: {
                 auto arr = std::static_pointer_cast<query::ArrayLiteralExpr>(expr);
                 for (const auto& elem : arr->elements) {
-                    if (expressionReferencesVariables(elem, vars)) return true;
+                    if (expressionReferencesVariables(elem, vars)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             case query::ASTNodeType::ObjectConstruct: {
                 auto obj = std::static_pointer_cast<query::ObjectConstructExpr>(expr);
                 for (const auto& [key, val] : obj->fields) {
-                    if (expressionReferencesVariables(val, vars)) return true;
+                    if (expressionReferencesVariables(val, vars)) {
+                      return true;
+                    }
                 }
                 return false;
             }
@@ -370,7 +378,9 @@ namespace {
         const std::shared_ptr<query::Query>& subquery,
         const std::unordered_set<std::string>& outerVarNames
     ) {
-        if (!subquery || outerVarNames.empty()) return false;
+        if (!subquery || outerVarNames.empty()) {
+          return false;
+        }
 
         for (const auto& filter : subquery->filters) {
             if (filter && expressionReferencesVariables(filter->condition, outerVarNames)) {
@@ -381,7 +391,9 @@ namespace {
             return true;
         }
         for (const auto& let : subquery->let_nodes) {
-            if (expressionReferencesVariables(let.expression, outerVarNames)) return true;
+            if (expressionReferencesVariables(let.expression, outerVarNames)) {
+              return true;
+            }
         }
         return false;
     }
@@ -406,7 +418,8 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateSubquery(
     // Detect correlated subquery: outer row is non-empty and the subquery AST
     // references at least one outer variable by name.
     if (!outerRow.empty() && outerRow.is_object()) {
-        std::unordered_set<std::string> outerVarNames;
+        std::unordered_set<std::string> outerVarNames = {};
+
         for (const auto& item : outerRow.items()) {
             outerVarNames.insert(item.key());
         }
@@ -500,10 +513,10 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
         }
         
         // Validate single-row constraint for scalar subquery
-        if (results.size() > 1) {
+        if (static_cast<int>(results.size()) > 1) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
-                fmt::format("Scalar subquery returned {} rows (expected 1)", results.size())
+                fmt::format("Scalar subquery returned {} rows (expected 1)",static_cast<int>(results.size()))
             );
         }
         
@@ -589,7 +602,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateArraySubquery(
         for (auto& row : results) {
             arr.push_back(std::move(row));
         }
-        THEMIS_DEBUG("Correlated subquery returned {} row(s)", arr.size());
+        THEMIS_DEBUG("Correlated subquery returned {} row(s)",static_cast<int>(arr.size()));
         return Ok(std::move(arr));
 
     } catch (const std::exception& e) {

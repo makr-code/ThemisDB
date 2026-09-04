@@ -77,7 +77,9 @@ bool TieredIndexManager::registerIndex(const std::string&  name,
                                          IndexTierMeta::Tier tier,
                                          const std::string&  data_path,
                                          uint64_t            size_bytes) {
-    if (name.empty()) return false;
+    if (name.empty()) {
+      return false;
+    }
 
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     if (registry_.count(name)) return false;   // already registered
@@ -106,15 +108,20 @@ std::optional<IndexTierMeta> TieredIndexManager::getMetadata(
         const std::string& name) const {
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
-    if (it == registry_.end()) return std::nullopt;
+    if (it == registry_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
 std::vector<std::string> TieredIndexManager::listIndexes() const {
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(registry_.size());
-    for (const auto& [k, _] : registry_) names.push_back(k);
+    for (const auto& [k, _] : registry_) {
+      names.push_back(k);
+    }
     // Sort for deterministic iteration order (registry_ is unordered_map)
     std::sort(names.begin(), names.end());
     return names;
@@ -123,10 +130,13 @@ std::vector<std::string> TieredIndexManager::listIndexes() const {
 std::vector<std::string> TieredIndexManager::listIndexesByTier(
         IndexTierMeta::Tier tier) const {
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(registry_.size());
     for (const auto& [k, v] : registry_) {
-        if (v.tier == tier) names.push_back(k);
+        if (v.tier == tier) {
+          names.push_back(k);
+        }
     }
     // Sort for deterministic iteration order (registry_ is unordered_map)
     std::sort(names.begin(), names.end());
@@ -140,7 +150,9 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
 bool TieredIndexManager::recordAccess(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
-    if (it == registry_.end()) return false;
+    if (it == registry_.end()) {
+      return false;
+    }
     it->second.last_access = std::chrono::steady_clock::now();
     ++it->second.access_count;
     return true;
@@ -149,7 +161,9 @@ bool TieredIndexManager::recordAccess(const std::string& name) {
 bool TieredIndexManager::resetAccessCount(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
-    if (it == registry_.end()) return false;
+    if (it == registry_.end()) {
+      return false;
+    }
     it->second.access_count = 0;
     return true;
 }
@@ -210,12 +224,15 @@ std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
         std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         pol = policy_;
         snapshot.reserve(registry_.size());
-        for (const auto& [k, v] : registry_) snapshot.emplace_back(k, v);
+        for (const auto& [k, v] : registry_) {
+          snapshot.emplace_back(k, v);
+        }
     }
 
     const auto now = std::chrono::steady_clock::now();
 
-    std::vector<MigrationResult> results;
+    std::vector<MigrationResult> results = {};
+
     results.reserve(snapshot.size());
 
     for (const auto& [name, meta] : snapshot) {
@@ -286,7 +303,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
     // Capture callbacks under lock so we can call them outside.
     ExportFn export_fn;
     ImportFn import_fn;
-    std::string live_path;
+    std::string live_path = {};
     {
         std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         auto it = registry_.find(name);
@@ -298,7 +315,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                                         "index not found during migration");
         }
         if (it->second.tier != from) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "migration aborted: tier changed from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(it->second.tier);
@@ -360,7 +377,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                 source_path,
                 target_path);
         } catch (...) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "export threw non-standard exception while demoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
@@ -408,7 +425,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                 source_path,
                 target_path);
         } catch (...) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "import threw non-standard exception while promoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
@@ -438,7 +455,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                                         target_path);
         }
         if (it->second.tier != from) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "migration state update aborted: tier changed from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(it->second.tier);

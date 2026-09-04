@@ -69,7 +69,9 @@ struct CudaDeleter {
      * @param ptr Device pointer to free.  May be null.
      */
     void operator()(T* ptr) const noexcept {
-        if (ptr) cudaFree(ptr);
+        if (ptr) {
+          cudaFree(ptr);
+        }
     }
 };
 

@@ -77,7 +77,7 @@ static std::string extractUserId(const http::request<http::string_body>& req, st
     }
     
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return "";
@@ -102,7 +102,8 @@ http::response<http::string_body> ContentApiHandler::handleImport(
         auto body = nlohmann::json::parse(req.body());
         
         // Extract optional blob (can be base64 or raw string)
-        std::optional<std::string> blob;
+        std::optional<std::string> blob = {};
+
         if (body.contains("blob")) {
             blob = body["blob"].get<std::string>();
         } else if (body.contains("blob_base64")) {
@@ -126,13 +127,17 @@ http::response<http::string_body> ContentApiHandler::handleImport(
                 -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
                 -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
             };
-            std::string decoded;
+            std::string decoded = {};
             decoded.reserve((encoded.size() * 3) / 4);
             int val = 0, valb = -8;
             for (unsigned char c : encoded) {
-                if (c == '=') break;
+                if (c == '=') {
+                  break;
+                }
                 int d = kBase64DecodeTable[c];
-                if (d == -1) continue;
+                if (d == -1) {
+                  continue;
+                }
                 val = (val << 6) + d;
                 valb += 6;
                 if (valb >= 0) {
@@ -175,9 +180,13 @@ http::response<http::string_body> ContentApiHandler::handleGet(
         }
         auto& content_manager = *content_manager_;
         auto id = extractPathParam(std::string(req.target()), "/content/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
+        if (id.empty()) {
+          return makeErrorResponse(http::status::bad_request, "Missing content id", req);
+        }
         auto meta = content_manager.getContentMeta(id);
-        if (!meta) return makeErrorResponse(http::status::not_found, "Content not found", req);
+        if (!meta) {
+          return makeErrorResponse(http::status::not_found, "Content not found", req);
+        }
         return makeResponse(http::status::ok, meta->toJson().dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -196,11 +205,15 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
         // path format: /content/{id}/blob
         auto prefix = std::string("/content/");
         auto pos = path.find("/blob");
-        if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        if (pos == std::string::npos) {
+          return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
         std::string user_ctx = extractUserId(req, auth_);
         auto blob = content_manager.getContentBlob(id, user_ctx);
-        if (!blob) return makeErrorResponse(http::status::not_found, "Blob not found", req);
+        if (!blob) {
+          return makeErrorResponse(http::status::not_found, "Blob not found", req);
+        }
         auto meta = content_manager.getContentMeta(id);
         std::string mime = (meta ? meta->mime_type : std::string("application/octet-stream"));
 
@@ -228,17 +241,21 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
         // path format: /content/{id}/chunks
         auto prefix = std::string("/content/");
         auto pos = path.find("/chunks");
-        if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        if (pos == std::string::npos) {
+          return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
         auto chunks = content_manager.getContentChunks(id);
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& c : chunks) {
             nlohmann::json j = c.toJson();
             // For response size, omit full embedding by default
-            if (j.contains("embedding")) j["embedding"] = nlohmann::json::array();
+            if (j.contains("embedding")) {
+              j["embedding"] = nlohmann::json::array();
+            }
             arr.push_back(std::move(j));
         }
-        nlohmann::json resp = { {"count", chunks.size()}, {"chunks", std::move(arr)} };
+        nlohmann::json resp = { {"count",static_cast<int>(chunks.size())}, {"chunks", std::move(arr)} };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -249,7 +266,9 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!content_manager_) return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        if (!content_manager_) {
+          return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
         auto& content_manager = *content_manager_;
         nlohmann::json body = nlohmann::json::parse(req.body());
         std::string query = body.value("query", "");
@@ -259,8 +278,12 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
             hops = body["expand"].value("hops", 1);
         }
         nlohmann::json filters = nlohmann::json::object();
-        if (body.contains("filters")) filters = body["filters"];
-        if (body.contains("scoring")) filters["scoring"] = body["scoring"];
+        if (body.contains("filters")) {
+          filters = body["filters"];
+        }
+        if (body.contains("scoring")) {
+          filters["scoring"] = body["scoring"];
+        }
 
         auto results = content_manager.searchWithExpansion(query, k, hops, filters);
         nlohmann::json resp = nlohmann::json::array();
@@ -268,7 +291,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
             resp.push_back({{"pk", result.first}, {"score", result.second}});
         }
         nlohmann::json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp}
         };
         return makeResponse(http::status::ok, out.dump(), req);
@@ -284,8 +307,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
-        if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
+        if (!secondary_index_) {
+          return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
+        }
+        if (!vector_index_) {
+          return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
+        }
         auto& secondary_index = *secondary_index_;
         auto& vector_index = *vector_index_;
         
@@ -341,7 +368,8 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
                 return makeErrorResponse(http::status::bad_request, "vector_query must be array of floats", req);
             }
             
-            std::vector<float> vectorQuery;
+            std::vector<float> vectorQuery = {};
+
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
                     vectorQuery.push_back(val.get<float>());
@@ -436,7 +464,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         // Limit to top-k
-        if (fusedResults.size() > static_cast<size_t>(k)) {
+        if (static_cast<int>(fusedResults.size()) > static_cast<size_t>(k)) {
             fusedResults.resize(k);
         }
         
@@ -450,7 +478,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         nlohmann::json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"fusion_mode", fusionMode},
             {"table", table},
             {"results", resp}
@@ -479,7 +507,9 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        if (!secondary_index_) {
+          return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        }
         auto& secondary_index = *secondary_index_;
         
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -534,7 +564,7 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         }
         
         nlohmann::json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp},
             {"table", table},
             {"column", column},
@@ -692,7 +722,7 @@ http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaGe
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_WARN("content_api_handler: unhandled exception caught");
+        THEMIS_WARN([[maybe_unused]] "content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -708,12 +738,14 @@ http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaPu
         std::string s = body.dump();
         std::vector<uint8_t> bytes(s.begin(), s.end());
         bool ok = storage_->put("config:content_filter_schema", bytes);
-        if (!ok) return makeErrorResponse(http::status::internal_server_error, "Failed to store filter schema", req);
+        if (!ok) {
+          return makeErrorResponse(http::status::internal_server_error, "Failed to store filter schema", req);
+        }
         return makeResponse(http::status::ok, nlohmann::json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_DEBUG("content_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -734,7 +766,7 @@ http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigGet(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_WARN("content_api_handler: unhandled exception caught");
+        THEMIS_WARN([[maybe_unused]] "content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -756,12 +788,14 @@ http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigPut(
         std::string s = body.dump();
         std::vector<uint8_t> bytes(s.begin(), s.end());
         bool ok = storage_->put("config:edge_weights", bytes);
-        if (!ok) return makeErrorResponse(http::status::internal_server_error, "Failed to store edge weights", req);
+        if (!ok) {
+          return makeErrorResponse(http::status::internal_server_error, "Failed to store edge weights", req);
+        }
         return makeResponse(http::status::ok, nlohmann::json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
     } catch (...) {
-        THEMIS_DEBUG("content_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "content_api_handler: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -824,7 +858,9 @@ http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaPut(
                     "Collection config for '" + collection_name + "' must be an object", req);
             }
             
-            if (!collection_config.contains("encryption")) continue;
+            if (!collection_config.contains("encryption")) {
+              continue;
+            }
             
             auto& enc = collection_config["encryption"];
             if (!enc.is_object()) {

@@ -31,7 +31,7 @@ std::string BlockchainIntegrityVerifier::MerkleTreeBuilder::sha256Hex(const std:
     std::size_t h1 = std::hash<std::string>{}(input);
     std::size_t h2 = std::hash<std::string>{}(input + "_salt");
 
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setw(16) << std::setfill('0') << h1 << std::setw(16) << std::setfill('0') << h2
         << std::setw(16) << std::setfill('0') << (h1 ^ (h2 << 32)) << std::setw(16) << std::setfill('0')
         << (h2 ^ (h1 << 16));
@@ -55,19 +55,21 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
     }
 
     // Leaf hashes: deterministic JSON serialisation (sorted keys)
-    std::vector<std::string> layer;
+    std::vector<std::string> layer = {};
+
     layer.reserve(records.size());
     for (const auto &rec : records) {
         layer.push_back(sha256Hex(rec.dump()));
     }
 
     // Pad to even count by duplicating last leaf
-    while (layer.size() > 1) {
+    while (static_cast<int>(layer.size()) > 1) {
         if (layer.size() % 2 != 0) {
             layer.push_back(layer.back());
         }
 
-        std::vector<std::string> next;
+        std::vector<std::string> next = {};
+
         next.reserve(layer.size() / 2);
         for (size_t i = 0; i < layer.size(); i += 2) {
             next.push_back(combineHashes(layer[i], layer[i + 1]));
@@ -123,7 +125,7 @@ BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain(const std::str
     std::string seed = merkle_root + std::to_string(now);
     std::size_t h1   = std::hash<std::string>{}(seed);
     std::size_t h2   = std::hash<std::string>{}(seed + "_tx");
-    std::ostringstream hex;
+    std::ostringstream hex = {};
     hex << std::hex << std::setw(16) << std::setfill('0') << h1 << std::setw(16) << std::setfill('0') << h2
         << std::setw(16) << std::setfill('0') << (h1 ^ (h2 << 32)) << std::setw(16) << std::setfill('0')
         << (h2 ^ (h1 << 16));
@@ -131,7 +133,7 @@ BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain(const std::str
 
     // RFC 3339 timestamp
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::ostringstream ts;
+    std::ostringstream ts = {};
     ts << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     proof.timestamp_rfc3339 = ts.str();
 
@@ -145,7 +147,7 @@ bool BlockchainIntegrityVerifier::BlockchainAnchor::verifyBlockchainAnchor(const
     if (proof.merkle_root.empty()) {
         return false;
     }
-    if (proof.merkle_root.size() != 64) {
+    if (static_cast<int>(proof.merkle_root.size()) != 64) {
         return false;
     }
     for (char c : proof.merkle_root) {

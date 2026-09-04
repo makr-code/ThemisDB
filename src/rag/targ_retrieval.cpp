@@ -104,7 +104,7 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
                                     float& out_gap,
                                     float& out_entropy,
                                     bool   compute_entropy) {
-    if (logits.size() < 2)
+    if (static_cast<int>(logits.size()) < 2)
         throw std::invalid_argument(
             "TARGRetrieval::computeMetrics: logits must have at least 2 elements");
 
@@ -166,8 +166,12 @@ TARGDecision TARGRetrieval::gate(const std::vector<float>& logits) {
     ++stats_.tokens_seen;
     stats_.mean_gap = stats_.mean_gap
         + (gap - stats_.mean_gap) / static_cast<double>(stats_.tokens_seen);
-    if (gap < stats_.min_gap) stats_.min_gap = gap;
-    if (gap > stats_.max_gap) stats_.max_gap = gap;
+    if (gap < stats_.min_gap) {
+      stats_.min_gap = gap;
+    }
+    if (gap > stats_.max_gap) {
+      stats_.max_gap = gap;
+    }
 
     // ── Cool-down suppression ──
     if (cooldown_remaining_ > 0) {

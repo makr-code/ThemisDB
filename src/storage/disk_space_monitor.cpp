@@ -144,7 +144,7 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
             }
 
             if (config_.enable_alerts && shouldSendAlert()) {
-                std::ostringstream msg;
+                std::ostringstream msg = {};
                 msg << "Disk space " << static_cast<int>(new_level) << ": "
                     << disk_utils::formatBytes(info.free_bytes) << " free ("
                     << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
@@ -169,7 +169,7 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     return info;
 }
 
-bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
+bool DiskSpaceMonitor::canWrite([[maybe_unused]] size_t bytes_to_write) {
     // A zero-byte write does not consume disk capacity.
     if (bytes_to_write == 0) {
         return true;
@@ -237,12 +237,12 @@ DiskSpaceMonitor::MonitorStats DiskSpaceMonitor::getStats() const {
     return stats_;
 }
 
-void DiskSpaceMonitor::setAlertCallback(AlertCallback callback) {
+void DiskSpaceMonitor::setAlertCallback([[maybe_unused]] AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     alert_callback_ = std::move(callback);
 }
 
-void DiskSpaceMonitor::setGCCallback(GCCallback callback) {
+void DiskSpaceMonitor::setGCCallback([[maybe_unused]] GCCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     gc_callback_ = std::move(callback);
 }
@@ -269,12 +269,12 @@ void DiskSpaceMonitor::triggerGC() {
     }
 }
 
-void DiskSpaceMonitor::setReadOnlyOverride(bool read_only) {
+void DiskSpaceMonitor::setReadOnlyOverride([[maybe_unused]] bool read_only) {
     read_only_override_ = read_only;
     spdlog::warn("Read-only override set to: {}", read_only);
 }
 
-void DiskSpaceMonitor::setRocksDBSize(uint64_t size_bytes) {
+void DiskSpaceMonitor::setRocksDBSize([[maybe_unused]] uint64_t size_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_info_.rocksdb_size_bytes = size_bytes;
 }
@@ -305,7 +305,7 @@ std::string DiskSpaceMonitor::getRecommendedAction() const {
 std::chrono::seconds DiskSpaceMonitor::estimateTimeUntilFull() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (usage_history_.size() < 2) {
+    if (static_cast<int>(usage_history_.size()) < 2) {
         return std::chrono::seconds(0);  // Not enough data
     }
     
@@ -429,7 +429,7 @@ void DiskSpaceMonitor::handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel n
     // Send alert
     if (config_.enable_alerts && shouldSendAlert()) {
         auto info = current_info_;
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Disk space " << static_cast<int>(new_level) << ": "
             << disk_utils::formatBytes(info.free_bytes) << " free ("
             << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
@@ -480,7 +480,7 @@ void DiskSpaceMonitor::recordUsage(const SpaceInfo& info) {
     usage_history_.push_back(snapshot);
     
     // Keep only recent history
-    if (usage_history_.size() > max_history_size_) {
+    if (static_cast<int>(usage_history_.size()) > max_history_size_) {
         usage_history_.erase(usage_history_.begin());
     }
 }
@@ -535,7 +535,7 @@ bool getDiskSpace(
 
     // Query the nearest existing ancestor so callers may pass non-existing
     // file/dir targets (e.g., planned output paths) and still obtain volume stats.
-    std::error_code ec;
+    std::error_code ec = {};
     auto probe = fs::absolute(fs::path(path), ec);
     if (ec || probe.empty()) {
         probe = fs::current_path(ec);
@@ -607,7 +607,7 @@ std::string formatBytes(size_t bytes) {
         unit_index++;
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(2) << size << " " << units[unit_index];
     return oss.str();
 }

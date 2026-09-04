@@ -90,7 +90,7 @@ std::string VectorClock::serialize() const {
         return "";  // Empty clock
     }
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first = true;
     for (const auto& [node_id, timestamp] : timestamps_) {
         if (!first) {
@@ -110,7 +110,7 @@ std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
     
     std::map<std::string, uint64_t> timestamps;
     std::istringstream iss(data);
-    std::string token;
+    std::string token = {};
     
     while (std::getline(iss, token, ',')) {
         size_t colon_pos = token.find(':');
@@ -136,7 +136,7 @@ std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
 
 /** @brief Serialize versioned entry into delimiter-separated text payload. */
 std::string VersionedEntry::serialize() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << node_id << "|" << version.serialize() << "|" 
         << timestamp.time_since_epoch().count() << "|" << data;
     return oss.str();
@@ -145,19 +145,27 @@ std::string VersionedEntry::serialize() const {
 /** @brief Deserialize versioned entry from delimiter-separated payload. */
 std::optional<VersionedEntry> VersionedEntry::deserialize(const std::string& data) {
     size_t pos1 = data.find('|');
-    if (pos1 == std::string::npos) return std::nullopt;
+    if (pos1 == std::string::npos) {
+      return std::nullopt;
+    }
     
     size_t pos2 = data.find('|', pos1 + 1);
-    if (pos2 == std::string::npos) return std::nullopt;
+    if (pos2 == std::string::npos) {
+      return std::nullopt;
+    }
     
     size_t pos3 = data.find('|', pos2 + 1);
-    if (pos3 == std::string::npos) return std::nullopt;
+    if (pos3 == std::string::npos) {
+      return std::nullopt;
+    }
     
     VersionedEntry entry;
     entry.node_id = data.substr(0, pos1);
     
     auto clock_opt = VectorClock::deserialize(data.substr(pos1 + 1, pos2 - pos1 - 1));
-    if (!clock_opt) return std::nullopt;
+    if (!clock_opt) {
+      return std::nullopt;
+    }
     entry.version = *clock_opt;
     
     auto timestamp_count = std::stoull(data.substr(pos2 + 1, pos3 - pos2 - 1));
@@ -199,7 +207,7 @@ VersionedEntry ReplicaConsistencyManager::recordWrite(
     history.push_back(entry);
     
     // Trim history if needed
-    if (history.size() > config_.max_version_history) {
+    if (static_cast<int>(history.size()) > config_.max_version_history) {
         history.erase(history.begin());
     }
     
@@ -219,7 +227,7 @@ ReplicaConsistencyManager::mergeReplicas(
         return VersionConflict{};  // Empty conflict
     }
     
-    if (entries.size() == 1) {
+    if (static_cast<int>(entries.size()) == 1) {
         return entries[0];  // No conflict
     }
     
@@ -253,7 +261,7 @@ void ReplicaConsistencyManager::resolveConflict(
     auto& history = version_history_[conflict.key];
     history.push_back(resolved_entry);
     
-    if (history.size() > config_.max_version_history) {
+    if (static_cast<int>(history.size()) > config_.max_version_history) {
         history.erase(history.begin());
     }
 }
@@ -273,11 +281,11 @@ void ReplicaConsistencyManager::updateVectorClock(const std::string& node_id,
 }
 
 /** @brief Register callback for custom conflict resolution (thread-safe). */
-void ReplicaConsistencyManager::setConflictCallback(ConflictCallback callback) {
+void ReplicaConsistencyManager::setConflictCallback([[maybe_unused]] ConflictCallback callback) {
     // conflict_callback_ is read under mutex_ by autoResolveConflict; acquire
     // here to prevent a data race when the callback is registered concurrently.
     std::lock_guard<std::mutex> lock(mutex_);
-    conflict_callback_ = std::move(callback);
+    conflict_callback_ = std::move([[maybe_unused]] callback);
 }
 
 /** @brief Return retained version history for key. */
@@ -299,7 +307,7 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     size_t local_idx = 0;
     size_t remote_idx = 0;
     
-    while (local_idx < local_entries.size() && remote_idx < remote_entries.size()) {
+    while (local_idx < local_entries.size()  && static_cast<size_t>(remote_idx) <static_cast<int>(remote_entries.size())) {
         const auto& local = local_entries[local_idx];
         const auto& remote = remote_entries[remote_idx];
         
@@ -321,10 +329,10 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     }
     
     // Add remaining entries
-    while (local_idx < local_entries.size()) {
+    while (static_cast<size_t>(local_idx) <static_cast<int>(local_entries.size())) {
         merged.push_back(local_entries[local_idx++]);
     }
-    while (remote_idx < remote_entries.size()) {
+    while (static_cast<size_t>(remote_idx) <static_cast<int>(remote_entries.size())) {
         merged.push_back(remote_entries[remote_idx++]);
     }
     
@@ -358,8 +366,8 @@ std::optional<VersionConflict> ReplicaConsistencyManager::detectConflict(
 VersionedEntry ReplicaConsistencyManager::autoResolveConflict(
     const VersionConflict& conflict) {
     
-    if (conflict_callback_) {
-        return conflict_callback_(conflict);
+    if ([[maybe_unused]] conflict_callback_) {
+        return conflict_callback_([[maybe_unused]] conflict);
     }
     
     return selectWinningVersion(conflict.conflicting_versions,

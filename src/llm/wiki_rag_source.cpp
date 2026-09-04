@@ -97,7 +97,7 @@ rag::StageResult WikiRagSource::retrieveFromWiki(rag::ModularRAGContext& ctx) {
         result.status = rag::StageStatus::Success;
         spdlog::debug("[WikiRagSource] retrieved {} candidates for query '{}'",
                       result.candidates.size(),
-                      ctx.query.size() > 80 ? ctx.query.substr(0, 80) + "..." : ctx.query);
+                      static_cast<int>(ctx.query.size()) > 80 ? ctx.query.substr(0, 80) + "..." : ctx.query);
 
     } catch (const std::exception& ex) {
         result.diagnostic = std::string("[WikiRagSource] query failed: ") + ex.what();

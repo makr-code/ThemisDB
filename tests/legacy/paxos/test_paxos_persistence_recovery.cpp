@@ -40,7 +40,7 @@ using namespace themisdb::sharding;
 
 class PaxosPersistenceRecoveryTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
+    std::string tmp_dir_ = {};
     std::unique_ptr<PaxosWAL>              wal_;
     std::unique_ptr<PaxosSnapshotManager>  snapshot_mgr_;
 
@@ -68,7 +68,7 @@ protected:
     void TearDown() override {
         wal_.reset();
         snapshot_mgr_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(tmp_dir_, ec);
     }
 

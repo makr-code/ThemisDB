@@ -30,7 +30,7 @@ SelectionResult FewShotOptimizer::selectExamples(
     const std::vector<FewShotExample>& candidate_examples,
     std::optional<size_t> num_examples
 ) {
-    SelectionResult result;
+    SelectionResult result = {};
     
     if (candidate_examples.empty()) {
         THEMIS_WARN("No candidate examples provided");
@@ -39,10 +39,10 @@ SelectionResult FewShotOptimizer::selectExamples(
     
     size_t target_count = num_examples.value_or(config_.max_examples);
     target_count = std::max(config_.min_examples, 
-                           std::min(target_count, candidate_examples.size()));
+                           std::min(target_count,static_cast<int>(candidate_examples.size())));
     
     THEMIS_DEBUG("Selecting {} examples from {} candidates", 
-                 target_count, candidate_examples.size());
+                 target_count,static_cast<int>(candidate_examples.size()));
     
     // Use greedy diversity selection
     result.selected_examples = greedyDiversitySelection(
@@ -87,14 +87,14 @@ void FewShotOptimizer::cacheExamples(const std::vector<FewShotExample>& examples
     }
     
     // Enforce cache size limit
-    if (cache_.size() > config_.cache_size) {
-        size_t to_remove = cache_.size() - config_.cache_size;
+    if (static_cast<int>(cache_.size()) > config_.cache_size) {
+        size_t to_remove = static_cast<int>(cache_.size()) - config_.cache_size;
         cache_.erase(cache_.begin(), cache_.begin() + to_remove);
     }
     
     updateQueryIndex();
     
-    THEMIS_DEBUG("Cached {} examples, total cache size: {}", examples.size(), cache_.size());
+    THEMIS_DEBUG("Cached {} examples, total cache size: {}",static_cast<int>(examples.size()),static_cast<int>(cache_.size()));
 }
 
 std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
@@ -118,8 +118,9 @@ std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
               [](const auto& a, const auto& b) { return a.first > b.first; });
     
     // Return top results
-    std::vector<FewShotExample> results;
-    size_t count = std::min(max_results, scored_examples.size());
+    std::vector<FewShotExample> results = {};
+
+    size_t count = std::min(max_results,static_cast<int>(scored_examples.size()));
     
     for (size_t i = 0; i < count; ++i) {
         results.push_back(cache_[scored_examples[i].second]);
@@ -142,7 +143,7 @@ double FewShotOptimizer::computeRelevance(
     auto tokenize = [](const std::string& s) {
         std::vector<std::string> tokens;
         std::istringstream iss(s);
-        std::string token;
+        std::string token = {};
         while (iss >> token) {
             std::transform(token.begin(), token.end(), token.begin(), ::tolower);
             tokens.push_back(token);
@@ -167,7 +168,7 @@ double FewShotOptimizer::computeRelevance(
         }
     }
     
-    size_t union_size = query_set.size() + example_set.size() - intersection;
+    size_t union_size = static_cast<int>(query_set.size()) + static_cast<int>(example_set.size()) - intersection;
     
     return (union_size > 0) ? static_cast<double>(intersection) / union_size : 0.0;
 }
@@ -175,7 +176,7 @@ double FewShotOptimizer::computeRelevance(
 double FewShotOptimizer::computeDiversity(
     const std::vector<FewShotExample>& examples
 ) {
-    if (examples.size() < 2) {
+    if (static_cast<int>(examples.size()) < 2) {
         return 1.0;
     }
     
@@ -198,7 +199,7 @@ std::string FewShotOptimizer::formatExamples(
     const std::vector<FewShotExample>& examples,
     const std::string& format
 ) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     for (size_t i = 0; i < examples.size(); ++i) {
         std::string formatted = format;
@@ -257,7 +258,7 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
     }
     
     // Greedily select remaining examples to maximize diversity
-    while (selected.size() < num_examples && !remaining.empty()) {
+    while ( static_cast<int>(selected.size()) < num_examples && !remaining.empty()) {
         double best_score = -1.0;
         size_t best_idx = 0;
         double best_min_similarity = 1.0;
@@ -299,7 +300,7 @@ double FewShotOptimizer::computeSimilarity(
     auto tokenize = [](const std::string& s) {
         std::unordered_set<std::string> tokens;
         std::istringstream iss(s);
-        std::string token;
+        std::string token = {};
         while (iss >> token) {
             std::transform(token.begin(), token.end(), token.begin(), ::tolower);
             tokens.insert(token);
@@ -319,7 +320,7 @@ double FewShotOptimizer::computeSimilarity(
             intersection_in++;
         }
     }
-    size_t union_in = tokens1_in.size() + tokens2_in.size() - intersection_in;
+    size_t union_in = static_cast<int>(tokens1_in.size()) + static_cast<int>(tokens2_in.size()) - intersection_in;
     double sim_in = (union_in > 0) ? static_cast<double>(intersection_in) / union_in : 0.0;
     
     // Jaccard similarity for outputs
@@ -329,7 +330,7 @@ double FewShotOptimizer::computeSimilarity(
             intersection_out++;
         }
     }
-    size_t union_out = tokens1_out.size() + tokens2_out.size() - intersection_out;
+    size_t union_out = static_cast<int>(tokens1_out.size()) + static_cast<int>(tokens2_out.size()) - intersection_out;
     double sim_out = (union_out > 0) ? static_cast<double>(intersection_out) / union_out : 0.0;
     
     // Average of input and output similarity
@@ -342,7 +343,7 @@ void FewShotOptimizer::updateQueryIndex() {
     
     for (size_t i = 0; i < cache_.size(); ++i) {
         std::istringstream iss(cache_[i].input);
-        std::string first_word;
+        std::string first_word = {};
         if (iss >> first_word) {
             std::transform(first_word.begin(), first_word.end(), 
                          first_word.begin(), ::tolower);

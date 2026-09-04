@@ -50,12 +50,24 @@ http::response<http::string_body> PromptApiHandler::handlePost(
         auto body = nlohmann::json::parse(req.body());
         themis::prompt_engineering::PromptManager::PromptTemplate t;
         
-        if (body.contains("id")) t.id = body.value("id", std::string());
-        if (body.contains("name")) t.name = body.value("name", std::string());
-        if (body.contains("version")) t.version = body.value("version", std::string());
-        if (body.contains("content")) t.content = body.value("content", std::string());
-        if (body.contains("metadata")) t.metadata = body["metadata"];
-        if (body.contains("active")) t.active = body.value("active", true);
+        if (body.contains("id")) {
+          t.id = body.value("id", std::string());
+        }
+        if (body.contains("name")) {
+          t.name = body.value("name", std::string());
+        }
+        if (body.contains("version")) {
+          t.version = body.value("version", std::string());
+        }
+        if (body.contains("content")) {
+          t.content = body.value("content", std::string());
+        }
+        if (body.contains("metadata")) {
+          t.metadata = body["metadata"];
+        }
+        if (body.contains("active")) {
+          t.active = body.value("active", true);
+        }
 
         auto created = prompt_manager.createTemplate(std::move(t));
         return makeResponse(http::status::created, created.toJson().dump(), req);
@@ -136,8 +148,12 @@ http::response<http::string_body> PromptApiHandler::handlePut(
         nlohmann::json metadata = nlohmann::json::object();
         bool active = true;
 
-        if (body.contains("metadata")) metadata = body["metadata"];
-        if (body.contains("active")) active = body.value("active", true);
+        if (body.contains("metadata")) {
+          metadata = body["metadata"];
+        }
+        if (body.contains("active")) {
+          active = body.value("active", true);
+        }
 
         bool ok = prompt_manager.updateTemplate(id, metadata, active);
         if (!ok) {

@@ -50,7 +50,8 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
         return {};
     }
 
-    std::vector<SpatialJoinPair> results;
+    std::vector<SpatialJoinPair> results = {};
+
     // Overflow-safe heuristic: cap outer.size() before multiplying to prevent
     // wrap-around on very large inputs.
     results.reserve(std::min(outer.size(), config.max_pairs / 8 + 1) * 8);
@@ -70,7 +71,8 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     //
     // Lookup-only index: used exclusively via find() for O(1) key→index resolution.
     // Iteration order is never observed — unordered_map is safe here (false positive suppression).
-    std::unordered_map<std::string, std::size_t> inner_key_idx;
+    std::unordered_map<std::string, std::size_t> inner_key_idx = {};
+
     inner_key_idx.reserve(inner.size());
     for (std::size_t i = 0; i < inner.size(); ++i) {
         inner_key_idx.emplace(inner[i].first, i);
@@ -103,7 +105,7 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
             if (dist <= threshold_m) {
                 results.push_back({key_a, key_b, dist});
 
-                if (results.size() >= config.max_pairs) {
+                if (static_cast<int>(results.size()) >= config.max_pairs) {
                     THEMIS_WARN("spatialJoin: max_pairs limit ({}) reached; "
                                 "result set may be incomplete",
                                 config.max_pairs);
@@ -202,7 +204,7 @@ struct SpatialJoinIterator::Impl {
             const auto &[key_a, geom_a] = (*outer_ptr)[outer_idx];
             const Coordinate centroid_a = geometryCentroid(geom_a);
 
-            while (cand_idx < candidates.size()) {
+            while (static_cast<size_t>(cand_idx) <static_cast<int>(candidates.size())) {
                 const std::string &key_b = candidates[cand_idx++];
                 auto it                  = inner_key_idx.find(key_b);
                 if (it == inner_key_idx.end()) {

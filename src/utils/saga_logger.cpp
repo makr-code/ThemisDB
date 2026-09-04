@@ -65,17 +65,25 @@ nlohmann::json SignedBatch::toJson() const {
 SignedBatch SignedBatch::fromJson(const nlohmann::json& j) {
     SignedBatch batch;
     auto get_str = [](const nlohmann::json& obj, const char* key) -> std::string {
-        if (obj.contains(key) && obj[key].is_string()) return obj[key].get<std::string>();
+        if (obj.contains(key) && obj[key].is_string()) {
+          return obj[key].get<std::string>();
+        }
         return "";
     };
     auto get_i64 = [](const nlohmann::json& obj, const char* key) -> int64_t {
-        if (obj.contains(key) && obj[key].is_number_integer()) return obj[key].get<int64_t>();
-        if (obj.contains(key) && obj[key].is_number_unsigned()) return static_cast<int64_t>(obj[key].get<uint64_t>());
+        if (obj.contains(key) && obj[key].is_number_integer()) {
+          return obj[key].get<int64_t>();
+        }
+        if (obj.contains(key) && obj[key].is_number_unsigned()) {
+          return static_cast<int64_t>(obj[key].get<uint64_t>());
+        }
         return 0;
     };
 
     batch.batch_id = get_str(j, "batch_id");
-    if (j.contains("entry_count") && j["entry_count"].is_number()) batch.entry_count = j["entry_count"].get<size_t>();
+    if (j.contains("entry_count") && j["entry_count"].is_number()) {
+      batch.entry_count = j["entry_count"].get<size_t>();
+    }
     batch.start_time = std::chrono::system_clock::time_point{ std::chrono::milliseconds{ get_i64(j, "start_time") } };
     batch.end_time = std::chrono::system_clock::time_point{ std::chrono::milliseconds{ get_i64(j, "end_time") } };
     batch.lek_id = get_str(j, "lek_id");
@@ -133,7 +141,9 @@ SAGALogger::SAGALogger(std::shared_ptr<FieldEncryption> enc,
 }
 
 void SAGALogger::logStep(const SAGAStep& step) {
-    if (!cfg_.enabled) return;
+    if (!cfg_.enabled) {
+      return;
+    }
     
     std::scoped_lock lk(mu_);
     
@@ -148,7 +158,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
             {"status", step.status}
         }.dump();
         
-        if (step_json.size() > 1024 * 1024) {  // 1MB per step limit
+        if (static_cast<int>(step_json.size()) > 1024 * 1024) {  // 1MB per step limit
             ErrorContext ctx(
                 ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "SAGA step payload exceeds 1MB limit",
@@ -178,7 +188,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
     }
     
     // Check if buffer would overflow (SAGA_EVENT_LOSS)
-    if (buffer_.size() >= cfg_.batch_size) {
+    if (static_cast<int>(buffer_.size()) >= cfg_.batch_size) {
         ErrorContext ctx(
             ErrorCode::SAGA_EVENT_LOSS,
             "SAGA step buffer full; triggering auto-flush",
@@ -205,7 +215,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
         now - batch_start_time_
     );
     
-    if (buffer_.size() >= cfg_.batch_size || elapsed >= cfg_.batch_interval) {
+    if (static_cast<int>(buffer_.size()) >= cfg_.batch_size || elapsed >= cfg_.batch_interval) {
         signAndFlushBatch();
     }
 }
@@ -238,14 +248,14 @@ std::string SAGALogger::generateBatchId() const {
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                   now.time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "saga_batch_" << ms;
     return oss.str();
 }
 
 std::vector<uint8_t> SAGALogger::sha256(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
-    ::SHA256(data.data(), data.size(), out.data());
+    ::SHA256(data.data(),static_cast<int>(data.size()), out.data());
     return out;
 }
 
@@ -277,7 +287,9 @@ void SAGALogger::appendJsonLine(const std::string& path, const nlohmann::json& j
 }
 
 void SAGALogger::signAndFlushBatch() {
-    if (buffer_.empty()) return;
+    if (buffer_.empty()) {
+      return;
+    }
     
     auto batch_id = generateBatchId();
     auto start_time = batch_start_time_;
@@ -328,8 +340,9 @@ void SAGALogger::signAndFlushBatch() {
     signed_batch.key_version = blob.key_version;
         
         // 3. Build ciphertext for hashing: iv || ciphertext || tag
-        std::vector<uint8_t> to_hash;
-        to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size());
+        std::vector<uint8_t> to_hash = {};
+
+        to_hash.reserve(blob.iv.size() + static_cast<int>(blob.ciphertext.size()) + static_cast<int>(blob.tag.size()) );
         to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
         to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
         to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
@@ -364,10 +377,12 @@ void SAGALogger::signAndFlushBatch() {
 bool SAGALogger::verifyBatch(const std::string& batch_id) {
     // 1. Load signature metadata
     std::ifstream sig_file(cfg_.signature_path);
-    if (!sig_file) return false;
+    if (!sig_file) {
+      return false;
+    }
     
     std::optional<SignedBatch> batch_meta;
-    std::string line;
+    std::string line = {};
     while (std::getline(sig_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
         if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string() || j["batch_id"].get<std::string>() != batch_id) {
@@ -377,11 +392,15 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
         break;
     }
     
-    if (!batch_meta) return false;
+    if (!batch_meta) {
+      return false;
+    }
     
     // 2. Load ciphertext
     std::ifstream log_file(cfg_.log_path);
-    if (!log_file) return false;
+    if (!log_file) {
+      return false;
+    }
     
     std::optional<std::vector<uint8_t>> ciphertext;
     while (std::getline(log_file, line)) {
@@ -406,11 +425,14 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
         break;
     }
     
-    if (!ciphertext) return false;
+    if (!ciphertext) {
+      return false;
+    }
     
     // 3. Rebuild hash: iv || ciphertext || tag
-    std::vector<uint8_t> to_hash;
-    to_hash.reserve(batch_meta->iv.size() + ciphertext->size() + batch_meta->tag.size());
+    std::vector<uint8_t> to_hash = {};
+
+    to_hash.reserve(batch_meta-> static_cast<int>(iv.size()) + ciphertext->size() + batch_meta-> static_cast<int>(tag.size()));
     to_hash.insert(to_hash.end(), batch_meta->iv.begin(), batch_meta->iv.end());
     to_hash.insert(to_hash.end(), ciphertext->begin(), ciphertext->end());
     to_hash.insert(to_hash.end(), batch_meta->tag.begin(), batch_meta->tag.end());
@@ -452,7 +474,7 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
     
     // Find batch metadata
     std::optional<SignedBatch> batch_meta;
-    std::string line;
+    std::string line = {};
     while (std::getline(sig_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
         if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string() || j["batch_id"].get<std::string>() != batch_id) {
@@ -467,7 +489,9 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
     // Find ciphertext
     while (std::getline(log_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
-        if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string() || j["batch_id"].get<std::string>() != batch_id) continue;
+        if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string() || j["batch_id"].get<std::string>() != batch_id) {
+          continue;
+        }
         
         // Decrypt
     themis::EncryptedBlob blob;
@@ -476,7 +500,9 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
         blob.iv = batch_meta->iv;
         blob.tag = batch_meta->tag;
         
-        if (!j.contains("ciphertext_b64") || !j["ciphertext_b64"].is_string()) continue;
+        if (!j.contains("ciphertext_b64") || !j["ciphertext_b64"].is_string()) {
+          continue;
+        }
         nlohmann::json tmp = {
             {"key_id", ""},
             {"key_version", 0},
@@ -492,7 +518,8 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
         auto batch_array = nlohmann::json::parse(plaintext);
         
         // Parse steps
-        std::vector<SAGAStep> steps;
+        std::vector<SAGAStep> steps = {};
+
         for (const auto& entry : batch_array) {
             SAGAStep step;
             step.saga_id = entry["saga_id"].get<std::string>();
@@ -516,9 +543,11 @@ std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
 std::vector<std::string> SAGALogger::listBatches() const {
     std::vector<std::string> batch_ids;
     std::ifstream sig_file(cfg_.signature_path);
-    if (!sig_file) return batch_ids;
+    if (!sig_file) {
+      return batch_ids;
+    }
     
-    std::string line;
+    std::string line = {};
     while (std::getline(sig_file, line)) {
         auto j = nlohmann::json::parse(line, nullptr, false);
         if (j.is_discarded() || !j.is_object() || !j.contains("batch_id") || !j["batch_id"].is_string()) {
@@ -559,9 +588,11 @@ size_t SAGALogCompactor::compact(const std::string& before_txn_id) {
         std::ifstream ifs(cfg_.log_path);
         if (!ifs) return 0; // WAL does not exist yet
 
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
 
             auto j = nlohmann::json::parse(line, nullptr, false);
             if (j.is_discarded() || !j.is_object()) {
@@ -591,20 +622,26 @@ size_t SAGALogCompactor::compact(const std::string& before_txn_id) {
         }
     }
 
-    if (archived_count == 0) return 0;
+    if (archived_count == 0) {
+      return 0;
+    }
 
     // Write retained lines to a temp file, then atomically rename.
     const std::string tmp_path = cfg_.log_path + ".compact.tmp";
     {
         std::ofstream ofs(tmp_path, std::ios::trunc | std::ios::binary);
-        for (const auto& l : retained_lines) ofs << l << '\n';
+        for (const auto& l : retained_lines) {
+          ofs << l << '\n';
+        }
     }
     std::filesystem::rename(tmp_path, cfg_.log_path);
 
     // Append archived lines to the archive file.
     {
         std::ofstream arc(archive_path_, std::ios::app | std::ios::binary);
-        for (const auto& l : archive_lines) arc << l << '\n';
+        for (const auto& l : archive_lines) {
+          arc << l << '\n';
+        }
     }
 
     return archived_count;
@@ -618,7 +655,7 @@ SAGALogReplayer::SAGALogReplayer(const SAGALoggerConfig& cfg)
     : cfg_(cfg)
 {}
 
-size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
+size_t SAGALogReplayer::replay_incomplete([[maybe_unused]] RecoveryHandler handler) {
     // Scan the WAL for steps where action == "compensate" and
     // status == "pending".  These represent compensation steps that were
     // recorded but not yet confirmed as complete after a crash.
@@ -626,21 +663,33 @@ size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
     size_t replayed = 0;
 
     std::ifstream ifs(cfg_.log_path);
-    if (!ifs) return 0;
+    if (!ifs) {
+      return 0;
+    }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         auto j = nlohmann::json::parse(line, nullptr, false);
-        if (j.is_discarded() || !j.is_object()) continue;
-        if (!j.contains("action") || !j["action"].is_string()) continue;
-        if (!j.contains("status") || !j["status"].is_string()) continue;
+        if (j.is_discarded() || !j.is_object()) {
+          continue;
+        }
+        if (!j.contains("action") || !j["action"].is_string()) {
+          continue;
+        }
+        if (!j.contains("status") || !j["status"].is_string()) {
+          continue;
+        }
 
         const std::string& action = j["action"].get_ref<const std::string&>();
         const std::string& status = j["status"].get_ref<const std::string&>();
 
-        if (action != "compensate" || status != "pending") continue;
+        if (action != "compensate" || status != "pending") {
+          continue;
+        }
 
         // Reconstruct a SAGAStep from the JSON record.
         SAGAStep step;
@@ -660,7 +709,7 @@ size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
             };
         }
 
-        handler(step);
+        handler([[maybe_unused]] step);
         ++replayed;
     }
 

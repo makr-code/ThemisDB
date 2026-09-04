@@ -52,7 +52,9 @@ struct ApiKeyClaims {
      */
     bool hasScope(const std::string& scope) const {
         for (const auto& s : scopes) {
-            if (s == scope) return true;
+            if (s == scope) {
+              return true;
+            }
         }
         return false;
     }

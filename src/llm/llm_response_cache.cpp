@@ -164,7 +164,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     }
     
     // Enforce max_entries limit (LRU eviction)
-    if (response_store_.size() > config_.max_entries) {
+    if (static_cast<int>(response_store_.size()) > config_.max_entries) {
         // Find oldest entry
         auto oldest_it = response_store_.end();
         std::chrono::system_clock::time_point oldest_time = std::chrono::system_clock::now();
@@ -204,8 +204,10 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                      duration.count() / 1000.0) / (stats_.hits + stats_.misses);
-        if (metrics_collector_) metrics_collector_->recordCacheHit(cache_name_);
+                                      duration.count() / 1000.0) / static_cast<double>(stats_.hits + stats_.misses);
+        if (metrics_collector_) {
+          metrics_collector_->recordCacheHit(cache_name_);
+        }
         return exact_it->second.response;
     }
 
@@ -249,7 +251,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                         size_t total_ops = stats_.hits.load(std::memory_order_relaxed) + 
                                           stats_.misses.load(std::memory_order_relaxed);
                         double new_avg = (stats_.avg_lookup_time_ms.load(std::memory_order_relaxed) * (total_ops - 1) + 
-                                         duration.count() / 1000.0) / total_ops;
+                                         duration.count() / 1000.0) / static_cast<double>(total_ops);
                         stats_.avg_lookup_time_ms.store(new_avg, std::memory_order_relaxed);
                         
                         // Record cache hit
@@ -284,7 +286,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     // Fallback: brute-force cosine similarity over cached embeddings
     auto to_words = [](const std::string& text) {
         std::unordered_set<std::string> words;
-        std::string w;
+        std::string w = {};
         for (char c : text) {
             if (std::isalnum(static_cast<unsigned char>(c))) {
                 w += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -293,7 +295,9 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                 w.clear();
             }
         }
-        if (!w.empty()) words.insert(w);
+        if (!w.empty()) {
+          words.insert(w);
+        }
         return words;
     };
 
@@ -306,10 +310,12 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     static const std::unordered_set<std::string> stopwords = {
         "the","is","a","an","do","i","you","what","can","exactly","my","prompt"};
     for (const auto& [pk, entry] : response_store_) {
-        if (isExpired(entry) || entry.embedding.empty()) continue;
+        if (isExpired(entry) || entry.embedding.empty()) {
+          continue;
+        }
         // cosine similarity assuming normalized embeddings
         float dot = 0.0f;
-        for (size_t i = 0; i < std::min(entry.embedding.size(), query_embedding.size()); ++i) {
+        for (size_t i = 0; i < std::min(entry.embedding.size(),static_cast<int>(query_embedding.size())); ++i) {
             dot += entry.embedding[i] * query_embedding[i];
         }
         // Jaccard similarity over token sets as secondary metric
@@ -317,15 +323,17 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         size_t intersect = 0;
         int meaningful_overlap = 0;
         for (const auto& w : query_words) {
-            if (entry_words.count(w)) intersect++;
-            if (entry_words.count(w) && w.size() >= 4 && !stopwords.count(w)) {
+            if (entry_words.count(w)) {
+              intersect++;
+            }
+            if (entry_words.count(w) && static_cast<int>(w.size()) >= 4 && !stopwords.count(w)) {
                 meaningful_overlap++;
             }
         }
-        size_t uni = query_words.size() + entry_words.size() - intersect;
+        size_t uni = static_cast<int>(query_words.size()) + static_cast<int>(entry_words.size()) - intersect;
         float jaccard = uni ? static_cast<float>(intersect) / static_cast<float>(uni) : 0.0f;
 
-        if (dot > best_similarity || (std::abs(dot - best_similarity) < 1e-5 && jaccard > best_jaccard)) {
+        if ((dot > best_similarity || (std::abs(dot - best_similarity) < 1e-5 && jaccard > best_jaccard))) {
             best_similarity = dot;
             best_jaccard = jaccard;
             best_overlap = meaningful_overlap;
@@ -333,13 +341,15 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
             found = true;
         }
     }
-    if (found && (best_jaccard >= 0.5f || (best_overlap >= 1 && (best_similarity >= 0.1f || best_similarity >= config_.similarity_threshold)))) {
+    if ((found && (best_jaccard >= 0.5f || (best_overlap >= 1 && (best_similarity >= 0.1f || best_similarity >= config_.similarity_threshold))))) {
         stats_.hits++;
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                      duration.count() / 1000.0) / (stats_.hits + stats_.misses);
-        if (metrics_collector_) metrics_collector_->recordCacheHit(cache_name_);
+                                      duration.count() / 1000.0) / static_cast<double>(stats_.hits + stats_.misses);
+        if (metrics_collector_) {
+          metrics_collector_->recordCacheHit(cache_name_);
+        }
         return best_response;
     }
     
@@ -352,7 +362,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     size_t total_ops = stats_.hits.load(std::memory_order_relaxed) + 
                       stats_.misses.load(std::memory_order_relaxed);
     double new_avg = (stats_.avg_lookup_time_ms.load(std::memory_order_relaxed) * (total_ops - 1) + 
-                     duration.count() / 1000.0) / total_ops;
+                     duration.count() / 1000.0) / static_cast<double>(total_ops);
     stats_.avg_lookup_time_ms.store(new_avg, std::memory_order_relaxed);
     
     // Record cache miss
@@ -441,7 +451,7 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
             auto embedding = config_.embedding_fn(prompt);
             if (!embedding.empty()) {
                 // Validate and adjust dimension if needed
-                if (embedding.size() != config_.embedding_dim) {
+                if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
                     THEMIS_DEBUG("Custom embedding dimension mismatch: {} vs {}, adjusting",
                                 embedding.size(), config_.embedding_dim);
                     embedding.resize(config_.embedding_dim, 0.0f);
@@ -460,7 +470,7 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
             auto embedding = config_.llm_ptr->embed(prompt);
             if (!embedding.empty()) {
                 // Validate and adjust dimension if needed
-                if (embedding.size() != config_.embedding_dim) {
+                if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
                     THEMIS_DEBUG("LLM embedding dimension mismatch: {} vs {}, adjusting",
                                 embedding.size(), config_.embedding_dim);
                     embedding.resize(config_.embedding_dim, 0.0f);
@@ -482,7 +492,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     std::vector<float> embedding(config_.embedding_dim, 0.0f);
     
     // Extract features from the prompt
-    std::string lower_prompt;
+    std::string lower_prompt = {};
     lower_prompt.reserve(prompt.size());
     for (char c : prompt) {
         lower_prompt += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -492,7 +502,8 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     std::hash<std::string> hasher;
     
     // Feature 1: Character n-grams (trigrams)
-    std::unordered_map<std::string, int> trigrams;
+    std::unordered_map<std::string, int> trigrams = {};
+
     for (size_t i = 0; i + 2 < lower_prompt.size(); ++i) {
         if (std::isalnum(lower_prompt[i]) && 
             std::isalnum(lower_prompt[i+1]) && 
@@ -504,7 +515,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     
     // Feature 2: Word-level features
     std::unordered_map<std::string, int> words;
-    std::string word;
+    std::string word = {};
     for (char c : lower_prompt) {
         if (std::isalnum(c)) {
             word += c;
@@ -525,7 +536,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
         
         // Add to neighboring dimensions for better distribution
         if (idx > 0) {
-            embedding[idx - 1] += static_cast<float>(count) * 0.5f;
+            embedding[static_cast<int>(idx - 1)] += static_cast<float>(count) * 0.5f;
         }
         if (idx + 1 < config_.embedding_dim) {
             embedding[idx + 1] += static_cast<float>(count) * 0.5f;
@@ -541,7 +552,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
         
         // Add to neighbors
         if (idx > 0) {
-            embedding[idx - 1] += static_cast<float>(count);
+            embedding[static_cast<int>(idx - 1)] += static_cast<float>(count);
         }
         if (idx + 1 < config_.embedding_dim) {
             embedding[idx + 1] += static_cast<float>(count);

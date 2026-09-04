@@ -35,7 +35,7 @@ uint64_t HardwareCycleCounter::cpu_frequency_hz() noexcept {
     // Try to read from /proc/cpuinfo
     std::ifstream cpuinfo("/proc/cpuinfo");
     if (cpuinfo.is_open()) {
-        std::string line;
+        std::string line = {};
         while (std::getline(cpuinfo, line)) {
             if (line.find("cpu MHz") != std::string::npos) {
                 size_t colon_pos = line.find(':');
@@ -51,7 +51,7 @@ uint64_t HardwareCycleCounter::cpu_frequency_hz() noexcept {
     // Fallback: Try /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
     std::ifstream freq_file("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
     if (freq_file.is_open()) {
-        uint64_t khz;
+        uint64_t khz = 0;
         freq_file >> khz;
         cached_frequency = khz * 1000;
         return cached_frequency;
@@ -73,7 +73,7 @@ std::string HardwareCycleCounter::cpu_model() noexcept {
 #ifdef __linux__
     std::ifstream cpuinfo("/proc/cpuinfo");
     if (cpuinfo.is_open()) {
-        std::string line;
+        std::string line = {};
         while (std::getline(cpuinfo, line)) {
             if (line.find("model name") != std::string::npos) {
                 size_t colon_pos = line.find(':');
@@ -143,7 +143,9 @@ void* HardwareCycleCounter::gpu_cycles_start() noexcept {
 }
 
 uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
-    if (!event) return 0;
+    if (!event) {
+      return 0;
+    }
     
     cudaEvent_t start_event = reinterpret_cast<cudaEvent_t>(event);
     cudaEvent_t end_event;

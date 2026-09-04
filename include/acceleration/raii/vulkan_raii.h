@@ -458,7 +458,9 @@ public:
     /// @brief Move assignment; transfers mapping ownership.
     ScopedMemoryMap& operator=(ScopedMemoryMap&& other) noexcept {
         if (this != &other) {
-            if (ptr_) vkUnmapMemory(device_, memory_);
+            if (ptr_) {
+              vkUnmapMemory(device_, memory_);
+            }
             device_    = other.device_;
             memory_    = other.memory_;
             ptr_       = other.ptr_;

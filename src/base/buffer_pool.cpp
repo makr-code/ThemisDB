@@ -151,7 +151,7 @@ void BufferPool::release(void* data, SlabClass slab) noexcept {
 
     Slab& s = slabs_[idx];
     std::lock_guard<std::mutex> lk(s.lock);
-    if (s.free_list.size() < config_.max_per_class) {
+    if (static_cast<int>(s.free_list.size()) < config_.max_per_class) {
         s.free_list.push_back(data);
     } else {
         // Free list full — discard excess to avoid unbounded growth.

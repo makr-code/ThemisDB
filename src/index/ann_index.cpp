@@ -98,7 +98,9 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
                    size_t k, size_t iters,
                    std::vector<std::vector<float>>& centroids,
                    std::vector<size_t>& assignments) {
-    if (data == nullptr || n == 0 || d == 0 || k == 0) return;
+    if (data == nullptr || n == 0 || d == 0 || k == 0) {
+      return;
+    }
     k = std::min(k, n);
 
     // k-means++ initialisation
@@ -107,8 +109,8 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
     centroids.reserve(k);
 
     // Pick first centroid uniformly at random
-    std::uniform_int_distribution<size_t> uni(0, n - 1);
-    size_t idx = uni(rng);
+    std::uniform_int_distribution<uint64_t> uni(0, n - 1);
+    size_t idx = static_cast<size_t>(uni(rng));
     if (const float* first_row = checkedRow(data, n, d, idx)) {
         centroids.emplace_back(first_row, first_row + d);
     } else {
@@ -260,7 +262,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
         kmeans(sub_data.data(), n, sub_dim, num_centroids, iters, cents, asgn);
 
         // Pad to exactly num_centroids (k-means may produce fewer)
-        while (cents.size() < num_centroids) {
+        while ( static_cast<int>(cents.size()) < num_centroids) {
             cents.push_back(std::vector<float>(sub_dim, 0.f));
         }
         centroids[s] = std::move(cents);
@@ -269,7 +271,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 
 std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]] size_t d) const {
     const size_t expected_dim = num_subspaces * sub_dim;
-    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0 || d < expected_dim || centroids.size() < num_subspaces) {
+    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0  || static_cast<size_t>(d) < expected_dim || static_cast<int>(centroids.size()) < num_subspaces) {
         THEMIS_WARN("ScaNN::PQCodebook::encode: invalid input or uninitialized codebook (num_subspaces={} sub_dim={} d={} expected_dim={})",
                     num_subspaces, sub_dim, d, expected_dim);
         return {};
@@ -296,7 +298,7 @@ std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]
 
 float ScaNN::PQCodebook::decode_distance(const float* query,
                                           const std::vector<uint8_t>& code) const {
-    if (query == nullptr || code.size() < num_subspaces || centroids.size() < num_subspaces) {
+    if (query == nullptr || static_cast<int>(code.size()) < num_subspaces || static_cast<int>(centroids.size()) < num_subspaces) {
         return std::numeric_limits<float>::max();
     }
 
@@ -320,8 +322,12 @@ ScaNN::ScaNN(ScaNNConfig cfg) : cfg_(std::move(cfg)) {}
 
 bool ScaNN::build(const float* vectors, const int64_t* ids,
                   size_t count, size_t dim) {
-    if (vectors == nullptr || count == 0 || dim == 0 || cfg_.num_leaves == 0) return false;
-    if (cfg_.enable_ah && cfg_.pq_num_subspaces == 0) return false;
+    if (vectors == nullptr || count == 0 || dim == 0 || cfg_.num_leaves == 0) {
+      return false;
+    }
+    if (cfg_.enable_ah && cfg_.pq_num_subspaces == 0) {
+      return false;
+    }
     if (cfg_.pq_num_subspaces != 0 && dim % cfg_.pq_num_subspaces != 0) {
         // Adjust pq_num_subspaces to be a divisor of dim
         for (size_t s = cfg_.pq_num_subspaces; s >= 1; --s) {
@@ -335,7 +341,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     std::vector<std::vector<float>> centroids;
     std::vector<size_t> assignments;
     kmeans(vectors, count, dim, k, cfg_.kmeans_iters, centroids, assignments);
-    if (centroids.size() != k || assignments.size() != count) {
+    if (static_cast<int>(centroids.size()) != k || static_cast<int>(assignments.size()) != count) {
         return false;
     }
 
@@ -363,7 +369,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
 
         for (auto& leaf : leaves_) {
             leaf.codes.resize(leaf.vectors.size());
-            for (size_t i = 0; i < leaf.vectors.size(); ++i)
+            for (size_t i = 0; i <static_cast<int>(leaf.vectors.size()); ++i)
                 leaf.codes[i] = codebook_.encode(leaf.vectors[i].data(), dim);
         }
     }
@@ -384,7 +390,9 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
         }
         flat_ids_.push_back(id);
         flat_vectors_.emplace_back(vector, vector + dim);
-        if (dim_ == 0) dim_ = dim;
+        if (dim_ == 0) {
+          dim_ = dim;
+        }
         return true;
     }
 
@@ -396,7 +404,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     float best_dist = std::numeric_limits<float>::max();
     size_t best_leaf = 0;
     for (size_t i = 0; i < leaves_.size(); ++i) {
-        if (leaves_[i].centroid.size() != dim_) {
+        if (leaves_[i].static_cast<int>(centroid.size()) != dim_) {
             THEMIS_WARN("ScaNN::addToLeaf: leaf {} centroid size {} != dim_ {}", i, leaves_[i].centroid.size(), dim_);
             return false;
         }
@@ -426,11 +434,12 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
         if (flat_vectors_.empty() || flat_vectors_[0].empty()) { THEMIS_DEBUG("ScaNN::search: flat_vectors_ empty while not trained"); return {}; }
         // Const-cast safe because build() writes internal state in a delayed fashion
         ScaNN* self = const_cast<ScaNN*>(this);
-        std::vector<float> flat_data;
+        std::vector<float> flat_data = {};
+
         flat_data.reserve(flat_ids_.size() * flat_vectors_[0].size());
         for (auto& v : self->flat_vectors_)
             flat_data.insert(flat_data.end(), v.begin(), v.end());
-        self->build(flat_data.data(), flat_ids_.data(), flat_ids_.size(),
+        self->build(flat_data.data(), flat_ids_.data(),static_cast<int>(flat_ids_.size()),
                     flat_vectors_[0].size());
         self->flat_ids_.clear();
         self->flat_vectors_.clear();
@@ -439,7 +448,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     if (dim != dim_) { THEMIS_WARN("ScaNN::search: query dim {} != index dim {}", dim, dim_); return {}; }
 
     // ---- Step 1: Score leaf centroids ----
-    size_t probe = std::min(cfg_.num_leaves_to_search, leaves_.size());
+    size_t probe = std::min(cfg_.num_leaves_to_search,static_cast<int>(leaves_.size()));
     using LeafScore = std::pair<float, size_t>;
     std::vector<LeafScore> leaf_scores(leaves_.size());
     for (size_t i = 0; i < leaves_.size(); ++i)
@@ -461,10 +470,10 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     for (size_t pi = 0; pi < probe; ++pi) {
         const Leaf& leaf = leaves_[leaf_scores[pi].second];
         bool use_ah = cfg_.enable_ah && codebook_.num_subspaces > 0
-                      && leaf.codes.size() == leaf.vectors.size()
+                      && static_cast<int>(leaf.codes.size()) == static_cast<int>(leaf.vectors.size())
                       && !leaf.codes.empty();
 
-        const size_t scan_count = std::min(leaf.ids.size(), leaf.vectors.size());
+        const size_t scan_count = std::min(leaf.ids.size(),static_cast<int>(leaf.vectors.size()));
         for (size_t i = 0; i < scan_count; ++i) {
             float dist = use_ah
                 ? codebook_.decode_distance(query, leaf.codes[i])
@@ -474,7 +483,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     }
 
     // Keep top reorder_n candidates by approximate distance
-    if (candidates.size() > reorder_n) {
+    if (static_cast<int>(candidates.size()) > reorder_n) {
         std::partial_sort(candidates.begin(),
                           candidates.begin() + static_cast<std::ptrdiff_t>(reorder_n),
                           candidates.end(),
@@ -485,7 +494,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     }
 
     // ---- Step 3: Exact re-ranking ----
-    std::vector<AnnSearchResult> results;
+    std::vector<AnnSearchResult> results = {};
+
     results.reserve(candidates.size());
     for (auto& c : candidates) {
         float exact = std::sqrt(l2sq(query, c.leaf->vectors[c.idx].data(), dim_));
@@ -497,7 +507,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
                   return a.distance < b.distance;
               });
 
-    if (results.size() > static_cast<size_t>(k))
+    if (static_cast<int>(results.size()) > static_cast<size_t>(k))
         results.resize(static_cast<size_t>(k));
 
     return results;
@@ -512,7 +522,9 @@ size_t ScaNN::size() const {
 
 bool ScaNN::save(const std::string& path) const {
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
-    if (!ofs) return false;
+    if (!ofs) {
+      return false;
+    }
 
     // Write header
     ofs.write(reinterpret_cast<const char*>(&dim_), sizeof(dim_));
@@ -538,7 +550,9 @@ bool ScaNN::save(const std::string& path) const {
 
 bool ScaNN::load(const std::string& path) {
     std::ifstream ifs(path, std::ios::binary);
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     ifs.read(reinterpret_cast<char*>(&dim_), sizeof(dim_));
     size_t num_leaves = 0;

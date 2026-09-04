@@ -295,7 +295,9 @@ TEST(ModuleSandbox, CpuTimeLimitApplied) {
     // If cpu_limit_applied: limit must equal 3600; otherwise it remains unchanged.
     bool any_rlimit_warning = false;
     for (const auto& w : sb.launchWarnings())
-        if (w.find("RLIMIT_CPU not applied") != std::string::npos) any_rlimit_warning = true;
+        if (w.find("RLIMIT_CPU not applied") != std::string::npos) {
+          any_rlimit_warning = true;
+        }
     if (!any_rlimit_warning) {
         EXPECT_EQ(after_launch.rlim_cur, static_cast<rlim_t>(3600u));
     }
@@ -323,7 +325,9 @@ TEST(ModuleSandbox, CpuTimeLimitApplied) {
 // both present and delegated to us).
 static bool cgroupV2Writable() {
     struct stat st{};
-    if (::stat("/sys/fs/cgroup/cgroup.controllers", &st) != 0) return false;
+    if (::stat("/sys/fs/cgroup/cgroup.controllers", &st) != 0) {
+      return false;
+    }
     return ::access("/sys/fs/cgroup", W_OK) == 0;
 }
 

@@ -39,7 +39,7 @@ public:
         size_t key_count = 0;
         
         std::string getErrorSummary() const {
-            std::string summary;
+            std::string summary = {};
             for (const auto& err : errors) {
                 summary += "ERROR: " + err + "\n";
             }

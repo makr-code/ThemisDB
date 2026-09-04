@@ -45,7 +45,7 @@ using json = nlohmann::json;
 class StubDecomposerPlugin : public ILLMPlugin {
 public:
     /// Response text the stub will return for any generate() call.
-    std::string response_text;
+    std::string response_text = {};
     int         call_count{0};
 
     explicit StubDecomposerPlugin(const std::string& resp = "") : response_text(resp) {}
@@ -480,7 +480,9 @@ TEST(WorkflowOrchestration, WO_24_ValidateUnknownDepRef) {
     EXPECT_FALSE(vr.valid);
     bool found = false;
     for (const auto& e : vr.errors)
-        if (e.message.find("unknown_step") != std::string::npos) found = true;
+        if (e.message.find("unknown_step") != std::string::npos) {
+          found = true;
+        }
     EXPECT_TRUE(found);
 }
 

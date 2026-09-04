@@ -309,7 +309,7 @@ SemanticQueryCache::Status SemanticQueryCache::evictExpired() {
     return Status::OK();
 }
 
-SemanticQueryCache::Status SemanticQueryCache::evictLRU(size_t count) {
+SemanticQueryCache::Status SemanticQueryCache::evictLRU([[maybe_unused]] size_t count) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     for (size_t i = 0; i < count; ++i) {
@@ -345,7 +345,7 @@ std::vector<float> SemanticQueryCache::computeQueryEmbedding_(std::string_view q
         
         // Add to adjacent positions for smoothing
         if (pos > 0) {
-            embedding[pos - 1] += value * 0.5f;
+            embedding[static_cast<int>(pos - 1)] += value * 0.5f;
         }
         if (pos < config_.embedding_dim - 1) {
             embedding[pos + 1] += value * 0.5f;
@@ -372,13 +372,13 @@ std::vector<float> SemanticQueryCache::computeQueryEmbedding_(std::string_view q
 }
 
 std::string SemanticQueryCache::makeExactMatchKey_(std::string_view query) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "qcache:exact:" << query;
     return oss.str();
 }
 
 std::string SemanticQueryCache::makeCacheEntryKey_(std::string_view query) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "qcache:entry:" << query;
     return oss.str();
 }
@@ -397,13 +397,19 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     CacheEntry entry;
     
     auto queryOpt = entity.getFieldAsString("query");
-    if (queryOpt.has_value()) entry.query = *queryOpt;
+    if (queryOpt.has_value()) {
+      entry.query = *queryOpt;
+    }
     
     auto resultOpt = entity.getFieldAsString("result_json");
-    if (resultOpt.has_value()) entry.result_json = *resultOpt;
+    if (resultOpt.has_value()) {
+      entry.result_json = *resultOpt;
+    }
     
     auto embOpt = entity.getFieldAsVector("embedding");
-    if (embOpt.has_value()) entry.embedding = *embOpt;
+    if (embOpt.has_value()) {
+      entry.embedding = *embOpt;
+    }
     
     auto createdOpt = entity.getFieldAsInt("created_at");
     if (createdOpt.has_value()) {
@@ -418,10 +424,14 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     }
     
     auto hitOpt = entity.getFieldAsInt("hit_count");
-    if (hitOpt.has_value()) entry.hit_count = static_cast<int>(*hitOpt);
+    if (hitOpt.has_value()) {
+      entry.hit_count = static_cast<int>(*hitOpt);
+    }
     
     auto sizeOpt = entity.getFieldAsInt("result_size");
-    if (sizeOpt.has_value()) entry.result_size = static_cast<int>(*sizeOpt);
+    if (sizeOpt.has_value()) {
+      entry.result_size = static_cast<int>(*sizeOpt);
+    }
     
     return entry;
 }
@@ -470,7 +480,7 @@ void SemanticQueryCache::updateLRU_(std::string_view query) {
 SemanticQueryCache::Status SemanticQueryCache::evictOne_() {
     // NOTE: Assumes stats_mutex_ is already locked by caller!
     
-    std::string lru_query;
+    std::string lru_query = {};
     
     // Get LRU query in limited scope
     {
@@ -497,7 +507,7 @@ SemanticQueryCache::Status SemanticQueryCache::evictOne_() {
 
 std::vector<std::string> SemanticQueryCache::tokenizeQuery_(std::string_view query) const {
     std::vector<std::string> tokens;
-    std::string current;
+    std::string current = {};
     
     for (char c : query) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
@@ -522,7 +532,8 @@ std::map<std::string, float> SemanticQueryCache::extractQueryFeatures_(std::stri
     auto tokens = tokenizeQuery_(query);
     
     // Count token frequencies
-    std::map<std::string, int> token_counts;
+    std::map<std::string, int> token_counts = {};
+
     for (const auto& token : tokens) {
         token_counts[token]++;
     }

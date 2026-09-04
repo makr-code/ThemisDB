@@ -294,7 +294,7 @@ TEST_F(ConcurrentWriteControllerFocusedTests, FIFOOrderingForWaiters) {
     auto g0 = wc.acquire(); // hold the only slot
 
     std::vector<int> order;
-    std::mutex order_mutex;
+    std::mutex order_mutex = {};
 
     const int N = 3;
     std::vector<std::future<void>> futures;
@@ -311,7 +311,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, FIFOOrderingForWaiters) {
     // Release the gate — waiters should get served 0, 1, 2
     std::this_thread::sleep_for(10ms);
     g0.release();
-    for (auto& f : futures) f.wait();
+    for (auto& f : futures) {
+      f.wait();
+    }
 
     ASSERT_EQ(static_cast<int>(order.size()), N);
     EXPECT_EQ(order[0], 0);
@@ -356,7 +358,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, StatsQueueDepthReflectsWaiters) {
     });
 
     // Wait for the async thread to actually block on acquire()
-    while (!started) std::this_thread::yield();
+    while (!started) {
+      std::this_thread::yield();
+    }
     std::this_thread::sleep_for(10ms);
 
     EXPECT_GE(wc.getStats().queue_depth, 1u);
@@ -409,7 +413,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, StatsAvgWaitUsUpdates) {
     ConcurrentWriteController wc(cfg);
 
     // Perform 5 immediate acquires (0 wait) — EWMA should stay near 0
-    for (int i = 0; i < 5; ++i) wc.acquire().release();
+    for (int i = 0; i < 5; ++i) {
+      wc.acquire().release();
+    }
     EXPECT_LE(wc.getStats().avg_wait_us, 100); // ≤ 100µs for instant acquires
 }
 
@@ -443,7 +449,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, StatsP99WaitUs) {
     ConcurrentWriteController wc(cfg);
 
     // 128 immediate acquires fill the sliding window
-    for (int i = 0; i < 128; ++i) wc.acquire().release();
+    for (int i = 0; i < 128; ++i) {
+      wc.acquire().release();
+    }
     // P99 of ~0µs waits should be ≤ a small epsilon (< 500µs)
     EXPECT_LE(wc.getStats().p99_wait_us, 500);
 }
@@ -479,7 +487,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, TenThreadStressCVUnder20Pct) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Flatten all latencies and compute CV
     std::vector<double> all;
@@ -489,7 +499,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, TenThreadStressCVUnder20Pct) {
 
     const double mean = std::accumulate(all.begin(), all.end(), 0.0) / all.size();
     double sq_sum = 0.0;
-    for (double v : all) sq_sum += (v - mean) * (v - mean);
+    for (double v : all) {
+      sq_sum += (v - mean) * (v - mean);
+    }
     const double stddev = std::sqrt(sq_sum / all.size());
     const double cv     = stddev / mean;
 
@@ -557,7 +569,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, UnlimitedQueueNeverRejects) {
     EXPECT_GE(wc.getStats().queue_depth, 1u); // at least some are queued
 
     g0.release(); // release gate; they will all drain serially
-    for (auto& f : futures) f.wait();
+    for (auto& f : futures) {
+      f.wait();
+    }
 
     EXPECT_EQ(wc.getStats().total_rejected, 0u);
 }
@@ -589,7 +603,9 @@ TEST_F(ConcurrentWriteControllerFocusedTests, ThroughputAtLeast50kOpsPerSec) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     const double elapsed_s = std::chrono::duration<double>(
         std::chrono::steady_clock::now() - t0).count();

@@ -238,7 +238,7 @@ private:
 
     // Registered subscriptions
     struct SubscriptionRecord {
-        uint64_t                    id;
+        uint64_t                    id = 0;
         std::optional<EventType>    filter; ///< nullopt = wildcard
         EventCallback               callback;
     };

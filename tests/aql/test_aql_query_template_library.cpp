@@ -34,7 +34,8 @@ TEST_F(AQLQueryTemplateLibraryTest, SimpleScanTemplateExists) {
 
 TEST_F(AQLQueryTemplateLibraryTest, AllBuiltinIdsAreUnique) {
     const auto& all = lib.all();
-    std::unordered_map<std::string, int> counts;
+    std::unordered_map<std::string, int> counts = {};
+
     for (const auto& t : all) {
         ++counts[t.id];
     }

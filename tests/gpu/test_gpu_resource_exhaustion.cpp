@@ -134,7 +134,9 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_04_ConcurrentThreads_AllGetFallbackCPU
       }
     });
   }
-  for (auto& t : threads) t.join();
+  for (auto& t : threads) {
+    t.join();
+  }
 
   EXPECT_EQ(correct_policy.load(), kThreadCount)
       << "GPU-EXHAUST-04: all threads must get kFallbackCPU";
@@ -177,7 +179,7 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_05_ResetAfterExhaustion_AllowsNewOps) 
  */
 TEST_F(GPUResourceExhaustionTest, EXHAUST_06_UniqueGPUPtr_AllocFailure_Throws) {
   bool caught_as_std_exception = false;
-  std::string what_msg;
+  std::string what_msg = {};
 
   try {
     // Simulate what make_unique_gpu throws when cudaMalloc fails.
@@ -296,7 +298,9 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_11_ConcurrentRecordError_ThreadSafe) {
       }
     });
   }
-  for (auto& t : threads) t.join();
+  for (auto& t : threads) {
+    t.join();
+  }
 
   // Handler must still respond correctly after the storm.
   EXPECT_EQ(handler->defaultPolicy(GPUErrorClass::kQuotaExceeded),
@@ -327,7 +331,8 @@ TEST_F(GPUResourceExhaustionTest, EXHAUST_12_ErrorClassString_RoundTrip_Consiste
   };
 
   // Capture reference names.
-  std::vector<std::string> ref_names;
+  std::vector<std::string> ref_names = {};
+
   ref_names.reserve(all_classes.size());
   for (auto cls : all_classes) {
     ref_names.push_back(handler->errorClassName(cls));

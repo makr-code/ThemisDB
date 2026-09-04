@@ -86,7 +86,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     // ASL-9: Load security.yaml to override guard config with deployment settings.
     // Docs: src/security/ROADMAP.md § Phase 3 (ASL-9)
     try {
-        std::string yaml_path;
+        std::string yaml_path = {};
         if (auto resolved = themis::config::ConfigPathResolver::tryResolve("config/security.yaml")) {
             yaml_path = *resolved;
         } else {
@@ -154,7 +154,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     // Docs:    src/security/ROADMAP.md § Phase 2 (ASL-7)
     // Config:  config/ai_ml/llm/modes/default.yaml → modes[id=agentic].safety
     try {
-        std::string mode_yaml_path;
+        std::string mode_yaml_path = {};
         // HIGH-GAP FIX: unnecessary_copy — use string_view for const static path
         constexpr std::string_view kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
         if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
@@ -170,9 +170,13 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
             bool applied = false;
             for (const auto& mode : modes_node) {
                 const auto& id_node = mode["id"];
-                if (!id_node || id_node.as<std::string>() != "agentic") continue;
+                if (!id_node || id_node.as<std::string>() != "agentic") {
+                  continue;
+                }
                 const auto& safety = mode["safety"];
-                if (!safety || !safety.IsMap()) break;
+                if (!safety || !safety.IsMap()) {
+                  break;
+                }
 
                 if (safety["enabled"]) {
                     mode_cfg.enabled = safety["enabled"].as<bool>(mode_cfg.enabled);
@@ -264,7 +268,7 @@ void McpServer::start() {
         // is always non-null here; the guard makes the invariant explicit for
         // static analyzers and future refactors.
         if (stdio_transport_) {
-            stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            stdio_transport_->setMessageHandler([[maybe_unused]] [this](const json& req) { return handleRequest(req); });
             stdio_transport_->start();
             if (stdio_transport_->isRunning()) {
                 spdlog::info("MCP stdio transport started");
@@ -279,7 +283,7 @@ void McpServer::start() {
     if (config_.enable_sse) {
         sse_transport_ = std::make_shared<SseTransport>(io_context_, config_.sse_keepalive_ms);
         if (sse_transport_) {
-            sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            sse_transport_->setMessageHandler([[maybe_unused]] [this](const json& req) { return handleRequest(req); });
             sse_transport_->start();
             spdlog::info("MCP SSE transport started");
         } else {
@@ -290,7 +294,7 @@ void McpServer::start() {
     if (config_.enable_websocket) {
         ws_transport_ = std::make_shared<WebSocketTransport>(io_context_, config_.websocket_ping_interval_ms);
         if (ws_transport_) {
-            ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            ws_transport_->setMessageHandler([[maybe_unused]] [this](const json& req) { return handleRequest(req); });
             ws_transport_->start();
             spdlog::info("MCP WebSocket transport started");
         } else {
@@ -439,7 +443,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
 
     const auto& pack = orchestrator_ref.modePack();
     spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
-                 pack.name, pack.version, pack.modes.size(), pack.default_mode);
+                 pack.name, pack.version,static_cast<int>(pack.modes.size()), pack.default_mode);
 }
 #endif
 
@@ -492,7 +496,7 @@ void McpServer::unregisterPrompt(const std::string& name) {
 // Request Handling
 // ============================================================================
 
-json McpServer::handleRequest(const json& request) {
+json McpServer::handleRequest([[maybe_unused]] const json& request) {
     try {
         // Validate JSON-RPC 2.0 request
         if (!request.contains("jsonrpc") || request["jsonrpc"] != "2.0") {
@@ -514,9 +518,9 @@ json McpServer::handleRequest(const json& request) {
         } else if (method == "tools/call") {
             return handleToolsCall(params);
         } else if (method == "resources/list") {
-            return handleResourcesList(params);
+            return handleResourcesList([[maybe_unused]] params);
         } else if (method == "resources/read") {
-            return handleResourcesRead(params);
+            return handleResourcesRead([[maybe_unused]] params);
         } else if (method == "prompts/list") {
             return handlePromptsList(params);
         } else if (method == "prompts/get") {
@@ -588,18 +592,18 @@ json McpServer::handleToolsCall(const json& params) {
     // Calling an empty std::function throws std::bad_function_call; we
     // catch that below, but making the guard explicit surfaces registration
     // bugs as a distinct, unambiguous error code.
-    if (!it->second.handler) {
+    if ([[maybe_unused]] !it->second.handler) {
         return createError(-32601, "Tool handler not available: " + name);
     }
     try {
-        json result = it->second.handler(args);
+        json result = it->second.handler([[maybe_unused]] args);
         return createSuccessResponse({{"content", {{{"type", "text"}, {"text", result.dump()}}}}});
     } catch (const std::exception& e) {
         return createError(-32000, std::string("Tool execution failed: ") + e.what());
     }
 }
 
-json McpServer::handleResourcesList(const json& params) {
+json McpServer::handleResourcesList([[maybe_unused]] const json& params) {
     json resources_list = json::array();
     
     for (const auto& [uri, info] : resources_) {
@@ -614,7 +618,7 @@ json McpServer::handleResourcesList(const json& params) {
     return createSuccessResponse({{"resources", resources_list}});
 }
 
-json McpServer::handleResourcesRead(const json& params) {
+json McpServer::handleResourcesRead([[maybe_unused]] const json& params) {
     if (!params.contains("uri")) {
         return createError(-32602, "Invalid params: missing 'uri'");
     }
@@ -627,11 +631,11 @@ json McpServer::handleResourcesRead(const json& params) {
     }
 
     // Guard against an empty/null std::function stored for this resource.
-    if (!it->second.handler) {
+    if ([[maybe_unused]] !it->second.handler) {
         return createError(-32601, "Resource handler not available: " + uri);
     }
     try {
-        json content = it->second.handler(uri);
+        json content = it->second.handler([[maybe_unused]] uri);
         return createSuccessResponse({
             {"contents", {{
                 {"uri", uri},
@@ -673,7 +677,7 @@ json McpServer::handlePromptsGet(const json& params) {
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
     // Guard against an empty/null std::function stored for this prompt.
-    if (!it->second.handler) {
+    if ([[maybe_unused]] !it->second.handler) {
         return createError(-32601, "Prompt handler not available: " + name);
     }
     try {
@@ -1156,7 +1160,7 @@ json McpServer::toolQuery(const json& args) {
             }
 
             // Transpile SQL/Cypher → AQL
-            std::string aql_query;
+            std::string aql_query = {};
             if (language == "sql") {
                 themis::query::SQLParser sql_parser;
                 auto parse_result = sql_parser.parse(query);
@@ -1306,7 +1310,7 @@ json McpServer::toolGetEntity(const json& args) {
 
     try {
         // Retrieve from RocksDB
-        std::string value_str;
+        std::string value_str = {};
         bool found = db_->get(key, value_str);
         
         if (found) {
@@ -1656,7 +1660,7 @@ json McpServer::toolListIndexes(const json& args) {
         return {
             {"status", "success"},
             {"indexes", indexes},
-            {"total_count", indexes.size()}
+            {"total_count",static_cast<int>(indexes.size())}
         };
     } catch (const std::exception& e) {
         return {
@@ -1814,7 +1818,7 @@ json McpServer::toolLLMEmbed(const json& args) {
         return {
             {"status", "success"},
             {"embedding", embedding},
-            {"dimensions", embedding.size()},
+            {"dimensions",static_cast<int>(embedding.size())},
             {"text_length", text.length()}
         };
         
@@ -1833,7 +1837,8 @@ json McpServer::toolLLMChat(const json& args) {
         auto messages_json = args.at("messages");
         
         // Convert JSON messages to ChatMessage objects
-        std::vector<llm::ChatMessage> messages;
+        std::vector<llm::ChatMessage> messages = {};
+
         for (const auto& msg : messages_json) {
             messages.push_back({
                 msg.at("role").get<std::string>(),
@@ -1847,7 +1852,7 @@ json McpServer::toolLLMChat(const json& args) {
         return {
             {"status", "success"},
             {"response", response},
-            {"message_count", messages.size()}
+            {"message_count",static_cast<int>(messages.size())}
         };
         
     } catch (const std::exception& e) {
@@ -2010,7 +2015,7 @@ json McpServer::toolGetErrorInfo(const json& args) {
         return {
             {"status", "success"},
             {"errors", errors_json},
-            {"count", results.size()}
+            {"count",static_cast<int>(results.size())}
         };
     }
 }
@@ -2038,7 +2043,7 @@ json McpServer::toolSearchErrors(const json& args) {
     return {
         {"status", "success"},
         {"errors", errors_json},
-        {"count", results.size()}
+        {"count",static_cast<int>(results.size())}
     };
 }
 
@@ -2069,8 +2074,8 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         themis::version::getVersionString()
     );
     
-    std::string answer;
-    std::string prompt_id;
+    std::string answer = {};
+    std::string prompt_id = {};
     
     // Determine question type and select appropriate prompt
     // Error-related questions (preserve existing functionality)
@@ -2175,7 +2180,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
         
         for (const auto& category : categories) {
             auto errors = registry.getErrorsByCategory(category);
-            answer += fmt::format("**{}** ({} error types)\n", category, errors.size());
+            answer += fmt::format("**{}** ({} error types)\n", category,static_cast<int>(errors.size()));
         }
         
         answer += "\nAsk me about specific errors, e.g., 'What does error 2000 mean?'";
@@ -2189,7 +2194,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
         
         // Extract error code
         std::regex code_regex(R"(\b\d{4}\b)");
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_search(question, match, code_regex)) {
             int code = std::stoi(match.str());
@@ -2199,9 +2204,11 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
                 code == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
                 
                 // Manual join for documentation links (fmt::join may not be available in all versions)
-                std::string docs_str;
-                for (size_t i = 0; i < metadata.related_docs.size(); ++i) {
-                    if (i > 0) docs_str += ", ";
+                std::string docs_str = {};
+                for (size_t i = 0; i <static_cast<int>(metadata.related_docs.size()); ++i) {
+                    if (i > 0) {
+                      docs_str += ", ";
+                    }
                     docs_str += metadata.related_docs[i];
                 }
                 
@@ -2602,7 +2609,7 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
 
     // ASL-8: Pre-operation snapshot for DESTRUCTIVE/CRITICAL operations.
     // Docs: src/security/ROADMAP.md § Phase 3 (ASL-8)
-    std::string pre_snapshot_path;
+    std::string pre_snapshot_path = {};
     const bool needs_snapshot = db_ && operation_guard_ &&
         (it->second.classification == "DESTRUCTIVE" || it->second.classification == "CRITICAL");
     if (needs_snapshot) {
@@ -2638,11 +2645,11 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
         const auto tool_it = tools_.find(tool);
         if (tool_it == tools_.end()) {
             exec_result = {{"status","error"},{"message","Tool not found after approval"}};
-        } else if (!tool_it->second.handler) {
+        } else if ([[maybe_unused]] !tool_it->second.handler) {
             // Guard: handler stored as empty std::function — indicates a registration bug.
             exec_result = {{"status","error"},{"message","Tool handler not available after approval: " + tool}};
         } else {
-            exec_result = tool_it->second.handler(mutable_args);
+            exec_result = tool_it->second.handler([[maybe_unused]] mutable_args);
         }
     } catch (const std::exception& e) {
         exec_result = {{"status","error"},{"message", std::string("Execution failed: ") + e.what()}};
@@ -2716,7 +2723,7 @@ json McpServer::handleAiPendingApprovals() {
 
     return {
         {"status",  "success"},
-        {"count",   list.size()},
+        {"count",static_cast<int>(list.size())},
         {"pending", list}
     };
 }
@@ -2745,13 +2752,13 @@ void McpServer::purgeExpiredApprovals() {
 
 json McpServer::handleAiRollback(const std::string& snapshot_id) {
     auto hasWindowsDrivePrefix = [](const std::string& value) {
-        return value.size() >= 2 &&
+        return static_cast<int>(value.size()) >= 2 &&
                std::isalpha(static_cast<unsigned char>(value[0])) &&
                value[1] == ':';
     };
     auto isSafeSnapshotId = [](const std::string& value) {
         constexpr size_t kMaxSnapshotIdLength = 128;
-        if (value.empty() || value.size() > kMaxSnapshotIdLength) {
+        if (value.empty() || static_cast<int>(value.size()) > kMaxSnapshotIdLength) {
             return false;
         }
 
@@ -2816,7 +2823,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     const std::filesystem::path snapshot_path =
         (base_normal / snapshot_id).lexically_normal();
 
-    std::error_code ec;
+    std::error_code ec = {};
     const std::filesystem::path base_abs = std::filesystem::absolute(base_normal, ec).lexically_normal();
     if (ec) {
         spdlog::warn("AI Safety ASL-10: failed to resolve snapshot base path '{}'", snap_base);
@@ -2934,7 +2941,9 @@ StdioTransport::~StdioTransport() {
 
 void StdioTransport::start() {
     bool expected = false;
-    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+      return;
+    }
     
 #if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
     // Start async stdin reading
@@ -2971,12 +2980,16 @@ void StdioTransport::start() {
 }
 
 void StdioTransport::stop() {
-    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
+      return;
+    }
     spdlog::info("MCP stdio transport stopped");
 }
 
 void StdioTransport::send(const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     writeStdout(message.dump() + "\n");
 }
 
@@ -2986,7 +2999,9 @@ void StdioTransport::readStdin() {
     std::weak_ptr<StdioTransport> weak_self = weak_from_this();
     asio::post(io_context_, [weak_self]() {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
@@ -3011,11 +3026,11 @@ void StdioTransport::readStdin() {
                 
                 if (ReadFile(h_stdin, buffer, 1, &bytes_read, NULL) && bytes_read > 0) {
                     // Read rest of line
-                    std::string line;
+                    std::string line = {};
                     line += buffer[0];
                     
                     while (std::cin.peek() != '\n' && std::cin.peek() != EOF) {
-                        char ch;
+                        char ch = 0;
                         if (std::cin.get(ch)) {
                             line += ch;
                         } else {
@@ -3035,8 +3050,8 @@ void StdioTransport::readStdin() {
                         json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (self->message_handler_) {
-                            json response = self->message_handler_(request);
+                        if ([[maybe_unused]] self->message_handler_) {
+                            json response = self->message_handler_([[maybe_unused]] request);
                             self->send(response);
                         }
                         
@@ -3050,7 +3065,7 @@ void StdioTransport::readStdin() {
                 }
             } else if (bytes_available > 0) {
                 // Data available, read it
-                std::string line;
+                std::string line = {};
                 if (std::getline(std::cin, line)) {
                     self->partial_message_ += line;
                     
@@ -3059,8 +3074,8 @@ void StdioTransport::readStdin() {
                         json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (self->message_handler_) {
-                            json response = self->message_handler_(request);
+                        if ([[maybe_unused]] self->message_handler_) {
+                            json response = self->message_handler_([[maybe_unused]] request);
                             self->send(response);
                         }
                         
@@ -3085,7 +3100,9 @@ void StdioTransport::readStdin() {
     std::weak_ptr<StdioTransport> weak_self = weak_from_this();
     asio::post(io_context_, [weak_self]() {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         while (self->is_running_.load(std::memory_order_acquire)) {
             // Use select to check if stdin has data with timeout
@@ -3101,7 +3118,7 @@ void StdioTransport::readStdin() {
             
             if (result > 0 && FD_ISSET(STDIN_FILENO, &readfds)) {
                 // Read available data
-                std::string line;
+                std::string line = {};
                 if (std::getline(std::cin, line)) {
                     self->partial_message_ += line;
                     
@@ -3110,8 +3127,8 @@ void StdioTransport::readStdin() {
                         json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (self->message_handler_) {
-                            json response = self->message_handler_(request);
+                        if ([[maybe_unused]] self->message_handler_) {
+                            json response = self->message_handler_([[maybe_unused]] request);
                             self->send(response);
                         }
                         
@@ -3152,7 +3169,9 @@ SseTransport::~SseTransport() {
 
 void SseTransport::start() {
     bool expected = false;
-    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+      return;
+    }
     spdlog::info("MCP SSE transport started with {}ms keepalive interval", keepalive_ms_);
     
     // Start keepalive timer
@@ -3160,7 +3179,9 @@ void SseTransport::start() {
 }
 
 void SseTransport::stop() {
-    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
+      return;
+    }
     keepalive_timer_.cancel();
     
     // Clear all clients
@@ -3173,7 +3194,9 @@ void SseTransport::stop() {
 }
 
 void SseTransport::send(const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     // Format as SSE event
     std::string event_data = "data: " + message.dump() + "\n\n";
@@ -3184,19 +3207,19 @@ void SseTransport::send(const json& message) {
         buffer += event_data;
     }
     
-    spdlog::debug("MCP SSE event sent to {} clients", clients_.size());
+    spdlog::debug("MCP SSE event sent to {} clients",static_cast<int>(clients_.size()));
 }
 
 void SseTransport::addClient(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_[client_id] = "";
-    spdlog::debug("MCP SSE client added: {}, total clients: {}", client_id, clients_.size());
+    spdlog::debug("MCP SSE client added: {}, total clients: {}", client_id,static_cast<int>(clients_.size()));
 }
 
 void SseTransport::removeClient(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_.erase(client_id);
-    spdlog::debug("MCP SSE client removed: {}, remaining clients: {}", client_id, clients_.size());
+    spdlog::debug("MCP SSE client removed: {}, remaining clients: {}", client_id,static_cast<int>(clients_.size()));
 }
 
 std::string SseTransport::getClientData(const std::string& client_id) {
@@ -3211,7 +3234,9 @@ std::string SseTransport::getClientData(const std::string& client_id) {
 }
 
 void SseTransport::sendKeepalive() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     // Send SSE comment as keepalive
     std::string keepalive = ": keepalive\n\n";
@@ -3221,17 +3246,21 @@ void SseTransport::sendKeepalive() {
         buffer += keepalive;
     }
     
-    spdlog::trace("MCP SSE keepalive sent to {} clients", clients_.size());
+    spdlog::trace("MCP SSE keepalive sent to {} clients",static_cast<int>(clients_.size()));
 }
 
 void SseTransport::scheduleKeepalive() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     keepalive_timer_.expires_after(std::chrono::milliseconds(keepalive_ms_));
     std::weak_ptr<SseTransport> weak_self = weak_from_this();
     keepalive_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         if (!ec && self->is_running_.load(std::memory_order_acquire)) {
             self->sendKeepalive();
@@ -3255,7 +3284,9 @@ WebSocketTransport::~WebSocketTransport() {
 
 void WebSocketTransport::start() {
     bool expected = false;
-    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+      return;
+    }
     spdlog::info("MCP WebSocket transport started with {}ms ping interval", ping_interval_ms_);
     
     // Start ping timer
@@ -3263,7 +3294,9 @@ void WebSocketTransport::start() {
 }
 
 void WebSocketTransport::stop() {
-    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
+      return;
+    }
     ping_timer_.cancel();
     
     // Clear all sessions
@@ -3276,7 +3309,9 @@ void WebSocketTransport::stop() {
 }
 
 void WebSocketTransport::send(const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     std::string msg_str = message.dump();
     
@@ -3291,7 +3326,9 @@ void WebSocketTransport::send(const json& message) {
 }
 
 void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     std::string msg_str = message.dump();
     
@@ -3306,20 +3343,21 @@ void WebSocketTransport::sendToSession(const std::string& session_id, const json
 void WebSocketTransport::addSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_[session_id] = SessionData{true, {}};
-    spdlog::debug("MCP WebSocket session added: {}, total sessions: {}", session_id, sessions_.size());
+    spdlog::debug("MCP WebSocket session added: {}, total sessions: {}", session_id,static_cast<int>(sessions_.size()));
 }
 
 void WebSocketTransport::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
-    spdlog::debug("MCP WebSocket session removed: {}, remaining sessions: {}", session_id, sessions_.size());
+    spdlog::debug("MCP WebSocket session removed: {}, remaining sessions: {}", session_id,static_cast<int>(sessions_.size()));
 }
 
 std::vector<std::string> WebSocketTransport::getPendingMessages(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
-        std::vector<std::string> messages;
+        std::vector<std::string> messages = {};
+
         while (!it->second.pending_messages.empty()) {
             messages.push_back(std::move(it->second.pending_messages.front()));
             it->second.pending_messages.pop();
@@ -3330,13 +3368,15 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
 }
 
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     try {
         json request = json::parse(message);
-        if (message_handler_) {
+        if ([[maybe_unused]] message_handler_) {
             // Process request and send response to the specific session
-            json response = message_handler_(request);
+            json response = message_handler_([[maybe_unused]] request);
             sendToSession(session_id, response);
         }
     } catch (const std::exception& e) {
@@ -3356,7 +3396,9 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
 }
 
 void WebSocketTransport::sendPing() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     // Send ping to all active sessions
     json ping_message = {
@@ -3377,13 +3419,17 @@ void WebSocketTransport::sendPing() {
 }
 
 void WebSocketTransport::schedulePing() {
-    if (!is_running_.load(std::memory_order_acquire)) return;
+    if (!is_running_.load(std::memory_order_acquire)) {
+      return;
+    }
     
     ping_timer_.expires_after(std::chrono::milliseconds(ping_interval_ms_));
     std::weak_ptr<WebSocketTransport> weak_self = weak_from_this();
     ping_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
         auto self = weak_self.lock();
-        if (!self) return;
+        if (!self) {
+          return;
+        }
 
         if (!ec && self->is_running_.load(std::memory_order_acquire)) {
             self->sendPing();
@@ -3443,7 +3489,7 @@ json McpServer::toolKgNeighbours(const json& args) {
             }
         }
 
-        spdlog::info("kg_neighbours: node={} depth={} nodes_found={}", node_id, depth, nodes.size());
+        spdlog::info("kg_neighbours: node={} depth={} nodes_found={}", node_id, depth,static_cast<int>(nodes.size()));
         return {
             {"node_id",      node_id},
             {"depth_reached", depth},
@@ -3641,7 +3687,7 @@ json McpServer::toolSemanticSearch(const json& args) {
             }
         }
 
-        spdlog::info("semantic_search: query='{}' top_k={} results={}", query_text, top_k, results.size());
+        spdlog::info("semantic_search: query='{}' top_k={} results={}", query_text, top_k,static_cast<int>(results.size()));
         return {
             {"results",                  results},
             {"total_candidates_scanned", candidates_scanned},
@@ -3667,7 +3713,9 @@ json McpServer::toolHybridSearch(const json& args) {
 
         // 1. Vector leg
         json vec_args = {{"query", query_text}, {"top_k", top_k * 2}};
-        if (!collection.empty()) vec_args["collection"] = collection;
+        if (!collection.empty()) {
+          vec_args["collection"] = collection;
+        }
         json vec_result = toolSemanticSearch(vec_args);
 
         // 2. BM25 leg via full-text AQL
@@ -3694,7 +3742,9 @@ json McpServer::toolHybridSearch(const json& args) {
                 std::string id = r.value("id", "");
                 if (id.empty()) { ++rank; continue; }
                 rrf_scores[id] += vector_w / (rank + 60.0);
-                if (!doc_cache.count(id)) doc_cache[id] = r;
+                if (!doc_cache.count(id)) {
+                  doc_cache[id] = r;
+                }
                 doc_cache[id]["vector_score"] = r.value("score", 0.0);
                 ++rank;
             }
@@ -3704,7 +3754,9 @@ json McpServer::toolHybridSearch(const json& args) {
             std::string id = r.value("id", "");
             if (id.empty()) { ++rank; continue; }
             rrf_scores[id] += bm25_w / (rank + 60.0);
-            if (!doc_cache.count(id)) doc_cache[id] = r;
+            if (!doc_cache.count(id)) {
+              doc_cache[id] = r;
+            }
             doc_cache[id]["bm25_score"] = r.value("bm25_score", 0.5);
             ++rank;
         }
@@ -3714,18 +3766,22 @@ json McpServer::toolHybridSearch(const json& args) {
         std::sort(ranked.begin(), ranked.end(), [](auto& a, auto& b){ return a.second > b.second; });
 
         json merged = json::array();
-        for (int i = 0; i < static_cast<int>(ranked.size()) && i < top_k; ++i) {
+        for (size_t i = 0; i < ranked.size() && i < top_k; ++i) {
             const auto& [id, score] = ranked[i];
             auto it = doc_cache.find(id);
             json entry  = (it != doc_cache.end()) ? it->second : json::object();
             entry["id"]           = id;
             entry["score"]        = score;
-            if (!entry.contains("vector_score")) entry["vector_score"] = 0.0;
-            if (!entry.contains("bm25_score"))   entry["bm25_score"]   = 0.0;
+            if (!entry.contains("vector_score")) {
+              entry["vector_score"] = 0.0;
+            }
+            if (!entry.contains("bm25_score")) {
+              entry["bm25_score"]   = 0.0;
+            }
             merged.push_back(entry);
         }
 
-        spdlog::info("hybrid_search: query='{}' top_k={} merged={}", query_text, top_k, merged.size());
+        spdlog::info("hybrid_search: query='{}' top_k={} merged={}", query_text, top_k,static_cast<int>(merged.size()));
         return {
             {"results",       merged},
             {"top_k_returned", static_cast<int>(merged.size())}
@@ -3753,7 +3809,9 @@ json McpServer::toolRagRetrieve(const json& args) {
 
         // Step 1: semantic search
         json sem_args = {{"query", query_text}, {"top_k", top_k * 2}};
-        if (!collection.empty()) sem_args["collection"] = collection;
+        if (!collection.empty()) {
+          sem_args["collection"] = collection;
+        }
         json sem_result = toolSemanticSearch(sem_args);
 
         json raw_results = sem_result.value("results", json::array());
@@ -3770,7 +3828,9 @@ json McpServer::toolRagRetrieve(const json& args) {
         int  total_tokens = 0;
         int  rank = 1;
         for (auto& r : raw_results) {
-            if (rank > top_k) break;
+            if (rank > top_k) {
+              break;
+            }
             std::string content = r.value("content", "");
             // Naive token estimate: 1 token ≈ 4 chars
             int token_est = static_cast<int>(content.size() / 4) + 1;
@@ -3798,7 +3858,7 @@ json McpServer::toolRagRetrieve(const json& args) {
         auto t_end = std::chrono::steady_clock::now();
         auto latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
 
-        spdlog::info("rag_retrieve: query='{}' chunks={} tokens_est={}", query_text, chunks.size(), total_tokens);
+        spdlog::info("rag_retrieve: query='{}' chunks={} tokens_est={}", query_text,static_cast<int>(chunks.size()), total_tokens);
         return {
             {"context_chunks",        chunks},
             {"total_tokens_estimate", total_tokens},
@@ -3820,8 +3880,12 @@ json McpServer::toolVectorIndexList(const json& args) {
         if (idx_result.value("status", "") == "success" && idx_result.contains("indexes")) {
             for (auto& idx : idx_result["indexes"]) {
                 std::string idx_type = idx.value("type", "");
-                if (idx_type != "vector" && idx_type != "hnsw" && idx_type != "flat" && idx_type != "ivf") continue;
-                if (!filter_collection.empty() && idx.value("table", "") != filter_collection) continue;
+                if (idx_type != "vector" && idx_type != "hnsw" && idx_type != "flat" && idx_type != "ivf") {
+                  continue;
+                }
+                if (!filter_collection.empty() && idx.value("table", "") != filter_collection) {
+                  continue;
+                }
                 vector_indexes.push_back({
                     {"name",         idx.value("column", "")},
                     {"collection",   idx.value("table", "")},
@@ -3833,7 +3897,7 @@ json McpServer::toolVectorIndexList(const json& args) {
             }
         }
 
-        spdlog::info("vector_index_list: collection='{}' count={}", filter_collection, vector_indexes.size());
+        spdlog::info("vector_index_list: collection='{}' count={}", filter_collection,static_cast<int>(vector_indexes.size()));
         return {{"indexes", vector_indexes}};
     } catch (const std::exception& e) {
         return {{"error", e.what()}};
@@ -3924,7 +3988,7 @@ json McpServer::toolSchemaValidate(const json& args) {
         }
 
         bool valid = validation_errors.empty();
-        spdlog::info("schema_validate: collection={} valid={} errors={}", collection, valid, validation_errors.size());
+        spdlog::info("schema_validate: collection={} valid={} errors={}", collection, valid,static_cast<int>(validation_errors.size()));
         return {{"valid", valid}, {"errors", validation_errors}};
     } catch (const std::exception& e) {
         return {{"error", e.what()}};

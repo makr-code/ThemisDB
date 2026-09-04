@@ -102,7 +102,7 @@ public:
     };
 
     struct SlotState {
-        std::string  name;
+        std::string  name = {};
         SlotStatus   status            = SlotStatus::ACTIVE;
         uint64_t     confirmed_lsn     = 0;   ///< Last WAL LSN acked by the consumer
         uint64_t     restart_lsn       = 0;   ///< Oldest LSN the consumer may need on restart

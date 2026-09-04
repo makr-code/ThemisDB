@@ -322,11 +322,12 @@ OLAPEngine::~OLAPEngine() = default;
 // map to the same cache entry.
 // ---------------------------------------------------------------------------
 static std::string computeOLAPCacheKey(const OLAPQuery &query) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << query.collection << '\0';
 
     // Sorted dimension names
-    std::vector<std::string> dims;
+    std::vector<std::string> dims = {};
+
     dims.reserve(query.dimensions.size());
     for (const auto &d : query.dimensions) {
         dims.push_back(d.name + ':' + d.expression + ':' + (d.include_in_grouping ? '1' : '0'));
@@ -337,7 +338,8 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     }
 
     // Sorted measure descriptors
-    std::vector<std::string> meas;
+    std::vector<std::string> meas = {};
+
     meas.reserve(query.measures.size());
     for (const auto &m : query.measures) {
         meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast<int>(m.function)));
@@ -348,7 +350,8 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     }
 
     // Canonical filter order: sort by serialised representation
-    std::vector<std::string> filter_strs;
+    std::vector<std::string> filter_strs = {};
+
     filter_strs.reserve(query.filters.size());
     for (const auto &f : query.filters) {
         std::string fstr = f.field + ':' + std::to_string(static_cast<int>(f.op)) + ':';
@@ -398,8 +401,8 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     // OBSERVABILITY: Add trace point for critical function
     auto start = std::chrono::high_resolution_clock::now();
     spdlog::debug("OLAPEngine::execute: grouping_mode={}, dimensions={}, measures={}, filters={}",
-                  static_cast<int>(query.grouping_mode), query.dimensions.size(), 
-                  query.measures.size(), query.filters.size());
+                  static_cast<int>(query.grouping_mode),static_cast<int>(query.dimensions.size()), 
+                  query.measures.size(),static_cast<int>(query.filters.size()));
 
     // INPUT VALIDATION: Check for empty collection name
     if (query.collection.empty()) {
@@ -424,7 +427,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     // ------------------------------------------------------------------
     // 1. LRU cache lookup
     // ------------------------------------------------------------------
-    std::string cache_key;
+    std::string cache_key = {};
     if (max_entries > 0) {
         cache_key = computeOLAPCacheKey(query);
         std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
@@ -498,7 +501,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
                 = {impl_->result_lru_list.begin(), OLAPEngine::Impl::CacheEntry{result, expiry}};
         }
         // Evict LRU tail(s) if over capacity — O(1) per eviction
-        while (impl_->result_lru_map.size() > max_entries) {
+        while (impl_-> static_cast<int>(result_lru_map.size()) > max_entries) {
             const std::string &lru_key = impl_->result_lru_list.back();
             impl_->result_lru_map.erase(lru_key);
             impl_->result_lru_list.pop_back();
@@ -531,7 +534,8 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
 
     for (const auto &row : it->second) {
         // Build group key
-        std::vector<std::string> groupKey;
+        std::vector<std::string> groupKey = {};
+
         for (const auto &dim : query.dimensions) {
             auto fieldIt = row.find(dim.name);
             if (fieldIt != row.end()) {
@@ -569,14 +573,15 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
         OLAPResult::Row resultRow;
 
         // Add dimension values
-        for (size_t i = 0; i < query.dimensions.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(query.dimensions.size()); ++i) {
             resultRow.values[query.dimensions[i].name] = groupKey[i];
         }
 
         // Compute measure aggregates
         size_t valueIdx = 0;
         for (const auto &measure : query.measures) {
-            std::vector<double> measureValues;
+            std::vector<double> measureValues = {};
+
             for (size_t i = valueIdx; i < values.size(); i += query.measures.size()) {
                 measureValues.push_back(values[i]);
             }
@@ -613,7 +618,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
 
     // Apply limit/offset
     if (query.offset && *query.offset > 0) {
-        if (static_cast<size_t>(*query.offset) < result.rows.size()) {
+        if (static_cast<size_t>(*query.offset) <static_cast<int>(result.rows.size())) {
             result.rows.erase(result.rows.begin(), result.rows.begin() + *query.offset);
         } else {
             result.rows.clear();
@@ -621,7 +626,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     }
 
     if (query.limit && *query.limit > 0) {
-        if (static_cast<size_t>(*query.limit) < result.rows.size()) {
+        if (static_cast<size_t>(*query.limit) <static_cast<int>(result.rows.size())) {
             result.has_more = true;
             result.rows.resize(*query.limit);
         }
@@ -635,8 +640,8 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
 
     // CUBE generates all possible grouping combinations
     // For n dimensions, this is 2^n grouping sets
-    size_t numDimensions   = query.dimensions.size();
-    size_t numCombinations = 1ULL << numDimensions;
+    size_t numDimensions = query.dimensions.size();
+    size_t numCombinations = 1 << numDimensions;
 
     // Build column list
     for (const auto &dim : query.dimensions) {
@@ -654,7 +659,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
         subQuery.dimensions.clear();
 
         for (size_t i = 0; i < numDimensions; ++i) {
-            if (mask & (1ULL << i)) {
+            if (mask & (1 << i)) {
                 subQuery.dimensions.push_back(query.dimensions[i]);
             }
         }
@@ -664,7 +669,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
         for (auto &row : subResult.rows) {
             // Add NULL for dimensions not in this grouping
             for (size_t i = 0; i < numDimensions; ++i) {
-                if (!(mask & (1ULL << i))) {
+                if (!(mask & (1 << i))) {
                     row.values[query.dimensions[i].name] = nullptr;
                 }
             }
@@ -774,7 +779,8 @@ std::vector<CubeCell> OLAPEngine::executeCube(std::string_view collection, const
 
     auto result = execute(query);
 
-    std::vector<CubeCell> cells;
+    std::vector<CubeCell> cells = {};
+
     for (const auto &row : result.rows) {
         CubeCell cell;
         cell.grouping_id = row.grouping_id;
@@ -819,7 +825,8 @@ std::vector<RollupRow> OLAPEngine::executeRollup(std::string_view collection, co
 
     auto result = execute(query);
 
-    std::vector<RollupRow> rows;
+    std::vector<RollupRow> rows = {};
+
     for (const auto &row : result.rows) {
         RollupRow rollupRow;
 
@@ -877,17 +884,18 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
         for (size_t i = 0; i < data.size(); ++i) {
             // Determine window bounds
             size_t start = 0;
-            size_t end   = data.size();
+            size_t end = data.size();
 
             if (window.rows_preceding) {
                 start = (i > static_cast<size_t>(*window.rows_preceding)) ? (i - *window.rows_preceding) : 0;
             }
             if (window.rows_following) {
-                end = std::min(i + *window.rows_following + 1, data.size());
+                end = std::min(i + *window.rows_following + 1,static_cast<int>(data.size()));
             }
 
             // Collect window values
-            std::vector<double> windowValues;
+            std::vector<double> windowValues = {};
+
             for (size_t j = start; j < end; ++j) {
                 auto it = data[j].find(measure.field);
                 if (it != data[j].end()) {
@@ -906,7 +914,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
 
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     QueryPlan plan;
-    const auto to_plan_rows = [](size_t value) {
+    const auto to_plan_rows = []([[maybe_unused]] size_t value) {
         const size_t max_rows = static_cast<size_t>(std::numeric_limits<int>::max());
         return static_cast<int>(std::min(value, max_rows));
     };
@@ -922,7 +930,7 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
             // it holds data for this collection.
             auto cit = impl_->collections.find(query.collection);
             if (cit != impl_->collections.end() && !cit->second.empty()) {
-                plan.estimated_rows = to_plan_rows(cit->second.size());
+                plan.estimated_rows = to_plan_rows(cit-> static_cast<int>(second.size()));
             } else {
                 plan.estimated_rows = 1000; // default when no data available
             }
@@ -939,7 +947,7 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
 
     // Check grouping complexity
     if (query.grouping_mode == OLAPQuery::GroupingMode::Cube) {
-        size_t combinations = 1ULL << query.dimensions.size();
+        size_t combinations = 1 <<static_cast<int>(query.dimensions.size());
         plan.optimization_notes.push_back("CUBE will generate " + std::to_string(combinations)
                                           + " grouping combinations");
         plan.estimated_cost *= combinations;
@@ -981,7 +989,7 @@ void OLAPEngine::collectStatistics(std::string_view collection) {
 
     auto it = impl_->collections.find(key);
     if (it != impl_->collections.end()) {
-        stats.row_count = it->second.size();
+        stats.row_count = it-> static_cast<int>(second.size());
         stats.valid     = true;
     }
     stats.updated = std::chrono::steady_clock::now();
@@ -1001,7 +1009,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
     size_t gpu_threshold = 0;
     {
         std::lock_guard<std::mutex> lock(impl_->config_mutex);
-        if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+        if (impl_->gpu_accelerator && static_cast<int>(values.size()) >= impl_->config.gpu_threshold_rows) {
             gpu_accel = impl_->gpu_accelerator.get();
             gpu_threshold = impl_->config.gpu_threshold_rows;
         }
@@ -1033,7 +1041,8 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
         }
 
         if (gpu_func) {
-            std::vector<Row> gpu_rows;
+            std::vector<Row> gpu_rows = {};
+
             gpu_rows.reserve(values.size());
             for (size_t i = 0; i < values.size(); ++i) {
                 Row row;
@@ -1044,10 +1053,10 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             }
 
             auto value_fn = [](const Row &r) -> double {
-                if (r.data.size() < sizeof(double)) {
+                if (static_cast<int>(r.data.size()) < sizeof(double)) {
                     return 0.0;
                 }
-                double v;
+                double v = 0;
                 std::memcpy(&v, r.data.data(), sizeof(double));
                 return v;
             };
@@ -1059,7 +1068,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
     switch (function) {
         case Measure::Function::Count:
-            return static_cast<double>(values.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((values.size())));
 
         case Measure::Function::Sum:
             return std::accumulate(values.begin(), values.end(), 0.0);
@@ -1097,7 +1106,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             std::sort(sorted.begin(), sorted.end());
             size_t mid = sorted.size() / 2;
             if (sorted.size() % 2 == 0) {
-                return (sorted[mid - 1] + sorted[mid]) / 2.0;
+                return (sorted[static_cast<int>(mid - 1)] + sorted[mid]) / 2.0;
             }
             return sorted[mid];
         }
@@ -1105,10 +1114,10 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
         case Measure::Function::Percentile: {
             std::vector<double> sorted = values;
             std::sort(sorted.begin(), sorted.end());
-            double rank  = percentile / 100.0 * (sorted.size() - 1);
+            double rank  = percentile / 100.0 * (static_cast<int>(sorted.size()) - 1);
             size_t lower = static_cast<size_t>(rank);
             size_t upper = lower + 1;
-            if (upper >= sorted.size()) {
+            if (upper >= static_cast<int>(sorted.size())) {
                 return sorted.back();
             }
             double fraction = rank - lower;
@@ -1117,7 +1126,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
         case Measure::Function::CountDistinct: {
             std::unordered_set<double> unique(values.begin(), values.end());
-            return static_cast<double>(unique.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((unique.size())));
         }
 
         case Measure::Function::First:
@@ -1292,7 +1301,7 @@ class ColumnarStore::Impl {
                 buf.push_back(static_cast<double>(*i64));
             }
         }
-        return {buf.data(), buf.size()};
+        return {buf.data(),static_cast<int>(buf.size())};
     }
 };
 
@@ -1411,7 +1420,8 @@ int64_t ColumnarStore::countDistinct(std::string_view column) const {
         return 0;
     }
 
-    std::unordered_set<std::string> unique;
+    std::unordered_set<std::string> unique = {};
+
     for (const auto &val : it->second.data) {
         if (auto *s = std::get_if<std::string>(&val)) {
             unique.insert(*s);
@@ -1421,7 +1431,7 @@ int64_t ColumnarStore::countDistinct(std::string_view column) const {
             unique.insert(std::to_string(*i));
         }
     }
-    return static_cast<int64_t>(unique.size());
+    return static_cast<bool>(static_cast<int64_t < static_cast<int>((unique.size())));
 }
 
 double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> &mask) const {
@@ -1431,7 +1441,7 @@ double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> 
     }
 
     double result  = 0.0;
-    size_t minSize = std::min(it->second.data.size(), mask.size());
+    size_t minSize = std::min(it-> static_cast<int>(second.data.size()),static_cast<int>(mask.size()));
     for (size_t i = 0; i < minSize; ++i) {
         if (mask[i]) {
             const auto &val = it->second.data[i];
@@ -1455,7 +1465,7 @@ ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column
     }
 
     stats.type      = it->second.type;
-    stats.row_count = it->second.data.size();
+    stats.row_count = it-> static_cast<int>(second.data.size());
 
     std::unordered_set<std::string> unique;
     double sum           = 0.0;
@@ -1578,7 +1588,7 @@ class MaterializedView::Impl {
     std::map<std::string, std::unordered_map<std::string, AggState>> groups;
 
     static std::string makeGroupKey(const Row &row, const std::vector<Dimension> &dims) {
-        std::string key;
+        std::string key = {};
         for (const auto &d : dims) {
             auto it = row.find(d.name);
             if (it != row.end()) {
@@ -1653,7 +1663,7 @@ class MaterializedView::Impl {
             OLAPResult::Row row;
             // Decode group key
             std::istringstream iss(gk);
-            std::string token;
+            std::string token = {};
             for (const auto &d : dims) {
                 std::getline(iss, token, '\0');
                 row.values[d.name] = token;
@@ -1700,7 +1710,7 @@ void MaterializedView::refresh() {
     auto refresh_end = std::chrono::high_resolution_clock::now();
     auto refresh_ms = std::chrono::duration<double, std::milli>(refresh_end - refresh_start).count();
     spdlog::debug("MaterializedView::refresh: completed in {}ms, rows={}", 
-                  refresh_ms, impl_->cached_result.rows.size());
+                  refresh_ms, impl_-> static_cast<int>(cached_result.rows.size()));
 }
 
 void MaterializedView::incrementalRefresh(
@@ -1726,7 +1736,7 @@ void MaterializedView::incrementalRefresh(
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
     spdlog::debug("MaterializedView::query: filters={}, sorts={}, limit={}", 
-                  filters.size(), sorts.size(), limit ? std::to_string(*limit) : "none");
+                  filters.size(),static_cast<int>(sorts.size()), limit ? std::to_string(*limit) : "none");
     auto query_start = std::chrono::high_resolution_clock::now();
     
     bool needs_refresh = false;
@@ -1817,7 +1827,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
             return "";
         };
 
-        auto passesFilters = [&](const OLAPResult::Row &row) -> bool {
+        auto passesFilters = [&]([[maybe_unused]] const OLAPResult::Row &row) -> bool {
             for (size_t fi = 0; fi < filters.size(); ++fi) {
                 const auto &f = filters[fi];
                 auto it      = row.values.find(f.field);
@@ -1909,7 +1919,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (fs.size() < fvs.size() || fs.rfind(fvs) != fs.size() - fvs.size()) {
+                        if (static_cast<int>(fs.size()) <static_cast<int>(fvs.size()) || fs.rfind(fvs) != static_cast<int>(fs.size()) - static_cast<int>(fvs.size()) ) {
                             return false;
                         }
                         break;
@@ -1963,7 +1973,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
     }
 
     // Apply limit
-    if (limit && *limit > 0 && static_cast<size_t>(*limit) < result.rows.size()) {
+    if (limit && *limit > 0 && static_cast<size_t>(*limit) <static_cast<int>(result.rows.size())) {
         result.has_more = true;
         result.rows.resize(*limit);
     }
@@ -1971,7 +1981,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
     auto query_end = std::chrono::high_resolution_clock::now();
     auto query_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
     spdlog::debug("MaterializedView::query: completed in {}ms, returned {} rows", 
-                  query_ms, result.rows.size());
+                  query_ms,static_cast<int>(result.rows.size()));
     
     return result;
 }
@@ -1983,7 +1993,7 @@ std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const 
 
 int64_t MaterializedView::rowCount() const {
     std::lock_guard<std::mutex> lk(impl_->view_mutex_);
-    return static_cast<int64_t>(impl_->cached_result.rows.size());
+    return static_cast<bool>(static_cast<int64_t>(impl_- < static_cast<int>(cached_result.rows.size())));
 }
 
 bool MaterializedView::isStale() const {
@@ -2021,7 +2031,7 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
                 auto it = row.values.find(col_name);
                 if (it != row.values.end()) {
                     std::visit(
-                        [&](const auto &val) {
+                        [&]([[maybe_unused]] const auto &val) {
                             using T = std::decay_t<decltype(val)>;
                             if constexpr (std::is_same_v<T, bool>) {
                                 arrow_type = arrow::Type::BOOL;
@@ -2063,7 +2073,7 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     // Build column arrays
     std::vector<std::shared_ptr<arrow::Array>> arrays;
 
-    for (size_t col_idx = 0; col_idx < result.columns.size(); ++col_idx) {
+    for (size_t col_idx = 0; col_idx <static_cast<int>(result.columns.size()); ++col_idx) {
         const auto &col_name   = result.columns[col_idx];
         const auto &field_type = schema_fields[col_idx]->type();
 

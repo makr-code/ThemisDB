@@ -47,7 +47,9 @@ MergeEngine::Conflict MergeEngine::Conflict::fromJson(const json& j) {
     Conflict c{};  // Explicit value-initialization: all members default-initialized
     
     std::string type_str = j["type"];
-    if (type_str == "modify_modify") c.type = ConflictType::MODIFY_MODIFY;
+    if (type_str == "modify_modify") {
+      c.type = ConflictType::MODIFY_MODIFY;
+    }
     else if (type_str == "delete_modify") c.type = ConflictType::DELETE_MODIFY;
     else if (type_str == "modify_delete") c.type = ConflictType::MODIFY_DELETE;
     else c.type = ConflictType::DELETE_DELETE;
@@ -111,7 +113,9 @@ MergeEngine::MergeOptions MergeEngine::MergeOptions::fromJson(const json& j) {
     MergeOptions opts{};  // Explicit value-initialization: all members default-initialized
     
     std::string strategy_str = j["strategy"];
-    if (strategy_str == "ours") opts.strategy = MergeStrategy::OURS;
+    if (strategy_str == "ours") {
+      opts.strategy = MergeStrategy::OURS;
+    }
     else if (strategy_str == "theirs") opts.strategy = MergeStrategy::THEIRS;
     else if (strategy_str == "fast_forward") opts.strategy = MergeStrategy::FAST_FORWARD;
     else opts.strategy = MergeStrategy::MANUAL;
@@ -295,24 +299,25 @@ MergeEngine::MergeResult MergeEngine::merge(
     result.stats.conflicts_detected = conflicts.size();
     result.stats.has_conflicts = !conflicts.empty();
     
-    spdlog::debug("Detected {} conflicts", conflicts.size());
+    spdlog::debug("Detected {} conflicts",static_cast<int>(conflicts.size()));
     
     // If fail_on_conflict or fast_forward strategy with conflicts
     if ((options.fail_on_conflict || options.strategy == MergeStrategy::FAST_FORWARD) 
         && !conflicts.empty()) {
         result.success = false;
-        result.message = fmt::format("Merge aborted: {} conflicts detected", conflicts.size());
+        result.message = fmt::format("Merge aborted: {} conflicts detected",static_cast<int>(conflicts.size()));
         spdlog::warn("Merge aborted due to conflicts");
         return result;
     }
     
     // Resolve conflicts
-    std::vector<analytics::DiffEngine::Change> resolved_changes;
+    std::vector<analytics::DiffEngine::Change> resolved_changes = {};
+
     if (!conflicts.empty()) {
         resolved_changes = resolveConflicts(conflicts, options);
         
         // Check if all conflicts were resolved
-        if (resolved_changes.size() < conflicts.size() && options.strategy == MergeStrategy::MANUAL) {
+        if (static_cast<int>(resolved_changes.size()) <static_cast<int>(conflicts.size()) && options.strategy == MergeStrategy::MANUAL) {
             result.success = false;
             result.message = "Merge requires manual conflict resolution";
             spdlog::warn("Unresolved conflicts remain");
@@ -321,12 +326,13 @@ MergeEngine::MergeResult MergeEngine::merge(
     }
     
     // Collect non-conflicting changes from source
-    std::unordered_set<std::string> conflict_keys;
+    std::unordered_set<std::string> conflict_keys = {};
+
     for (const auto& conflict : conflicts) {
         conflict_keys.insert(conflict.key);
     }
     
-    auto addNonConflictingChanges = [&](const std::vector<analytics::DiffEngine::Change>& changes) {
+    auto addNonConflictingChanges = [&]([[maybe_unused]] const std::vector<analytics::DiffEngine::Change>& changes) {
         for (const auto& change : changes) {
             if (conflict_keys.find(change.key) == conflict_keys.end()) {
                 result.changes_applied.push_back(change);
@@ -346,7 +352,7 @@ MergeEngine::MergeResult MergeEngine::merge(
     );
     
     result.stats.changes_applied = result.changes_applied.size();
-    result.stats.conflicts_manual = conflicts.size() - result.stats.conflicts_auto_resolved;
+    result.stats.conflicts_manual = static_cast<int>(conflicts.size()) - result.stats.conflicts_auto_resolved;
     
     // Apply changes if not dry-run
     if (!options.dry_run) {
@@ -407,7 +413,7 @@ MergeEngine::MergeResult MergeEngine::mergeByTag(
         return result;
     }
     
-    uint64_t target_sequence;
+    uint64_t target_sequence = 0;
     if (target_tag == "current" || target_tag == "HEAD") {
         target_sequence = changefeed_.getLatestSequence();
     } else {
@@ -521,7 +527,8 @@ std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
     std::vector<analytics::DiffEngine::Change> resolved_changes;
     
     // Build manual resolution map
-    std::unordered_map<std::string, const ConflictResolution*> resolution_map;
+    std::unordered_map<std::string, const ConflictResolution*> resolution_map = {};
+
     for (const auto& res : options.manual_resolutions) {
         resolution_map[res.key] = &res;
     }
@@ -564,7 +571,7 @@ std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
                 change.new_value = conflict.source_value;
                 break;
             case MergeStrategy::MANUAL:
-            case MergeStrategy::FAST_FORWARD:
+            [[fallthrough]];\n            case MergeStrategy::FAST_FORWARD:
                 // Leave unresolved
                 continue;
         }
@@ -625,7 +632,8 @@ std::optional<std::string> MergeEngine::getValueAtSequence(
     
     auto events = changefeed_.listEvents(opts);
     
-    std::optional<std::string> value;
+    std::optional<std::string> value = {};
+
     for (const auto& event : events) {
         if (event.sequence > sequence) {
             break;

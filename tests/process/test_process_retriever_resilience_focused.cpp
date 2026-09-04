@@ -30,7 +30,7 @@ protected:
     class BoundedCache {
     private:
         std::map<K, V> cache;
-        size_t max_size;
+        size_t max_size = {};
 
     public:
         explicit BoundedCache(size_t max_size_) : max_size(max_size_) {}
@@ -96,7 +96,7 @@ protected:
 TEST_F(RetrieverResilienceTest, R01_CacheMissHandling) {
     BoundedCache<std::string, std::string> cache(10);
 
-    std::string result;
+    std::string result = {};
     bool found = cache.get("nonexistent", result);
 
     EXPECT_FALSE(found);
@@ -112,7 +112,7 @@ TEST_F(RetrieverResilienceTest, R02_CacheHitPerformance) {
 
     cache.put("key1", "cached_value");
 
-    std::string result;
+    std::string result = {};
     bool found = cache.get("key1", result);
 
     EXPECT_TRUE(found);
@@ -149,7 +149,7 @@ TEST_F(RetrieverResilienceTest, R04_MemoryExhaustionDetection) {
     MockRetriever retriever;
     retriever.max_memory_bytes = 100;  // Small limit for testing
 
-    std::string context;
+    std::string context = {};
     // First retrieval succeeds
     bool success1 = retriever.retrieve_with_resource_check("inst1", "query1", context);
     EXPECT_TRUE(success1);
@@ -217,7 +217,7 @@ TEST_F(RetrieverResilienceTest, R06_GracefulDegradationNoCacheAvailable) {
     DegradableRetriever retriever;
 
     // With cache
-    std::string result1;
+    std::string result1 = {};
     bool success1 = retriever.retrieve("key1", result1);
     EXPECT_TRUE(success1);
     EXPECT_EQ(result1, "cached_key1");
@@ -225,7 +225,7 @@ TEST_F(RetrieverResilienceTest, R06_GracefulDegradationNoCacheAvailable) {
 
     // Disable cache
     retriever.cache_available = false;
-    std::string result2;
+    std::string result2 = {};
     bool success2 = retriever.retrieve("key2", result2);
     EXPECT_TRUE(success2);  // Still succeeds!
     EXPECT_EQ(result2, "computed_key2");
@@ -250,7 +250,7 @@ TEST_F(RetrieverResilienceTest, R07_ConcurrentCacheReadHeavyAccess) {
 
     auto reader = [&cache, &successful_reads]() {
         for (int32_t i = 0; i < kReadsPerThread; ++i) {
-            std::string result;
+            std::string result = {};
             int32_t key_idx = i % 50;
             if (cache.get("key_" + std::to_string(key_idx), result)) {
                 successful_reads.fetch_add(1);
@@ -258,7 +258,8 @@ TEST_F(RetrieverResilienceTest, R07_ConcurrentCacheReadHeavyAccess) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(reader);
     }
@@ -279,7 +280,7 @@ TEST_F(RetrieverResilienceTest, R07_ConcurrentCacheReadHeavyAccess) {
 TEST_F(RetrieverResilienceTest, R08_CacheCoherencyUnderConcurrentUpdates) {
     // Simplified coherency test: verify final state is consistent
     std::map<std::string, std::string> concurrent_cache;
-    std::mutex cache_mutex;
+    std::mutex cache_mutex = {};
     std::atomic<int64_t> updates_completed{0};
 
     auto updater = [&concurrent_cache, &cache_mutex, &updates_completed](int32_t thread_id) {
@@ -296,7 +297,8 @@ TEST_F(RetrieverResilienceTest, R08_CacheCoherencyUnderConcurrentUpdates) {
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int32_t i = 0; i < 4; ++i) {
         threads.emplace_back(updater, i);
     }
@@ -320,7 +322,7 @@ TEST_F(RetrieverResilienceTest, R09_LruEvictionBehavior) {
     struct LruCache {
         std::map<std::string, std::string> cache;
         std::vector<std::string> access_order;
-        size_t max_size;
+        size_t max_size = {};
 
         explicit LruCache(size_t max_size_) : max_size(max_size_) {}
 
@@ -388,7 +390,7 @@ TEST_F(RetrieverResilienceTest, R09_LruEvictionBehavior) {
 TEST_F(RetrieverResilienceTest, R10_StaleWhileRevalidateBehavior) {
     struct SwrCache {
         struct CacheEntry {
-            std::string value;
+            std::string value = {};
             int64_t cached_at_ms;
             int64_t ttl_ms;
         };
@@ -430,7 +432,7 @@ TEST_F(RetrieverResilienceTest, R10_StaleWhileRevalidateBehavior) {
     EXPECT_FALSE(cache.is_fresh("result_1"));
 
     // But still retrievable (stale-while-revalidate)
-    std::string result;
+    std::string result = {};
     EXPECT_TRUE(cache.get_stale_ok("result_1", result));
     EXPECT_EQ(result, "data_1");
 }
@@ -467,7 +469,7 @@ TEST_F(RetrieverResilienceTest, R11_TimeoutWithFallbackStrategy) {
 
     FallbackRetriever retriever;
 
-    std::string result;
+    std::string result = {};
     retriever.retrieve_complete("test_key", result, std::chrono::milliseconds(50));
 
     // Verify fallback was used
@@ -642,7 +644,9 @@ TEST_F(RetrieverResilienceTest, R16_HealthCheckAndRecoveryStatus) {
             int64_t failures = failed_retrievals.load();
             int64_t total = successes + failures;
 
-            if (total == 0) return HealthStatus::HEALTHY;
+            if (total == 0) {
+              return HealthStatus::HEALTHY;
+            }
 
             double success_rate = static_cast<double>(successes) / total;
 

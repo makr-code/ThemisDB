@@ -85,7 +85,8 @@ TEST_F(EntityLinkerTest, MultipleLinksSameSource) {
 // ============================================================================
 
 TEST_F(EntityLinkerTest, LinkBatchImportsAll) {
-    std::vector<ti::EntityLink> links;
+    std::vector<ti::EntityLink> links = {};
+
     for (int i = 0; i < 5; ++i) {
         links.push_back(makeLink("src-" + std::to_string(i), "tgt-" + std::to_string(i)));
     }

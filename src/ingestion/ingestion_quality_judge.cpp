@@ -61,17 +61,21 @@ namespace {
 
 /// Return up to @p max_chars from @p s, appending "..." if truncated.
 std::string truncate(const std::string& s, size_t max_chars) {
-    if (s.size() <= max_chars) return s;
+    if (static_cast<int>(s.size()) <= max_chars) {
+      return s;
+    }
     return s.substr(0, max_chars) + "...";
 }
 
 /// Join entity labels in @p ctx to a comma-separated summary string.
 std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t n = 0;
     for (const auto& e : ctx.entities) {
         if (n++ >= max) { oss << ", ..."; break; }
-        if (n > 1) oss << ", ";
+        if (n > 1) {
+          oss << ", ";
+        }
         if (!e.text.empty()) {
             oss << e.text;
         } else {
@@ -83,7 +87,7 @@ std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
 
 /// Build a concise relation summary (subject → predicate → object).
 std::string relationSummary(const ExtractionContext& ctx, size_t max = 20) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t n = 0;
     for (const auto& r : ctx.relations) {
         if (n++ >= max) { oss << "\n  ..."; break; }
@@ -147,19 +151,23 @@ void IngestionQualityJudge::setConfig(const IngestionJudgeConfig& cfg) {
 void IngestionQualityJudge::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
-    if (!observer) return;
-    std::lock_guard<std::mutex> lk(observer_mutex_);
-    observers_.push_back(std::move(observer));
+    if (!observer) {
+      return;
+    }
+    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
+    observers_.push_back([[maybe_unused]] std::move(observer));
 }
 
 void IngestionQualityJudge::removeObserver(
     const IIngestionQualityObserver* observer)
 {
-    if (!observer) return;
-    std::lock_guard<std::mutex> lk(observer_mutex_);
+    if (!observer) {
+      return;
+    }
+    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
-            [observer](const std::shared_ptr<IIngestionQualityObserver>& sp) {
+            [observer]([[maybe_unused]] const std::shared_ptr<IIngestionQualityObserver>& sp) {
                 return sp.get() == observer;
             }),
         observers_.end());
@@ -187,8 +195,8 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
 
     // ---- Fail-open when context is too sparse or backend unavailable ----
     const bool sparse_context =
-        source_text.size() < config_.min_text_bytes_for_eval ||
-        ctx.entities.size() < config_.min_entities_for_eval;
+        static_cast<int>(source_text.size()) < config_.min_text_bytes_for_eval ||
+        static_cast<int>(ctx.entities.size()) < config_.min_entities_for_eval;
 
     if (sparse_context || !backend_->isAvailable()) {
         report.passed = true;   // fail-open; scores remain -1.0 (not evaluated)
@@ -291,9 +299,9 @@ std::string IngestionQualityJudge::buildCompletenessPrompt(
            "is represented in the extracted data.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << " total) ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << " total) ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED CHUNKS (" << ctx.chunks.size() << ") ---\n";
+        << "--- EXTRACTED CHUNKS (" <<static_cast<int>(ctx.chunks.size()) << ") ---\n";
     for (size_t i = 0; i < std::min(ctx.chunks.size(), size_t{5}); ++i)
         oss << "Chunk " << i << ": " << truncate(ctx.chunks[i].text, 200) << "\n";
     oss << "\nRate the completeness (SCORE) and list important information "
@@ -312,9 +320,9 @@ std::string IngestionQualityJudge::buildGroundednessPrompt(
            "back to a verbatim passage in the source text.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED RELATIONS (" << ctx.relations.size() << ") ---\n"
+        << "--- EXTRACTED RELATIONS (" <<static_cast<int>(ctx.relations.size()) << ") ---\n"
         << truncate(relationSummary(ctx), 800) << "\n\n"
         << "Rate groundedness (SCORE) and list claims NOT supported by the "
            "source text (UNGROUNDED).";
@@ -333,7 +341,7 @@ std::string IngestionQualityJudge::buildEntityCoveragePrompt(
            "present in the extracted entity list.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
         << entitySummary(ctx, 50) << "\n\n"
         << "Rate entity coverage (SCORE) and list entity LABELS that appear "
            "in the source but are absent from the extraction (MISSING).";
@@ -349,9 +357,9 @@ std::string IngestionQualityJudge::buildRelationCoherencePrompt(
         << "Relation coherence = the extracted subject–predicate–object triples "
            "are semantically valid (both endpoints exist as entities, the "
            "predicate is appropriate for the entity types).\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED RELATIONS (" << ctx.relations.size() << ") ---\n"
+        << "--- EXTRACTED RELATIONS (" <<static_cast<int>(ctx.relations.size()) << ") ---\n"
         << truncate(relationSummary(ctx), 1200) << "\n\n"
         << "Rate relation coherence (SCORE) and list incoherent or implausible "
            "relations as HINTS for improvement.";
@@ -370,25 +378,33 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
         // Try lowercase fallback.
         const std::string ltag = "score:";
         auto lpos = response.find(ltag);
-        if (lpos == std::string::npos) return -1.0;
+        if (lpos == std::string::npos) {
+          return -1.0;
+        }
         pos = lpos;
     }
     pos += tag.size();
     while (pos < response.size() && (response[pos] == ' ' || response[pos] == '\t'))
         ++pos;
     // Read digits / dot until whitespace or newline.
-    std::string num;
+    std::string num = {};
     while (pos < response.size() &&
            (std::isdigit(static_cast<unsigned char>(response[pos])) ||
             response[pos] == '.'))
     {
         num += response[pos++];
     }
-    if (num.empty()) return -1.0;
+    if (num.empty()) {
+      return -1.0;
+    }
     try {
         double v = std::stod(num);
-        if (v < 0.0) v = 0.0;
-        if (v > 1.0) v = 1.0;
+        if (v < 0.0) {
+          v = 0.0;
+        }
+        if (v > 1.0) {
+          v = 1.0;
+        }
         return v;
     } catch (...) {
         return -1.0;
@@ -402,12 +418,18 @@ std::string IngestionQualityJudge::parseRationale(
     auto pos = response.find(tag);
     if (pos == std::string::npos) return {};
     pos += tag.size();
-    while (pos < response.size() && response[pos] == ' ') ++pos;
+    while (pos < response.size() && response[pos] == ' ') {
+      ++pos;
+    }
     auto end = response.find('\n', pos);
-    if (end == std::string::npos) end = response.size();
+    if (end == std::string::npos) {
+      end = response.size();
+    }
     std::string result = response.substr(pos, end - pos);
     // Truncate to 200 chars for safety.
-    if (result.size() > 200) result.resize(200);
+    if (static_cast<int>(result.size()) > 200) {
+      result.resize(200);
+    }
     return result;
 }
 
@@ -425,15 +447,19 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
     // Read lines until we hit the next section header (all-caps word followed
     // by ':') or end of string.
     std::istringstream ss(response.substr(pos));
-    std::string line;
+    std::string line = {};
     while (std::getline(ss, line)) {
         // Strip leading whitespace.
         auto start = line.find_first_not_of(" \t\r");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         // New section header → stop.
-        if (line.size() > 2 && std::isupper(static_cast<unsigned char>(line[0]))
+        if (static_cast<int>(line.size()) > 2 && std::isupper(static_cast<unsigned char>(line[0]))
             && line.find(':') != std::string::npos
             && line.find(':') < 20)
         {
@@ -442,7 +468,9 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
         // Bullet marker.
         if (line[0] == '-' || line[0] == '*' || line[0] == '\xe2' /* UTF-8 bullet */) {
             auto content_start = line.find_first_not_of("-* \t", 1);
-            if (content_start == std::string::npos) continue;
+            if (content_start == std::string::npos) {
+              continue;
+            }
             items.push_back(line.substr(content_start));
         }
     }
@@ -524,7 +552,8 @@ std::vector<std::string> IngestionQualityJudge::computeRecommendedSteps(
     }
 
     // Deduplicate, preserving insertion order.
-    std::vector<std::string> unique_steps;
+    std::vector<std::string> unique_steps = {};
+
     for (const auto& s : steps) {
         if (std::find(unique_steps.begin(), unique_steps.end(), s)
             == unique_steps.end())
@@ -545,7 +574,7 @@ void IngestionQualityJudge::notifyEvaluated(
 {
     std::vector<std::shared_ptr<IIngestionQualityObserver>> snapshot;
     {
-        std::lock_guard<std::mutex> lk(observer_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
         snapshot = observers_;
     }
     for (const auto& obs : snapshot) {
@@ -584,17 +613,21 @@ void ReIngestionController::setReIngestionProfile(
 void ReIngestionController::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
-    if (!observer) return;
-    observers_.push_back(std::move(observer));
+    if (!observer) {
+      return;
+    }
+    observers_.push_back([[maybe_unused]] std::move(observer));
 }
 
 void ReIngestionController::removeObserver(
     const IIngestionQualityObserver* observer)
 {
-    if (!observer) return;
+    if (!observer) {
+      return;
+    }
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
-            [observer](const std::shared_ptr<IIngestionQualityObserver>& sp) {
+            [observer]([[maybe_unused]] const std::shared_ptr<IIngestionQualityObserver>& sp) {
                 return sp.get() == observer;
             }),
         observers_.end());
@@ -676,7 +709,7 @@ ReIngestionController::RunResult ReIngestionController::process(
 
         // Determine improvement for the upcoming pass notification.
         bool improved_over_prev = false;
-        if (result.history.size() >= 2) {
+        if (static_cast<int>(result.history.size()) >= 2) {
             improved_over_prev = isImprovement(
                 result.history[result.history.size() - 2], report);
         }
@@ -705,7 +738,7 @@ void ReIngestionController::notifyTriggered(
     int                             attempt,
     const std::vector<std::string>& reasons) noexcept
 {
-    for (const auto& obs : observers_) {
+    for ([[maybe_unused]] const auto& obs : observers_) {
         try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (...) {}
     }
     // Forward to judge observers as well.
@@ -716,7 +749,7 @@ void ReIngestionController::notifyComplete(
     int                attempt,
     bool               improved) noexcept
 {
-    for (const auto& obs : observers_) {
+    for ([[maybe_unused]] const auto& obs : observers_) {
         try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (...) {}
     }
 }

@@ -290,7 +290,7 @@ TEST_F(AIDecisionAuditorTest, ExportForCompliance) {
     auditor_->logDecision(audit);
     
     std::string export_path = "data/test_compliance_export.json";
-    std::error_code cleanup_ec;
+    std::error_code cleanup_ec = {};
     std::filesystem::remove(export_path, cleanup_ec);
     
     // Export

@@ -73,17 +73,23 @@ struct HealthStatus {
     std::chrono::system_clock::time_point last_check;
     
     float getHealthPercentage() const {
-        if (total_documents == 0) return 100.0f;
+        if (total_documents == 0) {
+          return 100.0f;
+        }
         return (healthy_documents * 100.0f) / total_documents;
     }
     
     float getDegradedPercentage() const {
-        if (total_documents == 0) return 0.0f;
+        if (total_documents == 0) {
+          return 0.0f;
+        }
         return (degraded_documents * 100.0f) / total_documents;
     }
     
     float getCriticalPercentage() const {
-        if (total_documents == 0) return 0.0f;
+        if (total_documents == 0) {
+          return 0.0f;
+        }
         return (critical_documents * 100.0f) / total_documents;
     }
 };

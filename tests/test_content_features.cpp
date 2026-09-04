@@ -216,8 +216,12 @@ TEST_F(ContentFeaturesTest, ListDirectory_Contents) {
     bool found_config = false;
     
     for (const auto& item : contents.value()) {
-        if (item.filename == "readme.md") found_readme = true;
-        if (item.filename == "config.json") found_config = true;
+        if (item.filename == "readme.md") {
+          found_readme = true;
+        }
+        if (item.filename == "config.json") {
+          found_config = true;
+        }
     }
     
     EXPECT_TRUE(found_readme);
@@ -306,7 +310,8 @@ TEST_F(ContentFeaturesTest, ChunkNavigation_NextPrevious) {
 
 TEST_F(ContentFeaturesTest, GetChunkRange_Pagination) {
     // Import 10 chunks
-    std::vector<std::string> chunks;
+    std::vector<std::string> chunks = {};
+
     for (int i = 1; i <= 10; ++i) {
         chunks.push_back("Chunk " + std::to_string(i) + " data");
     }

@@ -102,10 +102,10 @@ struct RollbackAuditEvent {
     RollbackReason reason;
 
     /// Total rows attempted before rollback
-    uint64_t rows_attempted;
+    uint64_t rows_attempted = {};
 
     /// Rows successfully committed before failure
-    uint64_t rows_committed;
+    uint64_t rows_committed = {};
 
     /// Rows rolled back (rows_attempted - rows_committed)
     uint64_t rows_rolled_back;

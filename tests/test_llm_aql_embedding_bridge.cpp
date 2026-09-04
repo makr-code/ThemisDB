@@ -96,7 +96,7 @@ private:
 // ---------------------------------------------------------------------------
 TEST(LLMAQLEmbeddingBridge, EMB_01_DelegatesEmbedCall) {
     bool called = false;
-    std::string captured_text;
+    std::string captured_text = {};
 
     CapturingBridge bridge([&](const std::string& t) -> std::vector<float> {
         called        = true;

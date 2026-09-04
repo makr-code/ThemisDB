@@ -41,7 +41,7 @@ protected:
     }
     
     static void cleanupPath(const std::string& p) {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(p, ec);
     }
     
@@ -63,7 +63,7 @@ TEST_F(EnhancedBackupTest, BackupWithCompression) {
     options.compression = themis::CompressionType::ZSTD;
     options.verify_after_backup = true;
     
-    std::error_code ec;
+    std::error_code ec = {};
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     EXPECT_FALSE(ec);
     
@@ -84,7 +84,7 @@ TEST_F(EnhancedBackupTest, BackupWithEncryption) {
     options.encryption_key = themis::tests::makeDeterministicHexKey(32);
     options.verify_after_backup = true;
     
-    std::error_code ec;
+    std::error_code ec = {};
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     EXPECT_FALSE(ec);
     
@@ -99,7 +99,7 @@ TEST_F(EnhancedBackupTest, DifferentialBackup) {
     std::vector<uint8_t> value1{'v', '1'};
     ASSERT_TRUE(db_wrapper_->put("key1", value1));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     EXPECT_FALSE(ec);
@@ -124,7 +124,7 @@ TEST_F(EnhancedBackupTest, BackupMetrics) {
     std::vector<uint8_t> value{'d', 'a', 't', 'a'};
     ASSERT_TRUE(db_wrapper_->put("key1", value));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     
@@ -142,7 +142,7 @@ TEST_F(EnhancedBackupTest, RTOEstimation) {
     std::vector<uint8_t> value{'d', 'a', 't', 'a'};
     ASSERT_TRUE(db_wrapper_->put("key1", value));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     
@@ -163,7 +163,7 @@ TEST_F(EnhancedBackupTest, RPOTracking) {
     std::vector<uint8_t> value{'d', 'a', 't', 'a'};
     ASSERT_TRUE(db_wrapper_->put("key1", value));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     
@@ -178,7 +178,7 @@ TEST_F(EnhancedBackupTest, RPOTracking) {
 // Test retention policy
 TEST_F(EnhancedBackupTest, RetentionPolicy) {
     // Create multiple backups
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     
     std::vector<uint8_t> value{'d', 'a', 't', 'a'};
@@ -204,7 +204,7 @@ TEST_F(EnhancedBackupTest, RestoreWithStats) {
     std::vector<uint8_t> value1{'v', '1'};
     ASSERT_TRUE(db_wrapper_->put("restore_key", value1));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     
@@ -238,7 +238,7 @@ TEST_F(EnhancedBackupTest, PITRFramework) {
     std::vector<uint8_t> value1{'v', '1'};
     ASSERT_TRUE(db_wrapper_->put("pitr_key", value1));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     
@@ -289,7 +289,7 @@ TEST_F(EnhancedBackupTest, PartialRestoreFramework) {
     ASSERT_TRUE(db_wrapper_->put("coll1:key1", value));
     ASSERT_TRUE(db_wrapper_->put("coll2:key2", value));
     
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
     
@@ -312,14 +312,14 @@ TEST_F(EnhancedBackupTest, PITRWalReplayFn_CalledAfterSnapshotRestore) {
     std::vector<uint8_t> value{'v', '1'};
     ASSERT_TRUE(db_wrapper_->put("pitr_wal_key", value));
 
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
 
     auto target = std::chrono::system_clock::now() + std::chrono::seconds(1);
 
     bool fn_called = false;
-    std::string captured_dest;
+    std::string captured_dest = {};
     std::chrono::system_clock::time_point captured_time;
 
     backup_manager_->setWalReplayFn(
@@ -350,7 +350,7 @@ TEST_F(EnhancedBackupTest, PITRWalReplayFn_FailurePropagated) {
     std::vector<uint8_t> value{'v', '2'};
     ASSERT_TRUE(db_wrapper_->put("pitr_wal_key2", value));
 
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
 
@@ -374,7 +374,7 @@ TEST_F(EnhancedBackupTest, PITRWalReplayFn_ClearingRevertsToStub) {
     std::vector<uint8_t> value{'v', '3'};
     ASSERT_TRUE(db_wrapper_->put("pitr_wal_key3", value));
 
-    std::error_code ec;
+    std::error_code ec = {};
     themis::BackupOptions options;
     ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
 

@@ -67,8 +67,8 @@ bool ShardDurability::initialize() {
             return false;
         }
         
-        if (recovery_callback_ && recovery.recovery_needed) {
-            recovery_callback_(recovery);
+        if ([[maybe_unused]] recovery_callback_ && recovery.recovery_needed) {
+            recovery_callback_([[maybe_unused]] recovery);
         }
     }
     
@@ -249,7 +249,7 @@ bool ShardDurability::verifyWALIntegrity() const {
     // RocksDB provides WAL integrity through its internal mechanisms
     // We perform a simple check by attempting to get DB statistics
     try {
-        std::string stats_str;
+        std::string stats_str = {};
         db_->GetBaseDB()->GetProperty("rocksdb.stats", &stats_str);
         return true;
     } catch (...) {
@@ -265,7 +265,7 @@ uint64_t ShardDurability::getCurrentSequenceNumber() const {
     return db_->GetBaseDB()->GetLatestSequenceNumber();
 }
 
-void ShardDurability::setRecoveryCallback(RecoveryCallback callback) {
+void ShardDurability::setRecoveryCallback([[maybe_unused]] RecoveryCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     recovery_callback_ = callback;
 }
@@ -279,7 +279,7 @@ std::string ShardDurability::generateCheckpointId() const {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "checkpoint_"
        << std::put_time(std::localtime(&time_t), "%Y%m%d_%H%M%S")
        << "_" << getCurrentSequenceNumber();
@@ -288,7 +288,7 @@ std::string ShardDurability::generateCheckpointId() const {
 }
 
 void ShardDurability::cleanupOldCheckpoints() {
-    if (checkpoints_.size() <= config_.max_checkpoints) {
+    if (static_cast<int>(checkpoints_.size()) <= config_.max_checkpoints) {
         return;
     }
     
@@ -299,7 +299,7 @@ void ShardDurability::cleanupOldCheckpoints() {
         });
     
     // Remove oldest checkpoints
-    size_t to_remove = checkpoints_.size() - config_.max_checkpoints;
+    size_t to_remove = static_cast<int>(checkpoints_.size()) - config_.max_checkpoints;
     for (size_t i = 0; i < to_remove; ++i) {
         try {
             std::filesystem::remove_all(checkpoints_[i].path);

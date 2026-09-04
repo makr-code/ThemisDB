@@ -39,7 +39,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressCallbackCalled) {
     
     std::atomic<int> callback_count{0};
     std::vector<double> progress_values;
-    std::mutex progress_mutex;
+    std::mutex progress_mutex = {};
     
     auto callback = [&](const LoadProgress& progress) {
         callback_count++;
@@ -61,7 +61,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressIncreases) {
     LazyModelLoader loader(config_);
     
     std::vector<double> progress_values;
-    std::mutex progress_mutex;
+    std::mutex progress_mutex = {};
     
     auto callback = [&](const LoadProgress& progress) {
         std::lock_guard<std::mutex> lock(progress_mutex);
@@ -84,7 +84,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressPhases) {
     LazyModelLoader loader(config_);
     
     std::set<LoadPhase> observed_phases;
-    std::mutex phase_mutex;
+    std::mutex phase_mutex = {};
     
     auto callback = [&](const LoadProgress& progress) {
         std::lock_guard<std::mutex> lock(phase_mutex);

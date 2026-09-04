@@ -147,9 +147,13 @@ public:
      */
     virtual bool canHandle(const ExtractionContext& ctx) const {
         const auto& mimes = supportedMimeTypes();
-        if (mimes.empty()) return true;
+        if (mimes.empty()) {
+          return true;
+        }
         for (const auto& m : mimes) {
-            if (m == ctx.manifest.detected_mime) return true;
+            if (m == ctx.manifest.detected_mime) {
+              return true;
+            }
         }
         return false;
     }

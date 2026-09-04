@@ -321,21 +321,37 @@ JoinResult AdaptiveJoinExecutor::executeMergeJoin(const JoinSpec& spec,
     std::vector<const RowValue*> left_ptrs, right_ptrs;
     left_ptrs.reserve(left.rowCount());
     right_ptrs.reserve(right.rowCount());
-    for (const auto& r : left.rows)  left_ptrs.push_back(&r);
-    for (const auto& r : right.rows) right_ptrs.push_back(&r);
+    for (const auto& r : left.rows) {
+      left_ptrs.push_back(&r);
+    }
+    for (const auto& r : right.rows) {
+      right_ptrs.push_back(&r);
+    }
 
     auto cmp_left  = [&](const RowValue* a, const RowValue* b) {
         auto ia = a->find(spec.left_key),  ib = b->find(spec.left_key);
-        if (ia == a->end() && ib == b->end()) return false;
-        if (ia == a->end()) return true;
-        if (ib == b->end()) return false;
+        if (ia == a->end() && ib == b->end()) {
+          return false;
+        }
+        if (ia == a->end()) {
+          return true;
+        }
+        if (ib == b->end()) {
+          return false;
+        }
         return ia->second < ib->second;
     };
     auto cmp_right = [&](const RowValue* a, const RowValue* b) {
         auto ia = a->find(spec.right_key), ib = b->find(spec.right_key);
-        if (ia == a->end() && ib == b->end()) return false;
-        if (ia == a->end()) return true;
-        if (ib == b->end()) return false;
+        if (ia == a->end() && ib == b->end()) {
+          return false;
+        }
+        if (ia == a->end()) {
+          return true;
+        }
+        if (ib == b->end()) {
+          return false;
+        }
         return ia->second < ib->second;
     };
 
@@ -373,12 +389,16 @@ JoinResult AdaptiveJoinExecutor::executeMergeJoin(const JoinSpec& spec,
             size_t li_end = li, ri_end = ri;
             while (li_end < ln) {
                 const std::string* value = findKeyValue(left_ptrs[li_end], spec.left_key);
-                if (!value || *value != lk) break;
+                if (!value || *value != lk) {
+                  break;
+                }
                 ++li_end;
             }
             while (ri_end < rn) {
                 const std::string* value = findKeyValue(right_ptrs[ri_end], spec.right_key);
-                if (!value || *value != rk) break;
+                if (!value || *value != rk) {
+                  break;
+                }
                 ++ri_end;
             }
             // Cross-product of the equal range.
@@ -415,11 +435,15 @@ JoinResult AdaptiveJoinExecutor::executeNestedLoopJoin(const JoinSpec& spec,
 
     for (const auto& left_row : left.rows) {
         auto lk_it = left_row.find(spec.left_key);
-        if (lk_it == left_row.end()) continue;
+        if (lk_it == left_row.end()) {
+          continue;
+        }
 
         for (const auto& right_row : right.rows) {
             auto rk_it = right_row.find(spec.right_key);
-            if (rk_it == right_row.end()) continue;
+            if (rk_it == right_row.end()) {
+              continue;
+            }
 
             if (lk_it->second == rk_it->second) {
                 if (!spec.filter || spec.filter(left_row, right_row)) {
@@ -457,10 +481,14 @@ JoinResult AdaptiveJoinExecutor::executeIndexNestedLoopJoin(
     result.rows.reserve(left.rowCount());
     for (const auto& left_row : left.rows) {
         auto lk_it = left_row.find(spec.left_key);
-        if (lk_it == left_row.end()) continue;
+        if (lk_it == left_row.end()) {
+          continue;
+        }
 
         auto bucket = index.find(lk_it->second);
-        if (bucket == index.end()) continue;
+        if (bucket == index.end()) {
+          continue;
+        }
 
         for (const RowValue* right_row : bucket->second) {
             if (right_row == nullptr) {
@@ -498,27 +526,37 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
 
     // Partition left side.
     std::vector<std::vector<const RowValue*>> left_parts(NUM_PARTITIONS);
-    for (auto& part : left_parts) part.reserve(left_per_partition);
+    for (auto& part : left_parts) {
+      part.reserve(left_per_partition);
+    }
     for (const auto& row : left.rows) {
         auto it = row.find(spec.left_key);
-        if (it == row.end()) continue;
+        if (it == row.end()) {
+          continue;
+        }
         const size_t p = std::hash<std::string>{}(it->second) % NUM_PARTITIONS;
         left_parts[p].push_back(&row);
     }
 
     // Partition right side.
     std::vector<std::vector<const RowValue*>> right_parts(NUM_PARTITIONS);
-    for (auto& part : right_parts) part.reserve(right_per_partition);
+    for (auto& part : right_parts) {
+      part.reserve(right_per_partition);
+    }
     for (const auto& row : right.rows) {
         auto it = row.find(spec.right_key);
-        if (it == row.end()) continue;
+        if (it == row.end()) {
+          continue;
+        }
         const size_t p = std::hash<std::string>{}(it->second) % NUM_PARTITIONS;
         right_parts[p].push_back(&row);
     }
 
     // For each partition pair, run an in-memory hash join.
     for (size_t p = 0; p < NUM_PARTITIONS; ++p) {
-        if (left_parts[p].empty() || right_parts[p].empty()) continue;
+        if (left_parts[p].empty() || right_parts[p].empty()) {
+          continue;
+        }
 
         // Build hash table on the right partition.
         std::unordered_map<std::string, std::vector<const RowValue*>> ht;
@@ -533,10 +571,14 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
         // Probe with left partition.
         for (const RowValue* left_row : left_parts[p]) {
             auto lk_it = left_row->find(spec.left_key);
-            if (lk_it == left_row->end()) continue;
+            if (lk_it == left_row->end()) {
+              continue;
+            }
 
             auto bucket = ht.find(lk_it->second);
-            if (bucket == ht.end()) continue;
+            if (bucket == ht.end()) {
+              continue;
+            }
 
             for (const RowValue* right_row : bucket->second) {
                 if (right_row == nullptr) {

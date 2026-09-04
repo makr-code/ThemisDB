@@ -66,7 +66,7 @@ void TSAClientWrapper::fireError(const std::string& msg) {
 TSAResponse TSAClientWrapper::requestTimestamp(const TSARequest& req) {
     auto t0 = std::chrono::steady_clock::now();
 
-    TimestampToken tok;
+    TimestampToken tok = {};
     if (req.data_is_hash) {
         tok = authority_->getTimestampForHash(req.data);
     } else {
@@ -92,7 +92,7 @@ TSAResponse TSAClientWrapper::requestTimestamp(const TSARequest& req) {
 
 bool TSAClientWrapper::verifyToken(const TSAVerifyRequest& req) {
     // Resolve the DER token: prefer token_der, fall back to token_b64.
-    TimestampToken tok;
+    TimestampToken tok = {};
     if (!req.token_der.empty()) {
         tok = authority_->parseToken(req.token_der);
     } else if (!req.token_b64.empty()) {

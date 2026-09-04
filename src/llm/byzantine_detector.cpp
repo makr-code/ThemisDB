@@ -41,7 +41,7 @@ json GradientStatistics::toJSON() const {
 }
 
 GradientStatistics GradientStatistics::fromJSON(const json& j) {
-    GradientStatistics stats;
+    GradientStatistics stats = {};
     if (j.contains("gradient_norms"))
         stats.gradient_norms = j["gradient_norms"].get<std::vector<float>>();
     if (j.contains("gradient_means"))
@@ -71,7 +71,7 @@ json DetectionResult::toJSON() const {
 }
 
 DetectionResult DetectionResult::fromJSON(const json& j) {
-    DetectionResult result;
+    DetectionResult result = {};
     if (j.contains("suspected_shards"))
         result.suspected_shards = j["suspected_shards"].get<std::vector<std::string>>();
     if (j.contains("anomaly_scores"))
@@ -87,7 +87,7 @@ DetectionResult DetectionResult::fromJSON(const json& j) {
 // MedianDetector Implementation
 // ============================================================================
 
-MedianDetector::MedianDetector(float threshold) : threshold_(threshold) {
+MedianDetector::MedianDetector([[maybe_unused]] float threshold) : threshold_(threshold) {
     if (threshold <= 0.0f) {
         throw std::invalid_argument("Threshold must be positive");
     }
@@ -106,14 +106,18 @@ float MedianDetector::computeL2Norm(const std::vector<GradientTensor>& gradients
 }
 
 float MedianDetector::computeMean(const std::vector<float>& values) const {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     
     float sum = std::accumulate(values.begin(), values.end(), 0.0f);
     return sum / values.size();
 }
 
 float MedianDetector::computeMedian(std::vector<float> values) const {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     
     size_t n = values.size();
     std::nth_element(values.begin(), values.begin() + n / 2, values.end());
@@ -129,9 +133,12 @@ float MedianDetector::computeMedian(std::vector<float> values) const {
 }
 
 float MedianDetector::computeMAD(const std::vector<float>& values, float median) const {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     
-    std::vector<float> deviations;
+    std::vector<float> deviations = {};
+
     deviations.reserve(values.size());
     
     for (float val : values) {
@@ -144,7 +151,7 @@ float MedianDetector::computeMAD(const std::vector<float>& values, float median)
 GradientStatistics MedianDetector::computeStatistics(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    GradientStatistics stats;
+    GradientStatistics stats = {};
     
     if (shard_gradients.empty()) {
         return stats;
@@ -188,10 +195,10 @@ GradientStatistics MedianDetector::computeStatistics(
 DetectionResult MedianDetector::detectByzantineShards(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    DetectionResult result;
+    DetectionResult result = DetectionResult();
     result.detection_method = "MEDIAN";
     
-    if (shard_gradients.size() < 2) {
+    if (static_cast<int>(shard_gradients.size()) < 2) {
         // Need at least 2 shards for comparison
         return result;
     }
@@ -205,7 +212,7 @@ DetectionResult MedianDetector::detectByzantineShards(
     }
     
     // Detect outliers
-    for (size_t i = 0; i < stats.shard_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(stats.shard_ids.size()); ++i) {
         const std::string& shard_id = stats.shard_ids[i];
         float norm = stats.gradient_norms[i];
         float deviation = std::abs(norm - stats.global_median_norm);
@@ -235,7 +242,7 @@ DetectionResult MedianDetector::detectByzantineShards(
 // KrumDetector Implementation
 // ============================================================================
 
-KrumDetector::KrumDetector(int max_byzantine_shards) 
+KrumDetector::KrumDetector([[maybe_unused]] int max_byzantine_shards) 
     : max_byzantine_shards_(max_byzantine_shards) {
     if (max_byzantine_shards < 0) {
         throw std::invalid_argument("max_byzantine_shards must be non-negative");
@@ -246,14 +253,14 @@ float KrumDetector::computeDistance(
     const std::vector<GradientTensor>& grad1,
     const std::vector<GradientTensor>& grad2
 ) const {
-    if (grad1.size() != grad2.size()) {
+    if (static_cast<int>(grad1.size()) != static_cast<int>(grad2.size())) {
         throw std::runtime_error("Gradient tensor sizes do not match");
     }
     
     float distance = 0.0f;
     
     for (size_t i = 0; i < grad1.size(); ++i) {
-        if (grad1[i].data.size() != grad2[i].data.size()) {
+        if (grad1[i].static_cast<int>(data.size()) != grad2[i].data.size()) {
             throw std::runtime_error("Gradient data sizes do not match");
         }
         
@@ -270,9 +277,10 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
     int num_to_select
 ) const {
-    if (shard_gradients.size() <= static_cast<size_t>(num_to_select)) {
+    if (static_cast<int>(shard_gradients.size()) <= static_cast<size_t>(num_to_select)) {
         // Select all shards
-        std::vector<std::string> all_shards;
+        std::vector<std::string> all_shards = {};
+
         for (const auto& [shard_id, _] : shard_gradients) {
             all_shards.push_back(shard_id);
         }
@@ -280,7 +288,8 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     }
     
     // Compute pairwise distances
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     for (const auto& [shard_id, _] : shard_gradients) {
         shard_ids.push_back(shard_id);
     }
@@ -325,7 +334,8 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
         [](const auto& a, const auto& b) { return a.first < b.first; }
     );
     
-    std::vector<std::string> selected;
+    std::vector<std::string> selected = {};
+
     for (int i = 0; i < num_to_select; ++i) {
         selected.push_back(scores[i].second);
     }
@@ -344,7 +354,7 @@ GradientStatistics KrumDetector::computeStatistics(
 DetectionResult KrumDetector::detectByzantineShards(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    DetectionResult result;
+    DetectionResult result = DetectionResult();
     result.detection_method = "KRUM";
     
     const auto n = static_cast<int>(shard_gradients.size());
@@ -412,7 +422,7 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
     std::vector<GradientTensor> result;
     
     for (size_t layer_idx = 0; layer_idx < num_layers; ++layer_idx) {
-        GradientTensor aggregated;
+        GradientTensor aggregated = GradientTensor();
         aggregated.layer_name = selected_gradients[0][layer_idx].layer_name;
         aggregated.shape = selected_gradients[0][layer_idx].shape;
         
@@ -421,7 +431,8 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
         
         // For each coordinate, compute trimmed mean
         for (size_t coord = 0; coord < data_size; ++coord) {
-            std::vector<float> values;
+            std::vector<float> values = {};
+
             for (const auto& shard_grads : selected_gradients) {
                 values.push_back(shard_grads[layer_idx].data[coord]);
             }
@@ -430,8 +441,8 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
             std::sort(values.begin(), values.end());
             
             // Remove top and bottom trim_count values
-            size_t start = std::min<size_t>(trim_count, values.size() / 2);
-            size_t end = values.size() - start;
+            size_t start = std::min<size_t>(trim_count,static_cast<int>(values.size()) / 2);
+            size_t end = static_cast<int>(values.size()) - start;
             
             if (start < end) {
                 float sum = std::accumulate(
@@ -460,7 +471,7 @@ GradientStatistics BulyanDetector::computeStatistics(
 DetectionResult BulyanDetector::detectByzantineShards(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    DetectionResult result;
+    DetectionResult result = DetectionResult();
     result.detection_method = "BULYAN";
     
     const auto n = static_cast<int>(shard_gradients.size());
@@ -523,7 +534,7 @@ DetectionResult EnsembleDetector::combineResults(
     const DetectionResult& median_result,
     const DetectionResult& krum_result
 ) const {
-    DetectionResult combined;
+    DetectionResult combined = DetectionResult();
     combined.detection_method = "ENSEMBLE";
     
     // Combine anomaly scores (take maximum)
@@ -538,7 +549,8 @@ DetectionResult EnsembleDetector::combineResults(
     combined.anomaly_scores = all_scores;
     
     // A shard is suspected if detected by either method
-    std::set<std::string> suspected_set;
+    std::set<std::string> suspected_set = {};
+
     for (const auto& shard_id : median_result.suspected_shards) {
         suspected_set.insert(shard_id);
     }

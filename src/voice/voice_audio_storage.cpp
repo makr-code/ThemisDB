@@ -44,19 +44,19 @@ int64_t VoiceAudioStorage::nowMs() const {
 std::string VoiceAudioStorage::generateRecordId() const {
     static std::atomic<uint64_t> counter{0};
     auto ts = nowMs();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "rec-" << std::hex << ts << "-" << (++counter);
     return oss.str();
 }
 
 std::string VoiceAudioStorage::computeHash(const std::vector<uint8_t>& data) const {
     // FNV-1a 64-bit hash
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     for (uint8_t b : data) {
         hash ^= static_cast<uint64_t>(b);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setw(16) << std::setfill('0') << hash;
     return oss.str();
 }
@@ -79,7 +79,7 @@ DeduplicationResult VoiceAudioStorage::checkDuplicate(
 AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) const {
     AudioFormat fmt;
     fmt.size_bytes = data.size();
-    if (data.size() >= 4) {
+    if (static_cast<int>(data.size()) >= 4) {
         // WAV: "RIFF"
         if (data[0]=='R' && data[1]=='I' && data[2]=='F' && data[3]=='F') {
             fmt.codec = "wav";
@@ -90,7 +90,7 @@ AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) co
             // Check for OpusHead signature (8 bytes) in the first OGG page
             // Typical offset is 28 bytes into the OGG stream.
             static constexpr size_t OGG_OPUS_SIGNATURE_OFFSET = 28;
-            if (data.size() >= OGG_OPUS_SIGNATURE_OFFSET + 8) {
+            if (static_cast<int>(data.size()) >= OGG_OPUS_SIGNATURE_OFFSET + 8) {
                 bool is_opus = (data[OGG_OPUS_SIGNATURE_OFFSET  ]=='O' &&
                                 data[OGG_OPUS_SIGNATURE_OFFSET+1]=='p' &&
                                 data[OGG_OPUS_SIGNATURE_OFFSET+2]=='u' &&
@@ -106,12 +106,12 @@ AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) co
             return fmt;
         }
         // MP3: sync word 0xFF 0xFB or 0xFF 0xF3 or 0xFF 0xFA
-        if (data[0] == 0xFF && (data[1] == 0xFB || data[1] == 0xF3 || data[1] == 0xFA)) {
+        if ((data[0] == 0xFF && (data[1] == 0xFB || data[1] == 0xF3 || data[1] == 0xFA))) {
             fmt.codec = "mp3";
             return fmt;
         }
         // AAC ADTS: 0xFF 0xF1 or 0xFF 0xF9
-        if (data[0] == 0xFF && (data[1] == 0xF1 || data[1] == 0xF9)) {
+        if ((data[0] == 0xFF && (data[1] == 0xF1 || data[1] == 0xF9))) {
             fmt.codec = "aac";
             return fmt;
         }
@@ -169,7 +169,9 @@ std::optional<std::vector<uint8_t>> VoiceAudioStorage::retrieve(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     auto dit = data_.find(record_id);
-    if (dit == data_.end()) return std::nullopt;
+    if (dit == data_.end()) {
+      return std::nullopt;
+    }
 
     auto rit = records_.find(record_id);
     if (rit != records_.end()) {
@@ -184,14 +186,18 @@ std::optional<AudioStorageRecord> VoiceAudioStorage::getRecord(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
-    if (it == records_.end()) return std::nullopt;
+    if (it == records_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
 bool VoiceAudioStorage::deleteRecord(const std::string& record_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto rit = records_.find(record_id);
-    if (rit == records_.end()) return false;
+    if (rit == records_.end()) {
+      return false;
+    }
 
     // Remove from hash index
     hash_to_id_.erase(rit->second.content_hash);
@@ -204,9 +210,12 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::listRecords(
     StorageTier tier_filter, size_t limit) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AudioStorageRecord> result;
+    std::vector<AudioStorageRecord> result = {};
+
     for (const auto& [id, rec] : records_) {
-        if (result.size() >= limit) break;
+        if (static_cast<int>(result.size()) >= limit) {
+          break;
+        }
         if (rec.tier == tier_filter) {
             result.push_back(rec);
         }
@@ -218,18 +227,29 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::searchTranscripts(
     const std::string& query, size_t limit) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AudioStorageRecord> result;
-    if (query.empty()) return result;
+    std::vector<AudioStorageRecord> result = {};
+
+    if (query.empty()) {
+      return result;
+    }
 
     // Build lowercase version of query for case-insensitive matching
     std::string lower_query = query;
-    for (auto& c : lower_query) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    for (auto& c : lower_query) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
 
     for (const auto& [id, rec] : records_) {
-        if (result.size() >= limit) break;
-        if (rec.transcript.empty()) continue;
+        if (static_cast<int>(result.size()) >= limit) {
+          break;
+        }
+        if (rec.transcript.empty()) {
+          continue;
+        }
         std::string lower_transcript = rec.transcript;
-        for (auto& c : lower_transcript) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : lower_transcript) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         if (lower_transcript.find(lower_query) != std::string::npos) {
             result.push_back(rec);
         }
@@ -238,12 +258,20 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::searchTranscripts(
 }
 
 StorageTier VoiceAudioStorage::computeTier(const AudioStorageRecord& record) const {
-    if (!policy_.enable_auto_tier) return record.tier;
+    if (!policy_.enable_auto_tier) {
+      return record.tier;
+    }
     int64_t now = nowMs();
     int64_t age = now - record.last_accessed_ms;
-    if (age >= policy_.cold_to_delete_after_ms) return StorageTier::DELETED;
-    if (age >= policy_.warm_to_cold_after_ms)   return StorageTier::COLD;
-    if (age >= policy_.hot_to_warm_after_ms)    return StorageTier::WARM;
+    if (age >= policy_.cold_to_delete_after_ms) {
+      return StorageTier::DELETED;
+    }
+    if (age >= policy_.warm_to_cold_after_ms) {
+      return StorageTier::COLD;
+    }
+    if (age >= policy_.hot_to_warm_after_ms) {
+      return StorageTier::WARM;
+    }
     return StorageTier::HOT;
 }
 
@@ -263,7 +291,9 @@ size_t VoiceAudioStorage::applyTierPolicy() {
 bool VoiceAudioStorage::promoteTier(const std::string& record_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
-    if (it == records_.end()) return false;
+    if (it == records_.end()) {
+      return false;
+    }
     auto& tier = it->second.tier;
     if (tier == StorageTier::COLD)    { tier = StorageTier::WARM; return true; }
     if (tier == StorageTier::WARM)    { tier = StorageTier::HOT;  return true; }
@@ -274,7 +304,9 @@ bool VoiceAudioStorage::promoteTier(const std::string& record_id) {
 bool VoiceAudioStorage::demoteTier(const std::string& record_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
-    if (it == records_.end()) return false;
+    if (it == records_.end()) {
+      return false;
+    }
     auto& tier = it->second.tier;
     if (tier == StorageTier::HOT)  { tier = StorageTier::WARM;    return true; }
     if (tier == StorageTier::WARM) { tier = StorageTier::COLD;    return true; }
@@ -287,7 +319,9 @@ bool VoiceAudioStorage::markEncrypted(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
-    if (it == records_.end()) return false;
+    if (it == records_.end()) {
+      return false;
+    }
     it->second.encrypted = true;
     it->second.encryption_key_id = key_id;
     return true;
@@ -296,7 +330,9 @@ bool VoiceAudioStorage::markEncrypted(
 bool VoiceAudioStorage::isEncrypted(const std::string& record_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
-    if (it == records_.end()) return false;
+    if (it == records_.end()) {
+      return false;
+    }
     return it->second.encrypted;
 }
 
@@ -306,10 +342,18 @@ StorageStats VoiceAudioStorage::getStats() const {
     stats.total_records = records_.size();
     for (const auto& [id, rec] : records_) {
         stats.total_bytes += rec.format.size_bytes;
-        if (rec.tier == StorageTier::HOT)  ++stats.hot_records;
-        if (rec.tier == StorageTier::WARM) ++stats.warm_records;
-        if (rec.tier == StorageTier::COLD) ++stats.cold_records;
-        if (rec.encrypted)                 ++stats.encryption_enabled_records;
+        if (rec.tier == StorageTier::HOT) {
+          ++stats.hot_records;
+        }
+        if (rec.tier == StorageTier::WARM) {
+          ++stats.warm_records;
+        }
+        if (rec.tier == StorageTier::COLD) {
+          ++stats.cold_records;
+        }
+        if (rec.encrypted) {
+          ++stats.encryption_enabled_records;
+        }
         if (rec.is_duplicate) {
             ++stats.deduplication_hits;
             stats.deduplicated_bytes += rec.format.size_bytes;

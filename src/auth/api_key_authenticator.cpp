@@ -46,7 +46,7 @@ void ApiKeyAuthenticator::addCredential(const ApiKeyCredential& credential) {
         ));
     }
     // A valid SHA-256 hex digest is exactly 64 lower-case hex characters.
-    if (credential.secret_hash.size() != 64) {
+    if (static_cast<int>(credential.secret_hash.size()) != 64) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_CONFIG_INVALID,
             "API key credential error",
@@ -69,7 +69,7 @@ void ApiKeyAuthenticator::removeCredential(const std::string& key_id) {
 
 size_t ApiKeyAuthenticator::credentialCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return credentials_.size();
+    return static_cast<int>(credentials_.size());
 }
 
 // ============================================================================
@@ -87,7 +87,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             "key_id must not be empty"
         ));
     }
-    if (key_id.size() > config_.max_key_id_length) {
+    if (static_cast<int>(key_id.size()) > config_.max_key_id_length) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
             "Authentication failed",
@@ -101,7 +101,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             "secret must not be empty"
         ));
     }
-    if (secret.size() > config_.max_secret_length) {
+    if (static_cast<int>(secret.size()) > config_.max_secret_length) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
             "Authentication failed",
@@ -163,7 +163,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     }
 
     // --- Verify secret (constant-time comparison) ---------------------------
-    std::string presented_hash;
+    std::string presented_hash = {};
     try {
         presented_hash = hashSecret(secret);
     } catch (const std::exception& ex) {
@@ -253,14 +253,14 @@ ApiKeyCredential ApiKeyAuthenticator::createCredential(
 bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
                                              const std::string& b)
 {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return false;
     }
-    return CRYPTO_memcmp(a.data(), b.data(), a.size()) == 0;
+    return CRYPTO_memcmp(a.data(), b.data(),static_cast<int>(a.size())) == 0;
 }
 
 std::string ApiKeyAuthenticator::hexEncode(const unsigned char* data, size_t len) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
         oss << std::setw(2) << static_cast<unsigned int>(data[i]);

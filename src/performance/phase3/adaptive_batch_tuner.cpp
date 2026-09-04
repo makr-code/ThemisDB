@@ -110,7 +110,7 @@ void LLMBatchTuner::pushRecord(BatchRecord record) noexcept {
 
     // Keep a rolling window (4× the evaluation window)
     const size_t max_records = config_.window_size * 4;
-    if (records_.size() >= max_records) {
+    if (static_cast<int>(records_.size()) >= max_records) {
         records_.erase(records_.begin());
     }
     records_.push_back(record);
@@ -135,7 +135,7 @@ void LLMBatchTuner::maybeTune() noexcept {
     double mean_latency = 0.0;
     double total_tokens_window = 0.0;
 
-    for (size_t i = records_.size() - window; i < records_.size(); ++i) {
+    for (size_t i = static_cast<int>(records_.size()) - window; i < records_.size(); ++i) {
         mean_latency       += records_[i].latency_ms;
         total_tokens_window += static_cast<double>(records_[i].total_tokens);
     }
@@ -193,7 +193,8 @@ LLMBatchTuner::Stats LLMBatchTuner::getStats() const {
     }
 
     // Compute mean and P99 latency from the current window
-    std::vector<double> latencies;
+    std::vector<double> latencies = {};
+
     latencies.reserve(records_.size());
     double sum_latency = 0.0;
     for (const auto& r : records_) {
@@ -204,7 +205,7 @@ LLMBatchTuner::Stats LLMBatchTuner::getStats() const {
 
     std::sort(latencies.begin(), latencies.end());
     size_t p99_idx = static_cast<size_t>(
-        0.99 * static_cast<double>(latencies.size() - 1));
+        0.99 * static_cast<double>(static_cast<int>(latencies.size()) - 1));
     s.p99_latency_ms = latencies[p99_idx];
 
     return s;
@@ -215,15 +216,15 @@ size_t LLMBatchTuner::totalBatches() const noexcept {
 }
 
 std::vector<LLMBatchTuner::BatchRecord>
-LLMBatchTuner::getRecentRecords(size_t limit) const {
+LLMBatchTuner::getRecentRecords([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {
         return {};
     }
 
-    size_t count = std::min(limit, records_.size());
-    size_t start = records_.size() - count;
+    size_t count = std::min(limit,static_cast<int>(records_.size()));
+    size_t start = static_cast<int>(records_.size()) - count;
     return std::vector<BatchRecord>(records_.begin() + static_cast<std::ptrdiff_t>(start),
                                     records_.end());
 }
@@ -242,7 +243,7 @@ void LLMBatchTuner::reset() noexcept {
 
 std::string LLMBatchTuner::summary() const {
     auto s = getStats();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << std::setprecision(1);
     oss << "LLMBatchTuner{"
         << "batch=" << s.current_batch_size

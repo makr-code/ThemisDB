@@ -75,7 +75,7 @@ static constexpr double kTimerResolutionUs = 1.0;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -111,9 +111,13 @@ private:
 };
 
 double cv_percent(const std::vector<double>& v) {
-    if (v.size() < 2) return 0.0;
+    if (v.size() < 2) {
+      return 0.0;
+    }
     const double mean = std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
-    if (std::abs(mean) < 1e-12) return 0.0;
+    if (std::abs(mean) < 1e-12) {
+      return 0.0;
+    }
     double sq = 0.0;
     for (double x : v) { const double d = x - mean; sq += d * d; }
     return (std::sqrt(sq / static_cast<double>(v.size() - 1)) / mean) * 100.0;
@@ -144,7 +148,7 @@ public:
         // Standard warmup
         KeyGenerator wkg(kW8CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.NextKey(kDatasetSize), val);
         }
     }
@@ -188,13 +192,19 @@ BENCHMARK_F(CIHarnessFixture, DCH01_SeedReproducibility)(benchmark::State& state
         seq2.reserve(kSeqLen);
         state.ResumeTiming();
 
-        for (int i = 0; i < kSeqLen; ++i) seq1.push_back(kg1.NextKey(kDatasetSize));
-        for (int i = 0; i < kSeqLen; ++i) seq2.push_back(kg2.NextKey(kDatasetSize));
+        for (int i = 0; i < kSeqLen; ++i) {
+          seq1.push_back(kg1.NextKey(kDatasetSize));
+        }
+        for (int i = 0; i < kSeqLen; ++i) {
+          seq2.push_back(kg2.NextKey(kDatasetSize));
+        }
 
         state.PauseTiming();
         int mismatches = 0;
         for (int i = 0; i < kSeqLen; ++i) {
-            if (seq1[i] != seq2[i]) ++mismatches;
+            if (seq1[i] != seq2[i]) {
+              ++mismatches;
+            }
         }
         state.counters["seed_mismatch_count"] = static_cast<double>(mismatches);
         state.counters["seed_match"]          = benchmark::Counter(mismatches == 0 ? 1.0 : 0.0);
@@ -276,14 +286,14 @@ BENCHMARK_F(CIHarnessFixture, DCH03_IterationCountStability)(benchmark::State& s
 
         for (int i = 0; i < kShortRun; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.NextKey(kDatasetSize), val);
             short_total += std::chrono::duration<double, std::micro>(
                 std::chrono::steady_clock::now() - t0).count();
         }
         for (int i = 0; i < kLongRun; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.NextKey(kDatasetSize), val);
             long_total += std::chrono::duration<double, std::micro>(
                 std::chrono::steady_clock::now() - t0).count();
@@ -360,7 +370,7 @@ BENCHMARK_F(WarmupEffectFixture, DCH04_WarmupEfficacy)(benchmark::State& state) 
         // Cold phase
         for (int i = 0; i < kSampleOps; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(cold_kg.NextKey(kDatasetSize), val);
             cold_total += std::chrono::duration<double, std::micro>(
                 std::chrono::steady_clock::now() - t0).count();
@@ -370,7 +380,7 @@ BENCHMARK_F(WarmupEffectFixture, DCH04_WarmupEfficacy)(benchmark::State& state) 
         state.PauseTiming();
         KeyGenerator wkg(kW8CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.NextKey(kDatasetSize), val);
         }
         state.ResumeTiming();
@@ -378,7 +388,7 @@ BENCHMARK_F(WarmupEffectFixture, DCH04_WarmupEfficacy)(benchmark::State& state) 
         // Warm phase
         for (int i = 0; i < kSampleOps; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(warm_kg.NextKey(kDatasetSize), val);
             warm_total += std::chrono::duration<double, std::micro>(
                 std::chrono::steady_clock::now() - t0).count();
@@ -426,11 +436,15 @@ static void DCH05_TimerResolution(benchmark::State& state) {
             const auto t0 = std::chrono::steady_clock::now();
             const auto t1 = std::chrono::steady_clock::now();
             const double d = std::chrono::duration<double, std::micro>(t1 - t0).count();
-            if (d > 0.0 && d < min_delta_us) min_delta_us = d;
+            if (d > 0.0 && d < min_delta_us) {
+              min_delta_us = d;
+            }
         }
         benchmark::DoNotOptimize(min_delta_us);
     }
-    if (min_delta_us == std::numeric_limits<double>::max()) min_delta_us = 0.0;
+    if (min_delta_us == std::numeric_limits<double>::max()) {
+      min_delta_us = 0.0;
+    }
     state.counters["timer_min_delta_us"] = min_delta_us;
     state.counters["timer_sub_us"]       =
         benchmark::Counter(min_delta_us <= kTimerResolutionUs ? 1.0 : 0.0);
@@ -495,10 +509,12 @@ BENCHMARK_F(ParallelIsolationFixture, DCH06_ParallelIsolation)(benchmark::State&
     int reads = 0, misses = 0;
     for (auto _ : state) {
         const std::string key = "pi_" + std::to_string(kg.NextKey(1000).back() % 1000);
-        std::string val;
+        std::string val = {};
         const bool found = db_->get(key, val);
         ++reads;
-        if (!found) ++misses;
+        if (!found) {
+          ++misses;
+        }
         benchmark::DoNotOptimize(found);
     }
     state.counters["instance_id"]         = static_cast<double>(instance_id_);
@@ -557,7 +573,7 @@ BENCHMARK_F(TeardownVerifyFixture, DCH07_TeardownCompleteness)(benchmark::State&
     KeyGenerator kg(kW8CanonicalSeed + 77);
     for (auto _ : state) {
         const std::string key = kg.NextKey(500);
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get("tv_" + key.substr(key.rfind('_') + 1), val));
     }
     // The actual teardown check runs in TearDown(); emit a placeholder counter.
@@ -594,7 +610,7 @@ BENCHMARK_F(CIHarnessFixture, DCH08_FlakeDetection)(benchmark::State& state) {
 
         for (int i = 0; i < kFlakeSamples; ++i) {
             const auto t0 = std::chrono::steady_clock::now();
-            std::string val;
+            std::string val = {};
             db_->get(kg.NextKey(kDatasetSize), val);
             samples.push_back(
                 std::chrono::duration<double, std::micro>(

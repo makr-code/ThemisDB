@@ -73,7 +73,9 @@ static HttpResponse hfHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     if (!ca_bundle_path.empty()) {
         if (!std::ifstream(ca_bundle_path).good()) {
-            if (headers) curl_slist_free_all(headers);
+            if (headers) {
+              curl_slist_free_all(headers);
+            }
             curl_easy_cleanup(curl);
             r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
             return r;
@@ -91,7 +93,9 @@ static HttpResponse hfHttpGet(const std::string& url,
         r.status_code = static_cast<int>(http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
     return r;
 }
@@ -104,10 +108,16 @@ static size_t hfJsonExtractSizeT(const std::string& json,
                                   const std::string& key) {
     std::string needle = "\"" + key + "\":";
     auto pos = json.find(needle);
-    if (pos == std::string::npos) return 0;
+    if (pos == std::string::npos) {
+      return 0;
+    }
     pos += needle.size();
-    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) ++pos;
-    if (pos >= json.size()) return 0;
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
+      ++pos;
+    }
+    if (pos >= static_cast<int>(json.size())) {
+      return 0;
+    }
     size_t val = 0;
     bool found_digit = false;
     while (pos < json.size() && std::isdigit(static_cast<unsigned char>(json[pos]))) {
@@ -205,7 +215,9 @@ static HttpResponse hfHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     if (!ca_bundle_path.empty()) {
         if (!std::ifstream(ca_bundle_path).good()) {
-            if (headers) curl_slist_free_all(headers);
+            if (headers) {
+              curl_slist_free_all(headers);
+            }
             curl_easy_cleanup(curl);
             r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
             return r;
@@ -223,7 +235,9 @@ static HttpResponse hfHttpPost(const std::string& url,
         r.status_code = static_cast<int>(http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
     return r;
 }
@@ -233,15 +247,19 @@ static std::string hfJsonExtractStringValue(const std::string& json,
                                              const std::string& key) {
     std::string needle = "\"" + key + "\":\"";
     auto start = json.find(needle);
-    if (start == std::string::npos) return "";
+    if (start == std::string::npos) {
+      return "";
+    }
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (size_t i = start; i < json.size(); ++i) {
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -285,7 +303,7 @@ public:
         }
 
         // OAuth 2.0 configuration from options
-        auto opt = [&](const std::string& k) -> std::string {
+        auto opt = [&]([[maybe_unused]] const std::string& k) -> std::string {
             auto oit = config.options.find(k);
             return (oit != config.options.end()) ? oit->second : "";
         };
@@ -337,7 +355,9 @@ public:
                 // datasets with exactly 0 rows would produce an empty ingest run
                 // regardless of which field is used.
                 size_t rows = hfJsonExtractSizeT(response.body, "rows");
-                if (rows == 0) rows = hfJsonExtractSizeT(response.body, "count");
+                if (rows == 0) {
+                  rows = hfJsonExtractSizeT(response.body, "count");
+                }
                 return rows;
             }
             
@@ -422,7 +442,7 @@ private:
 
     // Percent-encode a string for application/x-www-form-urlencoded.
     static std::string urlEncode(const std::string& value) {
-        std::string encoded;
+        std::string encoded = {};
         for (unsigned char c : value) {
             if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
                 encoded += static_cast<char>(c);
@@ -437,7 +457,7 @@ private:
 
     // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
     // Returns true and updates oauth_config_.access_token on success.
-    bool refreshOAuthToken(int timeout_ms) {
+    bool refreshOAuthToken([[maybe_unused]] int timeout_ms) {
         std::string body = "grant_type=refresh_token"
                            "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
         if (!oauth_config_.client_id.empty())
@@ -446,10 +466,14 @@ private:
             body += "&client_secret=" + urlEncode(oauth_config_.client_secret);
 
         auto resp = httpPost(oauth_config_.token_endpoint, body, timeout_ms);
-        if (resp.status_code != 200) return false;
+        if (resp.status_code != 200) {
+          return false;
+        }
 
         std::string new_token = hfJsonExtractStringValue(resp.body, "access_token");
-        if (new_token.empty()) return false;
+        if (new_token.empty()) {
+          return false;
+        }
 
         oauth_config_.access_token = std::move(new_token);
 
@@ -537,12 +561,12 @@ private:
                 }
             }
             stats.documents_processed += chunk_size;
-            stats.bytes_processed += response.body.size() > 0
-                                     ? response.body.size()
+            stats.bytes_processed += static_cast<int>(response.body.size()) > 0
+                                     ?static_cast<int>(response.body.size())
                                      : chunk_size * 1024;
             processed += chunk_size;
             
-            if (callback && processed % (batch_size_ * 10) == 0) {
+            if ([[maybe_unused]] callback && processed % (batch_size_ * 10) == 0) {
                 callback(config_.source_id, processed, total_docs,
                         "Downloaded " + std::to_string(processed) + " documents");
             }
@@ -581,11 +605,11 @@ private:
             size_t total_docs = getDocumentCount();
             // In production: parse JSON/Parquet from response.body
             stats.documents_processed = total_docs;
-            stats.bytes_processed = response.body.size() > 0
-                                    ? response.body.size()
+            stats.bytes_processed = static_cast<int>(response.body.size()) > 0
+                                    ?static_cast<int>(response.body.size())
                                     : total_docs * 1024;
             
-            if (callback) {
+            if ([[maybe_unused]] callback) {
                 callback(config_.source_id, total_docs, total_docs,
                         "Completed batch ingestion");
             }
@@ -605,11 +629,11 @@ public:
         api_token_ = token;
     }
     
-    void setBatchSize(size_t batch_size) {
+    void setBatchSize([[maybe_unused]] size_t batch_size) {
         batch_size_ = batch_size;
     }
     
-    void setStreamingMode(bool enabled) {
+    void setStreamingMode([[maybe_unused]] bool enabled) {
         streaming_enabled_ = enabled;
     }
 
@@ -728,11 +752,11 @@ void HuggingFaceConnector::setApiToken(const std::string& token) {
     impl_->setApiToken(token);
 }
 
-void HuggingFaceConnector::setBatchSize(size_t batch_size) {
+void HuggingFaceConnector::setBatchSize([[maybe_unused]] size_t batch_size) {
     impl_->setBatchSize(batch_size);
 }
 
-void HuggingFaceConnector::setStreamingMode(bool enabled) {
+void HuggingFaceConnector::setStreamingMode([[maybe_unused]] bool enabled) {
     impl_->setStreamingMode(enabled);
 }
 

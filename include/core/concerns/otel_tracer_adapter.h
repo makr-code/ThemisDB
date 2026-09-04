@@ -121,7 +121,8 @@ public:
             return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
         }
         auto* otelParent = dynamic_cast<const OtelSpanAdapter*>(&parent);
-        std::unique_ptr<OtelSpanAdapter> span_ptr;
+        std::unique_ptr<OtelSpanAdapter> span_ptr = {};
+
         if (otelParent) {
             span_ptr = std::make_unique<OtelSpanAdapter>(
                 themis::Tracer::startChildSpan(name, otelParent->getSpan())

@@ -234,7 +234,8 @@ static std::vector<uint8_t> makeFrame(uint8_t opcode,
                                        const std::vector<uint8_t>& payload = {},
                                        bool skip_checksum = true)
 {
-    std::vector<uint8_t> frame;
+    std::vector<uint8_t> frame = {};
+
     frame.reserve(12 + payload.size());
 
     // Magic
@@ -267,7 +268,8 @@ static std::vector<uint8_t> makeBinaryFrame(
     uint16_t flags,
     const std::vector<uint8_t>& payload)
 {
-    std::vector<uint8_t> frame;
+    std::vector<uint8_t> frame = {};
+
     frame.reserve(12 + payload.size());
     // Magic "TMDB"
     frame.push_back(0x54); frame.push_back(0x4D);
@@ -292,7 +294,9 @@ static bool parseResponseFrame(const std::vector<uint8_t>& frame,
                                  uint16_t& flags_out,
                                  std::string& payload_str_out)
 {
-    if (frame.size() < 12) return false;
+    if (frame.size() < 12) {
+      return false;
+    }
     if (frame[0] != kWireMagic[0] || frame[1] != kWireMagic[1] ||
         frame[2] != kWireMagic[2] || frame[3] != kWireMagic[3]) return false;
 
@@ -302,7 +306,9 @@ static bool parseResponseFrame(const std::vector<uint8_t>& frame,
                       | (static_cast<uint32_t>(frame[9])  << 16)
                       | (static_cast<uint32_t>(frame[10]) <<  8)
                       |  static_cast<uint32_t>(frame[11]);
-    if (frame.size() < 12 + ps) return false;
+    if (frame.size() < 12 + ps) {
+      return false;
+    }
     payload_str_out.assign(reinterpret_cast<const char*>(frame.data() + 12), ps);
     return true;
 }
@@ -375,7 +381,7 @@ TEST(WireProtocolWebSocket, ResponseFrameParsing) {
 
     uint8_t  opcode;
     uint16_t flags;
-    std::string parsed_payload;
+    std::string parsed_payload = {};
     ASSERT_TRUE(parseResponseFrame(frame, opcode, flags, parsed_payload));
 
     EXPECT_EQ(opcode, 0xFDu);

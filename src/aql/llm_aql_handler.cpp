@@ -59,7 +59,7 @@ namespace {
 
 /// @brief Lower-case a copy of @p s for case-insensitive matching.
 std::string toLower(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     std::transform(s.begin(), s.end(), std::back_inserter(out),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -119,7 +119,7 @@ std::optional<std::string> parseDomainHint(const std::unordered_map<std::string,
     return std::nullopt;
 }
 
-std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
+std::string batchDomainKey([[maybe_unused]] const LLMAQLHandler::BatchInferRequest &req) {
     const auto it = req.options.find("domain_hint");
     if (it == req.options.end() || it->second.empty()) {
         return "__default__";
@@ -128,7 +128,7 @@ std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
 }
 
 std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages) {
-    std::string combined_user_content;
+    std::string combined_user_content = {};
     for (const auto& msg : messages) {
         if (toLower(msg.role) == "user" && !msg.content.empty()) {
             if (!combined_user_content.empty()) {
@@ -141,7 +141,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
         return combined_user_content;
     }
 
-    std::string all_content;
+    std::string all_content = {};
     for (const auto& msg : messages) {
         if (!msg.content.empty()) {
             if (!all_content.empty()) {
@@ -157,7 +157,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
  * @brief Reject input that contains well-known prompt injection patterns.
  *
  * Checks for:
- *  - Instruction-override phrases ("ignore previous instructions", etc.)
+ *  - Instruction-override phrases ("ignor[[maybe_unused]] e previou[[maybe_unused]] s instruction[[maybe_unused]] s", et[[maybe_unused]] c.)
  *  - Persona-hijacking phrases ("you are now a", "act as a different")
  *  - Explicit override markers ("[SYSTEM]", "<system>", "###system")
  *  - DAN/jailbreak markers ("do anything now")
@@ -171,7 +171,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
  */
 void sanitizePromptInput(const std::string &input, const std::string &field_name, std::size_t max_length = 0) {
     // --- Length check ---
-    if (max_length > 0 && input.size() > max_length) {
+    if (max_length > 0 && static_cast<int>(input.size()) > max_length) {
         throw LLMException(LLMErrorCode::PROMPT_TOO_LONG, field_name + " exceeds maximum allowed length of "
                                                               + std::to_string(max_length) + " characters");
     }
@@ -273,7 +273,7 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
     }
 
     std::string bounded = raw_feedback;
-    if (max_length > 0 && bounded.size() > max_length) {
+    if (max_length > 0 && static_cast<int>(bounded.size()) > max_length) {
         bounded.resize(max_length);
     }
 
@@ -294,7 +294,7 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
  * @return Prompt string ready to send to the LLM.
  */
 std::string buildAQLExplanationPrompt(const std::string &aql_query, const std::string &schema_context) {
-    std::ostringstream prompt;
+    std::ostringstream prompt = {};
     prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
     if (!schema_context.empty()) {
         prompt << "Database schema context:\n" << schema_context << "\n\n";
@@ -415,7 +415,7 @@ static std::unordered_set<std::string> extractReferencedCollectionsForAccessChec
     const std::string& aql_query)
 {
     std::unordered_set<std::string> collections;
-    const auto addMatches = [&](const std::regex& pattern) {
+    const auto addMatches = [&]([[maybe_unused]] const std::regex& pattern) {
         auto begin = std::sregex_iterator(aql_query.begin(), aql_query.end(), pattern);
         const auto end = std::sregex_iterator{};
         for (auto it = begin; it != end; ++it) {
@@ -487,7 +487,7 @@ bool AQLConversationSession::empty() const {
 }
 
 std::size_t AQLConversationSession::size() const {
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -521,12 +521,12 @@ class LLMAQLHandler::Impl {
         // Wire the full validation pipeline with parser + LLM client
         if (cfg.llm_client) {
             llm_client_ = cfg.llm_client;
-            spdlog::info("LLMAQLHandler: Custom LLM client injected");
+            spdlog::info([[maybe_unused]] "LLMAQLHandler: Custom LLM client injected");
         } else {
             // Create default mock LLM client for testing/development
             extern std::shared_ptr<llm::LLMClient> createDefaultLLMClient();
             llm_client_ = createDefaultLLMClient();
-            spdlog::info("LLMAQLHandler: Default (mock) LLM client initialized");
+            spdlog::info([[maybe_unused]] "LLMAQLHandler: Default (mock) LLM client initialized");
         }
         
         // Wire the validation pipeline with parser + LLM client
@@ -576,7 +576,7 @@ class LLMAQLHandler::Impl {
     // Runtime-overridable validation limits (default = ValidationLimits constexprs)
     ValidationLimitsConfig validation_limits_{};
 
-    // Optional chat executor override (for unit tests)
+    // Optional chat executor override (fo[[maybe_unused]] r uni[[maybe_unused]] t test[[maybe_unused]] s)
     std::function<std::string(const std::vector<llm::ChatMessage> &)> chat_executor_;
     std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_;
 
@@ -613,7 +613,7 @@ class LLMAQLHandler::Impl {
         if (!batch_scheduler_ || !adaptive_shard_router_ || local_shard_id_.empty()) {
             if (batch_scheduler_) {
                 // Detach any previously wired callback.
-                batch_scheduler_->setShardLoadCallback({});
+                batch_scheduler_->setShardLoadCallback([[maybe_unused]] {});
             }
             return;
         }
@@ -627,11 +627,11 @@ class LLMAQLHandler::Impl {
 
 LLMAQLHandler::LLMAQLHandler() : impl_(std::make_unique<Impl>(Config{})) {}
 
-LLMAQLHandler::LLMAQLHandler(const Config &config) : impl_(std::make_unique<Impl>(config)) {}
+LLMAQLHandler::LLMAQLHandler([[maybe_unused]] const Config &config) : impl_(std::make_unique<Impl>(config)) {}
 
 LLMAQLHandler::~LLMAQLHandler() = default;
 
-void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
+void LLMAQLHandler::setValidationMode([[maybe_unused]] TranslationValidationMode mode) {
     impl_->validation_mode_ = mode;
 }
 
@@ -645,7 +645,7 @@ TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
 }
 
-void LLMAQLHandler::setValidationPipelineConfig(const LLMValidationPipelineConfig& config) {
+void LLMAQLHandler::setValidationPipelineConfig([[maybe_unused]] const LLMValidationPipelineConfig& config) {
     impl_->config_.validation_config = config;
     if (impl_->validation_pipeline_) {
         impl_->validation_pipeline_->setConfig(config);
@@ -659,12 +659,12 @@ LLMValidationPipelineConfig LLMAQLHandler::getValidationPipelineConfig() const {
 }
 
 // Phase 0.3 Task 7: Parser service configuration getters/setters
-void LLMAQLHandler::setParserService(std::shared_ptr<query::AQLParserService> parser_service) {
+void LLMAQLHandler::setParserService([[maybe_unused]] std::shared_ptr<query::AQLParserService> parser_service) {
     impl_->parser_service_ = std::move(parser_service);
     if (impl_->parser_service_) {
-        spdlog::info("LLMAQLHandler: Parser service configured");
+        spdlog::info([[maybe_unused]] "LLMAQLHandler: Parser service configured");
     } else {
-        spdlog::warn("LLMAQLHandler: Parser service disabled (nullptr)");
+        spdlog::warn([[maybe_unused]] "LLMAQLHandler: Parser service disabled (nullptr)");
     }
 }
 
@@ -673,7 +673,7 @@ std::shared_ptr<query::AQLParserService> LLMAQLHandler::getParserService() const
 }
 
 // Phase 0.4: LLM Client configuration getters/setters
-void LLMAQLHandler::setLLMClient(std::shared_ptr<llm::LLMClient> llm_client) {
+void LLMAQLHandler::setLLMClient([[maybe_unused]] std::shared_ptr<llm::LLMClient> llm_client) {
     impl_->llm_client_ = std::move(llm_client);
     if (impl_->llm_client_) {
         spdlog::info("LLMAQLHandler: LLM client configured (provider={})",
@@ -683,12 +683,12 @@ void LLMAQLHandler::setLLMClient(std::shared_ptr<llm::LLMClient> llm_client) {
             impl_->validation_pipeline_ = LLMValidationPipelineFactory::createWithConfig(
                 impl_->parser_service_, impl_->llm_client_,
                 impl_->config_.validation_config);
-            spdlog::info("LLMAQLHandler: Validation pipeline re-wired");
+            spdlog::info([[maybe_unused]] "LLMAQLHandler: Validation pipeline re-wired");
         } catch (const std::exception& e) {
             spdlog::error("LLMAQLHandler: Failed to re-wire validation pipeline: {}", e.what());
         }
     } else {
-        spdlog::warn("LLMAQLHandler: LLM client disabled (nullptr)");
+        spdlog::warn([[maybe_unused]] "LLMAQLHandler: LLM client disabled (nullptr)");
         impl_->validation_pipeline_ = nullptr;
     }
 }
@@ -701,7 +701,7 @@ std::shared_ptr<LLMValidationPipeline> LLMAQLHandler::getValidationPipeline() co
     return impl_->validation_pipeline_;
 }
 
-void LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig &config) {
+void LLMAQLHandler::setValidationLimits([[maybe_unused]] const ValidationLimitsConfig &config) {
     impl_->validation_limits_ = config;
 }
 
@@ -709,20 +709,20 @@ ValidationLimitsConfig LLMAQLHandler::getValidationLimits() const {
     return impl_->validation_limits_;
 }
 
-void LLMAQLHandler::setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig &config) {
+void LLMAQLHandler::setTimeoutConfig([[maybe_unused]] const LLMTimeoutManager::TimeoutConfig &config) {
     impl_->timeout_manager_.setConfig(config);
 }
 
-void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
+void LLMAQLHandler::setDomainRouteResolver([[maybe_unused]] DomainRouteResolver resolver) {
     impl_->domain_route_resolver_ = std::move(resolver);
 }
 
-void LLMAQLHandler::setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router) {
+void LLMAQLHandler::setAdaptiveShardRouter([[maybe_unused]] std::shared_ptr<sharding::AdaptiveShardRouter> router) {
     impl_->adaptive_shard_router_ = std::move(router);
     impl_->wireShardLoadCallback();
 }
 
-void LLMAQLHandler::setShardingManager(sharding::ShardingManager *sharding_manager) {
+void LLMAQLHandler::setShardingManager([[maybe_unused]] sharding::ShardingManager *sharding_manager) {
     impl_->sharding_manager_ = sharding_manager;
 }
 
@@ -732,7 +732,7 @@ void LLMAQLHandler::setBatchScheduler(llm::ContinuousBatchScheduler *sched, std:
     impl_->wireShardLoadCallback();
 }
 
-void LLMAQLHandler::setKVPrefixTransferManager(std::unique_ptr<llm::KVPrefixTransferManager> mgr) {
+void LLMAQLHandler::setKVPrefixTransferManager([[maybe_unused]] std::unique_ptr<llm::KVPrefixTransferManager> mgr) {
     impl_->kv_prefix_transfer_mgr_ = std::move(mgr);
 }
 
@@ -740,7 +740,7 @@ void LLMAQLHandler::setChatExecutor(std::function<std::string(const std::vector<
     impl_->chat_executor_ = std::move(executor);
 }
 
-void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator) {
+void LLMAQLHandler::setTokenEstimator([[maybe_unused]] std::unique_ptr<TokenEstimator> estimator) {
     if (estimator) {
         impl_->token_estimator_ = std::move(estimator);
     } else {
@@ -748,7 +748,7 @@ void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator)
     }
 }
 
-void LLMAQLHandler::setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridge) {
+void LLMAQLHandler::setIngestionBridge([[maybe_unused]] std::shared_ptr<AQLIngestionBridge> bridge) {
     impl_->ingestion_bridge_ = std::move(bridge);
 }
 
@@ -756,7 +756,7 @@ std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
     return impl_->ingestion_bridge_;
 }
 
-void LLMAQLHandler::setStorage(std::shared_ptr<RocksDBWrapper> storage) {
+void LLMAQLHandler::setStorage([[maybe_unused]] std::shared_ptr<RocksDBWrapper> storage) {
     impl_->storage_ = std::move(storage);
 }
 
@@ -784,7 +784,7 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
         }
 
         // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
-        auto result = impl_->timeout_manager_.executeInferWithCancelToken([&](auto cancel_token) {
+        auto result = impl_->timeout_manager_.executeInferWithCancelToken([&]([[maybe_unused]] auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
@@ -805,7 +805,7 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                     }
 
                     constexpr double kMinRoutingAccuracyDelta = 0.4;
-                    std::string routed_shard_id;
+                    std::string routed_shard_id = {};
                     std::string routing_decision = "LOCAL";
                     if (const auto domain = parseDomainHint(options); domain.has_value()) {
                         if (impl_->domain_route_resolver_) {
@@ -882,8 +882,8 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                     }
 
                     // Wrap any streaming callback so token delivery stops on cancellation.
-                    if (request.stream_callback) {
-                        auto orig_cb = std::move(request.stream_callback);
+                    if ([[maybe_unused]] request.stream_callback) {
+                        auto orig_cb = std::move([[maybe_unused]] request.stream_callback);
                         request.stream_callback
                             = [orig_cb = std::move(orig_cb), cancel_token](const std::string &token) {
                                   if (!cancel_token->load(std::memory_order_acquire)) {
@@ -912,8 +912,8 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
             prompt,
             LLMAQLHandler::json{
                 {"operation", "infer"},
-                {"prompt_bytes", prompt.size()},
-                {"response_bytes", result.size()},
+                {"prompt_bytes",static_cast<int>(prompt.size())},
+                {"response_bytes",static_cast<int>(result.size())},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"latency_ms", latency.count()},
@@ -1036,8 +1036,8 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
             prompt,
             LLMAQLHandler::json{
                 {"operation", "infer_streaming"},
-                {"prompt_bytes", prompt.size()},
-                {"response_bytes", response.text.size()},
+                {"prompt_bytes",static_cast<int>(prompt.size())},
+                {"response_bytes",static_cast<int>(response.text.size())},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"latency_ms", latency.count()},
@@ -1102,7 +1102,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
         }
 
         // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
-        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
+        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&]([[maybe_unused]] auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
@@ -1217,8 +1217,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     }
 
                     // Wrap any streaming callback so token delivery stops on cancellation.
-                    if (request.stream_callback) {
-                        auto orig_cb = std::move(request.stream_callback);
+                    if ([[maybe_unused]] request.stream_callback) {
+                        auto orig_cb = std::move([[maybe_unused]] request.stream_callback);
                         request.stream_callback
                             = [orig_cb = std::move(orig_cb), cancel_token](const std::string &token) {
                                   if (!cancel_token->load(std::memory_order_acquire)) {
@@ -1247,8 +1247,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
             query,
             LLMAQLHandler::json{
                 {"operation", "rag"},
-                {"query_bytes", query.size()},
-                {"response_bytes", result.size()},
+                {"query_bytes",static_cast<int>(query.size())},
+                {"response_bytes",static_cast<int>(result.size())},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"retrieved_docs", retrieved_docs},
@@ -1361,7 +1361,7 @@ void LLMAQLHandler::executeModelLoad(const std::string &model_id, const std::str
     }
 }
 
-void LLMAQLHandler::executeModelUnload(const std::string &model_id) {
+void LLMAQLHandler::executeModelUnload([[maybe_unused]] const std::string &model_id) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
         plugin_mgr.unloadModel(model_id);
@@ -1397,7 +1397,7 @@ void LLMAQLHandler::executeLoRALoad(const std::string &lora_id, const std::strin
     }
 }
 
-void LLMAQLHandler::executeLoRAUnload(const std::string &lora_id) {
+void LLMAQLHandler::executeLoRAUnload([[maybe_unused]] const std::string &lora_id) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
         plugin_mgr.unloadLoRA(lora_id);
@@ -1409,7 +1409,8 @@ void LLMAQLHandler::executeLoRAUnload(const std::string &lora_id) {
 std::vector<std::string> LLMAQLHandler::executeLoRAList() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
-        std::vector<std::string> ids;
+        std::vector<std::string> ids = {};
+
         for (const auto &lora : plugin_mgr.listLoRAs()) {
             ids.push_back(lora.lora_id.empty() ? lora.id : lora.lora_id);
         }
@@ -1424,7 +1425,7 @@ std::string LLMAQLHandler::executeStats() {
         auto &plugin_mgr = impl_->getPluginManager();
         auto stats       = plugin_mgr.getStatistics();
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "LLM Statistics:\n";
         oss << "  Models loaded: " << stats.models_loaded << "\n";
         oss << "  LoRAs loaded: " << stats.loras_loaded << "\n";
@@ -1459,7 +1460,7 @@ std::string LLMAQLHandler::executeCacheStats() {
         auto &plugin_mgr = impl_->getPluginManager();
         auto stats       = plugin_mgr.getCacheStatistics();
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "LLM Cache Statistics:\n";
         oss << "  Response cache hits: " << stats.response_cache_hits << "\n";
         oss << "  Response cache misses: " << stats.response_cache_misses << "\n";
@@ -1485,7 +1486,7 @@ void LLMAQLHandler::executeCacheClear() {
     }
 }
 
-std::vector<std::string> LLMAQLHandler::executeBatchInfer(const std::vector<BatchInferRequest> &requests) {
+std::vector<std::string> LLMAQLHandler::executeBatchInfer([[maybe_unused]] const std::vector<BatchInferRequest> &requests) {
     try {
         std::vector<std::string> results(requests.size());
         if (requests.empty()) {
@@ -1532,7 +1533,7 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(const std::vector<Batc
 std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string &schema_context,
                                                     const std::vector<AQLFewShotExample> &examples,
                                                     const std::string &validation_feedback) const {
-    std::string out;
+    std::string out = {};
     out.reserve(2048);
     out += "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
     out += "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
@@ -1575,7 +1576,7 @@ std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string &schema_co
     return out;
 }
 
-std::string LLMAQLHandler::stripMarkdownFences(std::string raw) {
+std::string LLMAQLHandler::stripMarkdownFences([[maybe_unused]] std::string raw) {
     // Delegate to centralized implementation from markdown_utils.h (Phase 1 consolidation)
     return themis::prompt_engineering::stripMarkdownFences(raw);
 }
@@ -1651,8 +1652,10 @@ static std::pair<bool, std::string> validateAQLWithParser(
             // Add suggestions for LLM retry feedback
             if (!parse_result.diagnostics.suggestions.empty()) {
                 error_msg += ". Suggestions: ";
-                for (size_t i = 0; i < parse_result.diagnostics.suggestions.size() && i < 2; ++i) {
-                    if (i > 0) error_msg += "; ";
+                for (size_t i = 0; i <static_cast<int>(parse_result.diagnostics.suggestions.size()) && i < 2; ++i) {
+                    if (i > 0) {
+                      error_msg += "; ";
+                    }
                     error_msg += parse_result.diagnostics.suggestions[i];
                 }
             }
@@ -1713,10 +1716,10 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
 
     constexpr std::size_t MAX_PREVIEW = 100;
     std::string preview
-        = query_preview.size() > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
+        = static_cast<int>(query_preview.size()) > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
 
-    std::ostringstream warn_msg;
-    warn_msg << function_name << " produced " << annotations.size() << " potential syntax issue(s) for query \""
+    std::ostringstream warn_msg = {};
+    warn_msg << function_name << " produced " <<static_cast<int>(annotations.size()) << " potential syntax issue(s) for query \""
              << preview << "\":";
     for (const auto &ann : annotations) {
         warn_msg << "\n  Line " << ann.line << ", Col " << ann.column << ": " << ann.message;
@@ -1730,11 +1733,11 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
     sanitizePromptInput(schema_context, "schema_context", impl_->validation_limits_.max_schema_context_length);
 
     spdlog::debug("NL-to-AQL: Starting translation for query: {}", 
-                  nl_query.size() > 100 ? nl_query.substr(0, 100) + "..." : nl_query);
+                  static_cast<int>(nl_query.size()) > 100 ? nl_query.substr(0, 100) + "..." : nl_query);
 
     const TranslationValidationMode mode = impl_->validation_mode_;
     const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
-    std::string validation_feedback;
+    std::string validation_feedback = {};
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         try {
@@ -1756,7 +1759,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
 
             // Use chat interface for better results
             auto response = executeChat(messages);
-            spdlog::debug("NL-to-AQL: LLM generated {} chars of response", response.size());
+            spdlog::debug("NL-to-AQL: LLM generated {} chars of response",static_cast<int>(response.size()));
 
             // Clean up response – strip markdown fences and trim whitespace
             std::string aql_query = stripMarkdownFences(std::move(response));
@@ -1873,7 +1876,7 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
 
         const TranslationValidationMode mode = impl_->validation_mode_;
         const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
-        std::string validation_feedback;
+        std::string validation_feedback = {};
 
         for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
             // Build the same prompt used by translateNLToAQL
@@ -1890,18 +1893,18 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
             // Stream via executeInferStreaming; collect tokens so we can post-process.
             // Tokens are forwarded to the caller on all attempts (including retries).
             // When a chat executor override is set (for testing), use it instead.
-            std::string raw_response;
+            std::string raw_response = {};
             if (impl_->chat_executor_) {
                 // Test/mock path: build messages and use the injected executor.
                 std::vector<llm::ChatMessage> messages;
                 messages.emplace_back("system", sys_prompt);
                 messages.emplace_back("user", user_prompt_str);
                 raw_response = impl_->chat_executor_(messages);
-                token_callback(raw_response);
+                token_callback([[maybe_unused]] raw_response);
             } else {
-                auto collecting_callback = [&raw_response, &token_callback](const std::string &token) {
+                auto collecting_callback = [&raw_response, &token_callback]([[maybe_unused]] const std::string &token) {
                     raw_response += token;
-                    token_callback(token);
+                    token_callback([[maybe_unused]] token);
                 };
                 executeInferStreaming(full_prompt, collecting_callback);
             }
@@ -1972,7 +1975,8 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
 std::vector<LLMAQLHandler::BatchNLToAQLResult>
 LLMAQLHandler::translateBatchNLToAQL(const std::vector<BatchNLToAQLRequest> &requests,
                                      [[maybe_unused]] std::size_t max_concurrent_requests) {
-    std::vector<BatchNLToAQLResult> results;
+    std::vector<BatchNLToAQLResult> results = {};
+
     results.reserve(requests.size());
 
     for (const auto& req : requests) {
@@ -2009,7 +2013,7 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
     try {
         const std::string original_query = buildChatOriginalQuery(messages);
         // If a test/mock executor has been injected, use it instead of the live LLM.
-        std::string response;
+        std::string response = {};
         if (impl_->chat_executor_) {
             response = impl_->chat_executor_(messages);
         } else {
@@ -2046,8 +2050,8 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
             original_query,
             LLMAQLHandler::json{
                 {"operation", "chat"},
-                {"message_count", messages.size()},
-                {"response_bytes", response.size()}},
+                {"message_count",static_cast<int>(messages.size())},
+                {"response_bytes",static_cast<int>(response.size())}},
             LLMErrorCode::INFERENCE_FAILED);
         return response;
 
@@ -2123,13 +2127,14 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
 
     const TranslationValidationMode mode = impl_->validation_mode_;
     const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
-    std::string validation_feedback;
+    std::string validation_feedback = {};
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         try {
             // On first attempt inject few-shot examples; on retries focus on error feedback.
             std::size_t injected_count = 0;
-            std::vector<AQLFewShotExample> examples;
+            std::vector<AQLFewShotExample> examples = {};
+
             if (attempt == 0 && max_examples > 0) {
                 examples       = library.findRelevant(nl_query, max_examples);
                 injected_count = examples.size();
@@ -2197,7 +2202,7 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
             }
 
             spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"", injected_count,
-                          nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
+                          static_cast<int>(nl_query.size()) > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
 
             return aql_query;
 
@@ -2239,7 +2244,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
         sanitizePromptInput(aql_query, "aql_query");
 
         // Build a structured prompt that asks the LLM to respond in a parseable format
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
 
         if (!schema_context.empty()) {
@@ -2264,7 +2269,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
 
         // Parse the structured response
         std::istringstream ss(response);
-        std::string line;
+        std::string line = {};
         bool in_suggestions = false;
         while (std::getline(ss, line)) {
             // Trim leading/trailing whitespace
@@ -2278,7 +2283,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                 continue;
             }
 
-            if (line.size() >= 7 && line.substr(0, 7) == "SCORE: ") {
+            if (static_cast<int>(line.size()) >= 7 && line.substr(0, 7) == "SCORE: ") {
                 try {
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
@@ -2287,10 +2292,10 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                     result.score = -1.0f;
                 }
                 in_suggestions = false;
-            } else if (line.size() >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
+            } else if (static_cast<int>(line.size()) >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
                 result.explanation = line.substr(13);
                 in_suggestions     = false;
-            } else if (line.size() >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
+            } else if (static_cast<int>(line.size()) >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
                 in_suggestions         = true;
                 std::string suggestion = line.substr(12);
                 if (suggestion != "None" && !suggestion.empty()) {

@@ -45,7 +45,7 @@ static constexpr std::array<uint32_t, 64> kK = {{
 }};
 
 inline uint32_t rotr32(uint32_t x, unsigned n) {
-    return (x >> n) | (x << (32u - n));
+    return (x >> n) | (x << (32 - n));
 }
 
 // Returns 32-byte raw SHA-256 digest of `data` (length `len`).
@@ -57,9 +57,11 @@ std::array<uint8_t, 32> sha256(const uint8_t* data, size_t len) {
     };
 
     // Pre-processing: padding
-    const uint64_t bit_len = static_cast<uint64_t>(len) * 8u;
+    const uint64_t bit_len = static_cast<uint64_t>(len) * 8;
     size_t padded_len = len + 1;
-    while (padded_len % 64 != 56) ++padded_len;
+    while (padded_len % 64 != 56) {
+      ++padded_len;
+    }
     padded_len += 8;
 
     std::vector<uint8_t> msg(padded_len, 0);
@@ -67,21 +69,21 @@ std::array<uint8_t, 32> sha256(const uint8_t* data, size_t len) {
     msg[len] = 0x80u;
     // Big-endian bit length at the end
     for (int i = 0; i < 8; ++i) {
-        msg[padded_len - 8 + i] = static_cast<uint8_t>(bit_len >> (56u - 8u * i));
+        msg[padded_len - 8 + i] = static_cast<uint8_t>(bit_len >> (56 - 8 * i));
     }
 
     // Process each 512-bit (64-byte) block
     for (size_t off = 0; off < padded_len; off += 64) {
         uint32_t w[64];
         for (int i = 0; i < 16; ++i) {
-            w[i] = (static_cast<uint32_t>(msg[off + 4*i    ]) << 24u)
-                 | (static_cast<uint32_t>(msg[off + 4*i + 1]) << 16u)
-                 | (static_cast<uint32_t>(msg[off + 4*i + 2]) <<  8u)
+            w[i] = (static_cast<uint32_t>(msg[off + 4*i    ]) << 24)
+                 | (static_cast<uint32_t>(msg[off + 4*i + 1]) << 16)
+                 | (static_cast<uint32_t>(msg[off + 4*i + 2]) <<  8)
                  |  static_cast<uint32_t>(msg[off + 4*i + 3]);
         }
         for (int i = 16; i < 64; ++i) {
-            const uint32_t s0 = rotr32(w[i-15], 7) ^ rotr32(w[i-15], 18) ^ (w[i-15] >> 3u);
-            const uint32_t s1 = rotr32(w[i- 2], 17) ^ rotr32(w[i- 2], 19) ^ (w[i- 2] >> 10u);
+            const uint32_t s0 = rotr32(w[i-15], 7) ^ rotr32(w[i-15], 18) ^ (w[i-15] >> 3);
+            const uint32_t s1 = rotr32(w[i- 2], 17) ^ rotr32(w[i- 2], 19) ^ (w[i- 2] >> 10);
             w[i] = w[i-16] + s0 + w[i-7] + s1;
         }
 
@@ -105,9 +107,9 @@ std::array<uint8_t, 32> sha256(const uint8_t* data, size_t len) {
 
     std::array<uint8_t, 32> digest{};
     for (int i = 0; i < 8; ++i) {
-        digest[4*i    ] = static_cast<uint8_t>(h[i] >> 24u);
-        digest[4*i + 1] = static_cast<uint8_t>(h[i] >> 16u);
-        digest[4*i + 2] = static_cast<uint8_t>(h[i] >>  8u);
+        digest[4*i    ] = static_cast<uint8_t>(h[i] >> 24);
+        digest[4*i + 1] = static_cast<uint8_t>(h[i] >> 16);
+        digest[4*i + 2] = static_cast<uint8_t>(h[i] >>  8);
         digest[4*i + 3] = static_cast<uint8_t>(h[i]);
     }
     return digest;
@@ -139,16 +141,16 @@ void NetworkAuditLog::setEventCallback(
     std::function<void(const AuditEvent&)> cb)
 {
     std::lock_guard<std::mutex> lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ---------------------------------------------------------------------------
 // Recording
 // ---------------------------------------------------------------------------
 
-void NetworkAuditLog::record(AuditEvent event) {
+void NetworkAuditLog::record([[maybe_unused]] AuditEvent event) {
     // Fill in timestamp if caller left it default-constructed (epoch).
-    if (event.timestamp == std::chrono::system_clock::time_point{}) {
+    if ([[maybe_unused]] event.timestamp == std::chrono::system_clock::time_point{}) {
         event.timestamp = std::chrono::system_clock::now();
     }
 
@@ -156,22 +158,22 @@ void NetworkAuditLog::record(AuditEvent event) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
 
-        if (buffer_.size() >= config_.max_entries) {
+        if (static_cast<int>(buffer_.size()) >= config_.max_entries) {
             buffer_.pop_front();
             ++total_evicted_;
         }
-        buffer_.push_back(event);
+        buffer_.push_back([[maybe_unused]] event);
         ++total_recorded_;
-        updateCounters(event.type);
+        updateCounters([[maybe_unused]] event.type);
 
-        if (config_.enable_callback) {
+        if ([[maybe_unused]] config_.enable_callback) {
             cb_copy = callback_;
         }
     }
 
     // Invoke callback outside the lock to avoid priority inversion.
     if (cb_copy) {
-        cb_copy(event);
+        cb_copy([[maybe_unused]] event);
     }
 }
 
@@ -233,21 +235,24 @@ void NetworkAuditLog::recordRateLimited(const std::string& remote_address,
 // Query
 // ---------------------------------------------------------------------------
 
-std::vector<AuditEvent> NetworkAuditLog::getRecentEvents(size_t n) const {
+std::vector<AuditEvent> NetworkAuditLog::getRecentEvents([[maybe_unused]] size_t n) const {
     std::lock_guard<std::mutex> lk(mutex_);
     if (n == 0 || n >= buffer_.size()) {
-        return std::vector<AuditEvent>(buffer_.begin(), buffer_.end());
+        return std::vector<AuditEvent>([[maybe_unused]] buffer_.begin(), buffer_.end());
     }
-    const size_t skip = buffer_.size() - n;
+    const size_t skip = static_cast<int>(buffer_.size()) - n;
     return std::vector<AuditEvent>(buffer_.begin() + static_cast<std::ptrdiff_t>(skip),
                                    buffer_.end());
 }
 
-std::vector<AuditEvent> NetworkAuditLog::getEventsByType(AuditEventType type) const {
+std::vector<AuditEvent> NetworkAuditLog::getEventsByType([[maybe_unused]] AuditEventType type) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<AuditEvent> result;
+    std::vector<AuditEvent> result = {};
+
     for (const auto& ev : buffer_) {
-        if (ev.type == type) result.push_back(ev);
+        if (ev.type == type) {
+          result.push_back(ev);
+        }
     }
     return result;
 }
@@ -279,10 +284,10 @@ std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
     if (input.empty()) return {};
 
     const auto digest = sha256(
-        reinterpret_cast<const uint8_t*>(input.data()), input.size());
+        reinterpret_cast<const uint8_t*>(input.data()),static_cast<int>(input.size()));
 
     // Encode first 8 bytes as 16 lower-case hex characters.
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 8; ++i) {
         oss << std::setw(2) << static_cast<unsigned>(digest[i]);
@@ -294,7 +299,7 @@ std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
 // Private
 // ---------------------------------------------------------------------------
 
-void NetworkAuditLog::updateCounters(AuditEventType type) {
+void NetworkAuditLog::updateCounters([[maybe_unused]] AuditEventType type) {
     switch (type) {
     case AuditEventType::CONNECTION_OPEN:  ++connection_opens_;  break;
     case AuditEventType::CONNECTION_CLOSE: ++connection_closes_; break;

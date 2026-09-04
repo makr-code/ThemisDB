@@ -34,11 +34,15 @@ constexpr int kShutdownJoinTimeoutMs = 5000;
 /// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -74,7 +78,7 @@ ServiceMeshIntegration::~ServiceMeshIntegration() noexcept {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /* static */
-bool ServiceMeshIntegration::isValidPort(uint16_t port) {
+bool ServiceMeshIntegration::isValidPort([[maybe_unused]] uint16_t port) {
     // Reject port 0 and well-known HTTP/HTTPS ports.
     if (port == 0 || port == 80 || port == 443) {
         return false;
@@ -148,7 +152,7 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
             (req.find("GET /readyz ")   != std::string::npos ||
              req.find("GET /readyz\r")  != std::string::npos);
 
-        std::string body;
+        std::string body = {};
         if (is_healthz) {
             body = "OK";
             std::lock_guard<std::mutex> lk(stats_mutex_);

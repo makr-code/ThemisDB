@@ -43,7 +43,7 @@ namespace {
 
 // Represents a single metric sample in the rolling window
 struct QueryMetric {
-    uint64_t    qps;
+    uint64_t    qps = 0;
     double      read_fraction;   // 0.0–1.0
     double      vector_fraction; // fraction of queries that are KNN/vector search
     bool        is_write;        // true = write operation
@@ -82,7 +82,9 @@ uint64_t mockFingerprintHash(double vec_frac, double rw_ratio, uint64_t qps) {
 }
 
 double jaccardDistance(uint64_t h1, uint64_t h2) {
-    if (h1 == h2) return 0.0;
+    if (h1 == h2) {
+      return 0.0;
+    }
     // Simplified: distance based on bit difference ratio
     uint64_t diff = h1 ^ h2;
     int bits = __builtin_popcountll(diff);

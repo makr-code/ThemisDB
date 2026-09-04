@@ -49,10 +49,18 @@ inline std::string frequencyToString(ScheduleFrequency f) {
 }
 
 inline ScheduleFrequency frequencyFromString(const std::string& s) {
-    if (s == "daily")     return ScheduleFrequency::DAILY;
-    if (s == "weekly")    return ScheduleFrequency::WEEKLY;
-    if (s == "monthly")   return ScheduleFrequency::MONTHLY;
-    if (s == "quarterly") return ScheduleFrequency::QUARTERLY;
+    if (s == "daily") {
+      return ScheduleFrequency::DAILY;
+    }
+    if (s == "weekly") {
+      return ScheduleFrequency::WEEKLY;
+    }
+    if (s == "monthly") {
+      return ScheduleFrequency::MONTHLY;
+    }
+    if (s == "quarterly") {
+      return ScheduleFrequency::QUARTERLY;
+    }
     return ScheduleFrequency::CUSTOM;
 }
 
@@ -97,7 +105,9 @@ struct MaintenanceTaskDependency {
         nlohmann::json j;
         j["task_type"] = taskTypeToString(task_type);
         nlohmann::json deps = nlohmann::json::array();
-        for (const auto& d : depends_on) deps.push_back(taskTypeToString(d));
+        for (const auto& d : depends_on) {
+          deps.push_back(taskTypeToString(d));
+        }
         j["depends_on"] = deps;
         return j;
     }
@@ -228,10 +238,14 @@ struct MaintenanceScheduleEntry {
         j["frequency"]         = frequencyToString(frequency);
         j["cron_expression"]   = cron_expression;
         nlohmann::json task_arr = nlohmann::json::array();
-        for (auto& t : tasks) task_arr.push_back(taskTypeToString(t));
+        for (auto& t : tasks) {
+          task_arr.push_back(taskTypeToString(t));
+        }
         j["tasks"]             = task_arr;
         nlohmann::json deps_arr = nlohmann::json::array();
-        for (auto& d : task_dependencies) deps_arr.push_back(d.toJson());
+        for (auto& d : task_dependencies) {
+          deps_arr.push_back(d.toJson());
+        }
         j["task_dependencies"] = deps_arr;
         j["enabled"]           = enabled;
         j["enforce_window"]    = enforce_window;
@@ -252,13 +266,25 @@ struct MaintenanceScheduleEntry {
     }
 
     static MaintenanceScheduleEntry fromJson(const nlohmann::json& j) {
-        MaintenanceScheduleEntry e;
-        if (j.contains("id"))               e.id             = j["id"].get<std::string>();
-        if (j.contains("name"))             e.name           = j["name"].get<std::string>();
-        if (j.contains("description"))      e.description    = j["description"].get<std::string>();
-        if (j.contains("tenant_id"))        e.tenant_id      = j["tenant_id"].get<std::string>();
-        if (j.contains("frequency"))        e.frequency      = frequencyFromString(j["frequency"].get<std::string>());
-        if (j.contains("cron_expression"))  e.cron_expression= j["cron_expression"].get<std::string>();
+        MaintenanceScheduleEntry e = {};
+        if (j.contains("id")) {
+          e.id             = j["id"].get<std::string>();
+        }
+        if (j.contains("name")) {
+          e.name           = j["name"].get<std::string>();
+        }
+        if (j.contains("description")) {
+          e.description    = j["description"].get<std::string>();
+        }
+        if (j.contains("tenant_id")) {
+          e.tenant_id      = j["tenant_id"].get<std::string>();
+        }
+        if (j.contains("frequency")) {
+          e.frequency      = frequencyFromString(j["frequency"].get<std::string>());
+        }
+        if (j.contains("cron_expression")) {
+          e.cron_expression= j["cron_expression"].get<std::string>();
+        }
         if (j.contains("tasks")) {
             for (auto& t : j["tasks"]) {
                 e.tasks.push_back(taskTypeFromString(t.get<std::string>()));
@@ -269,35 +295,73 @@ struct MaintenanceScheduleEntry {
                 e.task_dependencies.push_back(MaintenanceTaskDependency::fromJson(d));
             }
         }
-        if (j.contains("enabled"))             e.enabled             = j["enabled"].get<bool>();
-        if (j.contains("enforce_window"))      e.enforce_window      = j["enforce_window"].get<bool>();
-        if (j.contains("window_start_hour"))   e.window_start_hour   = j["window_start_hour"].get<int>();
-        if (j.contains("window_end_hour"))     e.window_end_hour     = j["window_end_hour"].get<int>();
-        if (j.contains("halt_on_task_failure"))e.halt_on_task_failure= j["halt_on_task_failure"].get<bool>();
-        if (j.contains("lock_ttl_ms"))         e.lock_ttl_ms         = j["lock_ttl_ms"].get<int64_t>();
+        if (j.contains("enabled")) {
+          e.enabled             = j["enabled"].get<bool>();
+        }
+        if (j.contains("enforce_window")) {
+          e.enforce_window      = j["enforce_window"].get<bool>();
+        }
+        if (j.contains("window_start_hour")) {
+          e.window_start_hour   = j["window_start_hour"].get<int>();
+        }
+        if (j.contains("window_end_hour")) {
+          e.window_end_hour     = j["window_end_hour"].get<int>();
+        }
+        if (j.contains("halt_on_task_failure")) {
+          e.halt_on_task_failure= j["halt_on_task_failure"].get<bool>();
+        }
+        if (j.contains("lock_ttl_ms")) {
+          e.lock_ttl_ms         = j["lock_ttl_ms"].get<int64_t>();
+        }
         if (j.contains("max_schedule_changes_per_interval"))
             e.max_schedule_changes_per_interval =
                 j["max_schedule_changes_per_interval"].get<uint32_t>();
-        if (j.contains("created_by"))          e.created_by          = j["created_by"].get<std::string>();
-        if (j.contains("updated_by"))          e.updated_by          = j["updated_by"].get<std::string>();
+        if (j.contains("created_by")) {
+          e.created_by          = j["created_by"].get<std::string>();
+        }
+        if (j.contains("updated_by")) {
+          e.updated_by          = j["updated_by"].get<std::string>();
+        }
         // Audit and runtime state: restore from persisted payload so that
         // schedule timestamps and last-run tracking survive persistence reload.
-        if (j.contains("created_at_ms"))   e.created_at_ms  = j["created_at_ms"].get<int64_t>();
-        if (j.contains("updated_at_ms"))   e.updated_at_ms  = j["updated_at_ms"].get<int64_t>();
-        if (j.contains("last_run_ms"))     e.last_run_ms     = j["last_run_ms"].get<int64_t>();
-        if (j.contains("next_run_ms"))     e.next_run_ms     = j["next_run_ms"].get<int64_t>();
-        if (j.contains("last_run_state"))  e.last_run_state  = j["last_run_state"].get<std::string>();
-        if (j.contains("last_job_id"))     e.last_job_id     = j["last_job_id"].get<std::string>();
+        if (j.contains("created_at_ms")) {
+          e.created_at_ms  = j["created_at_ms"].get<int64_t>();
+        }
+        if (j.contains("updated_at_ms")) {
+          e.updated_at_ms  = j["updated_at_ms"].get<int64_t>();
+        }
+        if (j.contains("last_run_ms")) {
+          e.last_run_ms     = j["last_run_ms"].get<int64_t>();
+        }
+        if (j.contains("next_run_ms")) {
+          e.next_run_ms     = j["next_run_ms"].get<int64_t>();
+        }
+        if (j.contains("last_run_state")) {
+          e.last_run_state  = j["last_run_state"].get<std::string>();
+        }
+        if (j.contains("last_job_id")) {
+          e.last_job_id     = j["last_job_id"].get<std::string>();
+        }
         return e;
     }
 
     /// Apply a partial JSON patch (PATCH semantics: only provided fields are updated).
     void applyPatch(const nlohmann::json& patch) {
-        if (patch.contains("name"))              name              = patch["name"].get<std::string>();
-        if (patch.contains("description"))       description       = patch["description"].get<std::string>();
-        if (patch.contains("tenant_id"))         tenant_id         = patch["tenant_id"].get<std::string>();
-        if (patch.contains("frequency"))         frequency         = frequencyFromString(patch["frequency"].get<std::string>());
-        if (patch.contains("cron_expression"))   cron_expression   = patch["cron_expression"].get<std::string>();
+        if (patch.contains("name")) {
+          name              = patch["name"].get<std::string>();
+        }
+        if (patch.contains("description")) {
+          description       = patch["description"].get<std::string>();
+        }
+        if (patch.contains("tenant_id")) {
+          tenant_id         = patch["tenant_id"].get<std::string>();
+        }
+        if (patch.contains("frequency")) {
+          frequency         = frequencyFromString(patch["frequency"].get<std::string>());
+        }
+        if (patch.contains("cron_expression")) {
+          cron_expression   = patch["cron_expression"].get<std::string>();
+        }
         if (patch.contains("tasks")) {
             tasks.clear();
             for (auto& t : patch["tasks"]) {
@@ -310,12 +374,24 @@ struct MaintenanceScheduleEntry {
                 task_dependencies.push_back(MaintenanceTaskDependency::fromJson(d));
             }
         }
-        if (patch.contains("enabled"))              enabled              = patch["enabled"].get<bool>();
-        if (patch.contains("enforce_window"))       enforce_window       = patch["enforce_window"].get<bool>();
-        if (patch.contains("window_start_hour"))    window_start_hour    = patch["window_start_hour"].get<int>();
-        if (patch.contains("window_end_hour"))      window_end_hour      = patch["window_end_hour"].get<int>();
-        if (patch.contains("halt_on_task_failure")) halt_on_task_failure = patch["halt_on_task_failure"].get<bool>();
-        if (patch.contains("lock_ttl_ms"))          lock_ttl_ms          = patch["lock_ttl_ms"].get<int64_t>();
+        if (patch.contains("enabled")) {
+          enabled              = patch["enabled"].get<bool>();
+        }
+        if (patch.contains("enforce_window")) {
+          enforce_window       = patch["enforce_window"].get<bool>();
+        }
+        if (patch.contains("window_start_hour")) {
+          window_start_hour    = patch["window_start_hour"].get<int>();
+        }
+        if (patch.contains("window_end_hour")) {
+          window_end_hour      = patch["window_end_hour"].get<int>();
+        }
+        if (patch.contains("halt_on_task_failure")) {
+          halt_on_task_failure = patch["halt_on_task_failure"].get<bool>();
+        }
+        if (patch.contains("lock_ttl_ms")) {
+          lock_ttl_ms          = patch["lock_ttl_ms"].get<int64_t>();
+        }
         if (patch.contains("max_schedule_changes_per_interval"))
             max_schedule_changes_per_interval =
                 patch["max_schedule_changes_per_interval"].get<uint32_t>();

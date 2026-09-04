@@ -174,11 +174,11 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
     if (is_binary) {
         // Binary frame: collect the raw bytes and dispatch to the binary handler.
         const auto* raw = static_cast<const uint8_t*>(buffer_.data().data());
-        std::vector<uint8_t> frame_data(raw, raw + buffer_.size());
+        std::vector<uint8_t> frame_data(raw, raw + static_cast<int>(buffer_.size()) );
         buffer_.consume(buffer_.size());
 
         THEMIS_DEBUG("WebSocket binary frame received ({}): {} bytes",
-                     session_id_, frame_data.size());
+                     session_id_,static_cast<int>(frame_data.size()));
         processBinaryMessage(frame_data);
     } else {
         // Text frame: decode as UTF-8 string and dispatch to the JSON handler.
@@ -200,8 +200,8 @@ void WebSocketSession::processMessage(const std::string& message) {
 
         // "/v2/cdc/stream" endpoint: delegate entirely to CdcWebSocketHandler
         // which handles the named-subscription protocol (subscribe/unsubscribe/ack).
-        if (request_path_ == "/v2/cdc/stream" && cdc_stream_handler_) {
-            auto responses = cdc_stream_handler_->handleFrame(msg);
+        if ([[maybe_unused]] request_path_ == "/v2/cdc/stream" && cdc_stream_handler_) {
+            auto responses = cdc_stream_handler_->handleFrame([[maybe_unused]] msg);
             for (const auto& resp : responses) {
                 send(resp.dump());
             }
@@ -243,19 +243,20 @@ void WebSocketSession::processMessage(const std::string& message) {
                 std::string key_prefix = msg.value("key_prefix", "");
 
                 // Parse optional filter.type field (e.g. {"filter":{"type":"PUT"}})
-                std::set<Changefeed::ChangeEventType> event_types;
+                std::set<Changefeed::ChangeEventType> event_types = {};
+
                 if (msg.contains("filter") && msg["filter"].is_object()) {
                     const auto& flt = msg["filter"];
                     if (flt.contains("type") && flt["type"].is_string()) {
                         const std::string& ft = flt["type"].get<std::string>();
                         if (ft == "PUT") {
-                            event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_PUT);
                         } else if (ft == "DELETE") {
-                            event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_DELETE);
                         } else if (ft == "TRANSACTION_COMMIT") {
-                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
                         } else if (ft == "TRANSACTION_ROLLBACK") {
-                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+                            event_types.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
                         }
                     }
                 }
@@ -385,7 +386,7 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
     // WireProtocolWebSocketSession handles the full binary frame dispatch.
     THEMIS_WARN("WebSocket session {} received unexpected binary frame ({} bytes); "
                 "binary frames are not supported on this endpoint",
-                session_id_, data.size());
+                session_id_,static_cast<int>(data.size()));
 
     json response = {
         {"type",     "error"},
@@ -393,7 +394,7 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
         {"message",  "Binary WebSocket frames are not supported on the HTTP API endpoint. "
                      "Connect to the wire-protocol WebSocket endpoint (port 8766) for "
                      "binary wire-protocol frame support."},
-        {"bytes_received", data.size()}
+        {"bytes_received",static_cast<int>(data.size())}
     };
     send(response.dump());
 }
@@ -432,9 +433,9 @@ void WebSocketSession::sendOnExecutor(std::string message) {
         // Back-pressure: close with code 1011 (Internal Error) when the outbound
         // queue is saturated to avoid unbounded memory growth.
         constexpr size_t kMaxQueueSize = 1000;
-        if (write_queue_.size() >= kMaxQueueSize) {
+        if (static_cast<int>(write_queue_.size()) >= kMaxQueueSize) {
             THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
-                        session_id_, write_queue_.size());
+                        session_id_,static_cast<int>(write_queue_.size()));
             active_.store(false, std::memory_order_release);
             // Signal the in-flight write (if any) to issue a 1011 close frame once
             // the current write drains.  The close frame will be sent via onWrite.
@@ -462,9 +463,9 @@ void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
         std::lock_guard<std::mutex> lock(write_mutex_);
         
         // Back-pressure: same limit as send()
-        if (write_queue_.size() >= kMaxQueueDepth) {
+        if (static_cast<int>(write_queue_.size()) >= kMaxQueueDepth) {
             THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
-                        session_id_, write_queue_.size(), kMaxQueueDepth);
+                        session_id_,static_cast<int>(write_queue_.size()), kMaxQueueDepth);
             active_.store(false, std::memory_order_release);
             close_due_to_backpressure_ = true;
             // If no write is active, force close immediately.
@@ -606,7 +607,7 @@ void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string&
     cdc_event_types_ = event_types;
     
     THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}', event_types={})", 
-                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix, event_types.size());
+                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix,static_cast<int>(event_types.size()));
 }
 
 void WebSocketSession::unsubscribeFromCDC() {
@@ -617,7 +618,7 @@ void WebSocketSession::unsubscribeFromCDC() {
     }
 }
 
-void WebSocketSession::updateCDCLastSentSequence(uint64_t sequence) {
+void WebSocketSession::updateCDCLastSentSequence([[maybe_unused]] uint64_t sequence) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     cdc_last_sent_sequence_ = sequence;
 }
@@ -695,10 +696,12 @@ void WebSocketManager::pollCDCEvents() {
 
             // /v2/cdc/stream sessions: delegate to CdcWebSocketHandler which
             // tracks named subscriptions and implements at-least-once delivery.
-            if (auto* handler = session->getCdcStreamHandler()) {
-                if (!handler->hasSubscriptions()) continue;
+            if ([[maybe_unused]] auto* handler = session->getCdcStreamHandler()) {
+                if (!handler->hasSubscriptions()) {
+                  continue;
+                }
                 try {
-                    auto frames = handler->pollEvents(*changefeed_);
+                    auto frames = handler->pollEvents([[maybe_unused]] *changefeed_);
                     for (const auto& frame : frames) {
                         session->send(frame.dump());
                     }
@@ -709,7 +712,7 @@ void WebSocketManager::pollCDCEvents() {
                     if (!frames.empty() || !redeliveries.empty()) {
                         THEMIS_DEBUG("Sent {} new + {} redelivered CDC events via "
                                      "CdcWebSocketHandler to session {}",
-                                     frames.size(), redeliveries.size(),
+                                     frames.size(),static_cast<int>(redeliveries.size()),
                                      session->getSessionId());
                     }
                 } catch (const std::exception& e) {
@@ -731,30 +734,30 @@ void WebSocketManager::pollCDCEvents() {
                 options.key_prefix = sub.key_prefix;
             }
             // Apply per-subscription event-type filter if set
-            if (!sub.event_types.empty()) {
+            if ([[maybe_unused]] !sub.event_types.empty()) {
                 options.event_types = sub.event_types;
             }
             
             try {
-                auto events = changefeed_->listEvents(options);
+                auto events = changefeed_->listEvents([[maybe_unused]] options);
                 
                 // Reuse JSON object for better performance
                 json cdc_message;
                 cdc_message["type"] = "cdc_event";
                 
-                for (const auto& event : events) {
+                for ([[maybe_unused]] const auto& event : events) {
                     cdc_message["sequence"] = event.sequence;
-                    cdc_message["event_type"] = static_cast<int>(event.type);
+                    cdc_message["event_type"] = static_cast<int>([[maybe_unused]] event.type);
                     cdc_message["key"] = event.key;
                     cdc_message["timestamp_ms"] = event.timestamp_ms;
                     
-                    if (event.value.has_value()) {
+                    if ([[maybe_unused]] event.value.has_value()) {
                         cdc_message["value"] = event.value.value();
                     } else {
                         cdc_message.erase("value");
                     }
                     
-                    if (!event.metadata.empty()) {
+                    if ([[maybe_unused]] !event.metadata.empty()) {
                         cdc_message["metadata"] = event.metadata;
                     } else {
                         cdc_message.erase("metadata");
@@ -764,8 +767,8 @@ void WebSocketManager::pollCDCEvents() {
                 }
                 
                 // Always update last sent sequence after polling (even if empty)
-                if (!events.empty()) {
-                    session->updateCDCLastSentSequence(events.back().sequence);
+                if ([[maybe_unused]] !events.empty()) {
+                    session->updateCDCLastSentSequence([[maybe_unused]] events.back().sequence);
                     
                     THEMIS_DEBUG("Sent {} CDC events to WebSocket session {}", 
                                 events.size(), session->getSessionId());
@@ -802,20 +805,20 @@ void WebSocketManager::addSession(std::shared_ptr<WebSocketSession> session) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_[session->getSessionId()] = session;
     THEMIS_INFO("WebSocket session added to manager: {} (total: {})", 
-                session->getSessionId(), sessions_.size());
+                session->getSessionId(),static_cast<int>(sessions_.size()));
 }
 
 void WebSocketManager::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
     THEMIS_INFO("WebSocket session removed from manager: {} (remaining: {})", 
-                session_id, sessions_.size());
+                session_id,static_cast<int>(sessions_.size()));
 }
 
 void WebSocketManager::broadcast(const std::string& message) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
-    THEMIS_DEBUG("Broadcasting WebSocket message to {} sessions", sessions_.size());
+    THEMIS_DEBUG("Broadcasting WebSocket message to {} sessions",static_cast<int>(sessions_.size()));
     
     for (auto& [id, session] : sessions_) {
         if (session->isActive()) {
@@ -850,7 +853,7 @@ size_t WebSocketManager::getActiveSessionCount() const {
 void WebSocketManager::closeAll() {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
-    THEMIS_INFO("Closing all WebSocket sessions ({} total)", sessions_.size());
+    THEMIS_INFO("Closing all WebSocket sessions ({} total)",static_cast<int>(sessions_.size()));
     
     for (auto& [id, session] : sessions_) {
         if (session->isActive()) {

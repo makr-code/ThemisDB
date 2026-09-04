@@ -26,7 +26,7 @@ std::string readFileContents(const std::string& path) {
     if (!file) {
         throw std::runtime_error("Failed to open file: " + path);
     }
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     return buffer.str();
 }

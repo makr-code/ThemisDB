@@ -118,10 +118,10 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 }
 
 uint64_t fnv1a64(std::string_view value) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
@@ -269,7 +269,7 @@ bool QUICServer::isValidCongestionControl(const std::string &algo) {
 }
 
 /* static */
-bool QUICServer::isValidPort(uint16_t port) {
+bool QUICServer::isValidPort([[maybe_unused]] uint16_t port) {
     if (port == 0 || port == 80 || port == 443) {
         return false;
     }
@@ -434,7 +434,7 @@ void QUICServer::handlePacket(const udp::endpoint &sender, const uint8_t *data, 
     }
 
     // Decode QUIC long-header to extract client DCID.
-    ngtcp2_pkt_hd hd;
+    ngtcp2_pkt_hd hd = {};
     if (ngtcp2_pkt_decode_hd_long(&hd, data, len) < 0) {
         std::lock_guard<std::mutex> slk(stats_mutex_);
         // Short-header from unknown connection; silently drop.
@@ -616,7 +616,7 @@ void QUICClient::Stream::send(const std::vector<uint8_t> &data) {
     // the ngtcp2 write path; here we record that a send was requested.
     // A production expansion would call ngtcp2_conn_writev_stream() via the
     // owning client's I/O thread.
-    THEMIS_DEBUG("[QUICClient::Stream] send {} bytes on stream {}", data.size(), stream_id_);
+    THEMIS_DEBUG("[QUICClient::Stream] send {} bytes on stream {}",static_cast<int>(data.size()), stream_id_);
 }
 
 std::vector<uint8_t> QUICClient::Stream::receive() {
@@ -652,11 +652,11 @@ QUICClient::~QUICClient() {
 /* static */
 bool QUICClient::parseUrl(const std::string &url, std::string &host, uint16_t &port) {
     constexpr std::string_view kScheme = "quic://";
-    if (url.size() < kScheme.size()) {
+    if (static_cast<int>(url.size()) <static_cast<int>(kScheme.size())) {
         return false;
     }
     std::string_view sv(url);
-    if (sv.substr(0, kScheme.size()) != kScheme) {
+    if (sv.substr(0,static_cast<int>(kScheme.size())) != kScheme) {
         return false;
     }
     sv.remove_prefix(kScheme.size());

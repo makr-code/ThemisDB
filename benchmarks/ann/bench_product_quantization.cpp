@@ -26,7 +26,7 @@ namespace {
  * @brief Utility for generating random normalized vectors
  */
 struct VectorGenerator {
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     std::normal_distribution<float> dist;
     
     VectorGenerator(uint32_t seed = 42) : rng(seed), dist(0.0f, 1.0f) {}
@@ -79,7 +79,9 @@ struct QuantizationEnv {
     }
     
     void initOnce(int num_training_vectors = 10000) {
-        if (initialized) return;
+        if (initialized) {
+          return;
+        }
         
         VectorGenerator gen(42);
         training_data = gen.generateDataset(num_training_vectors, dimension);
@@ -349,7 +351,7 @@ static void BM_PQ_DistanceComparison(benchmark::State& state) {
         const auto& query = query_vectors[query_idx % query_vectors.size()];
         const auto& codes = encoded_db[db_idx % encoded_db.size()];
         
-        float dist;
+        float dist = 0;
         
         if (use_asymmetric) {
             // Fast asymmetric distance

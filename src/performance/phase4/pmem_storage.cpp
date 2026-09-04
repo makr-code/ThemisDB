@@ -68,7 +68,7 @@ std::vector<PMemDeviceInfo> detect_pmem_devices() {
             struct stat st{};
             if (stat(mnt, &st) == 0) {
                 // Rough estimate: use block size * blocks (may be inaccurate for DAX)
-                info.size_bytes = static_cast<size_t>(st.st_blocks) * 512UL;
+                info.size_bytes = static_cast<size_t>(st.st_blocks) * 512;
             }
             devices.push_back(std::move(info));
         }
@@ -133,7 +133,9 @@ PMemPool& PMemPool::operator=(PMemPool&& o) noexcept {
     if (this != &o) {
         unmap_region();
 #ifndef _WIN32
-        if (fd_ >= 0) ::close(fd_);
+        if (fd_ >= 0) {
+          ::close(fd_);
+        }
 #endif
         base_        = o.base_;
         mapped_size_ = o.mapped_size_;
@@ -286,7 +288,7 @@ bool PMemPool::recover() noexcept {
     return true;
 }
 
-void* PMemPool::allocate(size_t size) noexcept {
+void* PMemPool::allocate([[maybe_unused]] size_t size) noexcept {
     if (!base_ || size == 0) {
         return nullptr;
     }

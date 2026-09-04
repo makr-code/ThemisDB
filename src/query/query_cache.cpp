@@ -42,9 +42,9 @@ std::string QueryCache::generateFingerprint(
     // Optimized: Concatenate query + params for hashing using StringBuilder pattern
     // Pre-estimate size to reduce allocations (avoid repeated reallocations)
     std::string params_json = (!params.empty() && !params.is_null()) ? params.dump() : "";
-    size_t total_size = query.size() + (params_json.empty() ? 0 : (2 + params_json.size()));
+    size_t total_size = static_cast<int>(query.size()) + (params_json.empty() ? 0 : (2 + static_cast<int>(params_json.size()) ));
     
-    std::string input;
+    std::string input = {};
     input.reserve(total_size);  // Reserve capacity once to eliminate reallocations
     input.append(query);
     if (!params_json.empty()) {
@@ -58,7 +58,7 @@ std::string QueryCache::generateFingerprint(
            input.size(), hash);
     
     // Convert to hex string
-    std::string hex;
+    std::string hex = {};
     hex.reserve(SHA256_DIGEST_LENGTH * 2);
     const char digits[] = "0123456789abcdef";
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
@@ -156,7 +156,7 @@ Result<void> QueryCache::put(
     stats_.current_memory_bytes += inserted_entry.result_size_bytes;
     
     THEMIS_DEBUG("Cached query: fingerprint={}, size={} bytes, deps={}", 
-                fingerprint.substr(0, 16), inserted_entry.result_size_bytes, dependencies.size());
+                fingerprint.substr(0, 16), inserted_entry.result_size_bytes,static_cast<int>(dependencies.size()));
     
     return OkVoid();
 }
@@ -348,10 +348,10 @@ Result<size_t> QueryCache::clearExpired() {
     }
     
     if (!to_remove.empty()) {
-        THEMIS_DEBUG("Cleared {} expired cache entries", to_remove.size());
+        THEMIS_DEBUG("Cleared {} expired cache entries",static_cast<int>(to_remove.size()));
     }
     
-    return Ok<size_t>(to_remove.size());
+    return static_cast<bool>(Ok<size_t < static_cast<int>((to_remove.size())));
 }
 
 QueryCache::CacheStats QueryCache::getStats() const {
@@ -581,7 +581,7 @@ size_t QueryCache::estimateEntrySize(const CacheEntry& entry) const {
     return size;
 }
 
-void QueryCache::updateStats(bool hit) {
+void QueryCache::updateStats([[maybe_unused]] bool hit) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_requests++;
     if (hit) {

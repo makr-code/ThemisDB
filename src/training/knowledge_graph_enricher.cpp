@@ -89,7 +89,7 @@ public:
     using Key   = std::string;
     using Value = GraphContext;
 
-    explicit EnrichmentLRUCache(size_t capacity) : capacity_(capacity) {}
+    explicit EnrichmentLRUCache([[maybe_unused]] size_t capacity) : capacity_(capacity) {}
 
     // Attempt to retrieve a cached result. Returns true on hit.
     bool get(const Key& key, Value& out) {
@@ -116,7 +116,7 @@ public:
             return;
         }
         // Evict LRU entry if at capacity
-        if (list_.size() >= capacity_) {
+        if (static_cast<int>(list_.size()) >= capacity_) {
             auto last = list_.end();
             --last;
             map_.erase(last->first);
@@ -182,8 +182,8 @@ public:
     // -------------------------------------------------------------------------
     // Phase 6: Enrich all samples in collection
     // -------------------------------------------------------------------------
-    EnrichmentStats enrichAll(EnrichmentCallback callback) {
-        EnrichmentStats stats;
+    EnrichmentStats enrichAll([[maybe_unused]] EnrichmentCallback callback) {
+        EnrichmentStats stats = EnrichmentStats();
         auto start_time = std::chrono::steady_clock::now();
 
         // Phase 6: AQL to fetch sample IDs (graph_aql::FETCH_ALL_SAMPLES)
@@ -196,9 +196,9 @@ public:
                 auto context = enrichSample(sample_id);
 
                 stats.context_items_added += context.related_provisions.size()
-                                           + context.case_law.size()
-                                           + context.similar_documents.size()
-                                           + context.internal_guidance.size();
+                                           + static_cast<int>(context.case_law.size()) 
+                                           + static_cast<int>(context.similar_documents.size()) 
+                                           + static_cast<int>(context.internal_guidance.size()) ;
 
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
@@ -211,8 +211,8 @@ public:
                 stats.samples_processed++;
                 processed++;
 
-                if (callback && processed % 10 == 0) {
-                    callback(processed, sample_ids.size(),
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                    callback(processed,static_cast<int>(sample_ids.size()),
                              "Enriched sample " + sample_id);
                 }
 
@@ -231,7 +231,7 @@ public:
     // Phase 6: Enrich a single sample
     // -------------------------------------------------------------------------
     GraphContext enrichSample(const std::string& sample_id) {
-        GraphContext context;
+        GraphContext context = {};
 
         if (sample_id.empty()) {
             return context;
@@ -247,7 +247,7 @@ public:
 
         // Phase 9: Check LRU cache before executing AQL queries
         if (cache_) {
-            GraphContext cached;
+            GraphContext cached = {};
             if (cache_->get(cacheKey(source_document_id), cached)) {
                 return cached;
             }
@@ -294,7 +294,7 @@ public:
     // Phase 6: Query-based enrichment
     // -------------------------------------------------------------------------
     EnrichmentStats enrichQuery(const std::string& aql_query, EnrichmentCallback callback) {
-        EnrichmentStats stats;
+        EnrichmentStats stats = {};
 
         if (aql_query.empty()) {
             return stats;
@@ -312,9 +312,9 @@ public:
                 auto context = enrichSample(sample_id);
 
                 stats.context_items_added += context.related_provisions.size()
-                                           + context.case_law.size()
-                                           + context.internal_guidance.size()
-                                           + context.similar_documents.size();
+                                           + static_cast<int>(context.case_law.size()) 
+                                           + static_cast<int>(context.internal_guidance.size()) 
+                                           + static_cast<int>(context.similar_documents.size()) ;
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
                 }
@@ -324,8 +324,8 @@ public:
                 stats.samples_processed++;
                 processed++;
 
-                if (callback && processed % 10 == 0) {
-                    callback(processed, sample_ids.size(),
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                    callback(processed,static_cast<int>(sample_ids.size()),
                              "Query-enriched sample " + sample_id);
                 }
             } catch (...) {
@@ -346,7 +346,9 @@ public:
                                                     [[maybe_unused]] size_t max_results) {
         std::vector<std::string> provisions;
 
-        if (document_id.empty()) return provisions;
+        if (document_id.empty()) {
+          return provisions;
+        }
 
         // Phase 6: AQL graph traversal (graph_aql::RELATED_PROVISIONS)
         // Production:
@@ -368,7 +370,9 @@ public:
                                                  [[maybe_unused]] size_t max_results) {
         std::vector<std::string> case_law;
 
-        if (document_id.empty()) return case_law;
+        if (document_id.empty()) {
+          return case_law;
+        }
 
         // Phase 6: AQL traversal for case law (graph_aql::RELATED_CASE_LAW)
         // (max_results bound as @max_results in production AQL query)
@@ -382,7 +386,9 @@ public:
                                                   size_t max_results) {
         std::vector<std::string> guidance;
 
-        if (document_id.empty() || max_results == 0) return guidance;
+        if (document_id.empty() || max_results == 0) {
+          return guidance;
+        }
 
         // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
         // (max_results bound as @max_results in production AQL query)
@@ -398,7 +404,9 @@ public:
 
         std::vector<std::pair<std::string, float>> similar;
 
-        if (document_id.empty() || max_results == 0) return similar;
+        if (document_id.empty() || max_results == 0) {
+          return similar;
+        }
 
         // Check custom query override (AQL path – used when a query executor
         // is connected rather than a VectorIndexManager)
@@ -440,7 +448,9 @@ public:
         for (const auto& r : results) {
             if (r.pk == document_id) continue; // exclude self
             similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
-            if (similar.size() >= max_results) break;
+            if (static_cast<int>(similar.size()) >= max_results) {
+              break;
+            }
         }
         return similar;
     }
@@ -460,12 +470,24 @@ public:
             return it->second;
         }
         // Return built-in templates
-        if (query_name == "find_provisions")  return graph_aql::RELATED_PROVISIONS;
-        if (query_name == "find_case_law")    return graph_aql::RELATED_CASE_LAW;
-        if (query_name == "find_guidance")    return graph_aql::RELATED_GUIDANCE;
-        if (query_name == "find_similar")     return graph_aql::SIMILAR_DOCUMENTS;
-        if (query_name == "update_context")   return graph_aql::UPDATE_SAMPLE_CONTEXT;
-        if (query_name == "fetch_all")        return graph_aql::FETCH_ALL_SAMPLES;
+        if (query_name == "find_provisions") {
+          return graph_aql::RELATED_PROVISIONS;
+        }
+        if (query_name == "find_case_law") {
+          return graph_aql::RELATED_CASE_LAW;
+        }
+        if (query_name == "find_guidance") {
+          return graph_aql::RELATED_GUIDANCE;
+        }
+        if (query_name == "find_similar") {
+          return graph_aql::SIMILAR_DOCUMENTS;
+        }
+        if (query_name == "update_context") {
+          return graph_aql::UPDATE_SAMPLE_CONTEXT;
+        }
+        if (query_name == "fetch_all") {
+          return graph_aql::FETCH_ALL_SAMPLES;
+        }
         return "";
     }
 
@@ -504,7 +526,7 @@ private:
     // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
     // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
     // point rounding artefacts near the boundaries.
-    static float distanceToSimilarityScore(float distance) {
+    static float distanceToSimilarityScore([[maybe_unused]] float distance) {
         return std::max(0.0f, std::min(1.0f, 1.0f - distance));
     }
 
@@ -512,7 +534,7 @@ private:
     std::string cacheKey(const std::string& entity_key) const {
         std::hash<std::string> hasher;
         size_t h = hasher(entity_key + ":" + graph_version_);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << h;
         return oss.str();
     }
@@ -546,7 +568,9 @@ private:
 
     // Phase 6: Persist enriched context to the database
     void persistContext(const std::string& sample_id, const GraphContext& context) const {
-        if (db_connection_.empty() || sample_id.empty()) return;
+        if (db_connection_.empty() || sample_id.empty()) {
+          return;
+        }
 
         // Phase 6: AQL update (graph_aql::UPDATE_SAMPLE_CONTEXT)
         // Compute a quality score based on how much context was found
@@ -558,28 +582,36 @@ private:
     // Phase 6: Compute context quality score [0..1]
     static double computeContextQuality(const GraphContext& context) {
         double score = 0.0;
-        if (!context.related_provisions.empty()) score += 0.35;
-        if (!context.case_law.empty())           score += 0.35;
-        if (!context.similar_documents.empty())  score += 0.20;
-        if (!context.internal_guidance.empty())  score += 0.10;
+        if (!context.related_provisions.empty()) {
+          score += 0.35;
+        }
+        if (!context.case_law.empty()) {
+          score += 0.35;
+        }
+        if (!context.similar_documents.empty()) {
+          score += 0.20;
+        }
+        if (!context.internal_guidance.empty()) {
+          score += 0.10;
+        }
         return std::min(1.0, score);
     }
 
     // Phase 6: Build a human-readable context summary
     std::string buildContextSummary(const GraphContext& context) const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
 
         if (!context.related_provisions.empty()) {
-            oss << "Related provisions: " << context.related_provisions.size() << "; ";
+            oss << "Related provisions: " <<static_cast<int>(context.related_provisions.size()) << "; ";
         }
         if (!context.case_law.empty()) {
-            oss << "Case law: " << context.case_law.size() << "; ";
+            oss << "Case law: " <<static_cast<int>(context.case_law.size()) << "; ";
         }
         if (!context.similar_documents.empty()) {
-            oss << "Similar documents: " << context.similar_documents.size() << "; ";
+            oss << "Similar documents: " <<static_cast<int>(context.similar_documents.size()) << "; ";
         }
         if (!context.internal_guidance.empty()) {
-            oss << "Guidance documents: " << context.internal_guidance.size();
+            oss << "Guidance documents: " <<static_cast<int>(context.internal_guidance.size());
         }
 
         return oss.str();
@@ -594,8 +626,8 @@ KnowledgeGraphEnricher::KnowledgeGraphEnricher(const EnrichmentConfig& config,
 
 KnowledgeGraphEnricher::~KnowledgeGraphEnricher() = default;
 
-EnrichmentStats KnowledgeGraphEnricher::enrichAll(EnrichmentCallback callback) {
-    return impl_->enrichAll(callback);
+EnrichmentStats KnowledgeGraphEnricher::enrichAll([[maybe_unused]] EnrichmentCallback callback) {
+    return impl_->enrichAll([[maybe_unused]] callback);
 }
 
 GraphContext KnowledgeGraphEnricher::enrichSample(const std::string& sample_id) {

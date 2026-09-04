@@ -37,7 +37,7 @@ namespace llm {
  * @return JSON-safe escaped string (without surrounding quotes).
  */
 static std::string escapeJsonString(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         switch (c) {
@@ -51,7 +51,7 @@ static std::string escapeJsonString(const std::string& s) {
             default:
                 if (c < 0x20) {
                     // Encode other control characters as \uXXXX
-                    std::ostringstream esc;
+                    std::ostringstream esc = {};
                     esc << "\\u" << std::hex << std::setw(4)
                         << std::setfill('0') << static_cast<int>(c);
                     out += esc.str();
@@ -76,7 +76,7 @@ std::string StreamingHandler::formatSseEvent(
 {
     // Build the JSON payload inline to avoid pulling in a full JSON library
     // for this lightweight, hot-path helper.
-    std::string payload;
+    std::string payload = {};
     payload.reserve(128);
     payload += "{\"id\":\"";
     payload += escapeJsonString(request_id);
@@ -101,12 +101,12 @@ std::string StreamingHandler::formatDoneEvent(
     return "data: [DONE]\n\n";
 }
 
-std::string StreamingHandler::formatChunkedData(const std::string& data) {
+std::string StreamingHandler::formatChunkedData([[maybe_unused]] const std::string& data) {
     // HTTP/1.1 chunked-transfer encoding:
     //   <hex-length>\r\n<data>\r\n
     // An empty data string produces the terminal zero-length chunk.
-    std::ostringstream oss;
-    oss << std::hex << data.size() << "\r\n" << data << "\r\n";
+    std::ostringstream oss = {};
+    oss << std::hex <<static_cast<int>(data.size()) << "\r\n" << data << "\r\n";
     return oss.str();
 }
 

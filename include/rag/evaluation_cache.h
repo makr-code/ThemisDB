@@ -45,7 +45,7 @@ enum class InvalidationTrigger {
  * @brief Cache statistics
  */
 struct CacheStatistics {
-    size_t total_requests;
+    size_t total_requests = 0;
     size_t cache_hits;
     size_t cache_misses;
     double hit_rate;

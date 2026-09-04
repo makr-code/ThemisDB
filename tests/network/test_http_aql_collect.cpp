@@ -42,7 +42,9 @@ protected:
         setupData();
     }
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
     }
     void setupData() {
@@ -53,7 +55,9 @@ protected:
             themis::BaseEntity::fromFields("bob", themis::BaseEntity::FieldMap{{"name","Bob"},{"age", "17"},{"city","Hamburg"}}),
             themis::BaseEntity::fromFields("diana", themis::BaseEntity::FieldMap{{"name","Diana"},{"age", "28"},{"city","Berlin"}})
         };
-        for (const auto& u : users) ASSERT_TRUE(secondary_index_->put("users", u).ok);
+        for (const auto& u : users) {
+          ASSERT_TRUE(secondary_index_->put("users", u).ok);
+        }
     }
     http::response<http::string_body> post(const std::string& target, const json& body) {
         try {
@@ -94,8 +98,12 @@ TEST_F(HttpAqlCollectTest, Collect_GroupByCity_Count) {
     for (const auto& g : groups) {
         std::string city = g["g"].get<std::string>();
         int c = g["c"].get<int>();
-        if (city == "Berlin") berlinCnt = c;
-        if (city == "Hamburg") hamburgCnt = c;
+        if (city == "Berlin") {
+          berlinCnt = c;
+        }
+        if (city == "Hamburg") {
+          hamburgCnt = c;
+        }
     }
     EXPECT_EQ(berlinCnt, 2);
     EXPECT_EQ(hamburgCnt, 1);

@@ -78,7 +78,9 @@ size_t LlamaModelHandle::n_embd() const {
 }
 
 std::string LlamaModelHandle::model_type() const {
-    if (!model_) return "none";
+    if (!model_) {
+      return "none";
+    }
     
     // Use larger buffer to accommodate long model descriptions
     // llama_model_desc() returns the number of bytes written
@@ -407,12 +409,14 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
 void BackendAwareLlamaModelHandle::allocateGPUMemory(
     const GPUBackendConfig& config) {
     
-    if (!gpu_memory_manager_) return;
+    if (!gpu_memory_manager_) {
+      return;
+    }
     
     // Multi-GPU setup
-    if (config.secondary_gpus.size() > 0) {
+    if (static_cast<int>(config.secondary_gpus.size()) > 0) {
         spdlog::info("Multi-GPU setup detected: {} GPUs", 
-                    1 + config.secondary_gpus.size());
+                    1 + static_cast<int>(config.secondary_gpus.size()) );
         
         // Enable peer-to-peer access
         if (config.enable_peer_to_peer) {
@@ -446,7 +450,7 @@ std::string BackendAwareLlamaModelHandle::backend_name() const {
     return backend ? backend->name() : "Unknown";
 }
 
-bool BackendAwareLlamaModelHandle::transferToGPU(int target_gpu_id) {
+bool BackendAwareLlamaModelHandle::transferToGPU([[maybe_unused]] int target_gpu_id) {
     if (!model_) {
         spdlog::error("Cannot transfer: model not loaded");
         return false;

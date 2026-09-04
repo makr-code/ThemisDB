@@ -57,7 +57,7 @@ std::string hmacSha256Hex(const std::string& data, const std::string& key) {
     }
 
     static constexpr char kHexDigits[] = "0123456789abcdef";
-    std::string hex;
+    std::string hex = {};
     hex.resize(md_len * 2);
     for (unsigned int i = 0; i < md_len; ++i) {
         hex[2 * i] = kHexDigits[(md[i] >> 4) & 0x0F];

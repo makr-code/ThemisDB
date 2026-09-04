@@ -128,7 +128,9 @@ public:
                             }
                         }
                         scores[j] = scale * dot;
-                        if (scores[j] > max_score) max_score = scores[j];
+                        if (scores[j] > max_score) {
+                          max_score = scores[j];
+                        }
                     }
 
                     // Numerically stable softmax: exp(s - max) / sum
@@ -146,7 +148,9 @@ public:
                     // Weighted sum of V.
                     for (int d = 0; d < head_dim; ++d) {
                         const int oi = idx(b, h, i, d);
-                        if (oi >= static_cast<int>(O.size)) continue;
+                        if (oi >= static_cast<int>(O.size)) {
+                          continue;
+                        }
                         float out = 0.0f;
                         for (int j = 0; j < seq_len; ++j) {
                             const int vj = idx(b, h, j, d);
@@ -212,7 +216,9 @@ public:
                 for (int i = 0; i < seq_len; ++i) {
                     for (int d = 0; d < head_dim; ++d) {
                         const int pos = idx(b, h, i, d);
-                        if (pos >= static_cast<int>(dO.size)) continue;
+                        if (pos >= static_cast<int>(dO.size)) {
+                          continue;
+                        }
                         const float grad = dO.data[pos];
 
                         // dQ: scaled gradient from dO
@@ -338,8 +344,8 @@ Backend FlashAttention::selectBestBackend() {
 bool FlashAttention::isBackendAvailable(Backend backend) {
     switch (backend) {
         case Backend::CUDA_SM90:
-        case Backend::CUDA_SM86:
-        case Backend::CUDA_SM80:
+        [[fallthrough]];\n        case Backend::CUDA_SM86:
+        [[fallthrough]];\n        case Backend::CUDA_SM80:
 #ifdef THEMIS_ENABLE_CUDA
             return cuda::FlashAttentionCUDA::isAvailable();
 #else
@@ -354,7 +360,7 @@ bool FlashAttention::isBackendAvailable(Backend backend) {
 #endif
             
         case Backend::HIP_MI300:
-        case Backend::HIP_RDNA:
+        [[fallthrough]];\n        case Backend::HIP_RDNA:
 #ifdef THEMIS_ENABLE_HIP
             return hip::FlashAttentionHIP::isAvailable();
 #else
@@ -419,8 +425,8 @@ double FlashAttention::getExpectedSpeedup() const {
 std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) {
     switch (backend) {
         case Backend::CUDA_SM90:
-        case Backend::CUDA_SM86:
-        case Backend::CUDA_SM80:
+        [[fallthrough]];\n        case Backend::CUDA_SM86:
+        [[fallthrough]];\n        case Backend::CUDA_SM80:
 #ifdef THEMIS_ENABLE_CUDA
             return std::make_unique<cuda::FlashAttentionCUDA>(config_);
 #else
@@ -435,7 +441,7 @@ std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) 
 #endif
 
         case Backend::HIP_MI300:
-        case Backend::HIP_RDNA:
+        [[fallthrough]];\n        case Backend::HIP_RDNA:
 #ifdef THEMIS_ENABLE_HIP
             return std::make_unique<hip::FlashAttentionHIP>(config_);
 #else
@@ -453,9 +459,15 @@ std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) 
 Backend FlashAttention::detectCUDABackend() {
 #ifdef THEMIS_ENABLE_CUDA
     int cc = cuda::FlashAttentionCUDA::getComputeCapability();
-    if (cc >= 90) return Backend::CUDA_SM90;
-    if (cc >= 86) return Backend::CUDA_SM86;
-    if (cc >= 80) return Backend::CUDA_SM80;
+    if (cc >= 90) {
+      return Backend::CUDA_SM90;
+    }
+    if (cc >= 86) {
+      return Backend::CUDA_SM86;
+    }
+    if (cc >= 80) {
+      return Backend::CUDA_SM80;
+    }
 #endif
     return Backend::CPU;
 }

@@ -45,7 +45,7 @@ public:
             case FailureMode::NONE:
                 // Normal path: accept all
                 successful_exports_ += observations.size();
-                return observations.size();
+                return static_cast<int>(observations.size());
 
             case FailureMode::BACKEND_TIMEOUT:
                 // Simulate timeout: reject all
@@ -54,7 +54,7 @@ public:
                 if (total_exports_ % 10 == 0) {
                     healthy_ = true;  // Recovery after 10 attempts
                 }
-                return healthy_ ? observations.size() : 0;
+                return healthy_ ?static_cast<int>(observations.size()) : 0;
 
             case FailureMode::BACKEND_UNAVAILABLE:
                 // Backend completely unavailable
@@ -64,7 +64,7 @@ public:
 
             case FailureMode::PARTIAL_PACKET_LOSS: {
                 // Simulate 5% packet loss
-                std::random_device rd;
+                std::random_device rd = {};
                 std::mt19937 gen(rd());
                 std::uniform_real_distribution<> dis(0.0, 1.0);
                 std::size_t accepted = 0;
@@ -84,28 +84,28 @@ public:
             case FailureMode::HIGH_LATENCY:
                 // Simulate 100-500ms latency
                 {
-                    std::random_device rd;
+                    std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(100, 500);
                     std::this_thread::sleep_for(
                         std::chrono::milliseconds(dis(gen)));
                 }
                 successful_exports_ += observations.size();
-                return observations.size();
+                return static_cast<int>(observations.size());
 
             case FailureMode::BACKEND_SLOW:
                 // Simulate 1-2s response time
                 std::this_thread::sleep_for(std::chrono::seconds(1));
                 successful_exports_ += observations.size();
-                return observations.size();
+                return static_cast<int>(observations.size());
 
             case FailureMode::QUEUE_EXHAUSTION:
                 // Simulate queue overflow: accept 50%
                 {
-                    std::random_device rd;
+                    std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(0, 100);
-                    std::size_t accepted = dis(gen) < 50 ? observations.size() : 0;
+                    std::size_t accepted = dis(gen) < 50 ?static_cast<int>(observations.size()) : 0;
                     if (accepted > 0) {
                         successful_exports_ += accepted;
                     } else {
@@ -117,10 +117,10 @@ public:
             case FailureMode::MEMORY_PRESSURE:
                 // Simulate memory pressure: accept 75%
                 {
-                    std::random_device rd;
+                    std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(0, 100);
-                    std::size_t accepted = dis(gen) < 75 ? observations.size() : 0;
+                    std::size_t accepted = dis(gen) < 75 ?static_cast<int>(observations.size()) : 0;
                     if (accepted > 0) {
                         successful_exports_ += accepted;
                     } else {
@@ -174,7 +174,7 @@ public:
     ExporterStressFrameworkImpl()
         : cancel_test_(false),
           active_test_(false),
-          progress_callback_(nullptr) {}
+          progress_callback_([[maybe_unused]] nullptr) {}
 
     ExporterStressTestResult runStressTest(
         const ExporterStressTestConfig& config) override {
@@ -189,7 +189,7 @@ public:
         auto backend = std::make_unique<MockExporterBackendImpl>(config.failure_mode);
 
         // Generate observations
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(config.random_seed);
         std::uniform_int_distribution<> label_dis(0, config.metric_cardinality - 1);
         std::uniform_real_distribution<> value_dis(0.0, 100.0);
@@ -236,8 +236,8 @@ public:
                 }
 
                 // Update progress
-                if (progress_callback_) {
-                    progress_callback_((sec * 100) / config.duration_seconds);
+                if ([[maybe_unused]] progress_callback_) {
+                    progress_callback_([[maybe_unused]] (sec * 100) / config.duration_seconds);
                 }
             }
         }
@@ -332,7 +332,8 @@ public:
     std::vector<ExporterStressTestResult> runMultipleTests(
         const std::vector<ExporterStressTestConfig>& configs) override {
 
-        std::vector<ExporterStressTestResult> results;
+        std::vector<ExporterStressTestResult> results = {};
+
         for (const auto& config : configs) {
             if (cancel_test_) {
                 break;
@@ -414,7 +415,7 @@ public:
         const ExporterStressTestResult& baseline,
         const ExporterStressTestResult& candidate) override {
 
-        std::ostringstream report;
+        std::ostringstream report = {};
         report << std::fixed << std::setprecision(2);
 
         report << "# Exporter Stress Test Comparison Report\n\n";
@@ -454,7 +455,7 @@ public:
     }
 
     void setProgressCallback(
-        std::function<void(std::uint32_t progress_percent)> callback) override {
+        std::function<void([[maybe_unused]] std::uint32_t progress_percent)> callback) override {
         progress_callback_ = callback;
     }
 
@@ -471,7 +472,7 @@ public:
         return 6;  // OEX-01 through OEX-06
     }
 
-    std::string getGateName(std::size_t gate_index) const override {
+    std::string getGateName(st[[maybe_unused]] d::size_[[maybe_unused]] t gate_inde[[maybe_unused]] x) const override {
         const char* names[] = {
             "OEX-01: Baseline Throughput",
             "OEX-02: P95 Latency (Normal Load)",

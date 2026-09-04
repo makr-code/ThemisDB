@@ -68,7 +68,7 @@ bool RetryExecutor::should_retry(
            policy.retry_on_internal_error;
 }
 
-double RetryExecutor::get_jitter(double factor) noexcept {
+double RetryExecutor::get_jitter([[maybe_unused]] double factor) noexcept {
     // Thread-safe random number generation.
     static thread_local std::random_device rd;
     static thread_local std::mt19937 gen(rd());

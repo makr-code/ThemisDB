@@ -196,7 +196,7 @@ struct AuditRecord {
  */
 struct ModelDelta {
     /// Type of delta representation: "operation_log" | "snapshot_diff" | "compressed"
-    std::string delta_type;
+    std::string delta_type = {};
 
     /// Timestamp of base snapshot (starting point for replay)
     int64_t base_timestamp_ns = 0;
@@ -251,7 +251,7 @@ struct HistorySnapshot {
     uint64_t revision = 0;
 
     /// Full serialized model content (BPMN/CMMN XML or JSON)
-    std::string model_content;
+    std::string model_content = {};
 
     /// Cryptographic hash of model_content
     std::string model_state_hash;

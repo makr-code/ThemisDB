@@ -326,7 +326,9 @@ TEST_F(BackendConsistencyTest, CrossBackend_Consistency) {
                     break;
                 }
             }
-            if (matches) backendsMatched++;
+            if (matches) {
+              backendsMatched++;
+            }
             backend->shutdown();
         }
     }
@@ -354,7 +356,9 @@ TEST_F(BackendConsistencyTest, CrossBackend_Consistency) {
                     break;
                 }
             }
-            if (matches) backendsMatched++;
+            if (matches) {
+              backendsMatched++;
+            }
             backend->shutdown();
         }
     }
@@ -382,7 +386,9 @@ TEST_F(BackendConsistencyTest, CrossBackend_Consistency) {
                     break;
                 }
             }
-            if (matches) backendsMatched++;
+            if (matches) {
+              backendsMatched++;
+            }
             backend->shutdown();
         }
     }
@@ -410,7 +416,9 @@ TEST_F(BackendConsistencyTest, CrossBackend_Consistency) {
                     break;
                 }
             }
-            if (matches) backendsMatched++;
+            if (matches) {
+              backendsMatched++;
+            }
             backend->shutdown();
         }
     }
@@ -438,7 +446,9 @@ TEST_F(BackendConsistencyTest, CrossBackend_Consistency) {
                     break;
                 }
             }
-            if (matches) backendsMatched++;
+            if (matches) {
+              backendsMatched++;
+            }
             backend->shutdown();
         }
     }

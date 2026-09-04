@@ -84,9 +84,9 @@ FeedbackAPIHandler::FeedbackAPIHandler(
     : storage_service_(storage_service)
 {
     if (!storage_service_) {
-        throw std::runtime_error("FeedbackAPIHandler: storage_service is required");
+        throw std::runtime_error([[maybe_unused]] "FeedbackAPIHandler: storage_service is required");
     }
-    spdlog::info("FeedbackAPIHandler initialized");
+    spdlog::info([[maybe_unused]] "FeedbackAPIHandler initialized");
 }
 
 http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
@@ -579,7 +579,7 @@ http::response<http::string_body> FeedbackAPIHandler::makeErrorResponse(
     return makeJsonResponse(status, error_json, req);
 }
 
-llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery(const std::string& query) const {
+llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery([[maybe_unused]] const std::string& query) const {
     llm::lora::FeedbackFilter filter;
     
     if (query.empty()) {
@@ -591,7 +591,9 @@ llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery(const std::st
     
     auto parse_param = [&query](const std::string& key) -> std::optional<std::string> {
         size_t pos = query.find(key + "=");
-        if (pos == std::string::npos) return std::nullopt;
+        if (pos == std::string::npos) {
+          return std::nullopt;
+        }
         
         size_t start = pos + key.length() + 1;
         size_t end = query.find('&', start);

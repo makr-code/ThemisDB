@@ -69,7 +69,7 @@ std::string detectQuantizationToken(const std::string& text) {
 // ---------------------------------------------------------------------------
 
 SemVer SemVer::parse(const std::string& s) {
-    SemVer v;
+    SemVer v = {};
     if (s.empty()) {
         return v;
     }
@@ -82,8 +82,8 @@ SemVer SemVer::parse(const std::string& s) {
             return false;
         }
         int result = 0;
-        auto [ptr, ec] = std::from_chars(sv.data(), sv.data() + sv.size(), result);
-        if (ec != std::errc{} || ptr != sv.data() + sv.size()) {
+        auto [ptr, ec] = std::from_chars(sv.data(), sv.data() + static_cast<int>(sv.size()) , result);
+        if (ec != std::errc{} || ptr != sv.data() + static_cast<int>(sv.size()) ) {
             return false;
         }
         out = result;
@@ -91,7 +91,7 @@ SemVer SemVer::parse(const std::string& s) {
     };
 
     std::istringstream ss(s);
-    std::string token;
+    std::string token = {};
     int part = 0;
     while (std::getline(ss, token, '.') && part < 3) {
         int val = 0;
@@ -639,7 +639,8 @@ ModelSwitchOutcome ModelSwitchWorkflow::evaluateRebuildPolicy(
     // Deduplicate triggers (preserve insertion order)
     {
         std::vector<RebuildTrigger> seen;
-        std::vector<RebuildTrigger> deduped;
+        std::vector<RebuildTrigger> deduped = {};
+
         for (const auto t : active_triggers) {
             if (std::find(seen.begin(), seen.end(), t) == seen.end()) {
                 seen.push_back(t);
@@ -671,7 +672,7 @@ ModelSwitchResult ModelSwitchWorkflow::executeSwitch(const ModelSwitchRequest& r
         result.outcome = ModelSwitchOutcome::COMPATIBLE;
         result.warnings.push_back(
             "Source and target model are identical; no switch required "
-            "(use force_revalidation=true to override)");
+            "(us[[maybe_unused]] e force_revalidatio[[maybe_unused]] n=tru[[maybe_unused]] e t[[maybe_unused]] o overrid[[maybe_unused]] e)");
         return result;
     }
 

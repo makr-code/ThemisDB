@@ -83,7 +83,8 @@ std::vector<VersionedDocument> TemporalSnapshotManager::querySnapshot(
         return tbl_it->second;
     }
 
-    std::vector<VersionedDocument> result;
+    std::vector<VersionedDocument> result = {};
+
     for (const auto& row : tbl_it->second) {
         bool match = true;
         for (const auto& [field, value] : filters) {
@@ -119,7 +120,7 @@ bool TemporalSnapshotManager::isAlive(const SnapshotHandle& handle) const {
 
 size_t TemporalSnapshotManager::snapshotCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return snapshots_.size();
+    return static_cast<int>(snapshots_.size());
 }
 
 SnapshotMetadata TemporalSnapshotManager::getSnapshotMetadata(
@@ -166,13 +167,13 @@ size_t TemporalSnapshotManager::garbageCollectByAge(Timestamp max_age_ms) {
         ++total_gc_collected_;
     }
 
-    return to_remove.size();
+    return static_cast<int>(to_remove.size());
 }
 
-size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
+size_t TemporalSnapshotManager::garbageCollectByCount([[maybe_unused]] size_t max_snapshots) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (snapshots_.size() <= max_snapshots) {
+    if (static_cast<int>(snapshots_.size()) <= max_snapshots) {
         return 0;
     }
 
@@ -184,7 +185,7 @@ size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
     }
     std::sort(ordered.begin(), ordered.end());
 
-    const size_t to_remove_count = snapshots_.size() - max_snapshots;
+    const size_t to_remove_count = static_cast<int>(snapshots_.size()) - max_snapshots;
     for (size_t i = 0; i < to_remove_count; ++i) {
         snapshots_.erase(ordered[i].second);
         ++total_released_;
@@ -196,7 +197,7 @@ size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
 
 nlohmann::json TemporalSnapshotManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return {{"active_snapshots", snapshots_.size()},
+    return {{"active_snapshots",static_cast<int>(snapshots_.size())},
             {"total_created", total_created_},
             {"total_released", total_released_},
             {"total_gc_collected", total_gc_collected_},
@@ -219,7 +220,7 @@ std::string TemporalSnapshotManager::generateSnapshotId() {
     std::lock_guard<std::mutex> lock(gen_mutex);
     std::uniform_int_distribution<uint32_t> dist;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "snap_" << ts << "_" << dist(gen);
     return oss.str();
 }
@@ -269,9 +270,14 @@ TemporalSnapshotManager::diff(const SnapshotHandle& base,
     const auto& other_tables = it_other->second.tables;
 
     // Collect all table names that appear in either snapshot.
-    std::set<std::string> all_tables;
-    for (const auto& [t, _] : base_tables)  all_tables.insert(t);
-    for (const auto& [t, _] : other_tables) all_tables.insert(t);
+    std::set<std::string> all_tables = {};
+
+    for (const auto& [t, _] : base_tables) {
+      all_tables.insert(t);
+    }
+    for (const auto& [t, _] : other_tables) {
+      all_tables.insert(t);
+    }
 
     SnapshotDiff result;
 
@@ -306,7 +312,8 @@ TemporalSnapshotManager::diff(const SnapshotHandle& base,
         auto build_key_map = [](const std::vector<VersionedDocument>& rows)
             -> std::unordered_map<std::string, const VersionedDocument*>
         {
-            std::unordered_map<std::string, const VersionedDocument*> m;
+            std::unordered_map<std::string, const VersionedDocument*> m = {};
+
             for (const auto& row : rows) {
                 auto it = m.find(row.key);
                 if (it == m.end() || row.sys_time.start > it->second->sys_time.start) {

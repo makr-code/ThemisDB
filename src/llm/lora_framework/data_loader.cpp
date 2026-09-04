@@ -27,7 +27,7 @@ namespace lora {
 
 // ===== SimpleTokenizer Implementation =====
 
-SimpleTokenizer::SimpleTokenizer(int vocab_size) 
+SimpleTokenizer::SimpleTokenizer([[maybe_unused]] int vocab_size) 
     : vocab_size_(vocab_size) {
 }
 
@@ -57,7 +57,7 @@ std::vector<int> SimpleTokenizer::encode(const std::string& text,
 }
 
 std::string SimpleTokenizer::decode(const std::vector<int>& tokens) {
-    std::string text;
+    std::string text = {};
     
     for (int token_id : tokens) {
         // Skip special tokens
@@ -129,7 +129,7 @@ bool DataLoader::loadFromFile(const std::string& filepath) {
         shuffle();
     }
     
-    spdlog::info("Loaded {} samples", samples_.size());
+    spdlog::info("Loaded {} samples",static_cast<int>(samples_.size()));
     return true;
 }
 
@@ -190,7 +190,7 @@ bool DataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sampl
         shuffle();
     }
     
-    spdlog::info("Loaded {} samples from memory", samples_.size());
+    spdlog::info("Loaded {} samples from memory",static_cast<int>(samples_.size()));
     return true;
 }
 
@@ -201,7 +201,7 @@ bool DataLoader::parseJSONL(const std::string& filepath) {
         return false;
     }
     
-    std::string line;
+    std::string line = {};
     int line_num = 0;
     
     while (std::getline(file, line)) {
@@ -281,7 +281,7 @@ bool DataLoader::parsePlainText(const std::string& filepath) {
     }
     
     // Read entire file as single text
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     std::string text = buffer.str();
     
@@ -290,7 +290,7 @@ bool DataLoader::parsePlainText(const std::string& filepath) {
     const size_t chunk_size = 512;  // characters per chunk
     
     for (size_t i = 0; i < text.size(); i += chunk_size) {
-        size_t end = std::min(i + chunk_size, text.size());
+        size_t end = std::min(i + chunk_size,static_cast<int>(text.size()));
         std::string chunk = text.substr(i, end - i);
         
         InstructionDataSample sample;
@@ -334,14 +334,14 @@ void DataLoader::tokenizeSample(InstructionDataSample& sample) {
     
     // Truncate if needed
     if (config_.truncate_to_max_length && 
-        sample.input_ids.size() > static_cast<size_t>(config_.max_sequence_length)) {
+        static_cast<int>(sample.input_ids.size()) > static_cast<size_t>(config_.max_sequence_length)) {
         sample.input_ids.resize(config_.max_sequence_length);
         sample.label_ids.resize(config_.max_sequence_length);
     }
 }
 
 size_t DataLoader::num_batches() const {
-    return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
+    return (static_cast<int>(samples_.size()) + config_.batch_size - 1) / config_.batch_size;
 }
 
 TrainingBatch DataLoader::getNextBatch() {
@@ -350,8 +350,9 @@ TrainingBatch DataLoader::getNextBatch() {
     }
     
     // Collect indices for this batch
-    std::vector<size_t> batch_indices;
-    size_t end_index = std::min(current_index_ + config_.batch_size, indices_.size());
+    std::vector<size_t> batch_indices = {};
+
+    size_t end_index = std::min(current_index_ + config_.batch_size,static_cast<int>(indices_.size()));
     
     for (size_t i = current_index_; i < end_index; ++i) {
         batch_indices.push_back(indices_[i]);
@@ -392,12 +393,12 @@ void DataLoader::padBatch(TrainingBatch& batch) {
     int target_length = config_.pad_to_max_length ? 
         config_.max_sequence_length : batch.max_sequence_length;
     
-    for (size_t i = 0; i < batch.input_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(batch.input_ids.size()); ++i) {
         auto& input_seq = batch.input_ids[i];
         auto& label_seq = batch.label_ids[i];
         
         // Pad to target length
-        while (input_seq.size() < static_cast<size_t>(target_length)) {
+        while ( static_cast<int>(input_seq.size()) < static_cast<size_t>(target_length)) {
             input_seq.push_back(config_.pad_token_id);
             label_seq.push_back(-100);  // -100 is ignored in loss calculation
         }
@@ -415,19 +416,19 @@ void DataLoader::reset() {
 }
 
 bool DataLoader::hasNext() const {
-    return current_index_ < indices_.size();
+    return static_cast<bool>(current_index_ < indices_.size());
 }
 
 void DataLoader::shuffle() {
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::shuffle(indices_.begin(), indices_.end(), gen);
     
     spdlog::debug("Dataset shuffled");
 }
 
-std::optional<InstructionDataSample> DataLoader::getSample(size_t idx) const {
-    if (idx >= samples_.size()) {
+std::optional<InstructionDataSample> DataLoader::getSample([[maybe_unused]] size_t idx) const {
+    if (idx >= static_cast<int>(samples_.size())) {
         return std::nullopt;
     }
     return samples_[idx];
@@ -485,8 +486,8 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
             const auto& messages = conversation["conversations"];
             
             // Convert conversations to instruction-response pairs
-            std::string instruction;
-            std::string response;
+            std::string instruction = {};
+            std::string response = {};
             
             for (const auto& msg : messages) {
                 std::string role = msg.value("from", "");
@@ -519,15 +520,15 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
     return samples;
 }
 
-std::vector<InstructionDataSample> createToyDataset(size_t num_samples) {
+std::vector<InstructionDataSample> createToyDataset([[maybe_unused]] size_t num_samples) {
     std::vector<InstructionDataSample> samples;
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(1, 100);
     
     for (size_t i = 0; i < num_samples; ++i) {
-        InstructionDataSample sample;
+        InstructionDataSample sample = {};
         
         if (i % 5 < 2) {
             // Arithmetic
@@ -566,7 +567,7 @@ trainValSplit(const std::vector<InstructionDataSample>& samples, float validatio
     }
     
     size_t val_size = static_cast<size_t>(samples.size() * validation_split);
-    size_t train_size = samples.size() - val_size;
+    size_t train_size = static_cast<int>(samples.size()) - val_size;
     
     std::vector<InstructionDataSample> train_samples(
         samples.begin(), samples.begin() + train_size);

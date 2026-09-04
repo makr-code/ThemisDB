@@ -112,10 +112,10 @@ TEST(SequenceMergeOperatorSemantics, MergesFromAbsent) {
             ASSERT_TRUE(db->Merge(rocksdb::WriteOptions{}, "key", delta_slice).ok());
         }
 
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db->Get(rocksdb::ReadOptions{}, "key", &val).ok());
         ASSERT_EQ(val.size(), sizeof(uint64_t));
-        uint64_t result;
+        uint64_t result = {};
         memcpy(&result, val.data(), sizeof(result));
         EXPECT_EQ(result, 5u);
     }
@@ -146,9 +146,9 @@ TEST(SequenceMergeOperatorSemantics, MergesOnTopOfBinaryBase) {
             ASSERT_TRUE(db->Merge(rocksdb::WriteOptions{}, "key", delta_slice).ok());
         }
 
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db->Get(rocksdb::ReadOptions{}, "key", &val).ok());
-        uint64_t result;
+        uint64_t result = {};
         memcpy(&result, val.data(), sizeof(result));
         EXPECT_EQ(result, 13u);
     }
@@ -177,9 +177,9 @@ TEST(SequenceMergeOperatorSemantics, MergesOnTopOfLegacyStringBase) {
             ASSERT_TRUE(db->Merge(rocksdb::WriteOptions{}, "key", delta_slice).ok());
         }
 
-        std::string val;
+        std::string val = {};
         ASSERT_TRUE(db->Get(rocksdb::ReadOptions{}, "key", &val).ok());
-        uint64_t result;
+        uint64_t result = {};
         memcpy(&result, val.data(), sizeof(result));
         EXPECT_EQ(result, 9u);
     }
@@ -232,12 +232,15 @@ TEST_F(SequenceCounterTest, NoDuplicateSequencesUnder8Threads) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0);
 
     // Merge all sequences and verify uniqueness.
-    std::set<uint64_t> all;
+    std::set<uint64_t> all = {};
+
     for (const auto& v : per_thread_seqs) {
         for (uint64_t seq : v) {
             EXPECT_TRUE(all.insert(seq).second)
@@ -257,7 +260,8 @@ TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
 
     const auto t0 = std::chrono::steady_clock::now();
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&]() {
             for (int i = 0; i < kPerThread; ++i) {
@@ -265,7 +269,9 @@ TEST_F(SequenceCounterTest, ThroughputAtLeast50KPerSecUnder8Threads) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     const auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - t0).count();

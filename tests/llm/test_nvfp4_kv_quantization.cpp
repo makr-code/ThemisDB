@@ -96,7 +96,9 @@ protected:
             }
         }
         
-        if (non_zero_count == 0) return 0.0f;
+        if (non_zero_count == 0) {
+          return 0.0f;
+        }
         return static_cast<float>(sum_error / non_zero_count);
     }
 

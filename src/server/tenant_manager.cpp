@@ -81,7 +81,7 @@ std::string TenantManager::normaliseDomain(std::string_view host) {
     std::string result(host);
     const auto colon = result.rfind(':');
     if (colon != std::string::npos) {
-        const std::size_t suffix_len = result.size() - colon - 1;
+        const std::size_t suffix_len = static_cast<int>(result.size()) - colon - 1;
         if (suffix_len >= 1 && suffix_len <= 5) {
             const bool is_port = std::all_of(result.begin() + static_cast<std::ptrdiff_t>(colon) + 1,
                                              result.end(),
@@ -131,7 +131,7 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
     }
     
     // Check global tenant limit
-    if (tenants_.size() >= config_.global_max_tenants) {
+    if (static_cast<int>(tenants_.size()) >= config_.global_max_tenants) {
         THEMIS_WARN("TenantManager: Global tenant limit ({}) reached", config_.global_max_tenants);
         return CreateResult::QuotaExceeded;
     }
@@ -296,7 +296,8 @@ std::optional<TenantConfig> TenantManager::getTenant(std::string_view tenant_id)
 std::vector<TenantConfig> TenantManager::listTenants() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<TenantConfig> result;
+    std::vector<TenantConfig> result = {};
+
     result.reserve(tenants_.size());
     for (const auto& [id, config] : tenants_) {
         result.push_back(config);
@@ -313,7 +314,7 @@ bool TenantManager::tenantExists(std::string_view tenant_id) const {
 /** @brief Return number of configured tenants. */
 size_t TenantManager::getTenantCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return tenants_.size();
+    return static_cast<int>(tenants_.size());
 }
 
 /**
@@ -735,16 +736,16 @@ std::optional<std::string> TenantManager::lookupTenantByDomain(std::string_view 
 /** @brief Export current tenant metrics in Prometheus exposition format. */
 std::string TenantManager::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "# HELP themis_tenant_count Total number of tenants\n";
     oss << "# TYPE themis_tenant_count gauge\n";
-    oss << "themis_tenant_count " << tenants_.size() << "\n\n";
+    oss << "themis_tenant_count " <<static_cast<int>(tenants_.size()) << "\n\n";
     
     for (const auto& [id, usage] : usage_) {
         // Escape label value safely using a new string
-        std::string tid;
-        tid.reserve(id.size() + 4);  // Reserve some extra space for escapes
+        std::string tid = {};
+        tid.reserve(static_cast<int>(id.size()) + 4);  // Reserve some extra space for escapes
         for (char c : id) {
             if (c == '"' || c == '\\') {
                 tid += '\\';

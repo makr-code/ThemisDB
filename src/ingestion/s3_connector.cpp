@@ -102,7 +102,7 @@ static bool isFlatFileExtension(const std::string& ext) {
 
 /// Sanitise a source_id so it is safe to use as a filename component.
 static std::string sanitiseId(const std::string& id) {
-    std::string out;
+    std::string out = {};
     out.reserve(id.size());
     for (char c : id) {
         out += (std::isalnum(static_cast<unsigned char>(c)) ||
@@ -125,18 +125,22 @@ static fs::path writeToTempFile(const fs::path& tmp_dir,
                                 const std::string& body) {
     // Build a filename from the last path component of the key, preserving
     // its extension so FileSystemIngester can detect the format.
-    std::string basename;
+    std::string basename = {};
     auto slash = key.rfind('/');
     basename = (slash == std::string::npos) ? key : key.substr(slash + 1);
-    if (basename.empty()) basename = "object";
+    if (basename.empty()) {
+      basename = "object";
+    }
 
     // Sanitise the basename: keep only safe characters.
-    std::string safe_name;
+    std::string safe_name = {};
     for (char c : basename) {
         safe_name += (std::isalnum(static_cast<unsigned char>(c)) ||
                       c == '-' || c == '_' || c == '.') ? c : '_';
     }
-    if (safe_name.empty()) safe_name = "object";
+    if (safe_name.empty()) {
+      safe_name = "object";
+    }
 
     fs::path dest = tmp_dir / safe_name;
     std::ofstream out(dest, std::ios::binary | std::ios::trunc);
@@ -161,7 +165,7 @@ static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
     cfg.type      = SourceType::FILESYSTEM;
     cfg.location  = tmp_file.string();
 
-    std::string result;
+    std::string result = {};
     if (ingester.initialize(cfg)) {
         IngestionStats sub_stats = ingester.ingest("_s3_tmp_col", nullptr);
         // The ingested text is reflected in sub_stats.documents_processed > 0;
@@ -183,7 +187,7 @@ static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
     }
 
     // Remove temp file; ignore errors (directory is cleaned up later).
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove(tmp_file, ec);
 
     return result;
@@ -196,13 +200,15 @@ static std::string s3JsonExtractField(const std::string& body,
     auto start = body.find(needle);
     if (start == std::string::npos) return {};
     start += needle.size();
-    std::string value;
+    std::string value = {};
     bool escape = false;
     for (size_t i = start; i < body.size(); ++i) {
         char c = body[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -221,7 +227,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::OBJECT_STORAGE) return false;
+        if (config.type != SourceType::OBJECT_STORAGE) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) -> std::string {
@@ -259,7 +267,9 @@ public:
         try {
             max_concurrent_downloads_ = static_cast<size_t>(
                 std::stoull(opt("max_concurrent_downloads", "4")));
-            if (max_concurrent_downloads_ == 0) max_concurrent_downloads_ = 1;
+            if (max_concurrent_downloads_ == 0) {
+              max_concurrent_downloads_ = 1;
+            }
         } catch (...) {
             max_concurrent_downloads_ = 4;
         }
@@ -268,7 +278,9 @@ public:
     }
 
     bool isAvailable() const {
-        if (list_fn_ && fetch_fn_) return true;
+        if (list_fn_ && fetch_fn_) {
+          return true;
+        }
 
 #ifdef THEMIS_ENABLE_S3
         return checkAvailableS3();
@@ -297,7 +309,7 @@ public:
         // Determine effective start_after from checkpoint or config.
         std::string effective_start_after = start_after_;
         if (checkpoint_store_) {
-            IngestionCheckpoint cp;
+            IngestionCheckpoint cp = {};
             if (checkpoint_store_->read(config_.source_id, cp) &&
                 !cp.cursor.empty()) {
                 effective_start_after = cp.cursor;
@@ -306,7 +318,7 @@ public:
 
         // Create a temporary directory for flat-file parsing.
         fs::path tmp_dir = makeTmpDir(config_.source_id);
-        std::error_code ec;
+        std::error_code ec = {};
         bool tmp_created = fs::create_directories(tmp_dir, ec);
 
         // -------------------------------------------------------------------
@@ -396,13 +408,17 @@ private:
             // Delegate to FileSystemIngester format readers via a temp file.
             std::string text = extractViaFileSystemIngester(tmp_dir, key, body,
                                                             config_.source_id);
-            if (!text.empty()) return text;
+            if (!text.empty()) {
+              return text;
+            }
         }
 
         // Fallback for .json: extract the configured text_field.
         if (ext == ".json") {
             std::string field_val = s3JsonExtractField(body, text_field_);
-            if (!field_val.empty()) return field_val;
+            if (!field_val.empty()) {
+              return field_val;
+            }
         }
 
         // Final fallback: return raw body.
@@ -419,8 +435,8 @@ private:
                       std::function<std::string(const std::string&)> fetcher) {
         // Split into sub-batches of max_concurrent_downloads_.
         size_t i = 0;
-        while (i < keys.size()) {
-            size_t end = std::min(i + max_concurrent_downloads_, keys.size());
+        while (static_cast<size_t>(i) <static_cast<int>(keys.size())) {
+            size_t end = std::min(i + max_concurrent_downloads_,static_cast<int>(keys.size()));
 
             // Launch concurrent downloads.
             std::vector<std::future<std::pair<std::string, std::string>>> futs;
@@ -464,7 +480,7 @@ private:
                 stats.bytes_processed += body.size();
                 last_key_processed_ = key;
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,
@@ -497,10 +513,13 @@ private:
             std::string marker = start_after;
             while (true) {
                 auto keys = list_fn_(marker);
-                if (keys.empty()) break;
+                if (keys.empty()) {
+                  break;
+                }
 
                 // Safety check on keys before we build the batch.
-                std::vector<std::string> safe_keys;
+                std::vector<std::string> safe_keys = {};
+
                 safe_keys.reserve(keys.size());
                 for (const auto& k : keys) {
                     if (!isS3KeySafe(k)) {
@@ -575,7 +594,9 @@ private:
             Aws::S3::Model::ListObjectsV2Request req;
             req.SetBucket(bucket_);
             req.SetMaxKeys(1);
-            if (!prefix_.empty()) req.SetPrefix(prefix_);
+            if (!prefix_.empty()) {
+              req.SetPrefix(prefix_);
+            }
             return s3->ListObjectsV2(req).IsSuccess();
         } catch (...) {
             return false;
@@ -591,13 +612,15 @@ private:
                       const fs::path& tmp_dir) {
         try {
             auto s3 = buildS3Client();
-            std::string continuation_token;
+            std::string continuation_token = {};
             bool first_page = true;
 
             do {
                 Aws::S3::Model::ListObjectsV2Request list_req;
                 list_req.SetBucket(bucket_);
-                if (!prefix_.empty()) list_req.SetPrefix(prefix_);
+                if (!prefix_.empty()) {
+                  list_req.SetPrefix(prefix_);
+                }
                 list_req.SetMaxKeys(max_keys_per_list_);
 
                 if (!continuation_token.empty()) {
@@ -618,7 +641,8 @@ private:
                 }
 
                 const auto& result = list_outcome.GetResult();
-                std::vector<std::string> keys;
+                std::vector<std::string> keys = {};
+
                 keys.reserve(result.GetContents().size());
                 for (const auto& obj : result.GetContents()) {
                     keys.push_back(obj.GetKey());
@@ -631,7 +655,7 @@ private:
                                  get_req.SetKey(key);
                                  auto outcome = s3->GetObject(get_req);
                                  if (!outcome.IsSuccess()) return {};
-                                 std::ostringstream oss;
+                                 std::ostringstream oss = {};
                                  oss << outcome.GetResult().GetBody().rdbuf();
                                  return oss.str();
                              });

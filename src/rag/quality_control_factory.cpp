@@ -61,13 +61,15 @@ std::unique_ptr<QualityControlPipeline> QualityControlFactory::createProduction(
     auto nli_verifier = createNLIVerifier(setup_config);
     
     // Create G-Eval evaluator if enabled
-    std::shared_ptr<GEvalEvaluator> geval_evaluator;
+    std::shared_ptr<GEvalEvaluator> geval_evaluator = {};
+
     if (setup_config.enable_geval) {
         geval_evaluator = createGEvalEvaluator();
     }
     
     // Create LLM Judge Client if inference engine available
-    std::shared_ptr<LLMJudgeClient> llm_judge_client;
+    std::shared_ptr<LLMJudgeClient> llm_judge_client = {};
+
     if (setup_config.enable_llm_judge && setup_config.inference_engine) {
         llm_judge_client = createLLMJudgeClient(setup_config.inference_engine);
     } else if (setup_config.enable_llm_judge) {

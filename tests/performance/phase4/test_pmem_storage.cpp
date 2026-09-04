@@ -18,7 +18,7 @@ using namespace themis::performance::phase4;
 // ---------------------------------------------------------------------------
 class PMemPoolTest : public ::testing::Test {
 protected:
-    std::string pool_path_;
+    std::string pool_path_ = {};
 
     void SetUp() override {
         pool_path_ = (fs::temp_directory_path() /
@@ -86,7 +86,8 @@ TEST_F(PMemPoolTest, AlignmentRespected) {
 TEST_F(PMemPoolTest, MultipleAllocations) {
     PMemPool pool(make_config());
 
-    std::vector<void*> ptrs;
+    std::vector<void*> ptrs = {};
+
     for (int i = 0; i < 64; ++i) {
         void* p = pool.allocate(256);
         ASSERT_NE(p, nullptr) << "Allocation " << i << " failed";
@@ -191,7 +192,8 @@ TEST_F(PMemPoolTest, ConcurrentAllocations) {
     }
 
     // Collect all pointers and verify uniqueness
-    std::vector<void*> all_ptrs;
+    std::vector<void*> all_ptrs = {};
+
     for (auto& r : results) {
         all_ptrs.insert(all_ptrs.end(), r.begin(), r.end());
     }
@@ -207,7 +209,7 @@ TEST_F(PMemPoolTest, ConcurrentAllocations) {
 
 class PMemLayoutTest : public ::testing::Test {
 protected:
-    std::string pool_path_;
+    std::string pool_path_ = {};
 
     void SetUp() override {
         pool_path_ = (fs::temp_directory_path() /

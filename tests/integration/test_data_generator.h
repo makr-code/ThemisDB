@@ -52,7 +52,7 @@ public:
             "abcdefghijklmnopqrstuvwxyz";
         std::uniform_int_distribution<size_t> dist(0, sizeof(kCharset) - 2);
 
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result.push_back(kCharset[dist(gen_)]);

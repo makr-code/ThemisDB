@@ -105,12 +105,12 @@ public:
         auto tokens = tokenizer->encode(text);
         
         // Truncate if necessary
-        if (tokens.size() > config.max_token_length) {
+        if (static_cast<int>(tokens.size()) > config.max_token_length) {
             tokens.resize(config.max_token_length);
         }
         
         // Pad to max_token_length with padding token (typically 0)
-        while (tokens.size() < config.max_token_length) {
+        while ( static_cast<int>(tokens.size()) < config.max_token_length) {
             tokens.push_back(0);
         }
         
@@ -126,7 +126,7 @@ public:
         const std::vector<int>& tokens,
         bool use_cosine_phase) const {
         std::vector<float> embedding(config.embedding_dimension, 0.0f);
-        for (size_t i = 0; i < tokens.size() && i < embedding.size(); ++i) {
+        for (size_t i = 0; i < tokens.size()  && static_cast<size_t>(i) <static_cast<int>(embedding.size()); ++i) {
             const float phase = static_cast<float>(tokens[i]) * 0.1f + static_cast<float>(i) * 0.01f;
             embedding[i] = use_cosine_phase ? std::cos(phase) : std::sin(phase);
         }
@@ -154,9 +154,9 @@ public:
             OrtArenaAllocator, OrtMemTypeDefault);
 
         Ort::Value input_ids_tensor = Ort::Value::CreateTensor<int64_t>(
-            mem_info, input_ids.data(), input_ids.size(), shape.data(), shape.size());
+            mem_info, input_ids.data(),static_cast<int>(input_ids.size()), shape.data(),static_cast<int>(shape.size()));
         Ort::Value attention_mask_tensor = Ort::Value::CreateTensor<int64_t>(
-            mem_info, attention_mask.data(), attention_mask.size(), shape.data(), shape.size());
+            mem_info, attention_mask.data(),static_cast<int>(attention_mask.size()), shape.data(),static_cast<int>(shape.size()));
 
         Ort::AllocatorWithDefaultOptions allocator;
         std::vector<Ort::AllocatedStringPtr> input_name_holders;
@@ -202,15 +202,15 @@ public:
         std::vector<float> embedding(config.embedding_dimension, 0.0f);
 
         // Common DPR output patterns: [1, hidden] or [1, seq, hidden].
-        if (out_shape.size() == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
+        if (static_cast<int>(out_shape.size()) == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
             const size_t hidden = static_cast<size_t>(out_shape[1]);
-            const size_t copy = std::min(hidden, embedding.size());
+            const size_t copy = std::min(hidden,static_cast<int>(embedding.size()));
             std::copy_n(out_data, copy, embedding.begin());
-        } else if (out_shape.size() == 3 && out_shape[0] == 1 &&
+        } else if (static_cast<int>(out_shape.size()) == 3 && out_shape[0] == 1 &&
                    out_shape[1] > 0 && out_shape[2] > 0) {
             const size_t seq = static_cast<size_t>(out_shape[1]);
             const size_t hidden = static_cast<size_t>(out_shape[2]);
-            const size_t copy = std::min(hidden, embedding.size());
+            const size_t copy = std::min(hidden,static_cast<int>(embedding.size()));
             // CLS-pooling equivalent: first token embedding.
             std::copy_n(out_data, copy, embedding.begin());
             // If the first token is empty/zero, mean-pool as robust fallback.
@@ -229,7 +229,7 @@ public:
         } else {
             // Unexpected tensor shape: flatten-first strategy.
             const auto total = static_cast<size_t>(type_info.GetElementCount());
-            const size_t copy = std::min(total, embedding.size());
+            const size_t copy = std::min(total,static_cast<int>(embedding.size()));
             std::copy_n(out_data, copy, embedding.begin());
         }
 
@@ -400,7 +400,7 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
 
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate query size to prevent memory exhaustion and DoS attacks
-    if (query.size() > 100000) {
+    if (static_cast<int>(query.size()) > 100000) {
         THEMIS_WARN("DPRVectorizer::encodeQuery: query exceeds maximum size ({} bytes)", 
                    query.size());
         throw std::invalid_argument("Query size exceeds maximum allowed length (100KB)");
@@ -429,7 +429,7 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
         }
         
         THEMIS_DEBUG("Encoded query (validated, {} bytes) -> {} dimensions", 
-                    query.size(), embedding.size());
+                    query.size(),static_cast<int>(embedding.size()));
         return embedding;
         
     } catch (const std::exception& e) {
@@ -453,7 +453,7 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
 
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate passage size to prevent memory exhaustion and DoS attacks
-    if (passage.size() > 100000) {
+    if (static_cast<int>(passage.size()) > 100000) {
         THEMIS_WARN("DPRVectorizer::encodePassage: passage exceeds maximum size ({} bytes)", 
                    passage.size());
         throw std::invalid_argument("Passage size exceeds maximum allowed length (100KB)");
@@ -482,7 +482,7 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
         }
         
         THEMIS_DEBUG("Encoded passage (length={}): {} dimensions", 
-                     passage.length(), embedding.size());
+                     passage.length(),static_cast<int>(embedding.size()));
         return embedding;
         
     } catch (const std::exception& e) {
@@ -502,7 +502,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
 
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size and individual passage sizes to prevent DoS
-    if (passages.size() > 10000) {
+    if (static_cast<int>(passages.size()) > 10000) {
         THEMIS_WARN("DPRVectorizer::encodePassageBatch: batch size exceeds maximum ({})", 
                    passages.size());
         throw std::invalid_argument("Batch size exceeds maximum (10000 passages)");
@@ -512,9 +512,9 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
     size_t total_bytes = 0;
     for (const auto& passage : passages) {
         total_bytes += passage.size();
-        if (passage.size() > 100000) {
+        if (static_cast<int>(passage.size()) > 100000) {
             THEMIS_WARN("DPRVectorizer::encodePassageBatch: passage {} exceeds size limit ({})", 
-                       passages.size(), passage.size());
+                       passages.size(),static_cast<int>(passage.size()));
             throw std::invalid_argument("Individual passage exceeds maximum size (100KB)");
         }
     }
@@ -542,7 +542,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         for (size_t batch_start = 0; batch_start < passages.size(); 
              batch_start += config_.batch_size) {
             
-            size_t batch_end = std::min(batch_start + config_.batch_size, passages.size());
+            size_t batch_end = std::min(batch_start + config_.batch_size,static_cast<int>(passages.size()));
             
             // Tokenize batch (with synchronization to protect tokenizer access)
             std::vector<std::vector<int>> batch_tokens;
@@ -570,7 +570,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         }
         
         THEMIS_INFO("Batch encoded {} passages in {} batches", 
-                    passages.size(), (passages.size() + config_.batch_size - 1) / config_.batch_size);
+                    passages.size(), (static_cast<int>(passages.size()) + config_.batch_size - 1) / config_.batch_size);
         return results;
         
     } catch (const std::exception& e) {

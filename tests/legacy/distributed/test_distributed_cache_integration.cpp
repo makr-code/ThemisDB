@@ -158,7 +158,8 @@ TEST_F(RedisCacheTest, ConsistentHashing_MultiNode_UsesMultipleNodes) {
     cfg.reconnect_interval_ms = 100000;
     auto c = RedisCache::create(cfg);
 
-    std::unordered_set<std::string> nodes_used;
+    std::unordered_set<std::string> nodes_used = {};
+
     for (int i = 0; i < 50; ++i) {
         nodes_used.insert(c->nodeForKey("diverse:key:" + std::to_string(i)));
     }
@@ -267,7 +268,7 @@ TEST_F(RedisCacheTest, PubSub_InvalidatePatternCacheStillFunctionalAfter) {
 /// published by the first (simulated here via direct dispatchInvalidation path,
 /// verified via the subscribeInvalidations public API).
 TEST_F(RedisCacheTest, ClusterInvalidation_CallbackFiredOnInvalidate) {
-    std::string received;
+    std::string received = {};
     cache_->subscribeInvalidations([&received](const std::string& key) {
         received = key;
     });

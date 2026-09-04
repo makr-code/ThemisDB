@@ -32,7 +32,7 @@ MetricsStreamServer::~MetricsStreamServer() = default;
 // Configuration
 // ---------------------------------------------------------------------------
 
-void MetricsStreamServer::setDeliveryCallback(SendFn fn) {
+void MetricsStreamServer::setDeliveryCallback([[maybe_unused]] SendFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     send_fn_ = std::move(fn);
 }
@@ -98,7 +98,7 @@ void MetricsStreamServer::unsubscribe(const std::string& client_id) {
 
 size_t MetricsStreamServer::subscriptionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return subscriptions_.size();
+    return static_cast<int>(subscriptions_.size());
 }
 
 bool MetricsStreamServer::hasSubscription(const std::string& client_id) const {
@@ -180,7 +180,7 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
 // characters).  This avoids introducing a heavy JSON library dependency for
 // the small set of string fields we serialise here.
 static std::string jsonEscapeString(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size() * 2 + 4);
     for (unsigned char c : s) {
         switch (c) {
@@ -210,11 +210,13 @@ static std::string jsonEscapeString(const std::string& s) {
 std::string MetricsStreamServer::labelsToJson(
     const std::map<std::string, std::string>& labels) {
     if (labels.empty()) return "{}";
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << '{';
     bool first = true;
     for (const auto& [k, v] : labels) {
-        if (!first) oss << ',';
+        if (!first) {
+          oss << ',';
+        }
         oss << '"' << jsonEscapeString(k) << "\":\"" << jsonEscapeString(v) << '"';
         first = false;
     }
@@ -229,7 +231,7 @@ std::string MetricsStreamServer::formatWebSocketMessage(const MetricUpdate& upda
                               update.timestamp.time_since_epoch())
                               .count();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"({"type":"metric_update","metric_name":")"
         << jsonEscapeString(update.metric_name)
         << R"(","value":)" << update.value
@@ -280,7 +282,9 @@ bool MetricsStreamServer::matchesMetricNames(
         return true; // empty list → subscribe to all
     }
     for (const auto& name : sub.metric_names) {
-        if (name == update.metric_name) return true;
+        if (name == update.metric_name) {
+          return true;
+        }
     }
     return false;
 }

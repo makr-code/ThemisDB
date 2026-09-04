@@ -137,7 +137,7 @@ float PromptInjectionDetector::calculateSyntaxScore(
             ++special;
         }
     }
-    if (!text.empty() && special * 10 > text.size()) {
+    if (!text.empty() && special * 10 > static_cast<int>(text.size())) {
         score += 0.3f;
         matched_out.push_back("syntax:high_special_char_density");
     }
@@ -258,9 +258,9 @@ std::string PromptInjectionDetector::sanitize(const std::string& text) const {
     for (const auto& kw : dangerous_keywords_) {
         size_t pos = 0;
         while ((pos = lower_result.find(kw, pos)) != std::string::npos) {
-            result.replace(pos, kw.size(), "[REDACTED]");
+            result.replace(pos,static_cast<int>(kw.size()), "[REDACTED]");
             // Keep lower copy in sync
-            lower_result.replace(pos, kw.size(), "[REDACTED]");
+            lower_result.replace(pos,static_cast<int>(kw.size()), "[REDACTED]");
             pos += 10; // len("[REDACTED]")
         }
     }

@@ -129,7 +129,9 @@ struct SpareShardInfo {
     
     // Progress calculation
     double getProgressPercentage() const {
-        if (total_bytes == 0) return 0.0;
+        if (total_bytes == 0) {
+          return 0.0;
+        }
         return (bytes_rebuilt * 100.0) / total_bytes;
     }
     
@@ -141,22 +143,30 @@ struct SpareShardInfo {
         auto elapsed = std::chrono::system_clock::now() - rebuild_started;
         double elapsed_seconds = std::chrono::duration<double>(elapsed).count();
         
-        if (elapsed_seconds <= 0) return std::chrono::seconds(0);
+        if (elapsed_seconds <= 0) {
+          return std::chrono::seconds(0);
+        }
         
         double bytes_per_second = bytes_rebuilt / elapsed_seconds;
-        if (bytes_per_second <= 0) return std::chrono::seconds(0);
+        if (bytes_per_second <= 0) {
+          return std::chrono::seconds(0);
+        }
         
         uint64_t remaining_bytes = total_bytes - bytes_rebuilt;
         return std::chrono::seconds(static_cast<int64_t>(remaining_bytes / bytes_per_second));
     }
     
     double getRebuildThroughputMBps() const {
-        if (state != SpareState::REBUILDING) return 0.0;
+        if (state != SpareState::REBUILDING) {
+          return 0.0;
+        }
         
         auto elapsed = std::chrono::system_clock::now() - rebuild_started;
         double elapsed_seconds = std::chrono::duration<double>(elapsed).count();
         
-        if (elapsed_seconds <= 0) return 0.0;
+        if (elapsed_seconds <= 0) {
+          return 0.0;
+        }
         
         return (bytes_rebuilt / (1024.0 * 1024.0)) / elapsed_seconds;
     }

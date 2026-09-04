@@ -24,7 +24,9 @@ namespace query {
 const SpatialHistogram::GridCell* SpatialHistogram::getCellForPoint(
     double lon, double lat) const {
     
-    if (grid.empty()) return nullptr;
+    if (grid.empty()) {
+      return nullptr;
+    }
     
     for (const auto& cell : grid) {
         if (lon >= cell.minLon && lon < cell.maxLon &&
@@ -43,7 +45,9 @@ size_t SpatialHistogram::estimatePointsInBox(
         // Fallback: assume uniform distribution
         double boxArea = (maxLon - minLon) * (maxLat - minLat);
         double globalArea = (globalMaxLon - globalMinLon) * (globalMaxLat - globalMinLat);
-        if (globalArea <= 0) return 0;
+        if (globalArea <= 0) {
+          return 0;
+        }
         return static_cast<size_t>(totalPoints * boxArea / globalArea);
     }
     
@@ -77,7 +81,9 @@ double SpatialHistogram::estimateSpatialSelectivity(
     double minLon, double maxLon,
     double minLat, double maxLat) const {
     
-    if (totalPoints == 0) return 0.0;
+    if (totalPoints == 0) {
+      return 0.0;
+    }
     
     size_t estimatedPoints = estimatePointsInBox(minLon, maxLon, minLat, maxLat);
     return static_cast<double>(estimatedPoints) / totalPoints;
@@ -228,8 +234,12 @@ SpatialHistogram GeospatialCostEstimator::buildSpatialHistogram(
     double latHeight = (hist.globalMaxLat - hist.globalMinLat) / gridDimension;
     
     // Handle edge case: single point or very small range
-    if (lonWidth <= 0) lonWidth = 1.0;
-    if (latHeight <= 0) latHeight = 1.0;
+    if (lonWidth <= 0) {
+      lonWidth = 1.0;
+    }
+    if (latHeight <= 0) {
+      latHeight = 1.0;
+    }
     
     hist.grid.resize(gridDimension * gridDimension);
     
@@ -368,16 +378,18 @@ double GeospatialCostEstimator::estimateIntersectsSelectivity(
     return 0.02 * std::log(std::max(1.0, static_cast<double>(queryGeometryComplexity)));
 }
 
-double GeospatialCostEstimator::rtreeTraversalCost(size_t totalRows) {
+double GeospatialCostEstimator::rtreeTraversalCost([[maybe_unused]] size_t totalRows) {
     // R-tree: O(log N) traversal
     // Cost per level: approximately 10 microseconds (node access + comparison)
-    if (totalRows == 0) return 0.0;
+    if (totalRows == 0) {
+      return 0.0;
+    }
     
     double logN = std::log2(totalRows);
     return logN * 10.0;  // µs
 }
 
-double GeospatialCostEstimator::geometryCheckCost(size_t complexity) {
+double GeospatialCostEstimator::geometryCheckCost([[maybe_unused]] size_t complexity) {
     // Basic geometry check: point-in-polygon using ray casting
     // Cost: O(complexity) with ~0.5µs per vertex
     if (complexity == 0) return 2.0;  // Minimum cost for simple checks

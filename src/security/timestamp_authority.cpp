@@ -58,15 +58,21 @@ static bool isProductionMode() {
     }
     if (environment) {
         const std::string s(environment);
-        if (s == "production" || s == "prod") return true;
+        if (s == "production" || s == "prod") {
+          return true;
+        }
     }
     if (env_type) {
         const std::string s(env_type);
-        if (s == "production" || s == "prod") return true;
+        if (s == "production" || s == "prod") {
+          return true;
+        }
     }
     if (node_env) {
         const std::string s(node_env);
-        if (s == "production") return true;
+        if (s == "production") {
+          return true;
+        }
     }
     return false;
 }
@@ -118,7 +124,9 @@ static std::string hex(const std::vector<uint8_t>& data) {
 // Very weak deterministic hash (not cryptographic!)
 static std::vector<uint8_t> pseudo_hash(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> h; h.reserve(data.size());
-    for (size_t i=0;i<data.size();++i) h.push_back(static_cast<uint8_t>(data[i] ^ (i & 0xFF)));
+    for (size_t i = 0; i < data.size();++i) {
+      h.push_back(static_cast<uint8_t>(data[i] ^ (i & 0xFF)));
+    }
     return h;
 }
 
@@ -178,7 +186,7 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
             return fn(hash, config_);
         } catch (const std::exception& e) {
             TimestampToken tok;
-            tok.error_message = std::string("getTimestampForHash callback failed: ") + e.what();
+            tok.error_message = std::string([[maybe_unused]] "getTimestampForHash callback failed: ") + e.what();
             return tok;
         }
     }
@@ -189,7 +197,7 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     auto now = std::chrono::system_clock::now();
     tok.timestamp_unix_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());
     std::time_t tt = std::chrono::system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
 #ifdef _WIN32
     localtime_s(&tm,&tt);
 #else
@@ -247,7 +255,7 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_data) {
-    TimestampToken tok;
+    TimestampToken tok = {};
     if (token_data.empty()) {
         tok.error_message = "Cannot parse empty token data";
         THEMIS_WARN("parseToken: {}", tok.error_message);
@@ -261,7 +269,7 @@ TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
-    TimestampToken tok;
+    TimestampToken tok = {};
     if (token_b64.empty()) {
         tok.error_message = "Cannot parse empty token string";
         THEMIS_WARN("parseToken: {}", tok.error_message);
@@ -293,7 +301,7 @@ std::string TimestampAuthority::getLastError() const { return last_error_; }
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>&, const std::vector<uint8_t>&) { return {}; }
 TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>&) { TimestampToken t; t.success = true; return t; }
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>&) { return {}; }
-std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
+std::vector<uint8_t> TimestampAuthority::generateNonce([[maybe_unused]] size_t bytes) {
     // Cryptographically random nonce using OpenSSL RAND_bytes.
     // Sequential counter bytes were previously used here (security gap) —
     // replaced with RAND_bytes to ensure nonces are unpredictable.
@@ -408,7 +416,7 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     // Convert max age from days to milliseconds with overflow check
     // max_age_days * 24 * 60 * 60 * 1000 = max_age_days * 86400000
     // Check if multiplication would overflow uint64_t
-    constexpr uint64_t MS_PER_DAY = 86400000ULL;
+    constexpr uint64_t MS_PER_DAY = 86400000;
     if (max_age_days < 0) {
         validation_errors_.push_back("Maximum age must be non-negative");
         return false;

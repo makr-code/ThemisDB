@@ -35,10 +35,10 @@ std::string MetadataSnapshot::calculateChecksum() const {
     
     // Calculate SHA-256
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()), data.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()),static_cast<int>(data.size()), hash);
     
     // Convert to hex string
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -80,7 +80,8 @@ std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
         
         // Copy metadata storage
         for (const auto& [partition_key, entries] : storage) {
-            std::map<std::string, nlohmann::json> partition_data;
+            std::map<std::string, nlohmann::json> partition_data = {};
+
             for (const auto& [key, metadata_entry] : entries) {
                 partition_data[key] = metadata_entry.toJson();
                 snapshot.total_entries++;
@@ -139,7 +140,7 @@ std::optional<MetadataSnapshot> MetadataSnapshotManager::loadLatestSnapshot() {
 }
 
 /** @brief Load snapshot by id and validate checksum integrity. */
-std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
+std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
         
@@ -229,13 +230,13 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
         auto snapshots = listSnapshots();
         
         // Delete old snapshots beyond max_snapshots
-        if (snapshots.size() > max_snapshots_) {
+        if (static_cast<int>(snapshots.size()) > max_snapshots_) {
             for (size_t i = max_snapshots_; i < snapshots.size(); ++i) {
                 deleteSnapshot(snapshots[i]);
             }
             
             spdlog::info("Cleaned up {} old metadata snapshots",
-                        snapshots.size() - max_snapshots_);
+                        static_cast<int>(snapshots.size()) - max_snapshots_);
         }
     } catch (const std::exception& e) {
         spdlog::error("Exception cleaning up metadata snapshots: {}", e.what());
@@ -243,7 +244,7 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
 }
 
 /** @brief Delete one snapshot file from disk when present. */
-bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
+bool MetadataSnapshotManager::deleteSnapshot([[maybe_unused]] uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
         
@@ -261,7 +262,7 @@ bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
 }
 
 /** @brief Build full file path for snapshot id. */
-std::string MetadataSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
+std::string MetadataSnapshotManager::getSnapshotPath([[maybe_unused]] uint64_t snapshot_id) const {
     return snapshot_directory_ + "/metadata_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 

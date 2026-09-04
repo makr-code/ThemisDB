@@ -35,7 +35,9 @@ namespace {
 /// Maps Elasticsearch-specific error patterns to ImporterErrorCode.
 static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     const std::string lmsg = lower(error_msg);
@@ -90,7 +92,7 @@ std::pair<long, std::string> ElasticsearchImporter::performHttp(
         return {0, ""};
     }
 
-    std::string response_body;
+    std::string response_body = {};
     long http_code = 0;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -149,7 +151,9 @@ std::pair<long, std::string> ElasticsearchImporter::performHttp(
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
 
     return {http_code, response_body};
@@ -235,7 +239,7 @@ bool ElasticsearchImporter::validateSource(const std::string& source_path,
 
     const std::string url = config_.host + "/" + index;
 
-    std::string err;
+    std::string err = {};
 #ifdef THEMIS_ENABLE_ELASTICSEARCH
     // Production path: HEAD /<index> to verify connectivity and existence.
     {
@@ -327,7 +331,7 @@ ElasticsearchImporter::initScroll(const std::string& index,
     };
     const std::string body_str = body.dump();
 
-    std::string response_str;
+    std::string response_str = {};
     if (mock_http_fn_) {
         response_str = mock_http_fn_(url, body_str);
     }
@@ -349,7 +353,8 @@ ElasticsearchImporter::initScroll(const std::string& index,
     try {
         const json resp = json::parse(response_str);
         const std::string scroll_id = resp.value("_scroll_id", std::string{});
-        std::vector<json> docs;
+        std::vector<json> docs = {};
+
         if (resp.contains("hits") && resp["hits"].contains("hits")) {
             for (const auto& hit : resp["hits"]["hits"]) {
                 json doc = hit.value("_source", json::object());
@@ -371,7 +376,7 @@ std::vector<json> ElasticsearchImporter::fetchScrollPage(
     const json body{{"scroll", config_.scroll_ttl}, {"scroll_id", scroll_id}};
     const std::string body_str = body.dump();
 
-    std::string response_str;
+    std::string response_str = {};
     if (mock_http_fn_) {
         response_str = mock_http_fn_(url, body_str);
     }
@@ -390,7 +395,8 @@ std::vector<json> ElasticsearchImporter::fetchScrollPage(
 
     try {
         const json resp = json::parse(response_str);
-        std::vector<json> docs;
+        std::vector<json> docs = {};
+
         if (resp.contains("hits") && resp["hits"].contains("hits")) {
             for (const auto& hit : resp["hits"]["hits"]) {
                 json doc = hit.value("_source", json::object());
@@ -407,7 +413,9 @@ std::vector<json> ElasticsearchImporter::fetchScrollPage(
 }
 
 void ElasticsearchImporter::clearScroll(const std::string& scroll_id) noexcept {
-    if (scroll_id.empty()) return;
+    if (scroll_id.empty()) {
+      return;
+    }
     try {
         const std::string url = config_.host + "/_search/scroll";
         const json body{{"scroll_id", {scroll_id}}};
@@ -457,7 +465,7 @@ ImportStats ElasticsearchImporter::importData(
         : std::nullopt;
 
     // Initiate scroll.
-    std::string err_out;
+    std::string err_out = {};
     auto [scroll_id, first_page] = initScroll(index, options, err_out);
 
     if (!err_out.empty()) {
@@ -477,9 +485,11 @@ ImportStats ElasticsearchImporter::importData(
         return stats;
     }
 
-    auto processPage = [&](const std::vector<json>& page) {
+    auto processPage = [&]([[maybe_unused]] const std::vector<json>& page) {
         for (const auto& doc : page) {
-            if (cancelled_.load(std::memory_order_relaxed)) break;
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              break;
+            }
             ++stats.total_records;
 
             // Conflict resolution.
@@ -495,7 +505,7 @@ ImportStats ElasticsearchImporter::importData(
             // In production, the document would be written to ThemisDB storage here.
             ++stats.imported_records;
         }
-        if (progress_callback) {
+        if ([[maybe_unused]] progress_callback) {
             progress_callback("scroll", stats.total_records, 0);
         }
     };
@@ -518,7 +528,7 @@ ImportStats ElasticsearchImporter::importData(
             break;
         }
 
-        std::string page_err;
+        std::string page_err = {};
         const auto page = fetchScrollPage(scroll_id, page_err);
 
         if (!page_err.empty()) {
@@ -578,10 +588,12 @@ void ElasticsearchImporter::cancel() {
 
 json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
     const std::string index = source_path.empty() ? config_.index : source_path;
-    if (index.empty()) return json::object();
+    if (index.empty()) {
+      return json::object();
+    }
 
     const std::string url = config_.host + "/" + index + "/_mapping";
-    std::string response_str;
+    std::string response_str = {};
 
     if (mock_http_fn_) {
         response_str = mock_http_fn_(url, "");
@@ -603,7 +615,9 @@ json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
 
         // Traverse: { "<index>": { "mappings": { "properties": { ... } } } }
         for (auto& [idx_name, idx_val] : mapping.items()) {
-            if (!idx_val.contains("mappings")) continue;
+            if (!idx_val.contains("mappings")) {
+              continue;
+            }
             const auto& props = idx_val["mappings"].value("properties", json::object());
             json fields = json::array();
             for (auto& [field_name, field_val] : props.items()) {

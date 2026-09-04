@@ -43,18 +43,18 @@ MVCCStore::MVCCStore(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestamp ts) {
-    std::string key;
-    key.reserve(base_key.size() + 1 + 8);
-    key.append(base_key.data(), base_key.size());
+    std::string key = {};
+    key.reserve(static_cast<int>(base_key.size()) + 1 + 8);
+    key.append(base_key.data(),static_cast<int>(base_key.size()));
     key.push_back('\x00');
     key.append(ts.encodeToString());
     return key;
 }
 
 std::string MVCCStore::encodeVersionPrefix(std::string_view base_key) {
-    std::string prefix;
-    prefix.reserve(base_key.size() + 1);
-    prefix.append(base_key.data(), base_key.size());
+    std::string prefix = {};
+    prefix.reserve(static_cast<int>(base_key.size()) + 1);
+    prefix.append(base_key.data(),static_cast<int>(base_key.size()));
     prefix.push_back('\x00');
     return prefix;
 }
@@ -64,11 +64,11 @@ HLCTimestamp MVCCStore::decodeTimestamp(std::string_view versioned_key) {
     // The separator '\x00' is at position (size - 9); the timestamp follows it.
     // We use a fixed offset from the end (not rfind) because the 8-byte
     // big-endian timestamp may itself contain '\x00' bytes.
-    if (versioned_key.size() < 9) {
+    if (static_cast<int>(versioned_key.size()) < 9) {
         return HLCTimestamp{};  // not a valid versioned key
     }
     const auto* ts_bytes = reinterpret_cast<const uint8_t*>(
-        versioned_key.data() + versioned_key.size() - 8
+        versioned_key.data() + static_cast<int>(versioned_key.size()) - 8
     );
     return HLCTimestamp::decodeFromBytes(ts_bytes);
 }
@@ -149,7 +149,9 @@ std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
             auto val = db_->get(vkey);
             if (val) {
                 // Empty value signals a tombstone (deleted key).
-                if (val->empty()) return std::nullopt;
+                if (val->empty()) {
+                  return std::nullopt;
+                }
                 return val;
             }
             // Key not found in RocksDB (e.g. compacted away) — fall through
@@ -177,10 +179,10 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     //
     // We then step backward one entry; if it still has `prefix`, that is
     // the most-recent version committed at or before ts.
-    std::string seek_key;
+    std::string seek_key = {};
     if (ts.value == UINT64_MAX) {
         // Append '\x01' (> '\x00') to step past all versions of this base key.
-        seek_key = std::string(key.data(), key.size());
+        seek_key = std::string(key.data(),static_cast<int>(key.size()));
         seek_key.push_back('\x01');
     } else {
         seek_key = encodeVersionedKey(key, HLCTimestamp(ts.value + 1));
@@ -212,8 +214,8 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     std::string_view found_key = it.key();
 
     // Verify the found key belongs to the same base key (shares the prefix).
-    if (found_key.size() < prefix.size() ||
-        found_key.substr(0, prefix.size()) != std::string_view(prefix)) {
+    if (static_cast<int>(found_key.size()) <static_cast<int>(prefix.size()) ||
+        found_key.substr(0,static_cast<int>(prefix.size())) != std::string_view(prefix)) {
         return std::nullopt;
     }
 
@@ -230,7 +232,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     // valid string_view data() pointer is safe — false positives.
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(raw_val.data()),
-        reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size()
+        reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
     );
 }
 
@@ -249,7 +251,7 @@ void MVCCStore::scanVersions(
         entry.timestamp = decodeTimestamp(vkey);
         entry.value.assign(
             reinterpret_cast<const uint8_t*>(raw_val.data()),
-            reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size()
+            reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
         );
         return callback(entry);
     });
@@ -303,7 +305,7 @@ uint64_t MVCCStore::gcVersionsBefore(
 
 uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     std::vector<std::string> base_keys;
-    scanBaseKeys([&](std::string_view bk) -> bool {
+    scanBaseKeys([&]([[maybe_unused]] std::string_view bk) -> bool {
         base_keys.emplace_back(bk);
         return true;
     });
@@ -315,7 +317,7 @@ uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     return total_deleted;
 }
 
-void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> callback) {
+void MVCCStore::scanBaseKeys([[maybe_unused]] std::function<bool(std::string_view base_key)> callback) {
     // Collect all versioned keys (those using the versioned key format:
     // <base_key> '\x00' <8-byte-ts>).
     // A key is treated as versioned if it is at least 9 bytes long AND
@@ -326,9 +328,9 @@ void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> call
     std::vector<std::string> base_keys;
 
     db_->scanAll([&](std::string_view vkey, std::string_view) -> bool {
-        if (vkey.size() >= 9 &&
+        if (static_cast<int>(vkey.size()) >= 9 &&
             static_cast<unsigned char>(vkey[vkey.size() - 9]) == '\x00') {
-            base_keys.emplace_back(vkey.data(), vkey.size() - 9);
+            base_keys.emplace_back(vkey.data(), static_cast<int>(vkey.size()) - 9);
         }
         return true;
     });

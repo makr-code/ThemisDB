@@ -99,7 +99,7 @@ public:
         std::uniform_int_distribution<int> len_dist(100, 150);
         int target_len = len_dist(rng_);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "FOR doc IN collection_"
             << (nl_input.size() % 9999)
             << " FILTER doc.active == true RETURN doc";
@@ -150,7 +150,9 @@ public:
 
     bool validateBatch(const std::vector<std::string>& queries) {
         for (const auto& q : queries) {
-            if (!validateSimple(q)) return false;
+            if (!validateSimple(q)) {
+              return false;
+            }
         }
         return true;
     }
@@ -376,7 +378,8 @@ static void BM_AllGates_Sequential(benchmark::State& state) {
     MockTokenEstimator estimator(kW7CanonicalSeed);
 
     // Build test data
-    std::vector<std::string> batch;
+    std::vector<std::string> batch = {};
+
     for (int i = 0; i < 32; ++i) {
         batch.push_back(translator.translateSimple("query_" + std::to_string(i)));
     }

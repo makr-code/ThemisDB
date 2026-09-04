@@ -107,7 +107,9 @@ class WALReplaySimulator {
 
     bool anyInDoubt() const {
         for (const auto& rec : wal_) {
-            if (rec.in_doubt) return true;
+            if (rec.in_doubt) {
+              return true;
+            }
         }
         return false;
     }
@@ -261,7 +263,9 @@ class ByzantineMockCoordinator {
 
     bool hasByzantineVote() const {
         for (const auto& v : votes_) {
-            if (v == PrepareVote::BYZANTINE_CONFLICT) return true;
+            if (v == PrepareVote::BYZANTINE_CONFLICT) {
+              return true;
+            }
         }
         return false;
     }
@@ -289,16 +293,24 @@ class CrossShardFaultInjector {
 
     CommitResult attemptCommit(const std::string& txn_id) {
         (void)txn_id;
-        if (crashed_at_prepare_) return CommitResult::ABORTED;
-        if (network_partition_) return CommitResult::TIMEOUT;
+        if (crashed_at_prepare_) {
+          return CommitResult::ABORTED;
+        }
+        if (network_partition_) {
+          return CommitResult::TIMEOUT;
+        }
         return CommitResult::COMMITTED;
     }
 
     bool allShardsConsistent(const std::vector<TxnState>& states) const {
-        if (states.empty()) return true;
+        if (states.empty()) {
+          return true;
+        }
         TxnState first = states[0];
         for (const auto& s : states) {
-            if (s != first) return false;
+            if (s != first) {
+              return false;
+            }
         }
         return true;
     }
@@ -449,10 +461,14 @@ TEST_F(TransactionWaveASAGATest, TxnSagaHardening02_IdempotentCompensation) {
 
     for (int i = 0; i < kConcurrentRetries; ++i) {
         threads.emplace_back([&log, &step_id, &success_count]() {
-            if (log.compensate(step_id)) ++success_count;
+            if (log.compensate(step_id)) {
+              ++success_count;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(success_count.load(), 1)
         << "Exactly one compensation must succeed under concurrent retry storm";
@@ -493,7 +509,9 @@ TEST_F(TransactionWaveASAGATest, TxnSagaHardening04_RetryStormBoundedBackoff) {
     constexpr int kMaxAttempts = 20;  // Storm of 20 attempts
 
     for (int i = 0; i < kMaxAttempts; ++i) {
-        if (!cb.canAttempt()) break;
+        if (!cb.canAttempt()) {
+          break;
+        }
         ++attempt_count;
         cb.recordFailure();
     }

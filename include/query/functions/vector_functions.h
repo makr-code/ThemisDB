@@ -77,7 +77,8 @@ inline void validateSameDimension(const nlohmann::json& v1, const nlohmann::json
 
 // Convert JSON array to std::vector<double>
 inline std::vector<double> toVector(const nlohmann::json& vec) {
-    std::vector<double> result;
+    std::vector<double> result = {};
+
     result.reserve(vec.size());
     for (const auto& elem : vec) {
         result.push_back(elem.get<double>());
@@ -932,7 +933,7 @@ public:
         double minVal = args.size() > 1 && !args[1].is_null() ? args[1].get<double>() : 0.0;
         double maxVal = args.size() > 2 && !args[2].is_null() ? args[2].get<double>() : 1.0;
         
-        std::random_device rd;
+        std::random_device rd = {};
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> dis(minVal, maxVal);
         
@@ -978,11 +979,21 @@ public:
         int64_t start = args[1].get<int64_t>();
         int64_t end = args.size() > 2 && !args[2].is_null() ? args[2].get<int64_t>() : vec_size_i64;
 
-        if (start < 0) start = 0;
-        if (end < 0) end = 0;
-        if (start > vec_size_i64) start = vec_size_i64;
-        if (end > vec_size_i64) end = vec_size_i64;
-        if (start >= end) return nlohmann::json::array();
+        if (start < 0) {
+          start = 0;
+        }
+        if (end < 0) {
+          end = 0;
+        }
+        if (start > vec_size_i64) {
+          start = vec_size_i64;
+        }
+        if (end > vec_size_i64) {
+          end = vec_size_i64;
+        }
+        if (start >= end) {
+          return nlohmann::json::array();
+        }
         
         std::vector<double> result(
             vec.begin() + static_cast<std::ptrdiff_t>(start),

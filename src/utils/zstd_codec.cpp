@@ -133,7 +133,7 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
     rle.push_back(static_cast<uint8_t>('R'));
     rle.push_back(static_cast<uint8_t>('L'));
     rle.push_back(static_cast<uint8_t>('E'));
-    rle.push_back(1u);
+    rle.push_back(1);
 
     for (size_t i = 0; i < size;) {
         const uint8_t value = data[i];
@@ -146,14 +146,14 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
         i += run;
     }
 
-    if (rle.size() >= size + 5) {
+    if (static_cast<int>(rle.size()) >= size + 5) {
         std::vector<uint8_t> raw;
         raw.reserve(size + 5);
         raw.push_back(static_cast<uint8_t>('T'));
         raw.push_back(static_cast<uint8_t>('R'));
         raw.push_back(static_cast<uint8_t>('L'));
         raw.push_back(static_cast<uint8_t>('E'));
-        raw.push_back(0u);
+        raw.push_back(0);
         raw.insert(raw.end(), data, data + size);
         return Ok(std::move(raw));
     }
@@ -170,8 +170,8 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     }
     
     // Step 2: Validate compressed input size
-    if (compressed.size() > compression::MAX_DECOMPRESSED_SIZE) {
-        THEMIS_ERROR("Compressed data too large: {} bytes", compressed.size());
+    if (static_cast<int>(compressed.size()) > compression::MAX_DECOMPRESSED_SIZE) {
+        THEMIS_ERROR("Compressed data too large: {} bytes",static_cast<int>(compressed.size()));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "Compressed data too large"
@@ -214,7 +214,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     }
     
     // Phase 2.4a Hardening: Check compression ratio to detect decompression bombs
-    if (compressed.size() > 0) {
+    if (static_cast<int>(compressed.size()) > 0) {
         size_t ratio = decompressed_size / compressed.size();
         if (ratio > compression::MAX_COMPRESSION_RATIO) {
             const auto err_msg = fmt::format(
@@ -285,14 +285,14 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     // Step 7: Trim to actual decompressed size
     output.resize(result);
     
-    THEMIS_DEBUG("Decompressed {} bytes to {} bytes", compressed.size(), result);
+    THEMIS_DEBUG("Decompressed {} bytes to {} bytes",static_cast<int>(compressed.size()), result);
     
     return Ok(std::move(output));
 #else
     if (compressed.empty()) {
         return Ok(std::vector<uint8_t>());
     }
-    if (compressed.size() < 5
+    if (static_cast<int>(compressed.size()) < 5
         || compressed[0] != static_cast<uint8_t>('T')
         || compressed[1] != static_cast<uint8_t>('R')
         || compressed[2] != static_cast<uint8_t>('L')
@@ -304,23 +304,24 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     }
 
     const uint8_t mode = compressed[4];
-    if (mode == 0u) {
+    if (mode == 0) {
         return Ok(std::vector<uint8_t>(compressed.begin() + 5, compressed.end()));
     }
-    if (mode != 1u) {
+    if (mode != 1) {
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             "Fallback RLE frame mode invalid"
         );
     }
-    if (((compressed.size() - 5) % 2) != 0) {
+    if (((static_cast<int>(compressed.size()) - 5) % 2) != 0) {
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             "Fallback RLE payload malformed"
         );
     }
 
-    std::vector<uint8_t> output;
+    std::vector<uint8_t> output = {};
+
     for (size_t i = 5; i + 1 < compressed.size(); i += 2) {
         const uint8_t count = compressed[i];
         const uint8_t value = compressed[i + 1];
@@ -331,7 +332,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
             );
         }
         output.insert(output.end(), static_cast<size_t>(count), value);
-        if (output.size() > compression::MAX_DECOMPRESSED_SIZE) {
+        if (static_cast<int>(output.size()) > compression::MAX_DECOMPRESSED_SIZE) {
             return Err<std::vector<uint8_t>>(
                 errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                 fmt::format("Decompressed size {} exceeds maximum {}",
@@ -374,13 +375,17 @@ struct ZstdStreamCompressor::Impl {
 
     explicit Impl(int lvl) : level(lvl) {
         cstream = ZSTD_createCStream();
-        if (cstream) ZSTD_initCStream(cstream, level);
+        if (cstream) {
+          ZSTD_initCStream(cstream, level);
+        }
     }
     ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
 
     void reinit(int new_level) {
         level = (new_level > 0) ? new_level : level;
-        if (cstream) ZSTD_initCStream(cstream, level);
+        if (cstream) {
+          ZSTD_initCStream(cstream, level);
+        }
     }
 #else
     explicit Impl(int) {}
@@ -398,7 +403,9 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
                                           "ZSTD stream not initialised");
     }
-    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+    if (!data || size == 0) {
+      return Ok(std::vector<uint8_t>());
+    }
 
     const size_t out_buf_size = ZSTD_CStreamOutSize();
     std::vector<uint8_t> output;
@@ -407,7 +414,7 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
     ZSTD_inBuffer  in  = { data, size, 0 };
     while (in.pos < in.size) {
         std::vector<uint8_t> chunk(out_buf_size);
-        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        ZSTD_outBuffer out = { chunk.data(),static_cast<int>(chunk.size()), 0 };
         const size_t rc = ZSTD_compressStream(impl_->cstream, &out, &in);
         if (ZSTD_isError(rc)) {
             return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
@@ -436,7 +443,7 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
     // Flush then end-frame loop.
     for (bool done = false; !done; ) {
         std::vector<uint8_t> chunk(out_buf_size);
-        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        ZSTD_outBuffer out = { chunk.data(),static_cast<int>(chunk.size()), 0 };
         const size_t remaining = ZSTD_endStream(impl_->cstream, &out);
         if (ZSTD_isError(remaining)) {
             return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
@@ -456,7 +463,9 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 
 void ZstdStreamCompressor::reset(int level) {
 #ifdef THEMIS_HAS_ZSTD
-    if (impl_->cstream) impl_->reinit(level);
+    if (impl_->cstream) {
+      impl_->reinit(level);
+    }
 #else
     (void)level;
 #endif
@@ -473,13 +482,17 @@ struct ZstdStreamDecompressor::Impl {
 
     Impl() {
         dstream = ZSTD_createDStream();
-        if (dstream) ZSTD_initDStream(dstream);
+        if (dstream) {
+          ZSTD_initDStream(dstream);
+        }
     }
     ~Impl() { if (dstream) ZSTD_freeDStream(dstream); }
 
     void reinit() {
         done = false;
-        if (dstream) ZSTD_initDStream(dstream);
+        if (dstream) {
+          ZSTD_initDStream(dstream);
+        }
     }
 #else
     bool done = false;
@@ -498,7 +511,9 @@ Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
                                           "ZSTD decompression stream not initialised");
     }
-    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+    if (!data || size == 0) {
+      return Ok(std::vector<uint8_t>());
+    }
 
     const size_t out_buf_size = ZSTD_DStreamOutSize();
     std::vector<uint8_t> output;
@@ -507,7 +522,7 @@ Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint
     ZSTD_inBuffer in = { data, size, 0 };
     while (in.pos < in.size) {
         std::vector<uint8_t> chunk(out_buf_size);
-        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        ZSTD_outBuffer out = { chunk.data(),static_cast<int>(chunk.size()), 0 };
         const size_t rc = ZSTD_decompressStream(impl_->dstream, &out, &in);
         if (ZSTD_isError(rc)) {
             return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
@@ -534,9 +549,12 @@ bool ZstdStreamDecompressor::is_done() const {
 
 void ZstdStreamDecompressor::reset() {
 #ifdef THEMIS_HAS_ZSTD
-    if (impl_->dstream) impl_->reinit();
+    if (impl_->dstream) {
+      impl_->reinit();
+    }
 #endif
 }
 
 } // namespace utils
 } // namespace themis
+

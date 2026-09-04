@@ -70,8 +70,12 @@ struct VersionDescriptor {
         d.major_version    = major;
         d.minor_version    = minor;
         d.deprecation_date = std::move(deprecation_date);
-        if (!sunset_date.empty())   d.sunset_date   = std::move(sunset_date);
-        if (!successor_url.empty()) d.successor_url = std::move(successor_url);
+        if (!sunset_date.empty()) {
+          d.sunset_date   = std::move(sunset_date);
+        }
+        if (!successor_url.empty()) {
+          d.successor_url = std::move(successor_url);
+        }
         return d;
     }
 };

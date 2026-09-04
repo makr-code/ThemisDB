@@ -72,7 +72,7 @@ void LoRATrainingService::clearModelPathProviderFn() {
 
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
-    if (predictions.size() != targets.size()) {
+    if (static_cast<int>(predictions.size()) != static_cast<int>(targets.size())) {
         throw std::invalid_argument("Predictions and targets must have same size");
     }
     
@@ -82,7 +82,7 @@ float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
         sum += diff * diff;
     }
     
-    return sum / predictions.size();
+    return static_cast<bool>(sum / static_cast<float < static_cast<int>((predictions.size())));
 }
 
 // Compute gradient of MSE loss w.r.t. predictions
@@ -92,7 +92,7 @@ Tensor compute_mse_gradient(const Tensor& predictions, const Tensor& targets) {
     }
     
     Tensor grad(predictions.shape());
-    float scale = 2.0f / predictions.size();
+    float scale = 2.0f / static_cast<float>(predictions.size());
     
     for (size_t i = 0; i < predictions.size(); ++i) {
         grad[i] = scale * (predictions[i] - targets[i]);
@@ -134,14 +134,28 @@ struct TrainingCheckpoint {
     
     // Deserialize from JSON
     static TrainingCheckpoint fromJSON(const json& j) {
-        TrainingCheckpoint checkpoint;
-        if (j.contains("current_epoch")) checkpoint.current_epoch = j["current_epoch"];
-        if (j.contains("current_step")) checkpoint.current_step = j["current_step"];
-        if (j.contains("current_loss")) checkpoint.current_loss = j["current_loss"];
-        if (j.contains("loss_history")) checkpoint.loss_history = j["loss_history"].get<std::vector<float>>();
-        if (j.contains("hyperparameters")) checkpoint.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
-        if (j.contains("adapter_id")) checkpoint.adapter_id = j["adapter_id"];
-        if (j.contains("version")) checkpoint.version = j["version"];
+        TrainingCheckpoint checkpoint = {};
+        if (j.contains("current_epoch")) {
+          checkpoint.current_epoch = j["current_epoch"];
+        }
+        if (j.contains("current_step")) {
+          checkpoint.current_step = j["current_step"];
+        }
+        if (j.contains("current_loss")) {
+          checkpoint.current_loss = j["current_loss"];
+        }
+        if (j.contains("loss_history")) {
+          checkpoint.loss_history = j["loss_history"].get<std::vector<float>>();
+        }
+        if (j.contains("hyperparameters")) {
+          checkpoint.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
+        }
+        if (j.contains("adapter_id")) {
+          checkpoint.adapter_id = j["adapter_id"];
+        }
+        if (j.contains("version")) {
+          checkpoint.version = j["version"];
+        }
         if (j.contains("saved_at")) {
             std::time_t saved = j["saved_at"];
             checkpoint.saved_at = std::chrono::system_clock::from_time_t(saved);
@@ -257,7 +271,7 @@ public:
             
             spdlog::info("Starting on-the-fly training for adapter: {}", adapter_id);
             spdlog::info("  Model: {}", is_phi3_model ? "Phi-3" : "Generic");
-            spdlog::info("  Training samples: {}", data.size());
+            spdlog::info("  Training samples: {}",static_cast<int>(data.size()));
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
             if (!local_config.target_modules.empty()) {
@@ -276,7 +290,8 @@ public:
             
             // Phase 2: Initialize with real data processing
             // Convert TrainingDataSample to InstructionDataSample format
-            std::vector<InstructionDataSample> instruction_samples;
+            std::vector<InstructionDataSample> instruction_samples = {};
+
             for (const auto& sample : data.samples) {
                 InstructionDataSample inst_sample;
                 inst_sample.instruction = sample.input;
@@ -364,7 +379,7 @@ public:
                 throw std::runtime_error("Failed to load training data");
             }
             
-            spdlog::info("Loaded {} samples into DataLoader", data_loader.size());
+            spdlog::info("Loaded {} samples into DataLoader",static_cast<int>(data_loader.size()));
             spdlog::info("Number of batches per epoch: {}", data_loader.num_batches());
             
             // Initialize LoRA or QLoRA model
@@ -621,7 +636,7 @@ public:
                         spdlog::debug("Skipping empty training batch at step {}", step);
                         continue;
                     }
-                    if (batch.label_ids.size() != batch_size) {
+                    if (static_cast<int>(batch.label_ids.size()) != batch_size) {
                         spdlog::warn(
                             "Skipping malformed training batch at step {}: input/label row count mismatch ({} vs {})",
                             step,
@@ -658,7 +673,7 @@ public:
                                     } else {
                                         // Use real embeddings (average over sequence for now)
                                         // In production, this would be the actual transformer input
-                                        const size_t emb_depth = (hidden_dim > 0) ? input_embeddings.size() / hidden_dim : 0;
+                                        const size_t emb_depth = (hidden_dim > 0) ?static_cast<int>(input_embeddings.size()) / hidden_dim : 0;
                                         const size_t row_input_seq = batch.input_ids[i].size();
                                         const size_t eff_input_seq = std::min(row_input_seq, emb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
@@ -683,7 +698,7 @@ public:
                                         }
                                     } else {
                                         // Use real embeddings for target
-                                        const size_t temb_depth = (hidden_dim > 0) ? target_embeddings.size() / hidden_dim : 0;
+                                        const size_t temb_depth = (hidden_dim > 0) ?static_cast<int>(target_embeddings.size()) / hidden_dim : 0;
                                         const size_t row_target_seq = batch.label_ids[i].size();
                                         const size_t eff_target_seq = std::min(row_target_seq, temb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
@@ -772,7 +787,7 @@ public:
                     //   2. Create embeddings from base model
                     //   3. Apply LoRA adapter on top of base model outputs
                     // Forward pass
-                    Tensor predictions;
+                    Tensor predictions = {};
                     if (using_base_model && enhanced_model) {
                         // Forward through LoRA-enhanced model (base frozen + LoRA trainable)
                         // For now, use layer 0 as default (will be extended for multi-layer training)
@@ -833,7 +848,7 @@ public:
                         if (gradient_accumulator->should_step()) {
                             auto accumulated_grads = gradient_accumulator->get_accumulated_gradients();
                             // Attach accumulated gradients to parameter grad fields (avoid copy assignment)
-                            for (size_t i = 0; i < gradients.size() && i < accumulated_grads.size(); ++i) {
+                            for (size_t i = 0; i < gradients.size()  && static_cast<size_t>(i) <static_cast<int>(accumulated_grads.size()); ++i) {
                                 if (gradients[i] && accumulated_grads[i]) {
                                     // Initialize or update the grad tensor
                                     if (!gradients[i]->grad) {
@@ -866,8 +881,8 @@ public:
                     loss_history_.push_back(batch_loss);
                     
                     // Call callback if registered
-                    if (training_callback_) {
-                        training_callback_(current_metrics_);
+                    if ([[maybe_unused]] training_callback_) {
+                        training_callback_([[maybe_unused]] current_metrics_);
                     }
                     
                     // Periodic checkpointing
@@ -925,13 +940,13 @@ public:
             if (!data.samples.empty()) {
                 try {
                     // Use a portion of training data for validation (holdout validation)
-                    size_t validation_size = std::max(size_t(1), data.samples.size() / 5);
+                    size_t validation_size = std::max(size_t(1),static_cast<int>(data.samples.size()) / 5);
                     TrainingData validation_data;
                     validation_data.dataset_name = "validation_" + data.dataset_name;
                     validation_data.metadata = data.metadata;
                     
                     // Take last 20% of data for validation (to test on unseen-during-training data)
-                    if (data.samples.size() > validation_size) {
+                    if (static_cast<int>(data.samples.size()) > validation_size) {
                         validation_data.samples.insert(
                             validation_data.samples.end(),
                             data.samples.end() - validation_size,
@@ -1022,7 +1037,7 @@ public:
         }
         
         spdlog::info("Batch training with {} datasets, total {} samples", 
-                     dataset.size(), combined.size());
+                     dataset.size(),static_cast<int>(combined.size()));
         
         return trainOnTheFly(adapter_id, combined, hyperparameters);
     }
@@ -1054,9 +1069,9 @@ public:
         return current_metrics_;
     }
     
-    void registerCallback(TrainingCallback callback) {
+    void registerCallback([[maybe_unused]] TrainingCallback callback) {
         training_callback_ = callback;
-        spdlog::debug("Registered training callback");
+        spdlog::debug([[maybe_unused]] "Registered training callback");
     }
     
     bool isTraining() const {
@@ -1093,7 +1108,7 @@ public:
     bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
         // Snapshot config_.checkpoint_dir under the config lock to avoid a data race
         // with concurrent setTrainingConfig() calls.
-        std::string ckpt_dir;
+        std::string ckpt_dir = {};
         {
             std::shared_lock<std::shared_mutex> cfg_lock(config_mutex_);
             ckpt_dir = config_.checkpoint_dir;
@@ -1164,7 +1179,7 @@ public:
                 return false;
             }
             
-            json j;
+            json j = {};
             ifs >> j;
             ifs.close();
             
@@ -1318,12 +1333,12 @@ TrainingMetrics LoRATrainingService::getMetrics() const {
     return service_impl->getMetrics();
 }
 
-void LoRATrainingService::registerCallback(TrainingCallback callback) {
+void LoRATrainingService::registerCallback([[maybe_unused]] TrainingCallback callback) {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
     }
     auto* service_impl = impl_.get();
-    service_impl->registerCallback(callback);
+    service_impl->registerCallback([[maybe_unused]] callback);
 }
 
 bool LoRATrainingService::isTraining() const {
@@ -1448,7 +1463,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Memory: {:.2f} MB", quantized_model->memory_bytes() / (1024.0 * 1024.0));
         
         // Load base model adapter for real embeddings
-        std::unique_ptr<BaseModelAdapter> base_model_adapter;
+        std::unique_ptr<BaseModelAdapter> base_model_adapter = {};
+
         if (service_config.use_base_model &&
             !service_config.base_model_path.empty()) {
             
@@ -1554,7 +1570,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         }
         
         // Convert training data to instruction samples
-        std::vector<InstructionDataSample> instruction_samples;
+        std::vector<InstructionDataSample> instruction_samples = {};
+
         instruction_samples.reserve(data.samples.size());
         for (const auto& sample : data.samples) {
             InstructionDataSample inst_sample;
@@ -1631,8 +1648,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 metrics.learning_rate
             );
             
-            if (service_impl->training_callback_) {
-                service_impl->training_callback_(service_impl->current_metrics_);
+            if ([[maybe_unused]] service_impl->training_callback_) {
+                service_impl->training_callback_([[maybe_unused]] service_impl->current_metrics_);
             }
         });
         
@@ -1793,11 +1810,11 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
             return gguf_file.good() && gguf_file.gcount() == count;
         };
 
-        const auto read_u32 = [&read_exact](uint32_t& value) -> bool {
+        const auto read_u32 = [&read_exact]([[maybe_unused]] uint32_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint32_t)));
         };
 
-        const auto read_u64 = [&read_exact](uint64_t& value) -> bool {
+        const auto read_u64 = [&read_exact]([[maybe_unused]] uint64_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint64_t)));
         };
          
@@ -2023,7 +2040,7 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         // Add transformer layers with proper names from model
         if (!layer_names.empty()) {
-            spdlog::info("Loading {} transformer layers from GGUF", layer_names.size());
+            spdlog::info("Loading {} transformer layers from GGUF",static_cast<int>(layer_names.size()));
             for (const auto& layer_name : layer_names) {
                 // Load weights for each layer
                 // In production, this would load actual quantized weights
@@ -2095,25 +2112,25 @@ size_t LoRATrainingService::estimateMemoryUsage(
                 char magic[4];
                 model_file.read(magic, 4);
                 if (std::string(magic, 4) == "GGUF") {
-                    uint32_t version;
+                    uint32_t version = 0;
                     model_file.read(reinterpret_cast<char*>(&version), 4);
                     
-                    uint64_t tensor_count;
+                    uint64_t tensor_count = {};
                     model_file.read(reinterpret_cast<char*>(&tensor_count), 8);
                     
-                    uint64_t kv_count;
+                    uint64_t kv_count = {};
                     model_file.read(reinterpret_cast<char*>(&kv_count), 8);
                     
                     // Parse KV pairs to find parameter count
                     for (uint64_t i = 0; i < kv_count; ++i) {
                         // Read KV key
-                        uint64_t key_len;
+                        uint64_t key_len = {};
                         model_file.read(reinterpret_cast<char*>(&key_len), 8);
                         std::string key(key_len, '\0');
                         model_file.read(&key[0], key_len);
                         
                         // Read value type
-                        uint32_t value_type;
+                        uint32_t value_type = {};
                         model_file.read(reinterpret_cast<char*>(&value_type), 4);
                         
                         // Check for parameter count or model size metadata
@@ -2121,7 +2138,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                             key == "llama.model.parameters" || key == "llama.block_count") {
                             
                             if (value_type == 1) {  // uint32
-                                uint32_t param_val;
+                                uint32_t param_val = {};
                                 model_file.read(reinterpret_cast<char*>(&param_val), 4);
                                 
                                 if (key == "general.model_size") {
@@ -2139,7 +2156,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                                estimated_params, param_val);
                                 }
                             } else if (value_type == 2) {  // uint64
-                                uint64_t param_val;
+                                uint64_t param_val = {};
                                 model_file.read(reinterpret_cast<char*>(&param_val), 8);
                                 estimated_params = param_val;
                                 spdlog::info("Detected model size from GGUF: {} parameters", estimated_params);
@@ -2149,7 +2166,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                     case 0: model_file.seekg(1, std::ios::cur); break;
                                     case 3: model_file.seekg(4, std::ios::cur); break;
                                     case 4: {
-                                        uint64_t str_len;
+                                        uint64_t str_len = 0;
                                         model_file.read(reinterpret_cast<char*>(&str_len), 8);
                                         model_file.seekg(str_len, std::ios::cur);
                                     } break;
@@ -2163,7 +2180,7 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                 case 2: model_file.seekg(8, std::ios::cur); break;
                                 case 3: model_file.seekg(4, std::ios::cur); break;
                                 case 4: {
-                                    uint64_t str_len;
+                                    uint64_t str_len = 0;
                                     model_file.read(reinterpret_cast<char*>(&str_len), 8);
                                     model_file.seekg(str_len, std::ios::cur);
                                 } break;
@@ -2225,7 +2242,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto start_time = std::chrono::system_clock::now();
         
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
-        spdlog::info("  Participant shards: {}", service_config.participant_shards.size());
+        spdlog::info("  Participant shards: {}",static_cast<int>(service_config.participant_shards.size()));
         spdlog::info("  Coordinator shard: {}", service_config.coordinator_shard);
         
         // 1. Create DistributedTrainingConfig from service config
@@ -2389,7 +2406,9 @@ TrainingResult LoRATrainingService::trainDistributed(
                     while (retry_count < max_retries) {
                         spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
                         step_result = coord->executeStep();
-                        if (step_result.success) break;
+                        if (step_result.success) {
+                          break;
+                        }
                         retry_count++;
                     }
                     if (!step_result.success) {
@@ -2493,7 +2512,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);
         spdlog::info("  Successful steps: {}", successful_steps);
-        spdlog::info("  Active shards: {}/{}", active_shards, service_config.participant_shards.size());
+        spdlog::info("  Active shards: {}/{}", active_shards,static_cast<int>(service_config.participant_shards.size()));
         spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
         spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         

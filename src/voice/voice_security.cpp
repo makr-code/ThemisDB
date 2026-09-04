@@ -75,12 +75,14 @@ RedactionResult VoiceSecurityManager::applyPattern(const std::string& text, PIIT
     };
 
     for (const auto& p : patterns) {
-        if (p.type != type) continue;
+        if (p.type != type) {
+          continue;
+        }
         try {
             std::regex re(p.regex_str);
-            std::string output;
+            std::string output = {};
             std::sregex_iterator it(result.redacted_text.begin(), result.redacted_text.end(), re);
-            std::sregex_iterator end;
+            std::sregex_iterator end = {};
             std::string::const_iterator last_pos = result.redacted_text.cbegin();
 
             for (; it != end; ++it) {
@@ -117,7 +119,9 @@ RedactionResult VoiceSecurityManager::redactPIITypes(
         for (auto& p : partial.found_pii) {
             cumulative.found_pii.push_back(p);
         }
-        if (partial.has_pii) cumulative.has_pii = true;
+        if (partial.has_pii) {
+          cumulative.has_pii = true;
+        }
     }
     return cumulative;
 }
@@ -144,7 +148,9 @@ bool VoiceSecurityManager::recordConsent(const ConsentRecord& record) {
 std::optional<ConsentRecord> VoiceSecurityManager::getConsent(const std::string& user_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = consents_.find(user_id);
-    if (it == consents_.end()) return std::nullopt;
+    if (it == consents_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -166,7 +172,9 @@ bool VoiceSecurityManager::revokeConsent(const std::string& user_id) {
 // ---- Audit Logging ----
 
 void VoiceSecurityManager::logEvent(const VoiceAuditEntry& entry) {
-    if (!config_.enable_audit_logging) return;
+    if (!config_.enable_audit_logging) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
     audit_log_.push_back(entry);
 }
@@ -205,11 +213,16 @@ std::vector<VoiceAuditEntry> VoiceSecurityManager::getAuditLog(
     const std::string& user_id, size_t limit) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<VoiceAuditEntry> result;
+    std::vector<VoiceAuditEntry> result = {};
+
     for (auto it = audit_log_.rbegin(); it != audit_log_.rend(); ++it) {
-        if (!user_id.empty() && it->user_id != user_id) continue;
+        if (!user_id.empty() && it->user_id != user_id) {
+          continue;
+        }
         result.push_back(*it);
-        if (result.size() >= limit) break;
+        if (static_cast<int>(result.size()) >= limit) {
+          break;
+        }
     }
     return result;
 }
@@ -230,7 +243,7 @@ DataDeletionResult VoiceSecurityManager::deleteUserData(const DataDeletionReques
         size_t removed = 0;
         audit_log_.erase(
             std::remove_if(audit_log_.begin(), audit_log_.end(),
-                [&](const VoiceAuditEntry& e) {
+                [&]([[maybe_unused]] const VoiceAuditEntry& e) {
                     if (e.user_id == request.user_id) { ++removed; return true; }
                     return false;
                 }),
@@ -266,7 +279,9 @@ json VoiceSecurityManager::exportUserData(const std::string& user_id) const {
 
     json audit_entries = json::array();
     for (const auto& entry : audit_log_) {
-        if (entry.user_id != user_id) continue;
+        if (entry.user_id != user_id) {
+          continue;
+        }
         json e;
         e["event_type"]   = entry.event_type;
         e["action"]       = entry.action;
@@ -297,7 +312,9 @@ int64_t VoiceSecurityManager::nowMs() const {
 }
 
 void VoiceSecurityManager::cleanupExpiredLockouts() {
-    if (!config_.enable_rate_limiting) return;
+    if (!config_.enable_rate_limiting) {
+      return;
+    }
     
     int64_t now = nowMs();
     std::vector<std::string> expired_users;
@@ -315,7 +332,9 @@ void VoiceSecurityManager::cleanupExpiredLockouts() {
 }
 
 bool VoiceSecurityManager::recordAuthFailure(const std::string& user_id) {
-    if (!config_.enable_rate_limiting) return true;
+    if (!config_.enable_rate_limiting) {
+      return true;
+    }
     
     std::lock_guard<std::mutex> lock(mutex_);
     cleanupExpiredLockouts();
@@ -358,11 +377,15 @@ bool VoiceSecurityManager::recordAuthFailure(const std::string& user_id) {
 }
 
 bool VoiceSecurityManager::isRateLimited(const std::string& user_id) const {
-    if (!config_.enable_rate_limiting) return false;
+    if (!config_.enable_rate_limiting) {
+      return false;
+    }
     
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = lockout_until_ms_.find(user_id);
-    if (it == lockout_until_ms_.end()) return false;
+    if (it == lockout_until_ms_.end()) {
+      return false;
+    }
     
     int64_t now = nowMs();
     return now < it->second;
@@ -376,7 +399,9 @@ void VoiceSecurityManager::resetRateLimiter(const std::string& user_id) {
 }
 
 void VoiceSecurityManager::logSecurityDenial(const SecurityDenialEntry& entry) {
-    if (!config_.enable_audit_logging) return;
+    if (!config_.enable_audit_logging) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(mutex_);
     denial_trail_.push_back(entry);

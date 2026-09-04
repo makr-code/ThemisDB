@@ -82,7 +82,7 @@ bool isStatusAllowed(std::string_view status) {
 // ============================================================================
 
 bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name) const {
-    std::string unused;
+    std::string unused = {};
     return isFeatureAllowed(feature_name, unused);
 }
 
@@ -99,7 +99,7 @@ bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name,
     // If the binary was not compiled with this feature (e.g. Community-edition
     // binary), deny regardless of runtime license state.
     if (!edition::IsFeatureEnabled(feature_name)) {
-        std::ostringstream msg;
+        std::ostringstream msg = {};
         msg << "Feature '" << feature_name << "' is not available in the "
             << edition::EDITION_STRING << " edition.";
         if (edition::GetEditionType() == edition::EditionType::COMMUNITY) {
@@ -161,7 +161,7 @@ std::string RuntimeLicenseGate::buildDenialMessage(std::string_view feature_name
     // It accesses activation_ and license_ which are protected by the lock.
     // The compile-time denial path is handled inline in isFeatureAllowed().
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Feature '" << feature_name << "' is not available: ";
 
     // initialized_ is always true when this method is called (the caller

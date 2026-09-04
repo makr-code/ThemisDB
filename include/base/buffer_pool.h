@@ -242,7 +242,7 @@ public:
 private:
     // Per-slab-class state.
     struct Slab {
-        std::mutex            lock;
+        std::mutex            lock = {};
         std::vector<void*>    free_list;
         std::size_t           block_size   = 0;
         std::size_t           alloc_count  = 0;  ///< Total served from this slab.

@@ -42,7 +42,7 @@ json ContentManager::analyzeContent(const std::string &content_id) {
         auto meta = *meta_opt;
 
         // Extract text from content
-        std::string text;
+        std::string text = {};
         if (meta.text_extracted) {
             // Get extracted text
             text = getExtractedText(content_id);
@@ -60,7 +60,7 @@ json ContentManager::analyzeContent(const std::string &content_id) {
         std::string analysis_text = text.substr(0, std::min(text.size(), size_t(4000)));
 
         // Build comprehensive analysis prompt
-        std::stringstream prompt;
+        std::stringstream prompt = {};
         prompt << "Analyze the following content and provide:\n";
         prompt << "1. A brief summary (2-3 sentences)\n";
         prompt << "2. Key topics (3-5 topics as comma-separated list)\n";
@@ -110,7 +110,7 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
         std::string tag_text = text.substr(0, std::min(text.size(), size_t(2000)));
 
         // Build prompt
-        std::stringstream prompt;
+        std::stringstream prompt = {};
         prompt << "Generate " << max_tags << " relevant tags for the following content.\n";
         prompt << "Return only the tags as a comma-separated list.\n\n";
         prompt << "Content:\n" << tag_text << "\n\n";
@@ -124,7 +124,7 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
             tags = parseTags(tags_text);
 
             // Limit to max_tags
-            if (tags.size() > static_cast<size_t>(max_tags)) {
+            if (static_cast<int>(tags.size()) > static_cast<size_t>(max_tags)) {
                 tags.resize(max_tags);
             }
         }
@@ -155,7 +155,7 @@ std::string ContentManager::summarizeContent(const std::string &content_id, int 
         std::string summary_text = text.substr(0, std::min(text.size(), size_t(4000)));
 
         // Build prompt
-        std::stringstream prompt;
+        std::stringstream prompt = {};
         prompt << "Provide a " << max_words << "-word summary of the following content:\n\n";
         prompt << summary_text << "\n\n";
         prompt << "Summary: ";
@@ -192,7 +192,7 @@ std::string ContentManager::classifyContent(const std::string &content_id) {
         std::string class_text = text.substr(0, std::min(text.size(), size_t(1000)));
 
         // Build prompt
-        std::stringstream prompt;
+        std::stringstream prompt = {};
         prompt << "Classify the following content into one category: ";
         prompt << "article, technical, business, personal, news, academic, fiction, other\n\n";
         prompt << "Content:\n" << class_text << "\n\n";
@@ -240,7 +240,7 @@ json ContentManager::extractEntities(const std::string &content_id) {
         std::string ner_text = text.substr(0, std::min(text.size(), size_t(3000)));
 
         // Build prompt
-        std::stringstream prompt;
+        std::stringstream prompt = {};
         prompt << "Extract named entities from the following text.\n";
         prompt << "List separately:\n";
         prompt << "- PEOPLE: Names of people\n";
@@ -274,9 +274,9 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
 
     // Simple parser - look for keywords
     std::istringstream iss(analysis_text);
-    std::string line;
-    std::string current_section;
-    std::stringstream current_content;
+    std::string line = {};
+    std::string current_section = {};
+    std::stringstream current_content = {};
 
     while (std::getline(iss, line)) {
         if (line.find("Summary:") != std::string::npos || line.find("1.") != std::string::npos) {
@@ -352,14 +352,14 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
 std::vector<std::string> ContentManager::parseTags(const std::string &tags_text) {
     std::vector<std::string> tags;
     std::stringstream ss(tags_text);
-    std::string tag;
+    std::string tag = {};
 
     while (std::getline(ss, tag, ',')) {
         // Trim whitespace
         tag.erase(0, tag.find_first_not_of(" \t\n\r"));
         tag.erase(tag.find_last_not_of(" \t\n\r") + 1);
 
-        if (!tag.empty() && tag.size() <= 50) { // Reasonable tag length
+        if (!tag.empty() && static_cast<int>(tag.size()) <= 50) { // Reasonable tag length
             tags.push_back(tag);
         }
     }
@@ -377,8 +377,8 @@ json ContentManager::parseEntities(const std::string &entities_text) {
     result["organizations"] = json::array();
 
     std::istringstream iss(entities_text);
-    std::string line;
-    std::string current_category;
+    std::string line = {};
+    std::string current_category = {};
 
     while (std::getline(iss, line)) {
         if (line.find("PEOPLE:") != std::string::npos) {
@@ -414,7 +414,7 @@ json ContentManager::parseEntities(const std::string &entities_text) {
  */
 std::string ContentManager::getExtractedText(const std::string &content_id) {
     const auto chunks = getContentChunks(content_id);
-    std::string result;
+    std::string result = {};
     result.reserve(chunks.size() * 256);
     for (const auto &chunk : chunks) {
         result += chunk.text;

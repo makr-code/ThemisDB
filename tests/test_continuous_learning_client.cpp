@@ -102,7 +102,8 @@ TEST_F(ContinuousLearningClientTest, LogIndividualMetric) {
 TEST_F(ContinuousLearningClientTest, LogMetricsBatch) {
     ContinuousLearningClient client(config_);
     
-    std::vector<QualityMetric> metrics;
+    std::vector<QualityMetric> metrics = {};
+
     for (int i = 0; i < 3; i++) {
         QualityMetric metric;
         metric.type = MetricType::RELEVANCE;
@@ -192,7 +193,7 @@ TEST_F(ContinuousLearningClientTest, TriggerCallback) {
     ContinuousLearningClient client(config_);
     
     bool callback_called = false;
-    std::string trigger_type;
+    std::string trigger_type = {};
     
     client.setTriggerCallback([&](const OptimizationTrigger& trigger) {
         callback_called = true;
@@ -225,9 +226,15 @@ TEST_F(ContinuousLearningClientTest, QCResultToMetrics) {
     bool has_overall = false;
     
     for (const auto& metric : metrics) {
-        if (metric.type == MetricType::FAITHFULNESS) has_faithfulness = true;
-        if (metric.type == MetricType::RELEVANCE) has_relevance = true;
-        if (metric.type == MetricType::OVERALL_QUALITY) has_overall = true;
+        if (metric.type == MetricType::FAITHFULNESS) {
+          has_faithfulness = true;
+        }
+        if (metric.type == MetricType::RELEVANCE) {
+          has_relevance = true;
+        }
+        if (metric.type == MetricType::OVERALL_QUALITY) {
+          has_overall = true;
+        }
     }
     
     EXPECT_TRUE(has_faithfulness);

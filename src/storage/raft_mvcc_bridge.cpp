@@ -54,8 +54,8 @@ HLCTimestamp RaftMvccBridge::toHlcTimestamp(const DTC::TimeInterval& interval) {
     // Convert wall-clock nanoseconds → milliseconds for HLC physical component.
     const uint64_t physical_ms =
         (interval.system_time_ns > 0)
-            ? static_cast<uint64_t>(interval.system_time_ns) / 1'000'000ULL
-            : 0ULL;
+            ? static_cast<uint64_t>(interval.system_time_ns) / 1'000'000
+            : 0;
 
     // Embed the lower 20 bits of the Raft log index as the HLC logical counter.
     // This preserves intra-millisecond ordering up to 1,048,575 ops/ms per shard.
@@ -88,7 +88,7 @@ HLCTimestamp RaftMvccBridge::snapshotTimestamp() {
 
 RaftMvccBridge::LinearizableResult
 RaftMvccBridge::linearizableRead(std::string_view key) {
-    LinearizableResult result;
+    LinearizableResult result = {};
 
     if (!coordinator_->isLeader()) {
         // Non-leader cannot serve linearizable reads.

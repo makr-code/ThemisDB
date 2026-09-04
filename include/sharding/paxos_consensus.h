@@ -42,11 +42,13 @@ using PaxosSnapshotManager = themis::sharding::PaxosSnapshotManager;
  * @brief Paxos proposal number (ballot number)
  */
 struct ProposalNumber {
-    uint64_t round;        // Proposal round number
+    uint64_t round = 0;        // Proposal round number
     std::string node_id;   // Proposer node ID
     
     bool operator<(const ProposalNumber& other) const {
-        if (round != other.round) return round < other.round;
+        if (round != other.round) {
+          return round < other.round;
+        }
         return node_id < other.node_id;
     }
     
@@ -63,7 +65,7 @@ struct ProposalNumber {
  * @brief Paxos instance for a single log slot
  */
 struct PaxosInstance {
-    uint64_t slot;                           // Log slot number
+    uint64_t slot = 0;                           // Log slot number
     ProposalNumber promised_proposal;        // Highest proposal promised
     ProposalNumber accepted_proposal;        // Accepted proposal number
     ConsensusLogEntry accepted_value;        // Accepted value

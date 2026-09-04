@@ -179,7 +179,8 @@ TEST(WaveB_I3_IteratorSafety, IndexBasedLoopWithSeparatePushBack) {
 // ---------------------------------------------------------------------------
 TEST(WaveB_I3_IteratorSafety, EraseReturnPatternOnMap) {
     using AdjVec = std::vector<std::string>;
-    std::unordered_map<std::string, AdjVec> edges;
+    std::unordered_map<std::string, AdjVec> edges = {};
+
     edges["A"] = {"B", "C", "D"};
     edges["B"] = {"C"};
 
@@ -206,9 +207,12 @@ TEST(WaveB_I3_IteratorSafety, PreCollectKeysBeforeModification) {
     counters["z"] = 3;
 
     // Pre-collect keys (mirrors Wave-B I3 recommendation).
-    std::vector<std::string> keys;
+    std::vector<std::string> keys = {};
+
     keys.reserve(counters.size());
-    for (const auto& [k, _] : counters) keys.push_back(k);
+    for (const auto& [k, _] : counters) {
+      keys.push_back(k);
+    }
 
     // Modify the map using the pre-collected keys — no iterator held.
     for (const auto& k : keys) {
@@ -229,7 +233,8 @@ TEST(WaveB_I3_IteratorSafety, MultiVectorScoreFusionIndexLoop) {
     //   for (size_t i = 0; i < individual_results.size(); ++i) { scores.push_back(...); }
     const std::vector<float> individual_results = {0.9f, 0.7f, 0.5f};
     std::vector<float> scores;
-    std::vector<int>   ranks;
+    std::vector<int>   ranks = {};
+
     scores.reserve(individual_results.size());
     ranks.reserve(individual_results.size());
 

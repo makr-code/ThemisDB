@@ -22,7 +22,7 @@ static void resetMemoryManager() {
 }
 
 static std::string compiledBackendSummary() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "cuda=";
 #ifdef THEMIS_ENABLE_CUDA
     oss << "1";
@@ -260,7 +260,7 @@ TEST_F(GPUAdminAPITest, GetMIGInstances_WithPartition_ContainsExpectedFields) {
     dev.is_healthy    = true;
     dev.mig_max_instances = 7;
 
-    std::string id;
+    std::string id = {};
     const auto create_status = mig.createPartition(0, "1g.5gb", id, {dev});
     if (create_status != MIGManager::Status::OK) {
         GTEST_SKIP() << "capability:mig_available=false;reason=mig_partition_creation_unavailable;compiled_backends="

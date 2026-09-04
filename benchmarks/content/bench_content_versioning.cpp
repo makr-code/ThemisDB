@@ -15,7 +15,7 @@ std::string generate_content(size_t size) {
     static std::mt19937 gen(42);
     static std::uniform_int_distribution<> dis(32, 126);
     
-    std::string content;
+    std::string content = {};
     content.reserve(size);
     for (size_t i = 0; i < size; ++i) {
         content += static_cast<char>(dis(gen));

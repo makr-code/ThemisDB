@@ -96,7 +96,9 @@ InMemoryTensorBackend::get(const std::string& key) const {
     // iterator_invalidation scanner alert: store_ is locked above; no
     // modification can occur while the lock is held — false positive.
     auto it = store_.find(key);
-    if (it == store_.end()) return std::nullopt;
+    if (it == store_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -108,9 +110,10 @@ bool InMemoryTensorBackend::del(const std::string& key) {
 std::vector<std::string>
 InMemoryTensorBackend::listKeys(const std::string& prefix) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& kv : store_) {
-        if (kv.first.substr(0, prefix.size()) == prefix)
+        if (kv.first.substr(0,static_cast<int>(prefix.size())) == prefix)
             result.push_back(kv.first);
     }
     std::sort(result.begin(), result.end());
@@ -255,7 +258,9 @@ bool TensorNetworkStorageEngine::persistQuantizedTrain(
     // then each core separately for efficient partial reads
     auto header = qtrain.serialize();  // stores everything; we use it for meta
     const std::string meta_key = makeMetaKey(key, version);
-    if (!backend_->put(meta_key, header)) return false;
+    if (!backend_->put(meta_key, header)) {
+      return false;
+    }
 
     // lock_in_loop scanner alerts (lines 239, 320): persistQuantizedTrain and the
     // remove loop iterate over cores while the engine write lock (wlk/rw_mutex_)
@@ -263,7 +268,7 @@ bool TensorNetworkStorageEngine::persistQuantizedTrain(
     // the scanner confuses the outer write-lock scope with per-iteration locking —
     // false positives.
     std::size_t persisted_core_count = 0;
-    for (std::size_t k = 0; k < qtrain.cores.size(); ++k) {
+    for (std::size_t k = 0; k  < qtrain.cores.size(); ++k) {
         auto cb = qtrain.cores[k].serialize();
         if (!backend_->put(makeCoreKey(key, k, version), cb)) {
             // Best-effort rollback to avoid partially persisted versions.
@@ -284,7 +289,9 @@ std::optional<QuantizedTrain>
 TensorNetworkStorageEngine::loadQuantizedTrain(const TensorFieldKey& key,
                                                 std::size_t version) const {
     auto meta = backend_->get(makeMetaKey(key, version));
-    if (!meta) return std::nullopt;
+    if (!meta) {
+      return std::nullopt;
+    }
     // model_integrity_gap scanner alert: blob integrity is enforced at the
     // storage backend layer (InMemoryTensorBackend or RocksDB with checksums);
     // QuantizedTrain::deserialize validates header size and returns nullopt on
@@ -300,8 +307,10 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
                                       const std::vector<float>&        data,
                                       const std::vector<std::size_t>&  mode_sizes) {
     std::size_t expected = 1;
-    for (auto n : mode_sizes) expected *= n;
-    if (data.size() != expected)
+    for (auto n : mode_sizes) {
+      expected *= n;
+    }
+    if (static_cast<int>(data.size()) != expected)
         throw std::invalid_argument("TensorNetworkStorageEngine::put: size mismatch");
 
     // Decompose
@@ -310,7 +319,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     // Check minimum compression ratio
     bool use_tt = (dstats.compression_ratio >= cfg_.min_compression_ratio);
 
-    QuantizedTrain qtrain;
+    QuantizedTrain qtrain = {};
     if (use_tt) {
         qtrain = quantizer_.quantize(train, cfg_.quant_type);
     } else {
@@ -325,7 +334,9 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     const std::size_t ver = currentVersion(key) + 1;
 
-    if (!persistQuantizedTrain(key, qtrain, ver)) return false;
+    if (!persistQuantizedTrain(key, qtrain, ver)) {
+      return false;
+    }
     setVersion(key, ver);
 
     // Purge old versions if retention configured
@@ -333,7 +344,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
         std::size_t oldest = ver - cfg_.version_retention;
         // Attempt removal of old meta key (best-effort)
         backend_->del(makeMetaKey(key, oldest));
-        for (std::size_t k = 0; k < qtrain.cores.size(); ++k)
+        for (std::size_t k = 0; k  < qtrain.cores.size(); ++k)
             backend_->del(makeCoreKey(key, k, oldest));
     }
 
@@ -372,10 +383,14 @@ std::optional<std::vector<float>>
 TensorNetworkStorageEngine::get(const TensorFieldKey& key) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return std::nullopt;
+    if (ver == 0) {
+      return std::nullopt;
+    }
 
     auto oqt = loadQuantizedTrain(key, ver);
-    if (!oqt) return std::nullopt;
+    if (!oqt) {
+      return std::nullopt;
+    }
 
     TTTrain train = quantizer_.dequantize(*oqt);
     return train.reconstruct();
@@ -386,7 +401,9 @@ TensorNetworkStorageEngine::getVersion(const TensorFieldKey& key,
                                         std::size_t version) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     auto oqt = loadQuantizedTrain(key, version);
-    if (!oqt) return std::nullopt;
+    if (!oqt) {
+      return std::nullopt;
+    }
 
     TTTrain train = quantizer_.dequantize(*oqt);
     return train.reconstruct();
@@ -396,7 +413,9 @@ std::optional<QuantizedTrain>
 TensorNetworkStorageEngine::getCompressed(const TensorFieldKey& key) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return std::nullopt;
+    if (ver == 0) {
+      return std::nullopt;
+    }
     return loadQuantizedTrain(key, ver);
 }
 
@@ -407,7 +426,9 @@ TensorNetworkStorageEngine::getCompressed(const TensorFieldKey& key) const {
 bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return false;
+    if (ver == 0) {
+      return false;
+    }
 
     auto oqt = loadQuantizedTrain(key, ver);
     backend_->del(makeMetaKey(key, ver));
@@ -435,7 +456,9 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
 void TensorNetworkStorageEngine::compact(const TensorFieldKey& key) {
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0 || cfg_.version_retention == 0) return;
+    if (ver == 0 || cfg_.version_retention == 0) {
+      return;
+    }
 
     auto keys = backend_->listKeys(makePrefix(key));
     for (const auto& k : keys) {
@@ -453,10 +476,14 @@ std::optional<TensorStorageStats>
 TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
-    if (ver == 0) return std::nullopt;
+    if (ver == 0) {
+      return std::nullopt;
+    }
 
     auto oqt = loadQuantizedTrain(key, ver);
-    if (!oqt) return std::nullopt;
+    if (!oqt) {
+      return std::nullopt;
+    }
 
     TensorStorageStats s;
     s.current_version   = ver;
@@ -467,7 +494,9 @@ TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     for (const auto& c : oqt->cores)
         s.tt_max_rank = std::max(s.tt_max_rank, c.r_right);
     s.dense_elements = 1;
-    for (auto n : oqt->mode_sizes) s.dense_elements *= n;
+    for (auto n : oqt->mode_sizes) {
+      s.dense_elements *= n;
+    }
 
     return s;
 }
@@ -500,7 +529,8 @@ std::vector<std::string>
 TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const {
     const auto raw_prefix = rawMetaKey(prefix);
     auto raw_keys = backend_->listKeys(raw_prefix);
-    std::vector<std::string> logical_keys;
+    std::vector<std::string> logical_keys = {};
+
     logical_keys.reserve(raw_keys.size());
 
     for (const auto& raw_key : raw_keys) {
@@ -512,4 +542,5 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
 
 } // namespace storage
 } // namespace themis
+
 

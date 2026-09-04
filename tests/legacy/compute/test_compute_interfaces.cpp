@@ -192,7 +192,9 @@ TEST(ComputeInterfaces, CancellationToken_ConcurrentCancelSafe) {
     for (int i = 0; i < 16; ++i) {
         threads.emplace_back([&tok]() { tok.cancel(); });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_TRUE(tok.is_cancelled());
 }
 
@@ -547,8 +549,10 @@ public:
 
     DeviceSet selectDevices(const WorkloadDescriptor& workload) const override {
         // Thread-safe: reads only immutable state.
-        DeviceSet s;
-        if (num_devices_ == 0) return s;
+        DeviceSet s = {};
+        if (num_devices_ == 0) {
+          return s;
+        }
         // For INTERACTIVE: return single best device; otherwise all devices.
         if (workload.latency_class == LatencyClass::INTERACTIVE) {
             s.push(0u);
@@ -607,7 +611,9 @@ TEST(ComputeInterfaces, MockMultiGPUSelector_ThreadSafety_32Threads) {
             results[i] = sel.selectDevices(wd);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     for (int i = 0; i < kNumThreads; ++i) {
         EXPECT_FALSE(results[i].empty())
@@ -626,7 +632,9 @@ namespace {
 class MockKernelRegistry : public IKernelRegistry {
 public:
     bool registerKernel(std::string name, void* fn_ptr) override {
-        if (kernels_.count(name)) return false;
+        if (kernels_.count(name)) {
+          return false;
+        }
         kernels_[std::move(name)] = fn_ptr;
         return true;
     }

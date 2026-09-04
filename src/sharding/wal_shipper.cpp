@@ -104,7 +104,8 @@ bool WALShipper::isRunning() const {
 std::vector<ReplicaInfo> WALShipper::getReplicaInfo() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     
-    std::vector<ReplicaInfo> result;
+    std::vector<ReplicaInfo> result = {};
+
     for (const auto& [id, info] : replicas_) {
         result.push_back(info);
     }
@@ -144,7 +145,9 @@ void WALShipper::shippingLoop() {
         
         // Ship to each replica
         for (const auto& replica_id : replica_ids) {
-            if (!running_) break;
+            if (!running_) {
+              break;
+            }
             
             std::lock_guard<std::mutex> lock(replicas_mutex_);
             auto it = replicas_.find(replica_id);
@@ -214,7 +217,7 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
         
         // Check if adding this entry would exceed limits
         if (!batch.empty() && 
-            (batch.size() >= config_.batch_size || 
+            (static_cast<int>(batch.size()) >= config_.batch_size || 
              batch_bytes + entry_size > config_.max_batch_bytes)) {
             // Ship current batch
             if (!shipBatch(replica.endpoint, batch)) {
@@ -285,7 +288,7 @@ bool WALShipper::shipBatch(const std::string& endpoint,
     // Serialize and potentially compress the batch
     std::string serialized_entries = batch_json.dump();
     size_t uncompressed_size = serialized_entries.size();
-    std::string payload_data;
+    std::string payload_data = {};
     bool compressed = false;
     
     // Apply compression if configured
@@ -564,7 +567,7 @@ static std::string chunkSha256(const uint8_t* data, size_t size) {
     } else {
         SHA256(data, size, hash);
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -579,12 +582,12 @@ static std::string chunkSha256(const uint8_t* data, size_t size) {
 static std::string base64Encode(const std::vector<uint8_t>& data) {
     static constexpr char kB64Chars[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string out;
-    out.reserve(((data.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
     for (size_t i = 0; i < data.size(); i += 3) {
         const uint8_t b0 = data[i];
-        const uint8_t b1 = (i + 1 < data.size()) ? data[i + 1] : 0u;
-        const uint8_t b2 = (i + 2 < data.size()) ? data[i + 2] : 0u;
+        const uint8_t b1 = (i + 1 < data.size()) ? data[i + 1] : 0;
+        const uint8_t b2 = (i + 2 < data.size()) ? data[i + 2] : 0;
         out += kB64Chars[(b0 >> 2) & 0x3F];
         out += kB64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
         out += (i + 1 < data.size()) ? kB64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
@@ -596,7 +599,7 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
 /** @brief Verify chunk checksum using SHA-256 over chunk payload. */
 /* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
     const std::string computed =
-        chunkSha256(chunk.data.data(), chunk.data.size());
+        chunkSha256(chunk.data.data(),static_cast<int>(chunk.data.size()));
     return computed == chunk.checksum;
 }
 
@@ -608,7 +611,7 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
  */
 SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
                                                   const std::vector<SnapshotChunk>& chunks) {
-    SnapshotTransferResult result;
+    SnapshotTransferResult result = {};
 
     if (chunks.empty()) {
         result.error_message = "No chunks to transfer";
@@ -625,7 +628,7 @@ SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
     }
 
     // Look up replica endpoint
-    std::string endpoint;
+    std::string endpoint = {};
     {
         std::lock_guard<std::mutex> lock(replicas_mutex_);
         auto it = replicas_.find(replica_id);

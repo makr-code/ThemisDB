@@ -16,7 +16,7 @@ using themis::geo::GeoPolygon;
 namespace {
 
 std::string buildMultiPolygonGeoJson(std::size_t polygon_count) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << R"({"type":"MultiPolygon","coordinates":[)";
     for (std::size_t i = 0; i < polygon_count; ++i) {
         if (i != 0) {
@@ -39,10 +39,12 @@ GeoMultiPolygon parseGeoMultiPolygon(const std::string& payload) {
     const auto parsed = nlohmann::json::parse(payload);
     const auto& coords = parsed.at("coordinates");
 
-    std::vector<GeoPolygon> polygons;
+    std::vector<GeoPolygon> polygons = {};
+
     polygons.reserve(coords.size());
     for (const auto& polygon_json : coords) {
-        std::vector<GeoPolygon::Ring> rings;
+        std::vector<GeoPolygon::Ring> rings = {};
+
         rings.reserve(polygon_json.size());
         for (const auto& ring_json : polygon_json) {
             GeoPolygon::Ring ring;

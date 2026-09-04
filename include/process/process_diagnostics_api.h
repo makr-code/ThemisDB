@@ -389,7 +389,7 @@ inline std::string TraceContext::format() const {
         return {};
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     bool emitted = false;
     if (trace_id.has_value()) {
@@ -407,7 +407,7 @@ inline std::string TraceContext::format() const {
 }
 
 inline std::string ConflictAnalysis::format() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool emitted = false;
 
     if (conflict_count.has_value()) {
@@ -451,7 +451,7 @@ inline ExtendedDiagnosticRecord::ExtendedDiagnosticRecord(
 }
 
 inline std::string ExtendedDiagnosticRecord::toFormattedMessage() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << DiagnosticRecord::toFormattedMessage();
 
     if (incident_context.has_value()) {
@@ -479,7 +479,7 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createChurnIncident(
     int32_t concurrent_ops,
     std::optional<std::string_view> trace_id
 ) {
-    TraceContext trace_context;
+    TraceContext trace_context = {};
     if (trace_id.has_value()) {
         trace_context.trace_id = std::string(*trace_id);
     }
@@ -504,7 +504,7 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createConflictIncide
     int32_t retry_count,
     std::optional<std::string_view> trace_id
 ) {
-    TraceContext trace_context;
+    TraceContext trace_context = {};
     if (trace_id.has_value()) {
         trace_context.trace_id = std::string(*trace_id);
     }
@@ -552,7 +552,7 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createResourceExhaus
     std::string_view resource_type,
     std::optional<std::string_view> trace_id
 ) {
-    TraceContext trace_context;
+    TraceContext trace_context = {};
     if (trace_id.has_value()) {
         trace_context.trace_id = std::string(*trace_id);
     }

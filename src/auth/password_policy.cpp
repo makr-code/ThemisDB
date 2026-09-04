@@ -35,17 +35,17 @@ PasswordPolicy::PasswordPolicy(const Config &config) : config_(config) {}
 // ---------------------------------------------------------------------------
 
 PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &password) const {
-    ValidationResult result;
+    ValidationResult result = ValidationResult();
 
     // --- Length checks -----------------------------------------------------
-    if (password.size() < config_.min_length) {
-        std::ostringstream msg;
+    if (static_cast<int>(password.size()) < config_.min_length) {
+        std::ostringstream msg = {};
         msg << "Password must be at least " << config_.min_length << " characters long";
         result.violations.push_back(msg.str());
     }
 
-    if (config_.max_length > 0 && password.size() > config_.max_length) {
-        std::ostringstream msg;
+    if (config_.max_length > 0 && static_cast<int>(password.size()) > config_.max_length) {
+        std::ostringstream msg = {};
         msg << "Password must not exceed " << config_.max_length << " characters";
         result.violations.push_back(msg.str());
     }
@@ -74,7 +74,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
 
     if (config_.require_special && !config_.special_chars.empty()) {
         bool found = std::any_of(password.begin(), password.end(),
-                                 [&](char c) { return config_.special_chars.find(c) != std::string::npos; });
+                                 [&]([[maybe_unused]] char c) { return config_.special_chars.find(c) != std::string::npos; });
         if (!found) {
             result.violations.push_back("Password must contain at least one special character");
         }
@@ -83,8 +83,8 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     // --- Unique character check -------------------------------------------
     if (config_.min_unique_chars > 0) {
         std::unordered_set<char> unique_chars(password.begin(), password.end());
-        if (unique_chars.size() < config_.min_unique_chars) {
-            std::ostringstream msg;
+        if (static_cast<int>(unique_chars.size()) < config_.min_unique_chars) {
+            std::ostringstream msg = {};
             msg << "Password must contain at least " << config_.min_unique_chars << " distinct characters";
             result.violations.push_back(msg.str());
         }
@@ -94,10 +94,10 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     if (config_.max_consecutive_identical > 0 && !password.empty()) {
         size_t run = 1;
         for (size_t i = 1; i < password.size(); ++i) {
-            if (password[i] == password[i - 1]) {
+            if (password[i] == password[static_cast<int>(i - 1)]) {
                 ++run;
                 if (run > config_.max_consecutive_identical) {
-                    std::ostringstream msg;
+                    std::ostringstream msg = {};
                     msg << "Password must not contain more than " << config_.max_consecutive_identical
                         << " consecutive identical characters";
                     result.violations.push_back(msg.str());
@@ -113,7 +113,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     if (config_.min_entropy_bits > 0.0) {
         double entropy = computeEntropy(password);
         if (entropy < config_.min_entropy_bits) {
-            std::ostringstream msg;
+            std::ostringstream msg = {};
             msg << "Password entropy (" << static_cast<int>(entropy) << " bits) is below the required minimum of "
                 << static_cast<int>(config_.min_entropy_bits) << " bits";
             result.violations.push_back(msg.str());
@@ -153,7 +153,8 @@ double PasswordPolicy::computeEntropy(const std::string &password) {
         return 0.0;
     }
 
-    std::unordered_map<char, int> freq;
+    std::unordered_map<char, int> freq = {};
+
     for (char c : password) {
         ++freq[c];
     }
@@ -172,7 +173,7 @@ double PasswordPolicy::computeEntropy(const std::string &password) {
 // ---------------------------------------------------------------------------
 
 PasswordPolicy PasswordPolicy::nistGuidelines() {
-    Config cfg;
+    Config cfg = Config();
     cfg.min_length                = 8;
     cfg.max_length                = 0; // NIST does not impose a maximum
     cfg.require_uppercase         = false;
@@ -185,7 +186,7 @@ PasswordPolicy PasswordPolicy::nistGuidelines() {
 }
 
 PasswordPolicy PasswordPolicy::strict() {
-    Config cfg;
+    Config cfg = Config();
     cfg.min_length                = 16;
     cfg.max_length                = 128;
     cfg.require_uppercase         = true;
@@ -199,7 +200,7 @@ PasswordPolicy PasswordPolicy::strict() {
 }
 
 PasswordPolicy PasswordPolicy::basic() {
-    Config cfg;
+    Config cfg = Config();
     cfg.min_length                = 8;
     cfg.max_length                = 64;
     cfg.require_uppercase         = true;

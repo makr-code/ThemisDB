@@ -139,7 +139,9 @@ struct AuditLogEntry {
             oss << ",\"metadata\":{";
             bool first = true;
             for (const auto& [key, value] : metadata) {
-                if (!first) oss << ",";
+                if (!first) {
+                  oss << ",";
+                }
                 oss << "\"" << key << "\":\"" << value << "\"";
                 first = false;
             }
@@ -153,7 +155,7 @@ struct AuditLogEntry {
 private:
     std::string formatTimestamp() const {
         auto time_t = std::chrono::system_clock::to_time_t(timestamp);
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::put_time(std::gmtime(&time_t), "%Y-%m-%dT%H:%M:%SZ");
         return oss.str();
     }
@@ -268,7 +270,8 @@ public:
     std::vector<AuditLogEntry> searchByUser(const std::string& user_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<AuditLogEntry> results;
+        std::vector<AuditLogEntry> results = {};
+
         for (const auto& entry : buffer_) {
             if (entry.user_id == user_id) {
                 results.push_back(entry);
@@ -283,7 +286,8 @@ public:
     std::vector<AuditLogEntry> searchByEventType(AuditLogEntry::EventType type) const {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        std::vector<AuditLogEntry> results;
+        std::vector<AuditLogEntry> results = {};
+
         for (const auto& entry : buffer_) {
             if (entry.event_type == type) {
                 results.push_back(entry);

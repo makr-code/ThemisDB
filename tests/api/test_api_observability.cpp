@@ -289,7 +289,9 @@ TEST(BoundedResourceTest, QueueSizeLimit)
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_GT(rejected, 0) << "At least one request must be rejected when queue is full";
     EXPECT_GT(accepted, 0) << "Some requests must succeed";
@@ -366,7 +368,9 @@ TEST(BoundedResourceTest, SessionLimitEnforcement)
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_GT(rejected, 0) << "At least one request must be rejected when session limit is reached";
     EXPECT_GT(accepted, 0) << "Some requests must succeed";
@@ -428,7 +432,8 @@ TEST(ReliabilityTest, ThreadSafeMetricUpdates)
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(worker);
     }
@@ -451,7 +456,7 @@ TEST(ReliabilityTest, ConcurrentReadWriteConsistency)
 {
     auto adapter = std::make_shared<ObservableAdapter>();
     std::vector<RequestMetrics> collected_metrics;
-    std::mutex results_lock;
+    std::mutex results_lock = {};
 
     auto writer = [&]() {
         for (int i = 0; i < 50; ++i) {
@@ -521,7 +526,8 @@ TEST(ReliabilityTest, ConsistentErrorHandlingConcurrent)
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back(worker);
     }

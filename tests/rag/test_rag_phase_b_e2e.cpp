@@ -225,7 +225,8 @@ TEST(RagPhaseBE2E, RrfK60ScoresPositiveAndOrdered) {
 
     // Populate 5 BM25 and 5 HNSW candidates with decreasing scores
     std::vector<RetrievedDocument> bm25_candidates;
-    std::vector<RetrievedDocument> vec_candidates;
+    std::vector<RetrievedDocument> vec_candidates = {};
+
     for (int i = 0; i < 5; ++i) {
         bm25_candidates.push_back(
             makeDoc("b" + std::to_string(i), "bm25 content " + std::to_string(i),

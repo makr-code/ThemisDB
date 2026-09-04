@@ -105,7 +105,8 @@ std::vector<std::string> WasmRuntimeInjector::registeredNames() {
     std::lock_guard<std::mutex> lock(reg.mu);
 
     // Copy and sort by descending priority
-    std::vector<const WasmRuntimeDescriptor *> ptrs;
+    std::vector<const WasmRuntimeDescriptor *> ptrs = {};
+
     ptrs.reserve(reg.entries.size());
     for (const auto &e : reg.entries) {
         ptrs.push_back(&e);
@@ -113,7 +114,8 @@ std::vector<std::string> WasmRuntimeInjector::registeredNames() {
     std::sort(ptrs.begin(), ptrs.end(),
               [](const WasmRuntimeDescriptor *a, const WasmRuntimeDescriptor *b) { return a->priority > b->priority; });
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(ptrs.size());
     for (const auto *p : ptrs) {
         names.push_back(p->name);

@@ -108,7 +108,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
         }
 
         // Load data masking configuration
-        FieldMaskingPolicy new_masking;
+        FieldMaskingPolicy new_masking = {};
         if (config["data_masking"]) {
             const auto &dm = config["data_masking"];
             if (dm["enabled"]) {
@@ -116,7 +116,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
             }
             if (dm["rules"] && dm["rules"].IsSequence()) {
                 for (const auto &r : dm["rules"]) {
-                    FieldMaskingRule rule;
+                    FieldMaskingRule rule = {};
                     if (r["field"]) {
                         rule.field_name = r["field"].as<std::string>();
                     }
@@ -166,7 +166,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
         // Capture sizes for logging before the move (must be outside the lock)
         const size_t n_profiles = new_profiles.size();
         const size_t n_mappings = new_mapping.size();
-        const size_t n_masking  = new_masking.rules.size();
+        const size_t n_masking = new_masking.rules.size();
 
         // Atomically swap policy data under the mutex
         {
@@ -194,7 +194,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
 
 bool PolicyEngine::reloadIfChanged(std::string *err) {
     // Read state under the lock then release before touching the filesystem
-    std::string path;
+    std::string path = {};
     std::filesystem::file_time_type last_mtime;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
     {
@@ -286,7 +286,7 @@ void PolicyEngine::setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std:
     std::lock_guard<std::mutex> lock(mutex_);
     ccpa_opt_out_subjects_ = std::move(opt_out_registry);
     THEMIS_INFO("PolicyEngine: CCPA opt-out registry updated ({} subjects)",
-                ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0u);
+                ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0);
 }
 
 bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {
@@ -302,7 +302,7 @@ bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {
 
 PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std::string> &headers,
                                       const std::string &route) const {
-    auto get = [&](const char *key) -> std::string {
+    auto get = [&]([[maybe_unused]] const char *key) -> std::string {
         auto it = headers.find(key);
         if (it != headers.end()) {
             return it->second;
@@ -313,7 +313,7 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     // Snapshot policy data under lock so a concurrent reload doesn't race
     std::unordered_map<std::string, ClassificationProfile> profiles;
     std::unordered_map<std::string, std::string> resource_map;
-    std::string mode;
+    std::string mode = {};
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
     std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
     IPolicyEvaluator *evaluator = nullptr;
@@ -472,7 +472,7 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     const auto &headers = request.headers;
     const auto &route   = request.route;
 
-    auto get = [&](const char *key) -> std::string {
+    auto get = [&]([[maybe_unused]] const char *key) -> std::string {
         auto it = headers.find(key);
         if (it != headers.end()) {
             return it->second;
@@ -483,7 +483,7 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     // Snapshot policy data under lock so a concurrent reload doesn't race
     std::unordered_map<std::string, ClassificationProfile> profiles;
     std::unordered_map<std::string, std::string> resource_map;
-    std::string mode;
+    std::string mode = {};
     IPolicyEvaluator *evaluator = nullptr;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -606,7 +606,7 @@ ModelGovernanceDecision PolicyEngine::checkExportPermission(const ModelTrainingE
         return s;
     }();
 
-    ModelGovernanceDecision decision;
+    ModelGovernanceDecision decision = {};
     if (cls_lower == "geheim" || cls_lower == "streng-geheim") {
         decision.is_permitted = false;
         decision.denial_reason
@@ -660,7 +660,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
             return it->second;
         }
         for (const auto &kv : headers) {
-            if (kv.first.size() != key.size()) {
+            if (static_cast<int>(kv.first.size()) != static_cast<int>(key.size())) {
                 continue;
             }
             bool equal_ci = true;
@@ -688,7 +688,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
 
     const std::string &auth_value = *auth_value_opt;
     const bool has_bearer_prefix
-        = auth_value.size() >= k_bearer_prefix.size()
+        = static_cast<int>(auth_value.size()) >= k_bearer_prefix.size()
           && std::equal(k_bearer_prefix.begin(), k_bearer_prefix.end(), auth_value.begin(), [](char a, char b) {
                  return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
              });

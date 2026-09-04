@@ -45,7 +45,7 @@ struct ValidationIssue {
  * @brief Aggregated result returned by AQLQueryValidator.
  */
 struct ValidationResult {
-    bool                         is_valid; ///< true iff no ERRORs are present
+    bool                         is_valid = 0; ///< true iff no ERRORs are present
     std::vector<ValidationIssue> issues;
 
     /// @return true if at least one ERROR issue is present

@@ -103,7 +103,7 @@ inline void bitFlipAttack(
         for (auto& val : tensor.data) {
             if (dist(gen) < flip_probability) {
                 // Flip a random bit in the float representation
-                uint32_t bits;
+                uint32_t bits = {};
                 std::memcpy(&bits, &val, sizeof(float));
                 
                 // Flip a random bit (0-31)
@@ -161,7 +161,9 @@ inline void backdoorAttack(
     std::vector<GradientTensor>& gradients,
     const BackdoorPattern& pattern
 ) {
-    if (gradients.empty()) return;
+    if (gradients.empty()) {
+      return;
+    }
     
     // Apply pattern to first tensor for simplicity
     auto& tensor = gradients[0];
@@ -181,8 +183,12 @@ inline void clippingAttack(
 ) {
     for (auto& tensor : gradients) {
         for (auto& val : tensor.data) {
-            if (val > clip_value) val = clip_value;
-            if (val < -clip_value) val = -clip_value;
+            if (val > clip_value) {
+              val = clip_value;
+            }
+            if (val < -clip_value) {
+              val = -clip_value;
+            }
         }
     }
 }
@@ -193,13 +199,16 @@ inline void minMaxAttack(
     const std::vector<std::vector<GradientTensor>>& all_shard_gradients,
     bool use_min = true
 ) {
-    if (all_shard_gradients.size() < 2 || gradients.empty()) return;
+    if (all_shard_gradients.size() < 2 || gradients.empty()) {
+      return;
+    }
     
     for (size_t layer_idx = 0; layer_idx < gradients.size(); ++layer_idx) {
         auto& tensor = gradients[layer_idx];
         
         for (size_t coord = 0; coord < tensor.data.size(); ++coord) {
-            std::vector<float> values;
+            std::vector<float> values = {};
+
             for (const auto& shard_grads : all_shard_gradients) {
                 if (layer_idx < shard_grads.size() && 
                     coord < shard_grads[layer_idx].data.size()) {

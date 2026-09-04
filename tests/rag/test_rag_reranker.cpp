@@ -29,7 +29,8 @@ using namespace themis::rag::judge;
 static std::vector<RetrievedDocument> makeDocuments(
     const std::vector<std::pair<std::string, std::string>>& id_content)
 {
-    std::vector<RetrievedDocument> docs;
+    std::vector<RetrievedDocument> docs = {};
+
     docs.reserve(id_content.size());
     for (size_t i = 0; i < id_content.size(); ++i) {
         RetrievedDocument d;
@@ -173,7 +174,9 @@ TEST_F(RerankerRerankTest, RelevantDocRanksHigher) {
     // doc1, doc3, or doc5 (all mention "machine learning") should outrank doc2/doc4
     auto findRank = [&](const std::string& id) -> size_t {
         for (size_t i = 0; i < result.documents.size(); ++i) {
-            if (result.documents[i].id == id) return i;
+            if (result.documents[i].id == id) {
+              return i;
+            }
         }
         return result.documents.size();
     };

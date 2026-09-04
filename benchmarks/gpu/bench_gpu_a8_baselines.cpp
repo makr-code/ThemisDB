@@ -141,7 +141,9 @@ static void BenchKernelTimeoutGuardHotPath(benchmark::State& state) {
         for (int i = 0; i < 100; ++i) {
             bool timed_out = guard.has_timed_out();
             benchmark::DoNotOptimize(timed_out);
-            if (timed_out) break;
+            if (timed_out) {
+              break;
+            }
         }
     }
 }

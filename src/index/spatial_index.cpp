@@ -34,7 +34,7 @@ constexpr double Z_BUCKET_SIZE = 10.0;  // 10 meter buckets for elevation
 uint64_t MortonEncoder::interleaveBits2D(uint32_t x, uint32_t y) {
     uint64_t result = 0;
     for (int i = 0; i < 32; ++i) {
-        result |= ((x & (1ULL << i)) << i) | ((y & (1ULL << i)) << (i + 1));
+        result |= ((x & (1 << i)) << i) | ((y & (1 << i)) << (i + 1));
     }
     return result;
 }
@@ -43,16 +43,18 @@ uint64_t MortonEncoder::interleaveBits2D(uint32_t x, uint32_t y) {
 uint64_t MortonEncoder::interleaveBits3D(uint32_t x, uint32_t y, uint32_t z) {
     uint64_t result = 0;
     for (int i = 0; i < 21; ++i) {
-        result |= ((x & (1ULL << i)) << (2 * i)) |
-                  ((y & (1ULL << i)) << (2 * i + 1)) |
-                  ((z & (1ULL << i)) << (2 * i + 2));
+        result |= ((x & (1 << i)) << (2 * i)) |
+                  ((y & (1 << i)) << (2 * i + 1)) |
+                  ((z & (1 << i)) << (2 * i + 2));
     }
     return result;
 }
 
 // Normalize coordinate to [0, 2^32-1]
 uint32_t MortonEncoder::normalizeCoord(double coord, double min_val, double max_val) {
-    if (max_val <= min_val) return 0;
+    if (max_val <= min_val) {
+      return 0;
+    }
     
     double normalized = (coord - min_val) / (max_val - min_val);
     normalized = std::clamp(normalized, 0.0, 1.0);
@@ -120,7 +122,9 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& total_bounds,
     int max_ranges)
 {
-    if (max_ranges <= 0) max_ranges = 8;
+    if (max_ranges <= 0) {
+      max_ranges = 8;
+    }
 
     // Clip query to the declared total bounds and normalize to [0, 2^32-1].
     uint32_t qx_lo = normalizeCoord(
@@ -142,29 +146,31 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     struct QNode { uint32_t x0, y0; int bits; };
 
     std::vector<std::pair<uint64_t, uint64_t>> ranges;
-    std::vector<QNode> stack = {{0u, 0u, 32}};  // root covers the full space
+    std::vector<QNode> stack = {{0, 0, 32}};  // root covers the full space
 
     while (!stack.empty()) {
         QNode n = stack.back();
         stack.pop_back();
 
         // Inclusive high corner of this node.
-        uint32_t x1 = (n.bits < 32) ? n.x0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
-        uint32_t y1 = (n.bits < 32) ? n.y0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
+        uint32_t x1 = (n.bits < 32) ? n.x0 + (1 << n.bits) - 1 : 0xFFFFFFFFu;
+        uint32_t y1 = (n.bits < 32) ? n.y0 + (1 << n.bits) - 1 : 0xFFFFFFFFu;
 
         // Skip nodes that do not overlap the query bbox.
-        if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) continue;
+        if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) {
+          continue;
+        }
 
         // Morton range for this power-of-2-aligned quadtree node.
         // lo = code of (x0, y0) with all free bits set to 0.
         // hi = lo | mask, where mask fills all 2*bits free low bits with 1.
         uint64_t lo = interleaveBits2D(n.x0, n.y0);
-        uint64_t hi;
+        uint64_t hi = 0;
         if (n.bits == 0) {
             hi = lo;
         } else {
-            const uint64_t free_bits = 2u * static_cast<uint64_t>(n.bits);
-            const uint64_t mask = (free_bits < 64u) ? (1ULL << free_bits) - 1u : ~0ULL;
+            const uint64_t free_bits = 2 * static_cast<uint64_t>(n.bits);
+            const uint64_t mask = (free_bits < 64) ? (1 << free_bits) - 1 : ~0;
             hi = lo | mask;
         }
 
@@ -175,7 +181,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
         if (fully_inside || n.bits == 0 || budget_full) {
             // Emit this range.  Merge with the previous entry when adjacent to
             // reduce the output size.
-            if (!ranges.empty() && ranges.back().second + 1u == lo) {
+            if (!ranges.empty() && ranges.back().second + 1 == lo) {
                 ranges.back().second = hi;
             } else {
                 ranges.emplace_back(lo, hi);
@@ -185,7 +191,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
             // Push in reverse processing order so SW is popped/processed first,
             // keeping output ranges sorted in ascending Morton-code order.
             const int cb   = n.bits - 1;
-            const uint32_t half = (cb < 32) ? (1u << cb) : 0x80000000u;
+            const uint32_t half = (cb < 32) ? (1 << cb) : 0x80000000u;
             stack.push_back({n.x0 + half, n.y0 + half, cb});  // NE
             stack.push_back({n.x0,        n.y0 + half, cb});  // NW
             stack.push_back({n.x0 + half, n.y0,        cb});  // SE
@@ -271,14 +277,18 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
     {
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
-        if (rtree_built_.count(table_str)) return;
+        if (rtree_built_.count(table_str)) {
+          return;
+        }
     }
 
     // Slow path: acquire exclusive write lock and build.
     // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
     std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
     // Double-check after acquiring write lock to avoid redundant work.
-    if (rtree_built_.count(table_str)) return;
+    if (rtree_built_.count(table_str)) {
+      return;
+    }
 
     // Mark as built before populating to block concurrent callers.
     rtree_built_.insert(table_str);
@@ -288,16 +298,16 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
     // Value format: JSON {"mbr":{"minx":...,"miny":...,"maxx":...,"maxy":...}}
     const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
     constexpr std::size_t kMortonChars = 16; // 64-bit Morton code: 16 hex characters
-    const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+    const std::size_t pk_strip = static_cast<int>(pk_prefix.size()) + kMortonChars + 1; // +1 for ':'
 
     std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
     auto& cache = mbr_cache_[table_str];
 
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view v) {
-            if (k.size() <= pk_strip) {
+            if (static_cast<int>(k.size()) <= pk_strip) {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: malformed per-PK key "
-                            "for table='{}' (len={})", table_str, k.size());
+                            "for table='{}' (len={})", table_str,static_cast<int>(k.size()));
                 return true;
             }
             std::string pk(k.substr(pk_strip));
@@ -335,7 +345,9 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
 // Config persistence
 std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table) const {
     auto value = db_.get(getConfigKey(table));
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     try {
         std::string s(reinterpret_cast<const char*>(value->data()), value->size());
@@ -532,7 +544,8 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
     // Build per-PK RocksDB entries and collect in-memory data.
     // RocksDB writes and local cache/rtree construction happen outside the
     // mutex to avoid holding the write lock during I/O.
-    std::unordered_map<std::string, geo::MBR> local_cache;
+    std::unordered_map<std::string, geo::MBR> local_cache = {};
+
     local_cache.reserve(entries.size());
     std::vector<std::pair<std::string, geo::GeometryInfo>> rtree_entries;
     rtree_entries.reserve(entries.size());
@@ -583,7 +596,7 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
                     "geo_index_bytes_allocated={}",
-                    table_str, entries.size(),
+                    table_str,static_cast<int>(entries.size()),
                     rtrees_[table_str].memoryBytes());
     }
 
@@ -742,7 +755,9 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     metrics_.remove_count++;
     
     auto config = getConfig(table);
-    if (!config) return Status::OK();
+    if (!config) {
+      return Status::OK();
+    }
     
     uint64_t morton = MortonEncoder::encode2D(
         sidecar.centroid.x,
@@ -762,7 +777,7 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
         auto entries = parseSidecarList(s);
         entries.erase(
             std::remove_if(entries.begin(), entries.end(),
-                [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
+                [&]([[maybe_unused]] const SidecarEntry& e) { return e.primary_key == primary_key; }),
             entries.end());
 
         if (entries.empty()) {
@@ -818,7 +833,9 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     metrics_.remove_count++;
     
     auto config = getConfig(table);
-    if (!config) return Status::OK();
+    if (!config) {
+      return Status::OK();
+    }
     
     uint64_t morton = MortonEncoder::encode2D(
         sidecar.centroid.x,
@@ -829,7 +846,9 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     std::string key = makeSpatialKey(table, morton);
     auto value = db_.get(key);
     
-    if (!value) return Status::OK();
+    if (!value) {
+      return Status::OK();
+    }
     
     std::string s(reinterpret_cast<const char*>(value->data()), value->size());
     auto entries = parseSidecarList(s);
@@ -837,7 +856,7 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     // Remove matching entry
     entries.erase(
         std::remove_if(entries.begin(), entries.end(),
-            [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
+            [&]([[maybe_unused]] const SidecarEntry& e) { return e.primary_key == primary_key; }),
         entries.end()
     );
     
@@ -893,7 +912,9 @@ SpatialIndexManager::Status SpatialIndexManager::update(
     metrics_.update_count++;
     
     auto status = remove(table, primary_key, old_sidecar);
-    if (!status) return status;
+    if (!status) {
+      return status;
+    }
     
     return insert(table, primary_key, new_sidecar);
 }
@@ -914,7 +935,7 @@ double SpatialIndexManager::euclidean3DDistance(
 }
 
 // Z-bucket (10 m buckets; negative elevations get negative bucket IDs)
-int SpatialIndexManager::getZBucket(double z) const {
+int SpatialIndexManager::getZBucket([[maybe_unused]] double z) const {
     return static_cast<int>(std::floor(z / Z_BUCKET_SIZE));
 }
 
@@ -953,7 +974,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
-        if (rtree.size() > 0) {
+        if (static_cast<int>(rtree.size()) > 0) {
             rtree_populated = true;
             candidate_keys = rtree.intersects(query_bbox);
             const auto& cache = mbr_cache_[table_str];
@@ -1006,7 +1027,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                     geo::Coordinate(query_bbox.minx, query_bbox.miny)
                                 };
                                 exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
-                                if (exact_match) exact_passed_this_query++;
+                                if (exact_match) {
+                                  exact_passed_this_query++;
+                                }
                             }
                         } catch (...) { exact_match = true; }
                     }
@@ -1054,7 +1077,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
             auto entries = parseSidecarList(value);
 
             for (const auto& entry : entries) {
-                if (!entry.sidecar.mbr.intersects(query_bbox)) continue;
+                if (!entry.sidecar.mbr.intersects(query_bbox)) {
+                  continue;
+                }
 
                 mbr_candidates_this_query++;
 
@@ -1080,7 +1105,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                         geo::Coordinate(query_bbox.minx, query_bbox.miny)
                                     };
                                     exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
-                                    if (exact_match) exact_passed_this_query++;
+                                    if (exact_match) {
+                                      exact_passed_this_query++;
+                                    }
                                 }
                             } catch (...) { exact_match = true; }
                         }
@@ -1172,7 +1199,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
-        if (rtree.size() > 0) {
+        if (static_cast<int>(rtree.size()) > 0) {
             rtree_populated = true;
             candidate_keys = rtree.contains(x, y);
             const auto& cache = mbr_cache_[table_str];
@@ -1186,13 +1213,16 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     }
 
     if (rtree_populated) {
-        std::vector<SpatialResult> results;
+        std::vector<SpatialResult> results = {};
+
         results.reserve(candidate_keys.size());
         for (const auto& pk : candidate_keys) {
             SpatialResult result;
             result.primary_key = pk;
             auto it = candidate_mbrs.find(pk);
-            if (it != candidate_mbrs.end()) result.mbr = it->second;
+            if (it != candidate_mbrs.end()) {
+              result.mbr = it->second;
+            }
             results.push_back(std::move(result));
         }
         return results;
@@ -1202,7 +1232,8 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     geo::MBR point_bbox(x - 0.0001, y - 0.0001, x + 0.0001, y + 0.0001);
     auto candidates = searchIntersects(table, point_bbox);
 
-    std::vector<SpatialResult> results;
+    std::vector<SpatialResult> results = {};
+
     for (const auto& cand : candidates) {
         if (cand.mbr.contains(x, y)) {
             results.push_back(cand);
@@ -1246,7 +1277,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
         });
     
     // Limit results
-    if (results.size() > limit) {
+    if (static_cast<int>(results.size()) > limit) {
         results.resize(limit);
     }
     
@@ -1293,7 +1324,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     std::vector<SpatialResult> candidates;
 
     // Double the search window until we have k candidates or exceed world bounds.
-    for (int iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
+    for (size_t iter = 0; iter < kMaxExpansionIter && static_cast<int>(candidates.size()) < k; ++iter) {
         geo::MBR bbox(x - radius, y - radius, x + radius, y + radius);
         // Clamp to table bounds
         bbox.minx = std::max(bbox.minx, bounds.minx);
@@ -1320,7 +1351,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
                   return a.distance < b.distance;
               });
 
-    if (candidates.size() > k) {
+    if (static_cast<int>(candidates.size()) > k) {
         candidates.resize(k);
     }
     return candidates;
@@ -1346,19 +1377,27 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view value) {
             constexpr std::size_t kMortonChars = 16;
-            const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+            const std::size_t pk_strip = static_cast<int>(pk_prefix.size()) + kMortonChars + 1; // +1 for ':'
             // Validate key length and the expected ':' separator between morton code and PK.
-            if (k.size() <= pk_strip) return true;
-            if (k[pk_prefix.size() + kMortonChars] != ':') return true;
+            if (static_cast<int>(k.size()) <= pk_strip) {
+              return true;
+            }
+            if (k[pk_prefix.size() + kMortonChars] != ':') {
+              return true;
+            }
             std::string pk(k.substr(pk_strip));
             try {
                 auto j = json::parse(std::string(value));
                 // Only process entries that carry Z data.
-                if (!j.contains("z_min") || !j.contains("z_max")) return true;
+                if (!j.contains("z_min") || !j.contains("z_max")) {
+                  return true;
+                }
                 double e_min = j["z_min"].get<double>();
                 double e_max = j["z_max"].get<double>();
                 // Skip entries whose Z range does not overlap [z_min, z_max].
-                if (e_max < z_min || e_min > z_max) return true;
+                if (e_max < z_min || e_min > z_max) {
+                  return true;
+                }
 
                 SpatialResult result;
                 result.primary_key = pk;
@@ -1400,7 +1439,8 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
     const geo::MBR bounds = config ? config->total_bounds
                                    : geo::MBR(-180.0, -90.0, 180.0, 90.0);
 
-    std::vector<SpatialResult> results;
+    std::vector<SpatialResult> results = {};
+
     results.reserve(candidates.size());
     for (auto& cand : candidates) {
         // If Z values were already populated (Morton-scan path), use them directly.
@@ -1451,7 +1491,9 @@ SpatialIndexManager::IndexStats SpatialIndexManager::getStats(std::string_view t
     IndexStats stats;
     
     auto config = getConfig(table);
-    if (!config) return stats;
+    if (!config) {
+      return stats;
+    }
     
     stats.total_bounds = config->total_bounds;
     

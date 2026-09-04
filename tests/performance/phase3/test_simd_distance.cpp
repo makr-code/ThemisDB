@@ -36,7 +36,9 @@ static float ref_l2_sq(const float* a, const float* b, std::size_t dim) {
 
 static float ref_inner_product(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
-    for (std::size_t i = 0; i < dim; ++i) acc += a[i] * b[i];
+    for (std::size_t i = 0; i < dim; ++i) {
+      acc += a[i] * b[i];
+    }
     return acc;
 }
 
@@ -48,10 +50,16 @@ static float ref_cosine_distance(const float* a, const float* b, std::size_t dim
         nb  += b[i] * b[i];
     }
     float denom = std::sqrt(na) * std::sqrt(nb);
-    if (denom < 1e-10f) return 1.0f;
+    if (denom < 1e-10f) {
+      return 1.0f;
+    }
     float sim = dot / denom;
-    if (sim > 1.0f) sim = 1.0f;
-    if (sim < -1.0f) sim = -1.0f;
+    if (sim > 1.0f) {
+      sim = 1.0f;
+    }
+    if (sim < -1.0f) {
+      sim = -1.0f;
+    }
     return 1.0f - sim;
 }
 
@@ -72,7 +80,9 @@ protected:
         std::mt19937 rng(seed);
         std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : v) {
+          x = dist(rng);
+        }
         return v;
     }
 
@@ -219,7 +229,9 @@ TEST_F(SimdDistanceTest, CosineDistanceIdenticalVectors) {
 TEST_F(SimdDistanceTest, CosineDistanceOppositeVectors) {
     auto a = make_rand(128, 88);
     std::vector<float> neg(128);
-    for (std::size_t i = 0; i < 128; ++i) neg[i] = -a[i];
+    for (std::size_t i = 0; i < 128; ++i) {
+      neg[i] = -a[i];
+    }
     EXPECT_NEAR(cosine_distance(a.data(), neg.data(), 128), 2.0f, kTol);
 }
 

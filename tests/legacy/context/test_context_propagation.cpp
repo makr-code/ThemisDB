@@ -103,7 +103,9 @@ TEST(ContextPropagationTest, PropagateFlowsContextToAsyncTask) {
 
     auto fut = ContextPropagation::propagate([]() -> std::string {
         auto c = ContextPropagation::current();
-        if (!c) return "";
+        if (!c) {
+          return "";
+        }
         // Verify both trace_id and kService are propagated.
         auto trace = c->get(context_keys::kTraceId).value_or("missing-trace");
         auto svc   = c->get(context_keys::kService).value_or("missing-svc");
@@ -123,7 +125,9 @@ TEST(ContextPropagationTest, PropagateCreatesChildContext) {
 
     auto fut = ContextPropagation::propagate([]() -> bool {
         auto child = ContextPropagation::current();
-        if (!child) return false;
+        if (!child) {
+          return false;
+        }
 
         // Parent attributes must be visible via the child.
         auto trace = child->get(context_keys::kTraceId);

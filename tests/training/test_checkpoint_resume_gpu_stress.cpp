@@ -125,7 +125,7 @@ TEST_F(CheckpointResumeGpuStressTest, CorruptedLatestRollsBackUnderStress) {
         ASSERT_TRUE(corrupt.good());
     }
 
-    std::string diagnostics;
+    std::string diagnostics = {};
     const auto resumed = mgr.resumeWithDiagnostics(&diagnostics);
     ASSERT_TRUE(resumed.has_value());
     EXPECT_EQ(resumed->epoch, 9u);

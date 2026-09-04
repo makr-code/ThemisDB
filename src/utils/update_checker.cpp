@@ -40,7 +40,7 @@ std::optional<Version> Version::parse(const std::string& version_str) {
         R"(^v?(\d+)\.(\d+)\.(\d+)(?:-([a-zA-Z0-9.-]+))?(?:\+([a-zA-Z0-9.-]+))?$)"
     );
     
-    std::smatch matches;
+    std::smatch matches = {};
     if (!std::regex_match(version_str, matches, version_regex)) {
         return std::nullopt;
     }
@@ -61,7 +61,7 @@ std::optional<Version> Version::parse(const std::string& version_str) {
 }
 
 std::string Version::toString() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << major << "." << minor << "." << patch;
     if (!prerelease.empty()) {
         oss << "-" << prerelease;
@@ -74,14 +74,24 @@ std::string Version::toString() const {
 
 bool Version::operator<(const Version& other) const {
     // Compare major.minor.patch first
-    if (major != other.major) return major < other.major;
-    if (minor != other.minor) return minor < other.minor;
-    if (patch != other.patch) return patch < other.patch;
+    if (major != other.major) {
+      return major < other.major;
+    }
+    if (minor != other.minor) {
+      return minor < other.minor;
+    }
+    if (patch != other.patch) {
+      return patch < other.patch;
+    }
     
     // Prerelease versions have lower precedence than normal versions
     // 1.0.0-alpha < 1.0.0
-    if (prerelease.empty() && !other.prerelease.empty()) return false;
-    if (!prerelease.empty() && other.prerelease.empty()) return true;
+    if (prerelease.empty() && !other.prerelease.empty()) {
+      return false;
+    }
+    if (!prerelease.empty() && other.prerelease.empty()) {
+      return true;
+    }
     
     // Compare prerelease strings lexicographically
     return prerelease < other.prerelease;
@@ -213,7 +223,7 @@ json UpdateCheckResult::toJson() const {
     
     // Convert time_point to ISO 8601 string
     auto time_t_val = std::chrono::system_clock::to_time_t(last_check_time);
-    std::tm tm_val;
+    std::tm tm_val = {};
     #ifdef _WIN32
         gmtime_s(&tm_val, &time_t_val);
     #else
@@ -231,7 +241,7 @@ json UpdateCheckResult::toJson() const {
 // ============================================================================
 
 UpdateCheckerConfig UpdateCheckerConfig::fromJson(const json& j) {
-    UpdateCheckerConfig config;
+    UpdateCheckerConfig config = {};
     
     if (j.contains("github_owner")) {
         config.github_owner = j["github_owner"].get<std::string>();
@@ -483,7 +493,7 @@ std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
         return std::string("Failed to initialize CURL");
     }
     
-    std::string response_data;
+    std::string response_data = {};
     CURLcode res;
     
     // Set options
@@ -511,7 +521,8 @@ std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
     res = curl_easy_perform(curl);
     
     // Check for errors
-    std::variant<json, std::string> result;
+    std::variant<json, std::string> result = {};
+
     if (res != CURLE_OK) {
         result = std::string("CURL error: ") + curl_easy_strerror(res);
     } else {
@@ -603,3 +614,4 @@ void UpdateChecker::onUpdateAvailable(std::function<void(const UpdateCheckResult
 
 } // namespace utils
 } // namespace themis
+

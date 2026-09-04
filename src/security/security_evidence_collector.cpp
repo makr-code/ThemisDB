@@ -94,7 +94,9 @@ nlohmann::json ChangeManagementEvidence::toJson() const {
     j["config_audit_trail"] = config_audit_trail;
 
     nlohmann::json rotations = nlohmann::json::array();
-    for (const auto& r : key_rotation_log) rotations.push_back(r.toJson());
+    for (const auto& r : key_rotation_log) {
+      rotations.push_back(r.toJson());
+    }
     j["key_rotation_log"] = rotations;
     return j;
 }
@@ -122,7 +124,9 @@ nlohmann::json SecurityEvidenceBundle::toJson() const {
     j["metrics"]                = metrics.toJson();
 
     nlohmann::json rotations = nlohmann::json::array();
-    for (const auto& r : key_rotations) rotations.push_back(r.toJson());
+    for (const auto& r : key_rotations) {
+      rotations.push_back(r.toJson());
+    }
     j["key_rotations"] = rotations;
 
     j["access_control"]      = access_control.toJson();
@@ -174,10 +178,12 @@ std::string SecurityEvidenceCollector::generateBundleId() {
     raw[8] = (raw[8] & 0x3F) | 0x80;
 
     // Format as xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < 16; ++i) {
-        if (i == 4 || i == 6 || i == 8 || i == 10) oss << '-';
+        if (i == 4 || i == 6 || i == 8 || i == 10) {
+          oss << '-';
+        }
         oss << std::setw(2) << static_cast<int>(raw[i]);
     }
     return oss.str();
@@ -293,7 +299,7 @@ std::vector<KeyRotationRecord> SecurityEvidenceCollector::collectKeyRotations(
 
             for (size_t i = 1; i < versions.size(); ++i) {
                 const auto& new_ver = versions[i];
-                const auto& old_ver = versions[i - 1];
+                const auto& old_ver = versions[static_cast<int>(i - 1)];
 
                 // The rotation timestamp is when the new version was created.
                 if (new_ver.created_at_ms >= from_ms &&
@@ -346,7 +352,9 @@ AccessControlReport SecurityEvidenceCollector::collectAccessControl() const {
 
     for (const auto& name : role_names) {
         auto role_opt = rbac_->getRole(name);
-        if (!role_opt) continue;
+        if (!role_opt) {
+          continue;
+        }
 
         const auto& role = *role_opt;
         if (role.permissions.empty()) {
@@ -511,14 +519,16 @@ bool SecurityEvidenceCollector::exportToFile(const SecurityEvidenceBundle& bundl
     } catch (const std::exception& e) {
         THEMIS_ERROR("SecurityEvidenceCollector::exportToFile: {}", e.what());
         // Clean up temporary file if it exists
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(tmp_path, ec);
         return false;
     }
 }
 
 bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_store_path) const {
-    if (evidence_store_path.empty()) return true;
+    if (evidence_store_path.empty()) {
+      return true;
+    }
 
     namespace fs = std::filesystem;
 
@@ -535,8 +545,12 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
         // Scan all *.json files in the evidence store; check for bundles that
         // are older than the retention window (they should already be archived).
         for (const auto& entry : fs::directory_iterator(evidence_store_path)) {
-            if (!entry.is_regular_file()) continue;
-            if (entry.path().extension() != ".json") continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
+            if (entry.path().extension() != ".json") {
+              continue;
+            }
 
             try {
                 std::ifstream in(entry.path());

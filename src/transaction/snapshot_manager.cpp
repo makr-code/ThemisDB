@@ -178,7 +178,7 @@ std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags(
     }
     
     // Apply limit
-    if (limit > 0 && snapshots.size() > limit) {
+    if (limit > 0 && static_cast<int>(snapshots.size()) > limit) {
         snapshots.resize(limit);
     }
     
@@ -337,16 +337,22 @@ size_t SnapshotManager::pruneOldSnapshots() {
 
     for (it->Seek(prefix); it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
-        if (key.substr(0, prefix.length()) != prefix) break;
+        if (key.substr(0, prefix.length()) != prefix) {
+          break;
+        }
 
         std::vector<uint8_t> data(
             it->value().data(),
             it->value().data() + it->value().size());
         auto s = deserialize(data);
-        if (s.has_value()) snapshots.push_back(*s);
+        if (s.has_value()) {
+          snapshots.push_back(*s);
+        }
     }
 
-    if (snapshots.empty()) return 0;
+    if (snapshots.empty()) {
+      return 0;
+    }
 
     // Sort oldest-first by timestamp
     std::sort(snapshots.begin(), snapshots.end(),
@@ -358,19 +364,21 @@ size_t SnapshotManager::pruneOldSnapshots() {
     size_t pruned = 0;
 
     // Determine the index of the newest snapshot to protect
-    size_t newest_idx = snapshots.size() - 1;
+    size_t newest_idx = static_cast<int>(snapshots.size()) - 1;
 
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 
     for (size_t i = 0; i < snapshots.size(); ++i) {
-        if (pol.protect_latest && i == newest_idx) continue;
+        if (pol.protect_latest && i == newest_idx) {
+          continue;
+        }
 
         bool too_old = (pol.max_age_ms > 0) &&
                        (now_ms > snapshots[i].timestamp_ms) &&
                        ((now_ms - snapshots[i].timestamp_ms) > pol.max_age_ms);
         bool too_many = (pol.max_snapshots > 0) &&
-                        ((snapshots.size() - pruned) > pol.max_snapshots);
+                        ((static_cast<int>(snapshots.size()) - pruned) > pol.max_snapshots);
 
         if (too_old || too_many) {
             auto key = makeKey(snapshots[i].tag_name);
@@ -393,13 +401,17 @@ size_t SnapshotManager::checkConsistency() const {
     size_t corrupt = 0;
 
     auto iterator_result = db_.newIterator();
-    if (!iterator_result) return 0;
+    if (!iterator_result) {
+      return 0;
+    }
     auto it = std::move(iterator_result.value());
     std::string prefix = SNAPSHOT_PREFIX;
 
     for (it->Seek(prefix); it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
-        if (key.substr(0, prefix.length()) != prefix) break;
+        if (key.substr(0, prefix.length()) != prefix) {
+          break;
+        }
 
         std::vector<uint8_t> data(
             it->value().data(),

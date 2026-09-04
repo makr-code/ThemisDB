@@ -161,7 +161,7 @@ protected:
         db_.reset();
         
         // Clean up temporary directories
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path_, ec);
         std::filesystem::remove_all(local_backup_dir_, ec);
         unsetenv("THEMIS_CLOUD_BACKUP_MOCK");

@@ -47,7 +47,7 @@ protected:
         primary_wal_.reset();
         replica_wal_.reset();
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(primary_dir_, ec);
         ec.clear();
         std::filesystem::remove_all(replica_dir_, ec);
@@ -79,7 +79,8 @@ TEST_F(WALReplicationTest, ApplierBasicApply) {
     });
     
     // Create entries to apply
-    std::vector<WALEntry> entries;
+    std::vector<WALEntry> entries = {};
+
     for (int i = 0; i < 5; ++i) {
         WALEntry entry;
         entry.lsn = LSN(0, i * 100);
@@ -294,7 +295,8 @@ TEST_F(WALReplicationTest, SimulatedReplication) {
     });
     
     // Write entries to primary
-    std::vector<LSN> primary_lsns;
+    std::vector<LSN> primary_lsns = {};
+
     for (int i = 0; i < 10; ++i) {
         WALEntry entry;
         entry.type = WALEntryType::INSERT;

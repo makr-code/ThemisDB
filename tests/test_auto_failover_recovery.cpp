@@ -172,7 +172,8 @@ TEST(AutoFailoverRecoveryTest, HeartbeatFailureDetection) {
     constexpr int HEARTBEAT_INTERVAL_MS = 20;
     constexpr int FAILURE_TIMEOUT_MS = 100;
     
-    std::vector<MockReplicaNode> cluster;
+    std::vector<MockReplicaNode> cluster = {};
+
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
     }
@@ -281,7 +282,8 @@ TEST(AutoFailoverRecoveryTest, QuorumBasedOperations) {
     constexpr int NUM_NODES = 5;
     constexpr int QUORUM_SIZE = 3;
     
-    std::vector<MockReplicaNode> cluster;
+    std::vector<MockReplicaNode> cluster = {};
+
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
     }
@@ -354,7 +356,9 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
         // Check if we still have majority
         int healthy = 0;
         for (const auto& node : cluster) {
-            if (node.isHealthy()) healthy++;
+            if (node.isHealthy()) {
+              healthy++;
+            }
         }
         
         // After each failure, verify cluster state
@@ -498,7 +502,7 @@ TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
     
     struct PriorityNode {
         MockReplicaNode node;
-        int priority;
+        int priority = {};
         
         PriorityNode(int id, int prio) : node(id), priority(prio) {}
     };

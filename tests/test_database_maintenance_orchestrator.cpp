@@ -68,7 +68,9 @@ public:
         for (auto& [k, v] : store_) {
             if (k.size() >= prefix.size() &&
                 k.compare(0, prefix.size(), prefix.data(), prefix.size()) == 0) {
-                if (!callback(k, v)) break;
+                if (!callback(k, v)) {
+                  break;
+                }
             }
         }
         return OkVoid();
@@ -711,7 +713,7 @@ TEST_F(MaintenanceOrchestratorTest, WindowEnforcement_SkipsJobOutsideWindow) {
     for (int i = 0; i < 40; ++i) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         auto j = orchestrator_->getJob(job_id);
-        if (j && (j->state == MaintenanceJobState::SKIPPED ||
+        if ((j && (j->state == MaintenanceJobState::SKIPPED ||
                   j->state == MaintenanceJobState::SUCCEEDED ||
                   j->state == MaintenanceJobState::FAILED)) {
             break;
@@ -996,7 +998,8 @@ TEST_F(SchedulePersistenceIntegrationTest, RestartRetainsAllThreeSchedules) {
         ASSERT_EQ(reloaded_vec.size(), 3u);
 
         // Build a map by id for easier lookup.
-        std::map<std::string, MaintenanceScheduleEntry> reloaded;
+        std::map<std::string, MaintenanceScheduleEntry> reloaded = {};
+
         for (const auto& entry : reloaded_vec) {
             reloaded.emplace(entry.id, entry);
         }
@@ -1041,7 +1044,7 @@ TEST_F(SchedulePersistenceIntegrationTest, DeletedScheduleNotReloadedAfterRestar
 }
 
 TEST_F(SchedulePersistenceIntegrationTest, UpdatedSchedulePersistedAfterRestart) {
-    std::string id;
+    std::string id = {};
 
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, engine_.get());
@@ -1067,7 +1070,7 @@ TEST_F(SchedulePersistenceIntegrationTest, UpdatedSchedulePersistedAfterRestart)
 }
 
 TEST_F(SchedulePersistenceIntegrationTest, PatchedSchedulePersistedAfterRestart) {
-    std::string id;
+    std::string id = {};
 
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, engine_.get());
@@ -1094,7 +1097,7 @@ TEST_F(SchedulePersistenceIntegrationTest, PatchedSchedulePersistedAfterRestart)
 TEST_F(SchedulePersistenceIntegrationTest,
        CorruptEntrySkippedValidEntriesLoadedAfterRestart)
 {
-    std::string id_good;
+    std::string id_good = {};
 
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, engine_.get());
@@ -1125,7 +1128,7 @@ TEST_F(SchedulePersistenceIntegrationTest,
     // Without a storage engine, the orchestrator operates purely in-memory.
     // Schedules created in the first instance must NOT appear in the second
     // (since there is no shared backing store).
-    std::string id;
+    std::string id = {};
     {
         DatabaseMaintenanceOrchestrator orc(nullptr, nullptr, nullptr, nullptr);
         auto r = orc.createSchedule(makeEntry("In-Memory Only"));
@@ -1786,7 +1789,8 @@ TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_ReturnsRegisteredHandlers) {
     ASSERT_EQ(arr.size(), 2u);
 
     // Verify both entries are present (order may vary)
-    std::map<std::string, std::string> by_type;
+    std::map<std::string, std::string> by_type = {};
+
     for (auto& item : arr) {
         by_type[item.value("task_type", "")] = item.value("handler", "");
     }
@@ -2185,7 +2189,9 @@ TEST_F(MaintenanceOrchestratorTest, TenantQuota_ZeroMeansUnlimited) {
                             j1->state != MaintenanceJobState::PENDING;
         bool j2_done = j2 && j2->state != MaintenanceJobState::RUNNING &&
                             j2->state != MaintenanceJobState::PENDING;
-        if (j1_done && j2_done) break;
+        if (j1_done && j2_done) {
+          break;
+        }
     }
 
     auto final1 = orchestrator_->getJob(job1->id);
@@ -2284,7 +2290,9 @@ TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
     go.store(true, std::memory_order_release);
 
     writer.join();
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     // Assert writer never failed – checked on main thread where gtest works.
     EXPECT_EQ(writer_failures.load(), 0)

@@ -56,7 +56,7 @@ public:
     };
 
     struct Transaction {
-        int txn_id;
+        int txn_id = 0;
         TxnState state;
         std::string key;
         std::string value;

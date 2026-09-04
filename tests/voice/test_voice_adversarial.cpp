@@ -148,12 +148,14 @@ TEST_F(VoiceAdversarialTest, TimeoutInjectionClosesSession) {
 }
 
 TEST_F(VoiceAdversarialTest, ConcurrentTeardownIsIdempotent) {
-    std::vector<int> sessions;
+    std::vector<int> sessions = {};
+
     for (int i = 0; i < 16; ++i) {
         sessions.push_back(manager_.openSession());
     }
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (const int session_id : sessions) {
         threads.emplace_back([this, session_id]() {
             manager_.teardown(session_id);

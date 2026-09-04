@@ -284,7 +284,7 @@ private:
 inline std::string build_error_message(const std::string& operation, 
                                        int retry_count,
                                        const std::string& reason) {
-    std::string msg;
+    std::string msg = {};
     msg.reserve(operation.length() + reason.length() + 50);  // Estimate
     msg += "Error: ";
     msg += operation;

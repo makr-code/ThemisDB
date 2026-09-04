@@ -26,7 +26,7 @@ std::vector<std::string> GraphWatermark::generateWatermarkIds(const std::string 
     std::vector<std::string> ids;
     ids.reserve(static_cast<size_t>(k));
     for (int i = 0; i < k; ++i) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "wm_" << tenant_id << "_" << seed << "_" << i;
         ids.push_back(oss.str());
     }
@@ -101,7 +101,7 @@ double GraphFingerprintDetector::jaccard(const std::vector<std::string> &a, cons
             ++intersection;
         }
     }
-    const size_t union_size = set_a.size() + b.size() - intersection;
+    const size_t union_size = static_cast<int>(set_a.size()) + static_cast<int>(b.size()) - intersection;
     return union_size == 0 ? 0.0 : static_cast<double>(intersection) / static_cast<double>(union_size);
 }
 

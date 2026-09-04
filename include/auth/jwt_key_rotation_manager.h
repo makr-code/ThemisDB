@@ -34,7 +34,7 @@ namespace auth {
  * @brief Key metadata tracked per JWK key ID (kid)
  */
 struct JWKKeyInfo {
-    std::string kid;
+    std::string kid = {};
 
     enum class Status {
         ACTIVE,    ///< Current signing key – issued tokens have this kid
@@ -54,7 +54,9 @@ struct JWKKeyInfo {
     std::chrono::seconds max_age{86400 * 30};  // default: 30 days
 
     bool isExpired() const {
-        if (status != Status::ACTIVE) return false;
+        if (status != Status::ACTIVE) {
+          return false;
+        }
         auto age = std::chrono::system_clock::now() - activated_at;
         return age > max_age;
     }

@@ -183,7 +183,8 @@ TEST(DK6Integration, Scenario3_FederatedRAG_TopK_ContainsDocsFromMultipleShards)
 
     ASSERT_GE(ctx.documents.size(), 2u) << "top-5 must contain at least 2 docs";
 
-    std::set<std::string> shards_represented;
+    std::set<std::string> shards_represented = {};
+
     for (const auto& doc : ctx.documents) {
         shards_represented.insert(doc.shard_id);
     }
@@ -455,7 +456,8 @@ TEST(DK_OR_Integration, DK_OR_Int_07_ResilienceEndToEnd) {
     rag_cfg.shard_timeout_ms = 500;
     FederatedRAGMerger merger(rag_cfg);
 
-    std::vector<ShardRetrievalResult> shard_results;
+    std::vector<ShardRetrievalResult> shard_results = {};
+
     for (int s = 0; s < 3; ++s) {
         ShardRetrievalResult sr;
         sr.shard_id  = "shard-" + std::to_string(s);

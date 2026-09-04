@@ -47,10 +47,10 @@ bool isRtpVersion2(const std::vector<uint8_t>& pkt) {
 }
 
 bool isValidDtmfDigit(char digit) {
-    return (digit >= '0' && digit <= '9') ||
-           digit == '*' ||
-           digit == '#' ||
-           (digit >= 'A' && digit <= 'D');
+    return ((digit >= '0' && digit <= '9') ||
+            digit == '*' ||
+            digit == '#' ||
+            (digit >= 'A' && digit <= 'D'));
 }
 
 int64_t telephonyNowMs() {
@@ -62,7 +62,7 @@ std::string generateCallId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
     std::lock_guard<std::mutex> lock(mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "call-" << std::hex << rng() << "-" << rng();
     return oss.str();
 }
@@ -72,7 +72,7 @@ std::string generateCallId() {
  *
  * Implements the ITU-T G.711 µ-law expansion table.
  */
-int16_t ulawToPcm(uint8_t ulaw_byte) {
+int16_t ulawToPcm([[maybe_unused]] uint8_t ulaw_byte) {
     ulaw_byte = static_cast<uint8_t>(~ulaw_byte);
     int sign   = (ulaw_byte & 0x80) ? -1 : 1;
     int exp    = (ulaw_byte >> 4) & 0x07;
@@ -85,12 +85,12 @@ int16_t ulawToPcm(uint8_t ulaw_byte) {
 /**
  * @brief Minimal G.711 A-law byte → 16-bit linear PCM conversion.
  */
-int16_t alawToPcm(uint8_t alaw_byte) {
+int16_t alawToPcm([[maybe_unused]] uint8_t alaw_byte) {
     alaw_byte ^= 0x55;
     int sign  = (alaw_byte & 0x80) ? -1 : 1;
     int exp   = (alaw_byte >> 4) & 0x07;
     int data  = alaw_byte & 0x0F;
-    int sample;
+    int sample = 0;
     if (exp == 0) {
         sample = (data << 1) | 1;
     } else {
@@ -106,16 +106,16 @@ int16_t alawToPcm(uint8_t alaw_byte) {
  * Returns empty vector if the packet is too short.
  */
 std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
-    if (pkt.size() < 12) return {};
+    if (static_cast<int>(pkt.size()) < 12) return {};
     size_t offset = 12;
     uint8_t cc = pkt[0] & 0x0F;   // CSRC count
-    offset += 4u * cc;             // skip CSRC list
+    offset += 4 * cc;             // skip CSRC list
     if (pkt[0] & 0x10) {           // extension bit
-        if (pkt.size() < offset + 4) return {};
+        if (static_cast<int>(pkt.size()) < offset + 4) return {};
         uint16_t ext_len = static_cast<uint16_t>((pkt[offset + 2] << 8) | pkt[offset + 3]);
-        offset += 4u + 4u * ext_len;
+        offset += 4 + 4 * ext_len;
     }
-    if (offset >= pkt.size()) return {};
+    if (offset >= static_cast<int>(pkt.size())) return {};
     return std::vector<uint8_t>(pkt.begin() + static_cast<std::ptrdiff_t>(offset),
                                  pkt.end());
 }
@@ -136,9 +136,9 @@ CallTranscript runCallStt(const CallID&                call_id,
     ct.confidence  = is_final ? 0.91f : 0.74f;
     ct.timestamp_ms = telephonyNowMs();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << (is_final ? "final" : "partial")
-        << ":" << samples.size() << "samples]";
+        << ":" <<static_cast<int>(samples.size()) << "samples]";
     ct.text = oss.str();
     return ct;
 }
@@ -176,7 +176,7 @@ std::string buildSdpAnswer(const std::string& sdp_offer,
     else if (codec == "pcma") { payload_type = "8"; }
     else if (codec == "g722") { payload_type = "9";  clock = 8000; }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "v=0\r\n"
         << "o=ThemisDB " << session_id << " 1 IN IP4 0.0.0.0\r\n"
         << "s=ThemisDB Voice\r\n"
@@ -219,7 +219,9 @@ struct SipCallSession::Impl {
 
     void setState(CallState s) {
         state = s;
-        if (on_state) on_state(s);
+        if (on_state) {
+          on_state(s);
+        }
     }
 };
 
@@ -240,8 +242,8 @@ SipCallSession::SipCallSession(Config config)
 }
 
 SipCallSession::~SipCallSession() {
-    if (impl_ && (impl_->state == CallState::ACTIVE ||
-                  impl_->state == CallState::CONNECTING)) {
+    if (impl_ && ((impl_->state == CallState::ACTIVE ||
+                   impl_->state == CallState::CONNECTING))) {
         try {
             end();
         } catch (const std::string&) {
@@ -256,7 +258,9 @@ std::unique_ptr<SipCallSession> SipCallSession::create(Config config) {
 }
 
 CallID SipCallSession::start() {
-    if (impl_->state == CallState::ACTIVE) return impl_->call_id;
+    if (impl_->state == CallState::ACTIVE) {
+      return impl_->call_id;
+    }
     impl_->call_id      = impl_->config.call_id.empty()
                               ? generateCallId()
                               : impl_->config.call_id;
@@ -277,7 +281,9 @@ void SipCallSession::end() {
     if (!impl_->pcm_buffer.empty()) {
         auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, /*is_final=*/true);
         impl_->pcm_buffer.clear();
-        if (impl_->on_transcript) impl_->on_transcript(ct);
+        if (impl_->on_transcript) {
+          impl_->on_transcript(ct);
+        }
     }
 
     impl_->setState(CallState::TERMINATING);
@@ -297,8 +303,8 @@ void SipCallSession::unhold() {
 }
 
 bool SipCallSession::isActive() const noexcept {
-    return impl_ && (impl_->state == CallState::ACTIVE ||
-                     impl_->state == CallState::CONNECTING);
+    return impl_ && ((impl_->state == CallState::ACTIVE ||
+                      impl_->state == CallState::CONNECTING));
 }
 
 CallState SipCallSession::state() const noexcept {
@@ -307,13 +313,17 @@ CallState SipCallSession::state() const noexcept {
 
 CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_packet) {
     // TASK 2.6: Telephony input validation and injection detection
-    CallTranscript empty;
-    if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    CallTranscript empty = {};
+    if (!impl_ || impl_->state != CallState::ACTIVE) {
+      return empty;
+    }
 
     // CRITICAL GAP 11: Reject empty RTP packets fail-closed
     if (rtp_packet.empty()) {
         THEMIS_WARN("SipCallSession: empty RTP packet rejected (error 6910)");
-        if (impl_->on_error) impl_->on_error("Empty RTP packet");
+        if (impl_->on_error) {
+          impl_->on_error("Empty RTP packet");
+        }
         return empty;
     }
 
@@ -328,7 +338,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 
     // TASK 2.6: RTP packet validation (error code 6910)
     // CRITICAL GAP 12: Reject oversized RTP packets
-    if (rtp_packet.size() < 12) {
+    if (static_cast<int>(rtp_packet.size()) < 12) {
         THEMIS_WARN("SipCallSession: RTP packet too small ({} bytes), rejecting (error 6910)", 
                     rtp_packet.size());
         return empty;
@@ -341,7 +351,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     
     // CRITICAL GAP 12 (continued): Enforce oversized packet limit
     static constexpr size_t kMaxRtpPacketSize = 32 * 1024;
-    if (rtp_packet.size() > kMaxRtpPacketSize) {
+    if (static_cast<int>(rtp_packet.size()) > kMaxRtpPacketSize) {
         THEMIS_WARN("SipCallSession: RTP packet exceeds size limit ({} > {} bytes), rejecting (error 6910)",
                     rtp_packet.size(), kMaxRtpPacketSize);
         return empty;
@@ -363,10 +373,12 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     // TASK 2.6: Audio buffer size limits (anti-DoS)
     // CRITICAL GAP 13: Oversized session buffer rejection
     static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
-    if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
+    if (impl_-> static_cast<int>(pcm_buffer.size()) + static_cast<int>(payload.size()) > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
-                     impl_->pcm_buffer.size(), payload.size(), kMaxSessionRtpBufferBytes);
-        if (impl_->on_error) impl_->on_error("Session buffer overflow");
+                     impl_-> static_cast<int>(pcm_buffer.size()),static_cast<int>(payload.size()), kMaxSessionRtpBufferBytes);
+        if (impl_->on_error) {
+          impl_->on_error("Session buffer overflow");
+        }
         return empty;  // Fail-closed
     }
 
@@ -374,17 +386,22 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     impl_->rtp_packets_received++;
 
     // TASK 2.6: Decode to PCM based on codec
-    std::vector<int16_t> pcm;
+    std::vector<int16_t> pcm = {};
+
     pcm.reserve(payload.size());
     switch (impl_->config.codec) {
     case AudioCodec::PCMU:
-        for (uint8_t b : payload) pcm.push_back(ulawToPcm(b));
+        for (uint8_t b : payload) {
+          pcm.push_back(ulawToPcm(b));
+        }
         break;
     case AudioCodec::PCMA:
-        for (uint8_t b : payload) pcm.push_back(alawToPcm(b));
+        for (uint8_t b : payload) {
+          pcm.push_back(alawToPcm(b));
+        }
         break;
     case AudioCodec::G722:
-    case AudioCodec::OPUS:
+    [[fallthrough]];\n    case AudioCodec::OPUS:
         // For G.722/Opus: payload is already decoded by caller; treat as raw bytes
         for (size_t i = 0; i + 1 < payload.size(); i += 2) {
             int16_t s = static_cast<int16_t>(
@@ -397,13 +414,15 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 }
 
 CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
-    CallTranscript empty;
-    if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    CallTranscript empty = {};
+    if (!impl_ || impl_->state != CallState::ACTIVE) {
+      return empty;
+    }
     if (pcm_samples.empty()) {
         THEMIS_WARN("SipCallSession: empty PCM frame rejected (error 6910)");
         return empty;
     }
-    if (impl_->pcm_buffer.size() + pcm_samples.size() > (10 * 1024 * 1024)) {
+    if (impl_-> static_cast<int>(pcm_buffer.size()) + static_cast<int>(pcm_samples.size()) > (10 * 1024 * 1024)) {
         THEMIS_WARN("SipCallSession: PCM buffer limit exceeded, rejecting frame (error 6910)");
         return empty;
     }
@@ -413,25 +432,33 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
     ++impl_->partial_seq;
 
     auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, /*is_final=*/false);
-    if (impl_->on_transcript) impl_->on_transcript(ct);
+    if (impl_->on_transcript) {
+      impl_->on_transcript(ct);
+    }
     return ct;
 }
 
-void SipCallSession::injectDtmf(const DtmfEvent& event) {
-    if (!impl_) return;
-    if (!isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
-        THEMIS_WARN("SipCallSession: invalid DTMF event rejected (error 6910)");
+void SipCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
+    if (!impl_) {
+      return;
+    }
+    if ([[maybe_unused]] !isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
+        THEMIS_WARN([[maybe_unused]] "SipCallSession: invalid DTMF event rejected (error 6910)");
         return;
     }
     THEMIS_INFO("SipCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if (impl_->on_dtmf) impl_->on_dtmf(event);
+    if ([[maybe_unused]] impl_->on_dtmf) {
+      impl_->on_dtmf(event);
+    }
 }
 
 std::vector<std::vector<uint8_t>>
 SipCallSession::synthesizeTts(const std::string& text) {
     std::vector<std::vector<uint8_t>> packets;
-    if (text.empty()) return packets;
+    if (text.empty()) {
+      return packets;
+    }
 
     if (impl_->tts_backend) {
         // Delegate to the injected backend; wrap each returned audio payload
@@ -439,8 +466,9 @@ SipCallSession::synthesizeTts(const std::string& text) {
         auto frames = impl_->tts_backend->synthesize(text, impl_->config.codec);
         packets.reserve(frames.size());
         for (auto& frame : frames) {
-            std::vector<uint8_t> pkt;
-            pkt.reserve(12 + frame.size());
+            std::vector<uint8_t> pkt = {};
+
+            pkt.reserve(12 + static_cast<int>(frame.size()) );
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
             pkt[1] = static_cast<uint8_t>(
@@ -472,7 +500,9 @@ SipCallSession::synthesizeTts(const std::string& text) {
     pkt[1] = static_cast<uint8_t>(
         impl_->config.codec == AudioCodec::PCMU ? 0 :
         impl_->config.codec == AudioCodec::PCMA ? 8 : 0);
-    for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
+    for (char c : text) {
+      pkt.push_back(static_cast<uint8_t>(c));
+    }
     packets.push_back(std::move(pkt));
     return packets;
 }
@@ -523,7 +553,9 @@ struct WebRtcCallSession::Impl {
 
     void setState(CallState s) {
         state = s;
-        if (on_state) on_state(s);
+        if (on_state) {
+          on_state(s);
+        }
     }
 };
 
@@ -542,8 +574,8 @@ WebRtcCallSession::WebRtcCallSession(Config config)
 }
 
 WebRtcCallSession::~WebRtcCallSession() {
-    if (impl_ && (impl_->state == CallState::ACTIVE ||
-                  impl_->state == CallState::CONNECTING)) {
+    if (impl_ && ((impl_->state == CallState::ACTIVE ||
+                   impl_->state == CallState::CONNECTING))) {
         try {
             end();
         } catch (const std::string&) {
@@ -568,7 +600,7 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
 
     // Emit a synthetic local ICE candidate
     if (impl_->on_local_ice) {
-        std::ostringstream ice_json;
+        std::ostringstream ice_json = {};
         ice_json << R"({"candidate":"candidate:0 1 UDP 2122252543 0.0.0.0 9 typ host","sdpMid":"audio","sdpMLineIndex":0})";
         impl_->on_local_ice(ice_json.str());
     }
@@ -584,8 +616,12 @@ void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& cand
 }
 
 CallID WebRtcCallSession::start() {
-    if (impl_->state == CallState::ACTIVE) return impl_->call_id;
-    if (impl_->call_id.empty()) impl_->call_id = generateCallId();
+    if (impl_->state == CallState::ACTIVE) {
+      return impl_->call_id;
+    }
+    if (impl_->call_id.empty()) {
+      impl_->call_id = generateCallId();
+    }
     impl_->started_at_ms = telephonyNowMs();
     impl_->setState(CallState::ACTIVE);
     THEMIS_INFO("WebRtcCallSession: started call_id={} user={}",
@@ -600,7 +636,9 @@ void WebRtcCallSession::end() {
     if (!impl_->pcm_buffer.empty()) {
         auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, true);
         impl_->pcm_buffer.clear();
-        if (impl_->on_transcript) impl_->on_transcript(ct);
+        if (impl_->on_transcript) {
+          impl_->on_transcript(ct);
+        }
     }
 
     impl_->setState(CallState::TERMINATING);
@@ -610,8 +648,8 @@ void WebRtcCallSession::end() {
 }
 
 bool WebRtcCallSession::isActive() const noexcept {
-    return impl_ && (impl_->state == CallState::ACTIVE ||
-                     impl_->state == CallState::CONNECTING);
+    return impl_ && ((impl_->state == CallState::ACTIVE ||
+                      impl_->state == CallState::CONNECTING));
 }
 
 CallState WebRtcCallSession::state() const noexcept {
@@ -619,8 +657,10 @@ CallState WebRtcCallSession::state() const noexcept {
 }
 
 CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
-    CallTranscript empty;
-    if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    CallTranscript empty = {};
+    if (!impl_ || impl_->state != CallState::ACTIVE) {
+      return empty;
+    }
 
     // Enforce max duration
     int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
@@ -637,21 +677,29 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     ++impl_->partial_seq;
 
     auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, false);
-    if (impl_->on_transcript) impl_->on_transcript(ct);
+    if (impl_->on_transcript) {
+      impl_->on_transcript(ct);
+    }
     return ct;
 }
 
-void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
-    if (!impl_) return;
+void WebRtcCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
+    if (!impl_) {
+      return;
+    }
     THEMIS_INFO("WebRtcCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if (impl_->on_dtmf) impl_->on_dtmf(event);
+    if ([[maybe_unused]] impl_->on_dtmf) {
+      impl_->on_dtmf(event);
+    }
 }
 
 std::vector<std::vector<uint8_t>>
 WebRtcCallSession::synthesizeTts(const std::string& text) {
     std::vector<std::vector<uint8_t>> packets;
-    if (text.empty()) return packets;
+    if (text.empty()) {
+      return packets;
+    }
 
     if (impl_->tts_backend) {
         // Delegate to the injected backend; wrap each returned audio payload
@@ -659,8 +707,9 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
         auto frames = impl_->tts_backend->synthesize(text, AudioCodec::OPUS);
         packets.reserve(frames.size());
         for (auto& frame : frames) {
-            std::vector<uint8_t> pkt;
-            pkt.reserve(12 + frame.size());
+            std::vector<uint8_t> pkt = {};
+
+            pkt.reserve(12 + static_cast<int>(frame.size()) );
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
             pkt[1] = 111;  // dynamic Opus payload type
@@ -687,7 +736,9 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
     pkt.resize(12, 0);
     pkt[0] = 0x80;
     pkt[1] = 111; // dynamic Opus payload type
-    for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
+    for (char c : text) {
+      pkt.push_back(static_cast<uint8_t>(c));
+    }
     packets.push_back(std::move(pkt));
     return packets;
 }
@@ -722,14 +773,14 @@ void IvrEngine::addNode(IvrNode node) {
     nodes_[std::move(id)] = std::move(node);
 }
 
-std::string IvrEngine::handleDtmf(const DtmfEvent& event) {
-    collected_dtmf_.push_back(event);
+std::string IvrEngine::handleDtmf([[maybe_unused]] const DtmfEvent& event) {
+    collected_dtmf_.push_back([[maybe_unused]] event);
 
     auto it = nodes_.find(current_node_id_);
     if (it == nodes_.end()) return {};
 
     const auto& node = it->second;
-    auto route_it = node.dtmf_routes.find(event.digit);
+    auto route_it = node.dtmf_routes.find([[maybe_unused]] event.digit);
     if (route_it == node.dtmf_routes.end()) return {};
 
     current_node_id_ = route_it->second;
@@ -765,7 +816,9 @@ std::string IvrEngine::currentNodeId() const {
 
 bool IvrEngine::isTerminal() const {
     auto it = nodes_.find(current_node_id_);
-    if (it == nodes_.end()) return false;
+    if (it == nodes_.end()) {
+      return false;
+    }
     return it->second.is_terminal;
 }
 
@@ -795,7 +848,7 @@ TelephonyBridge::TelephonyBridge(Config config)
 
 CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    size_t total = sip_calls_.size() + webrtc_calls_.size();
+    size_t total = static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
     if (total >= config_.max_concurrent_calls) {
         THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                     config_.max_concurrent_calls);
@@ -812,7 +865,7 @@ CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     auto id = session->start();
     sip_calls_.emplace(id, std::move(session));
     THEMIS_INFO("TelephonyBridge: accepted SIP call {} (active={})",
-                id, sip_calls_.size());
+                id,static_cast<int>(sip_calls_.size()));
     return id;
 }
 
@@ -835,11 +888,13 @@ CallTranscript TelephonyBridge::routeSipRtp(const CallID&                call_id
 void TelephonyBridge::terminateSipCall(const CallID& call_id) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
     auto it = sip_calls_.find(call_id);
-    if (it == sip_calls_.end()) return;
+    if (it == sip_calls_.end()) {
+      return;
+    }
     it->second->end();
     sip_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated SIP call {} (active={})",
-                call_id, sip_calls_.size());
+                call_id,static_cast<int>(sip_calls_.size()));
 }
 
 std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
@@ -854,7 +909,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     {
         std::lock_guard<std::mutex> lock_sip(sip_mutex_);
         std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-        size_t total = sip_calls_.size() + webrtc_calls_.size();
+        size_t total = static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
         if (total >= config_.max_concurrent_calls) {
             THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                         config_.max_concurrent_calls);
@@ -870,7 +925,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     webrtc_calls_.emplace(out_call_id, std::move(session));
     THEMIS_INFO("TelephonyBridge: accepted WebRTC call {} (active={})",
-                out_call_id, webrtc_calls_.size());
+                out_call_id,static_cast<int>(webrtc_calls_.size()));
     return answer;
 }
 
@@ -899,11 +954,13 @@ CallTranscript TelephonyBridge::routeWebRtcAudio(const CallID&               cal
 void TelephonyBridge::terminateWebRtcCall(const CallID& call_id) {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     auto it = webrtc_calls_.find(call_id);
-    if (it == webrtc_calls_.end()) return;
+    if (it == webrtc_calls_.end()) {
+      return;
+    }
     it->second->end();
     webrtc_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated WebRTC call {} (active={})",
-                call_id, webrtc_calls_.size());
+                call_id,static_cast<int>(webrtc_calls_.size()));
 }
 
 void TelephonyBridge::terminateCall(const CallID& call_id) {
@@ -914,29 +971,33 @@ void TelephonyBridge::terminateCall(const CallID& call_id) {
 size_t TelephonyBridge::activeCallCount() const noexcept {
     std::lock_guard<std::mutex> lock_sip(sip_mutex_);
     std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-    return sip_calls_.size() + webrtc_calls_.size();
+    return static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
 }
 
 size_t TelephonyBridge::activeSipCallCount() const noexcept {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    return sip_calls_.size();
+    return static_cast<int>(sip_calls_.size());
 }
 
 size_t TelephonyBridge::activeWebRtcCallCount() const noexcept {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
-    return webrtc_calls_.size();
+    return static_cast<int>(webrtc_calls_.size());
 }
 
 CallState TelephonyBridge::callState(const CallID& call_id) const {
     {
         std::lock_guard<std::mutex> lock(sip_mutex_);
         auto it = sip_calls_.find(call_id);
-        if (it != sip_calls_.end()) return it->second->state();
+        if (it != sip_calls_.end()) {
+          return it->second->state();
+        }
     }
     {
         std::lock_guard<std::mutex> lock(webrtc_mutex_);
         auto it = webrtc_calls_.find(call_id);
-        if (it != webrtc_calls_.end()) return it->second->state();
+        if (it != webrtc_calls_.end()) {
+          return it->second->state();
+        }
     }
     return CallState::IDLE;
 }

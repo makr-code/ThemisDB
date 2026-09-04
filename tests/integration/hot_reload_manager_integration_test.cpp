@@ -253,10 +253,14 @@ TEST_F(HotReloadManagerIntegrationTest, ConcurrentReloadsDoNotCorruptState) {
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([this, &fail_count]() {
             auto r = mgr_->reloadModule("concurrent_mod", "/nonexistent.so");
-            if (!r.success) ++fail_count;
+            if (!r.success) {
+              ++fail_count;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All reloads must have failed (no real binary) without any crash.
     EXPECT_EQ(fail_count.load(), N);

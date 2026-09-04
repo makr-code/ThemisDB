@@ -35,8 +35,8 @@ namespace test {
 class StressTransactionManager {
 public:
     struct Transaction {
-        int txn_id;
-        bool committed;
+        int txn_id = 0;
+        bool committed = {};
         std::chrono::steady_clock::time_point start_time;
     };
 

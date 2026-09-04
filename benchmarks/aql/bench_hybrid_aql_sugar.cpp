@@ -77,7 +77,7 @@ BENCHMARK(BM_Highlighter_Tokenize_Complex);
 static void BM_Highlighter_Tokenize_Scale(benchmark::State& state) {
     AQLSyntaxHighlighter h(/*use_ansi=*/false);
     // Build a query of roughly state.range(0) * 10 characters.
-    std::string query;
+    std::string query = {};
     query.reserve(static_cast<std::size_t>(state.range(0)) * 24);
     for (int i = 0; i < state.range(0); ++i) {
         query += "FILTER u.x" + std::to_string(i) + " == " + std::to_string(i) + " ";

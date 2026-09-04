@@ -325,7 +325,7 @@ private:
         uint64_t    id         = 0;
         uint64_t    bytes      = 0;
         std::string tag;
-        std::string tenant_id;
+        std::string tenant_id = {};
     };
     uint64_t             hint_reserved_bytes_ = 0;
     uint64_t             next_hint_id_        = 1;

@@ -182,7 +182,8 @@ TEST_F(DeadlockDetectionTest, MultipleTransactionsNoInterference) {
 
     // Start many transactions concurrently – none should deadlock since
     // they do not acquire any locks on each other's resources.
-    std::vector<TransactionManager::TransactionId> ids;
+    std::vector<TransactionManager::TransactionId> ids = {};
+
     for (int i = 0; i < 10; ++i) {
         ids.push_back(txn_mgr_->beginTransaction());
     }

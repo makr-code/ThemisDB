@@ -29,9 +29,9 @@ std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
     // Worst-case: each character becomes \uXXXX (6 chars), but typically 1-2
     // Reserve to account for escaped sequences without runtime reallocation
     // Complexity: O(n) linear time, minimal allocations
-    std::string out;
+    std::string out = {};
     // Reserve conservative estimate: assume average 30% growth for escaping
-    out.reserve(s.size() + (s.size() / 3));
+    out.reserve(static_cast<int>(s.size()) + (s.size() / 3));
     
     for (unsigned char c : s) {
         switch (c) {
@@ -63,8 +63,8 @@ std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     // Common HTML entities: & (5 chars), <, >, ", ' (each 4-6 chars)
     // Reserve conservative estimate: assume average 40% growth for escaping
     // Complexity: O(n) linear time, minimal allocations
-    std::string out;
-    out.reserve(s.size() + (s.size() / 2));
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + (s.size() / 2));
     
     for (unsigned char c : s) {
         switch (c) {
@@ -98,7 +98,7 @@ std::string EvaluationReportExporter::scoreBarHTML(const std::string& label,
         colour = "#ff9800"; // orange
     }
 
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << "<div class=\"score-row\">"
        << "<span class=\"score-label\">" << escapeHTML(label) << "</span>"
        << "<div class=\"score-bar-bg\">"
@@ -124,7 +124,7 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
                       std::chrono::system_clock::now().time_since_epoch())
                       .count();
 
-    std::ostringstream os;
+    std::ostringstream os = {};
     os << std::fixed << std::setprecision(6);
 
     os << "{\n";
@@ -135,14 +135,16 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
 
     // documents array
     os << "  \"documents\": [\n";
-    for (size_t i = 0; i < inp.documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(inp.documents.size()); ++i) {
         const auto& doc = inp.documents[i];
         os << "    {"
            << "\"id\": \""       << escapeJSON(doc.id)      << "\","
            << "\"similarity_score\": " << doc.similarity_score << ","
            << "\"content\": \""  << escapeJSON(doc.content) << "\""
            << "}";
-        if (i + 1 < inp.documents.size()) os << ",";
+        if (i + 1 <static_cast<int>(inp.documents.size())) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
@@ -154,7 +156,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
         for (const auto& kv : inp.metadata) {
             os << "    \"" << escapeJSON(kv.first)
                << "\": \""  << escapeJSON(kv.second) << "\"";
-            if (++idx < inp.metadata.size()) os << ",";
+            if (++idx <static_cast<int>(inp.metadata.size())) {
+              os << ",";
+            }
             os << "\n";
         }
     }
@@ -180,27 +184,33 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
 
     // verified claims
     os << "  \"verified_claims\": [\n";
-    for (size_t i = 0; i < res.verified_claims.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.verified_claims.size()); ++i) {
         os << "    \"" << escapeJSON(res.verified_claims[i]) << "\"";
-        if (i + 1 < res.verified_claims.size()) os << ",";
+        if (i + 1 <static_cast<int>(res.verified_claims.size())) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
 
     // unverified claims
     os << "  \"unverified_claims\": [\n";
-    for (size_t i = 0; i < res.unverified_claims.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.unverified_claims.size()); ++i) {
         os << "    \"" << escapeJSON(res.unverified_claims[i]) << "\"";
-        if (i + 1 < res.unverified_claims.size()) os << ",";
+        if (i + 1 <static_cast<int>(res.unverified_claims.size())) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
 
     // improvements
     os << "  \"improvements\": [\n";
-    for (size_t i = 0; i < res.improvements.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.improvements.size()); ++i) {
         os << "    \"" << escapeJSON(res.improvements[i]) << "\"";
-        if (i + 1 < res.improvements.size()) os << ",";
+        if (i + 1 <static_cast<int>(res.improvements.size())) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
@@ -208,9 +218,11 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
     // ethical
     os << "  \"ethical\": {\n";
     os << "    \"violations\": [\n";
-    for (size_t i = 0; i < res.ethical_violations.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.ethical_violations.size()); ++i) {
         os << "      \"" << escapeJSON(res.ethical_violations[i]) << "\"";
-        if (i + 1 < res.ethical_violations.size()) os << ",";
+        if (i + 1 <static_cast<int>(res.ethical_violations.size())) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "    ],\n";
@@ -237,7 +249,7 @@ std::string EvaluationReportExporter::toHTML(const PerQueryReport& report) const
     const char* pass_colour  = res.passed_quality_threshold ? "#4caf50" : "#f44336";
     const char* pass_label   = res.passed_quality_threshold ? "PASSED"  : "FAILED";
 
-    std::ostringstream os;
+    std::ostringstream os = {};
 
     // ── head ──────────────────────────────────────────────────────────────
     os << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"
@@ -362,7 +374,7 @@ std::string EvaluationReportExporter::toHTML(const PerQueryReport& report) const
     // ── retrieved documents ───────────────────────────────────────────────
     if (!inp.documents.empty()) {
         os << "<div class=\"card\">\n<h2>Retrieved Documents ("
-           << inp.documents.size() << ")</h2>\n";
+           <<static_cast<int>(inp.documents.size()) << ")</h2>\n";
         for (const auto& doc : inp.documents) {
             os << "<div class=\"doc-block\">"
                << "<strong>" << escapeHTML(doc.id) << "</strong>"

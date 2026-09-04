@@ -60,7 +60,8 @@ bool ZeroTrustPolicyEnforcer::removeNetworkPolicy(const std::string& policy_id) 
 
 std::vector<NetworkPolicy> ZeroTrustPolicyEnforcer::getNetworkPolicies() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<NetworkPolicy> result;
+    std::vector<NetworkPolicy> result = {};
+
     result.reserve(policies_.size());
     for (const auto& kv : policies_) {
         result.push_back(kv.second);
@@ -142,11 +143,13 @@ VerificationResult ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext& conte
                     context.user_id, context.client_ip, context.request_id);
 
         // Find policy_id for audit trail
-        std::string pid;
+        std::string pid = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             const auto* p = findPolicyForIdentity(context.user_id);
-            if (p) pid = p->policy_id;
+            if (p) {
+              pid = p->policy_id;
+            }
         }
         auto result = VerificationResult::Deny(
             context.request_id,
@@ -245,9 +248,15 @@ double ZeroTrustPolicyEnforcer::computeTrustScore(const ZeroTrustContext& contex
                                                     bool network_ok) const {
     double score = 0.0;
 
-    if (identity_verified)  score += 0.4;
-    if (network_ok)         score += 0.4;
-    if (context.device_id.has_value() && !context.device_id->empty()) score += 0.1;
+    if (identity_verified) {
+      score += 0.4;
+    }
+    if (network_ok) {
+      score += 0.4;
+    }
+    if (context.device_id.has_value() && !context.device_id->empty()) {
+      score += 0.1;
+    }
 
     // Request freshness: full credit if timestamp is within 60 seconds of now
     auto age = std::chrono::duration_cast<std::chrono::seconds>(
@@ -261,8 +270,12 @@ double ZeroTrustPolicyEnforcer::computeTrustScore(const ZeroTrustContext& contex
     score -= context.session_risk_score;
 
     // Clamp to [0.0, 1.0]
-    if (score < 0.0) score = 0.0;
-    if (score > 1.0) score = 1.0;
+    if (score < 0.0) {
+      score = 0.0;
+    }
+    if (score > 1.0) {
+      score = 1.0;
+    }
 
     return score;
 }
@@ -288,8 +301,12 @@ bool ZeroTrustPolicyEnforcer::parseIpv4(const std::string& ip, uint32_t& out) {
     char extra = 0;
     // sscanf is acceptable here; ip is user-supplied but we validate the format
     int n = std::sscanf(ip.c_str(), "%u.%u.%u.%u%c", &a, &b, &c, &d, &extra);
-    if (n != 4) return false;
-    if (a > 255 || b > 255 || c > 255 || d > 255) return false;
+    if (n != 4) {
+      return false;
+    }
+    if (a > 255 || b > 255 || c > 255 || d > 255) {
+      return false;
+    }
     out = (a << 24) | (b << 16) | (c << 8) | d;
     return true;
 }
@@ -316,12 +333,18 @@ bool ZeroTrustPolicyEnforcer::ipMatchesCidr(const std::string& ip,
         THEMIS_WARN("ZeroTrust: invalid CIDR prefix '{}' in '{}'", prefix_str, cidr);
         return false;
     }
-    if (prefix_len < 0 || prefix_len > 32) return false;
+    if (prefix_len < 0 || prefix_len > 32) {
+      return false;
+    }
 
     uint32_t ip_int = 0;
     uint32_t cidr_int = 0;
-    if (!parseIpv4(ip, ip_int)) return false;
-    if (!parseIpv4(cidr_addr, cidr_int)) return false;
+    if (!parseIpv4(ip, ip_int)) {
+      return false;
+    }
+    if (!parseIpv4(cidr_addr, cidr_int)) {
+      return false;
+    }
 
     if (prefix_len == 0) {
         // /0 matches everything
@@ -350,7 +373,9 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
     if (slash == std::string::npos) {
         // Treat bare address as /128 exact match
         std::array<uint8_t, 16> a{}, b{};
-        if (!parseIpv6(ip, a) || !parseIpv6(cidr, b)) return false;
+        if (!parseIpv6(ip, a) || !parseIpv6(cidr, b)) {
+          return false;
+        }
         return a == b;
     }
 
@@ -364,12 +389,18 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
         THEMIS_WARN("ZeroTrust: invalid IPv6 CIDR prefix '{}' in '{}'", prefix_str, cidr);
         return false;
     }
-    if (prefix_len < 0 || prefix_len > 128) return false;
+    if (prefix_len < 0 || prefix_len > 128) {
+      return false;
+    }
 
     std::array<uint8_t, 16> ip_bytes{};
     std::array<uint8_t, 16> cidr_bytes{};
-    if (!parseIpv6(ip, ip_bytes)) return false;
-    if (!parseIpv6(cidr_addr, cidr_bytes)) return false;
+    if (!parseIpv6(ip, ip_bytes)) {
+      return false;
+    }
+    if (!parseIpv6(cidr_addr, cidr_bytes)) {
+      return false;
+    }
 
     if (prefix_len == 0) return true; // /0 matches everything
 
@@ -378,7 +409,9 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
     int remaining_bits = prefix_len % 8;
 
     for (int i = 0; i < full_bytes; ++i) {
-        if (ip_bytes[i] != cidr_bytes[i]) return false;
+        if (ip_bytes[i] != cidr_bytes[i]) {
+          return false;
+        }
     }
     if (remaining_bits > 0) {
         uint8_t mask = static_cast<uint8_t>(0xFFu << (8 - remaining_bits));
@@ -392,8 +425,8 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
 std::string ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6(const std::string& ip) {
     // IPv4-mapped IPv6 addresses start with ::ffff: in text form
     constexpr std::string_view kPrefix = "::ffff:";
-    if (ip.size() > kPrefix.size() &&
-        ip.substr(0, kPrefix.size()) == kPrefix) {
+    if (static_cast<int>(ip.size()) > static_cast<int>(kPrefix.size()) &&
+        ip.substr(0,static_cast<int>(kPrefix.size())) == kPrefix) {
         std::string candidate = ip.substr(kPrefix.size());
         uint32_t dummy = 0;
         if (parseIpv4(candidate, dummy)) {

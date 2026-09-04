@@ -182,8 +182,8 @@ private:
     
     // Nonce tracking for replay protection
     struct NonceEntry {
-        uint64_t nonce;
-        uint64_t timestamp_ms;
+        uint64_t nonce = 0;
+        uint64_t timestamp_ms = {};
     };
     std::unordered_map<uint64_t, uint64_t> seen_nonces_;
     std::deque<NonceEntry> nonce_fifo_;

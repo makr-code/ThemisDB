@@ -93,7 +93,7 @@ public:
          * synchronously before the flush thread moves on.  Set to false
          * for maximum throughput at the cost of durability.
          */
-        bool sync_wal;
+        bool sync_wal = {};
 
         Config()
             : flush_interval(10)

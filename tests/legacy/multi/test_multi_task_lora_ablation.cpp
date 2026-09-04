@@ -66,7 +66,8 @@ std::vector<MTLSample> makeSamples(const std::string& task_id,
 
 /// Merge multiple sample vectors into one.
 std::vector<MTLSample> merge(std::initializer_list<std::vector<MTLSample>> lists) {
-    std::vector<MTLSample> out;
+    std::vector<MTLSample> out = {};
+
     for (const auto& v : lists) {
         out.insert(out.end(), v.begin(), v.end());
     }

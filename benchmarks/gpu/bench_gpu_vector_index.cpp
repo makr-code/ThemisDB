@@ -95,7 +95,8 @@ static void BM_IndexBuild_CPU(benchmark::State& state) {
     size_t numVectors = state.range(1);
     
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -131,7 +132,8 @@ static void BM_IndexBuild_VULKAN(benchmark::State& state) {
     size_t numVectors = state.range(1);
     
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -178,7 +180,8 @@ static void BM_Search_CPU(benchmark::State& state) {
     
     // Setup
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -216,7 +219,8 @@ static void BM_Search_VULKAN(benchmark::State& state) {
     
     // Setup
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -267,7 +271,8 @@ static void BM_BatchSearch_CPU(benchmark::State& state) {
     
     // Setup
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -304,7 +309,8 @@ static void BM_BatchSearch_VULKAN(benchmark::State& state) {
     
     // Setup
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -424,7 +430,8 @@ static void BM_DistanceMetric_L2(benchmark::State& state) {
     size_t numVectors = state.range(1);
     
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }
@@ -452,7 +459,8 @@ static void BM_DistanceMetric_Cosine(benchmark::State& state) {
     size_t numVectors = state.range(1);
     
     auto vectors = generateRandomVectors(numVectors, dimension);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (size_t i = 0; i < numVectors; ++i) {
         ids.push_back("vec_" + std::to_string(i));
     }

@@ -83,7 +83,7 @@ GPUUtilizationMonitor::~GPUUtilizationMonitor() {
 }
 
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryMetrics() {
-    Metrics metrics;
+    Metrics metrics = {};
     
     if (!is_available_) {
         return getFallbackMetrics();
@@ -113,14 +113,14 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryMetrics() {
     metrics_history_.push_back(metrics);
     
     // Keep only last 100 samples
-    if (metrics_history_.size() > 100) {
+    if (static_cast<int>(metrics_history_.size()) > 100) {
         metrics_history_.erase(metrics_history_.begin());
     }
     
     return metrics;
 }
 
-bool GPUUtilizationMonitor::isUnderutilized(float threshold) const {
+bool GPUUtilizationMonitor::isUnderutilized([[maybe_unused]] float threshold) const {
     return last_metrics_.gpu_utilization_pct < (threshold * 100.0f);
 }
 
@@ -160,19 +160,19 @@ std::vector<std::string> GPUUtilizationMonitor::getOptimizationRecommendations()
     return recommendations;
 }
 
-GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics(size_t num_samples) const {
+GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics([[maybe_unused]] size_t num_samples) const {
     if (metrics_history_.empty()) {
         return last_metrics_;
     }
     
     // Take last N samples
     size_t start_idx = 0;
-    if (metrics_history_.size() > num_samples) {
-        start_idx = metrics_history_.size() - num_samples;
+    if (static_cast<int>(metrics_history_.size()) > num_samples) {
+        start_idx = static_cast<int>(metrics_history_.size()) - num_samples;
     }
     
     Metrics avg;
-    size_t count = metrics_history_.size() - start_idx;
+    size_t count = static_cast<int>(metrics_history_.size()) - start_idx;
     
     for (size_t i = start_idx; i < metrics_history_.size(); ++i) {
         const auto& m = metrics_history_[i];
@@ -297,7 +297,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryROCm() {
     // Use stored device index (type-safe, no cast needed)
     
     // GPU busy percentage
-    uint32_t busy_percent;
+    uint32_t busy_percent = {};
     rsmi_status_t result = rsmi_dev_busy_percent_get(rocm_device_index_, &busy_percent);
     if (result == RSMI_STATUS_SUCCESS) {
         metrics.gpu_utilization_pct = static_cast<float>(busy_percent);

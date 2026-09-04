@@ -775,7 +775,7 @@ std::vector<ComplianceViolation> ComplianceValidationEngine::detectViolations(
 std::string ComplianceValidationEngine::generateRemediationGuidance(
     const ComplianceViolation& violation) {
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Remediation for " << violation.requirement_id << ":\n";
     oss << "Violation: " << violation.description << "\n";
     

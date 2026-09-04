@@ -28,7 +28,7 @@ namespace sharding {
 // ============================================================================
 
 struct ShardNodeInfo {
-    uint32_t node_id;
+    uint32_t node_id = 0;
     std::string node_address;
     std::string node_role;  // PRIMARY, REPLICA, ARBITER
     bool is_healthy;

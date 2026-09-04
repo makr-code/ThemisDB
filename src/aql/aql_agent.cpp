@@ -31,7 +31,7 @@ namespace aql {
 class ReActAgent::Impl {
   public:
     explicit Impl(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-        : handler_(std::move(handler)), config_(config) {}
+        : handler_([[maybe_unused]] std::move(handler)), config_(config) {}
 
     // -----------------------------------------------------------------------
     // Tool registry
@@ -56,7 +56,8 @@ class ReActAgent::Impl {
     }
 
     std::vector<AgentTool> getTools() const {
-        std::vector<AgentTool> result;
+        std::vector<AgentTool> result = {};
+
         result.reserve(tools_.size());
         for (const auto &kv : tools_) {
             result.push_back(kv.second);
@@ -95,7 +96,7 @@ class ReActAgent::Impl {
 
             // Ask the LLM for the next reasoning step.
             std::string llm_input = system_prompt + "\n\n" + conversation;
-            std::string raw_response;
+            std::string raw_response = {};
             try {
                 std::unordered_map<std::string, std::string> opts;
                 opts["max_tokens"]  = std::to_string(config_.max_tokens_per_step);
@@ -124,7 +125,7 @@ class ReActAgent::Impl {
                 static constexpr std::size_t kBytesPerToken = 8;
                 const std::size_t max_response_bytes =
                     static_cast<std::size_t>(config_.max_tokens_per_step) * kBytesPerToken;
-                if (raw_response.size() > max_response_bytes) {
+                if (static_cast<int>(raw_response.size()) > max_response_bytes) {
                     spdlog::warn("[ReActAgent] LLM response ({} bytes) exceeds {} byte limit; truncating",
                                  raw_response.size(), max_response_bytes);
                     raw_response.resize(max_response_bytes);
@@ -173,7 +174,7 @@ class ReActAgent::Impl {
     // -----------------------------------------------------------------------
 
     std::string buildSystemPrompt(const json &context) const {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "You are a helpful database assistant with access to the following tools:\n\n";
 
         for (const auto &kv : tools_) {
@@ -216,7 +217,7 @@ class ReActAgent::Impl {
         if (pos == std::string::npos) {
             return response;
         }
-        std::string answer = response.substr(pos + marker.size());
+        std::string answer = response.substr(pos + static_cast<int>(marker.size()) );
         // Trim leading/trailing whitespace.
         auto start = answer.find_first_not_of(" \t\n\r");
         auto end   = answer.find_last_not_of(" \t\n\r");
@@ -230,7 +231,7 @@ class ReActAgent::Impl {
         ReasoningStep step;
 
         // Extract Thought:
-        auto extract_field = [&](const std::string &field_prefix) -> std::string {
+        auto extract_field = [&]([[maybe_unused]] const std::string &field_prefix) -> std::string {
             auto pos = response.find(field_prefix);
             if (pos == std::string::npos) {
                 return "";
@@ -301,7 +302,7 @@ class ReActAgent::Impl {
 // ============================================================================
 
 ReActAgent::ReActAgent(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-    : impl_(std::make_unique<Impl>(std::move(handler), config)) {}
+    : impl_([[maybe_unused]] std::make_unique<Impl>(std::move(handler), config)) {}
 
 ReActAgent::~ReActAgent() = default;
 

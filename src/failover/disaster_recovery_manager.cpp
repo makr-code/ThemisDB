@@ -56,7 +56,7 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
     const auto started_at = std::chrono::steady_clock::now();
 
     DisasterRecoveryResult result;
-    std::string validation_error;
+    std::string validation_error = {};
     if (!validatePlan(plan, validation_error)) {
         transitionState(DisasterRecoveryState::FAILED);
         result.success = false;
@@ -71,7 +71,7 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
     transitionState(DisasterRecoveryState::PRECHECKS);
 
     uint64_t fenced_epoch = 0;
-    std::string step_error;
+    std::string step_error = {};
 
     if (!runStep(DisasterRecoveryStep::PRECHECKS, DisasterRecoveryState::PRECHECKS,
                  plan, result, step_error, fenced_epoch)) {
@@ -187,7 +187,7 @@ bool DisasterRecoveryManager::runStep(DisasterRecoveryStep step,
                                       uint64_t& fenced_epoch) {
     transitionState(state);
 
-    std::string detail;
+    std::string detail = {};
     bool ok = false;
 
     auto it = hooks_.find(step);
@@ -368,7 +368,7 @@ bool DisasterRecoveryManager::verifyRecoveredState(const DisasterRecoveryPlan& p
         const auto health = replication_mgr_->getClusterHealth();
         const bool any_healthy = std::any_of(health.begin(), health.end(),
             [](const auto& pair) { return pair.second; });
-        if (any_healthy && (!config_.require_quorum || replication_mgr_->hasQuorum())) {
+        if ((any_healthy && (!config_.require_quorum || replication_mgr_->hasQuorum())) {
             detail = "verification passed";
             return true;
         }

@@ -173,7 +173,7 @@ protected:
     std::vector<nlohmann::json>                                       schemaBodies_;
     nlohmann::json                                                    largBody_;
     int64_t                                                           iterCounter_{0};
-    std::mt19937                                                      rng_;
+    std::mt19937                                                      rng_ = {};
 
 private:
     void preloadReadCollection() {

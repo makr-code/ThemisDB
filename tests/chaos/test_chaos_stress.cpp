@@ -214,7 +214,9 @@ TEST(ChaosStressJitter, NearSimultaneousFaultsAllFire) {
 
     int fired = 0;
     for (int i = 0; i < N; ++i) {
-        if (fi->isFaultActive("jitter-node-" + std::to_string(i))) ++fired;
+        if (fi->isFaultActive("jitter-node-" + std::to_string(i))) {
+          ++fired;
+        }
     }
     EXPECT_EQ(fired, N);
 
@@ -242,7 +244,9 @@ TEST(ChaosStressJitter, NearSimultaneousFaultsFixedTick) {
 
     int fired = 0;
     for (int i = 0; i < N; ++i) {
-        if (fi->isFaultActive("jft-node-" + std::to_string(i))) ++fired;
+        if (fi->isFaultActive("jft-node-" + std::to_string(i))) {
+          ++fired;
+        }
     }
     EXPECT_EQ(fired, N);
 
@@ -274,7 +278,9 @@ TEST(ChaosStressBurst, BurstScheduleAllFire_Condvar) {
 
     int fired = 0;
     for (int i = 0; i < N; ++i) {
-        if (fi->isFaultActive("burst-cv-" + std::to_string(i))) ++fired;
+        if (fi->isFaultActive("burst-cv-" + std::to_string(i))) {
+          ++fired;
+        }
     }
     EXPECT_EQ(fired, N);
 
@@ -302,7 +308,9 @@ TEST(ChaosStressBurst, BurstScheduleAllFire_FixedTick) {
 
     int fired = 0;
     for (int i = 0; i < N; ++i) {
-        if (fi->isFaultActive("burst-ft-" + std::to_string(i))) ++fired;
+        if (fi->isFaultActive("burst-ft-" + std::to_string(i))) {
+          ++fired;
+        }
     }
     EXPECT_EQ(fired, N);
 
@@ -343,7 +351,9 @@ TEST(ChaosStressConcurrent, ConcurrentInjectAndRecover) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     std::this_thread::sleep_for(150ms);
     sched.stop();
@@ -376,7 +386,9 @@ TEST(ChaosStressConcurrent, ConcurrentScheduleFromMultipleThreads) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     std::this_thread::sleep_for(200ms);
 

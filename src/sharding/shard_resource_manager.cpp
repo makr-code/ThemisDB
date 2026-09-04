@@ -88,17 +88,17 @@ ShardResourceManager::ResourceSnapshot ShardResourceManager::ResourceSnapshot::f
     ResourceSnapshot snapshot;
     
     snapshot.cpu_usage_percent = j.value("cpu_usage_percent", 0.0f);
-    snapshot.ram_usage_bytes = j.value("ram_usage_bytes", 0ULL);
-    snapshot.ram_total_bytes = j.value("ram_total_bytes", 0ULL);
-    snapshot.vram_usage_bytes = j.value("vram_usage_bytes", 0ULL);
-    snapshot.vram_total_bytes = j.value("vram_total_bytes", 0ULL);
-    snapshot.disk_used_bytes = j.value("disk_used_bytes", 0ULL);
-    snapshot.disk_available_bytes = j.value("disk_available_bytes", 0ULL);
-    snapshot.network_in_bps = j.value("network_in_bps", 0ULL);
-    snapshot.network_out_bps = j.value("network_out_bps", 0ULL);
-    snapshot.active_queries = j.value("active_queries", 0U);
-    snapshot.pending_queries = j.value("pending_queries", 0U);
-    snapshot.active_transactions = j.value("active_transactions", 0U);
+    snapshot.ram_usage_bytes = j.value("ram_usage_bytes", 0);
+    snapshot.ram_total_bytes = j.value("ram_total_bytes", 0);
+    snapshot.vram_usage_bytes = j.value("vram_usage_bytes", 0);
+    snapshot.vram_total_bytes = j.value("vram_total_bytes", 0);
+    snapshot.disk_used_bytes = j.value("disk_used_bytes", 0);
+    snapshot.disk_available_bytes = j.value("disk_available_bytes", 0);
+    snapshot.network_in_bps = j.value("network_in_bps", 0);
+    snapshot.network_out_bps = j.value("network_out_bps", 0);
+    snapshot.active_queries = j.value("active_queries", 0);
+    snapshot.pending_queries = j.value("pending_queries", 0);
+    snapshot.active_transactions = j.value("active_transactions", 0);
     snapshot.avg_query_latency_ms = j.value("avg_query_latency_ms", 0.0f);
     snapshot.p99_query_latency_ms = j.value("p99_query_latency_ms", 0.0f);
     snapshot.health_score = j.value("health_score", 100.0f);
@@ -337,7 +337,7 @@ void ShardResourceManager::broadcastResourceUpdate() {
     // std::thread::hardware_concurrency() is the correct cross-platform approach
     // (maps to sysconf(_SC_NPROCESSORS_ONLN) on Linux, GetSystemInfo on Windows).
     gossip_snapshot.total_cpu_cores = std::thread::hardware_concurrency();
-    gossip_snapshot.available_cpu_cores = std::max(0U, 
+    gossip_snapshot.available_cpu_cores = std::max(0, 
         gossip_snapshot.total_cpu_cores - static_cast<uint32_t>(snapshot.cpu_usage_percent / 100.0f * gossip_snapshot.total_cpu_cores)
     );
     gossip_snapshot.available_disk_bytes = snapshot.disk_available_bytes;
@@ -398,7 +398,7 @@ std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
 }
 
 /** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
-std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshold) const {
+std::vector<std::string> ShardResourceManager::getOverloadedPeers([[maybe_unused]] float threshold) const {
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> overloaded_peers;
     
@@ -579,11 +579,11 @@ float ShardResourceManager::getCpuUsage() const {
         return 0.0f;
     }
     
-    std::string line;
+    std::string line = {};
     std::getline(stat_file, line);
     
     std::istringstream ss(line);
-    std::string cpu_label;
+    std::string cpu_label = {};
     uint64_t user, nice, system, idle, iowait, irq, softirq, steal;
     
     ss >> cpu_label >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
@@ -708,12 +708,14 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
         return {0, 0};
     }
     uint64_t total_rx = 0, total_tx = 0;
-    std::string line;
+    std::string line = {};
     int line_num = 0;
     while (std::getline(net_dev, line)) {
         if (++line_num <= 2) continue; // skip the two header lines
         const auto colon = line.find(':');
-        if (colon == std::string::npos) continue;
+        if (colon == std::string::npos) {
+          continue;
+        }
         std::istringstream iss(line.substr(colon + 1));
         uint64_t rx = 0, pkts = 0, errs = 0, drop = 0,
                  fifo = 0, frame = 0, comp = 0, mcast = 0, tx = 0;

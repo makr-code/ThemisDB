@@ -51,7 +51,7 @@ PolicyVersioningApiHandler::PolicyVersioningApiHandler(
     , auth_(std::move(auth))
 {
     if (!policy_manager_versioned_) {
-        THEMIS_WARN("PolicyVersioningApiHandler created with null PolicyManagerWithVersioning");
+        THEMIS_WARN([[maybe_unused]] "PolicyVersioningApiHandler created with null PolicyManagerWithVersioning");
     }
 }
 
@@ -85,7 +85,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
         nlohmann::json response = {
             {"rule_id", rule_id},
             {"versions", json_array},
-            {"count", versions.size()}
+            {"count",static_cast<int>(versions.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -136,7 +136,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
     const std::string& rule_id,
     const std::string& target_version
 ) {
-    auto span = Tracer::startSpan("handleRollback");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRollback");
     try {
         if (!isValidIdentifier(rule_id) || !isValidIdentifier(target_version)) {
             return makeErrorResponse(http::status::bad_request, "Invalid rule ID or target version", req);
@@ -266,7 +266,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             try {
                 start_time = std::stoll(*start_str);
             } catch (...) {
-                THEMIS_WARN("policy_versioning_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "policy_versioning_api_handler: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
             }
         }
@@ -279,7 +279,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             try {
                 end_time = std::stoll(*end_str);
             } catch (...) {
-                THEMIS_WARN("policy_versioning_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "policy_versioning_api_handler: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
             }
         }
@@ -294,7 +294,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
         
         nlohmann::json response = {
             {"entries", json_array},
-            {"count", entries.size()}
+            {"count",static_cast<int>(entries.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -326,14 +326,14 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts
         bool has_critical = false;
         for (const auto& c : conflicts) {
             conflicts_arr.push_back(c.toJson());
-            if (!has_critical && (c.severity == "critical" || c.severity == "high")) {
+            if ((!has_critical && (c.severity == "critical" || c.severity == "high")) {
                 has_critical = true;
             }
         }
 
         nlohmann::json response = {
             {"conflicts", conflicts_arr},
-            {"conflict_count", conflicts.size()},
+            {"conflict_count",static_cast<int>(conflicts.size())},
             {"has_critical_conflicts", has_critical}
         };
 
@@ -365,7 +365,7 @@ bool PolicyVersioningApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    std::string auth_str(auth_header.data(), auth_header.size());
+    std::string auth_str(auth_header.data(),static_cast<int>(auth_header.size()));
     auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {
@@ -431,7 +431,7 @@ std::optional<std::string> PolicyVersioningApiHandler::getQueryParam(
     
     // Parse query parameters
     std::istringstream iss(query_string);
-    std::string pair;
+    std::string pair = {};
     
     while (std::getline(iss, pair, '&')) {
         size_t eq_pos = pair.find('=');

@@ -94,7 +94,7 @@ public:
                 auto status = futures[i].wait_for(
                     std::chrono::duration_cast<std::chrono::milliseconds>(remaining));
                 
-                SubagentInferenceResult inference_result;
+                SubagentInferenceResult inference_result = {};
                 if (status == std::future_status::ready) {
                     inference_result = futures[i].get();
                 } else {
@@ -198,7 +198,8 @@ public:
             case SubagentMergeStrategy::MAJORITY_VOTE:
                 // Tally outputs by exact-match majority
                 {
-                    std::unordered_map<std::string, size_t> tally;
+                    std::unordered_map<std::string, size_t> tally = {};
+
                     for (const auto& coord_result : result.per_subagent_results) {
                         if (coord_result.success) {
                             tally[coord_result.output]++;
@@ -267,7 +268,8 @@ public:
         const std::vector<InferenceRequest>& requests,
         const SubagentCoordinatorConfig& config) override {
         
-        std::vector<SubagentCoordinatorAggregateResult> results;
+        std::vector<SubagentCoordinatorAggregateResult> results = {};
+
         for (const auto& request : requests) {
             results.push_back(inferMultiple(subagent_ids, request, config));
         }

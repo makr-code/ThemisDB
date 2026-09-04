@@ -69,7 +69,9 @@ public:
         size_t total_draft_tokens_proposed = 0;
         /// Running hit rate (total_hits / total_probe_calls).
         double hit_rate() const {
-            if (total_probe_calls == 0) return 0.0;
+            if (total_probe_calls == 0) {
+              return 0.0;
+            }
             return static_cast<double>(total_hits) / total_probe_calls;
         }
     };

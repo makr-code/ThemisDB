@@ -102,7 +102,7 @@ audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& p
         error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success = false;
-        std::string last_error;
+        std::string last_error = {};
         {
             std::lock_guard<std::mutex> lk(error_mutex_);
             last_error = last_error_message_;
@@ -152,7 +152,7 @@ audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path
         error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success               = false;
-        std::string last_error;
+        std::string last_error = {};
         {
             std::lock_guard<std::mutex> lk(error_mutex_);
             last_error = last_error_message_;
@@ -215,7 +215,7 @@ DiarisationResult WhisperPlugin::transcribeWithDiarisation(
     if (!initialized_.load(std::memory_order_acquire)) {
         error_count_.fetch_add(1, std::memory_order_relaxed);
         result.success = false;
-        std::string last_error;
+        std::string last_error = {};
         {
             std::lock_guard<std::mutex> lk(error_mutex_);
             last_error = last_error_message_;
@@ -266,7 +266,7 @@ audio::TranscriptionResult WhisperPlugin::transcribeStream(
         error_count_.fetch_add(1, std::memory_order_relaxed);
         audio::TranscriptionResult err;
         err.success               = false;
-        std::string last_error;
+        std::string last_error = {};
         {
             std::lock_guard<std::mutex> lk(error_mutex_);
             last_error = last_error_message_;
@@ -325,7 +325,9 @@ void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetec
 std::vector<float> WhisperPlugin::applyVad(const std::vector<float>& pcm,
                                             float sample_rate) const {
     std::lock_guard<std::mutex> lk(vad_mutex_);
-    if (!vad_ || pcm.empty()) return pcm;
+    if (!vad_ || pcm.empty()) {
+      return pcm;
+    }
     const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);
     if (segments.empty()) return {};
 
@@ -351,7 +353,7 @@ std::string WhisperPlugin::getModelId() const {
 }
 
 nlohmann::json WhisperPlugin::getStatistics() const {
-    std::string last_error;
+    std::string last_error = {};
     {
         std::lock_guard<std::mutex> lk(error_mutex_);
         last_error = last_error_message_;

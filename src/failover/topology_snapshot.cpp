@@ -15,7 +15,8 @@ std::vector<std::string>
 TopologySnapshot::added_nodes(const TopologySnapshot& other) const {
     // Nodes in `other` but not in `this`
     std::unordered_set<std::string> mine(node_ids.begin(), node_ids.end());
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& id : other.node_ids) {
         if (mine.find(id) == mine.end()) {
             result.push_back(id);
@@ -28,7 +29,8 @@ std::vector<std::string>
 TopologySnapshot::removed_nodes(const TopologySnapshot& other) const {
     // Nodes in `this` but not in `other`
     std::unordered_set<std::string> theirs(other.node_ids.begin(), other.node_ids.end());
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& id : node_ids) {
         if (theirs.find(id) == theirs.end()) {
             result.push_back(id);

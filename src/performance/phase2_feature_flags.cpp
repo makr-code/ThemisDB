@@ -54,22 +54,22 @@ static void detect_x86_capabilities(HardwareCapabilities& caps) {
     ebx = static_cast<unsigned int>(cpu_info[1]);
     ecx = static_cast<unsigned int>(cpu_info[2]);
     edx = static_cast<unsigned int>(cpu_info[3]);
-    caps.has_rdtsc      = (edx & (1U << 4))  != 0;   // RDTSC (bit 4)
-    caps.has_sse2       = (edx & (1U << 26)) != 0;   // SSE2 (bit 26)
-    caps.has_cmpxchg16b = (ecx & (1U << 13)) != 0;   // CMPXCHG16B (bit 13)
+    caps.has_rdtsc      = (edx & (1 << 4))  != 0;   // RDTSC (bit 4)
+    caps.has_sse2       = (edx & (1 << 26)) != 0;   // SSE2 (bit 26)
+    caps.has_cmpxchg16b = (ecx & (1 << 13)) != 0;   // CMPXCHG16B (bit 13)
 
     __cpuidex(cpu_info, 7, 0);
     ebx = static_cast<unsigned int>(cpu_info[1]);
-    caps.has_avx2 = (ebx & (1U << 5)) != 0;  // AVX2 (bit 5)
+    caps.has_avx2 = (ebx & (1 << 5)) != 0;  // AVX2 (bit 5)
 #else
     // GCC/Clang path
     if (__get_cpuid(1, &eax, &ebx, &ecx, &edx)) {
-        caps.has_rdtsc      = (edx & (1U << 4))  != 0;   // RDTSC (bit 4)
-        caps.has_sse2       = (edx & (1U << 26)) != 0;   // SSE2 (bit 26)
-        caps.has_cmpxchg16b = (ecx & (1U << 13)) != 0;   // CMPXCHG16B (bit 13)
+        caps.has_rdtsc      = (edx & (1 << 4))  != 0;   // RDTSC (bit 4)
+        caps.has_sse2       = (edx & (1 << 26)) != 0;   // SSE2 (bit 26)
+        caps.has_cmpxchg16b = (ecx & (1 << 13)) != 0;   // CMPXCHG16B (bit 13)
     }
     if (__get_cpuid_count(7, 0, &eax, &ebx, &ecx, &edx)) {
-        caps.has_avx2 = (ebx & (1U << 5)) != 0;  // AVX2 (bit 5)
+        caps.has_avx2 = (ebx & (1 << 5)) != 0;  // AVX2 (bit 5)
     }
 #endif  // THEMIS_CPUID_MSVC
 #endif  // THEMIS_CPUID_SUPPORTED
@@ -91,7 +91,7 @@ static void detect_storage_capabilities(HardwareCapabilities& caps) {
     // Ordered candidate list: NVMe, virtio, and conventional SATA block devices.
     // For each, check the sysfs "rotational" flag: 0 = non-rotational (SSD/NVMe).
     // If the sysfs entry is absent, also accept the device existing at all
-    // (some virtual environments don't expose the rotational flag).
+    // (som[[maybe_unused]] e virtua[[maybe_unused]] l environment[[maybe_unused]] s do[[maybe_unused]] n't expos[[maybe_unused]] e th[[maybe_unused]] e rotationa[[maybe_unused]] l fla[[maybe_unused]] g).
     static const char* const kCandidates[] = {
         "/dev/nvme0n1", "/dev/nvme1n1",
         "/dev/vda",     "/dev/vdb",

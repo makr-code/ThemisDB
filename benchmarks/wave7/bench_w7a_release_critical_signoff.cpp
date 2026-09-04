@@ -86,7 +86,7 @@ static constexpr std::size_t kVecDim = 128;
 namespace {
 
 void RemoveAll(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -122,12 +122,18 @@ public:
     std::vector<float> NextVec(std::size_t dim) {
         std::normal_distribution<float> nd(0.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = nd(rng_);
+        for (auto& x : v) {
+          x = nd(rng_);
+        }
         // L2-normalize
         float norm = 0.0f;
-        for (float x : v) norm += x * x;
+        for (float x : v) {
+          norm += x * x;
+        }
         norm = std::sqrt(norm + 1e-12f);
-        for (auto& x : v) x /= norm;
+        for (auto& x : v) {
+          x /= norm;
+        }
         return v;
     }
 
@@ -172,7 +178,7 @@ public:
         KeyGenerator warmup_kg(kW7CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
             std::string key = warmup_kg.NextKey(kDefaultRecordCount);
-            std::string val;
+            std::string val = {};
             db_->get(key, val);
         }
     }
@@ -183,7 +189,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper> db_;
 };
 
@@ -192,7 +198,7 @@ BENCHMARK_F(CRUDSignoffFixture, RCS01_PointRead)(benchmark::State& state) {
     KeyGenerator kg(kW7CanonicalSeed);
     for (auto _ : state) {
         const std::string key = kg.NextKey(kDefaultRecordCount);
-        std::string val;
+        std::string val = {};
         benchmark::DoNotOptimize(db_->get(key, val));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -233,7 +239,7 @@ BENCHMARK_F(CRUDSignoffFixture, RCS05_MixedOLTP)(benchmark::State& state) {
             db_->put(key, "w_" + std::to_string(write_ctr++));
         } else {
             const std::string key = kg.NextKey(kDefaultRecordCount);
-            std::string val;
+            std::string val = {};
             benchmark::DoNotOptimize(db_->get(key, val));
         }
     }
@@ -275,7 +281,7 @@ public:
         // Warmup
         KeyGenerator wkg(kW7CanonicalSeed + 10);
         for (int i = 0; i < kWarmupIterations; ++i) {
-            std::string val;
+            std::string val = {};
             db_->get(wkg.NextKey(kDefaultRecordCount), val);
         }
     }
@@ -287,7 +293,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper>        db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
 };
@@ -367,7 +373,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<VectorIndex> vidx_;
 };
 
@@ -428,7 +434,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<GraphIndex> gidx_;
 };
 
@@ -491,7 +497,7 @@ public:
     }
 
 protected:
-    std::string db_path_;
+    std::string db_path_ = {};
     std::unique_ptr<RocksDBWrapper>        db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
 };

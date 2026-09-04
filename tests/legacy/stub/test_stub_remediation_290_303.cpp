@@ -25,7 +25,9 @@ TEST(DistributedTrainerAllReduceBridge, AR_01_InjectedFnCalledInsteadOfLocalScal
     trainer.setAllReduceCpuFn([&](std::vector<float>& data) {
         fn_called = true;
         // Simulate all-reduce: divide by world_size
-        for (auto& v : data) v /= 4.0f;
+        for (auto& v : data) {
+          v /= 4.0f;
+        }
     });
 
     std::vector<float> grads = {4.0f, 8.0f, 12.0f};
@@ -34,7 +36,9 @@ TEST(DistributedTrainerAllReduceBridge, AR_01_InjectedFnCalledInsteadOfLocalScal
     // we verify the bridge is registered without crashing.
     EXPECT_NO_THROW(trainer.setAllReduceCpuFn([&](std::vector<float>& g) {
         fn_called = true;
-        for (auto& v : g) v /= 4.0f;
+        for (auto& v : g) {
+          v /= 4.0f;
+        }
     }));
     EXPECT_NO_THROW(trainer.setAllReduceCpuFn(DistributedTrainer::AllReduceCpuFn{}));
 }
@@ -46,7 +50,9 @@ TEST(DistributedTrainerAllReduceBridge, AR_02_ClearAllReduceFnRevertsToFallback)
     DistributedTrainer trainer(cfg);
 
     trainer.setAllReduceCpuFn([](std::vector<float>& data) {
-        for (auto& v : data) v /= 2.0f;
+        for (auto& v : data) {
+          v /= 2.0f;
+        }
     });
     trainer.setAllReduceCpuFn(DistributedTrainer::AllReduceCpuFn{});
     // After clear, setting a new fn must still work (no crash/invariant break)

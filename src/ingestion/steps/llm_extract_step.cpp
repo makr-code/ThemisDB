@@ -75,13 +75,13 @@ public:
     const char* getName()    const override { return "builtin.llm_extract"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    bool canHandle(const ExtractionContext& ctx) const override {
+    bool canHandle(cons[[maybe_unused]] t ExtractionContext& [[maybe_unused]] ctx) const override {
         // Skip when no text available or backend unavailable
         return ctx.hasText() && backend_ && backend_->isAvailable();
     }
@@ -90,7 +90,7 @@ public:
         backend_ = std::move(b);
     }
 
-    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
         if (!ctx.hasText()) return {};
         if (!backend_ || !backend_->isAvailable()) {
             ctx.warnings.push_back(
@@ -155,22 +155,40 @@ private:
                                    const std::string& to) {
         std::size_t pos = 0;
         while ((pos = str.find(from, pos)) != std::string::npos) {
-            str.replace(pos, from.size(), to);
+            str.replace(pos,static_cast<int>(from.size()), to);
             pos += to.size();
         }
         return str;
     }
 
     static EntityType entityTypeFromStr(const std::string& s) {
-        if (s == "PERSON" || s == "PER") return EntityType::PERSON;
-        if (s == "ORG")                  return EntityType::ORGANIZATION;
-        if (s == "LOCATION" || s == "LOC") return EntityType::LOCATION;
-        if (s == "DATE")                 return EntityType::DATE;
-        if (s == "LAW")                  return EntityType::LEGAL_NORM_REFERENCE;
-        if (s == "LEGAL_PROVISION")      return EntityType::LEGAL_PROVISION;
-        if (s == "OBLIGATION")           return EntityType::LEGAL_OBLIGATION;
-        if (s == "PROHIBITION")          return EntityType::LEGAL_PROHIBITION;
-        if (s == "PERMISSION")           return EntityType::LEGAL_PERMISSION;
+        if (s == "PERSON" || s == "PER") {
+          return EntityType::PERSON;
+        }
+        if (s == "ORG") {
+          return EntityType::ORGANIZATION;
+        }
+        if (s == "LOCATION" || s == "LOC") {
+          return EntityType::LOCATION;
+        }
+        if (s == "DATE") {
+          return EntityType::DATE;
+        }
+        if (s == "LAW") {
+          return EntityType::LEGAL_NORM_REFERENCE;
+        }
+        if (s == "LEGAL_PROVISION") {
+          return EntityType::LEGAL_PROVISION;
+        }
+        if (s == "OBLIGATION") {
+          return EntityType::LEGAL_OBLIGATION;
+        }
+        if (s == "PROHIBITION") {
+          return EntityType::LEGAL_PROHIBITION;
+        }
+        if (s == "PERMISSION") {
+          return EntityType::LEGAL_PERMISSION;
+        }
         return EntityType::CHUNK;
     }
 
@@ -182,12 +200,16 @@ private:
         // Try to parse JSON array
         try {
             auto arr = json::parse(response);
-            if (!arr.is_array()) return;
+            if (!arr.is_array()) {
+              return;
+            }
             for (const auto& item : arr) {
                 const std::string text   = item.value("text",       "");
                 const std::string etype  = item.value("type",       default_etype);
                 const double      conf   = item.value("confidence", 1.0);
-                if (text.empty() || conf < min_conf) continue;
+                if (text.empty() || conf < min_conf) {
+                  continue;
+                }
 
                 BaseEntity ent;
                 ent.entity_type    = entityTypeFromStr(etype);

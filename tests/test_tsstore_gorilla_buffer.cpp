@@ -35,8 +35,8 @@ static std::string makeTempPath(const std::string& tag) {
 // ─── Fixture ────────────────────────────────────────────────────────────────
 
 struct GorillaBufFixture : ::testing::Test {
-    std::string db_path_gorilla;
-    std::string db_path_raw;
+    std::string db_path_gorilla = {};
+    std::string db_path_raw = {};
     std::unique_ptr<RocksDBWrapper> db_gorilla;
     std::unique_ptr<RocksDBWrapper> db_raw;
     std::unique_ptr<TSStore> store_gorilla;

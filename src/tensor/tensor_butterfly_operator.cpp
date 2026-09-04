@@ -75,7 +75,9 @@ void whtTransform(float* data, std::size_t n) {
     }
     // Normalise so that WHT is orthogonal (H*H^T = I).
     const float inv_sqrt_n = 1.0f / std::sqrt(static_cast<float>(n));
-    for (std::size_t i = 0; i < n; ++i) data[i] *= inv_sqrt_n;
+    for (std::size_t i = 0; i < n; ++i) {
+      data[i] *= inv_sqrt_n;
+    }
 }
 
 } // anonymous namespace
@@ -130,8 +132,10 @@ void radonFiberTransform(float* data, std::size_t n) {
         float integral = 0.0f;
         for (std::size_t j = 0; j < n; ++j) {
             // Simpson's weight: 1 at endpoints, 4 at odd j, 2 at even interior j.
-            float w;
-            if (j == 0 || j == n - 1)      w = 1.0f;
+            float w = 0;
+            if (j == 0 || j == n - 1) {
+              w = 1.0f;
+            }
             else if (j % 2 == 1)            w = 4.0f;
             else                            w = 2.0f;
             const float angle = pi_over_n * static_cast<float>(i) * static_cast<float>(j);
@@ -139,7 +143,9 @@ void radonFiberTransform(float* data, std::size_t n) {
         }
         result[i] = integral * scale;
     }
-    for (std::size_t i = 0; i < n; ++i) data[i] = result[i];
+    for (std::size_t i = 0; i < n; ++i) {
+      data[i] = result[i];
+    }
 }
 
 /// @brief Trapezoidal-rule Green's function convolution of a 1-D fiber.
@@ -152,7 +158,9 @@ void radonFiberTransform(float* data, std::size_t n) {
 /// @param data  In/out array of length n (must be ≥ 2).
 /// @param n     Length of the fiber.
 void greensFiberTransform(float* data, std::size_t n) {
-    if (n < 2) return;
+    if (n < 2) {
+      return;
+    }
     const float h = 1.0f / static_cast<float>(n - 1);
 
     // Precompute kernel row (length n) — same for every output row.
@@ -180,9 +188,13 @@ void greensFiberTransform(float* data, std::size_t n) {
             result[i] += kernel[r] * data[j];
         }
         // Normalise so DC response is 1.
-        if (dc_gain > 0.0f) result[i] /= dc_gain;
+        if (dc_gain > 0.0f) {
+          result[i] /= dc_gain;
+        }
     }
-    for (std::size_t i = 0; i < n; ++i) data[i] = result[i];
+    for (std::size_t i = 0; i < n; ++i) {
+      data[i] = result[i];
+    }
 }
 
 } // anonymous native namespace
@@ -325,7 +337,7 @@ TensorButterflyOperator::build(OperatorType                      type,
     // Validate grid_shape for FOURIER (WHT requires power-of-2 mode sizes).
     for (std::size_t k = 0; k < grid_shape.size(); ++k) {
         if (!isPow2(grid_shape[k])) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "TensorButterflyOperator::build: grid_shape[" << k
                 << "] = " << grid_shape[k]
                 << " is not a power of 2 (required for FOURIER/WHT butterfly).";
@@ -353,7 +365,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // `result` is an intentional value-copy of `data` (mutated in-place).
     auto applyFiberFn = [](const std::function<void(std::vector<float>&)>& fn,
                            storage::TTTrain result) {
-        for (std::size_t k = 0; k < result.cores.size(); ++k) {
+        for (std::size_t k = 0; k <static_cast<int>(result.cores.size()); ++k) {
             auto& core        = result.cores[k];
             const std::size_t r_left  = core.r_left;
             const std::size_t n_k     = core.n;
@@ -452,16 +464,16 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     }
 
     // Validate shape compatibility
-    if (data.cores.size() != cfg_.grid_shape.size()) {
-        std::ostringstream oss;
-        oss << "TensorButterflyOperator::apply: data has " << data.cores.size()
-            << " modes but operator was built for " << cfg_.grid_shape.size()
+    if (static_cast<int>(data.cores.size()) != static_cast<int>(cfg_.grid_shape.size())) {
+        std::ostringstream oss = {};
+        oss << "TensorButterflyOperator::apply: data has " <<static_cast<int>(data.cores.size())
+            << " modes but operator was built for " <<static_cast<int>(cfg_.grid_shape.size())
             << " modes.";
         throw std::invalid_argument(oss.str());
     }
-    for (std::size_t k = 0; k < data.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(data.cores.size()); ++k) {
         if (data.cores[k].n != cfg_.grid_shape[k]) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "TensorButterflyOperator::apply: data mode " << k
                 << " has size " << data.cores[k].n
                 << " but operator grid_shape[" << k << "] = "
@@ -481,7 +493,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // Stride pattern: elements for fixed (α_l, α_r) are NOT contiguous;
     // they step by r_r along i.  We extract into a temporary buffer,
     // transform, and scatter back.
-    for (std::size_t k = 0; k < result.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(result.cores.size()); ++k) {
         auto& core        = result.cores[k];
         const std::size_t r_left  = core.r_left;
         const std::size_t n_k     = core.n;
@@ -549,7 +561,7 @@ float TensorButterflyOperator::precision() const noexcept {
 }
 
 std::string TensorButterflyOperator::describe() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "TensorButterflyOperator{type=";
     switch (cfg_.type) {
         case OperatorType::FOURIER:        oss << "FOURIER(WHT)"; break;
@@ -557,8 +569,10 @@ std::string TensorButterflyOperator::describe() const {
         case OperatorType::GREENS_FUNCTION: oss << "GREENS(trapezoidal)"; break;
     }
     oss << ", shape=[";
-    for (std::size_t i = 0; i < cfg_.grid_shape.size(); ++i) {
-        if (i) oss << ',';
+    for (std::size_t i = 0; i <static_cast<int>(cfg_.grid_shape.size()); ++i) {
+        if (i) {
+          oss << ',';
+        }
         oss << cfg_.grid_shape[i];
     }
     oss << "], precision=" << cfg_.precision << '}';

@@ -46,7 +46,7 @@ static std::string nowISO8601() {
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }
@@ -56,7 +56,7 @@ static std::string generateId() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
     static std::uniform_int_distribution<uint64_t> dis;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     oss << std::setw(16) << dis(gen);
     oss << std::setw(16) << dis(gen);
@@ -65,7 +65,7 @@ static std::string generateId() {
 
 /// Convert raw SHA-256 digest to lowercase hex string.
 static std::string digestToHex(const unsigned char digest[SHA256_DIGEST_LENGTH]) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::setw(2) << static_cast<int>(digest[i]);
@@ -99,7 +99,9 @@ json LoRAProvenanceRecord::toJSON() const {
 LoRAProvenanceRecord LoRAProvenanceRecord::fromJSON(const json& j) {
     LoRAProvenanceRecord r;
     auto get_str = [&](const char* key, std::string& dest) {
-        if (j.contains(key) && j[key].is_string()) dest = j[key].get<std::string>();
+        if (j.contains(key) && j[key].is_string()) {
+          dest = j[key].get<std::string>();
+        }
     };
     get_str("dataset_hash",         r.dataset_hash);
     get_str("base_model_hash",      r.base_model_hash);
@@ -112,8 +114,12 @@ LoRAProvenanceRecord LoRAProvenanceRecord::fromJSON(const json& j) {
     get_str("rfc3161_timestamp",    r.rfc3161_timestamp);
     if (j.contains("training_duration_secs"))
         r.training_duration_secs = j["training_duration_secs"].get<double>();
-    if (j.contains("hardware_info"))   r.hardware_info   = j["hardware_info"];
-    if (j.contains("custom_metadata")) r.custom_metadata = j["custom_metadata"];
+    if (j.contains("hardware_info")) {
+      r.hardware_info   = j["hardware_info"];
+    }
+    if (j.contains("custom_metadata")) {
+      r.custom_metadata = j["custom_metadata"];
+    }
     return r;
 }
 
@@ -139,7 +145,9 @@ json ExternalAdapterProvenance::toJSON() const {
 ExternalAdapterProvenance ExternalAdapterProvenance::fromJSON(const json& j) {
     ExternalAdapterProvenance r;
     auto get_str = [&](const char* key, std::string& dest) {
-        if (j.contains(key) && j[key].is_string()) dest = j[key].get<std::string>();
+        if (j.contains(key) && j[key].is_string()) {
+          dest = j[key].get<std::string>();
+        }
     };
     get_str("source_url",           r.source_url);
     get_str("commit_hash",          r.commit_hash);
@@ -148,8 +156,12 @@ ExternalAdapterProvenance ExternalAdapterProvenance::fromJSON(const json& j) {
     get_str("provenance_signature", r.provenance_signature);
     get_str("certificate_chain",    r.certificate_chain);
     get_str("import_timestamp",     r.import_timestamp);
-    if (j.contains("signature_valid"))  r.signature_valid  = j["signature_valid"].get<bool>();
-    if (j.contains("cert_chain_valid")) r.cert_chain_valid = j["cert_chain_valid"].get<bool>();
+    if (j.contains("signature_valid")) {
+      r.signature_valid  = j["signature_valid"].get<bool>();
+    }
+    if (j.contains("cert_chain_valid")) {
+      r.cert_chain_valid = j["cert_chain_valid"].get<bool>();
+    }
     if (j.contains("validation_errors"))
         r.validation_errors = j["validation_errors"].get<std::vector<std::string>>();
     return r;
@@ -174,7 +186,9 @@ json AdapterSnapshot::toJSON() const {
 AdapterSnapshot AdapterSnapshot::fromJSON(const json& j) {
     AdapterSnapshot s;
     auto get_str = [&](const char* key, std::string& dest) {
-        if (j.contains(key) && j[key].is_string()) dest = j[key].get<std::string>();
+        if (j.contains(key) && j[key].is_string()) {
+          dest = j[key].get<std::string>();
+        }
     };
     get_str("snapshot_id",        s.snapshot_id);
     get_str("adapter_id",         s.adapter_id);
@@ -210,7 +224,9 @@ json InferenceAuditEntry::toJSON() const {
 InferenceAuditEntry InferenceAuditEntry::fromJSON(const json& j) {
     InferenceAuditEntry e;
     auto get_str = [&](const char* key, std::string& dest) {
-        if (j.contains(key) && j[key].is_string()) dest = j[key].get<std::string>();
+        if (j.contains(key) && j[key].is_string()) {
+          dest = j[key].get<std::string>();
+        }
     };
     get_str("entry_id",      e.entry_id);
     get_str("previous_hash", e.previous_hash);
@@ -221,8 +237,12 @@ InferenceAuditEntry InferenceAuditEntry::fromJSON(const json& j) {
     get_str("response_hash", e.response_hash);
     get_str("model_hash",    e.model_hash);
     get_str("adapter_hash",  e.adapter_hash);
-    if (j.contains("commitments")) e.commitments = j["commitments"];
-    if (j.contains("metadata"))    e.metadata    = j["metadata"];
+    if (j.contains("commitments")) {
+      e.commitments = j["commitments"];
+    }
+    if (j.contains("metadata")) {
+      e.metadata    = j["metadata"];
+    }
     return e;
 }
 
@@ -296,7 +316,9 @@ std::optional<LoRAProvenanceRecord> LoRAProvenanceManager::getProvenance(
     const std::string& adapter_id) const {
     std::lock_guard<std::mutex> lock(impl_->mu);
     auto it = impl_->local_provenance.find(adapter_id);
-    if (it == impl_->local_provenance.end()) return std::nullopt;
+    if (it == impl_->local_provenance.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -355,7 +377,7 @@ ExternalAdapterProvenance LoRAProvenanceManager::importExternalAdapter(
         // Adapter hash sanity check
         if (provenance.adapter_hash.empty()) {
             provenance.validation_errors.push_back("Missing adapter hash");
-        } else if (provenance.adapter_hash.size() != 64) {
+        } else if (static_cast<int>(provenance.adapter_hash.size()) != 64) {
             provenance.validation_errors.push_back(
                 "Adapter hash must be a 64-character hex SHA-256 digest");
         }
@@ -386,7 +408,9 @@ std::optional<ExternalAdapterProvenance> LoRAProvenanceManager::getExternalProve
     const std::string& adapter_id) const {
     std::lock_guard<std::mutex> lock(impl_->mu);
     auto it = impl_->external_provenance.find(adapter_id);
-    if (it == impl_->external_provenance.end()) return std::nullopt;
+    if (it == impl_->external_provenance.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -435,7 +459,9 @@ std::optional<AdapterSnapshot> LoRAProvenanceManager::getSnapshot(
     const std::string& snapshot_id) const {
     std::lock_guard<std::mutex> lock(impl_->mu);
     auto it = impl_->snapshot_by_id.find(snapshot_id);
-    if (it == impl_->snapshot_by_id.end()) return std::nullopt;
+    if (it == impl_->snapshot_by_id.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -448,8 +474,12 @@ InferenceAuditEntry LoRAProvenanceManager::appendAuditEntry(
     InferenceAuditEntry entry) {
 
     // Populate auto-generated fields
-    if (entry.entry_id.empty())  entry.entry_id  = generateId();
-    if (entry.timestamp.empty()) entry.timestamp  = nowISO8601();
+    if (entry.entry_id.empty()) {
+      entry.entry_id  = generateId();
+    }
+    if (entry.timestamp.empty()) {
+      entry.timestamp  = nowISO8601();
+    }
 
     {
         std::lock_guard<std::mutex> lock(impl_->mu);
@@ -488,7 +518,7 @@ bool LoRAProvenanceManager::verifyAuditChain(
     if (it == impl_->audit_logs.end()) return true;  // empty chain is trivially valid
 
     const auto& log = it->second;
-    std::string expected_previous;
+    std::string expected_previous = {};
 
     for (size_t i = 0; i < log.size(); ++i) {
         const auto& e = log[i];
@@ -520,7 +550,7 @@ bool LoRAProvenanceManager::verifyAuditChain(
 
 std::string LoRAProvenanceManager::sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(data.data()),static_cast<int>(data.size()), digest);
     return digestToHex(digest);
 }
 

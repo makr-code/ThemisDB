@@ -318,7 +318,8 @@ TEST_F(HTTPClientPoolTest, DISABLED_BenchmarkStripedVsSingleLock) {
         
         auto start = std::chrono::steady_clock::now();
         
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < num_threads; ++t) {
             threads.emplace_back([&pool, requests_per_thread]() {
                 for (int i = 0; i < requests_per_thread; ++i) {
@@ -346,7 +347,8 @@ TEST_F(HTTPClientPoolTest, DISABLED_BenchmarkStripedVsSingleLock) {
         
         auto start = std::chrono::steady_clock::now();
         
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (int t = 0; t < num_threads; ++t) {
             threads.emplace_back([&pool, requests_per_thread]() {
                 for (int i = 0; i < requests_per_thread; ++i) {

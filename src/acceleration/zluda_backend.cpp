@@ -32,11 +32,15 @@ static inline void* dlopen(const char* name, int /*flags*/) {
     return reinterpret_cast<void*>(::LoadLibraryA(name));
 }
 static inline void* dlsym(void* handle, const char* name) {
-    if (!handle) return nullptr;
+    if (!handle) {
+      return nullptr;
+    }
     return reinterpret_cast<void*>(::GetProcAddress(reinterpret_cast<HMODULE>(handle), name));
 }
 static inline int dlclose(void* handle) {
-    if (!handle) return 0;
+    if (!handle) {
+      return 0;
+    }
     return ::FreeLibrary(reinterpret_cast<HMODULE>(handle)) ? 0 : -1;
 }
 #define RTLD_NOW 0
@@ -52,7 +56,7 @@ struct dim3 {
     unsigned int x;
     unsigned int y;
     unsigned int z;
-    constexpr dim3(unsigned int x_ = 1u, unsigned int y_ = 1u, unsigned int z_ = 1u) noexcept
+    constexpr dim3(unsigned int x_ = 1, unsigned int y_ = 1, unsigned int z_ = 1) noexcept
         : x(x_), y(y_), z(z_) {}
 };
 #endif
@@ -147,7 +151,9 @@ public:
         void* handle = dlopen("libcuda.so.zluda", RTLD_NOW | RTLD_LOCAL);
         if (!handle) {
             handle = dlopen("libcuda.so", RTLD_NOW | RTLD_LOCAL);
-            if (!handle) return false;
+            if (!handle) {
+              return false;
+            }
             
             // Check if this is actually ZLUDA and not NVIDIA CUDA
             // ZLUDA sets a special environment variable or has specific version strings
@@ -187,7 +193,9 @@ public:
     }
     
     bool initialize() override {
-        if (initialized_) return true;
+        if (initialized_) {
+          return true;
+        }
         
         THEMIS_INFO("ZLUDA Backend: Initializing...");
         THEMIS_INFO("ZLUDA: CUDA compatibility layer for AMD GPUs");
@@ -245,8 +253,12 @@ public:
     
     void shutdown() override {
         if (initialized_) {
-            if (stream_) fnStreamDestroy_(stream_);
-            if (zludaLib_) dlclose(zludaLib_);
+            if (stream_) {
+              fnStreamDestroy_(stream_);
+            }
+            if (zludaLib_) {
+              dlclose(zludaLib_);
+            }
             initialized_ = false;
         }
     }
@@ -261,7 +273,7 @@ public:
     ) override {
         ComputeDistancesFn fn;
         {
-            std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+            std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
             fn = s_compute_distances_fn_;
         }
         if (fn) {
@@ -287,7 +299,7 @@ public:
         {
             ZludaKernelFn kfn;
             {
-                std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+                std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
                 kfn = s_zluda_kernel_fn_;
             }
             if (kfn) {
@@ -297,7 +309,9 @@ public:
                 input.insert(input.end(), vectors, vectors + numVectors * dim);
                 try {
                     auto result = kfn(input);
-                    if (!result.empty()) return result;
+                    if (!result.empty()) {
+                      return result;
+                    }
                 } catch (const std::exception& e) {
                     THEMIS_WARN("ZLUDA: ZludaKernelFn threw in computeDistances: {} "
                                 "-- falling back to CPU", e.what());
@@ -355,13 +369,15 @@ public:
 
                     const unsigned int gridX  = static_cast<unsigned int>((numVectors + 31) / 32);
                     const unsigned int gridY  = static_cast<unsigned int>(numQueries);
-                    const unsigned int blockX = 32u;
+                    const unsigned int blockX = 32;
 
-                    if (fnLaunchKernel_(kfunc, gridX, gridY, 1u,
-                                        blockX, 1u, 1u, 0u,
+                    if (fnLaunchKernel_(kfunc, gridX, gridY, 1,
+                                        blockX, 1, 1, 0,
                                         stream_, args, nullptr) == ZLUDA_SUCCESS) {
 
-                        if (fnStreamSynchronize_) fnStreamSynchronize_(stream_);
+                        if (fnStreamSynchronize_) {
+                          fnStreamSynchronize_(stream_);
+                        }
 
                         std::vector<float> output(numQueries * numVectors);
                         fnMemcpyDtoHV2_(output.data(), d_output, output_bytes);
@@ -369,15 +385,25 @@ public:
                         fnMemFreeV2_(d_queries);
                         fnMemFreeV2_(d_vectors);
                         fnMemFreeV2_(d_output);
-                        if (fnModuleUnload_) fnModuleUnload_(cu_module);
+                        if (fnModuleUnload_) {
+                          fnModuleUnload_(cu_module);
+                        }
                         return output;
                     }
                 }
-                if (d_queries) fnMemFreeV2_(d_queries);
-                if (d_vectors) fnMemFreeV2_(d_vectors);
-                if (d_output)  fnMemFreeV2_(d_output);
+                if (d_queries) {
+                  fnMemFreeV2_(d_queries);
+                }
+                if (d_vectors) {
+                  fnMemFreeV2_(d_vectors);
+                }
+                if (d_output) {
+                  fnMemFreeV2_(d_output);
+                }
             }
-            if (fnModuleUnload_) fnModuleUnload_(cu_module);
+            if (fnModuleUnload_) {
+              fnModuleUnload_(cu_module);
+            }
         }
         THEMIS_WARN("ZLUDA: PTX computeDistances launch failed -- falling back to CPU");
     } else {
@@ -402,7 +428,7 @@ public:
     ) override {
         BatchKnnSearchFn fn;
         {
-            std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+            std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
             fn = s_batch_knn_fn_;
         }
         if (fn) {
@@ -433,7 +459,7 @@ public:
         {
             ZludaKernelFn kfn;
             {
-                std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+                std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
                 kfn = s_zluda_kernel_fn_;
             }
             if (kfn) {
@@ -443,7 +469,7 @@ public:
                 input.insert(input.end(), vectors, vectors + numVectors * dim);
                 try {
                     auto raw_out = kfn(input);
-                    if (raw_out.size() == numQueries * numVectors) {
+                    if (static_cast<int>(raw_out.size()) == numQueries * numVectors) {
                         std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
                         const size_t kk = std::min(k, numVectors);
                         for (size_t q = 0; q < numQueries; ++q) {
@@ -481,7 +507,7 @@ public:
         {
             auto flat_dists = computeDistances(queries, numQueries, dim,
                                                vectors, numVectors, useL2);
-            if (!flat_dists.empty() && flat_dists.size() == numQueries * numVectors) {
+            if (!flat_dists.empty() && static_cast<int>(flat_dists.size()) == numQueries * numVectors) {
                 const size_t kk = std::min(k, numVectors);
                 std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
                 for (size_t q = 0; q < numQueries; ++q) {
@@ -545,7 +571,7 @@ private:
     ZludaStream stream_ = nullptr;
     /// Actual VRAM capacity queried via cuDeviceTotalMem during initialize().
     /// Sentinel 8 GiB used when the function is unavailable through ZLUDA.
-    size_t detected_memory_bytes_ = 8ULL * 1024 * 1024 * 1024;
+    size_t detected_memory_bytes_ = 8 * 1024 * 1024 * 1024;
     
     // Function pointers
     PFN_zludaGetDeviceCount fnGetDeviceCount_ = nullptr;
@@ -581,17 +607,17 @@ ZLUDAVectorBackend::BatchKnnSearchFn ZLUDAVectorBackend::s_batch_knn_fn_;
 ZludaKernelFn ZLUDAVectorBackend::s_zluda_kernel_fn_;
 
 void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
-    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+    std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
     s_compute_distances_fn_ = std::move(fn);
 }
 
 void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
-    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+    std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
     s_batch_knn_fn_ = std::move(fn);
 }
 
 void ZLUDAVectorBackend::setZludaKernelFnImpl(ZludaKernelFn fn) {
-    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+    std::lock_guard<std::mutex> lk([[maybe_unused]] s_callback_fn_mutex_);
     s_zluda_kernel_fn_ = std::move(fn);
 }
 

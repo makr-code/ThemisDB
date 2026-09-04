@@ -125,7 +125,7 @@ static std::vector<SimProcessModel> buildModelStore(int n) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static std::string makeBpmnXml(int model_idx, int node_count) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
         << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">)"
         << "<process id=\"proc_" << model_idx << "\" name=\"Verwaltungsvorgang "
@@ -169,7 +169,9 @@ static float bm25Score(const std::string& doc,
         ++tf;
         ++pos;
     }
-    if (tf == 0) return 0.0f;
+    if (tf == 0) {
+      return 0.0f;
+    }
 
     const float dl  = static_cast<float>(doc.size());
     const float idf = std::log(1.0f + 100.0f / (1.0f + static_cast<float>(tf)));
@@ -313,7 +315,7 @@ static void BM_ProcessEmbeddingPersist(benchmark::State& state) {
     for (auto& v : model.embedding) { v = dist(prng); }
 
     for (auto _ : state) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"id\":\"" << model.id
             << "\",\"name\":\"" << model.name
             << "\",\"state\":\"" << model.state
@@ -321,7 +323,9 @@ static void BM_ProcessEmbeddingPersist(benchmark::State& state) {
             << ",\"_embedding\":[";
 
         for (int i = 0; i < dims; ++i) {
-            if (i > 0) oss << ',';
+            if (i > 0) {
+              oss << ',';
+            }
             oss << model.embedding[static_cast<size_t>(i)];
         }
         oss << "]}";

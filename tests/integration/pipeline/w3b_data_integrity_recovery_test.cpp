@@ -162,7 +162,8 @@ public:
         // Move staged (prepared) entries for this tx_id into the journal so that
         // Recovery() can replay them after a crash. Entries staged for other
         // transactions remain in pending_for_commit_.
-        std::vector<WalEntry> remaining_pending;
+        std::vector<WalEntry> remaining_pending = {};
+
         for (auto& entry : pending_for_commit_) {
             if (entry.transaction_id == tx_id) {
                 journal_.push_back(entry);
@@ -218,7 +219,8 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
 
         // First pass: identify committed transaction IDs
-        std::unordered_set<std::string> committed_ids;
+        std::unordered_set<std::string> committed_ids = {};
+
         for (const auto& entry : journal_) {
             if (entry.type == WalEntryType::kCommit) {
                 committed_ids.insert(entry.transaction_id);

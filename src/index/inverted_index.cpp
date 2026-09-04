@@ -143,7 +143,9 @@ std::optional<InvertedIndex::Config>
 InvertedIndex::getConfig(std::string_view table,
                          std::string_view column) const {
     auto val = db_.get(makeMetaKey(table, column));
-    if (!val) return std::nullopt;
+    if (!val) {
+      return std::nullopt;
+    }
     try {
         std::string s(val->begin(), val->end());
         auto j = nlohmann::json::parse(s);
@@ -154,7 +156,9 @@ InvertedIndex::getConfig(std::string_view table,
         cfg.normalize_umlauts = j.value("normalize_umlauts", false);
         if (j.contains("stopwords") && j["stopwords"].is_array()) {
             for (const auto& w : j["stopwords"])
-                if (w.is_string()) cfg.stopwords.push_back(w.get<std::string>());
+                if (w.is_string()) {
+                  cfg.stopwords.push_back(w.get<std::string>());
+                }
         }
         return cfg;
     } catch (...) {
@@ -168,7 +172,7 @@ InvertedIndex::getConfig(std::string_view table,
 
 std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char c : text) {
         if (std::isspace(c) || std::ispunct(c)) {
             if (!cur.empty()) {
@@ -190,7 +194,7 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
 
 std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
                                                   const Config& config) {
-    std::string normalized;
+    std::string normalized = {};
     if (config.normalize_umlauts) {
         normalized = utils::Normalizer::normalizeUmlauts(text);
     }
@@ -202,7 +206,7 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
         auto sw   = utils::Stopwords::merge(base, config.stopwords);
         tokens.erase(
             std::remove_if(tokens.begin(), tokens.end(),
-                           [&](const std::string& t) { return sw.count(t) > 0; }),
+                           [&]([[maybe_unused]] const std::string& t) { return sw.count(t) > 0; }),
             tokens.end());
     }
 
@@ -232,9 +236,13 @@ void InvertedIndex::removePostings_(std::string_view table,
             auto j = nlohmann::json::parse(s);
             if (j.is_array()) {
                 for (const auto& item : j) {
-                    if (!item.is_string()) continue;
+                    if (!item.is_string()) {
+                      continue;
+                    }
                     const auto tok = item.get<std::string>();
-                    if (tok.empty()) continue;
+                    if (tok.empty()) {
+                      continue;
+                    }
                     db_.del(makeIndexKey(table, column, tok, pk));
                     db_.del(makeTFKey(table, column, tok, pk));
                 }
@@ -259,20 +267,27 @@ InvertedIndex::Status InvertedIndex::index(std::string_view table,
     if (!exists(table, column))
         return Status::Error("InvertedIndex::index: no index for " +
                              std::string(table) + "." + std::string(column));
-    if (pk.empty()) return Status::Error("InvertedIndex::index: pk must not be empty");
+    if (pk.empty()) {
+      return Status::Error("InvertedIndex::index: pk must not be empty");
+    }
 
     auto config = getConfig(table, column).value_or(Config{});
 
     // Remove previous posting entries (upsert semantics via reverse-index key)
     removePostings_(table, column, pk);
 
-    if (text.empty()) return Status::OK();
+    if (text.empty()) {
+      return Status::OK();
+    }
 
     auto tokens = tokenize(text, config);
 
     // Build TF map
-    std::unordered_map<std::string, uint32_t> tf;
-    for (const auto& t : tokens) if (!t.empty()) tf[t]++;
+    std::unordered_map<std::string, uint32_t> tf = {};
+
+    for (const auto& t : tokens) {
+      if (!t.empty()) tf[t]++;
+    }
 
     // Write doc-length
     {
@@ -308,7 +323,9 @@ InvertedIndex::Status InvertedIndex::deindex(std::string_view table,
     if (!exists(table, column))
         return Status::Error("InvertedIndex::deindex: no index for " +
                              std::string(table) + "." + std::string(column));
-    if (pk.empty()) return Status::Error("InvertedIndex::deindex: pk must not be empty");
+    if (pk.empty()) {
+      return Status::Error("InvertedIndex::deindex: pk must not be empty");
+    }
 
     removePostings_(table, column, pk);
     return Status::OK();
@@ -348,19 +365,25 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
     // AND intersection
     std::unordered_set<std::string> intersection = postings[0];
     for (size_t i = 1; i < postings.size(); ++i) {
-        std::unordered_set<std::string> tmp;
+        std::unordered_set<std::string> tmp = {};
+
         for (const auto& pk : intersection)
-            if (postings[i].count(pk)) tmp.insert(pk);
+            if (postings[i].count(pk)) {
+              tmp.insert(pk);
+            }
         intersection = std::move(tmp);
     }
     if (intersection.empty()) return {Status::OK(), {}};
 
     // Build universe for N and avgdl
-    std::unordered_set<std::string> universe;
-    for (const auto& ps : postings)
-        for (const auto& pk : ps) universe.insert(pk);
+    std::unordered_set<std::string> universe = {};
 
-    const double N = static_cast<double>(std::max<size_t>(1, universe.size()));
+    for (const auto& ps : postings)
+        for (const auto& pk : ps) {
+          universe.insert(pk);
+        }
+
+    const double N = static_cast<double>(std::max<size_t>(1,static_cast<int>(universe.size())));
 
     std::unordered_map<std::string, double> docLen;
     double totalLen = 0.0;
@@ -378,7 +401,8 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
         universe.empty() ? 1.0 : std::max(1.0, totalLen / N);
 
     // df per token
-    std::vector<double> dfs;
+    std::vector<double> dfs = {};
+
     dfs.reserve(postings.size());
     for (const auto& ps : postings)
         dfs.push_back(static_cast<double>(ps.size()));
@@ -387,7 +411,8 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
     constexpr double k1 = 1.2;
     constexpr double b  = 0.75;
 
-    std::vector<SearchResult> scored;
+    std::vector<SearchResult> scored = {};
+
     scored.reserve(intersection.size());
 
     for (const auto& pk : intersection) {
@@ -403,7 +428,9 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
                 try { tf = static_cast<double>(std::stoul(s)); } catch (...) {}
             }
             double denom = tf + k1 * (1.0 - b + b * (dl / avgdl));
-            if (denom <= 0.0) denom = tf + k1;
+            if (denom <= 0.0) {
+              denom = tf + k1;
+            }
             score += idf * ((tf * (k1 + 1.0)) / denom);
         }
         scored.push_back({std::string(pk), score});
@@ -414,7 +441,9 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
                   return a.score > b.score;
               });
 
-    if (scored.size() > limit) scored.resize(limit);
+    if (static_cast<int>(scored.size()) > limit) {
+      scored.resize(limit);
+    }
     return {Status::OK(), std::move(scored)};
 }
 
@@ -461,9 +490,12 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
 
     std::unordered_set<std::string> candidates = postings[0];
     for (size_t i = 1; i < postings.size(); ++i) {
-        std::unordered_set<std::string> tmp;
+        std::unordered_set<std::string> tmp = {};
+
         for (const auto& pk : candidates)
-            if (postings[i].count(pk)) tmp.insert(pk);
+            if (postings[i].count(pk)) {
+              tmp.insert(pk);
+            }
         candidates = std::move(tmp);
     }
     if (candidates.empty()) return {Status::OK(), {}};
@@ -475,15 +507,20 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
     std::transform(phraseNorm.begin(), phraseNorm.end(), phraseNorm.begin(),
                    [](unsigned char c) { return std::tolower(c); });
 
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     for (const auto& pk : candidates) {
         auto blob = db_.get(KeySchema::makeRelationalKey(table, pk));
-        if (!blob || blob->empty()) continue;
+        if (!blob || blob->empty()) {
+          continue;
+        }
         try {
             BaseEntity::Blob beBlob(blob->begin(), blob->end());
             auto entity = BaseEntity::deserialize(pk, beBlob);
             auto maybeVal = entity.extractField(column);
-            if (!maybeVal) continue;
+            if (!maybeVal) {
+              continue;
+            }
             std::string field = *maybeVal;
             if (config.normalize_umlauts)
                 field = utils::Normalizer::normalizeUmlauts(field);
@@ -494,7 +531,9 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
         } catch (...) {
             // skip unreadable documents
         }
-        if (results.size() >= limit) break;
+        if (static_cast<int>(results.size()) >= limit) {
+          break;
+        }
     }
     return {Status::OK(), std::move(results)};
 }
@@ -506,16 +545,24 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
 namespace {
 int levenshtein(const std::string& s1, const std::string& s2) {
     const size_t m = s1.size(), n = s2.size();
-    if (m == 0) return static_cast<int>(n);
-    if (n == 0) return static_cast<int>(m);
+    if (m == 0) {
+      return static_cast<int>(n);
+    }
+    if (n == 0) {
+      return static_cast<int>(m);
+    }
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
-    for (size_t i = 0; i <= m; ++i) dp[i][0] = static_cast<int>(i);
-    for (size_t j = 0; j <= n; ++j) dp[0][j] = static_cast<int>(j);
+    for (size_t i = 0; i <= m; ++i) {
+      dp[i][0] = static_cast<int>(i);
+    }
+    for (size_t j = 0; j <= n; ++j) {
+      dp[0][j] = static_cast<int>(j);
+    }
     for (size_t i = 1; i <= m; ++i)
         for (size_t j = 1; j <= n; ++j) {
-            int cost      = (s1[i - 1] == s2[j - 1]) ? 0 : 1;
-            dp[i][j] = std::min({dp[i - 1][j] + 1, dp[i][j - 1] + 1,
-                                  dp[i - 1][j - 1] + cost});
+            int cost      = (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) ? 0 : 1;
+            dp[i][j] = std::min({dp[static_cast<int>(i - 1)][j] + 1, dp[i][static_cast<int>(j - 1)] + 1,
+                                  dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + cost});
         }
     return dp[m][n];
 }
@@ -548,12 +595,14 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         // separator between token and pk (tokens never contain ':' because the
         // tokeniser splits on punctuation).
         size_t lastColon = key.rfind(':');
-        if (lastColon == std::string_view::npos || lastColon <= prefix.size())
+        if (lastColon == std::string_view::npos  || static_cast<size_t>(lastColon) < = prefix.size())
             return true;
 
-        std::string tok(key.substr(prefix.size(), lastColon - prefix.size()));
+        std::string tok(key.substr(prefix.size(), lastColon - static_cast<int>(prefix.size()) ));
         std::string pk(key.substr(lastColon + 1));
-        if (tok.empty() || pk.empty()) return true;
+        if (tok.empty() || pk.empty()) {
+          return true;
+        }
 
         for (const auto& qt : queryTokens) {
             int dist = levenshtein(qt, tok);
@@ -569,7 +618,8 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         return true;
     });
 
-    std::vector<SearchResult> results;
+    std::vector<SearchResult> results = {};
+
     results.reserve(pkScores.size());
     for (auto& [pk, score] : pkScores)
         results.push_back({pk, score});
@@ -579,7 +629,9 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
                   return a.score > b.score;
               });
 
-    if (results.size() > limit) results.resize(limit);
+    if (static_cast<int>(results.size()) > limit) {
+      results.resize(limit);
+    }
     return {Status::OK(), std::move(results)};
 }
 

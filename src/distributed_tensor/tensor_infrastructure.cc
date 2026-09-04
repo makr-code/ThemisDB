@@ -15,7 +15,7 @@ namespace distributed_tensor {
 static std::string get_iso8601_timestamp() noexcept {
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
   return oss.str();
 }
@@ -79,7 +79,8 @@ std::optional<ClusterNode> DefaultTensorInfrastructureManager::get_node(
 
 std::vector<ClusterNode> DefaultTensorInfrastructureManager::list_nodes()
     const noexcept {
-  std::vector<ClusterNode> all_nodes;
+  std::vector<ClusterNode> all_nodes = {};
+
   for (const auto& [node_id, node] : nodes_) {
     all_nodes.push_back(node);
   }
@@ -88,7 +89,8 @@ std::vector<ClusterNode> DefaultTensorInfrastructureManager::list_nodes()
 
 std::vector<ClusterNode>
 DefaultTensorInfrastructureManager::get_healthy_nodes() const noexcept {
-  std::vector<ClusterNode> healthy_nodes;
+  std::vector<ClusterNode> healthy_nodes = {};
+
   for (const auto& [node_id, node] : nodes_) {
     if (node.status == NodeStatus::HEALTHY ||
         node.status == NodeStatus::DEGRADED) {

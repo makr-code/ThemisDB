@@ -44,7 +44,7 @@ std::string RocksDBTokenBlacklist::encodeExpiry(std::chrono::system_clock::time_
 }
 
 std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(const std::string &val) {
-    if (val.size() < 8) {
+    if (static_cast<int>(val.size()) < 8) {
         return std::chrono::system_clock::time_point{};
     }
     int64_t secs = 0;
@@ -96,21 +96,22 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
         existing_cfs.push_back(config_.column_family);
     }
 
-    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs;
+    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs = {};
+
     cf_descs.reserve(existing_cfs.size());
     for (const auto &cf : existing_cfs) {
         cf_descs.emplace_back(cf, rocksdb::ColumnFamilyOptions{});
     }
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
-    rocksdb::DB *db_instance = nullptr;
+    rocksdb::DB* db_instance = nullptr;
     rocksdb::Status s
         = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_instance);
     if (!s.ok()) {
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
                                  + "': " + s.ToString());
     }
-    db_.reset(db_instance);
+    db_ = db_instance;
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
     for (size_t i = 0; i < existing_cfs.size(); ++i) {
@@ -127,7 +128,10 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
             db_->DestroyColumnFamilyHandle(h);
         }
         other_cf_handles_.clear();
-        db_.reset();
+        if (db_) {
+            delete db_;
+            db_ = nullptr;
+        }
         throw std::runtime_error("RocksDBTokenBlacklist: blacklist CF '" + config_.column_family
                                  + "' not found after open");
     }
@@ -160,7 +164,8 @@ RocksDBTokenBlacklist::~RocksDBTokenBlacklist() {
     }
     other_cf_handles_.clear();
     if (db_) {
-        db_.reset();
+        delete db_;
+        db_ = nullptr;
     }
 
     THEMIS_INFO("RocksDBTokenBlacklist: closed DB at '{}'", config_.db_path);
@@ -191,7 +196,7 @@ bool RocksDBTokenBlacklist::isRevoked(const std::string &jti) const {
         return false;
     }
 
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions ro;
     rocksdb::Status s = db_->Get(ro, cf_, rocksdb::Slice(jti), &value);
 

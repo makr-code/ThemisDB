@@ -39,11 +39,11 @@ namespace {
 #ifdef THEMIS_HAS_CURL
 // Maximum number of bytes accepted from a single cluster HTTP response.
 // Prevents a rogue or compromised cluster from exhausting server memory.
-static constexpr size_t kMaxResponseBytes = 64u * 1024u * 1024u; // 64 MiB
+static constexpr size_t kMaxResponseBytes = 64 * 1024 * 1024; // 64 MiB
 
 struct ResponseAccumulator {
     std::string* buffer;
-    size_t       max_bytes;
+    size_t       max_bytes = {};
     size_t       received{0};
 };
 
@@ -134,7 +134,8 @@ void CrossClusterFederator::unregisterCluster(const std::string& cluster_id) {
 
 std::vector<ClusterEndpoint> CrossClusterFederator::listClusters() const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    std::vector<ClusterEndpoint> result;
+    std::vector<ClusterEndpoint> result = {};
+
     result.reserve(clusters_.size());
     for (const auto& [id, ep] : clusters_) {
         result.push_back(ep);
@@ -150,7 +151,8 @@ std::vector<ClusterCostEstimate>
 CrossClusterFederator::estimateCosts(const std::string& /*query*/) const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
 
-    std::vector<ClusterCostEstimate> estimates;
+    std::vector<ClusterCostEstimate> estimates = {};
+
     estimates.reserve(clusters_.size());
 
     for (const auto& [id, ep] : clusters_) {
@@ -221,7 +223,7 @@ CrossClusterFederator::createExecutionPlan(const std::string& query) const {
     spdlog::info(
         "CrossClusterFederator: execution plan: {} of {} clusters selected, "
         "total_cost={:.2f}",
-        plan.selected_clusters.size(), plan.cost_estimates.size(),
+        plan.selected_clusters.size(),static_cast<int>(plan.cost_estimates.size()),
         plan.total_estimated_cost);
 
     return plan;
@@ -254,7 +256,8 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
     const auto& selected = plan.selected_clusters;
 
     // Filter endpoints to only selected clusters
-    std::vector<ClusterEndpoint> active;
+    std::vector<ClusterEndpoint> active = {};
+
     active.reserve(selected.size());
     for (const auto& ep : endpoints) {
         if (std::find(selected.begin(), selected.end(), ep.cluster_id) !=
@@ -265,7 +268,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
 
     std::vector<nlohmann::json> shard_results;
 
-    if (config_.enable_parallel_execution && active.size() > 1) {
+    if (config_.enable_parallel_execution && static_cast<int>(active.size()) > 1) {
         // Parallel execution via std::async
         const size_t n = std::min(active.size(),
                                   static_cast<size_t>(config_.max_parallel_clusters));
@@ -293,7 +296,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
             }
         }
 
-        if (failed == futures.size()) {
+        if (failed == static_cast<int>(futures.size())) {
             if (!config_.skip_unreachable_clusters) {
                 throw std::runtime_error(
                     "CrossClusterFederator: all cluster queries failed");
@@ -316,7 +319,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
             }
         }
 
-        if (failed == active.size() && !active.empty()) {
+        if (failed == static_cast<int>(active.size()) && !active.empty()) {
             if (!config_.skip_unreachable_clusters) {
                 throw std::runtime_error(
                     "CrossClusterFederator: all cluster queries failed");
@@ -329,7 +332,7 @@ nlohmann::json CrossClusterFederator::execute(const std::string& query) {
 
     spdlog::info(
         "CrossClusterFederator: query complete, {} results from {} clusters",
-        merged.size(), shard_results.size());
+        merged.size(),static_cast<int>(shard_results.size()));
 
     return merged;
 }
@@ -402,7 +405,7 @@ nlohmann::json CrossClusterFederator::queryCluster(
         (endpoint.timeout_ms > 0) ? endpoint.timeout_ms
                                   : config_.default_timeout_ms;
 
-    std::string response_body;
+    std::string response_body = {};
     int         status_code = 0;
 
     spdlog::debug("CrossClusterFederator: querying cluster '{}' at {}",
@@ -445,7 +448,7 @@ nlohmann::json CrossClusterFederator::queryCluster(
         ok = true;
         spdlog::debug(
             "CrossClusterFederator: cluster '{}' returned {} result(s)",
-            endpoint.cluster_id, results.size());
+            endpoint.cluster_id,static_cast<int>(results.size()));
         return results;
 
     } catch (const nlohmann::json::parse_error& e) {

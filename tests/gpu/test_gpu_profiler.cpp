@@ -293,7 +293,9 @@ TEST_F(GPUProfilerTest, Concurrent_Writes_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // Just verify no crash and state is consistent.
     EXPECT_FALSE(p.rocm_profiler_export().empty());
 }

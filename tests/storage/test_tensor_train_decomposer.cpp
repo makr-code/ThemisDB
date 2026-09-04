@@ -52,7 +52,9 @@ using namespace themis::storage;
 
 static std::size_t product(const std::vector<std::size_t>& v) {
     std::size_t p = 1;
-    for (auto x : v) p *= x;
+    for (auto x : v) {
+      p *= x;
+    }
     return p;
 }
 
@@ -61,7 +63,9 @@ static std::vector<float> makeRandom(std::size_t n, float scale = 1.0f,
     std::mt19937 rng(seed);
     std::normal_distribution<float> dist(0.0f, scale);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 
@@ -73,8 +77,12 @@ static std::vector<float> makeLowRank2D(std::size_t m, std::size_t n,
     std::vector<float> mat(m * n, 0.0f);
     for (std::size_t r = 0; r < rank; ++r) {
         std::vector<float> u(m), v(n);
-        for (auto& x : u) x = dist(rng);
-        for (auto& x : v) x = dist(rng);
+        for (auto& x : u) {
+          x = dist(rng);
+        }
+        for (auto& x : v) {
+          x = dist(rng);
+        }
         for (std::size_t i = 0; i < m; ++i)
             for (std::size_t j = 0; j < n; ++j)
                 mat[i * n + j] += u[i] * v[j];
@@ -247,7 +255,9 @@ TEST_F(TTQuantizerTest, TTD13_INT8RoundTripError) {
         float absmax = *std::max_element(orig.begin(), orig.end(),
             [](float a, float b){ return std::abs(a) < std::abs(b); });
         absmax = std::abs(absmax);
-        if (absmax < 1e-6f) continue;
+        if (absmax < 1e-6f) {
+          continue;
+        }
         for (std::size_t i = 0; i < orig.size(); ++i)
             EXPECT_LE(std::abs(orig[i] - back[i]) / absmax, 0.01f);
     }
@@ -266,7 +276,9 @@ TEST_F(TTQuantizerTest, TTD14_NF4RoundTripError) {
         const auto& orig = train.cores[k].data;
         const auto& back = deq.cores[k].data;
         float absmax = 1.0f;
-        for (float v : orig) absmax = std::max(absmax, std::abs(v));
+        for (float v : orig) {
+          absmax = std::max(absmax, std::abs(v));
+        }
         for (std::size_t i = 0; i < orig.size(); ++i)
             EXPECT_LE(std::abs(orig[i] - back[i]) / absmax, 0.10f);
     }

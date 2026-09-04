@@ -174,7 +174,8 @@ void RaftLoadBalancer::updateWeight(const std::string &address, double weight) {
 
 std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::getBackends() const {
     std::lock_guard<std::mutex> lk(backends_mutex_);
-    std::vector<Backend *> result;
+    std::vector<Backend *> result = {};
+
     result.reserve(backends_.size());
     for (const auto &b : backends_) {
         result.push_back(b.get());
@@ -324,7 +325,8 @@ RaftLoadBalancer::Backend *RaftLoadBalancer::findBackend(const std::string &addr
 }
 
 std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::healthyBackends() const {
-    std::vector<Backend *> result;
+    std::vector<Backend *> result = {};
+
     // Prefer local datacenter if configured
     if (config_.prefer_local_datacenter && !config_.datacenter.empty()) {
         for (const auto &b : backends_) {
@@ -347,7 +349,7 @@ std::string RaftLoadBalancer::selectRoundRobin() {
     auto healthy = healthyBackends();
     if (healthy.empty())
         return {};
-    const size_t n   = healthy.size();
+    const size_t n = healthy.size();
     const size_t idx = rr_index_.fetch_add(1, std::memory_order_relaxed) % n;
     return healthy[idx]->address;
 }
@@ -419,10 +421,10 @@ std::string RaftLoadBalancer::selectConsistentHash(const std::string &key) {
         return {};
 
     // FNV-1a hash of the key
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     for (unsigned char c : key) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
 
     // Map hash onto healthy backends
@@ -604,7 +606,7 @@ void RaftLoadBalancer::healthCheckLoop() {
 void RaftLoadBalancer::maybeRebalance() {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     auto healthy = healthyBackends();
-    if (healthy.size() < 2)
+    if (static_cast<int>(healthy.size()) < 2)
         return;
 
     // Compute mean load (active connections normalised by weight)

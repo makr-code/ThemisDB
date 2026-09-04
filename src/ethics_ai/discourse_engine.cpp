@@ -46,7 +46,7 @@ EthicalDiscourseEngine::initializeDebate(const std::string &dilemma_description,
     }
 
     // Generate debate ID
-    std::stringstream ss;
+    std::stringstream ss = {};
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     ss << "debate_" << time_t;
@@ -77,7 +77,7 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     }
 
     // Get RAG context if requested
-    RAGContext rag_context;
+    RAGContext rag_context = {};
     if (use_rag) {
         auto rag_result = rag_engine_->buildContext(dilemma_description, philosophy_schools, category);
         if (auto *context = std::get_if<RAGContext>(&rag_result)) {
@@ -86,7 +86,8 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     }
 
     // Generate arguments from each philosophy
-    std::vector<EthicalArgument> arguments;
+    std::vector<EthicalArgument> arguments = {};
+
     for (const auto &school : philosophy_schools) {
         auto profile_result = philosophy_loader_->getProfile(school);
         if (auto *profile = std::get_if<PhilosophyProfile>(&profile_result)) {
@@ -102,7 +103,7 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     std::string decision_text      = synthesizeDecision(arguments, primary_philosophy);
 
     // Create decision object
-    std::stringstream ss;
+    std::stringstream ss = {};
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     ss << "decision_" << time_t;
@@ -122,16 +123,19 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
         decision.metadata["legal_db_unavailable"] = legal_grounding.legal_db_unavailable ? "true" : "false";
         decision.metadata["legal_grounding_available"] = legal_grounding.grounding_available ? "true" : "false";
         decision.metadata["legal_grounding_retrieved_at_utc"] = legal_grounding.retrieval_timestamp_utc;
-        std::stringstream norm_refs_csv;
-        for (size_t i = 0; i < legal_grounding.norm_refs.size(); ++i) {
-            if (i > 0) norm_refs_csv << ",";
+        std::stringstream norm_refs_csv = {};
+        for (size_t i = 0; i <static_cast<int>(legal_grounding.norm_refs.size()); ++i) {
+            if (i > 0) {
+              norm_refs_csv << ",";
+            }
             norm_refs_csv << legal_grounding.norm_refs[i];
         }
         decision.metadata["norm_refs"] = norm_refs_csv.str();
     }
 
     if (!chain_visualizer_output_path_.empty()) {
-        std::vector<std::string> argument_ids;
+        std::vector<std::string> argument_ids = {};
+
         argument_ids.reserve(arguments.size());
         for (const auto& arg : arguments) {
             argument_ids.push_back(arg.id);
@@ -140,7 +144,7 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
         const std::string dot = ChainVisualizer::exportDot(argument_ids, *store_, decision.decision_id);
         const std::string mermaid = ChainVisualizer::exportMermaid(argument_ids, *store_);
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(chain_visualizer_output_path_, ec);
         if (ec) {
             return Status::Error("Failed to create ChainVisualizer artifact directory: "
@@ -179,10 +183,10 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
 EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile &profile, const std::string &dilemma,
                                                          ArgumentType type) {
     // Generate argument ID
-    std::stringstream ss;
+    std::stringstream ss = {};
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    std::random_device rd;
+    std::random_device rd = {};
     ss << "arg_" << time_t << "_" << (rd() % 1000);
 
     EthicalArgument argument;
@@ -195,7 +199,7 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile
     // Heuristic: 0 theses → WEAK (no principled basis); 1-2 → MODERATE (minimal support);
     // 3-5 → STRONG (well-grounded); 6+ → DECISIVE (comprehensive philosophical basis).
     // This feeds directly into EthicsEvaluator::computeConfidence() via ArgumentStrength.
-    const size_t total_theses = profile.main_theses.size() + profile.secondary_theses.size();
+    const size_t total_theses = static_cast<int>(profile.main_theses.size()) + static_cast<int>(profile.secondary_theses.size()) ;
     if (total_theses == 0) {
         argument.strength = ArgumentStrength::WEAK;
     } else if (total_theses <= 2) {
@@ -207,7 +211,7 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile
     }
 
     // Build content from all available profile data.
-    std::stringstream content;
+    std::stringstream content = {};
     content << "From the perspective of " << profile.name << ":\n";
 
     // Incorporate all main theses.
@@ -247,11 +251,11 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile
 
 std::string EthicalDiscourseEngine::synthesizeDecision(const std::vector<EthicalArgument> &arguments,
                                                        const std::string &primary_philosophy) {
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "After considering perspectives from ";
 
     for (size_t i = 0; i < arguments.size(); ++i) {
-        if (i > 0 && i == arguments.size() - 1) {
+        if (i > 0 && i == static_cast<int>(arguments.size()) - 1) {
             ss << " and ";
         } else if (i > 0) {
             ss << ", ";
@@ -295,7 +299,7 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const s
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto it = debate_arguments_.find(debate_id);
         if (it != debate_arguments_.end()) {
-            prev_arg_ids.reserve(it->second.size());
+            prev_arg_ids.reserve(it-> static_cast<int>(second.size()));
             for (const auto &arg : it->second) {
                 prev_arg_ids.push_back(arg.id);
             }

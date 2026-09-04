@@ -237,8 +237,12 @@ public:
         std::string_view trace_id, std::string_view request_id)
     {
         auto ctx = create();
-        if (!trace_id.empty())   ctx->set(context_keys::kTraceId,   trace_id);
-        if (!request_id.empty()) ctx->set(context_keys::kRequestId, request_id);
+        if (!trace_id.empty()) {
+          ctx->set(context_keys::kTraceId,   trace_id);
+        }
+        if (!request_id.empty()) {
+          ctx->set(context_keys::kRequestId, request_id);
+        }
         return ctx;
     }
 
@@ -253,10 +257,14 @@ public:
         {
             std::lock_guard<std::mutex> lk(mutex_);
             auto it = attrs_.find(std::string(key));
-            if (it != attrs_.end()) return it->second;
+            if (it != attrs_.end()) {
+              return it->second;
+            }
         }
         // Walk up the parent chain without holding our lock.
-        if (parent_) return parent_->get(key);
+        if (parent_) {
+          return parent_->get(key);
+        }
         return std::nullopt;
     }
 
@@ -280,10 +288,16 @@ public:
     }
 
     TraceContext toTraceContext() const override {
-        TraceContext tc;
-        if (auto v = get(context_keys::kTraceId))   tc.trace_id   = *v;
-        if (auto v = get(context_keys::kSpanId))    tc.span_id    = *v;
-        if (auto v = get(context_keys::kRequestId)) tc.request_id = *v;
+        TraceContext tc = {};
+        if (auto v = get(context_keys::kTraceId)) {
+          tc.trace_id   = *v;
+        }
+        if (auto v = get(context_keys::kSpanId)) {
+          tc.span_id    = *v;
+        }
+        if (auto v = get(context_keys::kRequestId)) {
+          tc.request_id = *v;
+        }
         return tc;
     }
 

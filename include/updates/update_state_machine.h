@@ -437,7 +437,7 @@ private:
     mutable std::mutex mutex_;
     std::atomic<UpdateState> state_{UpdateState::IDLE};
     std::string current_version_;
-    std::string log_path_;
+    std::string log_path_ = {};
     std::string checkpoints_log_path_;  ///< Path to persistent checkpoints log
     bool has_inflight_update_ = false;
     std::string inflight_version_;

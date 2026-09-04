@@ -36,8 +36,8 @@ namespace themis::retrieval::testing {
  * @brief Result from a retrieval operation
  */
 struct RetrievalResult {
-    std::string id;
-    float score;
+    std::string id = {};
+    float score = {};
     std::string content;
     
     bool operator==(const RetrievalResult& other) const {
@@ -158,11 +158,13 @@ public:
     
 private:
     std::unordered_map<std::string, std::vector<float>> vectors_;
-    int ann_search_time_us_;
+    int ann_search_time_us_ = {};
     
     float computeDistance(const std::vector<float>& a,
                          const std::vector<float>& b) {
-        if (a.size() != b.size()) return 1e6f;
+        if (a.size() != b.size()) {
+          return 1e6f;
+        }
         
         float dist = 0.0f;
         for (size_t i = 0; i < a.size(); ++i) {
@@ -278,7 +280,9 @@ protected:
         // Compute rank of each score
         auto computeRanks = [](const std::vector<float>& scores) {
             std::vector<size_t> indices(scores.size());
-            for (size_t i = 0; i < scores.size(); ++i) indices[i] = i;
+            for (size_t i = 0; i < scores.size(); ++i) {
+              indices[i] = i;
+            }
             
             std::sort(indices.begin(), indices.end(),
                      [&scores](size_t a, size_t b) {
@@ -456,7 +460,9 @@ TEST_F(HybridRetrieverParityTest, HYB06_ConcurrentQuerieThreadSafety) {
     
     // Wait for all threads
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     
     // Verify: All threads completed successfully

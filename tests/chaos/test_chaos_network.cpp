@@ -217,7 +217,9 @@ TEST(ChaosPayloads, DeeplyNestedJsonDoesNotCrash) {
     std::string deep = "";
     for (int i = 0; i < 100; ++i) deep += "{\"n\":";
     deep += "1";
-    for (int i = 0; i < 100; ++i) deep += "}";
+    for (int i = 0; i < 100; ++i) {
+      deep += "}";
+    }
     EXPECT_NO_THROW({
         [[maybe_unused]] const auto parsed = nlohmann::json::parse(deep);
     });
@@ -277,7 +279,9 @@ TEST(ChaosConnectionCounter, ConcurrentConnectsAndDisconnects) {
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(conns.load(), 0u);
 }
 
@@ -351,6 +355,8 @@ TEST(ChaosHealthEndpoint, ConcurrentLivenessCalls) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(ok_count.load(), N);
 }

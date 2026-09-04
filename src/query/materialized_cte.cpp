@@ -58,11 +58,21 @@ themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v) {
 
 /** Convert analytics::FieldValue back to nlohmann::json. */
 nlohmann::json fieldValueToJson(const themisdb::analytics::FieldValue& fv) {
-    if (std::holds_alternative<std::nullptr_t>(fv)) return nullptr;
-    if (auto* b = std::get_if<bool>(&fv))           return *b;
-    if (auto* i = std::get_if<int64_t>(&fv))        return *i;
-    if (auto* d = std::get_if<double>(&fv))         return *d;
-    if (auto* s = std::get_if<std::string>(&fv))    return *s;
+    if (std::holds_alternative<std::nullptr_t>(fv)) {
+      return nullptr;
+    }
+    if (auto* b = std::get_if<bool>(&fv)) {
+      return *b;
+    }
+    if (auto* i = std::get_if<int64_t>(&fv)) {
+      return *i;
+    }
+    if (auto* d = std::get_if<double>(&fv)) {
+      return *d;
+    }
+    if (auto* s = std::get_if<std::string>(&fv)) {
+      return *s;
+    }
     return nullptr;
 }
 
@@ -103,7 +113,9 @@ MaterializedCTEView::toViewFilterOp(CTEBaseFilter::Op op) {
 themisdb::analytics::ChangeRecord::Row
 MaterializedCTEView::jsonToRow(const nlohmann::json& json_row) {
     themisdb::analytics::ChangeRecord::Row row;
-    if (!json_row.is_object()) return row;
+    if (!json_row.is_object()) {
+      return row;
+    }
     for (auto it = json_row.begin(); it != json_row.end(); ++it) {
         row[it.key()] = jsonToFieldValue(it.value());
     }
@@ -213,7 +225,8 @@ bool MaterializedCTEView::applyChange(const CTEDataChange& change) {
 }
 
 int MaterializedCTEView::applyChanges(const std::vector<CTEDataChange>& changes) {
-    std::vector<themisdb::analytics::ChangeRecord> recs;
+    std::vector<themisdb::analytics::ChangeRecord> recs = {};
+
     recs.reserve(changes.size());
     for (const auto& c : changes) {
         recs.push_back(toChangeRecord(c));
@@ -275,7 +288,9 @@ bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
 
 bool MaterializedCTERegistry::unregisterCTE(const std::string& name) {
     std::unique_lock lk(registry_mutex_);
-    if (!views_.count(name)) return false;
+    if (!views_.count(name)) {
+      return false;
+    }
     views_.erase(name);
     spdlog::debug("MaterializedCTERegistry: unregistered CTE '{}'", name);
     return true;
@@ -288,9 +303,12 @@ bool MaterializedCTERegistry::hasCTE(const std::string& name) const {
 
 std::vector<std::string> MaterializedCTERegistry::listCTEs() const {
     std::shared_lock lk(registry_mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(views_.size());
-    for (const auto& [n, _] : views_) names.push_back(n);
+    for (const auto& [n, _] : views_) {
+      names.push_back(n);
+    }
     return names;
 }
 
@@ -309,7 +327,9 @@ void MaterializedCTERegistry::applyChange(const CTEDataChange& change) {
     std::shared_lock lk(registry_mutex_);
     uint64_t applied = 0;
     for (const auto& [name, view] : views_) {
-        if (view->applyChange(change)) ++applied;
+        if (view->applyChange(change)) {
+          ++applied;
+        }
     }
     total_changes_ += applied;
 }

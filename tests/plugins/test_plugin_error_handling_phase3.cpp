@@ -171,7 +171,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG30_SignatureVerificationTimeout) {
     manifest_file.close();
     
     // Test with very short timeout
-    std::string error_details;
+    std::string error_details = {};
     bool result = PluginManagerTestAccess::verifyManifestSignatureWithTimeout(manager_, test_manifest, 1, error_details);
     
     // Verify: Either succeeds (no .sig file) or reports a non-empty error detail
@@ -381,7 +381,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG38_DeadlockTimeout) {
     manifest_file.close();
     
     // Test with timeout
-    std::string error_details;
+    std::string error_details = {};
     bool result = PluginManagerTestAccess::verifyManifestSignatureWithTimeout(manager_, manifest_path, 100, error_details);
     
     // Verify: Should complete within reasonable time (no actual deadlock)

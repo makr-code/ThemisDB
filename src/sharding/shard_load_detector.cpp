@@ -82,7 +82,7 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     // Append to per-shard history for forecasting; enforce ring-buffer size
     auto& history = shard_load_history_[shard_id];
     history.push_back(load);
-    while (history.size() > kMaxHistorySamples) {
+    while (static_cast<int>(history.size()) > kMaxHistorySamples) {
         history.pop_front();
     }
     
@@ -123,7 +123,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     LoadImbalanceResult result;
     
     // Check minimum requirements
-    if (shard_loads_.size() < config_.min_shards_for_detection) {
+    if (static_cast<int>(shard_loads_.size()) < config_.min_shards_for_detection) {
         result.reason = "Insufficient shards for detection (min: " + 
                        std::to_string(config_.min_shards_for_detection) + ")";
         return result;
@@ -149,7 +149,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
         generateRebalanceRecommendations(shard_loads_, result);
         
         THEMIS_WARN("Load imbalance detected: {} (hotspots: {}, cold: {})",
-                   result.reason, result.hotspot_shards.size(), result.cold_shards.size());
+                   result.reason,static_cast<int>(result.hotspot_shards.size()),static_cast<int>(result.cold_shards.size()));
         
         if (metrics_) {
             metrics_->incrementCounter("themis_load_imbalance_detections_total");
@@ -174,7 +174,9 @@ bool ShardLoadDetector::detectStorageImbalance(
         shard_ids.push_back(shard_id);
     }
     
-    if (storage_values.empty()) return false;
+    if (storage_values.empty()) {
+      return false;
+    }
     
     double max_storage = *std::max_element(storage_values.begin(), storage_values.end());
     double min_storage = *std::min_element(storage_values.begin(), storage_values.end());
@@ -185,7 +187,9 @@ bool ShardLoadDetector::detectStorageImbalance(
     result.min_shard_load = min_storage;
     result.cluster_load_variance = calculateVariance(storage_values);
     
-    if (avg_storage == 0.0) return false;
+    if (avg_storage == 0.0) {
+      return false;
+    }
     
     double imbalance_ratio = (max_storage - min_storage) / avg_storage;
     
@@ -215,7 +219,8 @@ bool ShardLoadDetector::detectRequestImbalance(
     LoadImbalanceResult& result
 ) const {
     std::vector<double> request_rates;
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     request_rates.reserve(loads.size());
     shard_ids.reserve(loads.size());
 
@@ -227,18 +232,22 @@ bool ShardLoadDetector::detectRequestImbalance(
         shard_ids.push_back(shard_id);
     }
     
-    if (request_rates.empty()) return false;
+    if (request_rates.empty()) {
+      return false;
+    }
     
     double max_rate = *std::max_element(request_rates.begin(), request_rates.end());
     double min_rate = *std::min_element(request_rates.begin(), request_rates.end());
     double avg_rate = std::accumulate(request_rates.begin(), request_rates.end(), 0.0) / request_rates.size();
     
-    if (avg_rate == 0.0) return false;
+    if (avg_rate == 0.0) {
+      return false;
+    }
     
     double imbalance_ratio = (max_rate - min_rate) / avg_rate;
     
     if (imbalance_ratio > config_.request_imbalance_threshold) {
-        std::ostringstream reason_stream;
+        std::ostringstream reason_stream = {};
         reason_stream << "Request imbalance ("
                       << static_cast<int>(imbalance_ratio * 100)
                       << "% variance)";
@@ -263,7 +272,8 @@ bool ShardLoadDetector::detectLatencyDegradation(
     LoadImbalanceResult& result
 ) const {
     std::vector<double> latencies;
-    std::vector<std::string> shard_ids;
+    std::vector<std::string> shard_ids = {};
+
     latencies.reserve(loads.size());
     shard_ids.reserve(loads.size());
 
@@ -275,17 +285,21 @@ bool ShardLoadDetector::detectLatencyDegradation(
         shard_ids.push_back(shard_id);
     }
     
-    if (latencies.empty()) return false;
+    if (latencies.empty()) {
+      return false;
+    }
     
     double avg_latency = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
     
-    if (avg_latency == 0.0) return false;
+    if (avg_latency == 0.0) {
+      return false;
+    }
     
     bool degradation_found = false;
     
     for (size_t i = 0; i < latencies.size(); i++) {
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
-            std::ostringstream reason_stream;
+            std::ostringstream reason_stream = {};
             reason_stream << "Latency degradation on " << shard_ids[i]
                           << " (" << static_cast<int>(latencies[i]) << "ms p99)";
             appendReasonClause(result.reason, reason_stream.str());
@@ -310,7 +324,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
     
     for (const auto& [shard_id, metrics] : loads) {
         if (metrics.cpu_usage_percent > config_.cpu_exhaustion_threshold * 100.0) {
-            std::ostringstream reason_stream;
+            std::ostringstream reason_stream = {};
             reason_stream << "CPU exhaustion on " << shard_id
                           << " (" << static_cast<int>(metrics.cpu_usage_percent) << "%)";
             appendReasonClause(result.reason, reason_stream.str());
@@ -321,7 +335,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
         }
         
         if (metrics.storage_usage_percent > config_.storage_exhaustion_threshold * 100.0) {
-            std::ostringstream reason_stream;
+            std::ostringstream reason_stream = {};
             reason_stream << "Storage exhaustion on " << shard_id
                           << " (" << static_cast<int>(metrics.storage_usage_percent) << "%)";
             appendReasonClause(result.reason, reason_stream.str());
@@ -353,9 +367,9 @@ void ShardLoadDetector::generateRebalanceRecommendations(
              [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Generate recommendations: move data from hottest to coldest
-    size_t num_recommendations = std::min(result.hotspot_shards.size(), result.cold_shards.size());
+    size_t num_recommendations = std::min(result.hotspot_shards.size(),static_cast<int>(result.cold_shards.size()));
     
-    for (size_t i = 0; i < num_recommendations && i < load_rankings.size() / 2; i++) {
+    for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) <static_cast<int>(load_rankings.size()) / 2; i++) {
         LoadImbalanceResult::RebalanceRecommendation rec;
         rec.source_shard = load_rankings[i].first;
         rec.target_shard = load_rankings[load_rankings.size() - 1 - i].first;
@@ -378,7 +392,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
         result.recommendations.push_back(rec);
     }
     
-    THEMIS_INFO("Generated {} rebalance recommendations", result.recommendations.size());
+    THEMIS_INFO("Generated {} rebalance recommendations",static_cast<int>(result.recommendations.size()));
 }
 
 /** @brief Compute weighted composite shard load score. */
@@ -403,7 +417,9 @@ double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
 
 /** @brief Compute standard deviation across numeric vector. */
 double ShardLoadDetector::calculateVariance(const std::vector<double>& values) const {
-    if (values.empty()) return 0.0;
+    if (values.empty()) {
+      return 0.0;
+    }
     
     double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
     
@@ -511,7 +527,7 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
 
 /** @brief Fit linear trend model over value series (index-based x-axis). */
 std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
-    if (values.size() < 2) {
+    if (static_cast<int>(values.size()) < 2) {
         return {0.0, values.empty() ? 0.0 : values[0]};
     }
 
@@ -554,7 +570,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     auto it_hist = shard_load_history_.find(shard_id);
     const bool has_history = (it_hist != shard_load_history_.end()) &&
-                             (it_hist->second.size() >= config_.min_samples_per_shard);
+                             (it_hist-> static_cast<int>(second.size()) >= config_.min_samples_per_shard);
     forecast.has_sufficient_history = has_history;
 
     if (!has_history) {
@@ -585,7 +601,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     // Determine how many additional samples the horizon corresponds to.
     // We estimate the inter-sample interval from the history timestamps.
     double steps_ahead = 1.0;
-    if (history.size() >= 2) {
+    if (static_cast<int>(history.size()) >= 2) {
         const auto& first = history.front();
         const auto& last  = history.back();
         auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(

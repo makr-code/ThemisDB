@@ -55,7 +55,7 @@ constexpr uint64_t k_critical_op_max_affected = 9'999'999;
 
 /// Case-insensitive uppercase conversion.
 std::string toUpper(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out.push_back(static_cast<char>(std::toupper(c)));
@@ -79,7 +79,7 @@ bool isSystemCollection(const std::string& col) {
         return s;
     }();
     return std::any_of(k_system_collections.begin(), k_system_collections.end(),
-                       [&](std::string_view sc) { return lower == sc; });
+                       [&]([[maybe_unused]] std::string_view sc) { return lower == sc; });
 }
 
 } // anonymous namespace
@@ -155,7 +155,7 @@ GuardDecision AiOperationGuard::evaluate(
 
     // --- Step 5: Check approval threshold -----------------------------------
     const bool needs_approval = (op_class >= config_.approval_threshold);
-    std::string operation_id;
+    std::string operation_id = {};
     if (needs_approval) {
         // Generate a unique, time-ordered operation ID with "op-" prefix.
         operation_id = "op-" + utils::generate_uuid_v7();
@@ -481,7 +481,7 @@ std::string AiOperationGuard::toIso8601(
 #else
     gmtime_r(&t, &tm_utc);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }

@@ -105,7 +105,7 @@ CrossShardFeedbackSync makeSyncWithSink(
 size_t getCurrentRSS() {
 #ifdef __linux__
     std::ifstream f("/proc/self/status");
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.rfind("VmRSS:", 0) == 0) {
             size_t kb = 0;

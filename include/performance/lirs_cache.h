@@ -57,8 +57,12 @@ public:
         , hits_(0)
         , misses_(0)
     {
-        if (lir_size_ < 1) lir_size_ = 1;
-        if (hir_size_ < 1) hir_size_ = 1;
+        if (lir_size_ < 1) {
+          lir_size_ = 1;
+        }
+        if (hir_size_ < 1) {
+          hir_size_ = 1;
+        }
     }
 
     /**
@@ -179,7 +183,9 @@ public:
      */
     double get_hit_rate() const {
         size_t total = hits_.load() + misses_.load();
-        if (total == 0) return 0.0;
+        if (total == 0) {
+          return 0.0;
+        }
         return static_cast<double>(hits_.load()) / total;
     }
 

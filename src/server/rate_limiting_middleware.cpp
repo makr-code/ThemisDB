@@ -90,18 +90,20 @@ RateLimitingMiddleware::findOverrideIndex(const std::string& path) const {
     std::size_t best_len = 0;
     std::size_t best_idx = config_.endpoint_overrides.size(); // sentinel = no match
 
-    for (std::size_t i = 0; i < config_.endpoint_overrides.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(config_.endpoint_overrides.size()); ++i) {
         const auto& ep = config_.endpoint_overrides[i];
-        if (ep.path_prefix.empty()) continue;
+        if (ep.path_prefix.empty()) {
+          continue;
+        }
 
-        if (path.size() >= ep.path_prefix.size() &&
-            path.compare(0, ep.path_prefix.size(), ep.path_prefix) == 0) {
+        if (static_cast<int>(path.size()) >= ep.path_prefix.size() &&
+            path.compare(0,static_cast<int>(ep.path_prefix.size()), ep.path_prefix) == 0) {
             // Require a proper boundary: end of path, '/', or prefix ends with '/'
             bool boundary =
-                (path.size() == ep.path_prefix.size()) ||
-                (path[ep.path_prefix.size()] == '/') ||
+                (static_cast<int>(path.size()) == static_cast<int>(ep.path_prefix.size())) ||
+                (path[static_cast<int>(ep.path_prefix.size())] == '/') ||
                 (ep.path_prefix.back() == '/');
-            if (boundary && ep.path_prefix.size() > best_len) {
+            if (boundary && static_cast<int>(ep.path_prefix.size()) > best_len) {
                 best_len = ep.path_prefix.size();
                 best_idx = i;
             }
@@ -114,7 +116,7 @@ std::pair<size_t, double>
 RateLimitingMiddleware::limitForPath(const std::string& path) const {
     // config_mutex_ must be held by the caller.
     std::size_t idx = findOverrideIndex(path);
-    if (idx < config_.endpoint_overrides.size()) {
+    if (static_cast<int>(config_.endpoint_overrides.size()) > idx) {
         const auto& ep = config_.endpoint_overrides[idx];
         return {ep.capacity, ep.refill_rate};
     }
@@ -151,8 +153,8 @@ RateLimitingMiddleware::check(const std::string& client_key,
 
     // ── Select the appropriate limiter and effective limits ───────────────
     std::size_t override_idx = findOverrideIndex(path);
-    double refill_rate;
-    if (override_idx < config_.endpoint_overrides.size()) {
+    double refill_rate = 0;
+    if (static_cast<int>(config_.endpoint_overrides.size()) > override_idx) {
         const auto& ep = config_.endpoint_overrides[override_idx];
         result.limit = ep.capacity;
         refill_rate  = ep.refill_rate;
@@ -225,7 +227,9 @@ RateLimitingMiddleware::Stats RateLimitingMiddleware::getStats() const {
     // Sum active clients across default + override limiters
     s.active_clients = default_limiter_ ? default_limiter_->getActiveClients() : 0;
     for (const auto& lim : override_limiters_) {
-        if (lim) s.active_clients += lim->getActiveClients();
+        if (lim) {
+          s.active_clients += lim->getActiveClients();
+        }
     }
     return s;
 }

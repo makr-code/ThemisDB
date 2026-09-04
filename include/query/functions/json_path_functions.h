@@ -43,8 +43,8 @@ public:
     
     struct Segment {
         SegmentType type;
-        std::string field;
-        int index;
+        std::string field = {};
+        int index = {};
         
         Segment(const std::string& f) : type(SegmentType::FIELD), field(f), index(-1) {}
         Segment(int idx) : type(SegmentType::INDEX), field(""), index(idx) {}
@@ -72,7 +72,7 @@ public:
         
         // Parse segments
         size_t pos = 0;
-        std::string current_field;
+        std::string current_field = {};
         
         while (pos < working_path.length()) {
             char c = working_path[pos];
@@ -100,7 +100,7 @@ public:
                 std::string index_str = working_path.substr(pos + 1, close - pos - 1);
                 // REL-22: wrap stoi() — index_str comes from user input and may be
                 // non-numeric or out-of-range (e.g. "[abc]", "[999999999999]").
-                int index;
+                int index = {};
                 try {
                     index = std::stoi(index_str);
                 } catch (const std::exception&) {
@@ -282,7 +282,7 @@ public:
         
         struct StackItem {
             const nlohmann::json* node;
-            int level;
+            int level = {};
         };
         
         std::vector<StackItem> stack;
@@ -486,13 +486,27 @@ public:
                            const FunctionContext&) const override {
         try {
             auto value = JSONPath::extract(args[0], args[1].get<std::string>());
-            if (value.is_null()) return "null";
-            if (value.is_boolean()) return "boolean";
-            if (value.is_number_integer()) return "integer";
-            if (value.is_number_float()) return "number";
-            if (value.is_string()) return "string";
-            if (value.is_array()) return "array";
-            if (value.is_object()) return "object";
+            if (value.is_null()) {
+              return "null";
+            }
+            if (value.is_boolean()) {
+              return "boolean";
+            }
+            if (value.is_number_integer()) {
+              return "integer";
+            }
+            if (value.is_number_float()) {
+              return "number";
+            }
+            if (value.is_string()) {
+              return "string";
+            }
+            if (value.is_array()) {
+              return "array";
+            }
+            if (value.is_object()) {
+              return "object";
+            }
             return "unknown";
         } catch (const std::exception& e) {
             throw std::runtime_error(std::string("JSON_TYPE: ") + e.what());

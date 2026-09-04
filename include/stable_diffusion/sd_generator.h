@@ -384,7 +384,7 @@ public:
         }
 
         if (cfg.control_model_path != active_control_model_path_) {
-            std::string context_error;
+            std::string context_error = {};
             if (!recreateContext(cfg.control_model_path,
                                  active_lora_path_,
                                  active_lora_scale_,
@@ -434,7 +434,9 @@ public:
         );
 
         if (!images || !images[0].data) {
-            if (images) std::free(images);
+            if (images) {
+              std::free(images);
+            }
             throw std::runtime_error("SDCppGenerator: txt2img returned null image");
         }
 
@@ -476,7 +478,7 @@ public:
         }
 
         if (cfg.control_model_path != active_control_model_path_) {
-            std::string context_error;
+            std::string context_error = {};
             if (!recreateContext(cfg.control_model_path,
                                  active_lora_path_,
                                  active_lora_scale_,
@@ -544,7 +546,9 @@ public:
         );
 
         if (!images || !images[0].data) {
-            if (images) std::free(images);
+            if (images) {
+              std::free(images);
+            }
             throw std::runtime_error("SDCppGenerator: img2img returned null image");
         }
 
@@ -569,17 +573,23 @@ private:
         if (!control_model_path.empty()
                 && (!std::filesystem::exists(control_model_path)
                     || !std::filesystem::is_regular_file(control_model_path))) {
-            if (error_out) *error_out = "ControlNet model path not found";
+            if (error_out) {
+              *error_out = "ControlNet model path not found";
+            }
             return false;
         }
         if (!lora_path.empty()
                 && (!std::filesystem::exists(lora_path)
                     || !std::filesystem::is_regular_file(lora_path))) {
-            if (error_out) *error_out = "LoRA adapter path not found";
+            if (error_out) {
+              *error_out = "LoRA adapter path not found";
+            }
             return false;
         }
         if (!std::isfinite(lora_scale) || lora_scale <= 0.0f) {
-            if (error_out) *error_out = "invalid LoRA scale";
+            if (error_out) {
+              *error_out = "invalid LoRA scale";
+            }
             return false;
         }
 
@@ -603,7 +613,9 @@ private:
             /*keep_vae_on_cpu=*/false
         );
         if (!new_ctx) {
-            if (error_out) *error_out = "new_sd_ctx failed";
+            if (error_out) {
+              *error_out = "new_sd_ctx failed";
+            }
             return false;
         }
 
@@ -616,14 +628,30 @@ private:
     }
 
     static sample_method_t samplerFromString(const std::string& s) {
-        if (s == "euler")       return EULER;
-        if (s == "euler_a")     return EULER_A;
-        if (s == "heun")        return HEUN;
-        if (s == "dpm2")        return DPM2;
-        if (s == "dpm++2s_a")   return DPMPP2S_A;
-        if (s == "dpm++2m")     return DPMPP2M;
-        if (s == "dpm++2mv2")   return DPMPP2Mv2;
-        if (s == "lcm")         return LCM;
+        if (s == "euler") {
+          return EULER;
+        }
+        if (s == "euler_a") {
+          return EULER_A;
+        }
+        if (s == "heun") {
+          return HEUN;
+        }
+        if (s == "dpm2") {
+          return DPM2;
+        }
+        if (s == "dpm++2s_a") {
+          return DPMPP2S_A;
+        }
+        if (s == "dpm++2m") {
+          return DPMPP2M;
+        }
+        if (s == "dpm++2mv2") {
+          return DPMPP2Mv2;
+        }
+        if (s == "lcm") {
+          return LCM;
+        }
         return EULER_A;  // default
     }
 

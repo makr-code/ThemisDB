@@ -31,7 +31,7 @@ TaskResultStore::TaskResultStore(RocksDBWrapper& storage, size_t max_per_task)
 // Build a zero-padded 20-digit decimal timestamp so keys sort chronologically.
 std::string TaskResultStore::makeKey(const std::string& task_id,
                                      int64_t timestamp_ms) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << kKeyPrefix << task_id << '/'
         << std::setw(20) << std::setfill('0') << timestamp_ms;
     return oss.str();
@@ -56,13 +56,13 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
         });
 
         // If at capacity, reject the new result atomically (fail-closed)
-        if (all_keys.size() >= max_per_task_) {
+        if (static_cast<int>(all_keys.size()) >= max_per_task_) {
             THEMIS_WARN(
                 "[TaskResultStore::store] "
                 "code={} msg='retention limit reached; failing closed' "
                 "context={{task_id='{}', retention_limit={}, current_count={}, oldest_key='{}'}}",
                 static_cast<int>(SchedulerError::kRetentionLimitExceeded),
-                result.task_id, max_per_task_, all_keys.size(),
+                result.task_id, max_per_task_,static_cast<int>(all_keys.size()),
                 all_keys.empty() ? "N/A" : all_keys.front());
             return SchedulerError::kRetentionLimitExceeded;
         }
@@ -98,8 +98,8 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
 
         // Keys are lexicographically ordered (oldest first due to zero-padded ts).
         // Delete excess entries to restore to max_per_task_ count
-        if (all_keys.size() > max_per_task_) {
-            size_t to_delete = all_keys.size() - max_per_task_;
+        if (static_cast<int>(all_keys.size()) > max_per_task_) {
+            size_t to_delete = static_cast<int>(all_keys.size()) - max_per_task_;
             for (size_t i = 0; i < to_delete; ++i) {
                 if (!storage_.del(all_keys[i])) {
                     THEMIS_WARN("TaskResultStore: failed to prune result at '{}'",
@@ -131,9 +131,10 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
     });
 
     // Entries are oldest-first; reverse so newest come first, then cap.
-    std::vector<TaskExecutionResult> results;
-    results.reserve(std::min(limit, entries.size()));
-    size_t start = entries.size() > limit ? entries.size() - limit : 0;
+    std::vector<TaskExecutionResult> results = {};
+
+    results.reserve(std::min(limit,static_cast<int>(entries.size())));
+    size_t start = static_cast<int>(entries.size()) > limit ? static_cast<int>(entries.size()) - limit : 0;
     for (size_t i = entries.size(); i-- > start;) {
         try {
             auto j = nlohmann::json::parse(entries[i].second);
@@ -152,8 +153,8 @@ std::optional<TaskExecutionResult> TaskResultStore::getLatestResult(
 
     const std::string prefix = makeTaskPrefix(task_id);
     // Collect all keys for the task to find the last (newest) one.
-    std::string last_key;
-    std::string last_value;
+    std::string last_key = {};
+    std::string last_value = {};
     storage_.scanPrefix(prefix, [&](std::string_view k, std::string_view v) {
         last_key   = std::string(k);
         last_value = std::string(v);

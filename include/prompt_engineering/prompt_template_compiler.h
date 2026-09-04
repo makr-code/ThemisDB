@@ -72,7 +72,7 @@ struct SlotDefinition {
 struct PromptContextValue {
     SlotType kind = SlotType::STRING;
 
-    std::string                                      str_val;
+    std::string                                      str_val = {};
     std::vector<std::string>                         list_val;
     std::vector<std::pair<std::string, std::string>> chunks; ///< (content, source)
 

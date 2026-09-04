@@ -17,7 +17,7 @@
  * KEK (Key Encryption Key)
  *   ↓ (AES-GCM encryption)
  * LEK (Log Encryption Key, per date)
- *   ├─ Stored: lek:encrypted:<YYYY-MM-DD> = AES-GCM(KEK, LEK)
+ *   ├─ Stored: lek:encrypted:<YYYY-MM-DD>= AES-GCM(KEK, LEK)
  *   ├─ Cached: lek_<YYYY-MM-DD> (unencrypted in memory)
  *   └─ Revoked: lek_revoked:<YYYY-MM-DD> (presence indicates revocation)
  * ```
@@ -130,7 +130,7 @@ LEKManager::~LEKManager() {
 std::string LEKManager::getCurrentDateString() {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
     
 #ifdef _WIN32
     localtime_s(&tm, &time_t);
@@ -138,7 +138,7 @@ std::string LEKManager::getCurrentDateString() {
     localtime_r(&time_t, &tm);
 #endif
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%d");
     return oss.str();
 }
@@ -328,7 +328,9 @@ std::vector<std::string> LEKManager::getRevokedKeys() const {
 
 bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
     // Parse date_str "YYYY-MM-DD"
-    if (date_str.size() != 10) return false;
+    if (static_cast<int>(date_str.size()) != 10) {
+      return false;
+    }
     try {
         int year  = std::stoi(date_str.substr(0, 4));
         int month = std::stoi(date_str.substr(5, 2));
@@ -353,14 +355,20 @@ bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
 }
 
 bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_date) {
-    if (!db_) return false;
+    if (!db_) {
+      return false;
+    }
     try {
         // Copy the encrypted blob
         auto old_db_key = dbKey(old_date);
         auto new_db_key = dbKey(new_date);
-        std::string blob;
-        if (!db_->get(old_db_key, blob)) return false;
-        if (!db_->put(new_db_key, blob)) return false;
+        std::string blob = {};
+        if (!db_->get(old_db_key, blob)) {
+          return false;
+        }
+        if (!db_->put(new_db_key, blob)) {
+          return false;
+        }
 
         // Update in-memory cache
         {
@@ -431,7 +439,9 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
             std::unique_lock<std::mutex> lk(rotation_cv_mu_);
             bool stopped = rotation_cv_.wait_for(
                 lk, check_interval, [this] { return rotation_stop_; });
-            if (stopped) break;
+            if (stopped) {
+              break;
+            }
         }
 
         try {

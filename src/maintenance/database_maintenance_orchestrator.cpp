@@ -47,7 +47,7 @@ namespace {
 std::string generateUuid() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0')
        << std::setw(8) << (dist(rng) & 0xFFFFFFFF)
        << "-"
@@ -164,7 +164,9 @@ Result<void> DatabaseMaintenanceOrchestrator::start() {
 }
 
 void DatabaseMaintenanceOrchestrator::stop() {
-    if (!running_.exchange(false)) return;
+    if (!running_.exchange(false)) {
+      return;
+    }
 
     // Deregister all schedules from the scheduler.
     std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
@@ -270,7 +272,8 @@ std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSched
     const std::string& tenant_id_filter) const
 {
     std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-    std::vector<MaintenanceScheduleEntry> result;
+    std::vector<MaintenanceScheduleEntry> result = {};
+
     result.reserve(schedules_.size());
     for (auto& [id, entry] : schedules_) {
         if (!tenant_id_filter.empty() && entry.tenant_id != tenant_id_filter) {
@@ -566,7 +569,8 @@ std::vector<OrchestratorJob> DatabaseMaintenanceOrchestrator::listJobs(
     bool active_only) const
 {
     std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
-    std::vector<OrchestratorJob> result;
+    std::vector<OrchestratorJob> result = {};
+
     for (auto& [id, job] : jobs_) {
         if (active_only && job.state != MaintenanceJobState::PENDING &&
                            job.state != MaintenanceJobState::RUNNING) {
@@ -590,7 +594,9 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         total = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
-            if (e.enabled) ++enabled;
+            if (e.enabled) {
+              ++enabled;
+            }
         }
     }
     j["total_schedules"]   = total;
@@ -620,7 +626,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         report.total_schedules = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
-            if (e.enabled) ++report.enabled_schedules;
+            if (e.enabled) {
+              ++report.enabled_schedules;
+            }
         }
     }
 
@@ -628,7 +636,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
     {
         std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
         for (auto& [id, job] : jobs_) {
-            if (job.started_at_ms < cutoff) continue;
+            if (job.started_at_ms < cutoff) {
+              continue;
+            }
             if (job.state == MaintenanceJobState::RUNNING ||
                 job.state == MaintenanceJobState::PENDING) {
                 ++report.active_jobs;
@@ -647,7 +657,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
         for (auto& [name, probe] : health_probes_) {
             try {
                 ModuleHealthSignal sig = probe();
-                if (sig.status > worst) worst = sig.status;
+                if (sig.status > worst) {
+                  worst = sig.status;
+                }
                 report.module_signals.push_back(std::move(sig));
             } catch (const std::exception& ex) {
                 ModuleHealthSignal sig;
@@ -655,7 +667,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
                 sig.status        = ModuleHealthStatus::UNKNOWN;
                 sig.message       = std::string("probe threw: ") + ex.what();
                 sig.checked_at_ms = nowMs();
-                if (worst < ModuleHealthStatus::DEGRADED) worst = ModuleHealthStatus::DEGRADED;
+                if (worst < ModuleHealthStatus::DEGRADED) {
+                  worst = ModuleHealthStatus::DEGRADED;
+                }
                 report.module_signals.push_back(std::move(sig));
             }
         }
@@ -694,13 +708,13 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
     MaintenanceTaskType task_type,
     std::shared_ptr<IMaintenanceTaskHandler> handler)
 {
-    if (!handler) {
+    if ([[maybe_unused]] !handler) {
         spdlog::warn("registerTaskHandler: ignoring null handler for task type '{}'",
                      taskTypeToString(task_type));
         return;
     }
-    std::unique_lock<std::shared_mutex> lock(handlers_mutex_);
-    task_handlers_[static_cast<int>(task_type)] = std::move(handler);
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
+    task_handlers_[static_cast<int>([[maybe_unused]] task_type)] = std::move(handler);
 }
 
 void DatabaseMaintenanceOrchestrator::setDistributedLock(
@@ -713,11 +727,12 @@ void DatabaseMaintenanceOrchestrator::setDistributedLock(
 std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
-    std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
-    std::map<std::string, std::string> result;
+    std::shared_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
+    std::map<std::string, std::string> result = {};
+
     for (const auto& [key, handler] : task_handlers_) {
         const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
-        if (handler) {
+        if ([[maybe_unused]] handler) {
             result[task_type_str] = handler->handlerName(); // null-checked above
         } else {
             result[task_type_str] = "<null-handler>";
@@ -774,7 +789,9 @@ std::string DatabaseMaintenanceOrchestrator::schedulerTaskId(
 void DatabaseMaintenanceOrchestrator::registerWithScheduler(
     const MaintenanceScheduleEntry& entry)
 {
-    if (!scheduler_) return;
+    if (!scheduler_) {
+      return;
+    }
 
     ScheduledTask task;
     task.id             = schedulerTaskId(entry.id);
@@ -833,7 +850,9 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
 void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
     const std::string& schedule_id)
 {
-    if (!scheduler_) return;
+    if (!scheduler_) {
+      return;
+    }
     const std::string tid = schedulerTaskId(schedule_id);
     scheduler_->unregisterTask(tid);
     scheduler_->unregisterFunction(tid);
@@ -979,7 +998,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     } dist_lock_guard{std::move(acquired_dist_lock), schedule_id};
 
     // ---- Per-tenant configuration -----------------------------------------
-    TenantMaintenanceConfig tenant_cfg;
+    TenantMaintenanceConfig tenant_cfg = {};
     if (!entry.tenant_id.empty()) {
         tenant_cfg = getTenantMaintenanceConfig(entry.tenant_id);
     }
@@ -1139,7 +1158,9 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
             MetricsCollector::getInstance().addCounter(
                 "maintenance_tasks_failed_total", 1,
                 {{"task_type", taskTypeToString(task_type)}});
-            if (entry.halt_on_task_failure) break;
+            if (entry.halt_on_task_failure) {
+              break;
+            }
         } else {
             MetricsCollector::getInstance().addCounter(
                 "maintenance_tasks_succeeded_total", 1,
@@ -1341,28 +1362,28 @@ void DatabaseMaintenanceOrchestrator::executeTask(
         // ---- Module-delegated tasks (handled via registered IMaintenanceTaskHandler) ----
 
         case MaintenanceTaskType::METRICS_COLLECTION:
-        case MaintenanceTaskType::QUOTA_CHECK:
-        case MaintenanceTaskType::REPLICA_VALIDATION:
-        case MaintenanceTaskType::PERFORMANCE_ANALYSIS:
-        case MaintenanceTaskType::MVCC_CLEANUP:
-        case MaintenanceTaskType::FULL_CHECKDB:
-        case MaintenanceTaskType::BACKUP_VERIFICATION:
-        case MaintenanceTaskType::CAPACITY_TREND_ANALYSIS:
-        case MaintenanceTaskType::INDEX_FRAGMENTATION_REPORT:
-        case MaintenanceTaskType::DISASTER_RECOVERY_DRILL:
-        case MaintenanceTaskType::BASELINE_UPDATE:
-        case MaintenanceTaskType::STORAGE_COMPACTION: {
+        [[fallthrough]];\n        case MaintenanceTaskType::QUOTA_CHECK:
+        [[fallthrough]];\n        case MaintenanceTaskType::REPLICA_VALIDATION:
+        [[fallthrough]];\n        case MaintenanceTaskType::PERFORMANCE_ANALYSIS:
+        [[fallthrough]];\n        case MaintenanceTaskType::MVCC_CLEANUP:
+        [[fallthrough]];\n        case MaintenanceTaskType::FULL_CHECKDB:
+        [[fallthrough]];\n        case MaintenanceTaskType::BACKUP_VERIFICATION:
+        [[fallthrough]];\n        case MaintenanceTaskType::CAPACITY_TREND_ANALYSIS:
+        [[fallthrough]];\n        case MaintenanceTaskType::INDEX_FRAGMENTATION_REPORT:
+        [[fallthrough]];\n        case MaintenanceTaskType::DISASTER_RECOVERY_DRILL:
+        [[fallthrough]];\n        case MaintenanceTaskType::BASELINE_UPDATE:
+        [[fallthrough]];\n        case MaintenanceTaskType::STORAGE_COMPACTION: {
             // Look for a registered handler for this task type.
             std::shared_ptr<IMaintenanceTaskHandler> handler;
             {
-                std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
-                auto it = task_handlers_.find(static_cast<int>(task_type));
-                if (it != task_handlers_.end()) {
+                std::shared_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
+                auto it = task_handlers_.find([[maybe_unused]] static_cast<int>(task_type));
+                if ([[maybe_unused]] it != task_handlers_.end()) {
                     handler = it->second;
                 }
             }
 
-            if (handler) {
+            if ([[maybe_unused]] handler) {
                 auto result = handler->execute(job.id, task_type);
                 if (!result) {
                     job.state         = MaintenanceJobState::FAILED;
@@ -1394,7 +1415,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
                     "real execution for this task type.",
                     taskTypeToString(task_type), job.id);
                 job.state          = MaintenanceJobState::SKIPPED;
-                job.error_message  = "no handler registered for " + taskTypeToString(task_type);
+                job.error_message  = "no handler registered for " + taskTypeToString([[maybe_unused]] task_type);
                 job.result_summary = "Task '" + taskTypeToString(task_type) +
                                      "' skipped: no handler registered";
 
@@ -1473,12 +1494,13 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
 
     // Build a stable index map so that tasks with equal eligibility are
     // emitted in the same relative order as entry.tasks (Kahn's seeding).
-    std::unordered_map<int, std::size_t> taskIndex;
-    for (std::size_t i = 0; i < entry.tasks.size(); ++i) {
+    std::unordered_map<int, std::size_t> taskIndex = {};
+
+    for (std::size_t i = 0; i <static_cast<int>(entry.tasks.size()); ++i) {
         taskIndex[static_cast<int>(entry.tasks[i])] = i;
     }
 
-    auto getIndex = [&](MaintenanceTaskType t) -> std::size_t {
+    auto getIndex = [&]([[maybe_unused]] MaintenanceTaskType t) -> std::size_t {
         auto it = taskIndex.find(static_cast<int>(t));
         return it != taskIndex.end() ? it->second : SIZE_MAX;
     };
@@ -1531,7 +1553,8 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     };
 
     // Initialize ready list with zero-in-degree tasks, in entry.tasks order.
-    std::deque<MaintenanceTaskType> ready;
+    std::deque<MaintenanceTaskType> ready = {};
+
     for (auto t : entry.tasks) {
         if (inDegree[static_cast<int>(t)] == 0) {
             ready.push_back(t);
@@ -1539,7 +1562,8 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     }
     // ready is already in entry.tasks order because we iterated entry.tasks.
 
-    std::vector<MaintenanceTaskType> result;
+    std::vector<MaintenanceTaskType> result = {};
+
     result.reserve(entry.tasks.size());
 
     while (!ready.empty()) {
@@ -1562,7 +1586,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     }
 
     // If not all tasks were emitted, at least one cycle exists.
-    if (result.size() != entry.tasks.size()) {
+    if (static_cast<int>(result.size()) != static_cast<int>(entry.tasks.size())) {
         throw std::invalid_argument(
             "task_dependencies: circular dependency detected");
     }

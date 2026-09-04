@@ -46,6 +46,7 @@ TensorLayerPlan TensorMidLayer::plan(const TensorLayerContext& context) const no
             plan.reason = "fingerprint summary routed through TensorFingerprintGraph";
             break;
         case TensorLayerKind::Adapter:
+        [[fallthrough]];
         default:
             plan.reason = "adapter scope routed through TensorFingerprintGraph";
             break;
@@ -93,7 +94,7 @@ TensorLayerSummary TensorMidLayer::summarize(const TensorLayerContext& context) 
 
 FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
     const TensorLayerContext& context) const {
-    FederatedTensorSummary summary;
+    FederatedTensorSummary summary = {};
     if (context.shard_scope_ids.empty()) {
         summary.routing_reason = "no shard scopes provided for federated tensor summary";
         return summary;
@@ -111,7 +112,7 @@ FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
         // Emit a small stderr diagnostic so focused test runners capture it reliably.
         try {
             std::fprintf(stderr, "[TFML] shard='%s' similar_adapters=%zu candidates=%zu\n",
-                         shard_scope_id.c_str(), shard_summary.similar_adapters.size(), shard_summary.candidate_count);
+                         shard_scope_id.c_str(),static_cast<int>(shard_summary.similar_adapters.size()), shard_summary.candidate_count);
         } catch (...) {
         }
         shard_summary.federated = true;
@@ -158,7 +159,9 @@ index::AnnScopeKind TensorMidLayer::annScopeKindForLayer(TensorLayerKind kind) n
         case TensorLayerKind::ShardSummary:
             return index::AnnScopeKind::ShardSummary;
         case TensorLayerKind::FingerprintSummary:
+        [[fallthrough]];
         case TensorLayerKind::Adapter:
+        [[fallthrough]];
         default:
             return index::AnnScopeKind::Adapter;
     }
@@ -191,7 +194,8 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
         }
     }
 
-    std::vector<SimilarityResult> out;
+    std::vector<SimilarityResult> out = {};
+
     out.reserve(merged.size());
     for (auto& [_, candidate] : merged) {
         out.push_back(std::move(candidate));
@@ -201,7 +205,7 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
               [](const auto& lhs, const auto& rhs) {
                   return lhs.score > rhs.score;
               });
-    if (top_k > 0 && out.size() > top_k) {
+    if (top_k > 0 && static_cast<int>(out.size()) > top_k) {
         out.resize(top_k);
     }
     return out;
@@ -209,3 +213,4 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
 
 } // namespace tensor
 } // namespace themis
+

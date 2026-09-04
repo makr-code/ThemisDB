@@ -487,7 +487,7 @@ TEST_F(OperatorRemediationEnginePhaseThreeTest, ConcurrentPatternRegistration) {
         for (int i = 0; i < 20; ++i) {
             class DummyPattern : public RemediationPattern {
             public:
-                int id_;
+                int id_ = {};
                 DummyPattern(int id) : id_(id) {}
                 std::shared_ptr<RemediationHint> match(
                     const std::map<std::string, double>&) override {

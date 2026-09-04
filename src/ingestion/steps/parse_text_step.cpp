@@ -44,7 +44,7 @@ public:
     const char* getName()    const override { return "builtin.parse_text"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -69,7 +69,7 @@ public:
                 Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       "parse_text: cannot open '" + path + "'"});
         }
-        std::ostringstream ss;
+        std::ostringstream ss = {};
         ss << file.rdbuf();
         ctx.raw_text = ss.str();
 

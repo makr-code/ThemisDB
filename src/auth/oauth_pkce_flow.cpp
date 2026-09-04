@@ -84,14 +84,14 @@ OAuthPKCEFlow::PKCEChallenge OAuthPKCEFlow::generateChallenge() {
     constexpr std::size_t kVerifierBytes = 96;
     std::array<unsigned char, kVerifierBytes> raw{};
 
-    fillRandomBytes(raw.data(), raw.size());
+    fillRandomBytes(raw.data(),static_cast<int>(raw.size()));
 
-    const std::string verifier = base64UrlEncode(raw.data(), raw.size());
+    const std::string verifier = base64UrlEncode(raw.data(),static_cast<int>(raw.size()));
 
     // code_challenge = BASE64URL(SHA256(ASCII(code_verifier)))
     const std::string digest = sha256(verifier);
     const std::string challenge
-        = base64UrlEncode(reinterpret_cast<const unsigned char *>(digest.data()), digest.size());
+        = base64UrlEncode(reinterpret_cast<const unsigned char *>(digest.data()),static_cast<int>(digest.size()));
 
     spdlog::debug("OAuthPKCEFlow: generated PKCE challenge (method=S256, "
                   "verifier_len={})",
@@ -121,8 +121,8 @@ std::string OAuthPKCEFlow::buildAuthorizationUrl(const PKCEChallenge &challenge,
     append("redirect_uri", config_.redirect_uri);
 
     if (!config_.scopes.empty()) {
-        std::string scope_str;
-        for (std::size_t i = 0; i < config_.scopes.size(); ++i) {
+        std::string scope_str = {};
+        for (std::size_t i = 0; i <static_cast<int>(config_.scopes.size()); ++i) {
             if (i > 0) {
                 scope_str += ' ';
             }
@@ -170,12 +170,12 @@ OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(const std::string &auth
     const std::string body = buildFormBody(params);
     spdlog::debug("OAuthPKCEFlow: exchanging authorization code at {}", config_.token_endpoint);
 
-    std::string response_body;
+    std::string response_body = {};
     {
         // B3: retry httpPost() with exponential backoff on transient errors
         constexpr int kMaxRetries  = 3;
         constexpr int kBaseDelayMs = 100;
-        std::exception_ptr last_exc;
+        std::exception_ptr last_exc = {};
         for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
             try {
                 response_body = httpPost(config_.token_endpoint, body);
@@ -187,7 +187,9 @@ OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(const std::string &auth
                 const bool retryable   = (what.find("HTTP 429") != std::string::npos)
                                        || (what.find("HTTP 503") != std::string::npos)
                                        || (what.find("libcurl") != std::string::npos);
-                if (!retryable || attempt + 1 == kMaxRetries) break;
+                if (!retryable || attempt + 1 == kMaxRetries) {
+                  break;
+                }
                 const int delay_ms = kBaseDelayMs * (1 << attempt);
                 spdlog::warn("OAuthPKCEFlow: token exchange attempt {} failed ({}), retrying in {}ms",
                              attempt + 1, what, delay_ms);
@@ -274,7 +276,7 @@ std::string OAuthPKCEFlow::httpPost(const std::string &url, const std::string &b
         throw std::runtime_error("Failed to initialize libcurl handle");
     }
 
-    std::string response_body;
+    std::string response_body = {};
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
@@ -374,7 +376,7 @@ std::string OAuthPKCEFlow::sha256(const std::string &input) {
     }
 
     const bool ok = EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) == 1
-                    && EVP_DigestUpdate(ctx, input.data(), input.size()) == 1
+                    && EVP_DigestUpdate(ctx, input.data(),static_cast<int>(input.size())) == 1
                     && EVP_DigestFinal_ex(ctx, digest.data(), &digest_len) == 1;
 
     EVP_MD_CTX_free(ctx);
@@ -391,13 +393,13 @@ std::string OAuthPKCEFlow::base64UrlEncode(const unsigned char *data, std::size_
     // Standard Base64 alphabet
     static const char kTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-    std::string out;
+    std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
 
     for (std::size_t i = 0; i < len; i += 3) {
         const uint32_t b0     = data[i];
-        const uint32_t b1     = (i + 1 < len) ? data[i + 1] : 0u;
-        const uint32_t b2     = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t b1     = (i + 1 < len) ? data[i + 1] : 0;
+        const uint32_t b2     = (i + 2 < len) ? data[i + 2] : 0;
         const uint32_t triple = (b0 << 16) | (b1 << 8) | b2;
 
         out += kTable[(triple >> 18) & 0x3F];
@@ -429,7 +431,7 @@ std::string OAuthPKCEFlow::urlEncode(const std::string &value) {
     }
 
     char *encoded = curl_easy_escape(curl, value.c_str(), static_cast<int>(value.size()));
-    std::string result;
+    std::string result = {};
     if (encoded) {
         result = encoded;
         curl_free(encoded);
@@ -439,7 +441,7 @@ std::string OAuthPKCEFlow::urlEncode(const std::string &value) {
 }
 
 std::string OAuthPKCEFlow::buildFormBody(const std::vector<std::pair<std::string, std::string>> &params) {
-    std::string body;
+    std::string body = {};
     for (std::size_t i = 0; i < params.size(); ++i) {
         if (i > 0) {
             body += '&';

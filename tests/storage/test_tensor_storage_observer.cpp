@@ -32,7 +32,9 @@ static std::vector<float> randVec(std::size_t n, unsigned seed) {
     std::mt19937 rng(seed);
     std::normal_distribution<float> d(0.0f, 1.0f);
     std::vector<float> v(n);
-    for (auto& x : v) x = d(rng);
+    for (auto& x : v) {
+      x = d(rng);
+    }
     return v;
 }
 

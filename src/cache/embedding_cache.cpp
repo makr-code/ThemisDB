@@ -97,8 +97,8 @@ EmbeddingCache::EmbeddingCache(const Config &config) : config_(config), impl_(st
 EmbeddingCache::~EmbeddingCache() = default;
 
 std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vector<float> &query_embedding) const {
-    if (query_embedding.size() != config_.embedding_dim) {
-        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})", query_embedding.size(), config_.embedding_dim);
+    if (static_cast<int>(query_embedding.size()) != config_.embedding_dim) {
+        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})",static_cast<int>(query_embedding.size()), config_.embedding_dim);
         return std::nullopt;
     }
 
@@ -116,7 +116,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
             const auto &result = results[0];
 
             // Convert distance to similarity based on metric
-            float similarity;
+            float similarity = 0;
             if (impl_->metric == VectorIndexManager::Metric::COSINE) {
                 // For cosine: similarity = 1 - distance
                 similarity = 1.0f - result.distance;
@@ -175,7 +175,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
     } else {
         // Fallback: brute-force search through all entries
         float best_similarity = 0.0f;
-        std::string best_pk;
+        std::string best_pk = {};
         for (const auto &[pk, entry] : impl_->entries) {
             if (isExpired(entry)) {
                 continue;
@@ -228,8 +228,8 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
 
 bool EmbeddingCache::store(const std::string &query_text, const std::vector<float> &embedding,
                            const std::string &metadata) {
-    if (embedding.size() != config_.embedding_dim) {
-        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})", embedding.size(), config_.embedding_dim);
+    if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
+        THEMIS_ERROR("Invalid embedding dimension: {} (expected {})",static_cast<int>(embedding.size()), config_.embedding_dim);
         return false;
     }
 
@@ -237,7 +237,7 @@ bool EmbeddingCache::store(const std::string &query_text, const std::vector<floa
 
     // F-009: O(log N) eviction via min-heap.  Pop the root (oldest by
     // timestamp) and skip stale heap entries (lazy deletion).
-    while (impl_->entries.size() >= config_.max_entries) {
+    while (impl_-> static_cast<int>(entries.size()) >= config_.max_entries) {
         if (impl_->eviction_heap.empty()) {
             // Heap and map are out of sync — fall back to O(N) scan once.
             auto oldest_it      = impl_->entries.end();
@@ -316,7 +316,7 @@ bool EmbeddingCache::store(const std::string &query_text, const std::vector<floa
     }
 
     // Update stats
-    stats_.total_entries = impl_->entries.size();
+    stats_.total_entries = impl_-> static_cast<int>(entries.size());
 
     THEMIS_DEBUG("Stored embedding in cache: pk={}, query='{}', metadata='{}'", pk, query_text.substr(0, 50), metadata);
     return true;
@@ -342,7 +342,7 @@ uint64_t EmbeddingCache::clearExpired() {
     }
 
     // Update stats
-    stats_.total_entries = impl_->entries.size();
+    stats_.total_entries = impl_-> static_cast<int>(entries.size());
 
     THEMIS_INFO("Cleared {} expired cache entries", cleared);
     return cleared;

@@ -374,7 +374,9 @@ TEST(WomTreeFocusedTests, Stats_WriteAmplification_ZeroBeforeWrites) {
 
 TEST(WomTreeFocusedTests, Clear_ResetsAllState) {
     WomTree t;
-    for (int i = 0; i < 10; ++i) (void)t.put(key(i), val(i));
+    for (int i = 0; i < 10; ++i) {
+      (void)t.put(key(i), val(i));
+    }
     t.clear();
     EXPECT_TRUE(t.empty());
     EXPECT_EQ(t.size(), 0u);
@@ -427,7 +429,9 @@ TEST(WomTreeFocusedTests, ThreadSafety_ConcurrentPuts_NoDataRace) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Size should be kThreads * kPerThread (all keys are distinct).
     EXPECT_EQ(t.size(), static_cast<size_t>(kThreads * kPerThread));
@@ -436,24 +440,32 @@ TEST(WomTreeFocusedTests, ThreadSafety_ConcurrentPuts_NoDataRace) {
 TEST(WomTreeFocusedTests, ThreadSafety_ConcurrentPutAndGet_NoDataRace) {
     WomTree t;
     // Pre-populate.
-    for (int i = 0; i < 100; ++i) (void)t.put(key(i), val(i));
+    for (int i = 0; i < 100; ++i) {
+      (void)t.put(key(i), val(i));
+    }
 
     std::atomic<int> read_errors{0};
     std::vector<std::thread> threads;
 
     // Writers: overwrite existing keys.
     threads.emplace_back([&t] {
-        for (int i = 0; i < 100; ++i) (void)t.put(key(i), "new_" + std::to_string(i));
+        for (int i = 0; i < 100; ++i) {
+          (void)t.put(key(i), "new_" + std::to_string(i));
+        }
     });
     // Readers: may see either old or new value; must not crash.
     threads.emplace_back([&t, &read_errors] {
         for (int i = 0; i < 100; ++i) {
             auto r = t.get(key(i));
-            if (!r.has_value()) ++read_errors;
+            if (!r.has_value()) {
+              ++read_errors;
+            }
         }
     });
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // Readers should see either old or new value for every key.
     EXPECT_EQ(read_errors.load(), 0);
 }
@@ -464,7 +476,9 @@ TEST(WomTreeFocusedTests, ThreadSafety_ConcurrentPutAndGet_NoDataRace) {
 
 TEST(WomTreeFocusedTests, ConcurrentReaders_NoBlockingEachOther) {
     WomTree t;
-    for (int i = 0; i < 100; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 100; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
 
     constexpr int kReaders = 8;
     std::atomic<int> errors{0};
@@ -474,11 +488,15 @@ TEST(WomTreeFocusedTests, ConcurrentReaders_NoBlockingEachOther) {
         threads.emplace_back([&t, &errors] {
             for (int i = 0; i < 100; ++i) {
                 auto res = t.get(key(i));
-                if (!res.has_value()) ++errors;
+                if (!res.has_value()) {
+                  ++errors;
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(errors.load(), 0);
 }
 
@@ -513,7 +531,9 @@ TEST(WomTreeFocusedTests, LazyDeletesFalse_ClearsBufferedPutBeforeRemoval) {
     WomTree t(cfg);
 
     // Force a multi-level tree.
-    for (int i = 0; i < 20; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 20; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
 
     // Remove one key immediately.
     ASSERT_TRUE(t.remove("key:5").has_value());
@@ -525,7 +545,9 @@ TEST(WomTreeFocusedTests, LazyDeletesFalse_ClearsBufferedPutBeforeRemoval) {
 
     // All other keys must survive.
     for (int i = 0; i < 20; ++i) {
-        if (i == 5) continue;
+        if (i == 5) {
+          continue;
+        }
         EXPECT_TRUE(t.contains(key(i))) << "key:" << i << " should still exist";
     }
 }
@@ -538,7 +560,9 @@ TEST(WomTreeFocusedTests, LazyDeletesFalse_ReinsertAfterDirectRemove) {
     cfg.fanout            = 4;
     WomTree t(cfg);
 
-    for (int i = 0; i < 20; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 20; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
     ASSERT_TRUE(t.remove("key:3").has_value());
     // Re-insert after direct remove.
     ASSERT_TRUE(t.put("key:3", "restored").has_value());
@@ -572,12 +596,16 @@ TEST(WomTreeFocusedTests, Size_AccurateWithBufferedOps) {
     cfg.fanout            = 4;
     WomTree t(cfg);
 
-    for (int i = 0; i < 50; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 50; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
     // Even though some ops sit in internal buffers, size() must be accurate.
     EXPECT_EQ(t.size(), 50u);
 
     // Overwriting existing keys must not inflate size.
-    for (int i = 0; i < 50; ++i) ASSERT_TRUE(t.put(key(i), "updated").has_value());
+    for (int i = 0; i < 50; ++i) {
+      ASSERT_TRUE(t.put(key(i), "updated").has_value());
+    }
     EXPECT_EQ(t.size(), 50u);
 }
 
@@ -588,11 +616,15 @@ TEST(WomTreeFocusedTests, Size_AccurateAfterBufferedRemove) {
     cfg.fanout            = 4;
     WomTree t(cfg);
 
-    for (int i = 0; i < 30; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 30; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
     ASSERT_EQ(t.size(), 30u);
 
     // Remove 10 keys (lazy tombstone path).
-    for (int i = 0; i < 10; ++i) ASSERT_TRUE(t.remove(key(i)).has_value());
+    for (int i = 0; i < 10; ++i) {
+      ASSERT_TRUE(t.remove(key(i)).has_value());
+    }
     EXPECT_EQ(t.size(), 20u);
 }
 
@@ -629,7 +661,9 @@ TEST(WomTreeFocusedTests, FanoutEnforced_TreeHeightBounded) {
     cfg.leaf_capacity = 4;
     WomTree t(cfg);
 
-    for (int i = 0; i < 256; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 256; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
 
     auto s = t.stats();
     // Allow some slack; height should not blow up to N (unbounded growth).
@@ -650,7 +684,9 @@ TEST(WomTreeFocusedTests, FanoutEnforced_TreeHeightBounded) {
 
 TEST(WomTreeFocusedTests, Scan_CallbackInvokedOutsideLock_NoDeadlock) {
     WomTree t;
-    for (int i = 0; i < 10; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    for (int i = 0; i < 10; ++i) {
+      ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
 
     // Calling put() inside the scan callback would deadlock if the scan held
     // the exclusive mutex while invoking the callback.  After Fix 6 the lock

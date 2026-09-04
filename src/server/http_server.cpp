@@ -396,7 +396,7 @@ HttpServer::HttpServer(
             adaptive_query_cache_ = std::make_shared<AdaptiveQueryCache>(cache_admin_config);
             cache_admin_api_ = std::make_unique<themis::server::CacheAdminApiHandler>(
                 adaptive_query_cache_, auth_);
-            THEMIS_INFO("Cache Admin API Handler initialized");
+            THEMIS_INFO([[maybe_unused]] "Cache Admin API Handler initialized");
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize Cache Admin API Handler: {}", e.what());
         }
@@ -441,7 +441,7 @@ HttpServer::HttpServer(
                                     r["max_age_hours"].as<uint32_t>(168));  // default: 7 days
                         if (r["max_event_count"])
                             cdc_retention_policy.max_event_count =
-                                r["max_event_count"].as<uint64_t>(1000000); // default: 1M events
+                                r["max_event_count"].as<uint64_t>([[maybe_unused]] 1000000); // default: 1M events
                         if (r["max_size_bytes"])
                             cdc_retention_policy.max_size_bytes =
                                 r["max_size_bytes"].as<size_t>(
@@ -486,16 +486,16 @@ HttpServer::HttpServer(
         
         // Initialize SnapshotManager (Named Snapshots feature)
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
-        snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
+        snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>([[maybe_unused]] *snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
 
         // Initialize MVCC API Handler (per-record versioning + HLC)
         {
             auto clock = std::make_shared<themis::HybridLogicalClock>();
             mvcc_store_ = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
-            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(mvcc_store_);
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>([[maybe_unused]] mvcc_store_);
         }
-        THEMIS_INFO("MVCC API Handler initialized");
+        THEMIS_INFO([[maybe_unused]] "MVCC API Handler initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
         // CRITICAL FIX: null_dereference + uncaught_exception - Add null checks and exception handling
@@ -505,7 +505,7 @@ HttpServer::HttpServer(
                     storage_ ? "OK" : "NULL", changefeed_ ? "OK" : "NULL", snapshot_manager_ ? "OK" : "NULL");
             } else {
                 pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
-                pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
+                pitr_api_handler_ = std::make_unique<server::PITRApiHandler>([[maybe_unused]] *pitr_manager_);
                 THEMIS_INFO("PITRManager initialized");
             }
         } catch (const std::exception& e) {
@@ -519,7 +519,7 @@ HttpServer::HttpServer(
                 THEMIS_ERROR("Cannot initialize BranchManager: missing required dependencies");
             } else {
                 branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
-                branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
+                branch_api_handler_ = std::make_unique<BranchApiHandler>([[maybe_unused]] *branch_manager_);
                 THEMIS_INFO("BranchManager initialized");
             }
         } catch (const std::exception& e) {
@@ -533,7 +533,7 @@ HttpServer::HttpServer(
                 THEMIS_ERROR("Cannot initialize DiffEngine: changefeed is NULL");
             } else {
                 diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
-                diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
+                diff_api_handler_ = std::make_unique<DiffApiHandler>([[maybe_unused]] *diff_engine_);
                 THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
             }
         } catch (const std::exception& e) {
@@ -602,7 +602,7 @@ HttpServer::HttpServer(
        auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
        if (cf_result) {
            pii_cf_handle_ = *cf_result;
-           pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);
+           pii_api_ = std::make_unique<PIIApiHandler>([[maybe_unused]] storage_->getRawDB(), pii_cf_handle_);
            THEMIS_INFO("PII Manager initialized with dedicated CF 'pii_mappings'");
        } else {
            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
@@ -610,7 +610,7 @@ HttpServer::HttpServer(
     } else {
        // Fallback: use default CF (still functional, just no separation)
        std::lock_guard<std::mutex> lock(storage_mutex_);
-       pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);
+       pii_api_ = std::make_unique<PIIApiHandler>([[maybe_unused]] storage_->getRawDB(), nullptr);
        THEMIS_INFO("PII Manager initialized using default CF (feature flag off, CF isolation disabled)");
     }
 
@@ -664,7 +664,7 @@ HttpServer::HttpServer(
         const char* shard_id = std::getenv("THEMIS_SHARD_ID");
         const char* bootstrap_shard = std::getenv("THEMIS_BOOTSTRAP_SHARD");
         
-        if (sharding_enabled && (std::string(sharding_enabled) == "true" || std::string(sharding_enabled) == "1")) {
+        if ((sharding_enabled) && (std::string(sharding_enabled) == "true" || std::string(sharding_enabled) == "1")) {
             THEMIS_INFO("Sharding mode detected: preparing cluster context before AdaptiveIndexManager");
             
             // Set sharding context flags so AdaptiveIndexManager knows to coordinate with cluster
@@ -697,7 +697,9 @@ HttpServer::HttpServer(
     // Global-style helper for env lookup (reused across subsequent blocks)
     auto themis_get_env = [](const char* name) -> std::optional<std::string> {
         const char* v = std::getenv(name);
-        if (v && *v) return std::string(v);
+        if (v && *v) {
+          return std::string(v);
+        }
         return std::nullopt;
     };
     // Admin token
@@ -778,14 +780,14 @@ HttpServer::HttpServer(
     }
 
     // Initialize Keys API Handler with KeyProvider
-    keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
-    THEMIS_INFO("Keys API Handler initialized");
+    keys_api_ = std::make_unique<themis::server::KeysApiHandler>([[maybe_unused]] key_provider_);
+    THEMIS_INFO([[maybe_unused]] "Keys API Handler initialized");
 
     // Deferred CacheApiHandler initialization (requires auth_ which is now available)
     if (semantic_cache_ && auth_) {
         try {
             cache_api_ = std::make_unique<server::CacheApiHandler>(semantic_cache_, auth_);
-            THEMIS_INFO("Cache API Handler initialized (semantic cache endpoints active)");
+            THEMIS_INFO([[maybe_unused]] "Cache API Handler initialized (semantic cache endpoints active)");
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize Cache API Handler: {}", e.what());
         }
@@ -796,23 +798,23 @@ HttpServer::HttpServer(
         try {
             timeseries_api_ = std::make_unique<server::TimeSeriesApiHandler>(
                 storage_, timeseries_, ts_agg_manager_, auth_);
-            THEMIS_INFO("TimeSeries API Handler initialized (time-series endpoints active)");
+            THEMIS_INFO([[maybe_unused]] "TimeSeries API Handler initialized (time-series endpoints active)");
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize TimeSeries API Handler: {}", e.what());
         }
     }
 
     // Initialize API Key Management Handler
-    api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
-    THEMIS_INFO("API Key Management Handler initialized");
+    api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>([[maybe_unused]] auth_);
+    THEMIS_INFO([[maybe_unused]] "API Key Management Handler initialized");
     // Initialize Session Management Handler
     session_manager_ = std::make_shared<themis::auth::SessionManager>();
     session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_, audit_logger_);
-    THEMIS_INFO("Session Management Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
-        pki_api_ = std::make_unique<themis::server::PkiApiHandler>(themis::createKeyProviderSigningService(key_provider_));
-        THEMIS_INFO("PKI API Handler initialized");
+        pki_api_ = std::make_unique<themis::server::PkiApiHandler>([[maybe_unused]] themis::createKeyProviderSigningService(key_provider_));
+        THEMIS_INFO([[maybe_unused]] "PKI API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize PKI API Handler: {}", e.what());
     }
@@ -822,8 +824,8 @@ HttpServer::HttpServer(
     THEMIS_INFO("PII Detector initialized");
     
     // Initialize Classification API Handler with PIIDetector
-    classification_api_ = std::make_unique<themis::server::ClassificationApiHandler>(pii_detector);
-    THEMIS_INFO("Classification API Handler initialized");
+    classification_api_ = std::make_unique<themis::server::ClassificationApiHandler>([[maybe_unused]] pii_detector);
+    THEMIS_INFO([[maybe_unused]] "Classification API Handler initialized");
 
     // Initialize Audit Logger and Audit API Handler
     try {
@@ -839,14 +841,26 @@ HttpServer::HttpServer(
         // Optional: allow configuring PKI certificate/key via env for real signing
         auto getenv_opt = [](const char* n) -> std::optional<std::string> {
             const char* v = std::getenv(n);
-            if (v && *v) return std::string(v);
+            if (v && *v) {
+              return std::string(v);
+            }
             return std::nullopt;
         };
-        if (auto v = getenv_opt("THEMIS_PKI_ENDPOINT")) pki_cfg.endpoint = *v;
-        if (auto v = getenv_opt("THEMIS_PKI_CERT")) pki_cfg.cert_path = *v;
-        if (auto v = getenv_opt("THEMIS_PKI_KEY")) pki_cfg.key_path = *v;
-        if (auto v = getenv_opt("THEMIS_PKI_KEY_PASSPHRASE")) pki_cfg.key_passphrase = *v;
-        if (auto v = getenv_opt("THEMIS_PKI_SIG_ALG")) pki_cfg.signature_algorithm = *v;
+        if (auto v = getenv_opt("THEMIS_PKI_ENDPOINT")) {
+          pki_cfg.endpoint = *v;
+        }
+        if (auto v = getenv_opt("THEMIS_PKI_CERT")) {
+          pki_cfg.cert_path = *v;
+        }
+        if (auto v = getenv_opt("THEMIS_PKI_KEY")) {
+          pki_cfg.key_path = *v;
+        }
+        if (auto v = getenv_opt("THEMIS_PKI_KEY_PASSPHRASE")) {
+          pki_cfg.key_passphrase = *v;
+        }
+        if (auto v = getenv_opt("THEMIS_PKI_SIG_ALG")) {
+          pki_cfg.signature_algorithm = *v;
+        }
 
         auto pki_client = std::make_shared<themis::utils::VCCPKIClient>(pki_cfg);
 
@@ -861,7 +875,7 @@ HttpServer::HttpServer(
         // Audit API Handler reads/decrypts/filters audit logs
         audit_api_ = std::make_unique<themis::server::AuditApiHandler>(
             field_encryption_, pki_client, audit_cfg.log_path);
-        THEMIS_INFO("Audit API Handler initialized");
+        THEMIS_INFO([[maybe_unused]] "Audit API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
     }
@@ -885,48 +899,48 @@ HttpServer::HttpServer(
     if (audit_logger_) {
         export_api_->setAuditLogger(audit_logger_.get());
     }
-    THEMIS_INFO("Export API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Export API Handler initialized");
 
     // Initialize Admin API Handler
     admin_api_ = std::make_unique<themis::server::AdminApiHandler>(
         storage_, auth_
     );
-    THEMIS_INFO("Admin API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Admin API Handler initialized");
     
     // Initialize Vector API Handler
     vector_api_ = std::make_unique<themis::server::VectorApiHandler>(
         storage_, vector_index_, auth_, field_encryption_, key_provider_
     );
-    THEMIS_INFO("Vector API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Vector API Handler initialized");
     
     // Initialize RoPE API Handler
     rope_api_ = std::make_unique<themis::server::RopeApiHandler>(
         storage_, vector_index_, auth_
     );
-    THEMIS_INFO("RoPE API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "RoPE API Handler initialized");
     
     // Initialize Spatial API Handler
     spatial_api_ = std::make_unique<themis::server::SpatialApiHandler>(
         storage_, spatial_index_, auth_
     );
-    THEMIS_INFO("Spatial API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Spatial API Handler initialized");
 
     // Initialize Geo Topology API Handler
     geo_topology_api_ = std::make_unique<themis::server::GeoTopologyApiHandler>(
         shard_topology_, redundancy_manager_, auth_
     );
-    THEMIS_INFO("Geo Topology API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Geo Topology API Handler initialized");
 
     // Initialize Replication Topology API Handler (web UI visualizer)
     {
-        std::string repl_primary_id;
+        std::string repl_primary_id = {};
         if (const char* pid = std::getenv("THEMIS_WAL_PRIMARY_ID")) {
             repl_primary_id = pid;
         }
         replication_topology_api_ = std::make_unique<themis::server::ReplicationTopologyApiHandler>(
             replication_coordinator_, wal_manager_, repl_primary_id, auth_
         );
-        THEMIS_INFO("Replication Topology API Handler initialized");
+        THEMIS_INFO([[maybe_unused]] "Replication Topology API Handler initialized");
     }
     
     // Initialize Monitoring API Handler
@@ -969,7 +983,7 @@ HttpServer::HttpServer(
     continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
     workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
     {
-        std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
         monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
     }
     // Wire a disabled-by-default Alertmanager so the Operator API is always available.
@@ -988,7 +1002,7 @@ HttpServer::HttpServer(
         }
         alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
         {
-            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
             monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
         }
 
@@ -1006,13 +1020,13 @@ HttpServer::HttpServer(
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
                 slo_cfg, alertmanager_);
             {
-                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+                std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                 cache_admin_api_->setSloMonitor(std::move(cache_slo));
             }
-            THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
+            THEMIS_INFO([[maybe_unused]] "Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
         }
     }
-    THEMIS_INFO("Monitoring API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Monitoring API Handler initialized");
     // Initialize Query API Handler
     query_api_ = std::make_unique<themis::server::QueryApiHandler>(
         storage_, secondary_index_, graph_index_, field_encryption_, key_provider_,
@@ -1021,7 +1035,7 @@ HttpServer::HttpServer(
         config_.feature_llm_store
     );
     query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
-    THEMIS_INFO("Query API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Query API Handler initialized");
 
     // Initialize Ranger client (optional) BEFORE PolicyApiHandler so that
     // policy_api_ receives a valid raw pointer instead of nullptr.
@@ -1034,11 +1048,19 @@ HttpServer::HttpServer(
         rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
         rcfg.tls_verify = true;
         if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
-            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
+            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") {
+              rcfg.tls_verify = false;
+            }
         }
-        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
-        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
-        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
+        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) {
+          rcfg.ca_cert_path = *ca;
+        }
+        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) {
+          rcfg.client_cert_path = *cc;
+        }
+        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) {
+          rcfg.client_key_path = *ck;
+        }
         if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
             try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
         }
@@ -1069,22 +1091,22 @@ HttpServer::HttpServer(
         auth_,
         ranger_service
     );
-    THEMIS_INFO("Policy API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Policy API Handler initialized");
     // Initialize Prompt API Handler
     prompt_api_ = std::make_unique<themis::server::PromptApiHandler>(
         storage_, prompt_manager_, auth_
     );
-    THEMIS_INFO("Prompt API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Prompt API Handler initialized");
     // Initialize Graph API Handler
     graph_api_ = std::make_unique<themis::server::GraphApiHandler>(
         storage_, graph_index_, auth_
     );
-    THEMIS_INFO("Graph API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Graph API Handler initialized");
     // Initialize Index API Handler
     index_api_ = std::make_unique<themis::server::IndexApiHandler>(
         storage_, secondary_index_, adaptive_index_, auth_
     );
-    THEMIS_INFO("Index API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Index API Handler initialized");
     // Initialize Entity API Handler
     server::EntityApiConfig entity_config;
     entity_config.feature_cdc = config_.feature_cdc;
@@ -1110,7 +1132,7 @@ HttpServer::HttpServer(
         hash_ring_,
         shard_topology_
     );
-    THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
+    THEMIS_INFO([[maybe_unused]] "Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
 
     // Initialize ProcessGraphManager for BPMN/EPK workflow engine
     try {
@@ -1126,9 +1148,9 @@ HttpServer::HttpServer(
         auth_
     );
     if (process_graph_) {
-        THEMIS_INFO("BPMN API Handler initialized with ProcessGraphManager");
+        THEMIS_INFO([[maybe_unused]] "BPMN API Handler initialized with ProcessGraphManager");
     } else {
-        THEMIS_INFO("BPMN API Handler initialized (ProcessGraphManager not available - endpoints will return 503)");
+        THEMIS_INFO([[maybe_unused]] "BPMN API Handler initialized (ProcessGraphManager not available - endpoints will return 503)");
     }
     
     // Initialize Content API Handler
@@ -1136,7 +1158,7 @@ HttpServer::HttpServer(
         storage_, content_manager_, nullptr, auth_,
         secondary_index_, vector_index_
     );
-    THEMIS_INFO("Content API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Content API Handler initialized");
 
     // Initialize ContentFS (binary content CRUD over HTTP: PUT/GET/HEAD/DELETE /api/v1/content/fs/{pk})
     if (storage_) {
@@ -1159,7 +1181,7 @@ HttpServer::HttpServer(
 #endif
             auth_, config_.feature_cdc
         );
-        THEMIS_INFO("Changefeed API Handler initialized");
+        THEMIS_INFO([[maybe_unused]] "Changefeed API Handler initialized");
     }
 
     // Initialize PII Pseudonymizer (used for reveal/erase)
@@ -1175,13 +1197,13 @@ HttpServer::HttpServer(
     
     // Initialize Reports API Handler
     reports_api_ = std::make_unique<themis::server::ReportsApiHandler>();
-    THEMIS_INFO("Reports API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Reports API Handler initialized");
     
     // Initialize Transaction API Handler
     transaction_api_ = std::make_unique<themis::server::TransactionApiHandler>(
         storage_, tx_manager_, auth_
     );
-    THEMIS_INFO("Transaction API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Transaction API Handler initialized");
 
     // Initialize Distributed Transaction (2PC) API Handler
     {
@@ -1198,14 +1220,14 @@ HttpServer::HttpServer(
             dtxn_coordinator
         );
     }
-    THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "Distributed Transaction (2PC) API Handler initialized");
 
     // Initialize WAL API Handler
     wal_api_ = std::make_unique<themis::server::WALApiHandler>(
         storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
         wal_shared_secret_, wal_hmac_secret_
     );
-    THEMIS_INFO("WAL API Handler initialized");
+    THEMIS_INFO([[maybe_unused]] "WAL API Handler initialized");
 
     // Initialize Ethics AI API Handler
     try {
@@ -1215,9 +1237,9 @@ HttpServer::HttpServer(
             std::shared_ptr<QueryEngine>(ethics_query_engine_.get(), [](QueryEngine*) {}),
             auth_
         );
-        THEMIS_INFO("Ethics AI API Handler initialized");
+        THEMIS_INFO([[maybe_unused]] "Ethics AI API Handler initialized");
     } catch (const std::exception& e) {
-        THEMIS_WARN("Ethics AI API Handler skipped: " + std::string(e.what()));
+        THEMIS_WARN([[maybe_unused]] "Ethics AI API Handler skipped: " + std::string(e.what()));
     }
 
     // Initialize Update Checker (if feature enabled)
@@ -1247,7 +1269,7 @@ HttpServer::HttpServer(
             }
             
             update_checker_ = std::make_shared<themis::utils::UpdateChecker>(update_config);
-            update_api_ = std::make_unique<themis::server::UpdateApiHandler>(update_checker_);
+            update_api_ = std::make_unique<themis::server::UpdateApiHandler>([[maybe_unused]] update_checker_);
             
             // Start background checking
             update_checker_->start();
@@ -1306,12 +1328,12 @@ HttpServer::HttpServer(
             feedback_storage->registerPlugin(std::make_shared<CacheAwareWeightingPlugin>(cache_config));
         }
         
-        feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>(feedback_storage);
-        if (feedback_api_handler_) {
-            feedback_api_handler_->setLiveFeedbackCollector(live_feedback_collector_);
-            feedback_api_handler_->setLearningOrchestrator(continuous_learning_orchestrator_);
+        feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>([[maybe_unused]] feedback_storage);
+        if ([[maybe_unused]] feedback_api_handler_) {
+            feedback_api_handler_->setLiveFeedbackCollector([[maybe_unused]] live_feedback_collector_);
+            feedback_api_handler_->setLearningOrchestrator([[maybe_unused]] continuous_learning_orchestrator_);
         }
-        THEMIS_INFO("Feedback API Handler initialized");
+        THEMIS_INFO([[maybe_unused]] "Feedback API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
     }
@@ -1337,15 +1359,15 @@ HttpServer::HttpServer(
             // Connect audit log to version manager so every version is audited
             schema_version_mgr_->setAuditLog(schema_audit_log_.get());
 
-            schema_api_handler_->setStatisticsCollector(stats_collector_.get());
-            schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
-            schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
-            schema_api_handler_->setIndexRecommender(index_recommender_.get());
-            schema_api_handler_->setAuditLog(schema_audit_log_.get());
+            schema_api_handler_->setStatisticsCollector([[maybe_unused]] stats_collector_.get());
+            schema_api_handler_->setSchemaConstraints([[maybe_unused]] schema_constraints_.get());
+            schema_api_handler_->setSchemaVersionManager([[maybe_unused]] schema_version_mgr_.get());
+            schema_api_handler_->setIndexRecommender([[maybe_unused]] index_recommender_.get());
+            schema_api_handler_->setAuditLog([[maybe_unused]] schema_audit_log_.get());
 
             // Wire ColumnLineageTracker into SchemaApiHandler
             column_lineage_tracker_ = std::make_unique<themis::metadata::ColumnLineageTracker>();
-            schema_api_handler_->setColumnLineageTracker(column_lineage_tracker_.get());
+            schema_api_handler_->setColumnLineageTracker([[maybe_unused]] column_lineage_tracker_.get());
 
             // Wire IndexRecommender into query handler for access-pattern recording
             if (query_api_) {
@@ -1380,7 +1402,7 @@ HttpServer::HttpServer(
     // enables the /api/v1/capabilities schema capability block.
     if (monitoring_api_ && schema_manager_) {
         monitoring_api_->setSchemaManager(schema_manager_.get());
-        THEMIS_INFO("SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
+        THEMIS_INFO([[maybe_unused]] "SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
     }
 
     // Initialize GraphQL API Handler with a dedicated AQL query engine
@@ -1401,16 +1423,16 @@ HttpServer::HttpServer(
     {
         GrpcWebProxyHandler::Config gwcfg;
         gwcfg.backend_address = "localhost:18765";
-        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>(std::move(gwcfg));
+        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>([[maybe_unused]] std::move(gwcfg));
         THEMIS_INFO("gRPC-Web proxy handler initialized (endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)");
     }
 
     // Initialize Serverless Function Hosting Handler
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
-    THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
+    THEMIS_INFO([[maybe_unused]] "Serverless function handler initialized (endpoints: /api/v1/functions)");
 
     udf_api_handler_ = std::make_unique<server::UdfApiHandler>();
-    THEMIS_INFO("UDF API handler initialized (endpoints: /api/v1/query/udfs)");
+    THEMIS_INFO([[maybe_unused]] "UDF API handler initialized (endpoints: /api/v1/query/udfs)");
 
     // Initialize Task Scheduler and its API / Web UI handler
     {
@@ -1436,7 +1458,7 @@ HttpServer::HttpServer(
             THEMIS_INFO("Alertmanager wired into TaskScheduler");
         }
         task_scheduler_->start();
-        task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
+        task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>([[maybe_unused]] task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
 
         // Initialize Database Maintenance Orchestrator
@@ -1457,15 +1479,15 @@ HttpServer::HttpServer(
         if (mvcc_store_) {
             maintenance_orchestrator_->registerTaskHandler(
                 themis::maintenance::MaintenanceTaskType::MVCC_CLEANUP,
-                std::make_shared<themis::maintenance::MvccCleanupHandler>(mvcc_store_));
+                std::make_shared<themis::maintenance::MvccCleanupHandler>([[maybe_unused]] mvcc_store_));
         }
 
         // Wire REPLICA_VALIDATION handler — delegates to ShardRepairEngine::runConsistencyCheck()
         if (shard_repair_engine_) {
             maintenance_orchestrator_->registerTaskHandler(
                 themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION,
-                themis::maintenance::makeReplicaValidationHandler(shard_repair_engine_));
-            THEMIS_INFO("REPLICA_VALIDATION handler wired to ShardRepairEngine");
+                themis::maintenance::makeReplicaValidationHandler([[maybe_unused]] shard_repair_engine_));
+            THEMIS_INFO([[maybe_unused]] "REPLICA_VALIDATION handler wired to ShardRepairEngine");
         }
 
         maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
@@ -1494,7 +1516,7 @@ HttpServer::HttpServer(
             };
         async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
             std::move(executor), auth_);
-        THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
+        THEMIS_INFO([[maybe_unused]] "Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
     }
 
     // Initialize Retention Policy Admin API Handler
@@ -1511,12 +1533,14 @@ HttpServer::HttpServer(
                 "config/retention_policies.yaml"
             };
 
-            auto try_find_in_ancestors = [&](const std::filesystem::path& start) -> std::optional<std::string> {
+            auto try_find_in_ancestors = [&]([[maybe_unused]] const std::filesystem::path& start) -> std::optional<std::string> {
                 std::filesystem::path p = start;
                 for (int i = 0; i < 8 && !p.empty(); ++i) {
                     for (const auto& c : candidates) {
                         auto cand = p / c;
-                        if (std::filesystem::exists(cand)) return cand.string();
+                        if (std::filesystem::exists(cand)) {
+                          return cand.string();
+                        }
                     }
                     p = p.parent_path();
                 }
@@ -1539,7 +1563,7 @@ HttpServer::HttpServer(
 
         auto retention_mgr = std::make_shared<vcc::RetentionManager>(
             resolved.value_or(retention_path));
-        retention_api_ = std::make_unique<server::RetentionApiHandler>(retention_mgr);
+        retention_api_ = std::make_unique<server::RetentionApiHandler>([[maybe_unused]] retention_mgr);
         THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*), using {}",
                     resolved.value_or(retention_path));
     }
@@ -1556,16 +1580,22 @@ HttpServer::HttpServer(
 
             themis::utils::PKIConfig saga_pki_cfg;
             saga_pki_cfg.service_id = "themis-saga";
-            if (const char* k = std::getenv("THEMIS_PKI_PRIVATE_KEY")) saga_pki_cfg.key_path = k;
-            if (const char* c = std::getenv("THEMIS_PKI_CERTIFICATE")) saga_pki_cfg.cert_path = c;
-            if (const char* p = std::getenv("THEMIS_PKI_PRIVATE_KEY_PASSPHRASE")) saga_pki_cfg.key_passphrase = p;
+            if (const char* k = std::getenv("THEMIS_PKI_PRIVATE_KEY")) {
+              saga_pki_cfg.key_path = k;
+            }
+            if (const char* c = std::getenv("THEMIS_PKI_CERTIFICATE")) {
+              saga_pki_cfg.cert_path = c;
+            }
+            if (const char* p = std::getenv("THEMIS_PKI_PRIVATE_KEY_PASSPHRASE")) {
+              saga_pki_cfg.key_passphrase = p;
+            }
             auto saga_pki = std::make_shared<themis::utils::VCCPKIClient>(saga_pki_cfg);
 
             auto saga_logger = std::make_shared<themis::utils::SAGALogger>(
                 field_encryption_, saga_pki, saga_cfg);
             saga_logger_ = saga_logger;  // retain shared ownership via HttpServer member
-            saga_api_ = std::make_unique<server::SAGAApiHandler>(saga_logger);
-            THEMIS_INFO("SAGAApiHandler initialized (endpoints: /api/saga/*)");
+            saga_api_ = std::make_unique<server::SAGAApiHandler>([[maybe_unused]] saga_logger);
+            THEMIS_INFO([[maybe_unused]] "SAGAApiHandler initialized (endpoints: /api/saga/*)");
         } catch (const std::exception& e) {
             THEMIS_WARN("SAGAApiHandler init failed: {} — SAGA endpoints disabled", e.what());
         }
@@ -1575,7 +1605,8 @@ HttpServer::HttpServer(
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
     try {
         // Allow overriding the policies path via env `THEMIS_POLICIES_PATH` (useful for tests)
-        std::vector<std::filesystem::path> candidates;
+        std::vector<std::filesystem::path> candidates = {};
+
         if (const char* envp = std::getenv("THEMIS_POLICIES_PATH")) {
             std::filesystem::path p(envp);
             candidates.push_back(p);
@@ -1608,7 +1639,7 @@ HttpServer::HttpServer(
         bool loaded_any = false;
         for (const auto& policies_path : candidates) {
             if (std::filesystem::exists(policies_path)) {
-                std::string err;
+                std::string err = {};
                 if (policy_engine_->loadFromFile(policies_path.string(), &err)) {
                     THEMIS_INFO("PolicyEngine: loaded policies from {}", policies_path.string());
                     loaded_any = true;
@@ -1658,7 +1689,7 @@ HttpServer::HttpServer(
     // currently owns themis::PolicyEngine. Keep exports operational without
     // unsafe cross-namespace pointer casting.
     if (export_api_ && !policy_engine_) {
-        THEMIS_WARN("ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
+        THEMIS_WARN([[maybe_unused]] "ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
     }
 
     // Initialize Rate Limiter for DoS protection
@@ -1673,9 +1704,11 @@ HttpServer::HttpServer(
     // from the THEMIS_RATE_LIMIT_WHITELIST env var (comma-separated IPs).
     if (const char* wl_env = std::getenv("THEMIS_RATE_LIMIT_WHITELIST")) {
         std::istringstream wl_stream{wl_env};
-        std::string wl_ip;
+        std::string wl_ip = {};
         while (std::getline(wl_stream, wl_ip, ',')) {
-            if (!wl_ip.empty()) rate_config.whitelist_ips.push_back(wl_ip);
+            if (!wl_ip.empty()) {
+              rate_config.whitelist_ips.push_back(wl_ip);
+            }
         }
         // Warn when localhost is explicitly whitelisted — SSRF risk.
         for (const auto& ip : rate_config.whitelist_ips) {
@@ -1707,7 +1740,7 @@ HttpServer::HttpServer(
     {
         std::weak_ptr<themis::utils::AuditLogger> weak_audit = audit_logger_;
         rate_limiter_->setAnomalyCallback(
-            [weak_audit](const AnomalyEvent& ev) {
+            [weak_audit]([[maybe_unused]] const AnomalyEvent& ev) {
                 const char* type_str =
                     (ev.type == AnomalyEvent::Type::IP_BLACKLISTED)
                         ? "IP_BLACKLISTED"
@@ -1720,12 +1753,12 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent(entry); } catch (const std::exception& ex) {
+                    try { audit->logEvent([[maybe_unused]] entry); } catch (const std::exception& ex) {
                         THEMIS_ERROR("Failed to log rate limiter anomaly: {}", ex.what());
                     }
                 }
             });
-        THEMIS_INFO("RateLimiter anomaly callback wired");
+        THEMIS_INFO([[maybe_unused]] "RateLimiter anomaly callback wired");
     }
 
     // Initialize rate limiting middleware with configurable per-client token bucket
@@ -1779,16 +1812,22 @@ HttpServer::HttpServer(
     if (auto v = themis_get_env("THEMIS_CORS_ALLOWED_ORIGINS")) {
         // Comma-separated exact origins, e.g. https://app.example.com,https://admin.example.com
         std::istringstream iss(*v);
-        std::string origin;
+        std::string origin = {};
         while (std::getline(iss, origin, ',')) {
-            if (!origin.empty()) cors_allowed_origins_.push_back(origin);
+            if (!origin.empty()) {
+              cors_allowed_origins_.push_back(origin);
+            }
         }
     }
     if (auto v = themis_get_env("THEMIS_CORS_ALLOWED_METHODS")) {
-        if (!v->empty()) cors_allowed_methods_ = *v;
+        if (!v->empty()) {
+          cors_allowed_methods_ = *v;
+        }
     }
     if (auto v = themis_get_env("THEMIS_CORS_ALLOWED_HEADERS")) {
-        if (!v->empty()) cors_allowed_headers_ = *v;
+        if (!v->empty()) {
+          cors_allowed_headers_ = *v;
+        }
     }
     if (cors_allow_all_) {
         // GAP-012: CORS wildcard is a security risk (CWE-346).  Any origin can
@@ -1799,7 +1838,7 @@ HttpServer::HttpServer(
                     "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
                     "This is NOT recommended for production deployments (GAP-012/CWE-346).");
     } else if (!cors_allowed_origins_.empty()) {
-        THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
+        THEMIS_INFO("CORS: allowed origins configured ({} entries)",static_cast<int>(cors_allowed_origins_.size()));
     } else {
         THEMIS_INFO("CORS: no origins allowed by default (set THEMIS_CORS_ALLOW_ALL=1 for dev)");
     }
@@ -1815,7 +1854,9 @@ HttpServer::HttpServer(
     // Initialize Input Validator (schema dir from env or default config/schemas)
     std::string schema_dir = "config/schemas";
     if (auto v = themis_get_env("THEMIS_SCHEMAS_DIR")) {
-        if (!v->empty()) schema_dir = *v;
+        if (!v->empty()) {
+          schema_dir = *v;
+        }
     }
     validator_ = std::make_unique<themis::utils::InputValidator>(schema_dir);
     THEMIS_INFO("InputValidator initialized with schema dir: {}", schema_dir);
@@ -2072,7 +2113,7 @@ HttpServer::HttpServer(
 #ifdef THEMIS_ENABLE_HTTP2
             // Configure ALPN for HTTP/2 protocol negotiation
             if (config_.enable_http2) {
-                Http2Handler::configureAlpn(*ssl_ctx_);
+                Http2Handler::configureAlpn([[maybe_unused]] *ssl_ctx_);
                 THEMIS_INFO("HTTP/2: ALPN configured for protocol negotiation (h2, http/1.1)");
             }
 #endif
@@ -2185,7 +2226,7 @@ void HttpServer::start() {
                         ssl_ctx_raw,
                         config_.http3_max_idle_timeout_ms);
                     http3_handler_->start();
-                    THEMIS_INFO("HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
+                    THEMIS_INFO([[maybe_unused]] "HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
                 } else {
                     THEMIS_ERROR("HTTP/3: Failed to create SSL context; HTTP/3 disabled");
                 }
@@ -2242,11 +2283,11 @@ void HttpServer::stop() {
 
 #ifdef THEMIS_ENABLE_HTTP3
     // Stop HTTP/3 QUIC handler
-    if (http3_handler_) {
+    if ([[maybe_unused]] http3_handler_) {
         try {
             http3_handler_->stop();
             http3_handler_.reset();
-            THEMIS_INFO("HTTP/3 handler stopped");
+            THEMIS_INFO([[maybe_unused]] "HTTP/3 handler stopped");
         } catch (const std::exception& e) {
             THEMIS_ERROR("Error stopping HTTP/3 handler: {}", e.what());
         }
@@ -2346,7 +2387,9 @@ void HttpServer::stop() {
     // after wait_for() reported a timeout.
     THEMIS_INFO("Waiting for worker threads to finish...");
     for (auto& t : threads_) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     threads_.clear();
 
@@ -2374,7 +2417,9 @@ void HttpServer::stop() {
  */
 void HttpServer::wait() {
     for (auto& t : threads_) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
 }
 
@@ -2438,7 +2483,7 @@ bool HttpServer::reloadTls() {
 
 #ifdef THEMIS_ENABLE_HTTP2
         if (config_.enable_http2) {
-            Http2Handler::configureAlpn(*new_ctx);
+            Http2Handler::configureAlpn([[maybe_unused]] *new_ctx);
         }
 #endif
 
@@ -2497,8 +2542,8 @@ void HttpServer::recordContinuousLearningQueryTelemetry(
     const uint64_t latency_us = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count());
 
-    std::string query_text;
-    std::string table_name;
+    std::string query_text = {};
+    std::string table_name = {};
     bool used_index = true;
     double complexity = 1.0;
 
@@ -2658,11 +2703,11 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
 namespace {
     // Helper function to URL decode a string
     std::string urlDecode(const std::string& str) {
-        std::string result;
+        std::string result = {};
         result.reserve(str.size());
         for (auto it = str.begin(); it != str.end();) {
             if (*it == '%' && std::distance(it, str.end()) >= 3) {
-                int value;
+                int value = 0;
                 std::istringstream is(std::string(it + 1, it + 3));
                 if (is >> std::hex >> value) {
                     result += static_cast<char>(value);
@@ -2691,11 +2736,15 @@ namespace {
         
         std::string query_string = target_str.substr(query_pos + 1);
         size_t pos = 0;
-        while (pos < query_string.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(query_string.size())) {
             auto eq_pos = query_string.find('=', pos);
-            if (eq_pos == std::string::npos) break;
+            if (eq_pos == std::string::npos) {
+              break;
+            }
             auto amp_pos = query_string.find('&', eq_pos);
-            if (amp_pos == std::string::npos) amp_pos = query_string.size();
+            if (amp_pos == std::string::npos) {
+              amp_pos = query_string.size();
+            }
             
             std::string key = urlDecode(query_string.substr(pos, eq_pos - pos));
             std::string value = urlDecode(query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1));
@@ -3127,23 +3176,53 @@ namespace {
         // Normalize path by stripping query string to allow matching endpoints with params
         std::string path_only = target;
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
 
-        if (target == "/" || target == "/health") return Route::Health;
-        if (target == "/health/live" && method == http::verb::get) return Route::HealthLive;
-        if (target == "/health/ready" && method == http::verb::get) return Route::HealthReady;
-        if (target == "/api/openapi.json" && method == http::verb::get) return Route::OpenApi;
-        if (target == "/version" && method == http::verb::get) return Route::Version;
-    if (target == "/stats" && method == http::verb::get) return Route::Stats;
-    if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
-    if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
-    if (target == "/metrics/html" && method == http::verb::get) return Route::MetricsHtml;
-    if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
+        if (target == "/" || target == "/health") {
+          return Route::Health;
+        }
+        if (target == "/health/live" && method == http::verb::get) {
+          return Route::HealthLive;
+        }
+        if (target == "/health/ready" && method == http::verb::get) {
+          return Route::HealthReady;
+        }
+        if (target == "/api/openapi.json" && method == http::verb::get) {
+          return Route::OpenApi;
+        }
+        if (target == "/version" && method == http::verb::get) {
+          return Route::Version;
+        }
+    if (target == "/stats" && method == http::verb::get) {
+      return Route::Stats;
+    }
+    if (target == "/api/capabilities" && method == http::verb::get) {
+      return Route::CapabilitiesGet;
+    }
+    if (target == "/metrics" && method == http::verb::get) {
+      return Route::Metrics;
+    }
+    if (target == "/metrics/html" && method == http::verb::get) {
+      return Route::MetricsHtml;
+    }
+    if (target == "/api/plugins/metrics" && method == http::verb::get) {
+      return Route::PluginMetrics;
+    }
     // Operator observability REST API (Q1)
-    if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
-    if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
-    if (path_only == "/api/v1/observability/provenance" && method == http::verb::get) return Route::ObservabilityProvenanceGet;
-    if (target == "/api/v1/license/status"       && method == http::verb::get) return Route::LicenseStatusGet;
+    if (target == "/api/v1/observability/alerts" && method == http::verb::get) {
+      return Route::ObservabilityAlertsGet;
+    }
+    if (target == "/api/v1/observability/health" && method == http::verb::get) {
+      return Route::ObservabilityHealthGet;
+    }
+    if (path_only == "/api/v1/observability/provenance" && method == http::verb::get) {
+      return Route::ObservabilityProvenanceGet;
+    }
+    if (target == "/api/v1/license/status"       && method == http::verb::get) {
+      return Route::LicenseStatusGet;
+    }
     {
         // POST /api/v1/observability/alerts/{id}/silence
         // path_only must start with the alerts prefix, have a non-empty {id} segment,
@@ -3152,250 +3231,576 @@ namespace {
         static constexpr std::string_view kSilenceSuffix{"/silence"};
         if (method == http::verb::post &&
             path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
-            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
-            path_only.substr(path_only.size() - kSilenceSuffix.size()) == kSilenceSuffix) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kAlertsPrefix.size()) + static_cast<int>(kSilenceSuffix.size()) &&
+            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kSilenceSuffix.size()) ) == kSilenceSuffix) {
             return Route::ObservabilityAlertSilencePost;
         }
     }
-    if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
-    if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
-    if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
-    if (target == "/admin/restore" && method == http::verb::post) return Route::AdminRestorePost;
+    if (path_only == "/api/v1/wal/apply" && method == http::verb::post) {
+      return Route::WalApplyPost;
+    }
+    if ((target == "/config") && (method == http::verb::get || method == http::verb::post)) {
+      return Route::Config;
+    }
+    if (target == "/admin/backup" && method == http::verb::post) {
+      return Route::AdminBackupPost;
+    }
+    if (target == "/admin/restore" && method == http::verb::post) {
+      return Route::AdminRestorePost;
+    }
 
         // Exact matches for /entities endpoints BEFORE parametrized routes
-        if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
-        if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
+        if (target == "/entities" && method == http::verb::post) {
+          return Route::EntitiesPost;
+        }
+        if (target == "/entities/batch" && method == http::verb::post) {
+          return Route::EntitiesBatchPost;
+        }
         // POST /v2/documents - bulk insert via NDJSON (application/x-ndjson body)
-        if (path_only == "/v2/documents" && method == http::verb::post) return Route::V2DocumentsBulkPost;
+        if (path_only == "/v2/documents" && method == http::verb::post) {
+          return Route::V2DocumentsBulkPost;
+        }
 
         // Parametrized entity by key (e.g., /entities/users:123)
         if (target.rfind("/entities/", 0) == 0) {
-            if (method == http::verb::get) return Route::EntitiesGet;
-            if (method == http::verb::put) return Route::EntitiesPut;
-            if (method == http::verb::delete_) return Route::EntitiesDelete;
+            if (method == http::verb::get) {
+              return Route::EntitiesGet;
+            }
+            if (method == http::verb::put) {
+              return Route::EntitiesPut;
+            }
+            if (method == http::verb::delete_) {
+              return Route::EntitiesDelete;
+            }
             return Route::NotFound;
         }
-        if (target == "/query" && method == http::verb::post) return Route::QueryPost;
-    if (target == "/query/aql" && method == http::verb::post) return Route::QueryAqlPost;
+        if (target == "/query" && method == http::verb::post) {
+          return Route::QueryPost;
+        }
+    if (target == "/query/aql" && method == http::verb::post) {
+      return Route::QueryAqlPost;
+    }
     // SSE streaming query result endpoint (v2)
-    if (path_only == "/v2/query/stream" && method == http::verb::get) return Route::QueryStreamSseGet;
+    if (path_only == "/v2/query/stream" && method == http::verb::get) {
+      return Route::QueryStreamSseGet;
+    }
     // Backward compatibility alias
-    if (target == "/api/aql" && method == http::verb::post) return Route::QueryAqlPost;
-        if (target == "/index/create" && method == http::verb::post) return Route::IndexCreatePost;
-        if (target == "/index/drop" && method == http::verb::post) return Route::IndexDropPost;
-        if (target == "/index/stats" && method == http::verb::get) return Route::IndexStatsGet;
-        if (target == "/index/rebuild" && method == http::verb::post) return Route::IndexRebuildPost;
-        if (target == "/index/reindex" && method == http::verb::post) return Route::IndexReindexPost;
+    if (target == "/api/aql" && method == http::verb::post) {
+      return Route::QueryAqlPost;
+    }
+        if (target == "/index/create" && method == http::verb::post) {
+          return Route::IndexCreatePost;
+        }
+        if (target == "/index/drop" && method == http::verb::post) {
+          return Route::IndexDropPost;
+        }
+        if (target == "/index/stats" && method == http::verb::get) {
+          return Route::IndexStatsGet;
+        }
+        if (target == "/index/rebuild" && method == http::verb::post) {
+          return Route::IndexRebuildPost;
+        }
+        if (target == "/index/reindex" && method == http::verb::post) {
+          return Route::IndexReindexPost;
+        }
         
         // G5: Spatial Index Management endpoints
-        if (target == "/spatial/index/create" && method == http::verb::post) return Route::SpatialIndexCreatePost;
-        if (target == "/spatial/index/rebuild" && method == http::verb::post) return Route::SpatialIndexRebuildPost;
-        if (target == "/spatial/index/stats" && method == http::verb::get) return Route::SpatialIndexStatsGet;
-        if (target == "/spatial/metrics" && method == http::verb::get) return Route::SpatialIndexMetricsGet;
+        if (target == "/spatial/index/create" && method == http::verb::post) {
+          return Route::SpatialIndexCreatePost;
+        }
+        if (target == "/spatial/index/rebuild" && method == http::verb::post) {
+          return Route::SpatialIndexRebuildPost;
+        }
+        if (target == "/spatial/index/stats" && method == http::verb::get) {
+          return Route::SpatialIndexStatsGet;
+        }
+        if (target == "/spatial/metrics" && method == http::verb::get) {
+          return Route::SpatialIndexMetricsGet;
+        }
         
-        if (target == "/graph/traverse" && method == http::verb::post) return Route::GraphTraversePost;
-    if (target == "/graph/edge" && method == http::verb::post) return Route::GraphEdgePost;
-    if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) return Route::GraphEdgeDelete;
-    if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) return Route::GraphMetricsGet;
-    if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) return Route::GraphMetricsPrometheusGet;
-    if (target == "/graph/query/incremental" && method == http::verb::post) return Route::GraphQueryIncrementalPost;
-    if (target.rfind("/graph/query/incremental/", 0) == 0 && method == http::verb::delete_) return Route::GraphQueryIncrementalDelete;
-    if (target == "/graph/changes" && method == http::verb::post) return Route::GraphChangesPost;
-    if (path_only == "/api/v1/graph/cost-model/calibrate" && method == http::verb::post) return Route::GraphCostModelCalibratePost;
-    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::get) return Route::GraphCostModelGet;
-    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::post) return Route::GraphCostModelImportPost;
-    if (path_only == "/api/v1/graph/query/explain" && method == http::verb::post) return Route::GraphQueryExplainPost;
-        if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
-    if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
-    if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
+        if (target == "/graph/traverse" && method == http::verb::post) {
+          return Route::GraphTraversePost;
+        }
+    if (target == "/graph/edge" && method == http::verb::post) {
+      return Route::GraphEdgePost;
+    }
+    if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) {
+      return Route::GraphEdgeDelete;
+    }
+    if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) {
+      return Route::GraphMetricsGet;
+    }
+    if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) {
+      return Route::GraphMetricsPrometheusGet;
+    }
+    if (target == "/graph/query/incremental" && method == http::verb::post) {
+      return Route::GraphQueryIncrementalPost;
+    }
+    if (target.rfind("/graph/query/incremental/", 0) == 0 && method == http::verb::delete_) {
+      return Route::GraphQueryIncrementalDelete;
+    }
+    if (target == "/graph/changes" && method == http::verb::post) {
+      return Route::GraphChangesPost;
+    }
+    if (path_only == "/api/v1/graph/cost-model/calibrate" && method == http::verb::post) {
+      return Route::GraphCostModelCalibratePost;
+    }
+    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::get) {
+      return Route::GraphCostModelGet;
+    }
+    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::post) {
+      return Route::GraphCostModelImportPost;
+    }
+    if (path_only == "/api/v1/graph/query/explain" && method == http::verb::post) {
+      return Route::GraphQueryExplainPost;
+    }
+        if (target == "/vector/search" && method == http::verb::post) {
+          return Route::VectorSearchPost;
+        }
+    if (target == "/vector/batch_insert" && method == http::verb::post) {
+      return Route::VectorBatchInsertPost;
+    }
+    if (target == "/vector/by-filter" && method == http::verb::delete_) {
+      return Route::VectorDeleteByFilterDelete;
+    }
         // Sprint A beta endpoints
-        if (target == "/cache/query" && method == http::verb::post) return Route::CacheQueryPost;
-        if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
-        if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
+        if (target == "/cache/query" && method == http::verb::post) {
+          return Route::CacheQueryPost;
+        }
+        if (target == "/cache/put" && method == http::verb::post) {
+          return Route::CachePutPost;
+        }
+        if (target == "/cache/stats" && method == http::verb::get) {
+          return Route::CacheStatsGet;
+        }
     // Admin cache endpoints - order matters: more-specific paths first
-    if (path_only == "/v1/admin/cache/health" && method == http::verb::get) return Route::AdminCacheHealthGet;
-    if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
-    if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
-    if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
-    if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictKeyDelete;
-    if (path_only == "/v1/admin/cache/tenants" && method == http::verb::get) return Route::AdminCacheTenantsGet;
+    if (path_only == "/v1/admin/cache/health" && method == http::verb::get) {
+      return Route::AdminCacheHealthGet;
+    }
+    if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) {
+      return Route::AdminCacheStatsGet;
+    }
+    if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) {
+      return Route::AdminCacheCbStatusGet;
+    }
+    if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) {
+      return Route::AdminCacheCbResetPost;
+    }
+    if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) {
+      return Route::AdminCacheEvictKeyDelete;
+    }
+    if (path_only == "/v1/admin/cache/tenants" && method == http::verb::get) {
+      return Route::AdminCacheTenantsGet;
+    }
     // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
-        path_only.size() > 23 &&
-        path_only.rfind("/stats") == path_only.size() - 6 &&
+        static_cast<int>(path_only.size()) > 23 &&
+        path_only.rfind("/stats") == static_cast<int>(path_only.size()) - 6 &&
         method == http::verb::get) return Route::AdminCacheTenantStatsGet;
     // /v1/admin/cache/tenant/{id}/quota must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
-        path_only.size() > 23 &&
-        path_only.rfind("/quota") == path_only.size() - 6 &&
+        static_cast<int>(path_only.size()) > 23 &&
+        path_only.rfind("/quota") == static_cast<int>(path_only.size()) - 6 &&
         method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
-    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
-    if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) return Route::AdminCachePiiEvictDelete;
-    if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
-    if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
-    if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
-    if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
-    if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) {
+      return Route::AdminCacheEvictTenantDelete;
+    }
+    if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) {
+      return Route::AdminCachePiiEvictDelete;
+    }
+    if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) {
+      return Route::AdminCacheWarmupPost;
+    }
+    if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) {
+      return Route::AdminCacheSnapshotPost;
+    }
+    if (path_only == "/v1/admin/shards" && method == http::verb::post) {
+      return Route::AdminShardsPost;
+    }
+    if (path_only == "/v1/admin/shards" && method == http::verb::get) {
+      return Route::AdminShardsGet;
+    }
+    if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) {
+      return Route::AdminStorageStatsGet;
+    }
     // Shard Repair admin endpoints
-    if (path_only == "/v1/admin/repair/health" && method == http::verb::get) return Route::AdminRepairHealthGet;
-    if (path_only == "/v1/admin/repair" && method == http::verb::post) return Route::AdminRepairPost;
-    if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) return Route::AdminRepairScanPost;
-    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && path_only.size() > 22 &&
+    if (path_only == "/v1/admin/repair/health" && method == http::verb::get) {
+      return Route::AdminRepairHealthGet;
+    }
+    if (path_only == "/v1/admin/repair" && method == http::verb::post) {
+      return Route::AdminRepairPost;
+    }
+    if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) {
+      return Route::AdminRepairScanPost;
+    }
+    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && static_cast<int>(path_only.size()) > 22 &&
         method == http::verb::get) return Route::AdminRepairJobStatusGet;
-    if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) return Route::AdminRepairDashboardGet;
+    if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) {
+      return Route::AdminRepairDashboardGet;
+    }
     // Module admin endpoints — order matters: /load POST before generic DELETE/GET
-    if (path_only == "/v1/admin/modules" && method == http::verb::get) return Route::AdminModulesGet;
+    if (path_only == "/v1/admin/modules" && method == http::verb::get) {
+      return Route::AdminModulesGet;
+    }
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        path_only.size() > 18 &&
-        path_only.rfind("/load") == path_only.size() - 5 &&
+        static_cast<int>(path_only.size()) > 18 &&
+        path_only.rfind("/load") == static_cast<int>(path_only.size()) - 5 &&
         method == http::verb::post) return Route::AdminModulesLoadPost;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        path_only.size() > 18 &&
+        static_cast<int>(path_only.size()) > 18 &&
         method == http::verb::delete_) return Route::AdminModulesUnloadDelete;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        path_only.size() > 18 &&
+        static_cast<int>(path_only.size()) > 18 &&
         method == http::verb::get) return Route::AdminModuleStatusGet;
-    if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
-    if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
-    if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
-    if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::put) return Route::PromptTemplatePut;
-        if (target == "/llm/interaction" && method == http::verb::post) return Route::LlmInteractionPost;
-    if (target == "/llm/interaction" && method == http::verb::get) return Route::LlmInteractionGetList;
-    if (target.rfind("/llm/interaction/", 0) == 0 && method == http::verb::get) return Route::LlmInteractionGetById;
-    if (target.rfind("/llm/interaction/", 0) == 0 && method == http::verb::patch) return Route::LlmInteractionUpdateMetadataPatch;
+    if (target == "/prompt_template" && method == http::verb::post) {
+      return Route::PromptTemplatePost;
+    }
+    if (target == "/prompt_template" && method == http::verb::get) {
+      return Route::PromptTemplateList;
+    }
+    if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) {
+      return Route::PromptTemplateGet;
+    }
+    if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::put) {
+      return Route::PromptTemplatePut;
+    }
+        if (target == "/llm/interaction" && method == http::verb::post) {
+          return Route::LlmInteractionPost;
+        }
+    if (target == "/llm/interaction" && method == http::verb::get) {
+      return Route::LlmInteractionGetList;
+    }
+    if (target.rfind("/llm/interaction/", 0) == 0 && method == http::verb::get) {
+      return Route::LlmInteractionGetById;
+    }
+    if (target.rfind("/llm/interaction/", 0) == 0 && method == http::verb::patch) {
+      return Route::LlmInteractionUpdateMetadataPatch;
+    }
     // Enterprise: Enhanced query endpoint
-    if (target == "/query/enhanced" && method == http::verb::post) return Route::QueryEnhancedPost;
+    if (target == "/query/enhanced" && method == http::verb::post) {
+      return Route::QueryEnhancedPost;
+    }
     // Changefeed endpoint should match even with query parameters
-    if (path_only == "/changefeed" && method == http::verb::get) return Route::ChangefeedGet;
-    if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
-    if (path_only == "/changefeed/stream/ack" && method == http::verb::post) return Route::ChangefeedStreamAckPost;
-    if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
-    if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
-    if (path_only == "/changefeed/retention" && method == http::verb::get) return Route::ChangefeedRetentionGet;
-    if (path_only == "/changefeed/retention" && method == http::verb::put) return Route::ChangefeedRetentionPut;
-    if (path_only == "/changefeed/compact" && method == http::verb::post) return Route::ChangefeedCompactPost;
-    if (path_only == "/changefeed/redact" && method == http::verb::post) return Route::ChangefeedGdprRedactPost;
+    if (path_only == "/changefeed" && method == http::verb::get) {
+      return Route::ChangefeedGet;
+    }
+    if (path_only == "/changefeed/stream" && method == http::verb::get) {
+      return Route::ChangefeedStreamSse;
+    }
+    if (path_only == "/changefeed/stream/ack" && method == http::verb::post) {
+      return Route::ChangefeedStreamAckPost;
+    }
+    if (path_only == "/changefeed/stats" && method == http::verb::get) {
+      return Route::ChangefeedStatsGet;
+    }
+    if (path_only == "/changefeed/retention" && method == http::verb::post) {
+      return Route::ChangefeedRetentionPost;
+    }
+    if (path_only == "/changefeed/retention" && method == http::verb::get) {
+      return Route::ChangefeedRetentionGet;
+    }
+    if (path_only == "/changefeed/retention" && method == http::verb::put) {
+      return Route::ChangefeedRetentionPut;
+    }
+    if (path_only == "/changefeed/compact" && method == http::verb::post) {
+      return Route::ChangefeedCompactPost;
+    }
+    if (path_only == "/changefeed/redact" && method == http::verb::post) {
+      return Route::ChangefeedGdprRedactPost;
+    }
     
     // Snapshot API endpoints
-    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) return Route::SnapshotsTagsPost;
-    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::get) return Route::SnapshotsTagsGet;
-    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::get) return Route::SnapshotsTagGet;
-    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::delete_) return Route::SnapshotsTagDelete;
-    if (path_only == "/api/v1/snapshots/stats" && method == http::verb::get) return Route::SnapshotsStatsGet;
+    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) {
+      return Route::SnapshotsTagsPost;
+    }
+    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::get) {
+      return Route::SnapshotsTagsGet;
+    }
+    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::get) {
+      return Route::SnapshotsTagGet;
+    }
+    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::delete_) {
+      return Route::SnapshotsTagDelete;
+    }
+    if (path_only == "/api/v1/snapshots/stats" && method == http::verb::get) {
+      return Route::SnapshotsStatsGet;
+    }
     
     // Diff API endpoints
-    if (path_only == "/api/v1/diff" && method == http::verb::get) return Route::DiffGet;
-    if (path_only == "/api/v1/diff/cache/stats" && method == http::verb::get) return Route::DiffCacheStatsGet;
-    if (path_only == "/api/v1/diff/cache" && method == http::verb::delete_) return Route::DiffCacheClear;
+    if (path_only == "/api/v1/diff" && method == http::verb::get) {
+      return Route::DiffGet;
+    }
+    if (path_only == "/api/v1/diff/cache/stats" && method == http::verb::get) {
+      return Route::DiffCacheStatsGet;
+    }
+    if (path_only == "/api/v1/diff/cache" && method == http::verb::delete_) {
+      return Route::DiffCacheClear;
+    }
     
     // PITR API endpoints
-    if (path_only == "/api/v1/pitr/preview" && method == http::verb::post) return Route::PITRPreviewPost;
-    if (path_only == "/api/v1/pitr/progress" && method == http::verb::get) return Route::PITRProgressGet;
-    if (path_only == "/api/v1/restore/pitr" && method == http::verb::post) return Route::PITRRestorePost;
-    if (path_only == "/api/v1/restore/preview" && method == http::verb::post) return Route::PITRPreviewPost;
-    if (path_only == "/api/v1/restore/progress" && method == http::verb::get) return Route::PITRProgressGet;
+    if (path_only == "/api/v1/pitr/preview" && method == http::verb::post) {
+      return Route::PITRPreviewPost;
+    }
+    if (path_only == "/api/v1/pitr/progress" && method == http::verb::get) {
+      return Route::PITRProgressGet;
+    }
+    if (path_only == "/api/v1/restore/pitr" && method == http::verb::post) {
+      return Route::PITRRestorePost;
+    }
+    if (path_only == "/api/v1/restore/preview" && method == http::verb::post) {
+      return Route::PITRPreviewPost;
+    }
+    if (path_only == "/api/v1/restore/progress" && method == http::verb::get) {
+      return Route::PITRProgressGet;
+    }
     
     // Sprint B endpoints - Time Series
     // Branch API endpoints
-    if (path_only == "/api/v1/branches" && method == http::verb::post) return Route::BranchesPost;
-    if (path_only == "/api/v1/branches" && method == http::verb::get) return Route::BranchesGet;
-    if (path_only == "/api/v1/branches/active" && method == http::verb::get) return Route::BranchesActiveGet;
-    if (path_only == "/api/v1/branches/stats" && method == http::verb::get) return Route::BranchesStatsGet;
-    if (path_only == "/api/v1/branches/merge" && method == http::verb::post) return Route::BranchesMergePost;
-    if (path_only.rfind("/api/v1/branches/", 0) == 0 && path_only.rfind("/switch") == path_only.length() - 7 && method == http::verb::post) return Route::BranchSwitchPost;
-    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::get) return Route::BranchGet;
-    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::delete_) return Route::BranchDelete;
+    if (path_only == "/api/v1/branches" && method == http::verb::post) {
+      return Route::BranchesPost;
+    }
+    if (path_only == "/api/v1/branches" && method == http::verb::get) {
+      return Route::BranchesGet;
+    }
+    if (path_only == "/api/v1/branches/active" && method == http::verb::get) {
+      return Route::BranchesActiveGet;
+    }
+    if (path_only == "/api/v1/branches/stats" && method == http::verb::get) {
+      return Route::BranchesStatsGet;
+    }
+    if (path_only == "/api/v1/branches/merge" && method == http::verb::post) {
+      return Route::BranchesMergePost;
+    }
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && path_only.rfind("/switch") == path_only.length() - 7 && method == http::verb::post) {
+      return Route::BranchSwitchPost;
+    }
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::get) {
+      return Route::BranchGet;
+    }
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::delete_) {
+      return Route::BranchDelete;
+    }
     
     // Merge API routes
-    if (path_only == "/api/v1/merge" && method == http::verb::post) return Route::MergePost;
-    if (path_only == "/api/v1/merge/preview" && method == http::verb::post) return Route::MergePreviewPost;
-    if (path_only == "/api/v1/merge/by-tag" && method == http::verb::post) return Route::MergeByTagPost;
-    if (path_only == "/api/v1/merge/can-fast-forward" && method == http::verb::get) return Route::MergeCanFastForwardGet;
+    if (path_only == "/api/v1/merge" && method == http::verb::post) {
+      return Route::MergePost;
+    }
+    if (path_only == "/api/v1/merge/preview" && method == http::verb::post) {
+      return Route::MergePreviewPost;
+    }
+    if (path_only == "/api/v1/merge/by-tag" && method == http::verb::post) {
+      return Route::MergeByTagPost;
+    }
+    if (path_only == "/api/v1/merge/can-fast-forward" && method == http::verb::get) {
+      return Route::MergeCanFastForwardGet;
+    }
     
         // Sprint B endpoints
-    if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
-    if (target == "/ts/query" && method == http::verb::post) return Route::TimeSeriesQuery;
-    if (target == "/ts/aggregate" && method == http::verb::post) return Route::TimeSeriesAggregate;
-    if (target == "/ts/config" && method == http::verb::get) return Route::TimeSeriesConfigGet;
-    if (target == "/ts/config" && method == http::verb::put) return Route::TimeSeriesConfigPut;
-    if (path_only == "/ts/aggregates" && method == http::verb::get) return Route::TimeSeriesAggregatesGet;
-    if (path_only == "/ts/retention" && method == http::verb::get) return Route::TimeSeriesRetentionGet;
-    if (path_only == "/ts/metrics" && method == http::verb::get) return Route::TimeSeriesMetricsGet;
-    if (path_only == "/api/v1/prom/write" && method == http::verb::post) return Route::TimeSeriesPromRemoteWrite;
+    if (target == "/ts/put" && method == http::verb::post) {
+      return Route::TimeSeriesPut;
+    }
+    if (target == "/ts/query" && method == http::verb::post) {
+      return Route::TimeSeriesQuery;
+    }
+    if (target == "/ts/aggregate" && method == http::verb::post) {
+      return Route::TimeSeriesAggregate;
+    }
+    if (target == "/ts/config" && method == http::verb::get) {
+      return Route::TimeSeriesConfigGet;
+    }
+    if (target == "/ts/config" && method == http::verb::put) {
+      return Route::TimeSeriesConfigPut;
+    }
+    if (path_only == "/ts/aggregates" && method == http::verb::get) {
+      return Route::TimeSeriesAggregatesGet;
+    }
+    if (path_only == "/ts/retention" && method == http::verb::get) {
+      return Route::TimeSeriesRetentionGet;
+    }
+    if (path_only == "/ts/metrics" && method == http::verb::get) {
+      return Route::TimeSeriesMetricsGet;
+    }
+    if (path_only == "/api/v1/prom/write" && method == http::verb::post) {
+      return Route::TimeSeriesPromRemoteWrite;
+    }
         // Sprint C endpoints
-        if (target.find("/index/suggestions") == 0 && method == http::verb::get) return Route::IndexSuggestionsGet;
-        if (target.find("/index/patterns") == 0 && method == http::verb::get) return Route::IndexPatternsGet;
-        if (target == "/index/record-pattern" && method == http::verb::post) return Route::IndexRecordPatternPost;
-        if (target == "/index/patterns" && method == http::verb::delete_) return Route::IndexClearPatternsDelete;
-        if (target == "/vector/index/save" && method == http::verb::post) return Route::VectorIndexSavePost;
-        if (target == "/vector/index/load" && method == http::verb::post) return Route::VectorIndexLoadPost;
-        if (target == "/vector/index/config" && method == http::verb::get) return Route::VectorIndexConfigGet;
-        if (target == "/vector/index/config" && method == http::verb::put) return Route::VectorIndexConfigPut;
-        if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
-        if (target == "/vector/index/incremental-reindex" && method == http::verb::post) return Route::VectorIndexIncrementalReindexPost;
+        if (target.find("/index/suggestions") == 0 && method == http::verb::get) {
+          return Route::IndexSuggestionsGet;
+        }
+        if (target.find("/index/patterns") == 0 && method == http::verb::get) {
+          return Route::IndexPatternsGet;
+        }
+        if (target == "/index/record-pattern" && method == http::verb::post) {
+          return Route::IndexRecordPatternPost;
+        }
+        if (target == "/index/patterns" && method == http::verb::delete_) {
+          return Route::IndexClearPatternsDelete;
+        }
+        if (target == "/vector/index/save" && method == http::verb::post) {
+          return Route::VectorIndexSavePost;
+        }
+        if (target == "/vector/index/load" && method == http::verb::post) {
+          return Route::VectorIndexLoadPost;
+        }
+        if (target == "/vector/index/config" && method == http::verb::get) {
+          return Route::VectorIndexConfigGet;
+        }
+        if (target == "/vector/index/config" && method == http::verb::put) {
+          return Route::VectorIndexConfigPut;
+        }
+        if (target == "/vector/index/stats" && method == http::verb::get) {
+          return Route::VectorIndexStatsGet;
+        }
+        if (target == "/vector/index/incremental-reindex" && method == http::verb::post) {
+          return Route::VectorIndexIncrementalReindexPost;
+        }
         // RoPE endpoints - /api/v1/vector-index/{index_name}/rope/*
         if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/config") != std::string::npos) {
-            if (method == http::verb::post) return Route::RopeConfigPost;
-            if (method == http::verb::get) return Route::RopeConfigGet;
-            if (method == http::verb::delete_) return Route::RopeConfigDelete;
+            if (method == http::verb::post) {
+              return Route::RopeConfigPost;
+            }
+            if (method == http::verb::get) {
+              return Route::RopeConfigGet;
+            }
+            if (method == http::verb::delete_) {
+              return Route::RopeConfigDelete;
+            }
         }
-        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add-relational") != std::string::npos && method == http::verb::post) return Route::RopeAddRelationalPost;
-        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add") != std::string::npos && method == http::verb::post) return Route::RopeAddPost;
-        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/search") != std::string::npos && method == http::verb::post) return Route::RopeSearchPost;
-        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/batch-add") != std::string::npos && method == http::verb::post) return Route::RopeBatchAddPost;
-        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/stats") != std::string::npos && method == http::verb::get) return Route::RopeStatsGet;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add-relational") != std::string::npos && method == http::verb::post) {
+          return Route::RopeAddRelationalPost;
+        }
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add") != std::string::npos && method == http::verb::post) {
+          return Route::RopeAddPost;
+        }
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/search") != std::string::npos && method == http::verb::post) {
+          return Route::RopeSearchPost;
+        }
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/batch-add") != std::string::npos && method == http::verb::post) {
+          return Route::RopeBatchAddPost;
+        }
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/stats") != std::string::npos && method == http::verb::get) {
+          return Route::RopeStatsGet;
+        }
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
-            if (path_only.size() >= 5 && path_only.compare(path_only.size() - 5, 5, "/sign") == 0) return Route::PkiSignPost;
-            if (path_only.size() >= 7 && path_only.compare(path_only.size() - 7, 7, "/verify") == 0) return Route::PkiVerifyPost;
+            if (static_cast<int>(path_only.size()) >= 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
+              return Route::PkiSignPost;
+            }
+            if (static_cast<int>(path_only.size()) >= 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
+              return Route::PkiVerifyPost;
+            }
         }
         // New PKI HSM, TSA, eIDAS endpoints
-        if (path_only == "/api/pki/hsm/sign" && method == http::verb::post) return Route::PkiHsmSignPost;
-        if (path_only == "/api/pki/hsm/keys" && method == http::verb::get) return Route::PkiHsmKeysGet;
-        if (path_only == "/api/pki/timestamp" && method == http::verb::post) return Route::PkiTimestampPost;
-        if (path_only == "/api/pki/timestamp/verify" && method == http::verb::post) return Route::PkiTimestampVerifyPost;
-        if (path_only == "/api/pki/eidas/sign" && method == http::verb::post) return Route::PkiEidasSignPost;
-        if (path_only == "/api/pki/eidas/verify" && method == http::verb::post) return Route::PkiEidasVerifyPost;
-        if (path_only == "/api/pki/certificates" && method == http::verb::get) return Route::PkiCertificatesGet;
-        if (path_only.rfind("/api/pki/certificates/", 0) == 0 && method == http::verb::get) return Route::PkiCertificateGet;
-        if (path_only == "/api/pki/status" && method == http::verb::get) return Route::PkiStatusGet;
+        if (path_only == "/api/pki/hsm/sign" && method == http::verb::post) {
+          return Route::PkiHsmSignPost;
+        }
+        if (path_only == "/api/pki/hsm/keys" && method == http::verb::get) {
+          return Route::PkiHsmKeysGet;
+        }
+        if (path_only == "/api/pki/timestamp" && method == http::verb::post) {
+          return Route::PkiTimestampPost;
+        }
+        if (path_only == "/api/pki/timestamp/verify" && method == http::verb::post) {
+          return Route::PkiTimestampVerifyPost;
+        }
+        if (path_only == "/api/pki/eidas/sign" && method == http::verb::post) {
+          return Route::PkiEidasSignPost;
+        }
+        if (path_only == "/api/pki/eidas/verify" && method == http::verb::post) {
+          return Route::PkiEidasVerifyPost;
+        }
+        if (path_only == "/api/pki/certificates" && method == http::verb::get) {
+          return Route::PkiCertificatesGet;
+        }
+        if (path_only.rfind("/api/pki/certificates/", 0) == 0 && method == http::verb::get) {
+          return Route::PkiCertificateGet;
+        }
+        if (path_only == "/api/pki/status" && method == http::verb::get) {
+          return Route::PkiStatusGet;
+        }
         // Keys API
-        if (path_only == "/keys" && method == http::verb::get) return Route::KeysListGet;
-        if (path_only == "/keys/rotate" && method == http::verb::post) return Route::KeysRotatePost;
+        if (path_only == "/keys" && method == http::verb::get) {
+          return Route::KeysListGet;
+        }
+        if (path_only == "/keys/rotate" && method == http::verb::post) {
+          return Route::KeysRotatePost;
+        }
         // Classification API
-        if (path_only == "/classification/rules" && method == http::verb::get) return Route::ClassificationRulesGet;
-        if (path_only == "/classification/test" && method == http::verb::post) return Route::ClassificationTestPost;
+        if (path_only == "/classification/rules" && method == http::verb::get) {
+          return Route::ClassificationRulesGet;
+        }
+        if (path_only == "/classification/test" && method == http::verb::post) {
+          return Route::ClassificationTestPost;
+        }
         // Reports API
-    if (path_only == "/reports/compliance" && method == http::verb::get) return Route::ReportsComplianceGet;
+    if (path_only == "/reports/compliance" && method == http::verb::get) {
+      return Route::ReportsComplianceGet;
+    }
     // Policies (Ranger integration)
-    if (path_only == "/policies/import/ranger" && method == http::verb::post) return Route::PoliciesImportRangerPost;
-    if (path_only == "/policies/export/ranger" && method == http::verb::get) return Route::PoliciesExportRangerGet;
+    if (path_only == "/policies/import/ranger" && method == http::verb::post) {
+      return Route::PoliciesImportRangerPost;
+    }
+    if (path_only == "/policies/export/ranger" && method == http::verb::get) {
+      return Route::PoliciesExportRangerGet;
+    }
     // PII endpoints
-    if (path_only == "/pii" && method == http::verb::get) return Route::PiiListGet;
-    if (path_only == "/pii" && method == http::verb::post) return Route::PiiPost;
-    if (path_only.rfind("/pii/export.csv", 0) == 0 && method == http::verb::get) return Route::PiiExportCsvGet;
-    if (path_only.rfind("/pii/reveal/", 0) == 0 && method == http::verb::get) return Route::PiiRevealGet;
-    if (path_only.rfind("/pii/", 0) == 0 && method == http::verb::get) return Route::PiiGetByUuid;
-    if (path_only.rfind("/pii/", 0) == 0 && method == http::verb::delete_) return Route::PiiDeleteDelete;
+    if (path_only == "/pii" && method == http::verb::get) {
+      return Route::PiiListGet;
+    }
+    if (path_only == "/pii" && method == http::verb::post) {
+      return Route::PiiPost;
+    }
+    if (path_only.rfind("/pii/export.csv", 0) == 0 && method == http::verb::get) {
+      return Route::PiiExportCsvGet;
+    }
+    if (path_only.rfind("/pii/reveal/", 0) == 0 && method == http::verb::get) {
+      return Route::PiiRevealGet;
+    }
+    if (path_only.rfind("/pii/", 0) == 0 && method == http::verb::get) {
+      return Route::PiiGetByUuid;
+    }
+    if (path_only.rfind("/pii/", 0) == 0 && method == http::verb::delete_) {
+      return Route::PiiDeleteDelete;
+    }
     // Audit API endpoints
-    if (path_only == "/api/audit" && method == http::verb::get) return Route::AuditQueryGet;
-    if (path_only == "/api/audit/export/csv" && method == http::verb::get) return Route::AuditExportCsvGet;
+    if (path_only == "/api/audit" && method == http::verb::get) {
+      return Route::AuditQueryGet;
+    }
+    if (path_only == "/api/audit/export/csv" && method == http::verb::get) {
+      return Route::AuditExportCsvGet;
+    }
     // Export API endpoints (EXP-001)
-    if (path_only == "/api/v1/export/jsonl_llm" && method == http::verb::post) return Route::ExportJsonlLlmPost;
+    if (path_only == "/api/v1/export/jsonl_llm" && method == http::verb::post) {
+      return Route::ExportJsonlLlmPost;
+    }
     if (path_only.rfind("/api/v1/export/", 0) == 0 &&
-        path_only.rfind("/status") == path_only.size() - 7 &&
+        path_only.rfind("/status") == static_cast<int>(path_only.size()) - 7 &&
         method == http::verb::get) return Route::ExportStatusGet;
     // Update API endpoints
-    if (path_only == "/api/updates" && method == http::verb::get) return Route::UpdateStatusGet;
-    if (path_only == "/api/updates/check" && method == http::verb::post) return Route::UpdateCheckPost;
-    if (path_only == "/api/updates/config" && method == http::verb::get) return Route::UpdateConfigGet;
-    if (path_only == "/api/updates/config" && method == http::verb::put) return Route::UpdateConfigPut;
+    if (path_only == "/api/updates" && method == http::verb::get) {
+      return Route::UpdateStatusGet;
+    }
+    if (path_only == "/api/updates/check" && method == http::verb::post) {
+      return Route::UpdateCheckPost;
+    }
+    if (path_only == "/api/updates/config" && method == http::verb::get) {
+      return Route::UpdateConfigGet;
+    }
+    if (path_only == "/api/updates/config" && method == http::verb::put) {
+      return Route::UpdateConfigPut;
+    }
     
     // Feedback API routes
-    if (path_only == "/api/feedback/stats" && method == http::verb::get) return Route::FeedbackStatsGet;
-    if (path_only == "/api/feedback" && method == http::verb::post) return Route::FeedbackPost;
-    if (path_only == "/api/feedback" && method == http::verb::get) return Route::FeedbackGet;
+    if (path_only == "/api/feedback/stats" && method == http::verb::get) {
+      return Route::FeedbackStatsGet;
+    }
+    if (path_only == "/api/feedback" && method == http::verb::post) {
+      return Route::FeedbackPost;
+    }
+    if (path_only == "/api/feedback" && method == http::verb::get) {
+      return Route::FeedbackGet;
+    }
     
     // Pattern: /api/feedback/adapter/{adapter_id} or /api/feedback/{id}
     if (path_only.rfind("/api/feedback/", 0) == 0 && path_only != "/api/feedback/stats") {
@@ -3403,28 +3808,38 @@ namespace {
         
         if (suffix.rfind("adapter/", 0) == 0) {
             // /api/feedback/adapter/{adapter_id}
-            if (method == http::verb::get) return Route::FeedbackAdapterGet;
+            if (method == http::verb::get) {
+              return Route::FeedbackAdapterGet;
+            }
         } else if (!suffix.empty() && suffix.find('/') == std::string::npos) {
             // /api/feedback/{id}
-            if (method == http::verb::get) return Route::FeedbackGetById;
-            if (method == http::verb::put) return Route::FeedbackPut;
-            if (method == http::verb::delete_) return Route::FeedbackDelete;
+            if (method == http::verb::get) {
+              return Route::FeedbackGetById;
+            }
+            if (method == http::verb::put) {
+              return Route::FeedbackPut;
+            }
+            if (method == http::verb::delete_) {
+              return Route::FeedbackDelete;
+            }
         }
     }
     
     // BPMN Process API routes
-    if (path_only == "/api/v1/bpmn/process/start" && method == http::verb::post) return Route::BpmnProcessStartPost;
+    if (path_only == "/api/v1/bpmn/process/start" && method == http::verb::post) {
+      return Route::BpmnProcessStartPost;
+    }
     
     // Task completion route with strict validation
     if (method == http::verb::post) {
         const std::string task_prefix = "/api/v1/bpmn/task/";
         const std::string complete_suffix = "/complete";
         if (path_only.rfind(task_prefix, 0) == 0 &&
-            path_only.size() > task_prefix.size() + complete_suffix.size() &&
-            path_only.compare(path_only.size() - complete_suffix.size(), complete_suffix.size(), complete_suffix) == 0) {
+            static_cast<int>(path_only.size()) > static_cast<int>(task_prefix.size()) + static_cast<int>(complete_suffix.size()) &&
+            path_only.compare(static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ,static_cast<int>(complete_suffix.size()), complete_suffix) == 0) {
             // Ensure there is a non-empty taskId segment between prefix and suffix
             const std::size_t task_id_start = task_prefix.size();
-            const std::size_t suffix_pos = path_only.size() - complete_suffix.size();
+            const std::size_t suffix_pos = static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ;
             // Check that there's exactly the taskId between prefix and suffix (no additional slashes)
             std::string task_id_segment = path_only.substr(task_id_start, suffix_pos - task_id_start);
             if (!task_id_segment.empty() && task_id_segment.find('/') == std::string::npos) {
@@ -3433,100 +3848,206 @@ namespace {
         }
     }
     
-    if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) return Route::BpmnInstanceQueryGet;
+    if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) {
+      return Route::BpmnInstanceQueryGet;
+    }
 
     // Geo Topology API
-    if (path_only == "/api/v1/geo/topology" && method == http::verb::get) return Route::GeoTopologyGet;
-    if (path_only == "/api/v1/geo/regions"  && method == http::verb::get) return Route::GeoRegionsGet;
-    if (path_only == "/api/v1/geo/health"   && method == http::verb::get) return Route::GeoHealthGet;
-    if (path_only == "/api/v1/geo/topology/shard" && method == http::verb::post) return Route::GeoTopologyShardPost;
-    if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) return Route::GeoTopologyShardDelete;
-    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
-    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
+    if (path_only == "/api/v1/geo/topology" && method == http::verb::get) {
+      return Route::GeoTopologyGet;
+    }
+    if (path_only == "/api/v1/geo/regions"  && method == http::verb::get) {
+      return Route::GeoRegionsGet;
+    }
+    if (path_only == "/api/v1/geo/health"   && method == http::verb::get) {
+      return Route::GeoHealthGet;
+    }
+    if (path_only == "/api/v1/geo/topology/shard" && method == http::verb::post) {
+      return Route::GeoTopologyShardPost;
+    }
+    if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) {
+      return Route::GeoTopologyShardDelete;
+    }
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) {
+      return Route::GeoConfigGet;
+    }
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) {
+      return Route::GeoConfigPut;
+    }
 
     // Replication Topology API
-    if (path_only == "/api/v1/replication/topology" && method == http::verb::get) return Route::ReplicationTopologyGet;
-    if (path_only == "/api/v1/replication/health"   && method == http::verb::get) return Route::ReplicationHealthGet;
-    if (path_only == "/ui/replication/topology"     && method == http::verb::get) return Route::ReplicationTopologyUiGet;
+    if (path_only == "/api/v1/replication/topology" && method == http::verb::get) {
+      return Route::ReplicationTopologyGet;
+    }
+    if (path_only == "/api/v1/replication/health"   && method == http::verb::get) {
+      return Route::ReplicationHealthGet;
+    }
+    if (path_only == "/ui/replication/topology"     && method == http::verb::get) {
+      return Route::ReplicationTopologyUiGet;
+    }
     
-        if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
-        if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
-        if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
-        if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
-        if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
-        if (target == "/transaction/version" && method == http::verb::get) return Route::TransactionVersionGet;
+        if (target == "/transaction" && method == http::verb::post) {
+          return Route::TransactionPost;
+        }
+        if (target == "/transaction/begin" && method == http::verb::post) {
+          return Route::TransactionBeginPost;
+        }
+        if (target == "/transaction/commit" && method == http::verb::post) {
+          return Route::TransactionCommitPost;
+        }
+        if (target == "/transaction/rollback" && method == http::verb::post) {
+          return Route::TransactionRollbackPost;
+        }
+        if (target == "/transaction/stats" && method == http::verb::get) {
+          return Route::TransactionStatsGet;
+        }
+        if (target == "/transaction/version" && method == http::verb::get) {
+          return Route::TransactionVersionGet;
+        }
         // /transaction/{id}/explain  (GET)
         if (path_only.starts_with("/transaction/") && path_only.ends_with("/explain") &&
             method == http::verb::get) return Route::TransactionExplainGet;
 
         // Distributed (cross-shard) 2PC transaction endpoints
-        if (target == "/dtxn/begin"    && method == http::verb::post) return Route::DtxnBeginPost;
-        if (target == "/dtxn/operation" && method == http::verb::post) return Route::DtxnOperationPost;
-        if (target == "/dtxn/commit"   && method == http::verb::post) return Route::DtxnCommitPost;
-        if (target == "/dtxn/abort"    && method == http::verb::post) return Route::DtxnAbortPost;
-        if (target == "/dtxn/readonly" && method == http::verb::post) return Route::DtxnReadOnlyPost;
-        if (target.rfind("/dtxn/status/", 0) == 0 && method == http::verb::get) return Route::DtxnStatusGet;
-        if (target == "/dtxn/stats"    && method == http::verb::get)  return Route::DtxnStatsGet;
+        if (target == "/dtxn/begin"    && method == http::verb::post) {
+          return Route::DtxnBeginPost;
+        }
+        if (target == "/dtxn/operation" && method == http::verb::post) {
+          return Route::DtxnOperationPost;
+        }
+        if (target == "/dtxn/commit"   && method == http::verb::post) {
+          return Route::DtxnCommitPost;
+        }
+        if (target == "/dtxn/abort"    && method == http::verb::post) {
+          return Route::DtxnAbortPost;
+        }
+        if (target == "/dtxn/readonly" && method == http::verb::post) {
+          return Route::DtxnReadOnlyPost;
+        }
+        if (target.rfind("/dtxn/status/", 0) == 0 && method == http::verb::get) {
+          return Route::DtxnStatusGet;
+        }
+        if (target == "/dtxn/stats"    && method == http::verb::get) {
+          return Route::DtxnStatsGet;
+        }
 
         // Content API
-        if (target == "/content/import" && method == http::verb::post) return Route::ContentImportPost;
-        if (target == "/content/config" && method == http::verb::get) return Route::ContentConfigGet;
-        if (target == "/content/config" && method == http::verb::put) return Route::ContentConfigPut;
+        if (target == "/content/import" && method == http::verb::post) {
+          return Route::ContentImportPost;
+        }
+        if (target == "/content/config" && method == http::verb::get) {
+          return Route::ContentConfigGet;
+        }
+        if (target == "/content/config" && method == http::verb::put) {
+          return Route::ContentConfigPut;
+        }
         if (target.rfind("/content/", 0) == 0 && method == http::verb::get) {
-            if (target.find("/blob") != std::string::npos) return Route::ContentBlobGet;
-            if (target.find("/chunks") != std::string::npos) return Route::ContentChunksGet;
+            if (target.find("/blob") != std::string::npos) {
+              return Route::ContentBlobGet;
+            }
+            if (target.find("/chunks") != std::string::npos) {
+              return Route::ContentChunksGet;
+            }
             return Route::ContentGet;
         }
         // ContentFS binary blob API (/api/v1/content/fs/{pk})
-        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && path_only.size() > 19) {
-            if (method == http::verb::get)    return Route::ContentFsGet;
-            if (method == http::verb::put)    return Route::ContentFsPut;
-            if (method == http::verb::head)   return Route::ContentFsHead;
-            if (method == http::verb::delete_) return Route::ContentFsDelete;
+        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && static_cast<int>(path_only.size()) > 19) {
+            if (method == http::verb::get) {
+              return Route::ContentFsGet;
+            }
+            if (method == http::verb::put) {
+              return Route::ContentFsPut;
+            }
+            if (method == http::verb::head) {
+              return Route::ContentFsHead;
+            }
+            if (method == http::verb::delete_) {
+              return Route::ContentFsDelete;
+            }
         }
 
     // Hybrid Search
-        if (target == "/search/hybrid" && method == http::verb::post) return Route::HybridSearchPost;
+        if (target == "/search/hybrid" && method == http::verb::post) {
+          return Route::HybridSearchPost;
+        }
         
         // Fusion Search (Text+Vector with RRF/Weighted)
-        if (target == "/search/fusion" && method == http::verb::post) return Route::FusionSearchPost;
+        if (target == "/search/fusion" && method == http::verb::post) {
+          return Route::FusionSearchPost;
+        }
         
         // Fulltext Search
-        if (target == "/search/fulltext" && method == http::verb::post) return Route::FulltextSearchPost;
+        if (target == "/search/fulltext" && method == http::verb::post) {
+          return Route::FulltextSearchPost;
+        }
 
     // Content filter schema config
-    if (target == "/config/content-filters" && method == http::verb::get) return Route::ContentFilterSchemaGet;
-    if (target == "/config/content-filters" && (method == http::verb::put || method == http::verb::post)) return Route::ContentFilterSchemaPut;
-    if (target == "/config/edge-weights" && method == http::verb::get) return Route::EdgeWeightConfigGet;
-    if (target == "/config/edge-weights" && (method == http::verb::put || method == http::verb::post)) return Route::EdgeWeightConfigPut;
+    if (target == "/config/content-filters" && method == http::verb::get) {
+      return Route::ContentFilterSchemaGet;
+    }
+    if ((target == "/config/content-filters") && (method == http::verb::put || method == http::verb::post)) {
+      return Route::ContentFilterSchemaPut;
+    }
+    if (target == "/config/edge-weights" && method == http::verb::get) {
+      return Route::EdgeWeightConfigGet;
+    }
+    if ((target == "/config/edge-weights") && (method == http::verb::put || method == http::verb::post)) {
+      return Route::EdgeWeightConfigPut;
+    }
     
     // Encryption schema config
-    if (target == "/config/encryption-schema" && method == http::verb::get) return Route::EncryptionSchemaGet;
-    if (target == "/config/encryption-schema" && (method == http::verb::put || method == http::verb::post)) return Route::EncryptionSchemaPut;
+    if (target == "/config/encryption-schema" && method == http::verb::get) {
+      return Route::EncryptionSchemaGet;
+    }
+    if ((target == "/config/encryption-schema") && (method == http::verb::put || method == http::verb::post)) {
+      return Route::EncryptionSchemaPut;
+    }
     
     // Error API endpoints
-    if (path_only == "/api/v1/errors/categories" && method == http::verb::get) return Route::ErrorApiCategoriesGet;
-    if (path_only == "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiSearchGet;
-    if (path_only.rfind("/api/v1/errors/", 0) == 0 && path_only != "/api/v1/errors/categories" && path_only != "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiGetByCode;
-    if (path_only == "/api/v1/errors" && method == http::verb::get) return Route::ErrorApiListGet;
+    if (path_only == "/api/v1/errors/categories" && method == http::verb::get) {
+      return Route::ErrorApiCategoriesGet;
+    }
+    if (path_only == "/api/v1/errors/search" && method == http::verb::get) {
+      return Route::ErrorApiSearchGet;
+    }
+    if (path_only.rfind("/api/v1/errors/", 0) == 0 && path_only != "/api/v1/errors/categories" && path_only != "/api/v1/errors/search" && method == http::verb::get) {
+      return Route::ErrorApiGetByCode;
+    }
+    if (path_only == "/api/v1/errors" && method == http::verb::get) {
+      return Route::ErrorApiListGet;
+    }
     
     // Schema API routes
-    if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
-    if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
-    if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
+    if (path_only == "/api/v1/schema" && method == http::verb::get) {
+      return Route::SchemaGetFull;
+    }
+    if (path_only == "/api/v1/schema/tables" && method == http::verb::get) {
+      return Route::SchemaGetTables;
+    }
+    if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) {
+      return Route::SchemaGetTable;
+    }
 
     // Schema versioning routes (must come before the generic SchemaPut/Patch catch)
     if (path_only.rfind("/api/v1/schema/versions/", 0) == 0) {
-        if (method == http::verb::get)  return Route::SchemaVersionsGet;
-        if (method == http::verb::post) return Route::SchemaVersionsPost;
+        if (method == http::verb::get) {
+          return Route::SchemaVersionsGet;
+        }
+        if (method == http::verb::post) {
+          return Route::SchemaVersionsPost;
+        }
     }
     if (path_only.rfind("/api/v1/schema/diff/", 0) == 0 && method == http::verb::get)
         return Route::SchemaDiffGet;
 
     if (path_only.rfind("/api/v1/schema/", 0) == 0 && path_only != "/api/v1/schema/" && 
         path_only != "/api/v1/schema/tables" && path_only.find("/api/v1/schema/tables/") != 0) {
-        if (method == http::verb::put) return Route::SchemaPut;
-        if (method == http::verb::patch) return Route::SchemaPatch;
+        if (method == http::verb::put) {
+          return Route::SchemaPut;
+        }
+        if (method == http::verb::patch) {
+          return Route::SchemaPatch;
+        }
     }
 
     // INFORMATION_SCHEMA routes
@@ -3545,33 +4066,53 @@ namespace {
     if (path_only.rfind("/api/v1/metadata/audit", 0) == 0 && method == http::verb::get)
         return Route::MetadataAuditGet;
     if (path_only.rfind("/api/v1/metadata/lineage", 0) == 0) {
-        if (method == http::verb::get)  return Route::MetadataLineageGet;
-        if (method == http::verb::post) return Route::MetadataLineagePost;
+        if (method == http::verb::get) {
+          return Route::MetadataLineageGet;
+        }
+        if (method == http::verb::post) {
+          return Route::MetadataLineagePost;
+        }
     }
     if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
-        if (method == http::verb::get)  return Route::MetadataStatsGet;
-        if (method == http::verb::post) return Route::MetadataStatsPost;
+        if (method == http::verb::get) {
+          return Route::MetadataStatsGet;
+        }
+        if (method == http::verb::post) {
+          return Route::MetadataStatsPost;
+        }
     }
 
     // MVCC versioning API endpoints
     // Note: /versions suffix checked first to avoid matching it as a key named "versions"
     if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
-        path_only.size() > 18 &&
-        path_only.rfind("/versions") == path_only.size() - 9) {
-        if (method == http::verb::get)     return Route::MvccKeyVersionsGet;
-        if (method == http::verb::delete_) return Route::MvccKeyVersionsDelete;
+        static_cast<int>(path_only.size()) > 18 &&
+        path_only.rfind("/versions") == static_cast<int>(path_only.size()) - 9) {
+        if (method == http::verb::get) {
+          return Route::MvccKeyVersionsGet;
+        }
+        if (method == http::verb::delete_) {
+          return Route::MvccKeyVersionsDelete;
+        }
     }
-    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
-        if (method == http::verb::get)  return Route::MvccKeyGet;
-        if (method == http::verb::post) return Route::MvccKeyPost;
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && static_cast<int>(path_only.size()) > 18) {
+        if (method == http::verb::get) {
+          return Route::MvccKeyGet;
+        }
+        if (method == http::verb::post) {
+          return Route::MvccKeyPost;
+        }
     }
-    if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
-    if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
+    if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) {
+      return Route::MvccClockGet;
+    }
+    if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) {
+      return Route::MvccStatsGet;
+    }
 
     // GraphQL endpoint
-    if ((path_only == "/graphql" || path_only == "/api/v1/graphql") &&
+    if (((path_only == "/graphql" || path_only == "/api/v1/graphql")) &&
         method == http::verb::post) return Route::GraphQLPost;
-    if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
+    if (((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema")) &&
         method == http::verb::get) return Route::GraphQLSchemaGet;
 
     // gRPC-Web proxy (browser clients)
@@ -3579,9 +4120,13 @@ namespace {
     {
         static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
         if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
-            path_only.size() > kGrpcWebPrefix.size()) {
-            if (method == http::verb::options) return Route::GrpcWebOptions;
-            if (method == http::verb::post)    return Route::GrpcWebPost;
+            static_cast<int>(path_only.size()) > static_cast<int>(kGrpcWebPrefix.size())) {
+            if (method == http::verb::options) {
+              return Route::GrpcWebOptions;
+            }
+            if (method == http::verb::post) {
+              return Route::GrpcWebPost;
+            }
         }
     }
     if (path_only == "/api/v1/grpc-web/status" && method == http::verb::get)
@@ -3598,24 +4143,30 @@ namespace {
         static constexpr std::string_view kInvokeSuffix{"/invoke"};
         if (method == http::verb::post &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > kFnInvokePrefix.size() + kInvokeSuffix.size() &&
-            path_only.substr(path_only.size() - kInvokeSuffix.size()) == kInvokeSuffix)
+            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kInvokeSuffix.size()) &&
+            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kInvokeSuffix.size()) ) == kInvokeSuffix)
             return Route::ServerlessFnInvokePost;
 
         // /api/v1/functions/{id}/versions  (GET)
         static constexpr std::string_view kVersionsSuffix{"/versions"};
         if (method == http::verb::get &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > kFnInvokePrefix.size() + kVersionsSuffix.size() &&
-            path_only.substr(path_only.size() - kVersionsSuffix.size()) == kVersionsSuffix)
+            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kVersionsSuffix.size()) &&
+            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kVersionsSuffix.size()) ) == kVersionsSuffix)
             return Route::ServerlessFnVersionsGet;
 
         // /api/v1/functions/{id}  (GET / PUT / DELETE)
         if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > kFnInvokePrefix.size()) {
-            if (method == http::verb::get)    return Route::ServerlessFnGet;
-            if (method == http::verb::put)    return Route::ServerlessFnPut;
-            if (method == http::verb::delete_) return Route::ServerlessFnDelete;
+            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size())) {
+            if (method == http::verb::get) {
+              return Route::ServerlessFnGet;
+            }
+            if (method == http::verb::put) {
+              return Route::ServerlessFnPut;
+            }
+            if (method == http::verb::delete_) {
+              return Route::ServerlessFnDelete;
+            }
         }
     }
 
@@ -3625,33 +4176,59 @@ namespace {
         static constexpr std::string_view kJobsPrefix{"/v2/jobs/"};
 
         if (path_only == kJobsPath.data()) {
-            if (method == http::verb::post) return Route::AsyncJobSubmitPost;
-            if (method == http::verb::get)  return Route::AsyncJobListGet;
+            if (method == http::verb::post) {
+              return Route::AsyncJobSubmitPost;
+            }
+            if (method == http::verb::get) {
+              return Route::AsyncJobListGet;
+            }
         }
         if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
-            path_only.size() > kJobsPrefix.size()) {
-            if (method == http::verb::get)    return Route::AsyncJobStatusGet;
-            if (method == http::verb::delete_) return Route::AsyncJobCancelDelete;
+            static_cast<int>(path_only.size()) > static_cast<int>(kJobsPrefix.size())) {
+            if (method == http::verb::get) {
+              return Route::AsyncJobStatusGet;
+            }
+            if (method == http::verb::delete_) {
+              return Route::AsyncJobCancelDelete;
+            }
         }
         }
     // API Key Management: /api/keys and /api/keys/{id}
     if (path_only == "/api/keys") {
-        if (method == http::verb::post) return Route::ApiKeyPost;
-        if (method == http::verb::get)  return Route::ApiKeyListGet;
+        if (method == http::verb::post) {
+          return Route::ApiKeyPost;
+        }
+        if (method == http::verb::get) {
+          return Route::ApiKeyListGet;
+        }
     }
-    if (path_only.rfind("/api/keys/", 0) == 0 && path_only.size() > 10) {
-        if (method == http::verb::get)    return Route::ApiKeyGet;
-        if (method == http::verb::put)    return Route::ApiKeyPut;
-        if (method == http::verb::delete_) return Route::ApiKeyDelete;
+    if (path_only.rfind("/api/keys/", 0) == 0 && static_cast<int>(path_only.size()) > 10) {
+        if (method == http::verb::get) {
+          return Route::ApiKeyGet;
+        }
+        if (method == http::verb::put) {
+          return Route::ApiKeyPut;
+        }
+        if (method == http::verb::delete_) {
+          return Route::ApiKeyDelete;
+        }
     }
     // Session Management: /auth/sessions and /auth/sessions/{id}
     if (path_only == "/auth/sessions") {
-        if (method == http::verb::post)    return Route::SessionPost;
-        if (method == http::verb::get)     return Route::SessionListGet;
-        if (method == http::verb::delete_) return Route::SessionDeleteOthers;
+        if (method == http::verb::post) {
+          return Route::SessionPost;
+        }
+        if (method == http::verb::get) {
+          return Route::SessionListGet;
+        }
+        if (method == http::verb::delete_) {
+          return Route::SessionDeleteOthers;
+        }
     }
-    if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
-        if (method == http::verb::delete_) return Route::SessionDeleteById;
+    if (path_only.rfind("/auth/sessions/", 0) == 0 && static_cast<int>(path_only.size()) > 15) {
+        if (method == http::verb::delete_) {
+          return Route::SessionDeleteById;
+        }
     }
 
     // SAML 2.0 SP endpoints: /api/v1/auth/saml/*
@@ -3666,42 +4243,72 @@ namespace {
 
     // UDF registration API: /api/v1/query/udfs and /api/v1/query/udfs/{name}
     if (path_only == "/api/v1/query/udfs") {
-        if (method == http::verb::post) return Route::UdfPost;
-        if (method == http::verb::get)  return Route::UdfListGet;
+        if (method == http::verb::post) {
+          return Route::UdfPost;
+        }
+        if (method == http::verb::get) {
+          return Route::UdfListGet;
+        }
     }
     {
         static constexpr std::string_view kUdfPrefix{"/api/v1/query/udfs/"};
         if (path_only.rfind(kUdfPrefix.data(), 0) == 0 &&
-            path_only.size() > kUdfPrefix.size()) {
-            if (method == http::verb::get)     return Route::UdfGet;
-            if (method == http::verb::delete_) return Route::UdfDelete;
+            static_cast<int>(path_only.size()) > static_cast<int>(kUdfPrefix.size())) {
+            if (method == http::verb::get) {
+              return Route::UdfGet;
+            }
+            if (method == http::verb::delete_) {
+              return Route::UdfDelete;
+            }
         }
     }
 
     // Task Scheduler API: /api/tasks[/{id}[/action]] and /ui/tasks
-    if (path_only == "/ui/tasks" && method == http::verb::get) return Route::TasksUiGet;
-    if (path_only == "/api/tasks") {
-        if (method == http::verb::post) return Route::TasksPost;
-        if (method == http::verb::get)  return Route::TasksListGet;
+    if (path_only == "/ui/tasks" && method == http::verb::get) {
+      return Route::TasksUiGet;
     }
-    if (path_only == "/api/tasks/stats" && method == http::verb::get) return Route::TasksStatsGet;
+    if (path_only == "/api/tasks") {
+        if (method == http::verb::post) {
+          return Route::TasksPost;
+        }
+        if (method == http::verb::get) {
+          return Route::TasksListGet;
+        }
+    }
+    if (path_only == "/api/tasks/stats" && method == http::verb::get) {
+      return Route::TasksStatsGet;
+    }
     {
         static constexpr std::string_view kTasksPrefix{"/api/tasks/"};
         if (path_only.rfind(kTasksPrefix.data(), 0) == 0 &&
-            path_only.size() > kTasksPrefix.size()) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kTasksPrefix.size())) {
             std::string rest = path_only.substr(kTasksPrefix.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
                 // /api/tasks/{id}
-                if (method == http::verb::get)    return Route::TasksGet;
-                if (method == http::verb::put)    return Route::TasksPut;
-                if (method == http::verb::delete_) return Route::TasksDelete;
+                if (method == http::verb::get) {
+                  return Route::TasksGet;
+                }
+                if (method == http::verb::put) {
+                  return Route::TasksPut;
+                }
+                if (method == http::verb::delete_) {
+                  return Route::TasksDelete;
+                }
             } else {
                 std::string action = rest.substr(slash + 1);
-                if (method == http::verb::post && action == "enable")  return Route::TasksEnablePost;
-                if (method == http::verb::post && action == "disable") return Route::TasksDisablePost;
-                if (method == http::verb::post && action == "execute") return Route::TasksExecutePost;
-                if (method == http::verb::get  && action == "history") return Route::TasksHistoryGet;
+                if (method == http::verb::post && action == "enable") {
+                  return Route::TasksEnablePost;
+                }
+                if (method == http::verb::post && action == "disable") {
+                  return Route::TasksDisablePost;
+                }
+                if (method == http::verb::post && action == "execute") {
+                  return Route::TasksExecutePost;
+                }
+                if (method == http::verb::get  && action == "history") {
+                  return Route::TasksHistoryGet;
+                }
             }
         }
     }
@@ -3726,20 +4333,32 @@ namespace {
 
         // /api/v1/maintenance/schedules (collection)
         if (path_only == kMaintSchedules) {
-            if (method == http::verb::post) return Route::MaintenanceSchedulesPost;
-            if (method == http::verb::get)  return Route::MaintenanceSchedulesGet;
+            if (method == http::verb::post) {
+              return Route::MaintenanceSchedulesPost;
+            }
+            if (method == http::verb::get) {
+              return Route::MaintenanceSchedulesGet;
+            }
         }
         // /api/v1/maintenance/schedules/{id}[/run]
         if (path_only.rfind(kMaintSchedulesPfx.data(), 0) == 0 &&
-            path_only.size() > kMaintSchedulesPfx.size()) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kMaintSchedulesPfx.size())) {
             std::string rest = path_only.substr(kMaintSchedulesPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
                 // /api/v1/maintenance/schedules/{id}
-                if (method == http::verb::get)    return Route::MaintenanceScheduleGet;
-                if (method == http::verb::put)    return Route::MaintenanceSchedulePut;
-                if (method == http::verb::patch)  return Route::MaintenanceSchedulePatch;
-                if (method == http::verb::delete_)return Route::MaintenanceScheduleDelete;
+                if (method == http::verb::get) {
+                  return Route::MaintenanceScheduleGet;
+                }
+                if (method == http::verb::put) {
+                  return Route::MaintenanceSchedulePut;
+                }
+                if (method == http::verb::patch) {
+                  return Route::MaintenanceSchedulePatch;
+                }
+                if (method == http::verb::delete_) {
+                  return Route::MaintenanceScheduleDelete;
+                }
             } else {
                 std::string action = rest.substr(slash + 1);
                 if (method == http::verb::post && action == "run")
@@ -3752,11 +4371,13 @@ namespace {
             return Route::MaintenanceJobsGet;
         // /api/v1/maintenance/jobs/{id}[/cancel]
         if (path_only.rfind(kMaintJobsPfx.data(), 0) == 0 &&
-            path_only.size() > kMaintJobsPfx.size()) {
+            static_cast<int>(path_only.size()) > static_cast<int>(kMaintJobsPfx.size())) {
             std::string rest = path_only.substr(kMaintJobsPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
-                if (method == http::verb::get) return Route::MaintenanceJobGet;
+                if (method == http::verb::get) {
+                  return Route::MaintenanceJobGet;
+                }
             } else {
                 std::string action = rest.substr(slash + 1);
                 if (method == http::verb::post && action == "cancel")
@@ -3767,12 +4388,18 @@ namespace {
 
         // ── Retention Policy Admin API ──────────────────────────────────────
         if (path_only == "/api/retention/policies") {
-            if (method == http::verb::get)  return Route::RetentionPoliciesGet;
-            if (method == http::verb::post) return Route::RetentionPoliciesPost;
+            if (method == http::verb::get) {
+              return Route::RetentionPoliciesGet;
+            }
+            if (method == http::verb::post) {
+              return Route::RetentionPoliciesPost;
+            }
         }
         if (path_only.rfind("/api/retention/policies/", 0) == 0 &&
-            path_only.size() > 24) {
-            if (method == http::verb::delete_) return Route::RetentionPolicyDelete;
+            static_cast<int>(path_only.size()) > 24) {
+            if (method == http::verb::delete_) {
+              return Route::RetentionPolicyDelete;
+            }
         }
         if (path_only == "/api/retention/history" && method == http::verb::get)
             return Route::RetentionHistoryGet;
@@ -3783,11 +4410,13 @@ namespace {
         if (path_only == "/api/saga/flush" && method == http::verb::post)
             return Route::SAGAFlushPost;
         if (path_only.rfind("/api/saga/batches/", 0) == 0 &&
-            path_only.size() > 18) {
+            static_cast<int>(path_only.size()) > 18) {
             std::string rest = path_only.substr(18);
             auto slash_pos = rest.find('/');
             if (slash_pos == std::string::npos) {
-                if (method == http::verb::get) return Route::SAGABatchGet;
+                if (method == http::verb::get) {
+                  return Route::SAGABatchGet;
+                }
             } else {
                 std::string action = rest.substr(slash_pos + 1);
                 if (method == http::verb::post && action == "verify")
@@ -3798,19 +4427,25 @@ namespace {
         // ── CQL Phase 8: Continuous Query endpoints ────────────────────────
         // POST   /v1/queries/continuous
         if (path_only == "/v1/queries/continuous") {
-            if (method == http::verb::post)   return Route::ContinuousQueryRegisterPost;
-            if (method == http::verb::get)    return Route::ContinuousQueryListGet;
+            if (method == http::verb::post) {
+              return Route::ContinuousQueryRegisterPost;
+            }
+            if (method == http::verb::get) {
+              return Route::ContinuousQueryListGet;
+            }
         }
         // /v1/queries/continuous/:name
         // /v1/queries/continuous/:name/results
-        if (path_only.size() > 23 &&
+        if (static_cast<int>(path_only.size()) > 23 &&
             path_only.substr(0, 23) == "/v1/queries/continuous/")
         {
             const std::string rest_cq = path_only.substr(23);  // ":name" or ":name/results"
             const auto slash_cq = rest_cq.find('/');
             if (slash_cq == std::string::npos) {
                 // /v1/queries/continuous/:name
-                if (method == http::verb::delete_) return Route::ContinuousQueryDropDelete;
+                if (method == http::verb::delete_) {
+                  return Route::ContinuousQueryDropDelete;
+                }
             } else {
                 // /v1/queries/continuous/:name/results
                 if (slash_cq + 1 < rest_cq.size()) {
@@ -3824,13 +4459,13 @@ namespace {
         // ── AI Safety Layer — HILG Approval endpoints (ASL-6) ──────────────
         // POST /v1/ai/approve/{operation_id}
         if (path_only.rfind("/v1/ai/approve/", 0) == 0 &&
-            path_only.size() > 15 &&
+            static_cast<int>(path_only.size()) > 15 &&
             method == http::verb::post) {
             return Route::AiApprovePendingPost;
         }
         // POST /v1/ai/deny/{operation_id}
         if (path_only.rfind("/v1/ai/deny/", 0) == 0 &&
-            path_only.size() > 12 &&
+            static_cast<int>(path_only.size()) > 12 &&
             method == http::verb::post) {
             return Route::AiDenyPendingPost;
         }
@@ -3841,7 +4476,7 @@ namespace {
         }
         // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
         if (path_only.rfind("/v1/ai/rollback/", 0) == 0 &&
-            path_only.size() > 16 &&
+            static_cast<int>(path_only.size()) > 16 &&
             method == http::verb::post) {
             return Route::AiRollbackPost;
         }
@@ -3856,7 +4491,8 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Create root span for this HTTP request.
     // If the caller supplied a W3C traceparent header, the new span becomes
     // a child of that upstream trace context (distributed tracing propagation).
-    std::map<std::string, std::string> req_headers;
+    std::map<std::string, std::string> req_headers = {};
+
     for (auto const& field : req) {
         req_headers.emplace(std::string(field.name_string()),
                             std::string(field.value()));
@@ -3895,7 +4531,7 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Extract or generate request correlation ID (X-Correlation-ID).
     // TracingMiddleware sets the logger pattern so every log line on this thread
     // carries the correlation ID.  The RAII guard resets the context on all exit paths.
-    std::string correlation_id;
+    std::string correlation_id = {};
     if (tracing_middleware_) {
         std::lock_guard<std::mutex> lock(tracing_middleware_mutex_);
         if (tracing_middleware_) {
@@ -3917,7 +4553,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }), s.end());
         return s;
     };
-    std::string request_id;
+    std::string request_id = {};
     auto req_id_it = req.find("X-Request-ID");
     if (req_id_it != req.end() && !req_id_it->value().empty()) {
         request_id = sanitize_header_value(std::string(req_id_it->value()));
@@ -3940,7 +4576,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             res.set(http::field::content_type, "application/json");
             res.set("X-Request-ID", request_id);
             const auto& corr_id = api::TracingMiddleware::currentCorrelationId();
-            if (!corr_id.empty()) res.set("X-Correlation-ID", corr_id);
+            if (!corr_id.empty()) {
+              res.set("X-Correlation-ID", corr_id);
+            }
             nlohmann::json body = {
                 {"error", "Request Header Fields Too Large"},
                 {"message", "Total header size exceeds maximum allowed"},
@@ -3980,12 +4618,14 @@ http::response<http::string_body> HttpServer::routeRequest(
     {
         // Helper: extract and validate a path segment after a known prefix.
         // Returns a 400 response if the segment is invalid; otherwise continues.
-        auto checkSegment = [&](const std::string& prefix) -> std::optional<http::response<http::string_body>> {
+        auto checkSegment = [&]([[maybe_unused]] const std::string& prefix) -> std::optional<http::response<http::string_body>> {
             if (path_only.rfind(prefix, 0) == 0 && validator_) {
                 std::string segment = path_only.substr(prefix.size());
                 // Strip any trailing sub-path (e.g., /versions) for the check
                 auto slash_pos = segment.find('/');
-                if (slash_pos != std::string::npos) segment = segment.substr(0, slash_pos);
+                if (slash_pos != std::string::npos) {
+                  segment = segment.substr(0, slash_pos);
+                }
                 if (!segment.empty() && !validator_->validatePathSegment(segment)) {
                     http::response<http::string_body> res{http::status::bad_request, req.version()};
                     res.set(http::field::content_type, "application/json");
@@ -4067,7 +4707,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             tenant_id_opt = std::string(tenant_header_it->value());
         } else {
             // Fallback: check path prefix (only if header not present)
-            std::unordered_map<std::string, std::string> headers;
+            std::unordered_map<std::string, std::string> headers = {};
+
             for (auto const& field : req) {
                 headers[std::string(field.name_string())] = std::string(field.value());
             }
@@ -4113,7 +4754,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 // Check query quota for query endpoints
                 std::string quota_path = target;
                 auto qpos = quota_path.find('?');
-                if (qpos != std::string::npos) quota_path = quota_path.substr(0, qpos);
+                if (qpos != std::string::npos) {
+                  quota_path = quota_path.substr(0, qpos);
+                }
                 
                 // Use prefix match for /search/* to catch all search endpoints
                 bool is_query_endpoint = (quota_path == "/query" || 
@@ -4154,14 +4797,16 @@ http::response<http::string_body> HttpServer::routeRequest(
     {
         std::string ethics_path = target;
         auto qpos = ethics_path.find('?');
-        if (qpos != std::string::npos) ethics_path = ethics_path.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          ethics_path = ethics_path.substr(0, qpos);
+        }
         if (ethics_path.rfind("/ethics/", 0) == 0 || ethics_path.rfind("/api/ethics/", 0) == 0) {
             // HS-12: Ethics routes require auth — check before any early dispatch.
             if (auto auth_err = requireAccess(req, "ethics", "ethics.query", ethics_path)) {
                 return *auth_err;
             }
             {
-                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+                std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                 if (ethics_api_) {
                     http::response<http::string_body> response = ethics_api_->handle(req, target);
                     applyGovernanceHeaders(req, response);
@@ -4180,7 +4825,9 @@ http::response<http::string_body> HttpServer::routeRequest(
     {
         std::string llm_path = target;
         auto qpos = llm_path.find('?');
-        if (qpos != std::string::npos) llm_path = llm_path.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          llm_path = llm_path.substr(0, qpos);
+        }
 
         if (llm_path.rfind("/api/v1/llm/", 0) == 0) {
             // HS-4: LLM routes require auth — check before any payload parsing or dispatch.
@@ -4350,7 +4997,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             applyGovernanceHeaders(req, response);
                             return response;
                         }
-                        std::error_code ec;
+                        std::error_code ec = {};
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);
                         // Use filesystem::equivalent() or a normalised prefix check that is
                         // case-insensitive on platforms with case-insensitive file systems
@@ -4880,7 +5527,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             method != http::verb::options) {
             std::string path_without_query = target;
             auto query_pos = path_without_query.find('?');
-            if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
+            if (query_pos != std::string::npos) {
+              path_without_query = path_without_query.substr(0, query_pos);
+            }
 
             auto validation_result = request_validator_->validate(
                 std::string(http::to_string(method)), path_without_query, req.body());
@@ -4905,12 +5554,12 @@ http::response<http::string_body> HttpServer::routeRequest(
     // eliminates the theoretical race and is mandated by the gap policy.
     themis::server::MonitoringApiHandler* monitoring_api_snap = nullptr;
     {
-        std::lock_guard<std::mutex> lk(api_handlers_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] api_handlers_mutex_);
         monitoring_api_snap = monitoring_api_.get();
     }
 
     auto ensure_handler_ready = [&](const char* handler_name, const void* handler_ptr) {
-        if (handler_ptr != nullptr) {
+        if ([[maybe_unused]] handler_ptr != nullptr) {
             return true;
         }
         THEMIS_ERROR("HTTP route aborted: {} not initialized", handler_name);
@@ -4941,7 +5590,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::HealthReady:
             if (monitoring_api_snap) {
-                response = monitoring_api_snap->handleReadiness(req);
+                response = monitoring_api_snap->handleReadiness([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -4991,7 +5640,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const auto auth_header = req[http::field::authorization];
                         if (!auth_header.empty()) {
                             auto bearer = themis::AuthMiddleware::extractBearerToken(
-                                std::string_view(auth_header.data(), auth_header.size()));
+                                std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                             token_ok = (bearer && *bearer == expected_tok);
                         }
                     }
@@ -5179,7 +5828,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!ensure_handler_ready("Admin API handler", admin_api_.get())) {
                 break;
             }
-            response = admin_api_->handleRestore(req);
+            response = admin_api_->handleRestore([[maybe_unused]] req);
             break;
         case Route::EntitiesGet:
             if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
@@ -5232,7 +5881,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (validator_) {
                 try {
                     nlohmann::json j = nlohmann::json::object();
-                    if (!req.body().empty()) j = nlohmann::json::parse(req.body());
+                    if (!req.body().empty()) {
+                      j = nlohmann::json::parse(req.body());
+                    }
                     if (auto err = validator_->validateAqlRequest(j)) {
                         auto res = makeErrorResponse(http::status::bad_request, *err, req);
                         return res;
@@ -5274,13 +5925,13 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!ensure_handler_ready("Index API handler", index_api_.get())) {
                 break;
             }
-            response = index_api_->handleRebuild(req);
+            response = index_api_->handleRebuild([[maybe_unused]] req);
             break;
         case Route::IndexReindexPost:
             if (!ensure_handler_ready("Index API handler", index_api_.get())) {
                 break;
             }
-            response = index_api_->handleReindex(req);
+            response = index_api_->handleReindex([[maybe_unused]] req);
             break;
             
         // G5: Spatial Index Management handlers
@@ -5315,7 +5966,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             
         case Route::GraphTraversePost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleTraverse(req);
                } else {
@@ -5325,7 +5976,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphEdgePost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleEdgeCreate(req);
                } else {
@@ -5335,7 +5986,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphEdgeDelete:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleEdgeDelete(req);
                } else {
@@ -5345,7 +5996,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphMetricsGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleMetrics(req);
                } else {
@@ -5355,7 +6006,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphMetricsPrometheusGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleMetricsPrometheus(req);
                } else {
@@ -5365,7 +6016,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphQueryIncrementalPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleIncrementalQueryRegister(req);
                } else {
@@ -5375,7 +6026,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphQueryIncrementalDelete:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleIncrementalQueryUnregister(req);
                } else {
@@ -5385,7 +6036,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphChangesPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleGraphChanges(req);
                } else {
@@ -5395,7 +6046,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphCostModelCalibratePost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleCostModelCalibrate(req);
                } else {
@@ -5405,7 +6056,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphCostModelGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleCostModelExport(req);
                } else {
@@ -5415,7 +6066,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphCostModelImportPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleCostModelImport(req);
                } else {
@@ -5425,7 +6076,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GraphQueryExplainPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (graph_api_) {
                    response = graph_api_->handleQueryExplain(req);
                } else {
@@ -5435,7 +6086,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorSearchPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleSearch(req);
                } else {
@@ -5445,7 +6096,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorBatchInsertPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleBatchInsert(req);
                } else {
@@ -5455,7 +6106,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorDeleteByFilterDelete:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleDeleteByFilter(req);
                } else {
@@ -5465,7 +6116,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::CacheQueryPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_api_) {
                    response = cache_api_->handleQuery(req);
                } else {
@@ -5475,7 +6126,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplatePost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handlePost(req);
                } else {
@@ -5485,7 +6136,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplateList:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handleList(req);
                } else {
@@ -5495,7 +6146,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplateGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handleGet(req);
                } else {
@@ -5505,7 +6156,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::PromptTemplatePut:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (prompt_api_) {
                    response = prompt_api_->handlePut(req);
                } else {
@@ -5515,7 +6166,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::CachePutPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_api_) {
                    response = cache_api_->handlePut(req);
                } else {
@@ -5525,7 +6176,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::CacheStatsGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_api_) {
                    response = cache_api_->handleStats(req);
                } else {
@@ -5535,7 +6186,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheHealthGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleHealth(req);
                } else {
@@ -5545,7 +6196,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheStatsGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleStats(req);
                } else {
@@ -5555,7 +6206,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheEvictKeyDelete:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleEvictKey(req);
                } else {
@@ -5565,7 +6216,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheEvictTenantDelete:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleEvictTenant(req);
                } else {
@@ -5575,7 +6226,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::AdminCacheCbResetPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleCircuitBreakerReset(req);
                } else {
@@ -5585,7 +6236,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheCbStatusGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleCircuitBreakerStatus(req);
                } else {
@@ -5595,7 +6246,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheWarmupPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleWarmup(req);
                } else {
@@ -5605,7 +6256,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheSnapshotPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleSnapshot(req);
                } else {
@@ -5615,7 +6266,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheTenantsGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleListTenants(req);
                } else {
@@ -5625,7 +6276,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheTenantStatsGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleTenantStats(req);
                } else {
@@ -5635,7 +6286,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCacheTenantQuotaPatch:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handleUpdateTenantQuota(req);
                } else {
@@ -5645,7 +6296,7 @@ http::response<http::string_body> HttpServer::routeRequest(
            break;
         case Route::AdminCachePiiEvictDelete:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (cache_admin_api_) {
                    response = cache_admin_api_->handlePiiEvict(req);
                } else {
@@ -5767,7 +6418,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // GET /v1/admin/repair/health
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -5778,7 +6429,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // POST /v1/admin/repair
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -5789,7 +6440,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // POST /v1/admin/repair/scan
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -5800,7 +6451,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // GET /v1/admin/repair/jobs/{job_id}
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -5811,7 +6462,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // GET /v1/admin/repair/dashboard
             if (!shard_repair_api_) {
                 response = makeErrorResponse(http::status::service_unavailable,
-                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                    "ShardRepairApiHandler not initialized ([[maybe_unused]] ShardRepairEngine required)", req);
                 break;
             }
             auto& shard_repair_api = *shard_repair_api_;
@@ -5847,7 +6498,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     });
                 }
                 response = makeResponse(http::status::ok,
-                    json{{"modules", arr}, {"count", arr.size()}}.dump(), req);
+                    json{{"modules", arr}, {"count",static_cast<int>(arr.size())}}.dump(), req);
             } catch (const std::exception& e) {
                 response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
             }
@@ -5869,7 +6520,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 const std::string prefix = "/v1/admin/modules/";
                 std::string url_name = path_only.substr(prefix.size());
                 auto slash = url_name.rfind("/load");
-                if (slash != std::string::npos) url_name = url_name.substr(0, slash);
+                if (slash != std::string::npos) {
+                  url_name = url_name.substr(0, slash);
+                }
 
                 auto body = json::parse(req.body());
                 std::string lib_path = body.value("path", std::string());
@@ -6009,21 +6662,21 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ChangefeedRetentionPost:
             if (changefeed_api_) {
-                response = changefeed_api_->handleRetention(req);
+                response = changefeed_api_->handleRetention([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
             break;
         case Route::ChangefeedRetentionGet:
             if (changefeed_api_) {
-                response = changefeed_api_->handleRetentionGet(req);
+                response = changefeed_api_->handleRetentionGet([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
             break;
         case Route::ChangefeedRetentionPut:
             if (changefeed_api_) {
-                response = changefeed_api_->handleRetentionPut(req);
+                response = changefeed_api_->handleRetentionPut([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
@@ -6045,7 +6698,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Snapshot API (temporarily disabled - needs refactoring to Beast)
         case Route::SnapshotsTagsPost:
-            if (snapshot_api_handler_) {
+            if ([[maybe_unused]] snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6058,7 +6711,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsTagsGet:
-            if (snapshot_api_handler_) {
+            if ([[maybe_unused]] snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6071,7 +6724,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsTagGet:
-            if (snapshot_api_handler_) {
+            if ([[maybe_unused]] snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6084,7 +6737,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsTagDelete:
-            if (snapshot_api_handler_) {
+            if ([[maybe_unused]] snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6097,7 +6750,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::SnapshotsStatsGet:
-            if (snapshot_api_handler_) {
+            if ([[maybe_unused]] snapshot_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6112,7 +6765,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Diff API
         case Route::DiffGet:
-            if (diff_api_handler_) {
+            if ([[maybe_unused]] diff_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6125,7 +6778,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::DiffCacheStatsGet:
-            if (diff_api_handler_) {
+            if ([[maybe_unused]] diff_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6138,7 +6791,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::DiffCacheClear:
-            if (diff_api_handler_) {
+            if ([[maybe_unused]] diff_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6153,7 +6806,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // PITR API
         case Route::PITRRestorePost:
-            if (pitr_api_handler_) {
+            if ([[maybe_unused]] pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6166,7 +6819,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PITRPreviewPost:
-            if (pitr_api_handler_) {
+            if ([[maybe_unused]] pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6179,7 +6832,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PITRProgressGet:
-            if (pitr_api_handler_) {
+            if ([[maybe_unused]] pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
@@ -6193,7 +6846,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         // Branch API handlers
         case Route::BranchesPost:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleCreateBranch(httplib_req, httplib_res);
@@ -6204,7 +6857,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesGet:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleListBranches(httplib_req, httplib_res);
@@ -6215,7 +6868,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesActiveGet:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleGetActiveBranch(httplib_req, httplib_res);
@@ -6226,7 +6879,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesStatsGet:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleGetStats(httplib_req, httplib_res);
@@ -6237,7 +6890,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchGet:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleGetBranch(httplib_req, httplib_res);
@@ -6248,7 +6901,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchSwitchPost:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleSwitchBranch(httplib_req, httplib_res);
@@ -6259,7 +6912,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchDelete:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleDeleteBranch(httplib_req, httplib_res);
@@ -6270,7 +6923,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::BranchesMergePost:
-            if (branch_api_handler_) {
+            if ([[maybe_unused]] branch_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 branch_api_handler_->handleMergeBranches(httplib_req, httplib_res);
@@ -6283,7 +6936,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Merge API handlers
         case Route::MergePost:
-            if (merge_api_handler_) {
+            if ([[maybe_unused]] merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleMerge(httplib_req, httplib_res);
@@ -6294,7 +6947,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::MergePreviewPost:
-            if (merge_api_handler_) {
+            if ([[maybe_unused]] merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleMergePreview(httplib_req, httplib_res);
@@ -6305,7 +6958,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::MergeByTagPost:
-            if (merge_api_handler_) {
+            if ([[maybe_unused]] merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleMergeByTag(httplib_req, httplib_res);
@@ -6316,7 +6969,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::MergeCanFastForwardGet:
-            if (merge_api_handler_) {
+            if ([[maybe_unused]] merge_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 merge_api_handler_->handleCanFastForward(httplib_req, httplib_res);
@@ -6377,7 +7030,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::TimeSeriesRetentionGet:
             if (timeseries_api_) {
-                response = timeseries_api_->handleRetentionGet(req);
+                response = timeseries_api_->handleRetentionGet([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Time-series feature not enabled", req);
@@ -6406,14 +7059,14 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = index_api_->handlePatterns(req);
             break;
         case Route::IndexRecordPatternPost:
-            response = index_api_->handleRecordPattern(req);
+            response = index_api_->handleRecordPattern([[maybe_unused]] req);
             break;
         case Route::IndexClearPatternsDelete:
             response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexSave(req);
                } else {
@@ -6423,7 +7076,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexLoadPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexLoad(req);
                } else {
@@ -6433,7 +7086,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexConfigGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexConfigGet(req);
                } else {
@@ -6443,7 +7096,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexConfigPut:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexConfigPut(req);
                } else {
@@ -6453,7 +7106,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexStatsGet:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIndexStats(req);
                } else {
@@ -6463,7 +7116,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::VectorIndexIncrementalReindexPost:
            {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               std::lock_guard<std::mutex> lock([[maybe_unused]] api_handlers_mutex_);
                if (vector_api_) {
                    response = vector_api_->handleIncrementalReindex(req);
                } else {
@@ -6573,7 +7226,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleClassificationTest(req);
             break;
         case Route::ReportsComplianceGet:
-            response = handleReportsCompliance(req);
+            response = handleReportsCompliance([[maybe_unused]] req);
             break;
         case Route::PiiListGet:
             response = handlePiiListMappings(req);
@@ -6616,11 +7269,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::UpdateStatusGet:
-        case Route::UpdateCheckPost:
-        case Route::UpdateConfigGet:
-        case Route::UpdateConfigPut:
+        [[fallthrough]];\n        case Route::UpdateCheckPost:
+        [[fallthrough]];\n        case Route::UpdateConfigGet:
+        [[fallthrough]];\n        case Route::UpdateConfigPut:
             if (update_api_) {
-                response = update_api_->handleRequest(req);
+                response = update_api_->handleRequest([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Update checker not enabled", req);
@@ -6630,8 +7283,8 @@ http::response<http::string_body> HttpServer::routeRequest(
 #if THEMIS_ENABLE_LLM
         // Feedback API routes
         case Route::FeedbackPost:
-            if (feedback_api_handler_) {
-                response = feedback_api_handler_->handleCreateFeedback(req);
+            if ([[maybe_unused]] feedback_api_handler_) {
+                response = feedback_api_handler_->handleCreateFeedback([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Feedback API not available", req);
@@ -6639,8 +7292,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::FeedbackGet:
-            if (feedback_api_handler_) {
-                response = feedback_api_handler_->handleListFeedback(req);
+            if ([[maybe_unused]] feedback_api_handler_) {
+                response = feedback_api_handler_->handleListFeedback([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Feedback API not available", req);
@@ -6648,7 +7301,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::FeedbackGetById: {
-            if (feedback_api_handler_) {
+            if ([[maybe_unused]] feedback_api_handler_) {
                 std::string path(req.target());
                 std::string id = path.substr(14); // Remove "/api/feedback/"
                 size_t query_pos = id.find('?');
@@ -6664,7 +7317,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackPut: {
-            if (feedback_api_handler_) {
+            if ([[maybe_unused]] feedback_api_handler_) {
                 std::string path(req.target());
                 std::string id = path.substr(14); // Remove "/api/feedback/"
                 size_t query_pos = id.find('?');
@@ -6680,7 +7333,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackDelete: {
-            if (feedback_api_handler_) {
+            if ([[maybe_unused]] feedback_api_handler_) {
                 std::string path(req.target());
                 std::string id = path.substr(14); // Remove "/api/feedback/"
                 size_t query_pos = id.find('?');
@@ -6696,7 +7349,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackAdapterGet: {
-            if (feedback_api_handler_) {
+            if ([[maybe_unused]] feedback_api_handler_) {
                 std::string path(req.target());
                 std::string adapter_id = path.substr(22); // Remove "/api/feedback/adapter/"
                 size_t query_pos = adapter_id.find('?');
@@ -6712,8 +7365,8 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         
         case Route::FeedbackStatsGet:
-            if (feedback_api_handler_) {
-                response = feedback_api_handler_->handleGetStatistics(req);
+            if ([[maybe_unused]] feedback_api_handler_) {
+                response = feedback_api_handler_->handleGetStatistics([[maybe_unused]] req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Feedback API not available", req);
@@ -6721,12 +7374,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
 #else
         case Route::FeedbackPost:
-        case Route::FeedbackGet:
-        case Route::FeedbackGetById:
-        case Route::FeedbackPut:
-        case Route::FeedbackDelete:
-        case Route::FeedbackAdapterGet:
-        case Route::FeedbackStatsGet:
+        [[fallthrough]];\n        case Route::FeedbackGet:
+        [[fallthrough]];\n        case Route::FeedbackGetById:
+        [[fallthrough]];\n        case Route::FeedbackPut:
+        [[fallthrough]];\n        case Route::FeedbackDelete:
+        [[fallthrough]];\n        case Route::FeedbackAdapterGet:
+        [[fallthrough]];\n        case Route::FeedbackStatsGet:
             response = makeErrorResponse(http::status::service_unavailable,
                 "Feedback API disabled (LLM feature off)", req);
             break;
@@ -6742,7 +7395,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = transaction_api_->handleCommit(req);
             break;
         case Route::TransactionRollbackPost:
-            response = transaction_api_->handleRollback(req);
+            response = transaction_api_->handleRollback([[maybe_unused]] req);
             break;
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
@@ -6768,7 +7421,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = distributed_txn_api_->handleAbort(req);
             break;
         case Route::DtxnReadOnlyPost:
-            response = distributed_txn_api_->handleReadOnly(req);
+            response = distributed_txn_api_->handleReadOnly([[maybe_unused]] req);
             break;
         case Route::DtxnStatusGet:
             response = distributed_txn_api_->handleStatus(req);
@@ -6782,7 +7435,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (validator_) {
                     try {
                         nlohmann::json j = nlohmann::json::object();
-                        if (!req.body().empty()) j = nlohmann::json::parse(req.body());
+                        if (!req.body().empty()) {
+                          j = nlohmann::json::parse(req.body());
+                        }
                         if (auto err = validator_->validateJsonSchema(j, "content_import")) {
                             response = makeErrorResponse(http::status::bad_request, *err, req);
                             break;
@@ -6848,7 +7503,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (auth_ && auth_->isEnabled()) {
                 std::string config_path = std::string(req.target());
                 auto qpos = config_path.find('?');
-                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (qpos != std::string::npos) {
+                  config_path = config_path.substr(0, qpos);
+                }
                 if (auto resp = requireAccess(req, "config:read", "config.read", config_path)) {
                     response = *resp;
                     break;
@@ -6861,7 +7518,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (auth_ && auth_->isEnabled()) {
                 std::string config_path = std::string(req.target());
                 auto qpos = config_path.find('?');
-                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (qpos != std::string::npos) {
+                  config_path = config_path.substr(0, qpos);
+                }
                 if (auto resp = requireAccess(req, "config:write", "config.write", config_path)) {
                     response = *resp;
                     break;
@@ -6911,7 +7570,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = geo_topology_api_->handleTopologyGet(req);
             break;
         case Route::GeoRegionsGet:
-            response = geo_topology_api_->handleRegionsGet(req);
+            response = geo_topology_api_->handleRegionsGet([[maybe_unused]] req);
             break;
         case Route::GeoHealthGet:
             response = geo_topology_api_->handleHealthGet(req);
@@ -6998,7 +7657,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (auth_ && auth_->isEnabled()) {
                 std::string policy_path = std::string(req.target());
                 auto qpos = policy_path.find('?');
-                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (qpos != std::string::npos) {
+                  policy_path = policy_path.substr(0, qpos);
+                }
                 if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
                     response = *resp;
                     break;
@@ -7017,7 +7678,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (auth_ && auth_->isEnabled()) {
                 std::string policy_path = std::string(req.target());
                 auto qpos = policy_path.find('?');
-                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (qpos != std::string::npos) {
+                  policy_path = policy_path.substr(0, qpos);
+                }
                 if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
                     response = *resp;
                     break;
@@ -7036,12 +7699,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
         // and populate req.matches so MvccApiHandler::extractKey() works.
         case Route::MvccKeyGet:
-        case Route::MvccKeyPost: {
-            if (mvcc_api_handler_) {
+        [[fallthrough]];\n        case Route::MvccKeyPost: {
+            if ([[maybe_unused]] mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
                     static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(httplib_req.path, m, re)) {
                         httplib_req.matches = m;
                     }
@@ -7060,12 +7723,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccKeyVersionsGet:
-        case Route::MvccKeyVersionsDelete: {
-            if (mvcc_api_handler_) {
+        [[fallthrough]];\n        case Route::MvccKeyVersionsDelete: {
+            if ([[maybe_unused]] mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 {
                     static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
-                    std::smatch m;
+                    std::smatch m = {};
                     if (std::regex_search(httplib_req.path, m, re)) {
                         httplib_req.matches = m;
                     }
@@ -7084,7 +7747,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccClockGet: {
-            if (mvcc_api_handler_) {
+            if ([[maybe_unused]] mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);
@@ -7096,7 +7759,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::MvccStatsGet: {
-            if (mvcc_api_handler_) {
+            if ([[maybe_unused]] mvcc_api_handler_) {
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);
@@ -7109,12 +7772,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::GraphQLPost: {
-            response = graphql_api_handler_->handlePost(req);
+            response = graphql_api_handler_->handlePost([[maybe_unused]] req);
             break;
         }
 
         case Route::GraphQLSchemaGet: {
-            response = graphql_api_handler_->handleSchemaGet(req);
+            response = graphql_api_handler_->handleSchemaGet([[maybe_unused]] req);
             break;
         }
 
@@ -7147,18 +7810,18 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── Serverless function hosting ──────────────────────────────────────
         case Route::ServerlessFnPost: {
-            response = serverless_fn_handler_->handleRegister(req);
+            response = serverless_fn_handler_->handleRegister([[maybe_unused]] req);
             break;
         }
         case Route::ServerlessFnListGet: {
-            response = serverless_fn_handler_->handleList(req);
+            response = serverless_fn_handler_->handleList([[maybe_unused]] req);
             break;
         }
         case Route::ServerlessFnGet:
-        case Route::ServerlessFnPut:
-        case Route::ServerlessFnDelete:
-        case Route::ServerlessFnInvokePost:
-        case Route::ServerlessFnVersionsGet: {
+        [[fallthrough]];\n        case Route::ServerlessFnPut:
+        [[fallthrough]];\n        case Route::ServerlessFnDelete:
+        [[fallthrough]];\n        case Route::ServerlessFnInvokePost:
+        [[fallthrough]];\n        case Route::ServerlessFnVersionsGet: {
             // HS-7: Serverless function invocation requires auth.
             if (auto auth_err = requireAccess(req, "functions", "functions.invoke", path_only)) {
                 response = *auth_err;
@@ -7174,17 +7837,17 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
-                if (id.size() > sv.size() &&
-                    id.substr(id.size() - sv.size()) == sv) {
-                    id = id.substr(0, id.size() - sv.size());
+                if (static_cast<int>(id.size()) > static_cast<int>(sv.size()) &&
+                    id.substr(static_cast<int>(id.size()) - static_cast<int>(sv.size()) ) == sv) {
+                    id = id.substr(0, static_cast<int>(id.size()) - static_cast<int>(sv.size()) );
                     break;
                 }
             }
             const auto route_method = req.method();
-            const bool has_invoke  = fn_path.size() > 7 &&
-                fn_path.substr(fn_path.size() - 7) == "/invoke";
-            const bool has_versions = fn_path.size() > 9 &&
-                fn_path.substr(fn_path.size() - 9) == "/versions";
+            const bool has_invoke  = static_cast<int>(fn_path.size()) > 7 &&
+                fn_path.substr(static_cast<int>(fn_path.size()) - 7) == "/invoke";
+            const bool has_versions = static_cast<int>(fn_path.size()) > 9 &&
+                fn_path.substr(static_cast<int>(fn_path.size()) - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
@@ -7278,10 +7941,10 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── UDF Registration API ──────────────────────────────────────────────
         case Route::UdfPost:
-            response = udf_api_handler_->handleRegister(req);
+            response = udf_api_handler_->handleRegister([[maybe_unused]] req);
             break;
         case Route::UdfListGet:
-            response = udf_api_handler_->handleList(req);
+            response = udf_api_handler_->handleList([[maybe_unused]] req);
             break;
         case Route::UdfGet: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
@@ -7346,7 +8009,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(auth_header.data(), auth_header.size()));
+                        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
@@ -7359,7 +8022,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 entry["user_id"]    = authz.user_id;
                                 entry["authorized"] = true;
                                 entry["reason"]     = authz.reason;
-                                try { audit_logger_->logEvent(entry); } catch (...) {}
+                                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                             }
                         } else if (audit_logger_) {
                             nlohmann::json entry;
@@ -7369,7 +8032,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             entry["user_id"]    = authz.user_id;
                             entry["authorized"] = false;
                             entry["reason"]     = authz.reason;
-                            try { audit_logger_->logEvent(entry); } catch (...) {}
+                            try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                         }
                     }
                 }
@@ -7420,7 +8083,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            if (auto qp = ponly.find('?'); qp != std::string::npos) {
+              ponly = ponly.substr(0, qp);
+            }
             std::string task_id = ponly.substr(kTasksPfx.size());
             if (!task_scheduler_api_) {
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
@@ -7442,7 +8107,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            if (auto qp = ponly.find('?'); qp != std::string::npos) {
+              ponly = ponly.substr(0, qp);
+            }
             std::string task_id = ponly.substr(kTasksPfx.size());
             auto body = nlohmann::json::parse(req.body(), nullptr, false);
             if (body.is_discarded()) {
@@ -7469,7 +8136,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            if (auto qp = ponly.find('?'); qp != std::string::npos) {
+              ponly = ponly.substr(0, qp);
+            }
             std::string task_id = ponly.substr(kTasksPfx.size());
             if (!task_scheduler_api_) {
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
@@ -7491,7 +8160,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            if (auto qp = ponly.find('?'); qp != std::string::npos) {
+              ponly = ponly.substr(0, qp);
+            }
             std::string rest = ponly.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
             if (!task_scheduler_api_) {
@@ -7514,7 +8185,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            if (auto qp = ponly.find('?'); qp != std::string::npos) {
+              ponly = ponly.substr(0, qp);
+            }
             std::string rest = ponly.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
             if (!task_scheduler_api_) {
@@ -7537,7 +8210,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            if (auto qp = ponly.find('?'); qp != std::string::npos) {
+              ponly = ponly.substr(0, qp);
+            }
             std::string rest = ponly.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
             if (!task_scheduler_api_) {
@@ -7558,7 +8233,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(auth_header.data(), auth_header.size()));
+                        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
@@ -7572,7 +8247,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 entry["user_id"]    = authz.user_id;
                                 entry["authorized"] = true;
                                 entry["reason"]     = authz.reason;
-                                try { audit_logger_->logEvent(entry); } catch (...) {}
+                                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                             }
                         } else if (audit_logger_) {
                             nlohmann::json entry;
@@ -7583,7 +8258,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             entry["user_id"]    = authz.user_id;
                             entry["authorized"] = false;
                             entry["reason"]     = authz.reason;
-                            try { audit_logger_->logEvent(entry); } catch (...) {}
+                            try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                         }
                     }
                 }
@@ -7609,7 +8284,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             nlohmann::json qparams = parseQueryParams(std::string(req.target()));
             std::string target_path = std::string(req.target());
-            if (auto qp = target_path.find('?'); qp != std::string::npos) target_path = target_path.substr(0, qp);
+            if (auto qp = target_path.find('?'); qp != std::string::npos) {
+              target_path = target_path.substr(0, qp);
+            }
             std::string rest = target_path.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
             if (!task_scheduler_api_) {
@@ -7727,7 +8404,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string id = ponly.substr(kPfx.size());
                 if (!maintenance_api_) {
                     response = makeErrorResponse(http::status::service_unavailable,
@@ -7755,7 +8434,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string id = ponly.substr(kPfx.size());
                 auto body = nlohmann::json::parse(req.body(), nullptr, false);
                 if (body.is_discarded()) {
@@ -7788,7 +8469,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string id = ponly.substr(kPfx.size());
                 auto patch = nlohmann::json::parse(req.body(), nullptr, false);
                 if (patch.is_discarded()) {
@@ -7821,7 +8504,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string id = ponly.substr(kPfx.size());
                 if (!maintenance_api_) {
                     response = makeErrorResponse(http::status::service_unavailable,
@@ -7881,7 +8566,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string rest = ponly.substr(kPfx.size());
                 std::string id   = rest.substr(0, rest.find('/'));
                 if (!maintenance_api_) {
@@ -7931,7 +8618,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/jobs/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string id = ponly.substr(kPfx.size());
                 if (!maintenance_api_) {
                     response = makeErrorResponse(http::status::service_unavailable,
@@ -7959,7 +8648,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/jobs/"};
                 std::string ponly = std::string(req.target());
-                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                if (auto q = ponly.find('?'); q != std::string::npos) {
+                  ponly = ponly.substr(0, q);
+                }
                 std::string rest = ponly.substr(kPfx.size());
                 std::string id   = rest.substr(0, rest.find('/'));
                 if (!maintenance_api_) {
@@ -8000,8 +8691,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                     auto key = seg + "=";
                     auto pos = qs.find(key);
                     if (pos != std::string::npos) {
-                        auto val = qs.substr(pos + key.size());
-                        if (auto end = val.find('&'); end != std::string::npos) val = val.substr(0, end);
+                        auto val = qs.substr(pos + static_cast<int>(key.size()) );
+                        if (auto end = val.find('&'); end != std::string::npos) {
+                          val = val.substr(0, end);
+                        }
                         if (seg == "page") try { filter.page = std::stoi(val); } catch (...) {}
                         else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (...) {}
                         else if (seg == "name") filter.name_filter = val;
@@ -8053,7 +8746,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             std::string request_target = std::string(req.target());
             std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
-            if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              policy_name = policy_name.substr(0, qpos);
+            }
             if (policy_name.empty()) {
                 response = makeErrorResponse(http::status::bad_request,
                                              "Missing policy name in path", req);
@@ -8121,7 +8816,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
             std::string batch_id = request_target.substr(kPrefix.size());
             auto qpos = batch_id.find('?');
-            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              batch_id = batch_id.substr(0, qpos);
+            }
             if (batch_id.empty()) {
                 response = makeErrorResponse(http::status::bad_request,
                                              "Missing batch ID in path", req);
@@ -8151,7 +8848,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             std::string batch_id = (slash_pos != std::string::npos)
                 ? rest.substr(0, slash_pos) : rest;
             auto qpos = batch_id.find('?');
-            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              batch_id = batch_id.substr(0, qpos);
+            }
             if (batch_id.empty()) {
                 response = makeErrorResponse(http::status::bad_request,
                                              "Missing batch ID in path", req);
@@ -8190,7 +8889,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& continuous_query_api = *continuous_query_api_;
-            response = continuous_query_api.handleRegister(req);
+            response = continuous_query_api.handleRegister([[maybe_unused]] req);
             break;
         }
 
@@ -8213,7 +8912,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Extract :name from /v1/queries/continuous/:name
             std::string cq_path = std::string(req.target());
             auto qpos = cq_path.find('?');
-            if (qpos != std::string::npos) cq_path = cq_path.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              cq_path = cq_path.substr(0, qpos);
+            }
             const std::string cq_name = cq_path.substr(23);  // strip "/v1/queries/continuous/"
             if (auto auth_err = requireAccess(req, "user", "cq.drop",
                                               "/v1/queries/continuous")) {
@@ -8233,7 +8934,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Extract :name from /v1/queries/continuous/:name/results
             std::string cq_path = std::string(req.target());
             auto qpos = cq_path.find('?');
-            if (qpos != std::string::npos) cq_path = cq_path.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              cq_path = cq_path.substr(0, qpos);
+            }
             const std::string rest_cq = cq_path.substr(23);  // strip prefix
             const auto slash_pos = rest_cq.find('/');
             const std::string cq_name = (slash_pos != std::string::npos)
@@ -8287,7 +8990,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 // Extract operation_id from /v1/ai/approve/{operation_id}
                 std::string ai_path = std::string(req.target());
                 const auto qp = ai_path.find('?');
-                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                if (qp != std::string::npos) {
+                  ai_path = ai_path.substr(0, qp);
+                }
                 constexpr std::size_t kApproveRouteLen = 15;  // strlen("/v1/ai/approve/")
                 const std::string op_id = ai_path.substr(kApproveRouteLen);
                 const json result = mcp_server.handleAiApprove(op_id);
@@ -8314,7 +9019,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 // Extract operation_id from /v1/ai/deny/{operation_id}
                 std::string ai_path = std::string(req.target());
                 const auto qp = ai_path.find('?');
-                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                if (qp != std::string::npos) {
+                  ai_path = ai_path.substr(0, qp);
+                }
                 constexpr std::size_t kDenyRouteLen = 12;  // strlen("/v1/ai/deny/")
                 const std::string op_id = ai_path.substr(kDenyRouteLen);
                 const json result = mcp_server.handleAiDeny(op_id);
@@ -8342,7 +9049,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             {
                 std::string ai_path = std::string(req.target());
                 const auto qp = ai_path.find('?');
-                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                if (qp != std::string::npos) {
+                  ai_path = ai_path.substr(0, qp);
+                }
                 constexpr std::size_t kRollbackRouteLen = 16;  // strlen("/v1/ai/rollback/")
                 const std::string snap_id = ai_path.substr(kRollbackRouteLen);
                 const json result = mcp_server.handleAiRollback(snap_id);
@@ -8355,16 +9064,16 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 #else  // !THEMIS_ENABLE_MCP
         case Route::AiPendingApprovalsGet:
-        case Route::AiApprovePendingPost:
-        case Route::AiDenyPendingPost:
-        case Route::AiRollbackPost:
+        [[fallthrough]];\n        case Route::AiApprovePendingPost:
+        [[fallthrough]];\n        case Route::AiDenyPendingPost:
+        [[fallthrough]];\n        case Route::AiRollbackPost:
             response = makeErrorResponse(http::status::not_implemented,
                 "MCP support not enabled in this build", req);
             break;
 #endif  // THEMIS_ENABLE_MCP
 
         case Route::NotFound:
-        default:
+        [[fallthrough]];\n        default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
             break;
     }
@@ -8453,25 +9162,33 @@ http::response<http::string_body> HttpServer::handlePkiSign(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
 
         // Authorization: require pki:sign when auth is enabled
-        if (auto resp = requireAccess(req, "pki:sign", "pki.sign", "/api/pki")) return *resp;
+        if (auto resp = requireAccess(req, "pki:sign", "pki.sign", "/api/pki")) {
+          return *resp;
+        }
 
         // Extract key_id from path: /api/pki/:key_id/sign
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
         // key_id currently contains "<key_id>/sign" -> trim suffix
-        if (key_id.size() > 5 && key_id.compare(key_id.size() - 5, 5, "/sign") == 0) {
-            key_id = key_id.substr(0, key_id.size() - 5);
+        if (static_cast<int>(key_id.size()) > 5 && key_id.compare(static_cast<int>(key_id.size()) - 5, 5, "/sign") == 0) {
+            key_id = key_id.substr(0, static_cast<int>(key_id.size()) - 5);
         }
-        if (key_id.empty()) return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
+        if (key_id.empty()) {
+          return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
+        }
         if (validator_ && !validator_->validatePathSegment(key_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid key_id", req);
         }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         if (validator_) {
             if (auto err = validator_->validateJsonSchema(body, "pki_sign")) {
@@ -8495,24 +9212,32 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
 
         // Authorization: require pki:verify when auth is enabled
-        if (auto resp = requireAccess(req, "pki:verify", "pki.verify", "/api/pki")) return *resp;
+        if (auto resp = requireAccess(req, "pki:verify", "pki.verify", "/api/pki")) {
+          return *resp;
+        }
 
         // Extract key_id from path: /api/pki/:key_id/verify
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
-        if (key_id.size() > 7 && key_id.compare(key_id.size() - 7, 7, "/verify") == 0) {
-            key_id = key_id.substr(0, key_id.size() - 7);
+        if (static_cast<int>(key_id.size()) > 7 && key_id.compare(static_cast<int>(key_id.size()) - 7, 7, "/verify") == 0) {
+            key_id = key_id.substr(0, static_cast<int>(key_id.size()) - 7);
         }
-        if (key_id.empty()) return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
+        if (key_id.empty()) {
+          return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
+        }
         if (validator_ && !validator_->validatePathSegment(key_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid key_id", req);
         }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         if (validator_) {
             if (auto err = validator_->validateJsonSchema(body, "pki_verify")) {
@@ -8540,11 +9265,17 @@ http::response<http::string_body> HttpServer::handlePkiHsmSign(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:sign", "pki.hsm.sign", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:sign", "pki.hsm.sign", "/api/pki")) {
+          return *resp;
+        }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.hsmSign(body);
@@ -8562,8 +9293,12 @@ http::response<http::string_body> HttpServer::handlePkiHsmKeys(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:read", "pki.hsm.read", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:read", "pki.hsm.read", "/api/pki")) {
+          return *resp;
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.hsmListKeys();
@@ -8581,11 +9316,17 @@ http::response<http::string_body> HttpServer::handlePkiTimestamp(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:timestamp", "pki.timestamp", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:timestamp", "pki.timestamp", "/api/pki")) {
+          return *resp;
+        }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.getTimestamp(body);
@@ -8603,11 +9344,17 @@ http::response<http::string_body> HttpServer::handlePkiTimestampVerify(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:verify", "pki.timestamp.verify", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:verify", "pki.timestamp.verify", "/api/pki")) {
+          return *resp;
+        }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.verifyTimestamp(body);
@@ -8625,11 +9372,17 @@ http::response<http::string_body> HttpServer::handlePkiEidasSign(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:eidas", "pki.eidas.sign", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:eidas", "pki.eidas.sign", "/api/pki")) {
+          return *resp;
+        }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.eidasSign(body);
@@ -8647,11 +9400,17 @@ http::response<http::string_body> HttpServer::handlePkiEidasVerify(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:verify", "pki.eidas.verify", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:verify", "pki.eidas.verify", "/api/pki")) {
+          return *resp;
+        }
 
         nlohmann::json body = nlohmann::json::object();
-        if (!req.body().empty()) body = nlohmann::json::parse(req.body());
+        if (!req.body().empty()) {
+          body = nlohmann::json::parse(req.body());
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.eidasVerify(body);
@@ -8669,8 +9428,12 @@ http::response<http::string_body> HttpServer::handlePkiCertificates(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:read", "pki.certificates.read", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:read", "pki.certificates.read", "/api/pki")) {
+          return *resp;
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.listCertificates();
@@ -8688,13 +9451,19 @@ http::response<http::string_body> HttpServer::handlePkiCertificate(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:read", "pki.certificates.read", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:read", "pki.certificates.read", "/api/pki")) {
+          return *resp;
+        }
 
         // Extract cert_id from path: /api/pki/certificates/:cert_id
         auto path = std::string(req.target());
         auto cert_id = extractPathParam(path, "/api/pki/certificates/");
-        if (cert_id.empty()) return makeErrorResponse(http::status::bad_request, "Missing cert_id", req);
+        if (cert_id.empty()) {
+          return makeErrorResponse(http::status::bad_request, "Missing cert_id", req);
+        }
         if (validator_ && !validator_->validatePathSegment(cert_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid cert_id", req);
         }
@@ -8715,8 +9484,12 @@ http::response<http::string_body> HttpServer::handlePkiStatus(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
-        if (auto resp = requireAccess(req, "pki:read", "pki.status", "/api/pki")) return *resp;
+        if (!pki_api_) {
+          return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
+        }
+        if (auto resp = requireAccess(req, "pki:read", "pki.status", "/api/pki")) {
+          return *resp;
+        }
 
         auto& pki_api = *pki_api_;
         auto result = pki_api.getStatus();
@@ -8738,11 +9511,13 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
             return makeErrorResponse(http::status::service_unavailable, "Keys API not available", req);
         }
         // Parse key_id from body or query string
-        std::string key_id;
+        std::string key_id = {};
         try {
             if (!req.body().empty()) {
                 auto body = json::parse(req.body());
-                if (body.contains("key_id")) key_id = body.value("key_id", "");
+                if (body.contains("key_id")) {
+                  key_id = body.value("key_id", "");
+                }
             }
         } catch (...) {
             THEMIS_DEBUG("http_server: unhandled exception caught");
@@ -8754,7 +9529,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
             if (qpos != std::string::npos) {
                 auto qs = target.substr(qpos + 1);
                 std::istringstream iss(qs);
-                std::string kv;
+                std::string kv = {};
                 while (std::getline(iss, kv, '&')) {
                     auto eq = kv.find('=');
                     if (eq != std::string::npos) {
@@ -8790,7 +9565,9 @@ http::response<http::string_body> HttpServer::handleApiKeyCreate(
         if (!api_key_mgmt_) {
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
-        if (auto resp = requireAccess(req, "admin:all", "api_key.create", "/api/keys")) return *resp;
+        if (auto resp = requireAccess(req, "admin:all", "api_key.create", "/api/keys")) {
+          return *resp;
+        }
         if (req.body().empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
@@ -8818,7 +9595,9 @@ http::response<http::string_body> HttpServer::handleApiKeyList(
         if (!api_key_mgmt_) {
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
-        if (auto resp = requireAccess(req, "admin:all", "api_key.list", "/api/keys")) return *resp;
+        if (auto resp = requireAccess(req, "admin:all", "api_key.list", "/api/keys")) {
+          return *resp;
+        }
         auto& api_key_mgmt = *api_key_mgmt_;
         auto result = api_key_mgmt.listKeys();
         return makeResponse(http::status::ok, result.dump(), req);
@@ -8834,7 +9613,9 @@ http::response<http::string_body> HttpServer::handleApiKeyGet(
         if (!api_key_mgmt_) {
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
-        if (auto resp = requireAccess(req, "admin:all", "api_key.get", "/api/keys")) return *resp;
+        if (auto resp = requireAccess(req, "admin:all", "api_key.get", "/api/keys")) {
+          return *resp;
+        }
         auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
         if (key_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing key id", req);
@@ -8861,7 +9642,9 @@ http::response<http::string_body> HttpServer::handleApiKeyUpdate(
         if (!api_key_mgmt_) {
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
-        if (auto resp = requireAccess(req, "admin:all", "api_key.update", "/api/keys")) return *resp;
+        if (auto resp = requireAccess(req, "admin:all", "api_key.update", "/api/keys")) {
+          return *resp;
+        }
         auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
         if (key_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing key id", req);
@@ -8893,7 +9676,9 @@ http::response<http::string_body> HttpServer::handleApiKeyDelete(
         if (!api_key_mgmt_) {
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
-        if (auto resp = requireAccess(req, "admin:all", "api_key.delete", "/api/keys")) return *resp;
+        if (auto resp = requireAccess(req, "admin:all", "api_key.delete", "/api/keys")) {
+          return *resp;
+        }
         auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
         if (key_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing key id", req);
@@ -8929,11 +9714,11 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
-        json body;
+        json body = {};
         if (!req.body().empty()) {
             try { body = json::parse(req.body()); } catch (...) {
                 THEMIS_DEBUG("http_server: unhandled exception caught");
@@ -8941,12 +9726,14 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             }
         }
         // Extract client IP from X-Forwarded-For or remote endpoint
-        std::string client_ip;
+        std::string client_ip = {};
         auto fwd = req.find("X-Forwarded-For");
         if (fwd != req.end()) {
             client_ip = std::string(fwd->value());
             auto comma = client_ip.find(',');
-            if (comma != std::string::npos) client_ip = client_ip.substr(0, comma);
+            if (comma != std::string::npos) {
+              client_ip = client_ip.substr(0, comma);
+            }
             // Trim leading and trailing whitespace
             auto first = client_ip.find_first_not_of(" \t");
             auto last  = client_ip.find_last_not_of(" \t");
@@ -8976,14 +9763,16 @@ http::response<http::string_body> HttpServer::handleSessionList(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
         // Optionally accept current session from a header or query param
-        std::string current_session;
+        std::string current_session = {};
         auto cs_hdr = req.find("X-Session-Id");
-        if (cs_hdr != req.end()) current_session = std::string(cs_hdr->value());
+        if (cs_hdr != req.end()) {
+          current_session = std::string(cs_hdr->value());
+        }
         auto& session_api = *session_api_;
         auto result = session_api.listSessions(*token, current_session);
         if (result.contains("status_code")) {
@@ -9008,7 +9797,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9040,11 +9829,11 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(), auth_header.size()));
+            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
-        std::string current_session;
+        std::string current_session = {};
         if (!req.body().empty()) {
             try {
                 auto body = json::parse(req.body());
@@ -9081,13 +9870,13 @@ http::response<http::string_body> HttpServer::handleSamlLogin(
                                      "SAML provider not configured", req);
         }
         // Extract optional relay_state from query string.
-        std::string relay_state;
+        std::string relay_state = {};
         const std::string target = std::string(req.target());
         auto qpos = target.find('?');
         if (qpos != std::string::npos) {
             const std::string qs = target.substr(qpos + 1);
             std::istringstream iss(qs);
-            std::string kv;
+            std::string kv = {};
             while (std::getline(iss, kv, '&')) {
                 auto eq = kv.find('=');
                 if (eq != std::string::npos && kv.substr(0, eq) == "relay_state") {
@@ -9132,19 +9921,23 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
         // recovered from: (1) a server-side session keyed on the browser session cookie,
         // or (2) the RelayState when it encodes the request_id.  For programmatic / test
         // clients an explicit X-SAML-RequestId header is also accepted.
-        std::string saml_response_b64;
-        std::string relay_state;
+        std::string saml_response_b64 = {};
+        std::string relay_state = {};
 
         const auto& body = req.body();
         if (!body.empty()) {
             std::istringstream iss(body);
-            std::string kv;
+            std::string kv = {};
             while (std::getline(iss, kv, '&')) {
                 auto eq = kv.find('=');
-                if (eq == std::string::npos) continue;
+                if (eq == std::string::npos) {
+                  continue;
+                }
                 const auto key   = urlDecode(kv.substr(0, eq));
                 const auto value = urlDecode(kv.substr(eq + 1));
-                if (key == "SAMLResponse")  saml_response_b64 = value;
+                if (key == "SAMLResponse") {
+                  saml_response_b64 = value;
+                }
                 else if (key == "RelayState") relay_state      = value;
             }
         }
@@ -9154,7 +9947,7 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
         // Recover the original SP-initiated request_id (if any).
         // Check the X-SAML-RequestId header first (programmatic clients / proxies),
         // then fall back to an empty string (IdP-initiated flow or no validation needed).
-        std::string in_response_to;
+        std::string in_response_to = {};
         auto req_id_hdr = req.find("X-SAML-RequestId");
         if (req_id_hdr != req.end()) {
             in_response_to = std::string(req_id_hdr->value());
@@ -9179,7 +9972,7 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
             return makeErrorResponse(http::status::service_unavailable,
                                      "SAML provider not configured", req);
         }
-        std::string session_index;
+        std::string session_index = {};
         if (!req.body().empty()) {
             try {
                 auto body_json = json::parse(req.body());
@@ -9281,7 +10074,7 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
         if (qpos != std::string::npos) {
             auto qs = target.substr(qpos + 1);
             std::istringstream iss(qs);
-            std::string kv;
+            std::string kv = {};
             while (std::getline(iss, kv, '&')) {
                 auto eq = kv.find('=');
                 if (eq != std::string::npos) {
@@ -9304,7 +10097,7 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
 // -----------------------------------------------------------------------------
 http::response<http::string_body> HttpServer::handleMetrics(const http::request<http::string_body>& req) {
     try {
-        std::ostringstream out;
+        std::ostringstream out = {};
         out << "# HELP themis_content_blob_compressed_bytes_total Total bytes stored compressed for content blobs\n";
         out << "# TYPE themis_content_blob_compressed_bytes_total counter\n";
         out << "# HELP themis_content_blob_uncompressed_bytes_total Total uncompressed/original bytes observed for content blob uploads\n";
@@ -9475,7 +10268,7 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         out << "themis_wal_apply_latency_seconds_count " << wal_latency_count << "\n";
         out.unsetf(std::ios::floatfield);
 
-        std::string wal_last_lsn;
+        std::string wal_last_lsn = {};
         if (wal_api_) {
             wal_last_lsn = wal_api_->getLastAppliedLsn();
         }
@@ -9566,10 +10359,12 @@ namespace {
     static std::unordered_map<std::string, std::string> parseQuery(const std::string& target) {
         std::unordered_map<std::string, std::string> out;
         auto qpos = target.find('?');
-        if (qpos == std::string::npos) return out;
+        if (qpos == std::string::npos) {
+          return out;
+        }
         auto qs = target.substr(qpos + 1);
         std::istringstream iss(qs);
-        std::string kv;
+        std::string kv = {};
         while (std::getline(iss, kv, '&')) {
             auto eq = kv.find('=');
             std::string k = (eq == std::string::npos) ? kv : kv.substr(0, eq);
@@ -9580,7 +10375,9 @@ namespace {
     }
     // Parse ISO8601 with optional fractional seconds and timezone (Z or ±HH:MM), or epoch ms
     static int64_t parseTimeMs(const std::string& s) {
-        if (s.empty()) return 0;
+        if (s.empty()) {
+          return 0;
+        }
         bool numeric = std::all_of(s.begin(), s.end(), [](char c){ return c >= '0' && c <= '9'; });
         if (numeric) {
             try { return std::stoll(s); } catch (...) { return 0; }
@@ -9591,14 +10388,20 @@ namespace {
         tm.tm_isdst = -1;
         // Split at 'T'
         auto tpos = s.find('T');
-        if (tpos == std::string::npos) return 0;
+        if (tpos == std::string::npos) {
+          return 0;
+        }
         std::string date = s.substr(0, tpos);
         std::string rest = s.substr(tpos + 1);
         // Parse date
-        if (date.size() != 10) return 0;
+        if (static_cast<int>(date.size()) != 10) {
+          return 0;
+        }
         std::istringstream dss(date);
         dss >> std::get_time(&tm, "%Y-%m-%d");
-        if (dss.fail()) return 0;
+        if (dss.fail()) {
+          return 0;
+        }
         // Find timezone marker
         int tz_sign = 0; int tz_h = 0; int tz_m = 0;
         int64_t millis = 0;
@@ -9607,7 +10410,9 @@ namespace {
         size_t plus = rest.rfind('+');
         size_t minus = rest.rfind('-');
         size_t tzpos = std::string::npos;
-        if (zpos != std::string::npos) tzpos = zpos;
+        if (zpos != std::string::npos) {
+          tzpos = zpos;
+        }
         else if (plus != std::string::npos) tzpos = plus;
         else if (minus != std::string::npos) tzpos = (minus > 1 ? minus : std::string::npos);
         std::string timepart = (tzpos == std::string::npos) ? rest : rest.substr(0, tzpos);
@@ -9618,7 +10423,9 @@ namespace {
         char c1=':', c2=':';
         std::istringstream tss(timepart);
         tss >> H >> c1 >> M >> c2 >> S;
-        if (tss.fail() || c1 != ':' || c2 != ':') return 0;
+        if (tss.fail() || c1 != ':' || c2 != ':') {
+          return 0;
+        }
         tm.tm_hour = H; tm.tm_min = M; tm.tm_sec = static_cast<int>(S);
         millis = static_cast<int64_t>((S - tm.tm_sec) * 1000.0 + 0.5);
         // Parse timezone
@@ -9628,7 +10435,7 @@ namespace {
             else if (tz_lead == '+' || tz_lead == '-') {
                 tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
-                if (tzpart.size() >= 6 && tzpart[3] == ':') {
+                if (static_cast<int>(tzpart.size()) >= 6 && tzpart[3] == ':') {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));
@@ -9638,7 +10445,9 @@ namespace {
         }
     // Build UTC epoch seconds from tm (interpreted as UTC)
     time_t secs = portable_mkgmtime_impl(&tm);
-        if (secs == static_cast<time_t>(-1)) return 0;
+        if (secs == static_cast<time_t>(-1)) {
+          return 0;
+        }
         // Adjust for timezone offset: local time part represents wall time in given TZ
         int offset_secs = tz_sign * (tz_h * 3600 + tz_m * 60);
         int64_t epoch_ms = (static_cast<int64_t>(secs) - offset_secs) * 1000 + millis;
@@ -9650,21 +10459,37 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (auto rl = enforceAuditRateLimit(req, "/api/audit")) return *rl;
+        if (auto rl = enforceAuditRateLimit(req, "/api/audit")) {
+          return *rl;
+        }
         // Authorization: require audit:read when auth is enabled
-        if (auto resp = requireAccess(req, "audit:read", "audit.read", "/api/audit")) return *resp;
+        if (auto resp = requireAccess(req, "audit:read", "audit.read", "/api/audit")) {
+          return *resp;
+        }
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
         auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
-        if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
-        if (auto it = params.find("end"); it != params.end()) f.end_ts_ms = parseTimeMs(it->second);
-        if (auto it = params.find("user"); it != params.end()) f.user = it->second;
-        if (auto it = params.find("action"); it != params.end()) f.action = it->second;
-        if (auto it = params.find("entity_type"); it != params.end()) f.entity_type = it->second;
-        if (auto it = params.find("entity_id"); it != params.end()) f.entity_id = it->second;
+        if (auto it = params.find("start"); it != params.end()) {
+          f.start_ts_ms = parseTimeMs(it->second);
+        }
+        if (auto it = params.find("end"); it != params.end()) {
+          f.end_ts_ms = parseTimeMs(it->second);
+        }
+        if (auto it = params.find("user"); it != params.end()) {
+          f.user = it->second;
+        }
+        if (auto it = params.find("action"); it != params.end()) {
+          f.action = it->second;
+        }
+        if (auto it = params.find("entity_type"); it != params.end()) {
+          f.entity_type = it->second;
+        }
+        if (auto it = params.find("entity_id"); it != params.end()) {
+          f.entity_id = it->second;
+        }
         if (auto it = params.find("success"); it != params.end()) {
             auto v = it->second; std::transform(v.begin(), v.end(), v.begin(), ::tolower);
             f.success_only = (v == "true" || v == "1" || v == "yes");
@@ -9675,8 +10500,12 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
         if (auto it = params.find("page_size"); it != params.end()) {
             try {
                 f.page_size = std::stoi(it->second);
-                if (f.page_size < 1) f.page_size = 1;
-                if (f.page_size > 1000) f.page_size = 1000;
+                if (f.page_size < 1) {
+                  f.page_size = 1;
+                }
+                if (f.page_size > 1000) {
+                  f.page_size = 1000;
+                }
             } catch (...) {}
         }
         auto result = audit_api.queryAuditLogs(f);
@@ -9690,21 +10519,37 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (auto rl = enforceAuditRateLimit(req, "/api/audit/export/csv")) return *rl;
+        if (auto rl = enforceAuditRateLimit(req, "/api/audit/export/csv")) {
+          return *rl;
+        }
         // Authorization: require audit:read when auth is enabled
-        if (auto resp = requireAccess(req, "audit:read", "audit.read", "/api/audit/export/csv")) return *resp;
+        if (auto resp = requireAccess(req, "audit:read", "audit.read", "/api/audit/export/csv")) {
+          return *resp;
+        }
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
         auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
-        if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
-        if (auto it = params.find("end"); it != params.end()) f.end_ts_ms = parseTimeMs(it->second);
-        if (auto it = params.find("user"); it != params.end()) f.user = it->second;
-        if (auto it = params.find("action"); it != params.end()) f.action = it->second;
-        if (auto it = params.find("entity_type"); it != params.end()) f.entity_type = it->second;
-        if (auto it = params.find("entity_id"); it != params.end()) f.entity_id = it->second;
+        if (auto it = params.find("start"); it != params.end()) {
+          f.start_ts_ms = parseTimeMs(it->second);
+        }
+        if (auto it = params.find("end"); it != params.end()) {
+          f.end_ts_ms = parseTimeMs(it->second);
+        }
+        if (auto it = params.find("user"); it != params.end()) {
+          f.user = it->second;
+        }
+        if (auto it = params.find("action"); it != params.end()) {
+          f.action = it->second;
+        }
+        if (auto it = params.find("entity_type"); it != params.end()) {
+          f.entity_type = it->second;
+        }
+        if (auto it = params.find("entity_id"); it != params.end()) {
+          f.entity_id = it->second;
+        }
         if (auto it = params.find("success"); it != params.end()) {
             auto v = it->second; std::transform(v.begin(), v.end(), v.begin(), ::tolower);
             f.success_only = (v == "true" || v == "1" || v == "yes");
@@ -9715,7 +10560,9 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
         if (auto it = params.find("page_size"); it != params.end()) {
             try {
                 f.page_size = std::stoi(it->second);
-                if (f.page_size < 1) f.page_size = 1;
+                if (f.page_size < 1) {
+                  f.page_size = 1;
+                }
                 if (f.page_size > 10000) f.page_size = 10000; // allow larger for export
             } catch (...) {}
         }
@@ -9744,11 +10591,15 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
     std::string_view route_key
 ) {
     try {
-        if (audit_rate_limit_per_minute_ == 0) return std::nullopt;
+        if (audit_rate_limit_per_minute_ == 0) {
+          return std::nullopt;
+        }
         // Determine bucket key: Authorization header if present, else "anon"
         std::string key = std::string(route_key) + ":";
         const auto auth_header = req[http::field::authorization];
-        if (!auth_header.empty()) key += std::string(auth_header); else key += "anon";
+        if (!auth_header.empty()) {
+          key += std::string(auth_header); else key += "anon";
+        }
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now()).time_since_epoch().count();
         const uint64_t window_ms = 60ull * 1000ull;
@@ -9759,7 +10610,7 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
             // Triggered on each access — erases entries whose window expired more than
             // one full window ago (i.e., at least 2 × window_ms in the past).
-            if (audit_rate_buckets_.size() > 128) {
+            if (static_cast<int>(audit_rate_buckets_.size()) > 128) {
                 const uint64_t evict_cutoff = now - 2 * window_ms;
                 for (auto bucket_it = audit_rate_buckets_.begin();
                      bucket_it != audit_rate_buckets_.end(); ) {
@@ -9812,7 +10663,9 @@ http::response<http::string_body> HttpServer::handleConfig(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
         if (req.method() == http::verb::post) {
             if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
                 if (audit_logger_) {
@@ -9821,7 +10674,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                     entry["resource"] = "config";
                     entry["action"]   = "config.write";
                     entry["path"]     = path_only;
-                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                    try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                 }
                 return *resp;
             }
@@ -9831,7 +10684,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                 entry["resource"] = "config";
                 entry["action"]   = "config.write";
                 entry["path"]     = path_only;
-                try { audit_logger_->logEvent(entry); } catch (...) {}
+                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
             }
         } else {
             if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
@@ -9841,7 +10694,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                     entry["resource"] = "config";
                     entry["action"]   = "config.read";
                     entry["path"]     = path_only;
-                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                    try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                 }
                 return *resp;
             }
@@ -9870,14 +10723,14 @@ http::response<http::string_body> HttpServer::handleConfig(
                         nlohmann::json entry;
                         entry["event"]        = "logging_level_updated";
                         entry["level"]        = lvl;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: logging.level set to {}", lvl);
                 }
                 // format
                 if (lg.contains("format")) {
                     auto fmt = lg["format"].get<std::string>();
-                    std::string pattern;
+                    std::string pattern = {};
                     if (fmt == "json") {
                         // Minimal JSON line pattern
                         pattern = "{\"ts\":\"%Y-%m-%dT%H:%M:%S.%e\",\"level\":\"%l\",\"thread\":%t,\"msg\":\"%v\"}";
@@ -9890,7 +10743,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         nlohmann::json entry;
                         entry["event"]        = "logging_format_updated";
                         entry["format"]       = fmt;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: logging.format set to {}", fmt);
                 }
@@ -9908,7 +10761,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         nlohmann::json entry;
                         entry["event"]        = "request_timeout_updated";
                         entry["timeout_ms"]   = timeout;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
@@ -9917,7 +10770,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]        = "request_timeout_invalid";
                         entry["requested_ms"] = timeout;
                         entry["valid_range"]  = "1000-300000";
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
                 }
@@ -9935,7 +10788,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "semantic_cache";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_semantic_cache set to {}", enabled);
                 }
@@ -9947,7 +10800,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "llm_store";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_llm_store set to {}", enabled);
                 }
@@ -9959,7 +10812,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "cdc";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_cdc set to {}", enabled);
                 }
@@ -9971,7 +10824,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "feature_flag_updated";
                         entry["feature"]    = "timeseries";
                         entry["enabled"]    = enabled;
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     THEMIS_INFO("Hot-reload: feature_timeseries set to {}", enabled);
                 }
@@ -9989,7 +10842,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                         entry["event"]      = "config_cdc_retention_invalid";
                         entry["requested_hours"] = hours;
                         entry["valid_range"] = "1-8760";
-                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                     }
                     return makeErrorResponse(http::status::bad_request, "cdc_retention_hours must be 1-8760", req);
                 }
@@ -10003,7 +10856,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                     nlohmann::json entry;
                     entry["event"]      = "config_cdc_retention_updated";
                     entry["retention_hours"] = hours;
-                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                    try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
                 }
                 THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} and retention policy enabled", hours);
             }
@@ -10091,7 +10944,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     res.prepare_payload();
         return res;
     }
-    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -10111,7 +10964,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
         entry["user_id"]    = ar.user_id;
         entry["authorized"] = ar.authorized;
         entry["reason"]     = ar.reason;
-        try { audit_logger_->logEvent(entry); } catch (...) {}
+        try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
     }
     if (!ar.authorized) {
         http::response<http::string_body> res{http::status::forbidden, req.version()};
@@ -10136,7 +10989,9 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     // If auth is disabled and no policy engine configured, allow
     bool auth_enabled = (auth_ && auth_->isEnabled());
     bool policy_enabled = (policy_engine_ != nullptr);
-    if (!auth_enabled && !policy_enabled) return std::nullopt;
+    if (!auth_enabled && !policy_enabled) {
+      return std::nullopt;
+    }
 
     // Normalize resource path (strip query string) if empty passed
     std::string resource = std::string(resource_path);
@@ -10144,7 +10999,9 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         resource = std::string(req.target());
     }
     auto qpos = resource.find('?');
-    if (qpos != std::string::npos) resource = resource.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      resource = resource.substr(0, qpos);
+    }
 
     // 1) Scope-based authorization (if auth enabled)
     std::string user_id = "";
@@ -10161,7 +11018,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             return res;
         }
         // Authorization header presence validated
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -10183,7 +11040,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["user_id"]    = vres.user_id;
                 entry["authorized"] = vres.authorized;
                 entry["reason"]     = vres.reason;
-                try { audit_logger_->logEvent(entry); } catch (...) {}
+                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
             }
         } catch (...) {}
         auto ar = auth_->authorize(*token, required_scope);
@@ -10226,20 +11083,23 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["user_id"]    = user_id;
                 entry["resource"]   = resource;
                 entry["action"]     = action;
-                try { audit_logger_->logEvent(entry); } catch (...) {}
+                try { audit_logger_->logEvent([[maybe_unused]] entry); } catch (...) {}
             }
             return std::nullopt;
         }
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
-        std::optional<std::string> client_ip;
+        std::optional<std::string> client_ip = {};
+
         for (const auto& h : req) {
             auto name = h.name_string();
             if (beast::iequals(name, "x-forwarded-for")) {
                 std::string v = std::string(h.value());
                 // take first value before ','
                 auto comma = v.find(',');
-                if (comma != std::string::npos) v = v.substr(0, comma);
+                if (comma != std::string::npos) {
+                  v = v.substr(0, comma);
+                }
                 // trim spaces
                 auto start = v.find_first_not_of(" \t");
                 auto end = v.find_last_not_of(" \t");
@@ -10262,7 +11122,9 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.set(http::field::content_type, "application/json");
             res.keep_alive(req.keep_alive());
             nlohmann::json j = {{"error","policy_denied"},{"message",decision.reason}};
-            if (!decision.policy_id.empty()) j["policy_id"] = decision.policy_id;
+            if (!decision.policy_id.empty()) {
+              j["policy_id"] = decision.policy_id;
+            }
             res.body() = j.dump();
             applyGovernanceHeaders(req, res);
             res.prepare_payload();
@@ -10289,7 +11151,7 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -10327,7 +11189,9 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     std::string target = std::string(req.target());
     std::string path_only = target;
     auto qpos = path_only.find('?');
-    if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      path_only = path_only.substr(0, qpos);
+    }
     const std::string prefix = "/pii/reveal/";
     if (path_only.rfind(prefix, 0) != 0) {
         return makeErrorResponse(http::status::bad_request, "Invalid path", req);
@@ -10351,7 +11215,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -10400,16 +11264,21 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     // Policy check (if configured)
     if (policy_engine_) {
         // Extract client IP (X-Forwarded-For or X-Real-IP)
-        std::optional<std::string> client_ip;
+        std::optional<std::string> client_ip = {};
+
         for (const auto& h : req) {
             auto name = h.name_string();
             if (beast::iequals(name, "x-forwarded-for")) {
                 std::string v = std::string(h.value());
                 auto comma = v.find(',');
-                if (comma != std::string::npos) v = v.substr(0, comma);
+                if (comma != std::string::npos) {
+                  v = v.substr(0, comma);
+                }
                 auto s = v.find_first_not_of(" \t");
                 auto e = v.find_last_not_of(" \t");
-                if (s != std::string::npos) client_ip = v.substr(s, e - s + 1);
+                if (s != std::string::npos) {
+                  client_ip = v.substr(s, e - s + 1);
+                }
                 break;
             } else if (beast::iequals(name, "x-real-ip")) {
                 client_ip = std::string(h.value());
@@ -10428,7 +11297,9 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
                 {"error", "policy_denied"},
                 {"message", decision.reason},
             };
-            if (!decision.policy_id.empty()) j["policy_id"] = decision.policy_id;
+            if (!decision.policy_id.empty()) {
+              j["policy_id"] = decision.policy_id;
+            }
             res.body() = j.dump();
             applyGovernanceHeaders(req, res);
             res.prepare_payload();
@@ -10474,12 +11345,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
         if (pos != std::string::npos) {
             auto val = query.substr(pos + 5);
             auto amp = val.find('&'); if (amp != std::string::npos) val = val.substr(0, amp);
-            if (val == "hard") mode = "hard";
+            if (val == "hard") {
+              mode = "hard";
+            }
         }
     }
 
     // Authorization: require pii:write or admin (erase is a write operation)
-    std::string user_id;
+    std::string user_id = {};
     if (auth_ && auth_->isEnabled()) {
         const auto auth_header = req[http::field::authorization];
         if (auth_header.empty()) {
@@ -10491,7 +11364,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -10540,16 +11413,21 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
 
     // Policy check
     if (policy_engine_) {
-        std::optional<std::string> client_ip;
+        std::optional<std::string> client_ip = {};
+
         for (const auto& h : req) {
             auto name = h.name_string();
             if (beast::iequals(name, "x-forwarded-for")) {
                 std::string v = std::string(h.value());
                 auto comma = v.find(',');
-                if (comma != std::string::npos) v = v.substr(0, comma);
+                if (comma != std::string::npos) {
+                  v = v.substr(0, comma);
+                }
                 auto s = v.find_first_not_of(" \t");
                 auto e = v.find_last_not_of(" \t");
-                if (s != std::string::npos) client_ip = v.substr(s, e - s + 1);
+                if (s != std::string::npos) {
+                  client_ip = v.substr(s, e - s + 1);
+                }
                 break;
             } else if (beast::iequals(name, "x-real-ip")) {
                 client_ip = std::string(h.value());
@@ -10562,7 +11440,9 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.set(http::field::content_type, "application/json");
             res.keep_alive(req.keep_alive());
             nlohmann::json j = {{"error","policy_denied"},{"message",decision.reason}};
-            if (!decision.policy_id.empty()) j["policy_id"] = decision.policy_id;
+            if (!decision.policy_id.empty()) {
+              j["policy_id"] = decision.policy_id;
+            }
             res.body() = j.dump();
             res.prepare_payload();
             return res;
@@ -10607,19 +11487,23 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     }
 
     // Authorization: require scope pii:read or admin
-    if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) {
+      return *unauth;
+    }
     auto& pii_api = *pii_api_;
 
     // Parse query params
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string query = (qpos == std::string::npos) ? std::string() : target.substr(qpos + 1);
-    auto getParam = [&](const std::string& key) -> std::string {
+    auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
-        auto val = query.substr(pos + key.size() + 1);
+        auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
         auto amp = val.find('&');
-        if (amp != std::string::npos) val = val.substr(0, amp);
+        if (amp != std::string::npos) {
+          val = val.substr(0, amp);
+        }
         return val;
     };
     themis::server::PiiQueryFilter filter;
@@ -10627,8 +11511,12 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     filter.pseudonym = getParam("pseudonym");
     filter.active_only = (getParam("active_only") == "true");
     try {
-        if (!getParam("page").empty()) filter.page = std::stoi(getParam("page"));
-        if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
+        if (!getParam("page").empty()) {
+          filter.page = std::stoi(getParam("page"));
+        }
+        if (!getParam("page_size").empty()) {
+          filter.page_size = std::stoi(getParam("page_size"));
+        }
     } catch (...) {}
 
     auto js = pii_api.listMappings(filter);
@@ -10644,7 +11532,9 @@ http::response<http::string_body> HttpServer::handlePiiCreateMapping(
     if (req.method() != http::verb::post) {
         return makeErrorResponse(http::status::method_not_allowed, "Method not allowed", req);
     }
-    if (auto unauth = requireScope(req, "pii:write"); unauth.has_value()) return *unauth;
+    if (auto unauth = requireScope(req, "pii:write"); unauth.has_value()) {
+      return *unauth;
+    }
     auto& pii_api = *pii_api_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -10670,7 +11560,9 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
     if (!config_.feature_pii_manager || !pii_api_) {
         return makeErrorResponse(http::status::not_found, "Feature 'pii_manager' disabled", req);
     }
-    if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) {
+      return *unauth;
+    }
     auto& pii_api = *pii_api_;
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
@@ -10684,7 +11576,9 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
         return makeErrorResponse(http::status::bad_request, "Invalid UUID", req);
     }
     auto m = pii_api.getMapping(uuid);
-    if (!m) return makeErrorResponse(http::status::not_found, "PII mapping not found", req);
+    if (!m) {
+      return makeErrorResponse(http::status::not_found, "PII mapping not found", req);
+    }
     return makeResponse(http::status::ok, m->toJson().dump(), req);
 }
 
@@ -10694,18 +11588,22 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     if (!config_.feature_pii_manager || !pii_api_) {
         return makeErrorResponse(http::status::not_found, "Feature 'pii_manager' disabled", req);
     }
-    if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) {
+      return *unauth;
+    }
     auto& pii_api = *pii_api_;
     // Reuse list parsing
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string query = (qpos == std::string::npos) ? std::string() : target.substr(qpos + 1);
-    auto getParam = [&](const std::string& key) -> std::string {
+    auto getParam = [&]([[maybe_unused]] const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
-        auto val = query.substr(pos + key.size() + 1);
+        auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
         auto amp = val.find('&');
-        if (amp != std::string::npos) val = val.substr(0, amp);
+        if (amp != std::string::npos) {
+          val = val.substr(0, amp);
+        }
         return val;
     };
     themis::server::PiiQueryFilter filter;
@@ -10713,8 +11611,12 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     filter.pseudonym = getParam("pseudonym");
     filter.active_only = (getParam("active_only") == "true");
     try {
-        if (!getParam("page").empty()) filter.page = std::stoi(getParam("page"));
-        if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
+        if (!getParam("page").empty()) {
+          filter.page = std::stoi(getParam("page"));
+        }
+        if (!getParam("page_size").empty()) {
+          filter.page_size = std::stoi(getParam("page_size"));
+        }
     } catch (...) {}
 
     std::string csv = pii_api.exportCsv(filter);
@@ -10911,7 +11813,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata
     try {
         // Extract ID from path: /llm/interaction/{id}/metadata or /llm/interaction/{id}
         std::string target(req.target());
-        std::string id;
+        std::string id = {};
         
         // Remove /llm/interaction/ prefix
         static constexpr const char* LLM_INTERACTION_PREFIX = "/llm/interaction/";
@@ -10975,16 +11877,36 @@ void HttpServer::recordPageFetch(std::chrono::milliseconds duration_ms) {
     uint64_t ms = static_cast<uint64_t>(duration_ms.count());
     // Cumulative buckets: each bucket counts all values <= its upper bound
     // Buckets: 1ms, 5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1000ms, 5000ms, +Inf
-    if (ms <= 1) page_bucket_1ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 5) page_bucket_5ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 10) page_bucket_10ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 25) page_bucket_25ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 50) page_bucket_50ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 100) page_bucket_100ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 250) page_bucket_250ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 500) page_bucket_500ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 1000) page_bucket_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    if (ms <= 5000) page_bucket_5000ms_.fetch_add(1, std::memory_order_relaxed);
+    if (ms <= 1) {
+      page_bucket_1ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 5) {
+      page_bucket_5ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 10) {
+      page_bucket_10ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 25) {
+      page_bucket_25ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 50) {
+      page_bucket_50ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 100) {
+      page_bucket_100ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 250) {
+      page_bucket_250ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 500) {
+      page_bucket_500ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 1000) {
+      page_bucket_1000ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (ms <= 5000) {
+      page_bucket_5000ms_.fetch_add(1, std::memory_order_relaxed);
+    }
     // +Inf bucket always increments (cumulative count of all observations)
     page_bucket_inf_.fetch_add(1, std::memory_order_relaxed);
     page_sum_ms_.fetch_add(ms, std::memory_order_relaxed);
@@ -11010,9 +11932,13 @@ http::response<http::string_body> HttpServer::handleGetContent(
         }
         auto& content_manager = *content_manager_;
         auto id = extractPathParam(std::string(req.target()), "/content/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
+        if (id.empty()) {
+          return makeErrorResponse(http::status::bad_request, "Missing content id", req);
+        }
         auto meta = content_manager.getContentMeta(id);
-        if (!meta) return makeErrorResponse(http::status::not_found, "Content not found", req);
+        if (!meta) {
+          return makeErrorResponse(http::status::not_found, "Content not found", req);
+        }
         return makeResponse(http::status::ok, meta->toJson().dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -11032,12 +11958,16 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
         // path format: /content/{id}/blob
         auto prefix = std::string("/content/");
         auto pos = path.find("/blob");
-        if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        if (pos == std::string::npos) {
+          return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
     auto auth_ctx = extractAuthContext(req);
     std::string user_ctx = auth_ctx.user_id;
     auto blob = content_manager.getContentBlob(id, user_ctx);
-        if (!blob) return makeErrorResponse(http::status::not_found, "Blob not found", req);
+        if (!blob) {
+          return makeErrorResponse(http::status::not_found, "Blob not found", req);
+        }
         auto meta = content_manager.getContentMeta(id);
         std::string mime = (meta ? meta->mime_type : std::string("application/octet-stream"));
 
@@ -11068,18 +11998,22 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
         // path format: /content/{id}/chunks
         auto prefix = std::string("/content/");
         auto pos = path.find("/chunks");
-        if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
-        auto id = path.substr(prefix.size(), pos - prefix.size());
+        if (pos == std::string::npos) {
+          return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
         auto chunks = content_manager.getContentChunks(id);
         json arr = json::array();
         arr.get_ref<json::array_t&>().reserve(chunks.size());
         for (const auto& c : chunks) {
             json j = c.toJson();
             // For response size, omit full embedding by default
-            if (j.contains("embedding")) j["embedding"] = json::array();
+            if (j.contains("embedding")) {
+              j["embedding"] = json::array();
+            }
             arr.push_back(std::move(j));
         }
-        json resp = { {"count", chunks.size()}, {"chunks", std::move(arr)} };
+        json resp = { {"count",static_cast<int>(chunks.size())}, {"chunks", std::move(arr)} };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -11090,7 +12024,9 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!content_manager_) return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        if (!content_manager_) {
+          return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
         auto& content_manager = *content_manager_;
         json body = json::parse(req.body());
         std::string query = body.value("query", "");
@@ -11100,8 +12036,12 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
             hops = body["expand"].value("hops", 1);
         }
         json filters = json::object();
-        if (body.contains("filters")) filters = body["filters"];
-        if (body.contains("scoring")) filters["scoring"] = body["scoring"];
+        if (body.contains("filters")) {
+          filters = body["filters"];
+        }
+        if (body.contains("scoring")) {
+          filters["scoring"] = body["scoring"];
+        }
 
         auto results = content_manager.searchWithExpansion(query, k, hops, filters);
         json resp = json::array();
@@ -11110,7 +12050,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
             resp.push_back({{"pk", pk}, {"score", score}});
         }
         json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp}
         };
         return makeResponse(http::status::ok, out.dump(), req);
@@ -11126,7 +12066,9 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        if (!secondary_index_) {
+          return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        }
         auto& secondary_index = *secondary_index_;
         
         json body = json::parse(req.body());
@@ -11171,7 +12113,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         }
         
         json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"results", resp},
             {"table", table},
             {"column", column},
@@ -11194,9 +12136,13 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
+        if (!secondary_index_) {
+          return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
+        }
         auto& secondary_index = *secondary_index_;
-        if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
+        if (!vector_index_) {
+          return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
+        }
         
         json body = json::parse(req.body());
         
@@ -11239,7 +12185,8 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
                 return makeErrorResponse(http::status::bad_request, "vector_query must be array of floats", req);
             }
             
-            std::vector<float> vectorQuery;
+            std::vector<float> vectorQuery = {};
+
             vectorQuery.reserve(body["vector_query"].size());
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
@@ -11270,8 +12217,9 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         if (fusionMode == "rrf") {
             // Reciprocal Rank Fusion: score = sum(1 / (k + rank))
             int kRrf = body.value("k_rrf", 60);
-            std::unordered_map<std::string, double> scores;
-            scores.reserve(textResults.size() + vectorResults.size());
+            std::unordered_map<std::string, double> scores = {};
+
+            scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
 
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
@@ -11309,8 +12257,9 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             double vecMax = vectorResults.empty() ? 1.0 : vectorResults.back().distance;
             double vecRange = (vecMax - vecMin) > 1e-9 ? (vecMax - vecMin) : 1.0;
             
-            std::unordered_map<std::string, double> scores;
-            scores.reserve(textResults.size() + vectorResults.size());
+            std::unordered_map<std::string, double> scores = {};
+
+            scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
             
             // Text contributions
             for (const auto& res : textResults) {
@@ -11341,7 +12290,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         }
         
         // Limit to top-k
-        if (fusedResults.size() > static_cast<size_t>(k)) {
+        if (static_cast<int>(fusedResults.size()) > static_cast<size_t>(k)) {
             fusedResults.resize(k);
         }
         
@@ -11356,7 +12305,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         }
         
         json out = {
-            {"count", resp.size()},
+            {"count",static_cast<int>(resp.size())},
             {"fusion_mode", fusionMode},
             {"table", table},
             {"results", resp}
@@ -11390,7 +12339,7 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
 
     try {
         auto v = storage_->get("config:content_filter_schema");
-        json resp;
+        json resp = {};
         if (v) {
             std::string s(v->begin(), v->end());
             resp = json::parse(s);
@@ -11421,7 +12370,9 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
         std::string s = body.dump();
         std::vector<uint8_t> bytes(s.begin(), s.end());
         bool ok = storage_->put("config:content_filter_schema", bytes);
-        if (!ok) return makeErrorResponse(http::status::internal_server_error, "Failed to store filter schema", req);
+        if (!ok) {
+          return makeErrorResponse(http::status::internal_server_error, "Failed to store filter schema", req);
+        }
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
@@ -11442,7 +12393,7 @@ http::response<http::string_body> HttpServer::handleContentConfigGet(
     
     try {
         auto v = storage_->get("config:content");
-        json resp;
+        json resp = {};
         if (v) {
             std::string s(v->begin(), v->end());
             resp = json::parse(s);
@@ -11571,7 +12522,7 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
 
     try {
         auto v = storage_->get("config:edge_weights");
-        json resp;
+        json resp = {};
         if (v) {
             std::string s(v->begin(), v->end());
             resp = json::parse(s);
@@ -11608,7 +12559,9 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
         std::string s = body.dump();
         std::vector<uint8_t> bytes(s.begin(), s.end());
         bool ok = storage_->put("config:edge_weights", bytes);
-        if (!ok) return makeErrorResponse(http::status::internal_server_error, "Failed to store edge weights", req);
+        if (!ok) {
+          return makeErrorResponse(http::status::internal_server_error, "Failed to store edge weights", req);
+        }
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
@@ -11627,8 +12580,12 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaGet(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+          return *resp;
+        }
     }
 
     if (!storage_) {
@@ -11666,8 +12623,12 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) return *resp;
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
+        if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+          return *resp;
+        }
     }
 
     if (!storage_) {
@@ -11690,7 +12651,9 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
                     "Collection config for '" + collection_name + "' must be an object", req);
             }
             
-            if (!collection_config.contains("encryption")) continue;
+            if (!collection_config.contains("encryption")) {
+              continue;
+            }
             
             auto& enc = collection_config["encryption"];
             if (!enc.is_object()) {
@@ -11808,7 +12771,9 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
                     config.stopwords_enabled = configObj.value("stopwords_enabled", false);
                     if (configObj.contains("stopwords") && configObj["stopwords"].is_array()) {
                         for (const auto& s : configObj["stopwords"]) {
-                            if (s.is_string()) config.stopwords.push_back(s.get<std::string>());
+                            if (s.is_string()) {
+                              config.stopwords.push_back(s.get<std::string>());
+                            }
                         }
                     }
                     config.normalize_umlauts = configObj.value("normalize_umlauts", false);
@@ -11846,7 +12811,8 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
             if (!body["columns"].is_array() || body["columns"].empty()) {
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
-            std::vector<std::string> columns;
+            std::vector<std::string> columns = {};
+
             columns.reserve(body["columns"].size());
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());
@@ -11942,13 +12908,13 @@ http::response<http::string_body> HttpServer::makePreflightResponse(
     const http::request<http::string_body>& req
 ) {
     // Determine request origin
-    std::string origin;
+    std::string origin = {};
     if (auto it = req.find(http::field::origin); it != req.end()) {
         origin = std::string(it->value());
     }
 
     // Decide allowed origin
-    std::string allow_origin;
+    std::string allow_origin = {};
     if (cors_allow_all_) {
         allow_origin = "*";
     } else if (!origin.empty()) {
@@ -11956,7 +12922,9 @@ http::response<http::string_body> HttpServer::makePreflightResponse(
         for (const auto& o : cors_allowed_origins_) {
             if (o == origin) { allowed = true; break; }
         }
-        if (allowed) allow_origin = origin;
+        if (allowed) {
+          allow_origin = origin;
+        }
     }
 
     // If not allowed, respond 403 without exposing CORS headers
@@ -12008,7 +12976,9 @@ void HttpServer::applyGovernanceHeaders(
     auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
     std::string path_only = std::string(req.target());
     auto qpos = path_only.find('?');
-    if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      path_only = path_only.substr(0, qpos);
+    }
 
     // Read incoming hints
     std::string classification = ""; // offen | geheim | streng-geheim | vs-nfd
@@ -12027,14 +12997,18 @@ void HttpServer::applyGovernanceHeaders(
     }
     // Resource-based default classification if none provided
     if (classification.empty()) {
-        if (path_only.rfind("/admin", 0) == 0) classification = "vs-nfd"; else classification = "offen";
+        if (path_only.rfind("/admin", 0) == 0) {
+          classification = "vs-nfd"; else classification = "offen";
+        }
     }
     // Normalize/validate known values
     if (classification != "offen" && classification != "geheim" && classification != "streng-geheim" && classification != "vs-nfd") {
         // Unknown classification -> leave policy header but choose restrictive defaults
         classification = classification; // keep text in summary if provided
     }
-    if (mode != "observe" && mode != "enforce") mode = "observe";
+    if (mode != "observe" && mode != "enforce") {
+      mode = "observe";
+    }
 
     // Derive header values from classification
     std::string ann = (vector_index_ ? std::string("allowed") : std::string("disabled"));
@@ -12080,7 +13054,7 @@ void HttpServer::applyGovernanceHeaders(
         static const APIVersionManager api_version_mgr;
 
         // Determine requested version from Accept-Version or API-Version request header
-        std::string version_header;
+        std::string version_header = {};
         auto av_it = req.find(APIHeaders::ACCEPT_VERSION);
         if (av_it != req.end()) {
             version_header = std::string(av_it->value());
@@ -12133,13 +13107,13 @@ void HttpServer::applyGovernanceHeaders(
     // CORS Headers
     // ------------------------------------------------------------------------
     // Determine origin
-    std::string origin;
+    std::string origin = {};
     auto it = req.find(http::field::origin);
     if (it != req.end()) {
         origin = std::string(it->value());
     }
 
-    auto set_cors_common = [&](const std::string& allow_origin) {
+    auto set_cors_common = [&]([[maybe_unused]] const std::string& allow_origin) {
         res.set("Access-Control-Allow-Origin", allow_origin);
         // Preserve existing Vary if already set (e.g., by preflight)
         if (res.find(http::field::vary) == res.end()) {
@@ -12185,16 +13159,36 @@ void HttpServer::recordLatency(std::chrono::microseconds duration) {
     latency_sum_us_.fetch_add(us, std::memory_order_relaxed);
     // Cumulative buckets: each bucket counts all values <= its upper bound
     // Buckets: 100us, 500us, 1ms, 5ms, 10ms, 50ms, 100ms, 500ms, 1s, 5s, +Inf
-    if (us <= 100) latency_bucket_100us_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 500) latency_bucket_500us_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 1000) latency_bucket_1ms_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 5000) latency_bucket_5ms_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 10000) latency_bucket_10ms_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 50000) latency_bucket_50ms_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 100000) latency_bucket_100ms_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 500000) latency_bucket_500ms_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 1000000) latency_bucket_1s_.fetch_add(1, std::memory_order_relaxed);
-    if (us <= 5000000) latency_bucket_5s_.fetch_add(1, std::memory_order_relaxed);
+    if (us <= 100) {
+      latency_bucket_100us_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 500) {
+      latency_bucket_500us_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 1000) {
+      latency_bucket_1ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 5000) {
+      latency_bucket_5ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 10000) {
+      latency_bucket_10ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 50000) {
+      latency_bucket_50ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 100000) {
+      latency_bucket_100ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 500000) {
+      latency_bucket_500ms_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 1000000) {
+      latency_bucket_1s_.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (us <= 5000000) {
+      latency_bucket_5s_.fetch_add(1, std::memory_order_relaxed);
+    }
     // +Inf bucket always increments (cumulative count of all observations)
     latency_bucket_inf_.fetch_add(1, std::memory_order_relaxed);
 }
@@ -12272,7 +13266,9 @@ void HttpServer::Session::armReadTimer() {
     // Load the live (hot-reloadable) timeout atomically to prevent data race
     // with the POST /config hot-reload path that writes request_timeout_ms_live_.
     const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
-    if (timeout_ms == 0) return;
+    if (timeout_ms == 0) {
+      return;
+    }
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
@@ -12364,12 +13360,12 @@ void HttpServer::Session::processRequest() {
                                             ? ws_target
                                             : ws_target.substr(0, ws_qpos);
 
-            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+            if ([[maybe_unused]] api::WsChangeHandler::isChangeStreamPath(ws_path)) {
                 // Dedicated /v2/changes endpoint: validate auth and CDC params
                 // before accepting the WebSocket handshake.
                 api::WsChangeHandler ws_handler(server_->auth_,
                                                 server_->changefeed_.get());
-                const auto decision = ws_handler.validate(request_);
+                const auto decision = ws_handler.validate([[maybe_unused]] request_);
                 if (!decision.should_upgrade) {
                     THEMIS_WARN("WebSocket /v2/changes rejected ({}): {}",
                                 static_cast<int>(decision.reject_status),
@@ -12409,7 +13405,7 @@ void HttpServer::Session::processRequest() {
             // Validate JWT from the HTTP upgrade Authorization header before
             // accepting the WebSocket handshake so that auth cannot be bypassed
             // via the WebSocket upgrade path.
-            std::string ws_auth_token;
+            std::string ws_auth_token = {};
             if (server_->auth_ && server_->auth_->isEnabled()) {
                 const auto auth_header = request_[http::field::authorization];
                 if (auth_header.empty()) {
@@ -12423,7 +13419,7 @@ void HttpServer::Session::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_header.data(), auth_header.size()));
+                    std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -12449,7 +13445,9 @@ void HttpServer::Session::processRequest() {
             // Capture the request path before moving the request
             std::string ws_path = std::string(request_.target());
             auto qs = ws_path.find('?');
-            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
+            if (qs != std::string::npos) {
+              ws_path = ws_path.substr(0, qs);
+            }
 
             // Create WebSocket session and transfer socket ownership
             auto ws_session = std::make_shared<WebSocketSession>(
@@ -12588,7 +13586,9 @@ void HttpServer::SslSession::armReadTimer() {
     // Load the live (hot-reloadable) timeout atomically to prevent data race
     // with the POST /config hot-reload path that writes request_timeout_ms_live_.
     const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
-    if (timeout_ms == 0) return;
+    if (timeout_ms == 0) {
+      return;
+    }
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
@@ -12714,12 +13714,12 @@ void HttpServer::SslSession::processRequest() {
                                             ? ws_target
                                             : ws_target.substr(0, ws_qpos);
 
-            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+            if ([[maybe_unused]] api::WsChangeHandler::isChangeStreamPath(ws_path)) {
                 // Dedicated /v2/changes endpoint: validate auth and CDC params
                 // before accepting the WebSocket handshake.
                 api::WsChangeHandler ws_handler(server_->auth_,
                                                 server_->changefeed_.get());
-                const auto decision = ws_handler.validate(request_);
+                const auto decision = ws_handler.validate([[maybe_unused]] request_);
                 if (!decision.should_upgrade) {
                     THEMIS_WARN("WebSocket /v2/changes (TLS) rejected ({}): {}",
                                 static_cast<int>(decision.reject_status),
@@ -12758,7 +13758,7 @@ void HttpServer::SslSession::processRequest() {
 
             // Validate JWT from the HTTP upgrade Authorization header before
             // accepting the WebSocket handshake.
-            std::string ws_auth_token;
+            std::string ws_auth_token = {};
             if (server_->auth_ && server_->auth_->isEnabled()) {
                 const auto auth_header = request_[http::field::authorization];
                 if (auth_header.empty()) {
@@ -12772,7 +13772,7 @@ void HttpServer::SslSession::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_header.data(), auth_header.size()));
+                    std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -12798,7 +13798,9 @@ void HttpServer::SslSession::processRequest() {
             // Capture the request path before moving the request
             std::string ws_path = std::string(request_.target());
             auto qs = ws_path.find('?');
-            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
+            if (qs != std::string::npos) {
+              ws_path = ws_path.substr(0, qs);
+            }
             
             // Create WebSocket session and transfer SSL stream ownership
             auto ws_session = std::make_shared<WebSocketSession>(
@@ -12937,8 +13939,8 @@ http::response<http::string_body> HttpServer::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string table;
-        std::string column;
+        std::string table = {};
+        std::string column = {};
 
         // Try parsing JSON body first
         if (!req.body().empty()) {
@@ -12959,16 +13961,22 @@ http::response<http::string_body> HttpServer::handleIndexStats(
                 std::string query = target.substr(query_start + 1);
                 // Simple query parser: table=X&column=Y
                 size_t pos = 0;
-                while (pos < query.size()) {
+                while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
                     size_t eq = query.find('=', pos);
-                    if (eq == std::string::npos) break;
+                    if (eq == std::string::npos) {
+                      break;
+                    }
                     size_t amp = query.find('&', eq);
-                    if (amp == std::string::npos) amp = query.size();
+                    if (amp == std::string::npos) {
+                      amp = query.size();
+                    }
                     
                     std::string key = query.substr(pos, eq - pos);
                     std::string value = query.substr(eq + 1, amp - eq - 1);
                     
-                    if (key == "table") table = value;
+                    if (key == "table") {
+                      table = value;
+                    }
                     else if (key == "column") column = value;
                     
                     pos = amp + 1;
@@ -13077,7 +14085,7 @@ http::response<http::string_body> HttpServer::handleIndexReindex(
         json resp = {
             {"success", true},
             {"table", table},
-            {"indexes_rebuilt", all_stats.size()}
+            {"indexes_rebuilt",static_cast<int>(all_stats.size())}
         };
         
         // Include stats for each index
@@ -13118,7 +14126,7 @@ http::response<http::string_body> HttpServer::handleIndexSuggestions(
         auto target = std::string(req.target());
         
         // Parse query parameters
-        std::string collection;
+        std::string collection = {};
         double min_score = 0.5;
         size_t limit = 10;
         
@@ -13127,7 +14135,7 @@ http::response<http::string_body> HttpServer::handleIndexSuggestions(
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
             std::istringstream iss(query_string);
-            std::string param;
+            std::string param = {};
             
             while (std::getline(iss, param, '&')) {
                 auto eq_pos = param.find('=');
@@ -13176,7 +14184,7 @@ http::response<http::string_body> HttpServer::handleIndexPatterns(
         auto target = std::string(req.target());
         
         // Parse collection from query params
-        std::string collection;
+        std::string collection = {};
         auto query_pos = target.find('?');
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
@@ -13328,13 +14336,13 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     auto& rate_limiter = *rate_limiter_;
     
     std::string client_ip = extractClientIP(req);
-    std::string user_id;
+    std::string user_id = {};
     
     // Extract user ID from JWT token if authenticated
     if (auth_ && auth_->isEnabled()) {
         if (req.find("Authorization") != req.end()) {
             std::string auth_header = std::string(req["Authorization"]);
-            if (auth_header.size() > 7 && auth_header.substr(0, 7) == "Bearer ") {
+            if (static_cast<int>(auth_header.size()) > 7 && auth_header.substr(0, 7) == "Bearer ") {
                 std::string token = auth_header.substr(7);
                 auto ctx = auth_->extractContext(token);
                 if (ctx) {
@@ -13351,7 +14359,9 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
             std::string path = std::string(req.target());
             // Strip query string for path matching
             auto qpos = path.find('?');
-            if (qpos != std::string::npos) path = path.substr(0, qpos);
+            if (qpos != std::string::npos) {
+              path = path.substr(0, qpos);
+            }
 
             // Use authenticated user ID when available, otherwise fall back to IP
             const std::string& client_key = user_id.empty() ? client_ip : user_id;
@@ -13880,7 +14890,9 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     // Sort by path for consistent, reproducible output
     std::sort(endpoints.begin(), endpoints.end(),
         [](const RegisteredEndpoint& a, const RegisteredEndpoint& b) {
-            if (a.path != b.path) return a.path < b.path;
+            if (a.path != b.path) {
+              return a.path < b.path;
+            }
             // Secondary sort by method for same path
             return a.method < b.method;
         });
@@ -13900,7 +14912,7 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
         
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
         handler_req.path = target_str;
         handler_req.query = query_params;
         handler_req.params = nlohmann::json::object();
@@ -13908,7 +14920,7 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
         
         // Call handler
         server::Response handler_res;
-        if (!error_api_handler_) {
+        if ([[maybe_unused]] !error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -13932,17 +14944,19 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         std::string target_str = std::string(req.target());
         std::string path_only = target_str;
         auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (qpos != std::string::npos) {
+          path_only = path_only.substr(0, qpos);
+        }
         
         // Extract error code from path: /api/v1/errors/:code
-        std::string code_str;
+        std::string code_str = {};
         if (path_only.rfind("/api/v1/errors/", 0) == 0) {
             code_str = path_only.substr(std::string("/api/v1/errors/").size());
         }
         
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
         handler_req.path = target_str;
         handler_req.query = nlohmann::json::object();
         handler_req.params = nlohmann::json::object();
@@ -13951,7 +14965,7 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         
         // Call handler
         server::Response handler_res;
-        if (!error_api_handler_) {
+        if ([[maybe_unused]] !error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -13974,15 +14988,15 @@ http::response<http::string_body> HttpServer::handleErrorApiCategories(
     try {
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string(http::to_string(req.method()));
-        handler_req.path = std::string(req.target());
+        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
+        handler_req.path = std::string([[maybe_unused]] req.target());
         handler_req.query = nlohmann::json::object();
         handler_req.params = nlohmann::json::object();
         handler_req.body = nlohmann::json::object();
         
         // Call handler
         server::Response handler_res;
-        if (!error_api_handler_) {
+        if ([[maybe_unused]] !error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -14009,7 +15023,7 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
         
         // Create Request object for handler
         server::Request handler_req;
-        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
         handler_req.path = target_str;
         handler_req.query = query_params;
         handler_req.params = nlohmann::json::object();
@@ -14017,7 +15031,7 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
         
         // Call handler
         server::Response handler_res;
-        if (!error_api_handler_) {
+        if ([[maybe_unused]] !error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
         auto& error_api_handler = *error_api_handler_;
@@ -14041,45 +15055,45 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
 http::response<http::string_body> HttpServer::handleSchemaGetFull(
     const http::request<http::string_body>& req
 ) {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetSchema(req);
+    return schema_api_handler.handleGetSchema([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTables(
     const http::request<http::string_body>& req
 ) {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetTables(req);
+    return schema_api_handler.handleGetTables([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTable(
     const http::request<http::string_body>& req
 ) {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetTable(req);
+    return schema_api_handler.handleGetTable([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPut(
     const http::request<http::string_body>& req
 ) {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handlePutSchema(req);
+    auto response = schema_api_handler.handlePutSchema([[maybe_unused]] req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -14091,12 +15105,12 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
 http::response<http::string_body> HttpServer::handleSchemaPatch(
     const http::request<http::string_body>& req
 ) {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handlePatchSchema(req);
+    auto response = schema_api_handler.handlePatchSchema([[maybe_unused]] req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -14112,78 +15126,78 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
 http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetInformationSchema(req);
+    return schema_api_handler.handleGetInformationSchema([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetStats(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetStats(req);
+    return schema_api_handler.handleGetStats([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataCollectStats(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleCollectStats(req);
+    return schema_api_handler.handleCollectStats([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetConstraints(req);
+    return schema_api_handler.handleGetConstraints([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetIndexRecommendations(req);
+    return schema_api_handler.handleGetIndexRecommendations([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetVersionHistory(req);
+    return schema_api_handler.handleGetVersionHistory([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handleCreateVersion(req);
+    auto response = schema_api_handler.handleCreateVersion([[maybe_unused]] req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -14195,34 +15209,34 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
 http::response<http::string_body> HttpServer::handleSchemaDiff(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetDiff(req);
+    return schema_api_handler.handleGetDiff([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataAuditLog(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetAuditLog(req);
+    return schema_api_handler.handleGetAuditLog([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    auto response = schema_api_handler.handleSchemaImport(req);
+    auto response = schema_api_handler.handleSchemaImport([[maybe_unused]] req);
     if (continuous_learning_orchestrator_
         && response.result_int() >= 200
         && response.result_int() < 300) {
@@ -14234,34 +15248,34 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleBatchConstraintValidation(req);
+    return schema_api_handler.handleBatchConstraintValidation([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleGetColumnLineage(req);
+    return schema_api_handler.handleGetColumnLineage([[maybe_unused]] req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
     const http::request<http::string_body>& req)
 {
-    if (!schema_api_handler_) {
+    if ([[maybe_unused]] !schema_api_handler_) {
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleRecordLineageDerivation(req);
+    return schema_api_handler.handleRecordLineageDerivation([[maybe_unused]] req);
 }
 
 // ── ContentFS HTTP handlers ─────────────────────────────────────────────────
@@ -14274,9 +15288,13 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
 static std::string extractContentFsPk(const http::request<http::string_body>& req) {
     std::string path = std::string(req.target());
     auto qpos = path.find('?');
-    if (qpos != std::string::npos) path = path.substr(0, qpos);
+    if (qpos != std::string::npos) {
+      path = path.substr(0, qpos);
+    }
     // prefix is "/api/v1/content/fs/"  (19 chars)
-    if (path.size() > 19) return path.substr(19);
+    if (static_cast<int>(path.size()) > 19) {
+      return path.substr(19);
+    }
     return {};
 }
 
@@ -14296,7 +15314,9 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
     const std::string body_str = req.body();
     const std::vector<uint8_t> data(body_str.begin(), body_str.end());
     std::string mime = std::string(req[http::field::content_type]);
-    if (mime.empty()) mime = "application/octet-stream";
+    if (mime.empty()) {
+      mime = "application/octet-stream";
+    }
 
     // Optional SHA-256 hint via X-Content-SHA256 header
     std::optional<std::string> sha256_hint;
@@ -14313,8 +15333,10 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
             result.error().message(), req);
     }
 
-    json body = {{"pk", pk}, {"size", data.size()}, {"mime", mime}};
-    if (sha256_hint) body["sha256"] = *sha256_hint;
+    json body = {{"pk", pk}, {"size",static_cast<int>(data.size())}, {"mime", mime}};
+    if (sha256_hint) {
+      body["sha256"] = *sha256_hint;
+    }
     return makeResponse(http::status::created, body.dump(), req);
 }
 
@@ -14378,7 +15400,9 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
     // Retrieve MIME via head() for correct Content-Type
     auto meta_result = content_fs.head(pk);
     std::string mime = "application/octet-stream";
-    if (meta_result) mime = meta_result.value().mime;
+    if (meta_result) {
+      mime = meta_result.value().mime;
+    }
 
     http::response<http::string_body> resp{http::status::ok, req.version()};
     resp.set(http::field::server, "ThemisDB");
@@ -14447,7 +15471,7 @@ void HttpServer::setContinuousQueryEngine(
     continuous_query_engine_ = engine;
     if (engine) {
         continuous_query_api_ =
-            std::make_unique<themis::server::ContinuousQueryApiHandler>(std::move(engine));
+            std::make_unique<themis::server::ContinuousQueryApiHandler>([[maybe_unused]] std::move(engine));
         THEMIS_INFO("ContinuousQueryEngine wired — CQL REST/SSE endpoints active "
                     "at /v1/queries/continuous");
     } else {

@@ -63,7 +63,7 @@ public:
     /// @brief Result of a vector index operation; carries ok/error state and message.
     struct Status {
         bool ok = true;
-        std::string message;
+        std::string message = {};
         /// @brief Returns a successful Status.
         static Status OK() { return {}; }
         /// @brief Returns an error Status with the given message.
@@ -303,7 +303,7 @@ public:
     #endif
     /// @brief Extended attribute filter with range, set, and comparison operators for pre-filtering via SecondaryIndex.
     struct AttributeFilterV2 {
-        std::string field;
+        std::string field = {};
         enum class Op { 
             EQUALS,           // field == value
             NOT_EQUALS,       // field != value

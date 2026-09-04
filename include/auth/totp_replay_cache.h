@@ -119,7 +119,7 @@ public:
 
 private:
     struct UsedCode {
-        std::string code;
+        std::string code = {};
         std::chrono::system_clock::time_point used_at;
     };
     

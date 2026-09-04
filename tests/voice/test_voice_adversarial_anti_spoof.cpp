@@ -137,10 +137,12 @@ std::vector<uint8_t> generateNoisyLiveAudioSample(size_t num_samples = 16000) {
  * Creates a realistic speaker embedding (32-dimensional vector)
  */
 std::string generateSpeakerBaseline() {
-    std::string baseline;
+    std::string baseline = {};
     for (int i = 0; i < 32; ++i) {
         double value = (std::rand() % 1000) / 1000.0;
-        if (i > 0) baseline += ",";
+        if (i > 0) {
+          baseline += ",";
+        }
         baseline += std::to_string(value).substr(0, 6);
     }
     return baseline;
@@ -152,10 +154,12 @@ std::string generateSpeakerBaseline() {
  * Creates a different speaker embedding for mismatch testing
  */
 std::string generateMismatchedSpeakerBaseline() {
-    std::string baseline;
+    std::string baseline = {};
     for (int i = 0; i < 32; ++i) {
         double value = (std::rand() % 1000) / 1000.0 + 0.5;  // Shifted values
-        if (i > 0) baseline += ",";
+        if (i > 0) {
+          baseline += ",";
+        }
         baseline += std::to_string(std::fmod(value, 1.0)).substr(0, 6);
     }
     return baseline;
@@ -308,7 +312,8 @@ TEST(VoiceAdversarialAntiSpoof, test_malformed_audio_rejected) {
  */
 TEST(VoiceAdversarialAntiSpoof, test_silent_audio_rejected) {
     // Create nearly-silent audio (very low RMS energy)
-    std::vector<uint8_t> silent_audio;
+    std::vector<uint8_t> silent_audio = {};
+
     for (size_t i = 0; i < 16000; ++i) {
         int16_t tiny_sample = static_cast<int16_t>((std::rand() % 10) - 5);
         silent_audio.push_back(tiny_sample & 0xFF);
@@ -336,7 +341,8 @@ TEST(VoiceAdversarialAntiSpoof, test_silent_audio_rejected) {
  */
 TEST(VoiceAdversarialAntiSpoof, test_clipped_audio_detected) {
     // Create clipped audio (constant maximum values)
-    std::vector<uint8_t> clipped_audio;
+    std::vector<uint8_t> clipped_audio = {};
+
     for (size_t i = 0; i < 16000; ++i) {
         int16_t clipped_sample = 32767;  // Maximum value (saturation)
         clipped_audio.push_back(clipped_sample & 0xFF);

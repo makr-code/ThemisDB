@@ -159,7 +159,7 @@ public:
                 // Launch kernel
                 if (useL2) {
                     q.parallel_for(sycl::range<2>(numQueries, numVectors),
-                        [=](sycl::id<2> idx) {
+                        [=]([[maybe_unused]] sycl::id<2> idx) {
                             const size_t qi = idx[0];
                             const size_t vi = idx[1];
                             float sum = 0.0f;
@@ -172,7 +172,7 @@ public:
                         }).wait_and_throw();
                 } else {
                     q.parallel_for(sycl::range<2>(numQueries, numVectors),
-                        [=](sycl::id<2> idx) {
+                        [=]([[maybe_unused]] sycl::id<2> idx) {
                             const size_t qi = idx[0];
                             const size_t vi = idx[1];
                             float dotProduct = 0.0f;

@@ -90,7 +90,8 @@ static void BGPU_CategoryA_TopK_CPUBaseline(benchmark::State& state) {
         score = dist(rng);
     }
 
-    std::vector<float> working;
+    std::vector<float> working = {};
+
     working.reserve(scores.size());
 
     for (auto _ : state) {

@@ -195,7 +195,8 @@ TEST(CryptoHardening, ErrorContextCategoryIsCrypto) {
 // CH-12: HKDFCache thread-local accessor does not crash
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(CryptoHardening, HKDFCacheThreadLocalDoesNotCrash) {
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([]() {
             auto& cache = HKDFCache::threadLocal();
@@ -205,5 +206,7 @@ TEST(CryptoHardening, HKDFCacheThreadLocalDoesNotCrash) {
             EXPECT_EQ(key.size(), 32u);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 }

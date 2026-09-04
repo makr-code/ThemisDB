@@ -40,12 +40,12 @@ TaskAuditManager::TaskAuditManager(
                 config_.enable_anomaly_detection);
 }
 
-AnomalyMetrics TaskAuditManager::logAuditEvent(const TaskAuditEvent& event) {
+AnomalyMetrics TaskAuditManager::logAuditEvent([[maybe_unused]] const TaskAuditEvent& event) {
     AnomalyMetrics anomaly_metrics;
     
     // Perform anomaly detection first (if enabled)
     if (config_.enable_anomaly_detection && anomaly_detector_) {
-        anomaly_metrics = anomaly_detector_->recordExecution(event);
+        anomaly_metrics = anomaly_detector_->recordExecution([[maybe_unused]] event);
         
         // Create a mutable copy to add anomaly metrics
         TaskAuditEvent event_with_anomaly = event;
@@ -58,13 +58,13 @@ AnomalyMetrics TaskAuditManager::logAuditEvent(const TaskAuditEvent& event) {
         
         // Log to audit logger
         if (config_.enable_audit_logging) {
-            writeToAuditLog(event_with_anomaly);
-            cacheAuditEvent(event_with_anomaly);
+            writeToAuditLog([[maybe_unused]] event_with_anomaly);
+            cacheAuditEvent([[maybe_unused]] event_with_anomaly);
         }
         
         // Trigger audit event callback
-        if (config_.on_audit_event) {
-            config_.on_audit_event(event_with_anomaly);
+        if ([[maybe_unused]] config_.on_audit_event) {
+            config_.on_audit_event([[maybe_unused]] event_with_anomaly);
         }
         
         return anomaly_metrics;
@@ -72,27 +72,27 @@ AnomalyMetrics TaskAuditManager::logAuditEvent(const TaskAuditEvent& event) {
     
     // No anomaly detection - just log the event
     if (config_.enable_audit_logging) {
-        writeToAuditLog(event);
-        cacheAuditEvent(event);
+        writeToAuditLog([[maybe_unused]] event);
+        cacheAuditEvent([[maybe_unused]] event);
     }
     
-    if (config_.on_audit_event) {
-        config_.on_audit_event(event);
+    if ([[maybe_unused]] config_.on_audit_event) {
+        config_.on_audit_event([[maybe_unused]] event);
     }
     
     return anomaly_metrics;
 }
 
-void TaskAuditManager::logSecurityEvent(const TaskSecurityEvent& event) {
+void TaskAuditManager::logSecurityEvent([[maybe_unused]] const TaskSecurityEvent& event) {
     if (!config_.enable_security_logging) {
         return;
     }
     
-    writeToSecurityLog(event);
-    cacheSecurityEvent(event);
+    writeToSecurityLog([[maybe_unused]] event);
+    cacheSecurityEvent([[maybe_unused]] event);
     
-    if (config_.on_security_event) {
-        config_.on_security_event(event);
+    if ([[maybe_unused]] config_.on_security_event) {
+        config_.on_security_event([[maybe_unused]] event);
     }
     
     THEMIS_WARN("Security event logged: {} - {} (severity={})",
@@ -101,7 +101,7 @@ void TaskAuditManager::logSecurityEvent(const TaskSecurityEvent& event) {
                 event.severity);
 }
 
-void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
+void TaskAuditManager::writeToAuditLog([[maybe_unused]] const TaskAuditEvent& event) {
     // Write to dedicated task audit log
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -119,12 +119,12 @@ void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
     if (audit_logger_) {
         nlohmann::json audit_entry;
         audit_entry["category"] = "TASK_EXECUTION";
-        audit_entry["event"] = event.toJson(config_.enable_gdpr_mode);
-        audit_logger_->logEvent(audit_entry);
+        audit_entry["event"] = event.toJson([[maybe_unused]] config_.enable_gdpr_mode);
+        audit_logger_->logEvent([[maybe_unused]] audit_entry);
     }
 }
 
-void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
+void TaskAuditManager::writeToSecurityLog([[maybe_unused]] const TaskSecurityEvent& event) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
     try {
@@ -152,23 +152,23 @@ void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
     }
 }
 
-void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
+void TaskAuditManager::cacheAuditEvent([[maybe_unused]] const TaskAuditEvent& event) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
-    recent_audit_events_.push_back(event);
+    recent_audit_events_.push_back([[maybe_unused]] event);
     
     // Limit cache size
-    if (recent_audit_events_.size() > MAX_CACHE_SIZE) {
+    if ([[maybe_unused]] static_cast<int>(recent_audit_events_.size()) > MAX_CACHE_SIZE) {
         recent_audit_events_.pop_front();
     }
 }
 
-void TaskAuditManager::cacheSecurityEvent(const TaskSecurityEvent& event) {
+void TaskAuditManager::cacheSecurityEvent([[maybe_unused]] const TaskSecurityEvent& event) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
-    recent_security_events_.push_back(event);
+    recent_security_events_.push_back([[maybe_unused]] event);
     
-    if (recent_security_events_.size() > MAX_CACHE_SIZE) {
+    if ([[maybe_unused]] static_cast<int>(recent_security_events_.size()) > MAX_CACHE_SIZE) {
         recent_security_events_.pop_front();
     }
 }
@@ -176,55 +176,55 @@ void TaskAuditManager::cacheSecurityEvent(const TaskSecurityEvent& event) {
 bool TaskAuditManager::matchesQuery(const TaskAuditEvent& event, 
                                     const AuditQueryParams& params) const {
     // Time range filter
-    if (params.start_time && event.timestamp < *params.start_time) {
+    if ([[maybe_unused]] params.start_time && event.timestamp < *params.start_time) {
         return false;
     }
-    if (params.end_time && event.timestamp > *params.end_time) {
+    if ([[maybe_unused]] params.end_time && event.timestamp > *params.end_time) {
         return false;
     }
     
     // Task ID filter
-    if (params.task_id && event.task_id != *params.task_id) {
+    if ([[maybe_unused]] params.task_id && event.task_id != *params.task_id) {
         return false;
     }
     
     // User ID filter
-    if (params.user_id && event.user_id != *params.user_id) {
+    if ([[maybe_unused]] params.user_id && event.user_id != *params.user_id) {
         return false;
     }
     
     // Event type filter
-    if (params.event_type && event.event_type != *params.event_type) {
+    if ([[maybe_unused]] params.event_type && event.event_type != *params.event_type) {
         return false;
     }
     
     // Trigger type filter
-    if (params.trigger_type && event.trigger_type != *params.trigger_type) {
+    if ([[maybe_unused]] params.trigger_type && event.trigger_type != *params.trigger_type) {
         return false;
     }
     
     // Success filter
-    if (params.success && event.success != *params.success) {
+    if ([[maybe_unused]] params.success && event.success != *params.success) {
         return false;
     }
     
     // Anomalous only filter
-    if (params.anomalous_only && *params.anomalous_only && !event.anomaly_metrics.is_anomalous) {
+    if ([[maybe_unused]] params.anomalous_only && *params.anomalous_only && !event.anomaly_metrics.is_anomalous) {
         return false;
     }
     
     return true;
 }
 
-std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents(const AuditQueryParams& params) const {
+std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents([[maybe_unused]] const AuditQueryParams& params) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskAuditEvent> results;
     
     // Query from in-memory cache first
-    for (const auto& event : recent_audit_events_) {
+    for ([[maybe_unused]] const auto& event : recent_audit_events_) {
         if (matchesQuery(event, params)) {
-            results.push_back(event);
+            results.push_back([[maybe_unused]] event);
         }
     }
     
@@ -261,18 +261,18 @@ std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents(const AuditQueryP
     }
     
     // Apply pagination
-    if (results.size() > params.offset) {
+    if (static_cast<int>(results.size()) > params.offset) {
         results.erase(results.begin(), results.begin() + params.offset);
     } else {
         results.clear();
     }
     
-    if (results.size() > params.limit) {
+    if (static_cast<int>(results.size()) > params.limit) {
         results.resize(params.limit);
     }
     
     // Respect max query results limit
-    if (results.size() > config_.max_query_results) {
+    if (static_cast<int>(results.size()) > config_.max_query_results) {
         results.resize(config_.max_query_results);
     }
     
@@ -286,8 +286,9 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
     std::vector<TaskAuditEvent> results;
     
     // Build a set of UUIDs already in the results to avoid duplicates with cache
-    std::unordered_set<std::string> seen_uuids;
-    for (const auto& cached : recent_audit_events_) {
+    std::unordered_set<std::string> seen_uuids = {};
+
+    for ([[maybe_unused]] const auto& cached : recent_audit_events_) {
         seen_uuids.insert(cached.uuid);
     }
     
@@ -302,9 +303,11 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
             return results;
         }
         
-        std::string line;
-        while (std::getline(ifs, line) && results.size() < read_limit) {
-            if (line.empty()) continue;
+        std::string line = {};
+        while (std::getline(ifs, line) && static_cast<int>(results.size()) < read_limit) {
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = nlohmann::json::parse(line);
                 
@@ -312,7 +315,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                 event.uuid = j.value("uuid", "");
                 
                 // Skip events already present in the in-memory cache
-                if (!event.uuid.empty() && seen_uuids.count(event.uuid)) {
+                if ([[maybe_unused]] !event.uuid.empty() && seen_uuids.count(event.uuid)) {
                     continue;
                 }
                 
@@ -329,8 +332,8 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                 event.duration_ms = j.value("duration_ms", 0.0);
                 event.success = j.value("success", false);
                 
-                if (j.contains("event_type")) {
-                    event.event_type = taskEventTypeFromString(j["event_type"].get<std::string>());
+                if ([[maybe_unused]] j.contains("event_type")) {
+                    event.event_type = taskEventTypeFromString([[maybe_unused]] j["event_type"].get<std::string>());
                 }
                 event.trigger_type = j.value("trigger_type", "");
                 
@@ -379,8 +382,8 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                 
                 // Check if matches query; insert UUID before move so it's always valid
                 if (matchesQuery(event, params)) {
-                    seen_uuids.insert(event.uuid);
-                    results.push_back(std::move(event));
+                    seen_uuids.insert([[maybe_unused]] event.uuid);
+                    results.push_back([[maybe_unused]] std::move(event));
                 }
                 
             } catch (...) {
@@ -395,30 +398,30 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
     return results;
 }
 
-std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const AuditQueryParams& params) const {
+std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents([[maybe_unused]] const AuditQueryParams& params) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskSecurityEvent> results;
     
     // Query from in-memory cache
-    for (const auto& event : recent_security_events_) {
+    for ([[maybe_unused]] const auto& event : recent_security_events_) {
         bool matches = true;
         
-        if (params.start_time && event.timestamp < *params.start_time) {
+        if ([[maybe_unused]] params.start_time && event.timestamp < *params.start_time) {
             matches = false;
         }
-        if (params.end_time && event.timestamp > *params.end_time) {
+        if ([[maybe_unused]] params.end_time && event.timestamp > *params.end_time) {
             matches = false;
         }
-        if (params.task_id && event.task_id != *params.task_id) {
+        if ([[maybe_unused]] params.task_id && event.task_id != *params.task_id) {
             matches = false;
         }
-        if (params.user_id && event.user_id != *params.user_id) {
+        if ([[maybe_unused]] params.user_id && event.user_id != *params.user_id) {
             matches = false;
         }
         
         if (matches) {
-            results.push_back(event);
+            results.push_back([[maybe_unused]] event);
         }
     }
     
@@ -428,13 +431,13 @@ std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const Audit
     results.insert(results.end(), file_results.begin(), file_results.end());
     
     // Apply pagination
-    if (results.size() > params.offset) {
+    if (static_cast<int>(results.size()) > params.offset) {
         results.erase(results.begin(), results.begin() + params.offset);
     } else {
         results.clear();
     }
     
-    if (results.size() > params.limit) {
+    if (static_cast<int>(results.size()) > params.limit) {
         results.resize(params.limit);
     }
     
@@ -448,8 +451,9 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
     std::vector<TaskSecurityEvent> results;
     
     // Build a set of UUIDs already in the cache to avoid duplicates
-    std::unordered_set<std::string> seen_uuids;
-    for (const auto& cached : recent_security_events_) {
+    std::unordered_set<std::string> seen_uuids = {};
+
+    for ([[maybe_unused]] const auto& cached : recent_security_events_) {
         seen_uuids.insert(cached.uuid);
     }
     
@@ -463,9 +467,11 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
             return results;
         }
         
-        std::string line;
-        while (std::getline(ifs, line) && results.size() < read_limit) {
-            if (line.empty()) continue;
+        std::string line = {};
+        while (std::getline(ifs, line) && static_cast<int>(results.size()) < read_limit) {
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto j = nlohmann::json::parse(line);
                 
@@ -473,7 +479,7 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
                 event.uuid = j.value("uuid", "");
                 
                 // Skip events already in cache
-                if (!event.uuid.empty() && seen_uuids.count(event.uuid)) {
+                if ([[maybe_unused]] !event.uuid.empty() && seen_uuids.count(event.uuid)) {
                     continue;
                 }
                 
@@ -506,23 +512,23 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
                 
                 // Apply filters
                 bool matches = true;
-                if (params.start_time && event.timestamp < *params.start_time) {
+                if ([[maybe_unused]] params.start_time && event.timestamp < *params.start_time) {
                     matches = false;
                 }
-                if (params.end_time && event.timestamp > *params.end_time) {
+                if ([[maybe_unused]] params.end_time && event.timestamp > *params.end_time) {
                     matches = false;
                 }
-                if (params.task_id && event.task_id != *params.task_id) {
+                if ([[maybe_unused]] params.task_id && event.task_id != *params.task_id) {
                     matches = false;
                 }
-                if (params.user_id && event.user_id != *params.user_id) {
+                if ([[maybe_unused]] params.user_id && event.user_id != *params.user_id) {
                     matches = false;
                 }
                 
                 // Insert UUID before move so it's always valid
                 if (matches) {
-                    seen_uuids.insert(event.uuid);
-                    results.push_back(std::move(event));
+                    seen_uuids.insert([[maybe_unused]] event.uuid);
+                    results.push_back([[maybe_unused]] std::move(event));
                 }
                 
             } catch (...) {
@@ -540,9 +546,9 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
 size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
                                           const std::string& output_path,
                                           ExportFormat format) const {
-    auto events = queryAuditEvents(params);
+    auto events = queryAuditEvents([[maybe_unused]] params);
     
-    if (events.empty()) {
+    if ([[maybe_unused]] events.empty()) {
         return 0;
     }
     
@@ -560,22 +566,22 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
         switch (format) {
             case ExportFormat::JSON: {
                 nlohmann::json j = nlohmann::json::array();
-                for (const auto& event : events) {
-                    j.push_back(event.toJson(config_.enable_gdpr_mode));
+                for ([[maybe_unused]] const auto& event : events) {
+                    j.push_back([[maybe_unused]] event.toJson(config_.enable_gdpr_mode));
                 }
                 ofs << j.dump(2);
                 break;
             }
             
             case ExportFormat::JSONL: {
-                for (const auto& event : events) {
+                for ([[maybe_unused]] const auto& event : events) {
                     ofs << event.toJson(config_.enable_gdpr_mode).dump() << "\n";
                 }
                 break;
             }
             
             case ExportFormat::CEF: {
-                for (const auto& event : events) {
+                for ([[maybe_unused]] const auto& event : events) {
                     ofs << event.toCEF() << "\n";
                 }
                 break;
@@ -587,7 +593,7 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
                     << "Success,Duration(ms),CPUTime(ms),Memory(bytes),AnomalyScore,ErrorMessage\n";
                 
                 // CSV rows
-                for (const auto& event : events) {
+                for ([[maybe_unused]] const auto& event : events) {
                     auto ts = std::chrono::duration_cast<std::chrono::milliseconds>(
                         event.timestamp.time_since_epoch()).count();
                     
@@ -613,7 +619,7 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
         THEMIS_INFO("Exported {} audit events to {} (format={})",
                    events.size(), output_path, static_cast<int>(format));
         
-        return events.size();
+        return static_cast<int>(events.size());
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to export audit events: {}", e.what());
@@ -645,8 +651,8 @@ bool TaskAuditManager::hasAnomalies(const std::string& task_id) const {
     
     // Check recent events for anomalies
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    for (const auto& event : recent_audit_events_) {
-        if (event.task_id == task_id && event.anomaly_metrics.is_anomalous) {
+    for ([[maybe_unused]] const auto& event : recent_audit_events_) {
+        if ([[maybe_unused]] event.task_id == task_id && event.anomaly_metrics.is_anomalous) {
             return true;
         }
     }
@@ -698,20 +704,20 @@ void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
 }
 
 // GAP 1 FIX: Immutable audit log enforcement with HMAC
-std::string TaskAuditManager::generateAuditEntryHMAC(const TaskAuditEvent& event) const {
+std::string TaskAuditManager::generateAuditEntryHMAC([[maybe_unused]] const TaskAuditEvent& event) const {
     if (!config_.enable_audit_hmac) {
         return "";
     }
     
     // Serialize event data for HMAC calculation
     // Use deterministic JSON encoding (sorted keys)
-    nlohmann::json j = event.toJson(false);  // Don't mask for HMAC calculation
+    nlohmann::json j = event.toJson([[maybe_unused]] false);  // Don't mask for HMAC calculation
     std::string data = j.dump();
     
-    if (config_.audit_hmac_key.size() > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
-        data.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+    if (static_cast<int>(config_.audit_hmac_key.size()) > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
+        static_cast<int>(data.size()) > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
         THEMIS_ERROR("TaskAuditManager: HMAC input too large (key_size={}, data_size={})",
-                     config_.audit_hmac_key.size(), data.size());
+                     config_.audit_hmac_key.size(),static_cast<int>(data.size()));
         return "";
     }
 
@@ -725,7 +731,7 @@ std::string TaskAuditManager::generateAuditEntryHMAC(const TaskAuditEvent& event
          hash, &hash_len);
     
     // Convert to hex string
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (unsigned int i = 0; i < hash_len; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -739,7 +745,7 @@ bool TaskAuditManager::verifyAuditEntryIntegrity(const TaskAuditEvent& event,
         return true;  // HMAC verification disabled or not stored
     }
     
-    std::string calculated_hmac = generateAuditEntryHMAC(event);
+    std::string calculated_hmac = generateAuditEntryHMAC([[maybe_unused]] event);
     
     if (calculated_hmac != stored_hmac) {
         THEMIS_ERROR("TaskAuditManager: HMAC verification failed for event {} "
@@ -773,9 +779,11 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
                 return 0;
             }
             
-            std::string line;
+            std::string line = {};
             while (std::getline(ifs, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 
                 try {
                     auto j = nlohmann::json::parse(line);
@@ -786,7 +794,7 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
                             std::chrono::milliseconds(ts_ms));
                         
                         // Keep entries newer than cutoff
-                        if (event_time >= cutoff_time) {
+                        if ([[maybe_unused]] event_time >= cutoff_time) {
                             lines_to_keep.push_back(line);
                         } else {
                             removed_count++;
@@ -822,7 +830,7 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
         }
         
         THEMIS_INFO("TaskAuditManager: retention policy enforced (removed={}, kept={})",
-                   removed_count, lines_to_keep.size());
+                   removed_count,static_cast<int>(lines_to_keep.size()));
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("TaskAuditManager: failed to enforce retention policy: {}", e.what());
@@ -844,13 +852,15 @@ size_t TaskAuditManager::detectAndRecoverCorruption() {
             return 0;
         }
         
-        std::string line;
+        std::string line = {};
         size_t line_num = 0;
         
         while (std::getline(ifs, line)) {
             line_num++;
             
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 auto j = nlohmann::json::parse(line);
@@ -904,7 +914,7 @@ size_t TaskAuditManager::detectAndRecoverCorruption() {
             
             THEMIS_INFO("TaskAuditManager: corruption recovery completed "
                        "(corruption_count={}, recovered={})",
-                       corruption_count, valid_lines.size());
+                       corruption_count,static_cast<int>(valid_lines.size()));
         }
         
     } catch (const std::exception& e) {

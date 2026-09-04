@@ -121,7 +121,7 @@ void GPUTrainingLoop::setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer) {
                  trainer ? trainer->is_enabled() : false);
 }
 
-void GPUTrainingLoop::registerCallback(GPUTrainingCallback callback) {
+void GPUTrainingLoop::registerCallback([[maybe_unused]] GPUTrainingCallback callback) {
     callback_ = callback;
 }
 
@@ -297,7 +297,7 @@ void GPUTrainingLoop::initializeOptimizer() {
     
     optimizer_->add_parameters(params);
     
-    spdlog::info("Optimizer initialized with {} parameters", params.size());
+    spdlog::info("Optimizer initialized with {} parameters",static_cast<int>(params.size()));
 }
 
 void GPUTrainingLoop::initializeMemoryManagement() {
@@ -400,7 +400,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     spdlog::info("  Estimated compute overhead: {:.1f}%", compute_overhead);
 }
 
-float GPUTrainingLoop::trainEpoch(int epoch) {
+float GPUTrainingLoop::trainEpoch([[maybe_unused]] int epoch) {
     current_metrics_.current_epoch = epoch + 1;
     
     data_loader_->reset();
@@ -662,8 +662,8 @@ void GPUTrainingLoop::updateMetrics(int epoch, int step, float loss) {
     current_metrics_.progress = static_cast<float>(step) / 
                                 static_cast<float>(current_metrics_.total_steps);
     
-    if (callback_) {
-        callback_(current_metrics_);
+    if ([[maybe_unused]] callback_) {
+        callback_([[maybe_unused]] current_metrics_);
     }
 }
 
@@ -691,7 +691,7 @@ GPUTensor createEmbeddingsOnGPU(
 ) {
     // Get batch size and sequence length from token_ids shape
     auto shape = token_ids.shape();
-    if (shape.size() < 2) {
+    if (static_cast<int>(shape.size()) < 2) {
         throw std::invalid_argument("token_ids must be at least 2D (batch_size, seq_len)");
     }
     
@@ -1056,7 +1056,7 @@ float computeFusedMSELossGradientGPU(
         
         float sum = 0.0f;
         std::vector<float> grad_data(pred_data.size());
-        float scale = 2.0f / pred_data.size();
+        float scale = 2.0f / static_cast<float>(pred_data.size());
         
         for (size_t i = 0; i < pred_data.size(); ++i) {
             float diff = pred_data[i] - target_data[i];
@@ -1065,7 +1065,7 @@ float computeFusedMSELossGradientGPU(
         }
         
         grad_output.upload(grad_data);
-        return sum / pred_data.size();
+        return static_cast<bool>(sum / static_cast<float < static_cast<int>((pred_data.size())));
 #endif
     } else {
         // CPU fallback or other backends
@@ -1074,7 +1074,7 @@ float computeFusedMSELossGradientGPU(
         
         float sum = 0.0f;
         std::vector<float> grad_data(pred_data.size());
-        float scale = 2.0f / pred_data.size();
+        float scale = 2.0f / static_cast<float>(pred_data.size());
         
         for (size_t i = 0; i < pred_data.size(); ++i) {
             float diff = pred_data[i] - target_data[i];

@@ -127,7 +127,7 @@ namespace {
 std::string makeExpectedSnapshotId(const std::string& relay_id,
                                    std::size_t interaction_index)
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << relay_id << ':' << std::setw(10) << std::setfill('0') << interaction_index;
     return oss.str();
 }

@@ -66,7 +66,7 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -102,7 +102,7 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
 
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(), auth_header.size())
+        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
     );
     if (!token) {
         // Malformed or missing Bearer token -> 401 Unauthorized
@@ -126,7 +126,7 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
 }
 
 std::string BpmnApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
-    if (target.size() <= prefix.size()) {
+    if (static_cast<int>(target.size()) <= prefix.size()) {
         return "";
     }
     
@@ -312,8 +312,8 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
         json variables = request.value("variables", json::object());
         
         // Task ID format: "instance_id:node_id"
-        std::string instance_id;
-        std::string node_id;
+        std::string instance_id = {};
+        std::string node_id = {};
         
         size_t colon_pos = task_id.find(':');
         if (colon_pos != std::string::npos) {
@@ -489,7 +489,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
                     event["timestamp_ns"] = ts_ms * 1'000'000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
-                    history.push_back(event);
+                    history.push_back([[maybe_unused]] event);
                 }
             }
             response["history"] = history;

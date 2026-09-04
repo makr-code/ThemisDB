@@ -182,7 +182,9 @@ TEST_F(RevocationHardeningTest, RFP05_ConcurrentAddIsRevoked) {
             }
         });
     }
-    for (auto &th : threads) th.join();
+    for (auto &th : threads) {
+      th.join();
+    }
     EXPECT_EQ(errors.load(), 0) << "Concurrent operations produced unexpected exceptions";
 }
 

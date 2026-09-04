@@ -25,7 +25,7 @@ std::string generateSpanIdInternal() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
     uint64_t span_id = rng();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << span_id;
     return oss.str();
 }
@@ -55,7 +55,7 @@ DistributedTraceSpan::DistributedTraceSpan(
         uint64_t hi = rng();
         uint64_t lo = rng();
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << std::hex << std::setfill('0')
             << std::setw(16) << hi
             << std::setw(16) << lo;
@@ -76,7 +76,7 @@ void DistributedTraceSpan::addBaggage(const std::string& key, const std::string&
     std::unique_lock lock(baggage_mutex_);
 
     // Enforce max 128 baggage items (drop oldest inherited if needed)
-    if (baggage_.size() >= 128) {
+    if (static_cast<int>(baggage_.size()) >= 128) {
         // For now, just ignore new baggage if at limit
         // In production, could implement LRU eviction
         return;
@@ -96,7 +96,7 @@ void DistributedTraceSpan::addEvent(
     std::unique_lock lock(events_mutex_);
 
     // Enforce max 100 events per span
-    if (events_.size() >= 100) {
+    if (static_cast<int>(events_.size()) >= 100) {
         return;  // Silently drop oldest event (not ideal, but bounded)
     }
 
@@ -113,7 +113,7 @@ void DistributedTraceSpan::setAttribute(const std::string& key, const std::strin
     std::unique_lock lock(attributes_mutex_);
 
     // Enforce max 100 attributes per span
-    if (attributes_.size() >= 100 && attributes_.find(key) == attributes_.end()) {
+    if (static_cast<int>(attributes_.size()) >= 100 && attributes_.find(key) == attributes_.end()) {
         return;  // Silently drop new attribute if at limit
     }
 

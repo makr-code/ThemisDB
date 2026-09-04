@@ -45,7 +45,7 @@ std::string makeRelayId() {
 /**
  * @brief Clamp @p v to `[lo, hi]`.
  */
-double clamp01(double v) noexcept {
+double clamp01([[maybe_unused]] double v) noexcept {
     return std::clamp(v, 0.0, 1.0);
 }
 
@@ -56,7 +56,9 @@ double clamp01(double v) noexcept {
 std::optional<nlohmann::json> tryParseJson(const std::string& s) {
     try {
         auto j = nlohmann::json::parse(s, nullptr, /*allow_exceptions=*/true);
-        if (j.is_object()) return j;
+        if (j.is_object()) {
+          return j;
+        }
     } catch (const std::exception& e) {
         THEMIS_DEBUG("JSON parse failed: {}", e.what());
     }
@@ -72,7 +74,9 @@ std::optional<nlohmann::json> tryParseJson(const std::string& s) {
  * @return RS in `[0.0, 1.0]`.
  */
 double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
-    if (orig.empty()) return 0.0;
+    if (orig.empty()) {
+      return 0.0;
+    }
 
     size_t unchanged = 0;
     for (auto& [key, val] : orig.items()) {
@@ -81,7 +85,7 @@ double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
             ++unchanged;
         }
     }
-    return static_cast<double>(unchanged) / static_cast<double>(orig.size());
+    return static_cast<bool>(static_cast<double>(unchanged) / static_cast<double < static_cast<int>((orig.size())));
 }
 
 /**
@@ -93,7 +97,7 @@ double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
  */
 std::vector<std::string> tokenise(const std::string& s) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (char c : s) {
         if (std::isspace(static_cast<unsigned char>(c)) ||
             c == ',' || c == '(' || c == ')' ||
@@ -106,7 +110,9 @@ std::vector<std::string> tokenise(const std::string& s) {
             cur += c;
         }
     }
-    if (!cur.empty()) tokens.push_back(std::move(cur));
+    if (!cur.empty()) {
+      tokens.push_back(std::move(cur));
+    }
     return tokens;
 }
 
@@ -130,16 +136,21 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
 
     // Intersection size = sum of min counts for each token
     size_t inter = 0;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (auto& t : ma) {
-        if (seen.count(t)) continue;
+        if (seen.count(t)) {
+          continue;
+        }
         seen.insert(t);
         const size_t ca = ma.count(t);
         const size_t cb = mb.count(t);
         inter += std::min(ca, cb);
     }
-    const size_t union_sz = ta.size() + tb.size() - inter;
-    if (union_sz == 0) return 0.0;
+    const size_t union_sz = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - inter;
+    if (union_sz == 0) {
+      return 0.0;
+    }
     return static_cast<double>(inter) / static_cast<double>(union_sz);
 }
 
@@ -160,29 +171,33 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
 size_t editDistance(const std::string& a, const std::string& b) {
     // Safety cap: use char-difference for very large strings
     constexpr size_t MAX_LEN = 10'000;
-    if (a.size() > MAX_LEN || b.size() > MAX_LEN) {
+    if (static_cast<int>(a.size()) > MAX_LEN || static_cast<int>(b.size()) > MAX_LEN) {
         // Approximate: Hamming distance on common prefix length
         size_t diffs = 0;
-        const size_t common = std::min(a.size(), b.size());
+        const size_t common = std::min(a.size(),static_cast<int>(b.size()));
         for (size_t i = 0; i < common; ++i) {
-            if (a[i] != b[i]) ++diffs;
+            if (a[i] != b[i]) {
+              ++diffs;
+            }
         }
         diffs += static_cast<size_t>(
-            a.size() > b.size() ? a.size() - b.size() : b.size() - a.size());
+            static_cast<int>(a.size()) > static_cast<int>(b.size()) ? static_cast<int>(a.size()) - static_cast<int>(b.size()) : static_cast<int>(b.size()) - static_cast<int>(a.size()) );
         return diffs;
     }
 
     const size_t m = a.size();
     const size_t n = b.size();
     std::vector<size_t> prev(n + 1), curr(n + 1);
-    for (size_t j = 0; j <= n; ++j) prev[j] = j;
+    for (size_t j = 0; j <= n; ++j) {
+      prev[j] = j;
+    }
     for (size_t i = 1; i <= m; ++i) {
         curr[0] = i;
         for (size_t j = 1; j <= n; ++j) {
-            if (a[i - 1] == b[j - 1]) {
-                curr[j] = prev[j - 1];
+            if (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) {
+                curr[j] = prev[static_cast<int>(j - 1)];
             } else {
-                curr[j] = 1 + std::min({prev[j - 1], prev[j], curr[j - 1]});
+                curr[j] = 1 + std::min({prev[static_cast<int>(j - 1)], prev[j], curr[static_cast<int>(j - 1)]});
             }
         }
         std::swap(prev, curr);
@@ -194,10 +209,14 @@ size_t editDistance(const std::string& a, const std::string& b) {
  * @brief Normalised edit-distance score: `1 − dist / max(|a|, |b|)`.
  */
 double normalisedEditDistanceScore(const std::string& a, const std::string& b) {
-    if (a.empty() && b.empty()) return 0.0;
-    if (a.empty() || b.empty()) return 0.0;
+    if (a.empty() && b.empty()) {
+      return 0.0;
+    }
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
     const size_t dist = editDistance(a, b);
-    const size_t maxLen = std::max(a.size(), b.size());
+    const size_t maxLen = std::max(a.size(),static_cast<int>(b.size()));
     return clamp01(1.0 - static_cast<double>(dist) /
                              static_cast<double>(maxLen));
 }
@@ -243,17 +262,22 @@ std::unordered_multiset<std::string> extractXmlAttributes(const std::string& xml
  */
 double multisetOverlap(const std::unordered_multiset<std::string>& a,
                        const std::unordered_multiset<std::string>& b) {
-    if (a.empty()) return 0.0;
+    if (a.empty()) {
+      return 0.0;
+    }
     size_t inter = 0;
-    std::unordered_set<std::string> seen;
+    std::unordered_set<std::string> seen = {};
+
     for (const auto& v : a) {
-        if (seen.count(v)) continue;
+        if (seen.count(v)) {
+          continue;
+        }
         seen.insert(v);
         const size_t ca = a.count(v);
         const size_t cb = b.count(v);
         inter += std::min(ca, cb);
     }
-    return static_cast<double>(inter) / static_cast<double>(a.size());
+    return static_cast<bool>(static_cast<double>(inter) / static_cast<double < static_cast<int>((a.size())));
 }
 
 } // namespace (anonymous)
@@ -265,18 +289,22 @@ double multisetOverlap(const std::unordered_multiset<std::string>& a,
 ReconstructionScore JsonDocumentEvaluator::evaluate(
     const std::string& original, const std::string& recovered) const
 {
-    if (original.empty() || recovered.empty()) return 0.0;
+    if (original.empty() || recovered.empty()) {
+      return 0.0;
+    }
 
     const auto jo = tryParseJson(original);
     const auto jr = tryParseJson(recovered);
 
     if (!jo || !jr) {
         // Fallback to plain-text scoring when input is not valid JSON
-        PlainTextEvaluator fallback;
+        PlainTextEvaluator fallback = {};
         return fallback.evaluate(original, recovered);
     }
 
-    if (jo->empty()) return 0.0;
+    if (jo->empty()) {
+      return 0.0;
+    }
 
     return clamp01(jsonFieldOverlap(*jo, *jr));
 }
@@ -288,7 +316,9 @@ ReconstructionScore JsonDocumentEvaluator::evaluate(
 ReconstructionScore AqlQueryEvaluator::evaluate(
     const std::string& original, const std::string& recovered) const
 {
-    if (original.empty() || recovered.empty()) return 0.0;
+    if (original.empty() || recovered.empty()) {
+      return 0.0;
+    }
     return clamp01(jaccardTokenSimilarity(original, recovered));
 }
 
@@ -309,7 +339,9 @@ ReconstructionScore PlainTextEvaluator::evaluate(
 ReconstructionScore XmlProcessEvaluator::evaluate(
     const std::string& original, const std::string& recovered) const
 {
-    if (original.empty() || recovered.empty()) return 0.0;
+    if (original.empty() || recovered.empty()) {
+      return 0.0;
+    }
 
     // Detect XML heuristically: must contain at least one '<'
     const bool looksLikeXml =
@@ -317,7 +349,7 @@ ReconstructionScore XmlProcessEvaluator::evaluate(
         recovered.find('<') != std::string::npos;
 
     if (!looksLikeXml) {
-        PlainTextEvaluator fallback;
+        PlainTextEvaluator fallback = {};
         return fallback.evaluate(original, recovered);
     }
 
@@ -425,7 +457,7 @@ RelayResult RoundTripSimulator::run(
         const RoundTripEditPair& pair = edit_pairs[round % pair_count];
 
         // --- Forward edit ---
-        std::string forward_doc;
+        std::string forward_doc = {};
         try {
             forward_doc = edit_fn(current_doc, pair.forward_instruction);
             ++result.total_interactions;
@@ -455,7 +487,7 @@ RelayResult RoundTripSimulator::run(
         }
 
         // --- Backward edit ---
-        std::string backward_doc;
+        std::string backward_doc = {};
         try {
             backward_doc = edit_fn(forward_doc, pair.backward_instruction);
             ++result.total_interactions;

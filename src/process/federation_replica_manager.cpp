@@ -267,7 +267,7 @@ std::string FederationReplicaManagerImpl::ApplyEntryLocked(
   uint32_t checksum = 0;
   for (unsigned char byte : data) {
     // Unsigned overflow is well-defined modulo 2^32 for uint32_t.
-    checksum = checksum * 31u + static_cast<uint32_t>(byte);
+    checksum = checksum * 31 + static_cast<uint32_t>(byte);
   }
 
   applied_checksums_[log_index] = std::to_string(checksum);
@@ -276,7 +276,7 @@ std::string FederationReplicaManagerImpl::ApplyEntryLocked(
 
   utils::Logger::Debug(
       "ApplyEntry: node=%s, index=%llu, term=%llu, state_size=%zu",
-      node_id_.c_str(), log_index, log_term, state_.size());
+      node_id_.c_str(), log_index, log_term,static_cast<int>(state_.size()));
 
   // Check if snapshot needed
   if (entries_applied_ % kSnapshotIntervalEntries == 0) {
@@ -330,7 +330,7 @@ std::shared_ptr<Snapshot> FederationReplicaManagerImpl::TakeSnapshot() {
 
   utils::Logger::Info(
       "TakeSnapshot: node=%s, index=%llu, blob_size=%zu, duration=%llums",
-      node_id_.c_str(), snapshot->snapshot_index, snapshot->state_blob.size(),
+      node_id_.c_str(), snapshot->snapshot_index, snapshot-> static_cast<int>(state_blob.size()),
       snapshot->duration_ms);
 
   return snapshot;
@@ -399,7 +399,7 @@ ReplicaStats FederationReplicaManagerImpl::GetStats() const {
 std::string FederationReplicaManagerImpl::ComputeStateHash() const {
   // Simplified: use first 32 bytes of state, or pad with zeros
   std::string hash(32, '0');
-  size_t copy_size = std::min(size_t(32), state_.size());
+  size_t copy_size = std::min(size_t(32),static_cast<int>(state_.size()));
   std::memcpy(hash.data(), state_.data(), copy_size);
   return hash;
 }

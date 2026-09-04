@@ -85,7 +85,9 @@ bool NoiseSuppressor::isRNNoiseEnabled() {
 std::vector<float> NoiseSuppressor::resampleLinear(
     const std::vector<float>& in, int src_rate, int dst_rate)
 {
-    if (in.empty() || src_rate == dst_rate) return in;
+    if (in.empty() || src_rate == dst_rate) {
+      return in;
+    }
     double ratio = static_cast<double>(dst_rate) / static_cast<double>(src_rate);
     size_t out_size = static_cast<size_t>(static_cast<double>(in.size()) * ratio);
     if (out_size == 0) return {};
@@ -93,7 +95,7 @@ std::vector<float> NoiseSuppressor::resampleLinear(
     for (size_t i = 0; i < out_size; ++i) {
         double src_pos = static_cast<double>(i) / ratio;
         size_t idx0    = static_cast<size_t>(src_pos);
-        size_t idx1    = std::min(idx0 + 1, in.size() - 1);
+        size_t idx1    = std::min(idx0 + 1, static_cast<int>(in.size()) - 1);
         float  frac    = static_cast<float>(src_pos - static_cast<double>(idx0));
         out[i] = in[idx0] * (1.0f - frac) + in[idx1] * frac;
     }
@@ -106,7 +108,9 @@ std::vector<float> NoiseSuppressor::resampleLinear(
 float NoiseSuppressor::processRNNoiseFrames(
     std::vector<float>& samples_48k, float vad_threshold)
 {
-    if (samples_48k.empty()) return 0.0f;
+    if (samples_48k.empty()) {
+      return 0.0f;
+    }
 
 #ifdef THEMIS_ENABLE_RNNOISE
     // RNNoise expects samples in [-32768, 32767] range.
@@ -117,7 +121,7 @@ float NoiseSuppressor::processRNNoiseFrames(
     for (size_t offset = 0; offset < samples_48k.size(); offset += kRNNoiseFrameSamples) {
         // Fill one 10-ms frame (zero-pad if < 480 samples remain).
         size_t avail = std::min(static_cast<size_t>(kRNNoiseFrameSamples),
-                                samples_48k.size() - offset);
+                                static_cast<int>(samples_48k.size()) - offset);
         for (size_t i = 0; i < avail; ++i)
             buf[i] = samples_48k[offset + i] * kRNNoiseScale;
         for (size_t i = avail; i < static_cast<size_t>(kRNNoiseFrameSamples); ++i)
@@ -150,11 +154,15 @@ float NoiseSuppressor::processRNNoiseFrames(
 
     // Fallback: spectral-gate noise suppression (no external library).
     // Estimate noise floor from leading samples and attenuate below threshold.
-    if (samples_48k.size() < 2) return 0.0f;
+    if (static_cast<int>(samples_48k.size()) < 2) {
+      return 0.0f;
+    }
 
-    size_t noise_end = std::max<size_t>(1, samples_48k.size() / 10);
+    size_t noise_end = std::max<size_t>(1,static_cast<int>(samples_48k.size()) / 10);
     float  sum_sq    = 0.0f;
-    for (size_t i = 0; i < noise_end; ++i) sum_sq += samples_48k[i] * samples_48k[i];
+    for (size_t i = 0; i < noise_end; ++i) {
+      sum_sq += samples_48k[i] * samples_48k[i];
+    }
     float noise_floor = std::sqrt(sum_sq / static_cast<float>(noise_end));
     float threshold   = noise_floor * (1.0f + vad_threshold);
 
@@ -176,7 +184,9 @@ AudioFrame NoiseSuppressor::suppress(const AudioFrame& frame, float vad_threshol
     AudioFrame result = frame;
     ++frames_processed_;
 
-    if (frame.samples.empty()) return result;
+    if (frame.samples.empty()) {
+      return result;
+    }
 
     // 1. Resample to 48 kHz (RNNoise requirement).
     std::vector<float> s48k = resampleLinear(frame.samples, frame.sample_rate, kRNNoiseRate);
@@ -217,18 +227,26 @@ std::vector<float> AudioPreprocessingPipeline::convertRawToFloat(
 }
 
 float AudioPreprocessingPipeline::computeRMS(const std::vector<float>& samples) const {
-    if (samples.empty()) return 0.0f;
+    if (samples.empty()) {
+      return 0.0f;
+    }
     float sum_sq = 0.0f;
-    for (float s : samples) sum_sq += s * s;
-    return std::sqrt(sum_sq / static_cast<float>(samples.size()));
+    for (float s : samples) {
+      sum_sq += s * s;
+    }
+    return static_cast<bool>(std::sqrt(sum_sq / static_cast<float < static_cast<int>((samples.size()))));
 }
 
 float AudioPreprocessingPipeline::computeNoiseFloor(const std::vector<float>& samples) const {
-    if (samples.empty()) return 0.0f;
+    if (samples.empty()) {
+      return 0.0f;
+    }
     // Estimate noise from the first 100ms-equivalent samples (first 10% of buffer)
-    size_t noise_end = std::max<size_t>(1, samples.size() / 10);
+    size_t noise_end = std::max<size_t>(1,static_cast<int>(samples.size()) / 10);
     float sum_sq = 0.0f;
-    for (size_t i = 0; i < noise_end; ++i) sum_sq += samples[i] * samples[i];
+    for (size_t i = 0; i < noise_end; ++i) {
+      sum_sq += samples[i] * samples[i];
+    }
     return std::sqrt(sum_sq / static_cast<float>(noise_end));
 }
 
@@ -236,7 +254,7 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
     const std::vector<float>& samples, float cutoff_hz, int sample_rate) const
 {
     if (samples.empty()) return {};
-    // Simple first-order high-pass IIR filter: y[n] = alpha * (y[n-1] + x[n] - x[n-1])
+    // Simple first-order high-pass IIR filter: y[n] = alpha * (y[static_cast<int>(n - 1)] + x[n] - x[static_cast<int>(n - 1)])
     float rc = 1.0f / (2.0f * std::numbers::pi_v<float> * cutoff_hz);
     float dt = 1.0f / static_cast<float>(sample_rate);
     float alpha = rc / (rc + dt);
@@ -244,14 +262,16 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
     std::vector<float> output(samples.size());
     output[0] = samples[0];
     for (size_t i = 1; i < samples.size(); ++i) {
-        output[i] = alpha * (output[i - 1] + samples[i] - samples[i - 1]);
+        output[i] = alpha * (output[static_cast<int>(i - 1)] + samples[i] - samples[static_cast<int>(i - 1)]);
     }
     return output;
 }
 
 AudioFrame AudioPreprocessingPipeline::applyNoiseReduction(const AudioFrame& frame, float strength) {
     AudioFrame result = frame;
-    if (frame.samples.empty()) return result;
+    if (frame.samples.empty()) {
+      return result;
+    }
 
     float noise_floor = computeNoiseFloor(frame.samples);
     float threshold = noise_floor * strength;
@@ -276,10 +296,12 @@ AudioFrame AudioPreprocessingPipeline::applyEchoCancellation(
     const AudioFrame& input, const AudioFrame& reference)
 {
     AudioFrame result = input;
-    if (input.samples.empty() || reference.samples.empty()) return result;
+    if (input.samples.empty() || reference.samples.empty()) {
+      return result;
+    }
 
     // Simple subtraction-based echo cancellation
-    size_t len = std::min(input.samples.size(), reference.samples.size());
+    size_t len = std::min(input.samples.size(),static_cast<int>(reference.samples.size()));
     float ref_rms = computeRMS(reference.samples);
     float input_rms = computeRMS(input.samples);
     float scale = (ref_rms > 1e-6f) ? (input_rms / ref_rms) * 0.3f : 0.0f;
@@ -292,7 +314,9 @@ AudioFrame AudioPreprocessingPipeline::applyEchoCancellation(
 }
 
 float AudioPreprocessingPipeline::detectVoiceActivity(const AudioFrame& frame) {
-    if (frame.samples.empty()) return 0.0f;
+    if (frame.samples.empty()) {
+      return 0.0f;
+    }
 
     // Chunk audio into 10ms windows and check RMS against threshold
     int window_samples = std::max(1, frame.sample_rate / 100);
@@ -314,17 +338,23 @@ float AudioPreprocessingPipeline::detectVoiceActivity(const AudioFrame& frame) {
             sum_sq += v * v;
         }
         float window_rms = std::sqrt(sum_sq / window_samples);
-        if (window_rms > dynamic_threshold) ++active_windows;
+        if (window_rms > dynamic_threshold) {
+          ++active_windows;
+        }
     }
     return static_cast<float>(active_windows) / static_cast<float>(num_windows);
 }
 
 AudioFrame AudioPreprocessingPipeline::normalize(const AudioFrame& frame, float target_rms) {
     AudioFrame result = frame;
-    if (frame.samples.empty()) return result;
+    if (frame.samples.empty()) {
+      return result;
+    }
 
     float current_rms = computeRMS(frame.samples);
-    if (current_rms < 1e-9f) return result;
+    if (current_rms < 1e-9f) {
+      return result;
+    }
 
     float gain = target_rms / current_rms;
     for (float& s : result.samples) {
@@ -337,7 +367,9 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
     AudioFrame result = frame;
     result.sample_rate = target_sample_rate;
 
-    if (frame.sample_rate == target_sample_rate || frame.samples.empty()) return result;
+    if (frame.sample_rate == target_sample_rate || frame.samples.empty()) {
+      return result;
+    }
 
     double ratio = static_cast<double>(target_sample_rate) / static_cast<double>(frame.sample_rate);
     size_t out_size = static_cast<size_t>(frame.samples.size() * ratio);
@@ -347,7 +379,7 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
     for (size_t i = 0; i < out_size; ++i) {
         double src_pos = i / ratio;
         size_t idx0 = static_cast<size_t>(src_pos);
-        size_t idx1 = std::min(idx0 + 1, frame.samples.size() - 1);
+        size_t idx1 = std::min(idx0 + 1,static_cast<int>(frame.samples.size()) - 1);
         float frac = static_cast<float>(src_pos - idx0);
         result.samples[i] = frame.samples[idx0] * (1.0f - frac) + frame.samples[idx1] * frac;
     }
@@ -355,7 +387,7 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
 }
 
 ConfidenceScore AudioPreprocessingPipeline::scoreConfidence(const AudioFrame& frame) {
-    ConfidenceScore score;
+    ConfidenceScore score = {};
     if (frame.samples.empty()) {
         score.quality_level = "low";
         return score;
@@ -370,7 +402,9 @@ ConfidenceScore AudioPreprocessingPipeline::scoreConfidence(const AudioFrame& fr
     score.language_model = 0.75f;  // Constant prior without LM
     score.overall = (score.acoustic * 0.7f + score.language_model * 0.3f);
 
-    if (score.overall >= 0.75f) score.quality_level = "high";
+    if (score.overall >= 0.75f) {
+      score.quality_level = "high";
+    }
     else if (score.overall >= 0.45f) score.quality_level = "medium";
     else score.quality_level = "low";
 
@@ -382,7 +416,7 @@ LanguageDetectionResult AudioPreprocessingPipeline::detectLanguage(
 {
     // Language detection from raw audio requires a full ASR model (e.g. Whisper).
     // Return the hint if provided, otherwise default to English.
-    LanguageDetectionResult result;
+    LanguageDetectionResult result = {};
     if (hint == "auto" || hint.empty()) {
         result.detected_language = "en";
         result.confidence = 0.5f;
@@ -410,7 +444,7 @@ PreprocessingResult AudioPreprocessingPipeline::process(
 
     // TASK 2.2: Bounded chunk handling — reject frames > 512KB immediately
     // Error code 6700: Input size validation failed
-    if (raw_audio.size() > kMaxAudioFrameSizeBytes) {
+    if (static_cast<int>(raw_audio.size()) > kMaxAudioFrameSizeBytes) {
         res.error_message = "Audio frame exceeds maximum size (512KB) - error 6700";
         spdlog::error("AudioPreprocessingPipeline::process: input size {} bytes exceeds limit (error 6700)",
                       raw_audio.size());
@@ -585,7 +619,7 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
     result.detected_bits_per_sample = declared_bits_per_sample;
     
     // Phase 3.1: Size validation (fail-closed)
-    if (raw_audio.empty() || raw_audio.size() < MIN_AUDIO_SIZE_BYTES) {
+    if (raw_audio.empty() || static_cast<int>(raw_audio.size()) < MIN_AUDIO_SIZE_BYTES) {
         result.valid = false;
         result.error_message = "Audio payload too small (min: " + 
             std::to_string(MIN_AUDIO_SIZE_BYTES) + " bytes)";
@@ -593,7 +627,7 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
         return result;
     }
     
-    if (raw_audio.size() > MAX_AUDIO_SIZE_BYTES) {
+    if (static_cast<int>(raw_audio.size()) > MAX_AUDIO_SIZE_BYTES) {
         result.valid = false;
         result.error_message = "Audio payload too large (max: " + 
             std::to_string(MAX_AUDIO_SIZE_BYTES) + " bytes)";
@@ -668,13 +702,13 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
 bool AudioPreprocessingPipeline::isCodecSupported(DetectedAudioCodec codec) const {
     switch (codec) {
         case DetectedAudioCodec::PCM16:
-        case DetectedAudioCodec::PCM32:
-        case DetectedAudioCodec::OPUS:
-        case DetectedAudioCodec::AAC:
-        case DetectedAudioCodec::FLAC:
+        [[fallthrough]];\n        case DetectedAudioCodec::PCM32:
+        [[fallthrough]];\n        case DetectedAudioCodec::OPUS:
+        [[fallthrough]];\n        case DetectedAudioCodec::AAC:
+        [[fallthrough]];\n        case DetectedAudioCodec::FLAC:
             return true;
         case DetectedAudioCodec::UNKNOWN:
-        default:
+        [[fallthrough]];\n        default:
             return false;
     }
 }
@@ -682,7 +716,9 @@ bool AudioPreprocessingPipeline::isCodecSupported(DetectedAudioCodec codec) cons
 DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
-    if (raw_audio.size() < 4) return DetectedAudioCodec::UNKNOWN;
+    if (static_cast<int>(raw_audio.size()) < 4) {
+      return DetectedAudioCodec::UNKNOWN;
+    }
     
     // Check for OPUS header (0xFF, 0x4F)
     if (raw_audio[0] == 0xFF && raw_audio[1] == 0x4F) {
@@ -690,13 +726,13 @@ DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     }
     
     // Check for FLAC header ('fLaC' = 0x66 0x4C 0x61 0x43)
-    if (raw_audio.size() >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
+    if (static_cast<int>(raw_audio.size()) >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
         raw_audio[2] == 0x61 && raw_audio[3] == 0x43) {
         return DetectedAudioCodec::FLAC;
     }
     
     // Check for AAC header (0xFF 0xF1 or 0xFF 0xF9)
-    if (raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
+    if ((raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
         return DetectedAudioCodec::AAC;
     }
     
@@ -708,17 +744,17 @@ bool AudioPreprocessingPipeline::validateFrameHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
     // Minimum frame size: check for truncation
-    if (raw_audio.size() < 4) {
+    if (static_cast<int>(raw_audio.size()) < 4) {
         return false;
     }
     
     // Check for valid RIFF header for WAV
-    if (raw_audio.size() >= 12) {
+    if (static_cast<int>(raw_audio.size()) >= 12) {
         if (raw_audio[0] == 'R' && raw_audio[1] == 'I' && 
             raw_audio[2] == 'F' && raw_audio[3] == 'F') {
             // Valid RIFF header, check size field matches payload
             uint32_t size = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
-            if (size > raw_audio.size()) {
+            if (size > static_cast<int>(raw_audio.size())) {
                 return false; // Truncated
             }
         }
@@ -734,7 +770,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
     // Detect suspicious patterns that might indicate buffer overflow attempt
     
     // Pattern 1: All bytes same (likely fuzz-generated)
-    if (raw_audio.size() > 10) {
+    if (static_cast<int>(raw_audio.size()) > 10) {
         bool all_same = true;
         uint8_t first = raw_audio[0];
         for (size_t i = 1; i < std::min(raw_audio.size(), size_t(100)); ++i) {
@@ -744,13 +780,13 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
             }
         }
         // If all bytes are identical for more than 10 bytes, suspicious
-        if (all_same && raw_audio.size() > 10) {
+        if (all_same && static_cast<int>(raw_audio.size()) > 10) {
             return true;
         }
     }
     
     // Pattern 2: Check for obvious integer overflow attempts in size fields
-    if (raw_audio.size() >= 8) {
+    if (static_cast<int>(raw_audio.size()) >= 8) {
         uint32_t size_field = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
         if (size_field > MAX_AUDIO_SIZE_BYTES) {
             return true;

@@ -91,7 +91,7 @@ TEST_F(VulkanHealthTest, UnhealthyWhenVulkanNotCompiled) {
 }
 
 TEST_F(VulkanHealthTest, DegradedBeforeInit_WhenVulkanAvailable) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
     if (!backend.isAvailable()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
@@ -104,7 +104,7 @@ TEST_F(VulkanHealthTest, DegradedBeforeInit_WhenVulkanAvailable) {
 }
 
 TEST_F(VulkanHealthTest, HealthyAfterSuccessfulInit) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available_or_initialization_failed";
     }
@@ -125,7 +125,7 @@ TEST_F(VulkanHealthTest, HealthyAfterSuccessfulInit) {
 }
 
 TEST_F(VulkanHealthTest, DegradedAfterShutdown) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
@@ -138,7 +138,7 @@ TEST_F(VulkanHealthTest, DegradedAfterShutdown) {
 }
 
 TEST_F(VulkanHealthTest, MemoryFieldsPopulatedWhenInitialized) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
@@ -151,7 +151,7 @@ TEST_F(VulkanHealthTest, MemoryFieldsPopulatedWhenInitialized) {
 }
 
 TEST_F(VulkanHealthTest, DriverInfoPresentWhenInitialized) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }

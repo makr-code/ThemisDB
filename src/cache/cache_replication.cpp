@@ -62,8 +62,8 @@ CacheReplicationManager::CacheReplicationManager(const CacheReplicationConfig &c
 
 void CacheReplicationManager::addReplica(std::shared_ptr<ICacheReplicationListener> listener,
                                          const std::string &snapshot_ndjson) {
-    if (!listener) {
-        THEMIS_WARN("CacheReplicationManager::addReplica: null listener ignored");
+    if ([[maybe_unused]] !listener) {
+        THEMIS_WARN([[maybe_unused]] "CacheReplicationManager::addReplica: null listener ignored");
         return;
     }
 
@@ -76,11 +76,11 @@ void CacheReplicationManager::addReplica(std::shared_ptr<ICacheReplicationListen
         // idempotent.
         replicas_.erase(
             std::remove_if(replicas_.begin(), replicas_.end(),
-                           [&id](const CacheReplicaState &s) { return s.listener && s.listener->replicaId() == id; }),
+                           [&id]([[maybe_unused]] const CacheReplicaState &s) { return s.listener && s.listener->replicaId() == id; }),
             replicas_.end());
 
         CacheReplicaState state;
-        state.listener     = std::move(listener);
+        state.listener     = std::move([[maybe_unused]] listener);
         state.health       = CacheReplicaHealth::HEALTHY;
         state.last_success = std::chrono::steady_clock::now();
         replicas_.push_back(std::move(state));
@@ -90,7 +90,7 @@ void CacheReplicationManager::addReplica(std::shared_ptr<ICacheReplicationListen
 
     // Bootstrap with a snapshot if provided.
     if (!snapshot_ndjson.empty()) {
-        CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::SNAPSHOT);
+        CacheReplicationEvent ev = makeEvent([[maybe_unused]] CacheReplicationEventType::SNAPSHOT);
         ev.payload               = snapshot_ndjson;
         dispatch(ev);
         stats_.snapshots_sent++;
@@ -110,7 +110,7 @@ void CacheReplicationManager::removeReplica(const std::string &replica_id) {
 
 size_t CacheReplicationManager::replicaCount() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
-    return replicas_.size();
+    return static_cast<int>(replicas_.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -160,11 +160,11 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
 // ICacheReplicationListener – fan-out implementation
 // ---------------------------------------------------------------------------
 
-bool CacheReplicationManager::onReplicationEvent(const CacheReplicationEvent &event) {
+bool CacheReplicationManager::onReplicationEvent([[maybe_unused]] const CacheReplicationEvent &event) {
     if (!config_.enabled) {
         return true;
     }
-    dispatch(event);
+    dispatch([[maybe_unused]] event);
     return true;
 }
 
@@ -182,7 +182,7 @@ void CacheReplicationManager::notifyWrite(const std::string &key, const std::str
         return;
     }
 
-    CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::WRITE);
+    CacheReplicationEvent ev = makeEvent([[maybe_unused]] CacheReplicationEventType::WRITE);
     ev.key                   = key;
     ev.payload               = payload;
     ev.tenant_id             = tenant_id;
@@ -195,7 +195,7 @@ void CacheReplicationManager::notifyInvalidate(const std::string &pattern) {
         return;
     }
 
-    CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::INVALIDATE);
+    CacheReplicationEvent ev = makeEvent([[maybe_unused]] CacheReplicationEventType::INVALIDATE);
     ev.pattern               = pattern;
     dispatch(ev);
 }
@@ -205,7 +205,7 @@ void CacheReplicationManager::notifyInvalidateTenant(const std::string &tenant_i
         return;
     }
 
-    CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::INVALIDATE_TENANT);
+    CacheReplicationEvent ev = makeEvent([[maybe_unused]] CacheReplicationEventType::INVALIDATE_TENANT);
     ev.tenant_id             = tenant_id;
     dispatch(ev);
 }
@@ -241,7 +241,7 @@ nlohmann::json CacheReplicationManager::getReplicaHealth() const {
 // Internal dispatch
 // ---------------------------------------------------------------------------
 
-void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
+void CacheReplicationManager::dispatch([[maybe_unused]] const CacheReplicationEvent &event) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
 
     bool any_success         = false;
@@ -255,7 +255,7 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
 
         bool ok = false;
         try {
-            ok = state.listener->onReplicationEvent(event);
+            ok = state.listener->onReplicationEvent([[maybe_unused]] event);
         } catch (const std::exception &ex) {
             THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}", state.listener->replicaId(),
                         ex.what());
@@ -305,7 +305,7 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
     }
 }
 
-CacheReplicationEvent CacheReplicationManager::makeEvent(CacheReplicationEventType type) const {
+CacheReplicationEvent CacheReplicationManager::makeEvent([[maybe_unused]] CacheReplicationEventType type) const {
     CacheReplicationEvent ev;
     ev.type         = type;
     ev.timestamp_ms = nowMs();

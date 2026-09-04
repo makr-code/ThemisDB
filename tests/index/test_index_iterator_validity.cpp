@@ -39,7 +39,7 @@ class IteratorInvalidityFix : public ::testing::Test {
     // Helper: Create a simple container for testing iterator patterns
     struct SimplePartitionContainer {
         std::vector<size_t> partition_ids;
-        std::mutex mtx;
+        std::mutex mtx = {};
 
         void addPartition(size_t id) {
             std::lock_guard<std::mutex> lock(mtx);
@@ -188,7 +188,7 @@ TEST_F(IteratorInvalidityFix, PartitionRemovalWithDataConcurrency) {
     
     SimplePartitionContainer container;
     std::vector<std::vector<float>> data;
-    std::mutex data_mtx;
+    std::mutex data_mtx = {};
     std::atomic<bool> stop_flag(false);
     std::atomic<int> data_ops(0);
     

@@ -177,7 +177,9 @@ TEST(InMemoryBackpressureSignalTest, ConcurrentSignals) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Final level must be one of the valid enum values (no data race corruption)
     const auto lvl = sig.currentLevel();

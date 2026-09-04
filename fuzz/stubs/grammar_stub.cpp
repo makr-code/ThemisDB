@@ -85,12 +85,14 @@ static bool validate_ebnf_structure(const std::string& text,
             }
         }
         if (in_comment) {
-            if (c == '\n') in_comment = false;
+            if (c == '\n') {
+              in_comment = false;
+            }
             continue;
         }
 
         // String literal tracking (' or ")
-        if (!in_string && (c == '"' || c == '\'')) {
+        if ((!in_string && (c == '"' || c == '\'')) {
             in_string   = true;
             string_delim = c;
             continue;

@@ -53,7 +53,7 @@ protected:
     static constexpr int kDefaultQuorumSize = 3;  // 5/2 + 1
 
     // Deterministic random number generator
-    uint64_t rng_state_;
+    uint64_t rng_state_ = {};
 
     Phase3QuorumLossFixture()
         : rng_state_(static_cast<uint64_t>(kShardPhase3Seed)) {}
@@ -84,9 +84,9 @@ protected:
  */
 class MockRecoveryOperation : public IdempotentRecoveryOperation {
 private:
-    std::string operation_id_;
-    bool should_succeed_;
-    mutable int execution_count_;
+    std::string operation_id_ = {};
+    bool should_succeed_ = {};
+    mutable int execution_count_ = 0;
     mutable std::string last_result_;
 
 public:
@@ -395,14 +395,16 @@ TEST_F(Phase3QuorumLossFixture, ErrorCodeNamingDeterminism) {
 TEST_F(Phase3QuorumLossFixture, DeterministicChaosReproducibility) {
     // First run: chaos with seed-42
     resetRng();
-    std::vector<bool> failures_run1;
+    std::vector<bool> failures_run1 = {};
+
     for (int i = 0; i < 5; ++i) {
         failures_run1.push_back(simulateNodeFailure(i));
     }
 
     // Second run: same seed should produce identical failures
     resetRng();
-    std::vector<bool> failures_run2;
+    std::vector<bool> failures_run2 = {};
+
     for (int i = 0; i < 5; ++i) {
         failures_run2.push_back(simulateNodeFailure(i));
     }
@@ -414,13 +416,15 @@ TEST_F(Phase3QuorumLossFixture, DeterministicChaosReproducibility) {
 TEST_F(Phase3QuorumLossFixture, DeterministicClusterRecoverySequence) {
     // Recovery actions must be deterministic under seed-42
     resetRng();
-    std::vector<int> recovery_actions_run1;
+    std::vector<int> recovery_actions_run1 = {};
+
     for (int i = 0; i < 3; ++i) {
         recovery_actions_run1.push_back(deterministicRand(5));
     }
 
     resetRng();
-    std::vector<int> recovery_actions_run2;
+    std::vector<int> recovery_actions_run2 = {};
+
     for (int i = 0; i < 3; ++i) {
         recovery_actions_run2.push_back(deterministicRand(5));
     }

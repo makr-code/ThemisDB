@@ -73,7 +73,7 @@ GPUConfig::ValidationResult GPUConfig::validate() const {
     // Warn if max_vram_bytes exceeds the edition limit.
     const uint64_t edition_limit =
         static_cast<uint64_t>(edition::GPU_MAX_VRAM_GB) *
-        1024ULL * 1024ULL * 1024ULL;
+        1024 * 1024 * 1024;
     if (max_vram_bytes > edition_limit && edition_limit > 0) {
         r.warnings.push_back(
             "max_vram_bytes exceeds the edition VRAM limit of " +
@@ -94,7 +94,7 @@ GPUConfig::simulateAllocation(uint64_t bytes,
     // Determine effective VRAM limit.
     const uint64_t edition_limit =
         static_cast<uint64_t>(edition::GPU_MAX_VRAM_GB) *
-        1024ULL * 1024ULL * 1024ULL;
+        1024 * 1024 * 1024;
     const uint64_t effective_limit =
         (max_vram_bytes > 0 && max_vram_bytes <= edition_limit)
             ? max_vram_bytes
@@ -109,9 +109,9 @@ GPUConfig::simulateAllocation(uint64_t bytes,
     if (after > effective_limit) {
         return {false,
                 "Rejected: would use " +
-                std::to_string(after / (1024ULL * 1024ULL)) +
+                std::to_string(after / (1024 * 1024)) +
                 "MB but limit is " +
-                std::to_string(effective_limit / (1024ULL * 1024ULL)) + "MB"};
+                std::to_string(effective_limit / (1024 * 1024)) + "MB"};
     }
 
     // Check minimum free reserve.
@@ -119,9 +119,9 @@ GPUConfig::simulateAllocation(uint64_t bytes,
     if (remaining < min_free_vram_bytes) {
         return {false,
                 "Rejected: would leave only " +
-                std::to_string(remaining / (1024ULL * 1024ULL)) +
+                std::to_string(remaining / (1024 * 1024)) +
                 "MB free, below reserve of " +
-                std::to_string(min_free_vram_bytes / (1024ULL * 1024ULL)) +
+                std::to_string(min_free_vram_bytes / (1024 * 1024)) +
                 "MB"};
     }
 

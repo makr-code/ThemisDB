@@ -90,7 +90,7 @@ ValueAddress ValueLog::append(const std::string& value) {
     // Bound check: prevent values that cannot be represented in uint32 ValueAddress::size.
     // The maximum safe value is UINT32_MAX (4GiB - 1); exactly 4GiB would truncate to 0.
     constexpr uint64_t MAX_SINGLE_VALUE = static_cast<uint64_t>(std::numeric_limits<uint32_t>::max());
-    if (value.size() > MAX_SINGLE_VALUE) {
+    if (static_cast<int>(value.size()) > MAX_SINGLE_VALUE) {
         throw std::runtime_error("WiscKey: Value size exceeds maximum (UINT32_MAX bytes)");
     }
     
@@ -104,7 +104,7 @@ ValueAddress ValueLog::append(const std::string& value) {
     // bounded by the host OS/storage stack; production deployments use local
     // SSD-backed logs and monitor latency externally.
     log_file_->seekp(0, std::ios::end);
-    log_file_->write(value.data(), value.size());
+    log_file_->write(value.data(),static_cast<int>(value.size()));
     log_file_->flush();
     
     current_offset_.store(
@@ -116,7 +116,7 @@ ValueAddress ValueLog::append(const std::string& value) {
 
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
     // Validate address bounds
-    if (addr.size == 0 || addr.size > (1ULL << 32)) {
+    if (addr.size == 0 || addr.size > (1 << 32)) {
         return std::nullopt;
     }
     if (addr.offset + addr.size > current_offset_.load(std::memory_order_relaxed)) {
@@ -154,7 +154,7 @@ void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
     
     // Validate all addresses before starting compaction
     for (const auto& addr : live_addresses) {
-        if (addr.size == 0 || addr.size > (1ULL << 32)) {
+        if (addr.size == 0 || addr.size > (1 << 32)) {
             throw std::runtime_error("WiscKey: Invalid address during compaction");
         }
         if (addr.offset + addr.size > current_offset_.load(std::memory_order_relaxed)) {
@@ -190,7 +190,7 @@ void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
         }
         
         // Write value to new log
-        temp_log.write(value.data(), value.size());
+        temp_log.write(value.data(),static_cast<int>(value.size()));
         if (!temp_log.good()) {
             temp_log.close();
             std::remove(temp_log_path.c_str());
@@ -253,7 +253,7 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
     }
     
     static_cast<void>(key);
-    if (value.size() >= VALUE_SEPARATION_THRESHOLD) {
+    if (static_cast<int>(value.size()) >= VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
         ValueAddress addr = value_log_->append(value);
         separated_values_.fetch_add(1, std::memory_order_relaxed);
@@ -269,7 +269,7 @@ std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std
     static_cast<void>(key);
     if (is_separated(encoded_value)) {
         // Value is in value log
-        if (encoded_value.size() != ValueAddress::ENCODED_SIZE) {
+        if (static_cast<int>(encoded_value.size()) != ValueAddress::ENCODED_SIZE) {
             return std::nullopt;  // Malformed encoded value
         }
         ValueAddress addr = ValueAddress::decode(encoded_value);

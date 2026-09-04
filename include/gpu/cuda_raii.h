@@ -126,7 +126,9 @@ struct CudaStreamGuard {
     CudaStreamGuard& operator=(CudaStreamGuard&& o) noexcept {
         if (this != &o) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
-            if (stream) cudaStreamDestroy(stream);
+            if (stream) {
+              cudaStreamDestroy(stream);
+            }
 #endif
             stream = std::exchange(o.stream, nullptr);
         }
@@ -228,7 +230,9 @@ struct CudaEventGuard {
     CudaEventGuard& operator=(CudaEventGuard&& o) noexcept {
         if (this != &o) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
-            if (event) cudaEventDestroy(event);
+            if (event) {
+              cudaEventDestroy(event);
+            }
 #endif
             event = std::exchange(o.event, nullptr);
         }
@@ -305,7 +309,9 @@ struct CudaDeviceMemoryGuard {
     CudaDeviceMemoryGuard& operator=(CudaDeviceMemoryGuard&& o) noexcept {
         if (this != &o) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
-            if (ptr) cudaFree(ptr);
+            if (ptr) {
+              cudaFree(ptr);
+            }
 #endif
             ptr  = std::exchange(o.ptr, nullptr);
             bytes = std::exchange(o.bytes, 0);

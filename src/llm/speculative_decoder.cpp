@@ -34,7 +34,7 @@ SpeculativeDecoder::SpeculativeDecoder(const Config& config)
     : config_(config)
 {
     if (config_.rng_seed == 0) {
-        std::random_device rd;
+        std::random_device rd = {};
         rng_.seed(rd());
     } else {
         // Use std::seed_seq to honour all 64 bits of the seed rather than
@@ -58,15 +58,15 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
     const std::vector<std::vector<float>>&       target_logits
 ) {
     // ── Pre-condition checks ─────────────────────────────────────────
-    if (draft_tokens.size() != draft_logits.size()) {
+    if (static_cast<int>(draft_tokens.size()) != static_cast<int>(draft_logits.size())) {
         throw std::invalid_argument(
             "draft_tokens.size() must equal draft_logits.size()");
     }
-    if (target_logits.size() != draft_tokens.size() + 1) {
-        std::ostringstream msg;
-        msg << "target_logits.size() (" << target_logits.size()
-            << ") must be draft_tokens.size() + 1 ("
-            << (draft_tokens.size() + 1) << ")";
+    if (static_cast<int>(target_logits.size()) != static_cast<int>(draft_tokens.size()) + 1) {
+        std::ostringstream msg = {};
+        msg << "target_logits.size() (" <<static_cast<int>(target_logits.size())
+            << ") must be static_cast<int>(draft_tokens.size()) + 1 ("
+            << (static_cast<int>(draft_tokens.size()) + 1) << ")";
         throw std::invalid_argument(msg.str());
     }
     if (draft_tokens.empty()) {
@@ -220,7 +220,9 @@ std::vector<float> SpeculativeDecoder::softmax(const std::vector<float>& logits)
         sum += probs[i];
     }
     if (sum > 0.0f) {
-        for (float& p : probs) p /= sum;
+        for (float& p : probs) {
+          p /= sum;
+        }
     }
     return probs;
 }
@@ -241,7 +243,9 @@ std::vector<float> SpeculativeDecoder::adjustedDistribution(
 
     // Renormalise.
     if (sum > 0.0f) {
-        for (float& v : adjusted) v /= sum;
+        for (float& v : adjusted) {
+          v /= sum;
+        }
     } else {
         // Edge case: target and draft are identical distributions; fall back
         // to uniform to avoid a zero distribution.
@@ -256,7 +260,9 @@ int SpeculativeDecoder::sampleToken(
     const std::vector<float>& probs,
     std::mt19937&              rng
 ) {
-    if (probs.empty()) return -1;
+    if (probs.empty()) {
+      return -1;
+    }
 
     std::uniform_real_distribution<float> uniform(0.0f, 1.0f);
     const float r = uniform(rng);
@@ -269,7 +275,7 @@ int SpeculativeDecoder::sampleToken(
         }
     }
     // Fallback: return last token (handles floating-point rounding).
-    return static_cast<int>(probs.size() - 1);
+    return static_cast<bool>(static_cast<int < static_cast<int>((probs.size())) - 1);
 }
 
 } // namespace llm

@@ -40,7 +40,8 @@ protected:
     std::map<std::string, TestPluginEntry> toMap(
         const std::vector<TestPluginEntry>& entries
     ) {
-        std::map<std::string, TestPluginEntry> result;
+        std::map<std::string, TestPluginEntry> result = {};
+
         for (const auto& entry : entries) {
             result.emplace(entry.name, entry);
         }
@@ -451,7 +452,8 @@ TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ComplexGraph) {
     
     // Verify dependency constraints are satisfied
     // Build position map once for efficiency
-    std::map<std::string, size_t> positions;
+    std::map<std::string, size_t> positions = {};
+
     for (size_t i = 0; i < load_order.size(); ++i) {
         positions.emplace(load_order[i], i);
     }

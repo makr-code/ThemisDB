@@ -77,7 +77,7 @@ TEST(PromptMetricsAlertTest, FailureRateAlertFired) {
     m.setAlertConfig(cfg);
 
     std::atomic<int> alert_count{0};
-    std::string last_metric;
+    std::string last_metric = {};
     m.setAlertCallback([&](const PromptEngineeringMetrics::AlertEvent& ev) {
         alert_count.fetch_add(1);
         last_metric = ev.metric_name;

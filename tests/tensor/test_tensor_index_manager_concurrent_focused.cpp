@@ -55,7 +55,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI01_MultithreadedCreateSameKey) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // All should return the same object (idempotent)
     for (const auto ptr : results) {
@@ -73,11 +75,15 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI02_MultithreadedCreateDifferentKeys
             std::string tenant = "t" + std::to_string(i / 8);
             std::string field = "f" + std::to_string(i % 4);
             auto* idx = mgr_->createIndex(tenant, "col1", field);
-            if (idx != nullptr) success_count.fetch_add(1);
+            if (idx != nullptr) {
+              success_count.fetch_add(1);
+            }
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_EQ(success_count.load(), num_threads);
     auto handles = mgr_->listIndexes();
@@ -97,7 +103,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI03_ConcurrentGetDuringCreate) {
     auto get_fn = [&]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));  // Let create start
         auto* idx = mgr_->getIndex("t1", "col1", "f1");
-        if (idx != nullptr) get_count.fetch_add(1);
+        if (idx != nullptr) {
+          get_count.fetch_add(1);
+        }
     };
     
     // Mix create and get operations
@@ -106,7 +114,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI03_ConcurrentGetDuringCreate) {
         threads.emplace_back(get_fn);
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_GT(create_count.load(), 0);
     EXPECT_GT(get_count.load(), 0);
@@ -129,7 +139,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI04_RacingDropIndex) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // Exactly one thread should succeed
     EXPECT_EQ(drop_success.load(), 1) << "Only one drop should succeed";
@@ -154,7 +166,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI05_MixedOperationsSameKey) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(ops_completed.load(), num_threads);
 }
 
@@ -185,7 +199,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI06_ExtendedMixedOperations) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(ops_completed.load(), num_threads * iterations);
 }
 
@@ -209,7 +225,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI07_ConcurrentFlushAll) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // Flushes should succeed without crashes; exact count may vary
     // due to concurrent nature, but should be > 0
@@ -241,7 +259,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI08_DropTenantWhileAdding) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     EXPECT_GT(creates.load(), 0);
     EXPECT_GT(drops.load(), 0);
@@ -264,7 +284,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI09_ConcurrentAggregatStats) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(stats_reads.load(), num_threads);
 }
 
@@ -285,7 +307,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI10_ConcurrentMapCores) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(map_attempts.load(), num_threads);
 }
 
@@ -306,7 +330,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI11_LegacyCacheBoundedGrowth) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     // Cache should not grow unbounded (tested in implementation)
 }
 
@@ -337,7 +363,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI12_ListIndexesThreadSafety) {
         }
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(list_count.load(), num_threads);
 }
 
@@ -357,7 +385,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI13_MaxConcurrentCreates) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(completes.load(), num_threads);
 }
 
@@ -371,11 +401,15 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI14_HighFrequencyListIndexes) {
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([&]() {
             auto handles = mgr_->listIndexes();
-            if (!handles.empty()) reads.fetch_add(1);
+            if (!handles.empty()) {
+              reads.fetch_add(1);
+            }
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(reads.load(), num_threads);
 }
 
@@ -395,7 +429,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI15_AlternatingCreateDropCycles) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(cycles_completed.load(), num_threads * cycles);
 }
 
@@ -418,7 +454,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI16_IndexLifetimeUnderConcurrentAcce
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(total_ops.load(), num_threads * iterations);
 }
 
@@ -457,7 +495,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI17_MutexFairnessReaderWriter) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     stop_flag.store(true);
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     
     // Both should have completed significant operations
     EXPECT_GT(reader_ops.load(), 0);
@@ -481,7 +521,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI18_ConcurrentDropTenantAndCreate) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(ops.load(), num_threads);
 }
 
@@ -504,7 +546,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI19_ConcurrentMapCoresSameVector) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(map_ops.load(), num_threads);
 }
 
@@ -530,7 +574,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI20_CacheEvictionUnderLoad) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(accesses.load(), num_threads * 10);
 }
 
@@ -549,7 +595,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI21_LegacyAPIUnderConcurrentLoad) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(api_calls.load(), num_threads);
 }
 
@@ -579,7 +627,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI22_CacheHitRatioUnderZipfian) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(total_accesses.load(), num_threads * 100);
 }
 
@@ -610,7 +660,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI23_ConcurrentCacheMutationAndDropIn
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_GT(ops.load(), 0);
 }
 
@@ -637,7 +689,9 @@ TEST_F(TensorIndexManagerConcurrentTest, TNCI24_MemoryPressureSimulation) {
         });
     }
     
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     EXPECT_EQ(ops.load(), num_threads * 20);
 }
 

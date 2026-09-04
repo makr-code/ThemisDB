@@ -313,7 +313,7 @@ TEST_F(QualityControlPipelineTest, LearningCallbackInvoked) {
     auto pipeline = QualityPipelineFactory::createProduction();
     
     bool callback_invoked = false;
-    std::string captured_query;
+    std::string captured_query = {};
     
     pipeline->setLearningCallback(
         [&callback_invoked, &captured_query](

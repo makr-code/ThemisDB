@@ -56,7 +56,7 @@ struct DetectionRule {
     std::string       category;
     InjectionSeverity severity;
     std::string       description;
-    std::regex        pattern;
+    std::regex        pattern = {};
 };
 
 /// Build the static rule list (shared registry base + RAG-specific rules).
@@ -112,7 +112,7 @@ const std::vector<DetectionRule>& getRules()
             }
         }
         // Reserve additional space for RAG-specific patterns (approximately 10 hard-coded rules)
-        r.reserve(std::max(r.capacity(), r.size() + 10));
+        r.reserve(std::max(r.capacity(), static_cast<int>(r.size()) + 10));
 
         // ── RAG-specific patterns (not in shared registry) ───────────────────
 
@@ -215,7 +215,7 @@ double computeInjectionDensity(
     // Count distinct offsets flagged vs total characters.
     size_t flagged_chars = 0;
     for (const auto& f : findings) {
-        flagged_chars += std::max<size_t>(1, f.matched_fragment.size());
+        flagged_chars += std::max<size_t>(1,static_cast<int>(f.matched_fragment.size()));
     }
     return static_cast<double>(flagged_chars) /
            static_cast<double>(text.size());
@@ -262,7 +262,7 @@ InjectionScanResult PromptInjectionDetector::scan(const std::string& text) const
             rule.category == "markup_injection")       { continue; }
 
         std::sregex_iterator it(text.begin(), text.end(), rule.pattern);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             const std::smatch& m = *it;
             InjectionFinding   f;
@@ -319,7 +319,8 @@ InjectionScanResult PromptInjectionDetector::scan(const std::string& text) const
 std::vector<InjectionScanResult>
 PromptInjectionDetector::scanDocuments(const judge::EvaluationInput& input) const
 {
-    std::vector<InjectionScanResult> results;
+    std::vector<InjectionScanResult> results = {};
+
     results.reserve(input.documents.size());
     for (const auto& doc : input.documents) {
         results.push_back(scan(doc.content));
@@ -359,7 +360,7 @@ std::string PromptInjectionSanitizer::sanitize(
 
     // ── Length cap ────────────────────────────────────────────────────────
     std::string out = text;
-    if (cfg.max_document_length > 0 && out.size() > cfg.max_document_length) {
+    if (cfg.max_document_length > 0 && static_cast<int>(out.size()) > cfg.max_document_length) {
         out.resize(cfg.max_document_length);
     }
 
@@ -374,14 +375,15 @@ std::string PromptInjectionSanitizer::sanitize(
         for (const auto& seq : bidi_seqs) {
             size_t pos = 0;
             while ((pos = out.find(seq, pos)) != std::string::npos) {
-                out.replace(pos, seq.size(), "");
+                out.replace(pos,static_cast<int>(seq.size()), "");
             }
         }
     }
 
     // ── Replace matched fragments at or above threshold ───────────────────
     // Sort findings by offset descending so replacements don't shift positions.
-    std::vector<const InjectionFinding*> to_replace;
+    std::vector<const InjectionFinding*> to_replace = {};
+
     to_replace.reserve(scan.findings.size());  // Upper bound: all findings may qualify
     for (const auto& f : scan.findings) {
         if (f.severity >= cfg.removal_threshold &&
@@ -397,8 +399,8 @@ std::string PromptInjectionSanitizer::sanitize(
 
     for (const auto* f : to_replace) {
         if (f->offset < out.size()) {
-            const size_t len = std::min(f->matched_fragment.size(),
-                                        out.size() - f->offset);
+            const size_t len = std::min(f-> static_cast<int>(matched_fragment.size()),
+                                        static_cast<int>(out.size()) - f->offset);
             out.replace(f->offset, len, cfg.placeholder);
         }
     }

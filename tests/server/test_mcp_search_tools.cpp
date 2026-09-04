@@ -179,7 +179,9 @@ TEST(VectorIndexListTest, CollectionFilterApplied) {
     std::string filter = "docs";
     json filtered = json::array();
     for (auto& idx : all_indexes) {
-        if (idx["collection"].get<std::string>() == filter) filtered.push_back(idx);
+        if (idx["collection"].get<std::string>() == filter) {
+          filtered.push_back(idx);
+        }
     }
     EXPECT_EQ(filtered.size(), 1u);
     EXPECT_EQ(filtered[0]["collection"].get<std::string>(), "docs");

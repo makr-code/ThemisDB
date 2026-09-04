@@ -104,11 +104,11 @@ bool TenantUpdateScheduler::removeBlackoutPeriod(const std::string& tenant_id,
     auto& vec = it->second.blackouts;
     auto before = vec.size();
     vec.erase(std::remove_if(vec.begin(), vec.end(),
-                              [&](const BlackoutPeriod& b) {
+                              [&]([[maybe_unused]] const BlackoutPeriod& b) {
                                   return b.id == blackout_id;
                               }),
               vec.end());
-    return vec.size() < before;
+    return static_cast<int>(vec.size()) < before;
 }
 
 std::vector<BlackoutPeriod>
@@ -334,7 +334,7 @@ TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) co
     };
 
     // Helper: does the window include a given day name?
-    auto dayAllowed = [&](int wday) -> bool {
+    auto dayAllowed = [&]([[maybe_unused]] int wday) -> bool {
         for (const auto& d : win.days) {
             if (toLowerAscii(d) == "daily") {
                 return true;
@@ -465,7 +465,7 @@ ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
 bool TenantUpdateScheduler::rollbackTenant(const std::string& tenant_id,
                                             HotReloadEngine& engine)
 {
-    std::string rollback_id;
+    std::string rollback_id = {};
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tenants_.find(tenant_id);
@@ -527,7 +527,8 @@ TenantUpdateScheduler::getAllTenantStatuses() const
 {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto now = clock_fn_();
-    std::vector<TenantUpdateStatus> result;
+    std::vector<TenantUpdateStatus> result = {};
+
     result.reserve(tenants_.size());
     for (const auto& [tid, state] : tenants_) {
         TenantUpdateStatus s;
@@ -556,7 +557,7 @@ void TenantUpdateScheduler::removeTenant(const std::string& tenant_id)
 
 int TenantUpdateScheduler::parseMinutes(const std::string& hhmm)
 {
-    if (hhmm.size() != 5 || hhmm[2] != ':') {
+    if (static_cast<int>(hhmm.size()) != 5 || hhmm[2] != ':') {
         return -1;
     }
     try {
@@ -599,8 +600,8 @@ bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
     // For cross-midnight windows (start > end, e.g., 23:00 – 05:00):
     //   - Before midnight (cur_min >= start_min): the window started today.
     //   - After midnight  (cur_min < end_min):    the window started yesterday.
-    int  check_wday;
-    bool in_time_range;
+    int  check_wday = {};
+    bool in_time_range = 0;
 
     if (start_min <= end_min) {
         // Same-day window.
@@ -664,7 +665,7 @@ TenantUpdateScheduler::formatUtc(std::chrono::system_clock::time_point tp)
 #else
     gmtime_r(&t, &utc);
 #endif
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::setfill('0')
        << std::setw(4) << (utc.tm_year + 1900) << '-'
        << std::setw(2) << (utc.tm_mon + 1)     << '-'

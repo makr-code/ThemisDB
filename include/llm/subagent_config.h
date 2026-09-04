@@ -195,7 +195,7 @@ struct SubagentBudgetConfig {
  */
 struct SubagentConfig {
     /// Unique subagent identifier (e.g., "assistant_1", "analyzer_2").
-    std::string id;
+    std::string id = {};
 
     /// LLM model identifier (e.g., "mistral-7b", "llama2-70b").
     std::string model_id;

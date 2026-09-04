@@ -125,7 +125,7 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
 {
     std::unique_lock<std::mutex> lock(mu_);
 
-    if (buffer_.size() >= cfg_.max_buffer_events) {
+    if (buffer_.size() >= static_cast<size_t>(cfg_.max_buffer_events)) {
         if (cfg_.overflow_policy == OverflowPolicy::DROP) {
             stat_dropped_.fetch_add(1, std::memory_order_relaxed);
             THEMIS_WARN("StreamingIngestManager::ingest: buffer full, dropping event for key='{}'", std::string(key));
@@ -139,11 +139,11 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
             : std::chrono::steady_clock::time_point::max();
 
         bool got_space = not_full_.wait_until(lock, deadline, [this] {
-            return buffer_.size() < cfg_.max_buffer_events
+            return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
                 || !running_.load(std::memory_order_relaxed);
         });
 
-        if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {
+        if (!got_space || static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
                                         "StreamingIngestManager: buffer full, "
                                         "back-pressure timeout exceeded"));
@@ -166,11 +166,11 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
     size_t accepted = 0;
 
     for (auto& ev : events) {
-        if (buffer_.size() >= cfg_.max_buffer_events) {
+        if (buffer_.size() >= static_cast<size_t>(cfg_.max_buffer_events)) {
             if (cfg_.overflow_policy == OverflowPolicy::DROP) {
-                stat_dropped_.fetch_add(events.size() - accepted,
+                stat_dropped_.fetch_add(static_cast<int>(events.size()) - accepted,
                                          std::memory_order_relaxed);
-                THEMIS_WARN("StreamingIngestManager::ingestBatch: buffer full, dropping {} events", events.size() - accepted);
+                THEMIS_WARN("StreamingIngestManager::ingestBatch: buffer full, dropping {} events", static_cast<int>(events.size()) - accepted);
                 break;
             }
             // Wait for space before accepting more from this batch.
@@ -180,12 +180,12 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
                 : std::chrono::steady_clock::time_point::max();
 
             bool got_space = not_full_.wait_until(lock, deadline, [this] {
-                return buffer_.size() < cfg_.max_buffer_events
+                return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
                     || !running_.load(std::memory_order_relaxed);
             });
-            if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {
+            if (!got_space || static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
                 // Drop the rest of the batch.
-                stat_dropped_.fetch_add(events.size() - accepted,
+                stat_dropped_.fetch_add(static_cast<int>(events.size()) - accepted,
                                          std::memory_order_relaxed);
                 break;
             }

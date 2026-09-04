@@ -29,7 +29,7 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Edition constraint check
-    if (shard_nodes_.size() >= static_cast<size_t>(GetMaxShardNodes())) {
+    if (static_cast<int>(shard_nodes_.size()) >= static_cast<size_t>(GetMaxShardNodes())) {
         throw std::runtime_error(fmt::format(
             "Cannot add shard node. Edition limit reached: {} nodes maximum ({} edition)",
             GetMaxShardNodes(), edition::EDITION_STRING));
@@ -41,7 +41,7 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
 
 size_t ShardingManager::GetNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return shard_nodes_.size();
+    return static_cast<int>(shard_nodes_.size());
 }
 
 int ShardingManager::GetRemainingNodeCapacity() const {
@@ -51,7 +51,7 @@ int ShardingManager::GetRemainingNodeCapacity() const {
     return std::max(0, max_nodes - current_nodes);
 }
 
-void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
+void ShardingManager::ValidateNodeCount([[maybe_unused]] size_t requested_nodes) {
     int max_nodes = GetMaxShardNodes();
     if (static_cast<int>(requested_nodes) > max_nodes) {
         throw std::runtime_error(fmt::format(
@@ -69,12 +69,14 @@ int ShardingManager::GetHealthyNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     int count = 0;
     for (const auto& node : shard_nodes_) {
-        if (node.is_healthy) count++;
+        if (node.is_healthy) {
+          count++;
+        }
     }
     return count;
 }
 
-bool ShardingManager::RemoveShardNode(uint32_t node_id) {
+bool ShardingManager::RemoveShardNode([[maybe_unused]] uint32_t node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
         if (it->node_id == node_id) {
@@ -149,9 +151,13 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
 
     // Find indices of start and end in the all_shards list.
     int start_idx = -1, end_idx = -1;
-    for (int i = 0; i < static_cast<int>(all_shards.size()); ++i) {
-        if (all_shards[i] == start_shard) start_idx = i;
-        if (all_shards[i] == end_shard)   end_idx   = i;
+    for (size_t i = 0; i < all_shards.size(); ++i) {
+        if (all_shards[i] == start_shard) {
+          start_idx = i;
+        }
+        if (all_shards[i] == end_shard) {
+          end_idx   = i;
+        }
     }
 
     if (start_idx < 0 || end_idx < 0) {
@@ -159,14 +165,17 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
         return {start_shard, end_shard};
     }
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     const int n = static_cast<int>(all_shards.size());
 
     // Walk clockwise from start_idx to end_idx (inclusive), wrapping around.
     int idx = start_idx;
     for (int steps = 0; steps < n; ++steps) {
         result.push_back(all_shards[idx]);
-        if (idx == end_idx) break;
+        if (idx == end_idx) {
+          break;
+        }
         idx = (idx + 1) % n;
     }
 
@@ -204,7 +213,7 @@ inline std::string GetReplicationStrategy() {
 }
 
 // Suggest upgrade path if node limit is exceeded
-inline std::string SuggestUpgrade(size_t requested_nodes) {
+inline std::string SuggestUpgrade([[maybe_unused]] size_t requested_nodes) {
     const auto info = edition::EditionInfo::Get();
     std::string suggestion = "Your deployment requires ";
     suggestion += std::to_string(requested_nodes);

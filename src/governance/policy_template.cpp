@@ -38,7 +38,7 @@ nlohmann::json TemplateParameter::toJson() const {
 }
 
 TemplateParameter TemplateParameter::fromJson(const nlohmann::json &j) {
-    TemplateParameter param;
+    TemplateParameter param = {};
     if (j.contains("name")) {
         param.name = j["name"].get<std::string>();
     }
@@ -537,7 +537,7 @@ void PolicyTemplateManager::registerBuiltInTemplates() {
     registerTemplate(std::make_shared<TimeBasedAccessTemplate>());
     registerTemplate(std::make_shared<Soc2ComplianceTemplate>());
 
-    THEMIS_INFO("Registered {} built-in policy templates", templates_.size());
+    THEMIS_INFO("Registered {} built-in policy templates",static_cast<int>(templates_.size()));
 }
 
 } // namespace governance

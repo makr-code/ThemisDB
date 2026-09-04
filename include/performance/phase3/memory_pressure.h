@@ -244,7 +244,7 @@ private:
     Config config_;
 
     struct CallbackEntry {
-        size_t handle;
+        size_t handle = 0;
         PressureLevel trigger_level;
         EvictionCallback callback;
     };

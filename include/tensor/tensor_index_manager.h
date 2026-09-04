@@ -35,9 +35,9 @@ namespace tensor {
 // ============================================================================
 
 struct IndexHandle {
-    std::string tenant_id;
-    std::string collection;
-    std::string field;
+    std::string tenant_id = {};
+    std::string collection = {};
+    std::string field = {};
     storage::TensorRouter::Route route; ///< TENSOR_TRAIN, HNSW, or HYBRID
     ITensorIndex* index = nullptr;       ///< Owned by TensorIndexManager
 

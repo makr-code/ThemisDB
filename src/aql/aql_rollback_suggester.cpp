@@ -26,7 +26,7 @@ namespace aql {
 namespace {
 
 std::string toUpperTrim(const std::string &s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     bool skip_leading = true;
     for (char c : s) {
@@ -51,10 +51,10 @@ std::string toUpperTrim(const std::string &s) {
 bool wordContains(const std::string &upper, const std::string &kw) {
     size_t p = 0;
     while ((p = upper.find(kw, p)) != std::string::npos) {
-        bool ok_before = (p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[p - 1])) && upper[p - 1] != '_'));
-        size_t after   = p + kw.size();
-        bool ok_after  = (after >= upper.size()
-                          || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_'));
+        bool ok_before = ((p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])) && upper[static_cast<int>(p - 1)] != '_')));
+        size_t after   = p + static_cast<int>(kw.size()) ;
+        bool ok_after  = ((after >= upper.size()
+                          || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_')));
         if (ok_before && ok_after) {
             return true;
         }
@@ -73,14 +73,14 @@ bool wordContains(const std::string &upper, const std::string &kw) {
 std::string extractCollection(const std::string &upper, const std::string &in_keyword) {
     size_t p = upper.find(in_keyword);
     while (p != std::string::npos) {
-        bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[p - 1])));
-        size_t after   = p + in_keyword.size();
+        bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])));
+        size_t after   = p + static_cast<int>(in_keyword.size()) ;
         bool ok_after  = (after >= upper.size() || !std::isalnum(static_cast<unsigned char>(upper[after])));
-        if (ok_before && ok_after && after < upper.size() && upper[after] == ' ') {
+        if (ok_before && ok_after  && static_cast<size_t>(after) <static_cast<int>(upper.size()) && upper[after] == ' ') {
             // Skip space, read word.
             size_t ws = after + 1;
             size_t we = ws;
-            while (we < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[we])) || upper[we] == '_')) {
+            while ((we < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[we])) || upper[we] == '_'))) {
                 ++we;
             }
             if (we > ws) {
@@ -103,7 +103,7 @@ std::string extractLoopVar(const std::string &upper) {
     }
     size_t vs = p + 4;
     size_t ve = vs;
-    while (ve < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[ve])) || upper[ve] == '_')) {
+    while ((ve < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[ve])) || upper[ve] == '_'))) {
         ++ve;
     }
     if (ve > vs) {
@@ -148,7 +148,7 @@ std::string extractFilter(const std::string &upper) {
 // ============================================================================
 
 RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) const {
-    RollbackSuggestion result;
+    RollbackSuggestion result = {};
 
     if (aql_query.empty()) {
         result.mutation_type = MutationType::NONE;
@@ -186,7 +186,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
     }
 
     // Extract collection name.
-    std::string coll;
+    std::string coll = {};
     switch (result.mutation_type) {
         case MutationType::INSERT:
             coll = extractCollection(upper, "INTO");
@@ -198,7 +198,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
             }
             break;
         case MutationType::UPDATE:
-        case MutationType::REPLACE:
+        [[fallthrough]];\n        case MutationType::REPLACE:
             coll = extractCollection(upper, "IN");
             break;
         case MutationType::UPSERT:
@@ -216,7 +216,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
     const std::string filter   = extractFilter(upper);
     const std::string fvar     = filter.empty() ? (loop_var + "._key == @key") : filter;
 
-    std::ostringstream rq;
+    std::ostringstream rq = {};
 
     switch (result.mutation_type) {
         // ------------------------------------------------------------------

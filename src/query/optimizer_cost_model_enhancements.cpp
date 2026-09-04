@@ -27,13 +27,17 @@ double ColumnHistogram::estimateSelectivity(
     
     if (buckets.empty() || totalRows == 0) {
         // Fallback: uniform distribution
-        if (predicateType == "=") return 1.0 / std::max(1.0, static_cast<double>(totalRows));
+        if (predicateType == "=") {
+          return 1.0 / std::max(1.0, static_cast<double>(totalRows));
+        }
         return 0.1;  // Default selectivity for range predicates
     }
     
     if (predicateType == "=") {
         // Equality: estimate based on distinct value count in relevant bucket
-        if (values.empty()) return 0.0;
+        if (values.empty()) {
+          return 0.0;
+        }
         double value = values[0];
         
         for (const auto& bucket : buckets) {
@@ -79,10 +83,12 @@ double ColumnHistogram::estimateSelectivity(
         return estimateSelectivity(">", vals);
     }
     
-    if (predicateType == "BETWEEN" && values.size() >= 2) {
+    if (predicateType == "BETWEEN" && static_cast<int>(values.size()) >= 2) {
         double lower = values[0];
         double upper = values[1];
-        if (lower > upper) std::swap(lower, upper);
+        if (lower > upper) {
+          std::swap(lower, upper);
+        }
         
         double selectivity = 0.0;
         for (const auto& bucket : buckets) {
@@ -120,7 +126,9 @@ size_t ColumnHistogram::getDistinctValues() const {
 // =============================================================================
 
 double EstimateValidation::computeMAPE() const {
-    if (samples.empty()) return 0.0;
+    if (samples.empty()) {
+      return 0.0;
+    }
     
     double sum = 0.0;
     for (const auto& sample : samples) {
@@ -130,23 +138,31 @@ double EstimateValidation::computeMAPE() const {
 }
 
 double EstimateValidation::computeP95Error() const {
-    if (samples.empty()) return 0.0;
+    if (samples.empty()) {
+      return 0.0;
+    }
     
-    std::vector<double> errors;
+    std::vector<double> errors = {};
+
     for (const auto& sample : samples) {
         errors.push_back(sample.getError());
     }
     std::sort(errors.begin(), errors.end());
     
     size_t idx = static_cast<size_t>(errors.size() * 0.95);
-    if (idx >= errors.size()) idx = errors.size() - 1;
+    if (idx >= static_cast<int>(errors.size())) {
+      idx = static_cast<int>(errors.size()) - 1;
+    }
     return errors[idx];
 }
 
 bool EstimateValidation::hasSystematicUnderestimation() const {
-    if (samples.size() < 5) return false;
+    if (static_cast<int>(samples.size()) < 5) {
+      return false;
+    }
 
-    std::vector<double> ratios;
+    std::vector<double> ratios = {};
+
     for (const auto& sample : samples) {
         if (sample.actualRows > 0) {
             ratios.push_back(static_cast<double>(sample.actualRows) /
@@ -154,16 +170,21 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
         }
     }
     
-    if (ratios.size() < 5) return false;
+    if (static_cast<int>(ratios.size()) < 5) {
+      return false;
+    }
     std::sort(ratios.begin(), ratios.end());
     double median = ratios[ratios.size() / 2];
     return median > 1.5;
 }
 
 bool EstimateValidation::hasSystematicOverestimation() const {
-    if (samples.size() < 5) return false;
+    if (static_cast<int>(samples.size()) < 5) {
+      return false;
+    }
 
-    std::vector<double> ratios;
+    std::vector<double> ratios = {};
+
     for (const auto& sample : samples) {
         if (sample.actualRows > 0) {
             ratios.push_back(static_cast<double>(sample.actualRows) /
@@ -171,7 +192,9 @@ bool EstimateValidation::hasSystematicOverestimation() const {
         }
     }
     
-    if (ratios.size() < 5) return false;
+    if (static_cast<int>(ratios.size()) < 5) {
+      return false;
+    }
     std::sort(ratios.begin(), ratios.end());
     double median = ratios[ratios.size() / 2];
     return median < 0.67;  // 1/1.5
@@ -223,10 +246,13 @@ double CostModelEnhancements::estimateMultiColumnSelectivity(
     const std::vector<std::pair<std::string, std::string>>& predicates,
     const std::vector<ColumnCorrelation>& correlations) {
     
-    if (predicates.empty()) return 1.0;
+    if (predicates.empty()) {
+      return 1.0;
+    }
     
     // Create a map of column -> histogram for quick lookup
-    std::map<std::string, const ColumnHistogram*> histMap;
+    std::map<std::string, const ColumnHistogram*> histMap = {};
+
     for (const auto& hist : histograms) {
         histMap[hist.columnName] = &hist;
     }
@@ -245,13 +271,17 @@ double CostModelEnhancements::estimateMultiColumnSelectivity(
     }
     
     // Check for correlations between predicate columns
-    if (predicates.size() >= 2) {
+    if (static_cast<int>(predicates.size()) >= 2) {
         for (const auto& corr : correlations) {
             // See if this correlation involves multiple predicate columns
             bool col1_involved = false, col2_involved = false;
             for (const auto& [colName, _] : predicates) {
-                if (colName == corr.column1) col1_involved = true;
-                if (colName == corr.column2) col2_involved = true;
+                if (colName == corr.column1) {
+                  col1_involved = true;
+                }
+                if (colName == corr.column2) {
+                  col2_involved = true;
+                }
             }
             
             if (col1_involved && col2_involved) {

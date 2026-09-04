@@ -123,31 +123,41 @@ CoordinatedUpdateManager::CoordinatedUpdateManager(
 
 NodeUpdateStatus* CoordinatedUpdateManager::localStatus() {
     for (auto& s : node_statuses_) {
-        if (s.is_local) return &s;
+        if (s.is_local) {
+          return &s;
+        }
     }
     return nullptr; // unreachable after construction
 }
 
 const NodeUpdateStatus* CoordinatedUpdateManager::localStatus() const {
     for (const auto& s : node_statuses_) {
-        if (s.is_local) return &s;
+        if (s.is_local) {
+          return &s;
+        }
     }
     return nullptr;
 }
 
 const NodeDescriptor* CoordinatedUpdateManager::localDescriptor() const {
     for (const auto& n : sorted_nodes_) {
-        if (n.node_id == config_.local_node_id) return &n;
+        if (n.node_id == config_.local_node_id) {
+          return &n;
+        }
     }
     return nullptr;
 }
 
 const NodeDescriptor* CoordinatedUpdateManager::predecessorDescriptor() const {
     const NodeDescriptor* local = localDescriptor();
-    if (!local || local->sequence_number == 0) return nullptr;
+    if (!local || local->sequence_number == 0) {
+      return nullptr;
+    }
 
     for (const auto& n : sorted_nodes_) {
-        if (n.sequence_number == local->sequence_number - 1) return &n;
+        if (n.sequence_number == local->sequence_number - 1) {
+          return &n;
+        }
     }
     return nullptr;
 }
@@ -310,7 +320,7 @@ CoordinatedUpdateResult CoordinatedUpdateManager::applyLocalUpdate() {
 // ---------------------------------------------------------------------------
 
 bool CoordinatedUpdateManager::rollback(const std::string& reason) {
-    std::string rid;
+    std::string rid = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -355,7 +365,7 @@ uint32_t CoordinatedUpdateManager::localSequenceNumber() const {
 }
 
 uint32_t CoordinatedUpdateManager::totalNodes() const {
-    return static_cast<uint32_t>(sorted_nodes_.size());
+    return static_cast<bool>(static_cast<uint32_t < static_cast<int>((sorted_nodes_.size())));
 }
 
 bool CoordinatedUpdateManager::isLeader() const {
@@ -382,7 +392,7 @@ void CoordinatedUpdateManager::setSignalReadyFunc(SignalReadyFunc fn) {
     signal_ready_fn_ = std::move(fn);
 }
 
-void CoordinatedUpdateManager::setProgressCallback(ProgressCallback fn) {
+void CoordinatedUpdateManager::setProgressCallback([[maybe_unused]] ProgressCallback fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_cb_ = std::move(fn);
 }
@@ -509,7 +519,7 @@ bool CoordinatedUpdateManager::hasIsolatedNodes() const {
 
 uint32_t CoordinatedUpdateManager::isolatedNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<uint32_t>(isolated_nodes_.size());
+    return static_cast<bool>(static_cast<uint32_t < static_cast<int>((isolated_nodes_.size())));
 }
 
 } // namespace updates

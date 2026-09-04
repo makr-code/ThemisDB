@@ -68,7 +68,9 @@ template <typename Getter>
     std::string_view                   name) noexcept
 {
     for (const auto& r : results) {
-        if (r.name == name) return &r;
+        if (r.name == name) {
+          return &r;
+        }
     }
     return nullptr;
 }
@@ -103,7 +105,9 @@ std::optional<double> AblationReport::recallGain(
 {
     const auto* ra = findResult(results, a);
     const auto* rb = findResult(results, b);
-    if (!ra || !rb) return std::nullopt;
+    if (!ra || !rb) {
+      return std::nullopt;
+    }
     return ra->mean_recall_at_k - rb->mean_recall_at_k;
 }
 
@@ -112,7 +116,9 @@ std::optional<double> AblationReport::ndcgGain(
 {
     const auto* ra = findResult(results, a);
     const auto* rb = findResult(results, b);
-    if (!ra || !rb) return std::nullopt;
+    if (!ra || !rb) {
+      return std::nullopt;
+    }
     return ra->mean_ndcg_at_k - rb->mean_ndcg_at_k;
 }
 

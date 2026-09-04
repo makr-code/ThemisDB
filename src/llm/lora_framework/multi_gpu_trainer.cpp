@@ -60,7 +60,8 @@ float MultiGPULoRATrainer::train_step(
     
     // Compute loss on each GPU
     float total_loss = 0.0f;
-    std::vector<GPUTensor> grad_outputs;
+    std::vector<GPUTensor> grad_outputs = {};
+
     grad_outputs.reserve(outputs.size());
     
     for (size_t i = 0; i < outputs.size(); ++i) {
@@ -155,7 +156,7 @@ float MultiGPULoRATrainer::eval_step(
         total_loss += compute_loss(outputs[i], targets[i]);
     }
     
-    return total_loss / static_cast<float>(outputs.size());
+    return static_cast<bool>(total_loss / static_cast<float < static_cast<int>((outputs.size())));
 }
 
 std::vector<GPUTensor> MultiGPULoRATrainer::shard_batch(
@@ -302,7 +303,7 @@ float MultiGPULoRATrainer::compute_loss(
     auto output_data = output.cpu_data();
     auto target_data = target.cpu_data();
     
-    if (output_data.size() != target_data.size()) {
+    if (static_cast<int>(output_data.size()) != static_cast<int>(target_data.size())) {
         throw std::invalid_argument("Output and target size mismatch");
     }
     
@@ -312,7 +313,7 @@ float MultiGPULoRATrainer::compute_loss(
         mse += diff * diff;
     }
     
-    return mse / static_cast<float>(output_data.size());
+    return static_cast<bool>(mse / static_cast<float < static_cast<int>((output_data.size())));
 }
 
 void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {

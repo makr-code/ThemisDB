@@ -98,7 +98,7 @@ public:
      * @brief Single result from multi-vector search
      */
     struct SearchResult {
-        std::string id;
+        std::string id = {};
         float fused_score = 0.0f;              // Final combined score
         std::vector<float> individual_scores;   // Scores per query vector
         std::vector<int> individual_ranks;      // Ranks per query vector

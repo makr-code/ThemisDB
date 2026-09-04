@@ -195,9 +195,9 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
         stats_.current_buffer_memory = buffer.memory_bytes;
         
         // Check if this buffer needs immediate flush (use effective batch size)
-        if (buffer.points.size() >= effectiveBatchSize()) {
+        if (static_cast<int>(buffer.points.size()) >= effectiveBatchSize()) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} points",
-                        buffer_key, buffer.points.size());
+                        buffer_key,static_cast<int>(buffer.points.size()));
             
             size_t flushed = flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
@@ -231,7 +231,7 @@ size_t TSAutoBuffer::flushFor(const std::string& metric, const std::string& enti
     return flushBuffer(buffer_key, it->second);
 }
 
-size_t TSAutoBuffer::flushInternal(bool lock_held) {
+size_t TSAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("TSAutoBuffer.flush");
     
     std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
@@ -259,7 +259,7 @@ size_t TSAutoBuffer::flushInternal(bool lock_held) {
     stats_.last_flush_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Flushed {} total points from {} buffers", 
-                 total_flushed, buffers_.size());
+                 total_flushed,static_cast<int>(buffers_.size()));
     
     return total_flushed;
 }
@@ -318,7 +318,7 @@ size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& bu
 
 bool TSAutoBuffer::shouldFlushBuffer(const MetricBuffer& buffer) const {
     // Size threshold (use adaptive batch size when enabled)
-    if (buffer.points.size() >= effectiveBatchSize()) {
+    if (static_cast<int>(buffer.points.size()) >= effectiveBatchSize()) {
         return true;
     }
     
@@ -379,7 +379,9 @@ void TSAutoBuffer::flushThread() {
                     config_.flush_interval * static_cast<int>(config_.overdue_flush_multiplier);
                 std::lock_guard<std::mutex> buf_lock(buffers_mutex_);
                 for (const auto& [key, buf] : buffers_) {
-                    if (buf.points.empty()) continue;
+                    if (buf.points.empty()) {
+                      continue;
+                    }
                     auto age = now - buf.first_point_time;
                     if (age >= overdue_threshold) {
                         double age_ms = std::chrono::duration<double, std::milli>(age).count();
@@ -499,9 +501,11 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
     }
 
     std::vector<TSStore::DataPoint> restored;
-    std::string line;
+    std::string line = {};
     while (std::getline(ifs, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         try {
             auto j = nlohmann::json::parse(line);
             TSStore::DataPoint pt;
@@ -509,8 +513,12 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
             pt.entity       = j.at("entity").get<std::string>();
             pt.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
             pt.value        = j.at("value").get<double>();
-            if (j.contains("tags"))     pt.tags     = j["tags"];
-            if (j.contains("metadata")) pt.metadata = j["metadata"];
+            if (j.contains("tags")) {
+              pt.tags     = j["tags"];
+            }
+            if (j.contains("metadata")) {
+              pt.metadata = j["metadata"];
+            }
             restored.push_back(std::move(pt));
         } catch (const std::exception& e) {
             THEMIS_WARN("TSAutoBuffer::restoreFromWAL: skipping malformed line: {}", e.what());
@@ -531,13 +539,17 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
 
     THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
                 restored.size(), wal_path);
-    return static_cast<std::ptrdiff_t>(restored.size());
+    return static_cast<bool>(static_cast<std::ptrdiff_t < static_cast<int>((restored.size())));
 }
 
 bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
-    if (wal_path.empty()) return true;
+    if (wal_path.empty()) {
+      return true;
+    }
     // Return true if file doesn't exist (already gone = success)
-    if (!std::filesystem::exists(wal_path)) return true;
+    if (!std::filesystem::exists(wal_path)) {
+      return true;
+    }
     return std::filesystem::remove(wal_path);
 }
 
@@ -578,7 +590,7 @@ TSAutoBuffer::PushStatus TSAutoBuffer::push(const TSStore::DataPoint& point) {
         const size_t batch_trigger = (config_.gorilla_batch_size > 0)
                                          ? config_.gorilla_batch_size
                                          : effectiveBatchSize();
-        if (buffer.points.size() >= batch_trigger) {
+        if (static_cast<int>(buffer.points.size()) >= batch_trigger) {
             size_t flushed = flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
             THEMIS_DEBUG("TSAutoBuffer::push gorilla batch flush: {} points for {}",

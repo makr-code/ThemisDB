@@ -33,21 +33,29 @@ std::string intentToString(IntentCategory cat) {
 }
 
 IntentCategory stringToIntent(const std::string& s) {
-    if (s == "QUERY")        return IntentCategory::QUERY;
-    if (s == "COMMAND")      return IntentCategory::COMMAND;
-    if (s == "QUESTION")     return IntentCategory::QUESTION;
-    if (s == "CONVERSATION") return IntentCategory::CONVERSATION;
+    if (s == "QUERY") {
+      return IntentCategory::QUERY;
+    }
+    if (s == "COMMAND") {
+      return IntentCategory::COMMAND;
+    }
+    if (s == "QUESTION") {
+      return IntentCategory::QUESTION;
+    }
+    if (s == "CONVERSATION") {
+      return IntentCategory::CONVERSATION;
+    }
     return IntentCategory::UNKNOWN;
 }
 
 // ---- ConversationContext ----
 
-ConversationContext::ConversationContext(size_t max_history)
+ConversationContext::ConversationContext([[maybe_unused]] size_t max_history)
     : max_history_(max_history) {}
 
 void ConversationContext::addTurn(const std::string& user_input, const std::string& assistant_response) {
     history_.emplace_back(user_input, assistant_response);
-    if (history_.size() > max_history_) {
+    if (static_cast<int>(history_.size()) > max_history_) {
         history_.erase(history_.begin());
     }
 }
@@ -58,7 +66,9 @@ void ConversationContext::setEntity(const std::string& key, const std::string& v
 
 std::optional<std::string> ConversationContext::getEntity(const std::string& key) const {
     auto it = entities_.find(key);
-    if (it != entities_.end()) return it->second;
+    if (it != entities_.end()) {
+      return it->second;
+    }
     return std::nullopt;
 }
 
@@ -70,9 +80,9 @@ const std::vector<std::pair<std::string, std::string>>& ConversationContext::get
     return history_;
 }
 
-std::string ConversationContext::buildContextString(size_t max_turns) const {
-    std::ostringstream oss;
-    size_t start = (history_.size() > max_turns) ? history_.size() - max_turns : 0;
+std::string ConversationContext::buildContextString([[maybe_unused]] size_t max_turns) const {
+    std::ostringstream oss = {};
+    size_t start = (static_cast<int>(history_.size()) > max_turns) ? static_cast<int>(history_.size()) - max_turns : 0;
     for (size_t i = start; i < history_.size(); ++i) {
         oss << "User: " << history_[i].first << "\n";
         oss << "Assistant: " << history_[i].second << "\n";
@@ -86,7 +96,7 @@ void ConversationContext::clear() {
 }
 
 size_t ConversationContext::turnCount() const {
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 bool ConversationContext::hasEntity(const std::string& key) const {
@@ -110,7 +120,9 @@ std::string intentToLower(const std::string& s) {
 bool containsAny(const std::string& text, const std::vector<std::string>& keywords) {
     std::string lower = intentToLower(text);
     for (const auto& kw : keywords) {
-        if (lower.find(kw) != std::string::npos) return true;
+        if (lower.find(kw) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -123,10 +135,18 @@ IntentCategory VoiceIntentDetector::classifyIntent(const std::string& text) {
     static const std::vector<std::string> question_kw= {"help","how to","what does","explain","why","describe","define"};
     static const std::vector<std::string> conv_kw    = {"hello","hi ","hi!","thanks","bye","yes","no","ok","sure","alright"};
 
-    if (containsAny(text, conv_kw))    return IntentCategory::CONVERSATION;
-    if (containsAny(text, command_kw)) return IntentCategory::COMMAND;
-    if (containsAny(text, query_kw))   return IntentCategory::QUERY;
-    if (containsAny(text, question_kw))return IntentCategory::QUESTION;
+    if (containsAny(text, conv_kw)) {
+      return IntentCategory::CONVERSATION;
+    }
+    if (containsAny(text, command_kw)) {
+      return IntentCategory::COMMAND;
+    }
+    if (containsAny(text, query_kw)) {
+      return IntentCategory::QUERY;
+    }
+    if (containsAny(text, question_kw)) {
+      return IntentCategory::QUESTION;
+    }
     return IntentCategory::UNKNOWN;
 }
 
@@ -143,12 +163,18 @@ float VoiceIntentDetector::computeIntentConfidence(const std::string& text, Inte
     };
 
     for (const auto& ks : sets) {
-        if (ks.cat != cat) continue;
+        if (ks.cat != cat) {
+          continue;
+        }
         int hits = 0;
         for (const auto& kw : ks.kws) {
-            if (lower.find(kw) != std::string::npos) ++hits;
+            if (lower.find(kw) != std::string::npos) {
+              ++hits;
+            }
         }
-        if (hits == 0) return 0.3f;
+        if (hits == 0) {
+          return 0.3f;
+        }
         return std::min(0.5f + hits * 0.15f, 0.95f);
     }
     return 0.3f;
@@ -174,11 +200,11 @@ std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::str
         size_t pos = lower.find(pattern);
         if (pos != std::string::npos) {
             NamedEntity ent;
-            ent.text = text.substr(pos, pattern.size());
+            ent.text = text.substr(pos,static_cast<int>(pattern.size()));
             ent.type = type;
             ent.confidence = 0.85f;
             ent.start_offset = static_cast<int>(pos);
-            ent.end_offset = static_cast<int>(pos + pattern.size());
+            ent.end_offset = static_cast<int>(pos + static_cast<int>(pattern.size()) );
             entities.push_back(ent);
         }
     }
@@ -216,11 +242,11 @@ std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::s
         size_t pos = lower.find(kw);
         if (pos != std::string::npos) {
             NamedEntity ent;
-            ent.text = text.substr(pos, kw.size());
+            ent.text = text.substr(pos,static_cast<int>(kw.size()));
             ent.type = "METRIC";
             ent.confidence = 0.75f;
             ent.start_offset = static_cast<int>(pos);
-            ent.end_offset   = static_cast<int>(pos + kw.size());
+            ent.end_offset   = static_cast<int>(pos + static_cast<int>(kw.size()) );
             entities.push_back(ent);
         }
     }
@@ -265,7 +291,7 @@ std::string VoiceIntentDetector::normalizeQuery(
     return result;
 }
 
-bool VoiceIntentDetector::meetsThreshold(float confidence) const {
+bool VoiceIntentDetector::meetsThreshold([[maybe_unused]] float confidence) const {
     return confidence >= config_.min_confidence_threshold;
 }
 
@@ -363,7 +389,7 @@ json VoiceIntentDetector::getStatistics() const {
 // Phase 3: Confidence and Safe Defaults
 // ============================================================================
 
-bool VoiceIntentDetector::isConfidenceTooLow(float confidence) const noexcept {
+bool VoiceIntentDetector::isConfidenceTooLow([[maybe_unused]] float confidence) const noexcept {
     return confidence < config_.min_confidence_threshold;
 }
 

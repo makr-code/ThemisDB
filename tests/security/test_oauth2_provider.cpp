@@ -382,7 +382,7 @@ TEST_F(OAuth2ProviderTest, RefreshIdPErrorReturns401) {
 }
 
 TEST_F(OAuth2ProviderTest, RefreshBodyContainsGrantType) {
-    std::string captured_body;
+    std::string captured_body = {};
     provider_->setHttpPostForTesting(
         [&captured_body](const std::string&, const std::string& body) {
             captured_body = body;
@@ -396,7 +396,7 @@ TEST_F(OAuth2ProviderTest, RefreshBodyContainsGrantType) {
 }
 
 TEST_F(OAuth2ProviderTest, RefreshBodyContainsClientId) {
-    std::string captured_body;
+    std::string captured_body = {};
     provider_->setHttpPostForTesting(
         [&captured_body](const std::string&, const std::string& body) {
             captured_body = body;
@@ -474,8 +474,8 @@ TEST_F(OAuth2ProviderTest, LogoutPostsToRevocationEndpointWhenAvailable) {
     doc.revocation_endpoint    = "https://idp.example.com/revoke";
     provider_->setDiscoveryDocumentForTesting(doc);
 
-    std::string captured_url;
-    std::string captured_body;
+    std::string captured_url = {};
+    std::string captured_body = {};
     provider_->setHttpPostForTesting(
         [&](const std::string& url, const std::string& body) {
             captured_url = url;

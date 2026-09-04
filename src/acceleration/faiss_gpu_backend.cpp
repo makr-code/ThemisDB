@@ -74,7 +74,7 @@ BackendCapabilities FaissGPUVectorBackend::getCapabilities() const {
         metricBit(DistanceMetric::INNER_PRODUCT);
 
     if (isAvailable()) {
-        cudaDeviceProp prop;
+        cudaDeviceProp prop = {};
         if (cudaGetDeviceProperties(&prop, config_.deviceId) == cudaSuccess) {
             caps.deviceName = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
@@ -271,7 +271,9 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
 }
 
 void FaissGPUVectorBackend::destroyIndex() {
-    if (!index_) return;
+    if (!index_) {
+      return;
+    }
 
     switch (currentIndexType_) {
         case IndexType::FLAT_L2:
@@ -318,8 +320,8 @@ bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) 
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2:
-            case IndexType::FLAT_IP:
-            case IndexType::HNSW_FLAT:
+            [[fallthrough]];\n            case IndexType::FLAT_IP:
+            [[fallthrough]];\n            case IndexType::HNSW_FLAT:
                 // These index types are pre-trained; no explicit training step needed.
                 return true;
 
@@ -663,7 +665,7 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
         return false;
     }
     if (filepath.find("..") != std::string::npos ||
-        filepath.size() != std::strlen(filepath.c_str())) {
+        static_cast<int>(filepath.size()) != std::strlen(filepath.c_str())) {
         setError(AccelerationErrorCode::InvalidParameter,
                  "saveIndex: filepath contains invalid characters");
         return false;
@@ -671,7 +673,7 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
 
     // Sanitize filepath for logging: replace control chars to prevent
     // log injection (CWE-117) and XSS in log viewers (CWE-79).
-    std::string safeFilepath;
+    std::string safeFilepath = {};
     safeFilepath.reserve(filepath.size());
     for (unsigned char c : filepath) {
         safeFilepath += (c < 0x20 || c == 0x7f) ? '?' : static_cast<char>(c);
@@ -745,7 +747,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
         return false;
     }
     if (filepath.find("..") != std::string::npos ||
-        filepath.size() != std::strlen(filepath.c_str())) {
+        static_cast<int>(filepath.size()) != std::strlen(filepath.c_str())) {
         setError(AccelerationErrorCode::InvalidParameter,
                  "loadIndex: filepath contains invalid characters");
         return false;
@@ -753,7 +755,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
 
     // Sanitize filepath for logging and error messages: replace control chars
     // to prevent log injection (CWE-117) and XSS in log viewers (CWE-79).
-    std::string safeFilepath;
+    std::string safeFilepath = {};
     safeFilepath.reserve(filepath.size());
     for (unsigned char c : filepath) {
         safeFilepath += (c < 0x20 || c == 0x7f) ? '?' : static_cast<char>(c);
@@ -780,7 +782,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
             &options
         );
 
-        delete cpuIndex;
+        delete cpuIndex = {};
 
         if (!gpuIndex) {
             setError(AccelerationErrorCode::MemoryCopyFailed,
@@ -858,7 +860,9 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
 }
 
 void FaissGPUVectorBackend::resetIndex() {
-    if (!index_) return;
+    if (!index_) {
+      return;
+    }
 
     try {
         faiss::Index* idx = nullptr;

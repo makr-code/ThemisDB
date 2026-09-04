@@ -55,7 +55,7 @@ size_t curlWriteString(void* contents, size_t size, size_t nmemb, void* userp) {
 }
 
 struct CurlFileWriter {
-    std::ofstream file;
+    std::ofstream file = {};
     bool ok = true;
 };
 
@@ -86,7 +86,9 @@ size_t curlHeaderCallback(char* buffer, size_t size, size_t nitems, void* userp)
         std::transform(key.begin(), key.end(), key.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
         // Trim leading spaces from value
-        while (!val.empty() && val.front() == ' ') val.erase(val.begin());
+        while (!val.empty() && val.front() == ' ') {
+          val.erase(val.begin());
+        }
         (*headers)[key] = val;
     }
     return size * nitems;
@@ -122,7 +124,7 @@ std::string sha256HexFile(const std::string& path) {
     }
     // ctx is automatically freed here when unique_ptr goes out of scope
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned int i = 0; i < digest_len; ++i) {
         oss << std::setw(2) << static_cast<unsigned>(digest[i]);
@@ -159,8 +161,8 @@ Result<OciReference> OciReference::parse(const std::string& raw) {
     // Only the LAST colon after the last '/' is the tag separator.
     {
         auto slash_pos = remainder.rfind('/');
-        std::string name_part;
-        std::string registry_part;
+        std::string name_part = {};
+        std::string registry_part = {};
 
         if (slash_pos == std::string::npos) {
             // No slash at all – treat as plain image name with implicit registry.
@@ -208,8 +210,12 @@ Result<OciReference> OciReference::parse(const std::string& raw) {
 
 std::string OciReference::toString() const {
     std::string s = registry + "/" + name;
-    if (!tag.empty())    s += ":" + tag;
-    if (!digest.empty()) s += "@" + digest;
+    if (!tag.empty()) {
+      s += ":" + tag;
+    }
+    if (!digest.empty()) {
+      s += "@" + digest;
+    }
     return s;
 }
 
@@ -404,7 +410,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     }
 
     std::unordered_map<std::string, std::string> resp_headers;
-    std::string body;
+    std::string body = {};
 
     curl_easy_setopt(curl, CURLOPT_URL, challenge_url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteString);
@@ -428,10 +434,12 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     const std::string& www_auth = it->second;
     std::string realm, service;
 
-    auto extract = [&](const std::string& key) -> std::string {
+    auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
         std::regex re(key + "=\"([^\"]*)\"");
-        std::smatch m;
-        if (std::regex_search(www_auth, m, re)) return m[1].str();
+        std::smatch m = {};
+        if (std::regex_search(www_auth, m, re)) {
+          return m[1].str();
+        }
         return {};
     };
 
@@ -452,7 +460,9 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     {
         std::lock_guard<std::mutex> lk(mutex_);
         auto ait = auth_configs_.find(registry);
-        if (ait != auth_configs_.end()) auth = ait->second;
+        if (ait != auth_configs_.end()) {
+          auth = ait->second;
+        }
     }
 
     CURL* token_curl = curl_easy_init();
@@ -461,7 +471,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
                                 "curl_easy_init() failed for token fetch");
     }
 
-    std::string token_body;
+    std::string token_body = {};
     curl_easy_setopt(token_curl, CURLOPT_URL, token_url.c_str());
     curl_easy_setopt(token_curl, CURLOPT_WRITEFUNCTION, curlWriteString);
     curl_easy_setopt(token_curl, CURLOPT_WRITEDATA, &token_body);
@@ -491,8 +501,12 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     try {
         auto tj = json::parse(token_body);
         // Docker Hub returns "token"; ECR/GHCR return "access_token"
-        if (tj.contains("token"))        return Ok(tj["token"].get<std::string>());
-        if (tj.contains("access_token")) return Ok(tj["access_token"].get<std::string>());
+        if (tj.contains("token")) {
+          return Ok(tj["token"].get<std::string>());
+        }
+        if (tj.contains("access_token")) {
+          return Ok(tj["access_token"].get<std::string>());
+        }
     } catch (...) {}
 
     return Err<std::string>(ErrorCode::ERR_PLUGIN_OCI_PULL_FAILED,
@@ -504,7 +518,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     const std::string& expected_digest)
 {
     // expected_digest is in the form "sha256:<hex>".
-    if (expected_digest.size() <= 7 ||
+    if (static_cast<int>(expected_digest.size()) <= 7 ||
         expected_digest.substr(0, 7) != "sha256:") {
         return false;
     }
@@ -535,7 +549,9 @@ Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = auth_configs_.find(ref.registry);
-        if (it != auth_configs_.end()) auth = it->second;
+        if (it != auth_configs_.end()) {
+          auth = it->second;
+        }
     }
 
     if (!auth.bearer_token.empty()) {
@@ -586,7 +602,7 @@ Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     }
 
     THEMIS_INFO("OciRegistryClient: fetched manifest for {} ({} layers)",
-                ref.toString(), manifest.layers.size());
+                ref.toString(),static_cast<int>(manifest.layers.size()));
 
     return Ok(manifest);
 }
@@ -596,7 +612,7 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
     const std::string& dest_dir)
 {
     // Ensure destination directory exists.
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(dest_dir, ec);
     if (ec) {
         return Err<std::string>(ErrorCode::ERR_PLUGIN_OCI_PULL_FAILED,
@@ -633,7 +649,7 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
 
     // 3. Build destination file path from digest (sha256:<hex> -> <hex>.plugin).
     std::string digest = plugin_layer->digest;
-    std::string digest_hex = (digest.size() > 7 && digest.substr(0, 7) == "sha256:")
+    std::string digest_hex = (static_cast<int>(digest.size()) > 7 && digest.substr(0, 7) == "sha256:")
                              ? digest.substr(7)
                              : digest;
 
@@ -650,7 +666,9 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
     // Use only the last path component as the base filename.
     {
         auto slash = plugin_name.rfind('/');
-        if (slash != std::string::npos) plugin_name = plugin_name.substr(slash + 1);
+        if (slash != std::string::npos) {
+          plugin_name = plugin_name.substr(slash + 1);
+        }
     }
 
     std::string dest_path = dest_dir + "/" + plugin_name + "_" +
@@ -672,7 +690,9 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
         {
             std::lock_guard<std::mutex> lk(mutex_);
             auto it = auth_configs_.find(ref.registry);
-            if (it != auth_configs_.end()) auth = it->second;
+            if (it != auth_configs_.end()) {
+              auth = it->second;
+            }
         }
         if (!auth.bearer_token.empty()) {
             auth_headers.push_back("Authorization: Bearer " + auth.bearer_token);

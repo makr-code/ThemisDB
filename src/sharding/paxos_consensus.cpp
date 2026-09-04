@@ -387,36 +387,36 @@ nlohmann::json PaxosConsensus::getStatus() const {
 void PaxosConsensus::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_commit_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_commit_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void PaxosConsensus::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_state_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_state_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void PaxosConsensus::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_leader_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_leader_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void PaxosConsensus::setPrepareRPCCallback(PaxosPrepareCallback cb) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void PaxosConsensus::setPrepareRPCCallback([[maybe_unused]] PaxosPrepareCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     rpc_prepare_cb_ = std::move(cb);
 }
 
-void PaxosConsensus::setPrepareFullRPCCallback(PaxosPrepareFullCallback cb) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void PaxosConsensus::setPrepareFullRPCCallback([[maybe_unused]] PaxosPrepareFullCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     rpc_prepare_full_cb_ = std::move(cb);
 }
 
-void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void PaxosConsensus::setAcceptRPCCallback([[maybe_unused]] PaxosAcceptCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     rpc_accept_cb_ = std::move(cb);
 }
 
@@ -433,7 +433,9 @@ void PaxosConsensus::runProposer() {
             return !pending_proposals_.empty() || !running_.load();
         });
         
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         // Process pending proposals with retry logic
         std::vector<uint64_t> failed_slots;
@@ -462,7 +464,9 @@ void PaxosConsensus::runProposer() {
                                  node_id_, slot, e.what());
                     success = false;
                 }
-                if (success) break;
+                if (success) {
+                  break;
+                }
             }
             
             if (!lock.try_lock_for(config_.paxos_prepare_timeout)) {
@@ -573,7 +577,9 @@ void PaxosConsensus::leaderElectionThread() {
             nodes_snapshot = cluster_nodes_;
         }
 
-        if (nodes_snapshot.empty()) continue;
+        if (nodes_snapshot.empty()) {
+          continue;
+        }
 
         const bool is_leader = (state_.load() == ConsensusState::LEADER);
 
@@ -592,7 +598,7 @@ void PaxosConsensus::leaderElectionThread() {
 
         PaxosPrepareCallback cb;
         {
-            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
             cb = rpc_prepare_cb_;
         }
 
@@ -600,13 +606,17 @@ void PaxosConsensus::leaderElectionThread() {
             // Use slot 0 (reserved for leader election) to solicit promises.
             constexpr uint64_t kLeaderElectionSlot = 0;
             for (const auto& peer : nodes_snapshot) {
-                if (peer == node_id_) continue;
+                if (peer == node_id_) {
+                  continue;
+                }
                 if (cb(peer, kLeaderElectionSlot, ballot, node_id_)) {
                     ++promises;
-                    if (promises >= quorum) break;
+                    if (promises >= quorum) {
+                      break;
+                    }
                 }
             }
-        } else if (nodes_snapshot.size() == 1) {
+        } else if (static_cast<int>(nodes_snapshot.size()) == 1) {
             // Single-node cluster: we are implicitly the leader.
             promises = quorum;
         }
@@ -618,7 +628,7 @@ void PaxosConsensus::leaderElectionThread() {
                 current_leader_ = node_id_;
             }
             spdlog::info("Node {} elected as leader (ballot={}, promises={}/{})",
-                         node_id_, ballot, promises, nodes_snapshot.size());
+                         node_id_, ballot, promises,static_cast<int>(nodes_snapshot.size()));
         }
     }
 
@@ -676,7 +686,9 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         auto start_time = std::chrono::steady_clock::now();
 
         for (const auto& node : cluster_nodes_) {
-            if (node == node_id_) continue;
+            if (node == node_id_) {
+              continue;
+            }
 
             auto elapsed = std::chrono::steady_clock::now() - start_time;
             if (elapsed > config_.paxos_prepare_timeout) {
@@ -689,7 +701,7 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
             PaxosPrepareFullCallback full_cb;
             PaxosPrepareCallback     basic_cb;
             {
-                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
                 full_cb  = rpc_prepare_full_cb_;
                 basic_cb = rpc_prepare_cb_;
             }
@@ -737,12 +749,12 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         // Check if we have quorum
         if (!hasQuorum(instance.prepare_promises.size())) {
             spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
-                        node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
+                        node_id_, slot,static_cast<int>(instance.prepare_promises.size()),static_cast<int>(cluster_nodes_.size()));
             return false;
         }
 
         spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
-                     node_id_, instance.prepare_promises.size(),
+                     node_id_,static_cast<int>(instance.prepare_promises.size()),
                      cluster_nodes_.size(), slot);
 
         // Phase 1b complete: quorum of promises received.
@@ -758,7 +770,8 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     // when an earlier accepted value must override our own proposal (Paxos
     // Phase-1b safety): this avoids an unconditional copy of `value` on the
     // common fast path where no prior value was accepted.
-    std::optional<ConsensusLogEntry> proposed_value_override;
+    std::optional<ConsensusLogEntry> proposed_value_override = {};
+
     if (highest_accepted_value.has_value()) {
         proposed_value_override = std::move(*highest_accepted_value);
         spdlog::debug("Node {} overriding proposed value with highest accepted value "
@@ -828,7 +841,9 @@ bool PaxosConsensus::executeAcceptPhase(
         auto& instance = instances_[slot];
 
         for (const auto& node : cluster_nodes_) {
-            if (node == node_id_) continue;
+            if (node == node_id_) {
+              continue;
+            }
 
             auto elapsed = std::chrono::steady_clock::now() - start_time;
             if (elapsed > config_.paxos_accept_timeout) {
@@ -840,7 +855,7 @@ bool PaxosConsensus::executeAcceptPhase(
 
             PaxosAcceptCallback cb;
             {
-                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
                 cb = rpc_accept_cb_;
             }
 
@@ -867,12 +882,12 @@ bool PaxosConsensus::executeAcceptPhase(
         // Phase 2b: Check if we have quorum of accepts
         if (!hasQuorum(instance.accept_acks.size())) {
             spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
-                        node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
+                        node_id_, slot,static_cast<int>(instance.accept_acks.size()),static_cast<int>(cluster_nodes_.size()));
             return false;
         }
 
         spdlog::debug("Node {} got quorum ({}/{}) in accept phase for slot {}",
-                     node_id_, instance.accept_acks.size(),
+                     node_id_,static_cast<int>(instance.accept_acks.size()),
                      cluster_nodes_.size(), slot);
         
         // Quorum reached - value is chosen
@@ -918,9 +933,9 @@ bool PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
     
     // Call commit callback
     {
-        std::lock_guard<std::mutex> lock(callbacks_mutex_);
-        if (on_commit_callback_) {
-            on_commit_callback_(value);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+        if ([[maybe_unused]] on_commit_callback_) {
+            on_commit_callback_([[maybe_unused]] value);
         }
     }
     
@@ -937,7 +952,7 @@ size_t PaxosConsensus::getQuorumSize() const {
     return (cluster_nodes_.size() / 2) + 1;
 }
 
-bool PaxosConsensus::hasQuorum(size_t count) const {
+bool PaxosConsensus::hasQuorum([[maybe_unused]] size_t count) const {
     return count >= getQuorumSize();
 }
 
@@ -1036,7 +1051,7 @@ bool PaxosConsensus::loadPersistentState() {
         
         spdlog::info("Loaded Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
                      current_round_.load(), next_slot_.load(), commit_index_.load(), 
-                     instances_.size(), committed_log_.size());
+                     instances_.size(),static_cast<int>(committed_log_.size()));
         
         return true;
         
@@ -1129,7 +1144,7 @@ bool PaxosConsensus::savePersistentState() {
         
         spdlog::debug("Saved Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
                       current_round_.load(), next_slot_.load(), commit_index_.load(),
-                      instances_.size(), committed_log_.size());
+                      instances_.size(),static_cast<int>(committed_log_.size()));
         
         return true;
         
@@ -1251,7 +1266,7 @@ bool PaxosConsensus::recoverFromWAL() {
             
             spdlog::info("Recovered from Paxos snapshot: id={}, slot={}, instances={}, log_entries={}",
                         snapshot.snapshot_id, snapshot.last_committed_slot,
-                        snapshot.instances.size(), snapshot.committed_log.size());
+                        snapshot.instances.size(),static_cast<int>(snapshot.committed_log.size()));
         } else {
             spdlog::info("No snapshot found, starting from empty state");
             last_applied_lsn_ = LSN(0, 0);
@@ -1282,7 +1297,7 @@ bool PaxosConsensus::recoverFromWAL() {
                 }
                     
                 case themis::sharding::PaxosWALEntryType::ACCEPT:
-                case themis::sharding::PaxosWALEntryType::ACCEPTED: {
+                [[fallthrough]];\n                case themis::sharding::PaxosWALEntryType::ACCEPTED: {
                     spdlog::debug("Replay ACCEPT: slot={}, round={}", entry.slot, entry.round);
                     auto& inst = instances_[entry.slot];
                     inst.slot = entry.slot;
@@ -1308,7 +1323,7 @@ bool PaxosConsensus::recoverFromWAL() {
                         commit_index_.store(entry.slot);
                     }
                     // Rebuild committed log
-                    ConsensusLogEntry log_entry;
+                    ConsensusLogEntry log_entry = {};
                     if (!entry.data.is_null()) {
                         log_entry.operation = entry.data.value("operation", std::string{});
                         log_entry.data      = entry.data.value("data", nlohmann::json{});
@@ -1363,7 +1378,7 @@ void PaxosConsensus::createPeriodicSnapshot() {
         if (snapshot_id.has_value()) {
             operations_since_snapshot_.store(0);
             spdlog::info("Created Paxos snapshot: id={}, slot={}, instances={}",
-                        snapshot_id.value(), commit_index_.load(), instances_.size());
+                        snapshot_id.value(), commit_index_.load(),static_cast<int>(instances_.size()));
         }
         
     } catch (const std::exception& e) {

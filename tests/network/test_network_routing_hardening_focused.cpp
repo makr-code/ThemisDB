@@ -84,7 +84,7 @@ struct BackendInfo {
     std::string   name;
     BackendHealth health{BackendHealth::HEALTHY};
     uint32_t      latencyMs{10};
-    std::string   region;
+    std::string   region = {};
 };
 
 // ---------------------------------------------------------------------------
@@ -188,7 +188,7 @@ TEST(NetworkRoutingHardening, NRH01_PrimaryRegionDownFallsBackToSecondary) {
     router.addBackend({"primary-b", BackendHealth::DOWN,    10, "eu-west"});
     router.addBackend({"fallback-a", BackendHealth::HEALTHY, 50, "us-east"});
 
-    std::string selected;
+    std::string selected = {};
     auto code = router.select("eu-west", selected);
     EXPECT_EQ(code, NetworkErrorCode::OK)
         << "Cross-region fallback must succeed when primary region is down";
@@ -206,7 +206,7 @@ TEST(NetworkRoutingHardening, NRH02_AllRegionsDownRoutingUnavailable) {
     router.addBackend({"b", BackendHealth::DOWN, 10, "us-east"});
     router.addBackend({"c", BackendHealth::DOWN, 10, "ap-south"});
 
-    std::string selected;
+    std::string selected = {};
     auto code = router.select("eu-west", selected);
     EXPECT_EQ(code, NetworkErrorCode::ROUTING_UNAVAILABLE);
     EXPECT_FALSE(isConnectionClosingError(code))
@@ -243,7 +243,9 @@ TEST(NetworkRoutingHardening, NRH03_LbSwitchesToStandbyAfterThreshold) {
 TEST(NetworkRoutingHardening, NRH04_LbRecoversToPrimaryAfterSuccesses) {
     MockLoadBalancer lb;
     // Trigger failover first.
-    for (int i = 0; i < lb.kFailoverThreshold; ++i) lb.recordFailure();
+    for (int i = 0; i < lb.kFailoverThreshold; ++i) {
+      lb.recordFailure();
+    }
     ASSERT_EQ(lb.role, LbRole::STANDBY);
 
     // Drive successes up to recovery threshold.
@@ -303,7 +305,7 @@ TEST(NetworkRoutingHardening, NRH07_AllDegradedDeterministicFallback) {
                            "region-" + std::to_string(i % 3)});
     }
 
-    std::string selected;
+    std::string selected = {};
     // Call multiple times — must be deterministic.
     for (int attempt = 0; attempt < 5; ++attempt) {
         auto code = router.select("region-0", selected);

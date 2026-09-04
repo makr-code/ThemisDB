@@ -47,7 +47,7 @@ namespace cdc {
  * @brief A single dead-letter queue entry wrapping a failed ChangeEvent.
  */
 struct DLQEntry {
-    uint64_t    dlq_sequence;       ///< DLQ-internal sequence (unique within DLQ)
+    uint64_t    dlq_sequence = 0;       ///< DLQ-internal sequence (unique within DLQ)
     Changefeed::ChangeEvent event;  ///< Original change event that failed delivery
     std::string failure_reason;     ///< Human-readable reason (last error message)
     int         attempt_count;      ///< Number of delivery attempts that were made

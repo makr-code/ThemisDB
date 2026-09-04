@@ -27,7 +27,7 @@ namespace themis {
 namespace graphql {
 
 namespace {
-constexpr uint32_t kMaxComplexityScoringDepth = 64U;
+constexpr uint32_t kMaxComplexityScoringDepth = 64;
 
 uint32_t checkedAdd(uint32_t lhs, uint32_t rhs) {
     if (rhs > std::numeric_limits<uint32_t>::max() - lhs) {
@@ -37,7 +37,7 @@ uint32_t checkedAdd(uint32_t lhs, uint32_t rhs) {
 }
 
 uint32_t checkedMul(uint32_t lhs, uint32_t rhs) {
-    if (lhs != 0U
+    if (lhs != 0
         && rhs > std::numeric_limits<uint32_t>::max() / lhs) {
         throw std::runtime_error("GraphQL complexity overflow");
     }
@@ -53,15 +53,15 @@ uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
     for (const auto& field : fields) {
         const uint32_t argument_cost = static_cast<uint32_t>(field.arguments.size());
         const uint32_t field_cost =
-            checkedMul(1U + argument_cost, depth + 1U);
+            checkedMul(1 + argument_cost, depth + 1);
         local = checkedAdd(local, field_cost);
 
         if (field.name == "aql" || field.name == "aqlMutation") {
-            local = checkedAdd(local, 50U);
+            local = checkedAdd(local, 50);
         }
 
         if (!field.selections.empty()) {
-            local = checkedAdd(local, scoreFieldsBounded(field.selections, depth + 1U));
+            local = checkedAdd(local, scoreFieldsBounded(field.selections, depth + 1));
         }
     }
     return local;
@@ -69,7 +69,7 @@ uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
 } // namespace
 
 std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "GraphQL query complexity " << actual 
         << " exceeds budget " << budget;
     return oss.str();
@@ -103,11 +103,11 @@ uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& d
         limits.timeout_ms = 30000;
     } else if (complexity <= 500) {
         limits.max_rows = 50000;
-        limits.max_memory_bytes = 64ULL * 1024ULL * 1024ULL;
+        limits.max_memory_bytes = 64 * 1024 * 1024;
         limits.timeout_ms = 20000;
     } else {
         limits.max_rows = 10000;
-        limits.max_memory_bytes = 16ULL * 1024ULL * 1024ULL;
+        limits.max_memory_bytes = 16 * 1024 * 1024;
         limits.timeout_ms = 10000;
     }
     return limits;
@@ -118,7 +118,7 @@ uint32_t GraphQLComplexityEstimator::scoreSelectionSet(
     uint32_t depth) {
     (void)set;
     (void)depth;
-    return 0U;
+    return 0;
 }
 
 std::shared_ptr<Value> jsonToGqlValue(const nlohmann::json& j) {

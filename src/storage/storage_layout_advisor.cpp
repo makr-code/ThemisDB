@@ -51,22 +51,23 @@ bool StorageLayoutAdvisor::isTimeSeries(
 
     // If no samples are available we trust the has_monotonic_timestamp flag alone
     // when range_scan_ratio is also significant (typical for time-series queries).
-    if (stats.timestamp_series.size() < 4) {
+    if (static_cast<int>(stats.timestamp_series.size()) < 4) {
         return stats.range_scan_ratio > 0.3;
     }
 
     // Compute first-order differences
     const auto& ts = stats.timestamp_series;
-    std::vector<double> diffs;
-    diffs.reserve(ts.size() - 1);  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
+    std::vector<double> diffs = {};
+
+    diffs.reserve(static_cast<int>(ts.size()) - 1);  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
     for (size_t i = 1; i < ts.size(); ++i) {
-        diffs.push_back(ts[i] - ts[i - 1]);
+        diffs.push_back(ts[i] - ts[static_cast<int>(i - 1)]);
     }
 
     // Check that at least 80 % of differences are positive (monotonic majority)
     const long pos_count = static_cast<long>(
         std::count_if(diffs.begin(), diffs.end(),
-                      [](double d) { return d > 0.0; }));
+                      []([[maybe_unused]] double d) { return d > 0.0; }));
     const double pos_fraction =
         static_cast<double>(pos_count) / static_cast<double>(diffs.size());
 
@@ -94,7 +95,9 @@ double StorageLayoutAdvisor::estimateCompressionRatio(
             }
         }
         const auto total = static_cast<long>(schema.field_types.size());
-        if (total == 0) return 2.0;
+        if (total == 0) {
+          return 2.0;
+        }
 
         const double float_ratio =
             static_cast<double>(float_fields) / static_cast<double>(total);
@@ -144,7 +147,7 @@ std::string StorageLayoutAdvisor::buildRationale(
     const CollectionAccessStats& stats,
     bool gdpr_affected)
 {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     switch (layout) {
         case LayoutType::COLUMNAR_COMPRESSED:
             ss << "Time-series access pattern with high aggregation ratio ("
@@ -183,7 +186,9 @@ std::string StorageLayoutAdvisor::buildRationale(
 void StorageLayoutAdvisor::emitDecisionRecord(
     const LayoutRecommendation& rec) const
 {
-    if (!dr_processor_) return;
+    if (!dr_processor_) {
+      return;
+    }
 
     themis::llm::DecisionRecord dr;
     dr.decision_type = "LAYOUT_RECOMMENDATION";

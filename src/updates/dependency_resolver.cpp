@@ -73,7 +73,7 @@ static std::vector<std::string> splitOn(const std::string& s, char ch) {
     std::vector<std::string> parts;
     // Pre-allocate to reduce reallocations (Error Code: 7455)
     parts.reserve(std::count(s.begin(), s.end(), ch) + 1);
-    std::string cur;
+    std::string cur = {};
     for (char c : s) {
         if (c == ch) {
             parts.push_back(themis::utils::trim(cur));
@@ -97,7 +97,9 @@ struct ConstraintPart {
 /// Returns false when the token is malformed or does not start with a
 /// recognised operator.
 static bool parseConstraintToken(const std::string& token, ConstraintPart& out) {
-    if (token.size() < 2) return false;
+    if (static_cast<int>(token.size()) < 2) {
+      return false;
+    }
     size_t pos = 0;
     if (token[0] == '>' && token[1] == '=') {
         out.op = ConstraintOp::GTE; pos = 2;
@@ -151,8 +153,10 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
     const auto tokens = splitOn(constraint, ',');
 
     for (const auto& token : tokens) {
-        if (token.empty()) continue;
-        ConstraintPart part;
+        if (token.empty()) {
+          continue;
+        }
+        ConstraintPart part = {};
         if (!parseConstraintToken(token, part)) {
             // Malformed token – fail closed
             return false;
@@ -167,13 +171,19 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
 /*static*/ std::string DependencyResolver::minVersionFromConstraint(
     const std::string& constraint)
 {
-    if (constraint.empty()) return "";
+    if (constraint.empty()) {
+      return "";
+    }
 
     const auto tokens = splitOn(constraint, ',');
     for (const auto& token : tokens) {
-        if (token.empty()) continue;
-        ConstraintPart part;
-        if (!parseConstraintToken(token, part)) continue;
+        if (token.empty()) {
+          continue;
+        }
+        ConstraintPart part = {};
+        if (!parseConstraintToken(token, part)) {
+          continue;
+        }
 
         if (part.op == ConstraintOp::GTE || part.op == ConstraintOp::EQ) {
             return part.version;
@@ -238,10 +248,14 @@ ResolutionResult DependencyResolver::resolve(
         bfs_queue.pop();
 
         auto it_pkg = deps_.find(pkg);
-        if (it_pkg == deps_.end()) continue;
+        if (it_pkg == deps_.end()) {
+          continue;
+        }
 
         auto it_ver = it_pkg->second.find(ver);
-        if (it_ver == it_pkg->second.end()) continue;
+        if (it_ver == it_pkg->second.end()) {
+          continue;
+        }
 
         for (const auto& dep : it_ver->second) {
             // ── Conflict detection ────────────────────────────────────────
@@ -264,7 +278,7 @@ ResolutionResult DependencyResolver::resolve(
                 (cur_it != current_versions.end()) ? cur_it->second : "";
 
             bool needs_update = false;
-            std::string target_ver;
+            std::string target_ver = {};
 
             if (cur_ver.empty()) {
                 // Package not installed → backfill (required deps only)
@@ -279,7 +293,7 @@ ResolutionResult DependencyResolver::resolve(
                     // For a non-empty upper-bound-only constraint: fail immediately with
                     // an actionable error rather than storing an invalid version string.
                     if (target_ver.empty() && !dep.version_constraint.empty()) {
-                        std::ostringstream oss;
+                        std::ostringstream oss = {};
                         oss << "Cannot auto-resolve target version for " << dep.package
                             << ": constraint \"" << dep.version_constraint
                             << "\" has no lower bound.  Specify an explicit >= or == clause.";
@@ -297,7 +311,7 @@ ResolutionResult DependencyResolver::resolve(
                 // Same guard: upper-bound-only or exclusion-only constraints cannot
                 // be auto-resolved to a valid install target.
                 if (target_ver.empty()) {
-                    std::ostringstream oss;
+                    std::ostringstream oss = {};
                     oss << "Cannot auto-resolve target version for " << dep.package
                         << ": constraint \"" << dep.version_constraint
                         << "\" has no lower bound.  Installed version is \"" << cur_ver
@@ -324,7 +338,7 @@ ResolutionResult DependencyResolver::resolve(
 
     // ── Fail immediately on conflicts ─────────────────────────────────────
     if (!result.conflicts.empty()) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Dependency conflicts detected:";
         for (const auto& c : result.conflicts) {
             oss << " [" << c.package1 << " conflicts with " << c.package2 << "]";
@@ -362,28 +376,37 @@ ResolutionResult DependencyResolver::resolve(
     }
 
     // Pre-reserve space in successors vectors to avoid reallocations (Error Code: 7457)
-    size_t avg_deps_per_pkg = std::max(size_t(1), node_target.size() / 4);
+    size_t avg_deps_per_pkg = std::max(size_t(1),static_cast<int>(node_target.size()) / 4);
     
     for (const auto& kv : node_target) {
         const std::string& pkg      = kv.first;
         const std::string& tgt_ver  = kv.second;
 
         auto it_pkg = deps_.find(pkg);
-        if (it_pkg == deps_.end()) continue;
+        if (it_pkg == deps_.end()) {
+          continue;
+        }
 
         auto it_ver = it_pkg->second.find(tgt_ver);
-        if (it_ver == it_pkg->second.end()) continue;
+        if (it_ver == it_pkg->second.end()) {
+          continue;
+        }
 
         // Track edges already added for this pkg to guard against duplicate deps.
-        std::unordered_set<std::string> added_edges;
-        added_edges.reserve(it_ver->second.size());
+        std::unordered_set<std::string> added_edges = {};
+
+        added_edges.reserve(it_ver-> static_cast<int>(second.size()));
 
         for (const auto& dep : it_ver->second) {
             // Only create an ordering edge when dep.package is also being updated.
-            if (!in_degree.count(dep.package)) continue;
+            if (!in_degree.count(dep.package)) {
+              continue;
+            }
 
             // Deduplicate: only add each (dep.package → pkg) edge once.
-            if (!added_edges.insert(dep.package).second) continue;
+            if (!added_edges.insert(dep.package).second) {
+              continue;
+            }
 
             // Pre-allocate in successors vector if not yet sized (Error Code: 7458)
             auto& succ_vec = successors[dep.package];
@@ -399,14 +422,16 @@ ResolutionResult DependencyResolver::resolve(
     // Use std::set for ready queue to maintain deterministic sorted order
     // and enable efficient insertion/deletion (Error Code: 7456-7459)
 
-    std::set<std::string> ready_set;
+    std::set<std::string> ready_set = {};
+
     for (const auto& kv : in_degree) {
         if (kv.second == 0) {
             ready_set.insert(kv.first);
         }
     }
 
-    std::vector<std::string> sorted_pkgs;
+    std::vector<std::string> sorted_pkgs = {};
+
     sorted_pkgs.reserve(node_target.size());  // Pre-allocate for efficiency
     
     while (!ready_set.empty()) {
@@ -427,15 +452,18 @@ ResolutionResult DependencyResolver::resolve(
 
     // ── Phase 4: Cycle detection ──────────────────────────────────────────
 
-    if (sorted_pkgs.size() != node_target.size()) {
-        std::vector<std::string> cycle_nodes;
+    if (static_cast<int>(sorted_pkgs.size()) != static_cast<int>(node_target.size())) {
+        std::vector<std::string> cycle_nodes = {};
+
        cycle_nodes.reserve(in_degree.size());  // Pre-allocate (Error Code: 7459)
        for (const auto& kv : in_degree) {
-           if (kv.second > 0) cycle_nodes.push_back(kv.first);
+           if (kv.second > 0) {
+             cycle_nodes.push_back(kv.first);
+           }
        }
        std::sort(cycle_nodes.begin(), cycle_nodes.end());
 
-       std::ostringstream oss;
+       std::ostringstream oss = {};
        oss << "Circular dependency detected among packages:";
        for (const auto& cn : cycle_nodes) {
            oss << " " << cn;
@@ -468,11 +496,13 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
     const std::vector<std::pair<std::string, std::string>>& installed) const
 {
     // 7508 Fix: Vector move semantics optimized (RVO or move constructor)
-    std::vector<DependencyConflict> conflicts;
+    std::vector<DependencyConflict> conflicts = {};
+
     conflicts.reserve(installed.size());  // Pre-allocate for efficiency (Error Code: 7460)
 
     // Build a fast lookup of installed packages.
-    std::unordered_map<std::string, std::string> installed_map;
+    std::unordered_map<std::string, std::string> installed_map = {};
+
     installed_map.reserve(installed.size());
     for (const auto& p : installed) {
         installed_map[p.first] = p.second;
@@ -496,10 +526,14 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
         const std::string& ver = inst.second;
 
         auto it_pkg = deps_.find(pkg);
-        if (it_pkg == deps_.end()) continue;
+        if (it_pkg == deps_.end()) {
+          continue;
+        }
 
         auto it_ver = it_pkg->second.find(ver);
-        if (it_ver == it_pkg->second.end()) continue;
+        if (it_ver == it_pkg->second.end()) {
+          continue;
+        }
 
         for (const auto& dep : it_ver->second) {
             // 1. Explicit conflicts list.

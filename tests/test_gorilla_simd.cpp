@@ -22,7 +22,9 @@ using namespace themis;
 
 static std::vector<uint8_t> encode(const std::vector<std::pair<int64_t, double>>& pts) {
     GorillaEncoder enc;
-    for (auto& [ts, v] : pts) enc.add(ts, v);
+    for (auto& [ts, v] : pts) {
+      enc.add(ts, v);
+    }
     return enc.finish();
 }
 
@@ -30,7 +32,9 @@ static std::vector<std::pair<int64_t, double>> decode_scalar(
         const std::vector<uint8_t>& data) {
     GorillaDecoder dec(data);
     std::vector<std::pair<int64_t, double>> out;
-    while (auto p = dec.next()) out.push_back(*p);
+    while (auto p = dec.next()) {
+      out.push_back(*p);
+    }
     return out;
 }
 

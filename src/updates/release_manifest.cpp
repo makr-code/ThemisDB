@@ -58,7 +58,7 @@ std::optional<ReleaseFile> ReleaseFile::fromJson(const json& j) {
         file.path = j.value("path", "");
         file.type = j.value("type", "");
         file.sha256_hash = j.value("sha256_hash", "");
-        file.size_bytes = j.value("size_bytes", 0ULL);
+        file.size_bytes = j.value("size_bytes", 0);
         file.file_signature = j.value("file_signature", "");
         file.platform = j.value("platform", "");
         file.architecture = j.value("architecture", "");
@@ -90,7 +90,7 @@ json ReleaseManifest::toJson() const {
     
     // Convert time_point to ISO 8601 string
     auto time_t_val = std::chrono::system_clock::to_time_t(release_date);
-    std::tm tm_val;
+    std::tm tm_val = {};
     #ifdef _WIN32
         gmtime_s(&tm_val, &time_t_val);
     #else
@@ -228,7 +228,7 @@ std::string ReleaseManifest::calculateHash() const {
            content.length(), hash);
     
     // Convert to hex string
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }

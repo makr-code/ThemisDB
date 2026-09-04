@@ -268,7 +268,9 @@ TEST(AdaLoRAAdapterTest, ForwardZeroAProducesZeroOutput) {
     std::vector<float> input(4, 1.0f);
     auto out = ada.forward("q_proj", input, 1);
     EXPECT_EQ(out.size(), 4u);
-    for (float v : out) EXPECT_FLOAT_EQ(v, 0.0f);
+    for (float v : out) {
+      EXPECT_FLOAT_EQ(v, 0.0f);
+    }
 }
 
 TEST(AdaLoRAAdapterTest, ForwardWithNonZeroWeightsGivesOutput) {

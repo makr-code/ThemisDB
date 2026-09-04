@@ -412,7 +412,8 @@ std::vector<KeyType> EnhancedQueryCache<KeyType, ValueType>::getHotKeys(size_t n
                      entries.end(),
                      [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    std::vector<KeyType> hot_keys;
+    std::vector<KeyType> hot_keys = {};
+
     for (size_t i = 0; i < std::min(n, entries.size()); ++i) {
         hot_keys.push_back(entries[i].first);
     }

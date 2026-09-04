@@ -38,7 +38,7 @@ void TsOperatorDiagnostics::recordIncident(
             error_code
         };
         std::lock_guard<std::mutex> lock(mutex_);
-        if (incidents_.size() >= kMaxIncidents) {
+        if (static_cast<int>(incidents_.size()) >= kMaxIncidents) {
             incidents_.erase(incidents_.begin());
         }
         incidents_.push_back(std::move(inc));
@@ -65,7 +65,7 @@ std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
     std::lock_guard<std::mutex> lock(mutex_);
     if (incidents_.empty()) return {};
     std::vector<TsIncident> result(incidents_.rbegin(), incidents_.rend());
-    if (max_count > 0 && result.size() > max_count) {
+    if (max_count > 0 && static_cast<int>(result.size()) > max_count) {
         result.resize(max_count);
     }
     return result;
@@ -74,7 +74,8 @@ std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
 std::vector<TsIncident> TsOperatorDiagnostics::incidentsBySeverity(
         TsIncidentSeverity min_severity) const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<TsIncident> result;
+    std::vector<TsIncident> result = {};
+
     for (auto it = incidents_.rbegin(); it != incidents_.rend(); ++it) {
         if (static_cast<uint8_t>(it->severity) >= static_cast<uint8_t>(min_severity)) {
             result.push_back(*it);
@@ -105,7 +106,7 @@ uint64_t TsOperatorDiagnostics::totalIncidentCount() const noexcept {
 
 std::string TsOperatorDiagnostics::formatSummary(std::size_t max_count) const noexcept {
     auto recent = recentIncidents(max_count);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Timeseries Module Diagnostic Summary ===\n";
     oss << "Total incidents recorded: " << total_count_ << "\n";
     if (recent.empty()) {
@@ -138,11 +139,11 @@ int64_t TsOperatorDiagnostics::nowNs() noexcept {
 }
 
 TsIncidentSeverity TsOperatorDiagnostics::severityFromId(std::string_view id) noexcept {
-    auto has_suffix = [&](std::string_view s) {
-        return id.size() >= s.size() &&
-               id.substr(id.size() - s.size()) == s;
+    auto has_suffix = [&]([[maybe_unused]] std::string_view s) {
+        return static_cast<bool>( static_cast<int>(id.size()) < static_cast<int>(= s.size())) &&
+               id.substr(static_cast<int>(id.size()) - static_cast<int>(s.size()) ) == s;
     };
-    auto contains_sub = [&](std::string_view sub) {
+    auto contains_sub = [&]([[maybe_unused]] std::string_view sub) {
         return id.find(sub) != std::string_view::npos;
     };
     if (has_suffix("CRITICAL") || contains_sub("PERSISTENT"))

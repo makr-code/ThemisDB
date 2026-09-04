@@ -38,7 +38,9 @@ static inline bool isPowerOfTwo(size_t n) {
 
 // Helper function to get next power of 2
 static inline size_t nextPowerOfTwo(size_t n) {
-    if (n == 0) return 1;
+    if (n == 0) {
+      return 1;
+    }
     n--;
     n |= n >> 1;
     n |= n >> 2;
@@ -59,7 +61,7 @@ static inline size_t alignSize(size_t size, size_t alignment) {
 // ============================================================================
 
 struct BuddyAllocator::Block {
-    size_t size;
+    size_t size = 0;
     bool is_free;
     uintptr_t next;  // Address of next free block (0 if none)
 };
@@ -77,7 +79,7 @@ struct BuddyAllocator::Impl {
     // Block metadata (address -> block info) - use std::map for stable pointers
     std::map<uintptr_t, Block> blocks;
     
-    std::mutex mutex;
+    std::mutex mutex = {};
     
     Impl(size_t total, size_t min_block)
         : total_size(total), min_block_size(min_block) {
@@ -135,7 +137,9 @@ struct BuddyAllocator::Impl {
             
             uintptr_t block_addr = free_list_heads[i];
             auto it = blocks.find(block_addr);
-            if (it == blocks.end()) return nullptr;
+            if (it == blocks.end()) {
+              return nullptr;
+            }
             
             Block& block = it->second;
             free_list_heads[i] = block.next;  // Update head to next block
@@ -325,7 +329,9 @@ double BuddyAllocator::getFragmentation() const {
         uintptr_t block_addr = impl_->free_list_heads[i];
         while (block_addr != 0) {
             auto it = impl_->blocks.find(block_addr);
-            if (it == impl_->blocks.end()) break;
+            if (it == impl_->blocks.end()) {
+              break;
+            }
             free_blocks++;
             total_free_space += it->second.size;
             block_addr = it->second.next;
@@ -354,10 +360,10 @@ double BuddyAllocator::getFragmentation() const {
 
 struct SlabAllocator::Slab {
     std::unique_ptr<uint8_t[]> memory;
-    size_t object_size;
-    size_t object_count;
+    size_t object_size = {};
+    size_t object_count = {};
     std::vector<bool> free_map;
-    size_t free_count;
+    size_t free_count = {};
     std::unique_ptr<Slab> next;
     
     Slab(size_t obj_size, size_t obj_count)
@@ -416,14 +422,14 @@ struct SlabAllocator::Slab {
 };
 
 struct SlabAllocator::Impl {
-    size_t object_size;
-    size_t objects_per_slab;
-    size_t max_slabs;
+    size_t object_size = 0;
+    size_t objects_per_slab = {};
+    size_t max_slabs = {};
     
     std::unique_ptr<Slab> head_slab;
-    size_t slab_count;
+    size_t slab_count = {};
     
-    std::mutex mutex;
+    std::mutex mutex = {};
     
     Impl(size_t obj_size, size_t objs_per_slab, size_t max)
         : object_size(obj_size), objects_per_slab(objs_per_slab),
@@ -482,7 +488,7 @@ SlabAllocator::SlabAllocator(size_t object_size, size_t objects_per_slab,
 
 SlabAllocator::~SlabAllocator() noexcept = default;
 
-Result<void*> SlabAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
+Result<void*> SlabAllocator::allocate(size_t size, AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");
@@ -576,8 +582,8 @@ double SlabAllocator::getUtilization() const {
 
 struct StackAllocator::Impl {
     uint8_t* memory;
-    size_t capacity;
-    size_t offset;
+    size_t capacity = {};
+    size_t offset = {};
     
     std::mutex mutex;
     
@@ -604,7 +610,7 @@ StackAllocator::StackAllocator(size_t capacity)
 
 StackAllocator::~StackAllocator() = default;
 
-Result<void*> StackAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
+Result<void*> StackAllocator::allocate(size_t size, AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");
@@ -740,7 +746,7 @@ struct PoolAllocator::Impl {
     
     // Track which allocator owns each pointer
     std::unordered_map<uintptr_t, IAllocator*> ownership;
-    std::mutex ownership_mutex;
+    std::mutex ownership_mutex = {};
     
     Impl(const Config& cfg) : config(cfg) {
         // Initialize buddy allocator
@@ -898,4 +904,5 @@ Result<void> PoolAllocator::reset() {
 
 } // namespace memory
 } // namespace themis
+
 

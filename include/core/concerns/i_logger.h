@@ -149,9 +149,15 @@ public:
                                 const TraceContext& ctx,
                                 const Fields& fields = {}) {
         Fields merged = fields;
-        if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
-        if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
-        if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
+        if (!ctx.trace_id.empty()) {
+          merged["trace_id"]   = ctx.trace_id;
+        }
+        if (!ctx.span_id.empty()) {
+          merged["span_id"]    = ctx.span_id;
+        }
+        if (!ctx.request_id.empty()) {
+          merged["request_id"] = ctx.request_id;
+        }
         logStructured(level, message, merged);
     }
 

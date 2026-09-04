@@ -61,7 +61,8 @@ std::vector<std::string> TextChunker::chunkTexts(
     const std::string& document_id) const
 {
     auto chunks = splitter_.split(text, document_id);
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(chunks.size());
     for (auto& c : chunks) {
         result.push_back(std::move(c.text));
@@ -96,9 +97,11 @@ std::vector<std::string> chunkText(
 
 std::string getTextChunkerMetrics() {
     const uint64_t errors = g_text_chunker_errors_total.load(std::memory_order_relaxed);
-    if (errors == 0) return "";
+    if (errors == 0) {
+      return "";
+    }
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# HELP toolbox_text_chunker_errors_total Text chunker helper errors.\n";
     out << "# TYPE toolbox_text_chunker_errors_total counter\n";
     out << "toolbox_text_chunker_errors_total " << errors << "\n";

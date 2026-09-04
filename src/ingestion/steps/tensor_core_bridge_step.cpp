@@ -37,14 +37,14 @@ public:
     const char* getName() const override { return "builtin.tensor_core_bridge"; }
     const char* getVersion() const override { return "1.0.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool initialize(const char*) override { return true; }
+    bool initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void shutdown() override {}
     void* getInstance() override { return this; }
 
     // IIngestionStep
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+    Result<void> execute(ExtractionContext& [[maybe_unused]] ctx, cons[[maybe_unused]] t StepConfig& [[maybe_unused]] cfg) override {
         if (cfg.config.contains("tenant_id") && cfg.config["tenant_id"].is_string()) {
             tenant_id_override_ = cfg.config["tenant_id"].get<std::string>();
         }

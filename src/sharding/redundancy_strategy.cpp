@@ -93,7 +93,7 @@ inline bool retryReplicationWithBackoff(
         
         if (attempt < max_retries - 1) {
             // Exponential backoff: 50ms, 100ms, 200ms, ...
-            uint64_t delay_ms = initial_delay_ms * (1ULL << attempt);
+            uint64_t delay_ms = initial_delay_ms * (1 << attempt);
             delay_ms = std::min(delay_ms, max_delay_ms);
             
             spdlog::debug("Replication retry in {}ms (attempt {}/{})", 
@@ -185,12 +185,12 @@ double RedundancyConfig::getStorageEfficiency() const {
         case RedundancyMode::STRIPE:
             return 1.0;  // No redundancy
         case RedundancyMode::MIRROR:
-        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::STRIPE_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::PARITY:
-        case RedundancyMode::RAID6:
+        [[fallthrough]];\n        case RedundancyMode::RAID6:
             return erasure_coding.storageEfficiency();
         default:
             return 1.0;
@@ -201,14 +201,14 @@ double RedundancyConfig::getStorageEfficiency() const {
 uint32_t RedundancyConfig::getFaultTolerance() const {
     switch (mode) {
         case RedundancyMode::NONE:
-        case RedundancyMode::STRIPE:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE:
             return 0;  // No fault tolerance
         case RedundancyMode::MIRROR:
-        case RedundancyMode::STRIPE_MIRROR:
-        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE_MIRROR:
+        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
             return replication_factor - 1;
         case RedundancyMode::PARITY:
-        case RedundancyMode::RAID6:
+        [[fallthrough]];\n        case RedundancyMode::RAID6:
             return erasure_coding.faultTolerance();
         default:
             return 0;
@@ -219,10 +219,10 @@ uint32_t RedundancyConfig::getFaultTolerance() const {
 uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
     switch (mode) {
         case RedundancyMode::NONE:
-        case RedundancyMode::STRIPE:
+        [[fallthrough]];\n        case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::PARITY:
-        case RedundancyMode::RAID6:
+        [[fallthrough]];\n        case RedundancyMode::RAID6:
             return erasure_coding.totalShards();
         default:
             return replication_factor;
@@ -264,7 +264,8 @@ bool StripeGroup::isComplete() const {
 
 /** @brief Return indices of data chunks currently missing shard assignment. */
 std::vector<uint32_t> StripeGroup::getMissingChunks() const {
-    std::vector<uint32_t> missing;
+    std::vector<uint32_t> missing = {};
+
     for (size_t i = 0; i < data_chunks.size(); ++i) {
         if (data_chunks[i].shard_id.empty()) {
             missing.push_back(static_cast<uint32_t>(i));
@@ -277,10 +278,14 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
 bool StripeGroup::canRecover(uint32_t data_shards, [[maybe_unused]] uint32_t parity_shards) const {
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
-        if (!chunk.shard_id.empty()) available++;
+        if (!chunk.shard_id.empty()) {
+          available++;
+        }
     }
     for (const auto& chunk : parity_chunks) {
-        if (!chunk.shard_id.empty()) available++;
+        if (!chunk.shard_id.empty()) {
+          available++;
+        }
     }
     
     // Need at least data_shards chunks to recover
@@ -354,14 +359,18 @@ bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
         for (size_t row = col; row < n; ++row) {
             if (aug[row][col] != 0) { pivot = row; break; }
         }
-        if (pivot == n) return false;
+        if (pivot == n) {
+          return false;
+        }
         std::swap(aug[col], aug[pivot]);
         uint8_t inv_pivot = gf_inv(aug[col][col]);
         for (size_t j = 0; j < 2 * n; ++j) {
             aug[col][j] = gf_mul(aug[col][j], inv_pivot);
         }
         for (size_t row = 0; row < n; ++row) {
-            if (row == col || aug[row][col] == 0) continue;
+            if (row == col || aug[row][col] == 0) {
+              continue;
+            }
             uint8_t factor = aug[row][col];
             for (size_t j = 0; j < 2 * n; ++j) {
                 aug[row][j] ^= gf_mul(factor, aug[col][j]);
@@ -382,7 +391,7 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     uint32_t parity_shards
 ) {
     // Calculate chunk size (pad last chunk with zeros if needed)
-    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
 
     // Split data into k chunks (data shards)
     std::vector<std::vector<uint8_t>> chunks;
@@ -390,8 +399,8 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     for (uint32_t i = 0; i < data_shards; ++i) {
         size_t offset = i * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
-        if (offset < data.size()) {
-            size_t sz = std::min(chunk_size, data.size() - offset);
+        if (static_cast<int>(data.size()) > offset) {
+            size_t sz = std::min(chunk_size, static_cast<int>(data.size()) - offset);
             std::memcpy(chunk.data(), data.data() + offset, sz);
         }
         chunks.push_back(std::move(chunk));
@@ -403,7 +412,9 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
         std::vector<uint8_t> parity(chunk_size, 0);
         for (uint32_t j = 0; j < data_shards; ++j) {
             uint8_t coeff = vandermonde[p][j];
-            if (coeff == 0) continue;
+            if (coeff == 0) {
+              continue;
+            }
             for (size_t x = 0; x < chunk_size; ++x) {
                 parity[x] ^= gf_mul(coeff, chunks[j][x]);
             }
@@ -421,13 +432,13 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t parity_shards
 ) {
     // Validate that the number of missing chunks does not exceed the fault tolerance
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error("Too many missing chunks: " +
                                  std::to_string(missing_indices.size()) +
                                  " missing, but only " + std::to_string(parity_shards) +
                                  " parity shard(s) available");
     }
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -440,7 +451,8 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
         }
     }
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t i = 0; i < data_shards; ++i) {
             const auto& chunk = available_chunks.at(i);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -468,7 +480,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [idx, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(idx);
         }
     }
@@ -484,7 +496,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     }
 
     // Apply inverse matrix byte-by-byte to recover original data chunks
-    size_t chunk_size = available_chunks.begin()->second.size();
+    size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                       std::vector<uint8_t>(chunk_size, 0));
     for (size_t x = 0; x < chunk_size; ++x) {
@@ -512,23 +524,31 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     // Irreducible polynomial: x^8 + x^4 + x^3 + x^2 + 1 (0x1d)
     uint8_t p = 0;
     for (int i = 0; i < 8; i++) {
-        if (b & 1) p ^= a;
+        if (b & 1) {
+          p ^= a;
+        }
         const uint8_t hi = a & 0x80;
         a <<= 1;
-        if (hi) a ^= 0x1d;
+        if (hi) {
+          a ^= 0x1d;
+        }
         b >>= 1;
     }
     return p;
 }
 
-uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
-    if (a == 0) return 0;
+uint8_t ReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
+    if (a == 0) {
+      return 0;
+    }
     // Fermat's Little Theorem for finite fields: a^(p-1) = 1 in GF(p),
     // so a^(2^8 - 2) = a^(-1) in GF(2^8).
     uint8_t result = 1;
     for (int i = 7; i >= 0; i--) {
         result = gf_mul(result, result);
-        if ((254 >> i) & 1) result = gf_mul(result, a);
+        if ((254 >> i) & 1) {
+          result = gf_mul(result, a);
+        }
     }
     return result;
 }
@@ -554,7 +574,7 @@ void ReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t i = 0; i < rows; i++) {
         uint8_t sum = 0;
-        for (size_t j = 0; j < matrix[i].size() && j < vec.size(); j++) {
+        for (size_t j = 0; j < matrix[i].size()  && static_cast<size_t>(j) <static_cast<int>(vec.size()); j++) {
             sum ^= gf_mul(matrix[i][j], vec[j]);
         }
         result[i] = sum;
@@ -586,8 +606,10 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
 }
 
 // Galois Field inverse using Extended Euclidean algorithm
-uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
-    if (a == 0) return 0;
+uint8_t CauchyReedSolomonCoder::gf_inv([[maybe_unused]] uint8_t a) {
+    if (a == 0) {
+      return 0;
+    }
     
     // Use Fermat's Little Theorem: a^(2^8 - 2) = a^254 = a^(-1) in GF(2^8)
     // Compute using repeated squaring
@@ -661,7 +683,7 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     
     for (size_t i = 0; i < rows; i++) {
         uint8_t sum = 0;
-        for (size_t j = 0; j < cols && j < vec.size(); j++) {
+        for (size_t j = 0; j < cols  && static_cast<size_t>(j) <static_cast<int>(vec.size()); j++) {
             sum ^= gf_mul(matrix[i][j], vec[j]);
         }
         result[i] = sum;
@@ -671,7 +693,9 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
 // Gauss-Jordan elimination for matrix inversion in GF(2^8)
 bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     size_t n = matrix.size();
-    if (n == 0 || matrix[0].size() != n) return false;
+    if (n == 0 || matrix[0].size() != n) {
+      return false;
+    }
     
     // Create augmented matrix [A | I]
     std::vector<std::vector<uint8_t>> augmented(n, std::vector<uint8_t>(2 * n, 0));
@@ -738,15 +762,15 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     std::vector<std::vector<uint8_t>> chunks;
     
     // Calculate chunk size
-    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
     
     // Split data into chunks
     for (uint32_t i = 0; i < data_shards; ++i) {
         size_t offset = i * chunk_size;
-        size_t size = std::min(chunk_size, data.size() - offset);
+        size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
         
         std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros
-        if (offset < data.size()) {
+        if (static_cast<int>(data.size()) > offset) {
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(chunk);
@@ -788,14 +812,14 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     uint32_t parity_shards
 ) {
     // Validate that the number of missing chunks does not exceed the fault tolerance
-    if (missing_indices.size() > parity_shards) {
+    if (static_cast<int>(missing_indices.size()) > parity_shards) {
         throw std::runtime_error("Too many missing chunks: " +
                                  std::to_string(missing_indices.size()) +
                                  " missing, but only " + std::to_string(parity_shards) +
                                  " parity shard(s) available");
     }
     // Check if we have enough chunks
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
     
@@ -809,7 +833,8 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
     
     if (all_data_available) {
-        std::vector<uint8_t> recovered;
+        std::vector<uint8_t> recovered = {};
+
         for (uint32_t i = 0; i < data_shards; ++i) {
             const auto& chunk = available_chunks.at(i);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
@@ -818,7 +843,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
     
     // Need to use erasure decoding
-    size_t chunk_size = available_chunks.begin()->second.size();
+    size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
     uint32_t total_shards = data_shards + parity_shards;
     
     // Build full Cauchy matrix (identity for data, Cauchy for parity)
@@ -844,7 +869,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     
     for (const auto& [idx, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(idx);
         }
     }
@@ -881,7 +906,8 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     }
     
     // Concatenate recovered data chunks
-    std::vector<uint8_t> result;
+    std::vector<uint8_t> result = {};
+
     for (const auto& chunk : recovered_data) {
         result.insert(result.end(), chunk.begin(), chunk.end());
     }
@@ -900,10 +926,14 @@ static constexpr uint8_t LRC_GF_POLY = 0x1d;  // x^8+x^4+x^3+x^2+1
 static uint8_t lrc_gf_mul(uint8_t a, uint8_t b) {
     uint8_t p = 0;
     for (int i = 0; i < 8; ++i) {
-        if (b & 1) p ^= a;
+        if (b & 1) {
+          p ^= a;
+        }
         bool carry = (a & 0x80) != 0;
         a <<= 1;
-        if (carry) a ^= LRC_GF_POLY;
+        if (carry) {
+          a ^= LRC_GF_POLY;
+        }
         b >>= 1;
     }
     return p;
@@ -911,11 +941,13 @@ static uint8_t lrc_gf_mul(uint8_t a, uint8_t b) {
 
 static uint8_t lrc_gf_pow(uint8_t a, uint8_t exp) {
     uint8_t r = 1;
-    for (uint8_t i = 0; i < exp; ++i) r = lrc_gf_mul(r, a);
+    for (uint8_t i = 0; i < exp; ++i) {
+      r = lrc_gf_mul(r, a);
+    }
     return r;
 }
 
-static uint8_t lrc_gf_inv(uint8_t a) {
+static uint8_t lrc_gf_inv([[maybe_unused]] uint8_t a) {
     // Extended Euclidean / brute-force for GF(2^8)
     for (int b = 1; b < 256; ++b)
         if (lrc_gf_mul(a, static_cast<uint8_t>(b)) == 1)
@@ -944,13 +976,17 @@ static std::vector<std::vector<uint8_t>> lrc_buildVandermonde(uint32_t rows, uin
 static bool lrc_invertMatrix(std::vector<std::vector<uint8_t>>& mat) {
     const uint32_t n = static_cast<uint32_t>(mat.size());
     std::vector<std::vector<uint8_t>> id(n, std::vector<uint8_t>(n, 0));
-    for (uint32_t i = 0; i < n; ++i) id[i][i] = 1;
+    for (uint32_t i = 0; i < n; ++i) {
+      id[i][i] = 1;
+    }
     for (uint32_t col = 0; col < n; ++col) {
         // Pivot
         uint32_t pivot = n;
         for (uint32_t row = col; row < n; ++row)
             if (mat[row][col]) { pivot = row; break; }
-        if (pivot == n) return false;
+        if (pivot == n) {
+          return false;
+        }
         std::swap(mat[col], mat[pivot]);
         std::swap(id[col], id[pivot]);
         // Scale
@@ -961,7 +997,9 @@ static bool lrc_invertMatrix(std::vector<std::vector<uint8_t>>& mat) {
         }
         // Eliminate
         for (uint32_t row = 0; row < n; ++row) {
-            if (row == col || !mat[row][col]) continue;
+            if (row == col || !mat[row][col]) {
+              continue;
+            }
             const uint8_t f = mat[row][col];
             for (uint32_t j = 0; j < n; ++j) {
                 mat[row][j] ^= lrc_gf_mul(f, mat[col][j]);
@@ -997,7 +1035,7 @@ std::vector<std::vector<uint8_t>> LocallyRepairableCoder::encode(
         throw std::invalid_argument("LRC encode: data must not be empty");
 
     const uint32_t shard_size = static_cast<uint32_t>(
-        (data.size() + data_shards - 1) / data_shards);
+        (static_cast<int>(data.size()) + data_shards - 1) / data_shards);
     const uint32_t n_local = localGroupCount(data_shards, parity_shards);
     const uint32_t n_global = parity_shards - n_local;
 
@@ -1050,7 +1088,8 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 {
     if (missing_indices.empty()) {
         // All data shards present — just concatenate
-        std::vector<uint8_t> result;
+        std::vector<uint8_t> result = {};
+
         for (uint32_t s = 0; s < data_shards; ++s) {
             // W2-S06: Iterator safety — use at() for bounds checking instead of find()+access
             try {
@@ -1066,13 +1105,15 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
     const uint32_t n_total   = data_shards + parity_shards;
     const uint32_t n_local   = localGroupCount(data_shards, parity_shards);
     const uint32_t shard_size = static_cast<uint32_t>(
-        available_chunks.begin()->second.size());
+        available_chunks.begin()-> static_cast<int>(second.size()));
 
     // Build full shard array (fill known shards; zeros for missing)
     std::vector<std::vector<uint8_t>> shards(n_total,
                                               std::vector<uint8_t>(shard_size, 0));
     for (const auto& [idx, data] : available_chunks)
-        if (idx < n_total) shards[idx] = data;
+        if (idx < n_total) {
+          shards[idx] = data;
+        }
 
     // Attempt local group repair for each missing data shard
     std::vector<bool> recovered(n_total, false);
@@ -1087,7 +1128,9 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
     while (any_local) {
         any_local = false;
         for (uint32_t s = 0; s < data_shards; ++s) {
-            if (recovered[s]) continue;
+            if (recovered[s]) {
+              continue;
+            }
             const uint32_t g          = s / kDefaultLocalGroupSize;
             const uint32_t grp_begin  = g * kDefaultLocalGroupSize;
             const uint32_t grp_end    = std::min(grp_begin + kDefaultLocalGroupSize, data_shards);
@@ -1095,8 +1138,12 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 
             // Count missing in group (data + local parity)
             int missing_in_group = 0;
-            for (uint32_t m = grp_begin; m < grp_end; ++m) if (!recovered[m]) ++missing_in_group;
-            if (!recovered[local_par]) ++missing_in_group;
+            for (uint32_t m = grp_begin; m < grp_end; ++m) {
+              if (!recovered[m]) ++missing_in_group;
+            }
+            if (!recovered[local_par]) {
+              ++missing_in_group;
+            }
 
             if (missing_in_group == 1) {
                 // Recover via XOR of group
@@ -1115,30 +1162,42 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
     }
 
     // If still missing, fall back to global RS recovery
-    std::vector<uint32_t> still_missing;
+    std::vector<uint32_t> still_missing = {};
+
     for (uint32_t s = 0; s < data_shards; ++s)
-        if (!recovered[s]) still_missing.push_back(s);
+        if (!recovered[s]) {
+          still_missing.push_back(s);
+        }
 
     if (!still_missing.empty()) {
         const uint32_t n_global      = parity_shards - n_local;
         const uint32_t global_start  = data_shards + n_local;
 
         // Collect available rows (data + global parity)
-        std::vector<uint32_t> avail_rows;
-        for (uint32_t s = 0; s < data_shards; ++s)
-            if (recovered[s]) avail_rows.push_back(s);
-        for (uint32_t p = 0; p < n_global && avail_rows.size() < data_shards; ++p)
-            if (recovered[global_start + p]) avail_rows.push_back(data_shards + p);
+        std::vector<uint32_t> avail_rows = {};
 
-        if (avail_rows.size() < data_shards)
+        for (uint32_t s = 0; s < data_shards; ++s)
+            if (recovered[s]) {
+              avail_rows.push_back(s);
+            }
+        for (uint32_t p = 0; p < n_global && static_cast<int>(avail_rows.size()) < data_shards; ++p)
+            if (recovered[global_start + p]) {
+              avail_rows.push_back(data_shards + p);
+            }
+
+        if (static_cast<int>(avail_rows.size()) < data_shards)
             throw std::runtime_error("LRC decode: insufficient shards for recovery");
 
         // Build encode matrix: identity (data) + Vandermonde (global)
         auto vand = lrc_buildVandermonde(n_global, data_shards);
         std::vector<std::vector<uint8_t>> full_mat(data_shards + n_global,
                                                     std::vector<uint8_t>(data_shards, 0));
-        for (uint32_t s = 0; s < data_shards; ++s) full_mat[s][s] = 1;
-        for (uint32_t p = 0; p < n_global; ++p)   full_mat[data_shards + p] = vand[p];
+        for (uint32_t s = 0; s < data_shards; ++s) {
+          full_mat[s][s] = 1;
+        }
+        for (uint32_t p = 0; p < n_global; ++p) {
+          full_mat[data_shards + p] = vand[p];
+        }
 
         // Select decode matrix rows
         std::vector<std::vector<uint8_t>> dec_mat(data_shards,
@@ -1186,7 +1245,7 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 
 // Returns true when parity shard `p` covers data shard `j` (both 0-indexed).
 static inline bool hammingCovers(uint32_t j, uint32_t p) noexcept {
-    return (((j + 1u) >> p) & 1u) != 0u;
+    return (((j + 1) >> p) & 1) != 0;
 }
 
 std::vector<std::vector<uint8_t>> HammingCoder::encode(
@@ -1200,7 +1259,7 @@ std::vector<std::vector<uint8_t>> HammingCoder::encode(
         throw std::invalid_argument("HammingCoder::encode: data must not be empty");
 
     const uint32_t shard_size = static_cast<uint32_t>(
-        (data.size() + data_shards - 1) / data_shards);
+        (static_cast<int>(data.size()) + data_shards - 1) / data_shards);
 
     // Initialise all shards to zero (data shards will be filled below)
     const uint32_t total_shards = data_shards + parity_shards;
@@ -1241,7 +1300,7 @@ std::vector<uint8_t> HammingCoder::decode(
 
     const uint32_t total_shards = data_shards + parity_shards;
     const uint32_t shard_size =
-        static_cast<uint32_t>(available_chunks.begin()->second.size());
+        static_cast<uint32_t>(available_chunks.begin()-> static_cast<int>(second.size()));
 
     // Fast path: all data shards present
     if (missing_indices.empty()) {
@@ -1282,7 +1341,9 @@ std::vector<uint8_t> HammingCoder::decode(
         progress = false;
 
         for (uint32_t target = 0; target < total_shards; ++target) {
-            if (present[target]) continue;
+            if (present[target]) {
+              continue;
+            }
 
             if (target >= data_shards) {
                 // Missing parity shard: recompute directly from data shards
@@ -1316,18 +1377,24 @@ std::vector<uint8_t> HammingCoder::decode(
                     // Check that every other data shard covered by p is present
                     bool all_others_present = true;
                     for (uint32_t j = 0; j < data_shards; ++j) {
-                        if (j == target) continue;
+                        if (j == target) {
+                          continue;
+                        }
                         if (hammingCovers(j, p) && !present[j]) {
                             all_others_present = false;
                             break;
                         }
                     }
-                    if (!all_others_present) continue;
+                    if (!all_others_present) {
+                      continue;
+                    }
 
                     // Recover target = parity[p] XOR (XOR of other covered data shards)
                     shards[target] = shards[data_shards + p];
                     for (uint32_t j = 0; j < data_shards; ++j) {
-                        if (j == target) continue;
+                        if (j == target) {
+                          continue;
+                        }
                         if (hammingCovers(j, p)) {
                             for (uint32_t b = 0; b < shard_size; ++b)
                                 shards[target][b] ^= shards[j][b];
@@ -1492,7 +1559,7 @@ WriteResult RedundancyStrategy::write(
                 result = writeStripeMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
-            case RedundancyMode::RAID6:
+            [[fallthrough]];\n            case RedundancyMode::RAID6:
                 result = writeParity(document_id, data, ring, topology, handler);
                 break;
             default:
@@ -1561,18 +1628,18 @@ ReadResult RedundancyStrategy::read(
     try {
         switch (mode) {
             case RedundancyMode::NONE:
-            case RedundancyMode::MIRROR:
+            [[fallthrough]];\n            case RedundancyMode::MIRROR:
                 result = readMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::GEO_MIRROR:
                 result = readGeoMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
-            case RedundancyMode::STRIPE_MIRROR:
+            [[fallthrough]];\n            case RedundancyMode::STRIPE_MIRROR:
                 result = readStripe(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
-            case RedundancyMode::RAID6:
+            [[fallthrough]];\n            case RedundancyMode::RAID6:
                 result = readParity(document_id, ring, topology, handler);
                 break;
             default:
@@ -1650,7 +1717,7 @@ WriteResult RedundancyStrategy::writeMirror(
             break;
         case WriteConcern::QUORUM:
             // W2-S02: Fail-closed on invalid write_quorum
-            if (config_.write_quorum == 0 && target_shards.size() > 1) {
+            if (config_.write_quorum == 0 && static_cast<int>(target_shards.size()) > 1) {
                 spdlog::error("writeMirror: write_quorum is 0 with {} target shards, rejecting write", 
                              target_shards.size());
                 WriteResult result;
@@ -1661,9 +1728,10 @@ WriteResult RedundancyStrategy::writeMirror(
             }
             required_acks = config_.write_quorum;
             break;
+        default: break;
     }
 
-    if (target_shards.size() < required_acks) {
+    if (static_cast<int>(target_shards.size()) < required_acks) {
         WriteResult result;
         result.success = false;
         result.document_id = document_id;
@@ -1673,7 +1741,7 @@ WriteResult RedundancyStrategy::writeMirror(
 
     // Fast path: single target shard should be handled synchronously to avoid
     // unnecessary async machinery and potential blocking edge cases.
-    if (target_shards.size() == 1) {
+    if (static_cast<int>(target_shards.size()) == 1) {
         const auto& shard_id = target_shards.front();
         bool ok = false;
         try {
@@ -1699,7 +1767,8 @@ WriteResult RedundancyStrategy::writeMirror(
     // W2-S06: Distributed write with replication consensus — send to all replicas in parallel
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
-    std::vector<std::string> failed_shards;
+    std::vector<std::string> failed_shards = {};
+
     futures.reserve(target_shards.size());
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
@@ -1749,6 +1818,7 @@ WriteResult RedundancyStrategy::writeMirror(
         case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
+        default: break;
     }
     
     if (success) {
@@ -1835,8 +1905,8 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     }
     
     // Build command with explicit field lengths to prevent injection attacks
-    std::string command;
-    command.reserve(20 + document_id.size() + data.size());
+    std::string command = {};
+    command.reserve(20 + static_cast<int>(document_id.size()) + static_cast<int>(data.size()) );
     
     // Field 0: command type
     command.append("WRITE|");
@@ -1852,7 +1922,7 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     command.append("|");
     
     // Field 3: raw data
-    command.append(reinterpret_cast<const char*>(data.data()), data.size());
+    command.append(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
     
     // Propose write through Raft
     auto future = raft_manager_->proposeWrite(shard_id, command);
@@ -1899,11 +1969,11 @@ WriteResult RedundancyStrategy::writeStripe(
     std::vector<std::string> target_shards;
     target_shards.push_back(*primary_shard);
     
-    auto replicas = ring.getReplicaNodes(document_id, chunks.size() - 1);
+    auto replicas = ring.getReplicaNodes(document_id, static_cast<int>(chunks.size()) - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
     // W2-S06: Consensus validation — determine required acknowledgments based on write concern
-    const uint32_t configured_targets = std::max<uint32_t>(1, chunks.size());
+    const uint32_t configured_targets = std::max<uint32_t>(1,static_cast<int>(chunks.size()));
     uint32_t required_acks = 1;
     switch (config_.write_concern) {
         case WriteConcern::ONE:
@@ -1916,7 +1986,7 @@ WriteResult RedundancyStrategy::writeStripe(
             required_acks = configured_targets;
             break;
         case WriteConcern::QUORUM:
-            if (config_.write_quorum == 0 && target_shards.size() > 1) {
+            if (config_.write_quorum == 0 && static_cast<int>(target_shards.size()) > 1) {
                 spdlog::error("writeStripe: write_quorum is 0 with {} target shards, rejecting write", 
                              target_shards.size());
                 WriteResult result;
@@ -1927,9 +1997,10 @@ WriteResult RedundancyStrategy::writeStripe(
             }
             required_acks = config_.write_quorum;
             break;
+        default: break;
     }
     
-    if (target_shards.size() < required_acks) {
+    if (static_cast<int>(target_shards.size()) < required_acks) {
         WriteResult result;
         result.success = false;
         result.document_id = document_id;
@@ -1940,12 +2011,13 @@ WriteResult RedundancyStrategy::writeStripe(
     // Write chunks to different shards with timeout
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
-    std::vector<std::string> failed_shards;
+    std::vector<std::string> failed_shards = {};
+
     futures.reserve(target_shards.size());
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
     
-    for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
+    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) <static_cast<int>(target_shards.size()); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         
@@ -1984,10 +2056,11 @@ WriteResult RedundancyStrategy::writeStripe(
             success = successful >= 1;
             break;
         case WriteConcern::MAJORITY:
-        case WriteConcern::ALL:
-        case WriteConcern::QUORUM:
+        [[fallthrough]];\n        case WriteConcern::ALL:
+        [[fallthrough]];\n        case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
+        default: break;
     }
     
     if (success) {
@@ -2045,8 +2118,8 @@ WriteResult RedundancyStrategy::writeParity(
     // Snapshot erasure coder config and encode under the shared lock to guard
     // against a concurrent configure() resetting erasure_coder_ (data race fix).
     std::vector<std::vector<uint8_t>> chunks;
-    uint32_t data_shards;
-    uint32_t parity_shards;
+    uint32_t data_shards = {};
+    uint32_t parity_shards = {};
     {
         std::shared_lock<std::shared_mutex> ec_lock(mutex_);
         if (!erasure_coder_) {
@@ -2066,7 +2139,7 @@ WriteResult RedundancyStrategy::writeParity(
     std::vector<std::string> target_shards;
     target_shards.push_back(*primary_shard);
     
-    auto replicas = ring.getReplicaNodes(document_id, chunks.size() - 1);
+    auto replicas = ring.getReplicaNodes(document_id, static_cast<int>(chunks.size()) - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
     // W2-S06: RAID/Erasure consensus — write all chunks (data + parity) with quorum
@@ -2074,7 +2147,7 @@ WriteResult RedundancyStrategy::writeParity(
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     
-    for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
+    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) <static_cast<int>(target_shards.size()); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         bool is_parity = i >= data_shards;
@@ -2169,13 +2242,19 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         if (!geo.local_region.empty() && !write_failed_set.count(geo.local_region)) {
             auto it = region_candidates.find(geo.local_region);
             if (it != region_candidates.end()) {
-                for (const auto& s : it->second) target_shards.push_back(s);
+                for (const auto& s : it->second) {
+                  target_shards.push_back(s);
+                }
             }
         }
         for (const auto& [region, shards] : region_candidates) {
-            if (region == geo.local_region) continue;
+            if (region == geo.local_region) {
+              continue;
+            }
             if (!write_failed_set.count(region)) {
-                for (const auto& s : shards) target_shards.push_back(s);
+                for (const auto& s : shards) {
+                  target_shards.push_back(s);
+                }
             }
         }
     } else {
@@ -2201,9 +2280,10 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         case WriteConcern::QUORUM:
             required_acks = write_quorum;
             break;
+        default: break;
     }
 
-    if (target_shards.size() < required_acks) {
+    if (static_cast<int>(target_shards.size()) < required_acks) {
         WriteResult r;
         r.success = false;
         r.document_id = document_id;
@@ -2212,14 +2292,17 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     }
 
     if (!geo.region_write_quorums.empty()) {
-        std::map<std::string, uint32_t> region_targets;
+        std::map<std::string, uint32_t> region_targets = {};
+
         for (const auto& shard_id : target_shards) {
             auto info = topology.getShard(shard_id);
             const std::string region = info ? info->region : "";
             region_targets[region]++;
         }
         for (const auto& [region, required] : geo.region_write_quorums) {
-            if (write_failed_set.count(region)) continue;
+            if (write_failed_set.count(region)) {
+              continue;
+            }
             if (region_targets[region] < required) {
                 WriteResult r;
                 r.success = false;
@@ -2274,7 +2357,9 @@ WriteResult RedundancyStrategy::writeGeoMirror(
             uint32_t region_acks = 0;
             for (const auto& shard_id : written_shards) {
                 auto info = topology.getShard(shard_id);
-                if (info && info->region == region) ++region_acks;
+                if (info && info->region == region) {
+                  ++region_acks;
+                }
             }
             if (region_acks < required) {
                 WriteResult r;
@@ -2304,6 +2389,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         case WriteConcern::QUORUM:
             success = successful >= required_acks;
             break;
+        default: break;
     }
 
     if (success) {
@@ -2368,7 +2454,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
             geo.failed_regions.begin(), geo.failed_regions.end());
         candidates.erase(
             std::remove_if(candidates.begin(), candidates.end(),
-                [&](const std::string& sid) {
+                [&]([[maybe_unused]] const std::string& sid) {
                     auto info = topology.getShard(sid);
                     return info && read_failed_set.count(info->region);
                 }),
@@ -2388,19 +2474,23 @@ ReadResult RedundancyStrategy::readGeoMirror(
     // -------------------------------------------------------------------
     if (!geo.region_read_quorums.empty()) {
         // Build O(1) lookup set for failed regions (avoids repeated linear scan)
-        std::unordered_set<std::string> failed_set;
+        std::unordered_set<std::string> failed_set = {};
+
         failed_set.reserve(geo.failed_regions.size());
         failed_set.insert(geo.failed_regions.begin(), geo.failed_regions.end());
 
         // Ensure quorum requirements are satisfiable with available candidates.
-        std::map<std::string, uint32_t> region_candidates;
+        std::map<std::string, uint32_t> region_candidates = {};
+
         for (const auto& shard_id : candidates) {
             auto info = topology.getShard(shard_id);
             const std::string region = info ? info->region : "";
             region_candidates[region]++;
         }
         for (const auto& [region, required] : geo.region_read_quorums) {
-            if (failed_set.count(region)) continue;
+            if (failed_set.count(region)) {
+              continue;
+            }
             if (region_candidates[region] < required) {
                 ReadResult result;
                 result.success = false;
@@ -2428,7 +2518,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
         std::vector<std::string> ordered = candidates;
         if (!geo.local_region.empty()) {
             std::stable_partition(ordered.begin(), ordered.end(),
-                [&](const std::string& sid) {
+                [&]([[maybe_unused]] const std::string& sid) {
                     auto info = topology.getShard(sid);
                     return info && info->region == geo.local_region;
                 });
@@ -2454,7 +2544,9 @@ ReadResult RedundancyStrategy::readGeoMirror(
             bool all_met = true;
             for (const auto& [region, required] : geo.region_read_quorums) {
                 // Skip failed-out regions (O(1) lookup)
-                if (failed_set.count(region)) continue;
+                if (failed_set.count(region)) {
+                  continue;
+                }
 
                 auto it = region_reads.find(region);
                 if (it == region_reads.end() || it->second < required) {
@@ -2486,7 +2578,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
     // -------------------------------------------------------------------
 
     // Select shard based on read preference
-    std::string selected_shard;
+    std::string selected_shard = {};
     const auto pref = geo.read_preference;
     if (pref == ReadPreference::LOCAL_REGION || pref == ReadPreference::FOLLOWER) {
         selected_shard = selectGeoReadShard(candidates, topology, geo.local_region);
@@ -2516,7 +2608,9 @@ ReadResult RedundancyStrategy::readGeoMirror(
         // Bounded-staleness / follower-read fallback: try remaining candidates
         result.success = false;
         for (const auto& shard_id : candidates) {
-            if (shard_id == selected_shard) continue;
+            if (shard_id == selected_shard) {
+              continue;
+            }
             data_opt = handler(shard_id, document_id);
             if (data_opt) {
                 result.success = true;
@@ -2617,10 +2711,14 @@ ReadResult RedundancyStrategy::readStripe(
         std::string chunk_doc_id = document_id + ":chunk:" + std::to_string(i);
         auto shard_opt = ring.getNode(chunk_doc_id);
         
-        if (!shard_opt) break;
+        if (!shard_opt) {
+          break;
+        }
         
         auto data_opt = handler(*shard_opt, chunk_doc_id);
-        if (!data_opt) break;
+        if (!data_opt) {
+          break;
+        }
         
         chunks.push_back(*data_opt);
     }
@@ -2649,9 +2747,9 @@ ReadResult RedundancyStrategy::readParity(
     // W2-S06: Read consensus for erasure coding — snapshot config under lock to prevent races
     // Snapshot erasure-coding config under the shared lock to guard against a
     // concurrent configure() resetting erasure_coder_ (data race fix).
-    uint32_t data_shards_snap;
-    uint32_t parity_shards_snap;
-    uint32_t total_shards;
+    uint32_t data_shards_snap = {};
+    uint32_t parity_shards_snap = {};
+    uint32_t total_shards = {};
     {
         std::shared_lock<std::shared_mutex> ec_lock(mutex_);
         if (!erasure_coder_) {
@@ -2686,7 +2784,9 @@ ReadResult RedundancyStrategy::readParity(
         std::string chunk_id = document_id + (is_parity ? ":parity:" : ":data:") + std::to_string(i);
         
         auto shard_opt = ring.getNode(chunk_id);
-        if (!shard_opt) continue;
+        if (!shard_opt) {
+          continue;
+        }
         
         auto data_opt = handler(*shard_opt, chunk_id);
         if (data_opt) {
@@ -2698,7 +2798,7 @@ ReadResult RedundancyStrategy::readParity(
     
     // W2-S06: Consensus validation — check if we have enough chunks for recovery
     // Check if we can recover (need at least k data shards)
-    if (available_chunks.size() < data_shards_snap) {
+    if (static_cast<int>(available_chunks.size()) < data_shards_snap) {
         result.error_message = "Not enough chunks available for recovery";
         return result;
     }
@@ -2742,7 +2842,7 @@ std::vector<std::vector<uint8_t>> RedundancyStrategy::splitIntoChunks(
     std::vector<std::vector<uint8_t>> chunks;
     
     for (size_t offset = 0; offset < data.size(); offset += chunk_size) {
-        size_t size = std::min(chunk_size, data.size() - offset);
+        size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
         std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + size);
         chunks.push_back(chunk);
     }
@@ -2803,7 +2903,8 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
     if (all_consistent) {
         // All chunks are consistent - simple merge
         result_version = first_version;
-        std::vector<uint8_t> merged;
+        std::vector<uint8_t> merged = {};
+
         for (const auto& vc : versioned_chunks) {
             merged.insert(merged.end(), vc.data.begin(), vc.data.end());
         }
@@ -2873,6 +2974,7 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
             }
             result_version = latest->version_token;
             return latest->data;
+        default: break;
         }
     }
     
@@ -3008,14 +3110,14 @@ std::string RedundancyStrategy::selectReadShard(
         }
             
         case ReadPreference::SECONDARY_ONLY:
-            if (available_shards.size() > 1) {
+            if (static_cast<int>(available_shards.size()) > 1) {
                 return available_shards[1];
             }
             return available_shards[0];
 
         case ReadPreference::FOLLOWER:
             // Any follower (non-primary); fall through to second shard if available
-            if (available_shards.size() > 1) {
+            if (static_cast<int>(available_shards.size()) > 1) {
                 return available_shards[1];
             }
             return available_shards[0];
@@ -3080,7 +3182,9 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
 
     for (const auto& region : regions) {
         const auto all_shards = topology.getShardsInRegion(region);
-        if (all_shards.empty()) continue;
+        if (all_shards.empty()) {
+          continue;
+        }
 
         const auto healthy = topology.getHealthyShardsInRegion(region);
         double healthy_fraction = static_cast<double>(healthy.size()) /
@@ -3208,7 +3312,9 @@ bool RedundancyStrategy::remove(
         for (const auto& sid : shards) {
             if (!failed_set.empty()) {
                 auto info = topology.getShard(sid);
-                if (info && failed_set.count(info->region)) continue;
+                if (info && failed_set.count(info->region)) {
+                  continue;
+                }
             }
             targets.emplace_back(sid, document_id);
         }
@@ -3272,7 +3378,9 @@ bool RedundancyStrategy::recoverDocument(
     }
 
     auto primary_opt = ring.getNode(document_id);
-    if (!primary_opt) return false;
+    if (!primary_opt) {
+      return false;
+    }
 
     std::vector<std::string> all_shards{*primary_opt};
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
@@ -3286,7 +3394,9 @@ bool RedundancyStrategy::recoverDocument(
         std::optional<std::vector<uint8_t>> source_data;
         for (const auto& shard_id : all_shards) {
             auto info = topology.getShard(shard_id);
-            if (info && !info->is_healthy) continue;
+            if (info && !info->is_healthy) {
+              continue;
+            }
 
             auto data = read_handler(shard_id, document_id);
             if (data) {
@@ -3331,7 +3441,9 @@ bool RedundancyStrategy::recoverDocument(
         uint32_t k, m;
         {
             std::shared_lock<std::shared_mutex> ec_lock(mutex_);
-            if (!erasure_coder_) return false;
+            if (!erasure_coder_) {
+              return false;
+            }
             k = config_.erasure_coding.data_shards;
             m = config_.erasure_coding.parity_shards;
         }
@@ -3356,7 +3468,9 @@ bool RedundancyStrategy::recoverDocument(
 
         // Count available chunks
         uint32_t available = 0;
-        for (const auto& c : chunk_opts) if (c) ++available;
+        for (const auto& c : chunk_opts) {
+          if (c) ++available;
+        }
 
         if (available < k) {
             spdlog::error("recoverDocument: only {}/{} chunks available for {} (need {})",
@@ -3366,7 +3480,8 @@ bool RedundancyStrategy::recoverDocument(
 
         // Build the map and missing-indices vector required by decode()
         std::map<uint32_t, std::vector<uint8_t>> available_map;
-        std::vector<uint32_t> missing_idx_vec;
+        std::vector<uint32_t> missing_idx_vec = {};
+
         for (uint32_t i = 0; i < total; ++i) {
             if (chunk_opts[i]) {
                 available_map[i] = *chunk_opts[i];
@@ -3392,7 +3507,7 @@ bool RedundancyStrategy::recoverDocument(
         }
 
         uint32_t restored = 0;
-        for (size_t i = 0; i < shards.size() && i < all_chunks.size(); ++i) {
+        for (size_t i = 0; i < shards.size()  && static_cast<size_t>(i) <static_cast<int>(all_chunks.size()); ++i) {
             if (chunk_opts[i]) continue;  // chunk was already present
 
             bool is_parity = (i >= k);
@@ -3460,7 +3575,7 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
                 }
             }
         }
-        health.is_healthy = (health.available_replicas == all_shards.size());
+        health.is_healthy = (health.available_replicas == static_cast<int>(all_shards.size()));
         health.can_recover = false;  // STRIPE: no recovery without all chunks
         return health;
     }
@@ -3546,7 +3661,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
     std::stringstream ss;
     
     // Convert mode to string
-    std::string mode_str;
+    std::string mode_str = {};
     switch (config_.mode) {
         case RedundancyMode::NONE: mode_str = "none"; break;
         case RedundancyMode::MIRROR: mode_str = "mirror"; break;
@@ -3606,7 +3721,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         ss << "themis_redundancy_parity_shards{mode=\"" << mode_str << "\"} " 
            << config_.erasure_coding.parity_shards << "\n";
         
-        std::string algo_str;
+        std::string algo_str = {};
         switch (config_.erasure_coding.algorithm) {
             case ErasureCodingAlgorithm::REED_SOLOMON: algo_str = "reed_solomon"; break;
             case ErasureCodingAlgorithm::CAUCHY: algo_str = "cauchy"; break;
@@ -3625,7 +3740,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         const auto& geo = config_.geo_replication;
 
         // Replication mode
-        std::string repl_mode_str;
+        std::string repl_mode_str = {};
         switch (geo.replication_mode) {
             case GeoReplicationConfig::ReplicationMode::SYNC:      repl_mode_str = "sync";      break;
             case GeoReplicationConfig::ReplicationMode::SEMI_SYNC: repl_mode_str = "semi_sync"; break;
@@ -3640,7 +3755,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         ss << "# HELP themis_geo_region_write_quorums_total Number of regions with write quorum configured\n";
         ss << "# TYPE themis_geo_region_write_quorums_total gauge\n";
         ss << "themis_geo_region_write_quorums_total{mode=\"geo_mirror\"} "
-           << geo.region_write_quorums.size() << "\n";
+           <<static_cast<int>(geo.region_write_quorums.size()) << "\n";
 
         // Per-region write quorum values
         ss << "# HELP themis_geo_region_write_quorum Required write quorum per region\n";
@@ -3660,7 +3775,7 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         ss << "# HELP themis_geo_failed_regions_total Number of regions currently failed-out\n";
         ss << "# TYPE themis_geo_failed_regions_total gauge\n";
         ss << "themis_geo_failed_regions_total{mode=\"geo_mirror\"} "
-           << geo.failed_regions.size() << "\n";
+           <<static_cast<int>(geo.failed_regions.size()) << "\n";
 
         // Per-failed-region marker
         ss << "# HELP themis_geo_region_failed Whether a region is currently failed-out (1=failed)\n";
@@ -3748,7 +3863,8 @@ std::shared_ptr<RedundancyStrategy> CollectionRedundancyManager::getStrategy(
 std::vector<std::string> CollectionRedundancyManager::listCollections() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
-    std::vector<std::string> collections;
+    std::vector<std::string> collections = {};
+
     for (const auto& [name, _] : collection_configs_) {
         collections.push_back(name);
     }

@@ -24,7 +24,7 @@ protected:
     }
 
     void TearDown() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(tmp_dir_, ec);
     }
 

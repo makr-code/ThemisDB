@@ -104,7 +104,7 @@ class MultiGPUVectorBackend::Impl {
 
         // Clamp to available GPU count
         int gpuCount = MultiGPUVectorBackend::detectGPUCount();
-        if (gpuCount > 0 && static_cast<int>(deviceIds.size()) > gpuCount) {
+        if (gpuCount > 0 && deviceIds.size() > static_cast<size_t>(gpuCount)) {
             std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size() << " devices but only " << gpuCount
                       << " visible; clamping.\n";
             deviceIds.resize(static_cast<size_t>(gpuCount));
@@ -179,7 +179,7 @@ class MultiGPUVectorBackend::Impl {
     // calls to computeDistances / batchKnnSearch are safe.
     // -------------------------------------------------------------------------
 
-    std::vector<ShardDescriptor> buildRanges(size_t numVectors) const {
+    std::vector<ShardDescriptor> buildRanges([[maybe_unused]] size_t numVectors) const {
         size_t n = shardDescs.size();
         std::vector<ShardDescriptor> ranges(n);
 
@@ -282,7 +282,7 @@ class MultiGPUVectorBackend::Impl {
         // Host-side top-k merge: partial sort then trim to k
         for (size_t q = 0; q < numQueries; ++q) {
             auto &row = merged[q];
-            if (row.size() > k) {
+            if (static_cast<int>(row.size()) > k) {
                 std::partial_sort(row.begin(), row.begin() + k, row.end(),
                                   [](const std::pair<uint32_t, float> &a, const std::pair<uint32_t, float> &b) {
                                       return a.second < b.second;
@@ -371,6 +371,7 @@ class MultiGPUVectorBackend::Impl {
             }
 #endif
             case CommBackend::CPU:
+            [[fallthrough]];
             default:
                 // unused when NCCL/RCCL are not compiled in
                 activeComm = CommBackend::CPU;

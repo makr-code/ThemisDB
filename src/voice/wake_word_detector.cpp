@@ -46,7 +46,7 @@ static constexpr float kMaxAudioDurationMs = 30000.0f;    // Maximum single utte
 // ---------------------------------------------------------------------------
 
 static std::string wakeToLower(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         out += static_cast<char>(std::tolower(c));
@@ -57,7 +57,7 @@ static std::string wakeToLower(const std::string& s) {
 static std::vector<std::string> tokenize(const std::string& phrase) {
     std::vector<std::string> tokens;
     std::istringstream ss(phrase);
-    std::string tok;
+    std::string tok = {};
     while (ss >> tok) {
         tokens.push_back(tok);
     }
@@ -100,7 +100,7 @@ bool WakeWordDetector::addWakeWord(const WakeWordID& id, const std::string& phra
 bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = std::find_if(wake_words_.begin(), wake_words_.end(),
-                           [&](const WakeWord& w) { return w.id == id; });
+                           [&]([[maybe_unused]] const WakeWord& w) { return w.id == id; });
     if (it == wake_words_.end()) {
         return false;
     }
@@ -110,7 +110,8 @@ bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
 
 std::vector<WakeWordID> WakeWordDetector::listWakeWords() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<WakeWordID> ids;
+    std::vector<WakeWordID> ids = {};
+
     ids.reserve(wake_words_.size());
     for (const auto& ww : wake_words_) {
         ids.push_back(ww.id);
@@ -128,7 +129,7 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     // TASK 2.3: Wake-word detection with hardened confidence thresholds
     // and anti-spoof pre-checks
     
-    WakeWordDetectionResult result;
+    WakeWordDetectionResult result = {};
 
     if (audio_chunk.empty()) {
         return result;
@@ -220,8 +221,8 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     last_detection_ms_ = now;
     ++total_detections_;
 
-    if (detection_callback_) {
-        detection_callback_(result);
+    if ([[maybe_unused]] detection_callback_) {
+        detection_callback_([[maybe_unused]] result);
     }
 
     // If not continuous listening, clear the buffer so we stop firing
@@ -232,9 +233,9 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     return result;
 }
 
-void WakeWordDetector::setDetectionCallback(DetectionCallback callback) {
+void WakeWordDetector::setDetectionCallback([[maybe_unused]] DetectionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    detection_callback_ = std::move(callback);
+    detection_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ---------------------------------------------------------------------------
@@ -272,12 +273,14 @@ json WakeWordDetector::getStatistics() const {
 // ---------------------------------------------------------------------------
 
 float WakeWordDetector::computeRMS(const std::vector<float>& samples) const {
-    if (samples.empty()) return 0.0f;
+    if (samples.empty()) {
+      return 0.0f;
+    }
     float sum_sq = 0.0f;
     for (float s : samples) {
         sum_sq += s * s;
     }
-    return std::sqrt(sum_sq / static_cast<float>(samples.size()));
+    return static_cast<bool>(std::sqrt(sum_sq / static_cast<float < static_cast<int>((samples.size()))));
 }
 
 std::vector<float> WakeWordDetector::pcmToFloat(
@@ -299,10 +302,14 @@ float WakeWordDetector::scorePhrase(
     const std::string&          phrase,
     const std::vector<float>&   samples) const
 {
-    if (samples.empty() || phrase.empty()) return 0.0f;
+    if (samples.empty() || phrase.empty()) {
+      return 0.0f;
+    }
 
     const float rms = computeRMS(samples);
-    if (rms <= 0.0f) return 0.0f;
+    if (rms <= 0.0f) {
+      return 0.0f;
+    }
 
     // --- Feature 1: phrase-length density score ----------------------------
     // Longer phrases require more audio energy sustained over time.  We model
@@ -323,7 +330,7 @@ float WakeWordDetector::scorePhrase(
     float high_energy = 0.0f;
     float total_energy = 0.0f;
     for (size_t i = 1; i < samples.size(); ++i) {
-        float diff = samples[i] - samples[i - 1];
+        float diff = samples[i] - samples[static_cast<int>(i - 1)];
         high_energy  += diff * diff;
         total_energy += samples[i] * samples[i];
     }
@@ -341,7 +348,9 @@ float WakeWordDetector::scorePhrase(
     float peak = 0.0f;
     for (float s : samples) {
         float a = std::abs(s);
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     // Crest factor = peak / RMS.  Voiced speech: 4–8 (= 12–18 dB).
     float crest = (rms > 0.0f) ? (peak / rms) : 0.0f;
@@ -371,7 +380,7 @@ int64_t WakeWordDetector::nowMs() const {
 // Phase 3: Confidence Thresholds and Safe Defaults
 // ============================================================================
 
-bool WakeWordDetector::meetsConfidenceThreshold(float confidence) const noexcept {
+bool WakeWordDetector::meetsConfidenceThreshold([[maybe_unused]] float confidence) const noexcept {
     return confidence >= config_.confidence_threshold;
 }
 

@@ -65,7 +65,7 @@ TEST_F(RPCDatabaseOperationsTest, HandlePutAndGet) {
     const std::string key = MakeKey("users", "User", "user-123");
     ASSERT_TRUE(storage_->put(key, entity.dump()));
 
-    std::string retrieved;
+    std::string retrieved = {};
     ASSERT_TRUE(storage_->get(key, retrieved));
 
     auto retrieved_entity = json::parse(retrieved);
@@ -87,7 +87,7 @@ TEST_F(RPCDatabaseOperationsTest, TransactionCommitPersistsData) {
     ASSERT_TRUE(tx->put(key, entity_vec));
     ASSERT_TRUE(tx->commit());
 
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(storage_->get(key, value));
     auto retrieved = json::parse(value);
     EXPECT_EQ(retrieved["balance"], 100.0);
@@ -106,7 +106,7 @@ TEST_F(RPCDatabaseOperationsTest, TransactionRollbackDiscardsData) {
     ASSERT_TRUE(tx->put(key, entity_vec));
     tx->rollback();
 
-    std::string value;
+    std::string value = {};
     EXPECT_FALSE(storage_->get(key, value));
 }
 

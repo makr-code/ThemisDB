@@ -44,7 +44,7 @@ public:
     struct Turn {
         std::string nl_query;
         std::string aql_result;
-        uint32_t    tokens;
+        uint32_t    tokens = {};
     };
 
     explicit ThreadSafeConversationContext(uint32_t max_tokens = 4096)
@@ -106,7 +106,9 @@ public:
 
     bool allowRequest() {
         std::lock_guard<std::mutex> lk(mu_);
-        if (state_ == State::OPEN) return false;
+        if (state_ == State::OPEN) {
+          return false;
+        }
         if (state_ == State::HALF_OPEN) {
             return half_open_used_.fetch_add(1) < half_open_permits_;
         }
@@ -181,7 +183,9 @@ TEST(ConversationConcurrency, ParallelContextAccessIsSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Token count must never exceed limit
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
@@ -200,13 +204,16 @@ TEST(ConversationConcurrency, ConcurrentCircuitBreakerTransitions) {
     constexpr int kThreads = 6;
     std::atomic<int> allowed{0}, blocked{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&cb, &allowed, &blocked, t]() {
             for (int i = 0; i < 10; ++i) {
                 if (cb.allowRequest()) {
                     allowed.fetch_add(1);
-                    if (t % 2 == 0) cb.recordFailure();
+                    if (t % 2 == 0) {
+                      cb.recordFailure();
+                    }
                     else             cb.recordSuccess();
                 } else {
                     blocked.fetch_add(1);
@@ -214,7 +221,9 @@ TEST(ConversationConcurrency, ConcurrentCircuitBreakerTransitions) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // State must be one of the valid enum values
     auto state = cb.getState();
@@ -238,16 +247,21 @@ TEST(ConversationConcurrency, TokenBudgetExhaustionRaceCondition) {
     constexpr int kThreads = 2;
     std::atomic<int> successes{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&ctx, &successes]() {
             for (int i = 0; i < 50; ++i) {
                 auto r = ctx.addTurn("q", "FOR x IN c RETURN x");
-                if (r.success) successes.fetch_add(1);
+                if (r.success) {
+                  successes.fetch_add(1);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
     EXPECT_GT(successes.load(), 0);
@@ -271,7 +285,8 @@ TEST(ConversationConcurrency, ConcurrentContextEviction) {
     const auto initial_tokens = ctx.currentTokens();
     EXPECT_LE(initial_tokens, ctx.maxTokens());
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&ctx, &total_evicted, t]() {
             // Use large AQL strings to force evictions
@@ -282,7 +297,9 @@ TEST(ConversationConcurrency, ConcurrentContextEviction) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
 }
@@ -300,7 +317,8 @@ TEST(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess) {
     std::atomic<bool> stop{false};
     std::atomic<std::size_t> max_observed_size{0};
 
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int t = 0; t < kWriters; ++t) {
         writers.emplace_back([&ctx, t]() {
             for (int i = 0; i < 30; ++i) {
@@ -309,7 +327,8 @@ TEST(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess) {
         });
     }
 
-    std::vector<std::thread> readers;
+    std::vector<std::thread> readers = {};
+
     for (int t = 0; t < kReaders; ++t) {
         readers.emplace_back([&ctx, &stop, &max_observed_size]() {
             while (!stop.load(std::memory_order_relaxed)) {
@@ -321,9 +340,13 @@ TEST(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess) {
         });
     }
 
-    for (auto& w : writers) w.join();
+    for (auto& w : writers) {
+      w.join();
+    }
     stop.store(true);
-    for (auto& r : readers) r.join();
+    for (auto& r : readers) {
+      r.join();
+    }
 
     // After all writes, tokens must still be within limit
     EXPECT_LE(ctx.currentTokens(), ctx.maxTokens());
@@ -375,7 +398,8 @@ TEST(ConversationConcurrency, ConcurrentValidationPipelineCalls) {
     constexpr int kThreads = 8;
     std::atomic<int> errors_seen{0};
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([t, &errors_seen]() {
             // Each thread independently creates and inspects error context objects
@@ -408,7 +432,9 @@ TEST(ConversationConcurrency, ConcurrentValidationPipelineCalls) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(errors_seen.load(), 0);
 }
 
@@ -443,13 +469,17 @@ TEST(ConversationConcurrency, StressTestConcurrentTurns) {
                     std::string(nl_len,  'n'),
                     std::string(aql_len, 'a')
                 );
-                if (r.success) total_successes.fetch_add(1);
+                if (r.success) {
+                  total_successes.fetch_add(1);
+                }
                 else           total_failures.fetch_add(1);
             }
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Fundamental invariant must hold at all times
     EXPECT_LE(ctx.currentTokens(), kMaxTokens);

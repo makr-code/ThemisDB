@@ -19,7 +19,7 @@ protected:
         test_session_id_ = session.session_id;
     }
 
-    std::string test_session_id_;
+    std::string test_session_id_ = {};
 };
 
 // Test 1: Fail-closed guard rejects empty user_msg

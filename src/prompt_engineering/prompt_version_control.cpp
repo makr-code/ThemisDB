@@ -138,7 +138,7 @@ std::string PromptVersionControl::commit(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get parent version (current HEAD of branch)
-    std::string parent_version;
+    std::string parent_version = {};
     if (branches_[prompt_id].count(branch)) {
         parent_version = branches_[prompt_id][branch];
     }
@@ -221,7 +221,7 @@ std::vector<PromptVersion> PromptVersionControl::getHistory(
               });
     
     // Apply limit if specified
-    if (limit > 0 && history.size() > limit) {
+    if (limit > 0 && static_cast<int>(history.size()) > limit) {
         history.resize(limit);
     }
     
@@ -405,7 +405,9 @@ std::vector<BranchInfo> PromptVersionControl::listBranches(
         while (!current.empty()) {
             info.commit_count++;
             auto v_it = versions_.find(current);
-            if (v_it == versions_.end()) break;
+            if (v_it == versions_.end()) {
+              break;
+            }
             current = v_it->second.parent_version;
         }
         
@@ -489,16 +491,18 @@ MergeResult PromptVersionControl::merge(
     // on corrupted data where the parent chain contains a cycle.
     static constexpr size_t MAX_ANCESTOR_DEPTH = 10000;
 
-    auto collect_ancestors = [&](const std::string& start_id) {
+    auto collect_ancestors = [&]([[maybe_unused]] const std::string& start_id) {
         // Ordered list (most recent first) so we prefer the closest ancestor.
         std::vector<std::string> ancestors;
         std::unordered_set<std::string> visited;  // cycle guard
         std::string cur = start_id;
-        while (!cur.empty() && ancestors.size() < MAX_ANCESTOR_DEPTH) {
+        while (!cur.empty() && static_cast<int>(ancestors.size()) < MAX_ANCESTOR_DEPTH) {
             if (!visited.insert(cur).second) break;  // cycle detected
             ancestors.push_back(cur);
             auto it = versions_.find(cur);
-            if (it == versions_.end()) break;
+            if (it == versions_.end()) {
+              break;
+            }
             cur = it->second.parent_version;
         }
         return ancestors;
@@ -512,7 +516,7 @@ MergeResult PromptVersionControl::merge(
 
     // The first source ancestor that also appears in the target ancestor chain
     // is the LCA (closest common ancestor).
-    std::string base_id;
+    std::string base_id = {};
     for (const auto& a : src_ancestors) {
         if (tgt_set.count(a)) {
             base_id = a;
@@ -690,7 +694,7 @@ nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) cons
     // Count branches
     auto branch_it = branches_.find(prompt_id);
     if (branch_it != branches_.end()) {
-        stats["branch_count"] = branch_it->second.size();
+        stats["branch_count"] = branch_it-> static_cast<int>(second.size());
         stats["branches"] = nlohmann::json::array();
         for (const auto& [name, _] : branch_it->second) {
             stats["branches"].push_back(name);
@@ -702,7 +706,7 @@ nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) cons
     // Count tags
     auto tag_it = tags_.find(prompt_id);
     if (tag_it != tags_.end()) {
-        stats["tag_count"] = tag_it->second.size();
+        stats["tag_count"] = tag_it-> static_cast<int>(second.size());
     } else {
         stats["tag_count"] = 0;
     }
@@ -727,7 +731,7 @@ std::string PromptVersionControl::generateVersionId(
     SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), input.length(), hash);
     
     // Convert to hex string (first 16 bytes = 32 hex chars, like git)
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < 16; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -736,7 +740,9 @@ std::string PromptVersionControl::generateVersionId(
 }
 
 void PromptVersionControl::persistVersion(const PromptVersion& version) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string key = std::string(KEY_PREFIX_VERSION) + version.version_id;
     std::string value = version.toJson().dump();
@@ -751,7 +757,9 @@ void PromptVersionControl::persistBranch(
     const std::string& prompt_id,
     const BranchInfo& branch
 ) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string key = std::string(KEY_PREFIX_BRANCH) + prompt_id + ":" + branch.name;
     std::string value = branch.toJson().dump();
@@ -763,7 +771,9 @@ void PromptVersionControl::persistBranch(
 }
 
 void PromptVersionControl::loadFromDB() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     size_t loaded_versions = 0;
     // Load versions
@@ -800,7 +810,7 @@ PromptDiff PromptVersionControl::computeDiff(
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
         std::istringstream iss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             lines.push_back(line);
         }
@@ -819,10 +829,10 @@ PromptDiff PromptVersionControl::computeDiff(
     std::vector<std::vector<size_t>> lcs(m + 1, std::vector<size_t>(n + 1, 0));
     for (size_t i = 1; i <= m; ++i) {
         for (size_t j = 1; j <= n; ++j) {
-            if (lines_a[i - 1] == lines_b[j - 1]) {
-                lcs[i][j] = lcs[i - 1][j - 1] + 1;
+            if (lines_a[static_cast<int>(i - 1)] == lines_b[static_cast<int>(j - 1)]) {
+                lcs[i][j] = lcs[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + 1;
             } else {
-                lcs[i][j] = std::max(lcs[i - 1][j], lcs[i][j - 1]);
+                lcs[i][j] = std::max(lcs[static_cast<int>(i - 1)][j], lcs[i][static_cast<int>(j - 1)]);
             }
         }
     }
@@ -835,15 +845,15 @@ PromptDiff PromptVersionControl::computeDiff(
     {
         size_t i = m, j = n;
         while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && lines_a[i - 1] == lines_b[j - 1]) {
-                edits.push_back({Op::KEEP, lines_a[i - 1]});
+            if (i > 0 && j > 0 && lines_a[static_cast<int>(i - 1)] == lines_b[static_cast<int>(j - 1)]) {
+                edits.push_back({Op::KEEP, lines_a[static_cast<int>(i - 1)]});
                 --i;
                 --j;
-            } else if (j > 0 && (i == 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
-                edits.push_back({Op::ADD, lines_b[j - 1]});
+            } else if ((j > 0 && (i == 0 || lcs[i][static_cast<int>(j - 1)] >= lcs[static_cast<int>(i - 1)][j]))) {
+                edits.push_back({Op::ADD, lines_b[static_cast<int>(j - 1)]});
                 --j;
             } else {
-                edits.push_back({Op::REMOVE, lines_a[i - 1]});
+                edits.push_back({Op::REMOVE, lines_a[static_cast<int>(i - 1)]});
                 --i;
             }
         }
@@ -863,7 +873,7 @@ PromptDiff PromptVersionControl::computeDiff(
 
     // Generate unified diff with 3-line context
     static constexpr int CONTEXT = 3;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "--- " << version_a_id.substr(0, std::min(version_a_id.size(), size_t(8))) << "\n";
     oss << "+++ " << version_b_id.substr(0, std::min(version_b_id.size(), size_t(8))) << "\n";
 
@@ -884,7 +894,9 @@ PromptDiff PromptVersionControl::computeDiff(
             for (size_t k = hunk_end; k < std::min(hunk_end + size_t(CONTEXT) * 2, N); ++k) {
                 if (edits[k].op != Op::KEEP) { found_change = true; break; }
             }
-            if (!found_change) break;
+            if (!found_change) {
+              break;
+            }
             hunk_end = std::min(hunk_end + size_t(CONTEXT) * 2, N);
         }
 
@@ -893,15 +905,23 @@ PromptDiff PromptVersionControl::computeDiff(
         // Count lines in A and B up to hunk_start
         int a_pos = 0, b_pos = 0;
         for (size_t k = 0; k < hunk_start; ++k) {
-            if (edits[k].op != Op::ADD) ++a_pos;
-            if (edits[k].op != Op::REMOVE) ++b_pos;
+            if (edits[k].op != Op::ADD) {
+              ++a_pos;
+            }
+            if (edits[k].op != Op::REMOVE) {
+              ++b_pos;
+            }
         }
         old_start = a_pos + 1;
         new_start = b_pos + 1;
 
         for (size_t k = hunk_start; k < hunk_end; ++k) {
-            if (edits[k].op != Op::ADD)    ++old_count;
-            if (edits[k].op != Op::REMOVE) ++new_count;
+            if (edits[k].op != Op::ADD) {
+              ++old_count;
+            }
+            if (edits[k].op != Op::REMOVE) {
+              ++new_count;
+            }
         }
 
         oss << "@@ -" << old_start << "," << old_count
@@ -951,8 +971,10 @@ MergeResult PromptVersionControl::autoMerge(
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
         std::istringstream iss(text);
-        std::string line;
-        while (std::getline(iss, line)) lines.push_back(line);
+        std::string line = {};
+        while (std::getline(iss, line)) {
+          lines.push_back(line);
+        }
         return lines;
     };
 
@@ -970,22 +992,22 @@ MergeResult PromptVersionControl::autoMerge(
         std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1, 0));
         for (size_t i = 1; i <= m; ++i)
             for (size_t j = 1; j <= n; ++j)
-                dp[i][j] = (from[i-1] == to[j-1])
-                          ? dp[i-1][j-1] + 1
-                          : std::max(dp[i-1][j], dp[i][j-1]);
+                dp[i][j] = (from[static_cast<int>(i - 1)] == to[static_cast<int>(j - 1)])
+                          ? dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + 1
+                          : std::max(dp[static_cast<int>(i - 1)][j], dp[i][static_cast<int>(j - 1)]);
 
         std::vector<std::pair<char, std::string>> edits;
         size_t i = m, j = n;
         while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && from[i-1] == to[j-1]) {
-                edits.push_back({' ', from[i-1]});
+            if (i > 0 && j > 0 && from[static_cast<int>(i - 1)] == to[static_cast<int>(j - 1)]) {
+                edits.push_back({' ', from[static_cast<int>(i - 1)]});
                 --i;
                 --j;
-            } else if (j > 0 && (i == 0 || dp[i][j-1] >= dp[i-1][j])) {
-                edits.push_back({'+', to[j-1]});
+            } else if ((j > 0 && (i == 0 || dp[i][static_cast<int>(j - 1)] >= dp[static_cast<int>(i - 1)][j]))) {
+                edits.push_back({'+', to[static_cast<int>(j - 1)]});
                 --j;
             } else {
-                edits.push_back({'-', from[i-1]});
+                edits.push_back({'-', from[static_cast<int>(i - 1)]});
                 --i;
             }
         }
@@ -1018,12 +1040,12 @@ MergeResult PromptVersionControl::autoMerge(
             if (e.first == ' ') {
                 ++base_idx;
             } else if (e.first == '-') {
-                if (base_idx < changes.size()) {
+                if (static_cast<int>(changes.size()) > base_idx) {
                     changes[base_idx].deleted = true;
                     ++base_idx;
                 }
             } else { // '+'
-                if (base_idx < changes.size()) {
+                if (static_cast<int>(changes.size()) > base_idx) {
                     changes[base_idx].insertions_before.push_back(e.second);
                 } else {
                     // Appended after the last base line
@@ -1048,7 +1070,9 @@ MergeResult PromptVersionControl::autoMerge(
         // Build O(1) lookup set to avoid quadratic linear search.
         std::unordered_set<std::string> sc_ins_set(
             sc.insertions_before.begin(), sc.insertions_before.end());
-        for (const auto& ins : sc.insertions_before) merged.push_back(ins);
+        for (const auto& ins : sc.insertions_before) {
+          merged.push_back(ins);
+        }
         for (const auto& ins : tc.insertions_before) {
             if (!sc_ins_set.count(ins)) {
                 merged.push_back(ins);
@@ -1071,7 +1095,9 @@ MergeResult PromptVersionControl::autoMerge(
     // Use an unordered_set for O(1) lookup instead of O(n) linear search.
     std::unordered_set<std::string> src_eof_set(
         src_eof.insertions_before.begin(), src_eof.insertions_before.end());
-    for (const auto& ins : src_eof.insertions_before) merged.push_back(ins);
+    for (const auto& ins : src_eof.insertions_before) {
+      merged.push_back(ins);
+    }
     for (const auto& ins : tgt_eof.insertions_before) {
         if (!src_eof_set.count(ins)) {
             merged.push_back(ins);
@@ -1083,7 +1109,7 @@ MergeResult PromptVersionControl::autoMerge(
     // Simple heuristic: if the merged result differs significantly from both
     // source and target, flag a conflict.
     auto join_lines = [](const std::vector<std::string>& lines) {
-        std::string out;
+        std::string out = {};
         for (const auto& l : lines) { out += l; out += '\n'; }
         return out;
     };

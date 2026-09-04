@@ -31,19 +31,25 @@
 namespace {
 struct EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* ptr) const {
-        if (ptr) EVP_MD_CTX_free(ptr);
+        if (ptr) {
+          EVP_MD_CTX_free(ptr);
+        }
     }
 };
 
 struct EVP_PKEY_Deleter {
     void operator()(EVP_PKEY* ptr) const {
-        if (ptr) EVP_PKEY_free(ptr);
+        if (ptr) {
+          EVP_PKEY_free(ptr);
+        }
     }
 };
 
 struct FILE_Deleter {
     void operator()(FILE* ptr) const {
-        if (ptr) fclose(ptr);
+        if (ptr) {
+          fclose(ptr);
+        }
     }
 };
 
@@ -90,7 +96,7 @@ inline bool retryWithBackoff(
         
         if (attempt < max_retries - 1) {
             // Exponential backoff: 100ms, 200ms, 400ms, ...
-            uint64_t delay_ms = initial_delay_ms * (1ULL << attempt);
+            uint64_t delay_ms = initial_delay_ms * (1 << attempt);
             delay_ms = std::min(delay_ms, max_delay_ms);
             
             std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
@@ -184,7 +190,7 @@ std::vector<PeerInfo> GossipProtocol::getHealthyPeers() const {
 
 size_t GossipProtocol::getPeerCount() const {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    return peers_.size();
+    return static_cast<int>(peers_.size());
 }
 
 void GossipProtocol::addPeer(const PeerInfo& peer) {
@@ -195,7 +201,7 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
         std::lock_guard<std::mutex> lock(peers_mutex_);
 
         // Check max peers limit
-        if (peers_.size() >= config_.max_peers &&
+        if (static_cast<int>(peers_.size()) >= config_.max_peers &&
             peers_.find(peer.peer_id) == peers_.end()) {
             return;  // At capacity, don't add new peers
         }
@@ -227,8 +233,8 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
         }
     }
 
-    if (peer_discovered_callback) {
-        peer_discovered_callback(discovered_peer);
+    if ([[maybe_unused]] peer_discovered_callback) {
+        peer_discovered_callback([[maybe_unused]] discovered_peer);
     }
 }
 
@@ -252,8 +258,8 @@ void GossipProtocol::removePeer(const std::string& peer_id) {
         peer_lost_callback = on_peer_lost_;
     }
 
-    if (peer_lost_callback) {
-        peer_lost_callback(peer_id);
+    if ([[maybe_unused]] peer_lost_callback) {
+        peer_lost_callback([[maybe_unused]] peer_id);
     }
 }
 
@@ -285,13 +291,13 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
         std::function<void(const GossipMessage&)> custom_handler;
         {
             std::lock_guard<std::mutex> lock(peers_mutex_);
-            auto it = custom_handlers_.find(message.message_type);
-            if (it != custom_handlers_.end()) {
+            auto it = custom_handlers_.find([[maybe_unused]] message.message_type);
+            if ([[maybe_unused]] it != custom_handlers_.end()) {
                 custom_handler = it->second;
             }
         }
-        if (custom_handler) {
-            custom_handler(message);
+        if ([[maybe_unused]] custom_handler) {
+            custom_handler([[maybe_unused]] message);
         }
     }
 
@@ -321,7 +327,8 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     } else if (message.message_type == "peer_list") {
         // Merge peer list
         if (message.payload.contains("peers") && message.payload["peers"].is_array()) {
-            std::vector<PeerInfo> peers;
+            std::vector<PeerInfo> peers = {};
+
             for (const auto& p : message.payload["peers"]) {
                 peers.push_back(PeerInfo::fromJson(p));
             }
@@ -351,14 +358,14 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     return GossipMessage{};
 }
 
-void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
+void GossipProtocol::onPeerDiscovered([[maybe_unused]] PeerDiscoveryCallback callback) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    on_peer_discovered_ = std::move(callback);
+    on_peer_discovered_ = std::move([[maybe_unused]] callback);
 }
 
-void GossipProtocol::onPeerLost(PeerLostCallback callback) {
+void GossipProtocol::onPeerLost([[maybe_unused]] PeerLostCallback callback) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    on_peer_lost_ = std::move(callback);
+    on_peer_lost_ = std::move([[maybe_unused]] callback);
 }
 
 void GossipProtocol::setRaftMembershipGateFn(RaftMembershipGateFn fn) {
@@ -371,12 +378,12 @@ void GossipProtocol::registerCustomHandler(
     std::function<void(const GossipMessage&)> handler
 ) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    auto it = custom_handlers_.find(message_type);
-    if (it != custom_handlers_.end()) {
+    auto it = custom_handlers_.find([[maybe_unused]] message_type);
+    if ([[maybe_unused]] it != custom_handlers_.end()) {
         std::cerr << "[GossipProtocol] WARNING: duplicate registerCustomHandler for type '"
                   << message_type << "' — previous handler overwritten\n";
     }
-    custom_handlers_[message_type] = std::move(handler);
+    custom_handlers_[message_type] = std::move([[maybe_unused]] handler);
 }
 
 nlohmann::json GossipProtocol::getStatistics() const {
@@ -413,7 +420,7 @@ void GossipProtocol::cleanupLoop() {
         updatePeerHealth();
         
         // Sleep for cleanup interval (half of gossip interval)
-        uint32_t cleanup_interval = std::max(config_.gossip_interval_sec / 2, 1U);
+        uint32_t cleanup_interval = std::max(config_.gossip_interval_sec / 2, 1);
         for (uint32_t i = 0; i < cleanup_interval && running_.load(); ++i) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
@@ -438,7 +445,9 @@ void GossipProtocol::performGossipRound() {
 }
 
 void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
-    if (!client_) return;
+    if (!client_) {
+      return;
+    }
     
     auto message = createHeartbeatMessage();
     message.signature = signMessage(message);
@@ -479,7 +488,9 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
 }
 
 void GossipProtocol::sendPeerList(const PeerInfo& peer) {
-    if (!client_) return;
+    if (!client_) {
+      return;
+    }
     
     auto message = createPeerListMessage();
     message.signature = signMessage(message);
@@ -511,7 +522,9 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
 }
 
 void GossipProtocol::sendLeaveMessage() {
-    if (!client_) return;
+    if (!client_) {
+      return;
+    }
     
     auto message = createLeaveMessage();
     message.signature = signMessage(message);
@@ -558,7 +571,7 @@ void GossipProtocol::bootstrapFromSeedNodes() {
     }
 }
 
-std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
+std::vector<PeerInfo> GossipProtocol::selectRandomPeers([[maybe_unused]] size_t count) {
     std::vector<PeerInfo> selected;
     
     std::lock_guard<std::mutex> lock(peers_mutex_);
@@ -568,7 +581,8 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
     }
     
     // Collect healthy peers
-    std::vector<PeerInfo> candidates;
+    std::vector<PeerInfo> candidates = {};
+
     for (const auto& [id, peer] : peers_) {
         if (peer.is_healthy) {
             candidates.push_back(peer);
@@ -584,7 +598,7 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
 
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
-    size_t select_count = std::min(count, candidates.size());
+    size_t select_count = std::min(count,static_cast<int>(candidates.size()));
     selected.insert(selected.end(), candidates.begin(), candidates.begin() + select_count);
     
     return selected;
@@ -630,7 +644,9 @@ void GossipProtocol::updatePeerHealth() {
 }
 
 void GossipProtocol::syncWithTopology() {
-    if (!topology_) return;
+    if (!topology_) {
+      return;
+    }
     
     // Convert discovered peers to ShardInfo and add to topology.
     // Acquire the lock so this public variant is safe to call from outside.
@@ -640,10 +656,14 @@ void GossipProtocol::syncWithTopology() {
 
 // Called only when peers_mutex_ is already held by the current thread.
 void GossipProtocol::syncWithTopologyLocked() {
-    if (!topology_) return;
+    if (!topology_) {
+      return;
+    }
 
     for (const auto& [id, peer] : peers_) {
-        if (!peer.is_healthy) continue;
+        if (!peer.is_healthy) {
+          continue;
+        }
 
         // Check if already in topology
         if (!topology_->hasShard(peer.peer_id)) {
@@ -687,7 +707,7 @@ std::string GossipProtocol::generateMessageId() const {
     thread_local std::mt19937 gen(std::random_device{}());
     thread_local std::uniform_int_distribution<uint64_t> dis;
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "msg_" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
     return ss.str();
 }
@@ -720,7 +740,7 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
             return "";
         }
         
-        std::string signature;
+        std::string signature = {};
         
         if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1) {
             if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {
@@ -820,7 +840,7 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
 
         if (ctx) {
             if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1 &&
-                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(), to_verify.size()) == 1 &&
+                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(),static_cast<int>(to_verify.size())) == 1 &&
                 EVP_DigestVerifyFinal(ctx.get(),
                                       sig.data(),
                                       static_cast<size_t>(sig_len)) == 1) {
@@ -854,7 +874,7 @@ bool GossipProtocol::checkRateLimit(const std::string& peer_id) {
     );
     
     // Check limit
-    if (timestamps.size() >= config_.rate_limit_per_peer) {
+    if (static_cast<int>(timestamps.size()) >= config_.rate_limit_per_peer) {
         return false;  // Rate limited
     }
     

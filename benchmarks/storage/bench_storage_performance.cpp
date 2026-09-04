@@ -557,7 +557,7 @@ namespace {
 // ── Fixture helpers ──────────────────────────────────────────────────────────
 
 struct SustainedWriteFixture {
-    std::string path;
+    std::string path = {};
     std::unique_ptr<themis::RocksDBWrapper> db;
 
     explicit SustainedWriteFixture(themis::RocksDBWrapper::Config cfg) {
@@ -575,7 +575,7 @@ struct SustainedWriteFixture {
 
     ~SustainedWriteFixture() {
         db.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
     }
 };
@@ -756,7 +756,7 @@ static void BM_WAL_GroupCommit_Batch(benchmark::State& state) {
     state.SetLabel("wal_group_commit_batch" + std::to_string(kBatchSize));
 
     wal.reset();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(dir, ec);
 }
 BENCHMARK(BM_WAL_GroupCommit_Batch)

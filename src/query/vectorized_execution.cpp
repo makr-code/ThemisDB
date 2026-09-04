@@ -128,7 +128,7 @@ VectorizedQueryPlan& VectorizedQueryPlan::addSort(
     return *this;
 }
 
-VectorizedQueryPlan& VectorizedQueryPlan::setLimit(size_t n) {
+VectorizedQueryPlan& VectorizedQueryPlan::setLimit([[maybe_unused]] size_t n) {
     limit_ = n;
     return *this;
 }
@@ -197,7 +197,7 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
     }
 
     // Apply limit last (after all operators have run)
-    if (plan.limit().has_value() && result.size() > *plan.limit()) {
+    if (plan.limit().has_value() && static_cast<int>(result.size()) > *plan.limit()) {
         result.resize(*plan.limit());
     }
 
@@ -269,7 +269,9 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
 
     for (size_t i = offset; i < end; ++i) {
         const auto& row = rows[i];
-        if (!row.is_object()) continue;
+        if (!row.is_object()) {
+          continue;
+        }
         for (const auto& [key, _] : row.items()) {
             if (col_index.emplace(key, static_cast<int>(col_names.size())).second) {
                 col_names.push_back(key);
@@ -283,9 +285,13 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
         const std::string& name = col_names[ci];
         for (size_t i = offset; i < end; ++i) {
             const auto& row = rows[i];
-            if (!row.is_object() || !row.contains(name)) continue;
+            if (!row.is_object() || !row.contains(name)) {
+              continue;
+            }
             const auto& val = row[name];
-            if (val.is_null()) continue;
+            if (val.is_null()) {
+              continue;
+            }
             if (val.is_boolean()) {
                 col_types[ci] = ColumnType::Bool;
             } else if (val.is_number_integer()) {
@@ -349,7 +355,7 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
                         col.appendString(val.dump());
                     break;
                 case ColumnType::Null:
-                default:
+                [[fallthrough]];\n                default:
                     col.appendNull();
                     break;
             }
@@ -398,7 +404,7 @@ std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
                     obj[name] = col.stringData()[r];
                     break;
                 case ColumnType::Null:
-                default:
+                [[fallthrough]];\n                default:
                     obj[name] = nullptr;
                     break;
             }
@@ -414,11 +420,21 @@ std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
 
 ColumnValue VectorizedExecutionEngine::jsonToColumnValue(
     const nlohmann::json& val) {
-    if (val.is_null())    return nullptr;
-    if (val.is_boolean()) return val.get<bool>();
-    if (val.is_number_integer()) return val.get<int64_t>();
-    if (val.is_number_float())   return val.get<double>();
-    if (val.is_string())         return val.get<std::string>();
+    if (val.is_null()) {
+      return nullptr;
+    }
+    if (val.is_boolean()) {
+      return val.get<bool>();
+    }
+    if (val.is_number_integer()) {
+      return val.get<int64_t>();
+    }
+    if (val.is_number_float()) {
+      return val.get<double>();
+    }
+    if (val.is_string()) {
+      return val.get<std::string>();
+    }
     // Fallback: serialize to string
     return val.dump();
 }
@@ -447,7 +463,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
     for (const auto& stage : plan.stages()) {
         switch (stage.type) {
             case VectorizedQueryPlan::StageType::Filter: {
-                std::vector<Predicate> preds;
+                std::vector<Predicate> preds = {};
+
                 preds.reserve(stage.filter.predicates.size());
                 for (const auto& vp : stage.filter.predicates) {
                     preds.push_back(translatePredicate(vp));
@@ -460,7 +477,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
                 break;
             }
             case VectorizedQueryPlan::StageType::Aggregate: {
-                std::vector<AggregateSpec> specs;
+                std::vector<AggregateSpec> specs = {};
+
                 specs.reserve(stage.aggregate.aggregations.size());
                 for (const auto& agg : stage.aggregate.aggregations) {
                     AggregateSpec spec;
@@ -468,7 +486,7 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
                     spec.input_column = agg.input_field;
                     spec.group_by     = agg.group_by;
                     switch (agg.function) {
-                        case VectorizedAggregation::Function::Count:
+                        [[fallthrough]];\n                        case VectorizedAggregation::Function::Count:
                             spec.function = AggregateSpec::Function::Count; break;
                         case VectorizedAggregation::Function::Sum:
                             spec.function = AggregateSpec::Function::Sum; break;
@@ -489,7 +507,8 @@ VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
                 break;
             }
             case VectorizedQueryPlan::StageType::Sort: {
-                std::vector<SortOperator::SortKey> keys;
+                std::vector<SortOperator::SortKey> keys = {};
+
                 keys.reserve(stage.sort.keys.size());
                 for (const auto& sk : stage.sort.keys) {
                     keys.push_back({sk.field, sk.ascending});

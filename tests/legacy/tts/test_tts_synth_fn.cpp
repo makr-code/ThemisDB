@@ -22,9 +22,13 @@ namespace {
 
 // Returns true when all PCM payload bytes (after 44-byte WAV header) are zero.
 bool allSilence(const std::vector<uint8_t>& wav) {
-    if (wav.size() <= 44u) return true;
+    if (wav.size() <= 44u) {
+      return true;
+    }
     for (size_t i = 44u; i < wav.size(); ++i) {
-        if (wav[i] != 0u) return false;
+        if (wav[i] != 0u) {
+          return false;
+        }
     }
     return true;
 }

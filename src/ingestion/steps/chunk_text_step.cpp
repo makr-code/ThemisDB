@@ -40,7 +40,7 @@ public:
     const char* getName()    const override { return "builtin.chunk_text"; }
     const char* getVersion() const override { return "0.0.1"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
@@ -56,9 +56,9 @@ public:
         const std::string strategy =
             cfg.config.value("strategy", std::string("fixed"));
         const std::size_t chunk_size =
-            cfg.config.value("size", 512u);
+            cfg.config.value("size", 512);
         const std::size_t overlap =
-            cfg.config.value("overlap", 64u);
+            cfg.config.value("overlap", 64);
 
         if (strategy == "section") {
             chunkBySection(ctx);
@@ -80,15 +80,17 @@ private:
 
         const std::string& text = ctx.raw_text;
         std::sregex_iterator it(text.begin(), text.end(), section_re);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
 
         std::uint32_t seq = 0;
         std::size_t   prev_start = 0;
-        std::string   prev_ref;
+        std::string   prev_ref = {};
 
         auto emit = [&](std::size_t start, std::size_t end_pos,
                         const std::string& ref) {
-            if (end_pos <= start) return;
+            if (end_pos <= start) {
+              return;
+            }
             TextChunk c;
             c.seq         = seq++;
             c.text        = text.substr(start, end_pos - start);
@@ -106,7 +108,7 @@ private:
             prev_ref   = (*it)[1].str();
         }
         // Last section
-        emit(prev_start, text.size(), prev_ref);
+        emit(prev_start,static_cast<int>(text.size()), prev_ref);
     }
 
     // ── Sentence chunking ──────────────────────────────────────────────────
@@ -116,37 +118,39 @@ private:
         // Simple sentence splitter on ". " / "! " / "? "
         std::size_t pos = 0;
         std::uint32_t seq = 0;
-        std::string current;
+        std::string current = {};
         std::size_t current_start = 0;
 
         auto emit = [&]() {
-            if (current.empty()) return;
+            if (current.empty()) {
+              return;
+            }
             TextChunk c;
             c.seq        = seq++;
             c.text       = current;
             c.char_start = static_cast<std::uint64_t>(current_start);
-            c.char_end   = static_cast<std::uint64_t>(current_start + current.size());
+            c.char_end   = static_cast<std::uint64_t>(current_start + static_cast<int>(current.size()) );
             ctx.chunks.push_back(std::move(c));
             // Overlap: keep last `overlap` chars for next chunk
-            if (overlap > 0 && current.size() > overlap) {
-                current = current.substr(current.size() - overlap);
-                current_start += (current.size() - overlap); // approximate
+            if (overlap > 0 && static_cast<int>(current.size()) > overlap) {
+                current = current.substr(static_cast<int>(current.size()) - overlap);
+                current_start += (static_cast<int>(current.size()) - overlap); // approximate
             } else {
                 current.clear();
             }
         };
 
-        while (pos < text.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
             current += text[pos];
             if (pos + 1 < text.size() &&
                 (text[pos] == '.' || text[pos] == '!' || text[pos] == '?') &&
                 text[pos + 1] == ' ') {
-                if (current.size() >= max_size / 2) {
+                if (static_cast<int>(current.size()) >= max_size / 2) {
                     emit();
                     current_start = pos + 2;
                 }
             }
-            if (current.size() >= max_size) {
+            if (static_cast<int>(current.size()) >= max_size) {
                 emit();
                 current_start = pos + 1;
             }
@@ -157,7 +161,7 @@ private:
             c.seq        = seq++;
             c.text       = current;
             c.char_start = static_cast<std::uint64_t>(current_start);
-            c.char_end   = static_cast<std::uint64_t>(current_start + current.size());
+            c.char_end   = static_cast<std::uint64_t>(current_start + static_cast<int>(current.size()) );
             ctx.chunks.push_back(std::move(c));
         }
     }
@@ -169,14 +173,16 @@ private:
         const std::size_t step = (size > overlap) ? (size - overlap) : size;
         std::uint32_t seq = 0;
         for (std::size_t start = 0; start < text.size(); start += step) {
-            const std::size_t end = std::min(start + size, text.size());
+            const std::size_t end = std::min(start + size,static_cast<int>(text.size()));
             TextChunk c;
             c.seq        = seq++;
             c.text       = text.substr(start, end - start);
             c.char_start = static_cast<std::uint64_t>(start);
             c.char_end   = static_cast<std::uint64_t>(end);
             ctx.chunks.push_back(std::move(c));
-            if (end == text.size()) break;
+            if (end == static_cast<int>(text.size())) {
+              break;
+            }
         }
     }
 };

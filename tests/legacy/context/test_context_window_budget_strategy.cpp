@@ -218,7 +218,8 @@ TEST(CrossSchoolTensionResolver, CWB07_LowWeight_HeadlineOnly) {
 TEST(CrossSchoolTensionResolver, CWB08_MaxFullInjectionsCap) {
     CrossSchoolTensionResolver resolver;
 
-    std::vector<SchoolTension> tensions;
+    std::vector<SchoolTension> tensions = {};
+
     std::vector<std::string> opponents = {"school_b", "school_c", "school_d"};
     std::vector<EthicalArgument> opp_args;
 
@@ -239,7 +240,9 @@ TEST(CrossSchoolTensionResolver, CWB08_MaxFullInjectionsCap) {
 
     int full_count = 0;
     for (const auto& d : decisions) {
-        if (d.inject_full) ++full_count;
+        if (d.inject_full) {
+          ++full_count;
+        }
     }
     EXPECT_LE(full_count, max_full) << "Full injections exceeded max_full_injections cap";
 }
@@ -251,7 +254,8 @@ TEST(CrossSchoolTensionResolver, CWB09_NoTensions_AllHeadline) {
     CrossSchoolTensionResolver resolver;
 
     std::vector<std::string> opponents = {"util", "care_ethics", "contractualism"};
-    std::vector<EthicalArgument> opp_args;
+    std::vector<EthicalArgument> opp_args = {};
+
     for (const auto& opp : opponents) {
         opp_args.push_back(makeArg(opp, "Some argument from " + opp));
     }
@@ -393,8 +397,8 @@ TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_NoFnReturnsEmpty) {
 TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_CallsProviderWithResolvedModel) {
     LlmCascadeRouter router;
 
-    std::string last_model;
-    std::string last_prompt;
+    std::string last_model = {};
+    std::string last_prompt = {};
     size_t      last_max_tokens = 0;
 
     router.setLlmInvokeFn([&](const std::string& model_id,
@@ -552,7 +556,8 @@ TEST(TournamentModeSelector, CWB19_TournamentMode_PrimaryFull_SecondaryHeadline)
     TournamentModeSelector selector;
 
     // Build opponent arguments
-    std::vector<EthicalArgument> opponents;
+    std::vector<EthicalArgument> opponents = {};
+
     for (const auto& school : std::vector<std::string>{"utilitarianism", "contractualism", "islamische_ethik"}) {
         EthicalArgument arg;
         arg.philosophy_school = school;

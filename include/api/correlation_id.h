@@ -125,7 +125,9 @@ public:
 
     /// Return true if all bytes are zero (nil ID).
     bool isNil() const noexcept {
-        for (auto b : bytes_) if (b != 0) return false;
+        for (auto b : bytes_) {
+          if (b != 0) return false;
+        }
         return true;
     }
 
@@ -149,17 +151,25 @@ inline CorrelationId CorrelationId::parse(std::string_view s)
 {
     // Normalise a hex digit character to lowercase; returns 0 if not a valid hex char.
     auto toLowerHex = [](char c) -> char {
-        if (c >= '0' && c <= '9') return c;
-        if (c >= 'a' && c <= 'f') return c;
-        if (c >= 'A' && c <= 'F') return static_cast<char>(c - 'A' + 'a');
+        if (c >= '0' && c <= '9') {
+          return c;
+        }
+        if (c >= 'a' && c <= 'f') {
+          return c;
+        }
+        if (c >= 'A' && c <= 'F') {
+          return static_cast<char>(c - 'A' + 'a');
+        }
         return '\0'; // not a hex digit
     };
 
     // Strip dashes and normalise to 32 hex chars
-    std::string hex;
+    std::string hex = {};
     hex.reserve(32);
     for (char c : s) {
-        if (c == '-') continue;
+        if (c == '-') {
+          continue;
+        }
         const char lc = toLowerHex(c);
         if (lc == '\0') {
             throw std::invalid_argument("CorrelationId::parse: invalid character in UUID string");
@@ -176,7 +186,9 @@ inline CorrelationId CorrelationId::parse(std::string_view s)
         const char hi = hex[i * 2];
         const char lo = hex[i * 2 + 1];
         auto hexVal = [](char c) -> uint8_t {
-            if (c >= '0' && c <= '9') return static_cast<uint8_t>(c - '0');
+            if (c >= '0' && c <= '9') {
+              return static_cast<uint8_t>(c - '0');
+            }
             return static_cast<uint8_t>(c - 'a' + 10);
         };
         bytes[i] = static_cast<uint8_t>((hexVal(hi) << 4) | hexVal(lo));
@@ -187,10 +199,12 @@ inline CorrelationId CorrelationId::parse(std::string_view s)
 inline std::string CorrelationId::toString() const
 {
     static constexpr char kHex[] = "0123456789abcdef";
-    std::string out;
+    std::string out = {};
     out.reserve(36);
     for (std::size_t i = 0; i < kByteSize; ++i) {
-        if (i == 4 || i == 6 || i == 8 || i == 10) out.push_back('-');
+        if (i == 4 || i == 6 || i == 8 || i == 10) {
+          out.push_back('-');
+        }
         out.push_back(kHex[(bytes_[i] >> 4) & 0xF]);
         out.push_back(kHex[ bytes_[i]       & 0xF]);
     }

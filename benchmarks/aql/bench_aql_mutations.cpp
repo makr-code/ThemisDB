@@ -57,7 +57,9 @@ struct BenchStorage : MutationExecutor::StorageContext {
     }
     std::optional<std::string> get(std::string_view /*col*/, std::string_view key) override {
         auto it = store.find(std::string(key));
-        if (it == store.end()) return std::nullopt;
+        if (it == store.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 };

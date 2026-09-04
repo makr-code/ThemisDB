@@ -216,7 +216,8 @@ BENCHMARK(BenchStreamProcessingPipeline)->Repetitions(5);
  */
 static void BenchMultiSessionInitialization(benchmark::State& state) {
     for (auto _ : state) {
-        std::vector<VoiceStreamValidator> validators;
+        std::vector<VoiceStreamValidator> validators = {};
+
         for (int i = 0; i < 10; ++i) {
             validators.emplace_back("session_" + std::to_string(i), 16000, 1, 16);
         }

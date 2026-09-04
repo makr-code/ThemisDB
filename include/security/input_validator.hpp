@@ -52,7 +52,7 @@ enum class ValidationContext {
  * @brief Input validation result with detailed error information
  */
 struct ValidationResult {
-  bool is_valid;
+  bool is_valid = 0;
   std::string error_message;
   std::string remediation_hint;
   

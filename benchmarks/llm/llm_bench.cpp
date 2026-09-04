@@ -53,7 +53,9 @@ static std::vector<float> makePeakedLogits(size_t vocab_size, size_t peak_token,
                                             float baseline = -10.0f)
 {
     std::vector<float> logits(vocab_size, baseline);
-    if (peak_token < vocab_size) logits[peak_token] = peak;
+    if (peak_token < vocab_size) {
+      logits[peak_token] = peak;
+    }
     return logits;
 }
 

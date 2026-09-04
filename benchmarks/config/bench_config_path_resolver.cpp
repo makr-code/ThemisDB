@@ -289,7 +289,9 @@ BENCHMARK_DEFINE_F(ConfigPathResolverBenchFixture, DeprecationReport_60Paths)(
     int seeded = 0;
     for (const auto& [legacy, new_path] : mappings) {
         (void)new_path;  // new_path not needed; we intentionally omit it on disk
-        if (seeded >= 60) break;
+        if (seeded >= 60) {
+          break;
+        }
         fs::path legacy_file(legacy);
         if (!fs::exists(legacy_file)) {
             writeFile(legacy_file);
@@ -300,7 +302,8 @@ BENCHMARK_DEFINE_F(ConfigPathResolverBenchFixture, DeprecationReport_60Paths)(
     }
 
     // Measure pure deprecationReport() generation (map snapshot + sort).
-    std::vector<ConfigPathResolver::DeprecationEntry> last_report;
+    std::vector<ConfigPathResolver::DeprecationEntry> last_report = {};
+
     for (auto _ : state) {
         last_report = ConfigPathResolver::deprecationReport();
         benchmark::DoNotOptimize(last_report);

@@ -120,13 +120,13 @@ public:
         const std::string& content) {
         std::vector<CredentialMatch> matches;
         std::istringstream stream(content);
-        std::string line;
+        std::string line = {};
         size_t line_number = 0;
 
         while (std::getline(stream, line)) {
             line_number++;
             for (const auto& [pattern_name, pattern_data] : credential_patterns_) {
-                std::smatch match;
+                std::smatch match = {};
                 if (std::regex_search(line, match, pattern_data.first)) {
                     matches.push_back({
                         pattern_name,
@@ -162,7 +162,7 @@ public:
     };
 
     struct SBOMHash {
-        std::string sbom_content_hash;
+        std::string sbom_content_hash = {};
         std::vector<SBOMEntry> dependencies;
     };
 
@@ -173,16 +173,18 @@ public:
         for (char c : content) {
             hash = ((hash << 5) + hash) + c;  // hash * 33 + c
         }
-        std::stringstream ss;
+        std::stringstream ss = {};
         ss << std::hex << (hash & 0xFFFFFFFFFFFFFFFFUL);
         std::string result = ss.str();
         // Pad to 64 characters to simulate SHA256
-        while (result.length() < 64) result = "0" + result;
+        while (result.length() < 64) {
+          result = "0" + result;
+        }
         return result.substr(result.length() - 64);
     }
 
     static SBOMHash generate_sbom(const std::vector<SBOMEntry>& dependencies) {
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (const auto& dep : dependencies) {
             ss << dep.component_name << ":" << dep.version << "|"
                << dep.source_url << "|" << dep.hash << "\n";
@@ -210,16 +212,18 @@ class ScopedCheckoutValidator {
 public:
     struct GitmodulesEntry {
         std::string name;
-        std::string path;
-        std::string url;
-        bool shallow;
-        bool is_private;
+        std::string path = {};
+        std::string url = {};
+        bool shallow = {};
+        bool is_private = {};
     };
 
     static bool validate_community_checkout(
         const std::vector<GitmodulesEntry>& submodules,
         bool is_community_target) {
-        if (!is_community_target) return true;
+        if (!is_community_target) {
+          return true;
+        }
 
         // Community builds must NOT fetch private submodules
         for (const auto& submodule : submodules) {
@@ -234,7 +238,7 @@ public:
         const std::string& content) {
         std::vector<GitmodulesEntry> entries;
         std::istringstream stream(content);
-        std::string line;
+        std::string line = {};
         GitmodulesEntry current;
         bool in_section = false;
 
@@ -447,9 +451,15 @@ TEST_F(BoundaryEnforcementTest, WAVE_C_B3_011_NegativeTestScannerCatchesInjected
     // Verify specific patterns are caught
     bool found_aws = false, found_azure = false, found_ssh = false;
     for (const auto& match : matches) {
-        if (match.pattern_name == "aws_secret") found_aws = true;
-        if (match.pattern_name == "azure_key") found_azure = true;
-        if (match.pattern_name == "openssh_private_key") found_ssh = true;
+        if (match.pattern_name == "aws_secret") {
+          found_aws = true;
+        }
+        if (match.pattern_name == "azure_key") {
+          found_azure = true;
+        }
+        if (match.pattern_name == "openssh_private_key") {
+          found_ssh = true;
+        }
     }
     EXPECT_TRUE(found_aws) << "AWS key pattern should be detected";
     EXPECT_TRUE(found_azure) << "Azure key pattern should be detected";
@@ -489,7 +499,9 @@ TEST_F(BoundaryEnforcementTest, WAVE_C_B3_012_ScopedCheckoutBlocksPrivateInCommu
     // Count private submodules
     size_t private_count = 0;
     for (const auto& sm : submodules) {
-        if (sm.is_private) private_count++;
+        if (sm.is_private) {
+          private_count++;
+        }
     }
     EXPECT_GT(private_count, 0) << "Should identify private submodules";
 

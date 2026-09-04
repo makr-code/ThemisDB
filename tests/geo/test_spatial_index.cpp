@@ -22,7 +22,9 @@ protected:
 
         // Wire GPU backend (CPU fallback always available)
         auto* gpu_backend = geo::getGpuSpatialBackend();
-        if (gpu_backend) spatial_mgr_->setExactBackend(gpu_backend);
+        if (gpu_backend) {
+          spatial_mgr_->setExactBackend(gpu_backend);
+        }
     }
     
     void TearDown() override {

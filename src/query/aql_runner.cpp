@@ -64,7 +64,9 @@ collectGeometries(query::QueryEngine& engine,
     scan_q.table = collection;
     auto ents = engine.executeAndEntitiesWithFallback(scan_q, false);
     std::vector<std::pair<std::string, geo::GeometryInfo>> out;
-    if (!ents) return out;
+    if (!ents) {
+      return out;
+    }
     out.reserve(ents.value().size());
     std::size_t skipped = 0;
     for (const auto& e : *ents) {
@@ -150,7 +152,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
         if      (tr.vector_geo.has_value())   { request_type = "vector_geo";    }
         else if (tr.content_geo.has_value())  { request_type = "content_geo";   }
         else if (tr.disjunctive.has_value())  { request_type = "or_disjunctive";
-            shard_count = static_cast<int>(tr.disjunctive->disjuncts.size());   }
+            shard_count = static_cast<int>(tr.disjunctive-> static_cast<int>(disjuncts.size()));   }
         else if (tr.traversal.has_value())    { request_type = "graph_traversal"; }
         else if (tr.join.has_value())         { request_type = "join";           }
         else if (tr.spatial_join.has_value()) { request_type = "spatial_join";   }
@@ -198,7 +200,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
                 {"bm25", r.bm25_score},
                 {"entity", r.entity}
             };
-            if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
+            if (r.geo_distance.has_value()) {
+              row["geo_distance"] = *r.geo_distance;
+            }
             arr.push_back(std::move(row));
         }
         reopt_guard.finish(res.size());
@@ -237,7 +241,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
             }
             auto paths = std::move(*result);
             nlohmann::json arr = nlohmann::json::array();
-            for (const auto& p : paths) arr.push_back(p);
+            for (const auto& p : paths) {
+              arr.push_back(p);
+            }
             reopt_guard.finish(paths.size());
             return Ok(nlohmann::json({{"type","shortest_path"},{"paths", arr}}));
         }
@@ -376,7 +382,9 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     }
 
     nlohmann::json arr = nlohmann::json::array();
-    for (const auto& row : jit_result.value().rows) arr.push_back(row);
+    for (const auto& row : jit_result.value().rows) {
+      arr.push_back(row);
+    }
     reopt_guard.finish(jit_result.value().rows.size());
     // Q2: Structured audit — federated result merge (conjunctive path)
     THEMIS_INFO("[audit] {{\"event\":\"federation_result_merge\","
@@ -403,7 +411,7 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
     using TQ = AQLTranslator::TranslationResult::TraversalQuery;
 
     // Direction label
-    std::string dir_name;
+    std::string dir_name = {};
     switch (tv.direction) {
         case TQ::Direction::Outbound: dir_name = "OUTBOUND"; break;
         case TQ::Direction::Inbound:  dir_name = "INBOUND";  break;
@@ -412,7 +420,7 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
 
     // Algorithm selection (mirrors GraphQueryOptimizer::selectAlgorithm)
     const int depth = tv.maxDepth > 0 ? tv.maxDepth : 1;
-    std::string algo_name;
+    std::string algo_name = {};
     if (tv.shortestPath) {
         algo_name = (depth > 5) ? "Bidirectional" : "BFS";
     } else {
@@ -422,7 +430,9 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
     // Static cost estimate: branching_factor^depth (default branching = 4)
     constexpr double kBranchingFactor = 4.0;
     double est_nodes = 1.0;
-    for (int d = 0; d < depth; ++d) est_nodes *= kBranchingFactor;
+    for (int d = 0; d < depth; ++d) {
+      est_nodes *= kBranchingFactor;
+    }
     double est_cost = est_nodes;
 
     query::QueryPlanNode node;
@@ -548,13 +558,13 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
     if (block.action == query::AqlTransactionAction::Rollback) {
         return Ok(nlohmann::json({
             {"type", "rollback"},
-            {"statements", block.statements.size()}
+            {"statements",static_cast<int>(block.statements.size())}
         }));
     }
 
     // COMMIT: execute each statement in sequence and collect results
     nlohmann::json results = nlohmann::json::array();
-    for (std::size_t i = 0; i < block.statements.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(block.statements.size()); ++i) {
         const auto& stmt = block.statements[i];
         if (!stmt) {
             return Err<nlohmann::json>(
@@ -599,7 +609,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& r : *res) {
                 nlohmann::json row = {{"pk", r.pk}, {"bm25", r.bm25_score}, {"entity", r.entity}};
-                if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
+                if (r.geo_distance.has_value()) {
+                  row["geo_distance"] = *r.geo_distance;
+                }
                 arr.push_back(std::move(row));
             }
             stmtResult = {{"type", "content_geo"}, {"results", arr}};
@@ -611,7 +623,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
                                 i + 1, res.error().message()));
             }
             nlohmann::json arr = nlohmann::json::array();
-            for (auto& e : *res) arr.push_back(entityToResultRow(e));
+            for (auto& e : *res) {
+              arr.push_back(entityToResultRow(e));
+            }
             stmtResult = {{"type", "or"}, {"results", arr}};
         } else if (tr.traversal.has_value()) {
             const auto& tv = *tr.traversal;
@@ -628,7 +642,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
                                     i + 1, res.error().message()));
                 }
                 nlohmann::json arr = nlohmann::json::array();
-                for (const auto& p : *res) arr.push_back(p);
+                for (const auto& p : *res) {
+                  arr.push_back(p);
+                }
                 stmtResult = {{"type", "shortest_path"}, {"paths", arr}};
             } else {
                 TraversalDirection dir;
@@ -686,7 +702,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
                                 i + 1, res.error().message()));
             }
             nlohmann::json arr = nlohmann::json::array();
-            for (auto& e : *res) arr.push_back(entityToResultRow(e));
+            for (auto& e : *res) {
+              arr.push_back(entityToResultRow(e));
+            }
             stmtResult = {{"type", "and"}, {"results", arr}};
         }
 
@@ -711,7 +729,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
     // Count total statements across both query and mutation slots
     const std::size_t total = block.ordered_statements.empty()
-                                  ? block.statements.size()
+                                  ?static_cast<int>(block.statements.size())
                                   : block.ordered_statements.size();
 
     // ROLLBACK: do not execute any statement; return metadata only
@@ -727,7 +745,8 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
     // Phase 4 path: execute ordered_statements atomically
     // Wrap the provided StorageContext in a transactional proxy so that
     // mutations can be rolled back if a later statement fails.
-    std::unique_ptr<query::MutationTransactionContext> txn_ctx;
+    std::unique_ptr<query::MutationTransactionContext> txn_ctx = {};
+
     if (storage) {
         txn_ctx = std::make_unique<query::MutationTransactionContext>(*storage);
     }
@@ -737,7 +756,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
     nlohmann::json results = nlohmann::json::array();
 
-    for (std::size_t i = 0; i < block.ordered_statements.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(block.ordered_statements.size()); ++i) {
         const auto& s = block.ordered_statements[i];
         nlohmann::json stmtResult;
 
@@ -778,7 +797,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
             // Read query — dispatch through QueryEngine
             const auto& stmt = s.query;
             if (!stmt) {
-                if (txn_ctx) txn_ctx->rollback();
+                if (txn_ctx) {
+                  txn_ctx->rollback();
+                }
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                     fmt::format("Statement {} in transaction block is null", i + 1));
@@ -786,7 +807,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
             auto tr = AQLTranslator::translate(stmt);
             if (!tr.success) {
-                if (txn_ctx) txn_ctx->rollback();
+                if (txn_ctx) {
+                  txn_ctx->rollback();
+                }
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
                     fmt::format("Translation error for statement {} in transaction block: {}",
@@ -796,7 +819,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
             if (tr.vector_geo.has_value()) {
                 auto res = engine.executeVectorGeoQuery(*tr.vector_geo);
                 if (!res) {
-                    if (txn_ctx) txn_ctx->rollback();
+                    if (txn_ctx) {
+                      txn_ctx->rollback();
+                    }
                     return Err<nlohmann::json>(res.error().code(),
                         fmt::format("Execution error for statement {} in transaction block: {}",
                                     i + 1, res.error().message()));
@@ -809,7 +834,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
             } else if (tr.content_geo.has_value()) {
                 auto res = engine.executeContentGeoQuery(*tr.content_geo);
                 if (!res) {
-                    if (txn_ctx) txn_ctx->rollback();
+                    if (txn_ctx) {
+                      txn_ctx->rollback();
+                    }
                     return Err<nlohmann::json>(res.error().code(),
                         fmt::format("Execution error for statement {} in transaction block: {}",
                                     i + 1, res.error().message()));
@@ -817,20 +844,26 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
                 nlohmann::json arr = nlohmann::json::array();
                 for (const auto& r : *res) {
                     nlohmann::json row = {{"pk", r.pk}, {"bm25", r.bm25_score}, {"entity", r.entity}};
-                    if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
+                    if (r.geo_distance.has_value()) {
+                      row["geo_distance"] = *r.geo_distance;
+                    }
                     arr.push_back(std::move(row));
                 }
                 stmtResult = {{"type", "content_geo"}, {"results", arr}};
             } else if (tr.disjunctive.has_value()) {
                 auto res = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
                 if (!res) {
-                    if (txn_ctx) txn_ctx->rollback();
+                    if (txn_ctx) {
+                      txn_ctx->rollback();
+                    }
                     return Err<nlohmann::json>(res.error().code(),
                         fmt::format("Execution error for statement {} in transaction block: {}",
                                     i + 1, res.error().message()));
                 }
                 nlohmann::json arr = nlohmann::json::array();
-                for (auto& e : *res) arr.push_back(entityToResultRow(e));
+                for (auto& e : *res) {
+                  arr.push_back(entityToResultRow(e));
+                }
                 stmtResult = {{"type", "or"}, {"results", arr}};
             } else if (tr.traversal.has_value()) {
                 const auto& tv = *tr.traversal;
@@ -842,13 +875,17 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
                     rq.max_depth  = tv.maxDepth;
                     auto res = engine.executeRecursivePathQuery(rq);
                     if (!res) {
-                        if (txn_ctx) txn_ctx->rollback();
+                        if (txn_ctx) {
+                          txn_ctx->rollback();
+                        }
                         return Err<nlohmann::json>(res.error().code(),
                             fmt::format("Execution error for statement {} in transaction block: {}",
                                         i + 1, res.error().message()));
                     }
                     nlohmann::json arr = nlohmann::json::array();
-                    for (const auto& p : *res) arr.push_back(p);
+                    for (const auto& p : *res) {
+                      arr.push_back(p);
+                    }
                     stmtResult = {{"type", "shortest_path"}, {"paths", arr}};
                 } else {
                     TraversalDirection dir;
@@ -866,7 +903,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
                         tv.startVertex, tv.minDepth, tv.maxDepth, dir,
                         tv.graphName.empty() ? "default" : tv.graphName);
                     if (!res) {
-                        if (txn_ctx) txn_ctx->rollback();
+                        if (txn_ctx) {
+                          txn_ctx->rollback();
+                        }
                         return Err<nlohmann::json>(res.error().code(),
                             fmt::format("Execution error for statement {} in transaction block: {}",
                                         i + 1, res.error().message()));
@@ -882,7 +921,9 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
                 auto& j = *tr.join;
                 auto res = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
                 if (!res) {
-                    if (txn_ctx) txn_ctx->rollback();
+                    if (txn_ctx) {
+                      txn_ctx->rollback();
+                    }
                     return Err<nlohmann::json>(res.error().code(),
                         fmt::format("Execution error for statement {} in transaction block: {}",
                                     i + 1, res.error().message()));
@@ -903,13 +944,17 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
             } else {
                 auto res = engine.executeAndEntitiesWithFallback(tr.conjunctive_query, true);
                 if (!res) {
-                    if (txn_ctx) txn_ctx->rollback();
+                    if (txn_ctx) {
+                      txn_ctx->rollback();
+                    }
                     return Err<nlohmann::json>(res.error().code(),
                         fmt::format("Execution error for statement {} in transaction block: {}",
                                     i + 1, res.error().message()));
                 }
                 nlohmann::json arr = nlohmann::json::array();
-                for (auto& e : *res) arr.push_back(entityToResultRow(e));
+                for (auto& e : *res) {
+                  arr.push_back(entityToResultRow(e));
+                }
                 stmtResult = {{"type", "and"}, {"results", arr}};
             }
         }
@@ -940,7 +985,7 @@ Result<nlohmann::json> executeAqlWithRLS(
     // the correct RLS policies are applied.  We re-parse the AQL to get
     // the table name.  This is cheap because parseAndTranslateForExplain()
     // is already called for EXPLAIN paths.
-    std::string collection;
+    std::string collection = {};
     {
         query::AQLParser parser;
         auto pr = parser.parse(aql);
@@ -1066,7 +1111,7 @@ Result<nlohmann::json> executeAqlWithLimits(
         // Enforce max_memory_bytes limit using serialised JSON size as a proxy.
         if (limits.max_memory_bytes > 0) {
             const std::string serialised = rows_ptr->dump();
-            if (serialised.size() > limits.max_memory_bytes) {
+            if (static_cast<int>(serialised.size()) > limits.max_memory_bytes) {
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                     "result memory estimate " + std::to_string(serialised.size()) +

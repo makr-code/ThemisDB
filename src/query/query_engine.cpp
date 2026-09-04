@@ -342,12 +342,18 @@ static void logSortedDeserializeFailures(std::vector<std::string>& failed_pks, c
 static bool evalAqlExpression(const std::string& expression,
                                const QueryEngine::EvaluationContext* ctx,
                                const QueryEngine* engine) {
-    if (!engine || expression.empty()) return false;
+    if (!engine || expression.empty()) {
+      return false;
+    }
     try {
         query::AQLParser parser;
         auto expr = parser.parseExpression(expression);
-        if (!expr) return false;
-        if (!ctx) return false;
+        if (!expr) {
+          return false;
+        }
+        if (!ctx) {
+          return false;
+        }
         return engine->evaluateCondition(expr, *ctx);
     } catch (...) {
         THEMIS_WARN("query_engine::logSortedDeserializeFailures: unhandled exception caught");
@@ -358,11 +364,15 @@ static bool evalAqlExpression(const std::string& expression,
 bool QueryEngine::QueryExpressionEvaluator::evaluate(
 	const std::string& expression,
 	const void* context) const {
-    if (!engine_ || expression.empty()) return false;
+    if (!engine_ || expression.empty()) {
+      return false;
+    }
     // `context` may be a QueryEngine::EvaluationContext* or a nlohmann::json*.
     // We support both: if EvaluationContext*, use it directly; if json*, build
     // a minimal EvaluationContext with the document bound to "doc".
-    if (!context) return false;
+    if (!context) {
+      return false;
+    }
 
     // Heuristic: try context as EvaluationContext first (most common caller).
     // Callers that pass a json* must cast it correctly; the layout is opaque.
@@ -378,14 +388,18 @@ std::string QueryEngine::QueryExpressionEvaluator::get_expression_type() const {
 bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
     std::string_view expression,
     const void* context) const {
-    if (!engine_ || expression.empty() || !context) return false;
+    if (!engine_ || expression.empty() || !context) {
+      return false;
+    }
     const auto* eval_ctx =
         static_cast<const QueryEngine::EvaluationContext*>(context);
     return evalAqlExpression(std::string(expression), eval_ctx, engine_);
 }
 
 bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view expression) const {
-    if (expression.empty()) return false;
+    if (expression.empty()) {
+      return false;
+    }
     try {
         query::AQLParser parser;
         auto expr = parser.parseExpression(std::string(expression));
@@ -461,7 +475,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		}
 		
 		// Extract PKs from results
-		std::vector<std::string> phraseKeys;
+		std::vector<std::string> phraseKeys = {};
+
 		phraseKeys.reserve(results.size());
 		for (const auto& res : results) {
 			phraseKeys.emplace_back(res.pk);
@@ -490,8 +505,9 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(phraseKeys.begin(), phraseKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
-			intersection.reserve(std::min(phraseKeys.size(), structKeys.size()));
+			std::vector<std::string> intersection = {};
+
+			intersection.reserve(std::min(phraseKeys.size(),static_cast<int>(structKeys.size())));
 			std::set_intersection(
 				phraseKeys.begin(), phraseKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -524,7 +540,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		}
 		
 		// Extract PKs from results
-		std::vector<std::string> fuzzyKeys;
+		std::vector<std::string> fuzzyKeys = {};
+
 		fuzzyKeys.reserve(results.size());
 		for (const auto& res : results) {
 			fuzzyKeys.emplace_back(res.pk);
@@ -553,8 +570,9 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(fuzzyKeys.begin(), fuzzyKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
-			intersection.reserve(std::min(fuzzyKeys.size(), structKeys.size()));
+			std::vector<std::string> intersection = {};
+
+			intersection.reserve(std::min(fuzzyKeys.size(),static_cast<int>(structKeys.size())));
 			std::set_intersection(
 				fuzzyKeys.begin(), fuzzyKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -586,7 +604,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		}
 		
 		// Extract PKs from results
-		std::vector<std::string> fulltextKeys;
+		std::vector<std::string> fulltextKeys = {};
+
 		fulltextKeys.reserve(results.size());
 		for (const auto& res : results) {
 			fulltextKeys.emplace_back(res.pk);
@@ -622,8 +641,9 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
-			intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
+			std::vector<std::string> intersection = {};
+
+			intersection.reserve(std::min(fulltextKeys.size(),static_cast<int>(structKeys.size())));
 			std::set_intersection(
 				fulltextKeys.begin(), fulltextKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -710,8 +730,9 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(spatialKeys.begin(), spatialKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
-			std::vector<std::string> intersection;
-			intersection.reserve(std::min(spatialKeys.size(), structKeys.size()));
+			std::vector<std::string> intersection = {};
+
+			intersection.reserve(std::min(spatialKeys.size(),static_cast<int>(structKeys.size())));
 			std::set_intersection(
 				spatialKeys.begin(), spatialKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -743,12 +764,13 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 
 	// Parallele Scans pro Prädikat
 	std::vector<std::vector<std::string>> all_lists(q.predicates.size());
-	std::mutex errors_mutex;
-	std::vector<std::string> errors;
+	std::mutex errors_mutex = {};
+	std::vector<std::string> errors = {};
+
 	errors.reserve(q.predicates.size());
 	tbb::task_group tg;
 
-	for (size_t i = 0; i < q.predicates.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(q.predicates.size()); ++i) {
 		const auto& p = q.predicates[i];
 		tg.run([this, &q, &p, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("index.scanEqual");
@@ -841,7 +863,8 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	
 	// Build score map and key list
 	auto scoreMap = std::make_shared<std::unordered_map<std::string, double>>();
-	std::vector<std::string> fulltextKeys;
+	std::vector<std::string> fulltextKeys = {};
+
 	fulltextKeys.reserve(results.size());
 	scoreMap->reserve(results.size());
 	
@@ -879,8 +902,9 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
 		tbb::parallel_sort(structKeys.begin(), structKeys.end());
 		
-		std::vector<std::string> intersection;
-		intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
+		std::vector<std::string> intersection = {};
+
+		intersection.reserve(std::min(fulltextKeys.size(),static_cast<int>(structKeys.size())));
 		std::set_intersection(
 			fulltextKeys.begin(), fulltextKeys.end(),
 			structKeys.begin(), structKeys.end(),
@@ -958,7 +982,9 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	}
 
 	auto keysResult = executeAndKeys(q);
-	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	if (!keysResult) {
+	  return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	}
 	auto keys = std::move(keysResult.value());
 
 	// Paralleles Entity-Loading für große Ergebnismengen (Batch-Verarbeitung)
@@ -966,41 +992,47 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	constexpr size_t BATCH_SIZE = 50;
 	constexpr size_t kMaxResultSetSize = 1'000'000;
 
-	if (keys.size() > kMaxResultSetSize) {
-		THEMIS_WARN("executeAndEntities: result set truncated from {} to {} entries", keys.size(), kMaxResultSetSize);
+	if (static_cast<int>(keys.size()) > kMaxResultSetSize) {
+		THEMIS_WARN("executeAndEntities: result set truncated from {} to {} entries",static_cast<int>(keys.size()), kMaxResultSetSize);
 		keys.resize(kMaxResultSetSize);
 	}
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen (weniger Overhead)
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-			if (!blob) continue;
+			if (!blob) {
+			  continue;
+			}
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
 		// Parallel für große Mengen: Batch-Processing mit TBB
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE, keys.size());
+				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-					if (!blob) continue;
+					if (!blob) {
+					  continue;
+					}
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
@@ -1049,10 +1081,10 @@ std::vector<std::string>
 QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Sortiere nach Größe, beginne mit kleinsten Listen für effiziente Schnittmenge
 	tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b) {
-		if (a.size() == b.size()) {
+		if (static_cast<int>(a.size()) == static_cast<int>(b.size())) {
 			return a < b;
 		}
-		return a.size() < b.size();
+		return static_cast<bool>( static_cast<int>(a.size()) < static_cast<int>(b.size()));
 	});
 	if (lists.empty()) return {};
 	
@@ -1060,11 +1092,14 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 	
 	for (size_t i = 1; i < lists.size(); ++i) {
 		const auto& next = lists[i];
-		std::vector<std::string> tmp;
-		tmp.reserve(std::min(result.size(), next.size()));
+		std::vector<std::string> tmp = {};
+
+		tmp.reserve(std::min(result.size(),static_cast<int>(next.size())));
 		std::set_intersection(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
-		if (result.empty()) break;
+		if (result.empty()) {
+		  break;
+		}
 	}
 	return result;
 }
@@ -1072,15 +1107,18 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 std::vector<std::string>
 QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 	if (lists.empty()) return {};
-	if (lists.size() == 1) return lists.front();
+	if (static_cast<int>(lists.size()) == 1) {
+	  return lists.front();
+	}
 	
 	// Merge all lists using set_union (removes duplicates)
 	std::vector<std::string> result = lists.front();
 	
 	for (size_t i = 1; i < lists.size(); ++i) {
 		const auto& next = lists[i];
-		std::vector<std::string> tmp;
-		tmp.reserve(result.size() + next.size()); // Reserve max possible size
+		std::vector<std::string> tmp = {};
+
+		tmp.reserve(static_cast<int>(result.size()) + static_cast<int>(next.size()) ); // Reserve max possible size
 		std::set_union(result.begin(), result.end(), next.begin(), next.end(), std::back_inserter(tmp));
 		result.swap(tmp);
 	}
@@ -1114,12 +1152,13 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
-	std::mutex errors_mutex;
-	std::vector<std::string> errors;
+	std::mutex errors_mutex = {};
+	std::vector<std::string> errors = {};
+
 	errors.reserve(q.disjuncts.size());
 	tbb::task_group tg;
 
-	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(q.disjuncts.size()); ++i) {
 		const auto& disjunct = q.disjuncts[i];
 		tg.run([this, &disjunct, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute");
@@ -1196,11 +1235,12 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
-	std::vector<std::string> errors;
+	std::vector<std::string> errors = {};
+
 	errors.reserve(q.disjuncts.size());
-	std::mutex error_mutex;
+	std::mutex error_mutex = {};
 	tbb::task_group tg;
-	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(q.disjuncts.size()); ++i) {
 		const auto& disjunct = q.disjuncts[i];
 		tg.run([this, &disjunct, &all_lists, i, optimize, &errors, &error_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
@@ -1254,37 +1294,43 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 	constexpr size_t BATCH_SIZE = 50;
 	constexpr size_t kMaxResultSetSize = 1'000'000;
 
-	if (keys.size() > kMaxResultSetSize) {
-		THEMIS_WARN("executeOrEntitiesWithFallback: result set truncated from {} to {} entries", keys.size(), kMaxResultSetSize);
+	if (static_cast<int>(keys.size()) > kMaxResultSetSize) {
+		THEMIS_WARN("executeOrEntitiesWithFallback: result set truncated from {} to {} entries",static_cast<int>(keys.size()), kMaxResultSetSize);
 		keys.resize(kMaxResultSetSize);
 	}
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-			if (!blob) continue;
+			if (!blob) {
+			  continue;
+			}
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE, keys.size());
+				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-					if (!blob) continue;
+					if (!blob) {
+					  continue;
+					}
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
@@ -1341,34 +1387,40 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	constexpr size_t PARALLEL_THRESHOLD = 100;
 	constexpr size_t BATCH_SIZE = 50;
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-			if (!blob) continue;
+			if (!blob) {
+			  continue;
+			}
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE, keys.size());
+				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-					if (!blob) continue;
+					if (!blob) {
+					  continue;
+					}
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
@@ -1467,13 +1519,16 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 			}
 			if (keys.empty()) { child2.setStatus(true); span.setStatus(true); return Ok(std::vector<std::string>{}); }
 			tbb::parallel_sort(keys.begin(), keys.end());
-			std::vector<std::string> tmp;
-			tmp.reserve(std::min(current.size(), keys.size()));
+			std::vector<std::string> tmp = {};
+
+			tmp.reserve(std::min(current.size(),static_cast<int>(keys.size())));
 			std::set_intersection(current.begin(), current.end(), keys.begin(), keys.end(), std::back_inserter(tmp));
 			current.swap(tmp);
 			child2.setAttribute("index.result_count", static_cast<int64_t>(current.size()));
 			child2.setStatus(true);
-			if (current.empty()) break;
+			if (current.empty()) {
+			  break;
+			}
 		}
 		span.setAttribute("query.result_count", static_cast<int64_t>(current.size()));
 		span.setStatus(true);
@@ -1488,7 +1543,9 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesSequential");
 	span.setAttribute("query.table", table);
 	auto keysResult = executeAndKeysSequential(table, orderedPredicates);
-	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().message());
+	if (!keysResult) {
+	  return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().message());
+	}
 
 	const auto& keys = *keysResult;
 
@@ -1496,36 +1553,42 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	constexpr size_t PARALLEL_THRESHOLD = 100;
 	constexpr size_t BATCH_SIZE = 50;
 
-	std::vector<BaseEntity> out;
+	std::vector<BaseEntity> out = {};
+
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
-			if (!blob) continue;
+			if (!blob) {
+			  continue;
+			}
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeAndEntitiesSequential: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
 		// Parallel für große Mengen
-		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
-		std::vector<std::string> failed_deserialize_pks;
+		std::vector<std::vector<BaseEntity>> batches((static_cast<int>(keys.size()) + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks = {};
+
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
-		std::mutex failed_deserialize_mutex;
+		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
 			tg.run([this, &table, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
-				size_t end = std::min(start + BATCH_SIZE, keys.size());
+				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
 				std::vector<BaseEntity> local_entities;
 				local_entities.reserve(end - start);
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
 					auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
-					if (!blob) continue;
+					if (!blob) {
+					  continue;
+					}
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
@@ -1593,21 +1656,31 @@ std::optional<std::vector<nlohmann::json>> QueryEngine::EvaluationContext::getCT
 	// Prefer cache lookup first (may transparently load spilled results)
 	if (cte_cache) {
 		auto cached = cte_cache->get(name);
-		if (cached) return cached;
+		if (cached) {
+		  return cached;
+		}
 	}
 
 	auto it = cte_results.find(name);
-	if (it != cte_results.end()) return it->second;
+	if (it != cte_results.end()) {
+	  return it->second;
+	}
 
-	if (parent) return parent->getCTE(name);
+	if (parent) {
+	  return parent->getCTE(name);
+	}
 
 	return std::nullopt;
 }
 
 // Basic helpers for AQL expression evaluation in QueryEngine
 static double qe_toNumber(const nlohmann::json& v) {
-	if (v.is_number()) return v.get<double>();
-	if (v.is_boolean()) return v.get<bool>() ? 1.0 : 0.0;
+	if (v.is_number()) {
+	  return v.get<double>();
+	}
+	if (v.is_boolean()) {
+	  return v.get<bool>() ? 1.0 : 0.0;
+	}
 	if (v.is_string()) {
 		try { return std::stod(v.get<std::string>()); } catch (...) { return 0.0; }
 	}
@@ -1615,10 +1688,18 @@ static double qe_toNumber(const nlohmann::json& v) {
 }
 
 static bool qe_toBool(const nlohmann::json& v) {
-	if (v.is_boolean()) return v.get<bool>();
-	if (v.is_number()) return v.get<double>() != 0.0;
-	if (v.is_string()) return !v.get<std::string>().empty();
-	if (v.is_array() || v.is_object()) return !v.empty();
+	if (v.is_boolean()) {
+	  return v.get<bool>();
+	}
+	if (v.is_number()) {
+	  return v.get<double>() != 0.0;
+	}
+	if (v.is_string()) {
+	  return !v.get<std::string>().empty();
+	}
+	if (v.is_array() || v.is_object()) {
+	  return !v.empty();
+	}
 	return false;
 }
 
@@ -1627,12 +1708,16 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 	for (const auto& key : path) {
 		if (current->is_object()) {
 			auto it = current->find(key);
-			if (it == current->end()) return nullptr;
+			if (it == current->end()) {
+			  return nullptr;
+			}
 			current = &(*it);
 		} else if (current->is_array()) {
 			try {
 				size_t idx = static_cast<size_t>(std::stoull(key));
-				if (idx < current->size()) current = &((*current)[idx]); else return nullptr;
+				if (idx < current->size()) {
+				  current = &((*current)[idx]); else return nullptr;
+				}
 			} catch (...) { return nullptr; }
 		} else {
 			return nullptr;
@@ -1650,88 +1735,116 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 									  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
-	auto evalArg = [&](size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
+	auto evalArg = [&]([[maybe_unused]] size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
 
 	// Basic string/number functions (subset, mirroring LetEvaluator)
 	if (funcName == "LENGTH") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
-				fmt::format("LENGTH expects 1 argument, got {}", args.size()));
+				fmt::format("LENGTH expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto v = evalArg(0);
-		if (!v) return v;
-		if (v.value().is_string()) return Ok(nlohmann::json(v.value().get<std::string>().length()));
-		if (v.value().is_array() || v.value().is_object()) return Ok(nlohmann::json(v.value().size()));
+		if (!v) {
+		  return v;
+		}
+		if (v.value().is_string()) {
+		  return Ok(nlohmann::json(v.value().get<std::string>().length()));
+		}
+		if (v.value().is_array() || v.value().is_object()) {
+		  return Ok(nlohmann::json(v.value().size()));
+		}
 		return Ok(nlohmann::json(0));
 	}
 	if (funcName == "CONCAT") {
-		std::string out;
+		std::string out = {};
 		for (size_t i = 0; i < args.size(); ++i) {
 			auto v = evalArg(i);
-			if (!v) return v;
+			if (!v) {
+			  return v;
+			}
 			out += v.value().is_string() ? v.value().get<std::string>() : v.value().dump();
 		}
 		return Ok(nlohmann::json(out));
 	}
 	if (funcName == "SUBSTRING") {
-		if (args.size() < 2 || args.size() > 3) {
+		if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
-				fmt::format("SUBSTRING expects 2 or 3 arguments, got {}", args.size()));
+				fmt::format("SUBSTRING expects 2 or 3 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto s = evalArg(0);
-		if (!s) return s;
+		if (!s) {
+		  return s;
+		}
 		auto st = evalArg(1);
-		if (!st) return st;
+		if (!st) {
+		  return st;
+		}
 		if (!s.value().is_string()) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, 
 				"SUBSTRING expects string as first argument");
 		}
 		std::string sv = s.value().get<std::string>();
-		// Clamp negative/out-of-range doubles to [0, sv.size()] before narrowing to
+		// Clamp negative/out-of-range doubles to [0,static_cast<int>(sv.size())] before narrowing to
 		// size_t; a raw static_cast of a negative double is implementation-defined UB.
 		const double startD = qe_toNumber(*st);
 		size_t startIdx = (startD <= 0.0) ? 0 :
-			(startD >= static_cast<double>(sv.size())) ? sv.size() :
+			(startD >= static_cast<double>(sv.size())) ?static_cast<int>(sv.size()) :
 			static_cast<size_t>(startD);
-		if (startIdx >= sv.size()) return Ok(nlohmann::json(""));
-		if (args.size() == 3) {
+		if (startIdx >= static_cast<int>(sv.size())) {
+		  return Ok(nlohmann::json(""));
+		}
+		if (static_cast<int>(args.size()) == 3) {
 			auto lenRes = evalArg(2);
-			if (!lenRes) return lenRes;
+			if (!lenRes) {
+			  return lenRes;
+			}
 			const double lenD = qe_toNumber(*lenRes);
 			size_t len = (lenD <= 0.0) ? 0 :
-				(lenD >= static_cast<double>(sv.size())) ? sv.size() :
+				(lenD >= static_cast<double>(sv.size())) ?static_cast<int>(sv.size()) :
 				static_cast<size_t>(lenD);
 			return Ok(nlohmann::json(sv.substr(startIdx, len)));
 		}
 		return Ok(nlohmann::json(sv.substr(startIdx)));
 	}
 	if (funcName == "UPPER" || funcName == "LOWER") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
-				fmt::format("{} expects 1 argument, got {}", funcName, args.size()));
+				fmt::format("{} expects 1 argument, got {}", funcName,static_cast<int>(args.size())));
 		}
 		auto v = evalArg(0);
-		if (!v) return v;
+		if (!v) {
+		  return v;
+		}
 		if (!v.value().is_string()) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, 
 				fmt::format("{} expects string argument", funcName));
 		}
 		std::string s = v.value().get<std::string>();
-		if (funcName == "UPPER") std::transform(s.begin(), s.end(), s.begin(), ::toupper);
+		if (funcName == "UPPER") {
+		  std::transform(s.begin(), s.end(), s.begin(), ::toupper);
+		}
 		else std::transform(s.begin(), s.end(), s.begin(), ::tolower);
 		return Ok(nlohmann::json(s));
 	}
 	if (funcName == "ABS" || funcName == "CEIL" || funcName == "FLOOR" || funcName == "ROUND") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
-				fmt::format("{} expects 1 argument, got {}", funcName, args.size()));
+				fmt::format("{} expects 1 argument, got {}", funcName,static_cast<int>(args.size())));
 		}
 		auto argRes = evalArg(0);
-		if (!argRes) return argRes;
+		if (!argRes) {
+		  return argRes;
+		}
 		double x = qe_toNumber(*argRes);
-		if (funcName == "ABS") return Ok(nlohmann::json(std::abs(x)));
-		if (funcName == "CEIL") return Ok(nlohmann::json(std::ceil(x)));
-		if (funcName == "FLOOR") return Ok(nlohmann::json(std::floor(x)));
+		if (funcName == "ABS") {
+		  return Ok(nlohmann::json(std::abs(x)));
+		}
+		if (funcName == "CEIL") {
+		  return Ok(nlohmann::json(std::ceil(x)));
+		}
+		if (funcName == "FLOOR") {
+		  return Ok(nlohmann::json(std::floor(x)));
+		}
 		return Ok(nlohmann::json(std::round(x)));
 	}
 	if (funcName == "MIN" || funcName == "MAX") {
@@ -1740,27 +1853,37 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				fmt::format("{} expects at least 1 argument", funcName));
 		}
 		auto arg0 = evalArg(0);
-		if (!arg0) return arg0;
+		if (!arg0) {
+		  return arg0;
+		}
 		double val = qe_toNumber(*arg0);
 		for (size_t i = 1; i < args.size(); ++i) {
 			auto argRes = evalArg(i);
-			if (!argRes) return argRes;
+			if (!argRes) {
+			  return argRes;
+			}
 			double x = qe_toNumber(*argRes);
-			if (funcName == "MIN") val = std::min(val, x); else val = std::max(val, x);
+			if (funcName == "MIN") {
+			  val = std::min(val, x); else val = std::max(val, x);
+			}
 		}
 		return Ok(nlohmann::json(val));
 	}
 
 	// ================= SPATIAL (ST_*) =================
 	if (funcName == "ST_Point") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Point expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Point expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto arg0 = evalArg(0);
-		if (!arg0) return arg0;
+		if (!arg0) {
+		  return arg0;
+		}
 		auto arg1 = evalArg(1);
-		if (!arg1) return arg1;
+		if (!arg1) {
+		  return arg1;
+		}
 		double x = qe_toNumber(*arg0);
 		double y = qe_toNumber(*arg1);
 		nlohmann::json g; g["type"] = "Point"; g["coordinates"] = {x, y};
@@ -1768,12 +1891,14 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_AsGeoJSON") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_AsGeoJSON expects 1 argument, got {}", args.size()));
+				fmt::format("ST_AsGeoJSON expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto geomRes = evalArg(0);
-		if (!geomRes) return geomRes;
+		if (!geomRes) {
+		  return geomRes;
+		}
 		auto geom = *geomRes;
 		// Accept any GeoJSON object (all types: coordinates-based or geometries-based)
 		if (geom.is_object() && geom.contains("type")) {
@@ -1795,14 +1920,18 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Distance") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Distance expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Distance expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
 		auto extractPoint = [](const nlohmann::json& g) -> Result<std::pair<double,double>> {
@@ -1812,16 +1941,20 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Distance: Expected Point geometry");
 		};
 		auto p1 = extractPoint(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		if (!p1) {
+		  return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		}
 		auto p2 = extractPoint(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		if (!p2) {
+		  return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		}
 		auto [x1,y1] = *p1;
 		auto [x2,y2] = *p2;
 		double dx=x2-x1, dy=y2-y1; double distance = std::sqrt(dx*dx+dy*dy);
 		auto looksLikeDegrees = [](double lon, double lat) { return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0; };
-		if (looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
+		if ((looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2)) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
 			constexpr double kEarthRadiusKm = 6371.0;
-			auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
+			auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
 			double lat1 = deg2rad(y1), lon1 = deg2rad(x1); double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
 			double dlat = lat2 - lat1; double dlon = lon2 - lon1;
 			double a = std::sin(dlat/2.0)*std::sin(dlat/2.0) + std::cos(lat1)*std::cos(lat2)*std::sin(dlon/2.0)*std::sin(dlon/2.0);
@@ -1833,12 +1966,14 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_GeomFromGeoJSON") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_GeomFromGeoJSON expects 1 argument, got {}", args.size()));
+				fmt::format("ST_GeomFromGeoJSON expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto jsonArgRes = evalArg(0);
-		if (!jsonArgRes) return jsonArgRes;
+		if (!jsonArgRes) {
+		  return jsonArgRes;
+		}
 		auto jsonArg = *jsonArgRes;
 		if (jsonArg.is_object() && jsonArg.contains("type") && jsonArg.contains("coordinates")) {
 			return Ok(nlohmann::json(jsonArg));
@@ -1862,14 +1997,18 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Intersects") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Intersects expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Intersects expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
 		auto extractPoint = [](const nlohmann::json& g) -> Result<std::pair<double,double>> {
@@ -1879,9 +2018,13 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Intersects: Expected Point geometry");
 		};
 		auto p1 = extractPoint(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		if (!p1) {
+		  return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		}
 		auto p2 = extractPoint(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		if (!p2) {
+		  return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		}
 		auto [x1,y1] = *p1;
 		auto [x2,y2] = *p2;
 		const double eps=1e-5;
@@ -1889,17 +2032,21 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Within") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Within expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Within expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
-		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g) -> Result<std::pair<double,double>> {
+		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&]([[maybe_unused]] const nlohmann::json& g) -> Result<std::pair<double,double>> {
 			if (g.is_string()) {
 				try {
 					auto parseRes = nlohmann::json::parse(g.get<std::string>());
@@ -1909,14 +2056,14 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					spdlog::debug("ST_Within extractPoint: Failed to parse string as JSON - {}", e.what());
 				}
 			}
-			if (g.is_array() && g.size() >= 2) {
+			if (g.is_array() && static_cast<int>(g.size()) >= 2) {
 				double x = g[0].get<double>();
 				double y = g[1].get<double>();
 				return Ok(std::pair<double,double>{x,y});
 			}
 			if (g.is_object() && g.contains("type") && g["type"] == "Point" && g.contains("coordinates")) {
 				auto coords = g["coordinates"];
-				if (coords.is_array() && coords.size() >= 2) {
+				if (coords.is_array() && static_cast<int>(coords.size()) >= 2) {
 					double x = coords[0].get<double>();
 					double y = coords[1].get<double>();
 					return Ok(std::pair<double,double>{x,y});
@@ -1925,7 +2072,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Expected Point geometry");
 		};
 
-		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g) -> Result<utils::geo::MBR> {
+		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&]([[maybe_unused]] const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_string()) {
 				try {
 					auto parsed = nlohmann::json::parse(g.get<std::string>());
@@ -1935,7 +2082,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					spdlog::debug("ST_Within extractMBR: Failed to parse string as JSON - {}", e.what());
 				}
 			}
-			if (g.is_array() && g.size() == 4) {
+			if (g.is_array() && static_cast<int>(g.size()) == 4) {
 				return Ok(utils::geo::MBR{ g[0].get<double>(), g[1].get<double>(), g[2].get<double>(), g[3].get<double>() });
 			}
 			if (g.is_object() && g.contains("type")) {
@@ -1951,7 +2098,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 						const auto& ext = rings[0];
 						double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
 						double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
-						for (const auto& c : ext) if (c.is_array() && c.size()>=2) {
+						for (const auto& c : ext) if (c.is_array() && static_cast<int>(c.size())>=2) {
 							double x=c[0].get<double>(), y=c[1].get<double>();
 							minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
 						}
@@ -1963,7 +2110,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		};
 
 		auto pRes = extractPoint(g1);
-		if (!pRes) return Err<nlohmann::json>(pRes.error().code(), pRes.error().message());
+		if (!pRes) {
+		  return Err<nlohmann::json>(pRes.error().code(), pRes.error().message());
+		}
 		auto mRes = extractMBR(g2);
 		if (!mRes) {
 			spdlog::warn("[SECURITY] ST_Within: Failed to extract MBR from geometry arg — "
@@ -1977,14 +2126,18 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Contains") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Contains expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Contains expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
 		auto extractMBR = [](const nlohmann::json& g) -> Result<utils::geo::MBR> {
@@ -2000,7 +2153,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 						const auto& ext=rings[0];
 						double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
 						double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
-						for (const auto& c : ext) if (c.is_array() && c.size()>=2) {
+						for (const auto& c : ext) if (c.is_array() && static_cast<int>(c.size())>=2) {
 							double x=c[0].get<double>(), y=c[1].get<double>();
 							minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
 						}
@@ -2011,25 +2164,35 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<utils::geo::MBR>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Contains: Could not extract MBR");
 		};
 		auto m1Res = extractMBR(g1);
-		if (!m1Res) return Err<nlohmann::json>(m1Res.error().code(), m1Res.error().message());
+		if (!m1Res) {
+		  return Err<nlohmann::json>(m1Res.error().code(), m1Res.error().message());
+		}
 		auto m2Res = extractMBR(g2);
-		if (!m2Res) return Err<nlohmann::json>(m2Res.error().code(), m2Res.error().message());
+		if (!m2Res) {
+		  return Err<nlohmann::json>(m2Res.error().code(), m2Res.error().message());
+		}
 		auto m1 = *m1Res;
 		auto m2 = *m2Res;
 		return Ok(nlohmann::json(m2.minx>=m1.minx && m2.maxx<=m1.maxx && m2.miny>=m1.miny && m2.maxy<=m1.maxy));
 	}
 
 	if (funcName == "ST_DWithin") {
-		if (args.size() != 3) {
+		if (static_cast<int>(args.size()) != 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_DWithin expects 3 arguments, got {}", args.size()));
+				fmt::format("ST_DWithin expects 3 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto maxdRes = evalArg(2);
-		if (!maxdRes) return maxdRes;
+		if (!maxdRes) {
+		  return maxdRes;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
 		double maxd = qe_toNumber(*maxdRes);
@@ -2040,9 +2203,13 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_DWithin: Expected Point geometry");
 		};
 		auto p1 = extractPoint(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		if (!p1) {
+		  return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		}
 		auto p2 = extractPoint(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		if (!p2) {
+		  return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		}
 		auto [x1,y1] = *p1;
 		auto [x2,y2] = *p2;
 		double dx=x2-x1, dy=y2-y1; double d=std::sqrt(dx*dx+dy*dy);
@@ -2050,29 +2217,39 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_HasZ") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_HasZ expects 1 argument, got {}", args.size()));
+				fmt::format("ST_HasZ expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto g = *gRes;
 		if (g.is_object() && g.contains("type") && g.contains("coordinates")) {
 			const auto& c = g["coordinates"]; std::string t = g["type"];
-			if (t=="Point" && c.is_array() && c.size()>=3) return Ok(nlohmann::json(true));
-			if ((t=="LineString"||t=="MultiPoint") && c.is_array() && !c.empty() && c[0].is_array() && c[0].size()>=3) return Ok(nlohmann::json(true));
-			if (t=="Polygon" && c.is_array() && !c.empty() && c[0].is_array() && !c[0].empty() && c[0][0].is_array() && c[0][0].size()>=3) return Ok(nlohmann::json(true));
+			if (t=="Point" && c.is_array() && static_cast<int>(c.size())>=3) {
+			  return Ok(nlohmann::json(true));
+			}
+			if (((t=="LineString" || t=="MultiPoint")) && c.is_array() && !c.empty() && c[0].is_array() && c[0].size()>=3) {
+			  return Ok(nlohmann::json(true));
+			}
+			if (t=="Polygon" && c.is_array() && !c.empty() && c[0].is_array() && !c[0].empty() && c[0][0].is_array() && c[0][0].size()>=3) {
+			  return Ok(nlohmann::json(true));
+			}
 		}
 		return Ok(nlohmann::json(false));
 	}
 
 	if (funcName == "ST_Z") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Z expects 1 argument, got {}", args.size()));
+				fmt::format("ST_Z expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto g = *gRes;
 		if (g.is_object() && g.contains("type") && g["type"]=="Point" && g.contains("coordinates") && g["coordinates"].is_array() && g["coordinates"].size()>=3) {
 			return Ok(nlohmann::json(g["coordinates"][2]));
@@ -2081,12 +2258,14 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_ZMin" || funcName == "ST_ZMax") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("{} expects 1 argument, got {}", funcName, args.size()));
+				fmt::format("{} expects 1 argument, got {}", funcName,static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto g = *gRes;
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
 			return Ok(nlohmann::json(nullptr));
@@ -2094,25 +2273,31 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		std::string t = g["type"]; const auto& coords = g["coordinates"];
 		double acc = (funcName=="ST_ZMin") ? std::numeric_limits<double>::max() : std::numeric_limits<double>::lowest();
 		bool hasZ=false;
-		auto upd = [&](double z){ if (funcName=="ST_ZMin") acc = std::min(acc, z); else acc = std::max(acc, z); hasZ=true; };
-		if (t=="Point" && coords.is_array() && coords.size()>=3) {
+		auto upd = [&]([[maybe_unused]] double z){ if (funcName=="ST_ZMin") acc = std::min(acc, z); else acc = std::max(acc, z); hasZ=true; };
+		if (t=="Point" && coords.is_array() && static_cast<int>(coords.size())>=3) {
 			return Ok(nlohmann::json(coords[2]));
 		}
-		if ((t=="LineString"||t=="MultiPoint") && coords.is_array()) {
-			for (const auto& pt : coords) if (pt.is_array() && pt.size()>=3) upd(pt[2].get<double>());
+		if (((t=="LineString" || t=="MultiPoint")) && coords.is_array()) {
+			for (const auto& pt : coords) {
+			  if (pt.is_array() && static_cast<int>(pt.size())>=3) upd(pt[2].get<double>());
+			}
 		} else if (t=="Polygon" && coords.is_array()) {
-			for (const auto& ring : coords) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && pt.size()>=3) upd(pt[2].get<double>());
+			for (const auto& ring : coords) {
+			  if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && static_cast<int>(pt.size())>=3) upd(pt[2].get<double>());
+			}
 		}
 		return Ok(hasZ ? nlohmann::json(acc) : nlohmann::json(nullptr));
 	}
 
 	if (funcName == "ST_GeomFromText") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_GeomFromText expects 1 argument, got {}", args.size()));
+				fmt::format("ST_GeomFromText expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto wRes = evalArg(0);
-		if (!wRes) return wRes;
+		if (!wRes) {
+		  return wRes;
+		}
 		auto w = *wRes;
 		if (!w.is_string()) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
@@ -2155,10 +2340,12 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			std::string inner = u.substr(a+2, b-(a+2));
 			nlohmann::json ring = nlohmann::json::array();
 			std::stringstream ringStream(inner);
-			std::string pointToken;
+			std::string pointToken = {};
 			while (std::getline(ringStream, pointToken, ',')) {
 				pointToken = trim(pointToken);
-				if (pointToken.empty()) continue;
+				if (pointToken.empty()) {
+				  continue;
+				}
 				std::istringstream pointIss(pointToken);
 				double x, y, z;
 				if (!(pointIss >> x >> y)) {
@@ -2182,12 +2369,14 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_AsText") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_AsText expects 1 argument, got {}", args.size()));
+				fmt::format("ST_AsText expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto g = *gRes;
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
@@ -2195,22 +2384,22 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		std::string t = g["type"]; const auto& c = g["coordinates"]; std::ostringstream wkt;
 		if (t=="Point") {
-			if (!c.is_array() || c.size()<2) {
+			if (!c.is_array() || static_cast<int>(c.size())<2) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid Point");
 			}
-			wkt<<"POINT("<<c[0].get<double>()<<" "<<c[1].get<double>(); if (c.size()>=3) wkt<<" "<<c[2].get<double>(); wkt<<")";
+			wkt<<"POINT("<<c[0].get<double>()<<" "<<c[1].get<double>(); if (static_cast<int>(c.size()) >=3) wkt<<" "<<c[2].get<double>(); wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		} else if (t=="LineString") {
 			if (!c.is_array()||c.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid LineString");
 			}
-			wkt<<"LINESTRING("; for (size_t i=0;i<c.size();++i){ if(i>0) wkt<<","; const auto& pt=c[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (pt.size()>=3) wkt<<" "<<pt[2].get<double>(); } wkt<<")";
+			wkt<<"LINESTRING("; for (size_t i = 0; i < c.size();++i){ if(i>0) wkt<<","; const auto& pt=c[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) >=3) wkt<<" "<<pt[2].get<double>(); } wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		} else if (t=="Polygon") {
 			if (!c.is_array()||c.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid Polygon");
 			}
-			wkt<<"POLYGON("; for (size_t r=0;r<c.size();++r){ if(r>0) wkt<<","; wkt<<"("; const auto& ring=c[r]; for(size_t i=0;i<ring.size();++i){ if(i>0) wkt<<","; const auto& pt=ring[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (pt.size()>=3) wkt<<" "<<pt[2].get<double>(); } wkt<<")"; } wkt<<")";
+			wkt<<"POLYGON("; for (size_t r = 0; r < c.size();++r){ if(r>0) wkt<<","; wkt<<"("; const auto& ring=c[r]; for (size_t i = 0; i < ring.size();++i){ if(i>0) wkt<<","; const auto& pt=ring[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) >=3) wkt<<" "<<pt[2].get<double>(); } wkt<<")"; } wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		}
 		return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -2218,26 +2407,34 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_3DDistance") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_3DDistance expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_3DDistance expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
 		auto extract = [](const nlohmann::json& g) -> Result<std::tuple<double,double,double>> {
 			if (g.is_object() && g.contains("type") && g["type"]=="Point" && g.contains("coordinates") && g["coordinates"].is_array()) {
-				const auto& a=g["coordinates"]; if (a.size()>=2) { double x=a[0].get<double>(), y=a[1].get<double>(); double z = a.size()>=3 ? a[2].get<double>() : 0.0; return Ok(std::tuple<double,double,double>(x,y,z)); }
+				const auto& a=g["coordinates"]; if (static_cast<int>(a.size()) >=2) { double x=a[0].get<double>(), y=a[1].get<double>(); double z = static_cast<int>(a.size()) >=3 ? a[2].get<double>() : 0.0; return Ok(std::tuple<double,double,double>(x,y,z)); }
 			}
 			return Err<std::tuple<double,double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_3DDistance: Expected Point");
 		};
 		auto p1 = extract(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		if (!p1) {
+		  return Err<nlohmann::json>(p1.error().code(), p1.error().message());
+		}
 		auto p2 = extract(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		if (!p2) {
+		  return Err<nlohmann::json>(p2.error().code(), p2.error().message());
+		}
 		auto [x1,y1,z1] = *p1;
 		auto [x2,y2,z2] = *p2;
 		double dx=x2-x1, dy=y2-y1, dz=z2-z1;
@@ -2245,57 +2442,71 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Force2D") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Force2D expects 1 argument, got {}", args.size()));
+				fmt::format("ST_Force2D expects 1 argument, got {}",static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto g = *gRes;
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
 			return Ok(nlohmann::json(g));
 		}
 		nlohmann::json result = g; std::string t=g["type"];
-		auto strip2D = [](const nlohmann::json& coord){ if (coord.is_array() && coord.size()>=2) return nlohmann::json::array({coord[0], coord[1]}); return coord; };
-		if (t=="Point") result["coordinates"]=strip2D(g["coordinates"]);
+		auto strip2D = [](const nlohmann::json& coord){ if (coord.is_array() && static_cast<int>(coord.size())>=2) return nlohmann::json::array({coord[0], coord[1]}); return coord; };
+		if (t=="Point") {
+		  result["coordinates"]=strip2D(g["coordinates"]);
+		}
 		else if (t=="LineString"||t=="MultiPoint") { nlohmann::json nc=nlohmann::json::array(); for (const auto& pt : g["coordinates"]) nc.push_back(strip2D(pt)); result["coordinates"]=nc; }
 		else if (t=="Polygon"||t=="MultiLineString") { nlohmann::json nr=nlohmann::json::array(); for (const auto& ring : g["coordinates"]) { nlohmann::json r=nlohmann::json::array(); for (const auto& pt : ring) r.push_back(strip2D(pt)); nr.push_back(r);} result["coordinates"]=nr; }
 		return Ok(nlohmann::json(result));
 	}
 
 	if (funcName == "ST_ZBetween") {
-		if (args.size() != 3) {
+		if (static_cast<int>(args.size()) != 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_ZBetween expects 3 arguments, got {}", args.size()));
+				fmt::format("ST_ZBetween expects 3 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto zminRes = evalArg(1);
-		if (!zminRes) return zminRes;
+		if (!zminRes) {
+		  return zminRes;
+		}
 		auto zmaxRes = evalArg(2);
-		if (!zmaxRes) return zmaxRes;
+		if (!zmaxRes) {
+		  return zmaxRes;
+		}
 		auto g = *gRes;
 		double zmin = qe_toNumber(*zminRes);
 		double zmax = qe_toNumber(*zmaxRes);
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
 			return Ok(nlohmann::json(false));
 		}
-		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&](double z){ return z>=zmin && z<=zmax; };
-		if (t=="Point") { if (c.is_array() && c.size()>=3) return Ok(nlohmann::json(inRange(c[2].get<double>()))); return Ok(nlohmann::json(false)); }
-		if (t=="LineString"||t=="MultiPoint") { if (c.is_array()) { for (const auto& pt : c) if (pt.is_array() && pt.size()>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
-		if (t=="Polygon"||t=="MultiLineString") { if (c.is_array()) { for (const auto& ring : c) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && pt.size()>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
+		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&]([[maybe_unused]] double z){ return z>=zmin && z<=zmax; };
+		if (t=="Point") { if (c.is_array() && static_cast<int>(c.size())>=3) return Ok(nlohmann::json(inRange(c[2].get<double>()))); return Ok(nlohmann::json(false)); }
+		if ((t=="LineString" || t=="MultiPoint")) { if (c.is_array()) { for (const auto& pt : c) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
+		if ((t=="Polygon" || t=="MultiLineString")) { if (c.is_array()) { for (const auto& ring : c) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
 		return Ok(nlohmann::json(false));
 	}
 
 	if (funcName == "ST_Buffer") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Buffer expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Buffer expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto distRes = evalArg(1);
-		if (!distRes) return distRes;
+		if (!distRes) {
+		  return distRes;
+		}
 		auto g = *gRes;
 		double dist = qe_toNumber(*distRes);
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
@@ -2305,7 +2516,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		std::string t=g["type"];
 		if (t=="Point") {
 			const auto& c=g["coordinates"];
-			if (!c.is_array()||c.size()<2) {
+			if (!c.is_array()|| static_cast<int>(c.size())<2) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
 					"ST_Buffer: invalid Point");
 			}
@@ -2321,7 +2532,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					"ST_Buffer: invalid Polygon");
 			}
 			const auto& ext=rings[0]; double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max(); double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
-			for (const auto& pt : ext) if (pt.is_array()&&pt.size()>=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
+			for (const auto& pt : ext) if (pt.is_array()&&static_cast<int>(pt.size()) >=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
 			minx-=dist; miny-=dist; maxx+=dist; maxy+=dist;
 			nlohmann::json ring=nlohmann::json::array({ {minx,miny},{maxx,miny},{maxx,maxy},{minx,maxy},{minx,miny} });
 			nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
@@ -2331,14 +2542,18 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Union") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("ST_Union expects 2 arguments, got {}", args.size()));
+				fmt::format("ST_Union expects 2 arguments, got {}",static_cast<int>(args.size())));
 		}
 		auto g1Res = evalArg(0);
-		if (!g1Res) return g1Res;
+		if (!g1Res) {
+		  return g1Res;
+		}
 		auto g2Res = evalArg(1);
-		if (!g2Res) return g2Res;
+		if (!g2Res) {
+		  return g2Res;
+		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
 		auto mbrOf=[](const nlohmann::json& g) -> Result<utils::geo::MBR> {
@@ -2348,7 +2563,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				if (t=="Polygon" && g.contains("coordinates")){
 					const auto& rings=g["coordinates"]; if (rings.is_array()&&!rings.empty()){
 						double minx=std::numeric_limits<double>::max(),miny=std::numeric_limits<double>::max(); double maxx=std::numeric_limits<double>::lowest(),maxy=std::numeric_limits<double>::lowest();
-						const auto& ext=rings[0]; for (const auto& pt:ext) if (pt.is_array()&&pt.size()>=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
+						const auto& ext=rings[0]; for (const auto& pt:ext) if (pt.is_array()&&static_cast<int>(pt.size()) >=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
 						return Ok(utils::geo::MBR{minx,miny,maxx,maxy});
 					}
 				}
@@ -2356,9 +2571,13 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<utils::geo::MBR>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Union: Unsupported geometry type for MVP");
 		};
 		auto m1Res = mbrOf(g1);
-		if (!m1Res) return Err<nlohmann::json>(m1Res.error().code(), m1Res.error().message());
+		if (!m1Res) {
+		  return Err<nlohmann::json>(m1Res.error().code(), m1Res.error().message());
+		}
 		auto m2Res = mbrOf(g2);
-		if (!m2Res) return Err<nlohmann::json>(m2Res.error().code(), m2Res.error().message());
+		if (!m2Res) {
+		  return Err<nlohmann::json>(m2Res.error().code(), m2Res.error().message());
+		}
 		auto m1 = *m1Res;
 		auto m2 = *m2Res;
 		utils::geo::MBR u{ std::min(m1.minx,m2.minx), std::min(m1.miny,m2.miny), std::max(m1.maxx,m2.maxx), std::max(m1.maxy,m2.maxy) };
@@ -2370,19 +2589,25 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	// GEO_BUFFER(geom, distance_m [, arc_points]) — geodesic ST_BUFFER via the CPU-exact backend.
 	// ArangoDB-compatible name; distance_m is in metres (geodesic-aware).
 	if (funcName == "GEO_BUFFER" || funcName == "ST_BUFFER") {
-		if (args.size() < 2 || args.size() > 3) {
+		if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-				fmt::format("{} expects 2 or 3 arguments, got {}", funcName, args.size()));
+				fmt::format("{} expects 2 or 3 arguments, got {}", funcName,static_cast<int>(args.size())));
 		}
 		auto gRes = evalArg(0);
-		if (!gRes) return gRes;
+		if (!gRes) {
+		  return gRes;
+		}
 		auto distRes = evalArg(1);
-		if (!distRes) return distRes;
+		if (!distRes) {
+		  return distRes;
+		}
 		const double distance_m = qe_toNumber(*distRes);
 		int arc_points = 36;
-		if (args.size() == 3) {
+		if (static_cast<int>(args.size()) == 3) {
 			auto apRes = evalArg(2);
-			if (!apRes) return apRes;
+			if (!apRes) {
+			  return apRes;
+			}
 			// Clamp the double to [3, 360] BEFORE narrowing to int so that out-of-range
 			// floating-point values (e.g. 1e300) cannot trigger undefined behaviour.
 			const double ap_d = std::clamp(qe_toNumber(*apRes), 3.0, 360.0);
@@ -2411,13 +2636,15 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 								  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
-	if (!expr) return Ok(nlohmann::json(nullptr));
+	if (!expr) {
+	  return Ok(nlohmann::json(nullptr));
+	}
 
 	switch (expr->getType()) {
 		case ASTNodeType::Literal: {
 			auto lit = std::static_pointer_cast<LiteralExpr>(expr);
 			nlohmann::json j;
-			std::visit([&](auto&& arg){ j = arg; }, lit->value);
+			std::visit([&]([[maybe_unused]] auto&& arg){ j = arg; }, lit->value);
 			return Ok(j);
 		}
 		case ASTNodeType::Variable: {
@@ -2428,8 +2655,12 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 		case ASTNodeType::FieldAccess: {
 			auto fa = std::static_pointer_cast<FieldAccessExpr>(expr);
 			auto base = qe_evalExpr(fa->object, ctx);
-			if (!base) return base;
-			if (base.value().is_null()) return Ok(nlohmann::json(nullptr));
+			if (!base) {
+			  return base;
+			}
+			if (base.value().is_null()) {
+			  return Ok(nlohmann::json(nullptr));
+			}
 			return Ok(qe_getNested(*base, {fa->field}));
 		}
 		case ASTNodeType::ArrayLiteral: {
@@ -2437,7 +2668,9 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 			nlohmann::json a = nlohmann::json::array();
 			for (const auto& e : arr->elements) {
 				auto elemRes = qe_evalExpr(e, ctx);
-				if (!elemRes) return elemRes;
+				if (!elemRes) {
+				  return elemRes;
+				}
 				a.push_back(*elemRes);
 			}
 			return Ok(a);
@@ -2446,7 +2679,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 			auto obj = std::static_pointer_cast<ObjectConstructExpr>(expr);
 			nlohmann::json o = nlohmann::json::object();
 			std::vector<std::pair<std::string, std::shared_ptr<Expression>>> sorted_fields;
-			sorted_fields.reserve(obj->fields.size());
+			sorted_fields.reserve(obj-> static_cast<int>(fields.size()));
 			for (const auto& [k, e] : obj->fields) {
 				sorted_fields.emplace_back(k, e);
 			}
@@ -2455,7 +2688,9 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 
 			for (const auto& [k, e] : sorted_fields) {
 				auto fieldRes = qe_evalExpr(e, ctx);
-				if (!fieldRes) return fieldRes;
+				if (!fieldRes) {
+				  return fieldRes;
+				}
 				o[k] = *fieldRes;
 			}
 			return Ok(o);
@@ -2463,30 +2698,46 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 		case ASTNodeType::UnaryOp: {
 			auto u = std::static_pointer_cast<UnaryOpExpr>(expr);
 			auto v = qe_evalExpr(u->operand, ctx);
-			if (!v) return v;
-			if (u->op == UnaryOperator::Not) return Ok(nlohmann::json(!qe_toBool(*v)));
-			if (u->op == UnaryOperator::Minus) return Ok(nlohmann::json(-qe_toNumber(*v)));
-			if (u->op == UnaryOperator::Plus) return Ok(nlohmann::json(qe_toNumber(*v)));
+			if (!v) {
+			  return v;
+			}
+			if (u->op == UnaryOperator::Not) {
+			  return Ok(nlohmann::json(!qe_toBool(*v)));
+			}
+			if (u->op == UnaryOperator::Minus) {
+			  return Ok(nlohmann::json(-qe_toNumber(*v)));
+			}
+			if (u->op == UnaryOperator::Plus) {
+			  return Ok(nlohmann::json(qe_toNumber(*v)));
+			}
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Unknown unary operator");
 		}
 		case ASTNodeType::BinaryOp: {
 			auto b = std::static_pointer_cast<BinaryOpExpr>(expr);
 			auto l = qe_evalExpr(b->left, ctx);
-			if (!l) return l;
+			if (!l) {
+			  return l;
+			}
 			auto r = qe_evalExpr(b->right, ctx);
-			if (!r) return r;
+			if (!r) {
+			  return r;
+			}
 			switch (b->op) {
 				case BinaryOperator::Add: return Ok(nlohmann::json(qe_toNumber(*l) + qe_toNumber(*r)));
 				case BinaryOperator::Sub: return Ok(nlohmann::json(qe_toNumber(*l) - qe_toNumber(*r)));
 				case BinaryOperator::Mul: return Ok(nlohmann::json(qe_toNumber(*l) * qe_toNumber(*r)));
 				case BinaryOperator::Div: {
 					double d = qe_toNumber(*r); 
-					if (d==0.0) return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Division by zero");
+					if (d==0.0) {
+					  return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Division by zero");
+					}
 					return Ok(nlohmann::json(qe_toNumber(*l)/d));
 				}
 				case BinaryOperator::Mod: {
 					double d = qe_toNumber(*r); 
-					if (d==0.0) return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Modulo by zero");
+					if (d==0.0) {
+					  return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Modulo by zero");
+					}
 					return Ok(nlohmann::json(std::fmod(qe_toNumber(*l), d)));
 				}
 				case BinaryOperator::Eq: return Ok(nlohmann::json(*l == *r));
@@ -2502,7 +2753,9 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 					// Membership: left IN right (right can be array or string)
 					if (r.value().is_array()) {
 						for (const auto& e : *r) {
-							if (e == *l) return Ok(nlohmann::json(true));
+							if (e == *l) {
+							  return Ok(nlohmann::json(true));
+							}
 						}
 						return Ok(nlohmann::json(false));
 					}
@@ -2536,7 +2789,9 @@ bool QueryEngine::evaluateCondition(
 	const EvaluationContext& ctx
 ) const {
 	auto result = qe_evalExpr(expr, ctx);
-	if (!result) return false;
+	if (!result) {
+	  return false;
+	}
 	return qe_toBool(*result);
 }
 
@@ -2551,8 +2806,11 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
-	std::vector<std::string> out;
-	if (q.table.empty()) return out;
+	std::vector<std::string> out = {};
+
+	if (q.table.empty()) {
+	  return out;
+	}
 	const std::string prefix = KeySchema::makeRelationalKey(q.table, "");
 
 	// Helper for numeric comparison: try to parse as numbers, fall back to string comparison
@@ -2564,9 +2822,13 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 			long long num_b = std::stoll(b, &pos_b);
 
 			// Only use numeric comparison if entire strings parsed
-			if (pos_a == a.size() && pos_b == b.size()) {
-				if (num_a < num_b) return -1;
-				if (num_a > num_b) return 1;
+			if (pos_a == static_cast<int>(a.size()) && pos_b == static_cast<int>(b.size())) {
+				if (num_a < num_b) {
+				  return -1;
+				}
+				if (num_a > num_b) {
+				  return 1;
+				}
 				return 0;
 			}
 		} catch (...) {
@@ -2577,9 +2839,13 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				double num_a = std::stod(a, &pos_a);
 				double num_b = std::stod(b, &pos_b);
 
-				if (pos_a == a.size() && pos_b == b.size()) {
-					if (num_a < num_b) return -1;
-					if (num_a > num_b) return 1;
+				if (pos_a == static_cast<int>(a.size()) && pos_b == static_cast<int>(b.size())) {
+					if (num_a < num_b) {
+					  return -1;
+					}
+					if (num_a > num_b) {
+					  return 1;
+					}
 					return 0;
 				}
 			} catch (...) {}
@@ -2591,21 +2857,29 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 
 	// Predicate evaluation helper – called from both sequential and parallel paths.
 	// q and compareValues are captured by reference; each invocation is independent.
-	auto matchesPredicates = [&](const BaseEntity& e) -> bool {
+	auto matchesPredicates = [&]([[maybe_unused]] const BaseEntity& e) -> bool {
 		for (const auto& p : q.predicates) {
 			auto v = e.extractField(p.column);
-			if (!v || *v != p.value) return false;
+			if (!v || *v != p.value) {
+			  return false;
+			}
 		}
 		for (const auto& r : q.rangePredicates) {
 			auto v = e.extractField(r.column);
-			if (!v) return false;
+			if (!v) {
+			  return false;
+			}
 			if (r.lower.has_value()) {
 				int cmp = compareValues(*v, *r.lower);
-				if (cmp < 0 || (cmp == 0 && !r.includeLower)) return false;
+				if ((cmp < 0) || ((cmp == 0) && (!r.includeLower))) {
+				  return false;
+				}
 			}
 			if (r.upper.has_value()) {
 				int cmp = compareValues(*v, *r.upper);
-				if (cmp > 0 || (cmp == 0 && !r.includeUpper)) return false;
+				if ((cmp > 0) || ((cmp == 0) && (!r.includeUpper))) {
+				  return false;
+				}
 			}
 		}
 		return true;
@@ -2634,7 +2908,9 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 		for (auto& entry : raw_entries) {
 			try {
 				BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
-				if (matchesPredicates(e)) out.emplace_back(std::move(entry.pk));
+				if (matchesPredicates(e)) {
+				  out.emplace_back(std::move(entry.pk));
+				}
 			} catch (...) {
        THEMIS_DEBUG("query_engine: unhandled exception caught");
 				// skip malformed entries
@@ -2661,7 +2937,9 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 					auto& entry = raw_entries[i];
 					try {
 						BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
-						if (matchesPredicates(e)) local.emplace_back(std::move(entry.pk));
+						if (matchesPredicates(e)) {
+						  local.emplace_back(std::move(entry.pk));
+						}
 					} catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
 						// skip malformed entries
@@ -2717,14 +2995,16 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	// Prüfe Gleichheitsindizes
 	if (!q.predicates.empty()) {
 		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
-		for (size_t i=0;i<q.predicates.size();++i) {
+		for (size_t i=0;i<static_cast<int>(q.predicates.size());++i) {
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
 			if (eff < bestEst) { bestEst = eff; bestIdx = i; bestCapped = capped; }
 		}
 		{
 			auto [st, _] = secIdx_->scanKeysEqual(q.table, q.predicates[bestIdx].column, q.predicates[bestIdx].value);
-			if (!st.ok) missingIndex = true;
+			if (!st.ok) {
+			  missingIndex = true;
+			}
 		}
 	}
 
@@ -2789,7 +3069,9 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-		if (!blob) continue;
+		if (!blob) {
+		  continue;
+		}
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 		catch (...) { THEMIS_WARN("executeAndEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
 	}
@@ -2800,7 +3082,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 
 // ===== Range-aware Ausführung =====
 namespace {
-static inline size_t bigLimit() { return static_cast<size_t>(1000000000ULL); }
+static inline size_t bigLimit() { return static_cast<size_t>(1000000000); }
 }
 
 Result<std::vector<std::string>>
@@ -2821,9 +3103,13 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 				[&tbl_stats](const PredicateEq& a, const PredicateEq& b) {
 					double sel_a = 1.0, sel_b = 1.0;
 					auto it_a = tbl_stats.column_stats.find(a.column);
-					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
+					if (it_a != tbl_stats.column_stats.end()) {
+					  sel_a = it_a->second.selectivity;
+					}
 					auto it_b = tbl_stats.column_stats.find(b.column);
-					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
+					if (it_b != tbl_stats.column_stats.end()) {
+					  sel_b = it_b->second.selectivity;
+					}
 					constexpr double kSelEps = 1e-9;
 					if (std::abs(sel_a - sel_b) < kSelEps) {
 						if (a.column != b.column) {
@@ -2838,14 +3124,16 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 
 	// 1) Hole Listen für alle Gleichheitsprädikate
 	std::vector<std::vector<std::string>> lists;
-	lists.reserve(ordered_predicates.size() + q.rangePredicates.size());
+	lists.reserve(static_cast<int>(ordered_predicates.size()) + static_cast<int>(q.rangePredicates.size()) );
 
 	for (const auto& p : ordered_predicates) {
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
 		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
-		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+		if (!st.ok) {
+		  return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+		}
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.emplace_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
@@ -2865,7 +3153,9 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("range.includeLower", r.includeLower);
 		child.setAttribute("range.includeUpper", r.includeUpper);
 		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
-		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+		if (!st.ok) {
+		  return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+		}
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.emplace_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
@@ -2873,7 +3163,8 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	}
 
 	// Wenn keine Prädikate aber nur ORDER BY: initial candidates leer => special case
-	std::vector<std::string> candidates;
+	std::vector<std::string> candidates = {};
+
 	if (lists.empty()) {
 		candidates.clear();
 	} else {
@@ -2893,7 +3184,8 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			if (r.column == ob.column) { lb = r.lower; ub = r.upper; il = r.includeLower; iu = r.includeUpper; break; }
 		}
 		// Erzeuge Kandidaten-Set für schnelles Membership-Checking (falls es Prädikate gab)
-		std::unordered_set<std::string> candSet;
+		std::unordered_set<std::string> candSet = {};
+
 		if (!candidates.empty()) {
 			candSet.reserve(candidates.size());
 			candSet.insert(std::make_move_iterator(candidates.begin()), std::make_move_iterator(candidates.end()));
@@ -2907,11 +3199,15 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			anchor = std::make_pair(ob.cursor_value.value(), ob.cursor_pk.value());
 		}
 		auto [st, scan] = secIdx_->scanKeysRangeAnchored(q.table, ob.column, lb, ub, il, iu, bigLimit(), ob.desc, anchor);
-		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+		if (!st.ok) {
+		  return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+		}
 		for (auto& k : scan) {
 			if (!candSet.empty() && candSet.find(k) == candSet.end()) continue; // filter
 			ordered.emplace_back(std::move(k));
-			if (ordered.size() >= ob.limit) break;
+			if (static_cast<int>(ordered.size()) >= ob.limit) {
+			  break;
+			}
 		}
 		span.setAttribute("query.ordered_count", static_cast<int64_t>(ordered.size()));
 		span.setStatus(true);
@@ -2927,12 +3223,16 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesRangeAware");
 	span.setAttribute("query.table", q.table);
 	auto keysResult = executeAndKeysRangeAware_(q);
-	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	if (!keysResult) {
+	  return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	}
 	auto& keys = *keysResult;
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
-		if (!blob) continue;
+		if (!blob) {
+		  continue;
+		}
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 		catch (...) { THEMIS_WARN("executeAndEntitiesRangeAware_: Deserialisierung fehlgeschlagen für PK={}", pk); }
 	}
@@ -2949,7 +3249,9 @@ static void collectVariables(
 	const std::shared_ptr<query::Expression>& expr,
 	std::set<std::string>& vars
 ) {
-	if (!expr) return;
+	if (!expr) {
+	  return;
+	}
 	
 	switch (expr->getType()) {
 		case query::ASTNodeType::Variable: {
@@ -3018,10 +3320,14 @@ static EquiJoinCondition analyzeEquiJoin(
 	
 	for (const auto& filter : filters) {
 		auto expr = filter->condition;
-		if (expr->getType() != query::ASTNodeType::BinaryOp) continue;
+		if (expr->getType() != query::ASTNodeType::BinaryOp) {
+		  continue;
+		}
 		
 		auto bin = std::static_pointer_cast<query::BinaryOpExpr>(expr);
-		if (bin->op != query::BinaryOperator::Eq) continue;
+		if (bin->op != query::BinaryOperator::Eq) {
+		  continue;
+		}
 		
 		// Check if left is var.field and right is var.field
 		auto checkFieldAccess = [](const std::shared_ptr<query::Expression>& e) -> std::pair<std::string, std::string> {
@@ -3035,7 +3341,9 @@ static EquiJoinCondition analyzeEquiJoin(
 		auto [lvar, lfield] = checkFieldAccess(bin->left);
 		auto [rvar, rfield] = checkFieldAccess(bin->right);
 		
-		if (lvar.empty() || rvar.empty()) continue;
+		if (lvar.empty() || rvar.empty()) {
+		  continue;
+		}
 		
 		// Check if this matches our two variables
 		if ((lvar == var1 && rvar == var2) || (lvar == var2 && rvar == var1)) {
@@ -3073,7 +3381,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	std::vector<nlohmann::json> results;
 	
 	// Phase 4.1: Initialize context with parent CTEs if provided
-	EvaluationContext initial_context;
+	EvaluationContext initial_context = {};
 	if (parent_context) {
 		initial_context.cte_results = parent_context->cte_results;
 		initial_context.bm25_scores = parent_context->bm25_scores;
@@ -3099,7 +3407,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 		std::set<std::string> vars;
 		collectVariables(filter->condition, vars);
 		
-		if (vars.size() == 1) {
+		if (static_cast<int>(vars.size()) == 1) {
 			// Single-variable filter: can be pushed down
 			single_var_filters[*vars.begin()].push_back(filter);
 			span.setAttribute("join.pushed_filters", static_cast<int64_t>(single_var_filters.size()));
@@ -3110,7 +3418,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	}
 	
 	// OPTIMIZATION: Hash-Join for 2-way equi-joins
-	if (for_nodes.size() == 2) {
+	if (static_cast<int>(for_nodes.size()) == 2) {
 		auto equiJoin = analyzeEquiJoin(multi_var_filters, for_nodes[0].variable, for_nodes[1].variable);
 		if (equiJoin.found) {
 			span.setAttribute("join.algorithm", "hash_join");
@@ -3139,7 +3447,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 								break;
 							}
 						}
-						if (!pass) continue;
+						if (!pass) {
+						  continue;
+						}
 					}
 					
 					// Extract join key
@@ -3210,7 +3520,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				std::sort(bucket.begin(), bucket.end(), stableJsonLess);
 			}
 		
-			auto processProbeDoc = [&](const nlohmann::json& doc) {
+			auto processProbeDoc = [&]([[maybe_unused]] const nlohmann::json& doc) {
 				// Apply pushed-down filters
 				if (probe_filters != single_var_filters.end()) {
 					EvaluationContext filter_ctx = initial_context;
@@ -3249,7 +3559,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				
 					// Process LET bindings using LetEvaluator to ensure nested references resolve correctly
 					query::LetEvaluator letEval;
-					if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
+					if (secIdx_) {
+					  letEval.setSecondaryIndexManager(secIdx_);
+					}
 					nlohmann::json currentDoc;
 					currentDoc.emplace(build_for.variable, build_doc);
 					currentDoc.emplace(probe_for.variable, doc);
@@ -3272,12 +3584,20 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 							auto bin = std::static_pointer_cast<query::BinaryOpExpr>(filter->condition);
 							if (bin->op == query::BinaryOperator::Eq) {
 								const bool isJoinPredicate = [&]() {
-									if (bin->left->getType() != query::ASTNodeType::FieldAccess) return false;
-									if (bin->right->getType() != query::ASTNodeType::FieldAccess) return false;
+									if (bin->left->getType() != query::ASTNodeType::FieldAccess) {
+									  return false;
+									}
+									if (bin->right->getType() != query::ASTNodeType::FieldAccess) {
+									  return false;
+									}
 									auto lfa = std::static_pointer_cast<query::FieldAccessExpr>(bin->left);
 									auto rfa = std::static_pointer_cast<query::FieldAccessExpr>(bin->right);
-									if (lfa->object->getType() != query::ASTNodeType::Variable) return false;
-									if (rfa->object->getType() != query::ASTNodeType::Variable) return false;
+									if (lfa->object->getType() != query::ASTNodeType::Variable) {
+									  return false;
+									}
+									if (rfa->object->getType() != query::ASTNodeType::Variable) {
+									  return false;
+									}
 									auto lvar = std::static_pointer_cast<query::VariableExpr>(lfa->object)->name;
 									auto rvar = std::static_pointer_cast<query::VariableExpr>(rfa->object)->name;
 									return (lvar == equiJoin.left_var && lfa->field == equiJoin.left_field &&
@@ -3353,10 +3673,12 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 		
 		std::function<void(size_t, EvaluationContext)> nestedLoop;
 		nestedLoop = [&](size_t depth, EvaluationContext ctx) {
-			if (depth >= for_nodes.size()) {
+			if (depth >= static_cast<int>(for_nodes.size())) {
 				// Process LET bindings using LetEvaluator
 				query::LetEvaluator letEval;
-				if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
+				if (secIdx_) {
+				  letEval.setSecondaryIndexManager(secIdx_);
+				}
 				nlohmann::json currentDoc; // Aggregate all bindings for LET evaluation
 				std::vector<std::pair<std::string, nlohmann::json>> sorted_bindings;
 				sorted_bindings.reserve(ctx.bindings.size());
@@ -3392,7 +3714,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 					}
 				}
 				
-				if (!passFilters) return;
+				if (!passFilters) {
+				  return;
+				}
 				
 				// Evaluate RETURN expression
 				if (return_node) {
@@ -3525,10 +3849,10 @@ apply_sort_limit:
 		// Guard against negative int64_t values: cast to size_t only after clamping.
 		size_t offset = (limit->offset <= 0) ? 0 : static_cast<size_t>(limit->offset);
 		size_t count  = (limit->count  <= 0) ? 0 : static_cast<size_t>(limit->count);
-		if (offset >= results.size()) {
+		if (offset >= static_cast<int>(results.size())) {
 			results.clear();
 		} else {
-			size_t end = std::min(offset + count, results.size());
+			size_t end = std::min(offset + count,static_cast<int>(results.size()));
 			results = std::vector<nlohmann::json>(
 				results.begin() + offset,
 				results.begin() + end
@@ -3603,9 +3927,11 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	});
 	
 	// Compute aggregations
-	std::vector<nlohmann::json> results;
+	std::vector<nlohmann::json> results = {};
+
 	results.reserve(groups.size());
-	std::vector<std::string> sorted_group_keys;
+	std::vector<std::string> sorted_group_keys = {};
+
 	sorted_group_keys.reserve(groups.size());
 	for (const auto& [group_key, _] : groups) {
 		sorted_group_keys.push_back(group_key);
@@ -3614,7 +3940,8 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	
 	for (const auto& key_str : sorted_group_keys) {
 		const auto& docs = groups.at(key_str);
-		std::vector<const nlohmann::json*> ordered_docs;
+		std::vector<const nlohmann::json*> ordered_docs = {};
+
 		ordered_docs.reserve(docs.size());
 		for (const auto& doc : docs) {
 			ordered_docs.push_back(&doc);
@@ -3736,10 +4063,13 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	{
 		std::unordered_set<std::string> frontier{q.start_node};
 		for (size_t depth=0; depth<2 && !frontier.empty(); ++depth) {
-			std::unordered_set<std::string> next;
+			std::unordered_set<std::string> next = {};
+
 			for (const auto &v : frontier) {
 				auto [st, adj] = graphIdx_->outAdjacency(v);
-				if (!st.ok) continue;
+				if (!st.ok) {
+				  continue;
+				}
 				// Optional edge type filter
 				for (auto &ai : adj) {
 					if (!q.edge_type.empty() && ai.graphId != q.edge_type) continue; // simplistic match, adjust if edge_type stored differently
@@ -3750,9 +4080,13 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			}
 			frontier.swap(next);
 		}
-		if (sampledVertices>0) branchingEstimate = static_cast<double>(sampledEdges) / static_cast<double>(sampledVertices);
+		if (sampledVertices>0) {
+		  branchingEstimate = static_cast<double>(sampledEdges) / static_cast<double>(sampledVertices);
+		}
 	}
-	if (branchingEstimate <= 0.0) branchingEstimate = 1.0;
+	if (branchingEstimate <= 0.0) {
+	  branchingEstimate = 1.0;
+	}
 	// Räumliche Selektivität schätzen wenn Constraint vorhanden (vereinfachte Annahme: bboxRatio falls extrahierbar)
 	double spatialSelectivity = 1.0;
 	if (q.spatial_constraint && q.spatial_constraint->spatial_filter) {
@@ -3787,7 +4121,8 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			return std::nullopt;
 		}
 	};
-	std::optional<int64_t> timestamp_ms;
+	std::optional<int64_t> timestamp_ms = {};
+
 	if (q.valid_from.has_value() && q.valid_to.has_value()) {
 		auto from = parseTimestampMs(*q.valid_from);
 		auto to   = parseTimestampMs(*q.valid_to);
@@ -3850,11 +4185,12 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			bool pathValid = true;
 			
 			// Batch load all vertices in path
-			std::vector<std::string> vertexKeys;
+			std::vector<std::string> vertexKeys = {};
+
 			vertexKeys.reserve(pathResult.path.size());
 			for (const auto& vertexPk : pathResult.path) {
 				// Extract table from PK format "collection/id" -> DB key is "collection:collection/id"
-				std::string table;
+				std::string table = {};
 				auto slashPos = vertexPk.find('/');
 				if (slashPos != std::string::npos) {
 					table = vertexPk.substr(0, slashPos);
@@ -3867,7 +4203,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			auto vertexDataList = db_->multiGet(vertexKeys);
 			
 			// Evaluate spatial filter for each vertex
-			for (size_t i = 0; i < pathResult.path.size(); ++i) {
+			for (size_t i = 0; i <static_cast<int>(pathResult.path.size()); ++i) {
 				const auto& vertexPk = pathResult.path[i];
 				const auto& vertexDataOpt = vertexDataList[i];
 				
@@ -3943,11 +4279,12 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			std::vector<std::string> filteredNodes;
 			
 			// Batch load all reachable vertices - need to add table prefix
-			std::vector<std::string> vertexKeys;
+			std::vector<std::string> vertexKeys = {};
+
 			vertexKeys.reserve(reachableNodes.size());
 			for (const auto& vertexPk : reachableNodes) {
 				// Extract table from PK format "collection/id" -> DB key is "collection:collection/id"
-				std::string table;
+				std::string table = {};
 				auto slashPos = vertexPk.find('/');
 				if (slashPos != std::string::npos) {
 					table = vertexPk.substr(0, slashPos);
@@ -3960,7 +4297,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			
 			// Evaluate spatial filter for each vertex (parallel)
 			const size_t n = reachableNodes.size();
-			const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
+			const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency());
 			const size_t CHUNK = std::max<std::size_t>(128, (n + T - 1) / T);
 			std::vector<std::vector<std::string>> buckets((n + CHUNK - 1) / CHUNK);
 			tbb::task_group tg3;
@@ -3973,12 +4310,16 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 					for (size_t i = start; i < end; ++i) {
 						const auto& vertexPk = reachableNodes[i];
 						const auto& vertexDataOpt = vertexDataList[i];
-						if (!vertexDataOpt.has_value()) continue;
+						if (!vertexDataOpt.has_value()) {
+						  continue;
+						}
 						nlohmann::json vertex;
 						try { auto entity = BaseEntity::deserialize(vertexPk, *vertexDataOpt); vertex = nlohmann::json::parse(entity.toJson()); }
 						catch (...) { continue; }
 						EvaluationContext ctx; ctx.bind("v", vertex);
-						if (evaluateCondition(sc.spatial_filter, ctx)) buf.push_back(vertexPk);
+						if (evaluateCondition(sc.spatial_filter, ctx)) {
+						  buf.push_back(vertexPk);
+						}
 					}
 					buckets[bi] = std::move(buf);
 				});
@@ -4083,7 +4424,7 @@ QueryEngine::executeGeneralTraversal(
 	
 	// BFS with depth tracking
 	struct VisitInfo {
-		std::string vertex;
+		std::string vertex = {};
 		int depth;
 		std::vector<std::string> path;   // vertex PKs from start
 		std::vector<std::string> edges;  // edge IDs traversed
@@ -4111,7 +4452,7 @@ QueryEngine::executeGeneralTraversal(
 			// Try to load vertex data from storage
 			// Extract table from PK format "collection/id"
 			// Note: Uses standard key format "table:pk" consistent with rest of codebase
-			std::string table;
+			std::string table = {};
 			auto slashPos = current.vertex.find('/');
 			if (slashPos != std::string::npos) {
 				table = current.vertex.substr(0, slashPos);
@@ -4137,7 +4478,7 @@ QueryEngine::executeGeneralTraversal(
 			results.emplace_back(std::move(result));
 			
 			// Check result size limit to prevent memory exhaustion
-			if (results.size() >= MAX_RESULTS) {
+			if (static_cast<int>(results.size()) >= MAX_RESULTS) {
 				span.setAttribute("query.result_limit_reached", true);
 				span.setStatus(true);
 				return Ok(std::move(results));
@@ -4155,19 +4496,25 @@ QueryEngine::executeGeneralTraversal(
 		switch (direction) {
 			case TraversalDirection::OUTBOUND: {
 				auto [st, adj] = graphIdx_->outAdjacency(current.vertex);
-				if (st.ok) neighbors = std::move(adj);
+				if (st.ok) {
+				  neighbors = std::move(adj);
+				}
 				break;
 			}
 			case TraversalDirection::INBOUND: {
 				auto [st, adj] = graphIdx_->inAdjacency(current.vertex);
-				if (st.ok) neighbors = std::move(adj);
+				if (st.ok) {
+				  neighbors = std::move(adj);
+				}
 				break;
 			}
 			case TraversalDirection::ANY: {
 				// Get both outbound and inbound neighbors
 				auto [st1, adj1] = graphIdx_->outAdjacency(current.vertex);
 				auto [st2, adj2] = graphIdx_->inAdjacency(current.vertex);
-				if (st1.ok) neighbors = std::move(adj1);
+				if (st1.ok) {
+				  neighbors = std::move(adj1);
+				}
 				if (st2.ok) {
 					neighbors.insert(neighbors.end(), 
 					                std::make_move_iterator(adj2.begin()),
@@ -4232,18 +4579,20 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
     const std::shared_ptr<themis::query::Expression>& expr
 ) {
     using namespace themis::query;
-    if (!expr) return std::nullopt;
+    if (!expr) {
+      return std::nullopt;
+    }
     
     // Handle ST_Within(geom, POLYGON(...))
     if (expr->getType() == ASTNodeType::FunctionCall) {
         auto funcCall = std::static_pointer_cast<FunctionCallExpr>(expr);
         
-        if (funcCall->name == "ST_Within" && funcCall->arguments.size() == 2) {
+        if (funcCall->name == "ST_Within" && funcCall-> static_cast<int>(arguments.size()) == 2) {
             // Second argument should be ST_GeomFromText("POLYGON(...)")
             auto arg2 = funcCall->arguments[1];
             if (arg2->getType() == ASTNodeType::FunctionCall) {
                 auto geomFunc = std::static_pointer_cast<FunctionCallExpr>(arg2);
-                if (geomFunc->name == "ST_GeomFromText" && geomFunc->arguments.size() == 1) {
+                if (geomFunc->name == "ST_GeomFromText" && geomFunc-> static_cast<int>(arguments.size()) == 1) {
                     auto litExpr = geomFunc->arguments[0];
                     if (litExpr->getType() == ASTNodeType::Literal) {
                         auto lit = std::static_pointer_cast<LiteralExpr>(litExpr);
@@ -4278,7 +4627,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
         }
         
         // Handle ST_DWithin(geom, ST_Point(x,y), distance)
-        if (funcCall->name == "ST_DWithin" && funcCall->arguments.size() == 3) {
+        if (funcCall->name == "ST_DWithin" && funcCall-> static_cast<int>(arguments.size()) == 3) {
             auto arg2 = funcCall->arguments[1];
             auto arg3 = funcCall->arguments[2];
             
@@ -4286,7 +4635,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
                 auto pointFunc = std::static_pointer_cast<FunctionCallExpr>(arg2);
                 auto distLit = std::static_pointer_cast<LiteralExpr>(arg3);
                 
-                if (pointFunc->name == "ST_Point" && pointFunc->arguments.size() == 2) {
+                if (pointFunc->name == "ST_Point" && pointFunc-> static_cast<int>(arguments.size()) == 2) {
                     if (pointFunc->arguments[0]->getType() == ASTNodeType::Literal &&
                         pointFunc->arguments[1]->getType() == ASTNodeType::Literal) {
                         
@@ -4321,10 +4670,18 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 		auto result = db.get("config:hybrid_query");
 		if (result.has_value()) {
 			auto j = nlohmann::json::parse(result.value());
-			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int64_t>(cfg.overfetch))));
-			if (j.contains("bbox_ratio_threshold")) cfg.bbox_ratio_threshold = (std::min)(1.0, (std::max)(0.0, j.value("bbox_ratio_threshold", cfg.bbox_ratio_threshold)));
-			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int64_t>(cfg.min_chunk_spatial_eval))));
-			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int64_t>(cfg.min_chunk_vector_bf))));
+			if (j.contains("vector_first_overfetch")) {
+			  cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int64_t>(cfg.overfetch))));
+			}
+			if (j.contains("bbox_ratio_threshold")) {
+			  cfg.bbox_ratio_threshold = (std::min)(1.0, (std::max)(0.0, j.value("bbox_ratio_threshold", cfg.bbox_ratio_threshold)));
+			}
+			if (j.contains("min_chunk_spatial_eval")) {
+			  cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int64_t>(cfg.min_chunk_spatial_eval))));
+			}
+			if (j.contains("min_chunk_vector_bf")) {
+			  cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int64_t>(cfg.min_chunk_vector_bf))));
+			}
 		}
 	} catch (...) {
      THEMIS_WARN("query_engine::loadHybridConfig_: unhandled exception caught");
@@ -4344,11 +4701,17 @@ enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 	double bbox_ratio_threshold,
 	const std::optional<std::vector<std::string>>& eqPrefilter
 ) {
-	if (!vectorIdx) return VGPlan::SpatialThenVector;
+	if (!vectorIdx) {
+	  return VGPlan::SpatialThenVector;
+	}
 	// If we cannot parse a bbox, prefer vector-first (no good spatial mask)
 	auto bbox = extractBBoxFromFilter(q.spatial_filter);
-	if (!bbox.has_value()) return VGPlan::VectorThenSpatial;
-	if (!spatialIdx || !spatialIdx->hasSpatialIndex(q.table)) return VGPlan::SpatialThenVector;
+	if (!bbox.has_value()) {
+	  return VGPlan::VectorThenSpatial;
+	}
+	if (!spatialIdx || !spatialIdx->hasSpatialIndex(q.table)) {
+	  return VGPlan::SpatialThenVector;
+	}
 	// Estimate selectivity via bbox area ratio
 	auto stats = spatialIdx->getStats(q.table);
 	const auto& tb = stats.total_bounds;
@@ -4358,10 +4721,14 @@ enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 	// Integrate equality prefilter cardinality: if strongly selective (< 5% of table estimated) prefer vector-first even if bbox small.
 		if (eqPrefilter && !eqPrefilter->empty()) {
 			// crude heuristic: treat prefilter size as candidate universe
-			if (eqPrefilter->size() < stats.entry_count * 0.05) return VGPlan::VectorThenSpatial;
+			if (eqPrefilter->size() < stats.entry_count * 0.05) {
+			  return VGPlan::VectorThenSpatial;
+			}
 		}
 	// Heuristic: configurable threshold on bbox ratio
-	if (ratio >= bbox_ratio_threshold) return VGPlan::VectorThenSpatial;
+	if (ratio >= bbox_ratio_threshold) {
+	  return VGPlan::VectorThenSpatial;
+	}
 	return VGPlan::SpatialThenVector;
 }
 
@@ -4388,19 +4755,28 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		struct RangeAcc { std::optional<std::string> lower; bool includeLower=true; std::optional<std::string> upper; bool includeUpper=true; };
 		std::unordered_map<std::string, RangeAcc> rangeMap;
 		// Gleichheits-Map für Composite Index Auswertung
-		std::unordered_map<std::string, std::string> equalityMap;
+		std::unordered_map<std::string, std::string> equalityMap = {};
+
 		// Sammle einfache Gleichheiten + Ranges
 		for (auto &ef : q.extra_filters) {
-			if (!ef) continue;
+			if (!ef) {
+			  continue;
+			}
 			auto *bin = dynamic_cast<query::BinaryOpExpr*>(ef.get());
-			if (!bin) continue;
+			if (!bin) {
+			  continue;
+			}
 			auto *fa = dynamic_cast<query::FieldAccessExpr*>(bin->left.get());
 			auto *lit = dynamic_cast<query::LiteralExpr*>(bin->right.get());
-			if (!fa || !lit) continue;
+			if (!fa || !lit) {
+			  continue;
+			}
 			auto *var = dynamic_cast<query::VariableExpr*>(fa->object.get()); if (!var) continue;
 			// Literal -> String
-			std::string value;
-			if (std::holds_alternative<std::string>(lit->value)) value = std::get<std::string>(lit->value);
+			std::string value = {};
+			if (std::holds_alternative<std::string>(lit->value)) {
+			  value = std::get<std::string>(lit->value);
+			}
 			else if (std::holds_alternative<int64_t>(lit->value)) value = std::to_string(std::get<int64_t>(lit->value));
 			else if (std::holds_alternative<double>(lit->value)) { std::ostringstream oss; oss<<std::get<double>(lit->value); value=oss.str(); }
 			else if (std::holds_alternative<bool>(lit->value)) value = std::get<bool>(lit->value)?"true":"false"; else continue;
@@ -4409,7 +4785,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				auto [st, keys] = secIdx_->scanKeysEqual(q.table, fa->field, value); if (!st.ok) continue; tbb::parallel_sort(keys.begin(), keys.end());
 				if (first) { current = std::move(keys); first=false; }
 				else {
-					std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
+					std::vector<std::string> intersected; intersected.reserve(std::min(current.size(),static_cast<int>(keys.size())));
 					auto it1=current.begin(); auto it2=keys.begin();
 					while(it1!=current.end() && it2!=keys.end()) { if(*it1<*it2) ++it1; else if(*it2<*it1) ++it2; else { intersected.push_back(*it1); ++it1; ++it2; } }
 					current.swap(intersected);
@@ -4419,7 +4795,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				continue;
 			}
 			// Range via RangeIndex
-			if ((bin->op == query::BinaryOperator::Gt || bin->op == query::BinaryOperator::Gte || bin->op == query::BinaryOperator::Lt || bin->op == query::BinaryOperator::Lte) && secIdx_->hasRangeIndex(q.table, fa->field)) {
+			if (((bin->op == query::BinaryOperator::Gt || bin->op == query::BinaryOperator::Gte || bin->op == query::BinaryOperator::Lt || bin->op == query::BinaryOperator::Lte)) && secIdx_->hasRangeIndex(q.table, fa->field)) {
 				auto &acc = rangeMap[fa->field];
 				if (bin->op == query::BinaryOperator::Gt) { acc.lower = value; acc.includeLower=false; }
 				else if (bin->op == query::BinaryOperator::Gte) { acc.lower = value; acc.includeLower=true; }
@@ -4434,7 +4810,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				auto allStats = secIdx_->getAllIndexStats(q.table);
 				for (const auto &st : allStats) {
 					// Heuristik: Spaltenliste enthält '+' => Composite
-					if (st.column.find('+') == std::string::npos) continue;
+					if (st.column.find('+') == std::string::npos) {
+					  continue;
+					}
 					// Zerlege Spalten
 					std::vector<std::string> cols; cols.reserve(4);
 					{
@@ -4443,15 +4821,21 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					// Prüfe ob alle Spalten Gleichheit haben
 					std::vector<std::string> vals; vals.reserve(cols.size()); bool all=true;
 					for (auto &c : cols) { auto it = equalityMap.find(c); if (it==equalityMap.end()) { all=false; break; } vals.push_back(it->second); }
-					if (!all) continue;
+					if (!all) {
+					  continue;
+					}
 					// Prüfe Existenz des Composite Index explizit
-					if (!secIdx_->hasCompositeIndex(q.table, cols)) continue;
+					if (!secIdx_->hasCompositeIndex(q.table, cols)) {
+					  continue;
+					}
 					auto [cst, keys] = secIdx_->scanKeysEqualComposite(q.table, cols, vals);
-					if (!cst.ok) continue;
+					if (!cst.ok) {
+					  continue;
+					}
 					tbb::parallel_sort(keys.begin(), keys.end());
 					if (first) { current = std::move(keys); first=false; }
 					else {
-						std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
+						std::vector<std::string> intersected; intersected.reserve(std::min(current.size(),static_cast<int>(keys.size())));
 						auto it1=current.begin(); auto it2=keys.begin();
 						while(it1!=current.end() && it2!=keys.end()) { if(*it1<*it2) ++it1; else if(*it2<*it1) ++it2; else { intersected.push_back(*it1); ++it1; ++it2; } }
 						current.swap(intersected);
@@ -4465,7 +4849,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		}
 		// Wende Range-Prädikate an (intersect) in stabiler Reihenfolge an,
 		// damit Tracing/Debugging nicht von unordered_map-Iteration abhängt.
-		std::vector<std::string> sortedRangeColumns;
+		std::vector<std::string> sortedRangeColumns = {};
+
 		sortedRangeColumns.reserve(rangeMap.size());
 		for (const auto& kv : rangeMap) {
 			sortedRangeColumns.push_back(kv.first);
@@ -4478,11 +4863,13 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			}
 			const auto& range = itRange->second;
 			auto [st, keys] = secIdx_->scanKeysRange(q.table, column, range.lower, range.upper, range.includeLower, range.includeUpper, 100000, false);
-			if (!st.ok) continue;
+			if (!st.ok) {
+			  continue;
+			}
 			tbb::parallel_sort(keys.begin(), keys.end());
 			if (first) { current = std::move(keys); first=false; }
 			else {
-				std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
+				std::vector<std::string> intersected; intersected.reserve(std::min(current.size(),static_cast<int>(keys.size())));
 				auto it1=current.begin(); auto it2=keys.begin();
 				while(it1!=current.end() && it2!=keys.end()) { if(*it1<*it2) ++it1; else if(*it2<*it1) ++it2; else { intersected.push_back(*it1); ++it1; ++it2; } }
 				current.swap(intersected);
@@ -4508,13 +4895,19 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		if (vectorIdx_) {
 			// Falls Index-Prefilter vorhanden, als Whitelist verwenden
 			auto [st, vr] = vectorIdx_->searchKnn(q.query_vector, k, indexPrefilter ? &*indexPrefilter : nullptr);
-			if (!st.ok) return Err<std::vector<VectorGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+			if (!st.ok) {
+			  return Err<std::vector<VectorGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
+			}
 			// Lade Entities
 			std::vector<std::string> keys; keys.reserve(vr.size());
-			for (auto& r : vr) keys.emplace_back(q.table + ":" + r.pk);
+			for (auto& r : vr) {
+			  keys.emplace_back(q.table + ":" + r.pk);
+			}
 			auto blobs = db_->multiGet(keys);
-			for (size_t i=0;i<vr.size();++i) {
-				if (!blobs[i].has_value()) continue;
+			for (size_t i = 0; i < vr.size();++i) {
+				if (!blobs[i].has_value()) {
+				  continue;
+				}
 				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch (...) { continue; }
 				// Evaluate extra filters conjunctively
 				bool ok = true;
@@ -4522,7 +4915,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					EvaluationContext ctx; ctx.bind("doc", doc);
 					for (auto& ef : q.extra_filters) { if (!evaluateCondition(ef, ctx)) { ok = false; break; } }
 				}
-				if (!ok) continue;
+				if (!ok) {
+				  continue;
+				}
 				VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc); results.emplace_back(std::move(r));
 			}
 			return Ok(std::move(results));
@@ -4538,16 +4933,22 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				BaseEntity entity = BaseEntity::deserialize(pk, blob);
 				doc = nlohmann::json::parse(entity.toJson());
 			} catch (...) { return true; }
-			if (!doc.contains(q.vector_field) || !doc[q.vector_field].is_array()) return true;
+			if (!doc.contains(q.vector_field) || !doc[q.vector_field].is_array()) {
+			  return true;
+			}
 			std::vector<float> vec = doc[q.vector_field].get<std::vector<float>>();
-			if (vec.size() != q.query_vector.size()) return true;
+			if (static_cast<int>(vec.size()) != static_cast<int>(q.query_vector.size())) {
+			  return true;
+			}
 			EvaluationContext ctx; ctx.bind("doc", doc);
 			bool ok = true;
 			for (auto& ef : q.extra_filters) {
 				if (!evaluateCondition(ef, ctx)) { ok = false; break; }
 			}
-			if (!ok) return true;
-			float d = simd::l2_distance(vec.data(), q.query_vector.data(), vec.size());
+			if (!ok) {
+			  return true;
+			}
+			float d = simd::l2_distance(vec.data(), q.query_vector.data(),static_cast<int>(vec.size()));
 			tmp.emplace_back(pk, d);
 			return true;
 		});
@@ -4613,16 +5014,20 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			child0.setStatus(false, st.message);
 		} else {
 			// Load entities in batch
-			std::vector<std::string> keys;
+			std::vector<std::string> keys = {};
+
 			keys.reserve(vr.size());
-			for (const auto& r : vr) keys.emplace_back(q.table + ":" + r.pk);
+			for (const auto& r : vr) {
+			  keys.emplace_back(q.table + ":" + r.pk);
+			}
 			auto blobs = db_->multiGet(keys);
 
 			// Evaluate spatial filter in parallel
-			std::vector<VectorGeoResult> local;
+			std::vector<VectorGeoResult> local = {};
+
 			local.reserve(vr.size());
 			const size_t n = vr.size();
-			const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
+			const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency());
 			const size_t CHUNK = std::max<std::size_t>(cfg.min_chunk_spatial_eval, (n + T - 1) / T);
 			std::vector<std::vector<VectorGeoResult>> buckets((n + CHUNK - 1) / CHUNK);
 			tbb::task_group tg;
@@ -4633,7 +5038,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					std::vector<VectorGeoResult> buf;
 					buf.reserve(end - start);
 					for (size_t i = start; i < end; ++i) {
-						if (!blobs[i].has_value()) continue;
+						if (!blobs[i].has_value()) {
+						  continue;
+						}
 						nlohmann::json doc;
 						try {
 							// Deserialize MessagePack blob to BaseEntity, then convert to JSON
@@ -4665,7 +5072,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				}
 				return a.vector_distance < b.vector_distance;
 			});
-			if (results.size() > q.k) results.resize(q.k);
+			if (static_cast<int>(results.size()) > q.k) {
+			  results.resize(q.k);
+			}
 			child0.setAttribute("vector_first_after_spatial", static_cast<int64_t>(results.size()));
 			child0.setStatus(true);
 			span.setAttribute("result_count", static_cast<int64_t>(results.size()));
@@ -4697,14 +5106,18 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			
 			// Use R-Tree range query
 			auto indexResults = spatialIdx_->searchWithin(q.table, *bbox);
-			THEMIS_INFO("VectorGeo: spatial_index returned {} candidates", indexResults.size());
+			THEMIS_INFO("VectorGeo: spatial_index returned {} candidates",static_cast<int>(indexResults.size()));
 			// Batch-load entities for candidates
 			std::vector<std::string> keys; keys.reserve(indexResults.size());
-			for (const auto& r : indexResults) keys.emplace_back(q.table + ":" + r.primary_key);
+			for (const auto& r : indexResults) {
+			  keys.emplace_back(q.table + ":" + r.primary_key);
+			}
 			auto blobs = db_->multiGet(keys);
 			for (size_t i = 0; i < indexResults.size(); ++i) {
 				const auto& r = indexResults[i];
-				if (!blobs[i].has_value()) continue;
+				if (!blobs[i].has_value()) {
+				  continue;
+				}
 				try {
 					// Deserialize MessagePack blob to BaseEntity, then convert to JSON
 					BaseEntity entity = BaseEntity::deserialize(r.primary_key, *blobs[i]);
@@ -4829,7 +5242,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	std::vector<std::pair<std::string, float>> vectorResults;
 	vectorResults.reserve(spatialCandidates.size());
 	const size_t n = spatialCandidates.size();
-	const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
+	const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency());
 	const size_t CHUNK = std::max<std::size_t>(cfg.min_chunk_vector_bf, (n + T - 1) / T);
 	std::vector<std::vector<std::pair<std::string, float>>> buckets((n + CHUNK - 1) / CHUNK);
 	tbb::task_group tg2;
@@ -4842,18 +5255,26 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (size_t i = start; i < end; ++i) {
 				const auto& pk = spatialCandidates[i];
 				const auto it = entityCache.find(pk);
-				if (it == entityCache.end()) continue;
+				if (it == entityCache.end()) {
+				  continue;
+				}
 				const auto& entity = it->second;
-				if (!entity.contains(q.vector_field) || !entity[q.vector_field].is_array()) continue;
+				if (!entity.contains(q.vector_field) || !entity[q.vector_field].is_array()) {
+				  continue;
+				}
 				// Evaluate extra filters again (not cached in brute force vector phase for spatial-first plan)
 				if (!q.extra_filters.empty()) {
 					EvaluationContext ctx; ctx.bind("doc", entity);
 					bool ok = true; for (auto& ef : q.extra_filters) { if (!evaluateCondition(ef, ctx)) { ok=false; break; } }
-					if (!ok) continue;
+					if (!ok) {
+					  continue;
+					}
 				}
 				std::vector<float> vec = entity[q.vector_field].get<std::vector<float>>();
-				if (vec.size() != q.query_vector.size()) continue;
-				float d = simd::l2_distance(vec.data(), q.query_vector.data(), vec.size());
+				if (static_cast<int>(vec.size()) != static_cast<int>(q.query_vector.size())) {
+				  continue;
+				}
+				float d = simd::l2_distance(vec.data(), q.query_vector.data(),static_cast<int>(vec.size()));
 				buf.emplace_back(pk, d);
 			}
 			buckets[bi] = std::move(buf);
@@ -4914,7 +5335,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		);
 	}
 
-	std::vector<ContentGeoResult> results;
+	std::vector<ContentGeoResult> results = {};
+
 	if (!q.spatial_filter) {
 		return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Content+Geo query requires spatial_filter");
 	}
@@ -4952,9 +5374,9 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		std::unordered_map<std::string,double> bm25; bm25.reserve(ftResults.size());
 		for (const auto &kv : ftResults) { keys.emplace_back(q.table+":"+kv.pk); pks.emplace_back(kv.pk); bm25.try_emplace(kv.pk, kv.score); }
 		auto blobs = db_->multiGet(keys);
-		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
+		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
-		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
+		for (size_t bi = 0; bi < buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		// [WAVE3B-FIX: blocking_no_timeout — query_engine.cpp inline tg.wait()]
 		// Replace inline tg.wait() (advisory post-fact) with tbbWaitWithTimeout()
 		// so stalled content-geo morsels are cancelled within the query timeout.
@@ -4967,7 +5389,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		// Spatial-first Plan: verwende SpatialIndex zur Kandidatenmenge, dann naive Fulltext-Evaluation
 		auto childS = Tracer::startSpan("phase1.spatial_first_candidates");
 		std::vector<std::string> spatialCandidates;
-		std::unordered_map<std::string,nlohmann::json> cache;
+		std::unordered_map<std::string,nlohmann::json> cache = {};
+
 		if (spatialIdx_) {
 			auto bbox = extractBBoxFromFilter(q.spatial_filter);
 			if (bbox) {
@@ -4976,9 +5399,11 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				spatialCandidates.reserve(indexResults.size());
 				cache.reserve(indexResults.size());
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
-				for (auto &r : indexResults) keys.emplace_back(q.table+":"+r.primary_key);
+				for (auto &r : indexResults) {
+				  keys.emplace_back(q.table+":"+r.primary_key);
+				}
 				auto blobs = db_->multiGet(keys);
-				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.emplace_back(indexResults[i].primary_key); cache.emplace(indexResults[i].primary_key, std::move(doc));} catch (...) {} }
+				for (size_t i = 0; i < indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.emplace_back(indexResults[i].primary_key); cache.emplace(indexResults[i].primary_key, std::move(doc));} catch (...) {} }
 			} else {
 				childS.setAttribute("method","bbox_extract_failed_fallback_scan");
 			}
@@ -4993,12 +5418,16 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		for (auto &pk : spatialCandidates) {
 			const auto it = cache.find(pk); if (it==cache.end()) continue;
 			const auto &doc = it->second;
-			if (!doc.contains(q.text_field)) continue;
-			std::string text;
+			if (!doc.contains(q.text_field)) {
+			  continue;
+			}
+			std::string text = {};
 			try { if (doc[q.text_field].is_string()) text = doc[q.text_field].get<std::string>(); else continue; } catch (...) { continue; }
 			auto docTokens = SecondaryIndexManager::tokenize(text); std::unordered_set<std::string> docSet(docTokens.begin(), docTokens.end());
 			bool all=true; for(auto &t : tokenSet){ if(docSet.find(t)==docSet.end()){ all=false; break; } }
-			if (!all) continue;
+			if (!all) {
+			  continue;
+			}
 			ContentGeoResult r; r.pk = pk; r.entity = doc; r.bm25_score = static_cast<double>(tokenSet.size());
 			if (q.boost_by_distance && q.center_point){ if (doc.contains(q.geom_field)){ nlohmann::json geom; if(doc[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(doc[q.geom_field].get<std::string>()); } catch (...) {} } else if(doc[q.geom_field].is_object()){ geom=doc[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } }
 			results.emplace_back(std::move(r));
@@ -5025,7 +5454,9 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			return a.bm25_score > b.bm25_score;
 		});
 	}
-	if (results.size() > q.limit) results.resize(q.limit);
+	if (static_cast<int>(results.size()) > q.limit) {
+	  results.resize(q.limit);
+	}
 	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return Ok(std::move(results));
 }
 

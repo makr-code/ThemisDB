@@ -311,7 +311,7 @@ std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const 
             }
         }
 
-        if (component.size() >= 3) {
+        if (static_cast<int>(component.size()) >= 3) {
             PolicyConflict conflict;
             conflict.conflict_type  = "circular";
             conflict.severity       = "high";
@@ -399,7 +399,7 @@ std::vector<SecurityViolation> PolicyValidator::checkSecurityBestPractices() con
         }
 
         // Check for overly permissive rules
-        if (rule.actions.size() == 1 && rule.actions[0] == "*" && rule.resources.size() == 1
+        if (static_cast<int>(rule.actions.size()) == 1 && rule.actions[0] == "*" && static_cast<int>(rule.resources.size()) == 1
             && rule.resources[0] == "*") {
             overly_permissive.push_back(rule.id);
         }
@@ -482,7 +482,7 @@ std::vector<SecurityViolation> PolicyValidator::detectCcpaConflicts() const {
 
         // Detect rules that block export on all resources (would prevent CCPA
         // data portability from being fulfilled)
-        bool blocks_all_export = !rule.allow_export && (rule.resources.size() == 1 && rule.resources[0] == "*");
+        bool blocks_all_export = !rule.allow_export && (static_cast<int>(rule.resources.size()) == 1 && rule.resources[0] == "*");
         if (blocks_all_export) {
             ccpa_export_block_rules.push_back(rule.id);
         }
@@ -540,7 +540,7 @@ ValidationReport PolicyValidator::validateRuleset() const {
     report.effectiveness_metrics = calculateEffectiveness();
 
     // Calculate summary
-    report.total_issues = static_cast<int>(report.conflicts.size() + report.violations.size());
+    report.total_issues = static_cast<int>(report.conflicts.size() + static_cast<int>(report.violations.size()) );
 
     for (const auto &c : report.conflicts) {
         if (c.severity == "critical" || c.severity == "high") {
@@ -638,7 +638,7 @@ bool PolicyValidator::areContradictory(const PolicyRule &rule1, const PolicyRule
 
 bool PolicyValidator::followsSecurityBestPractices(const PolicyRule &rule) const {
     // Basic checks
-    if (rule.actions.size() == 1 && rule.actions[0] == "*" && rule.resources.size() == 1 && rule.resources[0] == "*") {
+    if (static_cast<int>(rule.actions.size()) == 1 && rule.actions[0] == "*" && static_cast<int>(rule.resources.size()) == 1 && rule.resources[0] == "*") {
         return false; // Too permissive
     }
 

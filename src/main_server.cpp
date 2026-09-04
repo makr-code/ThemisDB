@@ -298,7 +298,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--port") {
-            std::string port_value;
+            std::string port_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, port_value, error_message)) {
                 return false;
             }
@@ -318,7 +318,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--threads") {
-            std::string threads_value;
+            std::string threads_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, threads_value, error_message)) {
                 return false;
             }
@@ -333,7 +333,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--config") {
-            std::string config_value;
+            std::string config_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, config_value, error_message)) {
                 return false;
             }
@@ -347,7 +347,7 @@ bool parse_server_command_line(int argc,
         }
 
         if (arg_view == "--server-profile") {
-            std::string profile_value;
+            std::string profile_value = {};
             if (!consume_next_value(argc, argv, index, arg_view, profile_value, error_message)) {
                 return false;
             }
@@ -449,7 +449,7 @@ static bool initializeMimalloc() {
 }
 #endif
 
-void signalHandler(int signal) {
+void signalHandler([[maybe_unused]] int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
         // Only use async-signal-safe operations in signal handler
         // Write to stderr is async-signal-safe, unlike logging
@@ -492,7 +492,7 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     int path_len = snprintf(
         dump_path,
         sizeof(dump_path),
-        "logs\\themis_server_crash_%04u%02u%02u_%02u%02u%02u_pid%lu_tid%lu.dmp",
+        "logs\\themis_server_crash_%04%02%02u_%02%02%02u_pid%lu_tid%lu.dmp",
         static_cast<unsigned>(st.wYear),
         static_cast<unsigned>(st.wMonth),
         static_cast<unsigned>(st.wDay),
@@ -575,7 +575,7 @@ LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
 
     const auto* record = pExp ? pExp->ExceptionRecord : nullptr;
     const auto* context = pExp ? pExp->ContextRecord : nullptr;
-    const auto code = record ? record->ExceptionCode : 0u;
+    const auto code = record ? record->ExceptionCode : 0;
     const char* exception_name = "UNKNOWN";
     switch (code) {
         case EXCEPTION_ACCESS_VIOLATION:
@@ -683,7 +683,9 @@ void hsmSecurityWarningLoop() {
             std::this_thread::sleep_for(seconds(1));
         }
         
-        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) break;
+        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
+          break;
+        }
         
         // Perform HSM security check
         if (g_hsm_provider) {
@@ -730,7 +732,7 @@ int main(int argc, char* argv[]) {
     
     // --- Early argument parsing (no heavy initialization) ---
     ServerCommandLineOptions command_line_options;
-    std::string command_line_error;
+    std::string command_line_error = {};
     if (!parse_server_command_line(argc, argv, command_line_options, command_line_error)) {
         std::cerr << command_line_error << std::endl;
         print_usage(std::cerr, argv[0]);
@@ -763,12 +765,12 @@ int main(int argc, char* argv[]) {
     // logs/ folder is bin/../logs/).  Create the directory unconditionally so the first
     // log-write never fails due to a missing parent.
     {
-        std::error_code _logs_ec;
+        std::error_code _logs_ec = {};
         std::filesystem::create_directories("../logs", _logs_ec); // bin/../logs
         std::filesystem::create_directories("logs", _logs_ec);    // cwd fallback
     }
     utils::Logger::initRotating("../logs/themis_server.log",
-                                10ULL * 1024ULL * 1024ULL,  // 10 MB per file
+                                10 * 1024 * 1024,  // 10 MB per file
                                 5,                           // keep 5 rotations
                                 utils::Logger::Level::INFO);
 
@@ -795,7 +797,7 @@ int main(int argc, char* argv[]) {
             auto build_config = themis::build_info::getBuildConfiguration();
             std::string build_info = themis::build_info::formatBuildInfo(build_config);
             std::istringstream iss(build_info);
-            std::string line;
+            std::string line = {};
             while (std::getline(iss, line)) {
                 std::cout << line << std::endl;
             }
@@ -829,7 +831,7 @@ int main(int argc, char* argv[]) {
         std::string build_info = themis::build_info::formatBuildInfo(build_config);
         // Log the formatted build info (line by line to preserve formatting)
         std::istringstream iss(build_info);
-        std::string line;
+        std::string line = {};
         while (std::getline(iss, line)) {
             THEMIS_INFO("{}", line);
         }
@@ -844,7 +846,7 @@ int main(int argc, char* argv[]) {
             std::string license_info = themis::license::formatLicenseInfo(*license);
             // Log the formatted license info (line by line to preserve formatting)
             std::istringstream iss(license_info);
-            std::string line;
+            std::string line = {};
             while (std::getline(iss, line)) {
                 THEMIS_INFO("{}", line);
             }
@@ -923,8 +925,12 @@ int main(int argc, char* argv[]) {
         // and THEMIS_LICENSE_API_KEY in their environment / config.
         const char* ls_url = std::getenv("THEMIS_LICENSE_SERVER_URL");
         const char* ls_key = std::getenv("THEMIS_LICENSE_API_KEY");
-        if (ls_url) lc_cfg.server_url = ls_url;
-        if (ls_key) lc_cfg.api_key    = ls_key;
+        if (ls_url) {
+          lc_cfg.server_url = ls_url;
+        }
+        if (ls_key) {
+          lc_cfg.api_key    = ls_key;
+        }
         lc_cfg.allow_offline = true;
 
         themis::license::LicenseClient lc(lc_cfg);
@@ -972,10 +978,10 @@ int main(int argc, char* argv[]) {
         const auto& config_path = command_line_options.config_path;
         
         // Load config (JSON or YAML) if provided or in default locations
-        auto load_config = [&](const std::string& path) -> std::optional<json> {
+        auto load_config = [&]([[maybe_unused]] const std::string& path) -> std::optional<json> {
             try {
                 auto ends_with = [](const std::string& s, const std::string& suffix){
-                    return s.size() >= suffix.size() && s.compare(s.size()-suffix.size(), suffix.size(), suffix) == 0;
+                    return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
                 };
 
                 if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
@@ -984,8 +990,10 @@ int main(int argc, char* argv[]) {
                     }
                     YAML::Node root = YAML::LoadFile(path);
                     // recursive conversion YAML -> JSON
-                    std::function<json(const YAML::Node&)> to_json = [&](const YAML::Node& n) -> json {
-                        if (!n) return nullptr;
+                    std::function<json(const YAML::Node&)> to_json = [&]([[maybe_unused]] const YAML::Node& n) -> json {
+                        if (!n) {
+                          return nullptr;
+                        }
                         if (n.IsScalar()) {
                             // Try boolean
                             try { return n.as<bool>(); } catch (...) {}
@@ -997,7 +1005,9 @@ int main(int argc, char* argv[]) {
                             return n.as<std::string>("");
                         } else if (n.IsSequence()) {
                             json arr = json::array();
-                            for (const auto& it : n) arr.push_back(to_json(it));
+                            for (const auto& it : n) {
+                              arr.push_back(to_json(it));
+                            }
                             return arr;
                         } else if (n.IsMap()) {
                             json obj = json::object();
@@ -1034,7 +1044,8 @@ int main(int argc, char* argv[]) {
             }
         };
 
-        std::optional<json> cfg;
+        std::optional<json> cfg = {};
+
         if (config_path) {
             cfg = load_config(*config_path);
             if (!cfg) {
@@ -1119,24 +1130,46 @@ int main(int argc, char* argv[]) {
             // storage
             if (cfg->contains("storage")) {
                 const auto& s = (*cfg)["storage"];
-                if (s.contains("rocksdb_path")) db_config.db_path = s["rocksdb_path"].get<std::string>();
-                if (s.contains("memtable_size_mb")) db_config.memtable_size_mb = s["memtable_size_mb"].get<size_t>();
-                if (s.contains("block_cache_size_mb")) db_config.block_cache_size_mb = s["block_cache_size_mb"].get<size_t>();
-                if (s.contains("enable_blobdb")) db_config.enable_blobdb = s["enable_blobdb"].get<bool>();
-                if (s.contains("enable_high_parallel_tuning")) db_config.enable_high_parallel_tuning = s["enable_high_parallel_tuning"].get<bool>();
-                if (s.contains("high_parallel_thread_threshold")) db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get<int>();
+                if (s.contains("rocksdb_path")) {
+                  db_config.db_path = s["rocksdb_path"].get<std::string>();
+                }
+                if (s.contains("memtable_size_mb")) {
+                  db_config.memtable_size_mb = s["memtable_size_mb"].get<size_t>();
+                }
+                if (s.contains("block_cache_size_mb")) {
+                  db_config.block_cache_size_mb = s["block_cache_size_mb"].get<size_t>();
+                }
+                if (s.contains("enable_blobdb")) {
+                  db_config.enable_blobdb = s["enable_blobdb"].get<bool>();
+                }
+                if (s.contains("enable_high_parallel_tuning")) {
+                  db_config.enable_high_parallel_tuning = s["enable_high_parallel_tuning"].get<bool>();
+                }
+                if (s.contains("high_parallel_thread_threshold")) {
+                  db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get<int>();
+                }
                 if (s.contains("compression")) {
                     const auto& c = s["compression"];
-                    if (c.contains("default")) db_config.compression_default = c["default"].get<std::string>();
-                    if (c.contains("bottommost")) db_config.compression_bottommost = c["bottommost"].get<std::string>();
+                    if (c.contains("default")) {
+                      db_config.compression_default = c["default"].get<std::string>();
+                    }
+                    if (c.contains("bottommost")) {
+                      db_config.compression_bottommost = c["bottommost"].get<std::string>();
+                    }
                 }
             }
             // server
             if (cfg->contains("server")) {
                 const auto& sv = (*cfg)["server"];
-                if (sv.contains("host")) host = sv["host"].get<std::string>();
-                if (sv.contains("port")) port = static_cast<uint16_t>(sv["port"].get<int>());
-                if (sv.contains("worker_threads")) num_threads = sv["worker_threads"].get<size_t>();
+                if (sv.contains("host")) {
+                  host = sv["host"].get<std::string>();
+                }
+                if (sv.contains("port")) {
+                  port = static_cast<uint16_t>(sv["port"].get<int>());
+                }
+                if (sv.contains("worker_threads")) {
+                  num_threads = sv["worker_threads"].get<size_t>();
+                }
             }
             // features (beta)
             if (cfg->contains("features")) {
@@ -1271,7 +1304,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_CRITICAL("HSM stub provider active without explicit opt-in; startup validation will block launch");
             }
         if (runtime_stub_active) {
-            THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
+            THEMIS_WARN("HS[[maybe_unused]] M stu[[maybe_unused]] b provide[[maybe_unused]] r activ[[maybe_unused]] e vi[[maybe_unused]] a explici[[maybe_unused]] t insecur[[maybe_unused]] e overrid[[maybe_unused]] e (DEVELOPMEN[[maybe_unused]] T ONL[[maybe_unused]] Y)");
             startHSMWarningThread();
         } else {
             THEMIS_INFO("HSM provider is hardware-backed - production ready");
@@ -1332,7 +1365,7 @@ int main(int argc, char* argv[]) {
         auto vector_index = std::make_shared<VectorIndexManager>(*db);
 
         // Parse vector_index config and initialize (optional auto-load)
-        std::string vector_save_path;
+        std::string vector_save_path = {};
         if (cfg && cfg->contains("vector_index")) {
             const auto& vi = (*cfg)["vector_index"];
             std::string object_name = vi.value("object_name", std::string());
@@ -1380,7 +1413,7 @@ int main(int argc, char* argv[]) {
         std::shared_ptr<themis::tensor::TensorIndexManager> tensor_index_mgr;
         std::shared_ptr<themis::tensor::TensorCoreStorageBridge> tensor_core_bridge;
         std::shared_ptr<themis::tensor::TensorIngestionBridge> tensor_ingest_bridge;
-        std::string tensor_data_dir;
+        std::string tensor_data_dir = {};
 
         if (cfg && cfg->contains("tensor_index")) {
             const auto& ti = (*cfg)["tensor_index"];
@@ -1388,7 +1421,7 @@ int main(int argc, char* argv[]) {
 
             // Create directory if it does not exist.
             {
-                std::error_code ec;
+                std::error_code ec = {};
                 std::filesystem::create_directories(tensor_data_dir, ec);
                 if (ec) {
                     THEMIS_WARN("tensor_index: could not create data_dir '{}': {}",
@@ -1593,7 +1626,7 @@ int main(int argc, char* argv[]) {
         if (cfg && cfg->contains("sse")) {
             const auto& sse = (*cfg)["sse"];
             server_config.sse_max_events_per_second = sse.value("max_events_per_second", uint32_t(0));
-            if (server_config.sse_max_events_per_second > 0) {
+            if ([[maybe_unused]] server_config.sse_max_events_per_second > 0) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
@@ -1610,7 +1643,7 @@ int main(int argc, char* argv[]) {
         wal_applier->setApplyHandler([wal_manager, db](const themis::sharding::WALEntry& entry) {
             try {
                 const std::string marker_key = "replica_applied/" + entry.lsn.toString();
-                std::string existing;
+                std::string existing = {};
                 // Idempotent: if already applied, skip
                 if (db->get(marker_key, existing)) {
                     return true;
@@ -1625,17 +1658,21 @@ int main(int argc, char* argv[]) {
                     const std::string user_key = entry.data.value("key", std::string());
                     switch (entry.type) {
                         case themis::sharding::WALEntryType::DELETE:
-                            if (!db->del(user_key)) data_ok = false;
+                            if (!db->del(user_key)) {
+                              data_ok = false;
+                            }
                             break;
                         default: {
                             // Value may be any JSON; store serialized
-                            std::string value_str;
+                            std::string value_str = {};
                             if (entry.data.contains("value")) {
                                 value_str = entry.data["value"].dump();
                             } else {
                                 value_str = entry.data.dump();
                             }
-                            if (!db->put(user_key, value_str)) data_ok = false;
+                            if (!db->put(user_key, value_str)) {
+                              data_ok = false;
+                            }
                             break;
                         }
                     }
@@ -1681,9 +1718,15 @@ int main(int argc, char* argv[]) {
             shipper_cfg.compression_level = repl.value("compression_level", 3);
             
             // mTLS paths (optional; dev can skip)
-            if (repl.contains("cert_path")) shipper_cfg.cert_path = repl["cert_path"].get<std::string>();
-            if (repl.contains("key_path")) shipper_cfg.key_path = repl["key_path"].get<std::string>();
-            if (repl.contains("ca_cert_path")) shipper_cfg.ca_cert_path = repl["ca_cert_path"].get<std::string>();
+            if (repl.contains("cert_path")) {
+              shipper_cfg.cert_path = repl["cert_path"].get<std::string>();
+            }
+            if (repl.contains("key_path")) {
+              shipper_cfg.key_path = repl["key_path"].get<std::string>();
+            }
+            if (repl.contains("ca_cert_path")) {
+              shipper_cfg.ca_cert_path = repl["ca_cert_path"].get<std::string>();
+            }
 
             // Replica endpoints
             if (repl.contains("replicas")) {
@@ -1714,7 +1757,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("Prometheus metrics exporter configured for WALShipper");
                 
                 g_wal_shipper->start();
-                THEMIS_INFO("WALShipper started with {} replica(s)", replicas.size());
+                THEMIS_INFO("WALShipper started with {} replica(s)",static_cast<int>(replicas.size()));
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Failed to start WALShipper: {}", e.what());
             }
@@ -1723,7 +1766,8 @@ int main(int argc, char* argv[]) {
         }
 
         // Create ReplicationCoordinator (wraps shipper for write concern enforcement)
-        std::shared_ptr<themis::sharding::ReplicationCoordinator> replication_coordinator;
+        std::shared_ptr<themis::sharding::ReplicationCoordinator> replication_coordinator = {};
+
         if (g_wal_shipper) {
             replication_coordinator = std::make_shared<themis::sharding::ReplicationCoordinator>(g_wal_shipper);
             THEMIS_INFO("ReplicationCoordinator created for write concern enforcement");
@@ -1764,7 +1808,7 @@ int main(int argc, char* argv[]) {
                 }
 
                 multi_primary_coordinator = std::make_shared<themis::sharding::MultiPrimaryCoordinator>(mp_cfg);
-                THEMIS_INFO("MultiPrimaryCoordinator enabled with {} nodes", mp_cfg.primary_node_ids.size());
+                THEMIS_INFO("MultiPrimaryCoordinator enabled with {} nodes",static_cast<int>(mp_cfg.primary_node_ids.size()));
 
                 // Health monitor (optional)
                 themis::sharding::HealthMonitorConfig hm_cfg;
@@ -1776,7 +1820,7 @@ int main(int argc, char* argv[]) {
                     hm_cfg.health_check_timeout = std::chrono::milliseconds(
                         hm_json.value("health_check_timeout_ms", 500)
                     );
-                    hm_cfg.max_consecutive_failures = hm_json.value("max_consecutive_failures", 3u);
+                    hm_cfg.max_consecutive_failures = hm_json.value("max_consecutive_failures", 3);
                     hm_cfg.auto_failover_enabled = hm_json.value("auto_failover_enabled", true);
                     hm_cfg.auto_promote_standby = hm_json.value("auto_promote_standby", true);
                     hm_cfg.failover_cooldown = std::chrono::milliseconds(
@@ -1817,7 +1861,7 @@ int main(int argc, char* argv[]) {
             if (cfg->contains("sharding") && (*cfg)["sharding"].contains("hash_ring")) {
                 virtual_nodes = (*cfg)["sharding"]["hash_ring"].value("virtual_nodes_per_shard", 100);
             }
-            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_nodes);
+            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_node[[maybe_unused]] s);
 
             // Create shard topology
             shard_topology = std::make_shared<themis::sharding::ShardTopology>();
@@ -1862,7 +1906,9 @@ int main(int argc, char* argv[]) {
                 
                 // Parse mode
                 std::string mode_str = def.value("mode", std::string("MIRROR"));
-                if (mode_str == "NONE") default_config.mode = themis::sharding::RedundancyMode::NONE;
+                if (mode_str == "NONE") {
+                  default_config.mode = themis::sharding::RedundancyMode::NONE;
+                }
                 else if (mode_str == "MIRROR") default_config.mode = themis::sharding::RedundancyMode::MIRROR;
                 else if (mode_str == "STRIPE") default_config.mode = themis::sharding::RedundancyMode::STRIPE;
                 else if (mode_str == "STRIPE_MIRROR") default_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
@@ -1874,7 +1920,9 @@ int main(int argc, char* argv[]) {
                 
                 // Parse write concern
                 std::string wc_str = def.value("write_concern", std::string("MAJORITY"));
-                if (wc_str == "ONE") default_config.write_concern = themis::sharding::WriteConcern::ONE;
+                if (wc_str == "ONE") {
+                  default_config.write_concern = themis::sharding::WriteConcern::ONE;
+                }
                 else if (wc_str == "MAJORITY") default_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
                 else if (wc_str == "ALL") default_config.write_concern = themis::sharding::WriteConcern::ALL;
                 else if (wc_str == "QUORUM") default_config.write_concern = themis::sharding::WriteConcern::QUORUM;
@@ -1894,7 +1942,9 @@ int main(int argc, char* argv[]) {
                     
                     // Parse mode
                     std::string mode_str = coll_config.value("mode", std::string("MIRROR"));
-                    if (mode_str == "NONE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
+                    if (mode_str == "NONE") {
+                      coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
+                    }
                     else if (mode_str == "MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::MIRROR;
                     else if (mode_str == "STRIPE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE;
                     else if (mode_str == "STRIPE_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
@@ -1906,7 +1956,9 @@ int main(int argc, char* argv[]) {
                     
                     // Parse write concern
                     std::string wc_str = coll_config.value("write_concern", std::string("MAJORITY"));
-                    if (wc_str == "ONE") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
+                    if (wc_str == "ONE") {
+                      coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
+                    }
                     else if (wc_str == "MAJORITY") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
                     else if (wc_str == "ALL") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ALL;
                     else if (wc_str == "QUORUM") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::QUORUM;
@@ -1958,10 +2010,14 @@ int main(int argc, char* argv[]) {
                 themis::sharding::RedundancyStrategy::ReadHandler read_handler =
                     [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id)
                     -> std::optional<std::vector<uint8_t>> {
-                        if (!db_local) return std::nullopt;
+                        if (!db_local) {
+                          return std::nullopt;
+                        }
                         try {
                             auto val = db_local->get(doc_id);
-                            if (!val) return std::nullopt;
+                            if (!val) {
+                              return std::nullopt;
+                            }
                             return std::vector<uint8_t>(val->begin(), val->end());
                         } catch (...) {
                             return std::nullopt;
@@ -1973,7 +2029,9 @@ int main(int argc, char* argv[]) {
                 themis::sharding::RedundancyStrategy::WriteHandler write_handler =
                     [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id,
                                     const std::vector<uint8_t>& data) -> bool {
-                        if (!db_local) return false;
+                        if (!db_local) {
+                          return false;
+                        }
                         try {
                             std::string str_data(data.begin(), data.end());
                             return db_local->put(doc_id, str_data);
@@ -2351,7 +2409,9 @@ int main(int argc, char* argv[]) {
 
             std::string grpc_host = "0.0.0.0";
             int grpc_port = 50051;
-            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) grpc_host = h;
+            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) {
+              grpc_host = h;
+            }
             if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
                 try { grpc_port = std::stoi(p); } catch (...) {}
             }
@@ -2461,7 +2521,7 @@ int main(int argc, char* argv[]) {
         
         // Retention worker (optional, runs in background if enabled in config)
         std::atomic<bool> retention_stop{false};
-        std::thread retention_thread;
+        std::thread retention_thread = {};
         bool retention_enabled = false;
         int retention_interval_hours = 24;
         std::string retention_policies_path = themis::config::ConfigPathResolver::mapLegacyToNew("./config/retention_policies.yaml");
@@ -2576,7 +2636,7 @@ int main(int argc, char* argv[]) {
                                 
                                 // Map policy names to collections (example heuristic)
                                 // In production: use policy metadata or a mapping table
-                                std::string collection;
+                                std::string collection = {};
                                 if (policy_name.find("user") != std::string::npos || policy_name.find("personal") != std::string::npos) {
                                     collection = "users";
                                 } else if (policy_name.find("transaction") != std::string::npos) {
@@ -2679,7 +2739,7 @@ int main(int argc, char* argv[]) {
                                                 now.time_since_epoch()
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
-                                            audit_logger->logEvent(audit_event);
+                                            audit_logger->logEvent([[maybe_unused]] audit_event);
                                         } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log archive operation");
                                         }
@@ -2710,14 +2770,14 @@ int main(int argc, char* argv[]) {
                                     // Group archived entities by date for efficient storage management
                                     auto now = std::chrono::system_clock::now();
                                     auto now_time_t = std::chrono::system_clock::to_time_t(now);
-                                    std::tm tm_buf;
+                                    std::tm tm_buf = {};
                                     #ifdef _WIN32
                                     gmtime_s(&tm_buf, &now_time_t);
                                     #else
                                     gmtime_r(&now_time_t, &tm_buf);
                                     #endif
                                     
-                                    std::ostringstream date_str;
+                                    std::ostringstream date_str = {};
                                     date_str << std::put_time(&tm_buf, "%Y%m%d");
                                     std::string archive_file = (cold_storage_dir / ("archived_entities_" + date_str.str() + ".jsonl")).string();
                                     
@@ -2748,7 +2808,7 @@ int main(int argc, char* argv[]) {
                                             now.time_since_epoch()
                                         ).count();
                                         audit_event["classification"] = "retention_lifecycle";
-                                        audit_logger->logEvent(audit_event);
+                                        audit_logger->logEvent([[maybe_unused]] audit_event);
                                     } catch (...) {
                                         THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
                                     }
@@ -2797,7 +2857,7 @@ int main(int argc, char* argv[]) {
                                                 now.time_since_epoch()
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
-                                            audit_logger->logEvent(audit_event);
+                                            audit_logger->logEvent([[maybe_unused]] audit_event);
                                         } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log purge operation");
                                         }
@@ -2821,7 +2881,7 @@ int main(int argc, char* argv[]) {
                                         std::chrono::system_clock::now().time_since_epoch()
                                     ).count();
                                     audit_event["classification"] = "retention_lifecycle";
-                                    audit_logger->logEvent(audit_event);
+                                    audit_logger->logEvent([[maybe_unused]] audit_event);
                                 } catch (...) {
                                     THEMIS_WARN("[Retention] Failed to audit-log purge for {}", entity_id);
                                 }
@@ -3064,14 +3124,16 @@ int main(int argc, char* argv[]) {
         // Dynamic endpoint discovery from HttpServer (feature-aware, always in sync)
         try {
             auto endpoints = g_server->getRegisteredEndpoints();
-            THEMIS_INFO("Available endpoints ({} total):", endpoints.size());
+            THEMIS_INFO("Available endpoints ({} total):",static_cast<int>(endpoints.size()));
             
             // Group endpoints by category for improved readability
-            std::string current_category;
+            std::string current_category = {};
             for (const auto& ep : endpoints) {
                 // Extract category from path (e.g., "/cache/*" → "Cache", "/api/v1/schema" → "Schema")
                 std::string category = "Core";
-                if (ep.path.find("/cache/") != std::string::npos) category = "Cache (Feature)";
+                if (ep.path.find("/cache/") != std::string::npos) {
+                  category = "Cache (Feature)";
+                }
                 else if (ep.path.find("/llm/") != std::string::npos) category = "LLM (Feature)";
                 else if (ep.path.find("/changefeed") != std::string::npos) category = "CDC (Feature)";
                 else if (ep.path.find("/ts/") != std::string::npos) category = "TimeSeries (Feature)";
@@ -3185,7 +3247,9 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("[1/5] Stopping retention worker...");
         try {
             retention_stop.store(true, std::memory_order_relaxed);
-            if (retention_thread.joinable()) retention_thread.join();
+            if (retention_thread.joinable()) {
+              retention_thread.join();
+            }
             THEMIS_INFO("Retention worker stopped");
         } catch (...) {
             THEMIS_WARN("Error stopping retention worker (continuing shutdown)");

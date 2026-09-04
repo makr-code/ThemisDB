@@ -90,7 +90,8 @@ public:
     
     std::vector<std::string> list() const {
         std::lock_guard<std::mutex> lock(mutex);
-        std::vector<std::string> result;
+        std::vector<std::string> result = {};
+
         for (const auto& [id, _] : storage) {
             result.push_back(id);
         }
@@ -350,7 +351,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, AdapterManager_Cache_PinPreventsEviction)
     pinned["adapter1"] = true;  // Pin first adapter
     
     // Try to add adapter4 - should evict adapter2 or adapter3, not adapter1
-    std::string evicted;
+    std::string evicted = {};
     for (const auto& id : cache) {
         if (can_evict(id)) {
             evicted = id;
@@ -536,7 +537,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, MultiLoRAManager_MultiGPU_RoundRobin) {
     config.strategy = MultiGPUStrategy::ROUND_ROBIN;
     
     // Simulate round-robin distribution
-    std::vector<int> assignments;
+    std::vector<int> assignments = {};
+
     for (int i = 0; i < 8; i++) {
         assignments.push_back(config.devices[i % config.devices.size()]);
     }
@@ -593,7 +595,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, ThreadSafety_ConcurrentReads) {
     mock_storage_->save("concurrent_test", weights, metadata);
     
     // Concurrent reads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; i++) {
         threads.emplace_back([&]() {
             for (int j = 0; j < reads_per_thread; j++) {
@@ -616,7 +619,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, ThreadSafety_ConcurrentWrites) {
     const int num_threads = 10;
     std::atomic<int> successful_writes{0};
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; i++) {
         threads.emplace_back([&, i]() {
             auto weights = createTestWeights();
@@ -645,7 +649,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, ThreadSafety_MixedOperations) {
         mock_storage_->save("mixed_" + std::to_string(i), weights, metadata);
     }
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < num_threads; i++) {
         threads.emplace_back([&, i]() {
             if (i % 3 == 0) {
@@ -701,17 +706,23 @@ TEST_F(LoRAFrameworkComprehensiveTest, ErrorHandling_InvalidVersion_Format) {
     for (const auto& version : invalid_versions) {
         // Robust version validation: v<major>.<minor> or v<major>.<minor>.<patch>
         auto validate_version = [](const std::string& v) -> bool {
-            if (v.empty() || v[0] != 'v') return false;
+            if (v.empty() || v[0] != 'v') {
+              return false;
+            }
             std::string num_part = v.substr(1);
-            if (num_part.empty()) return false;
+            if (num_part.empty()) {
+              return false;
+            }
             
             // Check format: digits.digits or digits.digits.digits
             int dot_count = std::count(num_part.begin(), num_part.end(), '.');
-            if (dot_count < 1 || dot_count > 2) return false;
+            if (dot_count < 1 || dot_count > 2) {
+              return false;
+            }
             
             // Verify all parts are numeric
             std::istringstream ss(num_part);
-            std::string part;
+            std::string part = {};
             int part_count = 0;
             while (std::getline(ss, part, '.')) {
                 if (part.empty() || !std::all_of(part.begin(), part.end(), [](unsigned char c) { return std::isdigit(c); })) {

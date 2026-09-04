@@ -118,7 +118,7 @@ std::string GPUProfiler::rocm_profiler_export() const {
     //   "i"  instant event  (point marker)
     //
     // Timestamps are in microseconds (Chrome trace convention).
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     if (completed_ranges_.empty()) {
         oss << "{\n  \"traceEvents\": []\n}\n";

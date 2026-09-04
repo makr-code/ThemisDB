@@ -84,7 +84,7 @@ public:
         }
         
         // Evict if at capacity
-        if (cache_.size() >= config_.max_entries) {
+        if (static_cast<int>(cache_.size()) >= config_.max_entries) {
             evictLRU();
         }
         
@@ -198,7 +198,7 @@ public:
         
         if (longest) {
             stats_.hits++;
-            stats_.total_tokens_saved += longest->token_ids.size();
+            stats_.total_tokens_saved += longest-> static_cast<int>(token_ids.size());
         } else {
             stats_.misses++;
         }
@@ -277,7 +277,7 @@ private:
     }
     
     double computeSimilarity(const std::vector<float>& a, const std::vector<float>& b) const {
-        if (a.size() != b.size() || a.empty()) {
+        if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
             return 0.0;
         }
         

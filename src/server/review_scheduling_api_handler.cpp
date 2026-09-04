@@ -26,7 +26,7 @@ ReviewSchedulingApiHandler::ReviewSchedulingApiHandler(
     , auth_(std::move(auth))
 {
     if (!scheduler_) {
-        THEMIS_WARN("ReviewSchedulingApiHandler created with null ReviewScheduler");
+        THEMIS_WARN([[maybe_unused]] "ReviewSchedulingApiHandler created with null ReviewScheduler");
     }
 }
 
@@ -53,7 +53,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleListPendingR
         
         nlohmann::json response = {
             {"reviews", json_array},
-            {"count", pending.size()}
+            {"count",static_cast<int>(pending.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -148,7 +148,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview
     const http::request<http::string_body>& req,
     const std::string& review_id
 ) {
-    auto span = Tracer::startSpan("handleRejectReview");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRejectReview");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 
@@ -227,7 +227,7 @@ bool ReviewSchedulingApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    const auto auth_value = std::string(auth_header.data(), auth_header.size());
+    const auto auth_value = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {

@@ -52,7 +52,7 @@ NlpMetadataExtractor::NlpMetadataExtractor(const Config& config)
 // Extract metadata from text
 NlpMetadataExtractor::ExtractedMetadata 
 NlpMetadataExtractor::extractMetadata(const std::string& text) const {
-    ExtractedMetadata meta;
+    ExtractedMetadata meta = {};
     
     if (text.empty()) {
         return meta;
@@ -66,7 +66,7 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
             meta.keyword_scores[kw.text] = kw.score;
         }
 
-        size_t n = std::min(config_.max_keywords, keywords.size());
+        size_t n = std::min(config_.max_keywords,static_cast<int>(keywords.size()));
         meta.keywords.reserve(n);  // upper bound; filtered items may be fewer
         for (size_t i = 0; i < n; ++i) {
             if (keywords[i].text.length() >= config_.min_keyword_length) {
@@ -170,11 +170,19 @@ bool NlpMetadataExtractor::enrichEntity(
         // Entities as JSON
         if (!meta.emails.empty() || !meta.urls.empty() || 
             !meta.dates.empty() || !meta.measurements.empty()) {
-            json entities_json;
-            if (!meta.emails.empty()) entities_json["emails"] = meta.emails;
-            if (!meta.urls.empty()) entities_json["urls"] = meta.urls;
-            if (!meta.dates.empty()) entities_json["dates"] = meta.dates;
-            if (!meta.measurements.empty()) entities_json["measurements"] = meta.measurements;
+            json entities_json = {};
+            if (!meta.emails.empty()) {
+              entities_json["emails"] = meta.emails;
+            }
+            if (!meta.urls.empty()) {
+              entities_json["urls"] = meta.urls;
+            }
+            if (!meta.dates.empty()) {
+              entities_json["dates"] = meta.dates;
+            }
+            if (!meta.measurements.empty()) {
+              entities_json["measurements"] = meta.measurements;
+            }
             entity.setField("nlp_entities", entities_json.dump());
         }
         
@@ -198,12 +206,15 @@ std::vector<std::string> NlpMetadataExtractor::extractKeywords(
     auto keywords_scored = nlp_.extractKeywords(text, max_keywords);
 
     // Already sorted by score in analyzer; enforce length filter
-    std::vector<std::string> keywords;
+    std::vector<std::string> keywords = {};
+
     for (const auto& kw : keywords_scored) {
         if (kw.text.length() >= config_.min_keyword_length) {
             keywords.push_back(kw.text);
         }
-        if (keywords.size() >= max_keywords) break;
+        if (static_cast<int>(keywords.size()) >= max_keywords) {
+          break;
+        }
     }
     
     return keywords;
@@ -281,13 +292,15 @@ std::string NlpMetadataExtractor::concatenateFields(
     const BaseEntity& entity,
     const std::vector<std::string>& fields) const {
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first = true;
     
     for (const auto& field : fields) {
         auto value = entity.getFieldString(field);
         if (!value.empty()) {
-            if (!first) oss << " ";
+            if (!first) {
+              oss << " ";
+            }
             oss << value;
             first = false;
         }
@@ -338,30 +351,62 @@ NlpMetadataExtractor::ExtractedMetadata::fromJson(const std::string& json_str) {
         auto j = json::parse(json_str);
         
         // Keywords
-        if (j.contains("keywords")) meta.keywords = j["keywords"].get<std::vector<std::string>>();
-        if (j.contains("keyword_scores")) meta.keyword_scores = j["keyword_scores"].get<std::map<std::string, double>>();
+        if (j.contains("keywords")) {
+          meta.keywords = j["keywords"].get<std::vector<std::string>>();
+        }
+        if (j.contains("keyword_scores")) {
+          meta.keyword_scores = j["keyword_scores"].get<std::map<std::string, double>>();
+        }
         
         // Named entities
-        if (j.contains("emails")) meta.emails = j["emails"].get<std::vector<std::string>>();
-        if (j.contains("urls")) meta.urls = j["urls"].get<std::vector<std::string>>();
-        if (j.contains("dates")) meta.dates = j["dates"].get<std::vector<std::string>>();
-        if (j.contains("measurements")) meta.measurements = j["measurements"].get<std::vector<std::string>>();
+        if (j.contains("emails")) {
+          meta.emails = j["emails"].get<std::vector<std::string>>();
+        }
+        if (j.contains("urls")) {
+          meta.urls = j["urls"].get<std::vector<std::string>>();
+        }
+        if (j.contains("dates")) {
+          meta.dates = j["dates"].get<std::vector<std::string>>();
+        }
+        if (j.contains("measurements")) {
+          meta.measurements = j["measurements"].get<std::vector<std::string>>();
+        }
         
         // Language & sentiment
-        if (j.contains("detected_language")) meta.detected_language = j["detected_language"];
-        if (j.contains("language_confidence")) meta.language_confidence = j["language_confidence"];
-        if (j.contains("sentiment_score")) meta.sentiment_score = j["sentiment_score"];
+        if (j.contains("detected_language")) {
+          meta.detected_language = j["detected_language"];
+        }
+        if (j.contains("language_confidence")) {
+          meta.language_confidence = j["language_confidence"];
+        }
+        if (j.contains("sentiment_score")) {
+          meta.sentiment_score = j["sentiment_score"];
+        }
         
         // Text complexity
-        if (j.contains("text_complexity")) meta.text_complexity = j["text_complexity"];
-        if (j.contains("total_words")) meta.total_words = j["total_words"];
-        if (j.contains("unique_words")) meta.unique_words = j["unique_words"];
-        if (j.contains("lexical_diversity")) meta.lexical_diversity = j["lexical_diversity"];
+        if (j.contains("text_complexity")) {
+          meta.text_complexity = j["text_complexity"];
+        }
+        if (j.contains("total_words")) {
+          meta.total_words = j["total_words"];
+        }
+        if (j.contains("unique_words")) {
+          meta.unique_words = j["unique_words"];
+        }
+        if (j.contains("lexical_diversity")) {
+          meta.lexical_diversity = j["lexical_diversity"];
+        }
         
         // Readability
-        if (j.contains("total_sentences")) meta.total_sentences = j["total_sentences"];
-        if (j.contains("avg_sentence_length")) meta.avg_sentence_length = j["avg_sentence_length"];
-        if (j.contains("avg_word_length")) meta.avg_word_length = j["avg_word_length"];
+        if (j.contains("total_sentences")) {
+          meta.total_sentences = j["total_sentences"];
+        }
+        if (j.contains("avg_sentence_length")) {
+          meta.avg_sentence_length = j["avg_sentence_length"];
+        }
+        if (j.contains("avg_word_length")) {
+          meta.avg_word_length = j["avg_word_length"];
+        }
     } catch (...) {
         THEMIS_WARN("nlp_metadata_extractor: unhandled exception caught");
         // Return empty metadata on parse error

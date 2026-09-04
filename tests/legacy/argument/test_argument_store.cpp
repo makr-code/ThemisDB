@@ -40,7 +40,7 @@ protected:
             db_wrapper_->close();
         }
         if (!db_path_.empty()) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(db_path_, ec);
         }
     }

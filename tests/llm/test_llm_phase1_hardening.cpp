@@ -319,7 +319,8 @@ TEST_F(LLMRAIITests, LLM_RAII_08_CacheLifecycleCleanup) {
     auto initial = g_sim_alloc_net.load();
     
     {
-        std::vector<SimAllocGuard> cache;
+        std::vector<SimAllocGuard> cache = {};
+
         for (int i = 0; i < 5; ++i) {
             cache.emplace_back(10);
         }
@@ -335,7 +336,7 @@ TEST_F(LLMRAIITests, LLM_RAII_08_CacheLifecycleCleanup) {
 class LLMRaceConditionTests : public ::testing::Test {
 protected:
     std::atomic<int> counter{0};
-    std::mutex mutex;
+    std::mutex mutex = {};
 };
 
 TEST_F(LLMRaceConditionTests, LLM_RC_01_AtomicIncrement_ThreadSafe) {
@@ -378,7 +379,7 @@ TEST_F(LLMRaceConditionTests, LLM_RC_02_MutexProtectedAccess) {
 
 TEST_F(LLMRaceConditionTests, LLM_RC_03_ConcurrentModelLoading) {
     std::vector<std::shared_ptr<MockModel>> models;
-    std::mutex models_mutex;
+    std::mutex models_mutex = {};
     std::vector<std::thread> threads;
     
     for (int i = 0; i < 3; ++i) {
@@ -398,8 +399,8 @@ TEST_F(LLMRaceConditionTests, LLM_RC_03_ConcurrentModelLoading) {
 
 TEST_F(LLMRaceConditionTests, LLM_RC_04_ProducerConsumerPattern) {
     std::vector<int> queue;
-    std::mutex queue_mutex;
-    std::condition_variable cv;
+    std::mutex queue_mutex = {};
+    std::condition_variable cv = {};
     std::atomic<bool> done{false};
     
     std::thread producer([&]() {
@@ -435,7 +436,7 @@ TEST_F(LLMRaceConditionTests, LLM_RC_04_ProducerConsumerPattern) {
 TEST_F(LLMRaceConditionTests, LLM_RC_05_ReadWriteLock_Pattern) {
     std::atomic<int> readers{0};
     std::atomic<int> writers{0};
-    std::mutex lock;
+    std::mutex lock = {};
     
     std::vector<std::thread> threads;
     
@@ -530,7 +531,7 @@ TEST_F(LLMRaceConditionTests, LLM_RC_08_DeadlockPrevention_LockOrder) {
 class LLMMultiTenantTests : public ::testing::Test {
 protected:
     std::map<std::string, std::vector<int>> tenant_data;
-    std::mutex data_mutex;
+    std::mutex data_mutex = {};
 };
 
 TEST_F(LLMMultiTenantTests, LLM_MT_01_TenantIsolation_NoDataLeakage) {
@@ -696,7 +697,8 @@ TEST_F(LLMDistributedInferenceTests, LLM_DI_03_CrossShardCommunication) {
         shard.store(false);
     }
     
-    std::vector<std::thread> shard_threads;
+    std::vector<std::thread> shard_threads = {};
+
     for (size_t i = 0; i < shards_ready.size(); ++i) {
         shard_threads.emplace_back([&, i]() {
             std::this_thread::sleep_for(5ms);
@@ -769,7 +771,9 @@ TEST_F(LLMDistributedInferenceTests, LLM_DI_07_ShardFailureHandling) {
     
     int healthy_count = 0;
     for (const auto& healthy : shard_healthy) {
-        if (healthy.load()) healthy_count++;
+        if (healthy.load()) {
+          healthy_count++;
+        }
     }
     
     EXPECT_EQ(healthy_count, 2);

@@ -188,7 +188,8 @@ public:
         }
         const auto& type_registry = it->second;
         
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         for (const auto& [name, _] : type_registry) {
             names.push_back(name);
         }

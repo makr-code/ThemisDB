@@ -50,8 +50,8 @@ GuardrailDecision RetrievalGuardrail::checkFederatedCost(
 
     // ── Evaluate ─────────────────────────────────────────────────────────────
     if (effective_cost > threshold) {
-        std::ostringstream oss;
-        oss << "Federated cost denied: query_len=" << query.size()
+        std::ostringstream oss = {};
+        oss << "Federated cost denied: query_len=" <<static_cast<int>(query.size())
             << ", cost=" << effective_cost << "ms"
             << ", threshold=" << threshold << "ms"
             << ", cross_dc=" << (plan.cross_datacenter ? "true" : "false");

@@ -326,7 +326,7 @@ void DistanceCache::put(const std::string &pk_a, const std::string &pk_b, float 
         return;
     }
     // Evict oldest entry if at capacity (O(1) with std::deque)
-    if (map_.size() >= max_entries_ && !order_.empty()) {
+    if (static_cast<int>(map_.size()) >= max_entries_ && !order_.empty()) {
         map_.erase(order_.front());
         order_.pop_front(); // O(1) for std::deque
     }
@@ -340,7 +340,7 @@ void DistanceCache::invalidate(const std::string &pk) {
     for (auto it = map_.begin(); it != map_.end();) {
         const std::string &k = it->first;
         auto sep             = k.find('\0');
-        bool matches         = (sep != std::string::npos) && (k.substr(0, sep) == pk || k.substr(sep + 1) == pk);
+        bool matches         = ((sep != std::string::npos) && (k.substr(0, sep) == pk || k.substr(sep + 1) == pk));
         if (matches) {
             auto oi = std::find(order_.begin(), order_.end(), k);
             if (oi != order_.end()) {
@@ -361,7 +361,7 @@ void DistanceCache::clear() {
 
 std::size_t DistanceCache::size() const {
     std::lock_guard<std::mutex> lk(mtx_);
-    return map_.size();
+    return static_cast<int>(map_.size());
 }
 
 // ============================================================================
@@ -375,7 +375,7 @@ VecKnnInsertPipeline::VecKnnInsertPipeline(VecKnnPipelineConfig config)
         config_.batch_size = 32;
     }
     if (config_.num_threads == 0) {
-        config_.num_threads = std::max(1u, std::thread::hardware_concurrency());
+        config_.num_threads = std::max<std::size_t>(1, static_cast<std::size_t>(std::thread::hardware_concurrency()));
     }
 }
 
@@ -386,7 +386,7 @@ void VecKnnInsertPipeline::setBatchSize(std::size_t sz) {
 }
 
 void VecKnnInsertPipeline::setThreadCount(std::size_t n) {
-    config_.num_threads = (n > 0) ? n : std::max(1u, std::thread::hardware_concurrency());
+    config_.num_threads = (n > 0) ? n : std::max<std::size_t>(1, static_cast<std::size_t>(std::thread::hardware_concurrency()));
 }
 
 void VecKnnInsertPipeline::enableDistanceCache(bool enable) {
@@ -418,7 +418,7 @@ std::vector<float> VecKnnInsertPipeline::computeDistances(const float *query_vec
 // ---------------------------------------------------------------------------
 VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, const std::vector<BaseEntity> &entities,
                                                      std::string_view vectorField) {
-    VecKnnInsertResult result;
+    VecKnnInsertResult result = {};
     if (entities.empty()) {
         return result;
     }
@@ -463,8 +463,8 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
 
     std::atomic<std::size_t> inserted{0};
     std::atomic<std::size_t> failed{0};
-    std::mutex msgMutex;
-    std::string firstError;
+    std::mutex msgMutex = {};
+    std::string firstError = {};
 
     const auto prewarmCache = [this, &field, &extractVectorBridge](const std::vector<BaseEntity> &batch) {
         if (!config_.enable_cache) {
@@ -485,8 +485,8 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
             vectors.push_back(std::move(*vec));
         }
 
-        for (std::size_t i = 0; i < vectors.size(); ++i) {
-            for (std::size_t j = i + 1; j < vectors.size(); ++j) {
+        for (std::size_t i = 0; i  < vectors.size(); ++i) {
+            for (std::size_t j = i + 1; j  < vectors.size(); ++j) {
                 if (vectors[i].size() != vectors[j].size()) {
                     continue;
                 }
@@ -503,9 +503,9 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
     };
 
     std::vector<std::future<void>> futures;
-    futures.reserve((entities.size() + batchSize - 1) / batchSize);
+    futures.reserve((static_cast<int>(entities.size()) + batchSize - 1) / batchSize);
 
-    for (std::size_t begin = 0; begin < entities.size(); begin += batchSize) {
+    for (std::size_t begin = 0; begin  < entities.size(); begin += batchSize) {
         const std::size_t end = std::min(begin + batchSize, entities.size());
 
         auto worker = [&, begin, end]() {
@@ -537,7 +537,7 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
         };
 
         futures.emplace_back(std::async(std::launch::async, worker));
-        if (futures.size() >= maxWorkers) {
+        if (static_cast<int>(futures.size()) >= maxWorkers) {
             futures.front().get();
             futures.erase(futures.begin());
         }
@@ -561,3 +561,4 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
 
 } // namespace acceleration
 } // namespace themis
+

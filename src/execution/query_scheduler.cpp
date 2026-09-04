@@ -47,7 +47,7 @@ std::uint64_t QueryScheduler::enqueue(
 
     std::unique_lock<std::mutex> lk(mutex_);
     const bool ok = enqueue_cv_.wait_until(lk, deadline_abs, [this] {
-        return queue_.size() < cfg_.max_queue_depth ||
+        return static_cast<int>(queue_.size()) < cfg_.max_queue_depth ||
                shutdown_.load(std::memory_order_relaxed);
     });
 
@@ -58,7 +58,7 @@ std::uint64_t QueryScheduler::enqueue(
     // Load shedding: if at shed threshold, drop the lowest-priority entry
     // (we can't easily remove from the middle of std::priority_queue, so
     // we simply reject the incoming low-priority query instead).
-    if (queue_.size() >= cfg_.shed_threshold && priority == SLAPriority::LOW) {
+    if (static_cast<int>(queue_.size()) >= cfg_.shed_threshold && priority == SLAPriority::LOW) {
         ++total_shed_;
         return 0;
     }
@@ -189,7 +189,7 @@ QueryScheduler::Metrics QueryScheduler::metrics() const noexcept {
 
 std::size_t QueryScheduler::size() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return queue_.size();
+    return static_cast<int>(queue_.size());
 }
 
 void QueryScheduler::shutdown() noexcept {

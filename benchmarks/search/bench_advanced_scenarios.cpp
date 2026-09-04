@@ -17,7 +17,7 @@
 namespace {
 
 struct ScenarioItem {
-    std::string id;
+    std::string id = {};
     double text_score = 0.0;
     double image_score = 0.0;
     double code_score = 0.0;
@@ -72,7 +72,7 @@ void BM_AdvancedSearchLearningToRank(benchmark::State& state) {
 void BM_AdvancedSearchConcurrentIndexing(benchmark::State& state) {
     const std::size_t item_count = static_cast<std::size_t>(state.range(0));
     const auto items = makeItems(item_count);
-    std::mutex mutex;
+    std::mutex mutex = {};
 
     for (auto _ : state) {
         std::vector<ScenarioItem> merged;

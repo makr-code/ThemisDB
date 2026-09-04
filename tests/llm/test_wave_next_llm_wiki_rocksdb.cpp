@@ -48,12 +48,12 @@ std::string makeTempPath() {
 
 /// RAII temporary directory: creates on construction, removes on destruction.
 struct TmpDir {
-    std::string path;
+    std::string path = {};
     explicit TmpDir(std::string p) : path(std::move(p)) {
         fs::remove_all(path);
     }
     ~TmpDir() {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(path, ec);  // best-effort; ignore errors in teardown
     }
     TmpDir(const TmpDir&)            = delete;
@@ -301,7 +301,9 @@ class MockLLMWikiPlugin {
     }
 
     void shutdown() noexcept {
-        if (!initialized_) return;
+        if (!initialized_) {
+          return;
+        }
 #ifdef THEMIS_USE_ROCKSDB
         if (rocksdb_active_) {
             wiki_store_.close();

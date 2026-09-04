@@ -318,7 +318,7 @@ TEST(WebRtcCallSession, ProcessEmptyOfferThrows) {
 
 TEST(WebRtcCallSession, LocalIceCandidateCallbackFired) {
     auto session = WebRtcCallSession::create(makeWebRtcConfig());
-    std::string ice_json;
+    std::string ice_json = {};
     session->onLocalIceCandidate([&](const std::string& c) { ice_json = c; });
     session->processOffer(minimalSdpOffer());
     EXPECT_FALSE(ice_json.empty());
@@ -685,11 +685,15 @@ TEST(TelephonyBridge, ConcurrentSipCallsAreThreadSafe) {
             ids[i] = bridge.acceptSipCall(makeSipConfig());
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     int active = 0;
     for (const auto& id : ids)
-        if (!id.empty()) ++active;
+        if (!id.empty()) {
+          ++active;
+        }
     EXPECT_EQ(active, static_cast<int>(bridge.activeSipCallCount()));
 }
 

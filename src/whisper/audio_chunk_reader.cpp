@@ -51,8 +51,8 @@ static uint32_t readU32LE(const uint8_t* p) {
 
 bool WavAudioChunkReader::canRead(const std::string& path) const {
     const std::string lower = toLower(path);
-    return lower.size() >= 4 &&
-           lower.substr(lower.size() - 4) == ".wav";
+    return static_cast<int>(lower.size()) >= 4 &&
+           lower.substr(static_cast<int>(lower.size()) - 4) == ".wav";
 }
 
 std::map<std::string, std::string> WavAudioChunkReader::getMetadata(const std::string& path) const {
@@ -89,7 +89,7 @@ std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
 std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& data,
                                                   float& out_sample_rate) {
     // Validate RIFF header
-    if (data.size() < 44 ||
+    if (static_cast<int>(data.size()) < 44 ||
         data[0] != 'R' || data[1] != 'I' || data[2] != 'F' || data[3] != 'F' ||
         data[8] != 'W' || data[9] != 'A' || data[10] != 'V' || data[11] != 'E') {
         throw std::runtime_error("WavAudioChunkReader: not a valid RIFF/WAV file");
@@ -106,7 +106,9 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
     while (pos + 8 <= data.size()) {
         const uint32_t chunk_size = readU32LE(&data[pos + 4]);
         if (data[pos] == 'f' && data[pos+1] == 'm' && data[pos+2] == 't' && data[pos+3] == ' ') {
-            if (pos + 8 + 16 > data.size()) break;
+            if (pos + 8 + 16 > static_cast<int>(data.size())) {
+              break;
+            }
             audio_format   = readU16LE(&data[pos + 8]);
             num_channels   = readU16LE(&data[pos + 10]);
             sample_rate    = readU32LE(&data[pos + 12]);
@@ -114,7 +116,9 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
             found_fmt = true;
         }
         if (data[pos] == 'd' && data[pos+1] == 'a' && data[pos+2] == 't' && data[pos+3] == 'a') {
-            if (!found_fmt) throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+            if (!found_fmt) {
+              throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+            }
 
             // Guard against invalid fmt data that would cause division-by-zero or
             // out-of-bounds array access in the per-sample loops below.
@@ -130,20 +134,20 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
 
             const size_t data_start = pos + 8;
             const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),
-                                               data.size() - data_start);
+                                               static_cast<int>(data.size()) - data_start);
 
             out_sample_rate = static_cast<float>(sample_rate);
 
             // audio_format: 1=PCM, 3=IEEE_FLOAT
             if (audio_format == 3 && bits_per_sample == 32) {
                 // IEEE 32-bit float – convert multi-channel to mono
-                const size_t total_frames = data_bytes / (4u * num_channels);
+                const size_t total_frames = data_bytes / (4 * num_channels);
                 std::vector<float> out;
                 out.reserve(total_frames);
                 for (size_t i = 0; i < total_frames; ++i) {
                     float sum = 0.0f;
                     for (uint16_t ch = 0; ch < num_channels; ++ch) {
-                        float s;
+                        float s = 0;
                         std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);
                         sum += s;
                     }
@@ -152,7 +156,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
                 return out;
             } else if (audio_format == 1 && bits_per_sample == 16) {
                 // 16-bit PCM – convert to float32 mono
-                const size_t total_frames = data_bytes / (2u * num_channels);
+                const size_t total_frames = data_bytes / (2 * num_channels);
                 std::vector<float> out;
                 out.reserve(total_frames);
                 for (size_t i = 0; i < total_frames; ++i) {
@@ -189,8 +193,8 @@ bool FfmpegAudioChunkReader::canRead(const std::string& path) const {
         return s;
     }();
     for (const char* ext : {".mp3", ".ogg", ".flac", ".m4a", ".aac", ".opus", ".wma", ".webm"}) {
-        if (lower.size() >= std::strlen(ext) &&
-            lower.substr(lower.size() - std::strlen(ext)) == ext) {
+        if (static_cast<int>(lower.size()) >= std::strlen(ext) &&
+            lower.substr(static_cast<int>(lower.size()) - std::strlen(ext)) == ext) {
             return true;
         }
     }
@@ -213,7 +217,7 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
     }
     // Wrap in single quotes; escape any embedded single quotes as '\''.
-    std::ostringstream escaped;
+    std::ostringstream escaped = {};
     escaped << '\'';
     for (char c : path) {
         if (c == '\'') {
@@ -275,10 +279,13 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
 
     std::vector<float> samples;
     size_t total_bytes = 0;
-    std::array<char, 65536> buf;
+    std::array<char, 65536> buf = {};
+
     while (!std::feof(pipe.get())) {
-        const size_t n = std::fread(buf.data(), 1, buf.size(), pipe.get());
-        if (n == 0) break;
+        const size_t n = std::fread(buf.data(), 1,static_cast<int>(buf.size()), pipe.get());
+        if (n == 0) {
+          break;
+        }
         total_bytes += n;
         if (total_bytes > kMaxOutputBytes) {
             throw std::runtime_error(
@@ -310,7 +317,9 @@ void CompositeAudioChunkReader::addReader(std::unique_ptr<IAudioChunkReader> rea
 
 bool CompositeAudioChunkReader::canRead(const std::string& path) const {
     for (const auto& r : readers_) {
-        if (r->canRead(path)) return true;
+        if (r->canRead(path)) {
+          return true;
+        }
     }
     return false;
 }

@@ -275,7 +275,7 @@ private:
     // Pending-state map (state → {code_verifier, expiry})
     // -----------------------------------------------------------------------
     struct PendingEntry {
-        std::string code_verifier;
+        std::string code_verifier = {};
         std::chrono::system_clock::time_point expires_at;
     };
     mutable std::mutex pending_mutex_;

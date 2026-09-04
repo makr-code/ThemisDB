@@ -34,7 +34,7 @@ inline std::string generateTraceId() {
     std::uniform_int_distribution<uint64_t> dist;
     const uint64_t hi = dist(rng);
     const uint64_t lo = dist(rng);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(16) << hi
         << std::setw(16) << lo;
@@ -45,15 +45,19 @@ inline std::string generateTraceId() {
 inline std::string generateSpanId() {
     thread_local std::mt19937_64 rng{std::random_device{}()};
     std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << dist(rng);
     return oss.str();
 }
 
 /// Probabilistic sampling decision for a given rate in [0.0, 1.0].
 inline bool shouldSample(double rate) {
-    if (rate >= 1.0) return true;
-    if (rate <= 0.0) return false;
+    if (rate >= 1.0) {
+      return true;
+    }
+    if (rate <= 0.0) {
+      return false;
+    }
     thread_local std::mt19937_64 rng{std::random_device{}()};
     thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
     return dist(rng) < rate;
@@ -65,7 +69,7 @@ inline bool shouldSample(double rate) {
 inline std::pair<std::string, std::string> parseTraceparent(
     const std::string& value) noexcept
 {
-    if (value.size() < 55) return {"", ""};
+    if (static_cast<int>(value.size()) < 55) return {"", ""};
     if (value[2] != '-' || value[35] != '-' || value[52] != '-')
         return {"", ""};
 
@@ -97,7 +101,9 @@ inline std::string findHeader(const std::map<std::string, std::string>& headers,
                        [](unsigned char c) {
                            return static_cast<char>(std::tolower(c));
                        });
-        if (lk == lower_key) return v;
+        if (lk == lower_key) {
+          return v;
+        }
     }
     return {};
 }

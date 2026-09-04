@@ -30,10 +30,14 @@ namespace {
 std::vector<float> randVec(int dim, std::mt19937& rng) {
     std::uniform_real_distribution<float> dist(0.0f,1.0f);
     std::vector<float> v(dim);
-    for(int i=0;i<dim;++i) v[i]=dist(rng);
+    for(int i=0;i<dim;++i) {
+      v[i]=dist(rng);
+    }
     // Normalize for COSINE
     float s=0.f; for(float x: v) s+=x*x; s = std::sqrt(std::max(s,1e-12f));
-    for(float& x: v) x/=s; return v;
+    for(float& x: v) {
+      x/=s; return v;
+    }
 }
 
 struct PrefilterEnv {
@@ -48,7 +52,9 @@ struct PrefilterEnv {
     static PrefilterEnv& inst(){ static PrefilterEnv e; return e; }
 
     void init() {
-        if(ready) return;
+        if(ready) {
+          return;
+        }
         const std::string path = "data/themis_bench_vector_prefilter";
         std::error_code ec; std::filesystem::remove_all(path, ec);
         RocksDBWrapper::Config cfg; cfg.db_path = path; cfg.memtable_size_mb=128; cfg.block_cache_size_mb=256;
@@ -56,7 +62,9 @@ struct PrefilterEnv {
         db = std::make_shared<RocksDBWrapper>(cfg); if(!db->open()) throw std::runtime_error("RocksDB open failed");
         vix = std::make_shared<VectorIndexManager>(*db);
         auto st = vix->init("chunks", dim, VectorIndexManager::Metric::COSINE, 16, 200, 64);
-        if(!st.ok) throw std::runtime_error("VectorIndex init failed: "+st.message);
+        if(!st.ok) {
+          throw std::runtime_error("VectorIndex init failed: "+st.message);
+        }
         data.reserve(N); pks.reserve(N);
         std::mt19937 rng(777);
         for(size_t i=0;i<N;++i){
@@ -67,7 +75,9 @@ struct PrefilterEnv {
             BaseEntity e(pk);
             e.setField("embedding", themis::Value{vec});
             auto rst = vix->addEntity(e);
-            if(!rst.ok) throw std::runtime_error("addEntity failed at i="+std::to_string(i));
+            if(!rst.ok) {
+              throw std::runtime_error("addEntity failed at i="+std::to_string(i));
+            }
         }
         ready = true;
     }

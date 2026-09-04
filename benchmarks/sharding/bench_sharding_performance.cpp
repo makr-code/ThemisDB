@@ -154,7 +154,8 @@ BENCHMARK_DEFINE_F(ScatterGatherFixture, ScatterGatherLatency)(benchmark::State&
         }
         
         // Route each URN (simulates scatter)
-        std::vector<std::string> target_shards;
+        std::vector<std::string> target_shards = {};
+
         for (const auto& urn : query_urns) {
             auto result = resolver_->resolvePrimary(urn);
             if (result.has_value()) {
@@ -252,7 +253,8 @@ protected:
 BENCHMARK_DEFINE_F(CrossShardJoinFixture, BroadcastHashJoin)(benchmark::State& state) {
     for (auto _ : state) {
         // Build hash table from smaller (left) table
-        std::unordered_map<std::string, int> hash_table;
+        std::unordered_map<std::string, int> hash_table = {};
+
         hash_table.reserve(left_keys_.size());
         
         for (size_t i = 0; i < left_keys_.size(); i++) {
@@ -312,7 +314,8 @@ BENCHMARK_DEFINE_F(CrossShardJoinFixture, CoLocatedJoinSimulation)(benchmark::St
         std::vector<std::pair<int, int>> all_results;
         
         for (int s = 0; s < num_shards_; s++) {
-            std::unordered_map<std::string, int> local_hash;
+            std::unordered_map<std::string, int> local_hash = {};
+
             for (const auto& [key, val] : left_partitions[s]) {
                 local_hash[key] = val;
             }
@@ -577,8 +580,8 @@ public:
     }
     
 protected:
-    int num_entities_;
-    int batch_size_;
+    int num_entities_ = {};
+    int batch_size_ = {};
     std::vector<std::string> entities_;
 };
 
@@ -589,7 +592,9 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchSerializationThroughput)(benchmark::
         
         size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
         for (size_t i = 0; i < max_items; i++) {
-            if (i > 0) batch_payload += ",";
+            if (i > 0) {
+              batch_payload += ",";
+            }
             batch_payload += entities_[i];
         }
         batch_payload += "]";
@@ -617,7 +622,9 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchDeserializationThroughput)(benchmark
     std::string batch_payload = "[";
     size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
     for (size_t i = 0; i < max_items; i++) {
-        if (i > 0) batch_payload += ",";
+        if (i > 0) {
+          batch_payload += ",";
+        }
         batch_payload += entities_[i];
     }
     batch_payload += "]";
@@ -629,7 +636,9 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchDeserializationThroughput)(benchmark
         
         for (char c : batch_payload) {
             if (c == '{') {
-                if (depth == 1) entity_count++;
+                if (depth == 1) {
+                  entity_count++;
+                }
                 depth++;
             } else if (c == '}') {
                 depth--;
@@ -1186,7 +1195,9 @@ public:
             R"(,"peers":[)";
         
         for (int i = 0; i < num_peers_; i++) {
-            if (i > 0) gossip_message_ += ",";
+            if (i > 0) {
+              gossip_message_ += ",";
+            }
             gossip_message_ += R"({"id":"peer_)" + std::to_string(i) + 
                 R"(","endpoint":")" + peers_[i] + 
                 R"(","dc":"dc)" + std::to_string(i % 3) + 
@@ -1201,9 +1212,9 @@ public:
     }
     
 protected:
-    int num_peers_;
+    int num_peers_ = {};
     std::vector<std::string> peers_;
-    std::string gossip_message_;
+    std::string gossip_message_ = {};
 };
 
 BENCHMARK_DEFINE_F(GossipOverheadFixture, MessageSerialization)(benchmark::State& state) {
@@ -1445,7 +1456,7 @@ public:
 protected:
     int num_dcs_;
     int shards_per_dc_;
-    std::string local_dc_;
+    std::string local_dc_ = {};
     std::shared_ptr<ConsistentHashRing> hash_ring_;
     std::shared_ptr<ShardTopology> topology_;
     std::vector<URN> test_urns_;

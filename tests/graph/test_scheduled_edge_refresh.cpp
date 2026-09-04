@@ -56,7 +56,7 @@ protected:
         const auto* testInfo = ::testing::UnitTest::GetInstance()->current_test_info();
         const auto nowTicks = std::chrono::steady_clock::now().time_since_epoch().count();
 
-        std::ostringstream pathBuilder;
+        std::ostringstream pathBuilder = {};
         pathBuilder << "./data/themis_scheduled_edge_refresh_test_"
                     << std::this_thread::get_id() << "_"
                     << nowTicks;
@@ -66,7 +66,7 @@ protected:
 
         test_db_path_ = pathBuilder.str();
 
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
         fs::create_directories(test_db_path_, ec);
 
@@ -84,7 +84,7 @@ protected:
     void TearDown() override {
         graph_mgr_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(test_db_path_, ec);
     }
 
@@ -1071,7 +1071,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulRemoval) {
     p.similarity_metric       = SimilarityMetric::COSINE;
 
     std::vector<themisdb::analytics::Event> captured_events;
-    std::mutex capture_mu;
+    std::mutex capture_mu = {};
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
@@ -1120,7 +1120,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulAddition) {
     p.similarity_metric       = SimilarityMetric::COSINE;
 
     std::vector<themisdb::analytics::Event> captured_events;
-    std::mutex capture_mu;
+    std::mutex capture_mu = {};
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
@@ -1164,7 +1164,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_NoEventsEmitted_WhenSafetyGateAborts) {
     p.similarity_metric       = SimilarityMetric::COSINE;
 
     std::vector<themisdb::analytics::Event> captured_events;
-    std::mutex capture_mu;
+    std::mutex capture_mu = {};
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
@@ -1198,7 +1198,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_DetachBySettingEmptyCallback) {
     p.similarity_metric       = SimilarityMetric::COSINE;
 
     std::vector<themisdb::analytics::Event> captured_events;
-    std::mutex capture_mu;
+    std::mutex capture_mu = {};
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));

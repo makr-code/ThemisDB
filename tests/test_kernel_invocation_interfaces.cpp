@@ -417,7 +417,7 @@ TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_AllSlotsN
 }
 
 TEST(KernelInvocationInterfaces, CUDAGeoBackend_PopulateGeoDispatch_AllSlotsNonNull) {
-    CUDAGeoBackend backend;
+    CUDAGeoBackend backend = {};
     if (!backend.isAvailable()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_backend_not_available";
     }

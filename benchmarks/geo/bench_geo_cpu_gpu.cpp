@@ -216,7 +216,9 @@ static void BM_GeoCPUExact_ExactIntersects(benchmark::State& state) {
     for (auto _ : state) {
         int hits = 0;
         for (const auto& pt : points) {
-            if (backend->exactIntersects(pt, poly)) ++hits;
+            if (backend->exactIntersects(pt, poly)) {
+              ++hits;
+            }
         }
         benchmark::DoNotOptimize(hits);
     }
@@ -259,7 +261,9 @@ static void BM_GeoGPU_ExactIntersects(benchmark::State& state) {
     for (auto _ : state) {
         int hits = 0;
         for (const auto& pt : points) {
-            if (backend->exactIntersects(pt, poly)) ++hits;
+            if (backend->exactIntersects(pt, poly)) {
+              ++hits;
+            }
         }
         benchmark::DoNotOptimize(hits);
     }

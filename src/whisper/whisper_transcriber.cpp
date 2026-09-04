@@ -42,20 +42,20 @@ constexpr std::array<uint32_t, 64> kSha256K = {
 };
 
 inline uint32_t rotr(uint32_t x, uint32_t n) {
-    return (x >> n) | (x << (32U - n));
+    return (x >> n) | (x << (32 - n));
 }
 
 void sha256Transform(Sha256State& state, const uint8_t* block) {
     uint32_t w[64];
     for (int i = 0; i < 16; ++i) {
-        w[i] = (static_cast<uint32_t>(block[i * 4]) << 24U) |
-               (static_cast<uint32_t>(block[i * 4 + 1]) << 16U) |
-               (static_cast<uint32_t>(block[i * 4 + 2]) << 8U) |
+        w[i] = (static_cast<uint32_t>(block[i * 4]) << 24) |
+               (static_cast<uint32_t>(block[i * 4 + 1]) << 16) |
+               (static_cast<uint32_t>(block[i * 4 + 2]) << 8) |
                static_cast<uint32_t>(block[i * 4 + 3]);
     }
     for (int i = 16; i < 64; ++i) {
-        const uint32_t s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >> 3U);
-        const uint32_t s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >> 10U);
+        const uint32_t s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >> 3);
+        const uint32_t s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >> 10);
         w[i] = w[i - 16] + s0 + w[i - 7] + s1;
     }
 
@@ -80,7 +80,7 @@ std::string toLowerHex(const std::array<uint8_t, 32>& digest) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out(64, '\0');
     for (std::size_t i = 0; i < digest.size(); ++i) {
-        out[i * 2] = kHex[digest[i] >> 4U];
+        out[i * 2] = kHex[digest[i] >> 4];
         out[i * 2 + 1] = kHex[digest[i] & 0x0fU];
     }
     return out;
@@ -121,11 +121,11 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
         std::size_t pos = 0;
         while (pos < static_cast<std::size_t>(n)) {
             const std::size_t copy_n = std::min<std::size_t>(
-                static_cast<std::size_t>(n) - pos, block.size() - buffered);
+                static_cast<std::size_t>(n) - pos, static_cast<int>(block.size()) - buffered);
             std::memcpy(block.data() + buffered, bytes + pos, copy_n);
             buffered += copy_n;
             pos += copy_n;
-            if (buffered == block.size()) {
+            if (buffered == static_cast<int>(block.size())) {
                 sha256Transform(state, block.data());
                 buffered = 0;
             }
@@ -138,22 +138,26 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
 
     block[buffered++] = 0x80U;
     if (buffered > 56) {
-        while (buffered < 64) block[buffered++] = 0;
+        while (buffered < 64) {
+          block[buffered++] = 0;
+        }
         sha256Transform(state, block.data());
         buffered = 0;
     }
-    while (buffered < 56) block[buffered++] = 0;
-    const uint64_t total_bits = total_bytes * 8U;
+    while (buffered < 56) {
+      block[buffered++] = 0;
+    }
+    const uint64_t total_bits = total_bytes * 8;
     for (int i = 7; i >= 0; --i) {
-        block[buffered++] = static_cast<uint8_t>((total_bits >> (i * 8U)) & 0xFFU);
+        block[buffered++] = static_cast<uint8_t>((total_bits >> (i * 8)) & 0xFFU);
     }
     sha256Transform(state, block.data());
 
     std::array<uint8_t, 32> digest{};
     for (std::size_t i = 0; i < state.size(); ++i) {
-        digest[i * 4] = static_cast<uint8_t>((state[i] >> 24U) & 0xFFU);
-        digest[i * 4 + 1] = static_cast<uint8_t>((state[i] >> 16U) & 0xFFU);
-        digest[i * 4 + 2] = static_cast<uint8_t>((state[i] >> 8U) & 0xFFU);
+        digest[i * 4] = static_cast<uint8_t>((state[i] >> 24) & 0xFFU);
+        digest[i * 4 + 1] = static_cast<uint8_t>((state[i] >> 16) & 0xFFU);
+        digest[i * 4 + 2] = static_cast<uint8_t>((state[i] >> 8) & 0xFFU);
         digest[i * 4 + 3] = static_cast<uint8_t>(state[i] & 0xFFU);
     }
     out_hex = toLowerHex(digest);
@@ -169,7 +173,9 @@ WhisperCppTranscriber::WhisperCppTranscriber() = default;
 WhisperCppTranscriber::~WhisperCppTranscriber() = default;
 
 bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
-    if (initialized_) return true;
+    if (initialized_) {
+      return true;
+    }
     cfg_ = cfg;
     last_error_.clear();
 
@@ -179,7 +185,7 @@ bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
     }
 
     if (!cfg.model_sha256.empty()) {
-        std::string actual_digest;
+        std::string actual_digest = {};
         if (!computeFileSha256(cfg.model_path, actual_digest)) {
             last_error_ = "failed to compute model SHA-256 digest";
             return false;
@@ -250,7 +256,9 @@ audio::TranscriptionResult WhisperCppTranscriber::transcribe(
 audio::LanguageDetectionResult WhisperCppTranscriber::detectLanguage(
         const std::vector<float>& pcm, float /*sample_rate*/) {
     audio::LanguageDetectionResult res;
-    if (!initialized_ || !ctx_ || pcm.empty()) return res;
+    if (!initialized_ || !ctx_ || pcm.empty()) {
+      return res;
+    }
 
     float lang_probs[WHISPER_N_LANGS];
     auto* ctx = static_cast<whisper_context*>(ctx_.get());

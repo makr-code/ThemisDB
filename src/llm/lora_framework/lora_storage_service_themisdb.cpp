@@ -224,7 +224,9 @@ public:
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
                 std::string key(it->key().data(), it->key().size());
-                if (!key.starts_with(prefix)) break;
+                if (!key.starts_with(prefix)) {
+                  break;
+                }
                 
                 // Extract adapter_id from key
                 std::string adapter_id = key.substr(prefix.length());
@@ -262,7 +264,7 @@ public:
         int max_version = 0;
         
         for (const auto& v : versions) {
-            if (v.size() > 1 && v[0] == 'v') {
+            if (static_cast<int>(v.size()) > 1 && v[0] == 'v') {
                 try {
                     int num = std::stoi(v.substr(1));
                     max_version = std::max(max_version, num);
@@ -335,7 +337,7 @@ public:
             } catch (const std::exception& e) {
                 spdlog::error("LoRAStorage: filesystem rollback failed: {}", e.what());
                 // Best-effort cleanup of the tmp directory
-                std::error_code ec;
+                std::error_code ec = {};
                 fs::remove_all(tmp_dir, ec);
                 return false;
             }
@@ -357,7 +359,9 @@ public:
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
                 std::string key(it->key().data(), it->key().size());
-                if (!key.starts_with(prefix)) break;
+                if (!key.starts_with(prefix)) {
+                  break;
+                }
                 
                 // Extract version from key
                 size_t version_pos = key.rfind(":v");
@@ -663,7 +667,7 @@ private:
         BaseEntity entity = BaseEntity::fromFields(adapter_id, fields);
         
         // Handle large weights with BlobStorageManager
-        if (config_.blob_manager && weights.data.size() > 1024 * 1024) {  // > 1MB
+        if (config_.blob_manager && static_cast<int>(weights.data.size()) > 1024 * 1024) {  // > 1MB
             spdlog::info("Storing large adapter ({} MB) in blob storage", 
                         weights.data.size() / (1024 * 1024));
             
@@ -710,7 +714,7 @@ private:
         
         if (success) {
             spdlog::info("Saved adapter {} to ThemisDB ({} bytes)", 
-                        adapter_id, data_to_store.size());
+                        adapter_id,static_cast<int>(data_to_store.size()));
         }
         
         return success;
@@ -824,7 +828,7 @@ private:
             spdlog::error("Failed to create weights file: {}", weights_path.string());
             return false;
         }
-        weights_file.write(reinterpret_cast<const char*>(weights.data.data()), weights.data.size());
+        weights_file.write(reinterpret_cast<const char*>(weights.data.data()),static_cast<int>(weights.data.size()));
         weights_file.close();
         
         // Save metadata
@@ -839,7 +843,7 @@ private:
         metadata_file.close();
         
         spdlog::info("Saved adapter {} to filesystem ({} bytes)", 
-                     adapter_id, weights.data.size());
+                     adapter_id,static_cast<int>(weights.data.size()));
         
         return true;
     }

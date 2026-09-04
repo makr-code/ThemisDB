@@ -26,8 +26,8 @@ namespace {
 /// Compute a short SHA-256 hex digest of @p data (first 16 hex chars = 8 bytes).
 std::string contentHash(const std::string &data) {
     unsigned char digest[SHA256_DIGEST_LENGTH] = {};
-    SHA256(reinterpret_cast<const unsigned char *>(data.data()), data.size(), digest);
-    std::ostringstream oss;
+    SHA256(reinterpret_cast<const unsigned char *>(data.data()),static_cast<int>(data.size()), digest);
+    std::ostringstream oss = {};
     for (int i = 0; i < 8; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
@@ -63,7 +63,7 @@ json ContentSecurityConfig::toJson() const {
 }
 
 ContentSecurityConfig ContentSecurityConfig::fromJson(const json &j) {
-    ContentSecurityConfig config;
+    ContentSecurityConfig config = {};
 
     if (j.contains("enable_malware_scan")) {
         config.enable_malware_scan = j["enable_malware_scan"];
@@ -181,7 +181,7 @@ SecurityCheckResult ContentSecurityManager::checkContent(const std::string &data
     }
 
     // Check 2: PII detection (for text-based content)
-    if (config_.enable_pii_detection && (mime_type.find("text/") == 0 || mime_type == "application/json")) {
+    if ((config_.enable_pii_detection && (mime_type.find("text/") == 0 || mime_type == "application/json")) {
         auto pii_result    = checkPii(data, content_id);
         result.pii_checked = pii_result.pii_checked;
         result.pii_found   = pii_result.pii_found;
@@ -402,7 +402,8 @@ SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, co
         // Collect unique PII types — use unordered_set for O(1) dedup instead
         // of std::find on the growing pii_types vector (avoids O(n²) behaviour
         // when many findings share the same PII type).
-        std::unordered_set<std::string> seen_types;
+        std::unordered_set<std::string> seen_types = {};
+
         for (const auto& finding : findings) {
             std::string type_str = utils::PIITypeUtils::toString(finding.type);
             if (seen_types.insert(type_str).second) {
@@ -416,7 +417,7 @@ SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, co
             result.error            = ContentError::error(ContentErrorCode::CONTENT_PII_DETECTED,
                                                           "Personally identifiable information detected in content");
             result.error.content_id = content_id;
-            result.error.metadata   = {{"pii_count", findings.size()}, {"pii_types", result.pii_types}};
+            result.error.metadata   = {{"pii_count",static_cast<int>(findings.size())}, {"pii_types", result.pii_types}};
         }
     } else {
         result.pii_found = false;

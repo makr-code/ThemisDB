@@ -73,7 +73,7 @@ CascadeRoutingDecision LlmCascadeRouter::routeForRound(
     }
 
     // Resolve model id
-    std::string model_id;
+    std::string model_id = {};
     const auto model_it = config_.tier_to_model.find(tier);
     if (model_it != config_.tier_to_model.end()) {
         model_id = model_it->second;

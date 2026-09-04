@@ -23,7 +23,8 @@ std::string SimilarityBasedPrioritization::name() const noexcept {
 std::vector<float> SimilarityBasedPrioritization::prioritize(
     const std::vector<const BaseTensorSummary*>& summaries) const {
 
-    std::vector<float> priorities;
+    std::vector<float> priorities = {};
+
     priorities.reserve(summaries.size());
 
     for (const auto* summary : summaries) {
@@ -66,7 +67,8 @@ std::string RankBasedPrioritization::name() const noexcept {
 std::vector<float> RankBasedPrioritization::prioritize(
     const std::vector<const BaseTensorSummary*>& summaries) const {
 
-    std::vector<float> priorities;
+    std::vector<float> priorities = {};
+
     priorities.reserve(summaries.size());
 
     for (const auto* summary : summaries) {
@@ -118,7 +120,8 @@ std::string CostBasedPrioritization::name() const noexcept {
 std::vector<float> CostBasedPrioritization::prioritize(
     const std::vector<const BaseTensorSummary*>& summaries) const {
 
-    std::vector<float> priorities;
+    std::vector<float> priorities = {};
+
     priorities.reserve(summaries.size());
 
     for (const auto* summary : summaries) {

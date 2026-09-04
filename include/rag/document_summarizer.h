@@ -82,7 +82,7 @@ struct DocumentSummary {
  */
 struct MultiDocumentSummary {
     /// Single combined summary ready for context injection.
-    std::string combined_summary;
+    std::string combined_summary = {};
 
     /// Per-document breakdowns (in the same order as the input documents).
     std::vector<DocumentSummary> per_document_summaries;

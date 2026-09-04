@@ -28,12 +28,12 @@ protected:
 
     void TearDown() override {
         if (fs::exists(test_db_path_)) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove_all(test_db_path_, ec);
         }
     }
 
-    std::string test_db_path_;
+    std::string test_db_path_ = {};
 };
 
 // Test 1: Library linking and basic initialization
@@ -61,7 +61,7 @@ TEST_F(RocksDBLibIntegrationTest, BasicCRUDOperations) {
     EXPECT_TRUE(wrapper.put("test_key", "test_value"));
     
     // Test GET operation
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("test_key", value));
     EXPECT_EQ(value, "test_value");
     
@@ -90,7 +90,7 @@ TEST_F(RocksDBLibIntegrationTest, ExplicitTransactions) {
     EXPECT_TRUE(txn->commit());
     
     // Verify data persisted
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("txn_key", value));
     EXPECT_EQ(value, "txn_value");
 }
@@ -117,7 +117,7 @@ TEST_F(RocksDBLibIntegrationTest, TransactionRollback) {
     txn->rollback();
     
     // Verify original value still present
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("rollback_key", value));
     EXPECT_EQ(value, "initial_value");
 }
@@ -147,7 +147,7 @@ TEST_F(RocksDBLibIntegrationTest, WriteBatchOperations) {
     EXPECT_TRUE(batch->commit());
     
     // Verify all values
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("batch_key1", value));
     EXPECT_EQ(value, "value1");
     EXPECT_TRUE(wrapper.get("batch_key2", value));
@@ -226,7 +226,7 @@ TEST_F(RocksDBLibIntegrationTest, ConcurrentTransactions) {
     }
     
     // Verify a value is present
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("concurrent_key", value));
     EXPECT_TRUE(value == "txn1" || value == "txn2" || value == "initial");
 }
@@ -283,7 +283,7 @@ TEST_F(RocksDBLibIntegrationTest, WritePreparedPolicy) {
     EXPECT_TRUE(txn->commit());
     
     // Verify
-    std::string result;
+    std::string result = {};
     EXPECT_TRUE(wrapper.get("wp_key", result));
     EXPECT_EQ(result, "prepared");
 }
@@ -410,7 +410,7 @@ TEST_F(RocksDBLibIntegrationTest, TransactionAutoRollback) {
     }
     
     // Verify original value is still present (auto-rollback worked)
-    std::string value;
+    std::string value = {};
     EXPECT_TRUE(wrapper.get("auto_key", value));
     EXPECT_EQ(value, "initial");
 }
@@ -480,7 +480,7 @@ TEST_F(RocksDBLibIntegrationTest, MultipleTransactionOperationsWithState) {
     // Verify only committed transactions persisted
     for (int i = 0; i < 5; ++i) {
         std::string key = "multi_key_" + std::to_string(i);
-        std::string value;
+        std::string value = {};
         
         if (i % 2 == 0) {
             EXPECT_TRUE(wrapper.get(key, value)) << "Key " << key << " should exist";

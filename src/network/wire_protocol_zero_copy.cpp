@@ -46,7 +46,7 @@ namespace network {
 
 namespace {
 
-inline uint32_t to_be32(uint32_t v) noexcept {
+inline uint32_t to_be32([[maybe_unused]] uint32_t v) noexcept {
 #ifdef _WIN32
     return _byteswap_ulong(v);
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -56,7 +56,7 @@ inline uint32_t to_be32(uint32_t v) noexcept {
 #endif
 }
 
-inline uint16_t to_be16(uint16_t v) noexcept {
+inline uint16_t to_be16([[maybe_unused]] uint16_t v) noexcept {
 #ifdef _WIN32
     return _byteswap_ushort(v);
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -147,7 +147,7 @@ ZeroCopyFrameBuilder::ZeroCopyFrameBuilder(uint16_t   opcode,
     std::memcpy(p,     &psize_be,  4);
 }
 
-ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
+ssize_t ZeroCopyFrameBuilder::writeTo([[maybe_unused]] int fd) const noexcept {
 #ifdef _WIN32
     WSABUF bufs[2];
     bufs[0].buf = reinterpret_cast<char*>(const_cast<uint8_t*>(header_.data()));
@@ -156,7 +156,7 @@ ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
     bufs[1].len = static_cast<ULONG>(payload_size_);
 
     DWORD sent = 0;
-    const DWORD buf_count = payload_size_ == 0 ? 1u : 2u;
+    const DWORD buf_count = payload_size_ == 0 ? 1 : 2;
     const int rc = ::WSASend(static_cast<SOCKET>(fd), bufs, buf_count, &sent, 0, nullptr, nullptr);
     return rc == 0 ? static_cast<ssize_t>(sent) : -1;
 #else
@@ -207,7 +207,9 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
                                   header_.data() + hdr_written,
                                   HEADER_SIZE - static_cast<size_t>(hdr_written));
         if (n < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR) {
+              continue;
+            }
             return -1;
         }
         hdr_written += n;
@@ -231,7 +233,9 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
 
         const ssize_t n = ::sendfile(socket_fd, payload_fd, &off, remaining);
         if (n < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR) {
+              continue;
+            }
             if (errno == EINVAL || errno == ENOSYS || errno == ENOTSUP) {
                 // sendfile not supported for this fd type (e.g., socket source).
                 // Fall back to copy-based writev for the remaining bytes.
@@ -239,7 +243,9 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
                 std::vector<uint8_t> tmp(remaining);
                 const ssize_t rd = ::pread(payload_fd, tmp.data(), remaining,
                                            payload_offset + static_cast<std::int64_t>(sf_written));
-                if (rd <= 0) return sf_written > 0 ? hdr_written + sf_written : -1;
+                if (rd <= 0) {
+                  return sf_written > 0 ? hdr_written + sf_written : -1;
+                }
                 
                 // Check socket readiness before fallback write
                 if (!waitForSocketWritable(socket_fd, timeout_ms)) {
@@ -247,7 +253,9 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
                 }
                 
                 const ssize_t wn = ::write(socket_fd, tmp.data(), static_cast<size_t>(rd));
-                if (wn < 0) return sf_written > 0 ? hdr_written + sf_written : -1;
+                if (wn < 0) {
+                  return sf_written > 0 ? hdr_written + sf_written : -1;
+                }
                 sf_written += wn;
                 break;
             }
@@ -366,7 +374,7 @@ MemoryMappedPayload::MemoryMappedPayload(const std::string& path) {
 #endif
 }
 
-MemoryMappedPayload::MemoryMappedPayload(size_t size) {
+MemoryMappedPayload::MemoryMappedPayload([[maybe_unused]] size_t size) {
     if (size == 0) {
         throw std::invalid_argument(
             "MemoryMappedPayload: size must be > 0 for anonymous mapping");
@@ -422,10 +430,16 @@ MemoryMappedPayload& MemoryMappedPayload::operator=(
     if (this != &other) {
         // Release current mapping.
 #ifdef _WIN32
-        if (addr_ != MAP_FAILED && addr_ != nullptr) std::free(addr_);
+        if (addr_ != MAP_FAILED && addr_ != nullptr) {
+          std::free(addr_);
+        }
 #else
-        if (addr_ != MAP_FAILED && addr_ != nullptr) ::munmap(addr_, size_);
-        if (fd_ >= 0) ::close(fd_);
+        if (addr_ != MAP_FAILED && addr_ != nullptr) {
+          ::munmap(addr_, size_);
+        }
+        if (fd_ >= 0) {
+          ::close(fd_);
+        }
 #endif
 
         addr_       = other.addr_;

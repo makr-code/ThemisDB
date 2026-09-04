@@ -171,7 +171,7 @@ bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
     }
 
     // Buffer full: evict oldest event to make room; count the eviction as dropped
-    if (event_buffer_.size() >= config_.max_buffer_size) {
+    if (static_cast<int>(event_buffer_.size()) >= config_.max_buffer_size) {
         event_buffer_.pop_front();
         events_dropped_++;
     }
@@ -193,7 +193,8 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
     const std::chrono::system_clock::time_point& since_timestamp) const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
-    std::vector<DiagnosticEvent> result;
+    std::vector<DiagnosticEvent> result = {};
+
     for (const auto& evt : event_buffer_) {
         if (evt.timestamp >= since_timestamp) {
             result.push_back(evt);
@@ -229,7 +230,8 @@ std::map<DiagnosticFailureCategory, size_t>
 FieldDiagnosticsCollector::getEventCountsByCategory() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
-    std::map<DiagnosticFailureCategory, size_t> counts;
+    std::map<DiagnosticFailureCategory, size_t> counts = {};
+
     for (const auto& evt : event_buffer_) {
         counts[evt.failure_category]++;
     }
@@ -258,7 +260,7 @@ void FieldDiagnosticsCollector::clearBuffer() {
  */
 size_t FieldDiagnosticsCollector::getBufferSize() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
-    return event_buffer_.size();
+    return static_cast<int>(event_buffer_.size());
 }
 
 /**
@@ -454,3 +456,4 @@ void FieldDiagnosticsCollector::updateMetricsForEvent(const DiagnosticEvent& eve
 
 }  // namespace observability
 }  // namespace themis
+

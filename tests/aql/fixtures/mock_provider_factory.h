@@ -174,7 +174,7 @@ protected:
                 break;
         }
 
-        MockProviderResult result;
+        MockProviderResult result = {};
         if (should_fail) {
             result = is_timeout ? MockProviderResult::Timeout()
                                 : MockProviderResult::Fail(config_.error_message);
@@ -243,8 +243,8 @@ public:
     struct EmbeddingResult {
         bool success = false;
         std::vector<float> embedding;
-        std::string error_message;
-        std::string error_category;
+        std::string error_message = {};
+        std::string error_category = {};
     };
 
     /// Simulate an embedding generation call. Returns a 128-dim mock embedding.

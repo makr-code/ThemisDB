@@ -210,9 +210,15 @@ TEST(ManifestSignerTest, GenerateManifest) {
     // Verify files are in manifest
     bool found_exe = false, found_so = false, found_txt = false;
     for (const auto& file : manifest.getFiles()) {
-        if (file.path.find("binary1.exe") != std::string::npos) found_exe = true;
-        if (file.path.find("binary2.so") != std::string::npos) found_so = true;
-        if (file.path.find("readme.txt") != std::string::npos) found_txt = true;
+        if (file.path.find("binary1.exe") != std::string::npos) {
+          found_exe = true;
+        }
+        if (file.path.find("binary2.so") != std::string::npos) {
+          found_so = true;
+        }
+        if (file.path.find("readme.txt") != std::string::npos) {
+          found_txt = true;
+        }
     }
     
     EXPECT_TRUE(found_exe);

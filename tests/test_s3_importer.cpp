@@ -137,11 +137,11 @@ struct S3Config {
     long        request_timeout_ms = 30000;
     int         max_retries        = 3;
     // Flat-file settings forwarded to FlatFileImporter
-    std::string format;
+    std::string format = {};
     std::string delimiter        = ",";
     std::string quote_char       = "\"";
     bool        has_header       = true;
-    std::string table_name;
+    std::string table_name = {};
 };
 
 static bool parseS3Config(const std::string& config_json, S3Config& out) {
@@ -191,7 +191,7 @@ static bool parseS3Config(const std::string& config_json, S3Config& out) {
 static std::vector<std::string> parseCsvRow(const std::string& line,
                                              char delim, char quote) {
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     bool in_quotes = false;
     for (size_t i = 0; i < line.size(); ++i) {
         char c = line[i];
@@ -229,14 +229,20 @@ static MockS3ImportResult mockImportFromContent(
     ImportStats& stats = result.stats;
 
     // Detect format from extension.
-    std::string ext;
+    std::string ext = {};
     auto dot = filename.rfind('.');
-    if (dot != std::string::npos) ext = filename.substr(dot + 1);
-    for (auto& c : ext) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    if (dot != std::string::npos) {
+      ext = filename.substr(dot + 1);
+    }
+    for (auto& c : ext) {
+      c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
 
     bool is_jsonl = (ext == "jsonl" || ext == "ndjson");
     bool is_tsv   = (ext == "tsv");
-    if (is_tsv) delim = '\t';
+    if (is_tsv) {
+      delim = '\t';
+    }
 
     // Determine logical table name from filename stem.
     std::string table_name = filename.substr(0, dot);
@@ -254,7 +260,7 @@ static MockS3ImportResult mockImportFromContent(
     }
 
     std::istringstream in(content);
-    std::string line;
+    std::string line = {};
 
     if (!is_jsonl) {
         // CSV / TSV
@@ -263,25 +269,37 @@ static MockS3ImportResult mockImportFromContent(
 
         if (has_header && std::getline(in, line)) {
             ++line_no;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
             columns = parseCsvRow(line, delim, '"');
             for (auto& col : columns) {
                 auto it = options.column_mappings.find(col);
-                if (it != options.column_mappings.end()) col = it->second;
+                if (it != options.column_mappings.end()) {
+                  col = it->second;
+                }
             }
         }
         stats.tables_processed++;
 
         while (std::getline(in, line)) {
             ++line_no;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
-            if (line.empty()) continue;
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
+            if (line.empty()) {
+              continue;
+            }
 
             stats.total_records++;
 
             auto fields = parseCsvRow(line, delim, '"');
-            while (fields.size() < columns.size()) fields.emplace_back();
-            if (fields.size() > columns.size()) fields.resize(columns.size());
+            while (fields.size() < columns.size()) {
+              fields.emplace_back();
+            }
+            if (fields.size() > columns.size()) {
+              fields.resize(columns.size());
+            }
 
             json entity = json::object();
             for (size_t i = 0; i < columns.size(); ++i)
@@ -308,8 +326,12 @@ static MockS3ImportResult mockImportFromContent(
 
         while (std::getline(in, line)) {
             ++line_no;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
-            if (line.empty()) continue;
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
+            if (line.empty()) {
+              continue;
+            }
 
             stats.total_records++;
 
@@ -318,13 +340,17 @@ static MockS3ImportResult mockImportFromContent(
                 entity = json::parse(line);
             } catch (...) {
                 stats.failed_records++;
-                if (!options.continue_on_error) return result;
+                if (!options.continue_on_error) {
+                  return result;
+                }
                 continue;
             }
 
             if (!entity.is_object()) {
                 stats.failed_records++;
-                if (!options.continue_on_error) return result;
+                if (!options.continue_on_error) {
+                  return result;
+                }
                 continue;
             }
 
@@ -815,8 +841,8 @@ TEST(S3ValidateSource, RejectEmptyBucket) {
 
 class S3E2ETest : public ::testing::Test {
 protected:
-    std::string tmp_csv_;
-    std::string tmp_tsv_;
+    std::string tmp_csv_ = {};
+    std::string tmp_tsv_ = {};
     std::string tmp_jsonl_;
 
     void SetUp() override {

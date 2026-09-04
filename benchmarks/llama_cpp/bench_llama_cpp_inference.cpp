@@ -90,7 +90,7 @@ static bool fileExists(const std::string& path) {
     if (path.empty()) {
         return false;
     }
-    std::error_code ec;
+    std::error_code ec = {};
     return std::filesystem::exists(path, ec) && std::filesystem::is_regular_file(path, ec);
 }
 
@@ -354,7 +354,7 @@ public:
     int requestedGpuLayers = 0;
     bool warmupSucceeded = false;
     bool ready = false;
-    std::string setupError;
+    std::string setupError = {};
     nlohmann::json memoryStats;
 };
 
@@ -548,7 +548,9 @@ static void BM_ConcurrentInference(benchmark::State& state) {
                 completed.fetch_add(1, std::memory_order_relaxed);
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         benchmark::DoNotOptimize(completed.load());
     }
 

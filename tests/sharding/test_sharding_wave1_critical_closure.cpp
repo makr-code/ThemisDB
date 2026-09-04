@@ -112,7 +112,8 @@ TEST(Wave1CriticalClosure, BRC_03_ProbeTableHasTwelveEntries) {
 
 /// WV1-BRC-04: File names in the probe table are distinct.
 TEST(Wave1CriticalClosure, BRC_04_ProbeTableHasUniqueFileNames) {
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(wave1_brc::kBraceProbes.size());
     for (const auto& p : wave1_brc::kBraceProbes) {
         names.push_back(p.file_name);
@@ -315,7 +316,8 @@ TEST(Wave1CriticalClosure, ITR_01_InvertedRangeReturnsEmpty) {
 /// WV1-ITR-02: Oversized range is capped at kMaxEntriesPerScan.
 TEST(Wave1CriticalClosure, ITR_02_OversizedRangeIsCappedAtMaxEntries) {
     // Build a log with 2000 entries
-    std::map<uint64_t, uint64_t> log;
+    std::map<uint64_t, uint64_t> log = {};
+
     for (uint64_t i = 0; i < 2000; ++i) {
         log[i] = i * 2;
     }

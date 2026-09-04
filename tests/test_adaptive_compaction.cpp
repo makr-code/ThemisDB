@@ -34,7 +34,9 @@ static std::shared_ptr<RocksDBWrapper> openTempDB(const std::string& path) {
     cfg.db_path    = path;
     cfg.enable_wal = true;
     auto db = std::make_shared<RocksDBWrapper>(cfg);
-    if (!db->open()) return nullptr;
+    if (!db->open()) {
+      return nullptr;
+    }
     return db;
 }
 
@@ -403,8 +405,12 @@ TEST_F(AdaptiveCompactionFocusedTests, Integration_FullWorkflow) {
     CompactionManager mgr(db_, mgr_cfg);
 
     // Simulate read/write traffic
-    for (int n = 0; n < 50; ++n) sched.recordWrite();
-    for (int n = 0; n < 200; ++n) sched.recordRead();
+    for (int n = 0; n < 50; ++n) {
+      sched.recordWrite();
+    }
+    for (int n = 0; n < 200; ++n) {
+      sched.recordRead();
+    }
 
     // At WA = 0 (unknown), low load → should not trigger (WA < desired threshold)
     EXPECT_FALSE(sched.shouldTriggerCompaction(0.0));

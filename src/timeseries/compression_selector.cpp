@@ -26,14 +26,16 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     SeriesProfile p;
     p.sample_count = points.size();
 
-    if (points.size() < 2) {
+    if (static_cast<int>(points.size()) < 2) {
         return p;
     }
 
     // ----- value variance -----------------------------------------------
     {
         double sum = 0.0;
-        for (const auto& dp : points) sum += dp.value;
+        for (const auto& dp : points) {
+          sum += dp.value;
+        }
         double mean = sum / static_cast<double>(points.size());
 
         double var = 0.0;
@@ -46,10 +48,11 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
 
     // ----- timestamp deltas ---------------------------------------------
     {
-        std::vector<int64_t> deltas;
-        deltas.reserve(points.size() - 1);
+        std::vector<int64_t> deltas = {};
+
+        deltas.reserve(static_cast<int>(points.size()) - 1);
         for (size_t i = 1; i < points.size(); ++i) {
-            deltas.push_back(points[i].timestamp_ms - points[i - 1].timestamp_ms);
+            deltas.push_back(points[i].timestamp_ms - points[static_cast<int>(i - 1)].timestamp_ms);
         }
 
         // timestamp regularity: fraction of deltas equal to the modal delta
@@ -65,12 +68,12 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
         }
 
         // dod_mean_abs: mean absolute delta-of-delta
-        if (deltas.size() >= 2) {
+        if (static_cast<int>(deltas.size()) >= 2) {
             double dod_sum = 0.0;
             for (size_t i = 1; i < deltas.size(); ++i) {
-                dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[i - 1]));
+                dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[static_cast<int>(i - 1)]));
             }
-            p.dod_mean_abs = dod_sum / static_cast<double>(deltas.size() - 1);
+            p.dod_mean_abs = dod_sum / static_cast<double>(static_cast<int>(deltas.size()) - 1);
         }
     }
 
@@ -78,10 +81,12 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     {
         size_t runs = 0;
         for (size_t i = 1; i < points.size(); ++i) {
-            if (points[i].value == points[i - 1].value) ++runs;
+            if (points[i].value == points[static_cast<int>(i - 1)].value) {
+              ++runs;
+            }
         }
         p.run_length_ratio =
-            static_cast<double>(runs) / static_cast<double>(points.size() - 1);
+            static_cast<double>(runs) / static_cast<double>(static_cast<int>(points.size()) - 1);
     }
 
     return p;
@@ -155,13 +160,17 @@ CompressionStrategy PerSeriesCompressionRegistry::strategyFor(
     // 1. Pinned entries take absolute priority
     {
         auto it = pinned_.find(key);
-        if (it != pinned_.end()) return it->second;
+        if (it != pinned_.end()) {
+          return it->second;
+        }
     }
 
     // 2. Cached entries
     {
         auto it = cached_.find(key);
-        if (it != cached_.end()) return it->second;
+        if (it != cached_.end()) {
+          return it->second;
+        }
     }
 
     // 3. Fresh selection
@@ -193,7 +202,7 @@ void PerSeriesCompressionRegistry::clearCache() {
 }
 
 size_t PerSeriesCompressionRegistry::registrySize() const {
-    return pinned_.size() + cached_.size();
+    return static_cast<int>(pinned_.size()) + static_cast<int>(cached_.size()) ;
 }
 
 void PerSeriesCompressionRegistry::clear() {

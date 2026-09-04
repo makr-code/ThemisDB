@@ -55,7 +55,7 @@ void TokenBlacklist::revoke(const std::string &jti, std::chrono::system_clock::t
         }
 
         // Enforce hard cap
-        if (blacklist_.size() >= config_.max_entries) {
+        if (static_cast<int>(blacklist_.size()) >= config_.max_entries) {
             THEMIS_WARN("TokenBlacklist: max_entries ({}) reached – dropping oldest entry", config_.max_entries);
             // Remove the entry that expires soonest (cheapest to lose)
             auto oldest = blacklist_.begin();
@@ -149,7 +149,7 @@ void TokenBlacklist::clear() {
 
 size_t TokenBlacklist::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return blacklist_.size();
+    return static_cast<int>(blacklist_.size());
 }
 
 TokenBlacklist::Statistics TokenBlacklist::getStatistics() const {
@@ -185,9 +185,9 @@ void TokenBlacklist::pruneExpiredLocked() {
     last_cleanup_ = std::chrono::steady_clock::now();
 }
 
-void TokenBlacklist::setOnRevokeCallback(RevocationCallback cb) {
+void TokenBlacklist::setOnRevokeCallback([[maybe_unused]] RevocationCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    on_revoke_callback_ = std::move(cb);
+    on_revoke_callback_ = std::move([[maybe_unused]] cb);
 }
 
 void TokenBlacklist::clearOnRevokeCallback() {

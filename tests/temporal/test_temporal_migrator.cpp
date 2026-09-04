@@ -31,7 +31,8 @@ protected:
     // Helper: build a small source document map
     static std::unordered_map<std::string, Document> makeSourceDocs(
         int n = 5, const std::string& prefix = "emp") {
-        std::unordered_map<std::string, Document> docs;
+        std::unordered_map<std::string, Document> docs = {};
+
         for (int i = 1; i <= n; ++i) {
             std::string key = prefix + std::to_string(i);
             docs[key] = {
@@ -46,7 +47,8 @@ protected:
     // Helper: build historical version entries
     static std::vector<VersionedDocument> makeHistory(
         const std::string& key, int versions) {
-        std::vector<VersionedDocument> entries;
+        std::vector<VersionedDocument> entries = {};
+
         for (int i = 0; i < versions; ++i) {
             VersionedDocument vd;
             vd.key           = key;

@@ -71,7 +71,7 @@ inline Result<std::string> validatePath(const std::string& path) {
     }
 
     // Must be absolute (/) or relative with ./ prefix
-    if (path[0] != '/' && (path.size() < 2 || path.substr(0, 2) != "./")) {
+    if ((path[0] != '/' && ( static_cast<int>(path.size()) < 2 || path.substr(0, 2) != "./")) {
         return Result<std::string>::error(
             "Path must be absolute (start with /) or relative (start with ./) to prevent shell injection"
         );
@@ -116,7 +116,7 @@ inline Result<std::string> validateHexKey(const std::string& hex_key) {
     }
 
     // Reasonable size limit: 256 bytes = 512 hex chars (max for typical keys)
-    if (hex_key.size() > 512) {
+    if (static_cast<int>(hex_key.size()) > 512) {
         return Result<std::string>::error(
             "Hex key exceeds maximum length (512 characters)"
         );
@@ -185,25 +185,35 @@ inline std::string generateCorrelationId() {
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << std::hex;
-    for (int i = 0; i < 8; ++i) ss << dis(gen);
+    for (int i = 0; i < 8; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 4; ++i) ss << dis(gen);
+    for (int i = 0; i < 4; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 4; ++i) ss << dis(gen);
+    for (int i = 0; i < 4; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 4; ++i) ss << dis(gen);
+    for (int i = 0; i < 4; ++i) {
+      ss << dis(gen);
+    }
     ss << "-";
-    for (int i = 0; i < 12; ++i) ss << dis(gen);
+    for (int i = 0; i < 12; ++i) {
+      ss << dis(gen);
+    }
     
     return ss.str();
 }
 }
 
 struct GocryptfsBackend::Impl {
-    std::string gocryptfs_binary;
-    bool initialized;
+    std::string gocryptfs_binary = {};
+    bool initialized = {};
     KeyDerivationService* kdf_service;  // not owned; may be nullptr
 
     Impl() : gocryptfs_binary("gocryptfs"), initialized(false), kdf_service(nullptr) {}
@@ -265,7 +275,7 @@ Result<void> GocryptfsBackend::checkAvailability() {
     // Verify FUSE module is loaded
     std::ifstream modules("/proc/modules");
     if (modules.is_open()) {
-        std::string line;
+        std::string line = {};
         bool fuse_found = false;
         while (std::getline(modules, line)) {
             if (line.find("fuse ") == 0) {
@@ -443,7 +453,7 @@ bool GocryptfsBackend::isMounted(const std::string& mount_point) {
     // Check /proc/mounts (Linux) or mount output
 #ifdef __linux__
     std::ifstream mounts("/proc/mounts");
-    std::string line;
+    std::string line = {};
     while (std::getline(mounts, line)) {
         if (line.find(mount_point) != std::string::npos) {
             return true;
@@ -476,11 +486,11 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
     // BATCH 2.1.3: Performance Optimization - Replace snprintf loop with single-pass encoding
     // Build hex string + newline so gocryptfs terminates the read cleanly.
     // Performance: < 1ms for typical 32-byte key (USEG-PERF-01)
-    std::string hex_key;
+    std::string hex_key = {};
     hex_key.reserve(key_material.size() * 2 + 1);
     
     // Single-pass hex encoding using stringstream (no repeated allocations)
-    std::stringstream hex_stream;
+    std::stringstream hex_stream = {};
     hex_stream << std::hex << std::setfill('0');
     for (uint8_t byte : key_material) {
         hex_stream << std::setw(2) << static_cast<int>(byte);
@@ -499,23 +509,25 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
         auto n = timed_io.write(ptr + written, static_cast<size_t>(total - written));
         if (!n.has_value()) {
             // Timeout or I/O error
-            secureZero(hex_key.data(), hex_key.size());
+            secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
             if (errno == EAGAIN) {
                 return Result<void>::error("Timeout: write to key stdin pipe blocked");
             }
             return Result<void>::error("Failed to write key to stdin pipe");
         }
         if (n.value() < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR) {
+              continue;
+            }
             // Securely clear before returning error.
-            secureZero(hex_key.data(), hex_key.size());
+            secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
             return Result<void>::error("Failed to write key to stdin pipe");
         }
         written += n.value();
     }
 
     // Securely clear key material from the stack buffer.
-    secureZero(hex_key.data(), hex_key.size());
+    secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
     return Result<void>();
 #endif
 }
@@ -562,8 +574,9 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
         stdin_pipe.closeRead();
         stdout_pipe.closeWrite();
 
-        std::vector<char*> c_args;
-        c_args.reserve(args.size() + 1);
+        std::vector<char*> c_args = {};
+
+        c_args.reserve(static_cast<int>(args.size()) + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }
@@ -587,7 +600,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     // Read child output with timeout.
-    std::string output;
+    std::string output = {};
     char buffer[1024];
     TimedFileOperation read_io(stdout_pipe.readFd(), std::chrono::seconds(10));
     
@@ -742,8 +755,9 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
         stdin_pipe.closeRead();
         stdout_pipe.closeWrite();
 
-        std::vector<char*> c_args;
-        c_args.reserve(args.size() + 1);
+        std::vector<char*> c_args = {};
+
+        c_args.reserve(static_cast<int>(args.size()) + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }
@@ -777,7 +791,9 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
             return Result<std::string>::error("Failed to write to stdin pipe");
         }
         if (written.value() < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR) {
+              continue;
+            }
             stdin_pipe.closeWrite();
             stdout_pipe.closeRead();
             waitpid(pid, nullptr, 0);
@@ -789,7 +805,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     stdin_pipe.closeWrite();  // Signal EOF to child.
 
     // Read child output with timeout.
-    std::string output;
+    std::string output = {};
     char buffer[1024];
     TimedFileOperation read_io(stdout_pipe.readFd(), std::chrono::seconds(10));
     
@@ -873,7 +889,8 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
         pipe.closeWrite();
         
         // Prepare arguments for execvp
-        std::vector<char*> c_args;
+        std::vector<char*> c_args = {};
+
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }
@@ -890,7 +907,7 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     pipe.closeWrite(); // Close write end
     
     // Read output with timeout
-    std::string output;
+    std::string output = {};
     char buffer[1024];
     TimedFileOperation read_io(pipe.readFd(), std::chrono::seconds(10));
     
@@ -914,7 +931,7 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     pipe.closeRead();
     
     // Wait for child to finish
-    int status;
+    int status = {};
     waitpid(pid, &status, 0);
     
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
@@ -929,12 +946,12 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
 }
 
 bool GocryptfsBackend::directoryExists(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     return std::filesystem::is_directory(path, ec);
 }
 
 bool GocryptfsBackend::createDirectory(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     if (std::filesystem::exists(path, ec)) {
         return !ec;
     }

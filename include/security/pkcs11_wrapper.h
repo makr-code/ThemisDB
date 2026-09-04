@@ -101,7 +101,7 @@ inline std::string ckrvToString(CK_RV rv) noexcept {
         case CKR_ARGUMENTS_BAD:      return "CKR_ARGUMENTS_BAD";
         case CKR_SIGNATURE_INVALID:  return "CKR_SIGNATURE_INVALID";
         default: {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "CKR_0x" << std::hex << rv;
             return oss.str();
         }
@@ -398,7 +398,9 @@ public:
      * Safe to call multiple times.
      */
     void close() noexcept {
-        if (!api_ || !handle_) return;
+        if (!api_ || !handle_) {
+          return;
+        }
         if (loggedIn_ && api_->C_Logout) {
             api_->C_Logout(handle_);
             loggedIn_ = false;
@@ -456,7 +458,7 @@ private:
  * For label-based searches use findObjectByLabel().
  */
 struct AttributeFilter {
-    uint32_t type;   ///< Attribute type (e.g. CKA_CLASS)
+    uint32_t type = 0;   ///< Attribute type (e.g. CKA_CLASS)
     uint32_t value;  ///< Attribute value as a 32-bit unsigned integer
 };
 
@@ -647,11 +649,15 @@ inline bool verifyData(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& signature) noexcept {
     auto api = session.functions();
-    if (!api || !session.isOpen() || !publicKey) return false;
+    if (!api || !session.isOpen() || !publicKey) {
+      return false;
+    }
 
     CK_MECHANISM mech{mechanism, nullptr, 0};
     CK_RV rv = api->C_VerifyInit(session.handle(), &mech, publicKey);
-    if (rv != CKR_OK) return false;
+    if (rv != CKR_OK) {
+      return false;
+    }
 
     rv = api->C_Verify(
         session.handle(),
@@ -833,7 +839,9 @@ inline std::optional<uint32_t> getAttribute(
     uint32_t value = 0;
     CK_ATTRIBUTE attr{attrType, &value, sizeof(value)};
     CK_RV rv = api->C_GetAttributeValue(session.handle(), object, &attr, 1);
-    if (rv != CKR_OK) return std::nullopt;
+    if (rv != CKR_OK) {
+      return std::nullopt;
+    }
     return value;
 }
 

@@ -97,8 +97,12 @@ PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
                                               const Config&         config)
     : wal_(wal), snapshot_mgr_(snapshot_mgr), config_(config)
 {
-    if (!wal_)          throw std::invalid_argument("PaxosStatePersistence: wal cannot be null");
-    if (!snapshot_mgr_) throw std::invalid_argument("PaxosStatePersistence: snapshot_mgr cannot be null");
+    if (!wal_) {
+      throw std::invalid_argument("PaxosStatePersistence: wal cannot be null");
+    }
+    if (!snapshot_mgr_) {
+      throw std::invalid_argument("PaxosStatePersistence: snapshot_mgr cannot be null");
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -112,7 +116,9 @@ bool PaxosStatePersistence::open(const std::string& node_id) {
         THEMIS_ERROR("Failed to acquire state lock within timeout");
         return false;
     }
-    if (is_open_.load()) return true;
+    if (is_open_.load()) {
+      return true;
+    }
 
     node_state_.node_id = node_id;
     fs::create_directories(config_.state_dir);
@@ -172,7 +178,7 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
                 s.promised_node  = entry.node_id;
                 break;
             case PaxosWALEntryType::ACCEPT:
-            case PaxosWALEntryType::ACCEPTED:
+            [[fallthrough]];\n            case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
                 if (entry.data.contains("value")) {
                     const auto& logged_value = entry.data["value"];
@@ -227,7 +233,9 @@ bool PaxosStatePersistence::persistPromise(uint64_t slot,
         THEMIS_ERROR("persistPromise: Failed to acquire lock within timeout for slot={}", slot);
         return false;
     }
-    if (!is_open_.load()) return false;
+    if (!is_open_.load()) {
+      return false;
+    }
 
     DurableAcceptorState& s = slot_cache_[slot];
     s.slot           = slot;
@@ -240,7 +248,9 @@ bool PaxosStatePersistence::persistPromise(uint64_t slot,
     LSN lsn = wal_->logPromise(slot, ballot_round, proposer_node_id,
                                 s.accepted_round,
                                 s.accepted_value.empty() ? json{} : json::parse(s.accepted_value, nullptr, false));
-    if (config_.sync_on_write) wal_->flush();
+    if (config_.sync_on_write) {
+      wal_->flush();
+    }
     node_state_.last_lsn = lsn;
     return true;
 }
@@ -257,7 +267,9 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
         THEMIS_ERROR("persistAccept: Failed to acquire lock within timeout for slot={}", slot);
         return false;
     }
-    if (!is_open_.load()) return false;
+    if (!is_open_.load()) {
+      return false;
+    }
 
     DurableAcceptorState& s = slot_cache_[slot];
     s.slot          = slot;
@@ -288,7 +300,9 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     entry.data = std::move(payload);
 
     LSN lsn = wal_->logAccept(slot, ballot_round, node_state_.node_id, entry);
-    if (config_.sync_on_write) wal_->flush();
+    if (config_.sync_on_write) {
+      wal_->flush();
+    }
     node_state_.last_lsn = lsn;
     return true;
 }
@@ -297,9 +311,11 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
 // persistCommit
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool PaxosStatePersistence::persistCommit(uint64_t slot) {
+bool PaxosStatePersistence::persistCommit([[maybe_unused]] uint64_t slot) {
     std::unique_lock<std::timed_mutex> lock(mutex_);
-    if (!is_open_.load()) return false;
+    if (!is_open_.load()) {
+      return false;
+    }
 
     auto it = slot_cache_.find(slot);
     if (it != slot_cache_.end()) {
@@ -316,14 +332,16 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
     ++commits_since_compact_;
 
-    ConsensusLogEntry entry;
+    ConsensusLogEntry entry = {};
     if (slot_cache_.count(slot) && !slot_cache_[slot].accepted_value.empty()) {
         entry = buildConsensusEntryFromAcceptedValue(slot_cache_[slot].accepted_value,
                                                      slot,
                                                      slot_cache_[slot].accepted_round);
     }
     LSN lsn = wal_->logCommit(slot, entry);
-    if (config_.sync_on_write) wal_->flush();
+    if (config_.sync_on_write) {
+      wal_->flush();
+    }
     node_state_.last_lsn = lsn;
 
     // Inline compaction check: briefly release lock so forceCompact() can run
@@ -344,14 +362,16 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::optional<DurableAcceptorState>
-PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
+PaxosStatePersistence::getAcceptorState([[maybe_unused]] uint64_t slot) const {
     std::unique_lock<std::timed_mutex> lock(const_cast<std::timed_mutex&>(mutex_), std::defer_lock);
     if (!lock.try_lock_for(config_.init_timeout)) {
         THEMIS_ERROR("getAcceptorState: Failed to acquire lock within timeout for slot={}", slot);
         return std::nullopt;
     }
     auto it = slot_cache_.find(slot);
-    if (it == slot_cache_.end()) return std::nullopt;
+    if (it == slot_cache_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -366,7 +386,9 @@ void PaxosStatePersistence::maybeCompact() {
             THEMIS_WARN("maybeCompact: Failed to acquire lock within timeout");
             return;
         }
-        if (commits_since_compact_ < config_.compact_interval) return;
+        if (commits_since_compact_ < config_.compact_interval) {
+          return;
+        }
     }
     forceCompact();
 }
@@ -380,7 +402,8 @@ bool PaxosStatePersistence::forceCompact() {
     try {
         // Build snapshot data from the in-memory cache
         std::map<uint64_t, PaxosInstance>        instances;
-        std::map<uint64_t, ConsensusLogEntry>     committed_log;
+        std::map<uint64_t, ConsensusLogEntry>     committed_log = {};
+
         for (const auto& [s, state] : slot_cache_) {
             if (state.is_committed) {
                 auto e = buildConsensusEntryFromAcceptedValue(state.accepted_value,

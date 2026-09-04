@@ -28,7 +28,7 @@ using namespace themis;
 
 class DeterministicRNG {
 private:
-    std::mt19937_64 gen_;
+    std::mt19937_64 gen_ = {};
     mutable std::mutex mutex_;
 
 public:
@@ -41,7 +41,7 @@ public:
 
     std::string generateString(size_t length) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        std::string result;
+        std::string result = {};
         result.reserve(length);
         for (size_t i = 0; i < length; ++i) {
             result += charset[next() % (sizeof(charset) - 1)];
@@ -64,7 +64,7 @@ private:
     std::filesystem::path db_path_;
     DeterministicRNG rng_{42}; // Deterministic seed
     bool initialized_ = false;
-    std::mutex init_mutex_;
+    std::mutex init_mutex_ = {};
 
 public:
     static MultiThreadBenchEnv& instance() {
@@ -74,7 +74,9 @@ public:
 
     void initialize() {
         std::lock_guard<std::mutex> lock(init_mutex_);
-        if (initialized_) return;
+        if (initialized_) {
+          return;
+        }
 
         db_path_ = std::filesystem::temp_directory_path() / ("bench_multithread_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
         std::filesystem::remove_all(db_path_);
@@ -112,7 +114,9 @@ public:
     }
 
     std::shared_ptr<RocksDBWrapper> getDB() {
-        if (!initialized_) initialize();
+        if (!initialized_) {
+          initialize();
+        }
         return db_;
     }
 

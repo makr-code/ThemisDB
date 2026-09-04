@@ -112,7 +112,7 @@ public:
             RewritePhase phase = static_cast<RewritePhase>(i);
             auto metrics = get_phase_metrics(phase);
 
-            std::string phase_name;
+            std::string phase_name = {};
             switch (phase) {
                 case RewritePhase::PHASE_1_INPUT_NORMALIZATION: phase_name = "phase_1_input_normalization"; break;
                 case RewritePhase::PHASE_2_POLICY_ENFORCEMENT: phase_name = "phase_2_policy_enforcement"; break;

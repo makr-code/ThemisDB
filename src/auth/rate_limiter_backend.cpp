@@ -81,7 +81,7 @@ int64_t InMemoryRateLimiterBackend::increment(const std::string& key,
     // Record this request.
     timestamps.push_back(now);
 
-    return static_cast<int64_t>(timestamps.size());
+    return static_cast<bool>(static_cast<int64_t < static_cast<int>((timestamps.size())));
 }
 
 int64_t InMemoryRateLimiterBackend::getCount(const std::string& key,
@@ -155,7 +155,9 @@ bool RedisRateLimiterBackend::connect()
         if (!reply || reply->type == REDIS_REPLY_ERROR) {
             THEMIS_WARN("RedisRateLimiterBackend: AUTH failed: {}",
                         reply ? reply->str : "no reply");
-            if (reply) freeReplyObject(reply);
+            if (reply) {
+              freeReplyObject(reply);
+            }
             redisFree(ctx_);
             ctx_ = nullptr;
             return false;
@@ -238,7 +240,9 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
                                            uint32_t window_seconds) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!ctx_) return 0;
+    if (!ctx_) {
+      return 0;
+    }
 
     auto now_us    = static_cast<long long>(
         std::chrono::duration_cast<std::chrono::microseconds>(
@@ -272,7 +276,9 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
 void RedisRateLimiterBackend::reset(const std::string& key)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!ctx_) return;
+    if (!ctx_) {
+      return;
+    }
 
     const std::string full_key = makeKey(key);
     redisReply* reply = static_cast<redisReply*>(

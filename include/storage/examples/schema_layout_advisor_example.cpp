@@ -69,7 +69,7 @@ std::vector<FieldAccessStats> simulateCollectionStats() {
 // Simulate a time-series collection profile (what StorageLayoutAdvisor reads)
 // ---------------------------------------------------------------------------
 struct CollectionProfile {
-    std::string name;
+    std::string name = {};
     uint64_t    rows_per_day_write_rate;
     double      read_write_ratio;      // reads / (reads + writes)
     bool        is_time_series;
@@ -122,7 +122,7 @@ int main() {
     // Simulate expected recommendations
     std::cout << "\n  Expected recommendations (PLANNED — IMPL-B6):\n";
     for (const auto& f : fields) {
-        std::string rec;
+        std::string rec = {};
         if (f.gdpr_tagged) {
             rec = "RETAIN  (GDPR-tagged — never archived)";
         } else if (f.reads_prior_90d > 0) {

@@ -103,7 +103,9 @@ struct MockHistogram {
 
     bool isBucketsValid() const {
         for (std::size_t i = 1; i < buckets.size(); ++i)
-            if (buckets[i] <= buckets[i - 1]) return false;
+            if (buckets[i] <= buckets[i - 1]) {
+              return false;
+            }
         return true;
     }
 };
@@ -120,7 +122,7 @@ struct MockSpan {
 struct MockTracer {
     std::vector<MockSpan> spans;
     std::size_t           dropped = 0;
-    std::size_t           max_depth;
+    std::size_t           max_depth = {};
 
     explicit MockTracer(std::size_t max_d = kMaxSpanNestingDepth)
         : max_depth(max_d) {}
@@ -154,8 +156,8 @@ enum class LogLevel { DEBUG = 0, INFO = 1, WARN = 2, ERROR = 3 };
 struct MockLogEntry {
     LogLevel                         level;
     std::map<std::string, std::string> fields;
-    std::string                      message;
-    std::size_t                      byte_size;
+    std::string                      message = {};
+    std::size_t                      byte_size = {};
 };
 
 struct MockLogger {

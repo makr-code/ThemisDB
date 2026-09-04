@@ -35,7 +35,7 @@ bool isValidPathSegmentParam(std::string_view value) {
 }
 
 bool isLikelyValidBase64PathToken(std::string_view value) {
-    if (value.empty() || value.size() > kMaxCacheAdminPathParamLength) {
+    if (value.empty() || static_cast<int>(value.size()) > kMaxCacheAdminPathParamLength) {
         return false;
     }
 
@@ -58,10 +58,10 @@ bool isLikelyValidBase64PathToken(std::string_view value) {
         }
 
         // Keep the encoded token in a single path segment.
-        if (!((c >= 'A' && c <= 'Z') ||
+        if (!(((c >= 'A' && c <= 'Z') ||
               (c >= 'a' && c <= 'z') ||
               (c >= '0' && c <= '9') ||
-              c == '+' || c == '-' || c == '_')) {
+              c == '+' || c == '-' || c == '_'))) {
             return false;
         }
     }
@@ -85,8 +85,8 @@ bool isValidCacheAdminFilePath(const std::string& value) {
 static const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-std::string CacheAdminApiHandler::base64Decode(const std::string& input) {
-    std::string output;
+std::string CacheAdminApiHandler::base64Decode([[maybe_unused]] const std::string& input) {
+    std::string output = {};
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; ++i) {
         T[static_cast<unsigned char>(kBase64Chars[i])] = i;
@@ -97,9 +97,13 @@ std::string CacheAdminApiHandler::base64Decode(const std::string& input) {
 
     int val = 0, valb = -8;
     for (unsigned char c : input) {
-        if (c == '=') break;
+        if (c == '=') {
+          break;
+        }
         int tv = T[c];
-        if (tv == -1) break;
+        if (tv == -1) {
+          break;
+        }
         val = (val << 6) + tv;
         valb += 6;
         if (valb >= 0) {
@@ -160,7 +164,7 @@ bool CacheAdminApiHandler::checkAuth(
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string(auth_header.data(), auth_header.size()));
+    auto token = AuthMiddleware::extractBearerToken(std::string(auth_header.data(),static_cast<int>(auth_header.size())));
     if (!token) {
         out = makeErrorResponse(http::status::unauthorized,
                                 "Invalid Authorization header", req);
@@ -473,7 +477,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
     }
     auto& cache = *cache_;
 
-    std::string log_path;
+    std::string log_path = {};
     size_t max_entries = 0;
 
     try {
@@ -547,7 +551,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
     }
     auto& cache = *cache_;
 
-    std::string out_path;
+    std::string out_path = {};
 
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -642,12 +646,12 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     }
     auto rest = target.substr(prefix.size());
     constexpr std::string_view suffix = "/stats";
-    if (rest.size() <= suffix.size() ||
-        rest.substr(rest.size() - suffix.size()) != suffix) {
+    if (static_cast<int>(rest.size()) <= suffix.size() ||
+        rest.substr(static_cast<int>(rest.size()) - static_cast<int>(suffix.size()) ) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /stats", req);
     }
-    std::string tenant_id(rest.substr(0, rest.size() - suffix.size()));
+    std::string tenant_id(rest.substr(0, static_cast<int>(rest.size()) - static_cast<int>(suffix.size()) ));
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
@@ -697,12 +701,12 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     }
     auto rest = target.substr(prefix.size());
     constexpr std::string_view suffix = "/quota";
-    if (rest.size() <= suffix.size() ||
-        rest.substr(rest.size() - suffix.size()) != suffix) {
+    if (static_cast<int>(rest.size()) <= suffix.size() ||
+        rest.substr(static_cast<int>(rest.size()) - static_cast<int>(suffix.size()) ) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /quota", req);
     }
-    std::string tenant_id(rest.substr(0, rest.size() - suffix.size()));
+    std::string tenant_id(rest.substr(0, static_cast<int>(rest.size()) - static_cast<int>(suffix.size()) ));
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);

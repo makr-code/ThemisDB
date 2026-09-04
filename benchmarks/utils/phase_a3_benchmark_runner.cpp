@@ -104,7 +104,9 @@ BenchmarkResult run_benchmark(const std::string& name, const std::string& gate_i
     std::sort(times_us.begin(), times_us.end());
     
     double sum = 0.0;
-    for (auto t : times_us) sum += t;
+    for (auto t : times_us) {
+      sum += t;
+    }
     double mean = sum / times_us.size();
     double median = times_us[times_us.size() / 2];
     double min = times_us.front();
@@ -333,7 +335,9 @@ int main() {
     
     int passed_count = 0;
     for (const auto& result : results) {
-        if (result.pass) passed_count++;
+        if (result.pass) {
+          passed_count++;
+        }
         output["benchmarks"].push_back(result.to_json());
     }
     output["metadata"]["gates_passed"] = passed_count;

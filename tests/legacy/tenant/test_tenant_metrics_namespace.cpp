@@ -309,7 +309,9 @@ TEST_F(TenantMetricsNamespaceTest, ThreadSafety_ConcurrentIncrement) {
             }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     auto s = reg_->stats("shared");
     EXPECT_LE(s.total_observations, (int64_t)(kThreads * kOpsPerThread));
 }
@@ -327,7 +329,9 @@ TEST_F(TenantMetricsNamespaceTest, ThreadSafety_ConcurrentRegisterAndExport) {
             reg_->exportAll();
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     // No crash or UB is the pass criterion
     SUCCEED();
 }

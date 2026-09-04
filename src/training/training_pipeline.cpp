@@ -33,9 +33,9 @@ namespace {
 constexpr const char* kBlockedCallbackMessage = "message blocked by prompt policy";
 
 std::string sanitizeTrainingPipelineMessage(const std::string& message) {
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!llm::prompt_safety::sanitizePromptWithSharedPolicy(
             message,
             sanitized,
@@ -105,9 +105,9 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Full pipeline execution
     // -------------------------------------------------------------------------
-    PipelineStats run(PipelineCallback callback) {
-        PipelineStats stats;
-        PipelineMetrics metrics;
+    PipelineStats run([[maybe_unused]] PipelineCallback callback) {
+        PipelineStats stats = PipelineStats();
+        PipelineMetrics metrics = PipelineMetrics();
         auto pipeline_start = std::chrono::steady_clock::now();
 
         // QW-40: Fail-closed guards against prompt injection
@@ -129,7 +129,7 @@ public:
         auto emitCallback = [&](const std::string& stage,
                                 size_t step,
                                 const std::string& message) {
-            if (!callback) {
+            if ([[maybe_unused]] !callback) {
                 return;
             }
             callback(stage, step, sanitizeTrainingPipelineMessage(message));
@@ -159,7 +159,7 @@ public:
                 std::vector<ProvenanceRecord> prov_records;
                 prov_records.reserve(ls.samples_created);
                 for (size_t i = 0; i < ls.samples_created; ++i) {
-                    ProvenanceRecord rec;
+                    ProvenanceRecord rec = ProvenanceRecord();
                     rec.sample_id            = config_.labeler_config.target_collection
                                                + "_" + std::to_string(i);
                     rec.source_doc_urn       = "urn:collection:"
@@ -249,7 +249,7 @@ public:
             stats.selection_input_count    = sel.audit_entry.input_sample_count;
             stats.selection_output_count   = sel.selected_samples.size();
             stats.selection_filtered_count =
-                sel.audit_entry.input_sample_count - sel.selected_samples.size();
+                sel.audit_entry.input_sample_count - static_cast<int>(sel.selected_samples.size()) ;
 
             metrics.endStage("data_selection");
 
@@ -303,9 +303,9 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Stage-specific entry points
     // -------------------------------------------------------------------------
-    LabelingStats runLabeling(LabelingCallback callback) {
-        if (!callback) {
-            return labeler_->labelAll(callback);
+    LabelingStats runLabeling([[maybe_unused]] LabelingCallback callback) {
+        if ([[maybe_unused]] !callback) {
+            return labeler_->labelAll([[maybe_unused]] callback);
         }
         return labeler_->labelAll(
             [&](size_t processed, size_t total, const std::string& message) {
@@ -313,9 +313,9 @@ public:
             });
     }
 
-    EnrichmentStats runEnrichment(EnrichmentCallback callback) {
-        if (!callback) {
-            return enricher_->enrichAll(callback);
+    EnrichmentStats runEnrichment([[maybe_unused]] EnrichmentCallback callback) {
+        if ([[maybe_unused]] !callback) {
+            return enricher_->enrichAll([[maybe_unused]] callback);
         }
         return enricher_->enrichAll(
             [&](size_t processed, size_t total, const std::string& message) {
@@ -323,8 +323,8 @@ public:
             });
     }
 
-    TrainingResult runTraining(TrainingCallback callback) {
-        if (!callback) {
+    TrainingResult runTraining([[maybe_unused]] TrainingCallback callback) {
+        if ([[maybe_unused]] !callback) {
             return trainer_->train(TrainingMode::INITIAL, callback);
         }
         return trainer_->train(
@@ -337,7 +337,7 @@ public:
     // -------------------------------------------------------------------------
     // Data selection stage (Quality & Diversity Layer)
     // -------------------------------------------------------------------------
-    DataSelectionResult runDataSelection(SelectionProgressCallback callback) {
+    DataSelectionResult runDataSelection([[maybe_unused]] SelectionProgressCallback callback) {
         // In production: load candidate samples via AQL query:
         //   FOR sample IN @collection
         //     RETURN {id: sample._key, text: CONCAT(sample.input, " ", sample.output)}
@@ -349,7 +349,7 @@ public:
         // Allow live config reload on each call
         data_selector_->setConfig(config_.data_selection_config);
 
-        if (!callback) {
+        if ([[maybe_unused]] !callback) {
             return data_selector_->run(candidates, std::move(callback));
         }
 
@@ -364,7 +364,7 @@ public:
     // Phase 7: Data-quality checks
     // -------------------------------------------------------------------------
     DataQualityReport checkDataQuality([[maybe_unused]] float min_confidence) {
-        DataQualityReport report;
+        DataQualityReport report = DataQualityReport();
 
         // In production: AQL query to fetch all samples and validate fields
         // FOR sample IN legal_training_samples
@@ -392,7 +392,7 @@ public:
     // Phase 7: Label-drift detection
     // -------------------------------------------------------------------------
     DriftReport detectLabelDrift([[maybe_unused]] const std::vector<std::string>& reference_samples) {
-        DriftReport report;
+        DriftReport report = DriftReport();
 
         // In production: compare category distribution of reference samples
         // with current training collection using statistical tests
@@ -448,7 +448,7 @@ public:
     // -------------------------------------------------------------------------
     HyperparamResult runHyperparamSearch(const HyperparamSearchConfig& cfg,
                                          HyperparamSearchCallback callback) {
-        HyperparamResult result;
+        HyperparamResult result = {};
         if (cfg.rank_candidates.empty() || cfg.lr_candidates.empty()) {
             result.summary = "No candidates provided; skipping search";
             result.success = false;
@@ -459,7 +459,8 @@ public:
 
         // Build the Cartesian product of (rank, lr) trial pairs
         struct TrialPoint { int rank; float lr; };
-        std::vector<TrialPoint> trials;
+        std::vector<TrialPoint> trials = {};
+
         trials.reserve(cfg.rank_candidates.size() * cfg.lr_candidates.size());
         for (int r : cfg.rank_candidates) {
             for (float lr : cfg.lr_candidates) {
@@ -470,9 +471,9 @@ public:
         // Deterministic shuffle using the caller-supplied seed
         // Fisher-Yates with a simple LCG to avoid a heavy RNG dependency
         auto shuffle_lcg = [](std::vector<TrialPoint>& v, unsigned int seed) {
-            uint64_t state = static_cast<uint64_t>(seed) * 6364136223846793005ULL + 1442695040888963407ULL;
-            for (size_t i = v.size() - 1; i > 0; --i) {
-                state = state * 6364136223846793005ULL + 1442695040888963407ULL;
+            uint64_t state = static_cast<uint64_t>(seed) * 6364136223846793005 + 1442695040888963407;
+            for (size_t i = static_cast<int>(v.size()) - 1; i > 0; --i) {
+                state = state * 6364136223846793005 + 1442695040888963407;
                 size_t j = static_cast<size_t>(state >> 33) % (i + 1);
                 std::swap(v[i], v[j]);
             }
@@ -480,7 +481,7 @@ public:
         shuffle_lcg(trials, cfg.seed);
 
         // Cap at max_trials
-        if (cfg.max_trials > 0 && trials.size() > cfg.max_trials) {
+        if (cfg.max_trials > 0 && static_cast<int>(trials.size()) > cfg.max_trials) {
             trials.resize(cfg.max_trials);
         }
 
@@ -507,7 +508,7 @@ public:
             trial_cfg.learning_rate    = trial.lr;
             trial_cfg.validation_split = cfg.validation_split;
 
-            HyperparamTrialResult trial_result;
+            HyperparamTrialResult trial_result = HyperparamTrialResult();
             trial_result.rank = trial.rank;
             trial_result.lr   = trial.lr;
 
@@ -529,7 +530,7 @@ public:
                 best_lr       = trial.lr;
             }
 
-            if (callback) {
+            if ([[maybe_unused]] callback) {
                 callback(i, trial_result);
             }
         }
@@ -546,7 +547,7 @@ public:
             std::chrono::duration<double>(search_end - search_start).count();
 
         // Summarise
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Searched " << result.trials_run << " trials"
             << "; best rank=" << best_rank
             << " lr=" << best_lr
@@ -583,11 +584,11 @@ private:
 
     // Serialise a CalibrationResult to a key=value text format (no JSON dep).
     static std::string serializeCalibrationResult(const CalibrationResult& r) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "success=" << (r.success ? "true" : "false") << "\n"
             << "elapsed=" << r.elapsed_seconds << "\n"
             << "summary=" << r.summary << "\n"
-            << "threshold_count=" << r.thresholds.size() << "\n";
+            << "threshold_count=" <<static_cast<int>(r.thresholds.size()) << "\n";
         for (const auto& t : r.thresholds) {
             oss << "threshold[" << t.category << "]="
                 << t.threshold << " samples=" << t.sample_count
@@ -606,29 +607,29 @@ TrainingPipeline::TrainingPipeline(const PipelineConfig& config,
 
 TrainingPipeline::~TrainingPipeline() = default;
 
-PipelineStats TrainingPipeline::run(PipelineCallback callback) {
-    return impl_->run(callback);
+PipelineStats TrainingPipeline::run([[maybe_unused]] PipelineCallback callback) {
+    return impl_->run([[maybe_unused]] callback);
 }
 
-std::string TrainingPipeline::sanitizeCallbackMessage(const std::string& message) {
+std::string TrainingPipeline::sanitizeCallbackMessage([[maybe_unused]] const std::string& message) {
     return sanitizeTrainingPipelineMessage(message);
 }
 
-LabelingStats TrainingPipeline::runLabeling(LabelingCallback callback) {
-    return impl_->runLabeling(callback);
+LabelingStats TrainingPipeline::runLabeling([[maybe_unused]] LabelingCallback callback) {
+    return impl_->runLabeling([[maybe_unused]] callback);
 }
 
-EnrichmentStats TrainingPipeline::runEnrichment(EnrichmentCallback callback) {
-    return impl_->runEnrichment(callback);
+EnrichmentStats TrainingPipeline::runEnrichment([[maybe_unused]] EnrichmentCallback callback) {
+    return impl_->runEnrichment([[maybe_unused]] callback);
 }
 
 DataSelectionResult TrainingPipeline::runDataSelection(
         SelectionProgressCallback callback) {
-    return impl_->runDataSelection(std::move(callback));
+    return impl_->runDataSelection([[maybe_unused]] std::move(callback));
 }
 
-TrainingResult TrainingPipeline::runTraining(TrainingCallback callback) {
-    return impl_->runTraining(callback);
+TrainingResult TrainingPipeline::runTraining([[maybe_unused]] TrainingCallback callback) {
+    return impl_->runTraining([[maybe_unused]] callback);
 }
 
 CalibrationResult TrainingPipeline::runCalibration() {
@@ -641,7 +642,7 @@ void TrainingPipeline::addCalibrationSample(const std::string& category,
     impl_->addCalibrationSample(category, confidence, model_correct);
 }
 
-DataQualityReport TrainingPipeline::checkDataQuality(float min_confidence) {
+DataQualityReport TrainingPipeline::checkDataQuality([[maybe_unused]] float min_confidence) {
     return impl_->checkDataQuality(min_confidence);
 }
 
@@ -674,7 +675,7 @@ void ConfidenceCalibrator::addSample(const std::string& category,
 }
 
 CalibrationResult ConfidenceCalibrator::calibrate() const {
-    CalibrationResult result;
+    CalibrationResult result = {};
     if (samples_.empty()) {
         result.success = true;
         result.summary = "No samples provided; returning empty threshold list";
@@ -690,7 +691,9 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
     }
 
     for (const auto& [category, cat_samples] : by_category) {
-        if (cat_samples.empty()) continue;
+        if (cat_samples.empty()) {
+          continue;
+        }
 
         // Sort samples by ascending confidence
         std::vector<Sample> sorted = cat_samples;
@@ -709,11 +712,12 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
 
         // PAV: build blocks of equal isotonic values
         struct Block { double value; size_t count; };
-        std::vector<Block> blocks;
+        std::vector<Block> blocks = {};
+
         for (double yi : y) {
             blocks.push_back({yi, 1});
             // Merge blocks while the top-of-stack violates monotonicity
-            while (blocks.size() >= 2) {
+            while (static_cast<int>(blocks.size()) >= 2) {
                 auto& prev = blocks[blocks.size() - 2];
                 auto& curr = blocks[blocks.size() - 1];
                 if (prev.value > curr.value) {
@@ -749,7 +753,9 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
             for (size_t i = 0; i < sorted.size(); ++i) {
                 bool predicted_positive = sorted[i].confidence >= thr;
                 bool actually_positive  = sorted[i].correct;
-                if (predicted_positive && actually_positive)  ++tp;
+                if (predicted_positive && actually_positive) {
+                  ++tp;
+                }
                 else if (predicted_positive && !actually_positive) ++fp;
                 else if (!predicted_positive && actually_positive) ++fn;
             }
@@ -771,7 +777,9 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
             size_t tp = 0, fp = 0, fn = 0;
             for (const auto& s : sorted) {
                 bool pred = s.confidence >= static_thr;
-                if (pred && s.correct)   ++tp;
+                if (pred && s.correct) {
+                  ++tp;
+                }
                 else if (pred)           ++fp;
                 else if (s.correct)      ++fn;
             }
@@ -780,7 +788,7 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
             static_f1 = (p + r) > 0 ? 2.0 * p * r / (p + r) : 0.0;
         }
 
-        CalibratedThreshold entry;
+        CalibratedThreshold entry = CalibratedThreshold();
         entry.category       = category;
         entry.threshold      = best_threshold;
         entry.sample_count   = cat_samples.size();
@@ -801,7 +809,7 @@ void ConfidenceCalibrator::reset() {
 }
 
 size_t ConfidenceCalibrator::sampleCount() const {
-    return samples_.size();
+    return static_cast<int>(samples_.size());
 }
 
 } // namespace training

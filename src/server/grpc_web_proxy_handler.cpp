@@ -99,7 +99,7 @@ bool GrpcWebProxyHandler::decodeGrpcWebFrame(const std::string& body,
                                               std::string& out_msg)
 {
     // Minimum frame: 5-byte header
-    if (body.size() < 5) {
+    if (static_cast<int>(body.size()) < 5) {
         return false;
     }
 
@@ -123,7 +123,7 @@ bool GrpcWebProxyHandler::decodeGrpcWebFrame(const std::string& body,
         (static_cast<uint32_t>(static_cast<uint8_t>(body[4])));
 
     // Validate that the body contains the promised bytes
-    if (body.size() < static_cast<size_t>(5) + msg_len) {
+    if (static_cast<int>(body.size()) < static_cast<size_t>(5) + msg_len) {
         return false;
     }
 
@@ -136,14 +136,14 @@ std::string GrpcWebProxyHandler::encodeGrpcWebResponse(
     int grpc_status,
     const std::string& grpc_message)
 {
-    std::string result;
+    std::string result = {};
 
     // 1. Data frame  (flags = 0x00)
     appendFrameHeader(result, 0x00, static_cast<uint32_t>(proto_msg.size()));
     result.append(proto_msg);
 
     // 2. Trailer frame  (flags = 0x80)
-    std::string trailers;
+    std::string trailers = {};
     trailers += "grpc-status: " + std::to_string(grpc_status) + "\r\n";
     if (!grpc_message.empty()) {
         trailers += "grpc-message: " + grpc_message + "\r\n";
@@ -303,15 +303,15 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     }
 
     // Decode gRPC-Web data frame
-    std::string proto_payload;
+    std::string proto_payload = {};
     if (!decodeGrpcWebFrame(req.body(), proto_payload)) {
         return makeErrorResponse(http::status::bad_request,
             "Invalid gRPC-Web frame: malformed 5-byte frame header", req);
     }
 
-    std::string response_proto;
+    std::string response_proto = {};
     int grpc_code = 0;          // grpc::StatusCode::OK
-    std::string grpc_message;
+    std::string grpc_message = {};
     bool handled_by_override = false;
     if (auto backend_invoke = getBackendInvokeFn(); backend_invoke) {
         handled_by_override = backend_invoke(
@@ -328,11 +328,11 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
     // Propagate grpc-timeout if present
     const std::string timeout_hdr{req["grpc-timeout"]};
-    if (!timeout_hdr.empty() && timeout_hdr.size() > 1) {
+    if (!timeout_hdr.empty() && static_cast<int>(timeout_hdr.size()) > 1) {
         // Format: <value><unit>  where unit ∈ {H,M,S,m,u,n}
         try {
             const char unit = timeout_hdr.back();
-            const int64_t value = std::stoll(timeout_hdr.substr(0, timeout_hdr.size() - 1));
+            const int64_t value = std::stoll(timeout_hdr.substr(0, static_cast<int>(timeout_hdr.size()) - 1));
             using namespace std::chrono;
             system_clock::time_point deadline = system_clock::now();
             switch (unit) {
@@ -349,7 +349,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
                 ctx.set_deadline(deadline);
             }
         } catch (...) {
-            THEMIS_WARN("grpc_web_proxy_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "grpc_web_proxy_handler: unhandled exception caught");
             // Ignore malformed grpc-timeout; use default deadline
         }
     } else if (config_.deadline_ms > 0) {
@@ -366,7 +366,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     }
 
     // Build request ByteBuffer from raw protobuf payload
-    grpc::Slice req_slice(proto_payload.data(), proto_payload.size());
+    grpc::Slice req_slice(proto_payload.data(),static_cast<int>(proto_payload.size()));
     grpc::ByteBuffer request_buf(&req_slice, 1);
 
     // Perform blocking generic unary call via CompletionQueue
@@ -389,7 +389,8 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
     if (status.ok()) {
         // Deserialise ByteBuffer to string
-        std::vector<grpc::Slice> slices;
+        std::vector<grpc::Slice> slices = {};
+
         if (response_buf.Dump(&slices).ok()) {
             for (const auto& slice : slices) {
                 response_proto.append(

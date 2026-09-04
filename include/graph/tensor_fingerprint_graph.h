@@ -95,7 +95,7 @@ struct PersistedFingerprintNode {
  */
 struct PersistedFingerprintEdge {
     std::string from;
-    std::string to;
+    std::string to = {};
     double similarity = 0.0;
 };
 

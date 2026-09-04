@@ -92,7 +92,7 @@ bool ContinuousBatchScheduler::submitRequest(
     request.stats.state = RequestState::PENDING;
     request.stats.enqueue_time = std::chrono::steady_clock::now();
     request.input_token_ids = input_token_ids;
-    request.callback = std::move(callback);
+    request.callback = std::move([[maybe_unused]] callback);
     
     // Add to appropriate priority queue
     size_t queue_index = getPriorityQueueIndex(priority);
@@ -101,7 +101,7 @@ bool ContinuousBatchScheduler::submitRequest(
     current_stats_.pending_requests++;
     
     spdlog::debug("ContinuousBatchScheduler: Submitted request {} (priority={}, prompt_tokens={})",
-                 request_id, static_cast<int>(priority), input_token_ids.size());
+                 request_id, static_cast<int>(priority),static_cast<int>(input_token_ids.size()));
     
     return true;
 }
@@ -181,7 +181,7 @@ void ContinuousBatchScheduler::processNextBatch() {
     current_stats_.in_progress_requests += current_stats_.current_batch_size;
     current_stats_.pending_requests -= current_stats_.current_batch_size;
     
-    spdlog::debug("ContinuousBatchScheduler: Processing batch of {} requests", batch.size());
+    spdlog::debug("ContinuousBatchScheduler: Processing batch of {} requests",static_cast<int>(batch.size()));
     
     // Process each request in the batch
     for (int64_t request_id : batch) {
@@ -244,7 +244,7 @@ void ContinuousBatchScheduler::processNextBatch() {
                         request_id, request.stats.generated_tokens, total_time);
             
             // Notify callback
-            if (request.callback) {
+            if ([[maybe_unused]] request.callback) {
                 request.callback(request_id, request.input_token_ids, request.stats);
             }
         }
@@ -382,7 +382,8 @@ std::unordered_map<SchedulingPriority, uint32_t>
 ContinuousBatchScheduler::getRequestCountByPriority() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::unordered_map<SchedulingPriority, uint32_t> counts;
+    std::unordered_map<SchedulingPriority, uint32_t> counts = {};
+
     counts[SchedulingPriority::REALTIME] = static_cast<uint32_t>(priority_queues_[0].size());
     counts[SchedulingPriority::INTERACTIVE] = static_cast<uint32_t>(priority_queues_[1].size());
     counts[SchedulingPriority::BATCH] = static_cast<uint32_t>(priority_queues_[2].size());
@@ -405,8 +406,8 @@ void ContinuousBatchScheduler::enableSpeculativeDecoding(
     TokenGenerationCallback target_model_callback
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
-    draft_model_callback_ = std::move(draft_model_callback);
-    target_model_callback_ = std::move(target_model_callback);
+    draft_model_callback_ = std::move([[maybe_unused]] draft_model_callback);
+    target_model_callback_ = std::move([[maybe_unused]] target_model_callback);
     spdlog::info("ContinuousBatchScheduler: Speculative decoding enabled");
 }
 
@@ -471,7 +472,7 @@ std::optional<RequestStats> ContinuousBatchScheduler::getRequestStats(int64_t re
 
 void ContinuousBatchScheduler::onMetricsUpdate(std::function<void(const BatchStats&)> callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    metrics_callback_ = std::move(callback);
+    metrics_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================================
@@ -493,10 +494,10 @@ std::vector<int64_t> ContinuousBatchScheduler::selectNextBatch() {
     uint32_t tokens_used = 0;
     
     // Select requests from highest priority to lowest
-    for (size_t i = 0; i < priority_queues_.size() && batch.size() < config_.max_batch_size; ++i) {
+    for (size_t i = 0; i < priority_queues_.size() && static_cast<int>(batch.size()) < config_.max_batch_size; ++i) {
         auto& queue = priority_queues_[i];
         
-        while (!queue.empty() && batch.size() < config_.max_batch_size) {
+        while (!queue.empty() && static_cast<int>(batch.size()) < config_.max_batch_size) {
             Request request = std::move(const_cast<Request&>(queue.front()));
             queue.pop();
             
@@ -529,7 +530,7 @@ bool ContinuousBatchScheduler::processPrefill(Request& request) {
     std::vector<int> output_tokens;
     bool success = false;
     
-    if (target_model_callback_) {
+    if ([[maybe_unused]] target_model_callback_) {
         success = target_model_callback_(request.stats.request_id, 
                                          request.input_token_ids, 
                                          output_tokens, 
@@ -545,7 +546,7 @@ bool ContinuousBatchScheduler::processPrefill(Request& request) {
         request.input_token_ids = output_tokens;
         
         spdlog::debug("ContinuousBatchScheduler: Prefill completed for request {} ({} tokens)",
-                     request.stats.request_id, output_tokens.size());
+                     request.stats.request_id,static_cast<int>(output_tokens.size()));
         return false; // Not completed yet, continue with decode
     }
     
@@ -581,7 +582,7 @@ bool ContinuousBatchScheduler::processChunkedPrefill(Request& request) {
     std::vector<int> output_tokens;
     bool success = false;
     
-    if (target_model_callback_) {
+    if ([[maybe_unused]] target_model_callback_) {
         success = target_model_callback_(request.stats.request_id, 
                                          chunk_input, 
                                          output_tokens, 
@@ -618,7 +619,7 @@ bool ContinuousBatchScheduler::processDecode(Request& request) {
     std::vector<int> output_tokens;
     bool success = false;
     
-    if (target_model_callback_) {
+    if ([[maybe_unused]] target_model_callback_) {
         success = target_model_callback_(request.stats.request_id, 
                                          request.input_token_ids, 
                                          output_tokens, 
@@ -652,8 +653,8 @@ bool ContinuousBatchScheduler::processSpeculativeDecoding(Request& request) {
     // Speculative decoding implementation
     // Use draft model to propose tokens, then verify with target model
     
-    if (!draft_model_callback_ || !target_model_callback_) {
-        spdlog::warn("ContinuousBatchScheduler: Speculative decoding callbacks not set");
+    if ([[maybe_unused]] !draft_model_callback_ || !target_model_callback_) {
+        spdlog::warn([[maybe_unused]] "ContinuousBatchScheduler: Speculative decoding callbacks not set");
         request.stats.state = RequestState::DECODING;
         return processDecode(request);
     }
@@ -734,7 +735,7 @@ void ContinuousBatchScheduler::checkPreemption() {
     uint32_t high_priority_pending = static_cast<uint32_t>(priority_queues_[0].size()) +
                                    static_cast<uint32_t>(priority_queues_[1].size());
     
-    if (high_priority_pending > 0 && in_progress_requests_.size() >= config_.max_batch_size) {
+    if (high_priority_pending > 0 && static_cast<int>(in_progress_requests_.size()) >= config_.max_batch_size) {
         // Find lowest priority in-progress request
         int64_t lowest_request_id = -1;
         SchedulingPriority lowest_priority = SchedulingPriority::REALTIME;
@@ -774,7 +775,7 @@ void ContinuousBatchScheduler::updateStats(const Request& request) {
     latency_history_ms_.push_back(total_time);
     
     // Keep last 1000 samples for percentile calculations
-    if (latency_history_ms_.size() > 1000) {
+    if (static_cast<int>(latency_history_ms_.size()) > 1000) {
         latency_history_ms_.erase(latency_history_ms_.begin());
     }
     
@@ -807,8 +808,8 @@ void ContinuousBatchScheduler::updateStats(const Request& request) {
 }
 
 void ContinuousBatchScheduler::notifyMetricsCallback() {
-    if (metrics_callback_) {
-        metrics_callback_(current_stats_);
+    if ([[maybe_unused]] metrics_callback_) {
+        metrics_callback_([[maybe_unused]] current_stats_);
     }
 }
 

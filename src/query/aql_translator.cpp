@@ -39,10 +39,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     }
 
     // Phase 4.1: preprocess WITH clauses to determine CTE execution strategy
-    std::vector<TranslationResult::CTEExecution> cte_executions;
+    std::vector<TranslationResult::CTEExecution> cte_executions = {};
+
     if (ast->with_clause) {
         query::SubqueryOptimizer optimizer;
-        cte_executions.reserve(ast->with_clause->ctes.size());
+        cte_executions.reserve(ast->with_clause-> static_cast<int>(ctes.size()));
 
         for (const auto& cte_def : ast->with_clause->ctes) {
             if (!cte_def.subquery) {
@@ -60,7 +61,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         }
     }
 
-    auto finalizeResult = [&](TranslationResult&& result) -> TranslationResult {
+    auto finalizeResult = [&]([[maybe_unused]] TranslationResult&& result) -> TranslationResult {
         attachCTEs(result, std::move(cte_executions));
         return std::move(result);
     };
@@ -86,10 +87,10 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     }
     
     // Multi-FOR Join: Wenn mehr als eine FOR-Klausel vorhanden ist, als Join behandeln
-    if (ast->for_nodes.size() > 1 || !ast->let_nodes.empty() || ast->collect) {
+    if (ast-> static_cast<int>(for_nodes.size()) > 1 || !ast->let_nodes.empty() || ast->collect) {
         // Special-case LET-bound hybrid queries so they do not get treated as joins
-        if (ast->for_nodes.size() == 1 && ast->let_nodes.size() == 1 && !ast->collect &&
-            ast->sort && ast->sort->specifications.size() == 1) {
+        if (ast-> static_cast<int>(for_nodes.size()) == 1 && ast-> static_cast<int>(let_nodes.size()) == 1 && !ast->collect &&
+            ast->sort && ast->sort-> static_cast<int>(specifications.size()) == 1) {
             const auto& letNode = ast->let_nodes[0];
             const auto& sortExpr = ast->sort->specifications[0].expression;
 
@@ -99,7 +100,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     // LET ... = SIMILARITY(...)
                     if (letNode.expression->getType() == ASTNodeType::SimilarityCall) {
                         auto sim = std::static_pointer_cast<SimilarityCallExpr>(letNode.expression);
-                        if (sim->arguments.size() >= 2) {
+                        if (sim-> static_cast<int>(arguments.size()) >= 2) {
                             if (sim->arguments[0]->getType() != ASTNodeType::FieldAccess) {
                                 return TranslationResult::Error("SIMILARITY() LET first arg must be field access");
                             }
@@ -109,8 +110,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                             std::string vectorField = extractColumnName(sim->arguments[0]);
                             auto arr = std::static_pointer_cast<ArrayLiteralExpr>(sim->arguments[1]);
-                            std::vector<float> queryVec;
-                            queryVec.reserve(arr->elements.size());
+                            std::vector<float> queryVec = {};
+
+                            queryVec.reserve(arr-> static_cast<int>(elements.size()));
                             for (const auto& el : arr->elements) {
                                 if (el->getType() != ASTNodeType::Literal) {
                                     return TranslationResult::Error("SIMILARITY() vector elements must be literals");
@@ -126,7 +128,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                             }
 
                             size_t k = 10;
-                            if (sim->arguments.size() == 3) {
+                            if (sim-> static_cast<int>(arguments.size()) == 3) {
                                 if (sim->arguments[2]->getType() != ASTNodeType::Literal) {
                                     return TranslationResult::Error("SIMILARITY() k must be integer literal");
                                 }
@@ -135,7 +137,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                     return TranslationResult::Error("SIMILARITY() k must be int");
                                 }
                                 { int64_t _kv = std::get<int64_t>(kLit->value);
-                                  if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                                  if (_kv < 1) {
+                                    return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                                  }
                                   k = static_cast<size_t>(_kv); }
                             } else if (ast->limit) {
                                 k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
@@ -143,7 +147,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                             std::shared_ptr<Expression> spatialExpr;
                             std::vector<std::shared_ptr<Expression>> extraPreds;
-                            extraPreds.reserve(ast->filters.size());
+                            extraPreds.reserve(ast-> static_cast<int>(filters.size()));
                             for (const auto& filter : ast->filters) {
                                 if (!filter || !filter->condition) {
                                     continue;
@@ -175,7 +179,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     // LET ... = PROXIMITY(...)
                     if (letNode.expression->getType() == ASTNodeType::ProximityCall) {
                         auto prox = std::static_pointer_cast<ProximityCallExpr>(letNode.expression);
-                        if (prox->arguments.size() == 2) {
+                        if (prox-> static_cast<int>(arguments.size()) == 2) {
                             if (prox->arguments[0]->getType() != ASTNodeType::FieldAccess) {
                                 return TranslationResult::Error("PROXIMITY() LET first arg must be field access");
                             }
@@ -185,7 +189,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                             std::string geomField = extractColumnName(prox->arguments[0]);
                             auto arr = std::static_pointer_cast<ArrayLiteralExpr>(prox->arguments[1]);
-                            if (arr->elements.size() < 2) {
+                            if (arr-> static_cast<int>(elements.size()) < 2) {
                                 return TranslationResult::Error("PROXIMITY() point needs 2 elements");
                             }
 
@@ -207,8 +211,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                             }
 
                             std::shared_ptr<Expression> spatialExpr;
-                            std::string fulltextQuery;
-                            std::string fulltextField;
+                            std::string fulltextQuery = {};
+                            std::string fulltextField = {};
                             size_t fulltextLimit = 1000;
                             for (const auto& filter : ast->filters) {
                                 if (!filter || !filter->condition) {
@@ -224,7 +228,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                         continue;
                                     }
                                     if (name == "fulltext" && fulltextQuery.empty()) {
-                                        if (fc->arguments.size() < 2 || fc->arguments.size() > 3) {
+                                        if (fc-> static_cast<int>(arguments.size()) < 2 || fc-> static_cast<int>(arguments.size()) > 3) {
                                             return TranslationResult::Error("FULLTEXT() requires 2-3 args");
                                         }
                                         if (fc->arguments[0]->getType() != ASTNodeType::FieldAccess) {
@@ -239,14 +243,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                             return TranslationResult::Error("FULLTEXT() query must string");
                                         }
                                         fulltextQuery = std::get<std::string>(lit->value);
-                                        if (fc->arguments.size() == 3) {
+                                        if (fc-> static_cast<int>(arguments.size()) == 3) {
                                             if (fc->arguments[2]->getType() != ASTNodeType::Literal) {
                                                 return TranslationResult::Error("FULLTEXT() limit must be integer");
                                             }
                                             auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                             if (std::holds_alternative<int64_t>(lim->value)) {
                                                 { int64_t _lv = std::get<int64_t>(lim->value);
-                                                  if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                                  if (_lv < 0) {
+                                                    return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                                  }
                                                   fulltextLimit = static_cast<size_t>(_lv); }
                                             }
                                         }
@@ -280,8 +286,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         //   FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
         // Conditions: exactly 2 FOR clauses, exactly 1 filter, no LET/COLLECT,
         //             filter is (GEO_DISTANCE(field_a, field_b) <= literal) or (<).
-        if (ast->for_nodes.size() == 2 &&
-            ast->filters.size() == 1 &&
+        if (ast-> static_cast<int>(for_nodes.size()) == 2 &&
+            ast-> static_cast<int>(filters.size()) == 1 &&
             ast->let_nodes.empty() &&
             !ast->collect)
         {
@@ -303,7 +309,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     auto* fn  = static_cast<FunctionCallExpr*>(bin->left.get());
                     auto* rhs = static_cast<LiteralExpr*>(bin->right.get());
                     if (fn->name == "GEO_DISTANCE" &&
-                        fn->arguments.size() == 2 &&
+                        fn-> static_cast<int>(arguments.size()) == 2 &&
                         fn->arguments[0]->getType() == ASTNodeType::FieldAccess &&
                         fn->arguments[1]->getType() == ASTNodeType::FieldAccess &&
                         (std::holds_alternative<double>(rhs->value) ||
@@ -324,8 +330,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 const std::string var1 = static_cast<VariableExpr*>(fa1->object.get())->name;
                                 const std::string& bv0 = ast->for_nodes[0].variable;
                                 const std::string& bv1 = ast->for_nodes[1].variable;
-                                if ((var0 == bv0 && var1 == bv1) ||
-                                    (var0 == bv1 && var1 == bv0))
+                                if (((var0 == bv0 && var1 == bv1) ||
+                                    (var0 == bv1 && var1 == bv0)))
                                 {
                                     bool swapped = (var0 == bv1);
                                     sjq_candidate.outer_collection = ast->for_nodes[0].collection;
@@ -360,14 +366,14 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     }
 
     // Hybrid vector+geo detection for single-FOR queries using SORT sugar
-    if (ast->sort && ast->sort->specifications.size() == 1 && ast->for_nodes.size() == 1) {
+    if (ast->sort && ast->sort-> static_cast<int>(specifications.size()) == 1 && ast-> static_cast<int>(for_nodes.size()) == 1) {
         const auto& spec = ast->sort->specifications[0];
         if (spec.expression) {
             // Specialized SIMILARITY() node path
             if (spec.expression->getType() == ASTNodeType::SimilarityCall) {
                 auto sim = std::static_pointer_cast<SimilarityCallExpr>(spec.expression);
                 const auto& args = sim->arguments;
-                if (args.size() < 2 || args.size() > 3) {
+                if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
                     return TranslationResult::Error("SIMILARITY() requires 2-3 arguments: SIMILARITY(doc.embedding, [vector] [, k])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {
@@ -379,8 +385,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                 std::string vectorField = extractColumnName(args[0]);
                 auto arr = std::static_pointer_cast<ArrayLiteralExpr>(args[1]);
-                std::vector<float> queryVec;
-                queryVec.reserve(arr->elements.size());
+                std::vector<float> queryVec = {};
+
+                queryVec.reserve(arr-> static_cast<int>(elements.size()));
                 for (const auto& el : arr->elements) {
                     if (el->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("SIMILARITY() vector elements must be numeric literals");
@@ -396,7 +403,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 }
 
                 size_t k = 10;
-                if (args.size() == 3) {
+                if (static_cast<int>(args.size()) == 3) {
                     if (args[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("SIMILARITY() third argument k must be integer literal");
                     }
@@ -405,7 +412,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         return TranslationResult::Error("SIMILARITY() k must be integer literal");
                     }
                     { int64_t _kv = std::get<int64_t>(kLit->value);
-                      if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                      if (_kv < 1) {
+                        return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                      }
                       k = static_cast<size_t>(_kv); }
                 } else if (ast->limit) {
                     k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
@@ -413,7 +422,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                 std::shared_ptr<Expression> spatialExpr;
                 std::vector<std::shared_ptr<Expression>> extraPreds;
-                extraPreds.reserve(ast->filters.size());
+                extraPreds.reserve(ast-> static_cast<int>(filters.size()));
                 for (const auto& filter : ast->filters) {
                     if (!filter || !filter->condition) {
                         continue;
@@ -444,7 +453,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (spec.expression->getType() == ASTNodeType::ProximityCall) {
                 auto prox = std::static_pointer_cast<ProximityCallExpr>(spec.expression);
                 const auto& args = prox->arguments;
-                if (args.size() != 2) {
+                if (static_cast<int>(args.size()) != 2) {
                     return TranslationResult::Error("PROXIMITY() requires exactly 2 arguments: PROXIMITY(doc.location, [lon,lat])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {
@@ -456,7 +465,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                 std::string geomField = extractColumnName(args[0]);
                 auto arr = std::static_pointer_cast<ArrayLiteralExpr>(args[1]);
-                if (arr->elements.size() < 2) {
+                if (arr-> static_cast<int>(elements.size()) < 2) {
                     return TranslationResult::Error("PROXIMITY() point array must have at least 2 numeric elements [lon, lat]");
                 }
 
@@ -478,8 +487,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 }
 
                 std::shared_ptr<Expression> spatialExpr;
-                std::string fulltextQuery;
-                std::string fulltextField;
+                std::string fulltextQuery = {};
+                std::string fulltextField = {};
                 size_t fulltextLimit = 1000;
                 for (const auto& filter : ast->filters) {
                     if (!filter || !filter->condition) {
@@ -495,7 +504,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                             continue;
                         }
                         if (name == "fulltext" && fulltextQuery.empty()) {
-                            if (fc->arguments.size() < 2 || fc->arguments.size() > 3) {
+                            if (fc-> static_cast<int>(arguments.size()) < 2 || fc-> static_cast<int>(arguments.size()) > 3) {
                                 return TranslationResult::Error("FULLTEXT() requires 2-3 arguments inside PROXIMITY hybrid");
                             }
                             if (fc->arguments[0]->getType() != ASTNodeType::FieldAccess) {
@@ -510,14 +519,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 return TranslationResult::Error("FULLTEXT() query must be string");
                             }
                             fulltextQuery = std::get<std::string>(lit->value);
-                            if (fc->arguments.size() == 3) {
+                            if (fc-> static_cast<int>(arguments.size()) == 3) {
                                 if (fc->arguments[2]->getType() != ASTNodeType::Literal) {
                                     return TranslationResult::Error("FULLTEXT() limit must be integer");
                                 }
                                 auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                 if (std::holds_alternative<int64_t>(lim->value)) {
                                     { int64_t _lv = std::get<int64_t>(lim->value);
-                                      if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                      if (_lv < 0) {
+                                        return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                      }
                                       fulltextLimit = static_cast<size_t>(_lv); }
                                 }
                             }
@@ -551,7 +562,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     query.table = ast->for_node.collection;
     
     // Process FILTER clauses
-    std::string error;
+    std::string error = {};
     
     // Check if any filter contains OR - if so, use DisjunctiveQuery
     bool hasOr = false;
@@ -586,26 +597,27 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
                 // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
                 constexpr size_t kMaxDNFDisjuncts = 1000;
-                if (disjQuery.disjuncts.size() * disjuncts.size() > kMaxDNFDisjuncts) {
+                if (disjQuery.disjuncts.size() * static_cast<int>(disjuncts.size()) > kMaxDNFDisjuncts) {
                     return TranslationResult::Error(
                         "OR query too complex: DNF expansion would produce " +
                         std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +
                         " disjuncts (limit: " + std::to_string(kMaxDNFDisjuncts) + ")");
                 }
-                std::vector<ConjunctiveQuery> merged;
+                std::vector<ConjunctiveQuery> merged = {};
+
                 merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
                 for (const auto& existing : disjQuery.disjuncts) {
                     for (const auto& incoming : disjuncts) {
                         ConjunctiveQuery combined;
                         combined.table = existing.table;
                         // Merge equality predicates (Q3: pre-allocate)
-                        combined.predicates.reserve(existing.predicates.size() + incoming.predicates.size());
+                        combined.predicates.reserve(existing.predicates.size() + static_cast<int>(incoming.predicates.size()) );
                         combined.predicates = existing.predicates;
                         combined.predicates.insert(combined.predicates.end(),
                                                    incoming.predicates.begin(),
                                                    incoming.predicates.end());
                         // Merge range predicates (Q3: pre-allocate)
-                        combined.rangePredicates.reserve(existing.rangePredicates.size() + incoming.rangePredicates.size());
+                        combined.rangePredicates.reserve(existing.rangePredicates.size() + static_cast<int>(incoming.rangePredicates.size()) );
                         combined.rangePredicates = existing.rangePredicates;
                         combined.rangePredicates.insert(combined.rangePredicates.end(),
                                                         incoming.rangePredicates.begin(),
@@ -645,7 +657,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             
             if (funcName == "fulltext") {
                 // Parse FULLTEXT(column, query [, limit])
-                if (funcCall->arguments.size() < 2 || funcCall->arguments.size() > 3) {
+                if (funcCall-> static_cast<int>(arguments.size()) < 2 || funcCall-> static_cast<int>(arguments.size()) > 3) {
                     return TranslationResult::Error("FULLTEXT() requires 2-3 arguments: FULLTEXT(column, query [, limit])");
                 }
                 
@@ -667,14 +679,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 // Extract optional limit
                 size_t limit = 1000; // default
-                if (funcCall->arguments.size() == 3) {
+                if (funcCall-> static_cast<int>(arguments.size()) == 3) {
                     if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("FULLTEXT() third argument (limit) must be integer literal");
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
                         { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          if (_lv < 0) {
+                            return TranslationResult::Error("limit must be non-negative");
+                          }
                           limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("FULLTEXT() limit must be an integer");
@@ -689,7 +703,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             // Handle PHRASE function
             if (funcName == "phrase") {
                 // Parse PHRASE(column, phrase [, limit])
-                if (funcCall->arguments.size() < 2 || funcCall->arguments.size() > 3) {
+                if (funcCall-> static_cast<int>(arguments.size()) < 2 || funcCall-> static_cast<int>(arguments.size()) > 3) {
                     return TranslationResult::Error("PHRASE() requires 2-3 arguments: PHRASE(column, phrase [, limit])");
                 }
                 
@@ -711,14 +725,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 // Extract optional limit
                 size_t limit = 1000; // default
-                if (funcCall->arguments.size() == 3) {
+                if (funcCall-> static_cast<int>(arguments.size()) == 3) {
                     if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("PHRASE() third argument (limit) must be integer literal");
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
                         { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          if (_lv < 0) {
+                            return TranslationResult::Error("limit must be non-negative");
+                          }
                           limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("PHRASE() limit must be an integer");
@@ -733,7 +749,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             // Handle FUZZY function
             if (funcName == "fuzzy") {
                 // Parse FUZZY(column, query [, maxDistance] [, limit])
-                if (funcCall->arguments.size() < 2 || funcCall->arguments.size() > 4) {
+                if (funcCall-> static_cast<int>(arguments.size()) < 2 || funcCall-> static_cast<int>(arguments.size()) > 4) {
                     return TranslationResult::Error("FUZZY() requires 2-4 arguments: FUZZY(column, query [, maxDistance] [, limit])");
                 }
                 
@@ -755,7 +771,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 // Extract optional maxDistance (default 2)
                 int maxDistance = 2;
-                if (funcCall->arguments.size() >= 3) {
+                if (funcCall-> static_cast<int>(arguments.size()) >= 3) {
                     if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("FUZZY() third argument (maxDistance) must be integer literal");
                     }
@@ -773,7 +789,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 // Extract optional limit (default 1000)
                 size_t limit = 1000;
-                if (funcCall->arguments.size() == 4) {
+                if (funcCall-> static_cast<int>(arguments.size()) == 4) {
                     if (funcCall->arguments[3]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("FUZZY() fourth argument (limit) must be integer literal");
                     }
@@ -814,11 +830,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 // Parse ST_*(column, geometry [, distance])
                 if (operation == PredicateSpatial::Operation::DWithin) {
-                    if (funcCall->arguments.size() != 3) {
+                    if (funcCall-> static_cast<int>(arguments.size()) != 3) {
                         return TranslationResult::Error("ST_DWithin() requires 3 arguments: ST_DWithin(column, geometry, distance)");
                     }
                 } else {
-                    if (funcCall->arguments.size() != 2) {
+                    if (funcCall-> static_cast<int>(arguments.size()) != 2) {
                         return TranslationResult::Error(funcName + "() requires 2 arguments: " + funcName + "(column, geometry)");
                     }
                 }
@@ -833,7 +849,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 auto queryGeomExpr = funcCall->arguments[1];
                 
                 // Extract optional distance for ST_DWithin
-                std::optional<double> distance;
+                std::optional<double> distance = {};
+
                 if (operation == PredicateSpatial::Operation::DWithin) {
                     if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("ST_DWithin() distance must be numeric literal");
@@ -858,11 +875,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                            std::optional<std::pair<double, double>> &out_min,
                                            std::optional<std::pair<double, double>> &out_max) {
                     // Extract numeric values from string like [[10.0,50.0],[11.0,51.0]]
-                    std::string numericOnly;
+                    std::string numericOnly = {};
                     numericOnly.reserve(text.size());
                     for (char c : text) {
-                        if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
-                            c == '.' || c == 'e' || c == 'E') {
+                        if (((c >= '0' && c <= '9') || c == '-' || c == '+' ||
+                            c == '.' || c == 'e' || c == 'E')) {
                             numericOnly.push_back(c);
                         } else {
                             numericOnly.push_back(' ');
@@ -921,21 +938,27 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         // Check if filter contains FULLTEXT combined with AND
         // Helper to recursively find FULLTEXT in AND tree
         std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findFulltext;
-        findFulltext = [&](const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
-            if (!e) return nullptr;
+        findFulltext = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
+            if (!e) {
+              return nullptr;
+            }
             
             if (e->getType() == ASTNodeType::FunctionCall) {
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
                 std::string name = fc->name;
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                if (name == "fulltext") return fc;
+                if (name == "fulltext") {
+                  return fc;
+                }
             }
             
             if (e->getType() == ASTNodeType::BinaryOp) {
                 auto bo = std::static_pointer_cast<BinaryOpExpr>(e);
                 if (bo->op == BinaryOperator::And) {
                     auto left = findFulltext(bo->left);
-                    if (left) return left;
+                    if (left) {
+                      return left;
+                    }
                     return findFulltext(bo->right);
                 }
             }
@@ -945,21 +968,27 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         
         // Helper to recursively find ST_* spatial function in AND tree
         std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findSpatial;
-        findSpatial = [&](const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
-            if (!e) return nullptr;
+        findSpatial = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
+            if (!e) {
+              return nullptr;
+            }
             
             if (e->getType() == ASTNodeType::FunctionCall) {
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
                 std::string name = fc->name;
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                if (name.compare(0, 3, "st_") == 0) return fc;
+                if (name.compare(0, 3, "st_") == 0) {
+                  return fc;
+                }
             }
             
             if (e->getType() == ASTNodeType::BinaryOp) {
                 auto bo = std::static_pointer_cast<BinaryOpExpr>(e);
                 if (bo->op == BinaryOperator::And) {
                     auto left = findSpatial(bo->left);
-                    if (left) return left;
+                    if (left) {
+                      return left;
+                    }
                     return findSpatial(bo->right);
                 }
             }
@@ -970,7 +999,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         // Helper to collect all non-FULLTEXT and non-spatial predicates from AND tree
         std::function<void(const std::shared_ptr<Expression>&, std::vector<std::shared_ptr<Expression>>&)> collectNonFulltext;
         collectNonFulltext = [&](const std::shared_ptr<Expression>& e, std::vector<std::shared_ptr<Expression>>& preds) {
-            if (!e) return;
+            if (!e) {
+              return;
+            }
             
             if (e->getType() == ASTNodeType::FunctionCall) {
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
@@ -1004,7 +1035,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 if (fulltextFunc) {
                     // Parse FULLTEXT part
-                    if (fulltextFunc->arguments.size() < 2 || fulltextFunc->arguments.size() > 3) {
+                    if (fulltextFunc-> static_cast<int>(arguments.size()) < 2 || fulltextFunc-> static_cast<int>(arguments.size()) > 3) {
                         return TranslationResult::Error("FULLTEXT() requires 2-3 arguments");
                     }
                     
@@ -1023,14 +1054,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     std::string queryStr = std::get<std::string>(queryLiteral->value);
                     
                     size_t limit = 1000;
-                    if (fulltextFunc->arguments.size() == 3) {
+                    if (fulltextFunc-> static_cast<int>(arguments.size()) == 3) {
                         if (fulltextFunc->arguments[2]->getType() != ASTNodeType::Literal) {
                             return TranslationResult::Error("FULLTEXT() limit must be integer literal");
                         }
                         auto limitLiteral = std::static_pointer_cast<LiteralExpr>(fulltextFunc->arguments[2]);
                         if (std::holds_alternative<int64_t>(limitLiteral->value)) {
                             { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                              if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                              if (_lv < 0) {
+                                return TranslationResult::Error("limit must be non-negative");
+                              }
                               limit = static_cast<size_t>(_lv); }
                         } else {
                             return TranslationResult::Error("FULLTEXT() limit must be an integer");
@@ -1076,11 +1109,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     
                     // Parse ST_*(column, geometry [, distance])
                     if (operation == PredicateSpatial::Operation::DWithin) {
-                        if (spatialFunc->arguments.size() != 3) {
+                        if (spatialFunc-> static_cast<int>(arguments.size()) != 3) {
                             return TranslationResult::Error("ST_DWithin() requires 3 arguments: ST_DWithin(column, geometry, distance)");
                         }
                     } else {
-                        if (spatialFunc->arguments.size() != 2) {
+                        if (spatialFunc-> static_cast<int>(arguments.size()) != 2) {
                             return TranslationResult::Error(funcName + "() requires 2 arguments: " + funcName + "(column, geometry)");
                         }
                     }
@@ -1095,7 +1128,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     auto queryGeomExpr = spatialFunc->arguments[1];
                     
                     // Extract optional distance for ST_DWithin
-                    std::optional<double> distance;
+                    std::optional<double> distance = {};
+
                     if (operation == PredicateSpatial::Operation::DWithin) {
                         if (spatialFunc->arguments[2]->getType() != ASTNodeType::Literal) {
                             return TranslationResult::Error("ST_DWithin() distance must be numeric literal");
@@ -1119,11 +1153,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                                std::optional<std::pair<double, double>> &out_min,
                                                std::optional<std::pair<double, double>> &out_max) {
                         // Extract numeric values from string like [[10.0,50.0],[11.0,51.0]]
-                        std::string numericOnly;
+                        std::string numericOnly = {};
                         numericOnly.reserve(text.size());
                         for (char c : text) {
-                            if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
-                                c == '.' || c == 'e' || c == 'E') {
+                            if (((c >= '0' && c <= '9') || c == '-' || c == '+' ||
+                                c == '.' || c == 'e' || c == 'E')) {
                                 numericOnly.push_back(c);
                             } else {
                                 numericOnly.push_back(' ');
@@ -1339,7 +1373,7 @@ std::string AQLTranslator::extractColumnName(const std::shared_ptr<Expression>& 
         auto fieldAccess = std::static_pointer_cast<FieldAccessExpr>(expr);
         
         // Handle nested field access: doc.address.city -> "address.city"
-        std::string result;
+        std::string result = {};
         
         // Recursively extract parent field names
         if (fieldAccess->object->getType() == ASTNodeType::FieldAccess) {
@@ -1403,7 +1437,9 @@ std::optional<OrderBy> AQLTranslator::extractOrderBy(
 }
 
 bool AQLTranslator::containsOr(const std::shared_ptr<Expression>& expr) {
-    if (!expr) return false;
+    if (!expr) {
+      return false;
+    }
     
     if (expr->getType() == ASTNodeType::BinaryOp) {
         auto binOp = std::static_pointer_cast<BinaryOpExpr>(expr);
@@ -1542,7 +1578,8 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
             
             // Cartesian product: (A OR B) AND (C OR D) = (A AND C) OR (A AND D) OR (B AND C) OR (B AND D)
             // Q3: Pre-allocate to the exact cartesian-product size to avoid incremental reallocations.
-            std::vector<ConjunctiveQuery> result;
+            std::vector<ConjunctiveQuery> result = {};
+
             result.reserve(leftDNF.size() * rightDNF.size());
             for (const auto& leftConj : leftDNF) {
                 for (const auto& rightConj : rightDNF) {
@@ -1550,14 +1587,14 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
                     merged.table = table;
                     
                     // Merge predicates (Q3: pre-allocate combined size)
-                    merged.predicates.reserve(leftConj.predicates.size() + rightConj.predicates.size());
+                    merged.predicates.reserve(leftConj.predicates.size() + static_cast<int>(rightConj.predicates.size()) );
                     merged.predicates = leftConj.predicates;
                     merged.predicates.insert(merged.predicates.end(), 
                                             rightConj.predicates.begin(), 
                                             rightConj.predicates.end());
                     
                     // Merge range predicates (Q3: pre-allocate combined size)
-                    merged.rangePredicates.reserve(leftConj.rangePredicates.size() + rightConj.rangePredicates.size());
+                    merged.rangePredicates.reserve(leftConj.rangePredicates.size() + static_cast<int>(rightConj.rangePredicates.size()) );
                     merged.rangePredicates = leftConj.rangePredicates;
                     merged.rangePredicates.insert(merged.rangePredicates.end(),
                                                  rightConj.rangePredicates.begin(),
@@ -1617,7 +1654,7 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
         
         if (funcName == "fulltext") {
             // Parse FULLTEXT(column, query [, limit])
-            if (funcCall->arguments.size() < 2 || funcCall->arguments.size() > 3) {
+            if (funcCall-> static_cast<int>(arguments.size()) < 2 || funcCall-> static_cast<int>(arguments.size()) > 3) {
                 error = "FULLTEXT() requires 2-3 arguments: FULLTEXT(column, query [, limit])";
                 return {};
             }
@@ -1640,7 +1677,7 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
             std::string queryStr = std::get<std::string>(queryLiteral->value);
             
             size_t limit = 1000; // default
-            if (funcCall->arguments.size() == 3) {
+            if (funcCall-> static_cast<int>(arguments.size()) == 3) {
                 if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
                     error = "FULLTEXT() third argument (limit) must be integer literal";
                     return {};

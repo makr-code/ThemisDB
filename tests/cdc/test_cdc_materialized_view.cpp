@@ -111,7 +111,9 @@ static FieldValue findValue(
         auto it = row.group_key.find("region");
         if (it != row.group_key.end() && it->second == dim_val) {
             auto vit = row.values.find(agg_name);
-            if (vit != row.values.end()) return vit->second;
+            if (vit != row.values.end()) {
+              return vit->second;
+            }
         }
     }
     return FieldValue{nullptr};

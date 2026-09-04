@@ -107,14 +107,14 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
     int seq_num                            = 0;
     size_t current_pos                     = 0;
 
-    while (current_pos < sentence_list.size()) {
-        std::string chunk_text;
+    while (static_cast<size_t>(current_pos) <static_cast<int>(sentence_list.size())) {
+        std::string chunk_text = {};
         int chunk_tokens       = 0;
         size_t chunk_start_idx = current_pos;
         size_t chunk_end_idx   = current_pos;
 
         // Add sentences until we reach chunk_size
-        while (chunk_end_idx < sentence_list.size()) {
+        while (static_cast<size_t>(chunk_end_idx) <static_cast<int>(sentence_list.size())) {
             const std::string &sentence = sentence_list[chunk_end_idx];
             int sentence_tokens         = countTokens(sentence);
 
@@ -144,7 +144,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
             start_offset += sentence_list[i].size() + 1; // +1 for space
         }
 
-        size_t end_offset = start_offset + chunk_text.size();
+        size_t end_offset = start_offset + static_cast<int>(chunk_text.size()) ;
 
         json chunk = {{"text", chunk_text},
                       {"seq_num", seq_num},
@@ -156,13 +156,13 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
         seq_num++;
 
         // Move to next chunk with overlap
-        if (overlap > 0 && chunk_end_idx < sentence_list.size()) {
+        if (overlap > 0  && static_cast<size_t>(chunk_end_idx) <static_cast<int>(sentence_list.size())) {
             // Calculate how many sentences to overlap
             int overlap_sentences      = 0;
             int overlap_tokens_counted = 0;
 
             for (size_t i = chunk_end_idx; i > chunk_start_idx && overlap_tokens_counted < overlap; i--) {
-                overlap_tokens_counted += countTokens(sentence_list[i - 1]);
+                overlap_tokens_counted += countTokens(sentence_list[static_cast<int>(i - 1)]);
                 overlap_sentences++;
             }
 
@@ -210,7 +210,7 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
     // Split text into tokens
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -297,7 +297,7 @@ int TextProcessor::countTokens(const std::string &text) {
     }
 
     std::istringstream iss(text);
-    std::string token;
+    std::string token = {};
     int count = 0;
 
     while (iss >> token) {
@@ -354,7 +354,7 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     std::vector<std::string> words;
     {
         std::istringstream iss(text);
-        std::string w;
+        std::string w = {};
         while (iss >> w) {
             std::transform(w.begin(), w.end(), w.begin(),
                            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -366,11 +366,12 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     }
 
     // Build 3-word shingles (fall back to unigrams for very short texts)
-    std::vector<std::string> shingles;
-    if (words.size() < 3) {
+    std::vector<std::string> shingles = {};
+
+    if (static_cast<int>(words.size()) < 3) {
         shingles = words;
     } else {
-        shingles.reserve(words.size() - 2);
+        shingles.reserve(static_cast<int>(words.size()) - 2);
         for (size_t i = 0; i + 3 <= words.size(); ++i) {
             shingles.push_back(words[i] + " " + words[i + 1] + " " + words[i + 2]);
         }
@@ -378,14 +379,14 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
 
     // For each shingle, update each MinHash slot.
     // Hash function h_k(s) = FNV-1a(s) XOR-mixed with seed k.
-    static constexpr uint32_t kFnvPrime  = 16777619u;
-    static constexpr uint32_t kFnvOffset = 2166136261u;
-    static constexpr uint32_t kSeedMix   = 2246822519u;
+    static constexpr uint32_t kFnvPrime  = 16777619;
+    static constexpr uint32_t kFnvOffset = 2166136261;
+    static constexpr uint32_t kSeedMix   = 2246822519;
 
     for (const auto &shingle : shingles) {
         for (size_t k = 0; k < num_hashes; ++k) {
             // FNV-1a over the shingle bytes, seeded by k
-            uint32_t h = kFnvOffset ^ (static_cast<uint32_t>(k) * 2654435761u);
+            uint32_t h = kFnvOffset ^ (static_cast<uint32_t>(k) * 2654435761);
             for (unsigned char c : shingle) {
                 h ^= c;
                 h *= kFnvPrime;

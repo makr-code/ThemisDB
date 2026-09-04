@@ -94,7 +94,7 @@ std::vector<HybridSearch::Result> SearchResultStream::nextPage() {
     if (!hasMore()) {
         return {};
     }
-    const size_t end = std::min(cursor_ + config_.page_size, results_.size());
+    const size_t end = std::min(cursor_ + config_.page_size,static_cast<int>(results_.size()));
     std::vector<HybridSearch::Result> page(results_.begin() + static_cast<std::ptrdiff_t>(cursor_),
                                             results_.begin() + static_cast<std::ptrdiff_t>(end));
     cursor_ = end;
@@ -106,7 +106,7 @@ std::vector<HybridSearch::Result> SearchResultStream::nextPage() {
 // ============================================================================
 
 bool SearchResultStream::hasMore() const {
-    return cursor_ < results_.size();
+    return static_cast<bool>(cursor_ < results_.size());
 }
 
 // ============================================================================
@@ -126,18 +126,20 @@ void SearchResultStream::close() {
 // forEachResult
 // ============================================================================
 
-void SearchResultStream::forEachResult(ResultCallback callback) {
-    if (!callback) return;
-    while (cursor_ < results_.size()) {
+void SearchResultStream::forEachResult([[maybe_unused]] ResultCallback callback) {
+    if (!callback) {
+      return;
+    }
+    while (static_cast<size_t>(cursor_) <static_cast<int>(results_.size())) {
         try {
-            if (!callback(results_[cursor_])) {
+            if ([[maybe_unused]] !callback(results_[cursor_])) {
                 break;
             }
         } catch (const std::exception& e) {
             THEMIS_ERROR("SearchResultStream: callback threw: {}", e.what());
             break;
         } catch (...) {
-            THEMIS_ERROR("SearchResultStream: callback threw unknown error");
+            THEMIS_ERROR([[maybe_unused]] "SearchResultStream: callback threw unknown error");
             break;
         }
         ++cursor_;

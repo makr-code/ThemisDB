@@ -147,7 +147,8 @@ TEST_F(CacheAnomalyTest, A1_CacheStatsFieldsProduceValidDataPoint) {
 // A-2: Detector trained on normal hit-rate baseline predicts normal for in-range sample
 TEST_F(CacheAnomalyTest, A2_NormalHitRate_PredictedNormal) {
     // Training data: hit rates uniformly between 0.80 and 0.95
-    std::vector<DataPoint> training;
+    std::vector<DataPoint> training = {};
+
     for (int i = 0; i < 30; ++i) {
         double hr = 0.80 + (i % 15) * 0.01;   // 0.80, 0.81, … 0.94 (repeated)
         training.push_back(makeCacheMetricPoint("train-" + std::to_string(i), hr));
@@ -170,7 +171,8 @@ TEST_F(CacheAnomalyTest, A2_NormalHitRate_PredictedNormal) {
 
 // A-3: AnomalyDetector flags anomalous sample when miss rate far exceeds baseline
 TEST_F(CacheAnomalyTest, A3_HighMissRate_FlaggedAsAnomaly) {
-    std::vector<DataPoint> training;
+    std::vector<DataPoint> training = {};
+
     for (int i = 0; i < 30; ++i) {
         double hr = 0.80 + (i % 15) * 0.01;
         training.push_back(makeCacheMetricPoint("train-" + std::to_string(i), hr));
@@ -196,7 +198,8 @@ TEST_F(CacheAnomalyTest, A3_HighMissRate_FlaggedAsAnomaly) {
 
 // A-4: predictBatch returns one AnomalyResult per input DataPoint
 TEST_F(CacheAnomalyTest, A4_PredictBatch_ReturnsOneResultPerPoint) {
-    std::vector<DataPoint> training;
+    std::vector<DataPoint> training = {};
+
     for (int i = 0; i < 20; ++i) {
         training.push_back(makeCacheMetricPoint("t" + std::to_string(i), 0.85));
     }
@@ -205,7 +208,8 @@ TEST_F(CacheAnomalyTest, A4_PredictBatch_ReturnsOneResultPerPoint) {
     det.train(training);
     ASSERT_TRUE(det.isTrained());
 
-    std::vector<DataPoint> batch;
+    std::vector<DataPoint> batch = {};
+
     for (int i = 0; i < 5; ++i) {
         batch.push_back(makeCacheMetricPoint("batch-" + std::to_string(i), 0.80 + i * 0.02));
     }
@@ -222,7 +226,8 @@ TEST_F(CacheAnomalyTest, A4_PredictBatch_ReturnsOneResultPerPoint) {
 
 // A-5: AnomalyExplanation contains feature contributions for miss_rate
 TEST_F(CacheAnomalyTest, A5_AnomalyExplanation_ContainsMissRateContribution) {
-    std::vector<DataPoint> training;
+    std::vector<DataPoint> training = {};
+
     for (int i = 0; i < 20; ++i) {
         training.push_back(makeCacheMetricPoint("t" + std::to_string(i), 0.85));
     }
@@ -324,8 +329,12 @@ TEST_F(CacheAnomalyTest, B5_MixedSequence_AllEventsRecordedIndependently) {
     auto& mc = MetricsCollector::getInstance();
 
     // Record a typical cache lifecycle
-    for (int i = 0; i < 5; ++i) mc.recordCacheHit("adaptive");
-    for (int i = 0; i < 3; ++i) mc.recordCacheMiss("adaptive");
+    for (int i = 0; i < 5; ++i) {
+      mc.recordCacheHit("adaptive");
+    }
+    for (int i = 0; i < 3; ++i) {
+      mc.recordCacheMiss("adaptive");
+    }
     mc.recordCacheEviction("adaptive");
 
     std::string prom = mc.getPrometheusMetrics();
@@ -383,7 +392,8 @@ TEST_F(CacheAnomalyTest, C2_AnomalousSample_FlaggedAfterWarmup) {
     }
 
     // Inject extreme cache degradation
-    std::optional<AnomalyResult> last;
+    std::optional<AnomalyResult> last = {};
+
     for (int i = 0; i < 5; ++i) {
         last = sad.process(makeCacheMetricPoint("anomaly-" + std::to_string(i), 0.01));
     }

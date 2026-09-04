@@ -23,7 +23,9 @@ public:
     }
     ~SimplePkiServer(){
         try { acceptor_.close(); } catch(...) {}
-        if (thr_.joinable()) thr_.join();
+        if (thr_.joinable()) {
+          thr_.join();
+        }
     }
     unsigned short port() const { return port_; }
 
@@ -35,11 +37,13 @@ private:
                 tcp::socket sock(ios_);
                 boost::system::error_code ec;
                 acceptor_.accept(sock, ec);
-                if(ec) break;
+                if(ec) {
+                  break;
+                }
 
                 std::string body_s = responses_[idx++];
                 std::cerr << "SimplePkiServer: accepted connection, sending response index=" << (idx-1) << " len=" << body_s.size() << std::endl;
-                std::ostringstream out;
+                std::ostringstream out = {};
                 out << "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " << body_s.size() << "\r\nConnection: close\r\n\r\n" << body_s;
                 boost::asio::write(sock, boost::asio::buffer(out.str()));
                 boost::system::error_code ec2; sock.shutdown(tcp::socket::shutdown_both, ec2);

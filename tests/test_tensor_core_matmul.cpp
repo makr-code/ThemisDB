@@ -417,7 +417,9 @@ TEST(TensorCoreMatmul, QuantizeNullSrcNoOp) {
     int8_t dst[4] = {5, 5, 5, 5};
     quantize(nullptr, dst, 4, 1.0f);
     // dst must be unchanged
-    for (int i = 0; i < 4; ++i) EXPECT_EQ(dst[i], 5);
+    for (int i = 0; i < 4; ++i) {
+      EXPECT_EQ(dst[i], 5);
+    }
 }
 
 TEST(TensorCoreMatmul, QuantizeNullDstNoOp) {
@@ -477,7 +479,9 @@ TEST(TensorCoreMatmul, DequantizeWithScale) {
 TEST(TensorCoreMatmul, DequantizeNullSrcNoOp) {
     float dst[4] = {9.0f, 9.0f, 9.0f, 9.0f};
     dequantize(nullptr, dst, 4, 1.0f);
-    for (int i = 0; i < 4; ++i) EXPECT_FLOAT_EQ(dst[i], 9.0f);
+    for (int i = 0; i < 4; ++i) {
+      EXPECT_FLOAT_EQ(dst[i], 9.0f);
+    }
 }
 
 TEST(TensorCoreMatmul, DequantizeNullDstNoOp) {

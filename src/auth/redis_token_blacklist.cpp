@@ -67,7 +67,9 @@ bool RedisTokenBlacklist::connect() {
         if (!reply || reply->type == REDIS_REPLY_ERROR) {
             THEMIS_WARN("RedisTokenBlacklist: AUTH failed: {}",
                         reply ? reply->str : "no reply");
-            if (reply) freeReplyObject(reply);
+            if (reply) {
+              freeReplyObject(reply);
+            }
             redisFree(ctx_);
             ctx_ = nullptr;
             return false;
@@ -111,7 +113,9 @@ RedisTokenBlacklist::~RedisTokenBlacklist() {
 
 void RedisTokenBlacklist::add(const std::string& jti,
                                std::chrono::system_clock::time_point expiry) {
-    if (jti.empty()) return;
+    if (jti.empty()) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ctx_) {
@@ -165,10 +169,14 @@ void RedisTokenBlacklist::add(const std::string& jti,
 }
 
 bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
-    if (jti.empty()) return false;
+    if (jti.empty()) {
+      return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!ctx_) return false;
+    if (!ctx_) {
+      return false;
+    }
 
     const std::string key = makeKey(jti);
     redisReply* reply = static_cast<redisReply*>(

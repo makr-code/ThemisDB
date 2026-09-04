@@ -143,7 +143,7 @@ struct TierGetResult {
     std::string error_message;
 
     /// Data retrieved (owned by caller after return)
-    std::string value;
+    std::string value = {};
 
     /// Current tier where data resides
     TierLevel current_tier;

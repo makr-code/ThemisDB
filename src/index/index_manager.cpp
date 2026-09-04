@@ -63,7 +63,7 @@ public:
         return manager_->erase(table_name_, primary_key).ok;
     }
 
-    std::vector<std::string> lookup(std::string_view value) const override {
+    std::vector<std::string> lookup(st[[maybe_unused]] d::string_vie[[maybe_unused]] w valu[[maybe_unused]] e) const override {
         if (is_partial_) {
             auto [st, keys] = manager_->scanKeysEqualPartial(table_name_, field_name_, value);
             if (!st.ok) {
@@ -156,7 +156,8 @@ public:
             THEMIS_WARN("VectorIndexAdapter::search: underlying evaluator-aware search failed: {}", status.message);
             return {};
         }
-        std::vector<VectorSearchResult> out;
+        std::vector<VectorSearchResult> out = {};
+
         out.reserve(results.size());
         for (const auto& r : results) {
             out.emplace_back(r.pk, r.distance);
@@ -175,7 +176,8 @@ public:
             THEMIS_WARN("VectorIndexAdapter::rangeSearch: underlying evaluator-aware radius search failed: {}", status.message);
             return {};
         }
-        std::vector<VectorSearchResult> out;
+        std::vector<VectorSearchResult> out = {};
+
         out.reserve(results.size());
         for (const auto& r : results) {
             out.emplace_back(r.pk, r.distance);
@@ -223,9 +225,13 @@ namespace {
 ///
 /// @return true when the component is safe to embed in a tenant key.
 static bool isValidTenantComponent(std::string_view s) noexcept {
-    if (s.empty() || s.size() > 512) return false;
+    if (s.empty() || static_cast<int>(s.size()) > 512) {
+      return false;
+    }
     for (char c : s) {
-        if (c == ':' || c == '\0') return false;
+        if (c == ':' || c == '\0') {
+          return false;
+        }
     }
     return true;
 }
@@ -252,7 +258,9 @@ std::shared_ptr<IndexManager> IndexManager::createDefault() {
 }
 
 void IndexManager::propagateEvaluatorToManagers() {
-    if (!evaluator_) return;
+    if (!evaluator_) {
+      return;
+    }
     
     if (vector_manager_) {
         vector_manager_->setExpressionEvaluator(evaluator_);
@@ -370,7 +378,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     //                          Predicate syntax: "field = 'value'",
     //                          "field > 123", "field IS NOT NULL", etc.
     bool is_partial = false;
-    std::string predicate;
+    std::string predicate = {};
     SecondaryIndexManager::IndexType idx_type = SecondaryIndexManager::IndexType::REGULAR;
 
     if (config == "range") {
@@ -652,7 +660,8 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
 std::vector<std::string> IndexManager::listIndexes() const {
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
-    std::vector<std::string> indices;
+    std::vector<std::string> indices = {};
+
     indices.reserve(index_types_.size());
     
     for (const auto& [name, type] : index_types_) {
@@ -874,7 +883,8 @@ std::vector<std::string> IndexManager::listIndexes(
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
 
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& [key, _] : index_types_) {
         if (key.starts_with(prefix)) {
             // Return the logical name without the "tenant:<id>:" prefix.

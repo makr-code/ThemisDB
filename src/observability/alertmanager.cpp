@@ -45,7 +45,7 @@ std::string toISO8601(std::chrono::system_clock::time_point tp) {
 #else
     gmtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -114,7 +114,7 @@ Result<void> Alertmanager::testConnection() {
 std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_id) const {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
+                           [&]([[maybe_unused]] const Alert& alert) { return alert.alert_id == alert_id; });
     if (it == active_alerts_.end()) {
         return std::nullopt;
     }
@@ -124,7 +124,7 @@ std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_
 void Alertmanager::upsertActiveAlert(const Alert& alert) {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& existing) { return existing.alert_id == alert.alert_id; });
+                           [&]([[maybe_unused]] const Alert& existing) { return existing.alert_id == alert.alert_id; });
     if (it == active_alerts_.end()) {
         active_alerts_.push_back(alert);
     } else {
@@ -135,7 +135,7 @@ void Alertmanager::upsertActiveAlert(const Alert& alert) {
 bool Alertmanager::removeActiveAlertById(const std::string& alert_id, Alert* removed) {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
+                           [&]([[maybe_unused]] const Alert& alert) { return alert.alert_id == alert_id; });
     if (it == active_alerts_.end()) {
         return false;
     }
@@ -174,7 +174,9 @@ DefaultAlertmanager::DefaultAlertmanager(const AlertmanagerConfig& config) {
 }
 
 void DefaultAlertmanager::ensureHttpPool() {
-    if (http_pool_) return;
+    if (http_pool_) {
+      return;
+    }
     utils::HTTPClientPool::Config pool_cfg;
     pool_cfg.max_connections = 4;
     pool_cfg.connect_timeout = std::chrono::seconds(config_.timeout_seconds);
@@ -233,7 +235,7 @@ Result<void> DefaultAlertmanager::initialize(const AlertmanagerConfig& config) {
                 config_.endpoint_url, config_.enabled);
     THEMIS_INFO("  Timeout: {}s  Retries: {}  Retry-delay: {}ms",
                 config_.timeout_seconds, config_.retry_count, config_.retry_delay_ms);
-    THEMIS_INFO("  Receivers: {}", config_.receivers.size());
+    THEMIS_INFO("  Receivers: {}",static_cast<int>(config_.receivers.size()));
     
     if (!config_.enabled) {
         THEMIS_WARN("Alertmanager is disabled – alerts will only be logged");
@@ -252,7 +254,7 @@ Result<void> DefaultAlertmanager::initialize(const AlertmanagerConfig& config) {
 
 Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
     // Always log the alert regardless of enabled state.
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "ALERT [" << severityToString(alert.severity) << "] "
        << alert.alert_name << ": " << alert.message;
     
@@ -264,7 +266,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
             THEMIS_WARN("{}", ss.str());
             break;
         case AlertSeverity::ERROR:
-        case AlertSeverity::CRITICAL:
+        [[fallthrough]];\n        case AlertSeverity::CRITICAL:
             THEMIS_ERROR("{}", ss.str());
             break;
     }
@@ -280,7 +282,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
         upsertActiveAlert(alert);
         {
             std::lock_guard<std::mutex> lock(active_alerts_mutex_);
-            THEMIS_DEBUG("Alert added to active alerts (total: {})", active_alerts_.size());
+            THEMIS_DEBUG("Alert added to active alerts (total: {})",static_cast<int>(active_alerts_.size()));
         }
     }
     
@@ -326,7 +328,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
 Result<void> DefaultAlertmanager::resolveAlert(const std::string& alert_id) {
     THEMIS_INFO("Resolving alert: {}", alert_id);
     
-    Alert resolved_alert;
+    Alert resolved_alert = {};
     if (removeActiveAlertById(alert_id, &resolved_alert)) {
         resolved_alert.status = AlertStatus::RESOLVED;
         resolved_alert.resolved_at = std::chrono::system_clock::now();
@@ -414,7 +416,7 @@ Result<void> DefaultAlertmanager::silenceAlert(const std::string& alert_id,
 
 std::vector<Alert> DefaultAlertmanager::getActiveAlerts() {
     const auto alerts = Alertmanager::getActiveAlerts();
-    THEMIS_DEBUG("Getting active alerts (count: {})", alerts.size());
+    THEMIS_DEBUG("Getting active alerts (count: {})",static_cast<int>(alerts.size()));
     return alerts;
 }
 
@@ -430,7 +432,8 @@ Result<void> DefaultAlertmanager::testConnection() {
 
     ensureHttpPool();
     const std::string url = config_.endpoint_url + "/api/v2/status";
-    std::unordered_map<std::string, std::string> headers;
+    std::unordered_map<std::string, std::string> headers = {};
+
     if (!config_.auth_token.empty()) {
         headers["Authorization"] = "Bearer " + config_.auth_token;
     }
@@ -472,7 +475,7 @@ std::string AlertRuleManager::generateRuleId() {
     auto ts  = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
     uint64_t seq = g_rule_id_counter.fetch_add(1, std::memory_order_relaxed);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "rule_" << std::hex << ts << "_" << seq;
     return oss.str();
 }
@@ -485,8 +488,8 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     std::string metric_token = "{metric}";
     for (std::string::size_type pos = result.find(metric_token);
          pos != std::string::npos;
-         pos = result.find(metric_token, pos + metric_name.size())) {
-        result.replace(pos, metric_token.size(), metric_name);
+         pos = result.find(metric_token, pos + static_cast<int>(metric_name.size()) )) {
+        result.replace(pos,static_cast<int>(metric_token.size()), metric_name);
     }
     // Replace {value} placeholder
     std::string value_token = "{value}";
@@ -495,12 +498,14 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     auto dot_pos = value_str.find('.');
     if (dot_pos != std::string::npos) {
         value_str.erase(value_str.find_last_not_of('0') + 1);
-        if (value_str.back() == '.') value_str.pop_back();
+        if (value_str.back() == '.') {
+          value_str.pop_back();
+        }
     }
     for (std::string::size_type pos = result.find(value_token);
          pos != std::string::npos;
-         pos = result.find(value_token, pos + value_str.size())) {
-        result.replace(pos, value_token.size(), value_str);
+         pos = result.find(value_token, pos + static_cast<int>(value_str.size()) )) {
+        result.replace(pos,static_cast<int>(value_token.size()), value_str);
     }
     return result;
 }
@@ -600,7 +605,8 @@ Result<void> AlertRuleManager::updateRule(const AlertRule& rule) {
 
 std::vector<AlertRule> AlertRuleManager::listRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<AlertRule> result;
+    std::vector<AlertRule> result = {};
+
     result.reserve(rules_.size());
     for (const auto& [id, rule] : rules_) {
         result.push_back(rule);
@@ -630,7 +636,9 @@ int AlertRuleManager::evaluateRules(const std::map<std::string, double>& metrics
         std::lock_guard<std::mutex> lock(mutex_);
 
         for (const auto& [rule_id, rule] : rules_) {
-            if (!rule.enabled) continue;
+            if (!rule.enabled) {
+              continue;
+            }
 
             auto metric_it = metrics.find(rule.metric_name);
             if (metric_it == metrics.end()) {
@@ -711,7 +719,7 @@ void AlertRuleManager::clearRules() {
 
 size_t AlertRuleManager::ruleCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return rules_.size();
+    return static_cast<int>(rules_.size());
 }
 
 } // namespace observability

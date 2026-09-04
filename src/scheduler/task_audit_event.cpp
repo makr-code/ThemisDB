@@ -23,7 +23,7 @@ namespace scheduler {
 std::string generateUUID() {
     // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
     // Audit event UUIDs must be unguessable to prevent enumeration attacks.
-    std::random_device rd;
+    std::random_device rd = {};
 
     uint64_t high = (static_cast<uint64_t>(rd()) << 32) | rd();
     uint64_t low  = (static_cast<uint64_t>(rd()) << 32) | rd();
@@ -33,7 +33,7 @@ std::string generateUUID() {
     // Set variant to RFC 4122
     low = (low & 0x3FFFFFFFFFFFFFFFULL) | 0x8000000000000000ULL;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(8) << ((high >> 32) & 0xFFFFFFFF) << "-"
         << std::setw(4) << ((high >> 16) & 0xFFFF) << "-"
@@ -57,7 +57,7 @@ std::string maskSensitiveData(const std::string& data, const std::string& mask_t
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(data.c_str()), data.length(), hash);
         
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
@@ -72,7 +72,7 @@ std::string maskSensitiveData(const std::string& data, const std::string& mask_t
 }
 
 // Event type conversions
-std::string taskEventTypeToString(TaskEventType type) {
+std::string taskEventTypeToString([[maybe_unused]] TaskEventType type) {
     switch (type) {
         case TaskEventType::TASK_REGISTERED: return "TASK_REGISTERED";
         case TaskEventType::TASK_UNREGISTERED: return "TASK_UNREGISTERED";
@@ -95,7 +95,7 @@ std::string taskEventTypeToString(TaskEventType type) {
     }
 }
 
-std::string taskSecurityEventTypeToString(TaskSecurityEventType type) {
+std::string taskSecurityEventTypeToString([[maybe_unused]] TaskSecurityEventType type) {
     switch (type) {
         case TaskSecurityEventType::RATE_LIMIT_EXCEEDED: return "RATE_LIMIT_EXCEEDED";
         case TaskSecurityEventType::RESOURCE_LIMIT_EXCEEDED: return "RESOURCE_LIMIT_EXCEEDED";
@@ -111,29 +111,63 @@ std::string taskSecurityEventTypeToString(TaskSecurityEventType type) {
     }
 }
 
-TaskEventType taskEventTypeFromString(const std::string& s) {
-    if (s == "TASK_REGISTERED") return TaskEventType::TASK_REGISTERED;
-    if (s == "TASK_UNREGISTERED") return TaskEventType::TASK_UNREGISTERED;
-    if (s == "TASK_ENABLED") return TaskEventType::TASK_ENABLED;
-    if (s == "TASK_DISABLED") return TaskEventType::TASK_DISABLED;
-    if (s == "TASK_UPDATED") return TaskEventType::TASK_UPDATED;
-    if (s == "TASK_STARTED") return TaskEventType::TASK_STARTED;
-    if (s == "TASK_COMPLETED") return TaskEventType::TASK_COMPLETED;
-    if (s == "TASK_FAILED") return TaskEventType::TASK_FAILED;
-    if (s == "TASK_TIMEOUT") return TaskEventType::TASK_TIMEOUT;
-    if (s == "TASK_RETRY") return TaskEventType::TASK_RETRY;
-    if (s == "TASK_QUEUED") return TaskEventType::TASK_QUEUED;
-    if (s == "TASK_DEQUEUED") return TaskEventType::TASK_DEQUEUED;
-    if (s == "MANUAL_EXECUTION") return TaskEventType::MANUAL_EXECUTION;
-    if (s == "CRON_TRIGGERED") return TaskEventType::CRON_TRIGGERED;
-    if (s == "CDC_TRIGGERED") return TaskEventType::CDC_TRIGGERED;
-    if (s == "INTERVAL_TRIGGERED") return TaskEventType::INTERVAL_TRIGGERED;
-    if (s == "WEBHOOK_TRIGGERED") return TaskEventType::WEBHOOK_TRIGGERED;
+TaskEventType taskEventTypeFromString([[maybe_unused]] const std::string& s) {
+    if (s == "TASK_REGISTERED") {
+      return TaskEventType::TASK_REGISTERED;
+    }
+    if (s == "TASK_UNREGISTERED") {
+      return TaskEventType::TASK_UNREGISTERED;
+    }
+    if (s == "TASK_ENABLED") {
+      return TaskEventType::TASK_ENABLED;
+    }
+    if (s == "TASK_DISABLED") {
+      return TaskEventType::TASK_DISABLED;
+    }
+    if (s == "TASK_UPDATED") {
+      return TaskEventType::TASK_UPDATED;
+    }
+    if (s == "TASK_STARTED") {
+      return TaskEventType::TASK_STARTED;
+    }
+    if (s == "TASK_COMPLETED") {
+      return TaskEventType::TASK_COMPLETED;
+    }
+    if (s == "TASK_FAILED") {
+      return TaskEventType::TASK_FAILED;
+    }
+    if (s == "TASK_TIMEOUT") {
+      return TaskEventType::TASK_TIMEOUT;
+    }
+    if (s == "TASK_RETRY") {
+      return TaskEventType::TASK_RETRY;
+    }
+    if (s == "TASK_QUEUED") {
+      return TaskEventType::TASK_QUEUED;
+    }
+    if (s == "TASK_DEQUEUED") {
+      return TaskEventType::TASK_DEQUEUED;
+    }
+    if (s == "MANUAL_EXECUTION") {
+      return TaskEventType::MANUAL_EXECUTION;
+    }
+    if (s == "CRON_TRIGGERED") {
+      return TaskEventType::CRON_TRIGGERED;
+    }
+    if (s == "CDC_TRIGGERED") {
+      return TaskEventType::CDC_TRIGGERED;
+    }
+    if (s == "INTERVAL_TRIGGERED") {
+      return TaskEventType::INTERVAL_TRIGGERED;
+    }
+    if (s == "WEBHOOK_TRIGGERED") {
+      return TaskEventType::WEBHOOK_TRIGGERED;
+    }
     return TaskEventType::TASK_COMPLETED; // default for unknown values
 }
 
 
-nlohmann::json TaskAuditEvent::toJson(bool gdpr_mode) const {
+nlohmann::json TaskAuditEvent::toJson([[maybe_unused]] bool gdpr_mode) const {
     nlohmann::json j;
     
     // Standard audit fields
@@ -148,7 +182,7 @@ nlohmann::json TaskAuditEvent::toJson(bool gdpr_mode) const {
     j["task_description"] = task_description;
     
     // Event classification
-    j["event_type"] = taskEventTypeToString(event_type);
+    j["event_type"] = taskEventTypeToString([[maybe_unused]] event_type);
     j["trigger_type"] = trigger_type;
     
     // Actor information (with GDPR masking if enabled)
@@ -192,7 +226,7 @@ nlohmann::json TaskAuditEvent::toJson(bool gdpr_mode) const {
 
 std::string TaskAuditEvent::toCEF() const {
     // CEF Format: CEF:Version|Device Vendor|Device Product|Device Version|Signature ID|Name|Severity|Extension
-    std::ostringstream cef;
+    std::ostringstream cef = {};
     
     cef << "CEF:0|ThemisDB|TaskScheduler|1.5.0|";
     cef << taskEventTypeToString(event_type) << "|";
@@ -244,7 +278,7 @@ nlohmann::json TaskAuditEvent::toSplunkHEC() const {
     }
     
     // Event data
-    event["event"] = toJson(false);
+    event["event"] = toJson([[maybe_unused]] false);
     
     return event;
 }
@@ -261,7 +295,7 @@ nlohmann::json TaskAuditEvent::toElasticECS() const {
     ecs["event"]["category"] = "process";
     ecs["event"]["type"] = success ? "info" : "error";
     ecs["event"]["outcome"] = success ? "success" : "failure";
-    ecs["event"]["duration"] = static_cast<int64_t>(duration_ms * 1000000); // nanoseconds
+    ecs["event"]["duration"] = static_cast<int64_t>([[maybe_unused]] duration_ms * 1000000); // nanoseconds
     
     // Service/observer
     ecs["observer"]["name"] = "themisdb";
@@ -282,7 +316,7 @@ nlohmann::json TaskAuditEvent::toElasticECS() const {
     // Custom fields
     ecs["themis"]["task"]["id"] = task_id;
     ecs["themis"]["task"]["trigger_type"] = trigger_type;
-    ecs["themis"]["task"]["event_type"] = taskEventTypeToString(event_type);
+    ecs["themis"]["task"]["event_type"] = taskEventTypeToString([[maybe_unused]] event_type);
     ecs["themis"]["task"]["resource_usage"] = resource_usage.toJson();
     ecs["themis"]["task"]["anomaly_metrics"] = anomaly_metrics.toJson();
     
@@ -309,7 +343,7 @@ nlohmann::json TaskSecurityEvent::toJson() const {
         j["task_name"] = task_name;
     }
     
-    j["event_type"] = taskSecurityEventTypeToString(event_type);
+    j["event_type"] = taskSecurityEventTypeToString([[maybe_unused]] event_type);
     j["severity"] = severity;
     
     j["user_id"] = user_id;
@@ -334,7 +368,7 @@ nlohmann::json TaskSecurityEvent::toJson() const {
 }
 
 std::string TaskSecurityEvent::toCEF() const {
-    std::ostringstream cef;
+    std::ostringstream cef = {};
     
     cef << "CEF:0|ThemisDB|TaskScheduler|1.5.0|";
     cef << taskSecurityEventTypeToString(event_type) << "|";
@@ -342,7 +376,9 @@ std::string TaskSecurityEvent::toCEF() const {
     
     // Map severity to CEF severity (0-10)
     int cef_severity = 5; // default medium
-    if (severity == "LOW") cef_severity = 3;
+    if (severity == "LOW") {
+      cef_severity = 3;
+    }
     else if (severity == "MEDIUM") cef_severity = 5;
     else if (severity == "HIGH") cef_severity = 8;
     else if (severity == "CRITICAL") cef_severity = 10;

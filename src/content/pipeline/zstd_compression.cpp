@@ -61,7 +61,7 @@ std::vector<uint8_t> ZstdCompression::compress_streaming(
     }
     
     // Simulate progress for large data
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         size_t total = data.size();
         size_t processed = 0;
         
@@ -91,14 +91,14 @@ std::vector<uint8_t> ZstdCompression::decompress_streaming(
     auto result = themis::utils::zstd_decompress(compressed_data);
     
     // Call progress callback when done
-    if (callback && !result.empty()) {
-        callback(result.size(), result.size());
+    if ([[maybe_unused]] callback && !result.empty()) {
+        callback([[maybe_unused]] result.size(),static_cast<int>(result.size()));
     }
     
     return result;
 }
 
-void ZstdCompression::set_compression_level(int level) {
+void ZstdCompression::set_compression_level([[maybe_unused]] int level) {
     // Validate level range for ZSTD (1-22)
     // Level 3 is default, 19 is high compression used in ContentManager
     if (level < 1) {

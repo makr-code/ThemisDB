@@ -71,7 +71,7 @@ DiagnosticRecord::DiagnosticRecord(
 }
 
 std::string DiagnosticRecord::toFormattedMessage() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Format timestamp as ISO8601
     auto seconds = timestamp_ms / 1000;
@@ -306,7 +306,7 @@ nlohmann::json DiagnosticContext::toJson() const {
 }
 
 std::string DiagnosticContext::getRemediationSummary() const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     if (!remediation_suggestion_.empty()) {
         oss << "SUGGESTED ACTION: " << remediation_suggestion_ << "\n";

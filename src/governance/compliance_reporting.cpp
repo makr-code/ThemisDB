@@ -126,15 +126,15 @@ std::string ComplianceReporter::generateHTMLOptimized(
     // Estimate capacity: reasonable buffer for headers and rows
     size_t estimated_size = 2048;  // Base HTML structure
     for (const auto& header : headers) {
-        estimated_size += header.size() + 20;  // Add markup overhead
+        estimated_size += static_cast<int>(header.size()) + 20;  // Add markup overhead
     }
     for (const auto& row : rows) {
         for (const auto& cell : row) {
-            estimated_size += cell.size() + 20;
+            estimated_size += static_cast<int>(cell.size()) + 20;
         }
     }
     
-    std::ostringstream html;
+    std::ostringstream html = {};
     
     // HTML header
     html << "<html><head><title>" << title << "</title>"
@@ -275,7 +275,7 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     result.total_resources_checked = static_cast<int>(resources.size());
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
-                 resources.size(), actions.size());
+                 resources.size(),static_cast<int>(actions.size()));
     
     for (const auto& resource : resources) {
         bool is_covered = false;
@@ -315,13 +315,15 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     std::vector<OverlapResult> overlaps;
     auto all_rules = policy_mgr.listRules();
     
-    THEMIS_DEBUG("Detecting overlaps among {} policy rules", all_rules.size());
+    THEMIS_DEBUG("Detecting overlaps among {} policy rules",static_cast<int>(all_rules.size()));
     
     // Group rules by resource and action patterns
     std::unordered_map<std::string, std::vector<std::string>> pattern_map;
     
     for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
+        if (!rule.enabled) {
+          continue;
+        }
         
         for (const auto& resource : rule.resources) {
             for (const auto& action : rule.actions) {
@@ -333,7 +335,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     
     // Identify patterns with multiple rules
     for (const auto& [pattern, rule_ids] : pattern_map) {
-        if (rule_ids.size() > 1) {
+        if (static_cast<int>(rule_ids.size()) > 1) {
             OverlapResult overlap;
             
             size_t colon_pos = pattern.find(':');
@@ -346,7 +348,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
         }
     }
     
-    THEMIS_INFO("Detected {} overlapping patterns", overlaps.size());
+    THEMIS_INFO("Detected {} overlapping patterns",static_cast<int>(overlaps.size()));
     
     return overlaps;
 }
@@ -357,7 +359,7 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
 ) const {
     std::vector<std::string> gaps;
 
-    THEMIS_DEBUG("Finding gaps for {} expected resources", expected_resources.size());
+    THEMIS_DEBUG("Finding gaps for {} expected resources",static_cast<int>(expected_resources.size()));
 
     // Consider explicit-action rules when evaluating resource-level coverage.
     const auto action_candidates = collect_action_candidates(policy_mgr);
@@ -372,7 +374,7 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
         }
     }
 
-    THEMIS_INFO("Found {} resource gaps", gaps.size());
+    THEMIS_INFO("Found {} resource gaps",static_cast<int>(gaps.size()));
 
     return gaps;
 }
@@ -395,16 +397,34 @@ nlohmann::json ComplianceGapDetector::ComplianceRequirement::toJson() const {
 
 ComplianceGapDetector::ComplianceRequirement 
 ComplianceGapDetector::ComplianceRequirement::fromJson(const nlohmann::json& j) {
-    ComplianceRequirement req;
-    if (j.contains("id")) req.id = j["id"].get<std::string>();
-    if (j.contains("name")) req.name = j["name"].get<std::string>();
-    if (j.contains("framework")) req.framework = j["framework"].get<std::string>();
-    if (j.contains("description")) req.description = j["description"].get<std::string>();
-    if (j.contains("required_resources")) req.required_resources = j["required_resources"].get<std::vector<std::string>>();
-    if (j.contains("requires_encryption")) req.requires_encryption = j["requires_encryption"].get<bool>();
-    if (j.contains("requires_signature")) req.requires_signature = j["requires_signature"].get<bool>();
-    if (j.contains("requires_audit")) req.requires_audit = j["requires_audit"].get<bool>();
-    if (j.contains("min_retention_days")) req.min_retention_days = j["min_retention_days"].get<int>();
+    ComplianceRequirement req = {};
+    if (j.contains("id")) {
+      req.id = j["id"].get<std::string>();
+    }
+    if (j.contains("name")) {
+      req.name = j["name"].get<std::string>();
+    }
+    if (j.contains("framework")) {
+      req.framework = j["framework"].get<std::string>();
+    }
+    if (j.contains("description")) {
+      req.description = j["description"].get<std::string>();
+    }
+    if (j.contains("required_resources")) {
+      req.required_resources = j["required_resources"].get<std::vector<std::string>>();
+    }
+    if (j.contains("requires_encryption")) {
+      req.requires_encryption = j["requires_encryption"].get<bool>();
+    }
+    if (j.contains("requires_signature")) {
+      req.requires_signature = j["requires_signature"].get<bool>();
+    }
+    if (j.contains("requires_audit")) {
+      req.requires_audit = j["requires_audit"].get<bool>();
+    }
+    if (j.contains("min_retention_days")) {
+      req.min_retention_days = j["min_retention_days"].get<int>();
+    }
     return req;
 }
 
@@ -459,7 +479,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
     std::vector<ComplianceGap> gaps;
     const auto action_candidates = collect_action_candidates(policy_mgr);
     
-    THEMIS_DEBUG("Detecting compliance gaps for {} requirements", requirements_snapshot.size());
+    THEMIS_DEBUG("Detecting compliance gaps for {} requirements",static_cast<int>(requirements_snapshot.size()));
     
     for (const auto& req : requirements_snapshot) {
         if (!checkRequirement(req, policy_mgr)) {
@@ -508,9 +528,11 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
                         gap.gap_type = "missing_control";
                         gap.description = "Policy exists but missing controls: " + 
                                         [&]() {
-                                            std::string s;
+                                            std::string s = {};
                                             for (size_t i = 0; i < missing_controls.size(); i++) {
-                                                if (i > 0) s += ", ";
+                                                if (i > 0) {
+                                                  s += ", ";
+                                                }
                                                 s += missing_controls[i];
                                             }
                                             return s;
@@ -524,7 +546,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
         }
     }
     
-    THEMIS_INFO("Detected {} compliance gaps", gaps.size());
+    THEMIS_INFO("Detected {} compliance gaps",static_cast<int>(gaps.size()));
     
     return gaps;
 }
@@ -592,7 +614,7 @@ bool ComplianceGapDetector::loadRequirements(const std::string& path) {
             }
         }
         
-        THEMIS_INFO("Loaded {} compliance requirements from {}", requirements_.size(), path);
+        THEMIS_INFO("Loaded {} compliance requirements from {}",static_cast<int>(requirements_.size()), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -642,7 +664,7 @@ bool ComplianceGapDetector::checkRequirement(
             if (req.requires_signature && rule.require_signature) {
                 meets_signature = true;
             }
-            if (req.requires_audit && (rule.audit_access || rule.audit_changes)) {
+            if ((req.requires_audit && (rule.audit_access || rule.audit_changes)) {
                 meets_audit = true;
             }
             if (req.min_retention_days > 0 && rule.retention_days < req.min_retention_days) {
@@ -673,7 +695,7 @@ nlohmann::json ComplianceReporter::PolicySummaryReport::toJson() const {
 }
 
 std::string ComplianceReporter::PolicySummaryReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Metric,Value\n";
     csv << "Total Rules," << total_rules << "\n";
     csv << "Enabled Rules," << enabled_rules << "\n";
@@ -694,7 +716,7 @@ std::string ComplianceReporter::PolicySummaryReport::toCSV() const {
 }
 
 std::string ComplianceReporter::PolicySummaryReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Policy Summary Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -739,7 +761,7 @@ nlohmann::json ComplianceReporter::ComplianceStatusReport::toJson() const {
 }
 
 std::string ComplianceReporter::ComplianceStatusReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Framework," << framework << "\n";
     csv << "Overall Compliance," << overall_compliance << "%\n\n";
     csv << "Control Type,Control Name\n";
@@ -753,7 +775,7 @@ std::string ComplianceReporter::ComplianceStatusReport::toCSV() const {
 }
 
 std::string ComplianceReporter::ComplianceStatusReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Compliance Status Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -764,13 +786,13 @@ std::string ComplianceReporter::ComplianceStatusReport::toHTML() const {
     html << "<p>Overall Compliance: <strong>" << std::fixed << std::setprecision(2) 
          << overall_compliance << "%</strong></p>";
     
-    html << "<h2>Compliant Controls (" << compliant_controls.size() << ")</h2><ul>";
+    html << "<h2>Compliant Controls (" <<static_cast<int>(compliant_controls.size()) << ")</h2><ul>";
     for (const auto& control : compliant_controls) {
         html << "<li class='compliant'>" << control << "</li>";
     }
     html << "</ul>";
     
-    html << "<h2>Non-Compliant Controls (" << non_compliant_controls.size() << ")</h2><ul>";
+    html << "<h2>Non-Compliant Controls (" <<static_cast<int>(non_compliant_controls.size()) << ")</h2><ul>";
     for (const auto& control : non_compliant_controls) {
         html << "<li class='non-compliant'>" << control << "</li>";
     }
@@ -802,15 +824,17 @@ nlohmann::json ComplianceReporter::AccessControlMatrix::toJson() const {
 }
 
 std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Role,Resource,Allowed Actions,Requires Encryption,Is Audited\n";
     
     for (const auto& entry : entries) {
         csv << entry.role << ",";
         csv << entry.resource << ",";
         csv << "\"";
-        for (size_t i = 0; i < entry.allowed_actions.size(); i++) {
-            if (i > 0) csv << ";";
+        for (size_t i = 0; i <static_cast<int>(entry.allowed_actions.size()); i++) {
+            if (i > 0) {
+              csv << ";";
+            }
             csv << entry.allowed_actions[i];
         }
         csv << "\",";
@@ -822,7 +846,7 @@ std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
 }
 
 std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Access Control Matrix</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -837,8 +861,10 @@ std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
         html << "<tr><td>" << entry.role << "</td>";
         html << "<td>" << entry.resource << "</td>";
         html << "<td>";
-        for (size_t i = 0; i < entry.allowed_actions.size(); i++) {
-            if (i > 0) html << ", ";
+        for (size_t i = 0; i <static_cast<int>(entry.allowed_actions.size()); i++) {
+            if (i > 0) {
+              html << ", ";
+            }
             html << entry.allowed_actions[i];
         }
         html << "</td>";
@@ -876,7 +902,7 @@ nlohmann::json ComplianceReporter::RiskAssessmentReport::toJson() const {
 }
 
 std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Risk ID,Severity,Description,Affected Resources,Mitigation\n";
     
     for (const auto& risk : risks) {
@@ -884,8 +910,10 @@ std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
         csv << risk.severity << ",";
         csv << "\"" << risk.description << "\",";
         csv << "\"";
-        for (size_t i = 0; i < risk.affected_resources.size(); i++) {
-            if (i > 0) csv << ";";
+        for (size_t i = 0; i <static_cast<int>(risk.affected_resources.size()); i++) {
+            if (i > 0) {
+              csv << ";";
+            }
             csv << risk.affected_resources[i];
         }
         csv << "\",";
@@ -901,7 +929,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
 }
 
 std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Risk Assessment Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -927,8 +955,10 @@ std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
         html << "<td>" << risk.severity << "</td>";
         html << "<td>" << risk.description << "</td>";
         html << "<td>";
-        for (size_t i = 0; i < risk.affected_resources.size(); i++) {
-            if (i > 0) html << ", ";
+        for (size_t i = 0; i <static_cast<int>(risk.affected_resources.size()); i++) {
+            if (i > 0) {
+              html << ", ";
+            }
             html << risk.affected_resources[i];
         }
         html << "</td>";
@@ -965,7 +995,7 @@ nlohmann::json ComplianceReporter::ChangeHistoryReport::toJson() const {
 }
 
 std::string ComplianceReporter::ChangeHistoryReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Version,Timestamp,Modified By,Description\n";
     
     for (const auto& change : changes) {
@@ -987,7 +1017,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toCSV() const {
 }
 
 std::string ComplianceReporter::ChangeHistoryReport::toHTML() const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<html><head><title>Change History Report</title>";
     html << "<style>body{font-family:Arial,sans-serif;margin:20px;}";
     html << "table{border-collapse:collapse;width:100%;margin-top:20px;}";
@@ -1112,7 +1142,9 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
     
     // Build matrix entries from policy rules
     for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
+        if (!rule.enabled) {
+          continue;
+        }
         
         for (const auto& resource : rule.resources) {
             for (const auto& role : rule.required_roles) {
@@ -1140,7 +1172,7 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
         }
     }
     
-    THEMIS_INFO("Generated access control matrix with {} entries", matrix.entries.size());
+    THEMIS_INFO("Generated access control matrix with {} entries",static_cast<int>(matrix.entries.size()));
     
     return matrix;
 }
@@ -1171,10 +1203,14 @@ ComplianceReporter::RiskAssessmentReport ComplianceReporter::generateRiskAssessm
         if (rule.enabled) {
             bool is_permissive = false;
             for (const auto& resource : rule.resources) {
-                if (resource == "*") is_permissive = true;
+                if (resource == "*") {
+                  is_permissive = true;
+                }
             }
             for (const auto& action : rule.actions) {
-                if (action == "*") is_permissive = true;
+                if (action == "*") {
+                  is_permissive = true;
+                }
             }
             
             if (is_permissive && !rule.require_encryption && !rule.audit_access) {
@@ -1268,7 +1304,7 @@ namespace {
 
 /// Escape special PDF string characters
 std::string escapePDFString(const std::string& s) {
-    std::string result;
+    std::string result = {};
     result.reserve(s.size());
     for (unsigned char c : s) {
         if (c == '(')       result += "\\(";
@@ -1283,9 +1319,11 @@ std::string escapePDFString(const std::string& s) {
 /// Escape a value for CSV: wrap in double-quotes if it contains commas, quotes, or newlines.
 std::string csvEscape(const std::string& val) {
     bool needs_quoting = val.find_first_of(",\"\n\r") != std::string::npos;
-    if (!needs_quoting) return val;
-    std::string out;
-    out.reserve(val.size() + 2);
+    if (!needs_quoting) {
+      return val;
+    }
+    std::string out = {};
+    out.reserve(static_cast<int>(val.size()) + 2);
     out += '"';
     for (char c : val) {
         if (c == '"') out += '"'; // RFC 4180: escape double-quote by doubling
@@ -1297,8 +1335,12 @@ std::string csvEscape(const std::string& val) {
 
 /// Convert a JSON scalar value to a plain string for CSV output.
 std::string jsonScalarToString(const nlohmann::json& v) {
-    if (v.is_string()) return v.get<std::string>();
-    if (v.is_null())   return "";
+    if (v.is_string()) {
+      return v.get<std::string>();
+    }
+    if (v.is_null()) {
+      return "";
+    }
     return v.dump();
 }
 
@@ -1306,7 +1348,7 @@ std::string jsonScalarToString(const nlohmann::json& v) {
 /// Top-level object keys are emitted as rows: Field,Value.
 /// Nested objects/arrays are JSON-serialised into the value column.
 std::string generateCSVFromJson(const nlohmann::json& report) {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Field,Value\n";
     if (report.is_object()) {
         for (const auto& [key, val] : report.items()) {
@@ -1478,14 +1520,14 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
         page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
                                std::to_string(static_cast<int>(y)) + " Td\n";
         // Truncate very long lines
-        std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
+        std::string display = static_cast<int>(line.size()) > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
     }
     page_streams.back() += "ET\n";
 
     // Assemble PDF binary
-    std::string pdf;
+    std::string pdf = {};
     pdf.reserve(4096);
     pdf += "%PDF-1.4\n";
     // Binary comment to mark file as containing binary data
@@ -1617,7 +1659,8 @@ std::string ComplianceReporter::exportReport(
             if (report.contains("report_type") && report["report_type"].is_string()) {
                 title += " - " + report["report_type"].get<std::string>();
             }
-            std::vector<std::string> lines;
+            std::vector<std::string> lines = {};
+
             if (report.contains("generated_at") && report["generated_at"].is_number()) {
                 std::time_t ts = static_cast<std::time_t>(
                     report["generated_at"].get<int64_t>());
@@ -1640,7 +1683,7 @@ std::string ComplianceReporter::exportReport(
 }
 
 std::string ComplianceReporter::generateHTMLHeader(const std::string& title) const {
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<!DOCTYPE html><html><head>";
     html << "<meta charset='UTF-8'>";
     html << "<title>" << title << "</title>";
@@ -1679,16 +1722,16 @@ nlohmann::json ComplianceReporter::CcpaReport::toJson() const {
 }
 
 std::string ComplianceReporter::CcpaReport::toCSV() const {
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     csv << "Field,Value\n";
     csv << "opt_out_count," << opt_out_count << "\n";
     csv << "ccpa_compliant_rules," << ccpa_compliant_rules << "\n";
     csv << "ccpa_non_compliant_rules," << ccpa_non_compliant_rules << "\n";
-    csv << "missing_right_to_know_count," << missing_right_to_know.size() << "\n";
-    csv << "missing_right_to_delete_count," << missing_right_to_delete.size() << "\n";
-    csv << "missing_opt_out_of_sale_count," << missing_opt_out_of_sale.size() << "\n";
-    csv << "missing_data_portability_count," << missing_data_portability.size() << "\n";
-    csv << "third_party_disclosure_count," << third_party_disclosure_rule_ids.size() << "\n";
+    csv << "missing_right_to_know_count," <<static_cast<int>(missing_right_to_know.size()) << "\n";
+    csv << "missing_right_to_delete_count," <<static_cast<int>(missing_right_to_delete.size()) << "\n";
+    csv << "missing_opt_out_of_sale_count," <<static_cast<int>(missing_opt_out_of_sale.size()) << "\n";
+    csv << "missing_data_portability_count," <<static_cast<int>(missing_data_portability.size()) << "\n";
+    csv << "third_party_disclosure_count," <<static_cast<int>(third_party_disclosure_rule_ids.size()) << "\n";
     csv << "generated_at," << generated_at << "\n";
     return csv.str();
 }
@@ -1722,7 +1765,9 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
     auto all_rules = policy_mgr.listRules();
 
     for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
+        if (!rule.enabled) {
+          continue;
+        }
 
         // Collect data categories from classification levels
         if (!rule.classification_level.empty()) {
@@ -1776,7 +1821,7 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
         "CCPA report: {} compliant, {} non-compliant rules; {} opt-out subjects; "
         "{} third-party disclosure candidates",
         report.ccpa_compliant_rules, report.ccpa_non_compliant_rules,
-        report.opt_out_count, report.third_party_disclosure_rule_ids.size());
+        report.opt_out_count,static_cast<int>(report.third_party_disclosure_rule_ids.size()));
 
     return report;
 }

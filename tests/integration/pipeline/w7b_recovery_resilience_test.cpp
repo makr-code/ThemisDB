@@ -106,8 +106,8 @@ public:
 // ---------------------------------------------------------------------------
 
 struct WalEntry {
-    std::string key;
-    std::string value;
+    std::string key = {};
+    std::string value = {};
     bool        committed{false};
 };
 

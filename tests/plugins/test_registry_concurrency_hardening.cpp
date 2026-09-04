@@ -35,7 +35,7 @@ public:
 
 class MockPluginImpl : public IMockPlugin {
 private:
-    std::string name_;
+    std::string name_ = {};
 public:
     MockPluginImpl(const std::string& name) : name_(name) {}
     std::string getName() const override { return name_; }

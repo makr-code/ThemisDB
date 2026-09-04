@@ -53,12 +53,24 @@ http::response<http::string_body> GraphQLApiHandler::makeErrorResponse(
 json GraphQLApiHandler::serializeValue(
     const std::shared_ptr<graphql::Value>& val) const
 {
-    if (!val || val->isNull())  return json(nullptr);
-    if (val->isBool())          return json(val->asBool());
-    if (val->isInt())           return json(val->asInt());
-    if (val->isFloat())         return json(val->asFloat());
-    if (val->isString())        return json(val->asString());
-    if (val->isEnum())          return json(val->asString());
+    if (!val || val->isNull()) {
+      return json(nullptr);
+    }
+    if (val->isBool()) {
+      return json(val->asBool());
+    }
+    if (val->isInt()) {
+      return json(val->asInt());
+    }
+    if (val->isFloat()) {
+      return json(val->asFloat());
+    }
+    if (val->isString()) {
+      return json(val->asString());
+    }
+    if (val->isEnum()) {
+      return json(val->asString());
+    }
     if (val->isList()) {
         json arr = json::array();
         for (const auto& item : val->asList())
@@ -107,7 +119,7 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         }
         const std::string gql_query = body_json["query"].get<std::string>();
 
-        std::string op_name;
+        std::string op_name = {};
         if (body_json.contains("operationName") &&
             body_json["operationName"].is_string()) {
             op_name = body_json["operationName"].get<std::string>();

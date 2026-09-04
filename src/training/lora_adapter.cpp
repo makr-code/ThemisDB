@@ -42,11 +42,15 @@ namespace detail {
  */
 static std::vector<float> kaimingUniform(size_t size, size_t fan_in, uint32_t seed) {
     std::vector<float> w(size);
-    if (size == 0) return w;
+    if (size == 0) {
+      return w;
+    }
     std::mt19937 gen(seed);
     const float limit = std::sqrt(6.0f / static_cast<float>(std::max<size_t>(1, fan_in)));
     std::uniform_real_distribution<float> dist(-limit, limit);
-    for (auto& v : w) v = dist(gen);
+    for (auto& v : w) {
+      v = dist(gen);
+    }
     return w;
 }
 
@@ -58,10 +62,10 @@ static std::vector<float> kaimingUniform(size_t size, size_t fan_in, uint32_t se
  * B weights.
  */
 static uint32_t seedFromName(const std::string& name) {
-    uint32_t h = 2166136261u;  // FNV-1a 32-bit offset basis
+    uint32_t h = 2166136261;  // FNV-1a 32-bit offset basis
     for (unsigned char c : name) {
         h ^= static_cast<uint32_t>(c);
-        h *= 16777619u;         // FNV prime
+        h *= 16777619;         // FNV prime
     }
     return h;
 }
@@ -74,8 +78,8 @@ static uint32_t seedFromName(const std::string& name) {
  */
 static std::vector<float> matmul(const std::vector<float>& A, size_t M, size_t K,
                                   const std::vector<float>& B, size_t N) {
-    assert(A.size() == M * K);
-    assert(B.size() == K * N);
+    assert(static_cast<int>(A.size()) == M * K);
+    assert(static_cast<int>(B.size()) == K * N);
     std::vector<float> C(M * N, 0.0f);
     for (size_t m = 0; m < M; ++m) {
         for (size_t k = 0; k < K; ++k) {
@@ -157,19 +161,22 @@ public:
     }
 
     std::vector<std::string> layerNames() const {
-        std::vector<std::string> names;
+        std::vector<std::string> names = {};
+
         names.reserve(layers_.size());
-        for (const auto& kv : layers_) names.push_back(kv.first);
+        for (const auto& kv : layers_) {
+          names.push_back(kv.first);
+        }
         return names;
     }
 
-    size_t layerCount() const { return layers_.size(); }
+    size_t layerCount() const { return static_cast<int>(layers_.size()); }
 
     size_t totalParameterCount() const {
         size_t total = 0;
         for (const auto& kv : layers_) {
             const auto& e = kv.second;
-            total += e.B.size() + e.A.size();  // in_dim*rank + rank*out_dim
+            total += static_cast<int>(e.B.size()) + static_cast<int>(e.A.size()) ;  // in_dim*rank + rank*out_dim
         }
         return total;
     }
@@ -196,16 +203,16 @@ public:
         const size_t expected_B = e.in_dim  * e.rank;
         const size_t expected_A = e.rank    * e.out_dim;
 
-        if (B.size() != expected_B) {
-            std::ostringstream oss;
+        if (static_cast<int>(B.size()) != expected_B) {
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::setWeights: B size mismatch for layer '" << layer_name
-                << "' (expected " << expected_B << ", got " << B.size() << ")";
+                << "' (expected " << expected_B << ", got " <<static_cast<int>(B.size()) << ")";
             throw std::invalid_argument(oss.str());
         }
-        if (A.size() != expected_A) {
-            std::ostringstream oss;
+        if (static_cast<int>(A.size()) != expected_A) {
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::setWeights: A size mismatch for layer '" << layer_name
-                << "' (expected " << expected_A << ", got " << A.size() << ")";
+                << "' (expected " << expected_A << ", got " <<static_cast<int>(A.size()) << ")";
             throw std::invalid_argument(oss.str());
         }
 
@@ -225,23 +232,27 @@ public:
             throw std::out_of_range("LoRAAdapter::applyUpdate: unknown layer '" + layer_name + "'");
 
         LoRAWeightEntry& e = it->second;
-        if (delta_B.size() != e.B.size()) {
-            std::ostringstream oss;
+        if (static_cast<int>(delta_B.size()) != static_cast<int>(e.B.size())) {
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_B size mismatch for layer '" << layer_name
-                << "' (expected " << e.B.size() << ", got " << delta_B.size() << ")";
+                << "' (expected " <<static_cast<int>(e.B.size()) << ", got " <<static_cast<int>(delta_B.size()) << ")";
             throw std::invalid_argument(oss.str());
         }
-        if (delta_A.size() != e.A.size()) {
-            std::ostringstream oss;
+        if (static_cast<int>(delta_A.size()) != static_cast<int>(e.A.size())) {
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_A size mismatch for layer '" << layer_name
-                << "' (expected " << e.A.size() << ", got " << delta_A.size() << ")";
+                << "' (expected " <<static_cast<int>(e.A.size()) << ", got " <<static_cast<int>(delta_A.size()) << ")";
             throw std::invalid_argument(oss.str());
         }
 
         // B_new = B + delta_B
-        for (size_t i = 0; i < e.B.size(); ++i) e.B[i] += delta_B[i];
+        for (size_t i = 0; i <static_cast<int>(e.B.size()); ++i) {
+          e.B[i] += delta_B[i];
+        }
         // A_new = A + delta_A
-        for (size_t i = 0; i < e.A.size(); ++i) e.A[i] += delta_A[i];
+        for (size_t i = 0; i <static_cast<int>(e.A.size()); ++i) {
+          e.A[i] += delta_A[i];
+        }
 
         WeightUpdateResult result;
         result.success        = true;
@@ -250,8 +261,8 @@ public:
     }
 
     WeightUpdateResult applyBatchUpdate(const WeightUpdateBatch& batch) {
-        if (batch.layer_names.size() != batch.delta_B.size() ||
-            batch.layer_names.size() != batch.delta_A.size()) {
+        if (static_cast<int>(batch.layer_names.size()) != static_cast<int>(batch.delta_B.size()) ||
+            static_cast<int>(batch.layer_names.size()) != static_cast<int>(batch.delta_A.size())) {
             throw std::invalid_argument(
                 "LoRAAdapter::applyBatchUpdate: batch vectors must have the same length");
         }
@@ -259,7 +270,7 @@ public:
         WeightUpdateResult result;
         result.success = true;
 
-        for (size_t i = 0; i < batch.layer_names.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(batch.layer_names.size()); ++i) {
             const std::string& name = batch.layer_names[i];
             auto it = layers_.find(name);
             if (it == layers_.end()) {
@@ -271,8 +282,8 @@ public:
             LoRAWeightEntry& e = it->second;
 
             // Size validation per entry – on mismatch skip and count as skipped
-            if (batch.delta_B[i].size() != e.B.size() ||
-                batch.delta_A[i].size() != e.A.size()) {
+            if (batch.delta_B[i].size() != static_cast<int>(e.B.size()) ||
+                batch.delta_A[i].size() != static_cast<int>(e.A.size())) {
                 ++result.layers_skipped;
                 if (result.error_message.empty()) {
                     result.error_message =
@@ -281,8 +292,12 @@ public:
                 continue;
             }
 
-            for (size_t j = 0; j < e.B.size(); ++j) e.B[j] += batch.delta_B[i][j];
-            for (size_t j = 0; j < e.A.size(); ++j) e.A[j] += batch.delta_A[i][j];
+            for (size_t j = 0; j <static_cast<int>(e.B.size()); ++j) {
+              e.B[j] += batch.delta_B[i][j];
+            }
+            for (size_t j = 0; j <static_cast<int>(e.A.size()); ++j) {
+              e.A[j] += batch.delta_A[i][j];
+            }
             ++result.layers_updated;
         }
 
@@ -302,12 +317,12 @@ public:
 
         const LoRAWeightEntry& e = it->second;
 
-        if (input.size() != batch_size * e.in_dim) {
-            std::ostringstream oss;
+        if (static_cast<int>(input.size()) != batch_size * e.in_dim) {
+            std::ostringstream oss = {};
             oss << "LoRAAdapter::forward: input size mismatch for layer '" << layer_name
                 << "' (expected " << (batch_size * e.in_dim)
                 << " = batch_size(" << batch_size << ") × in_dim(" << e.in_dim
-                << "), got " << input.size() << ")";
+                << "), got " <<static_cast<int>(input.size()) << ")";
             throw std::invalid_argument(oss.str());
         }
 
@@ -323,7 +338,9 @@ public:
 
         // Step 3: scale by alpha / rank
         const float scaling = e.alpha / static_cast<float>(e.rank);
-        for (auto& v : output) v *= scaling;
+        for (auto& v : output) {
+          v *= scaling;
+        }
 
         return output;
     }
@@ -333,9 +350,12 @@ public:
     // -------------------------------------------------------------------------
 
     std::vector<LoRAWeightEntry> exportWeights() const {
-        std::vector<LoRAWeightEntry> entries;
+        std::vector<LoRAWeightEntry> entries = {};
+
         entries.reserve(layers_.size());
-        for (const auto& kv : layers_) entries.push_back(kv.second);
+        for (const auto& kv : layers_) {
+          entries.push_back(kv.second);
+        }
         return entries;
     }
 
@@ -349,11 +369,11 @@ public:
             const size_t expected_B = e.in_dim  * e.rank;
             const size_t expected_A = e.rank    * e.out_dim;
 
-            if (e.B.size() != expected_B || e.A.size() != expected_A) {
-                std::ostringstream oss;
+            if (static_cast<int>(e.B.size()) != expected_B || static_cast<int>(e.A.size()) != expected_A) {
+                std::ostringstream oss = {};
                 oss << "LoRAAdapter::importWeights: size mismatch for entry '" << e.layer_name
-                    << "': B expected " << expected_B << " (got " << e.B.size()
-                    << "), A expected " << expected_A << " (got " << e.A.size() << ")";
+                    << "': B expected " << expected_B << " (got " <<static_cast<int>(e.B.size())
+                    << "), A expected " << expected_A << " (got " <<static_cast<int>(e.A.size()) << ")";
                 throw std::invalid_argument(oss.str());
             }
 

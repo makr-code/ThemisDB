@@ -78,9 +78,9 @@ std::string PromptTemplate::format(
     
     // Build complete prompt
     // F-018: replace ostringstream with reserve+append to avoid heap overhead.
-    std::string prompt;
-    prompt.reserve(system_prompt.size() + few_shot_examples.size() +
-                   result.size() + output_format_instruction.size() + 8);
+    std::string prompt = {};
+    prompt.reserve(static_cast<int>(system_prompt.size()) + static_cast<int>(few_shot_examples.size()) +
+                   static_cast<int>(result.size()) + static_cast<int>(output_format_instruction.size()) + 8);
     if (!system_prompt.empty()) {
         prompt += system_prompt;
         prompt += "\n\n";
@@ -179,17 +179,17 @@ std::string LLMIntegration::generate(
         auto response = handle.get();
         
         // Call token probability callback if provided
-        if (options.token_callback && options.include_token_probabilities) {
+        if ([[maybe_unused]] options.token_callback && options.include_token_probabilities) {
             // Walk through response words; use logprobs from the response when
             // available (InferenceResponse.logprobs stores per-token log-probs),
             // otherwise fall back to a neutral default of 0.5.
             std::istringstream iss(response.text);
-            std::string tok;
+            std::string tok = {};
             size_t pos = 0;
             while (iss >> tok) {
                 TokenProbability tp;
                 tp.token = tok;
-                if (!response.logprobs.empty() && pos < response.logprobs.size()) {
+                if (!response.logprobs.empty()  && static_cast<size_t>(pos) <static_cast<int>(response.logprobs.size())) {
                     // logprobs are natural-log probabilities; convert to probability
                     tp.probability = static_cast<double>(
                         std::exp(response.logprobs[pos]));
@@ -197,7 +197,7 @@ std::string LLMIntegration::generate(
                     tp.probability = 0.5;  // neutral default when logprobs unavailable
                 }
                 tp.position = pos++;
-                options.token_callback(tp);
+                options.token_callback([[maybe_unused]] tp);
             }
         }
         
@@ -228,7 +228,7 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
     samples.reserve(num_samples);
     
     // Use different seeds for each sample to get diverse responses
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<unsigned int> seed_dist(1, 1000000);
     
@@ -236,7 +236,7 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
         LLMGenerationOptions sample_options = options;
         
         // Generate a unique seed for this sample
-        if (i < options.seeds.size()) {
+        if (static_cast<int>(options.seeds.size()) > i) {
             // Use provided seeds if available
             sample_options.seeds = {options.seeds[i]};
         } else {
@@ -266,7 +266,7 @@ LLMEvaluationResponse LLMIntegration::parseEvaluationResponse(
     try {
         // Look for score in format: "score": 0.85 or "score": 4/5
         std::regex score_regex(R"("score"\s*:\s*([0-9.]+))");
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_search(response, match, score_regex)) {
             result.score = std::stod(match[1]);
@@ -334,7 +334,7 @@ double LLMIntegration::calculateSemanticSimilarity(
     auto tokenize = [](const std::string& text) {
         std::vector<std::string> tokens;
         std::istringstream iss(text);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             // Simple normalization: lowercase
             std::transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -363,7 +363,7 @@ double LLMIntegration::calculateSemanticSimilarity(
     }
     
     // Calculate union size
-    size_t union_size = set1.size() + set2.size() - intersection;
+    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
     
     if (union_size == 0) {
         return 0.0;

@@ -79,7 +79,9 @@ static std::vector<std::vector<float>> randUnitVectors(size_t n, size_t dim,
         for (float& x : v) { x = dist(rng); norm_sq += x * x; }
         float norm = std::sqrt(norm_sq);
         if (norm > 1e-10f)
-            for (float& x : v) x /= norm;
+            for (float& x : v) {
+              x /= norm;
+            }
     }
     return vecs;
 }

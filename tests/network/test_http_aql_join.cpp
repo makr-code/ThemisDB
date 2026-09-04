@@ -44,7 +44,9 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
+        if (server_) {
+          server_->stop();
+        }
         storage_->close();
         std::filesystem::remove_all(db_path_);
     }
@@ -115,13 +117,19 @@ TEST_F(HttpAqlJoinTest, DoubleFor_EqualityJoin_ReturnLeftVariable) {
     ASSERT_TRUE(body["entities"].is_array());
     int aliceCount=0, bobCount=0;
     for (const auto& e : body["entities"]) {
-        json ej;
-        if (e.is_string()) ej = json::parse(e.get<std::string>());
+        json ej = {};
+        if (e.is_string()) {
+          ej = json::parse(e.get<std::string>());
+        }
         else if (e.is_object()) ej = e; else continue;
         auto nameIt = ej.find("name");
         if (nameIt != ej.end()) {
-            if (nameIt->is_string() && nameIt->get<std::string>() == "Alice") aliceCount++;
-            if (nameIt->is_string() && nameIt->get<std::string>() == "Bob") bobCount++;
+            if (nameIt->is_string() && nameIt->get<std::string>() == "Alice") {
+              aliceCount++;
+            }
+            if (nameIt->is_string() && nameIt->get<std::string>() == "Bob") {
+              bobCount++;
+            }
         }
     }
     EXPECT_EQ(aliceCount, 2);

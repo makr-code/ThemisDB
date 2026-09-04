@@ -221,7 +221,9 @@ TEST(ActiveVRAMAllocatorTest, OOMThresholdDetectedAtHighUsage) {
     // — we just verify the function doesn't crash and returns a bool
     (void)alloc.isOOMThresholdExceeded();
 
-    if (h) alloc.free(*h);
+    if (h) {
+      alloc.free(*h);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -339,7 +341,9 @@ TEST(ActiveVRAMAllocatorTest, DefragmentRunsWithoutCrash) {
     // Create some fragmentation by allocating and freeing
     for (int i = 0; i < 5; ++i) {
         auto h = alloc.allocate(4096, "frag_" + std::to_string(i));
-        if (h) alloc.free(*h);
+        if (h) {
+          alloc.free(*h);
+        }
     }
 
     // defragment should not crash even if there's nothing to compact
@@ -524,7 +528,9 @@ TEST(ActiveVRAMAllocatorTest, ConcurrentAllocateFreeIsThreadSafe) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // After all threads complete, allocator should be in a consistent state
     auto stats = alloc.getStats();
@@ -538,7 +544,9 @@ TEST(ActiveVRAMAllocatorTest, ConcurrentEvictAndAllocateIsSafe) {
     std::thread allocator([&] {
         for (int i = 0; i < 50; ++i) {
             auto h = alloc.allocate(4096, "concurrent");
-            if (h) alloc.free(*h);
+            if (h) {
+              alloc.free(*h);
+            }
         }
     });
 
@@ -567,10 +575,13 @@ TEST(ActiveVRAMAllocatorTest, AllocateOrRecoverIsThreadSafe) {
     ActiveVRAMAllocator alloc(makeTestConfig(/*mb=*/128));
 
     // Pre-populate so recovery has something to evict
-    std::vector<ActiveVRAMAllocator::AllocationHandle> seed;
+    std::vector<ActiveVRAMAllocator::AllocationHandle> seed = {};
+
     for (int i = 0; i < 4; ++i) {
         auto h = alloc.allocate(4096, "seed_" + std::to_string(i));
-        if (h) seed.push_back(*h);
+        if (h) {
+          seed.push_back(*h);
+        }
     }
 
     // Fire multiple threads calling allocateOrRecover simultaneously
@@ -581,18 +592,24 @@ TEST(ActiveVRAMAllocatorTest, AllocateOrRecoverIsThreadSafe) {
         threads.emplace_back([&alloc, t]() {
             for (int i = 0; i < 10; ++i) {
                 auto h = alloc.allocateOrRecover(4096, "recovery_" + std::to_string(t));
-                if (h) alloc.free(*h);
+                if (h) {
+                  alloc.free(*h);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // If the thread-safety bug were present, we'd see crashes or assertion failures.
     // Just verify the allocator is still consistent.
     EXPECT_NO_THROW(alloc.getStats());
 
     for (auto& h : seed) {
-        if (h.valid) alloc.free(h);
+        if (h.valid) {
+          alloc.free(h);
+        }
     }
 }
 
@@ -628,7 +645,9 @@ TEST(ActiveVRAMAllocatorTest, LiveCountDoesNotDriftAfterSpillRestore) {
 
     // Free
     auto live = alloc.listAllocations();
-    if (!live.empty()) alloc.free(live[0]);
+    if (!live.empty()) {
+      alloc.free(live[0]);
+    }
     EXPECT_EQ(alloc.getStats().live_allocation_count, 0u);
 }
 
@@ -885,5 +904,7 @@ TEST(ActiveVRAMAllocatorTest, OOMThresholdConsidersExternalAllocations) {
 
     // Cleanup
     alloc.free(ext_handle);
-    if (inner) alloc.free(*inner);
+    if (inner) {
+      alloc.free(*inner);
+    }
 }

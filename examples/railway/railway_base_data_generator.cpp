@@ -47,7 +47,7 @@ using json = nlohmann::json;
 // ============================================================================
 
 struct GeoPoint {
-    double lat;
+    double lat = 0;
     double lon;
     double altitude;
 };
@@ -156,7 +156,7 @@ std::vector<SpeedRestriction> getSpeedRestrictions() {
 
 class TrackNetworkGenerator {
 private:
-    std::mt19937 rng;
+    std::mt19937 rng = {};
     std::uniform_real_distribution<> uniform_dist{0.0, 1.0};
     std::uniform_real_distribution<> gradient_dist{-10.0, 10.0};
     std::uniform_int_distribution<> curve_radius_dist{500, 5000};
@@ -183,7 +183,8 @@ public:
     
     // Interpolate coordinates between two points
     std::vector<GeoPoint> interpolateRoute(const GeoPoint& from, const GeoPoint& to, int segments) {
-        std::vector<GeoPoint> points;
+        std::vector<GeoPoint> points = {};
+
         for (int i = 0; i <= segments; ++i) {
             double t = static_cast<double>(i) / segments;
             GeoPoint p;
@@ -247,7 +248,9 @@ public:
         
         double total_distance = calculateDistance(from.location, to.location);
         int num_segments = static_cast<int>(total_distance / 1000); // 1 km segments
-        if (num_segments < 1) num_segments = 1;
+        if (num_segments < 1) {
+          num_segments = 1;
+        }
         
         auto route_points = interpolateRoute(from.location, to.location, num_segments);
         

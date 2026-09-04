@@ -349,8 +349,8 @@ TEST(ContinuousProfilerTest, AnomalyCallbackFiredOnRegression) {
     ContinuousProfiler p(cfg);
 
     std::atomic<int> callback_count{0};
-    std::string last_msg;
-    std::mutex cb_mutex;
+    std::string last_msg = {};
+    std::mutex cb_mutex = {};
 
     p.registerAnomalyCallback(
         [&](const ProfileSnapshot& /*snap*/, const std::string& msg) {

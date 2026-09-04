@@ -20,16 +20,16 @@ namespace themis::importers {
 
 namespace {
 uint64_t fnv1a64(std::string_view text) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (const unsigned char ch : text) {
         hash ^= ch;
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
 
-std::string hex64(uint64_t value) {
-    std::ostringstream output;
+std::string hex64([[maybe_unused]] uint64_t value) {
+    std::ostringstream output = {};
     output << std::hex << value;
     return output.str();
 }
@@ -47,7 +47,7 @@ std::string WikipediaTransform::normalizeTitle(std::string_view title) {
     std::replace(normalized.begin(), normalized.end(), '_', ' ');
     normalized = trim(normalized);
     bool previous_space = false;
-    std::string compact;
+    std::string compact = {};
     compact.reserve(normalized.size());
     for (const char ch : normalized) {
         const bool is_space = std::isspace(static_cast<unsigned char>(ch)) != 0;
@@ -138,7 +138,8 @@ std::optional<WikipediaRedirectRecord> WikipediaTransform::extractRedirect(
 std::vector<WikipediaProcessEvent> WikipediaTransform::buildProcessEvents(
     const WikipediaPageRecord& page,
     const std::vector<WikipediaRevisionRecord>& revisions) {
-    std::vector<WikipediaProcessEvent> events;
+    std::vector<WikipediaProcessEvent> events = {};
+
     if (!revisions.empty()) {
         events.push_back({
             page.page_id,
@@ -169,10 +170,11 @@ std::vector<WikipediaProcessEvent> WikipediaTransform::buildProcessEvents(
 std::vector<WikipediaTimeSeriesMetric> WikipediaTransform::buildTimeSeriesMetrics(
     const WikipediaPageRecord& page,
     const std::vector<WikipediaRevisionRecord>& revisions) {
-    std::vector<WikipediaTimeSeriesMetric> metrics;
+    std::vector<WikipediaTimeSeriesMetric> metrics = {};
+
     metrics.reserve(revisions.size());
     for (const auto& revision : revisions) {
-        const std::string bucket = revision.timestamp.size() >= 10
+        const std::string bucket = static_cast<int>(revision.timestamp.size()) >= 10
             ? revision.timestamp.substr(0, 10)
             : revision.timestamp;
         metrics.push_back({page.page_id, "revisions/day", bucket, 1.0});
@@ -215,7 +217,7 @@ void WikipediaIngestionPipeline::applyParsedPage(
     snapshot_.pages[parsed_page.page.page_id] = parsed_page.page;
     snapshot_.revisions[parsed_page.revision.revision_id] = parsed_page.revision;
 
-    if (options.streaming_row_callback) {
+    if ([[maybe_unused]] options.streaming_row_callback) {
         options.streaming_row_callback("wiki_page", parsed_page.page.toJson());
         options.streaming_row_callback("wiki_revision", parsed_page.revision.toJson());
     }
@@ -223,7 +225,7 @@ void WikipediaIngestionPipeline::applyParsedPage(
     auto links = WikipediaTransform::extractLinks(parsed_page.page, parsed_page.revision);
     for (auto& link : links) {
         snapshot_.links.push_back(link);
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             options.streaming_row_callback("wiki_link", link.toJson());
         }
     }
@@ -231,14 +233,14 @@ void WikipediaIngestionPipeline::applyParsedPage(
     auto categories = WikipediaTransform::extractCategories(parsed_page.page, parsed_page.revision);
     for (auto& category : categories) {
         snapshot_.categories.push_back(category);
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             options.streaming_row_callback("wiki_category", category.toJson());
         }
     }
 
     if (auto redirect = WikipediaTransform::extractRedirect(parsed_page.page, parsed_page.revision)) {
         snapshot_.redirects.push_back(*redirect);
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             options.streaming_row_callback("wiki_redirect", redirect->toJson());
         }
     }
@@ -248,7 +250,7 @@ void WikipediaIngestionPipeline::applyParsedPage(
     checkpoint_state_.last_page_title = parsed_page.page.title;
     ++stats.imported_records;
     stats.tables_processed = 6;
-    stats.relationships_processed = snapshot_.links.size() + snapshot_.categories.size() + snapshot_.redirects.size();
+    stats.relationships_processed = static_cast<int>(snapshot_.links.size()) + static_cast<int>(snapshot_.categories.size()) + static_cast<int>(snapshot_.redirects.size()) ;
 }
 
 } // namespace themis::importers

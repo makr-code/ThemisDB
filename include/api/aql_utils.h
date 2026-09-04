@@ -28,7 +28,7 @@ namespace themis::api {
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces `\` and `'` to prevent AQL string-literal injection.
 inline std::string aqlEscapeLiteral(const std::string& raw) {
-    std::string out;
+    std::string out = {};
     out.reserve(raw.size() + 4);
     for (char c : raw) {
         if (c == '\\') { out += "\\\\"; }
@@ -48,7 +48,9 @@ inline std::string aqlEscapeLiteral(const std::string& raw) {
 ///
 /// Returns `true` if the name is safe to embed as a bare AQL identifier.
 inline bool isValidAqlIdentifier(const std::string& name) {
-    if (name.empty()) return false;
+    if (name.empty()) {
+      return false;
+    }
     // Check underscore before isalpha to avoid UB on negative char values.
     if (name[0] != '_' && !std::isalpha(static_cast<unsigned char>(name[0])))
         return false;

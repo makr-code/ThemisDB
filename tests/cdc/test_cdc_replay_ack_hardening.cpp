@@ -53,7 +53,7 @@ namespace fs = std::filesystem;
 
 class ReplayAckHardeningTest : public ::testing::Test {
 protected:
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
 
@@ -85,7 +85,8 @@ protected:
 
     /// Record @p n events and return the list of assigned sequences.
     std::vector<uint64_t> seedEvents(int n, const std::string& prefix = "key") {
-        std::vector<uint64_t> seqs;
+        std::vector<uint64_t> seqs = {};
+
         for (int i = 0; i < n; ++i) {
             Changefeed::ChangeEvent ev;
             ev.type         = Changefeed::ChangeEventType::EVENT_PUT;
@@ -101,7 +102,8 @@ protected:
     /// Build synthetic ChangeEvents with sequences [from, from+count).
     static std::vector<Changefeed::ChangeEvent> makeEvents(
             uint64_t from, int count) {
-        std::vector<Changefeed::ChangeEvent> evs;
+        std::vector<Changefeed::ChangeEvent> evs = {};
+
         for (int i = 0; i < count; ++i) {
             Changefeed::ChangeEvent ev;
             ev.sequence     = from + static_cast<uint64_t>(i);
@@ -126,7 +128,8 @@ TEST_F(ReplayAckHardeningTest, RAH01_ReplayFromSequenceReturnsOrderedEvents) {
     auto session = ctrl.replayFromSequence(3, 7);
     ASSERT_NE(session, nullptr);
 
-    std::vector<Changefeed::ChangeEvent> all;
+    std::vector<Changefeed::ChangeEvent> all = {};
+
     while (!session->done()) {
         auto batch = session->nextBatch();
         all.insert(all.end(), batch.begin(), batch.end());

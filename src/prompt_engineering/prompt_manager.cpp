@@ -56,7 +56,7 @@ PromptManager::ValidationResult PromptManager::validateTemplate(const PromptTemp
     }
 
     // Validate image descriptions
-    for (size_t i = 0; i < t.images.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(t.images.size()); ++i) {
         if (t.images[i].alt_text.empty()) {
             result.errors.push_back(
                 "Image[" + std::to_string(i) + "] 'alt_text' must not be empty");
@@ -87,7 +87,9 @@ PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::Promp
     }
 
     // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
-    if (t.id.empty()) t.id = generateId();
+    if (t.id.empty()) {
+      t.id = generateId();
+    }
     
     // Insert using TBB concurrent_hash_map (efficient single operation)
     StoreType::accessor acc;
@@ -125,7 +127,9 @@ std::optional<PromptManager::PromptTemplate> PromptManager::getTemplate(const st
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
                 t.description = j.value("description", "");
-                if (j.contains("metadata")) t.metadata = j["metadata"];
+                if (j.contains("metadata")) {
+                  t.metadata = j["metadata"];
+                }
                 t.active = j.value("active", true);
                 if (j.contains("images") && j["images"].is_array()) {
                     for (const auto& img_j : j["images"]) {
@@ -163,7 +167,9 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
                 t.description = j.value("description", "");
-                if (j.contains("metadata")) t.metadata = j["metadata"];
+                if (j.contains("metadata")) {
+                  t.metadata = j["metadata"];
+                }
                 t.active = j.value("active", true);
                 if (j.contains("images") && j["images"].is_array()) {
                     for (const auto& img_j : j["images"]) {
@@ -180,7 +186,8 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
     }
 
     // v1.1.0: Iterate over concurrent hash map (snapshot iteration)
-    std::vector<PromptTemplate> out;
+    std::vector<PromptTemplate> out = {};
+
     out.reserve(store_.size());
     for (const auto& kv : store_) {
         out.push_back(kv.second);
@@ -241,7 +248,7 @@ std::string PromptManager::generateId() const {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(12) << ms
         << "-"
@@ -447,7 +454,7 @@ std::string PromptManager::buildMultiModalPrompt(
     // Append structured image-description block when images are present
     if (!t.images.empty()) {
         result += "\n\n[Images]\n";
-        for (size_t i = 0; i < t.images.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(t.images.size()); ++i) {
             const auto& img = t.images[i];
             const std::string& mime = img.mime_type.empty() ? "image/jpeg" : img.mime_type;
             result += std::to_string(i + 1) + ". [" + mime + "] " + img.alt_text + "\n";

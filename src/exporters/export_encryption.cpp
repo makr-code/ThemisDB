@@ -33,10 +33,10 @@ namespace themis::exporters {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static constexpr uint8_t MAGIC[4] = {'T', 'E', 'N', 'C'};
-static constexpr uint32_t FORMAT_VER = 1u;
-static constexpr size_t IV_LEN = 12u;  // AES-GCM recommended nonce size
-static constexpr size_t TAG_LEN = 16u; // Full GCM authentication tag
-static constexpr size_t KEY_LEN = 32u; // AES-256
+static constexpr uint32_t FORMAT_VER = 1;
+static constexpr size_t IV_LEN = 12;  // AES-GCM recommended nonce size
+static constexpr size_t TAG_LEN = 16; // Full GCM authentication tag
+static constexpr size_t KEY_LEN = 32; // AES-256
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Little-endian I/O helpers
@@ -62,7 +62,7 @@ static void writeBytes(std::vector<uint8_t> &buf, const uint8_t *data,
 
 static void writeString(std::vector<uint8_t> &buf, const std::string &s) {
   writeU32(buf, static_cast<uint32_t>(s.size()));
-  writeBytes(buf, reinterpret_cast<const uint8_t *>(s.data()), s.size());
+  writeBytes(buf, reinterpret_cast<const uint8_t *>(s.data()),static_cast<int>(s.size()));
 }
 
 static uint32_t readU32(const uint8_t *p) {
@@ -81,7 +81,7 @@ static uint64_t readU64(const uint8_t *p) {
 
 // Maximum length accepted for job_id and kek_id strings in the TENC header.
 // Prevents allocation of enormous strings from malformed or malicious files.
-static constexpr uint32_t MAX_HEADER_STRING_LEN = 4096u;
+static constexpr uint32_t MAX_HEADER_STRING_LEN = 4096;
 
 static std::string readString(const uint8_t *buf, size_t buf_size,
                               size_t &offset) {
@@ -119,12 +119,13 @@ std::vector<uint8_t>
 ExportEncryption::buildAAD(const std::string &job_id, const std::string &kek_id,
                            uint32_t key_version,
                            const std::vector<uint8_t> &iv) {
-  std::vector<uint8_t> aad;
-  aad.reserve(8 + job_id.size() + 4 + kek_id.size() + 4 + IV_LEN);
+  std::vector<uint8_t> aad = {};
+
+  aad.reserve(8 + static_cast<int>(job_id.size()) + 4 + static_cast<int>(kek_id.size()) + 4 + IV_LEN);
   writeString(aad, job_id);
   writeString(aad, kek_id);
   writeU32(aad, key_version);
-  writeBytes(aad, iv.data(), iv.size());
+  writeBytes(aad, iv.data(),static_cast<int>(iv.size()));
   return aad;
 }
 
@@ -132,7 +133,7 @@ ExportEncryption::buildAAD(const std::string &job_id, const std::string &kek_id,
 // The IKM is the raw KEK bytes from the KeyProvider; the info string
 // is the export job_id so each job produces a distinct key.
 std::vector<uint8_t>
-ExportEncryption::deriveJobDEK(uint32_t key_version) const {
+ExportEncryption::deriveJobDEK([[maybe_unused]] uint32_t key_version) const {
   if (!config_.key_provider) {
     throw std::invalid_argument("ExportEncryption: key_provider is null");
   }
@@ -148,7 +149,7 @@ ExportEncryption::deriveJobDEK(uint32_t key_version) const {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     kek = config_.key_provider->getKey(config_.kek_id, key_version);
   }
-  if (kek.size() != KEY_LEN) {
+  if (static_cast<int>(kek.size()) != KEY_LEN) {
     throw std::runtime_error(
         "ExportEncryption: KEK must be 32 bytes (AES-256)");
   }
@@ -158,7 +159,7 @@ ExportEncryption::deriveJobDEK(uint32_t key_version) const {
       kek, {} /*salt*/, config_.job_id, KEY_LEN);
 
   // Securely zero the KEK copy held on the stack once DEK is derived.
-  OPENSSL_cleanse(kek.data(), kek.size());
+  OPENSSL_cleanse(kek.data(),static_cast<int>(kek.size()));
 
   return dek;
 }
@@ -166,9 +167,9 @@ ExportEncryption::deriveJobDEK(uint32_t key_version) const {
 std::vector<uint8_t>
 ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   // FIXED: Protect ALL config_ reads with mutex to prevent data races
-  bool enabled;
-  std::string kek_id;
-  std::string job_id;
+  bool enabled = {};
+  std::string kek_id = {};
+  std::string job_id = {};
   std::shared_ptr<themis::KeyProvider> key_provider;
 
   {
@@ -210,7 +211,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   // Generate a random 12-byte IV.
   std::vector<uint8_t> iv(IV_LEN);
   if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw std::runtime_error("ExportEncryption: failed to generate random IV");
   }
 
@@ -223,7 +224,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
 
   EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
   if (!ctx) {
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw std::runtime_error(
         "ExportEncryption: failed to create cipher context");
   }
@@ -251,7 +252,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
     // Encrypt plaintext.
     if (!plaintext.empty()) {
       // Guard against truncation in the OpenSSL int API
-      if (plaintext.size() > static_cast<size_t>(INT_MAX)) {
+      if (static_cast<int>(plaintext.size()) > static_cast<size_t>(INT_MAX)) {
         throw std::runtime_error("ExportEncryption: plaintext exceeds maximum "
                                  "supported size (INT_MAX)");
       }
@@ -273,17 +274,18 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
     }
   } catch (...) {
     EVP_CIPHER_CTX_free(ctx);
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw;
   }
   EVP_CIPHER_CTX_free(ctx);
-  OPENSSL_cleanse(dek.data(), dek.size());
+  OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
 
   // Assemble the container:
   //   [magic][format_ver][job_id][kek_id][key_version][iv][ct_len][ct][tag]
-  std::vector<uint8_t> container;
-  container.reserve(4 + 4 + 4 + job_id.size() + 4 + kek_id.size() + 4 + IV_LEN +
-                    8 + plaintext.size() + TAG_LEN);
+  std::vector<uint8_t> container = {};
+
+  container.reserve(4 + 4 + 4 + static_cast<int>(job_id.size()) + 4 + static_cast<int>(kek_id.size()) + 4 + IV_LEN +
+                    8 + static_cast<int>(plaintext.size()) + TAG_LEN);
 
   writeBytes(container, MAGIC, 4);
   writeU32(container, FORMAT_VER);
@@ -292,12 +294,12 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   writeU32(container, key_version);
   writeBytes(container, iv.data(), IV_LEN);
   writeU64(container, static_cast<uint64_t>(ciphertext.size()));
-  writeBytes(container, ciphertext.data(), ciphertext.size());
+  writeBytes(container, ciphertext.data(),static_cast<int>(ciphertext.size()));
   writeBytes(container, tag.data(), TAG_LEN);
 
   THEMIS_INFO("ExportEncryption: encrypted {} bytes -> {} bytes "
               "(job_id={}, kek_id={}, key_ver={})",
-              plaintext.size(), container.size(), job_id, kek_id, key_version);
+              plaintext.size(),static_cast<int>(container.size()), job_id, kek_id, key_version);
 
   return container;
 }
@@ -305,7 +307,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
 std::vector<uint8_t>
 ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
   // FIXED: Protect config_.enabled read with mutex
-  bool enabled;
+  bool enabled = {};
   std::shared_ptr<themis::KeyProvider> key_provider;
   {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
@@ -411,7 +413,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
 
   EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
   if (!ctx) {
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw std::runtime_error(
         "ExportEncryption: failed to create cipher context");
   }
@@ -465,15 +467,15 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
     }
   } catch (...) {
     EVP_CIPHER_CTX_free(ctx);
-    OPENSSL_cleanse(dek.data(), dek.size());
+    OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
     throw;
   }
   EVP_CIPHER_CTX_free(ctx);
-  OPENSSL_cleanse(dek.data(), dek.size());
+  OPENSSL_cleanse(dek.data(),static_cast<int>(dek.size()));
 
   THEMIS_INFO("ExportEncryption: decrypted {} bytes -> {} bytes "
               "(job_id={}, kek_id={}, key_ver={})",
-              container.size(), plaintext.size(), file_job_id, file_kek_id,
+              container.size(),static_cast<int>(plaintext.size()), file_job_id, file_kek_id,
               key_version);
 
   return plaintext;
@@ -482,7 +484,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
 void ExportEncryption::encryptFile(const std::string &src_path,
                                    const std::string &dst_path) const {
   // FIXED: Protect config_.enabled read with mutex
-  bool enabled;
+  bool enabled = {};
   {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
@@ -526,7 +528,7 @@ void ExportEncryption::encryptFile(const std::string &src_path,
   auto container = encrypt(plaintext);
 
   // Securely zero the plaintext buffer now that encryption is done.
-  OPENSSL_cleanse(plaintext.data(), plaintext.size());
+  OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
 
   // Write encrypted container.
   std::ofstream dst(dst_path, std::ios::binary | std::ios::trunc);
@@ -545,7 +547,7 @@ void ExportEncryption::encryptFile(const std::string &src_path,
 void ExportEncryption::decryptFile(const std::string &src_path,
                                    const std::string &dst_path) const {
   // FIXED: Protect config_.enabled read with mutex
-  bool enabled;
+  bool enabled = {};
   {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
@@ -590,20 +592,20 @@ void ExportEncryption::decryptFile(const std::string &src_path,
   // Write plaintext.
   std::ofstream dst(dst_path, std::ios::binary | std::ios::trunc);
   if (!dst.is_open()) {
-    OPENSSL_cleanse(plaintext.data(), plaintext.size());
+    OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
     throw std::runtime_error(
         "ExportEncryption: cannot open destination file: " + dst_path);
   }
   if (!plaintext.empty() &&
       !dst.write(reinterpret_cast<const char *>(plaintext.data()),
                  static_cast<std::streamsize>(plaintext.size()))) {
-    OPENSSL_cleanse(plaintext.data(), plaintext.size());
+    OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
     throw std::runtime_error(
         "ExportEncryption: failed to write decrypted file: " + dst_path);
   }
 
   // Securely zero the decrypted buffer after the file has been written.
-  OPENSSL_cleanse(plaintext.data(), plaintext.size());
+  OPENSSL_cleanse(plaintext.data(),static_cast<int>(plaintext.size()));
 }
 
 // Helper: little-endian binary I/O
@@ -615,14 +617,14 @@ static void writeU8(std::ostream &out, uint8_t v) {
 
 static void writeU16LE(std::ostream &out, uint16_t v) {
   out.put(static_cast<char>(v & 0xFFU));
-  out.put(static_cast<char>((v >> 8U) & 0xFFU));
+  out.put(static_cast<char>((v >> 8) & 0xFFU));
 }
 
 static void writeU32LE(std::ostream &out, uint32_t v) {
   out.put(static_cast<char>(v & 0xFFU));
-  out.put(static_cast<char>((v >> 8U) & 0xFFU));
-  out.put(static_cast<char>((v >> 16U) & 0xFFU));
-  out.put(static_cast<char>((v >> 24U) & 0xFFU));
+  out.put(static_cast<char>((v >> 8) & 0xFFU));
+  out.put(static_cast<char>((v >> 16) & 0xFFU));
+  out.put(static_cast<char>((v >> 24) & 0xFFU));
 }
 
 static bool readU8(std::istream &in, uint8_t &v) {
@@ -641,7 +643,7 @@ static bool readU16LE(std::istream &in, uint16_t &v) {
   }
   v = static_cast<uint16_t>(
       static_cast<uint8_t>(lo) |
-      (static_cast<uint16_t>(static_cast<uint8_t>(hi)) << 8U));
+      (static_cast<uint16_t>(static_cast<uint8_t>(hi)) << 8));
   return true;
 }
 
@@ -654,9 +656,9 @@ static bool readU32LE(std::istream &in, uint32_t &v) {
     }
     b[i] = static_cast<uint8_t>(c);
   }
-  v = static_cast<uint32_t>(b[0]) | (static_cast<uint32_t>(b[1]) << 8U) |
-      (static_cast<uint32_t>(b[2]) << 16U) |
-      (static_cast<uint32_t>(b[3]) << 24U);
+  v = static_cast<uint32_t>(b[0]) | (static_cast<uint32_t>(b[1]) << 8) |
+      (static_cast<uint32_t>(b[2]) << 16) |
+      (static_cast<uint32_t>(b[3]) << 24);
   return true;
 }
 
@@ -683,7 +685,7 @@ std::string ExportEncryptor::generateJobId() {
   if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
     throw EncryptionException("Failed to generate random job ID");
   }
-  std::ostringstream oss;
+  std::ostringstream oss = {};
   oss << std::hex << std::setfill('0');
   for (uint8_t b : buf) {
     oss << std::setw(2) << static_cast<int>(b);
@@ -786,7 +788,7 @@ bool ExportEncryptor::readHeader(std::istream &in, std::string &kek_id,
   iv.resize(12);
   in.read(reinterpret_cast<char *>(iv.data()), 12);
   if (in.gcount() != 12)
-    return false;
+    return false = {};
 
   return true;
 }
@@ -1121,7 +1123,7 @@ size_t ExportEncryptor::decryptFile(const std::string &input_path,
     std::fill(dek.begin(), dek.end(), uint8_t{0});
     // Remove partially-written output to avoid leaving plaintext on disk
     out_f.close();
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(output_path, ec);
     throw DecryptionException(
         "GCM authentication tag verification failed for '" + input_path +

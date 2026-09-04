@@ -206,7 +206,9 @@ inline nlohmann::json MutationExecutionPlan::toJSON() const {
     }
 
     nlohmann::json stepsArr = nlohmann::json::array();
-    for (const auto& s : steps) stepsArr.push_back(s.toJSON());
+    for (const auto& s : steps) {
+      stepsArr.push_back(s.toJSON());
+    }
     j["steps"] = stepsArr;
 
     return j;

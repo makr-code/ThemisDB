@@ -28,8 +28,8 @@ std::vector<std::string> SimplePromptCompressor::splitParagraphs(
 
     std::vector<std::string> paragraphs;
     std::istringstream ss(text);
-    std::string line;
-    std::string current;
+    std::string line = {};
+    std::string current = {};
 
     while (std::getline(ss, line)) {
         if (line.empty() || line.find_first_not_of(" \t\r\n") == std::string::npos) {
@@ -38,11 +38,15 @@ std::vector<std::string> SimplePromptCompressor::splitParagraphs(
                 current.clear();
             }
         } else {
-            if (!current.empty()) current += '\n';
+            if (!current.empty()) {
+              current += '\n';
+            }
             current += line;
         }
     }
-    if (!current.empty()) paragraphs.push_back(current);
+    if (!current.empty()) {
+      paragraphs.push_back(current);
+    }
     return paragraphs;
 }
 
@@ -51,17 +55,21 @@ std::vector<std::string> SimplePromptCompressor::splitWords(
 
     std::vector<std::string> words;
     std::istringstream ss(text);
-    std::string word;
-    while (ss >> word) words.push_back(word);
+    std::string word = {};
+    while (ss >> word) {
+      words.push_back(word);
+    }
     return words;
 }
 
 std::string SimplePromptCompressor::joinWords(
     const std::vector<std::string>& words) {
 
-    std::string result;
+    std::string result = {};
     for (size_t i = 0; i < words.size(); ++i) {
-        if (i > 0) result += ' ';
+        if (i > 0) {
+          result += ' ';
+        }
         result += words[i];
     }
     return result;
@@ -87,35 +95,43 @@ SimplePromptCompressor::SimplePromptCompressor() {
     // setSummaryFn().
     summary_fn_ = [](const std::string& omitted_text,
                      const std::string& /*model_id*/) -> std::string {
-        if (omitted_text.empty()) return "";
+        if (omitted_text.empty()) {
+          return "";
+        }
 
         static constexpr size_t kMaxSummaryChars = 300;
 
         // Collect complete sentences until we reach the character budget.
-        std::string summary;
+        std::string summary = {};
         summary.reserve(kMaxSummaryChars + 16);
         size_t pos = 0;
         const size_t len = omitted_text.size();
 
-        while (pos < len && summary.size() < kMaxSummaryChars) {
+        while (pos < len && static_cast<int>(summary.size()) < kMaxSummaryChars) {
             // Skip leading whitespace between sentences.
             while (pos < len && std::isspace(static_cast<unsigned char>(omitted_text[pos])))
                 ++pos;
-            if (pos >= len) break;
+            if (pos >= len) {
+              break;
+            }
 
             // Find end of sentence: ., !, ? or end-of-text.
             size_t end = omitted_text.find_first_of(".!?\n", pos);
             if (end == std::string::npos) {
                 // Last fragment — take what remains up to the budget.
-                const size_t avail = kMaxSummaryChars - summary.size();
+                const size_t avail = kMaxSummaryChars - static_cast<int>(summary.size()) ;
                 summary += omitted_text.substr(pos, avail);
                 pos = len;
             } else {
                 std::string sentence = omitted_text.substr(pos, end - pos + 1);
                 // Trim trailing whitespace from the sentence.
                 size_t r = sentence.find_last_not_of(" \t\r\n");
-                if (r != std::string::npos) sentence = sentence.substr(0, r + 1);
-                if (!summary.empty()) summary += ' ';
+                if (r != std::string::npos) {
+                  sentence = sentence.substr(0, r + 1);
+                }
+                if (!summary.empty()) {
+                  summary += ' ';
+                }
                 summary += sentence;
                 pos = end + 1;
             }
@@ -123,25 +139,31 @@ SimplePromptCompressor::SimplePromptCompressor() {
 
         // Trim the result.
         size_t r = summary.find_last_not_of(" \t\r\n");
-        if (r != std::string::npos) summary.resize(r + 1);
+        if (r != std::string::npos) {
+          summary.resize(r + 1);
+        }
 
         if (summary.empty()) {
             // Absolute fallback: first kMaxSummaryChars characters verbatim.
             summary = omitted_text.substr(0, kMaxSummaryChars);
         }
 
-        const bool truncated = (summary.size() >= kMaxSummaryChars ||
-                                 omitted_text.size() > summary.size() + 10);
+        const bool truncated = (static_cast<int>(summary.size()) >= kMaxSummaryChars ||
+                                 static_cast<int>(omitted_text.size()) > static_cast<int>(summary.size()) + 10);
         return "[summary: " + summary + (truncated ? "…" : "") + "]";
     };
 }
 
 void SimplePromptCompressor::setTokenEstimator(TokenEstimatorFn fn) {
-    if (fn) token_estimator_ = std::move(fn);
+    if (fn) {
+      token_estimator_ = std::move(fn);
+    }
 }
 
 void SimplePromptCompressor::setSummaryFn(SummaryFn fn) {
-    if (fn) summary_fn_ = std::move(fn);
+    if (fn) {
+      summary_fn_ = std::move(fn);
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -159,7 +181,9 @@ int SimplePromptCompressor::estimateTokenCount(const std::string& text) {
 std::string SimplePromptCompressor::truncateHead(const std::string& prompt,
                                                   int budget) const {
     const auto words = splitWords(prompt);
-    if (words.empty()) return prompt;
+    if (words.empty()) {
+      return prompt;
+    }
 
     // Each word ≈ one token for the word-level trim pass; use the estimator
     // on the final string to be precise.
@@ -167,7 +191,9 @@ std::string SimplePromptCompressor::truncateHead(const std::string& prompt,
     const int target_words =
         static_cast<int>(budget * 4.0 / 5.0);  // chars / avg_word_len
 
-    if (static_cast<int>(words.size()) <= target_words) return prompt;
+    if (static_cast<int>(words.size()) <= target_words) {
+      return prompt;
+    }
 
     const int skip = static_cast<int>(words.size()) - target_words;
     std::vector<std::string> kept(words.begin() + skip, words.end());
@@ -181,10 +207,14 @@ std::string SimplePromptCompressor::truncateHead(const std::string& prompt,
 std::string SimplePromptCompressor::truncateTail(const std::string& prompt,
                                                   int budget) const {
     const auto words = splitWords(prompt);
-    if (words.empty()) return prompt;
+    if (words.empty()) {
+      return prompt;
+    }
 
     const int target_words = static_cast<int>(budget * 4.0 / 5.0);
-    if (static_cast<int>(words.size()) <= target_words) return prompt;
+    if (static_cast<int>(words.size()) <= target_words) {
+      return prompt;
+    }
 
     std::vector<std::string> kept(words.begin(),
                                    words.begin() + target_words);
@@ -200,28 +230,33 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
                                                     bool preserve_system,
                                                     int  preserve_turns) const {
     auto paragraphs = splitParagraphs(prompt);
-    if (paragraphs.empty()) return prompt;
+    if (paragraphs.empty()) {
+      return prompt;
+    }
 
     // Identify system-prompt block (first paragraph if preserve_system).
     const size_t sys_end   = preserve_system ? 1 : 0;
     const size_t tail_start =
         (static_cast<int>(paragraphs.size()) > preserve_turns)
-        ? paragraphs.size() - static_cast<size_t>(preserve_turns)
+        ? static_cast<int>(paragraphs.size()) - static_cast<size_t>(preserve_turns)
         : 0;
 
     // Build result by starting with system + tail; fill in middle paragraphs
     // from the end until we exceed budget.
-    std::vector<size_t> kept_indices;
-    for (size_t i = 0; i < sys_end && i < paragraphs.size(); ++i)
+    std::vector<size_t> kept_indices = {};
+
+    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <static_cast<int>(paragraphs.size()); ++i)
         kept_indices.push_back(i);
     for (size_t i = std::max(sys_end, tail_start);
          i < paragraphs.size(); ++i)
         kept_indices.push_back(i);
 
     // Build the initial kept string
-    std::string result;
+    std::string result = {};
     for (size_t idx : kept_indices) {
-        if (!result.empty()) result += "\n\n";
+        if (!result.empty()) {
+          result += "\n\n";
+        }
         result += paragraphs[idx];
     }
 
@@ -242,36 +277,46 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
                                                int  preserve_turns,
                                                const std::string& model_id) const {
     auto paragraphs = splitParagraphs(prompt);
-    if (paragraphs.empty()) return prompt;
+    if (paragraphs.empty()) {
+      return prompt;
+    }
 
     const size_t sys_end    = preserve_system ? 1 : 0;
     const size_t tail_start =
         (static_cast<int>(paragraphs.size()) > preserve_turns)
-        ? paragraphs.size() - static_cast<size_t>(preserve_turns)
+        ? static_cast<int>(paragraphs.size()) - static_cast<size_t>(preserve_turns)
         : 0;
 
     // The "middle" is everything between sys_end and tail_start.
-    std::string middle;
+    std::string middle = {};
     for (size_t i = sys_end; i < tail_start; ++i) {
-        if (!middle.empty()) middle += "\n\n";
+        if (!middle.empty()) {
+          middle += "\n\n";
+        }
         middle += paragraphs[i];
     }
 
     // Build result: system + summary placeholder + tail
-    std::string result;
-    for (size_t i = 0; i < sys_end && i < paragraphs.size(); ++i) {
-        if (!result.empty()) result += "\n\n";
+    std::string result = {};
+    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <static_cast<int>(paragraphs.size()); ++i) {
+        if (!result.empty()) {
+          result += "\n\n";
+        }
         result += paragraphs[i];
     }
 
     if (!middle.empty()) {
-        if (!result.empty()) result += "\n\n";
+        if (!result.empty()) {
+          result += "\n\n";
+        }
         result += summary_fn_(middle, model_id);
     }
 
     for (size_t i = std::max(sys_end, tail_start);
          i < paragraphs.size(); ++i) {
-        if (!result.empty()) result += "\n\n";
+        if (!result.empty()) {
+          result += "\n\n";
+        }
         result += paragraphs[i];
     }
 
@@ -319,7 +364,7 @@ CompressionResult SimplePromptCompressor::compress(
         budget = std::max(budget, effective_budget);
     }
 
-    std::string compressed;
+    std::string compressed = {};
     switch (config.strategy) {
         case CompressionStrategy::TRUNCATE_HEAD:
             compressed = truncateHead(prompt, budget);
@@ -328,7 +373,7 @@ CompressionResult SimplePromptCompressor::compress(
             compressed = truncateTail(prompt, budget);
             break;
         case CompressionStrategy::SELECTIVE_TRIM:
-        case CompressionStrategy::EMBEDDING_PRUNE:  // fallback
+        [[fallthrough]];\n        case CompressionStrategy::EMBEDDING_PRUNE:  // fallback
             compressed = selectiveTrim(prompt, budget,
                                        config.preserve_system_prompt,
                                        config.preserve_last_n_turns);

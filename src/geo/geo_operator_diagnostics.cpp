@@ -38,7 +38,7 @@ void GeoOperatorDiagnostics::recordIncident(
             error_code
         };
         std::lock_guard<std::mutex> lock(mutex_);
-        if (incidents_.size() >= kMaxIncidents) {
+        if (static_cast<int>(incidents_.size()) >= kMaxIncidents) {
             incidents_.erase(incidents_.begin());
         }
         incidents_.push_back(std::move(inc));
@@ -66,7 +66,7 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
     if (incidents_.empty()) return {};
     // Newest at back; return newest first.
     std::vector<GeoIncident> result(incidents_.rbegin(), incidents_.rend());
-    if (max_count > 0 && result.size() > max_count) {
+    if (max_count > 0 && static_cast<int>(result.size()) > max_count) {
         result.resize(max_count);
     }
     return result;
@@ -75,7 +75,8 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
 std::vector<GeoIncident> GeoOperatorDiagnostics::incidentsBySeverity(
         GeoIncidentSeverity min_severity) const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<GeoIncident> result;
+    std::vector<GeoIncident> result = {};
+
     for (auto it = incidents_.rbegin(); it != incidents_.rend(); ++it) {
         if (static_cast<uint8_t>(it->severity) >= static_cast<uint8_t>(min_severity)) {
             result.push_back(*it);
@@ -110,7 +111,7 @@ uint64_t GeoOperatorDiagnostics::totalIncidentCount() const noexcept {
 std::string GeoOperatorDiagnostics::formatSummary(
         std::size_t max_count) const noexcept {
     auto recent = recentIncidents(max_count);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "=== Geo Module Diagnostic Summary ===\n";
     oss << "Total incidents recorded: " << total_count_ << "\n";
     if (recent.empty()) {
@@ -145,17 +146,25 @@ int64_t GeoOperatorDiagnostics::nowNs() noexcept {
 GeoIncidentSeverity GeoOperatorDiagnostics::severityFromId(
         std::string_view id) noexcept {
     // Convention: suffix determines severity.
-    auto has_suffix = [&](std::string_view suffix) {
-        return id.size() >= suffix.size() &&
-               id.substr(id.size() - suffix.size()) == suffix;
+    auto has_suffix = [&]([[maybe_unused]] std::string_view suffix) {
+        return static_cast<bool>( static_cast<int>(id.size()) < static_cast<int>(= suffix.size())) &&
+               id.substr(static_cast<int>(id.size()) - static_cast<int>(suffix.size()) ) == suffix;
     };
     if (has_suffix("PERSISTENT") || has_suffix("CRITICAL")) {
         return GeoIncidentSeverity::CRITICAL;
     }
-    if (has_suffix("DRIFT"))     return GeoIncidentSeverity::WARNING;
-    if (has_suffix("FALLBACK"))  return GeoIncidentSeverity::WARNING;
-    if (has_suffix("INVALID"))   return GeoIncidentSeverity::ERROR;
-    if (has_suffix("ERROR"))     return GeoIncidentSeverity::ERROR;
+    if (has_suffix("DRIFT")) {
+      return GeoIncidentSeverity::WARNING;
+    }
+    if (has_suffix("FALLBACK")) {
+      return GeoIncidentSeverity::WARNING;
+    }
+    if (has_suffix("INVALID")) {
+      return GeoIncidentSeverity::ERROR;
+    }
+    if (has_suffix("ERROR")) {
+      return GeoIncidentSeverity::ERROR;
+    }
     return GeoIncidentSeverity::INFO;
 }
 

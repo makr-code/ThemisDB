@@ -475,7 +475,9 @@ TEST(EpochFencingManagerTest, ConcurrentBumpsAreThreadSafe) {
             epochs[i] = mgr.bumpEpoch("concurrent").epoch;
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // All bumped epochs must be unique and >= 2
     std::sort(epochs.begin(), epochs.end());
@@ -498,10 +500,14 @@ TEST(LeaseManagerTest, ConcurrentAcquireOnlyOneSucceeds) {
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([&lm, &successes, i] {
             auto res = lm.acquire("shared-key", "node-" + std::to_string(i));
-            if (res.success) ++successes;
+            if (res.success) {
+              ++successes;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     // Exactly one node should hold the lease
     EXPECT_EQ(successes.load(), 1);

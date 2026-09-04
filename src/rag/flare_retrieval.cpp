@@ -61,7 +61,7 @@ void FlareRetrieval::notifyTokenEmitted(const std::string& token_text,
     TokenEntry entry{token_text, log_prob, uncertain};
 
     if (cfg_.query_window_tokens > 0 &&
-        window_.size() >= cfg_.query_window_tokens) {
+        static_cast<int>(window_.size()) >= cfg_.query_window_tokens) {
         window_.erase(window_.begin());
     }
     window_.push_back(std::move(entry));
@@ -78,8 +78,12 @@ void FlareRetrieval::notifyTokenEmitted(const std::string& token_text,
         stats_.min_log_prob = log_prob;
         stats_.max_log_prob = log_prob;
     } else {
-        if (log_prob < stats_.min_log_prob) stats_.min_log_prob = log_prob;
-        if (log_prob > stats_.max_log_prob) stats_.max_log_prob = log_prob;
+        if (log_prob < stats_.min_log_prob) {
+          stats_.min_log_prob = log_prob;
+        }
+        if (log_prob > stats_.max_log_prob) {
+          stats_.max_log_prob = log_prob;
+        }
     }
 
     // ── Uncertainty tracking ─────────────────────────────────────────────
@@ -153,10 +157,12 @@ std::string FlareRetrieval::buildQuery() const {
     // Production Delta: String-based query vs. semantic embedding vector.
     // Status: EmbeddingQueryFn bridge is available via setEmbeddingQueryFn().
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     bool first = true;
     for (const auto& entry : window_) {
-        if (!first) oss << ' ';
+        if (!first) {
+          oss << ' ';
+        }
         first = false;
         if (cfg_.mask_uncertain_tokens && entry.uncertain) {
             oss << cfg_.mask_token;

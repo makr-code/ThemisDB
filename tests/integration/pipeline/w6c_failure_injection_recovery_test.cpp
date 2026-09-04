@@ -110,7 +110,7 @@ public:
 
     struct IngestResult {
         bool    ok{false};
-        std::string error;
+        std::string error = {};
     };
 
     IngestResult Ingest(const std::string& token,
@@ -156,7 +156,8 @@ public:
             return {};
         }
         const auto ids = index_->Search(term);
-        std::vector<std::string> out;
+        std::vector<std::string> out = {};
+
         for (const auto& id : ids) {
             if (const auto v = storage_->Read(id); v.has_value()) {
                 out.push_back(*v);

@@ -174,8 +174,8 @@ struct User {
 struct Customer {
     // Plain fields
     std::string customer_id;
-    std::string account_type;
-    std::string risk_tier;
+    std::string account_type = {};
+    std::string risk_tier = {};
     int64_t created_at;
     
     // Encrypted fields (financial/healthcare)
@@ -233,7 +233,7 @@ struct Customer {
  * Useful for confidential documents where even metadata is sensitive.
  */
 struct SecureDocument {
-    std::string id;
+    std::string id = {};
     std::string title;
     int64_t created_at;
     

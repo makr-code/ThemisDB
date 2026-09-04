@@ -74,7 +74,9 @@ protected:
                         break;
                     }
                 }
-                if (model_available_) break;
+                if (model_available_) {
+                  break;
+                }
             }
         }
 
@@ -106,7 +108,7 @@ protected:
         }
     }
 
-    std::string model_path_;
+    std::string model_path_ = {};
     bool        model_available_ = false;
     std::unique_ptr<EmbeddedLLM> llm_;
 };
@@ -115,7 +117,9 @@ protected:
 
 TEST_F(TinyLlamaInferenceTest, Infer01_BasicGeneration) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     const std::string prompt = "The capital of France is";
     const std::string result = llm_->generate(prompt, /*max_tokens=*/100);
@@ -129,10 +133,12 @@ TEST_F(TinyLlamaInferenceTest, Infer01_BasicGeneration) {
 
 TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     std::vector<std::string> tokens;
-    std::mutex mu;
+    std::mutex mu = {};
 
     const std::string full = llm_->generateStreaming(
         "List three database engines:",
@@ -146,9 +152,11 @@ TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
     EXPECT_GT(tokens.size(), 0u) << "Stream callback must have been invoked at least once";
 
     // Assembled streamed tokens must approximately equal the full output
-    std::string assembled;
+    std::string assembled = {};
     assembled.reserve(full.size() + 16);
-    for (const auto& t : tokens) assembled += t;
+    for (const auto& t : tokens) {
+      assembled += t;
+    }
     // Normalise whitespace differences (some engines may consolidate spaces)
     EXPECT_FALSE(assembled.empty()) << "Assembled streaming tokens are empty";
     spdlog::info("INFER-02: {} tokens streamed, assembled {} chars", tokens.size(), assembled.size());
@@ -158,7 +166,9 @@ TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
 
 TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     constexpr int kBatch = 4;
     std::vector<std::string> prompts = {
@@ -183,7 +193,9 @@ TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
             results[i] = local_llm.generate(prompts[i], /*max_tokens=*/30);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     for (int i = 0; i < kBatch; ++i) {
         EXPECT_FALSE(results[i].empty())
@@ -196,7 +208,9 @@ TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
 
 TEST_F(TinyLlamaInferenceTest, Infer04_TokenizerRoundTrip) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     // LlamaTokenizer loads the model in vocab-only mode (lightweight).
     LlamaTokenizer tokenizer(model_path_);
@@ -220,7 +234,9 @@ TEST_F(TinyLlamaInferenceTest, Infer04_TokenizerRoundTrip) {
 
 TEST_F(TinyLlamaInferenceTest, Infer05_KvCacheReuseSpeedup) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     // Warm up the model first
     const std::string prefix = "ThemisDB is a distributed database system. ";
@@ -249,7 +265,9 @@ TEST_F(TinyLlamaInferenceTest, Infer05_KvCacheReuseSpeedup) {
 
 TEST_F(TinyLlamaInferenceTest, Infer06_GrammarConstrainedJson) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     const std::string result = llm_->generateWithParams(
         "Return a JSON object with fields 'name' and 'value'.",
@@ -271,7 +289,9 @@ TEST_F(TinyLlamaInferenceTest, Infer06_GrammarConstrainedJson) {
 
 TEST_F(TinyLlamaInferenceTest, Infer07_CancellationNoLeak) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     auto cancel_token = std::make_shared<std::atomic<bool>>(false);
 
@@ -304,11 +324,13 @@ TEST_F(TinyLlamaInferenceTest, Infer07_CancellationNoLeak) {
 
 TEST_F(TinyLlamaInferenceTest, Infer08_ContextLengthLimit) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     // Build a prompt significantly larger than the configured context window (2048 tokens).
     // Each word ~1 token; 4000 words ≈ 4000 tokens > 2048 context.
-    std::string long_prompt;
+    std::string long_prompt = {};
     long_prompt.reserve(30000);
     for (int i = 0; i < 4000; ++i) {
         long_prompt += "word" + std::to_string(i) + " ";
@@ -354,7 +376,9 @@ TEST_F(TinyLlamaInferenceTest, Infer09_MissingModelFallback) {
 
 TEST_F(TinyLlamaInferenceTest, Infer10_EmbeddingGeneration) {
     skipIfNoModel();
-    if (!model_available_) return;
+    if (!model_available_) {
+      return;
+    }
 
     const std::vector<float> emb = llm_->embed("ThemisDB vector search engine");
 
@@ -368,7 +392,9 @@ TEST_F(TinyLlamaInferenceTest, Infer10_EmbeddingGeneration) {
 
     // Check L2 norm ≈ 1.0 (normalised embeddings)
     float norm = 0.0f;
-    for (float v : emb) norm += v * v;
+    for (float v : emb) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     EXPECT_NEAR(norm, 1.0f, 0.15f)
         << "Embedding should be approximately L2-normalised (norm=" << norm << ")";

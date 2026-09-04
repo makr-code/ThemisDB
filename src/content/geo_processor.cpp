@@ -227,9 +227,9 @@ ContentExtractionResult GeoProcessor::extract(
         result.metadata = metadata;
         
         // Generate text description
-        std::ostringstream text;
+        std::ostringstream text = {};
         text << "Geospatial data: " << geo.geometry_type;
-        text << " with " << geo.coordinates.size() << " coordinate pairs";
+        text << " with " <<static_cast<int>(geo.coordinates.size()) << " coordinate pairs";
         text << " in CRS " << geo.crs;
         result.text = text.str();
         
@@ -266,13 +266,13 @@ std::vector<ContentChunk> GeoProcessor::chunk(
     // Each chunk contains a subset of coordinates
     const int coords_per_chunk = 100;
     
-    for (size_t i = 0; i < geo.coordinates.size(); i += coords_per_chunk) {
+    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()); i += coords_per_chunk) {
         ContentChunk chunk;
         
-        std::ostringstream text;
-        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk, geo.coordinates.size()) << ": ";
+        std::ostringstream text = {};
+        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size())) << ": ";
         
-        size_t end = std::min(i + coords_per_chunk, geo.coordinates.size());
+        size_t end = std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size()));
         for (size_t j = i; j < end; ++j) {
             text << "(" << geo.coordinates[j].first << "," << geo.coordinates[j].second << ") ";
         }
@@ -376,7 +376,7 @@ GeoExtractionData GeoProcessor::parseGeoJSON(const std::vector<uint8_t>& blob) {
 
 static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     if (coords.is_array()) {
-        if (coords.size() >= 2 && coords[0].is_number() && coords[1].is_number()) {
+        if (static_cast<int>(coords.size()) >= 2 && coords[0].is_number() && coords[1].is_number()) {
             // [lon, lat] pair
             double lon = coords[0].get<double>();
             double lat = coords[1].get<double>();
@@ -448,7 +448,9 @@ GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vecto
         int layer_count = dataset->GetLayerCount();
         for (int i = 0; i < layer_count; ++i) {
             OGRLayer* layer = dataset->GetLayer(i);
-            if (!layer) continue;
+            if (!layer) {
+              continue;
+            }
             
             // Apply spatial filter if provided (10-100x speedup for selective queries)
             if (options.use_spatial_filter) {
@@ -626,7 +628,9 @@ GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vect
         int layer_count = dataset->GetLayerCount();
         for (int i = 0; i < layer_count && i < 1; ++i) {  // Process first layer
             OGRLayer* layer = dataset->GetLayer(i);
-            if (!layer) continue;
+            if (!layer) {
+              continue;
+            }
             
             // Apply spatial filter if provided (10-100x speedup for selective queries)
             if (options.use_spatial_filter) {
@@ -762,7 +766,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<
             data.properties["projection"] = projection;
             
             // Parse spatial reference to get EPSG code if available
-            OGRSpatialReference srs;
+            OGRSpatialReference srs = {};
             if (srs.importFromWkt(projection) == OGRERR_NONE) {
                 const char* auth_name = srs.GetAuthorityName(nullptr);
                 const char* auth_code = srs.GetAuthorityCode(nullptr);
@@ -795,7 +799,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<
                     GDALGetColorInterpretationName(color_interp);
                 
                 // NoData value
-                int has_nodata;
+                int has_nodata = {};
                 double nodata = band->GetNoDataValue(&has_nodata);
                 if (has_nodata) {
                     data.properties[band_prefix + "_nodata"] = std::to_string(nodata);
@@ -853,7 +857,7 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
     // Simplified area calculation using shoelace formula
     // Real implementation would account for spherical geometry
     
-    if (geo.coordinates.size() < 3) {
+    if (static_cast<int>(geo.coordinates.size()) < 3) {
         return 0.0;
     }
     
@@ -872,14 +876,14 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
 double GeoProcessor::calculateLength(const GeoExtractionData& geo) {
     // Calculate total length using Haversine distance
     
-    if (geo.coordinates.size() < 2) {
+    if (static_cast<int>(geo.coordinates.size()) < 2) {
         return 0.0;
     }
     
     double total = 0.0;
     const double R = 6371.0;  // Earth radius in km
     
-    for (size_t i = 0; i < geo.coordinates.size() - 1; ++i) {
+    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()) - 1; ++i) {
         double lat1 = geo.coordinates[i].first * M_PI / 180.0;
         double lon1 = geo.coordinates[i].second * M_PI / 180.0;
         double lat2 = geo.coordinates[i + 1].first * M_PI / 180.0;

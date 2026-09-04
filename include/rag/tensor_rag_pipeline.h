@@ -207,7 +207,7 @@ struct RAGDecision {
      *       wires the embedding backend into TensorRAGPipeline via
      *       `setEmbeddingQueryFn()`.
      */
-    std::string flare_query;
+    std::string flare_query = {};
 
     /**
      * @brief Embedding vector for `flare_query`.
@@ -413,7 +413,9 @@ public:
 
         /// Fraction of tokens that triggered at least one gate.
         [[nodiscard]] double anyTriggerRate() const noexcept {
-            if (total_token_steps == 0) return 0.0;
+            if (total_token_steps == 0) {
+              return 0.0;
+            }
             const auto any = flare_triggers + targ_triggers - combined_triggers;
             return static_cast<double>(any) / total_token_steps;
         }

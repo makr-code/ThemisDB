@@ -166,7 +166,7 @@ BENCHMARK(SOA02_RateLimiter_EnforcementLatency)
 
 static void SOA03_AuditEventWrite_Throughput(benchmark::State& state) {
     struct AuditSink {
-        std::mutex             mu;
+        std::mutex             mu = {};
         std::atomic<uint64_t>  seq{0};
         std::vector<uint64_t>  records;
         explicit AuditSink(size_t cap) { records.reserve(cap); }
@@ -312,7 +312,7 @@ BENCHMARK(SOA07_TamperDetectionScan_Throughput)
 
 static void SOA08_ConcurrentAuditWrite_P99Gate_100k(benchmark::State& state) {
     struct AuditLog {
-        std::mutex             mu;
+        std::mutex             mu = {};
         std::atomic<uint64_t>  seq{0};
         std::vector<uint64_t>  records;
         explicit AuditLog(size_t cap) { records.reserve(cap); }

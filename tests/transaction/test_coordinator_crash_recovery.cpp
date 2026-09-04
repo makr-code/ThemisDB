@@ -201,7 +201,8 @@ TEST_F(CrashRecoveryIntegrationTest, DeterministicRollbackUnderContention) {
   const int n_transactions = 50;
   const int ops_per_txn = 5;
 
-  std::vector<uint64_t> txn_ids;
+  std::vector<uint64_t> txn_ids = {};
+
   for (int t = 0; t < n_transactions; ++t) {
     uint64_t txn_id = 4000 + t;
     txn_ids.push_back(txn_id);
@@ -309,7 +310,7 @@ class CrashRecoveryChaosTest : public ::testing::Test {
     }
   }
 
-  std::string wal_path_;
+  std::string wal_path_ = {};
   std::unique_ptr<CrashRecoveryManager> recovery_mgr_;
 };
 

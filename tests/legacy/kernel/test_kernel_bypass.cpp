@@ -460,7 +460,9 @@ TEST(KernelBypassTest, KBP38_PinCallerToCore0OnLinux) {
     cpu_set_t set;
     CPU_ZERO(&set);
     int ncpu = CpuPinner::logicalCpuCount();
-    for (int i = 0; i < ncpu; ++i) CPU_SET(i, &set);
+    for (int i = 0; i < ncpu; ++i) {
+      CPU_SET(i, &set);
+    }
     ::sched_setaffinity(0, sizeof(set), &set);
 #else
     GTEST_SKIP() << "Linux only";

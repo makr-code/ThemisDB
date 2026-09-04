@@ -219,7 +219,9 @@ public:
         int gpu_device_id)
     {
         auto result = allocate(bytes, owner_id, gpu_device_id);
-        if (result) return result;
+        if (result) {
+          return result;
+        }
 
         spdlog::info("[ActiveVRAMAllocator] Triggering OOM recovery for '{}' ({} bytes)",
                      owner_id, bytes);
@@ -256,7 +258,9 @@ public:
     // ------------------------------------------------------------------
 
     void touch(AllocationHandle& handle) {
-        if (!handle.valid) return;
+        if (!handle.valid) {
+          return;
+        }
         std::lock_guard<std::mutex> lock(mu_);
         handle.last_used_at_ms = nowMs();
         auto it = allocations_.find(handle.id);
@@ -269,7 +273,7 @@ public:
     // handleOOM (public wrapper — takes lock)
     // ------------------------------------------------------------------
 
-    bool handleOOM(size_t need_bytes) {
+    bool handleOOM([[maybe_unused]] size_t need_bytes) {
         std::lock_guard<std::mutex> lock(mu_);
         return handleOOMInternal(need_bytes);
     }
@@ -291,7 +295,8 @@ public:
         std::lock_guard<std::mutex> lock(mu_);
         size_t freed = 0;
 
-        std::vector<uint64_t> to_evict;
+        std::vector<uint64_t> to_evict = {};
+
         for (auto& [id, h] : allocations_) {
             if (h.owner_id == owner_id) {
                 to_evict.push_back(id);
@@ -300,7 +305,9 @@ public:
 
         for (uint64_t id : to_evict) {
             auto it = allocations_.find(id);
-            if (it == allocations_.end()) continue;
+            if (it == allocations_.end()) {
+              continue;
+            }
             AllocationHandle& h = it->second;
             freed += h.allocated_bytes;
             freeHandleLocked(h);
@@ -418,14 +425,15 @@ public:
         return stats_.oom_threshold_exceeded;
     }
 
-    void setOOMCallback(OOMCallback cb) {
+    void setOOMCallback([[maybe_unused]] OOMCallback cb) {
         std::lock_guard<std::mutex> lock(mu_);
         oom_cb_ = std::move(cb);
     }
 
     std::vector<AllocationHandle> listAllocations() const {
         std::lock_guard<std::mutex> lock(mu_);
-        std::vector<AllocationHandle> result;
+        std::vector<AllocationHandle> result = {};
+
         result.reserve(allocations_.size());
         for (const auto& [id, h] : allocations_) {
             result.push_back(h);
@@ -478,7 +486,9 @@ public:
     // ------------------------------------------------------------------
 
     bool allocateWithFragmentation(size_t bytes, void** ptr) {
-        if (!ptr) return false;
+        if (!ptr) {
+          return false;
+        }
 
         auto handle = allocateOrRecover(bytes, "__bridge__", -1);
         if (!handle) {
@@ -510,7 +520,7 @@ private:
     // Internal helpers (must be called with mu_ held)
     // ------------------------------------------------------------------
 
-    bool handleOOMInternal(size_t need_bytes) {
+    bool handleOOMInternal([[maybe_unused]] size_t need_bytes) {
         // Strategy 1: Eviction
         {
             size_t freed = evictLRULocked();
@@ -572,7 +582,9 @@ private:
     }
 
     size_t evictLRULocked() {
-        if (allocations_.empty()) return 0;
+        if (allocations_.empty()) {
+          return 0;
+        }
 
         // Find the non-spilled, non-external allocation with the smallest last_used_at_ms.
         // External allocations are owned by the inference runtime and must not be evicted.
@@ -589,7 +601,9 @@ private:
         if (lru_id == 0) return 0;  // nothing evictable
 
         auto it = allocations_.find(lru_id);
-        if (it == allocations_.end()) return 0;
+        if (it == allocations_.end()) {
+          return 0;
+        }
 
         AllocationHandle& h = it->second;
         size_t freed = h.allocated_bytes;
@@ -605,7 +619,9 @@ private:
     }
 
     size_t spillLRUToCPULocked() {
-        if (allocations_.empty()) return 0;
+        if (allocations_.empty()) {
+          return 0;
+        }
 
         // Check CPU spill budget
         if (stats_.spilled_cpu_bytes >= cfg_.max_cpu_spill_bytes) {
@@ -626,10 +642,14 @@ private:
             }
         }
 
-        if (lru_id == 0) return 0;
+        if (lru_id == 0) {
+          return 0;
+        }
 
         auto it = allocations_.find(lru_id);
-        if (it == allocations_.end()) return 0;
+        if (it == allocations_.end()) {
+          return 0;
+        }
 
         AllocationHandle& h = it->second;
         size_t bytes = h.allocated_bytes;
@@ -670,7 +690,9 @@ private:
     }
 
     bool freeHandleLocked(AllocationHandle& handle) {
-        if (!handle.valid) return false;
+        if (!handle.valid) {
+          return false;
+        }
 
         const std::string key = makeModelKey(handle.owner_id, handle.id);
 
@@ -725,7 +747,7 @@ private:
         }
     }
 
-    void notifyOOM(const OOMEvent& ev) {
+    void notifyOOM([[maybe_unused]] const OOMEvent& ev) {
         if (oom_cb_) {
             try { oom_cb_(ev); } catch (...) {}
         }
@@ -790,7 +812,7 @@ void ActiveVRAMAllocator::touch(AllocationHandle& handle)
     impl_->touch(handle);
 }
 
-bool ActiveVRAMAllocator::handleOOM(size_t need_bytes)
+bool ActiveVRAMAllocator::handleOOM([[maybe_unused]] size_t need_bytes)
 {
     return impl_->handleOOM(need_bytes);
 }
@@ -832,7 +854,7 @@ bool ActiveVRAMAllocator::isOOMThresholdExceeded() const
 
 void ActiveVRAMAllocator::setOOMCallback(OOMCallback cb)
 {
-    impl_->setOOMCallback(std::move(cb));
+    impl_->setOOMCallback([[maybe_unused]] std::move(cb));
 }
 
 std::vector<ActiveVRAMAllocator::AllocationHandle>

@@ -25,7 +25,7 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
-static size_t ensureMinimumPrefillChunkSize(size_t configured_size) {
+static size_t ensureMinimumPrefillChunkSize([[maybe_unused]] size_t configured_size) {
     // Enforce a lower bound of 1 so that chunked prefill never stalls completely.
     return std::max<size_t>(1, configured_size);
 }
@@ -35,7 +35,9 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
     PagedKVCache* kv_cache
 ) : config_(config),
     kv_cache_(kv_cache),
-    effective_prefill_chunk_size_(ensureMinimumPrefillChunkSize(config.prefill_chunk_size)),
+    metrics_collector_(nullptr),
+    quota_manager_(nullptr),
+    shard_load_cb_(),
     waiting_queue_(
         [](const std::shared_ptr<ScheduledRequest>& a,
            const std::shared_ptr<ScheduledRequest>& b) {
@@ -45,7 +47,17 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
             }
             return a->submitted_at > b->submitted_at;  // Earlier first
         }
-    ) {
+    ),
+    active_requests_(),
+    preempted_requests_(),
+    completed_requests_(),
+    all_requests_(),
+    mutex_(),
+    cv_(),
+    running_(false),
+    stats_(),
+    last_schedule_time_(),
+    effective_prefill_chunk_size_(ensureMinimumPrefillChunkSize(config.prefill_chunk_size)) {
     
     spdlog::info("Continuous Batch Scheduler initialized (vLLM-style):");
     spdlog::info("  Max batch size: {}", config_.max_batch_size);
@@ -70,7 +82,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     // waiting queue + active requests so that the limit covers all in-flight
     // work, not just the waiting queue alone.
     if (config_.max_queue_depth > 0) {
-        size_t current_depth = waiting_queue_.size() + active_requests_.size();
+        size_t current_depth = static_cast<int>(waiting_queue_.size()) + static_cast<int>(active_requests_.size()) ;
         if (current_depth >= config_.max_queue_depth) {
             stats_.rejected_requests++;
             if (metrics_collector_) {
@@ -156,7 +168,7 @@ bool ContinuousBatchScheduler::cancelRequest(const std::string& request_id) {
     // Remove from active list if present
     active_requests_.erase(
         std::remove_if(active_requests_.begin(), active_requests_.end(),
-                      [&](const auto& r) { return r->request_id == request_id; }),
+                      [&]([[maybe_unused]] const auto& r) { return r->request_id == request_id; }),
         active_requests_.end()
     );
     
@@ -253,7 +265,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     }
     
     // Then, process waiting requests (prefill)
-    while (!waiting_queue_.empty() && batch.size() < config_.max_batch_size) {
+    while (!waiting_queue_.empty() && static_cast<int>(batch.size()) < config_.max_batch_size) {
         auto req = waiting_queue_.top();
         waiting_queue_.pop();
         
@@ -271,7 +283,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
         if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
             batch.push_back(req.get());
             total_tokens += prefill_tokens;
-            reserved_blocks_in_batch += req->allocated_blocks.size();
+            reserved_blocks_in_batch += req-> static_cast<int>(allocated_blocks.size());
             active_requests_.push_back(req);
         } else {
             // Put back in queue
@@ -282,9 +294,9 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     
     // Update stats
     stats_.current_batch_size = batch.size();
-    stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
+    stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen,static_cast<int>(batch.size()));
     stats_.active_requests = active_requests_.size();
-    stats_.current_queue_depth = waiting_queue_.size() + active_requests_.size();
+    stats_.current_queue_depth = static_cast<int>(waiting_queue_.size()) + static_cast<int>(active_requests_.size()) ;
     
     // Emit queue-length metric so Prometheus/Grafana can visualise scheduler
     // pressure in real time.  Called under the scheduler lock so the value is
@@ -313,9 +325,9 @@ void ContinuousBatchScheduler::processBatchResults(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (batch.size() != responses.size()) {
+    if (static_cast<int>(batch.size()) != static_cast<int>(responses.size())) {
         spdlog::error("Batch size mismatch: {} requests, {} responses",
-                      batch.size(), responses.size());
+                      batch.size(),static_cast<int>(responses.size()));
         return;
     }
     
@@ -343,8 +355,8 @@ void ContinuousBatchScheduler::processBatchResults(
                               [req](const auto& r) { return r && r.get() == req; }),
                 active_requests_.end()
             );
-            if (req->callback) {
-                req->callback(resp);
+            if ([[maybe_unused]] req->callback) {
+                req->callback([[maybe_unused]] resp);
             }
             stats_.failed_requests++;
             continue;
@@ -378,8 +390,8 @@ void ContinuousBatchScheduler::processBatchResults(
             );
             
             // Call callback if provided
-            if (req->callback) {
-                req->callback(resp);
+            if ([[maybe_unused]] req->callback) {
+                req->callback([[maybe_unused]] resp);
             }
             
             stats_.completed_requests++;
@@ -550,7 +562,7 @@ bool ContinuousBatchScheduler::canAddToBatch(
             return true;
         }
 
-        size_t blocks_needed = request->allocated_blocks.size();
+        size_t blocks_needed = request-> static_cast<int>(allocated_blocks.size());
         if (blocks_needed == 0) {
             size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
             blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
@@ -618,7 +630,7 @@ void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
     kv_cache_->removeSequence(request->sequence_id);
     
     spdlog::debug("Freed {} blocks for request {} (sequence {})",
-                  request->allocated_blocks.size(), request->request_id, 
+                  request-> static_cast<int>(allocated_blocks.size()), request->request_id, 
                   request->sequence_id);
     
     request->allocated_blocks.clear();

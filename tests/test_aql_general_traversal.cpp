@@ -122,8 +122,12 @@ TEST_F(AQLGeneralTraversalTest, BasicOutboundTraversal) {
     bool hasDepth1 = false;
     bool hasDepth2 = false;
     for (const auto& item : results) {
-        if (item["depth"] == 1) hasDepth1 = true;
-        if (item["depth"] == 2) hasDepth2 = true;
+        if (item["depth"] == 1) {
+          hasDepth1 = true;
+        }
+        if (item["depth"] == 2) {
+          hasDepth2 = true;
+        }
     }
     EXPECT_TRUE(hasDepth1);
     EXPECT_TRUE(hasDepth2);
@@ -204,8 +208,12 @@ TEST_F(AQLGeneralTraversalTest, AnyDirection) {
     bool foundCharlie = false;
     for (const auto& item : results) {
         std::string vertex = item["vertex"];
-        if (vertex == "users/alice") foundAlice = true;
-        if (vertex == "users/charlie") foundCharlie = true;
+        if (vertex == "users/alice") {
+          foundAlice = true;
+        }
+        if (vertex == "users/charlie") {
+          foundCharlie = true;
+        }
     }
     EXPECT_TRUE(foundAlice || foundCharlie);
 }

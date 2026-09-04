@@ -274,7 +274,7 @@ private:
     // ---- Time-weighted average state ----------------------------------------
 
     struct TWASample {
-        double value;
+        double value = 0;
         std::chrono::steady_clock::time_point timestamp;
     };
     std::map<std::string, std::deque<TWASample>> twa_samples_;
@@ -282,7 +282,7 @@ private:
     // ---- Rate state ----------------------------------------------------------
 
     struct RateSample {
-        double value;
+        double value = 0;
         std::chrono::steady_clock::time_point timestamp;
     };
     std::map<std::string, std::deque<RateSample>> rate_samples_;

@@ -49,7 +49,7 @@ public:
         const std::string& label = key_id.empty() ? default_key_label_ : key_id;
         auto hsm_result = hsm_->sign(data, label);
 
-        SigningResult result;
+        SigningResult result = {};
         if (!hsm_result.success) {
             result.error = hsm_result.error_message;
             return result;
@@ -70,7 +70,9 @@ public:
                 const std::vector<uint8_t>& signature,
                 const std::string& key_id) override
     {
-        if (signature.empty()) return false;
+        if (signature.empty()) {
+          return false;
+        }
 
         // Reconstruct the base64 string from the stored bytes.
         std::string sig_b64(signature.begin(), signature.end());

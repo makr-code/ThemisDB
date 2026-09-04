@@ -67,7 +67,8 @@ namespace {
 
 /// Extract the activity sequence of a trace.
 std::vector<std::string> traceActivities(const ProcessTrace &trace) {
-    std::vector<std::string> acts;
+    std::vector<std::string> acts = {};
+
     acts.reserve(trace.events.size());
     for (const auto &e : trace.events) {
         acts.push_back(e.activity);
@@ -78,8 +79,8 @@ std::vector<std::string> traceActivities(const ProcessTrace &trace) {
 /// Extract the edge set (directly-follows pairs) of a trace.
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &trace) {
     std::set<std::pair<std::string, std::string>> edges;
-    for (size_t i = 1; i < trace.events.size(); ++i) {
-        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
+    for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+        edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
     }
     return edges;
 }
@@ -116,8 +117,8 @@ std::vector<float> ProcessPatternMatcher::embedActivities(const std::vector<std:
         // Pad with sentinel chars
         std::string s = " " + act + " ";
         for (size_t i = 0; i + 2 < s.size(); ++i) {
-            uint32_t h = (static_cast<uint32_t>(static_cast<unsigned char>(s[i])) * 31u * 31u
-                          + static_cast<uint32_t>(static_cast<unsigned char>(s[i + 1])) * 31u
+            uint32_t h = (static_cast<uint32_t>(static_cast<unsigned char>(s[i])) * 31 * 31
+                          + static_cast<uint32_t>(static_cast<unsigned char>(s[i + 1])) * 31
                           + static_cast<uint32_t>(static_cast<unsigned char>(s[i + 2])))
                          % static_cast<uint32_t>(DIM);
             vec[h] += 1.0;
@@ -170,15 +171,15 @@ double ProcessPatternMatcher::computeGraphSimilarity(const ProcessPattern &patte
 
     // Path similarity (LCS ratio)
     int lcs         = longestCommonSubsequence(pat_acts, trace_acts);
-    double max_len  = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
+    double max_len  = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
     double path_sim = (max_len > 0) ? static_cast<double>(lcs) / max_len : 1.0;
 
     // Approx. edit distance normalised (symmetric difference)
     std::set<std::string> intersection_set;
     std::set_intersection(pat_set.begin(), pat_set.end(), trace_set.begin(), trace_set.end(),
                           std::inserter(intersection_set, intersection_set.begin()));
-    size_t sym_diff  = (pat_set.size() + trace_set.size()) - 2 * intersection_set.size();
-    double denom     = static_cast<double>(pat_set.size() + trace_set.size());
+    size_t sym_diff  = (static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) ) - 2 * intersection_set.size();
+    double denom     = static_cast<double>(static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) );
     double edit_norm = (denom > 0) ? 1.0 - static_cast<double>(sym_diff) / denom : 1.0;
 
     return 0.30 * node_jac + 0.30 * edge_jac + 0.25 * path_sim + 0.15 * edit_norm;
@@ -201,7 +202,8 @@ double ProcessPatternMatcher::computeVectorSimilarity(const ProcessPattern &patt
     }
 
     // If the pattern carries a pre-computed embedding use it directly
-    std::vector<float> pat_emb;
+    std::vector<float> pat_emb = {};
+
     if (pattern.pattern_embedding.has_value()) {
         pat_emb = *pattern.pattern_embedding;
     } else {
@@ -235,7 +237,7 @@ double ProcessPatternMatcher::computeBehavioralSimilarity(const ProcessPattern &
 
     // Sequence similarity (LCS ratio)
     int lcs        = longestCommonSubsequence(pat_acts, trace_acts);
-    double max_len = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
+    double max_len = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
     double seq_sim = static_cast<double>(lcs) / max_len;
 
     // Weak-order footprint Jaccard
@@ -317,7 +319,8 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
         return {Status::Error("Cannot extract event log: " + lst.message), {}};
     }
 
-    std::vector<SimilarityResult> results;
+    std::vector<SimilarityResult> results = {};
+
     results.reserve(log.traces.size());
 
     for (const auto &trace : log.traces) {
@@ -364,14 +367,14 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
         metrics.edge_overlap = jaccardSimilarity(pat_edges, trace_edge_set);
 
         int lcs                 = longestCommonSubsequence(pattern.activities, trace_acts);
-        double mlen             = static_cast<double>(std::max(pattern.activities.size(), trace_acts.size()));
+        double mlen             = static_cast<double>(std::max(pattern.activities.size(),static_cast<int>(trace_acts.size())));
         metrics.path_similarity = (mlen > 0) ? static_cast<double>(lcs) / mlen : 1.0;
 
         std::set<std::string> inter_set;
         std::set_intersection(pat_set.begin(), pat_set.end(), trace_set.begin(), trace_set.end(),
                               std::inserter(inter_set, inter_set.begin()));
-        size_t sym_diff       = (pat_set.size() + trace_set.size()) - 2 * inter_set.size();
-        double den            = static_cast<double>(pat_set.size() + trace_set.size());
+        size_t sym_diff       = (static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) ) - 2 * inter_set.size();
+        double den            = static_cast<double>(static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) );
         metrics.edit_distance = (den > 0) ? static_cast<double>(sym_diff) / den : 0.0;
 
         // Matched / missing / extra activities
@@ -416,7 +419,7 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
     });
 
     // Apply max_results
-    if (config.max_results > 0 && static_cast<int>(results.size()) > config.max_results) {
+    if (config.max_results > 0  && static_cast<size_t>(static_cast) < int>(results.size()) > config.max_results) {
         results.resize(static_cast<size_t>(config.max_results));
     }
 
@@ -467,7 +470,7 @@ ProcessPatternMatcher::compareWithIdeal(const std::string &case_id, const Proces
 
     // Fitness approximation via LCS ratio
     int lcs        = longestCommonSubsequence(pat_acts, trace_acts);
-    double max_len = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
+    double max_len = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
     result.fitness = (max_len > 0) ? static_cast<double>(lcs) / max_len : 1.0;
 
     // Precision approximation: how much of the trace is accounted for by the pattern
@@ -545,7 +548,7 @@ ProcessPatternMatcher::hasPattern(const std::string &case_id, const ProcessPatte
     } else {
         // Direct LCS ratio without DB
         int lcs        = longestCommonSubsequence(pat_acts, trace_acts);
-        double max_len = static_cast<double>(std::max(pat_acts.size(), trace_acts.size()));
+        double max_len = static_cast<double>(std::max(pat_acts.size(),static_cast<int>(trace_acts.size())));
         sim            = (max_len > 0) ? static_cast<double>(lcs) / max_len : 1.0;
     }
 
@@ -572,7 +575,8 @@ ProcessPatternMatcher::findPatternsInBatch(const std::vector<std::string> &case_
     }
 
     // Build a map for O(1) trace lookup
-    std::unordered_map<std::string, const ProcessTrace *> trace_map;
+    std::unordered_map<std::string, const ProcessTrace *> trace_map = {};
+
     for (const auto &t : log.traces) {
         trace_map[t.case_id] = &t;
     }
@@ -621,7 +625,7 @@ ProcessPatternMatcher::findPatternsInBatch(const std::vector<std::string> &case_
             traceEdges(trace));
 
         int lcs                   = longestCommonSubsequence(pattern.activities, trace_acts);
-        double ml                 = static_cast<double>(std::max(pattern.activities.size(), trace_acts.size()));
+        double ml                 = static_cast<double>(std::max(pattern.activities.size(),static_cast<int>(trace_acts.size())));
         r.metrics.path_similarity = (ml > 0) ? static_cast<double>(lcs) / ml : 1.0;
 
         for (const auto &a : trace_set) {
@@ -655,7 +659,7 @@ ProcessPatternMatcher::loadAdministrativeModels() {
         return {Status::OK(), model_cache_};
     }
 
-    auto add = [&](ProcessPattern p) { model_cache_[p.id] = std::move(p); };
+    auto add = [&]([[maybe_unused]] ProcessPattern p) { model_cache_[p.id] = std::move(p); };
 
     // ── Bauantragsverfahren (Building Permit) ───────────────────────────────
     {
@@ -724,7 +728,7 @@ ProcessPatternMatcher::loadAdministrativeModels() {
         add(std::move(p));
     }
 
-    spdlog::info("ProcessPatternMatcher: loaded {} administrative models", model_cache_.size());
+    spdlog::info("ProcessPatternMatcher: loaded {} administrative models",static_cast<int>(model_cache_.size()));
     return {Status::OK(), model_cache_};
 }
 
@@ -781,10 +785,10 @@ int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::strin
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
-            if (a[i - 1] == b[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
+            if (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) {
+                dp[i][j] = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + 1;
             } else {
-                dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
+                dp[i][j] = std::max(dp[static_cast<int>(i - 1)][j], dp[i][static_cast<int>(j - 1)]);
             }
         }
     }
@@ -796,7 +800,7 @@ int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::strin
 // ============================================================================
 
 double ProcessPatternMatcher::cosineSimilarity(const std::vector<float> &a, const std::vector<float> &b) const {
-    if (a.empty() || b.empty() || a.size() != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return 0.0;
     }
 

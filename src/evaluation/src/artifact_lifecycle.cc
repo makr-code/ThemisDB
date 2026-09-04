@@ -212,7 +212,8 @@ std::vector<LifecycleState> ArtifactLifecycleManager::computeStatesBatch(
     const std::vector<LifecycleMetadata>& metadata_batch,
     const StalenessPolicy& policy
 ) const noexcept {
-    std::vector<LifecycleState> states;
+    std::vector<LifecycleState> states = {};
+
     states.reserve(metadata_batch.size());
 
     for (const auto& metadata : metadata_batch) {

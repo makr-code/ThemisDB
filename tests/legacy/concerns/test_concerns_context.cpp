@@ -1027,8 +1027,12 @@ TEST_F(ConcernsContextTest, CustomSecretsCanBeInjected) {
     class StubSecrets : public ISecrets {
     public:
         std::optional<std::string> getSecret(std::string_view name) const override {
-            if (name == "db.password") return "hunter2";
-            if (name == "api.key")     return "sk-test-123";
+            if (name == "db.password") {
+              return "hunter2";
+            }
+            if (name == "api.key") {
+              return "sk-test-123";
+            }
             return std::nullopt;
         }
         bool hasSecret(std::string_view name) const override {
@@ -1183,7 +1187,9 @@ TEST(InMemorySecretsTest, ThreadSafeSetAndGet) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(static_cast<size_t>(kThreads * kOps), s.size());
 }
 
@@ -1465,14 +1471,18 @@ TEST(InMemoryFeatureFlagsTest, ThreadSafeConcurrentReadsAndWrites) {
     std::thread reader1([&]() {
         start_gate.arrive_and_wait();
         for (int i = 0; i < 100; ++i) {
-            if (flags.isEnabled("concurrent_flag")) ++read_true_count;
+            if (flags.isEnabled("concurrent_flag")) {
+              ++read_true_count;
+            }
             else ++read_false_count;
         }
     });
     std::thread reader2([&]() {
         start_gate.arrive_and_wait();
         for (int i = 0; i < 100; ++i) {
-            if (flags.isEnabled("concurrent_flag")) ++read_true_count;
+            if (flags.isEnabled("concurrent_flag")) {
+              ++read_true_count;
+            }
             else ++read_false_count;
         }
     });
@@ -1901,7 +1911,9 @@ TEST(InMemoryAuditLogTest, ThreadSafetyUnderConcurrentRecord) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     EXPECT_EQ(static_cast<size_t>(kThreads * kPerThread), log.size());
 }
 
@@ -2040,7 +2052,9 @@ TEST_F(ConcernsContextTest, DAR_06_ReplaceLogger_ConcurrentSafe) {
     });
 
     start.store(true);
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // If we reach here without ASAN/TSAN error the test passes.
     SUCCEED();

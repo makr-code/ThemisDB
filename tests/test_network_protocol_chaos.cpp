@@ -91,13 +91,13 @@ TEST(NetworkProtocolChaosTest, LatencySimulation) {
     constexpr int NUM_REQUESTS = 50;
     
     struct Request {
-        int id;
+        int id = 0;
         std::chrono::steady_clock::time_point sent_time;
         std::chrono::steady_clock::time_point received_time;
     };
     
     std::vector<Request> requests;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> latency_dis(1, 50); // 1-50ms
     
@@ -144,7 +144,7 @@ TEST(NetworkProtocolChaosTest, PacketLossSimulation) {
     constexpr int NUM_PACKETS = 200;
     constexpr double LOSS_RATE = 0.1; // 10% packet loss
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution loss_dis(LOSS_RATE);
     
@@ -182,14 +182,14 @@ TEST(NetworkProtocolChaosTest, ConnectionTimeoutHandling) {
     constexpr int TIMEOUT_MS = 100;
     
     struct Connection {
-        int id;
+        int id = 0;
         bool established;
         std::chrono::steady_clock::time_point start_time;
         std::chrono::milliseconds elapsed;
     };
     
     std::vector<Connection> connections;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> delay_dis(50, 150); // 50-150ms
     
@@ -231,11 +231,11 @@ TEST(NetworkProtocolChaosTest, DataCorruptionDetection) {
     constexpr double CORRUPTION_RATE = 0.15; // 15% corruption
     
     struct Message {
-        uint32_t checksum;
+        uint32_t checksum = 0;
         std::vector<uint8_t> payload;
     };
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution corrupt_dis(CORRUPTION_RATE);
     std::uniform_int_distribution<> byte_dis(0, 255);
@@ -381,8 +381,8 @@ TEST(NetworkProtocolChaosTest, OutOfOrderMessages) {
     constexpr int NUM_MESSAGES = 50;
     
     struct Message {
-        int sequence_number;
-        int payload;
+        int sequence_number = 0;
+        int payload = {};
     };
     
     std::vector<Message> sent_messages;
@@ -395,7 +395,7 @@ TEST(NetworkProtocolChaosTest, OutOfOrderMessages) {
     
     // Shuffle to simulate out-of-order delivery
     received_messages = sent_messages;
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::shuffle(received_messages.begin(), received_messages.end(), gen);
     
@@ -419,7 +419,7 @@ TEST(NetworkProtocolChaosTest, ConnectionRetryLogic) {
     constexpr int MAX_RETRIES = 5;
     constexpr int RETRY_DELAY_MS = 10;
     
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937 gen(rd());
     std::bernoulli_distribution success_dis(0.3); // 30% success rate
     

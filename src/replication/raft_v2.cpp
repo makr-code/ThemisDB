@@ -75,7 +75,7 @@ void RaftV2ClusterConfig::beginRemoveMember(const std::string& node_id) {
         throw std::runtime_error(
             "RaftV2ClusterConfig: membership change already in progress");
     }
-    if (new_members_.size() <= 1) {
+    if (static_cast<int>(new_members_.size()) <= 1) {
         throw std::runtime_error(
             "RaftV2ClusterConfig: cannot remove the last member from the cluster");
     }
@@ -151,14 +151,14 @@ bool RaftV2ClusterConfig::hasQuorum(const std::set<std::string>& votes) const {
         for (const auto& v : votes) {
             if (new_members_.count(v) > 0) { ++new_votes; }
         }
-        return old_votes >= majority(old_members_.size()) &&
+        return static_cast<bool>(old_votes  < static_cast<int>(= majority(old_members_.size()))) &&
                new_votes >= majority(new_members_.size());
     } else {
         size_t cnt = 0;
         for (const auto& v : votes) {
             if (new_members_.count(v) > 0) { ++cnt; }
         }
-        return cnt >= majority(new_members_.size());
+        return static_cast<bool>(cnt  < static_cast<int>(= majority(new_members_.size())));
     }
 }
 
@@ -204,18 +204,22 @@ MembershipChangeEntry MembershipChangeManager::proposeAdd(
         wal_entry.operation    = "MEMBERSHIP_CHANGE";
         wal_entry.collection   = "__raft_config__";
         wal_entry.document_id  = "joint";
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"phase\":\"joint\",\"old\":[";
         bool first = true;
         for (const auto& m : entry.old_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
         oss << "],\"new\":[";
         first = true;
         for (const auto& m : entry.new_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
@@ -261,18 +265,22 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
         wal_entry.operation    = "MEMBERSHIP_CHANGE";
         wal_entry.collection   = "__raft_config__";
         wal_entry.document_id  = "joint";
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"phase\":\"joint\",\"old\":[";
         bool first = true;
         for (const auto& m : entry.old_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
         oss << "],\"new\":[";
         first = true;
         for (const auto& m : entry.new_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
@@ -293,7 +301,7 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
     return entry;
 }
 
-void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
+void MembershipChangeManager::onJointCommitted([[maybe_unused]] uint64_t log_index) {
     MembershipChangeEntry commit;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -316,18 +324,22 @@ void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
         wal_entry.operation    = "MEMBERSHIP_CHANGE";
         wal_entry.collection   = "__raft_config__";
         wal_entry.document_id  = "commit";
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "{\"phase\":\"commit\",\"old\":[";
         bool first = true;
         for (const auto& m : commit.old_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
         oss << "],\"new\":[";
         first = true;
         for (const auto& m : commit.new_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }

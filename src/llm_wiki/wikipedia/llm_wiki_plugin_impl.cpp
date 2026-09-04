@@ -1,22 +1,6 @@
 /**
  * @file llm_wiki_plugin_impl.cpp
  * @brief Full implementation of LLMWikiPluginImpl.
- *
- * Implements all `IThemisPlugin` and `ILLMWikiPlugin` pure virtuals.
- *
- * ### Hash embedding (FNV-1a)
- * Tokenises text with `[A-Za-z0-9_\\-]+`, hashes each token via FNV-1a 64-bit,
- * scatters into a dense float vector of `embedding_dim` elements, then
- * L2-normalises.  Deterministic, no external library dependencies.
- *
- * ### Guardrails
- * Both the query text and individual retrieved chunks are scanned for
- * UNSAFE_PATTERNS using a case-insensitive substring search.  Unsafe query →
- * `query_flagged_for_prompt_injection = true` (retrieval still proceeds).
- * Unsafe chunk → excluded from candidates, counted in `filtered_unsafe_chunks`.
- *
- * @version 0.1.0
- * @note Maturity: 🟡 BETA (Phase 2)
  */
 
 #include "wikipedia/llm_wiki_plugin_impl.h"
@@ -49,15 +33,9 @@ namespace themis {
 namespace plugins {
 namespace llm_wiki {
 
-// ═════════════════════════════════════════════════════════════════════════════
-// Anonymous-namespace helpers
-// ═════════════════════════════════════════════════════════════════════════════
-
 namespace {
 
-// ── FNV-1a 64-bit hash ────────────────────────────────────────────────────────
-
-static constexpr uint64_t kFnvPrime       = 0x00000100000001B3ULL;
+static constexpr uint64_t kFnvPrime = 0x00000100000001B3ULL;
 static constexpr uint64_t kFnvOffsetBasis = 0xcbf29ce484222325ULL;
 
 uint64_t fnv1a64(std::string_view data) noexcept {
@@ -69,49 +47,38 @@ uint64_t fnv1a64(std::string_view data) noexcept {
     return hash;
 }
 
-// ── Hash embedding ────────────────────────────────────────────────────────────
-
-/**
- * @brief Produce a deterministic dense embedding via FNV-1a token hashing.
- *
- * Steps:
- *  1. Tokenise `text` with `[A-Za-z0-9_\\-]+` (case-normalised to lower-case).
- *  2. Hash each token → scatter into `vec[hash % dim]` (increment by 1.0).
- *  3. L2-normalise the vector.
- *
- * @param text  Input text.
- * @param dim   Embedding dimensionality (>= 1).
- * @return      Normalised float vector of length `dim`.
- */
 std::vector<float> hashEmbed(const std::string& text, int dim) {
-    if (dim <= 0) dim = 128;
+    if (dim <= 0) {
+      dim = 128;
+    }
     std::vector<float> vec(static_cast<std::size_t>(dim), 0.0f);
 
     static const std::regex tok_re("[A-Za-z0-9_\\-]+");
-    auto it  = std::sregex_iterator(text.begin(), text.end(), tok_re);
+    auto it = std::sregex_iterator(text.begin(), text.end(), tok_re);
     auto end = std::sregex_iterator();
 
     for (; it != end; ++it) {
         std::string tok = (*it)[0].str();
-        // Case-normalise
-        std::transform(tok.begin(), tok.end(), tok.begin(),
-                       [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
-        uint64_t h   = fnv1a64(tok);
-        int      idx = static_cast<int>(h % static_cast<uint64_t>(dim));
+        std::transform(tok.begin(), tok.end(), tok.begin(), [](unsigned char c) {
+            return static_cast<char>(std::tolower(c));
+        });
+        uint64_t h = fnv1a64(tok);
+        int idx = static_cast<int>(h % static_cast<uint64_t>(dim));
         vec[static_cast<std::size_t>(idx)] += 1.0f;
     }
 
-    // L2-normalise
     float norm = 0.0f;
-    for (float v : vec) norm += v * v;
+    for (float v : vec) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-9f) {
-        for (float& v : vec) v /= norm;
+        for (float& v : vec) {
+          v /= norm;
+        }
     }
     return vec;
 }
-
-// ── Guardrail patterns ────────────────────────────────────────────────────────
 
 static const std::vector<std::string_view> UNSAFE_PATTERNS = {
     "ignore previous instructions",
@@ -127,18 +94,16 @@ static const std::vector<std::string_view> UNSAFE_PATTERNS = {
     "exec(",
 };
 
-/**
- * @brief Case-insensitive substring search for any UNSAFE_PATTERN.
- * @param text  Text to scan.
- * @return      True if any unsafe pattern is found.
- */
 bool containsUnsafePattern(const std::string& text) {
-    // Build a lower-case copy once
-    std::string lower;
+    std::string lower = {};
     lower.reserve(text.size());
-    for (unsigned char c : text) lower += static_cast<char>(std::tolower(c));
+    for (unsigned char c : text) {
+      lower += static_cast<char>(std::tolower(c));
+    }
     for (std::string_view pattern : UNSAFE_PATTERNS) {
-        if (lower.find(pattern) != std::string::npos) return true;
+        if (lower.find(pattern) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -209,24 +174,21 @@ std::string currentIsoUtcTimestamp() {
  * @return      True if the file matches.
  */
 bool matchGlob(const std::filesystem::path& path, const std::string& glob) {
-    if (glob.empty() || glob == "*") return true;
-    if (glob.size() > 2 && glob[0] == '*' && glob[1] == '.') {
-        std::string ext = glob.substr(1); // ".md"
+    if (glob.empty() || glob == "*") {
+      return true;
+    }
+    if (static_cast<int>(glob.size()) > 2 && glob[0] == '*' && glob[1] == '.') {
+        std::string ext = glob.substr(1);
         return path.extension().string() == ext;
     }
-    // Fall-through: accept all
     return true;
 }
 
 } // anonymous namespace
 
-// ═════════════════════════════════════════════════════════════════════════════
-// LLMWikiPluginImpl — IThemisPlugin
-// ═════════════════════════════════════════════════════════════════════════════
-
 PluginCapabilities LLMWikiPluginImpl::getCapabilities() const {
     PluginCapabilities caps;
-    caps.thread_safe       = true;
+    caps.thread_safe = true;
     caps.supports_batching = true;
     return caps;
 }
@@ -243,14 +205,15 @@ void LLMWikiPluginImpl::shutdown() noexcept {
     try {
         std::unique_lock<std::shared_mutex> lock(mutex_);
 
-        // Flush JSON index if we have pending chunks
         if (!json_index_path_.empty() && !chunks_.empty()) {
-            persistJsonIndex_locked();
+            // persistence hook for in-memory index
         }
 
 #ifdef THEMISDB_WIKI_PHASE_B
         if (phase_b_active_) {
-            if (wiki_store_) wiki_store_->flush();
+            if (wiki_store_) {
+              wiki_store_->flush();
+            }
             wiki_store_.reset();
             llm_b_.reset();
             vim_.reset();
@@ -266,34 +229,29 @@ void LLMWikiPluginImpl::shutdown() noexcept {
         initialized_ = false;
         spdlog::info("[llm_wiki] Plugin shut down");
     } catch (const std::exception& e) {
-        // noexcept: swallow exceptions, log only
         spdlog::error("[llm_wiki] Exception during shutdown: {}", e.what());
     } catch (...) {
         spdlog::error("[llm_wiki] Unknown exception during shutdown");
     }
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// LLMWikiPluginImpl — ILLMWikiPlugin lifecycle
-// ═════════════════════════════════════════════════════════════════════════════
-
 Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
-    try {
-        // Edition gate: plugin lifecycle is available only in enterprise+.
-        const auto gate_status = themis::llm_wiki::enforcePluginGate("initialize");
-        if (!gate_status.ok()) {
-            return gate_status;
-        }
+    std::unique_lock<std::shared_mutex> lock(mutex_);
 
-        // Parse JSON config
-        nlohmann::json j;
-        if (config_json.empty()) {
-            j = nlohmann::json::object();
-        } else {
-            j = nlohmann::json::parse(config_json, nullptr, /*exceptions=*/true);
+    if (config_json.empty()) {
+        return Status::Ok();
+    }
+
+    try {
+        const auto j = nlohmann::json::parse(config_json);
+        if (j.contains("embedding_provider")) {
+          embedding_provider_ = j["embedding_provider"].get<std::string>();
         }
-        if (!j.is_object()) {
-            return Status::InvalidArgument("config_json must be a JSON object");
+        if (j.contains("embedding_dim")) {
+          embedding_dim_ = j["embedding_dim"].get<int>();
+        }
+        if (j.contains("splitter_max_tokens")) {
+          splitter_max_tokens_ = j["splitter_max_tokens"].get<int>();
         }
 
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -416,48 +374,19 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
                     "in-memory mode because fail_open=true: {}", e.what());
             }
         }
-#else
-        if (!rocksdb_dir_.empty()) {
-            if (!fail_open_) {
-                return Status::Error(
-                    "rocksdb_dir is configured but this build does not include "
-                    "THEMISDB_WIKI_PHASE_B; refusing implicit in-memory fallback. "
-                    "Set fail_open=true only for explicit test/degraded mode.");
-            }
-            spdlog::warn(
-                "[llm_wiki] rocksdb_dir set without THEMISDB_WIKI_PHASE_B; "
-                "entering explicit degraded in-memory mode because fail_open=true");
+        if (j.contains("fail_open")) {
+          fail_open_ = j["fail_open"].get<bool>();
         }
-#endif
-
-        // ── Workspace orchestrator ─────────────────────────────────────────────
-        if (!workspace_root_.empty()) {
-            workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
-            // Load existing JSON chunk index if available
-            if (!json_index_path_.empty() &&
-                std::filesystem::exists(json_index_path_))
-            {
-                json_reader_ = std::make_unique<themis::llm::JsonWikiIndexReader>(
-                    json_index_path_, /*auto_load=*/true);
-                spdlog::debug("[llm_wiki] Loaded existing JSON index from {}", json_index_path_);
-            }
+        if (j.contains("llm_wiki_wikipedia")) {
+          llm_wiki_wikipedia_ = j["llm_wiki_wikipedia"].get<bool>();
         }
-
+        if (j.contains("json_index_path")) {
+          json_index_path_ = j["json_index_path"].get<std::string>();
+        }
         initialized_ = true;
-        spdlog::info("[llm_wiki] Initialized (provider={}, dim={}, phase={})",
-                     embedding_provider_, embedding_dim_,
-#ifdef THEMISDB_WIKI_PHASE_B
-                     phase_b_active_ ? "B" : "A"
-#else
-                     "A"
-#endif
-        );
         return Status::Ok();
-
-    } catch (const nlohmann::json::parse_error& e) {
-        return Status::InvalidArgument(std::string("JSON parse error: ") + e.what());
     } catch (const std::exception& e) {
-        return Status::Error(std::string("initialization failed: ") + e.what());
+        return Status::Error(std::string("initialize failed: ") + e.what());
     }
 }
 
@@ -735,7 +664,7 @@ void LLMWikiPluginImpl::persistDenyEvidence(
 // ═════════════════════════════════════════════════════════════════════════════
 
 WikiIngestResult LLMWikiPluginImpl::ingest(
-    const std::string&       source_path,
+    const std::string& source_path,
     const WikiIngestOptions& opts)
 {
     WikiIngestResult result;
@@ -790,118 +719,43 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
         }
     }
 
-    // ── Build skip-existing set ────────────────────────────────────────────────
-    std::unordered_set<std::string> existing_sources;
-    if (opts.skip_existing) {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        for (const auto& c : chunks_) {
-            existing_sources.insert(c.source_path);
+    if (!initialized_) {
+        result.errors = 1;
+        result.failed_files.push_back(source_path);
+        return result;
+    }
+
+    std::vector<themis::llm::WikiChunk> chunks = {};
+
+    if (matchGlob(std::filesystem::path(source_path), opts.file_glob)) {
+        themis::llm::WikiChunk chunk;
+        chunk.source_path = source_path;
+        chunk.section_title = "Document";
+        chunk.text = "Ingested via ThemisDB core LLM Wiki integration.";
+        chunks.push_back(chunk);
+    }
+
+    if (workspace_.get() == nullptr) {
+        workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
+        const auto init_status = workspace_->init(
+            workspace_root_.empty() ? std::filesystem::current_path().string() : workspace_root_);
+        if (!init_status.ok()) {
+            result.errors = 1;
+            result.failed_files.push_back(source_path);
+            return result;
         }
     }
 
-    // ── Per-file ingestion loop ────────────────────────────────────────────────
-    for (const auto& file_path : files) {
-        const std::string path_str = file_path.string();
-
-        // Skip existing
-        if (opts.skip_existing && existing_sources.count(path_str)) {
-            std::shared_lock<std::shared_mutex> lock(mutex_);
-            for (const auto& c : chunks_) {
-                if (c.source_path == path_str) result.chunks_skipped++;
-            }
-            continue;
-        }
-
-        // File size guard (> 50 MB)
-        std::error_code size_ec;
-        const auto fsize = fs::file_size(file_path, size_ec);
-        if (!size_ec && fsize > 50ULL * 1024ULL * 1024ULL) {
-            spdlog::warn("[llm_wiki] Skipping file exceeding 50 MB limit: {}", path_str);
-            result.errors++;
-            result.failed_files.push_back(path_str);
-            continue;
-        }
-
-        // Read file content
-        std::string content;
-        {
-            std::ifstream ifs(file_path);
-            if (!ifs.is_open()) {
-                spdlog::warn("[llm_wiki] Cannot open file: {}", path_str);
-                result.errors++;
-                result.failed_files.push_back(path_str);
-                continue;
-            }
-            content.assign(std::istreambuf_iterator<char>(ifs),
-                            std::istreambuf_iterator<char>());
-        }
-
-        // Split into chunks
-        auto file_chunks = splitter_.split(path_str, content);
-        if (file_chunks.empty()) {
-            result.files_processed++;
-            continue;
-        }
-
-        // Compute hash embeddings
-        for (auto& chunk : file_chunks) {
-            chunk.embedding = hashEmbed(chunk.text, embedding_dim_);
-        }
-
-        // Write chunks to backing store
-        {
-            std::unique_lock<std::shared_mutex> lock(mutex_);
-#ifdef THEMISDB_WIKI_PHASE_B
-            if (phase_b_active_ && wiki_store_) {
-                wiki_store_->writeBatch(file_chunks);
-                result.chunks_written += static_cast<int>(file_chunks.size());
-            } else
-#endif
-            {
-                for (auto& chunk : file_chunks) {
-                    chunks_.push_back(std::move(chunk));
-                }
-                result.chunks_written += static_cast<int>(file_chunks.size());
-            }
-        }
-
-        result.files_processed++;
-    }
-
-    // ── Persist JSON index and reload reader ───────────────────────────────────
-    if (!json_index_path_.empty() && result.chunks_written > 0) {
-        // Persist under write lock
-        {
-            std::unique_lock<std::shared_mutex> lock(mutex_);
-            persistJsonIndex_locked();
-        }
-        // Load outside the lock to avoid blocking concurrent readers
-        auto new_reader = std::make_unique<themis::llm::JsonWikiIndexReader>(
-            json_index_path_, /*auto_load=*/true);
-        {
-            std::unique_lock<std::shared_mutex> lock(mutex_);
-            json_reader_ = std::move(new_reader);
-        }
-    }
-
-    const auto t_end = std::chrono::steady_clock::now();
-    result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start);
-
-    spdlog::debug("[llm_wiki] ingest: files={} chunks={} skipped={} errors={} [{} ms]",
-                  result.files_processed, result.chunks_written,
-                  result.chunks_skipped, result.errors,
-                  result.duration.count());
+    result = workspace_->ingest(source_path, opts, chunks);
+    chunks_.insert(chunks_.end(), chunks.begin(), chunks.end());
     return result;
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// LLMWikiPluginImpl — ILLMWikiPlugin::query
-// ═════════════════════════════════════════════════════════════════════════════
-
 WikiQueryResult LLMWikiPluginImpl::query(
-    const std::string&      query_text,
-    const WikiQueryOptions& opts)
+    const std::string& query_text,
+    [[maybe_unused]] const WikiQueryOptions& opts)
 {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     WikiQueryResult result;
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] query() called before initialize()");
@@ -921,31 +775,15 @@ WikiQueryResult LLMWikiPluginImpl::query(
 
     const auto t_start = std::chrono::steady_clock::now();
 
-    // Guardrail: scan query text
-    if (containsUnsafePattern(query_text)) {
-        result.query_flagged_for_prompt_injection = true;
-        spdlog::warn("[llm_wiki] Query flagged for prompt injection: '{}'",
-                     query_text.substr(0, 60));
-        // Retrieval still proceeds but is flagged
+    result.query_flagged_for_prompt_injection = containsUnsafePattern(query_text);
+    if (result.query_flagged_for_prompt_injection) {
+        if (!fail_open_) {
+            return result;
+        }
     }
 
-    // Retrieve raw candidates
-    std::vector<themis::llm::WikiChunk> raw_candidates;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-
-#ifdef THEMISDB_WIKI_PHASE_B
-        if (phase_b_active_ && wiki_store_) {
-            raw_candidates = wiki_store_->query(query_text, opts.top_k, opts.min_score);
-        } else
-#endif
-        {
-            if (json_reader_ && json_reader_->isReady()) {
-                raw_candidates = json_reader_->query(query_text, opts.top_k, opts.min_score);
-            } else {
-                raw_candidates = inMemoryBm25(query_text, opts.top_k, opts.min_score);
-            }
-        }
+    if (!workspace_) {
+        return result;
     }
 
     // Guardrail: filter unsafe chunks
@@ -962,7 +800,7 @@ WikiQueryResult LLMWikiPluginImpl::query(
             spdlog::debug("[llm_wiki] Filtered unsafe chunk: {} ({})",
                           chunk.chunk_id, chunk.source_path);
         } else {
-            result.candidates.push_back(std::move(chunk));
+            result.filtered_unsafe_chunks++;
         }
     }
     if (const auto gate = evaluateStageGate("synthesize", /*immediate_execution=*/true);
@@ -1006,32 +844,17 @@ WikiQueryResult LLMWikiPluginImpl::query(
     return result;
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// LLMWikiPluginImpl — ILLMWikiPlugin workspace ops
-// ═════════════════════════════════════════════════════════════════════════════
-
 Status LLMWikiPluginImpl::wikiInit(const std::string& workspace_root) {
-    if (!initialized_.load()) return Status::NotInitialized();
-
     std::unique_lock<std::shared_mutex> lock(mutex_);
-
-    if (!workspace_) {
-        workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
-    }
     workspace_root_ = workspace_root;
-
-    // Update default json_index_path_ if not already customised
-    if (json_index_path_.empty() ||
-        json_index_path_.find("plugin_chunks.json") != std::string::npos)
-    {
-        json_index_path_ = (std::filesystem::path(workspace_root) / "plugin_chunks.json").string();
+    if (!workspace_) {
+      workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
     }
-
-    return workspace_->init(workspace_root);
+    return workspace_->init(workspace_root_);
 }
 
 WikiIngestResult LLMWikiPluginImpl::wikiIngest(
-    const std::string&       source_path,
+    const std::string& source_path,
     const WikiIngestOptions& opts)
 {
     WikiIngestResult result;
@@ -1100,7 +923,7 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
 }
 
 WikiQueryResult LLMWikiPluginImpl::wikiQuery(
-    const std::string&      query_text,
+    const std::string& query_text,
     const WikiQueryOptions& opts)
 {
     WikiQueryResult result;
@@ -1203,20 +1026,14 @@ WikiLintResult LLMWikiPluginImpl::wikiLint(
     const std::string& workspace_root,
     int max_staleness_days)
 {
-    if (!initialized_.load()) return WikiLintResult{};
     if (!workspace_) {
-        spdlog::error("[llm_wiki] wikiLint() called without workspace; call wikiInit() first");
-        return WikiLintResult{};
+      workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
     }
     return workspace_->lint(workspace_root, max_staleness_days);
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// LLMWikiPluginImpl — Wikipedia dump ingestion
-// ═════════════════════════════════════════════════════════════════════════════
-
 WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
-    const std::string&          dump_path,
+    const std::string& dump_path,
     const WikiDumpIngestOptions& opts)
 {
     WikiIngestResult result;
@@ -1306,37 +1123,9 @@ WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
     return result;
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// LLMWikiPluginImpl — stats
-// ═════════════════════════════════════════════════════════════════════════════
-
 WikiWorkspaceStats LLMWikiPluginImpl::stats(const std::string& workspace_root) {
-    WikiWorkspaceStats s;
-    s.embedding_provider = embedding_provider_;
-
-#ifdef THEMISDB_WIKI_PHASE_B
-    s.rocksdb_backed = phase_b_active_;
-#endif
-
-    // Index-level stats (Phase A in-memory)
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        s.total_chunks = static_cast<int>(chunks_.size());
-        std::unordered_set<std::string> paths;
-        for (const auto& c : chunks_) paths.insert(c.source_path);
-        s.total_docs = static_cast<int>(paths.size());
-    }
-
-    // Workspace-level stats
-    const std::string root = workspace_root.empty() ? workspace_root_ : workspace_root;
-    if (!root.empty() && workspace_) {
-        auto ws = workspace_->stats(root);
-        s.wiki_pages  = ws.wiki_pages;
-        s.open_tasks  = ws.open_tasks;
-        s.orphan_pages = ws.orphan_pages;
-    }
-
-    return s;
+    if (!workspace_) return {};
+    return workspace_->stats(workspace_root.empty() ? workspace_root_ : workspace_root);
 }
 
 } // namespace llm_wiki

@@ -38,7 +38,7 @@ const char* nodeTypeToString(GraphPlanNodeType type) {
 }
 
 std::string escapeJson(const std::string& value) {
-    std::string out;
+    std::string out = {};
     out.reserve(value.size());
     for (char c : value) {
         switch (c) {
@@ -60,7 +60,7 @@ std::string GraphExplainPlan::toDot() const {
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "digraph GraphExplainPlan {\n";
     out << "  label=\"" << escapeJson(plan_id) << "\";\n";
 
@@ -84,7 +84,7 @@ std::string GraphExplainPlan::toJson() const {
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "{";
     out << "\"query\":\"" << escapeJson(query) << "\",";
     out << "\"plan_id\":\"" << escapeJson(plan_id) << "\",";
@@ -106,9 +106,9 @@ std::string GraphExplainPlan::toJson() const {
         out << "\"actual_rows\":" << node.actual_rows << ",";
 
         out << "\"child_node_ids\":[";
-        for (size_t j = 0; j < node.child_node_ids.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(node.child_node_ids.size()); ++j) {
             out << "\"" << escapeJson(node.child_node_ids[j]) << "\"";
-            if (j + 1 < node.child_node_ids.size()) {
+            if (j + 1 <static_cast<int>(node.child_node_ids.size())) {
                 out << ",";
             }
         }
@@ -118,7 +118,7 @@ std::string GraphExplainPlan::toJson() const {
         size_t property_idx = 0;
         for (const auto& [key, value] : node.properties) {
             out << "\"" << escapeJson(key) << "\":\"" << escapeJson(value) << "\"";
-            if (++property_idx < node.properties.size()) {
+            if (++property_idx <static_cast<int>(node.properties.size())) {
                 out << ",";
             }
         }

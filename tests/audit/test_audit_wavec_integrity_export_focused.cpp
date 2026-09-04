@@ -227,7 +227,8 @@ TEST(AuditWaveCIntegrity, TamperEvidenceChainRemainsIntactUnderConcurrentWrites)
     constexpr int kThreads = 8;
     constexpr int kEventsPerThread = 500;
 
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int t = 0; t < kThreads; ++t) {
         writers.emplace_back([&]() {
             for (int i = 0; i < kEventsPerThread; ++i) {
@@ -287,7 +288,8 @@ TEST(AuditWaveCExport, HighVolumeExportHandlesSustainedLoad) {
 
     // Concurrent writers.
     auto start_time = std::chrono::steady_clock::now();
-    std::vector<std::thread> writers;
+    std::vector<std::thread> writers = {};
+
     for (int t = 0; t < kWriterThreads; ++t) {
         writers.emplace_back([&, t]() {
             for (int i = 0; i < kEventsPerWriter; ++i) {
@@ -471,7 +473,8 @@ TEST(AuditWaveCIntegration, SecurityEventTrailsAreAuditableAndTraceable) {
     EXPECT_EQ(events.size(), 3u);
     
     // Verify audit trail is traceable.
-    std::vector<std::string> event_types;
+    std::vector<std::string> event_types = {};
+
     for (const auto& evt : events) {
         event_types.push_back(evt.event_type);
     }

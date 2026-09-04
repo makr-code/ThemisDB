@@ -111,7 +111,7 @@ class AQLQueryBuilder::Impl {
     }
 
     // Renders the partial or complete query
-    std::string render(bool require_complete) const {
+    std::string render([[maybe_unused]] bool require_complete) const {
         bool has_for           = !for_clauses.empty() || !for_traverse_clauses.empty();
         bool has_return_or_dml = !return_expr.empty() || !dml_clauses.empty();
 
@@ -125,7 +125,7 @@ class AQLQueryBuilder::Impl {
             }
         }
 
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         bool first_clause = true;
 
         auto sep = [&]() -> std::ostringstream & {
@@ -437,7 +437,8 @@ std::string AQLQueryBuilder::getSchemaContext() const {
 std::vector<std::string> AQLQueryBuilder::getFieldsForCollection(const std::string &collection) const {
     for (const auto &col : impl_->schema) {
         if (col.name == collection) {
-            std::vector<std::string> fields;
+            std::vector<std::string> fields = {};
+
             fields.reserve(col.fields.size());
             for (const auto &f : col.fields) {
                 fields.push_back(f.name);
@@ -535,7 +536,7 @@ ValidationResult AQLQueryBuilder::validate() const {
 ValidationResult AQLQueryBuilder::validate(const std::vector<CollectionMetadata> &schema) const {
     // Delegate to AQLQueryValidator which has full schema-aware logic for both
     // structural checks and unknown-collection / unknown-field detection.
-    AQLQueryValidator validator;
+    AQLQueryValidator validator = {};
     return validator.validate(*this, schema);
 }
 
@@ -599,7 +600,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
         // Use the caller-supplied context, or fall back to the attached schema.
         const std::string &effective_schema = !schema_context.empty() ? schema_context : getSchemaContext();
 
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         prompt << "You are an AQL (ArangoDB Query Language) expert for ThemisDB.\n";
         if (!effective_schema.empty()) {
             prompt << "Available schema:\n" << effective_schema << "\n\n";
@@ -619,12 +620,12 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
                << "Return each suggestion on a separate line. "
                << "Return ONLY the AQL snippets, no explanations.";
 
-        auto response = handler.executeInfer(prompt.str());
+        auto response = handler.executeInfer([[maybe_unused]] prompt.str());
 
         // Split response by newlines into individual suggestions
         std::istringstream ss(response);
-        std::string line;
-        while (std::getline(ss, line) && (int)suggestions.size() < max_suggestions) {
+        std::string line = {};
+        while (std::getline(ss, line) && (int)static_cast<int>(suggestions.size()) < max_suggestions) {
             // Trim leading/trailing whitespace
             auto start = line.find_first_not_of(" \t\r\n");
             auto end   = line.find_last_not_of(" \t\r\n");
@@ -635,7 +636,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
             // (unvalidated LLM output guard: AQL clause snippets should be short).
             static constexpr std::size_t kMaxSuggestionBytes = 256;
             if (!line.empty() && line.find("```") == std::string::npos
-                    && line.size() <= kMaxSuggestionBytes) {
+                    && static_cast<int>(line.size()) <= kMaxSuggestionBytes) {
                 suggestions.push_back(line);
             }
         }
@@ -654,7 +655,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std:
         // Use the caller-supplied context, or fall back to the attached schema.
         const std::string &effective_schema = !schema_context.empty() ? schema_context : getSchemaContext();
 
-        std::ostringstream context;
+        std::ostringstream context = {};
         if (!effective_schema.empty()) {
             context << "Schema:\n" << effective_schema << "\n\n";
         }
@@ -673,7 +674,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std:
 // Ingestion enrichment flag
 // ============================================================================
 
-AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
+AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment([[maybe_unused]] bool enabled) {
     impl_->ingestion_enrichment = enabled;
     return *this;
 }

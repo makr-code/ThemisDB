@@ -111,7 +111,8 @@ static void BM_LoRA_UnloadLatency(benchmark::State& state) {
     MultiLoRAManager manager(config);
     
     // Pre-load adapters
-    std::vector<std::string> lora_ids;
+    std::vector<std::string> lora_ids = {};
+
     for (int i = 0; i < 50; ++i) {
         std::string id = generateLoRAId(i);
         manager.loadLoRA(id, generateLoRAPath(i), "base-model", 1.0f);
@@ -310,7 +311,8 @@ static void BM_LoRA_Migration_Latency(benchmark::State& state) {
     MultiLoRAManager manager(config);
     
     // Load adapters
-    std::vector<std::string> lora_ids;
+    std::vector<std::string> lora_ids = {};
+
     for (int i = 0; i < 10; ++i) {
         std::string id = generateLoRAId(i);
         manager.loadLoRA(id, generateLoRAPath(i), "base-model", 1.0f);
@@ -393,7 +395,8 @@ static void BM_HighLoad_AdapterManagement(benchmark::State& state) {
     MultiLoRAManager manager(config);
     
     // Pre-load adapters
-    std::vector<std::string> loaded_adapters;
+    std::vector<std::string> loaded_adapters = {};
+
     for (size_t i = 0; i < num_adapters / 2; ++i) {
         std::string id = generateLoRAId(i);
         if (manager.loadLoRA(id, generateLoRAPath(i), "base-model", 1.0f)) {

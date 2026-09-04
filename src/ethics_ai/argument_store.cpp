@@ -49,7 +49,7 @@ static std::string computeSHA256(const uint8_t* data, size_t len) {
     SHA256_Update(&sha256, data, len);
     SHA256_Final(hash, &sha256);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned char c : hash) {
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)c;
     }
@@ -88,7 +88,7 @@ static bool verifyModelIntegrity(const std::vector<uint8_t>& blob,
                                   const std::string& entity_id,
                                   const std::optional<std::string>& expected_hash) {
     // Compute actual hash
-    std::string actual_hash = computeSHA256(blob.data(), blob.size());
+    std::string actual_hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
     
     if (!expected_hash) {
         // No out-of-band record — legacy entity written before integrity tracking
@@ -167,7 +167,7 @@ Status ArgumentStore::storeArgument(const EthicalArgument &argument, [[maybe_unu
     // Store SHA256 hash under a separate out-of-band key so retrievals can
     // verify integrity without trusting any field embedded in the payload.
     {
-        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }
@@ -264,7 +264,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
             results.push_back(arg);
 
-            if (results.size() >= limit) {
+            if (static_cast<int>(results.size()) >= limit) {
                 break;
             }
         }
@@ -281,7 +281,8 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
         auto result = query_engine_->executeAndEntities(q);
         if (result.has_value()) {
-            std::vector<EthicalArgument> out;
+            std::vector<EthicalArgument> out = {};
+
             for (const auto &entity : result.value()) {
                 // CRITICAL FIX: Verify integrity via out-of-band hash for every entity
                 // returned by the query engine.  Re-fetch the raw blob from storage so
@@ -319,7 +320,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
                     }
                 }
                 out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));
-                if (out.size() >= limit) {
+                if (static_cast<int>(out.size()) >= limit) {
                     break;
                 }
             }
@@ -336,7 +337,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
     // Scan RocksDB with prefix
     storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-        if (results.size() >= limit) {
+        if (static_cast<int>(results.size()) >= limit) {
             return false; // Stop iteration
         }
 
@@ -418,7 +419,7 @@ Status ArgumentStore::storeDecision(const EthicalDecision &decision) {
 
     // Store SHA256 hash out-of-band.
     {
-        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }
@@ -495,7 +496,7 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile &profile) {
 
     // Store SHA256 hash out-of-band.
     {
-        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }

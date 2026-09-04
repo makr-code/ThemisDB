@@ -504,7 +504,8 @@ AlertingRule OperatorDiagnostics::getAlertingRule(FailureScenario scenario) cons
 }
 
 std::vector<AlertingRule> OperatorDiagnostics::getAllAlertingRules() const {
-    std::vector<AlertingRule> rules;
+    std::vector<AlertingRule> rules = {};
+
     for (int i = 0; i <= static_cast<int>(FailureScenario::DEADLOCK_RACE_CONDITION); ++i) {
         rules.push_back(getAlertingRule(static_cast<FailureScenario>(i)));
     }

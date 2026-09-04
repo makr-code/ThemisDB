@@ -66,7 +66,7 @@ public:
      * @brief Pool statistics
      */
     struct Statistics {
-        size_t active_connections;      // Currently in use
+        size_t active_connections = 0;      // Currently in use
         size_t idle_connections;        // Available in pool
         size_t total_created;           // Total created since start
         size_t connections_failed;      // Failed connections
@@ -241,7 +241,7 @@ public:
      * @brief Global statistics
      */
     struct GlobalStatistics {
-        size_t total_active_connections;
+        size_t total_active_connections = 0;
         size_t total_idle_connections;
         size_t cached_endpoint_pools;
         std::map<std::string, EndpointConnectionPool::Statistics> per_endpoint_stats;

@@ -213,7 +213,8 @@ struct KafkaRecord {
  * @brief A batch of Kafka records returned by a single `poll()` call.
  */
 struct KafkaBatch {
-    std::vector<KafkaRecord> records;
+    std::vector<KafkaRecord> records = {};
+
     bool                     empty() const { return records.empty(); }
     size_t                   size()  const { return records.size();  }
 };
@@ -628,7 +629,9 @@ public:
     }
 
     void registerPlugin(IImporterPlugin* plugin) override {
-        if (!plugin) return;
+        if (!plugin) {
+          return;
+        }
         std::unique_lock<std::shared_mutex> lk(mutex_);
         for (const auto& scheme : plugin->supportedSchemes()) {
             schemes_[scheme] = plugin;

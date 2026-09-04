@@ -112,7 +112,7 @@ struct VulkanBuffer {
 // ============================================================================
 
 static bool checkValidationLayerSupport(const std::vector<const char*>& layers) {
-    uint32_t layerCount;
+    uint32_t layerCount = 0;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
     
     std::vector<VkLayerProperties> availableLayers(layerCount);
@@ -126,7 +126,9 @@ static bool checkValidationLayerSupport(const std::vector<const char*>& layers) 
                 break;
             }
         }
-        if (!found) return false;
+        if (!found) {
+          return false;
+        }
     }
     return true;
 }
@@ -149,7 +151,7 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     createInfo.codeSize = code.size() * sizeof(uint32_t);
     createInfo.pCode = code.data();
     
-    VkShaderModule shaderModule;
+    VkShaderModule shaderModule = {};
     if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create shader module");
     }
@@ -256,7 +258,8 @@ public:
         const bool enableValidation = true;
 #endif
         
-        std::vector<const char*> validationLayers;
+        std::vector<const char*> validationLayers = {};
+
         if (enableValidation) {
             validationLayers.push_back("VK_LAYER_KHRONOS_validation");
             if (!checkValidationLayerSupport(validationLayers)) {
@@ -454,8 +457,8 @@ public:
         // Both choices keep the total invocation count (≤1024) within spec limits.
         const uint32_t maxInvocations =
             ctx.deviceProps.limits.maxComputeWorkGroupInvocations;
-        const uint32_t localSizeX = (maxInvocations >= 512u) ? 32u : 16u;
-        const uint32_t localSizeY = (maxInvocations >= 512u) ? 16u : 16u;
+        const uint32_t localSizeX = (maxInvocations >= 512) ? 32 : 16;
+        const uint32_t localSizeY = (maxInvocations >= 512) ? 16 : 16;
 
         // MapEntries map constant_id → offset in the data block.
         VkSpecializationMapEntry specMapEntries[2] = {};

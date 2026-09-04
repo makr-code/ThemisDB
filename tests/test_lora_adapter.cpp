@@ -390,7 +390,8 @@ TEST_F(LoRAAdapterUnitTest, LRUEvictionWorksCorrectly) {
     EXPECT_EQ(loras.size(), 3);
     
     // lora-1, lora-3, and lora-4 should remain
-    std::set<std::string> remaining;
+    std::set<std::string> remaining = {};
+
     for (const auto& lora : loras) {
         remaining.insert(lora.lora_id);
     }

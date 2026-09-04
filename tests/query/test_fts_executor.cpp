@@ -4,14 +4,20 @@
 
 #include <chrono>
 #include <filesystem>
-#include <unistd.h>
+#ifdef _WIN32
+  #include <windows.h>
+  #define GET_PID() static_cast<int>(GetCurrentProcessId())
+#else
+  #include <unistd.h>
+  #define GET_PID() ::getpid()
+#endif
 
 namespace themis::query::fts {
 namespace {
 
 std::filesystem::path makeTempIndexPath() {
   const auto base = std::filesystem::temp_directory_path();
-  const auto unique = base / ("themis_fts_test_" + std::to_string(::getpid()) + "_" +
+  const auto unique = base / ("themis_fts_test_" + std::to_string(GET_PID()) + "_" +
                               std::to_string(std::chrono::steady_clock::now()
                                                  .time_since_epoch()
                                                  .count()));

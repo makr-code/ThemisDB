@@ -30,7 +30,7 @@ ComplianceReportingApiHandler::ComplianceReportingApiHandler(
     , auth_(std::move(auth))
 {
     if (!reporter_) {
-        THEMIS_WARN("ComplianceReportingApiHandler created with null ComplianceReporter");
+        THEMIS_WARN([[maybe_unused]] "ComplianceReportingApiHandler created with null ComplianceReporter");
     }
 }
 
@@ -49,7 +49,8 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
         }
         auto& reporter = *reporter_;
         // Parse resources from request body if provided
-        std::vector<std::string> resources;
+        std::vector<std::string> resources = {};
+
         if (!req.body().empty()) {
             try {
                 nlohmann::json body = nlohmann::json::parse(req.body());
@@ -57,7 +58,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
                     resources = body["resources"].get<std::vector<std::string>>();
                 }
             } catch (...) {
-                THEMIS_WARN("compliance_reporting_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "compliance_reporting_api_handler: unhandled exception caught");
                 // If parsing fails, analyze with empty resource list
             }
         }
@@ -125,7 +126,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
         
         nlohmann::json response = {
             {"gaps", json_array},
-            {"count", gaps.size()}
+            {"count",static_cast<int>(gaps.size())}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
@@ -196,7 +197,8 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
             std::string framework = body.value("framework", "");
 
             // Optional: caller may supply pre-parsed evaluation entries inline.
-            std::vector<themis::governance::RuleEvaluationEntry> entries;
+            std::vector<themis::governance::RuleEvaluationEntry> entries = {};
+
             if (body.contains("entries") && body["entries"].is_array()) {
                 try {
                     for (const auto& item : body["entries"]) {
@@ -301,7 +303,7 @@ bool ComplianceReportingApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    const auto auth_value = std::string(auth_header.data(), auth_header.size());
+    const auto auth_value = std::string(auth_header.data(),static_cast<int>(auth_header.size()));
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {
@@ -365,7 +367,7 @@ std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
     
     std::string query_string = url.substr(query_pos + 1);
     std::istringstream iss(query_string);
-    std::string pair;
+    std::string pair = {};
     
     while (std::getline(iss, pair, '&')) {
         size_t eq_pos = pair.find('=');

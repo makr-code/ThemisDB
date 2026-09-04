@@ -50,7 +50,7 @@ public:
         tasks_.push_back(task);
     }
 
-    size_t taskCount() const { return tasks_.size(); }
+    size_t taskCount() const { return static_cast<int>(tasks_.size()); }
 
     // ──────────────────────────────────────────────────────────────────
     // Training
@@ -77,7 +77,7 @@ public:
             throw std::runtime_error("MultiTaskLoRATrainer: zero input dimension");
 
         const size_t shared_rank = cfg_.shared_rank;
-        const size_t n_tasks     = tasks_.size();
+        const size_t n_tasks = tasks_.size();
 
         // STUB/SIMULATION NOTE (MTL-S02 — SGD training loop, no BLAS):
         // Purpose: CPU-only, element-wise SGD with cosine-similarity gating proxy.
@@ -92,8 +92,12 @@ public:
 
         shared_B_.assign(in_dim * shared_rank, 0.0f);
         shared_A_.assign(shared_rank * in_dim, 0.0f);
-        for (auto& v : shared_B_) v = init(rng);
-        for (auto& v : shared_A_) v = init(rng);
+        for (auto& v : shared_B_) {
+          v = init(rng);
+        }
+        for (auto& v : shared_A_) {
+          v = init(rng);
+        }
 
         // Initialise per-task projection heads (shared_rank × in_dim proxy).
         task_heads_.resize(n_tasks);
@@ -144,7 +148,9 @@ public:
             }
             if (task_sample_counts_[ti] > 0) {
                 float inv = 1.0f / static_cast<float>(task_sample_counts_[ti]);
-                for (auto& v : proto) v *= inv;
+                for (auto& v : proto) {
+                  v *= inv;
+                }
             }
         }
 
@@ -179,7 +185,7 @@ public:
                 // Forward: shared_hidden = B^T * input  (shared_rank output)
                 std::vector<float> hidden(shared_rank, 0.0f);
                 for (size_t k = 0; k < shared_rank; ++k) {
-                    for (size_t j = 0; j < in_dim && j < s.input.size(); ++j) {
+                    for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) <static_cast<int>(s.input.size()); ++j) {
                         hidden[k] += shared_B_[j * shared_rank + k] * s.input[j];
                     }
                 }
@@ -193,7 +199,7 @@ public:
                 }
 
                 // MSE loss vs target (truncate to min dimension).
-                size_t out_dim = std::min({pred.size(), s.target.size(), in_dim});
+                size_t out_dim = std::min({pred.size(),static_cast<int>(s.target.size()), in_dim});
                 double loss = 0.0;
                 for (size_t j = 0; j < out_dim; ++j) {
                     double diff = pred[j] - s.target[j];
@@ -215,7 +221,7 @@ public:
                         // dL/d(head[k][j]) = grad_pred * hidden[k]
                         task_heads_[ti][k * in_dim + j] -= eff_lr * grad_pred * hidden[k];
                         // dL/d(B[j][k]) = grad_pred * head[k][j] * input[j]  (simplified)
-                        if (j < s.input.size()) {
+                        if (static_cast<int>(s.input.size()) > j) {
                             shared_B_[j * shared_rank + k] -= eff_lr * grad_pred
                                 * task_heads_[ti][k * in_dim + j] * s.input[j];
                         }
@@ -253,7 +259,7 @@ public:
         trained_      = true;
         trained_in_dim_ = in_dim;
 
-        MTLTrainResult result;
+        MTLTrainResult result = MTLTrainResult();
         result.success          = true;
         result.joint_loss       = final_joint_loss;
         result.epochs_run       = cfg_.epochs;
@@ -280,15 +286,15 @@ public:
             throw std::runtime_error("MultiTaskLoRATrainer: model not trained yet");
 
         // MTL-S01 gating heuristic (cosine similarity to prototype vectors — see STUB/SIMULATION NOTE above).
-        DomainGatingResult result;
+        DomainGatingResult result = DomainGatingResult();
         result.scores.reserve(tasks_.size());
 
         float best_score = -1.0f;
-        std::string best_task;
+        std::string best_task = {};
 
         for (size_t ti = 0; ti < tasks_.size(); ++ti) {
             const auto& proto = task_prototypes_[ti];
-            size_t n = std::min(input.size(), proto.size());
+            size_t n = std::min(input.size(),static_cast<int>(proto.size()));
 
             float dot = 0.0f, norm_in = 0.0f, norm_p = 0.0f;
             for (size_t k = 0; k < n; ++k) {
@@ -337,7 +343,7 @@ public:
 
         std::vector<float> hidden(cfg_.shared_rank, 0.0f);
         for (size_t k = 0; k < cfg_.shared_rank; ++k) {
-            for (size_t j = 0; j < in_dim && j < input.size(); ++j) {
+            for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) <static_cast<int>(input.size()); ++j) {
                 hidden[k] += shared_B_[j * shared_rank + k] * input[j];
             }
         }
@@ -370,7 +376,7 @@ public:
         if (!trained_)
             throw std::runtime_error("MultiTaskLoRATrainer: model not trained yet");
         
-        AcceptanceGateMetrics gates;
+        AcceptanceGateMetrics gates = AcceptanceGateMetrics();
         
         // Gate 1: Average task performance gain ≥ +8% (target)
         // Heuristic: performance gain based on shared_rank ratio and training convergence
@@ -395,7 +401,7 @@ public:
         return gates;
     }
 
-    MTLTrainResult benchmarkThreeTaskTransfer(size_t num_samples_per_task = 100) {
+    MTLTrainResult benchmarkThreeTaskTransfer([[maybe_unused]] size_t num_samples_per_task = 100) {
         if (!tasks_.empty())
             throw std::runtime_error("benchmarkThreeTaskTransfer: clear tasks first");
         
@@ -429,7 +435,7 @@ public:
         const size_t input_dim = 32;
         for (size_t i = 0; i < num_samples_per_task; ++i) {
             // Task A samples
-            MTLSample s_a;
+            MTLSample s_            MTLSample s_a; = MTLSample();
             s_a.task_id = "task_semantic";
             s_a.input.resize(input_dim);
             s_a.target.resize(input_dim);
@@ -440,7 +446,7 @@ public:
             samples.push_back(s_a);
             
             // Task B samples (slightly different distribution)
-            MTLSample s_b;
+            MTLSample s_            MTLSample s_b; = MTLSample();
             s_b.task_id = "task_sentiment";
             s_b.input.resize(input_dim);
             s_b.target.resize(input_dim);
@@ -451,7 +457,7 @@ public:
             samples.push_back(s_b);
             
             // Task C samples (different again)
-            MTLSample s_c;
+            MTLSample s_            MTLSample s_c; = MTLSample();
             s_c.task_id = "task_qa";
             s_c.input.resize(input_dim);
             s_c.target.resize(input_dim);
@@ -483,7 +489,7 @@ public:
         // Train one single-task model per task on its own samples and aggregate
         // the resulting metrics. This provides a real single-task baseline
         // without relying on an unsupported shared_rank=0 code path.
-        MTLTrainResult separate_result;
+        MTLTrainResult separate_result = MTLTrainResult();
         separate_result.success = true;
         separate_result.epochs_run = cfg_.epochs;
 
@@ -492,7 +498,8 @@ public:
         double baseline_train_seconds = 0.0;
 
         for (const auto& task : tasks_) {
-            std::vector<MTLSample> task_samples;
+            std::vector<MTLSample> task_samples = {};
+
             task_samples.reserve(samples.size());
             for (const auto& sample : samples) {
                 if (sample.task_id == task.id) {
@@ -621,7 +628,7 @@ AcceptanceGateMetrics MultiTaskLoRATrainer::validateAcceptanceGates() const {
     return impl_->validateAcceptanceGates();
 }
 
-MTLTrainResult MultiTaskLoRATrainer::benchmarkThreeTaskTransfer(size_t num_samples) {
+MTLTrainResult MultiTaskLoRATrainer::benchmarkThreeTaskTransfer([[maybe_unused]] size_t num_samples) {
     return impl_->benchmarkThreeTaskTransfer(num_samples);
 }
 

@@ -49,11 +49,11 @@ GPUGraphTraversal::GPUGraphTraversal(GraphIndexManager &graph_manager) : graph_m
 
 namespace {
 
-bool probeGPUAvailability(int /*device*/) noexcept {
+bool probeGPUAvailability([[maybe_unused]] int /*device*/) noexcept {
 #if defined(THEMIS_ENABLE_CUDA)
     int count = 0;
     if (cudaGetDeviceCount(&count) != cudaSuccess)
-        return false;
+        return false = {};
     return count > 0;
 #else
     return false;
@@ -211,7 +211,7 @@ Result<bool> GPUGraphTraversal::load(const std::vector<std::string> &vertex_ids)
     for (uint32_t i = 0; i < vertex_count_; ++i) {
         row_offsets_.push_back(static_cast<uint32_t>(column_indices_.size()));
         // Ensure adj has a row for i (may be absent if vertex was added later)
-        if (i < adj.size()) {
+        if (static_cast<int>(adj.size()) > i) {
             for (uint32_t nb : adj[i]) {
                 column_indices_.push_back(nb);
             }
@@ -256,7 +256,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
     auto wall_start = std::chrono::steady_clock::now();
 
     // Build forbidden-vertex set using integer IDs for O(1) lookup.
-    std::unordered_set<uint32_t> forbidden_ids;
+    std::unordered_set<uint32_t> forbidden_ids = {};
+
     for (const auto &fv : config.forbidden_vertices) {
         auto opt = findVertexId(fv);
         if (opt) {
@@ -282,7 +283,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
                     : (gpu_available_ ? "graph_below_threshold" : "gpu_unavailable");
 
     if (can_use_gpu) {
-        std::vector<int> gpu_dist;
+        std::vector<int> gpu_dist = {};
+
         if (runBFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_dist)) {
             result.used_cpu_fallback = false;
             recordTraversalRoute("bfs", "gpu", "hardware_accelerated");
@@ -308,7 +310,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
                 result.distances[id_to_vertex_[vid]] = entry.first;
                 ++result.nodes_explored;
 
-                if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
+                if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
                     result.truncated = true;
                     break;
                 }
@@ -337,7 +339,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
             result.distances[id_to_vertex_[v]] = dist[v];
             ++result.nodes_explored;
 
-            if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
+            if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
                 result.truncated = true;
                 break;
             }
@@ -350,7 +352,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
         }
 
         // Expand frontier (GPU-style: all vertices in parallel, here sequential)
-        std::vector<uint32_t> next_frontier;
+        std::vector<uint32_t> next_frontier = {};
+
         for (uint32_t v : current_frontier) {
             const uint32_t begin = row_offsets_[v];
             const uint32_t end   = row_offsets_[v + 1];
@@ -383,7 +386,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
 GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, const Config &config) {
     auto wall_start = std::chrono::steady_clock::now();
 
-    std::unordered_set<uint32_t> forbidden_ids;
+    std::unordered_set<uint32_t> forbidden_ids = {};
+
     for (const auto &fv : config.forbidden_vertices) {
         auto opt = findVertexId(fv);
         if (opt) {
@@ -408,7 +412,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
     result.used_cpu_fallback = true;
 
     if (can_use_gpu) {
-        std::vector<int> gpu_order;
+        std::vector<int> gpu_order = {};
+
         if (runDFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_order)) {
             result.used_cpu_fallback = false;
             recordTraversalRoute("dfs", "gpu", "hardware_accelerated");
@@ -459,7 +464,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
         result.distances[id_to_vertex_[cur]] = disc_order[cur];
         ++result.nodes_explored;
 
-        if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
+        if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
             result.truncated = true;
             break;
         }

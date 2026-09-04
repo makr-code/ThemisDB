@@ -284,7 +284,8 @@ InterconnectType GPUClusterTopology::preferredInterconnect(int device_a, int dev
 }
 
 std::vector<std::string> GPUClusterTopology::nodeIds() const {
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(nodes.size());
     for (const auto &n : nodes) {
         ids.push_back(n.node_id);

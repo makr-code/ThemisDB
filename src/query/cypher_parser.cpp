@@ -82,13 +82,13 @@ struct CypherParser::Lexer {
 
     explicit Lexer(const std::string& s) : src(s) {}
 
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        return (p < src.size()) ? src[p] : '\0';
+        return static_cast<bool>((p < src.size())) ? src[p] : '\0';
     }
 
     char advance() {
-        return (pos < src.size()) ? src[pos++] : '\0';
+        return static_cast<bool>((pos < src.size())) ? src[pos++] : '\0';
     }
 
     void skipWhitespace() {
@@ -111,39 +111,88 @@ struct CypherParser::Lexer {
     }
 
     static TokenType classifyKeyword(const std::string& upper) {
-        if (upper == "MATCH")    return TokenType::KW_MATCH;
-        if (upper == "WHERE")    return TokenType::KW_WHERE;
-        if (upper == "RETURN")   return TokenType::KW_RETURN;
-        if (upper == "ORDER")    return TokenType::KW_ORDER;
-        if (upper == "BY")       return TokenType::KW_BY;
-        if (upper == "ASC")      return TokenType::KW_ASC;
-        if (upper == "DESC")     return TokenType::KW_DESC;
-        if (upper == "LIMIT")    return TokenType::KW_LIMIT;
-        if (upper == "SKIP")     return TokenType::KW_SKIP;
-        if (upper == "AS")       return TokenType::KW_AS;
-        if (upper == "DISTINCT") return TokenType::KW_DISTINCT;
-        if (upper == "AND")      return TokenType::KW_AND;
-        if (upper == "OR")       return TokenType::KW_OR;
-        if (upper == "NOT")      return TokenType::KW_NOT;
-        if (upper == "NULL")     return TokenType::KW_NULL;
-        if (upper == "TRUE")     return TokenType::KW_TRUE;
-        if (upper == "FALSE")    return TokenType::KW_FALSE;
-        if (upper == "IN")       return TokenType::KW_IN;
-        if (upper == "STARTS")   return TokenType::KW_STARTS;
-        if (upper == "ENDS")     return TokenType::KW_ENDS;
-        if (upper == "WITH")     return TokenType::KW_WITH;
-        if (upper == "CONTAINS") return TokenType::KW_CONTAINS;
-        if (upper == "IS")       return TokenType::KW_IS;
+        if (upper == "MATCH") {
+          return TokenType::KW_MATCH;
+        }
+        if (upper == "WHERE") {
+          return TokenType::KW_WHERE;
+        }
+        if (upper == "RETURN") {
+          return TokenType::KW_RETURN;
+        }
+        if (upper == "ORDER") {
+          return TokenType::KW_ORDER;
+        }
+        if (upper == "BY") {
+          return TokenType::KW_BY;
+        }
+        if (upper == "ASC") {
+          return TokenType::KW_ASC;
+        }
+        if (upper == "DESC") {
+          return TokenType::KW_DESC;
+        }
+        if (upper == "LIMIT") {
+          return TokenType::KW_LIMIT;
+        }
+        if (upper == "SKIP") {
+          return TokenType::KW_SKIP;
+        }
+        if (upper == "AS") {
+          return TokenType::KW_AS;
+        }
+        if (upper == "DISTINCT") {
+          return TokenType::KW_DISTINCT;
+        }
+        if (upper == "AND") {
+          return TokenType::KW_AND;
+        }
+        if (upper == "OR") {
+          return TokenType::KW_OR;
+        }
+        if (upper == "NOT") {
+          return TokenType::KW_NOT;
+        }
+        if (upper == "NULL") {
+          return TokenType::KW_NULL;
+        }
+        if (upper == "TRUE") {
+          return TokenType::KW_TRUE;
+        }
+        if (upper == "FALSE") {
+          return TokenType::KW_FALSE;
+        }
+        if (upper == "IN") {
+          return TokenType::KW_IN;
+        }
+        if (upper == "STARTS") {
+          return TokenType::KW_STARTS;
+        }
+        if (upper == "ENDS") {
+          return TokenType::KW_ENDS;
+        }
+        if (upper == "WITH") {
+          return TokenType::KW_WITH;
+        }
+        if (upper == "CONTAINS") {
+          return TokenType::KW_CONTAINS;
+        }
+        if (upper == "IS") {
+          return TokenType::KW_IS;
+        }
         return TokenType::IDENT;
     }
 
     std::vector<CypherParser::Token> tokenize() {
-        std::vector<CypherParser::Token> tokens;
+        std::vector<CypherParser::Token> tokens = {};
+
         tokens.reserve(src.size());
 
         while (true) {
             skipWhitespace();
-            if (pos >= src.size()) break;
+            if (pos >= static_cast<int>(src.size())) {
+              break;
+            }
 
             CypherParser::Token tok;
             tok.position = pos;
@@ -153,10 +202,10 @@ struct CypherParser::Lexer {
             // --- String literal ---
             if (ch == '\'' || ch == '"') {
                 char delim = advance();
-                std::string s;
+                std::string s = {};
                 while (pos < src.size() && peek() != delim) {
                     char c = advance();
-                    if (c == '\\' && pos < src.size()) {
+                    if (c == '\\'  && static_cast<size_t>(pos) <static_cast<int>(src.size())) {
                         char esc = advance();
                         switch (esc) {
                             case 'n':  s += '\n'; break;
@@ -168,7 +217,7 @@ struct CypherParser::Lexer {
                         s += c;
                     }
                 }
-                if (pos < src.size()) advance();  // closing delimiter
+                if (static_cast<int>(src.size()) > pos) advance();  // closing delimiter
                 tok.type  = TokenType::STRING_LIT;
                 tok.value = std::move(s);
                 tokens.push_back(std::move(tok));
@@ -178,10 +227,12 @@ struct CypherParser::Lexer {
             // --- Number literal ---
             if (std::isdigit(static_cast<unsigned char>(ch)) ||
                 (ch == '-' && std::isdigit(static_cast<unsigned char>(peek(1))))) {
-                std::string num;
-                if (ch == '-') num += advance();
+                std::string num = {};
+                if (ch == '-') {
+                  num += advance();
+                }
                 bool is_float = false;
-                while (pos < src.size()) {
+                while (static_cast<size_t>(pos) <static_cast<int>(src.size())) {
                     if (std::isdigit(static_cast<unsigned char>(peek()))) {
                         num += advance();
                         continue;
@@ -195,10 +246,10 @@ struct CypherParser::Lexer {
                     break;
                 }
                 // Scientific notation
-                if (pos < src.size() && (peek() == 'e' || peek() == 'E')) {
+                if ((pos < src.size() && (peek() == 'e' || peek() == 'E'))) {
                     is_float = true;
                     num += advance();
-                    if (pos < src.size() && (peek() == '+' || peek() == '-'))
+                    if ((pos < src.size() && (peek() == '+' || peek() == '-')))
                         num += advance();
                     while (pos < src.size() && std::isdigit(static_cast<unsigned char>(peek())))
                         num += advance();
@@ -211,7 +262,7 @@ struct CypherParser::Lexer {
 
             // --- Identifier or keyword ---
             if (std::isalpha(static_cast<unsigned char>(ch)) || ch == '_') {
-                std::string id;
+                std::string id = {};
                 while (pos < src.size() &&
                        (std::isalnum(static_cast<unsigned char>(peek())) || peek() == '_'))
                     id += advance();
@@ -227,10 +278,12 @@ struct CypherParser::Lexer {
             // --- Backtick-quoted identifier ---
             if (ch == '`') {
                 advance();
-                std::string id;
+                std::string id = {};
                 while (pos < src.size() && peek() != '`')
                     id += advance();
-                if (pos < src.size()) advance();
+                if (static_cast<int>(src.size()) > pos) {
+                  advance();
+                }
                 tok.type  = TokenType::IDENT;
                 tok.value = std::move(id);
                 tokens.push_back(std::move(tok));
@@ -298,7 +351,7 @@ struct CypherParser::Parser {
 
     // Collapse token-boundary spaces around dots: "n . prop" → "n.prop"
     static std::string collapseDotSpaces(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (size_t i = 0; i < s.size(); ) {
             if (i + 2 < s.size() &&
@@ -315,12 +368,12 @@ struct CypherParser::Parser {
     // ---- Token helpers -------------------------------------------------------
 
     const CypherParser::Token& current() const {
-        return tokens[cursor < tokens.size() ? cursor : tokens.size() - 1];
+        return static_cast<bool>(tokens[cursor  < static_cast<int>(tokens.size() ? cursor : tokens.size())) - 1];
     }
 
-    const CypherParser::Token& peek(size_t offset = 1) const {
+    const CypherParser::Token& peek([[maybe_unused]] size_t offset = 1) const {
         size_t idx = cursor + offset;
-        return tokens[idx < tokens.size() ? idx : tokens.size() - 1];
+        return static_cast<bool>(tokens[idx  < static_cast<int>(tokens.size() ? idx : tokens.size())) - 1];
     }
 
     bool check(TokenType t) const { return current().type == t; }
@@ -480,7 +533,8 @@ struct CypherParser::Parser {
 
     // prop_map := key COLON literal (COMMA key COLON literal)*
     std::vector<CypherPropertyFilter> parsePropMap() {
-        std::vector<CypherPropertyFilter> props;
+        std::vector<CypherPropertyFilter> props = {};
+
         if (check(TokenType::RBRACE)) {
             ++cursor;
             return props;
@@ -497,9 +551,15 @@ struct CypherParser::Parser {
     }
 
     CypherLiteralValue parseLiteralValue() {
-        if (match(TokenType::KW_NULL))  return nullptr;
-        if (match(TokenType::KW_TRUE))  return true;
-        if (match(TokenType::KW_FALSE)) return false;
+        if (match(TokenType::KW_NULL)) {
+          return nullptr;
+        }
+        if (match(TokenType::KW_TRUE)) {
+          return true;
+        }
+        if (match(TokenType::KW_FALSE)) {
+          return false;
+        }
  
         if (check(TokenType::INT_LIT)) {
             int64_t v;
@@ -518,7 +578,7 @@ struct CypherParser::Parser {
             return v;
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v;
+            double v = 0;
             try {
                 v = std::stod(current().value);
             } catch (const std::out_of_range&) {
@@ -594,7 +654,7 @@ struct CypherParser::Parser {
             static constexpr int kMaxHops = 1000;
             // min
             if (check(TokenType::INT_LIT)) {
-                int hops;
+                int hops = 0;
                 try {
                     hops = std::stoi(current().value);
                 } catch (...) {
@@ -614,7 +674,7 @@ struct CypherParser::Parser {
             if (check(TokenType::DOT) && peek().type == TokenType::DOT) {
                 cursor += 2;  // consume both dots
                 if (check(TokenType::INT_LIT)) {
-                    int hops;
+                    int hops = 0;
                     try {
                         hops = std::stoi(current().value);
                     } catch (...) {
@@ -803,9 +863,15 @@ struct CypherParser::Parser {
         }
 
         // NULL / TRUE / FALSE
-        if (match(TokenType::KW_NULL))  return std::make_shared<CypherLiteralExpr>(nullptr);
-        if (match(TokenType::KW_TRUE))  return std::make_shared<CypherLiteralExpr>(true);
-        if (match(TokenType::KW_FALSE)) return std::make_shared<CypherLiteralExpr>(false);
+        if (match(TokenType::KW_NULL)) {
+          return std::make_shared<CypherLiteralExpr>(nullptr);
+        }
+        if (match(TokenType::KW_TRUE)) {
+          return std::make_shared<CypherLiteralExpr>(true);
+        }
+        if (match(TokenType::KW_FALSE)) {
+          return std::make_shared<CypherLiteralExpr>(false);
+        }
 
         // Numeric / string literals
         if (check(TokenType::INT_LIT)) {
@@ -821,7 +887,7 @@ struct CypherParser::Parser {
             return std::make_shared<CypherLiteralExpr>(v);
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v;
+            double v = 0;
             try {
                 v = std::stod(current().value);
             } catch (...) {
@@ -879,9 +945,11 @@ struct CypherParser::Parser {
             size_t start = cursor;
             auto expr = parseExpr();  // parse and discard the AST node (we only need the text)
             // Reconstruct expression text from token values, collapsing "n . prop" → "n.prop"
-            std::string expr_text;
+            std::string expr_text = {};
             for (size_t i = start; i < cursor; ++i) {
-                if (i > start) expr_text += " ";
+                if (i > start) {
+                  expr_text += " ";
+                }
                 expr_text += tokens[i].value;
             }
             item.expression = collapseDotSpaces(expr_text);
@@ -901,15 +969,21 @@ struct CypherParser::Parser {
             CypherSortSpec spec;
             size_t start = cursor;
             parseExpr();
-            std::string expr_text;
+            std::string expr_text = {};
             for (size_t i = start; i < cursor; ++i) {
-                if (i > start) expr_text += " ";
+                if (i > start) {
+                  expr_text += " ";
+                }
                 expr_text += tokens[i].value;
             }
             spec.expression = collapseDotSpaces(expr_text);
             spec.ascending  = true;
-            if (match(TokenType::KW_ASC))  spec.ascending = true;
-            if (match(TokenType::KW_DESC)) spec.ascending = false;
+            if (match(TokenType::KW_ASC)) {
+              spec.ascending = true;
+            }
+            if (match(TokenType::KW_DESC)) {
+              spec.ascending = false;
+            }
             ast.order_by.push_back(std::move(spec));
         } while (match(TokenType::COMMA));
     }
@@ -950,19 +1024,21 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
         } else if constexpr (std::is_same_v<T, int64_t>) {
             return std::to_string(v);
         } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << v;
             return oss.str();
         } else {
             // std::string – escape inner double quotes
-            if (v.size() >= 2 && v.front() == '[' && v.back() == ']') {
+            if (static_cast<int>(v.size()) >= 2 && v.front() == '[' && v.back() == ']') {
                 return v;
             }
-            std::string out;
-            out.reserve(v.size() + 2);
+            std::string out = {};
+            out.reserve(static_cast<int>(v.size()) + 2);
             out += '"';
             for (char c : v) {
-                if (c == '"' || c == '\\') out += '\\';
+                if (c == '"' || c == '\\') {
+                  out += '\\';
+                }
                 out += c;
             }
             out += '"';
@@ -990,25 +1066,49 @@ std::string CypherToAQLTranspiler::exprToAQL(const CypherExpr& expr,
 
             // Map Cypher operators to AQL
             const std::string& op = bin.op;
-            if (op == "AND")         return "(" + left + " AND " + right + ")";
-            if (op == "OR")          return "(" + left + " OR "  + right + ")";
-            if (op == "IN")          return left + " IN " + right;
-            if (op == "NOT IN")      return left + " NOT IN " + right;
-            if (op == "STARTS WITH") return "STARTS_WITH(" + left + ", " + right + ")";
-            if (op == "ENDS WITH")   return "ENDS_WITH(" + left + ", " + right + ")";
-            if (op == "CONTAINS")    return "CONTAINS(" + left + ", " + right + ")";
+            if (op == "AND") {
+              return "(" + left + " AND " + right + ")";
+            }
+            if (op == "OR") {
+              return "(" + left + " OR "  + right + ")";
+            }
+            if (op == "IN") {
+              return left + " IN " + right;
+            }
+            if (op == "NOT IN") {
+              return left + " NOT IN " + right;
+            }
+            if (op == "STARTS WITH") {
+              return "STARTS_WITH(" + left + ", " + right + ")";
+            }
+            if (op == "ENDS WITH") {
+              return "ENDS_WITH(" + left + ", " + right + ")";
+            }
+            if (op == "CONTAINS") {
+              return "CONTAINS(" + left + ", " + right + ")";
+            }
             // Comparison ops pass through: =, <>, <, <=, >, >=
             // AQL uses == for equality
-            if (op == "=")  return left + " == " + right;
-            if (op == "<>") return left + " != " + right;
+            if (op == "=") {
+              return left + " == " + right;
+            }
+            if (op == "<>") {
+              return left + " != " + right;
+            }
             return left + " " + op + " " + right;
         }
         case CypherExprType::UnaryOp: {
             const auto& un = static_cast<const CypherUnaryOpExpr&>(expr);
             std::string operand = exprToAQL(*un.operand, default_var);
-            if (un.op == "NOT")         return "!(" + operand + ")";
-            if (un.op == "IS NULL")     return operand + " == null";
-            if (un.op == "IS NOT NULL") return operand + " != null";
+            if (un.op == "NOT") {
+              return "!(" + operand + ")";
+            }
+            if (un.op == "IS NULL") {
+              return operand + " == null";
+            }
+            if (un.op == "IS NOT NULL") {
+              return operand + " != null";
+            }
             return un.op + "(" + operand + ")";
         }
     }
@@ -1018,9 +1118,11 @@ std::string CypherToAQLTranspiler::exprToAQL(const CypherExpr& expr,
 /*static*/
 std::string CypherToAQLTranspiler::nodePatternToFilter(const CypherNodePattern& node,
                                                         const std::string& var) {
-    std::string filter;
+    std::string filter = {};
     for (const auto& prop : node.properties) {
-        if (!filter.empty()) filter += " AND ";
+        if (!filter.empty()) {
+          filter += " AND ";
+        }
         filter += var + "." + prop.key + " == " + literalToAQL(prop.value);
     }
     return filter;
@@ -1037,13 +1139,13 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                                     "Query has no MATCH patterns");
         }
 
-        std::ostringstream aql;
+        std::ostringstream aql = {};
 
         // ----------------------------------------------------------------
         // Collect all bound variables (for RETURN * expansion)
         // ----------------------------------------------------------------
         std::vector<std::string> all_vars;
-        auto addVar = [&](const std::string& v) {
+        auto addVar = [&]([[maybe_unused]] const std::string& v) {
             if (!v.empty() &&
                 std::find(all_vars.begin(), all_vars.end(), v) == all_vars.end())
                 all_vars.push_back(v);
@@ -1086,7 +1188,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                 const auto& dest = seg.node;
 
                 // Direction keyword
-                std::string dir_kw;
+                std::string dir_kw = {};
                 switch (rel.direction) {
                     case CypherRelDirection::Out:  dir_kw = "OUTBOUND"; break;
                     case CypherRelDirection::In:   dir_kw = "INBOUND";  break;
@@ -1114,10 +1216,12 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                     << " GRAPH \"" << graph_name << "\"\n";
 
                 // Multi-type filter: e._type IN ["T1","T2",…]
-                if (rel.types.size() > 1) {
-                    std::string type_list;
-                    for (size_t i = 0; i < rel.types.size(); ++i) {
-                        if (i) type_list += ", ";
+                if (static_cast<int>(rel.types.size()) > 1) {
+                    std::string type_list = {};
+                    for (size_t i = 0; i <static_cast<int>(rel.types.size()); ++i) {
+                        if (i) {
+                          type_list += ", ";
+                        }
                         type_list += "\"" + rel.types[i] + "\"";
                     }
                     filter_clauses.push_back(
@@ -1148,8 +1252,10 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         // ----------------------------------------------------------------
         if (!ast.order_by.empty()) {
             aql << "SORT ";
-            for (size_t i = 0; i < ast.order_by.size(); ++i) {
-                if (i) aql << ", ";
+            for (size_t i = 0; i <static_cast<int>(ast.order_by.size()); ++i) {
+                if (i) {
+                  aql << ", ";
+                }
                 aql << ast.order_by[i].expression
                     << (ast.order_by[i].ascending ? " ASC" : " DESC");
             }
@@ -1181,25 +1287,29 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         if (!ast.return_items.empty() && ast.return_items[0].star) {
             if (all_vars.empty()) {
                 aql << "{}\n";
-            } else if (all_vars.size() == 1) {
+            } else if (static_cast<int>(all_vars.size()) == 1) {
                 aql << all_vars[0] << "\n";
             } else {
                 aql << "{";
                 for (size_t i = 0; i < all_vars.size(); ++i) {
-                    if (i) aql << ", ";
+                    if (i) {
+                      aql << ", ";
+                    }
                     aql << all_vars[i] << ": " << all_vars[i];
                 }
                 aql << "}\n";
             }
         } else if (!ast.return_items.empty()) {
             // Multiple items → wrap in an object; single item → return directly.
-            if (ast.return_items.size() == 1) {
+            if (static_cast<int>(ast.return_items.size()) == 1) {
                 const auto& item = ast.return_items[0];
                 aql << (!item.alias.empty() ? item.alias : item.expression) << "\n";
             } else {
                 aql << "{";
-                for (size_t i = 0; i < ast.return_items.size(); ++i) {
-                    if (i) aql << ", ";
+                for (size_t i = 0; i <static_cast<int>(ast.return_items.size()); ++i) {
+                    if (i) {
+                      aql << ", ";
+                    }
                     const auto& item = ast.return_items[i];
                     // Key: prefer alias, else last component of "n.prop"
                     std::string key = item.alias;

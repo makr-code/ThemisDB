@@ -74,7 +74,7 @@ TsStreamCursor::~TsStreamCursor() = default;
 // ---------------------------------------------------------------------------
 
 bool TsStreamCursor::valid() const noexcept {
-    return !exhausted_ && page_pos_ < page_.size();
+    return static_cast<bool>(!exhausted_  && static_cast<size_t>(page_pos_) < static_cast<int>(page_.size()));
 }
 
 const TSStore::DataPoint& TsStreamCursor::current() const noexcept {
@@ -89,7 +89,7 @@ Result<void> TsStreamCursor::advance() {
     ++page_pos_;
     ++rows_consumed_;
 
-    if (page_pos_ < page_.size()) {
+    if (static_cast<int>(page_.size()) > page_pos_) {
         // Still within the current page.
         return {};
     }
@@ -163,7 +163,7 @@ Result<void> TsStreamCursor::fetchNextPage() {
     last_timestamp_ms_ = page_.back().timestamp_ms;
 
     // If the page returned fewer rows than requested, the scan is complete.
-    if (page_.size() < cfg_.page_size) {
+    if (static_cast<int>(page_.size()) < cfg_.page_size) {
         // We'll exhaust naturally — no need to set exhausted_ here; once
         // advance() goes past page_.size() and fetchNextPage() returns an
         // empty page, exhausted_ will be set above.

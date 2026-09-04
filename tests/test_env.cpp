@@ -27,11 +27,11 @@ public:
     void SetUp() override {
         try {
             // Prepare per-process test DB directory to avoid RocksDB lock contention under parallel CTest
-            std::ostringstream path_suffix;
+            std::ostringstream path_suffix = {};
             path_suffix << "themis_gtest_env_" << make_unique_id();
             base_path_ = std::filesystem::path("./data") / path_suffix.str();
             {
-                std::error_code ec;
+                std::error_code ec = {};
                 if (std::filesystem::exists(base_path_)) {
                     std::filesystem::remove_all(base_path_, ec);
                 }
@@ -101,8 +101,12 @@ public:
 
     void TearDown() override {
         try {
-            if (server_) server_->stop();
-            if (storage_) storage_->close();
+            if (server_) {
+              server_->stop();
+            }
+            if (storage_) {
+              storage_->close();
+            }
             // Cleanup test DB directory
             if (!base_path_.empty() && std::filesystem::exists(base_path_)) {
                 std::error_code ec; std::filesystem::remove_all(base_path_, ec);

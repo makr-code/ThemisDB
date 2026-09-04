@@ -38,7 +38,7 @@ std::string generateRandomJobId() {
     static thread_local std::mt19937_64 rng{static_cast<uint64_t>(steady_clock::now().time_since_epoch().count())};
 
     auto u64 = rng();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "job_" << std::hex << std::setw(16) << std::setfill('0') << u64;
     return oss.str();
 }
@@ -205,7 +205,7 @@ std::string AsyncIngestionWorker::submitFile(const std::string &blob, const std:
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -248,12 +248,12 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
+        if ((static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
+            return (static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
         });
         if (!running_.load() || shutdown_requested_.load()) {
@@ -261,7 +261,7 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
         }
         job_queue_.push(job);
         // Update queue depth high-watermark
-        size_t depth   = job_queue_.size();
+        size_t depth = job_queue_.size();
         size_t old_hwm = queue_depth_high_watermark_.load(std::memory_order_relaxed);
         while (depth > old_hwm
                && !queue_depth_high_watermark_.compare_exchange_weak(old_hwm, depth, std::memory_order_relaxed)) {
@@ -309,12 +309,12 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
+        if ((static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
+            return (static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
         });
         if (!running_.load() || shutdown_requested_.load()) {
@@ -323,7 +323,7 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
         }
         job_queue_.push(job);
         // Update queue depth high-watermark
-        size_t depth   = job_queue_.size();
+        size_t depth = job_queue_.size();
         size_t old_hwm = queue_depth_high_watermark_.load(std::memory_order_relaxed);
         while (depth > old_hwm
                && !queue_depth_high_watermark_.compare_exchange_weak(old_hwm, depth, std::memory_order_relaxed)) {
@@ -362,7 +362,7 @@ std::string AsyncIngestionWorker::submitArchive(const std::string &blob, const s
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -402,7 +402,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     // Store file list in config
     json file_list = json::array();
     for (const auto &[filename, blob] : files) {
-        file_list.push_back({{"filename", filename}, {"size", blob.size()}});
+        file_list.push_back({{"filename", filename}, {"size",static_cast<int>(blob.size())}});
     }
     job.config["files"]  = file_list;
     job.config["_blobs"] = json::array(); // Will be filled with actual blobs
@@ -415,7 +415,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -431,7 +431,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     queue_cv_.notify_one();
 
     if (config_.verbose_logging) {
-        THEMIS_INFO("Batch job submitted: {} ({} files)", job.job_id, files.size());
+        THEMIS_INFO("Batch job submitted: {} ({} files)", job.job_id,static_cast<int>(files.size()));
     }
 
     return job.job_id;
@@ -469,7 +469,8 @@ bool AsyncIngestionWorker::cancelJob(const std::string &job_id) {
 std::vector<IngestionJob> AsyncIngestionWorker::getAllJobs(std::optional<IngestionJobStatus> status) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
-    std::vector<IngestionJob> result;
+    std::vector<IngestionJob> result = {};
+
     for (const auto &[job_id, job] : job_history_) {
         if (!status.has_value() || job.status == status.value()) {
             result.push_back(job);
@@ -507,7 +508,7 @@ json AsyncIngestionWorker::getStatistics() {
 
     return json{{"running", running_.load()},
                 {"worker_count", config_.worker_thread_count},
-                {"queue_size", job_queue_.size()},
+                {"queue_size",static_cast<int>(job_queue_.size())},
                 {"max_queue_size", config_.max_queue_size},
                 {"max_queue_depth", config_.max_queue_depth},
                 {"jobs",
@@ -516,7 +517,7 @@ json AsyncIngestionWorker::getStatistics() {
                   {"completed", completed},
                   {"failed", failed},
                   {"cancelled", cancelled},
-                  {"total", job_history_.size()}}},
+                  {"total",static_cast<int>(job_history_.size())}}},
                 {"stats",
                  {{"total_processed", total_jobs_processed_.load()},
                   {"total_failed", total_jobs_failed_.load()},
@@ -555,7 +556,7 @@ void AsyncIngestionWorker::setCompletionCallback(const std::string &job_id,
 }
 
 void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::function<void(IngestionJob &)> handler) {
-    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] handlers_mutex_);
     job_handlers_[job_type] = handler;
 
     if (config_.verbose_logging) {
@@ -567,7 +568,7 @@ void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::fu
 // Worker Thread Implementation
 // ============================================================================
 
-void AsyncIngestionWorker::workerLoop(int worker_id) {
+void AsyncIngestionWorker::workerLoop([[maybe_unused]] int worker_id) {
     if (config_.verbose_logging) {
         THEMIS_INFO("Worker {} started", worker_id);
     }
@@ -629,7 +630,7 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
             total_jobs_processed_.fetch_add(1);
 
             if (config_.verbose_logging) {
-                THEMIS_INFO("Worker {} completed job {} ({} items)", worker_id, job.job_id, job.content_ids.size());
+                THEMIS_INFO("Worker {} completed job {} ({} items)", worker_id, job.job_id,static_cast<int>(job.content_ids.size()));
             }
 
             // Fulfill promise for ingestStream() callers
@@ -682,9 +683,9 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
 void AsyncIngestionWorker::processJob(IngestionJob &job) {
     // Check for custom handler first
     {
-        std::lock_guard<std::mutex> lock(handlers_mutex_);
-        auto it = job_handlers_.find(job.type);
-        if (it != job_handlers_.end()) {
+        std::lock_guard<std::mutex> lock([[maybe_unused]] handlers_mutex_);
+        auto it = job_handlers_.find([[maybe_unused]] job.type);
+        if ([[maybe_unused]] it != job_handlers_.end()) {
             it->second(job);
             return;
         }
@@ -705,9 +706,9 @@ void AsyncIngestionWorker::processJob(IngestionJob &job) {
             processBatchFiles(job);
             break;
         case IngestionJobType::HUGGINGFACE:
-        case IngestionJobType::FILESYSTEM_BULK:
-        case IngestionJobType::DATABASE_EXPORT:
-        case IngestionJobType::REST_API:
+        [[fallthrough]];\n        case IngestionJobType::FILESYSTEM_BULK:
+        [[fallthrough]];\n        case IngestionJobType::DATABASE_EXPORT:
+        [[fallthrough]];\n        case IngestionJobType::REST_API:
             // Plugin-based job types
             processPluginJob(job);
             break;
@@ -846,7 +847,8 @@ void AsyncIngestionWorker::unregisterPlugin(const std::string &plugin_name) {
 std::vector<std::string> AsyncIngestionWorker::listPlugins() const {
     std::lock_guard<std::mutex> lock(plugins_mutex_);
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(plugins_.size());
     for (const auto &[name, plugin] : plugins_) {
         names.push_back(name);
@@ -875,8 +877,8 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     // a direct job-type handler, in which case plugin lookup is optional.
     bool has_custom_handler = false;
     {
-        std::lock_guard<std::mutex> lock(handlers_mutex_);
-        has_custom_handler = job_handlers_.find(source.type) != job_handlers_.end();
+        std::lock_guard<std::mutex> lock([[maybe_unused]] handlers_mutex_);
+        has_custom_handler = job_handlers_.find([[maybe_unused]] source.type) != job_handlers_.end();
     }
 
     // Find plugin
@@ -885,7 +887,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
         std::lock_guard<std::mutex> lock(plugins_mutex_);
         auto it = plugins_.find(source.plugin_name);
         if (it == plugins_.end()) {
-            if (!has_custom_handler) {
+            if ([[maybe_unused]] !has_custom_handler) {
                 throw std::runtime_error("Plugin not found: " + source.plugin_name);
             }
         } else {
@@ -922,7 +924,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (job_queue_.size() >= config_.max_queue_size) {
+        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -946,7 +948,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
 void AsyncIngestionWorker::loadSourcesFromConfig(const std::string &config_path) {
     // Allow explicit absolute file paths (e.g. tests using temp files).
     // Otherwise, resolve via ConfigPathResolver for mapped repository configs.
-    std::string resolved_path;
+    std::string resolved_path = {};
     std::filesystem::path requested_path(config_path);
     if (requested_path.is_absolute() && std::filesystem::exists(requested_path)) {
         resolved_path = requested_path.lexically_normal().string();

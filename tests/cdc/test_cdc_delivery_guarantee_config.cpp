@@ -134,7 +134,9 @@ TEST(DeliveryGuaranteeConfigTest, ConcurrentModeUpdates) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
     // Must be one of the two valid modes
     const auto m = cfg.mode();
     EXPECT_TRUE(m == DeliveryMode::AtLeastOnce || m == DeliveryMode::ExactlyOnce);
@@ -225,7 +227,9 @@ TEST(InMemoryIdempotentListenerTest, ConcurrentMarkAndCheck) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Every sequence must be marked as duplicate now
     for (uint64_t s = 1; s <= kSeqs; ++s) {

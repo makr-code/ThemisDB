@@ -49,9 +49,11 @@ std::string normalizeText(std::string_view text) {
 
 std::string getTextNormalizerMetrics() {
     const uint64_t errors = g_text_normalizer_errors_total.load(std::memory_order_relaxed);
-    if (errors == 0) return "";
+    if (errors == 0) {
+      return "";
+    }
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "# HELP toolbox_text_normalizer_errors_total Text normalizer helper errors.\n";
     out << "# TYPE toolbox_text_normalizer_errors_total counter\n";
     out << "toolbox_text_normalizer_errors_total " << errors << "\n";

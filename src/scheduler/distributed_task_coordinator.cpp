@@ -141,7 +141,7 @@ void DistributedTaskCoordinator::stop() {
     }
 
     // Remove the leadership callback so we no longer react to elections.
-    coordinator_->setLeaderElectedCallback(nullptr);
+    coordinator_->setLeaderElectedCallback([[maybe_unused]] nullptr);
 
     THEMIS_INFO("DistributedTaskCoordinator stopped");
 }
@@ -307,7 +307,8 @@ void DistributedTaskCoordinator::disableTask(const std::string& task_id) {
 
 std::vector<ScheduledTask> DistributedTaskCoordinator::listTasks() const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
-    std::vector<ScheduledTask> result;
+    std::vector<ScheduledTask> result = {};
+
     result.reserve(task_registry_.size());
     for (const auto& [id, task] : task_registry_) {
         result.push_back(task);
@@ -385,7 +386,7 @@ std::string DistributedTaskCoordinator::generateId(const ScheduledTask& task) {
     auto now = std::chrono::system_clock::now();
     auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
                    now.time_since_epoch()).count();
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "task_" << std::hex << ms;
     if (!task.name.empty()) {
         oss << "_";

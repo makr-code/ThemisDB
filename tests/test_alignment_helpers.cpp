@@ -16,7 +16,7 @@ using namespace themis::utils;
 
 // Test structures with various alignments
 struct alignas(16) Aligned16 {
-    uint64_t a;
+    uint64_t a = 0;
     uint64_t b;
 };
 
@@ -29,7 +29,7 @@ struct alignas(64) Aligned64 {
 };
 
 struct alignas(8) Aligned8 {
-    uint64_t value;
+    uint64_t value = 0;
 };
 
 // These assertions should compile successfully
@@ -253,9 +253,9 @@ TEST(UnalignedAccessTest, ReadWriteUnalignedUint64) {
 
 TEST(UnalignedAccessTest, ReadWriteUnalignedStruct) {
     struct TestStruct {
-        uint32_t a;
-        uint32_t b;
-        uint64_t c;
+        uint32_t a = 0;
+        uint32_t b = {};
+        uint64_t c = {};
     };
     
     alignas(16) uint8_t buffer[32] = {0};
@@ -329,7 +329,7 @@ TEST(UnalignedAccessTest, CheckedAlignedCastEdgeCases) {
 TEST(AlignmentHelpersTest, CacheLineAlignment) {
     // Simulate cache-line aligned structure
     struct alignas(64) CacheLineCounter {
-        uint64_t counter;
+        uint64_t counter = 0;
         char padding[56];
     };
     
@@ -358,7 +358,7 @@ TEST(AlignmentHelpersTest, AllocatedMemoryAlignment) {
     
     // Helper to manage aligned allocation/deallocation
     struct AlignedDeleter {
-        size_t alignment;
+        size_t alignment = 0;
         void operator()(void* ptr) const {
             ::operator delete(ptr, std::align_val_t(alignment));
         }

@@ -80,7 +80,7 @@ namespace analytics {
 
 std::size_t MLTensor::numElements() const noexcept {
     if (shape.empty()) {
-        return data.size();
+        return static_cast<int>(data.size());
     }
     std::size_t n = 1;
     for (auto d : shape) {
@@ -249,7 +249,7 @@ bool ONNXServingBackend::isAvailable() const {
 
 MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
     Stopwatch sw;
-    MLServingResponse resp;
+    MLServingResponse resp = {};
 
     if (req.inputs.empty()) {
         resp.status        = MLServingStatus::INVALID_INPUT;
@@ -292,8 +292,8 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
             std::vector<float> data_copy = t.data;
             std::vector<int64_t> shape   = t.shape;
 
-            input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, data_copy.data(), data_copy.size(),
-                                                                    shape.data(), shape.size()));
+            input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, data_copy.data(),static_cast<int>(data_copy.size()),
+                                                                    shape.data(),static_cast<int>(shape.size())));
         }
 
         // Collect output names from session metadata
@@ -315,7 +315,7 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
 
         // Run inference
         auto output_tensors = session.Run(Ort::RunOptions{nullptr}, input_names.data(), input_tensors.data(),
-                                          input_names.size(), output_names.data(), output_names.size());
+                                          input_names.size(), output_names.data(),static_cast<int>(output_names.size()));
 
         // Convert outputs
         resp.outputs.reserve(output_tensors.size());
@@ -338,7 +338,7 @@ MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequ
         resp.status     = MLServingStatus::OK;
         resp.latency_ms = sw.elapsedMs();
         spdlog::debug("MLServing[ONNX]: inference success for '{}' with {} inputs, {} outputs (latency_ms={})",
-                      req.model_name, req.inputs.size(), resp.outputs.size(), resp.latency_ms);
+                      req.model_name,static_cast<int>(req.inputs.size()),static_cast<int>(resp.outputs.size()), resp.latency_ms);
 
     } catch (const Ort::Exception &e) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
@@ -420,7 +420,7 @@ bool TFServingBackend::isAvailable() const {
 MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
     using json = nlohmann::json;
     Stopwatch sw;
-    MLServingResponse resp;
+    MLServingResponse resp = {};
 
     if (req.inputs.empty()) {
         resp.status        = MLServingStatus::INVALID_INPUT;
@@ -456,7 +456,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     payload["inputs"] = inputs_json;
 
     std::string json_body = payload.dump();
-    spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name, json_body.size());
+    spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name,static_cast<int>(json_body.size()));
 
     // Build URL
     std::string url = base_url + "/v1/models/" + req.model_name;
@@ -467,7 +467,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     spdlog::debug("MLServing[TF]: sending request to {} for model '{}'", url, req.model_name);
 
     // Perform HTTP POST via libcurl
-    std::string response_body;
+    std::string response_body = {};
 
     CURL *curl = curl_easy_init();
     if (!curl) {
@@ -519,7 +519,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         return resp;
     }
 
-    spdlog::debug("MLServing[TF]: received response for model '{}': {} bytes", req.model_name, response_body.size());
+    spdlog::debug("MLServing[TF]: received response for model '{}': {} bytes", req.model_name,static_cast<int>(response_body.size()));
 
     // Parse JSON response: { "outputs": { "<name>": [...] } }
     try {
@@ -542,7 +542,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
                 t.name = name;
                 if (val.is_array()) {
                     // Flatten potentially nested arrays to 1-D float vector
-                    std::function<void(const json &)> flatten = [&](const json &node) {
+                    std::function<void(const json &)> flatten = [&]([[maybe_unused]] const json &node) {
                         if (node.is_array()) {
                             for (const auto &elem : node)
                                 flatten(elem);
@@ -622,7 +622,7 @@ struct MLServingClient::Impl {
     MLBackendType requested_type;
     MLServingConfig config;
     /// In-flight request counter, used by the BoundedExecutionPolicy enforcement.
-    std::atomic<uint32_t> inflight_count{0u};
+    std::atomic<uint32_t> inflight_count{0};
 
     Impl(const MLServingConfig &cfg) : requested_type(cfg.backend), config(cfg) {
         switch (cfg.backend) {
@@ -633,7 +633,7 @@ struct MLServingClient::Impl {
                 backend = std::make_unique<TFServingBackend>(cfg.tf_config);
                 break;
             case MLBackendType::AUTO:
-            default: {
+            [[fallthrough]];\n            default: {
                 // Prefer ONNX Runtime; fall back to TF Serving.
                 auto onnx = std::make_unique<ONNXServingBackend>(cfg.onnx_config);
                 if (onnx->isAvailable()) {
@@ -659,10 +659,10 @@ bool MLServingClient::isBackendAvailable(MLBackendType type) const {
     }
     // Construct a temporary backend to check availability
     if (type == MLBackendType::ONNX_RUNTIME) {
-        ONNXServingBackend tmp;
+        ONNXServingBackend tmp = {};
         return tmp.isAvailable();
     }
-    TFServingBackend tmp;
+    TFServingBackend tmp = {};
     return tmp.isAvailable();
 }
 
@@ -699,7 +699,7 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
     }
 
     // ── Concurrency enforcement ──────────────────────────────────────────────
-    if (policy.max_concurrent_requests > 0u) {
+    if (policy.max_concurrent_requests > 0) {
         uint32_t concurrent_snapshot = impl_->inflight_count.load(std::memory_order_relaxed);
         while (true) {
             if (concurrent_snapshot >= policy.max_concurrent_requests) {
@@ -714,23 +714,23 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
                 return resp;
             }
             if (impl_->inflight_count.compare_exchange_weak(
-                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    concurrent_snapshot, concurrent_snapshot + 1, std::memory_order_acq_rel,
                     std::memory_order_relaxed)) {
                 break;
             }
         }
     } else {
-        impl_->inflight_count.fetch_add(1u, std::memory_order_acq_rel);
+        impl_->inflight_count.fetch_add(1, std::memory_order_acq_rel);
     }
 
     // Track in-flight count with RAII guard.
     struct Guard {
         std::atomic<uint32_t> &counter;
-        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
+        ~Guard() { counter.fetch_sub(1, std::memory_order_acq_rel); }
     } guard{impl_->inflight_count};
 
     // ── Timeout enforcement ──────────────────────────────────────────────────
-    if (policy.max_latency_ms > 0u) {
+    if (policy.max_latency_ms > 0) {
         auto fut = std::async(std::launch::async, [this, req]() {
             return impl_->backend->infer(req);
         });
@@ -756,7 +756,8 @@ MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_n
     auto field_names = point.numericFieldNames();
     std::sort(field_names.begin(), field_names.end());
 
-    std::vector<float> values;
+    std::vector<float> values = {};
+
     values.reserve(field_names.size());
     for (const auto &fname : field_names) {
         // Try double first, then int64

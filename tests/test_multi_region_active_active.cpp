@@ -68,8 +68,11 @@ TEST(MultiRegionActiveActiveTest, GetAllRegionStalenessCoversLocalAndPeers) {
     auto all = mgr.getAllRegionStaleness();
     // Should have local + 2 peers = 3 entries
     EXPECT_EQ(all.size(), 3u);
-    std::vector<std::string> ids;
-    for (const auto& info : all) ids.push_back(info.region_id);
+    std::vector<std::string> ids = {};
+
+    for (const auto& info : all) {
+      ids.push_back(info.region_id);
+    }
     EXPECT_NE(std::find(ids.begin(), ids.end(), "us-east-1"), ids.end());
     EXPECT_NE(std::find(ids.begin(), ids.end(), "eu-west-1"), ids.end());
     EXPECT_NE(std::find(ids.begin(), ids.end(), "ap-south-1"), ids.end());
@@ -359,10 +362,14 @@ TEST(MultiRegionActiveActiveTest, ConcurrentWritesDoNotRace) {
     for (int i = 0; i < N; ++i) {
         threads.emplace_back([&mgr, &successes, i] {
             auto r = mgr.write("col", "doc-" + std::to_string(i), "INSERT", "{}");
-            if (r.success) ++successes;
+            if (r.success) {
+              ++successes;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(successes.load(), N);
 }
@@ -379,7 +386,9 @@ TEST(MultiRegionActiveActiveTest, ConcurrentReadsDoNotRace) {
             mgr.read("col", "d1", ConsistencyLevel::EVENTUAL);
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
     // Must not crash or race
 }
 

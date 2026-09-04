@@ -69,7 +69,7 @@ void MirrorSchoolHandler::setLLMInferenceFn(LLMInferenceFn fn)
     inference_fn_ = std::move(fn);
 }
 
-void MirrorSchoolHandler::setSchoolTimeoutMs(int timeout_ms) noexcept
+void MirrorSchoolHandler::setSchoolTimeoutMs([[maybe_unused]] int timeout_ms) noexcept
 {
     timeout_ms_ = timeout_ms;
 }
@@ -82,8 +82,11 @@ std::vector<DiscourseRoundOutput> MirrorSchoolHandler::runMirror(
     (void)domain;  // Domain is used by caller (MirrorSchoolPolicy::isActiveFor);
                    // forwarded for context but not consumed directly here.
 
-    std::vector<DiscourseRoundOutput> results;
-    if (mirror_school_ids.empty()) return results;
+    std::vector<DiscourseRoundOutput> results = {};
+
+    if (mirror_school_ids.empty()) {
+      return results;
+    }
 
     const auto infer      = inference_fn_ ? inference_fn_ : stubMirrorInference;
     const int  timeout_ms = timeout_ms_;

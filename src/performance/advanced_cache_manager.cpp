@@ -47,10 +47,10 @@ namespace performance {
 uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
                                                    uint64_t seed) noexcept {
     // FNV-1a with seed mixing
-    uint64_t h = 14695981039346656037ULL ^ seed;
+    uint64_t h = 14695981039346656037 ^ seed;
     for (unsigned char c : key) {
         h ^= static_cast<uint64_t>(c);
-        h *= 1099511628211ULL;
+        h *= 1099511628211;
     }
     return h;
 }
@@ -58,7 +58,7 @@ uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
 void AdvancedCacheManager::BloomFilter::insert(const std::string& key) noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        bits[bit / 64] |= (1ULL << (bit % 64));
+        bits[bit / 64] |= (1 << (bit % 64));
     }
 }
 
@@ -66,7 +66,9 @@ bool AdvancedCacheManager::BloomFilter::maybe_contains(
         const std::string& key) const noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        if (!(bits[bit / 64] & (1ULL << (bit % 64)))) return false;
+        if (!(bits[bit / 64] & (1 << (bit % 64)))) {
+          return false;
+        }
     }
     return true;
 }
@@ -168,12 +170,12 @@ std::string AdvancedCacheManager::compress(const std::string& val,
 
 #ifdef THEMIS_ENABLE_SNAPPY
     if (algo == CompressionAlgorithm::Snappy) {
-        std::string compressed_body;
+        std::string compressed_body = {};
         snappy::Compress(src, static_cast<size_t>(src_size), &compressed_body);
         if (!compressed_body.empty()) {
             // Frame: [tag(1)] [snappy_data] (Snappy encodes original size internally)
-            std::string out;
-            out.reserve(1 + compressed_body.size());
+            std::string out = {};
+            out.reserve(1 + static_cast<int>(compressed_body.size()) );
             out += static_cast<char>(kTagSnappy);
             out += compressed_body;
             return out;
@@ -219,8 +221,8 @@ std::string AdvancedCacheManager::compress(const std::string& val,
     }
 
     // Passthrough: [tag(1)] [original data]
-    std::string out;
-    out.reserve(1 + val.size());
+    std::string out = {};
+    out.reserve(1 + static_cast<int>(val.size()) );
     out += static_cast<char>(kTagPassthrough);
     out += val;
     return out;
@@ -234,11 +236,11 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
     if (tag == kTagPassthrough) {
         // Strip leading tag byte and return original data.
-        return val.size() > 1 ? val.substr(1) : std::string{};
+        return static_cast<int>(val.size()) > 1 ? val.substr(1) : std::string{};
     }
 
 #ifdef THEMIS_ENABLE_LZ4
-    if (tag == kTagLZ4 && val.size() > 5) {
+    if (tag == kTagLZ4 && static_cast<int>(val.size()) > 5) {
         const uint32_t orig_size =
             read_le32(reinterpret_cast<const uint8_t*>(&val[1]));
         if (orig_size == 0) return {};
@@ -257,9 +259,9 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 #endif
 
 #ifdef THEMIS_ENABLE_SNAPPY
-    if (tag == kTagSnappy && val.size() > 1) {
-        std::string out;
-        if (snappy::Uncompress(&val[1], val.size() - 1, &out)) {
+    if (tag == kTagSnappy && static_cast<int>(val.size()) > 1) {
+        std::string out = {};
+        if (snappy::Uncompress(&val[1], static_cast<int>(val.size()) - 1, &out)) {
             return out;
         }
         return val.substr(1);
@@ -267,14 +269,14 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 #endif
 
 #ifdef THEMIS_ENABLE_ZSTD
-    if (tag == kTagZstd && val.size() > 5) {
+    if (tag == kTagZstd && static_cast<int>(val.size()) > 5) {
         const uint32_t orig_size =
             read_le32(reinterpret_cast<const uint8_t*>(&val[1]));
         if (orig_size == 0) return {};
         std::string out(orig_size, '\0');
         const size_t decoded = ZSTD_decompress(
             &out[0], orig_size,
-            &val[5], val.size() - 5);
+            &val[5], static_cast<int>(val.size()) - 5);
         if (!ZSTD_isError(decoded) && decoded == orig_size) {
             return out;
         }
@@ -301,7 +303,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
     // Unknown tag (data written by a build with a library we don't have):
     // return the payload without the tag byte as the safest fallback.
-    return val.size() > 1 ? val.substr(1) : std::string{};
+    return static_cast<int>(val.size()) > 1 ? val.substr(1) : std::string{};
 }
 
 // ---------------------------------------------------------------------------
@@ -310,7 +312,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
 size_t AdvancedCacheManager::entries_for_mb(size_t mb) noexcept {
     // Assume average entry of ~256 bytes (key + value)
-    return (mb * 1024ULL * 1024ULL) / 256ULL;
+    return (mb * 1024 * 1024) / 256;
 }
 
 // ---------------------------------------------------------------------------
@@ -337,21 +339,28 @@ void AdvancedCacheManager::create_partitions(const CacheConfig& config) {
         auto ps             = std::make_unique<PartitionState>();
         ps->cfg             = pcfg;
         ps->capacity        = entries_for_mb(pcfg.size_mb);
-        if (ps->capacity == 0) ps->capacity = 16;
+        if (ps->capacity == 0) {
+          ps->capacity = 16;
+        }
         partitions_.push_back(std::move(ps));
     }
 }
 
 std::vector<std::string> AdvancedCacheManager::partition_names() const {
-    std::vector<std::string> names;
-    for (const auto& p : partitions_) names.push_back(p->cfg.name);
+    std::vector<std::string> names = {};
+
+    for (const auto& p : partitions_) {
+      names.push_back(p->cfg.name);
+    }
     return names;
 }
 
 AdvancedCacheManager::PartitionState*
 AdvancedCacheManager::find_partition(const std::string& name) const noexcept {
     for (const auto& p : partitions_) {
-        if (p->cfg.name == name) return p.get();
+        if (p->cfg.name == name) {
+          return p.get();
+        }
     }
     return nullptr;
 }
@@ -359,7 +368,9 @@ AdvancedCacheManager::find_partition(const std::string& name) const noexcept {
 std::optional<std::string> AdvancedCacheManager::get(const std::string& key,
                                                        const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return std::nullopt;
+    if (!ps) {
+      return std::nullopt;
+    }
 
     std::lock_guard<std::mutex> lk(ps->mtx);
 
@@ -397,7 +408,9 @@ void AdvancedCacheManager::put(const std::string& key,
                                 const std::string& value,
                                 const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return;
+    if (!ps) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lk(ps->mtx);
 
@@ -412,18 +425,22 @@ void AdvancedCacheManager::put(const std::string& key,
         ps->lru_list.splice(ps->lru_list.begin(), ps->lru_list, it->second);
     } else {
         // Evict if full
-        if (ps->lru_list.size() >= ps->capacity) {
+        if (ps-> static_cast<int>(lru_list.size()) >= ps->capacity) {
             auto& lru_entry = ps->lru_list.back();
             ps->index.erase(lru_entry.key);
             ps->lru_list.pop_back();
-            if (ps->stats.entries > 0) --ps->stats.entries;
-            ps->stats.bytes_used = ps->stats.bytes_used > lru_entry.value.size()
-                ? ps->stats.bytes_used - lru_entry.value.size() : 0;
+            if (ps->stats.entries > 0) {
+              --ps->stats.entries;
+            }
+            ps->stats.bytes_used = ps->stats.bytes_used > static_cast<int>(lru_entry.value.size())
+                ? ps->stats.bytes_used - static_cast<int>(lru_entry.value.size()) : 0;
         }
         ps->lru_list.push_front({key, std::move(stored_value)});
         ps->index[key] = ps->lru_list.begin();
         ++ps->stats.entries;
-        if (config_.enable_bloom_filters) ps->bloom.insert(key);
+        if (config_.enable_bloom_filters) {
+          ps->bloom.insert(key);
+        }
     }
     ps->stats.bytes_used += ps->lru_list.front().value.size();
 }
@@ -431,24 +448,32 @@ void AdvancedCacheManager::put(const std::string& key,
 bool AdvancedCacheManager::evict(const std::string& key,
                                   const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return false;
+    if (!ps) {
+      return false;
+    }
 
     std::lock_guard<std::mutex> lk(ps->mtx);
     auto it = ps->index.find(key);
-    if (it == ps->index.end()) return false;
+    if (it == ps->index.end()) {
+      return false;
+    }
 
-    ps->stats.bytes_used = ps->stats.bytes_used > it->second->value.size()
-        ? ps->stats.bytes_used - it->second->value.size() : 0;
+    ps->stats.bytes_used = ps->stats.bytes_used > it->second-> static_cast<int>(value.size())
+        ? ps->stats.bytes_used - it->second-> static_cast<int>(value.size()) : 0;
     ps->lru_list.erase(it->second);
     ps->index.erase(it);
-    if (ps->stats.entries > 0) --ps->stats.entries;
+    if (ps->stats.entries > 0) {
+      --ps->stats.entries;
+    }
     return true;
 }
 
 bool AdvancedCacheManager::contains(const std::string& key,
                                      const std::string& partition) const {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return false;
+    if (!ps) {
+      return false;
+    }
     std::lock_guard<std::mutex> lk(ps->mtx);
     return ps->index.count(key) > 0;
 }
@@ -465,15 +490,19 @@ void AdvancedCacheManager::reset_stats() {
     for (auto& p : partitions_) {
         std::lock_guard<std::mutex> lk(p->mtx);
         p->stats = PartitionStats{};
-        p->stats.entries   = p->index.size();
+        p->stats.entries   = p-> static_cast<int>(index.size());
         p->stats.bytes_used = 0;
-        for (const auto& e : p->lru_list) p->stats.bytes_used += e.value.size();
+        for (const auto& e : p->lru_list) {
+          p->stats.bytes_used += e.value.size();
+        }
     }
 }
 
 void AdvancedCacheManager::flush_partition(const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return;
+    if (!ps) {
+      return;
+    }
     std::lock_guard<std::mutex> lk(ps->mtx);
     ps->lru_list.clear();
     ps->index.clear();
@@ -482,7 +511,9 @@ void AdvancedCacheManager::flush_partition(const std::string& partition) {
 }
 
 void AdvancedCacheManager::flush_all() {
-    for (auto& p : partitions_) flush_partition(p->cfg.name);
+    for (auto& p : partitions_) {
+      flush_partition(p->cfg.name);
+    }
 }
 
 }  // namespace performance

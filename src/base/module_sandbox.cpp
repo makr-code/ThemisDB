@@ -67,7 +67,8 @@ class WasmRuntimeAdapter final : public WasmRuntime {
         return impl_->instantiate(wasm_bytes, host_fns, memory_size);
     }
 
-    bool call(const std::string &export_name, const std::vector<uint8_t> &args, std::vector<uint8_t> &out) override {
+    bool call(const std::string &export_name, const std::vector<uint8_t> &args,
+              std::vector<uint8_t> &out) override {
         return impl_->call(export_name, args, out);
     }
 
@@ -109,7 +110,7 @@ static bool isCgroupV2Available() {
 /// Replace characters that are invalid inside a cgroup directory name
 /// (anything that is not alphanumeric, '_', or '-') with '_'.
 static std::string sanitizeCgroupName(const std::string &name) {
-    std::string out;
+    std::string out = {};
     out.reserve(name.size());
     for (unsigned char c : name) {
         out += (std::isalnum(c) || c == '_' || c == '-') ? static_cast<char>(c) : '_';
@@ -238,9 +239,9 @@ AbiCheckResult AbiChecker::check(void *module_handle, const ModuleMetadata &modu
         }
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << (combined.compatible ? "ABI OK" : "ABI INCOMPATIBLE");
-    oss << " – " << combined.issues.size() << " issue(s)";
+    oss << " – " <<static_cast<int>(combined.issues.size()) << " issue(s)";
     combined.summary = oss.str();
 
     return combined;
@@ -569,7 +570,7 @@ bool ModuleSandbox::setupCgroupV2() {
             platform_->cgroup_path.clear();
             return false;
         }
-        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024ULL * 1024ULL) << "\n";
+        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024 * 1024) << "\n";
         if (!mem_max) {
             spdlog::warn("ModuleSandbox({}): write to memory.max failed – "
                          "falling back to RLIMIT_AS",
@@ -708,7 +709,7 @@ SandboxStats ModuleSandbox::stats() const {
 #if defined(__linux__)
     // Read peak memory from /proc/self/status
     std::ifstream status("/proc/self/status");
-    std::string line;
+    std::string line = {};
     while (std::getline(status, line)) {
         if (line.rfind("VmPeak:", 0) == 0) {
             uint64_t kb = 0;

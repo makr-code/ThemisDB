@@ -115,12 +115,12 @@ public:
         return verifier_.calculateFileHash(modulePath);
     }
     
-    void setRequireSignature(bool require) {
+    void setRequireSignature([[maybe_unused]] bool require) {
         policy_.requireSignature = require;
         verifier_.updatePolicy(policy_);
     }
     
-    void setAllowUnsigned(bool allow) {
+    void setAllowUnsigned([[maybe_unused]] bool allow) {
         policy_.allowUnsigned = allow;
         verifier_.updatePolicy(policy_);
     }
@@ -158,11 +158,11 @@ std::string ModuleSecurityVerifier::calculateFileHash(const std::string& moduleP
     return impl_->calculateFileHash(modulePath);
 }
 
-void ModuleSecurityVerifier::setRequireSignature(bool require) {
+void ModuleSecurityVerifier::setRequireSignature([[maybe_unused]] bool require) {
     impl_->setRequireSignature(require);
 }
 
-void ModuleSecurityVerifier::setAllowUnsigned(bool allow) {
+void ModuleSecurityVerifier::setAllowUnsigned([[maybe_unused]] bool allow) {
     impl_->setAllowUnsigned(allow);
 }
 
@@ -197,7 +197,9 @@ void* ModuleLoader::loadLibrary(const std::string& path) {
 }
 
 void ModuleLoader::unloadLibrary(void* handle) {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
     
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
@@ -346,7 +348,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     }
     
     // Step 5: SECURITY - Verify module signature and integrity
-    std::string errorMessage;
+    std::string errorMessage = {};
     if (!verifier_->verifyModule(modulePath, errorMessage)) {
         result.errorCode = ModuleErrorCode::VERIFICATION_FAILED;
         result.errorCategory = categorizeError(result.errorCode);
@@ -612,7 +614,7 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
 
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-    spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
+    spdlog::info("Unloading all modules ({} loaded)",static_cast<int>(loadedModules_.size()));
     
     auto& auditor = PluginSecurityAuditor::instance();
     uint64_t now = static_cast<uint64_t>(std::time(nullptr));
@@ -651,7 +653,8 @@ std::optional<LoadedModule> ModuleLoader::getModuleInfo(const std::string& modul
 
 std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
-    std::vector<LoadedModule> result;
+    std::vector<LoadedModule> result = {};
+
     result.reserve(loadedModules_.size());
     for (const auto& [name, module] : loadedModules_) {
         result.push_back(module);
@@ -663,11 +666,11 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     return result;
 }
 
-void ModuleLoader::setRequireSignature(bool require) {
+void ModuleLoader::setRequireSignature([[maybe_unused]] bool require) {
     verifier_->setRequireSignature(require);
 }
 
-void ModuleLoader::setAllowUnsigned(bool allow) {
+void ModuleLoader::setAllowUnsigned([[maybe_unused]] bool allow) {
     verifier_->setAllowUnsigned(allow);
 }
 
@@ -794,7 +797,7 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
         case ModuleErrorCode::INTERNAL_ERROR:
             return "Internal module loader error";
         case ModuleErrorCode::UNKNOWN_ERROR:
-        default:
+        [[fallthrough]];\n        default:
             return "Unknown error";
     }
 }
@@ -803,36 +806,36 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
     switch (code) {
         // Transient errors - may succeed on retry
         case ModuleErrorCode::MODULE_ACCESS_DENIED:
-        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+        [[fallthrough]];\n        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
             return ErrorCategory::TRANSIENT;
             
         // Recoverable errors - user can fix
         case ModuleErrorCode::MODULE_NOT_FOUND:
-        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
-        case ModuleErrorCode::VERSION_INCOMPATIBLE:
-        case ModuleErrorCode::ABI_INCOMPATIBLE:
-        case ModuleErrorCode::METADATA_MISSING:
+        [[fallthrough]];\n        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+        [[fallthrough]];\n        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+        [[fallthrough]];\n        case ModuleErrorCode::ABI_INCOMPATIBLE:
+        [[fallthrough]];\n        case ModuleErrorCode::METADATA_MISSING:
             return ErrorCategory::RECOVERABLE;
             
         // Fatal errors - require system intervention
         case ModuleErrorCode::VERIFICATION_FAILED:
-        case ModuleErrorCode::SIGNATURE_INVALID:
-        case ModuleErrorCode::HASH_MISMATCH:
-        case ModuleErrorCode::CERTIFICATE_REVOKED:
-        case ModuleErrorCode::CERTIFICATE_EXPIRED:
-        case ModuleErrorCode::UNTRUSTED_SIGNER:
-        case ModuleErrorCode::BLACKLISTED:
-        case ModuleErrorCode::QUARANTINED:
-        case ModuleErrorCode::ZONE_ID_BLOCKED:
-        case ModuleErrorCode::POLICY_VIOLATION:
+        [[fallthrough]];\n        case ModuleErrorCode::SIGNATURE_INVALID:
+        [[fallthrough]];\n        case ModuleErrorCode::HASH_MISMATCH:
+        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_REVOKED:
+        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+        [[fallthrough]];\n        case ModuleErrorCode::UNTRUSTED_SIGNER:
+        [[fallthrough]];\n        case ModuleErrorCode::BLACKLISTED:
+        [[fallthrough]];\n        case ModuleErrorCode::QUARANTINED:
+        [[fallthrough]];\n        case ModuleErrorCode::ZONE_ID_BLOCKED:
+        [[fallthrough]];\n        case ModuleErrorCode::POLICY_VIOLATION:
             return ErrorCategory::FATAL;
             
         // Permanent errors - retry won't help
         case ModuleErrorCode::MODULE_ALREADY_LOADED:
-        case ModuleErrorCode::SYMBOL_NOT_FOUND:
-        case ModuleErrorCode::METADATA_CORRUPTED:
-        case ModuleErrorCode::INITIALIZATION_FAILED:
-        default:
+        [[fallthrough]];\n        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+        [[fallthrough]];\n        case ModuleErrorCode::METADATA_CORRUPTED:
+        [[fallthrough]];\n        case ModuleErrorCode::INITIALIZATION_FAILED:
+        [[fallthrough]];\n        default:
             return ErrorCategory::PERMANENT;
     }
 }
@@ -951,7 +954,7 @@ void ModuleLoader::quarantineModule(const std::string& modulePath) {
                      it->second.consecutiveFailures, modulePath, it->second.lastErrorMessage);
 }
 
-uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::calculateBackoffTime([[maybe_unused]] uint32_t consecutiveFailures) const {
     // Exponential backoff: 2^(n-1) seconds, capped at maxBackoffSeconds_
     // Use bit shifting for efficiency instead of std::pow
     if (consecutiveFailures == 0) {
@@ -963,7 +966,7 @@ uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const 
         return maxBackoffSeconds_;
     }
     
-    uint64_t backoff = 1ULL << (consecutiveFailures - 1);
+    uint64_t backoff = 1 << (consecutiveFailures - 1);
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 
@@ -1012,7 +1015,8 @@ std::optional<ModuleFailureHistory> ModuleLoader::getFailureHistory(const std::s
 }
 
 std::vector<std::string> ModuleLoader::getQuarantinedModules() const {
-    std::vector<std::string> quarantined;
+    std::vector<std::string> quarantined = {};
+
     for (const auto& [path, history] : failureHistory_) {
         if (history.isQuarantined()) {
             quarantined.push_back(path);
@@ -1049,12 +1053,12 @@ void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     }
 }
 
-void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
+void ModuleLoader::setQuarantineThreshold([[maybe_unused]] uint32_t threshold) {
     quarantineThreshold_ = threshold;
     spdlog::info("Quarantine threshold set to: {}", threshold);
 }
 
-void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
+void ModuleLoader::setMaxBackoffSeconds([[maybe_unused]] uint32_t maxSeconds) {
     maxBackoffSeconds_ = maxSeconds;
     spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
 }
@@ -1145,7 +1149,7 @@ void ModuleLoader::clearHealthChecks() {
     spdlog::info("All health checks cleared");
 }
 
-void ModuleLoader::setStagedLoadingEnabled(bool enable) {
+void ModuleLoader::setStagedLoadingEnabled([[maybe_unused]] bool enable) {
     stagedLoadingEnabled_ = enable;
     spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
 }
@@ -1191,7 +1195,7 @@ bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResul
         return true;  // No health checks = pass
     }
     
-    spdlog::info("Running {} health checks for module: {}", healthChecks_.size(), module.name);
+    spdlog::info("Running {} health checks for module: {}",static_cast<int>(healthChecks_.size()), module.name);
     
     for (const auto& [checkName, checkFunc] : healthChecks_) {
         auto startTime = std::chrono::steady_clock::now();
@@ -1232,7 +1236,7 @@ bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResul
 }
 
 ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
-    ModuleMetadata metadata;
+    ModuleMetadata metadata = {};
     
     if (!handle) {
         return metadata;
@@ -1249,12 +1253,24 @@ ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
     auto getMinor = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_minor"));
     auto getPatch = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_patch"));
     
-    if (getVersionStr) metadata.version = getVersionStr();
-    if (getAbiVersion) metadata.abiVersion = getAbiVersion();
-    if (getBuildId) metadata.buildId = getBuildId();
-    if (getMajor) metadata.themisMajor = getMajor();
-    if (getMinor) metadata.themisMinor = getMinor();
-    if (getPatch) metadata.themisPatch = getPatch();
+    if (getVersionStr) {
+      metadata.version = getVersionStr();
+    }
+    if (getAbiVersion) {
+      metadata.abiVersion = getAbiVersion();
+    }
+    if (getBuildId) {
+      metadata.buildId = getBuildId();
+    }
+    if (getMajor) {
+      metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+      metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+      metadata.themisPatch = getPatch();
+    }
     
     return metadata;
 }
@@ -1313,7 +1329,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
         return -1;
     }
     try {
-        return std::stoi(content.substr(pos + zoneIdKey.size()));
+        return std::stoi(content.substr(pos + static_cast<int>(zoneIdKey.size()) ));
     } catch (const std::invalid_argument &) {
         return -1;
     } catch (const std::out_of_range &) {
@@ -1486,7 +1502,7 @@ bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
     ::close(pipe_fds[1]);
 
     char buf[kGpgOutputBufferSize];
-    std::string output;
+    std::string output = {};
     ssize_t n;
     while ((n = ::read(pipe_fds[0], buf, sizeof(buf) - 1)) > 0) {
         buf[n] = '\0';
@@ -1528,7 +1544,7 @@ ModuleLoader::getExtendedAttributes(const std::string& modulePath) const {
     size_t pos = 0;
     while (pos < static_cast<size_t>(listSize)) {
         std::string name = &namesBuf[pos];
-        pos += name.size() + 1;
+        pos += static_cast<int>(name.size()) + 1;
 
         ssize_t valueSize = getxattr(modulePath.c_str(), name.c_str(), nullptr, 0);
         if (valueSize < 0) {
@@ -1567,7 +1583,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
     file.read(reinterpret_cast<char*>(&elfClass), 1);
     file.seekg(0, std::ios::beg);
 
-    std::string metadata;
+    std::string metadata = {};
 
     auto processNoteSection = [&](uint64_t offset, uint64_t size) {
         file.seekg(static_cast<std::streamoff>(offset));
@@ -1575,13 +1591,17 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         while (remaining >= sizeof(Elf64_Nhdr)) {
             Elf64_Nhdr nhdr = {};
             file.read(reinterpret_cast<char*>(&nhdr), sizeof(nhdr));
-            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) break;
+            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) {
+              break;
+            }
             remaining -= sizeof(nhdr);
 
-            uint64_t nameSize  = (nhdr.n_namesz + 3) & ~3u;
-            uint64_t descSize  = (nhdr.n_descsz + 3) & ~3u;
+            uint64_t nameSize  = (nhdr.n_namesz + 3) & ~3;
+            uint64_t descSize  = (nhdr.n_descsz + 3) & ~3;
 
-            if (nameSize > remaining) break;
+            if (nameSize > remaining) {
+              break;
+            }
             // n_namesz includes the null terminator; exclude it for the string data
             uint32_t nameDataLen = nhdr.n_namesz > 0 ? nhdr.n_namesz - 1 : 0;
             std::string name(nameDataLen, '\0');
@@ -1591,7 +1611,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.tellg()) + static_cast<std::streamoff>(nameSize - nameDataLen));
             remaining -= nameSize;
 
-            if (descSize > remaining) break;
+            if (descSize > remaining) {
+              break;
+            }
             if (nhdr.n_type == NT_GNU_BUILD_ID && name == "GNU") {
                 // Build ID: hex-encode raw bytes
                 std::vector<unsigned char> buildId(nhdr.n_descsz);
@@ -1602,13 +1624,15 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                     file.seekg(static_cast<std::streamoff>(file.tellg()) +
                                static_cast<std::streamoff>(padding));
                 }
-                std::string buildIdHex;
+                std::string buildIdHex = {};
                 static const char hex[] = "0123456789abcdef";
                 for (unsigned char b : buildId) {
                     buildIdHex += hex[b >> 4];
                     buildIdHex += hex[b & 0xf];
                 }
-                if (!metadata.empty()) metadata += "; ";
+                if (!metadata.empty()) {
+                  metadata += "; ";
+                }
                 metadata += "BuildID=" + buildIdHex;
             } else {
                 file.seekg(static_cast<std::streamoff>(file.tellg()) +
@@ -1627,7 +1651,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         uint16_t shNum = ehdr.e_shnum;
         uint16_t shStrIdx = ehdr.e_shstrndx;
 
-        if (shOffset == 0 || shNum == 0) return metadata;
+        if (shOffset == 0 || shNum == 0) {
+          return metadata;
+        }
 
         // Load section name string table
         file.seekg(static_cast<std::streamoff>(shOffset +
@@ -1645,7 +1671,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             Elf64_Shdr shdr = {};
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
-            std::string secName;
+            std::string secName = {};
             if (shdr.sh_name < strtab.size()) {
                 secName = &strtab[shdr.sh_name];
             }
@@ -1658,12 +1684,18 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));
                 // Null bytes serve as separators; replace with spaces
                 for (char& c : comment) {
-                    if (c == '\0') c = ' ';
+                    if (c == '\0') {
+                      c = ' ';
+                    }
                 }
                 // Trim trailing spaces
-                while (!comment.empty() && comment.back() == ' ') comment.pop_back();
+                while (!comment.empty() && comment.back() == ' ') {
+                  comment.pop_back();
+                }
                 if (!comment.empty()) {
-                    if (!metadata.empty()) metadata += "; ";
+                    if (!metadata.empty()) {
+                      metadata += "; ";
+                    }
                     metadata += "Comment=" + comment;
                 }
             }
@@ -1678,7 +1710,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         uint16_t shNum = ehdr.e_shnum;
         uint16_t shStrIdx = ehdr.e_shstrndx;
 
-        if (shOffset == 0 || shNum == 0) return metadata;
+        if (shOffset == 0 || shNum == 0) {
+          return metadata;
+        }
 
         file.seekg(static_cast<std::streamoff>(shOffset +
                    static_cast<uint32_t>(shStrIdx) * shEntSize));
@@ -1694,7 +1728,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             Elf32_Shdr shdr = {};
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
-            std::string secName;
+            std::string secName = {};
             if (shdr.sh_name < strtab.size()) {
                 secName = &strtab[shdr.sh_name];
             }
@@ -1706,11 +1740,17 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.seekg(static_cast<std::streamoff>(shdr.sh_offset));
                 file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));
                 for (char& c : comment) {
-                    if (c == '\0') c = ' ';
+                    if (c == '\0') {
+                      c = ' ';
+                    }
                 }
-                while (!comment.empty() && comment.back() == ' ') comment.pop_back();
+                while (!comment.empty() && comment.back() == ' ') {
+                  comment.pop_back();
+                }
                 if (!comment.empty()) {
-                    if (!metadata.empty()) metadata += "; ";
+                    if (!metadata.empty()) {
+                      metadata += "; ";
+                    }
                     metadata += "Comment=" + comment;
                 }
             }
@@ -1846,7 +1886,7 @@ void ModuleLoader::watchdogCheckAllModules() {
             continue;  // Nothing to check
         }
 
-        std::string errorMsg;
+        std::string errorMsg = {};
         bool healthy = watchdogRunHealthChecks(modCopy, errorMsg);
 
         uint64_t now = nowMs();
@@ -1977,7 +2017,7 @@ bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,
     return false;
 }
 
-uint64_t ModuleLoader::watchdogCalculateBackoff(uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::watchdogCalculateBackoff([[maybe_unused]] uint32_t consecutiveFailures) const {
     if (consecutiveFailures == 0) {
         return 0;
     }

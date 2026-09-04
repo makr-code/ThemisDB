@@ -139,7 +139,9 @@ public:
                          [this] { return !queue_.empty(); })) {
             return false;  // timeout
         }
-        if (queue_.empty()) return false;
+        if (queue_.empty()) {
+          return false;
+        }
         
         cmd = queue_.front();
         queue_.pop();
@@ -221,7 +223,7 @@ protected:
     // Process commands from queue (worker thread)
     void commandProcessor() {
         while (running_) {
-            VoiceCommand cmd;
+            VoiceCommand cmd = {};
             if (command_queue_->dequeue(cmd, 100)) {
                 // Find session and process
                 for (auto& session : sessions_) {
@@ -261,7 +263,9 @@ protected:
     }
 
     void printMetricsSummary() {
-        if (metrics_history_.empty()) return;
+        if (metrics_history_.empty()) {
+          return;
+        }
 
         std::printf("\n=== Endurance Test Summary ===\n");
         
@@ -286,7 +290,9 @@ protected:
 
     // Verify metrics are stable (no unbounded growth)
     bool verifyStability() {
-        if (metrics_history_.size() < 2) return true;
+        if (metrics_history_.size() < 2) {
+          return true;
+        }
 
         // Check for unbounded memory growth
         int64_t max_memory = 0;

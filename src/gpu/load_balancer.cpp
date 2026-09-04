@@ -68,7 +68,7 @@ void GPULoadBalancer::markDeviceFailed(int device_index, const std::string &reas
     }
 }
 
-void GPULoadBalancer::resetDevice(int device_index) {
+void GPULoadBalancer::resetDevice([[maybe_unused]] int device_index) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &e : devices_) {
         if (e.info.index == device_index) {
@@ -109,7 +109,7 @@ bool GPULoadBalancer::isEligible(const DeviceEntry &e, uint64_t required_vram) c
 // Selection helpers (called under mutex_)
 // ============================================================================
 
-GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectRoundRobin(uint64_t required_vram) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectRoundRobin([[maybe_unused]] uint64_t required_vram) {
     const size_t n = devices_.size();
     if (n == 0) {
         return nullptr;
@@ -125,7 +125,7 @@ GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectRoundRobin(uint64_t require
     return nullptr;
 }
 
-GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectLeastLoaded(uint64_t required_vram) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectLeastLoaded([[maybe_unused]] uint64_t required_vram) {
     DeviceEntry *best = nullptr;
     for (auto &e : devices_) {
         if (!isEligible(e, required_vram)) {
@@ -138,7 +138,7 @@ GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectLeastLoaded(uint64_t requir
     return best;
 }
 
-GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectFirstHealthy(uint64_t required_vram) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectFirstHealthy([[maybe_unused]] uint64_t required_vram) {
     for (auto &e : devices_) {
         if (isEligible(e, required_vram)) {
             return &e;
@@ -147,7 +147,7 @@ GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectFirstHealthy(uint64_t requi
     return nullptr;
 }
 
-GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectTopologyAware(uint64_t required_vram) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectTopologyAware([[maybe_unused]] uint64_t required_vram) {
     // If no NVLink topology is available, fall back to least-loaded selection.
     if (!topology_.has_nvlink || topology_.num_gpus == 0) {
         return selectLeastLoaded(required_vram);
@@ -190,7 +190,7 @@ GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectTopologyAware(uint64_t requ
 // selectDevice
 // ============================================================================
 
-const DeviceInfo *GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
+const DeviceInfo *GPULoadBalancer::selectDevice([[maybe_unused]] uint64_t required_vram_bytes) {
     uint64_t start_time = getCurrentTimeUS();
     
     std::lock_guard<std::mutex> lock(mutex_);
@@ -284,7 +284,7 @@ void GPULoadBalancer::recordDeallocation(int device_index, uint64_t bytes) {
 
 size_t GPULoadBalancer::totalDevices() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return devices_.size();
+    return static_cast<int>(devices_.size());
 }
 
 size_t GPULoadBalancer::healthyDevices() const {
@@ -300,7 +300,8 @@ size_t GPULoadBalancer::healthyDevices() const {
 
 std::vector<GPULoadBalancer::DeviceLoad> GPULoadBalancer::getDeviceLoads() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<DeviceLoad> result;
+    std::vector<DeviceLoad> result = {};
+
     result.reserve(devices_.size());
     for (const auto &e : devices_) {
         DeviceLoad dl;

@@ -93,7 +93,7 @@ size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
     }
 
     size_t count = 0;
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line)) {
         // Strip comments and whitespace
         auto comment_pos = line.find('#');
@@ -106,7 +106,7 @@ size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
 
         std::istringstream ss(line);
         std::string name, hash;
-        if (ss >> name >> hash && name.size() > 0 && hash.size() == 64) {
+        if (ss >> name >> hash && static_cast<int>(name.size()) > 0 && static_cast<int>(hash.size()) == 64) {
             registerExpectedHash(name, hash);
             ++count;
         }
@@ -125,7 +125,9 @@ void ShaderIntegrityVerifier::clearRegistry() {
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name,
                                                                       const std::vector<uint32_t> &spvWords) const {
-    return verify(name, reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
+    return verify(name,
+                  reinterpret_cast<const uint8_t*>(spvWords.data()),
+                  spvWords.size() * sizeof(uint32_t));
 }
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name, const uint8_t *data,
@@ -194,7 +196,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     for (unsigned int i = 0; i < hashLen; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -202,7 +204,8 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
 }
 
 std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
-    return sha256Hex(reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
+    return sha256Hex(reinterpret_cast<const uint8_t*>(spvWords.data()),
+                     spvWords.size() * sizeof(uint32_t));
 }
 
 // ============================================================================
@@ -226,3 +229,4 @@ bool ShaderIntegrityVerifier::isRegistered(const std::string &name) const {
 
 } // namespace acceleration
 } // namespace themis
+

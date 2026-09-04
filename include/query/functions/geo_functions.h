@@ -383,7 +383,7 @@ public:
             nlohmann::json coordinates = nlohmann::json::array();
             
             std::istringstream iss(coordsStr);
-            std::string pointStr;
+            std::string pointStr = {};
             while (std::getline(iss, pointStr, ',')) {
                 pointStr = trim(pointStr);
                 std::istringstream pss(pointStr);
@@ -410,7 +410,7 @@ public:
             nlohmann::json ring = nlohmann::json::array();
             
             std::istringstream iss(ringStr);
-            std::string pointStr;
+            std::string pointStr = {};
             while (std::getline(iss, pointStr, ',')) {
                 pointStr = trim(pointStr);
                 std::istringstream pss(pointStr);
@@ -773,7 +773,7 @@ public:
         bool has_z2 = args[1]["coordinates"].size() >= 3;
         bool use_3d = has_z1 && has_z2;
         
-        double distance;
+        double distance = 0;
         if (!use_3d && geo_helpers::looksLikeDegrees(x1, y1) && geo_helpers::looksLikeDegrees(x2, y2)) {
             distance = geo_helpers::haversineDistance(x1, y1, x2, y2);
         } else if (use_3d) {
@@ -1008,7 +1008,7 @@ public:
         const auto& coords = geom["coordinates"];
         
         if (type == "Point") {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "POINT(" << coords[0].get<double>() << " " << coords[1].get<double>();
             if (coords.size() >= 3) {
                 oss << " " << coords[2].get<double>();
@@ -1018,10 +1018,12 @@ public:
         }
         
         if (type == "LineString") {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "LINESTRING(";
             for (size_t i = 0; i < coords.size(); ++i) {
-                if (i > 0) oss << ", ";
+                if (i > 0) {
+                  oss << ", ";
+                }
                 oss << coords[i][0].get<double>() << " " << coords[i][1].get<double>();
             }
             oss << ")";
@@ -1029,11 +1031,13 @@ public:
         }
         
         if (type == "Polygon") {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << "POLYGON((";
             const auto& ring = coords[0];
             for (size_t i = 0; i < ring.size(); ++i) {
-                if (i > 0) oss << ", ";
+                if (i > 0) {
+                  oss << ", ";
+                }
                 oss << ring[i][0].get<double>() << " " << ring[i][1].get<double>();
             }
             oss << "))";

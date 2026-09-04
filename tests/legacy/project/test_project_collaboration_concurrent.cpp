@@ -49,7 +49,7 @@ protected:
         "./data/test_projects_concurrent_db";
 
     void SetUp() override {
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(kDbPath, ec);
 
         RocksDBWrapper::Config cfg;
@@ -63,7 +63,7 @@ protected:
     void TearDown() override {
         cm_.reset();
         storage_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         fs::remove_all(kDbPath, ec);
     }
 
@@ -100,14 +100,18 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_01_ConcurrentLockOnlyOneWins)
     auto acquire = [&](int id) {
         const auto result = cm_->lockObject(
             "proj-lock", "doc-1", "locker-" + std::to_string(id));
-        if (result.ok) ++winners;
+        if (result.ok) {
+          ++winners;
+        }
     };
 
     std::vector<std::thread> threads;
     threads.reserve(kThreads);
     for (int i = 0; i < kThreads; ++i)
         threads.emplace_back(acquire, i);
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(winners.load(), 1)
         << "Exactly one thread must win the lock";
@@ -131,7 +135,9 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_02_ConcurrentNotifyAllRecorded)
                                "user-" + std::to_string(t)));
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     const auto changes = cm_->getChanges("proj-A", 0);
     EXPECT_EQ(changes.size(), static_cast<size_t>(kThreads * kEach));
@@ -159,7 +165,9 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_03_ConcurrentSubscribeNoCallbackL
                                "user-" + std::to_string(t)));
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(callback_count.load(), kTotal);
 }
@@ -181,7 +189,9 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_04_ConcurrentShareIdempotent)
     threads.reserve(kThreads);
     for (int i = 0; i < kThreads; ++i)
         threads.emplace_back(grant, i);
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     const auto perm = cm_->getUserPermission("proj-C", "user-shared");
     ASSERT_TRUE(perm.has_value());
@@ -203,20 +213,26 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_05_UnlockAllowsNextAcquire)
         EXPECT_TRUE(r.ok);
         lock0_acquired = true;
         // Spin until t1 has tried to acquire
-        while (!lock1_acquired.load()) std::this_thread::yield();
+        while (!lock1_acquired.load()) {
+          std::this_thread::yield();
+        }
         cm_->unlockObject("proj-D", "obj", "locker-0");
         lock0_released = true;
     });
 
     std::thread t1([&]() {
         // Wait for t0 to hold the lock
-        while (!lock0_acquired.load()) std::this_thread::yield();
+        while (!lock0_acquired.load()) {
+          std::this_thread::yield();
+        }
         // First attempt must fail (lock held by locker-0)
         auto r = cm_->lockObject("proj-D", "obj", "locker-1");
         EXPECT_FALSE(r.ok);
         lock1_acquired = true;
         // Wait for t0 to release
-        while (!lock0_released.load()) std::this_thread::yield();
+        while (!lock0_released.load()) {
+          std::this_thread::yield();
+        }
         // Second attempt must succeed
         auto r2 = cm_->lockObject("proj-D", "obj", "locker-1");
         EXPECT_TRUE(r2.ok);
@@ -261,8 +277,12 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_06_ConcurrentReadWriteNoRace)
         });
     }
 
-    for (auto& t : writers) t.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // All writes must be persisted
     const auto all = cm_->getChanges("proj-E", 0);
@@ -287,7 +307,9 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_07_UnsubscribeAllWhileNotifyInFli
     });
 
     std::thread unsub([&]() {
-        while (!started.load()) std::this_thread::yield();
+        while (!started.load()) {
+          std::this_thread::yield();
+        }
         cm_->unsubscribeAll();
     });
 
@@ -331,8 +353,12 @@ TEST_F(ProjectCollaborationConcurrentTests, CC_08_ConcurrentShareAndRead)
         });
     }
 
-    for (auto& t : writers) t.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
+    for (auto& t : readers) {
+      t.join();
+    }
 
     // After all writes: every user must have READ permission
     for (int u = 0; u < kUsers; ++u) {

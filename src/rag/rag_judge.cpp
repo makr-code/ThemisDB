@@ -93,7 +93,7 @@ struct RAGJudge::Impl {
         if (documents.empty()) {
             return "";
         }
-        std::stringstream ss;
+        std::stringstream ss = {};
         for (const auto& doc : documents) {
             ss << doc.id << "|" << doc.content << "|";
         }
@@ -145,7 +145,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
         config.use_geval_scoring ||
         config.use_quality_control_pipeline;
     try {
-        std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // RAII barrier
+        std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);  // RAII barrier
         if (requires_llm_judge_client) {
             LLMJudgeClient::Config client_config;
             client_config.model_name = config.judge_model;
@@ -274,19 +274,19 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     // Validate query is not excessively long (prevent DoS via huge inputs)
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - input.query is user data, 
     // but is validated here before any downstream use
-    if (input.query.size() > 100000) {
+    if (static_cast<int>(input.query.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
         error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
-        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)", input.query.size());
+        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)",static_cast<int>(input.query.size()));
         return error_result;
     }
     
     // Validate generated_answer is not excessively long
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated here, 
     // no uncontrolled use downstream
-    if (input.generated_answer.size() > 100000) {
+    if (static_cast<int>(input.generated_answer.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -297,7 +297,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
     
     // Validate document count
-    if (input.documents.size() > 1000) {
+    if (static_cast<int>(input.documents.size()) > 1000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -308,7 +308,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
     // ── end input validation ────────────────────────────────────────────────
     
-    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})", input.query.size());
+    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})",static_cast<int>(input.query.size()));
     
     // Check cache (protected by mutex)
     if (config.cache_evaluations) {
@@ -345,7 +345,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             auto cache_it = impl_->injection_cache.find(injection_cache_key);
             if (cache_it != impl_->injection_cache.end()) {
                 injection_cache_hit = true;
-                cached_findings_count = cache_it->second.size();
+                cached_findings_count = cache_it-> static_cast<int>(second.size());
                 // Check if any findings are high severity (CRITICAL or HIGH)
                 for (const auto& finding : cache_it->second) {
                     if (finding.severity == security::InjectionSeverity::CRITICAL ||
@@ -377,14 +377,15 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             if (!injection_cache_key.empty() && !injection_cache_hit) {
                 try {
                     std::lock_guard<std::mutex> injection_lock(impl_->injection_cache_mutex);
-                    std::vector<security::InjectionFinding> flat_findings;
+                    std::vector<security::InjectionFinding> flat_findings = {};
+
                     for (const auto& sr : scan_results) {
                         for (const auto& finding : sr.findings) {
                             flat_findings.push_back(finding);
                         }
                     }
                     // Simple cache eviction: limit cache size to 1000 entries
-                    if (impl_->injection_cache.size() >= 1000) {
+                    if (impl_-> static_cast<int>(injection_cache.size()) >= 1000) {
                         impl_->injection_cache.clear();  // Simple LRU: clear all on overflow
                     }
                     impl_->injection_cache[injection_cache_key] = flat_findings;
@@ -586,7 +587,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                 result.ethical_compliance_score * config.ethical_compliance_weight;
             
             // Generate explanation
-            std::ostringstream explanation;
+            std::ostringstream explanation = {};
             explanation << "Evaluation scores:\n"
                        << "- Faithfulness: " << result.faithfulness_score << "\n"
                        << "- Relevance: " << result.relevance_score << "\n"
@@ -599,7 +600,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
 
     if (result.explanation.empty()) {
-        std::ostringstream explanation;
+        std::ostringstream explanation = {};
         explanation << "Evaluation scores:\n"
                     << "- Faithfulness: " << result.faithfulness_score << "\n"
                     << "- Relevance: " << result.relevance_score << "\n"
@@ -626,7 +627,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                        config.ethical_compliance_threshold);
             
             // Add to violations list
-            std::ostringstream veto_msg;
+            std::ostringstream veto_msg = {};
             veto_msg << "VETO: Ethical compliance score (" 
                     << result.ethical_compliance_score 
                     << ") below threshold (" 
@@ -657,7 +658,9 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         double mean = std::accumulate(dim_scores.begin(), dim_scores.end(), 0.0)
                       / dim_scores.size();
         double variance = 0.0;
-        for (double s : dim_scores) variance += (s - mean) * (s - mean);
+        for (double s : dim_scores) {
+          variance += (s - mean) * (s - mean);
+        }
         variance /= dim_scores.size();
         double std_dev = std::sqrt(variance);
 
@@ -688,7 +691,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         try {
             std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);  // RAII: lock acquired
             // Simple cache eviction: limit cache size to 10000 entries
-            if (impl_->cache.size() >= 10000) {
+            if (impl_-> static_cast<int>(cache.size()) >= 10000) {
                 impl_->cache.clear();  // LRU: clear all on overflow
                 THEMIS_WARN("Evaluation result cache overflow, cleared");
             }
@@ -720,11 +723,11 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     try {
         std::function<void(const EvaluationResult&)> callback;
         {
-            std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
+            std::lock_guard<std::mutex> callback_lock([[maybe_unused]] impl_->callback_mutex);
             callback = impl_->eval_callback;
         }
-        if (callback) {
-            callback(result);
+        if ([[maybe_unused]] callback) {
+            callback([[maybe_unused]] result);
         }
     } catch (const std::exception& e) {
         THEMIS_ERROR("Evaluation callback failed: {}", e.what());
@@ -788,7 +791,7 @@ ComparisonResult RAGJudge::compare(
     }
     
     // Generate reasoning
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Answer A score: " << result_a.overall_score << "\n"
              << "Answer B score: " << result_b.overall_score << "\n"
              << "Winner: ";
@@ -812,9 +815,10 @@ ComparisonResult RAGJudge::compare(
 std::vector<EvaluationResult> RAGJudge::batchEvaluate(
     const std::vector<RAGTestCase>& test_cases
 ) {
-    THEMIS_INFO("Batch evaluating {} test cases", test_cases.size());
+    THEMIS_INFO("Batch evaluating {} test cases",static_cast<int>(test_cases.size()));
     
-    std::vector<EvaluationResult> results;
+    std::vector<EvaluationResult> results = {};
+
     results.reserve(test_cases.size());
     
     for (const auto& test_case : test_cases) {
@@ -863,8 +867,8 @@ RAGJudgeConfig RAGJudge::getConfig() const {
 void RAGJudge::setEvaluationCallback(
     std::function<void(const EvaluationResult&)> callback
 ) {
-    std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
-    impl_->eval_callback = std::move(callback);
+    std::lock_guard<std::mutex> callback_lock([[maybe_unused]] impl_->callback_mutex);
+    impl_->eval_callback = std::move([[maybe_unused]] callback);
 }
 
 void RAGJudge::clearCache() {
@@ -878,7 +882,7 @@ RAGJudge::BiasAnalysisSummary RAGJudge::getBiasAnalysis() const {
     std::vector<EvaluationResult> eval_history;
     {
         std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);
-        summary.samples_analyzed = impl_->eval_history.size();
+        summary.samples_analyzed = impl_-> static_cast<int>(eval_history.size());
         eval_history = impl_->eval_history;
     }
 
@@ -1311,7 +1315,8 @@ std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer
     try {
         auto json_resp = nlohmann::json::parse(response);
         if (json_resp.contains("claims") && json_resp["claims"].is_array()) {
-            std::vector<std::string> claims;
+            std::vector<std::string> claims = {};
+
             for (const auto& item : json_resp["claims"]) {
                 if (item.is_string()) {
                     std::string text = item.get<std::string>();
@@ -1320,7 +1325,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer
                     }
                 }
             }
-            THEMIS_DEBUG("LLM extracted {} claims", claims.size());
+            THEMIS_DEBUG("LLM extracted {} claims",static_cast<int>(claims.size()));
             return claims;
         }
     } catch (const std::exception& e) {
@@ -1333,7 +1338,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& 
     THEMIS_DEBUG("Extracting claims via heuristic");
 
     std::vector<std::string> claims;
-    std::string current_sentence;
+    std::string current_sentence = {};
 
     for (char c : answer) {
         current_sentence += c;
@@ -1376,7 +1381,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& 
 std::vector<std::string> RAGJudge::tokenizeForMatching(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream stream(text);
-    std::string word;
+    std::string word = {};
     while (stream >> word) {
         std::transform(word.begin(), word.end(), word.begin(), ::tolower);
         word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -1401,7 +1406,7 @@ double RAGJudge::calculateTermOverlap(
             ++overlap;
         }
     }
-    int total = static_cast<int>(std::max(terms1.size(), terms2.size()));
+    int total = static_cast<int>(std::max(terms1.size(),static_cast<int>(terms2.size())));
     return static_cast<double>(overlap) / total;
 }
 
@@ -1450,7 +1455,7 @@ bool RAGJudge::verifyClaimViaLLM(
 ) {
     THEMIS_DEBUG("Verifying claim via LLM");
 
-    std::ostringstream context;
+    std::ostringstream context = {};
     for (size_t i = 0; i < documents.size(); ++i) {
         // F4-1: Wrap each document in hard delimiters and apply injection
         // sanitization so that adversarial document content cannot override
@@ -1547,9 +1552,10 @@ JudgeEnsemble::JudgeEnsemble(
 JudgeEnsemble::~JudgeEnsemble() = default;
 
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {
-    THEMIS_INFO("Evaluating with ensemble of {} judges", impl_->judges.size());
+    THEMIS_INFO("Evaluating with ensemble of {} judges", impl_-> static_cast<int>(judges.size()));
     
-    std::vector<EvaluationResult> results;
+    std::vector<EvaluationResult> results = {};
+
     for (const auto& judge : impl_->judges) {
         results.push_back(judge->evaluate(input));
     }
@@ -1586,7 +1592,7 @@ ComparisonResult JudgeEnsemble::compareWithEnsemble(
         }
     }
 
-    ComparisonResult combined;
+    ComparisonResult combined = {};
     if (votes_a > votes_b && votes_a > votes_tie) {
         combined.winner = ComparisonResult::Winner::ANSWER_A;
         combined.confidence = votes_a > 0 ? conf_a / votes_a : 0.5;
@@ -1598,7 +1604,7 @@ ComparisonResult JudgeEnsemble::compareWithEnsemble(
         combined.confidence = 0.5;
     }
 
-    std::ostringstream reasoning;
+    std::ostringstream reasoning = {};
     reasoning << "Ensemble comparison: A=" << votes_a
               << " B=" << votes_b << " Tie=" << votes_tie;
     combined.reasoning = reasoning.str();
@@ -1622,7 +1628,7 @@ EvaluationResult JudgeEnsemble::combineResults(
     
     switch (strategy) {
         case VotingStrategy::WEIGHTED_AVERAGE:
-        case VotingStrategy::MAJORITY_VOTING: {
+        [[fallthrough]];\n        case VotingStrategy::MAJORITY_VOTING: {
             // Average scores
             combined.faithfulness_score = 0.0;
             combined.relevance_score = 0.0;
@@ -1703,7 +1709,7 @@ std::unique_ptr<JudgeEnsemble> RAGJudgeFactory::createEnsemble(
 namespace metrics {
 
 double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results) {
-    if (results.size() < 2) {
+    if (static_cast<int>(results.size()) < 2) {
         return 1.0;
     }
 
@@ -1732,7 +1738,7 @@ double calculateCohensKappa(
     const std::vector<EvaluationResult>& judge1_results,
     const std::vector<EvaluationResult>& judge2_results
 ) {
-    if (judge1_results.empty() || judge1_results.size() != judge2_results.size()) {
+    if (judge1_results.empty() || static_cast<int>(judge1_results.size()) != static_cast<int>(judge2_results.size())) {
         return 0.0;
     }
 
@@ -1740,7 +1746,7 @@ double calculateCohensKappa(
     static constexpr int kBins = 5;
     static constexpr double kBinWidth = 1.0 / kBins;
 
-    auto toBin = [](double score) -> int {
+    auto toBin = []([[maybe_unused]] double score) -> int {
         int bin = static_cast<int>(score / kBinWidth);
         return std::min(bin, kBins - 1);
     };
@@ -1781,7 +1787,7 @@ double calculateCalibrationError(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth
 ) {
-    if (predictions.empty() || predictions.size() != ground_truth.size()) {
+    if (predictions.empty() || static_cast<int>(predictions.size()) != static_cast<int>(ground_truth.size())) {
         return 0.0;
     }
 
@@ -1808,7 +1814,9 @@ double calculateCalibrationError(
 
     double ece = 0.0;
     for (const auto& bin : bins) {
-        if (bin.count == 0) continue;
+        if (bin.count == 0) {
+          continue;
+        }
         double avg_conf  = bin.sum_conf  / bin.count;
         double avg_truth = bin.sum_truth / bin.count;
         ece += (static_cast<double>(bin.count) / n) *

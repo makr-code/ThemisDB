@@ -58,18 +58,24 @@ protected:
     }
 
     void TearDown() override {
-        if (scheduler_) scheduler_->stop();
+        if (scheduler_) {
+          scheduler_->stop();
+        }
         scheduler_.reset();
         engine_.reset();
         idx_.reset();
-        if (storage_) storage_->close();
+        if (storage_) {
+          storage_->close();
+        }
         storage_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path_, ec);
     }
 
     void makeScheduler(size_t max_concurrent = 8) {
-        if (scheduler_) scheduler_->stop();
+        if (scheduler_) {
+          scheduler_->stop();
+        }
         TaskScheduler::Config cfg;
         cfg.max_concurrent_tasks     = max_concurrent;
         cfg.check_interval           = 20ms;  // Very short for chaos tests
@@ -169,10 +175,14 @@ TEST_F(ChaosSchedulerTest, ConcurrentManualExecutionsSameTask) {
     for (int i = 0; i < THREADS; ++i) {
         threads.emplace_back([&]() {
             auto result = scheduler_->executeTaskNow(id);
-            if (result.contains("error")) ++errors;
+            if (result.contains("error")) {
+              ++errors;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(errors.load(), 0) << "No executions should have errored";
     EXPECT_EQ(call_count.load(), THREADS);
@@ -226,7 +236,8 @@ TEST_F(ChaosSchedulerTest, AllTasksFailSimultaneously) {
             throw std::runtime_error("mass failure");
         });
 
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 10; ++i) {
         ScheduledTask task;
         task.name          = "mass_fail_" + std::to_string(i);
@@ -240,7 +251,9 @@ TEST_F(ChaosSchedulerTest, AllTasksFailSimultaneously) {
     int failures = 0;
     for (const auto& id : ids) {
         auto result = scheduler_->executeTaskNow(id);
-        if (result.contains("error")) ++failures;
+        if (result.contains("error")) {
+          ++failures;
+        }
     }
 
     EXPECT_EQ(failures, 10);
@@ -481,7 +494,9 @@ TEST_F(ChaosSchedulerTest, ConcurrentRegistrationWhileSchedulerRunning) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     scheduler_->stop();
 
@@ -500,7 +515,8 @@ TEST_F(ChaosSchedulerTest, ExportMetricsUnderConcurrentModificationDoesNotCrash)
         [](const nlohmann::json&) -> nlohmann::json { return {}; });
 
     // Register some tasks
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     for (int i = 0; i < 5; ++i) {
         ScheduledTask task;
         task.name          = "metrics_race_" + std::to_string(i);

@@ -162,7 +162,9 @@ protected:
     void TearDown() override {
         engine_.reset();
         idx_.reset();
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
         db_.reset();
         std::filesystem::remove_all(dbPath_);
     }
@@ -214,7 +216,8 @@ TEST_F(ProvenanceAqlRoundTripTest, Write_LargeBatch_AllRecordsWritten) {
     cfg.batch_write_size = 5;
     ProvenanceTracker tracker(cfg, "", engine_.get());
 
-    std::vector<ProvenanceRecord> records;
+    std::vector<ProvenanceRecord> records = {};
+
     for (int i = 0; i < 13; ++i) {
         records.push_back(makeRecord("batch_" + std::to_string(i)));
     }

@@ -60,7 +60,7 @@ bool isValidUiApiBasePrefix(const std::string& value) {
     size_t start = 1;
     while (start <= value.size()) {
         const auto end = value.find('/', start);
-        const auto len = (end == std::string::npos) ? value.size() - start : end - start;
+        const auto len = (end == std::string::npos) ? static_cast<int>(value.size()) - start : end - start;
         if (len > 0) {
             const auto segment = value.substr(start, len);
             if (!validator.validatePathSegment(segment)) {
@@ -162,8 +162,8 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
             {"primary_lsn",     primary_lsn},
             {"nodes",           nodes},
             {"edges",           edges},
-            {"total_nodes",     nodes.size()},
-            {"replica_count",   replicas.size()}
+            {"total_nodes",static_cast<int>(nodes.size())},
+            {"replica_count",static_cast<int>(replicas.size())}
         };
 
         return makeResponse(http::status::ok, response_body.dump(),
@@ -207,8 +207,8 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
         }
 
         json response_body = {
-            {"overall_status", healthy_replicas == replicas.size() ? "HEALTHY" : "DEGRADED"},
-            {"total_nodes", replicas.size() + 1},
+            {"overall_status", healthy_replicas == static_cast<int>(replicas.size()) ? "HEALTHY" : "DEGRADED"},
+            {"total_nodes", static_cast<int>(replicas.size()) + 1},
             {"healthy_replicas", healthy_replicas},
             {"failed_replicas", failed_replicas},
             {"max_replication_lag_ms", max_lag_ms},
@@ -232,7 +232,7 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
     const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleUiGet");
-    std::string api_base;
+    std::string api_base = {};
     // HIGH-GAP FIX: unnecessary_copy — use string_view for const values
     std::string_view target{req.target()};
     constexpr std::string_view marker = "/ui/replication/topology";
@@ -279,7 +279,7 @@ std::string ReplicationTopologyApiHandler::buildUiHtml(const std::string& api_ba
 {
     const std::string encoded_api_base = json(api_base).dump();
 
-    std::ostringstream html;
+    std::ostringstream html = {};
     html << "<!doctype html>\n"
          << "<html lang=\"en\">\n"
          << "<head><meta charset=\"utf-8\">\n"

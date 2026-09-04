@@ -151,7 +151,7 @@ protected:
         }
         
         // Clean up test directory
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(test_dir_, ec);
     }
     
@@ -165,7 +165,7 @@ protected:
         }
         
         std::ifstream ifs(log_path);
-        std::string line;
+        std::string line = {};
         while (std::getline(ifs, line)) {
             if (!line.empty()) {
                 entries.push_back(nlohmann::json::parse(line));
@@ -375,7 +375,7 @@ TEST_F(TaskSchedulerSIEMIntegrationTest, CEFFormatGeneration) {
     const std::string cef_path = test_dir_ + "/cef_audit.jsonl";
     ASSERT_TRUE(std::filesystem::exists(cef_path));
     std::ifstream ifs(cef_path);
-    std::string line;
+    std::string line = {};
     ASSERT_TRUE(static_cast<bool>(std::getline(ifs, line)));
     EXPECT_FALSE(line.empty());
 }

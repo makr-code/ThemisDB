@@ -306,7 +306,8 @@ TEST(TrainingCancellationTest, ConcurrentCancels_Safe) {
     session.startTraining(5000);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&session]() {
             session.cancel();

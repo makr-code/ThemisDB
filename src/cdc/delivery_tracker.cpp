@@ -55,7 +55,7 @@ void DeliveryTracker::stop() {
 
 bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
                                      const std::vector<Changefeed::ChangeEvent>& events) {
-    if (events.empty()) {
+    if ([[maybe_unused]] events.empty()) {
         return true;
     }
 
@@ -65,16 +65,16 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
 
     // Check pending limit before adding
     if (config_.max_pending_per_consumer > 0 &&
-        state.pending.size() + events.size() > config_.max_pending_per_consumer) {
+        state.pending.size() + static_cast<int>(events.size()) > config_.max_pending_per_consumer) {
         THEMIS_WARN("DeliveryTracker: consumer '{}' pending limit ({}) would be exceeded "
                     "(current={}, adding={}); rejecting delivery",
                     consumer_id, config_.max_pending_per_consumer,
-                    state.pending.size(), events.size());
+                    state.pending.size(),static_cast<int>(events.size()));
         return false;
     }
 
     auto now = std::chrono::steady_clock::now();
-    for (const auto& ev : events) {
+    for ([[maybe_unused]] const auto& ev : events) {
         PendingEvent pending;
         pending.event = ev;
         pending.delivered_at = now;
@@ -84,7 +84,7 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
     state.total_delivered += events.size();
 
     THEMIS_DEBUG("DeliveryTracker: tracked {} event(s) for consumer '{}' (pending={})",
-                 events.size(), consumer_id, state.pending.size());
+                 events.size(), consumer_id,static_cast<int>(state.pending.size()));
     return true;
 }
 
@@ -106,7 +106,7 @@ bool DeliveryTracker::acknowledge(const std::string& consumer_id, uint64_t seque
     state.total_acknowledged++;
 
     THEMIS_DEBUG("DeliveryTracker: consumer '{}' acknowledged sequence {} (pending={})",
-                 consumer_id, sequence, state.pending.size());
+                 consumer_id, sequence,static_cast<int>(state.pending.size()));
     return true;
 }
 
@@ -133,7 +133,7 @@ size_t DeliveryTracker::acknowledgeUpTo(const std::string& consumer_id,
 
     THEMIS_DEBUG("DeliveryTracker: consumer '{}' cumulative-acked up to seq {} "
                  "(removed={}, pending={})",
-                 consumer_id, up_to_sequence, removed, state.pending.size());
+                 consumer_id, up_to_sequence, removed,static_cast<int>(state.pending.size()));
     return removed;
 }
 
@@ -149,7 +149,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
 
     ConsumerState& state = cit->second;
     auto now = std::chrono::steady_clock::now();
-    const auto effective_timeout = timeout_override.value_or(config_.ack_timeout);
+    const auto effective_timeout = timeout_override.value_or(config[[maybe_unused]] _.ack_timeou[[maybe_unused]] t);
 
     std::vector<Changefeed::ChangeEvent> to_redeliver;
     std::vector<uint64_t> to_expire;
@@ -168,7 +168,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
                 to_expire.push_back(seq);
                 state.total_expired++;
             } else {
-                to_redeliver.push_back(pending.event);
+                to_redeliver.push_back([[maybe_unused]] pending.event);
                 pending.delivered_at = now; // reset timer for next round
                 pending.attempt++;
                 state.total_redeliveries++;
@@ -219,7 +219,8 @@ DeliveryTracker::getStats(const std::string& consumer_id) const {
 std::vector<ConsumerDeliveryStats> DeliveryTracker::getAllStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ConsumerDeliveryStats> result;
+    std::vector<ConsumerDeliveryStats> result = {};
+
     result.reserve(consumers_.size());
     for (const auto& [consumer_id, state] : consumers_) {
         ConsumerDeliveryStats stats;
@@ -236,7 +237,7 @@ std::vector<ConsumerDeliveryStats> DeliveryTracker::getAllStats() const {
 
 size_t DeliveryTracker::consumerCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return consumers_.size();
+    return static_cast<int>(consumers_.size());
 }
 
 // ===== Background Redelivery Thread =====
@@ -267,7 +268,7 @@ void DeliveryTracker::redeliveryThreadFunc() {
 }
 
 void DeliveryTracker::checkAndRedeliver() {
-    if (!redelivery_callback_) {
+    if ([[maybe_unused]] !redelivery_callback_) {
         return;
     }
 
@@ -283,8 +284,8 @@ void DeliveryTracker::checkAndRedeliver() {
     }
 
     for (const auto& cid : consumer_ids) {
-        auto events = getPendingRedelivery(cid);
-        if (!events.empty()) {
+        auto events = getPendingRedelivery([[maybe_unused]] cid);
+        if ([[maybe_unused]] !events.empty()) {
             redelivery_callback_(cid, events);
         }
     }

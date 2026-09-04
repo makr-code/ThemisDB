@@ -71,7 +71,8 @@ void SmartRouter::removeBackend(const std::string& backend_id) {
 /** @brief Return snapshot list of all registered backends. */
 std::vector<BackendEndpoint> SmartRouter::listBackends() const {
     std::shared_lock lock(mutex_);
-    std::vector<BackendEndpoint> result;
+    std::vector<BackendEndpoint> result = {};
+
     result.reserve(backends_.size());
     for (const auto& [id, state] : backends_) {
         result.push_back(state.endpoint);
@@ -93,11 +94,13 @@ void SmartRouter::recordLatency(const std::string& backend_id,
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
-    if (it == backends_.end()) return;
+    if (it == backends_.end()) {
+      return;
+    }
 
     auto& state = it->second;
     state.latency_window.push_back(latency_ms);
-    if (state.latency_window.size() > config_.latency_window_size) {
+    if (static_cast<int>(state.latency_window.size()) > config_.latency_window_size) {
         state.latency_window.pop_front();
     }
     state.total_requests++;
@@ -117,7 +120,9 @@ void SmartRouter::recordCacheHit(const std::string& backend_id,
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
-    if (it == backends_.end()) return;
+    if (it == backends_.end()) {
+      return;
+    }
 
     auto& state = it->second;
     state.cache_hits++;
@@ -133,7 +138,9 @@ void SmartRouter::recordCacheMiss(const std::string& backend_id,
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
-    if (it == backends_.end()) return;
+    if (it == backends_.end()) {
+      return;
+    }
 
     // key not tracked for misses (only hits drive prediction)
     it->second.cache_misses++;
@@ -182,7 +189,9 @@ std::optional<BackendEndpoint> SmartRouter::route(
     const std::string& resource_key) const
 {
     std::shared_lock lock(mutex_);
-    if (backends_.empty()) return std::nullopt;
+    if (backends_.empty()) {
+      return std::nullopt;
+    }
 
     // Phase 1: Cache-hit prediction
     if (config_.enable_cache_prediction) {
@@ -206,7 +215,8 @@ std::optional<BackendEndpoint> SmartRouter::route(
 
     // Phase 2: Build candidate list, filtering out high-tail backends when
     //          lower-latency alternatives are available.
-    std::vector<const BackendState*> candidates;
+    std::vector<const BackendState*> candidates = {};
+
     candidates.reserve(backends_.size());
     for (const auto& [id, state] : backends_) {
         candidates.push_back(&state);
@@ -232,7 +242,9 @@ std::optional<BackendEndpoint> SmartRouter::route(
     }
     // If all backends are high-tail, keep all of them (no choice).
 
-    if (candidates.empty()) return std::nullopt;
+    if (candidates.empty()) {
+      return std::nullopt;
+    }
 
     // Phase 3: Least-loaded among candidates (tie-break by avg latency).
     const BackendState* chosen = nullptr;
@@ -243,7 +255,7 @@ std::optional<BackendEndpoint> SmartRouter::route(
         }
         uint32_t sc = s->active_connections.load(std::memory_order_relaxed);
         uint32_t cc = chosen->active_connections.load(std::memory_order_relaxed);
-        if (sc < cc || (sc == cc && s->cached_avg_latency < chosen->cached_avg_latency)) {
+        if ((sc < cc || (sc == cc && s->cached_avg_latency < chosen->cached_avg_latency))) {
             chosen = s;
         }
     }
@@ -266,7 +278,9 @@ std::optional<BackendEndpoint> SmartRouter::route(
  */
 std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
     std::shared_lock lock(mutex_);
-    if (backends_.empty()) return std::nullopt;
+    if (backends_.empty()) {
+      return std::nullopt;
+    }
 
     // Check if any backends have acceptable latency.
     bool has_acceptable = std::any_of(
@@ -290,7 +304,7 @@ std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
         }
         uint32_t sc = state.active_connections.load(std::memory_order_relaxed);
         uint32_t cc = chosen->active_connections.load(std::memory_order_relaxed);
-        if (sc < cc || (sc == cc && state.cached_avg_latency < chosen->cached_avg_latency)) {
+        if ((sc < cc || (sc == cc && state.cached_avg_latency < chosen->cached_avg_latency))) {
             chosen = &state;
         }
     }
@@ -307,7 +321,9 @@ std::optional<BackendEndpoint> SmartRouter::predictCachedBackend(
     const std::string& resource_key) const
 {
     std::shared_lock lock(mutex_);
-    if (backends_.empty()) return std::nullopt;
+    if (backends_.empty()) {
+      return std::nullopt;
+    }
 
     uint32_t best_hits = 0;
     const BackendState* best = nullptr;
@@ -333,7 +349,8 @@ std::optional<BackendEndpoint> SmartRouter::predictCachedBackend(
 /** @brief Return stats snapshots for all backends. */
 std::vector<SmartRouter::BackendStats> SmartRouter::getAllStats() const {
     std::shared_lock lock(mutex_);
-    std::vector<BackendStats> result;
+    std::vector<BackendStats> result = {};
+
     result.reserve(backends_.size());
 
     for (const auto& [id, state] : backends_) {
@@ -388,22 +405,28 @@ SmartRouter::BackendStats SmartRouter::getBackendStats(
 /* static */
 /** @brief Compute arithmetic mean of latency window. */
 double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
-    if (window.empty()) return 0.0;
+    if (window.empty()) {
+      return 0.0;
+    }
     double sum = std::accumulate(window.begin(), window.end(), 0.0);
-    return sum / static_cast<double>(window.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((window.size())));
 }
 
 /* static */
 /** @brief Compute p99 latency via nearest-rank method. */
 double SmartRouter::computeP99(const std::deque<double>& window) {
-    if (window.empty()) return 0.0;
+    if (window.empty()) {
+      return 0.0;
+    }
     std::vector<double> sorted(window.begin(), window.end());
     std::sort(sorted.begin(), sorted.end());
     // Nearest-rank: ceil(p * n / 100) – 1
     std::size_t idx = static_cast<std::size_t>(
         std::ceil(99.0 * static_cast<double>(sorted.size()) / 100.0));
-    if (idx > 0) --idx;
-    idx = std::min(idx, sorted.size() - 1);
+    if (idx > 0) {
+      --idx;
+    }
+    idx = std::min(idx, static_cast<int>(sorted.size()) - 1);
     return sorted[idx];
 }
 
@@ -423,7 +446,9 @@ void SmartRouter::refreshStats(BackendState& state) noexcept {
 bool SmartRouter::isHighTail(const BackendState& state,
                              bool has_other_candidates) const noexcept
 {
-    if (state.latency_window.empty()) return false;
+    if (state.latency_window.empty()) {
+      return false;
+    }
     return has_other_candidates &&
            state.cached_p99_latency > config_.tail_latency_threshold_ms;
 }

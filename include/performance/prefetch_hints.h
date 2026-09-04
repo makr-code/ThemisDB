@@ -141,7 +141,9 @@ inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
  * @param hint Cache locality hint (default: T0 for high locality)
  */
 inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noexcept {
-    if (!ptr) return;
+    if (!ptr) {
+      return;
+    }
     
     #if defined(_MSC_VER) && !defined(__clang__)
         // MSVC doesn't distinguish read/write in _mm_prefetch
@@ -183,7 +185,9 @@ inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
  * @endcode
  */
 inline void prefetch_range(const void* ptr, size_t size, PrefetchHint hint = PrefetchHint::T0) noexcept {
-    if (!ptr || size == 0) return;
+    if (!ptr || size == 0) {
+      return;
+    }
     
     // Typical cache line size is 64 bytes
     constexpr size_t CACHE_LINE_SIZE = 64;

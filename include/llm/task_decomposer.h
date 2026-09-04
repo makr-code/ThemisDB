@@ -163,7 +163,7 @@ struct TaskDecomposerConfig {
  */
 struct SubTask {
     /// Unique identifier within the decomposition (LLM-generated or assigned).
-    std::string id;
+    std::string id = {};
 
     /// Short human-readable description of the subtask.
     std::string description;

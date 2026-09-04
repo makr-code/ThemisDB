@@ -127,7 +127,7 @@ EmotionTimeline EmotionAnalyzer::track(
     const std::vector<AudioSegment>& segments,
     const EmotionConfig&             config) const
 {
-    EmotionTimeline timeline;
+    EmotionTimeline timeline = {};
     if (segments.empty()) {
         return timeline;
     }
@@ -136,7 +136,8 @@ EmotionTimeline EmotionAnalyzer::track(
                                ? config : config_;
 
     std::vector<float> stress_levels;
-    std::vector<float> engagement_scores;
+    std::vector<float> engagement_scores = {};
+
     stress_levels.reserve(segments.size());
     engagement_scores.reserve(segments.size());
 
@@ -219,7 +220,9 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
     for (float s : samples) {
         rms_sq += s * s;
         float a = std::abs(s);
-        if (a > peak) peak = a;
+        if (a > peak) {
+          peak = a;
+        }
     }
     f.global_rms  = std::sqrt(rms_sq / static_cast<float>(n));
     f.crest_factor = (f.global_rms > 1e-9f) ? std::min(1.0f, peak / (f.global_rms * 20.0f)) : 0.0f;
@@ -227,7 +230,7 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
     // ---- Zero-crossing rate -----------------------------------------------
     size_t zc = 0;
     for (size_t i = 1; i < n; ++i) {
-        if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {
+        if ((samples[i] >= 0.0f) != (samples[static_cast<int>(i - 1)] >= 0.0f)) {
             ++zc;
         }
     }
@@ -251,7 +254,9 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
         rms = std::sqrt(rms / static_cast<float>(end - start));
         f.band_rms[static_cast<size_t>(b)] = rms;
         total_energy += rms * rms;
-        if (rms > max_band_rms) max_band_rms = rms;
+        if (rms > max_band_rms) {
+          max_band_rms = rms;
+        }
         if (b >= kBands - 2) {
             hf_energy += rms * rms;
         }
@@ -373,7 +378,9 @@ std::map<Emotion, float> EmotionAnalyzer::scoreEmotions(
     // Find max for numerical stability.
     float max_val = -std::numeric_limits<float>::infinity();
     for (const auto& kv : raw) {
-        if (kv.second > max_val) max_val = kv.second;
+        if (kv.second > max_val) {
+          max_val = kv.second;
+        }
     }
 
     std::map<Emotion, float> out;
@@ -465,13 +472,14 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
     const std::vector<float>&        stress_levels,
     const std::vector<float>&        engagement_scores)
 {
-    EmotionStatistics stats;
+    EmotionStatistics stats = {};
     if (entries.empty()) {
         return stats;
     }
 
     // Dominant emotion: most frequent.
-    std::map<Emotion, int> counts;
+    std::map<Emotion, int> counts = {};
+
     for (const auto& te : entries) {
         ++counts[te.emotion];
     }
@@ -485,7 +493,7 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
 
     // Emotion switches: count transitions.
     for (size_t i = 1; i < entries.size(); ++i) {
-        if (entries[i].emotion != entries[i - 1].emotion) {
+        if (entries[i].emotion != entries[static_cast<int>(i - 1)].emotion) {
             ++stats.emotion_switches;
         }
     }

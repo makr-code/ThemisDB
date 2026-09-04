@@ -43,7 +43,8 @@ static std::vector<AccessEntry> singleAccessDaysAgo(uint32_t days_ago)
 /// One access every 30 days, starting 365 days ago.
 static std::vector<AccessEntry> monthlyPeriodicSeries()
 {
-    std::vector<AccessEntry> series;
+    std::vector<AccessEntry> series = {};
+
     for (int month = 0; month < 12; ++month) {
         auto tp = sc::system_clock::now()
                   - sc::hours(static_cast<long long>((12 - month) * 30) * 24);
@@ -57,7 +58,8 @@ static std::vector<AccessEntry> monthlyPeriodicSeries()
 /// Build a flat (constant) access series.
 static std::vector<AccessEntry> flatSeries()
 {
-    std::vector<AccessEntry> series;
+    std::vector<AccessEntry> series = {};
+
     for (int i = 0; i < 12; ++i) {
         auto tp = sc::system_clock::now()
                   - sc::hours(static_cast<long long>((12 - i) * 30) * 24);

@@ -39,10 +39,14 @@ json MDMConfig::toJson() const {
 
 json MDMWorkflowResult::toJson() const {
     json link_arr = json::array();
-    for (const auto& l : created_links) link_arr.push_back(l.toJson());
+    for (const auto& l : created_links) {
+      link_arr.push_back(l.toJson());
+    }
 
     json gr_arr = json::array();
-    for (const auto& g : golden_records) gr_arr.push_back(g.toJson());
+    for (const auto& g : golden_records) {
+      gr_arr.push_back(g.toJson());
+    }
 
     return json{
         {"workflow_id",             workflow_id},
@@ -71,7 +75,7 @@ json MDMWorkflowResult::toJson() const {
 std::string MDMEngine::generateUUID() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     uint64_t hi = dist(rng);
     uint64_t lo = dist(rng);
     hi = (hi & 0xFFFFFFFFFFFF0FFFull) | 0x0000000000004000ull;
@@ -89,7 +93,7 @@ std::string MDMEngine::nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
     const auto t   = system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     std::tm tm_buf{};
 #ifdef _WIN32
     gmtime_s(&tm_buf, &t);
@@ -159,14 +163,18 @@ MDMEngine::executeLinkingPhase(
     std::vector<EntityLink> created;
     const std::string now = nowRfc3339();
 
-    for (size_t i = 0; i < incoming_entities.size() && i < match_results.size(); ++i) {
+    for (size_t i = 0; i < incoming_entities.size()  && static_cast<size_t>(i) <static_cast<int>(match_results.size()); ++i) {
         const auto& incoming = incoming_entities[i];
         const auto& matches  = match_results[i];
 
-        if (matches.empty()) continue;
+        if (matches.empty()) {
+          continue;
+        }
 
         const std::string src_id = entityId(incoming);
-        if (src_id.empty()) continue;
+        if (src_id.empty()) {
+          continue;
+        }
 
         for (const auto& match : matches) {
             EntityLink link;
@@ -218,21 +226,29 @@ MDMEngine::executeResolutionPhase(
     std::vector<GoldenRecord> records;
 
     // Build lookup maps.
-    std::map<std::string, const json*> incoming_map;
+    std::map<std::string, const json*> incoming_map = {};
+
     for (const auto& e : incoming_entities) {
         const std::string id = entityId(e);
-        if (!id.empty()) incoming_map[id] = &e;
+        if (!id.empty()) {
+          incoming_map[id] = &e;
+        }
     }
-    std::map<std::string, const json*> existing_map;
+    std::map<std::string, const json*> existing_map = {};
+
     for (const auto& e : existing_entities) {
         const std::string id = entityId(e);
-        if (!id.empty()) existing_map[id] = &e;
+        if (!id.empty()) {
+          existing_map[id] = &e;
+        }
     }
 
     // Group links by source entity.
     std::map<std::string, std::vector<std::string>> groups;
     for (const auto& link : links) {
-        if (link.metadata.contains("reverse") && link.metadata["reverse"] == true) continue;
+        if (link.metadata.contains("reverse") && link.metadata["reverse"] == true) {
+          continue;
+        }
         groups[link.source_id].push_back(link.target_id);
     }
 
@@ -252,7 +268,9 @@ MDMEngine::executeResolutionPhase(
             contributors.emplace_back(src_id, *(inc_it->second));
         }
 
-        if (contributors.empty()) continue;
+        if (contributors.empty()) {
+          continue;
+        }
 
         GoldenRecord gr = resolver_.createGoldenRecord(
             contributors, collection_name,

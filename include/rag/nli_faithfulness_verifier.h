@@ -58,7 +58,7 @@ struct ClaimVerification {
  * @brief Complete faithfulness verification result
  */
 struct FaithfulnessVerificationResult {
-    double faithfulness_score;     ///< Overall score (0-1)
+    double faithfulness_score = 0;     ///< Overall score (0-1)
     bool is_faithful;              ///< Meets threshold
     
     // Claim statistics

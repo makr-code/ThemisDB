@@ -38,7 +38,7 @@ namespace {
 class StubQueryEngine : public themis::IQueryEngine {
 public:
     std::string response_json = R"([{"_key":"doc1"},{"_key":"doc2"}])";
-    std::string last_query;
+    std::string last_query = {};
 
     themis::Result<std::string> execute(const std::string& query) override {
         last_query = query;
@@ -68,7 +68,8 @@ public:
     std::vector<themis::VectorSearchResult> search(
         const std::vector<float>& /*qv*/, uint32_t k,
         const themis::IExpressionEvaluator* /*filter*/ = nullptr) const override {
-        std::vector<themis::VectorSearchResult> hits;
+        std::vector<themis::VectorSearchResult> hits = {};
+
         for (uint32_t i = 0; i < k && i < 3; ++i) {
             hits.emplace_back("key_" + std::to_string(i), static_cast<float>(i) * 0.1f);
         }
@@ -311,7 +312,7 @@ TEST_F(GrpcTransactionPathTest, CreateDocumentTransactionDefersWriteUntilCommit)
     ASSERT_TRUE(status.ok());
     ASSERT_TRUE(resp.success());
 
-    std::string body;
+    std::string body = {};
     EXPECT_FALSE(db_->get("entity:users:alice", body));
 
     const auto commit_status = txn_mgr_->commitTransaction(tx_id);
@@ -337,7 +338,7 @@ TEST_F(GrpcTransactionPathTest, DeleteDocumentTransactionDefersDeleteUntilCommit
     ASSERT_TRUE(create_resp.success());
     ASSERT_TRUE(txn_mgr_->commitTransaction(tx_create).ok);
 
-    std::string body;
+    std::string body = {};
     ASSERT_TRUE(db_->get("entity:users:bob", body));
 
     const auto tx_delete = txn_mgr_->beginTransaction();

@@ -48,7 +48,7 @@ namespace ingestion {
 namespace {
 
 /// Serialize a CdcEvent::Operation to its string representation.
-static const char* operationToString(CdcConnector::CdcEvent::Operation op) {
+static const char* operationToString([[maybe_unused]] CdcConnector::CdcEvent::Operation op) {
     switch (op) {
         case CdcConnector::CdcEvent::Operation::INSERT: return "INSERT";
         case CdcConnector::CdcEvent::Operation::UPDATE: return "UPDATE";
@@ -59,8 +59,8 @@ static const char* operationToString(CdcConnector::CdcEvent::Operation op) {
 
 /// Simple JSON string escaping (no external dependencies).
 static std::string jsonEscape(const std::string& s) {
-    std::string out;
-    out.reserve(s.size() + 4);
+    std::string out = {};
+    out.reserve(static_cast<int>(s.size()) + 4);
     for (unsigned char c : s) {
         if (c == '"')       { out += "\\\""; }
         else if (c == '\\') { out += "\\\\"; }
@@ -75,11 +75,13 @@ static std::string jsonEscape(const std::string& s) {
 /// Serialize a string→string map as a JSON object.
 static std::string mapToJson(
         const std::unordered_map<std::string, std::string>& m) {
-    std::ostringstream js;
+    std::ostringstream js = {};
     js << '{';
     bool first = true;
     for (const auto& kv : m) {
-        if (!first) js << ',';
+        if (!first) {
+          js << ',';
+        }
         first = false;
         js << '"' << jsonEscape(kv.first) << "\":\"" << jsonEscape(kv.second) << '"';
     }
@@ -88,8 +90,8 @@ static std::string mapToJson(
 }
 
 /// Serialize a full CdcEvent to a JSON string.
-static std::string cdcEventToJson(const CdcConnector::CdcEvent& ev) {
-    std::ostringstream js;
+static std::string cdcEventToJson([[maybe_unused]] const CdcConnector::CdcEvent& ev) {
+    std::ostringstream js = {};
     js << '{'
        << "\"operation\":\"" << operationToString(ev.operation) << "\","
        << "\"table\":\"" << jsonEscape(ev.table) << "\","
@@ -113,14 +115,16 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
         ? ev.before : ev.after;
 
     if (text_columns.empty()) {
-        return cdcEventToJson(ev);
+        return cdcEventToJson([[maybe_unused]] ev);
     }
 
-    std::string text;
+    std::string text = {};
     for (const auto& col : text_columns) {
         auto it = image.find(col);
         if (it != image.end() && !it->second.empty()) {
-            if (!text.empty()) text += ' ';
+            if (!text.empty()) {
+              text += ' ';
+            }
             text += it->second;
         }
     }
@@ -131,7 +135,7 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
 static std::vector<std::string> splitCommaCdc(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         auto b = token.find_first_not_of(" \t");
         auto e = token.find_last_not_of(" \t");
@@ -169,9 +173,13 @@ static void pgEncodeBE64(char* buf, uint64_t v) {
 
 /// Parse a PostgreSQL LSN string ("A/BBCCDDEE") to a uint64.  Returns 0 on error.
 static uint64_t parsePgLsn(const std::string& s) {
-    if (s.empty()) return 0;
+    if (s.empty()) {
+      return 0;
+    }
     auto slash = s.find('/');
-    if (slash == std::string::npos) return 0;
+    if (slash == std::string::npos) {
+      return 0;
+    }
     try {
         uint32_t hi = static_cast<uint32_t>(std::stoul(s.substr(0, slash), nullptr, 16));
         uint32_t lo = static_cast<uint32_t>(std::stoul(s.substr(slash + 1), nullptr, 16));
@@ -221,7 +229,9 @@ static bool pgSendFeedback(PGconn* conn,
 
 /// Build a connection string that includes `replication=database`.
 static std::string pgReplicationConnStr(const std::string& base) {
-    if (base.find("replication=") != std::string::npos) return base;
+    if (base.find("replication=") != std::string::npos) {
+      return base;
+    }
     if (base.find("://") != std::string::npos) {
         // URI form: append as query parameter
         std::string s = base;
@@ -253,13 +263,13 @@ parseColToken(const std::string& line, size_t& pos) {
 
     pos = rb + 2; // skip ']:'
 
-    if (pos >= line.size()) return {col, ""};
+    if (pos >= static_cast<int>(line.size())) return {col, ""};
 
-    std::string val;
+    std::string val = {};
     if (line[pos] == '\'') {
         // Single-quoted string; '' is an escaped single quote
         ++pos;
-        while (pos < line.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(line.size())) {
             char c = line[pos];
             if (c == '\'') {
                 if (pos + 1 < line.size() && line[pos + 1] == '\'') {
@@ -281,7 +291,9 @@ parseColToken(const std::string& line, size_t& pos) {
     }
 
     // Skip trailing spaces
-    while (pos < line.size() && line[pos] == ' ') ++pos;
+    while (pos < line.size() && line[pos] == ' ') {
+      ++pos;
+    }
 
     return {col, val};
 }
@@ -289,10 +301,13 @@ parseColToken(const std::string& line, size_t& pos) {
 /// Parse all column-value pairs starting at `pos` in `line`.
 static std::unordered_map<std::string, std::string>
 parseColSet(const std::string& line, size_t& pos) {
-    std::unordered_map<std::string, std::string> result;
-    while (pos < line.size()) {
+    std::unordered_map<std::string, std::string> result = {};
+
+    while (static_cast<size_t>(pos) <static_cast<int>(line.size())) {
         auto [c, v] = parseColToken(line, pos);
-        if (c.empty()) break;
+        if (c.empty()) {
+          break;
+        }
         result[c] = v;
     }
     return result;
@@ -310,19 +325,27 @@ static bool parseTestDecodingLine(const std::string& line,
     std::string l = line;
     while (!l.empty() && (l.back() == '\n' || l.back() == '\r'))
         l.pop_back();
-    if (l.empty()) return false;
+    if (l.empty()) {
+      return false;
+    }
 
     // Transaction boundaries are not row-level changes
-    if (l.rfind("BEGIN ", 0) == 0 || l.rfind("COMMIT ", 0) == 0) return false;
+    if (l.rfind("BEGIN ", 0) == 0 || l.rfind("COMMIT ", 0) == 0) {
+      return false;
+    }
 
     // Expected prefix: "table "
-    if (l.rfind("table ", 0) != 0) return false;
+    if (l.rfind("table ", 0) != 0) {
+      return false;
+    }
 
     size_t pos = 6; // skip "table "
 
     // Extract qualified table name (up to ": ")
     auto colon_pos = l.find(": ", pos);
-    if (colon_pos == std::string::npos) return false;
+    if (colon_pos == std::string::npos) {
+      return false;
+    }
 
     std::string qualified_table = l.substr(pos, colon_pos - pos);
     pos = colon_pos + 2;
@@ -349,7 +372,9 @@ static bool parseTestDecodingLine(const std::string& line,
     }
 
     // Skip leading space after keyword
-    while (pos < l.size() && l[pos] == ' ') ++pos;
+    while (pos < l.size() && l[pos] == ' ') {
+      ++pos;
+    }
 
     using Op = CdcConnector::CdcEvent::Operation;
     if (ev.operation == Op::UPDATE) {
@@ -376,7 +401,9 @@ static bool parseTestDecodingLine(const std::string& line,
 
     // Derive key: first value from the relevant image
     const auto& key_image = (ev.operation == Op::DELETE) ? ev.before : ev.after;
-    if (!key_image.empty()) ev.key = key_image.begin()->second;
+    if (!key_image.empty()) {
+      ev.key = key_image.begin()->second;
+    }
 
     return true;
 }
@@ -395,7 +422,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::CDC) return false;
+        if (config.type != SourceType::CDC) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) {
@@ -427,26 +456,34 @@ public:
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
         catch (...) { batch_size_ = 500; }
-        if (batch_size_ == 0) batch_size_ = 500;
+        if (batch_size_ == 0) {
+          batch_size_ = 500;
+        }
 
         try { max_events_ = static_cast<size_t>(std::stoull(opt("max_events", "0"))); }
-        catch (...) { max_events_ = 0; }
+        catch ([[maybe_unused]] ...) { max_events_ = 0; }
 
         try { poll_timeout_ms_ = std::stoi(opt("poll_timeout_ms", "1000")); }
         catch (...) { poll_timeout_ms_ = 1000; }
 
         try { max_empty_polls_ = std::stoi(opt("max_empty_polls", "3")); }
         catch (...) { max_empty_polls_ = 3; }
-        if (max_empty_polls_ <= 0) max_empty_polls_ = 3;
+        if (max_empty_polls_ <= 0) {
+          max_empty_polls_ = 3;
+        }
 
-        if (connection_url_.empty()) return false;
+        if (connection_url_.empty()) {
+          return false;
+        }
         return true;
     }
 
     bool isAvailable() const {
         if (event_fetch_fn_) return true; // test mock always available
 #ifdef THEMIS_ENABLE_CDC_STREAM
-        if (connection_url_.empty()) return false;
+        if (connection_url_.empty()) {
+          return false;
+        }
         // Attempt a lightweight IDENTIFY_SYSTEM command to verify connectivity.
         PGconn* conn = PQconnectdb(
             pgReplicationConnStr(connection_url_).c_str());
@@ -486,7 +523,7 @@ public:
         // ------------------------------------------------------------------
         // Test mock path: no replication driver required
         // ------------------------------------------------------------------
-        if (event_fetch_fn_) {
+        if ([[maybe_unused]] event_fetch_fn_) {
             ingestFromMock(stats, progress_callback);
             finaliseStats(stats, start_time);
             return stats;
@@ -508,26 +545,34 @@ public:
     }
 
     void setRetryConfig(const RetryConfig& c)           { retry_config_ = c; }
-    void setCdcEventFetchForTesting(CdcEventFetchFn fn) { event_fetch_fn_ = std::move(fn); }
+    void setCdcEventFetchForTesting([[maybe_unused]] CdcEventFetchFn fn) { event_fetch_fn_ = std::move(fn); }
 
 private:
     // -----------------------------------------------------------------------
     // Operation filter helper
     // -----------------------------------------------------------------------
-    bool isOperationAllowed(CdcEvent::Operation op) const {
-        if (ops_filter_.empty()) return true;
+    bool isOperationAllowed([[maybe_unused]] CdcEvent::Operation op) const {
+        if (ops_filter_.empty()) {
+          return true;
+        }
         const char* op_str = operationToString(op);
         for (const auto& f : ops_filter_) {
-            if (f == op_str) return true;
+            if (f == op_str) {
+              return true;
+            }
         }
         return false;
     }
 
     // Table filter helper
     bool isTableAllowed(const std::string& table) const {
-        if (table_filter_.empty()) return true;
+        if (table_filter_.empty()) {
+          return true;
+        }
         for (const auto& t : table_filter_) {
-            if (t == table) return true;
+            if (t == table) {
+              return true;
+            }
         }
         return false;
     }
@@ -536,10 +581,14 @@ private:
     // Process a single event into stats
     // -----------------------------------------------------------------------
     void processEvent(const CdcEvent& ev, IngestionStats& stats) {
-        if (!isOperationAllowed(ev.operation)) return;
-        if (!isTableAllowed(ev.table)) return;
+        if (!isOperationAllowed(ev.operation)) {
+          return;
+        }
+        if (!isTableAllowed(ev.table)) {
+          return;
+        }
 
-        std::string json = cdcEventToJson(ev);
+        std::string json = cdcEventToJson([[maybe_unused]] ev);
         std::string text = cdcEventToText(ev, text_columns_);
 
         stats.bytes_processed += json.size();
@@ -573,22 +622,28 @@ private:
         size_t fetched = 0;
         try {
             while (true) {
-                if (max_events_ > 0 && fetched >= max_events_) break;
+                if (max_events_ > 0 && fetched >= max_events_) {
+                  break;
+                }
 
                 auto batch = event_fetch_fn_();
-                if (batch.empty()) break;
+                if (batch.empty()) {
+                  break;
+                }
 
                 for (const auto& ev : batch) {
-                    if (max_events_ > 0 && fetched >= max_events_) break;
+                    if (max_events_ > 0 && fetched >= max_events_) {
+                      break;
+                    }
                     processEvent(ev, stats);
                     ++fetched;
                 }
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown (streaming)
-                                      "consumed " + std::to_string(fetched) + " events");
+                                      "consumed " + std::to_string([[maybe_unused]] fetched) + " events");
                 }
             }
         } catch (const std::exception& e) {
@@ -672,7 +727,9 @@ private:
 
         try {
             while (true) {
-                if (max_events_ > 0 && consumed >= max_events_) break;
+                if (max_events_ > 0 && consumed >= max_events_) {
+                  break;
+                }
 
                 char* buf = nullptr;
                 // PQgetCopyData with async=1: returns 0 when no data is yet
@@ -682,7 +739,9 @@ private:
                 if (len == 0) {
                     // No data available; sleep and retry up to max_empty_polls_.
                     ++consecutive_timeouts;
-                    if (consecutive_timeouts >= max_empty_polls_) break;
+                    if (consecutive_timeouts >= max_empty_polls_) {
+                      break;
+                    }
                     std::this_thread::sleep_for(
                         std::chrono::milliseconds(poll_timeout_ms_));
                     // Send a keepalive feedback to keep the connection alive.
@@ -714,7 +773,9 @@ private:
                     //   1-byte type + 8-byte walEnd + 8-byte serverTime + 1-byte replyRequired
                     if (len >= 18) {
                         uint64_t wal_end = pgDecodeBE64(buf + 1);
-                        if (wal_end > last_lsn) last_lsn = wal_end;
+                        if (wal_end > last_lsn) {
+                          last_lsn = wal_end;
+                        }
                         bool reply_requested = (buf[17] != 0);
                         if (reply_requested) {
                             pgSendFeedback(conn, last_lsn, last_lsn, last_lsn);
@@ -736,7 +797,9 @@ private:
                         uint64_t wal_end         = pgDecodeBE64(buf + 9);
                         int64_t  server_time_us  = static_cast<int64_t>(pgDecodeBE64(buf + 17));
 
-                        if (wal_end > last_lsn) last_lsn = wal_end;
+                        if (wal_end > last_lsn) {
+                          last_lsn = wal_end;
+                        }
 
                         // Convert PG timestamp (us since 2000-01-01) to Unix ms
                         const int64_t pg_epoch_ms = kPgEpochSeconds * 1000;
@@ -745,18 +808,18 @@ private:
                         // Payload is one test_decoding output line
                         std::string payload(buf + 25, static_cast<size_t>(len - 25));
 
-                        CdcEvent ev;
+                        CdcEvent ev = {};
                         if (parseTestDecodingLine(payload, wal_start,
                                                    server_time_ms, ev)) {
                             processEvent(ev, stats);
                             ++consumed;
 
-                            if (progress_callback) {
+                            if ([[maybe_unused]] progress_callback) {
                                 progress_callback(
                                     config_.source_id,
                                     stats.documents_processed,
                                     0, // total unknown for streaming
-                                    "consumed " + std::to_string(consumed) + " events");
+                                    "consumed " + std::to_string([[maybe_unused]] consumed) + " events");
                             }
                         }
                     }
@@ -781,7 +844,9 @@ private:
         // End the COPY stream
         PQputCopyEnd(conn, nullptr);
         res = PQgetResult(conn);
-        if (res) PQclear(res);
+        if (res) {
+          PQclear(res);
+        }
 
         PQfinish(conn);
     }
@@ -843,12 +908,12 @@ void CdcConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
-void CdcConnector::setCdcEventFetchForTesting(CdcEventFetchFn fn) {
-    setEventBatchProvider(std::move(fn));
+void CdcConnector::setCdcEventFetchForTesting([[maybe_unused]] CdcEventFetchFn fn) {
+    setEventBatchProvider([[maybe_unused]] std::move(fn));
 }
 
-void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
-    impl_->setCdcEventFetchForTesting(std::move(fn));
+void CdcConnector::setEventBatchProvider([[maybe_unused]] CdcEventFetchFn fn) {
+    impl_->setCdcEventFetchForTesting([[maybe_unused]] std::move(fn));
 }
 
 } // namespace ingestion

@@ -30,7 +30,7 @@ bool isReadableModelFile(const std::string& model_path) {
         return false;
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     if (!std::filesystem::exists(model_path, ec) || ec) {
         return false;
     }
@@ -104,7 +104,7 @@ DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
     };
 }
 
-DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) const {
+DeonticExtractor LegalLlmAdapter::buildExtractor([[maybe_unused]] double confidence_threshold) const {
     DeonticExtractor extractor;
     extractor.setConfidenceThreshold(confidence_threshold);
 

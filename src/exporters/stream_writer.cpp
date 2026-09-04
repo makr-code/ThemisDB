@@ -46,7 +46,7 @@ StreamWriter::~StreamWriter() {
 }
 
 void StreamWriter::write(const std::string& data) {
-    write(data.data(), data.size());
+    write(data.data(),static_cast<int>(data.size()));
 }
 
 void StreamWriter::write(const char* data, size_t size) {
@@ -65,12 +65,12 @@ void StreamWriter::write(const char* data, size_t size) {
         compressAndWrite(data, size);
     } else {
         // Write directly if buffer would overflow
-        if (buffer_pos_ + size > buffer_.size()) {
+        if (buffer_pos_ + size > static_cast<int>(buffer_.size())) {
             writeBuffer();
         }
         
         // If data is larger than buffer, write directly
-        if (size > buffer_.size()) {
+        if (size > static_cast<int>(buffer_.size())) {
             file_.write(data, size);
             compressed_bytes_written_ += size;
         } else {
@@ -88,7 +88,7 @@ void StreamWriter::flush() {
             ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
             size_t remaining = 0;
             do {
-                ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+                ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
                 remaining = ZSTD_flushStream(cstream, &out_buf);
                 if (out_buf.pos > 0) {
                     file_.write(buffer_.data(), out_buf.pos);
@@ -128,8 +128,12 @@ void StreamWriter::initCompression() {
     }
     // Clamp level to valid zstd range [1, 22]
     int level = config_.compression_level;
-    if (level < 1) level = 1;
-    if (level > 22) level = 22;
+    if (level < 1) {
+      level = 1;
+    }
+    if (level > 22) {
+      level = 22;
+    }
     size_t init_result = ZSTD_initCStream(cstream, level);
     if (ZSTD_isError(init_result)) {
         ZSTD_freeCStream(cstream);
@@ -160,7 +164,7 @@ void StreamWriter::compressAndWrite([[maybe_unused]] const char* data, [[maybe_u
         ZSTD_inBuffer in_buf = { data, size, 0 };
 
         while (in_buf.pos < in_buf.size) {
-            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+            ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
             size_t ret = ZSTD_compressStream(cstream, &out_buf, &in_buf);
             if (ZSTD_isError(ret)) {
                 throw ExportIOException("ZSTD compression stream error", config_.output_path,
@@ -183,7 +187,7 @@ void StreamWriter::finalizeCompression() {
         ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
         size_t remaining = 0;
         do {
-            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+            ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
             remaining = ZSTD_endStream(cstream, &out_buf);
             if (out_buf.pos > 0) {
                 file_.write(buffer_.data(), out_buf.pos);

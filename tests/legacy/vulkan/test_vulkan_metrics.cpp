@@ -84,7 +84,7 @@ TEST_F(VulkanMetricsTest, InitFailureIncrementedWhenVulkanUnavailable) {
 // Test: successful initialize() increments init_success counter
 // ============================================================================
 TEST_F(VulkanMetricsTest, InitSuccessIncrementedOnSuccess) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
 
     if (!backend.isAvailable()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
@@ -103,7 +103,7 @@ TEST_F(VulkanMetricsTest, InitSuccessIncrementedOnSuccess) {
 // Test: computeDistances (L2) increments l2_distance_operations counter
 // ============================================================================
 TEST_F(VulkanMetricsTest, L2DistanceOperationRecorded) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
 
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
@@ -127,7 +127,7 @@ TEST_F(VulkanMetricsTest, L2DistanceOperationRecorded) {
 // Test: computeDistances (cosine) increments cosine_operations counter
 // ============================================================================
 TEST_F(VulkanMetricsTest, CosineDistanceOperationRecorded) {
-    VulkanBackend backend;
+    VulkanBackend backend = {};
 
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";

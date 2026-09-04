@@ -106,7 +106,8 @@ ImportStats EntityLinker::linkBatch(const std::string & /*collection_name*/, con
 
 std::vector<LinkAuditEntry> EntityLinker::getLinksForEntity(const std::string &entity_id,
                                                             const std::string &collection_name) const {
-    std::vector<LinkAuditEntry> entries;
+    std::vector<LinkAuditEntry> entries = {};
+
     for (const auto &link : links_) {
         if (link.source_id != entity_id && link.target_id != entity_id) {
             continue;
@@ -175,7 +176,7 @@ json EntityLinker::exportLinkGraph(const std::string &collection_name, const std
 }
 
 size_t EntityLinker::linkCount() const {
-    return links_.size();
+    return static_cast<int>(links_.size());
 }
 
 void EntityLinker::clear() {

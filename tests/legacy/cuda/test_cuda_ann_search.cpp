@@ -73,7 +73,7 @@ TEST(CudaAnnSearch, Capabilities_SupportsVectorAndBatch) {
 // =============================================================================
 
 TEST(CudaAnnSearch, ComputeDistances_NullQueryReturnsEmpty) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -84,7 +84,7 @@ TEST(CudaAnnSearch, ComputeDistances_NullQueryReturnsEmpty) {
 }
 
 TEST(CudaAnnSearch, ComputeDistances_ZeroDimReturnsEmpty) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -96,7 +96,7 @@ TEST(CudaAnnSearch, ComputeDistances_ZeroDimReturnsEmpty) {
 }
 
 TEST(CudaAnnSearch, BatchKnnSearch_NullQueryReturnsEmpty) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -107,7 +107,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_NullQueryReturnsEmpty) {
 }
 
 TEST(CudaAnnSearch, BatchKnnSearch_ZeroKReturnsEmpty) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -123,7 +123,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_ZeroKReturnsEmpty) {
 // =============================================================================
 
 TEST(CudaAnnSearch, ComputeDistances_L2_CorrectResults) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -143,7 +143,7 @@ TEST(CudaAnnSearch, ComputeDistances_L2_CorrectResults) {
 }
 
 TEST(CudaAnnSearch, ComputeDistances_Cosine_SameVectorIsZeroDistance) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -160,7 +160,7 @@ TEST(CudaAnnSearch, ComputeDistances_Cosine_SameVectorIsZeroDistance) {
 }
 
 TEST(CudaAnnSearch, BatchKnnSearch_L2_ReturnsCorrectTopK) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -187,7 +187,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_L2_ReturnsCorrectTopK) {
 }
 
 TEST(CudaAnnSearch, BatchKnnSearch_KLargerThanVectors_ClampsK) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -209,7 +209,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_KLargerThanVectors_ClampsK) {
 // =============================================================================
 
 TEST(CudaAnnSearch, ANNDispatch_InnerProduct_SlotIsNonNullOnGPU) {
-    CUDAVectorBackend backend;
+    CUDAVectorBackend backend = {};
     if (!backend.isAvailable() || !backend.initialize()) {
         GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
@@ -247,7 +247,9 @@ static themis::HnswLayerGraph makeTestFullGraph(uint32_t num_nodes) {
     g.offsets[0] = 0;
     for (uint32_t i = 0; i < num_nodes; ++i) {
         for (uint32_t j = 0; j < num_nodes; ++j) {
-            if (j != i) g.neighbours.push_back(static_cast<int32_t>(j));
+            if (j != i) {
+              g.neighbours.push_back(static_cast<int32_t>(j));
+            }
         }
         g.offsets[i + 1] = static_cast<int32_t>(g.neighbours.size());
     }
@@ -304,7 +306,8 @@ TEST(CudaAnnHnswWiring, AnnBatchSearch_ReturnsKResultsAfterBuild) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vectors: i-th vector = (i*0.1, i*0.1, i*0.1)
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i)
         for (uint32_t d = 0; d < DIM; ++d)
             vecs.push_back(static_cast<float>(i) * 0.1f);
@@ -325,7 +328,8 @@ TEST(CudaAnnHnswWiring, AnnBatchSearch_ResultsSortedAscendingByScore) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vectors at distances 0, 1, 2, 3, 4, 5 from origin (along x-axis)
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -352,7 +356,8 @@ TEST(CudaAnnHnswWiring, AnnBatchSearch_NearestNeighbourIsOriginForOriginQuery) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vector 0 = (0,0), vector 1 = (1,0), ...
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);
@@ -378,7 +383,8 @@ TEST(CudaAnnHnswWiring, BatchKnnSearch_UsesHnswWhenIndexBuilt) {
     themis::acceleration::CUDAVectorBackend backend;
 
     // Vector 0 = (0,0), vector 1 = (1,0), ...
-    std::vector<float> vecs;
+    std::vector<float> vecs = {};
+
     for (uint32_t i = 0; i < N; ++i) {
         vecs.push_back(static_cast<float>(i));
         vecs.push_back(0.0f);

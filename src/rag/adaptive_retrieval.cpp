@@ -26,8 +26,8 @@ AdaptiveRetrievalConfig sanitizeConfig(const AdaptiveRetrievalConfig& cfg)
 {
     AdaptiveRetrievalConfig out = cfg;
 
-    if (out.base_top_k == 0u) {
-        out.base_top_k = 1u;
+    if (out.base_top_k == 0) {
+        out.base_top_k = 1;
     }
     if (out.max_top_k < out.base_top_k) {
         out.max_top_k = out.base_top_k;
@@ -72,15 +72,17 @@ std::vector<std::string> tokenize(const std::string& s)
 {
     std::vector<std::string> tokens;
     std::istringstream ss(s);
-    std::string tok;
-    while (ss >> tok) tokens.push_back(tok);
+    std::string tok = {};
+    while (ss >> tok) {
+      tokens.push_back(tok);
+    }
     return tokens;
 }
 
 /** Strip punctuation from a token for comparison. */
 std::string stripPunct(const std::string& s)
 {
-    std::string r;
+    std::string r = {};
     for (char c : s) {
         if (std::isalpha(static_cast<unsigned char>(c)) ||
             std::isdigit(static_cast<unsigned char>(c))) {
@@ -134,7 +136,7 @@ void AdaptiveRetrieval::setScorer(IComplexityScorer* scorer)
 ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     const std::string& query) const
 {
-    ComplexityAnalysis analysis;
+    ComplexityAnalysis analysis = {};
 
     if (query.empty()) {
         analysis.explanation = "empty query";
@@ -169,7 +171,7 @@ ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     // 3. Long query flag
     analysis.is_long_query =
         (config_.long_query_threshold > 0 &&
-         query.size() > config_.long_query_threshold);
+         static_cast<int>(query.size()) > config_.long_query_threshold);
 
     // 4. Assemble raw score
     // Connectives contribute the most: each connective ~ 0.15
@@ -178,7 +180,9 @@ ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     double score = 0.0;
     score += static_cast<double>(analysis.connective_count) * 0.15;
     score += static_cast<double>(analysis.question_word_count) * 0.10;
-    if (analysis.is_long_query) score += 0.15;
+    if (analysis.is_long_query) {
+      score += 0.15;
+    }
 
     // Clamp to [0, 1]
     analysis.raw_score = std::min(1.0, score);
@@ -186,7 +190,7 @@ ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     analysis.complexity = scoreToComplexity(analysis.raw_score);
 
     // Build explanation
-    std::ostringstream expl;
+    std::ostringstream expl = {};
     expl << "connectives=" << analysis.connective_count
          << " question_words=" << analysis.question_word_count
          << " long=" << (analysis.is_long_query ? "yes" : "no")
@@ -222,11 +226,17 @@ ComplexityAnalysis AdaptiveRetrieval::analyzeComplexity(
 // scoreToComplexity
 // ---------------------------------------------------------------------------
 
-QueryComplexity AdaptiveRetrieval::scoreToComplexity(double raw_score)
+QueryComplexity AdaptiveRetrieval::scoreToComplexity([[maybe_unused]] double raw_score)
 {
-    if (raw_score < 0.30) return QueryComplexity::SIMPLE;
-    if (raw_score < 0.55) return QueryComplexity::MODERATE;
-    if (raw_score < 0.75) return QueryComplexity::COMPLEX;
+    if (raw_score < 0.30) {
+      return QueryComplexity::SIMPLE;
+    }
+    if (raw_score < 0.55) {
+      return QueryComplexity::MODERATE;
+    }
+    if (raw_score < 0.75) {
+      return QueryComplexity::COMPLEX;
+    }
     return QueryComplexity::VERY_COMPLEX;
 }
 

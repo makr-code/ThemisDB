@@ -14,7 +14,9 @@ TEST(GorillaProbe, FindFirstMismatch) {
     }
     
     GorillaEncoder enc;
-    for (auto &p : series) enc.add(p.first, p.second);
+    for (auto &p : series) {
+      enc.add(p.first, p.second);
+    }
     auto bytes = enc.finish();
 
     GorillaDecoder dec(bytes);

@@ -69,7 +69,7 @@ bool DistributedTrainer::initialize() {
     spdlog::info("Initializing distributed training (fail-closed mode):");
     spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
     spdlog::info("  Master: {}:{}", config_.master_addr, config_.master_port);
-    spdlog::info("  Validating required collective operation callbacks...");
+    spdlog::info([[maybe_unused]] "  Validating required collective operation callbacks...");
     
     if (!allreduce_cpu_fn_) {
         spdlog::error("FAIL-CLOSED: AllReduceFn bridge not installed. Distributed training requires "
@@ -129,7 +129,9 @@ bool DistributedTrainer::synchronize_gradients(std::vector<Tensor*>& gradients) 
     // CPU-based implementation using simple averaging
     // Real GPU implementation would use NCCL AllReduce for efficiency
     for (auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         auto& data = grad_ptr->data();
         
@@ -162,7 +164,9 @@ bool DistributedTrainer::broadcast_parameters(std::vector<Tensor*>& parameters) 
     
     // Broadcast from master (rank 0) to all processes
     for (auto* param_ptr : parameters) {
-        if (!param_ptr) continue;
+        if (!param_ptr) {
+          continue;
+        }
         
         auto& data = param_ptr->data();
         broadcast_cpu(data);

@@ -388,7 +388,7 @@ private:
     // --------------------------------------------------------
 
     struct InFlightRecord {
-        uint64_t sequence;
+        uint64_t sequence = 0;
         std::chrono::steady_clock::time_point delivered_at;
         uint32_t delivery_count{1};  ///< Times this event has been delivered
     };

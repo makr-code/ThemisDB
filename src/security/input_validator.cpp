@@ -36,7 +36,7 @@ ValidationResult InputValidator::validateUserInput(
                 "Input contains SQL injection patterns",
                 "Use parameterized queries with placeholders (?) instead of string concatenation"};
       }
-      if (input.size() > MAX_FIELD_SIZE) {
+      if (static_cast<int>(input.size()) > MAX_FIELD_SIZE) {
         return {false,
                 "Input exceeds maximum field size (" + std::to_string(MAX_FIELD_SIZE) + " bytes)",
                 "Truncate input or increase MAX_FIELD_SIZE if legitimate"};
@@ -58,7 +58,7 @@ ValidationResult InputValidator::validateUserInput(
     case ValidationContext::FILE_UPLOAD: {
       // For file uploads, context should include name + size
       // This is a simplified check; validateFileUpload() is more complete
-      if (input.size() > MAX_FILE_UPLOAD_SIZE) {
+      if (static_cast<int>(input.size()) > MAX_FILE_UPLOAD_SIZE) {
         return {false,
                 "File size exceeds maximum (" + std::to_string(MAX_FILE_UPLOAD_SIZE) + " bytes)",
                 "Upload a smaller file or contact admin to increase limit"};
@@ -89,7 +89,7 @@ ValidationResult InputValidator::validateUserInput(
 
 ValidationResult InputValidator::validateJsonPayload(std::string_view payload) {
   // Check size limit
-  if (payload.size() > MAX_JSON_SIZE) {
+  if (static_cast<int>(payload.size()) > MAX_JSON_SIZE) {
     return {false,
             "JSON payload exceeds maximum size (" + std::to_string(MAX_JSON_SIZE) + " bytes)",
             "Reduce payload size or increase MAX_JSON_SIZE"};
@@ -114,9 +114,13 @@ ValidationResult InputValidator::validateJsonPayload(std::string_view payload) {
   for (char c : payload) {
     if (c == '{' || c == '[') {
       depth++;
-      if (depth > max_depth) max_depth = depth;
+      if (depth > max_depth) {
+        max_depth = depth;
+      }
     } else if (c == '}' || c == ']') {
-      if (depth > 0) depth--;
+      if (depth > 0) {
+        depth--;
+      }
     }
   }
   
@@ -189,7 +193,7 @@ ValidationResult InputValidator::validateFileUpload(
 
 ValidationResult InputValidator::validateUriParameter(std::string_view uri_param) {
   // Check size limit
-  if (uri_param.size() > MAX_URI_PARAMETER_SIZE) {
+  if (static_cast<int>(uri_param.size()) > MAX_URI_PARAMETER_SIZE) {
     return {false,
             "URI parameter exceeds maximum size (" + std::to_string(MAX_URI_PARAMETER_SIZE) + " bytes)",
             "Reduce parameter size"};
@@ -218,7 +222,7 @@ ValidationResult InputValidator::validateRequestHeader(
   (void)header_name;
   
   // Check value size limit
-  if (header_value.size() > MAX_HEADER_VALUE_SIZE) {
+  if (static_cast<int>(header_value.size()) > MAX_HEADER_VALUE_SIZE) {
     return {false,
             "Header value exceeds maximum size (" + std::to_string(MAX_HEADER_VALUE_SIZE) + " bytes)",
             "Reduce header value size"};
@@ -253,7 +257,7 @@ ValidationResult InputValidator::validateSearchQuery(
             "Provide a search term"};
   }
   
-  if (query.size() > 256) {
+  if (static_cast<int>(query.size()) > 256) {
     return {false,
             "Search query exceeds 256 characters",
             "Reduce query length"};
@@ -271,7 +275,7 @@ ValidationResult InputValidator::validateSearchQuery(
 
 ValidationResult InputValidator::validateIdentifier(std::string_view identifier) {
   // Check length
-  if (identifier.empty() || identifier.size() > MAX_IDENTIFIER_LENGTH) {
+  if (identifier.empty() || static_cast<int>(identifier.size()) > MAX_IDENTIFIER_LENGTH) {
     return {false,
             "Identifier length invalid (must be 1-" + std::to_string(MAX_IDENTIFIER_LENGTH) + ")",
             "Choose a name within the length limit"};
@@ -324,8 +328,8 @@ ValidationResult InputValidator::validateConfigPath(
 // ============================================================================
 
 std::string InputValidator::sanitizeForHtml(std::string_view input) {
-  std::string output;
-  output.reserve(input.size() + (input.size() / 5));  // Typical overhead ~20%
+  std::string output = {};
+  output.reserve(static_cast<int>(input.size()) + (input.size() / 5));  // Typical overhead ~20%
   
   for (char c : input) {
     switch (c) {
@@ -343,7 +347,7 @@ std::string InputValidator::sanitizeForHtml(std::string_view input) {
 
 std::string InputValidator::sanitizeForSqlLogging(std::string_view input) {
   // WARNING: For logging only, not for actual SQL queries!
-  std::string output;
+  std::string output = {};
   output.reserve(input.size());
   
   for (char c : input) {
@@ -374,8 +378,8 @@ std::string InputValidator::sanitizeForShell(std::string_view input) {
 }
 
 std::string InputValidator::sanitizeForJson(std::string_view input) {
-  std::string output;
-  output.reserve(input.size() + (input.size() / 5));
+  std::string output = {};
+  output.reserve(static_cast<int>(input.size()) + (input.size() / 5));
   
   for (unsigned char c : input) {
     switch (c) {
@@ -429,7 +433,7 @@ bool InputValidator::containsControlCharacters(std::string_view input) {
 
 bool InputValidator::isValidUtf8(std::string_view input) {
   size_t i = 0;
-  while (i < input.size()) {
+  while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
     unsigned char c = static_cast<unsigned char>(input[i]);
     
     if (c < 0x80) {

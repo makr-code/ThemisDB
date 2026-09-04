@@ -89,7 +89,7 @@ struct ChunkingConfig {
  * @brief Result of document upload and processing
  */
 struct UploadResult {
-    bool ok;
+    bool ok = 0;
     std::string doc_id;
     int chunks_created;
     std::string message;
@@ -99,8 +99,8 @@ struct UploadResult {
  * @brief Status result for operations
  */
 struct Status {
-    bool ok;
-    std::string message;
+    bool ok = 0;
+    std::string message = {};
     
     Status(bool success, std::string msg = {}) 
         : ok(success), message(std::move(msg)) {}

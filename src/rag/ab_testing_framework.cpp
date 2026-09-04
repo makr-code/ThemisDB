@@ -138,7 +138,8 @@ ABTestResult ABTestingFramework::evaluateTest(const std::string &test_id) {
 std::vector<std::string> ABTestingFramework::getActiveTests() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
-    std::vector<std::string> active;
+    std::vector<std::string> active = {};
+
     for (const auto &[test_id, data] : impl_->tests) {
         if (data.status == ABTestStatus::ACTIVE) {
             active.push_back(test_id);

@@ -33,7 +33,9 @@ static std::shared_ptr<RocksDBWrapper> openTempDB(const std::string& path) {
     cfg.db_path    = path;
     cfg.enable_wal = true;
     auto db = std::make_shared<RocksDBWrapper>(cfg);
-    if (!db->open()) return nullptr;
+    if (!db->open()) {
+      return nullptr;
+    }
     return db;
 }
 
@@ -214,13 +216,17 @@ TEST_F(IndexRecommenderTest, RecommendSortPreferRangeIndex) {
 }
 
 TEST_F(IndexRecommenderTest, RecommendSortedByBenefitDesc) {
-    for (int i = 0; i < 10; ++i) rec_.recordQuery();
+    for (int i = 0; i < 10; ++i) {
+      rec_.recordQuery();
+    }
     rec_.recordAccess("t", "high_col", IndexRecommender::AccessType::FILTER, 0.0);
     rec_.recordAccess("t", "high_col", IndexRecommender::AccessType::FILTER, 0.0);
     rec_.recordAccess("t", "low_col",  IndexRecommender::AccessType::FILTER, 0.9);
 
     // Add a lot more queries so benefit normalises differently
-    for (int i = 0; i < 10; ++i) rec_.recordQuery();
+    for (int i = 0; i < 10; ++i) {
+      rec_.recordQuery();
+    }
     rec_.recordAccess("t", "high_col", IndexRecommender::AccessType::FILTER, 0.0);
 
     auto recs = rec_.recommend("t");
@@ -292,7 +298,7 @@ protected:
         fs::remove_all(db_path_);
     }
 
-    std::string db_path_;
+    std::string db_path_ = {};
     std::shared_ptr<RocksDBWrapper> db_;
 };
 
@@ -308,7 +314,7 @@ TEST_F(IndexRecommenderPersistTest, PersistStatsWritesRocksDBKeys) {
     rec.persistStats();
 
     // Verify the key exists in RocksDB
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::orders", value));
     EXPECT_FALSE(value.empty());
 
@@ -324,11 +330,13 @@ TEST_F(IndexRecommenderPersistTest, PersistStatsWritesRocksDBKeys) {
 TEST_F(IndexRecommenderPersistTest, PersistStatsTotalQueriesKey) {
     IndexRecommender rec(db_.get(), std::chrono::seconds(0));
 
-    for (int i = 0; i < 42; ++i) rec.recordQuery();
+    for (int i = 0; i < 42; ++i) {
+      rec.recordQuery();
+    }
     rec.recordAccess("t", "c", IndexRecommender::AccessType::FILTER, 0.1);
     rec.persistStats();
 
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::__total_queries__", value));
     EXPECT_EQ(std::stoull(value), 42u);
 }
@@ -363,7 +371,7 @@ TEST_F(IndexRecommenderPersistTest, ResetDeletesRocksDBKeys) {
     rec.persistStats();
 
     // Confirm key exists before reset
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::items", value));
 
     rec.reset();
@@ -384,7 +392,7 @@ TEST_F(IndexRecommenderPersistTest, DestructorFlushesToDB) {
         // Destructor fires here — no explicit persistStats() call
     }
 
-    std::string value;
+    std::string value = {};
     ASSERT_TRUE(db_->get("meta_idx_stats::products", value));
     auto arr = nlohmann::json::parse(value);
     ASSERT_EQ(arr.size(), 1u);
@@ -428,10 +436,12 @@ TEST_F(IndexRecommenderPersistTest, BackgroundThreadPersistsWithinInterval) {
     }
 
     // Poll with a generous timeout (2s) to avoid flakiness on slow CI runners
-    std::string value;
+    std::string value = {};
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
     while (std::chrono::steady_clock::now() < deadline) {
-        if (db_->get("meta_idx_stats::bg_tbl", value)) break;
+        if (db_->get("meta_idx_stats::bg_tbl", value)) {
+          break;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 
@@ -481,7 +491,7 @@ protected:
         db_->put("stats:" + table, j.dump());
     }
 
-    std::string db_path_;
+    std::string db_path_ = {};
     std::shared_ptr<RocksDBWrapper> db_;
 };
 
@@ -615,7 +625,9 @@ TEST_F(IndexRecommenderMetricTest, RecommendCounterIncrementsOnce) {
     }
 
     // Call recommend() 3 times — counter should appear 3 times or show value 3
-    for (int i = 0; i < 3; ++i) rec.recommend("tbl");
+    for (int i = 0; i < 3; ++i) {
+      rec.recommend("tbl");
+    }
 
     std::string metrics = mc.getPrometheusMetrics();
     EXPECT_NE(metrics.find("metadata.index_recommendation.generated_total"), std::string::npos);

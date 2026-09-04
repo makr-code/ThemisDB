@@ -65,7 +65,7 @@ unverzüglich, jedoch spätestens 24 Stunden nach Feststellung des Verstoßes.
 
 // Simulate medium-length German legal document (~1-2KB typical)
 std::string MakeMediumText(std::size_t repetitions = 1) {
-    std::string result;
+    std::string result = {};
     for (std::size_t i = 0; i < repetitions; ++i) {
         result += std::string(kMediumText);
         result += "\n";

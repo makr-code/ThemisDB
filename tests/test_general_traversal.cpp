@@ -121,8 +121,12 @@ TEST_F(GeneralTraversalTest, BasicOutboundTraversal) {
     bool hasDepth1 = false;
     bool hasDepth2 = false;
     for (const auto& result : results) {
-        if (result.depth == 1) hasDepth1 = true;
-        if (result.depth == 2) hasDepth2 = true;
+        if (result.depth == 1) {
+          hasDepth1 = true;
+        }
+        if (result.depth == 2) {
+          hasDepth2 = true;
+        }
     }
     EXPECT_TRUE(hasDepth1);
     EXPECT_TRUE(hasDepth2);
@@ -170,8 +174,12 @@ TEST_F(GeneralTraversalTest, InboundDirection) {
     bool foundC = false;
     bool foundB = false;
     for (const auto& result : results) {
-        if (result.vertex_pk == "C" && result.depth == 1) foundC = true;
-        if (result.vertex_pk == "B" && result.depth == 2) foundB = true;
+        if (result.vertex_pk == "C" && result.depth == 1) {
+          foundC = true;
+        }
+        if (result.vertex_pk == "B" && result.depth == 2) {
+          foundB = true;
+        }
     }
     EXPECT_TRUE(foundC);
     EXPECT_TRUE(foundB);
@@ -197,8 +205,12 @@ TEST_F(GeneralTraversalTest, AnyDirection) {
     bool foundA = false;
     bool foundC = false;
     for (const auto& result : results) {
-        if (result.vertex_pk == "A") foundA = true;
-        if (result.vertex_pk == "C") foundC = true;
+        if (result.vertex_pk == "A") {
+          foundA = true;
+        }
+        if (result.vertex_pk == "C") {
+          foundC = true;
+        }
     }
     EXPECT_TRUE(foundA);
     EXPECT_TRUE(foundC);
@@ -286,10 +298,18 @@ TEST_F(GeneralTraversalTest, DiamondGraphMultiplePaths) {
     
     bool foundA = false, foundB = false, foundC = false, foundD = false;
     for (const auto& result : results) {
-        if (result.vertex_pk == "A") foundA = true;
-        if (result.vertex_pk == "B") foundB = true;
-        if (result.vertex_pk == "C") foundC = true;
-        if (result.vertex_pk == "D") foundD = true;
+        if (result.vertex_pk == "A") {
+          foundA = true;
+        }
+        if (result.vertex_pk == "B") {
+          foundB = true;
+        }
+        if (result.vertex_pk == "C") {
+          foundC = true;
+        }
+        if (result.vertex_pk == "D") {
+          foundD = true;
+        }
     }
     
     EXPECT_TRUE(foundA);

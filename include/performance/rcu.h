@@ -176,7 +176,9 @@ T* rcu_assign_pointer(std::atomic<T*>& ptr, T* new_value) {
  */
 template<typename T>
 void rcu_defer_delete(T* ptr) {
-    if (!ptr) return;
+    if (!ptr) {
+      return;
+    }
     
     #ifdef THEMIS_USE_RCU_INDEX
     GracePeriodManager::instance().call_rcu([ptr]() {
@@ -226,7 +228,9 @@ inline GracePeriodManager::~GracePeriodManager() {
 }
 
 inline void GracePeriodManager::start() {
-    if (running_.exchange(true)) return;
+    if (running_.exchange(true)) {
+      return;
+    }
     
     grace_thread_ = std::thread([this]() {
         grace_period_thread();
@@ -234,7 +238,9 @@ inline void GracePeriodManager::start() {
 }
 
 inline void GracePeriodManager::stop() {
-    if (!running_.exchange(false)) return;
+    if (!running_.exchange(false)) {
+      return;
+    }
     
     if (grace_thread_.joinable()) {
         grace_thread_.join();

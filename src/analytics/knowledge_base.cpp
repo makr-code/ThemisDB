@@ -71,8 +71,8 @@ static int64_t knowledgeBaseNowMs() {
 // Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 static std::string stripQuotes(const std::string &s) {
-    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
-        return s.substr(1, s.size() - 2);
+    if (static_cast<int>(s.size()) >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;
 }
@@ -82,7 +82,7 @@ static std::string stripQuotes(const std::string &s) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::string KnowledgeBase::generateId() {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "f_" << std::setw(6) << std::setfill('0') << id_counter_++;
     return oss.str();
 }
@@ -94,7 +94,7 @@ std::string KnowledgeBase::generateId() {
 std::string KnowledgeBase::assertFact(const std::string &subject, const std::string &predicate,
                                       const std::string &object) {
     // Evict oldest if at capacity.
-    while (insertion_order_.size() >= kMaxFacts) {
+    while (static_cast<int>(insertion_order_.size()) >= kMaxFacts) {
         const auto &oldest_id = insertion_order_.front();
         const auto pred_it    = fact_id_to_predicate_.find(oldest_id);
         if (pred_it != fact_id_to_predicate_.end()) {
@@ -152,7 +152,8 @@ bool KnowledgeBase::retractFact(const std::string &fact_id) {
 }
 
 std::vector<Fact> KnowledgeBase::getFacts(const std::string &predicate) const {
-    std::vector<Fact> result;
+    std::vector<Fact> result = {};
+
     if (predicate.empty()) {
         result.reserve(fact_by_id_.size());
         for (const auto &[id, f] : fact_by_id_) {
@@ -188,7 +189,7 @@ void KnowledgeBase::clearFacts() {
 
 void KnowledgeBase::addRule(HornClause rule) {
     // Remove previous rule with the same id if present.
-    auto it = std::find_if(rules_.begin(), rules_.end(), [&](const HornClause &r) { return r.id == rule.id; });
+    auto it = std::find_if(rules_.begin(), rules_.end(), [&]([[maybe_unused]] const HornClause &r) { return r.id == rule.id; });
     if (it != rules_.end()) {
         rules_.erase(it);
     }
@@ -196,7 +197,7 @@ void KnowledgeBase::addRule(HornClause rule) {
 }
 
 bool KnowledgeBase::removeRule(const std::string &rule_id) {
-    const auto it = std::find_if(rules_.begin(), rules_.end(), [&](const HornClause &r) { return r.id == rule_id; });
+    const auto it = std::find_if(rules_.begin(), rules_.end(), [&]([[maybe_unused]] const HornClause &r) { return r.id == rule_id; });
     if (it == rules_.end()) {
         return false;
     }
@@ -237,18 +238,18 @@ static TriplePattern parseTriplePattern(const std::string &line) {
     // Split by commas.
     std::vector<std::string> parts;
     std::istringstream ss(inner);
-    std::string token;
+    std::string token = {};
     while (std::getline(ss, token, ',')) {
         parts.push_back(themis::utils::trim(stripQuotes(token)));
     }
 
-    if (parts.size() >= 1) {
+    if (static_cast<int>(parts.size()) >= 1) {
         tp.subject = parts[0];
     }
-    if (parts.size() >= 2) {
+    if (static_cast<int>(parts.size()) >= 2) {
         tp.predicate = parts[1];
     }
-    if (parts.size() >= 3) {
+    if (static_cast<int>(parts.size()) >= 3) {
         // Join remaining parts (object may contain commas in quoted form).
         tp.object = parts[2];
         for (std::size_t i = 3; i < parts.size(); ++i) {
@@ -281,12 +282,14 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 
         int loaded = 0;
         for (const auto& rule_node : root["rules"]) {
-            HornClause hc;
+            HornClause hc = {};
 
             if (rule_node["id"]) {
                 hc.id = rule_node["id"].as<std::string>("");
             }
-            if (hc.id.empty()) continue;
+            if (hc.id.empty()) {
+              continue;
+            }
 
             if (rule_node["priority"]) {
                 hc.priority = rule_node["priority"].as<int>(0);
@@ -300,11 +303,14 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
             }
 
             auto parseTripleSeq = [](const YAML::Node& seq) {
-                std::vector<TriplePattern> triples;
-                if (!seq || !seq.IsSequence()) return triples;
+                std::vector<TriplePattern> triples = {};
+
+                if (!seq || !seq.IsSequence()) {
+                  return triples;
+                }
                 for (const auto& item : seq) {
-                    TriplePattern tp;
-                    if (item.IsSequence() && item.size() >= 3) {
+                    TriplePattern tp = {};
+                    if (item.IsSequence() && static_cast<int>(item.size()) >= 3) {
                         tp.subject   = item[0].as<std::string>("");
                         tp.predicate = item[1].as<std::string>("");
                         tp.object    = item[2].as<std::string>("");
@@ -366,7 +372,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
         in_consequents = false;
     };
 
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         const std::string t = themis::utils::trim(line);
 

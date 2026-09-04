@@ -66,7 +66,7 @@ AccessControl::AccessControl(const Config& config)
     
     // Load ABAC policies if configured
     if (config_.abac_config.enable_abac && !config_.abac_config.abac_policy_path.empty()) {
-        std::string err;
+        std::string err = {};
         if (!policy_engine_.loadFromFile(config_.abac_config.abac_policy_path, &err)) {
             THEMIS_WARN("Failed to load ABAC policies from {}: {}",
                 config_.abac_config.abac_policy_path, err);
@@ -90,9 +90,11 @@ AccessControl::AccessControl(const Config& config)
     if (const char* env_roles = std::getenv("THEMIS_MFA_REQUIRED_ROLES")) {
         std::vector<std::string> roles;
         std::istringstream ss(env_roles);
-        std::string token;
+        std::string token = {};
         while (std::getline(ss, token, ',')) {
-            if (!token.empty()) roles.push_back(token);
+            if (!token.empty()) {
+              roles.push_back(token);
+            }
         }
         if (!roles.empty()) {
             config_.session_config.mfa_required_roles = std::move(roles);
@@ -204,7 +206,9 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
                         break;
                     }
                 }
-                if (role_requires_mfa) break;
+                if (role_requires_mfa) {
+                  break;
+                }
             }
         }
 
@@ -666,7 +670,7 @@ std::string AccessControl::createSessionLocked(
 
     // Check max concurrent sessions
     auto& user_sess = user_sessions_[user_id];
-    if (user_sess.size() > static_cast<size_t>(config_.session_config.max_concurrent_sessions)) {
+    if (static_cast<int>(user_sess.size()) > static_cast<size_t>(config_.session_config.max_concurrent_sessions)) {
         // Remove oldest session without re-acquiring the mutex.
         invalidateSessionLocked(user_sess.front());
         user_sess.erase(user_sess.begin());
@@ -946,7 +950,7 @@ nlohmann::json AccessControl::getStatistics() const {
         {"rate_limited_requests", stats_.rate_limited_requests.load()},
         {"sql_injection_attempts", stats_.sql_injection_attempts.load()},
         {"suspicious_queries", stats_.suspicious_queries.load()},
-        {"active_sessions", sessions_.size()}
+        {"active_sessions",static_cast<int>(sessions_.size())}
     };
 }
 
@@ -975,7 +979,8 @@ bool AccessControl::isSessionExpired(const Session& session) const {
 void AccessControl::cleanupExpiredSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> expired_sessions;
+    std::vector<std::string> expired_sessions = {};
+
     expired_sessions.reserve(sessions_.size());
     
     for (const auto& [token, session] : sessions_) {
@@ -994,7 +999,7 @@ std::string AccessControl::generateSessionToken() const {
     unsigned char buffer[32];
     RAND_bytes(buffer, sizeof(buffer));
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (size_t i = 0; i < sizeof(buffer); i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(buffer[i]);
     }

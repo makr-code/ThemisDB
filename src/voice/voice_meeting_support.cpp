@@ -38,9 +38,11 @@ VoiceMeetingSupport::VoiceMeetingSupport(const MeetingSupportConfig& config)
 {}
 
 std::string VoiceMeetingSupport::toLower(const std::string& s) const {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
-    for (unsigned char c : s) out += static_cast<char>(std::tolower(c));
+    for (unsigned char c : s) {
+      out += static_cast<char>(std::tolower(c));
+    }
     return out;
 }
 
@@ -50,26 +52,32 @@ bool VoiceMeetingSupport::containsTrigger(
 {
     std::string lower = toLower(text);
     for (const auto& t : triggers) {
-        if (lower.find(toLower(t)) != std::string::npos) return true;
+        if (lower.find(toLower(t)) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
 
 std::vector<std::string> VoiceMeetingSupport::tokenizeSentences(const std::string& text) const {
     std::vector<std::string> sentences;
-    std::string current;
+    std::string current = {};
     for (size_t i = 0; i < text.size(); ++i) {
         char c = text[i];
         current += c;
         if (c == '.' || c == '!' || c == '?') {
             // Look ahead: if next non-space is uppercase or end, split
             size_t j = i + 1;
-            while (j < text.size() && text[j] == ' ') ++j;
+            while (j < text.size() && text[j] == ' ') {
+              ++j;
+            }
             if (j >= text.size() || std::isupper(static_cast<unsigned char>(text[j]))) {
                 // trim
                 while (!current.empty() && std::isspace(static_cast<unsigned char>(current.front())))
                     current.erase(current.begin());
-                if (!current.empty()) sentences.push_back(current);
+                if (!current.empty()) {
+                  sentences.push_back(current);
+                }
                 current.clear();
             }
         }
@@ -77,7 +85,9 @@ std::vector<std::string> VoiceMeetingSupport::tokenizeSentences(const std::strin
     if (!current.empty()) {
         while (!current.empty() && std::isspace(static_cast<unsigned char>(current.front())))
             current.erase(current.begin());
-        if (!current.empty()) sentences.push_back(current);
+        if (!current.empty()) {
+          sentences.push_back(current);
+        }
     }
     return sentences;
 }
@@ -149,14 +159,16 @@ std::string VoiceMeetingSupport::extractAssignee(
     for (const auto& pat : patterns) {
         size_t pos = lower.find(pat);
         if (pos != std::string::npos) {
-            size_t start = pos + pat.size();
+            size_t start = pos + static_cast<int>(pat.size()) ;
             // Read a word
             size_t end = start;
             while (end < text.size() && !std::isspace(static_cast<unsigned char>(text[end])) &&
                    text[end] != '.' && text[end] != ',') {
                 ++end;
             }
-            if (end > start) return text.substr(start, end - start);
+            if (end > start) {
+              return text.substr(start, end - start);
+            }
         }
     }
     return {};
@@ -169,8 +181,12 @@ std::vector<ActionItem> VoiceMeetingSupport::extractActionItems(
     std::vector<ActionItem> items;
     auto sentences = tokenizeSentences(transcript);
     for (const auto& sent : sentences) {
-        if (items.size() >= config_.max_action_items) break;
-        if (!containsTrigger(sent, config_.action_item_triggers)) continue;
+        if (static_cast<int>(items.size()) >= config_.max_action_items) {
+          break;
+        }
+        if (!containsTrigger(sent, config_.action_item_triggers)) {
+          continue;
+        }
 
         ActionItem ai;
         ai.id = generateActionItemId();
@@ -205,12 +221,14 @@ std::vector<std::string> VoiceMeetingSupport::extractKeyPoints(
     auto sentences = tokenizeSentences(transcript);
     int count = 0;
     for (const auto& sent : sentences) {
-        if (sent.size() < 20) continue; // Skip trivial sentences
+        if (static_cast<int>(sent.size()) < 20) continue; // Skip trivial sentences
         auto type = classifySegment(sent);
         if (type == MeetingSegmentType::DECISION ||
             type == MeetingSegmentType::AGENDA_ITEM) {
             points.push_back(sent);
-            if (++count >= 3) break;
+            if (++count >= 3) {
+              break;
+            }
         }
     }
     return points;
@@ -219,14 +237,19 @@ std::vector<std::string> VoiceMeetingSupport::extractKeyPoints(
 std::map<std::string, size_t> VoiceMeetingSupport::computeSpeakerWordCounts(
     const std::vector<MeetingSegment>& segments) const
 {
-    std::map<std::string, size_t> counts;
+    std::map<std::string, size_t> counts = {};
+
     for (const auto& seg : segments) {
-        if (seg.speaker.empty()) continue;
+        if (seg.speaker.empty()) {
+          continue;
+        }
         // Count words by splitting on whitespace
         std::istringstream iss(seg.text);
-        std::string word;
+        std::string word = {};
         size_t wc = 0;
-        while (iss >> word) ++wc;
+        while (iss >> word) {
+          ++wc;
+        }
         counts[seg.speaker] += wc;
     }
     return counts;
@@ -347,10 +370,14 @@ void RealtimeMeetingSession::addSegment(
     int64_t start_ms,
     int64_t end_ms)
 {
-    if (text.empty()) return;
+    if (text.empty()) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
-    if (finalized_) return;
+    if (finalized_) {
+      return;
+    }
 
     // Classify and append segment
     MeetingSegment seg;
@@ -363,14 +390,16 @@ void RealtimeMeetingSession::addSegment(
     protocol_.segments.push_back(seg);
 
     // Append to full transcript (space-separated)
-    if (!protocol_.full_transcript.empty()) protocol_.full_transcript += ' ';
+    if (!protocol_.full_transcript.empty()) {
+      protocol_.full_transcript += ' ';
+    }
     protocol_.full_transcript += text;
 
     // Extract action items from this segment on-the-fly
     if (seg.type == MeetingSegmentType::ACTION_ITEM ||
         support_.containsTrigger(text, config_.action_item_triggers))
     {
-        if (protocol_.action_items.size() < config_.max_action_items) {
+        if (static_cast<int>(protocol_.action_items.size()) < config_.max_action_items) {
             ActionItem ai;
             ai.id               = support_.generateActionItemId();
             ai.description      = text;
@@ -381,7 +410,9 @@ void RealtimeMeetingSession::addSegment(
                 ai.assignee = support_.extractAssignee(text, protocol_.participants);
             }
             protocol_.action_items.push_back(ai);
-            if (on_action_item_) on_action_item_(protocol_.action_items.back());
+            if (on_action_item_) {
+              on_action_item_(protocol_.action_items.back());
+            }
         }
     }
 
@@ -393,8 +424,10 @@ void RealtimeMeetingSession::addSegment(
     // Update speaker word counts
     if (!speaker.empty()) {
         std::istringstream iss(text);
-        std::string word;
-        while (iss >> word) ++protocol_.speaker_word_counts[speaker];
+        std::string word = {};
+        while (iss >> word) {
+          ++protocol_.speaker_word_counts[speaker];
+        }
     }
 }
 
@@ -420,7 +453,7 @@ bool RealtimeMeetingSession::isFinalized() const {
 
 size_t RealtimeMeetingSession::segmentCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return protocol_.segments.size();
+    return static_cast<int>(protocol_.segments.size());
 }
 
 }} // namespace themis::voice

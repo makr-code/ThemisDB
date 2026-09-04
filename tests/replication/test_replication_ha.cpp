@@ -60,7 +60,7 @@ static ReplicationConfig makeConfig(const std::string& wal_dir = "/tmp/themis_re
 
 // RAII helper that removes the WAL directory on destruction.
 struct TempWALDir {
-    std::string path;
+    std::string path = {};
     explicit TempWALDir(const std::string& p) {
         const auto ticks = std::chrono::high_resolution_clock::now()
                                .time_since_epoch()
@@ -71,13 +71,13 @@ struct TempWALDir {
                 (base + "_" + std::to_string(ticks) + "_" + std::to_string(tid_hash)))
                    .string();
 
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(path, ec);
         std::filesystem::create_directories(path, ec);
     }
     ~TempWALDir() {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(path, ec);
             if (!ec) {
                 break;
@@ -1562,7 +1562,9 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
                 try {
                     std::string id = mgr.write("col", "doc-" + std::to_string(t * 1000 + i),
                                                "INSERT", "{}");
-                    if (id.empty()) errors.fetch_add(1);
+                    if (id.empty()) {
+                      errors.fetch_add(1);
+                    }
                 } catch (...) {
                     errors.fetch_add(1);
                 }
@@ -1570,7 +1572,9 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     // Wait for the queue to drain
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
@@ -1645,8 +1649,12 @@ TEST(MMReplicationManagerTest, TopologySnapshotWithPeer) {
     bool has_a_to_b = false, has_b_to_a = false;
     for (const auto& e : snap.edges) {
         EXPECT_EQ(e.type, "PEER");
-        if (e.from == "node-a" && e.to == "node-b") has_a_to_b = true;
-        if (e.from == "node-b" && e.to == "node-a") has_b_to_a = true;
+        if (e.from == "node-a" && e.to == "node-b") {
+          has_a_to_b = true;
+        }
+        if (e.from == "node-b" && e.to == "node-a") {
+          has_b_to_a = true;
+        }
     }
     EXPECT_TRUE(has_a_to_b) << "Edge from local to peer must exist";
     EXPECT_TRUE(has_b_to_a) << "Reverse edge from peer to local must exist";
@@ -2175,7 +2183,7 @@ TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder
 
 class PersistentStateTest : public ::testing::Test {
 protected:
-    std::string path_;
+    std::string path_ = {};
 
     void SetUp() override {
         const auto ticks = std::chrono::high_resolution_clock::now()
@@ -2194,7 +2202,7 @@ protected:
 private:
     void cleanupPath() {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(path_, ec);
             if (!ec || !std::filesystem::exists(path_)) {
                 break;
@@ -2280,11 +2288,15 @@ TEST_F(PersistentStateTest, ConcurrentPersistIsThreadSafe) {
                 PersistentReplicationState::State s;
                 s.last_applied_sequence = static_cast<uint64_t>(t * 100 + i);
                 s.current_term          = static_cast<uint64_t>(t);
-                if (!prs.persist(s)) errors.fetch_add(1);
+                if (!prs.persist(s)) {
+                  errors.fetch_add(1);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(errors.load(), 0) << "No errors expected in concurrent persist";
     EXPECT_TRUE(prs.exists());
@@ -2478,7 +2490,8 @@ TEST(CompressedStreamTest, ZstdAchievesHighRatioOnJsonLikeData) {
     std::string json_template =
         R"({"id":"doc00000","collection":"users","op":"INSERT",)"
         R"("data":{"name":"Alice Smith","email":"alice@example.com","role":"admin","active":true}})";
-    std::vector<WALEntry> entries;
+    std::vector<WALEntry> entries = {};
+
     for (int i = 0; i < 20; ++i) {
         WALEntry e;
         e.sequence_number = static_cast<uint64_t>(i + 1);
@@ -2567,7 +2580,7 @@ TEST(CompressedStreamTest, SnappyRoundTrip) {
     std::vector<uint8_t> raw(payload.begin(), payload.end());
 
     // Compress with Snappy directly.
-    std::string snappy_out;
+    std::string snappy_out = {};
     snappy::Compress(reinterpret_cast<const char*>(raw.data()), raw.size(), &snappy_out);
     std::vector<uint8_t> compressed(snappy_out.begin(), snappy_out.end());
 
@@ -2616,13 +2629,13 @@ protected:
                     ("themis_rs_compress_test_" + std::to_string(ticks) + "_" +
                      std::to_string(tid_hash)))
                        .string();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(wal_dir_, ec);
         std::filesystem::create_directories(wal_dir_, ec);
     }
     void TearDown() override {
         for (int i = 0; i < 5; ++i) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove_all(wal_dir_, ec);
             if (!ec || !std::filesystem::exists(wal_dir_)) {
                 break;
@@ -2630,7 +2643,7 @@ protected:
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
         }
     }
-    std::string wal_dir_;
+    std::string wal_dir_ = {};
 };
 
 TEST_F(ReplicationStreamCompressionTest, CompressionDisabledByDefault) {
@@ -2709,7 +2722,9 @@ TEST(BatchedAckTrackerTest, RecordAndDequeue) {
     cfg.flush_interval_ms = 10;
     BatchedAckTracker tracker(cfg);
 
-    for (uint64_t i = 1; i <= 5; ++i) tracker.recordApplied(i);
+    for (uint64_t i = 1; i <= 5; ++i) {
+      tracker.recordApplied(i);
+    }
 
     // Give the flush thread time to run
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -2754,7 +2769,9 @@ TEST(BatchedAckTrackerTest, StatsBatchSizeIsAccurate) {
     cfg.flush_interval_ms = 5;
     BatchedAckTracker tracker(cfg);
 
-    for (uint64_t i = 1; i <= 9; ++i) tracker.recordApplied(i);
+    for (uint64_t i = 1; i <= 9; ++i) {
+      tracker.recordApplied(i);
+    }
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
     auto stats = tracker.getStats();
@@ -2785,7 +2802,9 @@ TEST(BatchedAckTrackerTest, DestructorJoinsCleanly) {
 
 TEST(ReplicationAnalyticsTest, RecordAndGetLagHistory) {
     ReplicationAnalytics analytics;
-    for (int i = 0; i < 10; ++i) analytics.recordLag("r1", 100 * (i + 1));
+    for (int i = 0; i < 10; ++i) {
+      analytics.recordLag("r1", 100 * (i + 1));
+    }
 
     auto hist = analytics.getLagHistory("r1", std::chrono::hours(1));
     EXPECT_EQ(hist.data_points.size(), 10u);
@@ -2823,7 +2842,9 @@ TEST(ReplicationAnalyticsTest, SlowReplicaInsightGenerated) {
     cfg.slow_replica_avg_ms = 500;
     analytics.setConfig(cfg);
 
-    for (int i = 0; i < 20; ++i) analytics.recordLag("r2", 1000);
+    for (int i = 0; i < 20; ++i) {
+      analytics.recordLag("r2", 1000);
+    }
 
     auto insights = analytics.getInsights();
     auto it = std::find_if(insights.begin(), insights.end(),
@@ -2872,7 +2893,8 @@ TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
     ReplicationAnalytics analytics;
     constexpr int kThreads = 4;
     constexpr int kSamples = 100;
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&analytics, t]() {
             for (int i = 0; i < kSamples; ++i) {
@@ -2880,7 +2902,9 @@ TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     for (int t = 0; t < kThreads; ++t) {
         auto hist = analytics.getLagHistory("r" + std::to_string(t),
@@ -2923,7 +2947,7 @@ TEST(ReplicationBenchmarkTest, RunProducesPositiveThroughput) {
         EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config.wal_directory, ec);
 }
 
@@ -2947,7 +2971,7 @@ TEST(ReplicationBenchmarkTest, DefaultConstructorWorks) {
         EXPECT_GT(result.writes_per_second, 0.0);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config.wal_directory, ec);
 }
 
@@ -2993,7 +3017,7 @@ TEST(ReplicationBenchmarkTest, LatencyPercentilesAreSorted) {
         EXPECT_LE(r.latency_p99_us, r.latency_max_us);
     }
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove_all(config.wal_directory, ec);
 }
 
@@ -3286,7 +3310,7 @@ TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
 
     // Write 5 segments; keep retention=2 -> should archive 3
     for (int i = 1; i <= 5; ++i) {
-        std::ostringstream name;
+        std::ostringstream name = {};
         name << "seg_" << std::setw(6) << std::setfill('0') << i << ".wal";
         writeSegmentFile(wal_dir, name.str(), "DATA" + std::to_string(i));
     }
@@ -3637,7 +3661,9 @@ struct MockArchivalBackend : public IArchivalBackend {
     std::optional<std::vector<uint8_t>> getObject(
         const std::string& key) const override {
         auto it = store.find(key);
-        if (it == store.end()) return std::nullopt;
+        if (it == store.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
@@ -4131,7 +4157,7 @@ TEST_F(CrossClusterPublicationTest, SetFilterThreadSafe) {
 
     std::atomic<bool> stop{false};
     std::vector<WALEntry> received;
-    std::mutex recv_mutex;
+    std::mutex recv_mutex = {};
 
     pub.addRemoteSubscriber([&](const WALEntry& e) {
         std::lock_guard<std::mutex> lk(recv_mutex);
@@ -4141,7 +4167,7 @@ TEST_F(CrossClusterPublicationTest, SetFilterThreadSafe) {
     // Writer thread: continuously updates filter
     std::thread writer([&] {
         for (int i = 0; i < 200 && !stop.load(); ++i) {
-            PublicationFilter f;
+            PublicationFilter f = {};
             if (i % 2 == 0) f.include_collections = {"col"};
             pub.setFilter(f);
         }
@@ -4234,7 +4260,9 @@ TEST_F(CrossClusterSubscriptionTest, ApplyErrorCountedAndDoesNotStop) {
     int call_count = 0;
     CrossClusterSubscription sub("sub", pub, [&](const WALEntry& e) {
         ++call_count;
-        if (e.sequence_number == 1) throw std::runtime_error("apply error");
+        if (e.sequence_number == 1) {
+          throw std::runtime_error("apply error");
+        }
     });
     sub.enable();
 
@@ -4393,7 +4421,7 @@ TEST(CrossClusterIntegrationTest, PublicationReceivesEntriesViaReplicationManage
     auto pub = std::make_shared<CrossClusterPublication>("intg_pub");
 
     std::vector<std::string> replicated_ids;
-    std::mutex ids_mutex;
+    std::mutex ids_mutex = {};
     CrossClusterSubscription sub("intg_sub", pub, [&](const WALEntry& e) {
         std::lock_guard<std::mutex> lk(ids_mutex);
         replicated_ids.push_back(e.document_id);
@@ -4444,7 +4472,7 @@ TEST(CrossClusterIntegrationTest, FilterDropsNonMatchingEntriesViaReplicationMan
     pub->setFilter(f);
 
     std::vector<std::string> replicated_collections;
-    std::mutex col_mutex;
+    std::mutex col_mutex = {};
     CrossClusterSubscription sub("filtered_intg_sub", pub, [&](const WALEntry& e) {
         std::lock_guard<std::mutex> lk(col_mutex);
         replicated_collections.push_back(e.collection);
@@ -4537,7 +4565,9 @@ TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
     int calls = 0;
     CrossClusterSubscription sub("err_sub", pub, [&]([[maybe_unused]] const WALEntry& e) {
         ++calls;
-        if (calls == 1) throw std::runtime_error("simulated error");
+        if (calls == 1) {
+          throw std::runtime_error("simulated error");
+        }
     });
     sub.enable();
 
@@ -5693,7 +5723,9 @@ TEST(MultiTierReplicationTest, GetStatsCountsPromotionsAndDemotions) {
     mgr.assignTier("d_col", ReplicationTier::TIER_2_STANDARD);
 
     // Promote p_col
-    for (int i = 0; i < 15; ++i) mgr.recordAccess("p_col");
+    for (int i = 0; i < 15; ++i) {
+      mgr.recordAccess("p_col");
+    }
     mgr.evaluateTierPromotion("p_col");
 
     // Demote d_col

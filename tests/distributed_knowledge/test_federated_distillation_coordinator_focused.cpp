@@ -239,7 +239,8 @@ TEST_F(FederatedDistillationCoordinatorTest, PrivacyBudgetRemainingUnlimited) {
 TEST_F(FederatedDistillationCoordinatorTest, MultipleStudentsAllReceiveBroadcast) {
     FederatedDistillationCoordinator coordinator(cfg_);
 
-    std::vector<uint64_t> received_rounds;
+    std::vector<uint64_t> received_rounds = {};
+
     for (int i = 0; i < 3; ++i) {
         coordinator.registerStudent("student-" + std::to_string(i),
             [&received_rounds](const DistillationRound& r) {

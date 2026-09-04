@@ -35,11 +35,13 @@ std::vector<float> kaimingUniform(size_t rows, size_t cols, uint32_t seed = 0) {
     std::mt19937 gen(seed);
     std::uniform_real_distribution<float> dist(-bound, bound);
     std::vector<float> w(rows * cols);
-    for (auto& v : w) v = dist(gen);
+    for (auto& v : w) {
+      v = dist(gen);
+    }
     return w;
 }
 
-std::vector<float> zeros(size_t count) {
+std::vector<float> zeros([[maybe_unused]] size_t count) {
     return std::vector<float>(count, 0.0f);
 }
 
@@ -106,7 +108,9 @@ public:
 
     bool removeLayer(const std::string& name) {
         auto it = layers_.find(name);
-        if (it == layers_.end()) return false;
+        if (it == layers_.end()) {
+          return false;
+        }
         layers_.erase(it);
         insertion_order_.erase(
             std::remove(insertion_order_.begin(), insertion_order_.end(), name),
@@ -122,7 +126,7 @@ public:
         return insertion_order_;
     }
 
-    size_t layerCount() const { return layers_.size(); }
+    size_t layerCount() const { return static_cast<int>(layers_.size()); }
 
     // -------------------------------------------------------------------------
     // Importance update
@@ -170,7 +174,7 @@ public:
     // Rank reallocation
     // -------------------------------------------------------------------------
 
-    ReallocResult reallocateRanks(size_t total_budget) {
+    ReallocResult reallocateRanks([[maybe_unused]] size_t total_budget) {
         if (total_budget == 0)
             throw std::invalid_argument("total_budget must be > 0");
         if (layers_.empty()) return {};
@@ -180,7 +184,7 @@ public:
         for (const auto& [_, lay] : layers_)
             total_importance += lay.importance;
 
-        ReallocResult result;
+        ReallocResult result = {};
 
         if (total_importance <= 0.0f) {
             // No importance data yet; distribute budget evenly
@@ -189,7 +193,9 @@ public:
             for (auto& [name, lay] : layers_) {
                 size_t new_rank = std::min(per_layer, lay.max_rank);
                 new_rank        = std::max<size_t>(1, new_rank);
-                if (new_rank < lay.active_rank) ++result.layers_pruned;
+                if (new_rank < lay.active_rank) {
+                  ++result.layers_pruned;
+                }
                 else if (new_rank > lay.active_rank) ++result.layers_expanded;
                 lay.active_rank = new_rank;
                 result.total_active_rank += new_rank;
@@ -239,7 +245,9 @@ public:
         for (size_t i = 0; i < order.size(); ++i) {
             Layer& lay      = layers_.at(order[i]);
             size_t new_rank = allocs[i];
-            if (new_rank < lay.active_rank) ++result.layers_pruned;
+            if (new_rank < lay.active_rank) {
+              ++result.layers_pruned;
+            }
             else if (new_rank > lay.active_rank) ++result.layers_expanded;
             lay.active_rank = new_rank;
             result.total_active_rank += new_rank;
@@ -264,7 +272,8 @@ public:
     }
 
     std::vector<AdaLoRALayerStats> getLayerStats() const {
-        std::vector<AdaLoRALayerStats> stats;
+        std::vector<AdaLoRALayerStats> stats = {};
+
         stats.reserve(insertion_order_.size());
         for (const auto& name : insertion_order_) {
             const Layer& lay = layers_.at(name);
@@ -289,9 +298,9 @@ public:
                     const std::vector<float>& B,
                     const std::vector<float>& A) {
         Layer& lay = getLayer(name);
-        if (B.size() != lay.in_dim * lay.max_rank)
+        if (static_cast<int>(B.size()) != lay.in_dim * lay.max_rank)
             throw std::invalid_argument("B size mismatch");
-        if (A.size() != lay.max_rank * lay.out_dim)
+        if (static_cast<int>(A.size()) != lay.max_rank * lay.out_dim)
             throw std::invalid_argument("A size mismatch");
         lay.B = B;
         lay.A = A;
@@ -315,7 +324,7 @@ public:
         const size_t D_out = lay.out_dim;
         const size_t r     = lay.active_rank;
 
-        if (input.size() != batch_size * D_in)
+        if (static_cast<int>(input.size()) != batch_size * D_in)
             throw std::invalid_argument("Input size mismatch");
 
         const float scaling = lay.alpha / static_cast<float>(lay.max_rank);
@@ -347,12 +356,12 @@ public:
     }
 
     size_t rankBudget() const { return rank_budget_; }
-    void setRankBudget(size_t b) { rank_budget_ = b; }
+    void setRankBudget([[maybe_unused]] size_t b) { rank_budget_ = b; }
 
 private:
-    size_t default_rank_;
-    float  default_alpha_;
-    size_t rank_budget_;
+    size_t default_rank_ = {};
+    float  default_alpha_ = {};
+    size_t rank_budget_ = {};
 
     std::unordered_map<std::string, Layer> layers_;
     std::vector<std::string> insertion_order_;
@@ -414,7 +423,7 @@ void AdaLoRAAdapter::updateAllImportances() {
     impl_->updateAllImportances();
 }
 
-ReallocResult AdaLoRAAdapter::reallocateRanks(size_t total_budget) {
+ReallocResult AdaLoRAAdapter::reallocateRanks([[maybe_unused]] size_t total_budget) {
     return impl_->reallocateRanks(total_budget);
 }
 
@@ -463,7 +472,7 @@ size_t AdaLoRAAdapter::rankBudget() const {
     return impl_->rankBudget();
 }
 
-void AdaLoRAAdapter::setRankBudget(size_t budget) {
+void AdaLoRAAdapter::setRankBudget([[maybe_unused]] size_t budget) {
     impl_->setRankBudget(budget);
 }
 
@@ -475,7 +484,7 @@ namespace {
 
 // File format constants
 constexpr std::array<char, 8> kMagic = {'A','D','A','L','O','R','A','\0'};
-constexpr uint32_t kFormatVersion = 1u;
+constexpr uint32_t kFormatVersion = 1;
 constexpr size_t   kFingerprintBytes = 64; // 64-char hex SHA-256 + NUL-pad
 
 template <typename T>
@@ -487,7 +496,9 @@ template <typename T>
 T readLE(std::istream& is) {
     T val{};
     is.read(reinterpret_cast<char*>(&val), sizeof(T));
-    if (!is) throw std::runtime_error("AdaLoRAAdapter::loadFromFile: unexpected EOF");
+    if (!is) {
+      throw std::runtime_error("AdaLoRAAdapter::loadFromFile: unexpected EOF");
+    }
     return val;
 }
 
@@ -502,7 +513,9 @@ std::vector<float> readFloats(std::istream& is, size_t count) {
     if (count > 0) {
         is.read(reinterpret_cast<char*>(v.data()),
                 static_cast<std::streamsize>(count * sizeof(float)));
-        if (!is) throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated weight data");
+        if (!is) {
+          throw std::runtime_error("AdaLoRAAdapter::loadFromFile: truncated weight data");
+        }
     }
     return v;
 }
@@ -540,8 +553,8 @@ void AdaLoRAAdapter::saveToFile(const std::string& path,
         const float  importance  = impl_->getImportance(name);
 
         // Infer dimensions from B (in_dim × max_rank) and A (max_rank × out_dim)
-        const size_t in_dim  = (max_rank > 0) ? B.size() / max_rank : 0;
-        const size_t out_dim = (max_rank > 0) ? A.size() / max_rank : 0;
+        const size_t in_dim  = (max_rank > 0) ?static_cast<int>(B.size()) / max_rank : 0;
+        const size_t out_dim = (max_rank > 0) ?static_cast<int>(A.size()) / max_rank : 0;
 
         // alpha is not directly exposed; reconstruct as default
         // We store a synthetic alpha via importance field note: real alpha stored
@@ -608,7 +621,9 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
     std::string fingerprint(fp_buf); // stops at first NUL
 
     // Clear existing layers
-    for (const auto& n : impl_->layerNames()) impl_->removeLayer(n);
+    for (const auto& n : impl_->layerNames()) {
+      impl_->removeLayer(n);
+    }
 
     // Layer count
     const uint32_t layer_count = readLE<uint32_t>(ifs);
@@ -648,7 +663,9 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
     }
 
     // Update budget to match the stored total
-    if (total_max_rank > 0) impl_->setRankBudget(total_max_rank);
+    if (total_max_rank > 0) {
+      impl_->setRankBudget(total_max_rank);
+    }
 
     return fingerprint;
 }
@@ -658,25 +675,35 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
 bool AdaLoRAAdapter::isCacheValid(const std::string& checkpoint_path,
                                   const std::string& current_fingerprint) {
     std::ifstream ifs(checkpoint_path, std::ios::binary);
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     // Magic
     char magic_buf[8] = {};
     ifs.read(magic_buf, 8);
-    if (!ifs || std::memcmp(magic_buf, kMagic.data(), 8) != 0) return false;
+    if (!ifs || std::memcmp(magic_buf, kMagic.data(), 8) != 0) {
+      return false;
+    }
 
     // Version
     uint32_t version = 0;
     ifs.read(reinterpret_cast<char*>(&version), sizeof(version));
-    if (!ifs || version != kFormatVersion) return false;
+    if (!ifs || version != kFormatVersion) {
+      return false;
+    }
 
     // Fingerprint
     char fp_buf[kFingerprintBytes + 1] = {};
     ifs.read(fp_buf, static_cast<std::streamsize>(kFingerprintBytes));
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     const std::string stored_fp(fp_buf);
-    if (stored_fp.empty() || current_fingerprint.empty()) return false;
+    if (stored_fp.empty() || current_fingerprint.empty()) {
+      return false;
+    }
 
     return stored_fp == current_fingerprint;
 }

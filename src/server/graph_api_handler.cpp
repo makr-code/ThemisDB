@@ -88,7 +88,7 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         json response = {
             {"start_vertex", start_vertex},
             {"max_depth", max_depth},
-            {"visited_count", visited.size()},
+            {"visited_count",static_cast<int>(visited.size())},
             {"visited", visited}
         };
         return makeResponse(http::status::ok, response.dump(), req);
@@ -219,13 +219,17 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
 
         // Look up the edge endpoints before deletion so we can notify
         // incremental queries with the correct from/to vertices.
-        std::string edge_from;
-        std::string edge_to;
+        std::string edge_from = {};
+        std::string edge_to = {};
         if (optimizer_) {
             auto from_opt = graph_index_->getEdgeField(edge_id, "_from");
             auto to_opt   = graph_index_->getEdgeField(edge_id, "_to");
-            if (from_opt) edge_from = std::move(*from_opt);
-            if (to_opt)   edge_to   = std::move(*to_opt);
+            if (from_opt) {
+              edge_from = std::move(*from_opt);
+            }
+            if (to_opt) {
+              edge_to   = std::move(*to_opt);
+            }
         }
 
         // Delete edge from graph index
@@ -321,7 +325,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     const auto& m = optimizer_->getQueryMetrics();
 
     // Build Prometheus text exposition format (text/plain; version=0.0.4)
-    std::string body;
+    std::string body = {};
     body.reserve(2048);
 
     auto counter = [&](const char* name, const char* help, uint64_t value) {
@@ -426,8 +430,12 @@ std::string GraphApiHandler::extractPathParam(
     const std::string& prefix
 ) {
     // Extract parameter from path after prefix
-    if (target.size() <= prefix.size()) return "";
-    if (target.substr(0, prefix.size()) != prefix) return "";
+    if (static_cast<int>(target.size()) <= prefix.size()) {
+      return "";
+    }
+    if (target.substr(0,static_cast<int>(prefix.size())) != prefix) {
+      return "";
+    }
     
     std::string param = target.substr(prefix.size());
     
@@ -445,13 +453,17 @@ std::string GraphApiHandler::extractPathParam(
 // ─────────────────────────────────────────────────────────────────────────────
 
 themis::graph::GraphQueryOptimizer::GraphChangeSet
-GraphApiHandler::parseChangeSet(const json& changes_array) {
+GraphApiHandler::parseChangeSet([[maybe_unused]] const json& changes_array) {
     using CS = themis::graph::GraphQueryOptimizer::GraphChangeSet;
-    CS cs;
-    if (!changes_array.is_array()) return cs;
+    CS cs = {};
+    if (!changes_array.is_array()) {
+      return cs;
+    }
 
     for (const auto& item : changes_array) {
-        if (!item.contains("type") || !item.contains("id")) continue;
+        if (!item.contains("type") || !item.contains("id")) {
+          continue;
+        }
         const std::string type = item["type"].get<std::string>();
         const std::string id   = item["id"].get<std::string>();
         const std::string from = item.value("from", std::string{});
@@ -526,8 +538,11 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
         // Seed the result cache with the initial result (empty delta, full current).
         themis::graph::GraphQueryOptimizer::ExecutionStats init_stats;
         auto init_bfs = optimizer_->executeBFS(start_vertex, max_depth, constraints, &init_stats);
-        std::vector<std::string> initial;
-        if (init_bfs) initial = init_bfs.value();
+        std::vector<std::string> initial = {};
+
+        if (init_bfs) {
+          initial = init_bfs.value();
+        }
 
         themis::graph::GraphQueryOptimizer::IncrementalQueryResult seed;
         seed.reexecuted = false;
@@ -583,7 +598,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
     try {
         handle = std::stoull(handle_str);
     } catch (...) {
-        THEMIS_WARN("graph_api_handler: unhandled exception caught");
+        THEMIS_WARN([[maybe_unused]] "graph_api_handler: unhandled exception caught");
         span.setStatus(false, "invalid handle");
         return makeErrorResponse(http::status::bad_request,
             "Invalid handle: not a valid integer", req);
@@ -637,7 +652,7 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
 
         json response = {
             {"queries_reexecuted", reexecuted},
-            {"changes_applied",    cs.size()}
+            {"changes_applied",static_cast<int>(cs.size())}
         };
         return makeResponse(http::status::ok, response.dump(), req);
 
@@ -816,17 +831,23 @@ parseQueryConstraints(const json& body, const std::string& key = "constraints") 
     }
     if (c.contains("forbidden_vertices") && c["forbidden_vertices"].is_array()) {
         for (const auto& v : c["forbidden_vertices"]) {
-            if (v.is_string()) qc.forbidden_vertices.push_back(v.get<std::string>());
+            if (v.is_string()) {
+              qc.forbidden_vertices.push_back(v.get<std::string>());
+            }
         }
     }
     if (c.contains("required_vertices") && c["required_vertices"].is_array()) {
         for (const auto& v : c["required_vertices"]) {
-            if (v.is_string()) qc.required_vertices.push_back(v.get<std::string>());
+            if (v.is_string()) {
+              qc.required_vertices.push_back(v.get<std::string>());
+            }
         }
     }
     if (c.contains("node_labels") && c["node_labels"].is_array()) {
         for (const auto& v : c["node_labels"]) {
-            if (v.is_string()) qc.node_labels.push_back(v.get<std::string>());
+            if (v.is_string()) {
+              qc.node_labels.push_back(v.get<std::string>());
+            }
         }
     }
     return qc;
@@ -986,14 +1007,17 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
                 return makeErrorResponse(http::status::bad_request,
                     "Field 'pattern_vertices' (array) is required for pattern_match", req);
             }
-            std::vector<std::string> pverts;
+            std::vector<std::string> pverts = {};
+
             for (const auto& pv : body_json["pattern_vertices"]) {
-                if (pv.is_string()) pverts.push_back(pv.get<std::string>());
+                if (pv.is_string()) {
+                  pverts.push_back(pv.get<std::string>());
+                }
             }
             std::vector<std::pair<std::string, std::string>> pedges;
             if (body_json.contains("pattern_edges") && body_json["pattern_edges"].is_array()) {
                 for (const auto& pe : body_json["pattern_edges"]) {
-                    if (pe.is_array() && pe.size() == 2 &&
+                    if (pe.is_array() && static_cast<int>(pe.size()) == 2 &&
                         pe[0].is_string() && pe[1].is_string())
                     {
                         pedges.emplace_back(pe[0].get<std::string>(), pe[1].get<std::string>());
@@ -1042,12 +1066,16 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
                 }
                 if (pco.contains("forbidden_vertices") && pco["forbidden_vertices"].is_array()) {
                     for (const auto& fv : pco["forbidden_vertices"]) {
-                        if (fv.is_string()) pc.addForbiddenNode(fv.get<std::string>());
+                        if (fv.is_string()) {
+                          pc.addForbiddenNode(fv.get<std::string>());
+                        }
                     }
                 }
                 if (pco.contains("required_vertices") && pco["required_vertices"].is_array()) {
                     for (const auto& rv : pco["required_vertices"]) {
-                        if (rv.is_string()) pc.addRequiredNode(rv.get<std::string>());
+                        if (rv.is_string()) {
+                          pc.addRequiredNode(rv.get<std::string>());
+                        }
                     }
                 }
                 if (pco.contains("unique_nodes") && pco["unique_nodes"].is_boolean() &&

@@ -157,7 +157,8 @@ void LLMPluginManager::setDefaultPlugin(const std::string& name) {
 std::vector<std::string> LLMPluginManager::listPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     result.reserve(plugins_.size());
     
     for (const auto& [name, _] : plugins_) {
@@ -177,9 +178,12 @@ json LLMPluginManager::getAggregatedCapabilities() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Collect sorted plugin names for deterministic output (plugins_ is unordered_map)
-    std::vector<std::string> sorted_names;
+    std::vector<std::string> sorted_names = {};
+
     sorted_names.reserve(plugins_.size());
-    for (const auto& [name, _] : plugins_) sorted_names.push_back(name);
+    for (const auto& [name, _] : plugins_) {
+      sorted_names.push_back(name);
+    }
     std::sort(sorted_names.begin(), sorted_names.end());
 
     json result = json::array();
@@ -266,7 +270,7 @@ LLMPluginManager& LLMPluginManager::instance() {
     // sequentially-consistent execution even under concurrent callers.
     static std::once_flag oom_cb_flag;
     std::call_once(oom_cb_flag, [](LLMPluginManager& mgr) {
-        mgr.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
+        mgr.vram_allocator_.setOOMCallback([[maybe_unused]] [](const ActiveVRAMAllocator::OOMEvent& ev) {
             spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
                          "recovered={}, freed={} bytes",
                          ev.requested_bytes,
@@ -346,7 +350,7 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
         const std::string model_root_str(model_root_env);
         if (!model_root_str.empty()) {
             namespace fs = std::filesystem;
-            std::error_code ec;
+            std::error_code ec = {};
             const fs::path root_canonical  = fs::canonical(fs::path(model_root_str), ec);
             if (!ec) {
                 // Prefer canonical() which resolves all symlinks fully (no TOCTOU risk
@@ -371,8 +375,8 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
                 const std::string root_str = root_canonical.string();
                 const std::string res_str  = resolved.string();
                 if (res_str.rfind(root_str, 0) != 0 ||
-                    (res_str.size() > root_str.size() &&
-                     res_str[root_str.size()] != fs::path::preferred_separator)) {
+                    (static_cast<int>(res_str.size()) > static_cast<int>(root_str.size()) &&
+                     res_str[static_cast<int>(root_str.size())] != fs::path::preferred_separator)) {
                     spdlog::error("LLMPluginManager::loadModel: path '{}' is outside "
                                   "THEMIS_MODEL_ROOT '{}'", path, model_root_str);
                     return false;
@@ -414,7 +418,7 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
         // registration to avoid allocating a 0-byte sentinel.
         auto info = plugin->getModelInfo();
         if (info && info->vram_required_mb > 0) {
-            const size_t vram_bytes = info->vram_required_mb * 1024ULL * 1024ULL;
+            const size_t vram_bytes = info->vram_required_mb * 1024 * 1024;
             auto handle = vram_allocator_.registerExternal(vram_bytes, model_id);
             std::lock_guard<std::mutex> lock(mutex_);
             vram_handles_[model_id] = std::move(handle);
@@ -479,7 +483,7 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
     // ── AI Safety: Gossip adapter capability announcement ──────────────────
     if (ok) {
         distributed_knowledge::GossipAdapterPublisher* publisher;
-        std::string shard_id;
+        std::string shard_id = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             publisher = adapter_publisher_;
@@ -514,7 +518,7 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
     // ── AI Safety: Gossip withdrawal announcement ──────────────────────────
     if (ok) {
         distributed_knowledge::GossipAdapterPublisher* publisher;
-        std::string shard_id;
+        std::string shard_id = {};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             publisher = adapter_publisher_;
@@ -559,7 +563,7 @@ std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest
     auto response = plugin->generate(request);
     std::vector<std::string> tokens;
     std::istringstream iss(response.text);
-    std::string token;
+    std::string token = {};
     while (iss >> token) {
         tokens.push_back(token);
     }
@@ -578,7 +582,9 @@ std::optional<ModelInfo> LLMPluginManager::getModelInfo(const std::string& model
     }
     auto info = plugin->getModelInfo();
     if (info) {
-        if (info->model_id.empty()) info->model_id = model_id;
+        if (info->model_id.empty()) {
+          info->model_id = model_id;
+        }
         info->is_loaded = plugin->isModelLoaded();
     }
     return info;
@@ -605,7 +611,7 @@ LLMPluginManager::PluginStatistics LLMPluginManager::getStatistics() const {
 }
 
 LLMPluginManager::CacheStatistics LLMPluginManager::getCacheStatistics() const {
-    CacheStatistics stats;
+    CacheStatistics stats = {};
     return stats;
 }
 
@@ -830,7 +836,7 @@ void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& ser
                 const std::string model_id = req.value("model_id", std::string{"default"});
                 return json{{"status",         "ok"},
                             {"model_id",       model_id},
-                            {"prompt_chars",   prompt.size()},
+                            {"prompt_chars",static_cast<int>(prompt.size())},
                             {"estimated_tokens", tokens},
                             {"method",         "CHAR_HEURISTIC"}}.dump();
             } catch (const std::exception& ex) {
@@ -1100,7 +1106,7 @@ std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
     
     try {
         spdlog::debug("CreatePluginSafe: creating '{}' with config bytes={} (content redacted)",
-                     plugin_name, config_json.size());
+                     plugin_name,static_cast<int>(config_json.size()));
 
         // NOTE: Actual plugin factory would be called here
         // This is a safe pattern that ensures:
@@ -1237,7 +1243,7 @@ std::vector<int32_t> LLMPluginManager::ProcessTokensSafe(
             result.push_back(static_cast<int32_t>(i));
         }
         
-        spdlog::debug("ProcessTokensSafe: processed {} tokens", result.size());
+        spdlog::debug("ProcessTokensSafe: processed {} tokens",static_cast<int>(result.size()));
         return result;
         
     } catch (const std::exception& e) {
@@ -1258,7 +1264,7 @@ struct ConcurrentInferenceTracker {
     // are zero/value-initialised before first use regardless of constructor path.
     std::atomic<size_t> active_inferences{0};
     size_t max_concurrent{256};
-    std::mutex lock;
+    std::mutex lock = {};
 
     ConcurrentInferenceTracker() noexcept = default;
 

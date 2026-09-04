@@ -64,7 +64,8 @@ FuzzyMatcher::search(const std::string& query,
     }
 
     // Convert and enrich results
-    std::vector<FuzzyMatch> matches;
+    std::vector<FuzzyMatch> matches = {};
+
     matches.reserve(ft_results.size());
 
     for (const auto& r : ft_results) {
@@ -98,11 +99,11 @@ FuzzyMatcher::search(const std::string& query,
                 break;
             }
             case Algorithm::LEVENSHTEIN:
-            default: {
+            [[fallthrough]];\n            default: {
                 // Use the score returned by scanFulltextFuzzy directly (it's BM25-like)
                 // normalised to [0,1] via the max possible BM25 score heuristic
                 int dist = levenshtein(lower_query, r.pk);
-                similarity = distanceToScore(dist, lower_query.size());
+                similarity = distanceToScore(dist,static_cast<int>(lower_query.size()));
                 m.edit_distance = dist;
                 break;
             }
@@ -118,7 +119,7 @@ FuzzyMatcher::search(const std::string& query,
                   return a.score > b.score;
               });
 
-    THEMIS_DEBUG("FuzzyMatcher::search('{}') -> {} matches", query, matches.size());
+    THEMIS_DEBUG("FuzzyMatcher::search('{}') -> {} matches", query,static_cast<int>(matches.size()));
     return {SecondaryIndexManager::Status::OK(), std::move(matches)};
 }
 
@@ -128,15 +129,21 @@ FuzzyMatcher::search(const std::string& query,
 
 int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
     const size_t la = a.size(), lb = b.size();
-    if (la == 0) return static_cast<int>(lb);
-    if (lb == 0) return static_cast<int>(la);
+    if (la == 0) {
+      return static_cast<int>(lb);
+    }
+    if (lb == 0) {
+      return static_cast<int>(la);
+    }
     std::vector<int> prev(lb + 1), curr(lb + 1);
-    for (size_t j = 0; j <= lb; ++j) prev[j] = static_cast<int>(j);
+    for (size_t j = 0; j <= lb; ++j) {
+      prev[j] = static_cast<int>(j);
+    }
     for (size_t i = 1; i <= la; ++i) {
         curr[0] = static_cast<int>(i);
         for (size_t j = 1; j <= lb; ++j) {
-            int cost = (a[i-1] == b[j-1]) ? 0 : 1;
-            curr[j] = std::min({prev[j] + 1, curr[j-1] + 1, prev[j-1] + cost});
+            int cost = (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) ? 0 : 1;
+            curr[j] = std::min({prev[j] + 1, curr[static_cast<int>(j - 1)] + 1, prev[static_cast<int>(j - 1)] + cost});
         }
         std::swap(prev, curr);
     }
@@ -144,7 +151,9 @@ int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
 }
 
 std::string FuzzyMatcher::soundex(const std::string& word) {
-    if (word.empty()) return "0000";
+    if (word.empty()) {
+      return "0000";
+    }
 
     // American Soundex table
     static const char table[26] = {
@@ -152,34 +161,40 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
            0, 1, 2, 3, 0, 1, 2, 0, 0, 2, 2, 4, 5, 5, 0, 1, 2, 6, 2, 3, 0, 1, 0, 2, 0, 2
     };
 
-    std::string result;
+    std::string result = {};
     char first = static_cast<char>(std::toupper(static_cast<unsigned char>(word[0])));
     result += first;
 
     char prev_code = (first >= 'A' && first <= 'Z') ? table[first - 'A'] : '0';
-    for (size_t i = 1; i < word.size() && result.size() < 4; ++i) {
+    for (size_t i = 1; i < word.size() && static_cast<int>(result.size()) < 4; ++i) {
         char c = static_cast<char>(std::toupper(static_cast<unsigned char>(word[i])));
-        if (c < 'A' || c > 'Z') continue;
+        if (c < 'A' || c > 'Z') {
+          continue;
+        }
         char code = table[c - 'A'];
         if (code != '0' && code != prev_code) {
             result += static_cast<char>('0' + code);
         }
         prev_code = code;
     }
-    while (result.size() < 4) result += '0';
+    while ( static_cast<int>(result.size()) < 4) {
+      result += '0';
+    }
     return result;
 }
 
 std::string FuzzyMatcher::metaphone(const std::string& word) {
-    if (word.empty()) return "";
+    if (word.empty()) {
+      return "";
+    }
 
     // Simplified single Metaphone
-    std::string upper;
+    std::string upper = {};
     for (char c : word) {
         upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     }
 
-    std::string result;
+    std::string result = {};
     size_t n = upper.size();
 
     auto isVowel = [](char c) {
@@ -189,9 +204,9 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
     for (size_t i = 0; i < n; ++i) {
         char c = upper[i];
         char next = (i + 1 < n) ? upper[i + 1] : '\0';
-        char prev = (i > 0) ? upper[i - 1] : '\0';
+        char prev = (i > 0) ? upper[static_cast<int>(i - 1)] : '\0';
 
-        if (i == 0 && (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')) {
+        if ((i == 0 && (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U'))) {
             result += c; continue;
         }
         if (isVowel(c) && i != 0) continue; // drop non-initial vowels
@@ -199,7 +214,9 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
         switch (c) {
             case 'B': if (prev != 'M') result += 'B'; break;
             case 'C':
-                if (next == 'I' || next == 'E' || next == 'Y') result += 'S';
+                if (next == 'I' || next == 'E' || next == 'Y') {
+                  result += 'S';
+                }
                 else result += 'K';
                 break;
             case 'D':
@@ -214,7 +231,9 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
                     result += 'K';
                 break;
             case 'H':
-                if (!isVowel(prev) && isVowel(next)) result += 'H';
+                if (!isVowel(prev) && isVowel(next)) {
+                  result += 'H';
+                }
                 break;
             case 'J': result += 'J'; break;
             case 'K': if (prev != 'C') result += 'K'; break;
@@ -225,8 +244,8 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
             case 'Q': result += 'K'; break;
             case 'R': result += 'R'; break;
             case 'S':
-                if (next == 'H' || (next == 'I' && (i+2 < n) &&
-                    (upper[i+2] == 'A' || upper[i+2] == 'O')))
+                if ((next == 'H' || (next == 'I' && ((i+2 < n) &&
+                    (upper[i+2] == 'A' || upper[i+2] == 'O')))))
                     result += 'X';
                 else result += 'S';
                 break;
@@ -249,13 +268,20 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
 }
 
 double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b, size_t n) {
-    if (a.empty() && b.empty()) return 1.0;
-    if (a.empty() || b.empty()) return 0.0;
-    if (n == 0) return 0.0;
+    if (a.empty() && b.empty()) {
+      return 1.0;
+    }
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
+    if (n == 0) {
+      return 0.0;
+    }
 
     auto ngrams = [n](const std::string& s) -> std::multiset<std::string> {
-        std::multiset<std::string> result;
-        if (s.size() < n) {
+        std::multiset<std::string> result = {};
+
+        if (static_cast<int>(s.size()) < n) {
             result.insert(s);
             return result;
         }
@@ -282,13 +308,17 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
         }
     }
 
-    double denom = static_cast<double>(sa.size() + sb.size());
-    if (denom == 0.0) return 1.0;
+    double denom = static_cast<double>(static_cast<int>(sa.size()) + static_cast<int>(sb.size()) );
+    if (denom == 0.0) {
+      return 1.0;
+    }
     return 2.0 * static_cast<double>(intersection) / denom;
 }
 
 double FuzzyMatcher::distanceToScore(int distance, size_t query_len) {
-    if (query_len == 0) return distance == 0 ? 1.0 : 0.0;
+    if (query_len == 0) {
+      return distance == 0 ? 1.0 : 0.0;
+    }
     double normalized = static_cast<double>(distance) / static_cast<double>(query_len);
     return std::max(0.0, 1.0 - normalized);
 }

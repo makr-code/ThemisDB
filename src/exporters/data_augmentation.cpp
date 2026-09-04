@@ -109,7 +109,7 @@ const std::map<std::string, std::vector<std::string>> &DataAugmentationPipeline:
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ std::string DataAugmentationPipeline::normalizeWhitespace(const std::string &text) {
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
     bool last_was_space = true; // treat leading whitespace as "already had a space"
     for (char c : text) {
@@ -172,10 +172,10 @@ std::string DataAugmentationPipeline::replaceSynonyms(const std::string &text, u
     }
 
     // Tokenize the text into word/non-word runs and replace words.
-    std::string result;
+    std::string result = {};
     result.reserve(text.size());
-    std::string word;
-    std::string nonword;
+    std::string word = {};
+    std::string nonword = {};
 
     auto flush_word = [&]() {
         if (word.empty()) {
@@ -230,7 +230,8 @@ std::vector<std::string> DataAugmentationPipeline::selectFields(const BaseEntity
         return config_.augment_fields;
     }
     // Default: all string-valued fields.
-    std::vector<std::string> fields;
+    std::vector<std::string> fields = {};
+
     for (const auto &kv : entity.getAllFields()) {
         if (entity.getFieldAsString(kv.first)) {
             fields.push_back(kv.first);

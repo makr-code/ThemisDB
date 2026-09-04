@@ -87,9 +87,11 @@ void TensorAwareQueryOptimizer::clearIRVisitorFn() {
 
 bool TensorAwareQueryOptimizer::isTensorFunction(const std::string& name) noexcept {
     // Accept both upper and mixed case.
-    std::string upper;
+    std::string upper = {};
     upper.reserve(name.size());
-    for (char c : name) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (char c : name) {
+      upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
     return kTensorFunctions.count(upper) > 0;
 }
 
@@ -111,7 +113,9 @@ namespace {
     /// Returns the product, clamped to DBL_MAX if overflow would occur.
     inline double safeMul(double a, double b) noexcept {
         constexpr double kMaxDouble = std::numeric_limits<double>::max();
-        if (a == 0.0 || b == 0.0) return 0.0;
+        if (a == 0.0 || b == 0.0) {
+          return 0.0;
+        }
         if (a > 0.0 && b > 0.0 && a > kMaxDouble / b) {
             return kMaxDouble;
         }
@@ -214,7 +218,9 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 
                     // Recurse into children and return early.
                     for (auto& child : node.children) {
-                        if (child) rewriteNode(*child);
+                        if (child) {
+                          rewriteNode(*child);
+                        }
                     }
                     return;
                 }
@@ -231,7 +237,8 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
         detector = tensor_node_detector_fn_;
     }
 
-    std::optional<std::string> detected_fn;
+    std::optional<std::string> detected_fn = {};
+
     if (detector) {
         try {
             detected_fn = detector(node);
@@ -242,12 +249,12 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
         }
     }
 
-    std::string matched_function;
+    std::string matched_function = {};
     if (detected_fn.has_value() && isTensorFunction(*detected_fn)) {
         matched_function = *detected_fn;
     } else {
         // Check whether this node's description mentions a tensor function.
-        std::string upper_desc;
+        std::string upper_desc = {};
         upper_desc.reserve(node.description.size());
         for (char c : node.description)
             upper_desc += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -288,7 +295,9 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 
     // Recurse into children.
     for (auto& child : node.children) {
-        if (child) rewriteNode(*child);
+        if (child) {
+          rewriteNode(*child);
+        }
     }
 
     // Invoke the injected AST visitor (bridge injected; fn-based path available).
@@ -304,7 +313,9 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 std::shared_ptr<QueryPlanNode>
 TensorAwareQueryOptimizer::rewrite(std::shared_ptr<QueryPlanNode> root) {
     last_stats_ = {};
-    if (root) rewriteNode(*root);
+    if (root) {
+      rewriteNode(*root);
+    }
     return root;
 }
 
@@ -422,11 +433,12 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     // ── Step 3: RRF fusion ────────────────────────────────────────────────
     // RRF score(d) = Σ 1 / (rrf_k + rank_i(d))
     // Collect all unique node IDs and compute RRF score from both lists.
-    std::unordered_map<std::string, HybridAnnGraphResult> fused;
-    fused.reserve(ann_list.size() + graph_list.size());
+    std::unordered_map<std::string, HybridAnnGraphResult> fused = {};
+
+    fused.reserve(static_cast<int>(ann_list.size()) + static_cast<int>(graph_list.size()) );
 
     // Seed from ANN list
-    for (int r = 0; r < static_cast<int>(ann_list.size()); ++r) {
+    for (size_t r = 0; r < ann_list.size(); ++r) {
         const auto& id = ann_list[r];
         auto& entry = fused[id];
         entry.node_id   = id;
@@ -434,7 +446,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
         entry.rrf_score += 1.0 / (query.rrf_k + r + 1.0);
     }
     // Add from graph list
-    for (int r = 0; r < static_cast<int>(graph_list.size()); ++r) {
+    for (size_t r = 0; r < graph_list.size(); ++r) {
         const auto& id = graph_list[r];
         auto& entry = fused[id];
         if (entry.node_id.empty()) {
@@ -446,7 +458,8 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     }
 
     // ── Step 4: Sort + truncate ───────────────────────────────────────────
-    std::vector<HybridAnnGraphResult> results;
+    std::vector<HybridAnnGraphResult> results = {};
+
     results.reserve(fused.size());
     for (auto& [id, entry] : fused) {
         results.push_back(std::move(entry));
@@ -455,12 +468,12 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
               [](const HybridAnnGraphResult& a, const HybridAnnGraphResult& b) {
                   return a.rrf_score > b.rrf_score;  // descending
               });
-    if (results.size() > query.top_k) {
+    if (static_cast<int>(results.size()) > query.top_k) {
         results.resize(query.top_k);
     }
 
     THEMIS_INFO("planAnnGraphHybrid: fused {} ANN + {} graph → {} results in {:.1f}ms",
-                ann_list.size(), graph_list.size(), results.size(), elapsed_ms());
+                ann_list.size(),static_cast<int>(graph_list.size()),static_cast<int>(results.size()), elapsed_ms());
 
     return results;
 }

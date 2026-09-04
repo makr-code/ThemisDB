@@ -47,16 +47,18 @@ std::string sqlValueToAQL(const SQLValue& val) {
         } else if constexpr (std::is_same_v<T, int64_t>) {
             return std::to_string(v);
         } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss << v;
             return oss.str();
         } else {
             // std::string – emit as a quoted AQL string literal
-            std::string out;
-            out.reserve(v.size() + 2);
+            std::string out = {};
+            out.reserve(static_cast<int>(v.size()) + 2);
             out += '"';
             for (char c : v) {
-                if (c == '"')  out += "\\\"";
+                if (c == '"') {
+                  out += "\\\"";
+                }
                 else if (c == '\\') out += "\\\\";
                 else if (c == '\n') out += "\\n";
                 else if (c == '\r') out += "\\r";
@@ -80,7 +82,9 @@ std::string SQLLiteralExpr::toAQL(const std::string& /*var*/) const {
 }
 
 std::string SQLColumnExpr::toAQL(const std::string& var) const {
-    if (column == "*") return var;
+    if (column == "*") {
+      return var;
+    }
     return var + "." + column;
 }
 
@@ -109,10 +113,12 @@ std::string SQLUnaryOpExpr::toAQL(const std::string& var) const {
 }
 
 std::string SQLListExpr::toAQL(const std::string& var) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[";
     for (size_t i = 0; i < elements.size(); ++i) {
-        if (i > 0) oss << ", ";
+        if (i > 0) {
+          oss << ", ";
+        }
         oss << elements[i]->toAQL(var);
     }
     oss << "]";
@@ -190,17 +196,22 @@ public:
     explicit SQLLexer(const std::string& input) : input_(input), pos_(0) {}
 
     std::vector<SQLToken> tokenize() {
-        std::vector<SQLToken> tokens;
-        while (pos_ < input_.size()) {
+        std::vector<SQLToken> tokens = {};
+
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             skipWhitespace();
-            if (pos_ >= input_.size()) break;
+            if (pos_ >= static_cast<int>(input_.size())) {
+              break;
+            }
 
             size_t start = pos_;
             char c = input_[pos_];
 
             // Single-line comment (-- ...)
             if (c == '-' && pos_ + 1 < input_.size() && input_[pos_ + 1] == '-') {
-                while (pos_ < input_.size() && input_[pos_] != '\n') ++pos_;
+                while (pos_ < input_.size() && input_[pos_] != '\n') {
+                  ++pos_;
+                }
                 continue;
             }
 
@@ -211,7 +222,7 @@ public:
             }
 
             // Numbers
-            if (std::isdigit(c) || (c == '-' && pos_ + 1 < input_.size() && std::isdigit(input_[pos_ + 1]))) {
+            if ((std::isdigit(c) || (c == '-' && pos_ + 1 < input_.size() && std::isdigit(input_[pos_ + 1])))) {
                 tokens.push_back(readNumber(start));
                 continue;
             }
@@ -257,22 +268,24 @@ public:
                 default:  tokens.push_back({SQLTokenType::INVALID, std::string(1, c), start}); ++pos_; break;
             }
         }
-        tokens.push_back({SQLTokenType::END_OF_INPUT, "", input_.size()});
+        tokens.push_back({SQLTokenType::END_OF_INPUT, "",static_cast<int>(input_.size())});
         return tokens;
     }
 
 private:
     const std::string& input_;
-    size_t pos_;
+    size_t pos_ = {};
 
     void skipWhitespace() {
-        while (pos_ < input_.size() && std::isspace(static_cast<unsigned char>(input_[pos_]))) ++pos_;
+        while (pos_ < input_.size() && std::isspace(static_cast<unsigned char>(input_[pos_]))) {
+          ++pos_;
+        }
     }
 
     SQLToken readString(char delim, size_t start) {
         ++pos_; // skip opening delimiter
-        std::string val;
-        while (pos_ < input_.size()) {
+        std::string val = {};
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             char ch = input_[pos_];
             // SQL doubled-delimiter escape: '' or "" within a string
             if (ch == delim) {
@@ -296,24 +309,26 @@ private:
             }
             ++pos_;
         }
-        if (pos_ < input_.size()) ++pos_; // skip closing delimiter
+        if (static_cast<int>(input_.size()) > pos_) ++pos_; // skip closing delimiter
         return {SQLTokenType::STRING_LIT, val, start};
     }
 
-    SQLToken readNumber(size_t start) {
-        std::string val;
+    SQLToken readNumber([[maybe_unused]] size_t start) {
+        std::string val = {};
         if (input_[pos_] == '-') { val += '-'; ++pos_; }
         bool is_float = false;
-        while (pos_ < input_.size() && (std::isdigit(input_[pos_]) || input_[pos_] == '.')) {
-            if (input_[pos_] == '.') is_float = true;
+        while ((pos_ < input_.size() && (std::isdigit(input_[pos_]) || input_[pos_] == '.'))) {
+            if (input_[pos_] == '.') {
+              is_float = true;
+            }
             val += input_[pos_++];
         }
         return {is_float ? SQLTokenType::FLOAT_LIT : SQLTokenType::INT_LIT, val, start};
     }
 
-    SQLToken readIdent(size_t start) {
-        std::string val;
-        while (pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) {
+    SQLToken readIdent([[maybe_unused]] size_t start) {
+        std::string val = {};
+        while ((pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_'))) {
             val += input_[pos_++];
         }
         // Uppercase for keyword lookup
@@ -339,7 +354,9 @@ public:
     Result<SQLASTNode> parseStatement() {
         if (current().type == SQLTokenType::SELECT) {
             auto res = parseSelect();
-            if (!res) return Err<SQLASTNode>(res.error().code(), res.error().context());
+            if (!res) {
+              return Err<SQLASTNode>(res.error().code(), res.error().context());
+            }
             SQLASTNode node;
             node.statement_type = SQLStatementType::Select;
             node.select = std::move(res.value());
@@ -347,7 +364,9 @@ public:
         }
         if (current().type == SQLTokenType::INSERT) {
             auto res = parseInsert();
-            if (!res) return Err<SQLASTNode>(res.error().code(), res.error().context());
+            if (!res) {
+              return Err<SQLASTNode>(res.error().code(), res.error().context());
+            }
             SQLASTNode node;
             node.statement_type = SQLStatementType::Insert;
             node.insert = std::move(res.value());
@@ -355,7 +374,9 @@ public:
         }
         if (current().type == SQLTokenType::UPDATE) {
             auto res = parseUpdate();
-            if (!res) return Err<SQLASTNode>(res.error().code(), res.error().context());
+            if (!res) {
+              return Err<SQLASTNode>(res.error().code(), res.error().context());
+            }
             SQLASTNode node;
             node.statement_type = SQLStatementType::Update;
             node.update = std::move(res.value());
@@ -363,7 +384,9 @@ public:
         }
         if (current().type == SQLTokenType::DELETE) {
             auto res = parseDelete();
-            if (!res) return Err<SQLASTNode>(res.error().code(), res.error().context());
+            if (!res) {
+              return Err<SQLASTNode>(res.error().code(), res.error().context());
+            }
             SQLASTNode node;
             node.statement_type = SQLStatementType::Delete;
             node.del = std::move(res.value());
@@ -375,12 +398,14 @@ public:
 
 private:
     std::vector<SQLToken> tokens_;
-    size_t pos_;
+    size_t pos_ = {};
 
     const SQLToken& current() const { return tokens_[pos_]; }
 
     void advance() {
-        if (pos_ + 1 < tokens_.size()) ++pos_;
+        if (pos_ + 1 < tokens_.size()) {
+          ++pos_;
+        }
     }
 
     bool check(SQLTokenType t) const { return current().type == t; }
@@ -439,7 +464,9 @@ private:
                     if (check(SQLTokenType::IDENT)) advance(); // skip alias
                 }
                 stmt.columns.push_back(col);
-                if (!match(SQLTokenType::COMMA)) break;
+                if (!match(SQLTokenType::COMMA)) {
+                  break;
+                }
             }
         }
 
@@ -461,7 +488,9 @@ private:
         // Optional WHERE
         if (match(SQLTokenType::WHERE)) {
             auto expr = parseExpr();
-            if (!expr) return Err<SQLSelectStatement>(expr.error().code(), expr.error().context());
+            if (!expr) {
+              return Err<SQLSelectStatement>(expr.error().code(), expr.error().context());
+            }
             stmt.where = std::move(expr.value());
         }
 
@@ -483,7 +512,9 @@ private:
                     spec.ascending = true;
                 }
                 stmt.order_by.push_back(spec);
-                if (!match(SQLTokenType::COMMA)) break;
+                if (!match(SQLTokenType::COMMA)) {
+                  break;
+                }
             }
         }
 
@@ -548,7 +579,9 @@ private:
         while (check(SQLTokenType::IDENT)) {
             stmt.columns.push_back(current().value);
             advance();
-            if (!match(SQLTokenType::COMMA)) break;
+            if (!match(SQLTokenType::COMMA)) {
+              break;
+            }
         }
         if (!match(SQLTokenType::RPAREN)) {
             auto err = parseError("Expected ')' after column list in INSERT");
@@ -566,16 +599,20 @@ private:
         }
         while (!check(SQLTokenType::RPAREN) && !check(SQLTokenType::END_OF_INPUT)) {
             auto val = parseLiteralValue();
-            if (!val) return Err<SQLInsertStatement>(val.error().code(), val.error().context());
+            if (!val) {
+              return Err<SQLInsertStatement>(val.error().code(), val.error().context());
+            }
             stmt.values.push_back(std::move(val.value()));
-            if (!match(SQLTokenType::COMMA)) break;
+            if (!match(SQLTokenType::COMMA)) {
+              break;
+            }
         }
         if (!match(SQLTokenType::RPAREN)) {
             auto err = parseError("Expected ')' after VALUES list");
             return Err<SQLInsertStatement>(err.error().code(), err.error().context());
         }
 
-        if (stmt.columns.size() != stmt.values.size()) {
+        if (static_cast<int>(stmt.columns.size()) != static_cast<int>(stmt.values.size())) {
             return Err<SQLInsertStatement>(
                 errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
                 "Column count does not match value count in INSERT"
@@ -612,9 +649,13 @@ private:
                 return Err<SQLUpdateStatement>(err.error().code(), err.error().context());
             }
             auto val = parseLiteralValue();
-            if (!val) return Err<SQLUpdateStatement>(val.error().code(), val.error().context());
+            if (!val) {
+              return Err<SQLUpdateStatement>(val.error().code(), val.error().context());
+            }
             stmt.assignments.push_back({col, std::move(val.value())});
-            if (!match(SQLTokenType::COMMA)) break;
+            if (!match(SQLTokenType::COMMA)) {
+              break;
+            }
         }
 
         if (stmt.assignments.empty()) {
@@ -627,7 +668,9 @@ private:
         // Optional WHERE
         if (match(SQLTokenType::WHERE)) {
             auto expr = parseExpr();
-            if (!expr) return Err<SQLUpdateStatement>(expr.error().code(), expr.error().context());
+            if (!expr) {
+              return Err<SQLUpdateStatement>(expr.error().code(), expr.error().context());
+            }
             stmt.where = std::move(expr.value());
         }
 
@@ -654,7 +697,9 @@ private:
         // Optional WHERE
         if (match(SQLTokenType::WHERE)) {
             auto expr = parseExpr();
-            if (!expr) return Err<SQLDeleteStatement>(expr.error().code(), expr.error().context());
+            if (!expr) {
+              return Err<SQLDeleteStatement>(expr.error().code(), expr.error().context());
+            }
             stmt.where = std::move(expr.value());
         }
 
@@ -671,11 +716,15 @@ private:
 
     Result<std::shared_ptr<SQLExpr>> parseOr() {
         auto left = parseAnd();
-        if (!left) return left;
+        if (!left) {
+          return left;
+        }
         while (check(SQLTokenType::OR)) {
             advance();
             auto right = parseAnd();
-            if (!right) return right;
+            if (!right) {
+              return right;
+            }
             left = Ok(std::static_pointer_cast<SQLExpr>(std::make_shared<SQLBinaryOpExpr>("OR", std::move(left.value()), std::move(right.value()))));
         }
         return left;
@@ -683,11 +732,15 @@ private:
 
     Result<std::shared_ptr<SQLExpr>> parseAnd() {
         auto left = parseNot();
-        if (!left) return left;
+        if (!left) {
+          return left;
+        }
         while (check(SQLTokenType::AND)) {
             advance();
             auto right = parseNot();
-            if (!right) return right;
+            if (!right) {
+              return right;
+            }
             left = Ok(std::static_pointer_cast<SQLExpr>(std::make_shared<SQLBinaryOpExpr>("AND", std::move(left.value()), std::move(right.value()))));
         }
         return left;
@@ -696,7 +749,9 @@ private:
     Result<std::shared_ptr<SQLExpr>> parseNot() {
         if (match(SQLTokenType::NOT)) {
             auto operand = parseComparison();
-            if (!operand) return operand;
+            if (!operand) {
+              return operand;
+            }
             return Ok<std::shared_ptr<SQLExpr>>(
                 std::make_shared<SQLUnaryOpExpr>("NOT", std::move(operand.value()))
             );
@@ -706,7 +761,9 @@ private:
 
     Result<std::shared_ptr<SQLExpr>> parseComparison() {
         auto left = parsePrimary();
-        if (!left) return left;
+        if (!left) {
+          return left;
+        }
 
         // IS [NOT] NULL
         if (check(SQLTokenType::IS)) {
@@ -737,9 +794,13 @@ private:
             std::vector<std::shared_ptr<SQLExpr>> elems;
             while (!check(SQLTokenType::RPAREN) && !check(SQLTokenType::END_OF_INPUT)) {
                 auto elem = parsePrimary();
-                if (!elem) return elem;
+                if (!elem) {
+                  return elem;
+                }
                 elems.push_back(std::move(elem.value()));
-                if (!match(SQLTokenType::COMMA)) break;
+                if (!match(SQLTokenType::COMMA)) {
+                  break;
+                }
             }
             if (!match(SQLTokenType::RPAREN)) {
                 auto err = parseError("Expected ')' after IN list");
@@ -763,14 +824,16 @@ private:
         if (check(SQLTokenType::LIKE)) {
             advance();
             auto right = parsePrimary();
-            if (!right) return right;
+            if (!right) {
+              return right;
+            }
             return Ok<std::shared_ptr<SQLExpr>>(
                 std::make_shared<SQLBinaryOpExpr>("LIKE", std::move(left.value()), std::move(right.value()))
             );
         }
 
         // Comparison operators: =, !=, <>, <, <=, >, >=
-        std::string op;
+        std::string op = {};
         switch (current().type) {
             case SQLTokenType::EQ:  op = "=="; advance(); break;
             case SQLTokenType::NEQ: op = "!="; advance(); break;
@@ -782,7 +845,9 @@ private:
         }
 
         auto right = parsePrimary();
-        if (!right) return right;
+        if (!right) {
+          return right;
+        }
         return Ok<std::shared_ptr<SQLExpr>>(
             std::make_shared<SQLBinaryOpExpr>(op, std::move(left.value()), std::move(right.value()))
         );
@@ -792,7 +857,9 @@ private:
         // Parenthesised sub-expression
         if (match(SQLTokenType::LPAREN)) {
             auto inner = parseExpr();
-            if (!inner) return inner;
+            if (!inner) {
+              return inner;
+            }
             if (!match(SQLTokenType::RPAREN)) {
                 auto err = parseError("Expected ')' after expression");
                 return Err<std::shared_ptr<SQLExpr>>(err.error().code(), err.error().context());
@@ -841,7 +908,7 @@ private:
         }
         // Float literal
         if (check(SQLTokenType::FLOAT_LIT)) {
-            double val;
+            double val = 0;
             try { val = std::stod(current().value); }
             catch (...) {
                 THEMIS_WARN("sql_parser::parsePrimary: unhandled exception caught");
@@ -897,7 +964,7 @@ private:
             return Ok(SQLValue{v});
         }
         if (check(SQLTokenType::FLOAT_LIT)) {
-            double v;
+            double v = 0;
             try { v = std::stod(current().value); } catch (...) {
                 THEMIS_WARN("sql_parser::parseLiteralValue: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
@@ -918,14 +985,14 @@ private:
     static bool isKeyword(SQLTokenType t) {
         switch (t) {
             case SQLTokenType::SELECT: case SQLTokenType::FROM:   case SQLTokenType::WHERE:
-            case SQLTokenType::ORDER:  case SQLTokenType::BY:     case SQLTokenType::ASC:
-            case SQLTokenType::DESC:   case SQLTokenType::LIMIT:  case SQLTokenType::OFFSET:
-            case SQLTokenType::INSERT: case SQLTokenType::INTO:   case SQLTokenType::VALUES:
-            case SQLTokenType::UPDATE: case SQLTokenType::SET:    case SQLTokenType::DELETE:
-            case SQLTokenType::AND:    case SQLTokenType::OR:     case SQLTokenType::NOT:
-            case SQLTokenType::IN:     case SQLTokenType::LIKE:   case SQLTokenType::IS:
-            case SQLTokenType::NUL:    case SQLTokenType::TRUE_KW: case SQLTokenType::FALSE_KW:
-            case SQLTokenType::AS:     case SQLTokenType::DISTINCT:
+            [[fallthrough]];\n            case SQLTokenType::ORDER:  case SQLTokenType::BY:     case SQLTokenType::ASC:
+            [[fallthrough]];\n            case SQLTokenType::DESC:   case SQLTokenType::LIMIT:  case SQLTokenType::OFFSET:
+            [[fallthrough]];\n            case SQLTokenType::INSERT: case SQLTokenType::INTO:   case SQLTokenType::VALUES:
+            [[fallthrough]];\n            case SQLTokenType::UPDATE: case SQLTokenType::SET:    case SQLTokenType::DELETE:
+            [[fallthrough]];\n            case SQLTokenType::AND:    case SQLTokenType::OR:     case SQLTokenType::NOT:
+            [[fallthrough]];\n            case SQLTokenType::IN:     case SQLTokenType::LIKE:   case SQLTokenType::IS:
+            [[fallthrough]];\n            case SQLTokenType::NUL:    case SQLTokenType::TRUE_KW: case SQLTokenType::FALSE_KW:
+            [[fallthrough]];\n            case SQLTokenType::AS:     case SQLTokenType::DISTINCT:
                 return true;
             default: return false;
         }
@@ -995,7 +1062,7 @@ std::string SQLToAQLTranspiler::valueToAQL(const SQLValue& val) {
 }
 
 std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     const std::string var = kDocVar;
 
     aql << "FOR " << var << " IN " << stmt.table;
@@ -1008,8 +1075,10 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     // SORT clause
     if (!stmt.order_by.empty()) {
         aql << " SORT ";
-        for (size_t i = 0; i < stmt.order_by.size(); ++i) {
-            if (i > 0) aql << ", ";
+        for (size_t i = 0; i <static_cast<int>(stmt.order_by.size()); ++i) {
+            if (i > 0) {
+              aql << ", ";
+            }
             aql << var << "." << stmt.order_by[i].column;
             aql << (stmt.order_by[i].ascending ? " ASC" : " DESC");
         }
@@ -1028,12 +1097,14 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     aql << " RETURN ";
     if (stmt.star || stmt.columns.empty()) {
         aql << var;
-    } else if (stmt.columns.size() == 1) {
+    } else if (static_cast<int>(stmt.columns.size()) == 1) {
         aql << var << "." << stmt.columns[0];
     } else {
         aql << "{";
-        for (size_t i = 0; i < stmt.columns.size(); ++i) {
-            if (i > 0) aql << ", ";
+        for (size_t i = 0; i <static_cast<int>(stmt.columns.size()); ++i) {
+            if (i > 0) {
+              aql << ", ";
+            }
             aql << stmt.columns[i] << ": " << var << "." << stmt.columns[i];
         }
         aql << "}";
@@ -1043,10 +1114,12 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
 }
 
 std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     aql << "INSERT {";
-    for (size_t i = 0; i < stmt.columns.size(); ++i) {
-        if (i > 0) aql << ", ";
+    for (size_t i = 0; i <static_cast<int>(stmt.columns.size()); ++i) {
+        if (i > 0) {
+          aql << ", ";
+        }
         aql << stmt.columns[i] << ": " << valueToAQL(stmt.values[i]);
     }
     aql << "} INTO " << stmt.table;
@@ -1054,7 +1127,7 @@ std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) 
 }
 
 std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     const std::string var = kDocVar;
 
     aql << "FOR " << var << " IN " << stmt.table;
@@ -1064,8 +1137,10 @@ std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) 
     }
 
     aql << " UPDATE " << var << " WITH {";
-    for (size_t i = 0; i < stmt.assignments.size(); ++i) {
-        if (i > 0) aql << ", ";
+    for (size_t i = 0; i <static_cast<int>(stmt.assignments.size()); ++i) {
+        if (i > 0) {
+          aql << ", ";
+        }
         aql << stmt.assignments[i].column << ": " << valueToAQL(stmt.assignments[i].value);
     }
     aql << "} IN " << stmt.table;
@@ -1074,7 +1149,7 @@ std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) 
 }
 
 std::string SQLToAQLTranspiler::transpileDelete(const SQLDeleteStatement& stmt) {
-    std::ostringstream aql;
+    std::ostringstream aql = {};
     const std::string var = kDocVar;
 
     aql << "FOR " << var << " IN " << stmt.table;

@@ -262,7 +262,7 @@ TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchPointInPolygon_InsideOutsid
 // =============================================================================
 
 TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_L2) {
-    VulkanVectorBackend backend;
+    VulkanVectorBackend backend = {};
     if (!backend.initialize() || !backend.isAvailable()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_hardware_not_available";
     }
@@ -278,7 +278,7 @@ TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_L2) {
 }
 
 TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_Cosine) {
-    VulkanVectorBackend backend;
+    VulkanVectorBackend backend = {};
     if (!backend.initialize() || !backend.isAvailable()) {
         GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_hardware_not_available";
     }

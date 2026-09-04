@@ -137,7 +137,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adj
         std::queue<std::pair<uint32_t, uint32_t>> bfsQueue; // (vertex, depth)
 
         visited[start] = true;
-        bfsQueue.push({start, 0u});
+        bfsQueue.push({start, 0});
         results[s].push_back(start);
 
         while (!bfsQueue.empty()) {
@@ -157,10 +157,10 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adj
             // for graphs where the caller already uses a dense format.
             const uint32_t *row = adjacency + current * numVertices;
             for (uint32_t v = 0; v < static_cast<uint32_t>(numVertices); ++v) {
-                if (row[v] != 0u && !visited[v]) {
+                if (row[v] != 0 && !visited[v]) {
                     visited[v] = true;
                     results[s].push_back(v);
-                    bfsQueue.push({v, depth + 1u});
+                    bfsQueue.push({v, depth + 1});
                 }
             }
         }
@@ -220,7 +220,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             const uint32_t *adjRow = adjacency + u * N;
             const float *wRow      = weights + u * N;
             for (uint32_t v = 0; v < N; ++v) {
-                if (adjRow[v] == 0u) {
+                if (adjRow[v] == 0) {
                     continue;
                 }
                 const float raw_w = wRow[v];
@@ -247,7 +247,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         }
 
         // Reconstruct path from destination back to source via parent chain.
-        std::vector<uint32_t> path;
+        std::vector<uint32_t> path = {};
+
         for (int64_t v = static_cast<int64_t>(dst); v != -1; v = parent[v]) {
             path.push_back(static_cast<uint32_t>(v));
         }
@@ -408,7 +409,8 @@ static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *t
     for (int q = 0; q < numQueries; ++q) {
         const float *row = distances + q * numVectors;
         // Max-heap of size topK: keeps the topK smallest distances
-        std::priority_queue<Pair> heap;
+        std::priority_queue<Pair> heap = {};
+
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
             if (static_cast<int>(heap.size()) > topK) {
@@ -459,7 +461,7 @@ static int cpu_geo_containment(const double *point_lats, const double *point_lon
             }
             j = i;
         }
-        results[p] = inside ? 1u : 0u;
+        results[p] = inside ? 1 : 0;
     }
     return 0;
 }
@@ -499,7 +501,7 @@ int CPUMatrixBackend::matmul(const MatrixKernelParams &params, void * /*opaque_s
 namespace {
 
 static int cpu_matrix_matmul(const MatrixKernelParams &params, void *stream) {
-    CPUMatrixBackend backend;
+    CPUMatrixBackend backend = {};
     return backend.matmul(params, stream);
 }
 

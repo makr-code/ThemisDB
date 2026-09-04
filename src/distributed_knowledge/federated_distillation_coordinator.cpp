@@ -126,7 +126,7 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
 
     // ── DistillationBoundedPolicy enforcement ────────────────────────────────
     if (bounded_policy_.isConstrained()) {
-        bool rounds_violated  = bounded_policy_.max_distillation_rounds != 0u &&
+        bool rounds_violated  = bounded_policy_.max_distillation_rounds != 0 &&
                                 current_round_ >= static_cast<uint64_t>(bounded_policy_.max_distillation_rounds);
         bool budget_violated  = bounded_policy_.privacy_budget_hard_limit > 0.0 &&
                                 (total_epsilon_spent_ + config_.dp_epsilon) >= bounded_policy_.privacy_budget_hard_limit;
@@ -185,7 +185,7 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
                                  {"epsilon_spent", round.epsilon_spent},
                                  {"total_epsilon", total_epsilon_spent_},
                                  {"dp_applied", round.dp_applied},
-                                 {"student_count", students_.size()}});
+                                 {"student_count",static_cast<int>(students_.size())}});
     }
 
     last_round_  = round;
@@ -205,7 +205,7 @@ uint64_t FederatedDistillationCoordinator::currentRound() const {
 
 size_t FederatedDistillationCoordinator::submittedCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return has_pending_ ? 1u : 0u;
+    return has_pending_ ? 1 : 0;
 }
 
 std::optional<DistillationRound> FederatedDistillationCoordinator::lastRound() const {
@@ -221,7 +221,7 @@ nlohmann::json FederatedDistillationCoordinator::getStats() const {
             {"policy_block_count", policy_block_count_},
             {"total_epsilon", total_epsilon_spent_},
             {"budget_remaining", privacyBudgetRemaining()},
-            {"student_count", students_.size()},
+            {"student_count",static_cast<int>(students_.size())},
             {"has_pending", has_pending_},
             {"bounded_policy",
              {{"constrained", bounded_policy_.isConstrained()},
@@ -246,7 +246,7 @@ void FederatedDistillationCoordinator::registerStudent(const std::string &studen
         throw std::invalid_argument("registerStudent: student_id must not be empty");
     }
     if (!cb) {
-        throw std::invalid_argument("registerStudent: callback must not be null");
+        throw std::invalid_argument([[maybe_unused]] "registerStudent: callback must not be null");
     }
     std::lock_guard<std::mutex> lock(mutex_);
     students_.emplace_back(student_id, std::move(cb));
@@ -366,7 +366,7 @@ void FederatedDistillationCoordinator::applyDPNoise(std::vector<SoftLabel> &labe
     //   setNoiseGeneratorFn(); the CPU path is the production fallback.
     // Production Delta: CPU-only; GPU version would operate on tensors directly.
     // Note: inject via setNoiseGeneratorFn() to override with GPU path.
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise_dist(0.0, sigma);
 

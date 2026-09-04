@@ -51,7 +51,9 @@ static bool streamReadLineFlat(std::istream& file,
     line.clear();
 
     if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
+        if (!std::getline(file, line)) {
+          return false;
+        }
         return true;
     }
 
@@ -61,7 +63,9 @@ static bool streamReadLineFlat(std::istream& file,
 
     while (file.get(c)) {
         got_any = true;
-        if (c == '\n') break;
+        if (c == '\n') {
+          break;
+        }
         if (count < max_bytes) {
             line += c;
             ++count;
@@ -107,7 +111,9 @@ bool FlatFileImporter::initialize(const std::string& config) {
 
             if (cfg.contains("format")) {
                 std::string fmt = cfg["format"].get<std::string>();
-                if (fmt == "csv")        format_ = FlatFileFormat::CSV;
+                if (fmt == "csv") {
+                  format_ = FlatFileFormat::CSV;
+                }
                 else if (fmt == "tsv")   format_ = FlatFileFormat::TSV;
                 else if (fmt == "jsonl" ||
                          fmt == "ndjson") format_ = FlatFileFormat::JSONL;
@@ -116,12 +122,16 @@ bool FlatFileImporter::initialize(const std::string& config) {
 
             if (cfg.contains("delimiter")) {
                 std::string d = cfg["delimiter"].get<std::string>();
-                if (!d.empty()) delimiter_ = d[0];
+                if (!d.empty()) {
+                  delimiter_ = d[0];
+                }
             }
 
             if (cfg.contains("quote_char")) {
                 std::string q = cfg["quote_char"].get<std::string>();
-                if (!q.empty()) quote_char_ = q[0];
+                if (!q.empty()) {
+                  quote_char_ = q[0];
+                }
             }
 
             if (cfg.contains("has_header")) {
@@ -159,11 +169,15 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
 
     // For JSONL, verify that the first non-empty line parses as a JSON object.
     if (fmt == FlatFileFormat::JSONL) {
-        std::string line;
+        std::string line = {};
         while (std::getline(file, line)) {
-            if (line.empty() || line[0] == '\r') continue;
+            if (line.empty() || line[0] == '\r') {
+              continue;
+            }
             // Strip trailing \r
-            if (!line.empty() && line.back() == '\r') line.pop_back();
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
             try {
                 auto j = json::parse(line);
                 if (!j.is_object()) {
@@ -266,7 +280,9 @@ ImportStats FlatFileImporter::importData(
     // Apply table_mappings if present.
     {
         auto it = options.table_mappings.find(table);
-        if (it != options.table_mappings.end()) table = it->second;
+        if (it != options.table_mappings.end()) {
+          table = it->second;
+        }
     }
 
     bool ok = false;
@@ -406,16 +422,21 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         char delim = (fmt == FlatFileFormat::TSV) ? '\t' : delimiter_;
 
         std::ifstream file(source_path);
-        if (!file) return result;
+        if (!file) {
+          return result;
+        }
 
-        std::string header_line;
-        if (!std::getline(file, header_line)) return result;
+        std::string header_line = {};
+        if (!std::getline(file, header_line)) {
+          return result;
+        }
 
         // Strip trailing \r
         if (!header_line.empty() && header_line.back() == '\r')
             header_line.pop_back();
 
-        std::vector<std::string> cols_vec;
+        std::vector<std::string> cols_vec = {};
+
         if (!has_header_) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
@@ -433,14 +454,20 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         SchemaAutoDetector detector;
         static constexpr size_t kSampleLimit = 100;
         size_t sampled = 0;
-        std::string data_line;
+        std::string data_line = {};
         while (sampled < kSampleLimit && std::getline(file, data_line)) {
             if (!data_line.empty() && data_line.back() == '\r')
                 data_line.pop_back();
-            if (data_line.empty()) continue;
+            if (data_line.empty()) {
+              continue;
+            }
             auto fields = parseCsvRow(data_line, delim, quote_char_);
-            while (fields.size() < cols_vec.size()) fields.emplace_back();
-            if (fields.size() > cols_vec.size()) fields.resize(cols_vec.size());
+            while ( static_cast<int>(fields.size()) <static_cast<int>(cols_vec.size())) {
+              fields.emplace_back();
+            }
+            if (static_cast<int>(fields.size()) > static_cast<int>(cols_vec.size())) {
+              fields.resize(cols_vec.size());
+            }
             detector.feedRow(cols_vec, fields);
             ++sampled;
         }
@@ -457,7 +484,9 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
 
     } else if (fmt == FlatFileFormat::JSONL) {
         std::ifstream file(source_path);
-        if (!file) return result;
+        if (!file) {
+          return result;
+        }
 
         // Use SchemaAutoDetector to aggregate types across sample rows
         SchemaAutoDetector detector;
@@ -465,22 +494,33 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         size_t sampled = 0;
         std::vector<std::string> first_cols;
 
-        std::string line;
+        std::string line = {};
         while (sampled < kSampleLimit && std::getline(file, line)) {
-            if (line.empty() || line == "\r") continue;
-            if (!line.empty() && line.back() == '\r') line.pop_back();
-            if (line.empty()) continue;
+            if (line.empty() || line == "\r") {
+              continue;
+            }
+            if (!line.empty() && line.back() == '\r') {
+              line.pop_back();
+            }
+            if (line.empty()) {
+              continue;
+            }
             try {
                 auto obj = json::parse(line);
-                if (!obj.is_object()) continue;
+                if (!obj.is_object()) {
+                  continue;
+                }
 
                 std::vector<std::string> cols;
-                std::vector<std::string> vals;
+                std::vector<std::string> vals = {};
+
                 cols.reserve(obj.size());
                 vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
-                    if (val.is_null())               vals.emplace_back();
+                    if (val.is_null()) {
+                      vals.emplace_back();
+                    }
                     else if (val.is_boolean())        vals.push_back(val.get<bool>() ? "true" : "false");
                     else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));
                     else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
@@ -488,7 +528,9 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
                     else                              vals.push_back(val.dump());
                 }
 
-                if (sampled == 0) first_cols = cols;
+                if (sampled == 0) {
+                  first_cols = cols;
+                }
                 detector.feedRow(cols, vals);
                 ++sampled;
             } catch (...) {}
@@ -497,7 +539,9 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         if (sampled > 0) {
             DetectedSchema schema = detector.getSchema(table);
             // Preserve column order from first row
-            if (!first_cols.empty()) schema.columns = first_cols;
+            if (!first_cols.empty()) {
+              schema.columns = first_cols;
+            }
             result.push_back(SchemaAutoDetector::schemaToJson(schema));
         }
     } else if (fmt == FlatFileFormat::PARQUET) {
@@ -514,8 +558,11 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         std::unique_ptr<parquet::arrow::FileReader> reader =
             std::move(reader_result).ValueOrDie();
 
-        std::shared_ptr<arrow::Schema> schema;
-        if (!reader->GetSchema(&schema).ok() || !schema) return result;
+        std::shared_ptr<arrow::Schema> schema = {};
+
+        if (!reader->GetSchema(&schema).ok() || !schema) {
+          return result;
+        }
 
         DetectedSchema detected;
         detected.table_name = table;
@@ -556,35 +603,51 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
 FlatFileFormat FlatFileImporter::detectFormat(const std::string& path) {
     // Extract extension (last '.' segment, lower-cased)
     auto dot = path.rfind('.');
-    if (dot == std::string::npos) return FlatFileFormat::AUTO;
+    if (dot == std::string::npos) {
+      return FlatFileFormat::AUTO;
+    }
 
     std::string ext = path.substr(dot + 1);
     for (auto& c : ext)
         c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
 
-    if (ext == "csv")                    return FlatFileFormat::CSV;
-    if (ext == "tsv")                    return FlatFileFormat::TSV;
-    if (ext == "jsonl" || ext == "ndjson") return FlatFileFormat::JSONL;
-    if (ext == "parquet")                return FlatFileFormat::PARQUET;
+    if (ext == "csv") {
+      return FlatFileFormat::CSV;
+    }
+    if (ext == "tsv") {
+      return FlatFileFormat::TSV;
+    }
+    if (ext == "jsonl" || ext == "ndjson") {
+      return FlatFileFormat::JSONL;
+    }
+    if (ext == "parquet") {
+      return FlatFileFormat::PARQUET;
+    }
     return FlatFileFormat::AUTO;
 }
 
 FlatFileFormat FlatFileImporter::effectiveFormat(const std::string& path) const {
-    if (format_ != FlatFileFormat::AUTO) return format_;
+    if (format_ != FlatFileFormat::AUTO) {
+      return format_;
+    }
     return detectFormat(path);
 }
 
 std::string FlatFileImporter::filenameStem(const std::string& path) {
     // Extract basename
     size_t slash = path.rfind('/');
-    if (slash == std::string::npos) slash = path.rfind('\\');
+    if (slash == std::string::npos) {
+      slash = path.rfind('\\');
+    }
     std::string base = (slash != std::string::npos)
                            ? path.substr(slash + 1)
                            : path;
 
     // Strip extension
     size_t dot = base.rfind('.');
-    if (dot != std::string::npos) base = base.substr(0, dot);
+    if (dot != std::string::npos) {
+      base = base.substr(0, dot);
+    }
 
     return base.empty() ? "data" : base;
 }
@@ -597,7 +660,7 @@ std::vector<std::string> FlatFileImporter::parseCsvRow(const std::string& line,
                                                         char delim,
                                                         char quote) {
     std::vector<std::string> fields;
-    std::string field;
+    std::string field = {};
     bool in_quotes = false;
     size_t n = line.size();
 
@@ -647,19 +710,27 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
     SchemaAutoDetector detector;
 
     size_t sampled = 0;
-    std::string sample_line;
+    std::string sample_line = {};
     bool sample_truncated = false;
 
     while (sampled < sample_limit &&
            streamReadLineFlat(file, sample_line, line_limit, sample_truncated)) {
-        if (sample_truncated || sample_line.empty()) continue;
+        if (sample_truncated || sample_line.empty()) {
+          continue;
+        }
         if (!sample_line.empty() && sample_line.back() == '\r')
             sample_line.pop_back();
-        if (sample_line.empty()) continue;
+        if (sample_line.empty()) {
+          continue;
+        }
 
         auto fields = parseCsvRow(sample_line, delim, quote_char_);
-        while (fields.size() < columns.size()) fields.emplace_back();
-        if (fields.size() > columns.size()) fields.resize(columns.size());
+        while ( static_cast<int>(fields.size()) <static_cast<int>(columns.size())) {
+          fields.emplace_back();
+        }
+        if (static_cast<int>(fields.size()) > static_cast<int>(columns.size())) {
+          fields.resize(columns.size());
+        }
 
         detector.feedRow(columns, fields);
         ++sampled;
@@ -701,14 +772,14 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
 
     const char delim = (fmt == FlatFileFormat::TSV) ? '\t' : delimiter_;
     const size_t row_limit  = options.max_row_size_bytes;
-    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024ULL;
+    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024;
 
     std::vector<std::string> columns;
     size_t line_number = 0;
 
     // ---- Read header row (if present) ----
     if (has_header_) {
-        std::string header_line;
+        std::string header_line = {};
         bool truncated = false;
         if (!streamReadLineFlat(file, header_line, line_limit, truncated)) {
             addError(stats, ImportErrorCode::FILE_READ_FAILED,
@@ -725,7 +796,9 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         // Apply column_mappings
         for (auto& col : columns) {
             auto it = options.column_mappings.find(col);
-            if (it != options.column_mappings.end()) col = it->second;
+            if (it != options.column_mappings.end()) {
+              col = it->second;
+            }
         }
     }
 
@@ -742,7 +815,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     bool schema_validation_active = options.validate_schema &&
                                     !columns.empty() &&
                                     options.schema_sample_rows > 0;
-    DetectedSchema detected_schema;
+    DetectedSchema detected_schema = {};
     if (schema_validation_active) {
         auto data_start = file.tellg();
         detected_schema = detectCsvSchema(
@@ -755,7 +828,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     }
 
     // ---- Read data rows ----
-    std::string line;
+    std::string line = {};
     bool line_truncated = false;
     size_t row_index    = 0;
 
@@ -774,15 +847,21 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
                 "Row truncated at line " + std::to_string(line_number));
             stats.failed_records++;
             stats.total_records++;
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
         // Strip trailing \r
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
 
         // Skip blank lines
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         stats.total_records++;
 
@@ -804,15 +883,21 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
                        {{"code", std::to_string(
                              static_cast<uint32_t>(ImportErrorCode::INVALID_UTF8))}},
                        1.0);
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
         auto fields = parseCsvRow(line, delim, quote_char_);
 
         // Column count mismatch – pad with empty or truncate
-        while (fields.size() < columns.size()) fields.emplace_back();
-        if (fields.size() > columns.size()) fields.resize(columns.size());
+        while ( static_cast<int>(fields.size()) <static_cast<int>(columns.size())) {
+          fields.emplace_back();
+        }
+        if (static_cast<int>(fields.size()) > static_cast<int>(columns.size())) {
+          fields.resize(columns.size());
+        }
 
         // Schema validation (type-mismatch warnings)
         if (schema_validation_active) {
@@ -848,7 +933,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         }
 
         // Streaming callback
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             if (!options.streaming_row_callback(table, entity)) {
                 THEMIS_INFO("Streaming callback aborted import at line {}",
                             line_number);
@@ -897,7 +982,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     }
 
     const size_t row_limit  = options.max_row_size_bytes;
-    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024ULL;
+    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024;
 
     stats.tables_processed++;
     reportProgress(cb, "importing table " + table, 0, 0);
@@ -908,29 +993,39 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     // schema_sample_rows == 0 disables detection (nothing to sample).
     bool schema_validation_active = options.validate_schema &&
                                     options.schema_sample_rows > 0;
-    DetectedSchema jsonl_schema;
+    DetectedSchema jsonl_schema = {};
     if (schema_validation_active) {
         SchemaAutoDetector detector;
         auto data_start = file.tellg();
         size_t sampled  = 0;
         std::vector<std::string> first_cols;
 
-        std::string sline;
+        std::string sline = {};
         bool strunc = false;
         while (sampled < options.schema_sample_rows &&
                streamReadLineFlat(file, sline, line_limit, strunc)) {
-            if (strunc || sline.empty()) continue;
-            if (!sline.empty() && sline.back() == '\r') sline.pop_back();
-            if (sline.empty()) continue;
+            if (strunc || sline.empty()) {
+              continue;
+            }
+            if (!sline.empty() && sline.back() == '\r') {
+              sline.pop_back();
+            }
+            if (sline.empty()) {
+              continue;
+            }
             try {
                 auto obj = json::parse(sline);
-                if (!obj.is_object()) continue;
+                if (!obj.is_object()) {
+                  continue;
+                }
                 std::vector<std::string> cols, vals;
                 cols.reserve(obj.size());
                 vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
-                    if (val.is_null())               vals.emplace_back();
+                    if (val.is_null()) {
+                      vals.emplace_back();
+                    }
                     else if (val.is_boolean())        vals.push_back(val.get<bool>() ? "true" : "false");
                     else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));
                     else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
@@ -942,10 +1037,14 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                 if (!options.column_mappings.empty()) {
                     for (auto& col : cols) {
                         auto it = options.column_mappings.find(col);
-                        if (it != options.column_mappings.end()) col = it->second;
+                        if (it != options.column_mappings.end()) {
+                          col = it->second;
+                        }
                     }
                 }
-                if (sampled == 0) first_cols = cols;
+                if (sampled == 0) {
+                  first_cols = cols;
+                }
                 detector.feedRow(cols, vals);
                 ++sampled;
             } catch (...) {}
@@ -953,12 +1052,14 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         file.clear();
         file.seekg(data_start);
         jsonl_schema = detector.getSchema(table);
-        if (!first_cols.empty()) jsonl_schema.columns = first_cols;
+        if (!first_cols.empty()) {
+          jsonl_schema.columns = first_cols;
+        }
         THEMIS_INFO("Schema auto-detected for JSONL '{}': {} columns",
-                    table, jsonl_schema.columns.size());
+                    table,static_cast<int>(jsonl_schema.columns.size()));
     }
 
-    std::string line;
+    std::string line = {};
     bool line_truncated = false;
     size_t line_number  = 0;
     size_t row_index    = 0;
@@ -977,15 +1078,21 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                 "Row truncated at line " + std::to_string(line_number));
             stats.failed_records++;
             stats.total_records++;
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
         // Strip trailing \r
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
 
         // Skip blank lines
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
 
         stats.total_records++;
         ++row_index;
@@ -997,7 +1104,9 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                      "Invalid UTF-8 in row",
                      "line " + std::to_string(line_number));
             stats.failed_records++;
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
@@ -1012,7 +1121,9 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
             stats.errors.push_back("JSON parse error at line " +
                                    std::to_string(line_number));
             stats.failed_records++;
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
@@ -1022,7 +1133,9 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                      "JSONL line is not a JSON object",
                      "line " + std::to_string(line_number));
             stats.failed_records++;
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
@@ -1044,7 +1157,9 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
             vals.reserve(entity.size());
             for (auto& [key, val] : entity.items()) {
                 cols.push_back(key);
-                if (val.is_null())               vals.emplace_back();
+                if (val.is_null()) {
+                  vals.emplace_back();
+                }
                 else if (val.is_boolean())        vals.push_back(val.get<bool>() ? "true" : "false");
                 else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));
                 else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
@@ -1076,7 +1191,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         }
 
         // Streaming callback
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             if (!options.streaming_row_callback(table, entity)) {
                 THEMIS_INFO("Streaming callback aborted import at line {}",
                             line_number);
@@ -1157,7 +1272,9 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
     for (int i = 0; i < schema->num_fields(); ++i) {
         std::string col = schema->field(i)->name();
         auto it = options.column_mappings.find(col);
-        if (it != options.column_mappings.end()) col = it->second;
+        if (it != options.column_mappings.end()) {
+          col = it->second;
+        }
         columns.push_back(std::move(col));
     }
 
@@ -1184,10 +1301,10 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
             ft = DetectedFieldType::DOUBLE;
         }
         // Defensive bounds check to prevent potential out-of-bounds access
-        if (static_cast<size_t>(i) < columns.size()) {
+        if (static_cast<size_t>(i) <static_cast<int>(columns.size())) {
             detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
         } else {
-            THEMIS_WARN("Column index {} exceeds columns.size() = {}", i, columns.size());
+            THEMIS_WARN("Column index {} exceeds columns.size() = {}", i,static_cast<int>(columns.size()));
         }
     }
     bool schema_validation_active =
@@ -1200,7 +1317,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
     emitSpan(options, "parse_table", {{"table", table}}, 0.0);
 
     THEMIS_INFO("Parquet schema auto-detected for '{}': {} columns, {} rows",
-                table, columns.size(), total_rows);
+                table,static_cast<int>(columns.size()), total_rows);
 
     // ---- Iterate batches ----
     arrow::TableBatchReader batch_reader(*arrow_table);
@@ -1223,7 +1340,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
                 const auto& col_arr  = batch->column(c);
                 // Defensive bounds check for column name lookup
                 if (static_cast<size_t>(c) >= columns.size()) {
-                    THEMIS_WARN("Column index {} exceeds columns.size() = {}", c, columns.size());
+                    THEMIS_WARN("Column index {} exceeds columns.size() = {}", c,static_cast<int>(columns.size()));
                     continue;
                 }
                 const std::string& col_name =
@@ -1236,7 +1353,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
                 }
 
                 auto type_id = col_arr->type_id();
-                std::string sv;
+                std::string sv = {};
 
                 if (type_id == arrow::Type::BOOL) {
                     auto arr = std::static_pointer_cast<arrow::BooleanArray>(
@@ -1324,7 +1441,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
             }
 
             // ---- Streaming callback ----
-            if (options.streaming_row_callback) {
+            if ([[maybe_unused]] options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table, entity)) {
                     THEMIS_INFO(
                         "Streaming callback aborted Parquet import at row {}",
@@ -1372,12 +1489,16 @@ bool FlatFileImporter::shouldImportTable(const std::string& table_name,
         for (const auto& t : options.include_tables) {
             if (t == table_name) { found = true; break; }
         }
-        if (!found) return false;
+        if (!found) {
+          return false;
+        }
     }
 
     // Check exclude list
     for (const auto& t : options.exclude_tables) {
-        if (t == table_name) return false;
+        if (t == table_name) {
+          return false;
+        }
     }
 
     return true;
@@ -1403,7 +1524,7 @@ void FlatFileImporter::emitMetric(const ImportOptions& options,
                                    const std::string& metric,
                                    const std::map<std::string, std::string>& labels,
                                    double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1412,7 +1533,7 @@ void FlatFileImporter::emitSpan(const ImportOptions& options,
                                  const std::string& operation,
                                  const std::map<std::string, std::string>& attributes,
                                  double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -1420,7 +1541,7 @@ void FlatFileImporter::emitSpan(const ImportOptions& options,
 void FlatFileImporter::reportProgress(ProgressCallback& callback,
                                        const std::string& stage,
                                        size_t current, size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }
@@ -1445,7 +1566,9 @@ bool FlatFileImporter::isValidUtf8(const std::string& s) {
         }
         ++i;
         for (size_t j = 0; j < trail; ++j, ++i) {
-            if (i >= n || (bytes[i] & 0xC0) != 0x80) return false;
+            if (i >= n || (bytes[i] & 0xC0) != 0x80) {
+              return false;
+            }
         }
     }
     return true;
@@ -1467,12 +1590,16 @@ plugins::PluginCapabilities FlatFileImporterPlugin::getCapabilities() const {
 }
 
 bool FlatFileImporterPlugin::initialize(const char* config_json) {
-    if (!importer_) return false;
+    if (!importer_) {
+      return false;
+    }
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
 void FlatFileImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

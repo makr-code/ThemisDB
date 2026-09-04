@@ -64,7 +64,7 @@ const std::vector<DspyField>& DspySignature::outputs() const { return outputs_; 
 std::string DspySignature::buildPrompt(
     const std::unordered_map<std::string, std::string>& context) const
 {
-    std::ostringstream out;
+    std::ostringstream out = {};
 
     // Task description header
     if (!description_.empty()) {
@@ -125,7 +125,7 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
         }
 
         // Extract text after the marker up to the next field label or end
-        size_t value_start = pos + marker.size();
+        size_t value_start = pos + static_cast<int>(marker.size()) ;
 
         // Skip leading whitespace / newline
         while (value_start < response.size() &&
@@ -137,7 +137,9 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
         // Support both "OtherField:" and "OtherField :" as boundary markers.
         size_t value_end = response.size();
         for (const auto& other : outputs_) {
-            if (other.name == field.name) continue;
+            if (other.name == field.name) {
+              continue;
+            }
             // Check "OtherField:" and "OtherField :" variants
             for (const auto& suffix : {std::string(":"), std::string(" :")}) {
                 std::string other_marker = other.name + suffix;
@@ -167,23 +169,29 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
 
 std::string EchoDspyLLMProvider::complete(const std::string& prompt)
 {
-    std::ostringstream response;
+    std::ostringstream response = {};
 
     // Scan the prompt for output field labels (lines ending with ":")
     std::istringstream iss(prompt);
-    std::string line;
+    std::string line = {};
     while (std::getline(iss, line)) {
         // Strip leading spaces
         size_t start = 0;
-        while (start < line.size() && line[start] == ' ') ++start;
+        while (start < line.size() && line[start] == ' ') {
+          ++start;
+        }
         line = line.substr(start);
 
         // Detect "FieldName:" or "FieldName: # description"
-        if (line.empty() || line.back() == '\n') continue;
+        if (line.empty() || line.back() == '\n') {
+          continue;
+        }
 
         // Look for a colon that is not inside a comment marker
         auto colon_pos = line.find(':');
-        if (colon_pos == std::string::npos) continue;
+        if (colon_pos == std::string::npos) {
+          continue;
+        }
 
         // The token before the colon must look like an identifier
         std::string token = line.substr(0, colon_pos);
@@ -194,11 +202,13 @@ std::string EchoDspyLLMProvider::complete(const std::string& prompt)
                 break;
             }
         }
-        if (!looks_like_field) continue;
+        if (!looks_like_field) {
+          continue;
+        }
 
         // Check if it's in a "# description" context (it's an output label)
         bool is_output = (line.find("# ") != std::string::npos ||
-                          line.size() <= colon_pos + 2);
+                          static_cast<int>(line.size()) <= colon_pos + 2);
 
         if (is_output) {
             response << token << ": [echo]\n";
@@ -243,7 +253,7 @@ std::unordered_map<std::string, std::string> DspyModule::forward(
     std::string response = llm_provider_->complete(prompt);
 
     THEMIS_DEBUG("DspyModule::forward [{}]: prompt_len={}, response_len={}",
-                 signature_.getName(), prompt.size(), response.size());
+                 signature_.getName(),static_cast<int>(prompt.size()),static_cast<int>(response.size()));
 
     return signature_.parseResponse(response);
 }

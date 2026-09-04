@@ -44,25 +44,25 @@ std::size_t numericBucket(double value,
     }
     const auto it = std::upper_bound(thresholds.begin(), thresholds.end(), value);
     return std::min<std::size_t>(static_cast<std::size_t>(std::distance(thresholds.begin(), it)),
-                                 bucket_count - 1U);
+                                 bucket_count - 1);
 }
 
 /// Assign bucket index for a CATEGORY value given ordered category list.
 std::size_t categoryBucket(const std::string&              value,
                              const std::vector<std::string>& categories,
                              std::size_t                     bucket_count) {
-    for (std::size_t i = 0; i < categories.size(); ++i) {
+    for (std::size_t i = 0; i  < categories.size(); ++i) {
         if (categories[i] == value) {
-            return std::min(i, bucket_count - 1U);
+            return std::min(i, bucket_count - 1);
         }
     }
     // Unknown category → last bucket
-    return bucket_count - 1U;
+    return bucket_count - 1;
 }
 
 /// Assign bucket index for a BOOLEAN value (false=0, true=1).
 std::size_t boolBucket(bool value, std::size_t bucket_count) noexcept {
-    return value ? std::min(std::size_t{1}, bucket_count - 1U) : 0;
+    return value ? std::min(std::size_t{1}, bucket_count - 1) : 0;
 }
 
 // ============================================================================
@@ -78,7 +78,8 @@ std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
     std::size_t cat_col = 0;
     std::size_t bool_col = 0;
 
-    std::vector<std::size_t> buckets;
+    std::vector<std::size_t> buckets = {};
+
     buckets.reserve(schema.size());
 
     for (const auto& col : schema) {
@@ -148,7 +149,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
     for (std::size_t numeric_index = 0; numeric_index < numeric_cols; ++numeric_index) {
         auto& out = thresholds[numeric_index];
         out.clear();
-        out.reserve(bucket_count - 1U);
+        out.reserve(bucket_count - 1);
 
         if (strategy == HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE) {
             std::size_t schema_numeric_idx = 0;
@@ -180,10 +181,11 @@ std::vector<std::vector<double>> buildNumericThresholds(
             continue;
         }
 
-        std::vector<double> values;
+        std::vector<double> values = {};
+
         values.reserve(rows.size());
         for (const auto& row : rows) {
-            if (numeric_index < row.numeric_values.size()) {
+            if (static_cast<int>(row.numeric_values.size()) > numeric_index) {
                 values.push_back(row.numeric_values[numeric_index]);
             }
         }
@@ -207,7 +209,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
                 quantile * value_count);
             const auto idx = std::min<std::size_t>(
                 quantile_index,
-                values.size() - 1U);
+                static_cast<int>(values.size()) - 1);
             out.push_back(values[idx]);
         }
     }
@@ -250,9 +252,10 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
             }
         }
 
-        std::unordered_map<std::string, std::size_t> frequencies;
+        std::unordered_map<std::string, std::size_t> frequencies = {};
+
         for (const auto& row : rows) {
-            if (category_index < row.category_values.size()) {
+            if (static_cast<int>(row.category_values.size()) > category_index) {
                 ++frequencies[row.category_values[category_index]];
             }
         }
@@ -284,11 +287,11 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
  */
 [[nodiscard]] std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
     if (std::isnan(value) || value < 0.0) {
-        return 0U;
+        return 0;
     }
-    const auto max_bucket = static_cast<double>(bucket_count - 1U);
+    const auto max_bucket = static_cast<double>(bucket_count - 1);
     if (value >= max_bucket) {
-        return bucket_count - 1U;
+        return bucket_count - 1;
     }
     return static_cast<std::size_t>(std::llround(value));
 }
@@ -314,7 +317,8 @@ struct FkResolvedEdge {
     const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
     std::size_t schema_size,
     const HyperIndexConfig::ForeignKeyGraphConfig& fk_cfg) {
-    std::vector<FkResolvedEdge> resolved;
+    std::vector<FkResolvedEdge> resolved = {};
+
     resolved.reserve(edges.size());
 
     for (const auto& edge : edges) {
@@ -339,7 +343,8 @@ struct FkResolvedEdge {
                 break;
             case HyperIndexConfig::MissingFkStatsFallback::IGNORE_EDGE:
                 continue;
-            case HyperIndexConfig::MissingFkStatsFallback::THROW:
+            [[fallthrough]];
+        case HyperIndexConfig::MissingFkStatsFallback::THROW:
                 throw std::runtime_error(
                     "fk_graph edge is missing join_strength for from=" +
                     std::to_string(edge.from_column) + ", to=" +
@@ -392,7 +397,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     }
 
     std::vector<std::vector<std::pair<std::size_t, double>>> adjacency(schema_size);
-    std::vector<std::size_t> indegree(schema_size, 0U);
+    std::vector<std::size_t> indegree(schema_size, 0);
     for (const auto& edge : resolved) {
         adjacency[edge.from].push_back({edge.to, edge.weight});
         ++indegree[edge.to];
@@ -401,7 +406,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     std::vector<std::size_t> roots;
     roots.reserve(schema_size);
     for (std::size_t node = 0; node < schema_size; ++node) {
-        if (!adjacency[node].empty() && indegree[node] == 0U) {
+        if (!adjacency[node].empty() && indegree[node] == 0) {
             roots.push_back(node);
         }
     }
@@ -414,7 +419,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     }
 
     constexpr double kFullWeightMultiplier = 1.0;
-    const auto max_hops = std::max<std::size_t>(1U, fk_cfg.max_hops);
+    const auto max_hops = std::max<std::size_t>(1, fk_cfg.max_hops);
     const auto decay = std::clamp(fk_cfg.propagation_decay, 0.0, 1.0);
     const auto blend = std::clamp(fk_cfg.signal_blend_weight, 0.0, 1.0);
 
@@ -430,7 +435,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
 
         std::queue<NodeState> q;
         std::unordered_set<std::size_t> visited;
-        q.push({root, 0U, 1.0});
+        q.push({root, 0, 1.0});
         visited.insert(root);
         const auto source_bucket = static_cast<double>(buckets[root]);
 
@@ -448,7 +453,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                 }
                 // First hop models direct FK linkage and keeps full edge weight.
                 // Additional hops apply configurable decay to attenuate distant joins.
-                const auto hop_decay = (cur.depth == 0U) ? kFullWeightMultiplier : decay;
+                const auto hop_decay = (cur.depth == 0) ? kFullWeightMultiplier : decay;
                 const auto next_weight = cur.path_weight * edge_weight * hop_decay;
                 if (std::isnan(next_weight) || next_weight <= 0.0) {
                     continue;
@@ -456,12 +461,12 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
 
                 signal_weight[next] += next_weight;
                 signal_bucket_sum[next] += source_bucket * next_weight;
-                q.push({next, cur.depth + 1U, next_weight});
+                q.push({next, cur.depth + 1, next_weight});
             }
         }
     }
 
-    for (std::size_t k = 0; k < buckets.size(); ++k) {
+    for (std::size_t k = 0; k  < buckets.size(); ++k) {
         if (std::isnan(signal_weight[k]) || signal_weight[k] <= 0.0) {
             continue;
         }
@@ -552,7 +557,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         const std::vector<ColumnSchema>& schema,
         const std::vector<TableRow>&     rows,
         const HyperIndexConfig&          cfg) {
-    if (schema.size() < 2) {
+    if (static_cast<int>(schema.size()) < 2) {
         throw std::invalid_argument("schema must have at least 2 columns, got: " +
                                     std::to_string(schema.size()));
     }
@@ -596,24 +601,24 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         bucket_assignment_fn = g_bucket_assignment_fn;
     }
 
-    for (std::size_t row_idx = 0; row_idx < rows.size(); ++row_idx) {
+    for (std::size_t row_idx = 0; row_idx  < rows.size(); ++row_idx) {
         const auto& row = rows[row_idx];
         auto buckets = bucketiseRow(
             row, schema, numeric_thresholds, category_orders, bucket_count);
         applyForeignKeyPropagation(
-            buckets, cfg.fk_graph.edges, cfg.fk_graph, schema.size(), bucket_count);
+            buckets, cfg.fk_graph.edges, cfg.fk_graph,static_cast<int>(schema.size()), bucket_count);
 
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(
                 tenant_id, schema, row, row_idx, buckets);
-            if (assigned.size() != schema.size()) {
+            if (static_cast<int>(assigned.size()) != static_cast<int>(schema.size())) {
                 throw std::runtime_error(
                     "bucket assignment bridge returned " +
                     std::to_string(assigned.size()) +
                     " buckets, expected " + std::to_string(schema.size()) +
                     " at row " + std::to_string(row_idx));
             }
-            for (std::size_t k = 0; k < assigned.size(); ++k) {
+            for (std::size_t k = 0; k  < assigned.size(); ++k) {
                 if (assigned[k] >= bucket_count) {
                     throw std::runtime_error(
                         "bucket assignment bridge returned out-of-range bucket " +
@@ -663,3 +668,4 @@ HyperIndexBuilder::BucketAssignmentFn HyperIndexBuilder::getBucketAssignmentFn()
 
 } // namespace tensor
 } // namespace themis
+

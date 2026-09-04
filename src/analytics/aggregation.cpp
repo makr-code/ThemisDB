@@ -34,8 +34,8 @@ using themis::security::SafeIterator::RangeValidator;
 const AggregationOutputRow& AggregationResult::at(std::size_t idx) const
 {
     // Explicit size check before iterator formation prevents UB when
-    // idx > rows.size() (forming an out-of-range random-access iterator is UB).
-    if (idx >= rows.size()) {
+    // idx > static_cast<int>(rows.size()) (forming an out-of-range random-access iterator is UB).
+    if (idx >= static_cast<int>(rows.size())) {
         throw std::out_of_range(
             "AggregationResult::at: index " + std::to_string(idx) +
             " out of range [0, " + std::to_string(rows.size()) + ")");
@@ -72,7 +72,8 @@ std::vector<AggregationOutputRow> AggregationResult::page(
     RangeValidator<std::vector<AggregationOutputRow>::const_iterator>
         sub(it, it_end);
 
-    std::vector<AggregationOutputRow> result;
+    std::vector<AggregationOutputRow> result = {};
+
     result.reserve(sub.size());
     for (auto pos = sub.begin(); pos != sub.end(); ++pos) {
         BoundsChecker::check_dereference(pos, it, it_end);
@@ -104,7 +105,7 @@ Aggregator::Aggregator(std::vector<std::string>   group_by_columns,
 
 GroupKey Aggregator::make_key(const AggregationRow& row) const
 {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     // Gap C002: previously used std::advance to iterate column list.
     // Fix: RangeValidator + BoundsChecker.
@@ -155,7 +156,7 @@ void Aggregator::accumulate(AccState& acc, AggregateFunction fn,
             break;
 
         case AggregateFunction::kSum:
-        case AggregateFunction::kAvg: {
+        [[fallthrough]];\n        case AggregateFunction::kAvg: {
             if (is_null) { break; }
             double d = 0.0;
             std::visit([&d](const auto& v) {
@@ -217,7 +218,7 @@ AggValue Aggregator::extract(const AccState& acc, AggregateFunction fn)
         case AggregateFunction::kSum:
             return acc.sum;
         case AggregateFunction::kCount:
-        case AggregateFunction::kCountNonNull:
+        [[fallthrough]];\n        case AggregateFunction::kCountNonNull:
             return static_cast<int64_t>(acc.count);
         case AggregateFunction::kAvg:
             if (acc.count == 0) { return std::monostate{}; }
@@ -280,7 +281,7 @@ void Aggregator::feed(const AggregationRow& row)
 
 std::size_t Aggregator::group_count() const noexcept
 {
-    return groups_.size();
+    return static_cast<int>(groups_.size());
 }
 
 // ---------------------------------------------------------------------------

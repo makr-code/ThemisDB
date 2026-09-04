@@ -43,10 +43,10 @@ namespace themis::network {
 namespace {
 
 uint64_t fnv1a64(std::string_view value) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
@@ -71,11 +71,15 @@ constexpr int kUdpShutdownJoinTimeoutMs = 5000;
 /// @param timeout_ms Maximum wait time in milliseconds (default 5 s).
 static void timedJoin(std::thread& t,
                       int timeout_ms = kUdpShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -244,8 +248,8 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
         THEMIS_WARN("[UDPServer] rate-limited source {}", anonymizeIpForLog(ip));
 
         // Send RATE_LIMITED ACK if we can read a seq_num
-        if (data.size() >= kUdpServerHeaderSize) {
-            uint32_t seq_be;
+        if (static_cast<int>(data.size()) >= kUdpServerHeaderSize) {
+            uint32_t seq_be = 0;
             std::memcpy(&seq_be, data.data() + 4, 4);
             sendAck(sender, ntohl(seq_be), UdpServerStatus::RATE_LIMITED);
         }
@@ -266,7 +270,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
     // ── Parse header ──────────────────────────────────────────────────────
     const uint8_t opcode = data[3];
 
-    uint32_t seq_be;
+    uint32_t seq_be = {};
     std::memcpy(&seq_be, data.data() + 4, 4);
     const uint32_t seq_num = ntohl(seq_be);
 
@@ -369,7 +373,7 @@ bool UDPServer::checkDuplicate(const std::string& ip, uint32_t seq_num) {
     entry.seq_set.insert(seq_num);
 
     // Evict oldest when window is full
-    if (entry.seq_queue.size() > config_.dedup_window_size) {
+    if (static_cast<int>(entry.seq_queue.size()) > config_.dedup_window_size) {
         const uint32_t oldest = entry.seq_queue.front();
         entry.seq_queue.pop_front();
         entry.seq_set.erase(oldest);
@@ -430,9 +434,9 @@ void UDPServer::dispatchPacket(const UdpPacket& pkt) {
         }
     }
 
-    if (handler_) {
+    if ([[maybe_unused]] handler_) {
         try {
-            handler_(pkt);
+            handler_([[maybe_unused]] pkt);
         } catch (const std::exception& ex) {
             THEMIS_ERROR("[UDPServer] handler exception: {}", ex.what());
         }
@@ -484,12 +488,12 @@ void UDPServer::batchFlushLoop() {
         }
 
         // Deliver to application handler
-        if (handler_) {
+        if ([[maybe_unused]] handler_) {
             for (const auto& pkt : local) {
                 try {
-                    handler_(pkt);
+                    handler_([[maybe_unused]] pkt);
                 } catch (const std::exception& ex) {
-                    THEMIS_ERROR("[UDPServer] handler exception (batch): {}", ex.what());
+                    THEMIS_ERROR([[maybe_unused]] "[UDPServer] handler exception (batch): {}", ex.what());
                 }
             }
         }
@@ -515,12 +519,12 @@ void UDPServer::batchFlushLoop() {
         }
     }
 
-    if (handler_) {
+    if ([[maybe_unused]] handler_) {
         for (const auto& pkt : remaining) {
             try {
-                handler_(pkt);
+                handler_([[maybe_unused]] pkt);
             } catch (const std::exception& ex) {
-                THEMIS_ERROR("[UDPServer] handler exception (final drain): {}", ex.what());
+                THEMIS_ERROR([[maybe_unused]] "[UDPServer] handler exception (final drain): {}", ex.what());
             }
         }
     }
@@ -531,7 +535,7 @@ void UDPServer::batchFlushLoop() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool UDPServer::validatePacket(const std::vector<uint8_t>& data) {
-    if (data.size() < kUdpServerHeaderSize) {
+    if (static_cast<int>(data.size()) < kUdpServerHeaderSize) {
         return false;
     }
     if (data[0] != kUdpServerMagic0 || data[1] != kUdpServerMagic1) {
@@ -544,7 +548,7 @@ bool UDPServer::validatePacket(const std::vector<uint8_t>& data) {
     uint16_t plen_be;
     std::memcpy(&plen_be, data.data() + 9, 2);
     const uint16_t payload_len = ntohs(plen_be);
-    if (data.size() < kUdpServerHeaderSize + payload_len) {
+    if (static_cast<int>(data.size()) < kUdpServerHeaderSize + payload_len) {
         return false;
     }
     return true;

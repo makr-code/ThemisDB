@@ -261,7 +261,7 @@ struct ConfidenceScore {
 struct LanguageDetectionResult {
     /// @brief Detected BCP-47 language code (e.g., "en", "fr", "es").
     /// Primary detection result.
-    std::string detected_language;
+    std::string detected_language = {};
 
     /// @brief Confidence [0.0, 1.0] that detected_language is correct.
     /// Used for filtering low-confidence results.

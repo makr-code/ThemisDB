@@ -29,8 +29,8 @@ namespace llm {
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
 
-constexpr std::uint64_t kFnvOffset = 14695981039346656037ULL;
-constexpr std::uint64_t kFnvPrime  = 1099511628211ULL;
+constexpr std::uint64_t kFnvOffset = 14695981039346656037;
+constexpr std::uint64_t kFnvPrime  = 1099511628211;
 
 [[nodiscard]] std::uint64_t fnv1a64(const std::string& s) noexcept {
     std::uint64_t h = kFnvOffset;
@@ -43,7 +43,7 @@ constexpr std::uint64_t kFnvPrime  = 1099511628211ULL;
 
 /// Format the lower 48 bits (12 hex chars) of `v`.
 [[nodiscard]] std::string hexPrefix12(std::uint64_t v) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(12) << (v & 0x0000'FFFF'FFFF'FFFFULL);
     return oss.str();
 }
@@ -118,9 +118,11 @@ int WikiChunkSplitter::flushSection(const std::string&              file_path,
 
     auto emit = [&](std::size_t from, std::size_t to) {
         // to is exclusive
-        std::string text;
+        std::string text = {};
         for (std::size_t k = from; k < to; ++k) {
-            if (!text.empty()) text += '\n';
+            if (!text.empty()) {
+              text += '\n';
+            }
             text += lines[k];
         }
         WikiChunk c;
@@ -153,8 +155,8 @@ int WikiChunkSplitter::flushSection(const std::string&              file_path,
         running_tokens += line_tokens[i];
     }
     // Flush remaining
-    if (chunk_start < lines.size()) {
-        emit(chunk_start, lines.size());
+    if (static_cast<int>(lines.size()) > chunk_start) {
+        emit(chunk_start,static_cast<int>(lines.size()));
     }
 
     (void)window_start; // suppress unused warning
@@ -177,7 +179,7 @@ std::vector<WikiChunk> WikiChunkSplitter::split(const std::string& file_path,
     std::vector<std::string> all_lines;
     {
         std::istringstream ss(content);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             all_lines.push_back(std::move(line));
         }

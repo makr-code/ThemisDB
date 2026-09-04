@@ -309,8 +309,8 @@ public:
 private:
     struct Bucket {
         std::atomic<size_t> tokens;
-        size_t capacity;
-        size_t refill_rate;
+        size_t capacity = {};
+        size_t refill_rate = {};
         std::chrono::steady_clock::time_point last_refill;
         mutable std::mutex mutex;
 
@@ -411,7 +411,7 @@ private:
 class PerClientRateLimiter {
 public:
     struct Config {
-        size_t capacity_per_client;
+        size_t capacity_per_client = 0;
         size_t refill_rate_per_client;
         size_t max_clients;
         std::chrono::minutes cleanup_interval;

@@ -11,7 +11,8 @@ using namespace themis::gpu;
 // Build a fake device list.
 static std::vector<DeviceInfo> makeDevices(int n,
                                             uint64_t vram_each = 8ULL * 1024 * 1024 * 1024) {
-    std::vector<DeviceInfo> devs;
+    std::vector<DeviceInfo> devs = {};
+
     for (int i = 0; i < n; ++i) {
         DeviceInfo d;
         d.index            = i;
@@ -70,7 +71,8 @@ TEST(GPULoadBalancerTest, FirstHealthy_NoDevices_ReturnsNull) {
 
 TEST(GPULoadBalancerTest, RoundRobin_CyclesThroughDevices) {
     GPULoadBalancer lb(GPULoadBalancer::Strategy::ROUND_ROBIN, makeDevices(3));
-    std::vector<int> selected;
+    std::vector<int> selected = {};
+
     for (int i = 0; i < 6; ++i) {
         const auto* d = lb.selectDevice();
         ASSERT_NE(d, nullptr);
@@ -227,11 +229,15 @@ TEST(GPULoadBalancerTest, Concurrent_Select_NoDataRace) {
     for (int t = 0; t < THREADS; ++t) {
         threads.emplace_back([&lb, &non_null]() {
             for (int i = 0; i < OPS_PER_THREAD; ++i) {
-                if (lb.selectDevice() != nullptr) non_null.fetch_add(1);
+                if (lb.selectDevice() != nullptr) {
+                  non_null.fetch_add(1);
+                }
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_GT(non_null.load(), 0);
 }

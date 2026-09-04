@@ -353,7 +353,7 @@ void example_configurable_adaptive(TaskScheduler& scheduler, QueryEngine* query_
             int retention_days = params.value("retention_days", 90);
             
             // Build AQL query with dynamic thresholds
-            std::ostringstream aql;
+            std::ostringstream aql = {};
             aql << "FOR d IN timeseries "
                 << "FILTER d.resolution == '1s' ";
             

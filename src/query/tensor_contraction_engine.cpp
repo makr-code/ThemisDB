@@ -104,10 +104,10 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
 
     // Remove the dimension-1 core by contracting it into its right neighbour
     // (if there is one).  This keeps the result as a proper (d-1)-dimensional TT.
-    for (std::size_t k = 0; k < result.cores.size(); ) {
-        if (result.cores[k].n == 1 && result.cores.size() > 1) {
+    for (std::size_t k = 0; k <static_cast<int>(result.cores.size()); ) {
+        if (result.cores[k].n == 1 && static_cast<int>(result.cores.size()) > 1) {
             // Absorb core k into core k+1 (if exists) or k-1
-            if (k + 1 < result.cores.size()) {
+            if (k + 1 <static_cast<int>(result.cores.size())) {
                 const auto& ck  = result.cores[k];
                 auto&       ck1 = result.cores[k + 1];
                 // new_core: (r_l_k × n_{k+1} × r_r_{k+1})
@@ -212,7 +212,7 @@ TTTrain TensorContractionEngine::recompress(const TTTrain& train,
     TensorTrainConfig cfg;
     cfg.eps      = eps;
     cfg.max_rank = max_rank;
-    TensorTrainDecomposer dec;
+    TensorTrainDecomposer dec = {};
     return dec.round(train, cfg);
 }
 
@@ -271,7 +271,7 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
             result.cores.push_back(train.cores[k]);
             result.mode_sizes.push_back(train.mode_sizes[k]);
         }
-        const auto& prev = train.cores[mode - 1];
+        const auto& prev = train.cores[static_cast<int>(mode - 1)];
         TTCore ng;
         ng.r_left  = prev.r_left;
         ng.n       = prev.n;
@@ -307,7 +307,7 @@ TTTrain TensorContractionEngine::contractModes(
     std::size_t                    max_rank,
     double                         round_eps) {
 
-    if (modes_a.size() != modes_b.size())
+    if (static_cast<int>(modes_a.size()) != static_cast<int>(modes_b.size()))
         throw std::invalid_argument(
             "TensorContractionEngine::contractModes: modes_a / modes_b length mismatch");
 
@@ -343,15 +343,24 @@ TTTrain TensorContractionEngine::contractModes(
     free_a.reserve(sha.size());
     free_b.reserve(shb.size());
     for (std::size_t k = 0; k < sha.size(); ++k)
-        if (!contracted_a[k]) free_a.push_back(k);
+        if (!contracted_a[k]) {
+          free_a.push_back(k);
+        }
     for (std::size_t k = 0; k < shb.size(); ++k)
-        if (!contracted_b[k]) free_b.push_back(k);
+        if (!contracted_b[k]) {
+          free_b.push_back(k);
+        }
 
     // Result shape: [free dims of a] + [free dims of b]
-    std::vector<std::size_t> result_shape;
-    result_shape.reserve(free_a.size() + free_b.size());
-    for (auto k : free_a) result_shape.push_back(sha[k]);
-    for (auto k : free_b) result_shape.push_back(shb[k]);
+    std::vector<std::size_t> result_shape = {};
+
+    result_shape.reserve(static_cast<int>(free_a.size()) + static_cast<int>(free_b.size()) );
+    for (auto k : free_a) {
+      result_shape.push_back(sha[k]);
+    }
+    for (auto k : free_b) {
+      result_shape.push_back(shb[k]);
+    }
 
     // Helper: multi-index → flat offset
     auto toFlat = [](const std::vector<std::size_t>& idx,
@@ -366,7 +375,9 @@ TTTrain TensorContractionEngine::contractModes(
 
     // Compute result.
     std::size_t res_sz = 1;
-    for (auto s : result_shape) res_sz *= s;
+    for (auto s : result_shape) {
+      res_sz *= s;
+    }
     std::vector<float> result_dense(res_sz, 0.0f);
 
     // Iterate over the Cartesian product of ALL indices of a.
@@ -378,7 +389,9 @@ TTTrain TensorContractionEngine::contractModes(
     // We build a loop over all a-indices and all free b-indices.
     std::size_t total_a = dense_a.size();
     std::size_t total_free_b = 1;
-    for (auto k : free_b) total_free_b *= shb[k];
+    for (auto k : free_b) {
+      total_free_b *= shb[k];
+    }
 
     // Reset and iterate.
     std::fill(idx_a.begin(), idx_a.end(), 0);
@@ -397,7 +410,9 @@ TTTrain TensorContractionEngine::contractModes(
             idx_b[modes_b[i]] = idx_a[modes_a[i]];
 
         float va = dense_a[flat_a];
-        if (va == 0.0f) continue;
+        if (va == 0.0f) {
+          continue;
+        }
 
         // Iterate over free b indices.
         std::vector<std::size_t> free_b_idx(free_b.size(), 0);
@@ -415,10 +430,15 @@ TTTrain TensorContractionEngine::contractModes(
             float vb = dense_b[toFlat(idx_b, shb)];
 
             // Build result index: free_a indices first, then free_b indices.
-            std::vector<std::size_t> ridx;
-            ridx.reserve(free_a.size() + free_b.size());
-            for (auto k : free_a) ridx.push_back(idx_a[k]);
-            for (auto k : free_b) ridx.push_back(idx_b[k]);
+            std::vector<std::size_t> ridx = {};
+
+            ridx.reserve(static_cast<int>(free_a.size()) + static_cast<int>(free_b.size()) );
+            for (auto k : free_a) {
+              ridx.push_back(idx_a[k]);
+            }
+            for (auto k : free_b) {
+              ridx.push_back(idx_b[k]);
+            }
 
             result_dense[toFlat(ridx, result_shape)] += va * vb;
         }
@@ -445,7 +465,9 @@ TTTrain TensorContractionEngine::contractModes(
     // Re-decompose result to TT format.
     double eps = round_eps > 0.0 ? round_eps
                                  : std::max(a.achieved_eps, b.achieved_eps);
-    if (eps <= 0.0) eps = 1e-4;
+    if (eps <= 0.0) {
+      eps = 1e-4;
+    }
 
     TensorTrainConfig cfg;
     cfg.eps      = eps;

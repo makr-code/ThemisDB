@@ -44,8 +44,8 @@ class AQLConversationContext::Impl {
     IHistoryCompressor* compressor_;  // Non-owning pointer to compressor (can be nullptr)
     std::string schema_context_;
     std::vector<llm::ChatMessage> history_;
-    std::string last_query_;
-    std::size_t turn_count_;
+    std::string last_query_ = {};
+    std::size_t turn_count_ = {};
     mutable std::shared_mutex history_mutex_; // guards history_, turn_count_, last_query_, compressor_
     std::mutex call_mutex_;                   // serializes LLM round-trips and reset/start
 
@@ -53,7 +53,7 @@ class AQLConversationContext::Impl {
     // For very small token budgets, shrink the prompt to a compact variant so
     // max_history_tokens can still be satisfied.
     std::string buildSystemPrompt() const {
-        std::ostringstream sp;
+        std::ostringstream sp = {};
         sp << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n"
            << "Your job is to produce a single valid AQL query based on the "
            << "conversation history.\n";
@@ -159,7 +159,7 @@ class AQLConversationContext::Impl {
         }
 
         try {
-            std::string response;
+            std::string response = {};
             if (config_.llm_executor) {
                 std::vector<std::pair<std::string, std::string>> pairs;
                 pairs.reserve(history_snapshot.size());
@@ -168,7 +168,7 @@ class AQLConversationContext::Impl {
                 }
                 response = config_.llm_executor(pairs);
             } else {
-                response = handler_.executeChat(history_snapshot);
+                response = handler_.executeChat([[maybe_unused]] history_snapshot);
             }
             const std::string query = cleanQuery(response);
 
@@ -222,7 +222,8 @@ class AQLConversationContext::Impl {
                             auto result = compressor_->compressHistory(history_pairs, max_tokens, min_similarity);
                             if (result && result->semantic_similarity >= min_similarity) {
                                 // Compression succeeded; replace history with compressed summary + system message
-                                std::vector<llm::ChatMessage> compressed_history;
+                                std::vector<llm::ChatMessage> compressed_history = {};
+
                                 if (!history_.empty() && history_.front().role == "system") {
                                     compressed_history.emplace_back("system", history_.front().content);
                                 }
@@ -348,7 +349,7 @@ std::string AQLConversationContext::refine(const std::string &instruction) {
     }
 
     // Compose a user message that includes the current query for context
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     {
         std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
         if (!impl_->last_query_.empty()) {
@@ -393,7 +394,7 @@ std::string AQLConversationContext::lastQuery() const {
 std::vector<std::pair<std::string, std::string>> AQLConversationContext::getHistory() const {
     std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     std::vector<std::pair<std::string, std::string>> out;
-    out.reserve(impl_->history_.size());
+    out.reserve(impl_-> static_cast<int>(history_.size()));
     for (const auto &msg : impl_->history_) {
         out.emplace_back(msg.role, msg.content);
     }

@@ -56,7 +56,7 @@ uint64_t fnv1a64(const std::string &s) {
 }
 
 std::string toHex16(uint64_t v) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0') << std::setw(16) << v;
     return ss.str();
 }
@@ -64,7 +64,7 @@ std::string toHex16(uint64_t v) {
 std::string iso8601Now() {
     const auto now      = std::chrono::system_clock::now();
     const std::time_t t = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     return ss.str();
 }

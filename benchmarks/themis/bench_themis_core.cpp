@@ -253,7 +253,8 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
         themis::wire::OpCode::OP_OK
     };
 
-    std::unique_ptr<LoopbackOpcodeHarness> socket_harness;
+    std::unique_ptr<LoopbackOpcodeHarness> socket_harness = {};
+
     if (use_socket_harness) {
         try {
             socket_harness = std::make_unique<LoopbackOpcodeHarness>(socket_channels);

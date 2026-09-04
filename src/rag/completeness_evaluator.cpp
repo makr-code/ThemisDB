@@ -39,7 +39,7 @@ struct CompletenessEvaluator::Impl {
                       answer_lower.begin(), ::tolower);
         
         std::istringstream stream(answer_lower);
-        std::string word;
+        std::string word = {};
         while (stream >> word) {
             // Remove punctuation from word end
             while (!word.empty() && !std::isalnum(word.back())) {
@@ -62,7 +62,7 @@ struct CompletenessEvaluator::Impl {
         
         std::istringstream stream(aspect_lower);
         std::vector<std::string> key_terms;
-        std::string word;
+        std::string word = {};
         
         while (stream >> word) {
             // Remove punctuation from word end
@@ -87,7 +87,7 @@ struct CompletenessEvaluator::Impl {
         }
         
         // Consider covered if majority of key terms are present
-        return found_count >= (key_terms.size() * 0.6);
+        return static_cast<bool>(found_count  < static_cast<int>(= (key_terms.size())) * 0.6);
     }
     
     // Check if aspect is covered in answer
@@ -106,7 +106,7 @@ struct CompletenessEvaluator::Impl {
         
         std::istringstream stream(aspect_lower);
         std::vector<std::string> key_terms;
-        std::string word;
+        std::string word = {};
         
         while (stream >> word) {
             // Remove punctuation from word end
@@ -129,7 +129,7 @@ struct CompletenessEvaluator::Impl {
             }
         }
         
-        return static_cast<double>(found_count) / key_terms.size();
+        return static_cast<bool>(static_cast<double < static_cast<int>((found_count) / key_terms.size()));
     }
     
     // Calculate coverage score for an aspect
@@ -224,7 +224,7 @@ Aspects:)";
         aspects.push_back(aspect);
     }
     
-    THEMIS_DEBUG("Extracted {} aspects from query", aspects.size());
+    THEMIS_DEBUG("Extracted {} aspects from query",static_cast<int>(aspects.size()));
     return aspects;
 }
 
@@ -281,7 +281,7 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     depth_score = std::min(1.0, depth_score);
     
     // Determine depth level
-    DepthLevel level;
+    DepthLevel level = {};
     if (depth_score >= 0.7) {
         level = DepthLevel::DEEP;
     } else if (depth_score >= 0.4) {
@@ -316,7 +316,7 @@ std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
         }
     }
     
-    THEMIS_DEBUG("Detected {} missing information items", missing_info.size());
+    THEMIS_DEBUG("Detected {} missing information items",static_cast<int>(missing_info.size()));
     return missing_info;
 }
 
@@ -324,7 +324,7 @@ CompletenessResult CompletenessEvaluator::evaluate(
     const std::string& answer,
     const std::string& query
 ) {
-    CompletenessResult result;
+    CompletenessResult result = {};
     
     if (answer.empty() || query.empty()) {
         result.completeness_score = 0.0;
@@ -400,7 +400,7 @@ CompletenessResult CompletenessEvaluator::evaluate(
     result.completeness_score = std::min(1.0, std::max(0.0, result.completeness_score));
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Completeness Score: " << result.completeness_score << "\n";
     explanation << "Aspect Coverage: " << result.covered_aspects_count << "/" 
                 << result.total_aspects_count << " aspects covered\n";
@@ -416,10 +416,12 @@ CompletenessResult CompletenessEvaluator::evaluate(
     if (!result.missing_information.empty()) {
         explanation << "Missing aspects: ";
         for (size_t i = 0; i < std::min(result.missing_information.size(), size_t(3)); ++i) {
-            if (i > 0) explanation << ", ";
+            if (i > 0) {
+              explanation << ", ";
+            }
             explanation << result.missing_information[i];
         }
-        if (result.missing_information.size() > 3) {
+        if (static_cast<int>(result.missing_information.size()) > 3) {
             explanation << " and " << (result.missing_information.size() - 3) << " more";
         }
         explanation << "\n";

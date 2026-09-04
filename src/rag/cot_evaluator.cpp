@@ -38,7 +38,7 @@ struct CoTEvaluator::Impl {
         const std::vector<std::pair<std::string, std::string>>& documents,
         const std::string& dimension
     ) {
-        std::ostringstream prompt;
+        std::ostringstream prompt = {};
         
         prompt << "Evaluate the following answer using chain-of-thought reasoning.\n\n";
         prompt << "Dimension: " << dimension << "\n\n";
@@ -129,7 +129,7 @@ std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& res
     // Fallback: simple line-based parsing
     if (steps.empty()) {
         std::istringstream stream(response);
-        std::string line;
+        std::string line = {};
         int step_num = 0;
         ReasoningStep current_step;
         
@@ -156,7 +156,7 @@ std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& res
         }
     }
     
-    THEMIS_DEBUG("Parsed {} reasoning steps", steps.size());
+    THEMIS_DEBUG("Parsed {} reasoning steps",static_cast<int>(steps.size()));
     return steps;
 }
 
@@ -170,7 +170,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
     }
     
     // Reserve space for expected inconsistencies
-    inconsistencies.reserve(std::max(size_t(1), steps.size() / 4));
+    inconsistencies.reserve(std::max(size_t(1),static_cast<int>(steps.size()) / 4));
     
     // Check for contradictions between steps
     for (size_t i = 0; i < steps.size(); ++i) {
@@ -194,8 +194,12 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
             bool j_has_negation = false;
             
             for (const auto& neg : negations) {
-                if (conclusion_i.find(neg) != std::string::npos) i_has_negation = true;
-                if (conclusion_j.find(neg) != std::string::npos) j_has_negation = true;
+                if (conclusion_i.find(neg) != std::string::npos) {
+                  i_has_negation = true;
+                }
+                if (conclusion_j.find(neg) != std::string::npos) {
+                  j_has_negation = true;
+                }
             }
             
             // If one is negated and other isn't, check for common key terms
@@ -203,13 +207,17 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                 // Extract key terms
                 std::set<std::string> terms_i, terms_j;
                 std::istringstream stream_i(conclusion_i), stream_j(conclusion_j);
-                std::string word;
+                std::string word = {};
                 
                 while (stream_i >> word) {
-                    if (word.length() > 4) terms_i.insert(word);
+                    if (word.length() > 4) {
+                      terms_i.insert(word);
+                    }
                 }
                 while (stream_j >> word) {
-                    if (word.length() > 4) terms_j.insert(word);
+                    if (word.length() > 4) {
+                      terms_j.insert(word);
+                    }
                 }
                 
                 std::set<std::string> common;
@@ -217,8 +225,8 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                                     terms_j.begin(), terms_j.end(),
                                     std::inserter(common, common.begin()));
                 
-                if (common.size() >= 2) {
-                    std::ostringstream inconsistency;
+                if (static_cast<int>(common.size()) >= 2) {
+                    std::ostringstream inconsistency = {};
                     inconsistency << "Potential contradiction between Step " 
                                  << step_i.step_number << " and Step " 
                                  << step_j.step_number;
@@ -237,7 +245,7 @@ double CoTEvaluator::extractFinalScore(
 ) {
     // Try to extract from "Final Score:" line
     std::regex score_regex(R"(Final\s+Score:\s*([0-9.]+))", std::regex::icase);
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(response, match, score_regex)) {
         try {
@@ -265,7 +273,7 @@ double CoTEvaluator::extractFinalScore(
             }
         }
         
-        return static_cast<double>(positive_count) / steps.size();
+        return static_cast<bool>(static_cast<double < static_cast<int>((positive_count) / steps.size()));
     }
     
     return 0.5;  // Default neutral score
@@ -302,7 +310,7 @@ CoTEvaluationResult CoTEvaluator::evaluate(
         // Extract final reasoning
         std::regex reasoning_regex(R"(Final\s+Reasoning:\s*(.+?)(?:\n\n|$))", 
                       std::regex::icase);
-        std::smatch match;
+        std::smatch match = {};
         
         if (std::regex_search(response, match, reasoning_regex)) {
             result.final_reasoning = match[1].str();
@@ -320,7 +328,7 @@ CoTEvaluationResult CoTEvaluator::evaluate(
     }
     
     THEMIS_INFO("CoT evaluation complete: score={:.2f}, steps={}, consistent={}",
-                result.final_score, result.reasoning_steps.size(), result.logic_consistent);
+                result.final_score,static_cast<int>(result.reasoning_steps.size()), result.logic_consistent);
     
     return result;
 }

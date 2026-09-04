@@ -76,7 +76,9 @@ TEST(SampledLogger, BurstAllowsInitialMessages) {
     for (int i = 0; i < 20; ++i) {
         uint64_t before = sl.suppressed_total();
         sl.log(Logger::Level::INFO, "info", __FILE__, __LINE__);
-        if (sl.suppressed_total() == before) ++allowed;
+        if (sl.suppressed_total() == before) {
+          ++allowed;
+        }
     }
     // At least the burst allowance of calls should have gone through.
     EXPECT_GE(allowed, 5);

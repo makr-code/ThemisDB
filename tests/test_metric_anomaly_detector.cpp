@@ -282,8 +282,12 @@ TEST_F(MetricAnomalyDetectorTest, GetAllAnomalies_AggregatesAcrossStreams) {
     // Should have entries from both streams
     bool saw_a = false, saw_b = false;
     for (const auto& a : all) {
-        if (a.metric_name == "a") saw_a = true;
-        if (a.metric_name == "b") saw_b = true;
+        if (a.metric_name == "a") {
+          saw_a = true;
+        }
+        if (a.metric_name == "b") {
+          saw_b = true;
+        }
     }
     EXPECT_TRUE(saw_a);
     EXPECT_TRUE(saw_b);

@@ -54,9 +54,15 @@ static SourceConfig makeCdcConfig(
     cfg.type               = SourceType::CDC;
     cfg.location           = url;
     cfg.options["slot_name"] = slot_name;
-    if (!table_filter.empty()) cfg.options["table_filter"] = table_filter;
-    if (!text_cols.empty())    cfg.options["text_columns"] = text_cols;
-    if (!operations.empty())   cfg.options["operations"]   = operations;
+    if (!table_filter.empty()) {
+      cfg.options["table_filter"] = table_filter;
+    }
+    if (!text_cols.empty()) {
+      cfg.options["text_columns"] = text_cols;
+    }
+    if (!operations.empty()) {
+      cfg.options["operations"]   = operations;
+    }
     return cfg;
 }
 

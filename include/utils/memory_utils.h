@@ -330,7 +330,7 @@ public:
 
 private:
     std::unique_ptr<void, CpuDeleter> ptr_;
-    size_t size_;
+    size_t size_ = {};
 };
 
 inline CudaBuffer make_cuda_buffer(size_t bytes) {

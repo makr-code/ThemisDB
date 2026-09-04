@@ -26,7 +26,7 @@ namespace fs = std::filesystem;
 // ============================================================
 
 struct IntegrationFixture : ::testing::Test {
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<TSStore> store;
     int64_t base_ms{1700000000000LL};
@@ -237,7 +237,8 @@ TEST_F(IntegrationFixture, Chaos_ConcurrentWrites) {
 
     constexpr int threads = 4;
     constexpr int per_thread = 25;
-    std::vector<std::thread> pool;
+    std::vector<std::thread> pool = {};
+
     for (int t = 0; t < threads; ++t) {
         pool.emplace_back([&, t]() {
             for (int i = 0; i < per_thread; ++i) {
@@ -247,7 +248,9 @@ TEST_F(IntegrationFixture, Chaos_ConcurrentWrites) {
             }
         });
     }
-    for (auto& th : pool) th.join();
+    for (auto& th : pool) {
+      th.join();
+    }
     buf.flush();
 
     size_t total = 0;

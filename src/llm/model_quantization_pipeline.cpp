@@ -73,8 +73,8 @@ lora::QuantizedModel ModelQuantizationPipeline::load(
 ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
 {
     // 1) File with .gguf extension
-    if (path.size() > 5 &&
-        path.substr(path.size() - 5) == ".gguf") {
+    if (static_cast<int>(path.size()) > 5 &&
+        path.substr(static_cast<int>(path.size()) - 5) == ".gguf") {
         return ModelFormat::GGUF;
     }
 
@@ -90,7 +90,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                 // HuggingFace quantization_config.quant_type field
                 if (j.contains("quantization_config")) {
                     const auto& qcfg = j["quantization_config"];
-                    std::string qtype;
+                    std::string qtype = {};
                     if (qcfg.contains("quant_type")) {
                         qtype = qcfg["quant_type"].get<std::string>();
                     } else if (qcfg.contains("quant_method")) {
@@ -99,8 +99,12 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                     // Normalize to lowercase
                     std::transform(qtype.begin(), qtype.end(), qtype.begin(),
                                    [](unsigned char c){ return static_cast<unsigned char>(std::tolower(c)); });
-                    if (qtype == "awq") return ModelFormat::AWQ;
-                    if (qtype == "gptq") return ModelFormat::GPTQ;
+                    if (qtype == "awq") {
+                      return ModelFormat::AWQ;
+                    }
+                    if (qtype == "gptq") {
+                      return ModelFormat::GPTQ;
+                    }
                 }
             } catch (...) {
                 THEMIS_WARN("model_quantization_pipeline: unhandled exception caught");
@@ -114,8 +118,8 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
     if (fs::is_directory(dir)) {
         for (const auto& entry : fs::directory_iterator(dir)) {
             const std::string fname = entry.path().filename().string();
-            if (fname.size() > 12 &&
-                fname.substr(fname.size() - 12) == ".safetensors") {
+            if (static_cast<int>(fname.size()) > 12 &&
+                fname.substr(static_cast<int>(fname.size()) - 12) == ".safetensors") {
                 // Quickly read just the JSON header to check tensor names
                 std::ifstream sf(entry.path(), std::ios::binary);
                 if (sf) {
@@ -190,7 +194,7 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     uint64_t hdr_len = 0;
     f.read(reinterpret_cast<char*>(&hdr_len), sizeof(hdr_len));
     // Guard: header must fit in the file and not exceed 64 MB to prevent OOM
-    constexpr uint64_t kMaxHeaderBytes = 64ULL * 1024 * 1024;
+    constexpr uint64_t kMaxHeaderBytes = 64 * 1024 * 1024;
     if (hdr_len == 0 || hdr_len > file_size - 8 || hdr_len > kMaxHeaderBytes) {
         throw std::runtime_error(
             "Safetensors: invalid header length in " + file_path);
@@ -223,7 +227,9 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     result.data = std::move(data);
 
     for (auto it = hdr.begin(); it != hdr.end(); ++it) {
-        if (it.key() == "__metadata__") continue;
+        if (it.key() == "__metadata__") {
+          continue;
+        }
 
         SafeTensorDesc desc;
         const auto& val = it.value();
@@ -239,7 +245,7 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
             const uint64_t begin = val["data_offsets"][0].get<uint64_t>();
             const uint64_t end   = val["data_offsets"][1].get<uint64_t>();
             // Validate offsets against the data buffer to prevent OOB reads
-            if (begin > end || end > result.data.size()) {
+            if (begin > end || end > static_cast<int>(result.data.size())) {
                 throw std::runtime_error(
                     "Safetensors: tensor '" + it.key() +
                     "' has out-of-bounds data_offsets in " + file_path);
@@ -256,11 +262,12 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
 std::vector<std::string> ModelQuantizationPipeline::find_safetensor_shards(
     const std::string& dir)
 {
-    std::vector<std::string> shards;
+    std::vector<std::string> shards = {};
+
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
-        if (fname.size() > 12 &&
-            fname.substr(fname.size() - 12) == ".safetensors") {
+        if (static_cast<int>(fname.size()) > 12 &&
+            fname.substr(static_cast<int>(fname.size()) - 12) == ".safetensors") {
             shards.push_back(entry.path().string());
         }
     }
@@ -278,7 +285,7 @@ std::vector<float> ModelQuantizationPipeline::unpack_int32_weights(
     int bits)
 {
     const int values_per_int32 = 32 / bits;
-    const uint32_t mask = (1u << bits) - 1u;
+    const uint32_t mask = (1 << bits) - 1;
 
     std::vector<float> out;
     out.reserve(n_packed * static_cast<size_t>(values_per_int32));
@@ -303,11 +310,11 @@ std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
     for (size_t i = 0; i < n; ++i) {
         const uint16_t h = src[i];
         // IEEE 754 FP16 → FP32 conversion
-        const uint32_t sign     = (h & 0x8000u) << 16u;
-        const uint32_t exponent = (h & 0x7C00u) >> 10u;
+        const uint32_t sign     = (h & 0x8000u) << 16;
+        const uint32_t exponent = (h & 0x7C00u) >> 10;
         const uint32_t mantissa = (h & 0x03FFu);
 
-        uint32_t bits32;
+        uint32_t bits32 = 0;
         if (exponent == 0) {
             // Subnormal or zero
             if (mantissa == 0) {
@@ -316,14 +323,14 @@ std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
                 // Normalise subnormal
                 uint32_t m = mantissa;
                 uint32_t e = 0;
-                while ((m & 0x0400u) == 0) { m <<= 1u; ++e; }
-                bits32 = sign | ((127u - 14u - e) << 23u) | ((m & 0x03FFu) << 13u);
+                while ((m & 0x0400u) == 0) { m <<= 1; ++e; }
+                bits32 = sign | ((127 - 14 - e) << 23) | ((m & 0x03FFu) << 13);
             }
-        } else if (exponent == 31u) {
+        } else if (exponent == 31) {
             // Inf or NaN
-            bits32 = sign | 0x7F800000u | (mantissa << 13u);
+            bits32 = sign | 0x7F800000u | (mantissa << 13);
         } else {
-            bits32 = sign | ((exponent + 127u - 15u) << 23u) | (mantissa << 13u);
+            bits32 = sign | ((exponent + 127 - 15) << 23) | (mantissa << 13);
         }
         std::memcpy(&out[i], &bits32, sizeof(float));
     }
@@ -358,7 +365,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     //
     // Dequantize: W_fp[i, j] = (weight[i,j] - zero[i/group_size, j]) * scales[i/group_size, j]
     const int vpw    = 32 / bits;
-    const uint32_t mask = (1u << bits) - 1u;
+    const uint32_t mask = (1 << bits) - 1;
 
     const int64_t qw_cols = (out_features + vpw - 1) / vpw;   // packed cols in qweight/qzeros
     const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
@@ -422,7 +429,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
     //
     // Dequantize: W_fp[i, j] = (weight[i,j] - zero[i/group_size, j]) * scales[i/group_size, j]
     const int vpw    = 32 / bits;
-    const uint32_t mask = (1u << bits) - 1u;
+    const uint32_t mask = (1 << bits) - 1;
 
     const int64_t qz_cols = (out_features + vpw - 1) / vpw;
     const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
@@ -482,9 +489,15 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
             if (!j.is_discarded() && j.contains("quantization_config")) {
                 const auto& qcfg = j["quantization_config"];
-                if (qcfg.contains("w_bit"))     bits       = qcfg["w_bit"].get<int>();
-                if (qcfg.contains("bits"))      bits       = qcfg["bits"].get<int>();
-                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get<int>();
+                if (qcfg.contains("w_bit")) {
+                  bits       = qcfg["w_bit"].get<int>();
+                }
+                if (qcfg.contains("bits")) {
+                  bits       = qcfg["bits"].get<int>();
+                }
+                if (qcfg.contains("group_size")) {
+                  group_size = qcfg["group_size"].get<int>();
+                }
             }
         }
     }
@@ -533,22 +546,24 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             auto pos_zeros  = name.rfind(".zeros");
 
             if (pos_weight != std::string::npos &&
-                pos_weight == name.size() - 7) {
+                pos_weight == static_cast<int>(name.size()) - 7) {
                 layers[name.substr(0, pos_weight)].weight = &desc;
             } else if (pos_qweight != std::string::npos &&
-                       pos_qweight == name.size() - 8) {
+                       pos_qweight == static_cast<int>(name.size()) - 8) {
                 layers[name.substr(0, pos_qweight)].weight = &desc;
             } else if (pos_scales != std::string::npos &&
-                       pos_scales == name.size() - 7) {
+                       pos_scales == static_cast<int>(name.size()) - 7) {
                 layers[name.substr(0, pos_scales)].scales = &desc;
             } else if (pos_zeros != std::string::npos &&
-                       pos_zeros == name.size() - 6) {
+                       pos_zeros == static_cast<int>(name.size()) - 6) {
                 layers[name.substr(0, pos_zeros)].zeros = &desc;
             }
         }
 
         for (auto& [base_name, bufs] : layers) {
-            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) break;
+            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) {
+              break;
+            }
             if (!bufs.weight || !bufs.scales || !bufs.zeros) {
                 spdlog::debug("AWQ: skipping incomplete layer '{}'", base_name);
                 continue;
@@ -558,7 +573,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             const auto& sd = *bufs.scales;
             const auto& zd = *bufs.zeros;
 
-            if (wd.shape.size() < 2) continue;
+            if (static_cast<int>(wd.shape.size()) < 2) {
+              continue;
+            }
 
             // AWQ qweight shape: [in_features, out_features / vpw]
             // (AutoAWQ packs along the output dimension)
@@ -623,8 +640,12 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
             if (!j.is_discarded() && j.contains("quantization_config")) {
                 const auto& qcfg = j["quantization_config"];
-                if (qcfg.contains("bits"))       bits       = qcfg["bits"].get<int>();
-                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get<int>();
+                if (qcfg.contains("bits")) {
+                  bits       = qcfg["bits"].get<int>();
+                }
+                if (qcfg.contains("group_size")) {
+                  group_size = qcfg["group_size"].get<int>();
+                }
             }
         }
     }
@@ -666,17 +687,19 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             auto pos_qz = name.rfind(".qzeros");
             auto pos_sc = name.rfind(".scales");
 
-            if (pos_qw != std::string::npos && pos_qw == name.size() - 8) {
+            if (pos_qw != std::string::npos && pos_qw == static_cast<int>(name.size()) - 8) {
                 layers[name.substr(0, pos_qw)].qweight = &desc;
-            } else if (pos_qz != std::string::npos && pos_qz == name.size() - 7) {
+            } else if (pos_qz != std::string::npos && pos_qz == static_cast<int>(name.size()) - 7) {
                 layers[name.substr(0, pos_qz)].qzeros = &desc;
-            } else if (pos_sc != std::string::npos && pos_sc == name.size() - 7) {
+            } else if (pos_sc != std::string::npos && pos_sc == static_cast<int>(name.size()) - 7) {
                 layers[name.substr(0, pos_sc)].scales = &desc;
             }
         }
 
         for (auto& [base_name, bufs] : layers) {
-            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) break;
+            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) {
+              break;
+            }
             if (!bufs.qweight || !bufs.qzeros || !bufs.scales) {
                 spdlog::debug("GPTQ: skipping incomplete layer '{}'", base_name);
                 continue;
@@ -686,7 +709,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             const auto& zd = *bufs.qzeros;
             const auto& sd = *bufs.scales;
 
-            if (wd.shape.size() < 2) continue;
+            if (static_cast<int>(wd.shape.size()) < 2) {
+              continue;
+            }
 
             // GPTQ qweight shape: [in_features / vpw, out_features]
             const int vpw        = 32 / bits;

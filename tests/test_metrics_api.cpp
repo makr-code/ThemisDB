@@ -20,7 +20,9 @@ public:
     ~MetricsServerFixture() { stopServer(); }
 
     void startServer() {
-        if (server_running_) return;
+        if (server_running_) {
+          return;
+        }
 #ifdef _WIN32
         // Try to reuse existing server if already running
         try {
@@ -48,11 +50,15 @@ public:
         // wait for health
         bool ready=false;
         for (int i=0;i<50;++i){ std::this_thread::sleep_for(std::chrono::milliseconds(200)); if (check("/health") == http::status::ok) { ready=true; break; } }
-        if (!ready) throw std::runtime_error("Server did not become ready within timeout");
+        if (!ready) {
+          throw std::runtime_error("Server did not become ready within timeout");
+        }
     }
 
     void stopServer() {
-        if (!server_running_) return;
+        if (!server_running_) {
+          return;
+        }
 #ifdef _WIN32
         std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");
 #else
@@ -149,10 +155,14 @@ TEST_F(MetricsApiTest, HistogramBuckets_AreCumulative) {
     auto extractBucketCount = [&](const std::string& le) -> uint64_t {
         std::string pattern = "vccdb_latency_bucket_microseconds{le=\"" + le + "\"} ";
         auto pos = body.find(pattern);
-        if (pos == std::string::npos) return 0;
+        if (pos == std::string::npos) {
+          return 0;
+        }
         auto start = pos + pattern.length();
         auto end = body.find('\n', start);
-        if (end == std::string::npos) return 0;
+        if (end == std::string::npos) {
+          return 0;
+        }
         return std::stoull(body.substr(start, end - start));
     };
 

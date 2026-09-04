@@ -167,7 +167,7 @@ ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
     try {
         CHECKED_HIP(hipSetDevice(device_index));
     } catch (const std::exception& e) {
-        // Device selection failed; record a virtual (non-hardware) stream so
+        // Device selection failed; record a virtual (no[[maybe_unused]] n-hardwar[[maybe_unused]] e) stream so
         // that the rest of the stack can continue without hardware.
         if (logger) {
             logger->warn("ROCmBackend::createStream: hipSetDevice({}) failed: {}", 
@@ -282,7 +282,8 @@ bool ROCmBackend::hasStream(const std::string& name) const {
 
 std::vector<std::string> ROCmBackend::streamNames() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(streams_.size());
     for (const auto& kv : streams_) {
         names.push_back(kv.first);

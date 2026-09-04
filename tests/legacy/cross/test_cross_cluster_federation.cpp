@@ -463,7 +463,7 @@ TEST(CrossClusterFederatorTest, AuthToken_SentInHeader) {
     ep.auth_token = "secret-token";
     fed.registerCluster(ep);
 
-    std::string captured_auth;
+    std::string captured_auth = {};
     fed.setHttpPostForTesting(
         [&captured_auth](const std::string&, const std::string&,
                           const std::string& auth, uint32_t,
@@ -483,7 +483,7 @@ TEST(CrossClusterFederatorTest, NoAuthToken_EmptyAuthHeader) {
     CrossClusterFederator fed;
     fed.registerCluster(makeEndpoint("c1")); // no auth token
 
-    std::string captured_auth;
+    std::string captured_auth = {};
     fed.setHttpPostForTesting(
         [&captured_auth](const std::string&, const std::string&,
                           const std::string& auth, uint32_t,

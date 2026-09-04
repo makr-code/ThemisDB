@@ -260,7 +260,8 @@ TEST(CertificateUtilsTest, CertificateVerificationStructure) {
  * @brief Test multiple pinned hashes
  */
 TEST(JWKSSecurityConfigTest, MultiplePinnedHashes) {
-    std::vector<std::string> hashes;
+    std::vector<std::string> hashes = {};
+
     for (int i = 0; i < 10; i++) {
         hashes.push_back("hash_" + std::to_string(i));
     }

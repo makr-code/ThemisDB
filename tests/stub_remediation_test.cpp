@@ -87,7 +87,8 @@ TEST_F(StubRemediationTest, TimeSeriesAggregatesWithProvider) {
     EXPECT_FALSE(response_body["degraded_mode"].get<bool>());
     
     // Verify all provided aggregates are present
-    std::set<std::string> agg_set;
+    std::set<std::string> agg_set = {};
+
     for (const auto& agg : aggregates) {
         agg_set.insert(agg.get<std::string>());
     }
@@ -134,7 +135,8 @@ TEST_F(StubRemediationTest, TimeSeriesRetentionWithProvider) {
     EXPECT_FALSE(response_body["degraded_mode"].get<bool>());
 
     // Verify policies contain expected metrics
-    std::set<std::string> metric_set;
+    std::set<std::string> metric_set = {};
+
     for (const auto& policy : policies) {
         ASSERT_TRUE(policy.contains("metric"));
         ASSERT_TRUE(policy.contains("retain_seconds"));
@@ -169,7 +171,8 @@ TEST_F(StubRemediationTest, TimeSeriesAggregatesDefaultFallback) {
     
     // Should still have the built-in defaults
     ASSERT_GE(aggregates.size(), 5);
-    std::set<std::string> agg_set;
+    std::set<std::string> agg_set = {};
+
     for (const auto& agg : aggregates) {
         agg_set.insert(agg.get<std::string>());
     }

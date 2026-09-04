@@ -284,9 +284,9 @@ TEST_F(FailClosedBehaviorTest, InvalidConfig_RejectedAtStartup) {
     // If config is invalid, fail fast and hard
 
     struct ProductionConfig {
-        std::string security_mode;
-        bool audit_logging_enabled;
-        bool fail_closed_enabled;
+        std::string security_mode = {};
+        bool audit_logging_enabled = {};
+        bool fail_closed_enabled = {};
     };
 
     ProductionConfig config = {"PRODUCTION", false, false};

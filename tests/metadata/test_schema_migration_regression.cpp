@@ -30,7 +30,7 @@ static std::string makeTempDbPath(const std::string& prefix) {
 
 class MigrationRegressionTest : public ::testing::Test {
 protected:
-    std::string db_path;
+    std::string db_path = {};
     std::unique_ptr<RocksDBWrapper>     db;
     std::unique_ptr<SecondaryIndexManager> idx;
     std::unique_ptr<SchemaManager>      schema_mgr;
@@ -310,9 +310,15 @@ TEST_F(MigrationRegressionTest, AuditLogPopulatedDuringMigrations) {
     bool found_rollback = false;
     for (const auto& e : history) {
         EXPECT_EQ(e.table_name, TABLE);
-        if (e.operation == "create")   found_create   = true;
-        if (e.operation == "update")   found_update   = true;
-        if (e.operation == "rollback") found_rollback = true;
+        if (e.operation == "create") {
+          found_create   = true;
+        }
+        if (e.operation == "update") {
+          found_update   = true;
+        }
+        if (e.operation == "rollback") {
+          found_rollback = true;
+        }
     }
     EXPECT_TRUE(found_create);
     EXPECT_TRUE(found_update);

@@ -127,7 +127,7 @@ bool GPUErasureCoder::initializeGPU() {
     }
 }
 
-bool GPUErasureCoder::shouldUseGPU(size_t data_size) const {
+bool GPUErasureCoder::shouldUseGPU([[maybe_unused]] size_t data_size) const {
     // Don't use GPU if forced to CPU or GPU not available
     if (force_cpu_ || !impl_ || !impl_->isAvailable()) {
         return false;
@@ -202,7 +202,7 @@ std::vector<uint8_t> GPUErasureCoder::decode(
     // Estimate data size from first chunk
     size_t estimated_size = 0;
     if (!available_chunks.empty()) {
-        estimated_size = available_chunks.begin()->second.size() * data_shards;
+        estimated_size = available_chunks.begin()-> static_cast<int>(second.size()) * data_shards;
     }
 
     std::vector<uint8_t> result;

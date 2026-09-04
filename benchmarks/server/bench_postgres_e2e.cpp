@@ -122,7 +122,7 @@ static void BM_BulkInsertCOPY(benchmark::State& state) {
     
     for (auto _ : state) {
         // Generate COPY data
-        std::ostringstream data;
+        std::ostringstream data = {};
         for (int i = 0; i < num_rows; ++i) {
             data << i << "\tuser" << i << "\tuser" << i << "@example.com\n";
         }
@@ -132,7 +132,7 @@ static void BM_BulkInsertCOPY(benchmark::State& state) {
         // Parse COPY data (tab-separated)
         std::vector<std::string> rows;
         std::istringstream stream(copyData);
-        std::string line;
+        std::string line = {};
         
         while (std::getline(stream, line)) {
             if (!line.empty()) {

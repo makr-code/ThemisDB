@@ -30,11 +30,17 @@ EmbeddingPipeline::EmbeddingPipeline(const EmbeddingPipelineConfig& config)
     : config_(config)
 {
     // Clamp batch_size to the [1, 32] range documented in FUTURE_ENHANCEMENTS.
-    if (config_.batch_size < 1)  config_.batch_size = 1;
-    if (config_.batch_size > 32) config_.batch_size = 32;
+    if (config_.batch_size < 1) {
+      config_.batch_size = 1;
+    }
+    if (config_.batch_size > 32) {
+      config_.batch_size = 32;
+    }
 
     // Minimum meaningful timeout is 100 ms.
-    if (config_.timeout_ms < 100) config_.timeout_ms = 100;
+    if (config_.timeout_ms < 100) {
+      config_.timeout_ms = 100;
+    }
 
     if (config_.embedding_dim > 0) {
         embedding_dim_.store(config_.embedding_dim);
@@ -118,7 +124,7 @@ std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
     // overhead while staying within the documented batch_size ≤ 32 constraint.
     const int batch = config_.batch_size;
     for (size_t start = 0; start < texts.size(); start += static_cast<size_t>(batch)) {
-        size_t end = std::min(start + static_cast<size_t>(batch), texts.size());
+        size_t end = std::min(start + static_cast<size_t>(batch),static_cast<int>(texts.size()));
         for (size_t i = start; i < end; ++i) {
             results[i] = embedWithTimeout(texts[i]);
         }

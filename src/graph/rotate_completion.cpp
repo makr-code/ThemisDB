@@ -58,7 +58,7 @@ public:
 
     size_t addEntity(const std::string& id) {
         std::unique_lock lk(mu_);
-        auto [it, inserted] = entity_index_.emplace(id, entity_names_.size());
+        auto [it, inserted] = entity_index_.emplace(id,static_cast<int>(entity_names_.size()));
         if (inserted) {
             entity_names_.push_back(id);
         }
@@ -67,7 +67,7 @@ public:
 
     size_t addRelation(const std::string& id) {
         std::unique_lock lk(mu_);
-        auto [it, inserted] = relation_index_.emplace(id, relation_names_.size());
+        auto [it, inserted] = relation_index_.emplace(id,static_cast<int>(relation_names_.size()));
         if (inserted) {
             relation_names_.push_back(id);
         }
@@ -76,12 +76,12 @@ public:
 
     size_t entityCount() const {
         std::shared_lock lk(mu_);
-        return entity_names_.size();
+        return static_cast<int>(entity_names_.size());
     }
 
     size_t relationCount() const {
         std::shared_lock lk(mu_);
-        return relation_names_.size();
+        return static_cast<int>(relation_names_.size());
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ public:
             out[2 * k + 1] = entity_im_[idx * d + k];
         }
         
-        THEMIS_DEBUG("[RotatEModel] entityEmbedding('{}') -> {} floats (trained)", id, out.size());
+        THEMIS_DEBUG("[RotatEModel] entityEmbedding('{}') -> {} floats (trained)", id,static_cast<int>(out.size()));
         return out;
     }
 
@@ -202,8 +202,8 @@ public:
     RotatETrainResult train(const std::vector<KGTriple>& triples) {
         std::unique_lock lk(mu_);
 
-        const size_t n_ent  = entity_names_.size();
-        const size_t n_rel  = relation_names_.size();
+        const size_t n_ent = entity_names_.size();
+        const size_t n_rel = relation_names_.size();
         const size_t d      = cfg_.embedding_dim;
 
         if (n_ent == 0 || n_rel == 0 || triples.empty())
@@ -226,7 +226,9 @@ public:
 
         auto reinit = [&](std::vector<float>& v, size_t sz, auto& dist) {
             v.resize(sz);
-            for (auto& x : v) x = dist(rng);
+            for (auto& x : v) {
+              x = dist(rng);
+            }
         };
 
         reinit(entity_re_,      ent_params, init_dist);
@@ -251,7 +253,7 @@ public:
         const float lr     = cfg_.learning_rate;
         const float margin = cfg_.margin;
         const size_t neg_k = cfg_.neg_samples;
-        std::uniform_int_distribution<size_t> ent_dist(0, n_ent - 1);
+        std::uniform_int_distribution<uint64_t> ent_dist(0, n_ent - 1);
 
         double final_loss = 0.0;
         std::vector<size_t> order(triples.size());
@@ -270,7 +272,7 @@ public:
                 double pos_score = scoreImpl(h_idx, r_idx, t_idx);
 
                 for (size_t ns = 0; ns < neg_k; ++ns) {
-                    size_t neg_ent = ent_dist(rng);
+                    size_t neg_ent = static_cast<size_t>(ent_dist(rng));
                     bool corrupt_tail = (ns % 2 == 0);
                     size_t h_neg = corrupt_tail ? h_idx : neg_ent;
                     size_t t_neg = corrupt_tail ? neg_ent : t_idx;
@@ -279,7 +281,9 @@ public:
 
                     // Margin loss: max(0, pos - neg + γ)
                     double loss_val = pos_score - neg_score + margin;
-                    if (loss_val <= 0.0) continue;
+                    if (loss_val <= 0.0) {
+                      continue;
+                    }
 
                     ep_loss += loss_val;
 
@@ -335,14 +339,16 @@ public:
                             }
                         }
 
-                        auto renormalize_entity = [&](size_t e_idx) {
+                        auto renormalize_entity = [&]([[maybe_unused]] size_t e_idx) {
                             float norm2 = 0.0f;
                             for (size_t kk = 0; kk < d; ++kk) {
                                 float re = entity_re_[e_idx * d + kk];
                                 float im = entity_im_[e_idx * d + kk];
                                 norm2 += re * re + im * im;
                             }
-                            if (norm2 <= 0.0f) return;
+                            if (norm2 <= 0.0f) {
+                              return;
+                            }
                             float inv = 1.0f / std::sqrt(norm2 / static_cast<float>(d));
                             for (size_t kk = 0; kk < d; ++kk) {
                                 entity_re_[e_idx * d + kk] *= inv;
@@ -409,7 +415,7 @@ public:
     }
 
     // Expose entity name for a given index (for injection into KGReasoner).
-    std::string entityName(size_t idx) const {
+    std::string entityName([[maybe_unused]] size_t idx) const {
         std::shared_lock lk(mu_);
         return entity_names_.at(idx);
     }
@@ -647,7 +653,7 @@ std::vector<LinkPrediction> KGCompletionEngine::completeTail(
         } else if (!preds.empty()) {
             THEMIS_DEBUG("[KGCompletionEngine] completeTail('{}', '{}') retrieved {} predictions; "
                         "none met inject threshold (threshold={})",
-                        head, relation, preds.size(), inject_threshold_);
+                        head, relation,static_cast<int>(preds.size()), inject_threshold_);
         }
     }
 

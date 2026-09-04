@@ -122,12 +122,12 @@ EmbeddedLLM::~EmbeddedLLM() {
 }
 
 void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
     generate_full_fn_ = std::move(fn);
 }
 
 void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
     embed_fn_ = std::move(fn);
 }
 
@@ -206,7 +206,7 @@ std::string EmbeddedLLM::chatSimple(
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
     EmbedFn embed_fn;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         embed_fn = embed_fn_;
     }
     if (embed_fn) {
@@ -283,9 +283,9 @@ std::string EmbeddedLLM::generateStreamingSSE(
     int max_tokens
 ) {
     // Wrapper callback that formats tokens as SSE
-    auto sse_callback = [&callback, &request_id](const std::string& token) {
+    auto sse_callback = [&callback, &request_id]([[maybe_unused]] const std::string& token) {
         std::string sse_event = LlamaWrapper::formatStreamTokenAsSSE(token, request_id);
-        callback(sse_event);
+        callback([[maybe_unused]] sse_event);
     };
     
     return generateStreaming(prompt, sse_callback, max_tokens);
@@ -308,9 +308,9 @@ json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_toke
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
-    std::string sanitized_prompt;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized_prompt = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(
             request.prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
         spdlog::warn("EmbeddedLLM: prompt blocked by safety policy '{}': {}",
@@ -330,24 +330,24 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     safe_req.prompt = std::move(sanitized_prompt);
 
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         if (generate_full_fn_) {
             try {
                 auto response = generate_full_fn_(safe_req);
-                if (safe_req.stream_callback && !response.text.empty()) {
+                if ([[maybe_unused]] safe_req.stream_callback && !response.text.empty()) {
                     try {
-                        safe_req.stream_callback(response.text);
+                        safe_req.stream_callback([[maybe_unused]] response.text);
                     } catch (const std::exception& e) {
                         spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
                     } catch (...) {
-                        spdlog::warn("EmbeddedLLM stream callback threw a non-std exception; stream token delivery skipped");
+                        spdlog::warn([[maybe_unused]] "EmbeddedLLM stream callback threw a non-std exception; stream token delivery skipped");
                     }
                 }
                 return response;
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
             } catch (...) {
-                spdlog::warn("EmbeddedLLM generate bridge callback threw a non-std exception; falling back to fail-closed path");
+                spdlog::warn([[maybe_unused]] "EmbeddedLLM generate bridge callback threw a non-std exception; falling back to fail-closed path");
             }
         }
     }
@@ -386,7 +386,7 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
 
 bool EmbeddedLLM::isReady() const {
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         if (generate_full_fn_ || embed_fn_) {
             return true;
         }
@@ -408,7 +408,7 @@ std::string EmbeddedLLM::getModelInfo() const {
 }
 
 json EmbeddedLLM::getStats() const {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
     const bool has_backend = static_cast<bool>(generate_full_fn_);
     const bool model_ready = wrapper_ && wrapper_->isModelLoaded();
 
@@ -431,7 +431,7 @@ json EmbeddedLLM::getStats() const {
 }
 
 void EmbeddedLLM::clearCache() {
-    std::size_t count;
+    std::size_t count = {};
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         count = embedding_cache_.size();

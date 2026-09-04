@@ -21,7 +21,7 @@ namespace themis::rag {
  * @brief Represents an extracted claim from generated text
  */
 struct Claim {
-    std::string text;
+    std::string text = {};
     size_t position;  // Position in original text
     double confidence;  // Confidence in extraction
     std::string category;  // e.g., "factual", "opinion", "prediction"
@@ -97,7 +97,7 @@ public:
      * @brief Result of self-consistency evaluation
      */
     struct ConsistencyResult {
-        double consistency_score;  // 0-1, higher is more consistent
+        double consistency_score = 0;  // 0-1, higher is more consistent
         std::vector<std::string> agreements;  // Points of agreement
         std::vector<std::string> disagreements;  // Points of disagreement
         std::string consensus_answer;  // Most consistent answer

@@ -74,7 +74,7 @@ static constexpr int kRepetitions = 5;
 // ---------------------------------------------------------------------------
 
 struct BiTemporalEntry {
-    int          id;
+    int          id = 0;
     std::int64_t valid_start;
     std::int64_t valid_end;
     std::int64_t tx_time;
@@ -91,7 +91,9 @@ static std::size_t intervalQuery(const std::vector<BiTemporalEntry>& store,
                                   std::int64_t point) {
     std::size_t count = 0;
     for (const auto& e : store) {
-        if (e.valid_start <= point && point <= e.valid_end) ++count;
+        if (e.valid_start <= point && point <= e.valid_end) {
+          ++count;
+        }
     }
     return count;
 }
@@ -101,7 +103,9 @@ static std::size_t snapshotRead(const std::vector<BiTemporalEntry>& store,
                                  std::int64_t t, std::int64_t snapshot_tx) {
     std::size_t count = 0;
     for (const auto& e : store) {
-        if (e.tx_time <= snapshot_tx && e.valid_start <= t && t <= e.valid_end) ++count;
+        if (e.tx_time <= snapshot_tx && e.valid_start <= t && t <= e.valid_end) {
+          ++count;
+        }
     }
     return count;
 }
@@ -116,7 +120,9 @@ static std::size_t pitrRestore(const std::vector<BiTemporalEntry>& history,
                                 std::int64_t target_tx) {
     std::size_t count = 0;
     for (const auto& e : history) {
-        if (e.tx_time <= target_tx) ++count;
+        if (e.tx_time <= target_tx) {
+          ++count;
+        }
     }
     return count;
 }
@@ -260,7 +266,8 @@ BENCHMARK(BM_TRG04_RetentionCheck)
  * GATE-TRG-05: p99 ≤ 5 ms.
  */
 static void BM_TRG05_PitrRestore(benchmark::State& state) {
-    std::vector<BiTemporalEntry> history;
+    std::vector<BiTemporalEntry> history = {};
+
     for (int i = 1; i <= 10; ++i) {
         history.push_back({i, 1000LL * i, temporal::kTemporalOpenEnd,
                            static_cast<std::int64_t>(i) * 100LL});

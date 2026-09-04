@@ -265,7 +265,8 @@ TEST_F(LLMWorkflowIntegrationTest, LoRAAdapterSwitching) {
     EXPECT_EQ(current_adapter, "adapter_2");
     
     // Step 5: Verify multiple adapters can be tracked
-    std::unordered_map<std::string, bool> loaded_adapters;
+    std::unordered_map<std::string, bool> loaded_adapters = {};
+
     for (const auto& adapter : adapters) {
         loaded_adapters[adapter.name] = true;
     }

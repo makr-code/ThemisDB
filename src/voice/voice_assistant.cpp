@@ -62,7 +62,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
     }
     // CRITICAL GAP 2: Reject oversized payloads that could cause OOM
     // Use stricter per-chunk limit from BATCH A-8 spec
-    if (audio_data.size() > MAX_VOICE_CHUNK_SIZE) {
+    if (static_cast<int>(audio_data.size()) > MAX_VOICE_CHUNK_SIZE) {
         THEMIS_WARN("Voice stream chunk exceeds max size: {} bytes > {} bytes max", 
                     audio_data.size(), MAX_VOICE_CHUNK_SIZE);
         return true;
@@ -285,7 +285,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
             // CRITICAL GAP 4: Audit logging for authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
             THEMIS_INFO("[AUDIT] voice_authenticate: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
-                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
+                        uid, session_id,static_cast<int>(audio_data.size()), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
                 THEMIS_WARN("[AUDIT] voice_authenticate_failed: user_id={}, session_id={}, reason={}",
                            uid, session_id, auth_result.decision_reason);
@@ -406,7 +406,7 @@ std::string VoiceAssistant::processTextCommand(
     
     // Wave-A V1: shared fallback semantics applied — command execution fallback
     // If executeCommand/generateLLMResponse fails, log THEMIS_WARN and return error response.
-    std::string llm_response;
+    std::string llm_response = {};
     try {
         llm_response = generateLLMResponse(text, session);
     } catch (const std::exception& e) {
@@ -450,7 +450,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
             // CRITICAL GAP 5: Audit logging for stream authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
             THEMIS_INFO("[AUDIT] voice_authenticate_stream: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
-                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
+                        uid, session_id,static_cast<int>(audio_data.size()), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
                 THEMIS_WARN("[AUDIT] voice_authenticate_stream_failed: user_id={}, session_id={}, reason={}",
                            uid, session_id, auth_result.decision_reason);
@@ -468,10 +468,10 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     auto session = getSession(session_id);
 
     // Accumulate all segments delivered by the streaming transcription.
-    std::string full_transcript;
-    std::mutex transcript_mutex;
+    std::string full_transcript = {};
+    std::mutex transcript_mutex = {};
 
-    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+    auto on_segment = [&]([[maybe_unused]] const content::TranscriptionSegment& seg) {
         {
             std::lock_guard<std::mutex> lock(transcript_mutex);
             if (!full_transcript.empty()) {
@@ -480,15 +480,15 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
             full_transcript += seg.text;
         }
         // Forward to caller's callback if provided.
-        if (segment_callback) {
-            segment_callback(seg);
+        if ([[maybe_unused]] segment_callback) {
+            segment_callback([[maybe_unused]] seg);
         }
     };
 
     bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
 
     // For auto-locale switching: also run batch transcription to get detected_language.
-    std::string detected_lang;
+    std::string detected_lang = {};
     if (!ok || full_transcript.empty()) {
         // Fall back to batch transcription so the pipeline always returns audio.
         auto transcription = stt_processor_->transcribe(audio_data);
@@ -610,7 +610,8 @@ json VoiceAssistant::recordPhoneCall(
     result["summary"] = summary;
     
     // Convert audio format if needed
-    std::vector<uint8_t> converted_audio;
+    std::vector<uint8_t> converted_audio = {};
+
     if (config_.compress_audio) {
         converted_audio = convertAudioFormat(audio_data, config_.audio_format);
     } else {
@@ -666,7 +667,8 @@ json VoiceAssistant::generateMeetingProtocol(
     }
     
     // Convert audio format if needed
-    std::vector<uint8_t> converted_audio;
+    std::vector<uint8_t> converted_audio = {};
+
     if (config_.compress_audio) {
         converted_audio = convertAudioFormat(audio_data, config_.audio_format);
     } else {
@@ -762,7 +764,7 @@ bool VoiceAssistant::deleteSession(const std::string& session_id) {
 }
 
 json VoiceAssistant::getStatistics() const {
-    json stats;
+    json stats = {};
     
     if (stt_processor_) {
         stats["stt"] = stt_processor_->getStatistics();
@@ -802,15 +804,15 @@ std::string VoiceAssistant::createRevisionEntry(
 ) {
     // Build a unique revision ID from the entity ID and current time.
     const auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "revision:" << entity_id << ":" << std::hex << now;
     const std::string rev_id = ss.str();
 
     // FNV-1a hash of the data payload for integrity / change-detection purposes.
-    uint32_t hash = 2166136261u;
+    uint32_t hash = 2166136261;
     for (const uint8_t byte : data) {
         hash ^= static_cast<uint32_t>(byte);
-        hash *= 16777619u;
+        hash *= 16777619;
     }
 
     // Store the revision record so that history queries find it within this
@@ -850,7 +852,7 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     // CRITICAL GAP 6: Audit logging for authenticateSpeaker() with detailed diagnostics
     logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
     THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, reason={}",
-                user_id, audio_sample.size(), result.authenticated, result.timestamp_ms, result.decision_reason);
+                user_id,static_cast<int>(audio_sample.size()), result.authenticated, result.timestamp_ms, result.decision_reason);
     return result;
 }
 
@@ -877,7 +879,7 @@ void VoiceAssistant::logVoiceAuthenticationAudit(
         {"confidence_score", result.confidence_score},
         {"threshold", result.threshold}
     };
-    voice_security_manager_.logEvent(entry);
+    voice_security_manager_.logEvent([[maybe_unused]] entry);
 }
 
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(
@@ -901,7 +903,7 @@ VerificationResult VoiceAssistant::verifyVoiceSpeaker(
         {"match_score", result.match_score},
         {"threshold", result.threshold}
     };
-    voice_security_manager_.logEvent(entry);
+    voice_security_manager_.logEvent([[maybe_unused]] entry);
     
     return result;
 }
@@ -925,10 +927,10 @@ IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     entry.details = "Identification against " + std::to_string(candidate_profiles.size()) + 
                     " candidate profiles, " + std::to_string(result.matches.size()) + " matched";
     entry.metadata = {
-        {"candidate_count", candidate_profiles.size()},
-        {"match_count", result.matches.size()}
+        {"candidate_count",static_cast<int>(candidate_profiles.size())},
+        {"match_count",static_cast<int>(result.matches.size())}
     };
-    voice_security_manager_.logEvent(entry);
+    voice_security_manager_.logEvent([[maybe_unused]] entry);
     
     return result;
 }
@@ -959,8 +961,8 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     }
 }
 
-void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
-    wake_word_detector_->setDetectionCallback(std::move(callback));
+void VoiceAssistant::setWakeWordCallback([[maybe_unused]] WakeWordDetector::DetectionCallback callback) {
+    wake_word_detector_->setDetectionCallback([[maybe_unused]] std::move(callback));
 }
 
 VoiceMacroManager& VoiceAssistant::macroManager() {
@@ -1044,7 +1046,7 @@ VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
         {
             FILE* f = fopen(tmp_in.c_str(), "wb");
             if (!f) return {};
-            fwrite(audio_data.data(), 1, audio_data.size(), f);
+            fwrite(audio_data.data(), 1,static_cast<int>(audio_data.size()), f);
             fclose(f);
         }
 
@@ -1075,7 +1077,9 @@ VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
         for (unsigned i = 0; i < in_ctx->nb_streams; ++i) {
             AVStream* in_stream  = in_ctx->streams[i];
             AVStream* out_stream = avformat_new_stream(out_ctx, nullptr);
-            if (!out_stream) continue;
+            if (!out_stream) {
+              continue;
+            }
             avcodec_parameters_copy(out_stream->codecpar, in_stream->codecpar);
             out_stream->codecpar->codec_tag = 0;
         }

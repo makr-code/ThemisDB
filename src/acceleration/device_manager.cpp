@@ -137,7 +137,8 @@ std::vector<DeviceCapabilityInfo> enumerateDevices() {
 
     const auto gpu_devices = themis::gpu::DeviceDiscovery::Enumerate();
 
-    std::vector<DeviceCapabilityInfo> result;
+    std::vector<DeviceCapabilityInfo> result = {};
+
     result.reserve(gpu_devices.size());
 
     for (const auto &d : gpu_devices) {
@@ -249,12 +250,12 @@ void DeviceManager::logDeviceInfo() {
     const auto devices = probeDevices();
     const auto best    = getBestDevice();
 
-    std::cout << "[acceleration] Device capability probe — " << devices.size() << " device(s) found:" << std::endl;
+    std::cout << "[acceleration] Device capability probe — " <<static_cast<int>(devices.size()) << " device(s) found:" << std::endl;
 
     for (const auto &d : devices) {
         std::cout << "  [" << (d.is_healthy ? "OK" : "!!") << "] " << d.name
                   << "  backend=" << static_cast<int>(d.backend_type)
-                  << "  vram_free=" << (d.free_vram_bytes / (1024ULL * 1024ULL)) << " MB"
+                  << "  vram_free=" << (d.free_vram_bytes / (1024 * 1024)) << " MB"
                   << "  sm=" << d.compute_major << "." << d.compute_minor
                   << "  fp16=" << (d.supports_fp16 ? "yes" : "no") << "  bf16=" << (d.supports_bf16 ? "yes" : "no")
                   << std::endl;

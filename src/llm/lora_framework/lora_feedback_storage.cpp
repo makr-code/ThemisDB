@@ -118,7 +118,7 @@ std::optional<Feedback> FeedbackStorageService::getFeedback(const std::string& i
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string key = makeFeedbackKey(id);
-        std::string value;
+        std::string value = {};
         
         bool success = config_.db->get(key, value);
         if (!success) {
@@ -164,7 +164,7 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
                 }
                 
                 results.push_back(std::move(fb));
-                if (results.size() >= filter.limit) {
+                if (static_cast<int>(results.size()) >= filter.limit) {
                     return false; // stop scanning
                 }
             } catch (const std::exception& e) {
@@ -188,7 +188,7 @@ bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedbac
         
         // Check if feedback exists
         std::string key = makeFeedbackKey(id);
-        std::string old_value;
+        std::string old_value = {};
         bool exists = config_.db->get(key, old_value);
         if (!exists) {
             return false;
@@ -261,7 +261,7 @@ std::vector<Feedback> FeedbackStorageService::getTrainingFeedback(
     const std::optional<std::string>& adapter_id,
     size_t limit
 ) const {
-    FeedbackFilter filter;
+    FeedbackFilter filter = {};
     if (adapter_id) {
         filter.adapter_id = adapter_id;
     }
@@ -286,7 +286,7 @@ bool FeedbackStorageService::shouldTriggerTraining(const std::string& adapter_id
 }
 
 json FeedbackStorageService::getStatistics(const std::optional<std::string>& adapter_id) const {
-    FeedbackFilter filter;
+    FeedbackFilter filter = {};
     if (adapter_id) {
         filter.adapter_id = adapter_id;
     }
@@ -312,7 +312,9 @@ json FeedbackStorageService::getStatistics(const std::optional<std::string>& ada
     
     for (const auto& fb : feedback_list) {
         sum_rating += fb.rating;
-        if (fb.flagged_for_training) flagged_count++;
+        if (fb.flagged_for_training) {
+          flagged_count++;
+        }
         rating_counts[fb.rating]++;
         if (!fb.training_category.empty()) {
             category_counts[fb.training_category]++;
@@ -362,7 +364,7 @@ std::vector<Feedback> FeedbackStorageService::getWeightedTrainingFeedback(
     );
     
     // Take top 'limit' entries
-    if (training_feedback.size() > limit) {
+    if (static_cast<int>(training_feedback.size()) > limit) {
         training_feedback.resize(limit);
     }
     
@@ -386,7 +388,7 @@ float FeedbackStorageService::calculateEffectiveBatchSize(const std::string& ada
 
 std::string FeedbackStorageService::generateFeedbackId() const {
     // Windows-compatible UUID generation (RFC 4122 v4)
-    std::random_device rd;
+    std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
     
@@ -397,7 +399,7 @@ std::string FeedbackStorageService::generateFeedbackId() const {
     part1 = (part1 & 0xFFFFFFFFFFFF0FFFULL) | 0x0000000000004000ULL;
     part2 = (part2 & 0x3FFFFFFFFFFFFFFFULL) | 0x8000000000000000ULL;
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
         << std::setw(8) << ((part1 >> 32) & 0xFFFFFFFF) << '-'
         << std::setw(4) << ((part1 >> 16) & 0xFFFF) << '-'
@@ -416,7 +418,7 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& adapter_id
 ) {
     if (!config_.graph_index && !create_graph_link_fn_) {
-        spdlog::warn("No graph index or callback available for creating graph link");
+        spdlog::warn([[maybe_unused]] "No graph index or callback available for creating graph link");
         return false;
     }
     
@@ -472,7 +474,7 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& adapter_id
 ) {
     if (!config_.graph_index && !remove_graph_link_fn_) {
-        spdlog::warn("No graph index or callback available for removing graph link");
+        spdlog::warn([[maybe_unused]] "No graph index or callback available for removing graph link");
         return false;
     }
     

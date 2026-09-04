@@ -28,7 +28,7 @@ TEST(WALShipperSnapshot, VerifyChunkChecksum_Valid) {
     // Compute a valid checksum
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(chunk.data.data(), chunk.data.size(), hash);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }

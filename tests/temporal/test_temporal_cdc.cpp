@@ -245,13 +245,13 @@ std::string makeTempDir() {
         const auto stamp = std::chrono::steady_clock::now().time_since_epoch().count();
         const fs::path candidate =
             base / ("themisdb_wal_" + std::to_string(stamp) + "_" + std::to_string(attempt));
-        std::error_code ec;
+        std::error_code ec = {};
         if (fs::create_directories(candidate, ec)) {
             return candidate.string();
         }
     }
     const fs::path fallback = base / "themisdb_wal_test";
-    std::error_code ec;
+    std::error_code ec = {};
     fs::create_directories(fallback, ec);
     return fallback.string();
 }
@@ -259,7 +259,7 @@ std::string makeTempDir() {
 
 class CDCPersistentLogTest : public ::testing::Test {
 protected:
-    std::string tmp_dir_;
+    std::string tmp_dir_ = {};
 
     void SetUp() override {
         tmp_dir_ = makeTempDir();

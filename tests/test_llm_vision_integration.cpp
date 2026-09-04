@@ -135,9 +135,11 @@ TEST(MultiModalTypeTest, GenerationParamsPropagate) {
 // Mirrors InferenceEngineEnhanced::generateCacheKey() input construction
 // (prompt | max_tokens | temperature | top_p | img:<path>…).
 static std::string makeCacheKeyInput(const InferenceRequest& r) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << r.prompt << "|" << r.max_tokens << "|" << r.temperature << "|" << r.top_p;
-    for (const auto& p : r.image_paths) oss << "|img:" << p;
+    for (const auto& p : r.image_paths) {
+      oss << "|img:" << p;
+    }
     return oss.str();
 }
 

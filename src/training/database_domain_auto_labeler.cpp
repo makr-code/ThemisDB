@@ -32,10 +32,12 @@ static std::string extractStringField(const std::string& json, const std::string
     // Look for "key":"value" or "key": "value"
     auto pos = json.find('"' + key + '"');
     if (pos == std::string::npos) return {};
-    pos = json.find(':', pos + key.size() + 2);
+    pos = json.find(':', pos + static_cast<int>(key.size()) + 2);
     if (pos == std::string::npos) return {};
     // Skip whitespace
-    while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) ++pos;
+    while ((pos < json.size() && (json[pos] == ':' || json[pos] == ' '))) {
+      ++pos;
+    }
     if (pos >= json.size() || json[pos] != '"') return {};
     ++pos; // skip opening quote
     auto end = json.find('"', pos);
@@ -47,11 +49,19 @@ static std::string extractStringField(const std::string& json, const std::string
 /// Returns NaN if not found.
 static double extractDoubleField(const std::string& json, const std::string& key) {
     auto pos = json.find('"' + key + '"');
-    if (pos == std::string::npos) return std::numeric_limits<double>::quiet_NaN();
-    pos = json.find(':', pos + key.size() + 2);
-    if (pos == std::string::npos) return std::numeric_limits<double>::quiet_NaN();
-    while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) ++pos;
-    if (pos >= json.size()) return std::numeric_limits<double>::quiet_NaN();
+    if (pos == std::string::npos) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
+    pos = json.find(':', pos + static_cast<int>(key.size()) + 2);
+    if (pos == std::string::npos) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
+    while ((pos < json.size() && (json[pos] == ':' || json[pos] == ' '))) {
+      ++pos;
+    }
+    if (pos >= static_cast<int>(json.size())) {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
     try {
         size_t consumed = 0;
         double val = std::stod(json.substr(pos), &consumed);
@@ -73,7 +83,7 @@ DatabaseDomainAutoLabeler::DatabaseDomainAutoLabeler(double sensitivity_ms)
 
 // ── computeConfidence ──────────────────────────────────────────────────────
 
-double DatabaseDomainAutoLabeler::computeConfidence(double delta_p99_ms) const {
+double DatabaseDomainAutoLabeler::computeConfidence([[maybe_unused]] double delta_p99_ms) const {
     // confidence = sigmoid(|delta_p99_ms| / sensitivity_ms_)
     // sigmoid(x) = 1 / (1 + exp(-x))
     const double x = std::abs(delta_p99_ms) / sensitivity_ms_;
@@ -140,7 +150,7 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
         return result;
     }
 
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         if (line.empty() || line.front() != '{') continue;
 
@@ -149,16 +159,24 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
         const double      delta_p99_ms = extractDoubleField(line, "delta_p99_ms");
 
         // Skip unparseable or incomplete lines
-        if (query.empty()) continue;
-        if (std::isnan(delta_p99_ms)) continue;
+        if (query.empty()) {
+          continue;
+        }
+        if (std::isnan(delta_p99_ms)) {
+          continue;
+        }
 
         auto sample = buildSample(query, plan, delta_p99_ms, "bao_log");
 
-        if (sample.confidence < min_confidence) continue;
+        if (sample.confidence < min_confidence) {
+          continue;
+        }
 
         result.push_back(std::move(sample));
 
-        if (max_samples > 0 && result.size() >= max_samples) break;
+        if (max_samples > 0 && static_cast<int>(result.size()) >= max_samples) {
+          break;
+        }
     }
 
     return result;
@@ -172,11 +190,11 @@ std::string DatabaseDomainAutoLabeler::exportToJsonl(
 {
     if (samples.empty()) return {};
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
 
     auto escape = [](const std::string& s) -> std::string {
-        std::string out;
-        out.reserve(s.size() + 4);
+        std::string out = {};
+        out.reserve(static_cast<int>(s.size()) + 4);
         for (char c : s) {
             switch (c) {
                 case '"':  out += "\\\""; break;

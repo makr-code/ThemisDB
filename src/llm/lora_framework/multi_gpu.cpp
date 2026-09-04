@@ -30,7 +30,7 @@ MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector<int>& gpu_ids)
         return;
     }
     
-    spdlog::info("MultiGPUContext created with {} GPUs", devices_.size());
+    spdlog::info("MultiGPUContext created with {} GPUs",static_cast<int>(devices_.size()));
     for (size_t i = 0; i < devices_.size(); ++i) {
         spdlog::info("  Rank {}: Device {} ({})", 
             i, devices_[i].device_id, 
@@ -51,8 +51,12 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
             auto backends = GPUMemoryManager::detect_backends();
             bool has_cuda = false, has_hip = false;
             for (const auto& backend : backends) {
-                if (backend.type == acceleration::BackendType::CUDA && backend.available) has_cuda = true;
-                if (backend.type == acceleration::BackendType::HIP && backend.available) has_hip = true;
+                if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+                  has_cuda = true;
+                }
+                if (backend.type == acceleration::BackendType::HIP && backend.available) {
+                  has_hip = true;
+                }
             }
             
             // Try CUDA first
@@ -93,8 +97,12 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     auto backends = GPUMemoryManager::detect_backends();
     bool has_cuda = false, has_hip = false;
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::CUDA && backend.available) has_cuda = true;
-        if (backend.type == acceleration::BackendType::HIP && backend.available) has_hip = true;
+        if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+          has_cuda = true;
+        }
+        if (backend.type == acceleration::BackendType::HIP && backend.available) {
+          has_hip = true;
+        }
     }
     
     if (has_cuda) {
@@ -145,7 +153,7 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     }
 }
 
-Device MultiGPUContext::get_device(int rank) const {
+Device MultiGPUContext::get_device([[maybe_unused]] int rank) const {
     if (rank < 0 || rank >= num_gpus()) {
         throw std::out_of_range("Invalid rank: " + std::to_string(rank));
     }

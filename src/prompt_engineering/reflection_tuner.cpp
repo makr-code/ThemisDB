@@ -177,13 +177,15 @@ std::string DynamicReflectionPromptBuilder::buildSelfAwareContextHeader(
         return {};
     }
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "[Self-Awareness Context]\n";
 
     if (ctx.has_uncertain_claims) {
         out << "Your previous response contained uncertainty markers (";
-        for (size_t i = 0; i < ctx.uncertainty_markers.size(); ++i) {
-            if (i > 0) out << ", ";
+        for (size_t i = 0; i <static_cast<int>(ctx.uncertainty_markers.size()); ++i) {
+            if (i > 0) {
+              out << ", ";
+            }
             out << '"' << ctx.uncertainty_markers[i] << '"';
         }
         out << "). Pay special attention to verifying factual claims.\n";
@@ -208,7 +210,7 @@ std::string DynamicReflectionPromptBuilder::buildCritiquePrompt(
     const std::string& response,
     const SelfAwareContext& ctx) const {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << buildSelfAwareContextHeader(ctx);
 
     switch (strategy_) {
@@ -261,13 +263,13 @@ std::string DynamicReflectionPromptBuilder::buildRevisionPrompt(
     const std::string& critique,
     const SelfAwareContext& ctx) const {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << buildSelfAwareContextHeader(ctx);
 
     switch (strategy_) {
     case ReflectionStrategy::SELF_REFINE:
-    case ReflectionStrategy::REFLEXION:
-    case ReflectionStrategy::SOCRATIC:
+    [[fallthrough]];\n    case ReflectionStrategy::REFLEXION:
+    [[fallthrough]];\n    case ReflectionStrategy::SOCRATIC:
         out << "Revise your previous response by addressing the critique below.\n\n";
         out << "Original task:\n" << original_prompt << "\n\n";
         out << "Previous response:\n" << response << "\n\n";
@@ -292,7 +294,7 @@ std::string DynamicReflectionPromptBuilder::buildConstitutionalCritiquePrompt(
     const std::string& response,
     const std::vector<std::string>& principles) const {
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "Critique the following response against each constitutional principle.\n\n";
     out << "Response:\n" << response << "\n\n";
     out << "Constitutional principles:\n";
@@ -316,7 +318,7 @@ std::string DynamicReflectionPromptBuilder::buildSocraticPrompt(
         "What information would change your conclusion?",
     };
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "Consider the following claim:\n" << claim << "\n\n";
     out << kSocraticQuestions[iteration % kSocraticQuestions.size()] << '\n';
     out << "\nAnswer this question honestly, then revise your claim accordingly:";
@@ -362,7 +364,7 @@ bool ReflectionHallucinationGuard::detectHallucinationSignals(
 bool ReflectionHallucinationGuard::isDiverging(
     const std::vector<double>& trajectory) const {
 
-    if (trajectory.size() < window_ + 1) {
+    if (static_cast<int>(trajectory.size()) < window_ + 1) {
         return false;
     }
 
@@ -381,13 +383,16 @@ bool ReflectionHallucinationGuard::isDiverging(
 bool ReflectionHallucinationGuard::shouldHalt(
     const std::vector<ReflectionStep>& steps) const {
 
-    if (steps.empty()) return false;
+    if (steps.empty()) {
+      return false;
+    }
 
     if (steps.back().hallucination_suspected) {
         return true;
     }
 
-    std::vector<double> trajectory;
+    std::vector<double> trajectory = {};
+
     trajectory.reserve(steps.size());
     for (const auto& step : steps) {
         trajectory.push_back(step.quality_score);
@@ -440,14 +445,20 @@ ReflectionTuner::getHallucinationGuard() const noexcept {
 
 double ReflectionTuner::computeHeuristicScore(const std::string& /*prompt*/,
                                                const std::string& response) const {
-    if (response.empty()) return 0.0;
+    if (response.empty()) {
+      return 0.0;
+    }
 
     double score = 0.5;
 
     // Reward longer, more complete responses.
     const size_t len = response.size();
-    if (len > 200) score += 0.1;
-    if (len > 500) score += 0.1;
+    if (len > 200) {
+      score += 0.1;
+    }
+    if (len > 500) {
+      score += 0.1;
+    }
 
     // Penalise hallucination markers found in the response text.
     const std::string lower = toLower(response);
@@ -482,8 +493,8 @@ ReflectionStep ReflectionTuner::runIteration(
     ReflectionStep step;
     step.iteration = iteration;
 
-    std::string critique;
-    std::string revised_response;
+    std::string critique = {};
+    std::string revised_response = {};
     double      score = 0.0;
 
     if (provider_) {
@@ -499,7 +510,7 @@ ReflectionStep ReflectionTuner::runIteration(
         // Fallback: template-based critique + heuristic score.
         // The generated critique prompt is returned in metadata so that callers
         // who drive an external LLM can forward it manually.
-        std::string critique_prompt;
+        std::string critique_prompt = {};
         if (config_.strategy == ReflectionStrategy::CONSTITUTIONAL &&
             !config_.constitutional_principles.empty()) {
             critique_prompt = prompt_builder_.buildConstitutionalCritiquePrompt(
@@ -510,11 +521,13 @@ ReflectionStep ReflectionTuner::runIteration(
         }
 
         // Heuristic fallback critique based on self-aware context.
-        std::ostringstream crit_out;
+        std::ostringstream crit_out = {};
         if (ctx.has_uncertain_claims) {
             crit_out << "The response contains uncertainty markers (";
-            for (size_t i = 0; i < ctx.uncertainty_markers.size(); ++i) {
-                if (i > 0) crit_out << ", ";
+            for (size_t i = 0; i <static_cast<int>(ctx.uncertainty_markers.size()); ++i) {
+                if (i > 0) {
+                  crit_out << ", ";
+                }
                 crit_out << '"' << ctx.uncertainty_markers[i] << '"';
             }
             crit_out << "). Consider providing more definitive statements or "
@@ -547,7 +560,7 @@ bool ReflectionTuner::shouldConverge(const ReflectionResult& result,
     if (step.quality_score >= config_.convergence_threshold) {
         return true;
     }
-    if (result.steps.size() >= 2 &&
+    if (static_cast<int>(result.steps.size()) >= 2 &&
         std::abs(step.quality_delta) < config_.min_delta_improvement) {
         return true;
     }

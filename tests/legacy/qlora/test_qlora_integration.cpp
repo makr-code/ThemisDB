@@ -40,7 +40,7 @@ protected:
     }
     
     std::string test_dir_;
-    std::string test_model_path_;
+    std::string test_model_path_ = {};
 };
 
 // ===== Model Compatibility Tests =====
@@ -194,7 +194,7 @@ TEST_F(QLoRAIntegrationTest, ResourceProfiler_LogToFile) {
     
     // Check file content
     std::ifstream file(log_file);
-    std::string line;
+    std::string line = {};
     int line_count = 0;
     while (std::getline(file, line)) {
         line_count++;

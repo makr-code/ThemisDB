@@ -24,7 +24,9 @@ namespace server {
 
 // Helper: Case-insensitive string contains
 static bool containsCaseInsensitive(const std::string& haystack, const std::string& needle) {
-    if (needle.empty()) return true;
+    if (needle.empty()) {
+      return true;
+    }
     auto it = std::search(
         haystack.begin(), haystack.end(),
         needle.begin(), needle.end(),
@@ -65,7 +67,7 @@ nlohmann::json AuditLogEntry::toJson() const {
     return j;
 }
 
-std::string AuditApiHandler::decryptPayload(const nlohmann::json& payload) {
+std::string AuditApiHandler::decryptPayload([[maybe_unused]] const nlohmann::json& payload) {
     try {
         if (!payload.contains("ciphertext_b64")) {
             return "";
@@ -105,9 +107,9 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     entry.timestamp_ms = j.value("ts", 0LL);
     
     // Try to decrypt payload if encrypted
-    std::string event_data;
+    std::string event_data = {};
     if (j.contains("payload") && j["payload"].contains("ciphertext_b64")) {
-        event_data = decryptPayload(j["payload"]);
+        event_data = decryptPayload([[maybe_unused]] j["payload"]);
     } else if (j.contains("payload") && j["payload"].is_string()) {
         event_data = j["payload"].get<std::string>();
     }
@@ -115,11 +117,11 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     // Parse event data (expected to be JSON)
     nlohmann::json event;
     try {
-        if (!event_data.empty()) {
-            event = nlohmann::json::parse(event_data);
+        if ([[maybe_unused]] !event_data.empty()) {
+            event = nlohmann::json::parse([[maybe_unused]] event_data);
         }
     } catch (...) {
-        THEMIS_DEBUG("audit_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "audit_api_handler: unhandled exception caught");
         // If parsing fails, treat as raw string
     }
     
@@ -138,7 +140,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     return entry;
 }
 
-std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter& filter) {
+std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs([[maybe_unused]] const AuditQueryFilter& filter) {
     std::vector<AuditLogEntry> entries;
     
     std::ifstream ifs(log_path_);
@@ -146,13 +148,15 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
         return entries; // Empty if log file doesn't exist
     }
     
-    std::string line;
+    std::string line = {};
     int64_t line_id = 0;
     
     while (std::getline(ifs, line)) {
         line_id++;
         
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         
         try {
             auto j = nlohmann::json::parse(line);
@@ -186,7 +190,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             entries.push_back(entry);
             
         } catch (...) {
-            THEMIS_WARN("audit_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "audit_api_handler: unhandled exception caught");
             // Skip malformed lines
             continue;
         }
@@ -201,7 +205,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
     return entries;
 }
 
-nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
+nlohmann::json AuditApiHandler::queryAuditLogs([[maybe_unused]] const AuditQueryFilter& filter) {
     auto all_entries = readAuditLogs(filter);
     
     int total_count = static_cast<int>(all_entries.size());
@@ -226,10 +230,10 @@ nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     return result;
 }
 
-std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) {
+std::string AuditApiHandler::exportAuditLogsCsv([[maybe_unused]] const AuditQueryFilter& filter) {
     auto entries = readAuditLogs(filter);
     
-    std::ostringstream csv;
+    std::ostringstream csv = {};
     
     // Header
     csv << "Id,Timestamp,User,Action,EntityType,EntityId,OldValue,NewValue,Success,IpAddress,SessionId,ErrorMessage\n";
@@ -242,7 +246,9 @@ std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) 
             if (s.find(',') != std::string::npos || s.find('"') != std::string::npos || s.find('\n') != std::string::npos) {
                 std::string escaped = "\"";
                 for (char c : s) {
-                    if (c == '"') escaped += "\"\"";
+                    if (c == '"') {
+                      escaped += "\"\"";
+                    }
                     else escaped += c;
                 }
                 escaped += "\"";

@@ -286,7 +286,7 @@ namespace themis::compression {
 struct SparseVectorCSR {
     std::vector<float> values;
     std::vector<uint32_t> indices;
-    uint32_t dimension;
+    uint32_t dimension = {};
     
     size_t compressed_bytes() const {
         return sizeof(dimension) + 
@@ -439,7 +439,9 @@ public:
         while (true) {
             uint8_t byte = *ptr++;
             result |= static_cast<uint32_t>(byte & 0x7F) << shift;
-            if ((byte & 0x80) == 0) break;
+            if ((byte & 0x80) == 0) {
+              break;
+            }
             shift += 7;
         }
         
@@ -449,7 +451,9 @@ public:
     static std::vector<uint8_t> compress_delta(const std::vector<int32_t>& values) {
         std::vector<uint8_t> result;
         
-        if (values.empty()) return result;
+        if (values.empty()) {
+          return result;
+        }
         
         encode(result, zigzag_encode(values[0]));
         
@@ -464,7 +468,9 @@ public:
     static std::vector<int32_t> decompress_delta(const std::vector<uint8_t>& data) {
         std::vector<int32_t> result;
         
-        if (data.empty()) return result;
+        if (data.empty()) {
+          return result;
+        }
         
         const uint8_t* ptr = data.data();
         const uint8_t* end = ptr + data.size();
@@ -670,7 +676,8 @@ static void BM_DeltaVarInt_Encode(benchmark::State& state) {
     size_t dimension = state.range(1);
     
     auto vec_float = VectorGenerator::generate(vector_type, dimension);
-    std::vector<int32_t> vec;
+    std::vector<int32_t> vec = {};
+
     for (float f : vec_float) {
         vec.push_back(static_cast<int32_t>(std::round(f)));
     }
@@ -695,7 +702,8 @@ static void BM_DeltaVarInt_Decode(benchmark::State& state) {
     size_t dimension = state.range(1);
     
     auto vec_float = VectorGenerator::generate(vector_type, dimension);
-    std::vector<int32_t> vec;
+    std::vector<int32_t> vec = {};
+
     for (float f : vec_float) {
         vec.push_back(static_cast<int32_t>(std::round(f)));
     }
@@ -822,7 +830,9 @@ int main(int argc, char** argv) {
     std::cout << "=============================\n\n";
     
     ::benchmark::Initialize(&argc, argv);
-    if (::benchmark::ReportUnrecognizedArguments(argc, argv)) return 1;
+    if (::benchmark::ReportUnrecognizedArguments(argc, argv)) {
+      return 1;
+    }
     ::benchmark::RunSpecifiedBenchmarks();
     ::benchmark::Shutdown();
     

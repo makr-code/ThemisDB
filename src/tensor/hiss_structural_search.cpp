@@ -28,7 +28,7 @@ namespace tensor {
 // ============================================================================
 
 namespace {
-    std::mutex           g_quantics_mtx;
+    std::mutex           g_quantics_mtx = {};
     HissReshaper::QuanticsFn g_quantics_fn;
 } // namespace
 
@@ -50,7 +50,9 @@ HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
 namespace {
 
 double coreEntropy(const storage::TTCore& core) {
-    if (core.data.empty()) return 0.0;
+    if (core.data.empty()) {
+      return 0.0;
+    }
     constexpr std::size_t kBins = 16;
     std::array<double, kBins> bins{};
     double total = 0.0;
@@ -59,7 +61,9 @@ double coreEntropy(const storage::TTCore& core) {
         const auto av = std::abs(static_cast<double>(v));
         maxv = std::max(maxv, av);
     }
-    if (maxv <= std::numeric_limits<double>::epsilon()) return 0.0;
+    if (maxv <= std::numeric_limits<double>::epsilon()) {
+      return 0.0;
+    }
 
     for (const auto v : core.data) {
         const auto av = std::abs(static_cast<double>(v));
@@ -70,7 +74,9 @@ double coreEntropy(const storage::TTCore& core) {
     }
     double h = 0.0;
     for (const auto c : bins) {
-        if (c <= 0.0) continue;
+        if (c <= 0.0) {
+          continue;
+        }
         const auto p = c / total;
         h -= p * std::log2(p);
     }
@@ -78,14 +84,16 @@ double coreEntropy(const storage::TTCore& core) {
 }
 
 std::uint64_t xorshift64(std::uint64_t& x) {
-    x ^= x << 13U;
-    x ^= x >> 7U;
-    x ^= x << 17U;
+    x ^= x << 13;
+    x ^= x >> 7;
+    x ^= x << 17;
     return x;
 }
 
 static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
-    if (shape.empty()) return 0;
+    if (shape.empty()) {
+      return 0;
+    }
     std::size_t product = 1;
     for (const auto dim : shape) {
         if (dim == 0) {
@@ -109,8 +117,8 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
                                   std::to_string(bit_count));
     }
 
-    const std::size_t total = static_cast<std::size_t>(1ULL << bit_count);
-    if (dense.size() != total) {
+    const std::size_t total = static_cast<std::size_t>(1 << bit_count);
+    if (static_cast<int>(dense.size()) != total) {
         throw std::invalid_argument("buildExactBinaryTT dense.size() (" +
                                     std::to_string(dense.size()) +
                                     ") must equal 2^bit_count (" +
@@ -122,8 +130,8 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
     train.cores.resize(bit_count);
 
     for (std::size_t k = 0; k + 1 < bit_count; ++k) {
-        const std::size_t r_left = static_cast<std::size_t>(1ULL << k);
-        const std::size_t r_right = static_cast<std::size_t>(1ULL << (k + 1));
+        const std::size_t r_left = static_cast<std::size_t>(1 << k);
+        const std::size_t r_right = static_cast<std::size_t>(1 << (k + 1));
         auto& core = train.cores[k];
         core.r_left = r_left;
         core.n = 2;
@@ -131,23 +139,23 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
         core.data.assign(r_left * 2 * r_right, 0.0f);
 
         for (std::size_t prefix = 0; prefix < r_left; ++prefix) {
-            const std::size_t next0 = (prefix << 1U);
-            const std::size_t next1 = next0 | 1U;
+            const std::size_t next0 = (prefix << 1);
+            const std::size_t next1 = next0 | 1;
             core.at(prefix, 0, next0) = 1.0f;
             core.at(prefix, 1, next1) = 1.0f;
         }
     }
 
     {
-        const std::size_t r_left = static_cast<std::size_t>(1ULL << (bit_count - 1));
+        const std::size_t r_left = static_cast<std::size_t>(1 << (bit_count - 1));
         auto& core = train.cores.back();
         core.r_left = r_left;
         core.n = 2;
         core.r_right = 1;
         core.data.assign(r_left * 2, 0.0f);
         for (std::size_t prefix = 0; prefix < r_left; ++prefix) {
-            core.at(prefix, 0, 0) = dense[(prefix << 1U)];
-            core.at(prefix, 1, 0) = dense[(prefix << 1U) | 1U];
+            core.at(prefix, 0, 0) = dense[(prefix << 1)];
+            core.at(prefix, 1, 0) = dense[(prefix << 1) | 1];
         }
     }
 
@@ -166,7 +174,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
                                       " is too large for bit-depth calculation (max depth: " +
                                       std::to_string(std::numeric_limits<std::size_t>::digits - 1) + ")");
         }
-        v <<= 1U;
+        v <<= 1;
         ++depth;
     }
     return std::max<std::size_t>(depth, 1);
@@ -180,7 +188,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
 
 std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const {
     const auto ndims = grid_sizes.size();
-    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
+    if (ndims == 0 || ndims != static_cast<int>(bit_depths.size()) || ndims != static_cast<int>(padded_grid_sizes.size())) {
         throw std::invalid_argument(
             "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
             "must all be non-empty and have the same length");
@@ -188,7 +196,9 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
     // Compute total physical element count and validate input.
     std::size_t total_physical = 1;
-    for (const auto n : grid_sizes) total_physical *= n;
+    for (const auto n : grid_sizes) {
+      total_physical *= n;
+    }
     if (physical_idx >= total_physical) {
         throw std::out_of_range(
             "physical_idx " + std::to_string(physical_idx) +
@@ -209,7 +219,9 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
     // Total number of QTT bits B = sum(bit_depths).
     std::size_t B = 0;
-    for (const auto b : bit_depths) B += b;
+    for (const auto b : bit_depths) {
+      B += b;
+    }
 
     // Encode each per-dimension index into bit_depths[d] bits (MSB first)
     // and accumulate into the QTT flat index.
@@ -219,7 +231,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
         const auto bd = bit_depths[d];
         for (std::size_t b = 0; b < bd; ++b) {
             --bit_pos;
-            const auto bit = (multi_idx[d] >> (bd - 1u - b)) & 1ULL;
+            const auto bit = (multi_idx[d] >> (bd - 1 - b)) & 1;
             qtt_idx |= bit << bit_pos;
         }
     }
@@ -229,7 +241,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
 std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_idx) const {
     const auto ndims = grid_sizes.size();
-    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
+    if (ndims == 0 || ndims != static_cast<int>(bit_depths.size()) || ndims != static_cast<int>(padded_grid_sizes.size())) {
         throw std::invalid_argument(
             "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
             "must all be non-empty and have the same length");
@@ -237,7 +249,9 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
     // Validate input against total padded element count.
     std::size_t total_padded = 1;
-    for (const auto p : padded_grid_sizes) total_padded *= p;
+    for (const auto p : padded_grid_sizes) {
+      total_padded *= p;
+    }
     if (qtt_idx >= total_padded) {
         throw std::out_of_range(
             "qtt_idx " + std::to_string(qtt_idx) +
@@ -246,7 +260,9 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
     // Total number of QTT bits B = sum(bit_depths).
     std::size_t B = 0;
-    for (const auto b : bit_depths) B += b;
+    for (const auto b : bit_depths) {
+      B += b;
+    }
 
     // Decode per-dimension indices from the packed QTT bit sequence (MSB first).
     std::vector<std::size_t> multi_idx(ndims);
@@ -256,8 +272,8 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
         std::size_t idx_d = 0;
         for (std::size_t b = 0; b < bd; ++b) {
             --bit_pos;
-            const auto bit = (qtt_idx >> bit_pos) & 1ULL;
-            idx_d = (idx_d << 1u) | bit;
+            const auto bit = (qtt_idx >> bit_pos) & 1;
+            idx_d = (idx_d << 1) | bit;
         }
         if (idx_d >= grid_sizes[d]) {
             return std::nullopt;
@@ -282,7 +298,7 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
 std::size_t TensorNetworkGraph::addNode(TensorGraphNode node) {
     nodes_.push_back(std::move(node));
-    return nodes_.size() - 1;
+    return static_cast<int>(nodes_.size()) - 1;
 }
 
 bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
@@ -290,8 +306,10 @@ bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
         return false;
     }
     const auto exists = std::any_of(edges_.begin(), edges_.end(),
-                                    [&](const auto& e) { return e.from == edge.from && e.to == edge.to; });
-    if (exists) return false;
+                                    [&]([[maybe_unused]] const auto& e) { return e.from == edge.from && e.to == edge.to; });
+    if (exists) {
+      return false;
+    }
     edges_.push_back(std::move(edge));
     return true;
 }
@@ -307,10 +325,15 @@ bool TensorNetworkGraph::rerouteEdge(std::size_t from, std::size_t to, const std
 }
 
 std::vector<std::size_t> TensorNetworkGraph::neighbors(std::size_t node_index) const {
-    std::vector<std::size_t> out;
+    std::vector<std::size_t> out = {};
+
     for (const auto& e : edges_) {
-        if (e.from == node_index) out.push_back(e.to);
-        if (e.to == node_index) out.push_back(e.from);
+        if (e.from == node_index) {
+          out.push_back(e.to);
+        }
+        if (e.to == node_index) {
+          out.push_back(e.from);
+        }
     }
     std::sort(out.begin(), out.end());
     out.erase(std::unique(out.begin(), out.end()), out.end());
@@ -319,11 +342,13 @@ std::vector<std::size_t> TensorNetworkGraph::neighbors(std::size_t node_index) c
 
 TensorNetworkGraph
 HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConfig& cfg) const {
-    TensorNetworkGraph graph;
-    if (train.cores.empty()) return graph;
+    TensorNetworkGraph graph = {};
+    if (train.cores.empty()) {
+      return graph;
+    }
 
     std::vector<double> entropy(train.cores.size(), 0.0);
-    for (std::size_t i = 0; i < train.cores.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(train.cores.size()); ++i) {
         const auto& c = train.cores[i];
         TensorGraphNode node;
         node.id = "core_" + std::to_string(i);
@@ -336,7 +361,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         graph.addNode(std::move(node));
     }
 
-    for (std::size_t i = 0; i + 1 < train.cores.size(); ++i) {
+    for (std::size_t i = 0; i + 1 <static_cast<int>(train.cores.size()); ++i) {
         const auto avg_rank = static_cast<double>(train.cores[i].r_right + train.cores[i + 1].r_left) * 0.5;
         TensorGraphEdge edge;
         edge.from = i;
@@ -361,17 +386,22 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     // Notes: O(num_samples) candidate generation, O(k log k) sort, O(n) edge pack.
     //        For THEMIS_HAS_HISS_GLOBAL see include/tensor/hiss_structural_search.h.
     std::uint64_t rng = cfg.random_seed;
-    std::vector<TensorGraphEdge> candidates;
-    candidates.reserve(std::min<std::size_t>(cfg.num_samples, train.cores.size() * 2));
+    std::vector<TensorGraphEdge> candidates = {};
+
+    candidates.reserve(std::min<std::size_t>(cfg.num_samples,static_cast<int>(train.cores.size()) * 2));
 
     const std::size_t max_depth = std::max<std::size_t>(cfg.max_reshape_depth, 1);
     for (std::size_t s = 0; s < cfg.num_samples; ++s) {
         const auto i = static_cast<std::size_t>(xorshift64(rng) % train.cores.size());
         const auto d = 2 + static_cast<std::size_t>(xorshift64(rng) % max_depth);
         const auto j = i + d;
-        if (j >= train.cores.size()) continue;
+        if (j >= train.cores.size()) {
+          continue;
+        }
 
-        if (entropy[i] < cfg.entropy_threshold && entropy[j] < cfg.entropy_threshold) continue;
+        if (entropy[i] < cfg.entropy_threshold && entropy[j] < cfg.entropy_threshold) {
+          continue;
+        }
 
         const auto avg_entropy = 0.5 * (entropy[i] + entropy[j]);
         const auto span_bonus = 1.0 / static_cast<double>(1 + (j - i));
@@ -388,7 +418,8 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
               [](const auto& a, const auto& b) { return a.weight > b.weight; });
 
     constexpr std::size_t kMaxPackedIndex = 0xFFFFFFFFULL;
-    std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge;
+    std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge = {};
+
     for (const auto& e : candidates) {
         // Packed edge key uses 32-bit lanes per endpoint.
         if (e.from > kMaxPackedIndex || e.to > kMaxPackedIndex) {
@@ -397,27 +428,36 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
                                         " exceeds packed edge-key limit of " +
                                         std::to_string(kMaxPackedIndex));
         }
-        const auto key = (static_cast<std::uint64_t>(e.from) << 32U) | static_cast<std::uint64_t>(e.to);
+        const auto key = (static_cast<std::uint64_t>(e.from) << 32) | static_cast<std::uint64_t>(e.to);
         const auto it = best_by_edge.find(key);
         if (it == best_by_edge.end() || e.weight > it->second.weight) {
             best_by_edge[key] = e;
         }
     }
 
-    std::vector<TensorGraphEdge> unique_candidates;
+    std::vector<TensorGraphEdge> unique_candidates = {};
+
     unique_candidates.reserve(best_by_edge.size());
-    for (const auto& kv : best_by_edge) unique_candidates.push_back(kv.second);
+    for (const auto& kv : best_by_edge) {
+      unique_candidates.push_back(kv.second);
+    }
     std::sort(unique_candidates.begin(), unique_candidates.end(),
               [](const auto& a, const auto& b) { return a.weight > b.weight; });
 
     std::size_t added = 0;
     for (const auto& e : unique_candidates) {
-        if (added >= cfg.diversity_budget) break;
-        if (graph.addEdge(e)) ++added;
+        if (added >= cfg.diversity_budget) {
+          break;
+        }
+        if (graph.addEdge(e)) {
+          ++added;
+        }
     }
 
     for (const auto& e : graph.edges()) {
-        if (e.topology != "reshaped") continue;
+        if (e.topology != "reshaped") {
+          continue;
+        }
         const auto avg_entropy = 0.5 * (entropy[e.from] + entropy[e.to]);
         if (avg_entropy >= (cfg.entropy_threshold * 1.5)) {
             const auto rerouted = graph.rerouteEdge(e.from, e.to, "clustered");
@@ -438,7 +478,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
         throw std::invalid_argument("train must contain at least one core and one mode size");
     }
 
-    if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {
+    if (!grid_sizes.empty() && !train.mode_sizes.empty() && static_cast<int>(grid_sizes.size()) != static_cast<int>(train.mode_sizes.size())) {
         throw std::invalid_argument("grid_sizes.size() (" + std::to_string(grid_sizes.size()) +
                                     ") must match train.mode_sizes.size() (" +
                                     std::to_string(train.mode_sizes.size()) + ")");
@@ -455,7 +495,8 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
 
     std::vector<std::size_t> bit_depths;
     std::vector<std::size_t> padded_grid_sizes;
-    std::vector<std::size_t> quantics_mode_sizes;
+    std::vector<std::size_t> quantics_mode_sizes = {};
+
     bit_depths.reserve(resolved_grid_sizes.size());
     padded_grid_sizes.reserve(resolved_grid_sizes.size());
 
@@ -475,7 +516,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     for (const auto grid_size : resolved_grid_sizes) {
         const auto bit_depth = calculateBitDepth(grid_size);
         bit_depths.push_back(bit_depth);
-        const auto padded_grid_size = static_cast<std::size_t>(1ULL << bit_depth);
+        const auto padded_grid_size = static_cast<std::size_t>(1 << bit_depth);
         padded_grid_sizes.push_back(padded_grid_size);
         quantics_mode_sizes.insert(quantics_mode_sizes.end(), bit_depth, std::size_t{2});
     }
@@ -499,7 +540,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     // Avoid numerical drift for small quantics tensors in strict roundtrip
     // tests by building an exact binary TT directly.
     if (padded_dense_elements <= 2048) {
-        reshaped_train = buildExactBinaryTT(padded_dense_tensor, quantics_mode_sizes.size());
+        reshaped_train = buildExactBinaryTT(padded_dense_tensor,static_cast<int>(quantics_mode_sizes.size()));
     } else {
         storage::TensorTrainDecomposer decomposer;
         storage::TensorTrainConfig cfg;
@@ -535,13 +576,15 @@ void TemplateCatalog::registerTemplate(const std::string& domain_tag, TensorNetw
 std::optional<TensorNetworkGraph> TemplateCatalog::lookup(const std::string& domain_tag) const {
     std::lock_guard<std::mutex> lk(mutex_);
     const auto it = templates_.find(domain_tag);
-    if (it == templates_.end()) return std::nullopt;
+    if (it == templates_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
 std::size_t TemplateCatalog::size() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return templates_.size();
+    return static_cast<int>(templates_.size());
 }
 
 } // namespace tensor

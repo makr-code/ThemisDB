@@ -46,70 +46,90 @@ namespace utils {
 /// Deleter for EVP_PKEY
 struct EVPKeyDeleter {
     void operator()(EVP_PKEY* pkey) const noexcept {
-        if (pkey) EVP_PKEY_free(pkey);
+        if (pkey) {
+          EVP_PKEY_free(pkey);
+        }
     }
 };
 
 /// Deleter for EVP_MD_CTX
 struct EVPMDCtxDeleter {
     void operator()(EVP_MD_CTX* ctx) const noexcept {
-        if (ctx) EVP_MD_CTX_free(ctx);
+        if (ctx) {
+          EVP_MD_CTX_free(ctx);
+        }
     }
 };
 
 /// Deleter for X509
 struct X509Deleter {
     void operator()(X509* cert) const noexcept {
-        if (cert) X509_free(cert);
+        if (cert) {
+          X509_free(cert);
+        }
     }
 };
 
 /// Deleter for X509_CRL
 struct X509CRLDeleter {
     void operator()(X509_CRL* crl) const noexcept {
-        if (crl) X509_CRL_free(crl);
+        if (crl) {
+          X509_CRL_free(crl);
+        }
     }
 };
 
 /// Deleter for X509_REQ (PKCS#10 Certificate Signing Request)
 struct X509REQDeleter {
     void operator()(X509_REQ* req) const noexcept {
-        if (req) X509_REQ_free(req);
+        if (req) {
+          X509_REQ_free(req);
+        }
     }
 };
 
 /// Deleter for X509_STORE
 struct X509StoreDeleter {
     void operator()(X509_STORE* store) const noexcept {
-        if (store) X509_STORE_free(store);
+        if (store) {
+          X509_STORE_free(store);
+        }
     }
 };
 
 /// Deleter for X509_STORE_CTX
 struct X509StoreCtxDeleter {
     void operator()(X509_STORE_CTX* ctx) const noexcept {
-        if (ctx) X509_STORE_CTX_free(ctx);
+        if (ctx) {
+          X509_STORE_CTX_free(ctx);
+        }
     }
 };
 
 /// Deleter for BIO
 struct BIODeleter {
     void operator()(BIO* bio) const noexcept {
-        if (bio) BIO_free_all(bio);
+        if (bio) {
+          BIO_free_all(bio);
+        }
     }
 };
 
 /// Deleter for RSA
 struct RSADeleter {
     void operator()(RSA* rsa) const noexcept {
-        if (rsa) RSA_free(rsa);
+        if (rsa) {
+          RSA_free(rsa);
+        }
     }
 };
 
 /// Deleter for BIGNUM
 struct BIGNUMDeleter {
     void operator()(BIGNUM* bn) const noexcept {
-        if (bn) BN_free(bn);
+        if (bn) {
+          BN_free(bn);
+        }
     }
 };
 
@@ -183,13 +203,17 @@ inline BIOPtr make_bio_file(const char* filename, const char* mode) noexcept {
 
 /// Load X509 from BIO with RAII
 inline X509Ptr read_x509_from_bio(BIO* bio) noexcept {
-    if (!bio) return X509Ptr(nullptr);
+    if (!bio) {
+      return X509Ptr(nullptr);
+    }
     return X509Ptr(PEM_read_bio_X509(bio, nullptr, nullptr, nullptr));
 }
 
 /// Load X509_CRL from BIO with RAII
 inline X509CRLPtr read_x509_crl_from_bio(BIO* bio) noexcept {
-    if (!bio) return X509CRLPtr(nullptr);
+    if (!bio) {
+      return X509CRLPtr(nullptr);
+    }
     return X509CRLPtr(PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr));
 }
 

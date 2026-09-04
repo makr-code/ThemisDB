@@ -283,7 +283,9 @@ public:
         {
             std::unique_lock<std::mutex> lk(mutex_);
             auto it = callbacks_.find(descriptor.collection);
-            if (it == callbacks_.end() || !it->second) return false;
+            if (it == callbacks_.end() || !it->second) {
+              return false;
+            }
             cb = it->second;
         }
         if (descriptor.conflicts.empty()) {

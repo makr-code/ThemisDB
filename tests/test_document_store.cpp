@@ -228,7 +228,9 @@ TEST_F(DocumentStoreTest, ConcurrentPutIsThreadSafe) {
             static_cast<void>(store_.put({"thr-" + std::to_string(i), kCol, makeBody()}));
         }));
     }
-    for (auto& f : futs) f.get();
+    for (auto& f : futs) {
+      f.get();
+    }
     auto cnt = store_.count(kCol);
     ASSERT_TRUE(cnt.has_value());
     EXPECT_LE(*cnt, static_cast<std::size_t>(N));

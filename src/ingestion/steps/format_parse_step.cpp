@@ -67,17 +67,23 @@ public:
     const char* getName()    const override { return plugin_name_; }
     const char* getVersion() const override { return "0.1.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(const char*) override { return true; }
+    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     // canHandle: delegate to extractor's MIME list
-    bool canHandle(const ExtractionContext& ctx) const override {
-        if (!extractor_) return false;
+    bool canHandle(cons[[maybe_unused]] t ExtractionContext& [[maybe_unused]] ctx) const override {
+        if (!extractor_) {
+          return false;
+        }
         const auto& mimes = extractor_->supportedMimeTypes();
-        if (mimes.empty()) return true;
+        if (mimes.empty()) {
+          return true;
+        }
         for (const auto& m : mimes) {
-            if (m == ctx.manifest.detected_mime) return true;
+            if (m == ctx.manifest.detected_mime) {
+              return true;
+            }
         }
         return false;
     }
@@ -115,13 +121,13 @@ public:
                 Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       std::string(plugin_name_) + ": cannot open '" + path + "'"});
         }
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << file.rdbuf();
         const std::string raw_bytes = oss.str();
 
         // Convert to span and call extractor
         const auto* byte_ptr = reinterpret_cast<const std::byte*>(raw_bytes.data());
-        std::span<const std::byte> span{byte_ptr, raw_bytes.size()};
+        std::span<const std::byte> span{byte_ptr,static_cast<int>(raw_bytes.size())};
 
         FormatExtractResult result = extractor_->extract(
             span,

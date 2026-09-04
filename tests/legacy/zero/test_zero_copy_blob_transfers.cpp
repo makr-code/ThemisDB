@@ -83,7 +83,9 @@ private:
 std::string writeTmpFile(const std::string& name, const std::vector<uint8_t>& data) {
     std::string path = (fs::temp_directory_path() / name).string();
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
-    if (!ofs) throw std::runtime_error("writeTmpFile: cannot create " + path);
+    if (!ofs) {
+      throw std::runtime_error("writeTmpFile: cannot create " + path);
+    }
     ofs.write(reinterpret_cast<const char*>(data.data()),
               static_cast<std::streamsize>(data.size()));
     return path;
@@ -117,7 +119,7 @@ protected:
     void TearDown() override {
         // Clean up any tmp files we may have created
         for (const auto& p : tmp_files_) {
-            std::error_code ec;
+            std::error_code ec = {};
             fs::remove(p, ec);
         }
     }
@@ -220,7 +222,8 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, MmapForEachIteratesAllBytes) {
     themis::storage::MmapBlobView view(path);
     ASSERT_TRUE(view.valid());
 
-    std::vector<uint8_t> collected;
+    std::vector<uint8_t> collected = {};
+
     collected.reserve(data.size());
 
     view.forEach(1024, [&](const uint8_t* ptr, size_t len) {
@@ -483,7 +486,7 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileLengthBeyondEndReturnsError) {
 
 TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileDirectorySourceReturnsErrorNotThrow) {
     std::string dir_path = (fs::temp_directory_path() / "zc_sendfile_dir_source").string();
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove(dir_path, ec);
     ASSERT_TRUE(fs::create_directory(dir_path));
     tmp_files_.push_back(dir_path);
@@ -543,7 +546,7 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, S3MultipartRejectsTooManyPartsEarly) {
 
     const uintmax_t too_large_size =
         static_cast<uintmax_t>(xfer_.config().s3_multipart_part_size_bytes) * 10000ULL + 1ULL;
-    std::error_code resize_ec;
+    std::error_code resize_ec = {};
     fs::resize_file(src_path, too_large_size, resize_ec);
     if (resize_ec) {
         GTEST_SKIP() << "Unable to create sparse oversized file: " << resize_ec.message();

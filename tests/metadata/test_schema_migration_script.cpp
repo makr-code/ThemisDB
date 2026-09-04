@@ -43,7 +43,9 @@ protected:
         version_.reset();
         schema_.reset();
         idx_.reset();
-        if (db_) db_->close();
+        if (db_) {
+          db_->close();
+        }
     }
 
     /// Build a TableSchema with the given columns (all type "string", nullable).

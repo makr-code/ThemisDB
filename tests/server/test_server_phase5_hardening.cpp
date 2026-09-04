@@ -529,7 +529,8 @@ TEST_F(WireRetryTest, WSR04_ExponentialBackoff_IntervalsStrictlyIncreasing) {
     ASSERT_GE(retry_times.size(), 3u);
 
     // Inter-retry gaps should be non-decreasing (1ms, 2ms, 4ms at minimum)
-    std::vector<long long> gaps;
+    std::vector<long long> gaps = {};
+
     for (size_t i = 1; i < retry_times.size(); ++i) {
         gaps.push_back(
             std::chrono::duration_cast<std::chrono::microseconds>(
@@ -797,7 +798,9 @@ TEST_F(WireRetryTest, WSR15_ExceptionInCallable_HandledGracefully) {
     WireResult result;
     EXPECT_NO_THROW({
         result = gate.execute([](int attempt) -> WireResult {
-            if (attempt == 1) throw std::runtime_error("network error");
+            if (attempt == 1) {
+              throw std::runtime_error("network error");
+            }
             return {WireErrorCode::kOk, "ok"};
         });
     });

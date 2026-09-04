@@ -21,11 +21,11 @@ namespace themis::network {
 // ProtobufParser Implementation
 // =============================================================================
 
-bool ProtobufParser::readVarint(uint64_t& value) {
+bool ProtobufParser::readVarint([[maybe_unused]] uint64_t& value) {
     value = 0;
     int shift = 0;
     
-    while (pos_ < data_.size()) {
+    while (static_cast<size_t>(pos_) <static_cast<int>(data_.size())) {
         uint8_t byte = data_[pos_++];
         value |= static_cast<uint64_t>(byte & 0x7F) << shift;
         
@@ -42,8 +42,8 @@ bool ProtobufParser::readVarint(uint64_t& value) {
     return false;  // Unexpected end
 }
 
-bool ProtobufParser::readFixed64(uint64_t& value) {
-    if (pos_ + 8 > data_.size()) {
+bool ProtobufParser::readFixed64([[maybe_unused]] uint64_t& value) {
+    if (pos_ + 8 > static_cast<int>(data_.size())) {
         return false;
     }
     
@@ -56,8 +56,8 @@ bool ProtobufParser::readFixed64(uint64_t& value) {
     return true;
 }
 
-bool ProtobufParser::readFixed32(uint32_t& value) {
-    if (pos_ + 4 > data_.size()) {
+bool ProtobufParser::readFixed32([[maybe_unused]] uint32_t& value) {
+    if (pos_ + 4 > static_cast<int>(data_.size())) {
         return false;
     }
     
@@ -76,7 +76,7 @@ bool ProtobufParser::readLengthDelimited(std::vector<uint8_t>& value) {
         return false;
     }
     
-    if (pos_ + length > data_.size()) {
+    if (pos_ + length > static_cast<int>(data_.size())) {
         return false;
     }
     
@@ -86,7 +86,8 @@ bool ProtobufParser::readLengthDelimited(std::vector<uint8_t>& value) {
 }
 
 bool ProtobufParser::readString(std::string& value) {
-    std::vector<uint8_t> bytes;
+    std::vector<uint8_t> bytes = {};
+
     if (!readLengthDelimited(bytes)) {
         return false;
     }
@@ -106,14 +107,14 @@ bool ProtobufParser::readTag(uint32_t& field_number, uint32_t& wire_type) {
     return true;
 }
 
-bool ProtobufParser::skipField(uint32_t wire_type) {
+bool ProtobufParser::skipField([[maybe_unused]] uint32_t wire_type) {
     switch (wire_type) {
         case 0: {  // Varint
-            uint64_t dummy;
+            uint64_t dummy = {};
             return readVarint(dummy);
         }
         case 1: {  // 64-bit
-            uint64_t dummy;
+            uint64_t dummy = {};
             return readFixed64(dummy);
         }
         case 2: {  // Length-delimited
@@ -121,7 +122,7 @@ bool ProtobufParser::skipField(uint32_t wire_type) {
             return readLengthDelimited(dummy);
         }
         case 5: {  // 32-bit
-            uint32_t dummy;
+            uint32_t dummy = {};
             return readFixed32(dummy);
         }
         default:
@@ -133,7 +134,7 @@ bool ProtobufParser::skipField(uint32_t wire_type) {
 // ProtobufSerializer Implementation
 // =============================================================================
 
-void ProtobufSerializer::writeVarint(uint64_t value) {
+void ProtobufSerializer::writeVarint([[maybe_unused]] uint64_t value) {
     while (value >= 0x80) {
         data_.push_back(static_cast<uint8_t>((value & 0x7F) | 0x80));
         value >>= 7;
@@ -141,7 +142,7 @@ void ProtobufSerializer::writeVarint(uint64_t value) {
     data_.push_back(static_cast<uint8_t>(value & 0x7F));
 }
 
-void ProtobufSerializer::writeFixed64(uint64_t value) {
+void ProtobufSerializer::writeFixed64([[maybe_unused]] uint64_t value) {
     // Protobuf fixed64 is little-endian on wire
     for (int i = 0; i < 8; ++i) {
         data_.push_back(static_cast<uint8_t>(value & 0xFF));
@@ -149,7 +150,7 @@ void ProtobufSerializer::writeFixed64(uint64_t value) {
     }
 }
 
-void ProtobufSerializer::writeFixed32(uint32_t value) {
+void ProtobufSerializer::writeFixed32([[maybe_unused]] uint32_t value) {
     // Protobuf fixed32 is little-endian on wire
     for (int i = 0; i < 4; ++i) {
         data_.push_back(static_cast<uint8_t>(value & 0xFF));
@@ -171,8 +172,8 @@ void ProtobufSerializer::writeTag(uint32_t field_number, uint32_t wire_type) {
     writeVarint((field_number << 3) | wire_type);
 }
 
-void ProtobufSerializer::writeDouble(double value) {
-    uint64_t bits;
+void ProtobufSerializer::writeDouble([[maybe_unused]] double value) {
+    uint64_t bits = 0;
     std::memcpy(&bits, &value, sizeof(double));
     writeFixed64(bits);
 }
@@ -195,40 +196,54 @@ bool TimeSeriesQueryRequest::parse(const std::vector<uint8_t>& data, TimeSeriesQ
         switch (field_number) {
             case 1:  // collection
                 if (wire_type != 2) return false;  // Must be length-delimited
-                if (!parser.readString(request.collection)) return false;
+                if (!parser.readString(request.collection)) {
+                  return false;
+                }
                 break;
                 
             case 2:  // start_time_ns
                 if (wire_type != 0) return false;  // Must be varint
-                if (!parser.readVarint(request.start_time_ns)) return false;
+                if (!parser.readVarint(request.start_time_ns)) {
+                  return false;
+                }
                 break;
                 
             case 3:  // end_time_ns
                 if (wire_type != 0) return false;  // Must be varint
-                if (!parser.readVarint(request.end_time_ns)) return false;
+                if (!parser.readVarint(request.end_time_ns)) {
+                  return false;
+                }
                 break;
                 
             case 4:  // aggregation
                 if (wire_type != 0) return false;  // Must be varint
                 {
                     uint64_t agg_value = 0;
-                    if (!parser.readVarint(agg_value)) return false;
+                    if (!parser.readVarint(agg_value)) {
+                      return false;
+                    }
                     request.aggregation = static_cast<uint32_t>(agg_value);
                 }
                 break;
                 
             case 5:  // bucket_size_ns
                 if (wire_type != 0) return false;  // Must be varint
-                if (!parser.readVarint(request.bucket_size_ns)) return false;
+                if (!parser.readVarint(request.bucket_size_ns)) {
+                  return false;
+                }
                 break;
                 
             case 6:  // filters (skip for now - complex map type)
-                if (!parser.skipField(wire_type)) return false;
+                if (!parser.skipField(wire_type)) {
+                  return false;
+                }
                 break;
                 
             default:
                 // Unknown field - skip it
-                if (!parser.skipField(wire_type)) return false;
+                if (!parser.skipField(wire_type)) {
+                  return false;
+                }
                 break;
         }
     }

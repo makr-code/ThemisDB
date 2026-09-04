@@ -306,8 +306,12 @@ TEST_F(EthicalGuidelinesManagerTest, MergePhilosophies) {
     bool found_stoicism = false;
     bool found_existentialism = false;
     for (const auto& school_id : registered) {
-        if (school_id == "stoicism") found_stoicism = true;
-        if (school_id == "existentialism") found_existentialism = true;
+        if (school_id == "stoicism") {
+          found_stoicism = true;
+        }
+        if (school_id == "existentialism") {
+          found_existentialism = true;
+        }
     }
     EXPECT_TRUE(found_stoicism);
     EXPECT_TRUE(found_existentialism);

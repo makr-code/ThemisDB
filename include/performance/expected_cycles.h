@@ -161,7 +161,9 @@ struct ExpectedCycles {
      * @return Deviation as percentage (positive = slower, negative = faster)
      */
     static inline double deviation_percent(uint64_t actual, uint64_t expected) noexcept {
-        if (expected == 0) return 0.0;
+        if (expected == 0) {
+          return 0.0;
+        }
         return ((double)actual - (double)expected) / (double)expected * 100.0;
     }
     

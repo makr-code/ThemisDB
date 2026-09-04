@@ -181,7 +181,8 @@ TEST_F(BaoTest, MultipleQueries) {
 TEST_F(BaoTest, ConcurrentOptimization) {
     auto plans = optimizer.generate_plans("SELECT * FROM users");
     
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([this, &plans]() {
             for (int j = 0; j < 10; ++j) {
@@ -211,7 +212,8 @@ TEST_F(BaoTest, PlanDiversity) {
     auto plans = optimizer.generate_plans("SELECT * FROM users");
     
     // Check that plans have different operators
-    std::set<std::string> unique_operators;
+    std::set<std::string> unique_operators = {};
+
     for (const auto& plan : plans) {
         for (const auto& op : plan.operators) {
             unique_operators.insert(op);

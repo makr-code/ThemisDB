@@ -373,7 +373,7 @@ TEST_F(StringConcatenationPerformanceTest, UP_FIN_18_ErrorMessageConstruction) {
     // Verify error message construction is efficient
     // Expected: Single string building operation
     
-    std::string error;
+    std::string error = {};
     error.reserve(100);  // Pre-allocate if needed
     error += "Operation failed: ";
     error += "timeout";
@@ -529,7 +529,8 @@ TEST_F(UpdatesRAIIIntegrationTest, UP_FIN_24_PerformanceBaselineMaintained) {
     auto start = std::chrono::steady_clock::now();
     
     // Simulate typical operation
-    std::vector<int> v;
+    std::vector<int> v = {};
+
     for (int i = 0; i < 10000; ++i) {
         v.push_back(i);
     }

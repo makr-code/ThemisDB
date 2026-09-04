@@ -80,7 +80,7 @@ TEST_F(OnnxClipModelHashTest, MatchingHashFnIsCalledAndPasses) {
     const std::string expected_sha = "aabbccddeeff00112233445566778899"
                                      "aabbccddeeff00112233445566778899";
     bool fn_called = false;
-    std::string received_path;
+    std::string received_path = {};
 
     ONNXClipPlugin::setModelHashFn([&](const std::string& p) -> std::string {
         fn_called     = true;

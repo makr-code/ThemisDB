@@ -24,7 +24,7 @@ namespace themis::distributed_knowledge {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string MergedRAGContext::buildPromptContext(size_t max_docs, size_t max_chars) const {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     size_t count = 0;
     size_t chars = 0;
 
@@ -41,7 +41,7 @@ std::string MergedRAGContext::buildPromptContext(size_t max_docs, size_t max_cha
             snippet += "\n  Entities: " + it->second;
         }
 
-        if (max_chars > 0 && chars + snippet.size() > max_chars) {
+        if (max_chars > 0 && chars + static_cast<int>(snippet.size()) > max_chars) {
             // Truncate last document to fit budget
             const size_t remaining = max_chars - chars;
             if (remaining > 20) {
@@ -52,7 +52,7 @@ std::string MergedRAGContext::buildPromptContext(size_t max_docs, size_t max_cha
         }
 
         oss << snippet << "\n\n";
-        chars += snippet.size() + 2;
+        chars += static_cast<int>(snippet.size()) + 2;
         ++count;
     }
 
@@ -94,7 +94,7 @@ MergedRAGContext FederatedRAGMerger::merge(const std::vector<ShardRetrievalResul
     if (config_.shard_timeout_ms != std::numeric_limits<size_t>::max()) {
         const size_t timed_out_count = static_cast<size_t>(std::count_if(
             shard_results.begin(), shard_results.end(), [](const ShardRetrievalResult &r) { return r.timed_out; }));
-        if (!shard_results.empty() && timed_out_count == shard_results.size()) {
+        if (!shard_results.empty() && timed_out_count == static_cast<int>(shard_results.size())) {
             throw std::runtime_error("all shards timed out");
         }
     }
@@ -161,7 +161,7 @@ MergedRAGContext FederatedRAGMerger::merge(const std::vector<ShardRetrievalResul
     // Truncate to top_k to bound output size.
     // If merge produced fewer than top_k docs, no truncation needed.
     // Deterministic: sort order preserved, no randomness.
-    if (merged.size() > config_.top_k) {
+    if (static_cast<int>(merged.size()) > config_.top_k) {
         merged.resize(config_.top_k);
     }
 
@@ -217,7 +217,7 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeRRF(const std::vector<Sh
             shard_boost = config_.specialisation_boost;
         }
 
-        for (size_t i = 0; i < sr.documents.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(sr.documents.size()); ++i) {
             const auto &doc   = sr.documents[i];
             const size_t rank = doc.rank_in_shard > 0 ? doc.rank_in_shard : (i + 1);
             const double rrf  = shard_boost / (config_.rrf_constant + static_cast<double>(rank));
@@ -229,7 +229,8 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeRRF(const std::vector<Sh
     }
 
     // Collect and sort by RRF score descending (stable sort for tie-break)
-    std::vector<RetrievedDocument> merged;
+    std::vector<RetrievedDocument> merged = {};
+
     merged.reserve(rrf_scores.size());
     for (auto &[doc_id, doc] : best_doc) {
         doc.relevance_score = rrf_scores[doc_id];
@@ -289,7 +290,8 @@ FederatedRAGMerger::mergeScoreWeighted(const std::vector<ShardRetrievalResult> &
         }
     }
 
-    std::vector<RetrievedDocument> merged;
+    std::vector<RetrievedDocument> merged = {};
+
     merged.reserve(sum_scores.size());
     for (auto &[doc_id, doc] : best_doc) {
         doc.relevance_score = sum_scores[doc_id];
@@ -341,7 +343,7 @@ FederatedRAGMerger::mergeRoundRobin(const std::vector<ShardRetrievalResult> &res
     size_t pos         = 0;
 
     // Interleave: for each position, collect document from each shard in turn
-    while (any_remaining && merged.size() < config_.top_k * 2) {
+    while (any_remaining && static_cast<int>(merged.size()) < config_.top_k * 2) {
         any_remaining = false;
         for (const auto *list : lists) {
             if (pos < list->size()) {
@@ -388,7 +390,8 @@ std::vector<RetrievedDocument> FederatedRAGMerger::deduplicate(std::vector<Retri
     // ─────────────────────────────────────────────────────────────────────────
     
     std::set<std::string> seen;  // Ordered set: deterministic iteration
-    std::vector<RetrievedDocument> result;
+    std::vector<RetrievedDocument> result = {};
+
     result.reserve(docs.size());
     for (auto &doc : docs) {
         if (seen.insert(doc.doc_id).second) {

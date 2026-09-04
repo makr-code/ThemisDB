@@ -92,7 +92,9 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
                     config.stopwords_enabled = configObj.value("stopwords_enabled", false);
                     if (configObj.contains("stopwords") && configObj["stopwords"].is_array()) {
                         for (const auto& s : configObj["stopwords"]) {
-                            if (s.is_string()) config.stopwords.push_back(s.get<std::string>());
+                            if (s.is_string()) {
+                              config.stopwords.push_back(s.get<std::string>());
+                            }
                         }
                     }
                     config.normalize_umlauts = configObj.value("normalize_umlauts", false);
@@ -130,7 +132,8 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
             if (!body["columns"].is_array() || body["columns"].empty()) {
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
-            std::vector<std::string> columns;
+            std::vector<std::string> columns = {};
+
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());
             }
@@ -204,8 +207,8 @@ http::response<http::string_body> IndexApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
     try {
-        std::string table;
-        std::string column;
+        std::string table = {};
+        std::string column = {};
 
         // Try parsing JSON body first
         if (!req.body().empty()) {
@@ -226,16 +229,22 @@ http::response<http::string_body> IndexApiHandler::handleStats(
                 std::string query = target.substr(query_start + 1);
                 // Simple query parser: table=X&column=Y
                 size_t pos = 0;
-                while (pos < query.size()) {
+                while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
                     size_t eq = query.find('=', pos);
-                    if (eq == std::string::npos) break;
+                    if (eq == std::string::npos) {
+                      break;
+                    }
                     size_t amp = query.find('&', eq);
-                    if (amp == std::string::npos) amp = query.size();
+                    if (amp == std::string::npos) {
+                      amp = query.size();
+                    }
                     
                     std::string key = query.substr(pos, eq - pos);
                     std::string value = query.substr(eq + 1, amp - eq - 1);
                     
-                    if (key == "table") table = value;
+                    if (key == "table") {
+                      table = value;
+                    }
                     else if (key == "column") column = value;
                     
                     pos = amp + 1;
@@ -315,7 +324,7 @@ http::response<http::string_body> IndexApiHandler::handleRebuild(
         // Rebuild the index – online mode keeps the live index readable throughout
         bool online = body.value("online", false);
         if (online) {
-            uint32_t throttle_us = body.value("throttle_us", 0u);
+            uint32_t throttle_us = body.value("throttle_us", 0);
             secondary_index_->rebuildIndexOnline(table, column, throttle_us);
         } else {
             secondary_index_->rebuildIndex(table, column);
@@ -361,7 +370,7 @@ http::response<http::string_body> IndexApiHandler::handleReindex(
         json resp = {
             {"success", true},
             {"table", table},
-            {"indexes_rebuilt", all_stats.size()}
+            {"indexes_rebuilt",static_cast<int>(all_stats.size())}
         };
         
         // Include stats for each index
@@ -392,7 +401,7 @@ http::response<http::string_body> IndexApiHandler::handleSuggestions(
         auto target = std::string(req.target());
         
         // Parse query parameters
-        std::string collection;
+        std::string collection = {};
         double min_score = 0.5;
         size_t limit = 10;
         
@@ -401,7 +410,7 @@ http::response<http::string_body> IndexApiHandler::handleSuggestions(
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
             std::istringstream iss(query_string);
-            std::string param;
+            std::string param = {};
             
             while (std::getline(iss, param, '&')) {
                 auto eq_pos = param.find('=');
@@ -450,7 +459,7 @@ http::response<http::string_body> IndexApiHandler::handlePatterns(
         auto target = std::string(req.target());
         
         // Parse collection from query params
-        std::string collection;
+        std::string collection = {};
         auto query_pos = target.find('?');
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);

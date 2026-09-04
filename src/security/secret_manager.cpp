@@ -32,7 +32,9 @@ SecretManager::SecretManager(RotationPolicy policy)
 SecretManager::SecretVersion&
 SecretManager::findVersion(SecretEntry& entry, uint32_t version) {
     for (auto& v : entry.versions) {
-        if (v.version == version) return v;
+        if (v.version == version) {
+          return v;
+        }
     }
     throw std::out_of_range("version not found");
 }
@@ -41,7 +43,9 @@ const SecretManager::SecretVersion*
 SecretManager::findVersionConst(const SecretEntry& entry,
                                 uint32_t version) const {
     for (const auto& v : entry.versions) {
-        if (v.version == version) return &v;
+        if (v.version == version) {
+          return &v;
+        }
     }
     return nullptr;
 }
@@ -68,7 +72,7 @@ uint32_t SecretManager::storeSecret(const std::string& name,
             "use rotateSecret() to change its value");
     }
 
-    if (policy_.max_secrets > 0 && secrets_.size() >= policy_.max_secrets) {
+    if (policy_.max_secrets > 0 && static_cast<int>(secrets_.size()) >= policy_.max_secrets) {
         throw std::length_error(
             "SecretManager: max_secrets limit (" +
             std::to_string(policy_.max_secrets) + ") reached");
@@ -102,7 +106,9 @@ SecretManager::getSecret(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
-    if (it == secrets_.end()) return std::nullopt;
+    if (it == secrets_.end()) {
+      return std::nullopt;
+    }
 
     for (auto rit = it->second.versions.rbegin();
          rit != it->second.versions.rend(); ++rit) {
@@ -123,10 +129,14 @@ SecretManager::getSecretVersion(const std::string& name,
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
-    if (it == secrets_.end()) return std::nullopt;
+    if (it == secrets_.end()) {
+      return std::nullopt;
+    }
 
     const auto* ver = findVersionConst(it->second, version);
-    if (!ver) return std::nullopt;
+    if (!ver) {
+      return std::nullopt;
+    }
     return *ver;
 }
 
@@ -149,7 +159,7 @@ uint32_t SecretManager::rotateSecret(const std::string& name,
     SecretEntry& entry = it->second;
 
     if (policy_.max_versions_per_secret > 0 &&
-            entry.versions.size() >= policy_.max_versions_per_secret) {
+            static_cast<int>(entry.versions.size()) >= policy_.max_versions_per_secret) {
         throw std::length_error(
             "SecretManager: max_versions_per_secret limit (" +
             std::to_string(policy_.max_versions_per_secret) +
@@ -187,11 +197,15 @@ bool SecretManager::revokeVersion(const std::string& name, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
-    if (it == secrets_.end()) return false;
+    if (it == secrets_.end()) {
+      return false;
+    }
 
     try {
         SecretVersion& v = findVersion(it->second, version);
-        if (v.status == SecretStatus::REVOKED) return false;
+        if (v.status == SecretStatus::REVOKED) {
+          return false;
+        }
         v.status = SecretStatus::REVOKED;
         return true;
     } catch (const std::out_of_range&) {
@@ -219,8 +233,9 @@ SecretManager::listVersions(const std::string& name) const {
     auto it = secrets_.find(name);
     if (it == secrets_.end()) return {};
 
-    std::vector<VersionInfo> result;
-    result.reserve(it->second.versions.size());
+    std::vector<VersionInfo> result = {};
+
+    result.reserve(it-> static_cast<int>(second.versions.size()));
     for (const auto& v : it->second.versions) {
         VersionInfo info;
         info.version    = v.version;
@@ -240,7 +255,8 @@ SecretManager::listVersions(const std::string& name) const {
 std::vector<std::string> SecretManager::listSecrets() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<std::string> names;
+    std::vector<std::string> names = {};
+
     names.reserve(secrets_.size());
     for (const auto& kv : secrets_) {
         names.push_back(kv.first);
@@ -256,7 +272,9 @@ bool SecretManager::isRotationDue(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
-    if (it == secrets_.end()) return false;
+    if (it == secrets_.end()) {
+      return false;
+    }
 
     for (auto rit = it->second.versions.rbegin();
          rit != it->second.versions.rend(); ++rit) {
@@ -272,13 +290,17 @@ bool SecretManager::isRotationDue(const std::string& name) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void SecretManager::checkAndRevoke() {
-    if (!policy_.auto_revoke_expired_retiring) return;
+    if (!policy_.auto_revoke_expired_retiring) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
     for (auto& kv : secrets_) {
         for (auto& v : kv.second.versions) {
-            if (v.status != SecretStatus::RETIRING) continue;
+            if (v.status != SecretStatus::RETIRING) {
+              continue;
+            }
             if (isAgeExceeded(v.created_at, policy_.retiring_grace_period)) {
                 v.status = SecretStatus::REVOKED;
             }

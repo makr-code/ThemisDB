@@ -42,7 +42,7 @@ namespace themis {
 class BinaryQuantizer {
 public:
     struct Config {
-        bool center_values;       // Center vectors before binarization
+        bool center_values = 0;       // Center vectors before binarization
         bool normalize_input;     // Normalize input vectors
         float scale_factor;       // Manual scale factor (0 = auto-learn)
         bool prefer_faiss;        // Prefer FAISS-style optimizations if available (default: true)

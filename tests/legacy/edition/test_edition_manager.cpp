@@ -106,7 +106,7 @@ TEST(EditionManager, UnknownFeatureAlwaysAvailable) {
 
 TEST(EditionManager, UnknownFeatureNoErrorMessage) {
     RuntimeLicenseGate::instance().initialize(makeResult(false, "invalid"));
-    std::string err;
+    std::string err = {};
     bool allowed = EditionManager::instance().isFeatureAvailable("another_unknown", err);
     EXPECT_TRUE(allowed);
     EXPECT_TRUE(err.empty());
@@ -119,7 +119,7 @@ TEST(EditionManager, EnterpriseFeatureBlockedWhenCompileTimeOff) {
 
     for (const char* feat : {"enterprise_plugins", "multi_master",
                               "field_encryption", "rbac", "hsm"}) {
-        std::string err;
+        std::string err = {};
         bool allowed = EditionManager::instance().isFeatureAvailable(feat, err);
         if (!IsFeatureEnabled(feat)) {
             EXPECT_FALSE(allowed) << "Feature '" << feat
@@ -135,7 +135,7 @@ TEST(EditionManager, EnterpriseFeatureBlockedWithExpiredLicense) {
 
     for (const char* feat : {"enterprise_plugins", "multi_master",
                               "field_encryption", "rbac", "hsm"}) {
-        std::string err;
+        std::string err = {};
         bool allowed = EditionManager::instance().isFeatureAvailable(feat, err);
         // Either compile-time gate (Community build) or runtime gate fires —
         // either way the feature must be blocked.
@@ -154,7 +154,7 @@ TEST(EditionManager, NodeLimitWithinBound_Allowed) {
     if (limit < 0) {
         GTEST_SKIP() << "Unlimited nodes (Hyperscaler) – no upper bound to test";
     }
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(EditionManager::instance().checkNodeLimit(limit, err));
     EXPECT_TRUE(err.empty());
 }
@@ -164,7 +164,7 @@ TEST(EditionManager, NodeLimitExceeded_Blocked) {
     if (limit < 0) {
         GTEST_SKIP() << "Unlimited nodes (Hyperscaler) – skip exceeded test";
     }
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(EditionManager::instance().checkNodeLimit(limit + 1, err));
     EXPECT_FALSE(err.empty());
     // Error message must mention the edition.
@@ -173,12 +173,12 @@ TEST(EditionManager, NodeLimitExceeded_Blocked) {
 }
 
 TEST(EditionManager, NodeLimitZero_Allowed) {
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(EditionManager::instance().checkNodeLimit(0, err));
 }
 
 TEST(EditionManager, NodeLimitOne_Allowed) {
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(EditionManager::instance().checkNodeLimit(1, err));
 }
 
@@ -191,7 +191,7 @@ TEST(EditionManager, VRAMLimitWithinBound_Allowed) {
     if (limit < 0) {
         GTEST_SKIP() << "Unlimited VRAM (Hyperscaler) – no upper bound to test";
     }
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(EditionManager::instance().checkVRAMLimit(limit, err));
     EXPECT_TRUE(err.empty());
 }
@@ -201,7 +201,7 @@ TEST(EditionManager, VRAMLimitExceeded_Blocked) {
     if (limit < 0) {
         GTEST_SKIP() << "Unlimited VRAM (Hyperscaler) – skip exceeded test";
     }
-    std::string err;
+    std::string err = {};
     EXPECT_FALSE(EditionManager::instance().checkVRAMLimit(limit + 1, err));
     EXPECT_FALSE(err.empty());
     EXPECT_NE(err.find(std::string(EDITION_STRING)), std::string::npos)
@@ -209,7 +209,7 @@ TEST(EditionManager, VRAMLimitExceeded_Blocked) {
 }
 
 TEST(EditionManager, VRAMLimitZero_Allowed) {
-    std::string err;
+    std::string err = {};
     EXPECT_TRUE(EditionManager::instance().checkVRAMLimit(0, err));
 }
 

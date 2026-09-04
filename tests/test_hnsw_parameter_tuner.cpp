@@ -260,36 +260,48 @@ TEST(WorkloadClassifierTest, PureInsertLargeBatchIsBatchInsert) {
 
 TEST(WorkloadClassifierTest, ManyInsertsSmallQueriesIsOLTP) {
     WorkloadClassifier classifier;
-    for (int i = 0; i < 100; ++i) classifier.recordInsert(1);
-    for (int i = 0; i < 5; ++i)   classifier.recordQuery(5);
+    for (int i = 0; i < 100; ++i) {
+      classifier.recordInsert(1);
+    }
+    for (int i = 0; i < 5; ++i) {
+      classifier.recordQuery(5);
+    }
     auto wl = classifier.detectWorkload();
     EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::OLTP);
 }
 
 TEST(WorkloadClassifierTest, LargeKQueriesIsAnalytics) {
     WorkloadClassifier classifier;
-    for (int i = 0; i < 50; ++i) classifier.recordQuery(50);
+    for (int i = 0; i < 50; ++i) {
+      classifier.recordQuery(50);
+    }
     auto wl = classifier.detectWorkload();
     EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::ANALYTICS);
 }
 
 TEST(WorkloadClassifierTest, MediumKQueriesIsRAG) {
     WorkloadClassifier classifier;
-    for (int i = 0; i < 50; ++i) classifier.recordQuery(10);
+    for (int i = 0; i < 50; ++i) {
+      classifier.recordQuery(10);
+    }
     auto wl = classifier.detectWorkload();
     EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::RAG);
 }
 
 TEST(WorkloadClassifierTest, SmallKQueriesIsOLTP) {
     WorkloadClassifier classifier;
-    for (int i = 0; i < 50; ++i) classifier.recordQuery(3);
+    for (int i = 0; i < 50; ++i) {
+      classifier.recordQuery(3);
+    }
     auto wl = classifier.detectWorkload();
     EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::OLTP);
 }
 
 TEST(WorkloadClassifierTest, ResetClearsState) {
     WorkloadClassifier classifier;
-    for (int i = 0; i < 50; ++i) classifier.recordQuery(50);
+    for (int i = 0; i < 50; ++i) {
+      classifier.recordQuery(50);
+    }
     classifier.reset();
     EXPECT_EQ(classifier.detectWorkload(), HnswParameterTuner::WorkloadType::MIXED);
     auto stats = classifier.getStats();

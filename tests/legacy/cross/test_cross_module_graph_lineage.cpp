@@ -217,7 +217,8 @@ TEST_F(GraphLineageTest, A3_ThreeEdges_ProduceThreeEventChain) {
     auto record = tracker.getLineage("graph-chain");
     ASSERT_EQ(record.events.size(), 3u);
 
-    std::unordered_map<std::string, std::string> parent_of;
+    std::unordered_map<std::string, std::string> parent_of = {};
+
     for (const auto& ev : record.events) {
         parent_of[ev.event_id] = ev.parent_event_id;
     }

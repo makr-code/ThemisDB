@@ -72,12 +72,12 @@ static std::vector<std::string> loadInjectionPrefixes(const std::string &config_
     if (!file.is_open()) {
         spdlog::warn("LLMProcessAnalyzer: could not open injection prefix config '{}'; "
                      "using built-in defaults ({} patterns)",
-                     config_path, kBuiltinInjectionPrefixes.size());
+                     config_path,static_cast<int>(kBuiltinInjectionPrefixes.size()));
         return kBuiltinInjectionPrefixes;
     }
 
     std::vector<std::string> prefixes;
-    std::string line;
+    std::string line = {};
     while (std::getline(file, line)) {
         if (line.empty() || line[0] == '#') {
             continue;
@@ -91,7 +91,7 @@ static std::vector<std::string> loadInjectionPrefixes(const std::string &config_
     if (prefixes.empty()) {
         spdlog::warn("LLMProcessAnalyzer: injection prefix config '{}' produced no entries; "
                      "using built-in defaults ({} patterns)",
-                     config_path, kBuiltinInjectionPrefixes.size());
+                     config_path,static_cast<int>(kBuiltinInjectionPrefixes.size()));
         return kBuiltinInjectionPrefixes;
     }
 
@@ -134,7 +134,7 @@ static std::string sanitizeUserContent(const std::string &content,
     // Exceeding this is almost certainly a flooding or context-exhaustion attack.
     constexpr size_t kMaxContentBytes = 32 * 1024;
 
-    std::string out;
+    std::string out = {};
     const size_t limit = std::min(content.size(), kMaxContentBytes);
     out.reserve(limit);
 
@@ -153,7 +153,7 @@ static std::string sanitizeUserContent(const std::string &content,
         // Build a lower-case window of up to 40 chars for comparison.
         bool injected = false;
         for (const auto &prefix : injection_prefixes) {
-            if (i + prefix.size() > limit) {
+            if (i + static_cast<int>(prefix.size()) > limit) {
                 continue;
             }
             // Case-insensitive comparison without heap allocation.
@@ -166,7 +166,7 @@ static std::string sanitizeUserContent(const std::string &content,
             }
             if (match) {
                 out += "[REDACTED_INJECTION_ATTEMPT]";
-                i += prefix.size() - 1; // skip matched chars (loop will ++i)
+                i += static_cast<int>(prefix.size()) - 1; // skip matched chars (loop will ++i)
                 injected = true;
                 spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
                              "prompt injection pattern '{}' detected and redacted at offset {}",
@@ -179,7 +179,7 @@ static std::string sanitizeUserContent(const std::string &content,
         }
     }
 
-    if (content.size() > kMaxContentBytes) {
+    if (static_cast<int>(content.size()) > kMaxContentBytes) {
         spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
                      "content truncated from {} to {} bytes (flood/token-exhaustion guard)",
                      content.size(), kMaxContentBytes);
@@ -198,10 +198,10 @@ std::string sanitizeApiKey(const std::string &api_key) {
         return "<not set>";
     }
     constexpr size_t kVisible = 4;
-    if (api_key.size() <= kVisible * 2) {
+    if (static_cast<int>(api_key.size()) <= kVisible * 2) {
         return std::string(api_key.size(), '*');
     }
-    return api_key.substr(0, kVisible) + "***...***" + api_key.substr(api_key.size() - kVisible);
+    return api_key.substr(0, kVisible) + "***...***" + api_key.substr(static_cast<int>(api_key.size()) - kVisible);
 }
 
 // ============================================================================
@@ -288,8 +288,8 @@ struct LLMProcessAnalyzer::Impl {
 
         // Evict LRU tail if over capacity — O(1)
         const size_t max_entries
-            = (config.max_cache_entries > 0) ? static_cast<size_t>(config.max_cache_entries) : 1000u;
-        if (lru_map.size() > max_entries) {
+            = (config.max_cache_entries > 0) ? static_cast<size_t>(config.max_cache_entries) : 1000;
+        if (static_cast<int>(lru_map.size()) > max_entries) {
             const std::string &lru_key = lru_list.back();
             lru_map.erase(lru_key);
             lru_list.pop_back();
@@ -344,7 +344,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest &reque
         std::string prompt = generatePrompt(request.task_type, data, request.domain);
 
         // Call LLM with retry logic
-        std::string raw_llm_response;
+        std::string raw_llm_response = {};
         int retries = 0;
         while (retries <= pImpl->config.max_retries) {
             try {
@@ -495,7 +495,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest &reque
 
 std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohmann::json &data,
                                                const std::string &domain) const {
-    std::stringstream ss;
+    std::stringstream ss = {};
 
     switch (task_type) {
         case TaskType::ANALYZE_PROCESS:
@@ -655,7 +655,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
     constexpr std::size_t kMaxStringLength  = 4096;
 
     const auto isBoundedString = [kMaxStringLength](const nlohmann::json &value) {
-        return value.is_string() && value.get_ref<const std::string &>().size() <= kMaxStringLength;
+        return static_cast<bool>(value.is_string() && value.get_ref<const std::string & < static_cast<int>(().size())) <= kMaxStringLength;
     };
 
     switch (task_type) {
@@ -700,7 +700,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
             }
             if (response["five_rights_check"].contains("corrective_actions")) {
                 const auto &actions = response["five_rights_check"]["corrective_actions"];
-                if (!actions.is_array() || actions.size() > kMaxListSize) {
+                if (!actions.is_array() || static_cast<int>(actions.size()) > kMaxListSize) {
                    return false;
                 }
                 for (const auto &action : actions) {
@@ -725,7 +725,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
             }
             if (response["fraud_analysis"].contains("detected_anomalies")) {
                 const auto &anomalies = response["fraud_analysis"]["detected_anomalies"];
-                if (!anomalies.is_array() || anomalies.size() > kMaxListSize) {
+                if (!anomalies.is_array() || static_cast<int>(anomalies.size()) > kMaxListSize) {
                    return false;
                 }
                 for (const auto &anomaly : anomalies) {
@@ -765,8 +765,8 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest &request) const {
     // is never sent to an LLM or used to construct prompts.
     auto sha256hex = [](const std::string &input) -> std::string {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
-        std::ostringstream oss;
+        SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
+        std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }

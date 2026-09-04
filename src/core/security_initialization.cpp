@@ -142,7 +142,7 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     bool production_mode = core::ProductionMode::isEnabled();
     
     // Create or validate key provider
-    IKeyProviderPtr key_provider_impl;
+    IKeyProviderPtr key_provider_impl = {};
     
     if (key_provider_type_.has_value()) {
         // User explicitly configured a key provider
@@ -245,7 +245,7 @@ std::string SecurityLayerBuilder::loadFile(const std::string& path) {
         throw std::runtime_error("Failed to open file: " + path);
     }
     
-    std::stringstream buffer;
+    std::stringstream buffer = {};
     buffer << file.rdbuf();
     return buffer.str();
 }
@@ -314,9 +314,9 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             }
             
             // HSM configuration
-            std::string library_path;
-            std::string slot_id;
-            std::string pin;
+            std::string library_path = {};
+            std::string slot_id = {};
+            std::string pin = {};
             
             if (config.contains("library_path")) {
                 library_path = config["library_path"].get<std::string>();
@@ -332,7 +332,7 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
                 throw std::runtime_error("HSM key provider requires library_path in config");
             }
 
-            std::error_code library_ec;
+            std::error_code library_ec = {};
             const std::filesystem::path library_fs_path(library_path);
             if (!std::filesystem::exists(library_fs_path, library_ec) ||
                 !std::filesystem::is_regular_file(library_fs_path, library_ec)) {

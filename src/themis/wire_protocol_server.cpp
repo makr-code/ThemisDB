@@ -107,14 +107,14 @@ void setWireGraphTraversalFn(WireGraphTraversalFn fn) {
 }
 
 void MessageDispatcher::register_handler(OpCode opcode, handler_fn handler) {
-    handlers_[opcode] = std::move(handler);
+    handlers_[opcode] = std::move([[maybe_unused]] handler);
 }
 
 void MessageDispatcher::dispatch(WireProtocolSession&        session,
                                  OpCode                      opcode,
                                  const std::vector<uint8_t>& payload) {
-    auto it = handlers_.find(opcode);
-    if (it != handlers_.end()) {
+    auto it = handlers_.find([[maybe_unused]] opcode);
+    if ([[maybe_unused]] it != handlers_.end()) {
         it->second(session, payload);
     } else {
         std::cerr << "[WireV1] No handler for opcode 0x"
@@ -222,7 +222,7 @@ static std::array<uint8_t, HEADER_SIZE> serializeHeader(const WireFrameHeader& h
 /// Deserialize WireFrameHeader from a 12-byte big-endian wire buffer.
 static WireFrameHeader deserializeHeader(const uint8_t* buf) {
     WireFrameHeader h{};
-    uint32_t magic_be;
+    uint32_t magic_be = {};
     std::memcpy(&magic_be, buf, 4);
     h.magic = ntohl(magic_be);
     h.version = buf[4];
@@ -230,7 +230,7 @@ static WireFrameHeader deserializeHeader(const uint8_t* buf) {
     uint16_t flags_be;
     std::memcpy(&flags_be, buf + 6, 2);
     h.flags = ntohs(flags_be);
-    uint32_t len_be;
+    uint32_t len_be = {};
     std::memcpy(&len_be, buf + 8, 4);
     h.payload_length = ntohl(len_be);
     return h;
@@ -238,7 +238,7 @@ static WireFrameHeader deserializeHeader(const uint8_t* buf) {
 
 /// Produce a session-ID string from remote endpoint + monotonic timestamp.
 static std::string makeSessionId(const tcp::socket& socket) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     try {
         ss << socket.remote_endpoint().address().to_string()
            << ':' << socket.remote_endpoint().port()
@@ -278,7 +278,7 @@ json protoValueToJson(const v1::Value& value) {
             return result;
         }
         case v1::Value::KIND_NOT_SET:
-        default:
+        [[fallthrough]];\n        default:
             return nullptr;
     }
 }
@@ -297,7 +297,7 @@ json protoMapToJson(const MapLike& values) {
 /// Replaces control characters (< 0x20) and DEL (0x7F) with '?' to prevent
 /// log injection and client confusion via embedded newlines or escape sequences.
 static std::string sanitizeForMessage(const std::string& s) {
-    std::string out;
+    std::string out = {};
     out.reserve(s.size());
     for (unsigned char c : s) {
         if (c < 0x20u || c == 0x7Fu) {
@@ -403,28 +403,30 @@ void WireProtocolSession::start() {
 }
 
 void WireProtocolSession::set_disconnect_callback(
-    std::function<void(const std::string&)> callback) {
+    std::function<void([[maybe_unused]] const std::string&)> callback) {
     std::lock_guard<std::mutex> lock(session_mutex_);
-    disconnect_callback_ = std::move(callback);
+    disconnect_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void WireProtocolSession::close(const std::string& /*reason*/) {
     std::function<void(const std::string&)> disconnect_callback;
     {
         std::lock_guard<std::mutex> lock(session_mutex_);
-        if (disconnect_notified_) return;
+        if (disconnect_notified_) {
+          return;
+        }
         disconnect_notified_ = true;
         disconnect_callback = disconnect_callback_;
     }
 
-    error_code ec;
+    error_code ec = {};
     if (socket_.is_open()) {
         socket_.shutdown(tcp::socket::shutdown_both, ec);
         socket_.close(ec);
     }
 
-    if (disconnect_callback) {
-        disconnect_callback(session_id_);
+    if ([[maybe_unused]] disconnect_callback) {
+        disconnect_callback([[maybe_unused]] session_id_);
     }
 }
 
@@ -467,9 +469,9 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
     const bool        with_checksum =
         !header.has_flag(MessageFlags::SKIP_CHECKSUM);
     const std::size_t total =
-        header.payload_length + (with_checksum ? CHECKSUM_SIZE : 0u);
+        header.payload_length + (with_checksum ? CHECKSUM_SIZE : 0);
 
-    if (total == 0u) {
+    if (total == 0) {
         ++messages_received_;
         // Dispatch with empty payload inline (captures `this`).
         const OpCode opcode = header.get_opcode();
@@ -514,7 +516,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             if (with_checksum) {
                 // Bounds check before reading CRC
                 const std::size_t required_size = header.payload_length + CHECKSUM_SIZE;
-                if (read_buffer_.size() < required_size) {
+                if (static_cast<int>(read_buffer_.size()) < required_size) {
                     send_error(0x04, "Incomplete message with checksum");
                     return;
                 }
@@ -728,7 +730,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
 void WireProtocolSession::async_write_response(
     OpCode opcode, const google::protobuf::Message& message) {
 #if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
-    std::string serialized;
+    std::string serialized = {};
     if (!message.SerializeToString(&serialized)) {
         send_error(0x05, "Failed to serialize response");
         return;
@@ -783,10 +785,10 @@ void WireProtocolSession::async_write_response(
 
 void WireProtocolSession::send_error(uint32_t           err_code,
                                      const std::string& message) {
-    std::vector<uint8_t> payload(4u + message.size());
+    std::vector<uint8_t> payload(4 + static_cast<int>(message.size()) );
     const uint32_t code_be = htonl(err_code);
-    std::memcpy(payload.data(), &code_be, 4u);
-    std::memcpy(payload.data() + 4u, message.data(), message.size());
+    std::memcpy(payload.data(), &code_be, 4);
+    std::memcpy(payload.data() + 4, message.data(),static_cast<int>(message.size()));
 
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
@@ -991,10 +993,10 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     try {
         auto results = fn(req.aql());
 
-        const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100u;
+        const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100;
         v1::QueryResult qr;
 
-        if (results.size() > batch_sz) {
+        if (static_cast<int>(results.size()) > batch_sz) {
             // Large result-set: store remainder in per-session cursor map.
             for (uint32_t i = 0; i < batch_sz; ++i)
                 qr.add_results(results[i]);
@@ -1019,7 +1021,9 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
                 cursors_[cid] = std::move(entry);
             }
         } else {
-            for (const auto& r : results) qr.add_results(r);
+            for (const auto& r : results) {
+              qr.add_results(r);
+            }
             qr.set_has_more(false);
             qr.set_total_count(static_cast<uint64_t>(results.size()));
         }
@@ -1063,13 +1067,13 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
         return;
     }
     const auto batch_sz =
-        req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100u;
+        req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100;
     v1::QueryResult qr;
-    size_t end = std::min(entry.offset + batch_sz, entry.results.size());
+    size_t end = std::min(entry.offset + batch_sz,static_cast<int>(entry.results.size()));
     for (size_t i = entry.offset; i < end; ++i)
         qr.add_results(entry.results[i]);
 
-    const bool has_more = (end < entry.results.size());
+    const bool has_more = (end <static_cast<int>(entry.results.size()));
     qr.set_has_more(has_more);
     qr.set_total_count(static_cast<uint64_t>(entry.results.size()));
     if (has_more)
@@ -1447,8 +1451,8 @@ void WireProtocolSession::handle_bpmn_task_complete(
     }
     // Resolve instance_id from task_id via the process graph manager.
     // The task_id field may carry "instance_id/task_node" or a standalone token.
-    std::string instance_id;
-    std::string task_node;
+    std::string instance_id = {};
+    std::string task_node = {};
     const auto& full_id = req.task_id();
     const auto slash    = full_id.find('/');
     if (slash != std::string::npos) {
@@ -1574,7 +1578,9 @@ void WireProtocolServer::start() {
 
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (running_) return;
+        if (running_) {
+          return;
+        }
         running_ = true;
     }
     async_accept();
@@ -1584,7 +1590,9 @@ void WireProtocolServer::stop() {
     std::vector<std::shared_ptr<WireProtocolSession>> sessions_to_close;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (!running_) return;
+        if (!running_) {
+          return;
+        }
         running_ = false;
         for (const auto& kv : sessions_)
             sessions_to_close.push_back(kv.second);
@@ -1599,7 +1607,7 @@ void WireProtocolServer::stop() {
 
 size_t WireProtocolServer::active_sessions() const {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    return sessions_.size();
+    return static_cast<int>(sessions_.size());
 }
 
 uint64_t WireProtocolServer::total_connections() const {
@@ -1644,7 +1652,7 @@ void WireProtocolServer::setGraphTraverseFn(WireProtocolSession::GraphTraverseFn
     graph_traverse_fn_ = std::move(fn);
 }
 
-void WireProtocolServer::bindSessionCallbacksLocked(WireProtocolSession& session) const {
+void WireProtocolServer::bindSessionCallbacksLocked([[maybe_unused]] WireProtocolSession& session) const {
     session.aql_query_fn_ = aql_query_fn_;
     session.cursor_next_fn_ = cursor_next_fn_;
     session.cursor_close_fn_ = cursor_close_fn_;
@@ -1662,7 +1670,7 @@ void WireProtocolServer::async_accept() {
             // Propagate the server bootstrap wiring to each accepted session.
             {
                 std::lock_guard<std::mutex> lock(state_mutex_);
-                bindSessionCallbacksLocked(*session);
+                bindSessionCallbacksLocked([[maybe_unused]] *session);
             }
             handle_accept(session, ec);
         });
@@ -1698,7 +1706,9 @@ void WireProtocolServer::handle_accept(
         std::lock_guard<std::mutex> lock(state_mutex_);
         should_continue = running_;
     }
-    if (should_continue) async_accept();
+    if (should_continue) {
+      async_accept();
+    }
 }
 
 } // namespace wire

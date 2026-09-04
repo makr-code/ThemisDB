@@ -391,7 +391,9 @@ public:
         r.check_name = name_;
         r.passed = should_pass_;
         r.message = should_pass_ ? "custom check passed" : "custom check failed";
-        if (!should_pass_) r.error = "custom error";
+        if (!should_pass_) {
+          r.error = "custom error";
+        }
         ++run_count;
         return r;
     }

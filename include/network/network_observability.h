@@ -383,7 +383,9 @@ public:
 
     /// Manually emit the span before scope exit (idempotent).
     void emit() noexcept {
-        if (emitted_) return;
+        if (emitted_) {
+          return;
+        }
         emitted_ = true;
         const auto now = std::chrono::steady_clock::now();
         const auto us  = std::chrono::duration_cast<std::chrono::microseconds>(

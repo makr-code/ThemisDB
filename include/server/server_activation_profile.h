@@ -361,7 +361,7 @@ struct ServerProfileValidationResult {
     bool stub_provider_active,
     bool explicit_stub_opt_in
 ) {
-    ServerProfileValidationResult result;
+    ServerProfileValidationResult result = {};
     if (!stub_provider_active) {
         return result;
     }

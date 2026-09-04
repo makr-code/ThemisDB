@@ -98,7 +98,9 @@ public:
      */
     V* get(const K& key) {
         auto it = map_.find(key);
-        if (it == map_.end()) return nullptr;
+        if (it == map_.end()) {
+          return nullptr;
+        }
         // Splice to front (O(1) for std::list iterators).
         list_.splice(list_.begin(), list_, it->second);
         return &it->second->second;
@@ -107,7 +109,9 @@ public:
     /** Const overload — does NOT update the access order. */
     const V* peek(const K& key) const {
         auto it = map_.find(key);
-        if (it == map_.end()) return nullptr;
+        if (it == map_.end()) {
+          return nullptr;
+        }
         return &it->second->second;
     }
 
@@ -146,7 +150,9 @@ public:
      */
     bool erase(const K& key) {
         auto it = map_.find(key);
-        if (it == map_.end()) return false;
+        if (it == map_.end()) {
+          return false;
+        }
         list_.erase(it->second);
         map_.erase(it);
         return true;

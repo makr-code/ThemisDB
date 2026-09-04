@@ -291,7 +291,9 @@ void PluginHealthMonitor::monitoringLoop() {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
 
-        if (!running_) break;
+        if (!running_) {
+          break;
+        }
 
         // Take a snapshot of plugin names to avoid holding mutex during checks
         std::vector<std::string> names;
@@ -304,14 +306,20 @@ void PluginHealthMonitor::monitoringLoop() {
         }
 
         for (const auto& name : names) {
-            if (!running_) break;
+            if (!running_) {
+              break;
+            }
 
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = monitored_plugins_.find(name);
-            if (it == monitored_plugins_.end()) continue;
+            if (it == monitored_plugins_.end()) {
+              continue;
+            }
 
             auto& mp = it->second;
-            if (!mp.enabled) continue;
+            if (!mp.enabled) {
+              continue;
+            }
 
             checkPlugin(mp);
         }
@@ -486,11 +494,15 @@ RecoveryResult PluginHealthMonitor::attemptRecoveryWithBackoff(MonitoredPlugin& 
         bool recovered = false;
         for (auto action : strategy_priority) {
             auto it = std::find(strategies.begin(), strategies.end(), action);
-            if (it == strategies.end()) continue;
+            if (it == strategies.end()) {
+              continue;
+            }
 
             recovered = plugin.plugin->executeRecoveryAction(action);
             result.action_taken = action;
-            if (recovered) break;
+            if (recovered) {
+              break;
+            }
         }
 
         // If no specific strategy worked, fall back to generic attemptSelfRepair.
@@ -647,6 +659,7 @@ double PluginHealthMonitor::computeHealthScore(const PluginDiagnostics& diag) no
         case PluginHealthStatus::UNHEALTHY:
             return std::max(0.0, 0.3 - error_rate * 0.2);
         case PluginHealthStatus::CRITICAL:
+        [[fallthrough]];
         case PluginHealthStatus::RECOVERING:
             return std::max(0.0, 0.1 - error_rate * 0.1);
         default:
@@ -656,7 +669,9 @@ double PluginHealthMonitor::computeHealthScore(const PluginDiagnostics& diag) no
 
 void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noexcept {
     // mutex_ must be held by caller; metrics_sink_ may be null
-    if (!metrics_sink_) return;
+    if (!metrics_sink_) {
+      return;
+    }
     try {
         const double score = computeHealthScore(plugin.last_diagnostics);
         metrics_sink_->setGauge("plugin_health_score", score, {{"plugin", plugin.name}});
@@ -667,4 +682,5 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
 
 } // namespace plugins
 } // namespace themis
+
 

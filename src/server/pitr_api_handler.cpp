@@ -24,7 +24,7 @@ PITRApiHandler::PITRApiHandler(PITRManager& pitr_manager)
     : pitr_manager_(pitr_manager) {
 }
 
-void PITRApiHandler::registerRoutes(httplib::Server& server) {
+void PITRApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
     // POST /api/v1/restore/pitr - Execute restore
     server.Post("/api/v1/restore/pitr", [this](const httplib::Request& req, httplib::Response& res) {
         handleRestore(req, res);
@@ -45,7 +45,7 @@ void PITRApiHandler::registerRoutes(httplib::Server& server) {
 
 void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Response& res) {
     try {
-    auto span = Tracer::startSpan("handleRestore");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRestore");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -194,7 +194,7 @@ void PITRApiHandler::handleGetProgress(const httplib::Request& /*req*/, httplib:
     }
 }
 
-PITRManager::RestoreOptions PITRApiHandler::parseRestoreOptions(const json& body) const {
+PITRManager::RestoreOptions PITRApiHandler::parseRestoreOptions([[maybe_unused]] const json& body) const {
     PITRManager::RestoreOptions options;
     
     if (body.contains("dry_run")) {
@@ -226,7 +226,7 @@ PITRManager::RestoreOptions PITRApiHandler::parseRestoreOptions(const json& body
         }
     }
     
-    if (body.contains("max_events_to_replay")) {
+    if ([[maybe_unused]] body.contains("max_events_to_replay")) {
         options.max_events_to_replay = body["max_events_to_replay"].get<uint64_t>();
     }
     
@@ -237,7 +237,7 @@ PITRManager::RestoreOptions PITRApiHandler::parseRestoreOptions(const json& body
     return options;
 }
 
-json PITRApiHandler::progressToJson(const PITRManager::RestoreProgress& progress) const {
+json PITRApiHandler::progressToJson([[maybe_unused]] const PITRManager::RestoreProgress& progress) const {
     json result;
     result["phase"] = phaseToString(progress.phase);
     result["events_processed"] = progress.events_processed;
@@ -251,7 +251,7 @@ json PITRApiHandler::progressToJson(const PITRManager::RestoreProgress& progress
     return result;
 }
 
-json PITRApiHandler::previewToJson(const PITRManager::RestorePreview& preview) const {
+json PITRApiHandler::previewToJson([[maybe_unused]] const PITRManager::RestorePreview& preview) const {
     json result;
     result["target_sequence"] = preview.target_sequence;
     result["current_sequence"] = preview.current_sequence;
@@ -263,7 +263,7 @@ json PITRApiHandler::previewToJson(const PITRManager::RestorePreview& preview) c
     return result;
 }
 
-json PITRApiHandler::statusToJson(const PITRManager::Status& status) const {
+json PITRApiHandler::statusToJson([[maybe_unused]] const PITRManager::Status& status) const {
     json result;
     result["ok"] = status.ok;
     result["message"] = status.message;
@@ -275,7 +275,7 @@ json PITRApiHandler::statusToJson(const PITRManager::Status& status) const {
     return result;
 }
 
-std::string PITRApiHandler::phaseToString(PITRManager::RestoreProgress::Phase phase) const {
+std::string PITRApiHandler::phaseToString([[maybe_unused]] PITRManager::RestoreProgress::Phase phase) const {
     switch (phase) {
         case PITRManager::RestoreProgress::Phase::NOT_STARTED:
             return "not_started";

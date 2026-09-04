@@ -184,8 +184,12 @@ TEST(DeonticExtractorTest, ProhibitionBeforePermission) {
     bool found_prohibition = false;
     bool found_permission  = false;
     for (auto c : result.deontic_categories) {
-        if (c == DeonticCategory::PROHIBITION) found_prohibition = true;
-        if (c == DeonticCategory::PERMISSION)  found_permission  = true;
+        if (c == DeonticCategory::PROHIBITION) {
+          found_prohibition = true;
+        }
+        if (c == DeonticCategory::PERMISSION) {
+          found_permission  = true;
+        }
     }
     EXPECT_TRUE(found_prohibition);
     // "darf nicht" should NOT also produce a PERMISSION match
@@ -446,7 +450,9 @@ TEST(SemanticValidatorTest, FailedGatesCollectionWorks) {
     // At minimum the section_hierarchy gate should have failed
     bool found_section_fail = false;
     for (const auto& g : failed) {
-        if (g.name == "section_hierarchy") found_section_fail = true;
+        if (g.name == "section_hierarchy") {
+          found_section_fail = true;
+        }
     }
     EXPECT_TRUE(found_section_fail);
 }

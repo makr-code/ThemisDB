@@ -66,16 +66,18 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
     if (!isCollectionInScope(collection_name)) {
         // Build the registered-collections list efficiently using fmt::format
         // instead of string += in loop to avoid repeated allocations.
-        std::string registered_list;
+        std::string registered_list = {};
         if (registered_collections_.empty()) {
             registered_list = "(none)";
         } else {
             // Efficiently join collection names with commas.
             // Use std::ostringstream or manual building with proper capacity.
-            std::ostringstream ss;
+            std::ostringstream ss = {};
             bool first = true;
             for (const auto& c : registered_collections_) {
-                if (!first) ss << ", ";
+                if (!first) {
+                  ss << ", ";
+                }
                 ss << c;
                 first = false;
             }
@@ -217,9 +219,9 @@ enum class TokenType {
 
 struct Token {
     TokenType type;
-    std::string value;
-    size_t line;
-    size_t column;
+    std::string value = {};
+    size_t line = {};
+    size_t column = {};
     
     Token(TokenType t, std::string v, size_t l, size_t c)
         : type(t), value(std::move(v)), line(l), column(c) {}
@@ -234,9 +236,11 @@ public:
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
         
-        while (pos_ < input_.size()) {
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             skipWhitespace();
-            if (pos_ >= input_.size()) break;
+            if (pos_ >= static_cast<int>(input_.size())) {
+              break;
+            }
             
             Token token = nextToken();
             if (token.type != TokenType::INVALID) {
@@ -257,17 +261,19 @@ private:
     // scope_mismatch flag was a static-analysis heuristic false positive.
     // Both sets of members are intentionally named identically for
     // consistency between the two lexical-analysis states.
-    size_t pos_;
-    size_t line_;
-    size_t column_;
+    size_t pos_ = {};
+    size_t line_ = {};
+    size_t column_ = {};
     
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos_ + offset;
-        return (p < input_.size()) ? input_[p] : '\0';
+        return static_cast<bool>((p < input_.size())) ? input_[p] : '\0';
     }
     
     char advance() {
-        if (pos_ >= input_.size()) return '\0';
+        if (pos_ >= static_cast<int>(input_.size())) {
+          return '\0';
+        }
         char ch = input_[pos_++];
         if (ch == '\n') {
             line_++;
@@ -295,7 +301,7 @@ private:
         }
         
         // Number
-        if (std::isdigit(ch) || (ch == '-' && std::isdigit(peek(1)))) {
+        if ((std::isdigit(ch) || (ch == '-' && std::isdigit(peek(1))))) {
             return readNumber(start_line, start_column);
         }
         
@@ -316,7 +322,7 @@ private:
             return Token(TokenType::INVALID, std::string(1, advance()), line, col);
         }
         advance(); // Skip opening quote
-        std::string value;
+        std::string value = {};
         value.reserve(256);  // Pre-allocate to avoid O(n²) growth
          
         while (peek() != quote && peek() != '\0') {
@@ -345,7 +351,7 @@ private:
     }
     
     Token readNumber(size_t line, size_t col) {
-        std::string value;
+        std::string value = {};
         value.reserve(32);  // Pre-allocate for typical number sizes
         bool is_float = false;
          
@@ -370,7 +376,7 @@ private:
     }
     
     Token readIdentifierOrKeyword(size_t line, size_t col) {
-        std::string value;
+        std::string value = {};
         value.reserve(64);  // Pre-allocate for typical identifier sizes
          
         while (std::isalnum(peek()) || peek() == '_') {
@@ -382,68 +388,166 @@ private:
         std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
         // Check keywords
-        if (lower == "for") return Token(TokenType::FOR, value, line, col);
-        if (lower == "in") return Token(TokenType::IN, value, line, col);
-        if (lower == "filter") return Token(TokenType::FILTER, value, line, col);
-        if (lower == "sort") return Token(TokenType::SORT, value, line, col);
-        if (lower == "limit") return Token(TokenType::LIMIT, value, line, col);
-    if (lower == "return") return Token(TokenType::RETURN, value, line, col);
-    if (lower == "let") return Token(TokenType::LET, value, line, col);
-        if (lower == "asc") return Token(TokenType::ASC, value, line, col);
-        if (lower == "desc") return Token(TokenType::DESC, value, line, col);
-    if (lower == "and") return Token(TokenType::AND, value, line, col);
-    if (lower == "or") return Token(TokenType::OR, value, line, col);
-    if (lower == "xor") return Token(TokenType::XOR, value, line, col);
-        if (lower == "not") return Token(TokenType::NOT, value, line, col);
-        if (lower == "true") return Token(TokenType::TRUE, value, line, col);
-        if (lower == "false") return Token(TokenType::FALSE, value, line, col);
-        if (lower == "null") return Token(TokenType::NULL_LITERAL, value, line, col);
-        if (lower == "graph") return Token(TokenType::GRAPH, value, line, col);
-        if (lower == "outbound") return Token(TokenType::OUTBOUND, value, line, col);
-        if (lower == "inbound") return Token(TokenType::INBOUND, value, line, col);
-        if (lower == "any") return Token(TokenType::ANY, value, line, col);
-    if (lower == "type") return Token(TokenType::TYPE, value, line, col);
-        if (lower == "collect") return Token(TokenType::COLLECT, value, line, col);
-        if (lower == "aggregate") return Token(TokenType::AGGREGATE, value, line, col);
+        if (lower == "for") {
+          return Token(TokenType::FOR, value, line, col);
+        }
+        if (lower == "in") {
+          return Token(TokenType::IN, value, line, col);
+        }
+        if (lower == "filter") {
+          return Token(TokenType::FILTER, value, line, col);
+        }
+        if (lower == "sort") {
+          return Token(TokenType::SORT, value, line, col);
+        }
+        if (lower == "limit") {
+          return Token(TokenType::LIMIT, value, line, col);
+        }
+    if (lower == "return") {
+      return Token(TokenType::RETURN, value, line, col);
+    }
+    if (lower == "let") {
+      return Token(TokenType::LET, value, line, col);
+    }
+        if (lower == "asc") {
+          return Token(TokenType::ASC, value, line, col);
+        }
+        if (lower == "desc") {
+          return Token(TokenType::DESC, value, line, col);
+        }
+    if (lower == "and") {
+      return Token(TokenType::AND, value, line, col);
+    }
+    if (lower == "or") {
+      return Token(TokenType::OR, value, line, col);
+    }
+    if (lower == "xor") {
+      return Token(TokenType::XOR, value, line, col);
+    }
+        if (lower == "not") {
+          return Token(TokenType::NOT, value, line, col);
+        }
+        if (lower == "true") {
+          return Token(TokenType::TRUE, value, line, col);
+        }
+        if (lower == "false") {
+          return Token(TokenType::FALSE, value, line, col);
+        }
+        if (lower == "null") {
+          return Token(TokenType::NULL_LITERAL, value, line, col);
+        }
+        if (lower == "graph") {
+          return Token(TokenType::GRAPH, value, line, col);
+        }
+        if (lower == "outbound") {
+          return Token(TokenType::OUTBOUND, value, line, col);
+        }
+        if (lower == "inbound") {
+          return Token(TokenType::INBOUND, value, line, col);
+        }
+        if (lower == "any") {
+          return Token(TokenType::ANY, value, line, col);
+        }
+    if (lower == "type") {
+      return Token(TokenType::TYPE, value, line, col);
+    }
+        if (lower == "collect") {
+          return Token(TokenType::COLLECT, value, line, col);
+        }
+        if (lower == "aggregate") {
+          return Token(TokenType::AGGREGATE, value, line, col);
+        }
         
             // Phase 2: Hybrid Query Keywords
             // Note: SIMILARITY and PROXIMITY are function names, not keywords - should remain as IDENTIFIER
             // if (lower == "similarity") return Token(TokenType::SIMILARITY, value, line, col);
             // if (lower == "proximity") return Token(TokenType::PROXIMITY, value, line, col);
-            if (lower == "shortest_path") return Token(TokenType::SHORTEST_PATH, value, line, col);
-            if (lower == "to") return Token(TokenType::TO, value, line, col);
+            if (lower == "shortest_path") {
+              return Token(TokenType::SHORTEST_PATH, value, line, col);
+            }
+            if (lower == "to") {
+              return Token(TokenType::TO, value, line, col);
+            }
         
         // Phase 3: Subqueries & CTEs
-        if (lower == "with") return Token(TokenType::WITH, value, line, col);
-        if (lower == "as") return Token(TokenType::AS, value, line, col);
-        if (lower == "all") return Token(TokenType::ALL, value, line, col);
-        if (lower == "satisfies") return Token(TokenType::SATISFIES, value, line, col);
+        if (lower == "with") {
+          return Token(TokenType::WITH, value, line, col);
+        }
+        if (lower == "as") {
+          return Token(TokenType::AS, value, line, col);
+        }
+        if (lower == "all") {
+          return Token(TokenType::ALL, value, line, col);
+        }
+        if (lower == "satisfies") {
+          return Token(TokenType::SATISFIES, value, line, col);
+        }
 
         // Phase 4: Multi-statement transaction AQL
-        if (lower == "begin") return Token(TokenType::BEGIN, value, line, col);
-        if (lower == "commit") return Token(TokenType::COMMIT, value, line, col);
-        if (lower == "rollback") return Token(TokenType::ROLLBACK, value, line, col);
+        if (lower == "begin") {
+          return Token(TokenType::BEGIN, value, line, col);
+        }
+        if (lower == "commit") {
+          return Token(TokenType::COMMIT, value, line, col);
+        }
+        if (lower == "rollback") {
+          return Token(TokenType::ROLLBACK, value, line, col);
+        }
 
         // Phase 5: DML mutation keywords (EPIC-004)
-        if (lower == "insert")  return Token(TokenType::INSERT,  value, line, col);
-        if (lower == "update")  return Token(TokenType::UPDATE,  value, line, col);
-        if (lower == "delete")  return Token(TokenType::DELETE,  value, line, col);
-        if (lower == "remove")  return Token(TokenType::REMOVE,  value, line, col);
-        if (lower == "replace") return Token(TokenType::REPLACE, value, line, col);
-        if (lower == "upsert")  return Token(TokenType::UPSERT,  value, line, col);
-        if (lower == "into")    return Token(TokenType::INTO,    value, line, col);
-        if (lower == "set")     return Token(TokenType::SET,     value, line, col);
-        if (lower == "values")  return Token(TokenType::VALUES,  value, line, col);
-        if (lower == "from")    return Token(TokenType::FROM,    value, line, col);
-        if (lower == "where")   return Token(TokenType::WHERE,   value, line, col);
+        if (lower == "insert") {
+          return Token(TokenType::INSERT,  value, line, col);
+        }
+        if (lower == "update") {
+          return Token(TokenType::UPDATE,  value, line, col);
+        }
+        if (lower == "delete") {
+          return Token(TokenType::DELETE,  value, line, col);
+        }
+        if (lower == "remove") {
+          return Token(TokenType::REMOVE,  value, line, col);
+        }
+        if (lower == "replace") {
+          return Token(TokenType::REPLACE, value, line, col);
+        }
+        if (lower == "upsert") {
+          return Token(TokenType::UPSERT,  value, line, col);
+        }
+        if (lower == "into") {
+          return Token(TokenType::INTO,    value, line, col);
+        }
+        if (lower == "set") {
+          return Token(TokenType::SET,     value, line, col);
+        }
+        if (lower == "values") {
+          return Token(TokenType::VALUES,  value, line, col);
+        }
+        if (lower == "from") {
+          return Token(TokenType::FROM,    value, line, col);
+        }
+        if (lower == "where") {
+          return Token(TokenType::WHERE,   value, line, col);
+        }
 
         // Phase 6: FTS / SEARCH clause keywords
-        if (lower == "search")      return Token(TokenType::SEARCH,      value, line, col);
-        if (lower == "phrase")      return Token(TokenType::PHRASE,       value, line, col);
-        if (lower == "near")        return Token(TokenType::NEAR,         value, line, col);
-        if (lower == "starts_with") return Token(TokenType::STARTS_WITH,  value, line, col);
-        if (lower == "boost")       return Token(TokenType::BOOST,        value, line, col);
-        if (lower == "analyzer")    return Token(TokenType::ANALYZER,     value, line, col);
+        if (lower == "search") {
+          return Token(TokenType::SEARCH,      value, line, col);
+        }
+        if (lower == "phrase") {
+          return Token(TokenType::PHRASE,       value, line, col);
+        }
+        if (lower == "near") {
+          return Token(TokenType::NEAR,         value, line, col);
+        }
+        if (lower == "starts_with") {
+          return Token(TokenType::STARTS_WITH,  value, line, col);
+        }
+        if (lower == "boost") {
+          return Token(TokenType::BOOST,        value, line, col);
+        }
+        if (lower == "analyzer") {
+          return Token(TokenType::ANALYZER,     value, line, col);
+        }
 
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
@@ -579,16 +683,18 @@ private:
     ParserScopeContext scope_context_;
     
     const Token& current() const {
-        return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
+        return static_cast<bool>((pos_ < tokens_.size())) ? tokens_[pos_] : tokens_.back();
     }
     
-    const Token& peek(size_t offset = 1) const {
+    const Token& peek([[maybe_unused]] size_t offset = 1) const {
         size_t p = pos_ + offset;
-        return (p < tokens_.size()) ? tokens_[p] : tokens_.back();
+        return static_cast<bool>((p < tokens_.size())) ? tokens_[p] : tokens_.back();
     }
     
     void advance() {
-        if (pos_ < tokens_.size()) pos_++;
+        if (static_cast<int>(tokens_.size()) > pos_) {
+          pos_++;
+        }
     }
     
     bool match(TokenType type) const {
@@ -602,7 +708,7 @@ private:
         advance();
     }
     
-    std::shared_ptr<Query> parseQuery(bool isSubquery = false) {
+    std::shared_ptr<Query> parseQuery([[maybe_unused]] bool isSubquery = false) {
         auto query = std::make_shared<Query>();
         
         // Phase 3: Optional WITH clause
@@ -717,7 +823,7 @@ private:
 
         // Helper: parse a single FTS predicate
         auto parsePredicate = [&]() -> FtsPredicateNode {
-            FtsPredicateNode pred;
+            FtsPredicateNode pred = {};
 
             if (match(TokenType::PHRASE)) {
                 // PHRASE(field, "term" [, "analyzer"])
@@ -920,7 +1026,8 @@ private:
 
         // Optional: ", e" und ", p" vor IN
         std::optional<std::string> varEdge;
-        std::optional<std::string> varPath;
+        std::optional<std::string> varPath = {};
+
         if (match(TokenType::COMMA)) {
             advance();
             if (!match(TokenType::IDENTIFIER)) {
@@ -962,7 +1069,7 @@ private:
             // BFS/DFS from being triggered with values like INT_MAX.
             static constexpr int kMaxTraversalDepth = 1000;
 
-            int minDepth;
+            int minDepth = {};
             try {
                 minDepth = std::stoi(current().value);
             } catch (const std::out_of_range&) {
@@ -985,7 +1092,7 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth;
+            int maxDepth = {};
             try {
                 maxDepth = std::stoi(current().value);
             } catch (const std::out_of_range&) {
@@ -1018,7 +1125,7 @@ private:
 
             // GRAPH keyword and graph name
             // Optional TYPE "edgeType" vor GRAPH
-            std::string edgeType;
+            std::string edgeType = {};
             if (match(TokenType::TYPE)) {
                 advance();
                 if (!match(TokenType::STRING)) {
@@ -1038,8 +1145,12 @@ private:
             // Build traversal node and stash it for parseQuery
             auto trav = std::make_shared<Query::TraversalNode>();
             trav->varVertex = varVertex;
-            if (varEdge) trav->varEdge = *varEdge;
-            if (varPath) trav->varPath = *varPath;
+            if (varEdge) {
+              trav->varEdge = *varEdge;
+            }
+            if (varPath) {
+              trav->varPath = *varPath;
+            }
             trav->minDepth = minDepth;
             trav->maxDepth = maxDepth;
             trav->direction = dir;
@@ -1208,7 +1319,9 @@ private:
             // Parse list: var = FUNC(expr?) [, var = FUNC(expr?)]*
             bool first = true;
             while (first || match(TokenType::COMMA)) {
-                if (!first) advance();
+                if (!first) {
+                  advance();
+                }
                 first = false;
                 if (!match(TokenType::IDENTIFIER)) {
                     throw std::runtime_error("Expected aggregation variable name after AGGREGATE");
@@ -1223,7 +1336,8 @@ private:
                 std::string funcName = current().value;
                 advance();
                 expect(TokenType::LPAREN, "Expected '(' after aggregation function");
-                std::shared_ptr<Expression> arg;
+                std::shared_ptr<Expression> arg = {};
+
                 if (!match(TokenType::RPAREN)) {
                     arg = parseExpression();
                 }
@@ -1280,7 +1394,7 @@ private:
         // Membership: left IN right (array or variable)
         // Debug: uncomment to trace tokens
         // std::cerr << "parseComparison current token: " << (int)current().type << " value='" << current().value << "'\n";
-        if (match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN")) {
+        if ((match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN"))) {
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::In, left, right);
@@ -1415,7 +1529,7 @@ private:
             if (!match(TokenType::RBRACE)) {
                 while (true) {
                     // key can be IDENTIFIER or STRING
-                    std::string key;
+                    std::string key = {};
                     if (match(TokenType::IDENTIFIER) || match(TokenType::STRING)) {
                         key = current().value; advance();
                     } else {
@@ -1467,7 +1581,7 @@ private:
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::FLOAT)) {
-            double value;
+            double value = 0;
             try { value = std::stod(current().value); }
             catch (...) {
                 THEMIS_WARN("aql_parser: unhandled exception caught");
@@ -1552,7 +1666,9 @@ private:
                 std::vector<std::shared_ptr<Expression>> args;
                 if (!match(TokenType::RPAREN)) {
                     do {
-                        if (!args.empty()) expect(TokenType::COMMA, "Expected comma");
+                        if (!args.empty()) {
+                          expect(TokenType::COMMA, "Expected comma");
+                        }
                         args.push_back(parseExpression());
                     } while (match(TokenType::COMMA));
                 }
@@ -1614,7 +1730,8 @@ public:
                 }
             }
 
-            std::shared_ptr<MutationNode> node;
+            std::shared_ptr<MutationNode> node = {};
+
             if (match(TokenType::INSERT)) {
                 node = parseInsertStatement();
             } else if (match(TokenType::UPDATE)) {
@@ -1635,7 +1752,9 @@ public:
             }
 
             // Consume optional trailing semicolons.
-            while (match(TokenType::SEMICOLON)) advance();
+            while (match(TokenType::SEMICOLON)) {
+              advance();
+            }
 
             if (!match(TokenType::END_OF_FILE)) {
                 return Err<std::shared_ptr<MutationNode>>(
@@ -1691,7 +1810,9 @@ private:
     /// @brief Parse optional `RETURN NEW` or `RETURN OLD` clause.
     ///        Sets *return_new / *return_old to true when detected.
     void parseReturnClause(bool& return_new, bool& return_old) {
-        if (!match(TokenType::RETURN)) return;
+        if (!match(TokenType::RETURN)) {
+          return;
+        }
         advance(); // consume RETURN
         const std::string val = [&](){
             std::string s = current().value;
@@ -1732,7 +1853,9 @@ private:
             // Parse one or more comma-separated document expressions.
             do {
                 if (!node->documents.empty()) {
-                    if (!match(TokenType::COMMA)) break;
+                    if (!match(TokenType::COMMA)) {
+                      break;
+                    }
                     advance();
                 }
                 node->documents.push_back(parseExpression());
@@ -1780,10 +1903,12 @@ private:
             // Parse k=v pairs.
             do {
                 if (!node->set_clauses.empty()) {
-                    if (!match(TokenType::COMMA)) break;
+                    if (!match(TokenType::COMMA)) {
+                      break;
+                    }
                     advance();
                 }
-                SetClause sc;
+                SetClause sc = {};
                 if (!match(TokenType::IDENTIFIER)) {
                     throw std::runtime_error("Expected field name in SET clause");
                 }
@@ -1966,21 +2091,51 @@ std::shared_ptr<Expression> AQLParser::parsePrimaryExpression(const std::string&
 }
 
 BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
-    if (op_str == "==") return BinaryOperator::Eq;
-    if (op_str == "!=") return BinaryOperator::Neq;
-    if (op_str == "<") return BinaryOperator::Lt;
-    if (op_str == "<=") return BinaryOperator::Lte;
-    if (op_str == ">") return BinaryOperator::Gt;
-    if (op_str == ">=") return BinaryOperator::Gte;
-    if (op_str == "AND") return BinaryOperator::And;
-    if (op_str == "OR") return BinaryOperator::Or;
-    if (op_str == "XOR") return BinaryOperator::Xor;
-    if (op_str == "+") return BinaryOperator::Add;
-    if (op_str == "-") return BinaryOperator::Sub;
-    if (op_str == "*") return BinaryOperator::Mul;
-    if (op_str == "/") return BinaryOperator::Div;
-    if (op_str == "%") return BinaryOperator::Mod;
-    if (op_str == "IN") return BinaryOperator::In;
+    if (op_str == "==") {
+      return BinaryOperator::Eq;
+    }
+    if (op_str == "!=") {
+      return BinaryOperator::Neq;
+    }
+    if (op_str == "<") {
+      return BinaryOperator::Lt;
+    }
+    if (op_str == "<=") {
+      return BinaryOperator::Lte;
+    }
+    if (op_str == ">") {
+      return BinaryOperator::Gt;
+    }
+    if (op_str == ">=") {
+      return BinaryOperator::Gte;
+    }
+    if (op_str == "AND") {
+      return BinaryOperator::And;
+    }
+    if (op_str == "OR") {
+      return BinaryOperator::Or;
+    }
+    if (op_str == "XOR") {
+      return BinaryOperator::Xor;
+    }
+    if (op_str == "+") {
+      return BinaryOperator::Add;
+    }
+    if (op_str == "-") {
+      return BinaryOperator::Sub;
+    }
+    if (op_str == "*") {
+      return BinaryOperator::Mul;
+    }
+    if (op_str == "/") {
+      return BinaryOperator::Div;
+    }
+    if (op_str == "%") {
+      return BinaryOperator::Mod;
+    }
+    if (op_str == "IN") {
+      return BinaryOperator::In;
+    }
     throw std::runtime_error("Unknown operator: " + op_str);
 }
 
@@ -2069,7 +2224,9 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                     // Clamp to 0: an extra ')' at top level means the
                     // statement is malformed, which the sub-parser will
                     // report when we hand it the slice below.
-                    if (depth > 0) --depth;
+                    if (depth > 0) {
+                      --depth;
+                    }
                 }
                 // WITH-statements must include their first top-level FOR
                 if (depth == 0 && startsWithClause && tok.type == TokenType::FOR && !consumedTopLevelForAfterWith) {
@@ -2079,7 +2236,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 }
 
                 // Only recognise statement/block boundaries at the top level
-                if (depth == 0 && (isSeparator(tok.type) || isStatementStart(tok.type) || isTerminator(tok.type))) {
+                if ((depth == 0 && (isSeparator(tok.type) || isStatementStart(tok.type) || isTerminator(tok.type)))) {
                     break;
                 }
                 ++end;
@@ -2112,7 +2269,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                     return Err<AqlTransactionBlock>(
                         stmtResult.error().code(),
                         fmt::format("Error in statement {} of transaction block: {}",
-                                    block.ordered_statements.size() + block.statements.size() + 1,
+                                    block.ordered_statements.size() + static_cast<int>(block.statements.size()) + 1,
                                     stmtResult.error().message())
                     );
                 }
@@ -2198,8 +2355,12 @@ static std::vector<std::string> tokeniseDdl(const std::string& input) {
     // Convert the part before RETURN to uppercase tokens; capture RETURN body.
     while (i < n) {
         // Skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
-        if (i >= n) break;
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
         char ch = input[i];
 
@@ -2264,9 +2425,9 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     }
 
     // Peek helper — returns empty string when out of range
-    auto tok = [&](size_t idx) -> const std::string& {
+    auto tok = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
-        return idx < tokens.size() ? tokens[idx] : empty;
+        return static_cast<bool>(idx < tokens.size()) ? tokens[idx] : empty;
     };
 
     const std::string& kw0 = tok(0);
@@ -2384,13 +2545,13 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     size_t after_paren = ti + 1;  // token index after the closing ')'
 
     if (win_func == "TIME") {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
             return make_err("WINDOW TIME requires two arguments: TIME(<range_ms>, <slide_ms>)");
         }
         ddl.spec.range_ms = args[0];
         ddl.spec.slide_ms = args[1];
     } else if (win_func == "COUNT") {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
             return make_err("WINDOW COUNT requires two arguments: COUNT(<rows>, <slide_rows>)");
         }
         ddl.spec.rows       = args[0];
@@ -2421,11 +2582,13 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
         size_t search_from = 0;
         while (true) {
             size_t found = upper.find(needle, search_from);
-            if (found == std::string::npos) break;
+            if (found == std::string::npos) {
+              break;
+            }
             // Check word boundary
-            bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[found - 1]));
-            bool right_ok = (found + needle.size() >= upper.size()) ||
-                            !std::isalnum(static_cast<unsigned char>(upper[found + needle.size()]));
+            bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(found - 1)]));
+            bool right_ok = (found + static_cast<int>(needle.size()) >= upper.size()) ||
+                            !std::isalnum(static_cast<unsigned char>(upper[found + static_cast<int>(needle.size()) ]));
             if (left_ok && right_ok) {
                 return_pos = found;
                 break;
@@ -2437,7 +2600,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
             return make_err("CREATE CONTINUOUS QUERY is missing a RETURN clause");
         }
 
-        std::string body = trimmed.substr(return_pos + needle.size());
+        std::string body = trimmed.substr(return_pos + static_cast<int>(needle.size()) );
         // Trim leading whitespace from body
         size_t bs = body.find_first_not_of(" \t\n\r");
         ddl.spec.aql_body = (bs == std::string::npos) ? "" : body.substr(bs);
@@ -2497,8 +2660,12 @@ static std::vector<SchemaDdlToken> tokeniseSchemaDdl(const std::string& input) {
 
     while (i < n) {
         // Skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
-        if (i >= n) break;
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
         char ch = input[i];
 
@@ -2545,7 +2712,9 @@ static std::string extractJsonBlock(const std::string& source, size_t from_pos) 
         if (source[i] == '{')      ++depth;
         else if (source[i] == '}') {
             --depth;
-            if (depth == 0) return source.substr(brace_open, i - brace_open + 1);
+            if (depth == 0) {
+              return source.substr(brace_open, i - brace_open + 1);
+            }
         }
     }
     return {}; // unbalanced
@@ -2568,7 +2737,9 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     std::string trimmed = input;
     {
         size_t s = trimmed.find_first_not_of(" \t\n\r");
-        if (s == std::string::npos) return make_err("Empty Schema DDL statement");
+        if (s == std::string::npos) {
+          return make_err("Empty Schema DDL statement");
+        }
         size_t e = trimmed.find_last_not_of(" \t\n\r");
         trimmed = trimmed.substr(s, e - s + 1);
     }
@@ -2580,19 +2751,21 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
 
     // ── tokenise ──────────────────────────────────────────────────────────────
     const auto tokens = tokeniseSchemaDdl(trimmed);
-    if (tokens.empty()) return make_err("Empty Schema DDL statement");
+    if (tokens.empty()) {
+      return make_err("Empty Schema DDL statement");
+    }
 
     // Bounds-safe token accessors
-    auto tok_up = [&](size_t idx) -> const std::string& {
+    auto tok_up = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
-        return idx < tokens.size() ? tokens[idx].upper : empty;
+        return static_cast<bool>(idx < tokens.size()) ? tokens[idx].upper : empty;
     };
-    auto tok_orig = [&](size_t idx) -> const std::string& {
+    auto tok_orig = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
-        return idx < tokens.size() ? tokens[idx].original : empty;
+        return static_cast<bool>(idx < tokens.size()) ? tokens[idx].original : empty;
     };
-    auto tok_start = [&](size_t idx) -> size_t {
-        return idx < tokens.size() ? tokens[idx].start : trimmed.size();
+    auto tok_start = [&]([[maybe_unused]] size_t idx) -> size_t {
+        return static_cast<bool>(idx  < static_cast<int>(tokens.size() ? tokens[idx].start : trimmed.size()));
     };
 
     const std::string& kw0 = tok_up(0);
@@ -2622,7 +2795,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
             if (opts_kw != std::string::npos) {
                 // Verify word boundary on left
                 bool lb = (opts_kw == 0) ||
-                          !std::isalnum(static_cast<unsigned char>(upper[opts_kw - 1]));
+                          !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(opts_kw - 1)]));
                 if (lb) {
                     std::string json_str = extractJsonBlock(trimmed, opts_kw + 7);
                     if (!json_str.empty()) {
@@ -2641,7 +2814,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
         // ── CREATE [UNIQUE] INDEX ─────────────────────────────────────────────
         if (kw1 == "UNIQUE" || kw1 == "INDEX") {
             const bool is_unique = (kw1 == "UNIQUE");
-            const size_t idx_kw  = is_unique ? 2u : 1u; // token index of INDEX keyword
+            const size_t idx_kw  = is_unique ? 2 : 1; // token index of INDEX keyword
 
             if (tok_up(idx_kw) != "INDEX") {
                 return make_err(
@@ -2677,7 +2850,9 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
                 if (tok_up(fi) == ",") { ++fi; continue; }
                 FieldDef f;
                 f.name = tok_orig(fi);
-                if (f.name.empty()) break;
+                if (f.name.empty()) {
+                  break;
+                }
                 fields.push_back(std::move(f));
                 ++fi;
             }

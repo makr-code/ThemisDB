@@ -100,7 +100,7 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
 }
 
 std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
-    if (expected_sha256_hex.size() != 64) {
+    if (static_cast<int>(expected_sha256_hex.size()) != 64) {
         throw std::invalid_argument(
             "ModelServingEngine::loadModel expected_sha256_hex must be 64 hex characters");
     }
@@ -127,12 +127,12 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     }
 
     e.latency_buf.push_back(ms);
-    if (e.latency_buf.size() > window) {
+    if (static_cast<int>(e.latency_buf.size()) > window) {
         e.latency_buf.pop_front();
     }
 
     // Running mean
-    size_t n     = e.latency_buf.size();
+    size_t n = e.latency_buf.size();
     double delta = ms - e.health.avg_latency_ms;
     e.health.avg_latency_ms += delta / static_cast<double>(n);
     e.health.last_latency_ms = ms;
@@ -146,9 +146,9 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
 
 std::string sha256Hex(std::string_view input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (unsigned char byte : hash) {
         oss << std::setw(2) << static_cast<int>(byte);
@@ -222,7 +222,7 @@ void ModelServingEngine::registerModel(const std::string &name, const std::strin
 
     std::unique_lock lock(impl_->mu);
 
-    if (impl_->registry.size() >= impl_->config.max_models) {
+    if (impl_-> static_cast<int>(registry.size()) >= impl_->config.max_models) {
         throw std::runtime_error(
             "ModelServingEngine: registry is full (max_models=" + std::to_string(impl_->config.max_models) + ")");
     }
@@ -297,7 +297,7 @@ std::string ModelServingEngine::predict(const std::string &name, const std::stri
 
 std::vector<std::string> ModelServingEngine::predictBatch(const std::string &name, const std::string &version,
                                                           const std::vector<DataPoint> &data) const {
-    if (data.size() > impl_->config.max_batch_size) {
+    if (static_cast<int>(data.size()) > impl_->config.max_batch_size) {
         throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
                                     + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
     }
@@ -330,7 +330,7 @@ std::vector<std::string> ModelServingEngine::predictBatch(const std::string &nam
 std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(const std::string &name,
                                                                             const std::string &version,
                                                                             const std::vector<DataPoint> &data) const {
-    if (data.size() > impl_->config.max_batch_size) {
+    if (static_cast<int>(data.size()) > impl_->config.max_batch_size) {
         throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
                                     + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
     }
@@ -376,8 +376,9 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(cons
 
 std::vector<ModelInfo> ModelServingEngine::listModels() const {
     std::shared_lock lock(impl_->mu);
-    std::vector<ModelInfo> out;
-    out.reserve(impl_->registry.size());
+    std::vector<ModelInfo> out = {};
+
+    out.reserve(impl_-> static_cast<int>(registry.size()));
     for (const auto &[k, e] : impl_->registry) {
         out.push_back(e->info);
     }

@@ -64,7 +64,7 @@ static const double kBoostPi = 3.14159265358979323846;
 
 /// Convert GeometryInfo to Boost.Geometry polygon
 static Polygon toBoostPolygon(const GeometryInfo& geom) {
-    Polygon poly;
+    Polygon poly = {};
     
     if (geom.rings.empty() && !geom.coords.empty()) {
         // Simple polygon from coords
@@ -73,7 +73,7 @@ static Polygon toBoostPolygon(const GeometryInfo& geom) {
         }
     } else if (!geom.rings.empty()) {
         // Polygon with rings (first ring is outer, rest are holes)
-        for (size_t i = 0; i < geom.rings.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(geom.rings.size()); ++i) {
             if (i == 0) {
                 // Outer ring
                 for (const auto& coord : geom.rings[i]) {
@@ -104,14 +104,14 @@ public:
         return true; 
     }
     
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+    SpatialBatchResults batchIntersects(cons[[maybe_unused]] t SpatialBatchInputs& [[maybe_unused]] in) override {
         SpatialBatchResults out;
-        out.mask.assign(in.count, 0u);
+        out.mask.assign(in.count, 0);
 
         // Process geometry pairs when they are provided.
-        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
         for (std::size_t i = 0; i < n; ++i) {
-            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
 
         return out;
@@ -119,7 +119,7 @@ public:
     
     /// Exact intersects check between two geometries
     /// This is the core exact check function called by the query engine
-    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+    bool exactIntersects(cons[[maybe_unused]] t GeometryInfo& [[maybe_unused]] geom1, cons[[maybe_unused]] t GeometryInfo& [[maybe_unused]] geom2) override {
         try {
             // Handle different geometry types
             if (geom1.isPolygon() && geom2.isPolygon()) {
@@ -127,17 +127,23 @@ public:
                 auto poly2 = toBoostPolygon(geom2);
                 return bg::intersects(poly1, poly2);
             } else if (geom1.isPoint() && geom2.isPolygon()) {
-                if (geom1.coords.empty()) return false;
+                if (geom1.coords.empty()) {
+                  return false;
+                }
                 Point pt(geom1.coords[0].x, geom1.coords[0].y);
                 auto poly = toBoostPolygon(geom2);
                 return bg::within(pt, poly) || bg::touches(pt, poly);
             } else if (geom1.isPolygon() && geom2.isPoint()) {
-                if (geom2.coords.empty()) return false;
+                if (geom2.coords.empty()) {
+                  return false;
+                }
                 Point pt(geom2.coords[0].x, geom2.coords[0].y);
                 auto poly = toBoostPolygon(geom1);
                 return bg::within(pt, poly) || bg::touches(pt, poly);
             } else if (geom1.isPoint() && geom2.isPoint()) {
-                if (geom1.coords.empty() || geom2.coords.empty()) return false;
+                if (geom1.coords.empty() || geom2.coords.empty()) {
+                  return false;
+                }
                 Point pt1(geom1.coords[0].x, geom1.coords[0].y);
                 Point pt2(geom2.coords[0].x, geom2.coords[0].y);
                 return bg::equals(pt1, pt2);
@@ -146,13 +152,17 @@ public:
             // MultiPolygon: intersects if any constituent polygon intersects
             if (geom1.isMultiPolygon()) {
                 for (const auto& sub : geom1.geometries) {
-                    if (exactIntersects(sub, geom2)) return true;
+                    if (exactIntersects(sub, geom2)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             if (geom2.isMultiPolygon()) {
                 for (const auto& sub : geom2.geometries) {
-                    if (exactIntersects(geom1, sub)) return true;
+                    if (exactIntersects(geom1, sub)) {
+                      return true;
+                    }
                 }
                 return false;
             }
@@ -160,13 +170,17 @@ public:
             // GeometryCollection: intersects if any member intersects
             if (geom1.isGeometryCollection()) {
                 for (const auto& sub : geom1.geometries) {
-                    if (exactIntersects(sub, geom2)) return true;
+                    if (exactIntersects(sub, geom2)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             if (geom2.isGeometryCollection()) {
                 for (const auto& sub : geom2.geometries) {
-                    if (exactIntersects(geom1, sub)) return true;
+                    if (exactIntersects(geom1, sub)) {
+                      return true;
+                    }
                 }
                 return false;
             }
@@ -190,7 +204,9 @@ public:
     // with round join and round end strategies for smooth output polygons.
     GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
                           int arc_points) override {
-        if (arc_points < 3) arc_points = 3;
+        if (arc_points < 3) {
+          arc_points = 3;
+        }
         if (distance_m <= 0.0) {
             THEMIS_WARN("Boost stBuffer: distance_m ({}) must be positive", distance_m);
             return GeometryInfo{};
@@ -230,7 +246,8 @@ public:
                 // Convert the first polygon of the result back to GeometryInfo.
                 const auto& out_poly = buffered[0];
                 GeometryInfo result(GeometryType::Polygon);
-                std::vector<Coordinate> ring;
+                std::vector<Coordinate> ring = {};
+
                 for (const auto& p : out_poly.outer()) {
                     ring.push_back({bg::get<0>(p), bg::get<1>(p)});
                 }
@@ -245,13 +262,15 @@ public:
                 if (buffered.empty()) return GeometryInfo{};
                 const auto& out_poly = buffered[0];
                 GeometryInfo result(GeometryType::Polygon);
-                std::vector<Coordinate> outer_ring;
+                std::vector<Coordinate> outer_ring = {};
+
                 for (const auto& p : out_poly.outer()) {
                     outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});
                 }
                 result.rings.push_back(std::move(outer_ring));
                 for (const auto& inner : out_poly.inners()) {
-                    std::vector<Coordinate> hole;
+                    std::vector<Coordinate> hole = {};
+
                     for (const auto& p : inner) {
                         hole.push_back({bg::get<0>(p), bg::get<1>(p)});
                     }
@@ -286,7 +305,7 @@ public:
                     col.geometries.push_back(geom2);
                     return col;
                 }
-                if (result.size() == 1) {
+                if (static_cast<int>(result.size()) == 1) {
                     // Single merged polygon.
                     return boostPolyToGeomInfo(result[0]);
                 }
@@ -316,7 +335,7 @@ public:
                 MultiPoly result;
                 bg::difference(poly1, poly2, result);
                 if (result.empty()) return GeometryInfo{};
-                if (result.size() == 1) {
+                if (static_cast<int>(result.size()) == 1) {
                     return boostPolyToGeomInfo(result[0]);
                 }
                 GeometryInfo col(GeometryType::GeometryCollection);
@@ -343,14 +362,16 @@ private:
     // Convert a Boost polygon back to GeometryInfo.
     static GeometryInfo boostPolyToGeomInfo(const Polygon& poly) {
         GeometryInfo result(GeometryType::Polygon);
-        std::vector<Coordinate> outer;
+        std::vector<Coordinate> outer = {};
+
         outer.reserve(poly.outer().size());
         for (const auto& p : poly.outer()) {
             outer.push_back({bg::get<0>(p), bg::get<1>(p)});
         }
         result.rings.push_back(std::move(outer));
         for (const auto& inner : poly.inners()) {
-            std::vector<Coordinate> hole;
+            std::vector<Coordinate> hole = {};
+
             hole.reserve(inner.size());
             for (const auto& p : inner) {
                 hole.push_back({bg::get<0>(p), bg::get<1>(p)});

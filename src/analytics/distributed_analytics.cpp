@@ -85,10 +85,18 @@ constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
  * Handles NaN and Inf values correctly.
  */
 inline bool isClose(double a, double b, double tol = EPSILON) {
-    if (std::isnan(a) && std::isnan(b)) return true;
-    if (std::isnan(a) || std::isnan(b)) return false;
-    if (std::isinf(a) && std::isinf(b)) return (a > 0) == (b > 0);
-    if (std::isinf(a) || std::isinf(b)) return false;
+    if (std::isnan(a) && std::isnan(b)) {
+      return true;
+    }
+    if (std::isnan(a) || std::isnan(b)) {
+      return false;
+    }
+    if (std::isinf(a) && std::isinf(b)) {
+      return (a > 0) == (b > 0);
+    }
+    if (std::isinf(a) || std::isinf(b)) {
+      return false;
+    }
     return std::abs(a - b) <= tol * std::max(1.0, std::max(std::abs(a), std::abs(b)));
 }
 
@@ -200,7 +208,7 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::StdDev:
-            case Measure::Function::Variance: {
+            [[fallthrough]];\n            case Measure::Function::Variance: {
                 // Welford online update
                 count += 1.0;
                 double delta = dval - mean;
@@ -217,7 +225,7 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::Median:
-            case Measure::Function::Percentile:
+            [[fallthrough]];\n            case Measure::Function::Percentile:
                 // Approximate: accumulate values and compute average at end.
                 sum += dval;
                 count += 1.0;
@@ -323,7 +331,7 @@ struct MeasureAccumulator {
                 return RowValue{static_cast<int64_t>(std::llround(sum))};
 
             case Measure::Function::Median:
-            case Measure::Function::Percentile:
+            [[fallthrough]];\n            case Measure::Function::Percentile:
                 // count is integer-valued; use < 1.0 rather than == 0.0.
                 if (count < 1.0) {
                     return RowValue{0.0};
@@ -470,13 +478,13 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
 void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(
-        std::remove_if(shards_.begin(), shards_.end(), [&](const ShardEntry &e) { return e.shard_id == shard_id; }),
+        std::remove_if(shards_.begin(), shards_.end(), [&]([[maybe_unused]] const ShardEntry &e) { return e.shard_id == shard_id; }),
         shards_.end());
 }
 
 size_t DistributedAnalyticsSharding::getShardCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return shards_.size();
+    return static_cast<int>(shards_.size());
 }
 
 size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
@@ -518,7 +526,8 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
 
 std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(shards_.size());
     for (const auto &e : shards_) {
         ids.push_back(e.shard_id);
@@ -535,7 +544,7 @@ std::string DistributedAnalyticsSharding::rowGroupKey(const Row &row,
                                                       const std::vector<themis::analytics::Dimension> &dims,
                                                       int64_t grouping_id) {
     // Build key efficiently with direct string operations instead of ostringstream
-    std::string key;
+    std::string key = {};
     key.reserve(64); // Heuristic pre-allocation
     key += std::to_string(grouping_id);
     
@@ -590,13 +599,15 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     }
 
     // Build a map from measure column name → Measure::Function
-    std::unordered_map<std::string, Measure::Function> measure_funcs;
+    std::unordered_map<std::string, Measure::Function> measure_funcs = {};
+
     for (const auto &m : query.measures) {
         measure_funcs[m.name] = m.function;
     }
 
     // Build a set of dimension column names for fast lookup
-    std::unordered_map<std::string, bool> dim_set;
+    std::unordered_map<std::string, bool> dim_set = {};
+
     for (const auto &d : query.dimensions) {
         dim_set[d.name] = true;
     }
@@ -678,7 +689,8 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     // ------------------------------------------------------------------
     // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
     // ------------------------------------------------------------------
-    std::unordered_map<std::string, MeasureAccumulator> grand_accs;
+    std::unordered_map<std::string, MeasureAccumulator> grand_accs = {};
+
     grand_accs.reserve(query.measures.size());
     for (const auto &m : query.measures) {
         MeasureAccumulator ma;
@@ -708,7 +720,7 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
         }
         const auto &acc = git->second;
         Row out         = acc.prototype;
-        out.values.reserve(query.measures.size() + query.dimensions.size());
+        out.values.reserve(query.measures.size() + static_cast<int>(query.dimensions.size()) );
 
         for (const auto &m : query.measures) {
             auto ait = acc.measures.find(m.name);
@@ -752,7 +764,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     spdlog::debug("DistributedAnalyticsSharding::executeDistributed: collection='{}', "
                   "tenant='{}', dimensions={}, measures={}",
                   query.collection, query.tenant_id,
-                  query.dimensions.size(), query.measures.size());
+                  query.dimensions.size(),static_cast<int>(query.measures.size()));
     // Wave-A AN1: per-shard retry with exponential backoff.
     // Transient failures (timeout, network) are retried up to retry_config.max_retries
     // times with exponential backoff + ±20% jitter before counting the shard as failed.
@@ -812,7 +824,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // ------------------------------------------------------------------
     // Gather: collect partial results (with per-shard timeout)
     // ------------------------------------------------------------------
-    std::vector<OLAPResult> partials;
+    std::vector<OLAPResult> partials = {};
+
     partials.reserve(active.size());
 
     const uint32_t effective_timeout_ms =
@@ -821,7 +834,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     const auto per_shard_timeout = std::chrono::milliseconds(effective_timeout_ms);
 
     const size_t parallel_limit
-        = (config_.max_parallel_shards == 0) ? active.size() : std::min(active.size(), config_.max_parallel_shards);
+        = (config_.max_parallel_shards == 0) ?static_cast<int>(active.size()) : std::min(active.size(), config_.max_parallel_shards);
 
     for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
         const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);
@@ -848,9 +861,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                 std::uniform_real_distribution<double> jitter_dist(0.0, 1.0);
 
                 const auto t0 = std::chrono::steady_clock::now();
-                const uint32_t max_attempts = retry_cfg.max_retries + 1u;
+                const uint32_t max_attempts = retry_cfg.max_retries + 1;
 
-                for (uint32_t attempt = 0u; attempt < max_attempts; ++attempt) {
+                for (uint32_t attempt = 0; attempt < max_attempts; ++attempt) {
                     try {
                         if (!entry.executor) {
                             throw std::runtime_error("shard executor is null");
@@ -872,7 +885,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             lower.find("permission denied") != std::string::npos ||
                             lower.find("auth")             != std::string::npos;
 
-                        if (is_permanent || attempt + 1u >= max_attempts) {
+                        if (is_permanent || attempt + 1 >= max_attempts) {
                             const auto t1 = std::chrono::steady_clock::now();
                             info.success = false;
                             info.error   = err_msg;
@@ -886,16 +899,16 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                         }
                         // Transient: backoff = base * 2^attempt, capped, ±20% jitter.
                         const uint32_t raw_ms =
-                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
+                            retry_cfg.base_delay_ms * (1 << std::min(attempt, 10));
                         const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
                         const double jf = 0.8 + 0.4 * jitter_dist(rng);
                         const uint32_t delay_ms =
                             static_cast<uint32_t>(static_cast<double>(capped_ms) * jf);
                         THEMIS_INFO("[AN1] shard '{}' retry {} of {}",
-                                    entry.shard_id, attempt + 1u, retry_cfg.max_retries);
+                                    entry.shard_id, attempt + 1, retry_cfg.max_retries);
                         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     } catch (...) {
-                        if (attempt + 1u >= max_attempts) {
+                        if (attempt + 1 >= max_attempts) {
                             const auto t1 = std::chrono::steady_clock::now();
                             info.success = false;
                             info.error   = "unknown shard error";
@@ -908,13 +921,13 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             return;
                         }
                         const uint32_t raw_ms =
-                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
+                            retry_cfg.base_delay_ms * (1 << std::min(attempt, 10));
                         const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
                         const double jf = 0.8 + 0.4 * jitter_dist(rng);
                         const uint32_t delay_ms =
                             static_cast<uint32_t>(static_cast<double>(capped_ms) * jf);
                         THEMIS_INFO("[AN1] shard '{}' retry {} of {}",
-                                    entry.shard_id, attempt + 1u, retry_cfg.max_retries);
+                                    entry.shard_id, attempt + 1, retry_cfg.max_retries);
                         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     }
                 }
@@ -991,12 +1004,12 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // Failure-rate gate: abort if too many shards failed
     // ------------------------------------------------------------------
     if (!active.empty() && config_.allow_partial_results) {
-        const size_t failed_shards = active.size() - result.successful_shards;
+        const size_t failed_shards = static_cast<int>(active.size()) - result.successful_shards;
         const double failure_rate  = static_cast<double>(failed_shards) / static_cast<double>(active.size());
         if (failure_rate > config_.max_failure_rate) {
             spdlog::error("DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
                           "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
-                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards, active.size());
+                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards,static_cast<int>(active.size()));
             // Return partial shard_info without a merged result so the caller
             // can distinguish this from a full success.
             result.total_execution_ms =
@@ -1030,7 +1043,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // ------------------------------------------------------------------
     // Identify the slowest shard for latency outlier hints.
     double max_shard_ms   = 0.0;
-    std::string slow_shard;
+    std::string slow_shard = {};
     bool any_timeout       = false;
     size_t failed_count    = 0;
     std::vector<std::string> open_cb_shards;
@@ -1064,7 +1077,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         const double failure_pct =
             100.0 * static_cast<double>(failed_count) / static_cast<double>(result.total_shards);
         if (failure_pct > 10.0) {
-            std::ostringstream oss;
+            std::ostringstream oss = {};
             oss.precision(1);
             oss << std::fixed << "High shard failure rate (" << failure_pct << "%, "
                 << failed_count << "/" << result.total_shards
@@ -1079,7 +1092,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             " shards responded — treat aggregated values with caution.");
     }
     if (!slow_shard.empty() && max_shard_ms > 1000.0) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss.precision(0);
         oss << std::fixed << "Shard '" << slow_shard << "' had the highest latency ("
             << max_shard_ms << " ms) — consider load-balancing or rebalancing this shard.";
@@ -1110,7 +1123,9 @@ OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
 // ============================================================================
 
 void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
-    if (!config_.enable_circuit_breaker) return;
+    if (!config_.enable_circuit_breaker) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;
@@ -1132,7 +1147,9 @@ void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
 }
 
 bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::string& error_msg) {
-    if (!config_.enable_circuit_breaker) return true;
+    if (!config_.enable_circuit_breaker) {
+      return true;
+    }
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;
@@ -1162,12 +1179,12 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
             // Back to OPEN with exponential backoff.
             cb_info.state = DistributedAnalyticsSharding::CircuitBreakerState::OPEN;
             // SAFETY (multiplication_overflow): cap the bit-shift so recovery_attempts
-            // >= 32 does not produce undefined behaviour via 1U << N overflow.
-            // Max useful shift is 30: (1U << 30) * 100ms ≈ 29.8 hours, which
+            // >= 32 does not produce undefined behaviour via 1 << N overflow.
+            // Max useful shift is 30: (1 << 30) * 100ms ≈ 29.8 hours, which
             // already exceeds any practical max-recovery-delay config value.
-            const uint32_t safe_shift = std::min(static_cast<uint32_t>(cb_info.recovery_attempts), 30U);
+            const uint32_t safe_shift = std::min(static_cast<uint32_t>(cb_info.recovery_attempts), 30);
             uint32_t backoff_ms = std::min(
-                config_.circuit_breaker_recovery_delay_ms * (1U << safe_shift),
+                config_.circuit_breaker_recovery_delay_ms * (1 << safe_shift),
                 config_.circuit_breaker_max_recovery_delay_ms);
             cb_info.next_recovery_at = std::chrono::steady_clock::now() +
                 std::chrono::milliseconds(backoff_ms);
@@ -1185,7 +1202,9 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
 }
 
 DistributedAnalyticsSharding::CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
-    if (!config_.enable_circuit_breaker) return DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
+    if (!config_.enable_circuit_breaker) {
+      return DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
+    }
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;

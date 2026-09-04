@@ -243,7 +243,9 @@ private:
  */
 [[nodiscard]] inline bool is_valid_sample_rate(uint32_t sample_rate) noexcept {
     for (auto valid_rate : StreamValidationPolicy::VALID_SAMPLE_RATES) {
-        if (sample_rate == valid_rate) return true;
+        if (sample_rate == valid_rate) {
+          return true;
+        }
     }
     return false;
 }
@@ -256,7 +258,9 @@ private:
  */
 [[nodiscard]] inline bool is_valid_bit_depth(uint8_t bit_depth) noexcept {
     for (auto valid_depth : StreamValidationPolicy::VALID_BIT_DEPTHS) {
-        if (bit_depth == valid_depth) return true;
+        if (bit_depth == valid_depth) {
+          return true;
+        }
     }
     return false;
 }

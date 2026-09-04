@@ -126,7 +126,7 @@ public:
 
     size_t vramBudgetBytes() const {
         return config.vram_budget_mb > 0
-                   ? config.vram_budget_mb * 1024ULL * 1024ULL
+                   ? config.vram_budget_mb * 1024 * 1024
                    : SIZE_MAX;
     }
 
@@ -139,7 +139,9 @@ public:
     // -----------------------------------------------------------------------
 
     void evictPartitionLocked(Partition& p) {
-        if (!p.in_vram) return;
+        if (!p.in_vram) {
+          return;
+        }
 
         const size_t bytes = partitionBytes(p);
 
@@ -162,7 +164,9 @@ public:
     // -----------------------------------------------------------------------
 
     void evictLRULocked() {
-        if (lru_list.empty()) return;
+        if (lru_list.empty()) {
+          return;
+        }
 
         const size_t lru_id = lru_list.back();
         lru_list.pop_back();
@@ -180,7 +184,7 @@ public:
     // partitions exist.  Returns true when room was found.
     // -----------------------------------------------------------------------
 
-    bool ensureVRAMRoom(size_t needed_bytes) {
+    bool ensureVRAMRoom([[maybe_unused]] size_t needed_bytes) {
         const size_t budget = vramBudgetBytes();
         if (budget == SIZE_MAX) return true;  // Unlimited budget.
 
@@ -196,7 +200,9 @@ public:
     // -----------------------------------------------------------------------
 
     bool loadPartitionLocked(Partition& p) {
-        if (p.in_vram) return true;
+        if (p.in_vram) {
+          return true;
+        }
 
         const size_t bytes = partitionBytes(p);
         if (!ensureVRAMRoom(bytes)) {
@@ -244,7 +250,7 @@ public:
     // Internal: update LRU position (caller holds mutex).
     // -----------------------------------------------------------------------
 
-    void touchLRULocked(size_t partition_id) {
+    void touchLRULocked([[maybe_unused]] size_t partition_id) {
         // Iterator Safety (A-2.1): Ensure safe iterator handling
         // - Cache iterator before mutation
         // - Re-fetch after container modifications
@@ -262,7 +268,7 @@ public:
     // Internal: index of a partition in insertion_order (-1 if not found).
     // -----------------------------------------------------------------------
 
-    ptrdiff_t insertionIndex(size_t partition_id) const {
+    ptrdiff_t insertionIndex([[maybe_unused]] size_t partition_id) const {
         for (size_t i = 0; i < insertion_order.size(); ++i) {
             if (insertion_order[i] == partition_id) {
                 return static_cast<ptrdiff_t>(i);
@@ -276,8 +282,10 @@ public:
     // Caller holds mutex.
     // -----------------------------------------------------------------------
 
-    void applyPrefetchLocked(size_t accessed_id) {
-        if (config.prefetch_strategy == PrefetchStrategy::NONE) return;
+    void applyPrefetchLocked([[maybe_unused]] size_t accessed_id) {
+        if (config.prefetch_strategy == PrefetchStrategy::NONE) {
+          return;
+        }
 
         size_t target_id = SIZE_MAX;
 
@@ -286,7 +294,7 @@ public:
             // Prefetch the partition inserted immediately after accessed_id.
             ptrdiff_t idx = insertionIndex(accessed_id);
             if (idx >= 0 &&
-                static_cast<size_t>(idx + 1) < insertion_order.size()) {
+                static_cast<size_t>(idx + 1) <static_cast<int>(insertion_order.size())) {
                 target_id = insertion_order[static_cast<size_t>(idx + 1)];
             }
             break;
@@ -297,7 +305,9 @@ public:
             // first cold partition not yet in the LRU list).
             // Walk from back of lru_list → find a cold entry.
             for (auto it = lru_list.rbegin(); it != lru_list.rend(); ++it) {
-                if (*it == accessed_id) continue;
+                if (*it == accessed_id) {
+                  continue;
+                }
                 auto pit = partitions.find(*it);
                 if (pit != partitions.end() && !pit->second.in_vram) {
                     target_id = *it;
@@ -307,7 +317,9 @@ public:
             // Fall back: find any cold partition not currently in LRU.
             if (target_id == SIZE_MAX) {
                 for (const size_t pid : insertion_order) {
-                    if (pid == accessed_id) continue;
+                    if (pid == accessed_id) {
+                      continue;
+                    }
                     auto pit = partitions.find(pid);
                     if (pit != partitions.end() && !pit->second.in_vram &&
                         lru_map.find(pid) == lru_map.end()) {
@@ -322,7 +334,9 @@ public:
             // Prefetch the cold partition that was most recently accessed
             // (front of the LRU list that is cold).
             for (auto it = lru_list.begin(); it != lru_list.end(); ++it) {
-                if (*it == accessed_id) continue;
+                if (*it == accessed_id) {
+                  continue;
+                }
                 auto pit = partitions.find(*it);
                 if (pit != partitions.end() && !pit->second.in_vram) {
                     target_id = *it;
@@ -335,10 +349,14 @@ public:
             break;
         }
 
-        if (target_id == SIZE_MAX) return;
+        if (target_id == SIZE_MAX) {
+          return;
+        }
 
         auto pit = partitions.find(target_id);
-        if (pit == partitions.end()) return;
+        if (pit == partitions.end()) {
+          return;
+        }
 
         ++prefetch_requests;
 
@@ -371,7 +389,9 @@ GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager(
 
 GPUMemoryOversubscriptionManager::~GPUMemoryOversubscriptionManager() {
     // Evict all hot partitions to release unified-memory allocations.
-    if (!pImpl_) return;
+    if (!pImpl_) {
+      return;
+    }
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
     for (auto& [id, p] : pImpl_->partitions) {
         pImpl_->evictPartitionLocked(p);
@@ -410,11 +430,13 @@ size_t GPUMemoryOversubscriptionManager::addPartition(
 // removePartition
 // ---------------------------------------------------------------------------
 
-bool GPUMemoryOversubscriptionManager::removePartition(size_t partition_id) {
+bool GPUMemoryOversubscriptionManager::removePartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return false;
+    if (it == pImpl_->partitions.end()) {
+      return false;
+    }
 
     Impl::Partition& p = it->second;
 
@@ -447,17 +469,21 @@ bool GPUMemoryOversubscriptionManager::removePartition(size_t partition_id) {
 // accessPartition
 // ---------------------------------------------------------------------------
 
-bool GPUMemoryOversubscriptionManager::accessPartition(size_t partition_id) {
+bool GPUMemoryOversubscriptionManager::accessPartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return false;
+    if (it == pImpl_->partitions.end()) {
+      return false;
+    }
 
     Impl::Partition& p = it->second;
 
     // Load if not already hot.
     if (!p.in_vram) {
-        if (!pImpl_->loadPartitionLocked(p)) return false;
+        if (!pImpl_->loadPartitionLocked(p)) {
+          return false;
+        }
     }
 
     // Update LRU position and access metadata.
@@ -475,14 +501,18 @@ bool GPUMemoryOversubscriptionManager::accessPartition(size_t partition_id) {
 // evictPartition
 // ---------------------------------------------------------------------------
 
-bool GPUMemoryOversubscriptionManager::evictPartition(size_t partition_id) {
+bool GPUMemoryOversubscriptionManager::evictPartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return false;
+    if (it == pImpl_->partitions.end()) {
+      return false;
+    }
 
     Impl::Partition& p = it->second;
-    if (!p.in_vram) return false;
+    if (!p.in_vram) {
+      return false;
+    }
 
     // Remove from LRU.
     auto lm_it = pImpl_->lru_map.find(partition_id);
@@ -504,7 +534,9 @@ const std::vector<float>* GPUMemoryOversubscriptionManager::getPartitionData(
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return nullptr;
+    if (it == pImpl_->partitions.end()) {
+      return nullptr;
+    }
     return &it->second.host_data;
 }
 
@@ -517,7 +549,9 @@ size_t GPUMemoryOversubscriptionManager::getPartitionVectorCount(
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return 0;
+    if (it == pImpl_->partitions.end()) {
+      return 0;
+    }
     return it->second.num_vectors;
 }
 
@@ -530,7 +564,9 @@ bool GPUMemoryOversubscriptionManager::isPartitionInVRAM(
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return false;
+    if (it == pImpl_->partitions.end()) {
+      return false;
+    }
     return it->second.in_vram;
 }
 
@@ -541,8 +577,9 @@ bool GPUMemoryOversubscriptionManager::isPartitionInVRAM(
 std::vector<size_t> GPUMemoryOversubscriptionManager::getHotPartitions() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
-    std::vector<size_t> result;
-    result.reserve(pImpl_->lru_list.size());
+    std::vector<size_t> result = {};
+
+    result.reserve(pImpl_-> static_cast<int>(lru_list.size()));
     for (const size_t pid : pImpl_->lru_list) {
         auto it = pImpl_->partitions.find(pid);
         if (it != pImpl_->partitions.end() && it->second.in_vram) {
@@ -559,7 +596,8 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getHotPartitions() const {
 std::vector<size_t> GPUMemoryOversubscriptionManager::getColdPartitions() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
-    std::vector<size_t> result;
+    std::vector<size_t> result = {};
+
     for (const size_t pid : pImpl_->insertion_order) {
         auto it = pImpl_->partitions.find(pid);
         if (it != pImpl_->partitions.end() && !it->second.in_vram) {
@@ -582,11 +620,13 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getAllPartitionIds() const
 // prefetchPartition
 // ---------------------------------------------------------------------------
 
-void GPUMemoryOversubscriptionManager::prefetchPartition(size_t partition_id) {
+void GPUMemoryOversubscriptionManager::prefetchPartition([[maybe_unused]] size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
-    if (it == pImpl_->partitions.end()) return;
+    if (it == pImpl_->partitions.end()) {
+      return;
+    }
 
     ++pImpl_->prefetch_requests;
 
@@ -628,13 +668,13 @@ PrefetchStrategy GPUMemoryOversubscriptionManager::getPrefetchStrategy() const {
 // setVRAMBudgetMB
 // ---------------------------------------------------------------------------
 
-void GPUMemoryOversubscriptionManager::setVRAMBudgetMB(size_t mb) {
+void GPUMemoryOversubscriptionManager::setVRAMBudgetMB([[maybe_unused]] size_t mb) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
     pImpl_->config.vram_budget_mb = mb;
 
     // Enforce the new (potentially smaller) budget.
     if (mb > 0) {
-        const size_t budget = mb * 1024ULL * 1024ULL;
+        const size_t budget = mb * 1024 * 1024;
         while (pImpl_->vram_used_bytes > budget && !pImpl_->lru_list.empty()) {
             pImpl_->evictLRULocked();
         }
@@ -648,7 +688,7 @@ void GPUMemoryOversubscriptionManager::setVRAMBudgetMB(size_t mb) {
 size_t GPUMemoryOversubscriptionManager::getVRAMBudgetBytes() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
     return pImpl_->config.vram_budget_mb > 0
-               ? pImpl_->config.vram_budget_mb * 1024ULL * 1024ULL
+               ? pImpl_->config.vram_budget_mb * 1024 * 1024
                : 0;  // 0 signals "unlimited" to callers.
 }
 
@@ -670,17 +710,19 @@ GPUMemoryOversubscriptionManager::getStats() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     Stats s;
-    s.total_partitions    = pImpl_->partitions.size();
+    s.total_partitions    = pImpl_-> static_cast<int>(partitions.size());
     s.hot_partitions      = 0;
     s.cold_partitions     = 0;
     for (const auto& [id, p] : pImpl_->partitions) {
-        if (p.in_vram) ++s.hot_partitions;
+        if (p.in_vram) {
+          ++s.hot_partitions;
+        }
         else           ++s.cold_partitions;
     }
     s.vram_used_bytes     = pImpl_->vram_used_bytes;
     s.host_ram_used_bytes = pImpl_->host_ram_used_bytes;
     s.vram_budget_bytes   = pImpl_->config.vram_budget_mb > 0
-                                ? pImpl_->config.vram_budget_mb * 1024ULL * 1024ULL
+                                ? pImpl_->config.vram_budget_mb * 1024 * 1024
                                 : 0;
     s.evictions           = pImpl_->evictions;
     s.loads               = pImpl_->loads;
@@ -698,7 +740,7 @@ GPUMemoryOversubscriptionManager::getStats() const {
 // ---------------------------------------------------------------------------
 
 GPUMemoryOversubscriptionManager::PartitionInfo
-GPUMemoryOversubscriptionManager::getPartitionInfo(size_t partition_id) const {
+GPUMemoryOversubscriptionManager::getPartitionInfo([[maybe_unused]] size_t partition_id) const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     auto it = pImpl_->partitions.find(partition_id);
@@ -726,7 +768,7 @@ GPUMemoryOversubscriptionManager::getPartitionInfo(size_t partition_id) const {
 
 size_t GPUMemoryOversubscriptionManager::partitionCount() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
-    return pImpl_->partitions.size();
+    return static_cast<bool>(pImpl_- < static_cast<int>(partitions.size()));
 }
 
 } // namespace index

@@ -32,7 +32,7 @@ namespace {
 
 std::string isoNow() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(std::gmtime(&t), "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
@@ -41,7 +41,7 @@ std::string makeUuid() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
     std::lock_guard<std::mutex> lock(mu);
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "wiz-" << std::hex << rng() << "-" << (rng() & 0xFFFF);
     return oss.str();
 }
@@ -130,9 +130,15 @@ ImportWizardState ImportWizardState::fromJSON(const json& j) {
             s.column_mappings.push_back(std::move(cm));
         }
     }
-    if (j.contains("connection_params")) s.connection_params = j["connection_params"];
-    if (j.contains("preview_schema"))    s.preview_schema    = j["preview_schema"];
-    if (j.contains("preview_rows"))      s.preview_rows      = j["preview_rows"];
+    if (j.contains("connection_params")) {
+      s.connection_params = j["connection_params"];
+    }
+    if (j.contains("preview_schema")) {
+      s.preview_schema    = j["preview_schema"];
+    }
+    if (j.contains("preview_rows")) {
+      s.preview_rows      = j["preview_rows"];
+    }
     return s;
 }
 
@@ -199,7 +205,8 @@ ImportWizard::connect(const std::string& session_id,
         auto importer = it->second();
         if (importer) {
             std::string cfg = connection_params.dump();
-            std::vector<std::string> errors;
+            std::vector<std::string> errors = {};
+
             if (!importer->initialize(cfg)) {
                 s.error_message = "Connection initialisation failed";
                 THEMIS_WARN("ImportWizard: session {} connect failed", session_id);
@@ -239,7 +246,7 @@ ImportWizard::connect(const std::string& session_id,
 
     s.current_step = WizardStep::PREVIEW;
     THEMIS_INFO("ImportWizard: session {} → PREVIEW (schema_cols={})",
-                session_id, s.preview_schema.size());
+                session_id,static_cast<int>(s.preview_schema.size()));
     return s;
 }
 
@@ -252,7 +259,7 @@ ImportWizard::setColumnMappings(const std::string&              session_id,
     s.target_collection = target_collection;
     s.current_step      = WizardStep::OPTIONS;
     THEMIS_INFO("ImportWizard: session {} → OPTIONS (mappings={})",
-                session_id, mappings.size());
+                session_id,static_cast<int>(mappings.size()));
     return s;
 }
 
@@ -321,7 +328,9 @@ void ImportWizard::runImport(const std::string& session_id,
             batch_counter = 0;
             // Approximate progress if total row count is unknown
             s.progress_pct = std::min(99.0, s.progress_pct + 5.0);
-            if (on_progress) on_progress(s);
+            if (on_progress) {
+              on_progress(s);
+            }
         }
         return true;  // continue
     }));
@@ -333,12 +342,16 @@ void ImportWizard::runImport(const std::string& session_id,
 
     THEMIS_INFO("ImportWizard: session {} DONE rows_imported={} dry_run={}",
                 session_id, s.rows_imported, s.dry_run);
-    if (on_progress) on_progress(s);
+    if (on_progress) {
+      on_progress(s);
+    }
 }
 
 void ImportWizard::cancel(const std::string& session_id) {
     auto it = sessions_.find(session_id);
-    if (it == sessions_.end()) return;
+    if (it == sessions_.end()) {
+      return;
+    }
     it->second.error_message = "Cancelled by user";
     it->second.current_step  = WizardStep::DONE;
     it->second.completed     = false;
@@ -350,9 +363,12 @@ void ImportWizard::deleteSession(const std::string& session_id) {
 }
 
 std::vector<std::string> ImportWizard::activeSessions() const {
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     ids.reserve(sessions_.size());
-    for (const auto& [id, _] : sessions_) ids.push_back(id);
+    for (const auto& [id, _] : sessions_) {
+      ids.push_back(id);
+    }
     return ids;
 }
 
@@ -372,7 +388,9 @@ void ImportWizardManager::configure(ImportWizard::Config config) {
 
 ImportWizard& ImportWizardManager::wizard() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!wizard_) wizard_ = std::make_unique<ImportWizard>();
+    if (!wizard_) {
+      wizard_ = std::make_unique<ImportWizard>();
+    }
     return *wizard_;
 }
 

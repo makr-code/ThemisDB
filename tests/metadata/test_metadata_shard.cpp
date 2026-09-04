@@ -210,7 +210,9 @@ TEST_F(MetadataShardTest, ConcurrentPutSameKey_VersionIsMonotonicallyIncreasing)
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     auto entry = shard->get(MetadataPartitionKey::SCHEMA, "shared_key");
     ASSERT_TRUE(entry.has_value());

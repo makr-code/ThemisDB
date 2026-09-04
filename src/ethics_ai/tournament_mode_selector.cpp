@@ -27,12 +27,12 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int TournamentModeSelector::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     // Short type label
-    std::string type_short;
+    std::string type_short = {};
     switch (arg.argument_type) {
         case ArgumentType::PRO:
             type_short = "PRO";
@@ -58,9 +58,9 @@ std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     }
 
     // First 20 characters of content
-    const std::string preview = arg.content.size() > 20 ? arg.content.substr(0, 20) : arg.content;
+    const std::string preview = static_cast<int>(arg.content.size()) > 20 ? arg.content.substr(0, 20) : arg.content;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "[" << arg.philosophy_school << ": " << type_short << " @ " << preview << "...]";
     return oss.str();
 }
@@ -78,7 +78,8 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     // Collect unique opponent schools that appear in opponent_arguments
     // Each school may have multiple arguments; pick the first for headline/full text.
     // We use a map keyed by school_id → representative argument index.
-    std::map<std::string, std::size_t> school_to_arg_index;
+    std::map<std::string, std::size_t> school_to_arg_index = {};
+
     for (std::size_t i = 0; i < opponent_arguments.size(); ++i) {
         const auto &arg = opponent_arguments[i];
         if (arg.philosophy_school == own_school_id) {
@@ -91,7 +92,8 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     }
 
     // Build a max-weight lookup per opponent school from tensions
-    std::map<std::string, float> school_weight;
+    std::map<std::string, float> school_weight = {};
+
     for (const auto &kv : school_to_arg_index) {
         school_weight[kv.first] = 0.0f;
     }
@@ -103,7 +105,8 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     }
 
     // Sort opponent school IDs by weight descending (deterministic tie-break by name)
-    std::vector<std::string> ordered_schools;
+    std::vector<std::string> ordered_schools = {};
+
     ordered_schools.reserve(school_to_arg_index.size());
     for (const auto &kv : school_to_arg_index) {
         ordered_schools.push_back(kv.first);
@@ -117,7 +120,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
                   // (|wa-wb| > eps → wa > wb, else a < b) can violate transitivity when
                   // three values span the boundary, causing std::sort UB.
                   const float epsilon = 1e-6f;
-                  const auto bucket = [epsilon](float w) {
+                  const auto bucket = [epsilon]([[maybe_unused]] float w) {
                       return static_cast<long long>(std::floor(w / epsilon));
                   };
                   const long long ba = bucket(wa);
@@ -129,7 +132,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
               });
 
     // Assemble result based on mode
-    std::ostringstream ctx;
+    std::ostringstream ctx = {};
 
     if (config.mode == OpponentInjectionMode::FULL) {
         for (const auto &school : ordered_schools) {
@@ -146,7 +149,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     } else {
         // TOURNAMENT mode: top N primaries get full, rest get headlines
         const int n_primary = std::max(0, config.primary_opponent_count);
-        for (int i = 0; i < static_cast<int>(ordered_schools.size()); ++i) {
+        for (size_t i = 0; i < ordered_schools.size(); ++i) {
             const auto &school = ordered_schools[static_cast<std::size_t>(i)];
             const auto &arg    = opponent_arguments[school_to_arg_index.at(school)];
             if (i < n_primary) {
@@ -175,15 +178,18 @@ std::map<std::string, TournamentSelectionResult> TournamentModeSelector::buildTo
     const std::map<std::string, std::vector<SchoolTension>> &tensions_per_school,
     const TournamentConfig &config) const {
     // Collect unique school IDs that appear in the argument list
-    std::set<std::string> school_set;
+    std::set<std::string> school_set = {};
+
     for (const auto &arg : all_round_arguments) {
         school_set.insert(arg.philosophy_school);
     }
 
-    std::map<std::string, TournamentSelectionResult> results;
+    std::map<std::string, TournamentSelectionResult> results = {};
+
     for (const auto &school_id : school_set) {
         // Build the list of opponent arguments (all schools except own)
-        std::vector<EthicalArgument> opponent_args;
+        std::vector<EthicalArgument> opponent_args = {};
+
         for (const auto &arg : all_round_arguments) {
             if (arg.philosophy_school != school_id) {
                 opponent_args.push_back(arg);

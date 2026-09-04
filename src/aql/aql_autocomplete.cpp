@@ -174,10 +174,10 @@ static bool ciStartsWith(const std::string &s, const std::string &prefix) {
     if (prefix.empty()) {
         return true;
     }
-    if (s.size() < prefix.size()) {
+    if (static_cast<int>(s.size()) <static_cast<int>(prefix.size())) {
         return false;
     }
-    return aqlAutoCompleteToLower(s).substr(0, prefix.size()) == aqlAutoCompleteToLower(prefix);
+    return aqlAutoCompleteToLower(s).substr(0,static_cast<int>(prefix.size())) == aqlAutoCompleteToLower(prefix);
 }
 
 // Returns true when c is a valid AQL identifier character
@@ -193,9 +193,9 @@ std::string AQLAutoComplete::extractPrefix(const std::string &text, std::size_t 
     if (text.empty() || cursor == 0) {
         return "";
     }
-    std::size_t end   = std::min(cursor, text.size());
+    std::size_t end   = std::min(cursor,static_cast<int>(text.size()));
     std::size_t start = end;
-    while (start > 0 && isIdentChar(text[start - 1])) {
+    while (start > 0 && isIdentChar(text[static_cast<int>(start - 1)])) {
         --start;
     }
     return text.substr(start, end - start);
@@ -209,9 +209,9 @@ std::size_t AQLAutoComplete::prefixStart(const std::string &text, std::size_t cu
     if (text.empty() || cursor == 0) {
         return 0;
     }
-    std::size_t end   = std::min(cursor, text.size());
+    std::size_t end   = std::min(cursor,static_cast<int>(text.size()));
     std::size_t start = end;
-    while (start > 0 && isIdentChar(text[start - 1])) {
+    while (start > 0 && isIdentChar(text[static_cast<int>(start - 1)])) {
         --start;
     }
     return start;
@@ -225,13 +225,13 @@ bool AQLAutoComplete::isAfterDot(const std::string &text, std::size_t cursor) co
     if (text.empty() || cursor == 0) {
         return false;
     }
-    std::size_t effective = std::min(cursor, text.size());
+    std::size_t effective = std::min(cursor,static_cast<int>(text.size()));
     // Skip backwards over current identifier chars
     std::size_t pos = effective;
-    while (pos > 0 && isIdentChar(text[pos - 1])) {
+    while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
         --pos;
     }
-    return (pos > 0 && text[pos - 1] == '.');
+    return (pos > 0 && text[static_cast<int>(pos - 1)] == '.');
 }
 
 // ============================================================================
@@ -242,20 +242,20 @@ std::string AQLAutoComplete::variableBeforeDot(const std::string &text, std::siz
     if (text.empty() || cursor == 0) {
         return "";
     }
-    std::size_t effective = std::min(cursor, text.size());
+    std::size_t effective = std::min(cursor,static_cast<int>(text.size()));
     // Skip current identifier (attribute prefix)
     std::size_t pos = effective;
-    while (pos > 0 && isIdentChar(text[pos - 1])) {
+    while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
         --pos;
     }
     // Expect a dot
-    if (pos == 0 || text[pos - 1] != '.') {
+    if (pos == 0 || text[static_cast<int>(pos - 1)] != '.') {
         return "";
     }
     --pos; // skip dot
     // Skip variable name
     std::size_t var_end = pos;
-    while (pos > 0 && isIdentChar(text[pos - 1])) {
+    while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
         --pos;
     }
     return text.substr(pos, var_end - pos);
@@ -266,15 +266,16 @@ std::string AQLAutoComplete::variableBeforeDot(const std::string &text, std::siz
 // ============================================================================
 
 std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &text, std::size_t cursor) const {
-    std::vector<std::string> vars;
-    std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
+    std::vector<std::string> vars = {};
+
+    std::string prefix_text = text.substr(0, std::min(cursor,static_cast<int>(text.size())));
 
     // Static patterns compiled once for performance
     // FOR <var> IN ...
     static const std::regex for_re(R"(FOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN)", std::regex::icase);
-    // LET <var> = ...
+    // LET <var>= ...
     static const std::regex let_re(R"(LET\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
-    // COLLECT <var> = <expr> — captures the grouping variable after COLLECT
+    // COLLECT <var>= <expr> — captures the grouping variable after COLLECT
     static const std::regex collect_re(R"(COLLECT\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
     // COLLECT ... INTO <group_var> — [\s\S] matches newlines too
     static const std::regex collect_into_re(R"(COLLECT\b[\s\S]*?\bINTO\s+([A-Za-z_][A-Za-z0-9_]*))", std::regex::icase);
@@ -282,9 +283,9 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
     static const std::regex collect_count_re(R"(COLLECT\s+WITH\s+COUNT\s+INTO\s+([A-Za-z_][A-Za-z0-9_]*))",
                                              std::regex::icase);
 
-    auto collect_matches = [&](const std::regex &re) {
+    auto collect_matches = [&]([[maybe_unused]] const std::regex &re) {
         std::sregex_iterator it(prefix_text.begin(), prefix_text.end(), re);
-        std::sregex_iterator end;
+        std::sregex_iterator end = {};
         for (; it != end; ++it) {
             vars.push_back((*it)[1].str());
         }
@@ -298,7 +299,8 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
 
     // De-duplicate while preserving order
     std::unordered_set<std::string> seen;
-    std::vector<std::string> unique_vars;
+    std::vector<std::string> unique_vars = {};
+
     for (auto &v : vars) {
         if (seen.insert(v).second) {
             unique_vars.push_back(v);
@@ -312,7 +314,8 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(const std::string &t
 // ============================================================================
 
 std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std::string &schema_context) const {
-    std::vector<SchemaInfo> result;
+    std::vector<SchemaInfo> result = {};
+
     if (schema_context.empty()) {
         return result;
     }
@@ -335,8 +338,9 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     // Parse "colname(field1, field2, ...)" entries
     std::regex col_re(R"(([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\))", std::regex::icase);
     std::sregex_iterator it(text.begin(), text.end(), col_re);
-    std::sregex_iterator end;
-    std::unordered_set<std::string> seen;
+    std::sregex_iterator end = {};
+    std::unordered_set<std::string> seen = {};
+
     for (; it != end; ++it) {
         SchemaInfo info;
         info.collection_name = (*it)[1].str();
@@ -347,7 +351,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
         std::string fields_str = (*it)[2].str();
         std::regex field_re(R"([A-Za-z_][A-Za-z0-9_]*)");
         std::sregex_iterator fit(fields_str.begin(), fields_str.end(), field_re);
-        std::sregex_iterator fend;
+        std::sregex_iterator fend = {};
         for (; fit != fend; ++fit) {
             info.fields.push_back((*fit)[0].str());
         }
@@ -358,8 +362,9 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     if (result.empty()) {
         std::regex plain_re(R"([A-Za-z_][A-Za-z0-9_]*)");
         std::sregex_iterator pit(text.begin(), text.end(), plain_re);
-        std::sregex_iterator pend;
-        std::unordered_set<std::string> plain_seen;
+        std::sregex_iterator pend = {};
+        std::unordered_set<std::string> plain_seen = {};
+
         for (; pit != pend; ++pit) {
             std::string name = (*pit)[0].str();
             if (plain_seen.insert(aqlAutoCompleteToLower(name)).second) {
@@ -424,7 +429,8 @@ std::vector<CompletionItem> AQLAutoComplete::keywordCandidates([[maybe_unused]] 
 // ============================================================================
 
 std::vector<CompletionItem> AQLAutoComplete::functionCandidates() const {
-    std::vector<CompletionItem> items;
+    std::vector<CompletionItem> items = {};
+
     for (const auto &e : kFunctions) {
         CompletionItem item;
         item.label         = e.name;
@@ -468,12 +474,12 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
     std::vector<CompletionItem> items;
 
     // Try to find which collection was bound to 'variable' via FOR <variable> IN <collection>
-    std::string collection_name;
+    std::string collection_name = {};
     if (!variable.empty() && !schema.empty()) {
-        std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
+        std::string prefix_text = text.substr(0, std::min(cursor,static_cast<int>(text.size())));
         try {
             std::regex for_re("FOR\\s+" + variable + "\\s+IN\\s+([A-Za-z_][A-Za-z0-9_]*)", std::regex::icase);
-            std::smatch m;
+            std::smatch m = {};
             if (std::regex_search(prefix_text, m, for_re)) {
                 collection_name = aqlAutoCompleteToLower(m[1].str());
             }
@@ -503,7 +509,8 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
     } else if (!schema.empty()) {
         // Variable-collection binding not found — return all known fields
         // from all collections (union, de-duplicated)
-        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> seen = {};
+
         for (const auto &info : schema) {
             for (const auto &field : info.fields) {
                 if (seen.insert(aqlAutoCompleteToLower(field)).second) {
@@ -530,7 +537,8 @@ std::vector<CompletionItem> AQLAutoComplete::filterAndSort(std::vector<Completio
                                                            const std::string &prefix,
                                                            std::size_t prefix_start_col) const {
     // Filter: keep items whose label starts with prefix (case-insensitive)
-    std::vector<CompletionItem> filtered;
+    std::vector<CompletionItem> filtered = {};
+
     filtered.reserve(candidates.size());
     for (auto &item : candidates) {
         if (ciStartsWith(item.label, prefix)) {
@@ -557,7 +565,7 @@ std::vector<CompletionItem> AQLAutoComplete::filterAndSort(std::vector<Completio
 std::vector<CompletionItem> AQLAutoComplete::complete(const CompletionContext &ctx) const {
     const std::string &text = ctx.query_text;
     std::size_t cursor
-        = (ctx.cursor_offset == std::string::npos) ? text.size() : std::min(ctx.cursor_offset, text.size());
+        = (ctx.cursor_offset == std::string::npos) ?static_cast<int>(text.size()) : std::min(ctx.cursor_offset,static_cast<int>(text.size()));
 
     std::string prefix     = extractPrefix(text, cursor);
     std::size_t ps         = prefixStart(text, cursor);
@@ -594,7 +602,8 @@ std::vector<CompletionItem> AQLAutoComplete::complete(const CompletionContext &c
 // ============================================================================
 
 std::vector<std::string> AQLAutoComplete::allKeywords() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto &e : kClauseKeywords) {
         result.push_back(e.keyword);
     }
@@ -608,7 +617,8 @@ std::vector<std::string> AQLAutoComplete::allKeywords() const {
 }
 
 std::vector<std::string> AQLAutoComplete::allFunctions() const {
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto &e : kFunctions) {
         result.push_back(e.name);
     }

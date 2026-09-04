@@ -120,7 +120,8 @@ TEST_F(CommunityDetectionAQLTest, LouvainCommunities_TwoClusters) {
     EXPECT_TRUE(result.contains("F"));
     
     // Should detect grouping (not all in different communities)
-    std::set<int> unique_communities;
+    std::set<int> unique_communities = {};
+
     for (const auto& [node, comm] : result.items()) {
         unique_communities.insert(comm.get<int>());
     }

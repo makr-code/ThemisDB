@@ -76,7 +76,8 @@ TEST_F(AsyncModelLoaderTest, AsyncLoad_ThreadSafety) {
     LazyModelLoader loader(config_);
     
     // Launch multiple async preloads from different threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&loader, i]() {
             std::string model_id = "model-" + std::to_string(i);

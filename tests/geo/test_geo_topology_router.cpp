@@ -298,7 +298,8 @@ TEST(GeoTopologyRouterTest, RoundRobinDistributesAcrossAllHealthyShards) {
     GeoTopologyRouter router(cfg, topo);
 
     // After exactly 3 calls each shard should have been selected once.
-    std::set<std::string> seen;
+    std::set<std::string> seen = {};
+
     for (int i = 0; i < 3; ++i) {
         seen.insert(router.selectEndpoint());
     }

@@ -279,7 +279,8 @@ public:
     std::vector<std::string> generate(const std::string&,
                                       const std::vector<std::string>&,
                                       size_t k) override {
-        std::vector<std::string> out;
+        std::vector<std::string> out = {};
+
         for (size_t i = 0; i < k; ++i) {
             out.push_back("FixedThought_" + std::to_string(i));
         }

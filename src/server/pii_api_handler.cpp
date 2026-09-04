@@ -63,26 +63,30 @@ std::string PIIApiHandler::nowIso8601() {
     using namespace std::chrono;
     auto now = system_clock::now();
     std::time_t t = system_clock::to_time_t(now);
-    std::tm tm;
+    std::tm tm = {};
 #if defined(_WIN32)
     localtime_s(&tm, &t);
 #else
     localtime_r(&t, &tm);
 #endif
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%S");
     return oss.str();
 }
 
-bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
-    if (!db_) return false;
+bool PIIApiHandler::addMapping([[maybe_unused]] const PiiMapping& mappingIn) {
+    if (!db_) {
+      return false;
+    }
     auto& db = *db_;
     PiiMapping mapping = mappingIn;
-    if (mapping.created_at.empty()) mapping.created_at = nowIso8601();
+    if (mapping.created_at.empty()) {
+      mapping.created_at = nowIso8601();
+    }
     mapping.updated_at = mapping.created_at;
 
     std::string key = makeKey(mapping.original_uuid);
-    std::string existing;
+    std::string existing = {};
     rocksdb::ReadOptions ro;
     rocksdb::Status gs = cf_ ? db.Get(ro, cf_, key, &existing) : db.Get(ro, key, &existing);
     if (gs.ok()) {
@@ -97,26 +101,32 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     return s.ok();
 }
 
-std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_uuid) const {
-    if (!db_) return std::nullopt;
+std::optional<PiiMapping> PIIApiHandler::getMapping([[maybe_unused]] const std::string& original_uuid) const {
+    if (!db_) {
+      return std::nullopt;
+    }
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
-    std::string value;
+    std::string value = {};
     rocksdb::ReadOptions ro;
     rocksdb::Status s = cf_ ? db.Get(ro, cf_, key, &value) : db.Get(ro, key, &value);
-    if (!s.ok()) return std::nullopt;
+    if (!s.ok()) {
+      return std::nullopt;
+    }
     try {
     auto span = Tracer::startSpan("getMapping");
         json j = json::parse(value);
         return PiiMapping::fromJson(j);
     } catch (...) {
-        THEMIS_DEBUG("pii_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "pii_api_handler: unhandled exception caught");
         return std::nullopt;
     }
 }
 
-bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
-    if (!db_) return false;
+bool PIIApiHandler::deleteMapping([[maybe_unused]] const std::string& original_uuid) {
+    if (!db_) {
+      return false;
+    }
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
     rocksdb::WriteOptions wo;
@@ -124,7 +134,7 @@ bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     return s.ok();
 }
 
-json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
+json PIIApiHandler::listMappings([[maybe_unused]] const PiiQueryFilter& filter) {
     auto span = Tracer::startSpan("listMappings");
     json out_items = json::array();
     if (!db_) {
@@ -148,14 +158,20 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
         try {
             json j = json::parse(v.ToString());
             // Apply filters
-            if (filter.active_only && j.value("active", false) == false) continue;
+            if (filter.active_only && j.value("active", false) == false) {
+              continue;
+            }
             if (!filter.original_uuid.empty()) {
                 auto val = j.value("original_uuid", std::string());
-                if (val.find(filter.original_uuid) == std::string::npos) continue;
+                if (val.find(filter.original_uuid) == std::string::npos) {
+                  continue;
+                }
             }
             if (!filter.pseudonym.empty()) {
                 auto val = j.value("pseudonym", std::string());
-                if (val.find(filter.pseudonym) == std::string::npos) continue;
+                if (val.find(filter.pseudonym) == std::string::npos) {
+                  continue;
+                }
             }
             // Count and paginate
             if (index >= start && index < end) {
@@ -164,7 +180,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
             ++index;
             ++total;
         } catch (...) {
-            THEMIS_WARN("pii_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "pii_api_handler: unhandled exception caught");
             // skip malformed entries
         }
     }
@@ -172,7 +188,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
     return json{{"items", out_items}, {"total", total}, {"page", page}, {"page_size", page_size}};
 }
 
-std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
+std::string PIIApiHandler::exportCsv([[maybe_unused]] const PiiQueryFilter& filter) {
     auto js = listMappings(filter);
     std::string csv = "original_uuid,pseudonym,active,created_at,updated_at\n";
     for (const auto& r : js["items"]) {
@@ -186,7 +202,7 @@ std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
     return csv;
 }
 
-json PIIApiHandler::deleteByUuid(const std::string& uuid) {
+json PIIApiHandler::deleteByUuid([[maybe_unused]] const std::string& uuid) {
     bool ok = deleteMapping(uuid);
     return json{{"status", ok ? "deleted" : "not_found"}, {"uuid", uuid}};
     auto span = Tracer::startSpan("deleteByUuid");

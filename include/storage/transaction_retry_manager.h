@@ -119,7 +119,9 @@ struct RetryStatistics {
           total_latency_ms{o.total_latency_ms.load()},
           errors_by_type{o.errors_by_type} {}
     RetryStatistics& operator=(const RetryStatistics& o) {
-        if (this == &o) return *this;
+        if (this == &o) {
+          return *this;
+        }
         total_operations.store(o.total_operations.load());
         successful_operations.store(o.successful_operations.load());
         failed_operations.store(o.failed_operations.load());
@@ -136,19 +138,25 @@ struct RetryStatistics {
     
     double getSuccessRate() const {
         uint64_t total = total_operations.load();
-        if (total == 0) return 1.0;
+        if (total == 0) {
+          return 1.0;
+        }
         return static_cast<double>(successful_operations.load()) / total;
     }
     
     double getAverageLatencyMs() const {
         uint64_t total = total_operations.load();
-        if (total == 0) return 0.0;
+        if (total == 0) {
+          return 0.0;
+        }
         return static_cast<double>(total_latency_ms.load()) / total;
     }
     
     double getRetryRate() const {
         uint64_t total = total_operations.load();
-        if (total == 0) return 0.0;
+        if (total == 0) {
+          return 0.0;
+        }
         return static_cast<double>(retried_operations.load()) / total;
     }
 };

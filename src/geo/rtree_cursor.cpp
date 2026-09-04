@@ -58,7 +58,7 @@ class RTreeRangeCursor final : public IRTreeCursor {
         if (live_version_ && *live_version_ != index_version_) {
             return CursorStatus::STALE;
         }
-        if (pos_ >= hits_.size()) {
+        if (pos_ >= static_cast<int>(hits_.size())) {
             return CursorStatus::END;
         }
         entry = hits_[pos_++];
@@ -66,7 +66,7 @@ class RTreeRangeCursor final : public IRTreeCursor {
     }
 
     std::size_t estimatedResultCount() const noexcept override {
-        return hits_.size();
+        return static_cast<int>(hits_.size());
     }
 
   private:
@@ -91,7 +91,7 @@ class RTreeKNNCursor final : public IRTreeCursor {
         if (live_version_ && *live_version_ != index_version_) {
             return CursorStatus::STALE;
         }
-        if (pos_ >= hits_.size()) {
+        if (pos_ >= static_cast<int>(hits_.size())) {
             return CursorStatus::END;
         }
         entry = hits_[pos_++];
@@ -99,7 +99,7 @@ class RTreeKNNCursor final : public IRTreeCursor {
     }
 
     std::size_t estimatedResultCount() const noexcept override {
-        return std::min(k_, hits_.size());
+        return std::min(k_,static_cast<int>(hits_.size()));
     }
 
   private:
@@ -137,7 +137,7 @@ GeoRTreeIndex::GeoRTreeIndex(GeoRTreeIndex &&) noexcept            = default;
 GeoRTreeIndex &GeoRTreeIndex::operator=(GeoRTreeIndex &&) noexcept = default;
 
 std::size_t GeoRTreeIndex::size() const noexcept {
-    return impl_->rtree.size();
+    return static_cast<bool>(impl_- < static_cast<int>(rtree.size()));
 }
 
 void GeoRTreeIndex::insert(const std::string &key, const GeometryInfo &geom) {
@@ -161,7 +161,8 @@ void GeoRTreeIndex::clear() {
 std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openRangeCursor(const MBR &bbox) {
     // Materialise matching entries
     const auto &all = impl_->entries;
-    std::vector<GeoIndexEntry> hits;
+    std::vector<GeoIndexEntry> hits = {};
+
     hits.reserve(all.size() / 4 + 1); // optimistic reserve
 
     for (const auto &[key, geom] : all) {
@@ -178,7 +179,8 @@ std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openKNNCursor(const Coordinate &que
     const auto &all = impl_->entries;
 
     // Build (distance, entry) list
-    std::vector<GeoIndexEntry> candidates;
+    std::vector<GeoIndexEntry> candidates = {};
+
     candidates.reserve(all.size());
     for (const auto &[key, geom] : all) {
         const auto centroid = mbrCentroid(geom);
@@ -187,7 +189,7 @@ std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openKNNCursor(const Coordinate &que
     }
 
     // Partial sort to get k nearest
-    const std::size_t take = std::min(k, candidates.size());
+    const std::size_t take = std::min(k,static_cast<int>(candidates.size()));
     std::partial_sort(candidates.begin(), candidates.begin() + static_cast<std::ptrdiff_t>(take), candidates.end(),
                       [](const GeoIndexEntry &a, const GeoIndexEntry &b) { return a.distance_m < b.distance_m; });
     candidates.resize(take);

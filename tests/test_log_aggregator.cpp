@@ -329,7 +329,9 @@ TEST(LogAggregatorTest, ConcurrentLogging) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     EXPECT_EQ(kThreads * kEach, agg.stats().total_entries);
 }
@@ -398,7 +400,9 @@ TEST(LogAggregatorTest, AsyncQueueOverflowIncrementsCounter) {
         futures.push_back(agg.logAsync(Level::INFO,
                                         "msg-" + std::to_string(i)));
     }
-    for (auto& f : futures) f.get();
+    for (auto& f : futures) {
+      f.get();
+    }
 
     auto s = agg.stats();
     // Total accepted + overflows must equal submitted
@@ -458,10 +462,14 @@ TEST(LogAggregatorTest, ConcurrentAsyncLogging) {
                     Level::INFO,
                     "t" + std::to_string(t) + "-" + std::to_string(i)));
             }
-            for (auto& f : futs) f.get();
+            for (auto& f : futs) {
+              f.get();
+            }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     auto s = agg.stats();
     EXPECT_EQ(kThreads * kEach,

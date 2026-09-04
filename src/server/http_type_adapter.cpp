@@ -32,14 +32,20 @@ namespace {
 // integer arithmetic and then casts to char; using int avoids implicit
 // signed-char promotion surprises on platforms where char is unsigned.
 constexpr int hexDigit(char c) noexcept {
-    if (c >= '0' && c <= '9') return c - '0';
-    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    if (c >= '0' && c <= '9') {
+      return c - '0';
+    }
+    if (c >= 'A' && c <= 'F') {
+      return c - 'A' + 10;
+    }
+    if (c >= 'a' && c <= 'f') {
+      return c - 'a' + 10;
+    }
     return -1;
 }
 
 std::string urlDecodeTypeAdapter(const std::string& str) {
-    std::string out;
+    std::string out = {};
     out.reserve(str.size());
     for (size_t i = 0; i < str.size(); ++i) {
         if (str[i] == '+') {
@@ -85,7 +91,7 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
             size_t eq_pos = query_string.find('=', start);
             size_t amp_pos = query_string.find('&', start);
 
-            if (eq_pos != std::string::npos && (amp_pos == std::string::npos || eq_pos < amp_pos)) {
+            if ((eq_pos != std::string::npos && (amp_pos == std::string::npos || eq_pos < amp_pos)) {
                 std::string key = query_string.substr(start, eq_pos - start);
                 size_t value_end = (amp_pos != std::string::npos) ? amp_pos : query_string.length();
                 std::string value = query_string.substr(eq_pos + 1, value_end - eq_pos - 1);
@@ -159,7 +165,7 @@ std::string HttpTypeAdapter::methodToString(http::verb method) {
     }
 }
 
-http::status HttpTypeAdapter::intToStatus(int status_code) {
+http::status HttpTypeAdapter::intToStatus([[maybe_unused]] int status_code) {
     // Map common status codes
     switch (status_code) {
         // 2xx Success

@@ -47,7 +47,7 @@ std::string ExplanationGenerator::formatUserFriendly(
     const std::vector<std::string>& reasoning_steps,
     const json& key_factors) {
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     
     out << "🤔 How did I arrive at this answer?\n\n";
     out << "Your question: \"" << query << "\"\n\n";
@@ -85,7 +85,7 @@ std::string ExplanationGenerator::formatTechnical(
     const std::vector<std::string>& reasoning_steps,
     const json& key_factors) {
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     
     out << "=== AI Decision Technical Analysis ===\n\n";
     out << "INPUT QUERY:\n" << query << "\n\n";
@@ -121,7 +121,7 @@ std::string ExplanationGenerator::formatCompliance(
     const std::vector<std::string>& reasoning_steps,
     const json& key_factors) {
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     
     out << "AUTOMATED DECISION EXPLANATION\n";
     out << "(GDPR Article 22 / EU AI Act Compliance)\n\n";
@@ -191,7 +191,7 @@ std::vector<std::string> ExplanationGenerator::generateReasoningChain(
     // Add intermediate results as reasoning steps
     if (!intermediate_results.empty() && intermediate_results.is_object()) {
         for (const auto& [key, value] : intermediate_results.items()) {
-            std::ostringstream step;
+            std::ostringstream step = {};
             step << "Processed " << key << ": ";
             if (value.is_string()) {
                 step << value.get<std::string>();
@@ -221,7 +221,8 @@ json ExplanationGenerator::identifyKeyFactors(
     auto response_keywords = extractKeywords(response);
     
     // Identify common keywords (these likely influenced the response)
-    std::vector<std::string> common_keywords;
+    std::vector<std::string> common_keywords = {};
+
     for (const auto& qk : query_keywords) {
         if (std::find(response_keywords.begin(), response_keywords.end(), qk) 
             != response_keywords.end()) {
@@ -261,7 +262,7 @@ std::string ExplanationGenerator::explainConfidence(
     float confidence,
     const std::vector<std::string>& alternatives) {
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     
     // Convert to percentage
     int confidence_pct = static_cast<int>(confidence * 100);
@@ -299,7 +300,7 @@ std::string ExplanationGenerator::generateComplianceExplanation(
     const json& key_factors,
     float confidence) {
     
-    std::ostringstream out;
+    std::ostringstream out = {};
     
     out << "═══════════════════════════════════════════════════════════\n";
     out << "  AUTOMATED DECISION-MAKING EXPLANATION\n";
@@ -386,7 +387,7 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     };
     
     // Process text character by character to avoid istringstream overhead
-    std::string word;
+    std::string word = {};
     word.reserve(20); // Most words are < 20 chars; this reduces allocations, maybe tuned based on typical input
     
     for (char c : text) {
@@ -434,7 +435,7 @@ float ExplanationGenerator::calculateSimilarity(
     }
     
     // Jaccard similarity
-    size_t total_unique = set1.size() + set2.size() - common;
+    size_t total_unique = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - common;
     if (total_unique == 0) {
         return 0.0f;
     }

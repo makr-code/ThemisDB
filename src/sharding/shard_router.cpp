@@ -94,7 +94,7 @@ uint64_t resolveShardResultVersion(const ShardResult& result) {
     return std::max(result.version_token, extractVersionToken(result.data));
 }
 
-uint64_t makeStrictMergeVersionToken(uint64_t observed_max_version) {
+uint64_t makeStrictMergeVersionToken([[maybe_unused]] uint64_t observed_max_version) {
     const uint64_t candidate = makeMergeVersionToken();
     if (observed_max_version == std::numeric_limits<uint64_t>::max()) {
         return observed_max_version;
@@ -115,7 +115,7 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     
     std::string query = path.substr(query_start + 1);
     std::istringstream iss(query);
-    std::string param;
+    std::string param = {};
     
     while (std::getline(iss, param, '&')) {
         size_t eq_pos = param.find('=');
@@ -455,7 +455,7 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     
     // Process shards in batches to limit concurrency
     for (size_t batch_start = 0; batch_start < shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent, shards.size());
+        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(shards.size()));
         
         // Create futures for this batch
         std::vector<std::future<ShardResult>> futures;
@@ -582,14 +582,16 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
 
     // Build a fast lookup: shard_id → ShardInfo for the requested shards only.
     auto all_shards = resolver_->getHealthyShards();
-    std::unordered_map<std::string, ShardInfo> shard_map;
+    std::unordered_map<std::string, ShardInfo> shard_map = {};
+
     shard_map.reserve(all_shards.size());
     for (const auto& s : all_shards) {
         shard_map[s.shard_id] = s;
     }
 
     // Collect the ShardInfo for each requested ID, skipping unknown ones.
-    std::vector<ShardInfo> target_shards;
+    std::vector<ShardInfo> target_shards = {};
+
     target_shards.reserve(shard_ids.size());
     for (const auto& id : shard_ids) {
         // W2-S07: Use safe map access with at() instead of find() + iterator
@@ -613,7 +615,7 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
     std::atomic<uint64_t> remote_count{0};
 
     for (size_t batch_start = 0; batch_start < target_shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent, target_shards.size());
+        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(target_shards.size()));
 
         std::vector<std::future<ShardResult>> futures;
         futures.reserve(batch_end - batch_start);
@@ -757,7 +759,7 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                 for (const auto& row : shard_result.data) {
                     total_left_rows++;
                     if (row.contains(join_field)) {
-                        std::string key;
+                        std::string key = {};
                         if (row[join_field].is_string()) {
                             key = row[join_field].get<std::string>();
                         } else {
@@ -786,12 +788,14 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         // Expected query format:
         //   "JOIN <left_coll> ON <field> WITH <right_coll> [WHERE ...]"
         // A plain collection name is also accepted as a fallback.
-        std::string right_collection;
+        std::string right_collection = {};
         {
             const std::string with_kw = " WITH ";  // uppercase per convention
             const std::string WITH_KW = " with ";  // case-insensitive fallback
             auto pos = query.find(with_kw);
-            if (pos == std::string::npos) pos = query.find(WITH_KW);
+            if (pos == std::string::npos) {
+              pos = query.find(WITH_KW);
+            }
             if (pos != std::string::npos) {
                 pos += with_kw.size();
                 // Collection name ends at whitespace, ';', or end-of-string.
@@ -819,15 +823,21 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             for (const auto& shard_result : right_results) {
                 observed_version = std::max(observed_version, resolveShardResultVersion(shard_result));
                 merge_version = makeStrictMergeVersionToken(observed_version);
-                if (!shard_result.success || !shard_result.data.is_array()) continue;
+                if (!shard_result.success || !shard_result.data.is_array()) {
+                  continue;
+                }
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;
-                    if (!right_row.contains(join_field)) continue;
+                    if (!right_row.contains(join_field)) {
+                      continue;
+                    }
                     std::string key = right_row[join_field].is_string()
                         ? right_row[join_field].get<std::string>()
                         : right_row[join_field].dump();
                     auto it = hash_table.find(key);
-                    if (it == hash_table.end()) continue;
+                    if (it == hash_table.end()) {
+                      continue;
+                    }
                     // Emit one merged row per matching left-side entry.
                     for (const auto& left_row : it->second) {
                         nlohmann::json merged = nlohmann::json::object();
@@ -836,7 +846,9 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                         }
                         for (const auto& [k, v] : right_row.items()) {
                             const std::string rk = "right_" + k;
-                            if (!merged.contains(rk)) merged[rk] = v;
+                            if (!merged.contains(rk)) {
+                              merged[rk] = v;
+                            }
                         }
                         const uint64_t row_merge_version = std::max(
                             merge_version,
@@ -1090,7 +1102,7 @@ ShardResult ShardRouter::executeLocal(
             // Handle PUT/POST requests
             if (path.find(API_QUERY) != std::string::npos) {
                 // Query execution
-                std::string query;
+                std::string query = {};
                 if (body && body->contains("query")) {
                     query = body->value("query", "");
                 }
@@ -1247,7 +1259,7 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     }
     
     merged["success_count"] = success_count;
-    merged["error_count"] = results.size() - success_count;
+    merged["error_count"] = static_cast<int>(results.size()) - success_count;
     merged["mergeVersion"] = merge_version;
     merged["version_token"] = merge_version;
     
@@ -1291,8 +1303,8 @@ nlohmann::json ShardRouter::applyPagination(
     nlohmann::json paginated = merged;
     nlohmann::json page = nlohmann::json::array();
     
-    size_t start = std::min(offset, results.size());
-    size_t end = std::min(start + limit, results.size());
+    size_t start = std::min(offset,static_cast<int>(results.size()));
+    size_t end = std::min(start + limit,static_cast<int>(results.size()));
     
     // Reserve capacity to reduce reallocations
     page.get_ref<nlohmann::json::array_t&>().reserve(end - start);
@@ -1317,7 +1329,7 @@ nlohmann::json ShardRouter::applyPagination(
 std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     // Simple regex to find URN in query
     std::regex urn_pattern(R"(urn:themis:[^:]+:[^:]+:[^:]+:[a-f0-9-]+)");
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(query, match, urn_pattern)) {
         return URN::parse(match[0].str());
@@ -1334,7 +1346,7 @@ std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
 std::optional<std::string> ShardRouter::extractNamespace(const std::string& query) const {
     // Simple pattern matching for namespace
     std::regex ns_pattern(R"(NAMESPACE\s+([a-zA-Z0-9_]+))");
-    std::smatch match;
+    std::smatch match = {};
     
     if (std::regex_search(query, match, ns_pattern)) {
         return match[1].str();
@@ -1492,7 +1504,7 @@ bool ShardRouter::validateMultiShardExactConsistency(
     
     // Need at least quorum of successful results
     size_t quorum_size = (results.size() / 2) + 1;
-    if (successful.size() < quorum_size) {
+    if (static_cast<int>(successful.size()) < quorum_size) {
         return false; // Quorum not achieved
     }
     

@@ -64,7 +64,7 @@ static std::string makeTempDbPath(const std::string& tag) {
 
 /** Remove a database directory, ignoring errors. */
 static void cleanupDb(const std::string& path) {
-    std::error_code ec;
+    std::error_code ec = {};
     fs::remove_all(path, ec);
 }
 
@@ -131,7 +131,7 @@ static void populateDatabase(RocksDBWrapper& db,
  * inside the hot loop to control the cache-warm/cold state precisely.
  */
 struct MetadataBenchFixture {
-    std::string                              db_path;
+    std::string                              db_path = {};
     std::unique_ptr<RocksDBWrapper>          db;
     std::unique_ptr<SecondaryIndexManager>   index_mgr;
 

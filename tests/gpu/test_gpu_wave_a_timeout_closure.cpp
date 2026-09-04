@@ -225,11 +225,17 @@ TEST_F(GPUWaveATimeoutClosureTest, GpuTimeout10_ConcurrentGuardsIndependent) {
         threads.emplace_back([i, &errors]() {
             auto budget = std::chrono::milliseconds(100 * (i + 1));
             KernelSLAGuard guard(budget);
-            if (guard.getSLADuration() != budget) ++errors;
-            if (guard.checkTimeoutDeadline()) ++errors;
+            if (guard.getSLADuration() != budget) {
+              ++errors;
+            }
+            if (guard.checkTimeoutDeadline()) {
+              ++errors;
+            }
         });
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+      t.join();
+    }
 
     EXPECT_EQ(errors.load(), 0)
         << "GPU-TIMEOUT-10: Concurrent guards must not interfere with each other";

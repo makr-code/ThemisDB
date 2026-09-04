@@ -42,7 +42,8 @@ TEST_F(SagaConcurrentExecutionTest, MultipleSagasConcurrentCompensation) {
     }
     
     // Compensate all SAGAs concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga]() {
             saga->compensate();
@@ -118,7 +119,8 @@ TEST_F(SagaConcurrentExecutionTest, IdempotentCompensation) {
     }
     
     // Multiple threads try to compensate the same saga
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < num_threads; t++) {
         threads.emplace_back([&saga]() {
             saga.compensate();
@@ -146,7 +148,7 @@ TEST_F(SagaConcurrentExecutionTest, CompensationOrderIsReversed) {
         threads.emplace_back([s, &all_correct]() {
             Saga saga;
             std::vector<int> compensation_order;
-            std::mutex order_mutex;
+            std::mutex order_mutex = {};
             
             // Add steps
             for (int i = 0; i < 10; i++) {
@@ -214,7 +216,8 @@ TEST_F(SagaConcurrentExecutionTest, ExceptionHandlingInConcurrentCompensation) {
     }
     
     // Compensate concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga]() {
             saga->compensate();
@@ -263,7 +266,8 @@ TEST_F(SagaConcurrentExecutionTest, SharedResourceCompensation) {
     EXPECT_EQ(shared_counter, num_sagas * ops_per_saga);
     
     // Compensate all SAGAs concurrently
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga]() {
             saga->compensate();
@@ -330,7 +334,7 @@ TEST_F(SagaConcurrentExecutionTest, CompensationTimingConsistency) {
     
     std::vector<std::unique_ptr<Saga>> sagas;
     std::vector<int64_t> compensation_times;
-    std::mutex times_mutex;
+    std::mutex times_mutex = {};
     
     for (int i = 0; i < num_sagas; i++) {
         auto saga = std::make_unique<Saga>();
@@ -348,7 +352,8 @@ TEST_F(SagaConcurrentExecutionTest, CompensationTimingConsistency) {
     }
     
     // Compensate and measure time
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (auto& saga : sagas) {
         threads.emplace_back([&saga, &compensation_times, &times_mutex]() {
             auto start = std::chrono::high_resolution_clock::now();
@@ -435,7 +440,9 @@ TEST_F(SagaConcurrentExecutionTest, CompensateWithRetryRetriesOnException) {
 
     saga.addStep("flaky_step", [&attempts]() {
         int a = ++attempts;
-        if (a < 3) throw std::runtime_error("transient error");
+        if (a < 3) {
+          throw std::runtime_error("transient error");
+        }
         // succeeds on 3rd attempt
     });
 
@@ -469,7 +476,9 @@ TEST_F(SagaConcurrentExecutionTest, GetMetricsReportsRetriedCount) {
 
     // Two steps: one needs a retry, one succeeds immediately
     saga.addStep("flaky", [&calls]() {
-        if (++calls == 1) throw std::runtime_error("first attempt fails");
+        if (++calls == 1) {
+          throw std::runtime_error("first attempt fails");
+        }
     });
     saga.addStep("ok", []() {});
 

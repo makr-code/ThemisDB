@@ -54,7 +54,9 @@ GPUStreamHandle::~GPUStreamHandle() noexcept {
 }
 
 void GPUStreamHandle::destroy() noexcept {
-    if (!stream_) return;
+    if (!stream_) {
+      return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     cudaError_t err = cudaStreamDestroy(stream_);
@@ -114,7 +116,9 @@ GPUEventHandle::~GPUEventHandle() noexcept {
 }
 
 void GPUEventHandle::destroy() noexcept {
-    if (!event_) return;
+    if (!event_) {
+      return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     cudaError_t err = cudaEventDestroy(event_);
@@ -233,7 +237,9 @@ void GPUKernelTimeoutGuard::monitorThread() noexcept {
 }
 
 void GPUKernelTimeoutGuard::cleanupStream() noexcept {
-    if (!stream_) return;
+    if (!stream_) {
+      return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     cudaError_t err = cudaStreamDestroy(stream_);

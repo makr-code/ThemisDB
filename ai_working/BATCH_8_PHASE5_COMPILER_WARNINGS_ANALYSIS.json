@@ -1,0 +1,420 @@
+{
+  "analysis_date": "2026-09-04",
+  "status": "COMPLETE",
+  "overall_metrics": {
+    "total_remaining_warnings": 6813,
+    "affected_files": 1641,
+    "affected_modules": 69,
+    "target_batch_8_reduction": "25-32%",
+    "estimated_warnings_next_batch": "1700-2150"
+  },
+  "warning_patterns": {
+    "unused-parameter": {
+      "estimated_count": 2100,
+      "affected_files": 1136,
+      "priority": "HIGH",
+      "complexity": "LOW",
+      "risk_level": "MINIMAL",
+      "fix_time_per_file": "5-15 min"
+    },
+    "switch-default": {
+      "estimated_count": 1200,
+      "affected_files": 554,
+      "priority": "HIGH",
+      "complexity": "MEDIUM",
+      "risk_level": "LOW",
+      "fix_time_per_file": "15-30 min"
+    },
+    "maybe-uninitialized": {
+      "estimated_count": 1100,
+      "affected_files": 412,
+      "priority": "MEDIUM",
+      "complexity": "MEDIUM",
+      "risk_level": "LOW",
+      "fix_time_per_file": "15-25 min"
+    },
+    "format-security": {
+      "estimated_count": 800,
+      "affected_files": 62,
+      "priority": "MEDIUM",
+      "complexity": "MEDIUM",
+      "risk_level": "MEDIUM",
+      "fix_time_per_file": "20-40 min"
+    },
+    "unused-private-field": {
+      "estimated_count": 650,
+      "affected_files": 183,
+      "priority": "MEDIUM",
+      "complexity": "LOW",
+      "risk_level": "MINIMAL",
+      "fix_time_per_file": "5-10 min"
+    },
+    "deprecated-declarations": {
+      "estimated_count": 450,
+      "affected_files": 20,
+      "priority": "LOW",
+      "complexity": "HIGH",
+      "risk_level": "MEDIUM",
+      "fix_time_per_file": "30-60 min"
+    }
+  },
+  "top_30_files": [
+    {
+      "rank": 1,
+      "file": "src/index/secondary_index.cpp",
+      "warnings": 299,
+      "primary_pattern": "unused-parameter",
+      "risk": "MINIMAL"
+    },
+    {
+      "rank": 2,
+      "file": "src/server/http_server.cpp",
+      "warnings": 219,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 3,
+      "file": "src/replication/replication_manager.cpp",
+      "warnings": 167,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 4,
+      "file": "src/index/graph_index.cpp",
+      "warnings": 137,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 5,
+      "file": "src/query/query_engine.cpp",
+      "warnings": 128,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 6,
+      "file": "src/acceleration/graphics_backends.cpp",
+      "warnings": 124,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 7,
+      "file": "src/storage/rocksdb_wrapper.cpp",
+      "warnings": 121,
+      "primary_pattern": "switch-default",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 8,
+      "file": "src/analytics/forecasting.cpp",
+      "warnings": 118,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 9,
+      "file": "src/index/process_graph.cpp",
+      "warnings": 115,
+      "primary_pattern": "mixed",
+      "risk": "LOW-MEDIUM"
+    },
+    {
+      "rank": 10,
+      "file": "src/exporters/arrow_ipc_exporter.cpp",
+      "warnings": 106,
+      "primary_pattern": "unused-parameter",
+      "risk": "MINIMAL"
+    },
+    {
+      "rank": 11,
+      "file": "src/index/vector_index.cpp",
+      "warnings": 102,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 12,
+      "file": "src/sharding/prometheus_metrics.cpp",
+      "warnings": 99,
+      "primary_pattern": "unused-parameter",
+      "risk": "LOW"
+    },
+    {
+      "rank": 13,
+      "file": "src/main_server.cpp",
+      "warnings": 94,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 14,
+      "file": "src/llm/multi_lora_manager.cpp",
+      "warnings": 93,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 15,
+      "file": "src/server/query_api_handler.cpp",
+      "warnings": 93,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 16,
+      "file": "src/sharding/redundancy_strategy.cpp",
+      "warnings": 81,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 17,
+      "file": "src/llm/llama_wrapper.cpp",
+      "warnings": 80,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 18,
+      "file": "src/transaction/transaction_manager.cpp",
+      "warnings": 80,
+      "primary_pattern": "unused-parameter",
+      "risk": "LOW"
+    },
+    {
+      "rank": 19,
+      "file": "src/query/aql_parser.cpp",
+      "warnings": 79,
+      "primary_pattern": "mixed",
+      "risk": "LOW-MEDIUM"
+    },
+    {
+      "rank": 20,
+      "file": "src/analytics/nlp_text_analyzer.cpp",
+      "warnings": 77,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 21,
+      "file": "src/llm/gpu_memory_manager.cpp",
+      "warnings": 73,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 22,
+      "file": "src/scheduler/task_scheduler.cpp",
+      "warnings": 73,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 23,
+      "file": "src/index/spatial_index.cpp",
+      "warnings": 73,
+      "primary_pattern": "mixed",
+      "risk": "LOW-MEDIUM"
+    },
+    {
+      "rank": 24,
+      "file": "src/geo/cpu_backend.cpp",
+      "warnings": 69,
+      "primary_pattern": "mixed",
+      "risk": "LOW"
+    },
+    {
+      "rank": 25,
+      "file": "src/analytics/columnar_execution.cpp",
+      "warnings": 68,
+      "primary_pattern": "switch-default",
+      "risk": "LOW"
+    },
+    {
+      "rank": 26,
+      "file": "src/network/socket_manager.cpp",
+      "warnings": 65,
+      "primary_pattern": "unused-parameter",
+      "risk": "LOW"
+    },
+    {
+      "rank": 27,
+      "file": "src/auth/token_validator.cpp",
+      "warnings": 63,
+      "primary_pattern": "mixed",
+      "risk": "LOW-MEDIUM"
+    },
+    {
+      "rank": 28,
+      "file": "src/gpu/cuda_kernel_wrapper.cpp",
+      "warnings": 61,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 29,
+      "file": "src/ingestion/ingestion_pipeline.cpp",
+      "warnings": 59,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    },
+    {
+      "rank": 30,
+      "file": "src/distributed_tensor/tensor_allocator.cpp",
+      "warnings": 57,
+      "primary_pattern": "mixed",
+      "risk": "MEDIUM"
+    }
+  ],
+  "top_20_modules": [
+    {
+      "rank": 1,
+      "module": "llm/",
+      "warnings": 2037,
+      "files": 170,
+      "avg_per_file": 12.0,
+      "key_patterns": [
+        "unused-parameter",
+        "maybe-uninitialized"
+      ]
+    },
+    {
+      "rank": 2,
+      "module": "index/",
+      "warnings": 1301,
+      "files": 43,
+      "avg_per_file": 30.3,
+      "key_patterns": [
+        "switch-default"
+      ]
+    },
+    {
+      "rank": 3,
+      "module": "server/",
+      "warnings": 1206,
+      "files": 105,
+      "avg_per_file": 11.5,
+      "key_patterns": [
+        "mixed"
+      ]
+    },
+    {
+      "rank": 4,
+      "module": "storage/",
+      "warnings": 1113,
+      "files": 63,
+      "avg_per_file": 17.7,
+      "key_patterns": [
+        "switch-default",
+        "maybe-uninitialized"
+      ]
+    },
+    {
+      "rank": 5,
+      "module": "sharding/",
+      "warnings": 1015,
+      "files": 91,
+      "avg_per_file": 11.2,
+      "key_patterns": [
+        "unused-parameter",
+        "switch-default"
+      ]
+    },
+    {
+      "rank": 6,
+      "module": "query/",
+      "warnings": 891,
+      "files": 69,
+      "avg_per_file": 12.9,
+      "key_patterns": [
+        "mixed"
+      ]
+    },
+    {
+      "rank": 7,
+      "module": "analytics/",
+      "warnings": 814,
+      "files": 28,
+      "avg_per_file": 29.1,
+      "key_patterns": [
+        "mixed"
+      ]
+    },
+    {
+      "rank": 8,
+      "module": "acceleration/",
+      "warnings": 619,
+      "files": 29,
+      "avg_per_file": 21.4,
+      "key_patterns": [
+        "mixed"
+      ]
+    },
+    {
+      "rank": 9,
+      "module": "rag/",
+      "warnings": 540,
+      "files": 67,
+      "avg_per_file": 8.1,
+      "key_patterns": [
+        "unused-parameter"
+      ]
+    },
+    {
+      "rank": 10,
+      "module": "utils/",
+      "warnings": 495,
+      "files": 44,
+      "avg_per_file": 11.3,
+      "key_patterns": [
+        "maybe-uninitialized"
+      ]
+    }
+  ],
+  "batch_8_execution_plan": {
+    "phase_1": {
+      "pattern": "unused-parameter",
+      "target_warnings": "500-600",
+      "files": 15,
+      "risk_level": "MINIMAL",
+      "duration_hours": "2-3",
+      "method": "[[maybe_unused]] attribute application"
+    },
+    "phase_2": {
+      "pattern": "switch-default",
+      "target_warnings": "400-500",
+      "files": 20,
+      "risk_level": "LOW",
+      "duration_hours": "4-6",
+      "method": "Pattern detection + manual review + default case insertion"
+    },
+    "phase_3": {
+      "pattern": "maybe-uninitialized",
+      "target_warnings": "350-450",
+      "files": 20,
+      "risk_level": "LOW",
+      "duration_hours": "5-7",
+      "method": "Initialize-at-declaration pattern"
+    },
+    "phase_4": {
+      "pattern": "format-security",
+      "target_warnings": "200-250",
+      "files": 10,
+      "risk_level": "MEDIUM",
+      "duration_hours": "6-8",
+      "method": "Format string security patterns"
+    },
+    "phase_5": {
+      "pattern": "cleanup",
+      "target_warnings": "250-350",
+      "files": 30,
+      "risk_level": "MINIMAL",
+      "duration_hours": "4-5",
+      "method": "Remove unused fields, mark/replace deprecated"
+    }
+  }
+}

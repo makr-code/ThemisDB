@@ -237,7 +237,9 @@ public:
     std::optional<SchemaInfo> getById(int32_t id) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = id_map_.find(id);
-        if (it == id_map_.end()) return std::nullopt;
+        if (it == id_map_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
@@ -245,9 +247,13 @@ public:
         const std::string& subject) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         auto sit = subject_latest_.find(subject);
-        if (sit == subject_latest_.end()) return std::nullopt;
+        if (sit == subject_latest_.end()) {
+          return std::nullopt;
+        }
         auto iit = id_map_.find(sit->second);
-        if (iit == id_map_.end()) return std::nullopt;
+        if (iit == id_map_.end()) {
+          return std::nullopt;
+        }
         return iit->second;
     }
 
@@ -668,7 +674,8 @@ message CdcEvent {
         const nlohmann::json payload = eventToPayload(event, coll);
         const SchemaFormat   fmt     = client_->config().default_format;
 
-        std::vector<uint8_t> payload_bytes;
+        std::vector<uint8_t> payload_bytes = {};
+
         if (fmt == SchemaFormat::AVRO && avro_encoder_fn_) {
             payload_bytes = avro_encoder_fn_(payload);
         } else if (fmt == SchemaFormat::PROTOBUF && protobuf_encoder_fn_) {
@@ -700,8 +707,12 @@ message CdcEvent {
      */
     std::optional<nlohmann::json> decodeToJson(
         const std::vector<uint8_t>& wire_bytes) const {
-        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) return std::nullopt;
-        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE)    return std::nullopt;
+        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) {
+          return std::nullopt;
+        }
+        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE) {
+          return std::nullopt;
+        }
 
         const auto payload_begin = wire_bytes.begin() + SCHEMA_REGISTRY_HEADER_SIZE;
         const std::string json_str(payload_begin, wire_bytes.end());
@@ -719,8 +730,12 @@ message CdcEvent {
      * @return Schema ID or -1 when the header is invalid.
      */
     static int32_t extractSchemaId(const std::vector<uint8_t>& wire_bytes) {
-        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) return -1;
-        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE)    return -1;
+        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) {
+          return -1;
+        }
+        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE) {
+          return -1;
+        }
         // Schema ID is stored big-endian at bytes 1–4.
         return static_cast<int32_t>(
             (static_cast<uint32_t>(wire_bytes[1]) << 24) |
@@ -744,7 +759,9 @@ message CdcEvent {
         {
             std::lock_guard<std::mutex> lock(local_cache_mutex_);
             auto it = local_schema_id_cache_.find(collection);
-            if (it != local_schema_id_cache_.end()) return it->second;
+            if (it != local_schema_id_cache_.end()) {
+              return it->second;
+            }
         }
 
         const std::string subject = subjectForCollection(collection);
@@ -757,7 +774,7 @@ message CdcEvent {
         } else if (client_->config().auto_register_schemas) {
             // Auto-register with the default schema template for this format.
             const auto fmt  = client_->config().default_format;
-            std::string def_schema;
+            std::string def_schema = {};
             switch (fmt) {
                 case SchemaFormat::AVRO:     def_schema = defaultAvroSchema(collection); break;
                 case SchemaFormat::PROTOBUF: def_schema = defaultProtobufSchema(collection); break;
@@ -883,7 +900,8 @@ private:
         int32_t schema_id,
         const std::vector<uint8_t>& payload) {
 
-        std::vector<uint8_t> wire;
+        std::vector<uint8_t> wire = {};
+
         wire.reserve(SCHEMA_REGISTRY_HEADER_SIZE + payload.size());
 
         // Magic byte

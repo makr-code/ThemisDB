@@ -307,7 +307,8 @@ TEST_F(MoveSemanticRegressionTest, StressTestManyTemplatesAndInstances) {
     }
     
     // Instantiate and execute each template 10 times
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int t = 0; t < 50; ++t) {
         for (int i = 0; i < 10; ++i) {
             threads.emplace_back([this, t, i]() {

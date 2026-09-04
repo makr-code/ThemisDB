@@ -204,7 +204,9 @@ TEST_F(WikiPhase4RoundtripTest, FullIngestQueryRoundtrip_LWP_RT_01) {
         std::vector<std::chrono::milliseconds> latencies;
         
         double getP95() const {
-            if (latencies.empty()) return 0.0;
+            if (latencies.empty()) {
+              return 0.0;
+            }
             auto sorted = latencies;
             std::sort(sorted.begin(), sorted.end());
             size_t idx = static_cast<size_t>(0.95 * sorted.size());
@@ -212,7 +214,9 @@ TEST_F(WikiPhase4RoundtripTest, FullIngestQueryRoundtrip_LWP_RT_01) {
         }
         
         double getP99() const {
-            if (latencies.empty()) return 0.0;
+            if (latencies.empty()) {
+              return 0.0;
+            }
             auto sorted = latencies;
             std::sort(sorted.begin(), sorted.end());
             size_t idx = static_cast<size_t>(0.99 * sorted.size());
@@ -530,7 +534,7 @@ TEST_F(WikiPhase4RoundtripTest, QueryResultRankingAccuracy_LWP_RT_07) {
     // Simulate ranking (HNSW should rank highest)
     struct RankingScore {
         std::string page;
-        float score;
+        float score = {};
     };
     
     std::vector<RankingScore> results = {

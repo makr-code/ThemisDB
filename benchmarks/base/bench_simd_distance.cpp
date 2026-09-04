@@ -11,7 +11,9 @@ struct RandGen {
     static std::vector<float> gen(size_t dim, std::mt19937& rng) {
         std::uniform_real_distribution<float> dist(0.0f, 1.0f);
         std::vector<float> v(dim);
-        for (size_t i = 0; i < dim; ++i) v[i] = dist(rng);
+        for (size_t i = 0; i < dim; ++i) {
+          v[i] = dist(rng);
+        }
         return v;
     }
 };
@@ -76,7 +78,9 @@ static void BM_Scalar_InnerProduct(benchmark::State& state) {
     auto v = RandGen::gen(dim, rng);
     for (auto _ : state) {
         float acc = 0.0f;
-        for (size_t i = 0; i < dim; ++i) acc += q[i] * v[i];
+        for (size_t i = 0; i < dim; ++i) {
+          acc += q[i] * v[i];
+        }
         benchmark::DoNotOptimize(acc);
     }
     state.counters["dim"] = static_cast<double>(dim);

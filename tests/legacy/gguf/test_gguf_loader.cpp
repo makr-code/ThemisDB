@@ -391,7 +391,7 @@ struct ScopedTempFile {
         path = std::filesystem::temp_directory_path() / ("themis_gguf_test_" + suffix);
     }
     ~ScopedTempFile() {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove(path, ec);  // ignore error (file may not exist)
     }
     // Write bytes to the file
@@ -449,7 +449,7 @@ TEST_F(GGUFLoaderTest, GetTensorDataRejectsOutOfBoundsRange) {
     ScopedTempFile tmp("q4km_oob_tensor_data.gguf");
     tmp.write(makeMockGGUF(GGMLType::Q4_K));
 
-    GGUFLoader loader;
+    GGUFLoader loader = {};
     if (!loader.parseFile(tmp.str())) {
         GTEST_SKIP() << "Mock GGUF did not parse on this platform: " << loader.getLastError();
     }

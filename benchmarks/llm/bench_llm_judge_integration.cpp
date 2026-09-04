@@ -371,7 +371,8 @@ static void BM_BatchEvaluation_10Inputs(benchmark::State& state) {
     integration.setInferenceFunction(fastInferenceFunction);
     PromptTemplateManager template_manager = PromptTemplateManager::createDefault();
     
-    std::vector<EvaluationInput> inputs;
+    std::vector<EvaluationInput> inputs = {};
+
     for (int i = 0; i < 10; i++) {
         inputs.push_back(createTestInput());
     }
@@ -397,7 +398,8 @@ static void BM_BatchEvaluation_100Inputs(benchmark::State& state) {
     integration.setInferenceFunction(fastInferenceFunction);
     PromptTemplateManager template_manager = PromptTemplateManager::createDefault();
     
-    std::vector<EvaluationInput> inputs;
+    std::vector<EvaluationInput> inputs = {};
+
     for (int i = 0; i < 100; i++) {
         inputs.push_back(createTestInput());
     }

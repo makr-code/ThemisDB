@@ -131,7 +131,7 @@ void InferenceGuard::Cleanup() noexcept {
 // TokenBufferGuard Implementation
 // ═══════════════════════════════════════════════════════════════════════════
 
-TokenBufferGuard::TokenBufferGuard(size_t capacity)
+TokenBufferGuard::TokenBufferGuard([[maybe_unused]] size_t capacity)
     : max_capacity_(capacity) {
     
     if (capacity == 0) {
@@ -148,8 +148,8 @@ TokenBufferGuard::TokenBufferGuard(size_t capacity)
 }
 
 void TokenBufferGuard::Push(int32_t token) {
-    if (tokens_.size() >= max_capacity_) {
-        spdlog::error("TokenBufferGuard: overflow detected at size {}", tokens_.size());
+    if (static_cast<int>(tokens_.size()) >= max_capacity_) {
+        spdlog::error("TokenBufferGuard: overflow detected at size {}",static_cast<int>(tokens_.size()));
         throw std::overflow_error(
             "Token buffer overflow: size=" + std::to_string(tokens_.size()) +
             " capacity=" + std::to_string(max_capacity_)
@@ -164,10 +164,10 @@ void TokenBufferGuard::Push(int32_t token) {
     }
 }
 
-int32_t TokenBufferGuard::At(size_t index) const {
-    if (index >= tokens_.size()) {
+int32_t TokenBufferGuard::At([[maybe_unused]] size_t index) const {
+    if (index >= static_cast<int>(tokens_.size())) {
         spdlog::error("TokenBufferGuard: index {} out of range [0, {})",
-                     index, tokens_.size());
+                     index,static_cast<int>(tokens_.size()));
         throw std::out_of_range(
             "Token index out of range: index=" + std::to_string(index) +
             " size=" + std::to_string(tokens_.size())
@@ -176,7 +176,7 @@ int32_t TokenBufferGuard::At(size_t index) const {
     return tokens_[index];
 }
 
-void TokenBufferGuard::Reserve(size_t size) {
+void TokenBufferGuard::Reserve([[maybe_unused]] size_t size) {
     if (size > max_capacity_) {
         throw std::invalid_argument(
             "TokenBufferGuard: reserve size exceeds capacity"

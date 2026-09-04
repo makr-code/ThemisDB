@@ -35,7 +35,7 @@ AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
     // overflow/exceeded conditions. Clamp SIZE_MAX to keep that sentinel
     // representable and avoid wrap-around.
     if (out.max_session_tokens == std::numeric_limits<size_t>::max()) {
-        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1u;
+        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1;
     }
 
     return out;
@@ -62,8 +62,12 @@ size_t mergeDocuments(
 {
     size_t added = 0;
     for (const auto& doc : new_docs) {
-        if (accumulator.size() >= max_total) break;
-        if (seen_ids.count(doc.id)) continue;
+        if (static_cast<int>(accumulator.size()) >= max_total) {
+          break;
+        }
+        if (seen_ids.count(doc.id)) {
+          continue;
+        }
         seen_ids.insert(doc.id);
         accumulator.push_back(doc);
         ++added;
@@ -164,7 +168,7 @@ std::string AgenticRAG::reformulateQuery(
         return original_query;
     }
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << original_query;
     bool first = true;
     for (const auto& aspect : gap.missing_aspects) {
@@ -190,7 +194,7 @@ AgenticRAGResult AgenticRAG::run(
 
     THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}, "
                 "max_session_tokens={}",
-                initial_query, initial_docs.size(), impl_->config.max_iterations,
+                initial_query,static_cast<int>(initial_docs.size()), impl_->config.max_iterations,
                 impl_->config.max_session_tokens);
 
     AgenticRAGResult result;
@@ -266,7 +270,7 @@ AgenticRAGResult AgenticRAG::run(
         const auto iter_start = std::chrono::steady_clock::now();
 
         THEMIS_DEBUG("AgenticRAG iteration {}: query='{}', docs={}",
-                     iter, current_query, accumulated.size());
+                     iter, current_query,static_cast<int>(accumulated.size()));
 
         // ----------------------------------------------------------------
         // 1. Select documents for this iteration.
@@ -289,7 +293,8 @@ AgenticRAGResult AgenticRAG::run(
         // ----------------------------------------------------------------
         // 3. Detect knowledge gaps.
         // ----------------------------------------------------------------
-        std::vector<knowledge_gap::RetrievedDocument> gap_docs;
+        std::vector<knowledge_gap::RetrievedDocument> gap_docs = {};
+
         gap_docs.reserve(eval_docs.size());
         for (const auto& d : eval_docs) {
             gap_docs.push_back(toGapDoc(d));
@@ -343,14 +348,15 @@ AgenticRAGResult AgenticRAG::run(
         // ----------------------------------------------------------------
         const std::string next_query = reformulateQuery(current_query, gap_result);
 
-        std::vector<judge::RetrievedDocument> new_docs;
+        std::vector<judge::RetrievedDocument> new_docs = {};
+
         if (retrieval_fn) {
             const auto seen_vec = toIdVector(seen_ids);
             new_docs = retrieval_fn(next_query, seen_vec);
         }
 
         THEMIS_DEBUG("AgenticRAG iter {}: retrieved {} new docs for query='{}'",
-                     iter, new_docs.size(), next_query);
+                     iter,static_cast<int>(new_docs.size()), next_query);
 
         if (new_docs.empty()) {
             THEMIS_INFO("AgenticRAG no new documents at iteration {}; stopping.", iter);
@@ -403,15 +409,17 @@ AgenticRAGResult AgenticRAG::run(
                 // separated by newlines.  This gives the relay a realistic
                 // snapshot of what the agent produced.
                 // Reserve capacity up-front to avoid quadratic reallocation.
-                size_t total_size = result.final_documents.empty() ? 0u
+                size_t total_size = result.final_documents.empty() ? 0
                     : result.final_documents.size() - 1; // newline separators
                 for (const auto& doc : result.final_documents) {
                     total_size += doc.content.size();
                 }
-                std::string seed;
+                std::string seed = {};
                 seed.reserve(total_size);
                 for (const auto& doc : result.final_documents) {
-                    if (!seed.empty()) seed += '\n';
+                    if (!seed.empty()) {
+                      seed += '\n';
+                    }
                     seed += doc.content;
                 }
 
@@ -423,7 +431,7 @@ AgenticRAGResult AgenticRAG::run(
 
                 THEMIS_INFO("AgenticRAG delegate relay complete: rs_count={}, "
                             "catastrophic_count={}, persistence_failures={}",
-                            result.delegate_relay->scores.rs_per_interaction.size(),
+                            result.delegate_relay-> static_cast<int>(scores.rs_per_interaction.size()),
                             result.delegate_relay->catastrophic_corruption_count,
                             result.delegate_relay->persistence_write_failures);
             } catch (const std::exception& ex) {

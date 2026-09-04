@@ -93,7 +93,8 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryPoint(Timestamp t) const {
 
     ++stats_.point_queries;
 
-    std::vector<TemporalIndexEntry> result;
+    std::vector<TemporalIndexEntry> result = {};
+
     for (const auto& [start, entry] : entries_by_start_) {
         // All entries starting after t cannot contain t
         if (start > t) {
@@ -133,7 +134,8 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryKey(
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<TemporalIndexEntry> result;
+    std::vector<TemporalIndexEntry> result = {};
+
     for (const auto& [start, entry] : entries_by_start_) {
         if (entry.key != key) {
             continue;
@@ -151,7 +153,7 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryKey(
 
 size_t TemporalIndex::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return entries_by_start_.size();
+    return static_cast<int>(entries_by_start_.size());
 }
 
 TemporalIndexStats TemporalIndex::stats() const {

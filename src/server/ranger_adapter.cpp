@@ -63,7 +63,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
     int attempts = 0;
     long backoff = std::max(0L, cfg_.retry_backoff_ms);
     const int max_attempts = std::max(1, cfg_.max_retries + 1); // first try + retries
-    std::string last_err;
+    std::string last_err = {};
 
     while (attempts < max_attempts) {
         attempts++;
@@ -71,7 +71,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         CURL* curl = curl_easy_init();
         if (!curl) { last_err = "curl init failed"; break; }
 
-        std::string response;
+        std::string response = {};
         struct curl_slist* headers = nullptr;
         if (!cfg_.bearer_token.empty()) {
             std::string auth = std::string("Authorization: Bearer ") + cfg_.bearer_token;
@@ -86,15 +86,25 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "themisdb/1.0");
 
         // Timeouts
-        if (cfg_.connect_timeout_ms > 0) curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, cfg_.connect_timeout_ms);
-        if (cfg_.request_timeout_ms > 0) curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, cfg_.request_timeout_ms);
+        if (cfg_.connect_timeout_ms > 0) {
+          curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, cfg_.connect_timeout_ms);
+        }
+        if (cfg_.request_timeout_ms > 0) {
+          curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, cfg_.request_timeout_ms);
+        }
 
         // TLS options
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, cfg_.tls_verify ? 1L : 0L);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, cfg_.tls_verify ? 2L : 0L);
-        if (cfg_.ca_cert_path) curl_easy_setopt(curl, CURLOPT_CAINFO, cfg_.ca_cert_path->c_str());
-        if (cfg_.client_cert_path) curl_easy_setopt(curl, CURLOPT_SSLCERT, cfg_.client_cert_path->c_str());
-        if (cfg_.client_key_path) curl_easy_setopt(curl, CURLOPT_SSLKEY, cfg_.client_key_path->c_str());
+        if (cfg_.ca_cert_path) {
+          curl_easy_setopt(curl, CURLOPT_CAINFO, cfg_.ca_cert_path->c_str());
+        }
+        if (cfg_.client_cert_path) {
+          curl_easy_setopt(curl, CURLOPT_SSLCERT, cfg_.client_cert_path->c_str());
+        }
+        if (cfg_.client_key_path) {
+          curl_easy_setopt(curl, CURLOPT_SSLKEY, cfg_.client_key_path->c_str());
+        }
 
         CURLcode rc = curl_easy_perform(curl);
         long http_code = 0;
@@ -115,7 +125,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         }
 
         // Build error message
-        std::ostringstream o;
+        std::ostringstream o = {};
         if (rc != CURLE_OK) {
             o << "curl error: " << curl_easy_strerror(rc);
         } else {
@@ -124,7 +134,7 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         last_err = o.str();
 
         // Retry on transient errors: network failures or 5xx HTTP
-        bool should_retry = (rc != CURLE_OK) || (http_code >= 500 && http_code < 600);
+        bool should_retry = ((rc != CURLE_OK) || (http_code >= 500 && http_code < 600));
         if (!should_retry || attempts >= max_attempts) {
             break;
         }
@@ -135,7 +145,9 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
         }
     }
 
-    if (err) *err = last_err.empty() ? std::string("fetchPolicies failed") : last_err;
+    if (err) {
+      *err = last_err.empty() ? std::string("fetchPolicies failed") : last_err;
+    }
     return std::nullopt;
 }
 
@@ -150,29 +162,36 @@ RangerClient::convertFromRanger(const json& rangerJson) {
     std::vector<themis::PolicyEngine::Policy> out;
     auto pushPolicies = [&](const json& items, const json& resources, bool effect_allow){
         // Derive resource prefixes (path resource typical)
-        std::vector<std::string> resource_prefixes;
+        std::vector<std::string> resource_prefixes = {};
+
         if (resources.contains("path")) {
             const auto& path = resources["path"];
             if (path.contains("value") && path["value"].is_string()) {
                 resource_prefixes.push_back(path["value"].get<std::string>());
             }
             if (path.contains("values") && path["values"].is_array()) {
-                for (const auto& v : path["values"]) if (v.is_string()) resource_prefixes.push_back(v.get<std::string>());
+                for (const auto& v : path["values"]) {
+                  if (v.is_string()) resource_prefixes.push_back(v.get<std::string>());
+                }
             }
         }
         // Fallback to empty (root) if none
-        if (resource_prefixes.empty()) resource_prefixes.push_back("/");
+        if (resource_prefixes.empty()) {
+          resource_prefixes.push_back("/");
+        }
 
         // Aggregate across items: build one policy per item for simplicity
         if (items.is_array()) {
             for (const auto& it : items) {
                 themis::PolicyEngine::Policy p;
-                p.id = "ranger-" + std::to_string(out.size()+1);
+                p.id = "ranger-" + std::to_string(static_cast<int>(out.size()) +1);
                 p.name = it.value("itemName", std::string("ranger-policy-item"));
                 p.effect_allow = effect_allow;
                 // subjects: users (groups not supported yet)
                 if (it.contains("users") && it["users"].is_array()) {
-                    for (const auto& u : it["users"]) if (u.is_string()) p.subjects.insert(u.get<std::string>());
+                    for (const auto& u : it["users"]) {
+                      if (u.is_string()) p.subjects.insert(u.get<std::string>());
+                    }
                 }
                 // actions: from accesses[].type
                 if (it.contains("accesses") && it["accesses"].is_array()) {
@@ -193,13 +212,21 @@ RangerClient::convertFromRanger(const json& rangerJson) {
     if (rangerJson.is_array()) {
         for (const auto& pol : rangerJson) {
             json resources = pol.value("resources", json::object());
-            if (pol.contains("policyItems")) pushPolicies(pol["policyItems"], resources, true);
-            if (pol.contains("denyPolicyItems")) pushPolicies(pol["denyPolicyItems"], resources, false);
+            if (pol.contains("policyItems")) {
+              pushPolicies(pol["policyItems"], resources, true);
+            }
+            if (pol.contains("denyPolicyItems")) {
+              pushPolicies(pol["denyPolicyItems"], resources, false);
+            }
         }
     } else if (rangerJson.is_object()) {
         json resources = rangerJson.value("resources", json::object());
-        if (rangerJson.contains("policyItems")) pushPolicies(rangerJson["policyItems"], resources, true);
-        if (rangerJson.contains("denyPolicyItems")) pushPolicies(rangerJson["denyPolicyItems"], resources, false);
+        if (rangerJson.contains("policyItems")) {
+          pushPolicies(rangerJson["policyItems"], resources, true);
+        }
+        if (rangerJson.contains("denyPolicyItems")) {
+          pushPolicies(rangerJson["denyPolicyItems"], resources, false);
+        }
     }
     return out;
 }
@@ -220,7 +247,9 @@ json RangerClient::convertToRanger(const std::vector<themis::PolicyEngine::Polic
         for (const auto& a : p.actions) accesses.push_back(json{{"type", a}, {"isAllowed", p.effect_allow}});
         json item;
         item["users"] = json::array();
-        for (const auto& u : p.subjects) item["users"].push_back(u);
+        for (const auto& u : p.subjects) {
+          item["users"].push_back(u);
+        }
         item["accesses"] = accesses;
         if (p.effect_allow) rp["policyItems"] = json::array({item});
         else rp["denyPolicyItems"] = json::array({item});

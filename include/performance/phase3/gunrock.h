@@ -50,7 +50,7 @@ public:
     
     // Get statistics
     struct Stats {
-        size_t num_vertices;
+        size_t num_vertices = 0;
         size_t num_edges;
         bool gpu_available;
         size_t gpu_memory_mb;

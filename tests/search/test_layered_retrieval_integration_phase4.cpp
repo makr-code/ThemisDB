@@ -106,7 +106,7 @@ storage::TTTrain makeTrain(const std::vector<float>& values) {
 class RecordingTracer final : public core::concerns::ITracer {
 public:
     struct CompletedSpan {
-        std::string name;
+        std::string name = {};
         std::map<std::string, std::string> string_attributes;
         bool ok = true;
         std::string description;
@@ -347,7 +347,8 @@ TEST_F(LayeredRetrievalIntegrationPhase4Test, ExecutesAllFourLayersAndEmitsPerLa
     }
 
     const auto spans = tracer->completed();
-    std::vector<std::string> span_names;
+    std::vector<std::string> span_names = {};
+
     span_names.reserve(spans.size());
     for (const auto& span : spans) {
         span_names.push_back(span.name);

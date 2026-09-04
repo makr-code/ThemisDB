@@ -114,7 +114,7 @@ TemporalDatabaseSupport::TemporalQueryBuilder::buildPointInTimeQuery(
     const TemporalSchema& temporal,
     const std::string& timestamp)
 {
-    std::ostringstream sql;
+    std::ostringstream sql = {};
     sql << "SELECT * FROM " << temporal.table_name;
     sql << "\nWHERE";
 
@@ -125,18 +125,24 @@ TemporalDatabaseSupport::TemporalQueryBuilder::buildPointInTimeQuery(
         first = false;
     }
     if (!temporal.valid_to_column.empty()) {
-        if (!first) sql << "\n  AND ";
+        if (!first) {
+          sql << "\n  AND ";
+        }
         sql << "(" << temporal.valid_to_column << " IS NULL"
             << " OR " << temporal.valid_to_column << " > '" << timestamp << "')";
         first = false;
     }
     if (!temporal.transaction_from_column.empty()) {
-        if (!first) sql << "\n  AND ";
+        if (!first) {
+          sql << "\n  AND ";
+        }
         sql << temporal.transaction_from_column << " <= '" << timestamp << "'";
         first = false;
     }
     if (!temporal.transaction_to_column.empty()) {
-        if (!first) sql << "\n  AND ";
+        if (!first) {
+          sql << "\n  AND ";
+        }
         sql << "(" << temporal.transaction_to_column << " IS NULL"
             << " OR " << temporal.transaction_to_column << " > '" << timestamp << "')";
     }
@@ -155,7 +161,7 @@ TemporalDatabaseSupport::TemporalQueryBuilder::buildSystemTimeQuery(
     const std::string& timestamp)
 {
     // SQL:2011 FOR SYSTEM_TIME AS OF
-    std::ostringstream sql;
+    std::ostringstream sql = {};
     sql << "SELECT * FROM " << temporal.table_name
         << "\nFOR SYSTEM_TIME AS OF TIMESTAMP '" << timestamp << "'";
     return sql.str();

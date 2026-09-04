@@ -56,7 +56,9 @@ namespace {
 /// Probe standard locations for the doku.db JSON index file.
 std::string findDokuDbPath() {
     const char* env_db = std::getenv("THEMIS_DOKU_DB_PATH");
-    if (env_db && std::filesystem::exists(env_db)) return env_db;
+    if (env_db && std::filesystem::exists(env_db)) {
+      return env_db;
+    }
 
     const char* env_ws = std::getenv("GITHUB_WORKSPACE");
     std::vector<std::filesystem::path> candidates = {
@@ -69,7 +71,9 @@ std::string findDokuDbPath() {
             std::filesystem::path(env_ws) / "build/test-assets/doku.db.json");
     }
     for (const auto& c : candidates) {
-        if (std::filesystem::exists(c) && std::filesystem::is_regular_file(c)) return c.string();
+        if (std::filesystem::exists(c) && std::filesystem::is_regular_file(c)) {
+          return c.string();
+        }
     }
     return {};
 }
@@ -77,20 +81,29 @@ std::string findDokuDbPath() {
 /// Read first N non-empty lines from a JSON index file as training "prompts".
 /// This is a simple extractor — it looks for "content" fields in the JSON.
 std::vector<std::string> loadDokuChunksAsPrompts(const std::string& json_path, int max_count) {
-    std::vector<std::string> prompts;
-    if (json_path.empty() || !std::filesystem::exists(json_path)) return prompts;
+    std::vector<std::string> prompts = {};
+
+    if (json_path.empty() || !std::filesystem::exists(json_path)) {
+      return prompts;
+    }
 
     std::ifstream f(json_path);
-    std::string line;
+    std::string line = {};
     while (std::getline(f, line) && static_cast<int>(prompts.size()) < max_count) {
         // Simple heuristic: lines containing "content": "..." in the JSON
         auto pos = line.find("\"content\":");
-        if (pos == std::string::npos) continue;
+        if (pos == std::string::npos) {
+          continue;
+        }
         auto start = line.find('"', pos + 10);
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         ++start;
         auto end = line.rfind('"');
-        if (end <= start) continue;
+        if (end <= start) {
+          continue;
+        }
         const std::string content = line.substr(start, end - start);
         if (content.size() > 20) {
             prompts.push_back(content.substr(0, 256)); // Limit token count
@@ -228,7 +241,7 @@ TEST_F(AdaLoraDokuTrainingTest, Lora04_CheckpointRoundTrip) {
 
     // Load into a fresh adapter
     AdaLoRAAdapter restored(4, 8.0f, 16);
-    std::string loaded_fp;
+    std::string loaded_fp = {};
     ASSERT_NO_THROW(loaded_fp = restored.loadFromFile(tmp_path))
         << "loadFromFile() threw unexpectedly";
 
@@ -435,7 +448,7 @@ TEST_F(AdaLoraDokuTrainingTest, Lora08_CacheGate) {
         << "Cache must be valid for matching fingerprint after save";
 
     AdaLoRAAdapter adapter_loaded(4, 8.0f, 12);
-    std::string loaded_fp;
+    std::string loaded_fp = {};
     ASSERT_NO_THROW(loaded_fp = adapter_loaded.loadFromFile(checkpoint_path));
     EXPECT_EQ(loaded_fp, kModelFingerprintV1)
         << "Loaded fingerprint does not match saved fingerprint";

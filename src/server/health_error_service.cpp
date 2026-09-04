@@ -186,7 +186,7 @@ void HealthErrorService::handleConnection(tcp::socket raw_socket) {
         }
 
         // Handle request and get response
-        auto res = handleRequest(req);
+        auto res = handleRequest([[maybe_unused]] req);
 
         // Send response; refresh deadline for write phase.
         stream.expires_after(std::chrono::seconds(10));
@@ -206,7 +206,7 @@ http::response<http::string_body> HealthErrorService::handleRequest(
     // Extract path and query parameters
     std::string target_str = std::string(req.target());
     std::string path = target_str;
-    std::string query_string;
+    std::string query_string = {};
     
     auto qpos = path.find('?');
     if (qpos != std::string::npos) {
@@ -217,10 +217,12 @@ http::response<http::string_body> HealthErrorService::handleRequest(
     // Parse query parameters
     auto parse_query = [](const std::string& query) -> json {
         json params = json::object();
-        if (query.empty()) return params;
+        if (query.empty()) {
+          return params;
+        }
         
         std::istringstream ss(query);
-        std::string param;
+        std::string param = {};
         while (std::getline(ss, param, '&')) {
             auto eq = param.find('=');
             if (eq != std::string::npos) {
@@ -247,40 +249,40 @@ http::response<http::string_body> HealthErrorService::handleRequest(
         }
         // Error endpoints - delegate to ErrorApiHandler
         else if (path == "/errors") {
-            Request handler_req;
-            handler_req.method = std::string(http::to_string(req.method()));
+            Request handler_req = Request();
+            handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
-            handler_req.query = parse_query(query_string);
+            handler_req.query = parse_query([[maybe_unused]] query_string);
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleGetErrors(handler_req, handler_res);
             
-            res.result(static_cast<http::status>(handler_res.status_code));
+            res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
             res.body() = handler_res.body.dump();
             res.prepare_payload();
             return res;
         } else if (path == "/errors/categories") {
-            Request handler_req;
-            handler_req.method = std::string(http::to_string(req.method()));
+            Request handler_req = Request();
+            handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleGetCategories(handler_req, handler_res);
             
-            res.result(static_cast<http::status>(handler_res.status_code));
+            res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
             res.body() = handler_res.body.dump();
             res.prepare_payload();
             return res;
         } else if (path == "/errors/search") {
-            Request handler_req;
-            handler_req.method = std::string(http::to_string(req.method()));
+            Request handler_req = Request();
+            handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
-            handler_req.query = parse_query(query_string);
+            handler_req.query = parse_query([[maybe_unused]] query_string);
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleSearchErrors(handler_req, handler_res);
             
-            res.result(static_cast<http::status>(handler_res.status_code));
+            res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
             res.body() = handler_res.body.dump();
             res.prepare_payload();
             return res;
@@ -288,15 +290,15 @@ http::response<http::string_body> HealthErrorService::handleRequest(
             // Extract error code: /errors/:code
             std::string code_str = path.substr(8); // Skip "/errors/"
             
-            Request handler_req;
-            handler_req.method = std::string(http::to_string(req.method()));
+            Request handler_req = Request();
+            handler_req.method = std::string([[maybe_unused]] http::to_string(req.method()));
             handler_req.path = path;
             handler_req.params["code"] = code_str;
             
-            Response handler_res;
+            Response handler_res = Response();
             error_handler_->handleGetError(handler_req, handler_res);
             
-            res.result(static_cast<http::status>(handler_res.status_code));
+            res.result([[maybe_unused]] static_cast<http::status>(handler_res.status_code));
             res.body() = handler_res.body.dump();
             res.prepare_payload();
             return res;
@@ -338,14 +340,14 @@ http::response<http::string_body> HealthErrorService::handleHealth() {
     
     auto now = std::chrono::system_clock::now();
     auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    std::tm tm_now;
+    std::tm tm_now = {};
 #ifdef _WIN32
     gmtime_s(&tm_now, &time_t_now);
 #else
     gmtime_r(&time_t_now, &tm_now);
 #endif
     
-    std::ostringstream timestamp;
+    std::ostringstream timestamp = {};
     timestamp << std::put_time(&tm_now, "%Y-%m-%dT%H:%M:%SZ");
     
     json health = {

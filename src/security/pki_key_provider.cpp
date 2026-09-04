@@ -88,7 +88,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
         throw std::runtime_error("Failed to open certificate file: " + cert_path);
     }
     
-    std::stringstream cert_stream;
+    std::stringstream cert_stream = {};
     cert_stream << cert_file.rdbuf();
     std::string cert_pem = cert_stream.str();
     cert_file.close();
@@ -150,7 +150,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     std::vector<uint8_t> salt;  // Empty salt
     kek_ = utils::HKDFHelper::derive(pubkey_bytes, salt, info, 32);
     
-    spdlog::info("PKIKeyProvider: KEK derived from certificate public key ({} bytes)", kek_.size());
+    spdlog::info("PKIKeyProvider: KEK derived from certificate public key ({} bytes)",static_cast<int>(kek_.size()));
     
     // Load or create initial DEK
     loadOrCreateDEK(current_dek_version_);
@@ -172,7 +172,7 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     if (existing_opt.has_value()) {
         // Decode hex
         const std::string hex(existing_opt->begin(), existing_opt->end());
-        if (hex.size() != 64) {
+        if (static_cast<int>(hex.size()) != 64) {
             throw std::runtime_error("Persisted IKM hat unerwartete Länge (" + std::to_string(hex.size()) + ")");
         }
         ikm_raw.reserve(32);
@@ -188,7 +188,7 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
             throw std::runtime_error("RAND_bytes für IKM fehlgeschlagen");
         }
         static const char* hex_chars = "0123456789abcdef";
-        std::string hex;
+        std::string hex = {};
         hex.reserve(64);
         for (uint8_t b : ikm_raw) {
             hex.push_back(hex_chars[(b >> 4) & 0xF]);
@@ -204,11 +204,11 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     return kek;
 }
 
-std::string PKIKeyProvider::dekDbKey(uint32_t version) const {
+std::string PKIKeyProvider::dekDbKey([[maybe_unused]] uint32_t version) const {
     return "dek:encrypted:v" + std::to_string(version);
 }
 
-std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
+std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t version) {
     // Check cache
     {
         std::lock_guard<std::mutex> lock(mu_);
@@ -239,7 +239,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
             // If JSON parsing failed, try legacy/binary format: iv||ciphertext||tag
             if (!parsed) {
                 const auto& enc = *encrypted_dek_opt;
-                if (enc.size() < 12 + 16) {
+                if (static_cast<int>(enc.size()) < 12 + 16) {
                     throw std::runtime_error("Invalid encrypted DEK format");
                 }
                 blob.iv.assign(enc.begin(), enc.begin() + 12);
@@ -249,7 +249,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
             
             // Decrypt manually with KEK
             PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-            if (!ctx) throw std::runtime_error("Failed to create cipher context");
+            if (!ctx) {
+              throw std::runtime_error("Failed to create cipher context");
+            }
             
             if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), blob.iv.data()) != 1) {
                 throw std::runtime_error("DecryptInit failed");
@@ -296,13 +298,15 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
         }
          
         PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-        if (!ctx) throw std::runtime_error("Failed to create cipher context");
+        if (!ctx) {
+          throw std::runtime_error("Failed to create cipher context");
+        }
          
         if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), iv.data()) != 1) {
             throw std::runtime_error("EncryptInit failed");
         }
          
-        std::vector<uint8_t> ciphertext(dek.size() + 16);
+        std::vector<uint8_t> ciphertext(static_cast<int>(dek.size()) + 16);
         int len = 0;
          
         if (EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, dek.data(), static_cast<int>(dek.size())) != 1) {
@@ -395,8 +399,9 @@ uint32_t PKIKeyProvider::rotateKey(const std::string& key_id) {
 std::vector<KeyMetadata> PKIKeyProvider::listKeys() {
     std::scoped_lock lk(mu_);
     
-    std::vector<KeyMetadata> keys;
-    keys.reserve(1 + field_key_cache_.size());
+    std::vector<KeyMetadata> keys = {};
+
+    keys.reserve(1 + static_cast<int>(field_key_cache_.size()) );
     
     // Add DEK
     KeyMetadata dek_meta;
@@ -507,7 +512,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         auto encrypted = *encrypted_dek_opt;
         
         // Extract nonce (first 12 bytes)
-        if (encrypted.size() < 12 + 16) {
+        if (static_cast<int>(encrypted.size()) < 12 + 16) {
             throw std::runtime_error("Invalid encrypted Group DEK format");
         }
          
@@ -517,7 +522,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
          
         // Decrypt
         PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-        if (!ctx) throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        if (!ctx) {
+          throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        }
          
         if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), nonce.data()) != 1) {
             throw std::runtime_error("EVP_DecryptInit_ex failed");
@@ -557,7 +564,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         std::vector<uint8_t> tag(16);
          
         PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-        if (!ctx) throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        if (!ctx) {
+          throw std::runtime_error("EVP_CIPHER_CTX_new failed");
+        }
          
         if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), nonce.data()) != 1) {
             throw std::runtime_error("EVP_EncryptInit_ex failed");
@@ -578,8 +587,9 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         }
         
         // Store: nonce + ciphertext + tag
-        std::vector<uint8_t> encrypted;
-        encrypted.reserve(nonce.size() + len + final_len + tag.size());
+        std::vector<uint8_t> encrypted = {};
+
+        encrypted.reserve(static_cast<int>(nonce.size()) + len + final_len + static_cast<int>(tag.size()) );
         encrypted.insert(encrypted.end(), nonce.begin(), nonce.end());
         encrypted.insert(encrypted.end(), ciphertext.begin(), ciphertext.begin() + len + final_len);
         encrypted.insert(encrypted.end(), tag.begin(), tag.end());
@@ -682,7 +692,8 @@ uint32_t PKIKeyProvider::getGroupDEKVersion(const std::string& group_name) const
 std::vector<std::string> PKIKeyProvider::listGroups() const {
     std::scoped_lock lk(mu_);
     
-    std::vector<std::string> groups;
+    std::vector<std::string> groups = {};
+
     groups.reserve(group_versions_.size());
     
     for (const auto& [group_name, version] : group_versions_) {

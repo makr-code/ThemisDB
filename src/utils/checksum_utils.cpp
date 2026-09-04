@@ -29,7 +29,9 @@ static std::string computeFileHash(const std::string& file_path, const EVP_MD* m
     }
 
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return "";
+    if (!ctx) {
+      return "";
+    }
 
     if (EVP_DigestInit_ex(ctx, md, nullptr) != 1) {
         EVP_MD_CTX_free(ctx);
@@ -54,7 +56,7 @@ static std::string computeFileHash(const std::string& file_path, const EVP_MD* m
     }
     EVP_MD_CTX_free(ctx);
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     for (unsigned int i = 0; i < hash_len; i++) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(hash[i]);
     }

@@ -165,7 +165,8 @@ int main() {
     // Step 11: Simulate batch logging
     std::cout << "Logging batch of interactions...\n";
     const int BATCH_SIZE = 20;
-    std::vector<Interaction> batch;
+    std::vector<Interaction> batch = {};
+
     for (int i = 0; i < BATCH_SIZE; i++) {
         Interaction interaction;
         interaction.interaction_id   = "batch_" + std::to_string(i);

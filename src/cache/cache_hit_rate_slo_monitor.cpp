@@ -75,7 +75,7 @@ CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const 
             combined_total += latency_hist_[t].count.load(std::memory_order_relaxed);
         }
 
-        auto percentileFromCombined = [&](double p) -> double {
+        auto percentileFromCombined = [&]([[maybe_unused]] double p) -> double {
             if (combined_total == 0) {
                 return 0.0;
             }
@@ -90,7 +90,7 @@ CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const 
                     return LatencyHistogram::kMidpointsMs[i];
                 }
             }
-            return LatencyHistogram::kMidpointsMs[kB - 1];
+            return LatencyHistogram::kMidpointsMs[static_cast<int>(kB - 1)];
         };
 
         result.p50_latency_ms = percentileFromCombined(0.50);
@@ -213,7 +213,7 @@ nlohmann::json CacheHitRateSloMonitor::getStatus() const {
     j["alerts"] = alerts;
 
     // Per-tier and aggregate latency percentiles
-    auto tierJson = [&](Tier tier) {
+    auto tierJson = [&]([[maybe_unused]] Tier tier) {
         const auto &h = latency_hist_[static_cast<std::size_t>(tier)];
         return nlohmann::json{
             {"p50_ms", h.percentileMs(0.50)},
@@ -241,7 +241,8 @@ nlohmann::json CacheHitRateSloMonitor::getStatus() const {
 
 std::vector<std::string> CacheHitRateSloMonitor::getActiveAlertIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> ids;
+    std::vector<std::string> ids = {};
+
     if (!active_warning_alert_id_.empty()) {
         ids.push_back(active_warning_alert_id_);
     }
@@ -355,7 +356,7 @@ observability::Alert CacheHitRateSloMonitor::buildAlert(ViolationLevel level, do
         alert.severity = observability::AlertSeverity::WARNING;
     }
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Cache hit rate SLO violation: hit_rate=" << hit_rate << " is below " << violationLevelToString(level)
         << " threshold=" << (level == ViolationLevel::CRITICAL ? config_.critical_threshold : config_.warning_threshold)
         << " (total_requests=" << total_requests << ")";
@@ -466,7 +467,7 @@ observability::Alert CacheHitRateSloMonitor::buildLatencyAlert(ViolationLevel le
     alert.severity   = (level == ViolationLevel::CRITICAL) ? observability::AlertSeverity::CRITICAL
                                                            : observability::AlertSeverity::WARNING;
 
-    std::ostringstream msg;
+    std::ostringstream msg = {};
     msg << "Cache latency SLO violation: p99=" << p99_ms << "ms is above " << violationLevelToString(level)
         << " threshold=" << (level == ViolationLevel::CRITICAL ? config_.p99_critical_ms : config_.p99_warn_ms) << "ms";
     alert.message = msg.str();

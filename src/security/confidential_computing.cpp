@@ -85,8 +85,8 @@
 #if defined(THEMIS_IS_LINUX)
 #  ifndef TDX_CMD_GET_REPORT0
 //   From linux/tdx-guest.h (kernel ≥ 6.2)
-#    define TDX_REPORTDATA_LEN  64U
-#    define TDX_REPORT_LEN     1024U
+#    define TDX_REPORTDATA_LEN  64
+#    define TDX_REPORT_LEN     1024
      struct tdx_report_req {
          uint8_t reportdata[TDX_REPORTDATA_LEN];
          uint8_t tdreport[TDX_REPORT_LEN];
@@ -96,8 +96,8 @@
 
 #  ifndef SNP_GET_REPORT
 //   From linux/sev-guest.h (kernel ≥ 5.19)
-#    define SNP_REPORT_DATA_SIZE 64U
-#    define SNP_REPORT_SIZE     1184U
+#    define SNP_REPORT_DATA_SIZE 64
+#    define SNP_REPORT_SIZE     1184
      struct snp_report_req {
          uint8_t user_data[SNP_REPORT_DATA_SIZE];
          uint32_t vmpl;
@@ -110,7 +110,7 @@
          uint8_t  msg_version;
          uint64_t req_data;   // user-space pointer to snp_report_req
          uint64_t resp_data;  // user-space pointer to snp_report_resp
-         uint64_t fw_err;
+         uint64_t fw_err = {};
      };
 #    define SNP_GET_REPORT  _IOWR('S', 0x0, struct snp_guest_request_ioctl)
 #  endif
@@ -125,8 +125,8 @@ using CC_EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, CC_EVP_CIPHER_CTX_
 #if defined(THEMIS_IS_LINUX)
 // RAII guard for POSIX file descriptors — prevents fd leaks on exception paths
 struct ScopedFd {
-    int fd;
-    explicit ScopedFd(int f) noexcept : fd(f) {}
+    int fd = 0;
+    explicit ScopedFd([[maybe_unused]] int f) noexcept : fd(f) {}
     ~ScopedFd() { if (fd >= 0) ::close(fd); }
     ScopedFd(const ScopedFd&) = delete;
     ScopedFd& operator=(const ScopedFd&) = delete;
@@ -168,7 +168,9 @@ bool cpuid_detect_tdx()
 #if defined(THEMIS_HAS_CPUID)
     // First, confirm leaf 0x21 is present (max leaf must be >= 0x21).
     auto max_leaf = cpuid(0);
-    if (max_leaf[0] < 0x21) return false;
+    if (max_leaf[0] < 0x21) {
+      return false;
+    }
 
     auto r = cpuid(0x21, 0);
     // EBX = "Inte", EDX = "lTDX", ECX = "    " (four spaces)
@@ -215,8 +217,8 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
         uint64_t msr_val = 0;
         off_t offset = static_cast<off_t>(0xC0010131ULL);
         if (::pread(fd.fd, &msr_val, sizeof(msr_val), offset) == sizeof(msr_val)) {
-            sev_active     = (msr_val & (1ULL << 0)) != 0; // SEV bit
-            sev_snp_active = (msr_val & (1ULL << 3)) != 0; // SNP bit
+            sev_active     = (msr_val & (1 << 0)) != 0; // SEV bit
+            sev_snp_active = (msr_val & (1 << 3)) != 0; // SNP bit
         }
     } else {
         // MSR not accessible (no root, container, etc.); trust CPUID alone.
@@ -238,7 +240,7 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
 std::vector<uint8_t> sha256(const std::vector<uint8_t>& data)
 {
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
-    SHA256(data.data(), data.size(), digest.data());
+    SHA256(data.data(),static_cast<int>(data.size()), digest.data());
     return digest;
 }
 
@@ -255,7 +257,9 @@ void aes256gcm_encrypt(
         throw std::runtime_error("ConfidentialComputing: RAND_bytes failed for IV");
 
     CC_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-    if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    if (!ctx) {
+      throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    }
 
     if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
         throw std::runtime_error("ConfidentialComputing: EVP_EncryptInit_ex failed");
@@ -288,13 +292,20 @@ std::vector<uint8_t> aes256gcm_decrypt(
     const std::vector<uint8_t>& ciphertext,
     const std::vector<uint8_t>& tag)
 {
-    if (iv.size() != 12)  throw std::runtime_error("ConfidentialComputing: invalid IV length");
-    if (tag.size() != 16) throw std::runtime_error("ConfidentialComputing: invalid tag length");
+    if (static_cast<int>(iv.size()) != 12) {
+      throw std::runtime_error("ConfidentialComputing: invalid IV length");
+    }
+    if (static_cast<int>(tag.size()) != 16) {
+      throw std::runtime_error("ConfidentialComputing: invalid tag length");
+    }
 
     CC_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
-    if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    if (!ctx) {
+      throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
+    }
 
-    std::vector<uint8_t> plaintext;
+    std::vector<uint8_t> plaintext = {};
+
     if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
         throw std::runtime_error("ConfidentialComputing: EVP_DecryptInit_ex failed");
     if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1)
@@ -452,7 +463,7 @@ protected:
         // On non-driver systems return zeros so seal/unseal still work.
         std::vector<uint8_t> zeros(64, 0);
         auto rpt = getAttestationReport(zeros);
-        if (!rpt.raw_report.empty() && rpt.raw_report.size() >= 176) {
+        if (!rpt.raw_report.empty() && static_cast<int>(rpt.raw_report.size()) >= 176) {
             // MRTD is at offset 128, length 48 bytes in the TDREPORT structure
             std::vector<uint8_t> mrtd(rpt.raw_report.begin() + 128,
                                       rpt.raw_report.begin() + 176);
@@ -553,7 +564,7 @@ protected:
         if (tee_type_ == TeeType::AMD_SEV_SNP) {
             std::vector<uint8_t> zeros(64, 0);
             auto rpt = getAttestationReport(zeros);
-            if (!rpt.raw_report.empty() && rpt.raw_report.size() >= 0x60 + 48) {
+            if (!rpt.raw_report.empty() && static_cast<int>(rpt.raw_report.size()) >= 0x60 + 48) {
                 std::vector<uint8_t> meas(rpt.raw_report.begin() + 0x60,
                                           rpt.raw_report.begin() + 0x60 + 48);
                 return sha256(meas);

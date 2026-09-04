@@ -21,7 +21,7 @@ BranchApiHandler::BranchApiHandler(transaction::BranchManager& branch_manager)
     : branch_manager_(branch_manager) {
 }
 
-void BranchApiHandler::registerRoutes(httplib::Server& server) {
+void BranchApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
     // POST /api/v1/branches - Create a new branch
     server.Post("/api/v1/branches", [this](const httplib::Request& req, httplib::Response& res) {
         handleCreateBranch(req, res);
@@ -74,7 +74,7 @@ void BranchApiHandler::registerRoutes(httplib::Server& server) {
 }
 
 void BranchApiHandler::handleCreateBranch(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan("handleCreateBranch");
         return;
@@ -185,7 +185,7 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
 }
 
 void BranchApiHandler::handleMergeBranches(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan("handleMergeBranches");
         return;
@@ -256,7 +256,7 @@ void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, ht
 }
 
 void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
     auto span = Tracer::startSpan("handlePreviewMergeBranches");
         return;
@@ -296,9 +296,9 @@ void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, h
 }
 
 void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
-    json body;
+    json body = {};
     if (!parseJsonBody(req, body, res)) {
-    auto span = Tracer::startSpan("handleResolveMergeBranches");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleResolveMergeBranches");
         return;
     }
 
@@ -312,7 +312,8 @@ void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, h
     }
 
     // Parse per-key conflict resolutions
-    std::vector<transaction::MergeEngine::ConflictResolution> resolutions;
+    std::vector<transaction::MergeEngine::ConflictResolution> resolutions = {};
+
     if (body.contains("resolutions") && body["resolutions"].is_array()) {
         for (const auto& r : body["resolutions"]) {
             transaction::MergeEngine::ConflictResolution res_item;

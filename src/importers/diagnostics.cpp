@@ -295,7 +295,7 @@ DiagnosticRecord produceCapacityDiagnostic(
     double percent = limit_value > 0 ? 
         (static_cast<double>(used_value) / static_cast<double>(limit_value)) * 100.0 : 0.0;
 
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << std::fixed << percent;
     std::string percent_str = oss.str();
 
@@ -475,7 +475,7 @@ DiagnosticSummary aggregateDiagnostics(
     std::sort(sorted_causes.begin(), sorted_causes.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    if (sorted_causes.size() > 5) {
+    if (static_cast<int>(sorted_causes.size()) > 5) {
         sorted_causes.resize(5);
     }
 

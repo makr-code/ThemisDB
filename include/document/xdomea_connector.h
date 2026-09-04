@@ -307,7 +307,9 @@ public:
             std::size_t cursor = from;
             while (true) {
                 auto hit = xml.find(tag, cursor);
-                if (hit == std::string::npos) return std::string::npos;
+                if (hit == std::string::npos) {
+                  return std::string::npos;
+                }
                 const std::size_t next = hit + tag.size();
                 if (next >= xml.size() || xml[next] == '>' || xml[next] == ' ') {
                     return hit;
@@ -318,7 +320,9 @@ public:
 
         while (true) {
             auto ds = findTagStart("<dokument", pos);
-            if (ds == std::string::npos) break;
+            if (ds == std::string::npos) {
+              break;
+            }
             auto de = xml.find("</dokument>", ds);
             if (de == std::string::npos) {
                 result.errors.push_back("Unclosed <dokument> element");
@@ -349,7 +353,9 @@ public:
         pos = 0;
         while (true) {
             auto as = findTagStart("<akte", pos);
-            if (as == std::string::npos) break;
+            if (as == std::string::npos) {
+              break;
+            }
             auto ae = xml.find("</akte>", as);
             if (ae == std::string::npos) {
                 result.errors.push_back("Unclosed <akte> element");
@@ -374,7 +380,9 @@ public:
         // Persist.
         {
             std::unique_lock<std::mutex> lk(mutex_);
-            for (const auto& d : result.documents) store_[d.id] = d;
+            for (const auto& d : result.documents) {
+              store_[d.id] = d;
+            }
         }
 
         result.success = result.errors.empty();
@@ -429,15 +437,20 @@ public:
     std::optional<XDOMEADocument> getDocument(std::string_view id) const override {
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = store_.find(std::string(id));
-        if (it == store_.end()) return std::nullopt;
+        if (it == store_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
     std::vector<XDOMEADocument> listByType(XDOMEAObjectType type) const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<XDOMEADocument> result;
+        std::vector<XDOMEADocument> result = {};
+
         for (const auto& [id, d] : store_) {
-            if (d.object_type == type) result.push_back(d);
+            if (d.object_type == type) {
+              result.push_back(d);
+            }
         }
         return result;
     }
@@ -445,9 +458,12 @@ public:
     std::vector<XDOMEADocument>
     listByRetention(XDOMEARetentionCategory retention) const override {
         std::unique_lock<std::mutex> lk(mutex_);
-        std::vector<XDOMEADocument> result;
+        std::vector<XDOMEADocument> result = {};
+
         for (const auto& [id, d] : store_) {
-            if (d.retention == retention) result.push_back(d);
+            if (d.retention == retention) {
+              result.push_back(d);
+            }
         }
         return result;
     }
@@ -458,7 +474,9 @@ public:
         std::vector<XDOMEADocument> result;
         const std::string pid(parent_id);
         for (const auto& [id, d] : store_) {
-            if (d.parent_id && *d.parent_id == pid) result.push_back(d);
+            if (d.parent_id && *d.parent_id == pid) {
+              result.push_back(d);
+            }
         }
         return result;
     }
@@ -482,14 +500,18 @@ private:
         const std::string open  = "<" + tag + ">";
         const std::string close = "</" + tag + ">";
         auto s = fragment.find(open);
-        if (s == std::string::npos) return;
+        if (s == std::string::npos) {
+          return;
+        }
         auto e = fragment.find(close, s + open.size());
-        if (e == std::string::npos) return;
+        if (e == std::string::npos) {
+          return;
+        }
         out = fragment.substr(s + open.size(), e - s - open.size());
     }
 
     static std::string escapeXML_(const std::string& s) {
-        std::string out;
+        std::string out = {};
         out.reserve(s.size());
         for (char c : s) {
             switch (c) {

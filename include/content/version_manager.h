@@ -28,7 +28,7 @@ namespace content {
 class VersionManager {
 public:
     struct Version {
-        int version_number;
+        int version_number = 0;
         int64_t timestamp;
         std::string author;
         std::string comment;

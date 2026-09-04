@@ -26,7 +26,8 @@ protected:
     
     // Helper to create test data
     std::vector<json> createTestData(size_t count) {
-        std::vector<json> data;
+        std::vector<json> data = {};
+
         for (size_t i = 0; i < count; ++i) {
             data.push_back({
                 {"id", i},

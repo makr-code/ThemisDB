@@ -253,8 +253,8 @@ bool ABTestManager::startTest(const ABModuleTestConfig &config, ModuleLoader &lo
 
 bool ABTestManager::promoteTest(const std::string &test_id) {
     // Capture the information we need under the lock, then do the I/O outside.
-    std::string module_name;
-    std::string treatment_path;
+    std::string module_name = {};
+    std::string treatment_path = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -374,7 +374,7 @@ bool ABTestManager::shouldUseTreatment(const std::string &test_id, const std::st
     }
 
     size_t hash       = hashRequestKey(request_key);
-    double normalized = static_cast<double>(hash % 10000u) / 10000.0;
+    double normalized = static_cast<double>(hash % 10000) / 10000.0;
     return normalized < it->second.config.traffic_split;
 }
 
@@ -549,7 +549,8 @@ ABTestStatus ABTestManager::getTestStatus(const std::string &test_id) const {
 
 std::vector<std::string> ABTestManager::getActiveTests() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> active;
+    std::vector<std::string> active = {};
+
     for (const auto &[id, entry] : tests_) {
         if (entry.status == ABTestStatus::ACTIVE) {
             active.push_back(id);
@@ -573,7 +574,8 @@ ABVariantMetrics ABTestManager::getTreatmentMetrics(const std::string &test_id) 
 std::vector<ABTestMetricRow> ABTestManager::exportMetricsSnapshot() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    std::vector<ABTestMetricRow> rows;
+    std::vector<ABTestMetricRow> rows = {};
+
     rows.reserve(tests_.size() * 2);
 
     for (const auto &[id, entry] : tests_) {
@@ -676,7 +678,7 @@ void ABTestManager::persistTestEntry(const std::string &test_id, const TestEntry
     return (p2 - p1) / denom;
 }
 
-/*static*/ double ABTestManager::calculatePValue(double z_statistic) {
+/*static*/ double ABTestManager::calculatePValue([[maybe_unused]] double z_statistic) {
     // Two-tailed p-value via complementary error function approximation
     // (Abramowitz & Stegun 7.1.26).
     double abs_z = std::abs(z_statistic);

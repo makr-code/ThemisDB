@@ -26,7 +26,7 @@ using namespace themis::server;
 
 /// Build a raw gRPC-Web data frame from raw bytes.
 static std::string makeGrpcWebFrame(const std::string& msg, uint8_t flags = 0x00) {
-    std::string frame;
+    std::string frame = {};
     frame.push_back(static_cast<char>(flags));
     uint32_t len = static_cast<uint32_t>(msg.size());
     frame.push_back(static_cast<char>((len >> 24) & 0xFF));
@@ -58,7 +58,7 @@ TEST(GrpcWebFrameDecode, ValidDataFrame_Succeeds) {
     const std::string proto = "\x0A\x05hello";
     const std::string frame = makeGrpcWebFrame(proto);
 
-    std::string out;
+    std::string out = {};
     EXPECT_TRUE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
     EXPECT_EQ(out, proto);
 }
@@ -66,7 +66,7 @@ TEST(GrpcWebFrameDecode, ValidDataFrame_Succeeds) {
 TEST(GrpcWebFrameDecode, EmptyPayload_Succeeds) {
     const std::string frame = makeGrpcWebFrame("");
 
-    std::string out;
+    std::string out = {};
     EXPECT_TRUE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
     EXPECT_TRUE(out.empty());
 }
@@ -74,27 +74,27 @@ TEST(GrpcWebFrameDecode, EmptyPayload_Succeeds) {
 TEST(GrpcWebFrameDecode, TooShort_Fails) {
     // Less than 5 bytes
     const std::string frame = "\x00\x00";
-    std::string out;
+    std::string out = {};
     EXPECT_FALSE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
 }
 
 TEST(GrpcWebFrameDecode, CompressedFrame_Rejected) {
     // Flag byte 0x01 = compressed; proxy must reject this
     const std::string frame = makeGrpcWebFrame("compressed-data", 0x01);
-    std::string out;
+    std::string out = {};
     EXPECT_FALSE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
 }
 
 TEST(GrpcWebFrameDecode, TrailerFlag_Rejected) {
     // Trailer flag 0x80 is not valid in requests
     const std::string frame = makeGrpcWebFrame("trailers", 0x80);
-    std::string out;
+    std::string out = {};
     EXPECT_FALSE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
 }
 
 TEST(GrpcWebFrameDecode, LengthExceedsBody_Fails) {
     // Header claims 100 bytes but body only has 2
-    std::string frame;
+    std::string frame = {};
     frame.push_back('\x00');   // flags
     frame.push_back('\x00');   // length byte 1
     frame.push_back('\x00');   // length byte 2
@@ -103,14 +103,14 @@ TEST(GrpcWebFrameDecode, LengthExceedsBody_Fails) {
     frame.push_back('A');      // only 1 byte
     frame.push_back('B');      // 2 bytes
 
-    std::string out;
+    std::string out = {};
     EXPECT_FALSE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
 }
 
 TEST(GrpcWebFrameDecode, ExactFiveByteHeader_EmptyBody) {
     // Frame header only, zero-length message
     std::string frame(5, '\x00');
-    std::string out;
+    std::string out = {};
     EXPECT_TRUE(GrpcWebProxyHandler::decodeGrpcWebFrame(frame, out));
     EXPECT_TRUE(out.empty());
 }

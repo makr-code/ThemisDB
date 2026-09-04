@@ -50,7 +50,7 @@ public:
     };
     
     struct HnswParams {
-        int M;                    // Connections per node
+        int M = 0;                    // Connections per node
         int ef_construction;      // Build-time search width
         int ef_search;            // Query-time search width
         

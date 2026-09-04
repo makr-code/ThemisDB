@@ -43,7 +43,7 @@ void PersonalizedRanker::recordInteraction(const UserInteraction& interaction) {
     std::lock_guard<std::mutex> lock(mu_);
 
     auto& user_history = history_[interaction.user_id];
-    if (user_history.size() >= config_.max_interactions_per_user) {
+    if (static_cast<int>(user_history.size()) >= config_.max_interactions_per_user) {
         // Evict oldest interaction (front of the vector)
         user_history.erase(user_history.begin());
     }
@@ -85,11 +85,15 @@ double PersonalizedRanker::computeScoreUnlocked(
     std::chrono::system_clock::time_point now) const {
 
     auto it = history_.find(user_id);
-    if (it == history_.end()) return 0.0;
+    if (it == history_.end()) {
+      return 0.0;
+    }
 
     double score = 0.0;
     for (const auto& interaction : it->second) {
-        if (interaction.document_id != document_id) continue;
+        if (interaction.document_id != document_id) {
+          continue;
+        }
 
         double age_seconds = std::chrono::duration<double>(
             now - interaction.timestamp).count();
@@ -112,7 +116,9 @@ void PersonalizedRanker::applyPersonalization(
     std::vector<RankedResult>& candidates,
     std::chrono::system_clock::time_point now) const {
 
-    if (candidates.empty() || user_id.empty()) return;
+    if (candidates.empty() || user_id.empty()) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(mu_);
     for (auto& candidate : candidates) {
@@ -126,7 +132,7 @@ void PersonalizedRanker::applyPersonalization(
               });
 
     THEMIS_DEBUG("PersonalizedRanker::applyPersonalization: user='{}', {} candidates",
-                 user_id, candidates.size());
+                 user_id,static_cast<int>(candidates.size()));
 }
 
 // ============================================================================
@@ -149,7 +155,7 @@ std::vector<UserInteraction> PersonalizedRanker::getUserInteractions(
 
 size_t PersonalizedRanker::userCount() const {
     std::lock_guard<std::mutex> lock(mu_);
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 void PersonalizedRanker::clearUser(const std::string& user_id) {

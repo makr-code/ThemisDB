@@ -42,7 +42,7 @@ void TaskAnomalyDetector::start() {
     
     running_.store(true);
     callback_thread_ = std::thread(&TaskAnomalyDetector::anomalyCallbackWorker, this);
-    THEMIS_INFO("TaskAnomalyDetector: background callback thread started");
+    THEMIS_INFO([[maybe_unused]] "TaskAnomalyDetector: background callback thread started");
 }
 
 void TaskAnomalyDetector::stop() {
@@ -56,16 +56,16 @@ void TaskAnomalyDetector::stop() {
     
     queue_cv_.notify_all();
     
-    if (callback_thread_.joinable()) {
+    if ([[maybe_unused]] callback_thread_.joinable()) {
         callback_thread_.join();
     }
     
-    THEMIS_INFO("TaskAnomalyDetector: background callback thread stopped");
+    THEMIS_INFO([[maybe_unused]] "TaskAnomalyDetector: background callback thread stopped");
 }
 
 // Background worker thread for async anomaly callbacks
 void TaskAnomalyDetector::anomalyCallbackWorker() {
-    THEMIS_DEBUG("TaskAnomalyDetector callback worker started");
+    THEMIS_DEBUG([[maybe_unused]] "TaskAnomalyDetector callback worker started");
     
     while (running_.load()) {
         std::unique_lock<std::mutex> lock(queue_mutex_);
@@ -94,10 +94,10 @@ void TaskAnomalyDetector::anomalyCallbackWorker() {
         }
     }
     
-    THEMIS_DEBUG("TaskAnomalyDetector callback worker stopped");
+    THEMIS_DEBUG([[maybe_unused]] "TaskAnomalyDetector callback worker stopped");
 }
 
-AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event) {
+AnomalyMetrics TaskAnomalyDetector::recordExecution([[maybe_unused]] const TaskAuditEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     const std::string& task_id = event.task_id;
@@ -163,7 +163,9 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event)
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
             for (size_t i = 0; i < anomalies.size(); i++) {
-                if (i > 0) metrics.description += ", ";
+                if (i > 0) {
+                  metrics.description += ", ";
+                }
                 metrics.description += anomalies[i];
             }
         }
@@ -185,7 +187,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     
     // Update execution counts
     stats.total_executions++;
-    if (!event.success) {
+    if ([[maybe_unused]] !event.success) {
         stats.total_failures++;
     }
     
@@ -196,16 +198,16 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     stats.last_execution = event.timestamp;
     
     // Record execution time
-    stats.execution_times.push_back(event.timestamp);
-    stats.execution_durations.push_back(event.duration_ms);
-    stats.execution_results.push_back(event.success);
+    stats.execution_times.push_back([[maybe_unused]] event.timestamp);
+    stats.execution_durations.push_back([[maybe_unused]] event.duration_ms);
+    stats.execution_results.push_back([[maybe_unused]] event.success);
     
     // Record resource usage
-    stats.cpu_usage.push_back(event.resource_usage.cpu_time_ms);
-    stats.memory_usage.push_back(static_cast<double>(event.resource_usage.memory_bytes));
+    stats.cpu_usage.push_back([[maybe_unused]] event.resource_usage.cpu_time_ms);
+    stats.memory_usage.push_back([[maybe_unused]] static_cast<double>(event.resource_usage.memory_bytes));
     
     // Limit history size
-    if (stats.execution_times.size() > config_.max_history_size) {
+    if (static_cast<int>(stats.execution_times.size()) > config_.max_history_size) {
         stats.execution_times.pop_front();
         stats.execution_durations.pop_front();
         stats.execution_results.pop_front();
@@ -240,10 +242,10 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
         stats.failure_rate = static_cast<double>(stats.total_failures) / stats.total_executions;
         
         // Recent failure rate (last 20 executions)
-        size_t recent_window = std::min(size_t(20), stats.execution_results.size());
+        size_t recent_window = std::min(size_t(20),static_cast<int>(stats.execution_results.size()));
         size_t recent_failures = 0;
-        for (size_t i = stats.execution_results.size() - recent_window; 
-             i < stats.execution_results.size(); i++) {
+        for (size_t i = static_cast<int>(stats.execution_results.size()) - recent_window; 
+             i <static_cast<int>(stats.execution_results.size()); i++) {
             if (!stats.execution_results[i]) {
                 recent_failures++;
             }
@@ -252,7 +254,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     }
     
     // Calculate execution frequency
-    if (stats.execution_times.size() >= 2) {
+    if (static_cast<int>(stats.execution_times.size()) >= 2) {
         auto duration = stats.last_execution - stats.first_execution;
         auto hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
         if (hours > 0) {
@@ -272,7 +274,7 @@ double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.execution_times.size() < config_.min_samples) {
+    if (static_cast<int>(stats.execution_times.size()) < config_.min_samples) {
         return 0.0;
     }
     
@@ -316,14 +318,15 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.execution_times.size() < config_.pattern_window_size) {
+    if (static_cast<int>(stats.execution_times.size()) < config_.pattern_window_size) {
         return 0.0;
     }
     
     // Analyze inter-execution intervals
-    std::vector<double> intervals;
-    for (size_t i = 1; i < stats.execution_times.size(); i++) {
-        auto interval = stats.execution_times[i] - stats.execution_times[i-1];
+    std::vector<double> intervals = {};
+
+    for (size_t i = 1; i <static_cast<int>(stats.execution_times.size()); i++) {
+        auto interval = stats.execution_times[i] - stats.execution_times[static_cast<int>(i - 1)];
         intervals.push_back(std::chrono::duration<double>(interval).count());
     }
     
@@ -338,7 +341,7 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
         std::deque<double>(intervals.begin(), intervals.end()), mean_interval);
     
     // Get recent interval
-    if (intervals.size() >= 2) {
+    if (static_cast<int>(intervals.size()) >= 2) {
         double recent_interval = intervals.back();
         
         // Check if recent interval is significantly different from baseline
@@ -360,7 +363,7 @@ double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.cpu_usage.size() < config_.min_samples) {
+    if (static_cast<int>(stats.cpu_usage.size()) < config_.min_samples) {
         return 0.0;
     }
     
@@ -395,7 +398,7 @@ double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.execution_results.size() < config_.min_samples) {
+    if (static_cast<int>(stats.execution_results.size()) < config_.min_samples) {
         return 0.0;
     }
     
@@ -492,7 +495,9 @@ AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) con
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
             for (size_t i = 0; i < anomalies.size(); i++) {
-                if (i > 0) metrics.description += ", ";
+                if (i > 0) {
+                  metrics.description += ", ";
+                }
                 metrics.description += anomalies[i];
             }
         }
@@ -541,7 +546,7 @@ void TaskAnomalyDetector::recalibrateBaseline(const std::string& task_id) {
     }
     
     // Recalculate execution frequency
-    if (stats.execution_times.size() >= 2) {
+    if (static_cast<int>(stats.execution_times.size()) >= 2) {
         auto duration = stats.last_execution - stats.first_execution;
         auto hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
         if (hours > 0) {
@@ -620,7 +625,9 @@ nlohmann::json TaskAnomalyDetector::exportStatistics() const {
         // Persist raw deque data so baseline survives restarts
         auto dequeToJson = [](const std::deque<double>& d) {
             nlohmann::json arr = nlohmann::json::array();
-            for (double v : d) arr.push_back(v);
+            for (double v : d) {
+              arr.push_back(v);
+            }
             return arr;
         };
         task_json["execution_durations"] = dequeToJson(stats.execution_durations);
@@ -637,7 +644,9 @@ nlohmann::json TaskAnomalyDetector::exportStatistics() const {
 
         // Persist execution results (success/failure booleans)
         nlohmann::json res_arr = nlohmann::json::array();
-        for (bool b : stats.execution_results) res_arr.push_back(b);
+        for (bool b : stats.execution_results) {
+          res_arr.push_back(b);
+        }
         task_json["execution_results"] = res_arr;
 
         j["tasks"][task_id] = task_json;
@@ -667,7 +676,9 @@ void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
     }
 
     // Restore per-task statistics including the raw deque data for baseline detection
-    if (!data.contains("tasks")) return;
+    if (!data.contains("tasks")) {
+      return;
+    }
 
     for (const auto& [task_id, task_json] : data["tasks"].items()) {
         TaskStatistics& stats = task_stats_[task_id];
@@ -697,8 +708,11 @@ void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
 
         // Restore raw deques
         auto jsonToDequeDouble = [](const nlohmann::json& arr) {
-            std::deque<double> d;
-            for (const auto& v : arr) d.push_back(v.get<double>());
+            std::deque<double> d = {};
+
+            for (const auto& v : arr) {
+              d.push_back(v.get<double>());
+            }
             return d;
         };
 
@@ -737,7 +751,7 @@ double TaskAnomalyDetector::calculateMean(const std::deque<double>& values) cons
 }
 
 double TaskAnomalyDetector::calculateStdDev(const std::deque<double>& values, double mean) const {
-    if (values.size() < 2) {
+    if (static_cast<int>(values.size()) < 2) {
         return 0.0;
     }
     
@@ -747,7 +761,7 @@ double TaskAnomalyDetector::calculateStdDev(const std::deque<double>& values, do
         sum_sq_diff += diff * diff;
     }
     
-    return std::sqrt(sum_sq_diff / (values.size() - 1));
+    return std::sqrt(sum_sq_diff / (static_cast<int>(values.size()) - 1));
 }
 
 double TaskAnomalyDetector::calculatePercentile(const std::deque<double>& values, 
@@ -759,7 +773,7 @@ double TaskAnomalyDetector::calculatePercentile(const std::deque<double>& values
     std::vector<double> sorted(values.begin(), values.end());
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(percentile * (sorted.size() - 1));
+    size_t index = static_cast<size_t>(percentile * (static_cast<int>(sorted.size()) - 1));
     return sorted[index];
 }
 

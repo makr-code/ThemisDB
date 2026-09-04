@@ -60,7 +60,7 @@ TEST_F(LLMAQLStreamingTest, InferStreamingCallbackIsInvoked) {
 
 TEST_F(LLMAQLStreamingTest, InferStreamingReturnEqualsAccumulatedTokens) {
     // The return value must equal the concatenation of all callback tokens.
-    std::string accumulated;
+    std::string accumulated = {};
 
     try {
         std::string result = handler->executeInferStreaming(
@@ -358,7 +358,7 @@ TEST_F(LLMAQLStreamingTest, StreamExplainAQLCallbackIsInvoked) {
 
 TEST_F(LLMAQLStreamingTest, StreamExplainAQLReturnEqualsAccumulatedTokens) {
     // The return value must equal the concatenation of all callback tokens.
-    std::string accumulated;
+    std::string accumulated = {};
 
     try {
         std::string result = handler->streamExplainAQL(

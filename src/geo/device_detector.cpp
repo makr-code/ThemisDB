@@ -90,7 +90,7 @@ GeoDeviceCapability GeoDeviceDetector::Assess(const themis::gpu::DeviceInfo &dev
 
     cap.meets_compute_requirement
         = (device.compute_major > kGeoMinComputeMajor)
-          || (device.compute_major == kGeoMinComputeMajor && device.compute_minor >= kGeoMinComputeMinor);
+          || (device.compute_major == (kGeoMinComputeMajor && device.compute_minor >= kGeoMinComputeMinor));
 
     cap.meets_vram_requirement = (device.free_vram_bytes >= kGeoMinVramBytes);
 
@@ -123,7 +123,8 @@ std::vector<GeoDeviceCapability> GeoDeviceDetector::Detect() {
     }
     const auto raw = fn ? fn() : themis::gpu::DeviceDiscovery::Enumerate();
 
-    std::vector<GeoDeviceCapability> result;
+    std::vector<GeoDeviceCapability> result = {};
+
     result.reserve(raw.size());
 
     for (const auto &d : raw) {
@@ -183,7 +184,7 @@ bool GeoDeviceDetector::HasSuitableDevice() {
 std::string GeoDeviceDetector::ReportJson(const std::vector<GeoDeviceCapability> &capabilities) {
     const bool has_suitable = HasSuitableDevice(capabilities);
 
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << "{\"has_suitable_device\":" << (has_suitable ? "true" : "false") << ",\"devices\":[";
 
     bool first = true;
@@ -194,8 +195,8 @@ std::string GeoDeviceDetector::ReportJson(const std::vector<GeoDeviceCapability>
         first = false;
 
         const auto &d           = cap.device;
-        const uint64_t total_mb = d.total_vram_bytes / (1024ULL * 1024ULL);
-        const uint64_t free_mb  = d.free_vram_bytes / (1024ULL * 1024ULL);
+        const uint64_t total_mb = d.total_vram_bytes / (1024 * 1024);
+        const uint64_t free_mb  = d.free_vram_bytes / (1024 * 1024);
 
         ss << "{"
            << "\"index\":" << d.index << ","

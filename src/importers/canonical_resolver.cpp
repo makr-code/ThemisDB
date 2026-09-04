@@ -38,7 +38,7 @@ json GoldenRecord::toJson() const {
 static std::string generateUUID() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     uint64_t hi = dist(rng);
     uint64_t lo = dist(rng);
     hi          = (hi & 0xFFFFFFFFFFFF0FFFull) | 0x0000000000004000ull;
@@ -53,7 +53,7 @@ static std::string nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
     const auto t   = system_clock::to_time_t(now);
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     std::tm tm_buf{};
 #ifdef _WIN32
     gmtime_s(&tm_buf, &t);
@@ -107,7 +107,7 @@ std::string CanonicalEntityResolver::reconcileStringField(const std::string &val
             }
             return value1 + separator + value2;
         case FieldRule::TAKE_LONGEST:
-            return (value1.size() >= value2.size()) ? value1 : value2;
+            return static_cast<bool>(( static_cast<int>(value1.size()) < static_cast<int>(= value2.size()))) ? value1 : value2;
         case FieldRule::TAKE_NEWEST:
             // Treat values as ISO timestamp strings; lexicographic order suffices for ISO 8601.
             return (value1 >= value2) ? value1 : value2;
@@ -165,7 +165,7 @@ json CanonicalEntityResolver::reconcileObjectField(const json &obj1, const json 
             // Prefer longer / non-null value.
             const std::string v1 = result[key].is_string() ? result[key].get<std::string>() : result[key].dump();
             const std::string v2 = it.value().is_string() ? it.value().get<std::string>() : it.value().dump();
-            if (v2.size() > v1.size()) {
+            if (static_cast<int>(v2.size()) > static_cast<int>(v1.size())) {
                 result[key] = it.value();
             }
         }
@@ -181,7 +181,7 @@ double CanonicalEntityResolver::scoreFieldQuality(const std::string & /*field_na
     }
 
     double score = 1.0;
-    if (policy.min_length > 0 && value.size() < policy.min_length) {
+    if (policy.min_length > 0 && static_cast<int>(value.size()) < policy.min_length) {
         score *= 0.5;
     }
     if (policy.prefer_digits_only) {
@@ -213,8 +213,8 @@ std::string CanonicalEntityResolver::bestStringValue(const std::string &v1, cons
         case ResolutionPolicy::NEWEST_FIRST:
             return (v1 >= v2) ? v1 : v2;
         case ResolutionPolicy::MOST_COMPLETE:
-        case ResolutionPolicy::RICHEST_MERGE:
-            return (v1.size() >= v2.size()) ? v1 : v2;
+        [[fallthrough]];\n        case ResolutionPolicy::RICHEST_MERGE:
+            return static_cast<bool>(( static_cast<int>(v1.size()) < static_cast<int>(= v2.size()))) ? v1 : v2;
         case ResolutionPolicy::EXISTING_PREFERRED:
             return v1;
         case ResolutionPolicy::INCOMING_PREFERRED:
@@ -259,10 +259,10 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
             }
         }
     } else if (policy == ResolutionPolicy::NEWEST_FIRST) {
-        std::string newest;
+        std::string newest = {};
         for (size_t i = 0; i < linked_entities.size(); ++i) {
             const auto &e = linked_entities[i].second;
-            std::string ts;
+            std::string ts = {};
             if (e.contains("updated_at") && e["updated_at"].is_string()) {
                 ts = e["updated_at"].get<std::string>();
             } else if (e.contains("created_at") && e["created_at"].is_string()) {
@@ -274,7 +274,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
             }
         }
     } else if (policy == ResolutionPolicy::INCOMING_PREFERRED) {
-        base_idx = linked_entities.size() - 1;
+        base_idx = static_cast<int>(linked_entities.size()) - 1;
     }
     // EXISTING_PREFERRED → base_idx = 0 (already set).
     // RICHEST_MERGE / CUSTOM_RULES → start from 0 and iterate all.

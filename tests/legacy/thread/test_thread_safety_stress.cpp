@@ -100,8 +100,12 @@ TEST(ThreadSafetyUtils, SharedSynchronizedReaderWriter) {
     }
     
     // Wait for completion
-    for (auto& t : writers) t.join();
-    for (auto& t : readers) t.join();
+    for (auto& t : writers) {
+      t.join();
+    }
+    for (auto& t : readers) {
+      t.join();
+    }
     
     // Verify counts
     EXPECT_EQ(successful_writes.load(), NUM_WRITERS * WRITES_PER_THREAD);

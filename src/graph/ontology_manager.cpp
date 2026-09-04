@@ -65,7 +65,7 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
         return {};
     }
     ++pos; // skip opening '"'
-    std::string result;
+    std::string result = {};
     while (pos < s.size() && s[pos] != '"') {
         if (s[pos] == '\\' && pos + 1 < s.size()) {
             ++pos;
@@ -98,7 +98,7 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
         }
         ++pos;
     }
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         ++pos; // skip closing '"'
     }
     return result;
@@ -124,7 +124,7 @@ static std::vector<std::string> parseStringArray(const std::string &s, std::size
         }
         skipWs(s, pos);
     }
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         ++pos; // skip ']'
     }
     return result;
@@ -164,7 +164,7 @@ parseObject(const std::string &s, std::size_t &pos,
         }
         skipWs(s, pos);
     }
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         ++pos; // skip closing brace
     }
     return fields;
@@ -204,7 +204,7 @@ static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &l
     std::vector<YamlEntry> entries;
     YamlEntry current;
     bool in_entry = false;
-    std::string current_list_key;
+    std::string current_list_key = {};
 
     auto flush = [&]() {
         if (in_entry && (!current.scalar.empty() || !current.list.empty())) {
@@ -214,11 +214,11 @@ static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &l
         }
     };
 
-    while (i < lines.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(lines.size())) {
         const std::string &raw = lines[i];
         // count leading spaces
         int indent = 0;
-        while (indent < static_cast<int>(raw.size()) && raw[indent] == ' ') {
+        while (indent < raw.size() && raw[indent] == ' ') {
             ++indent;
         }
         std::string line = trimYaml(raw);
@@ -298,7 +298,7 @@ bool OntologyManager::loadFromJson(std::string_view path) {
     if (!f.is_open()) {
         return false;
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     return parseJson(ss.str());
 }
@@ -313,7 +313,7 @@ bool OntologyManager::loadFromYaml(std::string_view path) {
     if (!f.is_open()) {
         return false;
     }
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << f.rdbuf();
     return parseYaml(ss.str());
 }
@@ -412,7 +412,7 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
         std::unique_lock<std::shared_mutex> wl(isa_cache_mutex_);
         // Double-check after acquiring write lock
         if (isa_cache_.find(cache_key) == isa_cache_.end()) {
-            if (isa_cache_.size() >= kIsACacheCapacity) {
+            if (static_cast<int>(isa_cache_.size()) >= kIsACacheCapacity) {
                 evictIsACacheEntry();
             }
             isa_cache_[cache_key] = result;
@@ -426,7 +426,8 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
 
 std::unordered_set<std::string> OntologyManager::allowedEdgeTypes(std::string_view sourceClass,
                                                                   std::string_view targetClass) const {
-    std::unordered_set<std::string> result;
+    std::unordered_set<std::string> result = {};
+
     for (const auto &axiom : axioms_) {
         if (isA(sourceClass, axiom.source_class) && isA(targetClass, axiom.target_class)) {
             result.insert(axiom.edge_type);
@@ -478,7 +479,7 @@ bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::strin
 // ── Serialisation ────────────────────────────────────────────────────────────
 
 std::string OntologyManager::toJson() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "{\n  \"concepts\": [\n";
     bool first_concept = true;
     for (const auto &[id, node] : concepts_) {
@@ -516,7 +517,7 @@ std::string OntologyManager::toJson() const {
 }
 
 std::string OntologyManager::toYaml() const {
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "concepts:\n";
     for (const auto &[id, node] : concepts_) {
         out << "  - id: " << id << "\n";
@@ -564,7 +565,7 @@ bool OntologyManager::parseJson(const std::string &text) {
         return false;
     }
 
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
         skipWs(text, pos);
         if (pos < text.size() && text[pos] == '}') {
             break;
@@ -649,14 +650,14 @@ bool OntologyManager::parseYaml(const std::string &text) {
     std::vector<std::string> lines;
     {
         std::istringstream ss(text);
-        std::string line;
+        std::string line = {};
         while (std::getline(ss, line)) {
             lines.push_back(line);
         }
     }
 
     std::size_t i = 0;
-    while (i < lines.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(lines.size())) {
         std::string raw = trimYaml(lines[i]);
         if (raw.empty() || raw[0] == '#') {
             ++i;
@@ -674,10 +675,10 @@ bool OntologyManager::parseYaml(const std::string &text) {
         // Determine indent of entries in this section
         int entry_indent = -1;
         std::size_t look = i;
-        while (look < lines.size()) {
+        while (static_cast<size_t>(look) <static_cast<int>(lines.size())) {
             std::string l = lines[look];
             int ind       = 0;
-            while (ind < static_cast<int>(l.size()) && l[ind] == ' ') {
+            while (ind < l.size() && l[ind] == ' ') {
                 ++ind;
             }
             std::string lt = trimYaml(l);

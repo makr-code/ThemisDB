@@ -228,7 +228,7 @@ public:
      * @brief Get global monitoring statistics
      */
     struct GlobalStats {
-        uint64_t total_health_checks;
+        uint64_t total_health_checks = 0;
         uint64_t total_recovery_attempts;
         uint64_t total_successful_recoveries;
         uint64_t total_failed_recoveries;

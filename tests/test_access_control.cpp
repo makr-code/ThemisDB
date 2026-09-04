@@ -383,7 +383,8 @@ TEST_F(AccessControlTest, AuthorizationContext) {
  */
 TEST_F(AccessControlTest, ConcurrentSessionLimit) {
     // Create multiple sessions for same user
-    std::vector<std::string> tokens;
+    std::vector<std::string> tokens = {};
+
     for (int i = 0; i < 10; i++) {
         auto token = access_control_->createSession("multi_session_user", {"analyst"}, false);
         tokens.push_back(token);

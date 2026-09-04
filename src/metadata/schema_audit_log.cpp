@@ -87,7 +87,7 @@ SchemaAuditLog::SchemaAuditLog(RocksDBWrapper& db)
 // ============================================================================
 
 std::string SchemaAuditLog::buildKey(std::string_view table_name, uint64_t timestamp_ns) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << kKeyPrefix << table_name << ":" << std::setw(20) << std::setfill('0') << timestamp_ns;
     return oss.str();
 }
@@ -202,7 +202,7 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getRecentHistory(
     size_t limit) const
 {
     auto all = getHistory(table_name);
-    if (all.size() > limit) {
+    if (static_cast<int>(all.size()) > limit) {
         // Return most recent `limit` entries (last N after ascending sort)
         return std::vector<SchemaAuditEntry>(all.end() - static_cast<std::ptrdiff_t>(limit), all.end());
     }

@@ -38,7 +38,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
     std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.push_back(snapshot);
     // Evict oldest observation when window is full
-    while (history_.size() > config_.history_window) {
+    while (static_cast<int>(history_.size()) > config_.history_window) {
         history_.pop_front();
     }
 }
@@ -47,7 +47,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
 // predict
 // ---------------------------------------------------------------------------
 
-WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
+WorkloadForecast WorkloadPredictor::predict([[maybe_unused]] uint64_t horizon_us) const {
     std::unique_lock<std::shared_mutex> lk(mutex_);
 
     WorkloadForecast result{};
@@ -58,7 +58,7 @@ WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
 
     result.forecast_timestamp_us = history_.back().timestamp_us + horizon_us;
 
-    if (history_.size() < 2) {
+    if (static_cast<int>(history_.size()) < 2) {
         // Single observation: return it with zero confidence
         const auto& s = history_.back();
         result.predicted_qps               = s.qps;
@@ -136,7 +136,7 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
     uint64_t current_cache_size_mb) const
 {
     // Predict 30 s into the future – a practical planning horizon
-    constexpr uint64_t kHorizon30s = 30ULL * 1'000'000ULL;
+    constexpr uint64_t kHorizon30s = 30 * 1'000'000;
     const WorkloadForecast forecast = predict(kHorizon30s);
 
     ScaleRecommendation rec{};
@@ -154,7 +154,7 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
     const double util = std::max(forecast.predicted_cpu_utilization,
                                  forecast.predicted_memory_utilization);
 
-    std::ostringstream reason_stream;
+    std::ostringstream reason_stream = {};
 
     if (util >= config_.scale_up_threshold) {
         rec.direction = ScaleDirection::UP;
@@ -210,7 +210,7 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
 
 size_t WorkloadPredictor::observation_count() const noexcept {
     std::shared_lock<std::shared_mutex> lk(mutex_);
-    return history_.size();
+    return static_cast<int>(history_.size());
 }
 
 void WorkloadPredictor::reset() noexcept {
@@ -223,7 +223,9 @@ void WorkloadPredictor::reset() noexcept {
 // ---------------------------------------------------------------------------
 
 double WorkloadPredictor::compute_ema(const std::vector<double>& values) const noexcept {
-    if (values.empty()) return 0.0;
+    if (values.empty()) {
+      return 0.0;
+    }
     double ema = values[0];
     for (size_t i = 1; i < values.size(); ++i) {
         ema = config_.ema_alpha * values[i] + (1.0 - config_.ema_alpha) * ema;
@@ -262,7 +264,9 @@ std::pair<double, double> WorkloadPredictor::linear_regression(
 
 double WorkloadPredictor::compute_confidence(const std::vector<double>& values) const noexcept {
     const size_t n = values.size();
-    if (n < 2) return 0.0;
+    if (n < 2) {
+      return 0.0;
+    }
 
     const double mean = std::accumulate(values.begin(), values.end(), 0.0) / static_cast<double>(n);
     if (std::abs(mean) < 1e-12) {
@@ -285,8 +289,12 @@ double WorkloadPredictor::compute_confidence(const std::vector<double>& values) 
 }
 
 double WorkloadPredictor::clamp(double v, double lo, double hi) noexcept {
-    if (v < lo) return lo;
-    if (v > hi) return hi;
+    if (v < lo) {
+      return lo;
+    }
+    if (v > hi) {
+      return hi;
+    }
     return v;
 }
 

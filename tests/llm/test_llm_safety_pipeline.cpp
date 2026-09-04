@@ -86,7 +86,7 @@ TEST(SafetyMonitoringTest, RecordsCountersExporterAndDurableSink) {
 
     std::ifstream in(sink_file);
     ASSERT_TRUE(in.is_open());
-    std::string line;
+    std::string line = {};
     std::size_t line_count = 0;
     while (std::getline(in, line)) {
         if (!line.empty()) {
@@ -95,6 +95,6 @@ TEST(SafetyMonitoringTest, RecordsCountersExporterAndDurableSink) {
     }
     EXPECT_EQ(line_count, 3u);
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(sink_file, ec);
 }

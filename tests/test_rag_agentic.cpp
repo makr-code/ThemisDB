@@ -326,7 +326,8 @@ TEST_F(AgenticRAGRetrievalTest, NoDuplicatesInAccumulated) {
         });
 
     // Each ID must appear at most once.
-    std::unordered_set<std::string> ids;
+    std::unordered_set<std::string> ids = {};
+
     for (const auto& d : result.final_documents) {
         EXPECT_EQ(ids.count(d.id), 0u) << "Duplicate id: " << d.id;
         ids.insert(d.id);
@@ -537,7 +538,7 @@ TEST_F(AgenticRAGSecurityTest, InjectionViaReformulatedQuery) {
             "Missing: '); DROP TABLE users; --"),
     };
 
-    std::string received_query;
+    std::string received_query = {};
     auto result = agent.run(
         "SELECT * FROM documents",
         docs,

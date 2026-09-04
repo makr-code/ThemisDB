@@ -749,3 +749,4 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
 
 } // namespace config
 } // namespace themis
+

@@ -181,7 +181,8 @@ public:
             auto serialized = entity.serialize();
             
             // Encrypt if needed
-            std::vector<uint8_t> data_to_store;
+            std::vector<uint8_t> data_to_store = {};
+
             if (config_.enable_encryption && encryption_) {
                 auto encrypted = encryption_->encrypt(serialized, config_.encryption_key_id);
                 std::string encrypted_str = encrypted.toBase64();
@@ -225,7 +226,8 @@ public:
             }
             
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 try {
                     std::string data_str(data->begin(), data->end());
@@ -375,7 +377,8 @@ public:
             }
             
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 try {
                     std::string data_str(data->begin(), data->end());
@@ -398,7 +401,7 @@ public:
                 auto inline_data_str = entity.getFieldAsString("model_data_inline");
                 if (inline_data_str) {
                     std::vector<uint8_t> blob_data(inline_data_str->begin(), inline_data_str->end());
-                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes", blob_data.size());
+                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes",static_cast<int>(blob_data.size()));
                     return blob_data;
                 }
             }
@@ -450,7 +453,7 @@ public:
                 SHA256(blob_data_opt->data(), blob_data_opt->size(), hash);
                 
                 // Convert to hex string
-                std::stringstream ss;
+                std::stringstream ss = {};
                 for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
                     ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
                 }
@@ -495,7 +498,8 @@ public:
             if (data && config_.blob_manager) {
                 try {
                     // Decrypt if needed
-                    std::vector<uint8_t> decrypted_data;
+                    std::vector<uint8_t> decrypted_data = {};
+
                     if (config_.enable_encryption && encryption_) {
                         std::string data_str(data->begin(), data->end());
                         auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
@@ -564,7 +568,7 @@ public:
 
         const std::string prefix = config_.key_prefix;
         config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
-            if (key.size() <= prefix.size()) {
+            if (static_cast<int>(key.size()) <= prefix.size()) {
                 return true;
             }
 
@@ -602,7 +606,8 @@ public:
             }
             
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 try {
                     std::string data_str(data->begin(), data->end());
@@ -681,7 +686,8 @@ public:
         
         try {
             // Decrypt if needed
-            std::vector<uint8_t> decrypted_data;
+            std::vector<uint8_t> decrypted_data = {};
+
             if (config_.enable_encryption && encryption_) {
                 std::string data_str(data->begin(), data->end());
                 auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
@@ -775,11 +781,15 @@ public:
                 // Key format after edge_prefix: from:to:type
                 std::string key_suffix(key.substr(edge_prefix.size()));
                 auto first_colon = key_suffix.find(':');
-                if (first_colon == std::string::npos) return true;
+                if (first_colon == std::string::npos) {
+                  return true;
+                }
                 std::string from_id = key_suffix.substr(0, first_colon);
                 auto remaining = key_suffix.substr(first_colon + 1);
                 auto second_colon = remaining.find(':');
-                if (second_colon == std::string::npos) return true;
+                if (second_colon == std::string::npos) {
+                  return true;
+                }
                 std::string to_id = remaining.substr(0, second_colon);
                 
                 // Check if this edge involves the requested model
@@ -843,7 +853,7 @@ public:
             
             // Create a JSON object with dimension count for validation
             json embedding_json = {
-                {"dimensions", embedding.size()},
+                {"dimensions",static_cast<int>(embedding.size())},
                 {"values", embedding}  // nlohmann::json handles float serialization portably
             };
             
@@ -853,7 +863,7 @@ public:
             bool success = config_.db->put(embedding_key, embedding_bytes);
             if (success) {
                 spdlog::info("Stored embedding for model {}: {} dimensions", 
-                            model_id, embedding.size());
+                            model_id,static_cast<int>(embedding.size()));
             }
             return success;
         } catch (const std::exception& e) {
@@ -898,7 +908,7 @@ public:
                 query_embedding = query_json["values"].get<std::vector<float>>();
                 size_t expected_dims = query_json["dimensions"];
                 
-                if (query_embedding.size() != expected_dims) {
+                if (static_cast<int>(query_embedding.size()) != expected_dims) {
                     spdlog::error("Embedding dimension mismatch for model {}", model_id);
                     return similar_models;
                 }
@@ -924,7 +934,7 @@ public:
                         json j = json::parse(json_str);
                         if (j.contains("values") && j.contains("dimensions")) {
                             auto emb = j["values"].get<std::vector<float>>();
-                            if (emb.size() == query_embedding.size()) {
+                            if (static_cast<int>(emb.size()) == static_cast<int>(query_embedding.size())) {
                                 all_embeddings.emplace_back(model_id_from_key, std::move(emb));
                             }
                         }
@@ -938,7 +948,7 @@ public:
             
             // Calculate cosine similarity and find top-k
             auto cosine_similarity = [](const std::vector<float>& a, const std::vector<float>& b) -> float {
-                if (a.empty() || b.empty() || a.size() != b.size()) {
+                if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
                     return 0.0f;
                 }
                 
@@ -974,7 +984,7 @@ public:
                 });
             
             // Limit to k results
-            if (similar_models.size() > static_cast<size_t>(k)) {
+            if (static_cast<int>(similar_models.size()) > static_cast<size_t>(k)) {
                 similar_models.resize(k);
             }
             

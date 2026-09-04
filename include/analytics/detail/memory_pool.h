@@ -122,8 +122,12 @@ protected:
     // --- std::pmr::memory_resource interface ---
 
     void* do_allocate(size_t size, size_t align) override {
-        if (size == 0) return nullptr;
-        if (align == 0) align = 1;
+        if (size == 0) {
+          return nullptr;
+        }
+        if (align == 0) {
+          align = 1;
+        }
 
         // Try primary block first.
         // Alignment is computed relative to the absolute address of block_

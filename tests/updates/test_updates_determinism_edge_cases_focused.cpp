@@ -255,7 +255,9 @@ TEST(EdgeCaseThreadSafetyTest, UDE_19_ConcurrentDetectionNoRace) {
         });
     }
 
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+      th.join();
+    }
 
     const uint64_t expected = static_cast<uint64_t>(kThreads * kItersPerThread);
     EXPECT_EQ(shared_handler.getStats().total_detected, expected);

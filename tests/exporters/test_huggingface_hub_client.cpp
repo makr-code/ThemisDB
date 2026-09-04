@@ -67,7 +67,7 @@ static std::string decodeBase64ForTest(const std::string& input) {
         table[static_cast<unsigned char>(chars[i])] = static_cast<int>(i);
     }
 
-    std::string out;
+    std::string out = {};
     int val = 0;
     int bits = -8;
     for (unsigned char c : input) {
@@ -94,8 +94,8 @@ static std::string readDecodedAuditPayloadText(const std::string& log_path) {
         return {};
     }
 
-    std::ostringstream combined;
-    std::string line;
+    std::ostringstream combined = {};
+    std::string line = {};
     while (std::getline(f, line)) {
         if (line.empty()) {
             continue;
@@ -133,7 +133,7 @@ static std::string readDecodedAuditPayloadText(const std::string& log_path) {
 /// RAII helper that saves/restores the HF_TOKEN environment variable so tests
 /// that set it do not leak state into subsequent tests, even on failure.
 struct HfTokenGuard {
-    std::string original_;
+    std::string original_ = {};
     bool had_original_ = false;
 
     static std::string getEnvValue(const char* name, bool& found) {
@@ -164,11 +164,15 @@ struct HfTokenGuard {
 
     explicit HfTokenGuard(const char* value) {
         original_ = getEnvValue("HF_TOKEN", had_original_);
-        if (value) setEnvValue("HF_TOKEN", value);
+        if (value) {
+          setEnvValue("HF_TOKEN", value);
+        }
         else       unsetEnvValue("HF_TOKEN");
     }
     ~HfTokenGuard() {
-        if (had_original_) setEnvValue("HF_TOKEN", original_.c_str());
+        if (had_original_) {
+          setEnvValue("HF_TOKEN", original_.c_str());
+        }
         else               unsetEnvValue("HF_TOKEN");
     }
 };

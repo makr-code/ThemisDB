@@ -233,7 +233,8 @@ static void BM_Cache_HitRate(benchmark::State& state) {
     const std::string base_model = "bench-model";
     
     // Pre-load adapters (same stub file, different logical names)
-    std::vector<std::string> adapter_ids;
+    std::vector<std::string> adapter_ids = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string id = "adapter-" + std::to_string(i);
         mgr.loadLoRA(id, lora_path, base_model, 1.0f);
@@ -504,7 +505,8 @@ static void BM_Throughput_MultiAdapter(benchmark::State& state) {
     void* ctx = getMockContext(1);
     
     // Pre-load adapters (same stub file, different logical names)
-    std::vector<std::string> adapters;
+    std::vector<std::string> adapters = {};
+
     for (int i = 0; i < 5; ++i) {
         std::string id = "adapter-" + std::to_string(i);
         mgr.loadLoRA(id, lora_path, base_model, 1.0f);

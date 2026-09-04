@@ -32,7 +32,7 @@ const char* toString(SafetyEventType type) {
 }
 
 std::string jsonEscape(const std::string& value) {
-    std::string out;
+    std::string out = {};
     out.reserve(value.size());
     for (char c : value) {
         switch (c) {
@@ -57,7 +57,7 @@ bool SafetyMonitoring::setDurableSinkPath(const std::string& path) {
     std::lock_guard<std::mutex> lock(sink_mutex_);
     std::filesystem::path sink_path(path);
     if (sink_path.has_parent_path()) {
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::create_directories(sink_path.parent_path(), ec);
         if (ec) {
             return false;
@@ -124,7 +124,7 @@ SafetyCountersSnapshot SafetyMonitoring::snapshot() const {
 }
 
 std::string SafetyMonitoring::toJsonLine(const SafetyEvent& event) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "{"
         << "\"request_id\":\"" << jsonEscape(event.request_id) << "\"," 
         << "\"type\":\"" << toString(event.type) << "\"," 

@@ -46,17 +46,23 @@ MoralAnalyzer::Status MoralAnalyzer::buildDecisionGraph(
     
     // Add scenario node
     auto status = addScenarioNode(scenario);
-    if (!status.ok) return status;
+    if (!status.ok) {
+      return status;
+    }
     
     std::string scenario_node_id = "scenario_" + scenario.id;
     
     // Add stakeholder nodes
     status = addStakeholderNodes(scenario, scenario_node_id);
-    if (!status.ok) return status;
+    if (!status.ok) {
+      return status;
+    }
     
     // Add action nodes
     status = addActionNodes(scenario, scenario_node_id);
-    if (!status.ok) return status;
+    if (!status.ok) {
+      return status;
+    }
     
     return Status::OK();
 }
@@ -316,7 +322,7 @@ MoralAnalyzer::analyzeWithPhilosophy(
     std::vector<std::pair<std::string, ReasoningPath>> action_evaluations;
     
     for (const auto& action : scenario.possible_actions) {
-        ReasoningPath path;
+        ReasoningPath path = {};
         
         if (philosophy == "kant" || philosophy == "deontological") {
             path = evaluateDeontological(scenario, action);
@@ -482,7 +488,7 @@ MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateConsequentialist(
     arg.argument_type = (expected_utility > 0) ? "pro" : "contra";
     arg.strength = std::abs(expected_utility);
     
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "Expected utility: " << expected_utility 
         << ". This action " << (expected_utility > 0 ? "maximizes" : "does not maximize")
         << " overall well-being.";
@@ -652,8 +658,8 @@ MoralAnalyzer::EthicalDecision MoralAnalyzer::synthesizeDecision(
     }
     
     // Generate synthesis reasoning
-    std::ostringstream oss;
-    oss << "After considering " << paths.size() << " philosophical perspectives, "
+    std::ostringstream oss = {};
+    oss << "After considering " <<static_cast<int>(paths.size()) << " philosophical perspectives, "
         << "the recommended action is: " << synthesized.recommended_action << ". ";
     
     for (const auto& [philosophy, path] : paths) {
@@ -675,7 +681,7 @@ double MoralAnalyzer::checkConsistency(const EthicalDecision& decision) {
     }
     
     // Reward if multiple principles support the decision
-    if (decision.principle_citations.size() >= 3) {
+    if (static_cast<int>(decision.principle_citations.size()) >= 3) {
         consistency += 0.1;
     }
     
@@ -902,7 +908,7 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
     for (const auto& principle : decision.principle_citations) {
         // Simple keyword extraction: split on spaces and take significant words
         std::istringstream iss(principle);
-        std::string word;
+        std::string word = {};
         while (iss >> word) {
             // Convert to lowercase (locale-agnostic for ASCII)
             for (auto& c : word) {
@@ -923,10 +929,18 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
     }
     
     // Add metrics as keywords if they're notable
-    if (decision.metrics.consistency > 0.8) keywords.push_back("high_consistency");
-    if (decision.metrics.fairness > 0.8) keywords.push_back("high_fairness");
-    if (decision.metrics.feasibility > 0.8) keywords.push_back("highly_feasible");
-    if (decision.metrics.long_term_impact > 0.8) keywords.push_back("high_impact");
+    if (decision.metrics.consistency > 0.8) {
+      keywords.push_back("high_consistency");
+    }
+    if (decision.metrics.fairness > 0.8) {
+      keywords.push_back("high_fairness");
+    }
+    if (decision.metrics.feasibility > 0.8) {
+      keywords.push_back("highly_feasible");
+    }
+    if (decision.metrics.long_term_impact > 0.8) {
+      keywords.push_back("high_impact");
+    }
     
     // Remove duplicates
     std::sort(keywords.begin(), keywords.end());
@@ -936,7 +950,7 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
 }
 
 std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id) {
-    std::ostringstream dot;
+    std::ostringstream dot = {};
     
     dot << "digraph EthicalDecision {" << std::endl;
     dot << "  rankdir=TB;" << std::endl;
@@ -955,7 +969,7 @@ std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id
 std::string MoralAnalyzer::getReasoningExplanation(
     const EthicalDecision& decision
 ) {
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     
     explanation << "Ethical Decision Analysis\n";
     explanation << "========================\n\n";
@@ -1088,15 +1102,17 @@ std::map<std::string, double> MoralAnalyzer::calculateStakeholderImpacts(
 }
 
 std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     
     oss << "From the perspective of " << decision.philosophy << " ethics, "
         << "the recommended action is: " << decision.recommended_action << ". ";
     
     if (!decision.reasoning_path.supporting_principles.empty()) {
         oss << "This decision is supported by the following principles: ";
-        for (size_t i = 0; i < decision.reasoning_path.supporting_principles.size(); ++i) {
-            if (i > 0) oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(decision.reasoning_path.supporting_principles.size()); ++i) {
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << decision.reasoning_path.supporting_principles[i];
         }
         oss << ". ";
@@ -1104,8 +1120,10 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     
     if (!decision.reasoning_path.opposing_principles.empty()) {
         oss << "However, some principles suggest caution: ";
-        for (size_t i = 0; i < decision.reasoning_path.opposing_principles.size(); ++i) {
-            if (i > 0) oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(decision.reasoning_path.opposing_principles.size()); ++i) {
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << decision.reasoning_path.opposing_principles[i];
         }
         oss << ". ";
@@ -1113,8 +1131,10 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     
     if (!decision.reasoning_path.outcomes.empty()) {
         oss << "Expected outcomes include: ";
-        for (size_t i = 0; i < decision.reasoning_path.outcomes.size(); ++i) {
-            if (i > 0) oss << ", ";
+        for (size_t i = 0; i <static_cast<int>(decision.reasoning_path.outcomes.size()); ++i) {
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << decision.reasoning_path.outcomes[i].description
                 << " (probability: " << decision.reasoning_path.outcomes[i].probability << ")";
         }
@@ -1125,9 +1145,15 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
 }
 
 bool MoralAnalyzer::validateScenario(const EthicalScenario& scenario) {
-    if (scenario.id.empty()) return false;
-    if (scenario.description.empty()) return false;
-    if (scenario.possible_actions.empty()) return false;
+    if (scenario.id.empty()) {
+      return false;
+    }
+    if (scenario.description.empty()) {
+      return false;
+    }
+    if (scenario.possible_actions.empty()) {
+      return false;
+    }
     return true;
 }
 
@@ -1239,7 +1265,8 @@ std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
     }
     
     // Remove duplicates while preserving order
-    std::vector<std::string> unique_recs;
+    std::vector<std::string> unique_recs = {};
+
     for (const auto& rec : recommendations) {
         if (std::find(unique_recs.begin(), unique_recs.end(), rec) == unique_recs.end()) {
             unique_recs.push_back(rec);
@@ -1303,7 +1330,8 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
                 return {Status::Error("LLM response missing 'philosophies' field"), {}};
             }
             
-            std::vector<std::string> philosophies;
+            std::vector<std::string> philosophies = {};
+
             for (const auto& phil : response_json["philosophies"]) {
                 std::string phil_str = phil.get<std::string>();
                 

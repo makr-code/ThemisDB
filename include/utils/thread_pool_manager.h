@@ -133,7 +133,7 @@ public:
     
     // Get pool statistics
     struct Statistics {
-        size_t active_threads;
+        size_t active_threads = 0;
         size_t idle_threads;
         size_t queued_tasks;
         size_t total_executed;

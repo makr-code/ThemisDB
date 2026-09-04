@@ -52,7 +52,7 @@ static std::string base64Decode(const std::string &encoded) {
         lookup[static_cast<uint8_t>(kB64Chars[i])] = static_cast<uint8_t>(i);
     }
 
-    std::string out;
+    std::string out = {};
     out.reserve((encoded.size() / 4) * 3);
 
     uint32_t buf = 0;
@@ -83,8 +83,8 @@ static std::string base64Decode(const std::string &encoded) {
  * @brief Encode bytes to base64.
  */
 static std::string base64Encode(const std::string &data) {
-    std::string out;
-    out.reserve(((data.size() + 2) / 3) * 4);
+    std::string out = {};
+    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
 
     uint32_t buf = 0;
     int bits     = 0;
@@ -125,7 +125,7 @@ static constexpr size_t kTenantKeyPrefixLen   = 7; // strlen("tenant:")
  * Returns empty string if the key does not have the tenant prefix.
  */
 static std::string extractTenantFromKey(const std::string &key) {
-    if (key.size() <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
+    if (static_cast<int>(key.size()) <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
         return {};
     }
     size_t second_colon = key.find(':', kTenantKeyPrefixLen);
@@ -145,7 +145,7 @@ static std::string extractTenantFromKey(const std::string &key) {
  * a bare 64-char hex key that warmupFromLog() can re-import correctly.
  */
 static std::string extractFingerprintFromKey(const std::string &key) {
-    if (key.size() <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
+    if (static_cast<int>(key.size()) <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
         return key; // Not tenant-scoped; already a plain fingerprint.
     }
     size_t second_colon = key.find(':', kTenantKeyPrefixLen);
@@ -176,7 +176,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     // Read all lines upfront so they can be partitioned across workers.
     std::vector<std::string> lines;
     {
-        std::string line;
+        std::string line = {};
         while (std::getline(file, line)) {
             lines.push_back(std::move(line));
         }
@@ -202,11 +202,11 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
 
     // Determine number of workers (at least 1). For small logs, force
     // single-worker mode to keep duplicate handling deterministic.
-    uint32_t num_workers = (config_.max_parallel_workers > 0) ? config_.max_parallel_workers : 1u;
+    uint32_t num_workers = (config_.max_parallel_workers > 0) ? config_.max_parallel_workers : 1;
 
     const size_t total_lines = lines.size();
     if (total_lines < 64) {
-        num_workers = 1u;
+        num_workers = 1;
     }
     const size_t chunk_size = (total_lines + num_workers - 1) / num_workers;
 
@@ -295,7 +295,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             }
 
             // Check per-tenant quota (honour limits even during warmup).
-            if (!checkTenantQuota(tenant_id, decoded.size())) {
+            if (!checkTenantQuota(tenant_id,static_cast<int>(decoded.size()))) {
                 THEMIS_DEBUG("warmupFromLog: line {}: tenant '{}' quota exceeded, skipping", line_number, tenant_id);
                 total_skipped.fetch_add(1, std::memory_order_relaxed);
                 enhanced_metrics_.warmup_entries_skipped++;
@@ -329,7 +329,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             bool inserted = false;
 
             if (l1_warmed.load(std::memory_order_relaxed) < l1_warmup_cap
-                && decoded.size() <= config_.l1_max_entry_size) {
+                && static_cast<int>(decoded.size()) <= config_.l1_max_entry_size) {
                 // Store in L1 (per-shard insertion under l1_mutex_).
                 auto entry    = std::make_unique<L1Entry>();
                 entry->result = value_json;
@@ -341,7 +341,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                 {
                     std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                     if (l1_cache_.count(cache_key) == 0) {
-                        if (l1_cache_.size() >= config_.l1_max_entries) {
+                        if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
                         l1_cache_[cache_key] = std::move(entry);
@@ -367,7 +367,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     {
                         std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                         if (l1_cache_.count(cache_key) == 0) {
-                            if (l1_cache_.size() >= config_.l1_max_entries) {
+                            if (static_cast<int>(l1_cache_.size()) >= config_.l1_max_entries) {
                                 evictLRU(CacheLevel::HOT);
                             }
                             l1_cache_[cache_key] = std::move(entry);
@@ -389,7 +389,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     {
                         std::lock_guard<std::mutex> lk(l2_mutex_);
                         if (l2_cache_.count(cache_key) == 0) {
-                            if (l2_cache_.size() >= config_.l2_max_entries) {
+                            if (static_cast<int>(l2_cache_.size()) >= config_.l2_max_entries) {
                                 evictLRU(CacheLevel::WARM);
                             }
                             l2_cache_[cache_key] = std::move(entry);

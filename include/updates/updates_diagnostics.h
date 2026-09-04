@@ -306,7 +306,7 @@ private:
     std::string operation_;
     UpdateState from_state_;
     UpdateState to_state_;
-    std::string reason_;
+    std::string reason_ = {};
     
 public:
     StateTransitionError(

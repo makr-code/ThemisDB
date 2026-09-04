@@ -102,7 +102,7 @@ bool JWKSValidator::validateStructure(const nlohmann::json& jwks, ValidationResu
     }
     
     // Check size limit
-    if (keys.size() > config_.max_keys) {
+    if (static_cast<int>(keys.size()) > config_.max_keys) {
         result.errors.push_back("JWKS contains too many keys (" + 
                                std::to_string(keys.size()) + " > " + 
                                std::to_string(config_.max_keys) + ")");

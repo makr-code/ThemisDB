@@ -188,7 +188,8 @@ void HotSpareManager::removeSpare(const std::string& shard_id) {
 std::vector<std::string> HotSpareManager::getAvailableSpares() const {
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
-    std::vector<std::string> available;
+    std::vector<std::string> available = {};
+
     for (const auto& [shard_id, spare] : spares_) {
         if (spare.state == SpareState::AVAILABLE) {
             available.push_back(shard_id);
@@ -201,7 +202,8 @@ std::vector<std::string> HotSpareManager::getAvailableSpares() const {
 std::vector<SpareShardInfo> HotSpareManager::getAllSpares() const {
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
-    std::vector<SpareShardInfo> spares;
+    std::vector<SpareShardInfo> spares = {};
+
     for (const auto& [_, spare] : spares_) {
         spares.push_back(spare);
     }
@@ -233,8 +235,8 @@ bool HotSpareManager::activateSpare(
         
         {
             std::lock_guard<std::mutex> lock(history_mutex_);
-            failover_history_.push_back(event);
-            if (failover_history_.size() > MAX_HISTORY_SIZE) {
+            failover_history_.push_back([[maybe_unused]] event);
+            if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
                 failover_history_.erase(failover_history_.begin());
             }
         }
@@ -301,8 +303,8 @@ bool HotSpareManager::activateSpare(
     
     {
         std::lock_guard<std::mutex> lock(history_mutex_);
-        failover_history_.push_back(event);
-        if (failover_history_.size() > MAX_HISTORY_SIZE) {
+        failover_history_.push_back([[maybe_unused]] event);
+        if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
             failover_history_.erase(failover_history_.begin());
         }
     }
@@ -349,7 +351,7 @@ bool HotSpareManager::activateSpare(
         }
         
         spdlog::info("Queued rebuild for spare {}, {} documents to rebuild", 
-                     spare_id, documents.size());
+                     spare_id,static_cast<int>(documents.size()));
     }
 
     // Notify ShardRepairEngine (if attached) so it can perform erasure-aware
@@ -473,9 +475,10 @@ std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     size_t max_count) const {
     std::lock_guard<std::mutex> lock(history_mutex_);
     
-    size_t count = std::min(max_count, failover_history_.size());
+    size_t count = std::min(max_count,static_cast<int>(failover_history_.size()));
     
-    std::vector<HotSpareFailoverEvent> history;
+    std::vector<HotSpareFailoverEvent> history = {};
+
     if (count > 0) {
         auto start_it = failover_history_.end() - count;
         history.insert(history.end(), start_it, failover_history_.end());
@@ -527,7 +530,7 @@ HotSpareManager::Stats HotSpareManager::getStats() const {
 }
 
 std::string HotSpareManager::exportPrometheusMetrics() const {
-    std::stringstream ss;
+    std::stringstream ss = {};
     
     auto stats = getStats();
     
@@ -578,7 +581,7 @@ std::string HotSpareManager::exportPrometheusMetrics() const {
     // Per-spare metrics
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     for (const auto& [shard_id, spare] : spares_) {
-        std::string state_str;
+        std::string state_str = {};
         switch (spare.state) {
             case SpareState::AVAILABLE: state_str = "available"; break;
             case SpareState::ACTIVATING: state_str = "activating"; break;
@@ -747,10 +750,10 @@ void HotSpareManager::handleShardFailure(const std::string& shard_id) {
 
 bool HotSpareManager::rebuildShard(RebuildTask& task) {
     spdlog::info("Starting rebuild for spare: {}, {} documents to transfer", 
-                 task.spare_shard_id, task.documents.size());
+                 task.spare_shard_id,static_cast<int>(task.documents.size()));
     
-    if (!task.ring || !task.read_handler || !task.write_handler) {
-        spdlog::error("Invalid rebuild task: missing ring or handlers");
+    if ([[maybe_unused]] !task.ring || !task.read_handler || !task.write_handler) {
+        spdlog::error([[maybe_unused]] "Invalid rebuild task: missing ring or handlers");
         return false;
     }
     
@@ -770,7 +773,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
     size_t chunk_size = config_.rebuild_chunk_size_mb > 0 ? 
                         config_.rebuild_chunk_size_mb : 100;
     
-    for (size_t i = 0; i < task.documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(task.documents.size()); ++i) {
         const auto& doc_id = task.documents[i];
         
         // Check if rebuild is paused
@@ -788,7 +791,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
             
             // Try to read from each replica until successful
             std::optional<std::vector<uint8_t>> data;
-            std::string source_replica;
+            std::string source_replica = {};
             
             for (const auto& replica_id : replicas) {
                 if (replica_id != task.source_shard_id) {
@@ -844,7 +847,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
             }
             
             // Log progress periodically
-            if ((i + 1) % chunk_size == 0 || i == task.documents.size() - 1) {
+            if ((i + 1) % chunk_size == 0 || i == static_cast<int>(task.documents.size()) - 1) {
                 double progress = ((i + 1) * 100.0) / task.documents.size();
                 auto elapsed = std::chrono::steady_clock::now() - rebuild_start;
                 double elapsed_seconds = std::chrono::duration<double>(elapsed).count();
@@ -874,7 +877,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
                     bytes_transferred, rebuild_duration.count());
     } else {
         spdlog::warn("Rebuild completed with errors for spare {}: {}/{} documents failed", 
-                    task.spare_shard_id, failed_documents, task.documents.size());
+                    task.spare_shard_id, failed_documents,static_cast<int>(task.documents.size()));
     }
     
     return success;
@@ -893,8 +896,8 @@ std::optional<std::string> HotSpareManager::selectBestSpare() const {
 }
 
 void HotSpareManager::sendAlert(const std::string& message) {
-    if (config_.enable_alerts && config_.alert_callback) {
-        config_.alert_callback(message);
+    if ([[maybe_unused]] config_.enable_alerts && config_.alert_callback) {
+        config_.alert_callback([[maybe_unused]] message);
     }
     
     spdlog::info("Alert: {}", message);

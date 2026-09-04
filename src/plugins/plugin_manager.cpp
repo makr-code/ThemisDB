@@ -45,7 +45,9 @@ namespace {
 
 // Platform-specific library handle unloading function
 inline void unloadLibraryHandle(void* handle) noexcept {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
 #else
@@ -174,7 +176,9 @@ void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
  * @param handle Native module handle. nullptr is ignored.
  */
 void PluginManager::unloadLibrary(void* handle) {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
     
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
@@ -225,7 +229,7 @@ std::string PluginManager::calculateFileHash(const std::string& path) {
     }
     EVP_MD_CTX_free(mdctx);
     
-    std::stringstream ss;
+    std::stringstream ss = {};
     for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
@@ -269,7 +273,7 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
  * @param error_message Output detail for failure reason.
  * @return true when signature checks pass (or are optional in current mode).
  */
-bool PluginManager::verifyManifestSignature(const std::string& manifest_path, [[maybe_unused]] std::string& error_message) {
+bool PluginManager::verifyManifestSignature(const std::string& manifest_path, std::string& error_message) {
     // Signature verification strategy:
     // 1. Check for manifest_path + ".sig" file (digital signature)
     // 2. Verify SHA256 hash matches signature file content
@@ -292,7 +296,7 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, [[
     try {
         // Read signature file (contains expected SHA256 hash)
         std::ifstream sig_file(sig_path);
-        std::string expected_hash;
+        std::string expected_hash = {};
         std::getline(sig_file, expected_hash);
         
         // Trim whitespace
@@ -337,7 +341,7 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, [[
     try {
         // Verify if signature exists
         std::ifstream sig_file(sig_path);
-        std::string expected_hash;
+        std::string expected_hash = {};
         std::getline(sig_file, expected_hash);
         
         expected_hash.erase(0, expected_hash.find_first_not_of(" \t\n\r"));
@@ -457,7 +461,7 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
     }
     
     // Verify manifest signature before loading
-    std::string error_message;
+    std::string error_message = {};
     if (!verifyManifestSignature(manifest_path, error_message)) {
         THEMIS_ERROR("Manifest signature verification failed for {}: {}", 
             manifest_path, error_message);
@@ -532,9 +536,15 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         // Legacy manifest compatibility: single library field
         if (j.contains("library") && j["library"].is_string()) {
             std::string lib = j["library"].get<std::string>();
-            if (manifest.binary_windows.empty()) manifest.binary_windows = lib;
-            if (manifest.binary_linux.empty()) manifest.binary_linux = lib;
-            if (manifest.binary_macos.empty()) manifest.binary_macos = lib;
+            if (manifest.binary_windows.empty()) {
+              manifest.binary_windows = lib;
+            }
+            if (manifest.binary_linux.empty()) {
+              manifest.binary_linux = lib;
+            }
+            if (manifest.binary_macos.empty()) {
+              manifest.binary_macos = lib;
+            }
         }
         
         // Parse dependencies
@@ -608,7 +618,9 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
     
     // Recursively scan for manifest JSON files
     for (const auto& entry : fs::recursive_directory_iterator(directory)) {
-        if (!entry.is_regular_file()) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
         
         std::string filename = entry.path().filename().string();
         if (entry.path().extension() == ".json") {
@@ -629,7 +641,9 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                         legacy.type = static_cast<PluginType>(j["type"].get<int>());
                     } else {
                         std::string type_str = j.value("type", "custom");
-                        if (type_str == "compute_backend") legacy.type = PluginType::COMPUTE_BACKEND;
+                        if (type_str == "compute_backend") {
+                          legacy.type = PluginType::COMPUTE_BACKEND;
+                        }
                         else if (type_str == "blob_storage") legacy.type = PluginType::BLOB_STORAGE;
                         else if (type_str == "importer") legacy.type = PluginType::IMPORTER;
                         else if (type_str == "exporter") legacy.type = PluginType::EXPORTER;
@@ -673,10 +687,12 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                 fallback.binary_macos = lib;
                 manifest = fallback;
             }
-            if (!manifest) continue;
+            if (!manifest) {
+              continue;
+            }
             
             // Determine binary path based on platform
-            std::string binary_name;
+            std::string binary_name = {};
 #ifdef _WIN32
             binary_name = manifest->binary_windows;
 #elif defined(__APPLE__)
@@ -824,11 +840,15 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         auto dep_graph = PluginDependencyResolver::buildGraph(plugins_);
         auto cycles = PluginDependencyResolver::detectCircularDependencies(dep_graph);
         if (!cycles.empty()) {
-            std::string cycle_desc;
+            std::string cycle_desc = {};
             for (const auto& cycle : cycles) {
-                if (!cycle_desc.empty()) cycle_desc += "; ";
-                for (size_t i = 0; i < cycle.size(); ++i) {
-                    if (i > 0) cycle_desc += " -> ";
+                if (!cycle_desc.empty()) {
+                  cycle_desc += "; ";
+                }
+                for (size_t i = 0; i  < cycle.size(); ++i) {
+                    if (i > 0) {
+                      cycle_desc += " -> ";
+                    }
                     cycle_desc += cycle[i];
                 }
             }
@@ -952,7 +972,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         }
     }
 
-    std::string error_message;
+    std::string error_message = {};
     if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
         {
@@ -1060,7 +1080,7 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Verify plugin
-    std::string error_message;
+    std::string error_message = {};
     if (!verifyPlugin(path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", path, error_message);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
@@ -1163,7 +1183,7 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromOci(
     }
 
     // 3. Build OCI client and inject optional bearer token.
-    OciRegistryClient oci_client;
+    OciRegistryClient oci_client = {};
     if (!auth_token.empty()) {
         OciAuthConfig auth;
         auth.bearer_token = auth_token;
@@ -1217,14 +1237,16 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
     // Block unload if other loaded plugins depend on this one.
     auto dependents = findDependentPlugins(name);
     if (!dependents.empty()) {
-        std::string dep_list;
+        std::string dep_list = {};
         for (const auto& dep : dependents) {
-            if (!dep_list.empty()) dep_list += ", ";
+            if (!dep_list.empty()) {
+              dep_list += ", ";
+            }
             dep_list += dep;
         }
         auto error_msg = fmt::format(
             "Cannot unload plugin '{}' — {} plugin(s) depend on it: {}",
-            name, dependents.size(), dep_list);
+            name,static_cast<int>(dependents.size()), dep_list);
         THEMIS_ERROR("{}", error_msg);
         // Revert state back to LOADED on failure
         {
@@ -1276,7 +1298,9 @@ Result<void> PluginManager::unloadAllPlugins() {
     
     // Unload all loaded plugins
     for (auto& pair : plugins_) {
-        if (!pair.second.loaded) continue;
+        if (!pair.second.loaded) {
+          continue;
+        }
         
         auto& entry = pair.second;
         
@@ -1340,7 +1364,8 @@ std::vector<IThemisPlugin*> PluginManager::getPluginsByType(PluginType type) con
 std::vector<PluginManifest> PluginManager::listPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<PluginManifest> result;
+    std::vector<PluginManifest> result = {};
+
     for (const auto& pair : plugins_) {
         result.push_back(pair.second.manifest);
     }
@@ -1351,7 +1376,8 @@ std::vector<PluginManifest> PluginManager::listPlugins() const {
 std::vector<std::string> PluginManager::listLoadedPlugins() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    std::vector<std::string> result;
+    std::vector<std::string> result = {};
+
     for (const auto& pair : plugins_) {
         if (pair.second.loaded) {
             result.push_back(pair.first);
@@ -1374,9 +1400,9 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     // -------------------------------------------------------------------------
     // Phase 1: Pre-reload validation and state capture (under mutex)
     // -------------------------------------------------------------------------
-    std::string saved_state;
-    std::string plugin_path;
-    std::string expected_hash;
+    std::string saved_state = {};
+    std::string plugin_path = {};
+    std::string expected_hash = {};
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -1390,14 +1416,16 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         // Block reload if other loaded plugins depend on this one.
         auto dependents = findDependentPlugins(name);
         if (!dependents.empty()) {
-            std::string dep_list;
+            std::string dep_list = {};
             for (const auto& dep : dependents) {
-                if (!dep_list.empty()) dep_list += ", ";
+                if (!dep_list.empty()) {
+                  dep_list += ", ";
+                }
                 dep_list += dep;
             }
             auto error_msg = fmt::format(
                 "Cannot reload plugin '{}' — {} plugin(s) depend on it: {}",
-                name, dependents.size(), dep_list);
+                name,static_cast<int>(dependents.size()), dep_list);
             THEMIS_ERROR("{}", error_msg);
             return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
         }
@@ -1422,7 +1450,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                 try {
                     saved_state = stateful->saveState();
                     THEMIS_INFO("Saved state for plugin '{}' ({} bytes)",
-                                name, saved_state.size());
+                                name,static_cast<int>(saved_state.size()));
                 } catch (const std::exception& e) {
                     THEMIS_WARN("Failed to save state for plugin '{}': {}", name, e.what());
                 }
@@ -1458,7 +1486,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     }
 
     // Step 2b: Signature / security verification of new binary
-    std::string verify_error;
+    std::string verify_error = {};
     if (!verifyPlugin(plugin_path, verify_error)) {
         auto msg = fmt::format("Plugin verification failed after reload for '{}': {}", name, verify_error);
         THEMIS_ERROR("{}", msg);
@@ -1666,11 +1694,15 @@ Result<size_t> PluginManager::autoLoadPlugins() {
         // Detect circular dependencies before attempting any load
         auto cycles = PluginDependencyResolver::detectCircularDependencies(dep_graph);
         if (!cycles.empty()) {
-            std::string cycle_desc;
+            std::string cycle_desc = {};
             for (const auto& cycle : cycles) {
-                if (!cycle_desc.empty()) cycle_desc += "; ";
-                for (size_t i = 0; i < cycle.size(); ++i) {
-                    if (i > 0) cycle_desc += " -> ";
+                if (!cycle_desc.empty()) {
+                  cycle_desc += "; ";
+                }
+                for (size_t i = 0; i  < cycle.size(); ++i) {
+                    if (i > 0) {
+                      cycle_desc += " -> ";
+                    }
                     cycle_desc += cycle[i];
                 }
             }
@@ -1682,9 +1714,11 @@ Result<size_t> PluginManager::autoLoadPlugins() {
         // Check for unregistered dependencies (missing plugins)
         auto missing_deps = PluginDependencyResolver::validateDependencies(dep_graph);
         if (!missing_deps.empty()) {
-            std::string missing_desc;
+            std::string missing_desc = {};
             for (const auto& [plugin, dep] : missing_deps) {
-                if (!missing_desc.empty()) missing_desc += "; ";
+                if (!missing_desc.empty()) {
+                  missing_desc += "; ";
+                }
                 missing_desc += fmt::format("'{}' requires unregistered '{}'", plugin, dep);
             }
             auto error_msg = fmt::format("Unregistered plugin dependencies: {}", missing_desc);
@@ -1791,11 +1825,11 @@ Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
     // A capability escalation occurs when a flag that was false at load time
     // (i.e. not declared in the manifest capabilities snapshot) is now true.
     bool escalated =
-        (!frozen.supports_streaming    && current.supports_streaming)    ||
+        ((!frozen.supports_streaming    && current.supports_streaming)    ||
         (!frozen.supports_batching     && current.supports_batching)     ||
         (!frozen.supports_transactions && current.supports_transactions) ||
         (!frozen.thread_safe           && current.thread_safe)           ||
-        (!frozen.gpu_accelerated       && current.gpu_accelerated);
+        (!frozen.gpu_accelerated       && current.gpu_accelerated));
 
     if (!escalated) {
         return OkVoid();
@@ -1928,7 +1962,9 @@ std::vector<std::string> PluginManager::findDependentPlugins(const std::string& 
     std::vector<std::string> dependents;
     
     for (const auto& [plugin_name, entry] : plugins_) {
-        if (plugin_name == name || !entry.loaded) continue;
+        if (plugin_name == name || !entry.loaded) {
+          continue;
+        }
         
         for (const auto& dep : entry.manifest.dependencies) {
             if (dep == name) {
@@ -1970,7 +2006,9 @@ void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
 
     // Register all currently loaded self-healing plugins with the new monitor
     for (const auto& [name, entry] : plugins_) {
-        if (!entry.loaded || !entry.instance) continue;
+        if (!entry.loaded || !entry.instance) {
+          continue;
+        }
         auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(entry.instance.get());
         if (self_healing) {
             health_monitor_->registerPlugin(name, self_healing);
@@ -2340,9 +2378,11 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
             error_details = "Plugin not allowed on edition '" + std::string(edition::EDITION_STRING) +
                           "'. Allowed editions: " + 
                           [&]() {
-                              std::string result;
-                              for (size_t i = 0; i < manifest.allowed_editions.size(); ++i) {
-                                  if (i > 0) result += ", ";
+                              std::string result = {};
+                              for (size_t i = 0; i  < manifest.allowed_editions.size(); ++i) {
+                                  if (i > 0) {
+                                    result += ", ";
+                                  }
                                   result += manifest.allowed_editions[i];
                               }
                               return result;
@@ -2353,7 +2393,7 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
     
     // Check license_feature gate if required
     if (!manifest.license_feature.empty()) {
-        std::string license_error;
+        std::string license_error = {};
         auto& license_gate = themis::license::RuntimeLicenseGate::instance();
         if (!license_gate.isFeatureAllowed(manifest.license_feature, license_error)) {
             error_details = "License feature '" + manifest.license_feature + "' not granted";
@@ -2372,7 +2412,7 @@ ManifestErrorCode PluginManager::validateManifestPublicPrivateBoundary(
     // Normalize visibility to lowercase to prevent case-sensitivity bypass
     // at this security boundary (e.g. "Private" must be treated the same as "private").
     std::string raw_visibility = manifest.visibility.empty() ? "public" : manifest.visibility;
-    std::string visibility;
+    std::string visibility = {};
     visibility.reserve(raw_visibility.size());
     for (unsigned char c : raw_visibility) {
         visibility += static_cast<char>(std::tolower(c));
@@ -2414,8 +2454,8 @@ std::string PluginManager::formatDiagnosticMessage(
     const std::string& plugin_name) {
     
     // Determine the error category based on error code
-    std::string category;
-    std::string code_name;
+    std::string category = {};
+    std::string code_name = {};
     
     switch (error_code) {
        case PluginsError::kSuccess:
@@ -2460,7 +2500,7 @@ std::string PluginManager::formatDiagnosticMessage(
     }
     
     // Format: [CATEGORY:CODE] plugin_name: context
-    std::stringstream ss;
+    std::stringstream ss = {};
     ss << "[" << category << ":" << code_name << "]";
     if (!plugin_name.empty()) {
        ss << " [plugin:" << plugin_name << "]";
@@ -2472,3 +2512,4 @@ std::string PluginManager::formatDiagnosticMessage(
 
 } // namespace plugins
 } // namespace themis
+

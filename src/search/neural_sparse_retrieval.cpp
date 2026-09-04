@@ -66,7 +66,7 @@ SparseVector NeuralSparseRetrieval::sanitize(const SparseVector& raw, size_t max
     }
 
     // Keep only the top max_terms by weight
-    if (pairs.size() > max_terms) {
+    if (static_cast<int>(pairs.size()) > max_terms) {
         std::partial_sort(pairs.begin(),
                           pairs.begin() + static_cast<std::ptrdiff_t>(max_terms),
                           pairs.end(),
@@ -98,10 +98,12 @@ void NeuralSparseRetrieval::eraseFromIndex(const std::string& doc_id,
                                             const SparseVector& vec) {
     for (const auto& [term, weight] : vec) {
         auto it = inverted_index_.find(term);
-        if (it == inverted_index_.end()) continue;
+        if (it == inverted_index_.end()) {
+          continue;
+        }
         auto& posting = it->second;
         posting.erase(std::remove_if(posting.begin(), posting.end(),
-                                     [&](const auto& p) { return p.first == doc_id; }),
+                                     [&]([[maybe_unused]] const auto& p) { return p.first == doc_id; }),
                       posting.end());
         if (posting.empty()) {
             inverted_index_.erase(it);
@@ -136,7 +138,7 @@ void NeuralSparseRetrieval::addDocument(const std::string& doc_id,
 
     insertVector(doc_id, sanitized);
     THEMIS_DEBUG("NeuralSparseRetrieval::addDocument: doc='{}' indexed with {} terms",
-                 doc_id, sanitized.size());
+                 doc_id,static_cast<int>(sanitized.size()));
 }
 
 // ============================================================================
@@ -160,7 +162,9 @@ void NeuralSparseRetrieval::addDocumentText(const std::string& doc_id,
 
 void NeuralSparseRetrieval::removeDocument(const std::string& doc_id) {
     auto fwd_it = forward_index_.find(doc_id);
-    if (fwd_it == forward_index_.end()) return;
+    if (fwd_it == forward_index_.end()) {
+      return;
+    }
     eraseFromIndex(doc_id, fwd_it->second);
     forward_index_.erase(fwd_it);
     THEMIS_DEBUG("NeuralSparseRetrieval::removeDocument: doc='{}' removed", doc_id);
@@ -181,7 +185,7 @@ void NeuralSparseRetrieval::clear() {
 // ============================================================================
 
 size_t NeuralSparseRetrieval::size() const {
-    return forward_index_.size();
+    return static_cast<int>(forward_index_.size());
 }
 
 // ============================================================================
@@ -189,7 +193,9 @@ size_t NeuralSparseRetrieval::size() const {
 // ============================================================================
 
 void NeuralSparseRetrieval::normalizeScores(std::vector<Result>& results) {
-    if (results.empty()) return;
+    if (results.empty()) {
+      return;
+    }
 
     float min_s = std::numeric_limits<float>::max();
     float max_s = std::numeric_limits<float>::lowest();
@@ -224,14 +230,19 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     // Accumulate dot-product scores across all shared terms
-    std::unordered_map<std::string, float> accum;
+    std::unordered_map<std::string, float> accum = {};
+
     accum.reserve(forward_index_.size());
 
     for (const auto& [term, q_weight] : query_vec) {
-        if (q_weight <= 0.0f) continue;
+        if (q_weight <= 0.0f) {
+          continue;
+        }
 
         auto inv_it = inverted_index_.find(term);
-        if (inv_it == inverted_index_.end()) continue;
+        if (inv_it == inverted_index_.end()) {
+          continue;
+        }
 
         for (const auto& [doc_id, d_weight] : inv_it->second) {
             accum[doc_id] += q_weight * d_weight;
@@ -239,10 +250,13 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     // Build result list, applying score threshold
-    std::vector<Result> results;
+    std::vector<Result> results = {};
+
     results.reserve(accum.size());
     for (auto& [doc_id, raw_score] : accum) {
-        if (raw_score < config_.score_threshold) continue;
+        if (raw_score < config_.score_threshold) {
+          continue;
+        }
         Result r;
         r.document_id = doc_id;
         r.raw_score   = raw_score;
@@ -256,7 +270,7 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
                   return a.raw_score > b.raw_score;
               });
 
-    if (results.size() > top_k) {
+    if (static_cast<int>(results.size()) > top_k) {
         results.resize(top_k);
     }
 
@@ -265,7 +279,7 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     THEMIS_INFO("NeuralSparseRetrieval::search: query_terms={} -> {} results",
-                query_vec.size(), results.size());
+                query_vec.size(),static_cast<int>(results.size()));
 
     return results;
 }

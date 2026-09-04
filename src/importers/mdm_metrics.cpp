@@ -47,7 +47,9 @@ void MDMMetrics::emitMetrics(
     const std::string&       collection_name,
     const MetricsCallback&   callback
 ) {
-    if (!callback) return;
+    if (!callback) {
+      return;
+    }
 
     const std::map<std::string, std::string> labels{{"collection", collection_name}};
 

@@ -30,7 +30,7 @@ protected:
         }
     }
     
-    std::string test_dir_;
+    std::string test_dir_ = {};
 };
 
 // Test 1: WAL Infrastructure Initialization
@@ -208,9 +208,13 @@ TEST_F(MetadataWALTest, MetadataShardWithPersistence) {
     // async-flush configurations in future).
     const std::string wal_dir = test_dir_ + "/wal";
     const bool wal_files_visible = themis::test::poll_until([&] {
-        if (!std::filesystem::exists(wal_dir)) return false;
+        if (!std::filesystem::exists(wal_dir)) {
+          return false;
+        }
         for (const auto& entry : std::filesystem::directory_iterator(wal_dir)) {
-            if (entry.is_regular_file()) return true;
+            if (entry.is_regular_file()) {
+              return true;
+            }
         }
         return false;
     }, std::chrono::seconds(5));

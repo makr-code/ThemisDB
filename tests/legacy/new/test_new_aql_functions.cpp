@@ -186,8 +186,12 @@ TEST_F(NewAQLFunctionsTest, EthicsListSchools) {
     for (const auto& school : result) {
         if (school.contains("name")) {
             std::string name = school["name"].get<std::string>();
-            if (name == "kant") hasKant = true;
-            if (name == "utilitarianism") hasUtilitarianism = true;
+            if (name == "kant") {
+              hasKant = true;
+            }
+            if (name == "utilitarianism") {
+              hasUtilitarianism = true;
+            }
         }
     }
     EXPECT_TRUE(hasKant);
@@ -410,7 +414,7 @@ protected:
     void TearDown() override {
         pm_.reset();
         db_.reset();
-        std::error_code ec;
+        std::error_code ec = {};
         std::filesystem::remove_all(db_path_, ec);
     }
 

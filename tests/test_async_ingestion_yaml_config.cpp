@@ -50,7 +50,7 @@ namespace {
 class TestDatabase {
 public:
     TestDatabase() {
-        std::error_code ec;
+        std::error_code ec = {};
         path_ = std::filesystem::temp_directory_path() /
                 ("themis_yaml_cfg_test_" +
                  std::to_string(std::chrono::steady_clock::now()
@@ -138,7 +138,7 @@ protected:
 
     void TearDown() override {
         for (const auto& p : temp_files_) {
-            std::error_code ec;
+            std::error_code ec = {};
             std::filesystem::remove(p, ec);
         }
         db_.reset();
@@ -299,7 +299,7 @@ TEST_F(AsyncIngestionYamlConfigTest, LoadConfig_SubmitsSourceJobs) {
 // ============================================================================
 
 TEST_F(AsyncIngestionYamlConfigTest, LoadConfig_UserContextPropagated) {
-    std::string captured_user_ctx;
+    std::string captured_user_ctx = {};
 
     auto worker = makeWorker(/*worker_threads=*/1, /*queue_depth=*/10);
     worker->registerJobHandler(
@@ -337,7 +337,7 @@ TEST_F(AsyncIngestionYamlConfigTest, LoadConfig_UserContextPropagated) {
 // ============================================================================
 
 TEST_F(AsyncIngestionYamlConfigTest, SubmitSourceJob_PropagatesUserContext) {
-    std::string captured_ctx;
+    std::string captured_ctx = {};
     bool job_ran = false;
 
     auto worker = makeWorker(/*worker_threads=*/1, /*queue_depth=*/10);

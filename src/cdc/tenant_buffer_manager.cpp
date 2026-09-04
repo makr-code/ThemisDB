@@ -47,7 +47,7 @@ void TenantBufferManager::start() {
         }
     }
 
-    THEMIS_INFO("TenantBufferManager started with {} tenants", tenant_buffers_.size());
+    THEMIS_INFO("TenantBufferManager started with {} tenants",static_cast<int>(tenant_buffers_.size()));
 }
 
 void TenantBufferManager::stop() {
@@ -263,7 +263,8 @@ nlohmann::json TenantBufferManager::getGlobalMetrics() const {
 std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
-    std::map<std::string, TenantStats> all_stats;
+    std::map<std::string, TenantStats> all_stats = {};
+
     for (const auto &[tenant_id, state] : tenant_buffers_) {
         all_stats[tenant_id] = state.stats;
     }
@@ -274,7 +275,8 @@ std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() cons
 std::vector<std::string> TenantBufferManager::getActiveTenants() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
-    std::vector<std::string> tenants;
+    std::vector<std::string> tenants = {};
+
     tenants.reserve(tenant_buffers_.size());
 
     for (const auto &[tenant_id, state] : tenant_buffers_) {

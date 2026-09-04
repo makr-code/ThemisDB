@@ -221,7 +221,8 @@ TEST(SelfRAGControllerTest, SELF_RAG_09_EarlyStop) {
 
     // Supply two relevant docs per round → target met on round 1.
     ctrl.setRetrievalCallback([](const std::string&, size_t top_k) {
-        std::vector<SelfRAGDocument> docs;
+        std::vector<SelfRAGDocument> docs = {};
+
         for (size_t i = 0; i < top_k; ++i) {
             docs.push_back({"id-" + std::to_string(i), "text", 0.9});
         }
@@ -253,7 +254,8 @@ TEST(SelfRAGControllerTest, SELF_RAG_10_RunsMaxRounds) {
     std::atomic<size_t> call_count{0};
     ctrl.setRetrievalCallback([&](const std::string&, size_t top_k) {
         size_t base = call_count.fetch_add(top_k);
-        std::vector<SelfRAGDocument> docs;
+        std::vector<SelfRAGDocument> docs = {};
+
         for (size_t i = 0; i < top_k; ++i) {
             docs.push_back({"id-" + std::to_string(base + i), "text", 0.1});
         }

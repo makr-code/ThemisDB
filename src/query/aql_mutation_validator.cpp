@@ -18,7 +18,9 @@ namespace query {
 // ---------------------------------------------------------------------------
 
 bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
-    if (name.empty() || name.size() > 256) return false;
+    if (name.empty() || static_cast<int>(name.size()) > 256) {
+      return false;
+    }
 
     // First character: letter or underscore
     const char first = name[0];
@@ -41,7 +43,9 @@ bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
 // ---------------------------------------------------------------------------
 
 bool AqlMutationValidator::isValidFieldName(std::string_view name) const {
-    if (name.empty() || name.size() > 256) return false;
+    if (name.empty() || static_cast<int>(name.size()) > 256) {
+      return false;
+    }
 
     // First character must not be a digit
     const char first = name[0];
@@ -87,7 +91,7 @@ MutationValidationResult AqlMutationValidator::validate(const MutationNode& node
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateInsert(const InsertNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -110,7 +114,7 @@ MutationValidationResult AqlMutationValidator::validateInsert(const InsertNode& 
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateUpdate(const UpdateNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -149,7 +153,7 @@ MutationValidationResult AqlMutationValidator::validateUpdate(const UpdateNode& 
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateRemove(const RemoveNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -174,7 +178,7 @@ MutationValidationResult AqlMutationValidator::validateRemove(const RemoveNode& 
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateReplace(const ReplaceNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(
@@ -203,7 +207,7 @@ MutationValidationResult AqlMutationValidator::validateReplace(const ReplaceNode
 // ---------------------------------------------------------------------------
 
 MutationValidationResult AqlMutationValidator::validateUpsert(const UpsertNode& node) const {
-    MutationValidationResult result;
+    MutationValidationResult result = {};
 
     if (!isValidCollectionName(node.collection)) {
         result.addError(

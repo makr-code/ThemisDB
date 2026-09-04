@@ -69,7 +69,7 @@ SequencePacker::PackedBatch SequencePacker::packSequences(
     // Calculate and log memory savings
     size_t max_len = 0;
     for (const auto& seq : sequences) {
-        max_len = std::max(max_len, seq.size());
+        max_len = std::max(max_len,static_cast<int>(seq.size()));
     }
     size_t padded_total = batch.num_sequences * max_len;
     float savings = 100.0f * (1.0f - static_cast<float>(total_tokens) / padded_total);
@@ -92,7 +92,7 @@ std::vector<GPUTensor> SequencePacker::unpackResults(
     }
     
     auto output_shape = packed_output.shape();
-    if (output_shape.size() != 2) {
+    if (static_cast<int>(output_shape.size()) != 2) {
         spdlog::error("Expected 2D packed output [total_tokens, hidden_dim], got {}D", 
                      output_shape.size());
         return {};
@@ -174,7 +174,7 @@ SequencePacker::sortByLength(const std::vector<std::vector<int>>& sequences) con
     // Sort indices by sequence length (descending)
     std::sort(indices.begin(), indices.end(), 
               [&sequences](size_t a, size_t b) {
-                  return sequences[a].size() > sequences[b].size();
+                  return static_cast<bool>(sequences[a].size()  < static_cast<int>(sequences[b].size()));
               });
     
     // Reorder sequences

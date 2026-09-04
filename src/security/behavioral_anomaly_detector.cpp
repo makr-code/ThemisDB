@@ -52,7 +52,7 @@ ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
 
     // Append event; evict oldest if ring buffer is full.
     state.events.push_back(event);
-    while (state.events.size() > config_.max_events_per_session) {
+    while (static_cast<int>(state.events.size()) > config_.max_events_per_session) {
         state.events.pop_front();
     }
 
@@ -92,7 +92,7 @@ size_t BehavioralAnomalyDetector::sessionEventCount(
     const std::string& session_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(session_id);
-    return it != sessions_.end() ? it->second.events.size() : 0u;
+    return static_cast<bool>(it != sessions_.end() ? it- < static_cast<int>(second.events.size())) : 0;
 }
 
 // ============================================================================
@@ -109,7 +109,9 @@ ThreatScore BehavioralAnomalyDetector::checkBurstRate(
     auto window_start = event.timestamp - config_.burst_window;
     size_t count = 0;
     for (const auto& e : state.events) {
-        if (e.timestamp >= window_start) ++count;
+        if (e.timestamp >= window_start) {
+          ++count;
+        }
     }
 
     double window_s = static_cast<double>(config_.burst_window.count());
@@ -120,7 +122,7 @@ ThreatScore BehavioralAnomalyDetector::checkBurstRate(
 
     double rate = static_cast<double>(count) / window_s;
     if (rate > config_.burst_rate_threshold) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Burst rate " << rate << " req/s exceeds threshold "
             << config_.burst_rate_threshold << " req/s";
         return {ThreatLevel::HIGH, levelToScore(ThreatLevel::HIGH), oss.str()};
@@ -150,7 +152,7 @@ ThreatScore BehavioralAnomalyDetector::checkOffHours(
         : (hour >= config_.work_hours_start_utc || hour < config_.work_hours_end_utc);
 
     if (!in_hours) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Off-hours access at UTC hour " << hour
             << " (work hours: " << config_.work_hours_start_utc
             << "-" << config_.work_hours_end_utc << ")";
@@ -180,7 +182,7 @@ ThreatScore BehavioralAnomalyDetector::checkPrivilegeEscalation(
     }
 
     if (!resource_seen) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "Privileged action '" << event.action
             << "' on previously-unaccessed resource '" << event.resource << "'";
         return {ThreatLevel::HIGH, levelToScore(ThreatLevel::HIGH), oss.str()};
@@ -206,7 +208,7 @@ ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
     }
 
     if (!resource_seen) {
-        std::ostringstream oss;
+        std::ostringstream oss = {};
         oss << "New resource '" << event.resource
             << "' accessed by already-flagged session";
         return {ThreatLevel::MEDIUM, levelToScore(ThreatLevel::MEDIUM), oss.str()};
@@ -220,8 +222,12 @@ ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
 
 ThreatScore BehavioralAnomalyDetector::maxScore(const ThreatScore& a,
                                                   const ThreatScore& b) {
-    if (static_cast<int>(b.level) > static_cast<int>(a.level)) return b;
-    if (static_cast<int>(b.level) == static_cast<int>(a.level) && b.score > a.score) return b;
+    if (static_cast<int>(b.level) > static_cast<int>(a.level)) {
+      return b;
+    }
+    if (static_cast<int>(b.level) == static_cast<int>(a.level) && b.score > a.score) {
+      return b;
+    }
     return a;
 }
 
@@ -231,7 +237,7 @@ double BehavioralAnomalyDetector::levelToScore(ThreatLevel lvl) noexcept {
         case ThreatLevel::HIGH:     return 0.75;
         case ThreatLevel::MEDIUM:   return 0.5;
         case ThreatLevel::LOW:
-        default:                    return 0.0;
+        [[fallthrough]];\n        default:                    return 0.0;
     }
 }
 

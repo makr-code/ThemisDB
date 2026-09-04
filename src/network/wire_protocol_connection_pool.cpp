@@ -39,10 +39,10 @@ namespace themis::network {
 namespace {
 
 uint64_t fnv1a64Pool(std::string_view value) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
@@ -51,7 +51,7 @@ std::string anonymizeTargetForLog(std::string_view target) {
     if (target.empty()) {
         return "target#unknown";
     }
-    std::ostringstream oss;
+    std::ostringstream oss = {};
     oss << "target#" << std::hex << fnv1a64Pool(target);
     return oss.str();
 }
@@ -76,11 +76,15 @@ constexpr int kPoolJoinTimeoutMs = 5000;
 static void timedJoin(std::thread& t,
                       std::string_view label,
                       int timeout_ms = kPoolJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -110,7 +114,9 @@ size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     [[maybe_unused]] size_t active_count,
     double load)
 {
-    if (current_count == 0) return 1;
+    if (current_count == 0) {
+      return 1;
+    }
 
     if (load > config_.scale_up_threshold) {
         return static_cast<size_t>(
@@ -129,8 +135,12 @@ bool AdaptivePoolingStrategy::shouldCreateConnection(
     size_t max_count,
     size_t available_count)
 {
-    if (current_count >= max_count) return false;
-    if (current_count == 0) return true;
+    if (current_count >= max_count) {
+      return false;
+    }
+    if (current_count == 0) {
+      return true;
+    }
     // Create when the fraction of available (idle) connections is below the low-water mark
     double available_ratio = static_cast<double>(available_count)
                            / static_cast<double>(current_count);
@@ -143,8 +153,12 @@ bool AdaptivePoolingStrategy::shouldRemoveConnection(
     size_t available_count,
     std::chrono::seconds idle_time)
 {
-    if (current_count <= min_count) return false;
-    if (available_count == 0) return false;
+    if (current_count <= min_count) {
+      return false;
+    }
+    if (available_count == 0) {
+      return false;
+    }
     // Only remove connections that have been idle long enough
     return idle_time >= config_.min_idle_time;
 }
@@ -325,7 +339,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         
         bool timed_out = false;
         bool connect_completed = false;
-        timer.async_wait([&](const boost::system::error_code& error) {
+        timer.async_wait([&]([[maybe_unused]] const boost::system::error_code& error) {
             if (!error && !connect_completed) {
                 timed_out = true;
                 boost::system::error_code close_ec;
@@ -377,7 +391,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             }
             
             // Set hostname verification callback for proper TLS validation
-            ssl_stream->set_verify_callback(ssl::host_name_verification(host));
+            ssl_stream->set_verify_callback([[maybe_unused]] ssl::host_name_verification(host));
             
             // Perform SSL handshake with timeout
             local_io.restart();
@@ -385,7 +399,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             
             timed_out = false;
             bool handshake_completed = false;
-            timer.async_wait([&](const boost::system::error_code& error) {
+            timer.async_wait([&]([[maybe_unused]] const boost::system::error_code& error) {
                 if (!error && !handshake_completed) {
                     timed_out = true;
                     boost::system::error_code shutdown_ec;
@@ -396,7 +410,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             
             ec.clear();
             ssl_stream->async_handshake(ssl::stream_base::client,
-                [&](const boost::system::error_code& error) {
+                [&]([[maybe_unused]] const boost::system::error_code& error) {
                     handshake_completed = true;
                     ec = error;
                     timer.cancel();
@@ -636,7 +650,9 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
 }
 
 void WireProtocolConnectionPool::adaptPoolSize() {
-    if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) return;
+    if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) {
+      return;
+    }
 
     // Collect current target names (under lock) to avoid holding pools_mutex_
     // while performing potentially slow createConnection() calls.
@@ -652,15 +668,15 @@ void WireProtocolConnectionPool::adaptPoolSize() {
     for (const auto& target : targets) {
         auto pool = getOrCreateTargetPool(target);
 
-        size_t current_count;
-        size_t active_count;
-        size_t available_count;
+        size_t current_count = {};
+        size_t active_count = {};
+        size_t available_count = {};
         std::chrono::seconds oldest_idle{0};
 
         {
             std::lock_guard<std::mutex> pool_lock(pool->mutex);
             active_count    = pool->active_count;
-            available_count = pool->available.size();
+            available_count = pool-> static_cast<int>(available.size());
             current_count   = active_count + available_count;
 
             if (!pool->available.empty()) {
@@ -780,7 +796,7 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     
     for (const auto& [target, pool] : target_pools_) {
         std::lock_guard<std::mutex> pool_lock(pool->mutex);
-        available += pool->available.size();
+        available += pool-> static_cast<int>(available.size());
         in_use += pool->active_count;
     }
     
@@ -804,7 +820,7 @@ bool WireProtocolConnectionPool::performHealthCheck(SocketWrapper& socket) {
     boost::system::error_code ec;
     
     // Try to read with MSG_PEEK to check if connection is alive
-    char dummy;
+    char dummy = 0;
     
     if (socket.is_ssl()) {
         // For SSL sockets, we can't use MSG_PEEK directly

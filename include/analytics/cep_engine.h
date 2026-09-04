@@ -251,7 +251,9 @@ struct Event {
     template<typename T>
     std::optional<T> getField(const std::string& name) const {
         auto it = fields.find(name);
-        if (it == fields.end()) return std::nullopt;
+        if (it == fields.end()) {
+          return std::nullopt;
+        }
         if (auto* val = std::get_if<T>(&it->second)) {
             return *val;
         }
@@ -587,7 +589,7 @@ private:
     
     // NFA state machine
     struct NFAState {
-        uint32_t state_id;
+        uint32_t state_id = 0;
         std::string expected_event_type;
         bool is_accepting = false;
         std::vector<uint32_t> transitions;
@@ -596,7 +598,7 @@ private:
     
     // Active partial matches (grouped by partition key)
     struct PartialMatch {
-        uint32_t current_state;
+        uint32_t current_state = 0;
         std::vector<Event> matched_events;
         std::chrono::steady_clock::time_point start_time;
         std::map<std::string, CepFieldValue> bindings;
@@ -856,7 +858,7 @@ public:
      * Get rule statistics
      */
     struct RuleStats {
-        std::string rule_id;
+        std::string rule_id = {};
         uint64_t events_processed = 0;
         uint64_t matches = 0;
         uint64_t actions_triggered = 0;

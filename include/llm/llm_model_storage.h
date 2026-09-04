@@ -126,21 +126,47 @@ struct LLMModelMetadata {
     }
     
     static LLMModelMetadata fromJSON(const json& j) {
-        LLMModelMetadata metadata;
+        LLMModelMetadata metadata = {};
         
-        if (j.contains("model_id")) metadata.model_id = j["model_id"];
-        if (j.contains("model_name")) metadata.model_name = j["model_name"];
-        if (j.contains("version")) metadata.version = j["version"];
-        if (j.contains("architecture")) metadata.architecture = j["architecture"];
-        if (j.contains("file_path")) metadata.file_path = j["file_path"];
-        if (j.contains("format")) metadata.format = j["format"];
-        if (j.contains("quantization")) metadata.quantization = j["quantization"];
-        if (j.contains("size_bytes")) metadata.size_bytes = j["size_bytes"];
-        if (j.contains("checksum")) metadata.checksum = j["checksum"];
-        if (j.contains("parameter_count")) metadata.parameter_count = j["parameter_count"];
-        if (j.contains("context_length")) metadata.context_length = j["context_length"];
-        if (j.contains("capabilities")) metadata.capabilities = j["capabilities"].get<std::vector<std::string>>();
-        if (j.contains("tags")) metadata.tags = j["tags"].get<std::vector<std::string>>();
+        if (j.contains("model_id")) {
+          metadata.model_id = j["model_id"];
+        }
+        if (j.contains("model_name")) {
+          metadata.model_name = j["model_name"];
+        }
+        if (j.contains("version")) {
+          metadata.version = j["version"];
+        }
+        if (j.contains("architecture")) {
+          metadata.architecture = j["architecture"];
+        }
+        if (j.contains("file_path")) {
+          metadata.file_path = j["file_path"];
+        }
+        if (j.contains("format")) {
+          metadata.format = j["format"];
+        }
+        if (j.contains("quantization")) {
+          metadata.quantization = j["quantization"];
+        }
+        if (j.contains("size_bytes")) {
+          metadata.size_bytes = j["size_bytes"];
+        }
+        if (j.contains("checksum")) {
+          metadata.checksum = j["checksum"];
+        }
+        if (j.contains("parameter_count")) {
+          metadata.parameter_count = j["parameter_count"];
+        }
+        if (j.contains("context_length")) {
+          metadata.context_length = j["context_length"];
+        }
+        if (j.contains("capabilities")) {
+          metadata.capabilities = j["capabilities"].get<std::vector<std::string>>();
+        }
+        if (j.contains("tags")) {
+          metadata.tags = j["tags"].get<std::vector<std::string>>();
+        }
         
         return metadata;
     }

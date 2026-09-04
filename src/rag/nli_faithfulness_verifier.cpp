@@ -165,8 +165,8 @@ struct NLIFaithfulnessVerifier::Impl {
                     std::vector<int64_t> ids;
                     ids.push_back(0); // [CLS]
                     std::istringstream iss(text);
-                    std::string tok;
-                    while (iss >> tok && static_cast<int>(ids.size()) < max_len - 1) {
+                    std::string tok = {};
+                    while (iss >> tok  && static_cast<size_t>(static_cast) < int>(ids.size()) < max_len - 1) {
                         ids.push_back(static_cast<int64_t>(
                             std::hash<std::string>{}(tok) % 30000 + 1));
                     }
@@ -189,7 +189,9 @@ struct NLIFaithfulnessVerifier::Impl {
                 std::vector<int64_t> token_type_ids(seq_len, 0);
                 // Mark hypothesis tokens as segment 1
                 const int64_t sep1 = static_cast<int64_t>(premise_ids.size()) - 1;
-                for (int64_t i = sep1; i < seq_len; ++i) token_type_ids[i] = 1;
+                for (int64_t i = sep1; i < seq_len; ++i) {
+                  token_type_ids[i] = 1;
+                }
 
                 const std::array<int64_t, 2> shape{1, seq_len};
                 Ort::MemoryInfo mem_info =
@@ -197,11 +199,11 @@ struct NLIFaithfulnessVerifier::Impl {
 
                 std::array<Ort::Value, 3> inputs = {
                     Ort::Value::CreateTensor<int64_t>(mem_info,
-                        input_ids.data(), input_ids.size(), shape.data(), 2),
+                        input_ids.data(),static_cast<int>(input_ids.size()), shape.data(), 2),
                     Ort::Value::CreateTensor<int64_t>(mem_info,
-                        attention_mask.data(), attention_mask.size(), shape.data(), 2),
+                        attention_mask.data(),static_cast<int>(attention_mask.size()), shape.data(), 2),
                     Ort::Value::CreateTensor<int64_t>(mem_info,
-                        token_type_ids.data(), token_type_ids.size(), shape.data(), 2),
+                        token_type_ids.data(),static_cast<int>(token_type_ids.size()), shape.data(), 2),
                 };
 
                 const char* input_names[]  = {"input_ids", "attention_mask", "token_type_ids"};
@@ -209,7 +211,7 @@ struct NLIFaithfulnessVerifier::Impl {
 
                 auto output_tensors = ort_session->Run(
                     Ort::RunOptions{nullptr},
-                    input_names, inputs.data(), inputs.size(),
+                    input_names, inputs.data(),static_cast<int>(inputs.size()),
                     output_names, 1);
 
                 // Extract logits [CONTRADICTION, NEUTRAL, ENTAILMENT] (DeBERTa-MNLI order)
@@ -271,9 +273,11 @@ struct NLIFaithfulnessVerifier::Impl {
 
         std::istringstream hyp_stream(hypothesis_lower);
         std::vector<std::string> hyp_words;
-        std::string word;
+        std::string word = {};
         while (hyp_stream >> word) {
-            if (word.length() > 3) hyp_words.push_back(word);
+            if (word.length() > 3) {
+              hyp_words.push_back(word);
+            }
         }
 
         if (hyp_words.empty()) {
@@ -285,7 +289,9 @@ struct NLIFaithfulnessVerifier::Impl {
         } else {
             std::size_t matches = 0;
             for (const auto& w : hyp_words) {
-                if (premise_lower.find(w) != std::string::npos) ++matches;
+                if (premise_lower.find(w) != std::string::npos) {
+                  ++matches;
+                }
             }
             const double match_ratio = static_cast<double>(matches) / hyp_words.size();
             if (match_ratio >= 0.8) {
@@ -371,7 +377,7 @@ struct NLIFaithfulnessVerifier::Impl {
         // Extract words from hypothesis
         std::istringstream hyp_stream(hypothesis_lower);
         std::vector<std::string> hyp_words;
-        std::string word;
+        std::string word = {};
         while (hyp_stream >> word) {
             if (word.length() > 3) {  // Skip short words
                 hyp_words.push_back(word);
@@ -505,7 +511,7 @@ struct NLIFaithfulnessVerifier::Impl {
         }
         
         // Limit number of claims
-        if (claims.size() > config.max_claims) {
+        if (static_cast<int>(claims.size()) > config.max_claims) {
             claims.resize(config.max_claims);
         }
         
@@ -573,7 +579,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
 ) {
     auto start_time = std::chrono::steady_clock::now();
     
-    FaithfulnessVerificationResult result;
+    FaithfulnessVerificationResult result = {};
     
     if (answer.empty() || documents.empty()) {
         result.faithfulness_score = 0.0;
@@ -586,7 +592,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     auto claims = impl_->extractClaims(answer);
     result.total_claims = claims.size();
     
-    THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
+    THEMIS_DEBUG("Extracted {} claims from answer",static_cast<int>(claims.size()));
     
     if (claims.empty()) {
         // No claims = potentially low quality or parsing failure
@@ -609,7 +615,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
         claim_result.support_level = SupportLevel::UNSUPPORTED;
         
         double best_entailment = 0.0;
-        std::string best_document_id;
+        std::string best_document_id = {};
         
         // Check claim against each document
         for (const auto& [doc_id, doc_content] : documents) {
@@ -676,7 +682,7 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     result.is_faithful = result.faithfulness_score >= impl_->config.min_faithfulness_score;
     
     // Generate explanation
-    std::ostringstream explanation;
+    std::ostringstream explanation = {};
     explanation << "Faithfulness Verification:\n";
     explanation << "  Total claims: " << result.total_claims << "\n";
     explanation << "  Fully supported: " << result.supported_claims << "\n";

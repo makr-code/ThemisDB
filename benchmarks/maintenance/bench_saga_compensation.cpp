@@ -248,7 +248,8 @@ static void BM_ConcurrentSagaCompensation(benchmark::State& state) {
         // Compensate all SAGAs concurrently
         auto start = std::chrono::high_resolution_clock::now();
         
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads = {};
+
         for (auto& saga : sagas) {
             threads.emplace_back([&saga]() {
                 saga->compensate();

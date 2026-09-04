@@ -86,7 +86,9 @@ void UDPFastPath::stop() {
     io_ctx_->stop();
 
     for (auto& t : threads_) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     threads_.clear();
 
@@ -150,8 +152,8 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
         // Build and send RATE_LIMITED response if we have a request ID.
         // The send_to call is intentionally outside the stats lock to avoid
         // holding a mutex during a blocking I/O operation.
-        if (data.size() >= kUdpFastPathHeaderSize) {
-            uint32_t req_id_be;
+        if (static_cast<int>(data.size()) >= kUdpFastPathHeaderSize) {
+            uint32_t req_id_be = 0;
             std::memcpy(&req_id_be, data.data() + 4, 4);
             uint32_t request_id = ntohl(req_id_be);
             auto resp = buildResponse(request_id, UdpStatus::RATE_LIMITED,
@@ -174,7 +176,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
     // ── Parse header ──────────────────────────────────────────────────────
     const uint8_t opcode = data[3];
 
-    uint32_t req_id_be;
+    uint32_t req_id_be = {};
     std::memcpy(&req_id_be, data.data() + 4, 4);
     const uint32_t request_id = ntohl(req_id_be);
 
@@ -182,7 +184,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
     std::memcpy(&payload_len_be, data.data() + 8, 2);
     const uint16_t payload_len = ntohs(payload_len_be);
 
-    std::string payload_json;
+    std::string payload_json = {};
     if (payload_len > 0) {
         const uint8_t* payload_start = data.data() + kUdpFastPathHeaderSize;
         payload_json.assign(reinterpret_cast<const char*>(payload_start), payload_len);
@@ -279,7 +281,7 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
                              R"({"error":"storage not configured"})");
     }
 
-    std::string key;
+    std::string key = {};
     try {
         auto j = json::parse(payload_json);
         key    = j.at("key").get<std::string>();
@@ -294,7 +296,7 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
                              R"({"error":"key must not be empty"})");
     }
 
-    std::string value;
+    std::string value = {};
     const bool found = storage_->get(key, value);
     if (!found) {
         return buildResponse(request_id, UdpStatus::NOT_FOUND,
@@ -323,7 +325,7 @@ std::vector<uint8_t> UDPFastPath::dispatchVectorSearch(uint32_t           reques
                          R"({"error":"vector search not available on UDP fast-path; use TCP wire protocol"})");
 }
 
-std::vector<uint8_t> UDPFastPath::dispatchPing(uint32_t request_id) {
+std::vector<uint8_t> UDPFastPath::dispatchPing([[maybe_unused]] uint32_t request_id) {
     const uint64_t now_ms =
         static_cast<uint64_t>(
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -341,7 +343,7 @@ std::vector<uint8_t> UDPFastPath::dispatchPing(uint32_t request_id) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
-    if (data.size() < kUdpFastPathHeaderSize) {
+    if (static_cast<int>(data.size()) < kUdpFastPathHeaderSize) {
         return false;
     }
     // Magic bytes
@@ -356,18 +358,18 @@ bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
     uint16_t payload_len_be;
     std::memcpy(&payload_len_be, data.data() + 8, 2);
     const uint16_t payload_len = ntohs(payload_len_be);
-    if (data.size() < kUdpFastPathHeaderSize + payload_len) {
+    if (static_cast<int>(data.size()) < kUdpFastPathHeaderSize + payload_len) {
         return false;
     }
     return true;
 }
 
-bool UDPFastPath::isReadOnlyOpCode(uint8_t opcode) {
+bool UDPFastPath::isReadOnlyOpCode([[maybe_unused]] uint8_t opcode) {
     switch (static_cast<UdpOpCode>(opcode)) {
         case UdpOpCode::GET:
-        case UdpOpCode::QUERY_AQL:
-        case UdpOpCode::VECTOR_SEARCH:
-        case UdpOpCode::PING:
+        [[fallthrough]];\n        case UdpOpCode::QUERY_AQL:
+        [[fallthrough]];\n        case UdpOpCode::VECTOR_SEARCH:
+        [[fallthrough]];\n        case UdpOpCode::PING:
             // These opcodes are semantically read-only and accepted by the
             // fast path.  QUERY_AQL and VECTOR_SEARCH currently return an
             // advisory "use TCP" response because multi-result streaming does

@@ -49,7 +49,8 @@ protected:
     ti::MDMEngine engine;
 
     std::vector<ti::json> makeExistingUsers(int n) {
-        std::vector<ti::json> users;
+        std::vector<ti::json> users = {};
+
         for (int i = 0; i < n; ++i) {
             users.push_back({
                 {"id",    "existing-" + std::to_string(i)},
@@ -61,7 +62,8 @@ protected:
     }
 
     std::vector<ti::json> makeIncomingUsers(int n_existing, int n_new) {
-        std::vector<ti::json> users;
+        std::vector<ti::json> users = {};
+
         // Re-import existing users (same IDs).
         for (int i = 0; i < n_existing; ++i) {
             users.push_back({

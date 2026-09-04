@@ -74,7 +74,8 @@ TEST(Phase2T2_2_SchemaHardening, IMSH_01_BoundedComplexityTablePairs) {
 
 TEST(Phase2T2_2_SchemaHardening, IMSH_01_BoundedComplexityExceedsMaxTableCount) {
     // Create more tables than allowed
-    std::vector<InferenceTableSchema> schemas;
+    std::vector<InferenceTableSchema> schemas = {};
+
     for (size_t i = 0; i < SchemaInferenceEngine::kMaxTableCount + 100; ++i) {
         schemas.push_back(makeSchema("t" + std::to_string(i), {"id"}, {"id"}));
     }

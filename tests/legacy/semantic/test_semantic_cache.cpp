@@ -276,7 +276,8 @@ TEST_F(SemanticCacheTest, ConcurrentAccess) {
     cache->put(query, R"({})");
     
     // Concurrent reads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> threads = {};
+
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([this, &query]() {
             for (int j = 0; j < 10; ++j) {

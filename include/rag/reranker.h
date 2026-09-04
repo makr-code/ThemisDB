@@ -54,7 +54,7 @@ struct CrossEncoderConfig {
 
     /// Optional expected checksum for the model file (hex FNV-1a 64-bit).
     /// If set, it takes precedence over a ".sha256" sidecar file.
-    std::string expected_model_checksum;
+    std::string expected_model_checksum = {};
 
     /// Cache re-ranking scores for (query, document-id) pairs to avoid
     /// re-scoring identical inputs within the same reranker instance.

@@ -305,7 +305,11 @@ TEST(GraphCostHistogramTest, P99BelowBoundAfterFastQueries) {
 
 TEST(GraphCostHistogramTest, P99AboveP50) {
     GraphCostHistogram h;
-    for (int i = 0; i < 90; ++i) h.record(1);
-    for (int i = 0; i < 10; ++i) h.record(500);
+    for (int i = 0; i < 90; ++i) {
+      h.record(1);
+    }
+    for (int i = 0; i < 10; ++i) {
+      h.record(500);
+    }
     EXPECT_LE(h.percentileMs(0.50), h.percentileMs(0.99) + 1e-6);
 }

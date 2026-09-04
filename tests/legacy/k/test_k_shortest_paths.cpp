@@ -168,7 +168,8 @@ TEST_F(KShortestPathsTest, PathsAreLoopless) {
     
     // Check that no path contains loops
     for (const auto& path : paths) {
-        std::set<std::string> visited;
+        std::set<std::string> visited = {};
+
         for (const auto& vertex : path.vertices) {
             EXPECT_EQ(visited.count(vertex), 0) 
                 << "Path contains loop through vertex " << vertex;

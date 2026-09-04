@@ -41,13 +41,16 @@ using namespace themisdb::replication;
 static std::set<std::string> makeMembers(
     std::initializer_list<const char*> ids)
 {
-    std::set<std::string> s;
-    for (const auto* id : ids) s.insert(id);
+    std::set<std::string> s = {};
+
+    for (const auto* id : ids) {
+      s.insert(id);
+    }
     return s;
 }
 
 struct TempWALDir {
-    std::string path;
+    std::string path = {};
     explicit TempWALDir(const std::string& p) : path(p) {
         std::filesystem::remove_all(p);
         std::filesystem::create_directories(p);

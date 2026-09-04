@@ -111,7 +111,7 @@ void BufferAPIHandler::stop() {
 http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("BufferAPIHandler.handleTSPutBuffered");
+    auto span = Tracer::startSpan([[maybe_unused]] "BufferAPIHandler.handleTSPutBuffered");
     
     if (!ts_buffer_) {
         return makeErrorResponse(http::status::service_unavailable,
@@ -174,7 +174,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
 http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("BufferAPIHandler.handleVectorAddBuffered");
+    auto span = Tracer::startSpan([[maybe_unused]] "BufferAPIHandler.handleVectorAddBuffered");
     
     if (!vector_buffer_) {
         return makeErrorResponse(http::status::service_unavailable,
@@ -235,7 +235,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
 http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("BufferAPIHandler.handleGraphAddBuffered");
+    auto span = Tracer::startSpan([[maybe_unused]] "BufferAPIHandler.handleGraphAddBuffered");
     
     if (!graph_buffer_) {
         return makeErrorResponse(http::status::service_unavailable,
@@ -310,7 +310,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
 http::response<http::string_body> BufferAPIHandler::handleBufferStats(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("BufferAPIHandler.handleBufferStats");
+    auto span = Tracer::startSpan([[maybe_unused]] "BufferAPIHandler.handleBufferStats");
     
     json response = {
         {"buffers", json::object()}
@@ -368,7 +368,7 @@ http::response<http::string_body> BufferAPIHandler::handleBufferStats(
 http::response<http::string_body> BufferAPIHandler::handleBufferFlush(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("BufferAPIHandler.handleBufferFlush");
+    auto span = Tracer::startSpan([[maybe_unused]] "BufferAPIHandler.handleBufferFlush");
     
     try {
         std::string buffer_type = "all";

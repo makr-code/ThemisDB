@@ -45,7 +45,8 @@ std::shared_ptr<IngestionToolbox> makeToolbox()
 
 std::vector<std::string> sortedChunkIds(const InMemoryVectorWriter& writer)
 {
-    std::vector<std::string> chunk_ids;
+    std::vector<std::string> chunk_ids = {};
+
     chunk_ids.reserve(writer.records().size());
     for (const auto& [chunk_id, record] : writer.records()) {
         static_cast<void>(record);

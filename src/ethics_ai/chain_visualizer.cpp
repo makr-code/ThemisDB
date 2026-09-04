@@ -28,13 +28,13 @@ namespace ethics {
 const char* ChainVisualizer::dotFillColor(ArgumentType type) {
     switch (type) {
         case ArgumentType::PRO:
-        case ArgumentType::SYNTHESIS:
+        [[fallthrough]];\n        case ArgumentType::SYNTHESIS:
             return "lightblue";
         case ArgumentType::CONTRA:
-        case ArgumentType::REBUTTAL:
+        [[fallthrough]];\n        case ArgumentType::REBUTTAL:
             return "lightyellow";
         case ArgumentType::QUESTION:
-        case ArgumentType::CLARIFICATION:
+        [[fallthrough]];\n        case ArgumentType::CLARIFICATION:
             return "lightgrey";
         default:
             return "white";
@@ -48,9 +48,11 @@ std::string ChainVisualizer::makeLabel(const EthicalArgument& arg) {
 }
 
 std::string ChainVisualizer::dotEscape(const std::string& s) {
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (char c : s) {
-        if (c == '"')       out << "\\\"";
+        if (c == '"') {
+          out << "\\\"";
+        }
         else if (c == '\\') out << "\\\\";
         else                out << c;
     }
@@ -59,9 +61,11 @@ std::string ChainVisualizer::dotEscape(const std::string& s) {
 
 std::string ChainVisualizer::mermaidEscape(const std::string& s) {
     // Mermaid node labels are wrapped in quotes; replace special chars.
-    std::ostringstream out;
+    std::ostringstream out = {};
     for (char c : s) {
-        if (c == '"')  out << "'";
+        if (c == '"') {
+          out << "'";
+        }
         else if (c == '\n') out << "<br/>";
         else           out << c;
     }
@@ -80,7 +84,7 @@ std::string ChainVisualizer::exportDot(
     // Build a set for fast membership tests (to restrict edges)
     std::set<std::string> id_set(argument_ids.begin(), argument_ids.end());
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "digraph " << dotEscape(graph_name) << " {\n";
     out << "  rankdir=LR;\n";
     out << "  node [shape=box, style=filled];\n\n";
@@ -131,7 +135,7 @@ std::string ChainVisualizer::exportMermaid(
 {
     std::set<std::string> id_set(argument_ids.begin(), argument_ids.end());
 
-    std::ostringstream out;
+    std::ostringstream out = {};
     out << "flowchart LR\n";
 
     // Emit nodes

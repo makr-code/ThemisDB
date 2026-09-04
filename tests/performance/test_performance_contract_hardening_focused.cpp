@@ -36,7 +36,7 @@ protected:
 
     std::string randomKey(size_t len = 16) {
         static const char kAlpha[] = "abcdefghijklmnopqrstuvwxyz0123456789";
-        std::string s;
+        std::string s = {};
         s.reserve(len);
         for (size_t i = 0; i < len; ++i)
             s += kAlpha[rng_() % (sizeof(kAlpha) - 1)];

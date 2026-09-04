@@ -34,7 +34,7 @@ WALApplier::~WALApplier() {
  * @brief Install callback used to apply individual WAL entries.
  * @param handler Apply callback.
  */
-void WALApplier::setApplyHandler(ApplyHandler handler) {
+void WALApplier::setApplyHandler([[maybe_unused]] ApplyHandler handler) {
     std::lock_guard<std::mutex> lock(mutex_);
     apply_handler_ = handler;
 }
@@ -55,8 +55,8 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
         return result;
     }
     
-    if (!apply_handler_) {
-        result.errors.push_back("No apply handler set");
+    if ([[maybe_unused]] !apply_handler_) {
+        result.errors.push_back([[maybe_unused]] "No apply handler set");
         return result;
     }
     
@@ -170,7 +170,7 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
             // Call apply handler
-            if (apply_handler_(entry)) {
+            if ([[maybe_unused]] apply_handler_(entry)) {
                 return true;
             }
         } catch (const std::exception& e) {
@@ -181,7 +181,7 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
         // Wait before the next attempt (bounded exponential backoff, no-op on
         // the last iteration).
         if (attempt < config_.max_apply_retries - 1) {
-            constexpr uint64_t kMaxBackoffMs = 30'000u;
+            constexpr uint64_t kMaxBackoffMs = 30'000;
             const size_t shift = std::min<size_t>(attempt, 20);  // clamp for overflow safety
             const uint64_t factor = (1ull << shift);
             const uint64_t raw_delay =

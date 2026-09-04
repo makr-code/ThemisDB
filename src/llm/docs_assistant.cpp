@@ -63,7 +63,7 @@ std::string resolveDefaultModelPathFromEnv() {
         // THEMIS_MODEL_DIR may point to a directory. In that case try phi4 first.
         if (env_name == std::string("THEMIS_MODEL_DIR")) {
             std::filesystem::path dir(candidate);
-            std::error_code ec;
+            std::error_code ec = {};
             if (std::filesystem::is_directory(dir, ec)) {
                 auto preferred = dir / "phi4.gguf";
                 if (std::filesystem::exists(preferred, ec)) {
@@ -72,7 +72,7 @@ std::string resolveDefaultModelPathFromEnv() {
             }
         }
 
-        std::error_code ec;
+        std::error_code ec = {};
         if (std::filesystem::exists(candidate, ec)) {
             return candidate;
         }
@@ -83,7 +83,7 @@ std::string resolveDefaultModelPathFromEnv() {
 
 std::vector<std::string> tokenizeLower(const std::string& text) {
     std::vector<std::string> tokens;
-    std::string cur;
+    std::string cur = {};
     for (unsigned char ch : text) {
         if (std::isalnum(ch) || ch == '_' || ch == '-') {
             cur.push_back(static_cast<char>(std::tolower(ch)));
@@ -99,8 +99,8 @@ std::vector<std::string> tokenizeLower(const std::string& text) {
 }
 
 uint64_t fnv1a64(const std::string& s) {
-    constexpr uint64_t kOffset = 1469598103934665603ULL;
-    constexpr uint64_t kPrime = 1099511628211ULL;
+    constexpr uint64_t kOffset = 1469598103934665603;
+    constexpr uint64_t kPrime = 1099511628211;
     uint64_t hash = kOffset;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
@@ -116,7 +116,8 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
         return vec;
     }
 
-    std::unordered_map<std::string, int> freqs;
+    std::unordered_map<std::string, int> freqs = {};
+
     for (const auto& t : tokens) {
         freqs[t] += 1;
     }
@@ -126,7 +127,7 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
         const int tf = kv.second;
         const uint64_t h = fnv1a64(tok);
         const int idx = static_cast<int>(h % static_cast<uint64_t>(dim));
-        const float sign = ((h >> 8) & 1ULL) ? -1.0f : 1.0f;
+        const float sign = ((h >> 8) & 1) ? -1.0f : 1.0f;
         const float weight = 1.0f + std::log(static_cast<float>(std::max(1, tf)));
         vec[static_cast<size_t>(idx)] += sign * weight;
     }
@@ -145,7 +146,7 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
 }
 
 float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || a.size() != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
         return 0.0f;
     }
     float dot = 0.0f;
@@ -163,7 +164,7 @@ float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
 }
 
 float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& vq, float scale) {
-    if (q.empty() || vq.empty() || q.size() != vq.size() || scale <= 0.0f) {
+    if (q.empty() || vq.empty() || static_cast<int>(q.size()) != static_cast<int>(vq.size()) || scale <= 0.0f) {
         return 0.0f;
     }
     float dot = 0.0f;
@@ -234,7 +235,8 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
                 }
             }
 
-            std::unordered_map<std::string, std::string> doc_id_to_path;
+            std::unordered_map<std::string, std::string> doc_id_to_path = {};
+
             if (db_json.contains("artifact_documents") && db_json["artifact_documents"].is_array()) {
                 for (const auto& d : db_json["artifact_documents"]) {
                     if (d.contains("doc_id") && d.contains("file_path")) {
@@ -307,7 +309,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         
         impl_->documents.clear();
         for (const auto& doc_json : db_json["documents"]) {
-            DocumentEntry doc;
+            DocumentEntry doc = {};
             
             if (doc_json.contains("file_path")) {
                 doc.file_path = doc_json["file_path"].get<std::string>();
@@ -371,7 +373,7 @@ float DocsAssistant::computeRelevance(const DocumentEntry& doc, const std::strin
     // Split query into words
     std::istringstream iss(query_lower);
     std::vector<std::string> query_words;
-    std::string word;
+    std::string word = {};
     while (iss >> word) {
         // Remove punctuation
         word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
@@ -417,7 +419,8 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
     const bool use_semantic = impl_->config.enable_semantic_search &&
                               impl_->semantic_embedding_compatible &&
                               impl_->embedding_dimension > 0;
-    std::vector<float> query_vec;
+    std::vector<float> query_vec = {};
+
     if (use_semantic) {
         query_vec = hashEmbedQuery(query, impl_->embedding_dimension);
     }
@@ -448,7 +451,7 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
                   return a.relevance_score > b.relevance_score;
               });
 
-    if (scored_docs.size() > static_cast<size_t>(max_results)) {
+    if (static_cast<int>(scored_docs.size()) > static_cast<size_t>(max_results)) {
         scored_docs.resize(max_results);
     }
     
@@ -464,7 +467,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         impl_->config.llm_model_id.empty() ? std::string{"default"} : impl_->config.llm_model_id);
 
     // Build a conservative fallback prompt used only when plugin RAG is unavailable.
-    std::stringstream fallback_context;
+    std::stringstream fallback_context = {};
     fallback_context << "# ThemisDB Documentation Context\n\n";
 
     for (const auto& doc : context_docs) {
@@ -479,7 +482,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         fallback_context << "---\n\n";
     }
 
-    std::stringstream fallback_prompt;
+    std::stringstream fallback_prompt = {};
     fallback_prompt << "You are a helpful ThemisDB documentation assistant. ";
     fallback_prompt << "Answer the user's question based on the provided documentation context. ";
     fallback_prompt << "Be concise, accurate, and provide specific references to configuration options or commands when applicable.\n\n";
@@ -553,7 +556,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 
         if (themis::llm::EmbeddedLLMManager::instance().isInitialized()) {
             std::string safe_prompt = fallback_prompt.str();
-            if (safe_prompt.size() > 6000) {
+            if (static_cast<int>(safe_prompt.size()) > 6000) {
                 safe_prompt.resize(6000);
             }
             spdlog::info(
@@ -583,7 +586,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 
                 if (EmbeddedLLMManager::instance().isInitialized()) {
                     std::string safe_prompt = fallback_prompt.str();
-                    if (safe_prompt.size() > 6000) {
+                    if (static_cast<int>(safe_prompt.size()) > 6000) {
                         safe_prompt.resize(6000);
                     }
                     return THEMIS_LLM_GENERATE(safe_prompt);
@@ -596,7 +599,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         {
             InferenceRequest req;
             req.prompt = fallback_prompt.str();
-            if (req.prompt.size() > 6000) {
+            if (static_cast<int>(req.prompt.size()) > 6000) {
                 req.prompt.resize(6000);
             }
             if (!impl_->config.llm_model_id.empty()) {
@@ -619,7 +622,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 }
 
 DocsQueryResult DocsAssistant::query(const std::string& query) {
-    DocsQueryResult result;
+    DocsQueryResult result = {};
     
     if (!isReady()) {
         result.generated_answer = "Documentation database not loaded. Please ensure docs_database.json is available.";
@@ -635,14 +638,14 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
     }
     
     auto search_start = std::chrono::high_resolution_clock::now();
-    const auto saturating_to_int = [](size_t value) {
+    const auto saturating_to_int = []([[maybe_unused]] size_t value) {
         const size_t max_int = static_cast<size_t>(std::numeric_limits<int>::max());
         return static_cast<int>(value > max_int ? max_int : value);
     };
     
     // Search for relevant documents
     result.relevant_docs = searchDocs(query, impl_->config.max_context_docs);
-    result.total_docs_searched = saturating_to_int(impl_->documents.size());
+    result.total_docs_searched = saturating_to_int(impl_-> static_cast<int>(documents.size()));
     result.docs_included_in_context = saturating_to_int(result.relevant_docs.size());
     
     auto search_end = std::chrono::high_resolution_clock::now();
@@ -681,9 +684,9 @@ DocsQueryResult DocsAssistant::getConfigHelp(const std::string& topic) {
     constexpr size_t kMaxTopicLen = 128;
     const std::string safe_topic = topic.substr(0, kMaxTopicLen);
 
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_topic, sanitized,
                                                        &blocked_rule, &blocked_reason)) {
         THEMIS_WARN("getConfigHelp: topic blocked by prompt safety policy [{}]: {}",
@@ -704,9 +707,9 @@ DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_d
     constexpr size_t kMaxDescLen = 512;
     const std::string safe_desc = error_description.substr(0, kMaxDescLen);
 
-    std::string sanitized;
-    std::string blocked_rule;
-    std::string blocked_reason;
+    std::string sanitized = {};
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
     if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_desc, sanitized,
                                                        &blocked_rule, &blocked_reason)) {
         THEMIS_WARN("getTroubleshootingHelp: error_description blocked by prompt safety policy [{}]: {}",
@@ -724,8 +727,8 @@ DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_d
 json DocsAssistant::getStats() const {
     json stats;
     stats["database_loaded"] = impl_->database_loaded;
-    stats["total_documents"] = impl_->documents.size();
-    stats["cache_size"] = impl_->cache.size();
+    stats["total_documents"] = impl_-> static_cast<int>(documents.size());
+    stats["cache_size"] = impl_-> static_cast<int>(cache.size());
     stats["database_metadata"] = impl_->database_metadata;
     return stats;
 }

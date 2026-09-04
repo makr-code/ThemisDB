@@ -585,7 +585,7 @@ static const std::string kB64BenchChars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static std::string b64EncodeBench(const std::string& data) {
-    std::string out;
+    std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
     uint32_t buf = 0;
     int bits = 0;
@@ -601,15 +601,19 @@ static std::string b64EncodeBench(const std::string& data) {
         buf <<= (6 - bits);
         out.push_back(kB64BenchChars[buf & 0x3F]);
     }
-    while (out.size() % 4 != 0) out.push_back('=');
+    while (out.size() % 4 != 0) {
+      out.push_back('=');
+    }
     return out;
 }
 
 /// Build a 64-char lowercase hex key from an integer seed.
 static std::string makeHexKey64(int n) {
-    std::ostringstream ss;
+    std::ostringstream ss = {};
     ss << std::hex << std::setfill('0');
-    for (int i = 0; i < 8; ++i) ss << std::setw(8) << n;
+    for (int i = 0; i < 8; ++i) {
+      ss << std::setw(8) << n;
+    }
     return ss.str();
 }
 
@@ -668,7 +672,7 @@ static void BM_WarmupFromLog(benchmark::State& state) {
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) *
                             static_cast<int64_t>(entry_count));
 
-    std::error_code ec;
+    std::error_code ec = {};
     std::filesystem::remove(log_path, ec);
 
     state.SetLabel("workers=" + std::to_string(num_workers) +

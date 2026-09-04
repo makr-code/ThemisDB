@@ -39,7 +39,7 @@ AQLInjectionDetector::validateParameterizedQuery(
     const std::string& aql_template,
     const std::vector<std::string>& parameters
 ) {
-    InjectionCheckResult result;
+    InjectionCheckResult result = {};
 
     if (aql_template.empty() || isBlankInput(aql_template)) {
         result.is_safe = false;
@@ -81,7 +81,7 @@ AQLInjectionDetector::validateParameterizedQuery(
 
 AQLInjectionDetector::InjectionCheckResult 
 AQLInjectionDetector::validateAQLAST(const std::string& aql) {
-    InjectionCheckResult result;
+    InjectionCheckResult result = {};
 
     if (aql.empty() || isBlankInput(aql)) {
         result.is_safe = false;
@@ -95,8 +95,8 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         result.is_safe = false;
         result.detected_patterns = extractPatterns(aql);
         if (!result.detected_patterns.empty()) {
-            std::ostringstream token_stream;
-            for (size_t i = 0; i < result.detected_patterns.size(); ++i) {
+            std::ostringstream token_stream = {};
+            for (size_t i = 0; i <static_cast<int>(result.detected_patterns.size()); ++i) {
                 if (i > 0) {
                     token_stream << ", ";
                 }
@@ -150,7 +150,7 @@ AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
 
 AQLInjectionDetector::InjectionCheckResult
 AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
-    InjectionCheckResult result;
+    InjectionCheckResult result = {};
 
     if (aql.empty() || isBlankInput(aql)) {
         result.is_safe = false;
@@ -357,7 +357,7 @@ std::vector<std::string> AQLInjectionDetector::extractPatterns(const std::string
     };
     
     for (const auto& pattern : pattern_list) {
-        std::smatch match;
+        std::smatch match = {};
         std::string search_str = str;
         while (std::regex_search(search_str, match, pattern)) {
             patterns.push_back(match.str());
@@ -464,7 +464,9 @@ bool AQLInjectionDetector::containsDangerousOperations(const query::Query& ast) 
 bool AQLInjectionDetector::scanExpressionForDangerousOps(
     const std::shared_ptr<query::Expression>& expr
 ) {
-    if (!expr) return false;
+    if (!expr) {
+      return false;
+    }
     
     // Disallowed function names — checked case-insensitively.
     static const std::unordered_set<std::string> kDangerousFunctions = {
@@ -503,12 +505,16 @@ bool AQLInjectionDetector::scanExpressionForDangerousOps(
     } else if (node_type == query::ASTNodeType::ArrayLiteral) {
         auto array_expr = std::static_pointer_cast<query::ArrayLiteralExpr>(expr);
         for (const auto& elem : array_expr->elements) {
-            if (scanExpressionForDangerousOps(elem)) return true;
+            if (scanExpressionForDangerousOps(elem)) {
+              return true;
+            }
         }
     } else if (node_type == query::ASTNodeType::ObjectConstruct) {
         auto obj_expr = std::static_pointer_cast<query::ObjectConstructExpr>(expr);
         for (const auto& [key, value] : obj_expr->fields) {
-            if (scanExpressionForDangerousOps(value)) return true;
+            if (scanExpressionForDangerousOps(value)) {
+              return true;
+            }
         }
     } else if (node_type == query::ASTNodeType::FieldAccess) {
         auto field_expr = std::static_pointer_cast<query::FieldAccessExpr>(expr);
@@ -529,12 +535,16 @@ bool AQLInjectionDetector::scanExpressionForDangerousOps(
     } else if (node_type == query::ASTNodeType::SimilarityCall) {
         auto sim_expr = std::static_pointer_cast<query::SimilarityCallExpr>(expr);
         for (const auto& arg : sim_expr->arguments) {
-            if (scanExpressionForDangerousOps(arg)) return true;
+            if (scanExpressionForDangerousOps(arg)) {
+              return true;
+            }
         }
     } else if (node_type == query::ASTNodeType::ProximityCall) {
         auto prox_expr = std::static_pointer_cast<query::ProximityCallExpr>(expr);
         for (const auto& arg : prox_expr->arguments) {
-            if (scanExpressionForDangerousOps(arg)) return true;
+            if (scanExpressionForDangerousOps(arg)) {
+              return true;
+            }
         }
     }
     
@@ -577,7 +587,9 @@ void AQLInjectionDetector::extractStringLiteralsFromExpression(
     const std::shared_ptr<query::Expression>& expr,
     std::vector<std::string>& literals
 ) {
-    if (!expr) return;
+    if (!expr) {
+      return;
+    }
     
     auto node_type = expr->getType();
     

@@ -80,7 +80,7 @@ PaxosWALEntry PaxosWALEntry::fromWALEntry(const WALEntry& entry) {
 size_t PaxosWALEntry::size() const {
     // Approximate size: type + timestamp + slot + round + node_id + data
     return sizeof(type) + sizeof(timestamp) + sizeof(slot) + sizeof(round) +
-           node_id.size() + data.dump().size();
+           static_cast<int>(node_id.size()) + data.dump().size();
 }
 
 // ============================================================================
@@ -197,7 +197,8 @@ std::vector<PaxosWALEntry> PaxosWAL::readEntries(const LSN& start_lsn,
     }
     
     std::vector<WALEntry> wal_entries = wal_manager_->readRange(start_lsn, end_lsn);
-    std::vector<PaxosWALEntry> paxos_entries;
+    std::vector<PaxosWALEntry> paxos_entries = {};
+
     paxos_entries.reserve(wal_entries.size());
     
     for (const auto& wal_entry : wal_entries) {
@@ -246,7 +247,7 @@ void PaxosWAL::flush() {
     }
 }
 
-bool PaxosWAL::shouldCreateSnapshot(size_t operations_since_last) const {
+bool PaxosWAL::shouldCreateSnapshot([[maybe_unused]] size_t operations_since_last) const {
     return operations_since_last >= config_.snapshot_interval;
 }
 

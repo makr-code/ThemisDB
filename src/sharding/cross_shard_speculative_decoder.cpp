@@ -133,8 +133,8 @@ void CrossShardSpeculativeDecoder::registerShard(const ShardCapabilityInfo& shar
                  shard_info.shard_id, shard_info.capability_score);
     
     // Notify capability update callback
-    if (capability_update_callback_) {
-        capability_update_callback_(shard_info);
+    if ([[maybe_unused]] capability_update_callback_) {
+        capability_update_callback_([[maybe_unused]] shard_info);
     }
 }
 
@@ -159,8 +159,8 @@ void CrossShardSpeculativeDecoder::updateShardCapability(const ShardCapabilityIn
         spdlog::debug("CrossShardSpeculativeDecoder: Updated shard {} capability", shard_info.shard_id);
         
         // Notify capability update callback
-        if (capability_update_callback_) {
-            capability_update_callback_(it->second);
+        if ([[maybe_unused]] capability_update_callback_) {
+            capability_update_callback_([[maybe_unused]] it->second);
         }
     } else {
         spdlog::warn("CrossShardSpeculativeDecoder: Shard {} not found for capability update",
@@ -181,7 +181,8 @@ std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getShardCapabil
 
 std::vector<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ShardCapabilityInfo> result;
+    std::vector<ShardCapabilityInfo> result = {};
+
     for (const auto& [shard_id, info] : shards_) {
         result.push_back(info);
     }
@@ -218,7 +219,7 @@ bool CrossShardSpeculativeDecoder::startSpeculativeDecoding(
                                                     max_draft_tokens, callback);
             
         case SpeculativeDecodingMode::CROSS_SHARD:
-        case SpeculativeDecodingMode::HYBRID:
+        [[fallthrough]];\n        case SpeculativeDecodingMode::HYBRID:
             break;
     }
     
@@ -250,7 +251,7 @@ bool CrossShardSpeculativeDecoder::startSpeculativeDecoding(
     speculation.verify_shard_id = verify_shard->shard_id;
     speculation.input_token_ids = input_token_ids;
     speculation.start_time = std::chrono::steady_clock::now();
-    speculation.callback = std::move(callback);
+    speculation.callback = std::move([[maybe_unused]] callback);
     
     active_speculations_[request_id] = speculation;
     stats_.total_speculative_requests++;
@@ -274,7 +275,7 @@ bool CrossShardSpeculativeDecoder::startSpeculativeDecoding(
     };
     
     // Send to draft shard
-    if (remote_draft_callback_ && draft_shard->shard_id != local_shard_id_) {
+    if ([[maybe_unused]] remote_draft_callback_ && draft_shard->shard_id != local_shard_id_) {
         if (!remote_draft_callback_(draft_shard->shard_id, draft_request)) {
             // Fall back to local draft
             spdlog::warn("CrossShardSpeculativeDecoder: Failed to send draft request to shard {}, "
@@ -322,7 +323,8 @@ void CrossShardSpeculativeDecoder::generateDraft(DraftGenerationRequest request)
         );
     }
     
-    std::vector<int> draft_tokens;
+    std::vector<int> draft_tokens = {};
+
     if (local_engine_->generateDraftTokens(
         request.request_id,
         request.input_token_ids,
@@ -393,12 +395,12 @@ void CrossShardSpeculativeDecoder::verifyDraft(DraftVerificationRequest request)
     speculation.completed = true;
     
     stats_.total_tokens_accepted += verified_tokens.size();
-    stats_.total_tokens_rejected += (request.draft_token_ids.size() - verified_tokens.size());
+    stats_.total_tokens_rejected += (request.draft_token_ids.size() - static_cast<int>(verified_tokens.size()) );
     stats_.successful_speculative_requests++;
     
     spdlog::debug("CrossShardSpeculativeDecoder: Verified draft tokens for request {} "
                  "(accepted={}/{}, rate={:.2f}%)",
-                 request.request_id, verified_tokens.size(), request.draft_token_ids.size(),
+                 request.request_id,static_cast<int>(verified_tokens.size()),static_cast<int>(request.draft_token_ids.size()),
                  acceptance_rate * 100.0);
     
     // Call success callback
@@ -448,7 +450,8 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     }
     
     // Generate draft tokens locally
-    std::vector<int> draft_tokens;
+    std::vector<int> draft_tokens = {};
+
     if (!local_engine_->generateDraftTokens(
         request_id,
         input_token_ids,
@@ -473,7 +476,7 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     stats_.local_speculations++;
     stats_.total_draft_tokens_generated += draft_tokens.size();
     stats_.total_tokens_accepted += verified_tokens.size();
-    stats_.total_tokens_rejected += (draft_tokens.size() - verified_tokens.size());
+    stats_.total_tokens_rejected += (static_cast<int>(draft_tokens.size()) - static_cast<int>(verified_tokens.size()) );
     stats_.successful_speculative_requests++;
     
     // Update adaptive speculation
@@ -481,12 +484,12 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     
     spdlog::debug("CrossShardSpeculativeDecoder: Local speculative decoding for request {} "
                  "(accepted={}/{}, rate={:.2f}%)",
-                 request_id, verified_tokens.size(), draft_tokens.size(), acceptance_rate * 100.0);
+                 request_id,static_cast<int>(verified_tokens.size()),static_cast<int>(draft_tokens.size()), acceptance_rate * 100.0);
     
     // Call callback
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         // Calculate speedup (simplified)
-        double speedup = draft_tokens.size() > 0 ? 
+        double speedup = static_cast<int>(draft_tokens.size()) > 0 ? 
             static_cast<double>(draft_tokens.size()) / verified_tokens.size() : 1.0;
         callback(request_id, verified_tokens, acceptance_rate, speedup);
     }
@@ -620,14 +623,14 @@ bool CrossShardSpeculativeDecoder::isAdaptiveSpeculationEnabled() const {
     return config_.enable_adaptive_speculation;
 }
 
-void CrossShardSpeculativeDecoder::updateAcceptanceRate(double acceptance_rate) {
+void CrossShardSpeculativeDecoder::updateAcceptanceRate([[maybe_unused]] double acceptance_rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Add to recent acceptance rates
     recent_acceptance_rates_.push_back(acceptance_rate);
     
     // Keep only the last N rates
-    if (recent_acceptance_rates_.size() > config_.adaptation_window) {
+    if (static_cast<int>(recent_acceptance_rates_.size()) > config_.adaptation_window) {
         recent_acceptance_rates_.erase(recent_acceptance_rates_.begin());
     }
     
@@ -765,21 +768,21 @@ void CrossShardSpeculativeDecoder::setCapabilityUpdateCallback(
     CapabilityUpdateCallback callback
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
-    capability_update_callback_ = std::move(callback);
+    capability_update_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void CrossShardSpeculativeDecoder::setRemoteDraftCallback(
     std::function<bool(const std::string&, const DraftGenerationRequest&)> callback
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
-    remote_draft_callback_ = std::move(callback);
+    remote_draft_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void CrossShardSpeculativeDecoder::setRemoteVerifyCallback(
     std::function<bool(const std::string&, const DraftVerificationRequest&)> callback
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
-    remote_verify_callback_ = std::move(callback);
+    remote_verify_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================================
@@ -804,7 +807,7 @@ void CrossShardSpeculativeDecoder::handleDraftGenerated(
     stats_.total_draft_tokens_generated += draft_tokens.size();
     
     spdlog::debug("CrossShardSpeculativeDecoder: Draft generated for request {} ({} tokens)",
-                 request_id, draft_tokens.size());
+                 request_id,static_cast<int>(draft_tokens.size()));
     
     // Update speculation state
     active_speculations_[request_id] = speculation;
@@ -881,7 +884,7 @@ void CrossShardSpeculativeDecoder::verifyDraftForRequest(int64_t request_id) {
     };
     
     // Send to verify shard
-    if (remote_verify_callback_ && verify_shard->shard_id != local_shard_id_) {
+    if ([[maybe_unused]] remote_verify_callback_ && verify_shard->shard_id != local_shard_id_) {
         if (!remote_verify_callback_(verify_shard->shard_id, verify_request)) {
             // Fall back to local verification
             spdlog::warn("CrossShardSpeculativeDecoder: Failed to send verify request to shard {}, "
@@ -926,14 +929,14 @@ void CrossShardSpeculativeDecoder::handleDraftVerified(
     
     spdlog::info("CrossShardSpeculativeDecoder: Draft verified for request {} "
                 "(accepted={}/{}, rate={:.2f}%, speedup={:.2f}x)",
-                request_id, verified_tokens.size(), speculation.draft_token_ids.size(),
+                request_id,static_cast<int>(verified_tokens.size()),static_cast<int>(speculation.draft_token_ids.size()),
                 acceptance_rate * 100.0, speculation.speedup);
     
     // Update adaptive speculation
     updateAcceptanceRate(acceptance_rate);
     
     // Call completion callback
-    if (speculation.callback) {
+    if ([[maybe_unused]] speculation.callback) {
         speculation.callback(request_id, verified_tokens, acceptance_rate, speculation.speedup);
     }
     
