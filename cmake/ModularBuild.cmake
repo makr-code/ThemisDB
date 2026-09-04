@@ -1216,6 +1216,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/aql_train_parser.cpp
     ../src/aql/llm_aql_embedding_bridge.cpp
     ../src/llm/llama_wrapper.cpp
+    ../src/llama_cpp/llama_cpp_plugin.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
     ../src/llm/llamacpp_inference_engine.cpp
@@ -1360,6 +1361,8 @@ set(THEMIS_LLM_SOURCES
     
     # RAG enhancement modules
     ../src/rag/self_rag.cpp
+    ../src/rag/targ_retrieval.cpp
+    ../src/rag/rag_context_assembler.cpp
     ../src/rag/knowledge_gap_detector.cpp
     ../src/rag/llm_integration.cpp
     ../src/rag/llm_judge_client.cpp
@@ -2133,6 +2136,13 @@ function(themis_build_modular)
         # of whether protobuf is also available as a CMake target.
         if(TARGET gRPC::grpc++)
             list(APPEND _themis_base_deps gRPC::grpc++)
+            # gRPC requires zlib for message compression (deflate/inflate)
+            # ZLIB is already found by Dependencies.cmake, link it directly
+            if(ZLIB_LIBRARY)
+                list(APPEND _themis_base_deps ${ZLIB_LIBRARY})
+            elseif(TARGET ZLIB::ZLIB)
+                list(APPEND _themis_base_deps ZLIB::ZLIB)
+            endif()
         endif()
         if(NOT TARGET protobuf::libprotobuf)
             find_package(Protobuf QUIET CONFIG)

@@ -59,18 +59,18 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     options_.create_if_missing = true;
     options_.error_if_exists   = false;
 
-    std::unique_ptr<rocksdb::DB> raw_db;
-    rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &raw_db);
+    rocksdb::DB* raw_db_ptr = nullptr;
+    rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &raw_db_ptr);
 
     if (!rdb_st.ok()) {
-        // RAII: raw_db is null on failure per RocksDB contract; nothing to
+        // RAII: raw_db_ptr is null on failure per RocksDB contract; nothing to
         // delete here.  Ensure db_ remains nullptr.
         db_.reset();
         return toThemisError(rdb_st);
     }
 
     // Transfer ownership to the smart pointer.
-    db_ = std::move(raw_db);
+    db_.reset(raw_db_ptr);
     db_path_ = db_path;
     return Status::Ok();
 }

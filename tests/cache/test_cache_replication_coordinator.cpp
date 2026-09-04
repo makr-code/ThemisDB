@@ -181,7 +181,9 @@ TEST(GrpcRemoteCachePeerTest, DefaultConfigFailsClosed) {
     GrpcRemoteCachePeer::Config cfg("node1:8771");
     EXPECT_FALSE(cfg.tls_enabled);
     EXPECT_FALSE(cfg.allow_insecure);
-    EXPECT_THROW(GrpcRemoteCachePeer(cfg), std::runtime_error);
+    EXPECT_THROW({
+        GrpcRemoteCachePeer peer(cfg);
+    }, std::runtime_error);
 }
 
 TEST(GrpcRemoteCachePeerTest, ExplicitInsecureOverrideAllowed) {

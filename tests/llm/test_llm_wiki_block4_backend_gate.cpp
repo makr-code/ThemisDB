@@ -12,7 +12,7 @@ using themis::plugins::llm_wiki::Status;
 #ifndef THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED
 TEST(LLMWikiBlock4BackendGateTest, InitializeDeniedWhenEditionGateClosed) {
     LLMWikiPluginImpl plugin;
-    const Status st = plugin.initialize("{}");
+    const Status st = plugin.initialize(std::string("{}"));
     EXPECT_EQ(st.code, Status::Code::PermissionDenied);
 }
 #else
@@ -38,7 +38,7 @@ TEST(LLMWikiBlock4BackendGateTest, RocksDbConfiguredAllowsExplicitDegradedMode) 
 
 TEST(LLMWikiBlock4BackendGateTest, WikipediaDumpRequiresRuntimeLicenseFlag) {
     LLMWikiPluginImpl plugin;
-    ASSERT_TRUE(plugin.initialize("{}").ok());
+    ASSERT_TRUE(plugin.initialize(std::string("{}")).ok());
 
     const auto res = plugin.ingestWikipediaDump("/tmp/nonexistent_dump.xml.bz2", {});
     EXPECT_GT(res.errors, 0);
